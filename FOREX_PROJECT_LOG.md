@@ -8,6 +8,40 @@ work belongs in `FOREX_PENDING_IMPROVEMENTS.md`. Source availability belongs in
 Historical states before this log was introduced remain preserved in the
 timestamped model-vault checkpoints and the existing specialist reports.
 
+## 2026-08-29 18:40 America/New_York — Sequential portfolio replay independently verified
+
+- Added a new content-addressed `sequential_portfolio_replay_v1` sidecar rather
+  than mutating the hourly deliberate-practice case bank or either immutable
+  SIM cohort. It reads only the verified archived OANDA M1 bid/ask sources and
+  cannot access a broker, account, signal feed, lifecycle, authorization, or
+  promotion surface.
+- Froze the metadata-selected 28 August 12:00–16:00 UTC Friday overlap session:
+  48 global five-minute decisions and 192 four-pair causal contexts with stable
+  aliases, exact 60-minute input slices, one-minute delayed fills, explicit
+  source availability, current portfolio state, and future-free situation IDs.
+- Implemented a real one-position state machine with one primary `wait`,
+  `enter`, `hold`, `exit`, or `rotate` action per clock. Rotation atomically
+  closes then opens and pays two execution legs. Entries/rotations reject wide
+  delayed quotes without state mutation; exits remain permitted. A predeclared
+  administrative session close is available for residual positions.
+- The frozen mechanics baseline produced 25 waits, six entries, eight holds,
+  six exits and three rotations; 18 executable legs and 37 depth-one nested
+  alternatives ended flat at **−13.25 pips**. The loss was retained rather than
+  tuned away. All rows are permanently historical training/discovery and
+  proof-ineligible; the four dependence components are not independent regimes.
+- Added component feedback for direction, entry, management, exit, rotation,
+  cost clearance, calibration and opportunity cost. Counterfactuals clone the
+  exact predecision state and always remain `counts_as_rep=0`.
+- The independent verifier imports neither producer nor core and rebuilt all
+  clocks, slices, candidates, actions, fills, per-leg costs, position states,
+  branches, feedback, hashes, roots and the terminal seal with zero failures.
+  SQLite backup verification sees committed WAL rows but excludes uncommitted
+  rows. Repeated unchanged runs reuse the same immutable seal.
+- Focused sequential/SIM validation passed 39 tests with one platform symlink
+  skip; genealogy plus sequential validation passed another 37 tests. SQLite
+  integrity and foreign keys are clean. Practice 007 and every execution gate
+  remained unchanged.
+
 ## 2026-08-29 17:02 America/New_York — Honest deliberate-practice hierarchy verified
 
 - Added a separate research-only Sequential Deliberate Replay V1 sidecar; the

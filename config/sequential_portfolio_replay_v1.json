@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "experiment_key": "sequential_portfolio_replay_v1",
+  "research_only": true,
+  "execution_eligible": false,
+  "can_promote": false,
+  "can_place_orders": false,
+  "can_authorize": false,
+  "broker_access": false,
+  "account_access": false,
+  "signal_feed_write": false,
+  "lifecycle_write": false,
+  "supported_decision": "no_trade",
+  "evidence_role": "historical_training_discovery",
+  "source": {
+    "kind": "independently_verified_counterfactual_sim_gym_archives",
+    "artifact_relative_root": "data/oanda_training_manager/research_ledgers/counterfactual_sim_gym_v1",
+    "database_name": "counterfactual_sim_gym_v1.sqlite",
+    "state_name": "counterfactual_sim_gym_v1.json",
+    "verifier_name": "counterfactual_sim_gym_verifier_v1.json",
+    "required_cohort_id": "counterfactual_sim_gym_v1.7482ea2d37e385e90150",
+    "require_verified": true,
+    "require_zero_failures": true,
+    "historical_source_is_already_inspected": true,
+    "initial_instruments": [
+      "EUR_USD",
+      "USD_JPY",
+      "AUD_NZD",
+      "GBP_CHF"
+    ],
+    "maximum_archive_bytes_per_instrument": 67108864,
+    "maximum_entry_spread_pips": 5.0
+  },
+  "session": {
+    "selection_rule": "latest fully captured Friday London-New_York-overlap block in the frozen source archive; not selected by outcome",
+    "start_utc": "2026-08-28T12:00:00Z",
+    "end_utc_exclusive": "2026-08-28T16:00:00Z",
+    "decision_cadence_min": 5,
+    "feature_lookback_min": 60,
+    "execution_delay_min": 1,
+    "feedback_horizon_min": 5,
+    "maximum_open_positions": 1,
+    "normalized_units": 1,
+    "expected_global_clock_count": 48,
+    "expected_pair_context_count": 192,
+    "fixed_historical_window_from_source_state": false,
+    "terminal_flattening_is_predeclared": true,
+    "adaptive_sampling_forbidden": true,
+    "adaptive_policy_forbidden": true
+  },
+  "costs": {
+    "round_trip_slippage_pips": 0.25,
+    "slippage_per_execution_leg_pips": 0.125,
+    "spread_is_paid_through_executable_bid_ask": true,
+    "rotation_execution_legs": 2,
+    "liquid_spread_max_pips": 2.0,
+    "normal_spread_max_pips": 3.0,
+    "elevated_spread_max_pips": 5.0
+  },
+  "frozen_policy": {
+    "policy_id": "aligned_multiscale_momentum_rank_v1",
+    "training_mechanics_baseline_only": true,
+    "lookbacks_min": [5, 15, 60],
+    "slope_weights": [0.5, 0.3, 0.2],
+    "minimum_aligned_windows": 2,
+    "minimum_score_cost_ratio": 0.75,
+    "rotation_improvement_multiple": 1.25,
+    "maximum_holding_min": 30,
+    "confidence_floor": 0.5,
+    "confidence_ceiling": 0.75,
+    "confidence_scale": 0.1,
+    "no_interim_retuning": true
+  },
+  "counterfactuals": {
+    "depth": 1,
+    "count_as_market_repetition": false,
+    "share_exact_predecision_portfolio": true,
+    "share_exact_execution_and_feedback_clocks": true,
+    "legal_action_branches_only": true
+  },
+  "independence": {
+    "market_episode_minutes": 60,
+    "one_primary_decision_per_global_clock": true,
+    "counterfactuals_never_increase_effective_n": true,
+    "replays_never_increase_distinct_market_repetitions": true,
+    "shared_unsigned_currency_resource_is_dependent": true,
+    "independent_regime_count_state": "unknown_one_inspected_historical_week"
+  },
+  "source_snapshots": {
+    "always_record_price_snapshot": true,
+    "always_record_availability": true,
+    "news_snapshot_id": null,
+    "rates_snapshot_id": null,
+    "levels_snapshot_id": null,
+    "positioning_snapshot_id": null
+  },
+  "storage": {
+    "artifact_relative_root": "data/oanda_training_manager/research_ledgers/sequential_portfolio_replay_v1",
+    "database_name": "sequential_portfolio_replay_v1.sqlite",
+    "state_name": "sequential_portfolio_replay_v1.json",
+    "report_name": "SEQUENTIAL_PORTFOLIO_REPLAY_CURRENT.md",
+    "verifier_name": "sequential_portfolio_replay_verifier_v1.json"
+  }
+}

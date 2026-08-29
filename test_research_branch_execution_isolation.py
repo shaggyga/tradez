@@ -18,6 +18,7 @@ RESEARCH_TOKENS = (
     "currency_state_after_cost_counterfactual",
     "prospective_event_response",
     "counterfactual_sim_gym",
+    "sequential_portfolio_replay",
 )
 
 OPERATIONAL_FILES = (

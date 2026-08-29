@@ -1,8 +1,57 @@
 # Forex pending improvements
 
-Status: **Stable; honest deliberate-practice case bank verified, sequential sessions next**
+Status: **Stable; verified sequential portfolio pilot complete, learner/spaced replay next**
 
-Updated: 2026-08-29 17:02 America/New_York
+Updated: 2026-08-29 18:40 America/New_York
+
+## Sequential portfolio-session completion — 29 August 18:40 ET
+
+The real bar-by-bar session layer is now implemented as a new immutable,
+research-only sidecar, `sequential_portfolio_replay_v1`. It does not alter the
+hourly case bank or either frozen SIM cohort. The pilot reads the exact verified
+OANDA bid/ask M1 gzip archives for AUD/NZD, EUR/USD, GBP/CHF and USD/JPY and
+uses a metadata-selected Friday overlap interval rather than a move-selected
+window.
+
+The canonical session contains 48 global five-minute decisions and 192 causal
+pair contexts. It exercised all five actions: 25 waits, six entries, eight
+holds, six exits and three two-leg rotations. Exact one-minute-delayed
+executable sides plus 0.125-pip adverse slippage per leg produced 18 execution
+legs and a flat terminal portfolio. Thirty-seven depth-one alternatives were
+cloned from exact predecision state and remain `counts_as_rep=0`.
+
+The frozen baseline lost **13.25 pips**. That result was preserved, not tuned
+away: the purpose of this increment is to prove chronology, portfolio state,
+costs, rotation, and component feedback. The already-inspected window remains
+permanently historical training/discovery and cannot confirm or promote.
+
+The independent verifier imports neither producer nor replay core. It rebuilt
+all clocks, slices, candidates, actions, bid/ask fills, costs, state
+transitions, branches, feedback and row roots with zero failures. It also
+checks SQLite/WAL snapshot visibility, append-only triggers, source/code/config
+bindings, foreign keys, integrity, terminal flatness and the immutable session
+seal. Repeated runs reuse the same seal when evidence is unchanged.
+
+Current continuation queue:
+
+1. Add human/learner precommitted sessions plus novelty-weighted spaced
+   repetition; repeat attempts must never increase distinct market-repetition
+   or regime counts.
+2. Add mistake curricula across direction, entry, management, exit, rotation,
+   costs, calibration and opportunity selection using the verified feedback
+   components.
+3. Expand through deterministic additional sessions and then all 68 pairs in
+   bounded, content-addressed batches. Schedule clocks before observing fill
+   availability so missing quotes become recorded failures, not survivor bias.
+4. Add official-event, rates, news and level-conditioned policies only as new
+   cohorts with explicit source snapshot IDs. Do not retrofit them into this
+   price-only history.
+5. After selecting and freezing a policy, open a strictly later untouched
+   prospective cohort with decisions sealed before feedback. Practice 007
+   remains blocked without genuine confirmation and narrow authorization.
+
+The complete contract and result are in
+`docs/SEQUENTIAL_PORTFOLIO_REPLAY_V1.md`.
 
 ## Sequential deliberate-practice continuation — 29 August 17:02 ET
 
@@ -30,7 +79,8 @@ bindings, foreign keys, and SQLite integrity, and imports neither producer nor
 core. The cohort is registered as a child of the verified SIM cohort in the
 research genealogy. No trading or authorization boundary changed.
 
-Current continuation queue:
+The continuation items below are superseded by the completed portfolio-session
+increment above:
 
 1. Add the real sequential session driver over completed M1 bars: one frozen
    policy, one global action per clock, maximum one open position, and explicit

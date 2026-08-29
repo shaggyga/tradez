@@ -2324,6 +2324,139 @@ def import_sequential_deliberate_replay(
     return definitions, observations
 
 
+def import_sequential_portfolio_replay(
+    target: sqlite3.Connection, source_root: Path
+) -> tuple[int, int]:
+    """Register the verified bar-by-bar portfolio-training sidecar.
+
+    The latest state resolves its content-addressed cohort database. Every
+    session is historical training/discovery, permanently proof-ineligible.
+    """
+    state_path = source_root / "sequential_portfolio_replay_v1.json"
+    verifier_path = source_root / "sequential_portfolio_replay_verifier_v1.json"
+    if not state_path.is_file() or not verifier_path.is_file():
+        return 0, 0
+    state = json.loads(state_path.read_text(encoding="utf-8"))
+    verifier = json.loads(verifier_path.read_text(encoding="utf-8"))
+    if verifier.get("verified") is not True or verifier.get("failures"):
+        return 0, 0
+    source = Path(str(state.get("database") or ""))
+    if not source.is_file():
+        return 0, 0
+    connection = ro(source)
+    definitions = observations = 0
+    try:
+        cohort = connection.execute(
+            "SELECT * FROM spr_cohorts WHERE cohort_id=?",
+            (str(state["cohort_id"]),),
+        ).fetchone()
+        session = connection.execute(
+            "SELECT * FROM spr_sessions WHERE session_id=?",
+            (str(state["session_id"]),),
+        ).fetchone()
+        if cohort is None or session is None:
+            return 0, 0
+        contract = json.loads(str(cohort["contract_json"]))
+        statistics = {
+            "global_clock_count": state.get("global_clock_count"),
+            "pair_context_count": state.get("pair_context_count"),
+            "action_counts": state.get("action_counts"),
+            "execution_leg_count": state.get("execution_leg_count"),
+            "counterfactual_count": state.get("counterfactual_count"),
+            "terminal_realized_pips": state.get("terminal_realized_pips"),
+            "terminal_flat": state.get("terminal_flat"),
+            "structural_component_count": state.get("structural_component_count"),
+            "independent_regime_count": state.get("independent_regime_count"),
+            "verifier_failures": verifier.get("failures"),
+        }
+        code = contract.get("code") or {}
+        source_contract = contract.get("source") or {}
+        definition = {
+            "hypothesis_id": str(cohort["cohort_id"]),
+            "parent_hypothesis_id": str(cohort["source_cohort_id"]),
+            "experiment_kind": "historical_sequential_portfolio_training",
+            "research_generation": "sequential_portfolio_replay_v1",
+            "idea_origin": "high_volume_deliberate_practice_with_real_portfolio_state",
+            "pre_registered": 1,
+            "data_sources_json": canonical_json([
+                "independently_verified_frozen_oanda_m1_bid_ask_archives",
+            ]),
+            "feature_contract_json": canonical_json({
+                "completed_m1_only": True,
+                "global_decision_cadence_min": 5,
+                "future_free_source_slices": True,
+                "four_pair_opportunity_set": True,
+            }),
+            "label_contract_json": canonical_json({
+                "historical_training_discovery_only": True,
+                "one_primary_action_per_clock": True,
+                "counterfactuals_count_as_repetitions": False,
+                "independent_regimes": "unknown_one_inspected_window",
+            }),
+            "model_contract_json": canonical_json({
+                "policy_id": contract.get("config", {}).get("frozen_policy", {}).get("policy_id"),
+                "policy_frozen": True,
+                "training_mechanics_baseline_only": True,
+            }),
+            "cost_contract_json": canonical_json(
+                contract.get("config", {}).get("costs") or {}
+            ),
+            "allocator_contract_json": canonical_json({
+                "actions": ["wait", "enter", "hold", "exit", "rotate"],
+                "maximum_open_positions": 1,
+                "one_minute_execution_delay": True,
+                "rotation_has_two_execution_legs": True,
+            }),
+            "training_period_json": canonical_json({
+                "start_epoch": session["start_epoch"],
+                "end_epoch": session["end_epoch"],
+                "already_inspected": True,
+            }),
+            "selection_period_json": canonical_json({
+                "metadata_selected_friday_overlap_block": True,
+                "outcome_selected": False,
+            }),
+            "confirmation_period_json": canonical_json({
+                "none": True,
+                "later_untouched_prospective_cohort_required": True,
+            }),
+            "all_parameters_tried_json": canonical_json({
+                "one_frozen_policy": True,
+                "depth_one_counterfactuals": True,
+            }),
+            "selection_rule": (
+                "one frozen action policy over a predeclared four-hour training "
+                "session; no result from this inspected session can promote"
+            ),
+            "holdouts_touched_json": canonical_json(["historical_training_discovery"]),
+            "source_code_hash": stable_hash({
+                key: value.get("sha256") for key, value in sorted(code.items())
+            }),
+            "data_snapshot_hash": stable_hash(source_contract),
+            "definition_sha256": str(cohort["contract_sha256"]),
+            "created_at": str(cohort["created_utc"]),
+            "definition_json": canonical_json(contract),
+        }
+        definitions += int(insert_experiment(target, definition))
+        observations += int(observe(
+            target,
+            hypothesis_id=str(cohort["cohort_id"]),
+            observed_at=str(state.get("generated_utc") or cohort["created_utc"]),
+            source_system=source.name,
+            result="historical_sequential_portfolio_training",
+            evidence={
+                **statistics,
+                "source_cohort_id": cohort["source_cohort_id"],
+                "proof_eligible": False,
+                "execution_eligible": False,
+                "supported_decision": "no_trade",
+            },
+        ))
+    finally:
+        connection.close()
+    return definitions, observations
+
+
 def run(
     *, database: Path = DEFAULT_DATABASE, state: Path = DEFAULT_STATE,
     report: Path = DEFAULT_REPORT, root_state: Path = STATE,
@@ -2359,6 +2492,12 @@ def run(
             target,
             root_state.parent / "research_ledgers" /
             "sequential_deliberate_replay_v1" / "sequential_deliberate_replay_v1.sqlite",
+        )
+        definition_count += definitions; observation_count += observations
+        definitions, observations = import_sequential_portfolio_replay(
+            target,
+            root_state.parent / "research_ledgers" /
+            "sequential_portfolio_replay_v1",
         )
         definition_count += definitions; observation_count += observations
         discovery_reports = [
@@ -2577,6 +2716,7 @@ __all__ = [
     "import_macro_point_in_time_validation",
     "import_counterfactual_sim_gym",
     "import_sequential_deliberate_replay",
+    "import_sequential_portfolio_replay",
     "insert_experiment",
     "observe",
     "run",
