@@ -8,6 +8,21 @@ work belongs in `FOREX_PENDING_IMPROVEMENTS.md`. Source availability belongs in
 Historical states before this log was introduced remain preserved in the
 timestamped model-vault checkpoints and the existing specialist reports.
 
+## 2026-08-29 12:26 America/New_York — Priority contracts adopted and vault retained
+
+- Committed the governed consensus, rates/RBNZ, and pair-options source work as
+  `04296778d03acf71645b995838d24341d91805f0`; the exact commit passed the
+  credential audit with zero findings and was published to the source-only
+  vault with archive SHA-256
+  `9c066025b2f4dc70889597663e49c073601db12655d1425b7abff82c274aae78`.
+- Reloaded only the research macro-surprise worker at a cycle boundary. Its new
+  process is healthy, the strict archive-bound V2 import is active, and causal
+  consensus remains zero. Practice 007 stayed flat with zero trades or orders.
+- Applied the recoverable vault-retention plan: 12 superseded model checkpoint
+  ZIPs (1,616,590,976 bytes) were hash-verified into local quarantine. Nothing
+  was deleted; the current model checkpoint and manifest remain present. Total
+  synchronized vault size fell from about 6.05 GiB to 4.549 GiB.
+
 ## 2026-08-29 11:55 America/New_York — Source-priority integration and verifier cleared
 
 - Completed the one-time hash-aware edge rebuild across all 15,746,198

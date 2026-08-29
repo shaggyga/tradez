@@ -2,7 +2,17 @@
 
 Status: **Stable; lineage repaired and adopted, prospective source proof remains**
 
-Updated: 2026-08-29 11:48 America/New_York
+Updated: 2026-08-29 12:26 America/New_York
+
+## Runtime and vault closeout — 29 August 12:26 ET
+
+The strict V2 macro-surprise import is now adopted by the live research worker;
+it is healthy and still contains zero causal consensus rows. The exact reviewed
+source commit is in the source-only vault with a verified archive hash. Twelve
+superseded model checkpoint ZIPs were moved, never deleted, through the
+hash-verifying retention tool into local quarantine. The current checkpoint and
+manifest remain in place, and the synchronized vault is now 4.549 GiB. No
+runtime/source implementation item remains pending from this closeout.
 
 ## Causal consensus correctness checkpoint — 29 August 11:47 ET
 
