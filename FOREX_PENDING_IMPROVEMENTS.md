@@ -1,8 +1,48 @@
 # Forex pending improvements
 
-Status: **Stable; SIM-gym pilot verified, controlled expansion remains**
+Status: **Stable; honest deliberate-practice case bank verified, sequential sessions next**
 
-Updated: 2026-08-29 15:38 America/New_York
+Updated: 2026-08-29 17:02 America/New_York
+
+## Sequential deliberate-practice continuation — 29 August 17:02 ET
+
+The first honest repetition/deduplication layer is complete. A new sidecar,
+`sequential_deliberate_replay_v1`, leaves the immutable SIM V1 cohorts untouched
+and converts their 49,230 variants into an arm-independent practice hierarchy:
+5,700 two-sided outcome parts, 2,850 physical-path projections, 478 pair/chart
+clocks, and 120 portfolio-choice clocks. The 360 within-clock currency graph
+components remain structural diagnostics, not independent regime evidence.
+
+The append-only case bank contains future-free situation fingerprints and blind
+aliases plus an empty pre-outcome decision journal. It permits exactly one
+primary `wait`, `enter`, `hold`, `exit`, or `rotate` action per session/case;
+variants and repeat attempts never manufacture new market repetitions. Every
+imported source case is permanently historical training/discovery because all
+three SIM partitions were already inspected.
+
+The old mistake sampler is now honestly labeled: 60 raw samples collapse to
+four pair clocks, three portfolio clocks, and six paths. The rows remain
+immutable diagnostics but can no longer dominate a curriculum as sixty lessons.
+
+The independent verifier reproduced all identities and counts with zero
+failures, checked blind-field exclusion, append-only guards, source/code/config
+bindings, foreign keys, and SQLite integrity, and imports neither producer nor
+core. The cohort is registered as a child of the verified SIM cohort in the
+research genealogy. No trading or authorization boundary changed.
+
+Current continuation queue:
+
+1. Add the real sequential session driver over completed M1 bars: one frozen
+   policy, one global action per clock, maximum one open position, and explicit
+   executable entry/hold/exit/rotation state.
+2. Add depth-one alternatives cloned from the exact predecision portfolio and
+   paired component scoring for direction, entry, management, exit, rotation,
+   cost awareness, and opportunity cost. Counterfactuals remain non-repetitions.
+3. Add novelty-weighted and spaced mistake replay after the session ledger is
+   independently verifiable; prioritize unfamiliar regimes rather than more
+   cosmetic parameter variants.
+4. Keep all current cases training-only. Any selected frozen policy requires a
+   later untouched prospective cohort with sealed decisions before feedback.
 
 Continuity check at 15:38 ET: the prior supervisor had stopped silently at
 13:38 ET while its children remained orphaned. A hidden singleton restart first

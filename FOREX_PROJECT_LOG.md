@@ -8,6 +8,36 @@ work belongs in `FOREX_PENDING_IMPROVEMENTS.md`. Source availability belongs in
 Historical states before this log was introduced remain preserved in the
 timestamped model-vault checkpoints and the existing specialist reports.
 
+## 2026-08-29 17:02 America/New_York — Honest deliberate-practice hierarchy verified
+
+- Added a separate research-only Sequential Deliberate Replay V1 sidecar; the
+  verified counterfactual SIM V1 cohorts, database, and results were not altered.
+- Corrected the repetition denominator: 49,230 virtual variants reduce to 5,700
+  two-sided outcome parts, 2,850 side-independent physical-path projections,
+  478 pair/chart clocks, and only 120 global portfolio-choice clocks. The 360
+  within-clock currency components are structural groups, not independent market
+  regimes; independent regime evidence remains unknown from one inspected week.
+- Added causal situation fingerprints, blind case aliases, canonical global-clock,
+  market-episode, physical-path, currency-resource, archetype, lineage, and future
+  position-thesis contracts. Shared unsigned currency resources are dependent
+  even when signs conflict. Counterfactual variants and repeat attempts can never
+  increase genuine market-repetition counts.
+- Added an append-only pre-outcome decision journal for exactly one primary
+  `wait`, `enter`, `hold`, `exit`, or `rotate` action per session/case. Entries
+  and rotations require precommitted confidence, expected move, horizon, entry
+  condition, invalidation, and rationale. Rotation is explicitly two execution
+  legs; reviewed or revealed cases cannot become proof.
+- Corrected the mistake curriculum: the 60 retained severity-ranked source rows
+  collapse to four pair clocks, three portfolio clocks, and six two-sided paths.
+  They remain outcome diagnostics, not sixty independent learner mistakes.
+- The standalone verifier imports neither producer nor core and independently
+  reproduced the 120/478/360/2,850 hierarchy, mistake collapse, row identities,
+  blind-field exclusion, content bindings, append-only guards, foreign keys, and
+  SQLite integrity with zero failures. The new cohort is registered beneath the
+  verified SIM parent in the project-wide research genealogy.
+- No broker, account, signal-feed, lifecycle, promotion, authorization, or
+  real-money path was added or changed; supported execution remains `no_trade`.
+
 ## 2026-08-29 15:38 America/New_York — Safe-core supervision continuity restored
 
 - Found that the hidden supervisor had stopped without an orderly terminal log

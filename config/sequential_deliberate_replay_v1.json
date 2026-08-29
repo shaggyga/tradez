@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "experiment_key": "sequential_deliberate_replay_v1",
+  "research_only": true,
+  "execution_eligible": false,
+  "can_promote": false,
+  "can_place_orders": false,
+  "can_authorize": false,
+  "supported_decision": "no_trade",
+  "source": {
+    "kind": "independently_verified_counterfactual_sim_gym",
+    "artifact_relative_root": "data/oanda_training_manager/research_ledgers/counterfactual_sim_gym_v1",
+    "database_name": "counterfactual_sim_gym_v1.sqlite",
+    "state_name": "counterfactual_sim_gym_v1.json",
+    "verifier_name": "counterfactual_sim_gym_verifier_v1.json",
+    "require_verified": true,
+    "require_zero_failures": true,
+    "historical_source_is_already_inspected": true
+  },
+  "case_contract": {
+    "portfolio_clock": "one global decision timestamp across every pair present at that timestamp",
+    "pair_clock": "one chart-specific causal observation nested beneath a portfolio clock",
+    "one_primary_action_per_session_clock": true,
+    "allowed_actions": ["wait", "enter", "hold", "exit", "rotate"],
+    "maximum_open_positions": 1,
+    "counterfactual_depth": 1,
+    "counterfactuals_count_as_repetitions": false,
+    "repeat_attempts_count_as_new_market_repetitions": false,
+    "blind_alias_salt": "sequential-deliberate-replay-v1-20260829",
+    "all_imported_cases_evidence_role": "historical_training_discovery",
+    "all_imported_cases_proof_eligible": false,
+    "management_exit_rotation_measurement": "not_measured_in_endpoint_only_source"
+  },
+  "deduplication": {
+    "decision_clock_contract": "venue plus decision cutoff plus exact input watermark; independent of rule, side, arm, and cohort label",
+    "market_episode_minutes": 60,
+    "currency_independence": "shared unsigned currency resource is dependent even when signs conflict",
+    "price_path_contract": "instrument plus decision cutoff plus entry delay plus horizon plus exit policy plus frozen source identity; independent of side and rule",
+    "story_cluster_contract": "unassigned_for_price_only_source",
+    "strategy_archetype_taxonomy": "price_rule_archetypes_v1",
+    "experiment_lineage": "price_derived_simple_rules_v1",
+    "position_thesis_contract": "assigned_only_after_a_precommitted_primary_enter_or_rotate_action",
+    "situation_fingerprint_is_future_free": true
+  },
+  "practice_journal": {
+    "attempt_must_precede_feedback": true,
+    "enter_requires": ["pair", "side", "units", "confidence", "expected_move_pips", "horizon_min", "entry_condition", "invalidation", "rationale"],
+    "wait_requires": ["rationale"],
+    "revealed_case_is_permanently_training_only": true,
+    "reviewed_case_cannot_be_confirmation": true
+  },
+  "storage": {
+    "artifact_relative_root": "data/oanda_training_manager/research_ledgers/sequential_deliberate_replay_v1",
+    "database_name": "sequential_deliberate_replay_v1.sqlite",
+    "state_name": "sequential_deliberate_replay_v1.json",
+    "report_name": "SEQUENTIAL_DELIBERATE_REPLAY_CURRENT.md",
+    "verifier_name": "sequential_deliberate_replay_verifier_v1.json"
+  }
+}

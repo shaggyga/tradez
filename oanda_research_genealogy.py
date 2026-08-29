@@ -2208,6 +2208,122 @@ def import_counterfactual_sim_gym(
     return definitions, observations
 
 
+def import_sequential_deliberate_replay(
+    target: sqlite3.Connection, source: Path
+) -> tuple[int, int]:
+    """Register the training-only deliberate-practice projection.
+
+    The source SIM cohort remains the parent.  Practice cases and repeated
+    attempts cannot become proof, so this importer never confirms or promotes.
+    """
+    if not source.is_file():
+        return 0, 0
+    connection = ro(source)
+    definitions = observations = 0
+    try:
+        present = {
+            str(row[0])
+            for row in connection.execute(
+                "SELECT name FROM sqlite_master WHERE type='table'"
+            )
+        }
+        if not {"replay_cohorts", "replay_snapshots"}.issubset(present):
+            return 0, 0
+        for row in connection.execute(
+            "SELECT * FROM replay_cohorts ORDER BY created_utc,cohort_id"
+        ):
+            cohort_id = str(row["cohort_id"])
+            parent_id = str(row["source_cohort_id"])
+            contract = json.loads(str(row["contract_json"] or "{}"))
+            snapshot = connection.execute(
+                "SELECT statistics_json FROM replay_snapshots "
+                "WHERE cohort_id=? ORDER BY generated_utc DESC LIMIT 1",
+                (cohort_id,),
+            ).fetchone()
+            statistics = json.loads(str(snapshot[0])) if snapshot else {}
+            census = statistics.get("repetition_census") or {}
+            definition = {
+                "hypothesis_id": cohort_id,
+                "parent_hypothesis_id": parent_id,
+                "experiment_kind": "historical_deliberate_practice",
+                "research_generation": "sequential_deliberate_replay_v1",
+                "idea_origin": "high_volume_deliberate_market_replay_with_honest_repetition_counts",
+                "pre_registered": 1,
+                "data_sources_json": canonical_json([
+                    "independently_verified_counterfactual_sim_gym",
+                ]),
+                "feature_contract_json": canonical_json({
+                    "global_portfolio_clock": True,
+                    "future_free_situation_fingerprint": True,
+                    "blind_case_presentation": True,
+                    "source_cohort_id": parent_id,
+                }),
+                "label_contract_json": canonical_json({
+                    "historical_training_discovery_only": True,
+                    "variants_are_nested": True,
+                    "repeat_attempts_are_not_new_market_repetitions": True,
+                    "management_exit_rotation": "not_measured_in_endpoint_only_source",
+                }),
+                "model_contract_json": canonical_json({
+                    "model": "none_case_bank_and_precommitment_journal",
+                }),
+                "cost_contract_json": "{}",
+                "allocator_contract_json": canonical_json({
+                    "one_primary_action_per_session_clock": True,
+                    "actions": ["wait", "enter", "hold", "exit", "rotate"],
+                    "maximum_open_positions": 1,
+                }),
+                "training_period_json": canonical_json({
+                    "source": "all already-inspected SIM historical partitions",
+                    "portfolio_decision_clocks": census.get("portfolio_decision_clocks"),
+                }),
+                "selection_period_json": canonical_json({
+                    "training_discovery_only": True,
+                }),
+                "confirmation_period_json": canonical_json({
+                    "none": True,
+                    "later_untouched_prospective_cohort_required": True,
+                }),
+                "all_parameters_tried_json": canonical_json({
+                    "source_virtual_variants": census.get("source_virtual_variants"),
+                    "source_two_sided_outcome_parts": census.get("source_two_sided_outcome_parts"),
+                }),
+                "selection_rule": (
+                    "one primary portfolio action per global clock; all variants and "
+                    "repeat attempts remain nested training diagnostics"
+                ),
+                "holdouts_touched_json": canonical_json([
+                    "diagnostic_early", "diagnostic_middle", "diagnostic_late",
+                ]),
+                "source_code_hash": stable_hash({
+                    "runner": row["runner_sha256"],
+                    "core": row["core_sha256"],
+                }),
+                "data_snapshot_hash": str(row["source_database_sha256"]),
+                "definition_sha256": str(row["contract_sha256"]),
+                "created_at": str(row["created_utc"]),
+                "definition_json": canonical_json(contract),
+            }
+            definitions += int(insert_experiment(target, definition))
+            observations += int(observe(
+                target,
+                hypothesis_id=cohort_id,
+                observed_at=str(row["created_utc"]),
+                source_system=source.name,
+                result="historical_practice_curriculum",
+                evidence={
+                    "source_cohort_id": parent_id,
+                    "repetition_census": census,
+                    "historical_replay_can_confirm": False,
+                    "execution_eligible": False,
+                    "supported_decision": "no_trade",
+                },
+            ))
+    finally:
+        connection.close()
+    return definitions, observations
+
+
 def run(
     *, database: Path = DEFAULT_DATABASE, state: Path = DEFAULT_STATE,
     report: Path = DEFAULT_REPORT, root_state: Path = STATE,
@@ -2237,6 +2353,12 @@ def run(
             target,
             root_state.parent / "research_ledgers" /
             "counterfactual_sim_gym_v1" / "counterfactual_sim_gym_v1.sqlite",
+        )
+        definition_count += definitions; observation_count += observations
+        definitions, observations = import_sequential_deliberate_replay(
+            target,
+            root_state.parent / "research_ledgers" /
+            "sequential_deliberate_replay_v1" / "sequential_deliberate_replay_v1.sqlite",
         )
         definition_count += definitions; observation_count += observations
         discovery_reports = [
@@ -2454,6 +2576,7 @@ __all__ = [
     "import_model_artifact_manifest",
     "import_macro_point_in_time_validation",
     "import_counterfactual_sim_gym",
+    "import_sequential_deliberate_replay",
     "insert_experiment",
     "observe",
     "run",
