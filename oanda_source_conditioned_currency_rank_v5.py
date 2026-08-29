@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 from contextlib import contextmanager
+from datetime import datetime, timedelta
 import json
 from pathlib import Path
 import sqlite3
@@ -34,15 +35,23 @@ DEFAULT_STATE = STATE / "source_conditioned_currency_rank_v5.json"
 DEFAULT_REPORT = REPORT_ROOT / "SOURCE_CONDITIONED_CURRENCY_RANK_V5.md"
 DEFAULT_MANIFEST = ROOT / "config" / "source_conditioned_currency_rank_v5.json"
 
-SCHEMA_VERSION = "source_conditioned_currency_rank_v5"
-CONTRACT_ID = "source_conditioned_currency_rank_v5_v6_input_20260828"
-BASE_COHORT_ID = "source_conditioned_currency_rank_v5_prospective_20260828T173000Z"
+SCHEMA_VERSION = "source_conditioned_currency_rank_v5_no_trade_v2"
+CONTRACT_ID = (
+    "source_conditioned_currency_rank_v5_v6_input_explicit_no_trade_20260829"
+)
+BASE_COHORT_ID = (
+    "source_conditioned_currency_rank_v5_no_trade_prospective_20260829T140000Z"
+)
 PARENT_CONTRACT_ID = v4.CONTRACT_ID
 REQUIRED_SOURCE_CONTRACT_ID = source_v6.CONTRACT_ID
 INPUT_MODE = "required_v6_default_no_v1_v2_v3_v4_v5_fallback"
-ARMS = v1.ARMS
+ARMS = (*v1.ARMS, "no_trade")
+NO_TRADE_BASELINE_CONTRACT_ID = (
+    "source_conditioned_currency_rank_v5_no_trade_zero_value_v1_20260829"
+)
 
 _V1_LOAD_SOURCE_FORECASTS = v1.load_source_forecasts
+_V1_OPEN_LEDGER = v1.open_ledger
 _V1_RENDER_REPORT = v1.render_report
 _V1_RUN_CYCLE = v1.run_cycle
 
@@ -54,6 +63,7 @@ def adapter_definition_sha256() -> str:
         v1.file_sha256(DEFAULT_MANIFEST),
         REQUIRED_SOURCE_CONTRACT_ID,
         PARENT_CONTRACT_ID,
+        NO_TRADE_BASELINE_CONTRACT_ID,
     )
 
 
@@ -81,11 +91,249 @@ def load_source_forecasts(path: Path) -> list[dict[str, Any]]:
 
 def _render_report_v5(snapshot: Mapping[str, Any]) -> str:
     report = _V1_RENDER_REPORT(snapshot)
-    return report.replace(
+    report = report.replace(
         "# Source-Conditioned Currency Rank V1",
         "# Source-Conditioned Currency Rank V5",
         1,
     )
+    return report.replace(
+        "Research-only comparison of price rank, causal-source rank, and source direction with price/spread timing.",
+        (
+            "Research-only comparison of price rank, causal-source rank, source "
+            "direction with price/spread timing, and an explicit zero-value "
+            "no-trade baseline."
+        ),
+        1,
+    )
+
+
+def ensure_no_trade_schema(connection: sqlite3.Connection) -> None:
+    """Create the append-only V5 no-trade comparison ledger.
+
+    The earlier rank schemas intentionally admit only market-position arms.
+    V5 keeps that immutable surface intact and adds a separate, foreign-keyed
+    baseline table.  A baseline is one counterfactual per frozen decision and
+    matures to exactly zero without requesting a market quote or formulating
+    an order.
+    """
+
+    connection.executescript(
+        """
+        CREATE TABLE IF NOT EXISTS rank_v5_no_trade_forecast (
+          forecast_id TEXT PRIMARY KEY,
+          decision_id TEXT NOT NULL UNIQUE,
+          arm TEXT NOT NULL CHECK(arm='no_trade'),
+          horizon_min INTEGER NOT NULL,
+          issued_utc TEXT NOT NULL,
+          maturity_utc TEXT NOT NULL,
+          predicted_gross_pips REAL NOT NULL CHECK(predicted_gross_pips=0.0),
+          predicted_after_cost_pips REAL NOT NULL
+            CHECK(predicted_after_cost_pips=0.0),
+          action TEXT NOT NULL CHECK(action='no_trade'),
+          research_only INTEGER NOT NULL CHECK(research_only=1),
+          execution_eligible INTEGER NOT NULL CHECK(execution_eligible=0),
+          can_place_orders INTEGER NOT NULL CHECK(can_place_orders=0),
+          can_authorize INTEGER NOT NULL CHECK(can_authorize=0),
+          can_promote INTEGER NOT NULL CHECK(can_promote=0),
+          contract_id TEXT NOT NULL,
+          adapter_cohort_id TEXT NOT NULL,
+          payload_json TEXT NOT NULL,
+          FOREIGN KEY(decision_id) REFERENCES rank_decision(decision_id)
+        );
+        CREATE TABLE IF NOT EXISTS rank_v5_no_trade_outcome (
+          forecast_id TEXT PRIMARY KEY,
+          maturity_utc TEXT NOT NULL,
+          evaluated_utc TEXT NOT NULL,
+          gross_pips REAL NOT NULL CHECK(gross_pips=0.0),
+          executable_after_cost_pips REAL NOT NULL
+            CHECK(executable_after_cost_pips=0.0),
+          realized_cost_pips REAL NOT NULL CHECK(realized_cost_pips=0.0),
+          order_submitted INTEGER NOT NULL CHECK(order_submitted=0),
+          action TEXT NOT NULL CHECK(action='no_trade'),
+          research_only INTEGER NOT NULL CHECK(research_only=1),
+          execution_eligible INTEGER NOT NULL CHECK(execution_eligible=0),
+          can_place_orders INTEGER NOT NULL CHECK(can_place_orders=0),
+          can_authorize INTEGER NOT NULL CHECK(can_authorize=0),
+          can_promote INTEGER NOT NULL CHECK(can_promote=0),
+          contract_id TEXT NOT NULL,
+          payload_json TEXT NOT NULL,
+          FOREIGN KEY(forecast_id)
+            REFERENCES rank_v5_no_trade_forecast(forecast_id)
+        );
+        CREATE TRIGGER IF NOT EXISTS rank_v5_no_trade_forecast_no_update
+          BEFORE UPDATE ON rank_v5_no_trade_forecast
+          BEGIN SELECT RAISE(ABORT,'rank_v5_no_trade_forecast is append-only'); END;
+        CREATE TRIGGER IF NOT EXISTS rank_v5_no_trade_forecast_no_delete
+          BEFORE DELETE ON rank_v5_no_trade_forecast
+          BEGIN SELECT RAISE(ABORT,'rank_v5_no_trade_forecast is append-only'); END;
+        CREATE TRIGGER IF NOT EXISTS rank_v5_no_trade_outcome_no_update
+          BEFORE UPDATE ON rank_v5_no_trade_outcome
+          BEGIN SELECT RAISE(ABORT,'rank_v5_no_trade_outcome is append-only'); END;
+        CREATE TRIGGER IF NOT EXISTS rank_v5_no_trade_outcome_no_delete
+          BEFORE DELETE ON rank_v5_no_trade_outcome
+          BEGIN SELECT RAISE(ABORT,'rank_v5_no_trade_outcome is append-only'); END;
+        """
+    )
+    connection.commit()
+
+
+def persist_no_trade_baselines(
+    connection: sqlite3.Connection, *, observed_utc: datetime
+) -> dict[str, int]:
+    """Persist and mature the exact zero-value arm for current V5 decisions."""
+
+    ensure_no_trade_schema(connection)
+    inserted_forecasts = 0
+    inserted_outcomes = 0
+    rows = connection.execute(
+        """
+        SELECT decision_id,horizon_min,decision_cutoff_utc,adapter_cohort_id
+        FROM rank_decision
+        WHERE contract_id=?
+        ORDER BY decision_cutoff_utc,decision_id
+        """,
+        (CONTRACT_ID,),
+    ).fetchall()
+    for row in rows:
+        decision_id = str(row[0])
+        horizon_min = int(row[1])
+        issued = v1.parse_time(row[2])
+        if issued is None:
+            raise ValueError(f"rank V5 decision has invalid clock: {decision_id}")
+        maturity = issued + timedelta(minutes=horizon_min)
+        forecast_id = "source_rank_no_trade_" + v1.digest(
+            decision_id, NO_TRADE_BASELINE_CONTRACT_ID
+        )[:32]
+        payload = {
+            "forecast_id": forecast_id,
+            "decision_id": decision_id,
+            "arm": "no_trade",
+            "action": "no_trade",
+            "horizon_min": horizon_min,
+            "issued_utc": v1.iso(issued),
+            "maturity_utc": v1.iso(maturity),
+            "predicted_gross_pips": 0.0,
+            "predicted_after_cost_pips": 0.0,
+            "quote_required": False,
+            "order_submitted": False,
+            "research_only": True,
+            "execution_eligible": False,
+            "can_place_orders": False,
+            "can_authorize": False,
+            "can_promote": False,
+            "contract_id": NO_TRADE_BASELINE_CONTRACT_ID,
+            "adapter_contract_id": CONTRACT_ID,
+            "adapter_cohort_id": str(row[3]),
+        }
+        before = connection.total_changes
+        connection.execute(
+            """
+            INSERT OR IGNORE INTO rank_v5_no_trade_forecast VALUES (
+              ?,?,'no_trade',?,?,?,0.0,0.0,'no_trade',1,0,0,0,0,?,?,?
+            )
+            """,
+            (
+                forecast_id,
+                decision_id,
+                horizon_min,
+                v1.iso(issued),
+                v1.iso(maturity),
+                NO_TRADE_BASELINE_CONTRACT_ID,
+                str(row[3]),
+                json.dumps(payload, sort_keys=True, separators=(",", ":")),
+            ),
+        )
+        inserted_forecasts += connection.total_changes - before
+        if maturity > observed_utc:
+            continue
+        outcome = {
+            "forecast_id": forecast_id,
+            "arm": "no_trade",
+            "action": "no_trade",
+            "maturity_utc": v1.iso(maturity),
+            "evaluated_utc": v1.iso(observed_utc),
+            "gross_pips": 0.0,
+            "executable_after_cost_pips": 0.0,
+            "realized_cost_pips": 0.0,
+            "quote_required": False,
+            "order_submitted": False,
+            "research_only": True,
+            "execution_eligible": False,
+            "can_place_orders": False,
+            "can_authorize": False,
+            "can_promote": False,
+            "contract_id": NO_TRADE_BASELINE_CONTRACT_ID,
+        }
+        before = connection.total_changes
+        connection.execute(
+            """
+            INSERT OR IGNORE INTO rank_v5_no_trade_outcome VALUES (
+              ?,?,?,0.0,0.0,0.0,0,'no_trade',1,0,0,0,0,?,?
+            )
+            """,
+            (
+                forecast_id,
+                v1.iso(maturity),
+                v1.iso(observed_utc),
+                NO_TRADE_BASELINE_CONTRACT_ID,
+                json.dumps(outcome, sort_keys=True, separators=(",", ":")),
+            ),
+        )
+        inserted_outcomes += connection.total_changes - before
+    connection.commit()
+    return {
+        "inserted_forecasts": inserted_forecasts,
+        "inserted_outcomes": inserted_outcomes,
+    }
+
+
+def add_no_trade_summary(
+    connection: sqlite3.Connection, summary: dict[str, Any]
+) -> dict[str, Any]:
+    """Attach baseline counts to the immutable cohort-local report blocks."""
+
+    ensure_no_trade_schema(connection)
+    by_cohort = {
+        str(row[0]): row
+        for row in connection.execute(
+            """
+            SELECT f.adapter_cohort_id,COUNT(*),COUNT(o.forecast_id)
+            FROM rank_v5_no_trade_forecast AS f
+            LEFT JOIN rank_v5_no_trade_outcome AS o
+              ON o.forecast_id=f.forecast_id
+            WHERE f.contract_id=?
+            GROUP BY f.adapter_cohort_id
+            """,
+            (NO_TRADE_BASELINE_CONTRACT_ID,),
+        )
+    }
+    output = dict(summary)
+    output["cohorts"] = [dict(row) for row in summary.get("cohorts") or []]
+    for cohort in output["cohorts"]:
+        counts = by_cohort.get(str(cohort.get("adapter_cohort_id") or ""))
+        forecasts = int(counts[1] or 0) if counts is not None else 0
+        outcomes = int(counts[2] or 0) if counts is not None else 0
+        arms = list(cohort.get("arms") or [])
+        arms.append(
+            {
+                "arm": "no_trade",
+                "forecasts": forecasts,
+                "selected": forecasts,
+                "abstained": 0,
+                "outcomes": outcomes,
+                "mean_after_cost_pips": 0.0 if outcomes else None,
+                "after_cost_win_rate": 0.0 if outcomes else None,
+                "zero_value_outcomes": outcomes,
+            }
+        )
+        cohort["arms"] = sorted(arms, key=lambda row: str(row.get("arm") or ""))
+    output["no_trade_baseline_forecasts"] = sum(
+        int(row[1] or 0) for row in by_cohort.values()
+    )
+    output["no_trade_baseline_outcomes"] = sum(
+        int(row[2] or 0) for row in by_cohort.values()
+    )
+    return output
 
 
 @contextmanager
@@ -102,6 +350,7 @@ def _v5_contract() -> Iterator[None]:
         "adapter_definition_sha256": adapter_definition_sha256,
         "resolve_source_database": resolve_source_database,
         "load_source_forecasts": load_source_forecasts,
+        "open_ledger": open_ledger,
         "render_report": _render_report_v5,
     }
     previous = {name: getattr(v1, name) for name in replacements}
@@ -115,8 +364,9 @@ def _v5_contract() -> Iterator[None]:
 
 
 def open_ledger(path: Path = DEFAULT_LEDGER) -> sqlite3.Connection:
-    with _v5_contract():
-        return v1.open_ledger(path)
+    connection = _V1_OPEN_LEDGER(path)
+    ensure_no_trade_schema(connection)
+    return connection
 
 
 def run_cycle(
@@ -147,6 +397,46 @@ def run_cycle(
             max_quote_age_sec=max_quote_age_sec,
             max_outcome_alignment_sec=max_outcome_alignment_sec,
         )
+        connection = open_ledger(ledger_path)
+        try:
+            baseline_updates = persist_no_trade_baselines(
+                connection,
+                observed_utc=(observed_utc or v1.utc_now()).astimezone(v1.UTC),
+            )
+            snapshot["ledger"] = add_no_trade_summary(
+                connection, v1.ledger_summary(connection)
+            )
+            integrity = str(connection.execute("PRAGMA quick_check(1)").fetchone()[0])
+        finally:
+            connection.close()
+        snapshot["matured_no_trade_outcomes"] = int(
+            baseline_updates["inserted_outcomes"]
+        )
+        snapshot["matured_outcomes"] = int(snapshot.get("matured_outcomes") or 0) + int(
+            baseline_updates["inserted_outcomes"]
+        )
+        snapshot["comparison_arms"] = list(ARMS)
+        snapshot["no_trade_baseline_contract_id"] = (
+            NO_TRADE_BASELINE_CONTRACT_ID
+        )
+        snapshot["no_trade_baseline"] = {
+            **baseline_updates,
+            "forecast_count": int(
+                snapshot["ledger"].get("no_trade_baseline_forecasts") or 0
+            ),
+            "outcome_count": int(
+                snapshot["ledger"].get("no_trade_baseline_outcomes") or 0
+            ),
+            "value_pips": 0.0,
+            "quote_required": False,
+            "order_submitted": False,
+            "research_only": True,
+            "execution_eligible": False,
+            "can_place_orders": False,
+            "can_authorize": False,
+            "can_promote": False,
+        }
+        snapshot["sqlite_integrity"] = integrity
         snapshot["source_database_mode"] = (
             "explicit_test_or_replay_override"
             if source_database is not None
@@ -166,6 +456,13 @@ def run_cycle(
                 "v1_v2_v3_v4_v5_source_fallback": False,
                 "v1_v2_v3_v4_adapter_ledger_imported": False,
                 "required_source_contract_id": REQUIRED_SOURCE_CONTRACT_ID,
+                "comparison_arms": list(ARMS),
+                "no_trade_baseline_contract_id": (
+                    NO_TRADE_BASELINE_CONTRACT_ID
+                ),
+                "no_trade_is_zero_value_counterfactual": True,
+                "no_trade_quote_required": False,
+                "no_trade_order_submitted": False,
             }
         )
         v1.atomic_write(
@@ -230,12 +527,16 @@ __all__ = [
     "DEFAULT_REPORT",
     "DEFAULT_STATE",
     "INPUT_MODE",
+    "NO_TRADE_BASELINE_CONTRACT_ID",
     "REQUIRED_SOURCE_CONTRACT_ID",
     "SCHEMA_VERSION",
     "SOURCE_V6",
     "adapter_definition_sha256",
+    "add_no_trade_summary",
+    "ensure_no_trade_schema",
     "load_source_forecasts",
     "open_ledger",
+    "persist_no_trade_baselines",
     "resolve_source_database",
     "run_cycle",
 ]

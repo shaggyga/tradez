@@ -125,6 +125,13 @@ language. The frozen Warsh fixture verifies USD-only issuer scope while GBP,
 SGD, and TRY remain mentions. Its historical quotes and outcome are a regression
 case, never proof or a current setup.
 
+Rank V5 now persists a separately contracted `no_trade` comparison for every
+future V6-bound decision. Its forecast and declared-horizon outcome are fixed
+at zero value and zero cost without requesting a quote. Append-only constraints
+also require zero orders and keep the arm research-only, execution-ineligible,
+unable to authorize, and unable to promote. This is a new prospective contract;
+the prior V5 state contained zero decisions and was not rewritten.
+
 ## 6. Data-source state and blockers
 
 - OANDA executable bid/ask remains market and cost ground truth.
@@ -187,7 +194,8 @@ suite passed 463 tests. A separate adversarial Git/vault security suite passed
 3. Observe a genuinely new post-activation official event and verify its raw
    68/68 sidecar before semantic use.
 4. Compare the frozen event hypothesis against identical price-only clocks and
-   no-trade after executable costs, latency, and missed-entry stress.
+   the explicit zero-value no-trade arm after executable costs, latency, and
+   missed-entry stress.
 5. Continue untouched prospective collection; do not retune from interim data.
 6. Resolve RBNZ permission, causal consensus, and event-time rate repricing as
    external data gates.

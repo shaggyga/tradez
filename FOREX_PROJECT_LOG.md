@@ -8,6 +8,22 @@ work belongs in `FOREX_PENDING_IMPROVEMENTS.md`. Source availability belongs in
 Historical states before this log was introduced remain preserved in the
 timestamped model-vault checkpoints and the existing specialist reports.
 
+## 2026-08-29 09:47 America/New_York — Rank-V5 no-trade baseline made explicit
+
+- Opened a new prospective rank-V5 material contract whose fourth comparison
+  arm is an explicit `no_trade` counterfactual rather than a report-only label.
+  The preceding rank-V5 contract contained zero decisions and was not rewritten.
+- Every future V6-bound frozen decision receives one foreign-keyed, append-only
+  no-trade forecast. At its declared horizon it matures deterministically to
+  zero gross pips, zero executable after-cost pips, and zero realized cost,
+  without reading a quote or submitting an order.
+- Database constraints and payloads fix `research_only=true`,
+  `execution_eligible=false`, `can_place_orders=false`, `can_authorize=false`,
+  `can_promote=false`, and `order_submitted=false`. Focused rank-V5 validation
+  passed seven tests, including zero-value maturation and append-only enforcement.
+- No Practice-007, lifecycle, authorization, signal-feed, broker, or real-money
+  setting changed.
+
 ## 2026-08-29 09:33 America/New_York — Local Git baseline and source-only vault published
 
 - Created the first reviewed local/private Git commit at

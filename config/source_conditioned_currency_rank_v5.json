@@ -1,7 +1,7 @@
 {
-  "schema_version": 5,
-  "contract_id": "source_conditioned_currency_rank_v5_v6_input_20260828",
-  "base_cohort_id": "source_conditioned_currency_rank_v5_prospective_20260828T173000Z",
+  "schema_version": 6,
+  "contract_id": "source_conditioned_currency_rank_v5_v6_input_explicit_no_trade_20260829",
+  "base_cohort_id": "source_conditioned_currency_rank_v5_no_trade_prospective_20260829T140000Z",
   "parent_adapter_contract_id": "source_conditioned_currency_rank_v4_v5_input_20260828",
   "research_only": true,
   "execution_eligible": false,
@@ -35,8 +35,26 @@
   "comparison_arms": [
     "price_only",
     "source_only",
-    "source_price_timing"
+    "source_price_timing",
+    "no_trade"
   ],
+  "no_trade_baseline": {
+    "contract_id": "source_conditioned_currency_rank_v5_no_trade_zero_value_v1_20260829",
+    "one_per_frozen_decision": true,
+    "predicted_gross_pips": 0.0,
+    "predicted_after_cost_pips": 0.0,
+    "matured_gross_pips": 0.0,
+    "matured_executable_after_cost_pips": 0.0,
+    "realized_cost_pips": 0.0,
+    "quote_required": false,
+    "order_submitted": false,
+    "research_only": true,
+    "execution_eligible": false,
+    "can_place_orders": false,
+    "can_authorize": false,
+    "can_promote": false,
+    "storage": "separate_append_only_forecast_and_outcome_tables_foreign_keyed_to_rank_decision"
+  },
   "outcome": {
     "entry": "frozen_live_executable_bid_ask",
     "exit": "first_completed_bid_ask_quote_bar_at_or_after_declared_horizon",

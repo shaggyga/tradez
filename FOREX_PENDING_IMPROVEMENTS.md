@@ -36,6 +36,13 @@ allocator cohort before live adoption remain immutable diagnostics. The first
 post-reload cycle published `paused_no_eligible_universe`, persisted no sixth
 decision, and left Practice canary authorization false.
 
+Rank V5 now carries `no_trade` as an explicit frozen fourth research arm, not
+only as a report label. Each future V6-bound decision creates one append-only
+no-trade forecast and a declared-horizon outcome fixed at zero gross, zero
+after-cost value, zero cost, and zero orders. The baseline requires no quote,
+cannot place or authorize an order, and has a new material contract/cohort;
+the prior zero-decision V5 contract is not relabeled as evidence.
+
 The local/private Git source baseline and source-only vault profile are now
 complete. The reviewed root commit `b3943607c2f07d3e979d3ab35327aae0f70c0903`
 contains 1,135 source/config/test/documentation files, has no remote, passed an
