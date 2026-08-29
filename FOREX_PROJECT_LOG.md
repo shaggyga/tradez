@@ -8,6 +8,33 @@ work belongs in `FOREX_PENDING_IMPROVEMENTS.md`. Source availability belongs in
 Historical states before this log was introduced remain preserved in the
 timestamped model-vault checkpoints and the existing specialist reports.
 
+## 2026-08-29 15:28 America/New_York — Counterfactual SIM gym independently verified
+
+- Added a research-only, append-only high-volume replay gym with exact completed
+  M1 knowledge clocks, executable bid/ask entry and exit sides, matched original,
+  flipped, deterministic-random and no-trade controls, purged time blocks,
+  factor/episode effective N, cost/slippage stress and clustered mistake labels.
+- The first real cohort failed independent replay: one GBP/CHF SMA clock carried
+  a `2.22e-12`-pip floating-point residue. It remains immutable. An explicit
+  `1e-9`-pip signal-zero tolerance created a new material cohort rather than
+  changing the failed rows.
+- Corrected cohort `counterfactual_sim_gym_v1.7482ea2d37e385e90150` contains
+  49,230 virtual intents, 44,271 eligible fills, 2,735 signals, 478 clocks and
+  5,700 unique outcome paths. The standalone verifier independently rebuilt the
+  complete ledger with zero failures and SQLite integrity `ok`.
+- Adversarial tests prove that omitted intents, rehashed outcome tampering,
+  archive traversal, absolute/outside paths, oversized archives and link
+  boundaries fail closed. SIM/isolation and genealogy validation passed 50
+  tests with one native Windows symlink-permission skip covered by a deterministic
+  link-boundary test; compilation passed.
+- All 108 original-direction diagnostic cells were negative after cost and no
+  fixed definition beat both controls in all three purged partitions. A
+  noncausal best-side oracle still found a cost-clearing side on roughly 47–53%
+  of H30 clocks, isolating selection—not absence of movement—as the next target.
+- Registered both immutable cohorts in the project-wide research genealogy.
+  Historical replay remains unable to confirm, promote, authorize or execute;
+  Practice 007 and real-money boundaries were unchanged.
+
 ## 2026-08-29 12:26 America/New_York — Priority contracts adopted and vault retained
 
 - Committed the governed consensus, rates/RBNZ, and pair-options source work as

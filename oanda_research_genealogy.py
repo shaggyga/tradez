@@ -2065,6 +2065,149 @@ def observe_currency_state_after_cost_supersession(
     ))
 
 
+def import_counterfactual_sim_gym(
+    target: sqlite3.Connection, source: Path
+) -> tuple[int, int]:
+    """Register immutable SIM-gym cohorts without treating replay as proof.
+
+    The gym owns its append-only cohort lineage.  This importer is deliberately
+    read-only and records each material contract as one historical diagnostic
+    hypothesis.  A later cohort supersedes an earlier engineering contract; it
+    never rewrites, confirms, promotes, or statistically combines the earlier
+    replay.
+    """
+    if not source.is_file():
+        return 0, 0
+    connection = ro(source)
+    definitions = observations = 0
+    try:
+        required = {"sim_cohorts", "sim_cohort_transitions"}
+        present = {
+            str(row[0])
+            for row in connection.execute(
+                "SELECT name FROM sqlite_master WHERE type='table'"
+            )
+        }
+        if not required.issubset(present):
+            return 0, 0
+        parents = cohort_parent_map(connection, "sim_cohort_transitions")
+        cohort_rows = list(
+            connection.execute("SELECT * FROM sim_cohorts ORDER BY created_utc,cohort_id")
+        )
+        if not cohort_rows:
+            return 0, 0
+        current_cohort_id = str(cohort_rows[-1]["cohort_id"])
+        for row in cohort_rows:
+            cohort_id = str(row["cohort_id"])
+            contract = json.loads(str(row["material_contract_json"] or "{}"))
+            effective = contract.get("effective_config") or {}
+            source_contract = effective.get("source") or {}
+            sampling = effective.get("sampling") or {}
+            partitions = effective.get("historical_partitions") or {}
+            signal_rules = effective.get("signal_rules") or []
+            execution_grid = effective.get("execution_grid") or {}
+            source_manifest = contract.get("source_manifest") or []
+            definition = {
+                "hypothesis_id": cohort_id,
+                "parent_hypothesis_id": parents.get(cohort_id),
+                "experiment_kind": "historical_counterfactual_sim",
+                "research_generation": str(
+                    contract.get("contract_id") or row["experiment_key"]
+                ),
+                "idea_origin": "high_volume_matched_virtual_order_replay",
+                "pre_registered": 1,
+                "data_sources_json": canonical_json(
+                    [source_contract.get("kind") or "OANDA_completed_M1_bid_ask"]
+                ),
+                "feature_contract_json": canonical_json({
+                    "knowledge_time": source_contract.get("knowledge_time"),
+                    "signal_rules": signal_rules,
+                    "cadence_min": sampling.get("cadence_min"),
+                }),
+                "label_contract_json": canonical_json({
+                    "entry_quote": source_contract.get("entry_quote"),
+                    "path_quote": source_contract.get("path_quote"),
+                    "execution_grid": execution_grid,
+                    "partitions": partitions,
+                    "historical_replay_can_confirm": False,
+                }),
+                "model_contract_json": canonical_json({"signal_rules": signal_rules}),
+                "cost_contract_json": canonical_json(effective.get("costs") or {}),
+                "allocator_contract_json": canonical_json(
+                    effective.get("comparators") or {}
+                ),
+                "training_period_json": canonical_json({
+                    "training": False,
+                    "historical_replay": contract.get("window") or {},
+                }),
+                "selection_period_json": canonical_json({
+                    "diagnostic_partitions": partitions.get("labels") or [],
+                    "purged": bool(partitions.get("purge_overlapping_outcomes")),
+                }),
+                "confirmation_period_json": canonical_json({
+                    "untouched_prospective_required": True,
+                    "historical_replay_can_confirm": False,
+                }),
+                "all_parameters_tried_json": canonical_json({
+                    "signal_rules": signal_rules,
+                    "execution_grid": execution_grid,
+                    "comparators": effective.get("comparators") or {},
+                }),
+                "selection_rule": (
+                    "matched as-signaled, flipped, deterministic-random, and "
+                    "no-trade historical diagnostics; no historical promotion"
+                ),
+                "holdouts_touched_json": canonical_json(
+                    partitions.get("labels") or []
+                ),
+                "source_code_hash": stable_hash({
+                    "runner": row["runner_sha256"],
+                    "core": row["core_sha256"],
+                }),
+                "data_snapshot_hash": stable_hash(source_manifest),
+                "definition_sha256": str(row["material_contract_sha256"]),
+                "created_at": str(row["created_utc"]),
+                "definition_json": canonical_json(contract),
+            }
+            definitions += int(insert_experiment(target, definition))
+            result = (
+                "historical_diagnostic_current"
+                if cohort_id == current_cohort_id
+                else "engineering_superseded_material_contract"
+            )
+            evidence = {
+                "cohort_id": cohort_id,
+                "contract_id": contract.get("contract_id"),
+                "parent_cohort_id": parents.get(cohort_id),
+                "material_contract_sha256": row["material_contract_sha256"],
+                "source_manifest_count": len(source_manifest),
+                "historical_replay_can_confirm": False,
+                "execution_eligible": False,
+                "supported_decision": "no_trade",
+            }
+            observations += int(observe(
+                target,
+                hypothesis_id=cohort_id,
+                observed_at=str(row["created_utc"]),
+                source_system=source.name,
+                result=result,
+                evidence=evidence,
+                retirement_reason=(
+                    "material engineering contract superseded; evidence preserved"
+                    if cohort_id != current_cohort_id
+                    else None
+                ),
+                retired_at=(
+                    str(cohort_rows[-1]["created_utc"])
+                    if cohort_id != current_cohort_id
+                    else None
+                ),
+            ))
+    finally:
+        connection.close()
+    return definitions, observations
+
+
 def run(
     *, database: Path = DEFAULT_DATABASE, state: Path = DEFAULT_STATE,
     report: Path = DEFAULT_REPORT, root_state: Path = STATE,
@@ -2088,6 +2231,12 @@ def run(
         definition_count += definitions; observation_count += observations
         definitions, observations = import_lifecycle(
             target, root_state / "evidence_lifecycle_v1.sqlite", imported_at=observed
+        )
+        definition_count += definitions; observation_count += observations
+        definitions, observations = import_counterfactual_sim_gym(
+            target,
+            root_state.parent / "research_ledgers" /
+            "counterfactual_sim_gym_v1" / "counterfactual_sim_gym_v1.sqlite",
         )
         definition_count += definitions; observation_count += observations
         discovery_reports = [
@@ -2304,6 +2453,7 @@ __all__ = [
     "import_shadow_runtime_state",
     "import_model_artifact_manifest",
     "import_macro_point_in_time_validation",
+    "import_counterfactual_sim_gym",
     "insert_experiment",
     "observe",
     "run",

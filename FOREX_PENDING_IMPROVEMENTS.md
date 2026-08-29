@@ -1,8 +1,52 @@
 # Forex pending improvements
 
-Status: **Stable; lineage repaired and adopted, prospective source proof remains**
+Status: **Stable; SIM-gym pilot verified, controlled expansion remains**
 
-Updated: 2026-08-29 12:26 America/New_York
+Updated: 2026-08-29 15:28 America/New_York
+
+## High-volume counterfactual SIM continuation — 29 August 15:28 ET
+
+The first bounded high-volume SIM gym is implemented and independently
+verified. The corrected cohort contains 49,230 matched virtual-order intents,
+44,271 eligible fills, 2,735 causal rule signals, 478 decision clocks and 5,700
+unique executable outcome paths across four pairs and one frozen week. Exact
+as-signaled, flipped, deterministic-random and no-trade comparisons share the
+same entry delay, horizon, path and cost contract. Practice 007, authorization,
+lifecycle promotion, signal publication and real-money routing were untouched.
+
+The independent verifier proved its value before the corrected run: it rejected
+the first immutable cohort because one `2.22e-12`-pip SMA floating-point residue
+was treated as a direction. The new explicit `1e-9`-pip zero tolerance opened a
+new material cohort rather than rewriting history. The corrected cohort passed
+independent reconstruction of all expected fires and non-fires, exact bid/ask
+economics, partitions, re-entry sequence, effective N, append-only triggers,
+archives and row roots. Adversarial omission, outcome-tamper, traversal,
+oversize and link-boundary tests also fail closed.
+
+The result is a bounded diagnostic null: all 108 as-signaled cells had negative
+effective after-cost expectancy and no fixed definition beat both matched
+controls in all three purged blocks. Hindsight shows that a cost-clearing side
+existed on roughly 47–53% of H30 clocks, so the next bottleneck is causal
+direction/magnitude selection rather than fabricating more overlapping orders.
+
+Current SIM continuation queue:
+
+1. Add a compact paired-control report with paired deltas and valid uncertainty
+   diagnostics; do not rank ordinary overlapping intent totals as evidence.
+2. Replace full-prefix archives with exact-window content-addressed archives,
+   then scale through all 68 pairs in deterministic bounded batches.
+3. Add level-reaction/support-resistance, existing strategy-lab, official-event
+   and source-conditioned adapters as separate immutable cohorts.
+4. Add frozen entry, exit, hold and rotation policy comparisons against
+   no-trade and matched controls.
+5. Only after historical discovery selects a definition, open an untouched
+   prospective cohort with multiplicity control; Practice 007 remains blocked
+   without genuine confirmation and narrow authorization.
+
+The complete pilot record is
+`docs/COUNTERFACTUAL_SIM_GYM_PILOT_20260829.md`; both SIM cohorts are now in the
+project-wide research genealogy. The superseded cohort remains engineering
+evidence and the corrected cohort remains historical diagnostic evidence only.
 
 ## Runtime and vault closeout — 29 August 12:26 ET
 

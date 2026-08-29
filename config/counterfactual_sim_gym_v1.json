@@ -1,0 +1,172 @@
+{
+  "schema_version": 1,
+  "experiment_key": "counterfactual_sim_gym_v1",
+  "research_only": true,
+  "execution_eligible": false,
+  "can_promote": false,
+  "can_place_orders": false,
+  "can_authorize": false,
+  "broker_access": false,
+  "account_access": false,
+  "signal_feed_write": false,
+  "lifecycle_write": false,
+  "supported_decision": "no_trade",
+  "source": {
+    "kind": "oanda_completed_m1_bid_ask_csv",
+    "relative_root": "data/oanda_training_manager/candles",
+    "instrument_glob": "*_M1.csv",
+    "knowledge_time": "a candle starting at t is first usable at t plus 60 seconds",
+    "entry_quote": "exact next permissible M1 bid_open/ask_open; no nearest-row backfill",
+    "path_quote": "executable bid/ask high, low, and close",
+    "maximum_entry_spread_pips": 5.0,
+    "maximum_source_bytes_per_instrument": 67108864,
+    "maximum_total_source_bytes": 134217728,
+    "maximum_source_rows_per_instrument": 100000,
+    "initial_instruments": [
+      "EUR_USD",
+      "USD_JPY",
+      "AUD_NZD",
+      "GBP_CHF"
+    ]
+  },
+  "sampling": {
+    "cadence_min": 60,
+    "history_days": 7,
+    "inclusion_probability": 1.0,
+    "adaptive_sampling_forbidden": true
+  },
+  "historical_partitions": {
+    "labels": [
+      "diagnostic_early",
+      "diagnostic_middle",
+      "diagnostic_late"
+    ],
+    "fractions": [
+      0.6,
+      0.2,
+      0.2
+    ],
+    "historical_replay_can_confirm": false,
+    "prospective_confirmation_required": true,
+    "purge_overlapping_outcomes": true,
+    "embargo_min": 91,
+    "embargo_basis": "maximum active feature lookback 60m plus maximum delay 1m plus maximum horizon 30m"
+  },
+  "independence": {
+    "diagnostic_market_episode_min": 60,
+    "effective_n_rule": "earliest_finish_nonoverlap_with_same_clock_signed_factor_and_same_pair_collapse",
+    "opposite_sides_of_same_pair_collapse": true,
+    "same_clock_signed_currency_factor_overlap_collapses": true,
+    "raw_variant_count_never_equals_effective_n": true
+  },
+  "costs": {
+    "round_trip_slippage_pips": 0.25,
+    "moderate_stress_slippage_pips": 0.5,
+    "severe_stress_slippage_pips": 1.0,
+    "spread_stress_multipliers": [
+      1.0,
+      1.25,
+      1.5
+    ]
+  },
+  "signal_rules": [
+    {
+      "id": "momentum_5m",
+      "kind": "momentum",
+      "lookback_min": 5,
+      "minimum_move_cost_ratio": 0.0
+    },
+    {
+      "id": "momentum_15m",
+      "kind": "momentum",
+      "lookback_min": 15,
+      "minimum_move_cost_ratio": 0.0
+    },
+    {
+      "id": "momentum_60m",
+      "kind": "momentum",
+      "lookback_min": 60,
+      "minimum_move_cost_ratio": 0.0
+    },
+    {
+      "id": "reversion_5m",
+      "kind": "reversion",
+      "lookback_min": 5,
+      "minimum_move_cost_ratio": 0.0
+    },
+    {
+      "id": "reversion_15m",
+      "kind": "reversion",
+      "lookback_min": 15,
+      "minimum_move_cost_ratio": 0.0
+    },
+    {
+      "id": "sma_5_15",
+      "kind": "moving_average_spread",
+      "fast_min": 5,
+      "slow_min": 15,
+      "minimum_move_cost_ratio": 0.0
+    }
+  ],
+  "execution_grid": {
+    "entry_delay_min": [
+      0,
+      1
+    ],
+    "entry_delay_semantics": {
+      "0": "optimistic decision-boundary upper bound; not an execution claim",
+      "1": "first one-minute delayed executable baseline"
+    },
+    "horizon_min": [
+      5,
+      15,
+      30
+    ],
+    "reentry_gap_min": [
+      0
+    ],
+    "exit_policies": [
+      {
+        "id": "endpoint",
+        "kind": "endpoint"
+      }
+    ]
+  },
+  "comparators": {
+    "flipped_direction": {
+      "enabled": true,
+      "matching_contract": "same delay, horizon, reentry gap, and exit policy as as_signaled"
+    },
+    "deterministic_random_side": {
+      "enabled": true,
+      "matching_contract": "same delay, horizon, reentry gap, and exit policy as as_signaled"
+    },
+    "no_trade": {
+      "enabled": true,
+      "net_pips": 0.0
+    }
+  },
+  "mistake_clustering": {
+    "maximum_examples_per_cluster": 20,
+    "latency_decay_threshold_pips": 1.0,
+    "extension_threshold_pips": 2.0
+  },
+  "statistical_diagnostics": {
+    "minimum_effective_n_for_ordering": 10,
+    "ordinary_normal_bound_is_unadjusted": true,
+    "multiple_testing_adjusted": false,
+    "statistical_significance_claims_forbidden": true,
+    "paired_comparator_inference_state": "planned"
+  },
+  "storage": {
+    "database_relative_path": "counterfactual_sim_gym_v1.sqlite",
+    "state_relative_path": "counterfactual_sim_gym_v1.json",
+    "report_relative_path": "COUNTERFACTUAL_SIM_GYM_CURRENT.md",
+    "compact_aggregate_rows": true,
+    "immutable_compact_sqlite_rows": true,
+    "immutable_parquet_outcomes": false,
+    "parquet_outcomes_state": "planned_only_after_sqlite_contract_is_verified",
+    "repeat_payload_json_per_order": false,
+    "maximum_virtual_order_intents": 250000
+  }
+}

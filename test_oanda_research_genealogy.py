@@ -22,11 +22,114 @@ from trad.oanda_research_genealogy import (
     observe_currency_state_after_cost_supersession,
     import_internal_discovery_artifact,
     import_macro_point_in_time_validation,
+    import_counterfactual_sim_gym,
     import_lifecycle,
     import_zero_output_adapter_retirement,
     insert_experiment,
     observe,
 )
+
+
+def test_counterfactual_sim_gym_lineage_is_registered_as_historical_only(
+    tmp_path: Path,
+):
+    target = connect(tmp_path / "genealogy.sqlite")
+    source = tmp_path / "counterfactual_sim_gym_v1.sqlite"
+    sim = sqlite3.connect(source)
+    sim.executescript(
+        """
+        CREATE TABLE sim_cohorts(
+          cohort_id TEXT PRIMARY KEY,experiment_key TEXT NOT NULL,
+          created_utc TEXT NOT NULL,material_contract_sha256 TEXT NOT NULL,
+          config_sha256 TEXT NOT NULL,runner_sha256 TEXT NOT NULL,
+          core_sha256 TEXT NOT NULL,material_contract_json TEXT NOT NULL
+        );
+        CREATE TABLE sim_cohort_transitions(
+          transition_id TEXT PRIMARY KEY,experiment_key TEXT NOT NULL,
+          previous_cohort_id TEXT,next_cohort_id TEXT NOT NULL,
+          observed_utc TEXT NOT NULL,reason TEXT NOT NULL
+        );
+        """
+    )
+    base_contract = {
+        "contract_id": "sim_contract_v1",
+        "window": {"start_epoch": 1, "end_epoch": 2},
+        "source_manifest": [{"instrument": "EUR_USD", "sha256": "a" * 64}],
+        "effective_config": {
+            "research_only": True,
+            "execution_eligible": False,
+            "supported_decision": "no_trade",
+            "source": {
+                "kind": "oanda_completed_m1_bid_ask_csv",
+                "knowledge_time": "completed only",
+                "entry_quote": "exact next quote",
+                "path_quote": "executable sides",
+            },
+            "sampling": {"cadence_min": 60},
+            "historical_partitions": {
+                "labels": ["early", "late"],
+                "purge_overlapping_outcomes": True,
+            },
+            "signal_rules": [{"id": "momentum_5m", "kind": "momentum"}],
+            "execution_grid": {"horizon_min": [5]},
+            "comparators": {"no_trade": {"enabled": True}},
+            "costs": {"round_trip_slippage_pips": 0.25},
+        },
+    }
+    second_contract = dict(base_contract)
+    second_contract["contract_id"] = "sim_contract_v2"
+    sim.execute(
+        "INSERT INTO sim_cohorts VALUES (?,?,?,?,?,?,?,?)",
+        (
+            "sim.cohort.1", "sim", "2026-08-29T10:00:00+00:00", "1" * 64,
+            "2" * 64, "3" * 64, "4" * 64,
+            json.dumps(base_contract, sort_keys=True),
+        ),
+    )
+    sim.execute(
+        "INSERT INTO sim_cohorts VALUES (?,?,?,?,?,?,?,?)",
+        (
+            "sim.cohort.2", "sim", "2026-08-29T11:00:00+00:00", "5" * 64,
+            "2" * 64, "3" * 64, "6" * 64,
+            json.dumps(second_contract, sort_keys=True),
+        ),
+    )
+    sim.execute(
+        "INSERT INTO sim_cohort_transitions VALUES (?,?,?,?,?,?)",
+        (
+            "transition.1", "sim", None, "sim.cohort.1",
+            "2026-08-29T10:00:00+00:00", "initial_registration",
+        ),
+    )
+    sim.execute(
+        "INSERT INTO sim_cohort_transitions VALUES (?,?,?,?,?,?)",
+        (
+            "transition.2", "sim", "sim.cohort.1", "sim.cohort.2",
+            "2026-08-29T11:00:00+00:00", "material_contract_change",
+        ),
+    )
+    sim.commit()
+    sim.close()
+
+    assert import_counterfactual_sim_gym(target, source) == (2, 2)
+    assert import_counterfactual_sim_gym(target, source) == (0, 0)
+    experiments = target.execute(
+        "SELECT hypothesis_id,parent_hypothesis_id,experiment_kind "
+        "FROM experiments ORDER BY created_at"
+    ).fetchall()
+    assert [tuple(row) for row in experiments] == [
+        ("sim.cohort.1", None, "historical_counterfactual_sim"),
+        ("sim.cohort.2", "sim.cohort.1", "historical_counterfactual_sim"),
+    ]
+    results = target.execute(
+        "SELECT hypothesis_id,result FROM experiment_observations "
+        "ORDER BY observed_at"
+    ).fetchall()
+    assert [tuple(row) for row in results] == [
+        ("sim.cohort.1", "engineering_superseded_material_contract"),
+        ("sim.cohort.2", "historical_diagnostic_current"),
+    ]
+    target.close()
 
 
 def make_after_cost_v4_fixture(root: Path) -> tuple[Path, dict, dict]:
