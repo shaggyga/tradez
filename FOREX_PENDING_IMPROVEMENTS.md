@@ -2,7 +2,7 @@
 
 Status: **Stable; lineage repaired and adopted, prospective source proof remains**
 
-Updated: 2026-08-29 09:05 America/New_York
+Updated: 2026-08-29 09:33 America/New_York
 
 ## Current correctness and event-proof checkpoint — 29 August 09:05 ET
 
@@ -36,6 +36,16 @@ allocator cohort before live adoption remain immutable diagnostics. The first
 post-reload cycle published `paused_no_eligible_universe`, persisted no sixth
 decision, and left Practice canary authorization false.
 
+The local/private Git source baseline and source-only vault profile are now
+complete. The reviewed root commit `b3943607c2f07d3e979d3ab35327aae0f70c0903`
+contains 1,135 source/config/test/documentation files, has no remote, passed an
+exact-index and exact-commit credential audit with zero findings, and excludes
+generated runtime-lock inventories. The first content-addressed vault archive
+is 5,686,898 bytes with SHA-256
+`10399fa40f9dc6af9060d03041dcdcef1694eb42b50d5a0e001e7b50b2c2c7e3`.
+Its ZIP CRC and Git member inventory passed, current records came from the
+audited commit rather than the worktree, and no legacy retention deletion ran.
+
 The current unfinished queue is:
 
 1. Let the post-reload edge cycle publish its output hashes, then require the
@@ -52,10 +62,7 @@ The current unfinished queue is:
    official-domain discovery remain fallback context, not direct OCR proof.
 5. Acquire causally clocked pre-release consensus and timestamp-safe intraday
    OIS/policy-futures repricing. Continue abstaining rather than postfilling.
-6. Finish the reviewed local Git source baseline and publish the new source-
-   only vault profile. Preserve the older mixed vault checkpoints as legacy;
-   do not push a remote or include credentials/runtime/account registry.
-7. At Sunday reopen, revalidate account, quotes, all 68 instruments, source
+6. At Sunday reopen, revalidate account, quotes, all 68 instruments, source
    freshness, and execution transport without weakening any authorization.
 
 Practice 007 remains flat at balance/NAV 41.6042, cumulative P/L -8.3430,

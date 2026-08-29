@@ -8,6 +8,29 @@ work belongs in `FOREX_PENDING_IMPROVEMENTS.md`. Source availability belongs in
 Historical states before this log was introduced remain preserved in the
 timestamped model-vault checkpoints and the existing specialist reports.
 
+## 2026-08-29 09:33 America/New_York — Local Git baseline and source-only vault published
+
+- Created the first reviewed local/private Git commit at
+  `b3943607c2f07d3e979d3ab35327aae0f70c0903` and annotated it with
+  `source-baseline-20260829`. The repository has no remote and nothing was
+  pushed.
+- The exact proposed index contained 1,135 source/config/test/documentation
+  files. Credential audit found zero bearer-credential findings. Forty-one
+  files contain Practice account identifiers, explicitly retained as private
+  local metadata; credential files, the account registry, and four generated
+  host/package runtime-lock inventories are excluded.
+- Independent review found and the implementation repaired a vault TOCTOU:
+  current-record aliases are now read from the same resolved commit as the
+  credential audit and archive, never from the mutable worktree. The publisher
+  also rejects tracked symlinks and force-added runtime/private artifacts,
+  scopes dummy-secret exemptions to each matched value, uses a single-writer
+  lock, verifies immutable-manifest identity, and publishes the latest pointer
+  last. Thirteen adversarial Git/vault tests passed.
+- Published the first exact source archive to the vault: 1,135 files,
+  5,686,898 bytes, CRC verified, SHA-256
+  `10399fa40f9dc6af9060d03041dcdcef1694eb42b50d5a0e001e7b50b2c2c7e3`.
+  No old checkpoint was deleted and no stale `D:` fallback was used.
+
 ## 2026-08-29 09:05 America/New_York — Proof lineage and event provenance repaired prospectively
 
 - An independent transition replay found that the published proof heads had
