@@ -23,6 +23,10 @@ timestamped model-vault checkpoints and the existing specialist reports.
   passed seven tests, including zero-value maturation and append-only enforcement.
 - No Practice-007, lifecycle, authorization, signal-feed, broker, or real-money
   setting changed.
+- At 09:51 ET a controlled hidden Rank-V5 worker-only reload adopted the new
+  contract before its 10:00 ET prospective clock. The first live state lists
+  all four comparison arms, contains zero new decisions, and remains unable to
+  place or authorize an order.
 
 ## 2026-08-29 09:33 America/New_York — Local Git baseline and source-only vault published
 

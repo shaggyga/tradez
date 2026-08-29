@@ -42,6 +42,10 @@ no-trade forecast and a declared-horizon outcome fixed at zero gross, zero
 after-cost value, zero cost, and zero orders. The baseline requires no quote,
 cannot place or authorize an order, and has a new material contract/cohort;
 the prior zero-decision V5 contract is not relabeled as evidence.
+A controlled hidden Rank-V5 worker-only reload at 09:51 ET adopted the new
+contract and all four arms before the 10:00 ET prospective cohort clock. The
+first post-reload state has zero decisions, cannot place orders, and remains
+execution-ineligible.
 
 The local/private Git source baseline and source-only vault profile are now
 complete. The reviewed root commit `b3943607c2f07d3e979d3ab35327aae0f70c0903`
