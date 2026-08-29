@@ -1,7 +1,7 @@
 {
-  "schema_version": 1,
-  "source_contract_id": "trading_economics_pre_release_consensus_v1_20260812",
-  "cohort_start_utc": "2026-08-12T00:00:00Z",
+  "schema_version": 2,
+  "source_contract_id": "trading_economics_pre_release_consensus_v2_20260829",
+  "cohort_start_utc": "2026-08-29T16:05:00Z",
   "provider": "Trading Economics",
   "endpoint": "https://api.tradingeconomics.com/calendar",
   "credential_environment": [
@@ -16,6 +16,7 @@
   "maximum_future_days": 14,
   "maximum_past_seconds": 0,
   "minimum_importance": 2,
+  "require_exact_release_time": true,
   "poll_interval_sec": 7200,
   "monthly_request_budget": 500,
   "quota_policy": "two_hour_snapshot_approximately_360_requests_per_30_days; preserve remaining allowance for validation and recovery",

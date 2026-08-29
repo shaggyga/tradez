@@ -1,0 +1,84 @@
+{
+  "schema_version": 2,
+  "contract_id": "rates_policy_repricing_shadow_v2_20260829",
+  "cohort_start_utc": "2026-08-29T15:45:00Z",
+  "research_only": true,
+  "execution_eligible": false,
+  "can_place_orders": false,
+  "can_promote": false,
+  "direction_policy": "abstain",
+  "state": "collector_ready_no_permitted_live_intraday_source",
+  "contract": {
+    "required_fields": [
+      "source_id",
+      "source_contract_id",
+      "provider",
+      "currency",
+      "instrument",
+      "tenor_label",
+      "rate_pct",
+      "source_timestamp_utc",
+      "retrieved_utc",
+      "observed_utc",
+      "clock_source",
+      "clock_contract_id",
+      "clock_attestation_hmac_sha256",
+      "raw_payload_sha256",
+      "raw_payload_path"
+    ],
+    "causal_rule": "a configured HMAC-attested clock contract, verified content-addressed raw archive, and source_timestamp_utc <= retrieved_utc <= observed_utc <= decision_cutoff_utc are required",
+    "replay_rule": "an as-of replay may use only immutable observations from the exact currently configured cohort and source-contract IDs, retrieved and observed no later than its decision cutoff",
+    "window_rule": "15m and 60m changes require a same-source same-instrument prior observation within the configured clock tolerance; missing is unavailable",
+    "revision_rule": "a changed payload creates a new immutable version and never replaces the value known at an earlier cutoff",
+    "no_data_policy": "missing is unavailable, never zero or neutral",
+    "material_change_policy": "provider, instrument, parser, frequency, timestamp semantics, or access method changes require a new source cohort"
+  },
+  "window_tolerance_sec": 90,
+  "sources": [
+    {
+      "source_id": "rbnz_b2_daily_close_official",
+      "source_contract_id": "rbnz_b2_daily_close_context_v1_20260829",
+      "provider": "Reserve Bank of New Zealand",
+      "currency": "NZD",
+      "instrument": "NZD_2Y_GOVERNMENT_YIELD",
+      "tenor_label": "2Y",
+      "source_kind": "official_daily_context",
+      "official_page_url": "https://www.rbnz.govt.nz/statistics/series/exchange-and-interest-rates/wholesale-interest-rates",
+      "official_data_url": "https://www.rbnz.govt.nz/-/media/project/sites/rbnz/files/statistics/series/b/b2/hb2-daily-close.xlsx",
+      "connected": false,
+      "ingest_enabled": false,
+      "causal_intraday_eligible": false,
+      "clock_contract_id": "rbnz_rate_clock_attestation_v1_unconnected",
+      "allowed_clock_sources": [],
+      "clock_attestation_hmac_env": "RBNZ_RATE_CLOCK_ATTESTATION_KEY",
+      "raw_archive_required": true,
+      "raw_intake_root": "",
+      "access_state": "http_403_from_bounded_collector_20260829",
+      "access_policy": "do_not_bypass; request allow-list or ingest a permitted official export prospectively",
+      "frequency": "daily_one_business_day_lag",
+      "purpose": "H4/H24 context only; never 15m/60m event repricing"
+    }
+  ],
+  "official_release_transports": [
+    {
+      "source_id": "rbnz_official_email_updates",
+      "provider": "Reserve Bank of New Zealand",
+      "currency": "NZD",
+      "official_subscription_url": "https://www.rbnz.govt.nz/about-our-site/sign-up-for-updates",
+      "connected": false,
+      "access_state": "free_official_channel_requires_user_subscription_and_permitted_mail_connector",
+      "timestamp_policy": "use authenticated message receipt and collector first-seen clocks; never substitute the scheduled release time",
+      "purpose": "direct policy-release transport, not rate-market repricing"
+    }
+  ],
+  "blockers": [
+    "no permitted timestamp-safe intraday OIS, policy-futures, or swap feed is connected",
+    "RBNZ direct policy pages and B2 file return HTTP 403 to the bounded collector",
+    "RBNZ official email updates require an explicit subscription and permitted mailbox connector"
+  ],
+  "authoritative_notes": [
+    "RBNZ states OCR decisions are published at 2pm NZT via its website, social media, Bloomberg/Refinitiv, and free email updates",
+    "RBNZ states its B2 wholesale rates are daily closing observations with a one-business-day publication lag",
+    "neither an official OCR level nor a daily closing curve is a substitute for market repricing inside a release window"
+  ]
+}

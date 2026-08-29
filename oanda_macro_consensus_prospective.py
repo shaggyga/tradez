@@ -22,7 +22,10 @@ import urllib.request
 from pathlib import Path
 from typing import Any, Mapping
 
-from oanda_local_news_sentiment import normalized_observation_time
+from oanda_local_news_sentiment import (
+    OBSERVATION_TIME_CONTRACT_ID,
+    normalized_observation_time,
+)
 
 
 ROOT = Path(__file__).resolve().parent
@@ -35,6 +38,7 @@ IMPORT = STATE / "macro_consensus_import_v1.jsonl"
 REPORT = DATA / "reports" / "macro_consensus" / "MACRO_CONSENSUS_PROSPECTIVE_CURRENT.md"
 ARCHIVE = DATA / "source_archives" / "macro_consensus_prospective_v1"
 UTC = dt.timezone.utc
+CAPTURE_CONTRACT_ID = "macro_consensus_response_complete_capture_v2_20260829"
 
 
 def canonical_json(value: Any) -> str:
@@ -75,6 +79,13 @@ def finite(value: Any) -> float | None:
     except (TypeError, ValueError):
         return None
     return number if math.isfinite(number) else None
+
+
+def populated(value: Any) -> bool:
+    if value is None:
+        return False
+    text = str(value).strip().lower()
+    return text not in {"", "null", "none", "nan", "n/a", "-"}
 
 
 def atomic_text(path: Path, value: str) -> None:
@@ -119,12 +130,21 @@ def cohort_contract(config: Mapping[str, Any]) -> dict[str, Any]:
     collector_sha = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
     definition_sha = stable_hash({"config_sha256": config_sha, "collector_sha256": collector_sha})
     return {
-        "cohort_id": "macro_consensus_prospective_v1.discovery.20260812." + definition_sha[:16],
+        "cohort_id": "macro_consensus_prospective_v2.discovery.20260829." + definition_sha[:16],
         "cohort_definition_sha256": definition_sha,
         "config_sha256": config_sha,
         "collector_sha256": collector_sha,
         "source_contract_id": str(config.get("source_contract_id") or ""),
+        "cohort_start_utc": str(config.get("cohort_start_utc") or ""),
+        "capture_contract_id": CAPTURE_CONTRACT_ID,
+        "observation_clock_contract_id": OBSERVATION_TIME_CONTRACT_ID,
         "provider": str(config.get("provider") or ""),
+        "capture_boundary": "response_body_complete_before_archive",
+        "trusted_clock_required": True,
+        "exact_release_timestamp_required": bool(
+            config.get("require_exact_release_time", True)
+        ),
+        "actual_absent_at_capture_required": True,
         "initial_snapshot_future_release_eligible": True,
         "historical_backfill_eligible": False,
         "material_change_requires_new_cohort": True,
@@ -154,6 +174,18 @@ def connect(path: Path) -> sqlite3.Connection:
           causal_valid INTEGER NOT NULL, rejection_reason TEXT NOT NULL,
           substantive_sha256 TEXT NOT NULL, raw_archive_sha256 TEXT NOT NULL,
           source_contract_json TEXT NOT NULL,
+          request_started_utc TEXT NOT NULL,
+          response_completed_utc TEXT NOT NULL,
+          capture_contract_id TEXT NOT NULL,
+          capture_clock_contract_id TEXT NOT NULL,
+          capture_clock_trusted INTEGER NOT NULL,
+          release_time_precision TEXT NOT NULL,
+          actual_present_at_capture INTEGER NOT NULL,
+          unit TEXT NOT NULL,
+          reference_period TEXT NOT NULL,
+          underlying_release_source_url TEXT NOT NULL,
+          provider_event_version TEXT NOT NULL,
+          provider_snapshot_sha256 TEXT NOT NULL,
           UNIQUE(cohort_id,release_key,substantive_sha256)
         );
         CREATE INDEX IF NOT EXISTS ix_consensus_release_time
@@ -175,6 +207,30 @@ def connect(path: Path) -> sqlite3.Connection:
           BEFORE DELETE ON collection_cycles BEGIN SELECT RAISE(ABORT,'append_only'); END;
         """
     )
+    # Older empty/diagnostic databases may predate the response-complete
+    # boundary. Add columns without rewriting any immutable observations.
+    columns = {
+        str(row[1]) for row in db.execute("PRAGMA table_info(consensus_observations)")
+    }
+    additions = {
+        "request_started_utc": "TEXT NOT NULL DEFAULT ''",
+        "response_completed_utc": "TEXT NOT NULL DEFAULT ''",
+        "capture_contract_id": "TEXT NOT NULL DEFAULT ''",
+        "capture_clock_contract_id": "TEXT NOT NULL DEFAULT ''",
+        "capture_clock_trusted": "INTEGER NOT NULL DEFAULT 0",
+        "release_time_precision": "TEXT NOT NULL DEFAULT 'unreported'",
+        "actual_present_at_capture": "INTEGER NOT NULL DEFAULT 0",
+        "unit": "TEXT NOT NULL DEFAULT ''",
+        "reference_period": "TEXT NOT NULL DEFAULT ''",
+        "underlying_release_source_url": "TEXT NOT NULL DEFAULT ''",
+        "provider_event_version": "TEXT NOT NULL DEFAULT ''",
+        "provider_snapshot_sha256": "TEXT NOT NULL DEFAULT ''",
+    }
+    for name, declaration in additions.items():
+        if name not in columns:
+            db.execute(
+                f"ALTER TABLE consensus_observations ADD COLUMN {name} {declaration}"
+            )
     db.commit()
     return db
 
@@ -192,12 +248,12 @@ def event_series_id(row: Mapping[str, Any]) -> str:
     return str(row.get("Symbol") or row.get("Ticker") or row.get("Event") or row.get("Category") or "").strip()
 
 
-def release_key(row: Mapping[str, Any], scheduled: dt.datetime) -> str:
+def release_key(row: Mapping[str, Any], scheduled: dt.datetime | None) -> str:
     identity = {
         "external_id": str(row.get("CalendarId") or row.get("CalendarID") or ""),
         "series": event_series_id(row),
         "country": str(row.get("Country") or ""),
-        "scheduled_utc": iso(scheduled),
+        "scheduled_utc": iso(scheduled) if scheduled is not None else str(row.get("Date") or ""),
         "reference": str(row.get("Reference") or row.get("ReferenceDate") or ""),
     }
     return "macro_" + stable_hash(identity)[:32]
@@ -207,7 +263,9 @@ def ingest_rows(
     db: sqlite3.Connection,
     *,
     rows: list[Mapping[str, Any]],
-    observed: dt.datetime,
+    request_started: dt.datetime,
+    captured: dt.datetime,
+    capture_clock: Mapping[str, Any],
     contract: Mapping[str, Any],
     config: Mapping[str, Any],
     raw_sha: str,
@@ -215,47 +273,94 @@ def ingest_rows(
     counts = {"inspected": 0, "inserted": 0, "causal": 0, "rejected": 0}
     maximum_future = dt.timedelta(days=float(config.get("maximum_future_days") or 14))
     minimum_importance = int(config.get("minimum_importance") or 0)
+    exact_release_required = bool(config.get("require_exact_release_time", True))
+    source_verified = bool(config.get("source_verified"))
+    capture_clock_trusted = (
+        capture_clock.get("trusted_for_prospective_evidence") is True
+    )
+    capture_clock_contract_id = str(capture_clock.get("contract_id") or "")
+    cohort_start = parse_time(config.get("cohort_start_utc"))
     for raw_row in rows:
         if not isinstance(raw_row, Mapping):
             continue
         counts["inspected"] += 1
         scheduled = parse_time(raw_row.get("Date"))
-        source_time = parse_time(raw_row.get("LastUpdate")) or observed
+        source_time = parse_time(raw_row.get("LastUpdate"))
+        external_id = str(raw_row.get("CalendarId") or raw_row.get("CalendarID") or "").strip()
         value = finite(raw_row.get("ForecastValue"))
         consensus_text = str(raw_row.get("Forecast") or "")
         importance = int(finite(raw_row.get("Importance")) or 0)
         series = event_series_id(raw_row)
+        date_span = str(
+            raw_row.get("DateSpan")
+            if raw_row.get("DateSpan") is not None
+            else ""
+        ).strip()
+        release_time_precision = (
+            "exact"
+            if date_span in {"0", "0.0"}
+            else "estimated"
+            if date_span in {"1", "1.0"}
+            else "unreported"
+        )
+        actual_present = (
+            finite(raw_row.get("ActualValue")) is not None
+            or populated(raw_row.get("Actual"))
+        )
         reason = ""
-        if scheduled is None or not series:
+        if cohort_start is None:
+            reason = "invalid_cohort_activation"
+        elif captured < cohort_start:
+            reason = "captured_before_cohort_activation"
+        elif request_started > captured:
+            reason = "request_started_after_response_completed"
+        elif scheduled is None or not series:
             reason = "missing_release_identity_or_schedule"
+        elif not external_id:
+            reason = "missing_provider_calendar_id"
+        elif source_time is None:
+            reason = "missing_provider_last_update"
         elif value is None:
             reason = "missing_numeric_consensus"
+        elif not source_verified:
+            reason = "source_not_verified"
+        elif (
+            not capture_clock_trusted
+            or capture_clock_contract_id != OBSERVATION_TIME_CONTRACT_ID
+        ):
+            reason = "capture_clock_untrusted"
         elif importance < minimum_importance:
             reason = "below_minimum_importance"
-        elif scheduled <= observed:
+        elif scheduled <= captured:
             reason = "not_captured_before_release"
-        elif scheduled - observed > maximum_future:
+        elif actual_present:
+            reason = "actual_present_at_capture"
+        elif exact_release_required and release_time_precision != "exact":
+            reason = "release_time_not_exact"
+        elif scheduled - captured > maximum_future:
             reason = "outside_future_capture_window"
-        elif source_time > observed + dt.timedelta(seconds=2):
+        elif source_time is not None and source_time > captured:
             reason = "source_timestamp_after_capture"
         causal = not reason
-        if scheduled is None:
-            scheduled = observed
         key = release_key(raw_row, scheduled)
         material = {
             "release_key": key,
             "event_series_id": series,
-            "scheduled_utc": iso(scheduled),
-            "captured_utc": iso(observed),
-            "source_timestamp_utc": iso(source_time),
+            "scheduled_utc": iso(scheduled) if scheduled is not None else "",
+            "captured_utc": iso(captured),
+            "request_started_utc": iso(request_started),
+            "response_completed_utc": iso(captured),
+            "source_timestamp_utc": iso(source_time) if source_time is not None else "",
             "consensus_text": consensus_text,
             "consensus_value": value,
-            "external_id": str(raw_row.get("CalendarId") or raw_row.get("CalendarID") or ""),
+            "external_id": external_id,
             "event_name": str(raw_row.get("Event") or raw_row.get("Category") or ""),
             "country": str(raw_row.get("Country") or ""),
             "currency": str(raw_row.get("Currency") or "").upper(),
             "importance": importance,
             "source_url": str(raw_row.get("SourceURL") or ""),
+            "release_time_precision": release_time_precision,
+            "actual_present_at_capture": actual_present,
             "causal_valid": causal,
             "rejection_reason": reason,
         }
@@ -268,6 +373,9 @@ def ingest_rows(
                 "scheduled_utc": material["scheduled_utc"],
                 "consensus_text": consensus_text, "consensus_value": value,
                 "external_id": material["external_id"], "importance": importance,
+                "source_timestamp_utc": material["source_timestamp_utc"],
+                "release_time_precision": release_time_precision,
+                "actual_present_at_capture": actual_present,
                 "source_url": material["source_url"], "causal_valid": causal,
                 "rejection_reason": reason,
             }
@@ -276,7 +384,19 @@ def ingest_rows(
             (contract["cohort_id"], key, substantive)
         )[:32]
         cursor = db.execute(
-            "INSERT OR IGNORE INTO consensus_observations VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            """INSERT OR IGNORE INTO consensus_observations (
+                 observation_id,cohort_id,source_contract_id,provider,release_key,
+                 event_series_id,external_id,event_name,country,currency,
+                 scheduled_utc,captured_utc,source_timestamp_utc,consensus_text,
+                 consensus_value,importance,source_id,source_name,source_url,
+                 source_verified,causal_valid,rejection_reason,substantive_sha256,
+                 raw_archive_sha256,source_contract_json,request_started_utc,
+                 response_completed_utc,capture_contract_id,capture_clock_contract_id,
+                 capture_clock_trusted,release_time_precision,
+                 actual_present_at_capture,unit,reference_period,
+                 underlying_release_source_url,provider_event_version,
+                 provider_snapshot_sha256
+               ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
             (
                 observation_id, contract["cohort_id"], contract["source_contract_id"],
                 contract["provider"], key, series, material["external_id"],
@@ -284,8 +404,17 @@ def ingest_rows(
                 material["scheduled_utc"], material["captured_utc"],
                 material["source_timestamp_utc"], consensus_text, value, importance,
                 "trading_economics_calendar", "Trading Economics",
-                material["source_url"], 1, int(causal), reason, substantive, raw_sha,
+                "https://tradingeconomics.com/calendar", int(source_verified),
+                int(causal), reason, substantive, raw_sha,
                 canonical_json(contract),
+                material["request_started_utc"], material["response_completed_utc"],
+                CAPTURE_CONTRACT_ID, capture_clock_contract_id,
+                int(capture_clock_trusted),
+                release_time_precision, int(actual_present),
+                str(raw_row.get("Unit") or ""),
+                str(raw_row.get("Reference") or raw_row.get("ReferenceDate") or ""),
+                material["source_url"],
+                iso(source_time) if source_time is not None else "", raw_sha,
             ),
         )
         if cursor.rowcount > 0:
@@ -297,9 +426,17 @@ def ingest_rows(
 
 def write_import(db: sqlite3.Connection, path: Path) -> int:
     rows = db.execute(
-        """SELECT release_key,event_series_id,scheduled_utc,captured_utc,
+        """SELECT observation_id,cohort_id,source_contract_id,release_key,
+                  event_series_id,external_id,scheduled_utc,captured_utc,
+                  request_started_utc,response_completed_utc,
                   source_timestamp_utc,consensus_text,consensus_value,
-                  source_id,source_name,source_url,source_verified
+                  source_id,source_name,source_url,source_verified,
+                  causal_valid,rejection_reason,capture_contract_id,
+                  capture_clock_contract_id,
+                  capture_clock_trusted,release_time_precision,
+                  actual_present_at_capture,country,currency,unit,
+                  reference_period,underlying_release_source_url,
+                  provider_event_version,provider_snapshot_sha256
            FROM consensus_observations ORDER BY captured_utc,observation_id"""
     ).fetchall()
     values = []
@@ -307,12 +444,27 @@ def write_import(db: sqlite3.Connection, path: Path) -> int:
         values.append(
             canonical_json(
                 {
-                    "release_key": row[0], "event_series_id": row[1],
-                    "scheduled_utc": row[2], "captured_utc": row[3],
-                    "source_timestamp_utc": row[4], "consensus": row[5],
-                    "consensus_value": row[6], "source_id": row[7],
-                    "source_name": row[8], "source_url": row[9],
-                    "source_verified": bool(row[10]),
+                    "observation_id": row[0], "cohort_id": row[1],
+                    "source_contract_id": row[2], "release_key": row[3],
+                    "event_series_id": row[4], "provider_event_id": row[5],
+                    "scheduled_utc": row[6], "captured_utc": row[7],
+                    "request_started_utc": row[8],
+                    "response_completed_utc": row[9],
+                    "source_timestamp_utc": row[10], "consensus": row[11],
+                    "consensus_value": row[12], "source_id": row[13],
+                    "source_name": row[14], "source_url": row[15],
+                    "source_verified": bool(row[16]),
+                    "causal_valid": bool(row[17]), "rejection_reason": row[18],
+                    "capture_contract_id": row[19],
+                    "capture_clock_contract_id": row[20],
+                    "capture_clock_trusted": bool(row[21]),
+                    "release_time_precision": row[22],
+                    "actual_present_at_capture": bool(row[23]),
+                    "country": row[24], "currency": row[25], "unit": row[26],
+                    "reference_period": row[27],
+                    "underlying_release_source_url": row[28],
+                    "provider_event_version": row[29],
+                    "provider_snapshot_sha256": row[30],
                 }
             )
         )
@@ -352,14 +504,18 @@ def run_once(
     config = read_json(config_path)
     contract = cohort_contract(config)
     if observed is None:
-        observed, clock = normalized_observation_time(dt.datetime.now(UTC))
+        request_started, request_clock = normalized_observation_time(dt.datetime.now(UTC))
     else:
-        observed = observed.astimezone(UTC)
-        clock = {"source": "provided_test_time", "trusted_for_prospective_evidence": True}
+        request_started = observed.astimezone(UTC)
+        request_clock = {
+            "contract_id": OBSERVATION_TIME_CONTRACT_ID,
+            "source": "provided_test_time",
+            "trusted_for_prospective_evidence": True,
+        }
     key = credential(config)
     if raw is None and not key:
         payload = {
-            "schema_version": 1, "generated_utc": iso(observed),
+            "schema_version": 2, "generated_utc": iso(request_started),
             "status": "blocked_missing_trading_economics_api_key",
             "credential_present": False, "cohort": contract,
             "research_only": True, "execution_eligible": False,
@@ -377,8 +533,8 @@ def run_once(
             # supervisor restart loop, and never serialize the URL because it
             # contains the credential query parameter.
             payload = {
-                "schema_version": 1,
-                "generated_utc": iso(observed),
+                "schema_version": 2,
+                "generated_utc": iso(request_started),
                 "status": "degraded_fetch_failed",
                 "credential_present": True,
                 "provider_error_type": type(exc).__name__,
@@ -400,6 +556,12 @@ def run_once(
                 "the quota-safe polling cadence.\n",
             )
             return payload
+        # Causality begins only once the entire response is locally available.
+        # Never stamp the request-start instant onto bytes received later.
+        captured, capture_clock = normalized_observation_time(dt.datetime.now(UTC))
+    else:
+        captured = request_started
+        capture_clock = request_clock
     raw_sha = hashlib.sha256(raw).hexdigest()
     archive.mkdir(parents=True, exist_ok=True)
     archive_path = archive / f"{raw_sha}.json"
@@ -409,15 +571,28 @@ def run_once(
     rows = parsed if isinstance(parsed, list) else []
     db = connect(database)
     counts = ingest_rows(
-        db, rows=rows, observed=observed, contract=contract, config=config, raw_sha=raw_sha
+        db, rows=rows, request_started=request_started, captured=captured,
+        capture_clock=capture_clock, contract=contract, config=config, raw_sha=raw_sha
     )
-    cycle_id = "consensus_cycle_" + stable_hash((contract["cohort_id"], iso(observed), raw_sha))[:28]
+    cycle_id = "consensus_cycle_" + stable_hash(
+        (contract["cohort_id"], iso(captured), raw_sha)
+    )[:28]
     db.execute(
         "INSERT OR IGNORE INTO collection_cycles VALUES (?,?,?,?,?,?,?,?,?,?)",
         (
-            cycle_id, iso(observed), contract["cohort_id"], "ok", raw_sha,
+            cycle_id, iso(captured), contract["cohort_id"], "ok", raw_sha,
             counts["inspected"], counts["inserted"], counts["causal"], counts["rejected"],
-            canonical_json({"clock": clock}),
+            canonical_json(
+                {
+                    "request_clock": request_clock,
+                    "capture_clock": capture_clock,
+                    "request_started_utc": iso(request_started),
+                    "response_completed_utc": iso(captured),
+                    "response_latency_ms": max(
+                        0.0, (captured - request_started).total_seconds() * 1000.0
+                    ),
+                }
+            ),
         ),
     )
     db.commit()
@@ -426,12 +601,16 @@ def run_once(
     integrity = str(db.execute("PRAGMA quick_check").fetchone()[0])
     db.close()
     payload = {
-        "schema_version": 1, "generated_utc": iso(observed), "status": "ok",
+        "schema_version": 2, "generated_utc": iso(captured), "status": "ok",
         "credential_present": bool(key), "research_only": True,
         "execution_eligible": False, "can_place_orders": False, "can_promote": False,
         "cohort": contract, "cycle": counts, "totals": totals,
         "import_projection_rows": projected, "raw_archive_sha256": raw_sha,
-        "database_integrity": integrity, "observation_clock": clock,
+        "database_integrity": integrity,
+        "request_started_utc": iso(request_started),
+        "response_completed_utc": iso(captured),
+        "capture_boundary": "response_body_complete_before_archive",
+        "observation_clock": capture_clock,
         "supported_execution_decision": "no_trade",
     }
     atomic_json(output, payload)

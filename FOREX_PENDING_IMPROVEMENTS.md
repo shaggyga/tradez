@@ -2,7 +2,87 @@
 
 Status: **Stable; lineage repaired and adopted, prospective source proof remains**
 
-Updated: 2026-08-29 09:33 America/New_York
+Updated: 2026-08-29 11:48 America/New_York
+
+## Causal consensus correctness checkpoint — 29 August 11:47 ET
+
+The pre-release consensus path now uses a frozen V2 response-complete capture
+boundary. Request start time can no longer make bytes received after release
+appear causal. A trusted clock, exact provider release time, absent actual,
+verified source identity, provider event/version identity, and immutable raw
+payload hash are all required. The exact configured deployment activation
+rejects pre-cohort captures; provider Calendar ID and LastUpdate cannot be
+fabricated or replaced. The downstream surprise ledger independently
+recomputes those gates, binds the exact current source/cohort/capture IDs, and
+verifies each projection against the raw archived provider bytes. Rejected,
+post-release, estimated-clock, archive-missing, contract-mismatched, and
+untrusted-clock observations remain immutable diagnostics and cannot become
+proof.
+
+The refreshed access audit precisely confirms the external blocker: Trading
+Economics has no configured credential, the existing Finnhub credential gets
+HTTP 403 because its Economic Calendar requires premium access, and Alpha
+Vantage plus FRED/ALFRED are not market-consensus sources. There are zero V2
+causal rows and no currently permitted free provider. Do not infer or backfill
+consensus; the next gate remains a permitted provider entitlement followed by
+untouched prospective capture.
+
+The one-time edge-publication rebuild from the 09:05 checkpoint is also
+complete. The worker inspected all 15,746,198 canonical forecast rows, wrote
+the exact output hashes, and returned to its normal idle cadence. The
+independent verifier now reports `match`, including a passing
+`edge_report_fresh_or_semantically_current` check; authorization remains false
+because there are still zero confirmed candidates.
+
+## Rates and RBNZ priority pass — 29 August 11:47 ET
+
+The repository-controlled portion of the rates priority is complete. The new
+`rates_policy_repricing_shadow_v2_20260829` contract provides an append-only
+SQLite observation ledger, explicit source/retrieval/collector clocks,
+configured HMAC clock attestation, verified content-addressed raw archives,
+per-source intake-root containment with traversal/symlink rejection,
+versioned revisions, exact active-cohort/source-contract filtering,
+cutoff-causal replay, exact 15/60-minute alignment, duplicate resistance, and
+fail-closed access diagnostics. A row cannot self-certify clock trust, and old
+or foreign cohort rows remain excluded from replay/readiness counts. Its default state
+has zero connected causal intraday sources, emits no observations, never
+zero-fills missing rates, cannot trade or promote, and supports `no_trade`.
+
+RBNZ's official B2 wholesale-rate source is now registered accurately as
+daily, one-business-day-lag H4/H24 context. Both its page and official XLSX
+return HTTP 403 to the bounded collector, so no bypass was attempted and it
+cannot satisfy event-window repricing. RBNZ's published free email-update
+channel is registered as the preferred direct-release path, but it remains
+disconnected until the user subscribes and a permitted authenticated mailbox
+connector supplies actual receipt and first-seen clocks. Neither channel is
+credited as causal proof. Focused validation passed fifteen dedicated tests
+plus two source-gap reconciliation tests, including self-certified-clock
+rejection, missing/outside/traversal payload rejection, active-contract
+isolation, and future-dated import rejection.
+
+## Pair-options source checkpoint — 29 August 11:44 ET
+
+The repository-controlled pair-options schema/validator gap is now addressed
+with a prospective, fail-closed shadow contract. This is **not** an immutable
+collector, append-only ledger, connected feed, or collection-ready source. It
+distinguishes `direct_pair_surface`,
+`inverted_direct_surface`, `two_leg_proxy`, and `unavailable` across all 68
+pairs; preserves source, publication, first-seen, retrieval, effective and
+decision clocks plus tenor, expiry, delta and quote conventions; flips
+directional skew explicitly when CME's futures orientation is inverse to the
+OANDA pair; and never zero-fills a missing metric. CME CVOL currently represents
+only seven OANDA pair orientations (three direct and four inverted) and is a
+30-day CVOL/ATM/whole-surface-skew reference, not a 25-delta risk reversal,
+multi-tenor surface, or event-implied move. A two-USD-leg proxy cannot become a
+cross-pair surface without timestamp-matched implied correlation/covariance.
+
+No source is connected, public visualizers are not scraped, and the validator
+has zero observations and no execution path. The remaining options work is
+partly external and partly a future repository build: obtain a permitted
+pair/tenor source or CME API access, open a new material source cohort, then
+implement an immutable collector and append-only ledger, prove collection
+integrity, and keep every derived feature shadow-only until prospective
+incremental evidence exists.
 
 ## Current correctness and event-proof checkpoint — 29 August 09:05 ET
 
@@ -59,20 +139,26 @@ audited commit rather than the worktree, and no legacy retention deletion ran.
 
 The current unfinished queue is:
 
-1. Let the post-reload edge cycle publish its output hashes, then require the
-   verifier's exact fingerprint/output-integrity handshake and clear any
-   temporary stale-edge warning.
-2. Observe the first genuinely new post-activation official event. Require a
+1. Observe the first genuinely new post-activation official event. Require a
    raw first-seen fresh 68/68 executable capture, mapper consumption without
    recapture, issuer-only direction, liquid/wide cost separation, and frozen
    event-versus-price-only-versus-no-trade research comparison.
-3. Continue the four untouched August 29 proof cohorts plus V6/V151 and rank-V5
+2. Continue the four untouched August 29 proof cohorts plus V6/V151 and rank-V5
    research collection. Never backfill or retune from interim results.
-4. Obtain a permitted direct RBNZ policy channel or allow-list. Do not bypass
-   the publisher's HTTP 403; official calendar, Stats NZ, Treasury, and
-   official-domain discovery remain fallback context, not direct OCR proof.
-5. Acquire causally clocked pre-release consensus and timestamp-safe intraday
-   OIS/policy-futures repricing. Continue abstaining rather than postfilling.
+3. Subscribe to RBNZ's free official email updates and connect a permitted
+   authenticated mailbox adapter, or obtain an allow-list. Preserve actual
+   receipt and first-seen clocks; do not bypass HTTP 403 or treat discovery as
+   direct OCR proof.
+4. Connect a permitted timestamp-safe intraday OIS/swap/policy-futures source
+   to the frozen v2 shadow contract, and separately acquire causally clocked
+   pre-release consensus. Daily B2 and official OCR levels remain context;
+   continue abstaining rather than postfilling.
+5. Obtain a permitted options source only if its access and retention terms
+   allow collection. Prefer direct pair/tenor ATM, 25-delta RR/BF and
+   event-expiry observations; do not scrape CME's public visualizer or treat
+   the seven-pair CVOL reference as an all-68 surface. After access exists,
+   create a new material cohort and implement the immutable collector/ledger;
+   the current V1 component is validator-only and not collection-ready.
 6. At Sunday reopen, revalidate account, quotes, all 68 instruments, source
    freshness, and execution transport without weakening any authorization.
 

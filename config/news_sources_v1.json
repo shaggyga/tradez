@@ -2241,12 +2241,25 @@
       "enabled": false,
       "runtime_supported": false,
       "url": "https://www.cmegroup.com/market-data/greeks-and-implied-volatility-data.html",
-      "currencies": ["AUD", "CAD", "CHF", "EUR", "GBP", "JPY", "MXN", "NZD", "USD"],
+      "currencies": ["AUD", "CAD", "CHF", "EUR", "GBP", "JPY", "MXN", "USD"],
       "verified": true,
       "direct": true,
       "source_role": "options_expectations",
       "quality": 1.0,
-      "trusted_domains": ["cmegroup.com"]
+      "trusted_domains": ["cmegroup.com"],
+      "access_state": "licensed_api_not_connected",
+      "public_page_scraping_permitted": false,
+      "source_contract_id": "fx_pair_options_surface_v1_point_in_time_shadow_20260829",
+      "source_cohort_id": "fx_pair_options_surface_v1_20260829a",
+      "cvol_oanda_pair_coverage": [
+        "AUD_USD", "EUR_USD", "GBP_USD", "USD_CAD", "USD_CHF", "USD_JPY", "USD_MXN"
+      ],
+      "measurement_limits": [
+        "cvol_30d_not_25d_risk_reversal",
+        "no_multi_tenor_surface",
+        "no_event_specific_implied_move",
+        "inverted_pairs_require_directional_skew_sign_flip"
+      ]
     },
     {
       "source_id": "lseg_machine_readable_news",

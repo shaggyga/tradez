@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "contract_id": "fx_pair_options_surface_v1_point_in_time_shadow_20260829",
+  "cohort_id": "fx_pair_options_surface_v1_20260829a",
+  "activation_utc": "2026-08-29T15:45:00Z",
+  "implementation_state": "schema_validator_only",
+  "immutable_collector_implemented": false,
+  "append_only_ledger_implemented": false,
+  "collection_ready": false,
+  "oanda_instrument_universe": [
+    "AUD_CAD", "AUD_CHF", "AUD_HKD", "AUD_JPY", "AUD_NZD", "AUD_SGD", "AUD_USD",
+    "CAD_CHF", "CAD_HKD", "CAD_JPY", "CAD_SGD", "CHF_HKD", "CHF_JPY", "CHF_ZAR",
+    "EUR_AUD", "EUR_CAD", "EUR_CHF", "EUR_CZK", "EUR_DKK", "EUR_GBP", "EUR_HKD",
+    "EUR_HUF", "EUR_JPY", "EUR_NOK", "EUR_NZD", "EUR_PLN", "EUR_SEK", "EUR_SGD",
+    "EUR_TRY", "EUR_USD", "EUR_ZAR", "GBP_AUD", "GBP_CAD", "GBP_CHF", "GBP_HKD",
+    "GBP_JPY", "GBP_NZD", "GBP_PLN", "GBP_SGD", "GBP_USD", "GBP_ZAR", "HKD_JPY",
+    "NZD_CAD", "NZD_CHF", "NZD_HKD", "NZD_JPY", "NZD_SGD", "NZD_USD", "SGD_CHF",
+    "SGD_JPY", "TRY_JPY", "USD_CAD", "USD_CHF", "USD_CNH", "USD_CZK", "USD_DKK",
+    "USD_HKD", "USD_HUF", "USD_JPY", "USD_MXN", "USD_NOK", "USD_PLN", "USD_SEK",
+    "USD_SGD", "USD_THB", "USD_TRY", "USD_ZAR", "ZAR_JPY"
+  ],
+  "sources": {
+    "cme_cvol_eod": {
+      "provider": "CME Group",
+      "source_measurement_type": "cme_cvol_30d",
+      "official_reference_url": "https://www.cmegroup.com/market-data/cme-group-benchmark-administration/cme-group-volatility-indexes.html",
+      "official_api_url": "https://www.cmegroup.com/market-data/market-data-api.html",
+      "access_state": "licensed_api_not_connected",
+      "collection_enabled": false,
+      "public_page_scraping_permitted": false,
+      "raw_to_oanda_pair": {
+        "AUD_USD": "AUD_USD",
+        "CAD_USD": "USD_CAD",
+        "CHF_USD": "USD_CHF",
+        "EUR_USD": "EUR_USD",
+        "GBP_USD": "GBP_USD",
+        "JPY_USD": "USD_JPY",
+        "MXN_USD": "USD_MXN"
+      },
+      "available_metrics": [
+        "cvol_index", "atm_iv_annualized_pct", "up_variance_annualized_pct",
+        "down_variance_annualized_pct", "skew_indicator", "convexity_indicator"
+      ],
+      "unavailable_metrics": [
+        "rr_25d_vol_points", "bf_25d_vol_points", "multi_tenor_term_structure",
+        "event_implied_move_pct"
+      ]
+    },
+    "permitted_direct_pair_surface": {
+      "provider": "UNCONNECTED",
+      "source_measurement_type": "direct_pair_surface",
+      "official_reference_url": null,
+      "official_api_url": null,
+      "access_state": "no_permitted_source_connected",
+      "collection_enabled": false,
+      "public_page_scraping_permitted": false,
+      "raw_to_oanda_pair": {},
+      "available_metrics": [
+        "atm_iv_annualized_pct", "rr_25d_vol_points", "bf_25d_vol_points",
+        "multi_tenor_term_structure", "event_implied_move_pct"
+      ],
+      "unavailable_metrics": []
+    }
+  },
+  "feature_policy": {
+    "pair_specific_surface_preferred": true,
+    "usd_leg_proxy_may_rank_uncertainty_only": true,
+    "usd_leg_proxy_may_supply_cross_pair_directional_skew": false,
+    "two_leg_cross_iv_requires_timestamp_matched_implied_correlation_or_covariance": true,
+    "two_leg_proxy_must_never_be_labeled_direct_pair_surface": true,
+    "cvol_skew_is_not_25d_risk_reversal": true,
+    "constant_vol_expected_move_is_not_event_implied_move": true,
+    "event_implied_move_requires_event_specific_expiry_or_vendor_event_straddle": true,
+    "options_may_inform_magnitude_asymmetry_and_timing_but_not_self_certify_direction": true,
+    "missing_metrics_are_null_never_zero_filled": true
+  },
+  "guards": {
+    "research_only": true,
+    "shadow_only": true,
+    "proof_eligible": false,
+    "confirmation_eligible": false,
+    "promotion_eligible": false,
+    "authorization_eligible": false,
+    "execution_eligible": false,
+    "can_place_orders": false,
+    "supported_execution_decision": "no_trade"
+  }
+}

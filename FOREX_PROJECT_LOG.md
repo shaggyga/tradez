@@ -8,6 +8,45 @@ work belongs in `FOREX_PENDING_IMPROVEMENTS.md`. Source availability belongs in
 Historical states before this log was introduced remain preserved in the
 timestamped model-vault checkpoints and the existing specialist reports.
 
+## 2026-08-29 11:55 America/New_York — Source-priority integration and verifier cleared
+
+- Completed the one-time hash-aware edge rebuild across all 15,746,198
+  canonical forecasts. Exact report hashes are published and the independent
+  verifier is back to `match`, including the semantic/output-integrity check.
+  There are still zero confirmed candidates, so authorization remains false.
+- Integrated three separate fail-closed source upgrades: response-complete
+  pre-release consensus capture, append-only event-time rates replay, and
+  pair-oriented FX-options semantics. None has a newly connected provider or
+  an execution path; each preserves missing information as unavailable.
+- The priority order remains causal consensus and policy repricing first,
+  direct pair/tenor options second for magnitude and skew, followed by the
+  first untouched official event under the raw all-68 executable quote clock.
+  Practice 007 and real-money boundaries were not changed.
+
+## 2026-08-29 11:44 America/New_York — Pair-options source semantics frozen fail-closed
+
+- Added a prospective point-in-time FX pair-options schema and validator for
+  all 68 OANDA pairs. It records source, publication, first-seen, retrieval,
+  effective and decision clocks; pair orientation; tenor/expiry; delta and
+  volatility conventions; ATM IV, 25-delta risk reversal/butterfly, CME CVOL,
+  up/down variance, skew, convexity and genuinely sourced event-implied move.
+- The official CME reference maps seven listed CVOL underlyings to OANDA: three
+  identity pairs and four inverse pairs. Inversion swaps up/down variance and
+  flips directional skew/RR signs. Other eligible G10 crosses are explicitly
+  `two_leg_proxy`, never direct surfaces; reconstructing their IV requires
+  timestamp-matched implied correlation or covariance.
+- CME's 30-day whole-surface skew is not relabeled as a 25-delta RR, and the
+  square-root-of-time ATM proxy is not relabeled as an event-implied move.
+  Missing values remain null rather than zero. IV level is magnitude/uncertainty,
+  not self-certifying trade direction.
+- This implementation is validator-only: it does not contain an immutable
+  collector, append-only options ledger, collection worker, or collection-
+  readiness claim. No permitted source is connected, public view-only tools
+  are not scraped, both source adapters start disabled, the state contains zero
+  observations, and all proof/promotion/authorization/execution flags remain
+  false with `no_trade` the only supported decision. Focused source and queue
+  reconciliation validation passed 18 tests.
+
 ## 2026-08-29 09:47 America/New_York — Rank-V5 no-trade baseline made explicit
 
 - Opened a new prospective rank-V5 material contract whose fourth comparison
@@ -3137,3 +3176,59 @@ Validation and safety:
 - C-drive capacity remained safe at roughly 122.4 GiB free. The final vault sync
   includes the current canonical records and Shared Brain metadata; its external
   `CHECKPOINT_LATEST.json` is the authoritative content/archive hash pointer.
+
+## 2026-08-29 11:47 America/New_York — Causal consensus V2 boundary
+
+- Corrected the prospective consensus clock from request start to full-response
+  completion. A response completed at or after release is now rejected even if
+  its request began before release.
+- Opened the material V2 source/cohort contract. Causal use now requires a
+  trusted clock, exact release timestamp, actual absent at capture, verified
+  source, provider event/version provenance, and an immutable payload hash.
+  The downstream surprise ledger independently recomputes every gate.
+- Refreshed the access audit without storing credentials: Trading Economics is
+  missing a credential; the configured Finnhub key returns HTTP 403 because the
+  Economic Calendar is premium; Alpha Vantage and FRED/ALFRED are not consensus
+  sources. No permitted free provider or V2 causal row currently exists.
+- Focused consensus/access/surprise verification passed 19 tests plus compile.
+  Research remains shadow-only, execution-ineligible, and `no_trade`.
+- Acceptance hardening then bound the producer and importer to the exact
+  `2026-08-29T16:05:00Z` deployment activation and current source, cohort,
+  response-capture, and observation-clock identities. Provider Calendar ID and
+  LastUpdate are mandatory; request start cannot follow response/capture;
+  source update cannot follow capture; SHA-256 must be lowercase hexadecimal.
+  The surprise importer now verifies the archived response bytes and matching
+  raw event fields before accepting a projection. Final focused verification:
+  26 tests passed plus compile; current causal V2 rows remain zero.
+
+## 2026-08-29 11:47 America/New_York — Rates/RBNZ causal readiness contract
+
+- Preserved the hash-pinned V1 disconnected placeholder byte-for-byte and added
+  material contract `rates_policy_repricing_shadow_v2_20260829` alongside it.
+  The new shadow collector writes
+  append-only SQLite observations with exact source, retrieval, and collector
+  clocks; configured HMAC clock attestation; verified content-addressed raw
+  archives sourced only from an explicit per-source intake root with
+  traversal/outside/symlink rejection; immutable revisions; source-cohort
+  identity; duplicate protection;
+  and cutoff-causal replay with exact 15/60-minute alignment. Replay,
+  readiness, and report counts are restricted to exact configured cohort,
+  source-contract, source, and instrument IDs. Missing windows remain
+  unavailable rather than being zero-filled.
+- The default contract intentionally has zero connected causal intraday
+  sources. It cannot place orders, promote evidence, or infer direction, and
+  its supported execution decision is `no_trade`. Fifteen focused contract,
+  knowledge-time, independently attested-clock, raw-archive, active-contract,
+  future-import, duplicate, append-only, and fail-closed tests passed plus
+  compilation.
+- Audited the official RBNZ path against its current publication guidance. OCR
+  decisions are released at 2pm NZT through the website, social media,
+  Bloomberg/Refinitiv, and a free official email subscription. The bounded
+  collector still receives HTTP 403 from the direct policy/B2 page family, so
+  it did not bypass publisher controls. The free email path is registered but
+  remains disconnected pending user subscription and a permitted authenticated
+  mailbox connector carrying actual receipt and first-seen clocks.
+- Registered RBNZ B2 accurately as one-business-day-lag daily H4/H24 context.
+  It contains useful OCR, bill, bond, and swap information but is not intraday
+  event-window repricing and is not credited as causal confirmation. A
+  permitted timestamp-safe OIS/swap/policy-futures source remains external.

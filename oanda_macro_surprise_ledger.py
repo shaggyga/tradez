@@ -14,6 +14,7 @@ import hashlib
 import json
 import math
 import os
+import re
 import sqlite3
 import statistics
 import time
@@ -22,6 +23,7 @@ from pathlib import Path
 from typing import Any, Mapping
 
 from oanda_worker_heartbeat import WorkerHeartbeat
+import oanda_macro_consensus_prospective as prospective_consensus
 
 
 UTC = timezone.utc
@@ -29,7 +31,16 @@ ROOT = Path(__file__).resolve().parent
 NEWS_DB = ROOT / "data" / "oanda_training_manager" / "local_news_sentiment" / "local_news_sentiment_v1.sqlite"
 STATE = ROOT / "data" / "oanda_training_manager" / "state"
 INGEST_CONTRACT_ID = "macro_surprise_causal_readiness_v3_20260824"
+CONSENSUS_IMPORT_CONTRACT_ID = "macro_consensus_import_v2_response_complete_20260829"
 HEARTBEAT = STATE / "macro_surprise_heartbeat_v1.json"
+CONSENSUS_ARCHIVE = (
+    ROOT
+    / "data"
+    / "oanda_training_manager"
+    / "source_archives"
+    / "macro_consensus_prospective_v1"
+)
+LOWER_SHA256 = re.compile(r"^[0-9a-f]{64}$")
 
 
 def utc_iso() -> str:
@@ -190,12 +201,154 @@ def open_ledger(path: Path) -> sqlite3.Connection:
     return connection
 
 
-def ingest_consensus_jsonl(path: Path | None, ledger: sqlite3.Connection) -> dict[str, int]:
+def current_consensus_contract() -> dict[str, Any]:
+    config = prospective_consensus.read_json(prospective_consensus.CONFIG)
+    contract = prospective_consensus.cohort_contract(config)
+    return {
+        "source_contract_id": contract["source_contract_id"],
+        "cohort_id": contract["cohort_id"],
+        "cohort_start_utc": contract["cohort_start_utc"],
+        "capture_contract_id": contract["capture_contract_id"],
+        "observation_clock_contract_id": contract[
+            "observation_clock_contract_id"
+        ],
+        "provider": contract["provider"],
+    }
+
+
+def archived_snapshot_matches(
+    payload: Mapping[str, Any], archive_path: Path | None
+) -> bool:
+    snapshot_sha = str(payload.get("provider_snapshot_sha256") or "")
+    if archive_path is None or LOWER_SHA256.fullmatch(snapshot_sha) is None:
+        return False
+    raw_path = archive_path / f"{snapshot_sha}.json"
+    try:
+        raw = raw_path.read_bytes()
+    except OSError:
+        return False
+    if hashlib.sha256(raw).hexdigest() != snapshot_sha:
+        return False
+    try:
+        rows = json.loads(raw.decode("utf-8-sig"))
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        return False
+    if not isinstance(rows, list):
+        return False
+    expected_event = str(payload.get("provider_event_id") or "")
+    expected_series = str(payload.get("event_series_id") or "")
+    expected_schedule = parse_time(payload.get("scheduled_utc"))
+    expected_update = parse_time(payload.get("source_timestamp_utc"))
+    expected_value = finite_or_none(payload.get("consensus_value"))
+    for row in rows:
+        if not isinstance(row, Mapping):
+            continue
+        event_id = str(row.get("CalendarId") or row.get("CalendarID") or "").strip()
+        if event_id != expected_event:
+            continue
+        if prospective_consensus.event_series_id(row) != expected_series:
+            continue
+        if parse_time(row.get("Date")) != expected_schedule:
+            continue
+        if parse_time(row.get("LastUpdate")) != expected_update:
+            continue
+        if finite_or_none(row.get("ForecastValue")) != expected_value:
+            continue
+        if str(row.get("DateSpan") if row.get("DateSpan") is not None else "") not in {
+            "0", "0.0"
+        }:
+            continue
+        if (
+            finite_or_none(row.get("ActualValue")) is not None
+            or prospective_consensus.populated(row.get("Actual"))
+        ):
+            continue
+        return True
+    return False
+
+
+def validate_consensus_projection_row(
+    payload: Mapping[str, Any],
+    *,
+    expected_contract: Mapping[str, Any],
+    archive_path: Path | None,
+) -> str:
+    series = str(payload.get("event_series_id") or "")
+    scheduled = parse_time(payload.get("scheduled_utc"))
+    captured = parse_time(payload.get("captured_utc"))
+    source_time = parse_time(payload.get("source_timestamp_utc"))
+    request_started = parse_time(payload.get("request_started_utc"))
+    response_completed = parse_time(payload.get("response_completed_utc"))
+    activation = parse_time(expected_contract.get("cohort_start_utc"))
+    value = finite_or_none(payload.get("consensus_value"))
+    if (
+        not series
+        or value is None
+        or scheduled is None
+        or captured is None
+        or source_time is None
+        or request_started is None
+        or response_completed is None
+        or activation is None
+    ):
+        return "missing_identity_value_or_timestamp"
+    exact_bindings = {
+        "source_contract_id": expected_contract.get("source_contract_id"),
+        "cohort_id": expected_contract.get("cohort_id"),
+        "capture_contract_id": expected_contract.get("capture_contract_id"),
+        "capture_clock_contract_id": expected_contract.get(
+            "observation_clock_contract_id"
+        ),
+    }
+    if any(str(payload.get(key) or "") != str(value or "") for key, value in exact_bindings.items()):
+        return "frozen_consensus_contract_mismatch"
+    if not str(payload.get("observation_id") or ""):
+        return "missing_observation_id"
+    if not str(payload.get("provider_event_id") or ""):
+        return "missing_provider_calendar_id"
+    if str(payload.get("provider_event_version") or "") != str(
+        payload.get("source_timestamp_utc") or ""
+    ):
+        return "provider_event_version_mismatch"
+    snapshot_sha = str(payload.get("provider_snapshot_sha256") or "")
+    if LOWER_SHA256.fullmatch(snapshot_sha) is None:
+        return "invalid_provider_snapshot_sha256"
+    if captured < activation:
+        return "captured_before_cohort_activation"
+    if response_completed != captured:
+        return "response_completion_not_capture_boundary"
+    if request_started > response_completed:
+        return "request_started_after_response_completed"
+    if payload.get("capture_clock_trusted") is not True:
+        return "capture_clock_untrusted"
+    if str(payload.get("release_time_precision") or "") != "exact":
+        return "release_time_not_exact"
+    if payload.get("actual_present_at_capture") is not False:
+        return "actual_present_or_state_unknown_at_capture"
+    if captured >= scheduled:
+        return "captured_at_or_after_release"
+    if source_time > captured:
+        return "source_timestamp_after_capture"
+    if not bool(payload.get("source_verified")):
+        return "source_not_verified"
+    if not archived_snapshot_matches(payload, archive_path):
+        return "provider_snapshot_archive_missing_or_mismatch"
+    return ""
+
+
+def ingest_consensus_jsonl(
+    path: Path | None,
+    ledger: sqlite3.Connection,
+    *,
+    archive_path: Path | None = CONSENSUS_ARCHIVE,
+    expected_contract: Mapping[str, Any] | None = None,
+) -> dict[str, int]:
     """Import timestamped expectations without allowing post-release leakage."""
 
     counts = {"inspected": 0, "inserted": 0, "causal_valid": 0, "rejected": 0}
     if path is None or not path.is_file():
         return counts
+    contract = dict(expected_contract or current_consensus_contract())
     for line in path.read_text(encoding="utf-8").splitlines():
         if not line.strip():
             continue
@@ -213,18 +366,12 @@ def ingest_consensus_jsonl(path: Path | None, ledger: sqlite3.Connection) -> dic
         captured = str(payload.get("captured_utc") or "")
         source_time = str(payload.get("source_timestamp_utc") or captured)
         value = finite_or_none(payload.get("consensus_value"))
-        scheduled_dt, captured_dt, source_dt = (
-            parse_time(scheduled), parse_time(captured), parse_time(source_time)
+        rejection = validate_consensus_projection_row(
+            payload, expected_contract=contract, archive_path=archive_path
         )
-        rejection = ""
-        if not series or value is None or scheduled_dt is None or captured_dt is None or source_dt is None:
-            rejection = "missing_identity_value_or_timestamp"
-        elif captured_dt >= scheduled_dt:
-            rejection = "captured_at_or_after_release"
-        elif source_dt > captured_dt:
-            rejection = "source_timestamp_after_capture"
-        elif not bool(payload.get("source_verified")):
-            rejection = "source_not_verified"
+        if value is None:
+            counts["rejected"] += 1
+            continue
         causal = not rejection
         key = str(payload.get("release_key") or release_key("", payload))
         material = {
@@ -232,6 +379,8 @@ def ingest_consensus_jsonl(path: Path | None, ledger: sqlite3.Connection) -> dic
             "event_series_id": series,
             "scheduled_utc": scheduled,
             "captured_utc": captured,
+            "request_started_utc": str(payload.get("request_started_utc") or ""),
+            "response_completed_utc": str(payload.get("response_completed_utc") or ""),
             "source_timestamp_utc": source_time,
             "consensus_text": str(payload.get("consensus") or payload.get("consensus_text") or ""),
             "consensus_value": value,
@@ -239,6 +388,24 @@ def ingest_consensus_jsonl(path: Path | None, ledger: sqlite3.Connection) -> dic
             "source_name": str(payload.get("source_name") or ""),
             "source_url": str(payload.get("source_url") or ""),
             "source_verified": bool(payload.get("source_verified")),
+            "source_contract_id": str(payload.get("source_contract_id") or ""),
+            "cohort_id": str(payload.get("cohort_id") or ""),
+            "provider_event_id": str(payload.get("provider_event_id") or ""),
+            "provider_snapshot_sha256": str(
+                payload.get("provider_snapshot_sha256") or ""
+            ),
+            "capture_contract_id": str(payload.get("capture_contract_id") or ""),
+            "capture_clock_contract_id": str(
+                payload.get("capture_clock_contract_id") or ""
+            ),
+            "capture_clock_trusted": payload.get("capture_clock_trusted") is True,
+            "release_time_precision": str(
+                payload.get("release_time_precision") or ""
+            ),
+            "actual_present_at_capture": payload.get(
+                "actual_present_at_capture"
+            ),
+            "consensus_import_contract_id": CONSENSUS_IMPORT_CONTRACT_ID,
             "causal_valid": causal,
             "rejection_reason": rejection,
         }
@@ -265,18 +432,43 @@ def ingest_consensus_jsonl(path: Path | None, ledger: sqlite3.Connection) -> dic
 
 
 def consensus_for_release(
-    ledger: sqlite3.Connection, *, series_id: str, scheduled_utc: str, release_key_value: str
+    ledger: sqlite3.Connection,
+    *,
+    series_id: str,
+    scheduled_utc: str,
+    release_key_value: str,
+    expected_contract: Mapping[str, Any] | None = None,
 ) -> tuple[float | None, str, bool]:
-    row = ledger.execute(
+    contract = dict(expected_contract or current_consensus_contract())
+    rows = ledger.execute(
         """
-        SELECT consensus_value,consensus_text,source_verified
+        SELECT consensus_value,consensus_text,source_verified,payload_json
         FROM macro_consensus_observations
         WHERE causal_valid=1 AND (release_key=? OR (event_series_id=? AND scheduled_utc=?))
-        ORDER BY captured_utc DESC LIMIT 1
+        ORDER BY captured_utc DESC
         """,
         (release_key_value, series_id, scheduled_utc),
-    ).fetchone()
-    return (None, "", False) if row is None else (float(row[0]), str(row[1]), bool(row[2]))
+    ).fetchall()
+    expected = {
+        "source_contract_id": str(contract.get("source_contract_id") or ""),
+        "cohort_id": str(contract.get("cohort_id") or ""),
+        "capture_contract_id": str(contract.get("capture_contract_id") or ""),
+        "capture_clock_contract_id": str(
+            contract.get("observation_clock_contract_id") or ""
+        ),
+        "consensus_import_contract_id": CONSENSUS_IMPORT_CONTRACT_ID,
+    }
+    for value, text, verified, raw_json in rows:
+        try:
+            material = json.loads(str(raw_json))
+        except (TypeError, json.JSONDecodeError):
+            continue
+        if not isinstance(material, Mapping):
+            continue
+        if any(str(material.get(key) or "") != required for key, required in expected.items()):
+            continue
+        return float(value), str(text), bool(verified)
+    return None, "", False
 
 
 def ingest_reaction_samples(
@@ -491,6 +683,8 @@ def ingest(
     ledger_database: Path,
     *,
     consensus_jsonl: Path | None = None,
+    consensus_archive: Path | None = CONSENSUS_ARCHIVE,
+    expected_consensus_contract: Mapping[str, Any] | None = None,
     quote_snapshot: Path | None = None,
     heartbeat: WorkerHeartbeat | None = None,
 ) -> dict[str, Any]:
@@ -501,7 +695,12 @@ def ingest(
     )
     source.execute("PRAGMA query_only=ON")
     ledger = open_ledger(ledger_database)
-    consensus_import = ingest_consensus_jsonl(consensus_jsonl, ledger)
+    consensus_import = ingest_consensus_jsonl(
+        consensus_jsonl,
+        ledger,
+        archive_path=consensus_archive,
+        expected_contract=expected_consensus_contract,
+    )
     if heartbeat is not None:
         heartbeat.update(phase="querying_structured_candidates")
     inspected = int(source.execute("SELECT COUNT(*) FROM articles").fetchone()[0])
@@ -575,6 +774,7 @@ def ingest(
             series_id=series_id,
             scheduled_utc=str(payload.get("scheduled_utc") or ""),
             release_key_value=key,
+            expected_contract=expected_consensus_contract,
         )
         if imported_consensus is not None:
             consensus = imported_consensus
@@ -738,6 +938,7 @@ def main() -> int:
     parser.add_argument("--state", type=Path, default=STATE / "macro_surprise_v1.json")
     parser.add_argument("--heartbeat", type=Path, default=HEARTBEAT)
     parser.add_argument("--consensus-jsonl", type=Path)
+    parser.add_argument("--consensus-archive", type=Path, default=CONSENSUS_ARCHIVE)
     parser.add_argument(
         "--quote-snapshot", type=Path, default=STATE / "practice_007_market_quotes_v1.json"
     )
@@ -758,6 +959,7 @@ def main() -> int:
                 args.news_database,
                 args.ledger_database,
                 consensus_jsonl=args.consensus_jsonl,
+                consensus_archive=args.consensus_archive,
                 quote_snapshot=args.quote_snapshot,
                 heartbeat=heartbeat,
             )

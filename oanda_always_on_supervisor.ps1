@@ -1009,6 +1009,7 @@ while ($true) {
                 "--state", (Join-Path $State "macro_surprise_v1.json"),
                 "--heartbeat", (Join-Path $State "macro_surprise_heartbeat_v1.json"),
                 "--consensus-jsonl", (Join-Path $State "macro_consensus_import_v1.jsonl"),
+                "--consensus-archive", (Join-Path $DataRoot "source_archives\macro_consensus_prospective_v1"),
                 "--quote-snapshot", (Join-Path $State "practice_007_market_quotes_v1.json"),
                 "--interval-sec", "60",
                 "--duration-sec", "$ChildDurationSec"

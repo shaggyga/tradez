@@ -1,13 +1,90 @@
+import hashlib
 import json
 import sqlite3
 import tempfile
 import unittest
 from pathlib import Path
 
-from trad.oanda_macro_surprise_ledger import INGEST_CONTRACT_ID, ingest, release_key
+from trad.oanda_macro_surprise_ledger import (
+    CONSENSUS_IMPORT_CONTRACT_ID,
+    INGEST_CONTRACT_ID,
+    consensus_for_release,
+    ingest,
+    open_ledger,
+    release_key,
+)
 
 
 class MacroSurpriseLedgerTests(unittest.TestCase):
+    def test_release_lookup_excludes_causal_rows_from_superseded_consensus_cohort(self):
+        with tempfile.TemporaryDirectory() as directory:
+            ledger = open_ledger(Path(directory) / "macro.sqlite")
+            expected = {
+                "source_contract_id": "current-source",
+                "cohort_id": "current-cohort",
+                "capture_contract_id": "current-capture",
+                "observation_clock_contract_id": "current-clock",
+            }
+            bindings = {
+                "source_contract_id": expected["source_contract_id"],
+                "cohort_id": expected["cohort_id"],
+                "capture_contract_id": expected["capture_contract_id"],
+                "capture_clock_contract_id": expected[
+                    "observation_clock_contract_id"
+                ],
+                "consensus_import_contract_id": CONSENSUS_IMPORT_CONTRACT_ID,
+            }
+            scheduled = "2026-09-01T13:30:00+00:00"
+            rows = (
+                (
+                    "current",
+                    "2026-09-01T13:00:00+00:00",
+                    2.8,
+                    bindings,
+                ),
+                (
+                    "superseded",
+                    "2026-09-01T13:10:00+00:00",
+                    9.9,
+                    {**bindings, "cohort_id": "superseded-cohort"},
+                ),
+            )
+            for observation_id, captured, value, material in rows:
+                encoded = json.dumps(material, sort_keys=True)
+                ledger.execute(
+                    "INSERT INTO macro_consensus_observations VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                    (
+                        observation_id,
+                        "release-key",
+                        "US_CPI",
+                        scheduled,
+                        captured,
+                        captured,
+                        str(value),
+                        value,
+                        "provider",
+                        "Provider",
+                        "https://example.invalid",
+                        1,
+                        1,
+                        "",
+                        hashlib.sha256(encoded.encode()).hexdigest(),
+                        encoded,
+                    ),
+                )
+            ledger.commit()
+            value, text, verified = consensus_for_release(
+                ledger,
+                series_id="US_CPI",
+                scheduled_utc=scheduled,
+                release_key_value="release-key",
+                expected_contract=expected,
+            )
+            self.assertEqual(value, 2.8)
+            self.assertEqual(text, "2.8")
+            self.assertTrue(verified)
+            ledger.close()
+
     def test_prefilter_preserves_structured_rows_without_loading_unrelated_payloads(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -132,23 +209,89 @@ class MacroSurpriseLedgerTests(unittest.TestCase):
             connection.commit()
             connection.close()
             consensus = root / "consensus.jsonl"
+            archive = root / "archive"
+            archive.mkdir()
+            expected_contract = {
+                "source_contract_id": "test-contract-v2",
+                "cohort_id": "test-cohort",
+                "cohort_start_utc": "2026-01-01T00:00:00+00:00",
+                "capture_contract_id": "test-capture-v2",
+                "observation_clock_contract_id": "test-clock-v1",
+                "provider": "Test Provider",
+            }
+            pre_raw = json.dumps(
+                [
+                    {
+                        "CalendarId": "US-CPI-20260102",
+                        "Date": payload["scheduled_utc"],
+                        "LastUpdate": "2026-01-02T12:59:00+00:00",
+                        "Symbol": "US_CPI",
+                        "ForecastValue": 2.8,
+                        "DateSpan": 0,
+                    }
+                ]
+            ).encode()
+            post_raw = json.dumps(
+                [
+                    {
+                        "CalendarId": "US-CPI-20260102",
+                        "Date": payload["scheduled_utc"],
+                        "LastUpdate": "2026-01-02T13:31:00+00:00",
+                        "Symbol": "US_CPI",
+                        "ForecastValue": 9.9,
+                        "ActualValue": 3.0,
+                        "DateSpan": 0,
+                    }
+                ]
+            ).encode()
+            pre_sha = hashlib.sha256(pre_raw).hexdigest()
+            post_sha = hashlib.sha256(post_raw).hexdigest()
+            (archive / f"{pre_sha}.json").write_bytes(pre_raw)
+            (archive / f"{post_sha}.json").write_bytes(post_raw)
             consensus.write_text(
                 "\n".join(
                     json.dumps(row)
                     for row in (
                         {
+                            "observation_id": "consensus-pre",
+                            "cohort_id": "test-cohort",
+                            "source_contract_id": "test-contract-v2",
+                            "capture_contract_id": "test-capture-v2",
+                            "provider_event_id": "US-CPI-20260102",
+                            "provider_snapshot_sha256": pre_sha,
                             "event_series_id": "US_CPI",
                             "scheduled_utc": payload["scheduled_utc"],
                             "captured_utc": "2026-01-02T13:00:00+00:00",
+                            "request_started_utc": "2026-01-02T12:59:59+00:00",
+                            "response_completed_utc": "2026-01-02T13:00:00+00:00",
                             "source_timestamp_utc": "2026-01-02T12:59:00+00:00",
+                            "provider_event_version": "2026-01-02T12:59:00+00:00",
+                            "capture_clock_contract_id": "test-clock-v1",
+                            "capture_clock_trusted": True,
+                            "release_time_precision": "exact",
+                            "actual_present_at_capture": False,
                             "consensus_value": 2.8,
                             "source_verified": True,
                             "source_id": "verified-calendar",
                         },
                         {
+                            "observation_id": "consensus-post",
+                            "cohort_id": "test-cohort",
+                            "source_contract_id": "test-contract-v2",
+                            "capture_contract_id": "test-capture-v2",
+                            "provider_event_id": "US-CPI-20260102",
+                            "provider_snapshot_sha256": post_sha,
                             "event_series_id": "US_CPI",
                             "scheduled_utc": payload["scheduled_utc"],
                             "captured_utc": "2026-01-02T13:31:00+00:00",
+                            "request_started_utc": "2026-01-02T13:30:59+00:00",
+                            "response_completed_utc": "2026-01-02T13:31:00+00:00",
+                            "source_timestamp_utc": "2026-01-02T13:31:00+00:00",
+                            "provider_event_version": "2026-01-02T13:31:00+00:00",
+                            "capture_clock_contract_id": "test-clock-v1",
+                            "capture_clock_trusted": True,
+                            "release_time_precision": "exact",
+                            "actual_present_at_capture": True,
                             "consensus_value": 9.9,
                             "source_verified": True,
                             "source_id": "late",
@@ -157,7 +300,13 @@ class MacroSurpriseLedgerTests(unittest.TestCase):
                 ),
                 encoding="utf-8",
             )
-            result = ingest(source, ledger, consensus_jsonl=consensus)
+            result = ingest(
+                source,
+                ledger,
+                consensus_jsonl=consensus,
+                consensus_archive=archive,
+                expected_consensus_contract=expected_contract,
+            )
             self.assertEqual(result["actual_and_consensus_count"], 1)
             self.assertEqual(result["causal_actual_and_consensus_count"], 1)
             self.assertEqual(result["noncausal_actual_and_consensus_count"], 0)
