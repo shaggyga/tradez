@@ -8,6 +8,23 @@ work belongs in `FOREX_PENDING_IMPROVEMENTS.md`. Source availability belongs in
 Historical states before this log was introduced remain preserved in the
 timestamped model-vault checkpoints and the existing specialist reports.
 
+## 2026-08-29 15:38 America/New_York — Safe-core supervision continuity restored
+
+- Found that the hidden supervisor had stopped without an orderly terminal log
+  at 13:38 ET while its children continued orphaned. This was a supervision
+  failure, not a worker or account failure.
+- A first hidden singleton restart exposed the prior `SafeCoreOnly` launch
+  contract by starting three intentionally excluded workers. Stopped only that
+  transient supervisor and its newly created depth, order/position-book, and
+  second-forecast-tracker process trees; no causal or outcome evidence was
+  deleted.
+- Restarted hidden with `SafeCoreOnly`. PID 25396 acquired the singleton,
+  adopted 61 existing workers with zero starts on the verified heartbeat, and
+  reports all three excluded workers stopped for `safe_core_only`.
+- Practice 007 refreshed successfully at NAV 41.6042 with zero open trades and
+  zero pending orders. The quote stream and policy-wired executor are streaming;
+  no execution or authorization gate changed.
+
 ## 2026-08-29 15:28 America/New_York — Counterfactual SIM gym independently verified
 
 - Added a research-only, append-only high-volume replay gym with exact completed

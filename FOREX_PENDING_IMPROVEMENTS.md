@@ -2,7 +2,17 @@
 
 Status: **Stable; SIM-gym pilot verified, controlled expansion remains**
 
-Updated: 2026-08-29 15:28 America/New_York
+Updated: 2026-08-29 15:38 America/New_York
+
+Continuity check at 15:38 ET: the prior supervisor had stopped silently at
+13:38 ET while its children remained orphaned. A hidden singleton restart first
+exposed that the prior launch contract was `SafeCoreOnly`; the three newly
+started excluded workers (depth, order/position book, and second-forecast
+tracker) were stopped, and that transient supervisor was replaced. Supervisor
+PID 25396 is now running hidden with `SafeCoreOnly`, adopted 61 existing workers
+with zero new starts on its verified heartbeat, and reports all three excluded
+workers stopped for `safe_core_only`. Practice 007 is freshly current, flat at
+NAV 41.6042, with zero open trades and zero pending orders. No gate changed.
 
 ## High-volume counterfactual SIM continuation — 29 August 15:28 ET
 
