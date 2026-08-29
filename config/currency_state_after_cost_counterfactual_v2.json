@@ -1,0 +1,105 @@
+{
+  "schema_version": 2,
+  "contract_id": "currency_state_after_cost_counterfactual_v2_20260817",
+  "counterfactual_cohort_id": "currency_state_after_cost_counterfactual_cohort_20260817b",
+  "supersedes_contract_id": "currency_state_after_cost_counterfactual_v1_20260817",
+  "supersedes_cohort_id": "currency_state_after_cost_counterfactual_cohort_20260817a",
+  "supersession_reason": "independent_review_hardening_quote_verifier_response_binding_and_practice_hold_state",
+  "required_frozen_manifest_id": "currency_state_after_cost_manifest_20260817b",
+  "snapshot_schema": "currency_state_after_cost_counterfactual_snapshot_v2",
+  "required_response_contract_id": "currency_state_response_timing_arms_v1_20260817",
+  "required_response_snapshot_schema": "currency_state_response_timing_arms_snapshot_v1",
+  "required_state_contract_id": "currency_state_engine_v2_20260816",
+  "required_basis_eligibility_contract_id": "official_fact_basis_eligibility_v1_20260817",
+  "expected_instrument_count": 68,
+  "expected_horizons_sec": [60, 300, 900, 1800, 3600],
+  "expected_instruments": [
+    "AUD_CAD", "AUD_CHF", "AUD_HKD", "AUD_JPY", "AUD_NZD", "AUD_SGD", "AUD_USD",
+    "CAD_CHF", "CAD_HKD", "CAD_JPY", "CAD_SGD", "CHF_HKD", "CHF_JPY", "CHF_ZAR",
+    "EUR_AUD", "EUR_CAD", "EUR_CHF", "EUR_CZK", "EUR_DKK", "EUR_GBP", "EUR_HKD",
+    "EUR_HUF", "EUR_JPY", "EUR_NOK", "EUR_NZD", "EUR_PLN", "EUR_SEK", "EUR_SGD",
+    "EUR_TRY", "EUR_USD", "EUR_ZAR", "GBP_AUD", "GBP_CAD", "GBP_CHF", "GBP_HKD",
+    "GBP_JPY", "GBP_NZD", "GBP_PLN", "GBP_SGD", "GBP_USD", "GBP_ZAR", "HKD_JPY",
+    "NZD_CAD", "NZD_CHF", "NZD_HKD", "NZD_JPY", "NZD_SGD", "NZD_USD", "SGD_CHF",
+    "SGD_JPY", "TRY_JPY", "USD_CAD", "USD_CHF", "USD_CNH", "USD_CZK", "USD_DKK",
+    "USD_HKD", "USD_HUF", "USD_JPY", "USD_MXN", "USD_NOK", "USD_PLN", "USD_SEK",
+    "USD_SGD", "USD_THB", "USD_TRY", "USD_ZAR", "ZAR_JPY"
+  ],
+  "instrument_universe_sha256": "b6abe559dcaa9faa0a1e48217f97a12dc9043eb9595d2b946bf80f93035be142",
+  "expected_arm_ids": [
+    "official_context_only", "observed_price_only", "technical_timing_verification",
+    "aligned", "direction_conflicted_aggressive_paper", "delayed_reconfirmed",
+    "magnitude_only", "no_trade"
+  ],
+  "forward_admissible_arm_ids": [
+    "official_context_only", "aligned", "direction_conflicted_aggressive_paper",
+    "delayed_reconfirmed"
+  ],
+  "never_forward_arm_ids": [
+    "observed_price_only", "technical_timing_verification", "magnitude_only", "no_trade"
+  ],
+  "required_manifest_artifacts": [
+    "counterfactual_module", "counterfactual_config", "counterfactual_cli",
+    "response_module", "response_config", "response_cli", "currency_state_module",
+    "currency_state_config", "currency_state_cli", "official_context_module",
+    "official_context_cli", "official_fact_adapter_module", "official_fact_adapter_cli",
+    "official_fact_adapter_contract_manifest", "signed_exposure_module",
+    "independent_verifier_producer"
+  ],
+  "quote_contract": {
+    "venue": "OANDA",
+    "environment": "practice",
+    "account_id": "101-001-37981792-007",
+    "maximum_quote_age_sec": 5.0,
+    "maximum_transport_lag_sec": 5.0,
+    "maximum_broker_quote_clock_delta_sec": 2.0,
+    "require_immutable_payload_sha256": true,
+    "entry_spread_cost_basis": "one_half_current_executable_full_spread"
+  },
+  "verifier_contract": {
+    "allowed_calibration_states": ["out_of_fold_locked", "prospective_locked"],
+    "minimum_effective_n": 50.0,
+    "required_hash_fields": [
+      "verifier_module_sha256", "calibration_dataset_sha256", "episode_dedup_sha256",
+      "factor_dedup_sha256", "outcome_ledger_sha256"
+    ],
+    "self_attestation_is_not_evidence": true
+  },
+  "economics_contract": {
+    "required_hash_fields": [
+      "model_contract_sha256", "model_cohort_sha256", "feature_contract_sha256",
+      "magnitude_model_sha256", "cost_model_contract_sha256"
+    ],
+    "required_cost_fields": [
+      "expected_exit_half_spread_bps", "entry_slippage_bps", "expected_exit_slippage_bps",
+      "entry_latency_bps", "expected_exit_latency_bps", "rotation_close_cost_bps"
+    ],
+    "required_cost_clock_fields": [
+      "expected_exit_spread_known_at_utc", "slippage_known_at_utc",
+      "latency_known_at_utc", "rotation_close_cost_known_at_utc"
+    ],
+    "minimum_direction_probability": 0.5,
+    "maximum_probability": 1.0
+  },
+  "selection": {
+    "minimum_after_cost_ev_bps": 0.5,
+    "minimum_cost_clear_probability": 0.55,
+    "maximum_disjoint_positions": 4,
+    "disallow_shared_currency": true,
+    "disallow_shared_signed_factor": true
+  },
+  "hold_switch": {
+    "required_account_id": "101-001-37981792-007",
+    "required_environment": "practice",
+    "minimum_incremental_switch_ev_bps": 0.5,
+    "require_immutable_account_position_trade_and_ledger_hashes": true,
+    "require_current_close_quote": true,
+    "require_capacity_and_conflict_state": true,
+    "require_all_close_enter_and_eventual_exit_costs": true
+  },
+  "research_only": true,
+  "execution_eligible": false,
+  "can_place_orders": false,
+  "supported_execution_decision": "no_trade",
+  "material_logic_cost_schema_or_manifest_change_requires_new_cohort": true
+}

@@ -1,0 +1,123 @@
+{
+  "manifest_schema_version": 1,
+  "manifest_id": "currency_state_response_timing_arms_v3_manifest_20260817_r1",
+  "contract_id": "currency_state_response_timing_arms_v3_20260817_r1",
+  "research_generation": "r3_bound_response_timing_v3_r1",
+  "parent_contract_id": "currency_state_response_timing_arms_v2_20260817_r1",
+  "parent_disposition": "independent_no_approve_preserved_exact_bytes_zero_runtime_zero_canonical_evidence",
+  "review_state": "pending_independent_review",
+  "candidate_frozen_utc": null,
+  "independent_review_started_utc": null,
+  "independent_review_completed_utc": null,
+  "runtime_started_utc": null,
+  "state": {
+    "enabled": false,
+    "registered": false,
+    "research_worker_enabled": false,
+    "collector_enabled": false,
+    "canonical_output_initialized": false
+  },
+  "dependency_disposition": {
+    "approved_official_fact_currency_state_v5_r3": true,
+    "approved_r3_transitive_artifacts_recursively_verified": true,
+    "canonical_21_currency_68_instrument_universe_exactly_bound": true,
+    "barred_event_response_v6_r1": true,
+    "approved_event_response_v6_r2_available": false,
+    "production_dependency_gate": "closed",
+    "blocking_reason": "event_response_v6_r2_final_approval_not_bound",
+    "resolution_requires_new_timing_contract_id": true
+  },
+  "artifacts": {
+    "runtime_core": {
+      "relative_path": "src/forex_system/research/currency_state_response_timing_arms_v3.py",
+      "sha256": "8a3d60b5455ca65439cfccc39c110ea2517e77a36066fd1b607456ffede362b6",
+      "byte_length": 50561
+    },
+    "contract": {
+      "relative_path": "config/currency_state_response_timing_arms_v3.json",
+      "sha256": "f649d6b610573714d0e5abdd7869d32b341e81ad7adf96c4714384de699f27c7",
+      "byte_length": 6377
+    },
+    "adversarial_tests": {
+      "relative_path": "test_currency_state_response_timing_arms_v3.py",
+      "sha256": "bef00c51fc2c8ebb7824ae23d01b7226c8cfbdf78341c72d1ecc1d4c5623cc39",
+      "byte_length": 19260
+    },
+    "parent_v2_module": {
+      "relative_path": "src/forex_system/research/currency_state_response_timing_arms_v2.py",
+      "sha256": "b7de98af65302218791085f84c2726c8c14de6ca4c83acdd52b157b4ab75ef84",
+      "byte_length": 41107
+    },
+    "parent_v2_contract": {
+      "relative_path": "config/currency_state_response_timing_arms_v2.json",
+      "sha256": "2885b19773565ce63dd706ced1c4e5eb9c5405c028664f60befc155b8f378618",
+      "byte_length": 5732
+    },
+    "parent_v2_manifest": {
+      "relative_path": "config/currency_state_response_timing_arms_v2_manifest.json",
+      "sha256": "ab03f54f358d3c69eed6e77767b61a9ed57fc4f4012bb9af6a96805adc1a9d54",
+      "byte_length": 4323
+    },
+    "parent_v2_tests": {
+      "relative_path": "test_currency_state_response_timing_arms_v2.py",
+      "sha256": "8f01e698850396072f1047b8fe82840fee20f380632e433823b6cd4e9e0de1fa",
+      "byte_length": 14272
+    },
+    "approved_r3_review_certificate": {
+      "relative_path": "config/official_fact_currency_state_v5_r3_review_certificate.json",
+      "sha256": "0a61948a9fc2f2a9a06d30557b838d7fb389958c9ef2b1845bc8b06e70c7b299",
+      "byte_length": 6003
+    },
+    "official_fact_v5_r3_manifest": {
+      "relative_path": "config/official_fact_adapter_v5_manifest.json",
+      "sha256": "3b4a6589253c8e6a6974840527760eda5b24ec87c109bb0e7c694d266b21b332",
+      "byte_length": 4685
+    },
+    "currency_state_context_v5_r3_manifest": {
+      "relative_path": "config/currency_state_official_context_v5_manifest.json",
+      "sha256": "45f74389add35b2c2435f9f0907819899f81e402ff06a37b91c94171ab632974",
+      "byte_length": 5652
+    },
+    "canonical_universe_contract": {
+      "relative_path": "config/currency_state_engine_v2.json",
+      "sha256": "20138fe4328ee88b47b8edce2b3bd6081191cda35dd4124a9a457ea9b2efa400",
+      "byte_length": 3272
+    },
+    "barred_event_response_v6_r1_contract": {
+      "relative_path": "config/prospective_event_response_v6_contract.json",
+      "sha256": "d5aae12a41bb4fd7638b7b9c40a97bb086f5f98f7916d13368589d164af7527c",
+      "byte_length": 4173
+    },
+    "barred_event_response_v6_r1_manifest": {
+      "relative_path": "config/prospective_event_response_v6_manifest.json",
+      "sha256": "0b2a315080520945d410bc8c2c403c75c4ad230c4998c31f8bd6c1f9499b9504",
+      "byte_length": 3417
+    }
+  },
+  "output_surface": {
+    "canonical_ledger_path": null,
+    "canonical_state_path": null,
+    "canonical_report_path": null,
+    "worker_entrypoint": null,
+    "collector_entrypoint": null,
+    "test_fixture_builder": "forex_system.research.currency_state_response_timing_arms_v3.build_test_diagnostic_snapshot"
+  },
+  "policy": {
+    "approved_r3_closure_is_recursively_verified": true,
+    "runtime_has_no_unpinned_project_imports": true,
+    "canonical_universe_is_exactly_bound": true,
+    "full_snapshot_response_arm_and_identity_reconstruction_required": true,
+    "rejected_or_pending_event_response_may_not_supply_rows": true,
+    "replay_and_prospective_capture_are_separate_diagnostic_partitions": true,
+    "prospective_proof_is_disabled": true,
+    "zero_proof_rows_required": true,
+    "observed_direction_is_post_outcome_only": true,
+    "material_dependency_resolution_requires_new_contract": true,
+    "research_only": true,
+    "execution_eligible": false,
+    "can_place_orders": false,
+    "can_promote": false,
+    "can_authorize": false,
+    "supported_execution_decision": "no_trade"
+  }
+}

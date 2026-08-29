@@ -1,0 +1,41 @@
+{
+  "schema_version": 3,
+  "adapter_contract_id": "official_fact_adapter_v3_20260817",
+  "parent_adapter_contract_id": "official_fact_adapter_v2_20260817",
+  "fact_basis_eligibility_contract_id": "official_fact_basis_eligibility_v3_20260817",
+  "immutable_event_clock_schema_version": "immutable_event_clock_ledger_v2",
+  "immutable_event_clock_contract_id": "immutable_point_in_time_event_clock_v2_20260817",
+  "clock_dependency_policy": "strict_clock_v2_only_canonical_clock_v1_retirement_pinned",
+  "historical_clock_v1_policy": {
+    "runtime_input_forbidden": true,
+    "caller_selected_retirement_fingerprint_forbidden": true,
+    "canonical_database_sha256": "d45a8fd09077cfb1c733003900d2e6ef6ae7180dffd6e09f66ab4b0412aff874",
+    "canonical_retirement_sha256": "4914b5f17accc1532891172254d2f39469eac98307e4d415e0a7e7d77f950c6d",
+    "read_only_quick_check_and_row_counts_required": true
+  },
+  "validation": {
+    "closed_recursive_schema": true,
+    "every_allowed_leaf_has_an_exact_type_rule": true,
+    "bool_is_type_bool_only": true,
+    "integer_rejects_bool": true,
+    "numeric_rejects_bool_nan_and_infinity": true,
+    "scalar_or_null_rejects_mapping_list_and_tuple": true,
+    "ready_provenance_requires_exact_observation_snapshot_timestamps_hashes_and_attestation": true,
+    "aggregate_and_per_currency_counts_reconcile_with_collections": true,
+    "snapshot_id_covers_every_field_except_snapshot_id": true
+  },
+  "state": {
+    "enabled": false,
+    "registered": false,
+    "independent_review_state": "pending",
+    "canonical_output_initialized": false
+  },
+  "material_change_requires_new_contract_id": true,
+  "research_only": true,
+  "execution_eligible": false,
+  "can_place_orders": false,
+  "can_promote": false,
+  "can_authorize": false,
+  "supported_execution_decision": "no_trade",
+  "dependency_manifest": "config/official_fact_adapter_v3_manifest.json"
+}

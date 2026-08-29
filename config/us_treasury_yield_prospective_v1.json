@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "contract_id": "us_treasury_yield_prospective_v1_20260808",
+  "cohort_start_utc": "2026-08-08T23:10:00Z",
+  "source_url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml",
+  "source_series": "daily_treasury_yield_curve",
+  "currency": "USD",
+  "tenors": ["2Y", "10Y", "2s10s"],
+  "direction_policy": "abstain",
+  "bootstrap_current_view_proof_eligible": false,
+  "historical_revisions_direction_eligible": false,
+  "new_yield_dates_prospectively_eligible": true,
+  "poll_interval_sec": 21600,
+  "research_only": true,
+  "execution_eligible": false
+}

@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "review_id": "czech_cpi_final_exact_v1_independent_review_20260817T100256Z",
+  "review_result_recorded_utc": "2026-08-17T10:02:56Z",
+  "verdict": "register_disabled_research_only_exact_bytes",
+  "review_scope": "disabled research archive registry only",
+  "reviewed_artifacts": {
+    "module": {
+      "relative_path": "src/forex_system/ingestion/czech_cpi_final_exact_v1.py",
+      "sha256": "072aa73ec05a53dbdda8cfe4639e43dc2f8c4b340939968f78449e3e6667fc00",
+      "byte_length": 33934
+    },
+    "contract": {
+      "relative_path": "config/czech_cpi_final_exact_v1.json",
+      "sha256": "82955c918736ec3142078e7c6fdb7f9aa4f4a783536a48870d43a89af324ec20",
+      "byte_length": 3377
+    },
+    "tests": {
+      "relative_path": "test_czech_cpi_final_exact_v1.py",
+      "sha256": "996a4709a510288a924ba4f06797695c46f47876c13d8734fc5debf11afd088e",
+      "byte_length": 9947
+    },
+    "observation_manifest": {
+      "relative_path": "data/oanda_training_manager/source_archives/czech_cpi_final_exact_v1/source_observation_manifest_20260817T094022Z.json",
+      "sha256": "1c569595f394c829bb84f1c1225ac31b5331b5c3692af4a809b2ddbe903de9e5",
+      "byte_length": 3697
+    },
+    "calendar_api_archive": {
+      "relative_path": "data/oanda_training_manager/source_archives/czech_cpi_final_exact_v1/czso_calendar_api_observed_20260817.json",
+      "sha256": "3cf984548be632f967c413ae7d5a42116767618051abeee00da37ab29823dbd7",
+      "byte_length": 1300
+    },
+    "publication_archive": {
+      "relative_path": "data/oanda_training_manager/source_archives/czech_cpi_final_exact_v1/czso_cpi_final_july_2026_observed_20260817.html",
+      "sha256": "4193065b668789457273e411b1d7df6b6a949eef7eb20ed575145273294575e8",
+      "byte_length": 172027
+    }
+  },
+  "validation": {
+    "focused_tests_passed": 23,
+    "adjacent_tests_passed": 46,
+    "subtests_passed": 30,
+    "byte_compile_passed": true,
+    "independent_parser_reproduction_passed": true,
+    "p0_findings": 0,
+    "p1_findings": 0,
+    "p2_findings": 0,
+    "blocking_p3_findings": 0,
+    "nonblocking_future_live_cohort_hardening": [
+      "explicitly refuse reparse points and junctions in every parent path component",
+      "close and type every top-level contract field independently of the whole-file hash"
+    ]
+  },
+  "registration": {
+    "enabled": false,
+    "registered_with_live_collector": false,
+    "runtime_supported": false,
+    "collector_wired": false,
+    "research_only": true,
+    "shadow_only": true,
+    "proof_eligible": false,
+    "promotion_eligible": false,
+    "authorization_eligible": false,
+    "execution_eligible": false,
+    "supported_execution_decision": "no_trade"
+  },
+  "evidence_boundary": {
+    "july_2026": "late-observed availability-counterfactual/archive-only",
+    "calendar_api_first_observed_date": "2026-08-17",
+    "publication_first_observed_date": "2026-08-17",
+    "scheduled_utc": "2026-08-11T07:00:00Z",
+    "facts": {
+      "cpi_mom_pct": 0.6,
+      "cpi_yoy_pct": 1.7,
+      "twelve_month_average_pct": 2.0
+    },
+    "causal_consensus_available": false,
+    "surprise_available": false,
+    "direction_available": false,
+    "factor_independence": "both priced CZK pairs remain one CZK currency factor"
+  },
+  "immutability": {
+    "any_reviewed_byte_change_requires_new_review": true,
+    "this_certificate_cannot_enable_register_or_execute_code": true,
+    "lifecycle_or_authorization_authority": false
+  }
+}

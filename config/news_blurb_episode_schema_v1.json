@@ -1,0 +1,124 @@
+{
+  "schema_version": "news_blurb_episode_v1",
+  "research_only": true,
+  "execution_eligible": false,
+  "purpose": "Represent price-defined FX episodes and their information environment without mixing ex-post attribution with decision-time prediction.",
+  "episode_identity": {
+    "required": [
+      "episode_id",
+      "instrument",
+      "base_currency",
+      "quote_currency",
+      "entry_time_utc",
+      "exit_time_utc",
+      "horizon_seconds",
+      "direction",
+      "data_snapshot_sha256",
+      "episode_builder_sha256"
+    ],
+    "episode_id_definition": "sha256(instrument|entry_time_utc|exit_time_utc|horizon_seconds|data_snapshot_sha256|episode_builder_sha256)"
+  },
+  "executable_price_path": {
+    "required": [
+      "entry_bid",
+      "entry_ask",
+      "exit_bid",
+      "exit_ask",
+      "pip_size",
+      "gross_signed_pips",
+      "spread_cost_pips",
+      "modeled_slippage_pips",
+      "net_signed_pips",
+      "mfe_pips",
+      "mae_pips",
+      "path_efficiency",
+      "maximum_quote_age_ms"
+    ],
+    "midpoint_only_allowed": false,
+    "missing_executable_price_action": "exclude_from_economic_proof"
+  },
+  "information_evidence": {
+    "required": [
+      "evidence_id",
+      "episode_id",
+      "source_id",
+      "source_class",
+      "publisher",
+      "canonical_url_hash",
+      "published_at_utc",
+      "first_seen_at_utc",
+      "retrieved_at_utc",
+      "valid_from_utc",
+      "raw_payload_hash",
+      "parser_version",
+      "story_cluster_id",
+      "event_id",
+      "currency_scope",
+      "available_at_entry",
+      "available_at_exit",
+      "attribution_type",
+      "lookahead_risk"
+    ],
+    "currency_scope_values": ["base", "quote", "global", "cross_asset"],
+    "attribution_type_values": ["decision_time", "ex_post", "later_revision", "retrieval_only"],
+    "lookahead_risk_values": ["none", "late_arrival", "post_entry", "post_exit", "revised_value", "unknown_timestamp"]
+  },
+  "structured_macro_event": {
+    "fields": [
+      "scheduled_release_time_utc",
+      "consensus_value",
+      "consensus_observed_at_utc",
+      "consensus_dispersion",
+      "initial_actual_value",
+      "prior_value_known_at_release",
+      "revised_prior_value",
+      "revision_published_at_utc",
+      "standardized_surprise",
+      "units",
+      "currency_interpretation",
+      "rate_market_repricing",
+      "source_provenance"
+    ],
+    "causal_rule": "Consensus is decision-time eligible only when consensus_observed_at_utc is strictly before scheduled_release_time_utc. Later revisions are separate evidence rows."
+  },
+  "views": {
+    "ex_post_attribution": {
+      "allows": ["decision_time", "ex_post", "later_revision", "retrieval_only"],
+      "use": "Explain and cluster historical movements; generate hypotheses and analog memory only.",
+      "promotion_eligible": false
+    },
+    "decision_time_prediction": {
+      "allows": ["decision_time"],
+      "predicate": "published_at_utc <= decision_cutoff_utc AND first_seen_at_utc <= decision_cutoff_utc AND valid_from_utc <= decision_cutoff_utc AND lookahead_risk = none",
+      "use": "Frozen prospective or point-in-time replay features.",
+      "promotion_eligible": "only after governed discovery, untouched confirmation, cost stress, and independent verification"
+    }
+  },
+  "deduplication": {
+    "article_id": "provider item identity",
+    "story_cluster_id": "syndicated or updated variants of one story",
+    "event_id": "one underlying economic or policy event",
+    "market_episode_id": "one factor-deduplicated price response",
+    "independent_evidence_unit": "market_episode_id x signed_currency_factor"
+  },
+  "governance": {
+    "material_changes_requiring_new_source_cohort": [
+      "provider",
+      "parser",
+      "entity mapping",
+      "currency mapping",
+      "scoring model",
+      "sampling frequency",
+      "deduplication",
+      "historical backfill method"
+    ],
+    "prohibited": [
+      "using exit_news_blurb as an entry feature",
+      "treating later-retrieved consensus as pre-release consensus",
+      "overwriting an earlier article version",
+      "counting syndicated copies as independent evidence",
+      "converting generated macro tags directly into executable rules",
+      "automatic promotion or broker routing"
+    ]
+  }
+}

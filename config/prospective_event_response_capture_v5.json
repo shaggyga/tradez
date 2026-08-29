@@ -1,0 +1,82 @@
+{
+  "schema_version": 5,
+  "contract_id": "prospective_event_response_capture_v5_20260817",
+  "cohort_id": "prospective_official_event_response_v5_20260817",
+  "research_generation": "prospective_official_event_response_capture_v5",
+  "parent_cohort_id": "prospective_official_event_response_v4_20260817",
+  "parent_disposition": "independent_no_register_zero_evidence",
+  "review_state": "blocked_external_dependencies",
+  "candidate_bytes_frozen_utc": null,
+  "independent_reviewed_utc": null,
+  "cohort_start_utc": null,
+  "enabled": false,
+  "registered": false,
+  "canonical_initialization_allowed": false,
+  "registration_blockers": [
+    "independent_v5_review_pending",
+    "official_fact_adapter_v3_independent_approval_pending",
+    "currency_state_official_context_v3_independent_approval_pending",
+    "final_byte_closure_and_external_freeze_pending"
+  ],
+  "research_only": true,
+  "execution_eligible": false,
+  "can_place_orders": false,
+  "promotion_eligible": false,
+  "authorization_eligible": false,
+  "supported_execution_decision": "no_trade",
+  "clock_contract_id": "immutable_point_in_time_event_clock_v2_20260817",
+  "clock_schema_version": "immutable_event_clock_ledger_v2",
+  "required_source_pipeline_version": "all_pair_news_event_tags_v3",
+  "policy_dependency_contract_id": "currency_policy_dependency_registry_v1_20260816",
+  "instrument_universe": [
+    "AUD_CAD", "AUD_CHF", "AUD_HKD", "AUD_JPY", "AUD_NZD", "AUD_SGD", "AUD_USD",
+    "CAD_CHF", "CAD_HKD", "CAD_JPY", "CAD_SGD", "CHF_HKD", "CHF_JPY", "CHF_ZAR",
+    "EUR_AUD", "EUR_CAD", "EUR_CHF", "EUR_CZK", "EUR_DKK", "EUR_GBP", "EUR_HKD",
+    "EUR_HUF", "EUR_JPY", "EUR_NOK", "EUR_NZD", "EUR_PLN", "EUR_SEK", "EUR_SGD",
+    "EUR_TRY", "EUR_USD", "EUR_ZAR", "GBP_AUD", "GBP_CAD", "GBP_CHF", "GBP_HKD",
+    "GBP_JPY", "GBP_NZD", "GBP_PLN", "GBP_SGD", "GBP_USD", "GBP_ZAR", "HKD_JPY",
+    "NZD_CAD", "NZD_CHF", "NZD_HKD", "NZD_JPY", "NZD_SGD", "NZD_USD", "SGD_CHF",
+    "SGD_JPY", "TRY_JPY", "USD_CAD", "USD_CHF", "USD_CNH", "USD_CZK", "USD_DKK",
+    "USD_HKD", "USD_HUF", "USD_JPY", "USD_MXN", "USD_NOK", "USD_PLN", "USD_SEK",
+    "USD_SGD", "USD_THB", "USD_TRY", "USD_ZAR", "ZAR_JPY"
+  ],
+  "instrument_universe_sha256": "b6abe559dcaa9faa0a1e48217f97a12dc9043eb9595d2b946bf80f93035be142",
+  "target_offsets_sec": [0, 30, 60, 120, 300, 600, 900, 1800, 3600, 7200, 14400],
+  "minimum_schedule_lead_sec": 60,
+  "maximum_planning_horizon_days": 370,
+  "host_clock_max_age_sec": 90,
+  "semantic_catalog_max_age_sec": 300,
+  "sampling": {
+    "maximum_target_lateness_sec": 45,
+    "maximum_quote_lead_sec": 2,
+    "maximum_quote_age_at_collection_sec": 15,
+    "maximum_snapshot_age_at_collection_sec": 15,
+    "maximum_market_attestation_age_sec": 90,
+    "maximum_future_clock_skew_sec": 2,
+    "maximum_spread_pips_sanity": 5000,
+    "first_valid_observation_wins": true
+  },
+  "postbaseline_semantic_refresh_required": false,
+  "dependency_slots": [
+    {
+      "name": "official_fact_adapter_v3",
+      "state": "pending_independent_approval",
+      "relative_path": null,
+      "sha256": null
+    },
+    {
+      "name": "currency_state_official_context_v3",
+      "state": "pending_independent_approval",
+      "relative_path": null,
+      "sha256": null
+    }
+  ],
+  "forbidden_capabilities": [
+    "broker_api",
+    "order_submission",
+    "position_management",
+    "promotion",
+    "authorization",
+    "canonical_ledger_initialization"
+  ]
+}

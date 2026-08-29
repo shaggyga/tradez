@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "execution_policy": "explicit_download_to_isolated_runtime_root_shadow_research_no_account_wiring",
+  "models": {
+    "chronos_2": {
+      "profile": "core_timeseries",
+      "repo_id": "amazon/chronos-2",
+      "revision": "main",
+      "destination": "%FOREX_MODEL_RUNTIME_ROOT%\\weights\\chronos_2"
+    },
+    "timesfm_2_5": {
+      "profile": "core_timeseries",
+      "repo_id": "google/timesfm-2.5-200m-pytorch",
+      "revision": "main",
+      "destination": "%FOREX_MODEL_RUNTIME_ROOT%\\weights\\timesfm_2_5"
+    },
+    "moirai": {
+      "profile": "foundation_moirai",
+      "repo_id": "Salesforce/moirai-1.1-R-small",
+      "revision": "main",
+      "destination": "%FOREX_MODEL_RUNTIME_ROOT%\\weights\\moirai"
+    },
+    "moirai_moe": {
+      "profile": "foundation_moirai",
+      "repo_id": "Salesforce/moirai-moe-1.0-R-small",
+      "revision": "main",
+      "destination": "%FOREX_MODEL_RUNTIME_ROOT%\\weights\\moirai_moe"
+    },
+    "tiny_time_mixer": {
+      "profile": "foundation_ttm",
+      "repo_id": "ibm-granite/granite-timeseries-ttm-r2",
+      "revision": "512-336-r2",
+      "destination": "%FOREX_MODEL_RUNTIME_ROOT%\\weights\\tiny_time_mixer"
+    },
+    "toto_2": {
+      "profile": "foundation_toto",
+      "repo_id": "Datadog/Toto-2.0-22m",
+      "revision": "main",
+      "destination": "%FOREX_MODEL_RUNTIME_ROOT%\\weights\\toto_2"
+    },
+    "lag_llama": {
+      "profile": "foundation_moirai",
+      "repo_id": "time-series-foundation-models/Lag-Llama",
+      "revision": "main",
+      "destination": "%FOREX_MODEL_RUNTIME_ROOT%\\weights\\lag_llama"
+    }
+  }
+}

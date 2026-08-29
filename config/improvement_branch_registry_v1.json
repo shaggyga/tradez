@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "controller_id": "forex_improvement_control_v1_20260808",
+  "execution_eligible": false,
+  "maximum_active_build_branches": 1,
+  "branches": [
+    {
+      "branch_id": "operational_integrity",
+      "engine_stage": "control_plane",
+      "objective": "Keep data, clocks, storage, workers, and authorization fail-closed.",
+      "kind": "safety",
+      "priority": 100,
+      "uniqueness": 1.0,
+      "unblock_leverage": 1.0,
+      "implementation_cost": 0.2,
+      "entry_gate": "project integrity degraded",
+      "success_gate": "project integrity ok",
+      "next_action": "repair the first material integrity failure"
+    },
+    {
+      "branch_id": "causal_macro_rates",
+      "engine_stage": "market_interpretation",
+      "objective": "Measure pre-release expectation, surprise, policy repricing, and priced-in state.",
+      "kind": "new_information",
+      "priority": 95,
+      "uniqueness": 0.95,
+      "unblock_leverage": 1.0,
+      "implementation_cost": 0.7,
+      "entry_gate": "causal consensus and timestamp-safe rates observations exist",
+      "success_gate": "incremental after-cost value survives governed confirmation",
+      "next_action": "connect and prospectively archive a licensed consensus feed and timestamp-safe rates/OIS source"
+    },
+    {
+      "branch_id": "magnitude_cost_targets",
+      "engine_stage": "prediction",
+      "objective": "Predict executable after-cost return, MFE/MAE, target-before-stop, timing, and hold-versus-rotate value.",
+      "kind": "internal_build",
+      "priority": 90,
+      "uniqueness": 0.75,
+      "unblock_leverage": 0.9,
+      "implementation_cost": 0.35,
+      "entry_gate": "immutable bid/ask outcomes and cost buckets available",
+      "success_gate": "frozen targets beat direction-only and no-trade baselines prospectively",
+      "next_action": "collect the frozen direct-source and executable-opportunity cohorts unchanged; withhold direction until an orthogonal causal source exists"
+    },
+    {
+      "branch_id": "positioning_crowding",
+      "engine_stage": "market_state",
+      "objective": "Add institutional and retail crowding, changes, divergence, and unwind state.",
+      "kind": "collection",
+      "priority": 80,
+      "uniqueness": 0.9,
+      "unblock_leverage": 0.65,
+      "implementation_cost": 0.45,
+      "entry_gate": "timestamp and collection-rights contracts valid",
+      "success_gate": "source adds incremental allocator value beyond price/news baselines",
+      "next_action": "continue CFTC collection and establish permitted prospective retail snapshots"
+    },
+    {
+      "branch_id": "event_response_archetypes",
+      "engine_stage": "market_interpretation",
+      "objective": "Separate continuation, reversal, already-priced, rates-conflicted, and anomalous reactions.",
+      "kind": "dependent_build",
+      "priority": 75,
+      "uniqueness": 0.7,
+      "unblock_leverage": 0.7,
+      "implementation_cost": 0.4,
+      "entry_gate": "causal macro/rates context or enough prospective news episodes",
+      "success_gate": "archetypes improve calibrated after-cost ranking out of sample",
+      "next_action": "collect the four news/technical arms without retuning"
+    },
+    {
+      "branch_id": "allocator_policy_proof",
+      "engine_stage": "decision",
+      "objective": "Prove ranking, abstention, conflict resolution, holding, and rotation as one policy.",
+      "kind": "frozen_collection",
+      "priority": 85,
+      "uniqueness": 0.8,
+      "unblock_leverage": 0.85,
+      "implementation_cost": 0.2,
+      "entry_gate": "frozen allocator cohort exists",
+      "success_gate": "adjusted discovery and untouched confirmation pass",
+      "next_action": "continue immutable evidence collection"
+    },
+    {
+      "branch_id": "major_move_gap_replay",
+      "engine_stage": "diagnosis",
+      "objective": "Use every retained major move to expose forecast-history, selection, direction, magnitude/cost, source, and timing gaps without hindsight promotion.",
+      "kind": "frozen_diagnostic_collection",
+      "priority": 88,
+      "uniqueness": 0.9,
+      "unblock_leverage": 0.9,
+      "implementation_cost": 0.25,
+      "entry_gate": "current factor-deduplicated census exists",
+      "success_gate": "all retained moves have explicit causal coverage state and prospective gaps create separately frozen hypotheses",
+      "next_action": "the 5953 unmatched cases are now frozen into 120 official-source research chunks covering all 21 currencies; research liquid/moderate cases with pair/episode diversity, create separately versioned verified attributions, and accumulate repeated exact measured-driver identities with negative controls and untouched confirmation"
+    },
+    {
+      "branch_id": "practice_canary_execution",
+      "engine_stage": "execution",
+      "objective": "Measure order latency, slippage, rejects, fills, and exit fidelity for a confirmed hypothesis.",
+      "kind": "execution_validation",
+      "priority": 70,
+      "uniqueness": 0.8,
+      "unblock_leverage": 0.7,
+      "implementation_cost": 0.25,
+      "entry_gate": "confirmed candidate plus exact unexpired Practice-007 authorization",
+      "success_gate": "practice execution agrees with shadow economics",
+      "next_action": "remain blocked until lifecycle confirmation"
+    }
+  ]
+}

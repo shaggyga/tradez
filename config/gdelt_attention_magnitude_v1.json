@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "research_only": true,
+  "execution_eligible": false,
+  "source_ids": ["gdelt_fx", "gdelt_fx_macro_discovery"],
+  "minimum_independent_stories_per_currency_hour": 3,
+  "horizons_sec": [3600, 14400],
+  "maximum_issue_lag_sec": 120,
+  "maximum_quote_age_sec": 120,
+  "maximum_maturity_lag_sec": 120,
+  "pair_map": {
+    "AUD": "AUD_USD",
+    "CAD": "USD_CAD",
+    "CHF": "USD_CHF",
+    "EUR": "EUR_USD",
+    "GBP": "GBP_USD",
+    "JPY": "USD_JPY",
+    "NZD": "NZD_USD"
+  },
+  "forecast_target": "absolute_move_and_best_direction_after_executable_cost",
+  "direction_policy": "abstain",
+  "selection_basis": "historical discovery only; untouched prospective collection required"
+}

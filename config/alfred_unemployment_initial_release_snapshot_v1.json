@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "source_contract_id": "alfred_unemployment_initial_release_snapshot_v1_20260816",
+  "cohort_prefix": "alfred_unemployment_initial_release_snapshot_v1",
+  "report_title": "ALFRED Unemployment Initial-Release Snapshot",
+  "observation_start": "2022-01-01",
+  "realtime_start": "2022-01-01",
+  "provider_realtime_timezone": "America/Chicago",
+  "provider_date_availability_policy": "next_provider_local_day_start",
+  "fred_output_type": 4,
+  "historical_backfill_only": true,
+  "proof_eligible": false,
+  "execution_eligible": false,
+  "series": [
+    {"series_id":"UNRATE","economic_family":"unemployment_rate","currency":"USD","frequency_class":"monthly","cross_currency_frequency_group":"monthly_unemployment_rate"},
+    {"series_id":"LRUNTTTTAUM156S","economic_family":"unemployment_rate","currency":"AUD","frequency_class":"monthly","cross_currency_frequency_group":"monthly_unemployment_rate"},
+    {"series_id":"LRUNTTTTCAM156S","economic_family":"unemployment_rate","currency":"CAD","frequency_class":"monthly","cross_currency_frequency_group":"monthly_unemployment_rate"},
+    {"series_id":"LRUNTTTTCHQ156S","economic_family":"unemployment_rate","currency":"CHF","frequency_class":"quarterly","cross_currency_frequency_group":"quarterly_unemployment_rate"},
+    {"series_id":"LRHUTTTTCZM156S","economic_family":"unemployment_rate","currency":"CZK","frequency_class":"monthly","cross_currency_frequency_group":"monthly_unemployment_rate"},
+    {"series_id":"LRHUTTTTDKM156S","economic_family":"unemployment_rate","currency":"DKK","frequency_class":"monthly","cross_currency_frequency_group":"monthly_unemployment_rate"},
+    {"series_id":"LRHUTTTTEZM156S","economic_family":"unemployment_rate","currency":"EUR","frequency_class":"monthly","cross_currency_frequency_group":"monthly_unemployment_rate"},
+    {"series_id":"LRHUTTTTGBM156S","economic_family":"unemployment_rate","currency":"GBP","frequency_class":"monthly","cross_currency_frequency_group":"monthly_unemployment_rate"},
+    {"series_id":"LRHUTTTTHUM156S","economic_family":"unemployment_rate","currency":"HUF","frequency_class":"monthly","cross_currency_frequency_group":"monthly_unemployment_rate"},
+    {"series_id":"LRUNTTTTJPM156S","economic_family":"unemployment_rate","currency":"JPY","frequency_class":"monthly","cross_currency_frequency_group":"monthly_unemployment_rate"},
+    {"series_id":"LRUNTTTTMXQ156S","economic_family":"unemployment_rate","currency":"MXN","frequency_class":"quarterly","cross_currency_frequency_group":"quarterly_unemployment_rate"},
+    {"series_id":"LRHUTTTTNOM156S","economic_family":"unemployment_rate","currency":"NOK","frequency_class":"monthly","cross_currency_frequency_group":"monthly_unemployment_rate"},
+    {"series_id":"LRUNTTTTNZQ156S","economic_family":"unemployment_rate","currency":"NZD","frequency_class":"quarterly","cross_currency_frequency_group":"quarterly_unemployment_rate"},
+    {"series_id":"LRHUTTTTPLM156S","economic_family":"unemployment_rate","currency":"PLN","frequency_class":"monthly","cross_currency_frequency_group":"monthly_unemployment_rate"},
+    {"series_id":"LRHUTTTTSEM156S","economic_family":"unemployment_rate","currency":"SEK","frequency_class":"monthly","cross_currency_frequency_group":"monthly_unemployment_rate"},
+    {"series_id":"LRHUTTTTTRM156S","economic_family":"unemployment_rate","currency":"TRY","frequency_class":"monthly","cross_currency_frequency_group":"monthly_unemployment_rate"},
+    {"series_id":"LRUNTTTTZAQ156S","economic_family":"unemployment_rate","currency":"ZAR","frequency_class":"quarterly","cross_currency_frequency_group":"quarterly_unemployment_rate"}
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "cohort_start_utc": "2026-08-16T19:55:00Z",
+  "source_contract_id": "alfred_short_rate_prospective_v1_oecd_monthly_20260816",
+  "api_key_environment": "FRED_API_KEY",
+  "provider_realtime_timezone": "America/Chicago",
+  "poll_interval_sec": 21600,
+  "series": [
+    {"series_id": "IRSTCI01AUM156N", "economic_family": "short_term_interest_rate", "currency": "AUD", "frequency_class": "monthly", "cross_currency_frequency_group": "monthly_short_term_interest_rate"},
+    {"series_id": "IRSTCI01CAM156N", "economic_family": "short_term_interest_rate", "currency": "CAD", "frequency_class": "monthly", "cross_currency_frequency_group": "monthly_short_term_interest_rate"},
+    {"series_id": "IRSTCI01CHM156N", "economic_family": "short_term_interest_rate", "currency": "CHF", "frequency_class": "monthly", "cross_currency_frequency_group": "monthly_short_term_interest_rate"},
+    {"series_id": "IRSTCI01CZM156N", "economic_family": "short_term_interest_rate", "currency": "CZK", "frequency_class": "monthly", "cross_currency_frequency_group": "monthly_short_term_interest_rate"},
+    {"series_id": "IRSTCI01DKM156N", "economic_family": "short_term_interest_rate", "currency": "DKK", "frequency_class": "monthly", "cross_currency_frequency_group": "monthly_short_term_interest_rate"},
+    {"series_id": "IRSTCI01EZM156N", "economic_family": "short_term_interest_rate", "currency": "EUR", "frequency_class": "monthly", "cross_currency_frequency_group": "monthly_short_term_interest_rate"},
+    {"series_id": "IRSTCI01GBM156N", "economic_family": "short_term_interest_rate", "currency": "GBP", "frequency_class": "monthly", "cross_currency_frequency_group": "monthly_short_term_interest_rate"},
+    {"series_id": "IRSTCI01HUM156N", "economic_family": "short_term_interest_rate", "currency": "HUF", "frequency_class": "monthly", "cross_currency_frequency_group": "monthly_short_term_interest_rate"},
+    {"series_id": "IRSTCI01JPM156N", "economic_family": "short_term_interest_rate", "currency": "JPY", "frequency_class": "monthly", "cross_currency_frequency_group": "monthly_short_term_interest_rate"},
+    {"series_id": "IRSTCI01MXM156N", "economic_family": "short_term_interest_rate", "currency": "MXN", "frequency_class": "monthly", "cross_currency_frequency_group": "monthly_short_term_interest_rate"},
+    {"series_id": "IRSTCI01NOM156N", "economic_family": "short_term_interest_rate", "currency": "NOK", "frequency_class": "monthly", "cross_currency_frequency_group": "monthly_short_term_interest_rate"},
+    {"series_id": "IRSTCI01NZM156N", "economic_family": "short_term_interest_rate", "currency": "NZD", "frequency_class": "monthly", "cross_currency_frequency_group": "monthly_short_term_interest_rate"},
+    {"series_id": "IRSTCI01PLM156N", "economic_family": "short_term_interest_rate", "currency": "PLN", "frequency_class": "monthly", "cross_currency_frequency_group": "monthly_short_term_interest_rate"},
+    {"series_id": "IRSTCI01SEM156N", "economic_family": "short_term_interest_rate", "currency": "SEK", "frequency_class": "monthly", "cross_currency_frequency_group": "monthly_short_term_interest_rate"},
+    {"series_id": "IRSTCI01TRM156N", "economic_family": "short_term_interest_rate", "currency": "TRY", "frequency_class": "monthly", "cross_currency_frequency_group": "monthly_short_term_interest_rate"},
+    {"series_id": "FEDFUNDS", "economic_family": "short_term_interest_rate", "currency": "USD", "frequency_class": "monthly", "cross_currency_frequency_group": "monthly_short_term_interest_rate"},
+    {"series_id": "IRSTCI01ZAM156N", "economic_family": "short_term_interest_rate", "currency": "ZAR", "frequency_class": "monthly", "cross_currency_frequency_group": "monthly_short_term_interest_rate"}
+  ],
+  "contract": {
+    "initial_current_view_is_bootstrap_only": true,
+    "new_values_and_revisions_become_causal_only_at_first_seen_utc": true,
+    "same_day_intrahour_replay_eligible": false,
+    "provider_query_day_is_america_chicago": true,
+    "consensus_source": false,
+    "direction_policy": "abstain",
+    "cross_frequency_comparison_forbidden": true,
+    "stale_series_remain_visible_but_cannot_look_current": true,
+    "fred_alfred_is_an_official_vintage_aggregator_not_the_first_party_release_feed": true,
+    "research_only": true,
+    "execution_eligible": false
+  }
+}

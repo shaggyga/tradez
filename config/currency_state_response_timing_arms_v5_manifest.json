@@ -1,0 +1,58 @@
+{
+  "manifest_schema_version": 1,
+  "manifest_id": "currency_state_response_timing_arms_v5_manifest_20260817_r1",
+  "contract_id": "currency_state_response_timing_arms_v5_20260817_r1",
+  "research_generation": "r3_bound_response_timing_v5_r1",
+  "parent_contract_id": "currency_state_response_timing_arms_v4_20260817_r1",
+  "parent_disposition": "independent_no_approve_preserved_exact_bytes_zero_runtime_zero_canonical_evidence",
+  "review_state": "pending_independent_review",
+  "candidate_frozen_utc": "2026-08-17T14:05:00Z",
+  "independent_review_started_utc": null,
+  "independent_review_completed_utc": null,
+  "runtime_started_utc": null,
+  "state": {
+    "enabled": false,
+    "registered": false,
+    "research_worker_enabled": false,
+    "collector_enabled": false,
+    "canonical_output_initialized": false
+  },
+  "dependency_disposition": {
+    "approved_official_fact_currency_state_v5_r3": true,
+    "barred_event_response_generations": ["v6_r1", "v6_r2", "v6_r3"],
+    "approved_event_response_successor_bound": false,
+    "production_dependency_gate": "closed",
+    "blocking_reason": "event_response_v6_r4_final_approval_not_bound",
+    "resolution_requires_new_timing_contract_id": true
+  },
+  "artifacts": {
+    "runtime_core": {"relative_path": "src/forex_system/research/currency_state_response_timing_arms_v5.py", "sha256": "37dbaa53bd093e129a84db31aece7bfdddec37127753cc404ddef1c1a957eb04", "byte_length": 18064},
+    "contract": {"relative_path": "config/currency_state_response_timing_arms_v5.json", "sha256": "08674d293897332d438872f8276a46e8de3525f07e35ddb8796996b408ee8cd0", "byte_length": 4288},
+    "focused_tests": {"relative_path": "test_currency_state_response_timing_arms_v5.py", "sha256": "181657fff94bc357944e51a0e3eb189932638f93fffeca0e5b60a6f1e2ffad93", "byte_length": 7445},
+    "parent_v4_module": {"relative_path": "src/forex_system/research/currency_state_response_timing_arms_v4.py", "sha256": "89fba58197e833616f132c9074bb385637dbac9dc9075ba8786c2e7d31845c02", "byte_length": 44841},
+    "parent_v4_contract": {"relative_path": "config/currency_state_response_timing_arms_v4.json", "sha256": "33fbbb95a5ee29949ef4fd07b0b39586c1cec19e4467aaccde64c8c2803e472b", "byte_length": 7238},
+    "parent_v4_manifest": {"relative_path": "config/currency_state_response_timing_arms_v4_manifest.json", "sha256": "4e2959c114d9cd3c1b2d7e19c6e8fda178fe63a5c13e49f6fa707465669620cf", "byte_length": 5451},
+    "parent_v4_tests": {"relative_path": "test_currency_state_response_timing_arms_v4.py", "sha256": "85420028e4a7bd1ba38a2d78d53534c81b5fbe23a4d109e2ba85ede9465c5f44", "byte_length": 13946}
+  },
+  "output_surface": {
+    "canonical_ledger_path": null,
+    "canonical_state_path": null,
+    "canonical_report_path": null,
+    "worker_entrypoint": null,
+    "collector_entrypoint": null,
+    "test_fixture_builder": "forex_system.research.currency_state_response_timing_arms_v5.build_test_diagnostic_snapshot"
+  },
+  "policy": {
+    "event_response_dependency_is_unresolved": true,
+    "dependency_resolution_requires_new_timing_contract": true,
+    "diagnostic_capture_may_not_be_reclassified_as_proof": true,
+    "unresolved_dependency_must_produce_zero_rows": true,
+    "observed_response_is_post_outcome_not_a_forecast": true,
+    "research_only": true,
+    "execution_eligible": false,
+    "can_place_orders": false,
+    "can_promote": false,
+    "can_authorize": false,
+    "supported_execution_decision": "no_trade"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "cohort_id": "executable_opportunity_ranking_v1_20260808",
+  "research_only": true,
+  "execution_eligible": false,
+  "horizons_sec": [300, 900],
+  "modeled_slippage_pips": 0.25,
+  "maximum_entry_spread_pips": 5.0,
+  "minimum_clear_probability": 0.55,
+  "minimum_direction_confidence": 0.10,
+  "minimum_predicted_magnitude_cost_ratio": 1.5,
+  "train_fraction": 0.50,
+  "calibration_fraction": 0.25,
+  "model": {
+    "learning_rate": 0.05,
+    "max_iter": 120,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 50,
+    "l2_regularization": 1.0,
+    "random_state": 20260808
+  },
+  "allocation_arms": [
+    "strict_top_one",
+    "exactly_three_currency_disjoint",
+    "flipped_controls",
+    "no_trade"
+  ],
+  "proof_policy": "engineering discovery only; prospective evidence starts strictly after the archived source highwater"
+}

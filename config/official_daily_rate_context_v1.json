@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "contract_id": "official_daily_rate_context_v4_20260816",
+  "cohort_start_utc": "2026-08-16T08:04:00Z",
+  "research_only": true,
+  "execution_eligible": false,
+  "direction_policy": "abstain",
+  "poll_interval_sec": 21600,
+  "sources": [
+    {
+      "source_id": "us_treasury_2y",
+      "source_contract_id": "official_us_treasury_2y_bridge_v1",
+      "provider": "U.S. Department of the Treasury",
+      "currency": "USD",
+      "series_id": "treasury_par_2y",
+      "kind": "local_treasury_sqlite",
+      "database": "data/oanda_training_manager/state/us_treasury_yield_prospective_v1.sqlite"
+    },
+    {
+      "source_id": "ecb_euro_area_aaa_2y",
+      "source_contract_id": "official_ecb_aaa_2y_spot_v1",
+      "provider": "European Central Bank",
+      "currency": "EUR",
+      "series_id": "YC.B.U2.EUR.4F.G_N_A.SV_C_YM.SR_2Y",
+      "kind": "ecb_csv",
+      "url": "https://data-api.ecb.europa.eu/service/data/YC/B.U2.EUR.4F.G_N_A.SV_C_YM.SR_2Y?startPeriod=2025-01-01&format=csvdata"
+    },
+    {
+      "source_id": "bank_of_canada_2y",
+      "source_contract_id": "official_boc_benchmark_2y_v1",
+      "provider": "Bank of Canada",
+      "currency": "CAD",
+      "series_id": "BD.CDN.2YR.DQ.YLD",
+      "kind": "boc_valet_json",
+      "url": "https://www.bankofcanada.ca/valet/observations/BD.CDN.2YR.DQ.YLD/json?start_date=2025-01-01"
+    },
+    {
+      "source_id": "japan_mof_constant_maturity_2y",
+      "source_contract_id": "official_japan_mof_jgb_2y_v1_20260816",
+      "provider": "Japan Ministry of Finance",
+      "currency": "JPY",
+      "series_id": "2Y",
+      "kind": "mof_jgb_csv",
+      "url": "https://www.mof.go.jp/english/policy/jgbs/reference/interest_rate/historical/jgbcme_all.csv"
+    },
+    {
+      "source_id": "reserve_bank_of_australia_2y",
+      "source_contract_id": "official_rba_government_2y_v1_20260816",
+      "provider": "Reserve Bank of Australia",
+      "currency": "AUD",
+      "series_id": "FCMYGBAG2D",
+      "kind": "rba_f2_csv",
+      "url": "https://www.rba.gov.au/statistics/tables/csv/f2-data.csv"
+    },
+    {
+      "source_id": "bank_of_england_ois_spot_2y",
+      "source_contract_id": "official_boe_ois_spot_2y_v1_20260816",
+      "provider": "Bank of England",
+      "currency": "GBP",
+      "series_id": "BOE_OIS_SPOT_2Y",
+      "rate_measure": "sterling_ois_spot_curve",
+      "kind": "boe_latest_yield_zip",
+      "url": "https://www.bankofengland.co.uk/-/media/boe/files/statistics/yield-curves/latest-yield-curve-data.zip",
+      "workbook_name": "OIS daily data current month.xlsx",
+      "sheet_name": "4. spot curve",
+      "maturity_years": 2.0
+    },
+    {
+      "source_id": "monetary_authority_of_singapore_sgs_2y",
+      "source_contract_id": "official_mas_sgs_benchmark_2y_v1_20260816",
+      "provider": "Monetary Authority of Singapore",
+      "currency": "SGD",
+      "series_id": "SGS_BENCHMARK_2Y_YIELD",
+      "rate_measure": "average_buying_rate_government_securities_dealers",
+      "kind": "mas_sgs_benchmark_html",
+      "url": "https://eservices.mas.gov.sg/statistics/fdanet/SgsBenchmarkIssuePrices.aspx"
+    },
+    {
+      "source_id": "hong_kong_monetary_authority_hibor_1m",
+      "source_contract_id": "official_hkma_hibor_fixing_1m_v1_20260816",
+      "provider": "Hong Kong Monetary Authority",
+      "currency": "HKD",
+      "series_id": "HIBOR_FIXING_1M",
+      "rate_measure": "hkab_hibor_fixing",
+      "tenor_label": "1M",
+      "comparison_group": "hkd_funding_rate_context",
+      "kind": "hkma_daily_rate_json",
+      "value_field": "ir_1m",
+      "url": "https://api.hkma.gov.hk/public/market-data-and-statistics/monthly-statistical-bulletin/er-ir/hk-interbank-ir-daily?segment=hibor.fixing&pagesize=1000&offset=0"
+    }
+  ],
+  "limitations": [
+    "daily sovereign yields and once-daily OIS curves are not intraday release-window repricing",
+    "initial remote histories are bootstrap current views and never prospective proof",
+    "cross-currency differentials require both legs to be independently prospective"
+  ],
+  "material_change_requires_new_cohort": true
+}

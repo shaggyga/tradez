@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "layout_id": "forex_control_plane_20260813_v1",
+  "canonical_source_root": "C:\\Users\\zmoor\\Documents\\forex\\trad",
+  "runtime_data_root": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager",
+  "shared_brain_root": "C:\\Users\\zmoor\\OneDrive\\thevault\\projects\\SHARED_BRAIN",
+  "migration_mode": "compatibility_first",
+  "current_runtime_entrypoint": "oanda_always_on_supervisor.ps1",
+  "practice_execution_account": "101-001-37981792-007",
+  "broker_environment": "practice",
+  "real_money_enabled": false,
+  "domains": [
+    {
+      "name": "tests",
+      "purpose": "Focused contract, unit, integration, replay-equivalence, and safety tests.",
+      "target_path": "tests",
+      "tokens": ["test_"]
+    },
+    {
+      "name": "runtime",
+      "purpose": "Process ownership, launches, locks, path resolution, and worker manifests.",
+      "target_path": "src/forex_system/runtime",
+      "tokens": ["supervisor", "launch", "launcher", "runtime_lock", "worker", "bootstrap", "safe_core", "credentials", "creds", "cleanup", "start_"]
+    },
+    {
+      "name": "ingestion",
+      "purpose": "Point-in-time prices, quotes, official releases, news, sentiment, positioning, rates, and market data.",
+      "target_path": "src/forex_system/ingestion",
+      "tokens": ["collector", "quote", "news", "sentiment", "alfred", "cftc", "treasury", "depth", "book", "source", "download", "updater", "backfill", "recovery", "consolidation", "official", "feed"]
+    },
+    {
+      "name": "contracts",
+      "purpose": "Versioned source, feature, label, cost, episode, forecast, and authorization schemas.",
+      "target_path": "src/forex_system/contracts",
+      "tokens": ["contract", "schema", "ontology", "cohort", "knowledge_time"]
+    },
+    {
+      "name": "features",
+      "purpose": "Shared causal feature builders with explicit knowledge-time cutoffs.",
+      "target_path": "src/forex_system/features",
+      "tokens": ["feature", "indicator", "currency_strength", "lead_lag", "path_signature", "time_irreversibility"]
+    },
+    {
+      "name": "research",
+      "purpose": "Backtests, ruleset searches, model fitting, shadow predictors, and frozen experiments.",
+      "target_path": "src/forex_system/research",
+      "tokens": ["backtest", "sweep", "benchmark", "research", "fit", "model", "strategy", "forecast", "predictor", "adapter", "grid", "panel", "replay", "filter", "ruleset", "equation", "arima", "shadow", "sensitivity", "directional", "ranking", "foundation", "regression", "crossover", "family", "pattern", "reddit", "microstructure", "signal", "spike", "timeframe", "intrahour", "history", "significant", "probe", "label_economics"]
+    },
+    {
+      "name": "evidence",
+      "purpose": "Immutable forecasts, matured outcomes, counterfactuals, trials, and prospective proof.",
+      "target_path": "src/forex_system/evidence",
+      "tokens": ["outcome", "ledger", "trial", "evidence", "replication", "prospective", "validation", "accuracy", "census", "study", "proof", "accounting"]
+    },
+    {
+      "name": "governance",
+      "purpose": "Independent verification, lifecycle, retirement, promotion, integrity, drift, and authorization.",
+      "target_path": "src/forex_system/governance",
+      "tokens": ["lifecycle", "promotion", "verifier", "integrity", "authorization", "guard", "genealogy", "improvement", "policy", "gate", "candidate", "allocator", "stage", "post_gap"]
+    },
+    {
+      "name": "execution",
+      "purpose": "Practice-only candidate selection, order formulation, position management, re-entry, and accounting.",
+      "target_path": "src/forex_system/execution",
+      "tokens": ["executor", "account_manager", "order", "position", "rotation", "reentry", "trade", "scalper", "relay", "flatten", "merged"]
+    },
+    {
+      "name": "monitoring",
+      "purpose": "Read-only health, freshness, latency, storage, account, and dashboard observability.",
+      "target_path": "src/forex_system/monitoring",
+      "tokens": ["monitor", "status", "watchdog", "dashboard", "snapshot", "heartbeat", "audit", "report", "recap", "sla", "summary", "maintenance", "archive", "vault", "recreation", "tracker", "clock", "windows_time", "windowstime", "recent_transactions", "regenerate", "sheet"]
+    }
+  ],
+  "protected_runtime_patterns": [
+    "data/**",
+    "creds",
+    "creds.*",
+    "*.sqlite",
+    "*.sqlite-wal",
+    "*.sqlite-shm",
+    "*.parquet",
+    "*.log",
+    "*.zip"
+  ],
+  "migration_rules": [
+    "Do not move a live entrypoint until its supervisor command and all importers use a compatibility shim.",
+    "Do not copy, compact, rename, or rewrite immutable evidence as part of source reorganization.",
+    "A source, feature, label, model, cost, or allocator contract change creates a new cohort identity.",
+    "Research cannot promote; reports cannot mutate; evidence cannot authorize; execution cannot reinterpret lifecycle state.",
+    "Only Practice 007 may execute, and only through the existing exact canary authorization boundary.",
+    "Every migrated module must pass its focused tests and the structure audit before the old path is retired."
+  ],
+  "migration_phases": [
+    {"id": "P0", "state": "completed", "objective": "Inventory and assign ownership without moving live code."},
+    {"id": "P1", "state": "active", "objective": "Extract shared contracts and pure utilities behind compatibility imports."},
+    {"id": "P2", "state": "pending", "objective": "Move read-only ingestion and monitoring workers one domain at a time."},
+    {"id": "P3", "state": "pending", "objective": "Move research and evidence builders with replay equivalence tests."},
+    {"id": "P4", "state": "pending", "objective": "Move governance and execution last; retain old entrypoint shims through a full practice validation window."},
+    {"id": "P5", "state": "pending", "objective": "Archive retired root scripts only after no importer, supervisor, test, or runbook references them."}
+  ]
+}

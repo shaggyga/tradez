@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "research_id": "major_move_gap_census_v1",
+  "research_only": true,
+  "execution_eligible": false,
+  "prospective_episode_quantile": 0.99,
+  "minimum_gross_cost_multiple": 2.0,
+  "factor_window_short_sec": 900,
+  "factor_window_long_sec": 3600,
+  "factor_strength_expected_pairs": 68,
+  "factor_strength_min_fresh_pairs": 60,
+  "factor_strength_max_pair_age_sec": 180,
+  "exact_target_tolerance_sec": 300,
+  "legacy_executable_replay_root": "data/oanda_training_manager/candles",
+  "legacy_executable_replay_tolerance_sec": 300,
+  "pre_entry_news_lookback_min": 360,
+  "top_report_rows": 30,
+  "policy": "Use every retained major-move inventory row to expose forecast, selection, source, timing, and historical-replay gaps. Never reinterpret an unavailable forecast as a model miss, and never authorize execution."
+}

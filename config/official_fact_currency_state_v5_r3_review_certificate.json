@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "review_certificate_id": "official_fact_currency_state_v5_r3_independent_review_20260817",
+  "reviewed_contracts": {
+    "official_fact_adapter_contract_id": "official_fact_adapter_v5_20260817_r3",
+    "currency_state_official_context_contract_id": "currency_state_official_context_v5_20260817_r3",
+    "fact_basis_eligibility_contract_id": "official_fact_basis_eligibility_v5_20260817_r3",
+    "immutable_event_clock_contract_id": "immutable_point_in_time_event_clock_v2_20260817"
+  },
+  "review_disposition": "independent_approve_disabled_unregistered_candidate",
+  "review_scope": "candidate_bytes_only_no_runtime_activation",
+  "review_results": {
+    "focused_tests_passed": 55,
+    "compatible_tests_passed": 215,
+    "compatible_tests_skipped": 1,
+    "p0_findings": 0,
+    "p1_findings": 0,
+    "p2_findings": 0
+  },
+  "reviewed_artifacts": [
+    {
+      "relative_path": "src/forex_system/ingestion/official_fact_adapter_v5.py",
+      "sha256": "e35c9d2f0ad0972ae0abe2c75d2c47ac6c884c33eebd04cc2866c8bf1f5e5125",
+      "byte_length": 53778
+    },
+    {
+      "relative_path": "src/forex_system/features/currency_state_official_context_v5.py",
+      "sha256": "ee98edb94a7cd4f8e19dd7826f6362ca422b2847ca9fd8fa8cd08b0ed5d14cfc",
+      "byte_length": 45524
+    },
+    {
+      "relative_path": "config/official_fact_adapter_contract_v5.json",
+      "sha256": "d790e0d5fff7a9279772cd3c305db0e47d8f964e88f29c98e13fc730470897f4",
+      "byte_length": 3651
+    },
+    {
+      "relative_path": "config/official_fact_adapter_v5_manifest.json",
+      "sha256": "3b4a6589253c8e6a6974840527760eda5b24ec87c109bb0e7c694d266b21b332",
+      "byte_length": 4685
+    },
+    {
+      "relative_path": "config/currency_state_official_context_contract_v5.json",
+      "sha256": "7ccde8da950cbb5a229b774653b373a4c81b95761b67cb37b9f927a32d99dfb6",
+      "byte_length": 3335
+    },
+    {
+      "relative_path": "config/currency_state_official_context_v5_manifest.json",
+      "sha256": "45f74389add35b2c2435f9f0907819899f81e402ff06a37b91c94171ab632974",
+      "byte_length": 5652
+    },
+    {
+      "relative_path": "config/currency_state_engine_v2.json",
+      "sha256": "20138fe4328ee88b47b8edce2b3bd6081191cda35dd4124a9a457ea9b2efa400",
+      "byte_length": 3272
+    },
+    {
+      "relative_path": "config/currency_state_official_context_contract_v2.json",
+      "sha256": "a8ec43b1a7a2ea1dff505b1eef2fdbf574c54ca286d185fe8fc1ca5e866800bf",
+      "byte_length": 1686
+    },
+    {
+      "relative_path": "config/official_fact_adapter_contract_v1.json",
+      "sha256": "c6ab4e326e10dfdb7b150a18f6aea50ebdb06c96d5f999c1962e924b9d867583",
+      "byte_length": 631
+    },
+    {
+      "relative_path": "config/official_fact_adapter_contract_v2.json",
+      "sha256": "0d04d53fd10ebee9ba5db1098c2751443dc555bf7ea2a0a46c977cd55cdcbc0b",
+      "byte_length": 1705
+    },
+    {
+      "relative_path": "config/official_policy_statement_baselines_v2_20260816.json",
+      "sha256": "08bbf63aec7b0655f14140fd5995c26d80ee32595d9c9c7ce2ac9a1688b91dcd",
+      "byte_length": 47794
+    },
+    {
+      "relative_path": "config/rates_policy_repricing_v1.json",
+      "sha256": "8d5645dbe2fa16fc879810a9a7f4ceada28ff414bea3f50b9ab233df09921c08",
+      "byte_length": 764
+    },
+    {
+      "relative_path": "data/oanda_training_manager/source_archives/official_fact_adapter_v4/immutable_event_clock_v2_a5276c696eb6ff3.sqlite",
+      "sha256": "a5276c696eb6ff3c46adfcff41201288c2c966a76a52240897f5f0f25d30a740",
+      "byte_length": 909312
+    },
+    {
+      "relative_path": "src/forex_system/contracts/currency_state.py",
+      "sha256": "6d7c625af12c2af45a45ecd832ad92c600c986f57193278da6a0f83231ea3139",
+      "byte_length": 4073
+    },
+    {
+      "relative_path": "src/forex_system/features/currency_state_engine.py",
+      "sha256": "af52e1c18d66ff38082e0f383deb9183628b6f06c8fc73c446a49a038fe6e049",
+      "byte_length": 30200
+    },
+    {
+      "relative_path": "src/forex_system/features/currency_state_official_context.py",
+      "sha256": "beca86b5fec03a4cfe233680fd27560478ec5edaa3f23e2a0cd140fe52869418",
+      "byte_length": 16109
+    },
+    {
+      "relative_path": "src/forex_system/features/currency_state_official_context_v2.py",
+      "sha256": "beca8eadc36333b3e0966cddf245fb5b367766ccf3fc3bb99202b754c8ab45df",
+      "byte_length": 22860
+    },
+    {
+      "relative_path": "src/forex_system/ingestion/immutable_event_clock.py",
+      "sha256": "c9f82aa767793ab280cd66c05f409cb9e067ca546ee5fb7eaec8cca22dae9e04",
+      "byte_length": 89792
+    },
+    {
+      "relative_path": "src/forex_system/ingestion/official_fact_adapter.py",
+      "sha256": "8b6a1605b95ea21dfdffde42a502eb7fa1b5f592d4c3dbc2af501e9cc1c5a6e4",
+      "byte_length": 49410
+    },
+    {
+      "relative_path": "src/forex_system/ingestion/official_fact_adapter_v2.py",
+      "sha256": "0bc31d08e1c7e5429fc7e3a78a3a6f253cd081614cd7e9845ab212baab825662",
+      "byte_length": 36341
+    },
+    {
+      "relative_path": "test_official_fact_adapter_v5.py",
+      "sha256": "63a7c1bb9f141165a294ad7b4b0596a394adf661b2ec28f0d552cc66f3a8e860",
+      "byte_length": 31262
+    },
+    {
+      "relative_path": "test_oanda_currency_state_official_context.py",
+      "sha256": "386d65a0f90abefea09bf29c23f654a940797cc6c7bca86fd203a1596105bede",
+      "byte_length": 7604
+    },
+    {
+      "relative_path": "src/forex_system/__init__.py",
+      "sha256": "9deb11a769210d2ac83704efeff1606a800c009bb89a627eceb7b671013f6438",
+      "byte_length": 112
+    }
+  ],
+  "activation_state": {
+    "enabled": false,
+    "registered": false,
+    "runtime_started": false,
+    "canonical_output_initialized": false
+  },
+  "policy": {
+    "certificate_cannot_activate_candidate": true,
+    "certificate_cannot_self_modify_reviewed_manifests": true,
+    "research_only": true,
+    "execution_eligible": false,
+    "can_place_orders": false,
+    "can_promote": false,
+    "can_authorize": false,
+    "supported_execution_decision": "no_trade"
+  }
+}

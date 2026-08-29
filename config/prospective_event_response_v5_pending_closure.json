@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "contract_id": "prospective_event_response_capture_v5_20260817",
+  "cohort_id": "prospective_official_event_response_v5_20260817",
+  "state": "pending_final_dependency_closure",
+  "review_state": "blocked_external_dependencies",
+  "candidate_bytes_frozen_utc": null,
+  "independent_reviewed_utc": null,
+  "cohort_start_utc": null,
+  "entry_paths": [
+    "src/forex_system/ingestion/prospective_event_response_v5.py",
+    "oanda_prospective_event_response_v5.py",
+    "oanda_prospective_event_response_worker_v5.py"
+  ],
+  "files": [
+    {
+      "path": "oanda_prospective_event_response_v5.py",
+      "role": "temp_only_collector",
+      "sha256": "a57a2ee9830e6afd5b14c26779081dae17a872bda5e36451c1fdaa636001e080",
+      "byte_length": 10866,
+      "last_write_time_ns": 1786958252623277100
+    },
+    {
+      "path": "oanda_prospective_event_response_worker_v5.py",
+      "role": "temp_only_worker",
+      "sha256": "7b93fc897c0bb7c3569e6707ef867566f5dc63d3f31a42b7a707e30abf82c075",
+      "byte_length": 3016,
+      "last_write_time_ns": 1786958256661223100
+    },
+    {
+      "path": "src/forex_system/ingestion/immutable_event_clock.py",
+      "role": "executed_clock_v2_dependency",
+      "sha256": "c9f82aa767793ab280cd66c05f409cb9e067ca546ee5fb7eaec8cca22dae9e04",
+      "byte_length": 89792,
+      "last_write_time_ns": 1786950922575208300
+    },
+    {
+      "path": "src/forex_system/ingestion/prospective_event_response_v5.py",
+      "role": "candidate_runtime_core",
+      "sha256": "a902023ccc8b59620a7f75d107594e484f5c779dd391ba3b2ebbce4c5ddb7cbb",
+      "byte_length": 89467,
+      "last_write_time_ns": 1786959077767800000
+    }
+  ],
+  "source_artifacts": [
+    {
+      "path": "config/prospective_event_response_capture_v5.json",
+      "role": "candidate_contract_source",
+      "sha256": "1b66c362e91a4f9f6dc366ae4ab6cd7393289d44b32fa863323a6e95d828cb4b",
+      "byte_length": 3433,
+      "last_write_time_ns": 1786957823946783100
+    },
+    {
+      "path": "config/currency_policy_dependency_registry_v1.json",
+      "role": "policy_dependency_registry_source",
+      "sha256": "a4acdfe6e67d6ae759cf8954d3194f801572d6cd169d07caf2aac6c6b0c99099",
+      "byte_length": 2029,
+      "last_write_time_ns": 1786860716089724700
+    }
+  ],
+  "unresolved_external_dependencies": [
+    "official_fact_adapter_v3",
+    "currency_state_official_context_v3"
+  ]
+}

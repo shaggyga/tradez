@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "contract_id": "direct_official_cpi_acceleration_h168_prospective_v1_20260816",
+  "cohort_start_utc": "2026-08-16T19:00:00+00:00",
+  "research_only": true,
+  "execution_eligible": false,
+  "eligible_unit": "year_percent_change",
+  "minimum_absolute_acceleration_differential_pct_points": 0.25,
+  "maximum_observation_age_sec": 3888000,
+  "horizon_sec": 604800,
+  "maximum_quote_age_sec": 180,
+  "maximum_entry_spread_pips": 3.0,
+  "technical_context_horizon_sec": 1800,
+  "maximum_technical_age_sec": 1800,
+  "direction_rule": "higher_base_minus_quote_cpi_yoy_acceleration_strengthens_base",
+  "factor_deduplication": "one_driver_official_release_factor_episode",
+  "eligible_series_by_currency": {
+    "CZK": ["czech_headline_cpi_yoy"],
+    "DKK": ["denmark_statbank_cpi_yoy"],
+    "EUR": ["eurostat_euro_area_hicp_flash_yoy"],
+    "HKD": ["hong_kong_censtatd_composite_cpi_yoy"],
+    "HUF": ["hungary_headline_cpi_yoy"],
+    "MXN": ["mexico_headline_cpi_yoy"],
+    "NOK": ["norway_ssb_cpi_yoy"],
+    "SEK": ["sweden_cpif_yoy"],
+    "SGD": ["singstat_cpi_yoy"],
+    "TRY": ["turkey_headline_cpi_yoy"],
+    "ZAR": ["south_africa_headline_cpi_yoy"]
+  },
+  "requirements": {
+    "source_verified": true,
+    "source_direct": true,
+    "source_listing_bootstrap": false,
+    "forward_signal_timely": true,
+    "actual_and_previous_required": true,
+    "both_currency_observations_after_cohort_start": true,
+    "post_release_consensus_not_used": true
+  },
+  "arms": [
+    "macro_only_technical_unavailable",
+    "macro_technical_aligned",
+    "macro_technical_conflicted"
+  ],
+  "material_change_requires_new_cohort": true
+}

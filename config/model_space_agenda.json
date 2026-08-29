@@ -1,0 +1,997 @@
+{
+  "coverage_totals_if_fully_enumerated": {
+    "by_model_type": {
+      "gradient_boosting": 3758,
+      "lightgbm": 1286,
+      "random_forest": 4136,
+      "xgboost": 1286
+    },
+    "specs": 10466
+  },
+  "dedupe": {
+    "completed_hashes": 1949,
+    "existing_queue_hashes": 3842,
+    "skipped_duplicate": 168
+  },
+  "external_baseline_lanes": [
+    {
+      "lane": "arima_sarimax",
+      "next": "Extend baseline comparison output into promotion reports, not direct live execution.",
+      "reason": "Time-series benchmark; useful only if it survives net-of-cost walk-forward gates.",
+      "status": "baseline_evaluator_exists_for_major_pairs"
+    },
+    {
+      "lane": "var_vecm_cross_pair",
+      "next": "Build separate evaluator for EUR/GBP/JPY/USD clusters and compare to ARIMA and tabular gates.",
+      "reason": "Needs multi-instrument synchronized matrices and cointegration tests.",
+      "status": "not_in_current_trainer"
+    },
+    {
+      "lane": "garch_volatility",
+      "next": "Add ATR/GARCH volatility forecast columns to feature store, then validate as risk-control factor.",
+      "reason": "Forecasts volatility/risk, not direct direction. Better as position sizing and stop-distance input.",
+      "status": "not_in_current_trainer"
+    },
+    {
+      "lane": "hmm_markov_regime",
+      "next": "Train unsupervised regimes by pair family/session and add regime IDs/probabilities as features.",
+      "reason": "Regime model should label trend/range/risk-off/liquidity states before candidate models trade.",
+      "status": "not_in_current_trainer"
+    },
+    {
+      "lane": "kalman_state_space",
+      "next": "Prototype on pair baskets and feed residual/z-score features to tabular trainer.",
+      "reason": "Useful for dynamic beta/spread relationships and smoothing, not plain row classification.",
+      "status": "not_in_current_trainer"
+    },
+    {
+      "lane": "deep_sequence",
+      "next": "Only add after tabular/regime baselines are stable; compare by net pips and drawdown, not raw accuracy.",
+      "reason": "LSTM/TCN/Transformer models need GPU-aware training, strict leakage controls, and larger data windows.",
+      "status": "deferred"
+    },
+    {
+      "lane": "macro_news_nlp",
+      "next": "Persist pair-level macro bias snapshots and join lagged bias to training rows.",
+      "reason": "Macro/GPT should veto, bias, or reduce risk. It should not be allowed as an unbacktested trigger.",
+      "status": "separate_context_layer"
+    },
+    {
+      "lane": "portfolio_meta_allocator",
+      "next": "Refresh the shadow ensemble manifest from validated members and promote only after it beats active production under comparable validation.",
+      "reason": "Best-model-per-pair needs portfolio exposure, pair-correlation, margin, and concentration control before it can drive execution.",
+      "status": "shadow_ensemble_evaluator_exists"
+    },
+    {
+      "lane": "online_learning_bandits",
+      "next": "Use paper-only challenger allocation after validated candidates have enough shadow trades.",
+      "reason": "Useful for promotion/demotion and threshold selection, but dangerous without drawdown guardrails.",
+      "status": "not_in_current_trainer"
+    }
+  ],
+  "purpose": "Structured model-space coverage for the always-on OANDA FX trainer",
+  "seeded_specs": [
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop020_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "9d8620ca406ae18e829285453e07551a785a301517412a1b96d6cf906a2621c4",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop025_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "404103263f8ed71e8d2639ce1706381aa08e57f454d24e5b3a579be174f3d1ac",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop035_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "576a53b15689525007829c18e5a53fcee42bb5cf38f9955c2349d233b13f4a3a",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop050_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "dc522fc6c2cbeac4c70e02db733510982bdada10bf001410107f28a8a45b12b6",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "reversal_curve_net_atr_120",
+      "research_role": "return_curve_candidate",
+      "spec_hash": "fa57d8c5517ff0fd481ac98a324fe00d770aae2d2154a05ea9fb4f48e995c817",
+      "target": "reversal_curve_profit_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "short_curve_net_atr_120",
+      "research_role": "return_curve_candidate",
+      "spec_hash": "f6671d3c9ed96691171c1b2daf716932847f3e6273b3e7a08244fb642a449821",
+      "target": "short_curve_profit_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "long_curve_net_atr_60",
+      "research_role": "return_curve_candidate",
+      "spec_hash": "3c7da4e9c0b085a1d53ce12835cc2e9c6d613395245826638c22f67874636af9",
+      "target": "long_curve_profit_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop010_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "d0ce4566cf604e3e0a46be8703e253d0faa32c8fc401c8e1d85eb631d216c165",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop012_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "721bca4e4efd367881f3a28f524141bbdff611143a0510040046f7b9be7c80f3",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop015_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "53b3243ee401b28d11416b5cf7b052f699957b850e43d7fff35f88bfed3e130a",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop020_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "ef6ffcce2ac5d035000fc0f20846f43bd3bfb3df2009a0b9c110f204f1d67324",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop025_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "8bd6c5910caf57c337da6ff013147af75cfae482dd4c1009b90f61e85fa418f5",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop035_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "726623614127cb1d7237323c6815beeee5ded2e8f287a3a0b904ee833f4f7aa1",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop050_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "cf607dfd807495de703679e618d15246bd1f2c4e0ec988f1759113f35c802b24",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop100_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "b6368d59ba8dedaf559a81156e77a39e8a9ed586e2177f2970ce731cd3c9931f",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop010_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "af80bd72f30247ccc146b6f4e43d34a3d2a2ee84b8c84cce2dafa173c07ef1ce",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop012_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "c598221ee1093dd0d7a88fb1108a6efbe7a443494af6a1371320d69fc2b79a2b",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop015_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "b1a7f32f0b0a5e15b5c445206231f55beb4acf40fc3246b2c7c731c723bf4a97",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop020_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "e6fe2a1e18acce578e5e959ca20d151eb378940b88ef13b7bba8d77e9fa027a7",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop025_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "e5a38a5893c7609a7f0080c9c3850cd1fb3c45c103ac320b67123ec8e5ffe842",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop035_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "8fad3a3ff0299e6373ef3d5fe241e81144bc69a9014833b81f3e7a71bf148168",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop050_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "4034de005746abb2780bb41682665c04e3aae5d34679a47dc50722e99821a50c",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop075_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "ffa898267b83246b979aafaa9de6258d293ed6d859f5e9e037f0df196fca7528",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop100_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "f4225695cca46bba8f99457d62ce7dddf59247783323a274be75d88dcce01d8b",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "reversal_curve_net_atr_120",
+      "research_role": "return_curve_candidate",
+      "spec_hash": "3fdec64317d5040cea57e1475345bd1d7554e132d73953efa55780f40156215f",
+      "target": "reversal_curve_profit_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "short_curve_net_atr_120",
+      "research_role": "return_curve_candidate",
+      "spec_hash": "fa0da4310087e579f94f456fffe60847b8194ff793310ca595f11c4c56ae50ad",
+      "target": "short_curve_profit_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "long_curve_net_atr_60",
+      "research_role": "return_curve_candidate",
+      "spec_hash": "604cd4bb2864a0cb7686dd40e22af7f902ee0ea5e2129acae5efb2edd81c8709",
+      "target": "long_curve_profit_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop010_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "46dacc72e5152a416b15f6ec48be2033e288c3e8ba6fbb26299bf3086f0e7beb",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop012_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "78ccc3cba22b140fb7f66dedb6c4f50439408c4415040837830452461eac0b48",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop015_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "e93aa8d1cf7970a83898dc72151999433da8f73f0e3cbfac59a386b97635fa72",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop020_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "b82055c013203dbaf4b7da9329dafa71d448d32f5dc116cfebfe001594ce7483",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop025_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "3d72699db1e08349315c9b69e728a4848655cb7274672d48eb5f458155af16bb",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop035_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "f2254bdbab74b528cd4d3af106daf28e4dbbee9b23c1a9c745e25b976d3e96b8",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop050_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "c837b18737ad065c5d10b7fe2cf587881715d7732264e5df9267f4c433302a19",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop100_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "03d0e8992cf0ad6ed7d73b760a4667ff860e78cd7a9541226400d2b8c2d22743",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop010_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "2c3945cdbfc95c1d895b6569b6b2209d9522026a91043add364153596eb814a5",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop012_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "2fe34981f87f0d934db478a48343f9a2103e1bc4eeebc2ae90f060a0654c941d",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop015_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "6528307203a5341ed400652daccbc3f9a5e02dbd3c1bbb614828fab9068c6336",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop020_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "ac37b13e9b9125aee08ec3cb0fb1f407e8ff891a4e17d7ad298110902556fa6c",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop025_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "b523c675f6ccd826bb61e3d12dc8974ceef8d46ee549690c156882ed112d868e",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop035_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "6fec212354ceded660d71af66ffffa6f693e244033177a8dbb9e431b08e0dad4",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop050_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "49ded5b4e8243ee8381f32054f71b5643dd16b7173e56677f8ef763875e2a0af",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop075_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "40d1a4c82ac15d24afc56aff2bba83c1ea6244c409a80b4c3b0c5b9b98230ad3",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_core",
+      "instrument_subset": "exotic_high_spread",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop100_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "88616ff45e0f0d7ee25b29ee8e498d2d5fa895b0c69bd9be959e529c1fd1edb8",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop010_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "368fe68310865002f94d8251f011aef59daa5f870e72688ba50bc5047f98a85c",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop012_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "3aa2b99db57ff38534aac6c915ea703cb467d9766d27bdbcb3d2eb76fda55677",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop015_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "cc0af223d740cabfa3b072828d8e2762ffbf2d6dbbf4a21c11644c70bf7d0903",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop020_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "23f87031a81f441a14c5064ecbe01a082d068657dca51ec2bd37f1b5af9b0160",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop025_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "96dd646558661278e7786e58f6ba9427e027e9e6ab897186295d1bf447b8ca54",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop035_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "a1deb7af3dde22f7d191bf664cc65a2df37981b8466b0742a66118487110dcac",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop050_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "21023ae7a3a4106820d2c2affd46a6f76fc38fb5b7b2ce2fe4ca94fc490b5b93",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop010_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "831602fa784c63eca6b3c4dc450c7718a68bf9002473b2cc1ae0cda38bb9dc05",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop012_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "2cf9fd4d798afa23c2632e0145505178d96a55d83913a5ea22a4b02f20e65c47",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop015_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "1a793f18cdd192ee1c1fdedde79c3bab73cbd978afd4c5c7b419cc01857d7a72",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop020_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "78c68f554ed6754982b413c7825e19cc852663f37410f16ccbf04a53a29c1847",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop025_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "e0853b50ed4a9df8b65c765a100759b44264fe05fe8eba0c9a06be747249925d",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop035_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "6bcdc573c4d452c283cbbf866028d303c0d253f5ab36b635031d57495bef3151",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop050_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "57ea8a5ca7a473fa379f6061ab0a32c283fe9a147c66985a543bceeaa92d5516",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop010_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "d46471b3a29589e0ec9caf647f7194b3e3607564d6d144f6b5697d47f19f8591",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop012_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "7287d89a89d39e5541d4a097bb1445f84330b48f73245e26fcef7edd7fdc892a",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop015_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "7a9ef90d6bafb4ed3a5ad9832cfe9e059babf3dc65db0f82028971eb825c0904",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop020_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "c43cbe34c4324cfc95c8602a8e4497adbf912a36b464422a1c912dc018069251",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop025_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "628835518401a8f5dfaf7d3e123f72f7eba32938c83824940a4e3a73f96cd29c",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop035_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "3df094e629e5dcd58a2e971005ddbd8e55696b6d862d7a0176875af9d892af1d",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop050_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "f22a79fa45b47a0dc0eef39f66f56e8c6c1992fac421006a5835c19fc29e7eb3",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop010_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "abf6e06d6c6c7929cd5468448660a860b4b236421053aeb13207e36f4393ed98",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop012_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "065a4b4b235c3611a95a25b695cad517f4de1cb864b2ad6fd7856d17673ae76b",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop015_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "bf1930aa449ae1b375be6e6659f8d03b517a64e92fed2ec6aad6e5a5afec2328",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop020_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "24a32e2cf6f24e0760fb64d5504dfbf9b199135f80021637be65e5e32e424513",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop025_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "ef680d322c476a7a65c43f4e3c1c702d72023ba4eb937d0c6c4c38326fde1662",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop035_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "e5170c3dafb6a3637b529c4aee98f27373f79aa4e625c51b1535b498b5d79ad0",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "random_forest",
+      "outcome": "two_stage_trailing_stop050_net_atr_120",
+      "research_role": "major_move_factor",
+      "spec_hash": "b1aa056cc02f946f8f55c299950a8851deb5e9ebdefeacceb41532fea930c934",
+      "target": "major_event_lead_30_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "profitable_move_precursor",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "gradient_boosting",
+      "outcome": "best_net_atr_120",
+      "research_role": "profitable_move_precursor",
+      "spec_hash": "c664a80bbbb46062ed84bed802c68c5d04d2633f28e6b48e4592c872b864e414",
+      "target": "profitable_any_move_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "profitable_move_precursor",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "gradient_boosting",
+      "outcome": "best_net_atr_60",
+      "research_role": "profitable_move_precursor",
+      "spec_hash": "6659b40590bc4336a8f6543113123727b71a8c593a39b025b035f655609b4863",
+      "target": "profitable_any_move_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "gradient_boosting",
+      "outcome": "reversal_curve_net_atr_120",
+      "research_role": "return_curve_candidate",
+      "spec_hash": "d8b4ddfdab0ac14a2021e39aa8ed9ff7d033c753532b6db8847ca9472adf9862",
+      "target": "reversal_curve_profit_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "gradient_boosting",
+      "outcome": "short_curve_net_atr_120",
+      "research_role": "return_curve_candidate",
+      "spec_hash": "2693e9b48f2293116ced1c09f205e62ff3fb6b85d210d980173508f7e160c57b",
+      "target": "short_curve_profit_120"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "gradient_boosting",
+      "outcome": "continuation_curve_net_atr_60",
+      "research_role": "return_curve_candidate",
+      "spec_hash": "ffaebda91f85d2148ff0a7ac8bd89b4c41b9a54b99aec488689a041c47ead40e",
+      "target": "continuation_curve_profit_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "gradient_boosting",
+      "outcome": "long_curve_net_atr_60",
+      "research_role": "return_curve_candidate",
+      "spec_hash": "a067ac33e76c39aac04f8ead99a688988e07455d7ebce77e2cbdd2d4d27c1b35",
+      "target": "long_curve_profit_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop010_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "d448ddef6c06fe20c1182e861bdc6fe4fe328d03c8530de038b222f211c3a132",
+      "target": "major_event_lead_30_60"
+    },
+    {
+      "agenda_reason": "live split: strict tech-champion candidate; pair-family specialist, walk-forward scout evidence required before technical production",
+      "dataset_kind": "technical_spike",
+      "feature_set": "technical_full",
+      "instrument_subset": "jpy_risk",
+      "model_type": "gradient_boosting",
+      "outcome": "two_stage_trailing_stop012_net_atr_60",
+      "research_role": "major_move_factor",
+      "spec_hash": "66deadaa71a07cfffd0504ce97b9b8326985c62829375a9d419507b01a245919",
+      "target": "major_event_lead_30_60"
+    }
+  ],
+  "trainer_lane": {
+    "dataset_kinds": [
+      "profitable_move_precursor",
+      "technical_spike",
+      "base_trade_quality"
+    ],
+    "description": "Tabular walk-forward classifier validation. Only this lane writes model lifecycle candidates.",
+    "dry_run": false,
+    "feature_sets": [
+      "technical_full",
+      "technical_core",
+      "base"
+    ],
+    "horizons_minutes": [
+      30,
+      60,
+      120
+    ],
+    "instrument_subsets": [
+      "all",
+      "chf_safe_haven",
+      "commodity",
+      "eur_gbp_cross",
+      "exotic",
+      "exotic_high_spread",
+      "jpy_risk",
+      "majors",
+      "non_usd_volatile",
+      "usd_other",
+      "volatile",
+      "volatile_exotic",
+      "volatile_non_usd"
+    ],
+    "model_types": [
+      "random_forest",
+      "gradient_boosting",
+      "lightgbm",
+      "xgboost"
+    ],
+    "seeded_this_run": 80
+  },
+  "updated_utc": "2026-06-29T04:37:19.077399+00:00"
+}

@@ -1,0 +1,410 @@
+{
+  "execution_policy": "offline_validation_only_no_D_access_no_account_processes",
+  "profiles": {
+    "model_gap_h24_recovery": {
+      "bounded_fixture": {
+        "interpretation": "adapter compatibility only; four held-out values and no cost qualification",
+        "path": "trad/data/oanda_training_manager/model_space/validation_fixtures/panel_m1_compact_canary_20260718.parquet",
+        "sha256": "c760f620d62161e13f770584dd866347093699bf1a71f81d8b9322dfa1b869ed"
+      },
+      "checks": [],
+      "compile_files": [
+        "trad/forex_model_vault_sync.py",
+        "trad/forex_vault_import.py",
+        "trad/forex_validation_recreation.py",
+        "trad/forex_runtime_lock.py",
+        "trad/oanda_model_gap_registry.py",
+        "trad/oanda_foundation_model_adapters.py",
+        "trad/oanda_neuralforecast_family_adapters.py",
+        "trad/oanda_cross_pair_graph_adapter.py",
+        "trad/oanda_state_space_adapters.py",
+        "trad/oanda_decision_model_adapters.py",
+        "trad/oanda_representation_learning_adapters.py",
+        "trad/oanda_model_gap_qualification.py",
+        "trad/oanda_model_gap_runtime_profiles.py",
+        "trad/oanda_model_gap_full_matrix.py",
+        "trad/oanda_model_gap_coverage_repair.py",
+        "trad/oanda_s5_timeframe_strategy_replay.py",
+        "trad/oanda_shared_timeframe_horizon_panel.py",
+        "trad/oanda_shared_panel_model_benchmark.py",
+        "trad/oanda_shared_panel_neural_benchmark.py",
+        "trad/oanda_practice_live_dashboard.py",
+        "trad/oanda_foundation_weight_worker.py",
+        "trad/oanda_foundation_weight_sync.py",
+        "trad/oanda_foundation_market_fixture.py",
+        "trad/oanda_foundation_market_worker.py",
+        "trad/oanda_foundation_market_benchmark.py",
+        "trad/oanda_model_gap_market_validation.py",
+        "trad/oanda_model_gap_completion.py",
+        "trad/oanda_disk_event7_guard.py",
+        "trad/oanda_m1_s5_cache_consolidation.py",
+        "trad/oanda_m1_api_recovery.py",
+        "trad/oanda_m1_recovered_cache_audit.py",
+        "trad/oanda_statistical_validation.py",
+        "trad/oanda_strategy_exit_fit.py",
+        "trad/oanda_lane_promotion.py",
+        "trad/oanda_lane_promotion_fit.py",
+        "trad/oanda_exit_policy_sweep.py",
+        "trad/oanda_execution_policy.py",
+        "trad/oanda_post_gap_execution_pipeline.py",
+        "trad/oanda_practice_shadow_strategy_lab.py",
+        "trad/oanda_second_forecast_fit.py",
+        "trad/oanda_second_forecast_runner.py",
+        "trad/oanda_foundation_market_report_merge.py",
+        "trad/oanda_model_gap_unified_report.py",
+        "trad/oanda_build_h24_validation_contract.py",
+        "trad/oanda_arima_multiframe_sweep.py",
+        "trad/oanda_signal_contribution_feed.py",
+        "trad/oanda_signal_engine_refresh_audit.py",
+        "trad/oanda_model_gap_live_signal_producer.py",
+        "trad/oanda_model_gap_live_signal_worker.py",
+        "trad/oanda_order_position_book_collector.py",
+        "trad/oanda_continuous_improvement_loop.py",
+        "trad/oanda_prospective_live_panel.py",
+        "trad/oanda_prospective_model_refresh.py",
+        "trad/oanda_primary_forecast_rotation_bot.py",
+        "trad/oanda_wait_for_private_creds.py"
+      ],
+      "compile_isolate_files": true,
+      "compile_timeout_seconds": 120,
+      "description": "Verify the July 22 full 68x13x16 checkpoint without D-drive access or account processes.",
+      "evidence": [
+        {
+          "assertions": {
+            "registry.summary.families": 7,
+            "registry.summary.models": 30,
+            "summary.account_wired": 0,
+            "summary.blocked": 1,
+            "summary.failed": 0,
+            "summary.production_eligible": 0,
+            "summary.results": 19,
+            "summary.synthetic_qualified": 18
+          },
+          "path": "trad/data/oanda_training_manager/model_space/model_gap_qualification_latest.json",
+          "sha256": "9ff1d66e7d14a3709e5bcb6f7ee38dcd192c377da1fc5d678ba8b7c4cc1a6e3e"
+        },
+        {
+          "assertions": {
+            "explicit_blockers.$len": 2,
+            "model_runtime.$len": 30,
+            "summary.account_wired": 0,
+            "summary.failed": 0,
+            "summary.models_runtime_available": 27,
+            "summary.source_pins_valid": 2
+          },
+          "path": "trad/data/oanda_training_manager/model_space/model_gap_runtime_profiles_latest.json",
+          "sha256": "6cf6f26fadb34ff95ce87120cfb6e70584d31abdff5a8c4e3d8c4ecdef92c698"
+        },
+        {
+          "assertions": {
+            "matrix_coverage.contract_complete": true,
+            "matrix_coverage.documented_unavailable_count": 42,
+            "matrix_coverage.expected_pair_cells": 14144,
+            "matrix_coverage.observed_or_documented_pair_cells": 14144,
+            "matrix_coverage.observed_pair_cells": 14102,
+            "matrix_coverage.unaccounted_pair_cell_count": 0,
+            "summary.account_wired": 0,
+            "summary.all_runnable_models_market_backtested": true,
+            "summary.bounded_market_qualified": 28,
+            "summary.evidence_complete": true,
+            "summary.families": 7,
+            "summary.market_backtest_complete": 28,
+            "summary.market_performance_passed": 0,
+            "summary.matrix_complete": true,
+            "summary.missing_market_backtests.$len": 0,
+            "summary.models": 30,
+            "summary.production_eligible": 0,
+            "summary.runtime_available": 28
+          },
+          "path": "trad/data/oanda_training_manager/model_space/model_gap_completion_latest.json",
+          "sha256": "7d4a24ace2600d2fb10827a06dd954eb09f7db501d4c921d69a9baddf4f049e3"
+        },
+        {
+          "assertions": {
+            "summary.account_wired": 0,
+            "summary.available": 7,
+            "summary.failed": 0,
+            "summary.requested": 7
+          },
+          "path": "trad/data/oanda_training_manager/model_space/foundation_weight_sync_latest.json",
+          "sha256": "8a6ae522e5606fe916589608ba09e45c8d1c18b3688a9c12bbc54d960bccdddd"
+        },
+        {
+          "assertions": {
+            "account_wired": false,
+            "coverage.contract_complete": true,
+            "coverage.documented_unavailable_count": 42,
+            "coverage.expected_pair_cells": 14144,
+            "coverage.expected_timeframe_horizon_cells": 208,
+            "coverage.fully_covered": false,
+            "coverage.observed_or_documented_pair_cells": 14144,
+            "coverage.observed_pair_cells": 14102,
+            "coverage.observed_timeframe_horizon_cells": 208,
+            "coverage.panels.$len": 22,
+            "coverage.total_events": 4416423,
+            "coverage.unaccounted_pair_cell_count": 0,
+            "status": "complete_with_documented_unavailable"
+          },
+          "path": "trad/data/oanda_training_manager/training_sets/model_gap_full_matrix/full_matrix_latest.json",
+          "sha256": "cd443d82024802cd10fe3243bd7359af785a88ee10d6204e559bb7edff5acd3d"
+        },
+        {
+          "assertions": {
+            "account_wired": false,
+            "all_requested_evaluated": true,
+            "any_production_gate_passed": false,
+            "artifacts.$len": 4,
+            "dataset.events": 150000,
+            "dataset.horizons_sec.$len": 16,
+            "dataset.instruments": 68,
+            "dataset.timeframes.$len": 13,
+            "requested_models.$len": 4,
+            "results.$len": 4
+          },
+          "path": "trad/data/oanda_training_manager/reports/modern_model_gap/shared_panel_model_benchmark_latest.json",
+          "sha256": "6dd5c47b43b326e219a0824a813f9fd963d32f26cd36ee66c72f418bf57292a4"
+        },
+        {
+          "assertions": {
+            "account_wired": false,
+            "all_requested_qualified": true,
+            "any_production_gate_passed": false,
+            "artifacts.$len": 2,
+            "dataset.events": 150000,
+            "dataset.horizons_sec.$len": 16,
+            "dataset.instruments": 68,
+            "dataset.sources.$len": 22,
+            "dataset.timeframes.$len": 13,
+            "requested_models.$len": 2,
+            "results.$len": 2
+          },
+          "path": "trad/data/oanda_training_manager/reports/modern_model_gap/shared_panel_neural_benchmark_latest.json",
+          "sha256": "6fe50f9e8b36bf2033aeb88d612c054939f5368cbda53b03bbff157cec084ad4"
+        },
+        {
+          "assertions": {
+            "account_wired": false,
+            "all_requested_qualified": true,
+            "any_production_gate_passed": false,
+            "artifacts.$len": 2,
+            "dataset.events": 556475,
+            "dataset.horizons_sec.$len": 16,
+            "dataset.instruments": 68,
+            "dataset.sources.$len": 4,
+            "dataset.timeframes.$len": 2,
+            "requested_models.$len": 2,
+            "results.$len": 2
+          },
+          "path": "trad/data/oanda_training_manager/reports/modern_model_gap/shared_panel_neural_long_horizon_benchmark_latest.json",
+          "sha256": "a8a64c6552bea61f21ff09d51594fb2ed15b4b34f3171b66e3dc2435b6ff271b"
+        },
+        {
+          "assertions": {
+            "account_wired": false,
+            "results.$len": 7,
+            "summary.account_wired": 0,
+            "summary.failed_or_blocked": 0,
+            "summary.production_eligible": 0,
+            "summary.requested": 7,
+            "summary.scored": 7
+          },
+          "path": "trad/data/oanda_training_manager/reports/modern_model_gap/foundation_market_benchmark_latest.json",
+          "sha256": "a533517ba588bfafc57ea8a6fb9dfb6331a187f1b984dcd36947389711d9958a"
+        },
+        {
+          "assertions": {
+            "account_wired": false,
+            "dataset.events": 876369,
+            "dataset.instruments": 68,
+            "dataset.pair_cells": 14102,
+            "dataset.timeframe_horizon_cells": 208,
+            "results.$len": 17,
+            "summary.all_requested_backtested": true,
+            "summary.backtest_failed_or_error": 0,
+            "summary.backtest_valid": 17,
+            "summary.performance_passed": 0,
+            "summary.requested": 17
+          },
+          "path": "trad/data/oanda_training_manager/reports/modern_model_gap/remaining_market_validation_latest.json",
+          "sha256": "6880d573856768c0c1bd3891c9fb87e5b7737b2826321a3f6aaae9b58e509ff4"
+        },
+        {
+          "assertions": {
+            "dataset.documented_unavailable_count": 42,
+            "dataset.expected_pair_cells": 14144,
+            "dataset.observed_or_documented_pair_cells": 14144,
+            "dataset.observed_pair_cells": 14102,
+            "dataset.unaccounted_pair_cell_count": 0,
+            "summary.account_wired": 0,
+            "summary.all_requested_backtested": true,
+            "summary.all_runnable_long_horizons_covered": true,
+            "summary.canonical_matrix_artifact_complete": true,
+            "summary.integration_complete": true,
+            "summary.inventory_complete": true,
+            "summary.long_horizon_coverage_complete": 28,
+            "summary.market_backtested": 28,
+            "summary.models": 30,
+            "summary.production_eligible": 0,
+            "summary.runtime_available": 28,
+            "summary.runtime_blocked": 2
+          },
+          "path": "trad/data/oanda_training_manager/reports/modern_model_gap/unified_model_gap_market_latest.json",
+          "sha256": "2c74c4c996ab03398da6dfd1951f454f8d6b32d5ab154041c5bea74d7700e973"
+        },
+        {
+          "assertions": {
+            "execution.closes": 0,
+            "execution.fills": 0,
+            "execution.selected": 0,
+            "heartbeat.accepted_lane_events": 111,
+            "heartbeat.api_errors": 0,
+            "process_state_at_final_audit.bots_running": false
+          },
+          "path": "trad/data/oanda_training_manager/reports/modern_model_gap/signal_audit_20260721_latest.json",
+          "sha256": "9d9f10b012044f3a2d0450c8cd1c515c15f8ffea28a4c78dd5e45813cc9b386c"
+        },
+        {
+          "assertions": {
+            "checks.all_adapter_sources_present": true,
+            "checks.all_model_outputs_route_through_feed": true,
+            "checks.synthetic_probe_cannot_reach_account": true,
+            "checks.verified_artifact_live_worker_present": true,
+            "contract_probe.accepted": 30,
+            "contract_probe.account_eligible": 0,
+            "contract_probe.market_evidence": false,
+            "counts.canonical_horizons": 16,
+            "counts.canonical_timeframe_horizon_cells": 208,
+            "counts.continuous_equation_timeframes": 13,
+            "counts.live_artifact_matched_baselines": 2,
+            "counts.live_artifact_models_supported": 4,
+            "counts.model_gap_adapter_only_pending_live_producer": 28,
+            "counts.model_gap_live_artifact_producers": 2,
+            "counts.model_gap_models": 30,
+            "counts.strategy_families": 52,
+            "counts.strategy_parameter_lanes": 208,
+            "status": "passed",
+            "validation_passed": true
+          },
+          "path": "trad/data/oanda_training_manager/reports/modern_model_gap/signal_engine_refresh_latest.json",
+          "sha256": "3d590f923c44bae10de035de64494f16007574de3330ef38c202c3333cd3adce"
+        },
+        {
+          "assertions": {
+            "account_wired": false,
+            "after.contract_complete": true,
+            "after.documented_unavailable_count": 42,
+            "after.expected_pair_cells": 14144,
+            "after.fully_covered": false,
+            "after.observed_pair_cells": 14102,
+            "after.unaccounted_pair_cell_count": 0,
+            "status": "complete_with_documented_unavailable"
+          },
+          "path": "trad/data/oanda_training_manager/training_sets/model_gap_full_matrix/full_68x13x16_oanda_api_20260722/coverage_repair_report.json",
+          "sha256": "86a900392dd2d0ac55b742b6b6eacb8cd9539eadb20c8fffb76a8210662ed745"
+        },
+        {
+          "assertions": {
+            "error_count": 0,
+            "horizons_requested.$len": 6,
+            "promotion_ready_count": 24,
+            "rows": 1260,
+            "successful_rows": 1260,
+            "windows_requested": 2
+          },
+          "path": "trad/data/oanda_training_manager/arima_baselines/arima_h1_h24_recovery_20260721_summary.json",
+          "sha256": "94810c28d999332f050a5fd5111159e84e169319140a51cafabc681e9281d916"
+        },
+        {
+          "assertions": {
+            "error_count": 0,
+            "horizons_requested.$len": 4,
+            "promotion_ready_count": 42,
+            "rows": 840,
+            "successful_rows": 840,
+            "windows_requested": 2
+          },
+          "path": "trad/data/oanda_training_manager/arima_baselines/arima_h4_h24_recovery_20260721_summary.json",
+          "sha256": "4671bfe365bc687b0ee9cffdddaa5dcaef058745dbeebf0e29f81efe7bdbe90a"
+        },
+        {
+          "path": "trad/data/oanda_training_manager/arima_baselines/arima_h1_h24_recovery_20260721_results.csv",
+          "sha256": "b6e109002cf9f22d26f4b620de2ba077216b0e9f84dfb97e64570f66894ed0ab"
+        },
+        {
+          "path": "trad/data/oanda_training_manager/arima_baselines/arima_h4_h24_recovery_20260721_results.csv",
+          "sha256": "21ca03aa51a828292b598d8ebc4b3801737745f81f78e429d11334ee8ef9f6e3"
+        },
+        {
+          "path": "trad/data/oanda_training_manager/model_space/validation_fixtures/foundation_h1_h24_recovery_20260721.npz",
+          "sha256": "7a3bfdbf86e7b11767899ebe8a454196155252bca7dc5373238e4db09d390514"
+        },
+        {
+          "path": "trad/data/oanda_training_manager/model_space/validation_fixtures/foundation_h1_h24_recovery_20260721.npz.manifest.json",
+          "sha256": "f5582a7a797793b8297af81d1c8e58dafd3565d7451c14dab4072e263c08b23a"
+        },
+        {
+          "path": "trad/data/oanda_training_manager/model_space/validation_fixtures/foundation_h4_h24_recovery_20260721.npz",
+          "sha256": "8b5cbff281c5c24efbe09a77197819dfb406efca14a9963ed27adae6229d27dd"
+        },
+        {
+          "path": "trad/data/oanda_training_manager/model_space/validation_fixtures/foundation_h4_h24_recovery_20260721.npz.manifest.json",
+          "sha256": "f53c5e5cfa5f18c93dab73a19fc8cc13777146f70c4a342b4d2c8b6072c04b7a"
+        }
+      ],
+      "full_reruns": [],
+      "pytest_files": [
+        "trad/test_oanda_s5_timeframe_strategy_replay.py",
+        "trad/test_oanda_shared_panel_model_benchmark.py",
+        "trad/test_oanda_shared_panel_neural_benchmark.py",
+        "trad/test_oanda_shared_timeframe_horizon_panel.py",
+        "trad/test_oanda_model_gap_registry.py",
+        "trad/test_oanda_foundation_model_adapters.py",
+        "trad/test_oanda_neuralforecast_family_adapters.py",
+        "trad/test_oanda_cross_pair_graph_adapter.py",
+        "trad/test_oanda_state_space_adapters.py",
+        "trad/test_oanda_decision_model_adapters.py",
+        "trad/test_oanda_representation_learning_adapters.py",
+        "trad/test_forex_model_vault_sync.py",
+        "trad/test_forex_vault_import.py",
+        "trad/test_forex_validation_recreation.py",
+        "trad/test_forex_runtime_lock.py",
+        "trad/test_oanda_model_gap_full_matrix.py",
+        "trad/test_oanda_model_gap_coverage_repair.py",
+        "trad/test_oanda_model_gap_completion.py",
+        "trad/test_oanda_model_gap_market_validation.py",
+        "trad/test_oanda_foundation_weight_sync.py",
+        "trad/test_oanda_foundation_market_benchmark.py",
+        "trad/test_oanda_practice_live_dashboard.py",
+        "trad/test_oanda_statistical_validation.py",
+        "trad/test_oanda_execution_policy.py",
+        "trad/test_oanda_post_gap_execution_pipeline.py",
+        "trad/test_oanda_exit_policy_sweep.py",
+        "trad/test_oanda_lane_promotion.py",
+        "trad/test_oanda_second_forecast_fit.py",
+        "trad/test_oanda_signal_combination_audit.py",
+        "trad/test_oanda_practice_shadow_strategy_lab.py",
+        "trad/test_oanda_s5_backfill_only.py",
+        "trad/test_oanda_disk_event7_guard.py",
+        "trad/test_oanda_m1_s5_cache_consolidation.py",
+        "trad/test_oanda_m1_api_recovery.py",
+        "trad/test_oanda_m1_recovered_cache_audit.py",
+        "trad/test_oanda_foundation_market_report_merge.py",
+        "trad/test_oanda_model_gap_unified_report.py",
+        "trad/test_oanda_arima_multiframe_sweep.py",
+        "trad/test_oanda_signal_contribution_feed.py",
+        "trad/test_oanda_signal_engine_refresh_audit.py",
+        "trad/test_oanda_model_gap_live_signal_producer.py",
+        "trad/test_oanda_model_gap_live_signal_worker.py",
+        "trad/test_oanda_order_position_book_collector.py",
+        "trad/test_oanda_prospective_live_panel.py",
+        "trad/test_oanda_prospective_model_refresh.py",
+        "trad/test_oanda_wait_for_private_creds.py"
+      ],
+      "pytest_isolate_files": true,
+      "pytest_minimum_passed": 241,
+      "pytest_timeout_seconds": 900
+    }
+  },
+  "schema_version": 2,
+  "updated_utc": "2026-07-22T13:04:13.920786+00:00"
+}

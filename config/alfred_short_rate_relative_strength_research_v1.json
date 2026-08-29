@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "contract_id": "alfred_short_rate_relative_strength_discovery_v1_20260816",
+  "research_only": true,
+  "execution_eligible": false,
+  "evidence_class": "historical_availability_counterfactual_discovery",
+  "price_granularity": "H4",
+  "maximum_price_candles_per_pair": 5000,
+  "minimum_price_start_utc": "2023-01-01T00:00:00Z",
+  "availability_lag_days": {
+    "monthly_short_term_interest_rate": 45
+  },
+  "horizons_hours": [24, 72, 168],
+  "absolute_signal_thresholds": [0.0, 0.10, 0.25],
+  "spread_buckets_pips": {
+    "liquid": 3.0,
+    "moderate": 10.0
+  },
+  "signal_rules": [
+    "short_rate_level_differential",
+    "short_rate_change_differential"
+  ],
+  "technical_confirmation_lookback_bars": 6,
+  "technical_confirmation_candidates": [
+    {
+      "candidate_id": "short_rate_change_h24_liquid_threshold_025",
+      "signal_rule": "short_rate_change_differential",
+      "absolute_signal_threshold": 0.25,
+      "horizon_hours": 24,
+      "liquidity_bucket": "liquid"
+    }
+  ],
+  "technical_confirmation_rule": "sign_of_pre_entry_24h_H4_mid_open_return",
+  "technical_confirmation_is_post_discovery_diagnostic": true,
+  "direction_rule": "higher_base_minus_quote_short_rate_or_change_predicts_base_strength",
+  "negative_control": "flipped_direction",
+  "factor_deduplication": "one_reference_date_and_frequency_group_episode",
+  "cross_frequency_comparison_forbidden": true,
+  "bootstrap_rows_proof_ineligible": true,
+  "stale_series_are_discovery_context_not_current_state": true,
+  "material_change_requires_new_cohort": true
+}

@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "contract_id": "currency_policy_dependency_registry_v1_20260816",
+  "research_only": true,
+  "execution_eligible": false,
+  "dependencies": [
+    {
+      "dependent_currency": "HKD",
+      "driver_currency": "USD",
+      "driver_event_category": "monetary_policy",
+      "authority": "Hong Kong Monetary Authority",
+      "mechanism": "linked_exchange_rate_base_rate_formula",
+      "interpretation": "The HKMA Base Rate is formula-linked to the lower bound of the prevailing U.S. federal funds target range and HIBOR inputs. A FOMC clock is therefore an HKD readiness dependency, not an independent HKMA decision or a guaranteed HKD direction.",
+      "official_reference": "https://www.hkma.gov.hk/eng/key-functions/money/liquidity-facility-framework/base-rate/",
+      "timing_policy": "driver_clock_preflight_only",
+      "assign_direction": false
+    },
+    {
+      "dependent_currency": "DKK",
+      "driver_currency": "EUR",
+      "driver_event_category": "monetary_policy",
+      "authority": "Danmarks Nationalbank",
+      "mechanism": "erm_ii_peg_policy_dependency",
+      "interpretation": "Danish monetary policy maintains the krone's central rate against the euro. An ECB decision is therefore a DKK readiness dependency, but Danmarks Nationalbank need not change an official rate at the same time or by the same amount.",
+      "official_reference": "https://www.nationalbanken.dk/en/what-we-do/stable-prices-monetary-policy-and-the-danish-economy/official-interest-rates",
+      "timing_policy": "driver_clock_preflight_only",
+      "assign_direction": false
+    }
+  ],
+  "explicit_non_dependencies": [
+    {
+      "currency": "SGD",
+      "authority": "Monetary Authority of Singapore",
+      "mechanism": "s_neer_exchange_rate_policy_band",
+      "reason": "MAS conducts monetary policy through the exchange-rate band and publishes statements twice yearly; no exact October 2026 release clock has been verified, so no foreign meeting is substituted as its decision clock."
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "policy": "isolated C recovery runtimes used while D is hardware-degraded; shadow research only",
+  "profiles": {
+    "core_timeseries": {
+      "python": "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312_cuda\\Scripts\\python.exe",
+      "models": [
+        "catboost",
+        "ngboost",
+        "tft",
+        "deepar",
+        "patchtst",
+        "nbeats",
+        "nhits",
+        "lstm",
+        "gru",
+        "tcn",
+        "temporal_cross_pair_gnn",
+        "chronos_2",
+        "timesfm_2_5",
+        "contextual_bandit",
+        "ppo",
+        "sac",
+        "dqn",
+        "self_supervised_pretraining",
+        "contrastive_learning",
+        "multi_task_learning",
+        "transfer_learning",
+        "knowledge_distillation"
+      ]
+    },
+    "foundation_moirai": {
+      "python": "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\foundation_moirai312\\Scripts\\python.exe",
+      "pythonpath": [
+        "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\official_sources\\lag-llama"
+      ],
+      "models": [
+        "moirai",
+        "moirai_moe",
+        "lag_llama"
+      ]
+    },
+    "foundation_toto": {
+      "python": "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\foundation_toto312\\Scripts\\python.exe",
+      "models": [
+        "toto_2"
+      ]
+    },
+    "foundation_ttm": {
+      "python": "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\foundation_ttm312\\Scripts\\python.exe",
+      "models": [
+        "tiny_time_mixer"
+      ]
+    }
+  },
+  "official_source_pins": {
+    "s4": {
+      "path": "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\official_sources\\state-spaces-s4",
+      "repository": "https://github.com/state-spaces/s4",
+      "commit": "e757cef57d89e448c413de7325ed5601aceaac13"
+    },
+    "lag_llama": {
+      "path": "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\official_sources\\lag-llama",
+      "repository": "https://github.com/time-series-foundation-models/lag-llama",
+      "commit": "df7531a83a19b3c6a0222d703ca9bf59ef7a6ab9"
+    }
+  },
+  "explicit_blockers": {
+    "timesfm_icf": "No audited public TimesFM-ICF runtime is available from the official source.",
+    "mamba": "The official Mamba runtime requires Linux, an NVIDIA GPU, and a CUDA toolkit; this host is native Windows without WSL."
+  }
+}

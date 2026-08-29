@@ -1,0 +1,89 @@
+{
+  "manifest_id": "currency_state_official_context_v3_manifest_20260817",
+  "context_contract_id": "currency_state_official_context_v3_20260817",
+  "official_fact_adapter_contract_id": "official_fact_adapter_v3_20260817",
+  "immutable_event_clock_contract_id": "immutable_point_in_time_event_clock_v2_20260817",
+  "state": {
+    "enabled": false,
+    "registered": false,
+    "independent_review_state": "pending",
+    "canonical_output_initialized": false
+  },
+  "artifacts": {
+    "context_v3_module": {
+      "relative_path": "src/forex_system/features/currency_state_official_context_v3.py",
+      "sha256": "1fa9a13a22eadc3aee3d8788099bba47b6af3f44ca29bdbe732af2c82eee4866",
+      "byte_length": 39858
+    },
+    "context_v3_contract": {
+      "relative_path": "config/currency_state_official_context_contract_v3.json",
+      "sha256": "8d9a8d65e8b108d72217603df6cb3d8bcf0b3a5daa8e07e5dbb740089387b956",
+      "byte_length": 1859
+    },
+    "v3_adversarial_tests": {
+      "relative_path": "test_official_fact_adapter_v3.py",
+      "sha256": "11b6e4e14c57f416f9417114e92124f6f0c85707bfbc2cffcc5073a7ceee01d2",
+      "byte_length": 20681
+    },
+    "official_fact_v3_module": {
+      "relative_path": "src/forex_system/ingestion/official_fact_adapter_v3.py",
+      "sha256": "3a3e588ed2f71ec9d6f2b83a0ce0103d0b15bc45e4f542a38a09d17974597874",
+      "byte_length": 38357
+    },
+    "official_fact_v3_contract": {
+      "relative_path": "config/official_fact_adapter_contract_v3.json",
+      "sha256": "38939bc1a2e3156a316570eaeb19f32b406086bb8533f57b80fb9b6c8ae58e72",
+      "byte_length": 1889
+    },
+    "official_fact_v3_dependency_manifest": {
+      "relative_path": "config/official_fact_adapter_v3_manifest.json",
+      "sha256": "5f50e276db35180f8dc72a812bae9d4b0bceda837d6c4c260ac4edf9b308973e",
+      "byte_length": 3837
+    },
+    "parent_context_v2_module": {
+      "relative_path": "src/forex_system/features/currency_state_official_context_v2.py",
+      "sha256": "beca8eadc36333b3e0966cddf245fb5b367766ccf3fc3bb99202b754c8ab45df",
+      "byte_length": 22860
+    },
+    "composition_base_v1_module": {
+      "relative_path": "src/forex_system/features/currency_state_official_context.py",
+      "sha256": "beca86b5fec03a4cfe233680fd27560478ec5edaa3f23e2a0cd140fe52869418",
+      "byte_length": 16109
+    },
+    "currency_state_engine_module": {
+      "relative_path": "src/forex_system/features/currency_state_engine.py",
+      "sha256": "af52e1c18d66ff38082e0f383deb9183628b6f06c8fc73c446a49a038fe6e049",
+      "byte_length": 30200
+    },
+    "currency_state_contract_helper": {
+      "relative_path": "src/forex_system/contracts/currency_state.py",
+      "sha256": "6d7c625af12c2af45a45ecd832ad92c600c986f57193278da6a0f83231ea3139",
+      "byte_length": 4073
+    },
+    "currency_state_engine_contract": {
+      "relative_path": "config/currency_state_engine_v2.json",
+      "sha256": "20138fe4328ee88b47b8edce2b3bd6081191cda35dd4124a9a457ea9b2efa400",
+      "byte_length": 3272
+    },
+    "immutable_clock_v2_module": {
+      "relative_path": "src/forex_system/ingestion/immutable_event_clock.py",
+      "sha256": "c9f82aa767793ab280cd66c05f409cb9e067ca546ee5fb7eaec8cca22dae9e04",
+      "byte_length": 89792
+    }
+  },
+  "policy": {
+    "all_repo_code_and_static_contract_dependencies_are_pinned": true,
+    "base_currency_state_identity_is_verified_before_copy": true,
+    "copied_horizons_are_preserved_before_context_enrichment": true,
+    "full_composite_identity_covers_every_field_except_snapshot_id": true,
+    "closed_recursive_exact_type_schema": true,
+    "summary_metadata_basis_and_horizon_counts_reconcile": true,
+    "official_context_assigns_no_direction_or_expected_value": true,
+    "research_only": true,
+    "execution_eligible": false,
+    "can_place_orders": false,
+    "can_promote": false,
+    "can_authorize": false,
+    "supported_execution_decision": "no_trade"
+  }
+}

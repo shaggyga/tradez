@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "review_id": "thailand_cpi_june_2026_briefing_upload_v1_independent_review_20260817T101053Z",
+  "review_result_recorded_utc": "2026-08-17T10:10:53Z",
+  "verdict": "register_disabled_research_only_exact_bytes",
+  "review_scope": "disabled archive diagnostic only",
+  "reviewed_artifacts": {
+    "module": {
+      "relative_path": "src/forex_system/ingestion/thailand_cpi_june_briefing_upload_v1.py",
+      "sha256": "51fad8061a455f68dd19e94c1e0c4415572298630327ae90c153be34f617c09a",
+      "byte_length": 37595
+    },
+    "contract": {
+      "relative_path": "config/thailand_cpi_june_2026_briefing_upload_v1.json",
+      "sha256": "9a3d6a89dfa3001a2ac327db031d8a07673e0701f624460349e38a590d77ec9c",
+      "byte_length": 3726
+    },
+    "tests": {
+      "relative_path": "test_thailand_cpi_june_briefing_upload_v1.py",
+      "sha256": "27c23abbeb37f35b48b81a5685814e1ed9e53b60a69b2a2af21289cca7632783",
+      "byte_length": 12062
+    },
+    "observation_manifest": {
+      "relative_path": "data/oanda_training_manager/source_archives/thailand_cpi_june_2026_briefing_upload_v1/source_observation_manifest_20260817T095017Z.json",
+      "sha256": "ceb7b37b90d6273aeb019c740f6b945e17c20d2bd8e84f56fe082ef70a3181f6",
+      "byte_length": 4474
+    },
+    "moc_page_archive": {
+      "relative_path": "data/oanda_training_manager/source_archives/thailand_cpi_june_2026_briefing_upload_v1/moc_sisaket_cpi_briefing_observed_20260817.html",
+      "sha256": "a9bb23d0445032aefcbd037bcf440a434bc9c26a61b51dcd7c130a9fb0ce2094",
+      "byte_length": 166730
+    },
+    "tpso_pdf_archive": {
+      "relative_path": "data/oanda_training_manager/source_archives/thailand_cpi_june_2026_briefing_upload_v1/tpso_cpi_june_2026_observed_20260817.pdf",
+      "sha256": "014472adf420655f9f9374f857cccd8c5efd1f4da041e742e2ae7519ffc235df",
+      "byte_length": 414864
+    }
+  },
+  "validation": {
+    "focused_tests_passed": 25,
+    "adjacent_tests_passed": 46,
+    "subtests_passed": 30,
+    "byte_compile_passed": true,
+    "static_runtime_isolation_passed": true,
+    "independent_pdf_extraction_and_visual_page_one_review_passed": true,
+    "p0_findings": 0,
+    "p1_findings": 0,
+    "p2_findings": 0,
+    "blocking_p3_findings": 0,
+    "nonblocking_future_hardening": [
+      "pin the pypdf and extracted-text transformation contract",
+      "reject reparse points and junctions in every parent path component"
+    ]
+  },
+  "registration": {
+    "enabled": false,
+    "registered_with_live_collector": false,
+    "runtime_supported": false,
+    "collector_wired": false,
+    "research_only": true,
+    "shadow_only": true,
+    "proof_eligible": false,
+    "promotion_eligible": false,
+    "authorization_eligible": false,
+    "execution_eligible": false,
+    "supported_execution_decision": "no_trade"
+  },
+  "clock_boundary": {
+    "briefing_start_utc": "2026-07-06T03:30:00Z",
+    "briefing_start_is_public_availability_proof": false,
+    "pdf_server_last_modified_utc": "2026-07-06T04:17:19Z",
+    "pdf_metadata_is_public_availability_proof": false,
+    "page_first_seen_utc": "2026-08-17T09:50:17.5319969Z",
+    "pdf_and_facts_first_seen_utc": "2026-08-17T09:50:22.1793935Z",
+    "effective_known_utc": "2026-08-17T09:50:22.1793935Z",
+    "exact_prospective_public_cpi_clock_closed": false,
+    "dynamic_page_repeat_differed": true,
+    "only_first_exact_page_payload_retained": true,
+    "stable_pdf_repeat_byte_identical": true
+  },
+  "fact_boundary": {
+    "headline_index": 102.85,
+    "headline_mom_pct": -0.34,
+    "headline_yoy_pct": 2.42,
+    "core_yoy_pct": 1.23,
+    "causal_consensus_available": false,
+    "surprise_available": false,
+    "direction_available": false,
+    "factor_independence": "the single priced THB pair remains one THB currency factor"
+  },
+  "immutability": {
+    "any_reviewed_byte_change_requires_new_review": true,
+    "this_certificate_cannot_enable_register_or_execute_code": true,
+    "lifecycle_or_authorization_authority": false
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "contract_id": "currency_state_engine_v1_20260816",
+  "snapshot_schema": "currency_state_snapshot_v1",
+  "research_only": true,
+  "execution_eligible": false,
+  "can_place_orders": false,
+  "supported_execution_decision": "no_trade",
+  "material_change_requires_new_contract": true,
+  "identification": "zero_sum_within_connected_component",
+  "currencies": [
+    "AUD", "CAD", "CHF", "CNH", "CZK", "DKK", "EUR", "GBP", "HKD",
+    "HUF", "JPY", "MXN", "NOK", "NZD", "PLN", "SEK", "SGD", "THB",
+    "TRY", "USD", "ZAR"
+  ],
+  "instruments": [
+    "AUD_CAD", "AUD_CHF", "AUD_HKD", "AUD_JPY", "AUD_NZD", "AUD_SGD", "AUD_USD",
+    "CAD_CHF", "CAD_HKD", "CAD_JPY", "CAD_SGD", "CHF_HKD", "CHF_JPY", "CHF_ZAR",
+    "EUR_AUD", "EUR_CAD", "EUR_CHF", "EUR_CZK", "EUR_DKK", "EUR_GBP", "EUR_HKD",
+    "EUR_HUF", "EUR_JPY", "EUR_NOK", "EUR_NZD", "EUR_PLN", "EUR_SEK", "EUR_SGD",
+    "EUR_TRY", "EUR_USD", "EUR_ZAR", "GBP_AUD", "GBP_CAD", "GBP_CHF", "GBP_HKD",
+    "GBP_JPY", "GBP_NZD", "GBP_PLN", "GBP_SGD", "GBP_USD", "GBP_ZAR", "HKD_JPY",
+    "NZD_CAD", "NZD_CHF", "NZD_HKD", "NZD_JPY", "NZD_SGD", "NZD_USD", "SGD_CHF",
+    "SGD_JPY", "TRY_JPY", "USD_CAD", "USD_CHF", "USD_CNH", "USD_CZK", "USD_DKK",
+    "USD_HKD", "USD_HUF", "USD_JPY", "USD_MXN", "USD_NOK", "USD_PLN", "USD_SEK",
+    "USD_SGD", "USD_THB", "USD_TRY", "USD_ZAR", "ZAR_JPY"
+  ],
+  "horizons_sec": [60, 300, 900, 1800, 3600],
+  "price_response": {
+    "source_role": "observed_response",
+    "maximum_endpoint_age_sec": 180,
+    "maximum_start_alignment_sec": 120,
+    "minimum_observations": 6,
+    "minimum_component_currencies": 4,
+    "spread_floor_bps": 0.05,
+    "maximum_weight": 10.0,
+    "measurement_uncertainty_floor_bps": 0.05,
+    "return_clip_minimum_bps": 5.0,
+    "return_clip_median_multiple": 8.0,
+    "leave_one_edge_out": true
+  },
+  "component_channels": [
+    {"id": "structured_official_fact", "role": "forecast", "initial_state": "unavailable"},
+    {"id": "policy_statement_delta", "role": "forecast", "initial_state": "unavailable"},
+    {"id": "intraday_rate_repricing", "role": "forecast", "initial_state": "unavailable"},
+    {"id": "semantic_analog", "role": "forecast", "initial_state": "unavailable"},
+    {"id": "positioning", "role": "conditioning", "initial_state": "unavailable"},
+    {"id": "media_context", "role": "context", "initial_state": "unavailable"},
+    {"id": "latent_price_response", "role": "observed_response", "initial_state": "available_when_fresh"}
+  ],
+  "pair_edge_policy": {
+    "expected_move_requires_calibrated_forecast_component": true,
+    "observed_response_cannot_self_authorize": true,
+    "missing_is_unavailable_not_zero": true,
+    "technical_role": "timing_rejection_or_invalidation_only",
+    "allocator_state": "disabled_until_prospectively_validated"
+  }
+}

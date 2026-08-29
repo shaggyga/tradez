@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "contract_id": "prospective_event_response_capture_v4_20260817",
+  "cohort_id": "prospective_official_event_response_v4_20260817",
+  "candidate_bytes_frozen_utc": "2026-08-17T08:41:51.081700Z",
+  "independent_reviewed_utc": null,
+  "cohort_start_utc": null,
+  "review_state": "pending_independent_review",
+  "registration_state": "disabled_unregistered",
+  "implementation_identity_policy": {
+    "official_fact_v2_actual_bytes_pinned": true,
+    "currency_context_v2_actual_bytes_pinned": true,
+    "sqlite_free_selector_loader_pinned": true,
+    "archived_v2_implementation_executed_by_loader_pinned": true,
+    "v2_tombstone_is_transitive_exception_only": true,
+    "rejected_v3_present": false
+  },
+  "helpers": [
+    {
+      "path": "src/forex_system/ingestion/prospective_event_response_v4.py",
+      "role": "candidate_runtime_core",
+      "sha256": "80d4a05ee1a62723da7cbd8923f18444079a6eb0636dceb44fe179e4f6fad3aa"
+    },
+    {
+      "path": "oanda_prospective_event_response_v4.py",
+      "role": "temp_only_collector",
+      "sha256": "9aee7c68fc3a257288ec2f38719e358e351fe7b874082f1f0090f67c3d560fdc"
+    },
+    {
+      "path": "oanda_prospective_event_response_worker_v4.py",
+      "role": "temp_only_worker",
+      "sha256": "b8e5257e97c3febb4b3e38b972ea1af6e2d3cd404a8627da2bd6236d876a649f"
+    },
+    {
+      "path": "src/forex_system/ingestion/immutable_event_clock.py",
+      "role": "upstream_clock_implementation",
+      "sha256": "c9f82aa767793ab280cd66c05f409cb9e067ca546ee5fb7eaec8cca22dae9e04"
+    },
+    {
+      "path": "src/forex_system/ingestion/official_fact_adapter.py",
+      "role": "upstream_official_fact_v1_implementation",
+      "sha256": "8b6a1605b95ea21dfdffde42a502eb7fa1b5f592d4c3dbc2af501e9cc1c5a6e4"
+    },
+    {
+      "path": "src/forex_system/ingestion/official_fact_adapter_v2.py",
+      "role": "actual_official_fact_v2_implementation",
+      "sha256": "0bc31d08e1c7e5429fc7e3a78a3a6f253cd081614cd7e9845ab212baab825662"
+    },
+    {
+      "path": "src/forex_system/features/currency_state_official_context.py",
+      "role": "upstream_currency_context_v1_implementation",
+      "sha256": "beca86b5fec03a4cfe233680fd27560478ec5edaa3f23e2a0cd140fe52869418"
+    },
+    {
+      "path": "src/forex_system/features/currency_state_official_context_v2.py",
+      "role": "actual_currency_context_v2_implementation",
+      "sha256": "beca8eadc36333b3e0966cddf245fb5b367766ccf3fc3bb99202b754c8ab45df"
+    },
+    {
+      "path": "src/forex_system/contracts/currency_state.py",
+      "role": "upstream_currency_state_contract",
+      "sha256": "6d7c625af12c2af45a45ecd832ad92c600c986f57193278da6a0f83231ea3139"
+    },
+    {
+      "path": "src/forex_system/ingestion/prospective_event_response_v2_frozen_helpers.py",
+      "role": "sqlite_free_selector_loader",
+      "sha256": "76a9829ed7e8ba803cdd2f2342f742bd00d942b43a692d0e7b7ef1b0f2d92833"
+    },
+    {
+      "path": "src/forex_system/ingestion/prospective_event_response_v2_tombstone.py",
+      "role": "transitive_exception_only_not_implementation_identity",
+      "sha256": "f87c3466ec4b04a95f91fc5c4c2ee9ae411c18eac4364ddcddd9a0fa5cb6841a"
+    },
+    {
+      "path": "artifacts/retired_contracts/prospective_event_response_v2_08bfa4b0bb213cae.py.frozen",
+      "role": "executed_v2_implementation_identity",
+      "sha256": "08bfa4b0bb213caefac910de76b05f22ca8aa5b89ca142a0eef5297e3296156d"
+    },
+    {
+      "path": "config/prospective_event_response_capture_v4.json",
+      "role": "candidate_contract",
+      "sha256": "2acf18ef34360a65311164df3455cb02855cd2ce46f23980964a11d5911a6b3c"
+    }
+  ]
+}

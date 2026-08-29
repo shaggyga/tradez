@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "contract": "predefined_without_reference_to_strategy_profit",
+  "immutable_for_existing_cohorts": true,
+  "event_classes": [
+    "central_bank_decision",
+    "inflation_release",
+    "employment_release",
+    "growth_release",
+    "ordinary_non_event",
+    "risk_on",
+    "risk_off",
+    "volatility_shock",
+    "trend",
+    "range",
+    "london",
+    "new_york",
+    "london_new_york_overlap",
+    "asia",
+    "session_transition",
+    "month_end",
+    "quarter_end",
+    "rollover",
+    "holiday_impaired_liquidity",
+    "funding_stress"
+  ],
+  "required_dimensions": [
+    "cohort_id",
+    "episode_type",
+    "session",
+    "signed_currency_factor",
+    "liquidity_bucket",
+    "horizon_sec"
+  ],
+  "boundary_policy": {
+    "scheduled_events": "preannounced release window plus fixed post-release horizon",
+    "sessions": "fixed UTC/DST-aware market-session calendar",
+    "month_quarter_end": "calendar known before decision cutoff",
+    "market_state": "causal price/volatility state frozen before outcome",
+    "profit_dependent_boundaries_forbidden": true
+  },
+  "activation": "new cohorts only after point-in-time episode labeller validation"
+}

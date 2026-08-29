@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "run_id": "four_hour_best_improvement_pass_20260808",
+  "duration_sec": 14400,
+  "interval_sec": 900,
+  "research_only": true,
+  "execution_eligible": false,
+  "safe_refresh_scripts": [
+    "oanda_project_integrity_audit.py",
+    "oanda_improvement_control_engine.py"
+  ],
+  "monitored_workers": [
+    "oanda_always_on_supervisor.ps1",
+    "oanda_practice_quote_stream.py",
+    "oanda_practice_top_signal_executor.py",
+    "oanda_practice_shadow_strategy_lab.py",
+    "oanda_local_news_sentiment.py",
+    "oanda_news_technical_watchlist.py",
+    "oanda_direct_source_response.py",
+    "oanda_executable_opportunity_prospective.py",
+    "oanda_clock_integrity_monitor.py",
+    "oanda_storage_headroom_guard.py"
+  ],
+  "focused_tests": [
+    "test_oanda_executable_opportunity_ranking.py",
+    "test_oanda_executable_opportunity_feature_contract.py",
+    "test_oanda_opportunity_gate_existing_directions.py",
+    "test_oanda_executable_opportunity_prospective.py",
+    "test_oanda_improvement_control_engine.py",
+    "test_oanda_clock_integrity_monitor.py",
+    "test_oanda_project_integrity_audit.py"
+  ],
+  "contract": {
+    "may_place_orders": false,
+    "may_promote": false,
+    "may_retune_frozen_cohorts": false,
+    "may_backfill_prospective_forecasts": false,
+    "may_vacuum_live_databases": false,
+    "may_restart_workers": false,
+    "market_closed_zero_evidence_expected": true
+  }
+}

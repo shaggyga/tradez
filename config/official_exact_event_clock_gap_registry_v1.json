@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "contract_id": "official_exact_event_clock_gap_registry_v4_huf_cpi_verified_policy_bytes_20260817",
+  "verified_utc": "2026-08-17T06:40:00Z",
+  "research_only": true,
+  "execution_eligible": false,
+  "direction_policy": "abstain",
+  "definition": {
+    "exact_domestic_clock": "A machine-readable or deterministically reproducible minute-level clock published by the currency's own official statistical or monetary authority.",
+    "date_window": "An official date or bounded day window. It is useful for readiness but is not an exact event clock.",
+    "linked_driver_clock": "A foreign authority's exact clock that is economically relevant under a peg or formula. It is not an independent domestic event and cannot create a second vote."
+  },
+  "currencies": [
+    {
+      "currency": "DKK",
+      "priced_pairs": ["EUR_DKK", "USD_DKK"],
+      "domestic_statistics": {
+        "status": "exact_minute_available",
+        "source_id": "denmark_statistics_release_calendar_exact_v1",
+        "source_contract_id": "denmark_statistics_release_calendar_exact_v2_paged_45d_20260817",
+        "official_timezone": "Europe/Copenhagen",
+        "clock_source": "official row date and time",
+        "official_references": [
+          "https://www.dst.dk/en/Statistik/planlagte",
+          "https://www.dst.dk/en/Statistik/dokumentation/documentationofstatistics/consumer-price-index/accessibility-and-clarity"
+        ]
+      },
+      "domestic_policy": {
+        "status": "no_independent_preannounced_exact_clock_verified",
+        "authority": "Danmarks Nationalbank",
+        "reason": "Official rates support the fixed-exchange-rate policy and changes need not be a separately scheduled decision at the ECB minute.",
+        "official_reference": "https://www.nationalbanken.dk/en/what-we-do/stable-prices-monetary-policy-and-the-danish-economy/official-interest-rates"
+      },
+      "linked_driver": {
+        "driver_currency": "EUR",
+        "authority": "European Central Bank",
+        "status": "exact_but_not_domestic_or_independent",
+        "factor_independence": "same_eur_policy_factor",
+        "can_assign_direction": false,
+        "can_confirm": false
+      }
+    },
+    {
+      "currency": "HKD",
+      "priced_pairs": ["AUD_HKD", "CAD_HKD", "CHF_HKD", "EUR_HKD", "GBP_HKD", "HKD_JPY", "NZD_HKD", "USD_HKD"],
+      "domestic_statistics": {
+        "status": "exact_minute_available",
+        "source_id": "hong_kong_censtatd_release_calendar_exact_v1",
+        "source_contract_id": "hong_kong_censtatd_release_calendar_exact_v2_workbook_relationships_20260817",
+        "official_timezone": "Asia/Hong_Kong",
+        "clock_source": "official annual release date plus C&SD's documented 16:30 HKT regular-release rule",
+        "official_references": [
+          "https://www.censtatd.gov.hk/en/press_release.html",
+          "https://www.censtatd.gov.hk/FileManager/EN/Common/Regular_Press_Releases_Schedule_2026.xlsx"
+        ]
+      },
+      "domestic_policy": {
+        "status": "no_independent_preannounced_exact_clock_verified",
+        "authority": "Hong Kong Monetary Authority",
+        "reason": "The Base Rate is formula-linked to the U.S. target range and local overnight/interbank inputs; no independent preannounced HKMA decision minute was verified.",
+        "official_reference": "https://www.hkma.gov.hk/eng/key-functions/money/liquidity-facility-framework/base-rate/"
+      },
+      "linked_driver": {
+        "driver_currency": "USD",
+        "authority": "Federal Reserve",
+        "status": "exact_but_not_domestic_or_independent",
+        "factor_independence": "same_usd_policy_factor",
+        "can_assign_direction": false,
+        "can_confirm": false
+      }
+    },
+    {
+      "currency": "HUF",
+      "priced_pairs": ["EUR_HUF", "USD_HUF"],
+      "domestic_statistics": {
+        "status": "exact_minute_available",
+        "source_id": "hungary_ksh_headline_cpi_release_clock_exact_v3",
+        "source_contract_id": "hungary_ksh_headline_cpi_release_clock_exact_v3_verified_policy_bytes_20260817",
+        "official_timezone": "Europe/Budapest",
+        "clock_source": "Official KSH headline-CPI next-release date plus content-addressed KSH public first-release rule at 08:30 local",
+        "scope": "headline_cpi_only",
+        "official_references": [
+          "https://www.ksh.hu/prices?lang=en",
+          "https://www.ksh.hu/docs/bemutatkozas/eng/dissemination-and-communication-policy-2024.pdf"
+        ]
+      },
+      "domestic_policy": {
+        "status": "official_date_window_only",
+        "source_id": "mnb_policy_decision_calendar_2026",
+        "source_contract_id": "mnb_policy_decision_calendar_2026_v1_20260816",
+        "authority": "Magyar Nemzeti Bank",
+        "timing_precision": "date_window",
+        "reason": "The official 2026 meeting page verifies decision dates. Its explicit 14:00 publication time refers to later abridged minutes, not an independently verified current decision-release minute.",
+        "official_reference": "https://www.mnb.hu/en/pressroom/press-releases/press-releases-2025/the-monetary-council-s-meetings-2026"
+      },
+      "linked_driver": null
+    }
+  ],
+  "guards": [
+    "Calendar rows contain no actual, consensus, surprise or direction.",
+    "First local observation is the earliest causal knowledge time; historical rows first collected after release remain archive context only.",
+    "Exact clocks cannot promote, authorize or execute.",
+    "Linked ECB and FOMC clocks cannot count as independent DKK or HKD evidence.",
+    "Missing precision is unknown, never exact by default."
+  ]
+}

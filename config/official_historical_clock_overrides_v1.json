@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "contract_id": "official_historical_clock_overrides_v1_20260824",
+  "evidence_class": "historical_availability_counterfactual_clock_repair",
+  "research_only": true,
+  "execution_eligible": false,
+  "definition": "Narrow exact-clock repairs for the historical discovery replay only. Values were first observed after release, so these rows cannot become prospective proof, surprise, direction, confirmation, authorization, or execution evidence.",
+  "series": [
+    {
+      "event_series_id": "czech_headline_cpi_yoy",
+      "currency": "CZK",
+      "source_contract_id": "czech_cpi_final_exact_v1_20260817",
+      "source_review_certificate": "config/czech_cpi_final_exact_v1_independent_review_20260817.json",
+      "source_review_certificate_sha256": "cb84f4a9a16fb17796b2a0e3dcfa8edb07f480e8544020b151aded8c32a52418",
+      "release_utc_by_reference": {
+        "2026M07": "2026-08-11T07:00:00Z"
+      },
+      "collection_class": "late_observed_archive_only",
+      "direction": null,
+      "consensus": null,
+      "surprise": null,
+      "proof_eligible": false,
+      "execution_eligible": false
+    },
+    {
+      "event_series_id": "mexico_headline_cpi_yoy",
+      "currency": "MXN",
+      "source_contract_id": "mxn_inegi_cpi_exact_v1_20260817",
+      "source_review_certificate": "config/mxn_inegi_cpi_exact_v1_independent_review_20260817.json",
+      "source_review_certificate_sha256": "185f69308d6d75255fd04eb409a419e3f6aa39f63943bac75ba0962e76acfa94",
+      "release_utc_by_reference": {
+        "2026M07": "2026-08-07T12:00:00Z"
+      },
+      "collection_class": "late_observed_archive_only",
+      "direction": null,
+      "consensus": null,
+      "surprise": null,
+      "proof_eligible": false,
+      "execution_eligible": false
+    }
+  ],
+  "explicitly_unresolved": {}
+}

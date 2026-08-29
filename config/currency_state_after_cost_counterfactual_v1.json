@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "contract_id": "currency_state_after_cost_counterfactual_v1_20260817",
+  "counterfactual_cohort_id": "currency_state_after_cost_counterfactual_cohort_20260817a",
+  "snapshot_schema": "currency_state_after_cost_counterfactual_snapshot_v1",
+  "required_response_contract_id": "currency_state_response_timing_arms_v1_20260817",
+  "required_response_snapshot_schema": "currency_state_response_timing_arms_snapshot_v1",
+  "required_state_contract_id": "currency_state_engine_v2_20260816",
+  "expected_instrument_count": 68,
+  "expected_horizons_sec": [60, 300, 900, 1800, 3600],
+  "expected_arm_ids": [
+    "official_context_only",
+    "observed_price_only",
+    "technical_timing_verification",
+    "aligned",
+    "direction_conflicted_aggressive_paper",
+    "delayed_reconfirmed",
+    "magnitude_only",
+    "no_trade"
+  ],
+  "forward_admissible_arm_ids": [
+    "official_context_only",
+    "aligned",
+    "direction_conflicted_aggressive_paper",
+    "delayed_reconfirmed"
+  ],
+  "never_forward_arm_ids": [
+    "observed_price_only",
+    "technical_timing_verification",
+    "magnitude_only",
+    "no_trade"
+  ],
+  "economics_input": {
+    "allowed_calibration_states": ["out_of_fold_locked", "prospective_locked"],
+    "minimum_calibration_effective_n": 50.0,
+    "minimum_direction_probability": 0.5,
+    "maximum_probability": 1.0,
+    "required_identity_fields": [
+      "forecast_id",
+      "model_contract_id",
+      "model_contract_sha256",
+      "model_cohort_id",
+      "model_cohort_sha256",
+      "feature_contract_id",
+      "feature_contract_sha256",
+      "calibration_contract_id",
+      "calibration_contract_sha256",
+      "cost_model_contract_id",
+      "cost_model_contract_sha256"
+    ],
+    "required_component_clock_fields": [
+      "probability_known_at_utc",
+      "magnitude_known_at_utc",
+      "slippage_known_at_utc",
+      "latency_known_at_utc",
+      "rotation_cost_known_at_utc"
+    ],
+    "require_point_in_time_validated": true,
+    "require_out_of_fold_or_prospective_calibration": true,
+    "require_source_lineage_superset": true,
+    "require_factor_lineage_exact_match": true,
+    "spread_recalculation_tolerance_bps": 0.000001
+  },
+  "response_basis_gate": {
+    "require_basis_eligible_for_after_cost": true,
+    "require_proof_eligible_lineage": true,
+    "require_basis_eligibility_contract_id": true,
+    "required_basis_eligibility_contract_id": "official_fact_basis_eligibility_v1_20260817",
+    "mere_source_fact_presence_is_insufficient": true
+  },
+  "selection": {
+    "minimum_after_cost_ev_bps": 0.5,
+    "minimum_cost_clear_probability": 0.55,
+    "maximum_disjoint_positions": 4,
+    "disallow_shared_currency": true,
+    "disallow_shared_signed_factor": true
+  },
+  "hold_switch": {
+    "minimum_incremental_switch_ev_bps": 0.5,
+    "one_hold_record_per_arm_horizon": true,
+    "require_current_forward_arm_record": true
+  },
+  "cost_accounting": {
+    "entry_exit_spread_basis": "current_executable_bid_ask_full_spread_proxy",
+    "expected_gross_ev_formula": "p_direction*expected_favorable_move_bps-(1-p_direction)*expected_adverse_move_bps",
+    "expected_net_ev_formula": "expected_gross_ev_bps-spread_bps-slippage_bps-latency_cost_bps-rotation_cost_bps",
+    "missing_cost_policy": "unavailable_not_zero"
+  },
+  "research_only": true,
+  "execution_eligible": false,
+  "can_place_orders": false,
+  "supported_execution_decision": "no_trade",
+  "material_change_requires_new_contract": true,
+  "material_logic_cost_or_schema_change_requires_new_cohort": true
+}

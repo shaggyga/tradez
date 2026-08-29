@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "contract_id": "prospective_event_response_capture_v1_20260817",
+  "cohort_id": "prospective_official_event_response_v1_20260817",
+  "cohort_start_utc": "2026-08-17T03:45:00+00:00",
+  "purpose": "Prospectively freeze official scheduled events before release and capture executable response observations at predefined offsets without selecting events from future movement.",
+  "research_only": true,
+  "execution_eligible": false,
+  "can_place_orders": false,
+  "supported_execution_decision": "no_trade",
+  "material_change_requires_new_cohort": true,
+  "exclude_events_scheduled_before_cohort_start": true,
+  "exclude_pre_cohort_observations": true,
+  "allow_late_backfill": false,
+  "immutable_event_clock_contract_id": "immutable_point_in_time_event_clock_v1_20260817",
+  "required_clock_attestation_state": "fresh_trusted",
+  "maximum_clock_attestation_age_sec": 90,
+  "allowed_event_time_bases": ["scheduled_release"],
+  "minimum_schedule_lead_sec": 60,
+  "maximum_planning_horizon_days": 370,
+  "target_offsets_sec": [0, 60, 300, 600, 900, 1800, 3600, 7200, 14400],
+  "baseline_offset_sec": 0,
+  "sampling": {
+    "maximum_target_lateness_sec": 45,
+    "maximum_quote_lead_sec": 2,
+    "maximum_quote_age_at_collection_sec": 15,
+    "maximum_snapshot_age_at_collection_sec": 15,
+    "maximum_future_clock_skew_sec": 2,
+    "maximum_spread_pips_sanity": 5000,
+    "accepted_source_types": [
+      "live_executable_quote",
+      "immutable_completed_bid_ask_candle"
+    ],
+    "require_immutable_prospective_candle_lineage": true,
+    "first_valid_observation_wins": true
+  },
+  "outcome": {
+    "exact_horizon_tolerance_sec": 5,
+    "compute_both_sides_without_direction_selection": true,
+    "best_side_metric_forbidden": true,
+    "midpoint_only_outcome_forbidden": true
+  },
+  "cost_contract": {
+    "endpoint_economics": "entry_at_opposite_executable_side_and_exit_at_executable_side",
+    "entry_and_exit_spread_retained": true,
+    "commission_model": "not_observed_and_not_imputed",
+    "slippage_model": "not_observed_and_not_imputed",
+    "reported_endpoint_fields": [
+      "long_after_spread_pips",
+      "short_after_spread_pips"
+    ],
+    "not_a_trade_simulation": true
+  },
+  "event_selection": {
+    "require_source_verified": true,
+    "require_direct_currency": true,
+    "reject_schedule_windows": true,
+    "reject_headline_contains": ["decision window", "publication window"],
+    "movement_fields_ignored": true
+  }
+}

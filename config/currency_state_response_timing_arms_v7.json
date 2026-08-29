@@ -1,0 +1,21 @@
+{
+  "schema_version": 7,
+  "contract_id": "currency_state_response_timing_arms_v7_20260817_r1",
+  "snapshot_schema": "currency_state_response_timing_diagnostic_snapshot_v7",
+  "research_generation": "r3_bound_response_timing_v7_r1",
+  "parent_contract_id": "currency_state_response_timing_arms_v6_20260817_r1",
+  "parent_disposition": "preserved_inert_no_approve_after_deep_lineage_fail_open_found",
+  "candidate_frozen_utc": "2026-08-17T14:29:00Z",
+  "state": {"enabled": false, "registered": false, "research_worker_enabled": false, "collector_enabled": false, "canonical_output_initialized": false, "independent_review_state": "pending"},
+  "dependency_policy": {
+    "complete_exact_v5_success_status_required": true,
+    "immutable_dependency_failure_must_raise": true,
+    "synthetic_universe_on_failure_forbidden": true,
+    "self_manifest_cannot_self_certify": true,
+    "external_review_certificate_required": true
+  },
+  "canonical_universe": {"currency_count": 21, "instrument_count": 68, "instrument_universe_sha256": "b6abe559dcaa9faa0a1e48217f97a12dc9043eb9595d2b946bf80f93035be142", "canonical_pip_mapping_sha256": "46532e9598c7fab24c57935bb4bb4d747901d68acc9f3d50a28bd1957ce19f2c"},
+  "dependency_disposition": {"barred_event_response_generations": ["v6_r1", "v6_r2", "v6_r3"], "approved_event_response_successor_bound": false, "production_dependency_gate": "closed", "blocking_reason": "event_response_v6_r4_final_approval_not_bound", "resolution_requires_new_timing_contract_id": true},
+  "output_surface": {"canonical_ledger_path": null, "canonical_state_path": null, "canonical_report_path": null, "worker_entrypoint": null, "collector_entrypoint": null, "test_fixture_builder": "forex_system.research.currency_state_response_timing_arms_v7.build_test_diagnostic_snapshot"},
+  "policy": {"research_only": true, "execution_eligible": false, "can_place_orders": false, "can_promote": false, "can_authorize": false, "supported_execution_decision": "no_trade"}
+}

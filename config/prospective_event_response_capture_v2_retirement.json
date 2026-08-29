@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "record_type": "immutable_terminal_cohort_retirement",
+  "record_id": "prospective_official_event_response_v2_20260817_retirement_20260817",
+  "cohort_id": "prospective_official_event_response_v2_20260817",
+  "contract_id": "prospective_event_response_capture_v2_20260817",
+  "status": "retired_terminal",
+  "terminal": true,
+  "retired_at_utc": "2026-08-17T07:39:15+00:00",
+  "retirement_reason": "clock_dependency_superseded_before_any_sample",
+  "retirement_reason_is_not_performance": true,
+  "clock_dependency_at_freeze": {
+    "schema_version": "immutable_event_clock_ledger_v1",
+    "contract_id": "immutable_point_in_time_event_clock_v1_20260817"
+  },
+  "replacement": {
+    "cohort_id": "prospective_official_event_response_v3_20260817",
+    "contract_id": "prospective_event_response_capture_v3_20260817",
+    "clock_schema_version": "immutable_event_clock_ledger_v2",
+    "clock_contract_id": "immutable_point_in_time_event_clock_v2_20260817",
+    "observations_may_not_be_merged": true
+  },
+  "frozen_ledger": {
+    "relative_path": "data/oanda_training_manager/research_ledgers/prospective_event_response_v2.sqlite",
+    "byte_length": 40988672,
+    "sha256": "511d5626fd27c4844560fa93570901896d7b19a9b037e444cd62ceefbaccb74c",
+    "cohort_rows": 1,
+    "plan_rows": 17468,
+    "exclusion_rows": 45,
+    "sample_rows": 0,
+    "outcome_rows": 0,
+    "plans_are_not_samples_or_outcomes": true,
+    "preserve_bytes": true,
+    "read_only_historical_diagnostic": true
+  },
+  "frozen_contract_artifacts": {
+    "config/prospective_event_response_capture_v2.json": "db1d6b42248e1687b8b3999cfd64b38d30356fd2c91b5893f6c40da3faa5bc27",
+    "artifacts/retired_contracts/prospective_event_response_v2_08bfa4b0bb213cae.py.frozen": "08bfa4b0bb213caefac910de76b05f22ca8aa5b89ca142a0eef5297e3296156d",
+    "artifacts/retired_contracts/oanda_prospective_event_response_v2_c2e6f7d1ff48ecf2.py.frozen": "c2e6f7d1ff48ecf28165fa4b0105f8dfdc67a45b4f0f9f242567c7a25cf2b889"
+  },
+  "frozen_implementation_artifacts": {
+    "artifacts/retired_contracts/prospective_event_response_v2_08bfa4b0bb213cae.py.frozen": "08bfa4b0bb213caefac910de76b05f22ca8aa5b89ca142a0eef5297e3296156d",
+    "artifacts/retired_contracts/oanda_prospective_event_response_v2_c2e6f7d1ff48ecf2.py.frozen": "c2e6f7d1ff48ecf28165fa4b0105f8dfdc67a45b4f0f9f242567c7a25cf2b889"
+  },
+  "tombstone_artifacts": {
+    "src/forex_system/ingestion/prospective_event_response.py": "da6f732d402aca854b5fed8f93314032592c5cd5c244bf505802fe7f4adc82b0",
+    "src/forex_system/ingestion/prospective_event_response_v2_frozen_helpers.py": "76a9829ed7e8ba803cdd2f2342f742bd00d942b43a692d0e7b7ef1b0f2d92833",
+    "src/forex_system/ingestion/prospective_event_response_v2_tombstone.py": "f87c3466ec4b04a95f91fc5c4c2ee9ae411c18eac4364ddcddd9a0fa5cb6841a",
+    "oanda_prospective_event_response.py": "6129aa8c05f34db3acf9814aea13c4ebad559f55effc8e86215701f20021d12a"
+  },
+  "policy": {
+    "never_resume": true,
+    "never_backfill": true,
+    "never_reclassify_under_v3": true,
+    "never_mutate_retired_ledger": true,
+    "tombstone_guard_required_before_any_ledger_open": true,
+    "new_material_hypothesis_requires_new_cohort_id": true,
+    "research_only": true,
+    "execution_eligible": false,
+    "can_place_orders": false,
+    "supported_execution_decision": "no_trade"
+  }
+}

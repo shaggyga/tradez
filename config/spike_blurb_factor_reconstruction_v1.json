@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "contract_id": "spike_blurb_factor_reconstruction_v1_20260819",
+  "cohort_id": "spike_blurb_factor_reconstruction_preflight_20260819a",
+  "purpose": "Reconstruct price-first FX movement episodes, trace them to the purest timestamp-safe source, extract the smallest measurable factor, and test response-detected entry rules without confusing ex-post explanation with live prediction.",
+  "research_only": true,
+  "execution_eligible": false,
+  "can_place_orders": false,
+  "can_authorize": false,
+  "can_promote": false,
+  "supported_execution_decision": "no_trade",
+  "venue_truth": "OANDA executable bid/ask",
+  "practice_account_scope": "101-001-37981792-007",
+  "expected_instrument_count": 68,
+  "expected_currency_count": 21,
+  "expected_currencies": [
+    "AUD", "CAD", "CHF", "CNH", "CZK", "DKK", "EUR", "GBP", "HKD", "HUF", "JPY",
+    "MXN", "NOK", "NZD", "PLN", "SEK", "SGD", "THB", "TRY", "USD", "ZAR"
+  ],
+  "expected_instruments": [
+    "AUD_CAD", "AUD_CHF", "AUD_HKD", "AUD_JPY", "AUD_NZD", "AUD_SGD", "AUD_USD",
+    "CAD_CHF", "CAD_HKD", "CAD_JPY", "CAD_SGD", "CHF_HKD", "CHF_JPY", "CHF_ZAR",
+    "EUR_AUD", "EUR_CAD", "EUR_CHF", "EUR_CZK", "EUR_DKK", "EUR_GBP", "EUR_HKD",
+    "EUR_HUF", "EUR_JPY", "EUR_NOK", "EUR_NZD", "EUR_PLN", "EUR_SEK", "EUR_SGD",
+    "EUR_TRY", "EUR_USD", "EUR_ZAR", "GBP_AUD", "GBP_CAD", "GBP_CHF", "GBP_HKD",
+    "GBP_JPY", "GBP_NZD", "GBP_PLN", "GBP_SGD", "GBP_USD", "GBP_ZAR", "HKD_JPY",
+    "NZD_CAD", "NZD_CHF", "NZD_HKD", "NZD_JPY", "NZD_SGD", "NZD_USD", "SGD_CHF",
+    "SGD_JPY", "TRY_JPY", "USD_CAD", "USD_CHF", "USD_CNH", "USD_CZK", "USD_DKK",
+    "USD_HKD", "USD_HUF", "USD_JPY", "USD_MXN", "USD_NOK", "USD_PLN", "USD_SEK",
+    "USD_SGD", "USD_THB", "USD_TRY", "USD_ZAR", "ZAR_JPY"
+  ],
+  "horizons_minutes": [
+    1, 3, 5, 10, 15, 30, 60, 120, 240, 360, 720, 1440, 2880, 4320, 7200,
+    10080, 14400, 20160, 28800, 43200
+  ],
+  "movement_discovery": {
+    "price_basis": "executable_bid_ask_path",
+    "midpoint_only_proof_allowed": false,
+    "direction_definition": "side_with_maximum_executable_after_cost_endpoint_result",
+    "minimum_net_cost_multiple": 1.0,
+    "selection_quantiles": [0.95, 0.99],
+    "overlap_policy": "within_pair_horizon_local_extreme_then_signed_currency_factor_market_episode_dedup",
+    "selection_is_hindsight": true,
+    "selection_may_generate_hypotheses": true,
+    "selection_may_prove_forecasts": false
+  },
+  "pure_source_priority": [
+    "official_action_or_release",
+    "official_statement_or_document",
+    "official_numeric_series_vintage",
+    "market_implied_rate_or_funding_change",
+    "licensed_timestamped_consensus",
+    "reputable_primary_reporting",
+    "reputable_secondary_reporting",
+    "semantic_context_only"
+  ],
+  "factor_ontology": [
+    "policy_rate_change",
+    "policy_path_change",
+    "statement_delta",
+    "intervention_action",
+    "inflation_level_change",
+    "labor_level_change",
+    "growth_level_change",
+    "trade_or_fiscal_change",
+    "commodity_or_terms_of_trade_change",
+    "yield_or_rate_repricing",
+    "funding_or_liquidity_change",
+    "political_or_conflict_shock",
+    "positioning_or_crowding_change",
+    "semantic_factor_unquantified"
+  ],
+  "required_factor_fields": [
+    "factor_id",
+    "factor_type",
+    "currency",
+    "known_utc",
+    "published_utc",
+    "first_seen_utc",
+    "source_event_id",
+    "source_id",
+    "source_priority_class",
+    "raw_value",
+    "prior_value",
+    "revised_prior_value",
+    "unit",
+    "signed_factor_score",
+    "numeric_measurement_state",
+    "causal_state",
+    "provenance_sha256",
+    "factor_contract_id"
+  ],
+  "response_detection": {
+    "entry_clock": "first_causal_detection_after_factor_known_utc",
+    "entry_quote": "first_fresh_executable_bid_ask_at_or_after_detection",
+    "currency_factor_breadth_required": true,
+    "pair_selection": "cheapest_fresh_liquid_pair_expressing_strong_currency_against_weak_currency",
+    "technical_role": "entry_timing_exit_timing_and_veto_not_source_substitution",
+    "response_classes": [
+      "immediate_continuation",
+      "spike_then_fade",
+      "pullback_then_resumption",
+      "delayed_break",
+      "direction_conflict",
+      "no_cost_clear_response"
+    ],
+    "shadow_arms": [
+      "source_factor_only",
+      "source_plus_currency_breadth",
+      "source_plus_technical_confirmation",
+      "observed_response_only",
+      "pullback_entry",
+      "delayed_reconfirmation",
+      "fade_after_exhaustion",
+      "no_trade"
+    ]
+  },
+  "evidence_separation": {
+    "historical_ex_post_attribution": "may explain moves and create frozen hypotheses only",
+    "point_in_time_replay": "may use only information known at the decision cutoff",
+    "prospective_confirmation": "required before any practice canary eligibility",
+    "account_level_legacy_results": "cannot be merged into reconstructed cohort proof",
+    "post_event_consensus_backfill": "prohibited as causal evidence"
+  },
+  "required_outputs": [
+    "price_archive_manifest",
+    "legacy_gap_reconciliation",
+    "movement_candidate_ledger",
+    "source_attribution_ledger",
+    "factor_observation_ledger",
+    "currency_response_path_ledger",
+    "entry_replay_ledger",
+    "coverage_and_integrity_report",
+    "factor_response_analog_report",
+    "falsification_report"
+  ]
+}

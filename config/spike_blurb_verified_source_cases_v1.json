@@ -1,0 +1,306 @@
+{
+  "schema_version": 1,
+  "contract_id": "spike_blurb_verified_source_cases_v1_20260820",
+  "upstream_contract_id": "spike_blurb_unmatched_episode_queue_v2_20260820",
+  "purpose": "Freeze original-authority source facts, knowledge-time limits, and unresolved inputs for representative movement-first episodes.",
+  "research_only": true,
+  "execution_eligible": false,
+  "forecast_proof_eligible": false,
+  "causal_driver_assignment_policy": "candidate_only_until_repeated_timestamp_safe_factor_response_evidence",
+  "cases": [
+    {
+      "case_id": "verified_case_boj_20240731_policy_press_jpy",
+      "case_version": 1,
+      "market_episode_buckets": [
+        "2024-07-31T06:30:00+00:00"
+      ],
+      "event_currency": "JPY",
+      "event_family": "monetary_policy_and_press_conference",
+      "event_clock_utc": "2024-07-31T06:30:00+00:00",
+      "event_clock_precision": "exact_minute",
+      "response_watch_eligible": true,
+      "response_watch_eligible_from_utc": "2024-07-31T06:30:00+00:00",
+      "factual_content_pre_entry_available": true,
+      "direction_policy": "abstain_until_response",
+      "consensus_state": "market_expectation_snapshot_missing",
+      "rate_repricing_state": "missing",
+      "causal_driver_assignment_state": "candidate_not_proven",
+      "case_note": "The policy decision was officially released at 12:56 JST (03:56 UTC), while the later movement episode begins ten minutes after the governor's 15:30 JST press conference started. The transcript page was published the next day, so the event clock can open a response watch but retrospective transcript wording is not treated as fully known at 06:30 UTC.",
+      "documents": [
+        {
+          "document_id": "boj_policy_decision_20240731",
+          "source_role": "original_authority_policy_fact",
+          "authority": "Bank of Japan",
+          "country": "Japan",
+          "authority_tier": "primary",
+          "url": "https://www.boj.or.jp/en/mopo/mpmdeci/state_2024/k240731a.htm",
+          "document_type": "monetary_policy_decision",
+          "publication_clock_precision": "exact_minute",
+          "published_at_utc": "2024-07-31T03:56:00+00:00",
+          "published_date": "2024-07-31",
+          "event_clock_utc": "2024-07-31T03:56:00+00:00",
+          "content_causal_at_event": true,
+          "historical_first_seen_state": "official_page_self_reports_release_time",
+          "verified_retrieved_utc": "2026-08-20T16:18:00+00:00"
+        },
+        {
+          "document_id": "boj_governor_press_conference_20240731",
+          "source_role": "original_authority_event_clock_and_ex_post_transcript",
+          "authority": "Bank of Japan",
+          "country": "Japan",
+          "authority_tier": "primary",
+          "url": "https://www.boj.or.jp/about/press/kaiken_2024/kk240801a.htm",
+          "document_type": "governor_press_conference_transcript",
+          "publication_clock_precision": "date_only",
+          "published_at_utc": null,
+          "published_date": "2024-08-01",
+          "event_clock_utc": "2024-07-31T06:30:00+00:00",
+          "content_causal_at_event": false,
+          "historical_first_seen_state": "event_clock_exact_but_transcript_text_published_next_day",
+          "verified_retrieved_utc": "2026-08-20T16:18:00+00:00"
+        }
+      ],
+      "factors": [
+        {
+          "factor_id": "boj_policy_target_rate_level",
+          "factor_version": 1,
+          "factor_family": "policy_rate_action",
+          "metric": "uncollateralized_overnight_call_rate_target",
+          "value_number": 0.25,
+          "value_text": null,
+          "unit": "percent",
+          "prior_value_number": 0.1,
+          "revision_delta_number": null,
+          "direction_interpretation": "not_assigned"
+        },
+        {
+          "factor_id": "boj_policy_target_rate_change",
+          "factor_version": 1,
+          "factor_family": "policy_rate_action",
+          "metric": "change_from_prior_target_upper_reference",
+          "value_number": 0.15,
+          "value_text": null,
+          "unit": "percentage_points",
+          "prior_value_number": 0.1,
+          "revision_delta_number": null,
+          "direction_interpretation": "not_assigned"
+        },
+        {
+          "factor_id": "boj_jgb_purchase_quarterly_reduction",
+          "factor_version": 1,
+          "factor_family": "balance_sheet_action",
+          "metric": "planned_quarterly_purchase_reduction",
+          "value_number": 0.4,
+          "value_text": null,
+          "unit": "trillion_jpy",
+          "prior_value_number": null,
+          "revision_delta_number": null,
+          "direction_interpretation": "not_assigned"
+        },
+        {
+          "factor_id": "boj_jgb_purchase_terminal_plan",
+          "factor_version": 1,
+          "factor_family": "balance_sheet_action",
+          "metric": "planned_monthly_purchases_jan_mar_2026",
+          "value_number": 2.9,
+          "value_text": null,
+          "unit": "trillion_jpy",
+          "prior_value_number": 5.7,
+          "revision_delta_number": null,
+          "direction_interpretation": "not_assigned"
+        },
+        {
+          "factor_id": "boj_conditional_future_tightening",
+          "factor_version": 1,
+          "factor_family": "policy_guidance",
+          "metric": "future_policy_path",
+          "value_number": null,
+          "value_text": "continue_to_raise_policy_rate_if_outlook_is_realized",
+          "unit": "categorical",
+          "prior_value_number": null,
+          "revision_delta_number": null,
+          "direction_interpretation": "not_assigned"
+        }
+      ]
+    },
+    {
+      "case_id": "verified_case_bls_20240906_employment_usd",
+      "case_version": 1,
+      "market_episode_buckets": [
+        "2024-09-06T13:45:00+00:00"
+      ],
+      "event_currency": "USD",
+      "event_family": "employment_release",
+      "event_clock_utc": "2024-09-06T12:30:00+00:00",
+      "event_clock_precision": "exact_minute",
+      "response_watch_eligible": true,
+      "response_watch_eligible_from_utc": "2024-09-06T12:30:00+00:00",
+      "factual_content_pre_entry_available": true,
+      "direction_policy": "abstain_missing_consensus_and_rate_repricing",
+      "consensus_state": "causal_pre_release_consensus_missing",
+      "rate_repricing_state": "missing",
+      "causal_driver_assignment_state": "candidate_not_proven",
+      "case_note": "The BLS release is timestamp-safe and numerically structured, but the retained evidence has no pre-release consensus or contemporaneous rates repricing. It can seed an event watch and numeric analog identity, but cannot be labeled USD-positive or USD-negative from hindsight.",
+      "documents": [
+        {
+          "document_id": "bls_employment_situation_august_2024",
+          "source_role": "original_authority_numeric_release",
+          "authority": "U.S. Bureau of Labor Statistics",
+          "country": "United States",
+          "authority_tier": "primary",
+          "url": "https://www.bls.gov/news.release/archives/empsit_09062024.htm",
+          "document_type": "employment_situation_release",
+          "publication_clock_precision": "exact_minute",
+          "published_at_utc": "2024-09-06T12:30:00+00:00",
+          "published_date": "2024-09-06",
+          "event_clock_utc": "2024-09-06T12:30:00+00:00",
+          "content_causal_at_event": true,
+          "historical_first_seen_state": "official_embargo_release_clock",
+          "verified_retrieved_utc": "2026-08-20T16:18:00+00:00"
+        }
+      ],
+      "factors": [
+        {
+          "factor_id": "bls_nonfarm_payroll_monthly_change",
+          "factor_version": 1,
+          "factor_family": "labor_actual",
+          "metric": "total_nonfarm_payroll_monthly_change",
+          "value_number": 142000,
+          "value_text": null,
+          "unit": "persons",
+          "prior_value_number": null,
+          "revision_delta_number": null,
+          "direction_interpretation": "not_assigned"
+        },
+        {
+          "factor_id": "bls_unemployment_rate",
+          "factor_version": 1,
+          "factor_family": "labor_actual",
+          "metric": "unemployment_rate",
+          "value_number": 4.2,
+          "value_text": null,
+          "unit": "percent",
+          "prior_value_number": 4.3,
+          "revision_delta_number": null,
+          "direction_interpretation": "not_assigned"
+        },
+        {
+          "factor_id": "bls_average_hourly_earnings_monthly_change",
+          "factor_version": 1,
+          "factor_family": "wage_actual",
+          "metric": "average_hourly_earnings_monthly_change",
+          "value_number": 0.4,
+          "value_text": null,
+          "unit": "percent",
+          "prior_value_number": null,
+          "revision_delta_number": null,
+          "direction_interpretation": "not_assigned"
+        },
+        {
+          "factor_id": "bls_prior_two_month_payroll_revision",
+          "factor_version": 1,
+          "factor_family": "labor_revision",
+          "metric": "combined_june_july_payroll_revision",
+          "value_number": -86000,
+          "value_text": null,
+          "unit": "persons",
+          "prior_value_number": null,
+          "revision_delta_number": -86000,
+          "direction_interpretation": "not_assigned"
+        }
+      ]
+    },
+    {
+      "case_id": "verified_case_china_20250404_retaliatory_tariff_risk",
+      "case_version": 1,
+      "market_episode_buckets": [
+        "2025-04-04T09:45:00+00:00",
+        "2025-04-04T10:00:00+00:00"
+      ],
+      "event_currency": "CNH",
+      "event_family": "trade_policy_shock",
+      "event_clock_utc": null,
+      "event_clock_precision": "date_only",
+      "response_watch_eligible": false,
+      "response_watch_eligible_from_utc": null,
+      "factual_content_pre_entry_available": false,
+      "direction_policy": "abstain_ex_post_only",
+      "consensus_state": "not_applicable_but_prior_probability_missing",
+      "rate_repricing_state": "missing",
+      "causal_driver_assignment_state": "candidate_not_proven",
+      "case_note": "The Chinese Ministry of Finance page is the pure official source but exposes only a publication date. The first retained exact external time witness is an AP report at 10:35:30 UTC, after the 09:55-10:05 movement onsets. The event is therefore an ex-post candidate explanation, not entry evidence.",
+      "documents": [
+        {
+          "document_id": "china_tariff_commission_20250404_34pct",
+          "source_role": "original_authority_policy_fact_date_only",
+          "authority": "Customs Tariff Commission of the State Council via Ministry of Finance",
+          "country": "China",
+          "authority_tier": "primary",
+          "url": "https://gss.mof.gov.cn/gzdt/zhengcejiedu/202504/t20250404_3961452.htm",
+          "document_type": "tariff_policy_announcement",
+          "publication_clock_precision": "date_only",
+          "published_at_utc": null,
+          "published_date": "2025-04-04",
+          "event_clock_utc": null,
+          "content_causal_at_event": false,
+          "historical_first_seen_state": "official_page_has_date_but_no_intraday_clock",
+          "verified_retrieved_utc": "2026-08-20T16:18:00+00:00"
+        },
+        {
+          "document_id": "ap_china_tariff_time_witness_20250404",
+          "source_role": "secondary_first_wave_time_witness",
+          "authority": "Associated Press",
+          "country": "United States",
+          "authority_tier": "secondary",
+          "url": "https://apnews.com/article/02cd23e913649f32985f075058e787c4",
+          "document_type": "news_report",
+          "publication_clock_precision": "exact_second",
+          "published_at_utc": "2025-04-04T10:35:30+00:00",
+          "published_date": "2025-04-04",
+          "event_clock_utc": "2025-04-04T10:35:30+00:00",
+          "content_causal_at_event": false,
+          "historical_first_seen_state": "secondary_report_after_movement_onset",
+          "verified_retrieved_utc": "2026-08-20T16:18:00+00:00"
+        }
+      ],
+      "factors": [
+        {
+          "factor_id": "china_additional_tariff_rate",
+          "factor_version": 1,
+          "factor_family": "trade_policy_action",
+          "metric": "additional_tariff_on_us_imports",
+          "value_number": 34,
+          "value_text": null,
+          "unit": "percent",
+          "prior_value_number": 0,
+          "revision_delta_number": null,
+          "direction_interpretation": "not_assigned"
+        },
+        {
+          "factor_id": "china_additional_tariff_scope",
+          "factor_version": 1,
+          "factor_family": "trade_policy_action",
+          "metric": "covered_import_scope",
+          "value_number": null,
+          "value_text": "all_imported_goods_originating_in_the_united_states",
+          "unit": "categorical",
+          "prior_value_number": null,
+          "revision_delta_number": null,
+          "direction_interpretation": "not_assigned"
+        },
+        {
+          "factor_id": "china_additional_tariff_effective_time",
+          "factor_version": 1,
+          "factor_family": "trade_policy_action",
+          "metric": "effective_time",
+          "value_number": null,
+          "value_text": "2025-04-10T04:01:00+00:00",
+          "unit": "utc_timestamp",
+          "prior_value_number": null,
+          "revision_delta_number": null,
+          "direction_interpretation": "not_assigned"
+        }
+      ]
+    }
+  ]
+}

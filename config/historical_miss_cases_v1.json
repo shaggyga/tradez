@@ -1,0 +1,92 @@
+{
+  "contract_id": "historical_miss_cases_v1_20260810",
+  "evidence_boundary": {
+    "broker_trades": 0,
+    "shadow_cases": 10,
+    "verified_official_news_records_in_case_windows": 0,
+    "causal_consensus_observations": 0,
+    "matched_intraday_rate_reactions": 0
+  },
+  "cases": [
+    {
+      "case_id": "C01",
+      "model": {"position_id": 266, "instrument": "GBP_USD", "direction": "buy", "family": "pattern_count_forecast", "horizon_sec": 300, "projected_net_pips": 0.0, "policy_state": "diagnostic_shadow"},
+      "price_path": {"canonical_endpoint_net_pips": -7.6, "legacy_ledger_endpoint_net_pips": -12.7, "best_net_pips": -1.5, "exact_target_available": true, "legacy_maturity_delay_sec": 528.0},
+      "source": {"state": "secondary_only_conflict", "verified_official_count": 0, "themes": ["hawkish_fed_logan", "iran_us_risk"]},
+      "expected_class": "bad_entry",
+      "expected_flags": ["legacy_maturity_late", "continuation_chase", "source_price_conflict"]
+    },
+    {
+      "case_id": "C02",
+      "model": {"position_id": 831, "instrument": "USD_JPY", "direction": "buy", "family": "candlestick_reversal", "horizon_sec": 10800, "projected_net_pips": 6.9345, "policy_state": "diagnostic_shadow"},
+      "price_path": {"canonical_endpoint_net_pips": -131.1, "best_net_pips": 0.0, "exact_target_available": true, "worst_net_pips": -260.0},
+      "source": {"state": "secondary_intervention_warning", "verified_official_count": 0, "themes": ["joint_japan_us_yen_intervention"]},
+      "expected_class": "bad_entry",
+      "expected_flags": ["change_point_miss", "correlated_majority_wrong", "minority_unique_model_right"]
+    },
+    {
+      "case_id": "C03",
+      "model": {"position_id": 2812, "instrument": "USD_JPY", "direction": "buy", "family": "moving_average_feature_grid", "horizon_sec": 3600, "projected_net_pips": 0.0, "policy_state": "diagnostic_shadow"},
+      "price_path": {"canonical_endpoint_net_pips": -13.8, "best_net_pips": 6.8, "exact_target_available": true, "h3_net_pips": 18.0, "h6_net_pips": 42.8},
+      "source": {"state": "repeated_reported_move", "verified_official_count": 0, "themes": ["joint_intervention_repetition", "yen_already_surging"]},
+      "expected_class": "giveback",
+      "expected_flags": ["horizon_path_mismatch", "reported_move_not_new_catalyst"]
+    },
+    {
+      "case_id": "C04",
+      "model": {"position_id": 4699, "instrument": "AUD_USD", "direction": "sell", "family": "har_volatility_momentum", "horizon_sec": 43200, "projected_net_pips": 0.7334, "policy_state": "diagnostic_shadow"},
+      "price_path": {"canonical_endpoint_net_pips": -24.2, "best_net_pips": 0.0, "exact_target_available": true, "h1_net_pips": -7.4},
+      "source": {"state": "no_direct_aud_policy_data", "verified_official_count": 0, "themes": ["aud_move_reported_after_fact"]},
+      "expected_class": "bad_entry",
+      "expected_flags": ["volatility_used_as_direction", "cross_horizon_conflict"]
+    },
+    {
+      "case_id": "C05",
+      "model": {"position_id": 7510, "instrument": "USD_JPY", "direction": "buy", "family": "kalman_local_trend", "horizon_sec": 180, "projected_net_pips": 0.0955, "policy_state": "diagnostic_shadow"},
+      "price_path": {"canonical_endpoint_net_pips": -13.0, "best_net_pips": -0.7, "exact_target_available": true},
+      "source": {"state": "secondary_jpy_policy_conflict", "verified_official_count": 0, "themes": ["boj_more_rate_hikes", "risk_off_shipping"]},
+      "expected_class": "bad_entry",
+      "expected_flags": ["cost_margin_absent", "source_price_conflict", "fast_horizon_unsupported"]
+    },
+    {
+      "case_id": "C06",
+      "model": {"position_id": 11438, "instrument": "GBP_USD", "direction": "buy", "family": "cusum_breakout", "horizon_sec": 10800, "projected_net_pips": 1.4989, "policy_state": "conflicted_aggressive_shadow"},
+      "price_path": {"canonical_endpoint_net_pips": -15.7, "best_net_pips": 9.3, "exact_target_available": true},
+      "source": {"state": "new_factor_during_hold", "verified_official_count": 0, "themes": ["deescalation", "later_fed_hike_support"]},
+      "expected_class": "giveback",
+      "expected_flags": ["event_boundary_during_hold", "capture_failure"]
+    },
+    {
+      "case_id": "C07",
+      "model": {"position_id": 11813, "instrument": "SGD_CHF", "direction": "sell", "family": "kama_adaptive_trend", "horizon_sec": 1800, "projected_net_pips": 0.0, "policy_state": "diagnostic_shadow"},
+      "price_path": {"canonical_endpoint_net_pips": -17.2, "best_net_pips": -1.4, "exact_target_available": true},
+      "source": {"state": "one_leg_generic_risk_mapping", "verified_official_count": 0, "themes": ["deescalation_chf_negative", "sgd_leg_uncovered"]},
+      "expected_class": "bad_entry",
+      "expected_flags": ["pair_leg_coverage_gap", "all_h1_models_opposed"]
+    },
+    {
+      "case_id": "C08",
+      "model": {"position_id": 12339, "instrument": "USD_JPY", "direction": "sell", "family": "micro_channel_break", "horizon_sec": 3600, "projected_net_pips": 0.384, "policy_state": "conflicted_aggressive_shadow"},
+      "price_path": {"canonical_endpoint_net_pips": -13.2, "best_net_pips": -1.7, "exact_target_available": true},
+      "source": {"state": "secondary_sources_mutually_conflicted", "verified_official_count": 0, "themes": ["deescalation", "renewed_blockade_risk"]},
+      "expected_class": "bad_entry",
+      "expected_flags": ["correlated_majority_wrong", "minority_unique_model_right", "source_conflict"]
+    },
+    {
+      "case_id": "C09",
+      "model": {"position_id": 14804, "instrument": "GBP_USD", "direction": "buy", "family": "micro_channel_break", "horizon_sec": 1800, "projected_net_pips": 4.2163, "policy_state": "conflicted_aggressive_shadow"},
+      "price_path": {"canonical_endpoint_net_pips": -16.2, "best_net_pips": -1.9, "exact_target_available": true, "m15_net_pips": -17.0},
+      "source": {"state": "composite_secondary_release", "verified_official_count": 0, "themes": ["weak_jobs", "sticky_inflation"]},
+      "expected_class": "bad_entry",
+      "expected_flags": ["multi_claim_flattened", "priced_in_rejection", "correlated_majority_wrong"]
+    },
+    {
+      "case_id": "C10",
+      "model": {"position_id": 15015, "instrument": "USD_JPY", "direction": "sell", "family": "volatility_squeeze_breakout", "horizon_sec": 21600, "projected_net_pips": 5.9179, "policy_state": "conflicted_aggressive_shadow"},
+      "price_path": {"canonical_endpoint_net_pips": null, "legacy_ledger_endpoint_net_pips": -10.3, "best_net_pips": 40.0, "exact_target_available": false, "h1_net_pips": 25.7, "h3_net_pips": 13.7},
+      "source": {"state": "secondary_factor_phase_change", "verified_official_count": 0, "themes": ["weak_us_employment", "intervention_risk", "later_deescalation"]},
+      "expected_class": "invalid_maturity",
+      "expected_flags": ["target_after_friday_close", "stale_quote_maturity", "unproved_horizon_transfer"]
+    }
+  ]
+}

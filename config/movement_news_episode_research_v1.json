@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "research_id": "movement_news_episode_research_v1",
+  "research_only": true,
+  "execution_eligible": false,
+  "source_glob": "*_M1.csv",
+  "horizons_min": [5, 10, 15, 60, 360, 720, 1440],
+  "modeled_slippage_pips": 0.25,
+  "episode_quantile": 0.99,
+  "minimum_gross_cost_multiple": 2.0,
+  "minimum_positive_after_cost_pips": 0.0,
+  "pre_entry_news_lookback_min": 360,
+  "maximum_links_per_relation": 20,
+  "episode_policy": "ex-post movement discovery; pre-entry links use effective_from knowledge time; in-window links are attribution only"
+}

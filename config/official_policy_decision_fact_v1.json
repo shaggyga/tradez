@@ -1,0 +1,52 @@
+{
+  "schema_version": "official_policy_decision_fact_v1",
+  "contract_id": "official_policy_decision_fact_v1_sarb_exact_binding_20260827",
+  "cohort_id": "official_policy_decision_fact_v1_sarb_exact_binding_20260827",
+  "enabled": true,
+  "research_only": true,
+  "execution_eligible": false,
+  "can_authorize": false,
+  "can_promote": false,
+  "broker_access": false,
+  "direction_policy": "abstain",
+  "supported_decision": "collect_structured_policy_facts_only",
+  "source_adapters": [
+    {
+      "currency": "ZAR",
+      "authority_id": "sarb",
+      "source_id": "sarb_mpc_decision_exact_v2",
+      "source_contract_id": "sarb_mpc_decision_exact_v2_20260817",
+      "source_cohort_id": "sarb_mpc_decision_exact_v2_20260817",
+      "source_contract_path": "config/sarb_mpc_decision_exact_v2.json",
+      "statement_url_template": "https://www.resbank.co.za/en/home/publications/publication-detail-pages/statements/monetary-policy-statements/{year}/{month_lower}",
+      "enabled": true
+    }
+  ],
+  "collection": {
+    "poll_before_scheduled_seconds": 0,
+    "poll_after_scheduled_seconds": 259200,
+    "request_timeout_seconds": 20,
+    "maximum_response_bytes": 2097152,
+    "user_agent": "forex-policy-fact-research/1.0"
+  },
+  "required_fact_fields": [
+    "action",
+    "current_policy_rate_pct",
+    "prior_policy_rate_pct",
+    "signed_decision_delta_bps",
+    "votes",
+    "scheduled_utc",
+    "statement_first_seen_utc",
+    "causal_known_utc"
+  ],
+  "fact_policy": {
+    "prior_rate_derivation": "current_rate_minus_signed_decision_delta",
+    "publication_clock_basis": "collector_first_seen_floor",
+    "generic_vote_regex_allowed": false,
+    "partial_fact_direction": "abstain",
+    "historical_fact_proof_eligible": false,
+    "prospective_fact_direction": "abstain_until_separately_validated",
+    "full_text_retention": false,
+    "one_currency_event_is_one_independent_episode": true
+  }
+}

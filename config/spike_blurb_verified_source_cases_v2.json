@@ -1,0 +1,313 @@
+{
+  "schema_version": 1,
+  "contract_id": "spike_blurb_verified_source_cases_v2_20260820",
+  "upstream_contract_id": "spike_blurb_unmatched_episode_queue_v2_20260820",
+  "purpose": "Freeze a second untouched cohort of original-authority policy cases without rewriting or pooling the V1 case evidence.",
+  "research_only": true,
+  "execution_eligible": false,
+  "forecast_proof_eligible": false,
+  "causal_driver_assignment_policy": "candidate_only_until_repeated_timestamp_safe_factor_response_evidence",
+  "cases": [
+    {
+      "case_id": "verified_case_fomc_20240918_policy_projections_usd",
+      "case_version": 1,
+      "market_episode_buckets": [
+        "2024-09-18T18:15:00+00:00"
+      ],
+      "event_currency": "USD",
+      "event_family": "monetary_policy_release",
+      "event_clock_utc": "2024-09-18T18:00:00+00:00",
+      "event_clock_precision": "exact_minute",
+      "response_watch_eligible": true,
+      "response_watch_eligible_from_utc": "2024-09-18T18:00:00+00:00",
+      "factual_content_pre_entry_available": true,
+      "direction_policy": "abstain_missing_causal_consensus_and_rate_repricing",
+      "consensus_state": "causal_pre_release_decision_size_consensus_missing",
+      "rate_repricing_state": "missing",
+      "causal_driver_assignment_state": "candidate_not_proven",
+      "case_note": "The Federal Reserve statement and projections explicitly report a 14:00 EDT release clock. The action and projection deltas are valid numeric factors, but no frozen pre-release market consensus or contemporaneous rates repricing is available, so their USD direction remains unassigned.",
+      "documents": [
+        {
+          "document_id": "federal_reserve_fomc_statement_20240918",
+          "source_role": "original_authority_policy_release",
+          "authority": "Board of Governors of the Federal Reserve System",
+          "country": "United States",
+          "authority_tier": "primary",
+          "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20240918a.htm",
+          "document_type": "monetary_policy_statement",
+          "publication_clock_precision": "exact_minute",
+          "published_at_utc": "2024-09-18T18:00:00+00:00",
+          "published_date": "2024-09-18",
+          "event_clock_utc": "2024-09-18T18:00:00+00:00",
+          "content_causal_at_event": true,
+          "historical_first_seen_state": "official_page_self_reports_release_time",
+          "verified_retrieved_utc": "2026-08-20T16:50:00+00:00"
+        },
+        {
+          "document_id": "federal_reserve_fomc_projections_20240918",
+          "source_role": "original_authority_projection_release",
+          "authority": "Board of Governors of the Federal Reserve System",
+          "country": "United States",
+          "authority_tier": "primary",
+          "url": "https://www.federalreserve.gov/monetarypolicy/fomcprojtabl20240918.htm",
+          "document_type": "summary_of_economic_projections",
+          "publication_clock_precision": "exact_minute",
+          "published_at_utc": "2024-09-18T18:00:00+00:00",
+          "published_date": "2024-09-18",
+          "event_clock_utc": "2024-09-18T18:00:00+00:00",
+          "content_causal_at_event": true,
+          "historical_first_seen_state": "official_page_self_reports_release_time",
+          "verified_retrieved_utc": "2026-08-20T16:50:00+00:00"
+        }
+      ],
+      "factors": [
+        {
+          "factor_id": "fomc_target_range_lower",
+          "factor_version": 1,
+          "factor_family": "policy_rate_action",
+          "metric": "federal_funds_target_range_lower",
+          "value_number": 4.75,
+          "value_text": null,
+          "unit": "percent",
+          "prior_value_number": 5.25,
+          "revision_delta_number": null,
+          "direction_interpretation": "not_assigned"
+        },
+        {
+          "factor_id": "fomc_target_range_upper",
+          "factor_version": 1,
+          "factor_family": "policy_rate_action",
+          "metric": "federal_funds_target_range_upper",
+          "value_number": 5.0,
+          "value_text": null,
+          "unit": "percent",
+          "prior_value_number": 5.5,
+          "revision_delta_number": null,
+          "direction_interpretation": "not_assigned"
+        },
+        {
+          "factor_id": "fomc_target_range_change",
+          "factor_version": 1,
+          "factor_family": "policy_rate_action",
+          "metric": "target_range_change",
+          "value_number": -0.5,
+          "value_text": null,
+          "unit": "percentage_points",
+          "prior_value_number": 0.0,
+          "revision_delta_number": null,
+          "direction_interpretation": "not_assigned"
+        },
+        {
+          "factor_id": "fomc_2024_median_policy_projection",
+          "factor_version": 1,
+          "factor_family": "policy_projection",
+          "metric": "median_federal_funds_rate_2024",
+          "value_number": 4.4,
+          "value_text": null,
+          "unit": "percent",
+          "prior_value_number": 5.1,
+          "revision_delta_number": null,
+          "direction_interpretation": "not_assigned"
+        },
+        {
+          "factor_id": "fomc_2025_median_policy_projection",
+          "factor_version": 1,
+          "factor_family": "policy_projection",
+          "metric": "median_federal_funds_rate_2025",
+          "value_number": 3.4,
+          "value_text": null,
+          "unit": "percent",
+          "prior_value_number": 4.1,
+          "revision_delta_number": null,
+          "direction_interpretation": "not_assigned"
+        },
+        {
+          "factor_id": "fomc_policy_dissent_preferred_change",
+          "factor_version": 1,
+          "factor_family": "policy_vote_dispersion",
+          "metric": "dissenting_preferred_target_change",
+          "value_number": -0.25,
+          "value_text": null,
+          "unit": "percentage_points",
+          "prior_value_number": null,
+          "revision_delta_number": null,
+          "direction_interpretation": "not_assigned"
+        }
+      ]
+    },
+    {
+      "case_id": "verified_case_rbnz_20240814_policy_nzd",
+      "case_version": 1,
+      "market_episode_buckets": [
+        "2024-08-14T02:45:00+00:00"
+      ],
+      "event_currency": "NZD",
+      "event_family": "monetary_policy_release",
+      "event_clock_utc": "2024-08-14T02:00:00+00:00",
+      "event_clock_precision": "exact_minute",
+      "response_watch_eligible": true,
+      "response_watch_eligible_from_utc": "2024-08-14T02:00:00+00:00",
+      "factual_content_pre_entry_available": true,
+      "direction_policy": "abstain_missing_causal_consensus_and_rate_repricing",
+      "consensus_state": "causal_pre_release_decision_consensus_missing",
+      "rate_repricing_state": "missing",
+      "causal_driver_assignment_state": "candidate_not_proven",
+      "case_note": "RBNZ states that the OCR decision and Monetary Policy Statement are announced to financial markets at 14:00 NZT. In August that is 02:00 UTC. The linked movement bucket begins later and is used only as a movement-first association; the causal driver and NZD sign remain unassigned without a frozen consensus and rate-repricing series.",
+      "documents": [
+        {
+          "document_id": "rbnz_august_mps_20240814",
+          "source_role": "original_authority_policy_release_and_clock",
+          "authority": "Reserve Bank of New Zealand",
+          "country": "New Zealand",
+          "authority_tier": "primary",
+          "url": "https://www.rbnz.govt.nz/news-and-events/events/2024/august/monetary-policy-statement",
+          "document_type": "monetary_policy_statement",
+          "publication_clock_precision": "exact_minute",
+          "published_at_utc": "2024-08-14T02:00:00+00:00",
+          "published_date": "2024-08-14",
+          "event_clock_utc": "2024-08-14T02:00:00+00:00",
+          "content_causal_at_event": true,
+          "historical_first_seen_state": "official_event_page_states_2pm_nzt_market_release",
+          "verified_retrieved_utc": "2026-08-20T16:50:00+00:00"
+        }
+      ],
+      "factors": [
+        {
+          "factor_id": "rbnz_ocr_level_20240814",
+          "factor_version": 1,
+          "factor_family": "policy_rate_action",
+          "metric": "official_cash_rate",
+          "value_number": 5.25,
+          "value_text": null,
+          "unit": "percent",
+          "prior_value_number": 5.5,
+          "revision_delta_number": null,
+          "direction_interpretation": "not_assigned"
+        },
+        {
+          "factor_id": "rbnz_ocr_change_20240814",
+          "factor_version": 1,
+          "factor_family": "policy_rate_action",
+          "metric": "official_cash_rate_change",
+          "value_number": -0.25,
+          "value_text": null,
+          "unit": "percentage_points",
+          "prior_value_number": 0.0,
+          "revision_delta_number": null,
+          "direction_interpretation": "not_assigned"
+        },
+        {
+          "factor_id": "rbnz_future_easing_guidance_20240814",
+          "factor_version": 1,
+          "factor_family": "policy_guidance",
+          "metric": "future_easing_path",
+          "value_number": null,
+          "value_text": "pace_of_further_easing_depends_on_low_inflation_confidence",
+          "unit": "categorical",
+          "prior_value_number": null,
+          "revision_delta_number": null,
+          "direction_interpretation": "not_assigned"
+        },
+        {
+          "factor_id": "rbnz_growth_state_20240814",
+          "factor_version": 1,
+          "factor_family": "growth_assessment",
+          "metric": "domestic_growth_state",
+          "value_number": null,
+          "value_text": "below_trend",
+          "unit": "categorical",
+          "prior_value_number": null,
+          "revision_delta_number": null,
+          "direction_interpretation": "not_assigned"
+        }
+      ]
+    },
+    {
+      "case_id": "verified_case_boe_20240801_policy_gbp_date_only",
+      "case_version": 1,
+      "market_episode_buckets": [
+        "2024-08-01T11:00:00+00:00"
+      ],
+      "event_currency": "GBP",
+      "event_family": "monetary_policy_release",
+      "event_clock_utc": null,
+      "event_clock_precision": "date_only",
+      "response_watch_eligible": false,
+      "response_watch_eligible_from_utc": null,
+      "factual_content_pre_entry_available": false,
+      "direction_policy": "abstain_date_only_primary_clock",
+      "consensus_state": "market_participant_expectation_range_described_but_not_frozen_pre_release",
+      "rate_repricing_state": "daily_only_not_event_time",
+      "causal_driver_assignment_state": "candidate_not_proven",
+      "case_note": "The official page proves the 25 basis point cut and 5-4 vote but exposes only the publication date in the retained primary document. The usual policy-release time is not substituted for an observed historical timestamp, so this case is deliberately excluded from response-watch replay.",
+      "documents": [
+        {
+          "document_id": "boe_mpc_summary_20240801",
+          "source_role": "original_authority_policy_fact_date_only",
+          "authority": "Bank of England",
+          "country": "United Kingdom",
+          "authority_tier": "primary",
+          "url": "https://www.bankofengland.co.uk/monetary-policy-summary-and-minutes/2024/august-2024",
+          "document_type": "monetary_policy_summary_and_minutes",
+          "publication_clock_precision": "date_only",
+          "published_at_utc": null,
+          "published_date": "2024-08-01",
+          "event_clock_utc": null,
+          "content_causal_at_event": false,
+          "historical_first_seen_state": "official_page_has_date_but_no_intraday_publication_clock",
+          "verified_retrieved_utc": "2026-08-20T16:50:00+00:00"
+        }
+      ],
+      "factors": [
+        {
+          "factor_id": "boe_bank_rate_level_20240801",
+          "factor_version": 1,
+          "factor_family": "policy_rate_action",
+          "metric": "bank_rate",
+          "value_number": 5.0,
+          "value_text": null,
+          "unit": "percent",
+          "prior_value_number": 5.25,
+          "revision_delta_number": null,
+          "direction_interpretation": "not_assigned"
+        },
+        {
+          "factor_id": "boe_bank_rate_change_20240801",
+          "factor_version": 1,
+          "factor_family": "policy_rate_action",
+          "metric": "bank_rate_change",
+          "value_number": -0.25,
+          "value_text": null,
+          "unit": "percentage_points",
+          "prior_value_number": 0.0,
+          "revision_delta_number": null,
+          "direction_interpretation": "not_assigned"
+        },
+        {
+          "factor_id": "boe_cut_vote_share_20240801",
+          "factor_version": 1,
+          "factor_family": "policy_vote_dispersion",
+          "metric": "votes_for_cut",
+          "value_number": 5,
+          "value_text": null,
+          "unit": "members",
+          "prior_value_number": null,
+          "revision_delta_number": null,
+          "direction_interpretation": "not_assigned"
+        },
+        {
+          "factor_id": "boe_hold_vote_share_20240801",
+          "factor_version": 1,
+          "factor_family": "policy_vote_dispersion",
+          "metric": "votes_for_hold",
+          "value_number": 4,
+          "value_text": null,
+          "unit": "members",
+          "prior_value_number": null,
+          "revision_delta_number": null,
+          "direction_interpretation": "not_assigned"
+        }
+      ]
+    }
+  ]
+}

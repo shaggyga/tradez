@@ -1,0 +1,478 @@
+{
+  "schema_version": 1,
+  "contract_id": "uncovered_factor_case_batch_v1_20260821",
+  "upstream_contract_id": "spike_blurb_unmatched_episode_queue_v2_20260820",
+  "purpose": "Bind ten previously unaudited movement-first factor episodes to explicit source clocks, measurable facts, evidence gaps, and reusable research logic without assigning causal proof or enabling execution.",
+  "research_only": true,
+  "execution_eligible": false,
+  "logic_upgrades": [
+    {
+      "upgrade_id": "separate_hindsight_interval_from_event_entry",
+      "definition": "A profitable census interval may begin before its proposed source. Report pre-source minutes explicitly and never relabel the hindsight start as a tradable entry."
+    },
+    {
+      "upgrade_id": "source_clock_quality_gate",
+      "definition": "Only original/provider exact clocks or exact reputable publication witnesses can establish historical knowledge time; date-only and later summaries remain context."
+    },
+    {
+      "upgrade_id": "multi_phase_event_clock",
+      "definition": "Represent decision, statement, projections, press conference, and later transcript as different phases with different causal availability."
+    },
+    {
+      "upgrade_id": "progressive_event_sequence",
+      "definition": "Elections and evolving policy negotiations are event sequences, not a single headline timestamp; preserve the ordered state transitions."
+    },
+    {
+      "upgrade_id": "release_cascade_story_dedup",
+      "definition": "National and regional releases in one scheduled cascade must be retained as ordered facts but counted as one market episode rather than independent confirmations."
+    },
+    {
+      "upgrade_id": "factor_breadth_episode_dedup",
+      "definition": "Correlated pair expressions establish cross-currency breadth and timing but count as one signed-currency episode."
+    },
+    {
+      "upgrade_id": "semantic_direction_requires_response_confirmation",
+      "definition": "Official text supplies facts and a watch state; directional use remains blocked without causal consensus/rate repricing or a frozen post-source factor-response rule."
+    },
+    {
+      "upgrade_id": "cross_currency_risk_transmission",
+      "definition": "Map geopolitical and trade shocks first to a risk/haven factor state, then test currency response breadth instead of hard-coding one pair direction."
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "uncovered_20240802_us_labor_jpy_strength",
+      "episode_id": "unmatched_episode_71fc6a57deb348f1c0201f8c",
+      "event_family": "official_labor_release",
+      "source_hypothesis": "The weak July U.S. employment report plausibly drove lower U.S. rate expectations and broad JPY strength, but the selected 90-minute interval began 75 minutes before the release.",
+      "observed_factor_key": "JPY:positive",
+      "primary_clock_id": "bls_july_employment_release",
+      "source_clocks": [
+        {
+          "clock_id": "bls_july_employment_release",
+          "at_utc": "2024-08-02T12:30:00Z",
+          "timestamp_quality": "official_exact_release_clock",
+          "source_role": "original_authority_numeric_release",
+          "source_url": "https://www.bls.gov/news.release/archives/empsit_08022024.htm",
+          "directional_use_state": "numeric_factor_and_event_watch_only"
+        }
+      ],
+      "measurable_facts": {
+        "nonfarm_payroll_change_thousands": 114,
+        "unemployment_rate_percent": 4.3,
+        "prior_two_month_revision_thousands": -29
+      },
+      "attribution_state": "candidate_explanation_event_inside_hindsight_interval",
+      "missing_evidence": [
+        "causal_pre_release_consensus",
+        "contemporaneous_rate_repricing",
+        "minute_path_partition_before_and_after_release"
+      ],
+      "logic_upgrade_ids": [
+        "separate_hindsight_interval_from_event_entry",
+        "source_clock_quality_gate",
+        "factor_breadth_episode_dedup",
+        "semantic_direction_requires_response_confirmation"
+      ],
+      "case_note": "The report is a credible owner of the final release leg, not of the full hindsight interval. Future scoring must start at 12:30 UTC and compare post-release continuation with no-trade."
+    },
+    {
+      "case_id": "uncovered_20240823_powell_jackson_hole_usd_weakness",
+      "episode_id": "unmatched_episode_76b8a3386ff686eac31e0a95",
+      "event_family": "central_bank_speech",
+      "source_hypothesis": "Powell's scheduled Jackson Hole speech shifted the policy narrative toward easing and aligns closely with broad USD weakness.",
+      "observed_factor_key": "USD:negative",
+      "primary_clock_id": "fed_powell_jackson_hole_speech",
+      "source_clocks": [
+        {
+          "clock_id": "fed_powell_jackson_hole_speech",
+          "at_utc": "2024-08-23T14:00:00Z",
+          "timestamp_quality": "official_exact_event_clock",
+          "source_role": "original_central_bank_speech",
+          "source_url": "https://www.federalreserve.gov/newsevents/speech/powell20240823a.htm",
+          "directional_use_state": "statement_delta_and_event_watch_only"
+        }
+      ],
+      "measurable_facts": {
+        "scheduled_release_time_et": "10:00",
+        "labor_market_characterization": "no_longer_overheated",
+        "policy_adjustment_signal": "easing_path_language_materially_strengthened"
+      },
+      "attribution_state": "strong_timing_aligned_candidate_missing_rates",
+      "missing_evidence": [
+        "frozen_statement_delta_baseline",
+        "contemporaneous_ois_repricing",
+        "prospective_factor_confirmation"
+      ],
+      "logic_upgrade_ids": [
+        "separate_hindsight_interval_from_event_entry",
+        "source_clock_quality_gate",
+        "factor_breadth_episode_dedup",
+        "semantic_direction_requires_response_confirmation"
+      ],
+      "case_note": "This is the cleanest timing-aligned speech case in the batch: the interval begins five minutes before the scheduled speech and nine USD expressions agree. It is still retrospective discovery, not proof."
+    },
+    {
+      "case_id": "uncovered_20240920_boj_hold_press_jpy_weakness",
+      "episode_id": "unmatched_episode_3793fc90f93462e311222be6",
+      "event_family": "central_bank_decision_and_press_conference",
+      "source_hypothesis": "The BOJ hold supplied the policy fact, while the governor's press conference supplied the response clock for broad JPY weakness; later transcript wording was not available at the start.",
+      "observed_factor_key": "JPY:negative",
+      "primary_clock_id": "boj_governor_press_conference",
+      "source_clocks": [
+        {
+          "clock_id": "boj_policy_statement",
+          "at_utc": "2024-09-20T02:52:00Z",
+          "timestamp_quality": "official_exact_release_clock",
+          "source_role": "original_central_bank_policy_statement",
+          "source_url": "https://www.boj.or.jp/en/mopo/mpmdeci/state_2024/k240920a.htm",
+          "directional_use_state": "policy_fact_and_watch_only"
+        },
+        {
+          "clock_id": "boj_governor_press_conference",
+          "at_utc": "2024-09-20T06:30:00Z",
+          "timestamp_quality": "official_exact_event_clock",
+          "source_role": "official_press_event_clock_content_ex_post",
+          "source_url": "https://www.boj.or.jp/en/mopo/mpmsche_minu/past.htm",
+          "directional_use_state": "event_watch_only_transcript_not_causal"
+        }
+      ],
+      "measurable_facts": {
+        "overnight_call_rate_percent": 0.25,
+        "decision_vote": "unanimous",
+        "policy_action": "hold"
+      },
+      "attribution_state": "press_phase_aligned_semantics_ex_post",
+      "missing_evidence": [
+        "trade_time_press_transcript",
+        "causal_policy_expectations",
+        "yen_rate_repricing"
+      ],
+      "logic_upgrade_ids": [
+        "multi_phase_event_clock",
+        "source_clock_quality_gate",
+        "factor_breadth_episode_dedup",
+        "semantic_direction_requires_response_confirmation"
+      ],
+      "case_note": "The response begins at the press-event clock across ten JPY expressions. The engine should open a two-sided response watch at 06:30, not infer direction from the later transcript."
+    },
+    {
+      "case_id": "uncovered_20241004_us_labor_jpy_weakness",
+      "episode_id": "unmatched_episode_13c867c00e1b6d5aef4f9696",
+      "event_family": "official_labor_release",
+      "source_hypothesis": "The strong September U.S. employment report plausibly lifted rate expectations and weakened JPY, but the selected interval began one hour before the official release.",
+      "observed_factor_key": "JPY:negative",
+      "primary_clock_id": "bls_september_employment_release",
+      "source_clocks": [
+        {
+          "clock_id": "bls_september_employment_release",
+          "at_utc": "2024-10-04T12:30:00Z",
+          "timestamp_quality": "official_exact_release_clock",
+          "source_role": "original_authority_numeric_release",
+          "source_url": "https://www.bls.gov/news.release/archives/empsit_10042024.htm",
+          "directional_use_state": "numeric_factor_and_event_watch_only"
+        }
+      ],
+      "measurable_facts": {
+        "nonfarm_payroll_change_thousands": 254,
+        "unemployment_rate_percent": 4.1
+      },
+      "attribution_state": "candidate_explanation_event_inside_hindsight_interval",
+      "missing_evidence": [
+        "causal_pre_release_consensus",
+        "contemporaneous_rate_repricing",
+        "minute_path_partition_before_and_after_release"
+      ],
+      "logic_upgrade_ids": [
+        "separate_hindsight_interval_from_event_entry",
+        "source_clock_quality_gate",
+        "factor_breadth_episode_dedup",
+        "semantic_direction_requires_response_confirmation"
+      ],
+      "case_note": "The 12:30 event can own only the final thirty minutes of the selected interval. Replays must not credit the preceding hour to the payroll release."
+    },
+    {
+      "case_id": "uncovered_20241106_us_election_usd_strength",
+      "episode_id": "unmatched_episode_cdbdbe07975bb86ea8b0c1c5",
+      "event_family": "progressive_election_result",
+      "source_hypothesis": "Progressively stronger evidence of a Trump victory repriced growth, inflation and tariffs and coincided with broad USD strength; no single final-result headline owned the onset.",
+      "observed_factor_key": "USD:positive",
+      "primary_clock_id": "ap_early_state_call_explainer",
+      "source_clocks": [
+        {
+          "clock_id": "ap_early_state_call_explainer",
+          "at_utc": "2024-11-06T00:16:08Z",
+          "timestamp_quality": "reputable_secondary_exact_publication_clock",
+          "source_role": "progressive_election_state_witness",
+          "source_url": "https://apnews.com/article/78031598f95cb1c4feff5009792e5425",
+          "directional_use_state": "progressive_state_watch_only"
+        },
+        {
+          "clock_id": "ap_florida_call",
+          "at_utc": "2024-11-06T01:01:00Z",
+          "timestamp_quality": "reputable_secondary_exact_publication_clock",
+          "source_role": "progressive_election_state_call",
+          "source_url": "https://apnews.com/article/74cc09a0a707f532ba9324157548f437",
+          "directional_use_state": "progressive_state_watch_only"
+        },
+        {
+          "clock_id": "ap_national_race_call",
+          "at_utc": "2024-11-06T10:35:00Z",
+          "timestamp_quality": "reputable_secondary_exact_publication_clock",
+          "source_role": "national_result_call",
+          "source_url": "https://www.ap.org/the-definitive-source/behind-the-news/calling-the-2024-presidential-race-state-by-state/",
+          "directional_use_state": "late_confirmation_only"
+        }
+      ],
+      "measurable_facts": {
+        "event_state_type": "ordered_state_calls",
+        "national_call_after_selected_window": true,
+        "factor_instrument_breadth": 7
+      },
+      "attribution_state": "progressive_event_candidate_no_single_onset_clock",
+      "missing_evidence": [
+        "point_in_time_election_probability_series",
+        "state_call_state_machine",
+        "contemporaneous_treasury_repricing"
+      ],
+      "logic_upgrade_ids": [
+        "progressive_event_sequence",
+        "source_clock_quality_gate",
+        "factor_breadth_episode_dedup",
+        "semantic_direction_requires_response_confirmation"
+      ],
+      "case_note": "The move began before the first retained AP page and long before the national call. A progressive event-state feed is required; a final headline is necessarily late."
+    },
+    {
+      "case_id": "uncovered_20241122_eurozone_pmi_eur_weakness",
+      "episode_id": "unmatched_episode_99b3827a827a9ed264141852",
+      "event_family": "scheduled_regional_release_cascade",
+      "source_hypothesis": "Weak French, German and euro-area flash PMIs formed one ordered release cascade that plausibly drove broad EUR weakness.",
+      "observed_factor_key": "EUR:negative",
+      "primary_clock_id": "sp_global_france_flash_pmi",
+      "source_clocks": [
+        {
+          "clock_id": "sp_global_france_flash_pmi",
+          "at_utc": "2024-11-22T08:15:00Z",
+          "timestamp_quality": "provider_exact_release_clock",
+          "source_role": "primary_data_provider_france_flash_pmi",
+          "source_url": "https://www.pmi.spglobal.com/Public/Release/ReleaseDates?language=en",
+          "directional_use_state": "numeric_release_cascade_watch"
+        },
+        {
+          "clock_id": "sp_global_germany_flash_pmi",
+          "at_utc": "2024-11-22T08:30:00Z",
+          "timestamp_quality": "provider_exact_release_clock",
+          "source_role": "primary_data_provider_germany_flash_pmi",
+          "source_url": "https://www.pmi.spglobal.com/Public/Release/ReleaseDates?language=en",
+          "directional_use_state": "numeric_release_cascade_watch"
+        },
+        {
+          "clock_id": "sp_global_eurozone_flash_pmi",
+          "at_utc": "2024-11-22T09:00:00Z",
+          "timestamp_quality": "provider_exact_release_clock",
+          "source_role": "primary_data_provider_eurozone_flash_pmi",
+          "source_url": "https://www.pmi.spglobal.com/Public/Home/PressRelease/318dcff6eaaf4b77aa8f57cc02b2a613",
+          "directional_use_state": "numeric_release_cascade_watch"
+        }
+      ],
+      "measurable_facts": {
+        "france_composite_pmi": 44.8,
+        "france_services_pmi": 45.7,
+        "eurozone_composite_pmi": 48.1
+      },
+      "attribution_state": "release_cascade_candidate_partial_onset",
+      "missing_evidence": [
+        "causal_consensus_for_each_release",
+        "euro_rates_repricing",
+        "minute_path_partition_across_three_release_clocks"
+      ],
+      "logic_upgrade_ids": [
+        "separate_hindsight_interval_from_event_entry",
+        "release_cascade_story_dedup",
+        "factor_breadth_episode_dedup",
+        "semantic_direction_requires_response_confirmation"
+      ],
+      "case_note": "The interval began thirty minutes before the first release and ended fifteen minutes after the euro-area release. Treat the sequence as one event episode and test incremental response at each clock."
+    },
+    {
+      "case_id": "uncovered_20241125_tariff_threat_cad_weakness",
+      "episode_id": "unmatched_episode_4493f4d1d3dc2ce5a59c7899",
+      "event_family": "unscheduled_trade_policy_threat",
+      "source_hypothesis": "The announced 25 percent tariff threat against Canadian and Mexican imports plausibly drove broad CAD weakness, but the original social-post clock is not in the retained official archive.",
+      "observed_factor_key": "CAD:negative",
+      "primary_clock_id": "reuters_tariff_threat_witness",
+      "source_clocks": [
+        {
+          "clock_id": "reuters_tariff_threat_witness",
+          "at_utc": "2024-11-25T23:50:00Z",
+          "timestamp_quality": "reputable_secondary_exact_publication_clock",
+          "source_role": "secondary_exact_time_witness",
+          "source_url": "https://www.investing.com/news/economic-indicators/trump-promises-a-25-tariff-on-products-from-mexico-canada-3741062",
+          "directional_use_state": "candidate_explanation_and_continuation_watch"
+        },
+        {
+          "clock_id": "ap_tariff_threat_witness",
+          "at_utc": "2024-11-26T00:27:01Z",
+          "timestamp_quality": "reputable_secondary_exact_publication_clock",
+          "source_role": "secondary_confirmation",
+          "source_url": "https://apnews.com/article/59239afe12033ca99c65c7a2be0e4f0d",
+          "directional_use_state": "late_confirmation_only"
+        }
+      ],
+      "measurable_facts": {
+        "threatened_tariff_percent": 25,
+        "target_countries": [
+          "Canada",
+          "Mexico"
+        ],
+        "additional_china_tariff_percent": 10
+      },
+      "attribution_state": "secondary_witness_candidate_original_clock_missing",
+      "missing_evidence": [
+        "immutable_original_social_post_timestamp_and_payload",
+        "licensed_first_squawk_clock",
+        "causal_trade_policy_probability_baseline"
+      ],
+      "logic_upgrade_ids": [
+        "source_clock_quality_gate",
+        "progressive_event_sequence",
+        "factor_breadth_episode_dedup",
+        "semantic_direction_requires_response_confirmation"
+      ],
+      "case_note": "The first retained secondary witness arrived during the move, not before the selected start. It can seed a continuation study but cannot be credited with the initial break."
+    },
+    {
+      "case_id": "uncovered_20250120_tariff_delay_usd_weakness",
+      "episode_id": "unmatched_episode_c9d53a64e2630f6d62086053",
+      "event_family": "unscheduled_trade_policy_delay",
+      "source_hypothesis": "Reports that the incoming administration would not impose immediate tariffs plausibly unwound the tariff premium and weakened USD, but the exact first report is not in the retained source record.",
+      "observed_factor_key": "USD:negative",
+      "primary_clock_id": "initial_tariff_delay_report_unverified",
+      "source_clocks": [
+        {
+          "clock_id": "initial_tariff_delay_report_unverified",
+          "at_utc": null,
+          "timestamp_quality": "reported_original_clock_unverified",
+          "source_role": "reported_initial_media_scoop_not_archived",
+          "source_url": "https://www.investing.com/news/economy-news/dollar-steady-as-markets-await-trump-inauguration-3820166",
+          "directional_use_state": "not_causal_without_original_clock"
+        },
+        {
+          "clock_id": "reuters_tariff_delay_confirmation",
+          "at_utc": "2025-01-20T16:26:00Z",
+          "timestamp_quality": "reputable_secondary_exact_publication_clock",
+          "source_role": "secondary_market_reaction_confirmation",
+          "source_url": "https://www.investing.com/news/world-news/dollar-drops-european-stocks-jump-on-trump-tariff-delay-3820655",
+          "directional_use_state": "late_confirmation_only"
+        }
+      ],
+      "measurable_facts": {
+        "immediate_tariffs_imposed": false,
+        "trade_review_ordered": true,
+        "market_theme": "tariff_premium_unwind"
+      },
+      "attribution_state": "plausible_explanation_clock_late_or_unverified",
+      "missing_evidence": [
+        "exact_initial_report_timestamp",
+        "immutable_initial_report_payload",
+        "point_in_time_tariff_probability"
+      ],
+      "logic_upgrade_ids": [
+        "source_clock_quality_gate",
+        "progressive_event_sequence",
+        "factor_breadth_episode_dedup",
+        "semantic_direction_requires_response_confirmation"
+      ],
+      "case_note": "This is a plausible explanation but fails the causal-clock gate: the exact report that moved price is missing and the retained Reuters timestamp is after the selected interval."
+    },
+    {
+      "case_id": "uncovered_20250311_canada_tariff_deescalation_cad_strength",
+      "episode_id": "unmatched_episode_8db667320a9561db4c56eb24",
+      "event_family": "trade_policy_deescalation",
+      "source_hypothesis": "Ontario suspended its electricity surcharge and the U.S. withdrew a threatened tariff escalation, plausibly producing broad CAD relief.",
+      "observed_factor_key": "CAD:positive",
+      "primary_clock_id": "ap_canada_deescalation_witness",
+      "source_clocks": [
+        {
+          "clock_id": "ap_canada_deescalation_witness",
+          "at_utc": "2025-03-11T17:27:42Z",
+          "timestamp_quality": "reputable_secondary_exact_publication_clock",
+          "source_role": "secondary_exact_time_witness",
+          "source_url": "https://apnews.com/article/34f3dcc2eb61865cb66791554f1b5abb",
+          "directional_use_state": "candidate_trade_deescalation_watch"
+        },
+        {
+          "clock_id": "ieso_surcharge_suspension",
+          "at_utc": null,
+          "timestamp_quality": "date_only_primary",
+          "source_role": "original_authority_confirmation_date_only",
+          "source_url": "https://www.ieso.ca/Sector-Participants/IESO-News/2025/03/IESO-asked-to-suspend-surcharge-on-electricity-exports-to-the-US",
+          "directional_use_state": "factual_confirmation_not_historical_clock"
+        }
+      ],
+      "measurable_facts": {
+        "electricity_surcharge_percent": 25,
+        "surcharge_suspended": true,
+        "additional_us_metals_tariff_escalation_withdrawn": true
+      },
+      "attribution_state": "secondary_witness_before_move_candidate",
+      "missing_evidence": [
+        "exact_primary_ontario_statement_clock",
+        "point_in_time_trade_policy_probability",
+        "prospective_cad_factor_confirmation"
+      ],
+      "logic_upgrade_ids": [
+        "source_clock_quality_gate",
+        "progressive_event_sequence",
+        "factor_breadth_episode_dedup",
+        "semantic_direction_requires_response_confirmation"
+      ],
+      "case_note": "A precise secondary witness preceded the selected path by about twelve minutes and seven CAD expressions aligned. This is strong retrospective timing evidence, still not prospective proof."
+    },
+    {
+      "case_id": "uncovered_20250612_israel_iran_risk_aud_weakness",
+      "episode_id": "unmatched_episode_6af7a5c034064205c55a95a9",
+      "event_family": "geopolitical_risk_shock",
+      "source_hypothesis": "Reports of Israeli strikes on Iran triggered a risk-off rotation and broad AUD weakness; the first exact retained AP publication arrived after the selected move began but before it ended.",
+      "observed_factor_key": "AUD:negative",
+      "primary_clock_id": "ap_israel_iran_strikes_witness",
+      "source_clocks": [
+        {
+          "clock_id": "ap_israel_iran_strikes_witness",
+          "at_utc": "2025-06-13T00:13:46Z",
+          "timestamp_quality": "reputable_secondary_exact_publication_clock",
+          "source_role": "breaking_news_exact_time_witness",
+          "source_url": "https://apnews.com/article/00234a06e5128a8aceb406b140297299",
+          "directional_use_state": "risk_shock_candidate_and_continuation_watch"
+        },
+        {
+          "clock_id": "reuters_fx_reaction_confirmation",
+          "at_utc": "2025-06-13T01:09:00Z",
+          "timestamp_quality": "reputable_secondary_exact_publication_clock",
+          "source_role": "secondary_fx_reaction_confirmation",
+          "source_url": "https://kelo.com/2025/06/12/dollar-and-other-safe-havens-rise-as-israel-strikes-iran/",
+          "directional_use_state": "after_interval_market_confirmation"
+        }
+      ],
+      "measurable_facts": {
+        "shock_type": "direct_state_on_state_strikes",
+        "risk_currency": "AUD",
+        "factor_instrument_breadth": 6
+      },
+      "attribution_state": "breaking_news_during_move_candidate_continuation_only",
+      "missing_evidence": [
+        "licensed_first_squawk_clock",
+        "exact_attack_onset_clock",
+        "point_in_time_risk_state_baseline"
+      ],
+      "logic_upgrade_ids": [
+        "source_clock_quality_gate",
+        "factor_breadth_episode_dedup",
+        "cross_currency_risk_transmission",
+        "semantic_direction_requires_response_confirmation"
+      ],
+      "case_note": "The exact retained news clock arrived during the move. A generic risk/haven mapper plus factor confirmation could study continuation, but the first break cannot be credited to this timestamp."
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "review_id": "sarb_mpc_decision_exact_v2_independent_review_20260817T093000Z",
+  "reviewed_utc": "2026-08-17T09:30:00Z",
+  "verdict": "register_disabled_research_only_exact_bytes",
+  "review_scope": "disabled research registry only",
+  "reviewed_artifacts": {
+    "module": {
+      "relative_path": "src/forex_system/ingestion/sarb_mpc_decision_exact_v2.py",
+      "sha256": "97bed490a5cdc7be276ff2b96197b6aaefe4da9c542c90d7fd80b72e492fe925"
+    },
+    "contract": {
+      "relative_path": "config/sarb_mpc_decision_exact_v2.json",
+      "sha256": "b1c1124906813435e7e738c3171e8fa7f2d3ab00538970cb65b2f80644301c8e"
+    },
+    "tests": {
+      "relative_path": "test_sarb_mpc_decision_exact_v2.py",
+      "sha256": "3efaa7b14f76ebc3cac217d82df765f84211a1271e81bb03c4c219712769b71c"
+    },
+    "observation_manifest": {
+      "relative_path": "data/oanda_training_manager/source_archives/sarb_mpc_decision_exact_v2/schedule_observation_20260817T082716Z.json",
+      "sha256": "f74006c7df2abec925592e61d1a4ce36584da8c39cbb6303b3dd82838deb3108"
+    },
+    "official_archive": {
+      "relative_path": "data/oanda_training_manager/source_archives/sarb_mpc_decision_exact_v2/sarb_mpc_schedule_20260817T082716Z.html",
+      "sha256": "bd426f66a8360d45ad4c7f4f50b39eb14690b96278937ebbdc58f59b43d4f540",
+      "byte_length": 100939
+    }
+  },
+  "validation": {
+    "focused_tests_passed": 106,
+    "adjacent_tests_passed": 152,
+    "subtests_passed": 30,
+    "p0_findings": 0,
+    "p1_findings": 0,
+    "p2_findings": 0,
+    "blocking_p3_findings": 0,
+    "verified_boundaries": [
+      "recursive_exact_typed_schema",
+      "duplicate_key_nonfinite_overflow_refusal",
+      "exact_timestamp_spelling",
+      "archive_and_manifest_reopening",
+      "path_symlink_hardlink_race_and_file_identity",
+      "causal_statement_boundary"
+    ]
+  },
+  "registration": {
+    "enabled": false,
+    "runtime_supported": false,
+    "registered_with_live_collector": false,
+    "collector_wired": false,
+    "research_only": true,
+    "shadow_only": true,
+    "proof_eligible": false,
+    "promotion_eligible": false,
+    "authorization_eligible": false,
+    "execution_eligible": false,
+    "supported_execution_decision": "no_trade"
+  },
+  "evidence_boundary": {
+    "july_2026": "availability-counterfactual/archive-only",
+    "future_decisions": "schedule readiness only until a causally observed official statement exists",
+    "decision_clock": "max(scheduled_utc, statement_first_seen_utc)",
+    "factor_independence": "all five priced ZAR pairs remain one ZAR currency factor"
+  },
+  "immutability": {
+    "any_reviewed_byte_change_requires_new_review": true,
+    "this_certificate_cannot_enable_register_or_execute_code": true,
+    "lifecycle_or_authorization_authority": false
+  }
+}

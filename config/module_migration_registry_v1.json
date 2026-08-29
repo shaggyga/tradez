@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "registry_id": "forex_module_migration_20260813_v1",
+  "last_verified_utc": "2026-08-28T01:25:00Z",
+  "current_structure_audit": "data/oanda_training_manager/reports/project_structure/STRUCTURE_AUDIT_CURRENT.json",
+  "default_state": "inventory_only",
+  "entries": [
+    {"module_id":"control_plane","current_path":"src/forex_system/control_plane.py","domain":"runtime","target_path":"src/forex_system/control_plane.py","state":"extracted","live":false},
+    {"module_id":"always_on_supervisor","current_path":"oanda_always_on_supervisor.ps1","domain":"runtime","target_path":"src/forex_system/runtime/always_on_supervisor.ps1","state":"live_root_entrypoint","live":true},
+    {"module_id":"local_news_sentiment","current_path":"oanda_local_news_sentiment.py","domain":"ingestion","target_path":"src/forex_system/ingestion/local_news_sentiment.py","state":"live_root_entrypoint","live":true},
+    {"module_id":"alfred_vintage_prospective","current_path":"oanda_alfred_vintage_prospective.py","domain":"ingestion","target_path":"src/forex_system/ingestion/alfred_vintage_prospective.py","state":"live_root_entrypoint","live":true},
+    {"module_id":"quote_stream","current_path":"oanda_practice_quote_stream.py","domain":"ingestion","target_path":"src/forex_system/ingestion/practice_quote_stream.py","state":"live_root_entrypoint","live":true},
+    {"module_id":"proof_shadow_predictors","current_path":"oanda_proof_shadow_predictors.py","domain":"research","target_path":"src/forex_system/research/proof_shadow_predictors.py","state":"live_root_entrypoint","live":true},
+    {"module_id":"edge_evidence","current_path":"oanda_edge_evidence.py","domain":"evidence","target_path":"src/forex_system/evidence/edge_evidence.py","state":"live_root_entrypoint","live":true},
+    {"module_id":"hypothesis_lifecycle","current_path":"oanda_hypothesis_lifecycle.py","domain":"governance","target_path":"src/forex_system/governance/hypothesis_lifecycle.py","state":"live_root_entrypoint","live":true},
+    {"module_id":"independent_evidence_verifier","current_path":"oanda_independent_evidence_verifier.py","domain":"governance","target_path":"src/forex_system/governance/independent_evidence_verifier.py","state":"live_root_entrypoint","live":true},
+    {"module_id":"practice_007_executor","current_path":"oanda_practice_top_signal_executor.py","domain":"execution","target_path":"src/forex_system/execution/practice_top_signal_executor.py","state":"live_root_entrypoint","live":true},
+    {"module_id":"reentry_shadow","current_path":"oanda_practice_reentry_shadow.py","domain":"execution","target_path":"src/forex_system/execution/practice_reentry_shadow.py","state":"live_root_entrypoint","live":true},
+    {"module_id":"storage_headroom","current_path":"oanda_storage_headroom_guard.py","domain":"monitoring","target_path":"src/forex_system/monitoring/storage_headroom_guard.py","state":"live_root_entrypoint","live":true}
+  ],
+  "graduation_gate": [
+    "target implementation exists",
+    "old import path is a compatibility shim",
+    "focused tests pass at old and new paths",
+    "supervisor command resolves exactly one process",
+    "state and database paths are unchanged",
+    "practice-only and live-disabled guards pass",
+    "one complete dry-run cycle matches pre-migration output"
+  ]
+}

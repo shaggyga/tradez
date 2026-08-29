@@ -1,0 +1,86 @@
+{
+  "manifest_schema_version": 1,
+  "manifest_id": "prospective_event_response_v6_r3_manifest_20260817",
+  "contract_id": "prospective_event_response_capture_v6_20260817_r3",
+  "cohort_id": "prospective_official_event_response_v6_20260817_r3",
+  "parent_contract_id": "prospective_event_response_capture_v6_20260817_r2",
+  "parent_disposition": "independent_no_approve_never_registered_zero_canonical_evidence",
+  "review_state": "pending_independent_review",
+  "candidate_frozen_utc": null,
+  "independent_review_started_utc": null,
+  "independent_review_completed_utc": null,
+  "runtime_started_utc": null,
+  "artifacts": {
+    "runtime_core": {
+      "relative_path": "src/forex_system/ingestion/prospective_event_response_v6_r3.py",
+      "sha256": "9e709d569c17ed07fcd5348f5cb07fbd8f020846bd011c913993e2cc248fb8f1",
+      "byte_length": 43509
+    },
+    "contract": {
+      "relative_path": "config/prospective_event_response_v6_r3_contract.json",
+      "sha256": "6598258b20a122b8e3ecb50400cb5698de55c262c255c737b0eb0d3ac6af6e06",
+      "byte_length": 4776
+    },
+    "adversarial_tests": {
+      "relative_path": "test_prospective_event_response_v6_r3.py",
+      "sha256": "5bb7a060a65a2b941033c22eeafdf20aeef613fb75e31373149042f69111a1dc",
+      "byte_length": 21511
+    },
+    "upstream_independent_review_certificate": {
+      "relative_path": "config/official_fact_currency_state_v5_r3_review_certificate.json",
+      "sha256": "0a61948a9fc2f2a9a06d30557b838d7fb389958c9ef2b1845bc8b06e70c7b299",
+      "byte_length": 6003
+    },
+    "official_fact_v5_r3_manifest": {
+      "relative_path": "config/official_fact_adapter_v5_manifest.json",
+      "sha256": "3b4a6589253c8e6a6974840527760eda5b24ec87c109bb0e7c694d266b21b332",
+      "byte_length": 4685
+    },
+    "currency_state_context_v5_r3_manifest": {
+      "relative_path": "config/currency_state_official_context_v5_manifest.json",
+      "sha256": "45f74389add35b2c2435f9f0907819899f81e402ff06a37b91c94171ab632974",
+      "byte_length": 5652
+    }
+  },
+  "transitive_upstream_closure": {
+    "review_certificate_id": "official_fact_currency_state_v5_r3_independent_review_20260817",
+    "artifact_count": 23,
+    "canonical_artifact_list_sha256": "75233a91ec8389d80f328ba9e0d8c7460f6030c236eb586e278165f60a8b58b7",
+    "verification_policy": "every reviewed path byte length and sha256 is reopened before any test-only build"
+  },
+  "output_surface": {
+    "canonical_ledger_path": null,
+    "canonical_state_path": null,
+    "canonical_report_path": null,
+    "worker_entrypoint": null,
+    "collector_entrypoint": null,
+    "only_test_fixture_builder": "forex_system.ingestion.prospective_event_response_v6_r3.build_test_snapshot"
+  },
+  "state": {
+    "enabled": false,
+    "registered": false,
+    "research_worker_enabled": false,
+    "collector_enabled": false,
+    "canonical_output_initialized": false
+  },
+  "policy": {
+    "full_transitive_r3_closure_is_pinned": true,
+    "exact_v5_r3_snapshots_and_input_identities_are_required": true,
+    "replay_and_prospective_capture_are_diagnostic_only": true,
+    "strict_timezone_aware_capture_cutoff_required": true,
+    "exact_builtin_datetime_type_required": true,
+    "exact_canonical_instrument_pip_required": true,
+    "canonical_pip_runtime_is_private_pure_rule_and_read_only_view": true,
+    "duplicate_selection_is_deterministic_utc_instant_order": true,
+    "response_identity_is_complete_content_hash": true,
+    "proof_row_count_must_be_zero": true,
+    "forecast_ev_rank_and_basis_may_not_be_invented": true,
+    "material_change_requires_new_contract_id": true,
+    "research_only": true,
+    "execution_eligible": false,
+    "can_place_orders": false,
+    "can_promote": false,
+    "can_authorize": false,
+    "supported_execution_decision": "no_trade"
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "schema_version": 2,
+  "updated_utc": "2026-07-27T11:00:00Z",
+  "scope": "OANDA forex research and shadow forecasting only",
+  "execution_policy": "shadow_only_until_purged_walk_forward_cost_and_live_paper_gates_pass",
+  "source_inventory_note": "Catalogue, adapter, runtime, smoke qualification, market qualification, and production eligibility are separate evidence levels.",
+  "evidence_summary": {
+    "registry_models": 30,
+    "model_families": 7,
+    "package_runtimes_available": 27,
+    "official_source_pins_valid": 2,
+    "runnable_including_pinned_s4": 28,
+    "synthetic_qualification_results": 18,
+    "bounded_market_qualified": 28,
+    "market_backtest_required": 28,
+    "market_backtest_complete": 28,
+    "market_performance_passed": 0,
+    "full_matrix_expected_pair_cells": 14144,
+    "full_matrix_observed_pair_cells": 14102,
+    "full_matrix_documented_unavailable_pair_cells": 42,
+    "full_matrix_accounted_pair_cells": 14144,
+    "full_matrix_unaccounted_pair_cells": 0,
+    "full_matrix_events": 4416423,
+    "production_eligible": 0,
+    "account_wired": 0,
+    "explicit_blockers": ["timesfm_icf", "mamba"]
+  },
+  "common_acceptance_gates": [
+    "time-ordered purged walk-forward evaluation",
+    "pair, timeframe, horizon, feature, data-cutoff, and model-version provenance",
+    "spread, slippage, and execution costs",
+    "calibration, Brier score, signed error, MAE, net pips, drawdown, and coverage",
+    "minimum independent matured outcomes and time blocks",
+    "matched simple baseline on untouched windows",
+    "independent shadow monitoring before practice-account eligibility"
+  ],
+  "shared_panel": {
+    "feature_version": "strategy_lab_scalar_cross_pair_v1",
+    "canonical_timeframes": ["S5", "S10", "S15", "S30", "M1", "M5", "M10", "M15", "M30", "H1", "H2", "H3", "H4"],
+    "canonical_horizons_sec": [30, 60, 120, 180, 300, 600, 900, 1800, 3600, 7200, 10800, 14400, 21600, 28800, 43200, 86400],
+    "market_evidence": "The canonical panel contains 4,416,423 unique events over 68 instruments, 13 input timeframes, and 16 exact outcome horizons. It has all 208 timeframe-horizon cells, 14,102 observed pair-cells, 42 explicitly documented quote-unavailable pair-cells, and zero unaccounted contract gaps. The remaining-gap validation retained a contiguous tail of up to 64 events per observed pair/timeframe/horizon cell: 876,369 events across all 208 cells and all 14,102 observed pair-cells.",
+    "new_neural_smoke": "PatchTST, N-BEATS, N-HiTS, LSTM, GRU, TCN, and the temporal cross-pair GNN have maturity-purged, observed-cost market backtests across the 208-cell contract. Aggregate LSTM and TCN economics initially cleared the old global-only gate, but each was positive in only 85/208 cells. The gate now also requires broad cell activity, a positive majority of active cells, and a positive majority of active timeframes; neither result is account eligible.",
+    "full_span_status": "contract_complete_208_of_208_timeframe_horizon_cells_14102_observed_42_documented_unavailable_0_unaccounted",
+    "storage_note": "The user-directed canonical runtime and rolling data are on D:\\forex. The disk retains a known bad-sector history, so zero recent Event ID 7 records must not be interpreted as repaired hardware. Avoid unnecessary bulk rewrites, retain reproducible raw data on D, and sync credential-free source, model metadata, reports, summaries, and manifests to the OneDrive vault.",
+    "prospective_microstructure_20260727": {
+      "feature_count": 69,
+      "instrument_count": 68,
+      "sample_cadence_sec": 5,
+      "outcome_horizons_sec": [15, 30, 60, 120, 300, 600, 900],
+      "account_execution_authorized": false,
+      "liquid_direction_logistic_mean_fold_auc": 0.4131,
+      "liquid_direction_hgb_mean_fold_auc": 0.492,
+      "liquid_direction_logistic_holdout_auc": 0.4236,
+      "liquid_direction_hgb_holdout_auc": 0.4498,
+      "enriched_liquid_events": 30256,
+      "enriched_feature_coverage": 1.0,
+      "enriched_logistic_direction_mean_fold_auc": 0.5253,
+      "enriched_logistic_direction_holdout_auc": 0.5632,
+      "enriched_logistic_direction_holdout_net_pips": -2.0845,
+      "two_stage_movement_mean_fold_auc": 0.8504,
+      "two_stage_movement_holdout_auc": 0.8637,
+      "two_stage_direction_holdout_auc": 0.6095,
+      "two_stage_direction_holdout_side_accuracy": 0.6283,
+      "two_stage_holdout_all_action_net_pips": -1.8926,
+      "selected_trades": 0,
+      "status": "prospective_shadow_evidence_no_executable_gate"
+    },
+    "chronological_live_gate_20260727": {
+      "selection_split": "oldest_70_percent",
+      "holdout_split": "newest_30_percent_untuned",
+      "fit_direction_accuracy": 0.5618,
+      "fit_average_net_pips": -1.0188,
+      "fit_positive_blocks": 3,
+      "fit_blocks": 11,
+      "holdout_direction_accuracy": 0.4615,
+      "holdout_average_net_pips": -1.4686,
+      "holdout_positive_blocks": 0,
+      "holdout_blocks": 8,
+      "status": "no_stable_positive_gate"
+    },
+    "live_worker_latency_20260727": {
+      "singleton_lock": true,
+      "startup_stage_heartbeat": true,
+      "publish_before_outcome_maturity": true,
+      "pre_fix_received": 1016,
+      "pre_fix_accepted": 0,
+      "pre_fix_rejected_stale": 1016,
+      "post_fix_received": 1052,
+      "post_fix_accepted": 1052,
+      "post_fix_rejected": 0,
+      "post_fix_forecast_seconds": 104.985,
+      "post_fix_maturity_seconds": 63.453,
+      "maturity_batch_size": 5000,
+      "redundant_outcome_joins_removed": true,
+      "warm_cycle_received": 1040,
+      "warm_cycle_accepted": 1040,
+      "warm_cycle_rejected": 0,
+      "warm_cycle_forecast_seconds": 16.219,
+      "warm_cycle_maturity_seconds": 36.75,
+      "warm_cycle_total_seconds": 54.531,
+      "account_execution_authorized": false
+    }
+  },
+  "phases": [
+    {
+      "priority": 1,
+      "family": "modern_tabular_probabilistic",
+      "models": ["CatBoostClassifier", "NGBClassifier"],
+      "status": "bounded_market_qualified_no_production_gate",
+      "evidence": "CatBoost and NGBoost ran with logistic and histogram-gradient baselines on 150,000 stratified events spanning all 68 instruments, 13 timeframes, and 16 horizons. All four artifacts are hash verified and research-shadow only. No estimator passed the executable production gate.",
+      "next_gate": "Repeat across independent later time blocks and require a positive lower confidence bound, stable fold economics, and adequate coverage."
+    },
+    {
+      "priority": 2,
+      "family": "major_neural_forecasters",
+      "models": ["TFT", "DeepAR", "PatchTST", "N-BEATS", "N-HiTS", "LSTM", "GRU", "TCN"],
+      "status": "all_eight_bounded_market_qualified_no_production_gate",
+      "evidence": "All eight neural forecasters have chronological observed-cost market evidence. PatchTST, N-BEATS, N-HiTS, LSTM, GRU, and TCN were rerun across all 208 cells. LSTM and TCN showed positive aggregate economics but failed the strengthened cross-cell stability gate because only 85/208 cells were positive. TFT and DeepAR were trained on the 150,000-event, 22-panel input with CUDA; broad holdout AUC was 0.6396 and 0.5699 respectively, with zero executable selections. A separate 556,475-event H1/H4 supplement covered all 32 cells for those timeframes, including every required 1h, 4h, 12h, and 24h cell; supplemental AUC was 0.5678 and 0.5432. All source and checkpoint hashes verify. Production and account eligibility remain false.",
+      "next_gate": "Use an audited CUDA runtime for larger purged multi-origin fits and require positive cost-adjusted stability against matched simple baselines."
+    },
+    {
+      "priority": 3,
+      "family": "time_series_foundation_models",
+      "models": ["Chronos-2", "TimesFM-2.5", "TimesFM-ICF", "Moirai", "Moirai-MoE", "Tiny Time Mixer", "Toto-2", "Lag-Llama"],
+      "status": "seven_weight_snapshots_and_seven_bounded_market_scores_one_runtime_blocker",
+      "evidence": "Chronos-2, TimesFM-2.5, Moirai, Moirai-MoE, Tiny Time Mixer, Toto-2, and the official Lag-Llama checkpoint are revision-pinned locally and scored on the identical observed-bid/ask fixture. All seven were negative after spread; TimesFM-ICF remains separate and blocked because no audited public runtime was found.",
+      "next_gate": "Use a larger untouched multi-pair fixture and compare frozen forecasts to naive and fitted baselines before any fine-tuning."
+    },
+    {
+      "priority": 4,
+      "family": "cross_pair_graph_forecasting",
+      "models": ["StemGNN", "temporal_cross_pair_GNN"],
+      "status": "bounded_market_qualified_no_production_gate",
+      "evidence": "Graph edges use observations strictly before the forecast cutoff and include lagged correlation plus currency exposure. The temporal cross-pair GNN completed 208 independent cell fits across the full timeframe/horizon contract with no cell error; aggregate selected economics remained negative after observed costs.",
+      "next_gate": "Expand to multiple cells and compare against matched non-graph sequence baselines before shadow-signal eligibility."
+    },
+    {
+      "priority": 5,
+      "family": "neural_state_space",
+      "models": ["S4", "Mamba"],
+      "status": "s4_bounded_market_qualified_mamba_host_blocked",
+      "evidence": "Pinned S4 commit e757cef57d89e448c413de7325ed5601 trained in the common maturity-purged sequence harness across the 208-cell sampled panel and failed the executable performance gate. Official Mamba still requires a compatible Linux/CUDA build; no substitute was used.",
+      "next_gate": "Retest S4 with accelerated kernels and move Mamba to a compatible isolated host before qualification."
+    },
+    {
+      "priority": 6,
+      "family": "decision_learning",
+      "models": ["contextual_bandit", "PPO", "SAC", "DQN"],
+      "status": "four_offline_market_backtests_no_production_gate",
+      "evidence": "Contextual bandit, PPO, SAC, and DQN were fit only in fixed offline replay using complete observed SHORT/FLAT/LONG rewards and a maturity-purged holdout spanning all 208 cells. None passed the full cost-aware stability gate; no policy can reach a broker.",
+      "next_gate": "Keep as shadow allocators and require off-policy stability plus positive net value over the train-selected static-action baseline."
+    },
+    {
+      "priority": 7,
+      "family": "representation_and_transfer_learning",
+      "models": ["self_supervised_pretraining", "contrastive_learning", "multi_task_learning", "transfer_learning", "knowledge_distillation"],
+      "status": "five_bounded_market_backtests_no_production_gate",
+      "evidence": "Masked reconstruction, temporal contrastive, multi-task, frozen transfer, and teacher/student distillation were trained with train-only normalization and scored on untouched windows spanning the 208-cell sampled panel. All passed backtest integrity; none passed the spread-adjusted stability gate.",
+      "next_gate": "Measure incremental executable value over matched raw-feature baselines across independent time blocks before any shadow-signal use."
+    }
+  ]
+}

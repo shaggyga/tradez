@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "cohort_id": "sixty_eight_pair_combiner_v1_20260808",
+  "research_only": true,
+  "execution_eligible": false,
+  "source": "practice_007_quote_intensity_shadow_v1.sqlite",
+  "universe": "all 68 OANDA practice-priced instruments",
+  "horizons_sec": [60, 300, 600, 900, 3600],
+  "combiner_horizons_sec": [300, 600, 900],
+  "modeled_slippage_pips": 0.25,
+  "maximum_entry_spread_pips": 5.0,
+  "preferred_entry_spread_pips": 3.0,
+  "minimum_imbalance_absolute": 0.05,
+  "minimum_move_to_cost_ratio": 1.5,
+  "ranking": "pretrade trend agreement strength divided by executable cost",
+  "direction": "five-minute and fifteen-minute returns must agree with thirty-second quote imbalance",
+  "arms": [
+    "strict_top_one",
+    "exactly_three_currency_disjoint",
+    "strict_top_one_flipped_control",
+    "exactly_three_currency_disjoint_flipped_control",
+    "no_trade"
+  ],
+  "proof_policy": "historical diagnostic only; freeze before later prospective confirmation"
+}

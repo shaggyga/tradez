@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "contract_id": "current_week_move_case_audit_v1_20260821",
+  "research_only": true,
+  "execution_eligible": false,
+  "week_start_utc": "2026-08-17T00:00:00Z",
+  "week_end_utc": "2026-08-22T00:00:00Z",
+  "logic_upgrades": [
+    {
+      "upgrade_id": "reported_currency_adjective_guard",
+      "status": "implemented_tested",
+      "description": "Treat explicit stronger/weaker currency wording as already-observed price context, with the correct currency sign, never as a new policy forecast."
+    },
+    {
+      "upgrade_id": "causal_case_label_gate",
+      "status": "implemented_tested",
+      "description": "A pre-move news success now requires a timely and directionally publishable event; retrospective and research-only rows remain diagnostic only."
+    },
+    {
+      "upgrade_id": "durable_all68_m1_archive",
+      "status": "recovered_one_shot",
+      "description": "Recovered 132,737 missing M1 rows across all 68 practice pairs so rolling quote retention cannot erase this week's audit evidence."
+    },
+    {
+      "upgrade_id": "official_numeric_fact_direction",
+      "status": "open_research_only",
+      "description": "Parse source-native actual, prior, consensus and components; abstain when causal surprise is missing."
+    },
+    {
+      "upgrade_id": "rate_market_confirmation",
+      "status": "open_research_only",
+      "description": "Bind fiscal and central-bank semantics to timestamped yield or policy-path repricing before choosing currency direction."
+    },
+    {
+      "upgrade_id": "source_watch_price_timing_arm",
+      "status": "open_research_only",
+      "description": "A fast official-source watch may open inert 1/5/15/30/60/120-minute price-response arms even when initial semantic direction is unresolved."
+    },
+    {
+      "upgrade_id": "event_specific_decay",
+      "status": "open_research_only",
+      "description": "Use event-family response horizons; do not let generic 30-minute media windows hide a valid slower official-macro factor."
+    },
+    {
+      "upgrade_id": "underway_move_guard",
+      "status": "open_research_only",
+      "description": "Measure movement already completed before first-seen time and require remaining expected magnitude to clear executable cost."
+    },
+    {
+      "upgrade_id": "all68_currency_factor_breadth",
+      "status": "implemented_diagnostic",
+      "description": "Rank all observed currency legs from the exact 68-pair response rather than inferring a broad factor from one pair."
+    },
+    {
+      "upgrade_id": "unexplained_residual_queue",
+      "status": "implemented_diagnostic",
+      "description": "Retain major after-cost moves with no causal source as explicit residual research cases instead of forcing a headline attribution."
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "week_20260817_china_activity",
+      "event_time_utc": "2026-08-17T07:00:00Z",
+      "event_family": "china_activity_release",
+      "representative_pair": "USD_CNH",
+      "horizon_minutes": 60,
+      "source_event_ids": ["local_news_62d28a021b7ae820e0260b1e"],
+      "source_hypothesis_currency_scores": {"CNH": -0.55},
+      "measurable_facts": ["retail sales +0.6% y/y versus +1.5% expected", "industrial output +4.5% versus +4.8% expected", "fixed-asset investment -6.7% versus -6.0% expected"],
+      "known_problem": "official_clock_fast_but_consensus_arrived_later_and_price_reaction_opposed_simple_semantics",
+      "logic_upgrade_ids": ["official_numeric_fact_direction", "rate_market_confirmation", "all68_currency_factor_breadth"],
+      "case_note": "The official NBS release was captured within seconds, but the causal expectations arrived later and USD/CNH did not follow a naive weak-data/weak-CNH sign."
+    },
+    {
+      "case_id": "week_20260817_jpy_recap_reversal",
+      "event_time_utc": "2026-08-17T07:15:00Z",
+      "event_family": "reported_currency_move_recap",
+      "representative_pair": "CHF_JPY",
+      "horizon_minutes": 15,
+      "source_event_ids": ["local_news_ebff5c9f86007a4065a14f98"],
+      "source_hypothesis_currency_scores": {"JPY": 0.7},
+      "measurable_facts": ["headline explicitly reported yen stronger", "collector first saw the recap 20.7 minutes before the selected CHF/JPY leg", "the prior move already exceeded modeled cost"],
+      "known_problem": "explicit_stronger_word_was_inverted_by_shared_policy_clause_and_hindsight_recap_counted_as_forecast",
+      "logic_upgrade_ids": ["reported_currency_adjective_guard", "causal_case_label_gate", "underway_move_guard"],
+      "case_note": "This was a false positive in the old audit: a price recap was mapped with the wrong JPY sign, then credited as a successful forecast."
+    },
+    {
+      "case_id": "week_20260818_uk_labour",
+      "event_time_utc": "2026-08-18T06:00:00Z",
+      "event_family": "uk_labour_release",
+      "representative_pair": "GBP_USD",
+      "horizon_minutes": 5,
+      "source_event_ids": ["local_news_7cc38a5092fb187679150610"],
+      "source_hypothesis_currency_scores": {"GBP": -0.5},
+      "measurable_facts": ["payrolled employees -13,000", "unemployment 4.9%", "regular earnings +3.5%", "vacancies -44,000"],
+      "known_problem": "official_release_seen_after_most_of_five_minute_move_and_initial_page_lacked_structured_components",
+      "logic_upgrade_ids": ["official_numeric_fact_direction", "source_watch_price_timing_arm", "underway_move_guard"],
+      "case_note": "GBP/USD offered about ten net pips short in five minutes, but the first official bundle arrived roughly four minutes into that window."
+    },
+    {
+      "case_id": "week_20260818_gbpaud_residual",
+      "event_time_utc": "2026-08-18T13:54:30Z",
+      "event_family": "unexplained_cross_sectional_residual",
+      "representative_pair": "GBP_AUD",
+      "horizon_minutes": 60,
+      "source_event_ids": [],
+      "source_hypothesis_currency_scores": {},
+      "measurable_facts": ["GBP/AUD rose roughly 45 midpoint pips in one hour", "no causal directional story was retained in the move-first window", "no historical technical snapshot was retained for the selected episode"],
+      "known_problem": "large_after_cost_move_without_causal_source_or_preserved_decision_snapshot",
+      "logic_upgrade_ids": ["unexplained_residual_queue", "all68_currency_factor_breadth"],
+      "case_note": "This remains honestly unexplained; it must not be assigned to the nearest broad headline after the fact."
+    },
+    {
+      "case_id": "week_20260818_nz_ppi",
+      "event_time_utc": "2026-08-18T22:47:00Z",
+      "event_family": "new_zealand_producer_prices",
+      "representative_pair": "NZD_USD",
+      "horizon_minutes": 60,
+      "source_event_ids": ["local_news_c166716f6101c5ab53dd22c6"],
+      "source_hypothesis_currency_scores": {"NZD": 0.35},
+      "measurable_facts": ["output PPI +1.6% q/q versus +0.8% prior", "input PPI +2.9% versus +1.4% prior", "no causal consensus snapshot"],
+      "known_problem": "large_absolute_acceleration_but_no_consensus_and_no_cost_clearing_immediate_response",
+      "logic_upgrade_ids": ["official_numeric_fact_direction", "source_watch_price_timing_arm", "all68_currency_factor_breadth"],
+      "case_note": "A direct source and strong absolute acceleration did not create a tradable directional response; this is an important negative control."
+    },
+    {
+      "case_id": "week_20260819_treasury_buyback",
+      "event_time_utc": "2026-08-19T12:30:00Z",
+      "event_family": "us_duration_liquidity_policy",
+      "representative_pair": "USD_JPY",
+      "horizon_minutes": 15,
+      "source_event_ids": ["local_news_70984f7c00c69ac554d3e7f3"],
+      "source_hypothesis_currency_scores": {"USD": -0.55},
+      "measurable_facts": ["Treasury at least doubled long-end liquidity-support buybacks", "official page first seen at 12:31:48 UTC", "long yields fell and USD weakened broadly"],
+      "known_problem": "official_source_caught_in_108_seconds_but_research_direction_was_not_consumed_by_price_confirmation_watch",
+      "logic_upgrade_ids": ["rate_market_confirmation", "source_watch_price_timing_arm", "all68_currency_factor_breadth", "underway_move_guard"],
+      "case_note": "This was the week's cleanest source-to-market miss: capture was fast, semantics were safely research-only, but no downstream response arm converted the source into a ranked watch."
+    },
+    {
+      "case_id": "week_20260819_fomc_minutes",
+      "event_time_utc": "2026-08-19T18:00:00Z",
+      "event_family": "fomc_minutes",
+      "representative_pair": "USD_JPY",
+      "horizon_minutes": 60,
+      "source_event_ids": ["local_news_4b355e69f6ff40a1dcd7cedc"],
+      "source_hypothesis_currency_scores": {"USD": 0.55},
+      "measurable_facts": ["many officials saw higher rates as necessary if inflation failed to cool", "official minutes seen 61.7 seconds after release", "USD/JPY nevertheless continued lower"],
+      "known_problem": "naive_hawkish_text_direction_conflicted_with_dominant_treasury_duration_shock",
+      "logic_upgrade_ids": ["rate_market_confirmation", "all68_currency_factor_breadth", "event_specific_decay"],
+      "case_note": "The minutes were captured quickly, but their textbook USD-positive interpretation was wrong in the live cross-market regime."
+    },
+    {
+      "case_id": "week_20260820_nz_trade",
+      "event_time_utc": "2026-08-20T22:45:58Z",
+      "event_family": "new_zealand_trade",
+      "representative_pair": "NZD_USD",
+      "horizon_minutes": 60,
+      "source_event_ids": ["local_news_18afc1d2d5705a8651ab78d9"],
+      "source_hypothesis_currency_scores": {"NZD": -0.5},
+      "measurable_facts": ["trade balance -NZ$1.95bn versus +NZ$23m prior", "imports NZ$9.34bn", "exports NZ$7.39bn", "NZD strengthening began before publication"],
+      "known_problem": "official_summary_emphasized_exports_while_balance_was_negative_and_move_onset_preceded_release",
+      "logic_upgrade_ids": ["official_numeric_fact_direction", "underway_move_guard", "all68_currency_factor_breadth"],
+      "case_note": "The source cannot explain the onset because the NZD move began earlier, and the source-native summary omitted the key balance comparison."
+    },
+    {
+      "case_id": "week_20260820_japan_cpi",
+      "event_time_utc": "2026-08-20T23:30:00Z",
+      "event_family": "japan_cpi",
+      "representative_pair": "AUD_JPY",
+      "horizon_minutes": 60,
+      "source_event_ids": ["local_news_86ffc03be50dd645fb55ab66"],
+      "source_hypothesis_currency_scores": {"JPY": 0.45},
+      "measurable_facts": ["official national CPI 1.9% y/y", "core CPI 1.9% versus 1.8% expected from secondary detail", "official parser first seen at 23:34:37 UTC"],
+      "known_problem": "official_headline_level_was_not_enough_to_resolve_surprise_and_jpy_moved_opposite_the_hike_narrative",
+      "logic_upgrade_ids": ["official_numeric_fact_direction", "rate_market_confirmation", "source_watch_price_timing_arm", "all68_currency_factor_breadth"],
+      "case_note": "The direct CPI source was present, but surprise detail and rate confirmation were missing at the initial decision clock; JPY weakened over the hour."
+    },
+    {
+      "case_id": "week_20260821_uk_retail_fiscal",
+      "event_time_utc": "2026-08-21T06:00:00Z",
+      "event_family": "uk_retail_and_public_finance",
+      "representative_pair": "GBP_AUD",
+      "horizon_minutes": 120,
+      "source_event_ids": ["local_news_db445b9b0a1e9362a8974a90", "local_news_7a99001b0b962949ea9f09a7"],
+      "source_hypothesis_currency_scores": {"GBP": -0.5},
+      "measurable_facts": ["retail sales fell on the month while the official summary emphasized a three-month rise", "public finances classified GBP-bearish", "both official records first seen at 06:01:50 UTC", "GBP/AUD's large selected leg began about 80 minutes later"],
+      "known_problem": "generic_30m_window_selected_irrelevant_geopolitics_and_hid_aligned_official_120m_context",
+      "logic_upgrade_ids": ["official_numeric_fact_direction", "event_specific_decay", "source_watch_price_timing_arm", "all68_currency_factor_breadth"],
+      "case_note": "The official GBP-negative context was present, but the generic window later preferred unrelated Iran headlines; source-family horizon handling must remain separate."
+    }
+  ]
+}

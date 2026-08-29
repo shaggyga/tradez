@@ -1,0 +1,51 @@
+{
+  "schema_version": 4,
+  "adapter_contract_id": "official_fact_adapter_v4_20260817",
+  "parent_adapter_contract_id": "official_fact_adapter_v3_20260817",
+  "fact_basis_eligibility_contract_id": "official_fact_basis_eligibility_v4_20260817",
+  "immutable_event_clock_schema_version": "immutable_event_clock_ledger_v2",
+  "immutable_event_clock_contract_id": "immutable_point_in_time_event_clock_v2_20260817",
+  "clock_dependency_policy": "strict_clock_v2_content_addressed_read_only_archive_clock_v1_retirement_archive_pinned",
+  "archive_policy": {
+    "canonical_files_are_never_runtime_inputs": true,
+    "archive_copies_are_distinct_from_canonical_files": true,
+    "archive_paths_are_fixed": true,
+    "archive_bytes_and_sha256_are_fixed": true,
+    "archive_files_are_read_only": true,
+    "symlink_reparse_and_hardlink_inputs_are_forbidden": true,
+    "lstat_fstat_and_path_identity_are_stable_across_read": true,
+    "sqlite_quick_check_and_exact_row_counts_are_required": true
+  },
+  "causal_policy": {
+    "all_fact_availability_times_must_not_exceed_effective_time_or_cutoff": true,
+    "clock_and_attestation_ages_are_recomputed_from_timestamps": true,
+    "clock_proof_ids_hashes_and_attestation_are_reopened_from_fixed_bytes": true,
+    "causal_consensus_requires_a_future_separate_pre_release_capture_contract": true,
+    "causal_consensus_is_false_in_v4": true
+  },
+  "validation": {
+    "closed_recursive_schema_through_v3": true,
+    "bool_is_type_bool_only": true,
+    "integer_rejects_bool": true,
+    "numeric_rejects_bool_nan_and_infinity": true,
+    "full_v2_parent_is_independently_regenerated": true,
+    "facts_events_counts_gaps_sources_quarantine_and_clock_equal_parent": true,
+    "snapshot_id_covers_every_field_except_snapshot_id": true
+  },
+  "state": {
+    "enabled": false,
+    "registered": false,
+    "independent_review_state": "pending",
+    "independent_review_started_utc": null,
+    "independent_review_completed_utc": null,
+    "canonical_output_initialized": false
+  },
+  "material_change_requires_new_contract_id": true,
+  "research_only": true,
+  "execution_eligible": false,
+  "can_place_orders": false,
+  "can_promote": false,
+  "can_authorize": false,
+  "supported_execution_decision": "no_trade",
+  "dependency_manifest": "config/official_fact_adapter_v4_manifest.json"
+}

@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "contract_id": "official_2y_relative_change_discovery_v1_20260816",
+  "research_only": true,
+  "execution_eligible": false,
+  "lookback_days": 45,
+  "availability_lag_hours": 36,
+  "horizons_hours": [4, 24, 72],
+  "absolute_change_thresholds_bps": [0, 2, 5],
+  "comparison_group": "two_year_market_rate_context",
+  "direction_rule": "higher_base_minus_quote_2y_rate_change_strengthens_base",
+  "evidence_class": "historical_bootstrap_availability_counterfactual_discovery",
+  "proof_eligible": false
+}

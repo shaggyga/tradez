@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "contract_id": "linked_currency_policy_drivers_v1_20260816",
+  "research_only": true,
+  "execution_eligible": false,
+  "direction_policy": "abstain",
+  "relationships": [
+    {
+      "currency": "DKK",
+      "driver_currency": "EUR",
+      "relationship": "fixed_exchange_rate_policy_against_euro",
+      "clock_semantics": "ECB decisions are relevant external policy clocks; they are not domestic Danmarks Nationalbank announcements",
+      "authority": "Danmarks Nationalbank",
+      "evidence_url": "https://www.nationalbanken.dk/en/what-we-do/stable-prices-monetary-policy-and-the-danish-economy/learn-about-inflation-interest-rates-and-the-fixed-exchange-rate-policy",
+      "factor_independence": "same_eur_policy_factor",
+      "can_assign_direction": false,
+      "can_confirm": false
+    },
+    {
+      "currency": "HKD",
+      "driver_currency": "USD",
+      "relationship": "currency_board_base_rate_link_to_us_policy",
+      "clock_semantics": "FOMC decisions are relevant external policy clocks; they are not independent HKMA decisions",
+      "authority": "Hong Kong Monetary Authority",
+      "evidence_url": "https://www.hkma.gov.hk/eng/news-and-media/press-releases/2009/03/20090326-3/",
+      "factor_independence": "same_usd_policy_factor",
+      "can_assign_direction": false,
+      "can_confirm": false
+    }
+  ],
+  "limitations": [
+    "an inherited clock is relevance metadata, not a second independent signal",
+    "linked regimes can still experience idiosyncratic liquidity and intervention effects",
+    "the relationship cannot assign direction, confirm a forecast, promote, authorize, or trade"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "contract_id": "alfred_unemployment_change_h24_prospective_v1_20260816",
+  "cohort_start_utc": "2026-08-16T19:32:15.292963Z",
+  "source_contract_id": "alfred_vintage_prospective_v3_cpi_unemployment_panel_20260816",
+  "source_cohort_id": "alfred_vintage_prospective_v1.discovery.20260808.c8fed196feecf885",
+  "eligible_frequency_groups": [
+    "monthly_unemployment_rate",
+    "quarterly_unemployment_rate"
+  ],
+  "horizon_sec": 86400,
+  "maximum_entry_spread_pips": 3.0,
+  "maximum_quote_age_sec": 180,
+  "maximum_signal_age_sec": 604800,
+  "minimum_absolute_change_differential_pct_points": 0.0,
+  "technical_context_horizon_sec": 1800,
+  "maximum_technical_age_sec": 1800,
+  "forecast_id_prefix": "alfred_unemployment_change_forecast",
+  "direction_rule": "smaller_base_minus_quote_unemployment_change_predicts_base_strength",
+  "negative_control": "flipped_direction",
+  "factor_deduplication": "one_alfred_poll_frequency_group_episode",
+  "initial_current_view_proof_ineligible": true,
+  "at_least_one_leg_must_be_prospective": true,
+  "technical_arms_separate": true,
+  "research_only": true,
+  "execution_eligible": false,
+  "can_authorize": false,
+  "can_promote": false,
+  "can_place_orders": false,
+  "material_change_requires_new_cohort": true
+}

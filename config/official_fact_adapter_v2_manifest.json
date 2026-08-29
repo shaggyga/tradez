@@ -1,0 +1,74 @@
+{
+  "manifest_id": "official_fact_adapter_v2_manifest_20260817",
+  "adapter_contract_id": "official_fact_adapter_v2_20260817",
+  "immutable_event_clock_contract_id": "immutable_point_in_time_event_clock_v2_20260817",
+  "artifacts": {
+    "adapter_v2_module": {
+      "relative_path": "src/forex_system/ingestion/official_fact_adapter_v2.py",
+      "sha256": "0bc31d08e1c7e5429fc7e3a78a3a6f253cd081614cd7e9845ab212baab825662",
+      "byte_length": 36341
+    },
+    "adapter_v2_cli": {
+      "relative_path": "oanda_official_fact_adapter_v2.py",
+      "sha256": "99ce9dc91b51f7eb12ebde6472b60fb8f432d5ee9fc62ac3bc15ec7788cfe034",
+      "byte_length": 4914
+    },
+    "adapter_v2_contract": {
+      "relative_path": "config/official_fact_adapter_contract_v2.json",
+      "sha256": "0d04d53fd10ebee9ba5db1098c2751443dc555bf7ea2a0a46c977cd55cdcbc0b",
+      "byte_length": 1705
+    },
+    "immutable_clock_v2_module": {
+      "relative_path": "src/forex_system/ingestion/immutable_event_clock.py",
+      "sha256": "c9f82aa767793ab280cd66c05f409cb9e067ca546ee5fb7eaec8cca22dae9e04",
+      "byte_length": 89792
+    },
+    "frozen_normalization_base_v1_module": {
+      "relative_path": "src/forex_system/ingestion/official_fact_adapter.py",
+      "sha256": "8b6a1605b95ea21dfdffde42a502eb7fa1b5f592d4c3dbc2af501e9cc1c5a6e4",
+      "byte_length": 49410
+    },
+    "frozen_normalization_base_v1_contract": {
+      "relative_path": "config/official_fact_adapter_contract_v1.json",
+      "sha256": "c6ab4e326e10dfdb7b150a18f6aea50ebdb06c96d5f999c1962e924b9d867583",
+      "byte_length": 631
+    },
+    "historical_clock_v1_read_only_reader": {
+      "relative_path": "src/forex_system/ingestion/immutable_event_clock_v1_reader.py",
+      "sha256": "e4d8dd65a9968b0fbb7f679f20ec703c2ea917ea3fa019e9285847b66229a937",
+      "byte_length": 28055
+    },
+    "historical_clock_v1_retirement_fingerprint": {
+      "relative_path": "config/immutable_event_clock_v1_retirement.json",
+      "sha256": "4914b5f17accc1532891172254d2f39469eac98307e4d415e0a7e7d77f950c6d",
+      "byte_length": 1617
+    },
+    "official_policy_baseline_contract": {
+      "relative_path": "config/official_policy_statement_baselines_v2_20260816.json",
+      "sha256": "08bbf63aec7b0655f14140fd5995c26d80ee32595d9c9c7ce2ac9a1688b91dcd",
+      "byte_length": 47794
+    },
+    "intraday_rate_placeholder_contract": {
+      "relative_path": "config/rates_policy_repricing_v1.json",
+      "sha256": "8d5645dbe2fa16fc879810a9a7f4ceada28ff414bea3f50b9ab233df09921c08",
+      "byte_length": 764
+    }
+  },
+  "policy": {
+    "all_direct_code_and_static_contract_dependencies_are_pinned": true,
+    "runtime_ledger_rows_retain_their_own_content_hashes": true,
+    "clock_v1_is_historical_only": true,
+    "clock_v2_is_prospective_only": true,
+    "clock_v1_retirement_fingerprint_required_before_read": true,
+    "clock_v2_latest_attested_observation_must_be_fresh_at_cutoff": true,
+    "stale_or_unattested_clock_degrades_closed": true,
+    "mutable_clock_fallback_forbidden": true,
+    "historical_v1_event_projection_is_closed_allowlist": true,
+    "official_fact_v2_metadata_surfaces_are_closed_schemas": true,
+    "unknown_direction_execution_aliases_are_rejected": true,
+    "research_only": true,
+    "execution_eligible": false,
+    "can_place_orders": false,
+    "supported_execution_decision": "no_trade"
+  }
+}

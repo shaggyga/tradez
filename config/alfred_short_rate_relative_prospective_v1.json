@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "contract_id": "alfred_short_rate_change_h24_prospective_v1_20260816",
+  "cohort_start_utc": "2026-08-16T20:00:00Z",
+  "research_only": true,
+  "execution_eligible": false,
+  "source_cohort_id": "alfred_vintage_prospective_v1.discovery.20260808.26e8f14430db5f00",
+  "source_contract_id": "alfred_short_rate_prospective_v1_oecd_monthly_20260816",
+  "eligible_frequency_groups": ["monthly_short_term_interest_rate"],
+  "change_direction_policy": "higher_is_stronger",
+  "minimum_absolute_change_differential_pct_points": 0.25,
+  "maximum_signal_age_sec": 604800,
+  "maximum_quote_age_sec": 180,
+  "maximum_spread_pips": 3.0,
+  "horizon_sec": 86400,
+  "forecast_id_prefix": "alfred_short_rate_change_forecast_",
+  "event_id_prefix": "alfred_short_rate_change_event_",
+  "factor_episode_prefix": "alfred_short_rate_poll_",
+  "report_title": "# Prospective ALFRED Short-Rate-Change Relative Strength",
+  "technical_arms": ["macro_only", "technical_aligned", "technical_conflicted"],
+  "discovery_parent": {
+    "rule": "short_rate_change_differential",
+    "threshold_pct_points": 0.25,
+    "horizon_hours": 24,
+    "liquidity_bucket": "liquid",
+    "selection_state": "post_discovery_locked_requires_untouched_prospective_confirmation"
+  },
+  "contract": {
+    "initial_current_view_excluded": true,
+    "at_least_one_leg_must_be_prospective": true,
+    "stale_source_values_cannot_create_new_events": true,
+    "market_consensus_source": false,
+    "first_party_release_clock": false,
+    "technical_arms_scored_separately": true,
+    "cannot_promote_or_authorize": true,
+    "material_change_requires_new_cohort": true
+  }
+}

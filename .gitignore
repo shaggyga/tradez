@@ -1,0 +1,74 @@
+# Credentials and local environment
+creds
+creds.*
+.env
+.env.*
+config/accounts_registry.json
+credentials/
+secrets/
+credentials.json
+secrets.json
+auth.json
+token.json
+*.secrets.json
+*.local.json
+*.private.json
+.netrc
+.npmrc
+.pypirc
+id_rsa*
+
+# Python caches and tooling
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+..venv/
+venv/
+env/
+
+# IDE and operating-system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+%SystemDrive%/
+
+# Generated trading data, logs, models, and exports
+data/
+artifacts/
+tmp/
+fresh_m1_intrahour/
+*.log
+*.zip
+*.sqlite
+*.sqlite-*
+*.db
+*.db-*
+*.parquet
+*.feather
+*.arrow
+*.pkl
+*.pickle
+*.joblib
+*.onnx
+*.pt
+*.pth
+*.safetensors
+config/vault_runtime_lock*.json
+
+# Private keys and certificate bundles
+*.pem
+*.key
+*.pfx
+*.p12
+*.ppk
+*.crt
+*.cer

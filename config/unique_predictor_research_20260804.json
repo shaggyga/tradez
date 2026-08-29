@@ -1,0 +1,213 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-08-04T23:20:00Z",
+  "deadline_local": "2026-08-05T07:00:00-04:00",
+  "policy": {
+    "research_only": true,
+    "can_place_orders": false,
+    "can_change_execution_policy": false,
+    "community_sources_are_discovery_only": true,
+    "promotion_requires_independent_forward_evidence": true
+  },
+  "ranking_rule": [
+    "lowest overlap with existing strategy archetypes",
+    "causal data available in the current workspace",
+    "ability to predict after-cost opportunity rather than direction alone",
+    "walk-forward testability across pairs and sessions",
+    "implementation cost and operational safety"
+  ],
+  "candidates": [
+    {
+      "rank": 1,
+      "id": "competing_risk_barrier_hazard",
+      "archetype": "outcome_hazard",
+      "uniqueness": "high",
+      "data_readiness": "high",
+      "outputs": [
+        "favorable_barrier_first_probability",
+        "adverse_barrier_first_probability",
+        "no_barrier_before_horizon_probability",
+        "time_to_first_barrier_distribution",
+        "cost_clearance_probability"
+      ],
+      "implementation": "discrete-time cause-specific hazard baselines followed by calibrated boosted and survival variants",
+      "status": "scheduled_shadow"
+    },
+    {
+      "rank": 2,
+      "id": "hierarchical_currency_factor_residual",
+      "archetype": "latent_factor_residual",
+      "uniqueness": "high",
+      "data_readiness": "high",
+      "outputs": [
+        "latent_currency_return",
+        "pair_factor_fitted_return",
+        "pair_idiosyncratic_residual",
+        "posterior_direction_probability",
+        "posterior_after_cost_magnitude"
+      ],
+      "implementation": "dynamic linear factor model with pair/session/horizon partial pooling and residual continuation-versus-reversion arms",
+      "status": "scheduled_shadow"
+    },
+    {
+      "rank": 3,
+      "id": "directional_change_overshoot_hazard",
+      "archetype": "intrinsic_time_event_process",
+      "uniqueness": "high",
+      "data_readiness": "high",
+      "outputs": [
+        "directional_change_state",
+        "threshold_normalized_overshoot",
+        "overshoot_survival_probability",
+        "reversal_hazard",
+        "intrinsic_event_age"
+      ],
+      "implementation": "multi-threshold event-time state and survival model on causal executable mid/bid/ask paths",
+      "status": "scheduled_shadow"
+    },
+    {
+      "rank": 4,
+      "id": "signed_quote_hawkes_state",
+      "archetype": "event_intensity_microstructure",
+      "uniqueness": "high",
+      "data_readiness": "medium",
+      "outputs": [
+        "up_intensity",
+        "down_intensity",
+        "cross_excitation_ratio",
+        "branching_ratio",
+        "intensity_imbalance"
+      ],
+      "implementation": "start with stable exponential-decay sufficient statistics; fit a full point process only when true quote-event history is retained",
+      "status": "forward_quote_change_intensity_collection_live_not_order_flow"
+    },
+    {
+      "rank": 5,
+      "id": "time_irreversibility_regime",
+      "archetype": "nonlinear_regime_asymmetry",
+      "uniqueness": "medium_high",
+      "data_readiness": "high",
+      "outputs": [
+        "ordinal_forward_reverse_js_divergence",
+        "surrogate_significance",
+        "irreversibility_scale_profile",
+        "continuation_vs_reversion_gate"
+      ],
+      "implementation": "ordinal-pattern forward/reverse divergence with block-bootstrap or shuffled-surrogate significance",
+      "status": "scheduled_shadow"
+    },
+    {
+      "rank": 6,
+      "id": "adaptive_conformal_cost_abstention",
+      "archetype": "uncertainty_control",
+      "uniqueness": "high_as_control_not_alpha",
+      "data_readiness": "high",
+      "outputs": [
+        "after_cost_interval_low",
+        "after_cost_interval_high",
+        "barrier_probability_set",
+        "abstain",
+        "conditional_coverage"
+      ],
+      "implementation": "rolling and block-adaptive conformal calibration around existing and new model outputs",
+      "status": "scheduled_shadow"
+    },
+    {
+      "rank": 7,
+      "id": "official_carry_cot_positioning",
+      "archetype": "slow_fundamental_positioning",
+      "uniqueness": "high",
+      "data_readiness": "medium",
+      "outputs": [
+        "policy_rate_differential",
+        "carry_rank",
+        "leveraged_fund_position_z",
+        "asset_manager_position_z",
+        "position_change",
+        "days_since_release"
+      ],
+      "implementation": "official central-bank rate history plus release-time-causal CFTC TFF futures positioning",
+      "status": "source_adapter_required"
+    },
+    {
+      "rank": 8,
+      "id": "macro_surprise_reaction_hazard",
+      "archetype": "event_surprise",
+      "uniqueness": "very_high",
+      "data_readiness": "low_until_consensus_source",
+      "outputs": [
+        "standardized_surprise",
+        "first_reaction_velocity",
+        "continuation_hazard",
+        "reversal_hazard",
+        "reaction_half_life"
+      ],
+      "implementation": "official actual values joined to truly pre-release consensus with immutable publication timestamps",
+      "status": "blocked_on_free_consensus_quality"
+    },
+    {
+      "rank": 9,
+      "id": "level_two_path_signature",
+      "archetype": "rough_path_geometry",
+      "uniqueness": "high_representation_medium_information",
+      "data_readiness": "high",
+      "outputs": [
+        "level_one_path_increment",
+        "level_two_iterated_integrals",
+        "signed_path_area",
+        "after_cost_abstention_score"
+      ],
+      "implementation": "ridge comparison of transparent path baselines versus time-return-variation signatures on causal OANDA bid/ask M1 candles",
+      "status": "rejected_shadow_negative_untouched_tail"
+    },
+    {
+      "rank": 10,
+      "id": "synchronized_currency_lead_lag_network",
+      "archetype": "lagged_cross_currency_network",
+      "uniqueness": "high_representation_medium_information",
+      "data_readiness": "high",
+      "outputs": [
+        "latent_currency_return_panel",
+        "lagged_currency_network_features",
+        "own_lag_incremental_rmse",
+        "after_cost_pair_cluster_interval"
+      ],
+      "implementation": "pair-specific own-lag Ridge control versus the same control plus synchronized latent currency returns at 1/2/3/5/10-minute lags",
+      "status": "rejected_shadow_negative_untouched_tail"
+    }
+  ],
+  "validation": {
+    "headline_unit": "independent_factor_thesis",
+    "minimum_forward_theses_before_review": 30,
+    "cost_model": "stored_executable_bid_ask_plus_latency_and_slippage_when_available",
+    "required_splits": [
+      "pair_liquidity",
+      "spread_bucket",
+      "session",
+      "horizon",
+      "volatility_regime",
+      "currency_factor"
+    ],
+    "required_controls": [
+      "existing_archetype_outputs",
+      "largest_outcome_removed",
+      "family_return_correlation",
+      "conditional_mutual_information",
+      "multiple_testing_adjustment",
+      "purged_walk_forward"
+    ]
+  },
+  "primary_references": [
+    "https://arxiv.org/abs/1502.04592",
+    "https://arxiv.org/abs/1301.1135",
+    "https://arxiv.org/abs/1809.04377",
+    "https://arxiv.org/abs/1601.01980",
+    "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3240456",
+    "https://www.federalreserve.gov/pubs/ifdp/2005/830/default.htm",
+    "https://www.nber.org/papers/w16942",
+    "https://publicreporting.cftc.gov/stories/s/COT-Help/p2fg-u73y/",
+    "https://arxiv.org/abs/1307.7244",
+    "https://arxiv.org/abs/2607.17865",
+    "https://arxiv.org/abs/1906.10388"
+  ]
+}

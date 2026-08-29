@@ -1,0 +1,23 @@
+{
+  "manifest_id": "currency_state_after_cost_manifest_20260817b",
+  "contract_id": "currency_state_after_cost_counterfactual_v2_20260817",
+  "cohort_id": "currency_state_after_cost_counterfactual_cohort_20260817b",
+  "artifacts": {
+    "counterfactual_module": {"relative_path": "src/forex_system/research/currency_state_after_cost_counterfactual_v2.py", "sha256": "547e50552a34a117e419ad59eabfc8224223f3f23f009db5857f51907ef15390"},
+    "counterfactual_config": {"relative_path": "config/currency_state_after_cost_counterfactual_v2.json", "sha256": "af663e9a01a52fd60e4eeba3b78090d354d8eecca12f9a80afb50d09b7fbb2c8"},
+    "counterfactual_cli": {"relative_path": "oanda_currency_state_after_cost_counterfactual_v2.py", "sha256": "89acbb9c0f7dc81e094ef4dbb13557159bcc83ff61064b5c5755d586cc989fb2"},
+    "response_module": {"relative_path": "src/forex_system/research/currency_state_response_timing_arms.py", "sha256": "03e77b9edcb9b264e2d0f53fefad149447c162e6f651849c60925bc7520ec960"},
+    "response_config": {"relative_path": "config/currency_state_response_timing_arms_v1.json", "sha256": "21f611377a151ffecb65be9ead4c151ee395b322d974e92eda878d1bb17c7bef"},
+    "response_cli": {"relative_path": "oanda_currency_state_response_timing_arms.py", "sha256": "a2591c1039328c0a2decb181aba2cb9fa08f1e7b540df2e7f4e79a1597eed0ae"},
+    "currency_state_module": {"relative_path": "src/forex_system/features/currency_state_engine.py", "sha256": "af52e1c18d66ff38082e0f383deb9183628b6f06c8fc73c446a49a038fe6e049"},
+    "currency_state_config": {"relative_path": "config/currency_state_engine_v2.json", "sha256": "20138fe4328ee88b47b8edce2b3bd6081191cda35dd4124a9a457ea9b2efa400"},
+    "currency_state_cli": {"relative_path": "oanda_currency_state_engine.py", "sha256": "ec33a2936eaf423bcc8f01aa572278c3e215af70abbad56ade033bff10d422f3"},
+    "official_context_module": {"relative_path": "src/forex_system/features/currency_state_official_context.py", "sha256": "beca86b5fec03a4cfe233680fd27560478ec5edaa3f23e2a0cd140fe52869418"},
+    "official_context_cli": {"relative_path": "oanda_currency_state_official_context.py", "sha256": "9706e80dd4db60ffe26f2fa7a45104efd6b82f305be519f2deb7609a315f674a"},
+    "official_fact_adapter_module": {"relative_path": "src/forex_system/ingestion/official_fact_adapter.py", "sha256": "8b6a1605b95ea21dfdffde42a502eb7fa1b5f592d4c3dbc2af501e9cc1c5a6e4"},
+    "official_fact_adapter_cli": {"relative_path": "oanda_official_fact_adapter.py", "sha256": "2527132426a000d837c308456e7d00c680945dd3bbc0f240ed9048a98e363555"},
+    "official_fact_adapter_contract_manifest": {"relative_path": "config/official_fact_adapter_contract_v1.json", "sha256": "c6ab4e326e10dfdb7b150a18f6aea50ebdb06c96d5f999c1962e924b9d867583"},
+    "signed_exposure_module": {"relative_path": "src/forex_system/contracts/signed_currency_exposure.py", "sha256": "aeb0301a68ba5e2bb8e10ac1771f1799e962122f8cad8ef35c947f6971a69fa9"},
+    "independent_verifier_producer": {"relative_path": "oanda_independent_evidence_verifier.py", "sha256": "90302f4c63cc5781d7418df9e3e4bb7ae96a0a54d88d83b77249cfd466fed9cd"}
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "contract_id": "currency_state_response_timing_arms_v1_20260817",
+  "snapshot_schema": "currency_state_response_timing_arms_snapshot_v1",
+  "required_input_contract_id": "currency_state_engine_v2_20260816",
+  "required_input_context_contract_id": "currency_state_official_context_v1_20260817",
+  "required_fact_basis_eligibility_contract_id": "official_fact_basis_eligibility_v1_20260817",
+  "expected_instrument_count": 68,
+  "expected_horizons_sec": [60, 300, 900, 1800, 3600],
+  "research_only": true,
+  "execution_eligible": false,
+  "can_place_orders": false,
+  "supported_execution_decision": "no_trade",
+  "material_change_requires_new_contract": true,
+  "allowed_directions": ["buy", "sell"],
+  "allowed_technical_directions": ["buy", "sell", "neutral"],
+  "allowed_timing_states": ["ready", "wait", "veto", "reconfirmed", "unavailable"],
+  "allowed_official_direction_bases": [
+    "causal_numeric_surprise",
+    "frozen_policy_statement_delta",
+    "causal_rate_repricing",
+    "versioned_semantic_thesis"
+  ],
+  "official_thesis_grounding": {
+    "require_source_ids": true,
+    "require_source_fact_ids_present_in_context_snapshot": true,
+    "require_source_fact_currencies_match_pair_legs": true,
+    "require_basis_specific_fact_eligibility": true,
+    "require_pair_consistent_signed_currency_factor": true,
+    "require_versioned_semantic_lineage": true,
+    "factor_id_contract": "currency:AAA:long|short"
+  },
+  "observed_price_baseline": {
+    "rule": "signed_continuation",
+    "minimum_absolute_move_bps": 0.0,
+    "requires_exact_horizon_observation": true,
+    "description": "Frozen price-only paper baseline; observed response is never official evidence or execution authorization."
+  },
+  "delayed_reconfirmation": {
+    "minimum_delay_sec": 60,
+    "requires_same_direction": true
+  },
+  "magnitude_cost_diagnostic": {
+    "cost_field": "spread_bps",
+    "clearance_multiple": 1.0,
+    "probability_policy": "unavailable_without_calibration"
+  },
+  "arms": [
+    {
+      "id": "official_context_only",
+      "role": "frozen_macro_direction",
+      "description": "Abstains unless an explicit point-in-time frozen official thesis exists."
+    },
+    {
+      "id": "observed_price_only",
+      "role": "price_only_control",
+      "description": "Frozen signed-continuation paper baseline using observed price response only."
+    },
+    {
+      "id": "technical_timing_verification",
+      "role": "diagnostic_only",
+      "description": "Labels technical confirmation, veto, waiting, or conflict without creating a direction."
+    },
+    {
+      "id": "aligned",
+      "role": "frozen_macro_direction_with_technical_confirmation",
+      "description": "Carries the frozen official direction only when technical direction agrees and timing is ready."
+    },
+    {
+      "id": "direction_conflicted_aggressive_paper",
+      "role": "conflicted_macro_paper_control",
+      "description": "Separately scores a frozen official direction when technical direction conflicts; it never follows the technical direction."
+    },
+    {
+      "id": "delayed_reconfirmed",
+      "role": "delayed_macro_reconfirmation",
+      "description": "Carries the frozen official direction only after a point-in-time delayed same-direction reconfirmation."
+    },
+    {
+      "id": "magnitude_only",
+      "role": "directionless_magnitude_diagnostic",
+      "description": "Scores absolute movement versus observed spread without supplying a side."
+    },
+    {
+      "id": "no_trade",
+      "role": "control",
+      "description": "Explicit no-trade control for every pair and horizon."
+    }
+  ]
+}

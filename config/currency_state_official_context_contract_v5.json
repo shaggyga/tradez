@@ -1,0 +1,70 @@
+{
+  "schema_version": 5,
+  "context_contract_id": "currency_state_official_context_v5_20260817_r3",
+  "parent_context_contract_id": "currency_state_official_context_v2_20260817",
+  "fact_basis_eligibility_contract_id": "official_fact_basis_eligibility_v5_20260817_r3",
+  "parent_fact_basis_eligibility_contract_id": "official_fact_basis_eligibility_v2_20260817",
+  "required_official_fact_adapter_contract_id": "official_fact_adapter_v5_20260817_r3",
+  "required_immutable_event_clock_schema_version": "immutable_event_clock_ledger_v2",
+  "required_immutable_event_clock_contract_id": "immutable_point_in_time_event_clock_v2_20260817",
+  "runtime_lineage_policy": {
+    "v3_runtime_imports": false,
+    "v4_runtime_imports": false,
+    "accepted_composition_parent": "currency_state_official_context_v2_20260817",
+    "rejected_predecessor_bytes_are_unchanged": true
+  },
+  "fixed_currency_state_contract": {
+    "relative_path": "config/currency_state_engine_v2.json",
+    "byte_length": 3272,
+    "file_sha256": "20138fe4328ee88b47b8edce2b3bd6081191cda35dd4124a9a457ea9b2efa400",
+    "canonical_material_sha256": "79ae9b93cd8facc16fd69586993d84235458fc35b1bfeda6ad7df6d047389a72",
+    "caller_contract_forbidden": true
+  },
+  "validation": {
+    "exact_base_snapshot_is_separately_required": true,
+    "exact_official_snapshot_is_separately_required": true,
+    "base_contract_snapshot_horizon_and_input_hashes_are_recomputed": true,
+    "base_completed_bar_cutoff_and_event_watermark_must_not_exceed_decision_cutoff": true,
+    "input_refs_identity_and_fixed_contract_hashes_are_reconciled": true,
+    "base_horizons_are_preserved_exactly": true,
+    "complete_closed_recursive_schema": true,
+    "strict_types_reject_bool_as_integer_and_nonfinite_numbers": true,
+    "proof_basis_is_recomputed_not_caller_supplied": true,
+    "all_unproved_basis_flags_and_counts_are_false_or_zero": true,
+    "all_21_currency_summaries_68_edges_and_5_horizons_are_validated": true,
+    "edge_epochs_duration_endpoint_age_start_alignment_and_exact_horizon_are_reconciled": true,
+    "maximum_endpoint_age_sec": 180,
+    "maximum_start_alignment_sec": 120,
+    "edge_freshness_ceilings_are_read_from_the_fixed_currency_state_contract": true,
+    "facts_events_counts_gaps_source_states_and_clock_provenance_are_rebuilt": true,
+    "full_context_is_deterministically_rebuilt": true,
+    "snapshot_id_covers_every_field_except_snapshot_id": true
+  },
+  "official_information_policy": {
+    "direction_policy": "abstain",
+    "forecast_fields": "null",
+    "expected_value_fields": "null",
+    "allocator_rank": "null",
+    "execution_eligible": false
+  },
+  "state": {
+    "enabled": false,
+    "registered": false,
+    "research_worker_enabled": false,
+    "collector_enabled": false,
+    "independent_review_state": "pending",
+    "candidate_frozen_utc": null,
+    "independent_review_started_utc": null,
+    "independent_review_completed_utc": null,
+    "runtime_started_utc": null,
+    "canonical_output_initialized": false
+  },
+  "material_change_requires_new_contract_id": true,
+  "research_only": true,
+  "execution_eligible": false,
+  "can_place_orders": false,
+  "can_promote": false,
+  "can_authorize": false,
+  "supported_execution_decision": "no_trade",
+  "dependency_manifest": "config/currency_state_official_context_v5_manifest.json"
+}

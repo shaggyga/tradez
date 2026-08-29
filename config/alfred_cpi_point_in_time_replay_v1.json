@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "contract_id": "alfred_cpi_acceleration_h168_point_in_time_robustness_v1_20260816",
+  "analysis_mode": "locked_candidate_point_in_time_robustness",
+  "report_title": "ALFRED CPI Initial-Release Point-in-Time Replay",
+  "report_subtitle": "Historical robustness check of one already-locked candidate; no promotion or execution path.",
+  "research_only": true,
+  "execution_eligible": false,
+  "evidence_class": "historical_initial_release_robustness_not_proof",
+  "price_granularity": "H4",
+  "minimum_price_start_utc": "2023-01-01T00:00:00Z",
+  "availability_policy": "max_first_seen_utc",
+  "horizons_hours": [168],
+  "absolute_signal_thresholds": [0.25],
+  "spread_buckets_pips": {"liquid": 3.0, "moderate": 10.0},
+  "signal_rules": ["cpi_acceleration_differential"],
+  "technical_confirmation_lookback_bars": 6,
+  "technical_confirmation_candidates": [
+    {
+      "candidate_id": "cpi_acceleration_h168_liquid_threshold_025_locked_before_point_in_time_replay",
+      "signal_rule": "cpi_acceleration_differential",
+      "absolute_signal_threshold": 0.25,
+      "horizon_hours": 168,
+      "liquidity_bucket": "liquid"
+    }
+  ],
+  "technical_confirmation_rule": "sign_of_pre_entry_24h_H4_mid_open_return",
+  "candidate_definition_was_locked_before_this_replay": true,
+  "direction_rule": "higher_base_minus_quote_cpi_acceleration_predicts_base_strength",
+  "negative_control": "flipped_direction",
+  "factor_deduplication": "one_reference_date_and_frequency_group_episode",
+  "cross_frequency_comparison_forbidden": true,
+  "historical_backfill_cannot_confirm": true,
+  "material_change_requires_new_cohort": true
+}

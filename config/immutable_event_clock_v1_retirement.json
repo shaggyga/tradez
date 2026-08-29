@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "record_type": "immutable_event_clock_retirement_fingerprint",
+  "record_id": "immutable_event_clock_v1_retirement_20260817",
+  "status": "retired_terminal",
+  "retirement_reason": "writer_contract_superseded_by_immutable_event_clock_v2",
+  "clock_schema_version": "immutable_event_clock_ledger_v1",
+  "clock_contract_id": "immutable_point_in_time_event_clock_v1_20260817",
+  "source_pipeline_version": "all_pair_news_event_tags_v3",
+  "frozen_at_utc": "2026-08-17T07:55:00+00:00",
+  "database_last_write_utc": "2026-08-17T04:38:14.1677612+00:00",
+  "database": {
+    "relative_path": "data/oanda_training_manager/research_ledgers/immutable_event_clock_v1.sqlite",
+    "byte_length": 1384448,
+    "sha256": "d45a8fd09077cfb1c733003900d2e6ef6ae7180dffd6e09f66ab4b0412aff874",
+    "quick_check": "ok",
+    "row_counts": {
+      "event_clock_snapshots": 3,
+      "event_clock_versions": 501,
+      "snapshot_events": 593,
+      "event_clock_capture_attestations": 2,
+      "event_clock_observations": 3
+    },
+    "preserve_bytes": true,
+    "read_only_historical_evidence": true
+  },
+  "policy": {
+    "writer_retired": true,
+    "no_append": true,
+    "no_checkpoint": true,
+    "no_migration": true,
+    "no_backfill": true,
+    "hash_or_row_count_change_invalidates_reconstruction": true,
+    "clock_v2_may_not_be_read_as_clock_v1": true,
+    "historical_reader_assigns_no_direction": true,
+    "research_only": true,
+    "execution_eligible": false,
+    "can_place_orders": false,
+    "can_promote": false,
+    "can_authorize": false,
+    "supported_execution_decision": "no_trade"
+  }
+}

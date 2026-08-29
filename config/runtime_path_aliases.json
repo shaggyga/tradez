@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "updated_reason": "Human-readable aliases for legacy runtime names. Paths are not renamed while managers are running.",
+  "aliases": {
+    "data/forex_gpt_manager/account_gpt_advisor_all_pairs": {
+      "role": "gpt_orig",
+      "preferred_name": "account_gpt_orig_advisor_all_pairs",
+      "note": "Original GPT/news advisor account."
+    },
+    "data/forex_gpt_manager/account_gpt_exp_all_pairs_news": {
+      "role": "gpt_exp",
+      "preferred_name": "account_gpt_exp_all_pairs_news",
+      "note": "Experimental all-pair GPT/news account."
+    },
+    "data/technical_scout_manager/account_technical_scout_all_pairs": {
+      "role": "tech_prod",
+      "preferred_name": "account_tech_prod_all_pairs",
+      "note": "Main technical production account."
+    },
+    "data/technical_scout_manager/account_spike_scout_major_moves": {
+      "role": "spike_scout",
+      "preferred_name": "account_spike_scout_major_moves",
+      "note": "Dedicated spike-scout paper account."
+    },
+    "data/technical_scout_manager/account_dum_canary_model_candidate": {
+      "role": "canary",
+      "preferred_name": "account_canary_model_candidate",
+      "note": "Legacy DUM naming; this is the canary validation account."
+    },
+    "data/oanda_training_manager/live_dum1": {
+      "role": "trainer_research_legacy_live_logs",
+      "preferred_name": "live_canary_legacy_logs",
+      "note": "Legacy DUM1 live-loop logs. Current trainer default is research-only."
+    },
+    "data/oanda_training_manager/state/research_only_state.json": {
+      "role": "trainer_research",
+      "preferred_name": "research_only_state.json",
+      "note": "Research-only wrapper/control state for sidecar refresh jobs; active experiment state is data/oanda_training_manager/continuous_research/research_state.json."
+    },
+    "data/oanda_training_manager/continuous_research/research_state.json": {
+      "role": "trainer_research",
+      "preferred_name": "research_state.json",
+      "note": "Current trainer/research manager state."
+    }
+  }
+}

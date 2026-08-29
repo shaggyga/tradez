@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "research_only": true,
+  "execution_eligible": false,
+  "state": "source_not_connected",
+  "contract": {
+    "required_fields": [
+      "currency",
+      "instrument",
+      "observed_utc",
+      "change_bps_15m",
+      "change_bps_60m",
+      "source_id",
+      "source_timestamp_utc",
+      "retrieved_utc",
+      "source_contract_id"
+    ],
+    "causal_rule": "source observation and retrieval must precede the decision cutoff",
+    "no_data_policy": "missing is unavailable, never zero or neutral",
+    "material_change_policy": "provider, instrument, parser, frequency, or timestamp changes require a new source cohort"
+  },
+  "currencies": {},
+  "blocker": "timestamp-safe rates, OIS, or policy-futures source not yet connected"
+}

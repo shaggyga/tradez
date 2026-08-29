@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "phase": "evidence_accumulation_futility_retirement_allocator_proof_v1",
+  "lifecycle": {
+    "states": [
+      "continue_collecting",
+      "futility_rejected",
+      "confirmed_candidate"
+    ],
+    "future_futility_boundary": "time_uniform_upper_bound_below_minimum_economic_edge",
+    "initial_fixed_snapshot_futility": {
+      "enabled": true,
+      "governance_sha256": "7363430454082fa033606e440da8795d1f3027a186a2e4aa15d3d6f718004147",
+      "source_highwater_row_id": 1810066,
+      "expected_cell_count": 18858,
+      "expected_retirement_count": 8989,
+      "method": "one_time_fixed_governance_snapshot_upper_bound_below_minimum_edge_v1"
+    },
+    "permitted_reconsideration_material_changes": [
+      "new_information_source",
+      "new_economic_target",
+      "new_horizon",
+      "material_feature_contract",
+      "material_execution_policy",
+      "new_regime_definition",
+      "new_causal_event_variable",
+      "new_executable_market_observation",
+      "new_structural_cross_market_relationship"
+    ],
+    "insufficient_reconsideration_changes": [
+      "rename_only",
+      "small_hyperparameter_adjustment",
+      "same_information_new_model_name"
+    ]
+  },
+  "allocator": {
+    "policy_id": "governed_top_one_allocator_v1",
+    "decision_cadence_sec": 300,
+    "maximum_quote_age_sec": 15,
+    "maximum_outcome_delay_sec": 15,
+    "modeled_slippage_pips": 0.25,
+    "minimum_incremental_edge_pips": 0.5,
+    "sequential_alpha": 0.01,
+    "sequential_clip_bound_pips": 250.0,
+    "strongest_constituent_family": "volatility_squeeze_breakout",
+    "selection": {
+      "position_count": 1,
+      "require_account_eligible": true,
+      "require_signal_eligible": true,
+      "require_validation": true,
+      "reject_direction_conflict": true,
+      "respect_capacity": true,
+      "respect_reentry": true,
+      "maximum_open_positions": 4,
+      "maximum_open_jpy_factor_positions": 1,
+      "rank": [
+        "projected_net_pips_desc",
+        "signal_confidence_desc",
+        "spread_pips_asc",
+        "candidate_id_asc"
+      ]
+    },
+    "comparators": [
+      "no_trade",
+      "deterministic_random_same_eligible_set",
+      "highest_raw_predicted_return",
+      "lowest_cost_eligible",
+      "hold_current_position",
+      "strongest_constituent_family"
+    ],
+    "sampling": {
+      "mode": "fixed_aligned_cadence",
+      "adaptive_frequency_changes_forbidden": true,
+      "inclusion_probability": 1.0
+    }
+  },
+  "practice_accounting": {
+    "account_suffix": "-007",
+    "legacy_bucket": "legacy_pre_governance",
+    "unattributed_canary_policy": "fail_closed",
+    "virtual_equity_start": 0.0,
+    "routeability_sentinel": {
+      "cadence": "daily",
+      "units": 1,
+      "submission_forbidden": true,
+      "requires_practice_endpoint": true,
+      "requires_stop_loss": true,
+      "requires_price_bound": true
+    }
+  },
+  "execution": {
+    "research_only": true,
+    "practice_canary_auto_route": false,
+    "real_money_route": false,
+    "manual_orders": false
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "contract_id": "news_band_resolution_flow_h15_v1_20260827",
+  "cohort_prefix": "news_band_resolution_flow_h15_v1",
+  "parent_level_contract_id": "causal_level_band_prospective_v1_frozen_20260827a",
+  "parent_geometry_contract_id": "level_band_contract_v2_frozen_20260827b",
+  "horizon_sec": 900,
+  "maximum_watchlist_age_sec": 180,
+  "maximum_resolution_age_sec": 120,
+  "maximum_band_forecast_age_sec": 1800,
+  "minimum_signed_imbalance_30s": 0.05,
+  "require_nonnegative_signed_imbalance_120s": true,
+  "allowed_news_arms": [
+    "news_only",
+    "official_release_fast_multileg_h15",
+    "official_surprise_rate_confirmed_h15"
+  ],
+  "factor_deduplication": "one_earliest_resolution_then_lowest_cost_pair_per_episode_currency",
+  "resolution_contract": "contact_completed_minute_then_distinct_completed_minute_crosses_frozen_break_or_reject_barrier",
+  "entry_contract": "next_whole_minute_bam_bid_ask_open_committed_before_bar_exists",
+  "exit_contract": "fixed_h15_close_compared_with_first_completed_m1_band_invalidation_close",
+  "arms": [
+    "news_band_resolution_no_flow_control",
+    "news_band_resolution_flow_aligned",
+    "news_band_resolution_flow_conflicted_negative_control"
+  ],
+  "policy": {
+    "research_only": true,
+    "execution_eligible": false,
+    "can_place_orders": false,
+    "can_authorize": false,
+    "can_promote": false,
+    "signal_feed_write": false,
+    "lifecycle_write": false,
+    "broker_access": false,
+    "credentials_access": false,
+    "direction_source": "point_in_time_news_only",
+    "timing_sources": [
+      "causal_frozen_level_resolution",
+      "completed_oanda_quote_change_intensity_minute"
+    ]
+  }
+}

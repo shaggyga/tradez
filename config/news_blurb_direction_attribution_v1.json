@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "research_id": "news_blurb_direction_attribution_v1_20260819",
+  "research_only": true,
+  "execution_eligible": false,
+  "score_arms": [
+    "published_directional",
+    "research_extended",
+    "official_only",
+    "response_calibrated"
+  ],
+  "maximum_event_age_minutes": 360,
+  "minimum_absolute_pair_score": 0.12,
+  "minimum_weighted_pair_score": 0.03,
+  "default_reaction_horizon_minutes": 60,
+  "minimum_train_episodes_per_response_cell": 20,
+  "minimum_train_direction_accuracy": 0.57,
+  "chronological_train_fraction": 0.7,
+  "maximum_examples_per_arm": 20,
+  "liquidity_buckets": {
+    "liquid": 2.5,
+    "moderate": 5.0,
+    "wide": 20.0
+  },
+  "source_grade_weights": {
+    "official_deterministic": 1.0,
+    "official_or_corroborated": 0.9,
+    "secondary_requires_corroboration": 0.55,
+    "contextual_directional": 0.35,
+    "unknown": 0.25
+  },
+  "policy": {
+    "direction_target": "currency strength first; pair score equals base currency score minus quote currency score",
+    "causal_view": "pre_entry_causal links only; effective_from must not exceed episode entry",
+    "story_deduplication": "one highest-quality observation per story cluster and episode",
+    "response_calibration": "chronological discovery split learns follow/fade/abstain by event type and horizon; later split is diagnostic holdout",
+    "movement_selection_warning": "large-move-conditioned episodes measure attribution quality, not unconditional trade expectancy",
+    "promotion": "never; a frozen all-timestamp prospective cohort is required"
+  }
+}

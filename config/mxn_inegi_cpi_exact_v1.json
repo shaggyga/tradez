@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "source_id": "mxn_inegi_cpi_exact_v1",
+  "source_contract_id": "mxn_inegi_cpi_exact_v1_20260817",
+  "source_cohort_id": "mxn_inegi_cpi_exact_v1_20260817",
+  "registered_with_live_collector": false,
+  "enabled": false,
+  "runtime_supported": false,
+  "research_only": true,
+  "shadow_only": true,
+  "currency": "MXN",
+  "currency_factor": "MXN",
+  "timezone": "America/Mexico_City",
+  "timezone_contract": "UTC-06:00 for the two accepted 2026 clocks; DST forbidden",
+  "calendar_authority": "calendar_pdf",
+  "observation_manifest_path": "data/oanda_training_manager/source_archives/mxn_inegi_cpi_exact_v1/source_observation_manifest_v1.json",
+  "observation_manifest_bytes": 9761,
+  "observation_manifest_sha256": "43a30c8bc2daa3a7573062daaf2556f2e3a0bbfdf3a1a0adecc93f2b5a653921",
+  "pdf_extractor": "pypdf",
+  "pdf_extractor_version": "6.15.0",
+  "python_pdf_runtime_version": "3.13.14",
+  "pdf_transformation_id": "pypdf_6_15_0_layout_nfc_lf_rstrip_formfeed_v1",
+  "accepted_clocks": [
+    {
+      "event_date": "2026-08-07",
+      "reference_period": "2026-07",
+      "local_time": "06:00",
+      "scheduled_utc": "2026-08-07T12:00:00Z",
+      "collection_class": "historical_availability_counterfactual_archive_only"
+    },
+    {
+      "event_date": "2026-09-09",
+      "reference_period": "2026-08",
+      "local_time": "06:00",
+      "scheduled_utc": "2026-09-09T12:00:00Z",
+      "collection_class": "prospective_schedule_only"
+    }
+  ],
+  "july_facts": {
+    "headline_monthly_pct": "0.03",
+    "headline_annual_pct": "3.12",
+    "core_monthly_pct": "0.23",
+    "core_annual_pct": "3.95"
+  },
+  "artifacts": {
+    "calendar_pdf": {
+      "source_url": "https://www.inegi.org.mx/contenidos/saladeprensa/doc/cal_2026.pdf",
+      "archive_path": "data/oanda_training_manager/source_archives/mxn_inegi_cpi_exact_v1/calendar_2026_eaa5c61f.pdf",
+      "bytes": 286364,
+      "sha256": "eaa5c61fe101b80119ab1fadad28d37e8b702fcd586e2b5e311d5da3b91de970",
+      "role": "authoritative_schedule_anchor",
+      "causal_use": "future_clock_only_when_observed_before_event",
+      "semantic_valid": true
+    },
+    "july_release_pdf": {
+      "source_url": "https://www.inegi.org.mx/contenidos/saladeprensa/boletines/2026/inpc/inpc_2q2026_08.pdf",
+      "archive_path": "data/oanda_training_manager/source_archives/mxn_inegi_cpi_exact_v1/july_2026_cpi_release_504f8c9f.pdf",
+      "bytes": 290302,
+      "sha256": "504f8c9ff32fc428ba2d39d6ce06dec43343873d8dcab4ec9ba808438d75138a",
+      "role": "authoritative_historical_release",
+      "causal_use": "availability_counterfactual_archive_only",
+      "semantic_valid": true
+    },
+    "headline_annual_xml": {
+      "source_url": "https://www.inegi.org.mx/servicios/xml/INPCA_M_O.xml",
+      "archive_path": "data/oanda_training_manager/source_archives/mxn_inegi_cpi_exact_v1/INPCA_M_O_e8c36462.xml",
+      "bytes": 679,
+      "sha256": "e8c36462209e65a08c6d8c8afe79bcc6eb01b96681a5f27b696dcf38955a7b56",
+      "role": "historical_release_corroboration",
+      "causal_use": "later_observed_current_snapshot_archive_only",
+      "semantic_valid": true
+    },
+    "headline_monthly_xml": {
+      "source_url": "https://www.inegi.org.mx/servicios/xml/INPCM_M_O.xml",
+      "archive_path": "data/oanda_training_manager/source_archives/mxn_inegi_cpi_exact_v1/INPCM_M_O_a262c359.xml",
+      "bytes": 681,
+      "sha256": "a262c35928f3d034b209b1f521c112fc9419a0d1ded1b3c6d5bb385ee3e8b4e0",
+      "role": "historical_release_corroboration",
+      "causal_use": "later_observed_current_snapshot_archive_only",
+      "semantic_valid": true
+    },
+    "core_annual_xml": {
+      "source_url": "https://www.inegi.org.mx/servicios/xml/INPCAS_M_O.xml",
+      "archive_path": "data/oanda_training_manager/source_archives/mxn_inegi_cpi_exact_v1/INPCAS_M_O_bc61647d.xml",
+      "bytes": 703,
+      "sha256": "bc61647d7ae366f9c2ba18d7dbc754205fb60899e455bd23ac1876f773471952",
+      "role": "historical_release_corroboration",
+      "causal_use": "later_observed_current_snapshot_archive_only",
+      "semantic_valid": true
+    },
+    "core_monthly_xml": {
+      "source_url": "https://www.inegi.org.mx/servicios/xml/INPCMS_M_O.xml",
+      "archive_path": "data/oanda_training_manager/source_archives/mxn_inegi_cpi_exact_v1/INPCMS_M_O_d5c33c4e.xml",
+      "bytes": 705,
+      "sha256": "d5c33c4ea9917cec34fc49697f6d1c275fecc2338ca6f1c17f5a98f5b47af5e0",
+      "role": "historical_release_corroboration",
+      "causal_use": "later_observed_current_snapshot_archive_only",
+      "semantic_valid": true
+    },
+    "calendar_xml_later_revision": {
+      "source_url": "https://www.inegi.org.mx/servicios/xml/calendar.xml",
+      "archive_path": "data/oanda_training_manager/source_archives/mxn_inegi_cpi_exact_v1/calendar_xml_later_revision_4af72939.xml",
+      "bytes": 13370,
+      "sha256": "4af72939ac4754fa4016f0321f70562df5fcc4440cb3c70c6908fd524a017629",
+      "role": "quarantined_later_observed_revision",
+      "causal_use": "forbidden_for_prior_clock_or_proof",
+      "semantic_valid": false
+    }
+  },
+  "prior_calendar_xml": {
+    "expected_bytes": 12922,
+    "expected_sha256": "e30b070e3db019249bddd3e22e72de504b55466dd23699df873cc3e773d6af91",
+    "retained": false,
+    "backfilled": false,
+    "relabelled": false,
+    "causal_use": "forbidden"
+  },
+  "optional_historical_xmls_retained": false,
+  "hard_guards": {
+    "consensus": null,
+    "surprise": null,
+    "direction": null,
+    "currency_bias": null,
+    "pair_bias": null,
+    "confirmation_eligible": false,
+    "proof_eligible": false,
+    "promotion_eligible": false,
+    "authorization_eligible": false,
+    "execution_eligible": false,
+    "can_authorize": false,
+    "can_place_orders": false,
+    "supported_execution_decision": "no_trade"
+  },
+  "separation_contract": {
+    "existing_banxico_source_untouched": true,
+    "touch_live_news_config": false,
+    "touch_live_collector": false,
+    "touch_immutable_event_clock": false,
+    "touch_database": false,
+    "touch_executor_or_account": false,
+    "write_process_state": false
+  }
+}

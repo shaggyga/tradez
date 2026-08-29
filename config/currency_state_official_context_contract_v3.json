@@ -1,0 +1,43 @@
+{
+  "schema_version": 3,
+  "context_contract_id": "currency_state_official_context_v3_20260817",
+  "parent_context_contract_id": "currency_state_official_context_v2_20260817",
+  "fact_basis_eligibility_contract_id": "official_fact_basis_eligibility_v3_20260817",
+  "parent_fact_basis_eligibility_contract_id": "official_fact_basis_eligibility_v2_20260817",
+  "required_official_fact_adapter_contract_id": "official_fact_adapter_v3_20260817",
+  "required_immutable_event_clock_schema_version": "immutable_event_clock_ledger_v2",
+  "required_immutable_event_clock_contract_id": "immutable_point_in_time_event_clock_v2_20260817",
+  "validation": {
+    "base_currency_state_identity_verified_before_copy": true,
+    "base_horizons_preserved_before_official_component_enrichment": true,
+    "closed_recursive_schema": true,
+    "every_allowed_leaf_has_an_exact_type_rule": true,
+    "bool_is_type_bool_only": true,
+    "integer_rejects_bool": true,
+    "numeric_rejects_bool_nan_and_infinity": true,
+    "scalar_or_null_rejects_mapping_list_and_tuple": true,
+    "summary_metadata_basis_and_horizon_counts_reconcile": true,
+    "snapshot_id_covers_every_field_except_snapshot_id": true
+  },
+  "official_information_policy": {
+    "direction_policy": "abstain",
+    "forecast_fields": "null",
+    "expected_value_fields": "null",
+    "allocator_rank": "null",
+    "execution_eligible": false
+  },
+  "state": {
+    "enabled": false,
+    "registered": false,
+    "independent_review_state": "pending",
+    "canonical_output_initialized": false
+  },
+  "material_change_requires_new_contract_id": true,
+  "research_only": true,
+  "execution_eligible": false,
+  "can_place_orders": false,
+  "can_promote": false,
+  "can_authorize": false,
+  "supported_execution_decision": "no_trade",
+  "dependency_manifest": "config/currency_state_official_context_v3_manifest.json"
+}

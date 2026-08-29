@@ -1,0 +1,91 @@
+{
+  "schema_version": 6,
+  "contract_id": "prospective_event_response_capture_v6_20260817_r3",
+  "cohort_id": "prospective_official_event_response_v6_20260817_r3",
+  "research_generation": "prospective_official_event_response_capture_v6_r3",
+  "parent_contract_id": "prospective_event_response_capture_v6_20260817_r2",
+  "parent_disposition": "independent_no_approve_never_registered_zero_canonical_evidence",
+  "required_review_certificate": {
+    "relative_path": "config/official_fact_currency_state_v5_r3_review_certificate.json",
+    "sha256": "0a61948a9fc2f2a9a06d30557b838d7fb389958c9ef2b1845bc8b06e70c7b299",
+    "byte_length": 6003,
+    "review_certificate_id": "official_fact_currency_state_v5_r3_independent_review_20260817"
+  },
+  "required_upstream": {
+    "official_fact_adapter_contract_id": "official_fact_adapter_v5_20260817_r3",
+    "official_fact_adapter_manifest_id": "official_fact_adapter_v5_manifest_20260817_r3",
+    "currency_state_official_context_contract_id": "currency_state_official_context_v5_20260817_r3",
+    "currency_state_official_context_manifest_id": "currency_state_official_context_v5_manifest_20260817_r3",
+    "fact_basis_eligibility_contract_id": "official_fact_basis_eligibility_v5_20260817_r3",
+    "immutable_event_clock_contract_id": "immutable_point_in_time_event_clock_v2_20260817",
+    "immutable_event_clock_schema_version": "immutable_event_clock_ledger_v2"
+  },
+  "currencies": [
+    "AUD", "CAD", "CHF", "CNH", "CZK", "DKK", "EUR", "GBP", "HKD", "HUF", "JPY",
+    "MXN", "NOK", "NZD", "PLN", "SEK", "SGD", "THB", "TRY", "USD", "ZAR"
+  ],
+  "instrument_universe": [
+    "AUD_CAD", "AUD_CHF", "AUD_HKD", "AUD_JPY", "AUD_NZD", "AUD_SGD", "AUD_USD",
+    "CAD_CHF", "CAD_HKD", "CAD_JPY", "CAD_SGD", "CHF_HKD", "CHF_JPY", "CHF_ZAR",
+    "EUR_AUD", "EUR_CAD", "EUR_CHF", "EUR_CZK", "EUR_DKK", "EUR_GBP", "EUR_HKD",
+    "EUR_HUF", "EUR_JPY", "EUR_NOK", "EUR_NZD", "EUR_PLN", "EUR_SEK", "EUR_SGD",
+    "EUR_TRY", "EUR_USD", "EUR_ZAR", "GBP_AUD", "GBP_CAD", "GBP_CHF", "GBP_HKD",
+    "GBP_JPY", "GBP_NZD", "GBP_PLN", "GBP_SGD", "GBP_USD", "GBP_ZAR", "HKD_JPY",
+    "NZD_CAD", "NZD_CHF", "NZD_HKD", "NZD_JPY", "NZD_SGD", "NZD_USD", "SGD_CHF",
+    "SGD_JPY", "TRY_JPY", "USD_CAD", "USD_CHF", "USD_CNH", "USD_CZK", "USD_DKK",
+    "USD_HKD", "USD_HUF", "USD_JPY", "USD_MXN", "USD_NOK", "USD_PLN", "USD_SEK",
+    "USD_SGD", "USD_THB", "USD_TRY", "USD_ZAR", "ZAR_JPY"
+  ],
+  "instrument_universe_sha256": "b6abe559dcaa9faa0a1e48217f97a12dc9043eb9595d2b946bf80f93035be142",
+  "canonical_pip_mapping_sha256": "46532e9598c7fab24c57935bb4bb4d747901d68acc9f3d50a28bd1957ce19f2c",
+  "canonical_pip_rule": "quote_currency_JPY_0.01_else_0.0001",
+  "horizons_sec": [60, 300, 900, 1800, 3600],
+  "diagnostic_modes": ["prospective_capture_test_fixture", "replay_diagnostic_test_fixture"],
+  "prospective_proof_mode_allowed": false,
+  "quote_response_contract": {
+    "maximum_quote_known_lag_sec": 15,
+    "maximum_start_alignment_sec": 2,
+    "maximum_end_alignment_sec": 45,
+    "maximum_spread_pips": 5000,
+    "require_bid_ask": true,
+    "require_source_payload_hash": true,
+    "require_quote_known_time": true,
+    "require_timezone_aware_capture_cutoff": true,
+    "require_exact_builtin_datetime_type": true,
+    "require_exact_canonical_instrument_pip": true,
+    "canonical_pip_runtime_representation": "private_pure_rule_plus_read_only_mappingproxy",
+    "duplicate_cell_policy": "deterministic_earliest_end_known_instant_then_start_known_instant_then_quote_instants_then_content_hash_wins",
+    "response_identity_policy": "complete_canonical_quote_economics_and_provenance_hash"
+  },
+  "output_policy": {
+    "forecast_fields_must_be_null": true,
+    "expected_value_fields_must_be_null": true,
+    "allocator_rank_must_be_null": true,
+    "basis_eligibility_must_be_false": true,
+    "diagnostics_are_not_proof": true,
+    "proof_row_count_must_be_zero": true,
+    "canonical_output_forbidden": true
+  },
+  "state": {
+    "enabled": false,
+    "registered": false,
+    "research_worker_enabled": false,
+    "collector_enabled": false,
+    "independent_review_state": "pending",
+    "candidate_frozen_utc": null,
+    "runtime_started_utc": null,
+    "canonical_output_initialized": false
+  },
+  "material_change_requires_new_contract_id": true,
+  "research_only": true,
+  "execution_eligible": false,
+  "can_place_orders": false,
+  "can_promote": false,
+  "can_authorize": false,
+  "supported_execution_decision": "no_trade",
+  "forbidden_capabilities": [
+    "broker_api", "order_submission", "position_management", "promotion", "authorization",
+    "canonical_ledger_initialization", "live_worker_start", "proof_claim_before_independent_review"
+  ],
+  "dependency_manifest": "config/prospective_event_response_v6_r3_manifest.json"
+}

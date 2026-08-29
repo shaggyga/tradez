@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "retirement_id": "currency_state_after_cost_counterfactual_v6_dependency_retirement_20260824",
+  "status": "retired_terminal_zero_evidence",
+  "retired_at_utc": "2026-08-24T23:52:00+00:00",
+  "contract_id": "currency_state_after_cost_counterfactual_v6_20260817",
+  "cohort_id": "currency_state_after_cost_counterfactual_cohort_20260817f",
+  "manifest": {
+    "relative_path": "config/currency_state_after_cost_counterfactual_v6_manifest.json",
+    "sha256": "0ff54ac92e3d9c8fdc504448ea16b51fde271b7326678c7cc62c4bb8f15582c0"
+  },
+  "retirement_reason": "two shared mutable producer paths changed after the V6 manifest was frozen; exact dependency closure no longer holds",
+  "known_dependency_mismatches": {
+    "oanda_currency_state_engine.py": {
+      "manifest_sha256": "ec33a2936eaf423bcc8f01aa572278c3e215af70abbad56ade033bff10d422f3",
+      "observed_sha256": "47aa7af9ded629f595b10caa6cdb1d977724f06c6d5374dc0fb4c7978d065a44"
+    },
+    "oanda_independent_evidence_verifier.py": {
+      "manifest_sha256": "90302f4c63cc5781d7418df9e3e4bb7ae96a0a54d88d83b77249cfd466fed9cd",
+      "observed_sha256": "d001814c798d01b3ba306d6dbbbe75dbb1f2a699d3e4330b0d54a768c036f59f"
+    }
+  },
+  "evidence_state_at_retirement": {
+    "state_artifact_present": false,
+    "proof_registry_rows": 0,
+    "lifecycle_rows": 0,
+    "genealogy_rows": 0,
+    "execution_rows": 0
+  },
+  "disposition": {
+    "can_collect": false,
+    "can_promote": false,
+    "can_authorize": false,
+    "can_execute": false,
+    "can_restore_under_same_cohort_id": false,
+    "supported_execution_decision": "no_trade"
+  },
+  "replacement_requirement": "any replacement must use a new cohort ID and versioned immutable dependency paths; it may not rewrite this manifest or relabel V6 evidence",
+  "research_only": true,
+  "execution_eligible": false
+}

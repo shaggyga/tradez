@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "branch_name": "pure_change_strategy_space_v1",
+  "research_only": true,
+  "execution_eligible": false,
+  "can_promote": false,
+  "can_place_orders": false,
+  "supported_execution_decision": "no_trade",
+  "objective": "Measure executable opportunity first, then search a frozen rule grammar and direct-source interactions without treating the search window as proof.",
+  "opportunity_horizons_sec": [60, 300, 600, 900, 3600],
+  "primary_intrahour_horizons_sec": [300, 600, 900],
+  "minimum_move_to_cost_ratios": [1.0, 1.25, 1.5, 2.0, 3.0],
+  "moving_average_space": {
+    "preset": "exhaustive",
+    "timeframes": ["M1", "M2", "M3", "M4", "M5", "M6", "M8", "M10", "M12", "M15", "M20", "M30", "M45", "H1", "H2", "H3", "H4", "H6", "H8", "H12", "D1"],
+    "ma_kind_pairs": ["ema-ema", "sma-sma", "ema-sma", "sma-ema"],
+    "confirmations": ["cross_only", "slow_slope", "dual_slope", "slow_slope_volume", "higher_tf_same"],
+    "horizons_minutes": [1, 3, 5, 10, 15, 30, 60, 120, 240, 1440],
+    "selection": "development and validation only; holdout is reported after selection and cannot be reused as confirmation"
+  },
+  "stack_space": {
+    "trigger_timeframes": ["M1", "M2", "M3", "M4", "M5", "M6", "M8", "M10", "M12", "M15", "M20", "M30", "M45", "H1", "H2", "H3", "H4", "H6"],
+    "trigger_specs": ["ema:3:8", "ema:3:9", "ema:5:13", "ema:8:21", "ema:12:26", "ema:20:50", "sma:8:21", "sma:20:50"],
+    "trigger_confirmations": ["cross_only", "slow_slope_volume"],
+    "top_unique_inputs_only": true,
+    "independence_filter": "cluster selected rules by signed-currency factor, event overlap, and signal Jaccard similarity before stacking"
+  },
+  "existing_rule_engines": [
+    "oanda_moving_average_crossover_sweep.py",
+    "oanda_multitimeframe_crossover_stack_sweep.py",
+    "oanda_all68_pattern_research.py",
+    "oanda_distinct_strategy_backtest.py",
+    "oanda_100_strategy_research.py",
+    "oanda_all68_ruleset_backtest.py"
+  ],
+  "historical_news_attribution": {
+    "bundle_name": "FOREX_NEWS_BLURB_RESEARCH_RECOVERED.zip",
+    "bundle_sha256": "f0b79f7f1f58084573541c428d68b929041d890b7e7f6bdf4db4527b64210903",
+    "vault_path": "C:/Users/zmoor/OneDrive/thevault/PROJECT_COMMONS/artifacts/FOREX_NEWS_BLURB_RESEARCH_RECOVERED.zip",
+    "canonical_schema": "config/news_blurb_episode_schema_v1.json",
+    "audit": "data/oanda_training_manager/reports/news_blurb_recovery_20260809/NEWS_BLURB_RECOVERY_AUDIT_20260809.md",
+    "mode": "historical_ex_post_attribution_and_hypothesis_generation_only",
+    "decision_time_view": "must exclude post-entry, post-exit, late-arriving, and revised evidence",
+    "execution_eligible": false
+  },
+  "source_purity_ladder": [
+    {
+      "priority": 1,
+      "family": "relative_policy_rate_repricing",
+      "required": ["matched base and quote policy paths", "OIS or policy futures", "2y and real-yield changes", "event-time repricing"],
+      "current_state": "partial_us_treasury_daily_only"
+    },
+    {
+      "priority": 2,
+      "family": "causal_macro_surprise",
+      "required": ["pre-release consensus", "dispersion", "initial actual", "prior known at release", "revision", "release timestamp"],
+      "current_state": "contract_active_consensus_missing"
+    },
+    {
+      "priority": 3,
+      "family": "official_policy_change_and_conflict",
+      "required": ["current versus previous statement delta", "vote and dissent", "forecast-path change", "speech novelty", "policy conflict"],
+      "current_state": "official headlines_and_blurbs_present_structured_delta_incomplete"
+    },
+    {
+      "priority": 4,
+      "family": "fx_options_state",
+      "required": ["ATM IV", "term structure", "10d and 25d risk reversals", "butterfly", "event-implied move", "expiry concentration"],
+      "current_state": "disabled_pending_licensed_source"
+    },
+    {
+      "priority": 5,
+      "family": "carry_forwards_and_funding",
+      "required": ["forward points", "tom-next", "implied carry", "cross-currency basis", "funding pressure"],
+      "current_state": "not_connected"
+    },
+    {
+      "priority": 6,
+      "family": "positioning_and_futures_state",
+      "required": ["CFTC categories", "futures volume", "open interest", "basis", "crowding change"],
+      "current_state": "cftc_active_other_fields_missing"
+    },
+    {
+      "priority": 7,
+      "family": "media_attention_and_blurbs",
+      "required": ["first-seen headline", "summary or legally retained blurb", "story lineage", "novelty", "source disagreement"],
+      "current_state": "active_but_sparse_official_blurbs"
+    }
+  ],
+  "governance": {
+    "discovery_control": "hierarchical FDR plus negative and permuted controls",
+    "selection_control": "sample strongest unique rules from development and validation only",
+    "confirmation": "new frozen cohort on untouched later data",
+    "costs": "recorded bid/ask where available plus slippage and delayed-entry stresses",
+    "portfolio_unit": "one signed-currency factor per episode unless currency-disjoint",
+    "prohibited": ["holdout selection", "automatic promotion", "practice execution", "live routing", "retuning a collecting cohort"]
+  }
+}

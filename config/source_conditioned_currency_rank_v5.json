@@ -1,0 +1,63 @@
+{
+  "schema_version": 5,
+  "contract_id": "source_conditioned_currency_rank_v5_v6_input_20260828",
+  "base_cohort_id": "source_conditioned_currency_rank_v5_prospective_20260828T173000Z",
+  "parent_adapter_contract_id": "source_conditioned_currency_rank_v4_v5_input_20260828",
+  "research_only": true,
+  "execution_eligible": false,
+  "can_place_orders": false,
+  "can_authorize": false,
+  "can_promote": false,
+  "supported_execution_decision": "no_trade",
+  "source": {
+    "input_mode": "required_v6_default_no_v1_v2_v3_v4_v5_fallback",
+    "required_default_database": "causal_source_factor_response_map_v6.sqlite",
+    "required_contract_id": "causal_source_factor_response_map_v6_v151_pair_breakout_recap_20260828",
+    "sealed_v1_v2_v3_v4_v5_fallback_allowed": false,
+    "historical_rows_imported": false,
+    "explicit_path_override_scope": "isolated_test_or_point_in_time_replay_only",
+    "required_forecast_state": "forecast",
+    "required_prospective_proof_eligible": true,
+    "deduplication_unit": "market_episode_x_currency_x_horizon",
+    "missing_state": "unavailable_not_zero",
+    "maximum_capture_lag_sec": 120.0,
+    "entry_quote_clock": "at_or_after_latest_trigger_issued_or_training_cutoff",
+    "minimum_direction_probability": 0.55
+  },
+  "market": {
+    "expected_currency_count": 21,
+    "expected_instrument_count": 68,
+    "maximum_quote_age_sec": 90.0,
+    "spread_stress_multiple": 1.2,
+    "minimum_price_confirmation_bps": 0.1,
+    "maximum_outcome_alignment_sec": 90.0
+  },
+  "comparison_arms": [
+    "price_only",
+    "source_only",
+    "source_price_timing"
+  ],
+  "outcome": {
+    "entry": "frozen_live_executable_bid_ask",
+    "exit": "first_completed_bid_ask_quote_bar_at_or_after_declared_horizon",
+    "primary_metric": "executable_after_cost_pips"
+  },
+  "explicit_non_dependencies": [
+    "v1_adapter_ledger",
+    "v2_adapter_ledger",
+    "v3_adapter_ledger",
+    "v4_adapter_ledger",
+    "v1_source_database",
+    "v2_source_database",
+    "v3_source_database",
+    "v4_source_database",
+    "v5_source_database",
+    "article_database",
+    "news_technical_watchlist",
+    "signal_feed",
+    "broker",
+    "lifecycle",
+    "authorization",
+    "execution"
+  ]
+}

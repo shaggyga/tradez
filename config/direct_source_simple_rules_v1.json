@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "rule_contract_id": "direct_source_simple_rules_v3_20260814",
+  "research_only": true,
+  "execution_eligible": false,
+  "preferred_horizons_sec": [300, 900],
+  "maximum_entry_spread_pips": 3.0,
+  "pair_selection": "single lowest entry spread per currency release episode",
+  "direction_priority": ["causal_consensus_surprise", "allowlisted_change_from_previous"],
+  "series": {
+    "bfs": {"polarity": 1, "meaning": "higher business formations supports currency"},
+    "durable_goods": {"polarity": 1, "meaning": "higher durable-goods change supports currency"},
+    "wholesale": {"polarity": 1, "meaning": "higher wholesale sales change supports currency"},
+    "mfg_orders": {"polarity": 1, "meaning": "higher manufacturing orders change supports currency"},
+    "business_sales": {"polarity": 1, "meaning": "higher business sales change supports currency"},
+    "retail_sales": {"polarity": 1, "meaning": "higher retail-sales change supports currency"},
+    "home_sales": {"polarity": 1, "meaning": "higher home-sales change supports currency"},
+    "housing_starts": {"polarity": 1, "meaning": "higher housing-starts change supports currency"},
+    "JTS000000000000000JOL": {"polarity": 1, "meaning": "higher job openings supports currency"},
+    "statcan_manufacturing_sales_mom": {"polarity": 1, "actual_is_period_change": true, "meaning": "positive manufacturing-sales monthly change supports CAD"},
+    "statcan_wholesale_sales_mom": {"polarity": 1, "actual_is_period_change": true, "meaning": "positive wholesale-sales monthly change supports CAD"},
+    "statcan_retail_sales_mom": {"polarity": 1, "actual_is_period_change": true, "meaning": "positive retail-sales monthly change supports CAD"},
+    "statcan_real_gdp_industry_mom": {"polarity": 1, "actual_is_period_change": true, "meaning": "positive real-GDP monthly change supports CAD"}
+  },
+  "excluded_series": {
+    "construction_value": "previous value unavailable in current archive",
+    "adv_mwts": "inventory direction is economically ambiguous",
+    "intl_trade": "current actual and previous fields are not comparable",
+    "adv_intl_trade": "current actual and previous fields are not comparable",
+    "umich_consumer_sentiment_preliminary": "sentiment and inflation-expectation components can imply opposing USD/rates channels; learn response before assigning direction",
+    "umich_consumer_sentiment_final": "sentiment and inflation-expectation components can imply opposing USD/rates channels; learn response before assigning direction"
+  },
+  "promotion_policy": "discovery only; freeze any candidate and require later prospective confirmation"
+}

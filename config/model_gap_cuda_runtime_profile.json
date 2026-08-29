@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "policy": "isolated CUDA research runtime; shadow validation only",
+  "cuda_wheel_index": "https://download.pytorch.org/whl/cu130",
+  "profiles": {
+    "core_timeseries": {
+      "python": "%FOREX_CUDA_RUNTIME_ROOT%\\Scripts\\python.exe",
+      "bootstrap_requirements": [
+        "torch==2.13.0+cu130",
+        "neuralforecast==3.2.0",
+        "pytorch-forecasting==1.8.0",
+        "catboost==1.2.10",
+        "ngboost==0.5.11",
+        "chronos-forecasting==2.3.1",
+        "timesfm==2.0.2",
+        "stable-baselines3==2.9.0",
+        "vowpalwabbit==9.11.2",
+        "pytest==9.1.1"
+      ],
+      "models": [
+        "catboost",
+        "ngboost",
+        "tft",
+        "deepar",
+        "patchtst",
+        "nbeats",
+        "nhits",
+        "lstm",
+        "gru",
+        "tcn",
+        "temporal_cross_pair_gnn",
+        "chronos_2",
+        "timesfm_2_5",
+        "contextual_bandit",
+        "ppo",
+        "sac",
+        "dqn",
+        "self_supervised_pretraining",
+        "contrastive_learning",
+        "multi_task_learning",
+        "transfer_learning",
+        "knowledge_distillation"
+      ]
+    }
+  },
+  "official_source_pins": {},
+  "explicit_blockers": {}
+}

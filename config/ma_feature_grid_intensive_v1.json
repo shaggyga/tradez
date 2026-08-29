@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "experiment": "strict_ma_feature_grid_intensive_v1",
+  "execution_policy": "shadow_only",
+  "source_contract": {
+    "m1": "data/oanda_training_manager/candles_m1_parquet_recovered_20260719",
+    "s5": "data/oanda_training_manager/candles_s5_bam",
+    "sampling": "uniform_over_each_pair_full_available_history",
+    "outcome_cost": "recorded_bid_ask_else_pair_median_spread",
+    "entry_gate_cost": "decision_time_spread_only",
+    "split_policy": "global_time_purged",
+    "purge": "maximum_requested_horizon"
+  },
+  "surface": {
+    "timeframes": [
+      "M1",
+      "M5",
+      "M15",
+      "H1"
+    ],
+    "horizons_sec": [
+      60,
+      300,
+      900,
+      3600,
+      14400,
+      86400
+    ],
+    "all_pair_count": 68,
+    "liquid_pairs": [
+      "AUD_CAD",
+      "AUD_JPY",
+      "AUD_NZD",
+      "AUD_USD",
+      "EUR_CHF",
+      "EUR_GBP",
+      "EUR_JPY",
+      "EUR_USD",
+      "GBP_CHF",
+      "GBP_JPY",
+      "GBP_USD",
+      "NZD_JPY",
+      "NZD_USD",
+      "USD_CAD",
+      "USD_CHF",
+      "USD_JPY"
+    ]
+  },
+  "challengers": [
+    {
+      "name": "ridge_all_pairs",
+      "estimator": "ridge",
+      "samples_per_pair_timeframe": 1500,
+      "dataset_cache": "data/oanda_training_manager/cache/ma_feature_grid_intensive_all_pairs_1500.joblib",
+      "pair_context": "pair_and_currencies",
+      "target_space": "local_scale",
+      "executable_edge_head": true,
+      "model_dir": "data/oanda_training_manager/models/ma_feature_grid_intensive_ridge",
+      "report_dir": "data/oanda_training_manager/reports/ma_feature_grid_intensive_ridge"
+    },
+    {
+      "name": "ridge_all_pairs_no_context",
+      "estimator": "ridge",
+      "samples_per_pair_timeframe": 1500,
+      "dataset_cache": "data/oanda_training_manager/cache/ma_feature_grid_intensive_all_pairs_1500.joblib",
+      "pair_context": "none",
+      "target_space": "local_scale",
+      "executable_edge_head": true,
+      "model_dir": "data/oanda_training_manager/models/ma_feature_grid_intensive_ridge_no_context",
+      "report_dir": "data/oanda_training_manager/reports/ma_feature_grid_intensive_ridge_no_context"
+    },
+    {
+      "name": "xgboost_all_pairs",
+      "estimator": "xgboost",
+      "samples_per_pair_timeframe": 1500,
+      "dataset_cache": "data/oanda_training_manager/cache/ma_feature_grid_intensive_all_pairs_1500.joblib",
+      "pair_context": "pair_and_currencies",
+      "target_space": "local_scale",
+      "executable_edge_head": false,
+      "xgb_device": "cuda",
+      "xgb_estimators": 240,
+      "xgb_max_depth": 4,
+      "xgb_learning_rate": 0.035,
+      "model_dir": "data/oanda_training_manager/models/ma_feature_grid_intensive_xgb",
+      "report_dir": "data/oanda_training_manager/reports/ma_feature_grid_intensive_xgb"
+    },
+    {
+      "name": "xgboost_all_pairs_no_context",
+      "estimator": "xgboost",
+      "samples_per_pair_timeframe": 1500,
+      "dataset_cache": "data/oanda_training_manager/cache/ma_feature_grid_intensive_all_pairs_1500.joblib",
+      "pair_context": "none",
+      "target_space": "local_scale",
+      "executable_edge_head": false,
+      "xgb_device": "cuda",
+      "xgb_estimators": 240,
+      "xgb_max_depth": 4,
+      "xgb_learning_rate": 0.035,
+      "model_dir": "data/oanda_training_manager/models/ma_feature_grid_intensive_xgb_no_context",
+      "report_dir": "data/oanda_training_manager/reports/ma_feature_grid_intensive_xgb_no_context"
+    },
+    {
+      "name": "ridge_liquid_pairs",
+      "estimator": "ridge",
+      "samples_per_pair_timeframe": 2500,
+      "dataset_cache": "data/oanda_training_manager/cache/ma_feature_grid_intensive_liquid_pairs_2500.joblib",
+      "pair_context": "pair_and_currencies",
+      "target_space": "local_scale",
+      "executable_edge_head": true,
+      "model_dir": "data/oanda_training_manager/models/ma_feature_grid_intensive_ridge_liquid",
+      "report_dir": "data/oanda_training_manager/reports/ma_feature_grid_intensive_ridge_liquid"
+    },
+    {
+      "name": "xgboost_liquid_pairs",
+      "estimator": "xgboost",
+      "samples_per_pair_timeframe": 2500,
+      "dataset_cache": "data/oanda_training_manager/cache/ma_feature_grid_intensive_liquid_pairs_2500.joblib",
+      "pair_context": "pair_and_currencies",
+      "target_space": "local_scale",
+      "executable_edge_head": false,
+      "xgb_device": "cuda",
+      "xgb_estimators": 320,
+      "xgb_max_depth": 4,
+      "xgb_learning_rate": 0.025,
+      "model_dir": "data/oanda_training_manager/models/ma_feature_grid_intensive_xgb_liquid",
+      "report_dir": "data/oanda_training_manager/reports/ma_feature_grid_intensive_xgb_liquid"
+    }
+  ],
+  "promotion_contract": {
+    "automatic_account_promotion": false,
+    "minimum_validation_and_holdout_entry_rows": 50,
+    "minimum_validation_and_holdout_pairs": 8,
+    "macro_direction_lower_95_minimum": 0.5,
+    "pair_average_net_pips_lower_95_minimum": 0.0,
+    "pair_average_net_cost_units_lower_95_minimum": 0.0,
+    "positive_pair_fraction_minimum": 0.5,
+    "profit_factor_minimum": 1.0,
+    "prospective_paper_replication_required": true
+  }
+}

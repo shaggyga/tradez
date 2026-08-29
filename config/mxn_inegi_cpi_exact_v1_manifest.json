@@ -1,0 +1,115 @@
+{
+  "manifest_id": "mxn_inegi_cpi_exact_v1_manifest_20260817",
+  "source_contract_id": "mxn_inegi_cpi_exact_v1_20260817",
+  "source_country": "Mexico",
+  "source_currency": "MXN",
+  "source_provider": "INEGI",
+  "state": {
+    "enabled": false,
+    "registered": false,
+    "runtime_supported": false,
+    "independent_review_state": "pending"
+  },
+  "artifacts": {
+    "source_module": {
+      "relative_path": "src/forex_system/ingestion/mxn_inegi_cpi_exact_v1.py",
+      "sha256": "13a57a8369e3b8fb9b496a61eb8637dd8c3d47457b40c780393e0c5142f1bac9",
+      "byte_length": 43948
+    },
+    "source_contract": {
+      "relative_path": "config/mxn_inegi_cpi_exact_v1.json",
+      "sha256": "9b07552e31a6794c3db6f26f9bc0f34cc25faf76d3095212d4fb1edb09fabd6b",
+      "byte_length": 6081
+    },
+    "adversarial_tests": {
+      "relative_path": "test_mxn_inegi_cpi_exact_v1.py",
+      "sha256": "9a59e88e9ec5376b956d72b225f53d6bc9063992f59344c34f3419863140aa58",
+      "byte_length": 21308
+    },
+    "one_time_capture_utility": {
+      "relative_path": "tools/capture_mxn_inegi_cpi_exact_v1.py",
+      "sha256": "004ddef24c68c19e5b4b86677b8bf4388a99ff31aa786e7a6a94b874f682b6dd",
+      "byte_length": 13027
+    },
+    "observation_manifest": {
+      "relative_path": "data/oanda_training_manager/source_archives/mxn_inegi_cpi_exact_v1/source_observation_manifest_v1.json",
+      "sha256": "43a30c8bc2daa3a7573062daaf2556f2e3a0bbfdf3a1a0adecc93f2b5a653921",
+      "byte_length": 9761
+    },
+    "official_2026_calendar_pdf": {
+      "relative_path": "data/oanda_training_manager/source_archives/mxn_inegi_cpi_exact_v1/calendar_2026_eaa5c61f.pdf",
+      "sha256": "eaa5c61fe101b80119ab1fadad28d37e8b702fcd586e2b5e311d5da3b91de970",
+      "byte_length": 286364
+    },
+    "official_2026_calendar_extraction": {
+      "relative_path": "data/oanda_training_manager/source_archives/mxn_inegi_cpi_exact_v1/calendar_2026_eaa5c61f.pypdf_6_15_0_layout_nfc_lf_rstrip_formfeed_v1.txt",
+      "sha256": "6332e6f8ebe0735ae3fc089b1e4c06c23089a1a93dc88b517485565281ee657d",
+      "byte_length": 173182
+    },
+    "official_july_release_pdf": {
+      "relative_path": "data/oanda_training_manager/source_archives/mxn_inegi_cpi_exact_v1/july_2026_cpi_release_504f8c9f.pdf",
+      "sha256": "504f8c9ff32fc428ba2d39d6ce06dec43343873d8dcab4ec9ba808438d75138a",
+      "byte_length": 290302
+    },
+    "official_july_release_extraction": {
+      "relative_path": "data/oanda_training_manager/source_archives/mxn_inegi_cpi_exact_v1/july_2026_cpi_release_504f8c9f.pypdf_6_15_0_layout_nfc_lf_rstrip_formfeed_v1.txt",
+      "sha256": "b2161f0e03c379ba9708fb81afedefdfbe15d36ad1e504113ea1fb8d4ef27967",
+      "byte_length": 28951
+    },
+    "headline_yoy_xml": {
+      "relative_path": "data/oanda_training_manager/source_archives/mxn_inegi_cpi_exact_v1/INPCA_M_O_e8c36462.xml",
+      "sha256": "e8c36462209e65a08c6d8c8afe79bcc6eb01b96681a5f27b696dcf38955a7b56",
+      "byte_length": 679
+    },
+    "headline_mom_xml": {
+      "relative_path": "data/oanda_training_manager/source_archives/mxn_inegi_cpi_exact_v1/INPCM_M_O_a262c359.xml",
+      "sha256": "a262c35928f3d034b209b1f521c112fc9419a0d1ded1b3c6d5bb385ee3e8b4e0",
+      "byte_length": 681
+    },
+    "core_yoy_xml": {
+      "relative_path": "data/oanda_training_manager/source_archives/mxn_inegi_cpi_exact_v1/INPCAS_M_O_bc61647d.xml",
+      "sha256": "bc61647d7ae366f9c2ba18d7dbc754205fb60899e455bd23ac1876f773471952",
+      "byte_length": 703
+    },
+    "core_mom_xml": {
+      "relative_path": "data/oanda_training_manager/source_archives/mxn_inegi_cpi_exact_v1/INPCMS_M_O_d5c33c4e.xml",
+      "sha256": "d5c33c4ea9917cec34fc49697f6d1c275fecc2338ca6f1c17f5a98f5b47af5e0",
+      "byte_length": 705
+    },
+    "quarantined_later_calendar_xml_revision": {
+      "relative_path": "data/oanda_training_manager/source_archives/mxn_inegi_cpi_exact_v1/calendar_xml_later_revision_4af72939.xml",
+      "sha256": "4af72939ac4754fa4016f0321f70562df5fcc4440cb3c70c6908fd524a017629",
+      "byte_length": 13370
+    }
+  },
+  "extraction_contract": {
+    "python_version": "3.13.14",
+    "pypdf_version": "6.15.0",
+    "transformation": "layout_nfc_lf_rstrip_formfeed_v1",
+    "retained_extractions_are_recomputed_and_byte_compared": true
+  },
+  "causal_scope": {
+    "historical_release_clock_utc": "2026-08-07T12:00:00Z",
+    "historical_release_use": "availability_counterfactual_archive_only",
+    "future_release_clock_utc": "2026-09-09T12:00:00Z",
+    "future_release_use": "prospective_schedule_collection_only",
+    "prior_calendar_xml_available": false,
+    "later_calendar_xml_is_semantically_valid": false,
+    "later_calendar_xml_is_causal_proof": false,
+    "historical_consensus_available": false,
+    "historical_surprise_available": false
+  },
+  "policy": {
+    "all_repo_code_and_retained_source_artifacts_are_pinned": true,
+    "all_retained_source_artifacts_are_read_only": true,
+    "later_invalid_revision_is_quarantined": true,
+    "missing_prior_calendar_xml_is_not_backfilled_or_relabelled": true,
+    "one_mxn_factor_only": true,
+    "research_only": true,
+    "execution_eligible": false,
+    "can_place_orders": false,
+    "can_promote": false,
+    "can_authorize": false,
+    "supported_execution_decision": "no_trade"
+  }
+}

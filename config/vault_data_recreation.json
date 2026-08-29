@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "updated_utc": "2026-07-22T09:00:00Z",
+  "purpose": "Define what the portable Forex checkpoint preserves and how excluded data is recreated.",
+  "execution_policy": "offline_by_default_no_account_or_network_activity_without_explicit_operator_action",
+  "portable_checkpoint": {
+    "included": [
+      "runtime source, tests, scripts, configuration, and documentation",
+      "model registry, lifecycle metadata, promotion metadata, and selected compact fitted artifacts",
+      "current compact account and signal state without credentials",
+      "model-gap qualification, runtime, benchmark, and canary results",
+      "canonical matrix manifests, coverage table, and coverage-repair audit",
+      "compact M1 validation fixture and fixture manifest",
+      "exact package inventory, bootstrap requirements, and pinned source commits",
+      "safe importer, bootstrap wrapper, validation profiles, and expected assertions"
+    ],
+    "excluded": [
+      "credentials, tokens, private keys, and environment files",
+      "raw S1 quote streams, order-book/depth feeds, candles, and bulk feature panels",
+      "active SQLite databases and WAL/SHM files",
+      "virtual environments and package caches",
+      "downloaded foundation-model weights and external repository working trees",
+      "paper or live account process state"
+    ],
+    "raw_market_data_included": false,
+    "credentials_included": false,
+    "foundation_model_weights_included": false,
+    "account_processes_started_by_import": false
+  },
+  "canonical_prediction_space": {
+    "pairs": 68,
+    "input_timeframes": [
+      "S5",
+      "S10",
+      "S15",
+      "S30",
+      "M1",
+      "M5",
+      "M10",
+      "M15",
+      "M30",
+      "H1",
+      "H2",
+      "H3",
+      "H4"
+    ],
+    "outcome_horizons_sec": [
+      30,
+      60,
+      120,
+      180,
+      300,
+      600,
+      900,
+      1800,
+      3600,
+      7200,
+      10800,
+      14400,
+      21600,
+      28800,
+      43200,
+      86400
+    ],
+    "physical_input_horizon_cells_before_pair_expansion": 208,
+    "expected_pair_expanded_cells": 14144,
+    "observed_pair_expanded_cells": 14102,
+    "documented_unavailable_pair_cells": 42,
+    "observed_or_documented_pair_cells": 14144,
+    "unaccounted_pair_cells": 0,
+    "contract": "Every eligible model signal contributes to the consolidated signal matrix with model, pair, input timeframe, exact outcome horizon, costs, eligibility, and maturity retained as separate dimensions."
+  },
+  "recreation_stages": [
+    {
+      "stage": "import_and_integrity",
+      "requires_network": false,
+      "requires_credentials": false,
+      "command": "python forex_vault_import.py --base <checkpoint.zip> --destination <empty-root> --expected-sha256 <sha256>"
+    },
+    {
+      "stage": "evidence_validation",
+      "requires_network": false,
+      "requires_credentials": false,
+      "command": "python trad/forex_validation_recreation.py --root <import-root> --mode evidence"
+    },
+    {
+      "stage": "runtime_recreation",
+      "requires_network": true,
+      "requires_credentials": false,
+      "command": "Create four isolated Python 3.12 environments from trad/config/runtime_requirements/requirements-*-bootstrap.txt, then compare against trad/config/vault_runtime_lock.json."
+    },
+    {
+      "stage": "clean_room_smoke_and_canary",
+      "requires_network": false,
+      "requires_credentials": false,
+      "command": "python trad/forex_validation_recreation.py --root <import-root> --mode full"
+    },
+    {
+      "stage": "historical_data_backfill",
+      "requires_network": true,
+      "requires_credentials": true,
+      "command": "python trad/oanda_s5_backfill_only.py",
+      "notes": "OANDA can backfill S5 candles. True historical S1 quote/depth data cannot be reconstructed and must accumulate prospectively."
+    },
+    {
+      "stage": "full_shared_panel",
+      "requires_network": false,
+      "requires_credentials": false,
+      "command": "python trad/oanda_model_gap_full_matrix.py --output-dir <matrix-output> --cycles 1000 --supplement-cycles 1000 --stop-on-error",
+      "notes": "Builds the 68-pair, 13-input-timeframe, 16-outcome-horizon contract where executable observations exist. Deep M1 features provide the full-span M1-and-slower panels; observed S5 execution provides 30-second supplements. Run oanda_model_gap_coverage_repair.py for sparse cells. The state and repair reports must record quote-unavailable pair-cells explicitly and must never manufacture outcomes."
+    },
+    {
+      "stage": "historical_model_benchmarks",
+      "requires_network": false,
+      "requires_credentials": false,
+      "command": "Run the shared panel tabular/neural benchmark scripts against the recreated panel and preserve split, pair, timeframe, horizon, units, and costs in every result."
+    }
+  ],
+  "non_recreatable_data": [
+    {
+      "data": "historical S1 quote and intrasecond sequence",
+      "replacement": "resume prospective collection after storage is reliable"
+    },
+    {
+      "data": "historical OANDA order-book/depth snapshots",
+      "replacement": "resume prospective depth collection; do not infer it from candles"
+    }
+  ],
+  "safety": {
+    "account_wiring_restored": false,
+    "account_workers_started": false,
+    "production_eligible_models_asserted": 0,
+    "practice_execution_requires_separate_operator_audit": true
+  }
+}

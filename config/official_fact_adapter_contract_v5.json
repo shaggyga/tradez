@@ -1,0 +1,83 @@
+{
+  "schema_version": 5,
+  "adapter_contract_id": "official_fact_adapter_v5_20260817_r3",
+  "parent_adapter_contract_id": "official_fact_adapter_v2_20260817",
+  "fact_basis_eligibility_contract_id": "official_fact_basis_eligibility_v5_20260817_r3",
+  "immutable_event_clock_schema_version": "immutable_event_clock_ledger_v2",
+  "immutable_event_clock_contract_id": "immutable_point_in_time_event_clock_v2_20260817",
+  "clock_dependency_policy": "strict_clock_v2_content_addressed_archive_six_mutable_v2_inputs_and_event_preflight_path_eliminated",
+  "runtime_lineage_policy": {
+    "v3_runtime_imports": false,
+    "v4_runtime_imports": false,
+    "accepted_normalization_parent": "official_fact_adapter_v2_20260817",
+    "rejected_predecessor_bytes_are_unchanged": true
+  },
+  "fixed_input_policy": {
+    "canonical_mutable_files_are_never_runtime_inputs": true,
+    "eliminated_path_fields_are_explicitly_null": true,
+    "inherited_sqlite_connect_is_forbidden": true,
+    "clock_archive_path_bytes_sha256_read_only_link_count_and_identity_are_verified": true,
+    "clock_archive_sqlite_quick_check_and_exact_row_counts_are_required": true,
+    "fixed_json_paths_bytes_sha256_and_strict_json_are_verified": true,
+    "symlink_reparse_and_hardlink_clock_inputs_are_forbidden": true,
+    "content_identity_is_stable_across_each_read": true,
+    "eliminated_mutable_inputs": [
+      "source_governance_v1.sqlite",
+      "macro_surprise_v1.sqlite",
+      "official_daily_rate_context_v1.sqlite",
+      "internal_macro_expectation_v1.sqlite",
+      "source_coverage_latest.json",
+      "clock_integrity_v1.json",
+      "event_technical_preflight_v1.json"
+    ]
+  },
+  "accepted_information_scope": {
+    "fact_types": ["official_policy_document_context"],
+    "scheduled_event_clock": true,
+    "macro_actuals": false,
+    "daily_rates": false,
+    "internal_expectations": false,
+    "causal_consensus": false,
+    "current_source_health": false,
+    "current_host_clock_diagnostic": false,
+    "direction_policy": "abstain"
+  },
+  "causal_policy": {
+    "published_first_seen_retrieved_effective_and_ledger_times_must_not_exceed_cutoff": true,
+    "first_seen_must_not_precede_publication": true,
+    "retrieved_must_not_precede_first_seen": true,
+    "event_ledger_time_must_not_exceed_snapshot_known_time": true,
+    "schedule_window_end_must_not_precede_scheduled_time": true,
+    "clock_and_attestation_ages_are_recomputed_from_timestamps": true,
+    "causal_consensus_requires_a_future_separate_pre_release_capture_contract": true
+  },
+  "validation": {
+    "complete_closed_recursive_schema": true,
+    "bool_is_type_bool_only": true,
+    "integer_rejects_bool": true,
+    "numeric_rejects_bool_nan_and_infinity": true,
+    "facts_events_ids_counts_currency_order_gaps_sources_and_clock_are_reconstructed": true,
+    "accepted_snapshot_is_compared_to_a_fresh_fixed_input_reconstruction": true,
+    "snapshot_id_covers_every_field_except_snapshot_id": true
+  },
+  "state": {
+    "enabled": false,
+    "registered": false,
+    "research_worker_enabled": false,
+    "collector_enabled": false,
+    "independent_review_state": "pending",
+    "candidate_frozen_utc": null,
+    "independent_review_started_utc": null,
+    "independent_review_completed_utc": null,
+    "runtime_started_utc": null,
+    "canonical_output_initialized": false
+  },
+  "material_change_requires_new_contract_id": true,
+  "research_only": true,
+  "execution_eligible": false,
+  "can_place_orders": false,
+  "can_promote": false,
+  "can_authorize": false,
+  "supported_execution_decision": "no_trade",
+  "dependency_manifest": "config/official_fact_adapter_v5_manifest.json"
+}

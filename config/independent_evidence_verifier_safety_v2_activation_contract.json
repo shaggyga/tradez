@@ -1,0 +1,65 @@
+{
+  "account_scope": {
+    "account_suffix": "-007",
+    "environment": "practice",
+    "real_money_routing_allowed": false
+  },
+  "activation_authorized": false,
+  "activation_mode": "explicit_operator_maintenance_window_only",
+  "contract_id": "independent_evidence_verifier_safety_v2_activation_20260817",
+  "entrypoint_hazard": {
+    "description": "Running Python processes retain the pre-successor producer or consumer code. A legacy verifier can continue replacing the shared JSON without the V2 guard, and a legacy executor does not require the V2 guard.",
+    "fail_closed_sequence_required": true,
+    "supervisor_restart_during_migration_allowed": false
+  },
+  "forbidden_actions": [
+    "do not mutate currency_state_after_cost_counterfactual_v6_manifest.json",
+    "do not restart only one of multiple legacy verifier instances and assume the other reloaded",
+    "do not start the successor executor while any legacy verifier can still publish",
+    "do not reactivate a legacy executor as rollback",
+    "do not issue a canary authorization during migration",
+    "do not place a routeability or discretionary test order"
+  ],
+  "guard_contract": {
+    "derived_path": "data/oanda_training_manager/state/independent_evidence_verifier_v1_guard_v2.sqlite",
+    "required_phase": "completed",
+    "required_status": "match",
+    "required_state_binding": [
+      "publication_generation",
+      "verification_pass_id",
+      "verification_owner_id",
+      "completed_verification_utc",
+      "sha256_of_exact_persisted_state_bytes"
+    ]
+  },
+  "ordered_activation_steps": [
+    "open a maintenance window that prevents automatic restart of the verifier and Practice-007 executor",
+    "verify the practice account is flat with no pending orders and canary entry_authorized is false with zero authorized entries",
+    "stop every legacy Practice-007 executor entrypoint before changing verifier ownership",
+    "stop every legacy independent-evidence-verifier entrypoint and verify the process inventory contains zero remaining instances",
+    "verify all successor artifact hashes against independent_evidence_verifier_safety_v2_candidate_manifest.json",
+    "start exactly one successor verifier and no executor",
+    "wait for one V2 guard row whose phase is completed and whose exact pass, owner, generation, timestamp, status, authorization flag, and persisted-byte SHA agree with the JSON",
+    "if the completed status is mismatch, leave execution stopped and investigate; never bypass the guard",
+    "start exactly one successor Practice-007 executor only after a coherent completed match exists",
+    "verify read-only that missing, in-progress, failed, stale, and hash-mismatched guard fixtures are denied without submitting an order",
+    "restore supervision only after process inventory confirms one successor verifier and one successor executor"
+  ],
+  "preconditions": [
+    "independent successor review is approved",
+    "candidate manifest hashes match exact workspace bytes",
+    "practice account is flat and has no pending orders",
+    "canary authorization is disabled and empty",
+    "a supervisor maintenance gate prevents legacy auto-restart",
+    "operator has an explicit rollback window"
+  ],
+  "registration_enabled": false,
+  "rollback": [
+    "stop the successor executor first",
+    "stop the successor verifier",
+    "leave canary authorization disabled and empty",
+    "preserve JSON, guard, report, and logs for incident review",
+    "keep the execution entrypoint stopped until a new reviewed successor is available"
+  ],
+  "schema_version": 1
+}

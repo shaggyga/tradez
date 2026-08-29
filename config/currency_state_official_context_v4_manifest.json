@@ -1,0 +1,47 @@
+{
+  "manifest_id": "currency_state_official_context_v4_manifest_20260817",
+  "context_contract_id": "currency_state_official_context_v4_20260817",
+  "official_fact_adapter_contract_id": "official_fact_adapter_v4_20260817",
+  "immutable_event_clock_contract_id": "immutable_point_in_time_event_clock_v2_20260817",
+  "candidate_frozen_utc": "2026-08-17T10:03:43.2741002Z",
+  "state": {
+    "enabled": false,
+    "registered": false,
+    "independent_review_state": "pending",
+    "independent_review_started_utc": null,
+    "independent_review_completed_utc": null,
+    "canonical_output_initialized": false
+  },
+  "artifacts": {
+    "context_v4_module": {"relative_path": "src/forex_system/features/currency_state_official_context_v4.py", "sha256": "5bd24fdc5776dded82291d10da62de30d0cbf274ca9586b8dff33a8c61cc0daf", "byte_length": 10960},
+    "context_v4_contract": {"relative_path": "config/currency_state_official_context_contract_v4.json", "sha256": "a08a9ff4471757c89a5a7a4bd74f3a50be2d35ef50b29e9b2e81df584f0a9177", "byte_length": 2351},
+    "v4_adversarial_tests": {"relative_path": "test_official_fact_adapter_v4.py", "sha256": "52d33e287aa740c56245479741957e7989db5be7f935125de709d996d6d97ce1", "byte_length": 20421},
+    "official_fact_v4_module": {"relative_path": "src/forex_system/ingestion/official_fact_adapter_v4.py", "sha256": "5254578ba5d53c14499f91b97f1fa3c370c17b762f3a5aea28df2c1406c0fba3", "byte_length": 33103},
+    "official_fact_v4_contract": {"relative_path": "config/official_fact_adapter_contract_v4.json", "sha256": "3b595856879c8a75ba16fe3378e086801addda478c2b5f28c91583302f8c6439", "byte_length": 2322},
+    "official_fact_v4_manifest": {"relative_path": "config/official_fact_adapter_v4_manifest.json", "sha256": "5bb21bc72c32103786b8c89f7e28dcd421bbd5f5fa1fd15b14ee4c2bf6325951", "byte_length": 4496},
+    "parent_context_v3_module": {"relative_path": "src/forex_system/features/currency_state_official_context_v3.py", "sha256": "1fa9a13a22eadc3aee3d8788099bba47b6af3f44ca29bdbe732af2c82eee4866", "byte_length": 39858},
+    "parent_context_v2_module": {"relative_path": "src/forex_system/features/currency_state_official_context_v2.py", "sha256": "beca8eadc36333b3e0966cddf245fb5b367766ccf3fc3bb99202b754c8ab45df", "byte_length": 22860},
+    "composition_base_v1_module": {"relative_path": "src/forex_system/features/currency_state_official_context.py", "sha256": "beca86b5fec03a4cfe233680fd27560478ec5edaa3f23e2a0cd140fe52869418", "byte_length": 16109},
+    "currency_state_engine_module": {"relative_path": "src/forex_system/features/currency_state_engine.py", "sha256": "af52e1c18d66ff38082e0f383deb9183628b6f06c8fc73c446a49a038fe6e049", "byte_length": 30200},
+    "currency_state_contract_helper": {"relative_path": "src/forex_system/contracts/currency_state.py", "sha256": "6d7c625af12c2af45a45ecd832ad92c600c986f57193278da6a0f83231ea3139", "byte_length": 4073},
+    "fixed_currency_state_contract": {"relative_path": "config/currency_state_engine_v2.json", "sha256": "20138fe4328ee88b47b8edce2b3bd6081191cda35dd4124a9a457ea9b2efa400", "byte_length": 3272},
+    "immutable_clock_v2_module": {"relative_path": "src/forex_system/ingestion/immutable_event_clock.py", "sha256": "c9f82aa767793ab280cd66c05f409cb9e067ca546ee5fb7eaec8cca22dae9e04", "byte_length": 89792},
+    "archived_clock_v1_database": {"relative_path": "data/oanda_training_manager/source_archives/official_fact_adapter_v4/immutable_event_clock_v1_d45a8fd09077cfb1c.sqlite", "sha256": "d45a8fd09077cfb1c733003900d2e6ef6ae7180dffd6e09f66ab4b0412aff874", "byte_length": 1384448},
+    "archived_clock_v2_database": {"relative_path": "data/oanda_training_manager/source_archives/official_fact_adapter_v4/immutable_event_clock_v2_a5276c696eb6ff3.sqlite", "sha256": "a5276c696eb6ff3c46adfcff41201288c2c966a76a52240897f5f0f25d30a740", "byte_length": 909312}
+  },
+  "policy": {
+    "caller_contract_is_forbidden": true,
+    "exact_fixed_contract_bytes_are_reopened": true,
+    "separate_exact_base_and_official_snapshots_are_required": true,
+    "lineage_horizon_and_snapshot_hashes_are_recomputed": true,
+    "basis_and_event_claims_are_deterministically_rebuilt": true,
+    "full_composite_identity_is_exact": true,
+    "official_context_assigns_no_direction_or_expected_value": true,
+    "research_only": true,
+    "execution_eligible": false,
+    "can_place_orders": false,
+    "can_promote": false,
+    "can_authorize": false,
+    "supported_execution_decision": "no_trade"
+  }
+}

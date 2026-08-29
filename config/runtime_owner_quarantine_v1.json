@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "updated_utc": "2026-08-28T01:25:00Z",
+  "canonical_runtime_owner": "oanda_always_on_supervisor.ps1",
+  "policy": {
+    "one_owner_per_live_worker": true,
+    "quarantined_launchers_must_not_be_supervised": true,
+    "manual_order_tools_are_offline_emergency_only": true,
+    "practice_only": true,
+    "real_money_enabled": false
+  },
+  "retired_launch_surfaces": [
+    "oanda_local_news_supervisor.ps1",
+    "launch_oanda_tech_manager_detached.ps1",
+    "gpt_live_10h_watchdog.ps1",
+    "live_account_watchdog_8h.ps1",
+    "live_tech_account_watchdog.ps1",
+    "start_oanda_practice_merged_006.ps1"
+  ],
+  "restricted_manual_mutation_tools": [
+    "gpt_oanda_market_order.ps1",
+    "gpt_oanda_close_trade.ps1",
+    "gpt_oanda_update_trade_stop.ps1",
+    "oanda_flatten_all_accounts.py"
+  ],
+  "disposition": "Files are preserved for lineage or emergency inspection but are not live owners, supervisor children, or normal operating entrypoints."
+}

@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "research_id": "cost_clearance_cross_sectional_research_v1",
+  "research_only": true,
+  "execution_eligible": false,
+  "source_glob": "*_M1.csv",
+  "horizons_min": [5, 10, 15, 60],
+  "modeled_slippage_pips": 0.25,
+  "minimum_pairs_per_timestamp": 50,
+  "aligned_non_overlapping_decisions": true,
+  "train_fraction": 0.5,
+  "calibration_fraction": 0.25,
+  "cost_buckets": [
+    {"id": "liquid_le_2", "minimum_spread_pips": 0.0, "maximum_spread_pips": 2.0},
+    {"id": "normal_2_to_5", "minimum_spread_pips": 2.0, "maximum_spread_pips": 5.0}
+  ],
+  "selection": {
+    "minimum_clear_probability": 0.55,
+    "minimum_direction_confidence": 0.1,
+    "minimum_predicted_magnitude_cost_ratio": 1.5,
+    "minimum_predicted_ev_pips": 0.0
+  },
+  "model": {
+    "learning_rate": 0.05,
+    "max_iter": 100,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 50,
+    "l2_regularization": 1.0,
+    "random_state": 20260809
+  },
+  "evidence_policy": "archive discovery only; chronological train/calibration/holdout; any selected rule requires a new untouched cohort"
+}

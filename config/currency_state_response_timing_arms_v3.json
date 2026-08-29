@@ -1,0 +1,144 @@
+{
+  "schema_version": 3,
+  "contract_id": "currency_state_response_timing_arms_v3_20260817_r1",
+  "snapshot_schema": "currency_state_response_timing_diagnostic_snapshot_v3",
+  "research_generation": "r3_bound_response_timing_v3_r1",
+  "parent_contract_id": "currency_state_response_timing_arms_v2_20260817_r1",
+  "parent_disposition": "independent_no_approve_preserved_exact_bytes_zero_runtime_zero_canonical_evidence",
+  "state": {
+    "enabled": false,
+    "registered": false,
+    "research_worker_enabled": false,
+    "collector_enabled": false,
+    "canonical_output_initialized": false,
+    "independent_review_state": "pending"
+  },
+  "approved_r3_dependency": {
+    "review_certificate_id": "official_fact_currency_state_v5_r3_independent_review_20260817",
+    "review_certificate": {
+      "relative_path": "config/official_fact_currency_state_v5_r3_review_certificate.json",
+      "sha256": "0a61948a9fc2f2a9a06d30557b838d7fb389958c9ef2b1845bc8b06e70c7b299",
+      "byte_length": 6003
+    },
+    "official_fact_adapter_contract_id": "official_fact_adapter_v5_20260817_r3",
+    "official_fact_manifest": {
+      "relative_path": "config/official_fact_adapter_v5_manifest.json",
+      "sha256": "3b4a6589253c8e6a6974840527760eda5b24ec87c109bb0e7c694d266b21b332",
+      "byte_length": 4685
+    },
+    "currency_state_official_context_contract_id": "currency_state_official_context_v5_20260817_r3",
+    "currency_state_manifest": {
+      "relative_path": "config/currency_state_official_context_v5_manifest.json",
+      "sha256": "45f74389add35b2c2435f9f0907819899f81e402ff06a37b91c94171ab632974",
+      "byte_length": 5652
+    },
+    "fact_basis_eligibility_contract_id": "official_fact_basis_eligibility_v5_20260817_r3",
+    "immutable_event_clock_contract_id": "immutable_point_in_time_event_clock_v2_20260817",
+    "transitive_reviewed_artifact_count": 23,
+    "recursive_reviewed_artifact_verification_required": true
+  },
+  "canonical_universe": {
+    "contract_id": "currency_state_engine_v2_20260816",
+    "contract": {
+      "relative_path": "config/currency_state_engine_v2.json",
+      "sha256": "20138fe4328ee88b47b8edce2b3bd6081191cda35dd4124a9a457ea9b2efa400",
+      "byte_length": 3272
+    },
+    "currency_count": 21,
+    "instrument_count": 68,
+    "instrument_universe_sha256": "b6abe559dcaa9faa0a1e48217f97a12dc9043eb9595d2b946bf80f93035be142"
+  },
+  "barred_event_response_predecessor": {
+    "contract_id": "prospective_event_response_capture_v6_20260817_r1",
+    "cohort_id": "prospective_official_event_response_v6_20260817_r1",
+    "contract": {
+      "relative_path": "config/prospective_event_response_v6_contract.json",
+      "sha256": "d5aae12a41bb4fd7638b7b9c40a97bb086f5f98f7916d13368589d164af7527c",
+      "byte_length": 4173
+    },
+    "manifest": {
+      "relative_path": "config/prospective_event_response_v6_manifest.json",
+      "sha256": "0b2a315080520945d410bc8c2c403c75c4ad230c4998c31f8bd6c1f9499b9504",
+      "byte_length": 3417
+    },
+    "disposition": "not_an_approved_timing_dependency_never_registered_zero_canonical_evidence",
+    "may_supply_timing_rows": false,
+    "may_supply_proof_rows": false
+  },
+  "required_event_response_successor": {
+    "minimum_generation": "v6_r2",
+    "required_contract_id": "prospective_event_response_capture_v6_20260817_r2",
+    "required_cohort_id": "prospective_official_event_response_v6_20260817_r2",
+    "contract_artifact": null,
+    "manifest_artifact": null,
+    "independent_review_certificate_artifact": null,
+    "required_review_disposition": "independent_approve_disabled_unregistered_candidate",
+    "required_material_findings": {"p0": 0, "p1": 0, "p2": 0},
+    "approval_state": "unresolved_fail_closed",
+    "resolution_policy": "any_resolution_requires_new_timing_contract_id_and_manifest"
+  },
+  "modes": {
+    "replay_diagnostic_test_fixture": {
+      "partition": "diagnostic_replay",
+      "test_only": true,
+      "canonical_output": false,
+      "proof_eligible": false
+    },
+    "prospective_capture_test_fixture": {
+      "partition": "diagnostic_prospective_capture",
+      "test_only": true,
+      "canonical_output": false,
+      "proof_eligible": false
+    },
+    "prospective_proof": {
+      "partition": "prospective_proof",
+      "enabled": false,
+      "proof_eligible": false,
+      "blocking_reason": "event_response_v6_r2_final_approval_not_bound"
+    }
+  },
+  "response_contract": {
+    "horizons_sec": [60, 300, 900, 1800, 3600],
+    "allowed_partitions": ["diagnostic_replay", "diagnostic_prospective_capture"],
+    "maximum_quote_known_lag_sec": 15,
+    "maximum_start_alignment_sec": 2,
+    "maximum_end_alignment_sec": 45,
+    "maximum_spread_pips": 5000,
+    "require_exact_bid_ask": true,
+    "require_payload_hashes": true,
+    "require_strict_utc_offsets": true,
+    "response_identity_includes_prices_payload_hashes_chronology_and_source_binding": true,
+    "duplicate_natural_cells_and_response_ids_are_rejected": true,
+    "full_snapshot_reconstruction_required": true,
+    "exact_arm_linkage_required": true
+  },
+  "timing_arms": [
+    {"id": "observed_response", "role": "post_outcome_directional_diagnostic"},
+    {"id": "cost_clearance", "role": "post_outcome_executable_cost_diagnostic"},
+    {"id": "response_latency", "role": "quote_alignment_and_knowledge_latency_diagnostic"},
+    {"id": "no_trade", "role": "explicit_control"}
+  ],
+  "output_surface": {
+    "canonical_ledger_path": null,
+    "canonical_state_path": null,
+    "canonical_report_path": null,
+    "worker_entrypoint": null,
+    "collector_entrypoint": null,
+    "test_fixture_builder": "forex_system.research.currency_state_response_timing_arms_v3.build_test_diagnostic_snapshot"
+  },
+  "policy": {
+    "replay_and_prospective_capture_are_separate_partitions": true,
+    "replay_may_not_be_reclassified_as_prospective": true,
+    "diagnostic_capture_may_not_be_reclassified_as_proof": true,
+    "prospective_proof_requires_new_contract_after_final_approved_event_response_dependency": true,
+    "unresolved_dependency_must_produce_zero_rows": true,
+    "observed_response_is_post_outcome_not_a_forecast": true,
+    "material_change_requires_new_contract_id": true,
+    "research_only": true,
+    "execution_eligible": false,
+    "can_place_orders": false,
+    "can_promote": false,
+    "can_authorize": false,
+    "supported_execution_decision": "no_trade"
+  }
+}

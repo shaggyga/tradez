@@ -1,0 +1,46 @@
+{
+  "manifest_id": "official_fact_adapter_v4_manifest_20260817",
+  "adapter_contract_id": "official_fact_adapter_v4_20260817",
+  "parent_adapter_contract_id": "official_fact_adapter_v3_20260817",
+  "immutable_event_clock_contract_id": "immutable_point_in_time_event_clock_v2_20260817",
+  "candidate_frozen_utc": "2026-08-17T10:03:43.2741002Z",
+  "state": {
+    "enabled": false,
+    "registered": false,
+    "independent_review_state": "pending",
+    "independent_review_started_utc": null,
+    "independent_review_completed_utc": null,
+    "canonical_output_initialized": false
+  },
+  "artifacts": {
+    "adapter_v4_module": {"relative_path": "src/forex_system/ingestion/official_fact_adapter_v4.py", "sha256": "5254578ba5d53c14499f91b97f1fa3c370c17b762f3a5aea28df2c1406c0fba3", "byte_length": 33103},
+    "adapter_v4_contract": {"relative_path": "config/official_fact_adapter_contract_v4.json", "sha256": "3b595856879c8a75ba16fe3378e086801addda478c2b5f28c91583302f8c6439", "byte_length": 2322},
+    "v4_adversarial_tests": {"relative_path": "test_official_fact_adapter_v4.py", "sha256": "52d33e287aa740c56245479741957e7989db5be7f935125de709d996d6d97ce1", "byte_length": 20421},
+    "archived_clock_v1_database": {"relative_path": "data/oanda_training_manager/source_archives/official_fact_adapter_v4/immutable_event_clock_v1_d45a8fd09077cfb1c.sqlite", "sha256": "d45a8fd09077cfb1c733003900d2e6ef6ae7180dffd6e09f66ab4b0412aff874", "byte_length": 1384448},
+    "archived_clock_v1_retirement": {"relative_path": "data/oanda_training_manager/source_archives/official_fact_adapter_v4/immutable_event_clock_v1_retirement_4914b5f17accc153.json", "sha256": "4914b5f17accc1532891172254d2f39469eac98307e4d415e0a7e7d77f950c6d", "byte_length": 1617},
+    "archived_clock_v2_database": {"relative_path": "data/oanda_training_manager/source_archives/official_fact_adapter_v4/immutable_event_clock_v2_a5276c696eb6ff3.sqlite", "sha256": "a5276c696eb6ff3c46adfcff41201288c2c966a76a52240897f5f0f25d30a740", "byte_length": 909312},
+    "parent_adapter_v3_module": {"relative_path": "src/forex_system/ingestion/official_fact_adapter_v3.py", "sha256": "3a3e588ed2f71ec9d6f2b83a0ce0103d0b15bc45e4f542a38a09d17974597874", "byte_length": 38357},
+    "parent_adapter_v2_module": {"relative_path": "src/forex_system/ingestion/official_fact_adapter_v2.py", "sha256": "0bc31d08e1c7e5429fc7e3a78a3a6f253cd081614cd7e9845ab212baab825662", "byte_length": 36341},
+    "normalization_base_v1_module": {"relative_path": "src/forex_system/ingestion/official_fact_adapter.py", "sha256": "8b6a1605b95ea21dfdffde42a502eb7fa1b5f592d4c3dbc2af501e9cc1c5a6e4", "byte_length": 49410},
+    "immutable_clock_v2_module": {"relative_path": "src/forex_system/ingestion/immutable_event_clock.py", "sha256": "c9f82aa767793ab280cd66c05f409cb9e067ca546ee5fb7eaec8cca22dae9e04", "byte_length": 89792},
+    "parent_adapter_v3_contract": {"relative_path": "config/official_fact_adapter_contract_v3.json", "sha256": "38939bc1a2e3156a316570eaeb19f32b406086bb8533f57b80fb9b6c8ae58e72", "byte_length": 1889},
+    "parent_adapter_v2_contract": {"relative_path": "config/official_fact_adapter_contract_v2.json", "sha256": "0d04d53fd10ebee9ba5db1098c2751443dc555bf7ea2a0a46c977cd55cdcbc0b", "byte_length": 1705},
+    "normalization_base_v1_contract": {"relative_path": "config/official_fact_adapter_contract_v1.json", "sha256": "c6ab4e326e10dfdb7b150a18f6aea50ebdb06c96d5f999c1962e924b9d867583", "byte_length": 631},
+    "official_policy_baseline_contract": {"relative_path": "config/official_policy_statement_baselines_v2_20260816.json", "sha256": "08bbf63aec7b0655f14140fd5995c26d80ee32595d9c9c7ce2ac9a1688b91dcd", "byte_length": 47794},
+    "intraday_rate_placeholder_contract": {"relative_path": "config/rates_policy_repricing_v1.json", "sha256": "8d5645dbe2fa16fc879810a9a7f4ceada28ff414bea3f50b9ab233df09921c08", "byte_length": 764}
+  },
+  "policy": {
+    "archive_copies_are_distinct_from_canonical_evidence": true,
+    "canonical_clock_files_are_not_runtime_inputs": true,
+    "fixed_archive_paths_bytes_hashes_links_and_read_only_state_are_verified": true,
+    "full_causal_chronology_and_clock_ages_are_recomputed": true,
+    "full_v2_parent_is_independently_regenerated": true,
+    "causal_consensus_is_false_until_pre_release_proof_exists": true,
+    "research_only": true,
+    "execution_eligible": false,
+    "can_place_orders": false,
+    "can_promote": false,
+    "can_authorize": false,
+    "supported_execution_decision": "no_trade"
+  }
+}

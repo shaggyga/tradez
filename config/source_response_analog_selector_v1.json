@@ -1,0 +1,177 @@
+{
+  "schema_version": 1,
+  "selector_contract_id": "source_response_analog_selector_v1_20260817",
+  "purpose": "Deterministic point-in-time historical source-response analog selection for governed shadow research.",
+  "research_only": true,
+  "execution_eligible": false,
+  "can_place_orders": false,
+  "supported_execution_decision": "no_trade",
+  "default_top_k": 12,
+  "maximum_distance": 24.0,
+  "max_normalized_numeric_distance": 5.0,
+  "market_consensus_source_types": [
+    "market_consensus",
+    "licensed_market_consensus",
+    "survey_market_consensus"
+  ],
+  "required_exact_fields": [
+    "currency"
+  ],
+  "categorical_features": [
+    {
+      "field": "event_series_id",
+      "weight": 1.0,
+      "mismatch_penalty": 4.0,
+      "missing_penalty": 2.0
+    },
+    {
+      "field": "event_class",
+      "weight": 1.0,
+      "mismatch_penalty": 2.0,
+      "missing_penalty": 1.0
+    },
+    {
+      "field": "source_family",
+      "weight": 1.0,
+      "mismatch_penalty": 1.0,
+      "missing_penalty": 0.5
+    },
+    {
+      "field": "policy_regime",
+      "weight": 1.0,
+      "mismatch_penalty": 1.5,
+      "missing_penalty": 0.75
+    },
+    {
+      "field": "consensus_state",
+      "weight": 1.0,
+      "mismatch_penalty": 3.0,
+      "missing_penalty": 1.5
+    },
+    {
+      "field": "rates_state",
+      "weight": 1.0,
+      "mismatch_penalty": 2.0,
+      "missing_penalty": 1.0
+    },
+    {
+      "field": "session",
+      "weight": 1.0,
+      "mismatch_penalty": 1.0,
+      "missing_penalty": 0.5
+    },
+    {
+      "field": "liquidity_bucket",
+      "weight": 1.0,
+      "mismatch_penalty": 1.5,
+      "missing_penalty": 0.75
+    }
+  ],
+  "numeric_features": [
+    {
+      "field": "standardized_surprise",
+      "scale": 1.0,
+      "weight": 2.5,
+      "missing_penalty": 2.0,
+      "both_missing_penalty": 0.0
+    },
+    {
+      "field": "internal_expectation_error_standardized",
+      "scale": 1.0,
+      "weight": 1.0,
+      "missing_penalty": 0.75,
+      "both_missing_penalty": 0.0
+    },
+    {
+      "field": "statement_delta_score",
+      "scale": 1.0,
+      "weight": 1.5,
+      "missing_penalty": 1.0,
+      "both_missing_penalty": 0.0
+    },
+    {
+      "field": "rates_repricing_bps",
+      "scale": 5.0,
+      "weight": 2.0,
+      "missing_penalty": 1.5,
+      "both_missing_penalty": 0.0
+    },
+    {
+      "field": "pre_event_currency_return_bps",
+      "scale": 5.0,
+      "weight": 1.0,
+      "missing_penalty": 0.75,
+      "both_missing_penalty": 0.0
+    },
+    {
+      "field": "pre_event_volatility_percentile",
+      "scale": 0.25,
+      "weight": 1.0,
+      "missing_penalty": 0.75,
+      "both_missing_penalty": 0.0
+    },
+    {
+      "field": "spread_percentile",
+      "scale": 0.25,
+      "weight": 1.0,
+      "missing_penalty": 0.75,
+      "both_missing_penalty": 0.0
+    },
+    {
+      "field": "liquidity_percentile",
+      "scale": 0.25,
+      "weight": 1.0,
+      "missing_penalty": 0.75,
+      "both_missing_penalty": 0.0
+    }
+  ],
+  "ranking_field_allowlist": [
+    "currency",
+    "event_series_id",
+    "event_class",
+    "source_family",
+    "policy_regime",
+    "consensus_state",
+    "rates_state",
+    "session",
+    "liquidity_bucket",
+    "standardized_surprise",
+    "internal_expectation_error_standardized",
+    "statement_delta_score",
+    "rates_repricing_bps",
+    "pre_event_currency_return_bps",
+    "pre_event_volatility_percentile",
+    "spread_percentile",
+    "liquidity_percentile"
+  ],
+  "prohibited_ranking_fields": [
+    "direction_correct",
+    "gross_pips",
+    "after_cost_pips",
+    "realized_pnl",
+    "mfe_pips",
+    "mae_pips",
+    "target_before_stop",
+    "outcome",
+    "outcomes",
+    "label",
+    "labels"
+  ],
+  "outcome_time_contract": {
+    "known_timestamp_field": "outcome_known_utc",
+    "matured_timestamp_field": "matured_utc",
+    "effective_timestamp_rule": "max_present_timestamp",
+    "missing_timestamp_action": "withhold",
+    "future_timestamp_action": "withhold"
+  },
+  "selection_contract": {
+    "rank_before_outcome_attachment": true,
+    "freeze_query_feature_hash": true,
+    "freeze_candidate_universe_hash": true,
+    "freeze_selection_hash": true,
+    "deterministic_tie_breaker": "event_id_ascending",
+    "candidate_event_must_precede_query_event": true,
+    "candidate_features_must_be_known_by_decision_cutoff": true,
+    "outcomes_never_affect_rank_or_selection_hash": true
+  }
+}

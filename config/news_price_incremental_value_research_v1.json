@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "research_id": "news_price_incremental_value_research_v1",
+  "research_only": true,
+  "execution_eligible": false,
+  "horizons_min": [15, 60],
+  "maximum_spread_pips": 2.0,
+  "modeled_slippage_pips": 0.25,
+  "minimum_pairs_per_timestamp": 50,
+  "train_fraction": 0.5,
+  "calibration_fraction": 0.25,
+  "model": {
+    "learning_rate": 0.05,
+    "max_iter": 80,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 40,
+    "l2_regularization": 1.0,
+    "random_state": 20260809
+  },
+  "comparison_arms": ["source_only", "price_only", "price_plus_source", "price_plus_permuted_source"],
+  "evidence_policy": "archive incremental-value discovery only; no promotion and no execution"
+}

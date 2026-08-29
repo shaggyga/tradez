@@ -1,0 +1,65 @@
+{
+  "activation_authorized": false,
+  "artifacts": {
+    "activation_contract": {
+      "relative_path": "config/independent_evidence_verifier_safety_v2_activation_contract.json",
+      "sha256": "24599565d9a1088b2c2525d8a9ae4ca8f3ba419eb889216017052846f497448b"
+    },
+    "executor_consumer": {
+      "relative_path": "oanda_practice_top_signal_executor.py",
+      "sha256": "dabe44349ccf5e978eafd13af8540e370964decff98aad0c6f2a26a7359184ba"
+    },
+    "executor_tests": {
+      "relative_path": "test_oanda_practice_top_signal_executor.py",
+      "sha256": "1f6e1e298df3a68e8e24aede43568fec569b1e1885c5351a4a56bd4c8cfc7ce0"
+    },
+    "verifier_producer": {
+      "relative_path": "oanda_independent_evidence_verifier.py",
+      "sha256": "d001814c798d01b3ba306d6dbbbe75dbb1f2a699d3e4330b0d54a768c036f59f"
+    },
+    "verifier_tests": {
+      "relative_path": "test_oanda_independent_evidence_verifier.py",
+      "sha256": "4cbcc5815ff37ebaf9e069a2238761fa71c4803bf2b3a27b82c139fe48606c20"
+    }
+  },
+  "candidate_state": "validated_not_activated",
+  "contract_id": "independent_evidence_verifier_publication_v2",
+  "created_utc": "2026-08-17T10:57:19.3429789Z",
+  "frozen_parent": {
+    "mutation_performed": false,
+    "relative_path": "config/currency_state_after_cost_counterfactual_v6_manifest.json",
+    "sha256": "0ff54ac92e3d9c8fdc504448ea16b51fde271b7326678c7cc62c4bb8f15582c0"
+  },
+  "manifest_id": "independent_evidence_verifier_safety_v2_candidate_20260817b",
+  "registration_enabled": false,
+  "required_activation_steps": [
+    "independent review of this successor candidate and its exact hashes",
+    "execute the ordered fail-closed maintenance sequence in independent_evidence_verifier_safety_v2_activation_contract.json",
+    "coordinated verifier and Practice-007 executor restart by an authorized operator",
+    "successful publication of a fresh generation in the paired SQLite guard",
+    "executor confirmation that JSON bytes, pass UUID, owner UUID, generation, completion timestamp, and guard hash agree"
+  ],
+  "safety_invariants": [
+    "a newly claimed generation is durable and authorization-ineligible before verifier JSON replacement",
+    "only the current pass UUID and owner UUID may heartbeat or complete a generation",
+    "a delayed older pass cannot overwrite a newer mismatch",
+    "a locked JSON or report destination leaves the durable guard fail-closed",
+    "only explicit completed_full_check_utc values may authorize integrity-check reuse",
+    "verifier completion timestamps more than 60 seconds in the future are rejected by the executor",
+    "all outer verifier exits stop and join pass heartbeats",
+    "missing, unreadable, in-progress, failed, stale, identity-mismatched, or hash-mismatched guards block Practice-007 entry"
+  ],
+  "schema_version": 1,
+  "validation": {
+    "adjacent_tests": {
+      "command": "python -m pytest -q trad/test_oanda_project_integrity_audit.py trad/test_oanda_clock_integrity_monitor.py -p no:cacheprovider",
+      "passed": 17
+    },
+    "focused_tests": {
+      "command": "python -m pytest -q trad/test_oanda_independent_evidence_verifier.py trad/test_oanda_practice_top_signal_executor.py -p no:cacheprovider",
+      "passed": 48
+    },
+    "process_restart_performed": false,
+    "self_approval_performed": false
+  }
+}

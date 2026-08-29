@@ -1,0 +1,26 @@
+{
+  "schema_version": 3,
+  "contract_id": "after_cost_input_envelopes_v3_20260817",
+  "producer_contract_ids": {
+    "venue_quotes": "after_cost_venue_quote_envelope_v3_20260817",
+    "verifier_evidence": "after_cost_verifier_evidence_envelope_v3_20260817",
+    "economics_inputs": "after_cost_economics_envelope_v3_20260817",
+    "hold_switch_inputs": "after_cost_hold_envelope_v3_20260817",
+    "account_state": "after_cost_practice_account_envelope_v3_20260817"
+  },
+  "producer_cohorts": {
+    "venue_quotes": {"cohort_id": "after_cost_venue_quote_cohort_20260817c", "cohort_sha256": "260befea9d30926e78b11ad192bc807d34de40c9bbd3d927da70fd733f7e7f65"},
+    "verifier_evidence": {"cohort_id": "after_cost_verifier_evidence_cohort_20260817c", "cohort_sha256": "79d7af7cbceb1764cffdf417de051b70b34451a4de9b6b72e474a2c872e40e72"},
+    "economics_inputs": {"cohort_id": "after_cost_economics_cohort_20260817c", "cohort_sha256": "e850a477513ce22fa6b1547e2f53ce00e2963f91fe3759e80121e8446f9c65b3"},
+    "hold_switch_inputs": {"cohort_id": "after_cost_hold_cohort_20260817c", "cohort_sha256": "b175b1b5eee00a958c316dcd8301c7f3d2ec5644b87ce1a0aa1c10d3a525b2e8"},
+    "account_state": {"cohort_id": "after_cost_practice_account_cohort_20260817c", "cohort_sha256": "6ae2ca78ceeba592062b05724358c1c112de83761ed4280251fdc583a9b34f7e"}
+  },
+  "canonical_json": "utf8_sorted_keys_compact_no_nan",
+  "record_hash_field": "canonical_record_sha256",
+  "envelope_hash_field": "canonical_envelope_sha256",
+  "required_envelope_fields": ["payload_id", "record_count", "producer_contract_id", "producer_module_id", "producer_module_sha256", "canonical_envelope_sha256"],
+  "research_only": true,
+  "execution_eligible": false,
+  "can_place_orders": false,
+  "supported_execution_decision": "no_trade"
+}

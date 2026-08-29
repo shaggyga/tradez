@@ -1,0 +1,123 @@
+{
+  "schema_version": 2,
+  "source_id": "sarb_mpc_decision_exact_v2",
+  "source_contract_id": "sarb_mpc_decision_exact_v2_20260817",
+  "source_cohort_id": "sarb_mpc_decision_exact_v2_20260817",
+  "registered_with_live_collector": false,
+  "enabled": false,
+  "runtime_supported": false,
+  "research_only": true,
+  "shadow_only": true,
+  "direction_policy": "abstain",
+  "execution_eligible": false,
+  "full_text_retention_enabled": false,
+  "full_text_license_verified": false,
+  "currency": "ZAR",
+  "timezone": "Africa/Johannesburg",
+  "timezone_contract": "UTC+02:00 year-round; daylight saving time forbidden",
+  "schedule_url": "https://www.resbank.co.za/en/home/what-we-do/monetary-policy/MPC-announcement-webcasts",
+  "schedule_observation_id": "sarb_mpc_schedule_observation_20260817T082716Z",
+  "schedule_observed_utc": "2026-08-17T08:27:16.304041+00:00",
+  "schedule_observed_utc_original_100ns": "2026-08-17T08:27:16.3040411+00:00",
+  "schedule_source_bytes": 100939,
+  "schedule_source_sha256": "bd426f66a8360d45ad4c7f4f50b39eb14690b96278937ebbdc58f59b43d4f540",
+  "schedule_source_archive_path": "data/oanda_training_manager/source_archives/sarb_mpc_decision_exact_v2/sarb_mpc_schedule_20260817T082716Z.html",
+  "schedule_source_archive_read_only": true,
+  "schedule_observation_manifest_path": "data/oanda_training_manager/source_archives/sarb_mpc_decision_exact_v2/schedule_observation_20260817T082716Z.json",
+  "schedule_observation_manifest_sha256": "f74006c7df2abec925592e61d1a4ce36584da8c39cbb6303b3dd82838deb3108",
+  "july_statement_url": "https://www.resbank.co.za/en/home/publications/publication-detail-pages/statements/monetary-policy-statements/2026/july",
+  "trusted_domains": [
+    "resbank.co.za",
+    "www.resbank.co.za"
+  ],
+  "schedule_facts": [
+    {
+      "event_date": "2026-07-23",
+      "local_time": "15:00",
+      "scheduled_utc": "2026-07-23T13:00:00Z",
+      "evidence_boundary": "historical_availability_counterfactual_archive_only"
+    },
+    {
+      "event_date": "2026-09-23",
+      "local_time": "15:00",
+      "scheduled_utc": "2026-09-23T13:00:00Z",
+      "evidence_boundary": "prospective_schedule_if_captured_pre_event"
+    },
+    {
+      "event_date": "2026-11-19",
+      "local_time": "15:00",
+      "scheduled_utc": "2026-11-19T13:00:00Z",
+      "evidence_boundary": "prospective_schedule_if_captured_pre_event"
+    }
+  ],
+  "schedule_facts_sha256": "e5a101d4ccfd69ad41c568d11719973bf1102c977c0bcdc0987120af36feb96a",
+  "july_decision_facts": {
+    "event_date": "2026-07-23",
+    "action": "hold",
+    "policy_rate_pct": 7.0,
+    "votes": [
+      {
+        "count": 4,
+        "preference": "hold",
+        "basis_points": 0
+      },
+      {
+        "count": 2,
+        "preference": "hike",
+        "basis_points": 25
+      }
+    ],
+    "statement_url": "https://www.resbank.co.za/en/home/publications/publication-detail-pages/statements/monetary-policy-statements/2026/july"
+  },
+  "july_decision_facts_sha256": "aa9bc8297bb1846c963f23cce00e4953e254ca1c2a0826d9e7b56d92fc781aa4",
+  "evidence_policy": {
+    "historical_july": "availability-counterfactual/archive-only; never prospective proof",
+    "future_september_november": "prospective collection only when this schedule cohort was captured before the event",
+    "decision_causal_known_utc": "max(scheduled_utc, statement_first_seen_utc)",
+    "clock_is_not_statement_availability": true,
+    "five_priced_zar_pairs_are_one_currency_factor": true,
+    "same_time_global_event_confounding_required": true
+  },
+  "fact_retention_policy": {
+    "retain": [
+      "date",
+      "action",
+      "policy_rate_level",
+      "vote_split",
+      "official_url",
+      "source_sha256",
+      "facts_sha256",
+      "causal_timestamps",
+      "official_schedule_source_archive"
+    ],
+    "do_not_retain": [
+      "full_statement_text",
+      "search_result_timestamp"
+    ]
+  },
+  "hard_guards": {
+    "schedule_and_statement_are_one_event": true,
+    "same_time_global_event_confounding_required": true,
+    "causal_attribution_status": "unresolved",
+    "direction": null,
+    "consensus": null,
+    "surprise": null,
+    "currency_bias": null,
+    "pair_bias": null,
+    "confirmation_eligible": false,
+    "promotion_eligible": false,
+    "proof_eligible": false,
+    "authorization_eligible": false,
+    "execution_eligible": false,
+    "supported_execution_decision": "no_trade"
+  },
+  "separation_contract": {
+    "existing_source_id": "south_africa_sarb_policy_rate_direct_v1",
+    "existing_series_code": "MMRD002A",
+    "existing_snapshot_semantics": "homepage/API indicator update; not a decision timestamp",
+    "rewrite_or_relabel_existing_snapshot": false,
+    "touch_immutable_event_clock": false,
+    "touch_live_collector": false,
+    "touch_executor_or_account": false
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "manifest_schema_version": 1,
+  "manifest_id": "currency_state_response_timing_arms_v6_manifest_20260817_r1",
+  "contract_id": "currency_state_response_timing_arms_v6_20260817_r1",
+  "research_generation": "r3_bound_response_timing_v6_r1",
+  "parent_contract_id": "currency_state_response_timing_arms_v5_20260817_r1",
+  "parent_disposition": "independent_no_approve_preserved_exact_bytes_zero_runtime_zero_canonical_evidence",
+  "review_state": "pending_independent_review",
+  "candidate_frozen_utc": "2026-08-17T14:20:00Z",
+  "independent_review_started_utc": null,
+  "independent_review_completed_utc": null,
+  "runtime_started_utc": null,
+  "state": {
+    "enabled": false,
+    "registered": false,
+    "research_worker_enabled": false,
+    "collector_enabled": false,
+    "canonical_output_initialized": false
+  },
+  "dependency_disposition": {
+    "barred_event_response_generations": ["v6_r1", "v6_r2", "v6_r3"],
+    "approved_event_response_successor_bound": false,
+    "production_dependency_gate": "closed",
+    "blocking_reason": "event_response_v6_r4_final_approval_not_bound",
+    "resolution_requires_new_timing_contract_id": true
+  },
+  "trusted_artifacts": {
+    "contract": {
+      "relative_path": "config/currency_state_response_timing_arms_v6.json",
+      "sha256": "525039ed9014943f7950cb465cebeb103332a7f317a6c47472362368def773b4",
+      "byte_length": 2987
+    },
+    "parent_v5_module": {
+      "relative_path": "src/forex_system/research/currency_state_response_timing_arms_v5.py",
+      "sha256": "37dbaa53bd093e129a84db31aece7bfdddec37127753cc404ddef1c1a957eb04",
+      "byte_length": 18064
+    },
+    "parent_v5_contract": {
+      "relative_path": "config/currency_state_response_timing_arms_v5.json",
+      "sha256": "08674d293897332d438872f8276a46e8de3525f07e35ddb8796996b408ee8cd0",
+      "byte_length": 4288
+    },
+    "parent_v5_manifest": {
+      "relative_path": "config/currency_state_response_timing_arms_v5_manifest.json",
+      "sha256": "4103313565bb50205ac182f546769614fc07b7b85ab70293c8c89b599f7f98e1",
+      "byte_length": 3461
+    },
+    "parent_v5_tests": {
+      "relative_path": "test_currency_state_response_timing_arms_v5.py",
+      "sha256": "181657fff94bc357944e51a0e3eb189932638f93fffeca0e5b60a6f1e2ffad93",
+      "byte_length": 7445
+    }
+  },
+  "self_artifacts": {
+    "runtime_core": {
+      "relative_path": "src/forex_system/research/currency_state_response_timing_arms_v6.py",
+      "sha256": "4de3e9f66fa9345723c2af4dc726cfb30cbc2d4afc1afceee910e9bf20b1fe96",
+      "byte_length": 13240,
+      "trust_state": "untrusted_until_external_frozen_review"
+    },
+    "focused_tests": {
+      "relative_path": "test_currency_state_response_timing_arms_v6.py",
+      "sha256": "6aee761616d61a6c956a899746d556d49bdad6f1c55efae452afbca4d385aedd",
+      "byte_length": 8216,
+      "trust_state": "untrusted_until_external_frozen_review"
+    },
+    "manifest": {
+      "relative_path": "config/currency_state_response_timing_arms_v6_manifest.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "byte_length": 3960,
+      "trust_state": "untrusted_until_external_frozen_review"
+    }
+  },
+  "external_review_certificate": null,
+  "output_surface": {
+    "canonical_ledger_path": null,
+    "canonical_state_path": null,
+    "canonical_report_path": null,
+    "worker_entrypoint": null,
+    "collector_entrypoint": null,
+    "test_fixture_builder": "forex_system.research.currency_state_response_timing_arms_v6.build_test_diagnostic_snapshot"
+  },
+  "policy": {
+    "self_manifest_cannot_self_certify": true,
+    "external_review_certificate_required": true,
+    "event_response_dependency_is_unresolved": true,
+    "unresolved_dependency_must_produce_zero_rows": true,
+    "research_only": true,
+    "execution_eligible": false,
+    "can_place_orders": false,
+    "can_promote": false,
+    "can_authorize": false,
+    "supported_execution_decision": "no_trade"
+  }
+}

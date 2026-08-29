@@ -1,0 +1,290 @@
+{
+  "schema_version": 1,
+  "updated_utc": "2026-08-28T17:20:00Z",
+  "policy": {
+    "retirement_stops_future_collection_only": true,
+    "historical_code_and_evidence_are_preserved": true,
+    "retired_collectors_cannot_authorize_or_trade": true,
+    "reopening_requires_a_materially_new_contract_and_cohort": true
+  },
+  "retired_collectors": [
+    {
+      "name": "causal_source_factor_response_map_v1",
+      "script": "oanda_causal_source_factor_response_map_v1.py",
+      "state": "superseded_preserved_horizon_contract",
+      "runtime_action": "disabled",
+      "reason": "V1 is a sealed append-only 1/5/15/30/60/120-minute source-factor response cohort. V2 adds a separately identified fixed 10-minute horizon without rewriting V1 code, database rows, or evidence identities.",
+      "successor": {
+        "script": "oanda_causal_source_factor_response_map_v2.py",
+        "contract_id": "causal_source_factor_response_map_v2_point_in_time_episode_20260828",
+        "cohort_id": "causal_source_factor_response_map_v2_prospective_20260828T030000Z",
+        "horizons_min": [1, 5, 10, 15, 30, 60, 120]
+      },
+      "preserved_artifacts": [
+        "oanda_causal_source_factor_response_map_v1.py",
+        "test_oanda_causal_source_factor_response_map_v1.py",
+        "data/oanda_training_manager/local_news_sentiment/causal_source_factor_response_map_v1.sqlite",
+        "data/oanda_training_manager/local_news_sentiment/causal_source_factor_response_map_latest_v1.json",
+        "data/oanda_training_manager/reports/causal_source_factor_response/CAUSAL_SOURCE_FACTOR_RESPONSE_MAP_V1.md"
+      ]
+    },
+    {
+      "name": "causal_source_factor_response_map_v2",
+      "script": "oanda_causal_source_factor_response_map_v2.py",
+      "state": "superseded_preserved_entry_capture_contract",
+      "runtime_action": "disabled",
+      "reason": "V2 is a sealed append-only 1/5/10/15/30/60/120-minute cohort bound to classifier V147 and the response-map semantic-cycle quote sampler. V3 opens a separate V148/pre-semantic-quote cohort and imports none of V2's rows.",
+      "successor": {
+        "script": "oanda_causal_source_factor_response_map_v3.py",
+        "contract_id": "causal_source_factor_response_map_v3_v148_pre_semantic_quote_20260828",
+        "cohort_id": "causal_source_factor_response_map_v3_prospective_20260828T070000Z",
+        "activation_utc": "2026-08-28T07:00:00Z",
+        "required_classification_version": "local_fx_news_rules_20260828_v148_official_research_intervention_boundary",
+        "horizons_min": [1, 5, 10, 15, 30, 60, 120]
+      },
+      "preserved_artifacts": [
+        "oanda_causal_source_factor_response_map_v2.py",
+        "test_oanda_causal_source_factor_response_map_v2.py",
+        "data/oanda_training_manager/local_news_sentiment/causal_source_factor_response_map_v2.sqlite",
+        "data/oanda_training_manager/local_news_sentiment/causal_source_factor_response_map_latest_v2.json",
+        "data/oanda_training_manager/reports/causal_source_factor_response/CAUSAL_SOURCE_FACTOR_RESPONSE_MAP_V2.md"
+      ]
+    },
+    {
+      "name": "causal_source_factor_response_map_v3",
+      "script": "oanda_causal_source_factor_response_map_v3.py",
+      "state": "superseded_contaminated_diagnostic_preserved",
+      "runtime_action": "disabled",
+      "reason": "V3 admitted a prospective proof event for a verified but non-market CBRT student paper contest because its proof boundary depended on activation time alone. The append-only V3 database, snapshot, report, code, and event remain preserved as contaminated diagnostics. V4 uses a new V149 cohort and independently requires relevant=true plus an empty exclusion_reason.",
+      "successor": {
+        "script": "oanda_causal_source_factor_response_map_v4.py",
+        "contract_id": "causal_source_factor_response_map_v4_v149_relevance_exclusion_gate_20260828",
+        "cohort_id": "causal_source_factor_response_map_v4_prospective_20260828T160000Z",
+        "activation_utc": "2026-08-28T16:00:00Z",
+        "required_classification_version": "local_fx_news_rules_20260828_v149_cbrt_non_market_administrative_boundary",
+        "proof_eligibility_contract": "classifier_relevant_true_and_empty_exclusion_reason_v1_20260828",
+        "horizons_min": [1, 5, 10, 15, 30, 60, 120]
+      },
+      "preserved_artifacts": [
+        "oanda_causal_source_factor_response_map_v3.py",
+        "test_oanda_causal_source_factor_response_map_v3.py",
+        "data/oanda_training_manager/local_news_sentiment/causal_source_factor_response_map_v3.sqlite",
+        "data/oanda_training_manager/local_news_sentiment/causal_source_factor_response_map_latest_v3.json",
+        "data/oanda_training_manager/reports/causal_source_factor_response/CAUSAL_SOURCE_FACTOR_RESPONSE_MAP_V3.md"
+      ]
+    },
+    {
+      "name": "causal_source_factor_response_map_v4",
+      "script": "oanda_causal_source_factor_response_map_v4.py",
+      "state": "superseded_preserved_classifier_contract",
+      "runtime_action": "disabled",
+      "reason": "V4 is an immutable classifier-V149 cohort with the explicit relevance/exclusion proof gate. A newly observed secondary EURUSD technical recap exposed a V149 recap-temporality gap in the broad classifier (the item did not enter V4's direct-official input). V5 opens a separate V150 cohort; V4 rows and artifacts are preserved and never relabelled.",
+      "successor": {
+        "script": "oanda_causal_source_factor_response_map_v5.py",
+        "contract_id": "causal_source_factor_response_map_v5_v150_pair_recap_20260828",
+        "cohort_id": "causal_source_factor_response_map_v5_prospective_20260828T170000Z",
+        "activation_utc": "2026-08-28T17:00:00Z",
+        "required_classification_version": "local_fx_news_rules_20260828_v150_pair_technical_recap_boundary",
+        "proof_eligibility_contract": "classifier_relevant_true_and_empty_exclusion_reason_v1_20260828",
+        "horizons_min": [1, 5, 10, 15, 30, 60, 120]
+      },
+      "preserved_artifacts": [
+        "oanda_causal_source_factor_response_map_v4.py",
+        "test_oanda_causal_source_factor_response_map_v4.py",
+        "data/oanda_training_manager/local_news_sentiment/causal_source_factor_response_map_v4.sqlite",
+        "data/oanda_training_manager/local_news_sentiment/causal_source_factor_response_map_latest_v4.json",
+        "data/oanda_training_manager/reports/causal_source_factor_response/CAUSAL_SOURCE_FACTOR_RESPONSE_MAP_V4.md"
+      ]
+    },
+    {
+      "name": "causal_source_factor_response_map_v5",
+      "script": "oanda_causal_source_factor_response_map_v5.py",
+      "state": "superseded_preserved_classifier_contract",
+      "runtime_action": "disabled",
+      "reason": "V5 is an immutable classifier-V150 cohort. A newly observed secondary USDJPY moving-average breakout recap exposed a distinct pair-breakout temporality and two-leg direction gap. V6 opens a separate V151 cohort; V5 rows and artifacts are preserved and never relabelled.",
+      "successor": {
+        "script": "oanda_causal_source_factor_response_map_v6.py",
+        "contract_id": "causal_source_factor_response_map_v6_v151_pair_breakout_recap_20260828",
+        "cohort_id": "causal_source_factor_response_map_v6_prospective_20260828T173000Z",
+        "activation_utc": "2026-08-28T17:30:00Z",
+        "required_classification_version": "local_fx_news_rules_20260828_v151_pair_breakout_recap_boundary",
+        "proof_eligibility_contract": "classifier_relevant_true_and_empty_exclusion_reason_v1_20260828",
+        "horizons_min": [1, 5, 10, 15, 30, 60, 120]
+      },
+      "preserved_artifacts": [
+        "oanda_causal_source_factor_response_map_v5.py",
+        "test_oanda_causal_source_factor_response_map_v5.py",
+        "data/oanda_training_manager/local_news_sentiment/causal_source_factor_response_map_v5.sqlite",
+        "data/oanda_training_manager/local_news_sentiment/causal_source_factor_response_map_latest_v5.json",
+        "data/oanda_training_manager/reports/causal_source_factor_response/CAUSAL_SOURCE_FACTOR_RESPONSE_MAP_V5.md"
+      ]
+    },
+    {
+      "name": "source_conditioned_currency_rank_v1",
+      "script": "oanda_source_conditioned_currency_rank_v1.py",
+      "state": "superseded_preserved_source_input_contract",
+      "runtime_action": "disabled",
+      "reason": "The V1 adapter is immutably bound to the sealed V2 source-response database. The V2 adapter opens a separate ledger and cohort for V3 input without importing V1 adapter decisions, forecasts, or outcomes.",
+      "successor": {
+        "script": "oanda_source_conditioned_currency_rank_v2.py",
+        "contract_id": "source_conditioned_currency_rank_v2_v3_input_20260828",
+        "cohort_id": "source_conditioned_currency_rank_v2_prospective_20260828T070000Z",
+        "required_source_contract_id": "causal_source_factor_response_map_v3_v148_pre_semantic_quote_20260828"
+      },
+      "preserved_artifacts": [
+        "oanda_source_conditioned_currency_rank_v1.py",
+        "test_oanda_source_conditioned_currency_rank_v1.py",
+        "config/source_conditioned_currency_rank_v1.json",
+        "data/oanda_training_manager/state/source_conditioned_currency_rank_v1.sqlite",
+        "data/oanda_training_manager/state/source_conditioned_currency_rank_v1.json",
+        "data/oanda_training_manager/reports/source_conditioned_currency_rank/SOURCE_CONDITIONED_CURRENCY_RANK_V1.md"
+      ]
+    },
+    {
+      "name": "source_conditioned_currency_rank_v2",
+      "script": "oanda_source_conditioned_currency_rank_v2.py",
+      "state": "superseded_preserved_contaminated_source_input",
+      "runtime_action": "disabled",
+      "reason": "The V2 adapter is immutably bound to the contaminated V3 source-response cohort. Its code, ledger, state, report, and manifest remain diagnostics. The V3 adapter opens a separate ledger and consumes only V4 without fallback or historical import.",
+      "successor": {
+        "script": "oanda_source_conditioned_currency_rank_v3.py",
+        "contract_id": "source_conditioned_currency_rank_v3_v4_input_20260828",
+        "cohort_id": "source_conditioned_currency_rank_v3_prospective_20260828T160000Z",
+        "required_source_contract_id": "causal_source_factor_response_map_v4_v149_relevance_exclusion_gate_20260828"
+      },
+      "preserved_artifacts": [
+        "oanda_source_conditioned_currency_rank_v2.py",
+        "test_oanda_source_conditioned_currency_rank_v2.py",
+        "config/source_conditioned_currency_rank_v2.json",
+        "data/oanda_training_manager/state/source_conditioned_currency_rank_v2.sqlite",
+        "data/oanda_training_manager/state/source_conditioned_currency_rank_v2.json",
+        "data/oanda_training_manager/reports/source_conditioned_currency_rank/SOURCE_CONDITIONED_CURRENCY_RANK_V2.md"
+      ]
+    },
+    {
+      "name": "source_conditioned_currency_rank_v3",
+      "script": "oanda_source_conditioned_currency_rank_v3.py",
+      "state": "superseded_preserved_source_input_contract",
+      "runtime_action": "disabled",
+      "reason": "The V3 adapter is immutably bound to the sealed V4 source-response cohort. Its code, ledger, state, report, and manifest remain diagnostics. The V4 adapter opens a separate ledger and consumes only V5 without fallback or historical import.",
+      "successor": {
+        "script": "oanda_source_conditioned_currency_rank_v4.py",
+        "contract_id": "source_conditioned_currency_rank_v4_v5_input_20260828",
+        "cohort_id": "source_conditioned_currency_rank_v4_prospective_20260828T170000Z",
+        "required_source_contract_id": "causal_source_factor_response_map_v5_v150_pair_recap_20260828"
+      },
+      "preserved_artifacts": [
+        "oanda_source_conditioned_currency_rank_v3.py",
+        "test_oanda_source_conditioned_currency_rank_v3.py",
+        "config/source_conditioned_currency_rank_v3.json",
+        "data/oanda_training_manager/state/source_conditioned_currency_rank_v3.sqlite",
+        "data/oanda_training_manager/state/source_conditioned_currency_rank_v3.json",
+        "data/oanda_training_manager/reports/source_conditioned_currency_rank/SOURCE_CONDITIONED_CURRENCY_RANK_V3.md"
+      ]
+    },
+    {
+      "name": "source_conditioned_currency_rank_v4",
+      "script": "oanda_source_conditioned_currency_rank_v4.py",
+      "state": "superseded_preserved_source_input_contract",
+      "runtime_action": "disabled",
+      "reason": "The V4 adapter is immutably bound to the sealed V5 source-response cohort. Its code, ledger, state, report, and manifest remain diagnostics. The V5 adapter opens a separate ledger and consumes only V6 without fallback or historical import.",
+      "successor": {
+        "script": "oanda_source_conditioned_currency_rank_v5.py",
+        "contract_id": "source_conditioned_currency_rank_v5_v6_input_20260828",
+        "cohort_id": "source_conditioned_currency_rank_v5_prospective_20260828T173000Z",
+        "required_source_contract_id": "causal_source_factor_response_map_v6_v151_pair_breakout_recap_20260828"
+      },
+      "preserved_artifacts": [
+        "oanda_source_conditioned_currency_rank_v4.py",
+        "test_oanda_source_conditioned_currency_rank_v4.py",
+        "config/source_conditioned_currency_rank_v4.json",
+        "data/oanda_training_manager/state/source_conditioned_currency_rank_v4.sqlite",
+        "data/oanda_training_manager/state/source_conditioned_currency_rank_v4.json",
+        "data/oanda_training_manager/reports/source_conditioned_currency_rank/SOURCE_CONDITIONED_CURRENCY_RANK_V4.md"
+      ]
+    },
+    {
+      "name": "hgb_live_outcomes",
+      "script": "oanda_hgb_live_outcome_tracker.py",
+      "state": "retired_obsolete_input",
+      "runtime_action": "disabled",
+      "reason": "The worker reads the stale D:/forex account-019 forecast file while legacy flat practice bots are disabled. Its retained ledger has 6006 outcomes, only 15 accepted observations, a 0.066667 accepted win rate, zero pending outcomes, and zero work in the latest cycle.",
+      "preserved_artifacts": [
+        "data/oanda_training_manager/state/hgb_live_outcomes_v1.json"
+      ]
+    },
+    {
+      "name": "manager_decision_outcome_ledger",
+      "script": "oanda_manager_decision_outcome_ledger.py",
+      "state": "retired_static_input",
+      "runtime_action": "disabled",
+      "reason": "The worker rereads the frozen LIVE_ACCOUNT_MANAGER_FORECASTS_20260810.jsonl input every two seconds. All three forecasts are matured, nothing is waiting, and current cycles insert and mature zero rows.",
+      "preserved_artifacts": [
+        "data/oanda_training_manager/reports/LIVE_ACCOUNT_MANAGER_FORECASTS_20260810.jsonl",
+        "data/oanda_training_manager/state/manager_decision_outcomes_v1.sqlite",
+        "data/oanda_training_manager/state/manager_decision_outcomes_v1.json"
+      ]
+    },
+    {
+      "name": "one_hour_shadow_signal",
+      "script": "oanda_one_hour_shadow_signal.py",
+      "state": "retiring_drain_only",
+      "runtime_action": "mature_only",
+      "reason": "The four H1 baseline families accumulated 2757 non-overlapping observations each with no holdout candidate. Average after-cost results were -2.749547, -2.565034, -2.246717, and -2.583279 pips; after-cost win rates were 0.228509, 0.241204, 0.260428, and 0.235764. New production is no longer informative; the worker remains in mature-only mode until every already-issued causal horizon is resolved, after which the frozen stream remains a negative control.",
+      "families": [
+        "breakout_change_point",
+        "cross_currency_impulse",
+        "differenced_path_analog",
+        "multi_timeframe_trend"
+      ],
+      "preserved_artifacts": [
+        "data/oanda_training_manager/state/one_hour_shadow_forecasts_v1.sqlite",
+        "data/oanda_training_manager/state/one_hour_shadow_signal_v1.json"
+      ]
+    },
+    {
+      "name": "executable_opportunity_proof",
+      "script": "oanda_executable_opportunity_prospective.py",
+      "state": "retiring_drain_only",
+      "runtime_action": "mature_only",
+      "reason": "Across seven immutable cohorts the ranker produced 169376 forecasts and 166128 matured outcomes with zero directional frozen-gate passes, 49.305 percent directional accuracy, and -3.014301 average predicted-side net pips. New row production is frozen; outstanding forecasts remain in mature-only mode until every declared outcome is resolved.",
+      "preserved_artifacts": [
+        "data/oanda_training_manager/state/executable_opportunity_prospective_v1.sqlite",
+        "data/oanda_training_manager/state/executable_opportunity_prospective_v1.json"
+      ]
+    }
+  ],
+  "inactive_feature_groups": [
+    {
+      "name": "unavailable_order_position_book_and_pricing_depth",
+      "state": "inert_until_causally_populated",
+      "reason": "The latest canonical evidence census inspected 14888709 forecasts and found zero order-book observations, zero position-book observations, and zero informative pricing-depth observations.",
+      "active_model_eligibility": false,
+      "collector_policy": "disabled_in_safe_core",
+      "historical_contract_retained": true
+    },
+    {
+      "name": "model_gap_zero_output_contributors",
+      "state": "dormant_not_active_breadth",
+      "reason": "Thirty model-gap contributors are registered but have zero fresh live contributors and zero account-eligible contributors. Their adapters remain offline research assets, not active consensus inputs.",
+      "active_model_eligibility": false,
+      "historical_contract_retained": true
+    },
+    {
+      "name": "stale_signal_combination_rule_states",
+      "state": "inactive_stale_model_state",
+      "reason": "The three active-read rule artifacts stopped updating on 2026-08-03 while their fit workers are disabled. Strategy-lab loading now applies a 24-hour fail-closed freshness limit, so old account-eligible flags cannot re-enter the active lane surface.",
+      "active_model_eligibility": false,
+      "collector_policy": "historical_database_preserved; stale rules excluded at load time",
+      "historical_contract_retained": true
+    },
+    {
+      "name": "allocator_proof_empty_eligible_set",
+      "state": "paused_until_confirmed_candidate_exists",
+      "reason": "The frozen allocator recorded 3528 decisions and over one million candidate/integrity rows but zero fully matured eligible decisions because lifecycle eligibility is empty. Its 2.62 GiB database is preserved as the governed no-trade null and collection remains paused until an exact confirmed candidate exists.",
+      "active_model_eligibility": false,
+      "collector_policy": "wake only after lifecycle-confirmed candidate",
+      "historical_contract_retained": true
+    }
+  ]
+}

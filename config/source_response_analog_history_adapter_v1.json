@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "adapter_contract_id": "source_response_analog_history_adapter_v1_20260817",
+  "selector_contract_id": "source_response_analog_selector_v1_20260817",
+  "purpose": "Bounded point-in-time mapping of immutable official macro releases and immutable executable quote reactions into the source-response analog selector contract.",
+  "research_only": true,
+  "execution_eligible": false,
+  "can_place_orders": false,
+  "supported_execution_decision": "no_trade",
+  "maximum_release_rows": 5000,
+  "maximum_reaction_rows": 10000,
+  "maximum_direct_response_rows": 5000,
+  "maximum_quarantine_rows": 1000,
+  "maximum_exclusion_examples": 200,
+  "canonical_currencies": [
+    "AUD", "CAD", "CHF", "CNH", "CZK", "DKK", "EUR", "GBP", "HKD",
+    "HUF", "JPY", "MXN", "NOK", "NZD", "PLN", "SEK", "SGD", "THB",
+    "TRY", "USD", "ZAR"
+  ],
+  "event_class_patterns": [
+    {
+      "event_class": "central_bank_decision",
+      "contains_any": ["central bank", "policy rate", "interest rate", "cash rate", "ocr", "bank rate", "rate decision"]
+    },
+    {
+      "event_class": "inflation_release",
+      "contains_any": ["inflation", "consumer price", "cpi", "price index", "price indexes", "ppi"]
+    },
+    {
+      "event_class": "labor_release",
+      "contains_any": ["employment", "unemployment", "payroll", "labour", "labor", "earnings"]
+    },
+    {
+      "event_class": "growth_release",
+      "contains_any": ["gross domestic", "gdp", "economic growth"]
+    },
+    {
+      "event_class": "activity_release",
+      "contains_any": ["retail", "sales", "manufacturing", "trade", "card transaction", "business", "production", "pmi"]
+    },
+    {
+      "event_class": "housing_release",
+      "contains_any": ["housing", "home", "building permit", "construction"]
+    }
+  ],
+  "utc_session_buckets": [
+    {"session": "asia", "start_hour_inclusive": 0, "end_hour_exclusive": 7},
+    {"session": "london", "start_hour_inclusive": 7, "end_hour_exclusive": 12},
+    {"session": "london_new_york_overlap", "start_hour_inclusive": 12, "end_hour_exclusive": 16},
+    {"session": "new_york", "start_hour_inclusive": 16, "end_hour_exclusive": 21}
+  ],
+  "default_event_class": "other_official_macro_release",
+  "default_source_family": "official_macro_release",
+  "reaction_baseline_offset_sec": 0,
+  "minimum_outcome_offset_sec": 1,
+  "outcome_time_contract": {
+    "matured_utc_source": "macro_reaction_samples.quote_time_utc",
+    "collector_observed_utc_source": "macro_reaction_samples.sampled_utc",
+    "outcome_known_utc_rule": "max(sampled_utc, quote_time_utc)",
+    "clock_inversion_action": "advance_effective_knowledge_to_quote_time_and_preserve_both_raw_clocks",
+    "direct_source_response_action": "withhold_without_exact_outcome_known_timestamp"
+  },
+  "consensus_contract": {
+    "required_table": "macro_consensus_observations",
+    "require_causal_valid": true,
+    "require_source_verified": true,
+    "require_capture_before_scheduled_release": true,
+    "require_source_timestamp_before_scheduled_release": true,
+    "revision_consensus_without_matching_observation_action": "withhold"
+  },
+  "standardization_contract": {
+    "stored_macro_ledger_z_score_action": "withhold",
+    "reason": "The stored standardization prior is not proven point-in-time and causal-only; the selector additionally requires explicit value-known and scale-known timestamps."
+  },
+  "rates_contract": {
+    "required_state": "immutable_numeric_intraday_repricing_ledger",
+    "daily_rate_context_is_intraday_repricing": false,
+    "missing_action": "emit_missing_state_and_null_value"
+  },
+  "movement_episode_contract": {
+    "mapping_action": "withhold_from_analog_outcomes",
+    "reason": "Movement episodes were selected using future move magnitude; admitting them would make candidate inclusion outcome-dependent."
+  }
+}

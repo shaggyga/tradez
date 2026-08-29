@@ -1,0 +1,68 @@
+{
+  "manifest_schema_version": 1,
+  "manifest_id": "currency_state_response_timing_arms_v4_manifest_20260817_r1",
+  "contract_id": "currency_state_response_timing_arms_v4_20260817_r1",
+  "research_generation": "r3_bound_response_timing_v4_r1",
+  "parent_contract_id": "currency_state_response_timing_arms_v3_20260817_r1",
+  "parent_disposition": "independent_no_approve_preserved_exact_bytes_zero_runtime_zero_canonical_evidence",
+  "review_state": "pending_independent_review",
+  "candidate_frozen_utc": null,
+  "independent_review_started_utc": null,
+  "independent_review_completed_utc": null,
+  "runtime_started_utc": null,
+  "state": {
+    "enabled": false,
+    "registered": false,
+    "research_worker_enabled": false,
+    "collector_enabled": false,
+    "canonical_output_initialized": false
+  },
+  "dependency_disposition": {
+    "approved_official_fact_currency_state_v5_r3": true,
+    "barred_event_response_generations": ["v6_r1", "v6_r2", "v6_r3"],
+    "approved_event_response_successor_bound": false,
+    "production_dependency_gate": "closed",
+    "blocking_reason": "event_response_v6_r4_final_approval_not_bound",
+    "resolution_requires_new_timing_contract_id": true
+  },
+  "artifacts": {
+    "runtime_core": {"relative_path": "src/forex_system/research/currency_state_response_timing_arms_v4.py", "sha256": "89fba58197e833616f132c9074bb385637dbac9dc9075ba8786c2e7d31845c02", "byte_length": 44841},
+    "contract": {"relative_path": "config/currency_state_response_timing_arms_v4.json", "sha256": "33fbbb95a5ee29949ef4fd07b0b39586c1cec19e4467aaccde64c8c2803e472b", "byte_length": 7238},
+    "focused_tests": {"relative_path": "test_currency_state_response_timing_arms_v4.py", "sha256": "85420028e4a7bd1ba38a2d78d53534c81b5fbe23a4d109e2ba85ede9465c5f44", "byte_length": 13946},
+    "parent_v3_module": {"relative_path": "src/forex_system/research/currency_state_response_timing_arms_v3.py", "sha256": "8a3d60b5455ca65439cfccc39c110ea2517e77a36066fd1b607456ffede362b6", "byte_length": 50561},
+    "parent_v3_contract": {"relative_path": "config/currency_state_response_timing_arms_v3.json", "sha256": "f649d6b610573714d0e5abdd7869d32b341e81ad7adf96c4714384de699f27c7", "byte_length": 6377},
+    "parent_v3_manifest": {"relative_path": "config/currency_state_response_timing_arms_v3_manifest.json", "sha256": "9ddac209a0e9c95dc2fddae3709476a47e143bae9f487fbdaf30c97dfa6ff258", "byte_length": 5426},
+    "parent_v3_tests": {"relative_path": "test_currency_state_response_timing_arms_v3.py", "sha256": "bef00c51fc2c8ebb7824ae23d01b7226c8cfbdf78341c72d1ecc1d4c5623cc39", "byte_length": 19260},
+    "approved_r3_review_certificate": {"relative_path": "config/official_fact_currency_state_v5_r3_review_certificate.json", "sha256": "0a61948a9fc2f2a9a06d30557b838d7fb389958c9ef2b1845bc8b06e70c7b299", "byte_length": 6003},
+    "official_fact_v5_r3_manifest": {"relative_path": "config/official_fact_adapter_v5_manifest.json", "sha256": "3b4a6589253c8e6a6974840527760eda5b24ec87c109bb0e7c694d266b21b332", "byte_length": 4685},
+    "currency_state_context_v5_r3_manifest": {"relative_path": "config/currency_state_official_context_v5_manifest.json", "sha256": "45f74389add35b2c2435f9f0907819899f81e402ff06a37b91c94171ab632974", "byte_length": 5652},
+    "canonical_universe_contract": {"relative_path": "config/currency_state_engine_v2.json", "sha256": "20138fe4328ee88b47b8edce2b3bd6081191cda35dd4124a9a457ea9b2efa400", "byte_length": 3272},
+    "barred_v6_r1_contract": {"relative_path": "config/prospective_event_response_v6_contract.json", "sha256": "d5aae12a41bb4fd7638b7b9c40a97bb086f5f98f7916d13368589d164af7527c", "byte_length": 4173},
+    "barred_v6_r1_manifest": {"relative_path": "config/prospective_event_response_v6_manifest.json", "sha256": "0b2a315080520945d410bc8c2c403c75c4ad230c4998c31f8bd6c1f9499b9504", "byte_length": 3417},
+    "barred_v6_r2_contract": {"relative_path": "config/prospective_event_response_v6_r2_contract.json", "sha256": "18e022c4b01514a57c9a60dea3dfd6bbd95cd01f709c95cfb7799e11c29285ff", "byte_length": 4615},
+    "barred_v6_r2_manifest": {"relative_path": "config/prospective_event_response_v6_r2_manifest.json", "sha256": "2cdffa4c5c7372894dc71a8d0e3ef1598de8492fec9a4f06940b926d18cc319b", "byte_length": 3648},
+    "barred_v6_r3_contract": {"relative_path": "config/prospective_event_response_v6_r3_contract.json", "sha256": "6598258b20a122b8e3ecb50400cb5698de55c262c255c737b0eb0d3ac6af6e06", "byte_length": 4776},
+    "barred_v6_r3_manifest": {"relative_path": "config/prospective_event_response_v6_r3_manifest.json", "sha256": "58be11db773b3c53f2cdae27a260f6c5709c094d53e841bdde86f26c6d058e9d", "byte_length": 3791}
+  },
+  "output_surface": {
+    "canonical_ledger_path": null,
+    "canonical_state_path": null,
+    "canonical_report_path": null,
+    "worker_entrypoint": null,
+    "collector_entrypoint": null,
+    "test_fixture_builder": "forex_system.research.currency_state_response_timing_arms_v4.build_test_diagnostic_snapshot"
+  },
+  "policy": {
+    "exact_closed_manifest_schema": true,
+    "canonical_pip_is_instrument_derived": true,
+    "timestamps_sort_by_numeric_utc": true,
+    "exact_builtin_scalar_types_required": true,
+    "dependency_resolution_requires_new_timing_contract": true,
+    "research_only": true,
+    "execution_eligible": false,
+    "can_place_orders": false,
+    "can_promote": false,
+    "can_authorize": false,
+    "supported_execution_decision": "no_trade"
+  }
+}

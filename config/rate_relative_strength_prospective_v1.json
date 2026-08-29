@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "contract_id": "official_2y_relative_change_h4_prospective_v1_20260816",
+  "research_only": true,
+  "execution_eligible": false,
+  "comparison_group": "two_year_market_rate_context",
+  "minimum_absolute_change_differential_bps": 5.0,
+  "horizon_sec": 14400,
+  "maximum_signal_age_sec": 86400,
+  "maximum_quote_age_sec": 180,
+  "maximum_entry_spread_pips": 5.0,
+  "technical_context_horizon_sec": 1800,
+  "maximum_technical_age_sec": 1800,
+  "direction_rule": "higher_base_minus_quote_2y_rate_change_strengthens_base",
+  "factor_deduplication": "one_official_rate_date_factor_episode",
+  "arms": [
+    "macro_only_technical_unavailable",
+    "macro_technical_aligned",
+    "macro_technical_conflicted"
+  ],
+  "material_change_requires_new_cohort": true
+}

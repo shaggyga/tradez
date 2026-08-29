@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "contract_id": "internal_macro_expectation_persistence_v1_20260816",
+  "research_only": true,
+  "execution_eligible": false,
+  "minimum_training_episodes": 1,
+  "maximum_training_episodes": 24,
+  "maximum_forecast_age_days": 120,
+  "target": "next_distinct_official_release_for_currency_and_series",
+  "models": [
+    "last_observation",
+    "robust_drift_ensemble_when_history_permits"
+  ],
+  "market_consensus_substitution": false,
+  "direction_policy": "abstain_until_response_is_independently_calibrated",
+  "material_change_requires_new_cohort": true
+}
