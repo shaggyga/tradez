@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "contract_id": "official_event_quote_horizon_capture_v1_all68_append_only_20260830",
+  "cohort_id": "official_event_quote_horizon_capture_v1_20260830a",
+  "activated_utc": "2026-08-30T12:00:00Z",
+  "required_entry_capture_contract_id": "official_release_raw_quote_capture_v1_append_boundary_all68_20260829",
+  "required_entry_capture_cohort_id": "official_release_raw_quote_capture_v1_20260829a",
+  "expected_instrument_count": 68,
+  "expected_instrument_universe_sha256": "b6abe559dcaa9faa0a1e48217f97a12dc9043eb9595d2b946bf80f93035be142",
+  "required_quote_snapshot_schema_version": 2,
+  "required_quote_snapshot_producer": "practice_007_fast_executor_price_stream",
+  "horizons_min": [1, 5, 15, 30, 60],
+  "timing": {
+    "maximum_attempt_delay_sec": 20.0,
+    "maximum_snapshot_age_sec": 15.0,
+    "maximum_quote_age_sec": 30.0,
+    "maximum_future_skew_sec": 2.0,
+    "maximum_target_offset_sec": 20.0
+  },
+  "cost_stress": {
+    "round_trip_slippage_pips": [0.0, 0.25, 0.5]
+  },
+  "policy": {
+    "prospective_only": true,
+    "historical_backfill_allowed": false,
+    "one_terminal_attempt_per_event_horizon": true,
+    "input_entry_quote_reacquisition_allowed": false,
+    "missing_or_late_capture_policy": "persist_terminal_invalid_never_retry",
+    "research_only": true,
+    "execution_eligible": false,
+    "can_place_orders": false,
+    "can_authorize": false,
+    "can_promote": false,
+    "supported_execution_decision": "no_trade"
+  }
+}

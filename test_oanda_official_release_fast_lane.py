@@ -193,6 +193,35 @@ def test_raw_append_boundary_retains_incomplete_capture_but_never_proves_it(
     assert len(capture["observed_quotes"]) == 67
 
 
+def test_rbnz_http_403_surfaces_are_configured_but_not_runtime_callable():
+    config = fast.read_json(fast.CONFIG_PATH, {})
+    sources = {
+        str(row.get("source_id") or ""): row
+        for row in config.get("sources") or []
+    }
+    blocked = {
+        "new_zealand_rbnz_ocr_snapshot_direct_v1",
+        "rbnz_wholesale_interest_rates",
+        "rbnz_official_overseas_reserves",
+    }
+    assert blocked <= set(sources)
+    for source_id in blocked:
+        source = sources[source_id]
+        # Preserve the configured first-party source and its historical
+        # parser lineage, while preventing another unauthorized HTTP attempt.
+        assert source["enabled"] is True
+        assert source["runtime_supported"] is False
+        assert "permission_required" in source["runtime_blocker"]
+        assert fast.news.source_runtime_status(source) == "unsupported"
+        assert source["direct"] is True
+        assert source["verified"] is True
+
+    fallback = sources["rbnz_official_search"]
+    assert fallback["direct"] is False
+    assert fallback["verified"] is False
+    assert "google_news" in fallback["retrieval_via"]
+
+
 def test_atomic_json_retries_transient_windows_replace_denial(
     monkeypatch, tmp_path: Path
 ):

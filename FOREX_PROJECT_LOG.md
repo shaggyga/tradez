@@ -3497,3 +3497,44 @@ Validation and safety:
   source record. Their immutable manifests carry the exact commit, tree,
   archive, content, CRC, and credential-audit identities; no retention deletion
   is authorized.
+
+## 2026-08-30 03:14 America/New_York — Event-to-executable-quote horizon proof implemented
+
+- Added the separate prospective-only, append-only contract
+  `official_event_quote_horizon_capture_v1_all68_append_only_20260830` and
+  cohort `official_event_quote_horizon_capture_v1_20260830a`. It accepts only
+  exact 68/68 entry sidecars from the frozen raw official-event cohort and
+  makes one terminal executable bid/ask attempt at 1, 5, 15, 30, and 60
+  minutes. Entry quotes are never reacquired.
+- Each attempt retains quote-read start and read-completion clocks. Long paths
+  use entry ask to horizon bid; short paths use entry bid to horizon ask.
+  Spreads are embedded exactly once in those executable endpoints and modeled
+  slippage remains separate. Partial, stale, late, future-skewed, or
+  wrong-generation attempts retain an immutable invalid header with zero quote
+  components and can never be repaired by a retry.
+- The collector is research-only, promotion- and authorization-ineligible,
+  cannot execute, and remains fixed to `no_trade`. A standalone independent
+  verifier implementation is present to rebuild source linkage, expected due
+  horizons, hashes, clocks, exact universe coverage, arithmetic, invalid
+  zero-component behavior, safety, and trigger presence without importing the
+  producer. This entry records implementation, not a passing validation claim.
+- Activation is `2026-08-30T12:00:00Z`. Zero eligible events and zero captures
+  before activation during the closed market are expected; no historical event
+  or Friday regression fixture is backfilled into the proof cohort.
+- Marked the three recurring HTTP-403 RBNZ surfaces—OCR snapshot, wholesale
+  interest rates, and official overseas reserves—as
+  `runtime_supported=false`. Existing parsers, historical rows, and provenance
+  remain preserved. Future direct collection requires a publisher-permitted
+  subscription, authenticated channel, or explicit access rather than a
+  polling bypass.
+- Causal pre-release consensus and timestamp-safe intraday OIS/rates or
+  policy-futures repricing remain external source blockers. Their absence does
+  not weaken fail-closed behavior and is not filled by inference or backfill.
+- Final validation passed: 99 focused changed-boundary tests under Python 3.12,
+  34 producer/verifier tests under both Python 3.12 and 3.13, and 548 broader
+  source/governance/integrity tests. The live empty ledger verifies with zero
+  failures; the project integrity audit remains `ok`. These results validate
+  implementation behavior, not predictive edge.
+- The collector and independent verifier are now running as hidden research
+  workers. Their fresh heartbeats report `ok` and `verified`; the verifier
+  reruns every 30 seconds and detects due-but-omitted horizons independently.

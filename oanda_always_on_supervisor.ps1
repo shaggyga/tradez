@@ -735,6 +735,48 @@ while ($true) {
                 ExpectedJsonField = "required_classification_version"
                 ExpectedJsonValue = "local_fx_news_rules_20260828_v151_pair_breakout_recap_boundary"
             }
+        # Complete the event-clock market path prospectively. The raw fast
+        # lane owns T0; this isolated worker makes one terminal all-68 bid/ask
+        # attempt at each frozen horizon and never reacquires an entry quote.
+        # It is research-only and has no broker, lifecycle or authorization
+        # dependency.
+        $managed += Start-ManagedProcess `
+            -Name "official_event_quote_horizon_capture_v1" `
+            -Needle "oanda_official_event_quote_horizon_capture_v1.py" `
+            -PriorityClass "BelowNormal" `
+            -Arguments @(
+                (Join-Path $Trad "oanda_official_event_quote_horizon_capture_v1.py"),
+                "--interval-sec", "5",
+                "--duration-sec", "$ChildDurationSec"
+            ) `
+            -Freshness @{
+                LiteralPath = (Join-Path $DataRoot "local_news_sentiment\official_event_quote_horizon_capture_heartbeat_v1.json")
+                MaxAgeSec = 120
+                StartupGraceSec = 180
+                MaxProgressAgeSec = 180
+                ExpectedJsonField = "contract_id"
+                ExpectedJsonValue = "official_event_quote_horizon_capture_v1_all68_append_only_20260830"
+            }
+        # Independently reconstruct the source lineage, due-horizon grid,
+        # exact quote arithmetic and fail-closed safety state. This process
+        # imports no producer or broker code and only writes verifier health.
+        $managed += Start-ManagedProcess `
+            -Name "official_event_quote_horizon_capture_verifier_v1" `
+            -Needle "oanda_official_event_quote_horizon_capture_v1_verifier.py" `
+            -PriorityClass "BelowNormal" `
+            -Arguments @(
+                (Join-Path $Trad "oanda_official_event_quote_horizon_capture_v1_verifier.py"),
+                "--interval-sec", "30",
+                "--duration-sec", "$ChildDurationSec"
+            ) `
+            -Freshness @{
+                LiteralPath = (Join-Path $DataRoot "local_news_sentiment\official_event_quote_horizon_capture_verifier_heartbeat_v1.json")
+                MaxAgeSec = 180
+                StartupGraceSec = 180
+                MaxProgressAgeSec = 180
+                ExpectedJsonField = "status"
+                ExpectedJsonValue = "verified"
+            }
         # Collect only exact, source-specific monetary-policy decision facts.
         # The first adapter is the separately reviewed SARB parser and remains
         # research-only: incomplete facts abstain, generic vote regexes are

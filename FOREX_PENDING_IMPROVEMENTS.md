@@ -1,8 +1,51 @@
 # Forex pending improvements
 
-Status: **Stable; current safe implementation queue complete; checkpoint manifests are authoritative**
+Status: **Stable; event-to-executable-quote V1 is validated and awaiting prospective evidence**
 
-Updated: 2026-08-30 00:58 America/New_York
+Updated: 2026-08-30 03:14 America/New_York
+
+## Event-to-executable-quote proof V1 — 30 August 03:14 ET
+
+The next source-priority implementation is now present as a separate,
+prospective-only research cohort. Nothing in this checkpoint is a claim of
+predictive edge.
+
+- Frozen contract
+  `official_event_quote_horizon_capture_v1_all68_append_only_20260830`
+  and cohort `official_event_quote_horizon_capture_v1_20260830a` bind exact
+  all-68 executable bid/ask attempts at 1, 5, 15, 30, and 60 minutes after an
+  eligible raw official event. Entry quotes must come from the already frozen
+  raw sidecar and are never reacquired.
+- Each horizon records both quote-read start and quote-read completion clocks.
+  Long economics use entry ask to horizon bid; short economics use entry bid
+  to horizon ask. Recorded spreads are already embedded once in those
+  executable endpoints, while modeled slippage remains a separate stress.
+- Every event/horizon has one terminal attempt and no retry. Partial, stale,
+  late, future-skewed, or wrong-generation snapshots retain an immutable
+  invalid header with zero quote components; a later snapshot cannot repair
+  the attempt.
+- The collector is append-only, research-only, execution-ineligible,
+  authorization-ineligible, promotion-ineligible, and fixed to `no_trade`.
+  A standalone verifier implementation exists to rebuild source linkage,
+  due-horizon completeness, hashes, clocks, arithmetic, exact 68/68 coverage,
+  invalid zero-component behavior, safety, and trigger presence without
+  importing the producer. The integrated source/governance boundary passed
+  548 tests, the focused changed boundary passed 99 tests under Python 3.12,
+  and the producer/verifier boundary passed 34 tests under both Python 3.12
+  and 3.13. The live empty ledger independently verifies with zero failures.
+- Zero eligible events and zero horizon captures are expected before the
+  `2026-08-30T12:00:00Z` activation while the FX market is closed. Historical
+  official events and Friday fixtures are not backfilled into this cohort.
+- The three direct RBNZ surfaces that repeatedly return HTTP 403—OCR snapshot,
+  wholesale interest rates, and official overseas reserves—are now explicitly
+  `runtime_supported=false`. Their parsers and historical rows remain
+  preserved. Restoration requires a publisher-permitted subscription,
+  authenticated channel, or explicit access; polling must not bypass the
+  publisher boundary.
+
+The remaining source blockers are external: causally captured pre-release
+consensus and timestamp-safe intraday OIS/rates or policy-futures repricing.
+Unavailable values remain unavailable rather than inferred or backfilled.
 
 ## Current queue and evidence boundary — 30 August 00:48 ET
 

@@ -20,24 +20,31 @@ def real_inputs():
     }
 
 
-def test_canonical_contract_maps_all_21_currencies_and_68_pairs() -> None:
+def test_canonical_contract_maps_all_21_currencies_and_exposes_rbnz_runtime_gap() -> None:
     report = audit.build_report(**real_inputs())
 
     assert report["global_blockers"] == []
     assert report["schema_version"] == "official_central_bank_coverage_v2"
     assert report["contract_complete"] is True
-    assert report["minimum_operational_complete"] is True
+    # All authority/source mappings remain complete, but the RBNZ's three
+    # direct HTTP surfaces are deliberately non-callable after repeated 403s.
+    # The audit must expose that real gap rather than count configured sources
+    # as operational or keep retrying against the publisher boundary.
+    assert report["minimum_operational_complete"] is False
     assert report["statistical_release_contract_complete"] is True
     assert report["statistical_release_summary"]["mapped_sources"] == 5
     assert report["statistical_release_summary"]["operational"] == 5
     assert report["statistical_release_summary"]["blockers"] == 0
     assert report["currency_summary"]["configured_complete"] == 21
-    assert report["currency_summary"]["release_operational"] == 21
+    assert report["currency_summary"]["release_operational"] == 20
     assert report["currency_summary"]["schedule_operational"] == 21
     assert report["pair_summary"]["emitted"] == 68
     assert report["pair_summary"]["both_legs_configured"] == 68
-    assert report["pair_summary"]["both_legs_operational"] == 68
+    assert report["pair_summary"]["both_legs_operational"] == 59
     assert set(report["currencies"]) == set(audit.EXPECTED_CURRENCIES)
+    assert report["currencies"]["NZD"]["configured_complete"] is True
+    assert report["currencies"]["NZD"]["release_operational"] is False
+    assert report["currencies"]["NZD"]["schedule_operational"] is True
 
 
 def test_aggregator_cannot_satisfy_official_bank_contract() -> None:
