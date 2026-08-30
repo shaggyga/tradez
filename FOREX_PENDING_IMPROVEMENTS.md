@@ -60,9 +60,15 @@ The supervisor, producer, verifier and dashboard are healthy. Practice 007 is
 flat at NAV 41.6042 with no orders, and `no_trade` remains supported.
 
 No repository-controlled implementation item remains in this section. The
-final source/model vault publication is closeout housekeeping, not predictor
-work. Existing external blockers—causal pre-release consensus, intraday
-policy-rate repricing and a permitted direct RBNZ channel—remain unchanged.
+credential-clean source baseline and the credential-free model/state archive
+were published to the OneDrive vault and independently verify-imported without
+starting any account process. Explicit retention left two immutable source
+baselines and one immutable model checkpoint. At the verification checkpoint,
+the shared vault used 4,989,228,581 bytes, leaving 10,771,419 bytes below its
+decimal 5 GB ceiling;
+the C drive retains about 170.5 GiB free. Existing external blockers—causal
+pre-release consensus, intraday policy-rate repricing and a permitted direct
+RBNZ channel—remain unchanged.
 
 ## Paired proof Windows publication repair and cohort B — 30 August 15:08 ET
 

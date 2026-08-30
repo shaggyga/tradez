@@ -3750,3 +3750,14 @@ Validation and safety:
   41.6042, lifetime P/L -8.3430, zero positions and zero pending orders. No
   manual order, manual close, gate relaxation, promotion or real-money action
   occurred; the supported decision remains `no_trade`.
+- Published the clean closeout baseline to the OneDrive vault. The source
+  checkpoint for commit `4f0615ea1012ae6ed8b77cd51d6be1e1b9432411`
+  passed its embedded 1,230-file credential audit and ZIP CRC check; explicit
+  retention kept two immutable source pairs. The credential-free model/state
+  checkpoint contained 1,480 files, archive SHA-256
+  `2e5ffa52d92f060fbeae4e75b4889cde4cb023004f0c9c3cd485af3eae7d2d7c`,
+  passed full current-archive validation, and retained one immutable model
+  archive. An independent verify-only import returned `verified`, found zero
+  credential files and started zero account processes. The settled shared
+  vault used 4,989,228,581 bytes, 10,771,419 bytes below its 5 GB ceiling;
+  C has about 170.5 GiB free. No `D:` destination was used.
