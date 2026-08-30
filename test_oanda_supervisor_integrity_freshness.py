@@ -55,3 +55,26 @@ def test_version_gated_heartbeat_reads_retry_transient_windows_denials() -> None
         "ConvertFrom-Json"
         not in text
     )
+
+
+def test_paired_evaluator_supervision_is_bound_to_isolated_b_heartbeats() -> None:
+    text = SUPERVISOR.read_text(encoding="utf-8")
+    producer = re.search(
+        r'-Name\s+"official_event_paired_evaluator_v1".*?'
+        r'-Name\s+"official_event_paired_evaluator_verifier_v1"',
+        text,
+        flags=re.DOTALL,
+    )
+    verifier = re.search(
+        r'-Name\s+"official_event_paired_evaluator_verifier_v1".*?'
+        r'-Name\s+"official_policy_decision_fact"',
+        text,
+        flags=re.DOTALL,
+    )
+    assert producer is not None
+    assert verifier is not None
+    for block in (producer.group(0), verifier.group(0)):
+        assert "official_event_paired_evaluator_v1_20260830b" in block
+        assert 'ExpectedJsonField = "cohort_id"' in block
+        assert 'ExpectedJsonValue = "official_event_paired_evaluator_v1_20260830b"' in block
+    assert "official_event_quote_horizon_capture_verifier_heartbeat_v1.json" in text

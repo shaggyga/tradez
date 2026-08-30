@@ -792,12 +792,12 @@ while ($true) {
                 "--duration-sec", "$ChildDurationSec"
             ) `
             -Freshness @{
-                LiteralPath = (Join-Path $DataRoot "local_news_sentiment\official_event_paired_evaluator_heartbeat_v1.json")
+                LiteralPath = (Join-Path $DataRoot "local_news_sentiment\official_event_paired_evaluator_heartbeat_v1_20260830b.json")
                 MaxAgeSec = 120
                 StartupGraceSec = 180
                 MaxProgressAgeSec = 180
-                ExpectedJsonField = "contract_id"
-                ExpectedJsonValue = "official_event_paired_evaluator_v1_append_only_20260830"
+                ExpectedJsonField = "cohort_id"
+                ExpectedJsonValue = "official_event_paired_evaluator_v1_20260830b"
             }
         # Verify the decision-time seal, issuer-only pair binding, exact
         # Cartesian schedule, upstream bytes, executable math and append-only
@@ -812,12 +812,12 @@ while ($true) {
                 "--duration-sec", "$ChildDurationSec"
             ) `
             -Freshness @{
-                LiteralPath = (Join-Path $DataRoot "local_news_sentiment\official_event_paired_evaluator_verifier_heartbeat_v1.json")
+                LiteralPath = (Join-Path $DataRoot "local_news_sentiment\official_event_paired_evaluator_verifier_heartbeat_v1_20260830b.json")
                 MaxAgeSec = 180
                 StartupGraceSec = 180
                 MaxProgressAgeSec = 180
-                ExpectedJsonField = "status"
-                ExpectedJsonValue = "verified"
+                ExpectedJsonField = "cohort_id"
+                ExpectedJsonValue = "official_event_paired_evaluator_v1_20260830b"
             }
         # Collect only exact, source-specific monetary-policy decision facts.
         # The first adapter is the separately reviewed SARB parser and remains

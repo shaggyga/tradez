@@ -3648,3 +3648,36 @@ Validation and safety:
   remains explicit and journaled rather than crash-atomic; a hostile external
   path replacement in the final preflight-to-unlink interval remains a narrow
   documented filesystem limit, not an execution or evidence-authority path.
+
+## 2026-08-30 15:08 America/New_York — Verifier heartbeat failure isolated; cohort B frozen
+
+- The live paired verifier recorded a genuine Windows transient publication
+  failure: `os.replace` returned access denied while replacing its heartbeat
+  JSON. The supervisor restarted the verifier and the append-only ledger was
+  unaffected, but the incident proved the publisher needed the same bounded
+  Windows retry contract as the surrounding supervised state readers.
+- Stopped only supervisor PID 19512 and the paired producer/verifier process
+  trees before changing frozen source. All unrelated hidden children were
+  left running for later adoption. Producer and verifier now retry the same
+  atomic replace up to eight times with bounded exponential delay, preserve
+  the last good destination on terminal failure and always remove the
+  temporary file.
+- Preserved cohort A and its original database without editing its manifest:
+  one manifest and zero decisions, arms, horizon inputs or outcomes,
+  `integrity_check=ok`. Cohort B
+  `official_event_paired_evaluator_v1_20260830b` starts at
+  `2026-08-30T19:00:00Z` in its own database and own producer/verifier state
+  paths. No A record is copied, backfilled or reclassified.
+- B freezes config SHA `d553877ba5140e31c5eb42233761bf5923cae4b44e601325fc776dab6b2e50e1`,
+  normalized producer SHA
+  `ea3374e4bab29dfc2f5703853927b14d119b40c2394bc7050fab8045f42073d7`,
+  literal producer SHA
+  `eeccb9679d29bedafa9696c8923dbab3cad45b2616c773a0b9895e816ccd08ed`
+  and independent verifier SHA
+  `96f0b588f39f6f8d0bacbdb3615aa1529c00d4d9ccae95739853e32b1aa8a476`.
+  Its first isolated cycle is healthy; the independent verifier reports zero
+  failures and the honest market-closed ledger has zero evidence rows.
+- Paired producer/verifier tests pass 57/57 under Python 3.12 and 3.13.
+  Supervisor parsing is clean and its cohort/path binding tests pass 4/4.
+  These results validate operational continuity, not predictive edge. The
+  supported execution decision remains `no_trade`.

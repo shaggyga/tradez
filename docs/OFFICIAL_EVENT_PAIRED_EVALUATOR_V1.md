@@ -16,8 +16,10 @@ supported execution decision remains `no_trade`.
 ## Frozen lineage
 
 - Contract: `official_event_paired_evaluator_v1_append_only_20260830`
-- Cohort: `official_event_paired_evaluator_v1_20260830a`
-- Activation: `2026-08-30T12:00:00Z`
+- Active cohort: `official_event_paired_evaluator_v1_20260830b`
+- Activation: `2026-08-30T19:00:00Z`
+- Active database:
+  `official_event_paired_evaluator_v1_20260830b.sqlite`
 - Raw entry contract:
   `official_release_raw_quote_capture_v1_append_boundary_all68_20260829`
 - Raw entry cohort: `official_release_raw_quote_capture_v1_20260829a`
@@ -46,9 +48,23 @@ supported execution decision remains `no_trade`.
 - Frozen horizon-capture producer SHA-256:
   `a0920b5edb530876c42e1e2892f624624db4221262c6a67fdcb42f9a12c146c9`
 - Frozen paired-evaluator config SHA-256:
-  `e22f3b7af29c3290b8ab35c8a170a1012d6bbb4af32f5e15c713e557dedbad5b`
+  `d553877ba5140e31c5eb42233761bf5923cae4b44e601325fc776dab6b2e50e1`
 - Frozen normalized paired-producer SHA-256:
-  `4f606d644daafb8a3a737555fbf04cbfac56597e15c0bedaf63bcbbc9493dbc1`
+  `ea3374e4bab29dfc2f5703853927b14d119b40c2394bc7050fab8045f42073d7`
+- Frozen literal paired-producer SHA-256:
+  `eeccb9679d29bedafa9696c8923dbab3cad45b2616c773a0b9895e816ccd08ed`
+- Independent verifier SHA-256:
+  `96f0b588f39f6f8d0bacbdb3615aa1529c00d4d9ccae95739853e32b1aa8a476`
+
+Cohort `official_event_paired_evaluator_v1_20260830a` remains preserved in
+the original `official_event_paired_evaluator_v1.sqlite` as an immutable
+zero-evidence baseline: one manifest and no decisions, arms, horizon inputs or
+outcomes. It was superseded before the first evidence row after a transient
+Windows `os.replace` access-denied failure terminated the verifier heartbeat
+publisher. Cohort B changes only the operational JSON publication boundary:
+producer and verifier retry that transient failure with a frozen, bounded
+eight-attempt policy. A and B have separate databases, state files and
+heartbeats; no A observation is imported or relabeled.
 
 No preactivation observation is imported. Any material change to a source,
 mapping, technical rule, pair selector, cost assumption or outcome contract

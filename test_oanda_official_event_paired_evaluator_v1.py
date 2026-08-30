@@ -12,7 +12,31 @@ import oanda_official_event_paired_evaluator_v1 as subject
 
 
 UTC = dt.timezone.utc
-EVENT = dt.datetime(2026, 8, 30, 12, 10, tzinfo=UTC)
+EVENT = dt.datetime(2026, 8, 30, 19, 10, tzinfo=UTC)
+
+
+def test_cohort_b_uses_isolated_paths_and_preserves_a_sentinel(tmp_path: Path):
+    cohort_a = tmp_path / "official_event_paired_evaluator_v1.sqlite"
+    cohort_a.write_bytes(b"immutable-cohort-a-zero-evidence-baseline")
+    before = hashlib.sha256(cohort_a.read_bytes()).hexdigest()
+    cohort_b = tmp_path / "official_event_paired_evaluator_v1_20260830b.sqlite"
+
+    connection = subject.open_database(cohort_b)
+    try:
+        manifest = dict(
+            connection.execute(
+                "SELECT * FROM paired_event_cohort_manifest"
+            ).fetchone()
+        )
+    finally:
+        connection.close()
+
+    assert subject.COHORT_ID == "official_event_paired_evaluator_v1_20260830b"
+    assert subject.OUTPUT_DATABASE.name.endswith("_20260830b.sqlite")
+    assert subject.STATE_PATH.name.endswith("_20260830b.json")
+    assert subject.HEARTBEAT_PATH.name.endswith("_20260830b.json")
+    assert manifest["cohort_id"] == subject.COHORT_ID
+    assert hashlib.sha256(cohort_a.read_bytes()).hexdigest() == before
 
 
 def canonical(value):
@@ -949,3 +973,62 @@ def test_missing_and_corrupt_inputs_publish_degraded_health(tmp_path: Path):
     assert payload["decision_cycle"]["health_state"] == "degraded"
     assert payload["outcome_cycle"]["health_state"] == "degraded"
     assert json.loads((tmp_path / "heartbeat.json").read_text())["status"] == "degraded"
+
+
+def test_atomic_json_publish_recovers_from_transient_windows_access_denied(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    target = tmp_path / "state.json"
+    real_replace = subject.os.replace
+    attempts = 0
+    sleeps: list[float] = []
+
+    def transient_replace(source: Path, destination: Path) -> None:
+        nonlocal attempts
+        attempts += 1
+        if attempts < 3:
+            raise PermissionError(5, "Access is denied")
+        real_replace(source, destination)
+
+    monkeypatch.setattr(subject.os, "replace", transient_replace)
+    monkeypatch.setattr(subject.time, "sleep", sleeps.append)
+
+    subject.write_json_atomic(target, {"status": "ok", "attempt": 3})
+
+    assert attempts == 3
+    assert sleeps == [0.01, 0.02]
+    assert json.loads(target.read_text(encoding="utf-8")) == {
+        "attempt": 3,
+        "status": "ok",
+    }
+    assert list(tmp_path.glob(".state.json.*.tmp")) == []
+
+
+def test_atomic_json_publish_raises_after_bounded_windows_failure_and_cleans_temp(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    target = tmp_path / "heartbeat.json"
+    target.write_text('{"status":"previous"}\n', encoding="utf-8")
+    attempts = 0
+    sleeps: list[float] = []
+
+    def permanently_denied(source: Path, destination: Path) -> None:
+        del source, destination
+        nonlocal attempts
+        attempts += 1
+        raise PermissionError(5, "Access is denied")
+
+    monkeypatch.setattr(subject.os, "replace", permanently_denied)
+    monkeypatch.setattr(subject.time, "sleep", sleeps.append)
+
+    with pytest.raises(PermissionError, match="Access is denied"):
+        subject.write_json_atomic(target, {"status": "new"})
+
+    assert attempts == 8
+    assert sleeps == [0.01, 0.02, 0.04, 0.08, 0.16, 0.32, 0.5]
+    assert json.loads(target.read_text(encoding="utf-8")) == {
+        "status": "previous"
+    }
+    assert list(tmp_path.glob(".heartbeat.json.*.tmp")) == []

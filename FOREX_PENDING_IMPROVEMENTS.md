@@ -1,10 +1,42 @@
 # Forex pending improvements
 
-Status: **Stable; paired official-event proof V1 is validated and awaiting prospective evidence**
+Status: **Cohort B validated; controlled hidden reload pending**
 
-Updated: 2026-08-30 14:47 America/New_York
+Updated: 2026-08-30 15:08 America/New_York
 
-## Paired event-to-executable-quote proof V1 — 30 August 14:05 ET
+## Paired proof Windows publication repair and cohort B — 30 August 15:08 ET
+
+- The final live audit caught one real operational failure: the independent
+  paired verifier exited when Windows temporarily denied `os.replace` while
+  publishing its JSON heartbeat. The supervisor restarted it and the
+  append-only evidence database remained intact, but a recurring transient
+  denial could have caused avoidable verifier churn.
+- Producer and verifier now share one frozen bounded publication policy:
+  retain the same temporary file, retry `PermissionError` up to eight times
+  with 0.01-to-0.50-second exponential waits, re-raise a persistent failure,
+  preserve the prior destination and always clean the temporary file.
+- Cohort A is preserved in `official_event_paired_evaluator_v1.sqlite` with
+  one immutable manifest and zero evidence rows. Because the producer source
+  changed, its manifest was not edited and its rows were not relabeled.
+  Cohort B (`official_event_paired_evaluator_v1_20260830b`) activates at
+  `2026-08-30T19:00:00Z` in a separate database and separate producer and
+  verifier state/heartbeat paths.
+- B freezes config SHA-256 `d553877ba5140e31c5eb42233761bf5923cae4b44e601325fc776dab6b2e50e1`,
+  normalized producer SHA-256
+  `ea3374e4bab29dfc2f5703853927b14d119b40c2394bc7050fab8045f42073d7`,
+  literal producer SHA-256
+  `eeccb9679d29bedafa9696c8923dbab3cad45b2616c773a0b9895e816ccd08ed`
+  and independent verifier SHA-256
+  `96f0b588f39f6f8d0bacbdb3615aa1529c00d4d9ccae95739853e32b1aa8a476`.
+- The isolated B startup and independent verifier pass with zero evidence,
+  exactly as expected while the market is closed. Paired tests pass 57/57
+  under Python 3.12 and 3.13; supervisor freshness/path tests pass 4/4.
+  The remaining action is a clean commit, controlled hidden reload, live
+  heartbeat/integrity confirmation and final source/model vault refresh.
+- This is operational hardening only. It does not change the hypothesis,
+  retune an arm, import history, establish edge or alter `no_trade`.
+
+## Paired event-to-executable-quote proof V1 cohort A baseline — 30 August 14:05 ET
 
 The audit's next repository-controlled build is complete and frozen. It adds
 measurement discipline, not a trading authorization or a claim of edge.

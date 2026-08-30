@@ -40,14 +40,20 @@ INPUT_RELEASE_DATABASE = LOCAL_NEWS / "official_release_fast_lane_v4.sqlite"
 INPUT_MAPPING_DATABASE = LOCAL_NEWS / "official_release_fast_mapping_v3.sqlite"
 INPUT_HORIZON_DATABASE = LOCAL_NEWS / "official_event_quote_horizon_capture_v1.sqlite"
 FEATURE_SNAPSHOT_PATH = STATE_ROOT / "live_model_feature_snapshot_v1.json"
-OUTPUT_DATABASE = LOCAL_NEWS / "official_event_paired_evaluator_v1.sqlite"
-STATE_PATH = LOCAL_NEWS / "official_event_paired_evaluator_latest_v1.json"
-HEARTBEAT_PATH = LOCAL_NEWS / "official_event_paired_evaluator_heartbeat_v1.json"
+OUTPUT_DATABASE = (
+    LOCAL_NEWS / "official_event_paired_evaluator_v1_20260830b.sqlite"
+)
+STATE_PATH = (
+    LOCAL_NEWS / "official_event_paired_evaluator_latest_v1_20260830b.json"
+)
+HEARTBEAT_PATH = (
+    LOCAL_NEWS / "official_event_paired_evaluator_heartbeat_v1_20260830b.json"
+)
 
 SCHEMA_VERSION = "official_event_paired_evaluator_v1"
 CONTRACT_ID = "official_event_paired_evaluator_v1_append_only_20260830"
-COHORT_ID = "official_event_paired_evaluator_v1_20260830a"
-ACTIVATED_UTC = dt.datetime(2026, 8, 30, 12, 0, tzinfo=dt.timezone.utc)
+COHORT_ID = "official_event_paired_evaluator_v1_20260830b"
+ACTIVATED_UTC = dt.datetime(2026, 8, 30, 19, 0, tzinfo=dt.timezone.utc)
 REQUIRED_MAPPING_CONTRACT_ID = (
     "official_release_fast_mapping_v3_semantic_vs_publish_gate_20260824"
 )
@@ -106,10 +112,13 @@ HORIZON_MAXIMUM_SNAPSHOT_AGE_SEC = 15.0
 HORIZON_MAXIMUM_QUOTE_AGE_SEC = 30.0
 HORIZON_MAXIMUM_FUTURE_SKEW_SEC = 2.0
 HORIZON_MAXIMUM_TARGET_OFFSET_SEC = 20.0
+ATOMIC_JSON_REPLACE_ATTEMPTS = 8
+ATOMIC_JSON_REPLACE_INITIAL_DELAY_SEC = 0.01
+ATOMIC_JSON_REPLACE_MAX_DELAY_SEC = 0.5
 FROZEN_CONFIG_FILE_SHA256 = (
-    "e22f3b7af29c3290b8ab35c8a170a1012d6bbb4af32f5e15c713e557dedbad5b"
+    "d553877ba5140e31c5eb42233761bf5923cae4b44e601325fc776dab6b2e50e1"
 )
-FROZEN_PRODUCER_SOURCE_SHA256 = "4f606d644daafb8a3a737555fbf04cbfac56597e15c0bedaf63bcbbc9493dbc1"
+FROZEN_PRODUCER_SOURCE_SHA256 = "ea3374e4bab29dfc2f5703853927b14d119b40c2394bc7050fab8045f42073d7"
 POLICY = {
     "prospective_only": True,
     "historical_backfill_allowed": False,
@@ -199,14 +208,19 @@ def write_json_atomic(path: Path, payload: Mapping[str, Any]) -> None:
             json.dumps(payload, indent=2, sort_keys=True, default=str) + "\n",
             encoding="utf-8",
         )
-        for attempt in range(8):
+        for attempt in range(ATOMIC_JSON_REPLACE_ATTEMPTS):
             try:
                 os.replace(temporary, path)
                 return
             except PermissionError:
-                if attempt == 7:
+                if attempt == ATOMIC_JSON_REPLACE_ATTEMPTS - 1:
                     raise
-                time.sleep(min(0.5, 0.01 * (2**attempt)))
+                time.sleep(
+                    min(
+                        ATOMIC_JSON_REPLACE_MAX_DELAY_SEC,
+                        ATOMIC_JSON_REPLACE_INITIAL_DELAY_SEC * (2**attempt),
+                    )
+                )
     finally:
         temporary.unlink(missing_ok=True)
 

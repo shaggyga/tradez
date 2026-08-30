@@ -477,3 +477,62 @@ def test_dependency_source_identity_drift_is_detected(tmp_path: Path) -> None:
     assert result["verified"] is False
     assert "dependency:fast_lane:file_sha256:mismatch" in result["failures"]
     assert any("fast_lane_source_sha_mismatch" in item for item in result["failures"])
+
+
+def test_atomic_json_publish_recovers_from_transient_windows_access_denied(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    target = tmp_path / "verifier-state.json"
+    real_replace = verifier.os.replace
+    attempts = 0
+    sleeps: list[float] = []
+
+    def transient_replace(source: Path, destination: Path) -> None:
+        nonlocal attempts
+        attempts += 1
+        if attempts < 3:
+            raise PermissionError(5, "Access is denied")
+        real_replace(source, destination)
+
+    monkeypatch.setattr(verifier.os, "replace", transient_replace)
+    monkeypatch.setattr(verifier.time, "sleep", sleeps.append)
+
+    verifier.write_json_atomic(target, {"status": "verified", "attempt": 3})
+
+    assert attempts == 3
+    assert sleeps == [0.01, 0.02]
+    assert json.loads(target.read_text(encoding="utf-8")) == {
+        "attempt": 3,
+        "status": "verified",
+    }
+    assert list(tmp_path.glob(".verifier-state.json.*.tmp")) == []
+
+
+def test_atomic_json_publish_raises_after_bounded_windows_failure_and_cleans_temp(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    target = tmp_path / "verifier-heartbeat.json"
+    target.write_text('{"status":"previous"}\n', encoding="utf-8")
+    attempts = 0
+    sleeps: list[float] = []
+
+    def permanently_denied(source: Path, destination: Path) -> None:
+        del source, destination
+        nonlocal attempts
+        attempts += 1
+        raise PermissionError(5, "Access is denied")
+
+    monkeypatch.setattr(verifier.os, "replace", permanently_denied)
+    monkeypatch.setattr(verifier.time, "sleep", sleeps.append)
+
+    with pytest.raises(PermissionError, match="Access is denied"):
+        verifier.write_json_atomic(target, {"status": "verified"})
+
+    assert attempts == 8
+    assert sleeps == [0.01, 0.02, 0.04, 0.08, 0.16, 0.32, 0.5]
+    assert json.loads(target.read_text(encoding="utf-8")) == {
+        "status": "previous"
+    }
+    assert list(tmp_path.glob(".verifier-heartbeat.json.*.tmp")) == []
