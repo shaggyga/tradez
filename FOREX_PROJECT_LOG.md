@@ -3681,3 +3681,24 @@ Validation and safety:
   Supervisor parsing is clean and its cohort/path binding tests pass 4/4.
   These results validate operational continuity, not predictive edge. The
   supported execution decision remains `no_trade`.
+
+## 2026-08-30 15:14 America/New_York — Cohort B live under hidden supervision
+
+- Committed the cohort-B repair as
+  `5de597f0701bd6ad14415856ffc7257d989fa88c` after the staged credential
+  audit scanned 1,225 files with zero findings. The official-release release
+  boundary passed 125/125 tests under Python 3.12 and 3.13; credential tests
+  passed 8/8 under both runtimes.
+- Started hidden supervisor PID 30724 with the canonical safe-core command.
+  It adopted the existing workers and started only paired cohort-B producer
+  PID 8232 and verifier PID 33308. The first supervisor loop retained the
+  prelaunch heartbeat age; the next loop correctly reported both new workers
+  fresh and did not restart them.
+- Producer is `ok`; the independent verifier is `verified` with no failures;
+  both supervised stderr logs are empty. Cohort A SHA-256
+  `cae48ab421eac9b2e5ca3b0e2b80dea4a61465cc44c65277890f7ee0e6cb7880`
+  and cohort B SHA-256
+  `628855de19ff67808fb72ce9e12f614a5d6c160fc75766f7201a8276a054b679`
+  independently pass SQLite integrity, preserve their exact A/B manifests
+  and contain zero evidence rows. Practice execution and authorization were
+  not touched; `no_trade` remains supported.

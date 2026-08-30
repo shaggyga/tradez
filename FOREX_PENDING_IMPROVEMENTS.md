@@ -1,8 +1,8 @@
 # Forex pending improvements
 
-Status: **Cohort B validated; controlled hidden reload pending**
+Status: **Stable; paired official-event cohort B is live and awaiting prospective evidence**
 
-Updated: 2026-08-30 15:08 America/New_York
+Updated: 2026-08-30 15:14 America/New_York
 
 ## Paired proof Windows publication repair and cohort B — 30 August 15:08 ET
 
@@ -30,10 +30,17 @@ Updated: 2026-08-30 15:08 America/New_York
   `96f0b588f39f6f8d0bacbdb3615aa1529c00d4d9ccae95739853e32b1aa8a476`.
 - The isolated B startup and independent verifier pass with zero evidence,
   exactly as expected while the market is closed. Paired tests pass 57/57
-  under Python 3.12 and 3.13; supervisor freshness/path tests pass 4/4.
-  The remaining action is a clean commit, controlled hidden reload, live
-  heartbeat/integrity confirmation and final source/model vault refresh.
-- This is operational hardening only. It does not change the hypothesis,
+  under Python 3.12 and 3.13; the broader official-release boundary passes
+  125/125 under both runtimes and supervisor freshness/path tests pass 4/4.
+  Commit `5de597f0701bd6ad14415856ffc7257d989fa88c` passed a 1,225-file staged
+  credential audit with zero findings. Hidden supervisor PID 30724 adopted
+  the existing workers and launched only cohort B producer PID 8232 and
+  verifier PID 33308. Both are fresh; producer reports `ok`, verifier reports
+  `verified`, both error logs are empty, and A/B databases independently pass
+  `integrity_check` with one exact manifest and zero evidence rows.
+- Final source/model vault publication from the clean post-reload record is
+  the remaining housekeeping step. This is operational hardening only. It
+  does not change the hypothesis,
   retune an arm, import history, establish edge or alter `no_trade`.
 
 ## Paired event-to-executable-quote proof V1 cohort A baseline — 30 August 14:05 ET
