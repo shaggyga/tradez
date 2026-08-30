@@ -777,6 +777,48 @@ while ($true) {
                 ExpectedJsonField = "status"
                 ExpectedJsonValue = "verified"
             }
+        # Seal one outcome-blind official-event decision (or explicit
+        # abstention) before H1, then compare the frozen official, price-only,
+        # confirmed, flipped and no-trade arms on the exact Horizon V1 rows.
+        # The event-T0 entry is a research counterfactual clock, not an order;
+        # this worker has no broker, lifecycle or authorization surface.
+        $managed += Start-ManagedProcess `
+            -Name "official_event_paired_evaluator_v1" `
+            -Needle "oanda_official_event_paired_evaluator_v1.py" `
+            -PriorityClass "BelowNormal" `
+            -Arguments @(
+                (Join-Path $Trad "oanda_official_event_paired_evaluator_v1.py"),
+                "--interval-sec", "5",
+                "--duration-sec", "$ChildDurationSec"
+            ) `
+            -Freshness @{
+                LiteralPath = (Join-Path $DataRoot "local_news_sentiment\official_event_paired_evaluator_heartbeat_v1.json")
+                MaxAgeSec = 120
+                StartupGraceSec = 180
+                MaxProgressAgeSec = 180
+                ExpectedJsonField = "contract_id"
+                ExpectedJsonValue = "official_event_paired_evaluator_v1_append_only_20260830"
+            }
+        # Verify the decision-time seal, issuer-only pair binding, exact
+        # Cartesian schedule, upstream bytes, executable math and append-only
+        # boundary without importing the paired producer.
+        $managed += Start-ManagedProcess `
+            -Name "official_event_paired_evaluator_verifier_v1" `
+            -Needle "oanda_official_event_paired_evaluator_v1_verifier.py" `
+            -PriorityClass "BelowNormal" `
+            -Arguments @(
+                (Join-Path $Trad "oanda_official_event_paired_evaluator_v1_verifier.py"),
+                "--interval-sec", "30",
+                "--duration-sec", "$ChildDurationSec"
+            ) `
+            -Freshness @{
+                LiteralPath = (Join-Path $DataRoot "local_news_sentiment\official_event_paired_evaluator_verifier_heartbeat_v1.json")
+                MaxAgeSec = 180
+                StartupGraceSec = 180
+                MaxProgressAgeSec = 180
+                ExpectedJsonField = "status"
+                ExpectedJsonValue = "verified"
+            }
         # Collect only exact, source-specific monetary-policy decision facts.
         # The first adapter is the separately reviewed SARB parser and remains
         # research-only: incomplete facts abstain, generic vote regexes are

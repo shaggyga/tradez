@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "contract_id": "official_event_paired_evaluator_v1_append_only_20260830",
+  "cohort_id": "official_event_paired_evaluator_v1_20260830a",
+  "activated_utc": "2026-08-30T12:00:00Z",
+  "required_entry_capture_contract_id": "official_release_raw_quote_capture_v1_append_boundary_all68_20260829",
+  "required_entry_capture_cohort_id": "official_release_raw_quote_capture_v1_20260829a",
+  "required_raw_release_collector_contract_id": "official_release_fast_lane_v4_selection_v2_authoritative_communications_20260828T150000Z",
+  "required_raw_release_collector_cohort_id": "official_release_fast_lane_v4_communications_20260828T150000Z",
+  "required_mapping_contract_id": "official_release_fast_mapping_v3_semantic_vs_publish_gate_20260824",
+  "required_mapping_cohort_id": "official_release_fast_mapping_v3_20260824",
+  "required_classification_version": "local_fx_news_rules_20260828_v151_pair_breakout_recap_boundary",
+  "required_horizon_capture_contract_id": "official_event_quote_horizon_capture_v1_all68_append_only_20260830",
+  "required_horizon_capture_cohort_id": "official_event_quote_horizon_capture_v1_20260830a",
+  "required_source_authority_map_contract_id": "official_central_bank_source_map_v9_us_policy_communication_clocks_20260827",
+  "required_source_authority_map_sha256": "09d4f80708cbed509564e2f7bc5245a24de44df3728ed0583b1d9cbb6f299a19",
+  "required_news_source_config_sha256": "6058d3a81d250add66e1d22b0f2541990f3bc90c52575c4a7a97c3361ad0a45b",
+  "required_fast_lane_source_sha256": "55f3a1260c2c3644fa2c4de0e70c4fe081e21fff366caeeaae8fe80bfb1d752a",
+  "required_horizon_capture_source_sha256": "a0920b5edb530876c42e1e2892f624624db4221262c6a67fdcb42f9a12c146c9",
+  "expected_instrument_count": 68,
+  "expected_instrument_universe_sha256": "b6abe559dcaa9faa0a1e48217f97a12dc9043eb9595d2b946bf80f93035be142",
+  "decision": {
+    "first_horizon_min": 1,
+    "seal_deadline_offset_sec": 55.0,
+    "pair_selection": "lowest_entry_spread_among_pairs_containing_issuer_then_lexicographic",
+    "issuer_binding": "single_identical_currency_from_direct_verified_raw_source_authority_and_mapping_source_currencies; mentioned currencies ignored",
+    "mapping_selection": "earliest_mapping_copy_observed_by_seal_deadline",
+    "clock_policy": "fresh_read_start_and_fresh_precommit_clock_per_event",
+    "first_horizon_commit_margin_sec": 5.0,
+    "market_episode_bucket_min": 15
+  },
+  "entry_capture_quality": {
+    "maximum_capture_latency_sec": 15.0,
+    "maximum_quote_age_sec": 30.0,
+    "maximum_future_skew_sec": 2.0,
+    "maximum_event_offset_sec": 15.0
+  },
+  "horizon_capture_quality": {
+    "maximum_attempt_delay_sec": 20.0,
+    "maximum_snapshot_age_sec": 15.0,
+    "maximum_quote_age_sec": 30.0,
+    "maximum_future_skew_sec": 2.0,
+    "maximum_target_offset_sec": 20.0
+  },
+  "technical_rule": {
+    "rule_id": "completed_m1_ema_5_20_at_t0_v1",
+    "feature_snapshot_schema_version": 1,
+    "required_completed_bars_contract": true,
+    "required_timeframe": "M1",
+    "minimum_completed_closes": 20,
+    "fast_ema_span": 5,
+    "slow_ema_span": 20,
+    "maximum_snapshot_age_sec": 1800.0,
+    "maximum_last_completed_bar_age_sec": 120.0,
+    "snapshot_must_not_postdate_event_t0": true,
+    "last_bar_must_complete_by_event_t0": true,
+    "missing_or_noncausal_policy": "terminal_abstain_never_attach_later"
+  },
+  "arms": [
+    "official_source_only",
+    "price_only",
+    "official_plus_technical_confirmation",
+    "official_flipped_control",
+    "no_trade"
+  ],
+  "horizons_min": [1, 5, 15, 30, 60],
+  "round_trip_slippage_pips": [0.0, 0.25, 0.5],
+  "policy": {
+    "prospective_only": true,
+    "historical_backfill_allowed": false,
+    "decision_and_schedule_must_be_sealed_before_first_horizon": true,
+    "outcome_database_may_not_be_read_before_decision_commit": true,
+    "technical_may_confirm_or_veto_official_but_never_reverse": true,
+    "one_pair_shared_by_all_arms": true,
+    "entry_economics_role": "event_clock_counterfactual_research_measurement_not_proof_of_order_submission_before_semantic_decision",
+    "research_only": true,
+    "execution_eligible": false,
+    "can_place_orders": false,
+    "can_authorize": false,
+    "can_promote": false,
+    "supported_execution_decision": "no_trade"
+  }
+}

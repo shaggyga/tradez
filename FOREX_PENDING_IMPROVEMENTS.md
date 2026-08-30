@@ -1,8 +1,66 @@
 # Forex pending improvements
 
-Status: **Stable; event-to-executable-quote V1 is validated and awaiting prospective evidence**
+Status: **Stable; paired official-event proof V1 is validated and awaiting prospective evidence**
 
-Updated: 2026-08-30 03:14 America/New_York
+Updated: 2026-08-30 13:52 America/New_York
+
+## Paired event-to-executable-quote proof V1 — 30 August 13:52 ET
+
+The audit's next repository-controlled build is complete and frozen. It adds
+measurement discipline, not a trading authorization or a claim of edge.
+
+- Contract `official_event_paired_evaluator_v1_append_only_20260830` and
+  cohort `official_event_paired_evaluator_v1_20260830a` require one decision
+  or explicit terminal invalid/abstention record for every eligible untouched
+  official event. The complete decision and 75-row arm/horizon/cost schedule
+  must be sealed before the one-minute outcome exists.
+- The raw collector, exact source contract/cohort, V151 mapping,
+  source-authority map, news-source configuration, upstream producer bytes,
+  numeric timing limits, paired config and producer identity are frozen. Raw
+  capture latency, quote clocks, mapping availability, write-lock timing,
+  horizon attempt clocks, snapshot age, quote age and target offsets are
+  independently rederived rather than accepted from quality labels.
+- One outcome-blind issuer pair is selected by the lowest event-T0 executable
+  spread with a lexicographic tie break. The frozen arms are official source,
+  price-only timing, official plus technical confirmation, flipped official
+  control and no-trade. All share the same pair, entry quote, horizon and cost
+  assumptions. Technical state may confirm or veto; it cannot reverse or
+  invent the official economic direction.
+- Long economics use event ask to horizon bid and short economics use event
+  bid to horizon ask. Those endpoints embed spread exactly once; only the
+  separately declared 0.00/0.25/0.50-pip round-trip slippage stress is
+  subtracted. The T0 entry is explicitly a research counterfactual and is not
+  described as proof of pre-semantic order submission.
+- A standalone read-only verifier imports no producer and reconstructs exact
+  rows/bytes, clocks, issuer binding, deterministic pair choice, technical
+  material, complete schedule, horizon freshness, arithmetic, dependence keys
+  and append-only safety. The final paired/horizon boundary passed 86 tests
+  under both Python 3.12 and 3.13; the broader source, governance, isolation,
+  supervisor, vault and credential boundary passed 235 tests under each
+  runtime. Independent adversarial review found no launch blocker.
+- No draft evaluator was launched or allowed to create evidence. Controlled
+  hidden deployment follows the reviewed Git checkpoint. With the market
+  closed, zero eligible events, decisions and outcomes are the expected
+  initial state. Historical fixtures and Friday's Fed speech remain regression
+  diagnostics and cannot enter this cohort.
+- Explicit source-vault retention is now fail-closed and opt-in. It validates
+  every immutable Git-source archive/manifest pair and current pointer before
+  pruning, refuses links, unknown names and incomplete pairs, and separately
+  recognizes only 13 exact obsolete legacy source artifacts. No vault file
+  has been deleted at this checkpoint; cleanup follows the clean committed
+  source publication and is recorded by file name, SHA-256 and bytes.
+
+Remaining gates are evidence or external access: untouched official events,
+causally captured pre-release consensus, timestamp-safe intraday OIS/rates or
+policy-futures repricing, and a publisher-permitted direct RBNZ channel. The
+five-second precommit margin cannot prove commit completion through an extreme
+storage stall, and later inference must additionally cluster cross-issuer
+global shocks. These limits remain explicit and fail closed.
+
+There are **no unimplemented repository-controlled changes** in this new
+section. The active research direction is source-first, paid procurement
+remains out of scope, and the supported execution decision remains
+`no_trade`.
 
 ## Event-to-executable-quote proof V1 — 30 August 03:14 ET
 

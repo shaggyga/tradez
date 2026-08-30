@@ -3538,3 +3538,56 @@ Validation and safety:
 - The collector and independent verifier are now running as hidden research
   workers. Their fresh heartbeats report `ok` and `verified`; the verifier
   reruns every 30 seconds and detects due-but-omitted horizons independently.
+
+## 2026-08-30 13:52 America/New_York — Paired official-event proof frozen before deployment
+
+- Implemented prospective-only, append-only contract
+  `official_event_paired_evaluator_v1_append_only_20260830` and cohort
+  `official_event_paired_evaluator_v1_20260830a`. Every eligible post-
+  activation raw event must receive an outcome-blind decision or explicit
+  terminal invalid/abstention by T0+55 seconds, before its one-minute outcome.
+  The full five-arm, five-horizon, three-slippage schedule is precommitted.
+- The five arms are issuer-bound official direction, price-only timing,
+  official plus technical confirmation, flipped official control and
+  no-trade. One pair is selected without outcomes by minimum event-T0
+  executable spread, then lexicographic tie break. Every arm shares the same
+  event, pair, entry quote, horizon and cost assumptions.
+- Froze config SHA-256
+  `e22f3b7af29c3290b8ab35c8a170a1012d6bbb4af32f5e15c713e557dedbad5b`,
+  normalized producer SHA-256
+  `4f606d644daafb8a3a737555fbf04cbfac56597e15c0bedaf63bcbbc9493dbc1`,
+  the exact raw collector/source lineages, V151 classification, authority and
+  news-source configurations, upstream producer hashes and all timing limits.
+  The initial freeze was rejected before launch when adversarial review found
+  classification-version mixing, stale pre-lock clocks, trusted latency
+  labels, mutable dependency limits and insufficient horizon backfill checks.
+  V2 rederives and binds each of those inputs.
+- Added standalone verifier SHA-256
+  `aa33bb898846a7e2916ff7f43e7f8e77fc539a2b4a99e2bec2a213fcd34beda9`.
+  It imports no paired producer and reconstructs config/manifest identities,
+  source and mapping lineage, entry and horizon clocks, issuer-only scope,
+  deterministic pair choice, causal completed-M1 technical state, complete
+  arm/outcome grids, executable endpoint arithmetic, dependence keys and
+  append-only triggers. Honest terminal-invalid evidence remains verifiable;
+  forged or omitted material fails.
+- Final paired plus horizon boundary passed 86 tests under Python 3.12 and
+  3.13. The broader source/governance/integrity/isolation/supervisor/vault/
+  credential boundary passed 235 tests under each runtime. All changed Python
+  modules compile under both runtimes and PowerShell supervisor parsing is
+  clean. These are implementation results, not predictive evidence.
+- Added explicit, audited source-vault retention. Default behavior still
+  preserves everything. Retention requires a positive explicit count and
+  validates exact direct-child immutable archive/manifest pairs, Git/tree/
+  hash/size/CRC metadata and the current pointer/mirror before any unlink.
+  Legacy cleanup is a second explicit flag, recognizes only four exact naming
+  families, rejects links/unknown names and records every deleted file's hash
+  and size. Its preflight identifies 13 obsolete files totaling 20,039,246
+  bytes; no deletion occurred before the clean committed checkpoint.
+- Updated the SARB source register from the stale pending-V73 description to
+  the active V7 bounded-retry transport under collector V74. TLS and hostname
+  validation remain required; there is no insecure fallback.
+- Bounded residuals remain explicit: T0 is a counterfactual attribution clock,
+  the final precommit sample cannot prove commit completion through an extreme
+  storage stall, and later inference must cluster cross-issuer global shocks.
+  None relaxes the execution boundary. Practice 007 remained flat, and no
+  manual/discretionary or real-money action occurred during implementation.
