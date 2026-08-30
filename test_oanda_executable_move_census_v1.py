@@ -32,13 +32,13 @@ def test_supervisor_registers_isolated_research_census_and_verifier_workers() ->
         (
             producer,
             "oanda_executable_move_census_v1.py",
-            "executable_move_census_heartbeat_v1.json",
+            "executable_move_census_heartbeat_v1_20260830b.json",
             "executable_move_census_heartbeat_v1",
         ),
         (
             verifier,
             "oanda_executable_move_census_v1_verifier.py",
-            "executable_move_census_verifier_latest_v1.json",
+            "executable_move_census_verifier_latest_v1_20260830b.json",
             "executable_move_census_verifier_v1",
         ),
     ):
@@ -53,6 +53,32 @@ def test_supervisor_registers_isolated_research_census_and_verifier_workers() ->
     assert "research-only observations" in (Path(__file__).resolve().parent / "oanda_always_on_supervisor.ps1").read_text(
         encoding="utf-8"
     )
+
+
+def test_cohort_b_paths_are_isolated_and_cohort_a_is_preserved() -> None:
+    root = Path(__file__).resolve().parent
+    supervisor = (root / "oanda_always_on_supervisor.ps1").read_text(encoding="utf-8")
+    a_config = root / "config" / "executable_move_census_v1.json"
+    b_config = root / "config" / "executable_move_census_v1_20260830b.json"
+    assert a_config.is_file()
+    assert json.loads(a_config.read_text(encoding="utf-8"))["cohort_id"] == (
+        "all68_executable_move_census_v1_20260830"
+    )
+    assert census.CONFIG == b_config
+    assert census.DATABASE.name == "executable_move_census_v1_20260830b.sqlite"
+    assert census.OUTPUT.name == "executable_move_census_latest_v1_20260830b.json"
+    assert census.HEARTBEAT.name == "executable_move_census_heartbeat_v1_20260830b.json"
+    assert "executable_move_census_v1.sqlite" not in supervisor
+    assert "executable_move_census_latest_v1.json" not in supervisor
+    assert "executable_move_census_heartbeat_v1.json" not in supervisor
+    for name in (
+        "executable_move_census_v1_20260830b.sqlite",
+        "executable_move_census_latest_v1_20260830b.json",
+        "executable_move_census_heartbeat_v1_20260830b.json",
+        "executable_move_census_verifier_latest_v1_20260830b.json",
+        "executable_move_census_verifier_checkpoint_v1_20260830b.json",
+    ):
+        assert name in supervisor
 
 
 def test_latest_snapshot_does_not_rescan_historical_raw_payloads() -> None:

@@ -44,6 +44,12 @@ from trad.oanda_practice_live_dashboard import (
 
 
 class PatternDashboardTests(unittest.TestCase):
+    def test_primary_executable_census_reads_only_prospective_cohort_b(self):
+        self.assertEqual(
+            dashboard.EXECUTABLE_MOVE_CENSUS.name,
+            "executable_move_census_latest_v1_20260830b.json",
+        )
+
     def test_adaptive_level_summary_remains_outside_execution_surface(self):
         with tempfile.TemporaryDirectory() as temporary:
             path = Path(temporary) / "levels.json"

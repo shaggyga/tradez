@@ -1937,11 +1937,15 @@ while ($true) {
             -PriorityClass "BelowNormal" `
             -Arguments @(
                 (Join-Path $Trad "oanda_executable_move_census_v1.py"),
+                "--config", (Join-Path $Trad "config\executable_move_census_v1_20260830b.json"),
+                "--database", (Join-Path $State "executable_move_census_v1_20260830b.sqlite"),
+                "--output", (Join-Path $State "executable_move_census_latest_v1_20260830b.json"),
+                "--heartbeat", (Join-Path $State "executable_move_census_heartbeat_v1_20260830b.json"),
                 "--interval-sec", "30",
                 "--duration-sec", "$ChildDurationSec"
             ) `
             -Freshness @{
-                LiteralPath = (Join-Path $State "executable_move_census_heartbeat_v1.json")
+                LiteralPath = (Join-Path $State "executable_move_census_heartbeat_v1_20260830b.json")
                 MaxAgeSec = 120
                 StartupGraceSec = 180
                 ExpectedJsonField = "schema_version"
@@ -1957,11 +1961,16 @@ while ($true) {
             -PriorityClass "BelowNormal" `
             -Arguments @(
                 (Join-Path $Trad "oanda_executable_move_census_v1_verifier.py"),
+                "--config", (Join-Path $Trad "config\executable_move_census_v1_20260830b.json"),
+                "--database", (Join-Path $State "executable_move_census_v1_20260830b.sqlite"),
+                "--latest", (Join-Path $State "executable_move_census_latest_v1_20260830b.json"),
+                "--output", (Join-Path $State "executable_move_census_verifier_latest_v1_20260830b.json"),
+                "--checkpoint", (Join-Path $State "executable_move_census_verifier_checkpoint_v1_20260830b.json"),
                 "--interval-sec", "30",
                 "--duration-sec", "$ChildDurationSec"
             ) `
             -Freshness @{
-                LiteralPath = (Join-Path $State "executable_move_census_verifier_latest_v1.json")
+                LiteralPath = (Join-Path $State "executable_move_census_verifier_latest_v1_20260830b.json")
                 MaxAgeSec = 180
                 StartupGraceSec = 240
                 ExpectedJsonField = "schema_version"

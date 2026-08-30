@@ -26,30 +26,30 @@ from zoneinfo import ZoneInfo
 UTC = dt.timezone.utc
 NY = ZoneInfo("America/New_York")
 ROOT = Path(__file__).resolve().parent
-CONFIG_PATH = ROOT / "config" / "executable_move_census_v1.json"
+CONFIG_PATH = ROOT / "config" / "executable_move_census_v1_20260830b.json"
 DATABASE_PATH = (
     ROOT / "data" / "oanda_training_manager" / "state"
-    / "executable_move_census_v1.sqlite"
+    / "executable_move_census_v1_20260830b.sqlite"
 )
 LATEST_PATH = (
     ROOT / "data" / "oanda_training_manager" / "state"
-    / "executable_move_census_latest_v1.json"
+    / "executable_move_census_latest_v1_20260830b.json"
 )
 PRODUCER_PATH = ROOT / "oanda_executable_move_census_v1.py"
 SOURCE_PRODUCER_PATH = ROOT / "oanda_practice_top_signal_executor.py"
 QUOTE_TRANSPORT_PATH = ROOT / "oanda_quote_transport.py"
 OUTPUT_PATH = (
     ROOT / "data" / "oanda_training_manager" / "state"
-    / "executable_move_census_verifier_latest_v1.json"
+    / "executable_move_census_verifier_latest_v1_20260830b.json"
 )
 CHECKPOINT_PATH = (
     ROOT / "data" / "oanda_training_manager" / "state"
-    / "executable_move_census_verifier_checkpoint_v1.json"
+    / "executable_move_census_verifier_checkpoint_v1_20260830b.json"
 )
 
 SCHEMA = "executable_move_census_v1"
-COHORT_ID = "all68_executable_move_census_v1_20260830"
-ACTIVATION_UTC = dt.datetime(2026, 8, 30, 21, 5, tzinfo=UTC)
+COHORT_ID = "all68_executable_move_census_v1_20260830b"
+ACTIVATION_UTC = dt.datetime(2026, 8, 31, 0, 0, tzinfo=UTC)
 CADENCE_SEC = 60
 HORIZONS_MIN = (1, 5, 10, 15, 30, 60)
 SLIPPAGE_PIPS = 0.25
@@ -63,7 +63,7 @@ MAXIMUM_LATEST_AGE_SEC = 150.0
 SOURCE_SCHEMA_VERSION = "2"
 SOURCE_PRODUCER = "practice_007_fast_executor_price_stream"
 CAPTURE_CONTRACT_ID = "all68_exact_snapshot_capture_v1"
-CAPTURE_COHORT_ID = "all68_exact_snapshot_capture_20260830"
+CAPTURE_COHORT_ID = "all68_exact_snapshot_capture_20260830b"
 MARKET_CALENDAR_POLICY = "oanda_fx_sunday_1705_friday_1659_ny_daily_break_v1"
 DESCRIPTIVE_PATH_CONTRACT = "predeclared_causal_minute_frames_first_clear_max_min_v1"
 PATH_MEMBER_DEDUPE = (
@@ -79,10 +79,10 @@ SPECIAL_HOURS = (
 # prevents a mutually edited config, producer, and empty database from
 # self-certifying a new experiment under the old cohort name.
 FROZEN_CONFIG_SHA256 = (
-    "625ce0589920c0b215c350be2fb5e3a68a5a355a38908b99fa5411cfc7234e1a"
+    "68db4f5232f4d314cccc789580a27d134e4ef88204c0621bf050e5865d6f8ae1"
 )
 FROZEN_PRODUCER_SHA256 = (
-    "98701894bdb7ec980758399e32187b826326746927923083a9a527b8e4d33369"
+    "38202b73cab409bdebdb2f2cd704a4d57907836244f7cbea0d76cfa7344b0272"
 )
 FROZEN_SOURCE_PRODUCER_SHA256 = (
     "a7d14b1f7ea8e1490cb83262afe7473e5b56a45808503c186f379208e92befed"

@@ -22,11 +22,11 @@ from zoneinfo import ZoneInfo
 UTC = dt.timezone.utc
 NY = ZoneInfo("America/New_York")
 ROOT = Path(__file__).resolve().parent
-CONFIG = ROOT / "config" / "executable_move_census_v1.json"
+CONFIG = ROOT / "config" / "executable_move_census_v1_20260830b.json"
 QUOTES = ROOT / "data" / "oanda_training_manager" / "state" / "practice_007_market_quotes_v1.json"
-DATABASE = ROOT / "data" / "oanda_training_manager" / "state" / "executable_move_census_v1.sqlite"
-OUTPUT = ROOT / "data" / "oanda_training_manager" / "state" / "executable_move_census_latest_v1.json"
-HEARTBEAT = ROOT / "data" / "oanda_training_manager" / "state" / "executable_move_census_heartbeat_v1.json"
+DATABASE = ROOT / "data" / "oanda_training_manager" / "state" / "executable_move_census_v1_20260830b.sqlite"
+OUTPUT = ROOT / "data" / "oanda_training_manager" / "state" / "executable_move_census_latest_v1_20260830b.json"
+HEARTBEAT = ROOT / "data" / "oanda_training_manager" / "state" / "executable_move_census_heartbeat_v1_20260830b.json"
 SCHEMA = "executable_move_census_v1"
 _RECONCILE_START: dict[str, dt.datetime] = {}
 
