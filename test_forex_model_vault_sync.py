@@ -733,9 +733,21 @@ def test_sync_once_rebuilds_pointer_from_current_checkpoint(tmp_path) -> None:
         "timesfm_icf",
     }
     assert "lag_llama" not in json.dumps(pointer)
+    clean_import = pointer["validation"]["clean_import_and_full_recreation"]
+    assert clean_import["status"] == "stale_not_current_archive"
+    assert clean_import["matches_current_archive"] is False
+    current_validation = pointer["validation"]["current_archive_reconstruction"]
+    assert current_validation["status"] == "passed"
+    assert current_validation["archive_sha256"] == vault_sync.sha256_file(archive)
+    assert current_validation["zip_crc_verified"] is True
+    assert current_validation["reconstructability_verified"] is True
     assert (
-        pointer["validation"]["clean_import_and_full_recreation"]["status"]
-        == "passed"
+        json.loads(
+            (vault / vault_sync.MODEL_VALIDATION_RECEIPT).read_text(
+                encoding="utf-8"
+            )
+        )
+        == current_validation
     )
     assert (
         vault
@@ -783,3 +795,131 @@ def test_sync_once_builds_one_identical_archive_for_all_destinations(
     assert write_calls == 1
     assert len(hashes) == 1
     assert result_hashes == hashes
+
+
+def test_main_defaults_to_onedrive_only_destination(tmp_path, monkeypatch) -> None:
+    captured = {}
+
+    class Args:
+        root = tmp_path
+        interval_sec = 0
+        retention = 2
+        destination = None
+        news_event_only = False
+
+    def fake_sync_once(root, destinations, retention):
+        captured.update(
+            root=root,
+            destinations=destinations,
+            retention=retention,
+        )
+        return {
+            "manifest": {
+                "content_sha256": "content",
+                "file_count": 1,
+                "total_bytes": 1,
+            },
+            "destinations": [],
+        }
+
+    monkeypatch.setattr(vault_sync, "parse_args", lambda: Args())
+    monkeypatch.setattr(vault_sync, "sync_once", fake_sync_once)
+
+    assert vault_sync.main() == 0
+    assert captured["destinations"] == [vault_sync.DEFAULT_VAULT_PROJECT]
+    assert all(path.drive.upper() != "D:" for path in captured["destinations"])
+
+
+def test_archive_validation_failure_precedes_retention_deletion(
+    tmp_path,
+    monkeypatch,
+) -> None:
+    root = tmp_path / "source"
+    vault = tmp_path / "vault"
+    _write(root, "trad/runtime.py", "print('runtime')\n")
+    vault.mkdir()
+    old_a = _write(vault, "forex_model_checkpoint_20200101_000000.zip", "a")
+    old_b = _write(vault, "forex_model_checkpoint_20200102_000000.zip", "b")
+
+    def reject_archive(*args, **kwargs):
+        raise RuntimeError("synthetic archive validation failure")
+
+    monkeypatch.setattr(vault_sync, "validate_checkpoint_archive", reject_archive)
+    try:
+        vault_sync.sync_once(root, [vault], retention=1)
+    except RuntimeError as exc:
+        assert "synthetic archive validation failure" in str(exc)
+    else:
+        raise AssertionError("sync must fail closed on archive validation failure")
+
+    assert old_a.is_file()
+    assert old_b.is_file()
+    assert not list(vault.glob(f"{vault_sync.MODEL_RETENTION_RECEIPT_PREFIX}*.json"))
+
+
+def test_retention_writes_hash_bound_tombstone_before_exact_delete(tmp_path) -> None:
+    root = tmp_path / "source"
+    vault = tmp_path / "vault"
+    _write(root, "trad/runtime.py", "print('runtime')\n")
+    vault.mkdir()
+    old = _write(
+        vault,
+        "forex_model_checkpoint_20200101_000000.zip",
+        "recoverable old archive bytes",
+    )
+    old_sha256 = vault_sync.sha256_file(old)
+    old_bytes = old.stat().st_size
+
+    result = vault_sync.sync_once(root, [vault], retention=1)
+
+    assert not old.exists()
+    tombstones = list(
+        vault.glob(f"{vault_sync.MODEL_RETENTION_RECEIPT_PREFIX}*.json")
+    )
+    assert len(tombstones) == 1
+    tombstone = json.loads(tombstones[0].read_text(encoding="utf-8"))
+    assert tombstone["status"] == "deleted"
+    assert tombstone["deletion_targets"] == tombstone["deleted"]
+    assert tombstone["deleted"] == [
+        {
+            "name": old.name,
+            "bytes": old_bytes,
+            "sha256": old_sha256,
+        }
+    ]
+    current_receipt = json.loads(
+        (vault / vault_sync.MODEL_VALIDATION_RECEIPT).read_text(encoding="utf-8")
+    )
+    assert (
+        tombstone["current_validation_receipt"]["archive_sha256"]
+        == current_receipt["archive_sha256"]
+    )
+    assert result["destinations"][0]["retention"]["status"] == "deleted"
+
+
+def test_unchanged_sync_reuses_bound_reconstruction_and_never_prunes(tmp_path) -> None:
+    root = tmp_path / "source"
+    vault = tmp_path / "vault"
+    _write(root, "trad/runtime.py", "print('runtime')\n")
+    vault.mkdir()
+
+    first = vault_sync.sync_once(root, [vault], retention=2)
+    extra = _write(
+        vault,
+        "forex_model_checkpoint_20200101_000000.zip",
+        "older archive added after the first sync",
+    )
+    second = vault_sync.sync_once(root, [vault], retention=1)
+
+    assert first["destinations"][0]["changed"] is True
+    assert second["destinations"][0]["changed"] is False
+    assert extra.is_file()
+    assert (
+        second["destinations"][0]["retention"]["status"]
+        == "not_evaluated_unchanged"
+    )
+    receipt = json.loads(
+        (vault / vault_sync.MODEL_VALIDATION_RECEIPT).read_text(encoding="utf-8")
+    )
+    assert receipt["reconstructability_verified"] is True
+    assert receipt["reused_reconstruction_receipt_sha256"]

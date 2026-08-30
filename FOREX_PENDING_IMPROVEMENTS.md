@@ -2,9 +2,9 @@
 
 Status: **Stable; paired official-event proof V1 is validated and awaiting prospective evidence**
 
-Updated: 2026-08-30 13:52 America/New_York
+Updated: 2026-08-30 14:47 America/New_York
 
-## Paired event-to-executable-quote proof V1 — 30 August 13:52 ET
+## Paired event-to-executable-quote proof V1 — 30 August 14:05 ET
 
 The audit's next repository-controlled build is complete and frozen. It adds
 measurement discipline, not a trading authorization or a claim of edge.
@@ -38,17 +38,41 @@ measurement discipline, not a trading authorization or a claim of edge.
   under both Python 3.12 and 3.13; the broader source, governance, isolation,
   supervisor, vault and credential boundary passed 235 tests under each
   runtime. Independent adversarial review found no launch blocker.
-- No draft evaluator was launched or allowed to create evidence. Controlled
-  hidden deployment follows the reviewed Git checkpoint. With the market
-  closed, zero eligible events, decisions and outcomes are the expected
-  initial state. Historical fixtures and Friday's Fed speech remain regression
-  diagnostics and cannot enter this cohort.
-- Explicit source-vault retention is now fail-closed and opt-in. It validates
-  every immutable Git-source archive/manifest pair and current pointer before
-  pruning, refuses links, unknown names and incomplete pairs, and separately
-  recognizes only 13 exact obsolete legacy source artifacts. No vault file
-  has been deleted at this checkpoint; cleanup follows the clean committed
-  source publication and is recorded by file name, SHA-256 and bytes.
+- No draft evaluator was launched or allowed to create evidence. Commit
+  `ee40350eb2b58ff7eb3eec3a0be0909b044802a2` was credential-audited and
+  adopted by a controlled hidden supervisor reload at 13:59 ET. The producer
+  reports `ok`, the independent verifier reports `verified` with zero
+  failures, and all input databases pass `quick_check`. The append-only ledger
+  passes `integrity_check` with one manifest and zero decisions, arms, horizon
+  inputs or outcomes, which is the honest market-closed start with no backfill.
+  Historical fixtures and Friday's Fed speech remain regression diagnostics
+  and cannot enter this cohort.
+- Explicit source-vault retention is now fail-closed and opt-in. The clean
+  commit published as `forex_source_ee40350eb2b58ff7.zip` (SHA-256
+  `e08d6cf998f2c2a9dd96efec1c76c4627abb21001ece09c87e83ff4a4de61e08`;
+  ZIP CRC verified). Retention kept that exact immutable pair, retired 12
+  superseded managed pairs, and removed only the 13 preidentified obsolete
+  legacy source artifacts totaling 20,039,246 bytes. The latter have exact
+  name/size/SHA-256 tombstones. The OneDrive-only model checkpoint then
+  published 1,475 credential-free files and was independently verify-imported
+  at SHA-256
+  `9e2d73dc490aa3badfa6a5ddcba5041c8b1651a7e3a522d2f082d402a8c5d5b3`.
+  No `D:` destination was used. The full shared vault is 4,982,249,381 bytes,
+  below the 5,000,000,000-byte limit.
+- A post-run independent review found two cleanup-order defects before
+  closeout: the model sync still had an implicit stale-`D:` default, and its
+  retention could unlink an older archive before proving that the new archive
+  reconstructed. Both are repaired prospectively. The default is OneDrive
+  only; every new model archive must pass CRC, safe-path, embedded-manifest,
+  payload-hash and temporary full-reconstruction checks and publish a
+  current-archive-hash-bound receipt before retention. Unchanged runs never
+  prune. Source retention now publishes one verified write-once transaction
+  containing exact filename/size/SHA-256 tombstones for every managed
+  archive, manifest and legacy target; both families are re-inventoried and
+  the final report is serialized before the sole unlink coordinator runs.
+  Fault injection proved zero deletion on every planning, publication,
+  readback, mutation, validation and reporting failure. The closing vault
+  suite passed 48 tests under both Python 3.12 and 3.13.
 
 Remaining gates are evidence or external access: untouched official events,
 causally captured pre-release consensus, timestamp-safe intraday OIS/rates or

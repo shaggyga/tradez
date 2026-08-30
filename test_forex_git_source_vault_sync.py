@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import subprocess
 from pathlib import Path
@@ -49,6 +50,45 @@ def immutable_descriptors(source: Path, suffix: str) -> set[str]:
         and path.name.endswith(ending)
         and path.name != "forex_source_current.zip"
     }
+
+
+def combined_prune_fixture(
+    tmp_path: Path,
+) -> tuple[Path, Path, Path, Path, dict[Path, bytes]]:
+    root = tmp_path / "repo"
+    vault = tmp_path / "vault"
+    initialise_repo(root)
+    for version in range(3):
+        commit_version(root, version)
+        sync_source_baseline(root, vault)
+    project = vault / "projects/forex"
+    source = project / "source"
+    legacy_payloads = {
+        "forex_source_checkpoint_20260731_180842.zip": b"legacy zip",
+        "forex_source_checkpoint_20260731_180842.manifest.json": b"{}",
+        "forex_source_runtime_20260715_000430.zip": b"legacy runtime",
+        "SOURCE_CHECKPOINT_LATEST.json": b"{}",
+    }
+    for name, payload in legacy_payloads.items():
+        (project / name).write_bytes(payload)
+    targets = {
+        path: path.read_bytes()
+        for path in source.iterdir()
+        if (
+            path.name.startswith("forex_source_")
+            and path.name != "forex_source_current.zip"
+            and path.name.endswith((".zip", ".manifest.json"))
+        )
+    }
+    targets.update(
+        {project / name: payload for name, payload in legacy_payloads.items()}
+    )
+    return root, vault, project, source, targets
+
+
+def assert_prune_targets_unchanged(targets: dict[Path, bytes]) -> None:
+    assert all(path.is_file() for path in targets)
+    assert all(path.read_bytes() == payload for path, payload in targets.items())
 
 
 def test_source_sync_binds_clean_exact_git_tree_without_retention(tmp_path: Path) -> None:
@@ -212,6 +252,22 @@ def test_explicit_retention_prunes_only_old_exact_pairs_and_keeps_current(
     for name, payload in legacy.items():
         (project / name).write_bytes(payload)
 
+    expected_tombstones: dict[str, dict[str, object]] = {}
+    for commit in commits[:-2]:
+        descriptor = commit[:16]
+        for artifact_type, filename in (
+            ("archive", f"forex_source_{descriptor}.zip"),
+            ("manifest", f"forex_source_{descriptor}.manifest.json"),
+        ):
+            payload = (source / filename).read_bytes()
+            expected_tombstones[filename] = {
+                "descriptor": descriptor,
+                "artifact_type": artifact_type,
+                "filename": filename,
+                "size_bytes": len(payload),
+                "sha256": hashlib.sha256(payload).hexdigest(),
+            }
+
     result = sync_source_baseline(root, vault, retention=2)
     expected = {commit[:16] for commit in commits[-2:]}
     assert immutable_descriptors(source, "zip") == expected
@@ -221,6 +277,16 @@ def test_explicit_retention_prunes_only_old_exact_pairs_and_keeps_current(
     assert set(result["retention"]["deleted_descriptors"]) == {
         commit[:16] for commit in commits[:-2]
     }
+    planned_tombstones = {
+        item["filename"]: item
+        for item in result["retention"]["planned_file_tombstones"]
+    }
+    deleted_tombstones = {
+        item["filename"]: item
+        for item in result["retention"]["deleted_file_tombstones"]
+    }
+    assert planned_tombstones == expected_tombstones
+    assert deleted_tombstones == expected_tombstones
     pointer = json.loads(
         (source / "SOURCE_BASELINE_LATEST.json").read_text(encoding="utf-8")
     )
@@ -279,6 +345,414 @@ def test_retention_fails_before_deletion_on_unpaired_or_unknown_family_name(
         for descriptor in descriptors_before
     )
     assert suspicious.read_bytes() == b"not managed"
+
+
+def test_retention_publishes_full_tombstones_before_first_unlink(
+    tmp_path: Path,
+) -> None:
+    from trad import forex_git_source_vault_sync as module
+
+    root = tmp_path / "repo"
+    vault = tmp_path / "vault"
+    initialise_repo(root)
+    commits = []
+    for version in range(3):
+        commits.append(commit_version(root, version))
+        sync_source_baseline(root, vault)
+
+    source = vault / "projects/forex/source"
+    pointer_path = source / "SOURCE_BASELINE_LATEST.json"
+    pointer_before = pointer_path.read_bytes()
+    descriptors_before = immutable_descriptors(source, "zip")
+    observed_plan: dict[str, object] = {}
+    original_atomic_json = module.atomic_json
+
+    def fail_planned_pointer(path: Path, payload: dict[str, object]) -> None:
+        retention = payload.get("retention")
+        if (
+            path == pointer_path
+            and isinstance(retention, dict)
+            and retention.get("action") == "planned"
+        ):
+            observed_plan.update(retention)
+            raise OSError("simulated planned tombstone publication failure")
+        original_atomic_json(path, payload)  # type: ignore[arg-type]
+
+    with patch.object(module, "atomic_json", side_effect=fail_planned_pointer):
+        with pytest.raises(
+            OSError, match="simulated planned tombstone publication failure"
+        ):
+            sync_source_baseline(root, vault, retention=1)
+
+    assert immutable_descriptors(source, "zip") == descriptors_before
+    assert immutable_descriptors(source, "manifest.json") == descriptors_before
+    assert pointer_path.read_bytes() == pointer_before
+    tombstones = observed_plan["planned_file_tombstones"]
+    assert isinstance(tombstones, list)
+    assert len(tombstones) == 2 * (len(commits) - 1)
+    assert all(
+        set(item) == {
+            "descriptor",
+            "artifact_type",
+            "filename",
+            "size_bytes",
+            "sha256",
+        }
+        for item in tombstones
+    )
+
+
+def test_retention_rejects_manifest_byte_drift_before_any_unlink(
+    tmp_path: Path,
+) -> None:
+    from trad import forex_git_source_vault_sync as module
+
+    root = tmp_path / "repo"
+    vault = tmp_path / "vault"
+    initialise_repo(root)
+    for version in range(3):
+        commit_version(root, version)
+        sync_source_baseline(root, vault)
+    source = vault / "projects/forex/source"
+    descriptors_before = immutable_descriptors(source, "zip")
+    original_execute = module._execute_source_retention
+
+    def mutate_then_execute(*args: object, **kwargs: object) -> dict[str, object]:
+        plan = args[1]
+        assert isinstance(plan, dict)
+        manifest = Path(plan["_remove"][-1]["manifest"])
+        manifest.write_bytes(manifest.read_bytes() + b"\n")
+        return original_execute(*args, **kwargs)  # type: ignore[arg-type]
+
+    with patch.object(
+        module, "_execute_source_retention", side_effect=mutate_then_execute
+    ):
+        with pytest.raises(
+            RuntimeError, match="source retention files changed before deletion"
+        ):
+            sync_source_baseline(root, vault, retention=1)
+
+    assert immutable_descriptors(source, "zip") == descriptors_before
+    assert immutable_descriptors(source, "manifest.json") == descriptors_before
+
+
+def test_retention_report_serialization_failure_precedes_every_unlink(
+    tmp_path: Path,
+) -> None:
+    from trad import forex_git_source_vault_sync as module
+
+    root = tmp_path / "repo"
+    vault = tmp_path / "vault"
+    initialise_repo(root)
+    for version in range(3):
+        commit_version(root, version)
+        sync_source_baseline(root, vault)
+    source = vault / "projects/forex/source"
+    descriptors_before = immutable_descriptors(source, "zip")
+    original_execute = module._execute_source_retention
+
+    def fail_report_serialization(
+        *args: object, **kwargs: object
+    ) -> dict[str, object]:
+        with patch.object(
+            module.json,
+            "dumps",
+            side_effect=TypeError("simulated retention report failure"),
+        ):
+            return original_execute(*args, **kwargs)  # type: ignore[arg-type]
+
+    with patch.object(
+        module,
+        "_execute_source_retention",
+        side_effect=fail_report_serialization,
+    ):
+        with pytest.raises(TypeError, match="simulated retention report failure"):
+            sync_source_baseline(root, vault, retention=1)
+
+    assert immutable_descriptors(source, "zip") == descriptors_before
+    assert immutable_descriptors(source, "manifest.json") == descriptors_before
+    planned_pointer = json.loads(
+        (source / "SOURCE_BASELINE_LATEST.json").read_text(encoding="utf-8")
+    )
+    assert planned_pointer["retention"]["action"] == "planned"
+    assert len(planned_pointer["retention"]["planned_file_tombstones"]) == 4
+
+
+def test_combined_prune_receipt_covers_managed_and_legacy_targets(
+    tmp_path: Path,
+) -> None:
+    root, vault, project, source, targets = combined_prune_fixture(tmp_path)
+    latest_descriptor = json.loads(
+        (source / "SOURCE_BASELINE_LATEST.json").read_text(encoding="utf-8")
+    )["git_commit"][:16]
+    pruned_targets = {
+        path: payload
+        for path, payload in targets.items()
+        if path.parent == project or latest_descriptor not in path.name
+    }
+    expected = {
+        path.name: {
+            "filename": path.name,
+            "size_bytes": len(payload),
+            "sha256": hashlib.sha256(payload).hexdigest(),
+        }
+        for path, payload in pruned_targets.items()
+    }
+
+    result = sync_source_baseline(
+        root,
+        vault,
+        retention=1,
+        prune_identified_legacy_source_families=True,
+    )
+
+    assert all(not path.exists() for path in pruned_targets)
+    assert all(
+        path.exists() for path in targets if path not in pruned_targets
+    )
+    transaction = result["prune_transaction"]
+    assert transaction["status"] == "complete"
+    tombstone_path = source / transaction["tombstone"]["filename"]
+    receipt_path = source / transaction["receipt"]["filename"]
+    progress_path = source / transaction["progress"]["filename"]
+    tombstone = json.loads(tombstone_path.read_text(encoding="utf-8"))
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    progress = json.loads(progress_path.read_text(encoding="utf-8"))
+    tombstones = {item["filename"]: item for item in tombstone["targets"]}
+    assert set(tombstones) == set(expected)
+    assert all(
+        tombstones[name]["size_bytes"] == details["size_bytes"]
+        and tombstones[name]["sha256"] == details["sha256"]
+        for name, details in expected.items()
+    )
+    assert receipt["deleted_targets"] == tombstone["targets"]
+    assert receipt["status"] == "complete"
+    assert progress["status"] == "complete"
+    assert progress["completed_count"] == len(pruned_targets)
+    assert {
+        item["filename"] for item in progress["completed_targets"]
+    } == set(expected)
+
+
+def test_combined_prune_legacy_hash_failure_deletes_nothing(
+    tmp_path: Path,
+) -> None:
+    from trad import forex_git_source_vault_sync as module
+
+    root, vault, _project, _source, targets = combined_prune_fixture(tmp_path)
+    original_execute = module._execute_legacy_source_prune
+    original_sha256 = module.sha256_file
+
+    def fail_legacy_hash(*args: object, **kwargs: object) -> dict[str, object]:
+        plan = args[-1]
+        assert isinstance(plan, dict)
+        fail_name = plan["planned_targets"][-1]["name"]
+
+        def hash_or_fail(path: Path) -> str:
+            if Path(path).name == fail_name:
+                raise OSError("simulated legacy hash failure")
+            return original_sha256(Path(path))
+
+        with patch.object(module, "sha256_file", side_effect=hash_or_fail):
+            return original_execute(*args, **kwargs)  # type: ignore[arg-type]
+
+    with patch.object(
+        module, "_execute_legacy_source_prune", side_effect=fail_legacy_hash
+    ):
+        with pytest.raises(OSError, match="simulated legacy hash failure"):
+            sync_source_baseline(
+                root,
+                vault,
+                retention=1,
+                prune_identified_legacy_source_families=True,
+            )
+    assert_prune_targets_unchanged(targets)
+
+
+def test_combined_prune_final_report_preflight_failure_deletes_nothing(
+    tmp_path: Path,
+) -> None:
+    from trad import forex_git_source_vault_sync as module
+
+    root, vault, _project, _source, targets = combined_prune_fixture(tmp_path)
+    with patch.object(
+        module,
+        "_pre_serialize_combined_prune_report",
+        side_effect=TypeError("simulated combined final report failure"),
+    ):
+        with pytest.raises(TypeError, match="simulated combined final report failure"):
+            sync_source_baseline(
+                root,
+                vault,
+                retention=1,
+                prune_identified_legacy_source_families=True,
+            )
+    assert_prune_targets_unchanged(targets)
+
+
+def test_combined_prune_tombstone_publication_failure_deletes_nothing(
+    tmp_path: Path,
+) -> None:
+    from trad import forex_git_source_vault_sync as module
+
+    root, vault, _project, _source, targets = combined_prune_fixture(tmp_path)
+    original_atomic_json = module.atomic_json
+
+    def fail_tombstone_publish(path: Path, payload: dict[str, object]) -> None:
+        if path.name.startswith("SOURCE_PRUNE_TOMBSTONE_"):
+            raise OSError("simulated tombstone publication failure")
+        original_atomic_json(path, payload)  # type: ignore[arg-type]
+
+    with patch.object(module, "atomic_json", side_effect=fail_tombstone_publish):
+        with pytest.raises(OSError, match="simulated tombstone publication failure"):
+            sync_source_baseline(
+                root,
+                vault,
+                retention=1,
+                prune_identified_legacy_source_families=True,
+            )
+    assert_prune_targets_unchanged(targets)
+
+
+def test_combined_prune_tombstone_verification_failure_deletes_nothing(
+    tmp_path: Path,
+) -> None:
+    from trad import forex_git_source_vault_sync as module
+
+    root, vault, _project, _source, targets = combined_prune_fixture(tmp_path)
+    original_atomic_json = module.atomic_json
+
+    def corrupt_tombstone_after_publish(
+        path: Path, payload: dict[str, object]
+    ) -> None:
+        original_atomic_json(path, payload)  # type: ignore[arg-type]
+        if path.name.startswith("SOURCE_PRUNE_TOMBSTONE_"):
+            path.write_bytes(path.read_bytes() + b"\n")
+
+    with patch.object(
+        module, "atomic_json", side_effect=corrupt_tombstone_after_publish
+    ):
+        with pytest.raises(
+            RuntimeError, match="prune audit artifact byte verification failed"
+        ):
+            sync_source_baseline(
+                root,
+                vault,
+                retention=1,
+                prune_identified_legacy_source_families=True,
+            )
+    assert_prune_targets_unchanged(targets)
+
+
+def test_combined_prune_reverifies_tombstone_after_both_family_preflights(
+    tmp_path: Path,
+) -> None:
+    from trad import forex_git_source_vault_sync as module
+
+    root, vault, _project, source, targets = combined_prune_fixture(tmp_path)
+    original_execute = module._execute_source_retention
+
+    def tamper_after_source_preflight(
+        *args: object, **kwargs: object
+    ) -> dict[str, object]:
+        report = original_execute(*args, **kwargs)  # type: ignore[arg-type]
+        tombstone = next(source.glob("SOURCE_PRUNE_TOMBSTONE_*.json"))
+        tombstone.write_bytes(tombstone.read_bytes() + b"\n")
+        return report
+
+    with patch.object(
+        module,
+        "_execute_source_retention",
+        side_effect=tamper_after_source_preflight,
+    ):
+        with pytest.raises(RuntimeError, match="prune audit artifact (size|hash) changed"):
+            sync_source_baseline(
+                root,
+                vault,
+                retention=1,
+                prune_identified_legacy_source_families=True,
+            )
+    assert_prune_targets_unchanged(targets)
+
+
+def test_combined_prune_progress_publication_failure_precedes_first_unlink(
+    tmp_path: Path,
+) -> None:
+    from trad import forex_git_source_vault_sync as module
+
+    root, vault, _project, _source, targets = combined_prune_fixture(tmp_path)
+    original_write = module._write_verified_json
+
+    def fail_initial_progress(
+        path: Path,
+        payload: dict[str, object],
+        *,
+        write_once: bool = False,
+    ) -> dict[str, object]:
+        if (
+            path.name.startswith("SOURCE_PRUNE_PROGRESS_")
+            and payload.get("status") == "validated_ready_to_prune"
+        ):
+            raise OSError("simulated progress publication failure")
+        return original_write(  # type: ignore[return-value]
+            path, payload, write_once=write_once  # type: ignore[arg-type]
+        )
+
+    with patch.object(module, "_write_verified_json", side_effect=fail_initial_progress):
+        with pytest.raises(OSError, match="simulated progress publication failure"):
+            sync_source_baseline(
+                root,
+                vault,
+                retention=1,
+                prune_identified_legacy_source_families=True,
+            )
+    assert_prune_targets_unchanged(targets)
+
+
+def test_combined_prune_target_mutation_at_final_preflight_deletes_nothing(
+    tmp_path: Path,
+) -> None:
+    from trad import forex_git_source_vault_sync as module
+
+    root, vault, project, _source, targets = combined_prune_fixture(tmp_path)
+    original_preflight = module._preflight_combined_prune_targets
+    mutated: Path | None = None
+
+    def mutate_then_preflight(
+        vault_project: Path,
+        source_destination: Path,
+        latest_descriptor: str,
+        tombstones: list[dict[str, object]],
+    ) -> list[dict[str, object]]:
+        nonlocal mutated
+        legacy = next(item for item in tombstones if item["scope"] == "legacy_source")
+        mutated = project / str(legacy["filename"])
+        mutated.write_bytes(mutated.read_bytes() + b"tamper")
+        return original_preflight(  # type: ignore[return-value]
+            vault_project, source_destination, latest_descriptor, tombstones
+        )
+
+    with patch.object(
+        module,
+        "_preflight_combined_prune_targets",
+        side_effect=mutate_then_preflight,
+    ):
+        with pytest.raises(
+            RuntimeError, match="combined prune target (size|hash) changed"
+        ):
+            sync_source_baseline(
+                root,
+                vault,
+                retention=1,
+                prune_identified_legacy_source_families=True,
+            )
+    assert mutated is not None
+    assert all(path.is_file() for path in targets)
+    assert all(
+        path.read_bytes() == payload
+        for path, payload in targets.items()
+        if path != mutated
+    )
 
 
 @pytest.mark.parametrize("retention", [0, -1, True, 1.5])

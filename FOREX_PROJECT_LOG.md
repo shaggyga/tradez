@@ -3591,3 +3591,60 @@ Validation and safety:
   storage stall, and later inference must cluster cross-issuer global shocks.
   None relaxes the execution boundary. Practice 007 remained flat, and no
   manual/discretionary or real-money action occurred during implementation.
+
+## 2026-08-30 14:05 America/New_York — Paired proof activated; vault retention verified
+
+- Committed the governed paired proof as
+  `ee40350eb2b58ff7eb3eec3a0be0909b044802a2` after a staged credential audit
+  scanned 1,225 files with zero findings. A controlled hidden reload replaced
+  only supervisor PID 25332 with PID 19512 and adopted all existing workers.
+  It started only the paired producer and its independent verifier.
+- The producer heartbeat is fresh and `ok`; the verifier is fresh,
+  `verified=true`, and has zero failures. All three upstream databases pass
+  `quick_check`. The output database passes `integrity_check` and contains one
+  frozen cohort manifest, all ten append-only triggers, and zero evidence rows.
+  This is the correct no-backfill state while the market is closed.
+- The final two-runtime release subset passed 116 tests under Python 3.12 and
+  116 under Python 3.13. Independent release review found no blocking
+  correctness, security, or worker-ownership defect. The paired launcher/base
+  interpreter process pairs are one logical worker each, not duplicates.
+- Published the clean source commit to the OneDrive vault as
+  `forex_source_ee40350eb2b58ff7.zip`, SHA-256
+  `e08d6cf998f2c2a9dd96efec1c76c4627abb21001ece09c87e83ff4a4de61e08`,
+  with 1,225 tracked files and verified ZIP CRC. The audited retention pass
+  kept the newest immutable pair, retired 12 superseded pairs, and removed 13
+  exact obsolete legacy artifacts totaling 20,039,246 bytes with tombstones.
+- Refreshed the model vault through the explicit OneDrive destination only.
+  The 1,475-file archive has content SHA-256
+  `a3c4c8bbeb342c504cd73b4003a85f4eff16454ff22e3e39a18eaa7c8649271b`
+  and archive SHA-256
+  `9e2d73dc490aa3badfa6a5ddcba5041c8b1651a7e3a522d2f082d402a8c5d5b3`.
+  An independent `forex_vault_import.py --verify-only` rebuilt its manifest
+  accounting and returned `verified`; it started zero account processes.
+  No `D:` destination was used.
+- Shared-vault usage fell from 5,202,258,971 to 4,982,249,381 bytes, below the
+  5,000,000,000-byte ceiling. Practice 007 remained flat and no execution,
+  authorization, promotion, manual close, or real-money action occurred.
+- A late independent retention audit caught that the model sync's exact command
+  was OneDrive-only but its omitted-destination default still named the stale
+  `D:` vault, and that model retention preceded a current reconstruction
+  receipt. The default is now OneDrive only. Current archives must pass full
+  CRC/member/hash/path/manifest validation and temporary reconstruction, and
+  publish a hash-bound validation receipt before any explicit retention.
+  Unchanged syncs do not prune; clean-import claims against an older archive
+  are reported as `stale_not_current_archive`.
+- Source managed-pair and legacy cleanup now share one durable transaction.
+  Exact filename/size/SHA-256 tombstones, the planned pointer and verified
+  readback precede cross-family re-inventory, re-hashing and final-report
+  serialization; only then can one coordinator unlink while journaling
+  progress. Fault-injection tests cover manifest and legacy drift, tombstone
+  publication/readback failure, final-report failure and target mutation, and
+  prove zero deletion before the complete preflight passes. The final source,
+  model, importer and pending-reconciliation vault suite passed 48 tests under
+  Python 3.12 and 48 under 3.13.
+- A fresh full project-integrity audit returned `ok`: 50 checks, zero failures,
+  `weekend_closed`, `no_trade`, `can_place_orders=false`,
+  `can_promote=false`, and real-money routing disabled. Destructive retention
+  remains explicit and journaled rather than crash-atomic; a hostile external
+  path replacement in the final preflight-to-unlink interval remains a narrow
+  documented filesystem limit, not an execution or evidence-authority path.

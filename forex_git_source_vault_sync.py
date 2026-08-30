@@ -19,6 +19,7 @@ import shutil
 import stat
 import subprocess
 import tempfile
+import uuid
 import zipfile
 from datetime import datetime, timezone
 from functools import wraps
@@ -117,6 +118,67 @@ def atomic_json(path: Path, payload: dict[str, Any]) -> None:
         os.replace(temporary, path)
     finally:
         temporary.unlink(missing_ok=True)
+
+
+def _canonical_json_bytes(payload: dict[str, Any]) -> bytes:
+    text = json.dumps(payload, indent=2, sort_keys=True) + "\n"
+    # ``Path.write_text`` uses the platform text newline convention; mirror it
+    # exactly so byte verification describes the artifact actually persisted.
+    return text.replace("\n", os.linesep).encode("utf-8")
+
+
+def _expected_json_reference(filename: str, payload: dict[str, Any]) -> dict[str, Any]:
+    encoded = _canonical_json_bytes(payload)
+    return {
+        "filename": filename,
+        "size_bytes": len(encoded),
+        "sha256": hashlib.sha256(encoded).hexdigest(),
+    }
+
+
+def _write_verified_json(
+    path: Path,
+    payload: dict[str, Any],
+    *,
+    write_once: bool = False,
+) -> dict[str, Any]:
+    """Atomically publish JSON and verify its exact durable bytes."""
+
+    if write_once and path.exists():
+        raise RuntimeError(f"prune audit artifact already exists: {path}")
+    expected = _canonical_json_bytes(payload)
+    atomic_json(path, payload)
+    try:
+        actual = path.read_bytes()
+    except OSError as exc:
+        raise RuntimeError(f"prune audit artifact is unreadable: {path}") from exc
+    if actual != expected:
+        raise RuntimeError(f"prune audit artifact byte verification failed: {path}")
+    return {
+        "filename": path.name,
+        "size_bytes": len(actual),
+        "sha256": hashlib.sha256(actual).hexdigest(),
+    }
+
+
+def _verify_json_artifact(
+    path: Path,
+    expected_payload: dict[str, Any],
+    expected_reference: dict[str, Any],
+) -> None:
+    expected = _canonical_json_bytes(expected_payload)
+    try:
+        actual = path.read_bytes()
+    except OSError as exc:
+        raise RuntimeError(f"prune audit artifact is unavailable: {path}") from exc
+    if path.name != expected_reference.get("filename"):
+        raise RuntimeError("prune audit artifact filename changed")
+    if len(actual) != expected_reference.get("size_bytes"):
+        raise RuntimeError("prune audit artifact size changed")
+    if hashlib.sha256(actual).hexdigest() != expected_reference.get("sha256"):
+        raise RuntimeError("prune audit artifact hash changed")
+    if actual != expected:
+        raise RuntimeError("prune audit artifact content changed")
 
 
 def exclusive_source_writer(function):
@@ -296,8 +358,9 @@ def _validate_source_pair(
     archive_resolved = _require_direct_regular_file(archive, destination)
     manifest_resolved = _require_direct_regular_file(manifest_path, destination)
     try:
-        manifest = json.loads(manifest_resolved.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
+        manifest_bytes = manifest_resolved.read_bytes()
+        manifest = json.loads(manifest_bytes.decode("utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
         raise RuntimeError(f"invalid immutable source manifest: {manifest_path}") from exc
     commit = manifest.get("git_commit")
     tree = manifest.get("git_tree")
@@ -326,7 +389,8 @@ def _validate_source_pair(
         raise RuntimeError(f"invalid archive hash in {manifest_path}")
     if sha256_file(archive_resolved) != archive_sha:
         raise RuntimeError(f"archive hash mismatch for {archive}")
-    if manifest.get("archive_size_bytes") != archive_resolved.stat().st_size:
+    archive_size = archive_resolved.stat().st_size
+    if manifest.get("archive_size_bytes") != archive_size:
         raise RuntimeError(f"archive size mismatch for {archive}")
     if manifest.get("zip_crc_verified") is not True:
         raise RuntimeError(f"archive lacks CRC attestation: {manifest_path}")
@@ -341,6 +405,22 @@ def _validate_source_pair(
         "archive": archive_resolved,
         "manifest": manifest_resolved,
         "archive_sha256": archive_sha,
+        "file_tombstones": [
+            {
+                "descriptor": descriptor,
+                "artifact_type": "archive",
+                "filename": archive_resolved.name,
+                "size_bytes": archive_size,
+                "sha256": archive_sha,
+            },
+            {
+                "descriptor": descriptor,
+                "artifact_type": "manifest",
+                "filename": manifest_resolved.name,
+                "size_bytes": len(manifest_bytes),
+                "sha256": hashlib.sha256(manifest_bytes).hexdigest(),
+            },
+        ],
         "generated_utc": _parse_generated_utc(
             manifest.get("generated_utc"), manifest_path
         ),
@@ -429,6 +509,11 @@ def _plan_source_retention(
     retained = {item["descriptor"] for item in ordered[:retention]}
     retained.add(latest_descriptor)
     remove = [item for item in ordered if item["descriptor"] not in retained]
+    planned_file_tombstones = [
+        dict(tombstone)
+        for item in remove
+        for tombstone in item["file_tombstones"]
+    ]
     return {
         "action": "planned" if remove else "none_required",
         "enabled": True,
@@ -438,7 +523,9 @@ def _plan_source_retention(
             item["descriptor"] for item in ordered if item["descriptor"] in retained
         ],
         "planned_delete_descriptors": [item["descriptor"] for item in remove],
+        "planned_file_tombstones": planned_file_tombstones,
         "deleted_descriptors": [],
+        "deleted_file_tombstones": [],
         "_pairs": pairs,
         "_remove": remove,
     }
@@ -454,16 +541,17 @@ def _execute_source_retention(
     latest_descriptor: str,
     latest_archive_sha256: str,
 ) -> dict[str, Any]:
-    # Re-inventory every exact pair immediately before deletion. Any external
-    # change aborts before the first unlink.
+    # Prepare the managed side of the combined transaction.  This helper no
+    # longer unlinks: the caller must finish both managed and legacy preflight
+    # before a single target from either family may be removed.
     current_pairs = _inventory_source_pairs(destination)
     planned_pairs = plan["_pairs"]
     if set(current_pairs) != set(planned_pairs):
         raise RuntimeError("source retention inventory changed before deletion")
     for descriptor, original in planned_pairs.items():
         current = current_pairs[descriptor]
-        if current["archive_sha256"] != original["archive_sha256"]:
-            raise RuntimeError("source retention archive changed before deletion")
+        if current["file_tombstones"] != original["file_tombstones"]:
+            raise RuntimeError("source retention files changed before deletion")
     _validate_current_source_pointer(
         destination,
         current_pairs,
@@ -471,23 +559,51 @@ def _execute_source_retention(
         latest_archive_sha256,
     )
 
-    deleted: list[str] = []
     for item in plan["_remove"]:
-        descriptor = item["descriptor"]
-        if descriptor == latest_descriptor:
+        if item["descriptor"] == latest_descriptor:
             raise RuntimeError("retention attempted to delete the latest source baseline")
-        archive = _require_direct_regular_file(item["archive"], destination)
-        manifest = _require_direct_regular_file(item["manifest"], destination)
-        # Exact direct-child pair only. No directory or recursive operation is
-        # used anywhere in source retention.
-        archive.unlink()
-        manifest.unlink()
-        deleted.append(descriptor)
 
+    fresh_delete_tombstones = [
+        dict(tombstone)
+        for item in plan["_remove"]
+        for tombstone in current_pairs[item["descriptor"]]["file_tombstones"]
+    ]
+    if fresh_delete_tombstones != plan["planned_file_tombstones"]:
+        raise RuntimeError("source retention tombstones changed before deletion")
+
+    # Resolve and hash every planned file before the first unlink.  A missing,
+    # replaced, linked, resized, or rehashed archive/manifest aborts the entire
+    # preflight without deleting any managed file.
+    validated_targets: list[Path] = []
+    for tombstone in fresh_delete_tombstones:
+        target = _require_direct_regular_file(
+            destination / tombstone["filename"], destination
+        )
+        if target.stat().st_size != tombstone["size_bytes"]:
+            raise RuntimeError("source retention file size changed before deletion")
+        if sha256_file(target) != tombstone["sha256"]:
+            raise RuntimeError("source retention file hash changed before deletion")
+        validated_targets.append(target)
+
+    deleted = [item["descriptor"] for item in plan["_remove"]]
     report = _public_retention_report(plan)
     report["action"] = "pruned" if deleted else "none_required"
     report["deleted_descriptors"] = deleted
+    report["deleted_file_tombstones"] = [
+        dict(tombstone) for tombstone in fresh_delete_tombstones
+    ]
     report["managed_pair_count_after"] = len(current_pairs) - len(deleted)
+    # Exercise report serialization before deletion.  The caller has already
+    # durably published the planned tombstones; a reporting/serialization
+    # failure here therefore remains fail-closed and leaves every pair intact.
+    json.dumps(report, sort_keys=True)
+
+    report["_validated_targets"] = [
+        {"path": target, "tombstone": dict(tombstone)}
+        for target, tombstone in zip(
+            validated_targets, fresh_delete_tombstones, strict=True
+        )
+    ]
     return report
 
 
@@ -632,9 +748,9 @@ def _execute_legacy_source_prune(
     latest_archive_sha256: str,
     plan: dict[str, Any],
 ) -> dict[str, Any]:
-    # Legacy deletion is subordinate to a currently valid Git-source pointer
-    # and mirror.  Revalidate them after any immutable-pair retention and before
-    # touching the first legacy file.
+    # Prepare the legacy side of the same combined transaction.  The current
+    # Git-source pointer/mirror and all legacy hashes are revalidated while the
+    # managed side is still intact; this helper performs no unlink.
     current_pairs = _inventory_source_pairs(source_destination)
     _validate_current_source_pointer(
         source_destination,
@@ -646,27 +762,267 @@ def _execute_legacy_source_prune(
     if fresh["planned_targets"] != plan["planned_targets"]:
         raise RuntimeError("legacy source prune targets changed before deletion")
 
-    deleted: list[dict[str, Any]] = []
+    validated_targets: list[dict[str, Any]] = []
     for item in fresh["_targets"]:
         target = _require_direct_regular_file(Path(item["path"]), vault_project)
-        target.unlink()
-        deleted.append(
+        if target.stat().st_size != item["size_bytes"]:
+            raise RuntimeError("legacy source prune file size changed before deletion")
+        if sha256_file(target) != item["sha256"]:
+            raise RuntimeError("legacy source prune file hash changed before deletion")
+        validated_targets.append(
             {
-                "family": item["family"],
-                "name": item["name"],
-                "size_bytes": item["size_bytes"],
-                "sha256": item["sha256"],
+                "path": target,
+                "tombstone": {
+                    "family": item["family"],
+                    "name": item["name"],
+                    "size_bytes": item["size_bytes"],
+                    "sha256": item["sha256"],
+                },
             }
         )
-    return {
-        "action": "pruned" if deleted else "none_required",
+    report = {
+        "action": "pruned" if validated_targets else "none_required",
         "enabled": True,
         "target_count": len(fresh["_targets"]),
         "target_bytes": sum(item["size_bytes"] for item in fresh["_targets"]),
         "planned_targets": plan["planned_targets"],
-        "deleted_targets": deleted,
-        "deleted_bytes": sum(item["size_bytes"] for item in deleted),
+        "deleted_targets": [
+            dict(item["tombstone"]) for item in validated_targets
+        ],
+        "deleted_bytes": sum(
+            item["tombstone"]["size_bytes"] for item in validated_targets
+        ),
     }
+    json.dumps(report, sort_keys=True)
+    report["_validated_targets"] = validated_targets
+    return report
+
+
+def _combined_prune_target_tombstones(
+    source_plan: dict[str, Any],
+    legacy_plan: dict[str, Any] | None,
+) -> list[dict[str, Any]]:
+    targets = [
+        {
+            "scope": "managed_source",
+            "relative_parent": "source",
+            **dict(item),
+        }
+        for item in source_plan["planned_file_tombstones"]
+    ]
+    if legacy_plan is not None:
+        targets.extend(
+            {
+                "scope": "legacy_source",
+                "relative_parent": "project",
+                "family": item["family"],
+                "artifact_type": "legacy_source_artifact",
+                "filename": item["name"],
+                "size_bytes": item["size_bytes"],
+                "sha256": item["sha256"],
+            }
+            for item in legacy_plan["planned_targets"]
+        )
+    targets.sort(
+        key=lambda item: (
+            item["relative_parent"],
+            item["filename"],
+            item["sha256"],
+        )
+    )
+    identities = [
+        (item["relative_parent"], item["filename"]) for item in targets
+    ]
+    if len(identities) != len(set(identities)):
+        raise RuntimeError("combined prune contains duplicate target filenames")
+    return targets
+
+
+def _publish_combined_prune_tombstone(
+    source_destination: Path,
+    *,
+    commit: str,
+    tree: str,
+    latest_descriptor: str,
+    targets: list[dict[str, Any]],
+) -> tuple[Path, dict[str, Any], dict[str, Any]]:
+    transaction_id = f"{latest_descriptor}_{uuid.uuid4().hex}"
+    payload = {
+        "schema_version": "forex_source_prune_tombstone_v1",
+        "transaction_id": transaction_id,
+        "generated_utc": datetime.now(timezone.utc).isoformat(),
+        "git_commit": commit,
+        "git_tree": tree,
+        "latest_descriptor": latest_descriptor,
+        "scope": "managed Git source pairs and explicitly requested legacy source files",
+        "target_count": len(targets),
+        "target_bytes": sum(item["size_bytes"] for item in targets),
+        "targets": [dict(item) for item in targets],
+    }
+    path = source_destination / f"SOURCE_PRUNE_TOMBSTONE_{transaction_id}.json"
+    reference = _write_verified_json(path, payload, write_once=True)
+    _verify_json_artifact(path, payload, reference)
+    return path, payload, reference
+
+
+def _preflight_combined_prune_targets(
+    vault_project: Path,
+    source_destination: Path,
+    latest_descriptor: str,
+    targets: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Resolve and hash every cross-family target before the first unlink."""
+
+    project_resolved = _validate_vault_project_root(vault_project)
+    source_resolved = _validate_source_retention_root(source_destination)
+    validated: list[dict[str, Any]] = []
+    resolved_paths: set[Path] = set()
+    for item in targets:
+        filename = item.get("filename")
+        if not isinstance(filename, str) or Path(filename).name != filename:
+            raise RuntimeError("combined prune target filename is invalid")
+        if item.get("scope") == "managed_source":
+            descriptor = item.get("descriptor")
+            artifact_type = item.get("artifact_type")
+            pattern = (
+                IMMUTABLE_ARCHIVE_RE
+                if artifact_type == "archive"
+                else IMMUTABLE_MANIFEST_RE
+                if artifact_type == "manifest"
+                else None
+            )
+            match = pattern.fullmatch(filename) if pattern is not None else None
+            if match is None or match.group(1) != descriptor:
+                raise RuntimeError("combined prune managed filename/descriptor mismatch")
+            if descriptor == latest_descriptor:
+                raise RuntimeError("combined prune attempted to target latest baseline")
+            target = _require_direct_regular_file(
+                source_resolved / filename, source_resolved
+            )
+        elif item.get("scope") == "legacy_source":
+            if item.get("relative_parent") != "project":
+                raise RuntimeError("combined legacy target parent is invalid")
+            if _legacy_family_for_name(filename) != item.get("family"):
+                raise RuntimeError("combined prune legacy family mismatch")
+            target = _require_direct_regular_file(
+                project_resolved / filename, project_resolved
+            )
+        else:
+            raise RuntimeError("combined prune target scope is invalid")
+        if target in resolved_paths:
+            raise RuntimeError("combined prune target path is duplicated")
+        resolved_paths.add(target)
+        if target.stat().st_size != item.get("size_bytes"):
+            raise RuntimeError("combined prune target size changed before deletion")
+        if sha256_file(target) != item.get("sha256"):
+            raise RuntimeError("combined prune target hash changed before deletion")
+        validated.append({"path": target, "tombstone": dict(item)})
+    return validated
+
+
+def _pre_serialize_combined_prune_report(payload: dict[str, Any]) -> bytes:
+    """Freeze report bytes while all targets still exist."""
+
+    return _canonical_json_bytes(payload)
+
+
+def _final_combined_prune_progress_payload(
+    tombstone_payload: dict[str, Any],
+    tombstone_reference: dict[str, Any],
+    targets: list[dict[str, Any]],
+    receipt_reference: dict[str, Any],
+) -> dict[str, Any]:
+    return {
+        "schema_version": "forex_source_prune_progress_v1",
+        "transaction_id": tombstone_payload["transaction_id"],
+        "tombstone": dict(tombstone_reference),
+        "target_count": len(targets),
+        "status": "complete",
+        "next_target": None,
+        "completed_count": len(targets),
+        "completed_targets": [dict(target) for target in targets],
+        "receipt": dict(receipt_reference),
+    }
+
+
+def _delete_prevalidated_combined_prune(
+    source_destination: Path,
+    tombstone_payload: dict[str, Any],
+    tombstone_reference: dict[str, Any],
+    validated_targets: list[dict[str, Any]],
+    receipt_payload: dict[str, Any],
+    expected_receipt_reference: dict[str, Any],
+    expected_progress_reference: dict[str, Any],
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Delete only after one complete preflight, journaling every attempt."""
+
+    transaction_id = tombstone_payload["transaction_id"]
+    progress_path = (
+        source_destination / f"SOURCE_PRUNE_PROGRESS_{transaction_id}.json"
+    )
+    receipt_path = (
+        source_destination / f"SOURCE_PRUNE_RECEIPT_{transaction_id}.json"
+    )
+    completed: list[dict[str, Any]] = []
+    base_progress = {
+        "schema_version": "forex_source_prune_progress_v1",
+        "transaction_id": transaction_id,
+        "tombstone": dict(tombstone_reference),
+        "target_count": len(validated_targets),
+    }
+
+    progress = {
+        **base_progress,
+        "status": "validated_ready_to_prune",
+        "next_target": None,
+        "completed_count": 0,
+        "completed_targets": [],
+    }
+    _write_verified_json(progress_path, progress)
+    for item in validated_targets:
+        progress = {
+            **base_progress,
+            "status": "deleting",
+            "next_target": dict(item["tombstone"]),
+            "completed_count": len(completed),
+            "completed_targets": [dict(target) for target in completed],
+        }
+        _write_verified_json(progress_path, progress)
+        item["path"].unlink()
+        completed.append(dict(item["tombstone"]))
+        progress = {
+            **base_progress,
+            "status": "deleting",
+            "next_target": None,
+            "completed_count": len(completed),
+            "completed_targets": [dict(target) for target in completed],
+        }
+        _write_verified_json(progress_path, progress)
+
+    progress = {
+        **base_progress,
+        "status": "deleted_receipt_pending",
+        "next_target": None,
+        "completed_count": len(completed),
+        "completed_targets": [dict(target) for target in completed],
+    }
+    progress_reference = _write_verified_json(progress_path, progress)
+    receipt_reference = _write_verified_json(
+        receipt_path, receipt_payload, write_once=True
+    )
+    if receipt_reference != expected_receipt_reference:
+        raise RuntimeError("combined prune receipt identity changed")
+    _verify_json_artifact(receipt_path, receipt_payload, receipt_reference)
+    progress = _final_combined_prune_progress_payload(
+        tombstone_payload,
+        tombstone_reference,
+        completed,
+        receipt_reference,
+    )
+    progress_reference = _write_verified_json(progress_path, progress)
+    if progress_reference != expected_progress_reference:
+        raise RuntimeError("combined prune progress identity changed")
+    return progress_reference, receipt_reference
 
 
 @exclusive_source_writer
@@ -851,16 +1207,48 @@ def sync_source_baseline(
             "deleted_bytes": 0,
         }
     )
+    combined_targets = _combined_prune_target_tombstones(plan, legacy_prune_plan)
+    if not combined_targets:
+        atomic_json(pointer_path, pointer)
+        return pointer
+
+    tombstone_path, tombstone_payload, tombstone_reference = (
+        _publish_combined_prune_tombstone(
+            destination,
+            commit=commit,
+            tree=tree,
+            latest_descriptor=descriptor,
+            targets=combined_targets,
+        )
+    )
+    transaction_id = tombstone_payload["transaction_id"]
+    progress_filename = f"SOURCE_PRUNE_PROGRESS_{transaction_id}.json"
+    receipt_filename = f"SOURCE_PRUNE_RECEIPT_{transaction_id}.json"
+    pointer["prune_transaction"] = {
+        "schema_version": "forex_source_prune_transaction_v1",
+        "transaction_id": transaction_id,
+        "status": "planned",
+        "target_count": len(combined_targets),
+        "target_bytes": sum(item["size_bytes"] for item in combined_targets),
+        "tombstone": dict(tombstone_reference),
+        "progress_filename": progress_filename,
+        "receipt_filename": receipt_filename,
+    }
+    # This planned pointer and the independently verified tombstone are durable
+    # before either prune family begins its final validation.
     atomic_json(pointer_path, pointer)
+    _verify_json_artifact(
+        tombstone_path, tombstone_payload, tombstone_reference
+    )
+
     retention_report = _execute_source_retention(
         destination,
         plan,
         descriptor,
         archive_sha,
     )
-    pointer["retention_action"] = retention_report["action"]
-    pointer["retention"] = retention_report
-    atomic_json(pointer_path, pointer)
+    public_retention_report = _public_retention_report(retention_report)
+    legacy_prune_report: dict[str, Any]
     if legacy_prune_plan is not None:
         legacy_prune_report = _execute_legacy_source_prune(
             destination.parent,
@@ -869,9 +1257,91 @@ def sync_source_baseline(
             archive_sha,
             legacy_prune_plan,
         )
-        pointer["legacy_source_prune"] = legacy_prune_report
-        atomic_json(pointer_path, pointer)
-    return pointer
+    else:
+        legacy_prune_report = {
+            "action": "none_not_requested",
+            "enabled": False,
+            "deleted_targets": [],
+            "deleted_bytes": 0,
+            "_validated_targets": [],
+        }
+    public_legacy_prune_report = _public_legacy_prune_report(legacy_prune_report)
+
+    # Re-verify the durable intent after both family-specific preflights, then
+    # perform one final cross-family path/size/hash pass.  There are no unlinks
+    # anywhere above this boundary.
+    _verify_json_artifact(
+        tombstone_path, tombstone_payload, tombstone_reference
+    )
+    validated_targets = _preflight_combined_prune_targets(
+        destination.parent,
+        destination,
+        descriptor,
+        combined_targets,
+    )
+    if [item["tombstone"] for item in validated_targets] != combined_targets:
+        raise RuntimeError("combined prune target order or identity changed")
+
+    receipt_payload = {
+        "schema_version": "forex_source_prune_receipt_v1",
+        "transaction_id": transaction_id,
+        "prepared_utc": datetime.now(timezone.utc).isoformat(),
+        "status": "complete",
+        "tombstone": dict(tombstone_reference),
+        "target_count": len(combined_targets),
+        "target_bytes": sum(item["size_bytes"] for item in combined_targets),
+        "deleted_targets": [dict(item) for item in combined_targets],
+        "retention": public_retention_report,
+        "legacy_source_prune": public_legacy_prune_report,
+    }
+    expected_receipt_reference = _expected_json_reference(
+        receipt_filename, receipt_payload
+    )
+    final_progress_payload = _final_combined_prune_progress_payload(
+        tombstone_payload,
+        tombstone_reference,
+        combined_targets,
+        expected_receipt_reference,
+    )
+    expected_progress_reference = _expected_json_reference(
+        progress_filename, final_progress_payload
+    )
+    final_pointer = dict(pointer)
+    final_pointer["retention_action"] = public_retention_report["action"]
+    final_pointer["retention"] = public_retention_report
+    final_pointer["legacy_source_prune"] = public_legacy_prune_report
+    final_pointer["prune_transaction"] = {
+        **pointer["prune_transaction"],
+        "status": "complete",
+        "progress": dict(expected_progress_reference),
+        "receipt": dict(expected_receipt_reference),
+    }
+    # Freeze every final public report and the exact receipt bytes before the
+    # progress journal permits the first unlink.
+    _pre_serialize_combined_prune_report(
+        {
+            "final_pointer": final_pointer,
+            "receipt": receipt_payload,
+        }
+    )
+
+    progress_reference, receipt_reference = _delete_prevalidated_combined_prune(
+        destination,
+        tombstone_payload,
+        tombstone_reference,
+        validated_targets,
+        receipt_payload,
+        expected_receipt_reference,
+        expected_progress_reference,
+    )
+    if receipt_reference != expected_receipt_reference:
+        raise RuntimeError("combined prune final receipt did not match preflight")
+    if progress_reference != expected_progress_reference:
+        raise RuntimeError("combined prune final progress did not match preflight")
+    # The final receipt and progress journal are already durable if this mutable
+    # convenience pointer update fails after deletion.
+    atomic_json(pointer_path, final_pointer)
+    return final_pointer
 
 
 def main() -> int:

@@ -7,12 +7,22 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import shutil
 import tempfile
 import time
 import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
+
+try:
+    from forex_vault_import import VaultImportError, audit_archive, import_archives
+except ModuleNotFoundError:
+    from trad.forex_vault_import import (
+        VaultImportError,
+        audit_archive,
+        import_archives,
+    )
 
 
 SOURCE_EXTENSIONS = {
@@ -27,6 +37,14 @@ PRUNED_DIRS = {
     "..venv", "venv", "node_modules", "archive", "raw_decisions",
 }
 SECRET_NAMES = {"creds", "creds.txt", "creds.py", ".env"}
+MODEL_ARCHIVE_RE = re.compile(
+    r"^forex_model_checkpoint_(20[0-9]{6}_[0-9]{6})\.zip$"
+)
+MODEL_VALIDATION_RECEIPT = "forex_model_checkpoint_current.validation.json"
+MODEL_RETENTION_RECEIPT_PREFIX = "forex_model_checkpoint_retention_"
+DEFAULT_VAULT_PROJECT = (
+    Path.home() / "OneDrive" / "thevault" / "projects" / "forex"
+)
 CANONICAL_PROJECT_RECORDS = (
     (Path("trad/FOREX_PENDING_IMPROVEMENTS.md"), "PENDING_IMPROVEMENTS_CURRENT.md"),
     (Path("trad/FOREX_PROJECT_LOG.md"), "PROJECT_LOG_CURRENT.md"),
@@ -875,6 +893,193 @@ def copy_file_atomic(source: Path, destination: Path) -> None:
         temp_path.unlink(missing_ok=True)
 
 
+def validate_checkpoint_archive(
+    archive_path: Path,
+    expected_manifest: dict,
+    *,
+    reconstruct: bool,
+) -> dict:
+    """Fail closed unless an archive is hash-, manifest-, CRC-, and import-safe."""
+    archive_path = archive_path.resolve()
+    expected_sha256 = sha256_file(archive_path)
+    try:
+        audit = audit_archive(archive_path, expected_sha256)
+        if audit.manifest != expected_manifest:
+            raise VaultImportError(
+                f"embedded manifest does not match current snapshot: {archive_path}"
+            )
+        reconstruction_report = None
+        if reconstruct:
+            with tempfile.TemporaryDirectory(
+                prefix="forex_model_checkpoint_reconstruct_"
+            ) as temporary:
+                reconstruction_report = import_archives(
+                    [archive_path],
+                    Path(temporary) / "restored",
+                    expected_hashes=[expected_sha256],
+                    verify_only=False,
+                )
+                if reconstruction_report.get("status") != "imported_and_verified":
+                    raise VaultImportError(
+                        "checkpoint reconstruction did not return passed status"
+                    )
+    except (OSError, zipfile.BadZipFile, VaultImportError) as exc:
+        raise RuntimeError(
+            f"checkpoint validation failed before retention: {archive_path}"
+        ) from exc
+    return {
+        "schema_version": 1,
+        "status": "passed",
+        "verified_utc": datetime.now(timezone.utc).isoformat(),
+        "archive": archive_path.name,
+        "archive_sha256": audit.archive_sha256,
+        "archive_bytes": archive_path.stat().st_size,
+        "manifest_name": audit.manifest_name,
+        "manifest_sha256": hashlib.sha256(
+            json.dumps(
+                audit.manifest,
+                sort_keys=True,
+                separators=(",", ":"),
+            ).encode("utf-8")
+        ).hexdigest(),
+        "content_sha256": audit.manifest.get("content_sha256"),
+        "payload_files_verified": len(audit.rows),
+        "represented_bytes": audit.manifest.get("total_bytes"),
+        "zip_crc_verified": True,
+        "safe_member_paths_verified": True,
+        "credential_like_files": 0,
+        "reconstructability_verified": bool(reconstruct),
+        "reconstruction_verified_utc": (
+            datetime.now(timezone.utc).isoformat() if reconstruct else None
+        ),
+        "reconstructed_files_verified": (
+            reconstruction_report.get("merged_files")
+            if reconstruction_report is not None
+            else None
+        ),
+        "account_processes_started": 0,
+    }
+
+
+def list_timestamped_model_archives(vault_project: Path) -> list[Path]:
+    """Return only exact, direct-child, non-symlink model checkpoint archives."""
+    rows = []
+    for path in vault_project.iterdir():
+        if (
+            path.parent == vault_project
+            and path.is_file()
+            and not path.is_symlink()
+            and MODEL_ARCHIVE_RE.fullmatch(path.name)
+        ):
+            rows.append(path)
+    return sorted(rows, key=lambda path: path.name, reverse=True)
+
+
+def apply_checkpoint_retention(
+    vault_project: Path,
+    *,
+    retention: int,
+    validation_receipt_path: Path,
+    validation_receipt: dict,
+    protected_archive: Path,
+    stamp: str,
+) -> dict:
+    """Record exact deletion targets before deleting direct-child archives."""
+    if isinstance(retention, bool) or not isinstance(retention, int) or retention < 1:
+        raise ValueError("retention must be an integer of at least one")
+    if validation_receipt.get("status") != "passed":
+        raise RuntimeError("current checkpoint has no passing validation receipt")
+    receipt_archive_sha256 = str(
+        validation_receipt.get("archive_sha256") or ""
+    ).lower()
+    if not receipt_archive_sha256:
+        raise RuntimeError("current checkpoint validation receipt is not hash-bound")
+    observed_receipt = load_json_optional(validation_receipt_path)
+    if observed_receipt != validation_receipt:
+        raise RuntimeError("current checkpoint validation receipt is not durable")
+
+    protected_archive = protected_archive.resolve()
+    if (
+        protected_archive.parent != vault_project.resolve()
+        or not protected_archive.is_file()
+        or protected_archive.is_symlink()
+        or MODEL_ARCHIVE_RE.fullmatch(protected_archive.name) is None
+        or sha256_file(protected_archive) != receipt_archive_sha256
+    ):
+        raise RuntimeError("new timestamped checkpoint is not safely protected")
+    archives = list_timestamped_model_archives(vault_project)
+    archives = [
+        protected_archive,
+        *(path for path in archives if path.resolve() != protected_archive),
+    ]
+    kept = archives[:retention]
+    targets = archives[retention:]
+    base = {
+        "schema_version": 1,
+        "created_utc": datetime.now(timezone.utc).isoformat(),
+        "destination": str(vault_project.resolve()),
+        "retention": retention,
+        "current_validation_receipt": {
+            "path": validation_receipt_path.name,
+            "sha256": sha256_file(validation_receipt_path),
+            "archive_sha256": receipt_archive_sha256,
+        },
+        "kept": [
+            {
+                "name": path.name,
+                "bytes": path.stat().st_size,
+                "sha256": sha256_file(path),
+            }
+            for path in kept
+        ],
+        "deletion_targets": [
+            {
+                "name": path.name,
+                "bytes": path.stat().st_size,
+                "sha256": sha256_file(path),
+            }
+            for path in targets
+        ],
+        "deleted": [],
+    }
+    if not targets:
+        return {**base, "status": "not_required", "tombstone": None}
+
+    tombstone_path = vault_project / (
+        f"{MODEL_RETENTION_RECEIPT_PREFIX}{stamp}_{time.time_ns()}_{os.getpid()}.json"
+    )
+    receipt = {**base, "status": "planned", "tombstone": tombstone_path.name}
+    write_json_atomic(tombstone_path, receipt)
+    deleted = []
+    for path, target in zip(targets, base["deletion_targets"]):
+        if (
+            path.parent != vault_project
+            or path.is_symlink()
+            or not path.is_file()
+            or MODEL_ARCHIVE_RE.fullmatch(path.name) is None
+            or path.stat().st_size != target["bytes"]
+            or sha256_file(path) != target["sha256"]
+        ):
+            raise RuntimeError(
+                f"retention target changed after tombstone creation: {path}"
+            )
+        path.unlink()
+        deleted.append(target)
+        receipt = {**receipt, "status": "deleting", "deleted": list(deleted)}
+        write_json_atomic(tombstone_path, receipt)
+    receipt = {
+        **receipt,
+        "status": "deleted",
+        "completed_utc": datetime.now(timezone.utc).isoformat(),
+        "deleted": deleted,
+    }
+    write_json_atomic(tombstone_path, receipt)
+    return {
+        **receipt,
+        "tombstone_sha256": sha256_file(tombstone_path),
+    }
+
+
 def sync_second_forecast_artifacts(root: Path, vault_project: Path) -> dict:
     destination = vault_project / "artifacts" / "second_forecast"
     destination.mkdir(parents=True, exist_ok=True)
@@ -1126,6 +1331,8 @@ def build_checkpoint_pointer(
     current_zip: Path,
     timestamped_archive: Path | None,
     bootstrap_result: dict,
+    current_validation_receipt: dict,
+    retention_result: dict,
 ) -> dict:
     model_space = (
         root / "trad" / "data" / "oanda_training_manager" / "model_space"
@@ -1235,8 +1442,29 @@ def build_checkpoint_pointer(
             "account_processes_started", 0
         ),
     }
+    current_archive_sha256 = sha256_file(current_zip)
+    if (
+        current_validation_receipt.get("status") != "passed"
+        or str(current_validation_receipt.get("archive_sha256") or "").lower()
+        != current_archive_sha256
+        or current_validation_receipt.get("content_sha256")
+        != manifest.get("content_sha256")
+        or not current_validation_receipt.get("reconstructability_verified")
+    ):
+        raise RuntimeError(
+            "checkpoint pointer requires a current, hash-bound reconstruction receipt"
+        )
+    reported_clean_import_sha256 = str(
+        clean_import.get("archive_sha256") or ""
+    ).lower()
+    clean_import_status = clean_import.get("status") or "pending"
+    if clean_import_status == "passed" and (
+        not reported_clean_import_sha256
+        or reported_clean_import_sha256 != current_archive_sha256
+    ):
+        clean_import_status = "stale_not_current_archive"
     clean_import_validation = {
-        "status": clean_import.get("status") or "pending",
+        "status": clean_import_status,
         "report": (
             clean_import_path.relative_to(root).as_posix()
             if clean_import_path.is_file()
@@ -1252,6 +1480,10 @@ def build_checkpoint_pointer(
         "credential_like_files": clean_import.get("credential_like_files", 0),
         "account_processes_started": clean_import.get(
             "account_processes_started", 0
+        ),
+        "current_archive_sha256": current_archive_sha256,
+        "matches_current_archive": (
+            reported_clean_import_sha256 == current_archive_sha256
         ),
     }
 
@@ -1270,7 +1502,7 @@ def build_checkpoint_pointer(
                 timestamped_archive.name if timestamped_archive else None
             ),
             "archive_bytes": current_zip.stat().st_size,
-            "archive_sha256": sha256_file(current_zip),
+            "archive_sha256": current_archive_sha256,
             "created_utc": manifest.get("created_utc"),
             "payload_file_count": manifest.get("file_count"),
             "represented_bytes": manifest.get("total_bytes"),
@@ -1287,9 +1519,11 @@ def build_checkpoint_pointer(
             "production_model_promoted": False,
         },
         "validation": {
+            "current_archive_reconstruction": current_validation_receipt,
             "source_full_recreation": source_validation,
             "clean_import_and_full_recreation": clean_import_validation,
         },
+        "retention": retention_result,
         "model_gap_summary": {
             "registry_models": completion_summary.get("models"),
             "families": completion_summary.get("families"),
@@ -1384,11 +1618,19 @@ def build_checkpoint_pointer(
 
 
 def sync_once(root: Path, destinations: list[Path], retention: int) -> dict:
+    if isinstance(retention, bool) or not isinstance(retention, int) or retention < 1:
+        raise ValueError("retention must be an integer of at least one")
+    if not destinations:
+        raise ValueError("at least one checkpoint destination is required")
+    resolved_destinations = [path.resolve() for path in destinations]
+    if len(set(resolved_destinations)) != len(resolved_destinations):
+        raise ValueError("checkpoint destinations must be unique")
+
     files = collect_files(root)
     manifest = build_manifest(root, files)
     stamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
     states = []
-    for vault_project in destinations:
+    for vault_project in resolved_destinations:
         vault_project.mkdir(parents=True, exist_ok=True)
         current_manifest = (
             vault_project / "forex_model_checkpoint_current.manifest.json"
@@ -1407,6 +1649,7 @@ def sync_once(root: Path, destinations: list[Path], retention: int) -> dict:
                 "vault_project": vault_project,
                 "current_manifest": current_manifest,
                 "current_zip": current_zip,
+                "previous": previous,
                 "changed": (
                     previous.get("content_sha256")
                     != manifest["content_sha256"]
@@ -1427,30 +1670,112 @@ def sync_once(root: Path, destinations: list[Path], retention: int) -> dict:
         manifest = write_zip(root, files, manifest, canonical_zip)
         for state in states[1:]:
             copy_file_atomic(canonical_zip, state["current_zip"])
+    else:
+        # Use the exact previously embedded manifest, including its creation time.
+        manifest = states[0]["previous"]
+
+    # Phase one: validate every current archive and new timestamped copy, and
+    # durably record a current hash-bound receipt. No retention deletion is
+    # permitted until every destination completes this phase.
+    for state in states:
+        vault_project = state["vault_project"]
+        current_zip = state["current_zip"]
+        receipt_path = vault_project / MODEL_VALIDATION_RECEIPT
+        existing_receipt = load_json_optional(receipt_path)
+        observed_archive_sha256 = sha256_file(current_zip)
+        reuse_reconstruction = (
+            not rebuild
+            and existing_receipt.get("status") == "passed"
+            and existing_receipt.get("archive_sha256")
+            == observed_archive_sha256
+            and existing_receipt.get("content_sha256")
+            == manifest.get("content_sha256")
+            and existing_receipt.get("reconstructability_verified") is True
+        )
+        validation_receipt = validate_checkpoint_archive(
+            current_zip,
+            manifest,
+            reconstruct=not reuse_reconstruction,
+        )
+        if reuse_reconstruction:
+            validation_receipt.update(
+                {
+                    "reconstructability_verified": True,
+                    "reconstructed_files_verified": existing_receipt.get(
+                        "reconstructed_files_verified"
+                    ),
+                    "reconstruction_verified_utc": existing_receipt.get(
+                        "reconstruction_verified_utc"
+                    )
+                    or existing_receipt.get("verified_utc"),
+                    "reused_reconstruction_receipt_sha256": sha256_file(
+                        receipt_path
+                    ),
+                }
+            )
+
+        timestamped = None
+        if rebuild:
+            timestamped = vault_project / f"forex_model_checkpoint_{stamp}.zip"
+            copy_file_atomic(current_zip, timestamped)
+            timestamped_validation = validate_checkpoint_archive(
+                timestamped,
+                manifest,
+                reconstruct=False,
+            )
+            if (
+                timestamped_validation["archive_sha256"]
+                != validation_receipt["archive_sha256"]
+            ):
+                raise RuntimeError(
+                    "timestamped checkpoint differs from validated current archive"
+                )
+            validation_receipt["timestamped_archive"] = {
+                "archive": timestamped.name,
+                "archive_sha256": timestamped_validation["archive_sha256"],
+                "archive_bytes": timestamped_validation["archive_bytes"],
+                "zip_crc_verified": timestamped_validation["zip_crc_verified"],
+            }
+        else:
+            archives = list_timestamped_model_archives(vault_project)
+            timestamped = archives[0] if archives else None
+        write_json_atomic(receipt_path, validation_receipt)
+        state.update(
+            {
+                "timestamped": timestamped,
+                "validation_receipt": validation_receipt,
+                "validation_receipt_path": receipt_path,
+            }
+        )
+
+    # Phase two: all destinations are now verified. Record each exact target
+    # before applying retention. An unchanged run never prunes history.
+    for state in states:
+        if rebuild:
+            retention_result = apply_checkpoint_retention(
+                state["vault_project"],
+                retention=retention,
+                validation_receipt_path=state["validation_receipt_path"],
+                validation_receipt=state["validation_receipt"],
+                protected_archive=state["timestamped"],
+                stamp=stamp,
+            )
+        else:
+            retention_result = {
+                "schema_version": 1,
+                "status": "not_evaluated_unchanged",
+                "retention": retention,
+                "tombstone": None,
+                "deleted": [],
+            }
+        state["retention_result"] = retention_result
 
     results = []
     for state in states:
         vault_project = state["vault_project"]
         current_manifest = state["current_manifest"]
         current_zip = state["current_zip"]
-        timestamped = None
-        if rebuild:
-            timestamped = vault_project / f"forex_model_checkpoint_{stamp}.zip"
-            copy_file_atomic(current_zip, timestamped)
-            old = sorted(
-                vault_project.glob("forex_model_checkpoint_20*.zip"),
-                key=lambda path: path.stat().st_mtime,
-                reverse=True,
-            )
-            for path in old[max(1, retention):]:
-                path.unlink(missing_ok=True)
-        else:
-            archives = sorted(
-                vault_project.glob("forex_model_checkpoint_20*.zip"),
-                key=lambda path: path.stat().st_mtime,
-                reverse=True,
-            )
-            timestamped = archives[0] if archives else None
+        timestamped = state["timestamped"]
         write_json_atomic(current_manifest, manifest)
         artifact_result = sync_second_forecast_artifacts(root, vault_project)
         bootstrap_result = sync_bootstrap_files(root, vault_project)
@@ -1465,6 +1790,8 @@ def sync_once(root: Path, destinations: list[Path], retention: int) -> dict:
             current_zip,
             timestamped,
             bootstrap_result,
+            state["validation_receipt"],
+            state["retention_result"],
         )
         write_json_atomic(pointer_path, pointer)
         results.append(
@@ -1476,6 +1803,15 @@ def sync_once(root: Path, destinations: list[Path], retention: int) -> dict:
                 "bootstrap_files": bootstrap_result,
                 "clean_import_artifacts": clean_import_result,
                 "canonical_project_records": canonical_records_result,
+                "current_archive_validation": {
+                    "path": str(state["validation_receipt_path"]),
+                    "sha256": sha256_file(state["validation_receipt_path"]),
+                    "archive_sha256": state["validation_receipt"][
+                        "archive_sha256"
+                    ],
+                    "status": state["validation_receipt"]["status"],
+                },
+                "retention": state["retention_result"],
                 "checkpoint_pointer": {
                     "path": str(pointer_path),
                     "sha256": sha256_file(pointer_path),
@@ -1579,10 +1915,7 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
-    destinations = args.destination or [
-        Path.home() / "OneDrive" / "thevault" / "projects" / "forex",
-        Path(r"D:\vault_backups\thevault_snapshot_20260714_235524\projects\forex"),
-    ]
+    destinations = args.destination or [DEFAULT_VAULT_PROJECT]
     while True:
         if args.news_event_only:
             result = sync_news_event_checkpoint(
@@ -1593,7 +1926,7 @@ def main() -> int:
             result = sync_once(
                 args.root.resolve(),
                 destinations,
-                max(1, args.retention),
+                args.retention,
             )
         print(json.dumps({
             "time_utc": datetime.now(timezone.utc).isoformat(),
