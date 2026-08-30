@@ -2075,7 +2075,13 @@ def summarize_live_movers(
 
     executable_age = file_age_seconds(EXECUTABLE_MOVE_CENSUS)
     if executable:
-        status = "stale" if executable_age is None or executable_age > 150.0 else "live"
+        source_status = str(executable.get("status") or "")
+        if executable_age is None or executable_age > 150.0:
+            status = "stale"
+        elif source_status == "collecting_pre_activation":
+            status = "collecting"
+        else:
+            status = "live"
         display_age = executable_age
         display_generated = executable.get("generated_utc")
     else:

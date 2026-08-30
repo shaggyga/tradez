@@ -322,6 +322,32 @@ class PatternDashboardTests(unittest.TestCase):
         self.assertEqual(summary["executable_census"]["mode_stats"]["exec5"]["expected_side_count"], 136)
         self.assertEqual(summary["executable_census"]["review_queue"]["total_cleared_arm_observations"], 3)
 
+    def test_live_mover_summary_does_not_label_pre_activation_as_live(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            latest = root / "latest.json"
+            census = root / "census.json"
+            latest.write_text("{}", encoding="utf-8")
+            census.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "executable_move_census_latest_v1",
+                        "status": "collecting_pre_activation",
+                        "generated_utc": datetime.now(timezone.utc).isoformat(),
+                        "side_count": 136,
+                        "horizons_min": [1, 5, 10, 15, 30, 60],
+                        "frame_count": 0,
+                        "horizons": [],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            with patch.object(dashboard, "EXECUTABLE_MOVE_CENSUS", census):
+                summary = summarize_live_movers(latest)
+
+        self.assertEqual(summary["status"], "collecting")
+        self.assertEqual(summary["executable_census"]["status"], "collecting")
+
     def test_live_move_news_summary_preserves_evidence_boundaries(self):
         with tempfile.TemporaryDirectory() as temporary:
             path = Path(temporary) / "move_news.json"

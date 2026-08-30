@@ -34,7 +34,7 @@ Updated: 2026-08-30 16:39 America/New_York
   legacy velocity/midpoint payload modes remain compatibility-only and are no
   longer selectable in the primary interface.
 - Focused producer tests pass 16/16 on Python 3.12 and 3.13; independent
-  verifier tests pass 24/24 on both runtimes; dashboard tests pass 56/56 on
+  verifier tests pass 24/24 on both runtimes; dashboard tests pass 57/57 on
   both runtimes. Python compilation and PowerShell parsing are clean. These
   are correctness results, not evidence of edge.
 
