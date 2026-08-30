@@ -329,6 +329,51 @@ def _verify(database: Path, latest: Path, generated: dt.datetime, **overrides):
     )
 
 
+def test_frozen_pre_activation_empty_state_verifies_without_database(tmp_path):
+    generated = verifier.ACTIVATION_UTC - dt.timedelta(minutes=1)
+    database = tmp_path / "not_created_before_activation.sqlite"
+    latest = tmp_path / "latest.json"
+    payload = {
+        "schema_version": "executable_move_census_latest_v1",
+        "generated_utc": verifier.iso(generated),
+        "cohort_id": verifier.COHORT_ID,
+        "status": "collecting_pre_activation",
+        "activation_utc": verifier.iso(verifier.ACTIVATION_UTC),
+        "instrument_count": 68,
+        "side_count": 136,
+        "horizons_min": list(verifier.HORIZONS_MIN),
+        "research_only": True,
+        "can_trade": False,
+        "can_authorize": False,
+        "can_promote": False,
+        "frame_count": 0,
+        "horizons": [],
+        "top_cleared_paths": [],
+        "review_queue": {},
+    }
+    payload["content_sha256_excluding_this_field"] = verifier.sha(
+        verifier.canonical(payload)
+    )
+    latest.write_bytes(verifier.canonical(payload))
+    result = verifier.verify(
+        database_path=database,
+        latest_path=latest,
+        now=generated + dt.timedelta(seconds=1),
+    )
+    assert result["verified"], result["failures"]
+    assert result["counts"]["frames"] == 0
+    assert not database.exists()
+
+    database.touch()
+    rejected = verifier.verify(
+        database_path=database,
+        latest_path=latest,
+        now=generated + dt.timedelta(seconds=1),
+    )
+    assert not rejected["verified"]
+    assert "preactivation:database_exists" in rejected["failures"]
+
+
 def test_clean_full_68_by_2_fixture_verifies(tmp_path):
     database, latest, generated = _seed(tmp_path)
     result = _verify(database, latest, generated)

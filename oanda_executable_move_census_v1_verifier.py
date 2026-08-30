@@ -1721,6 +1721,7 @@ def verify(
     runtime_cache: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     failures: list[str] = []
+    verification_now = (now or dt.datetime.now(UTC)).astimezone(UTC)
     cache_database = str(database_path.resolve())
     cached_database = (
         runtime_cache.get("database_path") if runtime_cache is not None else None
@@ -1752,69 +1753,133 @@ def verify(
     latest: dict[str, Any] = {}
     observed_frame_chain: str | None = None
     observed_frame_count = 0
-    try:
-        connection = _open_readonly(database_path)
-    except sqlite3.Error as exc:
-        failures.append(f"database:open:{type(exc).__name__}")
-    else:
+    if verification_now < ACTIVATION_UTC:
+        # Before the frozen activation, absence of the evidence database is the
+        # required no-backfill state.  Verify the producer's exact, fresh
+        # pre-activation receipt instead of misclassifying that absence as an
+        # evidence outage.  At and after activation the normal database path is
+        # mandatory and remains fail-closed.
+        record(failures, not database_path.exists(), "preactivation:database_exists")
+        record(failures, cached_frame_count == 0, "preactivation:cached_frames")
         try:
-            _verify_schema(connection, failures)
-            _verify_manifest(
-                connection, config_raw, producer_raw, source_raw,
-                quote_transport_raw, failures,
-            )
-            verification_now = (now or dt.datetime.now(UTC)).astimezone(UTC)
-            retain_quote_after = _quote_retention_start(
-                connection, runtime_cache, verification_now
-            )
-            (
-                all_frames, frames, quote_cache, observed_quote_count,
-                cached_prefix_chain, observed_frame_chain,
-            ) = _verify_frames(
-                connection, failures, verification_now, cached_frame_count,
-                retain_quote_after,
-            )
-            observed_frame_count = len(all_frames)
+            latest = json.loads(latest_path.read_bytes())
+        except (OSError, ValueError) as exc:
+            failures.append(f"preactivation:latest_unreadable:{type(exc).__name__}")
+            latest = {}
+        generated = parse_utc(latest.get("generated_utc"))
+        record(failures, generated is not None, "preactivation:generated_clock")
+        if generated is not None:
+            age = (verification_now - generated).total_seconds()
             record(
                 failures,
-                cached_frame_count <= observed_frame_count,
-                "runtime_cache:frame_count_rollback",
+                -MAXIMUM_FUTURE_SKEW_SEC <= age <= MAXIMUM_LATEST_AGE_SEC,
+                "preactivation:latest_freshness",
             )
-            if cached_frame_count:
+            record(
+                failures,
+                generated < ACTIVATION_UTC,
+                "preactivation:generated_after_activation",
+            )
+        expected = {
+            "schema_version": "executable_move_census_latest_v1",
+            "generated_utc": iso(generated) if generated is not None else None,
+            "cohort_id": COHORT_ID,
+            "status": "collecting_pre_activation",
+            "activation_utc": iso(ACTIVATION_UTC),
+            "instrument_count": 68,
+            "side_count": 136,
+            "horizons_min": list(HORIZONS_MIN),
+            "research_only": True,
+            "can_trade": False,
+            "can_authorize": False,
+            "can_promote": False,
+            "frame_count": 0,
+            "horizons": [],
+            "top_cleared_paths": [],
+            "review_queue": {},
+        }
+        content_hash = latest.get("content_sha256_excluding_this_field")
+        unhashed = dict(latest)
+        unhashed.pop("content_sha256_excluding_this_field", None)
+        record(
+            failures,
+            content_hash == sha(canonical(unhashed)),
+            "preactivation:content_sha256",
+        )
+        record(
+            failures,
+            set(latest) == set(expected) | {"content_sha256_excluding_this_field"},
+            "preactivation:top_level_contract",
+        )
+        for key, value in expected.items():
+            record(
+                failures,
+                latest.get(key) == value,
+                f"preactivation:{key}:mismatch",
+            )
+    else:
+        try:
+            connection = _open_readonly(database_path)
+        except sqlite3.Error as exc:
+            failures.append(f"database:open:{type(exc).__name__}")
+        else:
+            try:
+                _verify_schema(connection, failures)
+                _verify_manifest(
+                    connection, config_raw, producer_raw, source_raw,
+                    quote_transport_raw, failures,
+                )
+                retain_quote_after = _quote_retention_start(
+                    connection, runtime_cache, verification_now
+                )
+                (
+                    all_frames, frames, quote_cache, observed_quote_count,
+                    cached_prefix_chain, observed_frame_chain,
+                ) = _verify_frames(
+                    connection, failures, verification_now, cached_frame_count,
+                    retain_quote_after,
+                )
+                observed_frame_count = len(all_frames)
                 record(
                     failures,
-                    cached_prefix_chain
-                    == runtime_cache.get("frame_chain_sha256"),
-                    "runtime_cache:frame_prefix_drift",
+                    cached_frame_count <= observed_frame_count,
+                    "runtime_cache:frame_count_rollback",
                 )
-            latest, evaluations, summaries, finalizations = _verify_latest(
-                latest_path, connection, frames, quote_cache,
-                verification_now, failures, runtime_cache,
-            )
-            counts.update(
-                frames=len(all_frames), eligible_frames=len(frames),
-                frame_quotes=observed_quote_count,
-                window_evaluations=len(evaluations),
-                factor_episode_summaries=len(summaries),
-                factor_episode_finalizations=len(finalizations),
-            )
-        except (
-            sqlite3.Error, KeyError, TypeError, ValueError, OverflowError,
-            IndexError,
-        ) as exc:
-            # Malformed or type-confused durable rows are integrity failures,
-            # not reasons for the supervised verifier to crash and leave an
-            # apparently fresh prior success on disk.
-            failures.append(f"database:contract:{type(exc).__name__}:{exc}")
-        finally:
-            connection.close()
+                if cached_frame_count:
+                    record(
+                        failures,
+                        cached_prefix_chain
+                        == runtime_cache.get("frame_chain_sha256"),
+                        "runtime_cache:frame_prefix_drift",
+                    )
+                latest, evaluations, summaries, finalizations = _verify_latest(
+                    latest_path, connection, frames, quote_cache,
+                    verification_now, failures, runtime_cache,
+                )
+                counts.update(
+                    frames=len(all_frames), eligible_frames=len(frames),
+                    frame_quotes=observed_quote_count,
+                    window_evaluations=len(evaluations),
+                    factor_episode_summaries=len(summaries),
+                    factor_episode_finalizations=len(finalizations),
+                )
+            except (
+                sqlite3.Error, KeyError, TypeError, ValueError, OverflowError,
+                IndexError,
+            ) as exc:
+                # Malformed or type-confused durable rows are integrity failures,
+                # not reasons for the supervised verifier to crash and leave an
+                # apparently fresh prior success on disk.
+                failures.append(f"database:contract:{type(exc).__name__}:{exc}")
+            finally:
+                connection.close()
     if runtime_cache is not None and not failures:
         runtime_cache["database_path"] = cache_database
         runtime_cache["frame_count"] = observed_frame_count
         runtime_cache["frame_chain_sha256"] = observed_frame_chain
     return {
         "schema_version": "executable_move_census_verifier_v1",
-        "generated_utc": iso((now or dt.datetime.now(UTC)).astimezone(UTC)),
+        "generated_utc": iso(verification_now),
         "verified": not failures,
         "failure_count": len(failures),
         "failures": failures,
