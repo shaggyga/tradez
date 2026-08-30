@@ -3355,3 +3355,145 @@ Validation and safety:
   It contains useful OCR, bill, bond, and swap information but is not intraday
   event-window repricing and is not credited as causal confirmation. A
   permitted timestamp-safe OIS/swap/policy-futures source remains external.
+
+## 2026-08-29 22:05 America/New_York — Corrected all-68 deliberate-practice line
+
+- Added a deterministic learner curriculum above the sealed four-pair
+  sequential portfolio session. Cohort
+  `sequential_portfolio_curriculum_v1.af435480002f2140c541` contains 48
+  precommitted attempts: 36 distinct training cases and 12 spaced reviews that
+  have zero evidence/repetition weight. The independent verifier passed.
+- Added a read-only mistake curriculum over exact primary and depth-one
+  feedback. Report `sprmistakecurriculum_00d7d59c24772d6805b382a80ef0`
+  reduced 34 nonexclusive observations to 21 structural clusters; cost,
+  entry, direction, and calibration are the leading practice priorities.
+- Built exact-window pack
+  `sequential_replay_source_pack_v1.1bddc89d33ec30767c96` across all 68 pairs
+  and homogeneous Monday/Wednesday/Friday 12:00–16:00 UTC blocks. It contains
+  204 content-addressed archives, 144 scheduled clocks, 9,792 pair contexts,
+  and 8,333 fully ready contexts. Missing context, delayed-entry, feedback, and
+  source minutes remain explicit rather than filled or filtered.
+- Hardened the pack after independent adversarial review: link/reparse
+  rejection now occurs before resolution; compressed and expanded archive
+  bytes are bounded; exact session-by-instrument Cartesian identity and unique
+  archive paths are required; aggregate coverage is independently rebuilt;
+  out-of-window append-only source growth reuses the sealed slice; and the
+  Friday schedule mismatch opened a new pack instead of rewriting history.
+  Seventeen tests passed with one native Windows symlink privilege skip, and
+  the independent verifier returned zero failures.
+- Preserved pack `52259f...` and its all-68 replay `ea3dd...` as explicitly
+  nonhomogeneous engineering diagnostics. They are not current overlap proof.
+- Ran the corrected availability-aware all-68 sequential replay as cohort
+  `sequential_all68_portfolio_batch_replay_v1.445ddc96477b7ac284ed`: 144
+  decisions, 9,792 retained contexts, 261 ranked candidates, 110 execution
+  legs, 172 depth-one alternatives, and a flat terminal portfolio. The frozen
+  policy lost **120.25 pips** after executable spreads and fixed slippage.
+  AUD/USD and EUR/USD were positive, but USD/JPY, GBP/USD, GBP/JPY, and
+  USD/CAD dominated losses. The result was retained and no gate was loosened.
+- The source pack and all-68 batch were independently reconstructed with zero
+  failures. The combined curriculum, source-pack, genealogy, and isolation
+  regression passed 66 tests with one platform-permission skip before the
+  final genealogy refresh.
+- Operational state remained unchanged: the hidden SafeCoreOnly supervisor is
+  running, Practice 007 is flat at NAV 41.6042 with zero open trades and zero
+  pending orders, and no discretionary/manual or real-money action occurred.
+- Storage remains healthy: C: has 178.09 GiB free and the new sequential
+  artifact trees use about 24.8 MiB.
+
+## 2026-08-29 22:50 America/New_York — Sequential verifier boundaries hardened
+
+- An adversarial review showed that older current receipts could trust
+  mutually editable summaries or omit datasets while remaining internally
+  self-consistent. No affected artifact had been promoted or executed. The
+  current research cohorts were rebuilt instead of relabeling old evidence.
+- Opened exact-window source pack
+  `sequential_replay_source_pack_v1.ee6d6fd4d38744ecc1da`; its material and
+  independent verifier now bind the full no-execution safety state. Coverage
+  remains 68 instruments, 144 global clocks, 9,792 pair contexts, and 8,333
+  fully ready contexts.
+- Opened all-68 replay cohort
+  `sequential_all68_portfolio_batch_replay_v1.7681e61bd31ac8877bd8`. The
+  standalone verifier now reconstructs the complete schedule/Cartesian set,
+  candidates, state chain, exact bid/ask legs, feedback, counterfactuals,
+  terminals, dataset identities/order, safety, and aggregate economics. The
+  honest result remains flat and **-120.25 pips** across 110 legs.
+- Opened learner cohort
+  `sequential_portfolio_curriculum_v1.22124b7c2ebf24ad2430`; its verifier now
+  recomputes all statistics, roots, seal/snapshot payloads, safety, and the
+  deterministic content-bound timestamp. It retained 48 attempts, 36 distinct
+  cases, 12 zero-weight reviews, and 0.671875-pip mean regret.
+- Opened four-pair mistake cohort
+  `sequential_portfolio_mistake_curriculum_v1.188f47cfdf79c6608cde`. Its new
+  standalone verifier rebuilt 34 nonexclusive labels and 21 structural
+  clusters and rejected forged roots, counts, IDs, safety, thresholds, and
+  configs. Earlier fixed-name and intermediate artifacts remain preserved.
+- Corrected the operational isolation sentinel to name the actual
+  `sequential_all68_portfolio_batch_replay` module. The hardened source,
+  all-68, curriculum, and isolation suite passed 63 tests with one Windows
+  symlink-permission skip; the mistake suite added 17 passing tests.
+- A fresh project-integrity pass found one stale diagnostic dependency: the
+  move-first news audit predated its latest major-move census. Its focused 18
+  tests passed, all 924 retained cases were rebuilt under `no_trade`, and the
+  repeated project-integrity audit returned `ok` with zero failures and zero
+  confirmed candidates.
+- Same-window policy diagnostics showed that cost-aware abstention reduced but
+  did not reverse the loss: 1.25x, 1.50x, and 2.00x expected-move/cost hurdles
+  produced -34.35, -13.35, and -7.50 pips, while no-trade produced 0.00. The
+  V1 switch rule also exposed that an incumbent below the entry threshold has
+  no explicit continuation estimate. V1 remains immutable; a separate V2
+  hold-versus-switch contract is specified for later untouched evaluation.
+- Candidate-source credential audit passed across 1,190 files with zero bearer
+  secret findings. C: remained safe at roughly 178 GiB free. Practice 007 was
+  current and flat at NAV 41.6042, with no positions or pending orders; no
+  manual order, authorization change, or real-money action occurred.
+
+## 2026-08-30 00:58 America/New_York — Deterministic chain, lossless genealogy, and policy expansion closed
+
+- Closed a cross-runtime reproducibility defect discovered before checkpoint:
+  Python 3.12 and 3.13 emitted different gzip platform-header bytes even when
+  the decompressed evidence payload was identical. Added one canonical gzip
+  writer with `mtime=0`, no filename, and normalized `OS=255`; both runtimes
+  now emit the same 51-byte frozen fixture with SHA-256
+  `225761bb2a033f28effe940697c9b4252d34e396c4313a80d06fda2fa11ec4f0`.
+  All 702 gzip files in the seven current canonical chain roots conform.
+- Rebuilt rather than relabeled the current immutable identities. The base
+  chain is source pack `b9d1526f3dfa057bd06d`, replay
+  `efda27295d5107241262`, all-68 mistake curriculum
+  `26b13486af3803244125`, and policy challenger
+  `0b5267c7a5c730a150cf`. The Wednesday chain is source pack
+  `554c8f74212202aa9b86`, replay `e7de4ecdd0255eb13306`, and policy expansion
+  `15a3aa5d039df7df9a7d`. Every predecessor remains byte-preserved.
+- The base replay still lost **120.25 pips** across 110 exact bid/ask execution
+  legs. The challenger preserved no-trade at 0.00, V1 at -120.25, 2x cost at
+  -7.50, explicit hold/switch at -7.60, signed-factor suppression at -7.60,
+  and unavailable out-of-fold calibration at 0.00. No diagnostic arm proved
+  edge.
+- The larger Wednesday replay lost **186.20 pips** across 268 legs. Its frozen
+  expansion showed +1.35 pips for the 2x arm and +16.10 for explicit/factor
+  arms only in pooled inspected history. Excluding the best Wednesday changed
+  them to -37.80 and -36.85 pips respectively. The result is concentrated
+  historical training evidence, not a discovery pass, confirmation,
+  promotion, authorization, or execution route.
+- Migrated the live genealogy without discarding incompatible history. The
+  exact predecessor registry—53,148 definitions and 123,820 observations—is
+  preserved under snapshot `research_genealogy_predecessor_v1.a5d9b45584888df78f8d`.
+  Compatible predecessor records were merged; conflicting definitions and
+  dependent observations were quarantined with roots and counts. The
+  supervised canonical reload finished at 53,169 definitions and 87,476
+  observations, registered each rebuilt identity once, passed SQLite
+  integrity and foreign-key checks, and retained zero confirmed candidates.
+- The final focused boundary passed **208 tests with three Windows
+  symlink-privilege skips under each of Python 3.12 and 3.13**. The protected
+  junction/reparse fallback passed. All 36 changed Python files compiled under
+  both runtimes, config/current-ID checks had zero mismatches, diff/whitespace
+  checks were clean, and the credential audit found zero bearer-secret
+  findings across 1,213 candidate files.
+- Live state remained fail-closed: project integrity `ok`, 68 retained weekend
+  quotes, supported decision `no_trade`, and Practice 007 flat at balance/NAV
+  41.6042 with no positions or pending orders. Storage remained healthy at
+  about 174.6 GiB free. No discretionary/manual order, close, authorization
+  change, gate relaxation, or real-money action occurred.
+- The reviewed Git commit and source/model vault checkpoints follow this
+  source record. Their immutable manifests carry the exact commit, tree,
+  archive, content, CRC, and credential-audit identities; no retention deletion
+  is authorized.

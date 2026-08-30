@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "experiment_key": "sequential_portfolio_curriculum_v1",
+  "research_only": true,
+  "execution_eligible": false,
+  "proof_eligible": false,
+  "can_promote": false,
+  "can_place_orders": false,
+  "can_authorize": false,
+  "broker_access": false,
+  "account_access": false,
+  "signal_feed_write": false,
+  "lifecycle_write": false,
+  "supported_decision": "no_trade",
+  "evidence_role": "historical_training_discovery",
+  "source": {
+    "state_relative_path": "data/oanda_training_manager/research_ledgers/sequential_portfolio_replay_v1/sequential_portfolio_replay_v1.json",
+    "verifier_relative_path": "data/oanda_training_manager/research_ledgers/sequential_portfolio_replay_v1/sequential_portfolio_replay_verifier_v1.json",
+    "required_cohort_id": "sequential_portfolio_replay_v1.b8edb48c238c8386cad5",
+    "required_session_id": "sprsession_61b31e3d87444434a5933fd68ba5",
+    "required_verified": true,
+    "required_zero_failures": true
+  },
+  "curriculum": {
+    "learner_id": "deterministic_memory_guided_baseline_v1",
+    "scheduler_id": "novelty_weighted_spaced_repetition_v1",
+    "action_policy_id": "precommitted_hash_then_prior_feedback_v1",
+    "session_count": 4,
+    "attempts_per_session": 12,
+    "target_review_slots_after_first_session": 4,
+    "seed": "sequential-portfolio-curriculum-v1-frozen-seed",
+    "correct_regret_tolerance_pips": 0.000000001,
+    "novelty_weight": 2.0,
+    "due_error_weight": 3.0,
+    "due_correct_weight": 1.0,
+    "overdue_weight_per_session": 0.25,
+    "incorrect_review_delay_sessions": 1,
+    "correct_review_base_interval_sessions": 2,
+    "maximum_review_interval_sessions": 8,
+    "precommit_entire_session_before_any_feedback": true,
+    "within_session_adaptation_forbidden": true,
+    "counterfactuals_count_as_market_repetitions": false,
+    "repeat_attempts_count_as_market_repetitions": false,
+    "repeat_attempts_count_as_regime_repetitions": false
+  },
+  "storage": {
+    "artifact_relative_root": "data/oanda_training_manager/research_ledgers/sequential_portfolio_curriculum_v1",
+    "database_name": "sequential_portfolio_curriculum_v1.sqlite",
+    "state_name": "sequential_portfolio_curriculum_v1.json",
+    "report_name": "SEQUENTIAL_PORTFOLIO_CURRICULUM_CURRENT.md",
+    "verifier_name": "sequential_portfolio_curriculum_verifier_v1.json"
+  }
+}

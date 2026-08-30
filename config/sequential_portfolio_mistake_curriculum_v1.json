@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "experiment_key": "sequential_portfolio_mistake_curriculum_v1",
+  "research_only": true,
+  "execution_eligible": false,
+  "proof_eligible": false,
+  "can_promote": false,
+  "can_place_orders": false,
+  "can_authorize": false,
+  "broker_access": false,
+  "account_access": false,
+  "signal_feed_write": false,
+  "lifecycle_write": false,
+  "supported_decision": "no_trade",
+  "evidence_role": "historical_training_curriculum",
+  "source": {
+    "state_relative_path": "data/oanda_training_manager/research_ledgers/sequential_portfolio_replay_v1/sequential_portfolio_replay_v1.json",
+    "verifier_relative_path": "data/oanda_training_manager/research_ledgers/sequential_portfolio_replay_v1/sequential_portfolio_replay_verifier_v1.json",
+    "required_cohort_id": "sequential_portfolio_replay_v1.b8edb48c238c8386cad5",
+    "required_session_id": "sprsession_61b31e3d87444434a5933fd68ba5",
+    "required_verified": true,
+    "required_zero_failures": true,
+    "required_evidence_role": "historical_training_discovery",
+    "required_proof_eligible": false
+  },
+  "classification": {
+    "minimum_material_regret_pips": 0.25,
+    "neutral_brier_baseline": 0.25,
+    "categories_are_nonexclusive": true,
+    "clustering_unit": "category x predeclared market_episode x transitive shared-currency/position-thesis component",
+    "raw_observations_are_not_independent": true,
+    "structural_clusters_are_not_independent_regimes": true
+  },
+  "storage": {
+    "artifact_relative_root": "data/oanda_training_manager/research_ledgers/sequential_portfolio_mistake_curriculum_v1",
+    "report_json_name": "SEQUENTIAL_PORTFOLIO_MISTAKE_CURRICULUM_V1.json",
+    "report_markdown_name": "SEQUENTIAL_PORTFOLIO_MISTAKE_CURRICULUM_V1.md",
+    "material_contract_name": "material_contract_v1.json",
+    "verifier_name": "sequential_portfolio_mistake_curriculum_verifier_v1.json",
+    "current_state_name": "sequential_portfolio_mistake_curriculum_v1.json",
+    "current_report_name": "SEQUENTIAL_PORTFOLIO_MISTAKE_CURRICULUM_CURRENT.md",
+    "current_verifier_name": "sequential_portfolio_mistake_curriculum_verifier_v1.json"
+  }
+}

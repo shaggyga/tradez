@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "experiment_key": "seq_a68_wed_exp_v1",
+  "research_only": true,
+  "execution_eligible": false,
+  "proof_eligible": false,
+  "can_promote": false,
+  "can_place_orders": false,
+  "can_authorize": false,
+  "broker_access": false,
+  "account_access": false,
+  "supported_decision": "no_trade",
+  "evidence_role": "historical_training_policy_expansion",
+  "source": {
+    "artifact_relative_root": "data/oanda_training_manager/research_ledgers/sequential_replay_source_pack_wednesday_expansion_v1",
+    "state_name": "sequential_replay_source_pack_wednesday_expansion_v1.json",
+    "verifier_name": "sequential_replay_source_pack_wednesday_expansion_verifier_v1.json",
+    "required_pack_id": "sequential_replay_source_pack_v1.554c8f74212202aa9b86",
+    "maximum_archive_raw_bytes": 4194304,
+    "require_verified": true,
+    "require_zero_failures": true
+  },
+  "schedule": {
+    "decision_cadence_min": 5,
+    "feature_lookback_min": 60,
+    "execution_delay_min": 1,
+    "feedback_horizon_min": 5,
+    "expected_session_count": 7,
+    "expected_global_clock_count": 336,
+    "expected_pair_context_count": 22848,
+    "schedule_before_future_coverage": true,
+    "one_global_portfolio_across_all_sessions": true,
+    "terminal_rule": "force_flat_on_last_scheduled_clock_using_exact_delayed_quote; if unavailable retry exact session-end quote; otherwise censor and block subsequent decisions"
+  },
+  "costs": {
+    "slippage_per_execution_leg_pips": 0.125,
+    "round_trip_slippage_pips": 0.25,
+    "maximum_entry_spread_pips": 5.0,
+    "spread_paid_once_through_executable_bid_ask": true,
+    "rotation_execution_legs": 2
+  },
+  "frozen_policy": {
+    "policy_id": "all68_aligned_multiscale_momentum_rank_v1",
+    "lookbacks_min": [5, 15, 60],
+    "slope_weights": [0.5, 0.3, 0.2],
+    "minimum_aligned_windows": 2,
+    "minimum_score_cost_ratio": 0.75,
+    "rotation_improvement_multiple": 1.25,
+    "maximum_holding_min": 30,
+    "confidence_floor": 0.5,
+    "confidence_ceiling": 0.75,
+    "confidence_scale": 0.1,
+    "normalized_units": 1,
+    "no_interim_retuning": true
+  },
+  "counterfactuals": {
+    "depth": 1,
+    "count_as_market_repetition": false,
+    "share_exact_predecision_state": true
+  },
+  "independence": {
+    "global_clocks_count_as_market_repetitions": true,
+    "pair_contexts_count_as_market_repetitions": false,
+    "counterfactuals_count_as_market_repetitions": false,
+    "replays_count_as_market_repetitions": false,
+    "prior_discovery_session_keys": ["20260826_wed_overlap_prior_discovery"],
+    "new_scheduled_clock_count": 288,
+    "prior_discovery_scheduled_clock_count": 48,
+    "independent_regime_count": null,
+    "independent_regime_state": "unknown_structural_calendar_blocks_only"
+  },
+  "storage": {
+    "artifact_relative_root": "data/oanda_training_manager/research_ledgers/seq_a68_wed_exp_v1",
+    "state_name": "seq_a68_wed_exp_v1.json",
+    "report_name": "SEQ_A68_WED_EXP_CURRENT.md",
+    "verifier_name": "seq_a68_wed_exp_verifier_v1.json"
+  }
+}

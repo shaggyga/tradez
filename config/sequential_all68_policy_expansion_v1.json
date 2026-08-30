@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "experiment_key": "sequential_all68_policy_expansion_v1",
+  "research_only": true,
+  "execution_eligible": false,
+  "proof_eligible": false,
+  "can_promote": false,
+  "can_place_orders": false,
+  "can_authorize": false,
+  "broker_access": false,
+  "account_access": false,
+  "signal_feed_write": false,
+  "lifecycle_write": false,
+  "supported_decision": "no_trade",
+  "evidence_role": "historical_training_policy_expansion",
+  "source": {
+    "cohort_relative_root": "data/oanda_training_manager/research_ledgers/seq_a68_wed_exp_v1/cohorts/seq_a68_wed_exp_v1.e7de4ecdd0255eb13306",
+    "source_pack_relative_root": "data/oanda_training_manager/research_ledgers/sequential_replay_source_pack_wednesday_expansion_v1",
+    "required_cohort_id": "seq_a68_wed_exp_v1.e7de4ecdd0255eb13306",
+    "required_source_pack_id": "sequential_replay_source_pack_v1.554c8f74212202aa9b86",
+    "required_state_sha256": "da2c46f6bb086ee751ccb62ab7a5218e12a7457920d26a5b7ae85a098a884338",
+    "required_verifier_sha256": "bb0cbe65aec82a0fcffb4f2bdb32c84e48ff8eba2047d84fd80276732e0b3f2c",
+    "required_state_semantic_sha256": "8a4c5ab316bae05c196004bff0bdeb28469b1a2033742deeecc1eb3758c75655",
+    "required_verifier_semantic_sha256": "7fe6ac01ed3f8005c77eb7c2cae785f8249bdd4f77547706a263afbae639fcd4",
+    "required_source_pack_manifest_sha256": "9c9a386474917cc50ff98967339d6a30f8d313d820b5b1b79c08123033252574",
+    "required_source_pack_verifier_sha256": "e80e35d9b6f417409306208b4df1d772f34976e38eddce37d17dfa705a6dc16f",
+    "required_dataset_roots_sha256": "aa00c3203d32f5c404057f0c854d5513714b60df5c0196e2f44cf3680c19081c",
+    "maximum_archive_raw_bytes": 4194304,
+    "maximum_archive_gzip_bytes": 4194304,
+    "require_verified": true,
+    "require_zero_failures": true
+  },
+  "dataset_limits": {
+    "maximum_gzip_bytes": 4194304,
+    "maximum_raw_bytes": 67108864,
+    "maximum_row_count": 30000
+  },
+  "costs": {
+    "slippage_per_execution_leg_pips": 0.125,
+    "round_trip_slippage_pips": 0.25,
+    "maximum_entry_spread_pips": 5.0,
+    "spread_paid_once_through_executable_bid_ask": true
+  },
+  "policy": {
+    "minimum_entry_score_cost_ratio": 2.0,
+    "rotation_improvement_multiple": 1.25,
+    "maximum_holding_min": 30,
+    "normalized_units": 1,
+    "feedback_horizon_min": 5,
+    "factor_vote_tie_epsilon": 1e-12,
+    "factor_switch_incremental_hurdle_pips": 0.0,
+    "explicit_switch_incremental_hurdle_pips": 0.0,
+    "no_interim_retuning": true
+  },
+  "oof_calibration": {
+    "enabled": true,
+    "training_unit": "all_prior_completed_application_sessions_candidate_round_trips",
+    "group_by": "liquidity_bucket",
+    "minimum_training_observations": 20,
+    "lower_bound_z": 1.96,
+    "require_positive_after_cost_lower_bound": true,
+    "same_session_training_forbidden": true,
+    "future_session_training_forbidden": true,
+    "missing_calibration_action": "abstain"
+  },
+  "arms": [
+    "no_trade",
+    "v1_baseline_reference",
+    "cost_hurdle_2x",
+    "explicit_hold_vs_switch_2x",
+    "factor_conflict_suppressed_2x",
+    "oof_remaining_move_calibrated_2x"
+  ],
+  "session_roles": {
+    "prior_discovery_session_keys": [
+      "20260826_wed_overlap_prior_discovery"
+    ],
+    "all_sessions_are_historical_training": true
+  },
+  "independence": {
+    "global_clocks_count_as_market_repetitions": true,
+    "arms_count_as_market_repetitions": false,
+    "candidates_count_as_market_repetitions": false,
+    "pairs_count_as_market_repetitions": false,
+    "reruns_count_as_market_repetitions": false,
+    "independent_regime_count": null
+  },
+  "storage": {
+    "artifact_relative_root": "data/oanda_training_manager/research_ledgers/sequential_all68_policy_expansion_v1",
+    "state_name": "sequential_all68_policy_expansion_v1.json",
+    "report_name": "SEQUENTIAL_ALL68_POLICY_EXPANSION_CURRENT.md",
+    "verifier_name": "sequential_all68_policy_expansion_verifier_v1.json"
+  }
+}

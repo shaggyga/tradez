@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "experiment_key": "sequential_all68_policy_challenger_v1",
+  "research_only": true,
+  "execution_eligible": false,
+  "proof_eligible": false,
+  "can_promote": false,
+  "can_place_orders": false,
+  "can_authorize": false,
+  "broker_access": false,
+  "account_access": false,
+  "signal_feed_write": false,
+  "lifecycle_write": false,
+  "supported_decision": "no_trade",
+  "evidence_role": "historical_training_policy_challenger",
+  "source": {
+    "cohort_relative_root": "data/oanda_training_manager/research_ledgers/sequential_all68_portfolio_batch_replay_v1/cohorts/sequential_all68_portfolio_batch_replay_v1.efda27295d5107241262",
+    "source_pack_relative_root": "data/oanda_training_manager/research_ledgers/sequential_replay_source_pack_v1",
+    "required_cohort_id": "sequential_all68_portfolio_batch_replay_v1.efda27295d5107241262",
+    "required_source_pack_id": "sequential_replay_source_pack_v1.b9d1526f3dfa057bd06d",
+    "required_state_sha256": "5d9c76c4e03fa9c3878a17689aaac8643775729fdac526c4cabd802e376a0e8f",
+    "required_verifier_sha256": "5e9e84e3dd8286b0f02ba5730994668bfcff8b7574a96e09e67fe53a3b9974cd",
+    "required_state_semantic_sha256": "c53f4ab530322257730ace9917c2a136dac687266a94b2af79c0dda04420bd93",
+    "required_verifier_semantic_sha256": "e29548bd01b018e177256f89739859aa968f0521fb60d310e152eca29dbe55c5",
+    "required_source_pack_manifest_sha256": "71531c0f9beb5c62d88824814acb52fc820a098558becd81bf5bd47c3ee36c92",
+    "required_source_pack_verifier_sha256": "660db3e6121977de7a31772dba7516c3b79f100a2211d83d303ed63fa9f0c124",
+    "required_dataset_roots_sha256": "623430fa6acc16248427b6fdfaba1ffd99ef8931d79d2ac3dfcfcdcfb2d37dd0",
+    "maximum_archive_raw_bytes": 4194304,
+    "maximum_archive_gzip_bytes": 4194304,
+    "require_verified": true,
+    "require_zero_failures": true
+  },
+  "dataset_limits": {
+    "maximum_gzip_bytes": 4194304,
+    "maximum_raw_bytes": 67108864,
+    "maximum_row_count": 20000
+  },
+  "mistake_curriculum": {
+    "cohort_relative_root": "data/oanda_training_manager/research_ledgers/sequential_all68_mistake_curriculum_v1/cohorts/sequential_all68_mistake_curriculum_v1.26b13486af3803244125",
+    "required_cohort_id": "sequential_all68_mistake_curriculum_v1.26b13486af3803244125",
+    "required_report_id": "a68mistakecurriculum_a3b4d3a281c74afcbb245816f572",
+    "required_report_sha256": "c7dd485cf5154b39bb56c8fc2aec1849cb3d0e17c7a40f46124864634e61b6fc",
+    "required_material_sha256": "1f25fefe9869978e19287adbfa834a5681d43e2d5844c4e51bd3449f412c0798",
+    "required_verifier_sha256": "3765da966a1232aa430143240d0a358051e18857963d1528af82cba8f8b6dc8c"
+  },
+  "costs": {
+    "slippage_per_execution_leg_pips": 0.125,
+    "round_trip_slippage_pips": 0.25,
+    "maximum_entry_spread_pips": 5.0,
+    "spread_paid_once_through_executable_bid_ask": true
+  },
+  "policy": {
+    "minimum_entry_score_cost_ratio": 2.0,
+    "rotation_improvement_multiple": 1.25,
+    "maximum_holding_min": 30,
+    "normalized_units": 1,
+    "feedback_horizon_min": 5,
+    "factor_vote_tie_epsilon": 1e-12,
+    "factor_switch_incremental_hurdle_pips": 0.0,
+    "explicit_switch_incremental_hurdle_pips": 0.0,
+    "no_interim_retuning": true
+  },
+  "oof_calibration": {
+    "enabled": true,
+    "training_unit": "prior_completed_session_candidate_round_trips",
+    "group_by": "liquidity_bucket",
+    "minimum_training_observations": 20,
+    "lower_bound_z": 1.96,
+    "require_positive_after_cost_lower_bound": true,
+    "monday_training_sessions": [],
+    "wednesday_training_sessions": ["20260824_mon_overlap"],
+    "friday_training_sessions": ["20260824_mon_overlap", "20260826_wed_overlap"],
+    "same_session_training_forbidden": true,
+    "future_session_training_forbidden": true,
+    "missing_calibration_action": "abstain"
+  },
+  "arms": [
+    "no_trade",
+    "v1_baseline_reference",
+    "cost_hurdle_2x",
+    "explicit_hold_vs_switch_2x",
+    "factor_conflict_suppressed_2x",
+    "oof_remaining_move_calibrated_2x"
+  ],
+  "independence": {
+    "global_clocks_count_as_market_repetitions": true,
+    "arms_count_as_market_repetitions": false,
+    "candidates_count_as_market_repetitions": false,
+    "pairs_count_as_market_repetitions": false,
+    "reruns_count_as_market_repetitions": false,
+    "independent_regime_count": null
+  },
+  "storage": {
+    "artifact_relative_root": "data/oanda_training_manager/research_ledgers/sequential_all68_policy_challenger_v1",
+    "state_name": "sequential_all68_policy_challenger_v1.json",
+    "report_name": "SEQUENTIAL_ALL68_POLICY_CHALLENGER_CURRENT.md",
+    "verifier_name": "sequential_all68_policy_challenger_verifier_v1.json"
+  }
+}

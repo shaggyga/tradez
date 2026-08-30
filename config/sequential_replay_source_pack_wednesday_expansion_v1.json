@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "experiment_key": "sequential_replay_source_pack_wednesday_expansion_v1",
+  "research_only": true,
+  "execution_eligible": false,
+  "proof_eligible": false,
+  "can_promote": false,
+  "can_place_orders": false,
+  "can_authorize": false,
+  "broker_access": false,
+  "account_access": false,
+  "supported_decision": "no_trade",
+  "evidence_role": "historical_training_discovery",
+  "source": {
+    "relative_root": "data/oanda_training_manager/candles",
+    "filename_template": "{instrument}_M1.csv",
+    "expected_instruments": [
+      "AUD_CAD", "AUD_CHF", "AUD_HKD", "AUD_JPY", "AUD_NZD", "AUD_SGD", "AUD_USD",
+      "CAD_CHF", "CAD_HKD", "CAD_JPY", "CAD_SGD", "CHF_HKD", "CHF_JPY", "CHF_ZAR",
+      "EUR_AUD", "EUR_CAD", "EUR_CHF", "EUR_CZK", "EUR_DKK", "EUR_GBP", "EUR_HKD",
+      "EUR_HUF", "EUR_JPY", "EUR_NOK", "EUR_NZD", "EUR_PLN", "EUR_SEK", "EUR_SGD",
+      "EUR_TRY", "EUR_USD", "EUR_ZAR", "GBP_AUD", "GBP_CAD", "GBP_CHF", "GBP_HKD",
+      "GBP_JPY", "GBP_NZD", "GBP_PLN", "GBP_SGD", "GBP_USD", "GBP_ZAR", "HKD_JPY",
+      "NZD_CAD", "NZD_CHF", "NZD_HKD", "NZD_JPY", "NZD_SGD", "NZD_USD", "SGD_CHF",
+      "SGD_JPY", "TRY_JPY", "USD_CAD", "USD_CHF", "USD_CNH", "USD_CZK", "USD_DKK",
+      "USD_HKD", "USD_HUF", "USD_JPY", "USD_MXN", "USD_NOK", "USD_PLN", "USD_SEK",
+      "USD_SGD", "USD_THB", "USD_TRY", "USD_ZAR", "ZAR_JPY"
+    ],
+    "required_columns": [
+      "time", "datetime", "instrument", "granularity", "open", "high", "low", "close",
+      "bid_open", "bid_high", "bid_low", "bid_close", "ask_open", "ask_high", "ask_low",
+      "ask_close", "spread_pips", "volume"
+    ],
+    "maximum_source_bytes_per_instrument": 16777216,
+    "reject_links": true
+  },
+  "schedule": {
+    "selection_rule": "predeclared seven consecutive Wednesdays 2026-07-15 through 2026-08-26, 12:00-16:00 UTC London-New_York overlap blocks; selected only by calendar before replay outcomes, never by movement, quote coverage, event, candidate, or result; 2026-08-26 overlaps prior discovery and must remain separately identified",
+    "decision_cadence_min": 5,
+    "feature_lookback_min": 60,
+    "execution_delay_min": 1,
+    "feedback_horizon_min": 5,
+    "schedule_clocks_before_quote_coverage": true,
+    "sessions": [
+      {
+        "session_key": "20260715_wed_overlap",
+        "start_utc": "2026-07-15T12:00:00Z",
+        "end_utc_exclusive": "2026-07-15T16:00:00Z"
+      },
+      {
+        "session_key": "20260722_wed_overlap",
+        "start_utc": "2026-07-22T12:00:00Z",
+        "end_utc_exclusive": "2026-07-22T16:00:00Z"
+      },
+      {
+        "session_key": "20260729_wed_overlap",
+        "start_utc": "2026-07-29T12:00:00Z",
+        "end_utc_exclusive": "2026-07-29T16:00:00Z"
+      },
+      {
+        "session_key": "20260805_wed_overlap",
+        "start_utc": "2026-08-05T12:00:00Z",
+        "end_utc_exclusive": "2026-08-05T16:00:00Z"
+      },
+      {
+        "session_key": "20260812_wed_overlap",
+        "start_utc": "2026-08-12T12:00:00Z",
+        "end_utc_exclusive": "2026-08-12T16:00:00Z"
+      },
+      {
+        "session_key": "20260819_wed_overlap",
+        "start_utc": "2026-08-19T12:00:00Z",
+        "end_utc_exclusive": "2026-08-19T16:00:00Z"
+      },
+      {
+        "session_key": "20260826_wed_overlap_prior_discovery",
+        "start_utc": "2026-08-26T12:00:00Z",
+        "end_utc_exclusive": "2026-08-26T16:00:00Z"
+      }
+    ]
+  },
+  "independence": {
+    "one_market_repetition_per_session_clock": true,
+    "pair_contexts_do_not_count_as_independent_repetitions": true,
+    "shared_currency_resources_are_dependent": true,
+    "session_weekday_blocks_are_structural_not_proven_independent_regimes": true,
+    "prior_discovery_session_keys": ["20260826_wed_overlap_prior_discovery"],
+    "new_scheduled_clock_count": 288,
+    "prior_discovery_scheduled_clock_count": 48
+  },
+  "storage": {
+    "artifact_relative_root": "data/oanda_training_manager/research_ledgers/sequential_replay_source_pack_wednesday_expansion_v1",
+    "current_state_name": "sequential_replay_source_pack_wednesday_expansion_v1.json",
+    "current_report_name": "SEQUENTIAL_REPLAY_SOURCE_PACK_WEDNESDAY_EXPANSION_CURRENT.md",
+    "current_verifier_name": "sequential_replay_source_pack_wednesday_expansion_verifier_v1.json",
+    "maximum_archive_raw_bytes": 4194304,
+    "maximum_archive_gzip_bytes": 2097152,
+    "gzip_compresslevel": 9
+  }
+}

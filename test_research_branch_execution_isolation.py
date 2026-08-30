@@ -19,6 +19,12 @@ RESEARCH_TOKENS = (
     "prospective_event_response",
     "counterfactual_sim_gym",
     "sequential_portfolio_replay",
+    "sequential_portfolio_curriculum",
+    "sequential_portfolio_mistake_curriculum",
+    "sequential_replay_source_pack",
+    "sequential_all68_portfolio_batch_replay",
+    "sequential_all68_policy_challenger",
+    "sequential_all68_policy_expansion",
 )
 
 OPERATIONAL_FILES = (

@@ -1,8 +1,227 @@
 # Forex pending improvements
 
-Status: **Stable; verified sequential portfolio pilot complete, learner/spaced replay next**
+Status: **Stable; current safe implementation queue complete; checkpoint manifests are authoritative**
 
-Updated: 2026-08-29 18:40 America/New_York
+Updated: 2026-08-30 00:58 America/New_York
+
+## Current queue and evidence boundary — 30 August 00:48 ET
+
+The queued replay, curriculum, verifier, policy-challenger, historical
+expansion, lossless-genealogy, and cross-runtime reproducibility work is now
+implemented. The sections below this one are chronological checkpoints, not a
+second active implementation queue.
+
+- Cross-runtime canonical serialization is fixed. Python 3.12 and 3.13 now
+  emit the same deterministic gzip bytes, including a normalized `OS=255`
+  header. All 702 gzip files in the rebuilt canonical chain pass that check.
+- Current base chain: source pack
+  `sequential_replay_source_pack_v1.b9d1526f3dfa057bd06d`, replay
+  `sequential_all68_portfolio_batch_replay_v1.efda27295d5107241262`, mistake
+  curriculum `sequential_all68_mistake_curriculum_v1.26b13486af3803244125`,
+  and challenger `sequential_all68_policy_challenger_v1.0b5267c7a5c730a150cf`.
+  The replay remains flat at **-120.25 pips** across 110 execution legs.
+- Current Wednesday expansion chain: source pack
+  `sequential_replay_source_pack_v1.554c8f74212202aa9b86`, replay
+  `seq_a68_wed_exp_v1.e7de4ecdd0255eb13306`, and policy expansion
+  `sequential_all68_policy_expansion_v1.15a3aa5d039df7df9a7d`. The frozen
+  explicit/factor arm is +16.10 pips in-sample, but becomes **-36.85 pips**
+  after removing its best Wednesday; the 2x-cost arm similarly falls from
+  +1.35 to **-37.80 pips**. This is concentrated historical training evidence,
+  not proof or a candidate for execution.
+- The final combined boundary passed **208 tests** with three expected
+  platform-dependent skips under both Python 3.12 and Python 3.13. All 36
+  changed Python files compile under both runtimes. Independent
+  current-pointer, material-hash, safety, flat-terminal, clean-temporary-tree,
+  and current-ID checks passed.
+- The canonical lossless genealogy now contains 53,169 definitions and 87,476
+  observations after the supervised reload. The seven current rebuilt
+  identities each have exactly one registered observation; SQLite integrity
+  is `ok`, foreign-key violations are zero, and confirmed candidates remain
+  zero. The exact 53,148-definition/123,820-observation predecessor registry
+  is preserved under content-addressed snapshot
+  `research_genealogy_predecessor_v1.a5d9b45584888df78f8d`; incompatible
+  predecessor rows remain quarantined rather than discarded or rewritten.
+- Every predecessor replay/curriculum/policy identity remains immutable. The
+  current positive-looking expansion is not merged with the earlier window,
+  promoted, authorized, or described as independent evidence.
+
+No pending local code item authorizes trading. The remaining work is evidence
+or external-source acquisition and therefore stays fail-closed:
+
+1. Continue untouched prospective official-event and quote-sidecar
+   collection after markets reopen.
+2. Obtain a permitted causal pre-release consensus source and timestamp-safe
+   intraday rate/OIS or policy-futures repricing. Keep unavailable fields
+   unavailable rather than inferred or backfilled.
+3. Restore the permitted direct RBNZ path through an authenticated official
+   subscription or other publisher-authorized channel; do not bypass access
+   controls.
+4. Evaluate the frozen challenger/allocator only on a later untouched cohort.
+   Any material feature, rule, data, cost, or serialization change requires a
+   new cohort identity.
+5. Advance to Practice 007 only if the immutable lifecycle database eventually
+   contains a genuine confirmed candidate and a fresh exact canary
+   authorization. Real-money routing remains disabled.
+
+The current supported operational decision remains `no_trade`.
+
+## Verifier hardening and policy checkpoint — 29 August 22:50 ET
+
+An independent adversarial review found that several current receipts could
+previously be made self-consistent after tampering. Those artifacts were not
+promoted or executed, but the apparent verifier confidence was too weak. The
+current source pack, all-68 replay, learner curriculum, and four-pair mistake
+curriculum have therefore been rebuilt under stronger immutable contracts;
+their predecessors remain preserved and superseded rather than rewritten.
+
+- Exact-window source pack:
+  `sequential_replay_source_pack_v1.ee6d6fd4d38744ecc1da`. The material
+  contract now binds the complete no-execution safety state and the standalone
+  verifier rejects forged state/material safety. Coverage remains 68 pairs,
+  144 clocks, 9,792 contexts, and 8,333 fully ready contexts.
+- All-68 replay:
+  `sequential_all68_portfolio_batch_replay_v1.9d6e7e0f27ad289c4c83`. Its
+  verifier now reconstructs the schedule, complete 68-by-clock Cartesian set,
+  candidates, primary state chain, every execution leg, feedback,
+  counterfactual, terminal row, dataset identity/order, safety, counts, and
+  P/L. The unchanged historical result remains **-120.25 pips**, 110 legs,
+  and a flat terminal portfolio. State, report, and verifier timestamps are
+  now derived from the predeclared schedule, immutable cohort files are
+  create-once, current pointers are exact byte copies, and an unchanged rerun
+  must reproduce every byte or fail. The immediate predecessor `7681e6...`
+  remains preserved after exposing the mutable-wall-clock defect.
+- Learner curriculum:
+  `sequential_portfolio_curriculum_v1.22124b7c2ebf24ad2430`. Its verifier now
+  recomputes every published statistic, exact seal/snapshot payload, full
+  safety state, and deterministic content-bound timestamp contract. It retains
+  48 attempts, 36 distinct cases, 12 zero-weight reviews, and mean regret
+  0.671875 pips.
+- Four-pair mistake curriculum:
+  `sequential_portfolio_mistake_curriculum_v1.188f47cfdf79c6608cde`. A new
+  standalone verifier independently rebuilds all 34 overlapping observations
+  and 21 structural clusters and rejects forged roots, counts, report IDs,
+  thresholds, configs, or safety. The old fixed-name report remains preserved.
+- All-68 mistake curriculum:
+  `sequential_all68_mistake_curriculum_v1.98755c2c2f9bd26b014a`, report
+  `a68mistakecurriculum_ce03dbb9ca777dacc82304c9b3f0`. It retains 144 weighted
+  primary clocks and 172 zero-weight depth-one reviews, identifies 58 mistake
+  clocks and 164 nonexclusive labels, and collapses them through 175
+  within-clock currency-resource components into 21 structural clusters.
+  Cost (166.40 pips), calibration (114.50), opportunity selection / hold versus
+  rotate (95.75), rotation (93.30), entry (88.45), direction (76.15), and
+  management/exit (41.90) are overlapping curriculum dimensions, not
+  independent evidence. Exact raw and semantic parent receipts, source-pack
+  hashes, dataset specifications, roots, and all research-only safety fields
+  are independently bound. Initial `283926...` and intermediate `7712eb...`
+  curricula remain preserved.
+
+The unaffected source-pack/learner/four-pair/isolation boundary currently
+passes 62 tests with one platform-permission symlink skip. The final all-68
+replay/mistake/isolation boundary passes another 43 tests with zero failures.
+A full project integrity refresh initially found only a
+chronology-stale move-first news audit. The 924-case audit was rebuilt after its
+new upstream census, and the repeat integrity pass is now `ok` with zero
+failures, zero confirmed candidates, 177.991 GiB free, and supported decision
+`no_trade`. Practice 007 remains flat at NAV 41.6042 with no positions or
+orders. The candidate Git tree passed the credential audit with zero bearer-
+secret findings.
+
+Policy diagnostics on the inspected all-68 window confirm abstention is the
+main immediate control: raising the predicted-move/cost hurdle from 0.75x to
+1.25x, 1.50x, and 2.00x reduced the same-window loss from -120.25 pips to
+-34.35, -13.35, and -7.50 pips respectively, while no-trade remained 0.00.
+These are post-selection training diagnostics, not edge. Rotation and holding-
+duration tweaks alone did not help. V1 also exposed a specific switch defect:
+an incumbent that falls below the entry threshold disappears from the ranked
+set, so its continuation value is not compared explicitly with exit/rotation.
+The immutable V1 result is not patched; the V2 contract is specified in
+`docs/SEQUENTIAL_ALL68_POLICY_SHORTLIST_V1.md`.
+
+Current continuation queue:
+
+1. Finish the fresh-registry genealogy migration after adversarial validation.
+   Register the final and preserved source, replay, learner, and mistake
+   identities with exact parent bytes/seals; archive the pre-hardening canonical
+   registry before an atomic replacement. A rerun must be idempotent.
+2. Finish the frozen research shortlist: no-trade, immutable V1 baseline, 2x cost hurdle,
+   out-of-fold remaining-move calibration, explicit hold-versus-switch value,
+   and signed-factor conflict suppression. Do not select and confirm on the
+   same window.
+3. After the policy is frozen, open the calendar-only historical expansion and
+   then a strictly later untouched prospective cohort. Missing clocks/quotes
+   remain failures, never survivor-filtered rows.
+4. Continue prospective official-event collection. The raw first-seen 68/68
+   quote-sidecar ledger remains correctly at zero during the weekend; do not
+   backfill it. RBNZ permission, causal pre-release consensus, and timestamp-
+   safe intraday rate repricing remain external source gates.
+5. When current code and records settle, make one reviewed private Git commit,
+   publish the exact clean committed source tree to the vault, hash-verify it,
+   and refresh the canonical vault project records without retention deletion.
+
+No item above authorizes Practice 007, loosens proof gates, or enables real
+money.
+
+## Corrected all-68 deliberate-practice checkpoint — 29 August 22:05 ET
+
+The learner and mistake layers are now implemented above the verified
+four-pair sequential session. The learner cohort
+`sequential_portfolio_curriculum_v1.af435480002f2140c541` precommitted 48
+attempts across four sessions: 36 distinct historical training cases and 12
+zero-weight spaced reviews. The mistake report
+`sprmistakecurriculum_00d7d59c24772d6805b382a80ef0` reduced 34 nonexclusive
+labels to 21 structural clusters. Its leading needs are cost awareness, entry
+quality, direction, and calibration. Neither attempts nor reviews manufacture
+new market regimes or proof observations.
+
+The corrected exact-window source pack is
+`sequential_replay_source_pack_v1.1bddc89d33ec30767c96`. It binds all 68
+instruments across homogeneous Monday, Wednesday, and Friday 12:00–16:00 UTC
+blocks: 144 global clocks, 9,792 dependent pair contexts, and 204 immutable
+archives. It retained 1,441 causal-context failures, 382 missing exact delayed
+entry quotes, 290 missing exact feedback quotes, and 2,299 missing source
+minutes. The independent verifier rebuilt its exact Cartesian manifest,
+archive bounds, links, aggregate coverage, and hashes with zero failures.
+
+The earlier pack `52259f...` remains immutable as a coverage-driven
+engineering diagnostic. Its Friday 10:00–14:00 UTC selection improved sparse
+TRY coverage but did not match the declared overlap schedule, so it cannot be
+used as homogeneous overlap evidence.
+
+The availability-aware all-68 replay is independently verified as cohort
+`sequential_all68_portfolio_batch_replay_v1.445ddc96477b7ac284ed`. It retained
+all 144 global decisions and all 9,792 contexts, ranked 261 causal candidates,
+and exercised 50 waits, 24 entries, 15 holds, 24 exits, and 31 rotations. Its
+110 exact bid/ask execution legs and 172 depth-one alternatives ended flat at
+**−120.25 pips**. AUD/USD (+12.95) and EUR/USD (+5.40) were descriptively
+positive, but repeated USD/JPY, GBP/USD, GBP/JPY, and USD/CAD losses dominated.
+This is historical training evidence only: broader activity did not rescue the
+unchanged momentum-ranking mechanics and no threshold was loosened.
+
+Current continuation queue:
+
+1. Build an all-68 mistake-directed curriculum from the exact primary and
+   depth-one feedback. Deduplicate by global clock, predeclared episode block,
+   and connected currency resources; prioritize cost, entry, direction,
+   calibration, rotation, and opportunity-selection errors. Reviews remain
+   zero-weight repetitions.
+2. Use that curriculum to specify a small set of frozen historical-training
+   policies: cost-aware abstention, remaining-move-versus-cost calibration,
+   factor-conflict suppression, and explicit hold-versus-rotate comparison.
+   The inspected sessions may select a definition but cannot confirm it.
+3. Lock the selected policy before opening the calendar-only seven-Wednesday
+   expansion. Schedule clocks before availability, retain missing quotes, and
+   continue to count one global action rather than 68 pair observations.
+4. Add levels, official events, news, causal macro consensus, and rate
+   repricing only as separate source-conditioned cohorts with exact
+   knowledge-time snapshot IDs. Do not retrofit them into price-only history.
+5. Open a strictly later untouched prospective cohort only after the policy is
+   frozen. Practice 007 remains fail-closed without a genuine confirmed
+   candidate and narrow authorization; real-money routing stays disabled.
+
+Storage is not a blocker: C: has **178.09 GiB free**. The all-68 batch artifacts,
+curriculum, portfolio replay, and source-pack trees together use about
+**24.8 MiB**. Empty or superseded development identities remain preserved until
+the normal evidence-retention process can quarantine them with manifests.
 
 ## Sequential portfolio-session completion — 29 August 18:40 ET
 
