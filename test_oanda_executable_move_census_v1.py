@@ -28,18 +28,16 @@ def test_supervisor_registers_isolated_research_census_and_verifier_workers() ->
     )
     assert producer.count('-Needle "oanda_executable_move_census_v1.py"') == 1
     assert verifier.count('-Needle "oanda_executable_move_census_v1_verifier.py"') == 1
-    for block, script, heartbeat, schema in (
+    for block, script, heartbeat in (
         (
             producer,
             "oanda_executable_move_census_v1.py",
             "executable_move_census_heartbeat_v1_20260830b.json",
-            "executable_move_census_heartbeat_v1",
         ),
         (
             verifier,
             "oanda_executable_move_census_v1_verifier.py",
             "executable_move_census_verifier_latest_v1_20260830b.json",
-            "executable_move_census_verifier_v1",
         ),
     ):
         assert f'(Join-Path $Trad "{script}")' in block
@@ -48,8 +46,10 @@ def test_supervisor_registers_isolated_research_census_and_verifier_workers() ->
         assert '"--interval-sec", "30"' in block
         assert '"--duration-sec", "$ChildDurationSec"' in block
         assert f'(Join-Path $State "{heartbeat}")' in block
-        assert 'ExpectedJsonField = "schema_version"' in block
-        assert f'ExpectedJsonValue = "{schema}"' in block
+    assert 'ExpectedJsonField = "schema_version"' in producer
+    assert 'ExpectedJsonValue = "executable_move_census_heartbeat_v1"' in producer
+    assert 'ExpectedJsonField = "verified"' in verifier
+    assert 'ExpectedJsonValue = "True"' in verifier
     assert "research-only observations" in (Path(__file__).resolve().parent / "oanda_always_on_supervisor.ps1").read_text(
         encoding="utf-8"
     )

@@ -1973,8 +1973,8 @@ while ($true) {
                 LiteralPath = (Join-Path $State "executable_move_census_verifier_latest_v1_20260830b.json")
                 MaxAgeSec = 180
                 StartupGraceSec = 240
-                ExpectedJsonField = "schema_version"
-                ExpectedJsonValue = "executable_move_census_verifier_v1"
+                ExpectedJsonField = "verified"
+                ExpectedJsonValue = "True"
             }
         # The census shares the canonical 21-currency strength solver.  Use the
         # supervisor's resolved runtime (which carries that validated dependency)
