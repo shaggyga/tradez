@@ -1,8 +1,8 @@
 # Forex pending improvements
 
-Status: **Stable; paired official-event proof is live and the executable-move census is staged for prospective collection**
+Status: **Stable; paired official-event proof and the all-68 executable-move census are live**
 
-Updated: 2026-08-30 16:39 America/New_York
+Updated: 2026-08-30 17:11 America/New_York
 
 ## All-68 executable-move census and dashboard cleanup — 30 August 16:39 ET
 
@@ -40,11 +40,29 @@ Updated: 2026-08-30 16:39 America/New_York
   both runtimes. Python compilation and PowerShell parsing are clean. These
   are correctness results, not evidence of edge.
 
-Remaining closeout steps are a controlled supervisor/dashboard reload, first
-prospective-frame verification after the Sunday 17:05 ET market-open clock,
-and the final source/model vault refresh. Existing external blockers—causal
-pre-release consensus, intraday policy-rate repricing and a permitted direct
-RBNZ channel—remain unchanged. Practice 007 stays governed and `no_trade`.
+The controlled hidden reload is complete. The first prospective frame was
+captured at the frozen Sunday 17:05 ET activation and retained all 68 rows:
+56 valid quotes plus 12 explicit special-hours closures. At the 17:08 ET
+activation checkpoint the ledger contained four immutable frames, 272 quote
+rows and two matured one-minute evaluations; SQLite integrity was `ok`, the
+independent verifier rebuilt 136 logical sides per frame with zero failures,
+and the open-frame schedule had no gap. The first tiny Sunday windows cleared
+no side after executable costs. That is an observed null, not a hidden or
+discarded signal.
+
+Frozen identities are config SHA-256
+`625ce0589920c0b215c350be2fb5e3a68a5a355a38908b99fa5411cfc7234e1`,
+producer SHA-256
+`98701894bdb7ec980758399e32187b826326746927923083a9a527b8e4d33369`
+and independent verifier SHA-256
+`f43fa6c158c0d17665e54c84eb6ded58004dabba23f2b30c2441fdf011207785`.
+The supervisor, producer, verifier and dashboard are healthy. Practice 007 is
+flat at NAV 41.6042 with no orders, and `no_trade` remains supported.
+
+No repository-controlled implementation item remains in this section. The
+final source/model vault publication is closeout housekeeping, not predictor
+work. Existing external blockers—causal pre-release consensus, intraday
+policy-rate repricing and a permitted direct RBNZ channel—remain unchanged.
 
 ## Paired proof Windows publication repair and cohort B — 30 August 15:08 ET
 

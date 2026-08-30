@@ -254,7 +254,15 @@ class PatternDashboardTests(unittest.TestCase):
                 encoding="utf-8",
             )
 
-            summary = summarize_live_movers(path)
+            # Keep this legacy-payload fixture isolated from the canonical
+            # live executable census that may exist on the developer host.
+            # The companion fixed-horizon test below supplies its own census.
+            with patch.object(
+                dashboard,
+                "EXECUTABLE_MOVE_CENSUS",
+                Path(temporary) / "missing_executable_census.json",
+            ):
+                summary = summarize_live_movers(path)
 
         self.assertEqual(summary["status"], "collecting")
         self.assertEqual(summary["modes"]["velocity"][0]["instrument"], "EUR_USD")

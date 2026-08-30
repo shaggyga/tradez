@@ -3702,3 +3702,51 @@ Validation and safety:
   independently pass SQLite integrity, preserve their exact A/B manifests
   and contain zero evidence rows. Practice execution and authorization were
   not touched; `no_trade` remains supported.
+
+## 2026-08-30 17:11 America/New_York — All-68 executable census live; prediction surface simplified
+
+- Replaced the dashboard's selectable midpoint/velocity leaderboard with one
+  prospective executable-move contract. Each scheduled minute freezes all 68
+  OANDA bid/ask rows and evaluates both LONG and SHORT at terminal 1, 5, 10,
+  15, 30 and 60-minute horizons. The explicit denominator is always 136 sides;
+  stale, missing, invalid and special-hours-closed sides remain visible.
+- A path clears only when the later executable exit is positive after the
+  correct bid/ask endpoints and one frozen 0.25-pip round-trip slippage
+  deduction. Terminal outcomes remain primary; first-clear and best/worst
+  paths are separately labeled diagnostics. Compact immutable frames and
+  digests keep every side reconstructible without materializing an unbounded
+  per-arm database.
+- Added a factor/episode review queue so the largest cleared moves can be
+  investigated without treating correlated pairs as independent cases. It
+  deduplicates by 15-minute episode, signed currency factor and terminal/path
+  event kind. This census measures opportunity frequency and missed-move
+  candidates; it does not prove forecast edge or grant execution eligibility.
+- The independent verifier imports no producer or execution code. It rebuilds
+  all 136 sides, quote and schedule lineage, endpoint arithmetic, window
+  digests, append-only triggers and dashboard aggregates. Config, producer and
+  verifier SHA-256 values are respectively
+  `625ce0589920c0b215c350be2fb5e3a68a5a355a38908b99fa5411cfc7234e1`,
+  `98701894bdb7ec980758399e32187b826326746927923083a9a527b8e4d33369`
+  and
+  `f43fa6c158c0d17665e54c84eb6ded58004dabba23f2b30c2441fdf011207785`.
+- The main dashboard now presents account state, decision state and the
+  executable census first. The signal prediction matrix defaults to the
+  current live forecast; chronological after-cost holdout win rate, net result
+  and sample count are explicitly separate views. Evidence/proof and broad
+  research diagnostics are collapsed, and legacy mover payloads are retained
+  only for compatibility rather than offered as primary controls.
+- The first frame landed at the frozen `2026-08-30T21:05:00Z` activation. It
+  contains 56 valid rows and 12 explicit special-hours closures. At the 17:08
+  ET checkpoint there were four frames, 272 quote rows and two matured
+  one-minute evaluations, no missing open-market frame, SQLite integrity
+  `ok`, and an independently verified 136-side reconstruction with zero
+  failures. No side cleared costs in those first tiny Sunday windows.
+- Release validation passed 17/17 census-producer tests, 24/24 independent-
+  verifier tests and 57/57 dashboard tests under both Python 3.12 and 3.13.
+  The relevant supervisor, structure, credential and isolation boundary passed
+  20/20 under both. Python compilation and PowerShell parsing were clean.
+- Hidden supervision adopted the existing project and now owns the census
+  producer, verifier and dashboard. Practice 007 remained flat at NAV/balance
+  41.6042, lifetime P/L -8.3430, zero positions and zero pending orders. No
+  manual order, manual close, gate relaxation, promotion or real-money action
+  occurred; the supported decision remains `no_trade`.
