@@ -40,6 +40,7 @@ SIGNAL_SNAPSHOT = Path(__file__).resolve().parent / "data" / "oanda_training_man
 RESEARCH_SIGNAL_SNAPSHOT = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "practice_007_signal_snapshot_research_v1.json"
 LAST_SIGNAL_SNAPSHOT = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "practice_007_last_signal_v1.json"
 LATEST_MOVES_SNAPSHOT = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "practice_007_latest_moves_v1.json"
+EXECUTABLE_MOVE_CENSUS = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "executable_move_census_latest_v1.json"
 ADAPTIVE_LEVEL_BANDS = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "causal_level_band_prospective_v1.json"
 LIVE_MOVE_NEWS_SNAPSHOT = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "live_move_news_snapshot_v7r3.json"
 LIVE_MOVE_NEWS_OUTCOMES = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "live_move_news_outcomes_v4r3.json"
@@ -1873,14 +1874,14 @@ def summarize_live_movers(
     *,
     limit: int = 5,
 ) -> dict[str, Any]:
-    """Compact the read-only mover feed for the live dashboard.
+    """Compact the read-only executable-move census for the live dashboard.
 
-    The panel is descriptive only.  Velocity and price movement never confer
-    lifecycle eligibility or order authorization.
+    Legacy mover modes remain in the payload for downstream compatibility,
+    but the dashboard exposes only fixed-window executable bid/ask paths.
+    Descriptive movement never confers lifecycle eligibility or authorization.
     """
 
     payload = load_json_dict(path)
-    age = file_age_seconds(path)
     rankings = payload.get("rankings") or {}
     modes: dict[str, list[dict[str, Any]]] = {}
 
@@ -1962,6 +1963,77 @@ def summarize_live_movers(
             row["rank"] = rank
         modes[mode] = compacted[: max(1, limit)]
 
+    executable = load_json_dict(EXECUTABLE_MOVE_CENSUS)
+    executable_mode_stats: dict[str, dict[str, int]] = {}
+    for block in executable.get("horizons") or []:
+        if not isinstance(block, dict):
+            continue
+        horizon = max(1, int(finite_float(block.get("horizon_min"))))
+        executable_rows: list[dict[str, Any]] = []
+        for raw in block.get("rows") or []:
+            if not isinstance(raw, dict) or raw.get("state") != "cleared":
+                continue
+            side = str(raw.get("side") or "")
+            net_pips = finite_float(raw.get("net_pips"))
+            net_bps = finite_float(raw.get("net_bps"))
+            points: list[list[float | int]] = []
+            for point in raw.get("path_points") or []:
+                try:
+                    epoch = int(
+                        datetime.fromisoformat(
+                            str(point.get("scheduled_utc")).replace("Z", "+00:00")
+                        ).timestamp()
+                    )
+                except (TypeError, ValueError):
+                    continue
+                points.append(
+                    [epoch, round(finite_float(point.get("net_pips")), 4)]
+                )
+            executable_rows.append(
+                {
+                    "instrument": str(raw.get("instrument") or ""),
+                    "direction": "increase" if side == "long" else "decrease",
+                    "side": side,
+                    "state": str(raw.get("state")),
+                    "move_bps": round(net_bps, 3),
+                    "move_pips": round(net_pips, 3),
+                    "executable_net_pips": round(net_pips, 3),
+                    "velocity_bps_per_hour": 0.0,
+                    "duration_minutes": horizon,
+                    "entry_bid": raw.get("entry_bid"),
+                    "entry_ask": raw.get("entry_ask"),
+                    "exit_bid": raw.get("exit_bid"),
+                    "exit_ask": raw.get("exit_ask"),
+                    "start_utc": raw.get("entry_scheduled_utc"),
+                    "end_utc": raw.get("exit_scheduled_utc"),
+                    "chart_points": points,
+                    "research_only": True,
+                }
+            )
+        executable_rows.sort(
+            key=lambda row: (
+                -finite_float(row.get("move_bps")),
+                -finite_float(row.get("executable_net_pips")),
+                row["instrument"],
+                row["side"],
+            )
+        )
+        for rank, row in enumerate(executable_rows[: max(1, limit)], start=1):
+            row["rank"] = rank
+        key = f"exec{horizon}"
+        modes[key] = executable_rows[: max(1, limit)]
+        executable_mode_stats[key] = {
+            name: int(safe_float(block.get(name)))
+            for name in (
+                "expected_side_count",
+                "valid_count",
+                "cleared_count",
+                "path_cleared_count",
+                "invalid_count",
+                "pending_count",
+            )
+        }
+
     source_rows = [row for row in payload.get("rows") or [] if isinstance(row, dict)]
     breadth: dict[str, dict[str, int]] = {}
     currency_strength: dict[str, dict[str, list[dict[str, Any]]]] = {}
@@ -2001,22 +2073,48 @@ def summarize_live_movers(
             "weakest": list(reversed(scored[-3:])),
         }
 
-    status = "missing" if not payload else "stale" if age is None or age > 150.0 else "live"
+    executable_age = file_age_seconds(EXECUTABLE_MOVE_CENSUS)
+    if executable:
+        status = "stale" if executable_age is None or executable_age > 150.0 else "live"
+        display_age = executable_age
+        display_generated = executable.get("generated_utc")
+    else:
+        # The primary UI is the executable census.  Do not report a healthy
+        # legacy midpoint snapshot as a live executable observation.
+        status = "collecting"
+        display_age = None
+        display_generated = None
     return {
         "schema_version": "practice_007_live_mover_dashboard_v1",
-        "generated_utc": payload.get("generated_utc"),
-        "snapshot_age_sec": round(age, 2) if age is not None else None,
+        "generated_utc": display_generated,
+        "snapshot_age_sec": round(display_age, 2) if display_age is not None else None,
         "status": status,
-        "refresh_contract": "dashboard polls every 1.5s; source reranks on each latest-moves cycle",
-        "ranking_definition": (
-            "active spread-clearing pivot legs lasting >=5m, ordered by absolute basis points per hour"
+        "refresh_contract": (
+            "dashboard polls every 1.5s; census publishes every 30s from "
+            "one scheduled all-68 quote frame per minute"
         ),
-        "chart_definition": "normalized midpoint path in basis points; maximum 90 points",
+        "ranking_definition": (
+            "fixed-window executable bid/ask paths ranked by net basis points over the selected horizon"
+        ),
+        "chart_definition": (
+            "observed side-aware executable net path in pips; no midpoint or forecast implication"
+        ),
         "instrument_count": int(safe_float(payload.get("instrument_count"))),
         "history_complete_instrument_count": int(
             safe_float(payload.get("directional_history_complete_instrument_count"))
         ),
         "clear_move_count": int(safe_float(payload.get("directional_leg_count"))),
+        "executable_census": {
+            "status": status,
+            "generated_utc": executable.get("generated_utc"),
+            "latest_frame_utc": executable.get("latest_frame_utc"),
+            "schedule_census": executable.get("schedule_census") or {},
+            "side_count": int(safe_float(executable.get("side_count"))),
+            "horizon_count": len(executable.get("horizons_min") or []),
+            "frame_count": int(safe_float(executable.get("frame_count"))),
+            "review_queue": executable.get("review_queue") or {},
+            "mode_stats": executable_mode_stats,
+        },
         "round_trip_cost_clear_count": int(
             safe_float(payload.get("round_trip_cost_clear_count"))
         ),

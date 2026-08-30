@@ -1962,6 +1962,46 @@ while ($true) {
                 MaxAgeSec = 900
                 StartupGraceSec = 900
             }
+        # Record the exact all-68 bid/ask movement universe as append-only,
+        # research-only observations. This worker has no order, authorization,
+        # promotion, or execution surface.
+        $managed += Start-ManagedProcess `
+            -Name "executable_move_census_v1" `
+            -Needle "oanda_executable_move_census_v1.py" `
+            -Executable $Python `
+            -PriorityClass "BelowNormal" `
+            -Arguments @(
+                (Join-Path $Trad "oanda_executable_move_census_v1.py"),
+                "--interval-sec", "30",
+                "--duration-sec", "$ChildDurationSec"
+            ) `
+            -Freshness @{
+                LiteralPath = (Join-Path $State "executable_move_census_heartbeat_v1.json")
+                MaxAgeSec = 120
+                StartupGraceSec = 180
+                ExpectedJsonField = "schema_version"
+                ExpectedJsonValue = "executable_move_census_heartbeat_v1"
+            }
+        # Independently reconstruct and verify the append-only census without
+        # importing its producer. Verification is research-only and has no
+        # order, authorization, promotion, or execution surface.
+        $managed += Start-ManagedProcess `
+            -Name "executable_move_census_verifier_v1" `
+            -Needle "oanda_executable_move_census_v1_verifier.py" `
+            -Executable $Python `
+            -PriorityClass "BelowNormal" `
+            -Arguments @(
+                (Join-Path $Trad "oanda_executable_move_census_v1_verifier.py"),
+                "--interval-sec", "30",
+                "--duration-sec", "$ChildDurationSec"
+            ) `
+            -Freshness @{
+                LiteralPath = (Join-Path $State "executable_move_census_verifier_latest_v1.json")
+                MaxAgeSec = 180
+                StartupGraceSec = 240
+                ExpectedJsonField = "schema_version"
+                ExpectedJsonValue = "executable_move_census_verifier_v1"
+            }
         # The census shares the canonical 21-currency strength solver.  Use the
         # supervisor's resolved runtime (which carries that validated dependency)
         # so removal of an optional research environment cannot disable coverage.

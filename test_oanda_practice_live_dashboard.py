@@ -256,7 +256,7 @@ class PatternDashboardTests(unittest.TestCase):
 
             summary = summarize_live_movers(path)
 
-        self.assertEqual(summary["status"], "live")
+        self.assertEqual(summary["status"], "collecting")
         self.assertEqual(summary["modes"]["velocity"][0]["instrument"], "EUR_USD")
         self.assertEqual(len(summary["modes"]["velocity"][0]["chart_points"]), 2)
         self.assertEqual(summary["modes"]["5m"][0]["instrument"], "USD_JPY")
@@ -273,9 +273,54 @@ class PatternDashboardTests(unittest.TestCase):
         self.assertIn('id="live-movers"', html)
         self.assertIn("function renderLiveMovers", html)
         self.assertIn("function moverSparkline", html)
-        self.assertIn("velocity_bps_per_hour", html)
+        self.assertIn("exec5", html)
+        self.assertIn("aria-pressed", html)
+        self.assertIn("Observed executable move census", html)
+        self.assertIn("research only, not a forecast", html)
+        self.assertNotIn("Legacy velocity", html)
+        self.assertNotIn("Live velocity", html)
         self.assertIn("button.mover-mode", html)
         self.assertIn("renderLiveMovers(data)", html)
+
+    def test_live_mover_summary_prefers_fixed_horizon_census(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            latest = root / "latest.json"
+            census = root / "census.json"
+            latest.write_text(json.dumps({"generated_utc": "2026-08-30T21:00:00Z"}), encoding="utf-8")
+            census.write_text(json.dumps({
+                "generated_utc": "2026-08-30T21:05:00Z",
+                "side_count": 136,
+                "horizons_min": [5],
+                "frame_count": 6,
+                "latest_frame_utc": "2026-08-30T21:05:00Z",
+                "schedule_census": {"expected_open_frames": 6, "observed_frames": 6, "missing_open_frames": 0},
+                "review_queue": {"total_cleared_arm_observations": 3, "distinct_factor_episode_cases": 2},
+                "horizons": [{
+                    "horizon_min": 5,
+                    "expected_side_count": 136,
+                    "valid_count": 130,
+                    "cleared_count": 1,
+                    "invalid_count": 6,
+                    "pending_count": 0,
+                    "rows": [{
+                        "instrument": "EUR_USD", "side": "long", "state": "cleared",
+                        "net_pips": 2.5, "net_bps": 2.2,
+                        "entry_scheduled_utc": "2026-08-30T21:00:00Z",
+                        "exit_scheduled_utc": "2026-08-30T21:05:00Z",
+                        "path_points": [{"scheduled_utc": "2026-08-30T21:01:00Z", "net_pips": 0.4}, {"scheduled_utc": "2026-08-30T21:05:00Z", "net_pips": 2.5}],
+                    }],
+                }],
+            }), encoding="utf-8")
+            with patch.object(dashboard, "EXECUTABLE_MOVE_CENSUS", census):
+                summary = summarize_live_movers(latest)
+
+        self.assertEqual(summary["status"], "live")
+        self.assertEqual(summary["generated_utc"], "2026-08-30T21:05:00Z")
+        self.assertEqual(summary["modes"]["exec5"][0]["instrument"], "EUR_USD")
+        self.assertEqual(summary["modes"]["exec5"][0]["duration_minutes"], 5)
+        self.assertEqual(summary["executable_census"]["mode_stats"]["exec5"]["expected_side_count"], 136)
+        self.assertEqual(summary["executable_census"]["review_queue"]["total_cleared_arm_observations"], 3)
 
     def test_live_move_news_summary_preserves_evidence_boundaries(self):
         with tempfile.TemporaryDirectory() as temporary:
@@ -341,7 +386,7 @@ class PatternDashboardTests(unittest.TestCase):
 
         self.assertIn('id="live-move-news"', html)
         self.assertIn("function renderLiveMoveNews", html)
-        self.assertIn("Did current news explain the move?", html)
+        self.assertIn("Did current news explain the observed move?", html)
         self.assertIn("Quote-bound forward proof", html)
         self.assertIn("factor_representative_average_after_cost_spread_multiple", html)
         self.assertIn("renderLiveMoveNews(data)", html)
@@ -353,10 +398,19 @@ class PatternDashboardTests(unittest.TestCase):
         html = html_path.read_text(encoding="utf-8")
 
         self.assertIn('id="oanda-deep-research"', html)
-        self.assertIn("Deep research and diagnostics", html)
+        self.assertIn('id="oanda-evidence-proof"', html)
+        self.assertIn("Evidence &amp; proof", html)
+        self.assertIn("Research &amp; diagnostics", html)
+        self.assertIn('id="signal-matrix"', html)
+        self.assertIn("function renderSignalMatrix", html)
+        self.assertIn("liveMatrixMode='live'", html)
+        self.assertIn("Current forecast separated from matured holdout evidence", html)
+        self.assertIn("Decision board", html)
         self.assertIn("collapsed by default", html)
         self.assertNotIn('<details id="oanda-deep-research" class="dashboard-deep" open', html)
-        self.assertLess(html.index('id="live-movers"'), html.index('id="oanda-deep-research"'))
+        self.assertLess(html.index('id="account"'), html.index('id="top"'))
+        self.assertLess(html.index('id="top"'), html.index('id="live-movers"'))
+        self.assertLess(html.index('id="live-movers"'), html.index('id="oanda-evidence-proof"'))
 
     def test_news_backtest_compacts_retrospective_profit_slices(self):
         payload = {

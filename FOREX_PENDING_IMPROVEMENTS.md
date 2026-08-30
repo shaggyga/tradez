@@ -1,8 +1,48 @@
 # Forex pending improvements
 
-Status: **Stable; paired official-event cohort B is live and awaiting prospective evidence**
+Status: **Stable; paired official-event proof is live and the executable-move census is staged for prospective collection**
 
-Updated: 2026-08-30 15:14 America/New_York
+Updated: 2026-08-30 16:39 America/New_York
+
+## All-68 executable-move census and dashboard cleanup — 30 August 16:39 ET
+
+- The dashboard's former velocity leaderboard is replaced by a prospective
+  executable-move census. Every scheduled minute freezes one exact all-68
+  bid/ask frame and evaluates both LONG and SHORT for all 68 pairs at fixed
+  1, 5, 10, 15, 30 and 60-minute horizons. Each horizon therefore retains an
+  explicit 136-side denominator, including not-cleared, stale, missing,
+  invalid and closed-market observations.
+- A move clears only when the terminal executable exit is positive after the
+  entry/exit bid/ask endpoints and one frozen 0.25-pip round-trip slippage
+  deduction. Descriptive first-clear and best/worst path fields remain
+  separate from the terminal result. Opportunity is not forecast skill and
+  cannot confer lifecycle, promotion, authorization or order eligibility.
+- Compact immutable quote frames and per-window terminal/path digests avoid
+  materializing millions of duplicate arm rows. Every logical side remains
+  reconstructible. Review cases are deduplicated by 15-minute market episode,
+  signed currency factor and terminal-versus-path event kind so correlated
+  pair expressions do not masquerade as independent misses.
+- A standalone verifier imports no producer, has no network or execution
+  surface, independently rebuilds all 136 logical sides, checks append-only
+  schema and lineage, and uses a hash-pinned verified-prefix checkpoint for
+  bounded 30-second operation. A malformed or hash-mismatched checkpoint is
+  discarded and forces a full audit.
+- The main dashboard now leads with account state, the decision board and the
+  fixed executable census. The signal prediction matrix defaults to the live
+  forecast and labels chronological after-cost holdout evidence separately.
+  Large proof and research surfaces are collapsed into distinct sections;
+  legacy velocity/midpoint payload modes remain compatibility-only and are no
+  longer selectable in the primary interface.
+- Focused producer tests pass 16/16 on Python 3.12 and 3.13; independent
+  verifier tests pass 24/24 on both runtimes; dashboard tests pass 56/56 on
+  both runtimes. Python compilation and PowerShell parsing are clean. These
+  are correctness results, not evidence of edge.
+
+Remaining closeout steps are a controlled supervisor/dashboard reload, first
+prospective-frame verification after the Sunday 17:05 ET market-open clock,
+and the final source/model vault refresh. Existing external blockers—causal
+pre-release consensus, intraday policy-rate repricing and a permitted direct
+RBNZ channel—remain unchanged. Practice 007 stays governed and `no_trade`.
 
 ## Paired proof Windows publication repair and cohort B — 30 August 15:08 ET
 
