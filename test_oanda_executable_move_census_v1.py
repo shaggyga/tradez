@@ -55,6 +55,13 @@ def test_supervisor_registers_isolated_research_census_and_verifier_workers() ->
     )
 
 
+def test_latest_snapshot_does_not_rescan_historical_raw_payloads() -> None:
+    source = Path(census.__file__).read_text(encoding="utf-8")
+    assert 'SELECT f.* FROM frames' not in source
+    assert 'WHERE f.scheduled_utc BETWEEN ? AND ? ORDER BY f.scheduled_utc' in source
+    assert 'include_schedule_census=False' in source
+
+
 def config(tmp_path: Path) -> Path:
     value=json.loads(census.CONFIG.read_text())
     value["activation_utc"]="2026-08-30T21:05:00Z"

@@ -19,7 +19,9 @@ Updated: 2026-08-30 16:39 America/New_York
   cannot confer lifecycle, promotion, authorization or order eligibility.
 - Compact immutable quote frames and per-window terminal/path digests avoid
   materializing millions of duplicate arm rows. Every logical side remains
-  reconstructible. Review cases are deduplicated by 15-minute market episode,
+  reconstructible. The live/finalization path reads only the recent 60-minute
+  frame headers and never rescans historical raw quote payloads. Review cases
+  are deduplicated by 15-minute market episode,
   signed currency factor and terminal-versus-path event kind so correlated
   pair expressions do not masquerade as independent misses.
 - A standalone verifier imports no producer, has no network or execution
@@ -33,7 +35,7 @@ Updated: 2026-08-30 16:39 America/New_York
   Large proof and research surfaces are collapsed into distinct sections;
   legacy velocity/midpoint payload modes remain compatibility-only and are no
   longer selectable in the primary interface.
-- Focused producer tests pass 16/16 on Python 3.12 and 3.13; independent
+- Focused producer tests pass 17/17 on Python 3.12 and 3.13; independent
   verifier tests pass 24/24 on both runtimes; dashboard tests pass 57/57 on
   both runtimes. Python compilation and PowerShell parsing are clean. These
   are correctness results, not evidence of edge.

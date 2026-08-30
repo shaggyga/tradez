@@ -326,14 +326,35 @@ def path_row(entry: sqlite3.Row, exit: sqlite3.Row | None, eq: sqlite3.Row, xq: 
     return base
 
 
-def build_latest(db: sqlite3.Connection, cfg: Mapping[str, Any], generated: dt.datetime) -> dict[str, Any]:
-    frames = list(db.execute("SELECT f.* FROM frames f JOIN frame_commit_receipts r ON r.frame_id=f.frame_id AND r.within_first_horizon=1 ORDER BY f.scheduled_utc"))
+def build_latest(
+    db: sqlite3.Connection,
+    cfg: Mapping[str, Any],
+    generated: dt.datetime,
+    *,
+    include_schedule_census: bool = True,
+) -> dict[str, Any]:
+    terminal = generated.replace(second=0, microsecond=0)
+    recent_start = terminal - dt.timedelta(minutes=max(cfg["horizons_min"]))
+    frames = list(db.execute(
+        "SELECT f.frame_id,f.scheduled_utc FROM frames f "
+        "JOIN frame_commit_receipts r ON r.frame_id=f.frame_id "
+        "AND r.within_first_horizon=1 "
+        "WHERE f.scheduled_utc BETWEEN ? AND ? ORDER BY f.scheduled_utc",
+        (iso(recent_start), iso(terminal)),
+    ))
+    frame_count = int(db.execute(
+        "SELECT COUNT(*) FROM frames f JOIN frame_commit_receipts r "
+        "ON r.frame_id=f.frame_id AND r.within_first_horizon=1"
+    ).fetchone()[0])
+    newest_schedule = db.execute(
+        "SELECT MAX(f.scheduled_utc) FROM frames f "
+        "JOIN frame_commit_receipts r ON r.frame_id=f.frame_id "
+        "AND r.within_first_horizon=1"
+    ).fetchone()[0]
     by_time = {row["scheduled_utc"]: row for row in frames}
-    newest = frames[-1] if frames else None
     blocks=[]; top=[]
     for horizon in cfg["horizons_min"]:
         entry = None; exit = None
-        terminal=generated.replace(second=0,microsecond=0)
         entry=by_time.get(iso(terminal-dt.timedelta(minutes=int(horizon))))
         exit=by_time.get(iso(terminal))
         eqs=_quotes(db,entry["frame_id"]) if entry else {}; xqs=_quotes(db,exit["frame_id"]) if exit else {}
@@ -372,16 +393,23 @@ def build_latest(db: sqlite3.Connection, cfg: Mapping[str, Any], generated: dt.d
         top.extend(clear)
         blocks.append({"horizon_min":horizon,"entry_frame_id":entry["frame_id"] if entry else None,"exit_frame_id":exit["frame_id"] if exit else None,"expected_side_count":136,"row_count":len(rows),"valid_count":sum(r["state"] in ("cleared","not_cleared") for r in rows),"cleared_count":len(clear),"path_cleared_count":sum(r.get("path_cleared") is True for r in rows),"invalid_count":sum(r["state"]=="invalid" for r in rows),"pending_count":sum(r["state"]=="pending" for r in rows),"rows":rows,"_path_clear_rows":path_clear_rows})
     top.sort(key=lambda r:(-float(r["net_bps"]),-float(r["net_pips"]),r["instrument"],r["side"],r["horizon_min"]))
-    activation=parse_utc(cfg["activation_utc"]); expected=[]
-    cursor=activation.replace(second=0,microsecond=0) if activation else generated
-    end=generated.replace(second=0,microsecond=0)
-    while cursor <= end:
-        if market_open(cursor): expected.append(iso(cursor))
-        cursor += dt.timedelta(minutes=1)
-    observed={row["scheduled_utc"] for row in frames}
-    missing=[value for value in expected if value not in observed]
+    expected=[]; missing=[]; observed_count=0
+    if include_schedule_census:
+        activation=parse_utc(cfg["activation_utc"])
+        cursor=activation.replace(second=0,microsecond=0) if activation else generated
+        while cursor <= terminal:
+            if market_open(cursor): expected.append(iso(cursor))
+            cursor += dt.timedelta(minutes=1)
+        observed={row[0] for row in db.execute(
+            "SELECT f.scheduled_utc FROM frames f "
+            "JOIN frame_commit_receipts r ON r.frame_id=f.frame_id "
+            "AND r.within_first_horizon=1 WHERE f.scheduled_utc BETWEEN ? AND ?",
+            (expected[0], expected[-1]),
+        )} if expected else set()
+        missing=[value for value in expected if value not in observed]
+        observed_count=sum(value in observed for value in expected)
     all_path_clears=[row for block in blocks for row in block.pop("_path_clear_rows",[])]
-    result={"schema_version":"executable_move_census_latest_v1","generated_utc":iso(generated),"cohort_id":cfg["cohort_id"],"research_only":True,"can_trade":False,"can_authorize":False,"can_promote":False,"definition":"A move exists only when a later executable exit produces net pips > 0 after one frozen round-trip slippage deduction; spread is already embedded in bid/ask endpoints.","measurement_scope":"terminal fixed-window net is primary; descriptive hindsight path fields report first clear, maximum favorable executable net, and minimum executable net from predeclared causal minute frames","instrument_count":68,"side_count":136,"horizons_min":cfg["horizons_min"],"slippage_pips":cfg["slippage_pips"],"frame_count":len(frames),"latest_frame_utc":newest["scheduled_utc"] if newest else None,"schedule_census":{"expected_open_frames":len(expected),"observed_frames":sum(x in observed for x in expected),"missing_open_frames":len(missing),"recent_missing_scheduled_utc":missing[-120:]},"horizons":blocks,"top_cleared_paths":top[:50],"_all_cleared_paths":top,"_all_path_clears":all_path_clears}
+    result={"schema_version":"executable_move_census_latest_v1","generated_utc":iso(generated),"cohort_id":cfg["cohort_id"],"research_only":True,"can_trade":False,"can_authorize":False,"can_promote":False,"definition":"A move exists only when a later executable exit produces net pips > 0 after one frozen round-trip slippage deduction; spread is already embedded in bid/ask endpoints.","measurement_scope":"terminal fixed-window net is primary; descriptive hindsight path fields report first clear, maximum favorable executable net, and minimum executable net from predeclared causal minute frames","instrument_count":68,"side_count":136,"horizons_min":cfg["horizons_min"],"slippage_pips":cfg["slippage_pips"],"frame_count":frame_count,"latest_frame_utc":newest_schedule,"schedule_census":{"expected_open_frames":len(expected),"observed_frames":observed_count,"missing_open_frames":len(missing),"recent_missing_scheduled_utc":missing[-120:]},"horizons":blocks,"top_cleared_paths":top[:50],"_all_cleared_paths":top,"_all_path_clears":all_path_clears}
     return result
 
 
@@ -420,7 +448,7 @@ def reconcile_window_evaluations(db: sqlite3.Connection, cfg: Mapping[str, Any],
     for target,horizon in required:
         target_text=iso(target)
         view=view_cache.get(target_text)
-        if view is None: view=build_latest(db,cfg,target); view_cache[target_text]=view
+        if view is None: view=build_latest(db,cfg,target,include_schedule_census=False); view_cache[target_text]=view
         block=evaluated_block(next(row for row in view["horizons"] if int(row["horizon_min"])==horizon))
         terminal_sha,path_sha,terminal_clear_sha,path_clear_sha=window_digests(block,cfg)
         state="evaluated" if block["entry_frame_id"] and block["exit_frame_id"] else "terminal_invalid_missing_frame"
@@ -450,7 +478,7 @@ def finalize_factor_episodes(db: sqlite3.Connection, cfg: Mapping[str, Any], gen
         groups: dict[tuple[str,int,str],dict[str,Any]]={}; cache={}
         for target,horizon in expected:
             view=cache.get(target)
-            if view is None: view=build_latest(db,cfg,parse_utc(target)); cache[target]=view
+            if view is None: view=build_latest(db,cfg,parse_utc(target),include_schedule_census=False); cache[target]=view
             block=evaluated_block(next(row for row in view["horizons"] if int(row["horizon_min"])==horizon))
             for row in block["rows"]:
                 candidates=[]
