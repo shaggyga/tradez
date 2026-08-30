@@ -2,7 +2,27 @@
 
 Status: **Stable; paired official-event proof and the all-68 executable-move census are live**
 
-Updated: 2026-08-30 17:11 America/New_York
+Updated: 2026-08-30 19:32 America/New_York
+
+## Obsolete Practice-019 D-backed stack retired — 30 August 19:32 ET
+
+- Final project-wide path auditing found a real contradiction: the retirement
+  registry already disabled the HGB live-outcome stream because it consumed a
+  stale `D:/forex` forecast source, but the always-on supervisor still
+  contained spawn blocks for Practice-019, its HGB outcome tracker and its
+  adaptive fitter. None was running, but a future supervisor cycle could have
+  revived the obsolete path.
+- All three names are now unconditionally disabled and have no supervisor
+  spawn surface. The historical
+  `config/primary_forecast_rotation_demo_019.json` remains byte-for-byte
+  preserved as evidence rather than being rebased to C and accidentally
+  reviving a rejected execution-enabled demo. Practice-019 and the adaptive
+  fitter now have explicit retirement records alongside the pre-existing HGB
+  outcome retirement.
+- Focused retirement and supervisor-integrity tests pass 8/8 under Python
+  3.12 and 3.13; PowerShell and JSON parsing are clean. This removes a dormant
+  operational hazard and does not change Practice 007, promote a model or
+  create an order. There is no remaining active supervisor route to `D:`.
 
 ## All-68 executable-move census and dashboard cleanup — 30 August 16:39 ET
 

@@ -103,7 +103,9 @@ $SafeCoreSkippedNames = @(
 # are frozen in config/shadow_runtime_retirements_v1.json.  Reopening any one
 # requires a materially new contract/cohort and a code-reviewed allow-list edit.
 $DisabledNames = @(
+    "practice_019_hgb_rotation",
     "hgb_live_outcomes",
+    "hgb_adaptive_fit",
     "manager_decision_outcome_ledger"
 )
 if (-not $EnableCrypto) {
@@ -133,8 +135,7 @@ if (-not $EnableLegacyFlatPracticeBots) {
         "practice_003_technical",
         "practice_005_gpt_exp",
         "practice_006_spike_scout",
-        "practice_013_formula83",
-        "practice_019_hgb_rotation"
+        "practice_013_formula83"
     )
 }
 
@@ -1722,42 +1723,6 @@ while ($true) {
             -Name "practice_013_formula83" `
             -Needle "oanda_gpt_9h_formula83_account_manager.py" `
             -Arguments @((Join-Path $Trad "oanda_gpt_9h_formula83_account_manager.py"), "--no-scan-on-launch", "--normal-mode", "--execute")
-        $managed += Start-ManagedProcess `
-            -Name "practice_019_hgb_rotation" `
-            -Needle "primary_forecast_rotation_demo_019.json" `
-            -Arguments @(
-                (Join-Path $Trad "oanda_primary_forecast_rotation_bot.py"),
-                "--config", (Join-Path $Trad "config\primary_forecast_rotation_demo_019.json"),
-                "--mode", "demo",
-                "--source", "oanda",
-                "--execute"
-            )
-        $managed += Start-ManagedProcess `
-            -Name "hgb_live_outcomes" `
-            -Needle "oanda_hgb_live_outcome_tracker.py" `
-            -Arguments @(
-                (Join-Path $Trad "oanda_hgb_live_outcome_tracker.py"),
-                "--creds", $ResolvedCreds,
-                "--interval-sec", "10"
-            ) `
-            -Freshness @{
-                LiteralPath = (Join-Path $State "hgb_live_outcomes_v1.json")
-                MaxAgeSec = 60
-            }
-        $managed += Start-ManagedProcess `
-            -Name "hgb_adaptive_fit" `
-            -Needle "oanda_hgb_adaptive_fit.py" `
-            -StartupDelaySec 300 `
-            -PriorityClass "Idle" `
-            -Arguments @(
-                (Join-Path $Trad "oanda_hgb_adaptive_fit.py"),
-                "--interval-sec", "60",
-                "--lookback-days", "30"
-            ) `
-            -Freshness @{
-                LiteralPath = (Join-Path $State "hgb_adaptive_fit_v1.json")
-                MaxAgeSec = 180
-            }
         $managed += Start-ManagedProcess `
             -Name "arima_multiframe_sweep" `
             -Needle "oanda_arima_multiframe_sweep.py" `

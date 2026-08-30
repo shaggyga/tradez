@@ -3761,3 +3761,23 @@ Validation and safety:
   credential files and started zero account processes. The settled shared
   vault used 4,989,228,581 bytes, 10,771,419 bytes below its 5 GB ceiling;
   C has about 170.5 GiB free. No `D:` destination was used.
+
+## 2026-08-30 19:32 America/New_York — Dormant D-backed Practice-019 spawn path removed
+
+- A final no-legacy-path audit found that
+  `config/primary_forecast_rotation_demo_019.json` intentionally preserves 19
+  historical `D:/forex` references, while the live supervisor still contained
+  launch blocks for Practice-019, `hgb_live_outcomes` and `hgb_adaptive_fit`.
+  The HGB outcome stream was already registered as retired for using that
+  stale input, so supervision and retirement policy contradicted each other.
+- No such worker or other `D:/forex` process was active. Removed all three
+  supervisor spawn blocks and marked the names unconditionally disabled.
+  Added explicit retirement records for Practice-019 and its adaptive fitter.
+  The historical config remains unchanged at SHA-256
+  `8fa5c258a3197ff80871e452cbc2f6f462b778a8f7dde733be9639024b9d53ac`;
+  it was not rebased to C because that would revive obsolete execution-enabled
+  behavior under a misleadingly current path.
+- Focused retirement plus supervisor-integrity validation passed 8/8 under
+  Python 3.12 and 3.13, and the supervisor/retirement contracts parse cleanly.
+  Applying the change requires only a controlled hidden supervisor reload;
+  it does not touch the running Practice-007 executor or any evidence ledger.

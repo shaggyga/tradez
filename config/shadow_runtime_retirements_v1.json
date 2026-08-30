@@ -204,6 +204,16 @@
       ]
     },
     {
+      "name": "practice_019_hgb_rotation",
+      "script": "oanda_primary_forecast_rotation_bot.py",
+      "state": "retired_obsolete_d_backed_config",
+      "runtime_action": "disabled",
+      "reason": "Practice-019 is bound to the preserved primary_forecast_rotation_demo_019.json contract, whose adaptive-fit state path points at the obsolete D:/forex tree. The historical configuration remains unchanged as evidence; it is not rebased to C and cannot be launched by the always-on supervisor.",
+      "preserved_artifacts": [
+        "config/primary_forecast_rotation_demo_019.json"
+      ]
+    },
+    {
       "name": "hgb_live_outcomes",
       "script": "oanda_hgb_live_outcome_tracker.py",
       "state": "retired_obsolete_input",
@@ -211,6 +221,16 @@
       "reason": "The worker reads the stale D:/forex account-019 forecast file while legacy flat practice bots are disabled. Its retained ledger has 6006 outcomes, only 15 accepted observations, a 0.066667 accepted win rate, zero pending outcomes, and zero work in the latest cycle.",
       "preserved_artifacts": [
         "data/oanda_training_manager/state/hgb_live_outcomes_v1.json"
+      ]
+    },
+    {
+      "name": "hgb_adaptive_fit",
+      "script": "oanda_hgb_adaptive_fit.py",
+      "state": "retired_obsolete_input",
+      "runtime_action": "disabled",
+      "reason": "The adaptive fitter consumes the retired hgb_live_outcomes ledger that was produced for the obsolete D-backed Practice-019 path. Its code and last state remain historical diagnostics, but the supervisor cannot refresh or use it.",
+      "preserved_artifacts": [
+        "data/oanda_training_manager/state/hgb_adaptive_fit_v1.json"
       ]
     },
     {
