@@ -50,8 +50,20 @@ Updated: 2026-08-30 20:03 America/New_York
 - Commits `5e0366e`, `56a6539` and `425c4d9` respectively freeze B, verify its
   pre-activation state and require the supervisor to observe `verified=True`.
   The live dashboard reads only B for its primary executable census. The
-  earlier vault checkpoint predates these commits; a new credential-clean
-  source/model checkpoint remains the final closeout action.
+  post-deployment source checkpoint for commit `f777975` contains 1,231
+  tracked files, passed its embedded credential audit and ZIP CRC check, and
+  has archive SHA-256
+  `d9b2e764d2e12f73538cd3aa2460cf5a32d160c355d013a186973a470b843ebf`.
+  The refreshed model/state archive contains 1,481 credential-free files and
+  has SHA-256
+  `e362a77bc1e0f71846980c19e0b8f30da9e4dfd1f56f2a1205d5de45c00639f8`;
+  independent verify-only import returned `verified`, found zero credential
+  files and started zero account processes. Retention is two source baselines
+  and one model archive.
+- After that refresh, the entire shared vault uses 4,990,440,246 bytes,
+  leaving 9,559,754 bytes below its decimal 5 GB ceiling. C retains 167.88 GiB
+  free. Vault headroom is valid but narrow, so the existing verified retention
+  path remains mandatory for subsequent checkpoints.
 - Practice 007 and all execution, authorization and promotion gates remain
   unchanged; no backfill and `no_trade`.
 

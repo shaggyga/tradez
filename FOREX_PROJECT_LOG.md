@@ -3835,3 +3835,23 @@ Validation and safety:
   model/state publication plus independent verify-only import is required
   after this documentation commit; its hashes and final space receipt belong
   in the next closeout entry.
+
+## 2026-08-30 20:08 America/New_York — Post-B vault checkpoint verified
+
+- Published source commit `f777975b70aef5c062ee91c3fd0a6b53f10bee46`
+  as a 1,231-file private source-only baseline after a zero-finding credential
+  audit and ZIP CRC verification. Archive SHA-256 is
+  `d9b2e764d2e12f73538cd3aa2460cf5a32d160c355d013a186973a470b843ebf`;
+  explicit retention kept two source pairs and transactionally pruned one
+  older validated pair.
+- Refreshed the credential-free model/state checkpoint to 1,481 files.
+  Current archive SHA-256 is
+  `e362a77bc1e0f71846980c19e0b8f30da9e4dfd1f56f2a1205d5de45c00639f8`.
+  Independent verify-only import returned `verified`, found zero credential
+  files, merged 1,481 files in memory and started zero account processes.
+  Retention kept one model archive and deleted the prior validated model
+  archive through its recorded retention path.
+- The settled shared vault uses 4,990,440,246 bytes, 9,559,754 bytes below its
+  decimal 5 GB ceiling; C has 167.88 GiB free. No account or research worker
+  was stopped for the sync. Vault headroom is narrow but currently valid, so
+  future checkpoint publication must continue using verified retention.
