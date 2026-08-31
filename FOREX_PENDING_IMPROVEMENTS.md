@@ -1,8 +1,59 @@
 # Forex pending improvements
 
-Status: **Stable; paired official-event proof and the all-68 executable-move census are live**
+Status: **Stable and fail-closed; executable census cohort A is permanently red and isolated cohort B is live and independently verified**
 
-Updated: 2026-08-30 19:32 America/New_York
+Updated: 2026-08-30 20:03 America/New_York
+
+## Executable census cohort A outage and isolated cohort B — 30 August 19:55 ET
+
+- Cohort A (`all68_executable_move_census_v1_20260830`) is permanently
+  preserved in `data/oanda_training_manager/state/executable_move_census_v1.sqlite`
+  with its original config at `config/executable_move_census_v1.json`
+  (SHA-256
+  `625ce0589920c0b215c350be2fb5e3a68a5a355a38908b99fa5411cfc7234e1a`).
+  After its prior supervisor disappeared, A missed 128 required open-market
+  minutes from `2026-08-30T21:26:00Z` through `2026-08-30T23:33:00Z`. Its
+  independent verifier correctly remains red. No missing frame is backfilled,
+  relabeled or hidden, and A is never resumed under its original identity.
+- Fresh prospective cohort B (`all68_executable_move_census_v1_20260830b`;
+  capture cohort `all68_exact_snapshot_capture_20260830b`) activates at
+  `2026-08-31T00:00:00Z`. It uses separate config, database, latest, heartbeat,
+  verifier-output and verifier-checkpoint paths, all suffixed `20260830b`; the
+  dashboard and supervisor point only to B. B never reads or writes A.
+- B freezes config SHA-256
+  `68db4f5232f4d314cccc789580a27d134e4ef88204c0621bf050e5865d6f8ae1`
+  and producer SHA-256
+  `38202b73cab409bdebdb2f2cd704a4d57907836244f7cbea0d76cfa7344b0272`.
+  Its independent verifier source at initial freeze was SHA-256
+  `7eccdddc30223c9c71f6d5720c9fa6bbcf1c1f98f4e57e640bc4d3d3e3fe5581`;
+  the verifier then received a separately committed pre-activation-state fix
+  without changing the frozen producer or evidence contract. The deployed
+  verifier is SHA-256
+  `7f095db00e25321ad8b3838e00d787c657ee780b6799fff5a8a9bbdf76b08cb6`.
+- Hidden supervisor PID 32852 has adopted the exact B producer/verifier and
+  dashboard. Before activation, the producer correctly reports
+  `collecting_pre_activation`, creates no database and retains zero frames;
+  the independent verifier now proves that exact empty state with zero
+  failures. Supervisor health requires `verified=True`, not merely a fresh
+  JSON schema. Census tests pass 43/43 and dashboard tests 58/58 on both
+  supported runtimes; supervisor integrity checks and PowerShell parsing are
+  clean. These are implementation results, not evidence of edge.
+- The first B frame landed at the frozen `2026-08-31T00:00:00Z` activation.
+  After three scheduled minutes, B held three immutable frames, 204 quote rows,
+  zero missing open-market frames and one durable one-minute evaluation.
+  SQLite integrity is `ok` with zero foreign-key violations; the independent
+  verifier reconstructs the ledger with zero failures. The first frame retained
+  65 valid instruments and three explicit stale TRY instruments rather than
+  dropping them. The first matured one-minute window retained all 136 sides:
+  130 valid, six explicitly invalid and six terminal cost-clearing sides.
+  This is opportunity measurement, not a prediction win or authorization.
+- Commits `5e0366e`, `56a6539` and `425c4d9` respectively freeze B, verify its
+  pre-activation state and require the supervisor to observe `verified=True`.
+  The live dashboard reads only B for its primary executable census. The
+  earlier vault checkpoint predates these commits; a new credential-clean
+  source/model checkpoint remains the final closeout action.
+- Practice 007 and all execution, authorization and promotion gates remain
+  unchanged; no backfill and `no_trade`.
 
 ## Obsolete Practice-019 D-backed stack retired — 30 August 19:32 ET
 
@@ -60,7 +111,8 @@ Updated: 2026-08-30 19:32 America/New_York
   both runtimes. Python compilation and PowerShell parsing are clean. These
   are correctness results, not evidence of edge.
 
-The controlled hidden reload is complete. The first prospective frame was
+At the historical cohort-A checkpoint, the controlled hidden reload was
+complete. The first prospective frame was
 captured at the frozen Sunday 17:05 ET activation and retained all 68 rows:
 56 valid quotes plus 12 explicit special-hours closures. At the 17:08 ET
 activation checkpoint the ledger contained four immutable frames, 272 quote
@@ -76,14 +128,17 @@ producer SHA-256
 `98701894bdb7ec980758399e32187b826326746927923083a9a527b8e4d33369`
 and independent verifier SHA-256
 `f43fa6c158c0d17665e54c84eb6ded58004dabba23f2b30c2441fdf011207785`.
-The supervisor, producer, verifier and dashboard are healthy. Practice 007 is
-flat at NAV 41.6042 with no orders, and `no_trade` remains supported.
+At that checkpoint the supervisor, producer, verifier and dashboard were
+healthy. The later outage and permanent A failure are recorded in the newer
+cohort-B section above. Practice 007 was flat at NAV 41.6042 with no orders,
+and `no_trade` remained supported.
 
-No repository-controlled implementation item remains in this section. The
-credential-clean source baseline and the credential-free model/state archive
+At that historical A checkpoint, no repository-controlled implementation item
+remained in this section. The following is the pre-cohort-B vault checkpoint:
+the credential-clean source baseline and credential-free model/state archive
 were published to the OneDrive vault and independently verify-imported without
 starting any account process. Explicit retention left two immutable source
-baselines and one immutable model checkpoint. At the verification checkpoint,
+baselines and one immutable model checkpoint. At that verification checkpoint,
 the shared vault used 4,989,228,581 bytes, leaving 10,771,419 bytes below its
 decimal 5 GB ceiling;
 the C drive retains about 170.5 GiB free. Existing external blockers—causal

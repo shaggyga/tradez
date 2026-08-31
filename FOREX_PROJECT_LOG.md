@@ -3781,3 +3781,57 @@ Validation and safety:
   Python 3.12 and 3.13, and the supervisor/retirement contracts parse cleanly.
   Applying the change requires only a controlled hidden supervisor reload;
   it does not touch the running Practice-007 executor or any evidence ledger.
+
+## 2026-08-30 20:03 America/New_York — Census A preserved red; isolated B verified live
+
+- The original executable census supervisor disappeared after its
+  `2026-08-30T21:25:53Z` heartbeat while adopted children continued. Cohort A
+  therefore missed 128 required open-market minutes from 21:26Z through
+  23:33Z. Its independent verifier records those exact gaps and remains red.
+  No minute was reconstructed, backfilled or hidden. This entry supersedes the
+  current operational interpretation of the 17:11 checkpoint without
+  rewriting the fact that A was healthy at that earlier timestamp.
+- Opened separate prospective cohort B
+  `all68_executable_move_census_v1_20260830b` at the frozen
+  `2026-08-31T00:00:00Z` activation. B has distinct config, database, latest,
+  heartbeat, verifier output and verifier checkpoint paths; it never reads or
+  writes A. Config and frozen producer SHA-256 values are respectively
+  `68db4f5232f4d314cccc789580a27d134e4ef88204c0621bf050e5865d6f8ae1`
+  and
+  `38202b73cab409bdebdb2f2cd704a4d57907836244f7cbea0d76cfa7344b0272`.
+- Independent review caught a pre-activation verifier bug: the producer
+  correctly created no database before activation, but the verifier called
+  that intentional absence an open error. The verifier now proves an exact,
+  fresh, hash-valid `collecting_pre_activation` receipt with no database and
+  remains strictly fail-closed at and after activation. Its deployed SHA-256
+  is `7f095db00e25321ad8b3838e00d787c657ee780b6799fff5a8a9bbdf76b08cb6`.
+  The supervisor now requires the verifier's `verified=True` value rather than
+  accepting a merely fresh schema-valid error report.
+- Commits `5e0366e`, `56a6539` and `425c4d9` freeze B, fix the empty-state
+  verification and supervise the integrity result. Staged credential audits
+  returned zero findings. Census tests pass 43/43 and dashboard tests 58/58
+  under Python 3.12 and 3.13; supervisor checks and PowerShell parsing are
+  clean.
+- Performed two controlled hidden reloads. The first stopped only supervisor A
+  plus the old A census/verifier and dashboard process trees; the second
+  reloaded supervisor policy while leaving B children running for adoption.
+  Hidden supervisor PID 32852 now reports the B producer, B verifier and
+  dashboard fresh, with verifier value `True`. No Practice-019, HGB or
+  `D:\forex\trad` process is active.
+- B's first frame landed at exactly 00:00Z. At the 00:03Z receipt the database
+  held three immutable frames, 204 quote rows and one durable one-minute
+  evaluation, with zero missing open-market frames. `integrity_check=ok`,
+  foreign-key violations are zero and the independent verifier has zero
+  failures. The first frame retained 65 valid instruments plus three explicit
+  stale TRY instruments. The first one-minute evaluation retained all 136
+  sides: 130 valid, six invalid and six terminal sides clearing frozen costs.
+  These are opportunity observations, not prediction skill.
+- Practice 007 remained flat at NAV/balance 41.6042, lifetime P/L -8.3430,
+  zero positions and zero pending orders. Its price stream covered all 68
+  instruments and the authorization gate remained stale/fail-closed. No
+  manual order, close, gate relaxation, promotion or real-money action
+  occurred; `no_trade` remains supported.
+- The prior vault checkpoint predates B. A new credential-clean source and
+  model/state publication plus independent verify-only import is required
+  after this documentation commit; its hashes and final space receipt belong
+  in the next closeout entry.
