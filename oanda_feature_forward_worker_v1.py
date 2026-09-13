@@ -56,7 +56,11 @@ def read_quotes(path, *, clock):
     if len(raw) > MAX_QUOTE_BYTES or identity(before) != identity(after) or identity(before) != identity(stat):
         raise ValueError("quote_snapshot_changed_or_oversize")
     payload = json.loads(raw, object_pairs_hook=_unique, parse_constant=lambda value: (_ for _ in ()).throw(ValueError("nonfinite_json")))
-    if not isinstance(payload, dict) or type(payload.get("schema_version")) is not int or payload["schema_version"] != 1:
+    # The dedicated stream's first research envelope was schema 1.  Its live
+    # writer now publishes schema 3 with explicit coverage/tradeability; both
+    # retain the same bounded quote contract used here.
+    if (not isinstance(payload, dict) or type(payload.get("schema_version")) is not int
+            or payload["schema_version"] not in (1, 3)):
         raise ValueError("dedicated_quote_snapshot_schema")
     if payload.get("producer") != "practice_007_dedicated_quote_stream" or payload.get("research_only") is not True:
         raise ValueError("dedicated_research_quote_producer_required")
@@ -68,7 +72,8 @@ def read_quotes(path, *, clock):
     if not generated <= started <= completed or completed-generated > 75:
         raise ValueError("quote_snapshot_clock_or_age")
     return quotes, started, completed, {"path": str(path), "bytes": len(raw), "sha256": hashlib.sha256(raw).hexdigest(),
-                                        "generated_utc": payload["generated_utc"], "producer": payload["producer"]}
+                                        "generated_utc": payload["generated_utc"], "producer": payload["producer"],
+                                        "schema_version": payload["schema_version"]}
 
 
 class ForwardWorker:

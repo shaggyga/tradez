@@ -541,6 +541,16 @@ class Worker(unittest.TestCase):
         del quotes[PAIR]["time"]
         self.assertEqual(self.db.observe_quotes(quotes, read_started_epoch=start, read_completed_epoch=end)["refused"], 1)
 
+    def test_current_dedicated_quote_schema_is_accepted(self):
+        path = self.directory/"quotes.json"
+        data = {"schema_version": 3, "producer": "practice_007_dedicated_quote_stream", "research_only": True,
+                "generated_utc": iso(NOW), "quote_count": 1, "coverage": {"current_tradeable_quote_count": 1},
+                "quotes": {PAIR: quote(NOW)}}
+        path.write_bytes(p.canonical(data))
+        quotes, _, _, receipt = w.read_quotes(path, clock=lambda: NOW)
+        self.assertEqual(quotes, data["quotes"])
+        self.assertEqual(receipt["schema_version"], 3)
+
     def test_quote_snapshot_type_alias_duplicate_and_count(self):
         path = self.directory/"quotes.json"
         for data in ({"schema_version": True}, {"schema_version": 1, "producer": "old_producer"}):

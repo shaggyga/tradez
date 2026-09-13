@@ -255,4 +255,6 @@ def test_supervisor_research_allowlist_never_enables_legacy_strategy_loop():
     block = re.search(r'-Name "research_feature_observations_v1".*?-Name "research_feature_forward_v1"', source, re.S).group(0)
     assert '"--clock-state"' in block and '"--interval-sec", "60"' in block
     assert '"--minimum-free-mib", "4096"' in block
+    forward_block = source.split('-Name "research_feature_forward_v1"', 1)[1].split('-Name "clock_integrity_monitor"', 1)[0]
+    assert '"feature_forward_v2"' in forward_block
     assert '"--creds"' not in block and '"--account-key"' not in block

@@ -3384,14 +3384,14 @@ while ($true) {
                 (Join-Path $Trad "oanda_feature_forward_worker_v1.py"),
                 "--archive-root", (Join-Path $DataRoot "feature_observations_v1"),
                 "--quote-path", (Join-Path $State "practice_007_market_quotes_v1.json"),
-                "--directory", (Join-Path $DataRoot "feature_forward_v1"),
+                "--directory", (Join-Path $DataRoot "feature_forward_v2"),
                 "--max-ledger-mib", "4096",
                 "--minimum-free-mib", "4096",
                 "--clock-state", (Join-Path $State "clock_integrity_v1.json"),
                 "--duration-sec", "172800"
             ) `
             -Freshness @{
-                LiteralPath = (Join-Path $DataRoot "feature_forward_v1\feature_forward_status_v1.json")
+                LiteralPath = (Join-Path $DataRoot "feature_forward_v2\feature_forward_status_v1.json")
                 MaxAgeSec = 90
                 StartupGraceSec = 180
                 ExpectedJsonField = "worker"
