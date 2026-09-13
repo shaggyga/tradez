@@ -131,12 +131,13 @@ def _entries(frame: Mapping[str, Any], instrument: str):
     return result
 
 
-def _entry_reason(item, cutoff: float, tolerance: float, *, frame_cutoff=None):
+def _entry_reason(item, cutoff: float, tolerance: float, *, frame_cutoff=None,
+                  parse_epoch=_epoch, parse_seconds=_seconds):
     if item is None:
         return "feature_missing"
     if item["value_state"] != "observed":
         return "feature_" + str(item["value_state"])
-    observed = _epoch(item["observed_utc"])
+    observed = parse_epoch(item["observed_utc"])
     if observed is None or not item["clock_basis"] or "unknown" in str(item["clock_basis"]).lower():
         return "feature_clock_unknown"
     if observed > cutoff:
@@ -150,15 +151,15 @@ def _entry_reason(item, cutoff: float, tolerance: float, *, frame_cutoff=None):
                        str(item["feature_name"]).startswith(("depth_", "microprice", "live_spread", "quote_receive", "bid_", "ask_")))
                        )
     if quote_sensitive:
-        source_quote = _epoch(item["component_clocks"].get("quote_feature_source_utc"))
+        source_quote = parse_epoch(item["component_clocks"].get("quote_feature_source_utc"))
         if source_quote is None:
             return "feature_source_quote_clock_unknown"
         if source_quote > observed or source_quote > cutoff:
             return "feature_source_quote_from_future"
         if cutoff - source_quote > tolerance:
             return "feature_source_quote_stale"
-    completed = _epoch(item["bar_complete_utc"])
-    interval = _seconds(item["input_timeframe"])
+    completed = parse_epoch(item["bar_complete_utc"])
+    interval = parse_seconds(item["input_timeframe"])
     if interval is None and item["input_timeframe"] not in ("QUOTE", "BOOK"):
         return "feature_timeframe_unknown"
     if interval:
@@ -183,19 +184,8 @@ def _units_and_percent(name, before, after, explicit=None):
     return str(unit), percent if percent is None or math.isfinite(percent) else None
 
 
-def build_feature_move_map(frames: Sequence[Mapping[str, Any]], *, as_of_utc,
-                           window_sec=300, endpoint_tolerance_sec=75,
-                           max_frame_age_sec=75, min_history=5, top_limit=50,
-                           instrument=None):
-    now = _epoch(as_of_utc)
-    if now is None or window_sec not in WINDOWS:
-        raise ValueError("valid_as_of_and_5_15_60_minute_window_required")
-    if instrument is not None and (not isinstance(instrument, str) or not PAIR.fullmatch(instrument)
-                                   or instrument[:3] == instrument[4:]):
-        raise ValueError("valid_pair_filter_required")
-    if not (0 <= endpoint_tolerance_sec <= 120 and 0 < max_frame_age_sec <= 120
-            and 2 <= min_history <= 30 and 1 <= top_limit <= 200):
-        raise ValueError("bounded_mapping_parameters_required")
+def _prepare_frames(frames, now, *, recreated_digests=None):
+    """Validate a call-owned frame set once; never cache between observations."""
     if len(frames) > MAX_FRAMES:
         raise ValueError("frame_count_bound")
     indexed, ids, invalid = [], {}, Counter()
@@ -209,7 +199,9 @@ def build_feature_move_map(frames: Sequence[Mapping[str, Any]], *, as_of_utc,
             invalid["invalid_or_future_frame_clock"] += 1
             continue
         identity = (str(frame.get("source_schema_id")), str(frame.get("snapshot_id")))
-        digest = hashlib.sha256(_canonical(frame)).hexdigest()
+        digest = (recreated_digests or {}).get(id(frame))
+        if digest is None:
+            digest = hashlib.sha256(_canonical(frame)).hexdigest()
         if identity in ids:
             if ids[identity] != digest:
                 raise ValueError("conflicting_snapshot_identity")
@@ -232,6 +224,38 @@ def build_feature_move_map(frames: Sequence[Mapping[str, Any]], *, as_of_utc,
             raise ValueError("feature_value_bound")
         indexed.append((stamp, digest, frame))
     indexed.sort(key=lambda value: (value[0], value[1]))
+    return indexed, invalid
+
+
+def build_feature_move_map(frames: Sequence[Mapping[str, Any]], *, as_of_utc,
+                           window_sec=300, endpoint_tolerance_sec=75,
+                           max_frame_age_sec=75, min_history=5, top_limit=50,
+                           instrument=None, include_all_comparisons=False):
+    return _build_feature_move_map(
+        frames, as_of_utc=as_of_utc, window_sec=window_sec,
+        endpoint_tolerance_sec=endpoint_tolerance_sec,
+        max_frame_age_sec=max_frame_age_sec, min_history=min_history,
+        top_limit=top_limit, instrument=instrument,
+        include_all_comparisons=include_all_comparisons)
+
+
+def _build_feature_move_map(frames, *, as_of_utc, window_sec=300,
+                            endpoint_tolerance_sec=75, max_frame_age_sec=75,
+                            min_history=5, top_limit=50, instrument=None,
+                            include_all_comparisons=False, prepared=None,
+                            entry_cache=None, parser_caches=None):
+    now = _epoch(as_of_utc)
+    if now is None or window_sec not in WINDOWS:
+        raise ValueError("valid_as_of_and_5_15_60_minute_window_required")
+    if type(include_all_comparisons) is not bool:
+        raise ValueError("boolean_full_comparison_option_required")
+    if instrument is not None and (not isinstance(instrument, str) or not PAIR.fullmatch(instrument)
+                                   or instrument[:3] == instrument[4:]):
+        raise ValueError("valid_pair_filter_required")
+    if not (0 <= endpoint_tolerance_sec <= 120 and 0 < max_frame_age_sec <= 120
+            and 2 <= min_history <= 30 and 1 <= top_limit <= 200):
+        raise ValueError("bounded_mapping_parameters_required")
+    indexed, invalid = _prepare_frames(frames, now) if prepared is None else prepared
     payload = {"schema_version": SCHEMA_VERSION, "generated_utc": _iso(now),
                "window_sec": window_sec, "instrument_filter": instrument, "status": "waiting_for_observations",
                "summary": {"frames": len(indexed), "rejected_frames": dict(invalid)},
@@ -240,6 +264,10 @@ def build_feature_move_map(frames: Sequence[Mapping[str, Any]], *, as_of_utc,
                                "History counts are overlapping comparisons, not independent events.",
                                "Unavailable fields remain visible; ranking is a display limit only."],
                "research_only": True, "can_place_orders": False, "can_promote": False}
+    if include_all_comparisons:
+        # Evaluation retains controls and unavailable rows before any display
+        # truncation. Existing frame/value bounds still apply to this payload.
+        payload["all_feature_changes"] = []
     if not indexed:
         return payload
     clocks = [item[0] for item in indexed]
@@ -259,7 +287,30 @@ def build_feature_move_map(frames: Sequence[Mapping[str, Any]], *, as_of_utc,
     if any(not PAIR.fullmatch(pair) or pair[:3] == pair[4:] for pair in names):
         raise ValueError("invalid_pair_identity")
     counts, reasons, all_changes = Counter(), Counter(), []
-    entry_cache = {}
+    if entry_cache is None:
+        entry_cache = {}
+    epoch_cache, seconds_cache = parser_caches if parser_caches is not None else ({}, {})
+
+    def parsed(value, cache, parser, bound):
+        # Parsing a string is pure. Keep small call-owned caches, not evidence
+        # or freshness results that could carry into another decision.
+        if not isinstance(value, str) or len(value) > 128:
+            return parser(value)
+        if value not in cache:
+            if len(cache) >= bound:
+                cache.clear()
+            cache[value] = parser(value)
+        return cache[value]
+
+    def epoch_once(value):
+        return parsed(value, epoch_cache, _epoch, 4096)
+
+    def seconds_once(value):
+        return parsed(value, seconds_cache, _seconds, 64)
+
+    def entry_reason(item, cutoff, tolerance, *, frame_cutoff=None):
+        return _entry_reason(item, cutoff, tolerance, frame_cutoff=frame_cutoff,
+                             parse_epoch=epoch_once, parse_seconds=seconds_once)
 
     def entries(index, pair):
         key = (index, pair)
@@ -312,8 +363,8 @@ def build_feature_move_map(frames: Sequence[Mapping[str, Any]], *, as_of_utc,
             used_indexes.update((index, previous))
             for identity in after_entries.keys() & e1.keys() & e0.keys():
                 v1, v0 = e1[identity], e0[identity]
-                if (_entry_reason(v1, h_end, endpoint_tolerance_sec)
-                        or _entry_reason(v0, h_end-window_sec, endpoint_tolerance_sec,
+                if (entry_reason(v1, h_end, endpoint_tolerance_sec)
+                        or entry_reason(v0, h_end-window_sec, endpoint_tolerance_sec,
                                          frame_cutoff=clocks[previous])
                         or not _numeric(v1["value"]) or not _numeric(v0["value"])):
                     continue
@@ -329,7 +380,7 @@ def build_feature_move_map(frames: Sequence[Mapping[str, Any]], *, as_of_utc,
             feature_reason = ("baseline_snapshot_missing" if base is None else None)
             if base and base.get("source_schema_id") != latest.get("source_schema_id"):
                 feature_reason = "feature_schema_changed"
-            feature_reason = feature_reason or _entry_reason(v1, end_time, endpoint_tolerance_sec) or _entry_reason(
+            feature_reason = feature_reason or entry_reason(v1, end_time, endpoint_tolerance_sec) or entry_reason(
                 v0, target, endpoint_tolerance_sec, frame_cutoff=clocks[base_index] if base else None)
             row = {"instrument": pair, "feature_id": identity,
                    "feature_name": exemplar["feature_name"], "group": exemplar["group"],
@@ -343,14 +394,14 @@ def build_feature_move_map(frames: Sequence[Mapping[str, Any]], *, as_of_utc,
                    "after_observed_utc": v1["observed_utc"] if v1 else None,
                    "actual_window_sec": None, "pair_move_pct": market["move_pct"],
                    "pair_move_status": market["status"], "pair_move_reason": market["reason"],
-                   "relationship": "contemporaneous_window", "aliases": exemplar["aliases"]}
+                   "relationship": "contemporaneous_window", "aliases": list(exemplar["aliases"])}
             if feature_reason:
                 counts["unavailable"] += 1
                 reasons[feature_reason] += 1
             else:
                 counts["available"] += 1
                 market["feature_count"] += 1
-                row["actual_window_sec"] = _epoch(v1["observed_utc"]) - _epoch(v0["observed_utc"])
+                row["actual_window_sec"] = epoch_once(v1["observed_utc"]) - epoch_once(v0["observed_utc"])
                 if _numeric(row["before"]) and _numeric(row["after"]):
                     change = row["after"] - row["before"]
                     if not math.isfinite(change):
@@ -383,6 +434,8 @@ def build_feature_move_map(frames: Sequence[Mapping[str, Any]], *, as_of_utc,
                                      -(row["unusual_percentile"] or 0),
                                      row["change"] == 0, row["instrument"], row["feature_id"]))
     payload["feature_changes"] = all_changes[:top_limit]
+    if include_all_comparisons:
+        payload["all_feature_changes"] = all_changes
     payload["pairs"].sort(key=lambda row: (row["move_pct"] is None, -abs(row["move_pct"] or 0), row["instrument"]))
     # Shared-currency links are descriptive orientations, not independent votes.
     for row in payload["feature_changes"]:
@@ -408,15 +461,28 @@ def build_feature_move_map(frames: Sequence[Mapping[str, Any]], *, as_of_utc,
     return payload
 
 
-def read_feature_move_map(archive_root, *, as_of_utc, window_sec=300, instrument=None):
+def read_feature_move_map(archive_root, *, as_of_utc, window_sec=300, instrument=None,
+                         include_all_comparisons=False):
+    return read_feature_move_maps(
+        archive_root, as_of_utc=as_of_utc, window_secs=(window_sec,),
+        instrument=instrument, include_all_comparisons=include_all_comparisons)[window_sec]
+
+
+def read_feature_move_maps(archive_root, *, as_of_utc, window_secs=WINDOWS, instrument=None,
+                          include_all_comparisons=False):
     """Read only the new append-only archive, with explicit IO/shape bounds.
 
     This routine never starts a producer or opens a database. Sampling caused by
     a bound is reported, and unsupported/missing baselines remain unavailable.
     """
     now = _epoch(as_of_utc)
-    if now is None or window_sec not in WINDOWS:
+    if (now is None or not isinstance(window_secs, (list, tuple))
+            or not 1 <= len(window_secs) <= len(WINDOWS)
+            or any(type(value) is not int or value not in WINDOWS for value in window_secs)
+            or len(set(window_secs)) != len(window_secs)):
         raise ValueError("valid_as_of_and_window_required")
+    if type(include_all_comparisons) is not bool:
+        raise ValueError("boolean_full_comparison_option_required")
     if instrument is not None and (not isinstance(instrument, str) or not PAIR.fullmatch(instrument)
                                    or instrument[:3] == instrument[4:]):
         raise ValueError("valid_pair_filter_required")
@@ -457,14 +523,18 @@ def read_feature_move_map(archive_root, *, as_of_utc, window_sec=300, instrument
         indices = {round(i * (len(old)-1) / (MAX_FILES-33)) for i in range(MAX_FILES-32)}
         files = [old[i] for i in sorted(indices)] + files[-32:]
         stats["bounded_sample"] = True
-    frames = []
+    frames, recreated_digests = [], {}
     # Prioritize baseline/reference-window candidates before dense current
     # samples consume the byte budget. File metadata only selects IO order;
     # actual acceptance and windows still use validated payload clocks.
     priority = []
     if files:
         mtimes = [item[0] / 1e9 for item in files]
-        targets = [mtimes[-1] - window_sec * offset for offset in range(8)]
+        # Share one validated read across requested windows. Interleave their
+        # reference candidates so the shortest window cannot consume the
+        # complete byte budget before another window's baseline is inspected.
+        targets = [mtimes[-1] - window_sec * offset
+                   for offset in range(8) for window_sec in window_secs]
         priority = list(dict.fromkeys(max(0, bisect.bisect_right(mtimes, target)-1) for target in targets))
     order = priority + [index for index in reversed(range(len(files))) if index not in priority]
     for index in order:
@@ -501,17 +571,36 @@ def read_feature_move_map(archive_root, *, as_of_utc, window_sec=300, instrument
             except ModuleNotFoundError:
                 from trad.oanda_feature_observations_v1 import build_observation_frame
             frame = build_observation_frame(original)
-            if _canonical(frame) != _canonical(envelope["frame"]):
+            recreated_bytes = _canonical(frame)
+            if recreated_bytes != _canonical(envelope["frame"]):
                 raise ValueError("frame_recreation_mismatch")
+            recreated_digests[id(frame)] = hashlib.sha256(recreated_bytes).hexdigest()
+            del recreated_bytes
             frames.append(frame)
             stats["files_read"] += 1
         except (OSError, EOFError, ValueError, KeyError, TypeError, AttributeError) as exc:
             stats["errors"].append(type(exc).__name__ + ":" + str(exc)[:100])
+    results = {}
+    prepared, preparation_error = None, None
     try:
-        payload = build_feature_move_map(frames, as_of_utc=as_of_utc, window_sec=window_sec, instrument=instrument)
+        prepared = _prepare_frames(frames, now, recreated_digests=recreated_digests)
     except ValueError as exc:
-        payload = build_feature_move_map([], as_of_utc=as_of_utc, window_sec=window_sec, instrument=instrument)
-        payload["status"] = "observation_validation_failed"
-        stats["errors"].append(str(exc))
-    payload["archive"] = stats
-    return payload
+        preparation_error = str(exc)
+    entry_cache, parser_caches = {}, ({}, {})
+    for window_sec in window_secs:
+        window_stats = {**stats, "errors": list(stats["errors"])}
+        try:
+            if preparation_error is not None:
+                raise ValueError(preparation_error)
+            payload = _build_feature_move_map(frames, as_of_utc=as_of_utc, window_sec=window_sec,
+                                              instrument=instrument, include_all_comparisons=include_all_comparisons,
+                                              prepared=prepared, entry_cache=entry_cache,
+                                              parser_caches=parser_caches)
+        except ValueError as exc:
+            payload = build_feature_move_map([], as_of_utc=as_of_utc, window_sec=window_sec,
+                                             instrument=instrument, include_all_comparisons=include_all_comparisons)
+            payload["status"] = "observation_validation_failed"
+            window_stats["errors"].append(str(exc))
+        payload["archive"] = window_stats
+        results[window_sec] = payload
+    return results

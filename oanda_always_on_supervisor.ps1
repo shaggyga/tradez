@@ -109,6 +109,8 @@ $ResearchCollectionNames = @(
     "official_release_fast_mapper",
     "source_governance_news_fast_lane",
     "practice_007_quote_stream",
+    "research_feature_observations_v1",
+    "research_feature_forward_v1",
     "clock_integrity_monitor",
     "all68_m1_forward_archive",
     "project_integrity_audit",
@@ -3341,6 +3343,59 @@ while ($true) {
                     "loading_practice_instruments",
                     "starting_price_stream"
                 )
+            }
+        # Local feature observations reuse reviewed calculators, without the
+        # legacy strategy/model loop. Both workers independently require a
+        # verified synchronized clock before new research publication.
+        $managed += Start-ManagedProcess `
+            -Name "research_feature_observations_v1" `
+            -Needle "oanda_research_feature_observation_worker_v1.py" `
+            -Executable $ModelGapPython `
+            -StartupDelaySec 60 `
+            -PriorityClass "BelowNormal" `
+            -Arguments @(
+                (Join-Path $Trad "oanda_research_feature_observation_worker_v1.py"),
+                "--quote-snapshot", (Join-Path $State "practice_007_market_quotes_v1.json"),
+                "--candle-root", (Join-Path $DataRoot "candles"),
+                "--book-snapshot", (Join-Path $State "oanda_order_position_book_latest_v1.json"),
+                "--clock-state", (Join-Path $State "clock_integrity_v1.json"),
+                "--archive-root", (Join-Path $DataRoot "feature_observations_v1"),
+                "--heartbeat", (Join-Path $State "research_feature_observations_heartbeat_v1.json"),
+                "--interval-sec", "60",
+                "--max-cycle-sec", "30",
+                "--max-daily-archive-mib", "4096",
+                "--minimum-free-mib", "4096",
+                "--duration-sec", "$ChildDurationSec"
+            ) `
+            -Freshness @{
+                LiteralPath = (Join-Path $State "research_feature_observations_heartbeat_v1.json")
+                MaxAgeSec = 150
+                StartupGraceSec = 180
+                ExpectedJsonField = "worker"
+                ExpectedJsonValue = "oanda_research_feature_observation_worker_v1"
+            }
+        $managed += Start-ManagedProcess `
+            -Name "research_feature_forward_v1" `
+            -Needle "oanda_feature_forward_worker_v1.py" `
+            -Executable $ModelGapPython `
+            -StartupDelaySec 75 `
+            -PriorityClass "BelowNormal" `
+            -Arguments @(
+                (Join-Path $Trad "oanda_feature_forward_worker_v1.py"),
+                "--archive-root", (Join-Path $DataRoot "feature_observations_v1"),
+                "--quote-path", (Join-Path $State "practice_007_market_quotes_v1.json"),
+                "--directory", (Join-Path $DataRoot "feature_forward_v1"),
+                "--max-ledger-mib", "4096",
+                "--minimum-free-mib", "4096",
+                "--clock-state", (Join-Path $State "clock_integrity_v1.json"),
+                "--duration-sec", "172800"
+            ) `
+            -Freshness @{
+                LiteralPath = (Join-Path $DataRoot "feature_forward_v1\feature_forward_status_v1.json")
+                MaxAgeSec = 90
+                StartupGraceSec = 180
+                ExpectedJsonField = "worker"
+                ExpectedJsonValue = "research_feature_forward_v1"
             }
         $managed += Start-ManagedProcess `
             -Name "clock_integrity_monitor" `

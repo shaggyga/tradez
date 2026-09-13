@@ -20,6 +20,7 @@ DEFAULT_ARCHIVE_ROOT = Path(__file__).resolve().parent / "data" / "oanda_trainin
 MAX_ARCHIVE_BYTES = 128 * 1024 * 1024
 NONFINITE_TAG = "__feature_observation_nonfinite_v1__"
 TIMEFRAME_SECONDS = {"M1": 60, "M5": 300, "M10": 600, "M15": 900, "M30": 1800, "H1": 3600, "H2": 7200, "H3": 10800, "H4": 14400, "D": 86400}
+PURE_QUOTE_FEATURES_V1 = frozenset(("bid", "ask", "live_spread_pips", "bid_top_liquidity", "ask_top_liquidity", "bid_total_liquidity", "ask_total_liquidity", "depth_imbalance", "bid_levels", "ask_levels", "depth_total_liquidity", "depth_log_total_liquidity", "depth_top_imbalance", "microprice", "microprice_offset_pips", "quote_receive_age_sec"))
 
 
 def parse_utc(value: Any) -> datetime | None:
@@ -114,7 +115,7 @@ def capture_feature_group(values: Mapping[str, Any], *, input_timeframe: str, cl
     return {"input_timeframe": input_timeframe, "feature_origin_utc": str(values.get("candle_time") or ""), "values": scalars, "value_states": states, "nonfinite_values": nonfinite, "nested_lineage": nested, "clock": normalize_json(dict(clock or {}))}
 
 
-def _group(pair: str, group_id: str, captured: Mapping[str, Any], source_schema_id: str) -> dict[str, Any]:
+def _group(pair: str, group_id: str, captured: Mapping[str, Any], source_schema_id: str, *, quote_component_clocks_v1: bool = False) -> dict[str, Any]:
     timeframe = str(captured.get("input_timeframe") or "UNKNOWN")
     origin = parse_utc(captured.get("feature_origin_utc"))
     clock = captured.get("clock") or {}
@@ -129,6 +130,10 @@ def _group(pair: str, group_id: str, captured: Mapping[str, Any], source_schema_
     component_clocks = normalize_json(dict(clock.get("component_clocks") or {}))
     origins = ((captured.get("nested_lineage") or {}).get("series_origins") or {}).get("payload") or {}
     for name in values:
+        if quote_component_clocks_v1 and name in PURE_QUOTE_FEATURES_V1:
+            source_quote = parse_utc(component_clocks.get("quote_feature_source_utc"))
+            feature_clocks[name] = {"observed_utc": observed.isoformat() if observed else "", "bar_complete_utc": source_quote.isoformat() if source_quote else "", "input_timeframe": "QUOTE", "clock_basis": str(clock.get("clock_basis") or "unknown") if source_quote else "unknown_quote_source"}
+            feature_ids[name] = f"{source_schema_id}:{pair}:QUOTE:{name}"
         if name in {"m5_r1_pips", "m5_r3_pips", "m5_atr14_pips"}:
             m5_origin = parse_utc(origins.get("M5"))
             complete = m5_origin + timedelta(minutes=5) if m5_origin else None
@@ -214,7 +219,7 @@ def build_observation_frame(snapshot: Mapping[str, Any]) -> dict[str, Any]:
             captures = {"primary": capture_feature_group(legacy.get("features") or {}, input_timeframe="M1")}
             captures.update({f"timeframe:{tf}": capture_feature_group(values, input_timeframe=tf) for tf, values in (legacy.get("timeframe_features") or {}).items()})
             captures["microstructure"] = capture_feature_group(legacy.get("microstructure") or {}, input_timeframe="QUOTE")
-        groups = {group_id: _group(pair, group_id, value, source_schema_id) for group_id, value in sorted(captures.items())}
+        groups = {group_id: _group(pair, group_id, value, source_schema_id, quote_component_clocks_v1=(raw.get("observation_inputs") or {}).get("quote_component_clocks_v1") is True) for group_id, value in sorted(captures.items())}
         _separate_model_outputs(groups)
         primary = groups.get("primary")
         m1 = groups.get("timeframe:M1")
@@ -244,7 +249,7 @@ def build_observation_frame(snapshot: Mapping[str, Any]) -> dict[str, Any]:
     return {"schema_version": FRAME_SCHEMA, "snapshot_id": str(raw.get("snapshot_id") or ""), "generated_utc": str(raw.get("generated_utc") or ""), "generated_epoch": raw.get("generated_epoch"), "source": source, "source_schema_id": source_schema_id, "source_payload_sha256": payload_sha256(raw), "coverage": normalize_json(raw.get("coverage") or {}), "instruments": instruments}
 
 
-def archive_observation_snapshot(snapshot: Mapping[str, Any], root: Path) -> Path:
+def archive_observation_snapshot(snapshot: Mapping[str, Any], root: Path, *, before_publish=None) -> Path:
     """Write one immutable, bounded full-envelope archive; collisions are errors."""
     original = normalize_json(snapshot)
     generated = parse_utc(original.get("generated_utc"))
@@ -267,7 +272,8 @@ def archive_observation_snapshot(snapshot: Mapping[str, Any], root: Path) -> Pat
         raise ValueError("observation identity reused with different payload or generation partition")
     # Reserve identity before publishing any archive, so conflicting concurrent
     # payloads cannot both become visible in different hour partitions.
-    _publish_identity(identity_path, identity_record)
+    if before_publish is None:
+        _publish_identity(identity_path, identity_record)
     directory.mkdir(parents=True, exist_ok=True)
     if path.exists():
         with gzip.open(path, "rb") as stream:
@@ -277,6 +283,8 @@ def archive_observation_snapshot(snapshot: Mapping[str, Any], root: Path) -> Pat
         existing = json.loads(existing_bytes)
         if existing.get("payload_sha256") != envelope["payload_sha256"] or existing.get("source_identity") != identity or existing_bytes != encoded:
             raise ValueError("observation identity collision or archive integrity mismatch")
+        if before_publish is not None:
+            before_publish()
         _publish_identity(identity_path, identity_record)
         return path
     temporary = path.with_name(f".{uuid.uuid4().hex}.tmp")
@@ -286,9 +294,12 @@ def archive_observation_snapshot(snapshot: Mapping[str, Any], root: Path) -> Pat
                 stream.write(encoded)
         try:
             # Hard-link publication cannot replace a concurrently written archive.
+            if before_publish is not None:
+                before_publish()
+                _publish_identity(identity_path, identity_record)
             os.link(temporary, path)
         except FileExistsError:
-            return archive_observation_snapshot(original, root)
+            return archive_observation_snapshot(original, root, before_publish=before_publish)
     finally:
         temporary.unlink(missing_ok=True)
     _publish_identity(identity_path, identity_record)

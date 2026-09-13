@@ -57,6 +57,25 @@ def test_two_way_mapping_preserves_real_units_price_move_and_quiet_features():
     assert result["can_place_orders"] is False
 
 
+def test_forward_evaluation_receives_controls_and_missing_rows_before_display_limit():
+    result = build(series(), top_limit=1, include_all_comparisons=True)
+    assert len(result["feature_changes"]) == 1
+    assert len(result["all_feature_changes"]) == result["summary"]["total_feature_comparisons"] == 6
+    names = {row["feature_name"]: row for row in result["all_feature_changes"]}
+    assert names["missing"]["status"] == "unavailable"
+    assert names["flat"]["change"] == 0
+    assert "all_feature_changes" not in build(series(), top_limit=1)
+
+
+def test_full_comparison_reader_keeps_empty_archive_explicit(tmp_path):
+    now = (START + timedelta(minutes=20)).isoformat()
+    result = read_feature_move_map(tmp_path / "missing", as_of_utc=now, include_all_comparisons=True)
+    assert result["all_feature_changes"] == []
+    assert not (tmp_path / "missing").exists()
+    with pytest.raises(ValueError, match="boolean_full_comparison"):
+        read_feature_move_map(tmp_path, as_of_utc=now, include_all_comparisons="yes")
+
+
 def test_large_feature_change_with_no_price_move_is_retained():
     frames = [frame(i, price=1.1, rsi=70 if i == 20 else None) for i in range(21)]
     result = build(frames)
@@ -319,6 +338,57 @@ def test_archive_reader_checks_original_payload_hash(tmp_path):
         json.dump(envelope, handle)
     result = read_feature_move_map(tmp_path, as_of_utc=(START+timedelta(minutes=20)).isoformat())
     assert result["archive"]["errors"] == ["ValueError:snapshot_hash_mismatch"]
+
+
+def test_multiple_windows_share_one_archive_read_and_retain_independent_results(tmp_path, monkeypatch):
+    import oanda_feature_move_mapping_v1 as mapping
+    from oanda_feature_observations_v1 import archive_observation_snapshot
+    for index in range(21):
+        archive_observation_snapshot(original_snapshot(index), tmp_path)
+    original_open = mapping.gzip.open
+    reads = []
+
+    def count_open(path, *args, **kwargs):
+        reads.append(str(path))
+        return original_open(path, *args, **kwargs)
+
+    monkeypatch.setattr(mapping.gzip, "open", count_open)
+    results = mapping.read_feature_move_maps(
+        tmp_path, as_of_utc=(START + timedelta(minutes=20)).isoformat(),
+        include_all_comparisons=True)
+    assert len(reads) == len(set(reads)) == 21
+    assert set(results) == {300, 900, 3600}
+    assert by_name(results[300], "rsi14")["status"] == "available"
+    assert by_name(results[900], "rsi14")["status"] == "available"
+    assert by_name(results[3600], "rsi14")["reason"] == "baseline_snapshot_missing"
+    assert all(len(result["all_feature_changes"]) >= 6 for result in results.values())
+    assert results[300]["archive"]["errors"] is not results[900]["archive"]["errors"]
+
+
+def test_shared_window_preparation_matches_public_build_and_has_no_alias_leak(tmp_path, monkeypatch):
+    import oanda_feature_move_mapping_v1 as mapping
+    from oanda_feature_observations_v1 import archive_observation_snapshot, build_observation_frame
+    originals = [original_snapshot(index) for index in range(21)]
+    frames = [build_observation_frame(value) for value in originals]
+    for value in originals:
+        archive_observation_snapshot(value, tmp_path)
+    prepare = mapping._prepare_frames
+    calls = []
+
+    def counted(frames, now, **kwargs):
+        calls.append(len(frames))
+        return prepare(frames, now, **kwargs)
+
+    monkeypatch.setattr(mapping, "_prepare_frames", counted)
+    instant = (START + timedelta(minutes=20)).isoformat()
+    shared = mapping.read_feature_move_maps(tmp_path, as_of_utc=instant, include_all_comparisons=True)
+    assert calls == [21]
+    for window, value in shared.items():
+        direct = mapping.build_feature_move_map(frames, as_of_utc=instant, window_sec=window,
+                                                include_all_comparisons=True)
+        assert {key: item for key, item in value.items() if key != "archive"} == direct
+    by_name(shared[300], "rsi14")["aliases"].append("caller-change")
+    assert "caller-change" not in by_name(shared[900], "rsi14")["aliases"]
 
 
 def test_archive_read_budget_counts_failed_expansion(tmp_path, monkeypatch):

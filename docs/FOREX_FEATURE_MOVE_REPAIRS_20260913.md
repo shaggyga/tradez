@@ -1,5 +1,7 @@
 # Feature observation and movement mapping repairs
 
+**Later September 13 follow-up:** [Research-only producer and forward evaluator connections](FOREX_FEATURE_FORWARD_CONNECTIONS_20260913.md) implement the two source-wiring gaps listed below. The original validation and remaining-limit statements in this record retain their cutoff; live activation and predictive acceptance remain separate.
+
 September 13, 2026. This implements the [reviewed snapshot and timing gaps](FOREX_FEATURE_MOVE_MAPPING_REVIEW_20260913.md). Software validation uses synthetic observations; services and trading remain stopped. No original market archive, account, model artifact, private credential or runtime ledger was opened or changed.
 
 ## Implemented
