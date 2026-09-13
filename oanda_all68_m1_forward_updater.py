@@ -855,6 +855,13 @@ def parse_args() -> argparse.Namespace:
         help="Disable bounded recent interior-gap detection/recovery and its observation receipts.",
     )
     parser.add_argument("--pause-seconds", type=float, default=0.10)
+    parser.add_argument(
+        "--gap-recovery-every-cycles",
+        type=int,
+        default=1,
+        help=("Run bounded interior-gap recovery every N archive cycles; "
+              "one preserves the original every-cycle behavior."),
+    )
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--candle-root", type=Path, default=None,
                         help="Archive directory; omitted preserves the legacy candle root.")
@@ -885,7 +892,8 @@ def write_json_atomic(path: Path, payload: Dict[str, Any]) -> None:
 
 
 def run_once(
-    args: argparse.Namespace, heartbeat: WorkerHeartbeat | None = None
+    args: argparse.Namespace, heartbeat: WorkerHeartbeat | None = None,
+    *, cycle_index: int = 1,
 ) -> int:
     selected_candle_root = getattr(args, "candle_root", None)
     selected_quote_snapshot = getattr(args, "quote_snapshot", None)
@@ -906,6 +914,10 @@ def run_once(
             f"No *_M1.csv files found in {candle_root}; use --pairs or "
             "--bootstrap-all-priced to start a practice-only research archive"
         )
+    recovery_every = int(getattr(args, "gap_recovery_every_cycles", 1))
+    if recovery_every < 1:
+        raise ValueError("gap_recovery_every_cycles_must_be_positive")
+    recover_gaps = cycle_index % recovery_every == 0
     client, client_meta = resolve_readonly_oanda_client()
     started = utc_now()
     rows: List[Dict[str, Any]] = []
@@ -925,7 +937,7 @@ def run_once(
                 batch_size=args.batch_size,
                 pause_seconds=args.pause_seconds,
                 dry_run=args.dry_run,
-                recover_gaps=not getattr(args, "no_gap_recovery", False),
+                recover_gaps=(not getattr(args, "no_gap_recovery", False) and recover_gaps),
             )
         )
         if heartbeat is not None:
@@ -956,6 +968,11 @@ def run_once(
         "gap_recovery_unresolved_minutes": int(sum(int(row.get("gap_recovery", {}).get("unresolved_minutes") or 0) for row in rows)),
         "gap_recovery_unknown_pair_count": int(sum(1 for row in rows if row.get("gap_recovery", {}).get("status")
             not in (None, "disabled") and row.get("gap_recovery", {}).get("missing_minutes_detected") is None)),
+        "gap_recovery_cycle": {
+            "cycle_index": cycle_index,
+            "every_cycles": recovery_every,
+            "enabled_this_cycle": recover_gaps and not getattr(args, "no_gap_recovery", False),
+        },
         "gap_recovery_scope": "bounded_recent_small_interior_gaps_only; not_a_full_archive_completeness_check",
         "error_count": int(sum(1 for row in rows if row.get("error") or row.get("gap_recovery", {}).get("error"))),
         "pairs": rows,
@@ -997,10 +1014,12 @@ def main() -> int:
         started = time.monotonic()
         deadline = started + args.duration_sec if args.duration_sec > 0 else None
         last_status = 0
+        cycle_index = 0
         while True:
             cycle_started = time.monotonic()
+            cycle_index += 1
             try:
-                last_status = run_once(args, heartbeat=heartbeat)
+                last_status = run_once(args, heartbeat=heartbeat, cycle_index=cycle_index)
             except Exception as exc:
                 # A transient read failure must not permanently stop the durable
                 # archive.  The next scheduled cycle retries; the existing report

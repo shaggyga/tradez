@@ -2087,19 +2087,23 @@ while ($true) {
                 "--backfill-requests-per-pair", "0",
                 "--batch-size", "5000",
                 "--pause-seconds", "0.10",
+                # Current-bar freshness is the live research dependency.  A
+                # bounded gap scan is retained, but only every tenth pass so
+                # it cannot turn every refresh into an extra 68 REST calls.
+                "--gap-recovery-every-cycles", "10",
                 "--report", (Join-Path $State "all68_m1_forward_update_v1.json"),
                 "--heartbeat", (Join-Path $State "all68_m1_forward_update_heartbeat_v1.json"),
-                # One all-68 pass currently takes about 4-5 minutes. Re-run at
-                # the completion cadence so quote-bound 5/15/30/60m research
-                # outcomes do not wait an additional hour for executable M1.
-                "--interval-sec", "300",
+                # A current-only all-68 pass is measured in under two minutes.
+                # Re-run at two minutes; completed M1 bars remain an observed
+                # source and are never fabricated across broker omissions.
+                "--interval-sec", "120",
                 "--duration-sec", "$ChildDurationSec"
             ) `
             -Freshness @{
                 LiteralPath = (Join-Path $State "all68_m1_forward_update_heartbeat_v1.json")
                 MaxAgeSec = 30
                 StartupGraceSec = 120
-                MaxProgressAgeSec = 300
+                MaxProgressAgeSec = 180
                 ProgressPhases = @("updating_pairs")
             }
         # Isolated research-only support/resistance observer.  It consumes the

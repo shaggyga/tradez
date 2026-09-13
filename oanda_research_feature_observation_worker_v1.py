@@ -199,7 +199,13 @@ def build_research_observation(quote_payload, candles_by_pair, *, source_read_co
     quotes = quote_payload.get("quotes")
     if not isinstance(quotes, dict) or not 1 <= len(quotes) <= MAX_PAIRS or any(not PAIR.fullmatch(pair) or pair[:3] == pair[4:] or not isinstance(row, dict) for pair, row in quotes.items()):
         raise ValueError("bounded_quote_universe_required")
-    if type(quote_payload.get("schema_version")) is not int or quote_payload["schema_version"] != 1 or quote_payload.get("research_only") is not True or type(quote_payload.get("quote_count")) is not int or quote_payload["quote_count"] != len(quotes):
+    # Schema 3 is the current dedicated-stream envelope.  It adds coverage and
+    # tradeability metadata but preserves this producer/quote-count contract.
+    if (type(quote_payload.get("schema_version")) is not int
+            or quote_payload["schema_version"] not in (1, 3)
+            or quote_payload.get("research_only") is not True
+            or type(quote_payload.get("quote_count")) is not int
+            or quote_payload["quote_count"] != len(quotes)):
         raise ValueError("dedicated_quote_snapshot_schema_invalid")
     retained = set((quote_payload.get("coverage") or {}).get("retained_last_known_instruments") or [])
     primary, views, coverage, observed, accepted, exclusions = {}, {}, {}, {}, {}, []

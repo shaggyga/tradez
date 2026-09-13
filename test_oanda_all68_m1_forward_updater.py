@@ -102,6 +102,33 @@ def test_run_once_writes_health_report_without_account_or_order_surface(
     assert payload["source"]["environment"] == "practice"
     assert payload["total_rows_appended"] == 2
     assert payload["error_count"] == 0
+    assert payload["gap_recovery_cycle"] == {
+        "cycle_index": 1,
+        "every_cycles": 1,
+        "enabled_this_cycle": True,
+    }
+
+
+def test_run_once_defers_gap_recovery_until_its_scheduled_cycle(tmp_path: Path, monkeypatch):
+    candle = tmp_path / "EUR_USD_M1.csv"
+    candle.write_text("time,datetime\n", encoding="utf-8")
+    report = tmp_path / "report.json"
+    calls = []
+    monkeypatch.setattr(updater, "candle_files", lambda: [candle])
+    monkeypatch.setattr(updater, "resolve_readonly_oanda_client", lambda: (object(), {}))
+    monkeypatch.setattr(updater, "update_pair", lambda *args, **kwargs: calls.append(kwargs) or {
+        "instrument": "EUR_USD", "rows_appended": 0, "rows_backfilled": 0, "error": "",
+        "gap_recovery": {"status": "disabled"}, "rows_recovered": 0,
+    })
+    args = argparse.Namespace(pairs=[], bootstrap_all_priced=False, max_requests_per_pair=1,
+        backfill_requests_per_pair=0, batch_size=10, pause_seconds=0.0, dry_run=False,
+        report=report, interval_sec=0.0, duration_sec=0.0, gap_recovery_every_cycles=10)
+    assert updater.run_once(args, cycle_index=1) == 0
+    assert calls[0]["recover_gaps"] is False
+    payload = json.loads(report.read_text(encoding="utf-8"))
+    assert payload["gap_recovery_cycle"]["enabled_this_cycle"] is False
+    assert updater.run_once(args, cycle_index=10) == 0
+    assert calls[1]["recover_gaps"] is True
 
 
 COLUMNS = ["time", "datetime", "instrument", "granularity", "open", "high", "low", "close",

@@ -87,9 +87,12 @@ def test_resample_reuse_matches_uncached_source_and_never_reuses_another_call():
         assert actual == expected
 
 
-def test_quote_schema_and_exact_tradeability_are_required():
+def test_current_quote_schema_and_exact_tradeability_are_required():
     payload = quotes()
     payload["schema_version"] = 3
+    result = worker.build_research_observation(payload, {}, source_read_completed_utc=NOW.isoformat(), clock=lambda: NOW.isoformat())
+    assert result["coverage"]["accepted_instrument_count"] == 1
+    payload["schema_version"] = 2
     with pytest.raises(ValueError, match="snapshot_schema"):
         worker.build_research_observation(payload, {}, source_read_completed_utc=NOW.isoformat())
     payload = quotes()
