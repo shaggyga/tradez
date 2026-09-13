@@ -1,0 +1,35 @@
+{
+  "schema_version": "joint_news_independent_boundary_review_v1",
+  "observed_utc": "2026-09-07T22:04:20.141766+00:00",
+  "status": "passed",
+  "review_type": "bounded independent source inspection and malformed-ID reproduction",
+  "source_bindings": {
+    "oanda_news_causal_aggregation_guard_v1.py": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9",
+    "oanda_local_news_sentiment.py": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4",
+    "oanda_news_classification_contract.py": "f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae"
+  },
+  "reviewed_boundaries": [
+    "Each member retains own publication, observation, enrichment and original expiry clocks.",
+    "Late corroborators cannot borrow an earlier member clock or renew another member expiry.",
+    "Exact syndicated headlines and duplicate publishers cannot add independent support.",
+    "Current guarded topic replay checks seal and public fields before fresh admission.",
+    "Current snapshot rejects missing proof and conflicting identities; exact duplicates collapse.",
+    "Current snapshot is bounded to 128 topics and 8 MiB, with source-as-of and actual postcompute generation.",
+    "Producer publishes exactly three implementation source hashes for adapter validation."
+  ],
+  "closed_findings": [
+    {
+      "finding": "Malformed list/dict event IDs could reach Counter as unhashable keys.",
+      "closure": "Only string IDs enter duplicate counting; malformed IDs remain inadmissible context.",
+      "reproduction": "Verified list-ID input returns member_no_eligible_contributors without exception."
+    }
+  ],
+  "remaining_blockers": [],
+  "limits": [
+    "This review does not authenticate news truth or establish trading profitability.",
+    "Adapter source-binding, retained history and exact capture integration are reviewed separately.",
+    "No pytest case count is attributed to this review; producer owner records its own test suite."
+  ],
+  "runtime_changes": false,
+  "orders_enabled": false
+}

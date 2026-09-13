@@ -26,10 +26,11 @@ import sqlite3
 import time
 from collections import Counter, defaultdict
 from pathlib import Path
-from typing import Any, Iterable, Mapping, Sequence
+from typing import Any, Callable, Iterable, Mapping, Sequence
 
 import oanda_market_sentiment_ticker as market_ticker
 from oanda_instrument_pips import fallback_pip_size
+from oanda_worker_heartbeat import WorkerHeartbeat
 
 
 ROOT = Path(__file__).resolve().parent
@@ -60,6 +61,7 @@ SOURCE_DB = STATE / "source_governance_v1.sqlite"
 OUTPUT_JSON = REPORT_ROOT / "MAJOR_MOVE_GAP_CENSUS_CURRENT.json"
 OUTPUT_MD = REPORT_ROOT / "MAJOR_MOVE_GAP_CENSUS_CURRENT.md"
 OUTPUT_CSV = REPORT_ROOT / "MAJOR_MOVE_GAP_CENSUS_DETAIL_CURRENT.csv"
+HEARTBEAT = STATE / "major_move_gap_census_heartbeat_v1.json"
 PRIOR_OUTPUT_JSON = REPORT_ROOT / "MAJOR_MOVE_GAP_CENSUS_PRE_CAUSAL_FACTOR_V1_20260827.json"
 PRIOR_OUTPUT_MD = REPORT_ROOT / "MAJOR_MOVE_GAP_CENSUS_PRE_CAUSAL_FACTOR_V1_20260827.md"
 PRIOR_OUTPUT_CSV = REPORT_ROOT / "MAJOR_MOVE_GAP_CENSUS_DETAIL_PRE_CAUSAL_FACTOR_V1_20260827.csv"
@@ -75,10 +77,39 @@ FACTOR_STRENGTH_EXPECTED_OBSERVATIONS = 68
 FACTOR_STRENGTH_MIN_OBSERVATIONS = 60
 FACTOR_STRENGTH_MAX_PAIR_AGE_SEC = 180
 FACTOR_STRENGTH_AMBIGUITY_BPS = 0.5
+ProgressCallback = Callable[..., None]
 
 
 def utc_now() -> str:
     return dt.datetime.now(dt.timezone.utc).isoformat()
+
+
+def emit_progress(
+    callback: ProgressCallback | None,
+    phase: str,
+    **details: Any,
+) -> None:
+    """Publish main-loop progress without changing evidence timestamps."""
+
+    if callback is not None:
+        callback(phase=phase, **details)
+
+
+def cycle_sleep_seconds(
+    interval_sec: float,
+    cycle_started_monotonic: float,
+    stop_monotonic: float,
+    *,
+    now_monotonic: float | None = None,
+) -> float:
+    """Return sleep needed for start-to-start cadence within duration."""
+
+    now = time.monotonic() if now_monotonic is None else now_monotonic
+    next_cycle_due = cycle_started_monotonic + max(0.0, float(interval_sec))
+    return max(
+        0.0,
+        min(next_cycle_due - now, stop_monotonic - now),
+    )
 
 
 def canonical_json(value: Any) -> str:
@@ -823,6 +854,7 @@ def recover_legacy_executable_paths(
     factor_minimum_observations: int = FACTOR_STRENGTH_MIN_OBSERVATIONS,
     factor_expected_observations: int = FACTOR_STRENGTH_EXPECTED_OBSERVATIONS,
     factor_maximum_pair_age_sec: int = FACTOR_STRENGTH_MAX_PAIR_AGE_SEC,
+    progress_callback: ProgressCallback | None = None,
 ) -> dict[str, Any]:
     """Recover only legacy labels that overlap the retained executable BAM archive.
 
@@ -849,11 +881,29 @@ def recover_legacy_executable_paths(
     recovered_files: dict[str, dict[str, Any]] = {}
     examples: list[dict[str, Any]] = []
     instruments = sorted(set(grouped) | set(expected_instruments))
-    for instrument in instruments:
+    total_instruments = len(instruments)
+    emit_progress(
+        progress_callback,
+        "recovering_legacy_executable_paths",
+        completed_instruments=0,
+        total_instruments=total_instruments,
+        recovered_rows=0,
+    )
+    for instrument_index, instrument in enumerate(instruments, 1):
         instrument_rows = grouped.get(instrument, [])
         path = candle_root / f"{instrument}_M1.csv"
         if not path.exists():
             no_file += len(instrument_rows)
+            emit_progress(
+                progress_callback,
+                "recovering_legacy_executable_paths",
+                completed_instruments=instrument_index,
+                total_instruments=total_instruments,
+                current_instrument=instrument,
+                current_instrument_status="missing_candle_file",
+                recovered_rows=recovered,
+                invalid_candle_rows=invalid_candles,
+            )
             continue
         candles: list[dict[str, Any]] = []
         with path.open("r", encoding="utf-8-sig", newline="") as handle:
@@ -971,6 +1021,22 @@ def recover_legacy_executable_paths(
                 "bytes": path.stat().st_size,
                 "sha256": file_sha256(path),
             }
+        emit_progress(
+            progress_callback,
+            "recovering_legacy_executable_paths",
+            completed_instruments=instrument_index,
+            total_instruments=total_instruments,
+            current_instrument=instrument,
+            current_instrument_status="processed",
+            recovered_rows=recovered,
+            invalid_candle_rows=invalid_candles,
+        )
+    emit_progress(
+        progress_callback,
+        "solving_causal_factor_surfaces",
+        factor_request_count=len(factor_requests),
+        observed_factor_surface_count=len(factor_observations),
+    )
     surfaces, surface_meta = solve_causal_factor_strength_surfaces(
         factor_requests,
         factor_observations,
@@ -985,6 +1051,16 @@ def recover_legacy_executable_paths(
         factor_strength_surfaces.update(surfaces)
     if factor_strength_meta is not None:
         factor_strength_meta.update(surface_meta)
+    emit_progress(
+        progress_callback,
+        "legacy_executable_replay_complete",
+        completed_instruments=total_instruments,
+        total_instruments=total_instruments,
+        recovered_rows=recovered,
+        valid_factor_surface_count=int(
+            surface_meta.get("valid_surface_count") or 0
+        ),
+    )
     return {
         "attempted_rows": len(rows),
         "recovered_rows": recovered,
@@ -1204,6 +1280,8 @@ def scan_h1_forecasts(
     target_tolerance: int,
     quantile: float,
     minimum_multiple: float,
+    *,
+    progress_callback: ProgressCallback | None = None,
 ) -> tuple[dict[str, list[dict[str, Any]]], list[dict[str, Any]], dict[str, Any]]:
     targets: dict[str, list[tuple[int, int, str]]] = defaultdict(list)
     target_starts: dict[str, list[int]] = {}
@@ -1312,8 +1390,29 @@ def scan_h1_forecasts(
                 )
                 recent[key] = record
             record["independent_h1_models"].append(model)
+        emit_progress(
+            progress_callback,
+            "scanning_h1_forecasts",
+            h1_rows_scanned=scanned,
+            h1_first_generated_utc=iso_epoch(minimum_epoch),
+            h1_last_generated_utc=iso_epoch(maximum_epoch),
+            matched_episode_count=len(matches),
+            recent_clock_count=len(recent),
+        )
+    emit_progress(
+        progress_callback,
+        "validating_h1_database_integrity",
+        h1_rows_scanned=scanned,
+        database=str(database.resolve()),
+    )
     integrity = db.execute("PRAGMA integrity_check").fetchone()[0]
     db.close()
+    emit_progress(
+        progress_callback,
+        "h1_database_scan_complete",
+        h1_rows_scanned=scanned,
+        h1_database_integrity=str(integrity),
+    )
 
     selected: list[dict[str, Any]] = []
     by_pair: dict[str, list[dict[str, Any]]] = defaultdict(list)
@@ -1468,7 +1567,11 @@ def load_prospective_major_moves(
 
 
 def remap_recent_news(
-    rows: Iterable[dict[str, Any]], source_database: Path, lookback_minutes: int
+    rows: Iterable[dict[str, Any]],
+    source_database: Path,
+    lookback_minutes: int,
+    *,
+    progress_callback: ProgressCallback | None = None,
 ) -> dict[str, Any]:
     materialized = [
         row
@@ -1479,13 +1582,29 @@ def remap_recent_news(
         return {"rows_remapped": 0, "source_event_highwater_utc": None}
     lower = min(int(row["start_epoch"]) for row in materialized) - lookback_minutes * 60
     upper = max(int(row["end_epoch"]) for row in materialized)
+    emit_progress(
+        progress_callback,
+        "loading_causal_source_window",
+        source_database=str(source_database.resolve()),
+        source_window_start_utc=iso_epoch(lower),
+        source_window_end_utc=iso_epoch(upper),
+        rows_to_remap=len(materialized),
+    )
     source_index, highwater = load_source_index(
         source_database,
         minimum_effective_epoch=lower,
         maximum_effective_epoch=upper,
     )
     mapped = 0
-    for row in materialized:
+    emit_progress(
+        progress_callback,
+        "remapping_recent_news",
+        source_currency_count=len(source_index),
+        source_event_highwater_utc=highwater,
+        rows_remapped=0,
+        rows_to_remap=len(materialized),
+    )
+    for row_index, row in enumerate(materialized, 1):
         result = map_source_state(row, source_index, lookback_minutes)
         for name in (
             "pre_entry_source_count",
@@ -1501,6 +1620,15 @@ def remap_recent_news(
         )
         row["source_evidence_class"] = "prospective_knowledge_time_mapped"
         mapped += 1
+        if row_index % 50 == 0 or row_index == len(materialized):
+            emit_progress(
+                progress_callback,
+                "remapping_recent_news",
+                source_currency_count=len(source_index),
+                source_event_highwater_utc=highwater,
+                rows_remapped=mapped,
+                rows_to_remap=len(materialized),
+            )
     return {"rows_remapped": mapped, "source_event_highwater_utc": highwater}
 
 
@@ -2114,9 +2242,16 @@ def run(
     output_json: Path = OUTPUT_JSON,
     output_md: Path = OUTPUT_MD,
     output_csv: Path = OUTPUT_CSV,
+    progress_callback: ProgressCallback | None = None,
 ) -> dict[str, Any]:
+    analysis_started_monotonic = time.monotonic()
     config = read_json(config_path)
     generated = utc_now()
+    emit_progress(
+        progress_callback,
+        "loading_move_inventories",
+        input_snapshot_utc=generated,
+    )
     canonical, canonical_meta = load_canonical_episodes(movement_database, movement_summary)
     legacy, legacy_meta = load_legacy_significant_tags(legacy_tags)
     configured_replay_root = Path(
@@ -2129,6 +2264,12 @@ def run(
     quantile = float(config.get("prospective_episode_quantile", 0.99))
     minimum_multiple = float(config.get("minimum_gross_cost_multiple", 2.0))
 
+    emit_progress(
+        progress_callback,
+        "scanning_h1_forecasts",
+        canonical_rows=len(canonical),
+        legacy_rows=len(legacy),
+    )
     h1_matches, post_h1, h1_meta = scan_h1_forecasts(
         h1_database,
         canonical,
@@ -2136,6 +2277,7 @@ def run(
         tolerance,
         quantile,
         minimum_multiple,
+        progress_callback=progress_callback,
     )
     for row in canonical:
         row["independent_h1_models"] = h1_matches.get(str(row["move_id"]), [])
@@ -2143,10 +2285,16 @@ def run(
         prospective_database, quantile, minimum_multiple
     )
     recent_rows = post_h1 + prospective
+    emit_progress(
+        progress_callback,
+        "remapping_recent_news",
+        recent_move_rows=len(recent_rows),
+    )
     news_meta = remap_recent_news(
         recent_rows,
         source_database,
         int(config.get("pre_entry_news_lookback_min", 360)),
+        progress_callback=progress_callback,
     )
     rows = legacy + canonical + recent_rows
     factor_strength_surfaces: dict[tuple[int, int], dict[str, Any]] = {}
@@ -2176,9 +2324,15 @@ def run(
                 FACTOR_STRENGTH_MAX_PAIR_AGE_SEC,
             )
         ),
+        progress_callback=progress_callback,
     )
     legacy_meta["executable_replay"] = legacy_replay_meta
 
+    emit_progress(
+        progress_callback,
+        "classifying_move_gaps",
+        raw_move_rows=len(rows),
+    )
     top_index, top_meta = load_top_signal_index(top_signal_database)
     for row in rows:
         assign_liquidity_bucket(row)
@@ -2189,6 +2343,12 @@ def run(
     )
 
     rows.sort(key=lambda row: (int(row["start_epoch"]), row["instrument"], int(row["horizon_sec"]), row["inventory"]))
+    emit_progress(
+        progress_callback,
+        "publishing_detail_inventory",
+        raw_move_rows=len(rows),
+        factor_episode_count=factor_count,
+    )
     prior_archives = preserve_pre_causal_factor_outputs(
         output_json, output_md, output_csv
     )
@@ -2226,9 +2386,18 @@ def run(
         for row in rows
     )
     fallback_factor_rows = len(rows) - causal_factor_rows
+    analysis_finished = utc_now()
+    publication_utc = utc_now()
     payload = {
         "schema_version": 2,
         "generated_utc": generated,
+        "input_snapshot_utc": generated,
+        "analysis_started_utc": generated,
+        "analysis_finished_utc": analysis_finished,
+        "publication_utc": publication_utc,
+        "analysis_duration_sec": round(
+            max(0.0, time.monotonic() - analysis_started_monotonic), 3
+        ),
         "research_id": str(config.get("research_id") or "major_move_gap_census_v1"),
         "factor_assignment_contract_id": FACTOR_ASSIGNMENT_CONTRACT_ID,
         "supersedes_factor_assignment_contract_id": (
@@ -2317,8 +2486,22 @@ def run(
             "raw pips are not comparable across all instruments; headline rankings use liquid major-currency pairs",
         ],
     }
+    emit_progress(
+        progress_callback,
+        "publishing_current_report",
+        output_json=str(output_json.resolve()),
+        output_markdown=str(output_md.resolve()),
+    )
     atomic_text(output_json, json.dumps(payload, indent=2, sort_keys=True) + "\n")
     atomic_text(output_md, render_markdown(payload))
+    emit_progress(
+        progress_callback,
+        "current_report_published",
+        publication_utc=publication_utc,
+        generated_utc=generated,
+        raw_move_rows=len(rows),
+        factor_episode_count=factor_count,
+    )
     return payload
 
 
@@ -2335,43 +2518,84 @@ def main() -> int:
     parser.add_argument("--output-json", type=Path, default=OUTPUT_JSON)
     parser.add_argument("--output-md", type=Path, default=OUTPUT_MD)
     parser.add_argument("--output-csv", type=Path, default=OUTPUT_CSV)
+    parser.add_argument("--heartbeat", type=Path, default=HEARTBEAT)
     parser.add_argument("--interval-sec", type=float, default=0.0)
     parser.add_argument("--duration-sec", type=float, default=604800.0)
     args = parser.parse_args()
     stop = time.monotonic() + max(0.0, float(args.duration_sec))
-    while True:
-        payload = run(
-            config_path=args.config,
-            movement_database=args.movement_database,
-            movement_summary=args.movement_summary,
-            legacy_tags=args.legacy_tags,
-            top_signal_database=args.top_signal_database,
-            h1_database=args.h1_database,
-            prospective_database=args.prospective_database,
-            source_database=args.source_database,
-            output_json=args.output_json,
-            output_md=args.output_md,
-            output_csv=args.output_csv,
-        )
-        print(
-            json.dumps(
-                {
-                    key: payload[key]
-                    for key in (
-                        "generated_utc",
-                        "raw_move_rows",
-                        "factor_episode_count",
-                        "exact_top_signal_matches",
-                        "execution_decision",
-                    )
-                },
-                indent=2,
-            ),
-            flush=True,
-        )
-        if float(args.interval_sec) <= 0.0 or time.monotonic() >= stop:
-            return 0
-        time.sleep(min(float(args.interval_sec), max(0.0, stop - time.monotonic())))
+    cycle = 0
+    with WorkerHeartbeat(
+        args.heartbeat,
+        worker="oanda_major_move_gap_census",
+        role="retrospective_research_gap_census",
+        interval_sec=5.0,
+    ) as heartbeat:
+        while True:
+            cycle += 1
+            cycle_started_monotonic = time.monotonic()
+            heartbeat.mark_progress(phase="cycle_start", cycle=cycle)
+            payload = run(
+                config_path=args.config,
+                movement_database=args.movement_database,
+                movement_summary=args.movement_summary,
+                legacy_tags=args.legacy_tags,
+                top_signal_database=args.top_signal_database,
+                h1_database=args.h1_database,
+                prospective_database=args.prospective_database,
+                source_database=args.source_database,
+                output_json=args.output_json,
+                output_md=args.output_md,
+                output_csv=args.output_csv,
+                progress_callback=heartbeat.mark_progress,
+            )
+            heartbeat.mark_progress(
+                phase="cycle_complete",
+                cycle=cycle,
+                generated_utc=payload["generated_utc"],
+                publication_utc=payload.get("publication_utc"),
+                output_json=str(args.output_json.resolve()),
+                raw_move_rows=payload["raw_move_rows"],
+                factor_episode_count=payload["factor_episode_count"],
+            )
+            print(
+                json.dumps(
+                    {
+                        key: payload[key]
+                        for key in (
+                            "generated_utc",
+                            "publication_utc",
+                            "analysis_duration_sec",
+                            "raw_move_rows",
+                            "factor_episode_count",
+                            "exact_top_signal_matches",
+                            "execution_decision",
+                        )
+                    },
+                    indent=2,
+                ),
+                flush=True,
+            )
+            if float(args.interval_sec) <= 0.0 or time.monotonic() >= stop:
+                return 0
+            sleep_sec = cycle_sleep_seconds(
+                float(args.interval_sec),
+                cycle_started_monotonic,
+                stop,
+            )
+            next_cycle = dt.datetime.now(dt.timezone.utc) + dt.timedelta(
+                seconds=sleep_sec
+            )
+            heartbeat.update(
+                phase="sleeping",
+                cycle=cycle,
+                next_cycle_utc=next_cycle.isoformat(),
+                sleep_remaining_sec=round(sleep_sec, 3),
+            )
+            sleep_until = time.monotonic() + sleep_sec
+            while time.monotonic() < sleep_until:
+                remaining = max(0.0, sleep_until - time.monotonic())
+                heartbeat.update(sleep_remaining_sec=round(remaining, 3))
+                time.sleep(min(60.0, remaining))
 
 
 if __name__ == "__main__":

@@ -1,0 +1,29 @@
+{
+  "schema_version": "dashboard_news_focused_test_receipt_v1_20260907",
+  "generated_utc": "2026-09-07T18:31:51.280134+00:00",
+  "result": "187 passed in 28.04 seconds",
+  "project_root": "C:\\Users\\zmoor\\Documents\\forex\\trad",
+  "source_sha256": {
+    "oanda_practice_live_dashboard.py": "e032972735ec8f204ade000a389b824a515db34722fda1a237adbe7c8b3cd3ad",
+    "oanda_main_signal_dashboard.html": "8544b5c242deb7ee68c18e4d4e73488e498250de885e18aabce32f0897156c65",
+    "test_oanda_news_pair_dashboard.py": "f0ea51174418288e05eada7ee7b3c2560a42617cc058ea233843bf9d4c4fe60b",
+    "test_oanda_collection_dashboard_status.py": "71f56bb8479af02e53255e4a25dcb3c486f10e5e0135ec274bd559bc4a6e0034",
+    "test_oanda_pair_forecast_dashboard.py": "ba5d23985faf20a350e7fae31785dc162da28d718fea633d4db100b2d9599d8f"
+  },
+  "test_xml": "C:\\Users\\zmoor\\Documents\\forex\\pair_news_review_20260907\\dashboard_news_tests.xml",
+  "test_xml_sha256": "4632e294e14a72b05bc9d4c6a1a953518b625618ce47a4636504d5be10ab0909",
+  "command": [
+    "python",
+    "-m",
+    "pytest",
+    "test_oanda_news_pair_dashboard.py",
+    "test_oanda_collection_dashboard_status.py",
+    "test_oanda_pair_forecast_dashboard.py",
+    "-q",
+    "-p",
+    "no:cacheprovider"
+  ],
+  "runtime_reloaded": false,
+  "registered_study_sources_modified": false,
+  "scope": "News projection, global partial-operation display, and separate supplemental EUR engineering diagnostic; fixture verification only."
+}

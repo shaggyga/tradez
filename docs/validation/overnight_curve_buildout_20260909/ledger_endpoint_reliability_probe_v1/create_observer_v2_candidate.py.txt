@@ -1,0 +1,136 @@
+"""One-shot, new files only; preserve accepted V1 bytes."""
+from pathlib import Path
+
+ROOT=Path(__file__).resolve().parents[2]/'trad'
+old=(ROOT/'oanda_joint_v3_ledger_status_observer_v1.py').read_text(encoding='utf-8')
+text=old.replace('status_observer_v1_20260909','status_observer_v2_20260909').replace('observer_summary_v1_20260909','observer_summary_v2_20260909').replace('observer_specification_v1_20260909','observer_specification_v2_20260909')
+text=text.replace("OWN_FILES = ('oanda_joint_v3_ledger_status_observer_v1.py',", "OWN_FILES = ('oanda_joint_v3_ledger_status_observer_v2.py', 'oanda_joint_v3_ledger_status_observer_v1.py',")
+insert='''FIRST_PASS_PAIR_BUDGET_SEC = .25
+RETRY_PAIR_BUDGET_SEC = .5
+MAX_CLOCK_TRACE = 64
+MAX_REPORT_BYTES = 2*1024*1024
+
+
+class _MonotonicClock:
+    """Sticky integrity rejection; passing through every valid original value."""
+    def __init__(self, source):
+        self.source=source;self.last=None;self.valid=True
+
+    def __call__(self):
+        value=self.source()
+        self.valid=self.valid and type(value) in (int,float) and 0<=value<10**12 and math.isfinite(value)
+        if self.valid and self.last is not None:self.valid=value>=self.last
+        require(self.valid,'observer_monotonic_clock_integrity')
+        self.last=value
+        return value
+
+
+class _AttemptClock:
+    """Retain bounded wall-clock evidence, without replacing original samples."""
+    def __init__(self, source):
+        self.source=source;self.values=[];self.count=0;self.valid=True;self.last=None
+
+    def __call__(self):
+        value=self.source();self.count+=1
+        valid=type(value) in (int,float) and 0<value<10**12 and math.isfinite(value)
+        self.valid=self.valid and valid and self.count<=MAX_CLOCK_TRACE
+        if valid:
+            if self.last is not None:self.valid=self.valid and value>=self.last
+            self.last=value
+        if len(self.values)<MAX_CLOCK_TRACE:self.values.append(value if valid else None)
+        return value
+
+
+def _attempt_pair(pair,path,spec,activation,rules,clock,monotonic,deadline,index):
+    trace=_AttemptClock(clock)
+    began=number(trace());tick=monotonic();reason=None;sqlite_code=None;slot=None
+    try:
+        slot=_pair(path,spec,activation,rules,trace,monotonic,deadline)
+    except sqlite3.Error as exc:
+        reason='observer_sqlite_time_budget_or_unavailable'
+        numeric=getattr(exc,'sqlite_errorcode',None)
+        if type(numeric) is int and 0<=numeric<=65535:sqlite_code=numeric&255
+    except (ValueError,TypeError,KeyError,OSError,OverflowError,RecursionError) as exc:
+        reason=code(exc)
+    completed=number(trace());end=monotonic()
+    if not trace.valid:reason='observer_attempt_clock_integrity';slot=None
+    expired=end>=deadline
+    retryable=bool(reason and trace.valid and (
+        reason=='observer_pair_time_budget' and expired or
+        reason=='observer_sqlite_time_budget_or_unavailable' and (
+            sqlite_code in (sqlite3.SQLITE_BUSY,sqlite3.SQLITE_LOCKED) or
+            sqlite_code==sqlite3.SQLITE_INTERRUPT and expired)))
+    receipt=dict(attempt_index=index,original_pair=pair,wall_started_epoch=began,wall_completed_epoch=completed,
+        monotonic_started=tick,monotonic_completed=end,assigned_deadline=deadline,actual_budget_expired=expired,
+        original_public_reason=reason,sqlite_primary_code=sqlite_code,bounded_original_clock_trace=trace.values,
+        clock_trace_calls=trace.count,clock_trace_integrity=trace.valid,retry_eligible=retryable,
+        result_status='verified' if reason is None else 'failed')
+    return slot,reason,receipt
+
+
+def _failed_slot(reason,spec,activation,clock):
+    return dict(status='unavailable',reason=reason,observed_epoch=number(clock()),
+        activated_epoch=activation['activated_epoch'],contract_sha256=spec['contract_sha256'],
+        cohort_id=spec['contract']['cohorts'][FAMILY],origin_study='joint_v3',
+        origin_registry_sha256=ORIGIN_REGISTRY_SHA256,current_readiness=dict(status='unavailable',
+            observed_epoch=None,reason='current_inputs_not_observed',diagnostics={}),
+        last_attempt=None,latest_forecast=None,counts={},ledger_observation=dict(contract_and_activation_verified=False))
+
+
+def _observe_pairs(registry,study,activated,rules,clock,monotonic,deadline):
+    rows=[];attempted=verified=0;failures={};first_failures={};attempts=[];queued=[];retry_records=[]
+    for pair,item in sorted(registry['pairs'].items()):
+        require(set(item['families'])=={FAMILY},'observer_original_family_inventory')
+        spec=item['families'][FAMILY];reason=None;slot=None;now=monotonic()
+        if now>=deadline:reason='observer_budget_exhausted'
+        else:
+            attempted+=1
+            slot,reason,record=_attempt_pair(pair,study/'pairs'/pair/FAMILY/'study.sqlite',spec,
+                activated[pair],rules,clock,monotonic,min(deadline,now+FIRST_PASS_PAIR_BUDGET_SEC),1)
+            attempts.append(record)
+            if reason:
+                first_failures[pair]=reason
+                if record['retry_eligible']:queued.append((pair,len(rows),spec))
+            else:verified+=1
+        if reason:
+            failures[pair]=reason;slot=_failed_slot(reason,spec,activated[pair],clock)
+        rows.append(dict(instrument=pair,pip_size=item['pip_size'],families={FAMILY:slot}))
+    first_verified=verified;retried=recovered=0;recovered_pairs=[]
+    for pair,row_index,spec in queued:
+        now=monotonic()
+        if now>=deadline:
+            retry_records.append(dict(original_pair=pair,status='not_attempted',reason='observer_budget_exhausted',
+                observed_epoch=number(clock()),monotonic_observed=now))
+            continue
+        retried+=1
+        slot,reason,record=_attempt_pair(pair,study/'pairs'/pair/FAMILY/'study.sqlite',spec,
+            activated[pair],rules,clock,monotonic,min(deadline,now+RETRY_PAIR_BUDGET_SEC),2)
+        attempts.append(record);retry_records.append(dict(original_pair=pair,status='attempted',attempt_index=2))
+        if reason:
+            failures[pair]=reason;slot=_failed_slot(reason,spec,activated[pair],clock)
+        else:
+            verified+=1;recovered+=1;recovered_pairs.append(pair);failures.pop(pair,None)
+        rows[row_index]['families'][FAMILY]=slot
+    return rows,dict(attempted_pairs=attempted,verified_ledger_pairs=verified,failures=failures,
+        first_pass_failures=first_failures,first_pass_verified_pairs=first_verified,retry_attempted_pairs=retried,
+        retry_recovered_ledger_pairs=recovered,retry_recovered_instruments=recovered_pairs,
+        attempt_records=attempts,retry_records=retry_records,total_pair_attempts=len(attempts))
+
+
+'''
+text=text.replace('def observe_joint_v3(',insert+'def observe_joint_v3(')
+text=text.replace('"""One bounded pass. A partial result names every unvisited/failed pair."""','"""Two bounded passes; retry only proven transient failures, never old rows."""')
+text=text.replace('started=number(clock());tick=monotonic()','monotonic=_MonotonicClock(monotonic)\n    started=number(clock());tick=monotonic()')
+text=text.replace('1<=time_budget_sec<=30','time_budget_sec==8')
+text=text.replace("dependency_versions=registry['dependency_versions'],time_budget_sec=time_budget_sec,", "dependency_versions=registry['dependency_versions'],time_budget_sec=time_budget_sec,\n        retry_policy=dict(first_pass_pair_budget_sec=FIRST_PASS_PAIR_BUDGET_SEC,retry_pair_budget_sec=RETRY_PAIR_BUDGET_SEC,\n            maximum_attempts_per_pair=2,maximum_clock_trace_calls=MAX_CLOCK_TRACE,first_pass_before_retries=True),")
+a=text.index('    rows=[];attempted=verified=0;failures={};deadline=tick+time_budget_sec',text.index('def observe_joint_v3('))
+b=text.index('    upstream=_upstream(',a)
+text=text[:a]+'''    rows,scheduling=_observe_pairs(registry,study,activated,rules,clock,monotonic,tick+time_budget_sec)
+    attempted=scheduling['attempted_pairs'];verified=scheduling['verified_ledger_pairs'];failures=scheduling['failures']
+'''+text[b:]
+text=text.replace("    summary=dict(schema_version=SUMMARY_SCHEMA", "    scheduling['retry_recovered_forecast_pairs']=sum(row['instrument'] in scheduling['retry_recovered_instruments']\n        and row['families'][FAMILY]['status']=='forecast' for row in rows)\n    summary=dict(schema_version=SUMMARY_SCHEMA")
+text=text.replace("        current_input_readiness_observed=False,original_producer_envelope=upstream,", "        scheduling=scheduling,current_input_readiness_observed=False,original_producer_envelope=upstream,")
+text=text.replace("    report['payload_sha256']=digest(report)\n    return report", "    report['payload_sha256']=digest(report)\n    require(len(encoded(report))<=MAX_REPORT_BYTES,'observer_report_byte_bound')\n    return report")
+with (ROOT/'oanda_joint_v3_ledger_status_observer_v2.py').open('x',encoding='utf-8',newline='\n') as f:f.write(text)
+api=(ROOT/'oanda_joint_v3_ledger_observer_api_v1.py').read_text(encoding='utf-8').replace('import oanda_joint_v3_ledger_status_observer_v1 as observer','import oanda_joint_v3_ledger_status_observer_v2 as observer').replace('observer_api_v1_20260909','observer_api_v2_20260909').replace('api_specification_v1_20260909','api_specification_v2_20260909')
+with (ROOT/'oanda_joint_v3_ledger_observer_api_v2.py').open('x',encoding='utf-8',newline='\n') as f:f.write(api)

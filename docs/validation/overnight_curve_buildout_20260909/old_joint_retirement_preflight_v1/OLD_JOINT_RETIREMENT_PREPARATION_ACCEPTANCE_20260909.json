@@ -1,0 +1,123 @@
+{
+  "actual_audit": {
+    "blocked_ledgers": 0,
+    "consumption": 4050,
+    "exclusions": 117,
+    "forecasts": 4050,
+    "mode": "Per-database coherent RO/query_only; no writer-ledger instantiation.",
+    "outcomes": 3933,
+    "publication": 4050,
+    "registered_ledgers": 136
+  },
+  "before_source_directory": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\old_joint_retirement_preflight_v1\\before_source",
+  "bindings": [
+    {
+      "bytes": 219184,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_always_on_supervisor.ps1",
+      "sha256": "28c226f56105331cb7e828bc54a02359f814f98b55838ca12f36cf19e733473e"
+    },
+    {
+      "bytes": 12682,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_project_runtime_health.py",
+      "sha256": "e4c6349dc32a45abc7c692e17611bde3a1871e2be5b153a9d8a5693f4c4fa32f"
+    },
+    {
+      "bytes": 9856,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_project_runtime_health.py",
+      "sha256": "34a38b1273d0a7ea24421e57c84f7ca660be789d159ea14867f5a952ab4f6725"
+    },
+    {
+      "bytes": 4185,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_old_joint_runtime_retirement.py",
+      "sha256": "1c1186b44d4067d9addd3deae65fdbe14ba36c5f8260856e4fa7202297522d67"
+    },
+    {
+      "bytes": 6902,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_pair_v2_supervisor_gate.py",
+      "sha256": "c0cbe98d3891d0a48ec79dad2534944fe4f3b3c500b115a3cf44baab9f56a95b"
+    },
+    {
+      "bytes": 9946,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_supervisor_integrity_freshness.py",
+      "sha256": "b15ae8ccc2c3230adc3033326c5cf57e2d6ae356d210c70452a7427a78626346"
+    },
+    {
+      "bytes": 7395,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\joint_study_runtime_retirement_v1_20260909.json",
+      "sha256": "38e7c9be1e8c6d8a2b14bb36f54526751bdf9cd8ddd762fed8840bd927a74faf"
+    },
+    {
+      "bytes": 17552,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\old_joint_retirement_preflight_v1\\audit_old_joint_obligations_v1.py",
+      "sha256": "d454833f16fd2c3135f6a23a6176233bfb446b22fdf0ebc539d9ff54e831b8e5"
+    },
+    {
+      "bytes": 5297,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\old_joint_retirement_preflight_v1\\recheck_old_joint_retirement_v1.py",
+      "sha256": "2e68afd28dbae27b0721bb490b2b038537691707386ed71788136f48fcbb55e7"
+    },
+    {
+      "bytes": 2887,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\old_joint_retirement_preflight_v1\\test_audit_old_joint_obligations_v1.py",
+      "sha256": "2c4adcc5c3519b14b93b2f026aef604550402226ec22948f22155ccbcf45d18d"
+    },
+    {
+      "bytes": 1846,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\old_joint_retirement_preflight_v1\\test_recheck_old_joint_retirement_v1.py",
+      "sha256": "1c5844e142d5b786a78b6501d6ede8316e92a4bdce630725872cba12a2e7efed"
+    },
+    {
+      "bytes": 27558,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\old_joint_retirement_preflight_v1\\retirement_preparation_tests.xml",
+      "sha256": "b5606d02e6481c2a3dcb6c146152d3a18b6b349148fe37562e088c7d8dd53162"
+    },
+    {
+      "bytes": 24774,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\old_joint_retirement_preflight_v1\\retirement_preparation_final_tests.xml",
+      "sha256": "031bc22bb3d155f9b158ae4464017eff25c28ee21622aca54669b77e939aac1e"
+    },
+    {
+      "bytes": 107343,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\old_joint_retirement_preflight_v1\\actual_observation_001\\OLD_JOINT_RETIREMENT_OBLIGATIONS_20260909.json",
+      "sha256": "7e21707882705fb517b82e9194315c9ff7a3fd008c53dafb539a0ae79c6e0807"
+    },
+    {
+      "bytes": 120960,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\old_joint_retirement_preflight_v1\\actual_observation_002\\OLD_JOINT_RETIREMENT_OBLIGATIONS_20260909.json",
+      "sha256": "016623097e2fb75eb55003dc1d1e9a3788f006440ce1e033523f544e987c83bc"
+    }
+  ],
+  "old_registries_or_records_modified": false,
+  "orders": false,
+  "recheck_api": {
+    "baseline": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\old_joint_retirement_preflight_v1\\actual_observation_002\\OLD_JOINT_RETIREMENT_OBLIGATIONS_20260909.json",
+    "baseline_sha256": "016623097e2fb75eb55003dc1d1e9a3788f006440ce1e033523f544e987c83bc",
+    "checks": "Original obligations and deterministic referenced-quote digest; nonzero exit if changed, blocked or source mismatch.",
+    "helper": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\old_joint_retirement_preflight_v1\\recheck_old_joint_retirement_v1.py",
+    "output": "A fresh direct child directory of this evidence directory; use same baseline pre and post.",
+    "process_actions": false
+  },
+  "recorded_epoch": 1788946317.841166,
+  "required_remaining_steps": [
+    "Independent source review receipt.",
+    "Parent-controlled immediate pre-retirement identity recheck, exact process retirement/reload and post-retirement identity recheck.",
+    "Fresh15-worker runtime observation; this preparation is not live retirement evidence."
+  ],
+  "runtime_actions_executed": false,
+  "schema_version": "old_joint_retirement_preparation_acceptance_v1_20260909",
+  "source_delta": {
+    "health": "Only joint_price_news_study_v1 and v2 removed from expected17, now15. Actual reported inactive/missing/running rows and historical failures retain their semantics.",
+    "supervisor": "Only two names inserted into DisabledNames with dated-manifest comment. All remaining source reconstructs exactly to before copy. Research allowlist remains19 names."
+  },
+  "status": "prepared_tested_not_executed",
+  "tests": {
+    "PowerShell_syntax": "passed",
+    "duration_sec": 41.45,
+    "passed": 150,
+    "prior_run": {
+      "disposition": "Preserved initial XML; stale V164 expectation and absent V3 configuration fixture corrected in tests only.",
+      "failed": 2,
+      "passed": 148
+    }
+  }
+}

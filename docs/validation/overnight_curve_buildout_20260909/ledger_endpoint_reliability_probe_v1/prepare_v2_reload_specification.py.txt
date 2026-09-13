@@ -1,0 +1,64 @@
+"""Prepare pinned dashboard-only reload specification; never execute it."""
+from pathlib import Path
+import hashlib
+import json
+import xml.etree.ElementTree as ET
+
+BASE=Path(__file__).resolve().parent
+ROOT=BASE.parents[1]/'trad'
+OUT=BASE/'integration_candidate_v2_001'
+
+
+def sha(raw):return hashlib.sha256(raw).hexdigest()
+
+
+def record(path):
+    raw=path.read_bytes();return dict(path=str(path),sha256=sha(raw),bytes=len(raw))
+
+
+def run():
+    census_path=BASE/'OBSERVER_V2_PREPARATION_RUNTIME_CENSUS_20260909.json'
+    census_record=record(census_path)
+    assert census_record['sha256']=='a212a3742d7f7203b9c8dcea788b84049091e3d9d37a2364780fb837c906479a'
+    census=json.loads(census_path.read_bytes());assert census['project_process_count']==35 and census['closure_errors']==[]
+    xml=record(OUT/'integration_v2_staged_tests.xml');tree=ET.fromstring(Path(xml['path']).read_bytes())
+    suites=list(tree) if tree.tag=='testsuites' else [tree]
+    assert sum(int(x.attrib.get('tests',0)) for x in suites)==109
+    assert sum(int(x.attrib.get(k,0)) for x in suites for k in ('failures','errors','skipped'))==0
+    candidate=json.loads((OUT/'INTEGRATION_V2_CANDIDATE_20260909.json').read_bytes())
+    bindings={};mapping=[]
+    for item in candidate['staged_project_files']:
+        staged=Path(item['path']);assert record(staged)==item
+        target=ROOT/staged.name;before=record(target)
+        retained=next(x for x in candidate['before_source'] if Path(x['path']).name==staged.name+'.txt')
+        assert before['sha256']==retained['sha256']
+        bindings[str(target)]=item['sha256'];mapping.append(dict(target=str(target),before_sha256=before['sha256'],after_sha256=item['sha256'],staged_source=item))
+    names=['oanda_joint_v3_ledger_status_observer_v2.py','oanda_joint_v3_ledger_observer_api_v2.py',
+        'oanda_joint_v3_ledger_status_observer_v1.py','oanda_joint_v3_ledger_observer_api_v1.py',
+        'oanda_immutable_summary_publication_v1.py','config/joint_v3_ledger_observer_api_v1_20260909.json',
+        'config/joint_v3_ledger_observer_api_v2_20260909.json','test_oanda_joint_v3_ledger_status_observer_v2.py',
+        'test_oanda_joint_v3_ledger_observer_retry_v2.py','test_oanda_joint_v3_ledger_observer_api_v2.py',
+        'oanda_always_on_supervisor.ps1','oanda_project_runtime_health.py']
+    for name in names:
+        item=record(ROOT/name);bindings[item['path']]=item['sha256']
+    evidence=[BASE/'OBSERVER_API_V2_IMPLEMENTATION_VALIDATION_20260909.json',
+        BASE/'OBSERVER_API_V2_INDEPENDENT_SOURCE_REVIEW_20260909.json',
+        OUT/'INTEGRATION_V2_CANDIDATE_20260909.json',Path(xml['path'])]
+    for path in evidence:
+        item=record(path);bindings[item['path']]=item['sha256']
+    value=dict(schema_version='joint_v3_observer_v2_dashboard_reload_specification_v1_20260909',
+        status='prepared_not_executed_requires_reviewed_application_first',runtime_census=census_record,
+        source_bindings=bindings,apply_mapping=mapping,expected_process_count=35,preserved_process_count=33,
+        preserved_supervisor_pid=37696,stop_dashboard_pids=[15408,14476],
+        restart_method='unchanged_existing_supervisor_normal_relaunch_only',
+        staged_test_evidence={**xml,'passed':109,'failures':0,'skips':0},orders_enabled=False,
+        model_registry_or_source_changes=False,automatic_rollback=False)
+    raw=(json.dumps(value,sort_keys=True,indent=2)+'\n').encode();path=OUT/'DASHBOARD_V2_RELOAD_SPECIFICATION_20260909.json'
+    with path.open('xb') as stream:stream.write(raw)
+    helper=OUT/'reload_dashboard_v2.ps1';source=helper.read_bytes()
+    assert source.count(b'SPECIFICATION_SHA_PENDING')==1
+    helper.write_bytes(source.replace(b'SPECIFICATION_SHA_PENDING',sha(raw).encode()))
+    print(json.dumps(dict(specification=record(path),helper=record(helper),runtime_actions=False)))
+
+
+if __name__=='__main__':run()

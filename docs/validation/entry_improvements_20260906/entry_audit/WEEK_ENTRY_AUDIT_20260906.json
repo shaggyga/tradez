@@ -1,0 +1,335 @@
+{
+  "schema_version": "independent_week_entry_audit_v1",
+  "generated_utc": "2026-09-06T19:16:22.265049+00:00",
+  "window_start_inclusive_utc": "2026-08-30T21:00:00+00:00",
+  "window_end_exclusive_utc": "2026-09-04T21:00:00+00:00",
+  "account_suffix": "-007",
+  "classification": "local_retained_execution_and_account_evidence",
+  "conclusion": "No position entries were recorded during the requested week; the executor ran, but candidates were blocked before order submission.",
+  "funnel": {
+    "exact_loop_cycles": null,
+    "exact_loop_cycles_reason": "Only sampled selection logs survive for the week; final saved heartbeat is Sep5 outside window.",
+    "sampled_selection_summaries": 6997,
+    "summaries_with_feed_candidates": 5589,
+    "feed_candidate_observations_across_summaries": 2440194,
+    "summaries_with_qualified_candidates": 960,
+    "qualified_candidate_observations_across_summaries": 1276,
+    "summaries_with_nonconflicting_qualified_candidates": 1,
+    "nonconflicting_qualified_observations_across_summaries": 1,
+    "logged_final_selection_skip_events": 6099,
+    "logged_direction_conflict_block_candidate_observations": 7972,
+    "logged_movement_to_cost_block_candidate_observations": 6,
+    "logged_distinct_direction_conflict_candidate_ids": 1386,
+    "logged_distinct_movement_to_cost_candidate_ids": 2,
+    "successful_signed_canary_consumptions_observed": 0,
+    "authorization_rejections_logged": 0,
+    "authorization_requests_exact": null,
+    "broker_order_outcome_events_logged": 0,
+    "week_accounting_submission_attributions": 0,
+    "position_entry_fills_observed": 0,
+    "counts_are_different_observation_granularities_not_a_unique_signal_conversion_rate": true
+  },
+  "account_crosscheck": {
+    "valid_current_week_snapshots": 510,
+    "unchanged_last_transaction_id": "2461",
+    "unchanged_balance_and_nav": 41.6042,
+    "valid_snapshot_before_week": {
+      "snapshot_id": "practice007_a6655e7b884942cb705bc4aed0c76c8a",
+      "observed_utc": "2026-08-30T20:49:42.379729+00:00",
+      "last_transaction_id": "2461",
+      "balance": 41.6042,
+      "nav": 41.6042,
+      "cumulative_pl": -8.343,
+      "open_trade_count": 0,
+      "pending_order_count": 0,
+      "is_valid": 1,
+      "snapshot_state": "current",
+      "reason": "current"
+    },
+    "valid_snapshot_after_week": {
+      "snapshot_id": "practice007_293fe9441ba38542573f4b7c72d1e4a2",
+      "observed_utc": "2026-09-04T21:07:29.033429+00:00",
+      "last_transaction_id": "2461",
+      "balance": 41.6042,
+      "nav": 41.6042,
+      "cumulative_pl": -8.343,
+      "open_trade_count": 0,
+      "pending_order_count": 0,
+      "is_valid": 1,
+      "snapshot_state": "current",
+      "reason": "current"
+    },
+    "latest_retained_order_submission_utc": "2026-08-04T03:47:47.751321+00:00",
+    "historical_fills_not_this_week": 33,
+    "in_window_no_submit_routeability_sentinels": [
+      {
+        "sentinel_date": "2026-08-31",
+        "observed_utc": "2026-08-31T00:08:28.243357+00:00",
+        "passed": 1,
+        "submission_attempted": 0
+      },
+      {
+        "sentinel_date": "2026-09-01",
+        "observed_utc": "2026-09-01T00:46:26.859317+00:00",
+        "passed": 1,
+        "submission_attempted": 0
+      },
+      {
+        "sentinel_date": "2026-09-02",
+        "observed_utc": "2026-09-02T00:06:34.128556+00:00",
+        "passed": 1,
+        "submission_attempted": 0
+      },
+      {
+        "sentinel_date": "2026-09-03",
+        "observed_utc": "2026-09-03T00:07:05.126063+00:00",
+        "passed": 1,
+        "submission_attempted": 0
+      },
+      {
+        "sentinel_date": "2026-09-04",
+        "observed_utc": "2026-09-04T00:00:41.041461+00:00",
+        "passed": 1,
+        "submission_attempted": 0
+      }
+    ],
+    "source_database": "data\\oanda_training_manager\\state\\governed_practice_accounting_v1.sqlite",
+    "source_database_sha256": "8a5880ac3dfb0525468b94e4e4d28afa0d95c8db6aab69895bcfd7ab465a4b15"
+  },
+  "runtime_evidence": {
+    "sessions_observed_in_window": 6,
+    "new_session_starts_in_window": 5,
+    "selection_first": "2026-08-30T21:00:49.082833+00:00",
+    "selection_last": "2026-09-04T20:59:02.402864+00:00",
+    "largest_selection_receipt_gaps": [
+      {
+        "previous_summary_utc": "2026-08-31T22:10:55.137339+00:00",
+        "next_summary_utc": "2026-09-01T00:37:26.635029+00:00",
+        "gap_sec": 8791.497689962387
+      },
+      {
+        "previous_summary_utc": "2026-09-02T13:53:06.270788+00:00",
+        "next_summary_utc": "2026-09-02T14:00:53.927214+00:00",
+        "gap_sec": 467.6564259529114
+      },
+      {
+        "previous_summary_utc": "2026-09-01T09:42:18.645552+00:00",
+        "next_summary_utc": "2026-09-01T09:43:44.789288+00:00",
+        "gap_sec": 86.1437361240387
+      },
+      {
+        "previous_summary_utc": "2026-09-02T14:16:04.003549+00:00",
+        "next_summary_utc": "2026-09-02T14:17:24.930146+00:00",
+        "gap_sec": 80.9265968799591
+      },
+      {
+        "previous_summary_utc": "2026-08-31T00:36:36.231560+00:00",
+        "next_summary_utc": "2026-08-31T00:37:55.208842+00:00",
+        "gap_sec": 78.97728204727173
+      }
+    ],
+    "feed_cache_states_sampled": {
+      "fresh": 6971,
+      "stale": 26
+    },
+    "price_stream_connections_logged": 36,
+    "price_stream_error_events": 32,
+    "price_stream_http_401_events": 2,
+    "executor_cycle_error_events": 2,
+    "note": "Session/activity receipts establish operation, not uninterrupted uptime. Gaps are observation gaps; missing opportunities cannot be quantified."
+  },
+  "gate_scope": {
+    "direction_rule": "Any opposite-direction contributor at the same preferred horizon of the same instrument marks the aggregate conflicted.",
+    "includes_zero_weight_shadow_or_failed_components": true,
+    "cross_horizon_opposition_directly_mixed": false,
+    "freshness": "Feed expiry and cache freshness limit incoming records. Semantic deduplication keys include direction, allowing opposite prior/current directions within TTL to coexist.",
+    "intended_scope_evidence": "Execution prefilter docstring explicitly retains research-only/timing/correlation/opposing rows for consensus and vetoes; filtered-weight exclusion does not remove rows from the raw conflict veto.",
+    "weekly_shadow_only_conflict_count": null,
+    "weekly_shadow_only_conflict_count_reason": "Archived logs lack full contributor lineage/eligibility/weight records; current added fields cannot be backfilled as historical proof.",
+    "authorization": "Five startup receipts show entry_authorized=false. Final saved authorization reports zero_confirmed_candidates. No consumption DB exists and no submission outcomes were logged.",
+    "recommendation": "Preserve execution gates. Register offline research to compare eligibility-aware conflict scope with complete contributor lineage and fixed decisions; do not bypass the veto to generate trades."
+  },
+  "exact_cost_examples": [
+    {
+      "time": "2026-09-01T14:59:37.807412+00:00",
+      "candidate": {
+        "detail": {
+          "applied": true,
+          "cost_gate_after_cost_pips": 0.7,
+          "gate": "multihour",
+          "gross_to_spread": 1.2414,
+          "horizon_sec": 21600,
+          "instant_projected_net_pips": 0.7,
+          "liquidity_quality": 0.85,
+          "max_spread_pips": 3.0,
+          "min_after_cost_pips": 1.0,
+          "min_confidence": 0.55,
+          "min_gross_to_spread": 2.0,
+          "min_liquidity_quality": 0.65,
+          "projected_gross_movement_pips": 3.6,
+          "projected_net_pips": 2.7438,
+          "signal_confidence": 0.557948,
+          "spread_pips": 2.9
+        },
+        "direction": "sell",
+        "id": "exec_signal_a0711b23909b6133c1d9bc8b8b8fac72de95d8ce",
+        "instrument": "CHF_JPY",
+        "reason": "multihour_movement_to_cost"
+      }
+    },
+    {
+      "time": "2026-09-02T11:16:36.057218+00:00",
+      "candidate": {
+        "detail": {
+          "applied": true,
+          "cost_gate_after_cost_pips": 0.5,
+          "gate": "multihour",
+          "gross_to_spread": 1.25,
+          "horizon_sec": 21600,
+          "instant_projected_net_pips": 0.5,
+          "liquidity_quality": 0.85,
+          "max_spread_pips": 3.0,
+          "min_after_cost_pips": 1.0,
+          "min_confidence": 0.55,
+          "min_gross_to_spread": 2.0,
+          "min_liquidity_quality": 0.65,
+          "projected_gross_movement_pips": 2.5,
+          "projected_net_pips": 2.7263,
+          "signal_confidence": 0.556202,
+          "spread_pips": 2.0
+        },
+        "direction": "buy",
+        "id": "exec_signal_69acb2af51b365ae46ba6c3b1925741b248011d3",
+        "instrument": "AUD_JPY",
+        "reason": "multihour_movement_to_cost"
+      }
+    },
+    {
+      "time": "2026-09-02T11:17:10.215640+00:00",
+      "candidate": {
+        "detail": {
+          "applied": true,
+          "cost_gate_after_cost_pips": 0.5,
+          "gate": "multihour",
+          "gross_to_spread": 1.25,
+          "horizon_sec": 21600,
+          "instant_projected_net_pips": 0.5,
+          "liquidity_quality": 0.85,
+          "max_spread_pips": 3.0,
+          "min_after_cost_pips": 1.0,
+          "min_confidence": 0.55,
+          "min_gross_to_spread": 2.0,
+          "min_liquidity_quality": 0.65,
+          "projected_gross_movement_pips": 2.5,
+          "projected_net_pips": 2.7263,
+          "signal_confidence": 0.556202,
+          "spread_pips": 2.0
+        },
+        "direction": "buy",
+        "id": "exec_signal_69acb2af51b365ae46ba6c3b1925741b248011d3",
+        "instrument": "AUD_JPY",
+        "reason": "multihour_movement_to_cost"
+      }
+    },
+    {
+      "time": "2026-09-02T11:17:21.563392+00:00",
+      "candidate": {
+        "detail": {
+          "applied": true,
+          "cost_gate_after_cost_pips": 0.4,
+          "gate": "multihour",
+          "gross_to_spread": 1.1905,
+          "horizon_sec": 21600,
+          "instant_projected_net_pips": 0.4,
+          "liquidity_quality": 0.85,
+          "max_spread_pips": 3.0,
+          "min_after_cost_pips": 1.0,
+          "min_confidence": 0.55,
+          "min_gross_to_spread": 2.0,
+          "min_liquidity_quality": 0.65,
+          "projected_gross_movement_pips": 2.5,
+          "projected_net_pips": 2.6625,
+          "signal_confidence": 0.555362,
+          "spread_pips": 2.1
+        },
+        "direction": "buy",
+        "id": "exec_signal_69acb2af51b365ae46ba6c3b1925741b248011d3",
+        "instrument": "AUD_JPY",
+        "reason": "multihour_movement_to_cost"
+      }
+    },
+    {
+      "time": "2026-09-02T11:17:44.700862+00:00",
+      "candidate": {
+        "detail": {
+          "applied": true,
+          "cost_gate_after_cost_pips": 0.4,
+          "gate": "multihour",
+          "gross_to_spread": 1.1905,
+          "horizon_sec": 21600,
+          "instant_projected_net_pips": 0.4,
+          "liquidity_quality": 0.85,
+          "max_spread_pips": 3.0,
+          "min_after_cost_pips": 1.0,
+          "min_confidence": 0.55,
+          "min_gross_to_spread": 2.0,
+          "min_liquidity_quality": 0.65,
+          "projected_gross_movement_pips": 2.5,
+          "projected_net_pips": 2.6625,
+          "signal_confidence": 0.555362,
+          "spread_pips": 2.1
+        },
+        "direction": "buy",
+        "id": "exec_signal_69acb2af51b365ae46ba6c3b1925741b248011d3",
+        "instrument": "AUD_JPY",
+        "reason": "multihour_movement_to_cost"
+      }
+    },
+    {
+      "time": "2026-09-02T11:17:56.152967+00:00",
+      "candidate": {
+        "detail": {
+          "applied": true,
+          "cost_gate_after_cost_pips": 0.4,
+          "gate": "multihour",
+          "gross_to_spread": 1.1905,
+          "horizon_sec": 21600,
+          "instant_projected_net_pips": 0.4,
+          "liquidity_quality": 0.85,
+          "max_spread_pips": 3.0,
+          "min_after_cost_pips": 1.0,
+          "min_confidence": 0.55,
+          "min_gross_to_spread": 2.0,
+          "min_liquidity_quality": 0.65,
+          "projected_gross_movement_pips": 2.5,
+          "projected_net_pips": 2.6625,
+          "signal_confidence": 0.555362,
+          "spread_pips": 2.1
+        },
+        "direction": "buy",
+        "id": "exec_signal_69acb2af51b365ae46ba6c3b1925741b248011d3",
+        "instrument": "AUD_JPY",
+        "reason": "multihour_movement_to_cost"
+      }
+    }
+  ],
+  "missing_improvements": [
+    "Cumulative run/cycle and candidate-stage counters with explicit sampled-versus-exact semantics; accepted local and shared-feed counts must be distinct.",
+    "Separate final conflict, portfolio, cost, authorization, order-attempt and fill reasons rather than calling all rejections no_nonconflicting_signal_capacity.",
+    "Capture immutable contributor IDs, issue/availability/expiry clocks, horizon, role, eligibility and execution weights for every conflict.",
+    "Off-line fixed comparison of current any-opposition veto against eligibility-aware and latest-version conflict definitions, with complete lineage and no live gate relaxation.",
+    "Monitor and explain receipt gaps, especially the 8791.5-second late-Aug31/early-Sep1 gap and 467.7-second Sep2 gap; reconstruct worker lifecycle where receipts exist.",
+    "Display recovered historical trade observations using original broker timestamps and label startup replay so they are not counted as new weekly trades.",
+    "Track signed-authorization readiness separately from executor process health; an enabled running executor is not permission to open a position."
+  ],
+  "limitations": [
+    "No broker endpoint or private credential was accessed; the no-entry finding is independently supported by retained order logs and unchanged bracketing transaction IDs.",
+    "No huge canonical outcome database, 2.8GB allocator database or multi-gigabyte log was scanned. Nine dated executor files totaling214,463,783bytes were inspected; accounting database is157,077,504bytes with only4323snapshot/38attribution rows.",
+    "Accounting reads used read-only immutable SQLite with no WAL present, explicit query_only and a bounded VM-step budget. No production files were written.",
+    "Signal observation counts repeat across summaries. The one sampled nonconflicting observation does not imply only one such event occurred; detailed skip logs preserve two distinct cost-blocked IDs.",
+    "These results do not demonstrate that relaxing gates would have been profitable, or that every blocked signal was economically invalid."
+  ],
+  "runtime_started": false,
+  "source_changed": false,
+  "broker_accessed": false
+}

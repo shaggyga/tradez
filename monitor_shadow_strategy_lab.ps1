@@ -155,6 +155,9 @@ while ((Get-Date) -lt $stopAt) {
             consolidated_signals = [int]$state.signal_snapshot.consolidated_signal_count
             qualified_signals = [int]$state.signal_snapshot.qualified_signal_count
             selected_signal = $state.signal_snapshot.selected
+            selected_signal_stage = [string]$state.signal_snapshot.selected_stage
+            selected_signal_final_gate_status = [string]$state.signal_snapshot.selected_final_gate_status
+            selected_signal_routable_after_direction_conflict_gate = [bool]$state.signal_snapshot.selected_routable_after_direction_conflict_gate
             top_signals = @(
                 $state.signal_snapshot.top_signals |
                     Select-Object -First 5 |

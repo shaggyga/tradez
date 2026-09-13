@@ -1,0 +1,491 @@
+{
+  "schema_version": "independent_comovement_arithmetic_verification_v1",
+  "generated_utc": "2026-09-06T15:44:10.285344+00:00",
+  "status": "all_consensus_average_correlation_alignment_and_gap_checks_match",
+  "inputs_sha256": {
+    "model_output_comovement.json": "e1db6fb10f8f9425e802cdc23b802446212960a071f4e3d3bc7791638c1258f7",
+    "currency_comovement.json": "a4cf4b6cf6b119668a46205893a73c30be84562ccb4945ab84ba60863feb6c91",
+    "captured_week_candles.json": "30ab415c3cf14068567f0260b817a21bceb939d596774479033e9ae0753e0102",
+    "independently_paired_endpoints.json": "885f05b0412d8579fea1d5dc3b429acd3db50b2fc2b7bb9fde87312ee847ed53",
+    "comovement_diagnostic.py": "8d920aaf538c60f2ca101f0a86eff548077d2a3a62dbe2e7760c754441338b0f"
+  },
+  "script_sha256": "6792eb46e3a4b7e393af4d544022f4dc54aa6c963b554ae9f5a9d974edc82589",
+  "method": "Standard-library arithmetic, correlations, independent interval membership checks and power-iteration PCA; no root helper imports or production reads.",
+  "model_comparison": {
+    "unanimous": {
+      "n": 40,
+      "hits": 9,
+      "direction_accuracy_flats_miss": 0.225,
+      "coverage": 0.10869565217391304
+    },
+    "three_or_four_agree": {
+      "n": 228,
+      "hits": 92,
+      "direction_accuracy_flats_miss": 0.40350877192982454,
+      "coverage": 0.6195652173913043
+    },
+    "two_two_ties": 140,
+    "mean_probability_brier": 0.29659768355680777,
+    "mean_signed_prediction_mae": 4.968263817255434,
+    "pairs": [
+      {
+        "families": [
+          "cross_pair_graph_transfer",
+          "modern_tabular_probabilistic_repaired"
+        ],
+        "probability_correlation": 0.08254693367881828,
+        "expected_move_correlation": 0.07232027065054887,
+        "probability_error_correlation": 0.8800182805904562,
+        "same_direction_count": 169,
+        "both_direction_correct_count": 66,
+        "both_direction_wrong_count": 103
+      },
+      {
+        "families": [
+          "cross_pair_graph_transfer",
+          "probabilistic_state_space"
+        ],
+        "probability_correlation": -0.18928888390737822,
+        "expected_move_correlation": -0.12671249115975108,
+        "probability_error_correlation": 0.7024406125771744,
+        "same_direction_count": 148,
+        "both_direction_correct_count": 56,
+        "both_direction_wrong_count": 92
+      },
+      {
+        "families": [
+          "cross_pair_graph_transfer",
+          "ridge_return_repaired"
+        ],
+        "probability_correlation": 0.617045925978652,
+        "expected_move_correlation": 0.333456228030901,
+        "probability_error_correlation": 0.9124735837600647,
+        "same_direction_count": 269,
+        "both_direction_correct_count": 110,
+        "both_direction_wrong_count": 159
+      },
+      {
+        "families": [
+          "modern_tabular_probabilistic_repaired",
+          "probabilistic_state_space"
+        ],
+        "probability_correlation": -0.10669054419106067,
+        "expected_move_correlation": 0.03394249354704545,
+        "probability_error_correlation": 0.8121262086550398,
+        "same_direction_count": 177,
+        "both_direction_correct_count": 80,
+        "both_direction_wrong_count": 97
+      },
+      {
+        "families": [
+          "modern_tabular_probabilistic_repaired",
+          "ridge_return_repaired"
+        ],
+        "probability_correlation": -0.005636032370551847,
+        "expected_move_correlation": 0.048256859413938466,
+        "probability_error_correlation": 0.8503739141008237,
+        "same_direction_count": 158,
+        "both_direction_correct_count": 64,
+        "both_direction_wrong_count": 94
+      },
+      {
+        "families": [
+          "probabilistic_state_space",
+          "ridge_return_repaired"
+        ],
+        "probability_correlation": -0.21165752007265243,
+        "expected_move_correlation": -0.21128079074554054,
+        "probability_error_correlation": 0.6739921261248624,
+        "same_direction_count": 163,
+        "both_direction_correct_count": 67,
+        "both_direction_wrong_count": 96
+      }
+    ]
+  },
+  "currency_comparison": {
+    "common_bars": 6904,
+    "actual_first_bar_utc": "2026-08-30T21:04:00+00:00",
+    "actual_last_bar_utc": "2026-09-04T20:59:00+00:00",
+    "gaps_between_common_bars": 164,
+    "missing_minutes_inside_gaps": 292,
+    "longest_gap_minutes": 9,
+    "continuous_segments": 165,
+    "matrices": {
+      "1": {
+        "n": 6739,
+        "correlation": [
+          [
+            1.0,
+            0.8397133869597999,
+            0.7474848727805571,
+            0.7005787247053542,
+            0.615157677095697,
+            0.8217365792356175,
+            0.6897313737336763
+          ],
+          [
+            0.8397133869597999,
+            1.0,
+            0.7262460724903893,
+            0.6734830717067353,
+            0.5626109529906731,
+            0.7557577865164133,
+            0.6448585268351382
+          ],
+          [
+            0.7474848727805571,
+            0.7262460724903893,
+            1.0,
+            0.7532014455484211,
+            0.5205306768343851,
+            0.6835654928616385,
+            0.6673213347255039
+          ],
+          [
+            0.7005787247053542,
+            0.6734830717067353,
+            0.7532014455484211,
+            1.0,
+            0.4916012120273821,
+            0.6660809862106812,
+            0.6087552062190942
+          ],
+          [
+            0.615157677095697,
+            0.5626109529906731,
+            0.5205306768343851,
+            0.4916012120273821,
+            1.0,
+            0.6002273580899009,
+            0.41598942178246023
+          ],
+          [
+            0.8217365792356175,
+            0.7557577865164133,
+            0.6835654928616385,
+            0.6660809862106812,
+            0.6002273580899009,
+            1.0,
+            0.6479232894102771
+          ],
+          [
+            0.6897313737336763,
+            0.6448585268351382,
+            0.6673213347255039,
+            0.6087552062190942,
+            0.41598942178246023,
+            0.6479232894102771,
+            1.0
+          ]
+        ],
+        "pc1_share": 0.7118751024194089,
+        "power_iteration_residual": 6.661338147750939e-16,
+        "power_iterations": 16
+      },
+      "60": {
+        "n": 87,
+        "correlation": [
+          [
+            1.0,
+            0.8167022600095967,
+            0.6100465543757828,
+            0.455936258325425,
+            0.40233836094051856,
+            0.7963647378272659,
+            0.6152948977330308
+          ],
+          [
+            0.8167022600095967,
+            1.0,
+            0.6052492796360448,
+            0.4743271272895033,
+            0.3475536968896752,
+            0.7120566935251523,
+            0.6118668004989641
+          ],
+          [
+            0.6100465543757828,
+            0.6052492796360448,
+            1.0,
+            0.7221279953298424,
+            0.35600417185663613,
+            0.6043358182333046,
+            0.5776625036540366
+          ],
+          [
+            0.455936258325425,
+            0.4743271272895033,
+            0.7221279953298424,
+            1.0,
+            0.2578305146284323,
+            0.5281770332691605,
+            0.5311870074872728
+          ],
+          [
+            0.40233836094051856,
+            0.3475536968896752,
+            0.35600417185663613,
+            0.2578305146284323,
+            1.0,
+            0.48293412775143096,
+            0.10595399123624007
+          ],
+          [
+            0.7963647378272659,
+            0.7120566935251523,
+            0.6043358182333046,
+            0.5281770332691605,
+            0.48293412775143096,
+            1.0,
+            0.6193654372053767
+          ],
+          [
+            0.6152948977330308,
+            0.6118668004989641,
+            0.5776625036540366,
+            0.5311870074872728,
+            0.10595399123624007,
+            0.6193654372053767,
+            1.0
+          ]
+        ],
+        "pc1_share": 0.6148629445221305,
+        "power_iteration_residual": 6.661338147750939e-16,
+        "power_iterations": 22
+      }
+    },
+    "maximum_matrix_cell_absolute_difference": 4.96269692007445e-14,
+    "lagged_correlations": [
+      {
+        "predictor_pair": "EUR_USD",
+        "past_minutes": 1,
+        "n": 87,
+        "correlation": 0.047622918021006655
+      },
+      {
+        "predictor_pair": "GBP_USD",
+        "past_minutes": 1,
+        "n": 87,
+        "correlation": -0.04382386273994819
+      },
+      {
+        "predictor_pair": "AUD_USD",
+        "past_minutes": 1,
+        "n": 87,
+        "correlation": 0.12284290880644151
+      },
+      {
+        "predictor_pair": "NZD_USD",
+        "past_minutes": 1,
+        "n": 87,
+        "correlation": 0.08205479790613796
+      },
+      {
+        "predictor_pair": "USD_JPY",
+        "past_minutes": 1,
+        "n": 87,
+        "correlation": 0.07709037704968752
+      },
+      {
+        "predictor_pair": "USD_CHF",
+        "past_minutes": 1,
+        "n": 87,
+        "correlation": 0.10370710196883834
+      },
+      {
+        "predictor_pair": "USD_CAD",
+        "past_minutes": 1,
+        "n": 87,
+        "correlation": 0.11454075396075226
+      },
+      {
+        "predictor_pair": "EUR_USD",
+        "past_minutes": 5,
+        "n": 87,
+        "correlation": 0.0560892188919941
+      },
+      {
+        "predictor_pair": "GBP_USD",
+        "past_minutes": 5,
+        "n": 87,
+        "correlation": -0.030271908711789374
+      },
+      {
+        "predictor_pair": "AUD_USD",
+        "past_minutes": 5,
+        "n": 87,
+        "correlation": 0.07163753465662961
+      },
+      {
+        "predictor_pair": "NZD_USD",
+        "past_minutes": 5,
+        "n": 87,
+        "correlation": 0.01598350635559114
+      },
+      {
+        "predictor_pair": "USD_JPY",
+        "past_minutes": 5,
+        "n": 87,
+        "correlation": 0.13685131825548405
+      },
+      {
+        "predictor_pair": "USD_CHF",
+        "past_minutes": 5,
+        "n": 87,
+        "correlation": 0.08687206792928517
+      },
+      {
+        "predictor_pair": "USD_CAD",
+        "past_minutes": 5,
+        "n": 87,
+        "correlation": -0.04217541757171743
+      },
+      {
+        "predictor_pair": "EUR_USD",
+        "past_minutes": 15,
+        "n": 84,
+        "correlation": 0.030443198908806618
+      },
+      {
+        "predictor_pair": "GBP_USD",
+        "past_minutes": 15,
+        "n": 84,
+        "correlation": -0.03884122412260333
+      },
+      {
+        "predictor_pair": "AUD_USD",
+        "past_minutes": 15,
+        "n": 84,
+        "correlation": 0.1772781538257794
+      },
+      {
+        "predictor_pair": "NZD_USD",
+        "past_minutes": 15,
+        "n": 84,
+        "correlation": 0.04734434515209406
+      },
+      {
+        "predictor_pair": "USD_JPY",
+        "past_minutes": 15,
+        "n": 84,
+        "correlation": 0.17323389703769235
+      },
+      {
+        "predictor_pair": "USD_CHF",
+        "past_minutes": 15,
+        "n": 84,
+        "correlation": 0.12017059963541735
+      },
+      {
+        "predictor_pair": "USD_CAD",
+        "past_minutes": 15,
+        "n": 84,
+        "correlation": -0.03608317155070012
+      },
+      {
+        "predictor_pair": "EUR_USD",
+        "past_minutes": 60,
+        "n": 77,
+        "correlation": -0.13723015092441565
+      },
+      {
+        "predictor_pair": "GBP_USD",
+        "past_minutes": 60,
+        "n": 77,
+        "correlation": -0.22238992755331274
+      },
+      {
+        "predictor_pair": "AUD_USD",
+        "past_minutes": 60,
+        "n": 77,
+        "correlation": -0.045177149039149773
+      },
+      {
+        "predictor_pair": "NZD_USD",
+        "past_minutes": 60,
+        "n": 77,
+        "correlation": -0.030418474091920767
+      },
+      {
+        "predictor_pair": "USD_JPY",
+        "past_minutes": 60,
+        "n": 77,
+        "correlation": -0.021340188967050915
+      },
+      {
+        "predictor_pair": "USD_CHF",
+        "past_minutes": 60,
+        "n": 77,
+        "correlation": -0.05156164967322196
+      },
+      {
+        "predictor_pair": "USD_CAD",
+        "past_minutes": 60,
+        "n": 77,
+        "correlation": -0.09073297180310524
+      },
+      {
+        "predictor_pair": "EUR_USD",
+        "past_minutes": 120,
+        "n": 68,
+        "correlation": -0.162716811207606
+      },
+      {
+        "predictor_pair": "GBP_USD",
+        "past_minutes": 120,
+        "n": 68,
+        "correlation": -0.2593497845231773
+      },
+      {
+        "predictor_pair": "AUD_USD",
+        "past_minutes": 120,
+        "n": 68,
+        "correlation": 0.008003768814208811
+      },
+      {
+        "predictor_pair": "NZD_USD",
+        "past_minutes": 120,
+        "n": 68,
+        "correlation": 0.051280351453342234
+      },
+      {
+        "predictor_pair": "USD_JPY",
+        "past_minutes": 120,
+        "n": 68,
+        "correlation": -0.019073495684539147
+      },
+      {
+        "predictor_pair": "USD_CHF",
+        "past_minutes": 120,
+        "n": 68,
+        "correlation": -0.053574394679318994
+      },
+      {
+        "predictor_pair": "USD_CAD",
+        "past_minutes": 120,
+        "n": 68,
+        "correlation": -0.0471813766784807
+      }
+    ],
+    "maximum_lagged_cell_absolute_difference": 1.7021800635674822e-13
+  },
+  "review_findings": [
+    "No arithmetic, sign-orientation, alignment, interval-boundary, gap-handling or consensus-count error found.",
+    "Positive orientations consistently mean non-USD appreciation: JPY/CHF/CAD are reciprocally oriented via negated USD-base log returns.",
+    "Return endpoints are completed M1 bar closes (bar starts plus 60 seconds), not observed-availability timestamps.",
+    "Hourly returns use UTC hour-end endpoints and cannot cross missing common bars; lead-lag cells additionally require uninterrupted entire past and future intervals.",
+    "Unanimous/three-or-four agreement subsets are descriptive emitted-direction slices. Equal probability and expected-return averages are different diagnostics."
+  ],
+  "limitations": [
+    "A common USD denominator and overlapping FX exposures can mechanically create shared movements; 71.19% PC1 share is descriptive standardized variance, not explained future EURUSD returns or independent information.",
+    "Simultaneous currency return correlation is not lead-lag predictive evidence. The fixed lead-lag table is also retrospective, has small hourly sample counts and no out-of-sample validation.",
+    "6,739 one-minute returns and 87 contiguous hourly returns are observations, not independent experimental trials. The common-bar selection drops missing intervals and may condition on availability.",
+    "The six-calendar-day window contains approximately five market days; Sunday before open is empty. Actual retained trading timestamps are reported explicitly.",
+    "Captured close-only JSON can verify arithmetic and alignment but cannot independently prove original CSV headers, quote completeness, exact original file consistency or historical data availability.",
+    "The models comparison retains known publication and endpoint-clock defects. Consensus scores do not establish realizable trade performance.",
+    "PCA uses the whole inspected window. Consensus and equal averages were inspected after observing data; no new model, weighting or threshold was trained or activated."
+  ],
+  "runtime_started": false,
+  "proof_eligible": false,
+  "account_eligible": false
+}

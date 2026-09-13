@@ -1,0 +1,109 @@
+{
+  "schema_version": "pair_local_ledger_evaluation_validation_v1_20260907",
+  "generated_utc": "2026-09-07T17:06:20.277382+00:00",
+  "status": "passed",
+  "source_frozen": true,
+  "source_bindings": [
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_causal_forecast_ledger_pair_v1.py",
+      "sha256": "acf83ef8a15c85465d493f9e614ca7153b28a9e4b4f4e5db7de9aed60c7e6cbb",
+      "bytes": 23666
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_fixed_forecast_evaluation_pair_v1.py",
+      "sha256": "aa3479f9ff94c3c74e159e40e008a2553ec8869d196a0ef53651fc521ac450bc",
+      "bytes": 30236
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_causal_forecast_ledger_pair_v1.py",
+      "sha256": "b9b9561234c65220937ccb9d668f84b1a18bfffb547bcba7215e97b3d0b1fbdb",
+      "bytes": 41235
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_fixed_forecast_evaluation_pair_v1.py",
+      "sha256": "13598898fd93b971be4c1d9f5251fc7fc27d779d5fb0c6131277e1147858c91c",
+      "bytes": 4647
+    }
+  ],
+  "preserved_original_sources": [
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_causal_forecast_ledger_eurusd_v1.py",
+      "sha256": "c3a085373f5f8f511db5148895b2ac21a57ca0d0464923cb40b5a43b3f61e108",
+      "bytes": 22946
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_fixed_forecast_evaluation_eurusd_v1.py",
+      "sha256": "15e08b984700b1d5bd22f0b77c0c2f6cefb06f48424eed6ad26ea0bbe58affb9",
+      "bytes": 27955
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_causal_forecast_inputs_eurusd_v1.py",
+      "sha256": "559cce99d33946708475bb39ee68b77f0d1fe1ae6d1edb435b3110b6f9cdd1e6",
+      "bytes": 8924
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_eurusd_local_models_v1.py",
+      "sha256": "8cd57cb20d26a220dcc1328b949d5e380d31e9d63ece12af743a010ac4b263d7",
+      "bytes": 8189
+    }
+  ],
+  "test_run": {
+    "tests": 490,
+    "failures": 0,
+    "errors": 0,
+    "duration_sec": 27.85,
+    "xml": "C:\\Users\\zmoor\\Documents\\forex\\pair_coverage_20260907\\ledger_tests\\pair_ledger_evaluation_final.xml",
+    "xml_sha256": "5bff13eb81b8b2153ff08ecb87076fcce3f5e61b1946c09d313c08d7dddee6e1"
+  },
+  "scope": "New per-pair two-family ledger and exact evaluator; fixture-only validation. No runtime or broker operation.",
+  "invariants": [
+    "Immutable separately activated registration and append-only evidence.",
+    "Registered instrument and exact pip metadata bound through protocol, source capture, computed result, reference quote, decision and every forecast.",
+    "Pips frozen from registry metadata, never inferred from pair name; supported .0001/.001/.01.",
+    "Observed capture <= computation < issuance; postcommit publication then independent consumer receipt.",
+    "Later executable quote entry and earliest target quote at original reference market time +3600 seconds.",
+    "Fixed M1/H1, 900-second cadence, 120-second build bound, 60-second quote/entry/target bounds and cost stresses [0,.5,1] bps.",
+    "Exact Decimal quote prices, midpoint anchors and scoring; finite numerical-model output converted using registered pip size.",
+    "Pair-local rolling baselines do not reuse labels from other instruments.",
+    "No orders, promotion, authorization, account eligibility or proof eligibility."
+  ],
+  "tested_pair_metadata": [
+    {
+      "instrument": "EUR_USD",
+      "pip_size": 0.0001
+    },
+    {
+      "instrument": "AUD_JPY",
+      "pip_size": 0.01
+    },
+    {
+      "instrument": "HKD_JPY",
+      "pip_size": 0.0001
+    },
+    {
+      "instrument": "USD_HUF",
+      "pip_size": 0.01
+    },
+    {
+      "instrument": "USD_THB",
+      "pip_size": 0.01
+    },
+    {
+      "instrument": "EUR_NOK",
+      "pip_size": 0.0001
+    }
+  ],
+  "independent_review": {
+    "reviewer": "/root/pair_model_inputs",
+    "findings_fixed": [
+      "Decision-level pair/pip metadata now validated, even when child records match.",
+      "Removed inherited claim that registered collection cannot use evaluator; evaluation alone does not attest registration."
+    ],
+    "review_of_peer_modules": "No blocking clock/horizon/instrument/pip issue found in new pair models and input adapter."
+  },
+  "limitations": [
+    "Model predictions remain uncalibrated research outputs; tests establish implementation behavior, not accuracy or profitability.",
+    "Fixtures do not establish successful future runtime collection or independent prospective outcomes.",
+    "Exactly zero expected model move preserves predecessor emitted +1 side convention; not changed by ledger."
+  ]
+}

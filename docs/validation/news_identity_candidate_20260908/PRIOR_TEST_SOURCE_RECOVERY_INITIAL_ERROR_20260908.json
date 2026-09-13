@@ -1,0 +1,7 @@
+{
+  "status": "initial_packaging_attempt_stopped_before_canonical_copy",
+  "reason": "The reconstructed prior test file had an extra final newline and failed exact comparison with the retained prior receipt SHA-256.",
+  "correction": "Remove the extra newline in the recovery helper; require the original retained hash to match before saving. Do not modify or rerun the original test receipt.",
+  "candidate_code_or_final_test_result_changed": false,
+  "runtime_changed": false
+}

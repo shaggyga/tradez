@@ -1,0 +1,120 @@
+{
+  "account_eligible": false,
+  "can_authorize": false,
+  "can_place_orders": false,
+  "can_promote": false,
+  "comparison_counts": {
+    "compact24_plus_ma643_ridge": {
+      "positive_mean_cost_cells": 1,
+      "test_MAE_better_than_compact": 0,
+      "test_MAE_better_than_zero": 0
+    },
+    "ma_causal643_ridge": {
+      "positive_mean_cost_cells": 1,
+      "test_MAE_better_than_compact": 0,
+      "test_MAE_better_than_zero": 0
+    }
+  },
+  "created_utc": "2026-09-09T06:08:54.413228+00:00",
+  "evidence": [
+    {
+      "bytes": 5233,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\ma_comparison_v1\\FROZEN_PRE_EVALUATION_DESIGN_20260909.json",
+      "sha256": "ea4990e2df3cf2e4e2147205cd2cfcde1744fe2331b4607b116e0215aec0799f"
+    },
+    {
+      "bytes": 4533,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\ma_comparison_v1\\COMPARISON_DESIGN_20260909.md",
+      "sha256": "0c2f849a0eba964283f7c0e2ba4e64f4e91a4b73e2fe0cca1a52a0343730be60"
+    },
+    {
+      "bytes": 3318,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\ma_comparison_v1\\comparison_initial_tests.xml",
+      "sha256": "fe0949431366a089e37d84205e0d21950a9c52fadb643abdd2c77f1e4abb0e02"
+    },
+    {
+      "bytes": 3626,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\ma_comparison_v1\\comparison_final_tests.xml",
+      "sha256": "818dc7fcae5f11d201a9553d643efaea9c40b19573bd29212e82005da9fdf6ca"
+    },
+    {
+      "bytes": 3779,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\ma_comparison_v1\\comparison_durable_final_tests.xml",
+      "sha256": "320312fca533a57a1cc65148494ec28a717772ae4a9880a51fcd5b8b0b3a6798"
+    },
+    {
+      "bytes": 2001,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\ma_comparison_v1\\MA_COMPARISON_INDEPENDENT_REVIEW_20260909.json",
+      "sha256": "700e80d00ec09ee8b165048d3bc7c4149cd178e0ddf6b295203f0d8d9cfe376b"
+    },
+    {
+      "bytes": 29375,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\ma_comparison_v1\\MA_COMPARISON_COMPACT_ASSESSMENT_20260909.json",
+      "sha256": "9156eed5b7b079b5a9209f543b17e454407526132e6860fb7b00dd536cd51b98"
+    },
+    {
+      "bytes": 6405,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\ma_comparison_v1\\MA_HISTORICAL_COMPARISON_20260909.md",
+      "sha256": "852b2be2ffb357bd5142e36ddd3822b1cdb2bc359e3385ce2fb5db60ca742572"
+    },
+    {
+      "bytes": 1815407,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\ma_comparison_v1\\actual_comparison_001\\MA_COMPARISON_REPORT.json",
+      "sha256": "135995495a07a83f42c0501d4a46ac9a0a7cbae98aad99f97b49cdcab51818df"
+    },
+    {
+      "bytes": 1787635,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\ma_comparison_v1\\actual_comparison_001\\PRE_TEST_SELECTIONS.json",
+      "sha256": "fb96b8588011b12eda95a3d84f4693360e0532498145f13ef9730bfedf1d608d"
+    },
+    {
+      "bytes": 48450872,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\ma_comparison_v1\\actual_comparison_001\\FINAL_TEST_PREDICTIONS.json",
+      "sha256": "c21212522426f4d56c175f952ff5c90ad21e4867fde76c3055894061264d2782"
+    },
+    {
+      "bytes": 314597,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\ma_comparison_v1\\actual_comparison_001\\FINAL_TEST_DATE_BLOCK_DIAGNOSTICS.json",
+      "sha256": "c7cc5da8e3b97454796f8a004de836dafa1e483dead9e8f4793a7bf03787a0e5"
+    },
+    {
+      "bytes": 176664,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\ma_history_audit\\MA_HISTORY_CAPTURE_20260909.json",
+      "sha256": "e5520b610bab5c305e37506dc3d0b568588b567491d00713027bbcbc0082f54d"
+    }
+  ],
+  "execution_eligible": false,
+  "final_test_runs": 1,
+  "final_tests": {
+    "cases": 24,
+    "errors": 0,
+    "failures": 0,
+    "passed": 24,
+    "skipped": 0
+  },
+  "forecast_issued": false,
+  "implementation": {
+    "bytes": 27150,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\ma_comparison_v1\\ma_historical_comparison_v1.py",
+    "sha256": "98a5a7f11c7030b42e8f26045b56e390239ae6921814c99fa379a7d4b44fed6b"
+  },
+  "independent_sample_size": null,
+  "intervals_unavailable": "fewer_than10_predeclared_test_dates",
+  "limits": "Implementation acceptance is not predictive acceptance. Negative held-out results retained; no post-test tuning or live activation.",
+  "proof_eligible": false,
+  "research_only": true,
+  "retrospective_availability_proven": false,
+  "schema_version": "ma_historical_comparison_validation_v1_20260909",
+  "sources": {
+    "oanda_ma_causal_features_v2.py": "55c830f8b78450f7f80d82d4e644ca1d30d294f77aa3e392a07e174deb387161",
+    "oanda_ma_feature_grid.py": "e8b277c78aee6431f945bc73ba9d6b1948e7ab0e11b370aa188891ff500b955c",
+    "oanda_pair_local_models_v2.py": "294c63bf0ed873395c4850a8722a2622eaa2bc563ceb7ecf9886764c63d8bf24"
+  },
+  "status": "passed_implementation_and_completed_negative_comparison",
+  "test_period_UTC_dates": 9,
+  "test_source": {
+    "bytes": 10570,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\ma_comparison_v1\\test_ma_historical_comparison_v1.py",
+    "sha256": "6c29ade9f97cda177ab355539768ed335a9e1445753ca3bfae5eaf4701e90bb9"
+  }
+}

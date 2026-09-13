@@ -1,0 +1,35 @@
+{
+  "can_place_orders": false,
+  "can_promote": false,
+  "closed_wording_finding": "Renamed optional metric to scored_bid_ask_cost_diagnostic and added target_tradeability_observed=false plus broker_execution_observed=false.",
+  "independent_tests_run": 0,
+  "integration_boundary": "Source-query attestation is caller verified against raw data; sealing supplied rows alone does not authenticate completeness or historical arrival.",
+  "observed_epoch": 1788931166.2807505,
+  "remaining_blockers": [],
+  "runtime_changes": false,
+  "schema_version": "native_curve_outcomes_independent_source_review_v1_20260909",
+  "scope": "Independent bounded source review; no test rerun",
+  "source_bindings": [
+    {
+      "bytes": 25149,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_native_curve_outcomes_v1.py",
+      "sha256": "aeb8885732dca3abc83a84309126e888d395a88ab348561cc9effb3bfc667d1e"
+    },
+    {
+      "bytes": 14090,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_native_curve_outcomes_v1.py",
+      "sha256": "f19e2a2e53f33e1861a0857277d7704c5a9797e5efe0b6c28263fe3f9a7411cb"
+    }
+  ],
+  "status": "passed",
+  "verified_properties": [
+    "Nominal exact and retained first-real0..7second target views remain separate and return the original observed endpoint/availability.",
+    "Source coverage must begin before nominal; incomplete target-domain coverage is distinct from no returned target bar and never filled.",
+    "All row availability equals original source-query completion and capture/scoring chronology is checked.",
+    "OfficialM versus BA-derived convention comes from the originally issued context; actual quote prices remain exact Decimal inputs.",
+    "Expired-at-issue/nonforecast nodes are excluded. View/horizon/convention/model/cohort denominators and strict-up Brier differ explicitly from nonzero directional accuracy.",
+    "Optional entry uses independent recent tradeable pricing evidence observed after consumption and before nominal target; its tick may predate publication but the original current-generation availability may not.",
+    "Target candle tradeability and actual broker execution are explicitly unobserved. Optional bid/ask-cost diagnostic does not claim a fill, management success or dollars.",
+    "Duplicate curve/node views reject and overlapping horizons/views are not counted as independent trials."
+  ]
+}

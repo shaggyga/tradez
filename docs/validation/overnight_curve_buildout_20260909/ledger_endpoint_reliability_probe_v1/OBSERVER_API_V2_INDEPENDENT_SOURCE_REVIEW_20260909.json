@@ -1,0 +1,67 @@
+{
+  "closed_findings": [
+    {
+      "closure": "New sticky _ObservationClock wraps the entire observe call including source reads, all attempts and aggregate completion; actual samples are returned without substitution. Between-pair/between-attempt and sticky-sample tests cover the closure.",
+      "finding": "Attempt-local wall-clock traces could miss a rollback between a first failure and retry, accepting recovered observation earlier than the retained failure.",
+      "reviewed_source_sha256": "1a8b4c68377bb27314e018063a70725d645d5cd4183ffa55c5f61145e257178a"
+    }
+  ],
+  "limitations": [
+    "No independent pytest rerun, database read, HTTP call, candidate observation, production activation, or live source edit was performed for this review.",
+    "The completed old-source probe establishes recurring failures, not a demonstrated V2 recovery gain or CPU/lock causality.",
+    "Eight seconds bounds ledger scheduling/queries; mandatory source/envelope verification and synchronous platform operations are separately observed, not a universal hard cancellation guarantee."
+  ],
+  "orders_enabled": false,
+  "owner_test_evidence": {
+    "bytes": 17988,
+    "collected": 106,
+    "failed": 0,
+    "independently_rerun": false,
+    "passed": 105,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ledger_endpoint_reliability_probe_v1\\observer_api_v2_wall_continuity_tests.xml",
+    "sha256": "41d3c9f618f8ceb5c8ac6e5f9b64e92d459f674ee34f7ace19a925c4c0a4f5cb",
+    "skipped": 1
+  },
+  "registered_model_sources_changed": false,
+  "remaining_blockers": [],
+  "review_scope": [
+    "Read-only scheduling, source closure, failure classification, original identity verification and API cache/consumer boundaries.",
+    "AST comparison independently confirmed all original observer helpers unchanged except observe_joint_v3, and all API function/class ASTs unchanged.",
+    "Full sorted first pass uses 0.25 seconds per pair; at most one 0.5-second retry inside the same original eight-second ledger budget; no retry of unvisited/missing-publication/integrity failures.",
+    "SQLite BUSY/LOCKED require valid clocks and numeric primary code, while INTERRUPT and public pair-budget failures also require actual assigned deadline expiry. Unknown or integrity-related SQLite codes remain final failures.",
+    "Original first failure and attempt clocks remain explicit after a new read-only transaction succeeds; no failed row or historical forecast is promoted by rereading.",
+    "Native targets expire at actual aggregate completion and recovered ledgers without publication do not count as recovered forecasts.",
+    "The new report is capped at two MiB, retains current read observations, and uses distinct V2 source/spec/report/API identities. API refresh/cache/expiry behavior remains unchanged."
+  ],
+  "reviewed_epoch": 1788949003.3986266,
+  "runtime_mutated": false,
+  "schema_version": "observer_api_v2_independent_source_review_v1_20260909",
+  "source_evidence": [
+    {
+      "bytes": 31711,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_joint_v3_ledger_status_observer_v2.py",
+      "sha256": "1a8b4c68377bb27314e018063a70725d645d5cd4183ffa55c5f61145e257178a"
+    },
+    {
+      "bytes": 15665,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_joint_v3_ledger_observer_api_v2.py",
+      "sha256": "4bb54249ba244f73067aef4710f3e8eaa2c78261ee2d9b68fdab8c76fc9c3e9f"
+    },
+    {
+      "bytes": 16936,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_joint_v3_ledger_status_observer_v2.py",
+      "sha256": "54a1ee2274b29395cd1f3c976dd4059921fd5e9122a5c54750fe83328a1ce2af"
+    },
+    {
+      "bytes": 18382,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_joint_v3_ledger_observer_retry_v2.py",
+      "sha256": "5de9155e5f4949fb556ec2754c61f730d269a6107d7083a30089568288abcef4"
+    },
+    {
+      "bytes": 16167,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_joint_v3_ledger_observer_api_v2.py",
+      "sha256": "f140512531f8a33f05e115a193f90bd8db9a946f316723efc83e70b4feac28f4"
+    }
+  ],
+  "status": "passed"
+}

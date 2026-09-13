@@ -1,0 +1,70 @@
+{
+  "can_place_orders": false,
+  "can_promote": false,
+  "closed_findings": [
+    "Parent corrected dict-unpack syntax and exact decision_quote_refusal DTO; bounded registry read uses reviewed immutable reader; fractional-clock integration binds final compatibility."
+  ],
+  "created_utc": "2026-09-09T06:35:41.613198+00:00",
+  "independent_tests_run": 0,
+  "parent_test_xml": {
+    "bytes": 3362,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\replay\\observed_management_worker_fractional_integration_tests.xml",
+    "sha256": "75525380472ea2ee4c05a8935908839451b3065383821e8832b5b977cf338ee5"
+  },
+  "remaining_blockers": [],
+  "research_only": true,
+  "runtime_changes": false,
+  "schema_version": "observed_management_worker_independent_review_v1_20260909",
+  "scope": "Bounded independent source review only. Parent test execution is separately bound; no independent test rerun or runtime action.",
+  "scope_limits": [
+    "Main may continue to later separately named predeclared episodes after a failed episode. Any unresolved prior position remains separate and must not be presented as a single reset or continuously flat account.",
+    "Virtual bid/ask/slippage accounting is not a broker fill, verified account size or profitability proof."
+  ],
+  "source_bindings": [
+    {
+      "bytes": 18317,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_observed_curve_management_worker_v1.py",
+      "sha256": "ff80c9cba063c1a77f1250932fe65c1843a1ebfd51e1ca4ac785efe50b252716"
+    },
+    {
+      "bytes": 10766,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_observed_curve_management_worker_v1.py",
+      "sha256": "7ae05b9ecd69d8d1b25ca4952f7816982ddc0a99b051a9681ecf8aeb3e848f6c"
+    },
+    {
+      "bytes": 7212,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_observed_management_io_v1.py",
+      "sha256": "ade841191d6aeec92d6869dea374edf32494ed8bbe0339792d58787b6d9d2724"
+    },
+    {
+      "bytes": 28540,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_observed_curve_management_v1.py",
+      "sha256": "a6c8013af59b45ac958065010f26289e7ddfc6196ac88e32976b545c1496579b"
+    },
+    {
+      "bytes": 49616,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_curve_management_replay_v1.py",
+      "sha256": "52fd04c6b087df4be775e490002afd0744caeb245604b8f577ab0fcff41de8f3"
+    },
+    {
+      "bytes": 9513,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_curve_management_adapter_v1.py",
+      "sha256": "8fa6cccf1e2525d0186ab7abe0c68fccc4800db7b785a8b9f79f28c320ad1241"
+    },
+    {
+      "bytes": 8015,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_curve_momentum_observation_v1.py",
+      "sha256": "68620596eaed34d1d3a5859a04aac40c4c7e9ae23b974b7fe38c55c0cfc8ea65"
+    }
+  ],
+  "status": "passed",
+  "verified_properties": [
+    "Three hourly nominal episodes predeclared before selection; fixed GBPUSD official-M admitted native-H1 anchor chosen from newest valid source without outcomes or score ranking.",
+    "One initial curve remains fixed through an episode; current momentum reads the latest verified source with explicit cutoff/age refusals.",
+    "Information cutoff follows actual source and quote reads; all arm choices complete before plan-created clock; durable exclusive plan write precedes later quote reads and settlement.",
+    "Actual settlement computation clock advances known state; scheduling refuses future, late or off-grid decisions and does not backdate observations.",
+    "Terminal quote absence is explicit; exit still needs observed eligible quote. Missing quote or ambiguous publication preserves unresolved positions rather than asserting flat.",
+    "Source closure binds full frozen pilot plus new modules, immutable replay/USD/legacy arithmetic, separate five-arm states and fixed costs/notional.",
+    "Worker performs only bounded local evidence I/O; no GET, account request, order placement or running-collector changes."
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "requested_utc": "2026-09-06T19:55:43.478255Z",
+  "reason": "Reload tested collection-status dashboard code; supervisor and collection workers remain running.",
+  "supervisor_pid": 14508,
+  "before": [
+    {
+      "pid": 5220,
+      "parent_pid": 14508,
+      "created_utc": "2026-09-06T19:53:00.736767Z"
+    },
+    {
+      "pid": 41728,
+      "parent_pid": 5220,
+      "created_utc": "2026-09-06T19:53:00.792437Z"
+    }
+  ],
+  "dashboard_source_sha256": "50f737a158bbd5231a8f6e11214e1d297d1b944f409f675d03427abda88e7441",
+  "expected_recovery": "Existing supervisor relaunches only live_dashboard on its next check.",
+  "stopped_pids": [
+    5220,
+    41728
+  ],
+  "stopped_utc": "2026-09-06T19:55:43.5347284Z",
+  "after": [
+    {
+      "pid": 11100,
+      "parent_pid": 14508,
+      "created_utc": "2026-09-06T19:56:05.3864670Z"
+    },
+    {
+      "pid": 39316,
+      "parent_pid": 11100,
+      "created_utc": "2026-09-06T19:56:05.4435390Z"
+    }
+  ],
+  "recovery_observed_utc": "2026-09-06T19:56:14.5510667Z"
+}

@@ -1,0 +1,100 @@
+from copy import deepcopy
+import hashlib
+import importlib.util
+from pathlib import Path
+import pytest
+
+spec=importlib.util.spec_from_file_location('summary',Path(__file__).with_name('summarize_completed_news_clock_v1.py'))
+m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+
+
+def fixture():
+    begin=m.END-2
+    start=dict(schema_version='news_clock_passive_observer_v2_20260909',started_epoch=begin,fixed_end_epoch=m.END,maximum_duration_sec=2,max_samples=3,observer_sha256=m.SOURCE_SHA,registry_sha256=m.REGISTRY_SHA,GET=False,runtime_writes=False)
+    rows=[];counts={};transitions=[]
+    for i in range(2):
+        a=begin+i;files={}
+        for k in m.KINDS:
+            read=dict(read_started_epoch=a+.01,read_completed_epoch=a+.02,sha256='a'*64,bytes=20)
+            ins=dict(clock_fields=[])
+            if k!='repaired_heartbeat':ins['validation']={'status':'passed'};state='passed'
+            else:ins.update(status='current',errors=5,last_error_code=None);state='current'
+            files[k]=dict(read=read,private_source={'sha256':'a'*64},inspection=ins);counts[k+':'+state]=counts.get(k+':'+state,0)+1
+        rows.append(dict(index=i,started_epoch=a,completed_epoch=a+.1,files=files))
+    transitions=[dict(sample=0,read=rows[0]['files']['repaired_heartbeat']['read'],status='current',errors=5,last_error_code=None)]
+    result=dict(schema_version='news_clock_passive_observer_result_v2_20260909',status='completed',started_epoch=begin,completed_epoch=m.END,fixed_end_epoch=m.END,maximum_duration_sec=2,observed_duration_sec=2,sample_count=2,observer_sha256=m.SOURCE_SHA,registry_sha256=m.REGISTRY_SHA,all_registered_sources_unchanged=True,GET=False,runtime_writes=False,sanitized_samples_sha256='b'*64,counts=counts,invalid_epoch_fields=[],producer_status_transitions=transitions,db_diagnostic_attempted=False,db_diagnostic=None,private_bytes=100,unique_private_versions=3,limitations=['Original polling limit.'])
+    return start,result,rows
+
+
+def run(args):return m.summarize(*args,sample_sha='b'*64,computed_epoch=m.END+1)
+
+
+def test_complete_exact_reconciliation():
+    out=run(fixture());assert out['sample_count']==2;assert out['producer_error_first']==out['producer_error_last']==5;assert out['unique_source_versions']==dict.fromkeys(m.KINDS,1);assert out['GET'] is False
+
+
+@pytest.mark.parametrize('field,value',[('status','stopped_on_boundary'),('observer_sha256','x'),('registry_sha256','x'),('all_registered_sources_unchanged',False),('GET',True),('runtime_writes',True),('completed_epoch',m.END-3),('fixed_end_epoch',m.END+1),('sample_count',3),('sanitized_samples_sha256','c'*64)])
+def test_bad_result_rejected(field,value):
+    args=fixture();args[1][field]=value
+    with pytest.raises(ValueError):run(args)
+
+
+@pytest.mark.parametrize('mutate',[
+ lambda a:a[2][1].update(index=0),
+ lambda a:a[2][1].update(started_epoch=m.END),
+ lambda a:a[2][1].update(started_epoch=m.END-3),
+ lambda a:a[2][0]['files']['clock_state']['read'].update(read_completed_epoch=m.END),
+ lambda a:a[2][0]['files']['clock_state']['private_source'].update(sha256='x'),
+ lambda a:a[1]['counts'].update({'clock_state:passed':1}),
+ lambda a:a[1]['producer_status_transitions'][0].update(errors=9),
+ lambda a:a[1].update(invalid_epoch_fields=[{}]),
+ lambda a:a[1].update(db_diagnostic_attempted=True),
+])
+def test_log_adversaries_rejected(mutate):
+    args=deepcopy(fixture());mutate(args)
+    with pytest.raises(ValueError):run(args)
+
+
+@pytest.mark.parametrize('clock',[True,float('nan'),float('inf'),0,m.END-1])
+def test_summary_clock_rejected(clock):
+    with pytest.raises(ValueError):m.summarize(*fixture(),sample_sha='b'*64,computed_epoch=clock)
+
+
+def test_rejection_and_invalid_optional_field_are_not_healthy_or_clock_drift():
+    a=fixture();v=a[2][0]['files']['clock_state'];v['inspection']['validation']={'status':'rejected','reason_code':'news_clock_state'}
+    field={'path':'optional_clock','type':'NoneType','status':'invalid'};v['inspection']['clock_fields']=[field]
+    a[1]['counts']['clock_state:passed']=1;a[1]['counts']['clock_state:rejected']=1
+    a[1]['invalid_epoch_fields']=[dict(sample=0,kind='clock_state',read_completed_epoch=v['read']['read_completed_epoch'],source_sha256='a'*64,field=field)]
+    out=run(a);assert out['rejection_reasons']=={'clock_state:news_clock_state':1};assert out['invalid_epoch_field_count']==1;assert out['longest_observed_noncurrent_runs']['clock_state']['samples']==1;assert out['original_monotonic_budget_sec']==2
+
+
+def test_raw_private_payload_never_copied():
+    a=fixture();a[2][0]['files']['clock_state']['private_source']['raw']='private text'
+    out=run(a);assert 'private text' not in repr(out)
+
+
+def test_read_bound_rejects_large_and_accepts_exact(tmp_path):
+    p=tmp_path/'x.json';p.write_bytes(b'abcd');assert m.read_bound(p,4)==b'abcd'
+    with pytest.raises(ValueError,match='bound'):m.read_bound(p,3)
+
+def test_actual_summary_completion_retains_start_and_source():
+    v=run(fixture());out=m.finalize_summary_clocks(v,began=m.END,completed=m.END+2,own_before=b'code',own_after=b'code')
+    assert out['summary_started_epoch']==m.END and out['summary_processing_started_epoch']==m.END+1 and out['summary_computed_epoch']==m.END+2
+    assert out['summary_source_sha256']==m.sha(b'code') and 'summary_started_epoch' not in v
+
+@pytest.mark.parametrize('began,completed,before,after',[
+ (True,m.END+2,b'code',b'code'),(m.END,float('nan'),b'code',b'code'),
+ (m.END,m.END+.5,b'code',b'code'),(m.END+2,m.END+3,b'code',b'code'),
+ (m.END,m.END+2,b'code',b'changed'),(m.END,m.END+2,'code','code')])
+def test_completion_and_own_source_anomalies_reject(began,completed,before,after):
+    with pytest.raises(ValueError):m.finalize_summary_clocks(run(fixture()),began=began,completed=completed,own_before=before,own_after=after)
+
+
+def test_original_monotonic_budget_stops_before_wall_without_retimestamp():
+    a=fixture();a[1]['completed_epoch']=m.END-.1;a[1]['observed_duration_sec']=2.1
+    out=run(a);assert out['observation_completed_epoch']==m.END-.1 and out['termination_boundary']=='original_monotonic_budget'
+
+@pytest.mark.parametrize('duration,observed',[(2,1.9),(2.1,2.2)])
+def test_early_stop_without_original_budget_or_rebound_duration_rejected(duration,observed):
+    a=fixture();a[1]['completed_epoch']=m.END-.1;a[1]['maximum_duration_sec']=duration;a[1]['observed_duration_sec']=observed
+    with pytest.raises(ValueError):run(a)

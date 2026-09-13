@@ -1,0 +1,84 @@
+{
+  "schema_version": "forex_project_integrity_history_rotation_validation_v1",
+  "generated_utc": "2026-09-02T09:24:00Z",
+  "status": "validated",
+  "defect": {
+    "summary": "The complete project-integrity payload was appended every five minutes to one unrotated JSONL file.",
+    "observed_active_history_bytes": 2226255846,
+    "observed_active_history_gib": 2.0734,
+    "record_count": 5931,
+    "risk": "Unbounded high-duplication log growth could consume storage even though the existing verified archiver only accepts rotated part files.",
+    "evidence_deleted_without_verification": false
+  },
+  "repair": {
+    "active_history_rotation_bytes": 67108864,
+    "rotation_method": "same-directory atomic rename to project_integrity_audit_v1.part_<utc>_<pid>.jsonl under publication ownership",
+    "archiver_contract": "gzip round-trip plus original byte count and SHA-256 verification before raw-part removal",
+    "raw_retention_hours": 6,
+    "verified_archive_batch_gib": 4,
+    "archive_interval_sec": 21600,
+    "automatic_evidence_deletion": false,
+    "automatic_vacuum": false
+  },
+  "source_receipts": [
+    {
+      "path": "oanda_project_integrity_audit.py",
+      "bytes": 286081,
+      "sha256": "sha256:2d4ccb96588d8cab0f8543062105f2f9143a580b29d1c1a6bfc8691ae1d1fc36"
+    },
+    {
+      "path": "oanda_always_on_supervisor.ps1",
+      "bytes": 180593,
+      "sha256": "sha256:d423bcea0ead6bb4289be4140c231104be8ece7fd370cf57b674f1dd823994ef"
+    },
+    {
+      "path": "test_oanda_project_integrity_audit.py",
+      "bytes": 116276,
+      "sha256": "sha256:1da98e0a342fbb129f0e9026ef8a5ca153326c068e9e01da03b2fb3e3611eb23"
+    },
+    {
+      "path": "test_oanda_supervisor_integrity_freshness.py",
+      "bytes": 6187,
+      "sha256": "sha256:bc02622202b148d4c90b2d0a5c8fedda58ffdd09a28a18681372d3a7bb0067e5"
+    }
+  ],
+  "archive_receipt": {
+    "manifest_path": "data/oanda_training_manager/logs/project_integrity_audit_v1.part_20260902T091544_278375Z_030032.jsonl.gz.manifest.json",
+    "manifest_sha256": "sha256:0e67fec9df0295a1d52efe04065b2f342cef30a211b931359e9858b20ea7c5a9",
+    "original_bytes": 2226255846,
+    "original_sha256": "sha256:c9c0c31ff7a273721576ad5093c7d83b6538c80d3861ffbc1a7ee179773e64b1",
+    "compressed_bytes": 217482001,
+    "compressed_sha256": "sha256:d56b11c09d375600e9be19d8fb2ea6252cbfceddf3d5150f2c7308197627db3a",
+    "round_trip_verified": true,
+    "recoverable_with": "gzip",
+    "raw_part_removed_after_verification": true,
+    "reclaimed_bytes": 2008773071
+  },
+  "runtime_receipts": {
+    "active_history_bytes_after_rotation": 51856282,
+    "free_disk_gib_after_verified_archive": 126.946,
+    "project_integrity_status": "ok",
+    "project_integrity_failures": 0,
+    "project_integrity_publication_latency_sec": 26.55,
+    "supervisor_reloaded_hidden": true,
+    "existing_collectors_adopted": true,
+    "duplicate_executor_created": false
+  },
+  "validation": {
+    "focused_tests_passed": 72,
+    "rotation_byte_preservation_test": "passed",
+    "owned_publication_rotation_test": "passed",
+    "archive_round_trip_test": "passed_live",
+    "archive_manifest_hash_matches_file": true,
+    "raw_archive_hash_preserved_in_manifest": true
+  },
+  "safety": {
+    "practice_account": "101-001-37981792-007",
+    "manual_orders_submitted": 0,
+    "manual_closes_submitted": 0,
+    "proof_thresholds_loosened": false,
+    "authorization_gates_bypassed": false,
+    "real_money_enabled": false,
+    "codex_automation_created": false
+  }
+}

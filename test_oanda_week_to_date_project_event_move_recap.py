@@ -423,6 +423,32 @@ def test_collector_log_fallback_recovers_both_coverage_summaries_before_cutoff(
     assert central["payload"]["non_event_structural_snapshot"] is False
 
 
+def test_mutable_snapshot_cannot_cross_cutoff_via_stale_as_of_clock(
+    tmp_path: Path,
+) -> None:
+    path = tmp_path / "coverage.json"
+    path.write_text(
+        json.dumps(
+            {
+                "as_of_utc": "2026-08-14T12:05:00Z",
+                "generated_utc": "2026-09-04T14:36:00Z",
+                "currency_summary": {"configured_complete": 0},
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    snapshot = recap.capture_json_snapshot(
+        path,
+        dt.datetime(2026, 9, 4, 14, 31, 30, tzinfo=UTC),
+    )
+
+    assert snapshot["available"] is False
+    assert snapshot["cutoff_state"] == "excluded_after_cutoff"
+    assert snapshot["state_clock_utc"] == "2026-09-04T14:36:00+00:00"
+    assert snapshot["payload"] == {}
+
+
 def test_composition_is_dynamic_and_preserves_strict_distinctions():
     cutoff = dt.datetime(2026, 8, 27, 9, tzinfo=UTC)
     report = recap.compose_report(

@@ -1,0 +1,27 @@
+{
+  "schema_version": "joint_news_v3_producer_independent_review_v1_20260908",
+  "status": "passed",
+  "observed_utc": "2026-09-08T20:09:40.0567277+00:00",
+  "source_bindings": {
+    "oanda_local_news_sentiment_repair_v1.py": "c2fbad7c290ce1edaa977e99988ab563a2afc6571dc456271e45bde3ca7b2b6b",
+    "oanda_news_topic_identity_reconciliation_v1.py": "d34b0c72693497e9be6eadc86bd17f0a2c1c1b79ecf010928faf88a5033a7884"
+  },
+  "review_kind": "Read-only independent source review, including final clock/source-change hardening; no independent test rerun",
+  "remaining_blockers": [],
+  "findings": [
+    "Count and full ordered eligible selection occur within one query-only SQLite transaction. No LIMIT or partial tail is accepted; last24h covers the unchanged current-topic maximum1440-minute publication window. Unknown publication clocks and incomplete or over-cap inputs fail closed.",
+    "Retained raw payload and row hashes permit deterministic replay. Canonical original first-seen is restored from retained DB columns exactly as the frozen collector loader; member expiry is never renewed by this observation.",
+    "Original singleton and duplicate-topic guards are replayed. Exact duplicates across compatible variants may collapse; conflicting member content, incompatible full-topic metadata and repeated member identities within an input cannot gain support through reconciliation.",
+    "Each upstream heartbeat and clock wrapper must be current. Original broker source age must also be independently nonnegative and totalage<=90; external HTTPS evidence is independently aged. Previously future broker quotes cannot be rehabilitated by elapsed wrapper time.",
+    "The producer computes the sole deterministic replay before sampling generated time and rechecks semantic source bytes before assembly. Snapshot publication and its heartbeat use distinct actual boundaries.",
+    "Four-generation immutable replay cache checks full payload hash and exact seven-source closure before reuse; callers retain their own current freshness/consumer checks.",
+    "Atomic output failure cannot produce a claimed-current heartbeat; no existing output, source governance DB, classifier or trading control is mutated."
+  ],
+  "clock_precision_note": "database_snapshot_epoch records the read-start lower bound sampled before BEGIN/first read, not exact SQLite snapshot acquisition. Read completion and subsequent consumer availability remain separate actual clocks.",
+  "source_closure_count": 7,
+  "worker_closure_count": 20,
+  "independent_tests_run": 0,
+  "production_writes": false,
+  "process_actions": false,
+  "can_place_orders": false
+}

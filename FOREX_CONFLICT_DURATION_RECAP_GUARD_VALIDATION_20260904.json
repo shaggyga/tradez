@@ -1,0 +1,111 @@
+{
+  "schema_version": "forex_validation_receipt_v1",
+  "generated_utc": "2026-09-04T20:32:00Z",
+  "repair_id": "FX-20260904-CONFLICT-DURATION-RECAP-GUARD",
+  "scope": "research-only news semantic classification and downstream watchlist lineage",
+  "finding": {
+    "headline": "Trump calls Iran conflict 'small potatoes' as war enters seventh month - Moneycontrol.com",
+    "source_id": "google_news_global_risk",
+    "first_seen_utc": "2026-09-04T20:08:37.750739+00:00",
+    "prior_classification_version": "local_fx_news_rules_20260904_v163_opposing_policy_claim_guard",
+    "prior_risk_off_score": 0.75,
+    "prior_currency_factor_count": 9,
+    "prior_directional_publish_eligible": false,
+    "prior_execution_eligible": false,
+    "root_cause": "A secondary headline describing conflict duration matched escalation vocabulary even though it did not establish a newly observed action."
+  },
+  "repair": {
+    "classification_version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+    "watchlist_cohort_id": "news_technical_watchlist_v49_conflict_duration_recap_guard_20260904",
+    "contract_id": "secondary_conflict_duration_recap_guard_v1_20260904",
+    "prospective_cohort_id": "secondary_conflict_duration_recap_guard_v1_prospective_20260904T202500Z",
+    "activated_utc": "2026-09-04T20:25:00+00:00",
+    "rule": "A nonofficial headline saying a war or conflict enters an ordinal month or year is retrospective context; genuinely new strikes, attacks, sanctions, mobilizations and other explicit actions retain the ordinary event path.",
+    "historical_import_count": 0,
+    "historical_proof_credit": 0,
+    "practice_orders_affected": 0,
+    "real_money_enabled": false
+  },
+  "reclassified_fixture": {
+    "classification_version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+    "secondary_conflict_duration_recap": true,
+    "reports_prior_market_move": true,
+    "risk_off_score": 0.0,
+    "risk_on_score": 0.0,
+    "currency_scores": {},
+    "context_only": true,
+    "context_reason": "secondary_conflict_duration_recap_not_fresh_catalyst",
+    "directional_publish_eligible": false,
+    "activation_eligible": false
+  },
+  "clean_live_cycle": {
+    "started_utc": "2026-09-04T20:20:08.233699+00:00",
+    "completed_utc": "2026-09-04T20:30:43.223343+00:00",
+    "configured_sources": 192,
+    "completed_sources": 192,
+    "attempted_sources": 103,
+    "inserted_items": 13,
+    "duplicate_items": 1267,
+    "candidate_rows": 5000,
+    "processed_rows": 5000,
+    "reclassified_rows": 5598,
+    "published_relevant_items": 3003,
+    "relevant_items": 7990,
+    "context_items": 57266,
+    "pruned_rows": 0,
+    "watchlist_status": "ok",
+    "watchlist_currency_factor_count": 0,
+    "watchlist_negative_quote_age_count": 0,
+    "supervisor_count": 1,
+    "watchdog_count": 1
+  },
+  "validation": {
+    "python_compile": "passed",
+    "powershell_parse": "passed",
+    "news_tests_passed": 496,
+    "watchlist_tests_passed": 46,
+    "supervisor_integrity_tests_passed": 14,
+    "combined_tests_passed": 556,
+    "git_diff_check": "passed_with_existing_line_ending_warnings_only"
+  },
+  "account_state_after": {
+    "account_id_suffix": "007",
+    "balance": 41.6042,
+    "nav": 41.6042,
+    "open_trade_count": 0,
+    "pending_order_count": 0,
+    "unrealized_pl": 0.0,
+    "cumulative_pl": -8.343,
+    "supported_decision": "no_trade"
+  },
+  "artifacts": [
+    {
+      "path": "oanda_news_classification_contract.py",
+      "sha256": "aac0fcad5929040ac18677909736e0f56be93bd697602b09768f558b0e76bb24"
+    },
+    {
+      "path": "oanda_local_news_sentiment.py",
+      "sha256": "4d0f7d7ebff48b705cd3aa2be827aaad90fb31f333b44856d8cfe34b7d03c664"
+    },
+    {
+      "path": "oanda_news_technical_watchlist.py",
+      "sha256": "c1a8e533f904d5101fb3b5a4dec1c98f2a40756ad8d9acad7f4b9ea232932a7a"
+    },
+    {
+      "path": "oanda_always_on_supervisor.ps1",
+      "sha256": "6c98a2284e3c23ad7d07562da5fbb69030ada527cfd7e52ac2e726b440a63530"
+    },
+    {
+      "path": "test_oanda_local_news_sentiment.py",
+      "sha256": "c3aaf428745def7870d4d40f43241eaa2f7729da6dbe862619938fca165e515c"
+    },
+    {
+      "path": "test_oanda_news_technical_watchlist.py",
+      "sha256": "feb8efb8b0e3177d400e321a4d6200d956cd959d5ccfd8a0338e4b05a2e3abcb"
+    },
+    {
+      "path": "test_oanda_supervisor_integrity_freshness.py",
+      "sha256": "abec470dbd821b756084dc2d84a0d0aea8fb6faf9fdc8daa02a565fe326a1f28"
+    }
+  ]
+}

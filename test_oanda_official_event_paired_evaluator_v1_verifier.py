@@ -5,12 +5,51 @@ import hashlib
 import json
 from pathlib import Path
 import sqlite3
+import subprocess
 
 import pytest
 
 import oanda_official_event_paired_evaluator_v1 as producer
 import oanda_official_event_paired_evaluator_v1_verifier as verifier
 import test_oanda_official_event_paired_evaluator_v1 as fixture
+
+
+@pytest.fixture(autouse=True)
+def bind_producer_to_frozen_news_source_contract(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    raw, lineages = fixture.frozen_news_source_contract()
+    monkeypatch.setattr(
+        producer,
+        "validate_news_source_config",
+        lambda path=producer.NEWS_SOURCE_CONFIG_PATH: (raw, lineages),
+    )
+    # Cohort B is sealed to the committed entry-capture dependency.  The live
+    # fast lane has legitimately advanced, so fixture construction must bind
+    # the historical hash explicitly rather than reopening the producer on
+    # today's source bytes.
+    monkeypatch.setattr(
+        producer,
+        "validate_dependency_sources",
+        lambda: (
+            producer.REQUIRED_FAST_LANE_SOURCE_SHA256,
+            producer.REQUIRED_HORIZON_CAPTURE_SOURCE_SHA256,
+        ),
+    )
+
+
+def test_frozen_news_source_config_is_resolved_without_reopening_cohort() -> None:
+    failures: list[str] = []
+    raw, lineages, resolution = verifier._read_news_source_config(
+        verifier.NEWS_SOURCE_CONFIG_PATH, failures
+    )
+    assert failures == []
+    assert hashlib.sha256(raw).hexdigest() == verifier.NEWS_SOURCE_CONFIG_SHA256
+    assert lineages
+    assert resolution in {
+        "live_path_exact_frozen_bytes",
+        "frozen_git_commit_exact_bytes",
+    }
 
 
 def _create_table(connection: sqlite3.Connection, name: str, row: dict) -> None:
@@ -51,6 +90,17 @@ def _seed(
     if source_cohort_id is not None:
         source["source_cohort_id"] = source_cohort_id
     feature_bytes, feature = fixture.feature_snapshot(rising=False)
+    frozen_fast_lane = tmp_path / "frozen_official_release_fast_lane.py"
+    frozen_fast_lane_bytes = subprocess.run(
+        ["git", "show", "HEAD:oanda_official_release_fast_lane.py"],
+        cwd=producer.ROOT,
+        check=True,
+        stdout=subprocess.PIPE,
+    ).stdout
+    assert hashlib.sha256(frozen_fast_lane_bytes).hexdigest() == (
+        producer.REQUIRED_FAST_LANE_SOURCE_SHA256
+    )
+    frozen_fast_lane.write_bytes(frozen_fast_lane_bytes)
 
     release = sqlite3.connect(release_path)
     _create_table(release, "official_release_quote_capture", capture)
@@ -101,6 +151,7 @@ def _seed(
         "horizon": horizon_path,
         "output": output_path,
         "event": fixture.EVENT,
+        "fast_lane_source": frozen_fast_lane,
     }
 
 
@@ -120,7 +171,7 @@ def _verify(
         config_path=config or verifier.CONFIG_PATH,
         producer_source_path=Path(producer.__file__),
         authority_map_path=authority_map or verifier.AUTHORITY_MAP_PATH,
-        fast_lane_source_path=fast_lane_source or verifier.FAST_LANE_SOURCE_PATH,
+        fast_lane_source_path=fast_lane_source or Path(paths["fast_lane_source"]),
         observed_utc=fixture.EVENT + dt.timedelta(seconds=seconds),
     )
 

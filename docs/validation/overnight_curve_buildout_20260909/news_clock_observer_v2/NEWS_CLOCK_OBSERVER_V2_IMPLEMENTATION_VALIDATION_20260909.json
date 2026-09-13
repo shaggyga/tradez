@@ -1,0 +1,56 @@
+{
+  "GET": false,
+  "changes": [
+    "Separate V2 source/schema and fixed end; original V1 bytes unchanged.",
+    "Actual start must be inside the final four hours; wall deadline and non-extending monotonic budget both limit sample admission.",
+    "Finite clock validation, exact inclusive stop boundary, no catch-up sampling burst, and actual admitted sample clock retained.",
+    "Inherited RO source checks, sanitization, private unique-byte retention and one later query-only article diagnostic unchanged."
+  ],
+  "completed_epoch": 1788946260.1983492,
+  "fixed_end_epoch": 1788957900,
+  "fixed_end_utc": "2026-09-09T12:45:00Z",
+  "interval_sec": 1,
+  "launched": false,
+  "limitations": [
+    "Admitted bounded reads/diagnostics can complete after the nominal deadline; no hard OS I/O cancellation guarantee.",
+    "Independent later source snapshots cannot establish exact failed-worker inputs.",
+    "Private raw source/article bytes must remain local and be excluded from public/vault exports."
+  ],
+  "maximum_duration_sec": 14400,
+  "maximum_later_ro_article_diagnostics": 1,
+  "maximum_private_bytes": 268435456,
+  "maximum_samples": 14401,
+  "maximum_source_file_bytes": 131072,
+  "runtime_writes": false,
+  "schema_version": "news_clock_observer_v2_implementation_validation_20260909",
+  "scope": "Prepared and tested using disposable fixtures only; no actual passive observer launched, no GET, live DB read, source/runtime changes or recurring automation.",
+  "source_evidence": [
+    {
+      "bytes": 18733,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v2\\observe_news_clock_boundaries_v2.py",
+      "sha256": "dc63f1470b6351e774af01c0732de0cc84ac64e04de0b1f7081870a4f643f86e"
+    },
+    {
+      "bytes": 8189,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v2\\test_observe_news_clock_boundaries_v2.py",
+      "sha256": "2471bddb9bd2402941357a751d0b30a33cc2a7aa806af557a7944c4826dd7a01"
+    },
+    {
+      "bytes": 3783,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v2\\news_clock_observer_v2_final_tests.xml",
+      "sha256": "7bc2a2c9a144848386ed13641fe63e3a1168963ed307b99d17a4a64647ea1078"
+    },
+    {
+      "bytes": 16406,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v1\\observe_news_clock_boundaries_v1.py",
+      "sha256": "726a3730d00926a802c55c7046dda8182ec7e916f94cb88318282cf972e694ae"
+    }
+  ],
+  "status": "prepared_unlaunched_pending_independent_review",
+  "tests": {
+    "duration_sec": 0.93,
+    "failed": 0,
+    "passed": 26,
+    "skipped": 0
+  }
+}

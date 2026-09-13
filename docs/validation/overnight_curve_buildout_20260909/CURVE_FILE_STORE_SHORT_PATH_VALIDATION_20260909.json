@@ -1,0 +1,21 @@
+{
+  "schema_version": "curve_file_store_short_path_validation_v1_20260909",
+  "generated_utc": "2026-09-09T05:22:15.463225+00:00",
+  "status": "passed",
+  "source_hashes": {
+    "oanda_forecast_curve_file_store_v1.py": "0d537f59e8c90e7957b2d9853d6a5561486ec5004f3b1ee02661c335bdf5fc4d",
+    "test_oanda_forecast_curve_file_store_v1.py": "a352cd832c5c091aa06f2c9160c261fc348f37f97ebbb4ba966b6ad677479f0f",
+    "oanda_forecast_curve_contract_v1.py": "c03549586f922f6031790fce68a5afb5b98e4eda6157f20c4720b1adb05d0746"
+  },
+  "tests": 38,
+  "xml_path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\curve_file_store_short_path_tests.xml",
+  "xml_sha256": "cc7ea9c63f2a2267c33b5446afd001322f4735fc2116c12be3252e7772337a93",
+  "change": "Optional immutable consumption files now live at root/consumptions/full_sha.json. Receipt retains exact curve/publication identity. Original hash is never shortened. Realistic150-character root test exceeds260 with old layout and succeeds with new layout.",
+  "prior_sources": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\receipt_before_short_consumption_path\\manifest.json",
+  "prior_evidence_preserved": [
+    "curve_file_store_candidate_tests.xml",
+    "receipt_helpers_bound_tests.xml",
+    "RECEIPT_HELPERS_IMPLEMENTATION_VALIDATION_20260909.json"
+  ],
+  "runtime_actions": []
+}

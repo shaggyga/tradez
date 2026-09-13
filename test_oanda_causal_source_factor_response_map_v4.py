@@ -182,18 +182,22 @@ def test_v4_context_restores_v1_globals():
     ) == before
 
 
-def test_hidden_supervisor_preserves_v4_and_starts_current_v6():
+def test_hidden_supervisor_preserves_v4_and_starts_current_v8():
     supervisor = (subject.ROOT / "oanda_always_on_supervisor.ps1").read_text(
         encoding="utf-8"
     )
     assert '-Name "causal_source_factor_response_map_v4_preserved"' in supervisor
     assert '-Needle "oanda_causal_source_factor_response_map_v4.py"' in supervisor
     assert '-Needle "oanda_causal_source_factor_response_map_v3.py"' in supervisor
-    assert '-Name "causal_source_factor_response_map_v6"' in supervisor
-    assert "causal_source_factor_response_map_latest_v6.json" in supervisor
+    assert '-Name "causal_source_factor_response_map_v8"' in supervisor
+    assert "causal_source_factor_response_map_latest_v8.json" in supervisor
     assert "v6_v151_pair_breakout_recap_cutover" in supervisor
     assert 'ExpectedJsonField = "classification_version"' in supervisor
     assert supervisor.count(
-        'ExpectedJsonValue = "local_fx_news_rules_20260828_v151_'
-        'pair_breakout_recap_boundary"'
-    ) == 4
+        'ExpectedJsonValue = "local_fx_news_rules_20260901_v152_'
+        'subject_bound_release_policy_targets"'
+    ) == 2
+    assert supervisor.count(
+        'ExpectedJsonValue = "local_fx_news_rules_20260904_v158_'
+        'conditional_policy_and_syndication_guard"'
+    ) >= 5

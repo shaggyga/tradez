@@ -1,0 +1,153 @@
+{
+  "schema_version": "forex_horizon_coverage_review_validation_v1_20260907",
+  "recorded_utc": "2026-09-07T23:42:09.366355+00:00",
+  "ui_validation_status": "passed",
+  "audit_scope": "Read-only readiness, anchor, conjunction and horizon audit; HTML-only visibility fix.",
+  "report": {
+    "path": "docs/FOREX_HORIZON_COVERAGE_REVIEW_20260907.md",
+    "sha256": "ae48243e99e03c0e73fa96db7b0000629254108b223fb65a5cb874c97287d982",
+    "bytes": 8077
+  },
+  "evidence_manifest": {
+    "path": "docs/validation/horizon_coverage_20260907/CURATED_EVIDENCE_MANIFEST_20260907.json",
+    "sha256": "b5cdc150cab863ce56f0fb702064ae65baae386bb5c6ce0645a901b64856b24c",
+    "bytes": 8046
+  },
+  "dashboard_owner_validation": {
+    "path": "docs/validation/horizon_coverage_20260907/FORECAST_VISIBILITY_VALIDATION_RECEIPT_20260907.json",
+    "sha256": "daa8f5bf68b38cda5348ad1291ee62f15127b9504304e069231e075a371bcd4c",
+    "bytes": 2703
+  },
+  "changed_source_sha256": {
+    "oanda_main_signal_dashboard.html": "3ffead742b158de5685b01fef2b25c3e68a556f365356828da9d90f0b91aced4",
+    "test_oanda_joint_price_news_dashboard_v1.py": "01417e4cc9d0a9354e2fcaede84c7b9cc4f0c0d189d50f621410de509e791ca2"
+  },
+  "unchanged_backend_sha256": "a5dd6945cc448a6ab86fa5fab8d55aea6040bf197e5a50117fb1bbc218d2f9fe",
+  "focused_tests": {
+    "tests": 240,
+    "failures": 0,
+    "errors": 0,
+    "reported_duration_sec": 21.54,
+    "files": [
+      "test_oanda_joint_price_news_dashboard_v1.py",
+      "test_oanda_pair_forecast_dashboard_v2.py",
+      "test_oanda_news_pair_dashboard.py",
+      "test_oanda_collection_dashboard_status.py"
+    ]
+  },
+  "live_coverage": {
+    "combined": 61,
+    "price_only": 4,
+    "unavailable": 3,
+    "total": 68
+  },
+  "live_observed_utc": "2026-09-07T23:34:10.777Z",
+  "registered_source_sets_verified_unchanged": {
+    "joint_price_news_study_v2_20260907.json": {
+      "registry": {
+        "path": "config/joint_price_news_study_v2_20260907.json",
+        "sha256": "20fea86e661efd758536b81fa5c474a440feee2e6af48b28a1016b1538d3691e",
+        "bytes": 308371
+      },
+      "all_bound_sources_unchanged": true,
+      "source_bindings": {
+        "oanda_causal_forecast_inputs.py": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+        "oanda_causal_forecast_inputs_gap_v2.py": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd",
+        "oanda_causal_forecast_inputs_joint_news_v1.py": "9375f116571ef43c18eae65c14fc53fb2f98d8ab132d4b000a0971986d2890ec",
+        "oanda_causal_forecast_inputs_pair_v2.py": "8e58491a49fca967e6d8d2a797cc77f142053576c92a724a2e7336d855fb4899",
+        "oanda_causal_forecast_ledger_joint_news_v1.py": "df915eddafbc9265eb19c9b6757eb14441ebd9ca3864f6601f5a70ca39d65d7b",
+        "oanda_causal_prediction_baselines.py": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+        "oanda_exact_price_scoring.py": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521",
+        "oanda_fixed_forecast_evaluation_joint_news_v1.py": "c1f9940d57c0d39c1815b22a9114752075042a09da3e196e84829e77b293131d",
+        "oanda_joint_price_news_forecast_study_v2.py": "a27fe6e6ee3bf6ec2fdbf52be43661918cee18a5091f096c65994caa5fc24282",
+        "oanda_joint_price_news_models_v1.py": "eb153acb966dc04ad950a0bbfcc730e78a9a0da1d8a24e91d641f473f5cfbc23",
+        "oanda_local_news_sentiment.py": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4",
+        "oanda_news_causal_aggregation_guard_v1.py": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9",
+        "oanda_news_classification_contract.py": "f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae",
+        "oanda_pair_local_models_v2.py": "294c63bf0ed873395c4850a8722a2622eaa2bc563ceb7ecf9886764c63d8bf24",
+        "oanda_source_governance.py": "c4b7793dcef1b9176079a959019f8b69059fbd6644fddf1e8718f924d3a13950",
+        "oanda_source_governance_news_fast_lane.py": "bdd6a2542b3dbddbdf86f7148af4dcb38d0b8591b3f3fcdb843d9eed29898f03"
+      }
+    },
+    "joint_price_news_study_v1_20260907.json": {
+      "registry": {
+        "path": "config/joint_price_news_study_v1_20260907.json",
+        "sha256": "4f4b23454a17de805c6e3f775f458ddec0cb0c820b2c6e30a9593495d3e88d94",
+        "bytes": 304835
+      },
+      "all_bound_sources_unchanged": true,
+      "source_bindings": {
+        "oanda_causal_forecast_inputs.py": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+        "oanda_causal_forecast_inputs_gap_v2.py": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd",
+        "oanda_causal_forecast_inputs_joint_news_v1.py": "9375f116571ef43c18eae65c14fc53fb2f98d8ab132d4b000a0971986d2890ec",
+        "oanda_causal_forecast_inputs_pair_v2.py": "8e58491a49fca967e6d8d2a797cc77f142053576c92a724a2e7336d855fb4899",
+        "oanda_causal_forecast_ledger_joint_news_v1.py": "df915eddafbc9265eb19c9b6757eb14441ebd9ca3864f6601f5a70ca39d65d7b",
+        "oanda_causal_prediction_baselines.py": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+        "oanda_exact_price_scoring.py": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521",
+        "oanda_fixed_forecast_evaluation_joint_news_v1.py": "c1f9940d57c0d39c1815b22a9114752075042a09da3e196e84829e77b293131d",
+        "oanda_joint_price_news_forecast_study_v1.py": "38272ef9f042c50603cc246fcad86f0adca15792f9926c3b0752aeac141033b5",
+        "oanda_joint_price_news_models_v1.py": "eb153acb966dc04ad950a0bbfcc730e78a9a0da1d8a24e91d641f473f5cfbc23",
+        "oanda_local_news_sentiment.py": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4",
+        "oanda_news_causal_aggregation_guard_v1.py": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9",
+        "oanda_news_classification_contract.py": "f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae",
+        "oanda_pair_local_models_v2.py": "294c63bf0ed873395c4850a8722a2622eaa2bc563ceb7ecf9886764c63d8bf24",
+        "oanda_source_governance.py": "c4b7793dcef1b9176079a959019f8b69059fbd6644fddf1e8718f924d3a13950",
+        "oanda_source_governance_news_fast_lane.py": "bdd6a2542b3dbddbdf86f7148af4dcb38d0b8591b3f3fcdb843d9eed29898f03"
+      }
+    },
+    "pair_local_forecast_study_v2_20260907.json": {
+      "registry": {
+        "path": "config/pair_local_forecast_study_v2_20260907.json",
+        "sha256": "f7dc675925a765c0bb369282895f2839326476a05eadb7f5df6e0f27a10ed505",
+        "bytes": 476898
+      },
+      "all_bound_sources_unchanged": true,
+      "source_bindings": {
+        "oanda_causal_forecast_inputs.py": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+        "oanda_causal_forecast_inputs_gap_v2.py": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd",
+        "oanda_causal_forecast_inputs_pair_v2.py": "8e58491a49fca967e6d8d2a797cc77f142053576c92a724a2e7336d855fb4899",
+        "oanda_causal_forecast_ledger_pair_v2.py": "7bdfbe1fb7076982e6192db39da5d24ae28d70811496115da31cc42ddf39dc8f",
+        "oanda_causal_prediction_baselines.py": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+        "oanda_exact_price_scoring.py": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521",
+        "oanda_fixed_forecast_evaluation_pair_v2.py": "16b78433bf70bf46910effd60068ef7a43c690c3f7ad2c729a567e0620b205c2",
+        "oanda_pair_local_forecast_study_v2.py": "457fd8b1316747a0c7a3da60605111b32794e036dad5d96d627075a2a2ac2476",
+        "oanda_pair_local_models_v2.py": "294c63bf0ed873395c4850a8722a2622eaa2bc563ceb7ecf9886764c63d8bf24"
+      }
+    }
+  },
+  "independent_html_diff_review": {
+    "reviewer": "pair_ledger_evaluation",
+    "result": "no blocker",
+    "html_sha256": "3ffead742b158de5685b01fef2b25c3e68a556f365356828da9d90f0b91aced4",
+    "scope": "Source/family freshness, disjoint counts, explicit price-only provenance, original H1 clocks and retained joint blocker."
+  },
+  "findings": {
+    "four_price_only_pairs": [
+      "EUR_DKK",
+      "GBP_HKD",
+      "GBP_PLN",
+      "GBP_SGD"
+    ],
+    "three_no_accepted_current_quote_pairs": [
+      "EUR_TRY",
+      "TRY_JPY",
+      "USD_TRY"
+    ],
+    "current_joint_horizon_sec": 3600,
+    "joint_technical_context_interactions_implemented": true,
+    "vetted_directional_training_examples_in_four_audited_pairs": 0,
+    "anchor_audit": "All four meet unchanged 48/12/8 counts on 3-minute causal anchors; no model fit or new publication was performed.",
+    "independence_caveat": "Dense H1 anchors overlap; current n/4 shrinkage assumes 15-minute spacing. Age-derived context patterns are not independent stories.",
+    "next_model_experiment": "Genuine per-horizon joint forecasts with trained missing-news handling, overlap-aware weighting, shared-currency factors and held-out uncertainty/comparator evaluation.",
+    "next_model_implemented_in_this_change": false,
+    "prediction_improvement_established": false,
+    "publication_generation_mismatch": "Intermittent API mismatches retained; later exact producer pairs coherent. Failure phase/caching cause not established and guards were not weakened."
+  },
+  "models_changed": false,
+  "registrations_changed": false,
+  "gates_changed": false,
+  "ledger_or_outcome_mutations": false,
+  "runtime_restarts": 0,
+  "orders_enabled": false,
+  "promotion_enabled": false
+}

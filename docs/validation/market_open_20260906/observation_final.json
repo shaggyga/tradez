@@ -1,0 +1,479 @@
+{
+  "observed_utc": "2026-09-06T19:56:14.5866955Z",
+  "processes": [
+    {
+      "pid": 14508,
+      "parent_pid": 42848,
+      "script": "oanda_always_on_supervisor.ps1",
+      "research_collection_only": true
+    },
+    {
+      "pid": 32232,
+      "parent_pid": 14508,
+      "script": "oanda_account_snapshot_writer.py",
+      "research_collection_only": false
+    },
+    {
+      "pid": 25516,
+      "parent_pid": 32232,
+      "script": "oanda_account_snapshot_writer.py",
+      "research_collection_only": false
+    },
+    {
+      "pid": 24008,
+      "parent_pid": 14508,
+      "script": "oanda_local_news_sentiment.py",
+      "research_collection_only": false
+    },
+    {
+      "pid": 4196,
+      "parent_pid": 14508,
+      "script": "oanda_official_release_fast_lane.py",
+      "research_collection_only": false
+    },
+    {
+      "pid": 1212,
+      "parent_pid": 24008,
+      "script": "oanda_local_news_sentiment.py",
+      "research_collection_only": false
+    },
+    {
+      "pid": 17664,
+      "parent_pid": 14508,
+      "script": "oanda_official_release_fast_mapper.py",
+      "research_collection_only": false
+    },
+    {
+      "pid": 7244,
+      "parent_pid": 4196,
+      "script": "oanda_official_release_fast_lane.py",
+      "research_collection_only": false
+    },
+    {
+      "pid": 36080,
+      "parent_pid": 17664,
+      "script": "oanda_official_release_fast_mapper.py",
+      "research_collection_only": false
+    },
+    {
+      "pid": 24516,
+      "parent_pid": 14508,
+      "script": "oanda_all68_m1_forward_updater.py",
+      "research_collection_only": false
+    },
+    {
+      "pid": 8684,
+      "parent_pid": 24516,
+      "script": "oanda_all68_m1_forward_updater.py",
+      "research_collection_only": false
+    },
+    {
+      "pid": 5920,
+      "parent_pid": 14508,
+      "script": "oanda_causal_forecast_study.py",
+      "research_collection_only": false
+    },
+    {
+      "pid": 11352,
+      "parent_pid": 5920,
+      "script": "oanda_causal_forecast_study.py",
+      "research_collection_only": false
+    },
+    {
+      "pid": 5236,
+      "parent_pid": 14508,
+      "script": "oanda_source_governance_news_fast_lane.py",
+      "research_collection_only": false
+    },
+    {
+      "pid": 19584,
+      "parent_pid": 5236,
+      "script": "oanda_source_governance_news_fast_lane.py",
+      "research_collection_only": false
+    },
+    {
+      "pid": 5452,
+      "parent_pid": 14508,
+      "script": "oanda_practice_quote_stream.py",
+      "research_collection_only": false
+    },
+    {
+      "pid": 44996,
+      "parent_pid": 5452,
+      "script": "oanda_practice_quote_stream.py",
+      "research_collection_only": false
+    },
+    {
+      "pid": 20572,
+      "parent_pid": 14508,
+      "script": "oanda_clock_integrity_monitor.py",
+      "research_collection_only": false
+    },
+    {
+      "pid": 32208,
+      "parent_pid": 20572,
+      "script": "oanda_clock_integrity_monitor.py",
+      "research_collection_only": false
+    },
+    {
+      "pid": 41144,
+      "parent_pid": 14508,
+      "script": "oanda_project_integrity_audit.py",
+      "research_collection_only": false
+    },
+    {
+      "pid": 21076,
+      "parent_pid": 41144,
+      "script": "oanda_project_integrity_audit.py",
+      "research_collection_only": false
+    },
+    {
+      "pid": 19056,
+      "parent_pid": 14508,
+      "script": "oanda_storage_headroom_guard.py",
+      "research_collection_only": false
+    },
+    {
+      "pid": 33700,
+      "parent_pid": 19056,
+      "script": "oanda_storage_headroom_guard.py",
+      "research_collection_only": false
+    },
+    {
+      "pid": 11100,
+      "parent_pid": 14508,
+      "script": "oanda_practice_live_dashboard.py",
+      "research_collection_only": false
+    },
+    {
+      "pid": 39316,
+      "parent_pid": 11100,
+      "script": "oanda_practice_live_dashboard.py",
+      "research_collection_only": false
+    }
+  ],
+  "forex_tasks": [
+    {
+      "name": "ForexGptOrigConstantRotationDemoWatchdog",
+      "state": "Disabled"
+    },
+    {
+      "name": "ForexSafeCoreAtLogon",
+      "state": "Disabled"
+    }
+  ],
+  "supervisor_log": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\logs\\always_on_supervisor_20260906_153808.jsonl",
+  "supervisor_heartbeat_utc": "2026-09-06T19:56:06.0316684Z",
+  "managed_running": [
+    {
+      "name": "account_snapshot",
+      "pids": [
+        32232,
+        25516
+      ],
+      "freshness": {
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\account_007_dashboard_v1.json",
+        "age_sec": 0.2,
+        "fresh": true,
+        "reason": "fresh"
+      }
+    },
+    {
+      "name": "live_dashboard",
+      "pids": [
+        11100
+      ],
+      "freshness": {
+        "path": "",
+        "age_sec": null,
+        "fresh": true,
+        "reason": "not_checked"
+      }
+    },
+    {
+      "name": "local_news_sentiment",
+      "pids": [
+        24008,
+        1212
+      ],
+      "freshness": {
+        "observed_json_value": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\collector_heartbeat_v1.json",
+        "progress_sequence": 0,
+        "expected_json_field": "classification_version",
+        "phase": "starting_cycle",
+        "expected_json_value": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+        "age_sec": 2.6,
+        "reason": "fresh",
+        "fresh": true,
+        "progress_age_sec": 0
+      }
+    },
+    {
+      "name": "official_release_fast_lane",
+      "pids": [
+        4196,
+        7244
+      ],
+      "freshness": {
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\official_release_fast_lane_heartbeat_v4.json",
+        "progress_sequence": 31,
+        "phase": "polling_official_sources",
+        "age_sec": 0,
+        "reason": "fresh",
+        "fresh": true,
+        "progress_age_sec": 0
+      }
+    },
+    {
+      "name": "official_release_fast_mapper",
+      "pids": [
+        17664,
+        36080
+      ],
+      "freshness": {
+        "observed_json_value": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\official_release_fast_mapping_heartbeat_v3.json",
+        "expected_json_field": "required_classification_version",
+        "phase": "cycle_complete",
+        "expected_json_value": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+        "age_sec": 0.3,
+        "reason": "fresh",
+        "fresh": true
+      }
+    },
+    {
+      "name": "all68_m1_forward_archive",
+      "pids": [
+        24516,
+        8684
+      ],
+      "freshness": {
+        "phase": "sleeping",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\all68_m1_forward_update_heartbeat_v1.json",
+        "age_sec": 3.1,
+        "fresh": true,
+        "reason": "fresh"
+      }
+    },
+    {
+      "name": "practice_007_quote_stream",
+      "pids": [
+        5452,
+        44996
+      ],
+      "freshness": {
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_quote_stream_heartbeat_v1.json",
+        "phase_age_sec": 1030.8,
+        "phase": "streaming",
+        "age_sec": 2.3,
+        "reason": "fresh",
+        "fresh": true
+      }
+    },
+    {
+      "name": "clock_integrity_monitor",
+      "pids": [
+        20572,
+        32208
+      ],
+      "freshness": {
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\clock_integrity_v1.json",
+        "age_sec": 20.4,
+        "fresh": true,
+        "reason": "fresh"
+      }
+    },
+    {
+      "name": "causal_forecast_study_v1",
+      "pids": [
+        5920,
+        11352
+      ],
+      "freshness": {
+        "observed_json_value": "causal_forecast_study_heartbeat_v1",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\causal_forecast_study_v1_io_r2\\heartbeat.json",
+        "expected_json_field": "schema_version",
+        "phase": "waiting_for_tradeable_quote",
+        "expected_json_value": "causal_forecast_study_heartbeat_v1",
+        "age_sec": 1.2,
+        "reason": "fresh",
+        "fresh": true
+      }
+    },
+    {
+      "name": "source_governance_news_fast_lane",
+      "pids": [
+        5236,
+        19584
+      ],
+      "freshness": {
+        "observed_json_value": "news_source_governance_fast_lane_v3_committed_visibility_20260905",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\source_governance_news_fast_lane_v3.json",
+        "expected_json_field": "contract_id",
+        "phase": "",
+        "expected_json_value": "news_source_governance_fast_lane_v3_committed_visibility_20260905",
+        "age_sec": 24.6,
+        "reason": "fresh",
+        "fresh": true
+      }
+    },
+    {
+      "name": "project_integrity_audit",
+      "pids": [
+        41144,
+        21076
+      ],
+      "freshness": {
+        "observed_json_value": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\project_integrity_audit_v1.json",
+        "expected_json_field": "classification_version",
+        "phase": "",
+        "expected_json_value": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+        "age_sec": 189.8,
+        "reason": "fresh",
+        "fresh": true
+      }
+    },
+    {
+      "name": "storage_headroom_guard",
+      "pids": [
+        19056,
+        33700
+      ],
+      "freshness": {
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\storage_headroom_v1.json",
+        "age_sec": 162.5,
+        "fresh": true,
+        "reason": "fresh"
+      }
+    }
+  ],
+  "managed_blocked_count": 103,
+  "supervisor_error_count": 0,
+  "restart_events": [],
+  "artifacts": [
+    {
+      "name": "account",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\account_007_dashboard_v1.json",
+      "bytes": 1247,
+      "age_sec": 1.2
+    },
+    {
+      "name": "quotes",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_market_quotes_v1.json",
+      "bytes": 10126,
+      "age_sec": 1033.73
+    },
+    {
+      "name": "quote_stream",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_quote_stream_heartbeat_v1.json",
+      "bytes": 9804,
+      "age_sec": 0.98
+    },
+    {
+      "name": "clock",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\clock_integrity_v1.json",
+      "bytes": 1615,
+      "age_sec": 29.12
+    },
+    {
+      "name": "candles",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\all68_m1_forward_update_heartbeat_v1.json",
+      "bytes": 728,
+      "age_sec": 1.98
+    },
+    {
+      "name": "fastlane",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\source_governance_news_fast_lane_v3.json",
+      "bytes": 2462,
+      "age_sec": 3.22
+    },
+    {
+      "name": "integrity",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\project_integrity_audit_v1.json",
+      "bytes": 170071,
+      "age_sec": 198.44
+    },
+    {
+      "name": "storage",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\storage_headroom_v1.json",
+      "bytes": 5766,
+      "age_sec": 171.04
+    }
+  ],
+  "news": [
+    {
+      "name": "collector_heartbeat_v1.json",
+      "age_sec": 11.76,
+      "phase": "starting_cycle",
+      "classification_version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard"
+    },
+    {
+      "name": "official_release_fast_lane_heartbeat_v4.json",
+      "age_sec": 8.27,
+      "phase": "cycle_complete",
+      "classification_version": null
+    },
+    {
+      "name": "official_release_fast_mapping_heartbeat_v3.json",
+      "age_sec": 4.37,
+      "phase": "cycle_complete",
+      "classification_version": null
+    }
+  ],
+  "dashboard_http_status": 200,
+  "account": {
+    "time": "2026-09-06T15:56:12.707644-04:00",
+    "environment": "practice",
+    "aggregate": {
+      "account_count": 1,
+      "account_values_current": true,
+      "balance": 41.6042,
+      "current_errors": [],
+      "last_verified": null,
+      "nav": 41.6042,
+      "ok_count": 1,
+      "openTradeCount": 0,
+      "orders_current": true,
+      "pendingOrderCount": 0,
+      "pl": -8.343,
+      "positions_current": true,
+      "snapshot_state": "current",
+      "unrealizedPL": 0.0
+    }
+  },
+  "quote_stream": {
+    "phase": "streaming",
+    "can_place_orders": false,
+    "output": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_market_quotes_v1.json",
+    "stream": {
+      "broker_clock_lead_sec": null,
+      "broker_clock_sample_count": 0,
+      "clock_sync_status": "unknown",
+      "connected": true,
+      "connection_generation": 1,
+      "last_event_age_sec": 1.125,
+      "metadata_instruments": 68,
+      "quote_observer_errors": 0,
+      "quoted_instruments": 68,
+      "reconnects": 0,
+      "research_snapshot_transport": {
+        "coalesced_snapshots": 2,
+        "database": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_market_quotes_v1.json.sqlite",
+        "enabled": true,
+        "last_error": "",
+        "last_success_age_sec": 1028.352,
+        "last_write_ms": 1.767,
+        "mirror": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_market_quotes_v1.json",
+        "mirror_error": "",
+        "pending": false,
+        "submitted_generation": 5,
+        "thread_alive": true,
+        "writing": false,
+        "written_generation": 5
+      },
+      "updates": 68
+    }
+  }
+}

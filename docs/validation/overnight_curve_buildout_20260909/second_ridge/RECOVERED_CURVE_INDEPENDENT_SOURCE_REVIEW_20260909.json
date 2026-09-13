@@ -1,0 +1,28 @@
+{
+  "caveats": [
+    "Current old S1 live transform is not S5 equivalent: forward-filled seconds, sampled-midpoint range, tick-count activity and time-of-day precision differ.",
+    "The recovered strict S5 grid is narrower than the original fitting endpoint-span tolerance; this is not a refit or proof of new performance.",
+    "Known retained S5 files were not post-fit holdout evidence; later derived S1 files cannot establish S5 input compatibility.",
+    "Historical ingestion provenance and exact M versus BA-derived-mid convention remain unresolved. Actual retained midpoint rounding disproved imposing exact bid/ask midpoint equality; the unsupported trial was reverted, and its failed trial XML remains retained.",
+    "Original residual probability output is uncalibrated for any rebased remaining interval; downstream management must retain its original scope."
+  ],
+  "checks": [
+    "Fixed original JSON artifact identity and immutable factory-derived model cells/metadata prevent caller-spoofed model substitution.",
+    "Fourteen-feature S5 math preserves the original fit transform, coefficient/scale/intercept order, magnitude adjustment and original residual probability convention.",
+    "Exactly 13 complete contiguous S5 rows, explicit trained pip metadata and original actual observation clocks are required.",
+    "Native bar-start label clocks remain distinct from price-close clocks at +5 seconds. Every horizon retains its original target label and price clock.",
+    "Engineering historical capture is explicitly not original forecast publication; no earlier issue clock is synthesized.",
+    "Research current captures require the stated original source freshness at actual computation boundaries."
+  ],
+  "remaining_blockers": [],
+  "reviewed_utc": "2026-09-09T04:54:01.632153+00:00",
+  "schema_version": "recovered_curve_independent_source_review_v1_20260909",
+  "scope": "Read-only independent source review; no independent test rerun, fit, model object load, broker call or runtime action.",
+  "source_sha256": {
+    "oanda_recovered_second_curve_v1.py": "30c21fc8740e7142ec83bea76236d9767651551e628a512965ff80dc64c5dcef",
+    "oanda_second_forecast.py": "3ac9f38bbe7140aae7bf391d1778f658b599199601d811d97d3386f32d727063",
+    "oanda_second_forecast_fit.py": "238b8e6d83536aa287dc6282a364ccbe7ba016f2e00221e3b95381edd8d4aba8",
+    "test_oanda_recovered_second_curve_v1.py": "37a86fe9b8b516a5db23cd07102ed45f8dca581d217f77ee5c42eb056de11596"
+  },
+  "status": "passed_bounded_source_review"
+}

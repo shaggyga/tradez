@@ -1,0 +1,85 @@
+{
+  "schema_version": "updater_market_independent_review_fixes_r2_20260907",
+  "generated_utc": "2026-09-07T16:13:04.589513+00:00",
+  "source_sha256": {
+    "oanda_all68_m1_forward_updater.py": "a59a09ec22ad20b9a01ae77c05b42bc1b5970eef5cbeaef5bd1831b1887a6dcf",
+    "test_oanda_all68_m1_forward_updater.py": "a63ba5eadb79fbc0517eed401907074026acd8ff87cac759508a4752def771e4",
+    "oanda_market_overview.py": "fe07866b6581328786847ea944830312acb094728c0e60c2a1b8a56e58730fbf",
+    "test_oanda_market_overview.py": "5ba9150b0c197d6a421968dafd924986fda5fde7380fb53783bbbf8affabf191",
+    "oanda_exact_price_scoring.py": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521"
+  },
+  "evidence_sha256": {
+    "integration_tests.xml": "f12fead0efd718198d2e848eae951df65ca59a6b255ffc770a3fcb5e8d3a0c3b",
+    "run_tests.py": "f8a1d6fa11f0c2c0402b2593da30678deb9daa023aa639ca9827a74a0756b09d"
+  },
+  "prior_receipt_preserved": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\warmup_repair_20260907\\updater_repair\\UPDATER_REPAIR_RECEIPT_20260907.json",
+    "sha256": "c5527933ce833cb3d5d25142fd5b489a68309bed6d2365bcecc1e54d019e10a5"
+  },
+  "tests": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "79",
+    "time": "3.596",
+    "timestamp": "2026-09-07T12:11:23.060975-04:00",
+    "hostname": "DESKTOP-Q2EDIEU"
+  },
+  "python_executable": "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe",
+  "python_version": "3.12.10",
+  "pytest_version": "9.1.1",
+  "invocation": "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe -B ..\\warmup_repair_20260907\\updater_market_review_r2\\run_tests.py test_oanda_all68_m1_forward_updater.py test_oanda_market_overview.py",
+  "findings_resolved": [
+    "Oversized Decimal quote previously became current with Infinity display fields; it now becomes unavailable.",
+    "Unrepresentable derived spread/change metrics and Decimal underflow cannot emit nonfinite or false-flat indicators.",
+    "Caller Decimal precision no longer changes market calculations; deeply recursive JSON fails closed.",
+    "Gap recovery rejects midpoint OHLC outside its corresponding actual bid/ask values.",
+    "Archive gap scanning rejects duplicate/ambiguous columns, absent identity/close/clock fields and malformed CSV.",
+    "Archive instrument and M1 identity must match; time/datetime values must identify the same exact minute."
+  ],
+  "preserved_checks": [
+    "No inferred candles; only requested, complete, observed broker BAM rows can be inserted.",
+    "Existing CSV prefix and tail bytes survive LF/CRLF insertions unchanged.",
+    "Reservations, observations and publication receipts remain exclusive-create and durable.",
+    "Scan byte limits, newest-gap request limits, retry budgets and cooldown remain unchanged.",
+    "Stale, retained, nontradeable and future quotes do not become current technical indicators."
+  ],
+  "registered_six_source_bindings_unchanged": {
+    "oanda_causal_forecast_inputs.py": {
+      "expected": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+      "actual": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281"
+    },
+    "oanda_causal_forecast_ledger.py": {
+      "expected": "4ddd413261fc294922bf2664bb0ae018d8469a3422942567849c1624ba32cd1f",
+      "actual": "4ddd413261fc294922bf2664bb0ae018d8469a3422942567849c1624ba32cd1f"
+    },
+    "oanda_causal_forecast_study.py": {
+      "expected": "e50a9a8ef5bbfe739d177d1bcf8632362bcad06b68694eb7c599c70a33fbd44e",
+      "actual": "e50a9a8ef5bbfe739d177d1bcf8632362bcad06b68694eb7c599c70a33fbd44e"
+    },
+    "oanda_causal_prediction_baselines.py": {
+      "expected": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+      "actual": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d"
+    },
+    "oanda_fixed_forecast_evaluation.py": {
+      "expected": "482af854fae94d53aea82c109ffb6a00f265f3ecebdbc3137e200cb07d142708",
+      "actual": "482af854fae94d53aea82c109ffb6a00f265f3ecebdbc3137e200cb07d142708"
+    },
+    "oanda_proof_shadow_predictors.py": {
+      "expected": "51c3f945eadb3f26166cfddd37d97451ef21e2b69ece6664c57ee06c145ff417",
+      "actual": "51c3f945eadb3f26166cfddd37d97451ef21e2b69ece6664c57ee06c145ff417"
+    }
+  },
+  "external_network_or_broker_requests": 0,
+  "runtime_started_or_reloaded": false,
+  "live_csv_or_database_writes": false,
+  "synthetic_runtime_rows_created": 0,
+  "historical_availability_asserted": false,
+  "limitations": [
+    "Fixture tests and in-memory reproductions only; deployment and actual API/process checks belong to root.",
+    "Gap publication still requires the updater to be the sole CSV writer; original compare-before-replace checks are retained.",
+    "Market movement values are bounded descriptive endpoint differences before costs, not forecasts or trading authority.",
+    "Scanner now requires explicit instrument, granularity and close fields in addition to a timestamp; unsupported schemas abstain from recovery."
+  ]
+}

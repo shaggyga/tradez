@@ -1,0 +1,54 @@
+{
+  "broker_requests_by_reviewer": 0,
+  "limits": [
+    "The observed17/37 mature rows are original worker readiness observations, not independently recomputed current training/news readiness.",
+    "The latest retained records may be older than the new file read; absent tail records cannot establish empty complete history.",
+    "This review does not renew ledger/publication counts, independently reread current prices/news, reproduce the helper or assert current broker/source availability."
+  ],
+  "original_receipt_latest_records": {
+    "TRY_JPY": {
+      "event_epoch": 1788955188.0596402,
+      "family_status": "blocked",
+      "mature_exact_h1_training_rows": 17,
+      "top_level_status": "ready"
+    },
+    "USD_TRY": {
+      "event_epoch": 1788955592.9014482,
+      "family_status": "blocked",
+      "mature_exact_h1_training_rows": 37,
+      "top_level_status": "ready"
+    }
+  },
+  "owner_actual_receipt": {
+    "bytes": 6937,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\try_pair_publication_audit_v1\\TRY_READINESS_REFRESH_001_20260909.json",
+    "sha256": "0e2877844701221d46ece5f144995037ae08ea028f8cbd95d18661934f9fdb55"
+  },
+  "remaining_blockers": [],
+  "review_completed_epoch": 1788955709.6114926,
+  "review_scope": [
+    "Read complete refresh wrapper and the exact accepted registry/readiness_tail implementation; no imports, runtime reads or helper rerun by reviewer.",
+    "The wrapper pins the accepted reader and joint registry, checks registered source hashes before/after, and invokes only registry() plus bounded readiness_tail(); it does not invoke original database/candle/quote audit paths.",
+    "An installed audit hook refuses SQLite connection, network socket/address-resolution and process launch operations during imports and execution.",
+    "Original tail uses safe path components, at most2MiB, bounded lines/rows, retained prefix length, inode/nontruncation check and complete-line trimming. A concurrent append is permitted; this is an observed bounded log tail, not full-history completeness.",
+    "Actual wrapper/read start/read completion/end clocks are finite/ordered before serialization; output is an exclusive direct-child JSON with4MiB bound, fsync and exact readback.",
+    "Original event clocks, full original latest records and family statuses are preserved. Top-level ready is not silently presented as family model ready."
+  ],
+  "runtime_reads_by_reviewer": 0,
+  "schema_version": "try_readiness_refresh_independent_review_v1_20260909",
+  "source_changes_by_reviewer": false,
+  "source_evidence": [
+    {
+      "bytes": 3772,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\try_pair_publication_audit_v1\\refresh_try_readiness_v1.py",
+      "sha256": "b3992190113d700112fcf19b441853d2f4b79cb7622b9459e184551ff6097b27"
+    },
+    {
+      "bytes": 11735,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\try_pair_publication_audit_v1\\audit_try_pair_publication_v1.py",
+      "sha256": "8e3188c7f4a977c2cccae9dc478c063b4193f7fc44c1765f80da08afaec35f79"
+    }
+  ],
+  "status": "passed",
+  "test_runs_by_reviewer": 0
+}

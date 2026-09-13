@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "completed_utc": "2026-09-06T14:49:58.687760+00:00",
+  "status": "passed",
+  "contract_id": "timeframe_matrix_calibration_v2_original_issue_availability_20260906",
+  "oracle": "independent_full_scan_training_selection_and_bin_posterior",
+  "seed_count": 50,
+  "forecasts_per_seed": 100,
+  "forecast_rows_checked": 5000,
+  "checks": [
+    "exact_training_forecast_id_order",
+    "no_own_label_training",
+    "exact_calibrated_probability"
+  ],
+  "input_variation": [
+    "shuffled_forecasts_and_labels",
+    "delayed_label_availability",
+    "missing_labels",
+    "varied_issue_clocks",
+    "probability_boundaries_and_ties",
+    "flat_outcomes"
+  ],
+  "python_version": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+  "bytecode_writes_disabled": true,
+  "script_path": "C:\\Users\\zmoor\\Documents\\forex\\calibration_repair_20260906\\randomized_oracle.py",
+  "script_sha256": "a388e6fb7201cabc66d6ea14dbbe323dc267a96c9e34585e23ecccd7217b5196",
+  "evaluator_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_timeframe_matrix_calibration_v2.py",
+  "evaluator_sha256_before": "126cd4bd28eee1f000c8a014ae7d633482c118a962a064567791c8887bf3a733",
+  "evaluator_sha256_after": "126cd4bd28eee1f000c8a014ae7d633482c118a962a064567791c8887bf3a733",
+  "database_accessed": false,
+  "network_accessed": false,
+  "worker_runtime_accessed": false
+}

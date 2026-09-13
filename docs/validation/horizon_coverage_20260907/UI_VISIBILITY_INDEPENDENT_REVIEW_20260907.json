@@ -1,0 +1,33 @@
+{
+  "status": "passed",
+  "generated_utc": "2026-09-07T23:41:11.4255987Z",
+  "scope": "Bounded independent read-only source and fixture review of UI-only forecast visibility",
+  "source_bindings": {
+    "test": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_joint_price_news_dashboard_v1.py",
+      "sha256": "01417e4cc9d0a9354e2fcaede84c7b9cc4f0c0d189d50f621410de509e791ca2"
+    },
+    "html": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_main_signal_dashboard.html",
+      "sha256": "3ffead742b158de5685b01fef2b25c3e68a556f365356828da9d90f0b91aced4"
+    }
+  },
+  "findings": [],
+  "checks": [
+    "Inline price-only arms require their own current v2 source, explicit research-only inert flags, and current row/family observations.",
+    "Original reference/availability/issue/publication order and unelapsed H1 target remain required.",
+    "One valid price family remains visible independently; no averaging or synthetic combined prediction is introduced.",
+    "Combined, price-only and unavailable pair counts are disjoint; combined unavailability remains explicit.",
+    "Inline price-only label says news not included, retains joint blocker, and preserves original issue and target clocks.",
+    "Dynamic labels remain escaped; displayed in-progress moves and probabilities are not presented as scored accuracy.",
+    "Owner fixtures cover stale/future source, row/family observations, expired targets, publication clocks and unavailable joint source."
+  ],
+  "independent_tests_run": 0,
+  "owner_test_run_observed_in_agent_report": {
+    "independently_rerun": false,
+    "passed": 240
+  },
+  "source_edits": false,
+  "runtime_actions": false,
+  "broker_calls": false
+}

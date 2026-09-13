@@ -32,6 +32,7 @@ from trad.oanda_practice_shadow_strategy_lab import (
     default_lanes,
     daily_candle_refresh_due,
     economic_gates,
+    execution_price_snapshot,
     evaluate_family,
     filter_lanes,
     log_event_counts,
@@ -1189,6 +1190,7 @@ class CatalogTests(unittest.TestCase):
         self.assertEqual(args.execution_intrahour_min_gross_to_spread, 2.5)
         self.assertEqual(args.execution_min_signal_confidence, 0.56)
         self.assertEqual(args.execution_min_signal_expected_net_pips, 1.0)
+        self.assertIsNone(args.research_market_quote_snapshot)
         self.assertIn("volume_climax_reversal", {lane.family for lane in self.lanes})
         self.assertIn("spread_mean_reversion", {lane.family for lane in self.lanes})
         self.assertIn("volatility_shock_fade", {lane.family for lane in self.lanes})
@@ -1259,6 +1261,75 @@ class CatalogTests(unittest.TestCase):
 
 
 class PracticeExecutionTests(unittest.TestCase):
+    def test_execution_price_snapshot_uses_rest_cache_without_stream(self):
+        quote = SimpleNamespace(
+            bid=1.1001,
+            ask=1.1003,
+            time=datetime.now(timezone.utc).isoformat(),
+            tradeable=True,
+        )
+
+        cached = {"EUR_USD": quote}
+        snapshot = execution_price_snapshot(None, cached)
+
+        self.assertEqual(snapshot, {"EUR_USD": quote})
+        self.assertIsNot(snapshot, cached)
+
+    def test_execution_price_snapshot_merges_partial_stream_over_rest_cache(self):
+        older = datetime.now(timezone.utc) - timedelta(seconds=1)
+        newer = datetime.now(timezone.utc)
+        rest_eur = SimpleNamespace(
+            bid=1.1001,
+            ask=1.1003,
+            time=older.isoformat(),
+            tradeable=True,
+        )
+        stream_eur = SimpleNamespace(
+            bid=1.1002,
+            ask=1.1004,
+            time=newer.isoformat(),
+            tradeable=True,
+        )
+        rest_jpy = SimpleNamespace(
+            bid=150.01,
+            ask=150.03,
+            time=newer.isoformat(),
+            tradeable=True,
+        )
+        stream = SimpleNamespace(snapshot=lambda: {"EUR_USD": stream_eur})
+
+        snapshot = execution_price_snapshot(
+            stream,
+            {"EUR_USD": rest_eur, "USD_JPY": rest_jpy},
+        )
+
+        self.assertIs(snapshot["EUR_USD"], stream_eur)
+        self.assertIs(snapshot["USD_JPY"], rest_jpy)
+
+    def test_execution_price_snapshot_refreshes_stale_cache_from_rest(self):
+        older = datetime.now(timezone.utc) - timedelta(minutes=5)
+        newer = datetime.now(timezone.utc)
+        cached = SimpleNamespace(
+            bid=1.1001,
+            ask=1.1003,
+            time=older.isoformat(),
+            tradeable=True,
+        )
+        fresh = SimpleNamespace(
+            bid=1.1004,
+            ask=1.1006,
+            time=newer.isoformat(),
+            tradeable=True,
+        )
+
+        snapshot = execution_price_snapshot(
+            None,
+            {"EUR_USD": cached},
+            snapshot_provider=lambda: {"EUR_USD": fresh},
+        )
+
+        self.assertIs(snapshot["EUR_USD"], fresh)
+
     def test_late_bound_consumer_feed_recovers_async_cache_before_start(self):
         args = parse_args(["--execution-feed-consumer-only"])
         args.execution_signal_feed_database = None
@@ -1348,6 +1419,16 @@ class PracticeExecutionTests(unittest.TestCase):
                 "signal_confidence": 0.56,
                 "signal_score": 0.1,
                 "normalized_rank_score": 0.2,
+                "aggregate_signal_id": "aggregate_signal_test",
+                "aggregate_signal_lineage_contract_id": "lineage-v1",
+                "direction_conflict": True,
+                "direction_conflict_contract_id": "conflict-v1",
+                "direction_conflict_contributor_count": 1,
+                "direction_conflict_account_eligible_count": 0,
+                "direction_conflict_execution_component_count": 0,
+                "direction_conflict_shadow_only_count": 1,
+                "direction_conflict_only_shadow_or_account_ineligible": True,
+                "direction_conflict_contributors": [{"family": "inverse-veto"}],
                 "horizon_breakdown": [
                     {
                         "horizon_sec": 60,
@@ -1357,6 +1438,18 @@ class PracticeExecutionTests(unittest.TestCase):
                         "projected_net_pips": 0.2,
                         "all_contributor_gross_to_spread": 8.0,
                         "directional_gross_to_spread": 1.5,
+                        "aggregate_signal_id": "aggregate_signal_test_60",
+                        "aggregate_signal_lineage_contract_id": "lineage-v1",
+                        "direction_conflict": True,
+                        "direction_conflict_contract_id": "conflict-v1",
+                        "direction_conflict_contributor_count": 1,
+                        "direction_conflict_account_eligible_count": 0,
+                        "direction_conflict_execution_component_count": 0,
+                        "direction_conflict_shadow_only_count": 1,
+                        "direction_conflict_only_shadow_or_account_ineligible": True,
+                        "direction_conflict_contributors": [
+                            {"family": "inverse-veto"}
+                        ],
                         "contributors": [{"model_id": "large-duplicate"}],
                     }
                 ],
@@ -1398,6 +1491,131 @@ class PracticeExecutionTests(unittest.TestCase):
             top[0]["horizon_breakdown"][0]["directional_gross_to_spread"],
             1.5,
         )
+        self.assertEqual(top[0]["aggregate_signal_id"], "aggregate_signal_test")
+        self.assertEqual(
+            top[0]["direction_conflict_contract_id"],
+            "conflict-v1",
+        )
+        self.assertTrue(
+            top[0]["direction_conflict_only_shadow_or_account_ineligible"]
+        )
+        self.assertEqual(
+            top[0]["horizon_breakdown"][0]["aggregate_signal_id"],
+            "aggregate_signal_test_60",
+        )
+        self.assertEqual(
+            top[0]["horizon_breakdown"][0]["direction_conflict_contract_id"],
+            "conflict-v1",
+        )
+
+    def test_signal_snapshot_labels_pre_final_direction_conflict_selection(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "signal_snapshot.json"
+            executor = PracticeExecutor(
+                None,
+                "test",
+                Path(temporary) / "events.jsonl",
+                LanePerformance(),
+                SimpleNamespace(
+                    execution_signal_snapshot=str(path),
+                    execution_signal_snapshot_sec=0.5,
+                    execution_top_lanes=8,
+                ),
+            )
+            selected = {
+                "id": "conflicted-signal",
+                "signal_group_id": "group",
+                "instrument": "USD_JPY",
+                "direction": "buy",
+                "preferred_horizon_sec": 43_200,
+                "signal_confidence": 0.58,
+                "projected_net_pips": 1.54,
+                "direction_conflict": True,
+            }
+            executor.last_qualified_candidates = [selected]
+
+            executor.write_signal_snapshot(selected, [], 1, 1)
+
+            payload = json.loads(path.read_text(encoding="utf-8"))
+            self.assertEqual(
+                payload["selected_stage"],
+                "signal_gate_pre_final_execution_gates",
+            )
+            self.assertEqual(
+                payload["selected_final_gate_status"],
+                "blocked_direction_conflict",
+            )
+            self.assertFalse(
+                payload["selected_routable_after_direction_conflict_gate"]
+            )
+            self.assertTrue(payload["selected"]["direction_conflict"])
+            self.assertFalse(
+                payload["selected"]["routable_after_direction_conflict_gate"]
+            )
+            self.assertEqual(
+                payload["selected"]["final_execution_status"],
+                "blocked_direction_conflict",
+            )
+            self.assertEqual(payload["qualified_signal_count"], 1)
+            self.assertEqual(payload["nonconflicting_qualified_signal_count"], 0)
+
+    def test_signal_snapshot_reports_ranked_quote_rejections(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "signal_snapshot.json"
+            executor = PracticeExecutor(
+                None,
+                "test",
+                Path(temporary) / "events.jsonl",
+                LanePerformance(),
+                SimpleNamespace(
+                    execution_signal_snapshot=str(path),
+                    execution_signal_snapshot_sec=0.5,
+                    execution_top_lanes=8,
+                ),
+            )
+            now = datetime.now(timezone.utc)
+            executor.set_price_snapshot_provider(
+                lambda: {
+                    "EUR_USD": SimpleNamespace(
+                        bid=1.1001,
+                        ask=1.1003,
+                        time=now.isoformat(),
+                        tradeable=True,
+                    ),
+                    "USD_JPY": SimpleNamespace(
+                        bid=150.01,
+                        ask=150.03,
+                        time=(now - timedelta(minutes=5)).isoformat(),
+                        tradeable=True,
+                    ),
+                }
+            )
+
+            executor.write_signal_snapshot(
+                None,
+                [
+                    {"instrument": "EUR_USD", "direction": "buy"},
+                    {"instrument": "USD_JPY", "direction": "sell"},
+                ],
+                2,
+                2,
+            )
+
+            quality = json.loads(path.read_text(encoding="utf-8"))["snapshot_quality"]
+            self.assertEqual(quality["market_quote_scope"], "ranked_signal_instruments")
+            self.assertEqual(quality["market_quote_provider_status"], "ok")
+            self.assertEqual(quality["market_quote_expected_instrument_count"], 2)
+            self.assertEqual(quality["market_quote_count"], 1)
+            self.assertEqual(quality["market_quote_coverage_ratio"], 0.5)
+            self.assertEqual(quality["market_quote_rejected_count"], 1)
+            self.assertEqual(
+                quality["market_quote_rejection_reasons"],
+                {"stale_quote": 1},
+            )
+            self.assertEqual(
+                quality["market_quote_rejected_instruments"],
+                {"USD_JPY": "stale_quote"},
+            )
 
     def test_ranked_candidate_continues_local_only_when_feed_is_locked(self):
         with tempfile.TemporaryDirectory() as temporary:
@@ -2030,6 +2248,99 @@ class PracticeExecutionTests(unittest.TestCase):
             cell["aggregation_method"],
             "family_capped_reliability_weighted_consensus",
         )
+
+    def test_horizon_lineage_and_shadow_only_conflict_basis_are_explicit(self):
+        rows = [
+            {
+                "id": "sell-breakout",
+                "instrument": "GBP_USD",
+                "direction": "sell",
+                "family": "breakout_retest",
+                "lane_id": "breakout_retest.fast",
+                "model_id": "breakout_retest.fast",
+                "input_timeframe": "M1",
+                "signal_role": "structural",
+                "execution_horizon_sec": 300,
+                "signal_eligible": True,
+                "account_eligible": True,
+                "signal_confidence": 0.75,
+                "signal_score": 0.4,
+                "normalized_rank_score": 0.4,
+                "projected_net_pips": 2.0,
+                "historical_reliability": 1.0,
+                "signal_candle_time": "2026-09-01T17:00:00+00:00",
+            },
+            {
+                "id": "sell-strength",
+                "instrument": "GBP_USD",
+                "direction": "sell",
+                "family": "currency_strength",
+                "lane_id": "currency_strength.fast",
+                "model_id": "currency_strength.fast",
+                "input_timeframe": "M1",
+                "signal_role": "structural",
+                "execution_horizon_sec": 300,
+                "signal_eligible": True,
+                "account_eligible": True,
+                "signal_confidence": 0.72,
+                "signal_score": 0.35,
+                "normalized_rank_score": 0.35,
+                "projected_net_pips": 1.8,
+                "historical_reliability": 1.0,
+                "signal_candle_time": "2026-09-01T17:00:00+00:00",
+            },
+            {
+                "id": "inverse-veto",
+                "instrument": "GBP_USD",
+                "direction": "buy",
+                "family": "inverse_correlation_veto",
+                "lane_id": "inverse_correlation_veto.fast",
+                "model_id": "inverse_correlation_veto.fast",
+                "input_timeframe": "M1",
+                "signal_role": "structural",
+                "execution_horizon_sec": 300,
+                "signal_eligible": False,
+                "account_eligible": False,
+                "research_only": True,
+                "research_blocked_reason": "account_ineligible",
+                "signal_confidence": 0.60,
+                "signal_score": 0.1,
+                "normalized_rank_score": 0.1,
+                "projected_net_pips": 0.5,
+                "historical_reliability": 1.0,
+                "signal_candle_time": "2026-09-01T17:00:00+00:00",
+            },
+        ]
+
+        signal = PracticeExecutor.consolidate_ranked_signals(rows)[0]
+        repeated = PracticeExecutor.consolidate_ranked_signals(rows)[0]
+        cell = signal["horizon_breakdown"][0]
+
+        self.assertEqual(cell["direction"], "sell")
+        self.assertTrue(cell["aggregate_signal_id"].startswith("aggregate_signal_"))
+        self.assertEqual(
+            cell["aggregate_signal_id"],
+            repeated["horizon_breakdown"][0]["aggregate_signal_id"],
+        )
+        self.assertEqual(signal["aggregate_signal_id"], cell["aggregate_signal_id"])
+        self.assertTrue(signal["direction_conflict"])
+        self.assertEqual(signal["direction_conflict_contributor_count"], 1)
+        self.assertEqual(signal["direction_conflict_account_eligible_count"], 0)
+        self.assertEqual(signal["direction_conflict_execution_component_count"], 0)
+        self.assertEqual(signal["direction_conflict_shadow_only_count"], 1)
+        self.assertTrue(
+            signal["direction_conflict_only_shadow_or_account_ineligible"]
+        )
+        self.assertEqual(
+            signal["direction_conflict_contributors"][0]["family"],
+            "inverse_correlation_veto",
+        )
+        changed = [dict(row) for row in rows]
+        changed[2]["id"] = "inverse-veto-new-cohort"
+        changed_id = PracticeExecutor.consolidate_ranked_signals(changed)[0][
+            "aggregate_signal_id"
+        ]
+        self.assertNotEqual(changed_id, signal["aggregate_signal_id"])
 
     def test_many_timeframes_from_one_family_do_not_flood_consensus(self):
         rows = [
@@ -2969,6 +3280,7 @@ class SupervisedTrainingTests(unittest.TestCase):
             candles.append(
                 {
                     "time": (start + timedelta(minutes=5 * index)).isoformat().replace("+00:00", "Z"),
+                    "complete": True,
                     "mid": {"h": str(mid + 0.00005), "l": str(mid - 0.00005), "c": str(mid)},
                     "bid": {"c": str(mid - 0.0001)},
                     "ask": {"c": str(mid + 0.0001)},

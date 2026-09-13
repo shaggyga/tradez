@@ -2,6 +2,7 @@ import json
 import sqlite3
 import tempfile
 import unittest
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from trad.oanda_edge_evidence import clipped_mean_pvalue
@@ -50,6 +51,8 @@ def evidence_cell(cell_id="positive", *, positive=True):
             "mfe_to_mae_ratio": 2.0,
             "expected_shortfall_pips": -3.0,
             "minimum_economic_edge_pips": 1.25,
+            "sequential_method": "alpha_spending_hoeffding_clipped_mean_v1",
+            "sequential_clip_bound_pips": 60.0,
             "time_uniform_lower_bound_pips": 1.5,
             "best_episode_profit_share": 0.1,
             "one_sided_pvalue_zero_bounded": 1e-9,
@@ -265,22 +268,26 @@ class ProspectiveGovernanceTests(unittest.TestCase):
                 evidence_database=evidence,
                 config={"discovery": {"family_fdr_q": 0.05, "cell_fdr_q": 0.05}},
             )
+            observed = datetime.now(timezone.utc)
             lock_id = lock_discovery_candidate(
                 evidence,
                 governance_sha256=result["governance_sha256"],
                 cell=cell,
-                locked_utc="2026-08-06T12:00:00+00:00",
+                locked_utc=observed.isoformat(),
+                observed_utc=observed.isoformat(),
             )
             with self.assertRaises(ValueError):
                 open_confirmation_cohort(
                     evidence,
                     candidate_lock_id=lock_id,
-                    start_utc="2026-08-06T12:00:00+00:00",
+                    start_utc=observed.isoformat(),
+                    observed_utc=observed.isoformat(),
                 )
             confirmation = open_confirmation_cohort(
                 evidence,
                 candidate_lock_id=lock_id,
-                start_utc="2026-08-06T12:00:01+00:00",
+                start_utc=(observed + timedelta(seconds=1)).isoformat(),
+                observed_utc=observed.isoformat(),
             )
             self.assertTrue(confirmation.startswith("confirmation_"))
 

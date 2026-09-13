@@ -1,0 +1,37 @@
+{
+  "schema_version": "bounded_independent_source_review_v1_20260907",
+  "observed_utc": "2026-09-07T22:41:15.330042+00:00",
+  "status": "passed",
+  "reviewer": "pair_model_inputs",
+  "runtime_or_broker_actions": false,
+  "source_edits": false,
+  "sources": [
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_always_on_supervisor.ps1",
+      "sha256": "dc07dc530bb59047017834951e2a57da14e4cc957602421abfee59ba79d7dd21",
+      "bytes": 215735
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_project_runtime_health.py",
+      "sha256": "7642c3dcd5b669b93aed5b7288bda57771c07ee75fb8ff30383f7d5d6d267045",
+      "bytes": 12586
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_storage_headroom_guard.py",
+      "sha256": "4ff0d1fdccf9332baca250e32fa40b04cbeeb73cf2588c17bff1944c32d7f66f",
+      "bytes": 16477
+    }
+  ],
+  "source_review": [
+    "Supervisor v2 gate checks exact schema and strict Boolean collection/research/false inert flags; invalid/missing configuration disables that worker.",
+    "V2 launches at BelowNormal with its own config and heartbeat schema/path; v1 is not disabled by the new block.",
+    "Runtime health expects both joint versions and all 15 workers; missing active workers remain visible.",
+    "Storage inventory includes separate joint v1/v2 singleton-family paths, preserving prior price studies and missing-registered-DB warnings."
+  ],
+  "pytest_cases_attributed_to_this_review": 0,
+  "remaining_blockers": [],
+  "limitations": [
+    "Registry inventory expands when configuration exists; 352 expected paths is the fully registered inventory, not a claim every file existed at this review.",
+    "No supervisor or storage writer was executed by this review. Runtime activation is separate."
+  ]
+}

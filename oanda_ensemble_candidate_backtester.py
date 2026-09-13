@@ -884,59 +884,13 @@ def train_final_bundle(
     outcome_horizon: int,
     selected_threshold: dict[str, Any],
 ) -> dict[str, Any]:
-    engine = ContinuousResearchEngine()
-    bundles: list[dict[str, Any]] = []
-    for member in members:
-        spec = dict(member.spec)
-        features = feature_columns_for(spec)
-        target = str(spec["target"])
-        subset = str(spec.get("instrument_subset") or "all")
-        train = apply_instrument_subset(frame, subset).copy()
-        if len(train) > max_train_rows:
-            train = train.tail(max_train_rows)
-        needed = [*features, target]
-        for column in needed:
-            train[column] = pd.to_numeric(train[column], errors="coerce")
-        train = train.dropna(subset=needed)
-        if len(train) < 5_000 or train[target].nunique() < 2:
-            continue
-        model = engine.estimator(spec)
-        model.fit(train[features], train[target].astype(int))
-        direction_model = None
-        direction_target = str(spec.get("direction_target") or "")
-        if target.startswith("profitable_any_move_") and direction_target:
-            dtrain = train.copy()
-            dtrain[direction_target] = pd.to_numeric(
-                dtrain[direction_target],
-                errors="coerce",
-            )
-            dtrain = dtrain[dtrain[target].astype(int).eq(1)].dropna(
-                subset=[*features, direction_target]
-            )
-            if len(dtrain) >= 50 and dtrain[direction_target].nunique() >= 2:
-                direction_model = engine.estimator(spec)
-                direction_model.fit(
-                    dtrain[features],
-                    dtrain[direction_target].astype(int),
-                )
-        bundles.append(
-            {
-                "experiment_id": member.experiment_id,
-                "candidate_id": member.candidate_id,
-                "spec": spec,
-                "features": features,
-                "weight": member_weight(member),
-                "model": model,
-                "direction_model": direction_model,
-            }
-        )
-    return {
-        "pipeline_version": "ensemble_shadow_v1",
-        "trained_utc": iso_utc(),
-        "outcome_horizon": outcome_horizon,
-        "selected_threshold": selected_threshold,
-        "members": bundles,
-    }
+    try:
+        from oanda_ensemble_probability_contract_v2 import refuse_legacy_final_fit
+    except ModuleNotFoundError as exc:
+        if exc.name != 'oanda_ensemble_probability_contract_v2':
+            raise
+        from .oanda_ensemble_probability_contract_v2 import refuse_legacy_final_fit
+    return refuse_legacy_final_fit()
 
 
 def main() -> int:
@@ -979,6 +933,8 @@ def main() -> int:
         help="Optional filter for validated members by account_focus.",
     )
     args = parser.parse_args()
+    if args.write_final_bundle:
+        raise ValueError("Legacy final fit disabled: use explicit v2 mature train/calibration partitions; no legacy thresholds can be transferred")
 
     members = validated_members(
         max_members=args.max_members,

@@ -1,0 +1,60 @@
+{
+  "status": "observed_initial_delay_followed_by_publication",
+  "observed_utc": "2026-09-07T22:31:42.885579+00:00",
+  "source_worker_sha256": "38272ef9f042c50603cc246fcad86f0adca15792f9926c3b0752aeac141033b5",
+  "registry_sha256": "4f4b23454a17de805c6e3f775f458ddec0cb0c820b2c6e30a9593495d3e88d94",
+  "initial_observations": [
+    {
+      "heartbeat_epoch": 1788820046.6785853,
+      "forecasts": 0,
+      "ready_pairs": 40,
+      "errors": 0
+    },
+    {
+      "heartbeat_epoch": 1788820132.0329041,
+      "forecasts": 0,
+      "ready_pairs": 60,
+      "errors": 0
+    }
+  ],
+  "readiness_observation": {
+    "retained_events": 142,
+    "all68_pairs_captured_at_least_twice": true,
+    "first6_pairs_captured3times": true,
+    "first_ready_AUD_CAD_observed_epoch": 1788819975.758341,
+    "last_retained_event_epoch": 1788820146.557061
+  },
+  "later_audit": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\joint_price_news_20260907\\canonical_runtime\\JOINT_CANONICAL_INITIAL_RUNTIME_AUDIT_20260907.json",
+    "sha256": "8f3a79c801771a20ad1c185312b2722b5be923afade28a403c99ec6d0388613c",
+    "started_utc": "2026-09-07T22:29:37.306558+00:00",
+    "finished_utc": "2026-09-07T22:29:51.575902+00:00",
+    "totals": {
+      "ridge_price_news_v1": {
+        "quotes": 2185,
+        "attempts": 20,
+        "diagnostics": 1,
+        "inputs": 20,
+        "forecasts": 19,
+        "publication": 19,
+        "consumption": 19,
+        "entries": 12,
+        "outcomes": 0,
+        "exclusions": 0,
+        "verified_consumed_forecasts": 19,
+        "original_targets_due": 0,
+        "stored_scored_decisions": 0
+      }
+    }
+  },
+  "diagnosis": "Changed-source refresh has priority over a ready cached fit on each pair visit. A full68pair capture sweep exceeded30second rescan cooldown, causing repeated refresh sweeps and delayed attempts. It was a scaling-dependent delay, not permanent inability to publish:19publications were later independently verified.",
+  "retirement_disposition": "The proposed zero-output retirement was withheld before any process stop or source mutation because actual outputs existed. Awaiting parent disposition preserves every issued forecast and its future outcome path.",
+  "runtime_writes": false,
+  "source_edits": false,
+  "process_stops": 0,
+  "orders_enabled": false,
+  "limitations": [
+    "Initial heartbeat observations and later68ledger snapshots have different clocks and must not be treated as a single atomic state.",
+    "No prediction outcome or accuracy conclusion follows from these publication observations."
+  ]
+}

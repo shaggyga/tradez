@@ -1,0 +1,115 @@
+{
+  "schema_version": "forex_supervisor_process_snapshot_performance_validation_v1",
+  "generated_utc": "2026-09-02T13:42:06Z",
+  "scope": {
+    "component": "oanda_always_on_supervisor.ps1",
+    "classification": "local_supervision_performance_optimization",
+    "managed_definition_count": 113,
+    "worker_commands_changed": false,
+    "worker_cadence_changed": false,
+    "worker_freshness_contract_changed": false,
+    "execution_semantics_changed": false,
+    "evidence_contract_changed": false
+  },
+  "problem": {
+    "symptom": "the local supervisor consumed a large fraction of one CPU core and took roughly 47 to 51 seconds of active work per supervision cycle",
+    "root_cause": "Get-MatchingPython independently enumerated Win32_Process for each of the 113 managed definitions in every cycle",
+    "read_only_benchmark_iterations": 25,
+    "mean_full_cim_scan_ms": 214.97,
+    "mean_cached_filter_ms": 8.816,
+    "estimated_old_process_scan_cost_per_cycle_sec": 24.292,
+    "estimated_cached_process_scan_cost_per_cycle_sec": 1.211
+  },
+  "repair": {
+    "cycle_snapshot": "one root-scoped non-test Python Win32_Process snapshot per supervision cycle",
+    "matching": "in-memory filtering of the cycle snapshot for each managed definition",
+    "started_process_handoff": "exact-PID CIM lookup adds a newly started worker to the same cycle snapshot",
+    "fail_closed_behavior": [
+      "abort the supervision cycle if the root process snapshot cannot be obtained",
+      "abort the supervision cycle if a newly started worker cannot be added to the snapshot",
+      "never continue with an incomplete snapshot that could permit a duplicate launch"
+    ],
+    "preserved_semantics": [
+      "root-scoped matching",
+      "test-process exclusion",
+      "per-definition command-line substring matching",
+      "freshness checks",
+      "disabled and safe-core-only workers",
+      "existing worker process identities",
+      "thirty-second inter-cycle sleep"
+    ]
+  },
+  "supervised_reload": {
+    "old_supervisor_pid": 18844,
+    "new_supervisor_pid": 29988,
+    "new_supervisor_started_utc": "2026-09-02T13:35:09Z",
+    "child_workers_restarted": 0,
+    "old_topology": {
+      "observed_utc": "2026-09-02T13:34:27.2953376Z",
+      "managed_definitions": 113,
+      "running_definitions": 86,
+      "unique_matching_process_ids": 172,
+      "started_this_cycle": 0,
+      "unfresh_definitions": 0,
+      "sha256": "9ad28cd322735bc2c7575500d03e2c94ea3346900ee8af6d9adcb9216eda2bd2"
+    },
+    "new_topology": {
+      "observed_utc": "2026-09-02T13:40:01.9362897Z",
+      "managed_definitions": 113,
+      "running_definitions": 86,
+      "unique_matching_process_ids": 172,
+      "started_this_cycle": 0,
+      "unfresh_definitions": 0,
+      "sha256": "9ad28cd322735bc2c7575500d03e2c94ea3346900ee8af6d9adcb9216eda2bd2"
+    },
+    "exact_topology_match": true,
+    "old_last_five_heartbeat_intervals_sec": [77.986, 76.971, 78.458, 81.086, 78.974],
+    "new_first_seven_heartbeat_intervals_sec": [47.126, 45.589, 45.513, 45.889, 45.208, 46.375, 46.071],
+    "fixed_sleep_sec": 30,
+    "old_last_five_active_loop_range_sec": [46.971, 51.086],
+    "new_first_seven_active_loop_range_sec": [15.208, 17.126]
+  },
+  "live_safety_receipt": {
+    "observed_local_time": "2026-09-02T09:41:03-04:00",
+    "practice_account": "101-001-37981792-007",
+    "balance": 41.6042,
+    "nav": 41.6042,
+    "open_trades": 0,
+    "pending_orders": 0,
+    "quote_count": 68,
+    "tradeable_quote_count": 68,
+    "project_integrity_status": "ok",
+    "project_integrity_failures": 0,
+    "executable_census_verified": true,
+    "executable_census_frames": 131,
+    "executable_census_failures": 0,
+    "supported_decision": "no_trade"
+  },
+  "validation": {
+    "pytest_tests": 103,
+    "pytest_result": "passed",
+    "powershell_parse": "passed",
+    "covered_regressions": [
+      "one root-scoped process snapshot per supervision loop",
+      "no Win32_Process enumeration inside Get-MatchingPython",
+      "refresh before managed-worker checks",
+      "exact started-process snapshot handoff",
+      "supervisor integrity freshness",
+      "watchdog restart contract",
+      "retired worker controls",
+      "project integrity"
+    ],
+    "supervisor_sha256": "e4fca8d28f35991b0a77b0b19451175c32adab89bcbb2874570f506014146d43",
+    "test_sha256": "b40665156f15da49b4701a111dcf50a94c602e92ebed985ae477bbc0ba392144"
+  },
+  "safety": {
+    "manual_orders": 0,
+    "manual_closes": 0,
+    "real_money_enabled": false,
+    "entry_gate_changed": false,
+    "promotion_gate_changed": false,
+    "authorization_gate_changed": false,
+    "evidence_rows_rewritten": 0,
+    "codex_automation_created": false
+  }
+}

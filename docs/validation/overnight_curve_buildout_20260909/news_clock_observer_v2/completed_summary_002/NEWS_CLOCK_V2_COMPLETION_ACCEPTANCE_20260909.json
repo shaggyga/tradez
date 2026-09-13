@@ -1,0 +1,70 @@
+{
+  "GET": false,
+  "created_utc": "2026-09-09T12:49:28.197696+00:00",
+  "evidence": [
+    {
+      "bytes": 11904,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v2\\summarize_completed_news_clock_v1.py",
+      "sha256": "0ed4469ba19692f019e5b072e2698d1b674e5a994dce29926a9d6e36fc2b6d31"
+    },
+    {
+      "bytes": 6523,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v2\\test_summarize_completed_news_clock_v1.py",
+      "sha256": "469ddb20d5596e544ceb67062322a07b39bd0030aa71a0cb521b0c3084d11c4f"
+    },
+    {
+      "bytes": 7691,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v2\\news_clock_summary_closed_tests.xml",
+      "sha256": "1931ffdb15071b90f94969c803a9c3b1df0ce39d0f43ab99bedc76e0b4b59104"
+    },
+    {
+      "bytes": 3244,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v2\\NEWS_CLOCK_SUMMARY_DUAL_DEADLINE_REVIEW_20260909.json",
+      "sha256": "ac03b0a7dd132442ae74434e6333626a094cf3ff7c8451546b2520880ff1ff03"
+    },
+    {
+      "bytes": 5545,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v2\\retain_completed_news_clock_evidence_v1.py",
+      "sha256": "94d099d3dfce2c95b72ff639b9e629d3c07860900708d8a6d16a722c839d345f"
+    },
+    {
+      "bytes": 4437,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v2\\completed_summary_002\\NEWS_CLOCK_V2_COMPLETED_SUMMARY_20260909.json",
+      "sha256": "e947cb427c2d642896a0e6ccc2ae5d7057a43346eb2bda356a2049622f9f12fd"
+    },
+    {
+      "bytes": 1484,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v2\\completed_summary_002\\NEWS_CLOCK_V2_COMPLETED_SUMMARY_20260909.md",
+      "sha256": "1b96c65fc36214106155ba5d3c83c1f2136cf7dff24e61680737c7eb535b95b1"
+    }
+  ],
+  "excluded_sample_log": {
+    "bytes": 34105612,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v2\\actual_observation_001\\sanitized_samples.jsonl",
+    "sha256": "1474a50cb5b47e2ebf7531c2fb22c3db5d62b247d729020ef4b4ac8bc8054ef5"
+  },
+  "limits": [
+    "No new sample is admitted at/after the fixed deadline or monotonic budget. An already admitted bounded read/diagnostic may complete later; this is not hard I/O cancellation.",
+    "Polling can miss intermediate generations and does not establish which exact inputs the failed worker read.",
+    "One later independent article snapshot may diagnose a still-present invalid field but cannot reconstruct an earlier overwritten version.",
+    "The frozen producer withholds rather than inventing clocks. A missing/invalid epoch type is not itself evidence of host-clock drift.",
+    "Private exact bytes remain local and must not be included in public/vault exports; this summary contains no article text or event IDs.",
+    "Run spans describe sampled observations, not continuous outage durations; polling and bounded work may miss intervening states.",
+    "Current heartbeat status is not a full current-news semantic replay, input-readiness proof, calibrated prediction, or execution authorization.",
+    "Raw/private bytes and the full sample log remain local; only compact summaries and source/test evidence are selected."
+  ],
+  "original_observer_result": {
+    "bytes": 1940,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v2\\actual_observation_001\\NEWS_CLOCK_PASSIVE_OBSERVATION_20260909.json",
+    "sha256": "06e0b5a5006f63bc88a7abcfb0df304765e6bd6220b15906286a5fb2821ea4c4"
+  },
+  "original_sources_unchanged": true,
+  "original_start": {
+    "bytes": 2844,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v2\\actual_observation_001\\OBSERVATION_STARTED.json",
+    "sha256": "e3786fedbb5368b452c7b023d38acb6664ededee861cbb01a3e308f1e6b4cf55"
+  },
+  "runtime_writes": false,
+  "schema_version": "news_clock_v2_completion_acceptance_v1_20260909",
+  "status": "completed_observation_verified_not_full_operational_acceptance"
+}

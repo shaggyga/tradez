@@ -1,0 +1,115 @@
+"""Read only retained sanitized probe evidence; write exclusive compact conclusions."""
+import collections
+import datetime as dt
+import hashlib
+import json
+import os
+from pathlib import Path
+import statistics
+import time
+
+HERE=Path(__file__).resolve().parent
+ACTUAL=HERE/'actual_probe_002'
+
+def binding(path):
+    raw=path.read_bytes()
+    return dict(path=str(path),sha256=hashlib.sha256(raw).hexdigest(),bytes=len(raw))
+
+def save(path,raw):
+    with path.open('xb') as stream:
+        stream.write(raw);stream.flush();os.fsync(stream.fileno())
+    return binding(path)
+
+def main():
+    began=time.time()
+    final_path=ACTUAL/'LEDGER_ENDPOINT_RELIABILITY_PROBE_20260909.json'
+    samples_path=ACTUAL/'SANITIZED_SAMPLES.jsonl'
+    final=json.loads(final_path.read_bytes())
+    assert binding(final_path)['sha256']=='8b3ce5c1de262e84fac40a8897e10070ddd0d92a18ce00ce4028f87fe00b7c53'
+    assert final['status']=='completed' and final['all_pinned_sources_unchanged'] is True
+    samples=[json.loads(line) for line in samples_path.read_bytes().splitlines()]
+    assert len(samples)==77 and all('projection' in x for x in samples)
+    reports={}
+    for sample in samples:
+        p=sample['projection']; key=p['observer_report_sha256']
+        # Only these report-origin fields are required identical across cached consumers.
+        stable={k:p[k] for k in ('failures','report_started_epoch','report_completed_epoch',
+            'report_elapsed_monotonic_sec','verified_pairs','unvisited_pairs','row_reasons','original_producer')}
+        if key in reports:assert reports[key]['stable']==stable
+        else:reports[key]=dict(stable=stable,projection=p)
+    unique=sorted((x['projection'] for x in reports.values()),key=lambda p:(p['report_completed_epoch'],p['observer_report_sha256']))
+    failures=collections.Counter(pair for p in unique for pair in p['failures'])
+    returns=[]
+    for i,p in enumerate(unique):
+        for pair,reason in p['failures'].items():
+            later=next((q for q in unique[i+1:] if q['row_reasons'][pair]=='verified_original_forecast'),None)
+            returns.append(dict(instrument=pair,reason=reason,failed_report_sha256=p['observer_report_sha256'],
+                failed_report_completed_epoch=p['report_completed_epoch'],
+                first_later_observed_verified_report_sha256=later['observer_report_sha256'] if later else None,
+                first_later_observed_verified_report_completed_epoch=later['report_completed_epoch'] if later else None,
+                observed_report_spacing_sec=later['report_completed_epoch']-p['report_completed_epoch'] if later else None))
+    baseline={pair for pair,reason in unique[0]['row_reasons'].items() if reason=='no_verified_published_forecast'}
+    assert all({pair for pair,reason in p['row_reasons'].items() if reason=='no_verified_published_forecast'}==baseline for p in unique)
+    durations=[p['report_elapsed_monotonic_sec'] for p in unique]
+    failed_durations=[p['report_elapsed_monotonic_sec'] for p in unique if p['failures']]
+    conclusions=dict(schema_version='completed_ledger_endpoint_probe_assessment_v1_20260909',
+        status='observed_recurring_pair_budget_failures',analysis_started_epoch=began,analysis_completed_epoch=time.time(),
+        probe_window=dict(started_epoch=final['started_epoch'],completed_epoch=final['completed_epoch'],
+            observed_monotonic_sec=final['observed_monotonic_sec']),
+        source_evidence=[binding(final_path),binding(samples_path),binding(Path(__file__)),
+            binding(HERE/'probe_ledger_endpoint_v1.py'),binding(HERE/'test_probe_ledger_endpoint_v1.py'),
+            binding(HERE/'ledger_probe_transport_final_tests.xml'),
+            binding(HERE/'LEDGER_ENDPOINT_PROBE_INDEPENDENT_REVIEW_20260909.json')],
+        original_source_bindings=final['source_bindings_before'],all_original_pins_and_served_html_unchanged=True,
+        request_denominator=dict(valid_ledger_polls=len(samples),http_or_projection_failures=0,
+            combined_http_requests_including_initial_transport_failure=final['combined_http_requests'],
+            retained_response_bytes_final_run=final['retained_response_bytes']),
+        unique_report_denominator=dict(distinct_original_reports=len(unique),reports_with_pair_failure=sum(bool(p['failures']) for p in unique),
+            verified_all_68=sum(p['verified_pairs']==68 for p in unique),unvisited_pairs_all_reports=0,
+            failure_occurrences=sum(failures.values()),affected_pairs=len(failures),
+            recurring_pairs={k:v for k,v in sorted(failures.items()) if v>1},
+            isolated_pairs={k:v for k,v in sorted(failures.items()) if v==1},
+            original_producer_status=dict(collections.Counter(p['original_producer']['status'] for p in unique)),
+            original_producer_reported_errors=dict(collections.Counter(str(p['original_producer']['producer_reported_errors']) for p in unique))),
+        unchanged_nonforecast_pairs=sorted(baseline),
+        request_level_counts=final['summary'],
+        original_report_elapsed_sec=dict(min=min(durations),median=statistics.median(durations),max=max(durations),
+            failure_report_min=min(failed_durations),failure_report_max=max(failed_durations)),
+        observed_later_recovery=dict(verified_later_in_window=sum(x['observed_report_spacing_sec'] is not None for x in returns),
+            no_later_report_in_window=sum(x['observed_report_spacing_sec'] is None for x in returns),records=returns),
+        interpretation=[
+            'Recurring observation failures reduce visible coverage; no failed forecast identity was accepted or replaced by an old row.',
+            'The 0.25-second pair deadline is repeatedly hit even when report elapsed is below the original eight-second ledger-scheduling budget. A separately versioned, bounded fresh retry is justified for evaluation; a gain has not been demonstrated.',
+            'The public V1 reason also covers clock chronology. No retained failed-stage timings or SQLite primary codes identify elapsed query work, lock contention, CPU scheduling, or a wall-clock anomaly as the actual cause.',
+            'Producer generation mismatch is a separate envelope status. It did not determine original ledger publication acceptance.',
+            'Later report spacing is observation spacing, not measured failure duration or recovery latency. Last failures may lack a later sampled report.',
+            'One earlier probe-only closed-socket transport error followed a completed HTML GET; no ledger poll was made by that initial attempt. Its exact failed evidence is preserved, and total requests including it are 80.',
+            'Sparse console progress prints one in four polls. All counts here use all sanitized samples and unique original report hashes.',
+            'No account/news/broker requests, forecast issue, source edits, runtime writes, or policy changes were performed.'],
+        orders_enabled=False,account_actions_enabled=False,promotion_enabled=False)
+    target=HERE/'LEDGER_ENDPOINT_RELIABILITY_ASSESSMENT_20260909.json'
+    proof=save(target,(json.dumps(conclusions,sort_keys=True,indent=2,allow_nan=False)+'\n').encode())
+    recurrence=', '.join(f'{p} ({n})' for p,n in conclusions['unique_report_denominator']['recurring_pairs'].items())
+    markdown=f'''# Ledger endpoint reliability, 9 September 2026
+
+The read-only probe ran from 09:51:20 to 10:11:20 UTC for 1,200.015 seconds. All four original source/config pins and both served HTML hashes stayed unchanged.
+
+All 77 ledger HTTP polls validated; there were no HTTP or projection errors. They contained 66 distinct original observer reports. Of those, 26 had pair-budget failures, totaling 40 pair failures across 26 pairs. All reports visited all 68 pairs; 40 verified all 68. Cached repeated reports are counted once for recurrence.
+
+Seven pairs failed repeatedly: {recurrence}. The other 19 affected pairs each failed in one distinct report. Visible current forecasts ranged from 63 to 66 across polls. TRY_JPY and USD_TRY consistently had no verified published forecast; they are separate from observation timeouts.
+
+HTTP latency was 0.250–3.547 seconds (median 0.391). Original observer reports took 0.547–2.828 seconds (median 1.110); failed reports took 1.094–2.828 seconds. No global-budget unvisited pairs occurred. These are elapsed observations, not CPU/SQLite-lock measurements.
+
+The original producer envelope was coherent in 46 distinct reports and had a generation mismatch in 20. Its reported error counter remained 13. This status is separate from the verified ledger publication chain.
+
+The evidence supports evaluating one fresh bounded retry inside the existing eight-second ledger budget. It does not establish a root cause or prove retry gains. V1's public pair-budget reason combines deadline and clock chronology checks, and failed-stage timing/SQLite primary-code detail is absent. Integrity failures and missing publications must remain ineligible for retry. Original forecast targets and observations must remain unchanged.
+
+There were 80 total HTTP requests including the preserved initial one-HTML-GET probe transport failure; the completed run used 77 ledger polls and two HTML reads. It retained 23,370,755 private response bytes. No account, news, or broker endpoint was accessed. Console progress sampled every fourth poll; this assessment uses the complete retained log.
+
+Source-bound assessment: `{target.name}`, SHA-256 `{proof['sha256']}`. Original completed receipt: `{final_path.name}`, SHA-256 `{binding(final_path)['sha256']}`. Exact responses remain private; compact summary and sanitized clock/count evidence are suitable for curation.
+'''
+    doc=save(HERE/'LEDGER_ENDPOINT_RELIABILITY_ASSESSMENT_20260909.md',markdown.encode())
+    print(json.dumps(dict(assessment=proof,report=doc,distinct_reports=len(unique),failed_reports=26,
+        later_observed_recoveries=conclusions['observed_later_recovery']['verified_later_in_window'])))
+
+if __name__=='__main__':main()

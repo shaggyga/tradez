@@ -1,0 +1,58 @@
+{
+  "orders_enabled": false,
+  "original_contract_dependencies": [
+    {
+      "bytes": 26812,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_forecast_curve_contract_v1.py",
+      "sha256": "c03549586f922f6031790fce68a5afb5b98e4eda6157f20c4720b1adb05d0746"
+    },
+    {
+      "bytes": 15715,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_m1_risk_distribution_contract_v1.py",
+      "sha256": "36b7ee7c2ca79a6ed4f75cfd60e66678b25b0448602dd9366093e328daa84467"
+    }
+  ],
+  "owner_test_evidence": {
+    "bytes": 8876,
+    "failed": 0,
+    "independently_rerun": false,
+    "passed": 55,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\curve_risk_attachment_v1\\attachment_initial_tests.xml",
+    "sha256": "179425878b668156721a82159dc1f1339b618d2b52f0ed9130ee45e390f837b4"
+  },
+  "remaining_blockers": [],
+  "reviewed_boundaries": [
+    "Full curve consumption validation and risk raw-input/training-artifact chain replay precede matching or refusal; invalid evidence cannot be short-circuited as harmless mismatch.",
+    "Expected curve cohort/model/policy and fixed risk cohort/artifact are checked separately from seals. Both source closures remain explicit caller-supplied trusted identities.",
+    "Six original objects each require exact canonical hash and actual serial downstream read clocks after their original availability and by the original decision information cutoff.",
+    "Exact instrument/currency metadata/pip/official-M reference price and effective close clock are required. Original S5/M1 bar labels are preserved separately; no rounding, relabeling, or BA-to-M equivalence is inferred.",
+    "The selected target must be native to both original chains, with exact zero-delay target selection and original curve node admitted at issue; original target expiry, minimum remaining time and curve decision age are enforced.",
+    "Both fixed risk methods retain the unchanged full-horizon marginal nodes. Long/short labels follow explicitly supplied caller side context, with common endpoint/range/variation labels retained separately.",
+    "Attachment computation has its own actual completion clock after replay. Historical decision information cutoff is not claimed as this diagnostic computation time.",
+    "Output inputs are detached, exact Decimal comparisons use private precision, and validate_attachment rebuilds the complete result rather than trusting a resealed output."
+  ],
+  "reviewed_epoch": 1788949077.694605,
+  "runtime_mutated": false,
+  "schema_version": "curve_risk_attachment_independent_source_review_v1_20260909",
+  "scope_limits": [
+    "Read-only source/test inspection only. No independent pytest rerun, broker call, runtime read/write, fitting, actual retained-chain diagnostic, or production integration was performed for this review.",
+    "Caller-supplied source identities and read receipts require external authentication; canonical hashes do not authenticate I/O or actual position identity.",
+    "Candidate/incumbent side is caller context, not verified direction admission or live position evidence.",
+    "Original full-horizon risk is not a remaining conditional distribution, stop rule, position size, joint probability, calibrated joint event, or executable-fill claim.",
+    "Actual recovered S5 target window 0..7 seconds cannot silently join an exact M1 target, and different reference/target events remain explicitly unavailable."
+  ],
+  "source_evidence": [
+    {
+      "bytes": 13581,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_curve_risk_attachment_v1.py",
+      "sha256": "3eee8c13f2f6283bb9d2079709ab1555c90a13f01c76f872b33ffe6dabee8679"
+    },
+    {
+      "bytes": 11670,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_curve_risk_attachment_v1.py",
+      "sha256": "e19e72da237e92d5d91d060fd62476b7fb34af6c13339bd071abeb2c3ce3d11f"
+    }
+  ],
+  "source_files_edited": false,
+  "status": "passed"
+}

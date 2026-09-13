@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="9" time="4.203" timestamp="2026-09-09T02:28:27.758059-04:00" hostname="DESKTOP-Q2EDIEU"><testcase classname="test_oanda_observed_curve_management_worker_v1" name="test_real_manager_plan_persisted_before_quote_and_state_durably_recorded" time="0.528"><failure message="assert 0 == 2&#10; +  where 0 = sum(&lt;generator object test_real_manager_plan_persisted_before_quote_and_state_durably_recorded.&lt;locals&gt;.&lt;genexpr&gt; at 0x000002544B0A1560&gt;)">tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-4758/test_real_manager_plan_persist0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x000002544C4D56A0&gt;
+
+    def test_real_manager_plan_persisted_before_quote_and_state_durably_recorded(tmp_path,monkeypatch):
+        args=setup_step(tmp_path,monkeypatch)
+        (state,result),path=run(args)
+        events=args[6]
+        plan=json.loads((path/'plan.json').read_bytes())
+        publication=json.loads((path/'plan_publication.json').read_bytes())
+        persisted=json.loads((path/'settlement_publication.json').read_bytes())
+        assert result['status']=='completed' and len(events)==2
+        assert plan['decision_epoch']&lt;plan['plan_created_epoch']&lt;=publication['publication_started_epoch']
+        assert publication['publication_completed_epoch']&lt;events[1][1]
+        assert state['known_epoch']==result['settlement_computed_epoch']
+        assert state['known_epoch']&lt;=persisted['publication_started_epoch']
+&gt;       assert sum(s['position'] is not None for s in state['arms'].values())==2
+E       assert 0 == 2
+E        +  where 0 = sum(&lt;generator object test_real_manager_plan_persisted_before_quote_and_state_durably_recorded.&lt;locals&gt;.&lt;genexpr&gt; at 0x000002544B0A1560&gt;)
+
+test_oanda_observed_curve_management_worker_v1.py:81: AssertionError</failure></testcase><testcase classname="test_oanda_observed_curve_management_worker_v1" name="test_missing_executable_observation_remains_no_fill" time="1.617" /><testcase classname="test_oanda_observed_curve_management_worker_v1" name="test_terminal_can_record_force_exit_without_decision_quote" time="0.440" /><testcase classname="test_oanda_observed_curve_management_worker_v1" name="test_failed_plan_receipt_does_not_begin_future_quote_poll" time="0.174" /><testcase classname="test_oanda_observed_curve_management_worker_v1" name="test_bound_source_change_before_publication_stops_before_future_quotes" time="0.138" /><testcase classname="test_oanda_observed_curve_management_worker_v1" name="test_normal_decision_missing_raw_quote_is_not_terminal_override" time="0.005" /><testcase classname="test_oanda_observed_curve_management_worker_v1" name="test_wait_is_bounded_by_hard_stop" time="0.001" /><testcase classname="test_oanda_observed_curve_management_worker_v1" name="test_anchor_selection_uses_order_and_eligibility_not_prediction" time="0.001" /><testcase classname="test_oanda_observed_curve_management_worker_v1" name="test_newest_valid_source_does_not_search_for_nicer_momentum" time="0.001" /></testsuite></testsuites>

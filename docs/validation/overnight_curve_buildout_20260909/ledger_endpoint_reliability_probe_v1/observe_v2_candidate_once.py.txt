@@ -1,0 +1,87 @@
+"""One explicit external candidate observation; no runtime publication or GET."""
+import hashlib
+import json
+from pathlib import Path
+import sys
+import time
+
+BASE=Path(__file__).resolve().parent
+ROOT=BASE.parents[1]/'trad'
+sys.path.insert(0,str(ROOT))
+import oanda_joint_v3_ledger_observer_api_v2 as api
+
+PINS={
+    'oanda_joint_v3_ledger_status_observer_v2.py':'1a8b4c68377bb27314e018063a70725d645d5cd4183ffa55c5f61145e257178a',
+    'oanda_joint_v3_ledger_observer_api_v2.py':'4bb54249ba244f73067aef4710f3e8eaa2c78261ee2d9b68fdab8c76fc9c3e9f',
+    'oanda_joint_v3_ledger_status_observer_v1.py':'d2dc17dfee52603ae1ccf61433f4a1a73cd1650fdf44c5f1daaa60cf133d8699',
+    'oanda_joint_v3_ledger_observer_api_v1.py':'26814b7f7a2a5c9dd7457bf1c1231ebb98f8a496139169f69c20187d436543ed',
+    'oanda_immutable_summary_publication_v1.py':'53abafc379216797945543464fe218511f53b17a2d0d9d9cecb700146eff4bf7',
+    'oanda_practice_live_dashboard.py':'3882467376ddace472163baa8f37d2c729d4d3fd9ba18c18c66936c2a0cbb17a',
+    'oanda_main_signal_dashboard.html':'da9ae85ac0efd524a59ab7f24cf5de6602b737610e996556abf4b0e783b690c6',
+    'config/joint_v3_ledger_observer_api_v1_20260909.json':'983ac47caa3ba2a4ac8021876ce7e0a371ebdae2ef36ccb1d7a2636a046a4073',
+}
+
+
+def sha(raw):return hashlib.sha256(raw).hexdigest()
+
+
+def pinned():
+    records={}
+    for name,want in PINS.items():
+        raw=(ROOT/name).read_bytes();actual=sha(raw)
+        if actual!=want:raise ValueError('candidate_source_pin_changed')
+        records[name]=dict(sha256=actual,bytes=len(raw))
+    return records
+
+
+def save(path,value):
+    raw=(json.dumps(value,sort_keys=True,indent=2,allow_nan=False)+'\n').encode()
+    with path.open('xb') as stream:stream.write(raw)
+    return dict(path=str(path),sha256=sha(raw),bytes=len(raw))
+
+
+def run(output_name):
+    if output_name not in ('actual_v2_candidate_001','actual_v2_candidate_002'):
+        raise ValueError('candidate_output_not_predeclared')
+    started=time.time();before=pinned()
+    spec=json.loads((ROOT/'config/joint_v3_ledger_observer_api_v1_20260909.json').read_bytes())
+    spec['schema_version']=api.SPEC_SCHEMA
+    spec['source_bindings']={**api.observer.own_source_bindings(),api.OWN_NAME:api._IMPORTED_SOURCE_SHA256}
+    instance=api.LedgerObservationAPI(spec,expected_specification_sha256=api.observer.digest(spec))
+    start=time.perf_counter();full=instance.get();full_elapsed=time.perf_counter()-start
+    start=time.perf_counter();compact=instance.get(compact=True);cached_elapsed=time.perf_counter()-start
+    after=pinned()
+    if before!=after:raise ValueError('candidate_sources_changed_during_observation')
+    report=full.get('observer_report');consumer=full.get('consumer')
+    output=BASE/output_name;output.mkdir(exist_ok=False)
+    # Original forecast payloads stay outside the canonical project/export selection.
+    private=output/'private';private.mkdir()
+    full_record=save(private/'full_api_response.json',full)
+    compact_record=save(output/'COMPACT_API_RESPONSE_20260909.json',compact)
+    scheduling=report.get('scheduling',{}) if report else {}
+    receipt=dict(schema_version='joint_v3_observer_v2_actual_candidate_observation_v1_20260909',
+        status='completed_candidate_observation' if report else 'candidate_unavailable',
+        actual_started_epoch=started,actual_completed_epoch=time.time(),source_bindings_before=before,
+        source_bindings_after=after,configuration_semantic_sha256=api.observer.digest(spec),
+        full_response=full_record,compact_response=compact_record,full_call_elapsed_sec=full_elapsed,
+        cache_call_elapsed_sec=cached_elapsed,consumer=consumer,api_reason=full.get('reason'),
+        observer_report_sha256=full.get('observer_report_sha256'),
+        observation_started_epoch=report.get('started_epoch') if report else None,
+        observation_completed_epoch=report.get('completed_epoch') if report else None,
+        observation_elapsed_monotonic_sec=report.get('elapsed_monotonic_sec') if report else None,
+        retry_diagnostics=scheduling,final_failures=report.get('failures') if report else None,
+        missing_rows=[dict(instrument=row['instrument'],status=row['families'][api.observer.FAMILY]['status'],
+            reason=row['families'][api.observer.FAMILY]['reason'],observed_epoch=row['families'][api.observer.FAMILY]['observed_epoch'])
+            for row in report['summary']['rows'] if row['families'][api.observer.FAMILY]['status']!='forecast'] if report else None,
+        same_report_on_cached_call=full.get('observer_report_sha256')==compact.get('observer_report_sha256'),
+        original_producer_envelope=full.get('original_producer_envelope'),runtime_writes=False,
+        source_edits=False,broker_GET=False,source_observation_only=True,
+        scope='One separately source-bound candidate scan; no reliability-rate, current-input-readiness or trading-performance claim.')
+    record=save(output/'ACTUAL_OBSERVER_V2_CANDIDATE_20260909.json',receipt)
+    print(json.dumps(dict(receipt=record,status=receipt['status'],consumer_counts={k:consumer.get(k) for k in (
+        'registered_pairs','verified_ledger_pairs','current_forecast_pairs','unvisited_pairs')} if consumer else None,
+        first_pass_verified=scheduling.get('first_pass_verified_pairs'),retry_attempted=scheduling.get('retry_attempted_pairs'),
+        retry_recovered=scheduling.get('retry_recovered_ledger_pairs'),full_call_elapsed_sec=full_elapsed)))
+
+
+if __name__=='__main__':run(sys.argv[1])

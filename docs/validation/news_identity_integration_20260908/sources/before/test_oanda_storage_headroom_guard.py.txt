@@ -1,0 +1,241 @@
+import gzip
+import json
+from datetime import datetime, timedelta, timezone
+
+import oanda_storage_headroom_guard as guard
+import oanda_verified_log_archiver as archiver
+import pytest
+import sqlite3
+from pathlib import Path
+from types import SimpleNamespace
+
+
+def test_storage_classification_has_absolute_and_fractional_guards():
+    total = 1000 * 1024**3
+    assert guard.classify(free_bytes=65 * 1024**3, total_bytes=total) == "ok"
+    assert guard.classify(free_bytes=40 * 1024**3, total_bytes=total) == "warning"
+    assert guard.classify(free_bytes=20 * 1024**3, total_bytes=total) == "critical"
+
+
+def test_growth_projection_counts_positive_database_growth_without_wal_netting():
+    now = datetime(2026, 8, 19, 2, 0, tzinfo=timezone.utc)
+    paths = ["a.sqlite", "b.sqlite"]
+    previous = {
+        "generated_utc": (now - timedelta(days=1)).isoformat(),
+        "databases": [
+            {"path": paths[0], "allocated_bytes": 10_000, "wal_bytes": 2_000},
+            {"path": paths[1], "allocated_bytes": 8_000, "wal_bytes": 4_000},
+        ],
+    }
+    current = [
+        {"path": paths[0], "allocated_bytes": 15_000, "wal_bytes": 2_000},
+        {"path": paths[1], "allocated_bytes": 8_000, "wal_bytes": 1_000},
+    ]
+
+    result = guard.growth_projection(
+        previous=previous,
+        generated=now.isoformat(),
+        databases=current,
+        free_bytes=100 * 1024**3,
+    )
+
+    assert result["usable"] is True
+    assert result["positive_growth_bytes"] == 5_000
+    assert result["estimated_positive_growth_bytes_per_day"] == 5_000
+    assert result["databases"][1]["delta_bytes"] == -3_000
+
+
+def test_growth_projection_refuses_short_noisy_window():
+    now = datetime(2026, 8, 19, 2, 0, tzinfo=timezone.utc)
+    previous = {
+        "generated_utc": (now - timedelta(seconds=60)).isoformat(),
+        "databases": [{"path": "a.sqlite", "allocated_bytes": 1, "wal_bytes": 0}],
+    }
+    result = guard.growth_projection(
+        previous=previous,
+        generated=now.isoformat(),
+        databases=[{"path": "a.sqlite", "allocated_bytes": 1_000_000, "wal_bytes": 0}],
+        free_bytes=100 * 1024**3,
+    )
+    assert result["usable"] is False
+    assert result["status"] == "insufficient_observation_window"
+    assert result["estimated_positive_growth_bytes_per_day"] == 0.0
+
+
+def test_newly_monitored_database_requires_observed_growth_baseline():
+    now = datetime(2026, 9, 7, 21, 0, tzinfo=timezone.utc)
+    previous = {'generated_utc': (now-timedelta(minutes=5)).isoformat(),
+                'databases': [{'path':'legacy.sqlite','allocated_bytes':100,'wal_bytes':0}]}
+    current = [{'path':'legacy.sqlite','allocated_bytes':100,'wal_bytes':0},
+               {'path':'active.sqlite','allocated_bytes':9000000,'wal_bytes':0}]
+    first = guard.growth_projection(previous=previous, generated=now.isoformat(), databases=current, free_bytes=10**11)
+    assert first['usable'] is False
+    assert first['status'] == 'waiting_for_inventory_baseline'
+    current[1]['allocated_bytes'] += 1000
+    second = guard.growth_projection(previous={'generated_utc':now.isoformat(), 'databases':[
+        previous['databases'][0], {'path':'active.sqlite','allocated_bytes':9000000,'wal_bytes':0}]},
+        generated=(now+timedelta(minutes=5)).isoformat(), databases=current, free_bytes=10**11)
+    assert second['usable'] and second['positive_growth_bytes'] == 1000
+
+
+def test_active_news_quotes_and_all_registered_family_databases_included(tmp_path, monkeypatch):
+    monkeypatch.setattr(guard,'ROOT',tmp_path);monkeypatch.setattr(guard,'DATA',tmp_path/'data');monkeypatch.setattr(guard,'STATE',tmp_path/'data/state')
+    (tmp_path/'config').mkdir()
+    for version in ('v1','v2'):
+        config={'schema_version':f'pair_local_forecast_registry_{version}_20260907',
+                'pairs':{'EUR_USD':{'families':{'probabilistic_state_space':{},'ridge_return_repaired':{}}}}}
+        (tmp_path/'config'/f'pair_local_forecast_study_{version}_20260907.json').write_text(json.dumps(config))
+    paths,errors=guard.managed_database_paths()
+    assert not errors and len(paths)==15
+    assert any(p.name=='local_news_sentiment_v1.sqlite' for p in paths)
+    assert any(p.name=='source_governance_v1.sqlite' for p in paths)
+    assert sum(p.name=='study.sqlite' for p in paths)==3
+    assert not (tmp_path/'data').exists()
+
+
+@pytest.mark.parametrize('version',['v1','v2'])
+@pytest.mark.parametrize('family,valid',[('ridge_price_news_v1',True),('../escape',False),('ridge_return_repaired',False)])
+def test_joint_registry_is_inventoried_with_only_registered_family(tmp_path,monkeypatch,family,valid,version):
+    monkeypatch.setattr(guard,'ROOT',tmp_path);monkeypatch.setattr(guard,'DATA',tmp_path/'data')
+    (tmp_path/'config').mkdir()
+    config={'schema_version':f'joint_price_news_registry_{version}_20260907','pairs':{'EUR_USD':{'families':{family:{}}}}}
+    (tmp_path/'config'/f'joint_price_news_study_{version}_20260907.json').write_text(json.dumps(config))
+    paths,errors=guard.managed_database_paths()
+    assert bool(errors) is not valid
+    assert len(paths)==(13 if valid else 12)
+    if valid:assert paths[-1]==tmp_path/f'data/joint_price_news_study_{version}/pairs/EUR_USD/ridge_price_news_v1/study.sqlite'
+    assert not (tmp_path/'data').exists()
+
+
+@pytest.mark.parametrize('bad',['../escape', 'x'*30, 'EUR_USD/elsewhere'])
+def test_invalid_registry_never_inventories_redirected_database(tmp_path, monkeypatch, bad):
+    monkeypatch.setattr(guard,'ROOT',tmp_path);(tmp_path/'config').mkdir()
+    config={'schema_version':'pair_local_forecast_registry_v1_20260907','pairs':{bad:{}}}
+    (tmp_path/'config/pair_local_forecast_study_v1_20260907.json').write_text(json.dumps(config))
+    paths,errors=guard.managed_database_paths()
+    assert len(paths)==12 and errors and 'invalid_pair_path' in errors[0]
+
+
+def test_wal_disappearing_during_checkpoint_is_normal(tmp_path,monkeypatch):
+    path=tmp_path/'study.sqlite'
+    with sqlite3.connect(path) as db:db.execute('CREATE TABLE evidence(id INTEGER)')
+    original=Path.stat
+    def observed_stat(self,*args,**kwargs):
+        if str(self).endswith('-wal'):raise FileNotFoundError('checkpoint removed WAL')
+        return original(self,*args,**kwargs)
+    monkeypatch.setattr(Path,'stat',observed_stat)
+    row=guard.sqlite_allocation(path)
+    assert row['exists'] and row['integrity_readable'] and row['wal_bytes']==0
+
+
+def test_wal_permission_error_remains_visible(tmp_path,monkeypatch):
+    path=tmp_path/'study.sqlite'
+    with sqlite3.connect(path) as db:db.execute('CREATE TABLE evidence(id INTEGER)')
+    original=Path.stat
+    def observed_stat(self,*args,**kwargs):
+        if str(self).endswith('-wal'):raise PermissionError('unreadable WAL')
+        return original(self,*args,**kwargs)
+    monkeypatch.setattr(Path,'stat',observed_stat)
+    row=guard.sqlite_allocation(path)
+    assert row['integrity_readable'] is False and 'PermissionError' in row['read_error']
+
+
+def test_missing_registered_database_warns_without_creating_it(tmp_path,monkeypatch):
+    monkeypatch.setattr(guard,'ROOT',tmp_path);monkeypatch.setattr(guard,'DATA',tmp_path/'data');monkeypatch.setattr(guard,'STATE',tmp_path/'data/state')
+    (tmp_path/'config').mkdir()
+    (tmp_path/'config/pair_local_forecast_study_v1_20260907.json').write_text(json.dumps({
+        'schema_version':'pair_local_forecast_registry_v1_20260907','pairs':{'EUR_USD':{}}}))
+    monkeypatch.setattr(guard.shutil,'disk_usage',lambda p:SimpleNamespace(total=10**12,free=10**11,used=9*10**11))
+    payload=guard.run(output=tmp_path/'out.json',history=tmp_path/'history.jsonl',report=tmp_path/'report.md')
+    assert payload['status']=='warning'
+    assert len(payload['database_inventory']['missing_registered_paths'])==1
+    assert payload['database_inventory']['complete_for_registered_scope'] is False
+    assert not (tmp_path/'data').exists()
+
+
+@pytest.mark.parametrize('version',['v1','v2'])
+def test_missing_joint_database_warns_and_is_incomplete(tmp_path,monkeypatch,version):
+    monkeypatch.setattr(guard,'ROOT',tmp_path);monkeypatch.setattr(guard,'DATA',tmp_path/'data');monkeypatch.setattr(guard,'STATE',tmp_path/'data/state')
+    (tmp_path/'config').mkdir()
+    (tmp_path/'config'/f'joint_price_news_study_{version}_20260907.json').write_text(json.dumps({
+        'schema_version':f'joint_price_news_registry_{version}_20260907','pairs':{'EUR_USD':{'families':{'ridge_price_news_v1':{}}}}}))
+    monkeypatch.setattr(guard.shutil,'disk_usage',lambda p:SimpleNamespace(total=10**12,free=10**11,used=9*10**11))
+    payload=guard.run(output=tmp_path/'out.json',history=tmp_path/'history.jsonl',report=tmp_path/'report.md')
+    assert payload['status']=='warning'
+    assert len(payload['database_inventory']['missing_registered_paths'])==1
+    assert payload['database_inventory']['complete_for_registered_scope'] is False
+    assert not (tmp_path/'data').exists()
+
+
+def test_all68_pair_and_two_joint_registries_inventory352_distinct_paths(tmp_path,monkeypatch):
+    from itertools import islice,product
+    from string import ascii_uppercase
+    monkeypatch.setattr(guard,'ROOT',tmp_path);monkeypatch.setattr(guard,'DATA',tmp_path/'data');monkeypatch.setattr(guard,'STATE',tmp_path/'data/state')
+    (tmp_path/'config').mkdir()
+    pairs=[a+b+'X_USD' for a,b in islice(product(ascii_uppercase,repeat=2),68)]
+    for prefix in ('pair_local_forecast','joint_price_news'):
+        for version in ('v1','v2'):
+            families={'ridge_price_news_v1':{}} if prefix=='joint_price_news' else {'ridge_return_repaired':{},'probabilistic_state_space':{}}
+            registry={'schema_version':f'{prefix}_registry_{version}_20260907','pairs':{pair:{'families':families} for pair in pairs}}
+            (tmp_path/'config'/f'{prefix}_study_{version}_20260907.json').write_text(json.dumps(registry))
+    paths,errors=guard.managed_database_paths()
+    assert not errors and len(paths)==len(set(paths))==352
+    assert sum('joint_price_news_study_v1' in str(p) for p in paths)==68
+    assert sum('joint_price_news_study_v2' in str(p) for p in paths)==68
+    assert not (tmp_path/'data').exists()
+
+
+def test_verified_rotated_log_archive_round_trips_before_removal(tmp_path):
+    root = tmp_path / "logs"
+    root.mkdir()
+    source = root / "worker.part_20260801.jsonl"
+    raw = b'{"a":1}\n{"b":2}\n'
+    source.write_bytes(raw)
+
+    result = archiver.archive_one(source, root)
+
+    archive = root / "worker.part_20260801.jsonl.gz"
+    manifest = json.loads(
+        (root / "worker.part_20260801.jsonl.gz.manifest.json").read_text()
+    )
+    assert not source.exists()
+    assert gzip.open(archive, "rb").read() == raw
+    assert result["round_trip_verified"] is True
+    assert manifest["line_count"] == 2
+
+
+def test_archiver_refuses_active_or_out_of_root_logs(tmp_path):
+    root = tmp_path / "logs"
+    root.mkdir()
+    active = root / "active.jsonl"
+    active.write_text("{}\n", encoding="utf-8")
+    try:
+        archiver.archive_one(active, root)
+    except ValueError as exc:
+        assert "refusing" in str(exc)
+    else:
+        raise AssertionError("active log was accepted")
+
+
+def test_archiver_preserves_lifetime_totals_on_empty_followup(tmp_path):
+    root = tmp_path / "logs"
+    root.mkdir()
+    state = tmp_path / "state.json"
+    source = root / "worker.part_old.jsonl"
+    source.write_bytes(b"{}\n")
+    old = source.stat().st_mtime - 72 * 3600
+    import os
+    os.utime(source, (old, old))
+
+    first = archiver.run(root=root, state=state, minimum_age_hours=48)
+    second = archiver.run(root=root, state=state, minimum_age_hours=48)
+
+    assert first["lifetime"]["archived_file_count"] == 1
+    assert second["archived_file_count"] == 0
+    assert second["lifetime"]["archived_file_count"] == 1
+    assert second["lifetime"]["reclaimed_bytes"] == max(
+        0,
+        second["lifetime"]["source_bytes"]
+        - second["lifetime"]["compressed_bytes"]
+        - second["lifetime"]["manifest_bytes"],
+    )

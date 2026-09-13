@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-09-04T20:07:00Z",
+  "issue_id": "FX-20260904-OPPOSING-POLICY-CLAIM-GUARD",
+  "status": "complete",
+  "miss": {
+    "headline": "Strong U.S. job gains signal Fed hike as Trump levels new rate-cut demand - The Globe and Mail",
+    "prior_usd_score": -0.9,
+    "root_cause": "Two opposing same-currency policy claims from different actors were flattened into the last lexical action."
+  },
+  "repair": {
+    "classification_version": "local_fx_news_rules_20260904_v163_opposing_policy_claim_guard",
+    "watchlist_cohort": "news_technical_watchlist_v48_opposing_policy_claim_guard_20260904",
+    "same_currency_opposing_claim_output": "multi_claim_semantic_conflict",
+    "currency_scores": {},
+    "directional_publish_eligible": false,
+    "multi_currency_cross_authority_headlines_automatically_flattened": false
+  },
+  "validation": {
+    "news_tests_passed": 494,
+    "watchlist_tests_passed": 46,
+    "supervisor_tests_passed": 14,
+    "python_compile_passed": true,
+    "live_cycle_started_utc": "2026-09-04T19:49:32.082342Z",
+    "live_cycle_completed_utc": "2026-09-04T20:06:20Z",
+    "live_sources_completed": 192,
+    "live_sources_configured": 192,
+    "live_inserted_items": 6,
+    "live_duplicate_items": 1670,
+    "live_reclassified_rows": 5611,
+    "live_watchlist_factor_count": 0,
+    "live_watchlist_status": "ok"
+  },
+  "artifacts": [
+    {"path": "oanda_news_classification_contract.py", "sha256": "9f0d806cb655451f078d79b66e53d5737a23708063ce48bb27671c1568059eac"},
+    {"path": "oanda_local_news_sentiment.py", "sha256": "3d7af93ae33bf0a7c0a5ad850df15b48ed31cc1a785adf9a92854ba0ff12b9f5"},
+    {"path": "oanda_news_technical_watchlist.py", "sha256": "0837f546e48e7246ec548d53c5ce356781a1d3568af1bfac552a6c60944ae73e"},
+    {"path": "oanda_always_on_supervisor.ps1", "sha256": "6180842c6205982fa25a95ff0f952313080a686e6ad52720eeb785272f76ee74"},
+    {"path": "test_oanda_local_news_sentiment.py", "sha256": "b47e67c923c91d0dec93dc39f3c30d53cc84e4095a67020007c42763ca8a3ee1"},
+    {"path": "test_oanda_news_technical_watchlist.py", "sha256": "ff4c9cf38da785d48887edde458da8f5a4407bc06d387f6574304d31237ceb4c"},
+    {"path": "test_oanda_supervisor_integrity_freshness.py", "sha256": "9e99cfefbb77004b55872d6471e68efa7d2c8e655c63e8e6496b45549e13cc18"}
+  ],
+  "safety": {
+    "historical_reclassification_is_proof": false,
+    "can_promote": false,
+    "can_authorize": false,
+    "can_place_orders": false,
+    "real_money_routing": false
+  }
+}

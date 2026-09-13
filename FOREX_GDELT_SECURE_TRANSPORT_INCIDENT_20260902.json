@@ -1,0 +1,53 @@
+{
+  "schema_version": "forex_gdelt_secure_transport_incident_v1",
+  "generated_utc": "2026-09-02T23:30:00Z",
+  "source_id": "gdelt_fx_macro_discovery",
+  "source_role": "supplementary_unverified_discovery_nonexecuting",
+  "status": "blocked_external",
+  "collector_state": {
+    "last_success_utc": "2026-09-01T17:01:52.484649-04:00",
+    "last_failed_attempt_utc": "2026-09-02T19:15:42.371922-04:00",
+    "consecutive_errors": 20,
+    "last_error": "TLS handshake timeout",
+    "bounded_retry_interval_seconds": 3600
+  },
+  "transport_checks": {
+    "document_api_https": {
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc",
+      "result": "unreachable_from_current_host",
+      "observed_failure_modes": [
+        "TCP connection timeout",
+        "TLS handshake timeout"
+      ]
+    },
+    "document_api_http": {
+      "url": "http://api.gdeltproject.org/api/v2/doc/doc",
+      "result": "reachable_but_rejected",
+      "reason": "plain HTTP is not an acceptable downgrade for source ingestion"
+    },
+    "bulk_export_https": {
+      "url": "https://data.gdeltproject.org/gdeltv2/lastupdate.txt",
+      "result": "http_200",
+      "note": "This is a distinct bulk GDELT contract and cannot silently replace the DOC API parser or evidence cohort."
+    }
+  },
+  "official_documentation": [
+    "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/",
+    "https://blog.gdeltproject.org/https-now-available-for-selected-gdelt-apis-and-services/"
+  ],
+  "coverage_effect": {
+    "enabled_sources": 175,
+    "healthy_sources": 174,
+    "degraded_sources": 1,
+    "official_currency_coverage_lost": false,
+    "execution_coverage_lost": false
+  },
+  "fail_closed_policy": {
+    "allow_http_downgrade": false,
+    "allow_retrospective_backfill_as_prospective_evidence": false,
+    "can_place_orders": false,
+    "can_promote": false,
+    "supported_execution_decision": "no_trade"
+  },
+  "next_gate": "Either restore the documented HTTPS DOC API path from this host or implement a separately versioned, research-only GDELT bulk-export adapter with size/hash verification, point-in-time clocks, currency mapping, story deduplication, placebos, and incremental-value testing."
+}

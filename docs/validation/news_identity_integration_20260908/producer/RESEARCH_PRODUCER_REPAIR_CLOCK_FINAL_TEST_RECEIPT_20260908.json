@@ -1,0 +1,46 @@
+{
+  "schema": "research_producer_repair_clock_final_test_receipt_v1_20260908",
+  "generated_utc": "2026-09-08T20:03:50.657028+00:00",
+  "status": "passed",
+  "counts": {
+    "tests": 118,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "new_sources_and_tests": {
+    "oanda_local_news_sentiment_repair_v1.py": "c2fbad7c290ce1edaa977e99988ab563a2afc6571dc456271e45bde3ca7b2b6b",
+    "oanda_news_topic_identity_reconciliation_v1.py": "d34b0c72693497e9be6eadc86bd17f0a2c1c1b79ecf010928faf88a5033a7884",
+    "test_oanda_local_news_sentiment_repair_v1.py": "99dc42614033d811febe4cf63104fd74c10d418279331209c11e9e12e3f0498f",
+    "test_oanda_news_topic_identity_reconciliation_v1.py": "e6d66f6eac6f80de8e4adc7455ad0fbe9d358caa1af48d73330484afd6bd767c"
+  },
+  "frozen_source_checks": {
+    "oanda_local_news_sentiment.py": {
+      "actual": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4",
+      "baseline": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4"
+    },
+    "oanda_news_causal_aggregation_guard_v1.py": {
+      "actual": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9",
+      "baseline": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9"
+    },
+    "oanda_news_classification_contract.py": {
+      "actual": "f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae",
+      "baseline": "f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae"
+    },
+    "oanda_news_event_tagger.py": {
+      "actual": "3657872fa84a6f081903307df7209350fed4f713d866735b9387ce375a5e4f3f",
+      "baseline": "3657872fa84a6f081903307df7209350fed4f713d866735b9387ce375a5e4f3f"
+    },
+    "oanda_news_collector_contract.py": {
+      "actual": "41c30599a953d0fd967bc68c5f178d46fc21dd2382ac9fdca78bc3c64ac9f68f",
+      "baseline": "41c30599a953d0fd967bc68c5f178d46fc21dd2382ac9fdca78bc3c64ac9f68f"
+    }
+  },
+  "frozen_sources_unchanged": true,
+  "prior_receipt_sha256": "4dd06e1d06416e7dc7b6660797da285df6cee04ba89478df891f1f9521217e1b",
+  "xml_sha256": "7bdcf4c1d24a9e8992a04a468884b0cb0138cb103062b50fb854e0cee00dbfd2",
+  "scope": "One final independent original broker source_age_sec>=0 guard and regression; prior117cases retained.",
+  "runtime_launched": false,
+  "published_to_live_output": false,
+  "orders_enabled": false
+}

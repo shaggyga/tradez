@@ -1,0 +1,90 @@
+{
+  "schema_version": "forex_signal_trial_barrier_summary_performance_validation_v1",
+  "generated_utc": "2026-09-02T13:10:29Z",
+  "scope": {
+    "component": "oanda_signal_trial_ledger.py",
+    "function": "summarized_competing_risk_barriers",
+    "classification": "research_only_reporting_optimization",
+    "execution_consumer": false,
+    "database_schema_changed": false,
+    "collection_cadence_changed": false,
+    "evidence_contract_changed": false
+  },
+  "problem": {
+    "symptom": "sustained host CPU saturation while execution-critical publications remained fresh",
+    "root_cause": "two reverse linear scans made barrier-summary deduplication and factor-episode assignment quadratic in the live row count",
+    "live_prechange_raw_barrier_rows": 15117,
+    "prechange_elapsed_sec": 5.447926
+  },
+  "repair": {
+    "underlying_decision_index": "constant_time_latest_decision_lookup_by_exact_identity",
+    "factor_episode_index": "factor_keyed_candidate_episode_indexes_with_latest_matching_episode_selection",
+    "preserved_semantics": [
+      "exact_cross_arm_deduplication",
+      "same_signal_identity_collapse",
+      "empty_signal_thesis_window",
+      "latest_reverse_order_factor_episode_match",
+      "factor_overlap_and_episode_window",
+      "first_target_stop_ordering",
+      "research_only_no_execution_hook"
+    ]
+  },
+  "same_snapshot_benchmark": {
+    "raw_barrier_rows": 15117,
+    "prechange_elapsed_sec": 5.447926,
+    "postchange_elapsed_sec": 0.60238,
+    "speedup_multiple": 9.044,
+    "prechange_summary_sha256": "c6780fbb528eb8c58235f602fcceb3a9cdb90ae89099625706ef9a7fe0d4c2b4",
+    "postchange_summary_sha256": "c6780fbb528eb8c58235f602fcceb3a9cdb90ae89099625706ef9a7fe0d4c2b4",
+    "byte_equivalent_canonical_json": true,
+    "underlying_decision_count_sum": 5397,
+    "factor_episode_count_sum": 3606
+  },
+  "supervised_live_reload": {
+    "reloaded_at_utc": "2026-09-02T13:05:19Z",
+    "runtime_process_ids": [26452, 32620],
+    "state_mtime_utc": "2026-09-02T13:06:10.047302Z",
+    "state_status": "ok",
+    "research_only": true,
+    "can_place_orders": false,
+    "live_raw_barrier_rows": 15132,
+    "published_summary_sha256": "107c726bdf055d7a8979bd0afb866e9a7084facf60c31b1da768150e43105972",
+    "read_only_rebuild_sha256": "107c726bdf055d7a8979bd0afb866e9a7084facf60c31b1da768150e43105972",
+    "published_equals_read_only_rebuild": true,
+    "read_only_rebuild_elapsed_sec": 0.549845,
+    "twenty_second_runtime_sample": {
+      "logical_processors": 8,
+      "worker_percent_one_core": 32.33,
+      "worker_percent_whole_machine": 4.04,
+      "worker_working_set_mib": 90.3,
+      "host_memory_used_pct": 76.0
+    }
+  },
+  "validation": {
+    "pytest_tests": 135,
+    "pytest_result": "passed",
+    "covered_regressions": [
+      "first_target_or_stop_hit_order",
+      "nearby_same_signal_cross_arm_collapse",
+      "factor_episode_first_decision_reporting",
+      "project_integrity",
+      "supervisor_integrity_freshness",
+      "compact_vault_contract",
+      "issue_register_validation"
+    ],
+    "code_sha256": "148d84f7f0f86a93c64f25b987885285db027d64d1ce46c9681dcefa2e69ef79",
+    "test_sha256": "efa2870f50f20663367e648dcd7f0e53b7165881cff9a4eaaca5fd30d5437984"
+  },
+  "safety": {
+    "practice_account": "101-001-37981792-007",
+    "practice_account_flat_before_reload": true,
+    "manual_orders": 0,
+    "manual_closes": 0,
+    "real_money_enabled": false,
+    "entry_gate_changed": false,
+    "promotion_gate_changed": false,
+    "authorization_gate_changed": false,
+    "evidence_rows_rewritten": 0,
+    "codex_automation_created": false
+  }
+}

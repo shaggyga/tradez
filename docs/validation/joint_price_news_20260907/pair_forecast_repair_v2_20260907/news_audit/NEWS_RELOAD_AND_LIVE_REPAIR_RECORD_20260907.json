@@ -1,0 +1,157 @@
+{
+  "status": "passed",
+  "observed_utc": "2026-09-07T22:25:56.249823+00:00",
+  "scope": "Controlled v165 news producer reload and current guard verification, with an explicitly retained supervisor-version correction.",
+  "evidence_files": {
+    "runtime_reload_20260907/NEWS_PROCESS_RELOAD_VERIFICATION_20260907.json": "f07a7da45da3bb86ea49719360ff311bdbf22e549475a747f7be9bca47b9fb8a",
+    "runtime_reload_20260907/PROCESS_BEFORE.json": "2fef27f7fb1d6cdfb718ffd219c999cb4f7b335ed2645a6b2a130a754bdddbfe",
+    "runtime_reload_20260907/before/manifest.json": "94c44f4f55d211f3b51ed4f1129d6aa1181479c878cb4b03ceb4d5a52909439d",
+    "supervisor_gate_reload_20260907/NEWS_SUPERVISOR_GATE_RELOAD_VERIFICATION_20260907.json": "e94a60934278a048fc5fa8938617a260a247b5717110833973743fcb89b8b66a",
+    "supervisor_gate_reload_20260907/PROCESS_BEFORE.json": "efd81f986d3e21a4ee576cdd9d50456694b56fa851b09ff2af772b6294e01aae",
+    "supervisor_gate_reload_20260907/NEWS_PIDS_POST_COMPLETED_CYCLE.json": "c8454cb509bb229b102ff7dc79a133c2ca0252e63803b6e1039015e99a0170a4",
+    "live_guarded_snapshot_20260907T221957/LIVE_NEWS_GUARD_VERIFICATION_20260907.json": "c060e539f865d88ab4ed555cb7532419c636d9d3b62c163a453a22d9c68c3824",
+    "NEWS_CAUSAL_AGGREGATION_VALIDATION_20260907.json": "55a3f07658f1a07911f38f83e911092e9a562f1ab35bd70bd1c8afe9379d8220"
+  },
+  "source_bindings": {
+    "oanda_news_causal_aggregation_guard_v1.py": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9",
+    "oanda_news_classification_contract.py": "f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae",
+    "oanda_local_news_sentiment.py": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4"
+  },
+  "initial_controlled_reload": {
+    "completed_utc": "2026-09-07T22:08:46.4635234Z",
+    "news_processes_replaced": 8,
+    "unrelated_process_identities_preserved_at_completion": 20,
+    "supervisor_pid": 45324
+  },
+  "interrupted_cycles": [
+    {
+      "collector_pids": [
+        6972,
+        14980
+      ],
+      "created_utc": "2026-09-07T22:08:44.769531Z",
+      "replacement_created_utc": "2026-09-07T22:11:56.731620Z"
+    },
+    {
+      "collector_pids": [
+        39164,
+        24136
+      ],
+      "created_utc": "2026-09-07T22:11:56.731620Z",
+      "replacement_created_utc": "2026-09-07T22:15:07.970841Z"
+    }
+  ],
+  "interruption_cause": "Running supervisor required exact v164 classification_version. New v165 heartbeat failed its version freshness gate after180-second startup grace; no collector traceback in either captured log.",
+  "correction": {
+    "owner": "root",
+    "changes": "Expected-version gates updated only for active local news, official mapper and integrity auditor; inactive legacy gates preserved.",
+    "supervisor_only_reload": {
+      "started_utc": "2026-09-07T22:16:44.6081437Z",
+      "finished_utc": "2026-09-07T22:16:50.9403758Z",
+      "orders_enabled": false,
+      "old_supervisor": {
+        "pid": 45324,
+        "parent_pid": 38432,
+        "name": "powershell.exe",
+        "created_utc": "2026-09-07T21:19:21.9976220Z",
+        "command": "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File \"C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_always_on_supervisor.ps1\" -Root \"C:\\Users\\zmoor\\Documents\\forex\" -AccountKey OANDA_ACCOUNT_ID_DUM4 -RunLabel research-collection-audit-20260906 -IntervalSec 30 -ChildDurationSec 604800 -SafeCoreOnly -ResearchCollectionOnly"
+      },
+      "python_processes_preserved": 26,
+      "missing_python_ids": [],
+      "worker_stops": 0,
+      "source_bindings": {
+        "oanda_news_causal_aggregation_guard_v1.py": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9",
+        "oanda_always_on_supervisor.ps1": "7773307e8dc9116823bf1e043b8e01df79059ef260657ef6573a82e786dc6e3c",
+        "start_oanda_research_collection.ps1": "c7e2a970b6e8bb69fcdaf5b124b8d935be6326f06a6554408889e111f57f3115",
+        "oanda_news_classification_contract.py": "f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae",
+        "oanda_local_news_sentiment.py": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4"
+      },
+      "python_processes_total": 26,
+      "status": "passed",
+      "joint_registry_absent": true,
+      "new_supervisor": {
+        "pid": 29708,
+        "parent_pid": 41096,
+        "name": "powershell.exe",
+        "created_utc": "2026-09-07T22:16:45.0398400Z",
+        "command": "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File \"C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_always_on_supervisor.ps1\" -Root \"C:\\Users\\zmoor\\Documents\\forex\" -AccountKey OANDA_ACCOUNT_ID_DUM4 -RunLabel research-collection-audit-20260906 -IntervalSec 30 -ChildDurationSec 604800 -SafeCoreOnly -ResearchCollectionOnly"
+      }
+    },
+    "surviving_collector_pids": [
+      43100,
+      16296
+    ],
+    "surviving_cycle_completed_utc": "2026-09-07T22:19:33.372088+00:00"
+  },
+  "post_completion_news_pids": [
+    {
+      "pid": 37408,
+      "parent_pid": 45324,
+      "created_utc": "2026-09-07T22:08:44.8712450Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_official_release_fast_lane.py --interval-sec 15 --duration-sec 604800 "
+    },
+    {
+      "pid": 44324,
+      "parent_pid": 37408,
+      "created_utc": "2026-09-07T22:08:44.9417190Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_official_release_fast_lane.py --interval-sec 15 --duration-sec 604800 "
+    },
+    {
+      "pid": 11652,
+      "parent_pid": 45324,
+      "created_utc": "2026-09-07T22:08:45.8741090Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_source_governance_news_fast_lane.py --news-database C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\local_news_sentiment_v1.sqlite --database C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\source_governance_v1.sqlite --state C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\source_governance_news_fast_lane_v3.json --interval-sec 30 --duration-sec 604800 "
+    },
+    {
+      "pid": 44784,
+      "parent_pid": 11652,
+      "created_utc": "2026-09-07T22:08:45.9560780Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_source_governance_news_fast_lane.py --news-database C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\local_news_sentiment_v1.sqlite --database C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\source_governance_v1.sqlite --state C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\source_governance_news_fast_lane_v3.json --interval-sec 30 --duration-sec 604800 "
+    },
+    {
+      "pid": 43100,
+      "parent_pid": 45324,
+      "created_utc": "2026-09-07T22:15:07.9708410Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_local_news_sentiment.py --interval-sec 60 --duration-sec 604800 "
+    },
+    {
+      "pid": 16296,
+      "parent_pid": 43100,
+      "created_utc": "2026-09-07T22:15:08.0560470Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_local_news_sentiment.py --interval-sec 60 --duration-sec 604800 "
+    },
+    {
+      "pid": 11336,
+      "parent_pid": 45324,
+      "created_utc": "2026-09-07T22:15:10.4070990Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_official_release_fast_mapper.py --interval-sec 5 --duration-sec 604800 --quiet "
+    },
+    {
+      "pid": 14072,
+      "parent_pid": 11336,
+      "created_utc": "2026-09-07T22:15:10.4612450Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_official_release_fast_mapper.py --interval-sec 5 --duration-sec 604800 --quiet "
+    }
+  ],
+  "live_verification": {
+    "observed_utc": "2026-09-07T22:19:57.527052+00:00",
+    "as_of_utc": "2026-09-07T22:19:15.635923+00:00",
+    "generated_utc": "2026-09-07T22:19:30.580568+00:00",
+    "topic_count": 15,
+    "directional_topic_count": 0,
+    "pair_direction_counts": {
+      "NEUTRAL": 68
+    },
+    "old_bad_topic_replays_context": "member_independent_corroboration_missing",
+    "publication_processing_delay_sec": 14.944645
+  },
+  "scb_live_status": "New parser is source-tested and public-source replay-tested. SCB CPIF was not due in first completed cycle; retained22:06 parse_error is not falsely cleared or represented as a new successful observation.",
+  "orders_enabled": false,
+  "broker_calls": false,
+  "registered_forecast_source_edits": false,
+  "limitations": [
+    "Process preservation is asserted at the individual recorded observations; old supervisor-triggered replacements are explicitly retained.",
+    "Guard integrity and causal admission do not establish external news truth or forecast accuracy.",
+    "The new joint forecast was separately preflight-audited; its disposable cohorts are not canonical prospective performance."
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "schema_version": "pair_dashboard_consistency_assessment_v1_20260907",
+  "status": "passed",
+  "assessed_utc": "2026-09-07T17:59:33.351549+00:00",
+  "raw_probe_path": "C:\\Users\\zmoor\\Documents\\forex\\pair_dashboard_consistency_20260907\\DASHBOARD_API_CONSISTENCY_PROBE_RETAINED2_20260907.json",
+  "raw_probe_sha256": "f9563ab04d0c8b9b4ce3d72133ab1bcd2cb62f74af646d43445495fdde8e0ea7",
+  "raw_probe_status_preserved": "observed_failure_or_incomplete_coverage",
+  "assessment_scope": "Requested bounded steady-window availability, original timestamp checks in the source-bound reader, and unchanged registered research sources; not an uptime or forecast-accuracy claim.",
+  "steady_window": {
+    "duration_sec": 50.0,
+    "sample_count": 124,
+    "direct_reader_count": 124,
+    "api_read_count": 124,
+    "total_read_count": 248,
+    "all_reads_current": true,
+    "unavailable_count": 0,
+    "summary_generation_transitions": 3,
+    "worker_error_samples": [],
+    "registered_nine_source_bindings_unchanged": true,
+    "reader_source_unchanged": true,
+    "reader_source_sha256": "6eb16350ba63a832bc184c3a238898707905b6f949feba8d1fcfe5bb850fe7cc",
+    "api_latency_median_sec": 0.21212510002078488,
+    "api_latency_p95_sec": 0.8580555999651551
+  },
+  "cold_start": {
+    "duration_sec": 3.7030000000959262,
+    "sample_count": 11,
+    "unavailable_count": 10,
+    "reasons": {
+      "pair_summary_generation_mismatch": 10
+    },
+    "interpretation": "A newly imported direct reader had no verified prior summary cache and correctly withheld during the initial generation handoff. All ten unavailable reads remain in the raw report. The API remained current throughout.",
+    "observations_preserved": true
+  },
+  "retained_generation_evidence": {
+    "steady_retained_api_reads": 3,
+    "reported_summary_heartbeat_binding_failures": 0,
+    "independently_observed_retained_snapshot_cases": 0,
+    "pre_window_bytes_unobservable_cases": 3,
+    "extra_detector_criterion": "The raw detector additionally required at least one independently observed retained-snapshot case, beyond the requested continuously-current steady window. That extra exercise criterion was not met and is why the raw overall status remains incomplete.",
+    "provenance_validation": "Retained-cache provenance and original-clock preservation were validated by the 226 unit/adversarial tests for the patched reader, not independently reconstructed from pre-window snapshot bytes in this live probe.",
+    "known_limit": "The three retained API views referenced a verified generation from before the probe. Their own recorded observation clocks and summary/heartbeat hashes remain visible; later on-disk heartbeats are not substituted for those earlier observations."
+  },
+  "preserved_prior_reports": [
+    "DASHBOARD_API_CONSISTENCY_PROBE_20260907.json",
+    "DASHBOARD_API_CONSISTENCY_PROBE_RETAINED_20260907.json",
+    "DASHBOARD_API_CONSISTENCY_PROBE_RETAINED2_20260907.json"
+  ],
+  "runtime_reloaded_by_assessor": false,
+  "research_only": true,
+  "can_place_orders": false,
+  "prediction_improvement_demonstrated": false,
+  "limitations": [
+    "This fifty-second steady observation does not prove continuous future availability or uptime.",
+    "The raw failed first probe and overly strict priming probe remain unchanged; they are not erased or relabeled as successful.",
+    "Availability improvements do not establish model accuracy or trading authority."
+  ]
+}

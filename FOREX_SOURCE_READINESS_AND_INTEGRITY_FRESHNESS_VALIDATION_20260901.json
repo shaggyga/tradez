@@ -1,0 +1,106 @@
+{
+  "schema_version": "forex_source_readiness_and_integrity_freshness_validation_v1",
+  "generated_utc": "2026-09-02T00:26:22Z",
+  "scope": [
+    "event_preflight_policy_release_transport_readiness",
+    "project_integrity_quote_snapshot_cutoff_binding"
+  ],
+  "repairs": {
+    "event_preflight_source_readiness": {
+      "status": "complete",
+      "problem": "Policy events were labelled ready for neutral post-release verification from quote and technical freshness without exposing whether the authority's direct release transport was available.",
+      "contract_id": "neutral_event_clock_to_technical_preflight_v6_source_transport_readiness_20260901",
+      "semantics": {
+        "direct_release_transport_is_separate_from_search_fallback": true,
+        "calendar_readiness_is_not_release_transport_readiness": true,
+        "official_publisher_search_does_not_self_identify_as_direct": true,
+        "execution_eligible": false,
+        "research_only": true
+      },
+      "live_counts": {
+        "scheduled_event_rows": 74,
+        "policy_event_rows": 19,
+        "direct_release_ready_rows": 18,
+        "fallback_only_rows": 1,
+        "blocked_rows": 0
+      },
+      "live_rbnz_case": {
+        "currency": "NZD",
+        "event_series_id": "rbnz_policy_decision",
+        "scheduled_utc": "2026-09-02T02:00:00Z",
+        "pair_count": 9,
+        "transport_state": "fallback_only_direct_release_unavailable",
+        "direct_release_transport_available": false,
+        "fallback_transport_available": true,
+        "calendar_transport_available": true,
+        "direct_source_id": "new_zealand_rbnz_ocr_snapshot_direct_v1",
+        "fallback_source_id": "rbnz_official_search",
+        "calendar_source_id": "rbnz_policy_decision_calendar_2026",
+        "blocker": "new_zealand_rbnz_ocr_snapshot_direct_v1:unsupported",
+        "causal_consensus_available": false,
+        "direction": "unknown_until_causal_release_evidence",
+        "execution_eligible": false
+      }
+    },
+    "quote_snapshot_cutoff_binding": {
+      "status": "complete",
+      "problem": "The integrity audit read the atomic quote cache before a roughly 33-second input-loading phase and then applied a 15-second transport-freshness limit at the later audit cutoff, creating a deterministic false degradation.",
+      "fix": "The quote cache is now read after the slow input snapshot and its audit cutoff is captured immediately after that atomic read; the 15-second gate remains unchanged.",
+      "live_validation": {
+        "project_integrity_generated_utc": "2026-09-02T00:23:57.014185Z",
+        "project_integrity_status": "ok",
+        "failed_checks": [],
+        "cross_pair_snapshot_routable": true,
+        "cross_pair_snapshot_age_sec": 4.162137031555176,
+        "valid_instruments": 68,
+        "tradeable_instruments": 65,
+        "known_non_tradeable_instruments": [
+          "EUR_TRY",
+          "TRY_JPY",
+          "USD_TRY"
+        ],
+        "tradeability_unknown_count": 0,
+        "retained_last_known_count": 0
+      }
+    }
+  },
+  "validation": {
+    "python_compile": "pass",
+    "focused_tests": {
+      "passed": 68,
+      "failed": 0,
+      "test_files": [
+        "test_oanda_project_integrity_audit.py",
+        "test_oanda_event_technical_preflight.py",
+        "test_oanda_supervisor_integrity_freshness.py"
+      ]
+    },
+    "live_project_integrity": {
+      "status": "ok",
+      "failures": [],
+      "event_preflight_source_transport_current_and_inert": true,
+      "cross_pair_snapshot_routable": true,
+      "can_place_orders": false,
+      "can_promote": false,
+      "real_money_routing": false,
+      "supported_decision": "no_trade"
+    },
+    "practice_007": {
+      "account_id": "101-001-37981792-007",
+      "verified_at_utc": "2026-09-02T00:26:22.010028Z",
+      "balance": 41.6042,
+      "nav": 41.6042,
+      "cumulative_pl": -8.343,
+      "open_trades": 0,
+      "pending_orders": 0,
+      "unrealized_pl": 0.0
+    },
+    "automation_created": false
+  },
+  "file_hashes_sha256": {
+    "oanda_event_technical_preflight.py": "d218aa906f92d2f7a0ec592f6a34de1c2b36de6495f13e52215b9d2cb321555f",
+    "test_oanda_event_technical_preflight.py": "116b2a4e180478c5c20fccc77432b3818ea4f583711ea0979cc6ad74760da856",
+    "oanda_project_integrity_audit.py": "4616d2f18834fc6c87d6b4bce49129519297f6d3afe720a268f4c2ea82a18c1b",
+    "test_oanda_project_integrity_audit.py": "686dcb9389341c033c48c0ddaa07930c5433951b6c71fee081489ed0fbf4e5c9"
+  }
+}

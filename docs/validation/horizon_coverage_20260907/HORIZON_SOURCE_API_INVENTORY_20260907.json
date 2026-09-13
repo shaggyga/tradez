@@ -1,0 +1,227 @@
+{
+  "schema": "joint_horizon_readonly_inventory_v1_20260907",
+  "started_epoch": 1788824123.591864,
+  "observed_epoch": 1788824124.3419158,
+  "observed_utc": "2026-09-07T23:35:24.341916+00:00",
+  "raw_api_ingest_sha256": "eafc3b5d8e583b5f1c1e8cc2362348966eb25762d32b99bf2b658879ff682a3c",
+  "joint": {
+    "study_version": "joint_v2",
+    "status": "unavailable",
+    "reason": "pair_summary_generation_mismatch",
+    "generated_epoch": null,
+    "observed_epoch": 1788824122.9914696,
+    "summary_sha256": null,
+    "counts": {
+      "unavailable": 68
+    },
+    "active_arms": 0,
+    "published_horizons_sec": [],
+    "target_reference_offsets_sec": []
+  },
+  "price_only": {
+    "study_version": 2,
+    "status": "current",
+    "reason": null,
+    "generated_epoch": 1788824106.8360124,
+    "observed_epoch": 1788824122.870793,
+    "summary_sha256": "0268b8e56ffe389f94709dfb39c562b8349ccaad7e1e0ba3104fe47af61e1a9c",
+    "counts": {
+      "forecast": 65,
+      "unavailable": 3
+    },
+    "active_arms": 130,
+    "published_horizons_sec": [
+      3600
+    ],
+    "target_reference_offsets_sec": [
+      3600.0
+    ]
+  },
+  "legacy_horizon_matrix": {
+    "generated_utc": null,
+    "snapshot_age_sec": null,
+    "status": null,
+    "counts": {
+      "blocked": 15
+    },
+    "rows": [
+      {
+        "instrument": "USD_SEK",
+        "horizon_sec": 60,
+        "horizon_label": "M1",
+        "state": "blocked",
+        "reason": "unvalidated signal",
+        "projected_net_pips": 0.0,
+        "confidence": 0.5,
+        "target_market_open": true
+      },
+      {
+        "instrument": "NZD_CHF",
+        "horizon_sec": 120,
+        "horizon_label": "M2",
+        "state": "blocked",
+        "reason": "direction conflict",
+        "projected_net_pips": 0.0,
+        "confidence": 0.5,
+        "target_market_open": true
+      },
+      {
+        "instrument": "NZD_JPY",
+        "horizon_sec": 180,
+        "horizon_label": "M3",
+        "state": "blocked",
+        "reason": "direction conflict",
+        "projected_net_pips": 0.0,
+        "confidence": 0.5,
+        "target_market_open": true
+      },
+      {
+        "instrument": "USD_SEK",
+        "horizon_sec": 300,
+        "horizon_label": "M5",
+        "state": "blocked",
+        "reason": "unvalidated signal",
+        "projected_net_pips": 0.0,
+        "confidence": 0.5,
+        "target_market_open": true
+      },
+      {
+        "instrument": "USD_SEK",
+        "horizon_sec": 600,
+        "horizon_label": "M10",
+        "state": "blocked",
+        "reason": "unvalidated signal",
+        "projected_net_pips": 0.0,
+        "confidence": 0.5,
+        "target_market_open": true
+      },
+      {
+        "instrument": "USD_SEK",
+        "horizon_sec": 900,
+        "horizon_label": "M15",
+        "state": "blocked",
+        "reason": "unvalidated signal",
+        "projected_net_pips": 0.0,
+        "confidence": 0.5,
+        "target_market_open": true
+      },
+      {
+        "instrument": "GBP_NZD",
+        "horizon_sec": 1800,
+        "horizon_label": "M30",
+        "state": "blocked",
+        "reason": "direction conflict",
+        "projected_net_pips": 0.0,
+        "confidence": 0.5,
+        "target_market_open": true
+      },
+      {
+        "instrument": "EUR_GBP",
+        "horizon_sec": 3600,
+        "horizon_label": "H1",
+        "state": "blocked",
+        "reason": "direction conflict",
+        "projected_net_pips": 0.0,
+        "confidence": 0.5,
+        "target_market_open": true
+      },
+      {
+        "instrument": "EUR_GBP",
+        "horizon_sec": 7200,
+        "horizon_label": "H2",
+        "state": "blocked",
+        "reason": "direction conflict",
+        "projected_net_pips": 0.0,
+        "confidence": 0.5,
+        "target_market_open": true
+      },
+      {
+        "instrument": "NZD_SGD",
+        "horizon_sec": 10800,
+        "horizon_label": "H3",
+        "state": "blocked",
+        "reason": "direction conflict",
+        "projected_net_pips": 0.0,
+        "confidence": 0.5,
+        "target_market_open": true
+      },
+      {
+        "instrument": "GBP_SGD",
+        "horizon_sec": 14400,
+        "horizon_label": "H4",
+        "state": "blocked",
+        "reason": "direction conflict",
+        "projected_net_pips": 0.0,
+        "confidence": 0.5,
+        "target_market_open": true
+      },
+      {
+        "instrument": "NZD_SGD",
+        "horizon_sec": 21600,
+        "horizon_label": "H6",
+        "state": "blocked",
+        "reason": "direction conflict",
+        "projected_net_pips": 0.0,
+        "confidence": 0.5,
+        "target_market_open": true
+      },
+      {
+        "instrument": "AUD_USD",
+        "horizon_sec": 28800,
+        "horizon_label": "H8",
+        "state": "blocked",
+        "reason": "direction conflict",
+        "projected_net_pips": 0.0,
+        "confidence": 0.5,
+        "target_market_open": true
+      },
+      {
+        "instrument": "CAD_SGD",
+        "horizon_sec": 43200,
+        "horizon_label": "H12",
+        "state": "blocked",
+        "reason": "direction conflict",
+        "projected_net_pips": 0.0,
+        "confidence": 0.5,
+        "target_market_open": true
+      },
+      {
+        "instrument": "EUR_USD",
+        "horizon_sec": 86400,
+        "horizon_label": "D1",
+        "state": "blocked",
+        "reason": "direction conflict",
+        "projected_net_pips": 0.0,
+        "confidence": 0.5,
+        "target_market_open": true
+      }
+    ]
+  },
+  "observed_move_census": {
+    "status": "stale",
+    "snapshot_age_sec": 464735.81,
+    "generated_utc": "2026-09-02T14:29:46.459503Z",
+    "snapshot_utc": null,
+    "mode_row_counts": {
+      "velocity": 0,
+      "5m": 5,
+      "15m": 5,
+      "60m": 5,
+      "exec1": 0,
+      "exec5": 5,
+      "exec10": 5,
+      "exec15": 0,
+      "exec30": 0,
+      "exec60": 5
+    }
+  },
+  "source_sha256": {
+    "oanda_main_signal_dashboard.html": "3ffead742b158de5685b01fef2b25c3e68a556f365356828da9d90f0b91aced4",
+    "oanda_practice_live_dashboard.py": "a5dd6945cc448a6ab86fa5fab8d55aea6040bf197e5a50117fb1bbc218d2f9fe",
+    "oanda_second_forecast.py": "3ac9f38bbe7140aae7bf391d1778f658b599199601d811d97d3386f32d727063",
+    "oanda_signal_contribution_feed.py": "42e612b35be6e376eee6f033ff9eb9f7520444bc5cd5543b496566994aba142b",
+    "oanda_joint_price_news_models_v1.py": "eb153acb966dc04ad950a0bbfcc730e78a9a0da1d8a24e91d641f473f5cfbc23",
+    "docs/SIGNAL_ENGINE_REFRESH_20260721.md": "42915812279fa275f85b77159252d7110f4f4ddc8ba36fa13c0b46a250ecf81d"
+  },
+  "scope": "Dated API/source inventory only; old horizon matrix is not treated as verified current joint forecast evidence. Raw full API hash is ingestion provenance only; private account fields are intentionally not retained."
+}

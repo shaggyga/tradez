@@ -1,0 +1,33 @@
+{
+  "findings": [],
+  "limits": [
+    "Source-only review; no independent test rerun, actual data reread, replay or plotting performed.",
+    "Relies on the exact accepted verifier report for the original full causal/arithmetic verification; this helper derives display data rather than independently resimulating policy.",
+    "No broker fills, account PnL, guard-policy PnL or interpolated forecast path is established."
+  ],
+  "reviewed_epoch": 1788948514.7062562,
+  "runtime_actions": false,
+  "schema_version": "verified_paper_plot_data_independent_review_v1_20260909",
+  "source_edits": false,
+  "sources": [
+    {
+      "bytes": 14513,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\derive_verified_paper_plot_data_v1.py",
+      "sha256": "34f748b5f6cb382bfb45e08cbe3452dfb23be9f4ce0399357617193f0e0fed8d"
+    },
+    {
+      "bytes": 1808,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\test_derive_verified_paper_plot_data_v1.py",
+      "sha256": "6ecad7d14afba168ca51fc1fc3eaee1032b945fdea0fd4acceed45a9bd227eb5"
+    }
+  ],
+  "status": "passed_bounded_source_review",
+  "verified_scope": [
+    "Pinned full accepted verifier hash and original registered20 closure; selected original files must occur in its verified inventory with exact byte count and SHA.",
+    "All three predeclared eligible episodes and original steps are retained, including absent quotes and candidate refusals; no data filling or outcome-based subset.",
+    "Decision quote and later selected virtual-execution quote preserve market, observed availability, receipt/raw hashes; midpoint uses isolated Decimal96 context.",
+    "Original node terminal expectation and target are retained as endpoint metadata, not a path forecast; original uncalibrated probability remains header context.",
+    "Arm inventory/cash comes from exact prior verified plan/settlement/state bytes; known-epoch is retained separately from price ticks.",
+    "Read, per-file/aggregate byte and path bounds are enforced; output is new exclusive external JSON only."
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "schema_version": "bounded_independent_source_review_v1_20260907",
+  "observed_utc": "2026-09-07T22:41:15.320069+00:00",
+  "status": "passed",
+  "reviewer": "pair_model_inputs",
+  "runtime_or_broker_actions": false,
+  "source_edits": false,
+  "sources": [
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_practice_live_dashboard.py",
+      "sha256": "a5dd6945cc448a6ab86fa5fab8d55aea6040bf197e5a50117fb1bbc218d2f9fe",
+      "bytes": 519653
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_main_signal_dashboard.html",
+      "sha256": "9e279285b2a4e00ad8f52c450f5af6533cb72df445cd55bb50f940c0413a618c",
+      "bytes": 156964
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_joint_price_news_dashboard_v1.py",
+      "sha256": "fc23276ce6d99122887fdcc6519f0009e3ac2a089168337d380f440b8555cb77",
+      "bytes": 14850
+    }
+  ],
+  "closed_findings": [
+    "Unavailable joint reader output cannot fall through to the current price-only header.",
+    "Client primary combined forecasts require exact joint_v2 identity; comparison collector v1 cannot enter that field."
+  ],
+  "source_review": [
+    "Primary API collection_status is projected from joint v2 evidence, with price-only collection status kept separate.",
+    "Joint v1 remains a separately named running scheduler comparison.",
+    "Combined expected pips equals the same fitted neutral-news ablation plus retained news adjustment; backend checks this algebra.",
+    "Independently fitted matched price-only baseline is separately labeled, not represented as the additive technical term.",
+    "News must have been available and unexpired at actual issue; a valid original H1 forecast remains visible after its input news window expires.",
+    "Current readiness separately checks current price/news expiry, and probabilities and overlapping retrospective training rows are explicitly qualified."
+  ],
+  "owner_test_evidence": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\joint_price_news_20260907\\dashboard\\joint_dashboard_tests.xml",
+    "sha256": "a311e82b6671a96cc10e773b46966c6ad9ae1192a003fb5725c2dd246a50e18e",
+    "bytes": 44305,
+    "cases": 227,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "remaining_blockers": [],
+  "limitations": [
+    "This is source and focused-test evidence, not the separate real browser/runtime reload verification."
+  ]
+}

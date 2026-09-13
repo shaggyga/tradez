@@ -1,0 +1,69 @@
+{
+  "schema_version": "bounded_updater_repair_receipt_v1",
+  "created_utc": "2026-09-07T15:59:40.016109+00:00",
+  "project": "C:\\Users\\zmoor\\Documents\\forex\\trad",
+  "scope": "Updater source and its fixture tests only; no runtime data, worker, config, broker, or registered study source changes performed by this subtask.",
+  "before_source": {
+    "oanda_all68_m1_forward_updater.py": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\warmup_repair_20260907\\before_source\\oanda_all68_m1_forward_updater.py",
+      "bytes": 23827,
+      "sha256": "c81b90713354a9fc6f869b6e512e9036c2f8db0a0f2c3b4999e392607ecad5a6"
+    },
+    "test_oanda_all68_m1_forward_updater.py": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\warmup_repair_20260907\\before_source\\test_oanda_all68_m1_forward_updater.py",
+      "bytes": 3144,
+      "sha256": "7c897671881b8e296f7433fb04de219eb0c8804d878871178ae4936ce74d43f3"
+    }
+  },
+  "after_source": {
+    "oanda_all68_m1_forward_updater.py": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_all68_m1_forward_updater.py",
+      "bytes": 42435,
+      "sha256": "3cf9e027ff7375dfbe7ad0c780a3576cafc608e91d0c6e0a6b9c17104682b351"
+    },
+    "test_oanda_all68_m1_forward_updater.py": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_all68_m1_forward_updater.py",
+      "bytes": 22020,
+      "sha256": "997eafa12f01055004769c5843907883ed94495e57ad5cf78538bb4b3a049deb"
+    }
+  },
+  "tests": {
+    "command": "python -B -m pytest test_oanda_all68_m1_forward_updater.py -q -p no:cacheprovider --junitxml=<audit>/updater_tests.xml",
+    "count": 40,
+    "passed": 40,
+    "failed": 0,
+    "elapsed_seconds": 1.75,
+    "xml": "C:\\Users\\zmoor\\Documents\\forex\\warmup_repair_20260907\\updater_repair\\updater_tests.xml",
+    "xml_sha256": "57090df9ead30f7267bb6df781d4a78fdbf8d37f01753ab9b9500662dce285bf"
+  },
+  "behavior": {
+    "tail_max_bytes": 1048576,
+    "header_max_bytes": 8192,
+    "lookback_minutes": 720,
+    "interior_gap_max_minutes": 5,
+    "requests_per_pair_per_cycle_max": 1,
+    "candles_per_request": 10,
+    "attempts_per_missing_minute_max": 2,
+    "retry_cooldown_seconds": 900,
+    "only_actual_complete_BAM_candles": true,
+    "synthesized_candles": false,
+    "preserve_existing_CSV_bytes": true,
+    "new_receipts_directory": "<candle parent>/.gap_recovery_v1/<instrument>",
+    "request_reservation_before_GET": true,
+    "observed_response_receipt_before_CSV_publication": true,
+    "actual_post_publication_clock_in_receipt": true,
+    "historical_availability_asserted": false,
+    "dry_run_gap_behavior": "detect only; no gap GET, receipt or CSV mutation",
+    "disable_flag": "--no-gap-recovery"
+  },
+  "limitations": [
+    "The broker also omitted the three known missing minutes, per parent bounded probe. This updater repair cannot recover candles the broker does not return.",
+    "This does not change the existing registered 335 contiguous common-minute requirement. It is a recovery/observability repair, not evidence that forecasts now work.",
+    "Gap scope is bounded recent small interior gaps only; it is not a full archive completeness audit.",
+    "Keep this updater the sole CSV writer. Optimistic file identity and tail-byte validation abort detected concurrent changes; other programs do not participate in a shared writer lock.",
+    "Two persisted attempts are a terminal automatic cap, including failed/interrupted reservations. No unbounded retry of broker omissions.",
+    "Atomic insertion streams the existing archive to a temporary file only when an actual missing row is recovered; old row bytes and schema are preserved.",
+    "A crash after CSV replacement but before the final publication receipt leaves the durable observation receipt and real row present; restart does not duplicate it, and no historical availability is invented."
+  ],
+  "independent_review": "Requested review from sibling; unavailable because sibling owns dashboard changes. Parent integration review pending."
+}

@@ -6,6 +6,42 @@ ROOT = Path(__file__).resolve().parent
 SUPERVISOR = ROOT / "oanda_always_on_supervisor.ps1"
 
 
+def test_supervisor_reuses_one_root_scoped_process_snapshot_per_loop() -> None:
+    text = SUPERVISOR.read_text(encoding="utf-8")
+    assert "function Refresh-MatchingPythonProcessSnapshot" in text
+    assert "function Add-StartedProcessToMatchingSnapshot" in text
+    matching = text.split("function Get-MatchingPython", 1)[1].split(
+        "function Stop-MatchingPython", 1
+    )[0]
+    assert "$script:MatchingPythonProcessSnapshot |" in matching
+    assert "Get-CimInstance" not in matching
+    loop = text.split("while ($true)", 1)[1]
+    assert loop.index("Refresh-MatchingPythonProcessSnapshot") < loop.index(
+        "$managed = @()"
+    )
+    assert text.count("Get-CimInstance Win32_Process -ErrorAction Stop") == 1
+    assert 'Get-CimInstance Win32_Process `' in text
+    assert "-Filter (\"ProcessId = \" + $ProcessId)" in text
+    assert "Add-StartedProcessToMatchingSnapshot -ProcessId $proc.Id" in text
+
+
+def test_fast_executor_republishes_canonical_quotes_after_clean_restart() -> None:
+    text = SUPERVISOR.read_text(encoding="utf-8")
+    match = re.search(
+        r'-Name\s+"practice_007_fast_executor".*?'
+        r'-Name\s+"top_signal_position_ledger"',
+        text,
+        flags=re.DOTALL,
+    )
+    assert match is not None
+    block = match.group(0)
+    assert '"--research-market-quote-snapshot"' in block
+    assert '"practice_007_market_quotes_v1.json"' in block
+    assert '"--research-market-quote-snapshot-sec", "1"' in block
+    assert '"--research-market-quote-seed-snapshot"' in block
+    assert '"practice_007_market_quotes_transport_check_v1.json"' in block
+
+
 def _integrity_freshness_block() -> str:
     text = SUPERVISOR.read_text(encoding="utf-8")
     match = re.search(
@@ -18,14 +54,14 @@ def _integrity_freshness_block() -> str:
     return match.group("block")
 
 
-def test_integrity_watchdog_allows_a_measured_cold_scan_to_finish() -> None:
+def test_integrity_watchdog_allows_the_measured_attestation_refresh_to_finish() -> None:
     block = _integrity_freshness_block()
     max_age = int(re.search(r"MaxAgeSec\s*=\s*(\d+)", block).group(1))
     startup_grace = int(
         re.search(r"StartupGraceSec\s*=\s*(\d+)", block).group(1)
     )
-    assert max_age >= 2700
-    assert startup_grace >= 3600
+    assert max_age >= 900
+    assert startup_grace >= 1200
     assert startup_grace > max_age
 
 
@@ -35,8 +71,115 @@ def test_integrity_watchdog_still_has_a_finite_staleness_bound() -> None:
     startup_grace = int(
         re.search(r"StartupGraceSec\s*=\s*(\d+)", block).group(1)
     )
-    assert max_age <= 3600
-    assert startup_grace <= 7200
+    assert max_age <= 1800
+    assert startup_grace <= 2400
+
+
+def test_integrity_watchdog_is_bound_to_loaded_news_contract() -> None:
+    block = _integrity_freshness_block()
+    assert 'ExpectedJsonField = "classification_version"' in block
+    assert (
+        'ExpectedJsonValue = "local_fx_news_rules_20260907_'
+        'v165_causal_member_admission"'
+    ) in block
+
+
+def test_independent_verifier_supervision_pins_lifecycle_rebuild_handshake() -> None:
+    text = SUPERVISOR.read_text(encoding="utf-8")
+    match = re.search(
+        r'-Name\s+"independent_evidence_verifier".*?'
+        r'-Freshness\s+@\{(?P<block>.*?)\n\s*\}',
+        text,
+        flags=re.DOTALL,
+    )
+    assert match is not None
+    block = match.group(0)
+    assert "--evidence-operations-worker-state" in block
+    assert "evidence_operations_worker_heartbeat_v2.json" in block
+    assert '"--maximum-state-age-sec", "1800"' in block
+    assert '"--maximum-lifecycle-snapshot-lag-sec", "7200"' in block
+
+
+def test_broad_genealogy_scan_yields_to_targeted_lifecycle_handoff() -> None:
+    text = SUPERVISOR.read_text(encoding="utf-8")
+    match = re.search(
+        r'-Name\s+"research_genealogy".*?'
+        r'-Freshness\s+@\{(?P<block>.*?)\n\s*\}',
+        text,
+        flags=re.DOTALL,
+    )
+    assert match is not None
+    block = match.group(0)
+    interval = int(
+        re.search(r'"--interval-sec",\s*"(\d+)"', block).group(1)
+    )
+    assert interval == 3600
+    assert "lifecycle handoff now synchronizes" in block
+
+
+def test_verified_log_archiver_capacity_keeps_up_with_integrity_rotation() -> None:
+    text = SUPERVISOR.read_text(encoding="utf-8")
+    match = re.search(
+        r'-Name\s+"verified_log_archiver".*?'
+        r'-Freshness\s+@\{(?P<block>.*?)\n\s*\}',
+        text,
+        flags=re.DOTALL,
+    )
+    assert match is not None
+    block = match.group(0)
+    minimum_age = float(
+        re.search(
+            r'"--minimum-age-hours",\s*"([0-9.]+)"', block
+        ).group(1)
+    )
+    maximum_batch = float(
+        re.search(
+            r'"--maximum-source-gib",\s*"([0-9.]+)"', block
+        ).group(1)
+    )
+    interval = float(
+        re.search(r'"--interval-sec",\s*"([0-9.]+)"', block).group(1)
+    )
+    assert minimum_age <= 6.0
+    assert maximum_batch >= 4.0
+    assert interval <= 21600.0
+
+
+def test_policy_statement_worker_uses_liveness_not_slow_projection() -> None:
+    text = SUPERVISOR.read_text(encoding="utf-8")
+    match = re.search(
+        r'-Name\s+"policy_statement_breakout_research".*?'
+        r'-Freshness\s+@\{(?P<block>.*?)\n\s*\}',
+        text,
+        flags=re.DOTALL,
+    )
+    assert match is not None
+    block = match.group("block")
+    assert "policy_statement_breakout_research_heartbeat_v1.json" in block
+    assert "policy_statement_breakout_research_v1.json" not in block
+    assert 'ExpectedJsonField = "schema_version"' in block
+    assert (
+        'ExpectedJsonValue = "policy_statement_breakout_research_heartbeat_v1"'
+        in block
+    )
+    assert int(re.search(r"MaxAgeSec\s*=\s*(\d+)", block).group(1)) <= 60
+
+
+def test_major_move_census_supervision_separates_liveness_from_evidence() -> None:
+    text = SUPERVISOR.read_text(encoding="utf-8")
+    match = re.search(
+        r'-Name\s+"major_move_gap_census".*?'
+        r'-Freshness\s+@\{(?P<block>.*?)\n\s*\}',
+        text,
+        flags=re.DOTALL,
+    )
+    assert match is not None
+    block = match.group("block")
+    assert "major_move_gap_census_heartbeat_v1.json" in block
+    assert "MAJOR_MOVE_GAP_CENSUS_CURRENT.json" not in block
+    assert 'ExpectedJsonField = "worker"' in block
+    assert 'ExpectedJsonValue = "oanda_major_move_gap_census"' in block
+    assert int(re.search(r"MaxAgeSec\s*=\s*(\d+)", block).group(1)) <= 120
 
 
 def test_version_gated_heartbeat_reads_retry_transient_windows_denials() -> None:
@@ -59,6 +202,9 @@ def test_version_gated_heartbeat_reads_retry_transient_windows_denials() -> None
 
 def test_paired_evaluator_supervision_is_bound_to_isolated_b_heartbeats() -> None:
     text = SUPERVISOR.read_text(encoding="utf-8")
+    disabled_block = text.split("$DisabledNames = @(", 1)[1].split(")", 1)[0]
+    assert '"official_event_paired_evaluator_v1"' in disabled_block
+    assert '"official_event_paired_evaluator_verifier_v1"' in disabled_block
     producer = re.search(
         r'-Name\s+"official_event_paired_evaluator_v1".*?'
         r'-Name\s+"official_event_paired_evaluator_verifier_v1"',
@@ -78,3 +224,42 @@ def test_paired_evaluator_supervision_is_bound_to_isolated_b_heartbeats() -> Non
         assert 'ExpectedJsonField = "cohort_id"' in block
         assert 'ExpectedJsonValue = "official_event_paired_evaluator_v1_20260830b"' in block
     assert "official_event_quote_horizon_capture_verifier_heartbeat_v1.json" in text
+
+
+def test_operational_mapper_cutover_disables_invalid_v2_v3_and_starts_v4() -> None:
+    text = SUPERVISOR.read_text(encoding="utf-8")
+    disabled_block = text.split("$DisabledNames = @(", 1)[1].split(")", 1)[0]
+    assert '"move_first_operational_mapping_alignment_v1"' in disabled_block
+    assert '"move_first_operational_mapping_alignment_v2"' in disabled_block
+    assert '"move_first_operational_mapping_alignment_v3"' in disabled_block
+    v4 = re.search(
+        r'-Name\s+"move_first_operational_mapping_alignment_v4".*?'
+        r'ExpectedJsonValue\s+=\s+"(?P<contract>[^"]+)"',
+        text,
+        flags=re.DOTALL,
+    )
+    assert v4 is not None
+    assert "move_first_operational_mapping_alignment_v4_20260902.json" in v4.group(0)
+    assert "move_first_operational_mapping_alignment_v4_20260902.sqlite" in v4.group(0)
+    assert v4.group("contract") == (
+        "move_first_operational_mapping_alignment_v4_receipt_backed_"
+        "subsecond_causal_narrative_family_prospective_20260902T121500Z"
+    )
+
+
+def test_large_report_workers_run_quiet_under_supervision() -> None:
+    """Published multi-MB JSON reports must not also be copied to stdout logs."""
+    text = SUPERVISOR.read_text(encoding="utf-8")
+    for worker_name in (
+        "official_release_fast_mapper",
+        "move_first_live_arm_alignment_v1",
+        "move_first_operational_mapping_alignment_v4",
+    ):
+        match = re.search(
+            rf'-Name\s+"{re.escape(worker_name)}".*?-Freshness\s+@\{{',
+            text,
+            flags=re.DOTALL,
+        )
+        assert match is not None
+        block = match.group(0)
+        assert '"--quiet"' in block

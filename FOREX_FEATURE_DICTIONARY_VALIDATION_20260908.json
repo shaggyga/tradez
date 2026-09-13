@@ -1,0 +1,65 @@
+{
+  "schema_version": "forex_feature_dictionary_validation_v1",
+  "as_of_utc": "2026-09-08T02:28:00Z",
+  "scope": "Explanatory documentation, reconstruction references and vault export integration only. Not a runtime or predictive-performance audit.",
+  "canonical_project": "C:/Users/zmoor/Documents/forex/trad",
+  "vault_project": "C:/Users/zmoor/OneDrive/thevault/projects/forex",
+  "coverage": {
+    "design_entries": 251,
+    "design_blocks": 22,
+    "current_joint_inputs": 34,
+    "historical_schemas": 6,
+    "historical_field_records": 2169,
+    "historical_schema_counts": [227, 267, 795, 643, 14, 223],
+    "design_status_counts": {
+      "design_intent_only": 208,
+      "code_verified_offline": 19,
+      "code_verified_controller": 2,
+      "code_verified_but_inert": 22
+    },
+    "inspected_source_hashes_checked": 39,
+    "referenced_local_files_line_checked": 36,
+    "counts_are_independent_predictors": false
+  },
+  "checks": {
+    "command": "python -B -m pytest test_forex_feature_dictionary.py test_forex_model_vault_sync.py -q -p no:cacheprovider",
+    "passed": 55,
+    "failed": 0,
+    "deterministic_build_check": "passed",
+    "source_drift_requires_definition_review": true,
+    "exact_current_vector_id_order_checked_against_source": true,
+    "dense_and_sparse_window_arithmetic_checked": true,
+    "raw_news_interaction_arithmetic_checked": true,
+    "catalog_membership_and_historical_counts_checked": true,
+    "nested_source_reference_bindings_checked": true,
+    "bounded_independent_definition_review": "No material errors found in active ordering/cost separation or sampled ATR/strength/pressure definitions. This does not certify every historical formula."
+  },
+  "file_sha256": {
+    "docs/FOREX_FEATURE_DICTIONARY_CURRENT.md": "340349f4c55628234fb354e97ab7d251c1e9182c0ed190cfa65e87a369315374",
+    "docs/FOREX_FEATURE_DICTIONARY_CURRENT.json": "cf813370d8a00e0e33fdb599a6c933fd9d9f9de29cd2de95a6b3b5a4a79600bc",
+    "docs/feature_dictionary/catalog_251.json": "918ee5daa52ba9c2464cc11e5dae726f5813ab1cefcc51db1d7e02010e369e49",
+    "docs/feature_dictionary/active_joint_34.json": "ddfc518b6a7d00b3bbccc54c980d57eaf3a20595c803897ec8dc1c6356de1f99",
+    "docs/feature_dictionary/active_joint_walkthrough.md": "1f40b7f1a61fd6b97ecdc6a86db39e942fef9333b79da16c22522b55f13f32d0",
+    "docs/feature_dictionary/historical_engines.json": "a9cdb5d56018d513cedfc8958e369be44bea012cf10c0a5c47d0b673af2591a6",
+    "docs/feature_dictionary/historical_panel_schema.json": "e08a302aff1ee5dadb7e2b301eaa089f7d698f04ac3b40059a4f613ef6a3dbc0",
+    "tools/build_forex_feature_dictionary.py": "955b60e211ff071d7ab8d9729ef74142b7f204880c1988c2bfb18f0683f8aa67",
+    "test_forex_feature_dictionary.py": "54b08b1cad5b55e34fb907887b969b3ed0501e94b872c754893e0349ea228123"
+  },
+  "preservation": {
+    "model_or_registration_changed": false,
+    "model_loaded_fit_or_rescored": false,
+    "runtime_restarted_or_stopped": false,
+    "broker_or_order_action": false,
+    "historical_ledger_modified": false,
+    "runtime_bulk_report_dependency": false,
+    "static_historical_panel_schema_with_original_hash_retained": true,
+    "source_archive_scope": "Current Git-listed source/config/tests/docs; ignored historical packages, original data, credentials and fitted weights are not automatically reconstructed.",
+    "publication_evidence": "Vault SHARED_PROJECT_STATE_CURRENT.json binds published records; source/WORKTREE_SOURCE_LATEST.json binds the latest completed source archive. Local publication does not verify OneDrive cloud propagation."
+  },
+  "remaining_gaps": [
+    "Intent-only design entries do not have established one-to-one runtime implementations.",
+    "Some original historical feature recipes remain missing; current analogous recipes are not historical version attestation.",
+    "The ignored/missing intrahour package and fitted-v4/current-v5 compatibility remain recovery tasks.",
+    "Documentation checks do not establish source completeness, active data population, calibrated forecasts or after-cost edge."
+  ]
+}

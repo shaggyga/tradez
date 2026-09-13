@@ -1,0 +1,574 @@
+{
+  "backlog_matrix": [
+    {
+      "evidence": "251 design entries,34 current inputs,six historical schemas/2169 versioned fields; dictionary receipt bytes rechecked.",
+      "item": "Explanatory feature dictionary / scope correction",
+      "remaining_acceptance": "Preserve dictionary/source checks during recovery; counts are not independent predictors.",
+      "status": "completed_documentation"
+    },
+    {
+      "evidence": "Current34-input code and inspected source hashes retained; previous tests/runtime are dated evidence.",
+      "item": "Current joint news/price inputs, member clocks, partial-price models and fair scheduler",
+      "remaining_acceptance": "Use fresh root runtime/performance baseline; do not claim present operation from static audit.",
+      "status": "implemented_predictive_acceptance_unproven"
+    },
+    {
+      "evidence": "Second-ridge and MA currentC/Dsources match; expected canonical artifacts absent. Unifiedv4artifact exists but Dsourcev5differs.",
+      "item": "Existing horizon source/artifact recovery",
+      "remaining_acceptance": "First isolated second-ridge deterministic inference comparator; then trusted MA dependency/schema replay; unified exact-source reconstruction.",
+      "status": "disconnected_but_recoverable_in_parts"
+    },
+    {
+      "evidence": "Prior actual795matrix had five15m/1m identical columns; native-pip ranking is not comparable economic magnitude.",
+      "item": "Duplicated 15m cross features and native-pip cross-pair ranking",
+      "remaining_acceptance": "Preserve oldmodel/data; repair in newversion and compare matched observations; never relabel oldperformance.",
+      "status": "open_confirmed_defects"
+    },
+    {
+      "evidence": "7048legacyrows,2935factors,6465distinctmarketepisodes exist; base analog tables had0scored forecasts.",
+      "item": "Blurb/factor data and earlier news/technical comparisons",
+      "remaining_acceptance": "Reuse entry-time-valid subset and prior comparisons; separate late/ex-post and known clocks; do not recollect knownassets.",
+      "status": "implemented_data_and_research_disconnected_from_oldwidefits"
+    },
+    {
+      "evidence": "Historical cross-currency builders exist; current34features omit peers and rawtext, use scored-member context; originalwide macrofieldsconstant.",
+      "item": "Broader learnable news / co-movement / analog pooling",
+      "remaining_acceptance": "Test information increment and sparse factor/event-family pooling in newregistrations; no claim morecolumns aloneimprove.",
+      "status": "partial_existing_machinery_unproven_extension"
+    },
+    {
+      "evidence": "Older curves often fail direction/aftercost baselines; earlier currentH1samples tiny/overlapping.",
+      "item": "Magnitude, calibration, spread cost and independent outcomes",
+      "remaining_acceptance": "Matched denominators, originaltargets, comparablebps/dollars, time/eventblocked uncertainty and laterprospective samples.",
+      "status": "unproven"
+    },
+    {
+      "evidence": "Current backlog retains300snews freshness, intermittentjointsummary mismatch, SCB/GDELT/HKMA followups.",
+      "item": "News freshness / publication mismatch / provider failures",
+      "remaining_acceptance": "Reproduce from rootfreshbaseline; preserve originalclocks/hashchecks; no new failure inferred from oldreport.",
+      "status": "partial_open_operational_acceptance"
+    },
+    {
+      "evidence": "48hour/5000news-row caps and compression implemented; multiday independenttraining and longrunstorageacceptance pending.",
+      "item": "Training-history breadth, input bounds and storage growth",
+      "remaining_acceptance": "Track boundedcohorts/storage; retain immutablecaptures and do notdelete oldevidence tofitbudget.",
+      "status": "partial_open"
+    },
+    {
+      "evidence": "Current queue says preserve originaloutcomes and comparison before retirement.",
+      "item": "Prior joint scheduler retirement",
+      "remaining_acceptance": "Root reviews currentbaseline first; no stop/restart in this phase.",
+      "status": "pending_evidence_review"
+    }
+  ],
+  "candidate_compatibility": {
+    "ma_grid": {
+      "artifact": {
+        "bytes": 5957557,
+        "exists": true,
+        "path": "D:\\forex\\trad\\data\\oanda_training_manager\\models\\ma_feature_grid\\ma_feature_grid_latest.joblib",
+        "sha256": "faa5eb07d7643bba35054d62b025c2a56a6df29b9b545545f192583a3ba94709"
+      },
+      "artifact_report_hash_match": true,
+      "canonical_artifact": {
+        "exists": false,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\models\\ma_feature_grid\\ma_feature_grid_latest.joblib"
+      },
+      "fitted_cells": 610,
+      "planned_cells": 702,
+      "priority": 2,
+      "report": {
+        "bytes": 8725474,
+        "exists": true,
+        "path": "D:\\forex\\trad\\data\\oanda_training_manager\\reports\\ma_feature_grid\\ma_feature_grid_latest.json",
+        "sha256": "2adf564ddb31905a7b97cc94fca137a3d951863a96dbe282052f5ef368b8b6a4"
+      },
+      "unsupported_cells": 92,
+      "verdict": "Strong first broadfeature follow-on: matchingC/Dsource and boundartifact/report. Opaquemodel/dependency/embeddedfeature-schema compatibility not executed or establishedbythisread-onlycheck."
+    },
+    "second_ridge": {
+      "artifact": {
+        "bytes": 5697587,
+        "exists": true,
+        "path": "D:\\forex\\trad\\data\\oanda_training_manager\\state\\second_ridge_models_v1.json",
+        "sha256": "85ff37fd77f85fa6ae990990ead19eb7d4e20389d99b774023f32c13bf62658c"
+      },
+      "artifact_feature_names": [
+        "return_5_pips",
+        "return_10_pips",
+        "return_30_pips",
+        "return_60_pips",
+        "acceleration_5_30",
+        "volatility_30_pips",
+        "volatility_60_pips",
+        "range_30_pips",
+        "spread_pips",
+        "spread_ratio_60",
+        "activity_30",
+        "activity_ratio_30_60",
+        "hour_sin",
+        "hour_cos"
+      ],
+      "canonical_artifact": {
+        "exists": false,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\second_ridge_models_v1.json"
+      },
+      "exact_feature_name_order_match": true,
+      "horizons_sec": [
+        15,
+        30,
+        60,
+        120,
+        180,
+        300,
+        600,
+        900,
+        1800,
+        3600,
+        7200,
+        10800,
+        14400
+      ],
+      "input_timeframe": "S1",
+      "model_family": "ridge_return",
+      "parameter_shape_errors": [],
+      "parameter_surfaces_inspected": 884,
+      "pooled_surfaces": [
+        [
+          "TRY_JPY",
+          "10800",
+          "quote_currency_pooled_proxy"
+        ],
+        [
+          "TRY_JPY",
+          "120",
+          "quote_currency_pooled_proxy"
+        ],
+        [
+          "TRY_JPY",
+          "14400",
+          "quote_currency_pooled_proxy"
+        ],
+        [
+          "TRY_JPY",
+          "15",
+          "quote_currency_pooled_proxy"
+        ],
+        [
+          "TRY_JPY",
+          "180",
+          "quote_currency_pooled_proxy"
+        ],
+        [
+          "TRY_JPY",
+          "1800",
+          "quote_currency_pooled_proxy"
+        ],
+        [
+          "TRY_JPY",
+          "30",
+          "quote_currency_pooled_proxy"
+        ],
+        [
+          "TRY_JPY",
+          "300",
+          "quote_currency_pooled_proxy"
+        ],
+        [
+          "TRY_JPY",
+          "3600",
+          "quote_currency_pooled_proxy"
+        ],
+        [
+          "TRY_JPY",
+          "60",
+          "quote_currency_pooled_proxy"
+        ],
+        [
+          "TRY_JPY",
+          "600",
+          "quote_currency_pooled_proxy"
+        ],
+        [
+          "TRY_JPY",
+          "7200",
+          "quote_currency_pooled_proxy"
+        ],
+        [
+          "TRY_JPY",
+          "900",
+          "quote_currency_pooled_proxy"
+        ]
+      ],
+      "priority": 1,
+      "report": {
+        "bytes": 1464508,
+        "exists": true,
+        "path": "D:\\forex\\trad\\data\\oanda_training_manager\\reports\\second_ridge_fit_v1.json",
+        "sha256": "5547917802bfdf6afd9d0eaf494318063f55f15bd8bea71af7baa7b8a0607b2b"
+      },
+      "report_artifact_same_coverage": true,
+      "report_artifact_same_fit_time": true,
+      "retained_input_example": {
+        "exists": true,
+        "path": "D:\\forex\\trad\\data\\oanda_training_manager\\candles_s5_bam\\EUR_USD_S5.parquet"
+      },
+      "schema_version": 1,
+      "source_feature_names": [
+        "return_5_pips",
+        "return_10_pips",
+        "return_30_pips",
+        "return_60_pips",
+        "acceleration_5_30",
+        "volatility_30_pips",
+        "volatility_60_pips",
+        "range_30_pips",
+        "spread_pips",
+        "spread_ratio_60",
+        "activity_30",
+        "activity_ratio_30_60",
+        "hour_sin",
+        "hour_cos"
+      ],
+      "training_timeframe": "S5",
+      "verdict": "Best first deterministic offline inference comparator: transparent finite parameters, ordered schema and matchingC/Dsource. No inference/fittingperformed; report/JSON do not bind exact fit-time sourcehash/dependencylock or prove fulltrainingreproduction."
+    },
+    "unified_795": {
+      "archived_source": {
+        "bytes": 103550,
+        "exists": true,
+        "path": "D:\\forex\\trad\\fresh_m1_intrahour\\src\\unified_forecast.py",
+        "sha256": "4a8ac140dc610162cfbd15177768ae6687b7962dee0104fee790d84427d47262"
+      },
+      "artifact": {
+        "bytes": 500050,
+        "exists": true,
+        "path": "C:\\Users\\zmoor\\AppData\\Local\\ForexResearchData\\unified_intrahour_v1\\models\\unified_intrahour_forecast_latest.joblib",
+        "sha256": "46370f88ae3e51e59da4988fd7dcc0e1c46bb893a5c413e8e9736d3badf2fb52"
+      },
+      "canonical_package_exists": false,
+      "current_archived_schema": "unified_intrahour_features_v5_opportunity",
+      "matrix_manifest": {
+        "bytes": 8918,
+        "exists": true,
+        "path": "C:\\Users\\zmoor\\AppData\\Local\\ForexResearchData\\unified_intrahour_v1\\matrix_manifest.json",
+        "sha256": "788fd81faaa3bd833b35dac8c73f4c11acf18290b1bdaf9f3f39b78823630e9c"
+      },
+      "priority": 3,
+      "report": {
+        "bytes": 118048,
+        "exists": true,
+        "path": "D:\\forex\\trad\\fresh_m1_intrahour\\reports\\unified_forecast_full_validation_native_pip_20260725\\UNIFIED_FORECAST_VALIDATION.json",
+        "sha256": "5c993822efd17e87c9924d45015fc4228f63731bf2facd179bdab00aa28a9dd0"
+      },
+      "saved_schema": "unified_intrahour_features_v4_native_pip",
+      "verdict": "Exact v4source/artifact compatibility unresolved. CurrentDsourcev5and missingCpackage preclude declaringplug-inrecovery; preserve v4matrix/weights and reconstructschema before separatebugfixversion."
+    }
+  },
+  "canonical_archived_source_comparisons": [
+    {
+      "archived": {
+        "bytes": 60604,
+        "exists": true,
+        "path": "D:\\forex\\trad\\oanda_second_forecast.py",
+        "sha256": "3ac9f38bbe7140aae7bf391d1778f658b599199601d811d97d3386f32d727063"
+      },
+      "canonical": {
+        "bytes": 60604,
+        "exists": true,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_second_forecast.py",
+        "sha256": "3ac9f38bbe7140aae7bf391d1778f658b599199601d811d97d3386f32d727063"
+      },
+      "equal": true,
+      "name": "oanda_second_forecast.py"
+    },
+    {
+      "archived": {
+        "bytes": 52800,
+        "exists": true,
+        "path": "D:\\forex\\trad\\oanda_second_forecast_fit.py",
+        "sha256": "238b8e6d83536aa287dc6282a364ccbe7ba016f2e00221e3b95381edd8d4aba8"
+      },
+      "canonical": {
+        "bytes": 52800,
+        "exists": true,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_second_forecast_fit.py",
+        "sha256": "238b8e6d83536aa287dc6282a364ccbe7ba016f2e00221e3b95381edd8d4aba8"
+      },
+      "equal": true,
+      "name": "oanda_second_forecast_fit.py"
+    },
+    {
+      "archived": {
+        "bytes": 38956,
+        "exists": true,
+        "path": "D:\\forex\\trad\\oanda_second_forecast_runner.py",
+        "sha256": "4a362cbca7be31917f38c3e738bdb2bef734185530b008e55a1c097ad37d6d84"
+      },
+      "canonical": {
+        "bytes": 38956,
+        "exists": true,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_second_forecast_runner.py",
+        "sha256": "4a362cbca7be31917f38c3e738bdb2bef734185530b008e55a1c097ad37d6d84"
+      },
+      "equal": true,
+      "name": "oanda_second_forecast_runner.py"
+    },
+    {
+      "archived": {
+        "bytes": 52995,
+        "exists": true,
+        "path": "D:\\forex\\trad\\oanda_ma_feature_grid.py",
+        "sha256": "e8b277c78aee6431f945bc73ba9d6b1948e7ab0e11b370aa188891ff500b955c"
+      },
+      "canonical": {
+        "bytes": 52995,
+        "exists": true,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_ma_feature_grid.py",
+        "sha256": "e8b277c78aee6431f945bc73ba9d6b1948e7ab0e11b370aa188891ff500b955c"
+      },
+      "equal": true,
+      "name": "oanda_ma_feature_grid.py"
+    },
+    {
+      "archived": {
+        "bytes": 119362,
+        "exists": true,
+        "path": "D:\\forex\\trad\\oanda_ma_feature_grid_fit.py",
+        "sha256": "e39a979c75f9713a2afcb9143c2a58d1600b8922e0da95c453315386705c6324"
+      },
+      "canonical": {
+        "bytes": 119362,
+        "exists": true,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_ma_feature_grid_fit.py",
+        "sha256": "e39a979c75f9713a2afcb9143c2a58d1600b8922e0da95c453315386705c6324"
+      },
+      "equal": true,
+      "name": "oanda_ma_feature_grid_fit.py"
+    }
+  ],
+  "current_registered_source_recheck": [
+    {
+      "bytes": 9587,
+      "exists": true,
+      "expected_sha256": "eb153acb966dc04ad950a0bbfcc730e78a9a0da1d8a24e91d641f473f5cfbc23",
+      "matches": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_joint_price_news_models_v1.py",
+      "sha256": "eb153acb966dc04ad950a0bbfcc730e78a9a0da1d8a24e91d641f473f5cfbc23"
+    },
+    {
+      "bytes": 31037,
+      "exists": true,
+      "expected_sha256": "9375f116571ef43c18eae65c14fc53fb2f98d8ab132d4b000a0971986d2890ec",
+      "matches": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_causal_forecast_inputs_joint_news_v1.py",
+      "sha256": "9375f116571ef43c18eae65c14fc53fb2f98d8ab132d4b000a0971986d2890ec"
+    },
+    {
+      "bytes": 11902,
+      "exists": true,
+      "expected_sha256": "294c63bf0ed873395c4850a8722a2622eaa2bc563ceb7ecf9886764c63d8bf24",
+      "matches": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_pair_local_models_v2.py",
+      "sha256": "294c63bf0ed873395c4850a8722a2622eaa2bc563ceb7ecf9886764c63d8bf24"
+    }
+  ],
+  "dictionary_coverage": {
+    "current_joint_entries": 34,
+    "design_blocks": 22,
+    "design_entries": 251,
+    "design_status_counts": {
+      "code_verified_but_inert": 22,
+      "code_verified_controller": 2,
+      "code_verified_offline": 19,
+      "design_intent_only": 208
+    },
+    "documentation_validation": "passed",
+    "historical_engine_schemas": 6,
+    "historical_field_records": 2169,
+    "historical_schema_counts": {
+      "corrected_htf_220_feature_forecast_267": 267,
+      "direct_currency_panel_223": 223,
+      "moving_average_grid_643": 643,
+      "original_htf_227": 227,
+      "second_ridge_14": 14,
+      "unified_intrahour_v4_795": 795
+    },
+    "inspected_source_bindings_checked": 39,
+    "joint_status_counts": {
+      "implemented_active_registered_joint_input": 34
+    },
+    "local_reference_files_checked": 36,
+    "meaning": "Coverage and referenced locations checked; not a certificate of all formulas, runtime, or edge."
+  },
+  "dictionary_validation_recheck": [
+    {
+      "bytes": 2068881,
+      "exists": true,
+      "expected_sha256": "340349f4c55628234fb354e97ab7d251c1e9182c0ed190cfa65e87a369315374",
+      "matches": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\FOREX_FEATURE_DICTIONARY_CURRENT.md",
+      "sha256": "340349f4c55628234fb354e97ab7d251c1e9182c0ed190cfa65e87a369315374"
+    },
+    {
+      "bytes": 3895160,
+      "exists": true,
+      "expected_sha256": "cf813370d8a00e0e33fdb599a6c933fd9d9f9de29cd2de95a6b3b5a4a79600bc",
+      "matches": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\FOREX_FEATURE_DICTIONARY_CURRENT.json",
+      "sha256": "cf813370d8a00e0e33fdb599a6c933fd9d9f9de29cd2de95a6b3b5a4a79600bc"
+    },
+    {
+      "bytes": 540249,
+      "exists": true,
+      "expected_sha256": "918ee5daa52ba9c2464cc11e5dae726f5813ab1cefcc51db1d7e02010e369e49",
+      "matches": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\feature_dictionary\\catalog_251.json",
+      "sha256": "918ee5daa52ba9c2464cc11e5dae726f5813ab1cefcc51db1d7e02010e369e49"
+    },
+    {
+      "bytes": 124223,
+      "exists": true,
+      "expected_sha256": "ddfc518b6a7d00b3bbccc54c980d57eaf3a20595c803897ec8dc1c6356de1f99",
+      "matches": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\feature_dictionary\\active_joint_34.json",
+      "sha256": "ddfc518b6a7d00b3bbccc54c980d57eaf3a20595c803897ec8dc1c6356de1f99"
+    },
+    {
+      "bytes": 5553,
+      "exists": true,
+      "expected_sha256": "1f40b7f1a61fd6b97ecdc6a86db39e942fef9333b79da16c22522b55f13f32d0",
+      "matches": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\feature_dictionary\\active_joint_walkthrough.md",
+      "sha256": "1f40b7f1a61fd6b97ecdc6a86db39e942fef9333b79da16c22522b55f13f32d0"
+    },
+    {
+      "bytes": 2935118,
+      "exists": true,
+      "expected_sha256": "a9cdb5d56018d513cedfc8958e369be44bea012cf10c0a5c47d0b673af2591a6",
+      "matches": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\feature_dictionary\\historical_engines.json",
+      "sha256": "a9cdb5d56018d513cedfc8958e369be44bea012cf10c0a5c47d0b673af2591a6"
+    },
+    {
+      "bytes": 9651,
+      "exists": true,
+      "expected_sha256": "e08a302aff1ee5dadb7e2b301eaa089f7d698f04ac3b40059a4f613ef6a3dbc0",
+      "matches": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\feature_dictionary\\historical_panel_schema.json",
+      "sha256": "e08a302aff1ee5dadb7e2b301eaa089f7d698f04ac3b40059a4f613ef6a3dbc0"
+    },
+    {
+      "bytes": 23477,
+      "exists": true,
+      "expected_sha256": "955b60e211ff071d7ab8d9729ef74142b7f204880c1988c2bfb18f0683f8aa67",
+      "matches": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\tools\\build_forex_feature_dictionary.py",
+      "sha256": "955b60e211ff071d7ab8d9729ef74142b7f204880c1988c2bfb18f0683f8aa67"
+    },
+    {
+      "bytes": 11716,
+      "exists": true,
+      "expected_sha256": "54b08b1cad5b55e34fb907887b969b3ed0501e94b872c754893e0349ea228123",
+      "matches": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_forex_feature_dictionary.py",
+      "sha256": "54b08b1cad5b55e34fb907887b969b3ed0501e94b872c754893e0349ea228123"
+    }
+  ],
+  "first_recovery_milestone": {
+    "acceptance": [
+      "Hashbind preservedJSON/source/report and selectedinputfixture; no live source/config/ledger paths.",
+      "Validate14orderedfinitefeatures,884parameter shapes, schema andpair/horizonidentity; pooledTRY_JPY remains explicitly proxy and researchonly.",
+      "On fixed own-pairfixture, verify direct normalizeddot+intercept equals originalcompiled prediction arithmetic at selected5m/15m/60m horizons within numericaltolerance; norefit.",
+      "Replay originalS5feature windows andmissingness; do notpretend S5training/S1live inputsidentical or compressgaps. Preserve documentedendpoint+7stolerance; itisnotexactH1ledgersemantics.",
+      "Emit only newoffline comparison evidence withoriginalmodeldate, inputclock,raw/calibratedexpectedpips,uncalibratedprobability,originalhorizonandallmissingreasons; allorder/promotionflagsdisabled.",
+      "Keep magnitude/direction/costgates andpriornegative baselinesvisible; deterministicreproductionis not improvedaccuracy orliveactivation."
+    ],
+    "follow_on": "Trusted isolated MA M1-input horizon subset for broadfeature comparator after dependency/schema proof; unifiedv4versionrecovery separately.",
+    "name": "Isolated second-ridge inference reproducibility comparator",
+    "status": "proposed_not_executed"
+  },
+  "limits": [
+    "Static files and prioraudit evidence only; no newruntime healthclaim.",
+    "No data matrix scan, unknownobjectloading, sourceimports, modelinference, fitting, scoring, databasewrite, runtimeorbrokeraction.",
+    "C/Dsourceequality andartifact/report agreement are evidence ofrecoverability, not cryptographicattestationoforiginalfit-time source or dependencies."
+  ],
+  "observed_finished_utc": "2026-09-08T13:58:45.285367+00:00",
+  "observed_started_utc": "2026-09-08T13:58:44.632123+00:00",
+  "schema": "revamp_backlog_reconciliation_v1",
+  "source_bindings": [
+    {
+      "bytes": 198653,
+      "exists": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\feature_horizon_audit_20260908\\FEATURE_IMPLEMENTATION_LINEAGE_AUDIT_20260908.json",
+      "sha256": "426d0a454991d6c141ed5c190e2c9319ea6506588180a86c06482086a7e6bb03"
+    },
+    {
+      "bytes": 1027280,
+      "exists": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\feature_horizon_audit_20260908\\EXISTING_CURVE_MODEL_EVIDENCE_20260908.json",
+      "sha256": "e782f0d1c3ea66b6cc0fd99b4f80dae0376183aeae78f81939b310f22a9fa4b7"
+    },
+    {
+      "bytes": 661966,
+      "exists": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\feature_horizon_audit_20260908\\MA_GRID_EXISTING_CURVE_AUDIT_20260908.json",
+      "sha256": "340a6b7735bd01fbc519a9984236b2eb53854d23ec8de9fc79c07543f31f0cac"
+    },
+    {
+      "bytes": 35927,
+      "exists": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\blurb_dataset_audit_20260908\\BLURB_DATASET_INVENTORY_20260908.json",
+      "sha256": "366483a10878352a78d737c851329c012abff38ac9e3bca2e4610daf30b93641"
+    },
+    {
+      "bytes": 10512,
+      "exists": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\FOREX_EXISTING_FEATURE_HORIZON_AUDIT_20260908.md",
+      "sha256": "52d8724a077010b5496e3cd09b98b2cba12d611cc5ec5171b12b641815db3292"
+    },
+    {
+      "bytes": 5185,
+      "exists": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\FOREX_BLURB_DATASET_AUDIT_20260908.md",
+      "sha256": "1bb4bd20e9178039cb0f9f784aae5d9399ec99789f14b8c06f4dc9972d9fc410"
+    },
+    {
+      "bytes": 302895,
+      "exists": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\FOREX_PENDING_IMPROVEMENTS.md",
+      "sha256": "cb4104faf65caea7b68aca33847a4277c713a1a89d7a850dab33942ce9bdb37f"
+    },
+    {
+      "bytes": 728,
+      "exists": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\PENDING_IMPROVEMENTS.md",
+      "sha256": "8cea31105224d109607232cbcf9d53ec7142d6c338f161fa4eab0e4ef63ca13b"
+    },
+    {
+      "bytes": 2068881,
+      "exists": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\FOREX_FEATURE_DICTIONARY_CURRENT.md",
+      "sha256": "340349f4c55628234fb354e97ab7d251c1e9182c0ed190cfa65e87a369315374"
+    },
+    {
+      "bytes": 3895160,
+      "exists": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\FOREX_FEATURE_DICTIONARY_CURRENT.json",
+      "sha256": "cf813370d8a00e0e33fdb599a6c933fd9d9f9de29cd2de95a6b3b5a4a79600bc"
+    },
+    {
+      "bytes": 4057,
+      "exists": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\FOREX_FEATURE_DICTIONARY_VALIDATION_20260908.json",
+      "sha256": "f9e5c0f1306562a72782c484591f377e3f660564d9e289918641401095c61e37"
+    },
+    {
+      "bytes": 8398,
+      "exists": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\FOREX_JOINT_PRICE_NEWS_20260907.md",
+      "sha256": "3a7229fa8efaa8edf46090dca5c630137e54a5e3ae862a2798a047f5aac9d75a"
+    }
+  ],
+  "status": "completed_static_readonly"
+}

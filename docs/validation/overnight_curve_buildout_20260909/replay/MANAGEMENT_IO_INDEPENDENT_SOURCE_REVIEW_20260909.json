@@ -1,0 +1,84 @@
+{
+  "closed_findings": [
+    {
+      "closure": "The new wrapper requires list/tuple with at most8 safe bounded components before any write; generators and malformed parts are rejected by regressions.",
+      "finding": "Passing an iterator through the frozen directory primitive could consume it during validation and lose intended path parts.",
+      "id": "consumed_generator_path",
+      "original_source_sha256": "e0d81464b82ad95c7ca4886ced5ade75c88200655949e9e6c24ca99f42d7df0d"
+    },
+    {
+      "closure": "Enumeration counts all entries, including ignored names, and refuses above2048 before sorting.",
+      "finding": "A returned-cycle limit alone did not bound directory enumeration and sorting.",
+      "id": "discovery_inventory_bound"
+    },
+    {
+      "closure": "The wrapper normalizes its root to an absolute path before I/O and returned relative-path construction; a disposable relative-root write regression passes.",
+      "finding": "Relative roots could succeed at writing but fail path.relative_to(root) while returning the receipt.",
+      "id": "relative_root_publication_receipt"
+    }
+  ],
+  "independent_tests_rerun": false,
+  "network_request": false,
+  "owner_test_evidence": {
+    "bytes": 4190,
+    "cases": 30,
+    "errors": 0,
+    "failures": 0,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\replay\\observed_management_io_review_fixes_tests.xml",
+    "sha256": "c19a5c88222954226d9cb7301b74baa76a5cfef82b41ba15bd8da15423e3c727"
+  },
+  "pilot_written": false,
+  "reviewed_dependencies": [
+    {
+      "bytes": 12336,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_forecast_curve_file_store_v1.py",
+      "sha256": "0d537f59e8c90e7957b2d9853d6a5561486ec5004f3b1ee02661c335bdf5fc4d"
+    },
+    {
+      "bytes": 26812,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_forecast_curve_contract_v1.py",
+      "sha256": "c03549586f922f6031790fce68a5afb5b98e4eda6157f20c4720b1adb05d0746"
+    },
+    {
+      "bytes": 18061,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_s5_mba_research_capture_v1.py",
+      "sha256": "38fe20f4e55d970f074c71f7acee5f5adaebc9ac7766a532efcd782b34abbb45"
+    }
+  ],
+  "reviewed_utc": "2026-09-09T06:22:08.907044+00:00",
+  "reviewer": "pair_dashboard",
+  "runtime_activation": false,
+  "schema_version": "observed_management_io_independent_review_v1_20260909",
+  "scope_limits": [
+    "The caller must supply approved expected source bindings and verify current registered source/model/cohort selection; the I/O wrapper does not authorize a registry.",
+    "Caller must provision a separate new experiment sink; generic persist helpers do not themselves decide which study directory the caller is authorized to write.",
+    "Reviewed intended caller uses Path roots; downstream file-store components impose an effective64-character bound even though the wrapper accepts up to96 before delegation.",
+    "Root directory ownership is assumed; path checks are not an administrator-resistant sandbox against concurrent directory replacement.",
+    "File fsync/readback is not an unsupported guarantee of directory-entry crash durability.",
+    "Owner ran30focusedtests; reviewer reread source/tests without rerunning tests or touching active registered sources."
+  ],
+  "sources": [
+    {
+      "bytes": 7212,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_observed_management_io_v1.py",
+      "sha256": "ade841191d6aeec92d6869dea374edf32494ed8bbe0339792d58787b6d9d2724"
+    },
+    {
+      "bytes": 8137,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_observed_management_io_v1.py",
+      "sha256": "eb2d8f9fe23c86dc9080797c97806bcaf415c08d23d0180abf59d5c9d00389b2"
+    }
+  ],
+  "status": "passed_no_remaining_blocker",
+  "verified_semantics": [
+    "Fixed GBP_USD/official_midpoint source paths and bounded cycle-name discovery; source contents and receipt are independently checked rather than trusted from names.",
+    "Raw S5 bytes and exact receipt are retained; the new read starts after original capture completion and records actual completion separately.",
+    "Frozen mapper validates original source identity, hashes, metadata and capture clocks; this helper performs no broker GET.",
+    "Curve anchor requires original issue/publication/consumption stage claims and matching GBP_USD, midpoint convention, expected cohort and exact curve identity.",
+    "Frozen filesystem consumer validates the retained curve/publication descriptor and creates a fresh consumption in memory with persist_consumption=False; original pilot files and publication clocks are unchanged.",
+    "Initial anchor requires issue age0\u2013120seconds, exactly one admitted native H1 forecast node and3300\u20133600seconds of original target remaining.",
+    "New evidence writes are exclusive, bounded, fsynced and independently read back before actual publication completion is returned; failures/orphans are never overwritten or deleted.",
+    "Frozen path primitives reject symlinks/junctions/reparse points and changed/oversized reads within the documented trusted-root boundary.",
+    "No account-data reads, order calls or execution authority are introduced."
+  ]
+}

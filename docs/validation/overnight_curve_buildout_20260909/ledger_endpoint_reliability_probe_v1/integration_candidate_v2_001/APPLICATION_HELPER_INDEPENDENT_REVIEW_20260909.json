@@ -1,0 +1,24 @@
+{
+  "findings": [],
+  "limits": [
+    "Source-only review; no helper execution or independent test rerun.",
+    "Trusted fixed project/evidence directory boundary; no claim of protection from concurrent malicious ancestor redirection.",
+    "Application is atomic per file, not a transaction across four files. A failure can leave an explicit partial change with original bytes preserved; no automatic rollback.",
+    "Handler/HTML binding temporarily differs from the running old API until the separately reviewed dashboard reload; existing table guards withhold rather than relabel mismatched data."
+  ],
+  "reviewed_epoch": 1788949709.6882515,
+  "schema_version": "observer_v2_application_helper_independent_review_v1_20260909",
+  "source": {
+    "bytes": 3945,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ledger_endpoint_reliability_probe_v1\\integration_candidate_v2_001\\apply_reviewed_integration_v2.py",
+    "sha256": "1ff96efcb34afc7f24cd548a10e27b917dd31c226f1a2c843ac069edd31f71f9"
+  },
+  "specification_sha256": "d77856f1a441612dd560507627d6cef05fd204cbcdc1ea5aac86bb6fafeda393",
+  "status": "passed_bounded_source_review",
+  "verified_scope": [
+    "Pinned specification restricts exactly four named project targets and four matching staged filenames.",
+    "Every target original hash, staged hash/size, exact retained before bytes, compile of Python and non-target source dependency is checked before the first target replacement.",
+    "Original exact staged bytes are flushed/fsynced, re-read and installed per file, then re-read and all source bindings checked again. Existing line endings are preserved.",
+    "No process, worker, model, broker or account operations occur. Receipt is exclusive and reports actual application clocks."
+  ]
+}

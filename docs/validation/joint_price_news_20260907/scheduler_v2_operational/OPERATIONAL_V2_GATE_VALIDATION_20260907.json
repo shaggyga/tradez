@@ -1,0 +1,68 @@
+{
+  "status": "passed",
+  "observed_utc": "2026-09-07T22:37:23.819394+00:00",
+  "scope": "Staged additive jointv2 supervision and storage support; v1 continues original outcomes. No runtime reload in this repair step.",
+  "source_bindings": {
+    "oanda_always_on_supervisor.ps1": "dc07dc530bb59047017834951e2a57da14e4cc957602421abfee59ba79d7dd21",
+    "oanda_project_runtime_health.py": "7642c3dcd5b669b93aed5b7288bda57771c07ee75fb8ff30383f7d5d6d267045",
+    "oanda_storage_headroom_guard.py": "4ff0d1fdccf9332baca250e32fa40b04cbeeb73cf2588c17bff1944c32d7f66f"
+  },
+  "test_source_bindings": {
+    "test_oanda_joint_news_v2_operational_gate.py": "088b29d70687804f04237050040d0a710297811c46b7a5767133e0ab0162adb1",
+    "test_oanda_joint_news_supervisor_gate.py": "147ebde635d21946307f671409a90762dbaea5c05684eb793bb56bc9e0b687d4",
+    "test_oanda_pair_v2_supervisor_gate.py": "716257bc5a3480a3fe814bca0cf26526f4657322e5b4095c9d243edd5726b921",
+    "test_oanda_project_runtime_health.py": "d0a63d0940d3474caad9e445cee10530875bf6623e94b3f3f72b861fc64e33b7",
+    "test_oanda_storage_headroom_guard.py": "168571705881d8322b6090eaa0693b12200cf5c7547bc32943060d5f2e632687"
+  },
+  "before_source_bindings": {
+    "oanda_always_on_supervisor.ps1": "7773307e8dc9116823bf1e043b8e01df79059ef260657ef6573a82e786dc6e3c",
+    "oanda_project_runtime_health.py": "bae05bc8099064de1c5a970fcf61c6f9ca7c25e26d9778c2d46b2893bbd72758",
+    "oanda_storage_headroom_guard.py": "675c03d9eba14d5481a4381d4dc39cc875153bf631910d2bbf5f842c2bc23a3f",
+    "test_oanda_pair_v2_supervisor_gate.py": "5cc135bac5c85004c906b1503db873419e810686cc579ba667fee9a09e8d3791",
+    "test_oanda_project_runtime_health.py": "fb9f8616cffd4f109b670a54fa4f1f27191d0597d6cb0f5de4e43032faac639a",
+    "test_oanda_storage_headroom_guard.py": "e1f06749dd5e52dcebf73fd3c89cb4449f5fd45692ef492545c654e785914931"
+  },
+  "test_counts": {
+    "tests": 157,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "test_xml_sha256": "57e9496e03164713c7817d983aff826be7cfb3ad99751de0aa66522440bab7a8",
+  "checks": [
+    "New v2 inert registry gate fails closed for absent, malformed, wrong-version and nonboolean authority flags.",
+    "Existing jointv1 launch and gate remain active independently, retaining issued forecast outcome collection.",
+    "New BelowNormal worker identity, config, runtime heartbeat and schema are exact.",
+    "Closed research allowlist contains15active expected workers plus the two explicitly retired original studies; unknown workers remain excluded.",
+    "Storage includes12fixed DBs,68pairv1,136pairv2,68jointv1 and68jointv2, totaling352distinct paths.",
+    "Missing new registered DBs remain visible and degrade storage completeness without creating those DBs.",
+    "Full PowerShell AST syntax parsed without executing supervisor actions."
+  ],
+  "frozen_joint_v1_sources_unchanged": true,
+  "frozen_joint_v1_source_bindings": {
+    "oanda_causal_forecast_inputs.py": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+    "oanda_causal_forecast_inputs_gap_v2.py": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd",
+    "oanda_causal_forecast_inputs_joint_news_v1.py": "9375f116571ef43c18eae65c14fc53fb2f98d8ab132d4b000a0971986d2890ec",
+    "oanda_causal_forecast_inputs_pair_v2.py": "8e58491a49fca967e6d8d2a797cc77f142053576c92a724a2e7336d855fb4899",
+    "oanda_causal_forecast_ledger_joint_news_v1.py": "df915eddafbc9265eb19c9b6757eb14441ebd9ca3864f6601f5a70ca39d65d7b",
+    "oanda_causal_prediction_baselines.py": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+    "oanda_exact_price_scoring.py": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521",
+    "oanda_fixed_forecast_evaluation_joint_news_v1.py": "c1f9940d57c0d39c1815b22a9114752075042a09da3e196e84829e77b293131d",
+    "oanda_joint_price_news_forecast_study_v1.py": "38272ef9f042c50603cc246fcad86f0adca15792f9926c3b0752aeac141033b5",
+    "oanda_joint_price_news_models_v1.py": "eb153acb966dc04ad950a0bbfcc730e78a9a0da1d8a24e91d641f473f5cfbc23",
+    "oanda_local_news_sentiment.py": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4",
+    "oanda_news_causal_aggregation_guard_v1.py": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9",
+    "oanda_news_classification_contract.py": "f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae",
+    "oanda_pair_local_models_v2.py": "294c63bf0ed873395c4850a8722a2622eaa2bc563ceb7ecf9886764c63d8bf24",
+    "oanda_source_governance.py": "c4b7793dcef1b9176079a959019f8b69059fbd6644fddf1e8718f924d3a13950",
+    "oanda_source_governance_news_fast_lane.py": "bdd6a2542b3dbddbdf86f7148af4dcb38d0b8591b3f3fcdb843d9eed29898f03"
+  },
+  "runtime_reloaded": false,
+  "process_stops": 0,
+  "broker_calls": false,
+  "orders_enabled": false,
+  "limitations": [
+    "Runtime15-worker and352-existing-path verification follows separate root-owned v2 activation and controlled reload.",
+    "The v1 comparison is still running; no retirement or outcome cancellation is implied."
+  ]
+}

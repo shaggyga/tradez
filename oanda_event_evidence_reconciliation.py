@@ -127,6 +127,8 @@ def reconcile(
                 "exact inverse of source-native direction",
             )
         )
+    if news_backtest.get("endpoint_contract")=="news_four_quote_endpoints_entry_mid_bps_v2_20260912":
+        raise ValueError("new_exact_endpoint_bps_report_requires_version_aware_reconciliation;legacy_pip_reader_refused")
     results = news_backtest.get("results") or {}
     for arm, key in (
         ("news_semantic_direction", "cleaned_current"),

@@ -13,10 +13,14 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
+import io
 import json
 import math
 import os
 import time
+import tempfile
+from decimal import Decimal, InvalidOperation
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple
@@ -37,6 +41,12 @@ DEFAULT_REPORT = REPORT_ROOT / "all68_m1_forward_update_latest.json"
 QUOTE_SNAPSHOT = ROOT / "data" / "oanda_training_manager" / "state" / "practice_007_market_quotes_v1.json"
 DEFAULT_HEARTBEAT = ROOT / "data" / "oanda_training_manager" / "state" / "all68_m1_forward_update_heartbeat_v1.json"
 SCHEMA_VERSION = "all68_m1_forward_updater_v1"
+GAP_SCHEMA_VERSION = "all68_m1_gap_recovery_v1"
+GAP_TAIL_BYTES = 1024 * 1024
+GAP_LOOKBACK_MINUTES = 720
+GAP_MAX_WIDTH_MINUTES = 5
+GAP_MAX_ATTEMPTS = 2
+GAP_RETRY_SECONDS = 900
 
 
 def utc_now() -> datetime:
@@ -94,11 +104,13 @@ def resolve_readonly_oanda_client() -> Tuple[Any, Dict[str, str]]:
     }
 
 
-def candle_files() -> List[Path]:
-    return sorted(CANDLE_ROOT.glob("*_M1.csv"))
+def candle_files(root: Path | None = None) -> List[Path]:
+    selected_root = CANDLE_ROOT if root is None else Path(root)
+    return sorted(selected_root.glob("*_M1.csv"))
 
 
-def priced_instruments(path: Path = QUOTE_SNAPSHOT) -> List[str]:
+def priced_instruments(path: Path | None = None) -> List[str]:
+    path = QUOTE_SNAPSHOT if path is None else Path(path)
     try:
         payload = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, TypeError, ValueError, json.JSONDecodeError):
@@ -406,6 +418,345 @@ def fetch_older_rows(
     }
 
 
+def _file_identity(stat: os.stat_result) -> tuple:
+    # Windows Python exposes different ctime semantics through stat/fstat;
+    # inode, size, mtime and the retained tail digest provide comparable checks.
+    return (stat.st_dev, stat.st_ino, stat.st_size, stat.st_mtime_ns)
+
+
+def _minute_epoch(value: Any) -> int:
+    stamp = pd.Timestamp(value)
+    if pd.isna(stamp) or stamp.tzinfo is None or stamp.value % 60_000_000_000:
+        raise ValueError("candle timestamp must be an explicit UTC-aligned minute")
+    return int(stamp.timestamp())
+
+
+def _epoch_iso(epoch: int) -> str:
+    return datetime.fromtimestamp(epoch, timezone.utc).isoformat()
+
+
+def scan_recent_gaps(path: Path) -> Dict[str, Any]:
+    """Read at most a 1 MiB tail plus header; never scan an archive in full.
+
+    Only interior gaps of at most five minutes in the latest 720 minutes are
+    candidates. Long market closures and history outside this scope are not
+    interpreted as missing broker candles. Original lines are retained verbatim
+    for a possible later insertion, not reserialized through pandas.
+    """
+    if not path.exists():
+        return {"status": "missing_archive", "missing": [], "lines": []}
+    with path.open("rb") as handle:
+        before = os.fstat(handle.fileno())
+        header = handle.readline(8193)
+        if len(header) > 8192 or not header.endswith(b"\n"):
+            raise ValueError("invalid or oversized CSV header")
+        columns = next(csv.reader([header.decode("utf-8-sig")], strict=True))
+        if (len(columns) != len(set(columns)) or any(not column for column in columns)
+                or not {"instrument", "granularity", "close"}.issubset(columns)):
+            raise ValueError("invalid or ambiguous CSV recovery columns")
+        clock_columns = [columns.index(name) for name in ("time", "datetime") if name in columns]
+        if not clock_columns:
+            raise ValueError("explicit CSV recovery timestamp required")
+        expected_instrument = instrument_from_path(path)
+        instrument_column, granularity_column = columns.index("instrument"), columns.index("granularity")
+        start = max(len(header), before.st_size - GAP_TAIL_BYTES)
+        if start > len(header):
+            handle.seek(start - 1)
+            if handle.read(1) != b"\n":
+                handle.readline(GAP_TAIL_BYTES + 1)
+            start = handle.tell()
+        else:
+            handle.seek(start)
+        raw = handle.read(GAP_TAIL_BYTES + 1)
+        if _file_identity(before) != _file_identity(os.fstat(handle.fileno())):
+            raise RuntimeError("archive changed during gap scan")
+    if len(raw) > GAP_TAIL_BYTES or (raw and not raw.endswith(b"\n")):
+        raise ValueError("incomplete or oversized CSV tail")
+    lines = []
+    for raw_line in raw.splitlines(keepends=True):
+        fields = next(csv.reader([raw_line.decode("utf-8")], strict=True))
+        if len(fields) != len(columns):
+            raise ValueError("malformed CSV tail row")
+        stamps = [_minute_epoch(fields[column]) for column in clock_columns]
+        if len(set(stamps)) != 1:
+            raise ValueError("conflicting CSV recovery timestamps")
+        epoch = stamps[0]
+        if fields[instrument_column] != expected_instrument or fields[granularity_column] != "M1":
+            raise ValueError("CSV recovery instrument/granularity mismatch")
+        if lines and epoch <= lines[-1][0]:
+            raise ValueError("CSV tail is not strictly chronological")
+        lines.append((epoch, raw_line))
+    missing = []
+    large_gaps = 0
+    cutoff = lines[-1][0] - GAP_LOOKBACK_MINUTES * 60 if lines else 0
+    for (previous, _), (current, _) in zip(lines, lines[1:]):
+        if current < cutoff:
+            continue
+        count = (current - previous) // 60 - 1
+        if count > GAP_MAX_WIDTH_MINUTES:
+            large_gaps += 1
+        elif count > 0:
+            missing.extend(epoch for epoch in range(previous + 60, current, 60) if epoch >= cutoff)
+    return {
+        "status": "scanned" if len(lines) >= 2 else "insufficient_tail_rows",
+        "identity": _file_identity(before), "header": header,
+        "columns": columns, "start": start, "lines": lines, "missing": missing,
+        "tail_sha256": hashlib.sha256(raw).hexdigest(), "bytes_scanned": len(header) + len(raw),
+        "first_scanned_utc": _epoch_iso(lines[0][0]) if lines else None,
+        "last_scanned_utc": _epoch_iso(lines[-1][0]) if lines else None,
+        "large_gaps_skipped": large_gaps,
+    }
+
+
+def _write_immutable_json(path: Path, payload: Dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    # An interrupted reservation still consumes an attempt. Never overwrite an
+    # observation receipt or retry forever after a crash or broker omission.
+    with path.open("x", encoding="utf-8", newline="\n") as handle:
+        json.dump(payload, handle, indent=2, sort_keys=True, allow_nan=False)
+        handle.write("\n")
+        handle.flush()
+        os.fsync(handle.fileno())
+
+
+def _gap_attempt(path: Path, instrument: str, epoch: int, now: datetime) -> tuple:
+    """Return next reservation path, or a bounded terminal/cooldown reason."""
+    directory = path.parent / ".gap_recovery_v1" / instrument
+    previous_time = None
+    for number in range(1, GAP_MAX_ATTEMPTS + 1):
+        receipt = directory / f"{epoch}.attempt{number}.requested.json"
+        if receipt.exists():
+            try:
+                with receipt.open("rb") as handle:
+                    raw = handle.read(8193)
+                if len(raw) > 8192:
+                    return None, "invalid_attempt_receipt"
+                payload = json.loads(raw)
+                if payload.get("instrument") != instrument or payload.get("candle_epoch") != epoch:
+                    return None, "invalid_attempt_receipt"
+                previous_time = datetime.fromisoformat(payload["requested_utc"])
+                if previous_time.tzinfo is None or previous_time > now:
+                    return None, "invalid_attempt_clock"
+            except (OSError, ValueError, KeyError, TypeError):
+                return None, "invalid_attempt_receipt"
+            continue
+        if previous_time is not None and (now - previous_time).total_seconds() < GAP_RETRY_SECONDS:
+            return None, "retry_cooldown"
+        return receipt, "eligible"
+    return None, "attempts_exhausted"
+
+
+def _actual_gap_row(payload: Dict[str, Any], instrument: str, epoch: int,
+                    observed: datetime, columns: List[str]) -> Optional[Dict[str, Any]]:
+    """Accept only the requested complete BAM minute; never infer OHLC values."""
+    if payload.get("instrument") != instrument or payload.get("granularity") != "M1":
+        raise ValueError("broker response instrument/granularity mismatch")
+    candles = payload.get("candles")
+    if not isinstance(candles, list) or len(candles) > 10:
+        raise ValueError("invalid bounded candle response")
+    matches = [item for item in candles if isinstance(item, dict)
+               and _minute_epoch(item.get("time")) == epoch]
+    if not matches:
+        return None
+    if len(matches) != 1:
+        raise ValueError("duplicate requested broker minute")
+    candle = matches[0]
+    if candle.get("complete") is not True or epoch + 60 > observed.timestamp():
+        raise ValueError("requested broker minute is incomplete or immature")
+    row: Dict[str, Any] = {
+        "time": candle["time"], "datetime": _epoch_iso(epoch),
+        "instrument": instrument, "granularity": "M1",
+    }
+    parsed = {}
+    for component, prefix in (("mid", ""), ("bid", "bid_"), ("ask", "ask_")):
+        values = candle.get(component)
+        if not isinstance(values, dict):
+            raise ValueError("missing actual BAM candle component")
+        prices = {}
+        for key, name in (("o", "open"), ("h", "high"), ("l", "low"), ("c", "close")):
+            try:
+                value = Decimal(str(values[key]))
+            except (KeyError, InvalidOperation):
+                raise ValueError("invalid actual BAM price") from None
+            if not value.is_finite() or value <= 0 or not math.isfinite(float(value)) or float(value) <= 0:
+                raise ValueError("nonpositive or nonfinite actual BAM price")
+            prices[key] = value
+            row[prefix + name] = str(value)
+        if not prices["l"] <= min(prices["o"], prices["c"]) <= max(prices["o"], prices["c"]) <= prices["h"]:
+            raise ValueError("invalid actual BAM OHLC bounds")
+        parsed[component] = prices
+    if any(parsed["bid"][key] > parsed["ask"][key] for key in "ohlc"):
+        raise ValueError("crossed actual BAM prices")
+    if any(not parsed["bid"][key] <= parsed["mid"][key] <= parsed["ask"][key] for key in "ohlc"):
+        raise ValueError("actual BAM midpoint outside bid/ask bounds")
+    volume = candle.get("volume")
+    if isinstance(volume, bool) or not isinstance(volume, int) or volume < 0:
+        raise ValueError("invalid actual candle volume")
+    row["volume"] = volume
+    pip = Decimal("0.01") if instrument.endswith("_JPY") else Decimal("0.0001")
+    row["spread_pips"] = str((parsed["ask"]["c"] - parsed["bid"]["c"]) / pip)
+    if any(column not in row for column in columns):
+        raise ValueError("unsupported archive columns for recovery")
+    return row
+
+
+def _insert_gap_row(path: Path, snapshot: Dict[str, Any], epoch: int,
+                    row: Dict[str, Any]) -> None:
+    """Atomic ordered insertion; all preexisting bytes remain unchanged.
+
+    The archive updater must remain the sole writer. Detect changed files before
+    and during the streaming copy; refuse to merge against a stale snapshot.
+    """
+    if epoch not in snapshot["missing"]:
+        raise ValueError("recovery minute was not missing in the captured tail")
+    stream = io.StringIO(newline="")
+    newline = "\r\n" if snapshot["header"].endswith(b"\r\n") else "\n"
+    writer = csv.DictWriter(stream, fieldnames=snapshot["columns"], lineterminator=newline)
+    writer.writerow({column: row[column] for column in snapshot["columns"]})
+    inserted = stream.getvalue().encode("utf-8")
+    temporary = None
+    try:
+        with path.open("rb") as source:
+            if _file_identity(os.fstat(source.fileno())) != snapshot["identity"]:
+                raise RuntimeError("archive changed before recovery publication")
+            with tempfile.NamedTemporaryFile(mode="wb", dir=path.parent,
+                                             prefix=f".{path.name}.gap.", suffix=".tmp",
+                                             delete=False) as destination:
+                temporary = Path(destination.name)
+                remaining = snapshot["start"]
+                while remaining:
+                    chunk = source.read(min(1024 * 1024, remaining))
+                    if not chunk:
+                        raise RuntimeError("archive truncated during recovery")
+                    destination.write(chunk)
+                    remaining -= len(chunk)
+                actual_tail = source.read(GAP_TAIL_BYTES + 1)
+                if hashlib.sha256(actual_tail).hexdigest() != snapshot["tail_sha256"]:
+                    raise RuntimeError("archive tail changed during recovery")
+                pending = True
+                for existing_epoch, original in snapshot["lines"]:
+                    if pending and existing_epoch > epoch:
+                        destination.write(inserted)
+                        pending = False
+                    destination.write(original)
+                if pending:
+                    raise ValueError("recovery minute is not an interior gap")
+                destination.flush()
+                os.fsync(destination.fileno())
+            if _file_identity(os.fstat(source.fileno())) != snapshot["identity"]:
+                raise RuntimeError("archive changed during recovery publication")
+        if _file_identity(path.stat()) != snapshot["identity"]:
+            raise RuntimeError("archive replaced during recovery publication")
+        os.replace(temporary, path)
+        temporary = None
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
+
+
+def recover_recent_gaps(client: Any, path: Path, *, dry_run: bool = False,
+                        enabled: bool = True) -> Dict[str, Any]:
+    """At most one ten-candle GET per pair/cycle and two attempts per minute.
+
+    Receipts store real response-observed and post-publication clocks. They do
+    not claim that newly recovered old bars were available at their candle time.
+    The CSV retains its original schema and every previously present row.
+    """
+    result: Dict[str, Any] = {
+        "schema_version": GAP_SCHEMA_VERSION, "status": "disabled" if not enabled else "scanning",
+        "scope": "latest_720_minutes_in_at_most_1MiB_tail; interior_gaps_at_most_5_minutes",
+        "requests": 0, "rows_recovered": 0, "error": "", "dry_run": dry_run,
+        "synthetic_rows": 0, "historical_availability_asserted": False,
+    }
+    if not enabled:
+        return result
+    try:
+        snapshot = scan_recent_gaps(path)
+        missing = snapshot["missing"]
+        result.update({key: snapshot.get(key) for key in (
+            "bytes_scanned", "first_scanned_utc", "last_scanned_utc", "large_gaps_skipped")})
+        result.update(missing_minutes_detected=len(missing),
+                      unresolved_minutes=len(missing),
+                      missing_minute_utc=[_epoch_iso(epoch) for epoch in missing])
+        if not missing:
+            result["status"] = snapshot["status"] if snapshot["status"] != "scanned" else "no_small_gaps_in_scope"
+            return result
+        if dry_run:
+            result["status"] = "dry_run_detected_only"
+            return result
+        instrument = instrument_from_path(path)
+        now = utc_now()
+        reason_counts: Dict[str, int] = {}
+        chosen = None
+        # Newest missing minutes matter most to a future contiguous suffix.
+        for epoch in reversed(missing):
+            reservation, reason = _gap_attempt(path, instrument, epoch, now)
+            if reservation is not None and chosen is None:
+                chosen = (epoch, reservation)
+            reason_counts[reason] = reason_counts.get(reason, 0) + 1
+        result["attempt_state_counts"] = reason_counts
+        if chosen is None:
+            result["status"] = "unresolved_no_retry_due"
+            return result
+        epoch, reservation = chosen
+        request = {
+            "schema_version": GAP_SCHEMA_VERSION, "instrument": instrument,
+            "candle_epoch": epoch, "candle_utc": _epoch_iso(epoch),
+            "requested_utc": now.isoformat(), "end_time_utc": _epoch_iso(epoch + 60),
+            "count": 10, "granularity": "M1", "price": "BAM",
+            "prior_tail_sha256": snapshot["tail_sha256"],
+            "historical_availability_asserted": False,
+        }
+        _write_immutable_json(reservation, request)
+        result.update(requests=1, requested_minute_utc=_epoch_iso(epoch),
+                      request_receipt=str(reservation))
+        payload = client.candles(instrument, granularity="M1", count=10,
+                                 end_time=datetime.fromtimestamp(epoch + 60, timezone.utc), price="BAM")
+        observed = utc_now()
+        # Retain the actual structured GET response before exposing any row.
+        response_bytes = json.dumps(payload, sort_keys=True, separators=(",", ":"), allow_nan=False).encode("utf-8")
+        if len(response_bytes) > 256 * 1024:
+            raise ValueError("oversized gap response")
+        observation = reservation.with_name(reservation.name.replace(".requested.json", ".observed.json"))
+        _write_immutable_json(observation, {
+            **request, "response_observed_utc": observed.isoformat(),
+            "response_sha256": hashlib.sha256(response_bytes).hexdigest(),
+            "response": payload,
+        })
+        result.update(response_observed_utc=observed.isoformat(), observation_receipt=str(observation))
+        if observed < now:
+            raise ValueError("clock rolled back during gap response")
+        if not isinstance(payload, dict) or payload.get("_error"):
+            raise ValueError("broker gap request failed")
+        row = _actual_gap_row(payload, instrument, epoch, observed, snapshot["columns"])
+        if row is None:
+            result["status"] = "broker_omitted_requested_minute"
+            return result
+        _insert_gap_row(path, snapshot, epoch, row)
+        # Publication happened before this timestamp; it is never backdated to
+        # the response or to the old event time. The observed receipt is durable
+        # even if a process dies between replacement and this final receipt.
+        published = utc_now()
+        publication = reservation.with_name(reservation.name.replace(".requested.json", ".published.json"))
+        result.update(rows_recovered=1, unresolved_minutes=len(missing) - 1,
+                      status="recovered_actual_broker_minute", publication_receipt=str(publication),
+                      publication_clock_valid=published >= observed)
+        _write_immutable_json(publication, {
+            **request, "response_observed_utc": observed.isoformat(),
+            "publication_recorded_utc": published.isoformat(),
+            "publication_clock_valid": published >= observed,
+            "observation_receipt": str(observation), "rows_recovered": 1,
+            "existing_rows_rewritten": 0,
+        })
+        if published < observed:
+            result.update(status="recovered_with_invalid_publication_clock",
+                          error="clock rolled back after CSV publication; receipt records actual clock")
+    except Exception as exc:
+        result["status"] = "recovery_error"
+        result["error"] = f"{type(exc).__name__}: {exc}"[:300]
+    return result
+
+
 def update_pair(
     client: Any,
     path: Path,
@@ -415,6 +766,7 @@ def update_pair(
     batch_size: int,
     pause_seconds: float,
     dry_run: bool,
+    recover_gaps: bool = True,
 ) -> Dict[str, Any]:
     instrument = instrument_from_path(path)
     before_last = last_timestamp(path)
@@ -462,6 +814,7 @@ def update_pair(
     )
     normalized_older = normalize_for_local_csv(older, instrument, columns)
     backfilled = prepend_rows_atomic(path, normalized_older, columns, dry_run=dry_run)
+    gap_recovery = recover_recent_gaps(client, path, dry_run=dry_run, enabled=recover_gaps)
     after_last = before_last
     if not normalized.empty:
         after_last = pd.to_datetime(normalized["datetime"], errors="coerce", utc=True).max()
@@ -474,6 +827,8 @@ def update_pair(
         "rows_appended": appended,
         "rows_backfilled": backfilled,
         "backfill": older_meta,
+        "gap_recovery": gap_recovery,
+        "rows_recovered": gap_recovery["rows_recovered"],
         "dry_run": dry_run,
         **meta,
     }
@@ -495,8 +850,16 @@ def parse_args() -> argparse.Namespace:
         help="Fetch this many older 5,000-candle pages before each local file's first timestamp and merge atomically.",
     )
     parser.add_argument("--batch-size", type=int, default=5000)
+    parser.add_argument(
+        "--no-gap-recovery", action="store_true",
+        help="Disable bounded recent interior-gap detection/recovery and its observation receipts.",
+    )
     parser.add_argument("--pause-seconds", type=float, default=0.10)
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--candle-root", type=Path, default=None,
+                        help="Archive directory; omitted preserves the legacy candle root.")
+    parser.add_argument("--quote-snapshot", type=Path, default=None,
+                        help="Practice instrument snapshot; omitted preserves the legacy source.")
     parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
     parser.add_argument("--heartbeat", type=Path, default=DEFAULT_HEARTBEAT)
     parser.add_argument(
@@ -524,18 +887,23 @@ def write_json_atomic(path: Path, payload: Dict[str, Any]) -> None:
 def run_once(
     args: argparse.Namespace, heartbeat: WorkerHeartbeat | None = None
 ) -> int:
-    files = candle_files()
+    selected_candle_root = getattr(args, "candle_root", None)
+    selected_quote_snapshot = getattr(args, "quote_snapshot", None)
+    candle_root = CANDLE_ROOT if selected_candle_root is None else Path(selected_candle_root)
+    quote_snapshot = QUOTE_SNAPSHOT if selected_quote_snapshot is None else Path(selected_quote_snapshot)
+    # Preserve the no-argument interface for existing programmatic callers.
+    files = candle_files() if selected_candle_root is None else candle_files(candle_root)
     if args.pairs:
         wanted = {pair.upper().replace("/", "_") for pair in args.pairs}
-        files = [CANDLE_ROOT / f"{instrument}_M1.csv" for instrument in sorted(wanted)]
+        files = [candle_root / f"{instrument}_M1.csv" for instrument in sorted(wanted)]
     elif args.bootstrap_all_priced:
-        wanted = priced_instruments()
+        wanted = priced_instruments() if selected_quote_snapshot is None else priced_instruments(quote_snapshot)
         if not wanted:
-            raise SystemExit(f"No practice-priced instruments found in {QUOTE_SNAPSHOT}")
-        files = [CANDLE_ROOT / f"{instrument}_M1.csv" for instrument in wanted]
+            raise SystemExit(f"No practice-priced instruments found in {quote_snapshot}")
+        files = [candle_root / f"{instrument}_M1.csv" for instrument in wanted]
     if not files:
         raise SystemExit(
-            f"No *_M1.csv files found in {CANDLE_ROOT}; use --pairs or "
+            f"No *_M1.csv files found in {candle_root}; use --pairs or "
             "--bootstrap-all-priced to start a practice-only research archive"
         )
     client, client_meta = resolve_readonly_oanda_client()
@@ -557,6 +925,7 @@ def run_once(
                 batch_size=args.batch_size,
                 pause_seconds=args.pause_seconds,
                 dry_run=args.dry_run,
+                recover_gaps=not getattr(args, "no_gap_recovery", False),
             )
         )
         if heartbeat is not None:
@@ -578,10 +947,17 @@ def run_once(
             **client_meta,
         },
         "dry_run": bool(args.dry_run),
+        "archive_paths": {"candle_root": str(candle_root), "quote_snapshot": str(quote_snapshot)},
         "pair_count": len(files),
         "total_rows_appended": int(sum(int(row.get("rows_appended") or 0) for row in rows)),
         "total_rows_backfilled": int(sum(int(row.get("rows_backfilled") or 0) for row in rows)),
-        "error_count": int(sum(1 for row in rows if row.get("error"))),
+        "total_rows_recovered": int(sum(int(row.get("rows_recovered") or 0) for row in rows)),
+        "gap_recovery_requests": int(sum(int(row.get("gap_recovery", {}).get("requests") or 0) for row in rows)),
+        "gap_recovery_unresolved_minutes": int(sum(int(row.get("gap_recovery", {}).get("unresolved_minutes") or 0) for row in rows)),
+        "gap_recovery_unknown_pair_count": int(sum(1 for row in rows if row.get("gap_recovery", {}).get("status")
+            not in (None, "disabled") and row.get("gap_recovery", {}).get("missing_minutes_detected") is None)),
+        "gap_recovery_scope": "bounded_recent_small_interior_gaps_only; not_a_full_archive_completeness_check",
+        "error_count": int(sum(1 for row in rows if row.get("error") or row.get("gap_recovery", {}).get("error"))),
         "pairs": rows,
     }
     write_json_atomic(args.report, report)
@@ -592,12 +968,16 @@ def run_once(
             pairs_completed=len(files),
             error_count=report["error_count"],
             total_rows_appended=report["total_rows_appended"],
+            total_rows_recovered=report["total_rows_recovered"],
+            gap_recovery_unresolved_minutes=report["gap_recovery_unresolved_minutes"],
         )
     print(json.dumps({
         "report": str(args.report),
         "pair_count": report["pair_count"],
         "total_rows_appended": report["total_rows_appended"],
         "total_rows_backfilled": report["total_rows_backfilled"],
+        "total_rows_recovered": report["total_rows_recovered"],
+        "gap_recovery_unresolved_minutes": report["gap_recovery_unresolved_minutes"],
         "error_count": report["error_count"],
         "dry_run": report["dry_run"],
     }, indent=2), flush=True)

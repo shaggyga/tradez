@@ -1,0 +1,28 @@
+{
+  "blockers": [],
+  "checks": [
+    "Features use strictly contiguous real sessions and exact future targets; missing target/session coverage retained.",
+    "Per-pair60/20/20 timeline cutoffs and strict target purges separate training, validation and final test.",
+    "Scaler and weights fit initial training only; alpha uses validation MAE, with predeclared tie rule and no test-based refit.",
+    "Pre-test selected models are now flushed and fsynced before any final-test predictions; initial durability finding closed.",
+    "Matched direction/cost denominators and neutral no-position convention are explicit; no Brier/probability claim.",
+    "Date-block diagnostics preserve dependent horizons/nearby observations; intervals withheld below10dates.",
+    "Historical ingestion/arrival remains unproven and bid/ask candle closes do not imply executable fills."
+  ],
+  "finding_closed": "write_new now flushes and os.fsyncs the exclusive output before returning; owner retained a focused durability fixture.",
+  "observed_utc": "2026-09-09T06:05:25.527677+00:00",
+  "owner_test_xml": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\ma_comparison_v1\\comparison_durable_final_tests.xml",
+    "sha256": "320312fca533a57a1cc65148494ec28a717772ae4a9880a51fcd5b8b0b3a6798"
+  },
+  "scope": "Bounded independent read-only source review; no fitting, execution or independent test rerun.",
+  "source": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\ma_comparison_v1\\ma_historical_comparison_v1.py",
+    "sha256": "98a5a7f11c7030b42e8f26045b56e390239ae6921814c99fa379a7d4b44fed6b"
+  },
+  "status": "passed",
+  "test_source": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\ma_comparison_v1\\test_ma_historical_comparison_v1.py",
+    "sha256": "6c29ade9f97cda177ab355539768ed335a9e1445753ca3bfae5eaf4701e90bb9"
+  }
+}

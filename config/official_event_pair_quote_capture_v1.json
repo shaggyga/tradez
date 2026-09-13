@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "contract_id": "official_event_pair_quote_capture_v1_per_pair_tradeability_20260902",
+  "cohort_id": "official_event_pair_quote_capture_v1_20260902a",
+  "activated_utc": "2026-09-02T20:15:00+00:00",
+  "required_raw_collector_contract_id": "official_release_fast_lane_v4_selection_v2_authoritative_communications_20260828T150000Z",
+  "required_raw_collector_cohort_id": "official_release_fast_lane_v4_communications_20260828T150000Z",
+  "required_quote_snapshot_schema_version": 3,
+  "required_quote_snapshot_producer": "practice_007_fast_executor_price_stream",
+  "expected_instrument_count": 68,
+  "expected_instrument_universe_sha256": "b6abe559dcaa9faa0a1e48217f97a12dc9043eb9595d2b946bf80f93035be142",
+  "timing": {
+    "maximum_detection_latency_seconds": 15.0,
+    "maximum_snapshot_age_seconds": 5.0,
+    "maximum_quote_age_seconds": 30.0,
+    "maximum_future_skew_seconds": 2.0
+  },
+  "policy": {
+    "prospective_only": true,
+    "historical_backfill_allowed": false,
+    "one_terminal_capture_attempt_per_observation": true,
+    "explicit_tradeable_true_required_per_pair": true,
+    "stale_or_nontradeable_pair_does_not_invalidate_other_pairs": true,
+    "all_68_surface_retained_for_audit": true,
+    "exact_all_68_metric_retained": true,
+    "semantic_mapping_read_before_capture": false,
+    "research_only": true,
+    "execution_eligible": false,
+    "can_place_orders": false,
+    "can_authorize": false,
+    "can_promote": false,
+    "supported_execution_decision": "no_trade"
+  }
+}

@@ -79,14 +79,14 @@ def test_default_v5_contract_contamination_fails_closed(tmp_path, monkeypatch):
         subject.load_source_forecasts(source)
 
 
-def test_supervisor_preserves_rank_v4_and_starts_rank_v5():
+def test_supervisor_preserves_rank_v4_and_starts_rank_v7():
     supervisor = (subject.ROOT / "oanda_always_on_supervisor.ps1").read_text(
         encoding="utf-8"
     )
     assert '-Name "source_conditioned_currency_rank_v4_preserved"' in supervisor
     assert '-Needle "oanda_source_conditioned_currency_rank_v4.py"' in supervisor
-    assert '-Name "source_conditioned_currency_rank_v5"' in supervisor
-    assert "source_conditioned_currency_rank_v5.json" in supervisor
+    assert '-Name "source_conditioned_currency_rank_v7"' in supervisor
+    assert "source_conditioned_currency_rank_v7.json" in supervisor
     assert '-Name "source_conditioned_currency_rank_v3_preserved"' in supervisor
     assert '-Needle "oanda_source_conditioned_currency_rank_v3.py"' in supervisor
     assert "v6_source_input_adapter_cutover" in supervisor

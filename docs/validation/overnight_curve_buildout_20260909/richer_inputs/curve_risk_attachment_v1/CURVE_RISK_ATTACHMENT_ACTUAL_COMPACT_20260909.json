@@ -1,0 +1,43 @@
+{
+  "complete_diagnostic_remains_machine_local": true,
+  "curve_original_target_policy": {
+    "kind": "first_complete_bar_at_or_after_nominal",
+    "maximum_delay_sec": 7
+  },
+  "curve_reference_price_epoch": 1788944030.0,
+  "frozen_source_bindings_unchanged": true,
+  "instrument": "GBP_USD",
+  "new_diagnostic_computed_epoch": 1788949005.6891105,
+  "original_curve_target_epoch": 1788947630.0,
+  "original_diagnostic": {
+    "bytes": 27114,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\curve_risk_attachment_v1\\actual_diagnostic_001\\RETAINED_CURVE_RISK_ATTACHMENT_DIAGNOSTIC_20260909.json",
+    "sha256": "7ec6839906f20f91b8e12bb7eda94fe7dfa9eaca4b6423fd051a2e20b974d836"
+  },
+  "original_read_completed_epoch": 1788949005.7561467,
+  "original_read_started_epoch": 1788949004.4354472,
+  "raw_inputs_included": false,
+  "read_bytes": 2489445,
+  "reasons": [
+    "reference_price_mismatch",
+    "reference_price_epoch_mismatch",
+    "risk_exact_native_target_unavailable",
+    "target_selection_window_mismatch",
+    "original_target_elapsed_at_decision"
+  ],
+  "recorded_epoch": 1788949221.027709,
+  "risk_native_target_price_epochs": [
+    1788949860,
+    1788950760,
+    1788952560
+  ],
+  "risk_original_target_policy": {
+    "kind": "exact_price_epoch",
+    "maximum_delay_sec": 0
+  },
+  "risk_reference_price_epoch": 1788948960,
+  "schema_version": "curve_risk_attachment_compact_actual_v1_20260909",
+  "scope": "One retained same-instrument mismatch; no new forecast, risk values, policy or performance result.",
+  "selection": "latest_complete_GBP_USD_official_M_chain_per_registered_issue_schedule_without_outcome_selection",
+  "status": "unavailable"
+}

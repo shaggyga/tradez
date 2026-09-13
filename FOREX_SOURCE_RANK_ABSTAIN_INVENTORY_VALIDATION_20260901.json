@@ -1,0 +1,73 @@
+{
+  "schema_version": "forex_source_rank_abstain_inventory_validation_v1",
+  "generated_utc": "2026-09-01T11:10:00Z",
+  "scope": "research_only_source_conditioned_currency_rank_v6_telemetry",
+  "problem": "The rank snapshot reported zero source forecast rows even though the required V7 producer had emitted hundreds of immutable abstaining forecasts, making healthy fail-closed production indistinguishable from an empty producer.",
+  "resolution": {
+    "legacy_source_forecast_rows_semantics_preserved": "rank_eligible_non_abstaining_rows_loaded_by_adapter",
+    "parallel_inventory_added": true,
+    "point_in_time_count_basis": "issued_utc_at_or_before_adapter_generated_utc",
+    "eligibility_filter_changed": false,
+    "rank_decision_logic_changed": false,
+    "authorization_changed": false,
+    "execution_changed": false,
+    "real_money_routing_enabled": false
+  },
+  "live_observation": {
+    "source_database_integrity": "ok",
+    "source_database_contract_id": "causal_source_factor_response_map_v7_v152_subject_bound_release_policy_targets_20260901",
+    "total_forecast_rows": 560,
+    "rank_eligible_rows": 0,
+    "abstain_rows": 560,
+    "distinct_source_events": 8,
+    "distinct_factor_observations": 80,
+    "currencies": {
+      "JPY": 448,
+      "NOK": 63,
+      "SEK": 49
+    },
+    "abstain_reasons": {
+      "low_effective_n:0<8": 329,
+      "low_effective_n:1<8": 77,
+      "low_effective_n:2<8": 42,
+      "low_effective_n:3<8": 49,
+      "low_effective_n:4<8": 49,
+      "low_effective_n:5<8": 14
+    },
+    "producer_status": "all_rows_abstain",
+    "supported_execution_decision": "no_trade",
+    "can_place_orders": false
+  },
+  "independent_reconciliation": {
+    "ok": true,
+    "contract_ok": true,
+    "counts_ok": true,
+    "inert_ok": true,
+    "freshness_ok": true,
+    "later_database_rows_excluded_by_snapshot_cutoff": true,
+    "tampered_abstain_count_rejected_by_test": true,
+    "foreign_abstain_contract_rejected_by_test": true
+  },
+  "tests": {
+    "command": "python -m pytest -q trad/test_oanda_source_conditioned_currency_rank_v6.py trad/test_oanda_project_integrity_audit.py",
+    "passed": 49,
+    "failed": 0,
+    "warning": "pytest cache directory access denied; test execution and assertions completed successfully"
+  },
+  "implementation_sha256": {
+    "oanda_source_conditioned_currency_rank_v6.py": "e0b2984b20423fa22f5e4dbaecbdcde61c89e8a4fffbfdfc70b65b1319adad73",
+    "test_oanda_source_conditioned_currency_rank_v6.py": "ea0cfd24a5e217da679f9c0b9205f14c9e1a84f369b88abe3a90083100b8cdfe",
+    "oanda_project_integrity_audit.py": "03931112908454ce7fc88879355d3aa39d5b983cc20efd95d2ff11a01c6097bc",
+    "test_oanda_project_integrity_audit.py": "756b8e0ccb6abb9aecb958d40c22683685b214db32e799545af8645ac7a1f517"
+  },
+  "runtime": {
+    "rank_worker_reloaded_under_existing_supervisor": true,
+    "rank_worker_process_count": 2,
+    "full_project_integrity_worker_reloaded": true,
+    "full_project_integrity_publication": "published_ok",
+    "full_project_integrity_generated_utc": "2026-09-01T07:04:52.573673-04:00",
+    "full_project_integrity_publication_generation": 78,
+    "full_project_integrity_failures": [],
+    "source_conditioned_rank_v6_inventory_reconciled_and_inert": true
+  }
+}

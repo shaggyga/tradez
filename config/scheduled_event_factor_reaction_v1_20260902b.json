@@ -1,0 +1,23 @@
+{
+  "contract_id": "scheduled_event_factor_reaction_v1_20260902",
+  "cohort_id": "scheduled_event_factor_reaction_v1_20260902b",
+  "cohort_start_utc": "2026-09-02T06:00:00+00:00",
+  "input_contract_id": "scheduled_event_quote_capture_v2_oanda_rest_current_snapshot_20260902",
+  "input_cohort_id": "scheduled_event_quote_capture_v2_20260902a",
+  "entry_horizon_min": 1,
+  "outcome_horizons_min": [5, 15, 30, 60],
+  "maximum_decision_lag_sec": 15.0,
+  "maximum_processing_lag_sec": 30.0,
+  "minimum_factor_move_bps": 2.0,
+  "minimum_leg_move_bps": 1.0,
+  "minimum_confirming_pairs": 2,
+  "total_slippage_pips": 0.25,
+  "selection": "lowest_effective_cost_confirming_pair",
+  "direction_source": "post_event_one_minute_multi_pair_factor",
+  "source_sha256": "9ec0082b74ce969c9c97c4b8179c8bc0b216c1cd6fea3d641f1dead1ef1cc522",
+  "research_only": true,
+  "execution_eligible": false,
+  "can_trade": false,
+  "can_authorize": false,
+  "can_promote": false
+}

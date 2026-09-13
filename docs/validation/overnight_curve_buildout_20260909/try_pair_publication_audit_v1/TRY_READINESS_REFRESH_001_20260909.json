@@ -1,0 +1,130 @@
+{
+  "accepted_reader_sha256": "8e3188c7f4a977c2cccae9dc478c063b4193f7fc44c1765f80da08afaec35f79",
+  "completed_epoch": 1788955624.534234,
+  "database_reads": 0,
+  "forecasts_issued": 0,
+  "helper_sha256": "b3992190113d700112fcf19b441853d2f4b79cb7622b9459e184551ff6097b27",
+  "limitations": [
+    "The latest retained record keeps its original event clock and may be older than this read.",
+    "Only the accepted bounded complete-line tail was read; absent records do not prove empty full history.",
+    "Training readiness was not recomputed, and no missing rows, clocks or forecasts were invented."
+  ],
+  "network_requests": 0,
+  "original_readiness_tail": {
+    "bytes": 2096848,
+    "captured_prefix_file_size": 2897174,
+    "captured_tail_sha256": "3e648beba65d943fffca456dcd771231e23474170878a7d37de5e6661b098ce2",
+    "complete_lines": 3418,
+    "covered_event_epoch_max": 1788955592.9014482,
+    "covered_event_epoch_min": 1788907888.0726972,
+    "full_history_read": false,
+    "offset": 800326,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\joint_price_news_study_v3\\readiness.jsonl",
+    "per_pair": {
+      "TRY_JPY": {
+        "latest": {
+          "original_line_sha256": "6a08418bfe17995281faf8eeaf897f87325fd65c06785400238cbd178e232380",
+          "record": {
+            "event_observed_epoch": 1788955188.0596402,
+            "family_readiness": {
+              "ridge_price_news_v1": {
+                "current_real_prices": 24,
+                "current_real_returns": 23,
+                "current_span_sec": 3600,
+                "distinct_news_context_patterns": 17,
+                "mature_exact_h1_training_rows": 17,
+                "nonzero_news_context_training_rows": 17,
+                "ready": false,
+                "reasons": [
+                  "mature_joint_h1_training_rows:17<48"
+                ],
+                "required_joint_training_rows": 48,
+                "status": "blocked",
+                "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+                "vetted_news_training_rows": 0
+              }
+            },
+            "instrument": "TRY_JPY",
+            "observed_epoch": 1788955185.229782,
+            "reasons": [],
+            "source_capture_sha256": "c9cbc19ed4aecf781f1d41c31d55c42d5e355f4f4135ff5a344d458c77dde9cb",
+            "status": "ready"
+          }
+        },
+        "matched_records": 50,
+        "reasons": {
+          "ValueError:current_guarded_news_unavailable": 4,
+          "ValueError:future_news_mapping": 1,
+          "ValueError:price_input_unavailable:TRY_JPY:ValueError:stale_or_future_pair_reference": 26
+        }
+      },
+      "USD_TRY": {
+        "latest": {
+          "original_line_sha256": "5098f7761e8073ffeb7b6355ccc768a202f0debb53ac944615b222c4081b9699",
+          "record": {
+            "event_observed_epoch": 1788955592.9014482,
+            "family_readiness": {
+              "ridge_price_news_v1": {
+                "current_real_prices": 36,
+                "current_real_returns": 35,
+                "current_span_sec": 3600,
+                "distinct_news_context_patterns": 36,
+                "mature_exact_h1_training_rows": 37,
+                "nonzero_news_context_training_rows": 35,
+                "ready": false,
+                "reasons": [
+                  "mature_joint_h1_training_rows:37<48"
+                ],
+                "required_joint_training_rows": 48,
+                "status": "blocked",
+                "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+                "vetted_news_training_rows": 0
+              }
+            },
+            "instrument": "USD_TRY",
+            "observed_epoch": 1788955590.527462,
+            "reasons": [],
+            "source_capture_sha256": "a7ca0f5bd8a43cdcb5b72bee2f8c0e3030f4f5b6ad6468e376091edb0f59c15f",
+            "status": "ready"
+          }
+        },
+        "matched_records": 51,
+        "reasons": {
+          "ValueError:current_guarded_news_unavailable": 5,
+          "ValueError:price_input_unavailable:USD_TRY:ValueError:stale_or_future_pair_reference": 26
+        }
+      }
+    },
+    "read_completed_epoch": 1788955624.4522424,
+    "read_started_epoch": 1788955624.436206,
+    "source_size_after": 2897174
+  },
+  "registered_sources_unchanged": true,
+  "registry_sha256": "ee075e69e80ca56dfdf45abe1f7a1a301612176e67f7622eab1adf2bd9af8771",
+  "schema_version": "try_readiness_tail_refresh_v1_20260909",
+  "source_bindings": {
+    "oanda_causal_forecast_inputs.py": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+    "oanda_causal_forecast_inputs_gap_v2.py": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd",
+    "oanda_causal_forecast_inputs_joint_news_v2.py": "ade4fc5eb2aea195d7609964d7b8979ca433a28028e059c65adc1b1b404a277c",
+    "oanda_causal_forecast_inputs_pair_v2.py": "8e58491a49fca967e6d8d2a797cc77f142053576c92a724a2e7336d855fb4899",
+    "oanda_causal_forecast_ledger_joint_news_v2.py": "17782392f8e3994ff83620109141770b1f1f8182d863444ed4aaa6067bf4ef72",
+    "oanda_causal_prediction_baselines.py": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+    "oanda_exact_price_scoring.py": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521",
+    "oanda_fixed_forecast_evaluation_joint_news_v1.py": "c1f9940d57c0d39c1815b22a9114752075042a09da3e196e84829e77b293131d",
+    "oanda_joint_price_news_forecast_study_v3.py": "5dfc29c29fbb61daef4f9f9d5c50f8c029a4d9ed57438288839176e6b55a7f80",
+    "oanda_joint_price_news_models_v1.py": "eb153acb966dc04ad950a0bbfcc730e78a9a0da1d8a24e91d641f473f5cfbc23",
+    "oanda_local_news_sentiment.py": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4",
+    "oanda_local_news_sentiment_repair_v1.py": "c2fbad7c290ce1edaa977e99988ab563a2afc6571dc456271e45bde3ca7b2b6b",
+    "oanda_news_causal_aggregation_guard_v1.py": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9",
+    "oanda_news_classification_contract.py": "f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae",
+    "oanda_news_collector_contract.py": "41c30599a953d0fd967bc68c5f178d46fc21dd2382ac9fdca78bc3c64ac9f68f",
+    "oanda_news_event_tagger.py": "3657872fa84a6f081903307df7209350fed4f713d866735b9387ce375a5e4f3f",
+    "oanda_news_topic_identity_reconciliation_v1.py": "d34b0c72693497e9be6eadc86bd17f0a2c1c1b79ecf010928faf88a5033a7884",
+    "oanda_pair_local_models_v2.py": "294c63bf0ed873395c4850a8722a2622eaa2bc563ceb7ecf9886764c63d8bf24",
+    "oanda_source_governance.py": "c4b7793dcef1b9176079a959019f8b69059fbd6644fddf1e8718f924d3a13950",
+    "oanda_source_governance_news_fast_lane.py": "bdd6a2542b3dbddbdf86f7148af4dcb38d0b8591b3f3fcdb843d9eed29898f03"
+  },
+  "source_or_runtime_writes": false,
+  "started_epoch": 1788955624.1241498,
+  "status": "retained_readiness_tail_observed"
+}

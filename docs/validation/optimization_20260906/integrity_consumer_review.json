@@ -1,0 +1,58 @@
+{
+  "review_date": "2026-09-06",
+  "project": "C:\\Users\\zmoor\\Documents\\forex\\trad",
+  "scope": "source inventory, independent compact-helper review, export and saved-observer integration; disposable offline fixtures only",
+  "project_kept_stopped": true,
+  "production_database_access": false,
+  "production_vault_or_checkpoint_execution": false,
+  "credential_access": false,
+  "network_or_broker_calls": false,
+  "known_direct_alignment_row_consumers_of_integrity_current": [],
+  "consumers_preserved": [
+    "supervisor filename, timestamp and classifier identity",
+    "improvement engine status and full failure list",
+    "four-hour observer status/failures and saved embedded integrity",
+    "week-to-date generated clock/status/failures and upstream raw hash",
+    "audit previous counters and database attestations",
+    "standalone full alignment inputs to existing validators",
+    "current model-checkpoint integrity snapshot"
+  ],
+  "integration_changes": {
+    "export_allowlist": ["trad/data/oanda_training_manager/state/project_integrity_audit_v1.json"],
+    "shared_dependency_validator": "oanda_integrity_publication.verified_detail_artifact_bytes",
+    "pinned_current_and_detail_bytes_for_zip": true,
+    "generation_change_between_collect_and_zip_handled": true,
+    "arbitrary_json_reference_following": false,
+    "recursive_detail_directory_export": false,
+    "missing_or_corrupt_detail_aborts_export": true,
+    "portable_original_snapshot_relative_paths": true,
+    "saved_observer_restore_requires_caller_project_root": true,
+    "source_regeneration_or_mutation": false,
+    "automatic_detail_garbage_collection": false
+  },
+  "validation": {
+    "new_cases": 12,
+    "combined_passed": 38,
+    "combined_failed": 0,
+    "combined_skipped": 0,
+    "elapsed_seconds": 3.31,
+    "runtime": "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe -B",
+    "runner": "run_consumer_tests.py",
+    "junit": "integrity_consumer_tests.xml",
+    "initial_attempts": [
+      "Guard blocked pytest default log outside evidence directory before collection; fixed explicit log path.",
+      "Long Windows fixture paths caused 11 artifact-creation failures, with 27 passes; shortened disposable fixture roots and reran all checks successfully."
+    ]
+  },
+  "handoff_sha256": {
+    "forex_model_vault_sync.py": "554916a174c874bad924950f416aa97effc9271efd6bd88fc4d7689b3cd29251",
+    "oanda_four_hour_best_improvement_pass.py": "019608748072c401bef05dc2dd3621f75069abc5e787ea86b4ae51970b126473",
+    "test_forex_integrity_detail_export.py": "743383eb3e262c17ee377831918f434016d729b3c179eeec78adb7c7caca9801"
+  },
+  "limitations": [
+    "Current JSON, Markdown and JSONL history remain separate filesystem publications.",
+    "A separately exported historical log needs its own referenced closure and original snapshot-directory context; current-checkpoint export does not sweep historical artifacts.",
+    "Negative consumer inventory covers available project source, not unknown external/manual consumers.",
+    "Root may add canonical record mappings after these handoff hashes; shared helper remains owned by execution agent."
+  ]
+}

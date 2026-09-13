@@ -1,0 +1,29 @@
+{
+  "checks": [
+    "Fixed3 instruments,2 explicit midpoint conventions, known artifact SHA, source closure, cohort suffix and registered policy are enforced.",
+    "The absolute13:00UTC Sep9 collection stop is mandatory; issue cutoff leaves original4h+7second target window and capture margin.",
+    "OS lock, safe-component file store, exclusive immutable writes and retained partial stages avoid duplicate writers and historical overwrites.",
+    "Actual original source/capture/fit/issue/publication/independent consumption/quote-read/entry clocks remain separate.",
+    "Only dedicated allowed practice-candle GET helper accesses broker service; local quote observations are not manager instructions or fills.",
+    "Current primary workers, model registries, historical cohorts, ledgers and trading controls are not edited or activated by this worker."
+  ],
+  "closed_findings": [
+    "Minimum maturity cushion is now4h+180sec and a60sec request-start guard prevents starting final-minute GETs.",
+    "Returned actual issued_epoch is checked against the registration cutoff before publication; a crossed logical issue remains unadmitted.",
+    "Issue/publication/consumption stages have separate retained flags, immutable records and separate counters, preserving post-publication consumer failures."
+  ],
+  "limits": [
+    "This worker retains future raw MBA evidence; original outcomes are materialized by a later explicit offline scoring/join step.",
+    "Its candidate and entry observations do not constitute a sequential portfolio policy run, actual positions, or broker fills.",
+    "Registered caller verifies actual source mappings and clocks; this read-only review does not claim a successful live launch."
+  ],
+  "remaining_blockers": [],
+  "reviewed_utc": "2026-09-09T05:28:26.354956+00:00",
+  "schema_version": "recovered_curve_pilot_independent_review_v1_20260909",
+  "scope": "Independent read-only worker code review. No network, launch, registry activation, DB or process mutation and no independent worker-test rerun.",
+  "source_sha256": {
+    "oanda_native_curve_outcomes_v1.py": "f90b237543aff4d86f5d3c93aeec1f738743fd6c9ba75c60f96ecfc8b605b68b",
+    "oanda_recovered_curve_pilot_v1.py": "fe7fdcd1f3e3c9473d393bc044721bfb48b48bdca09ee18fa8de8b9b8e02200e"
+  },
+  "status": "passed_bounded_source_review"
+}

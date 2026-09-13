@@ -1,0 +1,86 @@
+{
+  "canonical_dependencies": [
+    {
+      "bytes": 49616,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_curve_management_replay_v1.py",
+      "sha256": "52fd04c6b087df4be775e490002afd0744caeb245604b8f577ab0fcff41de8f3"
+    },
+    {
+      "bytes": 27691,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_curve_management_replay_v1.py",
+      "sha256": "ead61584cf5dd17605e2ff3d84c6b2303b94c84dc4f58e32a2f89700619673e1"
+    },
+    {
+      "bytes": 31234,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\src\\forex_system\\research\\sequential_portfolio_replay_v1.py",
+      "sha256": "e1201fdd3387825c9295f13045aeb00e2f87cce9ff819e789faf922ea2e514a6"
+    }
+  ],
+  "created_epoch": 1788952827.2648695,
+  "final_xml": {
+    "bytes": 6240,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\replay\\management_channels_final_tests.xml",
+    "sha256": "721cf5b4e69954c7bf34136dd9f151a70154879fcd9ecdd9d486c2af5980bdeb"
+  },
+  "findings_closed": [
+    "Documented required CTX50 preparation; regression proves incompatible precision is refused.",
+    "Added distinct validated-config and supplied-quote-inventory hashes to the sealed result."
+  ],
+  "initial_xml": {
+    "bytes": 6092,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\replay\\management_channels_initial_tests.xml",
+    "sha256": "5f46b020850a88de76844b897b280491fbd9761f14f7d98bf5d6e838057e05b9"
+  },
+  "new_study_launch": false,
+  "open_integration_prerequisite": "A separately reviewed study adapter must replay original curve/publication/consumption/direction-admission receipts, preserve actual decision/completion clocks and prepare both channels under CTX50 before any prospective management activation.",
+  "paper_outcome_replay": false,
+  "pnl_improvement_claim": false,
+  "remaining_blockers": [],
+  "review_and_test_author": "pair_ledger_evaluation",
+  "reviewed_scope": [
+    "Entry is an exact same-row subset of continuation; removing refused entries preserves signed, opposite and zero incumbent estimates.",
+    "Same existing USD valuation and hold/exit/rotate rule; differential against genuine CTX50 prepared original rows passes across8 scenarios.",
+    "Original native deadline and incomparable-target exit remain explicit. Terminal exit intent does not require forecast or quote availability; no execution occurs here.",
+    "Invalid incumbent quote valuations remain explicit unavailable exits. Neutral new entries are refused while neutral continuation remains useful.",
+    "Changed prepared scores/net values and nonmatching entry rows are rejected. Original preparation must use mechanics.CTX;28-digit preparation is explicitly refused, never silently repriced.",
+    "Output owns its data and is deterministic under different ambient Decimal context; source state, both channels, validated policy and supplied quote inventory hashes remain distinct.",
+    "All authority flags remain inert. The helper does not authenticate forecast/publication/admission chains, certify input freshness, record actual completion time, execute or settle actions."
+  ],
+  "schema_version": "management_channels_independent_review_v1_20260909",
+  "source_implementation_owner": "root",
+  "sources": [
+    {
+      "canonical": {
+        "bytes": 10263,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_curve_management_channels_v1.py",
+        "sha256": "6cba43bdd1a0ea5215b3bf716ce56211b5e173a678f4f0bca223adbf0ebb0880"
+      },
+      "copy": {
+        "bytes": 10263,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\replay\\management_channels_v1\\accepted_source\\oanda_curve_management_channels_v1.py",
+        "sha256": "6cba43bdd1a0ea5215b3bf716ce56211b5e173a678f4f0bca223adbf0ebb0880"
+      }
+    },
+    {
+      "canonical": {
+        "bytes": 8465,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_curve_management_channels_v1.py",
+        "sha256": "a5d93045c2a898db366b255d32649cb451c32c2e866c9b7356b419ca329805b6"
+      },
+      "copy": {
+        "bytes": 8465,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\replay\\management_channels_v1\\accepted_source\\test_oanda_curve_management_channels_v1.py",
+        "sha256": "a5d93045c2a898db366b255d32649cb451c32c2e866c9b7356b419ca329805b6"
+      }
+    }
+  ],
+  "status": "passed",
+  "tests": {
+    "broker_requests": false,
+    "duration_sec": 0.96,
+    "exact_unchanged_selector_differential_cases": 8,
+    "executed_by_reviewer": true,
+    "passed": 39,
+    "synthetic_only": true
+  }
+}

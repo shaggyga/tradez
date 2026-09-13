@@ -1,0 +1,25 @@
+{
+  "bindings": {
+    "EPISODE_02_CURVE_POLICY_DIAGNOSIS_20260909.json": {
+      "bytes": 511017,
+      "sha256": "9358ba9ea1a844dce67e5a30561ab5bc1e50cc95fc4aa6b5a86497e4c99d7106"
+    },
+    "EPISODE_02_CURVE_POLICY_DIAGNOSIS_20260909.md": {
+      "bytes": 8382,
+      "sha256": "02ef02dd8f066334523d2c903a4a5f2345557392a3567c44a244a90f2263cf08"
+    }
+  },
+  "created_utc": "2026-09-09T09:08:46.695960+00:00",
+  "no_independent_test_rerun": true,
+  "no_runtime_writes": true,
+  "remaining_blockers": [],
+  "review_scope": "Read-only report/source-mechanism review plus independent Decimal arithmetic on the four documented action prices; no full59-step replay, live reads, model fit or policy selection.",
+  "schema_version": "episode_02_policy_diagnosis_independent_review_v1_20260909",
+  "status": "passed_narrow_mechanism_and_accounting_review",
+  "verified": [
+    "Fixed original terminal minus current midpoint changes remaining side/value as the market crosses the fixed forecast. It is not a newly fitted conditional recovery estimate.",
+    "Manager exited then separately entered long; no atomic rotation is claimed. Original short entry is matched; later positions and directions differ.",
+    "Documented original units/prices reconcile manager two-leg realization, fixed-hold realization and6.05645186645USD total gap exactly. Gross5.683945USD and incremental cost0.37250686645USD are separated.",
+    "Single-episode nominal-boundary approximation and hypothetical bid/ask accounting limitations remain explicit."
+  ]
+}

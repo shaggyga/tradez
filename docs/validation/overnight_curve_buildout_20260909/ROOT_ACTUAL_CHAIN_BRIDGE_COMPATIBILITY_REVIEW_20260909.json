@@ -1,0 +1,56 @@
+{
+  "broker_requests": false,
+  "compact_receipt": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\replay\\chain_bridge_v1\\ACTUAL_RETAINED_H3_BRIDGE_COMPACT_20260909.json",
+    "sha256": "89958a08bfd7d37762fa8a7f31434eab959bb87664b2cffac0d9a82696851c79"
+  },
+  "current_quote_and_state_are_explicitly_separate_from_original_forecast": true,
+  "diagnostic_receipt": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\replay\\chain_bridge_v1\\actual_retained_compatibility_001\\ACTUAL_RETAINED_H3_BRIDGE_DIAGNOSTIC_20260909.json",
+    "sha256": "5ee91121dbd8e98b9162b51a8d7e33c2665cae7d8992fc5a7a00eb8de8d4b865"
+  },
+  "independent_original_inference_replay": false,
+  "interpretation": "Actual retained-input/current-quote interface compatibility, not a fresh forecast, position-management experiment, fill, account action or efficacy result.",
+  "model_or_manager_activation": false,
+  "new_state_is_hypothetical_flat_only": true,
+  "original_fixed_h3_target_preserved": true,
+  "retained_result": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\replay\\chain_bridge_v1\\actual_retained_compatibility_001\\bridge_result.json",
+    "sha256": "54211e24f74752b5277c25e0982fd5f1dade0a3fe92cb4aa16fc143833178b92"
+  },
+  "review_scope": [
+    "Read the complete diagnostic helper source and its original receipt/result.",
+    "Checked source identities, original target, actual recorded chronology and exact decision projection.",
+    "Did not rerun the diagnostic, replay raw S5/model inputs, reread the model weights, or independently authenticate the earlier I/O."
+  ],
+  "reviewed_epoch": 1788954391.748227,
+  "reviewed_helper": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\replay\\chain_bridge_v1\\diagnose_latest_retained_gbp_h3.py",
+    "sha256": "2390a4eb63a823b8365d3e0e286a2fc81a8e18aa5ac723a2ee2aa9d2cc47c805"
+  },
+  "runtime_writes": false,
+  "schema_version": "root_actual_chain_bridge_review_v1_20260909",
+  "source_bindings_rehashed": {
+    "oanda_curve_chain_management_bridge_v1.py": "e874d7fd633a00c7835ec7698eab3903d9b863a0bf98b7f884a0b6de54e42fa7",
+    "oanda_curve_direction_admission_v1.py": "b3453296c20aa7e207826f30c7c7b2d697b42929f595aabeb5f9b21087b8ba7a",
+    "oanda_curve_management_adapter_v1.py": "8fa6cccf1e2525d0186ab7abe0c68fccc4800db7b785a8b9f79f28c320ad1241",
+    "oanda_curve_management_channels_v1.py": "6cba43bdd1a0ea5215b3bf716ce56211b5e173a678f4f0bca223adbf0ebb0880",
+    "oanda_curve_management_replay_v1.py": "52fd04c6b087df4be775e490002afd0744caeb245604b8f577ab0fcff41de8f3",
+    "oanda_forecast_curve_contract_v1.py": "c03549586f922f6031790fce68a5afb5b98e4eda6157f20c4720b1adb05d0746",
+    "oanda_forecast_curve_file_store_v1.py": "0d537f59e8c90e7957b2d9853d6a5561486ec5004f3b1ee02661c335bdf5fc4d",
+    "oanda_live_account_readonly_status.py": "2734dda34d532a094eff614d5fe05d01c7aa6a2ebd80ca2bb974f12d8c5d93af",
+    "oanda_native_curve_outcomes_v1.py": "f90b237543aff4d86f5d3c93aeec1f738743fd6c9ba75c60f96ecfc8b605b68b",
+    "oanda_practice_quote_stream.py": "f46f5aef1be8ea7a925b7b48cd8a138a06b260b23bccc4c3382c52cac3f04b9d",
+    "oanda_practice_shadow_strategy_lab.py": "c6671bae42fa05fecd16e179cf86ced322be0d84e29666de015b978b4a007fb6",
+    "oanda_recovered_curve_bridge_v1.py": "07499ba8c5112b167b171af38a4bf69d414f901640e0301afa5babb381597c13",
+    "oanda_recovered_curve_pilot_v1.py": "fe7fdcd1f3e3c9473d393bc044721bfb48b48bdca09ee18fa8de8b9b8e02200e",
+    "oanda_recovered_second_curve_v1.py": "dbc2d606afdeb23840dd9038cd1200301c2211abb4228ef9bab193763323f41d",
+    "oanda_research_quote_receipt_v1.py": "ba18acd7eeac0eaa7c5cd7f8d4505fa5494c4ad3398345f009d25670169a27ef",
+    "oanda_s5_mba_research_capture_v1.py": "38fe20f4e55d970f074c71f7acee5f5adaebc9ac7766a532efcd782b34abbb45",
+    "oanda_second_forecast.py": "3ac9f38bbe7140aae7bf391d1778f658b599199601d811d97d3386f32d727063",
+    "oanda_second_forecast_fit.py": "238b8e6d83536aa287dc6282a364ccbe7ba016f2e00221e3b95381edd8d4aba8",
+    "src/forex_system/research/sequential_portfolio_replay_v1.py": "e1201fdd3387825c9295f13045aeb00e2f87cce9ff819e789faf922ea2e514a6"
+  },
+  "status": "source_and_retained_result_review_passed",
+  "tests_rerun": false
+}

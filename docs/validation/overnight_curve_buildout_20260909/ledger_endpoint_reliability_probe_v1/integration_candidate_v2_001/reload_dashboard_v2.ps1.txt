@@ -1,0 +1,110 @@
+$ErrorActionPreference='Stop'
+$base='C:\Users\zmoor\Documents\forex\overnight_curve_buildout_20260909\ledger_endpoint_reliability_probe_v1\integration_candidate_v2_001'
+$project='C:\Users\zmoor\Documents\forex\trad'
+if([IO.Path]::GetFullPath($PSScriptRoot) -ne $base){throw 'reload_unexpected_workspace'}
+$specPath=Join-Path $base 'DASHBOARD_V2_RELOAD_SPECIFICATION_20260909.json'
+$specExpected='d77856f1a441612dd560507627d6cef05fd204cbcdc1ea5aac86bb6fafeda393'
+if((Get-FileHash -LiteralPath $specPath -Algorithm SHA256).Hash.ToLowerInvariant() -ne $specExpected){throw 'reload_specification_changed'}
+$spec=Get-Content -LiteralPath $specPath -Raw|ConvertFrom-Json
+$censusPath=$spec.runtime_census.path
+if((Get-FileHash -LiteralPath $censusPath -Algorithm SHA256).Hash.ToLowerInvariant() -ne $spec.runtime_census.sha256){throw 'reload_census_changed'}
+$baseline=Get-Content -LiteralPath $censusPath -Raw|ConvertFrom-Json
+$output=Join-Path $base 'dashboard_v2_reload_001'
+if(Test-Path -LiteralPath $output){throw 'reload_evidence_exists'}
+$stopIds=@(15408,14476)
+$preserved=@($baseline.current_os.processes|Where-Object {$_.pid -notin $stopIds})
+if($baseline.project_process_count -ne 35 -or $preserved.Count -ne 33){throw 'reload_baseline_inventory'}
+
+function Save-New($name,$value){
+    $raw=[Text.UTF8Encoding]::new($false).GetBytes(($value|ConvertTo-Json -Depth 15)+"`n")
+    $stream=[IO.File]::Open((Join-Path $output $name),[IO.FileMode]::CreateNew,[IO.FileAccess]::Write,[IO.FileShare]::Read)
+    try{$stream.Write($raw,0,$raw.Length);$stream.Flush($true)}finally{$stream.Dispose()}
+}
+
+function Check-Sources {
+    foreach($binding in $spec.source_bindings.PSObject.Properties){
+        if((Get-FileHash -LiteralPath $binding.Name -Algorithm SHA256).Hash.ToLowerInvariant() -ne $binding.Value){throw 'reload_reviewed_source_changed'}
+    }
+    foreach($closure in $baseline.frozen_closures.PSObject.Properties){
+        $record=$closure.Value.registry
+        if((Get-FileHash -LiteralPath $record.path -Algorithm SHA256).Hash.ToLowerInvariant() -ne $record.sha256){throw 'reload_frozen_registry_changed'}
+        foreach($source in $closure.Value.sources){
+            if($source.sha256 -ne $source.expected_sha256 -or (Get-FileHash -LiteralPath $source.path -Algorithm SHA256).Hash.ToLowerInvariant() -ne $source.expected_sha256){throw 'reload_frozen_source_changed'}
+        }
+    }
+}
+
+function Snapshot {
+    return @(Get-CimInstance Win32_Process | Where-Object {$_.Name -match '^(python|pythonw|pwsh|powershell)(\.exe)?$'}|ForEach-Object {
+        $match=[regex]::Match([string]$_.CommandLine,'(?i)(?:"([^"]+\.(?:py|ps1))"|([^\s"]+\.(?:py|ps1)))(?:\s|$)')
+        $path=if($match.Groups[1].Success){$match.Groups[1].Value}else{$match.Groups[2].Value}
+        if($path.StartsWith($project+'\',[StringComparison]::OrdinalIgnoreCase)){
+            [pscustomobject]@{pid=[int]$_.ProcessId;parent_pid=[int]$_.ParentProcessId;process_name=$_.Name;
+                executable=$_.ExecutablePath;created_utc=$_.CreationDate.ToUniversalTime().ToString('o');script_path=$path;
+                research_mode=([string]$_.CommandLine -match '\s-ResearchCollectionOnly(?:\s|$)');
+                safe_core=([string]$_.CommandLine -match '\s-SafeCoreOnly(?:\s|$)')}
+        }
+    })
+}
+
+function Same-Identity($current,$expected){
+    $actualDate=if($current.created_utc -is [DateTime]){$current.created_utc.ToUniversalTime()}else{[DateTime]::Parse($current.created_utc).ToUniversalTime()}
+    $expectedDate=if($expected.created_utc -is [DateTime]){$expected.created_utc.ToUniversalTime()}else{[DateTime]::Parse($expected.created_utc).ToUniversalTime()}
+    return ($current.pid -eq $expected.pid -and $current.parent_pid -eq $expected.parent_pid -and
+        $current.process_name -eq $expected.process_name -and $current.executable -eq $expected.executable -and
+        $current.script_path -eq $expected.script_path -and $actualDate -eq $expectedDate)
+}
+
+function Check-Preserved($current){
+    foreach($row in $preserved){
+        $found=@($current|Where-Object {$_.pid -eq $row.pid})
+        if($found.Count -ne 1 -or -not (Same-Identity $found[0] $row)){throw 'reload_preserved_identity_changed'}
+    }
+    $supervisor=@($current|Where-Object {$_.pid -eq 37696})
+    if($supervisor.Count -ne 1 -or -not $supervisor[0].research_mode -or -not $supervisor[0].safe_core){throw 'reload_supervisor_mode_changed'}
+}
+
+Check-Sources
+$before=Snapshot
+Check-Preserved $before
+if($before.Count -ne 35){throw 'reload_initial_census_changed'}
+foreach($row in $baseline.current_os.processes){
+    $found=@($before|Where-Object {$_.pid -eq $row.pid})
+    if($found.Count -ne 1 -or -not (Same-Identity $found[0] $row)){throw 'reload_initial_identity_changed'}
+}
+$port=@(Get-NetTCPConnection -LocalAddress '127.0.0.1' -LocalPort 8765 -State Listen -ErrorAction SilentlyContinue)
+if($port.Count -ne 1 -or $port[0].OwningProcess -ne 15408){throw 'reload_initial_listener_changed'}
+$null=New-Item -ItemType Directory -Path $output
+Save-New 'BEFORE.json' @{status='exact35_verified_before_dashboard_only_reload';observed_utc=[DateTime]::UtcNow.ToString('o');processes=$before;preserved_process_count=33;intended_stop_pids=$stopIds;orders_enabled=$false}
+try {
+    foreach($id in $stopIds){
+        # One identity lookup; an expected wrapper may already have exited with its child.
+        $current=Snapshot;Check-Preserved $current
+        $row=@($current|Where-Object {$_.pid -eq $id})
+        if($row.Count -eq 0){continue}
+        $expected=@($baseline.current_os.processes|Where-Object {$_.pid -eq $id})
+        if($row.Count -ne 1 -or $expected.Count -ne 1 -or -not (Same-Identity $row[0] $expected[0])){throw 'reload_stop_identity_changed'}
+        Stop-Process -Id $id -Force -ErrorAction SilentlyContinue
+    }
+    # The unchanged existing supervisor performs its normal relaunch; no launcher or worker is started here.
+    $deadline=[DateTime]::UtcNow.AddSeconds(90);$ready=$false
+    do {
+        $current=Snapshot;Check-Preserved $current
+        if(@($current|Where-Object {$_.pid -in $stopIds}).Count -gt 0){Start-Sleep -Milliseconds 500;continue}
+        $dashboard=@($current|Where-Object {$_.script_path -eq (Join-Path $project 'oanda_practice_live_dashboard.py')})
+        $port=@(Get-NetTCPConnection -LocalAddress '127.0.0.1' -LocalPort 8765 -State Listen -ErrorAction SilentlyContinue)
+        $parent=@($dashboard|Where-Object {$_.parent_pid -eq 37696})
+        $child=@($dashboard|Where-Object {$parent.Count -eq 1 -and $_.parent_pid -eq $parent[0].pid})
+        if($current.Count -eq 35 -and $dashboard.Count -eq 2 -and $parent.Count -eq 1 -and $child.Count -eq 1 -and $port.Count -eq 1 -and $port[0].OwningProcess -eq $child[0].pid){$ready=$true;break}
+        Start-Sleep -Milliseconds 500
+    }while([DateTime]::UtcNow -lt $deadline)
+    if(-not $ready){throw 'reload_replacement_listener_not_ready'}
+    Check-Sources
+    Save-New 'AFTER.json' @{status='dashboard_only_reload_source_identity_and_port_verified_http_pending';observed_utc=[DateTime]::UtcNow.ToString('o');processes=$current;preserved_process_count=33;process_count=35;supervisor_pid=37696;new_dashboard_pids=$dashboard.pid;orders_enabled=$false;frozen_closures_changed=$false}
+    @{status='completed_http_verification_pending';preserved_process_count=33;process_count=35;supervisor_pid=37696;new_dashboard_pids=$dashboard.pid}|ConvertTo-Json -Compress
+}catch{
+    $reason=[string]$_.Exception.Message
+    if($reason -notmatch '^reload_[a-z_]+$'){$reason='reload_failed_bounded_diagnostic'}
+    Save-New 'FAILURE.json' @{status='failed';reason=$reason;observed_utc=[DateTime]::UtcNow.ToString('o');automatic_rollback=$false;orders_enabled=$false}
+    throw
+}

@@ -19,47 +19,61 @@ def _supervisor_managed_block(name: str, next_name: str) -> str:
     return supervisor[start:end]
 
 
-def test_supervisor_registers_isolated_research_census_and_verifier_workers() -> None:
-    producer = _supervisor_managed_block(
-        "executable_move_census_v1", "executable_move_census_verifier_v1"
+def test_supervisor_registers_separated_capture_evaluation_and_verifier_workers() -> None:
+    capture = _supervisor_managed_block(
+        "executable_move_census_capture_v3h", "executable_move_census_evaluator_v3h"
+    )
+    evaluator = _supervisor_managed_block(
+        "executable_move_census_evaluator_v3h", "executable_move_census_verifier_v3h"
     )
     verifier = _supervisor_managed_block(
-        "executable_move_census_verifier_v1", "major_move_gap_census"
+        "executable_move_census_verifier_v3h", "major_move_gap_census"
     )
-    assert producer.count('-Needle "oanda_executable_move_census_v1.py"') == 1
-    assert verifier.count('-Needle "oanda_executable_move_census_v1_verifier.py"') == 1
+    assert capture.count('-Needle "--worker-id census_capture_20260902h"') == 1
+    assert evaluator.count('-Needle "--worker-id census_evaluator_20260902h"') == 1
+    assert verifier.count('-Needle "oanda_executable_move_census_v3h_verifier.py"') == 1
     for block, script, heartbeat in (
-        (
-            producer,
-            "oanda_executable_move_census_v1.py",
-            "executable_move_census_heartbeat_v1_20260830b.json",
-        ),
-        (
-            verifier,
-            "oanda_executable_move_census_v1_verifier.py",
-            "executable_move_census_verifier_latest_v1_20260830b.json",
-        ),
+        (capture, "oanda_executable_move_census_v3.py", "executable_move_census_capture_heartbeat_v3_20260902h.json"),
+        (evaluator, "oanda_executable_move_census_v3.py", "executable_move_census_evaluator_heartbeat_v3_20260902h.json"),
+        (verifier, "oanda_executable_move_census_v3h_verifier.py", "executable_move_census_verifier_latest_v3_20260902h.json"),
     ):
         assert f'(Join-Path $Trad "{script}")' in block
         assert '-Executable $Python' in block
-        assert '-PriorityClass "BelowNormal"' in block
-        assert '"--interval-sec", "30"' in block
         assert '"--duration-sec", "$ChildDurationSec"' in block
         assert f'(Join-Path $State "{heartbeat}")' in block
-    assert 'ExpectedJsonField = "schema_version"' in producer
-    assert 'ExpectedJsonValue = "executable_move_census_heartbeat_v1"' in producer
+    assert '-PriorityClass "AboveNormal"' in capture
+    assert '-PriorityClass "BelowNormal"' in evaluator
+    assert '-PriorityClass "BelowNormal"' in verifier
+    assert '"--incident-log"' in capture
+    assert '"capture"' in capture
+    assert '"evaluate"' in evaluator
+    assert '"--interval-sec", "30"' in evaluator
+    assert '"--interval-sec", "30"' in verifier
+    assert 'ExpectedJsonField = "schema_version"' in capture
+    assert 'ExpectedJsonValue = "executable_move_census_capture_heartbeat_v3"' in capture
+    assert 'ExpectedJsonValue = "executable_move_census_evaluator_heartbeat_v3"' in evaluator
     assert 'ExpectedJsonField = "verified"' in verifier
     assert 'ExpectedJsonValue = "True"' in verifier
-    assert "research-only observations" in (Path(__file__).resolve().parent / "oanda_always_on_supervisor.ps1").read_text(
+    assert "MaxAgeSec = 600" in evaluator
+    assert "StartupGraceSec = 900" in evaluator
+    assert "MaxAgeSec = 900" in verifier
+    assert "StartupGraceSec = 1200" in verifier
+    assert "It remains research-only and cannot authorize, promote, or trade" in (Path(__file__).resolve().parent / "oanda_always_on_supervisor.ps1").read_text(
         encoding="utf-8"
     )
 
 
-def test_cohort_b_paths_are_isolated_and_cohort_a_is_preserved() -> None:
+def test_cohort_h_paths_are_isolated_and_prior_cohorts_are_preserved() -> None:
     root = Path(__file__).resolve().parent
     supervisor = (root / "oanda_always_on_supervisor.ps1").read_text(encoding="utf-8")
     a_config = root / "config" / "executable_move_census_v1.json"
     b_config = root / "config" / "executable_move_census_v1_20260830b.json"
+    c_config = root / "config" / "executable_move_census_v2_20260901c.json"
+    d_config = root / "config" / "executable_move_census_v2_20260901d.json"
+    e_config = root / "config" / "executable_move_census_v2_20260901e.json"
+    f_config = root / "config" / "executable_move_census_v3_20260901f.json"
+    g_config = root / "config" / "executable_move_census_v3_20260902g.json"
+    h_config = root / "config" / "executable_move_census_v3_20260902h.json"
     assert a_config.is_file()
     assert json.loads(a_config.read_text(encoding="utf-8"))["cohort_id"] == (
         "all68_executable_move_census_v1_20260830"
@@ -68,17 +82,87 @@ def test_cohort_b_paths_are_isolated_and_cohort_a_is_preserved() -> None:
     assert census.DATABASE.name == "executable_move_census_v1_20260830b.sqlite"
     assert census.OUTPUT.name == "executable_move_census_latest_v1_20260830b.json"
     assert census.HEARTBEAT.name == "executable_move_census_heartbeat_v1_20260830b.json"
+    assert b_config.is_file()
+    assert c_config.is_file()
+    assert json.loads(c_config.read_text(encoding="utf-8"))["cohort_id"] == (
+        "all68_executable_move_census_v2_20260901c"
+    )
+    assert d_config.is_file()
+    d_payload = json.loads(d_config.read_text(encoding="utf-8"))
+    assert d_payload["cohort_id"] == "all68_executable_move_census_v2_20260901d"
+    assert d_payload["parent_cohort_id"] == "all68_executable_move_census_v2_20260901c"
+    assert d_payload["historical_row_import_count"] == 0
+    assert d_payload["source_schema_version"] == "2"
+    assert e_config.is_file()
+    e_payload = json.loads(e_config.read_text(encoding="utf-8"))
+    assert e_payload["cohort_id"] == "all68_executable_move_census_v2_20260901e"
+    assert e_payload["parent_cohort_id"] == d_payload["cohort_id"]
+    assert e_payload["parent_evidence_status"] == "permanently_invalid"
+    assert e_payload["historical_row_import_count"] == 0
+    assert e_payload["source_schema_version"] == "3"
+    assert f_config.is_file()
+    f_payload = json.loads(f_config.read_text(encoding="utf-8"))
+    assert f_payload["cohort_id"] == "all68_executable_move_census_v3_20260901f"
+    assert f_payload["parent_cohort_id"] == e_payload["cohort_id"]
+    assert f_payload["parent_evidence_status"] == "permanently_invalid"
+    assert f_payload["historical_row_import_count"] == 0
+    assert f_payload["source_schema_version"] == "3"
+    assert g_config.is_file()
+    g_payload = json.loads(g_config.read_text(encoding="utf-8"))
+    assert g_payload["cohort_id"] == "all68_executable_move_census_v3_20260902g"
+    assert g_payload["parent_cohort_id"] == f_payload["cohort_id"]
+    assert g_payload["parent_evidence_status"] == "permanently_invalid"
+    assert g_payload["historical_row_import_count"] == 0
+    assert g_payload["no_backfill"] is True
+    assert g_payload["source_schema_version"] == "3"
+    assert "exclusive_quote_owner" in g_payload["capture_contract_id"]
+    assert h_config.is_file()
+    h_payload = json.loads(h_config.read_text(encoding="utf-8"))
+    assert h_payload["cohort_id"] == "all68_executable_move_census_v3_20260902h"
+    assert h_payload["parent_cohort_id"] == g_payload["cohort_id"]
+    assert h_payload["parent_evidence_status"] == "permanently_invalid"
+    assert h_payload["historical_row_import_count"] == 0
+    assert h_payload["no_backfill"] is True
+    assert h_payload["source_schema_version"] == "3"
     assert "executable_move_census_v1.sqlite" not in supervisor
     assert "executable_move_census_latest_v1.json" not in supervisor
     assert "executable_move_census_heartbeat_v1.json" not in supervisor
     for name in (
-        "executable_move_census_v1_20260830b.sqlite",
-        "executable_move_census_latest_v1_20260830b.json",
-        "executable_move_census_heartbeat_v1_20260830b.json",
-        "executable_move_census_verifier_latest_v1_20260830b.json",
-        "executable_move_census_verifier_checkpoint_v1_20260830b.json",
+        "executable_move_census_v3_20260902h.sqlite",
+        "executable_move_census_latest_v3_20260902h.json",
+        "executable_move_census_capture_heartbeat_v3_20260902h.json",
+        "executable_move_census_evaluator_heartbeat_v3_20260902h.json",
+        "executable_move_census_verifier_latest_v3_20260902h.json",
+        "executable_move_census_verifier_checkpoint_v3_20260902h.json",
     ):
         assert name in supervisor
+    assert "cohort_f_capture_reliability_cutover" in supervisor
+    assert '-Needle "--worker-id census_capture_20260901e"' in supervisor
+    assert '-Needle "--worker-id census_evaluator_20260901e"' in supervisor
+    assert '-Needle "oanda_executable_move_census_v2e_verifier.py"' in supervisor
+    assert '-Needle "--worker-id census_capture_20260901d"' in supervisor
+    assert '-Needle "--worker-id census_evaluator_20260901d"' in supervisor
+    assert '-Needle "oanda_executable_move_census_v2d_verifier.py"' in supervisor
+    assert '-Needle "--worker-id census_capture_20260901f"' in supervisor
+    assert '-Needle "--worker-id census_evaluator_20260901f"' in supervisor
+    assert '-Needle "oanda_executable_move_census_v3f_verifier.py"' in supervisor
+    assert "cohort_g_exclusive_quote_owner_cutover" in supervisor
+    assert '-Needle "--worker-id census_capture_20260902g"' in supervisor
+    assert '-Needle "--worker-id census_evaluator_20260902g"' in supervisor
+    assert '-Needle "oanda_executable_move_census_v3g_verifier.py"' in supervisor
+    assert "cohort_h_explicit_pause_cutover" in supervisor
+
+
+def test_strategy_lab_cannot_own_canonical_executor_quote_snapshot() -> None:
+    supervisor = (
+        Path(__file__).resolve().parent / "oanda_always_on_supervisor.ps1"
+    ).read_text(encoding="utf-8")
+    start = supervisor.index('-Name "strategy_lab"')
+    end = supervisor.index('Write-SupervisorEvent "heartbeat"', start)
+    block = supervisor[start:end]
+    assert '"--research-market-quote-snapshot"' in block
+    assert '"strategy_lab_market_quotes_research_v1.json"' in block
+    assert "practice_007_market_quotes_v1.json" not in block
 
 
 def test_latest_snapshot_does_not_rescan_historical_raw_payloads() -> None:

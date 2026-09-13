@@ -1,0 +1,7731 @@
+#!/usr/bin/env python3
+"""Local live dashboard for OANDA practice scalper JSONL logs."""
+
+from __future__ import annotations
+
+import argparse
+import csv
+import json
+import math
+import os
+import re
+import sqlite3
+import statistics
+import threading
+import time
+from collections import Counter, defaultdict, deque
+from datetime import datetime, timedelta, timezone
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
+from typing import Any
+from urllib.parse import parse_qs, urlparse
+from zoneinfo import ZoneInfo
+
+try:
+    from oanda_practice_eurusd_micro_scalper import DEFAULT_LOG_DIR, safe_float
+except ModuleNotFoundError:  # Package imports used by the test suite.
+    from trad.oanda_practice_eurusd_micro_scalper import DEFAULT_LOG_DIR, safe_float
+
+
+RUN_GLOBS = (
+    "practice_all_pairs_opportunity_*.jsonl",
+    "practice_*_micro_scalper_*.jsonl",
+)
+LAB_GLOB = "practice_strategy_lab_*.jsonl"
+MICRO_SNAPSHOT = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "micro_pattern_dashboard_v1.json"
+ACCOUNT_SNAPSHOT = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "account_dashboard_v1.json"
+ACCOUNT_007_SNAPSHOT = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "account_007_dashboard_v1.json"
+CONTINUOUS_NARRATIVE_METER = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "continuous_narrative_meter_v12.json"
+SIGNAL_SNAPSHOT = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "practice_007_signal_snapshot_v1.json"
+RESEARCH_SIGNAL_SNAPSHOT = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "practice_007_signal_snapshot_research_v1.json"
+LAST_SIGNAL_SNAPSHOT = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "practice_007_last_signal_v1.json"
+LATEST_MOVES_SNAPSHOT = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "practice_007_latest_moves_v1.json"
+EXECUTABLE_MOVE_CENSUS = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "executable_move_census_latest_v3_20260902g.json"
+ADAPTIVE_LEVEL_BANDS = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "causal_level_band_prospective_v1.json"
+LIVE_MOVE_NEWS_SNAPSHOT = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "live_move_news_snapshot_v7r3.json"
+LIVE_MOVE_NEWS_OUTCOMES = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "live_move_news_outcomes_v4r3.json"
+TOP_SIGNAL_POSITION_LEDGER = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "top_signal_position_ledger_v1.json"
+CANONICAL_SIGNAL_TRIALS = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "canonical_signal_trials_v1.json"
+LOCAL_NEWS_SENTIMENT = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "local_news_sentiment" / "pair_sentiment_latest.json"
+LOCAL_NEWS_COLLECTOR = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "local_news_sentiment" / "collector_latest_v1.json"
+SECOND_HOT_SNAPSHOT = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "second_forecast_hot_v1.json"
+STRATEGY_HEARTBEAT = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "strategy_lab_heartbeat_v1.json"
+SECOND_HOT_HEARTBEAT = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "second_forecast_hot_heartbeat_v1.json"
+SECOND_TRACKER_HEARTBEAT = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "second_forecast_tracker_heartbeat_v1.json"
+VAULT_PROJECT_ROOT = Path(
+    r"D:\vault_backups\thevault_snapshot_20260714_235524\projects\forex"
+)
+VAULT_FOREX_MODEL_ROOT = Path(
+    r"D:\vault_backups\thevault_snapshot_20260714_235524\UNIFIED_QUERY_VAULT"
+    r"\builds\unified_query_20260713_v3\encyclopedia\models\forex"
+)
+SIGNAL_SNAPSHOT_FRESH_SEC = 90.0
+SECOND_FORECAST_STATE_FRESH_SEC = 180.0
+CANONICAL_SIGNAL_HORIZONS = (
+    60, 120, 180, 300, 600, 900, 1800, 3600, 7200, 10800,
+    14400, 21600, 28800, 43200, 86400,
+)
+NEW_YORK_TZ = ZoneInfo("America/New_York")
+MAIN_HTML_PATH = Path(__file__).resolve().parent / "oanda_main_signal_dashboard.html"
+DEFAULT_CRYPTO_PROJECT_ROOT = (
+    Path(__file__).resolve().parents[2] / "BIGTRIAD" / "crypto_runtime"
+)
+CRYPTO_PROJECT_ROOT = Path(
+    os.environ.get("BIGTRIAD_ROOT", str(DEFAULT_CRYPTO_PROJECT_ROOT))
+)
+CRYPTO_REPORT_DIR = CRYPTO_PROJECT_ROOT / "data" / "kraken_bot_v2" / "reports"
+CRYPTO_STATE_DIR = CRYPTO_PROJECT_ROOT / "data" / "kraken_bot_v2" / "state"
+CRYPTO_ACCOUNT_STATUS = (
+    CRYPTO_REPORT_DIR / "live_paper_aggressive_always_on_status_latest.json"
+)
+CRYPTO_SUPERVISOR_STATUS = (
+    CRYPTO_STATE_DIR / "aggressive_horizon_paper_supervisor_latest.json"
+)
+CRYPTO_NEWS_FEED = CRYPTO_REPORT_DIR / "crypto_news_feed_latest.json"
+CRYPTO_NEWS_BACKTEST = (
+    CRYPTO_REPORT_DIR / "crypto_news_feed_backtest_latest.json"
+)
+CRYPTO_NEWS_DAILY = (
+    CRYPTO_REPORT_DIR / "crypto_news_feed_backtest_daily_latest.json"
+)
+CRYPTO_CONTEXT_STATUS = (
+    CRYPTO_REPORT_DIR / "external_context_collector_latest.json"
+)
+CRYPTO_TREND_PROXY = CRYPTO_REPORT_DIR / "crypto_trend_proxy_latest.json"
+CRYPTO_STRATEGY_BENCHMARK = (
+    CRYPTO_REPORT_DIR / "strategy_benchmark_comparison_latest.json"
+)
+CRYPTO_RSI_PROSPECTIVE = (
+    CRYPTO_REPORT_DIR / "predictor_v5_rsi_reversion_forward_latest.json"
+)
+CRYPTO_V5_RSI_AGREEMENT_PROSPECTIVE = (
+    CRYPTO_REPORT_DIR / "predictor_v5_rsi_agreement_forward_latest.json"
+)
+CRYPTO_EXECUTABLE_RAW_PROSPECTIVE = (
+    CRYPTO_REPORT_DIR / "predictor_v5_executable_raw_forward_latest.json"
+)
+CRYPTO_EXECUTABLE_RSI_PROSPECTIVE = (
+    CRYPTO_REPORT_DIR / "predictor_v5_executable_rsi_forward_latest.json"
+)
+CRYPTO_DIRECTION_RSI_AGREEMENT_PROSPECTIVE = (
+    CRYPTO_REPORT_DIR
+    / "predictor_v5_direction_rsi_agreement_forward_latest.json"
+)
+CRYPTO_COST_AWARE_PROSPECTIVE = (
+    CRYPTO_REPORT_DIR / "predictor_v6_cost_aware_forward_latest.json"
+)
+CRYPTO_TAIL_PREDICTOR = (
+    CRYPTO_REPORT_DIR
+    / "kraken_universe_horizon_inference_tail_ensemble_shadow_latest.json"
+)
+CRYPTO_META_ROUTER_TRAIN = (
+    CRYPTO_REPORT_DIR / "forecast_episode_meta_router_train_latest.json"
+)
+CRYPTO_META_ROUTER_LIVE = (
+    CRYPTO_REPORT_DIR / "forecast_episode_meta_router_shadow_latest.json"
+)
+CRYPTO_META_ROUTER_FORWARD = (
+    CRYPTO_REPORT_DIR / "forecast_episode_meta_router_forward_latest.json"
+)
+CRYPTO_EXTRA_TREES_TRAIN = (
+    CRYPTO_REPORT_DIR
+    / "forecast_episode_meta_router_extra_trees_train_latest.json"
+)
+CRYPTO_EXTRA_TREES_LIVE = (
+    CRYPTO_REPORT_DIR
+    / "forecast_episode_meta_router_extra_trees_shadow_latest.json"
+)
+CRYPTO_EXTRA_TREES_FORWARD = (
+    CRYPTO_REPORT_DIR
+    / "forecast_episode_meta_router_extra_trees_forward_latest.json"
+)
+
+_ACTIVE_CANDIDATE_CACHE_LOCK = threading.Lock()
+_ACTIVE_CANDIDATE_CACHE: dict[tuple[str, int], tuple[float, list[dict[str, Any]]]] = {}
+
+HGB_CALIBRATION_REPORTS = {
+    "M1": "m1_hgb_reversal_120_oanda_candidate_20260707",
+    "M30": "all68_latest_hgb_reversal_m30_full_trader_style_backtest",
+    "H1": "all68_latest_hgb_reversal_h1_full_trader_style_backtest",
+    "H4": "all68_latest_hgb_reversal_h4_full_trader_style_backtest",
+}
+PREDICTION_MATRIX_TIMEFRAMES = (
+    "MULTI",
+    "S1",
+    "S5",
+    "S10",
+    "S15",
+    "S30",
+    "M1",
+    "M2",
+    "M3",
+    "M4",
+    "M5",
+    "M6",
+    "M7",
+    "M8",
+    "M9",
+    "M10",
+    "M12",
+    "M15",
+    "M20",
+    "M30",
+    "M45",
+    "H1",
+    "H2",
+    "H3",
+    "H4",
+    "H6",
+    "H8",
+    "H12",
+    "D1",
+)
+PREDICTION_MATRIX_HORIZONS = (
+    5,
+    10,
+    15,
+    30,
+    60,
+    120,
+    180,
+    240,
+    300,
+    360,
+    420,
+    480,
+    540,
+    600,
+    900,
+    1200,
+    1800,
+    2700,
+    3600,
+    7200,
+    10800,
+    14400,
+    21600,
+    28800,
+    43200,
+    86400,
+)
+STRUCTURAL_INTRAHOUR_HORIZONS_SEC = (
+    60,
+    120,
+    180,
+    300,
+    600,
+    900,
+    1800,
+    3600,
+)
+
+
+def utc_now() -> str:
+    return datetime.now(timezone.utc).isoformat()
+
+
+def heartbeat_status(path: Path) -> dict[str, Any]:
+    payload = load_json_dict(path)
+    age = (
+        round(max(0.0, time.time() - path.stat().st_mtime), 2)
+        if path.is_file()
+        else None
+    )
+    return {
+        **payload,
+        "path": str(path),
+        "age_sec": age,
+        "fresh": bool(
+            payload.get("status") == "running"
+            and age is not None
+            and age < 30.0
+        ),
+    }
+
+
+def read_jsonl(path: Path, max_lines: int) -> list[dict[str, Any]]:
+    try:
+        with path.open("rb") as handle:
+            head_lines = handle.read(131072).splitlines()[:10]
+            handle.seek(0, 2)
+            position = handle.tell()
+            chunks: list[bytes] = []
+            newline_count = 0
+            while position > 0 and newline_count <= max_lines:
+                size = min(65536, position)
+                position -= size
+                handle.seek(position)
+                chunk = handle.read(size)
+                chunks.append(chunk)
+                newline_count += chunk.count(b"\n")
+            tail_lines = b"".join(reversed(chunks)).splitlines()[-max_lines:]
+    except OSError:
+        return []
+    selected_lines = (head_lines if position > 0 else []) + tail_lines
+    rows: list[dict[str, Any]] = []
+    for line in selected_lines:
+        try:
+            row = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(row, dict):
+            rows.append(row)
+    return rows
+
+
+def strategy_from_name(path: Path) -> str:
+    name = path.name.lower()
+    for strategy in ("momentum", "pullback", "macd_rsi_reversal"):
+        if strategy in name:
+            return strategy
+    return ""
+
+
+def account_from_name(path: Path) -> str:
+    match = re.search(r"practice_all_pairs_opportunity_(.+?)_(?:[a-z0-9_]+_)?\d{8}_\d{6}_\d{6}\.jsonl$", path.name)
+    if match:
+        return match.group(1)
+    match = re.search(r"practice_[a-z0-9_]+_[a-z0-9_]+_(.+?)_micro_scalper", path.name.lower())
+    return match.group(1) if match else ""
+
+
+def outcome_stats(rows: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    by_horizon: dict[str, list[float]] = defaultdict(list)
+    for row in rows:
+        if row.get("event") != "near_miss_outcome":
+            continue
+        horizon = str(int(safe_float(row.get("horizon_sec"))))
+        by_horizon[horizon].append(safe_float(row.get("theoretical_pips")))
+    output: dict[str, dict[str, Any]] = {}
+    for horizon, values in sorted(by_horizon.items(), key=lambda item: int(item[0])):
+        output[horizon] = {
+            "n": len(values),
+            "avg": round(sum(values) / len(values), 3) if values else 0.0,
+            "best": round(max(values), 3) if values else 0.0,
+            "worst": round(min(values), 3) if values else 0.0,
+        }
+    return output
+
+
+def summarize_log(path: Path, max_lines: int) -> dict[str, Any]:
+    rows = read_jsonl(path, max_lines)
+    counts = Counter(str(row.get("event") or "") for row in rows)
+    scan_rows = [row for row in rows if row.get("event") == "scan_summary"]
+    start = next((row for row in rows if row.get("event") in {"scanner_start", "session_start"}), {})
+    end = next((row for row in reversed(rows) if row.get("event") in {"scanner_end", "session_end"}), {})
+    selected = [
+        row
+        for row in rows
+        if row.get("event") in {"candidate", "selected_setup", "selected_trade_result", "order_filled", "trade_closed"}
+    ]
+    near = [row for row in rows if row.get("event") == "near_miss"]
+    outcomes = [row for row in rows if row.get("event") == "near_miss_outcome"]
+    reason_counts: Counter[str] = Counter()
+    for row in scan_rows:
+        reason_counts.update(row.get("reason_counts") or {})
+    latest_scan = scan_rows[-1] if scan_rows else {}
+    latest_time = str((rows[-1] if rows else {}).get("time") or "")
+    last_write_age = max(0.0, time.time() - path.stat().st_mtime)
+    active = not end and last_write_age < 90.0
+    trades = [row for row in rows if row.get("event") == "selected_trade_result"]
+    realized = [safe_float(row.get("realized_pl")) for row in trades]
+    top_positive = sorted(outcomes, key=lambda row: safe_float(row.get("theoretical_pips")), reverse=True)[:8]
+    top_negative = sorted(outcomes, key=lambda row: safe_float(row.get("theoretical_pips")))[:8]
+    first_scan_time = str((scan_rows[0] if scan_rows else rows[0] if rows else {}).get("time") or "")
+    scan_rate_sec = None
+    if len(scan_rows) >= 2:
+        first_ts = parse_time(first_scan_time)
+        last_ts = parse_time(str(scan_rows[-1].get("time") or ""))
+        if first_ts and last_ts:
+            elapsed = max(1.0, (last_ts - first_ts).total_seconds())
+            scan_rate_sec = round(elapsed / max(1, len(scan_rows) - 1), 2)
+    return {
+        "file": str(path),
+        "name": path.name,
+        "account": account_from_name(path),
+        "account_suffix": start.get("account_suffix"),
+        "strategy": str(start.get("strategy") or strategy_from_name(path) or ""),
+        "run_label": str(start.get("run_label") or start.get("strategy") or strategy_from_name(path) or ""),
+        "parameters": start.get("parameters") or {},
+        "active": active,
+        "last_write_age_sec": round(last_write_age, 1),
+        "latest_time": latest_time,
+        "first_time": first_scan_time,
+        "events": dict(counts),
+        "scans": len(scan_rows),
+        "scan_rate_sec": scan_rate_sec,
+        "instrument_count": start.get("instrument_count"),
+        "latest_scan": latest_scan,
+        "reason_counts": reason_counts.most_common(12),
+        "near_misses": len(near),
+        "near_miss_outcomes": len(outcomes),
+        "outcome_stats": outcome_stats(rows),
+        "selected_events": len(selected),
+        "trades": len(trades),
+        "realized_pl": round(sum(realized), 6),
+        "last_selected": selected[-8:],
+        "top_positive": compact_outcomes(top_positive),
+        "top_negative": compact_outcomes(top_negative),
+        "ended": bool(end),
+        "end": end,
+    }
+
+
+def parse_time(value: str) -> datetime | None:
+    if not value:
+        return None
+    cleaned = value.replace("Z", "+00:00")
+    try:
+        return datetime.fromisoformat(cleaned).astimezone(timezone.utc)
+    except ValueError:
+        return None
+
+
+def compact_outcomes(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    output: list[dict[str, Any]] = []
+    for row in rows:
+        output.append(
+            {
+                "instrument": row.get("instrument"),
+                "direction": row.get("direction"),
+                "horizon_sec": row.get("horizon_sec"),
+                "pips": row.get("theoretical_pips"),
+                "blocked_reason": row.get("blocked_reason"),
+            }
+        )
+    return output
+
+
+def sample_stats(values: list[float]) -> dict[str, Any]:
+    if not values:
+        return {"n": 0, "avg": 0.0, "median": 0.0, "win_rate": 0.0, "best": 0.0, "worst": 0.0, "total_net_pips": 0.0}
+    return {
+        "n": len(values),
+        "avg": round(statistics.fmean(values), 3),
+        "median": round(statistics.median(values), 3),
+        "win_rate": round(100.0 * sum(1 for value in values if value > 0.0) / len(values), 1),
+        "best": round(max(values), 3),
+        "worst": round(min(values), 3),
+        "total_net_pips": round(sum(values), 3),
+    }
+
+
+def correlation(left: list[float], right: list[float]) -> float | None:
+    if len(left) != len(right) or len(left) < 2:
+        return None
+    left_mean = statistics.fmean(left)
+    right_mean = statistics.fmean(right)
+    numerator = sum((x - left_mean) * (y - right_mean) for x, y in zip(left, right))
+    left_scale = math.sqrt(sum((x - left_mean) ** 2 for x in left))
+    right_scale = math.sqrt(sum((y - right_mean) ** 2 for y in right))
+    if left_scale <= 0.0 or right_scale <= 0.0:
+        return None
+    return round(numerator / (left_scale * right_scale), 4)
+
+
+def summarize_lab(path: Path, max_lines: int) -> dict[str, Any]:
+    rows = read_jsonl(path, max_lines)
+    start = next((row for row in rows if row.get("event") == "lab_start"), {})
+    end = next((row for row in reversed(rows) if row.get("event") == "lab_end"), {})
+    catalog = {
+        str(row.get("lane_id") or ""): row
+        for row in (start.get("lanes") or [])
+        if isinstance(row, dict) and row.get("lane_id")
+    }
+    signals = Counter(str(row.get("lane_id") or "") for row in rows if row.get("event") == "shadow_signal")
+    miss_rows = [row for row in rows if row.get("event") == "shadow_miss"]
+    misses = Counter(str(row.get("lane_id") or "") for row in miss_rows)
+    near_misses = Counter(
+        str(row.get("lane_id") or "") for row in miss_rows if row.get("miss_class") == "near_threshold"
+    )
+    hard_rejects = Counter(
+        str(row.get("lane_id") or "") for row in miss_rows if row.get("miss_class") == "hard_reject"
+    )
+    timeframe_matrix_batches = [
+        row
+        for row in rows
+        if row.get("event") == "timeframe_matrix_forecast_batch"
+    ]
+    timeframe_matrix_forecasts = sum(
+        int(safe_float(row.get("count")))
+        for row in timeframe_matrix_batches
+    )
+    latest_matrix_cycle = next(
+        (
+            row.get("timeframe_horizon_matrix") or {}
+            for row in reversed(rows)
+            if row.get("event") == "lab_evaluation_cycle"
+            and isinstance(row.get("timeframe_horizon_matrix"), dict)
+        ),
+        {},
+    )
+    timeframe_matrix_summary = {
+        **(start.get("timeframe_horizon_matrix") or {}),
+        **latest_matrix_cycle,
+        "forecasts_in_window": timeframe_matrix_forecasts,
+        "latest_top": (
+            timeframe_matrix_batches[-1].get("top") or []
+            if timeframe_matrix_batches
+            else []
+        ),
+    }
+    outcome_rows = [row for row in rows if row.get("event") == "shadow_outcome"]
+    outcome_batches = [row for row in rows if row.get("event") == "shadow_outcome_batch"]
+    batched_outcome_count = sum(
+        int(safe_float(row.get("count")))
+        for row in outcome_batches
+    )
+    latest_outcome_batch = outcome_batches[-1] if outcome_batches else {}
+    pattern_event_rows = [
+        row
+        for row in rows
+        if row.get("family") == "pattern_count_forecast"
+        and row.get("event") in {"shadow_signal", "shadow_miss"}
+        and isinstance((row.get("signal") or {}).get("pattern_forecast"), dict)
+    ]
+    pattern_outcome_rows_all = [
+        row
+        for row in outcome_rows
+        if isinstance(row.get("pattern_prediction"), dict)
+    ]
+    pattern_outcome_rows = [
+        row
+        for row in pattern_outcome_rows_all
+        if abs(
+            safe_float(row.get("horizon_sec"))
+            - safe_float((row.get("pattern_prediction") or {}).get("target_horizon_sec"))
+        ) < 0.5
+    ]
+    pattern_event_ids = {str(row.get("id") or "") for row in pattern_event_rows}
+    pattern_scored_outcome_rows = [
+        row for row in pattern_outcome_rows if str(row.get("id") or "") in pattern_event_ids
+    ]
+    pattern_outcome_by_id = {str(row.get("id") or ""): row for row in pattern_outcome_rows}
+    latest_pattern_candle = max(
+        (
+            str(((row.get("signal") or {}).get("pattern_forecast") or {}).get("decision_candle_time") or "")
+            for row in pattern_event_rows
+        ),
+        default="",
+    )
+    latest_pattern_forecasts: list[dict[str, Any]] = []
+    for row in pattern_event_rows:
+        prediction = (row.get("signal") or {}).get("pattern_forecast") or {}
+        if str(prediction.get("decision_candle_time") or "") != latest_pattern_candle:
+            continue
+        outcome = pattern_outcome_by_id.get(str(row.get("id") or "")) or {}
+        latest_pattern_forecasts.append(
+            {
+                "time": row.get("time"),
+                "candle_time": prediction.get("decision_candle_time"),
+                "lane_id": row.get("lane_id"),
+                "profile": row.get("profile"),
+                "instrument": row.get("instrument"),
+                "direction": row.get("direction"),
+                "status": "accepted" if row.get("event") == "shadow_signal" else "miss",
+                "blocked_reasons": row.get("blocked_reasons") or [],
+                "pattern": prediction.get("pattern"),
+                "pattern_code": prediction.get("pattern_code"),
+                "pattern_mode": prediction.get("pattern_mode"),
+                "pattern_order": prediction.get("pattern_order"),
+                "sequence_pips": prediction.get("sequence_pips") or [],
+                "horizon_sec": prediction.get("target_horizon_sec"),
+                "probability_up": prediction.get("probability_up"),
+                "probability_down": prediction.get("probability_down"),
+                "historical_probability_up": prediction.get("historical_probability_up"),
+                "live_probability_up": prediction.get("live_probability_up"),
+                "direction_edge": prediction.get("direction_edge"),
+                "expected_signed_move_pips": prediction.get("expected_signed_move_pips"),
+                "expected_abs_move_pips": prediction.get("expected_abs_move_pips"),
+                "baseline_abs_move_pips": prediction.get("baseline_abs_move_pips"),
+                "movement_coefficient": prediction.get("movement_coefficient"),
+                "historical_count": prediction.get("historical_pattern_count"),
+                "live_count": prediction.get("live_pattern_count"),
+                "combined_count": prediction.get("combined_pattern_count"),
+                "effective_count": prediction.get("effective_sample_count"),
+                "data_sources": prediction.get("data_sources") or [],
+                "actual_signed_move_pips": outcome.get("actual_signed_move_pips"),
+                "actual_abs_move_pips": outcome.get("actual_abs_move_pips"),
+                "actual_movement_coefficient": outcome.get("actual_movement_coefficient"),
+                "direction_correct": outcome.get("direction_correct"),
+            }
+        )
+    latest_pattern_forecasts.sort(key=lambda row: (str(row["profile"]), str(row["instrument"])))
+    predicted_coefficients = [safe_float(row["pattern_prediction"].get("movement_coefficient")) for row in pattern_scored_outcome_rows]
+    actual_coefficients = [safe_float(row.get("actual_movement_coefficient")) for row in pattern_scored_outcome_rows]
+    pattern_accuracy = (
+        round(100.0 * sum(bool(row.get("direction_correct")) for row in pattern_scored_outcome_rows) / len(pattern_scored_outcome_rows), 1)
+        if pattern_scored_outcome_rows
+        else 0.0
+    )
+
+    def summarize_pattern_group(group_rows: list[dict[str, Any]]) -> dict[str, Any]:
+        predictions = [(row.get("signal") or {}).get("pattern_forecast") or {} for row in group_rows]
+        ids = {str(row.get("id") or "") for row in group_rows}
+        outcomes = [row for row in pattern_outcome_rows if str(row.get("id") or "") in ids]
+        predicted = [safe_float((row.get("pattern_prediction") or {}).get("movement_coefficient")) for row in outcomes]
+        actual = [safe_float(row.get("actual_movement_coefficient")) for row in outcomes]
+        mean = lambda values: round(statistics.fmean(values), 4) if values else 0.0
+        return {
+            "forecasts": len(group_rows),
+            "accepted": sum(row.get("event") == "shadow_signal" for row in group_rows),
+            "near_miss": sum(row.get("miss_class") == "near_threshold" for row in group_rows),
+            "hard_reject": sum(row.get("miss_class") == "hard_reject" for row in group_rows),
+            "matured": len(outcomes),
+            "direction_accuracy": round(
+                100.0 * sum(bool(row.get("direction_correct")) for row in outcomes) / len(outcomes), 1
+            ) if outcomes else 0.0,
+            "mean_probability_up": mean([safe_float(row.get("probability_up"), 0.5) for row in predictions]),
+            "mean_direction_edge": mean([safe_float(row.get("direction_edge")) for row in predictions]),
+            "mean_expected_abs_pips": mean([safe_float(row.get("expected_abs_move_pips")) for row in predictions]),
+            "mean_movement_coefficient": mean([safe_float(row.get("movement_coefficient")) for row in predictions]),
+            "mean_historical_count": round(mean([safe_float(row.get("historical_pattern_count")) for row in predictions])),
+            "mean_live_count": round(mean([safe_float(row.get("live_pattern_count")) for row in predictions])),
+            "mean_effective_count": round(mean([safe_float(row.get("effective_sample_count")) for row in predictions])),
+            "mean_brier_score": mean([safe_float(row.get("probability_brier_score")) for row in outcomes]),
+            "signed_move_mae_pips": mean([abs(safe_float(row.get("signed_move_error_pips"))) for row in outcomes]),
+            "absolute_move_mae_pips": mean([abs(safe_float(row.get("absolute_move_error_pips"))) for row in outcomes]),
+            "mean_actual_signed_pips": mean([safe_float(row.get("actual_signed_move_pips")) for row in outcomes]),
+            "coefficient_correlation": correlation(predicted, actual),
+        }
+
+    variant_groups: dict[tuple[str, int], list[dict[str, Any]]] = defaultdict(list)
+    sequence_groups: dict[tuple[str, int, int, str], list[dict[str, Any]]] = defaultdict(list)
+    for row in pattern_event_rows:
+        prediction = (row.get("signal") or {}).get("pattern_forecast") or {}
+        horizon = int(safe_float(prediction.get("target_horizon_sec")))
+        variant_groups[(str(row.get("profile") or ""), horizon)].append(row)
+        sequence_groups[
+            (
+                str(prediction.get("pattern_mode") or "sign"),
+                int(safe_float(prediction.get("pattern_order"))),
+                horizon,
+                str(prediction.get("pattern") or ""),
+            )
+        ].append(row)
+    pattern_variant_breakdown = []
+    for (profile, horizon), group_rows in sorted(variant_groups.items()):
+        pattern_variant_breakdown.append(
+            {"profile": profile, "horizon_sec": horizon, **summarize_pattern_group(group_rows)}
+        )
+    pattern_sequence_breakdown = []
+    for (mode, order, horizon, pattern), group_rows in sequence_groups.items():
+        pattern_sequence_breakdown.append(
+            {
+                "pattern_mode": mode,
+                "pattern_order": order,
+                "horizon_sec": horizon,
+                "pattern": pattern,
+                **summarize_pattern_group(group_rows),
+            }
+        )
+    pattern_sequence_breakdown.sort(
+        key=lambda row: (-int(row["forecasts"]), -int(row["matured"]), str(row["pattern"]))
+    )
+    pattern_diagnostics = {
+        "predictions_in_window": len(pattern_event_rows),
+        "latest_prediction_count": len(latest_pattern_forecasts),
+        "latest_candle_time": latest_pattern_candle,
+        "matured": len(pattern_scored_outcome_rows),
+        "direction_accuracy": pattern_accuracy,
+        "mean_brier_score": round(
+            statistics.fmean(safe_float(row.get("probability_brier_score")) for row in pattern_scored_outcome_rows), 4
+        ) if pattern_scored_outcome_rows else 0.0,
+        "signed_move_mae_pips": round(
+            statistics.fmean(abs(safe_float(row.get("signed_move_error_pips"))) for row in pattern_scored_outcome_rows), 3
+        ) if pattern_scored_outcome_rows else 0.0,
+        "absolute_move_mae_pips": round(
+            statistics.fmean(abs(safe_float(row.get("absolute_move_error_pips"))) for row in pattern_scored_outcome_rows), 3
+        ) if pattern_scored_outcome_rows else 0.0,
+        "coefficient_correlation": correlation(predicted_coefficients, actual_coefficients),
+        "pending": max(0, len(pattern_event_rows) - len(pattern_scored_outcome_rows)),
+        "accepted": sum(row.get("event") == "shadow_signal" for row in pattern_event_rows),
+        "near_miss": sum(row.get("miss_class") == "near_threshold" for row in pattern_event_rows),
+        "hard_reject": sum(row.get("miss_class") == "hard_reject" for row in pattern_event_rows),
+    }
+    pattern_breakdown = {
+        "outcome_scope": "Each forecast scored only at its configured target horizon.",
+        "variants": pattern_variant_breakdown,
+        "sequences": pattern_sequence_breakdown[:40],
+    }
+    execution_counts = Counter(
+        str(row.get("event") or "")
+        for row in rows
+        if str(row.get("event") or "").startswith("practice_")
+        or str(row.get("event") or "").startswith("execution_")
+    )
+    latest_fill = next((row for row in reversed(rows) if row.get("event") == "practice_order_filled"), None)
+    latest_selection = next(
+        (row for row in reversed(rows) if row.get("event") == "execution_selection_summary"),
+        {},
+    )
+    comparison_outcomes = [
+        row
+        for row in outcome_rows
+        if row.get("kind") == "signal" or row.get("miss_class") == "near_threshold"
+    ]
+    summaries = [row for row in rows if row.get("event") == "lane_evaluation_summary"]
+    lane_reasons: dict[str, Counter[str]] = defaultdict(Counter)
+    raw_setups: Counter[str] = Counter()
+    for row in summaries:
+        lane_id = str(row.get("lane_id") or "")
+        lane_reasons[lane_id].update(row.get("reason_counts") or {})
+        raw_setups[lane_id] += int(safe_float(row.get("raw_setups")))
+    observed_horizons = sorted(
+        {
+            int(safe_float(row.get("horizon_sec")))
+            for row in comparison_outcomes
+            if safe_float(row.get("horizon_sec")) > 0
+        }
+    )
+    configured_horizons = sorted(
+        {
+            int(safe_float(value))
+            for value in start.get("outcome_horizons") or []
+            if safe_float(value) > 0
+        }
+    )
+    horizon_options = sorted(set(configured_horizons) | set(observed_horizons)) or [60]
+    target_horizon = 300 if 300 in horizon_options else horizon_options[-1]
+    lane_ids = set(catalog) | set(signals) | set(misses) | {
+        str(row.get("lane_id") or "") for row in outcome_rows
+    }
+    lanes: list[dict[str, Any]] = []
+    for lane_id in lane_ids:
+        if not lane_id:
+            continue
+        spec = catalog.get(lane_id) or {}
+        horizon_summaries: dict[str, dict[str, Any]] = {}
+        for horizon in horizon_options:
+            accepted_values = [
+                safe_float(row.get("theoretical_pips"))
+                for row in outcome_rows
+                if str(row.get("lane_id") or "") == lane_id
+                and row.get("kind") == "signal"
+                and int(safe_float(row.get("horizon_sec"))) == horizon
+            ]
+            missed_values = [
+                safe_float(row.get("theoretical_pips"))
+                for row in outcome_rows
+                if str(row.get("lane_id") or "") == lane_id
+                and row.get("kind") == "miss"
+                and row.get("miss_class") == "near_threshold"
+                and int(safe_float(row.get("horizon_sec"))) == horizon
+            ]
+            accepted_horizon_stats = sample_stats(accepted_values)
+            missed_horizon_stats = sample_stats(missed_values)
+            accepted_horizon_stats["avg_net_pips_per_hour"] = round(
+                safe_float(accepted_horizon_stats.get("avg")) * 3600.0 / max(1, horizon),
+                3,
+            )
+            missed_horizon_stats["avg_net_pips_per_hour"] = round(
+                safe_float(missed_horizon_stats.get("avg")) * 3600.0 / max(1, horizon),
+                3,
+            )
+            horizon_summaries[str(horizon)] = {
+                "accepted": accepted_horizon_stats,
+                "missed": missed_horizon_stats,
+            }
+        selected_summary = horizon_summaries.get(str(target_horizon)) or {}
+        accepted_stats = selected_summary.get("accepted") or sample_stats([])
+        missed_stats = selected_summary.get("missed") or sample_stats([])
+        score_source = "accepted" if accepted_stats["n"] else "near_miss"
+        score_stats = accepted_stats if accepted_stats["n"] else missed_stats
+        confidence = min(1.0, score_stats["n"] / 30.0)
+        comparison_score = round(score_stats["avg"] * confidence, 4) if score_stats["n"] else 0.0
+        family = str(spec.get("family") or next((row.get("family") for row in outcome_rows if row.get("lane_id") == lane_id), ""))
+        profile = str(spec.get("profile") or next((row.get("profile") for row in outcome_rows if row.get("lane_id") == lane_id), ""))
+        lanes.append(
+            {
+                "lane_id": lane_id,
+                "family": family,
+                "profile": profile,
+                "parameters": spec.get("parameters") or {},
+                "raw_setups": raw_setups[lane_id],
+                "signals": signals[lane_id],
+                "misses": misses[lane_id],
+                "near_misses": near_misses[lane_id],
+                "hard_rejects": hard_rejects[lane_id],
+                "horizon_sec": target_horizon,
+                "horizons": horizon_summaries,
+                "accepted": accepted_stats,
+                "missed": missed_stats,
+                "comparison_score": comparison_score,
+                "score_source": score_source,
+                "top_reasons": lane_reasons[lane_id].most_common(4),
+            }
+        )
+    lanes.sort(
+        key=lambda lane: (
+            lane["accepted"]["n"] > 0 or lane["missed"]["n"] > 0,
+            lane["accepted"]["n"] > 0,
+            lane["comparison_score"],
+            lane["accepted"]["n"] + lane["missed"]["n"],
+        ),
+        reverse=True,
+    )
+    for rank, lane in enumerate(lanes, 1):
+        lane["rank"] = rank
+    latest_time = str((rows[-1] if rows else {}).get("time") or "")
+    last_write_age = max(0.0, time.time() - path.stat().st_mtime)
+    combination_forecasts: list[dict[str, Any]] = []
+    for row in reversed(rows):
+        if row.get("family") != "signal_combination_rules" or row.get("event") not in {"shadow_signal", "shadow_miss"}:
+            continue
+        forecast = (row.get("signal") or {}).get("combination_forecast") or {}
+        if not isinstance(forecast, dict) or not forecast.get("ready"):
+            continue
+        combination_forecasts.append(
+            {
+                "time": row.get("time"),
+                "lane_id": row.get("lane_id"),
+                "profile": row.get("profile"),
+                "instrument": row.get("instrument"),
+                "direction": row.get("direction"),
+                "status": "accepted" if row.get("event") == "shadow_signal" else "miss",
+                **forecast,
+            }
+        )
+        if len(combination_forecasts) >= 20:
+            break
+    return {
+        "file": str(path),
+        "name": path.name,
+        "run_label": str(start.get("run_label") or "strategy lab"),
+        "mode": str(start.get("mode") or "shadow_only"),
+        "active": not end and last_write_age < 90.0,
+        "ended": bool(end),
+        "last_write_age_sec": round(last_write_age, 1),
+        "latest_time": latest_time,
+        "account_suffix": start.get("account_suffix"),
+        "instrument_count": start.get("instrument_count"),
+        "lane_count": len(lanes),
+        "pricing_interval_sec": start.get("pricing_interval_sec"),
+        "pricing_source": start.get("pricing_source") or "rest_poll",
+        "pricing_stream_max_updates_per_instrument_sec": start.get("pricing_stream_max_updates_per_instrument_sec") or 0,
+        "evaluation_cycles": sum(1 for row in rows if row.get("event") == "lab_evaluation_cycle"),
+        "signals": sum(signals.values()) + timeframe_matrix_forecasts,
+        "misses": sum(misses.values()),
+        "near_misses": sum(near_misses.values()),
+        "hard_rejects": sum(hard_rejects.values()),
+        "outcomes": batched_outcome_count if outcome_batches else len(outcome_rows),
+        "outcome_details_in_window": len(outcome_rows),
+        "outcome_detail_sample_rate": safe_float(
+            latest_outcome_batch.get("detail_sample_rate"),
+            1.0,
+        ),
+        "outcome_storage": latest_outcome_batch.get("storage") or {},
+        "execution": {
+            "selected": execution_counts["execution_selected"],
+            "fills": execution_counts["practice_order_filled"],
+            "closes": execution_counts["practice_trade_closed"],
+            "skips": execution_counts["execution_skipped"],
+            "errors": execution_counts["practice_order_error"] + execution_counts["practice_close_error"],
+            "latest_fill": latest_fill,
+            "latest_qualified_candidates": int(safe_float(latest_selection.get("qualified_candidates"))),
+            "latest_nonconflicting_qualified_candidates": int(
+                safe_float(
+                    latest_selection.get(
+                        "nonconflicting_qualified_candidates",
+                        latest_selection.get("qualified_candidates"),
+                    )
+                )
+            ),
+            "latest_accepted_candidates": int(safe_float(latest_selection.get("accepted_candidates"))),
+            "qualified_lane_count": len(latest_selection.get("top_lanes") or []),
+            "selection_mode": latest_selection.get("selection_mode") or "legacy_lane_gate",
+            "top_signals": latest_selection.get("top_lanes") or [],
+        },
+        "horizon_options_sec": horizon_options,
+        "target_horizon_sec": target_horizon,
+        "pattern_diagnostics": pattern_diagnostics,
+        "pattern_breakdown": pattern_breakdown,
+        "pattern_forecasts": latest_pattern_forecasts,
+        "combination_forecasts": combination_forecasts,
+        "timeframe_horizon_matrix": timeframe_matrix_summary,
+        "lanes": lanes,
+    }
+
+
+def discover_logs(log_dir: Path, max_runs: int) -> list[Path]:
+    seen: dict[Path, Path] = {}
+    for pattern in RUN_GLOBS:
+        for path in log_dir.glob(pattern):
+            if path.is_file():
+                seen[path.resolve()] = path
+    return sorted(seen.values(), key=lambda path: path.stat().st_mtime, reverse=True)[:max_runs]
+
+
+def discover_lab_logs(log_dir: Path) -> list[Path]:
+    return sorted(
+        (path for path in log_dir.glob(LAB_GLOB) if path.is_file()),
+        key=lambda path: path.stat().st_mtime,
+        reverse=True,
+    )
+
+
+def ensemble_summary_path(lab_path: Path) -> Path:
+    return lab_path.with_name(f"strategy_ensemble_{lab_path.stem}.json")
+
+
+def summarize_ensembles(path: Path) -> dict[str, Any] | None:
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        last_write_age = max(0.0, time.time() - path.stat().st_mtime)
+    except (OSError, json.JSONDecodeError):
+        return None
+    if not isinstance(payload, dict):
+        return None
+    return {
+        "file": str(path),
+        "generated_utc": payload.get("generated_utc"),
+        "evaluation_mode": payload.get("evaluation_mode"),
+        "account_required": bool(payload.get("account_required")),
+        "places_orders": bool(payload.get("places_orders")),
+        "decision_uses_outcomes": bool(payload.get("decision_uses_outcomes")),
+        "source_run_label": payload.get("source_run_label"),
+        "source_setup_groups": int(safe_float(payload.get("source_setup_groups"))),
+        "candidate_count": int(safe_float(payload.get("candidate_count"))),
+        "outcome_count": int(safe_float(payload.get("outcome_count"))),
+        "ensemble_specs": payload.get("ensemble_specs") or [],
+        "summaries": payload.get("summaries") or [],
+        "last_write_age_sec": round(last_write_age, 1),
+        "active": last_write_age < 180.0,
+    }
+
+
+def summarize_micro_patterns(path: Path) -> dict[str, Any] | None:
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    if not isinstance(payload, dict):
+        return None
+    database_path = Path(str(payload.get("database") or ""))
+    equation_outcomes: list[dict[str, Any]] = []
+    if database_path.is_file():
+        try:
+            connection = sqlite3.connect(f"file:{database_path.as_posix()}?mode=ro", uri=True, timeout=0.5)
+            connection.row_factory = sqlite3.Row
+            equation_outcomes = [
+                dict(row)
+                for row in connection.execute(
+                    """
+                    SELECT id AS prediction_id, origin_time_ns, target_time_ns, outcome_time_ns,
+                           instrument, model_id, horizon_ms AS target_horizon_ms,
+                           probability_up, predicted_direction,
+                           expected_signed_pips AS expected_signed_move_pips,
+                           expected_abs_pips AS expected_abs_move_pips,
+                           baseline_abs_pips AS baseline_abs_move_pips,
+                           movement_coefficient, pattern_count AS live_pattern_count,
+                           baseline_count AS live_baseline_count, model_ready,
+                           actual_signed_pips AS actual_signed_move_pips,
+                           actual_abs_pips AS actual_abs_move_pips,
+                           actual_movement_coefficient, direction_correct,
+                           probability_brier_score, theoretical_pips
+                    FROM predictions
+                    WHERE status = 'matured' AND model_id LIKE '%equation.%'
+                    ORDER BY id DESC
+                    LIMIT 1000
+                    """
+                )
+            ]
+            connection.close()
+        except sqlite3.Error:
+            equation_outcomes = []
+    for row in equation_outcomes:
+        row["direction_correct"] = bool(row.get("direction_correct"))
+        row["model_ready"] = bool(row.get("model_ready"))
+        row["future_flat"] = abs(safe_float(row.get("actual_signed_move_pips"))) < 1e-9
+    payload["equation_outcomes"] = equation_outcomes
+    age = max(0.0, time.time() - path.stat().st_mtime)
+    payload["last_write_age_sec"] = round(age, 1)
+    payload["active"] = bool(payload.get("active") and age < 15.0)
+    return payload
+
+
+def summarize_account_snapshot(
+    path: Path,
+    primary_overlay_path: Path | None = None,
+) -> dict[str, Any] | None:
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    if not isinstance(payload, dict):
+        return None
+    if primary_overlay_path is not None:
+        payload = overlay_primary_account(payload, load_json_dict(primary_overlay_path))
+    registry_path = Path(__file__).resolve().parent / "config" / "accounts_registry.json"
+    try:
+        registry = json.loads(registry_path.read_text(encoding="utf-8"))
+        registered_accounts = ((registry.get("account_inventory") or {}).get("practice_accounts") or {})
+    except (OSError, json.JSONDecodeError, AttributeError):
+        registered_accounts = {}
+    accounts = [
+        account
+        for account in payload.get("accounts") or []
+        if isinstance(account, dict)
+    ]
+    aggregate_state = str(
+        ((payload.get("aggregate") or {}).get("snapshot_state") or "")
+    )
+    for account in accounts:
+        suffix = str(account.get("account_id") or "").rsplit("-", 1)[-1]
+        registered = registered_accounts.get(suffix) or {}
+        attachments = registered.get("active_attachments") or []
+        account["assigned_lanes"] = [item.get("lane") for item in attachments if item.get("lane")]
+        account["assigned_strategies"] = [item.get("model_or_strategy") for item in attachments if item.get("model_or_strategy")]
+        account["registry_status"] = registered.get("status") or "unregistered"
+        account["operational_label"] = (
+            registered.get("display_name")
+            or account.get("role")
+            or f"practice_{suffix}"
+        )
+        values_current = account_snapshot_dimension_current(
+            payload, account, "values"
+        )
+        account["account_values_current"] = values_current
+        account["positions_current"] = account_snapshot_dimension_current(
+            payload, account, "positions"
+        )
+        account["orders_current"] = account_snapshot_dimension_current(
+            payload, account, "orders"
+        )
+        account["snapshot_state"] = aggregate_state or (
+            "current" if values_current else "unavailable"
+        )
+        if not values_current:
+            for field in (
+                "balance",
+                "NAV",
+                "pl",
+                "unrealizedPL",
+                "marginUsed",
+                "marginAvailable",
+            ):
+                account[field] = None
+        if not account["positions_current"]:
+            account["openTradeCount"] = None
+            account["trades"] = None
+        if not account["orders_current"]:
+            account["pendingOrderCount"] = None
+        balance = safe_float(account.get("balance")) if values_current else 0.0
+        realized = safe_float(account.get("pl")) if values_current else 0.0
+        unrealized = safe_float(account.get("unrealizedPL")) if values_current else 0.0
+        inferred_start = balance - realized
+        account_return = (
+            100.0 * (realized + unrealized) / inferred_start
+            if values_current and inferred_start > 0
+            else None
+        )
+        account["inferred_start_balance"] = round(inferred_start, 4) if inferred_start > 0 else None
+        account["lifetime_return_pct"] = round(account_return, 4) if account_return is not None else None
+        account["scaled_index"] = round(100.0 + account_return, 4) if account_return is not None else None
+    paper_accounts = [
+        row
+        for row in accounts
+        if row.get("ok") and row.get("account_values_current") is not False
+    ]
+    paper_aggregate = payload.get("aggregate") or {}
+    paper_returns = []
+    for row in paper_accounts:
+        balance = safe_float(row.get("balance"))
+        realized = safe_float(row.get("pl"))
+        unrealized = safe_float(row.get("unrealizedPL"))
+        inferred_start = balance - realized
+        if inferred_start > 0:
+            paper_returns.append(100.0 * (realized + unrealized) / inferred_start)
+    average_paper_return = statistics.fmean(paper_returns) if paper_returns else None
+    all_accounts_current = bool(accounts) and all(
+        row.get("account_values_current") is True
+        and row.get("positions_current") is True
+        and row.get("orders_current") is True
+        for row in accounts
+    )
+    configured_account_count = int(
+        safe_float(paper_aggregate.get("account_count"), len(accounts))
+    )
+    paper_aggregate.update(
+        {
+            "account_count": configured_account_count,
+            "current_account_count": len(paper_accounts),
+            "average_balance": round(statistics.fmean(safe_float(row.get("balance")) for row in paper_accounts), 4) if paper_accounts else None,
+            "average_nav": round(statistics.fmean(safe_float(row.get("NAV")) for row in paper_accounts), 4) if paper_accounts else None,
+            "average_unrealized_pl": round(statistics.fmean(safe_float(row.get("unrealizedPL")) for row in paper_accounts), 4) if paper_accounts else None,
+            "equal_weight_return_pct": round(average_paper_return, 4) if average_paper_return is not None else None,
+            "scaled_index": round(100.0 + average_paper_return, 4) if average_paper_return is not None else None,
+            "open_trades": (
+                sum(int(safe_float(row.get("openTradeCount"))) for row in paper_accounts)
+                if all_accounts_current
+                else None
+            ),
+            "pending_orders": (
+                sum(int(safe_float(row.get("pendingOrderCount"))) for row in paper_accounts)
+                if all_accounts_current
+                else None
+            ),
+            "tracked": bool(accounts),
+            "current": all_accounts_current,
+            "account_values_current": bool(accounts) and all(
+                row.get("account_values_current") is True for row in accounts
+            ),
+            "positions_current": bool(accounts) and all(
+                row.get("positions_current") is True for row in accounts
+            ),
+            "orders_current": bool(accounts) and all(
+                row.get("orders_current") is True for row in accounts
+            ),
+            "source": "broker-polled practice snapshot",
+        }
+    )
+    data_dir = path.parents[2]
+    live_state_paths = list((data_dir / "forex_gpt_manager").glob("account_*live/state.json"))
+    live_state_paths += list((data_dir / "technical_scout_manager").glob("account_live*/state.json"))
+    live_by_account: dict[str, tuple[float, dict[str, Any], Path]] = {}
+    for state_path in live_state_paths:
+        try:
+            state = json.loads(state_path.read_text(encoding="utf-8"))
+            account = state.get("last_account_snapshot") or {}
+            account_id = str(account.get("id") or "")
+            modified = state_path.stat().st_mtime
+        except (OSError, json.JSONDecodeError, AttributeError):
+            continue
+        if account_id and (account_id not in live_by_account or modified > live_by_account[account_id][0]):
+            live_by_account[account_id] = (modified, account, state_path)
+    broker_live_rows = [row for row in payload.get("live_accounts") or [] if row.get("ok")]
+    role_labels = {
+        "gpt_live": "GPT production live advisor",
+        "tech_live": "technical live scout",
+        "primary_live": "primary challenger scout",
+    }
+    normalized_live_accounts: list[dict[str, Any]] = []
+    managed_practice_scope = (
+        str(payload.get("account_scope") or "") == "managed_practice_only"
+    )
+    if broker_live_rows:
+        for row in broker_live_rows:
+            balance = safe_float(row.get("balance"))
+            realized = safe_float(row.get("pl"))
+            unrealized = safe_float(row.get("unrealizedPL"))
+            inferred_start = balance - realized
+            account_return = 100.0 * (realized + unrealized) / inferred_start if inferred_start > 0 else None
+            role = str(row.get("role") or "live")
+            label = role_labels.get(role, role.replace("_", " "))
+            normalized_live_accounts.append(
+                {
+                    **row,
+                    "role": label,
+                    "registry_status": "current broker GET snapshot",
+                    "assigned_strategies": [label],
+                    "lifetime_return_pct": round(account_return, 4) if account_return is not None else None,
+                    "scaled_index": round(100.0 + account_return, 4) if account_return is not None else None,
+                }
+            )
+        latest_live_mtime = path.stat().st_mtime
+        live_source = "broker-polled live snapshot (read-only GET endpoints)"
+    elif not managed_practice_scope:
+        for item in live_by_account.values():
+            label = item[2].parent.name.removeprefix("account_").replace("_", " ")
+            normalized_live_accounts.append(
+                {
+                    "account_id": item[1].get("id"),
+                    "role": label,
+                    "env": "live",
+                    "ok": True,
+                    "balance": item[1].get("balance"),
+                    "NAV": item[1].get("nav"),
+                    "unrealizedPL": item[1].get("unrealized_pl"),
+                    "openTradeCount": item[1].get("open_trade_count"),
+                    "pendingOrderCount": item[1].get("pending_order_count"),
+                    "registry_status": f"stale local state / {round(max(0.0, time.time() - item[0]) / 3600.0, 1)}h old",
+                    "assigned_strategies": [label],
+                    "trades": [],
+                    "lifetime_return_pct": None,
+                    "scaled_index": None,
+                }
+            )
+        latest_live_mtime = max((item[0] for item in live_by_account.values()), default=0.0)
+        live_source = "latest local live-account state snapshots (not current broker polling)"
+    else:
+        latest_live_mtime = path.stat().st_mtime
+        live_source = "disabled broker wallets excluded from managed-account scope"
+    live_returns = [
+        safe_float(row.get("lifetime_return_pct"))
+        for row in normalized_live_accounts
+        if row.get("lifetime_return_pct") is not None
+    ]
+    average_live_return = statistics.fmean(live_returns) if live_returns else None
+    payload["environment_aggregates"] = {
+        "paper": paper_aggregate,
+        "live": {
+            "account_count": len(normalized_live_accounts),
+            "nav": round(sum(safe_float(row.get("NAV")) for row in normalized_live_accounts), 4),
+            "balance": round(sum(safe_float(row.get("balance")) for row in normalized_live_accounts), 4),
+            "average_balance": round(statistics.fmean(safe_float(row.get("balance")) for row in normalized_live_accounts), 4) if normalized_live_accounts else None,
+            "average_nav": round(statistics.fmean(safe_float(row.get("NAV")) for row in normalized_live_accounts), 4) if normalized_live_accounts else None,
+            "average_unrealized_pl": round(statistics.fmean(safe_float(row.get("unrealizedPL")) for row in normalized_live_accounts), 4) if normalized_live_accounts else None,
+            "equal_weight_return_pct": round(average_live_return, 4) if average_live_return is not None else None,
+            "scaled_index": round(100.0 + average_live_return, 4) if average_live_return is not None else None,
+            "pl": None,
+            "unrealizedPL": round(sum(safe_float(row.get("unrealizedPL")) for row in normalized_live_accounts), 4),
+            "open_trades": sum(int(safe_float(row.get("openTradeCount"))) for row in normalized_live_accounts),
+            "pending_orders": sum(int(safe_float(row.get("pendingOrderCount"))) for row in normalized_live_accounts),
+            "tracked": bool(normalized_live_accounts),
+            "last_write_age_sec": round(max(0.0, time.time() - latest_live_mtime), 1) if latest_live_mtime else None,
+            "source": live_source,
+        },
+    }
+    payload["live_accounts"] = normalized_live_accounts
+    age = max(0.0, time.time() - path.stat().st_mtime)
+    payload["last_write_age_sec"] = round(age, 1)
+    payload["writer_fresh"] = age < 180.0
+    payload["active"] = bool(age < 180.0 and all_accounts_current)
+    return payload
+
+
+def summarize_historical_calibration(data_root: Path) -> dict[str, Any]:
+    """Expose like-for-like historical priors without treating other live lanes as HGB evidence."""
+    reports_root = data_root / "reports"
+    live_path = data_root / "state" / "hgb_live_outcomes_v1.json"
+    adaptive_fit_path = data_root / "state" / "hgb_adaptive_fit_v1.json"
+    live_rows: list[dict[str, Any]] = []
+    if live_path.is_file():
+        try:
+            live_payload = json.loads(live_path.read_text(encoding="utf-8"))
+            live_rows = live_payload if isinstance(live_payload, list) else live_payload.get("outcomes") or []
+        except (OSError, json.JSONDecodeError, AttributeError):
+            live_rows = []
+
+    rows: list[dict[str, Any]] = []
+    for timeframe, report_dir in HGB_CALIBRATION_REPORTS.items():
+        summary_path = reports_root / report_dir / "summary.json"
+        try:
+            summary = json.loads(summary_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        historical_n = int(safe_float(summary.get("opened_trades")))
+        historical_rate = safe_float(summary.get("win_rate"))
+        if historical_rate > 1.0:
+            historical_rate /= 100.0
+        matched = [
+            row for row in live_rows
+            if str(row.get("model_family") or "").lower() == "hgb_reversal"
+            and str(row.get("timeframe") or "").upper() == timeframe
+            and int(safe_float(row.get("horizon_minutes"))) == 120
+            and row.get("win") is not None
+        ]
+        live_n = len(matched)
+        live_wins = sum(1 for row in matched if bool(row.get("win")))
+        prior_n = min(200, historical_n)
+        adjusted_rate = (
+            (historical_rate * prior_n + live_wins) / (prior_n + live_n)
+            if prior_n + live_n
+            else 0.0
+        )
+        rows.append(
+            {
+                "model": "HGB reversal",
+                "timeframe": timeframe,
+                "outcome_horizon_minutes": 120,
+                "historical_n": historical_n,
+                "historical_win_rate": round(historical_rate * 100.0, 3),
+                "profit_factor": round(safe_float(summary.get("profit_factor")), 3),
+                "max_drawdown_pct": round(safe_float(summary.get("max_drawdown_pct")), 3),
+                "live_n": live_n,
+                "live_win_rate": round(100.0 * live_wins / live_n, 3) if live_n else None,
+                "adjusted_win_rate": round(adjusted_rate * 100.0, 3),
+                "prior_effective_n": prior_n,
+                "status": "calibrating" if live_n else "awaiting matched live HGB outcomes",
+                "source": str(summary_path),
+            }
+        )
+    adaptive_fit: dict[str, Any] = {}
+    if adaptive_fit_path.is_file():
+        try:
+            payload = json.loads(adaptive_fit_path.read_text(encoding="utf-8"))
+            adaptive_fit = payload if isinstance(payload, dict) else {}
+        except (OSError, json.JSONDecodeError):
+            adaptive_fit = {}
+    return {
+        "rows": rows,
+        "method": "Adjusted win rate = (historical win rate x capped historical prior N + matched live wins) / (capped historical prior N + matched live N). Historical prior N is capped at 200.",
+        "live_source": str(live_path),
+        "adaptive_fit_source": str(adaptive_fit_path),
+        "adaptive_fit": adaptive_fit,
+    }
+
+
+def load_equation_path(snapshot_path: Path, prediction_id: int) -> dict[str, Any]:
+    try:
+        snapshot = json.loads(snapshot_path.read_text(encoding="utf-8"))
+        database_path = Path(str(snapshot.get("database") or ""))
+    except (OSError, json.JSONDecodeError, AttributeError):
+        return {"error": "micro snapshot unavailable"}
+    if not database_path.is_file():
+        return {"error": "micro database unavailable"}
+    try:
+        connection = sqlite3.connect(f"file:{database_path.as_posix()}?mode=ro", uri=True, timeout=1.0)
+        connection.row_factory = sqlite3.Row
+        prediction = connection.execute(
+            """
+            SELECT id, origin_time_ns, target_time_ns, outcome_time_ns, instrument, model_id,
+                   horizon_ms, expected_signed_pips, actual_signed_pips, theoretical_pips,
+                   direction_correct, entry_bid, entry_ask
+            FROM predictions WHERE id = ? AND model_id LIKE '%equation.%'
+            """,
+            (prediction_id,),
+        ).fetchone()
+        if prediction is None:
+            connection.close()
+            return {"error": "equation prediction not found"}
+        origin_ns = int(prediction["origin_time_ns"])
+        target_ns = int(prediction["target_time_ns"])
+        future_ns = max(1, target_ns - origin_ns)
+        past_ns = max(1, round(future_ns * 3 / 7))
+        end_ns = max(target_ns, int(prediction["outcome_time_ns"] or target_ns))
+        quotes = connection.execute(
+            """
+            SELECT time_ns, mid FROM quotes
+            WHERE instrument = ? AND time_ns BETWEEN ? AND ?
+            ORDER BY time_ns
+            """,
+            (prediction["instrument"], origin_ns - past_ns, end_ns),
+        ).fetchall()
+        connection.close()
+    except sqlite3.Error as exc:
+        return {"error": f"micro database query failed: {exc}"}
+
+    quote_currency = str(prediction["instrument"]).split("_")[-1]
+    pip_size = 0.01 if quote_currency == "JPY" else 0.0001
+    entry_mid = (safe_float(prediction["entry_bid"]) + safe_float(prediction["entry_ask"])) / 2.0
+    points = [
+        {
+            "offset_ms": round((int(row["time_ns"]) - origin_ns) / 1_000_000.0, 3),
+            "move_pips": round((safe_float(row["mid"]) - entry_mid) / pip_size, 6),
+        }
+        for row in quotes
+    ]
+    if len(points) > 600:
+        step = math.ceil(len(points) / 600)
+        points = points[::step]
+        if points[-1]["offset_ms"] != round((int(quotes[-1]["time_ns"]) - origin_ns) / 1_000_000.0, 3):
+            row = quotes[-1]
+            points.append(
+                {
+                    "offset_ms": round((int(row["time_ns"]) - origin_ns) / 1_000_000.0, 3),
+                    "move_pips": round((safe_float(row["mid"]) - entry_mid) / pip_size, 6),
+                }
+            )
+    return {
+        "prediction": dict(prediction),
+        "past_window_ms": round(past_ns / 1_000_000.0, 3),
+        "future_window_ms": round(future_ns / 1_000_000.0, 3),
+        "points": points,
+    }
+
+
+def file_record(path: Path, root: Path) -> dict[str, Any]:
+    try:
+        relative = str(path.relative_to(root))
+    except ValueError:
+        relative = str(path)
+    try:
+        stat = path.stat()
+    except OSError:
+        return {"path": relative, "name": path.name, "size_bytes": 0, "last_write": ""}
+    return {
+        "path": relative,
+        "name": path.name,
+        "size_bytes": stat.st_size,
+        "size_mb": round(stat.st_size / 1_000_000.0, 3),
+        "last_write": datetime.fromtimestamp(stat.st_mtime, timezone.utc).isoformat(),
+    }
+
+
+def summarize_vault_checkpoint(vault_root: Path) -> dict[str, Any]:
+    """Read the checkpoint manifest without recursively walking the full vault."""
+    manifest_path = vault_root / "forex_model_checkpoint_current.manifest.json"
+    manifest = load_json_dict(manifest_path)
+    created_utc = str(manifest.get("created_utc") or "")
+    manifest_files = manifest.get("files") or []
+    records = []
+    for row in manifest_files[:120]:
+        if not isinstance(row, dict):
+            continue
+        relative = str(row.get("path") or "")
+        size_bytes = int(safe_float(row.get("size")))
+        records.append(
+            {
+                "path": relative,
+                "name": Path(relative).name,
+                "size_bytes": size_bytes,
+                "size_mb": round(size_bytes / 1_000_000.0, 3),
+                "last_write": created_utc,
+                "sha256": str(row.get("sha256") or ""),
+            }
+        )
+    if not manifest:
+        shallow_files = (
+            [path for path in vault_root.glob("*") if path.is_file()]
+            if vault_root.is_dir()
+            else []
+        )
+        shallow_files.sort(key=lambda path: path.stat().st_mtime, reverse=True)
+        records = [file_record(path, vault_root) for path in shallow_files[:120]]
+        file_count = len(shallow_files)
+    else:
+        file_count = int(safe_float(manifest.get("file_count")))
+    return {
+        "root": str(vault_root),
+        "manifest": str(manifest_path),
+        "files": records,
+        "file_count": file_count,
+        "content_sha256": str(manifest.get("content_sha256") or ""),
+        "total_bytes": int(safe_float(manifest.get("total_bytes"))),
+        "created_utc": created_utc,
+    }
+
+
+def summarize_vault_model_docs(model_root: Path) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+
+    def metadata(text: str, label: str) -> str:
+        match = re.search(
+            rf"^- {re.escape(label)}:\s*`?([^`\r\n]+)`?\s*$",
+            text,
+            flags=re.MULTILINE,
+        )
+        return "" if match is None else match.group(1).strip()
+
+    for path in sorted(model_root.glob("*.md")) if model_root.is_dir() else []:
+        try:
+            text = path.read_text(encoding="utf-8")
+        except OSError:
+            continue
+        title_match = re.search(r"^#\s+(.+)$", text, flags=re.MULTILINE)
+        rows.append(
+            {
+                "family": metadata(text, "Family ID") or path.stem,
+                "name": title_match.group(1).strip() if title_match else path.stem,
+                "taxonomy": metadata(text, "Taxonomy") or "unclassified",
+                "variants": int(safe_float(metadata(text, "Variants"))),
+                "runs": int(safe_float(metadata(text, "Runs"))),
+                "source_state": metadata(text, "Source-of-truth state") or "unspecified",
+                "reference_run": metadata(text, "Reference run"),
+                "timeframes_horizons": metadata(text, "Timeframes/horizons"),
+                "path": str(path),
+            }
+        )
+    rows.sort(key=lambda row: (str(row["family"]), str(row["name"])))
+    return rows
+
+
+def summarize_model_gap_completion(data_root: Path) -> dict[str, Any]:
+    path = data_root / "model_space" / "model_gap_completion_latest.json"
+    payload = load_json_dict(path)
+    models = [row for row in payload.get("models") or [] if isinstance(row, dict)]
+    return {
+        "path": str(path),
+        "generated_utc": str(payload.get("generated_utc") or ""),
+        "summary": payload.get("summary") or {},
+        "models": models,
+    }
+
+
+def summarize_post_gap_execution(data_root: Path) -> dict[str, Any]:
+    """Load the compact policy report, not the large cell-level audit files."""
+
+    path = (
+        data_root
+        / "reports"
+        / "modern_model_gap"
+        / "post_gap_execution_pipeline_latest.json"
+    )
+    payload = load_json_dict(path)
+    return {
+        "path": str(path),
+        "generated_utc": str(payload.get("generated_utc") or ""),
+        "status": str(payload.get("status") or "missing"),
+        "account_scope": str(payload.get("account_scope") or ""),
+        "incumbent": payload.get("incumbent") or {},
+        "challenger": payload.get("challenger") or {},
+        "promotion": payload.get("promotion") or {},
+        "economics": payload.get("economics") or {},
+        "cell_leaderboard": payload.get("cell_leaderboard") or {},
+        "feed_realism": payload.get("feed_realism") or {},
+        "frozen_evaluation": payload.get("frozen_evaluation") or {},
+        "artifacts": payload.get("artifacts") or {},
+    }
+
+
+def model_layer_type(name: str) -> str:
+    lower = name.lower()
+    if "arima" in lower:
+        return "ARIMA"
+    if any(token in lower for token in ("xgb", "lightxgbm", "lightgbm", "hgb", "boosting")):
+        return "Boosted Trees"
+    if any(token in lower for token in ("feature", "interaction", "full_ab", "large_feature")):
+        return "Full Feature + Interactions"
+    if "trainer" in lower:
+        return "Trainer"
+    if any(token in lower for token in ("gpt", "formula83", "technical", "primary")):
+        return "GPT Traders"
+    if "timeframe" in lower:
+        return "Timeframe Replay"
+    if any(token in lower for token in ("pattern", "forecast")):
+        return "Pattern / Forecast"
+    return "Other"
+
+
+def summarize_strategy_layers(
+    data_root: Path,
+    strategy_lab: dict[str, Any] | None,
+    micro_patterns: dict[str, Any] | None,
+    strategy_ensembles: dict[str, Any] | None,
+    report_files: list[Path],
+    log_files: list[Path],
+    second_forecast: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    rows: list[dict[str, Any]] = []
+    lab = strategy_lab or {}
+    second = second_forecast or {}
+    if lab or second:
+        live_sources = []
+        if lab:
+            live_sources.append(str(lab.get("name") or "strategy lab"))
+        if second:
+            live_sources.append(Path(str(second.get("fit_report_path") or "S1 ridge")).name)
+        rows.append(
+            {
+                "layer": "Unified Live Forecast Matrix",
+                "timeframe": "S1 + M1/multi-context" if lab and second else (
+                    "S1" if second else f"{lab.get('pricing_interval_sec') or '?'}s"
+                ),
+                "models": int(safe_float(lab.get("lane_count")))
+                + int(safe_float(second.get("physical_lane_count"))),
+                "signals": int(safe_float(lab.get("signals")))
+                + int(safe_float(second.get("accepted_signals"))),
+                "outcomes": int(safe_float(lab.get("outcomes")))
+                + int(safe_float(second.get("matured_outcomes"))),
+                "status": "live" if lab.get("active") or second.get("active") else "stale",
+                "source": ", ".join(live_sources),
+            }
+        )
+    micro = micro_patterns or {}
+    if micro:
+        rows.append(
+            {
+                "layer": "Live Intraminute / Equations",
+                "timeframe": "sub-minute",
+                "models": len(micro.get("models") or []),
+                "signals": len(micro.get("latest_forecasts") or []),
+                "outcomes": sum(int(safe_float(model.get("ready_matured"))) for model in micro.get("models") or []),
+                "status": "live" if micro.get("active") else "stale",
+                "source": "micro_pattern_dashboard_v1.json",
+            }
+        )
+    ensembles = strategy_ensembles or {}
+    if ensembles:
+        rows.append(
+            {
+                "layer": "Independent Ensembles",
+                "timeframe": "multi",
+                "models": len(ensembles.get("ensemble_specs") or []),
+                "signals": ensembles.get("candidate_count") or 0,
+                "outcomes": ensembles.get("outcome_count") or 0,
+                "status": "tracking" if ensembles.get("active") else "stale",
+                "source": Path(str(ensembles.get("file") or "")).name,
+            }
+        )
+    for path in report_files:
+        lower = path.name.lower()
+        if "timeframe" not in lower or path.suffix.lower() != ".json":
+            continue
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        rows.append(
+            {
+                "layer": f"{payload.get('timeframe') or '?'} Strategy Replay",
+                "timeframe": payload.get("timeframe") or "",
+                "models": len(payload.get("lane_summaries") or []),
+                "signals": payload.get("accepted_count") or 0,
+                "outcomes": sum(
+                    int(safe_float(((lane.get("horizons") or {}).get(str(max(payload.get("horizons_sec") or [0]))) or {}).get("accepted", {}).get("n")))
+                    for lane in payload.get("lane_summaries") or []
+                ),
+                "status": "report",
+                "source": path.name,
+            }
+        )
+    gpt_logs = [
+        path
+        for path in log_files[:120]
+        if any(token in path.name.lower() for token in ("gpt", "formula83", "technical", "primary", "trainer"))
+    ]
+    if gpt_logs:
+        rows.append(
+            {
+                "layer": "GPT / Account Manager Traders",
+                "timeframe": "mixed",
+                "models": len(gpt_logs),
+                "signals": 0,
+                "outcomes": 0,
+                "status": "tracked",
+                "source": ", ".join(path.name for path in gpt_logs[:3]),
+            }
+        )
+    layer_counts: dict[str, int] = defaultdict(int)
+    for path in report_files:
+        layer_counts[model_layer_type(path.name)] += 1
+    return {
+        "rows": rows,
+        "model_layer_counts": [
+            {"layer": layer, "files": count}
+            for layer, count in sorted(layer_counts.items(), key=lambda item: (-item[1], item[0]))
+        ],
+        "data_root": str(data_root),
+    }
+
+
+def summarize_model_inventory(
+    data_root: Path,
+    strategy_lab: dict[str, Any] | None,
+    micro_patterns: dict[str, Any] | None,
+    strategy_ensembles: dict[str, Any] | None,
+    second_forecast: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    lanes = (strategy_lab or {}).get("lanes") or []
+    lab_horizons = (strategy_lab or {}).get("horizon_options_sec") or []
+    families: dict[str, dict[str, Any]] = {}
+    for lane in lanes:
+        family = str(lane.get("family") or "unknown")
+        entry = families.setdefault(
+            family,
+            {
+                "family": family,
+                "variants": set(),
+                "lanes": 0,
+                "input_timeframe": "M1 / multi-context",
+                "horizons_sec": list(lab_horizons),
+            },
+        )
+        entry["variants"].add(str(lane.get("profile") or ""))
+        entry["lanes"] += 1
+    family_rows = [
+        {
+            "family": item["family"],
+            "lanes": item["lanes"],
+            "variants": sorted(v for v in item["variants"] if v),
+            "input_timeframe": item["input_timeframe"],
+            "horizons_sec": item["horizons_sec"],
+        }
+        for item in families.values()
+    ]
+    second = second_forecast or {}
+    if second:
+        family_rows.append(
+            {
+                "family": second.get("model_family") or "ridge_return",
+                "lanes": int(safe_float(second.get("physical_lane_count"))),
+                "variants": list(second.get("profiles") or []),
+                "input_timeframe": second.get("input_timeframe") or "S1",
+                "training_timeframe": second.get("training_timeframe") or "S5",
+                "horizons_sec": list(second.get("outcome_horizons_sec") or []),
+            }
+        )
+    family_rows.sort(key=lambda row: (-int(row["lanes"]), str(row["family"])))
+
+    micro_rows = []
+    for model in (micro_patterns or {}).get("models") or []:
+        micro_rows.append(
+            {
+                "model_id": model.get("model_id"),
+                "horizon_ms": model.get("horizon_ms"),
+                "ready_matured": model.get("ready_matured"),
+                "direction_accuracy": model.get("direction_accuracy"),
+                "average_net_pips": model.get("average_net_pips"),
+                "coefficient_correlation": model.get("movement_coefficient_correlation"),
+                "horizon_label": model.get("horizon_label"),
+                "fit_method": model.get("fit_method"),
+                "formula": model.get("formula"),
+                "target_definition": model.get("target_definition"),
+                "features": model.get("features") or [],
+                "cluster_features": model.get("cluster_features") or [],
+                "notes": model.get("notes") or [],
+            }
+        )
+    retired_micro_rows = []
+    for model in (micro_patterns or {}).get("retired_models") or []:
+        retired_micro_rows.append(
+            {
+                "model_id": model.get("model_id"),
+                "horizon_ms": model.get("horizon_ms"),
+                "ready_matured": model.get("ready_matured"),
+                "direction_accuracy": model.get("direction_accuracy"),
+                "average_net_pips": model.get("average_net_pips"),
+                "horizon_label": model.get("horizon_label"),
+                "fit_method": model.get("fit_method"),
+                "retired_reason": model.get("retired_reason"),
+            }
+        )
+
+    ensemble_rows = []
+    for spec in (strategy_ensembles or {}).get("ensemble_specs") or []:
+        ensemble_rows.append(
+            {
+                "name": spec.get("name"),
+                "include_near_threshold": spec.get("include_near_threshold"),
+                "vote_level": spec.get("vote_level"),
+                "min_agreement": spec.get("min_agreement"),
+                "min_voters": spec.get("min_voters"),
+            }
+        )
+
+    models_dir = data_root / "models"
+    reports_dir = data_root / "reports"
+    model_files = [path for path in models_dir.rglob("*") if path.is_file()] if models_dir.is_dir() else []
+    report_files = [path for path in reports_dir.glob("*") if path.is_file()] if reports_dir.is_dir() else []
+    model_files.sort(key=lambda path: path.stat().st_mtime, reverse=True)
+    report_files.sort(key=lambda path: path.stat().st_mtime, reverse=True)
+    backtest_reports = [
+        path
+        for path in report_files
+        if any(token in path.name.lower() for token in ("strategy", "backtest", "timeframe", "model", "forecast", "trainer", "arima", "hgb", "xgb", "feature", "technical", "primary", "gpt"))
+    ]
+    timeframe_reports: list[dict[str, Any]] = []
+    for path in backtest_reports:
+        if "timeframe" not in path.name.lower() or path.suffix.lower() != ".json":
+            continue
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        horizons = payload.get("horizons_sec") or []
+        top_lane = next((row for row in payload.get("lane_summaries") or [] if (row.get("accepted") or 0) > 0), {})
+        horizon_cells = []
+        for horizon in horizons:
+            stats = ((top_lane.get("horizons") or {}).get(str(horizon)) or {}).get("accepted") or {}
+            horizon_cells.append(
+                {
+                    "horizon_sec": horizon,
+                    "n": stats.get("n") or 0,
+                    "avg": stats.get("avg") or 0.0,
+                    "win_rate": stats.get("win_rate") or 0.0,
+                }
+            )
+        record = file_record(path, data_root)
+        record.update(
+            {
+                "timeframe": payload.get("timeframe") or "",
+                "cycle_count": payload.get("cycle_count") or 0,
+                "accepted_count": payload.get("accepted_count") or 0,
+                "top_lane": top_lane.get("lane_id") or "",
+                "top_family": top_lane.get("family") or "",
+                "horizons": horizon_cells,
+            }
+        )
+        timeframe_reports.append(record)
+    vault_checkpoint = summarize_vault_checkpoint(VAULT_PROJECT_ROOT)
+    vault_model_docs = summarize_vault_model_docs(VAULT_FOREX_MODEL_ROOT)
+    model_gap_completion = summarize_model_gap_completion(data_root)
+    post_gap_execution = summarize_post_gap_execution(data_root)
+    arima_coverage: list[dict[str, Any]] = []
+    challenger_path = reports_dir / "latest_arima_challengers.json"
+    try:
+        challenger = json.loads(challenger_path.read_text(encoding="utf-8"))
+        arima_coverage.append(
+            {
+                "name": "Pair-level ARIMA challengers",
+                "input_timeframe": "mixed historical candidate inputs",
+                "outcome_horizon": f"{int(safe_float(challenger.get('horizon_minutes')))}m",
+                "models": len({row.get("arima_model") for row in challenger.get("arima_challengers") or []}),
+                "pairs": int(safe_float(challenger.get("matched_pairs_total"))),
+                "detail": f"{int(safe_float(challenger.get('arima_beats_current_pair_count')))} challenger pairs; shadow only",
+                "source": str(challenger_path),
+            }
+        )
+    except (OSError, json.JSONDecodeError):
+        pass
+    sarima_path = Path(__file__).resolve().parent / "fresh_m1_intrahour" / "reports" / "sarima_full_tier1_2025_2026_20260710" / "SARIMA_FULL_SWEEP_REPORT.json"
+    try:
+        sarima = json.loads(sarima_path.read_text(encoding="utf-8"))
+        grid = sarima.get("grid") or {}
+        arima_coverage.append(
+            {
+                "name": "Full ARIMA/SARIMA order sweep",
+                "input_timeframe": "M1-derived",
+                "outcome_horizon": "120m",
+                "models": int(safe_float(grid.get("unique_statistical_model_count"))),
+                "pairs": int(safe_float((sarima.get("data_audit") or {}).get("pair_count"))),
+                "detail": f"{int(safe_float(grid.get('attempted_grid_size')))} grid fits; complete declared grid; production blocked",
+                "source": str(sarima_path),
+            }
+        )
+    except (OSError, json.JSONDecodeError):
+        pass
+    multiframe_path = data_root / "state" / "arima_multiframe_sweep_v1.json"
+    try:
+        multiframe = json.loads(multiframe_path.read_text(encoding="utf-8"))
+        for run in multiframe.get("runs") or []:
+            horizons = ", ".join(f"{int(safe_float(value))}m" for value in run.get("horizons_minutes") or [])
+            arima_coverage.append(
+                {
+                    "name": f"ARIMA multiframe {run.get('timeframe') or '?'}",
+                    "input_timeframe": str(run.get("timeframe") or ""),
+                    "outcome_horizon": horizons,
+                    "models": int(safe_float(run.get("models") or multiframe.get("spec_limit"))),
+                    "pairs": int(safe_float(run.get("pairs_completed"))),
+                    "detail": (
+                        f"{run.get('status') or multiframe.get('status')}; "
+                        f"{int(safe_float(run.get('successful_rows')))} scored rows; "
+                        f"{int(safe_float(run.get('promotion_ready_count')))} promotion-ready"
+                    ),
+                    "source": str(run.get("summary") or multiframe_path),
+                }
+            )
+    except (OSError, json.JSONDecodeError, AttributeError):
+        pass
+    account_attachments: list[dict[str, Any]] = []
+    registry_path = Path(__file__).resolve().parent / "config" / "accounts_registry.json"
+    try:
+        registry = json.loads(registry_path.read_text(encoding="utf-8"))
+        practice_accounts = ((registry.get("account_inventory") or {}).get("practice_accounts") or {})
+        for suffix, account in practice_accounts.items():
+            for attachment in account.get("active_attachments") or []:
+                account_attachments.append(
+                    {
+                        "account": suffix,
+                        "status": account.get("status") or "",
+                        "lane": attachment.get("lane") or "",
+                        "strategy": attachment.get("model_or_strategy") or "",
+                        "script": attachment.get("script") or "",
+                        "process_status": attachment.get("process_status") or "",
+                    }
+                )
+    except (OSError, json.JSONDecodeError, AttributeError):
+        pass
+    return {
+        "data_root": str(data_root),
+        "live_strategy_families": family_rows,
+        "live_lane_count": len(lanes),
+        "live_family_count": len(family_rows),
+        "micro_models": micro_rows,
+        "retired_micro_models": retired_micro_rows,
+        "micro_model_count": len(micro_rows),
+        "ensemble_specs": ensemble_rows,
+        "ensemble_count": len(ensemble_rows),
+        "saved_model_files": [file_record(path, data_root) for path in model_files[:80]],
+        "saved_model_file_count": len(model_files),
+        "recent_reports": [file_record(path, data_root) for path in backtest_reports[:80]],
+        "recent_report_count": len(backtest_reports),
+        "timeframe_reports": timeframe_reports[:30],
+        "timeframe_report_count": len(timeframe_reports),
+        "vault_root": vault_checkpoint["root"],
+        "vault_manifest": vault_checkpoint["manifest"],
+        "vault_files": vault_checkpoint["files"],
+        "vault_file_count": vault_checkpoint["file_count"],
+        "vault_content_sha256": vault_checkpoint["content_sha256"],
+        "vault_total_bytes": vault_checkpoint["total_bytes"],
+        "vault_created_utc": vault_checkpoint["created_utc"],
+        "vault_model_docs": vault_model_docs,
+        "vault_model_doc_count": len(vault_model_docs),
+        "model_gap_models": model_gap_completion["models"],
+        "model_gap_model_count": len(model_gap_completion["models"]),
+        "model_gap_summary": model_gap_completion["summary"],
+        "model_gap_updated_utc": model_gap_completion["generated_utc"],
+        "model_gap_completion_path": model_gap_completion["path"],
+        "post_gap_execution": post_gap_execution,
+        "arima_coverage": arima_coverage,
+        "account_attachments": account_attachments,
+        "matrix_models": list(second.get("model_surfaces") or []),
+        "matrix_model_count": len(second.get("model_surfaces") or []),
+    }
+
+
+def load_json_dict(path: Path) -> dict[str, Any]:
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    return payload if isinstance(payload, dict) else {}
+
+
+def read_recent_csv(path: Path, limit: int = 20) -> list[dict[str, Any]]:
+    try:
+        with path.open("r", encoding="utf-8-sig", newline="") as handle:
+            rows = deque(csv.DictReader(handle), maxlen=max(1, int(limit)))
+    except (OSError, csv.Error):
+        return []
+    return [dict(row) for row in rows]
+
+
+def file_age_seconds(path: Path) -> float | None:
+    try:
+        return max(0.0, time.time() - path.stat().st_mtime)
+    except OSError:
+        return None
+
+
+def summarize_live_movers(
+    path: Path = LATEST_MOVES_SNAPSHOT,
+    *,
+    limit: int = 5,
+) -> dict[str, Any]:
+    """Compact the read-only executable-move census for the live dashboard.
+
+    Legacy mover modes remain in the payload for downstream compatibility,
+    but the dashboard exposes only fixed-window executable bid/ask paths.
+    Descriptive movement never confers lifecycle eligibility or authorization.
+    """
+
+    payload = load_json_dict(path)
+    rankings = payload.get("rankings") or {}
+    modes: dict[str, list[dict[str, Any]]] = {}
+
+    def chart_points(row: dict[str, Any]) -> list[list[float | int]]:
+        output: list[list[float | int]] = []
+        for point in row.get("chart_points") or []:
+            if not isinstance(point, (list, tuple)) or len(point) != 2:
+                continue
+            epoch = int(safe_float(point[0]))
+            value = finite_float(point[1])
+            if epoch > 0:
+                output.append([epoch, round(value, 4)])
+        return output[-90:]
+
+    def compact(row: dict[str, Any], mode: str, window_minutes: int) -> dict[str, Any]:
+        if mode == "velocity":
+            move_bps = finite_float(row.get("signed_move_bps"))
+            move_pips = finite_float(row.get("signed_move_pips"))
+            velocity = finite_float(row.get("velocity_bps_per_hour"))
+            duration = finite_float(row.get("duration_minutes"))
+            net_pips = finite_float(row.get("executable_net_pips"))
+            state = str(row.get("state") or "active")
+        else:
+            move_bps = finite_float(row.get(f"move_{window_minutes}m_bps"))
+            move_pips = finite_float(row.get(f"move_{window_minutes}m_pips"))
+            velocity = move_bps * 60.0 / max(1, window_minutes)
+            duration = float(window_minutes)
+            net_pips = None
+            state = "rolling_window"
+        return {
+            "instrument": str(row.get("instrument") or ""),
+            "direction": "increase" if move_bps >= 0 else "decrease",
+            "state": state,
+            "move_bps": round(move_bps, 3),
+            "move_pips": round(move_pips, 3),
+            "velocity_bps_per_hour": round(velocity, 3),
+            "duration_minutes": round(duration, 2),
+            "executable_net_pips": (
+                round(net_pips, 3) if net_pips is not None else None
+            ),
+            "effective_cost_pips": (
+                round(finite_float(row.get("effective_cost_pips")), 3)
+                if mode == "velocity"
+                else None
+            ),
+            "current_spread_pips": (
+                round(finite_float(row.get("current_spread_pips")), 3)
+                if mode != "velocity"
+                else None
+            ),
+            "path_efficiency": (
+                round(finite_float(row.get("path_efficiency")), 4)
+                if mode == "velocity"
+                else None
+            ),
+            "start_utc": str(row.get("start_utc") or ""),
+            "end_utc": str(row.get("end_utc") or row.get("quote_time_utc") or ""),
+            "chart_points": chart_points(row),
+            "research_only": True,
+        }
+
+    mode_specs = (
+        ("velocity", "live_velocity", 0),
+        ("5m", "latest_5m", 5),
+        ("15m", "latest_15m", 15),
+        ("60m", "latest_60m", 60),
+    )
+    for mode, ranking_key, window_minutes in mode_specs:
+        compacted = [
+            compact(row, mode, window_minutes)
+            for row in rankings.get(ranking_key) or []
+            if isinstance(row, dict) and str(row.get("instrument") or "")
+        ]
+        compacted.sort(
+            key=lambda row: abs(finite_float(row.get("velocity_bps_per_hour"))),
+            reverse=True,
+        )
+        for rank, row in enumerate(compacted[: max(1, limit)], start=1):
+            row["rank"] = rank
+        modes[mode] = compacted[: max(1, limit)]
+
+    executable = load_json_dict(EXECUTABLE_MOVE_CENSUS)
+    executable_mode_stats: dict[str, dict[str, int]] = {}
+    for block in executable.get("horizons") or []:
+        if not isinstance(block, dict):
+            continue
+        horizon = max(1, int(finite_float(block.get("horizon_min"))))
+        executable_rows: list[dict[str, Any]] = []
+        for raw in block.get("rows") or []:
+            if not isinstance(raw, dict) or raw.get("state") != "cleared":
+                continue
+            side = str(raw.get("side") or "")
+            net_pips = finite_float(raw.get("net_pips"))
+            net_bps = finite_float(raw.get("net_bps"))
+            points: list[list[float | int]] = []
+            for point in raw.get("path_points") or []:
+                try:
+                    epoch = int(
+                        datetime.fromisoformat(
+                            str(point.get("scheduled_utc")).replace("Z", "+00:00")
+                        ).timestamp()
+                    )
+                except (TypeError, ValueError):
+                    continue
+                points.append(
+                    [epoch, round(finite_float(point.get("net_pips")), 4)]
+                )
+            executable_rows.append(
+                {
+                    "instrument": str(raw.get("instrument") or ""),
+                    "direction": "increase" if side == "long" else "decrease",
+                    "side": side,
+                    "state": str(raw.get("state")),
+                    "move_bps": round(net_bps, 3),
+                    "move_pips": round(net_pips, 3),
+                    "executable_net_pips": round(net_pips, 3),
+                    "velocity_bps_per_hour": 0.0,
+                    "duration_minutes": horizon,
+                    "entry_bid": raw.get("entry_bid"),
+                    "entry_ask": raw.get("entry_ask"),
+                    "exit_bid": raw.get("exit_bid"),
+                    "exit_ask": raw.get("exit_ask"),
+                    "start_utc": raw.get("entry_scheduled_utc"),
+                    "end_utc": raw.get("exit_scheduled_utc"),
+                    "chart_points": points,
+                    "research_only": True,
+                }
+            )
+        executable_rows.sort(
+            key=lambda row: (
+                -finite_float(row.get("move_bps")),
+                -finite_float(row.get("executable_net_pips")),
+                row["instrument"],
+                row["side"],
+            )
+        )
+        for rank, row in enumerate(executable_rows[: max(1, limit)], start=1):
+            row["rank"] = rank
+        key = f"exec{horizon}"
+        modes[key] = executable_rows[: max(1, limit)]
+        executable_mode_stats[key] = {
+            name: int(safe_float(block.get(name)))
+            for name in (
+                "expected_side_count",
+                "valid_count",
+                "cleared_count",
+                "path_cleared_count",
+                "invalid_count",
+                "pending_count",
+            )
+        }
+
+    source_rows = [row for row in payload.get("rows") or [] if isinstance(row, dict)]
+    breadth: dict[str, dict[str, int]] = {}
+    currency_strength: dict[str, dict[str, list[dict[str, Any]]]] = {}
+    for label, minutes in (("5m", 5), ("15m", 15), ("60m", 60)):
+        field = f"move_{minutes}m_bps"
+        values = [finite_float(row.get(field)) for row in source_rows if row.get(field) is not None]
+        breadth[label] = {
+            "up": sum(value > 0 for value in values),
+            "down": sum(value < 0 for value in values),
+            "flat": sum(value == 0 for value in values),
+            "covered": len(values),
+        }
+        totals: defaultdict[str, list[float]] = defaultdict(list)
+        for row in source_rows:
+            instrument = str(row.get("instrument") or "")
+            if row.get(field) is None or "_" not in instrument:
+                continue
+            base, quote = instrument.split("_", 1)
+            value = finite_float(row.get(field))
+            totals[base].append(value)
+            totals[quote].append(-value)
+        scored = sorted(
+            (
+                {
+                    "currency": currency,
+                    "strength_bps": round(statistics.fmean(observations), 3),
+                    "pair_count": len(observations),
+                }
+                for currency, observations in totals.items()
+                if observations
+            ),
+            key=lambda row: row["strength_bps"],
+            reverse=True,
+        )
+        currency_strength[label] = {
+            "strongest": scored[:3],
+            "weakest": list(reversed(scored[-3:])),
+        }
+
+    executable_age = file_age_seconds(EXECUTABLE_MOVE_CENSUS)
+    if executable:
+        source_status = str(executable.get("status") or "")
+        if executable_age is None or executable_age > 150.0:
+            status = "stale"
+        elif source_status == "collecting_pre_activation":
+            status = "collecting"
+        else:
+            status = "live"
+        display_age = executable_age
+        display_generated = executable.get("generated_utc")
+    else:
+        # The primary UI is the executable census.  Do not report a healthy
+        # legacy midpoint snapshot as a live executable observation.
+        status = "collecting"
+        display_age = None
+        display_generated = None
+    return {
+        "schema_version": "practice_007_live_mover_dashboard_v1",
+        "generated_utc": display_generated,
+        "snapshot_age_sec": round(display_age, 2) if display_age is not None else None,
+        "status": status,
+        "refresh_contract": (
+            "dashboard polls every 1.5s; census publishes every 30s from "
+            "one scheduled all-68 quote frame per minute"
+        ),
+        "ranking_definition": (
+            "fixed-window executable bid/ask paths ranked by net basis points over the selected horizon"
+        ),
+        "chart_definition": (
+            "observed side-aware executable net path in pips; no midpoint or forecast implication"
+        ),
+        "instrument_count": int(safe_float(payload.get("instrument_count"))),
+        "history_complete_instrument_count": int(
+            safe_float(payload.get("directional_history_complete_instrument_count"))
+        ),
+        "clear_move_count": int(safe_float(payload.get("directional_leg_count"))),
+        "executable_census": {
+            "status": status,
+            "generated_utc": executable.get("generated_utc"),
+            "latest_frame_utc": executable.get("latest_frame_utc"),
+            "schedule_census": executable.get("schedule_census") or {},
+            "side_count": int(safe_float(executable.get("side_count"))),
+            "horizon_count": len(executable.get("horizons_min") or []),
+            "frame_count": int(safe_float(executable.get("frame_count"))),
+            "review_queue": executable.get("review_queue") or {},
+            "mode_stats": executable_mode_stats,
+        },
+        "round_trip_cost_clear_count": int(
+            safe_float(payload.get("round_trip_cost_clear_count"))
+        ),
+        "modes": modes,
+        "breadth": breadth,
+        "currency_strength": currency_strength,
+        "research_only": True,
+        "execution_eligible": False,
+    }
+
+
+def summarize_live_move_news(
+    path: Path = LIVE_MOVE_NEWS_SNAPSHOT,
+    *,
+    limit: int = 10,
+    outcome_path: Path = LIVE_MOVE_NEWS_OUTCOMES,
+) -> dict[str, Any]:
+    """Compact the movement-first live news join for dashboard display."""
+
+    payload = load_json_dict(path)
+    outcomes = load_json_dict(outcome_path)
+    outcome_age = file_age_seconds(outcome_path)
+    age = file_age_seconds(path)
+    rows: list[dict[str, Any]] = []
+    for raw in payload.get("movers") or []:
+        if not isinstance(raw, dict):
+            continue
+        context = [
+            row
+            for row in raw.get("recent_context_stories") or []
+            if isinstance(row, dict)
+        ]
+        narrative = raw.get("continuous_narrative_state") or {}
+        narrative_provenance = raw.get("continuous_narrative_provenance") or {}
+        rows.append(
+            {
+                "instrument": str(raw.get("instrument") or ""),
+                "move_direction": str(raw.get("move_direction") or ""),
+                "executable_net_pips": round(
+                    finite_float(raw.get("executable_net_pips")), 3
+                ),
+                "duration_minutes": round(
+                    finite_float(raw.get("duration_minutes")), 2
+                ),
+                "strict_forward_alignment": str(
+                    raw.get("strict_forward_alignment") or "no_strict_direction"
+                ),
+                "explanation_state": str(
+                    raw.get("explanation_state")
+                    or "context_only_conflicted_or_pair_neutral"
+                ),
+                "factor_primary_token": str(
+                    raw.get("factor_primary_token") or ""
+                ),
+                "factor_representative": bool(
+                    raw.get("factor_representative")
+                ),
+                "strict_forward_story_count": int(
+                    safe_float(raw.get("strict_forward_independent_story_count"))
+                ),
+                "raw_event_count": int(
+                    safe_float(raw.get("pre_move_event_count"))
+                ),
+                "broad_research_side": str(
+                    raw.get("broad_research_side") or "neutral"
+                ),
+                "narrative_direction": str(
+                    narrative.get("direction") or "NEUTRAL"
+                ),
+                "narrative_score": round(
+                    finite_float(narrative.get("score")), 4
+                ),
+                "narrative_state_available": bool(
+                    narrative.get("state_available")
+                ),
+                "narrative_meter_contract_id": str(
+                    narrative_provenance.get("meter_contract_id") or ""
+                ),
+                "narrative_meter_clock_utc": str(
+                    narrative_provenance.get("meter_clock_utc") or ""
+                ),
+                "narrative_meter_sealed_at_utc": str(
+                    narrative_provenance.get("meter_sealed_at_utc") or ""
+                ),
+                "narrative_meter_state_kind": str(
+                    narrative_provenance.get("meter_state_kind") or "unavailable"
+                ),
+                "narrative_partial_live_excluded": bool(
+                    narrative_provenance.get("partial_live_excluded")
+                ),
+                "context_headline": str(
+                    (context[0] if context else {}).get("headline") or ""
+                )[:240],
+                "context_source": str(
+                    (context[0] if context else {}).get("source_id") or ""
+                ),
+                "research_only": True,
+                "execution_eligible": False,
+            }
+        )
+        if len(rows) >= max(1, int(limit)):
+            break
+    fresh = age is not None and age <= 360.0
+    return {
+        "status": "live" if fresh else "stale_or_missing",
+        "fresh": fresh,
+        "snapshot_age_sec": round(age, 2) if age is not None else None,
+        "generated_utc": str(payload.get("generated_utc") or ""),
+        "mover_count": int(safe_float(payload.get("mover_count"))),
+        "factor_episode_count": int(
+            safe_float(payload.get("factor_episode_count"))
+        ),
+        "strict_directional_mover_count": int(
+            safe_float(payload.get("strict_directional_mover_count"))
+        ),
+        "strict_aligned_mover_count": int(
+            safe_float(payload.get("strict_aligned_mover_count"))
+        ),
+        "retained_case_count": int(
+            safe_float(payload.get("retained_case_count"))
+        ),
+        "contract_id": str(payload.get("contract_id") or ""),
+        "narrative_join_contract": payload.get("narrative_join_contract") or {},
+        "narrative_causally_available_mover_count": int(
+            safe_float(payload.get("narrative_causally_available_mover_count"))
+        ),
+        "narrative_unavailable_mover_count": int(
+            safe_float(payload.get("narrative_unavailable_mover_count"))
+        ),
+        "forward_outcomes": {
+            "status": (
+                "live"
+                if outcome_age is not None and outcome_age <= 900.0
+                else "stale_or_missing"
+            ),
+            "snapshot_age_sec": (
+                round(outcome_age, 2) if outcome_age is not None else None
+            ),
+            "case_count": int(safe_float(outcomes.get("case_count"))),
+            "retained_outcome_count": int(
+                safe_float(outcomes.get("retained_outcome_count"))
+            ),
+            "cells": list(outcomes.get("cells") or [])[:20],
+            "candle_archive": dict(outcomes.get("candle_archive") or {}),
+            "research_only": True,
+            "execution_eligible": False,
+        },
+        "rows": rows,
+        "research_only": True,
+        "execution_eligible": False,
+    }
+
+
+def compact_news_backtest(payload: dict[str, Any]) -> dict[str, Any]:
+    diagnostic_slices: list[dict[str, Any]] = []
+    slice_sources = (
+        ("side", payload.get("by_side_non_overlapping") or {}, False),
+        ("horizon", payload.get("by_horizon_minutes") or {}, True),
+        ("source", payload.get("by_source_non_overlapping") or {}, False),
+        ("symbol", payload.get("by_symbol_non_overlapping") or {}, False),
+    )
+    for dimension, mapping, nested in slice_sources:
+        if not isinstance(mapping, dict):
+            continue
+        for name, value in mapping.items():
+            if not isinstance(value, dict):
+                continue
+            row = value
+            if nested:
+                row = (
+                    value.get("completed_tradeable_non_overlapping")
+                    or value.get("completed_tradeable")
+                    or value.get("completed")
+                    or {}
+                )
+            if not isinstance(row, dict) or not row.get("rows"):
+                continue
+            diagnostic_slices.append(
+                {
+                    "dimension": dimension,
+                    "name": str(name),
+                    "rows": row.get("rows"),
+                    "unique_signals": row.get("unique_signals"),
+                    "symbols": row.get("symbols"),
+                    "direction_accuracy": row.get("direction_accuracy"),
+                    "net_positive_rate": row.get("net_positive_rate"),
+                    "mean_net_pct": row.get("mean_net_pct"),
+                    "median_net_pct": row.get("median_net_pct"),
+                    "selection_status": "retrospective_diagnostic_only",
+                }
+            )
+    metrics = (
+        payload.get("completed_tradeable_non_overlapping")
+        or payload.get("completed_non_overlapping")
+        or {}
+    )
+    gate = payload.get("promotion_gate") or {}
+    return {
+        "event_utc": payload.get("event_utc"),
+        "candidate_signals": payload.get("candidate_signals"),
+        "rows": metrics.get("rows"),
+        "unique_signals": metrics.get("unique_signals"),
+        "symbols": metrics.get("symbols"),
+        "direction_accuracy": metrics.get("direction_accuracy"),
+        "net_positive_rate": metrics.get("net_positive_rate"),
+        "mean_net_pct": metrics.get("mean_net_pct"),
+        "median_net_pct": metrics.get("median_net_pct"),
+        "mean_net_95pct_normal_ci": metrics.get("mean_net_95pct_normal_ci"),
+        "by_event_type": payload.get("by_event_type_non_overlapping") or {},
+        "by_event_state": payload.get("by_event_state_non_overlapping") or {},
+        "diagnostic_slices": diagnostic_slices,
+        "promotion_passed": bool(gate.get("passed")),
+        "qualifying_horizons_minutes": gate.get(
+            "qualifying_horizons_minutes"
+        ) or [],
+    }
+
+
+def build_crypto_shadow_state() -> dict[str, Any]:
+    status = load_json_dict(CRYPTO_ACCOUNT_STATUS)
+    supervisor = load_json_dict(CRYPTO_SUPERVISOR_STATUS)
+    status_account = status.get("account") or {}
+    account_state_path = Path(str(status_account.get("state_file") or ""))
+    account_state = (
+        load_json_dict(account_state_path)
+        if str(account_state_path) not in {"", "."}
+        else {}
+    )
+    account = {**account_state, **status_account}
+    raw_positions = account_state.get("positions") or {}
+    if isinstance(raw_positions, dict):
+        positions = [
+            {"strategy_id": strategy_id, **position}
+            for strategy_id, position in raw_positions.items()
+            if isinstance(position, dict)
+        ]
+    elif isinstance(raw_positions, list):
+        positions = [row for row in raw_positions if isinstance(row, dict)]
+    else:
+        positions = []
+
+    trade_log_path = Path(str(status.get("trade_log") or ""))
+    trades = (
+        read_recent_csv(trade_log_path, 24)
+        if str(trade_log_path) not in {"", "."}
+        else []
+    )
+    news = load_json_dict(CRYPTO_NEWS_FEED)
+    articles = [
+        row for row in news.get("articles") or [] if isinstance(row, dict)
+    ][:40]
+    daily = load_json_dict(CRYPTO_NEWS_DAILY)
+    strict_payload = daily.get("strict") or {}
+    if isinstance(strict_payload, dict) and "summary" in strict_payload:
+        strict_payload = strict_payload.get("summary") or {}
+    if isinstance(strict_payload, dict) and strict_payload.get("latest_summary"):
+        strict_payload = load_json_dict(
+            Path(str(strict_payload["latest_summary"]))
+        ) or strict_payload
+    context = load_json_dict(CRYPTO_CONTEXT_STATUS)
+    trend_proxy = load_json_dict(CRYPTO_TREND_PROXY)
+    strategy_benchmark = load_json_dict(CRYPTO_STRATEGY_BENCHMARK)
+    rsi_prospective = load_json_dict(CRYPTO_RSI_PROSPECTIVE)
+    v5_rsi_agreement_prospective = load_json_dict(
+        CRYPTO_V5_RSI_AGREEMENT_PROSPECTIVE
+    )
+    executable_raw_prospective = load_json_dict(
+        CRYPTO_EXECUTABLE_RAW_PROSPECTIVE
+    )
+    executable_rsi_prospective = load_json_dict(
+        CRYPTO_EXECUTABLE_RSI_PROSPECTIVE
+    )
+    direction_rsi_agreement_prospective = load_json_dict(
+        CRYPTO_DIRECTION_RSI_AGREEMENT_PROSPECTIVE
+    )
+    cost_aware_prospective = load_json_dict(
+        CRYPTO_COST_AWARE_PROSPECTIVE
+    )
+    tail_predictor = load_json_dict(CRYPTO_TAIL_PREDICTOR)
+    meta_train = load_json_dict(CRYPTO_META_ROUTER_TRAIN)
+    meta_live = load_json_dict(CRYPTO_META_ROUTER_LIVE)
+    meta_forward = load_json_dict(CRYPTO_META_ROUTER_FORWARD)
+    extra_trees_train = load_json_dict(CRYPTO_EXTRA_TREES_TRAIN)
+    extra_trees_live = load_json_dict(CRYPTO_EXTRA_TREES_LIVE)
+    extra_trees_forward = load_json_dict(CRYPTO_EXTRA_TREES_FORWARD)
+
+    return {
+        "schema_version": "bigtriad_crypto_shadow_dashboard_v1",
+        "event_utc": utc_now(),
+        "available": bool(status or supervisor),
+        "paper_only": True,
+        "real_orders_enabled": False,
+        "mode": status.get("mode") or supervisor.get("mode"),
+        "health": {
+            "status": supervisor.get("status") or "unavailable",
+            "supervisor_event_utc": supervisor.get("event_utc"),
+            "paper_event_utc": status.get("event_utc"),
+            "account_age_seconds": file_age_seconds(CRYPTO_ACCOUNT_STATUS),
+            "supervisor_age_seconds": file_age_seconds(
+                CRYPTO_SUPERVISOR_STATUS
+            ),
+            "predictor_age_seconds": supervisor.get("predictor_age_seconds"),
+            "predictor_symbols": supervisor.get("predictor_symbols"),
+            "paper_process_ids": supervisor.get("paper_process_ids") or [],
+            "predictor_process_ids": supervisor.get("predictor_process_ids")
+            or [],
+            "ohlc_stream": supervisor.get("ohlc_stream") or {},
+        },
+        "account": {
+            "account_type": account.get("account_type"),
+            "starting_equity_usd": account.get("starting_equity_usd"),
+            "cash_usd": account.get("cash_usd"),
+            "equity_usd": account.get("equity_usd"),
+            "return_pct": account.get("return_pct"),
+            "peak_equity_usd": account.get("peak_equity_usd"),
+            "max_drawdown_pct": account.get("max_drawdown_pct"),
+            "gross_profit_usd": account.get("gross_profit_usd"),
+            "gross_loss_usd": account.get("gross_loss_usd"),
+            "closed_trades": account.get("closed_trades"),
+            "winning_trades": account.get("winning_trades"),
+            "win_rate_pct": account.get("win_rate_pct"),
+            "profit_factor": account.get("profit_factor"),
+            "open_positions": len(positions),
+            "kill_switch": account.get("kill_switch") or {},
+            "last_update_utc": account.get("last_update_utc"),
+            "shadow_maker_stats": account.get("shadow_maker_stats") or {},
+        },
+        "positions": positions,
+        "candidates": [
+            row for row in status.get("candidates") or []
+            if isinstance(row, dict)
+        ][:20],
+        "decisions": [
+            row for row in status.get("decisions") or []
+            if isinstance(row, dict)
+        ][:20],
+        "trades": list(reversed(trades)),
+        "trend_proxy": trend_proxy,
+        "strategy_benchmark": strategy_benchmark,
+        "prospective_challengers": {
+            "rsi_mean_reversion": rsi_prospective,
+            "v5_rsi_agreement": v5_rsi_agreement_prospective,
+            "executable_raw": executable_raw_prospective,
+            "executable_rsi": executable_rsi_prospective,
+            "direction_rsi_agreement": direction_rsi_agreement_prospective,
+            "cost_aware": cost_aware_prospective,
+        },
+        "predictors": {
+            "tail": {
+                "event_utc": tail_predictor.get("event_utc"),
+                "source_trainer_event_utc": tail_predictor.get(
+                    "source_trainer_event_utc"
+                ),
+                "symbols": tail_predictor.get("symbols"),
+                "curve_rows": tail_predictor.get("curve_rows"),
+                "raw_score_admitted_rows": tail_predictor.get(
+                    "shadow_raw_score_admitted_rows"
+                ),
+                "live_score_admitted_rows": tail_predictor.get(
+                    "live_score_admitted_rows"
+                ),
+                "shadow_only": tail_predictor.get("shadow_only"),
+                "forced_shadow_only": tail_predictor.get(
+                    "forced_shadow_only"
+                ),
+            },
+            "meta_router": {
+                "train": {
+                    "event_utc": meta_train.get("event_utc"),
+                    "status": meta_train.get("status"),
+                    "selected_alpha": meta_train.get("selected_alpha"),
+                    "selected_config": meta_train.get("selected_config") or {},
+                    "eligible_rows": meta_train.get("eligible_rows"),
+                    "fit_rows_non_overlapping": meta_train.get(
+                        "fit_rows_non_overlapping"
+                    ),
+                    "validation_replay": meta_train.get("validation_replay") or {},
+                    "test_replay": meta_train.get("test_replay") or {},
+                    "validation_prediction_diagnostics": meta_train.get(
+                        "validation_prediction_diagnostics"
+                    ) or {},
+                    "test_prediction_diagnostics": meta_train.get(
+                        "test_prediction_diagnostics"
+                    ) or {},
+                    "validation_prediction_gate": meta_train.get(
+                        "validation_prediction_gate"
+                    ) or {},
+                    "test_prediction_gate": meta_train.get(
+                        "test_prediction_gate"
+                    ) or {},
+                    "historical_gate_passed": bool(
+                        meta_train.get("historical_gate_passed")
+                    ),
+                    "promotion_blockers": meta_train.get(
+                        "promotion_blockers"
+                    ) or [],
+                },
+                "live": {
+                    "event_utc": meta_live.get("event_utc"),
+                    "source_curve_event_utc": meta_live.get(
+                        "source_curve_event_utc"
+                    ),
+                    "curve_rows": meta_live.get("curve_rows"),
+                    "symbols": meta_live.get("symbols"),
+                    "meta_ood_rows": meta_live.get("meta_ood_rows"),
+                    "meta_ood_feature_counts": meta_live.get(
+                        "meta_ood_feature_counts"
+                    ) or {},
+                    "execution_context_available_rows": meta_live.get(
+                        "execution_context_available_rows"
+                    ),
+                    "execution_context_fresh_rows": meta_live.get(
+                        "execution_context_fresh_rows"
+                    ),
+                    "selected_rows": meta_live.get(
+                        "meta_shadow_selected_rows"
+                    ),
+                    "selected": meta_live.get("selected") or [],
+                    "shadow_only": meta_live.get("shadow_only"),
+                    "deployment_allowed": meta_live.get(
+                        "deployment_allowed"
+                    ),
+                    "archive": meta_live.get("archive"),
+                },
+                "forward": {
+                    "status": meta_forward.get("status"),
+                    "selected_rows": meta_forward.get("selected_route_rows"),
+                    "completed_rows": meta_forward.get("completed_rows"),
+                    "pending_rows": meta_forward.get("pending_rows"),
+                    "criteria": meta_forward.get("criteria") or {},
+                    "overall": meta_forward.get("overall") or {},
+                    "candidate_forward_summary": meta_forward.get(
+                        "candidate_forward_summary"
+                    ) or {},
+                    "archive": meta_forward.get("archive") or {},
+                },
+            },
+            "extra_trees_challenger": {
+                "train": {
+                    "event_utc": extra_trees_train.get("event_utc"),
+                    "status": extra_trees_train.get("status"),
+                    "model_family": extra_trees_train.get("model_family"),
+                    "min_samples_leaf": extra_trees_train.get(
+                        "min_samples_leaf"
+                    ),
+                    "fit_rows_non_overlapping": extra_trees_train.get(
+                        "fit_rows_non_overlapping"
+                    ),
+                    "prospective_refit_rows_non_overlapping": (
+                        extra_trees_train.get(
+                            "prospective_refit_rows_non_overlapping"
+                        )
+                    ),
+                    "test_outcomes_scored": extra_trees_train.get(
+                        "test_outcomes_scored"
+                    ),
+                    "validation_replay": extra_trees_train.get(
+                        "validation_replay"
+                    ) or {},
+                    "validation_prediction_diagnostics": (
+                        extra_trees_train.get(
+                            "validation_prediction_diagnostics"
+                        ) or {}
+                    ),
+                    "validation_prediction_gate": extra_trees_train.get(
+                        "validation_prediction_gate"
+                    ) or {},
+                    "promotion_blockers": extra_trees_train.get(
+                        "promotion_blockers"
+                    ) or [],
+                },
+                "live": {
+                    "event_utc": extra_trees_live.get("event_utc"),
+                    "source_curve_event_utc": extra_trees_live.get(
+                        "source_curve_event_utc"
+                    ),
+                    "curve_rows": extra_trees_live.get("curve_rows"),
+                    "symbols": extra_trees_live.get("symbols"),
+                    "meta_ood_rows": extra_trees_live.get("meta_ood_rows"),
+                    "meta_ood_feature_counts": extra_trees_live.get(
+                        "meta_ood_feature_counts"
+                    ) or {},
+                    "execution_context_available_rows": extra_trees_live.get(
+                        "execution_context_available_rows"
+                    ),
+                    "execution_context_fresh_rows": extra_trees_live.get(
+                        "execution_context_fresh_rows"
+                    ),
+                    "selected_rows": extra_trees_live.get(
+                        "meta_shadow_selected_rows"
+                    ),
+                    "selected": extra_trees_live.get("selected") or [],
+                    "shadow_only": extra_trees_live.get("shadow_only"),
+                    "deployment_allowed": extra_trees_live.get(
+                        "deployment_allowed"
+                    ),
+                },
+                "forward": {
+                    "status": extra_trees_forward.get("status"),
+                    "selected_rows": extra_trees_forward.get(
+                        "selected_route_rows"
+                    ),
+                    "completed_rows": extra_trees_forward.get(
+                        "completed_rows"
+                    ),
+                    "pending_rows": extra_trees_forward.get("pending_rows"),
+                    "overall": extra_trees_forward.get("overall") or {},
+                    "candidate_forward_summary": extra_trees_forward.get(
+                        "candidate_forward_summary"
+                    ) or {},
+                    "archive": extra_trees_forward.get("archive") or {},
+                },
+            },
+        },
+        "news": {
+            "event_utc": news.get("event_utc"),
+            "status": news.get("status"),
+            "article_count": news.get("article_count"),
+            "story_count": news.get("story_count"),
+            "signal_eligible_story_count": news.get(
+                "signal_eligible_story_count"
+            ),
+            "syndicated_articles_collapsed": news.get(
+                "syndicated_articles_collapsed"
+            ),
+            "source_counts": news.get("source_counts") or {},
+            "source_tier_counts": news.get("source_tier_counts") or {},
+            "symbol_counts": news.get("symbol_counts") or {},
+            "articles": articles,
+            "collector": {
+                "status": context.get("status"),
+                "event_utc": context.get("event_utc"),
+                "cycles": context.get("cycles"),
+                "latest_signal_eligible_stories": context.get(
+                    "latest_signal_eligible_stories"
+                ),
+                "source_errors": context.get("source_errors") or {},
+            },
+        },
+        "backtests": {
+            "primary": compact_news_backtest(
+                load_json_dict(CRYPTO_NEWS_BACKTEST)
+            ),
+            "strict": compact_news_backtest(
+                strict_payload if isinstance(strict_payload, dict) else {}
+            ),
+        },
+    }
+
+
+def overlay_primary_account(
+    payload: dict[str, Any],
+    primary_payload: dict[str, Any],
+    suffix: str = "-007",
+) -> dict[str, Any]:
+    primary = next(
+        (
+            row
+            for row in primary_payload.get("accounts") or []
+            if str(row.get("account_id") or "").endswith(suffix)
+        ),
+        None,
+    )
+    if not isinstance(primary, dict):
+        return payload
+    merged = dict(payload)
+    rows = [
+        dict(row)
+        for row in payload.get("accounts") or []
+        if not str(row.get("account_id") or "").endswith(suffix)
+    ]
+    rows.append(dict(primary))
+    merged["accounts"] = rows
+    merged["primary_account_source"] = str(
+        primary_payload.get("source") or "dedicated_account_snapshot"
+    )
+    merged["primary_account_time"] = primary_payload.get("time")
+    primary_aggregate = primary_payload.get("aggregate")
+    if isinstance(primary_aggregate, dict):
+        # The dedicated snapshot is newer by construction at call sites.  Its
+        # currentness/error contract must travel with the replacement row.
+        merged["aggregate"] = dict(primary_aggregate)
+    return merged
+
+
+def finite_float(value: Any, default: float = 0.0) -> float:
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return default
+    return number if math.isfinite(number) else default
+
+
+def optional_float(value: Any) -> float | None:
+    """Parse a finite number without turning missing broker state into zero."""
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return None
+    return number if math.isfinite(number) else None
+
+
+def optional_int(value: Any) -> int | None:
+    number = optional_float(value)
+    return int(number) if number is not None else None
+
+
+def account_snapshot_dimension_current(
+    payload: dict[str, Any],
+    account: dict[str, Any],
+    dimension: str,
+) -> bool:
+    """Return whether a broker snapshot dimension is current and usable.
+
+    Older successful snapshots did not publish the explicit currentness flags,
+    so an omitted flag remains compatible.  An explicit failure or stale-state
+    marker always wins and fails closed.
+    """
+    aggregate = payload.get("aggregate")
+    if not isinstance(aggregate, dict):
+        aggregate = {}
+    snapshot_state = str(aggregate.get("snapshot_state") or "").strip().lower()
+    if snapshot_state in {
+        "unavailable",
+        "retained_stale",
+        "retained_stale_account_values",
+    }:
+        return False
+    flag = {
+        "values": "account_values_current",
+        "positions": "positions_current",
+        "orders": "orders_current",
+    }[dimension]
+    return bool(account.get("ok")) and account.get(flag) is not False and aggregate.get(flag) is not False
+
+
+def summarize_primary_practice_account(
+    payload: dict[str, Any],
+    source_path: Path | None = None,
+    suffix: str = "-007",
+) -> dict[str, Any]:
+    """Build the public account API record without fabricating a flat account."""
+    account = next(
+        (
+            row
+            for row in payload.get("accounts") or []
+            if isinstance(row, dict)
+            and str(row.get("account_id") or "").endswith(suffix)
+        ),
+        {},
+    )
+    aggregate = payload.get("aggregate")
+    if not isinstance(aggregate, dict):
+        aggregate = {}
+    values_current = account_snapshot_dimension_current(payload, account, "values")
+    positions_current = account_snapshot_dimension_current(payload, account, "positions")
+    orders_current = account_snapshot_dimension_current(payload, account, "orders")
+
+    balance = optional_float(account.get("balance")) if values_current else None
+    nav = optional_float(account.get("NAV")) if values_current else None
+    realized = optional_float(account.get("pl")) if values_current else None
+    unrealized = optional_float(account.get("unrealizedPL")) if values_current else None
+    margin_used = optional_float(account.get("marginUsed")) if values_current else None
+    margin_available = optional_float(account.get("marginAvailable")) if values_current else None
+    margin_total = (
+        margin_used + margin_available
+        if margin_used is not None and margin_available is not None
+        else None
+    )
+
+    positions: list[dict[str, Any]] | None = None
+    if positions_current:
+        positions = []
+        for trade in account.get("trades") or []:
+            if not isinstance(trade, dict):
+                continue
+            units = optional_float(trade.get("units") or trade.get("currentUnits"))
+            positions.append(
+                {
+                    "id": trade.get("id"),
+                    "instrument": trade.get("instrument"),
+                    "direction": "buy" if (units or 0.0) > 0.0 else "sell",
+                    "units": abs(int(units)) if units is not None else None,
+                    "entry_price": optional_float(trade.get("price")),
+                    "closeout_price": optional_float(trade.get("closeoutPrice")),
+                    "unrealized_pips": optional_float(trade.get("unrealizedPips")),
+                    "unrealized_pl": optional_float(trade.get("unrealizedPL")),
+                    "open_time": trade.get("openTime"),
+                    "protection": list(trade.get("protection") or []),
+                }
+            )
+
+    errors = aggregate.get("current_errors")
+    aggregate_error = (
+        errors[0]
+        if isinstance(errors, list) and errors and isinstance(errors[0], dict)
+        else {}
+    )
+    snapshot_state = str(aggregate.get("snapshot_state") or "")
+    if not snapshot_state:
+        snapshot_state = "current" if values_current and positions_current and orders_current else "unavailable"
+    last_verified = account.get("last_verified") or aggregate.get("last_verified")
+    age = (
+        round(max(0.0, time.time() - source_path.stat().st_mtime), 2)
+        if source_path is not None and source_path.is_file()
+        else None
+    )
+    return {
+        "id": account.get("account_id"),
+        "suffix": suffix,
+        "ok": bool(values_current and positions_current and orders_current),
+        "broker_ok": bool(account.get("ok")),
+        "environment": account.get("env") or payload.get("environment") or "practice",
+        "snapshot_state": snapshot_state,
+        "account_values_current": values_current,
+        "positions_current": positions_current,
+        "orders_current": orders_current,
+        "status_code": account.get("status_code", aggregate_error.get("status_code")),
+        "error": account.get("error") or aggregate_error.get("error"),
+        "verified_at_utc": account.get("verified_at_utc"),
+        "last_verified": last_verified,
+        "balance": balance,
+        "nav": nav,
+        "realized_pl": realized,
+        "unrealized_pl": unrealized,
+        "total_pl": (
+            realized + unrealized
+            if realized is not None and unrealized is not None
+            else None
+        ),
+        "margin_used": margin_used,
+        "margin_available": margin_available,
+        "margin_used_pct": (
+            round(100.0 * margin_used / margin_total, 4)
+            if margin_used is not None and margin_total is not None and margin_total > 0.0
+            else None
+        ),
+        "open_trades": optional_int(account.get("openTradeCount")) if positions_current else None,
+        "pending_orders": optional_int(account.get("pendingOrderCount")) if orders_current else None,
+        "positions": positions,
+        "snapshot_time_utc": payload.get("time"),
+        "snapshot_age_sec": age,
+        "snapshot_source": str(source_path) if source_path is not None else None,
+    }
+
+
+def weighted_metric(rows: list[dict[str, Any]], value_key: str, weight_key: str) -> float | None:
+    weighted_total = 0.0
+    total_weight = 0.0
+    for row in rows:
+        weight = max(0.0, finite_float(row.get(weight_key)))
+        value = finite_float(row.get(value_key), math.nan)
+        if weight <= 0.0 or not math.isfinite(value):
+            continue
+        weighted_total += value * weight
+        total_weight += weight
+    return weighted_total / total_weight if total_weight > 0.0 else None
+
+
+def normalize_timeframe_label(value: Any) -> str:
+    text = str(value or "").strip().upper().replace(" ", "")
+    if not text:
+        return "MULTI"
+    if text in {"MULTI", "MIXED", "ROLLINGLIVE"}:
+        return "MULTI"
+    if text[0] in {"S", "M", "H", "D"} and text[1:].isdigit():
+        return f"{text[0]}{int(text[1:])}"
+    return text
+
+
+def timeframe_sort_seconds(value: Any) -> int:
+    label = normalize_timeframe_label(value)
+    if label == "MULTI":
+        return 10**12
+    if len(label) < 2 or not label[1:].isdigit():
+        return 10**12 - 1
+    scale = {"S": 1, "M": 60, "H": 3600, "D": 86400}.get(label[0])
+    return int(label[1:]) * scale if scale else 10**12 - 1
+
+
+def active_signal_timeframe(value: Any) -> bool:
+    """The active dashboard/executor contract starts at one-minute inputs."""
+    label = normalize_timeframe_label(value)
+    return label == "MULTI" or timeframe_sort_seconds(label) >= 60
+
+
+def percent_metric(value: Any) -> float | None:
+    number = finite_float(value, math.nan)
+    if not math.isfinite(number):
+        return None
+    return 100.0 * number if abs(number) <= 1.0 else number
+
+
+def summarize_s1_accuracy_grid(data_root: Path) -> dict[str, Any] | None:
+    report_path = data_root / "reports" / "second_ridge_fit_v1.json"
+    report = load_json_dict(report_path)
+    surfaces = report.get("model_surfaces") or []
+    if not surfaces:
+        return None
+    grouped: dict[int, list[dict[str, Any]]] = defaultdict(list)
+    for surface in surfaces:
+        horizon = int(finite_float(surface.get("horizon_sec")))
+        profiles = surface.get("profiles") or []
+        profile = next((row for row in profiles if row.get("profile") == "fast"), profiles[0] if profiles else {})
+        n = int(finite_float(profile.get("holdout_n")))
+        if horizon <= 0 or n <= 0:
+            continue
+        grouped[horizon].append(
+            {
+                "direction_accuracy_pct": finite_float(surface.get("validation_direction_accuracy"), math.nan),
+                "after_cost_win_rate_pct": finite_float(profile.get("holdout_win_rate"), math.nan),
+                "avg_net_pips": finite_float(profile.get("holdout_avg_net_pips"), math.nan),
+                "direction_n": n,
+                "after_cost_n": n,
+                "instrument": str(surface.get("instrument") or ""),
+            }
+        )
+    cells: dict[str, dict[str, Any]] = {}
+    for horizon, rows in sorted(grouped.items()):
+        cells[str(horizon)] = {
+            "direction_accuracy_pct": weighted_metric(rows, "direction_accuracy_pct", "direction_n"),
+            "after_cost_win_rate_pct": weighted_metric(rows, "after_cost_win_rate_pct", "after_cost_n"),
+            "avg_net_pips": weighted_metric(rows, "avg_net_pips", "after_cost_n"),
+            "direction_n": sum(int(row["direction_n"]) for row in rows),
+            "after_cost_n": sum(int(row["after_cost_n"]) for row in rows),
+            "pair_count": len({row["instrument"] for row in rows if row["instrument"]}),
+            "model": "ridge_return / fast execution profile",
+            "split": "chronological validation and holdout",
+            "note": "Direction accuracy is validation accuracy; after-cost results use the fast profile holdout.",
+        }
+    return {
+        "id": "ridge_return_s1_s5",
+        "family": "ridge_return",
+        "label": "Ridge return",
+        "input_timeframe": str(report.get("input_timeframe") or "S1"),
+        "training_timeframe": str(report.get("training_timeframe") or "S5"),
+        "source_kind": "historical_holdout",
+        "source": str(report_path),
+        "cells": cells,
+    }
+
+
+def arima_calibration_score(row: dict[str, Any]) -> float:
+    return (
+        finite_float(row.get("calibration_total_net_pips"))
+        + 20.0 * min(max(0.0, finite_float(row.get("calibration_profit_factor"))), 3.0)
+        + 10.0 * finite_float(row.get("calibration_mean_net_pips"))
+    )
+
+
+def summarize_arima_accuracy_grid(data_root: Path) -> list[dict[str, Any]]:
+    state_path = data_root / "state" / "arima_multiframe_sweep_v1.json"
+    state = load_json_dict(state_path)
+    output: list[dict[str, Any]] = []
+    for run in state.get("runs") or []:
+        summary_path = Path(str(run.get("summary") or ""))
+        summary = load_json_dict(summary_path)
+        results_path = Path(str(summary.get("results_csv") or ""))
+        if not results_path.is_file():
+            continue
+        selected: dict[tuple[str, int, int], dict[str, Any]] = {}
+        try:
+            with results_path.open("r", encoding="utf-8-sig", newline="") as handle:
+                for row in csv.DictReader(handle):
+                    if str(row.get("error") or "").strip():
+                        continue
+                    pair = str(row.get("pair") or "")
+                    window = int(finite_float(row.get("window_id")))
+                    horizon_minutes = int(finite_float(row.get("horizon_minutes")))
+                    if not pair or window <= 0 or horizon_minutes <= 0:
+                        continue
+                    key = (pair, window, horizon_minutes)
+                    current = selected.get(key)
+                    if current is None or arima_calibration_score(row) > arima_calibration_score(current):
+                        selected[key] = row
+        except OSError:
+            continue
+        grouped: dict[int, list[dict[str, Any]]] = defaultdict(list)
+        for (pair, window, horizon_minutes), row in selected.items():
+            grouped[horizon_minutes * 60].append(
+                {
+                    "direction_accuracy_pct": 100.0 * finite_float(row.get("direction_accuracy"), math.nan),
+                    "after_cost_win_rate_pct": 100.0 * finite_float(row.get("win_rate"), math.nan),
+                    "avg_net_pips": finite_float(row.get("mean_net_pips"), math.nan),
+                    "direction_n": int(finite_float(row.get("test_rows"))),
+                    "after_cost_n": int(finite_float(row.get("trades"))),
+                    "pair": pair,
+                    "window": window,
+                    "model": str(row.get("model") or "ARIMA"),
+                }
+            )
+        cells: dict[str, dict[str, Any]] = {}
+        for horizon, rows in sorted(grouped.items()):
+            cells[str(horizon)] = {
+                "direction_accuracy_pct": weighted_metric(rows, "direction_accuracy_pct", "direction_n"),
+                "after_cost_win_rate_pct": weighted_metric(rows, "after_cost_win_rate_pct", "after_cost_n"),
+                "avg_net_pips": weighted_metric(rows, "avg_net_pips", "after_cost_n"),
+                "direction_n": sum(int(row["direction_n"]) for row in rows),
+                "after_cost_n": sum(int(row["after_cost_n"]) for row in rows),
+                "pair_count": len({row["pair"] for row in rows}),
+                "window_count": len({row["window"] for row in rows}),
+                "model_count": len({row["model"] for row in rows}),
+                "models": sorted({row["model"] for row in rows}),
+                "split": "calibration-selected specification / untouched test",
+                "note": "One specification is selected per pair, window, and horizon using calibration data only.",
+            }
+        timeframe = str(run.get("timeframe") or f"M{int(finite_float(run.get('bar_minutes')))}")
+        output.append(
+            {
+                "id": f"arima_{timeframe.lower()}",
+                "family": "ARIMA",
+                "label": "ARIMA",
+                "input_timeframe": timeframe,
+                "training_timeframe": timeframe,
+                "source_kind": "historical_test",
+                "source": str(results_path),
+                "cells": cells,
+            }
+        )
+    order = {"M1": 1, "M5": 5, "M15": 15, "M30": 30, "H1": 60, "H4": 240}
+    output.sort(key=lambda row: order.get(str(row.get("input_timeframe")), 9999))
+    return output
+
+
+def summarize_live_lane_accuracy_grid(promotion: dict[str, Any], source: Path) -> dict[str, Any] | None:
+    best_by_horizon: dict[int, dict[str, Any]] = {}
+    for row in promotion.get("signal_evidence") or []:
+        horizon = int(finite_float(row.get("horizon_sec")))
+        holdout = row.get("holdout") or {}
+        if horizon <= 0 or int(finite_float(holdout.get("n"))) <= 0:
+            continue
+        current = best_by_horizon.get(horizon)
+        rank = (
+            bool(row.get("eligible")),
+            finite_float(
+                row.get("score"),
+                finite_float(holdout.get("lower_confidence"), -999999.0),
+            ),
+            int(finite_float(holdout.get("n"))),
+        )
+        current_holdout = (current or {}).get("holdout") or {}
+        current_rank = (
+            bool((current or {}).get("eligible")),
+            finite_float(
+                (current or {}).get("score"),
+                finite_float(
+                    current_holdout.get("lower_confidence"),
+                    -999999.0,
+                ),
+            ),
+            int(finite_float(current_holdout.get("n"))),
+        )
+        if current is None or rank > current_rank:
+            best_by_horizon[horizon] = row
+    if not best_by_horizon:
+        return None
+    cells: dict[str, dict[str, Any]] = {}
+    for horizon, row in sorted(best_by_horizon.items()):
+        holdout = row.get("holdout") or {}
+        lower_confidence = finite_float(holdout.get("lower_confidence"), math.nan)
+        cells[str(horizon)] = {
+            "direction_accuracy_pct": None,
+            "after_cost_win_rate_pct": finite_float(holdout.get("win_rate"), math.nan),
+            "avg_net_pips": finite_float(holdout.get("avg"), math.nan),
+            "direction_n": 0,
+            "after_cost_n": int(finite_float(holdout.get("n"))),
+            "pair_count": int(finite_float(row.get("pair_count"))),
+            "model": str(row.get("lane_id") or row.get("family") or ""),
+            "split": str(row.get("split") or "chronological holdout"),
+            "lower_confidence_pips": lower_confidence if math.isfinite(lower_confidence) else None,
+            "blocked_by": list(row.get("blocked_by") or []),
+            "eligible": bool(row.get("eligible")),
+            "note": "Best lane surface at this horizon by eligibility and holdout lower bound; exploratory rows remain blocked.",
+        }
+    return {
+        "id": "live_strategy_best",
+        "family": "strategy_lanes",
+        "label": "Best live lane",
+        "input_timeframe": "multi",
+        "training_timeframe": "rolling live",
+        "source_kind": "live_holdout",
+        "source": str(source),
+        "cells": cells,
+    }
+
+
+def summarize_live_lane_accuracy_rows(
+    promotion: dict[str, Any],
+    source: Path,
+) -> list[dict[str, Any]]:
+    grouped: dict[tuple[str, str], dict[int, dict[str, Any]]] = defaultdict(dict)
+    metadata: dict[tuple[str, str], dict[str, str]] = {}
+    for row in promotion.get("signal_evidence") or []:
+        lane_id = str(row.get("lane_id") or "")
+        family = str(row.get("family") or lane_id or "unknown")
+        timeframe = normalize_timeframe_label(row.get("input_timeframe") or "multi")
+        horizon = int(finite_float(row.get("horizon_sec")))
+        holdout = row.get("holdout") or {}
+        n = int(finite_float(holdout.get("n")))
+        if not lane_id or horizon <= 0 or n <= 0:
+            continue
+        key = (lane_id, timeframe)
+        current = grouped[key].get(horizon)
+        if current is not None and int(current.get("after_cost_n") or 0) >= n:
+            continue
+        lower_confidence = finite_float(
+            holdout.get("lower_confidence"), math.nan
+        )
+        grouped[key][horizon] = {
+            "direction_accuracy_pct": None,
+            "after_cost_win_rate_pct": finite_float(
+                holdout.get("win_rate"), math.nan
+            ),
+            "avg_net_pips": finite_float(holdout.get("avg"), math.nan),
+            "direction_n": 0,
+            "after_cost_n": n,
+            "pair_count": int(finite_float(row.get("pair_count"))),
+            "model_count": 1,
+            "models": [lane_id],
+            "model": lane_id,
+            "split": str(row.get("split") or "chronological holdout"),
+            "lower_confidence_pips": (
+                lower_confidence if math.isfinite(lower_confidence) else None
+            ),
+            "blocked_by": list(row.get("blocked_by") or []),
+            "eligible": bool(row.get("eligible")),
+            "note": "This lane contributes to the all-signal cell; eligibility only controls account execution.",
+        }
+        metadata[key] = {"family": family, "profile": str(row.get("profile") or "")}
+    return [
+        {
+            "id": f"live_lane_{re.sub(r'[^a-z0-9]+', '_', lane_id.lower()).strip('_')}_{timeframe.lower()}",
+            "family": values["family"],
+            "label": lane_id,
+            "input_timeframe": timeframe,
+            "training_timeframe": "rolling live",
+            "source_kind": "live_holdout",
+            "source": str(source),
+            "profile": values["profile"],
+            "cells": {
+                str(horizon): cell
+                for horizon, cell in sorted(grouped[(lane_id, timeframe)].items())
+            },
+        }
+        for (lane_id, timeframe), values in sorted(metadata.items())
+    ]
+
+
+def summarize_timeframe_calibration_accuracy_grid(
+    data_root: Path,
+    state: dict[str, Any] | None = None,
+) -> list[dict[str, Any]]:
+    state_path = data_root / "state" / "timeframe_matrix_calibration_v1.json"
+    payload = state if state is not None else load_json_dict(state_path)
+    grouped: dict[str, dict[int, dict[str, Any]]] = defaultdict(dict)
+    global_surfaces = payload.get("global_surfaces") or {}
+    surfaces = global_surfaces.values() if isinstance(global_surfaces, dict) else global_surfaces
+    for surface in surfaces:
+        lane_id = str(surface.get("lane_id") or "")
+        if not lane_id.startswith("timeframe_equation_matrix."):
+            continue
+        timeframe = normalize_timeframe_label(lane_id.rsplit(".", 1)[-1])
+        horizon = int(finite_float(surface.get("horizon_sec")))
+        oos_n = int(finite_float(surface.get("oos_n")))
+        if horizon <= 0 or oos_n <= 0:
+            continue
+        grouped[timeframe][horizon] = {
+            "direction_accuracy_pct": percent_metric(surface.get("calibrated_accuracy")),
+            "after_cost_win_rate_pct": percent_metric(surface.get("calibrated_win_rate")),
+            "avg_net_pips": finite_float(surface.get("calibrated_average_net_pips"), math.nan),
+            "direction_n": oos_n,
+            "after_cost_n": oos_n,
+            "raw_n": int(finite_float(surface.get("n"))),
+            "independent_blocks": int(finite_float(surface.get("independent_blocks"))),
+            "model": lane_id,
+            "split": "rolling causal out-of-sample calibration",
+            "note": "Only observations emitted before their outcomes were known are included in OOS N.",
+        }
+    return [
+        {
+            "id": f"timeframe_equation_{timeframe.lower()}",
+            "family": "timeframe_equation_matrix",
+            "label": "Timeframe equation matrix",
+            "input_timeframe": timeframe,
+            "training_timeframe": "rolling live",
+            "source_kind": "live_oos",
+            "source": str(state_path),
+            "cells": {str(horizon): cell for horizon, cell in sorted(cells.items())},
+        }
+        for timeframe, cells in sorted(grouped.items(), key=lambda item: timeframe_sort_seconds(item[0]))
+    ]
+
+
+def summarize_historical_strategy_accuracy_grid(data_root: Path) -> list[dict[str, Any]]:
+    report_root = data_root / "reports"
+    candidates = list(report_root.glob("strategy_timeframe_*.json"))
+    candidates.extend(report_root.glob("strategy_lab_timeframe_*.json"))
+    latest: dict[tuple[str, str], tuple[int, Path, dict[str, Any]]] = {}
+    for path in candidates:
+        report = load_json_dict(path)
+        timeframe = normalize_timeframe_label(report.get("timeframe"))
+        if timeframe == "MULTI" or not report.get("family_summaries"):
+            continue
+        report_source = str(report.get("source") or "legacy_replay")
+        modified_ns = path.stat().st_mtime_ns
+        key = (timeframe, report_source)
+        current = latest.get(key)
+        if current is None or modified_ns > current[0]:
+            latest[key] = (modified_ns, path, report)
+
+    output: list[dict[str, Any]] = []
+    for (timeframe, report_source), (_, path, report) in sorted(
+        latest.items(),
+        key=lambda item: (timeframe_sort_seconds(item[0][0]), item[0][1]),
+    ):
+        for family in report.get("family_summaries") or []:
+            family_name = str(family.get("family") or "")
+            cells: dict[str, dict[str, Any]] = {}
+            for horizon_text, stats in (family.get("horizons") or {}).items():
+                horizon = int(finite_float(horizon_text))
+                n = int(finite_float(stats.get("n")))
+                if horizon <= 0 or n <= 0:
+                    continue
+                cells[str(horizon)] = {
+                    "direction_accuracy_pct": None,
+                    "after_cost_win_rate_pct": finite_float(
+                        stats.get("win_rate"), math.nan
+                    ),
+                    "avg_net_pips": finite_float(stats.get("avg"), math.nan),
+                    "direction_n": 0,
+                    "after_cost_n": n,
+                    "pair_count": int(finite_float(report.get("instrument_count"))),
+                    "model_count": 1,
+                    "models": [family_name],
+                    "model": family_name,
+                    "split": "historical replay",
+                    "note": "Every accepted forecast from this family contributes to the all-signal cell by its matured outcome count.",
+                }
+            if not cells:
+                continue
+            source_slug = re.sub(
+                r"[^a-z0-9]+", "_", report_source.lower()
+            ).strip("_")
+            family_slug = re.sub(
+                r"[^a-z0-9]+", "_", family_name.lower()
+            ).strip("_")
+            output.append(
+                {
+                    "id": (
+                        f"strategy_replay_{timeframe.lower()}_{source_slug}_"
+                        f"{family_slug}"
+                    ),
+                    "family": family_name,
+                    "label": family_name,
+                    "input_timeframe": timeframe,
+                    "training_timeframe": timeframe,
+                    "source_kind": "historical_replay",
+                    "source": str(path),
+                    "generated_utc": report.get("generated_utc"),
+                    "cycle_count": int(finite_float(report.get("cycle_count"))),
+                    "instrument_count": int(
+                        finite_float(report.get("instrument_count"))
+                    ),
+                    "sampling_mode": report.get("sampling_mode") or "legacy_latest",
+                    "cells": cells,
+                }
+            )
+    return output
+
+
+def summarize_model_gap_accuracy_grid(data_root: Path) -> list[dict[str, Any]]:
+    path = (
+        data_root
+        / "reports"
+        / "modern_model_gap"
+        / "shared_panel_model_benchmark_latest.json"
+    )
+    report = load_json_dict(path)
+    output: list[dict[str, Any]] = []
+    for result in report.get("results") or []:
+        if result.get("status") != "evaluated":
+            continue
+        model = str(result.get("model") or "unknown")
+        grouped: dict[str, dict[str, dict[str, Any]]] = defaultdict(dict)
+        for cell in (result.get("holdout") or {}).get(
+            "all_prediction_cell_metrics"
+        ) or []:
+            timeframe = normalize_timeframe_label(cell.get("input_timeframe"))
+            horizon = int(finite_float(cell.get("horizon_sec")))
+            events = int(finite_float(cell.get("events"), cell.get("trades")))
+            if horizon <= 0 or events <= 0:
+                continue
+            grouped[timeframe][str(horizon)] = {
+                "direction_accuracy_pct": percent_metric(cell.get("best_side_rate")),
+                "after_cost_win_rate_pct": percent_metric(cell.get("win_rate")),
+                "avg_net_pips": finite_float(cell.get("mean_net_pips"), math.nan),
+                "direction_n": events,
+                "after_cost_n": events,
+                "pair_count": int(
+                    finite_float((report.get("dataset") or {}).get("instruments"))
+                ),
+                "model_count": 1,
+                "models": [model],
+                "model": model,
+                "split": "time-ordered purged holdout",
+                "note": "Every holdout event contributes once after LONG/SHORT consolidation and observed bid/ask costs.",
+            }
+        for timeframe, cells in grouped.items():
+            output.append(
+                {
+                    "id": f"model_gap_{model}_{timeframe.lower()}",
+                    "family": model,
+                    "label": model,
+                    "input_timeframe": timeframe,
+                    "training_timeframe": "shared multi-timeframe panel",
+                    "source_kind": "historical_model_gap_holdout",
+                    "source": str(path),
+                    "generated_utc": report.get("generated_utc"),
+                    "cells": cells,
+                }
+            )
+    return output
+
+
+def summarize_ma_feature_grid_accuracy(
+    data_root: Path,
+) -> list[dict[str, Any]]:
+    path = (
+        data_root
+        / "reports"
+        / "ma_feature_grid"
+        / "ma_feature_grid_latest.json"
+    )
+    report = load_json_dict(path)
+    output: list[dict[str, Any]] = []
+    for timeframe_report in report.get("timeframe_reports") or []:
+        if timeframe_report.get("status") != "fitted":
+            continue
+        timeframe = normalize_timeframe_label(
+            timeframe_report.get("timeframe")
+        )
+        cells: dict[str, dict[str, Any]] = {}
+        for horizon_text, metrics in (
+            (timeframe_report.get("metrics") or {}).get("holdout") or {}
+        ).items():
+            horizon = int(finite_float(horizon_text))
+            events = int(finite_float(metrics.get("n")))
+            if horizon <= 0 or events <= 0:
+                continue
+            cells[str(horizon)] = {
+                "direction_accuracy_pct": percent_metric(
+                    metrics.get("direction_accuracy")
+                ),
+                "after_cost_win_rate_pct": percent_metric(
+                    metrics.get("executable_win_rate")
+                ),
+                "avg_net_pips": finite_float(
+                    metrics.get("executable_average_net_pips"),
+                    math.nan,
+                ),
+                "signed_pip_mae": finite_float(
+                    metrics.get("signed_pip_mae"),
+                    math.nan,
+                ),
+                "signed_pip_correlation": finite_float(
+                    metrics.get("signed_pip_correlation"),
+                    math.nan,
+                ),
+                "magnitude_pip_mae": finite_float(
+                    metrics.get("magnitude_pip_mae"),
+                    math.nan,
+                ),
+                "magnitude_pip_correlation": finite_float(
+                    metrics.get("magnitude_pip_correlation"),
+                    math.nan,
+                ),
+                "brier_score": finite_float(
+                    metrics.get("brier_score"),
+                    math.nan,
+                ),
+                "direction_n": events,
+                "after_cost_n": events,
+                "pair_count": int(finite_float(metrics.get("pair_count"))),
+                "model_count": 1,
+                "models": ["MA-only ridge"],
+                "model": "moving_average_feature_grid",
+                "split": "chronological per-pair holdout",
+                "note": (
+                    "Strict SMA/EMA geometry only. Direction and pip metrics "
+                    "use future midpoint movement; win and net use observed "
+                    "bid/ask or the documented spread proxy."
+                ),
+            }
+        if not cells:
+            continue
+        output.append(
+            {
+                "id": f"ma_feature_grid_{timeframe.lower()}",
+                "family": "moving_average_feature_grid",
+                "label": "MA-only ridge",
+                "input_timeframe": timeframe,
+                "training_timeframe": timeframe,
+                "source_kind": "historical_ma_feature_grid_holdout",
+                "source": str(path),
+                "generated_utc": report.get("generated_at"),
+                "feature_count": int(
+                    finite_float(timeframe_report.get("feature_count"))
+                ),
+                "cells": cells,
+            }
+        )
+    return output
+
+
+def aggregate_prediction_accuracy_rows(
+    source_rows: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    grouped: dict[tuple[str, int], list[dict[str, Any]]] = defaultdict(list)
+    for row in source_rows:
+        timeframe = normalize_timeframe_label(row.get("input_timeframe"))
+        source_kind = str(row.get("source_kind") or "")
+        scope = "live" if source_kind.startswith("live") else "historical"
+        for horizon_text, cell in (row.get("cells") or {}).items():
+            horizon = int(finite_float(horizon_text))
+            if horizon < 5 or horizon > 86400:
+                continue
+            grouped[(timeframe, horizon)].append(
+                {
+                    **cell,
+                    "scope": scope,
+                    "source": str(row.get("source") or ""),
+                    "source_id": str(row.get("id") or row.get("label") or ""),
+                    "source_kind": source_kind,
+                    "source_label": str(row.get("label") or row.get("family") or ""),
+                }
+            )
+
+    cells_by_timeframe: dict[str, dict[str, dict[str, Any]]] = defaultdict(dict)
+    for (timeframe, horizon), rows in grouped.items():
+        historical = [row for row in rows if row["scope"] == "historical"]
+        live = [row for row in rows if row["scope"] == "live"]
+        direction_n = sum(int(finite_float(row.get("direction_n"))) for row in rows)
+        after_cost_n = sum(int(finite_float(row.get("after_cost_n"))) for row in rows)
+        historical_n = sum(int(finite_float(row.get("after_cost_n"))) for row in historical)
+        live_n = sum(int(finite_float(row.get("after_cost_n"))) for row in live)
+        source_labels = sorted({row["source_label"] for row in rows if row["source_label"]})
+        source_ids = sorted({row["source_id"] for row in rows if row["source_id"]})
+        cells_by_timeframe[timeframe][str(horizon)] = {
+            "direction_accuracy_pct": weighted_metric(
+                rows, "direction_accuracy_pct", "direction_n"
+            ),
+            "after_cost_win_rate_pct": weighted_metric(
+                rows, "after_cost_win_rate_pct", "after_cost_n"
+            ),
+            "avg_net_pips": weighted_metric(rows, "avg_net_pips", "after_cost_n"),
+            "signed_pip_mae": weighted_metric(
+                rows, "signed_pip_mae", "direction_n"
+            ),
+            "signed_pip_correlation": weighted_metric(
+                rows, "signed_pip_correlation", "direction_n"
+            ),
+            "magnitude_pip_mae": weighted_metric(
+                rows, "magnitude_pip_mae", "direction_n"
+            ),
+            "magnitude_pip_correlation": weighted_metric(
+                rows, "magnitude_pip_correlation", "direction_n"
+            ),
+            "brier_score": weighted_metric(rows, "brier_score", "direction_n"),
+            "direction_n": direction_n,
+            "after_cost_n": after_cost_n,
+            "historical_n": historical_n,
+            "live_n": live_n,
+            "historical_win_rate_pct": weighted_metric(
+                historical, "after_cost_win_rate_pct", "after_cost_n"
+            ),
+            "historical_avg_net_pips": weighted_metric(
+                historical, "avg_net_pips", "after_cost_n"
+            ),
+            "live_win_rate_pct": weighted_metric(
+                live, "after_cost_win_rate_pct", "after_cost_n"
+            ),
+            "live_avg_net_pips": weighted_metric(live, "avg_net_pips", "after_cost_n"),
+            "source_count": len(source_ids),
+            "model_count": len(source_labels),
+            "models": source_labels,
+            "split": "sample-weighted historical and causal live evidence",
+            "note": "Hover details keep historical replay and rolling live OOS evidence separate.",
+        }
+
+    return [
+        {
+            "id": f"all_forecasts_{timeframe.lower()}",
+            "family": "all_forecasts",
+            "label": "All forecasts",
+            "input_timeframe": timeframe,
+            "training_timeframe": "all fits",
+            "source_kind": "aggregate",
+            "cells": cells_by_timeframe[timeframe],
+        }
+        for timeframe in sorted(cells_by_timeframe, key=timeframe_sort_seconds)
+    ]
+
+
+def summarize_prediction_accuracy_grid(
+    data_root: Path,
+    promotion: dict[str, Any],
+    timeframe_calibration: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    source_rows: list[dict[str, Any]] = []
+    source_rows.extend(
+        summarize_timeframe_calibration_accuracy_grid(data_root, timeframe_calibration)
+    )
+    source_rows.extend(summarize_historical_strategy_accuracy_grid(data_root))
+    source_rows.extend(summarize_model_gap_accuracy_grid(data_root))
+    source_rows.extend(summarize_ma_feature_grid_accuracy(data_root))
+    source_rows.extend(
+        summarize_live_lane_accuracy_rows(
+            promotion,
+            data_root / "state" / "lane_promotion_v1.json",
+        )
+    )
+    source_rows.extend(summarize_arima_accuracy_grid(data_root))
+    minimum_display_horizon_sec = 60
+    source_rows = [
+        row
+        for row in source_rows
+        if timeframe_sort_seconds(row.get("input_timeframe"))
+        >= minimum_display_horizon_sec
+    ]
+    for row in source_rows:
+        row["cells"] = {
+            str(horizon): cell
+            for horizon, cell in (row.get("cells") or {}).items()
+            if int(safe_float(horizon)) >= minimum_display_horizon_sec
+        }
+    observed_rows = aggregate_prediction_accuracy_rows(source_rows)
+    observed_by_timeframe = {
+        normalize_timeframe_label(row.get("input_timeframe")): row
+        for row in observed_rows
+    }
+    ordered_timeframes = [
+        timeframe
+        for timeframe in PREDICTION_MATRIX_TIMEFRAMES
+        if timeframe_sort_seconds(timeframe) >= minimum_display_horizon_sec
+    ]
+    ordered_timeframes.extend(
+        sorted(
+            set(observed_by_timeframe) - set(ordered_timeframes),
+            key=timeframe_sort_seconds,
+        )
+    )
+    rows = [
+        observed_by_timeframe.get(timeframe)
+        or {
+            "id": f"all_forecasts_{timeframe.lower()}",
+            "family": "all_forecasts",
+            "label": "All forecasts",
+            "input_timeframe": timeframe,
+            "training_timeframe": "all fits",
+            "source_kind": "aggregate",
+            "cells": {},
+            "coverage_status": "no_matured_forecasts",
+        }
+        for timeframe in ordered_timeframes
+    ]
+    horizons = [
+        horizon
+        for horizon in PREDICTION_MATRIX_HORIZONS
+        if horizon >= minimum_display_horizon_sec
+    ]
+    observed_cells = sum(len(row.get("cells") or {}) for row in rows)
+    return {
+        "horizons_sec": horizons,
+        "rows": rows,
+        "model_rows": source_rows,
+        "source_row_count": len(source_rows),
+        "observed_cell_count": observed_cells,
+        "possible_cell_count": len(rows) * len(horizons),
+        "coverage_pct": round(
+            100.0 * observed_cells / max(1, len(rows) * len(horizons)),
+            3,
+        ),
+        "aggregation_method": "all_source_sample_weighted_by_matured_outcome_count",
+        "definitions": {
+            "direction_accuracy_pct": "Sample-weighted 100 * count(sign(predicted return) = sign(actual return)) / N across forecast sources that recorded direction outcomes.",
+            "after_cost_win_rate_pct": "Sample-weighted 100 * count(net pips after spread and modeled costs > 0) / matured threshold-qualified forecasts.",
+            "avg_net_pips": "Sample-weighted sum(net pips after spread and modeled costs) / matured forecasts.",
+            "signed_pip_mae": "Mean absolute error between predicted and realized signed midpoint pips. Lower is better; spread is evaluated separately in executable net metrics.",
+            "signed_pip_correlation": "Pearson correlation between predicted and realized signed midpoint pips. +1 is perfect linear agreement, 0 is no linear relationship, and -1 is inverse.",
+            "magnitude_pip_mae": "Mean absolute error between predicted and realized absolute midpoint movement in pips. Lower is better.",
+            "magnitude_pip_correlation": "Pearson correlation between predicted and realized absolute movement magnitude in pips.",
+            "brier_score": "Mean squared error of probability-up forecasts: mean((p_up - actual_up)^2). Lower is better; 0 is perfect.",
+            "evidence_n": "Number of matured scored forecasts contributing to the selected metric. Live OOS and historical replay counts are shown separately on hover.",
+            "matured": "The configured outcome horizon elapsed and an exit quote or historical candle was available, so the forecast could be scored.",
+        },
+    }
+
+
+def prediction_ledger_stats(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    values = [finite_float(row.get("net_pips")) for row in rows]
+    return {
+        "n": len(values),
+        "avg_net_pips": round(statistics.fmean(values), 4) if values else None,
+        "win_rate_pct": round(100.0 * sum(value > 0.0 for value in values) / len(values), 2) if values else None,
+    }
+
+
+def summarize_prediction_ledger(
+    log_dir: Path,
+    *,
+    max_files: int = 3,
+    max_lines: int = 12000,
+    per_class_limit: int = 160,
+) -> dict[str, Any]:
+    accepted: list[dict[str, Any]] = []
+    near_misses: list[dict[str, Any]] = []
+    seen: set[tuple[str, int]] = set()
+    source_files: list[str] = []
+    for path in discover_lab_logs(log_dir)[:max_files]:
+        source_files.append(str(path))
+        for row in reversed(read_jsonl(path, max_lines)):
+            if row.get("event") != "shadow_outcome":
+                continue
+            if row.get("kind") == "signal":
+                classification = "accepted"
+                target = accepted
+            elif row.get("kind") == "miss" and row.get("miss_class") == "near_threshold":
+                classification = "near_miss"
+                target = near_misses
+            else:
+                continue
+            if len(target) >= per_class_limit:
+                continue
+            horizon = int(finite_float(row.get("horizon_sec")))
+            key = (str(row.get("id") or ""), horizon)
+            if not key[0] or horizon <= 0 or key in seen:
+                continue
+            seen.add(key)
+            pattern = row.get("pattern_prediction") or {}
+            expected = finite_float(
+                row.get("predicted_signed_pips", pattern.get("expected_signed_move_pips")),
+                math.nan,
+            )
+            actual = finite_float(row.get("actual_signed_move_pips"), math.nan)
+            favorable = finite_float(row.get("max_favorable_pips"), math.nan)
+            adverse = finite_float(row.get("max_adverse_pips"), math.nan)
+            outcome_delay = finite_float(row.get("outcome_delay_sec"), math.nan)
+            direction_correct = row.get("direction_correct")
+            target.append(
+                {
+                    "id": key[0],
+                    "classification": classification,
+                    "status": "matured",
+                    "origin_time": row.get("entry_time"),
+                    "result_time": row.get("exit_time") or row.get("time"),
+                    "instrument": row.get("instrument"),
+                    "direction": row.get("direction"),
+                    "family": row.get("family"),
+                    "profile": row.get("profile"),
+                    "model": row.get("model_id") or row.get("lane_id"),
+                    "input_timeframe": row.get("input_timeframe") or "multi",
+                    "training_timeframe": row.get("training_timeframe") or "rolling live",
+                    "horizon_sec": horizon,
+                    "predicted_signed_pips": expected if math.isfinite(expected) else None,
+                    "actual_signed_pips": actual if math.isfinite(actual) else None,
+                    "net_pips": finite_float(row.get("theoretical_pips")),
+                    "after_cost_win": finite_float(row.get("theoretical_pips")) > 0.0,
+                    "direction_correct": bool(direction_correct) if direction_correct is not None else None,
+                    "max_favorable_pips": favorable if math.isfinite(favorable) else None,
+                    "max_adverse_pips": adverse if math.isfinite(adverse) else None,
+                    "blocked_by": row.get("blocked_reason") or "",
+                    "outcome_delay_sec": outcome_delay if math.isfinite(outcome_delay) else None,
+                }
+            )
+        if len(accepted) >= per_class_limit and len(near_misses) >= per_class_limit:
+            break
+    rows = accepted + near_misses
+    rows.sort(key=lambda row: str(row.get("result_time") or row.get("origin_time") or ""), reverse=True)
+    return {
+        "rows": rows,
+        "accepted": prediction_ledger_stats(accepted),
+        "near_miss": prediction_ledger_stats(near_misses),
+        "source_files": source_files,
+        "scope": "latest matured accepted signals and near-threshold misses",
+    }
+
+
+def load_historical_sweep_state(data_root: Path) -> tuple[dict[str, Any], Path]:
+    candidates = (
+        data_root / "state" / "timeframe_horizon_sweep_full_span_v2.json",
+        data_root / "state" / "timeframe_horizon_sweep_v1.json",
+    )
+    for path in candidates:
+        payload = load_json_dict(path)
+        if payload:
+            return payload, path
+    return {}, candidates[0]
+
+
+def query_pair_family_matrix(
+    payload: dict[str, Any],
+    query: dict[str, list[str]],
+) -> dict[str, Any]:
+    """Filter, sort, and page the complete persisted interaction matrix."""
+
+    def parameter(name: str, default: str = "") -> str:
+        return str((query.get(name) or [default])[0] or default)
+
+    rows = [row for row in payload.get("rows") or [] if isinstance(row, dict)]
+    search = parameter("q").strip().lower()
+    exact_filters = {
+        "instrument": parameter("pair", "all"),
+        "family": parameter("family", "all"),
+        "input_timeframe": parameter("timeframe", "all"),
+        "horizon_sec": parameter("horizon", "all"),
+        "status": parameter("status", "all"),
+    }
+
+    def matches(row: dict[str, Any]) -> bool:
+        for key, expected in exact_filters.items():
+            if expected.lower() == "all":
+                continue
+            if str(row.get(key) or "").lower() != expected.lower():
+                return False
+        if not search:
+            return True
+        haystack = " ".join(
+            (
+                str(row.get("instrument") or ""),
+                str(row.get("family") or ""),
+                str(row.get("input_timeframe") or ""),
+                str(row.get("horizon_sec") or ""),
+                str(row.get("source_kind") or ""),
+                str(row.get("status") or ""),
+                " ".join(str(value) for value in row.get("blocked_by") or []),
+            )
+        ).lower()
+        return search in haystack
+
+    matched = [row for row in rows if matches(row)]
+    sort_fields = {
+        "instrument",
+        "family",
+        "input_timeframe",
+        "horizon_sec",
+        "sample_count",
+        "holdout_n",
+        "independent_blocks",
+        "direction_accuracy_pct",
+        "win_rate_pct",
+        "average_net_pips",
+        "lower_confidence_net_pips",
+        "median_mfe_pips",
+        "median_entry_spread_pips",
+        "status",
+    }
+    sort_field = parameter("sort", "lower_confidence_net_pips")
+    if sort_field not in sort_fields:
+        sort_field = "lower_confidence_net_pips"
+    descending = parameter("direction", "desc").lower() != "asc"
+    text_fields = {"instrument", "family", "input_timeframe", "status"}
+    present = [row for row in matched if row.get(sort_field) is not None]
+    missing = [row for row in matched if row.get(sort_field) is None]
+    if sort_field in text_fields:
+        present.sort(
+            key=lambda row: (
+                str(row.get(sort_field) or "").lower(),
+                str(row.get("instrument") or ""),
+                str(row.get("family") or ""),
+                int(finite_float(row.get("horizon_sec"))),
+            ),
+            reverse=descending,
+        )
+    else:
+        present.sort(
+            key=lambda row: (
+                finite_float(row.get(sort_field)),
+                int(finite_float(row.get("holdout_n"))),
+                str(row.get("instrument") or ""),
+                str(row.get("family") or ""),
+            ),
+            reverse=descending,
+        )
+    matched = present + missing
+    try:
+        limit = max(1, min(500, int(parameter("limit", "100"))))
+    except ValueError:
+        limit = 100
+    try:
+        offset = max(0, int(parameter("offset", "0")))
+    except ValueError:
+        offset = 0
+    if offset >= len(matched) and matched:
+        offset = max(0, ((len(matched) - 1) // limit) * limit)
+    return {
+        "schema_version": payload.get("schema_version") or 1,
+        "generated_at": payload.get("generated_at"),
+        "status": payload.get("status") or "collecting",
+        "scope": payload.get("scope"),
+        "definitions": payload.get("definitions") or {},
+        "counts": payload.get("counts") or {},
+        "dimensions": payload.get("dimensions") or {},
+        "total_count": len(rows),
+        "matched_count": len(matched),
+        "offset": offset,
+        "limit": limit,
+        "sort": sort_field,
+        "direction": "desc" if descending else "asc",
+        "rows": matched[offset : offset + limit],
+    }
+
+
+def build_research_state(log_dir: Path) -> dict[str, Any]:
+    data_root = log_dir.parent
+    promotion = load_json_dict(data_root / "state" / "lane_promotion_v1.json")
+    timeframe_calibration = load_json_dict(
+        data_root / "state" / "timeframe_matrix_calibration_v1.json"
+    )
+    outcome_compactor = load_json_dict(
+        data_root / "state" / "shadow_outcome_compactor_v1.json"
+    )
+    historical_sweep, historical_sweep_path = load_historical_sweep_state(data_root)
+    pair_family_matrix = load_json_dict(
+        data_root / "state" / "pair_family_timeframe_horizon_v1.json"
+    )
+    return {
+        "generated_at": utc_now(),
+        "accuracy_grid": summarize_prediction_accuracy_grid(
+            data_root, promotion, timeframe_calibration
+        ),
+        "prediction_ledger": summarize_prediction_ledger(log_dir),
+        "promotion_thresholds": promotion.get("thresholds") or {},
+        "timeframe_matrix_calibration": {
+            "generated_utc": timeframe_calibration.get("generated_utc"),
+            "surface_count": int(
+                safe_float(timeframe_calibration.get("surface_count"))
+            ),
+            "ready_surface_count": int(
+                safe_float(timeframe_calibration.get("ready_surface_count"))
+            ),
+            "top_surfaces": list(
+                timeframe_calibration.get("top_surfaces") or []
+            )[:50],
+            "account_eligible": False,
+            "status": timeframe_calibration.get("status") or "not_started",
+        },
+        "outcome_storage": outcome_compactor,
+        "pair_family_matrix": {
+            key: value
+            for key, value in pair_family_matrix.items()
+            if key != "rows"
+        },
+        "historical_sweep": {
+            "state_file": str(historical_sweep_path),
+            "status": historical_sweep.get("status") or "not_started",
+            "started_utc": historical_sweep.get("started_utc"),
+            "updated_utc": historical_sweep.get("updated_utc"),
+            "finished_utc": historical_sweep.get("finished_utc"),
+            "instrument_count": int(
+                finite_float(historical_sweep.get("instrument_count"))
+            ),
+            "run_count": int(finite_float(historical_sweep.get("run_count"))),
+            "sampling_mode": historical_sweep.get("sampling_mode"),
+            "history_coverage": historical_sweep.get("history_coverage"),
+            "planned_matrix_cell_count": int(
+                finite_float(historical_sweep.get("planned_matrix_cell_count"))
+            ),
+            "expected_matrix_cell_count": int(
+                finite_float(historical_sweep.get("expected_matrix_cell_count"))
+            ),
+            "completed_count": len(historical_sweep.get("completed") or []),
+            "error_count": len(historical_sweep.get("errors") or []),
+            "current": historical_sweep.get("current") or {},
+        },
+    }
+
+
+def summarize_second_forecast_matrix(data_root: Path) -> dict[str, Any]:
+    state_root = data_root / "state"
+    report_path = data_root / "reports" / "second_ridge_fit_v1.json"
+    hot_path = state_root / "second_forecast_hot_v1.json"
+    tracker_path = state_root / "second_forecast_live_v1.json"
+    hot = load_json_dict(hot_path)
+    tracker = load_json_dict(tracker_path)
+    report = load_json_dict(report_path)
+    matrix = report.get("matrix") or hot.get("matrix") or tracker.get("matrix") or {}
+    if not (hot or tracker or report):
+        return {}
+
+    def state_age(payload: dict[str, Any]) -> float | None:
+        updated = parse_time(str(payload.get("updated_utc") or ""))
+        return None if updated is None else max(0.0, (datetime.now(timezone.utc) - updated).total_seconds())
+
+    hot_age = state_age(hot)
+    tracker_age = state_age(tracker)
+    active = bool(
+        (hot_age is not None and hot_age < 90.0)
+        or (tracker_age is not None and tracker_age < 90.0)
+    )
+    horizons = sorted(
+        {
+            int(safe_float(value))
+            for value in (
+                matrix.get("outcome_horizons_sec")
+                or report.get("horizons_sec")
+                or hot.get("outcome_horizons_sec")
+                or tracker.get("outcome_horizons_sec")
+                or []
+            )
+            if safe_float(value) > 0
+        }
+    )
+    profiles = list(matrix.get("profiles") or hot.get("profiles") or tracker.get("profiles") or [])
+    physical_lanes = int(safe_float(matrix.get("physical_lane_count")))
+    if not physical_lanes and profiles:
+        physical_lanes = len(profiles)
+    top_source = hot if hot.get("top_forecasts") else tracker
+    return {
+        "matrix_id": matrix.get("matrix_id") or "unified_forecast_matrix_v1",
+        "model_family": matrix.get("model_family") or report.get("model_family") or "ridge_return",
+        "input_timeframe": matrix.get("input_timeframe") or report.get("input_timeframe") or "S1",
+        "training_timeframe": matrix.get("training_timeframe") or report.get("training_timeframe") or "S5",
+        "multi_horizon_smoothing": (
+            report.get("multi_horizon_smoothing")
+            or hot.get("multi_horizon_smoothing")
+            or tracker.get("multi_horizon_smoothing")
+            or {}
+        ),
+        "profiles": profiles,
+        "outcome_horizons_sec": horizons,
+        "account_execution_horizons_sec": list(
+            matrix.get("account_execution_horizons_sec")
+            or hot.get("account_execution_horizons_sec")
+            or []
+        ),
+        "physical_lane_count": physical_lanes,
+        "lane_horizon_surfaces": int(
+            safe_float(matrix.get("lane_horizon_surfaces"), physical_lanes * len(horizons))
+        ),
+        "pair_model_surfaces": int(
+            safe_float(matrix.get("pair_model_surfaces"), report.get("model_count") or 0)
+        ),
+        "pair_profile_surfaces": int(safe_float(matrix.get("pair_profile_surfaces"))),
+        "pairs": int(
+            safe_float(hot.get("model_pairs") or tracker.get("model_pairs") or report.get("pairs_fitted"))
+        ),
+        "active": active,
+        "status": "live" if active else "stale",
+        "hot_age_sec": None if hot_age is None else round(hot_age, 1),
+        "tracker_age_sec": None if tracker_age is None else round(tracker_age, 1),
+        "cadence_sec": int(safe_float(hot.get("cadence_sec") or tracker.get("cadence_sec"), 1)),
+        "cycles": int(safe_float(hot.get("cycles") or tracker.get("cycles"))),
+        "forecasts": int(safe_float(tracker.get("forecasts") or hot.get("forecasts"))),
+        "accepted_signals": int(safe_float(tracker.get("accepted_signals"))),
+        "matured_outcomes": int(safe_float(tracker.get("matured_outcomes"))),
+        "latency_ms_p50": safe_float(hot.get("latency_ms_p50")),
+        "latency_ms_p95": safe_float(hot.get("latency_ms_p95")),
+        "top_forecasts": list(top_source.get("top_forecasts") or []),
+        "top_forecasts_updated_utc": str(top_source.get("top_forecasts_updated_utc") or ""),
+        "historical_gate_passes": int(safe_float(report.get("historical_gate_passes"))),
+        "horizon_summary": list(report.get("horizon_summary") or []),
+        "model_surfaces": list(report.get("model_surfaces") or []),
+        "fit_report_path": str(report_path),
+        "hot_state_path": str(hot_path),
+        "tracker_state_path": str(tracker_path),
+        "fitted_utc": report.get("fitted_utc") or hot.get("model_fitted_utc"),
+    }
+
+
+def summarize_unified_forecast_matrix(
+    strategy_lab: dict[str, Any] | None,
+    second_forecast: dict[str, Any] | None,
+    unified_validation_path: Path | None = None,
+) -> dict[str, Any]:
+    lab = strategy_lab or {}
+    second = second_forecast or {}
+    rows: list[dict[str, Any]] = []
+    if lab:
+        horizons = list(lab.get("horizon_options_sec") or [])
+        lane_count = int(safe_float(lab.get("lane_count")))
+        rows.append(
+            {
+                "input_timeframe": "M1 / multi-context",
+                "training_timeframe": "live causal candles",
+                "model_family": f"{len({str(row.get('family') or '') for row in lab.get('lanes') or []})} strategy families",
+                "profiles": sorted({str(row.get("profile") or "") for row in lab.get("lanes") or [] if row.get("profile")}),
+                "physical_lanes": lane_count,
+                "horizons_sec": horizons,
+                "lane_horizon_surfaces": lane_count * len(horizons),
+                "pair_model_surfaces": 0,
+                "pairs": int(safe_float(lab.get("instrument_count"))),
+                "status": "live" if lab.get("active") else "stale",
+            }
+        )
+        timeframe_matrix = lab.get("timeframe_horizon_matrix") or {}
+        matrix_timeframes = list(timeframe_matrix.get("input_timeframes") or [])
+        matrix_horizons = list(
+            timeframe_matrix.get("horizons_sec")
+            or horizons
+        )
+        matrix_lanes = int(
+            safe_float(
+                timeframe_matrix.get("physical_lane_count"),
+                len(matrix_timeframes),
+            )
+        )
+        if matrix_lanes and matrix_horizons:
+            pair_count = int(safe_float(lab.get("instrument_count")))
+            rows.append(
+                {
+                    "input_timeframe": " / ".join(matrix_timeframes),
+                    "training_timeframe": timeframe_matrix.get(
+                        "training_timeframe"
+                    )
+                    or "rolling_live_equation",
+                    "model_family": timeframe_matrix.get("model_family")
+                    or "timeframe_equation_matrix",
+                    "profiles": ["continuous"],
+                    "physical_lanes": matrix_lanes,
+                    "horizons_sec": matrix_horizons,
+                    "lane_horizon_surfaces": int(
+                        safe_float(
+                            timeframe_matrix.get("lane_horizon_surfaces"),
+                            matrix_lanes * len(matrix_horizons),
+                        )
+                    ),
+                    "pair_model_surfaces": pair_count
+                    * matrix_lanes
+                    * len(matrix_horizons),
+                    "pairs": pair_count,
+                    "status": (
+                        "live"
+                        if lab.get("active")
+                        and (
+                            timeframe_matrix.get("ready_timeframes")
+                            or safe_float(
+                                timeframe_matrix.get("forecasts_in_window")
+                            )
+                            > 0
+                        )
+                        else "warming"
+                    ),
+                    "account_eligible": False,
+                }
+            )
+    if second:
+        rows.append(
+            {
+                "input_timeframe": second.get("input_timeframe") or "S1",
+                "training_timeframe": second.get("training_timeframe") or "S5",
+                "model_family": second.get("model_family") or "ridge_return",
+                "profiles": list(second.get("profiles") or []),
+                "physical_lanes": int(safe_float(second.get("physical_lane_count"))),
+                "horizons_sec": list(second.get("outcome_horizons_sec") or []),
+                "lane_horizon_surfaces": int(safe_float(second.get("lane_horizon_surfaces"))),
+                "pair_model_surfaces": int(safe_float(second.get("pair_model_surfaces"))),
+                "pairs": int(safe_float(second.get("pairs"))),
+                "status": second.get("status") or "stale",
+            }
+        )
+    candidate_path = unified_validation_path
+    candidate_explicit = unified_validation_path is not None
+    if candidate_path is None:
+        configured = os.environ.get("FOREX_UNIFIED_FORECAST_VALIDATION")
+        if configured:
+            candidate_path = Path(configured)
+            candidate_explicit = True
+        else:
+            candidate_path = (
+                Path.home()
+                / "AppData"
+                / "Local"
+                / "ForexResearchData"
+                / "unified_intrahour_v1"
+                / "latest_validation.json"
+            )
+    candidate = load_json_dict(candidate_path) if candidate_path.is_file() else {}
+    if candidate and (
+        candidate_explicit or candidate.get("deployment_eligible")
+    ):
+        selection = candidate.get("selection") or {}
+        winner = selection.get("winner") or {}
+        final = (candidate.get("untouched_final") or {}).get("selected_model") or {}
+        shadow_path = Path(str(candidate.get("shadow_forecasts") or ""))
+        shadow = load_json_dict(shadow_path) if shadow_path.is_file() else {}
+        forecasts = list(shadow.get("forecasts") or [])
+        horizons = sorted(
+            {
+                int(value)
+                for row in forecasts
+                for value in (row.get("forecast_curve") or {})
+                if str(value).isdigit()
+            }
+        )
+        rows.append(
+            {
+                "input_timeframe": "MULTI",
+                "training_timeframe": "M1 decision / M1+M30+H1+H4 context",
+                "model_family": winner.get("model_candidate")
+                or "validation-selected unified forecast",
+                "profiles": ["shadow_only"],
+                "physical_lanes": 1,
+                "horizons_sec": horizons
+                or list(STRUCTURAL_INTRAHOUR_HORIZONS_SEC),
+                "lane_horizon_surfaces": len(
+                    horizons or STRUCTURAL_INTRAHOUR_HORIZONS_SEC
+                ),
+                "pair_model_surfaces": len(forecasts),
+                "pairs": len(forecasts),
+                "status": (
+                    "validated_candidate"
+                    if candidate.get("deployment_eligible")
+                    else "failed_validation"
+                ),
+                "account_eligible": False,
+                "one_curve_per_pair": bool(shadow.get("one_curve_per_pair")),
+                "final_relative_mae": final.get(
+                    "mean_horizon_mae_relative_to_no_change"
+                ),
+                "artifact_sha256": candidate.get("artifact_sha256"),
+            }
+        )
+    return {
+        "matrix_id": "unified_forecast_matrix_v1",
+        "rows": rows,
+        "input_timeframes": [row["input_timeframe"] for row in rows],
+        "outcome_horizons_sec": sorted(
+            {int(value) for row in rows for value in row.get("horizons_sec") or []}
+        ),
+        "physical_lanes": sum(int(row["physical_lanes"]) for row in rows),
+        "lane_horizon_surfaces": sum(int(row["lane_horizon_surfaces"]) for row in rows),
+        "pair_model_surfaces": sum(int(row["pair_model_surfaces"]) for row in rows),
+        "active": any(row["status"] == "live" for row in rows),
+    }
+
+
+def live_research_counts(database_path: Path, database_type: str) -> dict[str, Any]:
+    if not database_path.is_file():
+        return {}
+    try:
+        connection = sqlite3.connect(f"file:{database_path.as_posix()}?mode=ro", uri=True, timeout=0.25)
+        if database_type == "combination":
+            snapshots = int(connection.execute("SELECT COUNT(*) FROM snapshots").fetchone()[0])
+            outcomes = int(connection.execute("SELECT COUNT(*) FROM outcomes").fetchone()[0])
+            horizons = {
+                str(int(horizon)): int(count)
+                for horizon, count in connection.execute("SELECT horizon_sec, COUNT(*) FROM outcomes GROUP BY horizon_sec")
+            }
+            result = {"snapshots": snapshots, "outcomes": outcomes, "horizons": horizons}
+        else:
+            by_kind = {
+                str(kind): int(count)
+                for kind, count in connection.execute("SELECT kind, COUNT(*) FROM outcomes GROUP BY kind")
+            }
+            fit_signal_rows = int(
+                connection.execute(
+                    "SELECT COUNT(*) FROM outcomes WHERE kind = 'signal' AND horizon_sec = 300"
+                ).fetchone()[0]
+            )
+            result = {"total": sum(by_kind.values()), **by_kind, "fit_signal_rows": fit_signal_rows}
+        connection.close()
+        return result
+    except (OSError, sqlite3.Error):
+        return {}
+
+
+def summarize_signal_feed(database_path: Path) -> dict[str, Any]:
+    try:
+        connection = sqlite3.connect(
+            f"file:{database_path.as_posix()}?mode=ro",
+            uri=True,
+            timeout=0.5,
+        )
+        status_counts = {
+            str(status): int(count)
+            for status, count in connection.execute(
+                "SELECT status, COUNT(*) FROM executions GROUP BY status"
+            )
+        }
+        source_counts = {
+            str(source): int(count)
+            for source, count in connection.execute(
+                "SELECT source, COUNT(*) FROM candidates WHERE expires_epoch >= ? GROUP BY source",
+                (time.time(),),
+            )
+        }
+        contributor_summary: dict[str, Any] = {}
+        registry_exists = connection.execute(
+            """
+            SELECT 1 FROM sqlite_master
+            WHERE type = 'table' AND name = 'contributor_registry'
+            """
+        ).fetchone()
+        if registry_exists:
+            now = time.time()
+            registry_row = connection.execute(
+                """
+                SELECT
+                    COUNT(*),
+                    SUM(CASE WHEN expected = 1 THEN 1 ELSE 0 END),
+                    SUM(CASE WHEN account_eligible = 1 THEN 1 ELSE 0 END),
+                    SUM(CASE WHEN last_seen_epoch >= ? THEN 1 ELSE 0 END),
+                    SUM(CASE WHEN source_kind = 'model_gap' THEN 1 ELSE 0 END),
+                    SUM(CASE WHEN source_kind = 'model_gap' AND last_seen_epoch >= ? THEN 1 ELSE 0 END)
+                FROM contributor_registry
+                """,
+                (now - 300.0, now - 300.0),
+            ).fetchone() or (0, 0, 0, 0, 0, 0)
+            contributor_summary = {
+                "registered": int(registry_row[0] or 0),
+                "expected": int(registry_row[1] or 0),
+                "account_eligible": int(registry_row[2] or 0),
+                "fresh": int(registry_row[3] or 0),
+                "fresh_window_sec": 300,
+                "model_gap_registered": int(registry_row[4] or 0),
+                "model_gap_fresh": int(registry_row[5] or 0),
+            }
+        latest_row = connection.execute(
+            """
+            SELECT submitted_epoch, status, trade_id, payload_json
+            FROM executions
+            ORDER BY submitted_epoch DESC
+            LIMIT 1
+            """
+        ).fetchone()
+        connection.close()
+    except (OSError, sqlite3.Error):
+        return {}
+    latest: dict[str, Any] = {}
+    if latest_row:
+        try:
+            payload = json.loads(str(latest_row[3] or "{}"))
+        except json.JSONDecodeError:
+            payload = {}
+        latest = {
+            "submitted_epoch": safe_float(latest_row[0]),
+            "status": str(latest_row[1] or ""),
+            "trade_id": str(latest_row[2] or ""),
+            "instrument": payload.get("instrument"),
+            "direction": payload.get("direction"),
+            "family": payload.get("family"),
+            "confidence": safe_float(payload.get("signal_confidence")),
+        }
+    return {
+        "database": str(database_path),
+        "execution_count": sum(status_counts.values()),
+        "status_counts": status_counts,
+        "active_candidates": sum(source_counts.values()),
+        "active_sources": source_counts,
+        "contributors": contributor_summary,
+        "latest_execution": latest,
+    }
+
+
+def summarize_primary_signal_system(
+    account_snapshot: dict[str, Any] | None,
+    strategy_lab: dict[str, Any] | None,
+    combination_audit: dict[str, Any],
+    exit_fit: dict[str, Any],
+    lane_promotion: dict[str, Any] | None = None,
+    second_forecast: dict[str, Any] | None = None,
+    signal_feed: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    account = next(
+        (
+            row
+            for row in (account_snapshot or {}).get("accounts") or []
+            if str(row.get("account_id") or "").endswith("-007")
+        ),
+        {},
+    )
+    lab = strategy_lab or {}
+    execution = lab.get("execution") or {}
+    top_rule = next(iter(combination_audit.get("top_rules") or []), {})
+    global_exit = exit_fit.get("global") or {}
+    promotion = lane_promotion or {}
+    second = second_forecast or {}
+    feed = signal_feed or {}
+    feed_status = feed.get("status_counts") or {}
+    matrix = summarize_unified_forecast_matrix(lab, second)
+    promotion_horizons = [
+        int(value)
+        for value in promotion.get("horizons_sec") or lab.get("horizon_options_sec") or []
+    ]
+    if matrix.get("rows") and lab and not matrix["rows"][0].get("horizons_sec"):
+        matrix["rows"][0]["horizons_sec"] = list(promotion_horizons)
+        matrix["rows"][0]["lane_horizon_surfaces"] = (
+            int(matrix["rows"][0]["physical_lanes"]) * len(promotion_horizons)
+        )
+        matrix["outcome_horizons_sec"] = sorted(
+            {int(value) for row in matrix["rows"] for value in row.get("horizons_sec") or []}
+        )
+        matrix["lane_horizon_surfaces"] = sum(
+            int(row["lane_horizon_surfaces"]) for row in matrix["rows"]
+        )
+    return {
+        "account_suffix": "-007",
+        "account": {
+            "id": account.get("account_id"),
+            "ok": bool(account.get("ok")),
+            "balance": safe_float(account.get("balance")),
+            "nav": safe_float(account.get("NAV")),
+            "realized_pl": safe_float(account.get("pl")),
+            "unrealized_pl": safe_float(account.get("unrealizedPL")),
+            "open_trades": int(safe_float(account.get("openTradeCount"))),
+            "pending_orders": int(safe_float(account.get("pendingOrderCount"))),
+            "return_pct": account.get("lifetime_return_pct"),
+        },
+        "lab": {
+            "active": bool(matrix.get("active")),
+            "run_label": lab.get("run_label") or "not running",
+            "lanes": int(safe_float(matrix.get("physical_lanes"))),
+            "families": len({str(row.get("family") or "") for row in lab.get("lanes") or []})
+            + int(bool(second)),
+            "pairs": max(
+                int(safe_float(lab.get("instrument_count"))),
+                int(safe_float(second.get("pairs"))),
+            ),
+            "signals": int(safe_float(lab.get("signals")))
+            + int(safe_float(second.get("accepted_signals"))),
+            "near_misses": int(safe_float(lab.get("near_misses"))),
+            "hard_rejects": int(safe_float(lab.get("hard_rejects"))),
+            "outcomes": int(safe_float(lab.get("outcomes")))
+            + int(safe_float(second.get("matured_outcomes"))),
+            "qualified_lanes": int(safe_float(execution.get("qualified_lane_count"))),
+            "qualified_candidates": int(
+                safe_float(
+                    execution.get(
+                        "latest_nonconflicting_qualified_candidates",
+                        execution.get("latest_qualified_candidates"),
+                    )
+                )
+            ),
+            "raw_qualified_candidates": int(
+                safe_float(execution.get("latest_qualified_candidates"))
+            ),
+            "selection_mode": execution.get("selection_mode") or "legacy_lane_gate",
+            "top_signals": execution.get("top_signals") or [],
+            "selected": (
+                int(safe_float(feed.get("execution_count")))
+                if feed
+                else int(safe_float(execution.get("selected")))
+            ),
+            "fills": (
+                int(safe_float(feed_status.get("filled")))
+                if feed
+                else int(safe_float(execution.get("fills")))
+            ),
+            "errors": (
+                int(safe_float(feed_status.get("error")))
+                if feed
+                else int(safe_float(execution.get("errors")))
+            ),
+            "contribution_feed": feed.get("contributors") or {},
+            "active_feed_candidates": int(
+                safe_float(feed.get("active_candidates"))
+            ),
+            "feed_active_candidates": int(safe_float(feed.get("active_candidates"))),
+            "feed_active_sources": feed.get("active_sources") or {},
+            "last_write_age_sec": lab.get("last_write_age_sec"),
+            "virtual_lane_horizons": int(safe_float(matrix.get("lane_horizon_surfaces"))),
+        },
+        "matrix": matrix,
+        "combination": {
+            "status": combination_audit.get("status") or "not started",
+            "generated_at": combination_audit.get("generated_at"),
+            "snapshots": int(safe_float((combination_audit.get("counts") or {}).get("snapshots"))),
+            "outcomes": int(safe_float((combination_audit.get("counts") or {}).get("outcomes"))),
+            "validated_rules": int(safe_float(combination_audit.get("validated_rule_count"))),
+            "top_rule": top_rule,
+        },
+        "exit_fit": {
+            "status": exit_fit.get("status") or "not started",
+            "generated_at": exit_fit.get("generated_at"),
+            "signal_rows": int(safe_float((exit_fit.get("counts") or {}).get("fit_signal_rows"))),
+            "eligible": exit_fit.get("eligible") or {},
+            "global": global_exit,
+        },
+        "promotion": {
+            "status": promotion.get("status") or "not started",
+            "generated_at": promotion.get("generated_at"),
+            "source_complete": bool(promotion.get("source_complete")),
+            "horizons_sec": promotion_horizons,
+            "raw_rows": int(safe_float(promotion.get("raw_rows"))),
+            "evidence_count": int(safe_float(promotion.get("evidence_count"))),
+            "eligible_count": int(safe_float(promotion.get("eligible_count"))),
+            "eligible_lane_count": int(safe_float(promotion.get("eligible_lane_count"))),
+            "backfill": promotion.get("backfill") or {},
+        },
+    }
+
+
+def active_signal_candidates(database_path: Path, limit: int = 4000) -> list[dict[str, Any]]:
+    bounded_limit = max(1, int(limit))
+    cache_key = (str(database_path), bounded_limit)
+    now = time.monotonic()
+    with _ACTIVE_CANDIDATE_CACHE_LOCK:
+        cached = _ACTIVE_CANDIDATE_CACHE.get(cache_key)
+        if cached is not None and now - cached[0] < 15.0:
+            return cached[1]
+        try:
+            connection = sqlite3.connect(
+                f"file:{database_path.as_posix()}?mode=ro",
+                uri=True,
+                timeout=0.5,
+            )
+            rows = connection.execute(
+                """
+                SELECT payload_json FROM candidates
+                WHERE expires_epoch >= ?
+                ORDER BY published_epoch DESC
+                LIMIT ?
+                """,
+                (time.time(), bounded_limit),
+            ).fetchall()
+            connection.close()
+        except (OSError, sqlite3.Error):
+            return cached[1] if cached is not None else []
+        output: list[dict[str, Any]] = []
+        for (payload_json,) in rows:
+            try:
+                payload = json.loads(str(payload_json or "{}"))
+            except json.JSONDecodeError:
+                continue
+            if isinstance(payload, dict):
+                output.append(payload)
+        _ACTIVE_CANDIDATE_CACHE[cache_key] = (now, output)
+        return output
+
+
+def summarize_signal_families(
+    promotion: dict[str, Any],
+    active_candidates: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    active_by_family: dict[str, set[tuple[str, str, str]]] = defaultdict(set)
+    active_pairs: dict[str, set[str]] = defaultdict(set)
+    for candidate in active_candidates:
+        family = str(candidate.get("family") or candidate.get("lane_id") or "unknown")
+        instrument = str(candidate.get("instrument") or "")
+        direction = str(candidate.get("direction") or "")
+        model = str(candidate.get("model_id") or candidate.get("lane_id") or family)
+        active_by_family[family].add((instrument, direction, model))
+        if instrument:
+            active_pairs[family].add(instrument)
+
+    evidence_by_family: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for row in promotion.get("signal_evidence") or promotion.get("top_evidence") or []:
+        if not isinstance(row, dict):
+            continue
+        family = str(row.get("family") or row.get("lane_id") or "unknown")
+        evidence_by_family[family].append(row)
+
+    families = sorted(set(active_by_family) | set(evidence_by_family))
+    output: list[dict[str, Any]] = []
+    for family in families:
+        rows = evidence_by_family.get(family) or []
+        rows.sort(
+            key=lambda row: (
+                bool(row.get("eligible")),
+                safe_float((row.get("holdout") or {}).get("lower_confidence"), -999.0),
+                safe_float((row.get("holdout") or {}).get("avg"), -999.0),
+                int(safe_float((row.get("holdout") or {}).get("n"))),
+            ),
+            reverse=True,
+        )
+        best = rows[0] if rows else {}
+        raw = best.get("raw") or {}
+        training = best.get("training") or {}
+        holdout = best.get("holdout") or {}
+        output.append(
+            {
+                "family": family,
+                "active_signals": len(active_by_family.get(family) or set()),
+                "active_pairs": len(active_pairs.get(family) or set()),
+                "best_lane": best.get("lane_id"),
+                "best_profile": best.get("profile"),
+                "best_horizon_sec": int(safe_float(best.get("horizon_sec"))),
+                "n": int(safe_float(raw.get("n"))),
+                "raw_avg_net_pips": safe_float(raw.get("avg")),
+                "raw_win_rate": safe_float(raw.get("win_rate")),
+                "training_n": int(safe_float(training.get("n"))),
+                "training_avg_net_pips": safe_float(training.get("avg")),
+                "training_lower_confidence_pips": safe_float(training.get("lower_confidence")),
+                "training_win_rate": safe_float(training.get("win_rate")),
+                "holdout_n": int(safe_float(holdout.get("n"))),
+                "holdout_avg_net_pips": safe_float(holdout.get("avg")),
+                "holdout_lower_confidence_pips": safe_float(holdout.get("lower_confidence")),
+                "adjusted_lower_confidence_pips": safe_float(
+                    best.get("adjusted_lower_confidence"),
+                    safe_float(holdout.get("lower_confidence")),
+                ),
+                "evidence_strength": safe_float(best.get("evidence_strength")),
+                "holdout_win_rate": safe_float(holdout.get("win_rate")),
+                "sample_count": int(safe_float(best.get("sample_count") or raw.get("n"))),
+                "independent_blocks": int(safe_float(best.get("independent_blocks"))),
+                "holdout_blocks": int(safe_float(best.get("holdout_blocks"))),
+                "pair_count": int(safe_float(best.get("pair_count"))),
+                "session_count": int(safe_float(best.get("session_count"))),
+                "time_block_count": int(safe_float(best.get("time_block_count"))),
+                "positive_time_blocks": int(safe_float(best.get("positive_time_blocks"))),
+                "split": best.get("split"),
+                "eligible": bool(best.get("eligible")),
+                "blocked_by": list(best.get("blocked_by") or []),
+                "evidence_surfaces": len(rows),
+            }
+        )
+    output.sort(
+        key=lambda row: (
+            int(row["active_signals"] > 0),
+            bool(row["eligible"]),
+            safe_float(row["adjusted_lower_confidence_pips"], -999.0),
+            safe_float(row["holdout_avg_net_pips"], -999.0),
+        ),
+        reverse=True,
+    )
+    return output
+
+
+def visible_signal_candidates(signals: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    output: list[dict[str, Any]] = []
+    seen: set[tuple[str, str, str, str]] = set()
+    for signal in signals:
+        instrument = str(signal.get("instrument") or "")
+        direction = str(signal.get("direction") or "")
+        for horizon_row in signal.get("horizon_breakdown") or []:
+            for contributor in horizon_row.get("contributors") or []:
+                family = str(contributor.get("family") or "unknown")
+                model_id = str(
+                    contributor.get("model_id")
+                    or contributor.get("lane_id")
+                    or family
+                )
+                key = (instrument, direction, family, model_id)
+                if key in seen:
+                    continue
+                seen.add(key)
+                output.append(
+                    {
+                        "instrument": instrument,
+                        "direction": direction,
+                        "family": family,
+                        "model_id": model_id,
+                        "lane_id": contributor.get("lane_id"),
+                    }
+                )
+    return output
+
+
+def compact_second_curves(payload: dict[str, Any]) -> dict[str, list[dict[str, Any]]]:
+    rows = payload.get("forecast_curves") or []
+    if not rows:
+        grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
+        for point in payload.get("top_forecasts") or []:
+            grouped[str(point.get("instrument") or "")].append(point)
+        rows = [{"instrument": instrument, "points": points} for instrument, points in grouped.items()]
+    output: dict[str, list[dict[str, Any]]] = {}
+    for curve in rows:
+        instrument = str(curve.get("instrument") or "")
+        if not instrument:
+            continue
+        output[instrument] = sorted(
+            [
+                {
+                    "horizon_sec": int(safe_float(point.get("horizon_sec"))),
+                    "input_timeframe": str(point.get("input_timeframe") or "S1"),
+                    "training_timeframe": str(point.get("training_timeframe") or "S5"),
+                    "model_id": point.get("model_id"),
+                    "predicted_signed_pips": safe_float(point.get("predicted_signed_pips")),
+                    "projected_net_pips": safe_float(point.get("projected_net_pips")),
+                    "probability_up": safe_float(point.get("probability_up"), 0.5),
+                    "spread_pips": safe_float(point.get("spread_pips")),
+                    "accepted_profiles": list(point.get("accepted_profiles") or []),
+                    "holdout_n": int(safe_float(point.get("holdout_n"))),
+                }
+                for point in curve.get("points") or []
+                if safe_float(point.get("horizon_sec")) > 0
+            ],
+            key=lambda point: int(point["horizon_sec"]),
+        )
+    return output
+
+
+def curve_for_direction(points: list[dict[str, Any]], direction: str) -> dict[str, Any]:
+    sign = 1.0 if direction == "buy" else -1.0
+    curve: list[dict[str, Any]] = []
+    for point in points:
+        probability_up = safe_float(point.get("probability_up"), 0.5)
+        side_probability = probability_up if direction == "buy" else 1.0 - probability_up
+        directional_pips = sign * safe_float(point.get("predicted_signed_pips"))
+        curve.append(
+            {
+                **point,
+                "side_probability": round(side_probability, 6),
+                "directional_pips": round(directional_pips, 4),
+                "aligned": directional_pips > 0.0,
+                "steps_ahead": int(safe_float(point.get("horizon_sec"))),
+                "role": "entry_exit_timing",
+            }
+        )
+    short = [point for point in curve if int(point["horizon_sec"]) <= 300]
+    mean_probability = statistics.fmean(point["side_probability"] for point in short) if short else 0.5
+    mean_directional = statistics.fmean(point["directional_pips"] for point in short) if short else 0.0
+    if len(short) >= 3 and mean_probability <= 0.47 and mean_directional < 0.0:
+        state = "opposed"
+    elif len(short) >= 3 and mean_probability >= 0.53 and mean_directional > 0.0:
+        state = "aligned"
+    else:
+        state = "neutral"
+    return {
+        "state": state,
+        "short_probability": round(mean_probability, 6),
+        "short_directional_pips": round(mean_directional, 4),
+        "points": curve,
+    }
+
+
+def index_signal_evidence(
+    promotion: dict[str, Any],
+) -> dict[tuple[str, int], dict[str, Any]]:
+    index: dict[tuple[str, int], dict[str, Any]] = {}
+    for row in promotion.get("signal_evidence") or promotion.get("top_evidence") or []:
+        if not isinstance(row, dict):
+            continue
+        lane_id = str(row.get("lane_id") or "")
+        horizon = int(safe_float(row.get("horizon_sec")))
+        if not lane_id or horizon <= 0:
+            continue
+        key = (lane_id, horizon)
+        previous = index.get(key)
+        if previous is None:
+            index[key] = row
+            continue
+        holdout = row.get("holdout") or {}
+        previous_holdout = previous.get("holdout") or {}
+        rank = (
+            bool(row.get("eligible")),
+            safe_float(
+                row.get("score"),
+                safe_float(holdout.get("lower_confidence"), -math.inf),
+            ),
+            int(safe_float(holdout.get("n"))),
+        )
+        previous_rank = (
+            bool(previous.get("eligible")),
+            safe_float(
+                previous.get("score"),
+                safe_float(previous_holdout.get("lower_confidence"), -math.inf),
+            ),
+            int(safe_float(previous_holdout.get("n"))),
+        )
+        if rank > previous_rank:
+            index[key] = row
+    return index
+
+
+def canonical_horizon_label(horizon_sec: int) -> str:
+    horizon = int(horizon_sec)
+    if horizon == 86_400:
+        return "D1"
+    if horizon >= 3_600 and horizon % 3_600 == 0:
+        return f"H{horizon // 3_600}"
+    if horizon >= 60 and horizon % 60 == 0:
+        return f"M{horizon // 60}"
+    return f"{horizon}s"
+
+
+def forex_market_open_at(value: datetime) -> bool:
+    local = value.astimezone(NEW_YORK_TZ)
+    weekday = local.weekday()
+    if weekday == 5:
+        return False
+    if weekday == 4 and local.hour >= 17:
+        return False
+    if weekday == 6 and local.hour < 17:
+        return False
+    return True
+
+
+def signal_horizon_market_target(
+    observed_at: Any,
+    horizon_sec: int,
+) -> dict[str, Any]:
+    observed = parse_time(str(observed_at or ""))
+    if observed is None:
+        return {"target_utc": None, "market_open": None}
+    target = observed + timedelta(seconds=max(0, int(horizon_sec)))
+    return {
+        "target_utc": target.astimezone(timezone.utc).isoformat(),
+        "market_open": forex_market_open_at(target),
+    }
+
+
+def display_signal_side(direction: Any) -> str:
+    normalized = str(direction or "").strip().lower()
+    if normalized in {"buy", "long"}:
+        return "Long"
+    if normalized in {"sell", "short"}:
+        return "Short"
+    return "Neutral"
+
+
+def build_top_signal_horizon_matrix(
+    signals: list[dict[str, Any]],
+    evidence_index: dict[tuple[str, int], dict[str, Any]] | None = None,
+) -> dict[str, Any]:
+    """Return exactly one comparable winner for each canonical outcome horizon."""
+    evidence_index = evidence_index or {}
+    candidates: dict[int, list[dict[str, Any]]] = defaultdict(list)
+
+    def optional_number(value: Any, digits: int = 6) -> float | None:
+        number = finite_float(value, math.nan)
+        return round(number, digits) if math.isfinite(number) else None
+
+    for signal in signals:
+        if not isinstance(signal, dict):
+            continue
+        instrument = str(signal.get("instrument") or "")
+        validation = signal.get("execution_validation") or {}
+        parent_conflict = bool(signal.get("direction_conflict"))
+        parent_blockers = list(signal.get("signal_blocked_by") or [])
+        for point in signal.get("horizon_breakdown") or []:
+            if not isinstance(point, dict):
+                continue
+            if not active_signal_timeframe(
+                point.get("best_input_timeframe") or signal.get("input_timeframe")
+            ):
+                continue
+            horizon = int(safe_float(point.get("horizon_sec")))
+            if horizon not in CANONICAL_SIGNAL_HORIZONS:
+                continue
+            direction = str(point.get("direction") or signal.get("direction") or "")
+            side = display_signal_side(direction)
+            if not instrument or side == "Neutral":
+                continue
+            lane_id = str(point.get("best_model_id") or signal.get("lane_id") or "")
+            evidence = evidence_index.get((lane_id, horizon), {})
+            holdout = evidence.get("holdout") or {}
+            blockers = list(point.get("signal_blocked_by") or parent_blockers)
+            market_target = signal_horizon_market_target(
+                signal.get("signal_observed_at"), horizon
+            )
+            target_market_closed = market_target.get("market_open") is False
+            if target_market_closed and "target_market_closed" not in blockers:
+                blockers.append("target_market_closed")
+            eligible = bool(point.get("signal_eligible"))
+            validated = bool(validation.get("validated"))
+            conflict = bool(point.get("direction_conflict", parent_conflict))
+            confidence = finite_float(
+                point.get("signal_confidence"),
+                finite_float(signal.get("signal_confidence"), 0.5),
+            )
+            projected = finite_float(point.get("projected_net_pips"))
+            projected_per_hour = finite_float(point.get("projected_net_pips_per_hour"))
+            gross_to_spread = finite_float(point.get("gross_to_spread"))
+            historical_n = int(safe_float(holdout.get("n")))
+            historical_win = optional_number(holdout.get("win_rate"), 3)
+            historical_avg = optional_number(holdout.get("avg"), 4)
+            historical_lower = optional_number(holdout.get("lower_confidence"), 4)
+            historical_adjusted = optional_number(
+                evidence.get("adjusted_lower_confidence"), 4
+            )
+            if historical_lower is not None and historical_lower <= -900.0:
+                historical_lower = None
+            if historical_adjusted is not None and historical_adjusted <= -900.0:
+                historical_adjusted = None
+            historical_eligible = bool(evidence.get("eligible"))
+            executable = (
+                eligible
+                and validated
+                and not conflict
+                and not blockers
+                and not target_market_closed
+            )
+            aggressive_shadow = (
+                not executable
+                and not conflict
+                and not target_market_closed
+                and confidence >= 0.52
+                and projected > 0.0
+                and gross_to_spread >= 1.15
+                and int(safe_float(point.get("family_count"))) >= 2
+                and historical_n >= 15
+                and historical_avg is not None
+                and historical_avg > 0.0
+                and historical_win is not None
+                and historical_win >= 52.0
+                and historical_lower is not None
+                and historical_lower > -1.0
+            )
+            state = (
+                "executable" if executable
+                else "aggressive_shadow" if aggressive_shadow
+                else "blocked"
+            )
+            if target_market_closed:
+                reason = "target falls in market closure"
+            elif conflict:
+                reason = "direction conflict"
+            elif not validated:
+                reason = "unvalidated signal"
+            elif blockers:
+                reason = str(blockers[0]).replace("_", " ")
+            elif state == "aggressive_shadow":
+                reason = "selective what-if only"
+            elif not eligible:
+                reason = "not execution eligible"
+            else:
+                reason = "eligible"
+            news = signal.get("news_context") or {}
+            news_horizon = int(
+                safe_float(news.get("estimated_reaction_horizon_sec"))
+            )
+            news_side = display_signal_side(news.get("direction"))
+            row = {
+                "horizon_sec": horizon,
+                "horizon_label": canonical_horizon_label(horizon),
+                "horizon_group": "intrahour" if horizon <= 3_600 else "swing",
+                "instrument": instrument,
+                "direction": "buy" if side == "Long" else "sell",
+                "side": side,
+                "family": str(point.get("best_family") or signal.get("family") or ""),
+                "lane_id": lane_id,
+                "input_timeframe": str(point.get("best_input_timeframe") or signal.get("input_timeframe") or ""),
+                "confidence": round(confidence, 6),
+                "projected_net_pips": round(projected, 4),
+                "projected_net_pips_per_hour": round(projected_per_hour, 4),
+                "gross_to_spread": round(gross_to_spread, 4),
+                "component_count": int(safe_float(point.get("component_count"))),
+                "eligible_component_count": int(safe_float(point.get("eligible_component_count"))),
+                "family_count": int(safe_float(point.get("family_count"))),
+                "signal_eligible": eligible,
+                "validated": validated,
+                "direction_conflict": conflict,
+                "blocked_by": blockers,
+                "target_utc": market_target.get("target_utc"),
+                "target_market_open": market_target.get("market_open"),
+                "historical_n": historical_n,
+                "historical_win_rate_pct": historical_win,
+                "historical_avg_net_pips": historical_avg,
+                "historical_lower_confidence_pips": historical_lower,
+                "historical_adjusted_lower_pips": historical_adjusted,
+                "historical_eligible": historical_eligible,
+                "historical_blocked_by": list(evidence.get("blocked_by") or []),
+                "state": state,
+                "reason": reason,
+                "research_only": not executable,
+                "news_side": news_side,
+                "news_score": finite_float(news.get("score")),
+                "news_confidence": finite_float(news.get("confidence")),
+                "news_estimated_reaction_horizon_sec": news_horizon,
+                "news_estimated_reaction_horizon_label": str(
+                    news.get("estimated_reaction_horizon_label") or ""
+                ),
+                "news_reaction_phase": str(news.get("reaction_phase") or ""),
+                "news_remaining_relevance_minutes": finite_float(
+                    news.get("remaining_relevance_minutes")
+                ),
+                "news_horizon_match": bool(
+                    news_horizon > 0
+                    and 0.5 <= horizon / news_horizon <= 2.0
+                ),
+                "news_direction_match": bool(
+                    news_side != "Neutral" and news_side == side
+                ),
+            }
+            candidates[horizon].append(row)
+
+    def rank(row: dict[str, Any]) -> tuple[Any, ...]:
+        return (
+            row.get("state") == "executable",
+            row.get("state") == "aggressive_shadow",
+            bool(row.get("historical_eligible")),
+            not bool(row.get("direction_conflict")),
+            finite_float(row.get("historical_adjusted_lower_pips"), -math.inf),
+            finite_float(row.get("confidence")) - 0.5,
+            finite_float(row.get("projected_net_pips_per_hour")),
+            finite_float(row.get("projected_net_pips")),
+        )
+
+    rows = [
+        max(candidates[horizon], key=rank)
+        for horizon in CANONICAL_SIGNAL_HORIZONS
+        if candidates.get(horizon)
+    ]
+    counts = Counter(row["state"] for row in rows)
+    preferred_counts = Counter(
+        canonical_horizon_label(int(safe_float(row.get("preferred_horizon_sec"))))
+        for row in signals
+        if int(safe_float(row.get("preferred_horizon_sec"))) > 0
+    )
+    return {
+        "rows": rows,
+        "counts": dict(counts),
+        "preferred_horizon_counts": dict(preferred_counts),
+        "horizon_alias_policy": {"H24": "D1", "deduplicated": True},
+        "direction_terms": ["Long", "Short"],
+        "selection": "one top signal per canonical outcome horizon",
+    }
+
+
+def build_signal_component_matrix(
+    signal: dict[str, Any],
+    evidence_index: dict[tuple[str, int], dict[str, Any]] | None = None,
+) -> dict[str, Any]:
+    horizons: set[int] = set()
+    rows_by_key: dict[tuple[str, str, str], dict[str, Any]] = {}
+    evidence_index = evidence_index or {}
+
+    def optional_number(value: Any, digits: int = 6) -> float | None:
+        number = finite_float(value, math.nan)
+        return round(number, digits) if math.isfinite(number) else None
+
+    def historical_fields(evidence: dict[str, Any] | None) -> dict[str, Any]:
+        evidence = evidence or {}
+        raw = evidence.get("raw") or {}
+        holdout = evidence.get("holdout") or {}
+        return {
+            "historical_win_rate_pct": optional_number(holdout.get("win_rate"), 3),
+            "historical_avg_net_pips": optional_number(holdout.get("avg"), 4),
+            "historical_lower_confidence_pips": optional_number(
+                holdout.get("lower_confidence"), 4
+            ),
+            "historical_adjusted_lower_pips": optional_number(
+                evidence.get("adjusted_lower_confidence"), 4
+            ),
+            "historical_evidence_strength": optional_number(
+                evidence.get("evidence_strength"), 4
+            ),
+            "historical_n": int(safe_float(holdout.get("n"))),
+            "historical_raw_n": int(safe_float(raw.get("n"))),
+            "historical_independent_blocks": int(
+                safe_float(evidence.get("independent_blocks"))
+            ),
+            "historical_holdout_blocks": int(safe_float(evidence.get("holdout_blocks"))),
+            "historical_eligible": bool(evidence.get("eligible")),
+            "historical_blocked_by": list(evidence.get("blocked_by") or []),
+            "historical_lane_id": evidence.get("lane_id"),
+            "historical_split": "chronological_holdout" if evidence else None,
+        }
+
+    finality_key = ("all_signal_consensus", "ALL", "prediction_finality")
+    finality_row = rows_by_key.setdefault(
+        finality_key,
+        {
+            "row_id": "|".join(finality_key),
+            "family": "All signals",
+            "model_id": "Final consensus",
+            "lane_id": None,
+            "input_timeframe": "all available",
+            "signal_role": "prediction_finality",
+            "timing_only": False,
+            "finality": True,
+            "winner_count": 0,
+            "eligible_count": 0,
+            "cells": {},
+        },
+    )
+    for horizon_row in signal.get("horizon_breakdown") or []:
+        horizon = int(safe_float(horizon_row.get("horizon_sec")))
+        if horizon < 60:
+            continue
+        horizons.add(horizon)
+        finality_eligible = bool(horizon_row.get("signal_eligible"))
+        finality_row["winner_count"] += 1
+        finality_row["eligible_count"] += int(finality_eligible)
+        finality_cell = {
+            "signal_confidence": optional_number(
+                horizon_row.get("signal_confidence")
+            ),
+            "projected_net_pips": optional_number(
+                horizon_row.get("projected_net_pips")
+            ),
+            "projected_net_pips_per_hour": optional_number(
+                horizon_row.get("projected_net_pips_per_hour")
+            ),
+            "signal_score": optional_number(horizon_row.get("signal_score")),
+            "historical_reliability": None,
+            "steps_ahead": None,
+            "signal_eligible": finality_eligible,
+            "signal_blocked_by": list(
+                horizon_row.get("signal_blocked_by") or []
+            ),
+            "winner": True,
+            "timing_only": False,
+            "finality": True,
+            "direction": horizon_row.get("direction"),
+            "probability_up": optional_number(horizon_row.get("probability_up")),
+            "component_count": int(
+                finite_float(
+                    horizon_row.get("component_count"),
+                    len(horizon_row.get("contributors") or []),
+                )
+            ),
+            "eligible_component_count": int(
+                finite_float(horizon_row.get("eligible_component_count"))
+            ),
+            "family_count": int(
+                finite_float(
+                    horizon_row.get("family_count"),
+                    len(
+                        {
+                            str(row.get("family") or "")
+                            for row in horizon_row.get("contributors") or []
+                        }
+                    ),
+                )
+            ),
+            "timeframe_count": int(
+                finite_float(
+                    horizon_row.get("timeframe_count"),
+                    len(
+                        {
+                            str(row.get("input_timeframe") or "")
+                            for row in horizon_row.get("contributors") or []
+                        }
+                    ),
+                )
+            ),
+            "aggregation_method": horizon_row.get("aggregation_method"),
+            "ensemble_aligned_weight_pct": optional_number(
+                horizon_row.get("ensemble_aligned_weight_pct"), 3
+            ),
+            "setup_class_counts": dict(
+                horizon_row.get("setup_class_counts") or {}
+            ),
+        }
+        finality_cell.update(historical_fields(None))
+        finality_row["cells"][str(horizon)] = finality_cell
+        best_model = str(horizon_row.get("best_model_id") or "")
+        best_input = str(horizon_row.get("best_input_timeframe") or "")
+        for contributor in horizon_row.get("contributors") or []:
+            family = str(contributor.get("family") or "unknown")
+            model_id = str(
+                contributor.get("model_id")
+                or contributor.get("lane_id")
+                or family
+            )
+            input_timeframe = str(contributor.get("input_timeframe") or "multi")
+            role = str(contributor.get("signal_role") or "structural")
+            if role == "entry_exit_timing" or not active_signal_timeframe(
+                input_timeframe
+            ):
+                continue
+            key = (model_id, input_timeframe, role)
+            row = rows_by_key.setdefault(
+                key,
+                {
+                    "row_id": "|".join(key),
+                    "family": family,
+                    "model_id": model_id,
+                    "lane_id": contributor.get("lane_id"),
+                    "input_timeframe": input_timeframe,
+                    "signal_role": role,
+                    "timing_only": role == "entry_exit_timing",
+                    "winner_count": 0,
+                    "eligible_count": 0,
+                    "cells": {},
+                },
+            )
+            winner = model_id == best_model and (
+                not best_input or input_timeframe == best_input
+            )
+            eligible = bool(contributor.get("signal_eligible"))
+            row["winner_count"] += int(winner)
+            row["eligible_count"] += int(eligible)
+            evidence_lane = str(contributor.get("lane_id") or model_id)
+            cell = {
+                "signal_confidence": optional_number(contributor.get("signal_confidence")),
+                "projected_net_pips": optional_number(contributor.get("projected_net_pips")),
+                "projected_net_pips_per_hour": optional_number(
+                    contributor.get("projected_net_pips_per_hour")
+                ),
+                "unpenalized_projected_net_pips": optional_number(
+                    contributor.get("unpenalized_projected_net_pips")
+                ),
+                "short_horizon_cost_pips": optional_number(
+                    contributor.get("short_horizon_cost_pips")
+                ),
+                "required_net_edge_pips": optional_number(
+                    contributor.get("required_net_edge_pips")
+                ),
+                "sample_adjusted_historical_edge_pips": optional_number(
+                    contributor.get("sample_adjusted_historical_edge_pips")
+                ),
+                "signal_score": optional_number(contributor.get("signal_score")),
+                "historical_reliability": optional_number(
+                    contributor.get("historical_reliability")
+                ),
+                "steps_ahead": optional_number(contributor.get("steps_ahead"), 3),
+                "signal_eligible": eligible,
+                "signal_blocked_by": list(contributor.get("signal_blocked_by") or []),
+                "winner": winner,
+                "timing_only": role == "entry_exit_timing",
+                "preconsensus_class": str(
+                    contributor.get("preconsensus_class") or "accepted"
+                ),
+                "matrix_input_weight": optional_number(
+                    contributor.get("matrix_input_weight"), 3
+                ),
+            }
+            cell.update(historical_fields(evidence_index.get((evidence_lane, horizon))))
+            row["cells"][str(horizon)] = cell
+
+    rows = sorted(
+        rows_by_key.values(),
+        key=lambda row: (
+            not bool(row.get("finality")),
+            bool(row.get("timing_only")),
+            -int(row.get("winner_count") or 0),
+            -int(row.get("eligible_count") or 0),
+            str(row.get("family") or ""),
+            str(row.get("model_id") or ""),
+        ),
+    )
+    return {
+        "instrument": signal.get("instrument"),
+        "direction": signal.get("direction"),
+        "preferred_horizon_sec": int(safe_float(signal.get("preferred_horizon_sec"))),
+        "horizons_sec": sorted(horizons),
+        "rows": rows,
+        "definitions": {
+            "signal_confidence": "Cost-aware calibrated probability for the displayed trade side.",
+            "projected_net_pips": "Expected directional pips after spread and modeled costs.",
+            "historical_win_rate_pct": "Positive after-cost outcomes divided by all matured outcomes in the newest chronological holdout blocks.",
+            "historical_avg_net_pips": "Mean after-cost pips in the newest chronological holdout blocks.",
+            "historical_adjusted_lower_pips": "Holdout lower bound shrunk toward a small negative prior until sample, independent-block, and holdout-block requirements are filled.",
+            "short_horizon_cost_pips": "Additional spread-scaled hurdle applied to short outcome horizons to penalize repeated turnover.",
+            "historical_n": "Matured outcomes in the chronological holdout split; overlapping rows are additionally controlled by independent-block promotion gates.",
+            "winner": "Highest-ranked contributing model at this outcome horizon.",
+            "finality": "Reliability-weighted consensus of every available model, lane, input timeframe, and opposing side at this outcome horizon.",
+        },
+    }
+
+
+def write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_name(f".{path.name}.{threading.get_ident()}.tmp")
+    try:
+        temporary.write_text(
+            json.dumps(sanitize_payload(payload), indent=2, allow_nan=False),
+            encoding="utf-8",
+        )
+        temporary.replace(path)
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
+def signal_freshness_sec(signal: dict[str, Any]) -> float:
+    horizon = max(0.0, finite_float(signal.get("preferred_horizon_sec")))
+    return min(300.0, max(SIGNAL_SNAPSHOT_FRESH_SEC, horizon))
+
+
+def resolve_display_signals(
+    signal_snapshot: dict[str, Any],
+    log_dir: Path,
+    cache_path: Path = LAST_SIGNAL_SNAPSHOT,
+) -> dict[str, Any]:
+    now = datetime.now(timezone.utc)
+    snapshot_time = str(signal_snapshot.get("updated_at") or "")
+    snapshot_datetime = parse_time(snapshot_time)
+    snapshot_age = (
+        max(0.0, (now - snapshot_datetime).total_seconds())
+        if snapshot_datetime is not None else math.inf
+    )
+    current_rows = [
+        row for row in signal_snapshot.get("top_signals") or []
+        if isinstance(row, dict)
+    ]
+    if current_rows:
+        cached = load_json_dict(cache_path)
+        if cached.get("observed_at") != snapshot_time:
+            try:
+                write_json_atomic(
+                    cache_path,
+                    {"schema_version": 1, "observed_at": snapshot_time, "top_signals": current_rows},
+                )
+            except OSError:
+                pass
+        return {
+            "rows": current_rows,
+            "live": any(
+                snapshot_age <= signal_freshness_sec(row) for row in current_rows
+            ),
+            "observed_at": snapshot_time,
+            "age_sec": round(snapshot_age, 2) if math.isfinite(snapshot_age) else None,
+            "source": "current_snapshot",
+        }
+
+    cached = load_json_dict(cache_path)
+    cached_rows = [row for row in cached.get("top_signals") or [] if isinstance(row, dict)]
+    observed_at = str(cached.get("observed_at") or "")
+    source = "persistent_cache"
+    if not cached_rows:
+        paths = sorted(log_dir.glob(LAB_GLOB), key=lambda path: path.stat().st_mtime, reverse=True)
+        for path in paths[:3]:
+            for row in reversed(read_jsonl(path, 20_000)):
+                recovered = [
+                    item for item in row.get("top_lanes") or []
+                    if isinstance(item, dict)
+                ]
+                if row.get("event") == "execution_selection_summary" and recovered:
+                    cached_rows = recovered
+                    observed_at = str(row.get("time") or "")
+                    source = "recovered_log"
+                    break
+            if cached_rows:
+                break
+        if cached_rows:
+            try:
+                write_json_atomic(
+                    cache_path,
+                    {"schema_version": 1, "observed_at": observed_at, "top_signals": cached_rows},
+                )
+            except OSError:
+                pass
+
+    observed_datetime = parse_time(observed_at)
+    observed_age = (
+        max(0.0, (now - observed_datetime).total_seconds())
+        if observed_datetime is not None else math.inf
+    )
+    return {
+        "rows": cached_rows,
+        "live": False,
+        "observed_at": observed_at,
+        "age_sec": round(observed_age, 2) if math.isfinite(observed_age) else None,
+        "source": source if cached_rows else "empty",
+    }
+
+
+def summarize_continuous_narrative(
+    path: Path = CONTINUOUS_NARRATIVE_METER,
+) -> dict[str, Any]:
+    payload = load_json_dict(path)
+    generated_at = str(payload.get("generated_utc") or "")
+    generated = parse_time(generated_at)
+    age_sec = (
+        max(0.0, (datetime.now(timezone.utc) - generated).total_seconds())
+        if generated is not None else math.inf
+    )
+    currencies = payload.get("currencies") if isinstance(payload.get("currencies"), dict) else {}
+    pairs = payload.get("pairs") if isinstance(payload.get("pairs"), dict) else {}
+    currency_rows = [
+        {
+            "currency": str(currency),
+            "score": finite_float(row.get("score")),
+            "direction": str(row.get("direction") or "NEUTRAL"),
+            "active_story_count": int(safe_float(row.get("active_story_count"))),
+            "source_family_count": int(safe_float(row.get("source_family_count"))),
+            "agreement": finite_float(row.get("agreement")),
+            "attention_acceleration": finite_float(row.get("attention_acceleration")),
+            "evidence_class": str(row.get("evidence_class") or ""),
+        }
+        for currency, row in currencies.items() if isinstance(row, dict)
+    ]
+    currency_rows.sort(key=lambda row: row["score"], reverse=True)
+    pair_rows = [
+        {
+            "instrument": str(instrument),
+            "score": finite_float(row.get("score")),
+            "direction": str(row.get("direction") or "NEUTRAL"),
+            "research_only": True,
+            "execution_eligible": False,
+        }
+        for instrument, row in pairs.items() if isinstance(row, dict)
+    ]
+    pair_rows.sort(key=lambda row: abs(row["score"]), reverse=True)
+    return {
+        "schema_version": str(payload.get("schema_version") or "missing"),
+        "meter_contract_id": str(payload.get("meter_contract_id") or ""),
+        "status": "running" if math.isfinite(age_sec) and age_sec <= 240 else "stale_or_missing",
+        "fresh": math.isfinite(age_sec) and age_sec <= 240,
+        "generated_utc": generated_at,
+        "clock_utc": str(payload.get("clock_utc") or ""),
+        "snapshot_age_sec": round(age_sec, 2) if math.isfinite(age_sec) else None,
+        "currency_count": len(currency_rows),
+        "instrument_count": len(pair_rows),
+        "strongest": currency_rows[:5],
+        "weakest": list(reversed(currency_rows[-5:])),
+        "top_pair_hypotheses": pair_rows[:10],
+        "models": payload.get("models") or {},
+        "research_only": True,
+        "execution_eligible": False,
+        "practice_account_scope": "007_observation_only",
+    }
+
+
+def summarize_adaptive_level_bands(
+    path: Path = ADAPTIVE_LEVEL_BANDS,
+    *,
+    limit: int = 12,
+) -> dict[str, Any]:
+    """Compact the isolated prospective band observer for display only."""
+
+    payload = load_json_dict(path)
+    age = file_age_seconds(path)
+    source_rows = [
+        row for row in payload.get("top_approaching_bands") or []
+        if isinstance(row, dict) and str(row.get("instrument") or "")
+    ]
+    rows: list[dict[str, Any]] = []
+    for row in source_rows[: max(1, int(limit))]:
+        rows.append({
+            "instrument": str(row.get("instrument") or ""),
+            "band_id": str(row.get("band_id") or ""),
+            "band_version_id": str(row.get("band_version_id") or ""),
+            "source": str(row.get("source") or ""),
+            "name": str(row.get("name") or ""),
+            "origin_kind": str(row.get("origin_kind") or ""),
+            "physical_role": str(row.get("physical_role") or ""),
+            "band_lower": finite_float(row.get("band_lower")),
+            "band_center": finite_float(row.get("band_center")),
+            "band_upper": finite_float(row.get("band_upper")),
+            "anchor_count": int(safe_float(row.get("anchor_count"))),
+            "distance_pips": finite_float(row.get("distance_pips")),
+            "distance_atr": finite_float(row.get("distance_atr")),
+            "approach_zone_pips": finite_float(row.get("approach_zone_pips")),
+            "velocity_1_pips_per_min": finite_float(
+                row.get("velocity_1_pips_per_min")
+            ),
+            "velocity_3_pips_per_min": finite_float(
+                row.get("velocity_3_pips_per_min")
+            ),
+            "acceleration_pips_per_min2": finite_float(
+                row.get("acceleration_pips_per_min2")
+            ),
+            "time_to_contact_min": finite_float(row.get("time_to_contact_min")),
+            "path_efficiency_5": finite_float(row.get("path_efficiency_5")),
+            "monotonicity_5": finite_float(row.get("monotonicity_5")),
+            "impulse_toward_band_atr": finite_float(
+                row.get("impulse_toward_band_atr")
+            ),
+            "equilibrium_stretch_atr": finite_float(
+                row.get("equilibrium_stretch_atr")
+            ),
+            "atr_m5_pips": finite_float(row.get("atr_m5_pips")),
+            "spread_pips": finite_float(row.get("spread_pips")),
+            "quote_age_sec": finite_float(row.get("quote_age_sec")),
+            "quote_time_utc": str(row.get("quote_time_utc") or ""),
+            "context_cutoff_utc": str(row.get("context_cutoff_utc") or ""),
+            "state": str(row.get("state") or ""),
+            "armed": bool(row.get("armed")),
+            "forecast_issued_this_cycle": bool(
+                row.get("forecast_issued_this_cycle")
+            ),
+            "bounce_hypothesis": str(row.get("bounce_hypothesis") or ""),
+            "break_hypothesis": str(row.get("break_hypothesis") or ""),
+            "response_probability_state": str(
+                row.get("response_probability_state") or ""
+            ),
+            "empirical_cost_clearance_state": str(
+                row.get("empirical_cost_clearance_state") or ""
+            ),
+            "research_only": True,
+            "execution_eligible": False,
+            "can_authorize": False,
+        })
+    ledger = payload.get("ledger") if isinstance(payload.get("ledger"), dict) else {}
+    cells = [
+        {
+            "horizon_sec": int(safe_float(row.get("horizon_sec"))),
+            "n": int(safe_float(row.get("n"))),
+            "bounce_avg_net_pips": finite_float(row.get("bounce_avg_net_pips")),
+            "break_avg_net_pips": finite_float(row.get("break_avg_net_pips")),
+            "bounce_after_cost_win_rate": finite_float(
+                row.get("bounce_after_cost_win_rate")
+            ),
+            "break_after_cost_win_rate": finite_float(
+                row.get("break_after_cost_win_rate")
+            ),
+        }
+        for row in ledger.get("horizon_cells") or []
+        if isinstance(row, dict)
+    ]
+    fresh = bool(payload and age is not None and age <= 240.0)
+    return {
+        "schema_version": str(payload.get("schema_version") or "missing"),
+        "contract_id": str(payload.get("contract_id") or ""),
+        "cohort_id": str(payload.get("cohort_id") or ""),
+        "generated_utc": str(payload.get("generated_utc") or ""),
+        "status": str(payload.get("status") or "missing"),
+        "block_reason": str(payload.get("block_reason") or ""),
+        "fresh": fresh,
+        "snapshot_age_sec": round(age, 2) if age is not None else None,
+        "instrument_count": int(safe_float(payload.get("instrument_count"))),
+        "ready_context_count": int(safe_float(payload.get("ready_context_count"))),
+        "blocked_context_count": int(safe_float(payload.get("blocked_context_count"))),
+        "current_valid_quote_band_count": int(
+            safe_float(payload.get("current_valid_quote_band_count"))
+        ),
+        "rows": rows,
+        "forecasts": int(safe_float(ledger.get("forecasts"))),
+        "entries": int(safe_float(ledger.get("entries"))),
+        "outcomes": int(safe_float(ledger.get("outcomes"))),
+        "censors": int(safe_float(ledger.get("censors"))),
+        "horizon_cells": cells,
+        "response_labels": dict(ledger.get("response_labels") or {}),
+        "research_only": True,
+        "execution_eligible": False,
+        "can_authorize": False,
+        "response_probabilities_available": False,
+        "practice_account_scope": "007_observation_only",
+    }
+
+
+def build_main_state(log_dir: Path) -> dict[str, Any]:
+    data_root = log_dir.parent
+    lab_logs = discover_lab_logs(log_dir)
+    strategy_worker_age = (
+        round(max(0.0, time.time() - lab_logs[0].stat().st_mtime), 2)
+        if lab_logs else None
+    )
+    strategy_heartbeat = heartbeat_status(STRATEGY_HEARTBEAT)
+    account_payload = load_json_dict(ACCOUNT_SNAPSHOT)
+    account_snapshot_source = ACCOUNT_SNAPSHOT
+    if (
+        ACCOUNT_007_SNAPSHOT.is_file()
+        and (
+            not ACCOUNT_SNAPSHOT.is_file()
+            or ACCOUNT_007_SNAPSHOT.stat().st_mtime
+            >= ACCOUNT_SNAPSHOT.stat().st_mtime
+        )
+    ):
+        overlaid = overlay_primary_account(
+            account_payload,
+            load_json_dict(ACCOUNT_007_SNAPSHOT),
+        )
+        if overlaid is not account_payload:
+            account_payload = overlaid
+            account_snapshot_source = ACCOUNT_007_SNAPSHOT
+    account_summary = summarize_primary_practice_account(
+        account_payload,
+        account_snapshot_source,
+    )
+
+    signal_snapshot = load_json_dict(SIGNAL_SNAPSHOT)
+    research_signal_snapshot = load_json_dict(RESEARCH_SIGNAL_SNAPSHOT)
+    news_snapshot = load_json_dict(LOCAL_NEWS_SENTIMENT)
+    news_collector = load_json_dict(LOCAL_NEWS_COLLECTOR)
+    news_pairs = news_snapshot.get("pairs") or {}
+    display_snapshot = signal_snapshot
+    display_snapshot_kind = "execution_snapshot"
+    if not list(signal_snapshot.get("top_signals") or []) and list(
+        research_signal_snapshot.get("top_signals") or []
+    ):
+        display_snapshot = research_signal_snapshot
+        display_snapshot_kind = "research_snapshot"
+    display_signals = resolve_display_signals(display_snapshot, log_dir)
+    if display_signals.get("source") == "current_snapshot":
+        display_signals["source"] = display_snapshot_kind
+    promotion = load_json_dict(data_root / "state" / "lane_promotion_v1.json")
+    promotion_evidence = index_signal_evidence(promotion)
+    top_signals: list[dict[str, Any]] = []
+    for source_signal in display_signals.get("rows") or []:
+        signal = dict(source_signal)
+        signal["component_timeframes"] = [
+            value
+            for value in signal.get("component_timeframes") or []
+            if active_signal_timeframe(value)
+        ]
+        signal["horizon_breakdown"] = [
+            point
+            for point in signal.get("horizon_breakdown") or []
+            if isinstance(point, dict)
+            and active_signal_timeframe(
+                point.get("best_input_timeframe") or signal.get("input_timeframe")
+            )
+        ]
+        signal["signal_observed_at"] = display_signals.get("observed_at")
+        signal["signal_age_sec"] = display_signals.get("age_sec")
+        signal["signal_display_source"] = display_signals.get("source")
+        signal["signal_fresh_sec"] = signal_freshness_sec(signal)
+        signal["signal_is_live"] = bool(
+            signal.get("signal_age_sec") is not None
+            and finite_float(signal.get("signal_age_sec"))
+            <= signal["signal_fresh_sec"]
+        )
+        instrument = str(signal.get("instrument") or "")
+        pair_news = news_pairs.get(instrument) if isinstance(news_pairs, dict) else {}
+        if not isinstance(pair_news, dict):
+            pair_news = {}
+        signal["news_context"] = {
+            "direction": str(pair_news.get("direction") or "NEUTRAL").lower(),
+            "score": finite_float(pair_news.get("score")),
+            "confidence": finite_float(pair_news.get("confidence")),
+            "active_event_count": int(safe_float(pair_news.get("active_event_count"))),
+            "estimated_reaction_horizon_sec": int(
+                safe_float(pair_news.get("estimated_reaction_horizon_sec"))
+            ),
+            "estimated_reaction_horizon_label": str(
+                pair_news.get("estimated_reaction_horizon_label") or ""
+            ),
+            "reaction_horizon_method": str(
+                pair_news.get("reaction_horizon_method") or ""
+            ),
+            "reaction_phase": str(pair_news.get("reaction_phase") or ""),
+            "remaining_relevance_minutes": finite_float(
+                pair_news.get("remaining_relevance_minutes")
+            ),
+            "events": list(pair_news.get("events") or [])[:3],
+            "research_only": True,
+            "execution_eligible": False,
+            "matrix_weight": 0.0,
+        }
+        top_signals.append(signal)
+    top_signals.sort(
+        key=lambda row: (
+            bool(row.get("signal_is_live")),
+            not bool(row.get("signal_blocked_by")),
+            safe_float(row.get("normalized_rank_score"), -999.0),
+            safe_float(row.get("signal_score"), -999.0),
+            safe_float(row.get("signal_confidence")),
+        ),
+        reverse=True,
+    )
+    horizon_signal_matrix = build_top_signal_horizon_matrix(
+        top_signals, promotion_evidence
+    )
+    top_signal_position_ledger = load_json_dict(TOP_SIGNAL_POSITION_LEDGER)
+    canonical_signal_trials = load_json_dict(CANONICAL_SIGNAL_TRIALS)
+    if top_signals:
+        top_signals[0]["component_matrix"] = build_signal_component_matrix(
+            top_signals[0], promotion_evidence
+        )
+
+    active_candidates = visible_signal_candidates(top_signals)
+    families = summarize_signal_families(promotion, active_candidates)
+    signal_age = (
+        round(max(0.0, time.time() - SIGNAL_SNAPSHOT.stat().st_mtime), 2)
+        if SIGNAL_SNAPSHOT.is_file() else None
+    )
+    post_gap_execution = summarize_post_gap_execution(data_root)
+    news_direction_counts = Counter(
+        str(row.get("direction") or "NEUTRAL").lower()
+        for row in news_pairs.values()
+        if isinstance(row, dict)
+    )
+    news_ranked = sorted(
+        (
+            {
+                "instrument": instrument,
+                "direction": str(row.get("direction") or "NEUTRAL").lower(),
+                "score": finite_float(row.get("score")),
+                "confidence": finite_float(row.get("confidence")),
+                "active_event_count": int(safe_float(row.get("active_event_count"))),
+                "events": list(row.get("events") or [])[:2],
+            }
+            for instrument, row in news_pairs.items()
+            if isinstance(row, dict)
+            and str(row.get("direction") or "NEUTRAL").upper() != "NEUTRAL"
+        ),
+        key=lambda row: abs(safe_float(row.get("score"))),
+        reverse=True,
+    )
+    news_age = (
+        round(max(0.0, time.time() - LOCAL_NEWS_SENTIMENT.stat().st_mtime), 2)
+        if LOCAL_NEWS_SENTIMENT.is_file()
+        else None
+    )
+    live_movers = summarize_live_movers()
+    live_move_news = summarize_live_move_news()
+    continuous_narrative = summarize_continuous_narrative()
+    adaptive_level_bands = summarize_adaptive_level_bands()
+    return {
+        "time": utc_now(),
+        "account": account_summary,
+        "top_signal": top_signals[0] if top_signals else None,
+        "top_signals": top_signals,
+        "horizon_signal_matrix": horizon_signal_matrix,
+        "top_signal_position_ledger": top_signal_position_ledger,
+        "canonical_signal_trials": canonical_signal_trials,
+        "live_movers": live_movers,
+        "live_move_news": live_move_news,
+        "continuous_narrative": continuous_narrative,
+        "adaptive_level_bands": adaptive_level_bands,
+        "signal_families": families,
+        "promotion_thresholds": promotion.get("thresholds") or {},
+        "post_gap_execution": post_gap_execution,
+        "news_sentiment": {
+            "schema_version": news_snapshot.get("schema_version"),
+            "generated_utc": news_snapshot.get("generated_utc"),
+            "snapshot_age_sec": news_age,
+            "collector_status": news_collector.get("status") or "missing",
+            "active_article_count": int(safe_float(news_snapshot.get("active_article_count"))),
+            "active_scored_pair_count": sum(
+                count
+                for state, count in news_direction_counts.items()
+                if state != "neutral"
+            ),
+            "direction_counts": dict(news_direction_counts),
+            "top_pairs": news_ranked[:12],
+            "research_only": True,
+            "execution_eligible": False,
+            "matrix_weight": 0.0,
+            "openai_calls": 0,
+        },
+        "execution": {
+            "selection_mode": signal_snapshot.get("selection_mode") or "starting",
+            "producer": signal_snapshot.get("producer"),
+            "qualified_signal_count": int(
+                safe_float(
+                    signal_snapshot.get(
+                        "nonconflicting_qualified_signal_count",
+                        signal_snapshot.get("qualified_signal_count"),
+                    )
+                )
+            ),
+            "raw_qualified_signal_count": int(
+                safe_float(signal_snapshot.get("qualified_signal_count"))
+            ),
+            "raw_candidate_count": int(safe_float(signal_snapshot.get("raw_candidate_count"))),
+            "feed_candidate_count": int(safe_float(signal_snapshot.get("feed_candidate_count"))),
+            "selected": signal_snapshot.get("selected"),
+            "selected_stage": signal_snapshot.get("selected_stage") or (
+                "legacy_pre_final_execution_gates"
+                if signal_snapshot.get("selected")
+                else "none"
+            ),
+            "selected_final_gate_status": signal_snapshot.get(
+                "selected_final_gate_status"
+            ) or (
+                "legacy_not_reported"
+                if signal_snapshot.get("selected")
+                else "not_selected"
+            ),
+            "selected_routable_after_direction_conflict_gate": bool(
+                signal_snapshot.get(
+                    "selected_routable_after_direction_conflict_gate",
+                    False,
+                )
+            ),
+            "snapshot_age_sec": signal_age,
+            "snapshot_fresh_sec": SIGNAL_SNAPSHOT_FRESH_SEC,
+            "displaying_last_signal": bool(
+                top_signals
+                and not any(bool(row.get("signal_is_live")) for row in top_signals)
+            ),
+            "last_signal_age_sec": display_signals.get("age_sec"),
+            "last_signal_observed_at": display_signals.get("observed_at"),
+            "worker_log_age_sec": strategy_worker_age,
+            "worker_heartbeat": strategy_heartbeat,
+        },
+        "active": bool(
+            account_summary["ok"]
+            and account_summary["snapshot_age_sec"] is not None
+            and account_summary["snapshot_age_sec"] < 90.0
+            and strategy_heartbeat.get("fresh")
+        ),
+    }
+
+
+def build_state(log_dir: Path, max_runs: int, max_lines: int) -> dict[str, Any]:
+    logs = discover_logs(log_dir, max_runs)
+    runs = [summarize_log(path, max_lines) for path in logs]
+    lab_logs = discover_lab_logs(log_dir)
+    strategy_lab = summarize_lab(lab_logs[0], max_lines) if lab_logs else None
+    ensemble_path = ensemble_summary_path(lab_logs[0]) if lab_logs else None
+    strategy_ensembles = (
+        summarize_ensembles(ensemble_path)
+        if ensemble_path is not None and ensemble_path.is_file()
+        else None
+    )
+    micro_patterns = summarize_micro_patterns(MICRO_SNAPSHOT) if MICRO_SNAPSHOT.is_file() else None
+    account_snapshot = (
+        summarize_account_snapshot(
+            ACCOUNT_SNAPSHOT,
+            ACCOUNT_007_SNAPSHOT if ACCOUNT_007_SNAPSHOT.is_file() else None,
+        )
+        if ACCOUNT_SNAPSHOT.is_file()
+        else None
+    )
+    aggregate_reasons: Counter[str] = Counter()
+    total_scans = 0
+    total_trades = 0
+    total_near = 0
+    total_outcomes = 0
+    for run in runs:
+        aggregate_reasons.update(dict(run["reason_counts"]))
+        total_scans += int(run.get("scans") or 0)
+        total_trades += int(run.get("trades") or 0)
+        total_near += int(run.get("near_misses") or 0)
+        total_outcomes += int(run.get("near_miss_outcomes") or 0)
+    lab_active = bool(strategy_lab and strategy_lab.get("active"))
+    micro_active = bool(micro_patterns and micro_patterns.get("active"))
+    if strategy_ensembles is not None:
+        strategy_ensembles["active"] = bool(strategy_ensembles.get("active") and lab_active)
+    data_root = log_dir.parent
+    reports_dir = data_root / "reports"
+    report_files = sorted(
+        (path for path in reports_dir.glob("*") if path.is_file()),
+        key=lambda path: path.stat().st_mtime,
+        reverse=True,
+    ) if reports_dir.is_dir() else []
+    all_log_files = sorted(
+        (path for path in log_dir.glob("*") if path.is_file()),
+        key=lambda path: path.stat().st_mtime,
+        reverse=True,
+    )
+    second_forecast = summarize_second_forecast_matrix(data_root)
+    model_inventory = summarize_model_inventory(
+        data_root,
+        strategy_lab,
+        micro_patterns,
+        strategy_ensembles,
+        second_forecast,
+    )
+    strategy_layers = summarize_strategy_layers(
+        data_root,
+        strategy_lab,
+        micro_patterns,
+        strategy_ensembles,
+        report_files,
+        all_log_files,
+        second_forecast,
+    )
+    historical_calibration = summarize_historical_calibration(data_root)
+    post_gap_execution = summarize_post_gap_execution(data_root)
+    combination_state_path = data_root / "state" / "signal_combination_audit_v1.json"
+    exit_fit_path = data_root / "state" / "strategy_exit_fit_v1.json"
+    lane_promotion_path = data_root / "state" / "lane_promotion_v1.json"
+    combination_payload = load_json_dict(combination_state_path)
+    exit_fit_payload = load_json_dict(exit_fit_path)
+    lane_promotion_payload = load_json_dict(lane_promotion_path)
+    signal_feed = summarize_signal_feed(data_root / "state" / "practice_007_signal_feed_v1.sqlite")
+    combination_database = Path(
+        str(combination_payload.get("database") or data_root / "state" / "signal_combination_audit_v1.sqlite")
+    )
+    exit_fit_database = Path(
+        str(exit_fit_payload.get("database") or data_root / "state" / "strategy_exit_fit_v1.sqlite")
+    )
+    # These databases can grow into multiple gigabytes. Their workers persist
+    # bounded count summaries atomically, so avoid full-table COUNT scans in an
+    # interactive HTTP request unless a summary has not been produced yet.
+    combination_counts = combination_payload.get("counts") or live_research_counts(
+        combination_database, "combination"
+    )
+    exit_counts = exit_fit_payload.get("counts") or live_research_counts(
+        exit_fit_database, "exit"
+    )
+    combination_audit = {
+        **{key: value for key, value in combination_payload.items() if key not in {"rules", "top_rules"}},
+        "counts": combination_counts or combination_payload.get("counts") or {},
+        "top_rules": (combination_payload.get("top_rules") or combination_payload.get("rules") or [])[:20],
+        "source": str(combination_state_path),
+    }
+    strategy_exit_fit = {
+        **{
+            key: value
+            for key, value in exit_fit_payload.items()
+            if key
+            not in {
+                "recommendations",
+                "prediction_quality_by_horizon",
+                "horizon_states",
+            }
+        },
+        "counts": exit_counts or exit_fit_payload.get("counts") or {},
+        "source": str(exit_fit_path),
+    }
+    lane_promotion = {
+        **{
+            key: value
+            for key, value in lane_promotion_payload.items()
+            if key not in {"qualified_evidence", "signal_evidence"}
+        },
+        "top_evidence": (lane_promotion_payload.get("top_evidence") or [])[:80],
+        "source": str(lane_promotion_path),
+    }
+    primary_signal_system = summarize_primary_signal_system(
+        account_snapshot,
+        strategy_lab,
+        combination_audit,
+        strategy_exit_fit,
+        lane_promotion,
+        second_forecast,
+        signal_feed,
+    )
+    account_aggregate = (account_snapshot or {}).get("aggregate") or {}
+    return {
+        "time": utc_now(),
+        "log_dir": str(log_dir),
+        "run_count": len(runs) + (1 if strategy_lab else 0) + (1 if micro_patterns else 0),
+        "active_count": sum(1 for run in runs if run.get("active")) + int(lab_active) + int(micro_active),
+        "total_scans": total_scans,
+        "total_trades": total_trades
+        + int(safe_float((primary_signal_system.get("lab") or {}).get("fills"))),
+        "total_near_misses": total_near,
+        "total_near_miss_outcomes": total_outcomes,
+        "total_shadow_signals": (0 if not strategy_lab else strategy_lab["signals"])
+        + int(safe_float(second_forecast.get("accepted_signals"))),
+        "total_shadow_misses": 0 if not strategy_lab else strategy_lab["near_misses"],
+        "total_shadow_hard_rejects": 0 if not strategy_lab else strategy_lab["hard_rejects"],
+        "total_shadow_outcomes": (0 if not strategy_lab else strategy_lab["outcomes"])
+        + int(safe_float(second_forecast.get("matured_outcomes"))),
+        "total_pattern_predictions": 0 if not strategy_lab else strategy_lab["pattern_diagnostics"]["predictions_in_window"],
+        "shadow_lane_count": int(
+            safe_float((primary_signal_system.get("matrix") or {}).get("physical_lanes"))
+        ),
+        "total_ensemble_signals": 0 if not strategy_ensembles else strategy_ensembles["candidate_count"],
+        "total_ensemble_outcomes": 0 if not strategy_ensembles else strategy_ensembles["outcome_count"],
+        "micro_model_count": 0 if not micro_patterns else len(micro_patterns.get("models") or []),
+        "micro_quote_updates": 0 if not micro_patterns else int(safe_float(micro_patterns.get("received_quote_updates"))),
+        "aggregate_nav": account_aggregate.get("nav") or 0,
+        "aggregate_balance": account_aggregate.get("balance") or 0,
+        "aggregate_account_pl": account_aggregate.get("pl") or 0,
+        "aggregate_unrealized_pl": account_aggregate.get("unrealizedPL") or 0,
+        "aggregate_reasons": aggregate_reasons.most_common(12),
+        "strategy_lab": strategy_lab,
+        "strategy_ensembles": strategy_ensembles,
+        "micro_patterns": micro_patterns,
+        "second_forecast": second_forecast,
+        "unified_forecast_matrix": primary_signal_system.get("matrix") or {},
+        "account_snapshot": account_snapshot,
+        "primary_signal_system": primary_signal_system,
+        "combination_audit": combination_audit,
+        "strategy_exit_fit": strategy_exit_fit,
+        "lane_promotion": lane_promotion,
+        "signal_feed": signal_feed,
+        "strategy_layers": strategy_layers,
+        "historical_calibration": historical_calibration,
+        "model_inventory": model_inventory,
+        "post_gap_execution": post_gap_execution,
+        "runs": runs,
+    }
+
+
+HTML = r"""<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OANDA Practice Monitor</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #101214;
+      --panel: #171b1f;
+      --panel-2: #20262c;
+      --text: #ecf1f5;
+      --muted: #94a3ad;
+      --line: #303941;
+      --good: #44c07a;
+      --bad: #e35d6a;
+      --warn: #d8b34a;
+      --accent: #5aa8ff;
+    }
+    * { box-sizing: border-box; }
+    html { overflow-x: hidden; }
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", Arial, sans-serif;
+      letter-spacing: 0;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--line);
+      background: #0d0f11;
+      position: sticky;
+      top: 0;
+      z-index: 3;
+    }
+    h1 { margin: 0; font-size: 20px; font-weight: 650; }
+    main { padding: 18px 22px 28px; width: 100%; max-width: 1680px; min-width: 0; margin: 0 auto; }
+    .status { display: flex; gap: 10px; align-items: center; color: var(--muted); font-size: 13px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--bad); }
+    .dot.live { background: var(--good); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 16px; }
+    .metric, .run {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+    }
+    .metric { padding: 12px; position: relative; }
+    .metric[data-definition] { cursor: help; outline: none; }
+    .metric-link { color: inherit; text-decoration: none; cursor: pointer !important; }
+    .metric-link:hover { border-color: var(--accent); }
+    .metric[data-definition]::after {
+      content: attr(data-definition);
+      position: absolute;
+      left: 8px;
+      top: calc(100% + 7px);
+      z-index: 10;
+      width: min(300px, calc(100vw - 48px));
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: #080a0c;
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1.4;
+      box-shadow: 0 8px 24px rgba(0,0,0,.35);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-3px);
+      transition: opacity .12s ease, transform .12s ease;
+    }
+    .metric[data-definition]:hover::after,
+    .metric[data-definition]:focus-visible::after { opacity: 1; transform: translateY(0); }
+    .metric.tooltip-right[data-definition]::after { left: auto; right: 8px; }
+    .label { color: var(--muted); font-size: 12px; line-height: 1.25; }
+    .value { font-size: 24px; font-weight: 650; margin-top: 4px; }
+    .runs { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 14px; }
+    .run { overflow: hidden; min-width: 0; max-width: 100%; }
+    .run-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel-2);
+    }
+    .run-title { font-weight: 650; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .pill { border: 1px solid var(--line); border-radius: 999px; padding: 3px 8px; color: var(--muted); font-size: 12px; white-space: nowrap; }
+    .pill.live { color: var(--good); border-color: rgba(68,192,122,.55); }
+    .body { padding: 12px 14px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 7px 6px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { color: var(--muted); font-weight: 600; }
+    th.sortable { cursor: pointer; user-select: none; }
+    th.sortable:hover, th.sortable:focus-visible { color: var(--text); }
+    th.sortable::after { content: "  ↕"; color: #667783; font-size: 10px; }
+    th.sortable[data-sort-direction="asc"]::after { content: "  ↑"; color: var(--accent); }
+    th.sortable[data-sort-direction="desc"]::after { content: "  ↓"; color: var(--accent); }
+    th[title], td[title], .hint[title] { cursor: help; }
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .small { color: var(--muted); font-size: 12px; }
+    .good { color: var(--good); }
+    .bad { color: var(--bad); }
+    .warn { color: var(--warn); }
+    .mono { font-family: Consolas, "SFMono-Regular", monospace; }
+    .table-scroll {
+      contain: inline-size;
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scrollbar-gutter: stable both-edges;
+      scrollbar-color: var(--muted) var(--panel-2);
+      touch-action: pan-x pan-y;
+    }
+    .lab-scroll-tools {
+      display: grid;
+      grid-template-columns: 32px minmax(120px, 1fr) 32px;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel);
+    }
+    .lab-scroll-tools button {
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: var(--panel-2);
+      color: var(--text);
+      font-size: 18px;
+      cursor: pointer;
+    }
+    .lab-scroll-tools button:disabled { opacity: .35; cursor: default; }
+    .lab-scroll-tools input { width: 100%; accent-color: var(--accent); }
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel);
+    }
+    .controls label { color: var(--muted); font-size: 12px; }
+    .controls select {
+      min-width: 120px;
+      padding: 6px 8px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: var(--panel-2);
+      color: var(--text);
+    }
+    .subsection-title { font-weight: 650; margin: 4px 0 8px; }
+    .pattern-kpis {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      border-bottom: 1px solid var(--line);
+      background: var(--panel-2);
+    }
+    .pattern-kpis > div { padding: 10px 14px; border-right: 1px solid var(--line); }
+    .pattern-kpis strong { display: block; margin-top: 3px; font-size: 17px; }
+    .breakdown { border-bottom: 1px solid var(--line); }
+    .breakdown > summary { padding: 11px 14px; cursor: pointer; font-weight: 650; }
+    .breakdown > .body { padding-top: 2px; }
+    .future { font-weight: 750; }
+    .chart {
+      width: 100%;
+      height: 220px;
+      display: block;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: #0e1114;
+    }
+    .chart-toolbar { display: flex; align-items: end; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+    .chart-toolbar label { color: var(--muted); font-size: 12px; }
+    .chart-toolbar select, .chart-toolbar button {
+      min-height: 32px;
+      padding: 6px 8px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: var(--panel-2);
+      color: var(--text);
+    }
+    .chart-toolbar button { cursor: pointer; }
+    .equation-selection { min-height: 34px; padding: 8px 10px; border-left: 3px solid var(--accent); background: var(--panel-2); }
+    .help-mark {
+      display: inline-grid; place-items: center; width: 16px; height: 16px; margin-left: 4px;
+      border: 1px solid var(--muted); border-radius: 50%; color: var(--muted); font-size: 11px;
+      font-weight: 700; line-height: 1; cursor: help; vertical-align: text-bottom;
+    }
+    .equation-temporal { position: relative; }
+    .equation-temporal .loading { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); pointer-events: none; }
+    .model-search { width: min(520px, 100%); min-height: 34px; padding: 7px 9px; border: 1px solid var(--line); border-radius: 4px; background: var(--panel-2); color: var(--text); }
+    .hidden-by-search { display: none; }
+    .equation-point { cursor: pointer; outline: none; }
+    .equation-point.selected circle, .equation-point.selected rect,
+    .equation-point:focus circle, .equation-point:focus rect { stroke: #ffffff; stroke-width: 2.5; }
+    .equation-pane {
+      width: min(96vw, 1500px);
+      max-width: 1500px;
+      max-height: 92vh;
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: var(--text);
+      background: var(--panel);
+    }
+    .equation-pane::backdrop { background: rgba(0, 0, 0, .72); }
+    .equation-pane-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+    .equation-pane-body { padding: 14px; overflow: auto; max-height: calc(92vh - 58px); }
+    .equation-pane .chart { height: 360px; }
+    .dashboard-group { margin-bottom: 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); }
+    .dashboard-group > summary { cursor: pointer; padding: 11px 14px; font-weight: 650; color: var(--text); }
+    .dashboard-group > section > .run { margin: 0 !important; border: 0; border-top: 1px solid var(--line); border-radius: 0; }
+    .top-forecast-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(320px, .65fr); gap: 12px; }
+    .primary-summary-grid { display: grid; grid-template-columns: repeat(6, minmax(140px, 1fr)); gap: 1px; background: var(--line); }
+    .primary-summary-grid > div { min-width: 0; padding: 12px 14px; background: var(--panel); }
+    .primary-summary-grid strong { display: block; margin-top: 5px; font-size: 19px; overflow-wrap: anywhere; }
+    .primary-summary-grid .detail { margin-top: 5px; color: var(--muted); font-size: 12px; line-height: 1.35; }
+    .equation-breakdowns { margin-top: 12px; border-top: 1px solid var(--line); }
+    .equation-breakdowns details { border-bottom: 1px solid var(--line); }
+    .equation-breakdowns summary { padding: 10px 2px; cursor: pointer; font-weight: 650; }
+    tr[data-equation-index] { cursor: pointer; }
+    tr[data-equation-index].selected td { background: rgba(77, 163, 255, .12); }
+    .lab-table { min-width: 1120px; }
+    .lab-table td:first-child { width: 42px; color: var(--muted); }
+    .lab-table tr.leader td { background: rgba(68,192,122,.06); }
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: repeat(2, 1fr); }
+      .runs { grid-template-columns: 1fr; }
+      .two { grid-template-columns: 1fr; }
+      .top-forecast-grid { grid-template-columns: 1fr; }
+      .primary-summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      header { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>OANDA Practice Monitor</h1>
+    <div class="status"><span id="dot" class="dot"></span><span id="status">Loading</span></div>
+  </header>
+  <main>
+    <section class="grid" id="metrics"></section>
+    <section id="account-snapshot"></section>
+    <section id="primary-signal-system"></section>
+    <section id="top-opportunities"></section>
+    <details class="dashboard-group" data-pane-key="dashboard-strategy-lab"><summary>Strategy leaderboard and parameter variants</summary><section id="strategy-lab"></section></details>
+    <details class="dashboard-group" data-pane-key="dashboard-pattern-forecasts"><summary>Pattern forecast breakdowns</summary><section id="pattern-forecasts"></section></details>
+    <details class="dashboard-group" data-pane-key="dashboard-micro-patterns"><summary>Microstructure and equation models</summary><section id="micro-patterns"></section></details>
+    <details class="dashboard-group" data-pane-key="dashboard-strategy-ensembles"><summary>Independent ensemble replay</summary><section id="strategy-ensembles"></section></details>
+    <details class="dashboard-group" data-pane-key="dashboard-historical-calibration"><summary>Historical-to-live calibration</summary><section id="historical-calibration"></section></details>
+    <details class="dashboard-group" data-pane-key="dashboard-model-inventory"><summary>Model registry and search</summary><section id="model-inventory"></section></details>
+    <details class="dashboard-group" data-pane-key="dashboard-strategy-layers"><summary>All strategy layers</summary><section id="strategy-layers"></section></details>
+    <details class="dashboard-group" data-pane-key="dashboard-blockers"><summary>Aggregate blockers</summary>
+      <section class="run"><div class="run-head"><div class="run-title">Aggregate Blockers</div><span class="pill">all visible runs</span></div>
+        <div class="body"><table><thead><tr><th>Reason</th><th>Count</th></tr></thead><tbody id="reasons"></tbody></table></div></section>
+    </details>
+    <details class="dashboard-group" data-pane-key="dashboard-run-history"><summary>Historical runs</summary><section class="runs" id="runs"></section></details>
+  </main>
+  <script>
+    const fmt = new Intl.NumberFormat(undefined, { maximumFractionDigits: 3 });
+    function esc(value) {
+      return String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+    const metricDefinitions = {
+      'Active Runs': 'Log-producing strategy processes considered live from their latest write time.',
+      'Shadow Lanes': 'Independent strategy-family and parameter-profile variants evaluated in shadow; eligible individual signals may also enter the -007 shared execution feed.',
+      'Pair Scans': 'Instrument scan summaries in the dashboard\'s visible legacy-run window.',
+      'Paper Trades': 'Confirmed OANDA practice fills visible across the unified lab and legacy practice runs.',
+      'Shadow Signals': 'Setups that passed their lane-level execution-cost gates. Account -007 separately applies signal confidence, expected-net, portfolio, and margin gates.',
+      'Threshold Misses': 'Raw setups that narrowly failed one or more economic thresholds in the recent window.',
+      'Hard Rejects': 'Raw setups rejected primarily for non-viable spread, reward, or signal economics.',
+      'Shadow Outcomes': 'Matured cost-aware bid/ask outcomes at each configured horizon, from seconds through H4 where available.',
+      'Pattern Forecasts': 'Pattern-count predictions retained in the dashboard\'s recent raw-log window, including accepted and gated predictions.',
+      'Micro Models': 'Live-only sub-minute models: fixed intrasecond patterns, intraminute boundary patterns, and online equation forecasts. OANDA supplies sampled prices, not exchange ticks.',
+      'Micro Quotes': 'Every OANDA PRICE event persisted in the microstructure SQLite replay database.',
+      'Ensemble Signals': 'Full-run same-cycle ensemble decisions; multiple ensemble rules may describe one market setup.',
+      'Ensemble Outcomes': 'Full-run matured, cost-aware outcomes attached after ensemble decisions were made.',
+      'Aggregate NAV': 'Sum of latest visible OANDA practice-account NAV values from the account snapshot writer.',
+      'Aggregate P/L': 'Sum of account lifetime realized P/L plus current unrealized P/L where available in the latest snapshot.',
+      'Legacy What-If': 'Matured near-miss outcomes from older practice scanner runs.'
+    };
+    let selectedLabHorizon = '';
+    let equationHorizon = 'all';
+    let equationSort = 'time';
+    let equationSortDirection = 'asc';
+    let selectedEquationId = '';
+    let equationFrozenRows = null;
+    let equationSelectedRow = null;
+    let equationPathRequest = 0;
+    const equationPathCache = new Map();
+    let modelSearch = '';
+    const paneState = new Map();
+    const tableSortState = new Map();
+    const columnDefinitions = {
+      '#': 'Rank within the currently selected horizon, sorted by accepted outcomes and confidence-weighted score.',
+      'Family': 'Strategy/model family, such as momentum, pattern count, equation-style supervised rank, or volume impulse.',
+      'Variant': 'Parameter profile for the family. Hover a variant cell to inspect raw parameter thresholds.',
+      'Raw': 'Raw setups detected before spread, reward, and signal-strength gates.',
+      'Accepted': 'Setups that passed the lane gates and are tracked as shadow signals. Account execution applies an additional signal-level ranking and portfolio gate.',
+      'Near miss': 'Setups that narrowly failed one or more economic gates and are tracked as what-if candidates.',
+      'Hard reject': 'Setups rejected as clearly non-viable by spread/reward/signal gates.',
+      'Horizon': 'Outcome horizon currently used for N, Avg net, Win, Near avg, and Score.',
+      'N': 'Number of matured accepted outcomes at this horizon.',
+      'Avg net': 'Average cost-aware bid/ask theoretical pips for accepted outcomes at this horizon.',
+      'Pips/h': 'Average net pips per signal normalized to one hour: Avg net x 3600 / selected horizon seconds. This is not a capital-constrained portfolio return because signals can overlap.',
+      'Win': 'Percent of accepted outcomes with positive net pips at this horizon.',
+      'Near avg': 'Average net pips for near-threshold misses at this horizon.',
+      'Score': 'Confidence-weighted average net. Small samples are downweighted; hover cell for source.'
+    };
+    function th(label) {
+      return `<th title="${esc(columnDefinitions[label] || '')}">${esc(label)}</th>`;
+    }
+    function help(label, definition) {
+      return `${esc(label)}<span class="help-mark" tabindex="0" title="${esc(definition)}" aria-label="${esc(`${label}: ${definition}`)}">?</span>`;
+    }
+    function capturePaneState() {
+      for (const pane of document.querySelectorAll('details[data-pane-key]')) paneState.set(pane.dataset.paneKey, pane.open);
+    }
+    function restorePaneState() {
+      for (const pane of document.querySelectorAll('details[data-pane-key]')) {
+        if (paneState.has(pane.dataset.paneKey)) pane.open = paneState.get(pane.dataset.paneKey);
+        pane.addEventListener('toggle', () => paneState.set(pane.dataset.paneKey, pane.open));
+      }
+    }
+    function metric(label, value, targetId = '') {
+      const definition = metricDefinitions[label] || '';
+      const tag = targetId ? 'a' : 'div';
+      const href = targetId ? ` href="#${esc(targetId)}"` : '';
+      const classes = targetId ? 'metric metric-link' : 'metric';
+      return `<${tag} class="${classes}" tabindex="0"${href} data-definition="${esc(definition)}" aria-label="${esc(`${label}: ${value}. ${definition}`)}"><div class="label">${esc(label)}</div><div class="value">${esc(value)}</div></${tag}>`;
+    }
+    function positionMetricTooltips() {
+      const edge = document.documentElement.clientWidth - 8;
+      const tooltipWidth = Math.min(300, window.innerWidth - 48);
+      for (const card of document.querySelectorAll('#metrics .metric[data-definition]')) {
+        card.classList.toggle('tooltip-right', card.getBoundingClientRect().left + 8 + tooltipWidth > edge);
+      }
+    }
+    window.addEventListener('resize', positionMetricTooltips);
+    function rowHtml(items, cols) {
+      if (!items || !items.length) return `<tr><td colspan="${cols}" class="small">No rows yet</td></tr>`;
+      return items.join('');
+    }
+    function sortableValue(text) {
+      const cleaned = String(text || '').trim().replaceAll(',', '').replace(/^[+$]/, '').replace(/[%xRp]$/i, '');
+      if (/^[+-]?(?:\d+\.?\d*|\.\d+)$/.test(cleaned)) return { type: 'number', value: Number(cleaned) };
+      return { type: 'text', value: String(text || '').trim().toLowerCase() };
+    }
+    function enableTableSorting() {
+      for (const table of document.querySelectorAll('table')) {
+        const body = table.tBodies?.[0];
+        const headers = Array.from(table.tHead?.rows?.[0]?.cells || []);
+        if (!body || !headers.length) continue;
+        const container = table.closest('[id]');
+        const localIndex = container ? Array.from(container.querySelectorAll('table')).indexOf(table) : 0;
+        const tableKey = `${container?.id || 'table'}:${localIndex}`;
+        const applySort = (column, direction, remember = true) => {
+          headers.forEach(item => {
+            delete item.dataset.sortDirection;
+            item.setAttribute('aria-sort', 'none');
+          });
+          const active = headers[column];
+          if (!active) return;
+          active.dataset.sortDirection = direction;
+          active.setAttribute('aria-sort', direction === 'asc' ? 'ascending' : 'descending');
+          const rows = Array.from(body.rows);
+          rows.sort((left, right) => {
+            const a = sortableValue(left.cells[column]?.textContent);
+            const b = sortableValue(right.cells[column]?.textContent);
+            const comparison = a.type === 'number' && b.type === 'number'
+              ? a.value - b.value
+              : String(a.value).localeCompare(String(b.value), undefined, { numeric: true });
+            return direction === 'asc' ? comparison : -comparison;
+          });
+          rows.forEach(row => body.appendChild(row));
+          if (remember) tableSortState.set(tableKey, { column, direction });
+        };
+        headers.forEach((header, column) => {
+          if (header.colSpan > 1) return;
+          header.classList.add('sortable');
+          header.tabIndex = 0;
+          header.setAttribute('aria-sort', 'none');
+          const sort = () => {
+            const current = tableSortState.get(tableKey);
+            const direction = current?.column === column && current.direction === 'asc' ? 'desc' : 'asc';
+            applySort(column, direction);
+          };
+          if (!header.dataset.sortReady) {
+            header.dataset.sortReady = '1';
+            header.addEventListener('click', sort);
+            header.addEventListener('keydown', event => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                sort();
+              }
+            });
+          }
+        });
+        const saved = tableSortState.get(tableKey);
+        if (saved) applySort(saved.column, saved.direction, false);
+      }
+    }
+    function outcomeTable(items) {
+      return rowHtml((items || []).map(x => `<tr><td>${esc(x.instrument)}</td><td>${esc(x.direction)}</td><td>${esc(x.horizon_sec)}s</td><td class="${Number(x.pips) >= 0 ? 'good' : 'bad'}">${esc(x.pips)}</td><td>${esc(x.blocked_reason)}</td></tr>`), 5);
+    }
+    function eventSummary(run) {
+      const e = run.events || {};
+      return [
+        ['scans', run.scans],
+        ['near_miss', e.near_miss || 0],
+        ['outcomes', e.near_miss_outcome || 0],
+        ['selected', run.selected_events || 0],
+        ['trades', run.trades || 0],
+        ['P/L', run.realized_pl || 0],
+      ].map(([k,v]) => `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join('');
+    }
+    function horizonStats(stats) {
+      const entries = Object.entries(stats || {});
+      return rowHtml(entries.map(([h, s]) => `<tr><td>${h}s</td><td>${s.n}</td><td class="${s.avg >= 0 ? 'good' : 'bad'}">${s.avg}</td><td>${s.best}</td><td>${s.worst}</td></tr>`), 5);
+    }
+    function signed(value) {
+      if (value === null || value === undefined || value === '') return '-';
+      const number = Number(value);
+      if (!Number.isFinite(number)) return '-';
+      return `${number > 0 ? '+' : ''}${fmt.format(number)}`;
+    }
+    function statsForLane(lane, horizon) {
+      const stats = (lane.horizons || {})[String(horizon)] || {};
+      return {
+        accepted: stats.accepted || lane.accepted || {},
+        missed: stats.missed || lane.missed || {}
+      };
+    }
+    function laneScore(accepted, missed) {
+      const source = Number(accepted.n || 0) ? accepted : missed;
+      const n = Number(source.n || 0);
+      return n ? Number(source.avg || 0) * Math.min(1, n / 30) : 0;
+    }
+    function familyBreakdown(lanes, horizon) {
+      const groups = new Map();
+      for (const lane of lanes || []) {
+        const current = groups.get(lane.family) || { family: lane.family, raw: 0, acceptedCount: 0, nearCount: 0, hard: 0, pips: [], wins: 0, bestLane: '' };
+        const { accepted } = statsForLane(lane, horizon);
+        current.raw += Number(lane.raw_setups || 0);
+        current.acceptedCount += Number(lane.signals || 0);
+        current.nearCount += Number(lane.near_misses || 0);
+        current.hard += Number(lane.hard_rejects || 0);
+        if (Number(accepted.n || 0)) {
+          current.pips.push({ n: Number(accepted.n), avg: Number(accepted.avg || 0), win: Number(accepted.win_rate || 0), lane: lane.lane_id });
+        }
+        groups.set(lane.family, current);
+      }
+      return Array.from(groups.values()).map(group => {
+        const n = group.pips.reduce((sum, row) => sum + row.n, 0);
+        const avg = n ? group.pips.reduce((sum, row) => sum + row.avg * row.n, 0) / n : 0;
+        const win = n ? group.pips.reduce((sum, row) => sum + row.win * row.n, 0) / n : 0;
+        const avgPipsPerHour = avg * 3600 / Math.max(1, Number(horizon || 1));
+        const signalRate = group.raw ? (100 * group.acceptedCount / group.raw) : 0;
+        const best = group.pips.slice().sort((a, b) => b.avg - a.avg)[0];
+        return { ...group, n, avg, avgPipsPerHour, win, signalRate, bestLane: best ? best.lane : '' };
+      }).sort((a, b) => (b.n > 0) - (a.n > 0) || b.avg - a.avg || b.acceptedCount - a.acceptedCount);
+    }
+    function renderAccountSnapshot(snapshot) {
+      if (!snapshot) return '';
+      const aggregate = snapshot.environment_aggregates || {};
+      const paper = aggregate.paper || {};
+      const live = aggregate.live || {};
+      const cell = (value, source, tracked = true) => tracked ? `<span title="${esc(source || '')}">${esc(value ?? '-')}</span>` : '<span class="small">not tracked</span>';
+      const accountNumber = value => value == null || !Number.isFinite(Number(value)) ? '-' : fmt.format(Number(value));
+      const accountMetricDefinitions = {
+        'Equal-weight lifetime return': 'Mean across accounts of (lifetime realized P/L + current unrealized P/L) / inferred starting equity, where inferred starting equity = current balance - lifetime realized P/L.',
+        'Scaled index (100 start)': '100 + equal-weight lifetime return percentage. Every account contributes equally regardless of account size.',
+        'Average balance': 'Arithmetic mean balance per tracked account.',
+        'Average NAV': 'Arithmetic mean NAV per tracked account.',
+        'Average unrealized P/L': 'Arithmetic mean current unrealized P/L per tracked account.'
+      };
+      const rows = [
+        ['Accounts', paper.account_count, live.account_count],
+        ['Average balance', paper.average_balance, live.average_balance],
+        ['Average NAV', paper.average_nav, live.average_nav],
+        ['Equal-weight lifetime return', paper.equal_weight_return_pct == null ? null : `${paper.equal_weight_return_pct}%`, live.equal_weight_return_pct == null ? null : `${live.equal_weight_return_pct}%`],
+        ['Scaled index (100 start)', paper.scaled_index, live.scaled_index],
+        ['Average unrealized P/L', paper.average_unrealized_pl, live.average_unrealized_pl],
+        ['Open trades', paper.open_trades, live.open_trades],
+        ['Pending orders', paper.pending_orders, live.pending_orders],
+      ].map(([label, paperValue, liveValue]) => `<tr><th title="${esc(accountMetricDefinitions[label] || '')}">${esc(label)}</th><td>${cell(paperValue, paper.source, paper.tracked)}</td><td>${cell(liveValue, live.source, live.tracked)}</td></tr>`);
+      const liveAge = live.last_write_age_sec == null ? 'not tracked' : `${fmt.format(live.last_write_age_sec)}s old`;
+      const accountRows = [...(snapshot.live_accounts || []), ...(snapshot.accounts || [])].map(account => {
+        const id = String(account.account_id || '');
+        const shortId = id ? `-${id.split('-').at(-1)}` : '-';
+        const strategies = (account.assigned_strategies || []).join(', ') || 'unassigned';
+        const lanes = (account.assigned_lanes || []).join(', ');
+        const assignment = lanes ? `${strategies} / ${lanes}` : strategies;
+        const trades = account.trades || [];
+        const tradeDetail = trades.map(trade => `${trade.instrument || '?'} ${trade.currentUnits || trade.initialUnits || '?'} uPL=${trade.unrealizedPL || '0'}`).join(' | ');
+        const returnPct = account.lifetime_return_pct == null ? '-' : `${signed(account.lifetime_return_pct)}%`;
+        const index = account.scaled_index == null ? '-' : fmt.format(account.scaled_index);
+        const current = account.account_values_current !== false && account.positions_current !== false && account.orders_current !== false && account.ok;
+        const state = current ? (account.env || 'paper') : (account.snapshot_state || 'unavailable');
+        const stateDetail = current ? (account.registry_status || '') : (account.error || account.registry_status || 'broker account state unavailable');
+        return `<tr>
+          <td><strong>${esc(shortId)}</strong><div class="small">${esc(account.operational_label || account.role || '')}</div></td>
+          <td><span class="pill ${current ? 'live' : ''}">${esc(state)}</span><div class="small">${esc(stateDetail)}</div></td>
+          <td title="${esc(assignment)}">${esc(assignment)}</td>
+          <td>${accountNumber(account.balance)}</td><td>${accountNumber(account.NAV)}</td>
+          <td class="${Number(account.lifetime_return_pct || 0) >= 0 ? 'pos' : 'neg'}">${esc(returnPct)}</td><td>${esc(index)}</td>
+          <td class="${Number(account.unrealizedPL || 0) >= 0 ? 'pos' : 'neg'}">${signed(account.unrealizedPL)}</td>
+          <td title="${esc(tradeDetail)}">${accountNumber(account.openTradeCount)}</td>
+          <td>${accountNumber(account.pendingOrderCount)}</td>
+        </tr>`;
+      });
+      const paperUnavailable = paper.tracked && paper.current === false;
+      return `<section class="run" style="margin-bottom:14px">
+        <div class="run-head">
+          <div>
+            <div class="run-title">Account Aggregate</div>
+            <div class="small mono">equal-weight account view / paper: current broker snapshot / live: ${esc(live.source || 'not tracked')} / ${esc(liveAge)}</div>
+          </div>
+          <span class="pill ${snapshot.active ? 'live' : ''}">${snapshot.active ? 'fresh' : (paperUnavailable ? 'broker unavailable' : `${snapshot.last_write_age_sec}s stale`)}</span>
+        </div>
+        ${paperUnavailable ? '<div class="body"><strong>Account state unavailable.</strong> Current equity, positions, and orders are unknown; this is not a confirmed flat or zero-balance account.</div>' : ''}
+        <div class="body table-scroll">
+          <div class="subsection-title">All Accounts</div>
+          <table class="lab-table" style="margin-bottom:16px">
+            <thead><tr><th>Account</th><th>Environment / state</th><th>Assigned strategy / lane</th><th>Balance</th><th>NAV</th><th title="Mean-independent account return from inferred starting balance">Return</th><th title="100 plus the account return percentage">Index</th><th>uPL</th><th>Trades</th><th>Orders</th></tr></thead>
+            <tbody>${rowHtml(accountRows, 10)}</tbody>
+          </table>
+          <div class="subsection-title">Environment Aggregate</div>
+          <table style="max-width:760px">
+            <thead><tr><th>Metric</th><th>Paper</th><th>Live</th></tr></thead>
+            <tbody>${rowHtml(rows, 3)}</tbody>
+          </table>
+        </div>
+      </section>`;
+    }
+    function renderPrimarySignalSystem(primary, combination, exitFit, lanePromotion, postGap) {
+      if (!primary) return '';
+      const account = primary.account || {};
+      const lab = primary.lab || {};
+      const contributionFeed = lab.contribution_feed || {};
+      const combo = primary.combination || {};
+      const exits = primary.exit_fit || {};
+      const promotion = lanePromotion || primary.promotion || {};
+      const promotionSummary = primary.promotion || promotion;
+      const policy = postGap || {};
+      const incumbentPolicy = policy.incumbent || {};
+      const policyCells = policy.cell_leaderboard || {};
+      const matrix = primary.matrix || {};
+      const topRule = combo.top_rule || {};
+      const topHoldout = topRule.holdout || {};
+      const globalExit = exits.global || {};
+      const eligible = exits.eligible || {};
+      const promotionHorizons = promotionSummary.horizons_sec || [];
+      const horizonLabel = seconds => {
+        const value = Number(seconds || 0);
+        return value >= 3600 && value % 3600 === 0
+          ? `H${value / 3600}`
+          : (value % 60 === 0 ? `M${value / 60}` : `${value}s`);
+      };
+      const horizonRange = promotionHorizons.map(horizonLabel).join(', ') || 'M1-H4 pending';
+      const matrixRows = (matrix.rows || []).map(row => `<tr>
+        <td>${esc(row.input_timeframe || '-')}</td><td>${esc(row.training_timeframe || '-')}</td>
+        <td class="mono">${esc(row.model_family || '-')}</td><td>${esc((row.profiles || []).join(', ') || '-')}</td>
+        <td>${fmt.format(row.physical_lanes || 0)}</td><td>${esc((row.horizons_sec || []).map(horizonLabel).join(', '))}</td>
+        <td>${fmt.format(row.lane_horizon_surfaces || 0)}</td><td>${fmt.format(row.pair_model_surfaces || 0)}</td><td>${esc(row.status || '-')}</td>
+      </tr>`);
+      const ruleRows = (combination?.top_rules || []).map((rule, index) => {
+        const holdout = rule.holdout || {};
+        const probability = Number(holdout.probability_up || .5);
+        const confidence = Math.max(probability, 1 - probability) * 100;
+        const rawDepth = Number(rule.condition_count || (rule.conditions || []).length || 0);
+        const domainDepth = Number(rule.feature_domain_count || 0);
+        const adjustedRank = Number(rule.independence_adjusted_rank || 0);
+        const domainDetail = domainDepth
+          ? `<div class="small">${fmt.format(rawDepth)} conditions · ${fmt.format(domainDepth)} independent domains${adjustedRank ? ` · shadow rank #${fmt.format(adjustedRank)}` : ''}</div>`
+          : '';
+        return `<tr><td>${index + 1}</td><td class="mono" title="${esc(rule.condition_text || '')}">${esc(rule.condition_text || '-')}${domainDetail}</td><td>${esc(rule.horizon_sec)}s</td><td class="${rule.predicted_direction === 'buy' ? 'good' : 'bad'}">${esc(rule.predicted_direction)}</td><td>${fmt.format(confidence)}%</td><td>${fmt.format(holdout.weighted_support || 0)}</td><td>${fmt.format(Number(holdout.lower_probability_edge || 0) * 100)}%</td><td class="${Number(holdout.expected_net_pips || 0) >= 0 ? 'good' : 'bad'}">${signed(holdout.expected_net_pips)}</td></tr>`;
+      });
+      const exitRows = (exitFit?.top_families || []).map(row => `<tr><td>${esc(row.family)}</td><td>${fmt.format(row.sample_count || 0)}</td><td>${fmt.format(row.stop_pips || 0)}p</td><td>${fmt.format(row.target_r || 0)}R</td><td>${row.eligible ? 'eligible' : esc((row.blocked_by || []).join(', '))}</td><td class="${Number(row.holdout?.avg_pips || 0) >= 0 ? 'good' : 'bad'}">${signed(row.holdout?.avg_pips)}</td></tr>`);
+      const promotionRows = (promotion?.top_evidence || []).map(row => {
+        const holdout = row.holdout || {};
+        const blockers = row.blocked_by || [];
+        const stateFull = promotionSummary.source_complete && row.eligible ? 'eligible' : blockers.join(', ') || promotionSummary.status || 'collecting';
+        const state = blockers.length > 3 ? `${blockers.slice(0, 3).join(', ')} +${blockers.length - 3}` : stateFull;
+        const horizon = horizonLabel(row.horizon_sec || 0);
+        return `<tr><td class="mono">${esc(row.lane_id || '-')}</td><td>${esc(row.family || '-')}</td><td>${esc(row.profile || '-')}</td><td>${Number(row.horizon_sec) >= 3600 ? `<strong>${esc(horizon)}</strong>` : esc(horizon)}</td><td>${fmt.format(row.sample_count || 0)}</td><td>${fmt.format(row.independent_blocks || 0)} / ${fmt.format(row.holdout_blocks || 0)}</td><td>${fmt.format(holdout.n || 0)}</td><td class="${Number(holdout.avg || 0) >= 0 ? 'good' : 'bad'}">${signed(holdout.avg)}</td><td class="${Number(holdout.lower_confidence || 0) >= 0 ? 'good' : 'bad'}">${signed(holdout.lower_confidence)}</td><td>${fmt.format(holdout.win_rate || 0)}%</td><td>${fmt.format(row.pair_count || 0)} / ${fmt.format(row.session_count || 0)}</td><td title="${esc(stateFull)}">${esc(state)}</td></tr>`;
+      });
+      const topSignalRows = (lab.top_signals || []).map((row, index) => `<tr>
+        <td>${index + 1}</td><td>${esc(row.instrument || '-')}</td><td class="${(row.direction_state || row.direction) === 'buy' ? 'good' : ((row.direction_state || row.direction) === 'sell' ? 'bad' : '')}">${esc(row.direction_state || row.direction || '-')}</td>
+        <td class="mono">${esc(row.family || row.lane_id || '-')}</td><td>${esc(horizonLabel(row.execution_horizon_sec || 0))}</td>
+        <td>${fmt.format(Number(row.signal_confidence || 0) * 100)}%</td><td class="${Number(row.projected_net_pips || 0) >= 0 ? 'good' : 'bad'}">${signed(row.projected_net_pips)}</td>
+        <td title="Raw families: ${fmt.format(row.agreement_family_count || 0)} agree / ${fmt.format(row.opposing_family_count || 0)} oppose"><strong>${fmt.format(row.agreement_archetype_count ?? row.agreement_family_count ?? 0)} / ${fmt.format(row.opposing_archetype_count ?? row.opposing_family_count ?? 0)}</strong><div class="small">independent · ${fmt.format(row.agreement_family_count || 0)} / ${fmt.format(row.opposing_family_count || 0)} raw</div></td><td class="${Number(row.signal_score || 0) >= 0 ? 'good' : 'bad'}">${signed(row.signal_score)}</td>
+      </tr>`);
+      const accountState = account.positions_current === false
+        ? 'positions unavailable'
+        : Number(account.open_trades || 0) ? `${account.open_trades} open` : 'flat';
+      const accountBalance = account.balance == null ? '-' : `$${fmt.format(account.balance)}`;
+      const accountNav = account.nav == null ? '-' : `$${fmt.format(account.nav)}`;
+      const accountRealized = account.realized_pl == null ? '-' : signed(account.realized_pl);
+      const ruleSummary = topRule.condition_text
+        ? `${topRule.predicted_direction || ''} ${topRule.horizon_sec || 0}s / ${topRule.condition_text}`
+        : 'collecting support';
+      const exitSummary = globalExit.sample_count
+        ? `${globalExit.stop_pips}p / ${globalExit.target_r}R / ${globalExit.eligible ? 'eligible' : 'shadow'}`
+        : 'collecting paths';
+      const backfill = promotionSummary.backfill || {};
+      const promotionDetail = promotionSummary.source_complete
+        ? `${fmt.format(promotionSummary.raw_rows || 0)} signal outcomes / ${horizonRange}`
+        : `backfill ${fmt.format(backfill.cursor || 0)} / ${fmt.format(backfill.source_max_row || 0)} source rows / execution held`;
+      const policySummary = incumbentPolicy.policy_id
+        ? `${incumbentPolicy.status || 'unknown'} / ${fmt.format(incumbentPolicy.validated_cells || 0)} validated / ${fmt.format(incumbentPolicy.negative_cells || 0)} negative`
+        : 'policy audit not generated';
+      const policyRows = (policyCells.top_live_cells || []).map((row, index) => `<tr>
+        <td>${index + 1}</td><td class="mono">${esc(row.cell_key || '-')}</td><td>${esc(row.horizon_sec || 0)}s</td>
+        <td>${fmt.format(row.sample_count || 0)}</td><td class="${Number(row.selection_adjusted_lower_net_pips || 0) >= 0 ? 'good' : 'bad'}">${row.selection_adjusted_lower_net_pips == null ? '-' : signed(row.selection_adjusted_lower_net_pips)}</td>
+        <td>${row.deflated_sharpe_probability == null ? '-' : `${fmt.format(Number(row.deflated_sharpe_probability) * 100)}%`}</td>
+        <td>${row.eligible ? 'eligible' : (row.negative_evidence ? 'negative' : esc((row.blocked_by || []).slice(0, 2).join(', ') || 'collecting'))}</td>
+      </tr>`);
+      return `<section class="run" style="margin-bottom:14px">
+        <div class="run-head"><div><div class="run-title">Unified Forecast Matrix / -007</div><div class="small mono">one evidence namespace across input timeframes, model families, variants, pairs, and outcome horizons</div></div><span class="pill ${lab.active && account.ok ? 'live' : ''}">${lab.active && account.ok ? 'live practice' : 'check runtime'}</span></div>
+        <div class="primary-summary-grid">
+          <div><span class="label">-007 account</span><strong>${accountBalance}</strong><div class="detail">NAV ${accountNav} / ${esc(accountState)} / realized ${accountRealized}</div></div>
+          <div><span class="label">Strategy space</span><strong>${fmt.format(lab.lanes || 0)} lanes</strong><div class="detail">${fmt.format(lab.virtual_lane_horizons || 0)} lane-horizons / ${fmt.format(lab.families || 0)} families / ${fmt.format(lab.pairs || 0)} pairs / ${esc((matrix.input_timeframes || []).join(' + '))}</div></div>
+          <div><span class="label">Signal contributors</span><strong>${fmt.format(contributionFeed.fresh || 0)} fresh / ${fmt.format(contributionFeed.registered || 0)} registered</strong><div class="detail">${fmt.format(contributionFeed.model_gap_registered || 0)} gap adapters / ${fmt.format(contributionFeed.model_gap_fresh || 0)} live now / ${fmt.format(lab.active_feed_candidates || 0)} feed candidates</div></div>
+          <div><span class="label">Recent evidence</span><strong>${fmt.format(lab.outcomes || 0)} outcomes</strong><div class="detail">${fmt.format(lab.signals || 0)} accepted / ${fmt.format(lab.near_misses || 0)} near / ${fmt.format(lab.hard_rejects || 0)} hard</div></div>
+          <div><span class="label">Practice execution</span><strong>${fmt.format(lab.qualified_candidates || 0)} eligible signals</strong><div class="detail">confidence-ranked feed / ${fmt.format(lab.selected || 0)} selected / ${fmt.format(lab.fills || 0)} fills / ${fmt.format(lab.errors || 0)} errors</div></div>
+          <div><span class="label">Combination audit</span><strong>${fmt.format(combo.validated_rules || 0)} rules</strong><div class="detail">${fmt.format(combo.snapshots || 0)} snapshots / ${fmt.format(combo.outcomes || 0)} outcomes</div></div>
+          <div><span class="label">Exit fit</span><strong>${fmt.format(eligible.lanes || 0)} lanes eligible</strong><div class="detail">${fmt.format(exits.signal_rows || 0)} signal paths / ${esc(exitSummary)}</div></div>
+          <div><span class="label">Net-return promotion</span><strong>${fmt.format(promotionSummary.eligible_count || 0)} lane-horizons</strong><div class="detail">${esc(promotionSummary.status || 'not started')} / ${esc(promotionDetail)}</div></div>
+          <div><span class="label">Frozen -007 policy</span><strong>${esc(incumbentPolicy.policy_id || 'pending')}</strong><div class="detail">${esc(policySummary)} / freeze to ${esc(incumbentPolicy.frozen_until_utc || '-')}</div></div>
+        </div>
+        <div class="body table-scroll"><div class="subsection-title">Current ranked signal feed</div><table class="lab-table"><thead><tr><th>#</th><th>Pair</th><th>Side</th><th>Source</th><th>Horizon</th><th>Confidence</th><th>Expected net</th><th>Independent agree / oppose</th><th>Score</th></tr></thead><tbody>${rowHtml(topSignalRows, 9)}</tbody></table></div>
+        <div class="body"><strong>Top audited combination:</strong> <span class="mono">${esc(ruleSummary)}</span></div>
+        <details class="breakdown" data-pane-key="primary-signal-audit"><summary>Promotion evidence, combination rules, and fitted exits</summary><div class="body">
+          <div class="table-scroll" style="margin-bottom:16px"><div class="subsection-title">Unified timeframe x model x horizon coverage</div><table class="lab-table"><thead><tr><th>Input</th><th>Training source</th><th>Family</th><th>Variants</th><th>Lanes</th><th>Outcome horizons</th><th>Lane-horizons</th><th>Pair-models</th><th>State</th></tr></thead><tbody>${rowHtml(matrixRows, 9)}</tbody></table></div>
+          <div class="table-scroll" style="margin-bottom:16px"><div class="subsection-title">Executable net-return evidence (${esc(horizonRange)})</div><table class="lab-table"><thead><tr><th>Lane</th><th>Family</th><th>Variant</th><th>Horizon</th><th>N</th><th>Blocks / holdout</th><th>Holdout N</th><th>Avg net</th><th>Lower bound</th><th>Win</th><th>Pairs / sessions</th><th>State</th></tr></thead><tbody>${rowHtml(promotionRows, 12)}</tbody></table></div>
+          <div class="table-scroll" style="margin-bottom:16px"><div class="subsection-title">Frozen policy signal cells</div><table class="lab-table"><thead><tr><th>#</th><th>Pair / model / input / horizon</th><th>Horizon</th><th>N</th><th>Adjusted lower net</th><th>DSR probability</th><th>State</th></tr></thead><tbody>${rowHtml(policyRows, 7)}</tbody></table></div>
+          <div class="two">
+          <div class="table-scroll"><div class="subsection-title">Fuzzy rule holdouts</div><table class="lab-table"><thead><tr><th>#</th><th>Rule</th><th>Horizon</th><th>Side</th><th>Probability</th><th>Support</th><th>Lower edge</th><th>Expected net</th></tr></thead><tbody>${rowHtml(ruleRows, 8)}</tbody></table></div>
+          <div class="table-scroll"><div class="subsection-title">Path-fitted family exits</div><table><thead><tr><th>Family</th><th>N</th><th>Stop</th><th>Target</th><th>State</th><th>Holdout avg</th></tr></thead><tbody>${rowHtml(exitRows, 6)}</tbody></table></div>
+          </div>
+        </div></details>
+      </section>`;
+    }
+    function renderTopOpportunities(lab, micro, second) {
+      const candidates = [];
+      for (const item of (second?.top_forecasts || [])) {
+        const probabilityUp = Number(item.probability_up || .5);
+        const acceptedProfiles = item.accepted_profiles || [];
+        candidates.push({
+          source: item.model_id || 'ridge_return.s1', pair: item.instrument,
+          side: Number(item.predicted_signed_pips || 0) >= 0 ? 'buy' : 'sell',
+          horizon: horizonLabel(item.horizon_sec), probability: Math.max(probabilityUp, 1 - probabilityUp),
+          expected: Number(item.predicted_signed_pips || 0), coefficient: 0,
+          coefficientText: `S1 ridge${acceptedProfiles.length ? ` / ${acceptedProfiles.join(', ')}` : ''}`,
+          spread: Number(item.spread_pips || 0), count: Number(item.holdout_n || 0),
+          status: acceptedProfiles.length ? 'accepted' : 'shadow forecast',
+          rank: Math.abs(probabilityUp - .5), time: second.updated_utc || '',
+        });
+      }
+      for (const item of (lab?.pattern_forecasts || [])) {
+        const probabilityUp = Number(item.probability_up || .5);
+        candidates.push({
+          source: item.lane_id || 'pattern', pair: item.instrument, side: item.direction,
+          horizon: `${item.horizon_sec || 0}s`, probability: Math.max(probabilityUp, 1 - probabilityUp),
+          expected: Number(item.expected_signed_move_pips || 0), coefficient: Number(item.movement_coefficient || 0),
+          coefficientText: `${fmt.format(Number(item.movement_coefficient || 0))}x`,
+          spread: null, count: Number(item.combined_count || 0), status: item.status || 'forecast',
+          rank: Math.abs(probabilityUp - .5), time: item.time || '',
+        });
+      }
+      for (const item of (lab?.combination_forecasts || [])) {
+        const probabilityUp = Number(item.probability_up || .5);
+        candidates.push({
+          source: item.rule_id || item.lane_id || 'signal combination', pair: item.instrument, side: item.direction,
+          horizon: `${item.horizon_sec || 0}s`, probability: Math.max(probabilityUp, 1 - probabilityUp),
+          expected: Number(item.expected_signed_move_pips || 0), coefficient: Number(item.membership || 0),
+          coefficientText: `${fmt.format(Number(item.membership || 0) * 100)}% match`,
+          spread: null, count: Number(item.holdout_support || 0), status: item.status || 'shadow rule',
+          rank: Number(item.holdout_lower_probability_edge || 0) + Number(item.membership || 0) / 100,
+          time: item.time || '',
+        });
+      }
+      for (const item of (micro?.latest_forecasts || [])) {
+        if (!item.model_ready) continue;
+        const probabilityUp = Number(item.probability_up || .5);
+        candidates.push({
+          source: item.model_id || 'micro', pair: item.instrument, side: item.predicted_direction,
+          horizon: `${item.target_horizon_ms || 0}ms`, probability: Math.max(probabilityUp, 1 - probabilityUp),
+          expected: Number(item.expected_signed_move_pips || 0), coefficient: Number(item.movement_coefficient || 0),
+          coefficientText: `${fmt.format(Number(item.movement_coefficient || 0))}x`,
+          spread: Number(item.spread_pips || 0), count: Number(item.live_pattern_count || 0), status: 'shadow forecast',
+          rank: Math.abs(probabilityUp - .5), time: item.origin_time || '',
+        });
+      }
+      candidates.sort((left, right) => right.rank - left.rank || Math.abs(right.expected) - Math.abs(left.expected));
+      const pairSeen = new Set();
+      const forecasts = [];
+      for (const row of candidates) {
+        if (!row.pair || pairSeen.has(row.pair)) continue;
+        pairSeen.add(row.pair);
+        forecasts.push(row);
+        if (forecasts.length >= 10) break;
+      }
+      const signals = candidates
+        .filter(row => row.status === 'accepted')
+        .sort((left, right) => right.rank - left.rank || Math.abs(right.expected) - Math.abs(left.expected))
+        .slice(0, 10);
+      const forecastRows = forecasts.map((row, index) => `<tr class="${index < 3 ? 'leader' : ''}">
+        <td>${index + 1}</td><td><strong>${esc(row.pair)}</strong></td><td class="${row.side === 'buy' ? 'good' : 'bad'}">${esc(row.side)}</td>
+        <td class="mono" title="${esc(row.source)}">${esc(row.source)}</td><td>${esc(row.horizon)}</td><td>${fmt.format(row.probability * 100)}%</td>
+        <td class="${row.expected >= 0 ? 'good' : 'bad'}">${signed(row.expected)}</td><td>${esc(row.coefficientText || `${fmt.format(row.coefficient)}x`)}</td>
+        <td>${row.spread == null ? '-' : fmt.format(row.spread)}</td><td>${fmt.format(row.count)}</td><td>${esc(row.status)}</td>
+      </tr>`);
+      const signalRows = signals.map((row, index) => `<tr class="${index === 0 ? 'leader' : ''}">
+        <td>${index + 1}</td><td><strong>${esc(row.pair)}</strong></td><td class="${row.side === 'buy' ? 'good' : 'bad'}">${esc(row.side)}</td>
+        <td class="mono" title="${esc(row.source)}">${esc(row.source)}</td><td>${esc(row.horizon)}</td><td>${fmt.format(row.probability * 100)}%</td>
+        <td class="${row.expected >= 0 ? 'good' : 'bad'}">${signed(row.expected)}</td><td>${esc(row.coefficientText || `${fmt.format(row.coefficient)}x`)}</td>
+      </tr>`);
+      return `<section class="run" style="margin-bottom:14px">
+        <div class="run-head"><div><div class="run-title">Top Forecasts and Signals</div>
+          <div class="small mono">forecast rank = current directional confidence; executable signals meet signal-level confidence and cost-edge thresholds, with lane history used for calibration</div></div>
+          <span class="pill ${lab?.active || micro?.active || second?.active ? 'live' : ''}">${lab?.active || micro?.active || second?.active ? 'live inputs' : 'stale inputs'}</span>
+        </div>
+        <div class="body top-forecast-grid">
+          <div class="table-scroll"><div class="subsection-title">Top Forecasts</div>
+            <table class="lab-table"><thead><tr><th>#</th><th>Pair</th><th>Side</th><th>Model</th><th>Horizon</th><th>Confidence</th><th>Expected</th><th>Move coeff</th><th>Spread</th><th>N</th><th>State</th></tr></thead><tbody>${rowHtml(forecastRows, 11)}</tbody></table>
+          </div>
+          <div class="table-scroll"><div class="subsection-title">Top Signals</div>
+            <table class="lab-table"><thead><tr><th>#</th><th>Pair</th><th>Side</th><th>Lane</th><th>Horizon</th><th>Confidence</th><th>Expected</th><th>Move coeff</th></tr></thead><tbody>${signals.length ? signalRows.join('') : '<tr><td colspan="8" class="small">No currently accepted strategy signals.</td></tr>'}</tbody></table>
+          </div>
+        </div>
+      </section>`;
+    }
+    function renderStrategyLayers(layers) {
+      if (!layers) return '';
+      const rows = (layers.rows || []).map(row => `<tr>
+        <td>${esc(row.layer)}</td>
+        <td>${esc(row.timeframe)}</td>
+        <td>${fmt.format(row.models || 0)}</td>
+        <td>${fmt.format(row.signals || 0)}</td>
+        <td>${fmt.format(row.outcomes || 0)}</td>
+        <td>${esc(row.status)}</td>
+        <td class="mono" title="${esc(row.source || '')}">${esc(row.source || '-')}</td>
+      </tr>`);
+      const inventoryRows = (layers.model_layer_counts || []).map(row => `<tr>
+        <td>${esc(row.layer)}</td>
+        <td>${fmt.format(row.files || 0)}</td>
+      </tr>`);
+      return `<section class="run" style="margin-bottom:14px">
+        <div class="run-head">
+          <div>
+            <div class="run-title">Strategy Layers</div>
+            <div class="small mono">live, replay, GPT/account-manager, ARIMA, boosted tree, and full feature-space model layers tracked from reports/logs</div>
+          </div>
+          <span class="pill">all models</span>
+        </div>
+        <div class="body">
+          <div class="two">
+            <div class="table-scroll">
+              <table class="lab-table"><thead><tr><th>Layer</th><th>Timeframe</th><th>Models</th><th>Signals</th><th>Outcomes</th><th>Status</th><th>Source</th></tr></thead><tbody>${rowHtml(rows, 7)}</tbody></table>
+            </div>
+            <div class="table-scroll">
+              <div class="subsection-title">Offline / Historical Model Inventory</div>
+              <table><thead><tr><th>Layer type</th><th>Files</th></tr></thead><tbody>${rowHtml(inventoryRows, 2)}</tbody></table>
+            </div>
+          </div>
+        </div>
+      </section>`;
+    }
+    function renderHistoricalCalibration(calibration) {
+      if (!calibration?.rows?.length) return '';
+      const fit = calibration.adaptive_fit || {};
+      const evidence = fit.evidence || {};
+      const promotion = fit.promotion || {};
+      const fitPanel = fit.status ? `<div class="body small">Adaptive HGB: <strong>${esc(fit.status)}</strong> / ${fmt.format(evidence.matured || 0)} matured / ${fmt.format(evidence.path_tracked_matured || 0)} path tracked / <span class="${promotion.ready ? 'good' : 'warn'}">${promotion.ready ? 'promotion ready' : 'shadow only'}</span>.</div>` : '';
+      const rows = calibration.rows.map(row => `<tr>
+        <td>${esc(row.model)}</td><td>${esc(row.timeframe)}</td><td>${fmt.format(row.outcome_horizon_minutes)}m</td>
+        <td>${fmt.format(row.historical_n)}</td><td>${fmt.format(row.historical_win_rate)}%</td>
+        <td>${fmt.format(row.profit_factor)}</td><td>${fmt.format(row.max_drawdown_pct)}%</td>
+        <td>${fmt.format(row.live_n)}</td><td>${row.live_win_rate == null ? '-' : `${fmt.format(row.live_win_rate)}%`}</td>
+        <td>${fmt.format(row.adjusted_win_rate)}%</td><td>${esc(row.status)}</td>
+        <td class="mono" title="${esc(row.source)}">${esc(String(row.source || '').split(/[\\/]/).slice(-2).join('/'))}</td>
+      </tr>`);
+      return `<section class="run" style="margin-bottom:14px">
+        <div class="run-head">
+          <div><div class="run-title">Historical to Live Calibration</div><div class="small">Input timeframes are distinct; every listed HGB result forecasts a 120-minute outcome. Live results are only included when model, timeframe, and horizon match.</div></div>
+          <span class="pill">HGB evidence</span>
+        </div>
+        ${fitPanel}
+        <details class="breakdown" data-pane-key="historical-live-calibration" open>
+          <summary>Win rate, risk, and live adjustment</summary>
+          <div class="body table-scroll">
+            <div class="small" style="margin-bottom:8px">${help('Adjusted win rate', calibration.method)}</div>
+            <table class="lab-table" style="min-width:1320px"><thead><tr>
+              <th>Model</th><th>${help('Input timeframe', 'Candle interval used by the historical model features.')}</th><th>${help('Outcome horizon', 'Elapsed time from forecast origin to the scored target. These reports all use 120 minutes.')}</th>
+              <th>Historical N</th><th>Historical win</th><th>${help('Profit factor', 'Gross winning P/L divided by absolute gross losing P/L. Above 1 means historical gross profit exceeded gross loss.')}</th><th>${help('Max DD', 'Largest peak-to-trough historical equity decline in percent.')}</th>
+              <th>${help('Live N', 'Matched matured live outcomes for the exact same model family, input timeframe, and outcome horizon.')}</th><th>Live win</th><th>${help('Adjusted win', calibration.method)}</th><th>Status</th><th>Source</th>
+            </tr></thead><tbody>${rowHtml(rows, 12)}</tbody></table>
+          </div>
+        </details>
+      </section>`;
+    }
+    function renderStrategyLab(lab) {
+      if (!lab) return '';
+      const horizonOptions = (lab.horizon_options_sec || [lab.target_horizon_sec]).filter(Boolean);
+      const selected = horizonOptions.includes(Number(selectedLabHorizon)) ? Number(selectedLabHorizon) : Number(lab.target_horizon_sec || horizonOptions[horizonOptions.length - 1] || 0);
+      selectedLabHorizon = String(selected || '');
+      const sortedLanes = (lab.lanes || []).slice().sort((a, b) => {
+        const aStats = statsForLane(a, selected);
+        const bStats = statsForLane(b, selected);
+        return (Number(bStats.accepted.n || 0) > 0) - (Number(aStats.accepted.n || 0) > 0)
+          || laneScore(bStats.accepted, bStats.missed) - laneScore(aStats.accepted, aStats.missed)
+          || (Number(bStats.accepted.n || 0) + Number(bStats.missed.n || 0)) - (Number(aStats.accepted.n || 0) + Number(aStats.missed.n || 0));
+      });
+      const rows = sortedLanes.map((lane, index) => {
+        const { accepted, missed } = statsForLane(lane, selected);
+        const score = laneScore(accepted, missed);
+        const scoreSource = Number(accepted.n || 0) ? 'accepted' : 'near_miss';
+        const paramTitle = esc(JSON.stringify(lane.parameters || {}));
+        return `<tr class="${index === 0 && accepted.n ? 'leader' : ''}">
+          <td>${esc(index + 1)}</td>
+          <td>${esc(lane.family)}</td>
+          <td title="${paramTitle}">${esc(lane.profile)}</td>
+          <td>${fmt.format(lane.raw_setups || 0)}</td>
+          <td>${fmt.format(lane.signals || 0)}</td>
+          <td>${fmt.format(lane.near_misses || 0)}</td>
+          <td>${fmt.format(lane.hard_rejects || 0)}</td>
+          <td>${esc(selected)}s</td>
+          <td>${fmt.format(accepted.n || 0)}</td>
+          <td class="${Number(accepted.avg) >= 0 ? 'good' : 'bad'}">${signed(accepted.avg)}</td>
+          <td class="${Number(accepted.avg_net_pips_per_hour) >= 0 ? 'good' : 'bad'}">${signed(accepted.avg_net_pips_per_hour)}</td>
+          <td>${fmt.format(accepted.win_rate || 0)}%</td>
+          <td class="${Number(missed.avg) >= 0 ? 'good' : 'bad'}">${missed.n ? signed(missed.avg) : '-'}</td>
+          <td title="${esc(scoreSource)}" class="${Number(score) >= 0 ? 'good' : 'bad'}">${signed(score)}</td>
+        </tr>`;
+      });
+      const familyRows = familyBreakdown(lab.lanes || [], selected).map(row => `<tr>
+        <td>${esc(row.family)}</td>
+        <td>${fmt.format(row.raw)}</td>
+        <td>${fmt.format(row.acceptedCount)}</td>
+        <td>${fmt.format(row.signalRate)}%</td>
+        <td>${fmt.format(row.nearCount)}</td>
+        <td>${fmt.format(row.hard)}</td>
+        <td>${fmt.format(row.n)}</td>
+        <td class="${Number(row.avg) >= 0 ? 'good' : 'bad'}">${signed(row.avg)}</td>
+        <td class="${Number(row.avgPipsPerHour) >= 0 ? 'good' : 'bad'}">${signed(row.avgPipsPerHour)}</td>
+        <td>${fmt.format(row.win)}%</td>
+        <td class="mono">${esc(row.bestLane || '-')}</td>
+      </tr>`);
+      const horizonSelect = `<label for="lab-horizon-select">Outcome horizon</label><select id="lab-horizon-select">${horizonOptions.map(h => `<option value="${esc(h)}" ${Number(h) === selected ? 'selected' : ''}>${esc(h)}s</option>`).join('')}</select><span class="small hint" title="Changing horizon re-ranks lane outcomes in the browser when the raw log has matured outcomes for that horizon.">rank by selected horizon</span>`;
+      return `<section class="run" style="margin-bottom:14px">
+        <div class="run-head">
+          <div>
+            <div class="run-title">${esc(lab.run_label)}</div>
+            <div class="small mono">${esc(lab.lane_count)} lanes / ${esc(lab.instrument_count)} pairs / ${esc(lab.pricing_source)} / ${esc(lab.pricing_interval_sec)}s evaluation</div>
+          </div>
+          <span class="pill ${lab.active ? 'live' : ''}">${lab.active ? 'live shadow' : (lab.ended ? 'ended' : `${lab.last_write_age_sec}s stale`)}</span>
+        </div>
+        <div class="controls">${horizonSelect}</div>
+        <div class="lab-scroll-tools">
+          <button type="button" id="lab-scroll-left" title="Scroll left" aria-label="Scroll leaderboard left">&larr;</button>
+          <input type="range" id="lab-scroll-range" min="0" max="0" value="0" step="1" aria-label="Leaderboard horizontal position">
+          <button type="button" id="lab-scroll-right" title="Scroll right" aria-label="Scroll leaderboard right">&rarr;</button>
+        </div>
+        <div class="body table-scroll" id="lab-table-scroll">
+          <table class="lab-table">
+            <thead><tr>${['#','Family','Variant','Raw','Accepted','Near miss','Hard reject','Horizon','N','Avg net','Pips/h','Win','Near avg','Score'].map(th).join('')}</tr></thead>
+            <tbody>${rowHtml(rows, 14)}</tbody>
+          </table>
+        </div>
+        <div class="body table-scroll">
+          <div class="subsection-title">Model / Family Breakdown</div>
+          <table class="lab-table">
+            <thead><tr><th title="Strategy/model family grouped across variants.">Family</th><th title="Raw setups across all variants.">Raw</th><th title="Accepted setups across all variants.">Accepted</th><th title="Accepted/raw setup percentage. This measures signal selectivity, not outcome success.">Signal rate</th><th title="Near-threshold misses across all variants.">Near</th><th title="Hard rejects across all variants.">Hard</th><th title="Matured accepted outcomes at selected horizon.">N</th><th title="Weighted accepted average net pips at selected horizon.">Avg net</th><th title="Average net pips normalized to one hour at selected horizon; overlapping signals are not capital constrained.">Pips/h</th><th title="Weighted accepted outcome win rate at selected horizon.">Win rate</th><th title="Best variant by average accepted net at selected horizon.">Best lane</th></tr></thead>
+            <tbody>${rowHtml(familyRows, 11)}</tbody>
+          </table>
+        </div>
+      </section>`;
+    }
+    function udCount(pattern) {
+      const chars = String(pattern || '').toUpperCase().split('');
+      const up = chars.filter(char => char === 'U').length;
+      const down = chars.filter(char => char === 'D').length;
+      return `U${up} / D${down}`;
+    }
+    function renderPatternForecasts(lab) {
+      if (!lab || !(lab.pattern_forecasts || []).length) return '';
+      const diagnostics = lab.pattern_diagnostics || {};
+      const breakdown = lab.pattern_breakdown || {};
+      const rows = (lab.pattern_forecasts || []).map(item => {
+        const probability = Number(item.probability_up || 0) * 100;
+        const actual = item.actual_signed_move_pips;
+        const resultClass = item.direction_correct === true ? 'good' : (item.direction_correct === false ? 'bad' : '');
+        const result = actual == null ? 'pending' : `${signed(actual)} / ${item.direction_correct ? 'correct' : 'wrong'}`;
+        const blockers = (item.blocked_reasons || []).join(', ');
+        return `<tr>
+          <td>${esc(item.profile)}</td>
+          <td>${esc(item.instrument)}</td>
+          <td title="${esc((item.sequence_pips || []).join(', '))}" class="mono">${esc(item.pattern)}</td>
+          <td>${esc(udCount(item.pattern))}</td>
+          <td>${esc(item.horizon_sec)}s</td>
+          <td class="${item.direction === 'buy' ? 'good' : 'bad'}">${esc(item.direction)}</td>
+          <td>${fmt.format(probability)}%</td>
+          <td>${signed(item.expected_signed_move_pips)}</td>
+          <td>${fmt.format(item.expected_abs_move_pips)}</td>
+          <td title="Expected absolute pattern move divided by the pair baseline at this horizon">${fmt.format(item.movement_coefficient)}x</td>
+          <td>${fmt.format(item.historical_count)}</td>
+          <td>${fmt.format(item.live_count)}</td>
+          <td title="${esc(blockers)}" class="${item.status === 'accepted' ? 'good' : 'warn'}">${esc(item.status)}</td>
+          <td class="future ${resultClass}">${esc(result)}</td>
+          <td>${item.actual_movement_coefficient == null ? '-' : `${fmt.format(item.actual_movement_coefficient)}x`}</td>
+        </tr>`;
+      });
+      const correlation = diagnostics.coefficient_correlation == null ? 'pending' : fmt.format(diagnostics.coefficient_correlation);
+      const variantRows = (breakdown.variants || []).map(item => `<tr>
+        <td>${esc(item.profile)}</td><td>${esc(item.horizon_sec)}s</td>
+        <td>${fmt.format(item.forecasts || 0)}</td><td>${fmt.format(item.accepted || 0)}</td>
+        <td>${fmt.format(item.near_miss || 0)}</td><td>${fmt.format(item.hard_reject || 0)}</td>
+        <td>${fmt.format(item.matured || 0)}</td><td>${fmt.format(item.direction_accuracy || 0)}%</td>
+        <td>${fmt.format(item.mean_brier_score || 0)}</td><td>${fmt.format(item.signed_move_mae_pips || 0)}</td>
+        <td>${fmt.format(item.absolute_move_mae_pips || 0)}</td>
+        <td>${item.coefficient_correlation == null ? '-' : fmt.format(item.coefficient_correlation)}</td>
+        <td>${fmt.format(item.mean_historical_count || 0)} / ${fmt.format(item.mean_live_count || 0)} / ${fmt.format(item.mean_effective_count || 0)}</td>
+      </tr>`);
+      const sequenceRows = (breakdown.sequences || []).map(item => `<tr>
+        <td class="mono future">${esc(item.pattern)}</td>
+        <td>${esc(item.pattern_mode)} / ${fmt.format(item.pattern_order || 0)}</td><td>${esc(item.horizon_sec)}s</td>
+        <td>${fmt.format(item.forecasts || 0)}</td><td>${fmt.format(item.matured || 0)}</td>
+        <td>${fmt.format(Number(item.mean_probability_up || 0) * 100)}%</td>
+        <td>${fmt.format(Number(item.mean_direction_edge || 0) * 100)}%</td>
+        <td>${fmt.format(item.mean_historical_count || 0)} / ${fmt.format(item.mean_live_count || 0)} / ${fmt.format(item.mean_effective_count || 0)}</td>
+        <td>${fmt.format(item.direction_accuracy || 0)}%</td>
+        <td class="future ${Number(item.mean_actual_signed_pips) >= 0 ? 'good' : 'bad'}">${item.matured ? signed(item.mean_actual_signed_pips) : '-'}</td>
+        <td>${fmt.format(item.mean_brier_score || 0)}</td>
+      </tr>`);
+      return `<section class="run" style="margin-bottom:14px">
+        <div class="run-head">
+          <div>
+            <div class="run-title">Pattern Count Forecasts</div>
+            <div class="small mono">${esc(diagnostics.latest_prediction_count || 0)} latest / ${esc(diagnostics.matured || 0)} matured / accuracy ${esc(diagnostics.direction_accuracy || 0)}% / Brier ${esc(diagnostics.mean_brier_score || 0)} / coefficient correlation ${esc(correlation)}</div>
+          </div>
+          <span class="pill">${esc(diagnostics.latest_candle_time || 'waiting')}</span>
+        </div>
+        <div class="pattern-kpis">
+          <div><span class="small">Forecast records</span><strong>${fmt.format(diagnostics.predictions_in_window || 0)}</strong></div>
+          <div><span class="small">Accepted / near / hard</span><strong>${fmt.format(diagnostics.accepted || 0)} / ${fmt.format(diagnostics.near_miss || 0)} / ${fmt.format(diagnostics.hard_reject || 0)}</strong></div>
+          <div><span class="small">Matured / pending</span><strong>${fmt.format(diagnostics.matured || 0)} / ${fmt.format(diagnostics.pending || 0)}</strong></div>
+          <div><span class="small">Direction accuracy</span><strong>${fmt.format(diagnostics.direction_accuracy || 0)}%</strong></div>
+          <div><span class="small">Signed / absolute MAE</span><strong>${fmt.format(diagnostics.signed_move_mae_pips || 0)} / ${fmt.format(diagnostics.absolute_move_mae_pips || 0)}</strong></div>
+          <div><span class="small">Movement coeff correlation</span><strong>${esc(correlation)}</strong></div>
+        </div>
+        <details class="breakdown" data-pane-key="pattern-metric-breakdown" open>
+          <summary>Break down pattern metrics</summary>
+          <div class="body">
+            <div class="small" style="margin-bottom:10px">${esc(breakdown.outcome_scope || '')} Brier scores probability calibration; lower is better. MAE is mean absolute error in pips.</div>
+            <div class="table-scroll">
+              <div class="subsection-title">By Variant And Target</div>
+              <table class="lab-table" style="min-width:1280px">
+                <thead><tr><th>Variant</th><th>Target</th><th>Forecasts</th><th>Accepted</th><th>Near</th><th>Hard</th><th>Matured</th><th>Accuracy</th><th>Brier</th><th>Signed MAE</th><th>Abs MAE</th><th>Coeff corr</th><th title="Average historical / completed-live / effective weighted sample counts">Hist / live / effective N</th></tr></thead>
+                <tbody>${rowHtml(variantRows, 13)}</tbody>
+              </table>
+            </div>
+            <div class="table-scroll" style="margin-top:14px">
+              <div class="subsection-title">By Exact Pattern Sequence</div>
+              <table class="lab-table" style="min-width:1120px">
+                <thead><tr><th>Pattern</th><th>Mode / order</th><th>Target</th><th>Forecasts</th><th>Matured</th><th>Mean P(up)</th><th>Mean edge</th><th title="Average historical / completed-live / effective weighted sample counts">Hist / live / effective N</th><th>Accuracy</th><th>Future avg</th><th>Brier</th></tr></thead>
+                <tbody>${rowHtml(sequenceRows, 11)}</tbody>
+              </table>
+            </div>
+          </div>
+        </details>
+        <div class="lab-scroll-tools">
+          <button type="button" id="pattern-scroll-left" title="Scroll left" aria-label="Scroll pattern forecasts left">&larr;</button>
+          <input type="range" id="pattern-scroll-range" min="0" max="0" value="0" step="1" aria-label="Pattern forecast horizontal position">
+          <button type="button" id="pattern-scroll-right" title="Scroll right" aria-label="Scroll pattern forecasts right">&rarr;</button>
+        </div>
+        <div class="body table-scroll" id="pattern-table-scroll">
+          <table class="lab-table" style="min-width:1620px">
+            <thead><tr><th>Variant</th><th>Pair</th><th>Pattern</th><th>U/D</th><th>Target</th><th>Side</th><th>P(up)</th><th>Expected signed</th><th>Expected abs</th><th>Move coeff</th><th>Hist N</th><th>Live N</th><th>Gate</th><th>Future / direction</th><th>Actual coeff</th></tr></thead>
+            <tbody>${rowHtml(rows, 15)}</tbody>
+          </table>
+        </div>
+      </section>`;
+    }
+    function equationRows(micro) {
+      if (equationFrozenRows == null && micro?.equation_outcomes?.length) equationFrozenRows = micro.equation_outcomes.slice();
+      const rows = (equationFrozenRows || []).filter(row =>
+        equationHorizon === 'all' || String(row.target_horizon_ms) === String(equationHorizon)
+      );
+      const value = (row, key) => {
+        if (key === 'time') return Number(row.origin_time_ns || 0);
+        if (key === 'model') return String(row.model_id || '');
+        if (key === 'pair') return String(row.instrument || '');
+        if (key === 'horizon') return Number(row.target_horizon_ms || 0);
+        if (key === 'prediction') return Number(row.expected_signed_move_pips || 0);
+        if (key === 'future') return Number(row.actual_signed_move_pips || 0);
+        if (key === 'net') return Number(row.theoretical_pips || 0);
+        return 0;
+      };
+      return rows.slice().sort((left, right) => {
+        const a = value(left, equationSort);
+        const b = value(right, equationSort);
+        const order = typeof a === 'string' ? a.localeCompare(b) : a - b;
+        return equationSortDirection === 'asc' ? order : -order;
+      });
+    }
+    function equationStats(rows) {
+      const n = rows.length;
+      const mean = key => n ? rows.reduce((sum, row) => sum + Number(row[key] || 0), 0) / n : 0;
+      return {
+        n,
+        accuracy: n ? 100 * rows.filter(row => row.direction_correct).length / n : 0,
+        flat: rows.filter(row => Math.abs(Number(row.actual_signed_move_pips || 0)) < 1e-9).length,
+        predicted: mean('expected_signed_move_pips'),
+        future: mean('actual_signed_move_pips'),
+        net: mean('theoretical_pips'),
+        brier: mean('probability_brier_score'),
+      };
+    }
+    function equationGroups(rows, keyFn) {
+      const groups = new Map();
+      for (const row of rows) {
+        const key = keyFn(row);
+        if (!groups.has(key)) groups.set(key, []);
+        groups.get(key).push(row);
+      }
+      return Array.from(groups.entries()).map(([key, items]) => ({key, ...equationStats(items)}))
+        .sort((left, right) => right.n - left.n || String(left.key).localeCompare(String(right.key)));
+    }
+    function equationBreakdownTable(rows, kind) {
+      const keyFn = kind === 'horizon'
+        ? row => `${row.target_horizon_ms}ms`
+        : (kind === 'model' ? row => row.model_id : row => row.instrument);
+      const groups = equationGroups(rows, keyFn);
+      const body = groups.map(group => `<tr>
+        <td class="mono">${esc(group.key)}</td><td>${fmt.format(group.n)}</td>
+        <td>${fmt.format(group.accuracy)}%</td><td>${fmt.format(group.flat)}</td>
+        <td>${signed(group.predicted)}</td><td class="future">${signed(group.future)}</td>
+        <td class="${group.net >= 0 ? 'good' : 'bad'}">${signed(group.net)}</td><td>${fmt.format(group.brier)}</td>
+      </tr>`);
+      return `<div class="table-scroll"><table><thead><tr>
+        <th>${kind === 'horizon' ? 'Outcome horizon' : (kind === 'model' ? 'Model' : 'Pair')}</th>
+        <th title="Matured means the full target horizon elapsed and a realized bid/ask outcome was recorded.">Matured</th>
+        <th title="Share whose predicted buy/sell direction matched the signed realized move. A flat move counts as incorrect.">Accuracy</th>
+        <th title="Realized signed moves equal to zero at the recorder's pip precision.">Flat futures</th>
+        <th title="Mean model forecast in signed pips; positive is up and negative is down.">Avg predicted</th>
+        <th title="Mean realized mid-price move in signed pips over the selected outcome horizon.">Avg future</th>
+        <th title="Mean executable side-aware P/L in pips after crossing the observed bid/ask spread.">Avg net</th>
+        <th title="Mean (P(up) - actual_up)^2. Lower is better; 0 is perfect.">Brier</th>
+      </tr></thead><tbody>${rowHtml(body, 8)}</tbody></table></div>`;
+    }
+    function renderEquationSvg(rows, expanded = false) {
+      const width = expanded ? 1280 : 920;
+      const height = expanded ? 360 : 220;
+      const pad = expanded ? 42 : 28;
+      const values = rows.flatMap(row => [
+        Number(row.expected_signed_move_pips || 0), Number(row.actual_signed_move_pips || 0)
+      ]);
+      const maxAbs = Math.max(0.1, ...values.map(value => Math.abs(value)));
+      const x = index => rows.length <= 1 ? width / 2 : pad + index * (width - pad * 2) / (rows.length - 1);
+      const y = value => height / 2 - Number(value || 0) * ((height / 2 - pad) / maxAbs);
+      const predicted = rows.map((row, index) => `${x(index)},${y(row.expected_signed_move_pips)}`).join(' ');
+      const actual = rows.map((row, index) => `${x(index)},${y(row.actual_signed_move_pips)}`).join(' ');
+      const points = rows.map((row, index) => {
+        const future = Math.abs(Number(row.actual_signed_move_pips || 0)) < 1e-9 ? 'flat 0' : signed(row.actual_signed_move_pips);
+        const title = `${row.model_id} ${row.instrument} ${row.target_horizon_ms}ms predicted ${signed(row.expected_signed_move_pips)} future ${future} net ${signed(row.theoretical_pips)}`;
+        return `<g class="equation-point" data-equation-id="${esc(row.prediction_id)}" tabindex="0" role="button" aria-label="${esc(title)}">
+          <circle cx="${x(index)}" cy="${y(row.expected_signed_move_pips)}" r="3" fill="#4da3ff"><title>${esc(title)}</title></circle>
+          <rect x="${x(index) - 3}" y="${y(row.actual_signed_move_pips) - 3}" width="6" height="6" fill="#ffb347"><title>${esc(title)}</title></rect>
+        </g>`;
+      }).join('');
+      return `<svg class="chart" viewBox="0 0 ${width} ${height}" role="img" aria-label="Matched matured equation predictions and realized futures">
+        <line x1="${pad}" x2="${width - pad}" y1="${height / 2}" y2="${height / 2}" stroke="#2d343b" />
+        <text x="${pad}" y="18" fill="#9aa4ad" font-size="11">matched matured forecasts; flat future = center line</text>
+        <polyline points="${predicted}" fill="none" stroke="#4da3ff" stroke-width="2.5" />
+        <polyline points="${actual}" fill="none" stroke="#ffb347" stroke-width="2.5" stroke-dasharray="7 5" />
+        ${points}
+        <line x1="${width - 210}" x2="${width - 190}" y1="15" y2="15" stroke="#4da3ff" stroke-width="2.5" />
+        <text x="${width - 184}" y="18" fill="#4da3ff" font-size="11">prediction</text>
+        <line x1="${width - 104}" x2="${width - 84}" y1="15" y2="15" stroke="#ffb347" stroke-width="2.5" stroke-dasharray="7 5" />
+        <text x="${width - 78}" y="18" fill="#ffb347" font-size="11">future</text>
+      </svg>`;
+    }
+    function renderEquationPathSvg(payload, expanded = false) {
+      if (!payload || payload.error) return `<div class="small">${esc(payload?.error || 'Select a matured equation forecast.')}</div>`;
+      const prediction = payload.prediction || {};
+      const width = expanded ? 1280 : 920;
+      const height = expanded ? 360 : 240;
+      const padY = expanded ? 42 : 32;
+      const originX = width * .30;
+      const endX = width - 10;
+      const pastMs = Math.max(1, Number(payload.past_window_ms || 1));
+      const futureMs = Math.max(1, Number(payload.future_window_ms || prediction.horizon_ms || 1));
+      const raw = (payload.points || []).map(point => ({
+        offset: Math.max(-pastMs, Math.min(futureMs, Number(point.offset_ms || 0))),
+        move: Number(point.move_pips || 0)
+      }));
+      const past = raw.filter(point => point.offset <= 0);
+      const future = raw.filter(point => point.offset >= 0);
+      if (!past.length || past[past.length - 1].offset < 0) past.push({offset: 0, move: 0});
+      if (!future.length || future[0].offset > 0) future.unshift({offset: 0, move: 0});
+      const actualFinal = Number(prediction.actual_signed_pips || 0);
+      if (!future.length || future[future.length - 1].offset < futureMs) future.push({offset: futureMs, move: actualFinal});
+      else future[future.length - 1] = {offset: futureMs, move: actualFinal};
+      const expected = Number(prediction.expected_signed_pips || 0);
+      const maxAbs = Math.max(.1, Math.abs(expected), Math.abs(actualFinal), ...raw.map(point => Math.abs(point.move)));
+      const x = offset => offset <= 0
+        ? originX + offset * originX / pastMs
+        : originX + offset * (endX - originX) / futureMs;
+      const y = move => height / 2 - Number(move || 0) * ((height / 2 - padY) / maxAbs);
+      const points = items => items.map(point => `${x(point.offset)},${y(point.move)}`).join(' ');
+      const flat = Math.abs(actualFinal) < 1e-9;
+      return `<svg class="chart" viewBox="0 0 ${width} ${height}" role="img" aria-label="Selected equation forecast with 30 percent historical context and 70 percent future horizon">
+        <rect x="0" y="0" width="${originX}" height="${height}" fill="#11171a" />
+        <rect x="${originX}" y="0" width="${endX - originX}" height="${height}" fill="#0e1114" />
+        <line x1="0" x2="${endX}" y1="${y(0)}" y2="${y(0)}" stroke="#344049" />
+        <line x1="${originX}" x2="${originX}" y1="0" y2="${height}" stroke="#d9e0e5" stroke-width="1.5" />
+        <polyline points="${points(past)}" fill="none" stroke="#61d6c4" stroke-width="2.5" />
+        <polyline points="${points(future)}" fill="none" stroke="#ffb347" stroke-width="2.7" />
+        <line x1="${originX}" y1="${y(0)}" x2="${endX}" y2="${y(expected)}" stroke="#4da3ff" stroke-width="2.7" stroke-dasharray="8 5" />
+        <circle cx="${endX}" cy="${y(expected)}" r="4" fill="#4da3ff" />
+        <rect x="${endX - 4}" y="${y(actualFinal) - 4}" width="8" height="8" fill="#ffb347" />
+        <text x="8" y="18" fill="#61d6c4" font-size="11">past context 30%</text>
+        <text x="${originX + 8}" y="18" fill="#d9e0e5" font-size="11">forecast origin</text>
+        <text x="${endX - 104}" y="18" fill="#ffb347" font-size="11">${flat ? 'future flat 0' : 'future 70%'}</text>
+        <line x1="8" x2="28" y1="${height - 14}" y2="${height - 14}" stroke="#61d6c4" stroke-width="2.5" />
+        <text x="34" y="${height - 10}" fill="#61d6c4" font-size="11">observed past</text>
+        <line x1="132" x2="152" y1="${height - 14}" y2="${height - 14}" stroke="#4da3ff" stroke-width="2.7" stroke-dasharray="8 5" />
+        <text x="158" y="${height - 10}" fill="#4da3ff" font-size="11">equation forecast</text>
+        <line x1="284" x2="304" y1="${height - 14}" y2="${height - 14}" stroke="#ffb347" stroke-width="2.7" />
+        <text x="310" y="${height - 10}" fill="#ffb347" font-size="11">observed future</text>
+      </svg>`;
+    }
+    function renderEquationRawRows(rows) {
+      return rows.slice(0, 300).map(row => {
+        const flat = Math.abs(Number(row.actual_signed_move_pips || 0)) < 1e-9;
+        return `<tr data-equation-index="${esc(row.prediction_id)}" tabindex="0">
+          <td>${esc(new Date(Number(row.origin_time_ns || 0) / 1e6).toISOString())}</td>
+          <td class="mono">${esc(row.model_id)}</td><td>${esc(row.instrument)}</td><td>${fmt.format(row.target_horizon_ms)}ms</td>
+          <td>${signed(row.expected_signed_move_pips)}</td><td class="future">${flat ? 'flat 0' : signed(row.actual_signed_move_pips)}</td>
+          <td class="${Number(row.theoretical_pips) >= 0 ? 'good' : 'bad'}">${signed(row.theoretical_pips)}</td>
+          <td>${row.direction_correct ? 'correct' : 'wrong'}</td><td>${fmt.format(row.probability_brier_score)}</td>
+        </tr>`;
+      });
+    }
+    function renderEquationChart(micro) {
+      const rows = equationRows(micro);
+      if (!rows.length) return `<div class="body"><div class="subsection-title">Continuous Equation Forecast Plot</div><div class="small">No matured equation outcomes for this horizon yet.</div></div>`;
+      const chartRows = rows.slice(0, 160);
+      const horizons = Array.from(new Set((micro.equation_outcomes || []).map(row => Number(row.target_horizon_ms || 0)))).sort((a, b) => a - b);
+      const stats = equationStats(rows);
+      const rawRows = renderEquationRawRows(rows);
+      const options = [
+        ['time', 'Outcome time'], ['model', 'Model'], ['pair', 'Pair'], ['horizon', 'Outcome horizon'],
+        ['prediction', 'Predicted move'], ['future', 'Realized future'], ['net', 'Net pips']
+      ];
+      const toolbar = `<div class="chart-toolbar">
+        <label>Outcome horizon<br><select id="equation-horizon-select"><option value="all">All horizons</option>${horizons.map(h => `<option value="${h}" ${String(equationHorizon) === String(h) ? 'selected' : ''}>${h}ms</option>`).join('')}</select></label>
+        <label>Sort chart and rows<br><select id="equation-sort-select">${options.map(([value, label]) => `<option value="${value}" ${equationSort === value ? 'selected' : ''}>${label}</option>`).join('')}</select></label>
+        <button type="button" id="equation-sort-direction" title="Reverse the selected sort order">${equationSortDirection === 'asc' ? 'Ascending' : 'Descending'}</button>
+        <button type="button" id="equation-refresh-outcomes" title="Replace the frozen outcome set with the latest matured forecasts">Refresh outcomes</button>
+        <button type="button" id="equation-open-pane">Open expanded pane</button>
+      </div>`;
+      const summary = `<div class="pattern-kpis">
+        <div><span class="small">${help('Matured', 'The full target horizon elapsed and a realized outcome was recorded for the forecast.')}</span><strong>${fmt.format(stats.n)}</strong></div>
+        <div><span class="small">${help('Accuracy', 'Direction-correct matured forecasts divided by all matured forecasts. Flat outcomes count as incorrect.')}</span><strong>${fmt.format(stats.accuracy)}%</strong></div>
+        <div><span class="small">${help('Flat futures', 'Realized signed movement equals zero at stored pip precision.')}</span><strong>${fmt.format(stats.flat)}</strong></div>
+        <div><span class="small">${help('Avg predicted / future', 'Mean expected signed pips / mean realized signed pips over the selected outcome set.')}</span><strong>${signed(stats.predicted)} / ${signed(stats.future)}</strong></div>
+        <div><span class="small">${help('Avg executable net', 'Mean side-aware P/L after crossing the observed bid/ask spread.')}</span><strong class="${stats.net >= 0 ? 'good' : 'bad'}">${signed(stats.net)}</strong></div>
+        <div><span class="small">${help('Brier', 'Mean (P(up) - actual_up)^2. Lower is better; 0 is perfect and 1 is worst.')}</span><strong>${fmt.format(stats.brier)}</strong></div>
+      </div>`;
+      return `<div class="body">
+        <div class="subsection-title">Continuous Equation Forecast Plot</div>
+        <div class="small" style="margin-bottom:8px">The selected forecast stays fixed across live refreshes. Teal is the 30% pre-forecast price path, dotted blue is the equation forecast, and amber is the complete 70% future path.</div>
+        ${toolbar}<div class="equation-temporal" id="equation-path-main"><div class="loading">Loading selected forecast path</div></div>
+        <div class="equation-selection" id="equation-selection-main">Select a point to inspect its model, pair, horizon, prediction, future, and net result.</div>
+        <div class="equation-breakdowns">
+          <details data-pane-key="equation-main-horizon" open><summary>Breakdown by outcome horizon</summary>${equationBreakdownTable(rows, 'horizon')}</details>
+          <details data-pane-key="equation-main-model"><summary>Breakdown by model</summary>${equationBreakdownTable(rows, 'model')}</details>
+          <details data-pane-key="equation-main-pair"><summary>Breakdown by pair</summary>${equationBreakdownTable(rows, 'pair')}</details>
+          <details data-pane-key="equation-main-comparison"><summary>Frozen matched-outcome comparison</summary>${renderEquationSvg(chartRows)}</details>
+        </div>
+        <dialog class="equation-pane" id="equation-pane">
+          <div class="equation-pane-head"><div class="run-title">Equation Outcome Explorer</div><button type="button" id="equation-close-pane">Close</button></div>
+          <div class="equation-pane-body">
+            ${summary}<div class="equation-temporal" id="equation-path-pane"><div class="loading">Loading selected forecast path</div></div>
+            <div class="equation-selection" id="equation-selection-pane">Select a point or outcome row.</div>
+            <div class="equation-breakdowns">
+              <details data-pane-key="equation-pane-horizon" open><summary>By outcome horizon</summary>${equationBreakdownTable(rows, 'horizon')}</details>
+              <details data-pane-key="equation-pane-model"><summary>By model</summary>${equationBreakdownTable(rows, 'model')}</details>
+              <details data-pane-key="equation-pane-pair"><summary>By pair</summary>${equationBreakdownTable(rows, 'pair')}</details>
+              <details data-pane-key="equation-pane-comparison"><summary>Frozen matched-outcome comparison</summary>${renderEquationSvg(chartRows, true)}</details>
+              <details data-pane-key="equation-pane-raw"><summary>Sortable matured outcomes (${fmt.format(Math.min(rows.length, 300))} shown)</summary>
+                <div class="table-scroll"><table class="lab-table" style="min-width:1120px"><thead><tr>
+                  <th>Origin UTC</th><th>Model</th><th>Pair</th><th title="Elapsed target time between prediction and maturity.">Outcome horizon</th>
+                  <th title="Model forecast in signed pips; positive is up and negative is down.">Predicted</th>
+                  <th title="Realized signed mid-price movement over the complete outcome horizon.">Future</th>
+                  <th title="Executable side-aware P/L after crossing the observed bid/ask spread.">Net</th>
+                  <th title="Whether the predicted buy/sell direction matched the realized signed move. Flat counts as wrong.">Direction</th>
+                  <th title="(P(up) - actual_up)^2. Lower is better; 0 is perfect.">Brier</th>
+                </tr></thead><tbody>${rowHtml(rawRows, 9)}</tbody></table></div>
+              </details>
+            </div>
+          </div>
+        </dialog>
+      </div>`;
+    }
+    function renderMicroPatterns(micro) {
+      if (!micro) return '';
+      const summaryRows = (micro.models || []).map(model => {
+        const definition = [model.fit_method, model.formula, model.target_definition, ...(model.notes || [])].filter(Boolean).join(' | ');
+        return `<tr>
+        <td class="mono" title="${esc(definition)}">${esc(model.model_id)}${model.fit_method ? `<div class="small">${esc(model.fit_method)}</div>` : ''}</td><td>${esc(model.horizon_label || `${model.horizon_ms}ms`)}</td>
+        <td>${fmt.format(model.ready_matured || 0)}</td><td>${fmt.format(model.direction_accuracy || 0)}%</td>
+        <td>${fmt.format(model.mean_brier_score || 0)}</td><td>${fmt.format(model.signed_move_mae_pips || 0)}</td>
+        <td>${fmt.format(model.absolute_move_mae_pips || 0)}</td>
+        <td class="${Number(model.average_net_pips) >= 0 ? 'good' : 'bad'}">${signed(model.average_net_pips)}</td>
+        <td>${model.movement_coefficient_correlation == null ? 'pending' : fmt.format(model.movement_coefficient_correlation)}</td>
+      </tr>`;
+      });
+      const definitionRows = (micro.models || []).filter(model => model.mode === 'equation').map(model => `<tr>
+        <td class="mono">${esc(model.model_id)}</td><td>${esc(model.horizon_label || `${model.horizon_ms}ms`)}</td>
+        <td>${esc(model.fit_method || '-')}</td><td class="mono">${esc(model.formula || '-')}</td>
+        <td>${esc(model.target_definition || '-')}</td><td title="${esc((model.features || []).join(', '))}">${fmt.format((model.features || []).length)} features</td>
+        <td>${esc((model.notes || []).join('; ') || '-')}</td>
+      </tr>`);
+      const correlationRows = (micro.signal_correlation_matrix?.cells || []).map(row => `<tr>
+        <td class="mono">${esc(row.left)}</td><td class="mono">${esc(row.right)}</td><td>${fmt.format(row.n)}</td>
+        <td>${row.correlation == null ? 'constant' : fmt.format(row.correlation)}</td><td>${fmt.format(row.direction_agreement)}%</td>
+      </tr>`);
+      const rulesetRows = (micro.ruleset_leaderboard || []).map((row, index) => `<tr>
+        <td>${fmt.format(index + 1)}</td><td class="mono">${esc(row.model_id)}</td><td>${esc(row.fit_method || '-')}</td>
+        <td>${esc(row.horizon_label || `${row.horizon_ms}ms`)}</td><td>${fmt.format(row.ready_matured || 0)}</td>
+        <td>${fmt.format(row.direction_accuracy || 0)}%</td><td class="${Number(row.average_net_pips) >= 0 ? 'good' : 'bad'}">${signed(row.average_net_pips)}</td>
+        <td>${signed(row.evidence_score)}</td><td>${esc(row.deployment_status)}</td>
+      </tr>`);
+      const forecastRows = (micro.latest_forecasts || []).map(item => {
+        const outcome = item.outcome || {};
+        const realized = outcome.actual_signed_move_pips == null ? 'pending' : signed(outcome.actual_signed_move_pips);
+        const net = outcome.theoretical_pips == null ? '-' : signed(outcome.theoretical_pips);
+        return `<tr>
+          <td class="mono">${esc(item.model_id)}</td><td>${esc(item.instrument)}</td>
+          <td class="mono" title="${esc((item.sequence_pips || []).join(', '))}">${esc(item.pattern)}</td>
+          <td>${esc(item.target_horizon_ms)}ms</td><td class="${item.predicted_direction === 'buy' ? 'good' : 'bad'}">${esc(item.predicted_direction)}</td>
+          <td>${fmt.format(Number(item.probability_up || 0) * 100)}%</td>
+          <td>${signed(item.expected_signed_move_pips)}</td><td>${fmt.format(item.expected_abs_move_pips)}</td>
+          <td title="Pattern expected absolute move divided by this pair's live baseline">${fmt.format(item.movement_coefficient)}x</td>
+          <td>${fmt.format(item.live_pattern_count)}</td><td>${item.model_ready ? 'ready' : 'warming'}</td>
+          <td>${fmt.format(item.spread_pips)}</td><td class="${outcome.direction_correct === true ? 'good' : (outcome.direction_correct === false ? 'bad' : '')}">${esc(realized)}</td>
+          <td class="future ${Number(outcome.theoretical_pips) >= 0 ? 'good' : 'bad'}">${esc(net)}</td>
+        </tr>`;
+      });
+      return `<section class="run" style="margin-bottom:14px">
+        <div class="run-head">
+          <div><div class="run-title">Live Microstructure Patterns</div>
+          <div class="small mono">live-only sub-minute / ${fmt.format(micro.received_quote_updates || 0)} quotes / ${fmt.format(micro.changed_quote_updates || 0)} price changes / SQLite replay enabled</div></div>
+          <span class="pill ${micro.active ? 'live' : ''}">${micro.active ? 'streaming' : `${micro.last_write_age_sec}s stale`}</span>
+        </div>
+        <div class="body table-scroll">
+          <table class="lab-table"><thead><tr>
+            <th>Model</th><th>${help('Target', 'Elapsed time from prediction origin to scored outcome.')}</th>
+            <th>${help('Ready matured', 'Forecasts emitted after warm-up whose complete target horizon elapsed and received a realized outcome.')}</th>
+            <th>${help('Accuracy', 'Correct buy/sell direction divided by ready matured forecasts. Flat counts as incorrect.')}</th>
+            <th>${help('Brier', 'Mean (P(up) - actual_up)^2. Lower is better; 0 is perfect.')}</th>
+            <th>${help('Signed MAE', 'Mean |actual signed pips - predicted signed pips|.')}</th>
+            <th>${help('Absolute MAE', 'Mean ||actual signed pips| - predicted absolute pips|.')}</th>
+            <th>${help('Avg net', 'Mean executable side-aware P/L after crossing the observed bid/ask spread.')}</th>
+            <th>${help('Coeff corr', 'Pearson correlation between predicted movement coefficient and actual |move| / baseline move. Closer to +1 indicates better movement-size ranking.')}</th>
+          </tr></thead>
+          <tbody>${rowHtml(summaryRows, 9)}</tbody></table>
+        </div>
+        <div class="body equation-breakdowns">
+          <details data-pane-key="micro-equation-definitions"><summary>Equation definitions (${fmt.format(definitionRows.length)})</summary>
+            <div class="table-scroll"><table class="lab-table"><thead><tr><th>Model</th><th>Target window</th><th>Fit method</th><th>Formula</th><th>Forecast target</th><th>Inputs</th><th>Notes</th></tr></thead><tbody>${rowHtml(definitionRows, 7)}</tbody></table></div>
+          </details>
+          <details data-pane-key="micro-ruleset-leaderboard" open><summary>Ruleset leaderboard (${fmt.format(rulesetRows.length)})</summary>
+            <div class="small">Shadow-only rank. Evidence score = average spread-adjusted net pips x min(1, matured N / 1000). It does not authorize account execution.</div>
+            <div class="table-scroll"><table class="lab-table"><thead><tr><th>#</th><th>Ruleset</th><th>Combination</th><th>Horizon</th><th>N</th><th>Accuracy</th><th>Avg net</th><th>Evidence score</th><th>Status</th></tr></thead><tbody>${rowHtml(rulesetRows, 9)}</tbody></table></div>
+          </details>
+          <details data-pane-key="micro-signal-correlation"><summary>Signal correlation matrix (${fmt.format(correlationRows.length)} pairs / ${fmt.format(micro.signal_correlation_matrix?.group_count || 0)} matched groups)</summary>
+            <div class="small">Pearson correlation and directional agreement use predictions emitted for the same pair, origin, and target time. High agreement identifies redundant signals; negative correlation identifies opposing rules.</div>
+            <div class="table-scroll"><table class="lab-table"><thead><tr><th>Signal A</th><th>Signal B</th><th>Matched N</th><th>Correlation</th><th>Direction agreement</th></tr></thead><tbody>${rowHtml(correlationRows, 5)}</tbody></table></div>
+          </details>
+        </div>
+        ${renderEquationChart(micro)}
+        <div class="lab-scroll-tools">
+          <button type="button" id="micro-scroll-left" title="Scroll left" aria-label="Scroll micro forecasts left">&larr;</button>
+          <input type="range" id="micro-scroll-range" min="0" max="0" value="0" step="1" aria-label="Micro forecast horizontal position">
+          <button type="button" id="micro-scroll-right" title="Scroll right" aria-label="Scroll micro forecasts right">&rarr;</button>
+        </div>
+        <div class="body table-scroll" id="micro-table-scroll">
+          <table class="lab-table" style="min-width:1500px"><thead><tr><th>Model</th><th>Pair</th><th>Pattern</th><th>Target</th><th>Side</th><th>P(up)</th><th>Expected signed</th><th>Expected abs</th><th>Move coeff</th><th>Live N</th><th>State</th><th>Spread</th><th>Realized</th><th>Net</th></tr></thead>
+          <tbody>${rowHtml(forecastRows, 14)}</tbody></table>
+        </div>
+      </section>`;
+    }
+    function renderModelInventory(inventory) {
+      if (!inventory) return '';
+      const entries = [];
+      for (const row of inventory.micro_models || []) entries.push({
+        type: 'Live equation', name: row.model_id, detail: `${row.horizon_label || `${row.horizon_ms}ms`} / ${row.fit_method || 'online model'} / avg net ${signed(row.average_net_pips)}`,
+        evidence: `N ${fmt.format(row.ready_matured || 0)} / accuracy ${fmt.format(row.direction_accuracy || 0)}% / corr ${row.coefficient_correlation == null ? 'pending' : fmt.format(row.coefficient_correlation)} / ${(row.features || []).length} features`,
+        updated: 'live', score: 1000000 + Number(row.ready_matured || 0)
+      });
+      for (const row of inventory.retired_micro_models || []) entries.push({
+        type: 'Retired equation', name: row.model_id, detail: `${row.horizon_label || `${row.horizon_ms}ms`} / ${row.fit_method || 'online model'} / avg net ${signed(row.average_net_pips)}`,
+        evidence: `N ${fmt.format(row.ready_matured || 0)} / accuracy ${fmt.format(row.direction_accuracy || 0)}% / ${row.retired_reason || 'retired after live soak'}`,
+        updated: 'retired', score: 300000 + Number(row.ready_matured || 0)
+      });
+      for (const row of inventory.live_strategy_families || []) entries.push({
+        type: 'Shadow family', name: row.family,
+        detail: `${row.input_timeframe || '?'} -> ${(row.horizons_sec || []).map(value => `${value}s`).join(', ')} / ${(row.variants || []).join(', ')}`,
+        evidence: `${fmt.format(row.lanes || 0)} lanes${row.training_timeframe ? ` / trained from ${row.training_timeframe}` : ''}`,
+        updated: 'live', score: 900000 + Number(row.lanes || 0)
+      });
+      for (const row of inventory.matrix_models || []) {
+        const profiles = row.profiles || [];
+        const best = profiles.slice().sort((left, right) => Number(right.holdout_avg_net_pips || 0) - Number(left.holdout_avg_net_pips || 0))[0] || {};
+        const passed = profiles.filter(profile => profile.historical_gate_passed).map(profile => profile.profile);
+        entries.push({
+          type: 'Matrix model', name: row.model_id,
+          detail: `${row.input_timeframe || '?'} -> ${row.horizon_sec || 0}s / ${row.instrument || '?'} / trained from ${row.training_timeframe || '?'}`,
+          evidence: `best ${best.profile || '-'}: N ${fmt.format(best.holdout_n || 0)} / avg net ${signed(best.holdout_avg_net_pips)} / win ${fmt.format(best.holdout_win_rate || 0)}% / gate ${passed.length ? passed.join(', ') : 'none'}`,
+          updated: 'live matrix', score: 850000 + (passed.length ? 10000 : 0) + Number(best.holdout_n || 0) / 1000000
+        });
+      }
+      for (const row of inventory.ensemble_specs || []) entries.push({
+        type: 'Ensemble', name: row.name, detail: `${row.include_near_threshold ? 'accepted + near' : 'accepted'} / ${row.vote_level}`,
+        evidence: `${fmt.format(Number(row.min_agreement || 0) * 100)}% agreement / ${fmt.format(row.min_voters || 0)}+ voters`, updated: 'live', score: 800000
+      });
+      for (const row of inventory.arima_coverage || []) entries.push({
+        type: 'ARIMA coverage', name: row.name, detail: `${row.input_timeframe} -> ${row.outcome_horizon}`,
+        evidence: `${fmt.format(row.models || 0)} models / ${fmt.format(row.pairs || 0)} pairs / ${row.detail}`,
+        updated: row.source, score: 700000 + Number(row.models || 0)
+      });
+      for (const row of inventory.model_gap_models || []) {
+        const market = row.market || {};
+        const marketSummary = market.summary || {};
+        entries.push({
+          type: 'Modern model gap', name: row.model,
+          detail: `${row.family || '?'} / ${row.provider || '?'} / runtime ${row.runtime_status || 'not reported'} / weights ${row.weight_status || 'not required'}`,
+          evidence: `${row.evidence_level || 'adapter implemented'} / qualification ${row.qualification_status || 'not run'} / ${fmt.format(market.cell_count || 0)} market cells / avg net ${signed(marketSummary.avg_net_pips)} / wired ${row.account_wired ? 'yes' : 'no'}`,
+          updated: inventory.model_gap_updated_utc || inventory.model_gap_completion_path || 'completion ledger',
+          score: 720000 + Number(market.cell_count || 0)
+        });
+      }
+      const postGap = inventory.post_gap_execution || {};
+      const incumbent = postGap.incumbent || {};
+      const cells = postGap.cell_leaderboard || {};
+      if (incumbent.policy_id) entries.push({
+        type: 'Practice execution policy', name: incumbent.policy_id,
+        detail: `${incumbent.status || 'unknown'} / ${postGap.account_scope || 'practice_007_only'} / frozen until ${incumbent.frozen_until_utc || '-'}`,
+        evidence: `${fmt.format(incumbent.validated_cells || 0)} validated cells / ${fmt.format(incumbent.negative_cells || 0)} negative cells / ${fmt.format(incumbent.exit_horizon_count || 0)} exit horizons`,
+        updated: postGap.generated_utc || postGap.path, score: 1100000
+      });
+      for (const row of cells.top_historical_cells || []) entries.push({
+        type: 'Cost-aware model cell', name: `${row.model} / ${row.input_timeframe} -> ${row.horizon_sec}s`,
+        detail: `N ${fmt.format(row.trades || 0)} / accuracy ${fmt.format(Number(row.direction_accuracy || 0) * 100)}% / break-even ${fmt.format(Number(row.cost_break_even_direction_accuracy || 0) * 100)}%`,
+        evidence: `avg net ${signed(row.mean_net_pips)} / FDR q ${fmt.format(row.direction_edge_fdr_q_value || 0)} / ${row.eligible ? 'eligible' : (row.blocked_by || []).join(', ')}`,
+        updated: postGap.generated_utc || postGap.path, score: 730000 + (row.eligible ? 10000 : 0)
+      });
+      for (const row of inventory.vault_model_docs || []) entries.push({
+        type: 'Vault model record', name: row.family,
+        detail: `${row.name} / ${row.taxonomy} / ${fmt.format(row.variants || 0)} variants / ${fmt.format(row.runs || 0)} runs`,
+        evidence: `${row.source_state || 'unspecified'}${row.timeframes_horizons ? ` / ${row.timeframes_horizons}` : ''}`,
+        updated: row.reference_run || row.path, score: 600000 + Number(row.runs || 0) / 1000000
+      });
+      for (const row of inventory.account_attachments || []) entries.push({
+        type: 'Practice account route', name: `-${row.account} / ${row.lane}`,
+        detail: `${row.strategy} / ${row.script}`, evidence: `${row.status} / ${row.process_status}`,
+        updated: 'registry', score: row.status === 'assigned_active' ? 750000 : 650000
+      });
+      for (const row of inventory.saved_model_files || []) entries.push({
+        type: 'Model artifact', name: row.name, detail: row.path, evidence: `${fmt.format(row.size_mb || 0)} MB`, updated: row.last_write, score: 500000 + Date.parse(row.last_write || 0) / 1e12
+      });
+      for (const row of inventory.recent_reports || []) entries.push({
+        type: 'Backtest report', name: row.name, detail: row.path, evidence: `${fmt.format(row.size_mb || 0)} MB`, updated: row.last_write, score: 400000 + Date.parse(row.last_write || 0) / 1e12
+      });
+      entries.sort((left, right) => right.score - left.score || String(left.name).localeCompare(String(right.name)));
+      const query = modelSearch.trim().toLowerCase();
+      const visible = entries.filter(row => !query || `${row.type} ${row.name} ${row.detail} ${row.evidence}`.toLowerCase().includes(query));
+      const displayed = query ? visible : visible.slice(0, 24);
+      const rows = displayed.map((row, index) => `<tr class="${index < 5 ? 'leader' : ''}">
+        <td>${index + 1}</td><td>${esc(row.type)}</td><td class="mono">${esc(row.name)}</td>
+        <td title="${esc(row.detail)}">${esc(row.detail || '-')}</td><td>${esc(row.evidence || '-')}</td><td>${esc(row.updated || '-')}</td>
+      </tr>`);
+      return `<section class="run" style="margin-bottom:14px">
+        <div class="run-head">
+          <div>
+            <div class="run-title">Top Models / Search</div>
+            <div class="small mono">${fmt.format(entries.length)} indexed entries / ${fmt.format(inventory.vault_model_doc_count || 0)} vault records / ${fmt.format(inventory.saved_model_file_count || 0)} saved model files / ${fmt.format(inventory.recent_report_count || 0)} reports</div>
+          </div>
+          <span class="pill">registry</span>
+        </div>
+        <div class="body">
+          <input class="model-search" id="model-search" type="search" value="${esc(modelSearch)}" placeholder="Search model, strategy family, ensemble, artifact, or report" aria-label="Search all indexed models and reports">
+          <div class="small" style="margin:7px 0 10px">${query ? `${fmt.format(displayed.length)} matches` : `Top ${fmt.format(displayed.length)} shown; search exposes matching indexed entries.`}</div>
+          <div class="table-scroll">
+            <table class="lab-table" style="min-width:1120px"><thead><tr><th>#</th><th>Type</th><th>Model / file</th><th>Variant / source</th><th>Evidence</th><th>Updated</th></tr></thead><tbody>${rowHtml(rows, 6)}</tbody></table>
+          </div>
+        </div>
+      </section>`;
+    }
+    function renderEnsembles(replay) {
+      if (!replay) return '';
+      const specs = Object.fromEntries((replay.ensemble_specs || []).map(spec => [spec.name, spec]));
+      const rows = [];
+      for (const summary of (replay.summaries || [])) {
+        const spec = specs[summary.ensemble] || {};
+        const scope = spec.include_near_threshold ? 'accepted + near' : 'accepted';
+        const vote = `${spec.vote_level || ''} / ${fmt.format((Number(spec.min_agreement || 0) * 100))}% / ${fmt.format(spec.min_voters || 0)}+`;
+        for (const [horizon, stats] of Object.entries(summary.horizons || {})) {
+          rows.push(`<tr>
+            <td>${esc(summary.ensemble)}</td>
+            <td>${esc(scope)}</td>
+            <td>${esc(vote)}</td>
+            <td>${fmt.format(summary.signals || 0)}</td>
+            <td>${esc(horizon)}s</td>
+            <td>${fmt.format(stats.n || 0)}</td>
+            <td class="${Number(stats.avg) >= 0 ? 'good' : 'bad'}">${signed(stats.avg)}</td>
+            <td class="${Number(stats.median) >= 0 ? 'good' : 'bad'}">${signed(stats.median)}</td>
+            <td>${fmt.format(stats.win_rate || 0)}%</td>
+            <td class="${Number(stats.total_pips) >= 0 ? 'good' : 'bad'}">${signed(stats.total_pips)}</td>
+          </tr>`);
+        }
+      }
+      return `<section class="run" style="margin-bottom:14px">
+        <div class="run-head">
+          <div>
+            <div class="run-title">Independent Ensemble Replay</div>
+            <div class="small mono">${esc(replay.evaluation_mode)} / account: ${replay.account_required ? 'required' : 'none'} / orders: ${replay.places_orders ? 'enabled' : 'none'}</div>
+          </div>
+          <span class="pill ${replay.active ? 'live' : ''}">${replay.active ? 'tracking' : `${replay.last_write_age_sec}s stale`}</span>
+        </div>
+        <div class="body table-scroll">
+          <table class="lab-table">
+            <thead><tr><th>Ensemble</th><th>Inputs</th><th>Vote</th><th>Signals</th><th>Horizon</th><th>N</th><th>Avg net</th><th>Median</th><th>Win</th><th>Total pips</th></tr></thead>
+            <tbody>${rowHtml(rows, 10)}</tbody>
+          </table>
+        </div>
+      </section>`;
+    }
+    function initEquationExplorer(data, reopenPane) {
+      const micro = data?.micro_patterns;
+      const rows = equationRows(micro);
+      if (!rows.length) return;
+      const byId = new Map(rows.map((row, index) => [String(row.prediction_id), {row, index}]));
+      if (!byId.has(String(selectedEquationId))) selectedEquationId = String(equationSelectedRow?.prediction_id || rows[0].prediction_id);
+      if (!byId.has(String(selectedEquationId))) selectedEquationId = String(rows[0].prediction_id);
+      function describe(id) {
+        const found = byId.get(String(id));
+        if (!found) return 'Selected outcome is outside the current horizon filter.';
+        const {row, index} = found;
+        const future = Math.abs(Number(row.actual_signed_move_pips || 0)) < 1e-9
+          ? 'flat 0'
+          : signed(row.actual_signed_move_pips);
+        const origin = new Date(Number(row.origin_time_ns || 0) / 1e6).toISOString();
+        return `Selected ${index + 1} of ${rows.length}: ${row.model_id} / ${row.instrument} / ${row.target_horizon_ms}ms / ${origin} / predicted ${signed(row.expected_signed_move_pips)} / future ${future} / net ${signed(row.theoretical_pips)} / ${row.direction_correct ? 'direction correct' : 'direction wrong'}`;
+      }
+      async function drawPath(id) {
+        const requestId = ++equationPathRequest;
+        let payload = equationPathCache.get(String(id));
+        if (!payload) {
+          try {
+            const response = await fetch(`/api/equation-path?prediction_id=${encodeURIComponent(id)}`, {cache: 'no-store'});
+            payload = await response.json();
+            if (!payload.error) equationPathCache.set(String(id), payload);
+          } catch (error) {
+            payload = {error: String(error)};
+          }
+        }
+        if (requestId !== equationPathRequest || String(id) !== selectedEquationId) return;
+        const main = document.getElementById('equation-path-main');
+        const paneTarget = document.getElementById('equation-path-pane');
+        if (main) main.innerHTML = renderEquationPathSvg(payload, false);
+        if (paneTarget) paneTarget.innerHTML = renderEquationPathSvg(payload, true);
+      }
+      function select(id) {
+        selectedEquationId = String(id);
+        equationSelectedRow = byId.get(selectedEquationId)?.row || equationSelectedRow;
+        const description = describe(selectedEquationId);
+        for (const target of document.querySelectorAll('#equation-selection-main, #equation-selection-pane')) {
+          target.textContent = description;
+        }
+        for (const target of document.querySelectorAll('.equation-point, tr[data-equation-index]')) {
+          const targetId = target.dataset.equationId || target.dataset.equationIndex || '';
+          target.classList.toggle('selected', targetId === selectedEquationId);
+        }
+        drawPath(selectedEquationId);
+      }
+      for (const target of document.querySelectorAll('.equation-point, tr[data-equation-index]')) {
+        const activate = () => select(target.dataset.equationId || target.dataset.equationIndex || '');
+        target.addEventListener('click', activate);
+        target.addEventListener('keydown', event => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            activate();
+          }
+        });
+      }
+      const horizon = document.getElementById('equation-horizon-select');
+      const sort = document.getElementById('equation-sort-select');
+      const direction = document.getElementById('equation-sort-direction');
+      const refreshOutcomes = document.getElementById('equation-refresh-outcomes');
+      const pane = document.getElementById('equation-pane');
+      const open = document.getElementById('equation-open-pane');
+      const close = document.getElementById('equation-close-pane');
+      horizon?.addEventListener('change', event => { equationHorizon = String(event.target.value || 'all'); render(data); });
+      sort?.addEventListener('change', event => { equationSort = String(event.target.value || 'time'); render(data); });
+      direction?.addEventListener('click', () => { equationSortDirection = equationSortDirection === 'asc' ? 'desc' : 'asc'; render(data); });
+      refreshOutcomes?.addEventListener('click', () => {
+        equationFrozenRows = (data?.micro_patterns?.equation_outcomes || []).slice();
+        selectedEquationId = '';
+        equationSelectedRow = null;
+        render(data);
+      });
+      open?.addEventListener('click', () => { if (pane && !pane.open) pane.showModal(); });
+      close?.addEventListener('click', () => pane?.close());
+      select(selectedEquationId);
+      if (reopenPane && pane && !pane.open) pane.showModal();
+    }
+    function initHorizontalScroller(prefix, initialScroll) {
+      const scroller = document.getElementById(`${prefix}-table-scroll`);
+      const range = document.getElementById(`${prefix}-scroll-range`);
+      const left = document.getElementById(`${prefix}-scroll-left`);
+      const right = document.getElementById(`${prefix}-scroll-right`);
+      if (!scroller || !range || !left || !right) return;
+      function sync() {
+        const max = Math.max(0, scroller.scrollWidth - scroller.clientWidth);
+        range.max = String(Math.ceil(max));
+        range.value = String(Math.min(max, scroller.scrollLeft));
+        range.disabled = max === 0;
+        left.disabled = scroller.scrollLeft <= 0;
+        right.disabled = scroller.scrollLeft >= max - 1;
+      }
+      scroller.scrollLeft = Math.max(0, Number(initialScroll) || 0);
+      range.addEventListener('input', () => { scroller.scrollLeft = Number(range.value); });
+      left.addEventListener('click', () => { scroller.scrollLeft -= Math.max(180, scroller.clientWidth * .75); });
+      right.addEventListener('click', () => { scroller.scrollLeft += Math.max(180, scroller.clientWidth * .75); });
+      scroller.addEventListener('scroll', sync, { passive: true });
+      scroller.addEventListener('wheel', event => {
+        if (!event.shiftKey || Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+        event.preventDefault();
+        scroller.scrollLeft += event.deltaY;
+      }, { passive: false });
+      sync();
+    }
+    function initModelSearch(data) {
+      const input = document.getElementById('model-search');
+      if (!input) return;
+      input.addEventListener('input', event => {
+        modelSearch = String(event.target.value || '');
+        render(data);
+        const replacement = document.getElementById('model-search');
+        replacement?.focus();
+        replacement?.setSelectionRange(modelSearch.length, modelSearch.length);
+      });
+    }
+    function render(data) {
+      capturePaneState();
+      document.getElementById('dot').className = `dot ${data.active_count ? 'live' : ''}`;
+      document.getElementById('status').textContent = `${data.active_count} active / ${data.run_count} runs / ${data.time}`;
+      document.getElementById('metrics').innerHTML = [
+        metric('Active Runs', data.active_count),
+        metric('Shadow Lanes', fmt.format(data.shadow_lane_count)),
+        metric('Pair Scans', fmt.format(data.total_scans)),
+        metric('Paper Trades', fmt.format(data.total_trades)),
+        metric('Shadow Signals', fmt.format(data.total_shadow_signals)),
+        metric('Threshold Misses', fmt.format(data.total_shadow_misses)),
+        metric('Hard Rejects', fmt.format(data.total_shadow_hard_rejects)),
+        metric('Shadow Outcomes', fmt.format(data.total_shadow_outcomes)),
+        metric('Pattern Forecasts', fmt.format(data.total_pattern_predictions), 'pattern-forecasts'),
+        metric('Micro Models', fmt.format(data.micro_model_count)),
+        metric('Micro Quotes', fmt.format(data.micro_quote_updates)),
+        metric('Ensemble Signals', fmt.format(data.total_ensemble_signals)),
+        metric('Ensemble Outcomes', fmt.format(data.total_ensemble_outcomes)),
+        metric('Aggregate NAV', fmt.format(data.aggregate_nav || 0)),
+        metric('Aggregate P/L', signed(Number(data.aggregate_account_pl || 0) + Number(data.aggregate_unrealized_pl || 0))),
+        metric('Legacy What-If', fmt.format(data.total_near_miss_outcomes)),
+      ].join('');
+      positionMetricTooltips();
+      const priorLabScroll = document.getElementById('lab-table-scroll')?.scrollLeft || 0;
+      const priorPatternScroll = document.getElementById('pattern-table-scroll')?.scrollLeft || 0;
+      const priorMicroScroll = document.getElementById('micro-table-scroll')?.scrollLeft || 0;
+      const equationPaneWasOpen = Boolean(document.getElementById('equation-pane')?.open);
+      document.getElementById('account-snapshot').innerHTML = renderAccountSnapshot(data.account_snapshot);
+      document.getElementById('primary-signal-system').innerHTML = renderPrimarySignalSystem(data.primary_signal_system, data.combination_audit, data.strategy_exit_fit, data.lane_promotion, data.post_gap_execution);
+      document.getElementById('top-opportunities').innerHTML = renderTopOpportunities(data.strategy_lab, data.micro_patterns, data.second_forecast);
+      document.getElementById('strategy-layers').innerHTML = renderStrategyLayers(data.strategy_layers);
+      document.getElementById('historical-calibration').innerHTML = renderHistoricalCalibration(data.historical_calibration);
+      document.getElementById('model-inventory').innerHTML = renderModelInventory(data.model_inventory);
+      document.getElementById('strategy-lab').innerHTML = renderStrategyLab(data.strategy_lab);
+      document.getElementById('pattern-forecasts').innerHTML = renderPatternForecasts(data.strategy_lab);
+      document.getElementById('micro-patterns').innerHTML = renderMicroPatterns(data.micro_patterns);
+      document.getElementById('strategy-ensembles').innerHTML = renderEnsembles(data.strategy_ensembles);
+      const horizonSelect = document.getElementById('lab-horizon-select');
+      if (horizonSelect) {
+        horizonSelect.addEventListener('change', event => {
+          selectedLabHorizon = String(event.target.value || '');
+          render(data);
+        });
+      }
+      initHorizontalScroller('lab', priorLabScroll);
+      initHorizontalScroller('pattern', priorPatternScroll);
+      initHorizontalScroller('micro', priorMicroScroll);
+      initEquationExplorer(data, equationPaneWasOpen);
+      initModelSearch(data);
+      restorePaneState();
+      document.getElementById('reasons').innerHTML = rowHtml((data.aggregate_reasons || []).map(([reason, count]) => `<tr><td>${esc(reason)}</td><td>${fmt.format(count)}</td></tr>`), 2);
+      document.getElementById('runs').innerHTML = (data.runs || []).map(run => `
+        <article class="run">
+          <div class="run-head">
+            <div>
+              <div class="run-title">${esc(run.run_label || run.strategy || 'unknown')} / ${esc(run.account || run.account_suffix || 'account')}</div>
+              <div class="small mono">${esc(run.name)}</div>
+            </div>
+            <span class="pill ${run.active ? 'live' : ''}">${run.active ? 'live' : (run.ended ? 'ended' : `${run.last_write_age_sec}s stale`)}</span>
+          </div>
+          <div class="body">
+            <div class="two">
+              <div>
+                <table><thead><tr><th>Event</th><th>Value</th></tr></thead><tbody>${eventSummary(run)}</tbody></table>
+              </div>
+              <div>
+                <table><thead><tr><th>Horizon</th><th>N</th><th>Avg</th><th>Best</th><th>Worst</th></tr></thead><tbody>${horizonStats(run.outcome_stats)}</tbody></table>
+              </div>
+            </div>
+            <div class="small" style="margin:10px 0">Last scan: ${esc(run.latest_time)} / cadence: ${esc(run.scan_rate_sec || '')}s / instruments: ${esc(run.instrument_count || '')}</div>
+            <div class="two">
+              <div>
+                <div class="label">Best Missed</div>
+                <table><thead><tr><th>Pair</th><th>Side</th><th>H</th><th>Pips</th><th>Reason</th></tr></thead><tbody>${outcomeTable(run.top_positive)}</tbody></table>
+              </div>
+              <div>
+                <div class="label">Worst Missed</div>
+                <table><thead><tr><th>Pair</th><th>Side</th><th>H</th><th>Pips</th><th>Reason</th></tr></thead><tbody>${outcomeTable(run.top_negative)}</tbody></table>
+              </div>
+            </div>
+          </div>
+        </article>
+      `).join('');
+      enableTableSorting();
+    }
+    async function refresh() {
+      try {
+        const res = await fetch('/api/full-state', { cache: 'no-store' });
+        render(await res.json());
+      } catch (err) {
+        document.getElementById('status').textContent = `Disconnected: ${err}`;
+        document.getElementById('dot').className = 'dot';
+      } finally {
+        window.setTimeout(refresh, 10000);
+      }
+    }
+    refresh();
+  </script>
+</body>
+</html>
+"""
+
+
+class DashboardHandler(BaseHTTPRequestHandler):
+    log_dir: Path = DEFAULT_LOG_DIR
+    max_runs: int = 16
+    max_lines: int = 8000
+    state_cache: dict[str, Any] | None = None
+    state_cache_at: float = 0.0
+    state_cache_lock = threading.Lock()
+    main_state_cache: dict[str, Any] | None = None
+    main_state_cache_at: float = 0.0
+    main_state_cache_lock = threading.Lock()
+    research_state_cache: dict[str, Any] | None = None
+    research_state_cache_at: float = 0.0
+    research_state_cache_lock = threading.Lock()
+    pair_family_matrix_cache: dict[str, Any] | None = None
+    pair_family_matrix_cache_at: float = 0.0
+    pair_family_matrix_cache_lock = threading.Lock()
+    crypto_state_cache: dict[str, Any] | None = None
+    crypto_state_cache_at: float = 0.0
+    crypto_state_cache_lock = threading.Lock()
+
+    @classmethod
+    def current_state(cls) -> dict[str, Any]:
+        now = time.monotonic()
+        with cls.state_cache_lock:
+            if cls.state_cache is not None and now - cls.state_cache_at < 30.0:
+                return cls.state_cache
+            # The full research view is bounded independently from the live
+            # account endpoint so multi-gigabyte historical logs cannot make
+            # the browser wait on hundreds of thousands of JSON records.
+            cls.state_cache = build_state(
+                cls.log_dir,
+                min(cls.max_runs, 8),
+                min(cls.max_lines, 5000),
+            )
+            cls.state_cache_at = time.monotonic()
+            return cls.state_cache
+
+    @classmethod
+    def current_main_state(cls) -> dict[str, Any]:
+        now = time.monotonic()
+        with cls.main_state_cache_lock:
+            # Building the all-horizon state can take several seconds while
+            # live writers are busy.  A sub-second TTL lets the 1.5-second UI
+            # poll queue more rebuilds than the server can finish.
+            if cls.main_state_cache is not None and now - cls.main_state_cache_at < 5.0:
+                return cls.main_state_cache
+            cls.main_state_cache = build_main_state(cls.log_dir)
+            cls.main_state_cache_at = time.monotonic()
+            return cls.main_state_cache
+
+    @classmethod
+    def current_research_state(cls) -> dict[str, Any]:
+        now = time.monotonic()
+        with cls.research_state_cache_lock:
+            if cls.research_state_cache is not None and now - cls.research_state_cache_at < 30.0:
+                return cls.research_state_cache
+            cls.research_state_cache = build_research_state(cls.log_dir)
+            cls.research_state_cache_at = time.monotonic()
+            return cls.research_state_cache
+
+    @classmethod
+    def current_pair_family_matrix(cls) -> dict[str, Any]:
+        now = time.monotonic()
+        with cls.pair_family_matrix_cache_lock:
+            if (
+                cls.pair_family_matrix_cache is not None
+                and now - cls.pair_family_matrix_cache_at < 30.0
+            ):
+                return cls.pair_family_matrix_cache
+            cls.pair_family_matrix_cache = load_json_dict(
+                cls.log_dir.parent
+                / "state"
+                / "pair_family_timeframe_horizon_v1.json"
+            )
+            cls.pair_family_matrix_cache_at = time.monotonic()
+            return cls.pair_family_matrix_cache
+
+    @classmethod
+    def current_crypto_state(cls) -> dict[str, Any]:
+        now = time.monotonic()
+        with cls.crypto_state_cache_lock:
+            if (
+                cls.crypto_state_cache is not None
+                and now - cls.crypto_state_cache_at < 5.0
+            ):
+                return cls.crypto_state_cache
+            cls.crypto_state_cache = build_crypto_shadow_state()
+            cls.crypto_state_cache_at = time.monotonic()
+            return cls.crypto_state_cache
+
+    def do_GET(self) -> None:
+        parsed = urlparse(self.path)
+        if parsed.path == "/api/main":
+            self.send_json(self.current_main_state())
+            return
+        if parsed.path == "/api/state":
+            self.send_json(self.current_main_state())
+            return
+        if parsed.path == "/api/full-state":
+            self.send_json(self.current_state())
+            return
+        if parsed.path == "/api/research":
+            self.send_json(self.current_research_state())
+            return
+        if parsed.path == "/api/crypto":
+            self.send_json(self.current_crypto_state())
+            return
+        if parsed.path == "/api/pair-family-matrix":
+            self.send_json(
+                query_pair_family_matrix(
+                    self.current_pair_family_matrix(),
+                    parse_qs(parsed.query),
+                )
+            )
+            return
+        if parsed.path == "/api/equation-path":
+            query = parse_qs(parsed.query)
+            try:
+                prediction_id = int((query.get("prediction_id") or [""])[0])
+            except ValueError:
+                self.send_json({"error": "prediction_id must be an integer"}, status=400)
+                return
+            payload = load_equation_path(MICRO_SNAPSHOT, prediction_id)
+            self.send_json(payload, status=404 if payload.get("error") == "equation prediction not found" else 200)
+            return
+        if parsed.path in {"/", "/index.html"}:
+            try:
+                page = MAIN_HTML_PATH.read_bytes()
+            except OSError:
+                page = HTML.encode("utf-8")
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Cache-Control", "no-store")
+            self.send_header("Content-Length", str(len(page)))
+            self.end_headers()
+            self.wfile.write(page)
+            return
+        if parsed.path == "/full":
+            page = HTML.encode("utf-8")
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Cache-Control", "no-store")
+            self.send_header("Content-Length", str(len(page)))
+            self.end_headers()
+            self.wfile.write(page)
+            return
+        self.send_error(404)
+
+    def send_json(self, payload: dict[str, Any], status: int = 200) -> None:
+        data = json.dumps(
+            sanitize_payload(payload),
+            allow_nan=False,
+            default=sanitize_json,
+        ).encode("utf-8")
+        self.send_response(status)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Cache-Control", "no-store")
+        self.send_header("Content-Length", str(len(data)))
+        self.end_headers()
+        try:
+            self.wfile.write(data)
+        except (BrokenPipeError, ConnectionAbortedError, ConnectionResetError):
+            return
+
+    def log_message(self, format: str, *args: Any) -> None:
+        return
+
+
+def sanitize_json(value: Any) -> Any:
+    if isinstance(value, float) and not math.isfinite(value):
+        return None
+    return str(value)
+
+
+def sanitize_payload(value: Any) -> Any:
+    if isinstance(value, float):
+        return value if math.isfinite(value) else None
+    if isinstance(value, dict):
+        return {key: sanitize_payload(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [sanitize_payload(item) for item in value]
+    return value
+
+
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--log-dir", type=Path, default=DEFAULT_LOG_DIR)
+    parser.add_argument("--host", default="127.0.0.1")
+    parser.add_argument("--port", type=int, default=8765)
+    parser.add_argument("--max-runs", type=int, default=16)
+    parser.add_argument("--max-lines", type=int, default=8000)
+    return parser.parse_args(argv)
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
+    DashboardHandler.log_dir = args.log_dir
+    DashboardHandler.max_runs = args.max_runs
+    DashboardHandler.max_lines = args.max_lines
+    server = ThreadingHTTPServer((args.host, args.port), DashboardHandler)
+    print(f"dashboard=http://{args.host}:{args.port}", flush=True)
+    server.serve_forever()
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

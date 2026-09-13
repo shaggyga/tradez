@@ -1,0 +1,153 @@
+{
+  "account_eligible": false,
+  "can_authorize": false,
+  "can_place_orders": false,
+  "can_promote": false,
+  "capture_manifest": {
+    "bytes": 176664,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\ma_history_audit\\MA_HISTORY_CAPTURE_20260909.json",
+    "sha256": "e5520b610bab5c305e37506dc3d0b568588b567491d00713027bbcbc0082f54d"
+  },
+  "created_epoch": 1788936235.1109364,
+  "dependency_versions": {
+    "numpy": "2.5.1",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]"
+  },
+  "execution_eligible": false,
+  "forecast_issued": false,
+  "implementation": {
+    "bytes": 19975,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\path_risk_development_v1\\path_risk_development_comparison_v1.py",
+    "sha256": "4a8dd61ab37f6d54d0d08a0d660105c51ca4bd4ddf68cf1f9c2d1761825a0fa7"
+  },
+  "label_tests": {
+    "bytes": 8124,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_m1_path_risk_labels_v1.py",
+    "sha256": "0082901c5ef8e316702134f4443f439bf821299a2bba9e03f58f115a2628a1ec"
+  },
+  "policy": {
+    "account_eligible": false,
+    "broker_fills": false,
+    "calibrated_probability_claim": false,
+    "can_authorize": false,
+    "can_place_orders": false,
+    "can_promote": false,
+    "dependence": {
+      "CI": "unadjusted_descriptive_date_cluster95_interval_for_pinball_improvement_only_if10_dates",
+      "across_pair_pooling": false,
+      "if_pooled": "same_date_draw_across_pairs",
+      "independent_sample_size": null,
+      "per_UTC_date": true,
+      "resamples": 1000,
+      "seed": 20260909
+    },
+    "evidence_class": "retrospective_development_after_MA_final_period_inspection_not_untouched_holdout",
+    "execution_eligible": false,
+    "fitting": "training_quantiles_only;no_validation_refit_no_hyperparameter_or_winner_selection",
+    "forecast_issued": false,
+    "horizons_minutes": [
+      15,
+      30,
+      60
+    ],
+    "instruments": [
+      "EUR_USD",
+      "GBP_USD",
+      "USD_JPY"
+    ],
+    "labels": [
+      "signed_terminal_bps",
+      "absolute_terminal_bps",
+      "mid_future_range_bps",
+      "realized_path_variation_bps",
+      "long_close_MFE_bps",
+      "long_close_MAE_bps",
+      "short_close_MFE_bps",
+      "short_close_MAE_bps",
+      "long_envelope_MFE_bps",
+      "long_envelope_MAE_bps",
+      "short_envelope_MFE_bps",
+      "short_envelope_MAE_bps",
+      "long_endpoint_net_bps",
+      "short_endpoint_net_bps",
+      "either_side_endpoint_positive"
+    ],
+    "maximum_origins_per_pair": 20000,
+    "maximum_rows_per_pair": 100000,
+    "maximum_runtime_sec": 600,
+    "maximum_source_bytes_per_pair": 20971520,
+    "methods": [
+      "training_empirical",
+      "training_empirical_volatility_scaled"
+    ],
+    "minimum_rows": {
+      "test": 64,
+      "train": 256,
+      "validation": 64
+    },
+    "missing": "no_fill_no_inferred_bidask_or_spread;path_and_endpoint_missingness_explicit",
+    "observed_tradeability": false,
+    "opportunity_probability": "training_prevalence_only_of_either_side_endpoint_positive;not_direction",
+    "origin": "completed_M1_mid_close_label_plus60; historical_ingestion_and_midpoint_provenance_unknown",
+    "path": "exclude_origin_OHLC;complete_subsequent_minutes;include_initial_bidask_liquidation_value_for_cost_excursions",
+    "pip_sizes": {
+      "EUR_USD": "0.0001",
+      "GBP_USD": "0.0001",
+      "USD_JPY": "0.01"
+    },
+    "proof_eligible": false,
+    "purge": "target_strictly_before_next_block_cutoff; all_validation_and_test_results_development_only",
+    "quantile_method": "inverted_cdf",
+    "quantile_targets": [
+      "signed_terminal_bps",
+      "absolute_terminal_bps",
+      "mid_future_range_bps",
+      "realized_path_variation_bps",
+      "long_close_MFE_bps",
+      "long_close_MAE_bps",
+      "short_close_MFE_bps",
+      "short_close_MAE_bps",
+      "long_envelope_MFE_bps",
+      "long_envelope_MAE_bps",
+      "short_envelope_MFE_bps",
+      "short_envelope_MAE_bps"
+    ],
+    "quantiles": [
+      0.1,
+      0.5,
+      0.9
+    ],
+    "research_only": true,
+    "sampling": "all_contiguous_sessions;204_real_warm_rows;UTC_label_mod300_equal0",
+    "schema_version": "m1_path_risk_development_comparison_v1_20260909",
+    "score": "pinball_each_quantile,median_MAE,80percent_interval_coverage_width,lower_upper_miss",
+    "selected_for_promotion": false,
+    "split": "same_per_pair_actual_timeline60/20/20_as_MA_comparison",
+    "target": "exact_same_session_origin_price_epoch_plus_native_horizon",
+    "training_support": "same_label_valid_positive_scale_training_rows_for_both_methods",
+    "volatility": "past60_consecutive_real_log_returns_RMS_times_sqrt_horizon_times10000",
+    "zero_volatility": "both_quantile_methods_withheld_on_common_positive_scale_support;never_artificial_floor"
+  },
+  "pre_scores": true,
+  "prior_inspected_MA_result": {
+    "bytes": 29375,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\ma_comparison_v1\\MA_COMPARISON_COMPACT_ASSESSMENT_20260909.json",
+    "sha256": "9156eed5b7b079b5a9209f543b17e454407526132e6860fb7b00dd536cd51b98"
+  },
+  "proof_eligible": false,
+  "research_only": true,
+  "reuse_review": {
+    "bytes": 19322,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\direction_neutral_risk_review\\DIRECTION_NEUTRAL_CURVE_RISK_REUSE_REVIEW_20260909.json",
+    "sha256": "17cd63f3cfa91dde8d0d90be0428ebb0fdab93168625bfc6e648e4d1f5541134"
+  },
+  "schema_version": "m1_path_risk_development_comparison_v1_20260909",
+  "source_bindings": {
+    "oanda_m1_path_risk_labels_v1.py": "b998f6f3fbe144ae949749e03d0658f7b89676dc7015eaefa7e583e85f6afccd"
+  },
+  "test_source": {
+    "bytes": 6484,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\path_risk_development_v1\\test_path_risk_development_comparison_v1.py",
+    "sha256": "ff902334a12338119506cc841f6873112cb9a9e42faff622a043d472d2737e6e"
+  }
+}

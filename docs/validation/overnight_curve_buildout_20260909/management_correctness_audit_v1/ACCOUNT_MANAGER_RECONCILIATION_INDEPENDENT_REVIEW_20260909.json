@@ -1,0 +1,138 @@
+{
+  "broker_requests_by_reviewer": 0,
+  "closed_review_findings": [
+    {
+      "closure": "Reconciliation/protective arithmetic uses fixed192-digit Context; manager quantity extraction uses copy_abs; low-precision parity fixtures retained.",
+      "finding": "Ambient Decimal context changed full-close requested quantity and protective trailing distance."
+    },
+    {
+      "closure": "Handler rejects mismatching cached ID or supplied instrument before rewriting the selected pair; both-manager fake transport cases refuse requests.",
+      "finding": "Cached explicit trade ID could conceal an action instrument conflict before recheck."
+    },
+    {
+      "closure": "Only accepted and accepted_after_recheck count confirmed closures; dry_run has separate counter. Six status cases plus prior-dry-run/already-flat reset fixture retained.",
+      "finding": "Weekend flatten counted uncertain close statuses as closed."
+    }
+  ],
+  "common_changed_methods_ast_identical": [
+    "observe_open_trade",
+    "find_open_trade",
+    "trade_lookup_blocks_open",
+    "handle_position_action",
+    "tighten_trade",
+    "partial_close_trade",
+    "_close_with_state_confirmation",
+    "close_trade",
+    "get_open_trades"
+  ],
+  "confirmed_boundaries": [
+    "Complete open-trades response must explicitly contain a list; malformed/duplicate trade rows and unavailable/disabled rechecks yield unknown.",
+    "Explicit trade ID never falls back to another trade. Confirmed open, confirmed closed, and unknown remain separate typed observations.",
+    "Full and partial close require exact target identity and signed position-state quantity change. Unknown/mismatched reductions leave actual units empty and cannot authorize FLIP or success deduplication.",
+    "Position-state confirmation explicitly does not attribute a broker transaction or fill. The existing accepted status vocabulary is retained with that narrower recorded confirmation scope.",
+    "Protective updates require a freshly observed exact trade, matching metadata and tradeable bid/ask quote no older than30seconds; exact transport-rounded stop/trailing values cannot loosen known fixed/guaranteed/trailing protection. Missing trailing level withholds.",
+    "Opening gates block unknown when configured recheck is enabled. Compatibility lookup remains a positive-match-only convenience; absence-sensitive new-open callers use the typed blocking predicate.",
+    "Sunday/shutdown/campaign callers consume explicit accepted statuses. Weekend closed counts exclude unknown/error/skipped and keep dry-run separate. Local emergency monitor decision labels describe attempted actions, not independently verified close counts."
+  ],
+  "manager_imports_by_reviewer": false,
+  "new_source_edits_by_reviewer": false,
+  "owner_test_results": {
+    "duration_sec": 36.183,
+    "failed": 0,
+    "independent_rerun": false,
+    "passed": 86,
+    "skipped": 0
+  },
+  "policy_and_validation_limits": [
+    "Explicit broker_recheck_before_actions=False preserves the prior new-OPEN configuration policy; this patch does not mandate a new pre-open policy or change advisor SCALE_IN exemptions. It still prevents disabled recheck from confirming close/partial/FLIP or TIGHTEN.",
+    "Attempted-pass scheduling, stop thresholds, risk sizing, model predictions and study policies were not tuned or re-evaluated.",
+    "No certification of every account-manager strategy, broker fill/slippage, margin/leverage policy or economic performance is made.",
+    "All86 tests are owner-executed AST-extracted methods with fake transport plus pure helper tests. Reviewer did not rerun them or read actual account/trade data.",
+    "The two account managers and new helper are outside all four active frozen research closures. This review does not activate or authorize them."
+  ],
+  "prior85_transition_preserved": {
+    "bytes": 11503,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\management_correctness_audit_v1\\ACCOUNT_RECONCILIATION_SOURCE_TRANSITION_20260909.json",
+    "sha256": "f593d5ab3811be98e15bbbb21be1b74959ea033352460cefce7554394254f6d9"
+  },
+  "registered_closures_independently_verified": [
+    {
+      "affected_members": [],
+      "all_hashes_match": true,
+      "registry": {
+        "bytes": 350877,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\joint_price_news_study_v3_20260908.json",
+        "sha256": "ee075e69e80ca56dfdf45abe1f7a1a301612176e67f7622eab1adf2bd9af8771"
+      },
+      "sources_verified": 20
+    },
+    {
+      "affected_members": [],
+      "all_hashes_match": true,
+      "registry": {
+        "bytes": 4292,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\recovered_second_curve_pilot_v1_20260909.json",
+        "sha256": "ae64f2cae6df44dad81b46deb16e95e4d5f67dabb7fc1e65289b96ba6b0fe2b2"
+      },
+      "sources_verified": 14
+    },
+    {
+      "affected_members": [],
+      "all_hashes_match": true,
+      "registry": {
+        "bytes": 5214,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\observed_curve_management_v1_20260909.json",
+        "sha256": "60689101fb63a8bcce2465d19f627b9b2ce357d1ee271c65298f255663d991e1"
+      },
+      "sources_verified": 20
+    },
+    {
+      "affected_members": [],
+      "all_hashes_match": true,
+      "registry": {
+        "bytes": 2886,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\m1_risk_distributions_v1_20260909.json",
+        "sha256": "855c3bb96105c0cf0943ebbb5d28e6d10b6b9bf718573883f897161d08453674"
+      },
+      "sources_verified": 8
+    }
+  ],
+  "remaining_blockers": [],
+  "review_scope": "Bounded read-only source/AST and original fake-transport test review; no manager imports or execution.",
+  "reviewed_epoch": 1788952856.02134,
+  "runtime_or_registry_changes_by_reviewer": false,
+  "schema_version": "account_manager_reconciliation_independent_review_v1_20260909",
+  "source_evidence": [
+    {
+      "bytes": 571027,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_technical_account_manager_auto.py",
+      "sha256": "94e99d041836c1bf9ff00ad5b4bf6fa39d30f7c5c79547d7756c658c3a1ddf2d"
+    },
+    {
+      "bytes": 325727,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_advisor_account_manager_auto.py",
+      "sha256": "f07fb5dc4c1eb460b40bd1108636e1213b082c7c6ca6aa592998e8dcb8389faa"
+    },
+    {
+      "bytes": 9653,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_trade_reconciliation_v1.py",
+      "sha256": "1ee16afa78da74da6aa2542f8c7a0b855e4c7db9713793820852df3e5af63f7d"
+    },
+    {
+      "bytes": 13991,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\management_correctness_audit_v1\\test_account_reconciliation_candidate.py",
+      "sha256": "77fbd89a90e2774fc6da87366b8e71a0300e6b914dcb67d002dc353cd9ca4851"
+    },
+    {
+      "bytes": 20977,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\management_correctness_audit_v1\\account_reconciliation_candidate_counter_final_tests.xml",
+      "sha256": "25ff796a695769451f85702d741213e952b20b8ab4e7acfbacb98a0730b2b993"
+    },
+    {
+      "bytes": 12604,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\management_correctness_audit_v1\\ACCOUNT_RECONCILIATION_SOURCE_TRANSITION_V2_20260909.json",
+      "sha256": "28b21ce10072952485e0f3481793572968138b262445c0b93412815225ec669f"
+    }
+  ],
+  "status": "passed"
+}

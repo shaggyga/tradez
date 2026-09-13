@@ -1,0 +1,17 @@
+{
+  "database_writes": 0,
+  "first_arrow_utc": "2026-06-07T21:04:55+00:00",
+  "first_last_epoch_equal_original_transform": true,
+  "last_arrow_utc": "2026-07-22T04:03:05+00:00",
+  "new_model_predictions": 0,
+  "new_training_runs": 0,
+  "observed_original_transform_warning": "UserWarning: no explicit representation of timezones available for np.datetime64",
+  "observed_utc": "2026-09-08T14:05:06.882000+00:00",
+  "retained_arrow_timestamp_type": "string",
+  "schema": "second_ridge_smoke_clock_check_v1",
+  "scope": "The NumPy conversion warning concerns the timezone label on retained timestamp text; independently parsed original UTC epochs match transformed endpoints and selected input time. This does not independently attest historical collection availability.",
+  "selected_original_timestamp_occurrences": 1,
+  "smoke_receipt_sha256": "93174fab0c8f0edba3c86b3995f8bae3384785a254d30f568eb1d126e5bc2aa1",
+  "status": "passed",
+  "warning_source": "isolated oanda_second_forecast_fit.py:192 original column_numpy datetime64 conversion"
+}

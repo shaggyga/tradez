@@ -1,0 +1,83 @@
+{
+  "closed_findings": [
+    {
+      "closure": "Fresh policy is decoded from immutable canonical bytes; consumption primitive fields are copied; regression verifies both mutation directions.",
+      "finding": "Returned POLICY and caller consumption objects could alias future policy or sealed evidence.",
+      "id": "mutable_evidence_alias",
+      "original_source_sha256": "a51d984574855e0b6b32e06c6666b8f7041d312b5eca7e045dcd6f5b478e647f"
+    },
+    {
+      "closure": "Finite positive magnitude, at most32digits and exponent[-30,30] checked before arithmetic; four extreme-value regressions retained.",
+      "finding": "Extreme negative exponents could pass positivity and underflow later cost arithmetic.",
+      "id": "decimal_resource_and_underflow_bound"
+    },
+    {
+      "closure": "source_available_epoch remains candle consumption; candidate available_epoch is max(candle consumption, quote availability). Actual computation/persistence remains a separate caller clock.",
+      "finding": "Candidate availability could predate the later decision-quote input.",
+      "id": "latest_required_input_availability"
+    }
+  ],
+  "independent_tests_rerun": false,
+  "live_source_read": false,
+  "network_request": false,
+  "owner_test_evidence": {
+    "bytes": 5810,
+    "cases": 38,
+    "errors": 0,
+    "failures": 0,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\replay\\momentum_observation_review_fixes_tests.xml",
+    "sha256": "4ff32a4e04464bd2cb2e1c3e3c313d60adf983df1f7aca513d1cee1e4a060d82"
+  },
+  "reviewed_dependencies": [
+    {
+      "bytes": 18061,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_s5_mba_research_capture_v1.py",
+      "sha256": "38fe20f4e55d970f074c71f7acee5f5adaebc9ac7766a532efcd782b34abbb45"
+    },
+    {
+      "bytes": 14613,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_research_quote_receipt_v1.py",
+      "sha256": "ba18acd7eeac0eaa7c5cd7f8d4505fa5494c4ad3398345f009d25670169a27ef"
+    },
+    {
+      "bytes": 49616,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_curve_management_replay_v1.py",
+      "sha256": "52fd04c6b087df4be775e490002afd0744caeb245604b8f577ab0fcff41de8f3"
+    }
+  ],
+  "reviewed_utc": "2026-09-09T06:13:19.704980+00:00",
+  "reviewer": "pair_dashboard",
+  "runtime_activation": false,
+  "schema_version": "remaining_momentum_independent_source_review_v1_20260909",
+  "scope_limits": [
+    "This is a new heuristic benchmark, not old deployed-candidate equivalence or proof of profitability.",
+    "Input availability is not the time the derived candidate was computed; the separate observed-management plan must retain actual computation/persistence before outcome observation.",
+    "Caller must bind trusted quote observation and current registered source/model/cohort selection; this pure helper does not authorize execution.",
+    "Source and test review only; the owner performed the38-case run. No independent runtime or broker activity occurred."
+  ],
+  "sources": [
+    {
+      "bytes": 8015,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_curve_momentum_observation_v1.py",
+      "sha256": "68620596eaed34d1d3a5859a04aac40c4c7e9ae23b974b7fe38c55c0cfc8ea65"
+    },
+    {
+      "bytes": 8277,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_curve_momentum_observation_v1.py",
+      "sha256": "0dba6558846889672338ce5c6cf89773f8265029a032db1884ce66ea80cd789b"
+    }
+  ],
+  "status": "passed_no_remaining_blocker",
+  "verified_semantics": [
+    "Frozen mapper validates exact retained MBA raw bytes, source receipt, metadata and original clocks.",
+    "Caller consumption binds exact raw/receipt hashes and completes after capture and before the declared decision.",
+    "Last13 real complete S5 rows must span55\u201370seconds; exact30/60second endpoint rows are mandatory without fill or fallback.",
+    "Reference price closes at original label+5; source age at decision is at most30seconds.",
+    "Current matching quote is explicitly tradeable with market/availability clocks before decision and at most5seconds market age.",
+    "Signed native-pip rate is0.5*move30/sqrt30 +0.5*move60/sqrt60, scaled by sqrt(actual remaining seconds<=3600).",
+    "Round-trip cost is current full spread plus two current-midpoint0.1bps slippage legs in native pips.",
+    "Score is magnitude/cost; bounded0.5\u20130.9 confidence is explicitly an uncalibrated score mapping, not probability or historical accuracy.",
+    "Momentum candidate carries positive magnitude, side, score, confidence, snapshot identity and original target expected by the existing generic momentum admission branch.",
+    "Neutral and unavailable cases carry explicit refusal records; inert flags and no broker-fill claim persist."
+  ]
+}

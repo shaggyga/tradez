@@ -20,6 +20,8 @@ import time
 from pathlib import Path
 from typing import Any, Mapping
 
+from oanda_integrity_publication import restore_integrity_details
+
 
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data" / "oanda_training_manager"
@@ -31,6 +33,36 @@ CURRENT = REPORT_ROOT / "BEST_IMPROVEMENT_CURRENT.md"
 FINAL = REPORT_ROOT / "FOUR_HOUR_BEST_IMPROVEMENT_SUMMARY_20260808.md"
 RUN_STATE = STATE / "four_hour_best_improvement_pass_v1.json"
 LOCK = STATE / "four_hour_best_improvement_pass_v1.lock"
+INTEGRITY_PROJECT_RELATIVE_PATH = Path(
+    "data/oanda_training_manager/state/project_integrity_audit_v1.json"
+)
+INTEGRITY_SNAPSHOT_SOURCE = {
+    "contract_id": "embedded_integrity_snapshot_location_v1_20260906",
+    "project_relative_path": INTEGRITY_PROJECT_RELATIVE_PATH.as_posix(),
+    "reference_base": "parent_of_project_relative_path",
+}
+
+
+def restore_snapshot_integrity(
+    snapshot: Mapping[str, Any], *, project_root: Path
+) -> dict[str, Any]:
+    """Expand a saved observer record using an explicitly supplied project root.
+
+    The JSONL directory is never a reference base. Historical full snapshots
+    remain readable; compact records require their portable source locator.
+    """
+    integrity = snapshot.get("integrity")
+    if not isinstance(integrity, dict):
+        raise ValueError("observer integrity snapshot is not an object")
+    if (
+        "_detail_publication" in integrity or "integrity_snapshot_source" in snapshot
+    ) and snapshot.get("integrity_snapshot_source") != INTEGRITY_SNAPSHOT_SOURCE:
+        raise ValueError("observer integrity source locator is invalid")
+    root = project_root.resolve()
+    snapshot_dir = (root / INTEGRITY_PROJECT_RELATIVE_PATH).parent
+    if not snapshot_dir.resolve().is_relative_to(root):
+        raise ValueError("observer integrity directory escapes supplied project root")
+    return restore_integrity_details(integrity, snapshot_dir=snapshot_dir)
 
 
 def utc_now() -> dt.datetime:
@@ -253,6 +285,7 @@ def snapshot(config: Mapping[str, Any], cycle: int, started: dt.datetime, tests:
         "refresh": refresh, "tests": tests,
         "account": account_snapshot(), "quotes": quote_highwater(),
         "integrity": read_json(STATE / "project_integrity_audit_v1.json"),
+        "integrity_snapshot_source": dict(INTEGRITY_SNAPSHOT_SOURCE),
         "controller": read_json(STATE / "improvement_control_engine_v1.json"),
         "clock": read_json(STATE / "clock_integrity_v1.json"),
         "opportunity": read_json(STATE / "executable_opportunity_prospective_v1.json"),

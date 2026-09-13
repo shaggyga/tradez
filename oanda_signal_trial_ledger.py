@@ -3164,6 +3164,7 @@ def summarized_competing_risk_barriers(
         exact.setdefault(key, row)
 
     underlying: list[dict[str, Any]] = []
+    latest_underlying_by_identity: dict[tuple[Any, ...], dict[str, Any]] = {}
     same_signal_duplicates_excluded = 0
     nearby_fallback_duplicates_excluded = 0
     for row in sorted(
@@ -3178,27 +3179,22 @@ def summarized_competing_risk_barriers(
             str(row["barrier_id"]),
         )
         observed_epoch = base.safe_float(row["observed_epoch"])
-        match = next(
-            (
-                decision
-                for decision in reversed(underlying)
-                if decision["identity"] == identity
-                and (
-                    bool(signal_id)
-                    or observed_epoch - decision["start_epoch"]
-                    <= max(1.0, float(thesis_window_sec))
-                )
-            ),
-            None,
-        )
+        match = latest_underlying_by_identity.get(identity)
+        if (
+            match is not None
+            and not signal_id
+            and observed_epoch - match["start_epoch"]
+            > max(1.0, float(thesis_window_sec))
+        ):
+            match = None
         if match is None:
-            underlying.append(
-                {
-                    "identity": identity,
-                    "start_epoch": observed_epoch,
-                    "row": row,
-                }
-            )
+            match = {
+                "identity": identity,
+                "start_epoch": observed_epoch,
+                "row": row,
+            }
+            underlying.append(match)
+            latest_underlying_by_identity[identity] = match
         elif signal_id:
             same_signal_duplicates_excluded += 1
         else:
@@ -3206,6 +3202,7 @@ def summarized_competing_risk_barriers(
 
     collapsed_rows = [decision["row"] for decision in underlying]
     factor_episodes: list[dict[str, Any]] = []
+    factor_episode_indexes: dict[tuple[int, str, str], set[int]] = defaultdict(set)
     for row in sorted(
         collapsed_rows,
         key=lambda value: base.safe_float(value["observed_epoch"]),
@@ -3225,28 +3222,37 @@ def summarized_competing_risk_barriers(
                 }
             )
         observed_epoch = base.safe_float(row["observed_epoch"])
-        match = next(
-            (
-                episode
-                for episode in reversed(factor_episodes)
-                if episode["horizon_sec"] == int(row["horizon_sec"])
-                and episode["barrier_id"] == str(row["barrier_id"])
-                and observed_epoch - episode["start_epoch"]
-                <= FACTOR_EPISODE_WINDOW_SEC
-                and factors.intersection(episode["factor_ids"])
-            ),
-            None,
-        )
+        horizon_sec = int(row["horizon_sec"])
+        barrier_id = str(row["barrier_id"])
+        candidate_indexes: set[int] = set()
+        for factor_id in factors:
+            candidate_indexes.update(
+                factor_episode_indexes.get((horizon_sec, barrier_id, factor_id), set())
+            )
+        matching_indexes = [
+            index
+            for index in candidate_indexes
+            if observed_epoch - factor_episodes[index]["start_epoch"]
+            <= FACTOR_EPISODE_WINDOW_SEC
+        ]
+        match_index = max(matching_indexes) if matching_indexes else None
+        match = factor_episodes[match_index] if match_index is not None else None
         if match is None:
             match = {
-                "horizon_sec": int(row["horizon_sec"]),
-                "barrier_id": str(row["barrier_id"]),
+                "horizon_sec": horizon_sec,
+                "barrier_id": barrier_id,
                 "start_epoch": observed_epoch,
                 "factor_ids": set(factors),
                 "rows": [],
             }
             factor_episodes.append(match)
+            match_index = len(factor_episodes) - 1
+        new_factors = factors.difference(match["factor_ids"])
         match["factor_ids"].update(factors)
+        for factor_id in factors if not match["rows"] else new_factors:
+            factor_episode_indexes[(horizon_sec, barrier_id, factor_id)].add(
+                int(match_index)
+            )
         match["rows"].append(row)
 
     arms: list[dict[str, Any]] = []

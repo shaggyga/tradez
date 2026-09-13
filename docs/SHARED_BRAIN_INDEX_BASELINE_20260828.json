@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "updated_utc": "2026-08-28T02:43:10Z",
+  "projects": [
+    {
+      "project_id": "forex",
+      "canonical_source": "C:\\Users\\zmoor\\Documents\\forex\\trad",
+      "vault_project": "C:\\Users\\zmoor\\OneDrive\\thevault\\projects\\forex",
+      "status_artifact": "FOREX_STATUS_CURRENT.md",
+      "state": "active_practice_research_no_trade",
+      "status_verified_utc": "2026-08-28T02:43:10Z",
+      "operational_environment": "OANDA_practice_only",
+      "account_id": "101-001-37981792-007",
+      "supported_decision": "no_trade",
+      "confirmed_candidates": 0,
+      "coverage": {
+        "currencies_direct_mapped": "21/21",
+        "pairs_direct_mapped": "68/68",
+        "quoted_instruments": "68/68",
+        "configured_sources": 186,
+        "runtime_observed_sources": 187,
+        "operational_sources": 179
+      },
+      "runtime_reconciliation": {
+        "retired": [
+          "hgb_live_outcomes",
+          "manager_decision_outcome_ledger"
+        ],
+      "drain_only": [
+        "one_hour_shadow_signal",
+        "executable_opportunity_prospective"
+        ],
+        "collecting_research_only": [
+          "level_band_prospective_20260827a.9294e3511aae455f",
+          "causal_source_factor_response_map_v2_prospective_20260828T030000Z",
+          "source_conditioned_currency_rank_v1",
+          "news_band_resolution_flow_h15_v1"
+        ]
+      },
+      "storage": {
+        "state": "safe",
+      "c_drive_free_gib": 120.454,
+      "checked_utc": "2026-08-28T02:39:17Z"
+      }
+    },
+    {
+      "project_id": "bigtriad",
+      "canonical_source": "unverified",
+      "vault_project": "C:\\Users\\zmoor\\OneDrive\\thevault\\projects\\BIGTRIAD",
+      "status_artifact": "pending_project_export",
+      "state": "registered_not_imported"
+    },
+    {
+      "project_id": "alpaca_stock",
+      "canonical_source": "unverified",
+      "vault_project": "C:\\Users\\zmoor\\OneDrive\\thevault\\projects\\ALPACA_STOCK",
+      "status_artifact": "pending_project_export",
+      "state": "registered_not_imported"
+    }
+  ]
+}

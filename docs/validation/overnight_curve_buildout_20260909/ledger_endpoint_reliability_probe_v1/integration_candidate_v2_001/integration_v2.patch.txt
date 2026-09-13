@@ -1,0 +1,134 @@
+--- trad/oanda_practice_live_dashboard.py
++++ trad/oanda_practice_live_dashboard.py
+@@ -1304,8 +1304,8 @@
+ 
+ 
+ # Parent fills this reviewed immutable configuration hash at deployment.
+-JOINT_LEDGER_OBSERVER_SPEC = Path(__file__).resolve().parent / 'config/joint_v3_ledger_observer_api_v1_20260909.json'
+-JOINT_LEDGER_OBSERVER_SPEC_SHA256 = '983ac47caa3ba2a4ac8021876ce7e0a371ebdae2ef36ccb1d7a2636a046a4073'
++JOINT_LEDGER_OBSERVER_SPEC = Path(__file__).resolve().parent / 'config/joint_v3_ledger_observer_api_v2_20260909.json'
++JOINT_LEDGER_OBSERVER_SPEC_SHA256 = 'fb8cbd4abc43f311ca423f79c3bff9f70a6ff279202db264035110a37b88d112'
+ _JOINT_LEDGER_OBSERVER_API = None
+ _JOINT_LEDGER_OBSERVER_API_LOCK = threading.Lock()
+ 
+@@ -1314,7 +1314,7 @@
+     """Independent original-ledger evidence; original producer status is separate."""
+     global _JOINT_LEDGER_OBSERVER_API
+     unavailable = {
+-        'schema_version': 'joint_v3_ledger_observer_api_v1_20260909',
++        'schema_version': 'joint_v3_ledger_observer_api_v2_20260909',
+         'status': 'unavailable', 'reason': 'observer_api_not_configured',
+         'observer_report': None, 'consumer': None, 'current_inputs_observed': False,
+         'old_heartbeat_validated_for_forecasts': False, 'research_only': True,
+@@ -1324,7 +1324,7 @@
+     if not re.fullmatch('[0-9a-f]{64}', JOINT_LEDGER_OBSERVER_SPEC_SHA256):
+         return unavailable
+     try:
+-        from oanda_joint_v3_ledger_observer_api_v1 import LedgerObservationAPI
++        from oanda_joint_v3_ledger_observer_api_v2 import LedgerObservationAPI
+         with _JOINT_LEDGER_OBSERVER_API_LOCK:
+             if _JOINT_LEDGER_OBSERVER_API is None:
+                 _JOINT_LEDGER_OBSERVER_API = LedgerObservationAPI.from_specification(
+--- trad/oanda_main_signal_dashboard.html
++++ trad/oanda_main_signal_dashboard.html
+@@ -208,23 +208,23 @@
+     }
+     let marketOverviewWindow='15m',marketOverviewAll=false,marketOverviewPair='';
+     // BEGIN independent ledger table selector. Server attests hashes; the browser checks bindings and clocks.
+-    const ledgerTablePins=Object.freeze({api:'145a7a8f09144cbb6919415386d1ae72b10a88cf791287b848a78d41271d2709',observer:'70c22a2fdcbe867f9791f280f3f767fe3cf6c249fcaa432e11ada2a5a4bfc763',registry:'ee075e69e80ca56dfdf45abe1f7a1a301612176e67f7622eab1adf2bd9af8771',activation:'e3e8de4f4d1d9dcd4a2daed4cfa30a03f176fa95d0380818f87ea521766597dd'});
+-    const ledgerOwnSources=Object.freeze({'oanda_joint_v3_ledger_status_observer_v1.py':'d2dc17dfee52603ae1ccf61433f4a1a73cd1650fdf44c5f1daaa60cf133d8699','oanda_immutable_summary_publication_v1.py':'53abafc379216797945543464fe218511f53b17a2d0d9d9cecb700146eff4bf7'});
++    const ledgerTablePins=Object.freeze({api:'a0259ce54aabff7275dc9cd2f6cf5d79456f2dc15d0851a8a77873c5bd42702a',observer:'2a25e3ad286013df2738869fea8bfbbd98892c06ac27a2e46c4e3a7357c0af87',registry:'ee075e69e80ca56dfdf45abe1f7a1a301612176e67f7622eab1adf2bd9af8771',activation:'e3e8de4f4d1d9dcd4a2daed4cfa30a03f176fa95d0380818f87ea521766597dd'});
++    const ledgerOwnSources=Object.freeze({"oanda_immutable_summary_publication_v1.py":"53abafc379216797945543464fe218511f53b17a2d0d9d9cecb700146eff4bf7","oanda_joint_v3_ledger_status_observer_v1.py":"d2dc17dfee52603ae1ccf61433f4a1a73cd1650fdf44c5f1daaa60cf133d8699","oanda_joint_v3_ledger_status_observer_v2.py":"1a8b4c68377bb27314e018063a70725d645d5cd4183ffa55c5f61145e257178a"});
+     const ledgerOriginSources=Object.freeze(['oanda_joint_price_news_forecast_study_v3.py','oanda_causal_forecast_ledger_joint_news_v2.py','oanda_fixed_forecast_evaluation_joint_news_v1.py','oanda_joint_price_news_models_v1.py','oanda_causal_forecast_inputs_joint_news_v2.py','oanda_causal_forecast_inputs.py','oanda_causal_forecast_inputs_gap_v2.py','oanda_exact_price_scoring.py','oanda_causal_prediction_baselines.py','oanda_pair_local_models_v2.py','oanda_causal_forecast_inputs_pair_v2.py','oanda_news_causal_aggregation_guard_v1.py','oanda_news_classification_contract.py','oanda_local_news_sentiment.py','oanda_source_governance.py','oanda_source_governance_news_fast_lane.py','oanda_local_news_sentiment_repair_v1.py','oanda_news_topic_identity_reconciliation_v1.py','oanda_news_event_tagger.py','oanda_news_collector_contract.py']);
+     const ledgerHash=value=>typeof value==='string'&&/^[a-f0-9]{64}$/.test(value);
+     const ledgerClock=value=>typeof value==='number'&&Number.isFinite(value)&&value>0&&value<1e12;
+     const ledgerSafe=value=>value?.research_only===true&&['can_place_orders','can_promote','can_authorize','account_eligible','proof_eligible','historical_rows_imported'].every(key=>value[key]===false);
+     const ledgerNumber=value=>(typeof value==='number'||typeof value==='string'&&value.trim()!=='')&&Number.isFinite(Number(value))&&Math.abs(Number(value))<1e12;
+     function ledgerEnvelopeCurrent(value,now){
+-      const c=value?.consumer;return value?.schema_version==='joint_v3_ledger_observer_api_v1_20260909'&&['current_ledger_observation','partial_ledger_observation'].includes(value.status)&&value.proof_basis==='independent_readonly_original_committed_ledgers'&&value.observer_api_specification_sha256===ledgerTablePins.api&&ledgerHash(value.observer_report_sha256)&&ledgerHash(value.payload_sha256)&&ledgerSafe(value)&&value.current_inputs_observed===false&&value.old_heartbeat_validated_for_forecasts===false&&value.endpoint==='/api/joint-v3-ledger-observation'&&ledgerClock(c?.observed_epoch)&&ledgerClock(c?.observation_completed_epoch)&&c.observation_completed_epoch<=c.observed_epoch&&c.observed_epoch<=now&&now-c.observation_completed_epoch<=90&&c.registered_pairs===68&&Number.isInteger(c.verified_ledger_pairs)&&c.verified_ledger_pairs>=0&&c.verified_ledger_pairs<=68&&Number.isInteger(c.unvisited_pairs)&&c.unvisited_pairs>=0&&c.unvisited_pairs<=68&&Array.isArray(c.active_forecast_ids)&&c.active_forecast_ids.length<=68&&c.current_forecast_pairs===c.active_forecast_ids.length&&(value.status==='current_ledger_observation')===(c.verified_ledger_pairs===68);
++      const c=value?.consumer;return value?.schema_version==='joint_v3_ledger_observer_api_v2_20260909'&&['current_ledger_observation','partial_ledger_observation'].includes(value.status)&&value.proof_basis==='independent_readonly_original_committed_ledgers'&&value.observer_api_specification_sha256===ledgerTablePins.api&&ledgerHash(value.observer_report_sha256)&&ledgerHash(value.payload_sha256)&&ledgerSafe(value)&&value.current_inputs_observed===false&&value.old_heartbeat_validated_for_forecasts===false&&value.endpoint==='/api/joint-v3-ledger-observation'&&ledgerClock(c?.observed_epoch)&&ledgerClock(c?.observation_completed_epoch)&&c.observation_completed_epoch<=c.observed_epoch&&c.observed_epoch<=now&&now-c.observation_completed_epoch<=90&&c.registered_pairs===68&&Number.isInteger(c.verified_ledger_pairs)&&c.verified_ledger_pairs>=0&&c.verified_ledger_pairs<=68&&Number.isInteger(c.unvisited_pairs)&&c.unvisited_pairs>=0&&c.unvisited_pairs<=68&&Array.isArray(c.active_forecast_ids)&&c.active_forecast_ids.length<=68&&c.current_forecast_pairs===c.active_forecast_ids.length&&(value.status==='current_ledger_observation')===(c.verified_ledger_pairs===68);
+     }
+     function ledgerForecastActivity(value){
+       const now=Date.now()/1000,states=new Map(),forecasts=new Map(),result={source:value||{},basis:'independent_ledger',current:false,states,forecasts,total:0,forecast:0,reason:'Independent ledger observation unavailable'};
+       if(!ledgerEnvelopeCurrent(value,now))return result;
+       const report=value.observer_report,summary=report?.summary,spec=report?.observer_spec,c=value.consumer,rows=summary?.rows;
+-      if(report?.schema_version!=='joint_v3_ledger_status_observer_v1_20260909'||report.observer_spec_sha256!==ledgerTablePins.observer||!ledgerSafe(report)||!ledgerSafe(summary)||!ledgerSafe(spec)||!ledgerHash(report.payload_sha256)||!ledgerHash(report.summary_sha256)||!ledgerHash(summary?.payload_sha256)||summary.schema_version!=='joint_v3_ledger_observer_summary_v1_20260909'||summary.registry_sha256!==ledgerTablePins.observer||spec.schema_version!=='joint_v3_ledger_observer_specification_v1_20260909'||spec.origin_registry_sha256!==ledgerTablePins.registry||spec.origin_activation_sha256!==ledgerTablePins.activation||report.current_input_readiness_observed!==false||report.old_heartbeat_validated_for_forecasts!==false||report.original_ledger_rows_written!==false||report.original_predictions_recomputed!==false||!ledgerClock(report.started_epoch)||!ledgerClock(report.completed_epoch)||report.started_epoch>report.completed_epoch||report.completed_epoch!==c.observation_completed_epoch||summary.generated_epoch!==report.completed_epoch||report.registered_pairs!==68||report.verified_ledger_pairs!==c.verified_ledger_pairs||report.unvisited_pairs!==c.unvisited_pairs||!Array.isArray(rows)||rows.length!==68)return result;
++      if(report?.schema_version!=='joint_v3_ledger_status_observer_v2_20260909'||report.observer_spec_sha256!==ledgerTablePins.observer||!ledgerSafe(report)||!ledgerSafe(summary)||!ledgerSafe(spec)||!ledgerHash(report.payload_sha256)||!ledgerHash(report.summary_sha256)||!ledgerHash(summary?.payload_sha256)||summary.schema_version!=='joint_v3_ledger_observer_summary_v2_20260909'||summary.registry_sha256!==ledgerTablePins.observer||spec.schema_version!=='joint_v3_ledger_observer_specification_v2_20260909'||spec.origin_registry_sha256!==ledgerTablePins.registry||spec.origin_activation_sha256!==ledgerTablePins.activation||report.current_input_readiness_observed!==false||report.old_heartbeat_validated_for_forecasts!==false||report.original_ledger_rows_written!==false||report.original_predictions_recomputed!==false||!ledgerClock(report.started_epoch)||!ledgerClock(report.completed_epoch)||report.started_epoch>report.completed_epoch||report.completed_epoch!==c.observation_completed_epoch||summary.generated_epoch!==report.completed_epoch||report.registered_pairs!==68||report.verified_ledger_pairs!==c.verified_ledger_pairs||report.unvisited_pairs!==c.unvisited_pairs||!Array.isArray(rows)||rows.length!==68)return result;
+       const own=spec.observer_source_bindings||{},origin=spec.original_source_bindings||{};
+-      if(Object.keys(own).length!==2||Object.entries(ledgerOwnSources).some(([key,hash])=>own[key]!==hash)||Object.keys(origin).length!==20||ledgerOriginSources.some(key=>!ledgerHash(origin[key])))return result;
++      if(Object.keys(own).length!==3||Object.entries(ledgerOwnSources).some(([key,hash])=>own[key]!==hash)||Object.keys(origin).length!==20||ledgerOriginSources.some(key=>!ledgerHash(origin[key])))return result;
+       const ids=new Map();for(const id of c.active_forecast_ids){if(!id||typeof id.instrument!=='string'||ids.has(id.instrument)||!ledgerHash(id.decision_id)||!ledgerHash(id.forecast_sha256)||typeof id.cohort_id!=='string')return result;ids.set(id.instrument,id);}
+       for(const row of rows){if(!row||typeof row.instrument!=='string'||!/^[A-Z]{3}_[A-Z]{3}$/.test(row.instrument)||states.has(row.instrument)||!ledgerNumber(row.pip_size)||Number(row.pip_size)<=0){states.clear();return result;}states.set(row.instrument,row);}
+       if([...ids.keys()].some(pair=>!states.has(pair))){states.clear();return result;}
+--- trad/test_oanda_joint_v3_ledger_observer_handler_v1.py
++++ trad/test_oanda_joint_v3_ledger_observer_handler_v1.py
+@@ -12,7 +12,7 @@
+ 
+ ROOT = Path(__file__).resolve().parent
+ SOURCE = ROOT / 'oanda_practice_live_dashboard.py'
+-CONFIG = ROOT / 'config/joint_v3_ledger_observer_api_v1_20260909.json'
++CONFIG = ROOT / 'config/joint_v3_ledger_observer_api_v2_20260909.json'
+ ORIGINAL_FUNCTION_AST_SHA256 = {
+     'summarize_joint_price_news_forecasts': '444161ad05a01d996a8f3428c17f35a2c946139a31b38ca213d30e6eef93417c',
+     '_summarize_registered_family_forecasts': '580df635a633d2419b3bb704657a623351b0e2ad797127f268ecab3c608f17da',
+@@ -20,7 +20,7 @@
+     'build_main_state': 'c24749ceef438a1eea9578525e85e5fc38268aae3e6a8a12f87e0eaa12d953f5',
+ }
+ ORIGINAL_EMBEDDED_HTML_AST_SHA256 = 'f817aa5f93a990bf0c94174936b367267f5b1c0f0ebf7a3a83f5368063fd9a92'
+-ORIGINAL_MAIN_HTML_SHA256 = 'da9ae85ac0efd524a59ab7f24cf5de6602b737610e996556abf4b0e783b690c6'
++ORIGINAL_MAIN_HTML_SHA256 = 'abb4150a22ace6321a0537ff4869fe02b8573568487c926b11ec93c1c7d666ef'
+ 
+ 
+ def tree():
+@@ -74,7 +74,7 @@
+     scope['JOINT_LEDGER_OBSERVER_SPEC_SHA256'] = 'UNSET'
+     calls = []
+     fake = SimpleNamespace(LedgerObservationAPI=SimpleNamespace(from_specification=lambda *a, **k: calls.append(1)))
+-    monkeypatch.setitem(sys.modules, 'oanda_joint_v3_ledger_observer_api_v1', fake)
++    monkeypatch.setitem(sys.modules, 'oanda_joint_v3_ledger_observer_api_v2', fake)
+     value = scope['current_joint_ledger_observation']()
+     assert calls == []
+     assert value['status'] == 'unavailable' and value['reason'] == 'observer_api_not_configured'
+@@ -96,7 +96,7 @@
+         loads.append((path, expected_file_sha256))
+         return instance
+     fake = SimpleNamespace(LedgerObservationAPI=SimpleNamespace(from_specification=load))
+-    monkeypatch.setitem(sys.modules, 'oanda_joint_v3_ledger_observer_api_v1', fake)
++    monkeypatch.setitem(sys.modules, 'oanda_joint_v3_ledger_observer_api_v2', fake)
+     assert scope['current_joint_ledger_observation']()['compact'] is False
+     assert scope['current_joint_ledger_observation'](compact=True)['compact'] is True
+     assert loads == [(CONFIG, expected)] and requests == [False, True]
+@@ -108,7 +108,7 @@
+     def fail(*args, **kwargs):
+         raise ValueError('private local content must never be returned')
+     fake = SimpleNamespace(LedgerObservationAPI=SimpleNamespace(from_specification=fail))
+-    monkeypatch.setitem(sys.modules, 'oanda_joint_v3_ledger_observer_api_v1', fake)
++    monkeypatch.setitem(sys.modules, 'oanda_joint_v3_ledger_observer_api_v2', fake)
+     result = scope['current_joint_ledger_observation']()
+     assert result['status'] == 'unavailable' and result['reason'] == 'observer_api_configuration_unavailable'
+     assert result['consumer'] is None and 'private local' not in str(result)
+--- trad/test_oanda_joint_v3_ledger_table_visibility.py
++++ trad/test_oanda_joint_v3_ledger_table_visibility.py
+@@ -32,9 +32,9 @@
+   const ob={read_started_epoch:now-10,forecast_join_read_started_epoch:now-8,forecast_join_read_completed_epoch:now-7,read_completed_epoch:now-4,verification_completed_epoch:now-3,query_only:true,contract_and_activation_verified:true,original_published_forecast:i<active,original_row_identity_binding_sha256:hash(600+i),latest_original_target_epoch:arm.target_epoch};
+   rows.push({instrument,pip_size,families:{ridge_price_news_v1:{status:i<active?'forecast':'unavailable',reason:i<active?'verified_original_forecast':'no_verified_published_forecast',activated_epoch:now-10000,observed_epoch:now-3,cohort_id,contract_sha256:hash(500+i),origin_registry_sha256:ledgerTablePins.registry,origin_study:'joint_v3',ledger_observation:ob,current_readiness:{status:'unavailable',reason:'current_inputs_not_observed',observed_epoch:null},last_attempt:null,latest_forecast:i<active?p:null}}});
+  }
+- const spec={...safe,schema_version:'joint_v3_ledger_observer_specification_v1_20260909',origin_registry_sha256:ledgerTablePins.registry,origin_activation_sha256:ledgerTablePins.activation,observer_source_bindings:{...ledgerOwnSources},original_source_bindings:Object.fromEntries(ledgerOriginSources.map((name,i)=>[name,hash(800+i)]))};
+- const report={...safe,schema_version:'joint_v3_ledger_status_observer_v1_20260909',observer_spec_sha256:ledgerTablePins.observer,observer_spec:spec,started_epoch:now-15,completed_epoch:now-2,registered_pairs:68,verified_ledger_pairs:68,unvisited_pairs:0,current_input_readiness_observed:false,old_heartbeat_validated_for_forecasts:false,original_ledger_rows_written:false,original_predictions_recomputed:false,payload_sha256:hash(9),summary_sha256:hash(10),summary:{...safe,schema_version:'joint_v3_ledger_observer_summary_v1_20260909',registry_sha256:ledgerTablePins.observer,generated_epoch:now-2,payload_sha256:hash(11),rows}};
+- return{...safe,schema_version:'joint_v3_ledger_observer_api_v1_20260909',status:'current_ledger_observation',proof_basis:'independent_readonly_original_committed_ledgers',observer_api_specification_sha256:ledgerTablePins.api,observer_report_sha256:hash(12),observer_report:report,payload_sha256:hash(13),current_inputs_observed:false,old_heartbeat_validated_for_forecasts:false,endpoint:'/api/joint-v3-ledger-observation',consumer:{observed_epoch:now-1,observation_completed_epoch:now-2,registered_pairs:68,verified_ledger_pairs:68,unvisited_pairs:0,current_forecast_pairs:active,active_forecast_ids:rows.slice(0,active).map(row=>{const p=row.families.ridge_price_news_v1.latest_forecast;return{instrument:row.instrument,decision_id:p.decision_id,forecast_sha256:p.forecast_sha256,cohort_id:p.forecasts[0].cohort_id};})},original_producer_envelope:{status:'generation_mismatch',producer_reported_errors:12}};
++ const spec={...safe,schema_version:'joint_v3_ledger_observer_specification_v2_20260909',origin_registry_sha256:ledgerTablePins.registry,origin_activation_sha256:ledgerTablePins.activation,observer_source_bindings:{...ledgerOwnSources},original_source_bindings:Object.fromEntries(ledgerOriginSources.map((name,i)=>[name,hash(800+i)]))};
++ const report={...safe,schema_version:'joint_v3_ledger_status_observer_v2_20260909',observer_spec_sha256:ledgerTablePins.observer,observer_spec:spec,started_epoch:now-15,completed_epoch:now-2,registered_pairs:68,verified_ledger_pairs:68,unvisited_pairs:0,current_input_readiness_observed:false,old_heartbeat_validated_for_forecasts:false,original_ledger_rows_written:false,original_predictions_recomputed:false,payload_sha256:hash(9),summary_sha256:hash(10),summary:{...safe,schema_version:'joint_v3_ledger_observer_summary_v2_20260909',registry_sha256:ledgerTablePins.observer,generated_epoch:now-2,payload_sha256:hash(11),rows}};
++ return{...safe,schema_version:'joint_v3_ledger_observer_api_v2_20260909',status:'current_ledger_observation',proof_basis:'independent_readonly_original_committed_ledgers',observer_api_specification_sha256:ledgerTablePins.api,observer_report_sha256:hash(12),observer_report:report,payload_sha256:hash(13),current_inputs_observed:false,old_heartbeat_validated_for_forecasts:false,endpoint:'/api/joint-v3-ledger-observation',consumer:{observed_epoch:now-1,observation_completed_epoch:now-2,registered_pairs:68,verified_ledger_pairs:68,unvisited_pairs:0,current_forecast_pairs:active,active_forecast_ids:rows.slice(0,active).map(row=>{const p=row.families.ridge_price_news_v1.latest_forecast;return{instrument:row.instrument,decision_id:p.decision_id,forecast_sha256:p.forecast_sha256,cohort_id:p.forecasts[0].cohort_id};})},original_producer_envelope:{status:'generation_mismatch',producer_reported_errors:12}};
+ }
+ const compact=value=>({...clone(value),observer_report:null});
+ const slot=value=>value.observer_report.summary.rows[0].families.ridge_price_news_v1;
+@@ -178,3 +178,9 @@
+         begin=html.index('    function '+name+'(')
+         end=html.index('\n    function ',begin+1)
+         assert hashlib.sha256(html[begin:end].encode('utf-8')).hexdigest()==digest
++
++
++@pytest.mark.parametrize('kind',['api','report','summary','spec'])
++def test_v2_table_refuses_misrouted_original_v1_schema(kind):
++    paths={'api':"f.schema_version='joint_v3_ledger_observer_api_v1_20260909'",'report':"f.observer_report.schema_version='joint_v3_ledger_status_observer_v1_20260909'",'summary':"f.observer_report.summary.schema_version='joint_v3_ledger_observer_summary_v1_20260909'",'spec':"f.observer_report.observer_spec.schema_version='joint_v3_ledger_observer_specification_v1_20260909'"}
++    run_js('const f=fixture();'+paths[kind]+";assert.equal(ledgerForecastActivity(f).current,false);")

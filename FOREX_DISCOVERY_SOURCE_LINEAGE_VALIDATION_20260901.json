@@ -1,0 +1,96 @@
+{
+  "schema_version": "forex_discovery_source_lineage_validation_v1",
+  "generated_utc": "2026-09-01T22:47:30Z",
+  "status": "validated_live",
+  "issue_id": "FX-20260901-DISCOVERY-SOURCE-LINEAGE",
+  "scope": "retained Finnhub and GDELT discovery observations in the canonical local-news collector",
+  "defect": {
+    "summary": "Current-classification retained discovery observations could remain detached from their configured source contract and cohort because duplicate retention preserved their original payload and the reclassification selector ignored missing lineage.",
+    "trust_or_execution_effect": "none",
+    "affected_sources": [
+      "finnhub_fx_market_news",
+      "gdelt_fx_macro_discovery"
+    ],
+    "before_publication": {
+      "articles_latest": {
+        "row_count": 500,
+        "lineage_bound_row_count": 495,
+        "missing_lineage_row_count": 5
+      },
+      "context_articles_latest": {
+        "row_count": 259,
+        "lineage_bound_row_count": 235,
+        "missing_lineage_row_count": 24
+      }
+    }
+  },
+  "repair": {
+    "parser_binding": "Finnhub and GDELT parsers preserve the exact configured source_contract_id and source_cohort_id.",
+    "retained_row_migration": "The bounded reclassification selector now includes rows missing either source lineage field and binds only an actual configured source; it never invents a contract for an absent source.",
+    "clock_invariant": "Stored published_utc, first_seen_utc and last_seen_utc remain unchanged.",
+    "integrity_guard": "The independent project-integrity audit now rejects every current article missing either source lineage field while retaining the direct-source verification requirement.",
+    "reclassified_retained_rows_first_live_cycle": 67
+  },
+  "live_publication": {
+    "collector_cycle_started_utc": "2026-09-01T18:33:48.867522-04:00",
+    "collector_cycle_completed_utc": "2026-09-01T18:42:39.150845-04:00",
+    "configured_source_count": 187,
+    "articles_latest": {
+      "generated_utc": "2026-09-01T18:37:59.177191-04:00",
+      "row_count": 500,
+      "lineage_bound_row_count": 500,
+      "missing_lineage_row_count": 0
+    },
+    "context_articles_latest": {
+      "generated_utc": "2026-09-01T18:37:59.177191-04:00",
+      "row_count": 259,
+      "lineage_bound_row_count": 259,
+      "missing_lineage_row_count": 0
+    },
+    "source_contracts": {
+      "finnhub_fx_market_news": "derived_source_config_lineage_v1:finnhub_fx_market_news:be03701dd65f13a51439a198",
+      "gdelt_fx_macro_discovery": "gdelt_fx_macro_rate_limit_v2_20260816"
+    },
+    "rbnz_preview_fixture": {
+      "headline": "Economic and event calendar in Asia Wednesday, September 2, 2026 - RBZN rate hike expected",
+      "source_id": "finnhub_fx_market_news",
+      "source_contract_id": "derived_source_config_lineage_v1:finnhub_fx_market_news:be03701dd65f13a51439a198",
+      "source_cohort_id": "derived_source_config_lineage_v1:finnhub_fx_market_news:be03701dd65f13a51439a198",
+      "source_verified": false,
+      "source_direct": false,
+      "execution_eligible": false
+    }
+  },
+  "independent_integrity_publication": {
+    "audit_started_utc": "2026-09-01T18:44:37.243642-04:00",
+    "audit_finished_utc": "2026-09-01T18:44:56.471264-04:00",
+    "article_count": 259,
+    "lineage_bound_article_count": 259,
+    "missing_lineage_count": 0,
+    "invalid_row_count": 0,
+    "source_provenance_status": "ok"
+  },
+  "tests": {
+    "test_oanda_local_news_sentiment.py": "467 passed",
+    "test_oanda_project_integrity_audit.py": "46 passed",
+    "test_oanda_news_technical_watchlist.py": "43 passed"
+  },
+  "implementation_hashes": {
+    "oanda_local_news_sentiment.py": "a5d9b61590b25d437d70dbc55d62041b92c343068a8dd13576ffbddb8c15c6fa",
+    "test_oanda_local_news_sentiment.py": "f0e6d617e2fbb9eb5e297b27fd96bb36ab2d731a34925a9336f9c2ff63177f0a",
+    "oanda_project_integrity_audit.py": "b49f9b8a83b92ec80213d1c1abe044a21eeb0388925ed7e0e78d51cbb60da3ee",
+    "test_oanda_project_integrity_audit.py": "9c113afa363624c7e6a2150052b0ef81906402c64fe31911d0584f32ba5870e3",
+    "test_oanda_news_technical_watchlist.py": "a6a455b5e4dcee5746b896c4da9952d9db97cc98162aa766b6634d7a0b982466"
+  },
+  "safety": {
+    "research_only_sources_remain_research_only": true,
+    "source_verification_upgraded": false,
+    "direction_changed": false,
+    "proof_gate_changed": false,
+    "authorization_gate_changed": false,
+    "practice_execution_gate_changed": false,
+    "real_money_enabled": false,
+    "manual_order_or_close": false,
+    "codex_automation_created": false
+  }
+}

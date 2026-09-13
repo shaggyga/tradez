@@ -223,6 +223,28 @@ def record(failures: list[str], condition: bool, message: str) -> None:
         failures.append(message)
 
 
+def raw_generated_clock_valid(
+    generated_age_sec: float | None,
+    scheduled: dt.datetime,
+) -> bool:
+    """Apply source-snapshot freshness only when the venue is open.
+
+    The producer commits explicit 68-row ``excluded_closed`` frames through
+    the declared daily rollover, but OANDA does not publish a fresh executable
+    quote snapshot while the venue is closed.  Closed rows cannot contribute
+    executable evidence, so their source clock must exist and be non-future;
+    open-market frames retain the frozen maximum-age requirement.
+    """
+
+    if generated_age_sec is None:
+        return False
+    if generated_age_sec < -MAXIMUM_FUTURE_SKEW_SEC:
+        return False
+    if market_open(scheduled):
+        return generated_age_sec <= MAXIMUM_SNAPSHOT_GENERATED_AGE_SEC
+    return True
+
+
 def market_open(value: dt.datetime) -> bool:
     local = value.astimezone(NY)
     weekday = local.weekday()
@@ -357,6 +379,13 @@ def _open_readonly(path: Path) -> sqlite3.Connection:
     connection.row_factory = sqlite3.Row
     connection.execute("PRAGMA foreign_keys=ON")
     return connection
+
+
+def _begin_read_snapshot(connection: sqlite3.Connection) -> None:
+    """Pin one WAL snapshot before the independently timed verification scan."""
+
+    connection.execute("BEGIN")
+    connection.execute("SELECT 1 FROM sqlite_master LIMIT 1").fetchone()
 
 
 def _verify_schema(connection: sqlite3.Connection, failures: list[str]) -> None:
@@ -659,9 +688,7 @@ def _verify_frames(
         )
         record(
             failures,
-            generated_age is not None
-            and -MAXIMUM_FUTURE_SKEW_SEC <= generated_age
-            <= MAXIMUM_SNAPSHOT_GENERATED_AGE_SEC,
+            raw_generated_clock_valid(generated_age, scheduled),
             f"{prefix}:raw_generated_clock",
         )
         record(
@@ -1223,15 +1250,36 @@ def _verify_evidence_streaming(
     frames: Sequence[sqlite3.Row],
     quote_cache: Mapping[str, Mapping[str, sqlite3.Row]],
     generated: dt.datetime,
+    verification_now: dt.datetime,
     failures: list[str],
     runtime_cache: dict[str, Any] | None = None,
 ) -> tuple[
     list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]],
 ]:
-    evaluations = [dict(row) for row in connection.execute(
+    all_evaluations = [dict(row) for row in connection.execute(
         "SELECT * FROM window_evaluations "
         "ORDER BY target_scheduled_utc,declared_window_min"
     )]
+    for row in all_evaluations:
+        target = parse_utc(row.get("target_scheduled_utc"))
+        evaluated = parse_utc(row.get("evaluated_utc"))
+        record(
+            failures,
+            target is not None
+            and evaluated is not None
+            and target + dt.timedelta(minutes=1) <= evaluated <= verification_now,
+            (
+                f"evaluation:{row.get('target_scheduled_utc')}:"
+                f"{row.get('declared_window_min')}:durable_evaluated_clock"
+            ),
+        )
+    evaluations = [
+        row for row in all_evaluations
+        if (
+            (evaluated := parse_utc(row.get("evaluated_utc"))) is not None
+            and evaluated <= generated
+        )
+    ]
     observed_evaluations = {
         (row["target_scheduled_utc"], int(row["declared_window_min"])): row
         for row in evaluations
@@ -1256,12 +1304,55 @@ def _verify_evidence_streaming(
         failures, set(observed_evaluations) == expected_key_set,
         "evaluations:scheduled_key_coverage",
     )
-    summaries = [dict(row) for row in connection.execute(
+    all_summaries = [dict(row) for row in connection.execute(
         "SELECT * FROM factor_episode_summaries"
     )]
-    finalizations = [dict(row) for row in connection.execute(
+    all_finalizations = [dict(row) for row in connection.execute(
         "SELECT * FROM factor_episode_finalizations"
     )]
+    all_final_by_episode = {
+        row["episode_utc"]: row for row in all_finalizations
+    }
+    for row in all_finalizations:
+        episode = parse_utc(row.get("episode_utc"))
+        finalized = parse_utc(row.get("finalized_utc"))
+        record(
+            failures,
+            episode is not None
+            and finalized is not None
+            and episode + dt.timedelta(minutes=75) <= finalized <= verification_now,
+            f"factor_finalization:{row.get('episode_utc')}:durable_clock",
+        )
+    for row in all_summaries:
+        episode = parse_utc(row.get("episode_utc"))
+        finalized = parse_utc(row.get("finalized_utc"))
+        final = all_final_by_episode.get(row.get("episode_utc"))
+        record(
+            failures,
+            episode is not None
+            and finalized is not None
+            and episode + dt.timedelta(minutes=75) <= finalized <= verification_now
+            and final is not None
+            and row.get("finalized_utc") == final.get("finalized_utc"),
+            (
+                f"factor_summary:{row.get('episode_utc')}:"
+                f"{row.get('factor_currency')}:durable_clock"
+            ),
+        )
+    summaries = [
+        row for row in all_summaries
+        if (
+            (finalized := parse_utc(row.get("finalized_utc"))) is not None
+            and finalized <= generated
+        )
+    ]
+    finalizations = [
+        row for row in all_finalizations
+        if (
+            (finalized := parse_utc(row.get("finalized_utc"))) is not None
+            and finalized <= generated
+        )
+    ]
     observed_summaries = {
         (
             row["episode_utc"], row["factor_currency"],
@@ -1532,9 +1623,13 @@ def _verify_latest(
     now: dt.datetime,
     failures: list[str],
     runtime_cache: dict[str, Any] | None = None,
+    observed_raw: bytes | None = None,
+    latest_observed_at: dt.datetime | None = None,
 ) -> tuple[dict[str, Any], list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
     try:
-        observed = json.loads(path.read_bytes())
+        observed = json.loads(
+            observed_raw if observed_raw is not None else path.read_bytes()
+        )
     except (OSError, ValueError) as exc:
         failures.append(f"latest:unreadable:{type(exc).__name__}")
         return {}, [], [], []
@@ -1555,17 +1650,43 @@ def _verify_latest(
         cached_generated is None or generated >= cached_generated,
         "runtime_cache:latest_generated_rollback",
     )
-    age = (now - generated).total_seconds()
+    # Freshness belongs to the instant the immutable report bytes were read,
+    # not to the later instant when an intentionally expensive independent DB
+    # replay finishes pinning its transaction snapshot.
+    age = ((latest_observed_at or now) - generated).total_seconds()
     record(
         failures,
         -MAXIMUM_FUTURE_SKEW_SEC <= age <= MAXIMUM_LATEST_AGE_SEC,
         "latest:freshness",
     )
+    frame_cutoff = generated.replace(second=0, microsecond=0)
+    projection_frames = [
+        frame
+        for frame in frames
+        if (
+            (scheduled := parse_utc(frame["scheduled_utc"])) is not None
+            and scheduled <= frame_cutoff
+        )
+    ]
+    projection_ids = {frame["frame_id"] for frame in projection_frames}
+    projection_quote_cache = {
+        frame_id: rows
+        for frame_id, rows in quote_cache.items()
+        if frame_id in projection_ids
+    }
     evaluations, summaries, finalizations = _verify_evidence_streaming(
-        connection, frames, quote_cache, generated, failures, runtime_cache
+        connection,
+        projection_frames,
+        projection_quote_cache,
+        generated,
+        now,
+        failures,
+        runtime_cache,
     )
-    blocks, top = _rebuild_blocks(frames, quote_cache, generated)
-    newest = frames[-1] if frames else None
+    blocks, top = _rebuild_blocks(
+        projection_frames, projection_quote_cache, generated
+    )
+    newest = projection_frames[-1] if projection_frames else None
     expected_open: list[str] = []
     cursor = ACTIVATION_UTC.replace(second=0, microsecond=0)
     end = generated.replace(second=0, microsecond=0)
@@ -1573,7 +1694,7 @@ def _verify_latest(
         if market_open(cursor):
             expected_open.append(iso(cursor))
         cursor += dt.timedelta(minutes=1)
-    observed_schedules = {row["scheduled_utc"] for row in frames}
+    observed_schedules = {row["scheduled_utc"] for row in projection_frames}
     missing = [value for value in expected_open if value not in observed_schedules]
     record(
         failures, not missing,
@@ -1601,7 +1722,7 @@ def _verify_latest(
         "side_count": 136,
         "horizons_min": list(HORIZONS_MIN),
         "slippage_pips": SLIPPAGE_PIPS,
-        "frame_count": len(frames),
+        "frame_count": len(projection_frames),
         "latest_frame_utc": newest["scheduled_utc"] if newest else None,
         "schedule_census": {
             "expected_open_frames": len(expected_open),
@@ -1818,12 +1939,26 @@ def verify(
                 f"preactivation:{key}:mismatch",
             )
     else:
+        latest_observed_at = verification_now
+        try:
+            latest_raw = latest_path.read_bytes()
+        except OSError as exc:
+            failures.append(f"latest:unreadable:{type(exc).__name__}")
+            latest_raw = b""
+        if now is None:
+            latest_observed_at = dt.datetime.now(UTC)
         try:
             connection = _open_readonly(database_path)
         except sqlite3.Error as exc:
             failures.append(f"database:open:{type(exc).__name__}")
         else:
             try:
+                _begin_read_snapshot(connection)
+                if now is None:
+                    # Every durable row visible to this transaction necessarily
+                    # existed before this clock.  Later capture/evaluation commits
+                    # remain outside the verification snapshot.
+                    verification_now = dt.datetime.now(UTC)
                 _verify_schema(connection, failures)
                 _verify_manifest(
                     connection, config_raw, producer_raw, source_raw,
@@ -1855,6 +1990,8 @@ def verify(
                 latest, evaluations, summaries, finalizations = _verify_latest(
                     latest_path, connection, frames, quote_cache,
                     verification_now, failures, runtime_cache,
+                    observed_raw=latest_raw,
+                    latest_observed_at=latest_observed_at,
                 )
                 counts.update(
                     frames=len(all_frames), eligible_frames=len(frames),
@@ -1877,14 +2014,27 @@ def verify(
         runtime_cache["database_path"] = cache_database
         runtime_cache["frame_count"] = observed_frame_count
         runtime_cache["frame_chain_sha256"] = observed_frame_chain
+    audit_finished = (
+        verification_now if now is not None else dt.datetime.now(UTC)
+    )
     return {
         "schema_version": "executable_move_census_verifier_v1",
         "generated_utc": iso(verification_now),
+        "audit_finished_utc": iso(audit_finished),
+        "audit_duration_sec": round(
+            max(0.0, (audit_finished - verification_now).total_seconds()), 6
+        ),
         "verified": not failures,
         "failure_count": len(failures),
         "failures": failures,
         "counts": counts,
         "latest_generated_utc": latest.get("generated_utc"),
+        # ``counts.frames`` is the complete immutable database prefix visible
+        # to this verifier transaction.  The atomic latest report can
+        # legitimately lag capture/evaluation by several frames, so publish
+        # its independently verified prefix count separately instead of making
+        # downstream consumers infer that both publication clocks coincide.
+        "latest_frame_count": int(latest.get("frame_count") or 0),
         "cohort_id": COHORT_ID,
         "research_only": True,
         "can_trade": False,

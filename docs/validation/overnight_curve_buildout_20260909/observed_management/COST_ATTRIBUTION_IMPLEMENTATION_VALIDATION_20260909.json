@@ -1,0 +1,109 @@
+{
+  "accepted_epoch": 1788942024.5424113,
+  "actual_cost_attribution_verified": true,
+  "broker_actions": false,
+  "evidence": [
+    {
+      "bytes": 14221,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\attribute_verified_episode_costs_v1.py",
+      "sha256": "df5fdef432c05a7b618f45deccd5598e3de833e8cb2c6b90fe3c6ae33f033f19"
+    },
+    {
+      "bytes": 8680,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\test_attribute_verified_episode_costs_v1.py",
+      "sha256": "7317bd3e60eb6f6dc0c85ed98ecfe6e244e695dc8f9ab546c8cab0d8b17bc1aa"
+    },
+    {
+      "bytes": 3454,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\cost_attribution_final_tests.xml",
+      "sha256": "e8c61ff616d7a0c673728dcb499df07a8a8096bb455b65075946d7d2e1c11ebb"
+    },
+    {
+      "bytes": 3701,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\COST_ATTRIBUTION_INDEPENDENT_REVIEW_20260909.json",
+      "sha256": "ad9182ffeb71255233984c800a7ca6b2a990148f74484f9873a75a63d47871c2"
+    },
+    {
+      "bytes": 106573,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\COST_ATTRIBUTION_CANDIDATE_EPISODE01_20260909.json",
+      "sha256": "620fd712dcb0fe023a41defc37385ceddd03b69aa8c8d800c235e596a7de5f63"
+    },
+    {
+      "bytes": 5293,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\cost_attribution_initial_tests.xml",
+      "sha256": "770acf51287e12a13d9cc220ab2ae7e477578d76ef422d4dac2e0b99dcea6c9a"
+    },
+    {
+      "bytes": 472679,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\OBSERVED_EPISODE_TERMINAL_01_20260909.json",
+      "sha256": "bc0ffb318e931e32bdc8c1cb83ed5db0935eed2590107a4260c9fed9558c4269"
+    }
+  ],
+  "first_completed_episode_costs": {
+    "curve_hold_no_rotation": {
+      "actual_virtual_legs": 2,
+      "completed_round_trips": 1,
+      "gross_midpoint_pnl_usd": "-0.746415",
+      "position_open": false,
+      "realized_usd": "-1.10049446375",
+      "slippage_cost_usd": "0.04998446375",
+      "spread_cost_usd": "0.304095"
+    },
+    "legacy_momentum_reference": {
+      "actual_virtual_legs": 62,
+      "completed_round_trips": 31,
+      "gross_midpoint_pnl_usd": "-0.175285",
+      "position_open": false,
+      "realized_usd": "-11.66650770285",
+      "slippage_cost_usd": "1.54944770285",
+      "spread_cost_usd": "9.941775"
+    },
+    "no_trade": {
+      "actual_virtual_legs": 0,
+      "completed_round_trips": 0,
+      "gross_midpoint_pnl_usd": "0",
+      "position_open": false,
+      "realized_usd": "0",
+      "slippage_cost_usd": "0",
+      "spread_cost_usd": "0"
+    },
+    "usd_curve_manager": {
+      "actual_virtual_legs": 10,
+      "completed_round_trips": 5,
+      "gross_midpoint_pnl_usd": "-0.958880",
+      "position_open": false,
+      "realized_usd": "-2.79361200590",
+      "slippage_cost_usd": "0.24992200590",
+      "spread_cost_usd": "1.584810"
+    },
+    "usd_momentum_manager": {
+      "actual_virtual_legs": 30,
+      "completed_round_trips": 15,
+      "gross_midpoint_pnl_usd": "0.884415",
+      "position_open": false,
+      "realized_usd": "-4.65642533365",
+      "slippage_cost_usd": "0.74970533365",
+      "spread_cost_usd": "4.791135"
+    }
+  },
+  "first_episode_all_terminal_flat": true,
+  "independently_rerun_tests": false,
+  "initial_fixture_failures": "Two trailing-zero string assertions; exact decimal values agreed. Fixed test assertions only.",
+  "limitations": [
+    "One completed hourly episode, overlapping virtual arms; independent sample size unknown.",
+    "Actual retained bid/ask observations under a fixed hypothetical 0.1 bps per-leg slippage assumption.",
+    "No broker fills, financing, commission or market-impact model.",
+    "Realized trades only; liquidation marks never counted as executed actions.",
+    "No management policy changed and no parameter selected from this episode."
+  ],
+  "model_fits": false,
+  "original_verifier_report_sha256": "bc0ffb318e931e32bdc8c1cb83ed5db0935eed2590107a4260c9fed9558c4269",
+  "runtime_writes": false,
+  "schema_version": "observed_quote_cost_attribution_acceptance_v1_20260909",
+  "source_bindings": {
+    "attribute_verified_episode_costs_v1.py": "df5fdef432c05a7b618f45deccd5598e3de833e8cb2c6b90fe3c6ae33f033f19",
+    "test_attribute_verified_episode_costs_v1.py": "7317bd3e60eb6f6dc0c85ed98ecfe6e244e695dc8f9ab546c8cab0d8b17bc1aa"
+  },
+  "status": "passed",
+  "tests_passed": 21
+}

@@ -1,0 +1,50 @@
+{
+  "schema_version": "forex_vault_canonical_snapshot_validation_v1",
+  "generated_utc": "2026-09-02T02:54:30Z",
+  "status": "validated",
+  "scope": "credential-free compact canonical project records only",
+  "source_root": "C:/Users/zmoor/Documents/forex",
+  "destination": "C:/Users/zmoor/OneDrive/thevault/projects/forex",
+  "pre_validation_snapshot": {
+    "generated_utc": "2026-09-01T22:50:12.812051-04:00",
+    "record_count": 50,
+    "manifest_sha256": "20f320cd436fc0123e7ac9e8c74ee236ce37c503e6be78192f926488831a2e68",
+    "destination_snapshot_hash_mismatch_count": 0,
+    "credential_like_file_count": 0,
+    "vault_size_mib": 814.35,
+    "c_drive_free_gib": 137.51
+  },
+  "repair": {
+    "defect": "mutable live reports could change between the source digest and the second source read used for copying",
+    "resolution": "read each canonical source once into an immutable byte snapshot, derive size and SHA-256 from those bytes, and atomically publish those exact bytes",
+    "manifest_semantics": "the manifest describes the exact destination snapshot even if a live source advances immediately afterward",
+    "archive_behavior_changed": false,
+    "credential_policy_changed": false
+  },
+  "implementation": [
+    {
+      "path": "forex_model_vault_sync.py",
+      "size": 86287,
+      "sha256": "cf627b1caf157d79e7215d0b46ac26bf2e17d9881462d3617005f22148ea4c6d"
+    },
+    {
+      "path": "test_forex_model_vault_sync.py",
+      "size": 43140,
+      "sha256": "1a4fc8dcdeebbbb540c753ab4632eddaa77344ea81ea4cd446ea633b11016aac"
+    }
+  ],
+  "validation": {
+    "pytest_command": "python -m pytest trad/test_forex_model_vault_sync.py -q -p no:cacheprovider",
+    "pytest_result": "16 passed",
+    "race_regression": "source mutation after snapshot capture leaves destination and manifest bound to the original captured bytes",
+    "final_sync_required_after_artifact_creation": false
+  },
+  "safety": {
+    "contains_credentials": false,
+    "manual_orders_submitted": false,
+    "manual_positions_closed": false,
+    "real_money_routing_enabled": false,
+    "proof_or_authorization_gates_changed": false,
+    "codex_automation_created": false
+  }
+}

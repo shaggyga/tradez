@@ -1,0 +1,106 @@
+{
+  "schema_version": "joint_ledger_evaluation_validation_v1",
+  "observed_utc": "2026-09-07T22:17:36.422278+00:00",
+  "status": "passed",
+  "source_bindings": {
+    "oanda_causal_forecast_ledger_joint_news_v1.py": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_causal_forecast_ledger_joint_news_v1.py",
+      "bytes": 31528,
+      "sha256": "df915eddafbc9265eb19c9b6757eb14441ebd9ca3864f6601f5a70ca39d65d7b"
+    },
+    "oanda_fixed_forecast_evaluation_joint_news_v1.py": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_fixed_forecast_evaluation_joint_news_v1.py",
+      "bytes": 38809,
+      "sha256": "c1f9940d57c0d39c1815b22a9114752075042a09da3e196e84829e77b293131d"
+    },
+    "test_oanda_causal_forecast_ledger_joint_news_v1.py": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_causal_forecast_ledger_joint_news_v1.py",
+      "bytes": 26686,
+      "sha256": "6fdf08fd4647d303d1acebcfcacdd3a0014754282d7e0b293ba5fcccabc60db9"
+    },
+    "test_oanda_fixed_forecast_evaluation_joint_news_v1.py": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_fixed_forecast_evaluation_joint_news_v1.py",
+      "bytes": 13091,
+      "sha256": "387ebcc7c53d28629359a10cedd96344f23e7b347f8b93fc7543767c74354775"
+    }
+  },
+  "integration_source_bindings": {
+    "oanda_joint_price_news_models_v1.py": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_joint_price_news_models_v1.py",
+      "bytes": 9587,
+      "sha256": "eb153acb966dc04ad950a0bbfcc730e78a9a0da1d8a24e91d641f473f5cfbc23"
+    },
+    "oanda_causal_forecast_inputs_joint_news_v1.py": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_causal_forecast_inputs_joint_news_v1.py",
+      "bytes": 31037,
+      "sha256": "9375f116571ef43c18eae65c14fc53fb2f98d8ab132d4b000a0971986d2890ec"
+    },
+    "test_oanda_causal_forecast_inputs_joint_news_v1.py": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_causal_forecast_inputs_joint_news_v1.py",
+      "bytes": 15500,
+      "sha256": "156efd9b704c14a0ec846139b3b8d00302479dd5426ff8584cda3f3657cbbaf8"
+    }
+  },
+  "frozen_v2_sources_unchanged": {
+    "oanda_causal_forecast_ledger_pair_v2.py": "7bdfbe1fb7076982e6192db39da5d24ae28d70811496115da31cc42ddf39dc8f",
+    "oanda_fixed_forecast_evaluation_pair_v2.py": "16b78433bf70bf46910effd60068ef7a43c690c3f7ad2c729a567e0620b205c2",
+    "oanda_pair_local_models_v2.py": "294c63bf0ed873395c4850a8722a2622eaa2bc563ceb7ecf9886764c63d8bf24",
+    "oanda_causal_forecast_inputs_pair_v2.py": "8e58491a49fca967e6d8d2a797cc77f142053576c92a724a2e7336d855fb4899"
+  },
+  "primary_tests": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\joint_price_news_20260907\\ledger_evaluation\\final_tests.xml",
+    "bytes": 76767,
+    "sha256": "2514f3ee37d9fc3ea21123ad62712c8b8a2123624fd52198b376540cda53d83f"
+  },
+  "tests_passed": 440,
+  "evidence_bindings": {
+    "initial_tests.xml": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\joint_price_news_20260907\\ledger_evaluation\\initial_tests.xml",
+      "bytes": 65393,
+      "sha256": "9cef09486f96328ffd8438d8a4a232b7f5d77f86afb5376cf423d6cdef28fb4a"
+    },
+    "causal_news_tests.xml": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\joint_price_news_20260907\\ledger_evaluation\\causal_news_tests.xml",
+      "bytes": 67696,
+      "sha256": "ad2f5f4b7a40e3d70a5ade383417fcb410190cccdd53d77c822aaa3a38170fbb"
+    },
+    "real_integration_first_tests.xml": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\joint_price_news_20260907\\ledger_evaluation\\real_integration_first_tests.xml",
+      "bytes": 910,
+      "sha256": "38130af8112a31cbf321420783c82ecebc53058703a917ab921c2d8dae281962"
+    },
+    "ablation_comparison_first_tests.xml": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\joint_price_news_20260907\\ledger_evaluation\\ablation_comparison_first_tests.xml",
+      "bytes": 102704,
+      "sha256": "29097d62bfaa2be2ba2281ebd0f33cf460c2984c85fdf2dcbaabbe58cad94068"
+    }
+  },
+  "preserved_initial_failures": [
+    "Eight inherited price-age fixtures needed matching training-maturity clocks;218 cases passed in that initial run.",
+    "Twelve new comparator fixtures expected exact zero after a nonterminating80-digit pips-to-bps ratio;428 cases passed. Final fixture checks the documented precision boundary and uses80-digit context for paired subtraction; no source change was required."
+  ],
+  "verified_behaviour": [
+    "Separate joint singleton family/schema/cohort; frozen v1/v2 databases refused without mutation.",
+    "Preissue current news SHA and exact source/consumer clocks, original inclusive expiry,\u2264300s news and\u2264900s price age.",
+    "Historical news availability\u2264feature cutoff\u2264exact H1 label maturity\u2264captured completed-price cutoff.",
+    "Three publication boundaries and later executable entry quote, unique reference/bucket, original H1 target.",
+    "Four real synthetic integrations:EUR_USD/EUR_JPY/EUR_HUF capture,fit,issue,consume,entry,H1 scoring; corruption after fitting cannot publish.",
+    "Matched price-only and neutral-news predictions retained before issue and scored on exactly the same complete valid joint decisions and quotes.",
+    "Paired MAE/net deltas, no invented comparator probability/Brier, original baseline family set unchanged."
+  ],
+  "independent_review": {
+    "reviewer": "pair_ledger_evaluation",
+    "status": "passed",
+    "remaining_blockers": 0,
+    "scope": "News boundaries, exact paired comparison, same denominator and80-digit evaluator context; source read only."
+  },
+  "runtime_started": false,
+  "actual_studies_activated": false,
+  "broker_requests": false,
+  "orders_enabled": false,
+  "limits": [
+    "Synthetic integration establishes engineering behaviour, not live forecast success.",
+    "Retrospective training and overlapping H1 outcomes are not independent prospective trials.",
+    "Paired ablation is a model decomposition, not causal attribution of news impact."
+  ]
+}

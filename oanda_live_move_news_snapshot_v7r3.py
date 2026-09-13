@@ -293,6 +293,20 @@ def assign_transitive_factor_episodes(
     for root in set(existing_edges) | set(existing_edges.values()):
         _, found_cycle = resolve_root(root, existing_edges)
         cycle = cycle or found_cycle
+    # A root selected for an earlier current component can itself become the
+    # losing root of a later component in this same pass.  Resolve every row
+    # only after all planned edges are known so the published
+    # ``factor_episode_canonical_root_id`` is actually canonical at the
+    # snapshot's knowledge time.  Raw append-only membership remains preserved
+    # in the history ledger and is never rewritten.
+    for row in rows:
+        canonical, found_cycle = resolve_root(
+            str(row.get("factor_episode_canonical_root_id") or ""),
+            existing_edges,
+        )
+        cycle = cycle or found_cycle
+        row["factor_episode_id"] = canonical
+        row["factor_episode_canonical_root_id"] = canonical
     return {
         "component_count": component_count,
         "planned_merges": planned_merges,

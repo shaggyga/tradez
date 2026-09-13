@@ -1,0 +1,361 @@
+{
+  "schema_version": "forex_audit_state_v1",
+  "sampled_utc": "2026-09-05T02:09:17.9875986Z",
+  "sample_timezone": "America/New_York",
+  "scope": "Canonical C-drive Forex project only; vault is a derived audit/recreation archive, not a runtime.",
+  "canonical_root": "C:\\Users\\zmoor\\Documents\\forex\\trad",
+  "vault_root": "C:\\Users\\zmoor\\OneDrive\\thevault\\projects\\forex",
+  "runtime_state": "intentionally_stopped_for_market_close",
+  "snapshot_semantics": "All account, lifecycle, watchlist, source and integrity values below are frozen producer observations at their own timestamps. Embedded producer flags such as current/ok do not assert post-shutdown freshness or readiness.",
+  "permissions": {
+    "real_money_enabled": false,
+    "manual_orders_submitted_by_audit": false,
+    "execution_gates_changed_by_audit": false,
+    "diagnostic_agent_runtime_mutations": 0
+  },
+  "shutdown": {
+    "independent_process_observation_utc": "2026-09-05T02:09:17.9875986Z",
+    "canonical_python": 0,
+    "watchdogs": 0,
+    "supervisors": 0,
+    "owner_shutdown_confirmation_local": "2026-09-04T22:08:22-04:00",
+    "owner_dashboard_listener_8765_count": 0,
+    "scheduled_tasks": {
+      "ForexSafeCoreAtLogon": "disabled by session owner to prevent logon restart",
+      "ForexGptOrigConstantRotationDemoWatchdog": "already disabled",
+      "BIGTRIAD Unified Trading Dashboard": "left enabled; shared cross-project logon-only dashboard, not a live Forex executor"
+    },
+    "automations_created": 0,
+    "restart_policy": "No automatic restart is requested. Restart/preflight only in a new explicitly requested session."
+  },
+  "session_history": [
+    {
+      "observed_local": "2026-09-04T22:05:54-04:00",
+      "state": "supervisor_and_watchdog_absent",
+      "canonical_python_processes": 56,
+      "worker_identities": 28,
+      "recorded_supervisor_pid_absent": 43344,
+      "recorded_watchdog_pid_absent": 40504,
+      "older_worker_parent_pid_absent": 28552,
+      "notes": "Surviving Python launcher/interpreter pairs originated Sep 2. OS last boot Aug 26; no recent power events were found by bounded query. Cause was not established."
+    },
+    {
+      "observed_local": "2026-09-04T22:07:35-04:00",
+      "state": "brief_owner_recovery_before_user_shutdown_clarification",
+      "supervisor_pid": 21256,
+      "watchdog_pid": 35056,
+      "notes": "Existing safe-core watchdog restart path restored one supervisor; account and watchlist republished. User then clarified that the runtime session should end; owner stopped it."
+    }
+  ],
+  "account_snapshot": {
+    "observed_utc": "2026-09-05T02:08:02.978Z",
+    "scope": "Practice 007 only; read existing producer snapshot, no direct broker request by audit",
+    "nav": 41.6042,
+    "balance": 41.6042,
+    "cumulative_pl": -8.343,
+    "open_trade_count": 0,
+    "pending_order_count": 0,
+    "unrealized_pl": 0,
+    "post_shutdown_freshness": "not_asserted"
+  },
+  "lifecycle_snapshot": {
+    "generated_utc": "2026-09-05T01:41:08.468Z",
+    "confirmed_candidate": 0,
+    "continue_collecting": 43872,
+    "futility_rejected": 9485,
+    "supported_decision": "no_trade"
+  },
+  "issue_register_snapshot": {
+    "statuses": [
+      {
+        "status": "blocked_external",
+        "count": 4
+      },
+      {
+        "status": "complete",
+        "count": 47
+      },
+      {
+        "status": "implemented_collecting",
+        "count": 24
+      },
+      {
+        "status": "permanently_invalid",
+        "count": 11
+      },
+      {
+        "status": "superseded_collecting",
+        "count": 2
+      }
+    ],
+    "issue_count": 88,
+    "generated_utc": "2026-09-04T20:33:00Z"
+  },
+  "integrity_snapshot": {
+    "generated_utc": "2026-09-05T01:45:33.061Z",
+    "audit_finished_utc": "2026-09-05T01:45:44.391Z",
+    "status": "degraded",
+    "failures": [
+      "news_source_governance_fast_lane_current_prospective_and_inert"
+    ],
+    "failed_component": {
+      "append_only_triggers_present": true,
+      "contract_or_inert_violations": 0,
+      "database_current_receipt_count": 9991,
+      "database_integrity": "covered_by_shared_source_governance_integrity",
+      "input_clock_violations": 0,
+      "ok": false,
+      "operational_clock_violations": 0,
+      "operational_view_present": true,
+      "optimistic_clock_receipts": 0,
+      "orphan_or_mismatched_source_events": 0,
+      "preactivation_receipts": 0,
+      "receipt_count": 0,
+      "receipts_after_state_cutoff": 9991,
+      "retained_invalid_prior_receipt_count": 24,
+      "schema_ok": true,
+      "state_age_sec": 16.984864950180054,
+      "state_contract_ok": false,
+      "state_count_reconciled": false,
+      "state_snapshot_cutoff_utc": null,
+      "state_snapshot_cutoff_valid": false,
+      "status": "building",
+      "unknown_contract_receipt_count": 0
+    },
+    "interpretation": "This historical audit sampled a building publication with no valid state cutoff and zero state receipts against 9991 database receipts. The component had zero clock, orphan and contract/inert violations. Transient publication timing is a possible explanation, not a confirmed diagnosis. No later complete integrity publication was observed before intentional shutdown; this is not a clean integrity attestation.",
+    "next_session_requirement": "Obtain a complete post-start integrity publication and reconcile this component before declaring operational readiness.",
+    "coverage_at_that_publication": {
+      "completed_candle_timeframes": [
+        "M1",
+        "M30",
+        "H1",
+        "H4"
+      ],
+      "configured_news_sources": 192,
+      "current_quoted_instruments": 68,
+      "forecast_horizons_sec": [
+        60,
+        120,
+        180,
+        300,
+        600,
+        900,
+        1800,
+        3600
+      ],
+      "live_feature_instruments": 0,
+      "operational_news_sources": 182,
+      "proof_families": 4,
+      "quoted_instruments": 68,
+      "retained_last_known_instruments": 0,
+      "runtime_observed_news_sources": 193
+    }
+  },
+  "lineage": {
+    "classification": {
+      "version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+      "contract_id": "secondary_conflict_duration_recap_guard_v1_20260904",
+      "activated_utc": "2026-09-04T20:25:00Z",
+      "historical_proof_credit": 0,
+      "definition": "oanda_news_classification_contract.py"
+    },
+    "watchlist": {
+      "currency_factor_count": 0,
+      "classification_version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+      "generated_utc": "2026-09-05T02:07:30.977Z",
+      "negative_quote_age_count": 0,
+      "watchlist_entry_count": 0,
+      "cohort_id": "news_technical_watchlist_v49_conflict_duration_recap_guard_20260904",
+      "research_only": true,
+      "execution_eligible": false
+    },
+    "source_response": {
+      "cohort_id": "causal_source_factor_response_map_v8_prospective_20260901T114500Z",
+      "contract_id": "causal_source_factor_response_map_v8_v152_boj_market_structure_survey_overlay_20260901",
+      "activated_utc": "2026-09-01T11:45:00.000Z",
+      "generated_utc": "2026-09-05T02:08:01.986Z",
+      "frozen_classification_version": "local_fx_news_rules_20260901_v152_subject_bound_release_policy_targets",
+      "required_mapper_contract_id": "official_release_fast_mapping_v3_semantic_vs_publish_gate_20260824",
+      "parent_contract_id": "causal_source_factor_response_map_v7_v152_subject_bound_release_policy_targets_20260901",
+      "canonical_events": 13,
+      "preactivation_diagnostic_events": 13,
+      "prospective_proof_events": 0,
+      "prospective_proof_forecasts": 0,
+      "notes": "V8 is the current isolated source-response research ledger, deliberately frozen to V152. V1-V7 are retained diagnostics, not imported proof; the V164 watchlist does not rewrite this cohort."
+    },
+    "currency_rank": {
+      "contract_id": "source_conditioned_currency_rank_v7_v8_input_explicit_no_trade_20260901",
+      "generated_utc": "2026-09-05T02:08:03.923Z",
+      "ledger": {
+        "adapter_cohort_count": 0,
+        "cohorts": [],
+        "decisions": 0,
+        "independent_source_episodes": 0,
+        "no_trade_baseline_forecasts": 0,
+        "no_trade_baseline_outcomes": 0
+      },
+      "required_input": "V8 only, no older-input fallback",
+      "research_only": true,
+      "execution_eligible": false
+    },
+    "per_pair_official_quote_capture": {
+      "contract_path": "config/official_event_pair_quote_capture_v3.json",
+      "notes": "The current V3 post-input-read quote clock is separate from preserved older per-pair quote/horizon cohorts."
+    }
+  },
+  "source_and_feature_inventory": {
+    "news_source_registry": "config/news_sources_v1.json",
+    "configured_source_count": 192,
+    "source_gap_register": "config/forex_source_gap_register_v1.json",
+    "external_gaps": [
+      "macro consensus / rate repricing",
+      "direct intraday commodity source",
+      "RBNZ direct policy transport",
+      "GDELT secure transport"
+    ],
+    "feature_design_registry": "config/model_feature_space.json",
+    "feature_design_generated_utc": "2026-08-03T20:29:37.807705+00:00",
+    "feature_design_only": true,
+    "runtime_disposition_registry": "config/shadow_runtime_retirements_v1.json",
+    "lineage_boundaries": [
+      "Declared features are not necessarily populated, available, predictive or account eligible.",
+      "A registry presence or historical response does not create prospective evidence.",
+      "Keep invalidated and superseded cohorts separately labelled; no imported historical proof credit.",
+      "Quote activity is not trade/order flow; unavailable order/position-book and depth contracts must not be represented as live inputs."
+    ]
+  },
+  "readiness": {
+    "audit_and_recreation_ready_is_not_trade_ready": true,
+    "demo_entry_ready": false,
+    "reason": "Zero confirmed candidates; frozen research and repair validation do not authorize entries.",
+    "future_session_gates": [
+      "Explicit request to resume the runtime.",
+      "Validate source/config/runtime provenance and the intended Practice-007-only scope.",
+      "Start the existing guarded path once; require exactly one supervisor and watchdog and no duplicate worker identities.",
+      "Obtain fresh executable quotes, account and clock state and a complete clean integrity publication; investigate remaining failures if any.",
+      "Preserve all frozen cohort identities, activation clocks, no-import rules and maturity requirements.",
+      "Require a genuine lifecycle confirmed_candidate and an exact fresh unexpired one-time canary authorization matching signal/proof/allocator cohorts before any practice entry."
+    ],
+    "profitability_or_predictive_edge_claimed": false,
+    "validation_scope": "Existing repair receipts and prospective-governance records are inventory evidence. This audit did not rerun market models, add prospective samples, revalidate live databases or establish profitability."
+  },
+  "evidence_binding_policy": "Hashes bind the sampled files, not a promise that mutable canonical documents remain unchanged forever. No databases, WAL/SHM, credentials or raw process command lines are embedded.",
+  "evidence": [
+    {
+      "source": "FOREX_ISSUE_REGISTER_CURRENT.json",
+      "size": 180716,
+      "sha256": "7a1a4f73ea9ba8bcfdff04ace22053bf982b2833e49388c8b328be559128f6a5",
+      "last_write_utc": "2026-09-04T20:32:54.6205906Z"
+    },
+    {
+      "source": "FOREX_PENDING_IMPROVEMENTS.md",
+      "size": 278603,
+      "sha256": "29144338614fd074c871e02ac9aed1e1aefb73d9d5f3050c7a2cdbf281809c81",
+      "last_write_utc": "2026-09-04T21:18:34.0982155Z"
+    },
+    {
+      "source": "FOREX_PROJECT_LOG.md",
+      "size": 395077,
+      "sha256": "61be2ccc63f3916c54032767ec21aab7ad6c9467fdf992e92f9794ad83ebbfa7",
+      "last_write_utc": "2026-09-04T21:18:34.1051958Z"
+    },
+    {
+      "source": "config/news_sources_v1.json",
+      "size": 216430,
+      "sha256": "1e718f78017d0f913f5ae856e7f1517ab51d46f6d4bdc179e280a9b9699a045d",
+      "last_write_utc": "2026-09-04T17:12:34.0254610Z"
+    },
+    {
+      "source": "config/forex_source_gap_register_v1.json",
+      "size": 28226,
+      "sha256": "c5777cacfbb5ecde1f4142346d625aba3eef7f56186bd9543fdb11b07b5dbe21",
+      "last_write_utc": "2026-09-03T00:13:04.1210331Z"
+    },
+    {
+      "source": "config/model_feature_space.json",
+      "size": 35757,
+      "sha256": "98d9364e511059a1447f20322b70abc9bce8dcad1fc69556891cc68027ea5f91",
+      "last_write_utc": "2026-08-03T20:29:37.8102101Z"
+    },
+    {
+      "source": "config/shadow_runtime_retirements_v1.json",
+      "size": 23141,
+      "sha256": "d922c0552383721b3587f0acf0af5efae5fb04d575f874902b18ab993feea36a",
+      "last_write_utc": "2026-09-01T16:07:32.0623160Z"
+    },
+    {
+      "source": "oanda_news_classification_contract.py",
+      "size": 6705,
+      "sha256": "aac0fcad5929040ac18677909736e0f56be93bd697602b09768f558b0e76bb24",
+      "last_write_utc": "2026-09-04T20:17:28.6718899Z"
+    },
+    {
+      "source": "oanda_causal_source_factor_response_map_v8.py",
+      "size": 15099,
+      "sha256": "1871a25e54a64f36d120d06ad6fa5f1bf563645a1f8d6022ee496e5ad64e0344",
+      "last_write_utc": "2026-09-01T11:46:08.0346365Z"
+    },
+    {
+      "source": "config/source_conditioned_currency_rank_v7.json",
+      "size": 3037,
+      "sha256": "8339403c4dbe1a8ae267314199f626a83266d943b4d2e59b800673b3e7940e79",
+      "last_write_utc": "2026-09-01T11:37:12.5343820Z"
+    },
+    {
+      "source": "config/official_event_pair_quote_capture_v3.json",
+      "size": 3441,
+      "sha256": "ac9290481851d2f9d44afcf1581378844015367ca40f0002ad2c29e577fc88b9",
+      "last_write_utc": "2026-09-04T16:11:32.8576231Z"
+    },
+    {
+      "source": "data/oanda_training_manager/state/account_007_dashboard_v1.json",
+      "size": 1247,
+      "sha256": "ebbbbc8040d84dc9acee88ac7469d6b216f3c9ddee8adcb1a762a3ac80c53ef8",
+      "last_write_utc": "2026-09-05T02:08:03.7827999Z"
+    },
+    {
+      "source": "data/oanda_training_manager/state/evidence_lifecycle_v1.json",
+      "size": 15889,
+      "sha256": "31c65440ef8885c053f6f1a3d4bed803b57787cca37fb40af2bd4713bea795d2",
+      "last_write_utc": "2026-09-05T01:41:08.4729875Z"
+    },
+    {
+      "source": "data/oanda_training_manager/state/news_technical_watchlist_v1.json",
+      "size": 211536,
+      "sha256": "72efbca157b787ddbc329c91e682ed08dd6b41b07f212b2b9f052bf1ba3ac666",
+      "last_write_utc": "2026-09-05T02:07:31.3326882Z"
+    },
+    {
+      "source": "data/oanda_training_manager/state/source_conditioned_currency_rank_v7.json",
+      "size": 5029,
+      "sha256": "731b0b108674c959f40c10e286630fd2e09d66d309320a01596bf4e44e967f62",
+      "last_write_utc": "2026-09-05T02:08:04.0774578Z"
+    },
+    {
+      "source": "data/oanda_training_manager/local_news_sentiment/causal_source_factor_response_map_latest_v8.json",
+      "size": 5435,
+      "sha256": "c6897db99028f8bbfcaf28919c64cf9c892c944a762e8d6c619adebe396e0155",
+      "last_write_utc": "2026-09-05T02:08:02.9004695Z"
+    },
+    {
+      "source": "FOREX_CONFLICT_DURATION_RECAP_GUARD_VALIDATION_20260904.json",
+      "size": 4469,
+      "sha256": "781e6b56471b716a09a33a9d3102535c77c7bf2249ce560f4aa37b48a1f30218",
+      "last_write_utc": "2026-09-04T20:32:22.7749473Z"
+    },
+    {
+      "source": "FOREX_MISS_RECAP_AND_MARKET_CLOSE_WATCH_VALIDATION_20260904.json",
+      "size": 7426,
+      "sha256": "46f57efe172afc5c333cd11ea67a27acf5ae5e5eebec026eabb737d8cebb9fc7",
+      "last_write_utc": "2026-09-04T21:18:19.7574603Z"
+    }
+  ],
+  "subsequent_fault_audit": {
+    "report": "FOREX_FAULT_AUDIT_CURRENT.json",
+    "guide": "docs/FOREX_FAULT_AUDIT_CURRENT.md",
+    "register_generated_utc": "2026-09-05T02:20:00Z",
+    "issue_count": 91,
+    "open_repairs": 3,
+    "note": "The issue_register_snapshot retains the original 22:09 ET observation. Three new fast-lane defects are now registered and remain unfixed."
+  }
+}

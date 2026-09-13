@@ -21,7 +21,17 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
 
+import numpy as np
 import pandas as pd
+
+try:
+    from oanda_instrument_pips_v2 import CONTRACT as PIP_CONTRACT, resolve_pip_contract
+    from oanda_supervised_m5_contract_v2 import CONTRACT as SUPERVISED_DATA_CONTRACT
+except ModuleNotFoundError:
+    from trad.oanda_instrument_pips_v2 import CONTRACT as PIP_CONTRACT, resolve_pip_contract
+    from trad.oanda_supervised_m5_contract_v2 import CONTRACT as SUPERVISED_DATA_CONTRACT
+
+HISTORY_INPUT_CONTRACT = "historical_m1_complete_m5_and_pip_provenance_v3_20260912"
 
 try:
     from oanda_practice_shadow_strategy_lab import (
@@ -172,10 +182,21 @@ def frame_to_candles(frame: pd.DataFrame) -> list[dict[str, Any]]:
 
 
 def build_pair_history(instrument: str, frame: pd.DataFrame) -> PairHistory:
+    unit = resolve_pip_contract(instrument)
+    instrument = unit["instrument"]
     clean = frame.copy()
     clean.index = pd.to_datetime(clean.index, errors="coerce", utc=True)
     clean = clean[~clean.index.isna()].sort_index()
-    clean = clean[~clean.index.duplicated(keep="last")]
+    if clean.index.has_duplicates:
+        raise ValueError("duplicate_historical_m1_clock")
+    if np.any(clean.index.as_unit("ns").asi8 % 60_000_000_000):
+        raise ValueError("off_grid_historical_m1_clock")
+    incomplete_rows = 0
+    if "complete" in clean.columns:
+        complete_mask = clean["complete"].map(lambda value: isinstance(value, (bool, np.bool_)) and bool(value))
+        incomplete_rows = int((~complete_mask).sum())
+        clean = clean.loc[complete_mask]
+    derived_quote_extrema = any(name not in clean.columns for name in ("bid_high", "bid_low", "ask_high", "ask_low"))
     if "bid_high" not in clean.columns and {"bid_open", "bid_close"} <= set(clean.columns):
         clean["bid_high"] = clean[["bid_open", "bid_close"]].max(axis=1)
     if "bid_low" not in clean.columns and {"bid_open", "bid_close"} <= set(clean.columns):
@@ -189,6 +210,13 @@ def build_pair_history(instrument: str, frame: pd.DataFrame) -> PairHistory:
     if clean.empty:
         raise ValueError(f"No executable M1 rows for {instrument}")
 
+    prices = clean[[name for name in required if name != "volume"]].to_numpy(float)
+    if not np.isfinite(prices).all() or np.any(prices <= 0):
+        raise ValueError("invalid_historical_price")
+    for point in ("open", "close"):
+        if not ((clean["bid_" + point] <= clean[point]) & (clean[point] <= clean["ask_" + point])).all():
+            raise ValueError("crossed_historical_bid_mid_ask")
+    m5_counts = clean["close"].resample("5min", label="left", closed="left").count()
     m5 = clean.resample("5min", label="left", closed="left").agg(
         {
             "open": "first",
@@ -206,11 +234,21 @@ def build_pair_history(instrument: str, frame: pd.DataFrame) -> PairHistory:
             "ask_close": "last",
         }
     )
-    m5 = m5.dropna(subset=["open", "high", "low", "close"])
+    m5 = m5.loc[m5_counts == 5].dropna(subset=["open", "high", "low", "close"])
+    clean.attrs["input_quality"] = {
+        "contract": HISTORY_INPUT_CONTRACT, "input_rows": len(frame), "retained_m1_rows": len(clean),
+        "complete_m5_bars": len(m5), "partial_m5_buckets_excluded": int(((m5_counts > 0) & (m5_counts < 5)).sum()),
+        "derived_bid_ask_extrema_from_endpoints": derived_quote_extrema,
+        "pip_source": unit["source"],
+        "pip_resolution": unit,
+        "explicit_incomplete_m1_rows_excluded": incomplete_rows,
+        "completion_flag_present": "complete" in frame.columns,
+        "source_s5_quality": frame.attrs.get("source_s5_quality"),
+    }
     m1_times = list(clean.index)
     return PairHistory(
         instrument=instrument,
-        pip=infer_pip_size(instrument),
+        pip=unit["pip"],
         frame=clean,
         m1_times=m1_times,
         m1_candles=frame_to_candles(clean),
@@ -251,7 +289,10 @@ def load_pair_history(candle_dir: Path, instrument: str, tail_rows: int = 0) -> 
     last_error: PermissionError | None = None
     for attempt in range(5):
         try:
-            columns = [column for column in M1_COLUMNS if column in available_csv_columns(path)]
+            available_columns = available_csv_columns(path)
+            columns = [column for column in M1_COLUMNS if column in available_columns]
+            if "complete" in available_columns:
+                columns.append("complete")
             missing = {"datetime", "open", "high", "low", "close", "volume", "bid_open", "bid_close", "ask_open", "ask_close"} - set(columns)
             if missing:
                 raise ValueError(f"{path.name} missing required columns: {sorted(missing)}")
@@ -304,7 +345,28 @@ def load_pair_history_s5(s5_dir: Path, instrument: str, tail_rows: int = 0) -> P
     frame = frame.dropna(subset=["time_utc", "mid_open", "mid_high", "mid_low", "mid_close"])
     if frame.empty:
         raise ValueError(f"No executable S5 rows for {instrument}")
-    frame = frame.sort_values("time_utc").drop_duplicates("time_utc", keep="last").set_index("time_utc")
+    if frame["time_utc"].duplicated().any():
+        raise ValueError("duplicate_historical_s5_clock")
+    frame = frame.sort_values("time_utc").set_index("time_utc")
+    if np.any(frame.index.as_unit("ns").asi8 % 5_000_000_000):
+        raise ValueError("off_grid_historical_s5_clock")
+    incomplete_s5 = 0
+    if "complete" in frame.columns:
+        complete_mask = frame["complete"].map(lambda value: isinstance(value, (bool, np.bool_)) and bool(value))
+        incomplete_s5 = int((~complete_mask).sum())
+        frame = frame.loc[complete_mask]
+    frame = frame.dropna(subset=numeric_columns)
+    price_columns = [name for name in numeric_columns if name != "volume"]
+    raw_prices = frame[price_columns].to_numpy(float)
+    valid_members = pd.Series(np.isfinite(raw_prices).all(axis=1) & (raw_prices > 0).all(axis=1), index=frame.index)
+    for point in ("open", "close"):
+        valid_members &= (frame["bid_" + point] <= frame["mid_" + point]) & (frame["mid_" + point] <= frame["ask_" + point])
+    for side in ("mid", "bid", "ask"):
+        for point in ("open", "close"):
+            valid_members &= (frame[side + "_low"] <= frame[side + "_" + point]) & (frame[side + "_" + point] <= frame[side + "_high"])
+    invalid_s5_members = int((~valid_members).sum())
+    frame = frame.loc[valid_members]
+    s5_counts = frame["mid_close"].resample("1min", label="left", closed="left").count()
     m1 = frame.resample("1min", label="left", closed="left").agg(
         {
             "mid_open": "first",
@@ -322,6 +384,7 @@ def load_pair_history_s5(s5_dir: Path, instrument: str, tail_rows: int = 0) -> P
             "ask_close": "last",
         }
     )
+    m1 = m1.loc[s5_counts == 12]
     m1 = m1.rename(
         columns={
             "mid_open": "open",
@@ -333,6 +396,14 @@ def load_pair_history_s5(s5_dir: Path, instrument: str, tail_rows: int = 0) -> P
     m1 = m1.dropna(subset=["open", "high", "low", "close", "bid_open", "bid_close", "ask_open", "ask_close"])
     if tail_rows > 0:
         m1 = m1.tail(tail_rows)
+    m1["complete"] = True
+    m1.attrs["source_s5_quality"] = {
+        "required_exact_s5_members_per_m1": 12,
+        "partial_m1_buckets_excluded": int(((s5_counts > 0) & (s5_counts < 12)).sum()),
+        "explicit_incomplete_s5_rows_excluded": incomplete_s5,
+        "invalid_s5_price_members_excluded": invalid_s5_members,
+        "original_completion_flag_present": "complete" in frame.columns,
+    }
     return build_pair_history(instrument, m1)
 
 
@@ -605,7 +676,11 @@ def run_backtest(
         for spec in ensemble_specs
     ]
     report = {
-        "schema_version": 1,
+        "schema_version": 2,
+        "history_input_contract": HISTORY_INPUT_CONTRACT,
+        "pip_unit_contract": PIP_CONTRACT,
+        "supervised_data_contract": SUPERVISED_DATA_CONTRACT,
+        "input_quality_by_instrument": {key: value.frame.attrs.get("input_quality", {}) for key, value in histories.items()},
         "generated_utc": utc_now(),
         "evaluation_mode": "historical_bid_ask_replay",
         "account_required": False,

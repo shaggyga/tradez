@@ -1,0 +1,35 @@
+{
+  "actual_dashboard": {
+    "bytes": 525733,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_practice_live_dashboard.py",
+    "sha256": "3882467376ddace472163baa8f37d2c729d4d3fd9ba18c18c66936c2a0cbb17a"
+  },
+  "application_receipt": {
+    "bytes": 1082,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\coherent_reader_design\\ledger_observer_v1\\handler_application_001\\HANDLER_APPLICATION_20260909.json",
+    "sha256": "ea94630bda6105b268414246a45e4f6d4a3a008c7ec89c78c8a8309908691dd5"
+  },
+  "checks": [
+    "Exact before/candidate hashes bound before the substitution.",
+    "Only the reviewed helper and endpoint blocks are replaced; normalized bytes exactly match the reviewed candidate.",
+    "Unchanged original functions retain their AST; source is rechecked before replacement and read back afterwards.",
+    "The helper uses a temporary file with exclusive creation and fsync before replacement; no directory crash-durability claim is made."
+  ],
+  "created_utc": "2026-09-09T08:53:55.293574+00:00",
+  "helper": {
+    "bytes": 3551,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\coherent_reader_design\\ledger_observer_v1\\apply_reviewed_api_handler.py",
+    "sha256": "65165e5373399330019591b577635a9b274334903d89dc97d9d92b0e27419593"
+  },
+  "normalized_candidate_exact_match": true,
+  "remaining_blockers": [],
+  "review_scope": "Read-only application-helper and applied-byte review; no helper rerun, process action or server reload by this reviewer.",
+  "schema_version": "joint_v3_ledger_observer_handler_application_review_v1_20260909",
+  "status": "passed_bounded_source_and_applied_bytes_review",
+  "unchanged_function_ast_sha256": {
+    "_summarize_registered_family_forecasts": "580df635a633d2419b3bb704657a623351b0e2ad797127f268ecab3c608f17da",
+    "build_main_state": "c24749ceef438a1eea9578525e85e5fc38268aae3e6a8a12f87e0eaa12d953f5",
+    "project_joint_collection_status": "d7aa07a06d8829182190a29d087c438b652904520a8e4d23a12a0edcac47e702",
+    "summarize_joint_price_news_forecasts": "444161ad05a01d996a8f3428c17f35a2c946139a31b38ca213d30e6eef93417c"
+  }
+}

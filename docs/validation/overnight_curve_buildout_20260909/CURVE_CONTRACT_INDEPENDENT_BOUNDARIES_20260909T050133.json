@@ -1,0 +1,359 @@
+{
+  "schema_version": "independent_curve_contract_boundary_probe_v1_20260909",
+  "generated_utc": "2026-09-09T05:01:33.247102+00:00",
+  "source_hashes_before": {
+    "oanda_forecast_curve_contract_v1.py": "51dff28475540f1b40a0a999f0df28c93a9525696beab06aee657d4a695a4d20",
+    "oanda_curve_management_adapter_v1.py": "5c44ecd8685df80fe75cef4446d3843a1555778ccf1852cc3f47306fc57bcd2f"
+  },
+  "source_hashes_after": {
+    "oanda_forecast_curve_contract_v1.py": "51dff28475540f1b40a0a999f0df28c93a9525696beab06aee657d4a695a4d20",
+    "oanda_curve_management_adapter_v1.py": "5c44ecd8685df80fe75cef4446d3843a1555778ccf1852cc3f47306fc57bcd2f"
+  },
+  "source_stable": true,
+  "case_count": 68,
+  "status": "passed",
+  "results": [
+    {
+      "case": "historical_consumption_does_not_authorize_elapsed_target",
+      "status": "passed",
+      "consumption_scope": "observed_copy_not_node_decision_eligibility",
+      "refusal_code": "native_target_elapsed_before_decision"
+    },
+    {
+      "case": "prepared_missing_account_eligible",
+      "status": "passed",
+      "reason_code": "record_authority_fields"
+    },
+    {
+      "case": "prepared_missing_bar_duration_sec",
+      "status": "passed",
+      "reason_code": "record_required_fields_missing"
+    },
+    {
+      "case": "prepared_missing_can_authorize",
+      "status": "passed",
+      "reason_code": "record_authority_fields"
+    },
+    {
+      "case": "prepared_missing_can_place_orders",
+      "status": "passed",
+      "reason_code": "record_authority_fields"
+    },
+    {
+      "case": "prepared_missing_can_promote",
+      "status": "passed",
+      "reason_code": "record_authority_fields"
+    },
+    {
+      "case": "prepared_missing_computation_sha256",
+      "status": "passed",
+      "reason_code": "record_required_fields_missing"
+    },
+    {
+      "case": "prepared_missing_computation_started_epoch",
+      "status": "passed",
+      "reason_code": "record_required_fields_missing"
+    },
+    {
+      "case": "prepared_missing_computed_epoch",
+      "status": "passed",
+      "reason_code": "record_required_fields_missing"
+    },
+    {
+      "case": "prepared_missing_execution_eligible",
+      "status": "passed",
+      "reason_code": "record_authority_fields"
+    },
+    {
+      "case": "prepared_missing_feature_version",
+      "status": "passed",
+      "reason_code": "record_required_fields_missing"
+    },
+    {
+      "case": "prepared_missing_forecast_cohort",
+      "status": "passed",
+      "reason_code": "record_required_fields_missing"
+    },
+    {
+      "case": "prepared_missing_input_available_epoch",
+      "status": "passed",
+      "reason_code": "record_required_fields_missing"
+    },
+    {
+      "case": "prepared_missing_input_capture_sha256",
+      "status": "passed",
+      "reason_code": "record_required_fields_missing"
+    },
+    {
+      "case": "prepared_missing_instrument",
+      "status": "passed",
+      "reason_code": "record_required_fields_missing"
+    },
+    {
+      "case": "prepared_missing_model_fitted_epoch",
+      "status": "passed",
+      "reason_code": "record_required_fields_missing"
+    },
+    {
+      "case": "prepared_missing_model_sha256",
+      "status": "passed",
+      "reason_code": "record_required_fields_missing"
+    },
+    {
+      "case": "prepared_missing_nodes",
+      "status": "passed",
+      "reason_code": "record_required_fields_missing"
+    },
+    {
+      "case": "prepared_missing_pip_size",
+      "status": "passed",
+      "reason_code": "record_required_fields_missing"
+    },
+    {
+      "case": "prepared_missing_policy",
+      "status": "passed",
+      "reason_code": "record_required_fields_missing"
+    },
+    {
+      "case": "prepared_missing_proof_eligible",
+      "status": "passed",
+      "reason_code": "record_authority_fields"
+    },
+    {
+      "case": "prepared_missing_reference_epoch",
+      "status": "passed",
+      "reason_code": "record_required_fields_missing"
+    },
+    {
+      "case": "prepared_missing_reference_label_epoch",
+      "status": "passed",
+      "reason_code": "record_required_fields_missing"
+    },
+    {
+      "case": "prepared_missing_reference_price",
+      "status": "passed",
+      "reason_code": "record_required_fields_missing"
+    },
+    {
+      "case": "prepared_missing_reference_price_kind",
+      "status": "passed",
+      "reason_code": "record_required_fields_missing"
+    },
+    {
+      "case": "prepared_missing_research_only",
+      "status": "passed",
+      "reason_code": "record_authority_fields"
+    },
+    {
+      "case": "prepared_missing_schema_version",
+      "status": "passed",
+      "reason_code": "prepared_schema"
+    },
+    {
+      "case": "prepared_missing_scope",
+      "status": "passed",
+      "reason_code": "record_required_fields_missing"
+    },
+    {
+      "case": "prepared_missing_source_bindings",
+      "status": "passed",
+      "reason_code": "record_required_fields_missing"
+    },
+    {
+      "case": "prepared_missing_status",
+      "status": "passed",
+      "reason_code": "prepared_schema"
+    },
+    {
+      "case": "prepared_missing_target_selection_policy",
+      "status": "passed",
+      "reason_code": "record_required_fields_missing"
+    },
+    {
+      "case": "authority_research_only_False",
+      "status": "passed",
+      "reason_code": "research_only_not_true"
+    },
+    {
+      "case": "authority_research_only_0",
+      "status": "passed",
+      "reason_code": "research_only_not_true"
+    },
+    {
+      "case": "authority_research_only_1",
+      "status": "passed",
+      "reason_code": "research_only_not_true"
+    },
+    {
+      "case": "authority_research_only_None",
+      "status": "passed",
+      "reason_code": "research_only_not_true"
+    },
+    {
+      "case": "authority_can_place_orders_True",
+      "status": "passed",
+      "reason_code": "authority_not_false"
+    },
+    {
+      "case": "authority_can_place_orders_0",
+      "status": "passed",
+      "reason_code": "authority_not_false"
+    },
+    {
+      "case": "authority_can_place_orders_1",
+      "status": "passed",
+      "reason_code": "authority_not_false"
+    },
+    {
+      "case": "authority_can_place_orders_None",
+      "status": "passed",
+      "reason_code": "authority_not_false"
+    },
+    {
+      "case": "authority_can_promote_True",
+      "status": "passed",
+      "reason_code": "authority_not_false"
+    },
+    {
+      "case": "authority_can_promote_0",
+      "status": "passed",
+      "reason_code": "authority_not_false"
+    },
+    {
+      "case": "authority_can_promote_1",
+      "status": "passed",
+      "reason_code": "authority_not_false"
+    },
+    {
+      "case": "authority_can_promote_None",
+      "status": "passed",
+      "reason_code": "authority_not_false"
+    },
+    {
+      "case": "authority_can_authorize_True",
+      "status": "passed",
+      "reason_code": "authority_not_false"
+    },
+    {
+      "case": "authority_can_authorize_0",
+      "status": "passed",
+      "reason_code": "authority_not_false"
+    },
+    {
+      "case": "authority_can_authorize_1",
+      "status": "passed",
+      "reason_code": "authority_not_false"
+    },
+    {
+      "case": "authority_can_authorize_None",
+      "status": "passed",
+      "reason_code": "authority_not_false"
+    },
+    {
+      "case": "authority_account_eligible_True",
+      "status": "passed",
+      "reason_code": "authority_not_false"
+    },
+    {
+      "case": "authority_account_eligible_0",
+      "status": "passed",
+      "reason_code": "authority_not_false"
+    },
+    {
+      "case": "authority_account_eligible_1",
+      "status": "passed",
+      "reason_code": "authority_not_false"
+    },
+    {
+      "case": "authority_account_eligible_None",
+      "status": "passed",
+      "reason_code": "authority_not_false"
+    },
+    {
+      "case": "authority_execution_eligible_True",
+      "status": "passed",
+      "reason_code": "authority_not_false"
+    },
+    {
+      "case": "authority_execution_eligible_0",
+      "status": "passed",
+      "reason_code": "authority_not_false"
+    },
+    {
+      "case": "authority_execution_eligible_1",
+      "status": "passed",
+      "reason_code": "authority_not_false"
+    },
+    {
+      "case": "authority_execution_eligible_None",
+      "status": "passed",
+      "reason_code": "authority_not_false"
+    },
+    {
+      "case": "authority_proof_eligible_True",
+      "status": "passed",
+      "reason_code": "authority_not_false"
+    },
+    {
+      "case": "authority_proof_eligible_0",
+      "status": "passed",
+      "reason_code": "authority_not_false"
+    },
+    {
+      "case": "authority_proof_eligible_1",
+      "status": "passed",
+      "reason_code": "authority_not_false"
+    },
+    {
+      "case": "authority_proof_eligible_None",
+      "status": "passed",
+      "reason_code": "authority_not_false"
+    },
+    {
+      "case": "nonstring_json_key",
+      "status": "passed",
+      "reason_code": "json_string_keys_required"
+    },
+    {
+      "case": "nonfinite_json_float",
+      "status": "passed",
+      "reason_code": "not_bounded_json"
+    },
+    {
+      "case": "oversized_json_integer",
+      "status": "passed",
+      "reason_code": "json_integer_limit"
+    },
+    {
+      "case": "lazy_horizon_iterable",
+      "status": "passed",
+      "reason_code": "invalid_native_horizons"
+    },
+    {
+      "case": "oversized_native_inventory",
+      "status": "passed",
+      "reason_code": "invalid_native_horizons"
+    },
+    {
+      "case": "mixed_source_keys",
+      "status": "passed",
+      "reason_code": "source_name_invalid"
+    },
+    {
+      "case": "future_computation_at_issue",
+      "status": "passed",
+      "reason_code": "issue_clock_or_delay"
+    },
+    {
+      "case": "publication_before_issue",
+      "status": "passed",
+      "reason_code": "publication_clock_order"
+    },
+    {
+      "case": "consumption_before_publication",
+      "status": "passed",
+      "reason_code": "consumption_precedes_publication"
+    }
+  ],
+  "scope": "Synthetic pure receipts only; no runtime or model-performance validation. Actual persisted I/O and expected cohort/model/policy identity remain obligations of the registered caller."
+}

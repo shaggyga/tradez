@@ -37,7 +37,7 @@ REPORT_ROOT = (
 )
 OUTPUT_JSON = REPORT_ROOT / "CURRENT_WEEK_OFFICIAL_EVENT_RESPONSES_V1.json"
 OUTPUT_MD = REPORT_ROOT / "CURRENT_WEEK_OFFICIAL_EVENT_RESPONSES_V1.md"
-CONTRACT_ID = "current_week_official_event_response_audit_v2_dynamic_wtd_20260827"
+CONTRACT_ID = "current_week_official_event_response_audit_v3_material_dedup_20260904"
 HORIZONS = (5, 15, 60, 120)
 UTC = dt.timezone.utc
 
@@ -232,12 +232,26 @@ def _has_source_change_information(article: Mapping[str, Any]) -> bool:
 
 
 def _dedup_key(article: Mapping[str, Any], currency: str) -> tuple[str, ...]:
+    material_identity = news.structured_material_identity(article)
+    if material_identity:
+        # A structured release with a stable publisher identity and identical
+        # economic values is one event even when a date-only feed caused old
+        # collector versions to infer a new observation clock on every poll.
+        # The raw rows remain immutable; only this retrospective view collapses
+        # them. A changed value/revision/component set gets a new identity.
+        return (
+            "structured_material",
+            str(article.get("source_id") or ""),
+            currency,
+            material_identity,
+        )
     identity = (
         article.get("event_series_id")
         or article.get("event_name")
         or article.get("headline")
     )
     return (
+        "legacy_event",
         str(article.get("source_id") or ""),
         currency,
         _normalized_identity(identity),

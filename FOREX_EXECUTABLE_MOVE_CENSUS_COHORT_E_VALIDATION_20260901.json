@@ -1,0 +1,101 @@
+{
+  "schema_version": "forex_executable_move_census_cohort_e_validation_v1",
+  "generated_utc": "2026-09-01T19:17:48Z",
+  "scope": "Prospective activation of source-compatible executable-move Census E after terminal invalidation of Census D",
+  "parent_cohort_d": {
+    "cohort_id": "all68_executable_move_census_v2_20260901d",
+    "terminal_status": "permanently_invalid",
+    "database_sha256": "fb4a0a95bc3442c415973ab1a2ac95b2d4d0546403420ac6caa4356990b02f0c",
+    "terminal_frame_count": 17,
+    "terminal_quote_count": 1156,
+    "valid_quote_count": 0,
+    "source_identity_mismatch_count": 1156,
+    "replacement_reason": "D froze quote schema 2 while the live tradeability-aware source was schema 3."
+  },
+  "cohort_e_contract": {
+    "cohort_id": "all68_executable_move_census_v2_20260901e",
+    "parent_cohort_id": "all68_executable_move_census_v2_20260901d",
+    "parent_evidence_status": "permanently_invalid",
+    "activation_utc": "2026-09-01T19:15:00Z",
+    "historical_row_import_count": 0,
+    "no_backfill": true,
+    "instrument_count": 68,
+    "side_count": 136,
+    "horizons_min": [1, 5, 10, 15, 30, 60],
+    "source_schema_version": "3",
+    "config_sha256": "d7e54b8da2db4b72a253bae88c48359a349d5701801d84cee16c5b1042fa2894",
+    "producer_sha256": "b539022cd7a51094e7b64f0eb4c7e9414ec3d608bf73dbdb70ddae9eee8954d2",
+    "independent_verifier_sha256": "94d43612ccca05c9a94aa8b72bdbd9c4764c6ed57196b2d2de7da7cc5e51afbd",
+    "source_producer_sha256": "b98151ab60e2e0e3253d0cfaef1229bb1e2a4bf777a1365aa579be4f1bd294f6",
+    "quote_transport_sha256": "27ea11bc79a3a85cc09f00a88df697f0ecf8bba29b230c309cdf83e8967d8987",
+    "research_only": true,
+    "can_trade": false,
+    "can_authorize": false,
+    "can_promote": false
+  },
+  "preactivation_validation": {
+    "source_contract_preflight_passed": true,
+    "frame_count": 0,
+    "database_created": false,
+    "independent_verifier_verified": true,
+    "independent_verifier_failure_count": 0,
+    "supported_execution_decision": "no_trade"
+  },
+  "postactivation_validation": {
+    "observed_utc": "2026-09-01T19:17:48Z",
+    "sqlite_quick_check": "ok",
+    "frame_count": 3,
+    "frame_quote_count": 204,
+    "commit_receipt_count": 3,
+    "window_evaluation_count": 1,
+    "first_frame_utc": "2026-09-01T19:15:00Z",
+    "latest_frame_utc": "2026-09-01T19:17:00Z",
+    "valid_quote_count": 174,
+    "invalid_quote_count": 30,
+    "invalid_reason_counts": {
+      "stale_quote": 30
+    },
+    "source_identity_mismatch_count": 0,
+    "zero_valid_open_market_frame_count": 0,
+    "missing_open_frame_count": 0,
+    "foreign_cohort_row_count": 0,
+    "preactivation_row_count": 0,
+    "independent_verifier_verified": true,
+    "independent_verifier_failure_count": 0,
+    "independent_verifier_frame_count": 3,
+    "independent_verifier_quote_count": 204,
+    "supported_execution_decision": "no_trade"
+  },
+  "correctness_controls": {
+    "producer_preflight": "Exact source schema and producer identity are checked before activation or database creation.",
+    "semantic_verifier": "The independent verifier fails on any source_identity_mismatch row or any open-market frame with zero valid quotes, even when structural hashes agree.",
+    "project_integrity": "The integrity adapter requires semantic row totals, zero identity mismatches, nonzero postactivation validity and verifier agreement.",
+    "supervisor_cutover": "Only E capture, evaluator and verifier are active; D workers are stopped.",
+    "frozen_parent_preserved": true
+  },
+  "tests": {
+    "focused_regression_result": "passed",
+    "focused_regression_test_count": 203,
+    "vault_regression_result": "passed",
+    "vault_regression_test_count": 15
+  },
+  "runtime_safety": {
+    "practice_account_id": "101-001-37981792-007",
+    "balance": 41.6042,
+    "nav": 41.6042,
+    "cumulative_pl": -8.343,
+    "open_trades": 0,
+    "pending_orders": 0,
+    "manual_orders_submitted": 0,
+    "manual_positions_closed": 0,
+    "execution_gates_loosened": false,
+    "real_money_enabled": false,
+    "clock_integrity": "ok",
+    "disk_free_gib": 146.38,
+    "automatic_evidence_deletion": false,
+    "automatic_vacuum": false,
+    "codex_automation_active": false,
+    "heartbeat_active": false,
+    "supported_execution_decision": "no_trade"
+  }
+}

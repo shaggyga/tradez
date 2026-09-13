@@ -29,6 +29,9 @@ STATE = ROOT / "data" / "oanda_training_manager" / "state"
 REPORTS = ROOT / "data" / "oanda_training_manager" / "reports" / "independent_evidence_verifier"
 DEFAULT_LIFECYCLE_DATABASE = STATE / "evidence_lifecycle_v1.sqlite"
 DEFAULT_LIFECYCLE_STATE = STATE / "evidence_lifecycle_v1.json"
+DEFAULT_EVIDENCE_OPERATIONS_WORKER_STATE = (
+    STATE / "evidence_operations_worker_heartbeat_v2.json"
+)
 DEFAULT_EDGE_STATE = STATE / "edge_evidence_v1.json"
 DEFAULT_EDGE_WORKER_STATE = STATE / "edge_evidence_worker_v1.json"
 DEFAULT_EDGE_INPUT_CHECKPOINT = STATE / "edge_evidence_input_checkpoint_v1.json"
@@ -42,6 +45,8 @@ DEFAULT_SOURCE_DATABASE = STATE / "source_governance_v1.sqlite"
 DEFAULT_STATE = STATE / "independent_evidence_verifier_v1.json"
 DEFAULT_REPORT = REPORTS / "INDEPENDENT_EVIDENCE_VERIFIER_CURRENT.md"
 DEFAULT_FULL_INTEGRITY_INTERVAL_SEC = 21600.0
+DEFAULT_MAXIMUM_EDGE_SNAPSHOT_LAG_SEC = 86400.0
+DEFAULT_MAXIMUM_LIFECYCLE_SNAPSHOT_LAG_SEC = 7200.0
 DEFAULT_PUBLICATION_LEASE_SEC = 90.0
 MAXIMUM_COMPLETED_CHECK_FUTURE_SKEW_SEC = 60.0
 PUBLICATION_CONTRACT = "independent_evidence_verifier_publication_v2"
@@ -459,27 +464,231 @@ def _current_published_state_ages(
     }
 
 
+def _canonical_sha256(value: Any) -> str:
+    return hashlib.sha256(
+        json.dumps(
+            value,
+            sort_keys=True,
+            separators=(",", ":"),
+            default=str,
+        ).encode("utf-8")
+    ).hexdigest()
+
+
+def _lifecycle_database_integrity_snapshot(
+    connection: sqlite3.Connection,
+) -> dict[str, Any]:
+    """Independently bind a lifecycle publication to exact DB high-waters."""
+
+    current_rows = [
+        {
+            "hypothesis_id": str(row[0]),
+            "cohort_id": None if row[1] is None else str(row[1]),
+            "definition_sha256": str(row[2]),
+            "event_rowid": int(row[3]),
+            "next_state": str(row[4]),
+            "observed_utc": str(row[5]),
+            "source_run_id": str(row[6]),
+            "evidence_json": str(row[7]),
+        }
+        for row in connection.execute(
+            """
+            SELECT hypothesis.hypothesis_id,hypothesis.cohort_id,
+                   hypothesis.definition_sha256,event.rowid,event.next_state,
+                   event.observed_utc,event.source_run_id,event.evidence_json
+            FROM hypotheses AS hypothesis
+            JOIN lifecycle_events AS event
+              ON event.hypothesis_id=hypothesis.hypothesis_id
+            JOIN (
+                SELECT hypothesis_id,MAX(rowid) AS latest_rowid
+                FROM lifecycle_events GROUP BY hypothesis_id
+            ) AS latest ON latest.latest_rowid=event.rowid
+            ORDER BY hypothesis.hypothesis_id
+            """
+        )
+    ]
+
+    def table_extent(table: str) -> tuple[int, int]:
+        count, highwater = connection.execute(
+            f"SELECT COUNT(*),COALESCE(MAX(rowid),0) FROM {table}"
+        ).fetchone()
+        return int(count), int(highwater)
+
+    hypothesis_count, hypothesis_highwater = table_extent("hypotheses")
+    event_count, event_highwater = table_extent("lifecycle_events")
+    retirement_count, retirement_highwater = table_extent("futility_retirements")
+    reconsideration_count, reconsideration_highwater = table_extent(
+        "reconsideration_decisions"
+    )
+    current_states = Counter(row["next_state"] for row in current_rows)
+    return {
+        "contract": "evidence_lifecycle_publication_integrity_v1",
+        "hypothesis_count": hypothesis_count,
+        "hypothesis_highwater_rowid": hypothesis_highwater,
+        "lifecycle_event_count": event_count,
+        "lifecycle_event_highwater_rowid": event_highwater,
+        "futility_retirement_count": retirement_count,
+        "futility_retirement_highwater_rowid": retirement_highwater,
+        "reconsideration_count": reconsideration_count,
+        "reconsideration_highwater_rowid": reconsideration_highwater,
+        "current_state_count": len(current_rows),
+        "current_states": {
+            state: int(current_states.get(state, 0))
+            for state in (
+                "confirmed_candidate",
+                "continue_collecting",
+                "futility_rejected",
+            )
+        },
+        "current_state_sha256": _canonical_sha256(current_rows),
+    }
+
+
+def _lifecycle_publication_freshness(
+    *,
+    lifecycle_state: Path,
+    lifecycle_database: Path,
+    worker_state: Path,
+    maximum_age_sec: float,
+    maximum_snapshot_lag_sec: float = DEFAULT_MAXIMUM_LIFECYCLE_SNAPSHOT_LAG_SEC,
+) -> dict[str, Any]:
+    """Validate lifecycle freshness without making elapsed time a proof fact.
+
+    A publication older than the ordinary freshness budget remains usable only
+    during a bounded, healthy research-only rebuild, when an independent live
+    DB fingerprint exactly matches the frozen publication and both surfaces
+    remain incapable of promotion or execution.  A new row, a changed latest
+    event, a confirmation, a stale heartbeat, or any error fails closed.
+    """
+
+    publication = read_json_optional(lifecycle_state)
+    worker = read_json_optional(worker_state)
+    publication_age = _age_seconds(publication.get("generated_utc"))
+    worker_age = _age_seconds(worker.get("generated_utc") or worker.get("updated_at"))
+    progress_clock_age = _age_seconds(worker.get("last_progress_utc"))
+    try:
+        progress_age = float(worker.get("progress_age_sec"))
+    except (TypeError, ValueError):
+        progress_age = float("inf")
+    with ro(lifecycle_database) as connection:
+        database_integrity = _lifecycle_database_integrity_snapshot(connection)
+        append_only = _append_only_triggers(
+            connection,
+            ["hypotheses", "lifecycle_events", "futility_retirements"],
+        )
+    published_integrity = publication.get("integrity") or {}
+    published_states = (
+        (publication.get("lifecycle") or {}).get("states") or {}
+    )
+    database_states = database_integrity.get("current_states") or {}
+    normal_phases = {
+        "running_lifecycle",
+        "running_allocator",
+        "running_accounting",
+        "running_opportunity_monitor",
+        "publishing_final_state",
+        "idle_between_cycles",
+    }
+    handshake = {
+        "publication_integrity_present": bool(published_integrity),
+        "database_integrity_match": bool(published_integrity)
+        and published_integrity == database_integrity,
+        "append_only_guards_present": bool(append_only)
+        and all(append_only.values()),
+        "publication_fail_closed": bool(publication.get("research_only"))
+        and not bool(publication.get("can_place_orders"))
+        and not bool(publication.get("can_promote"))
+        and not bool(publication.get("real_money_routing")),
+        "publication_states_match_integrity": {
+            str(key): int(value) for key, value in published_states.items()
+        }
+        == {str(key): int(value) for key, value in database_states.items()},
+        "zero_confirmed_candidates": int(
+            database_states.get("confirmed_candidate", -1)
+        )
+        == 0,
+        "worker_running": worker.get("status") == "running",
+        "worker_phase_expected": str(worker.get("phase") or "") in normal_phases,
+        "worker_fresh": worker_age is not None
+        and worker_age <= maximum_age_sec,
+        "worker_progress_recent": progress_age <= maximum_age_sec
+        and progress_clock_age is not None
+        and progress_clock_age <= maximum_age_sec,
+        "worker_error_free": int(worker.get("errors") or 0) == 0
+        and not str(worker.get("last_error") or ""),
+        "worker_fail_closed": bool(worker.get("research_only"))
+        and not bool(worker.get("can_place_orders"))
+        and not bool(worker.get("can_submit_orders"))
+        and not bool(worker.get("can_promote"))
+        and not bool(worker.get("real_money_routing")),
+        "publication_within_fresh_age": publication_age is not None
+        and publication_age <= maximum_age_sec,
+        "publication_within_bounded_lag": publication_age is not None
+        and publication_age <= maximum_snapshot_lag_sec,
+    }
+    intact_publication = bool(
+        handshake["publication_integrity_present"]
+        and handshake["database_integrity_match"]
+        and handshake["append_only_guards_present"]
+        and handshake["publication_fail_closed"]
+        and handshake["publication_states_match_integrity"]
+    )
+    fresh_publication = bool(
+        intact_publication and handshake["publication_within_fresh_age"]
+    )
+    bounded_rebuild = bool(
+        intact_publication
+        and handshake["publication_within_bounded_lag"]
+        and handshake["zero_confirmed_candidates"]
+        and handshake["worker_running"]
+        and handshake["worker_phase_expected"]
+        and handshake["worker_fresh"]
+        and handshake["worker_progress_recent"]
+        and handshake["worker_error_free"]
+        and handshake["worker_fail_closed"]
+    )
+    if fresh_publication:
+        reason = "fresh_exact_lifecycle_publication"
+    elif bounded_rebuild:
+        reason = "exact_fail_closed_lifecycle_snapshot_while_rebuilding"
+    else:
+        reason = "stale_or_unverified_lifecycle_publication"
+    return {
+        "fresh": fresh_publication or bounded_rebuild,
+        "reason": reason,
+        "publication_age_sec": publication_age,
+        "worker_age_sec": worker_age,
+        "worker_progress_age_sec": progress_age,
+        "maximum_snapshot_lag_sec": maximum_snapshot_lag_sec,
+        "handshake": handshake,
+        "published_integrity": published_integrity,
+        "database_integrity": database_integrity,
+        "append_only_guards": append_only,
+    }
+
+
 def _edge_report_freshness(
     *,
     edge_state: Path,
     worker_state: Path,
     input_checkpoint: Path,
     maximum_age_sec: float,
+    maximum_snapshot_lag_sec: float = DEFAULT_MAXIMUM_EDGE_SNAPSHOT_LAG_SEC,
 ) -> dict[str, Any]:
-    """Distinguish a stale calculation from a current unchanged calculation."""
+    """Validate a current or bounded fail-closed edge-evidence snapshot.
+
+    The source outcome ledger is intentionally append-only and advances while
+    its multi-million-row report is being rebuilt. A byte-intact completed
+    research snapshot may therefore lag a healthy worker without becoming an
+    authorization-integrity failure. Lagged acceptance is bounded, requires
+    recent worker progress, and requires the report itself to be incapable of
+    promotion or order placement.
+    """
     report = read_json_optional(edge_state)
     worker = read_json_optional(worker_state)
     checkpoint = read_json_optional(input_checkpoint)
     report_age = _age_seconds(report.get("generated_utc"))
     worker_age = _age_seconds(worker.get("updated_at") or worker.get("generated_utc"))
-    if report_age is not None and report_age <= maximum_age_sec:
-        return {
-            "fresh": True,
-            "reason": "fresh_report_publication",
-            "report_age_sec": report_age,
-            "worker_age_sec": worker_age,
-        }
-
     worker_details = worker.get("details") or {}
     compact = checkpoint.get("last_completed_report") or {}
     output_records = checkpoint.get("output_integrity") or {}
@@ -500,10 +709,38 @@ def _edge_report_freshness(
             and expected.get("size_bytes") == actual_size
         )
     report_highwater = (report.get("integrity") or {}).get("source_highwater_row_id")
+    phase = str(worker.get("phase") or "")
+    progress_age = worker.get("progress_age_sec")
+    try:
+        worker_progress_recent = float(progress_age) <= float(maximum_age_sec)
+    except (TypeError, ValueError):
+        worker_progress_recent = False
+    catchup_phases = {
+        "starting",
+        "starting_cycle",
+        "input_snapshot_captured",
+        "inventorying_source",
+        "loading_rows",
+        "loading_rows_complete",
+        "inventorying_forecast_contract",
+        "inventorying_forecast_contract_complete",
+        "building_cells",
+        "building_archetypes",
+        "building_economic_labels",
+        "building_candidate_replication",
+        "building_governance",
+        "assembling_report",
+        "persisting_evidence",
+        "writing_report",
+        "idle_between_cycles",
+        "idle_bounded_snapshot_lag",
+    }
     handshake = {
         "worker_running": worker.get("status") == "running",
         "worker_idle_unchanged": worker.get("phase") == "idle_unchanged_inputs",
+        "worker_catching_up_or_bounded": phase in catchup_phases,
         "worker_fresh": worker_age is not None and worker_age <= maximum_age_sec,
+        "worker_progress_recent": worker_progress_recent,
         "worker_error_free": int(worker.get("errors") or 0) == 0
         and not str(worker.get("last_error") or ""),
         "fingerprint_match": bool(checkpoint.get("fingerprint_sha256"))
@@ -515,17 +752,54 @@ def _edge_report_freshness(
         and int(report_highwater) == int(compact.get("source_highwater_row_id") or -1),
         "output_integrity_present": bool(output_checks),
         "output_integrity_match": bool(output_checks) and all(output_checks.values()),
+        "report_fail_closed": bool(report.get("research_only"))
+        and not bool(report.get("can_place_orders"))
+        and not bool(report.get("can_promote")),
+        "report_within_fresh_age": report_age is not None
+        and report_age <= maximum_age_sec,
+        "report_within_bounded_lag": report_age is not None
+        and report_age <= maximum_snapshot_lag_sec,
     }
-    current = all(handshake.values())
+    intact_snapshot = bool(
+        handshake["run_id_match"]
+        and handshake["source_highwater_match"]
+        and handshake["output_integrity_present"]
+        and handshake["output_integrity_match"]
+        and handshake["report_fail_closed"]
+    )
+    fresh_publication = bool(handshake["report_within_fresh_age"] and intact_snapshot)
+    unchanged_current = bool(
+        intact_snapshot
+        and handshake["worker_running"]
+        and handshake["worker_idle_unchanged"]
+        and handshake["worker_fresh"]
+        and handshake["worker_error_free"]
+        and handshake["fingerprint_match"]
+    )
+    bounded_catchup = bool(
+        intact_snapshot
+        and handshake["report_within_bounded_lag"]
+        and handshake["worker_running"]
+        and handshake["worker_catching_up_or_bounded"]
+        and handshake["worker_fresh"]
+        and handshake["worker_progress_recent"]
+        and handshake["worker_error_free"]
+    )
+    current = fresh_publication or unchanged_current or bounded_catchup
+    if fresh_publication:
+        reason = "fresh_verified_report_publication"
+    elif unchanged_current:
+        reason = "semantically_current_unchanged_inputs"
+    elif bounded_catchup:
+        reason = "verified_bounded_snapshot_while_catching_up"
+    else:
+        reason = "stale_or_unverified_edge_report"
     return {
         "fresh": current,
-        "reason": (
-            "semantically_current_unchanged_inputs"
-            if current
-            else "stale_or_unverified_edge_report"
-        ),
+        "reason": reason,
         "report_age_sec": report_age,
         "worker_age_sec": worker_age,
+        "maximum_snapshot_lag_sec": maximum_snapshot_lag_sec,
         "handshake": handshake,
         "output_checks": output_checks,
     }
@@ -867,6 +1141,7 @@ def _verify_owned_pass(
     *,
     lifecycle_database: Path = DEFAULT_LIFECYCLE_DATABASE,
     lifecycle_state: Path = DEFAULT_LIFECYCLE_STATE,
+    evidence_operations_worker_state: Path = DEFAULT_EVIDENCE_OPERATIONS_WORKER_STATE,
     edge_state: Path = DEFAULT_EDGE_STATE,
     edge_worker_state: Path = DEFAULT_EDGE_WORKER_STATE,
     edge_input_checkpoint: Path = DEFAULT_EDGE_INPUT_CHECKPOINT,
@@ -880,6 +1155,8 @@ def _verify_owned_pass(
     state_path: Path = DEFAULT_STATE,
     report_path: Path = DEFAULT_REPORT,
     maximum_state_age_sec: float = 1800.0,
+    maximum_lifecycle_snapshot_lag_sec: float = DEFAULT_MAXIMUM_LIFECYCLE_SNAPSHOT_LAG_SEC,
+    maximum_edge_snapshot_lag_sec: float = DEFAULT_MAXIMUM_EDGE_SNAPSHOT_LAG_SEC,
     full_integrity_interval_sec: float = DEFAULT_FULL_INTEGRITY_INTERVAL_SEC,
     publication_guard_path: Path,
     ownership: dict[str, Any],
@@ -1010,6 +1287,9 @@ def _verify_owned_pass(
         trigger_state = _append_only_triggers(
             connection, ["hypotheses", "lifecycle_events", "futility_retirements"]
         )
+        lifecycle_integrity_snapshot = _lifecycle_database_integrity_snapshot(
+            connection
+        )
     mark_stage("rebuild_lifecycle")
 
     published_counts = (
@@ -1025,6 +1305,14 @@ def _verify_owned_pass(
         rebuilt_latest_events=len(rows),
         rebuilt_states=dict(state_counts),
         published_states=published_counts,
+    )
+    _check(
+        checks,
+        "lifecycle_publication_integrity",
+        bool(published_lifecycle.get("integrity"))
+        and published_lifecycle.get("integrity") == lifecycle_integrity_snapshot,
+        published=published_lifecycle.get("integrity"),
+        rebuilt=lifecycle_integrity_snapshot,
     )
     _check(checks, "unique_hypothesis_definitions", duplicate_definitions == 0, duplicates=duplicate_definitions)
     _check(
@@ -1168,22 +1456,38 @@ def _verify_owned_pass(
     edge_age = current_publication_ages["edge_age_sec"]
     lifecycle_age = current_publication_ages["lifecycle_age_sec"]
     allocator_age = current_publication_ages["allocator_age_sec"]
+    lifecycle_freshness = _lifecycle_publication_freshness(
+        lifecycle_state=lifecycle_state,
+        lifecycle_database=lifecycle_database,
+        worker_state=evidence_operations_worker_state,
+        maximum_age_sec=maximum_state_age_sec,
+        maximum_snapshot_lag_sec=maximum_lifecycle_snapshot_lag_sec,
+    )
+    lifecycle_unchanged_during_verification = bool(
+        lifecycle_freshness.get("database_integrity")
+        == lifecycle_integrity_snapshot
+    )
     _check(
         checks,
         "published_governance_state_fresh",
-        lifecycle_age is not None and lifecycle_age <= maximum_state_age_sec
-        and allocator_age is not None and allocator_age <= maximum_state_age_sec,
+        bool(lifecycle_freshness["fresh"])
+        and lifecycle_unchanged_during_verification
+        and allocator_age is not None
+        and allocator_age <= maximum_state_age_sec,
         lifecycle_age_sec=lifecycle_age,
         allocator_age_sec=allocator_age,
         lifecycle_generated_utc=current_publication_ages["lifecycle_generated_utc"],
         allocator_generated_utc=current_publication_ages["allocator_generated_utc"],
         maximum_age_sec=maximum_state_age_sec,
+        lifecycle_unchanged_during_verification=lifecycle_unchanged_during_verification,
+        lifecycle_freshness=lifecycle_freshness,
     )
     edge_freshness = _edge_report_freshness(
         edge_state=edge_state,
         worker_state=edge_worker_state,
         input_checkpoint=edge_input_checkpoint,
         maximum_age_sec=maximum_state_age_sec,
+        maximum_snapshot_lag_sec=maximum_edge_snapshot_lag_sec,
     )
     if not edge_freshness["fresh"]:
         warnings.append(
@@ -1314,6 +1618,7 @@ def verify(
     *,
     lifecycle_database: Path = DEFAULT_LIFECYCLE_DATABASE,
     lifecycle_state: Path = DEFAULT_LIFECYCLE_STATE,
+    evidence_operations_worker_state: Path = DEFAULT_EVIDENCE_OPERATIONS_WORKER_STATE,
     edge_state: Path = DEFAULT_EDGE_STATE,
     edge_worker_state: Path = DEFAULT_EDGE_WORKER_STATE,
     edge_input_checkpoint: Path = DEFAULT_EDGE_INPUT_CHECKPOINT,
@@ -1327,6 +1632,8 @@ def verify(
     state_path: Path = DEFAULT_STATE,
     report_path: Path = DEFAULT_REPORT,
     maximum_state_age_sec: float = 1800.0,
+    maximum_lifecycle_snapshot_lag_sec: float = DEFAULT_MAXIMUM_LIFECYCLE_SNAPSHOT_LAG_SEC,
+    maximum_edge_snapshot_lag_sec: float = DEFAULT_MAXIMUM_EDGE_SNAPSHOT_LAG_SEC,
     full_integrity_interval_sec: float = DEFAULT_FULL_INTEGRITY_INTERVAL_SEC,
     publication_guard_path: Path | None = None,
 ) -> dict[str, Any]:
@@ -1339,6 +1646,7 @@ def verify(
         return _verify_owned_pass(
             lifecycle_database=lifecycle_database,
             lifecycle_state=lifecycle_state,
+            evidence_operations_worker_state=evidence_operations_worker_state,
             edge_state=edge_state,
             edge_worker_state=edge_worker_state,
             edge_input_checkpoint=edge_input_checkpoint,
@@ -1352,6 +1660,8 @@ def verify(
             state_path=state_path,
             report_path=report_path,
             maximum_state_age_sec=maximum_state_age_sec,
+            maximum_lifecycle_snapshot_lag_sec=maximum_lifecycle_snapshot_lag_sec,
+            maximum_edge_snapshot_lag_sec=maximum_edge_snapshot_lag_sec,
             full_integrity_interval_sec=full_integrity_interval_sec,
             publication_guard_path=resolved_guard_path,
             ownership=ownership,
@@ -1395,6 +1705,11 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--lifecycle-database", type=Path, default=DEFAULT_LIFECYCLE_DATABASE)
     parser.add_argument("--lifecycle-state", type=Path, default=DEFAULT_LIFECYCLE_STATE)
+    parser.add_argument(
+        "--evidence-operations-worker-state",
+        type=Path,
+        default=DEFAULT_EVIDENCE_OPERATIONS_WORKER_STATE,
+    )
     parser.add_argument("--edge-state", type=Path, default=DEFAULT_EDGE_STATE)
     parser.add_argument("--edge-worker-state", type=Path, default=DEFAULT_EDGE_WORKER_STATE)
     parser.add_argument("--edge-input-checkpoint", type=Path, default=DEFAULT_EDGE_INPUT_CHECKPOINT)
@@ -1410,6 +1725,16 @@ def main() -> int:
     parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
     parser.add_argument("--maximum-state-age-sec", type=float, default=1800.0)
     parser.add_argument(
+        "--maximum-lifecycle-snapshot-lag-sec",
+        type=float,
+        default=DEFAULT_MAXIMUM_LIFECYCLE_SNAPSHOT_LAG_SEC,
+    )
+    parser.add_argument(
+        "--maximum-edge-snapshot-lag-sec",
+        type=float,
+        default=DEFAULT_MAXIMUM_EDGE_SNAPSHOT_LAG_SEC,
+    )
+    parser.add_argument(
         "--full-integrity-interval-sec",
         type=float,
         default=DEFAULT_FULL_INTEGRITY_INTERVAL_SEC,
@@ -1423,6 +1748,7 @@ def main() -> int:
         payload = verify(
             lifecycle_database=args.lifecycle_database,
             lifecycle_state=args.lifecycle_state,
+            evidence_operations_worker_state=args.evidence_operations_worker_state,
             edge_state=args.edge_state,
             edge_worker_state=args.edge_worker_state,
             edge_input_checkpoint=args.edge_input_checkpoint,
@@ -1436,6 +1762,8 @@ def main() -> int:
             state_path=args.state,
             report_path=args.report,
             maximum_state_age_sec=args.maximum_state_age_sec,
+            maximum_lifecycle_snapshot_lag_sec=args.maximum_lifecycle_snapshot_lag_sec,
+            maximum_edge_snapshot_lag_sec=args.maximum_edge_snapshot_lag_sec,
             full_integrity_interval_sec=args.full_integrity_interval_sec,
             publication_guard_path=args.publication_guard,
         )

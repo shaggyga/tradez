@@ -1,0 +1,142 @@
+{
+  "actual_observation": {
+    "all_registered_pilot_sources_unchanged": true,
+    "capture_ms": 19.375500036403537,
+    "common_price_utc": "2026-09-09T05:41:00+00:00",
+    "consumer_epoch": 1788932727.7644482,
+    "coverage": {
+      "1": {
+        "available": 3,
+        "expected": 3
+      },
+      "15": {
+        "available": 3,
+        "expected": 3
+      },
+      "60": {
+        "available": 3,
+        "expected": 3
+      }
+    },
+    "cutoff_age_sec": 267.76444816589355,
+    "pure_replay_ms": 86.71499998308718,
+    "raw_capture_private_not_packaged": true,
+    "registered_pilot_source_count": 14,
+    "source_capture_bytes": 382733
+  },
+  "artifacts": [
+    {
+      "bytes": 7945,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\cross_window_final_tests.xml",
+      "sha256": "c5befcc08a62744bce26f41f06ca87000d253f003b06f687178dd4b213f9f381"
+    },
+    {
+      "bytes": 7113,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\CROSS_WINDOW_ENGINEERING_OBSERVATION_20260909.json",
+      "sha256": "de56a80382c31261ccfd1f71755476c13daa3fc4992772a1c1ccd867874d07cf"
+    },
+    {
+      "bytes": 23686,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\CROSS_WINDOW_ACTUAL_FEATURES_20260909.json",
+      "sha256": "a181e75e653bca730c47614cb302efc8335625d7a7fccc146356b03969e54dba"
+    },
+    {
+      "bytes": 5376,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\CROSS_WINDOW_COMPANION_20260909.md",
+      "sha256": "016ce5757402766f46f4794754476277cdb7fbf62a36b9eaead46a25f69fa251"
+    },
+    {
+      "bytes": 5287,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\capture_cross_window_engineering.py",
+      "sha256": "941217b3ea6ce804fd422c9f4828ab3b8de71216f1fdcf748174c5097719ed49"
+    },
+    {
+      "bytes": 4535,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\finalize_cross_window_receipt.py",
+      "sha256": "b58de1d5d4fb6fc279d601b848f69575419216b95016287c627c73bb5b6ee72f"
+    }
+  ],
+  "authoritative_test_run": {
+    "artifact": {
+      "bytes": 7945,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\cross_window_final_tests.xml",
+      "sha256": "c5befcc08a62744bce26f41f06ca87000d253f003b06f687178dd4b213f9f381"
+    },
+    "cases": 47,
+    "errors": 0,
+    "failures": 0,
+    "junit_suite_sec": 2.114,
+    "reported_wall_sec": 2.17,
+    "skipped": 0
+  },
+  "dashboard_changed": false,
+  "generated_utc": "2026-09-09T05:48:34.217295+00:00",
+  "independent_review": "requested; separate source-bound review receipt will record its result",
+  "limitations": [
+    "900-second maximum age is a feature-input ceiling, not short-horizon forecast freshness",
+    "source SHA covers retained CSV bytes, not whole archives",
+    "actual observation now does not establish historical point-in-time availability",
+    "shared USD legs, overlapping windows and own-return strength are dependent",
+    "ranks and breadth cover only the observed subset of EUR_USD/GBP_USD/USD_JPY",
+    "no forecast, accuracy, correlation-estimate or speedup claim"
+  ],
+  "model_fitted": false,
+  "model_inputs_injected": false,
+  "network_or_broker_action": false,
+  "prior_test_attempts": [
+    {
+      "artifact": {
+        "bytes": 7740,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\cross_window_first_tests.xml",
+        "sha256": "23eba1d417fee8ba597aa655642f56e52d3341036ad091c57946e2e8ac9341ab"
+      },
+      "cases": 42,
+      "failed": 1,
+      "not_bound_to_final_source": true,
+      "passed": 41,
+      "reason": "test expected zero dispersion string0.00 instead of numerically equal0"
+    },
+    {
+      "artifact": {
+        "bytes": 7169,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\cross_window_tests.xml",
+        "sha256": "a255a4888a4544797a1011bc4f6ced5c4e754740ca54ca2a1c0c1b57301eaa4d"
+      },
+      "cases": 42,
+      "failed": 0,
+      "not_bound_to_final_source": true,
+      "passed": 42
+    }
+  ],
+  "registered_sources_edited": false,
+  "runtime_started_or_reloaded": false,
+  "schema_version": "cross_window_implementation_validation_v1_20260909",
+  "scope": "new unregistered fixed-three-peer feature-only capture; no model or runtime integration",
+  "sources": [
+    {
+      "original": {
+        "bytes": 20885,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_cross_window_currency_capture_v1.py",
+        "sha256": "dadb75e58a4415d0361c5a9fd51d03488b3ff7f01792d4b0a8c62ee76fa11624"
+      },
+      "retained_exact_copy": {
+        "bytes": 20885,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\cross_window_final_source\\oanda_cross_window_currency_capture_v1.py.txt",
+        "sha256": "dadb75e58a4415d0361c5a9fd51d03488b3ff7f01792d4b0a8c62ee76fa11624"
+      }
+    },
+    {
+      "original": {
+        "bytes": 16208,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_cross_window_currency_capture_v1.py",
+        "sha256": "4057057003462ddde27dff11014529c8704a72b74512730c4394c30247465fe8"
+      },
+      "retained_exact_copy": {
+        "bytes": 16208,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\cross_window_final_source\\test_oanda_cross_window_currency_capture_v1.py.txt",
+        "sha256": "4057057003462ddde27dff11014529c8704a72b74512730c4394c30247465fe8"
+      }
+    }
+  ],
+  "status": "passed_implementation_checks"
+}

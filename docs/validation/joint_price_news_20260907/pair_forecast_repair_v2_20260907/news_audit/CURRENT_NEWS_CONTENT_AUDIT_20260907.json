@@ -1,0 +1,1761 @@
+{
+  "schema": "immutable_news_content_audit_v1_20260907",
+  "snapshot_manifest_sha256": "aa845c1b12d726b89cf18fd96b257cb8ea854fc6b347f066c30f5d321b9dc578",
+  "evidence_cutoff_utc": "2026-09-07T21:25:26.984384+00:00",
+  "published_utc": "2026-09-07T21:27:18.846105+00:00",
+  "captured_finished_epoch": 1788816477.6744812,
+  "active_topic_count": 18,
+  "producer_active_topic_count": 18,
+  "active_count_matches": true,
+  "active_forward_topic_count": 1,
+  "active_context_only_for_pair_direction": 17,
+  "active_reaction_horizon_expired": 13,
+  "active_prior_market_move_reports": 10,
+  "active_verified_source_topics": 0,
+  "active_categories": {
+    "commodity_shock": 4,
+    "fx_intervention": 1,
+    "market_news": 4,
+    "monetary_policy": 3,
+    "risk_off_geopolitical_or_financial": 6
+  },
+  "active_currency_attribution": {
+    "local_news_a0f3439245301f8d074b62e5": {
+      "AUD": -0.4875,
+      "CAD": -0.4875,
+      "CHF": 0.4125,
+      "JPY": 0.4125,
+      "MXN": -0.4875,
+      "NOK": -0.4875,
+      "NZD": -0.4875,
+      "USD": 0.4125,
+      "ZAR": -0.4875
+    }
+  },
+  "pair_directions": {
+    "LONG": 25,
+    "NEUTRAL": 18,
+    "SHORT": 25
+  },
+  "pair_evidence_quality": {
+    "GLOBAL_TOPIC_PROXY": 50,
+    "NO_CURRENT_EVIDENCE": 18
+  },
+  "pair_event_eligible_ids_match": true,
+  "all_pair_forward_topic_counts": {
+    "0": 18,
+    "1": 50
+  },
+  "duplicate_topic_ids": {
+    "local_news_f940de78b7c4106bc9c30c17": 2,
+    "local_news_29dd5f6f51e49ea47be1a435": 2,
+    "local_news_2cb60b23735cc20a32460c6a": 2
+  },
+  "active_topics": [
+    {
+      "topic_id": "local_news_a0f3439245301f8d074b62e5",
+      "event_id": "local_news_b810d719111db15cd3d7b8ed",
+      "headline": "Blockade Pushes Iran Output Onto Domestic Market - Energy Intelligence",
+      "summary": "",
+      "source_id": "google_news_global_risk",
+      "source_ids": [
+        "google_news_global_risk"
+      ],
+      "source_names": [
+        "CNN",
+        "Energy Intelligence"
+      ],
+      "source_url": "https://news.google.com/rss/articles/CBMickFVX3lxTE8zY1pUUWFiWDZuUkFXQ0NmRk85R2VBT1VhWXVHQW5vZnViTlRmQno5NkpCaDFuTzJWODVITV95MFJ2VmhRLWw1QVczNUlRQ1g2Z0U2ZTI5SEN3NHZpWUhOT1JTckZGX1c0SGtqSDdtajlZQQ?oc=5",
+      "publisher_url": "https://www.energyintel.com",
+      "source_verified": false,
+      "source_direct": false,
+      "source_role": "news_aggregator",
+      "published_utc": "2026-09-07T16:32:39+00:00",
+      "first_seen_utc": "2026-09-07T16:34:45.892010+00:00",
+      "last_seen_utc": "2026-09-07T18:15:25.043440+00:00",
+      "causal_known_utc": "2026-09-07T16:34:45.892010+00:00",
+      "availability_lag_minutes": 2.114867,
+      "category": "risk_off_geopolitical_or_financial",
+      "scope": "all_pairs",
+      "direct_currencies": [],
+      "inferred_currencies": [
+        "AUD",
+        "CAD",
+        "CHF",
+        "JPY",
+        "MXN",
+        "NOK",
+        "NZD",
+        "USD",
+        "ZAR"
+      ],
+      "currency_scores": {
+        "AUD": -0.4875,
+        "CAD": -0.4875,
+        "CHF": 0.4125,
+        "JPY": 0.4125,
+        "MXN": -0.4875,
+        "NOK": -0.4875,
+        "NZD": -0.4875,
+        "USD": 0.4125,
+        "ZAR": -0.4875
+      },
+      "research_currency_scores": {},
+      "topic_article_count": 2,
+      "syndicated_article_count": 2,
+      "distinct_source_count": 2,
+      "publisher_source_count": 2,
+      "corroboration_count": 1,
+      "duplicate_observation_count": 0,
+      "article_event_ids": [
+        "local_news_b810d719111db15cd3d7b8ed",
+        "local_news_bbff2c0b21b42ab8deb8499f"
+      ],
+      "headline_variants": [
+        "Blockade Pushes Iran Output Onto Domestic Market - Energy Intelligence",
+        "Trump’s blockade pushes Iran toward military escalation - CNN"
+      ],
+      "forward_signal_timely": true,
+      "reports_prior_market_move": false,
+      "context_only": false,
+      "context_reason": "",
+      "directional_publish_eligible": true,
+      "directional_source_grade": "corroborated_secondary",
+      "directional_uncertainty": 0.621875,
+      "estimated_reaction_horizon_minutes": 360,
+      "post_window_minutes": 720,
+      "secondary_analysis_context": false,
+      "non_catalyst_context": false,
+      "classification_version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+      "publication_age_minutes": 292.7997397333333,
+      "causal_age_minutes": 290.6848729,
+      "within_reaction_horizon": true,
+      "eligible_pair_count": 50,
+      "eligible_pairs": [
+        "AUD_CHF",
+        "AUD_HKD",
+        "AUD_JPY",
+        "AUD_SGD",
+        "AUD_USD",
+        "CAD_CHF",
+        "CAD_HKD",
+        "CAD_JPY",
+        "CAD_SGD",
+        "CHF_HKD",
+        "CHF_ZAR",
+        "EUR_AUD",
+        "EUR_CAD",
+        "EUR_CHF",
+        "EUR_JPY",
+        "EUR_NOK",
+        "EUR_NZD",
+        "EUR_USD",
+        "EUR_ZAR",
+        "GBP_AUD",
+        "GBP_CAD",
+        "GBP_CHF",
+        "GBP_JPY",
+        "GBP_NZD",
+        "GBP_USD",
+        "GBP_ZAR",
+        "HKD_JPY",
+        "NZD_CHF",
+        "NZD_HKD",
+        "NZD_JPY",
+        "NZD_SGD",
+        "NZD_USD",
+        "SGD_CHF",
+        "SGD_JPY",
+        "TRY_JPY",
+        "USD_CAD",
+        "USD_CNH",
+        "USD_CZK",
+        "USD_DKK",
+        "USD_HKD",
+        "USD_HUF",
+        "USD_MXN",
+        "USD_NOK",
+        "USD_PLN",
+        "USD_SEK",
+        "USD_SGD",
+        "USD_THB",
+        "USD_TRY",
+        "USD_ZAR",
+        "ZAR_JPY"
+      ]
+    },
+    {
+      "topic_id": "local_news_97668ec0b137d52315c00dea",
+      "event_id": "local_news_1bcab0b3adf21144e7eecf4b",
+      "headline": "Oil prices surge as US-Iran strikes intensify in Strait of Hormuz - Al Jazeera",
+      "summary": "",
+      "source_id": "google_news_systemic_catalyst",
+      "source_ids": [
+        "google_news_systemic_catalyst"
+      ],
+      "source_names": [
+        "Al Jazeera"
+      ],
+      "source_url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQcDlzUXFCcVJvUER3Ym1FeE9mREQ1a3FuaGV6T2hOdlV4WHU1bkRTN3V0eFVfNDJvYTRrSHFoMW9uSlBtaXNoQVJ2Sk42d1BNRmFjejAwaXg4a2swdTR4WFFnaVRBMFkzZUdjQmhfRnZIcGR3Qm9SYVZ5YkZQSDhJcUZOcDE3TlUyZTFaUnkwcWV5dWJOMXEwUGlTOFJhaGE5RXZHOW5qZDV2S0dM0gGyAUFVX3lxTE1xQXhqajhaRnRSRklMaUlJeWFCdU5Gb01qSXd6VmVNLUdaY0w5TTA2Rjk0bk9mdDgyZ0F2QTU4TkRXTzF3OUNnc3NxY2M5ZEVscXZBVXR5YXd4Z0hfVmtDMWQ5YThhMm5yY1RfcTFrTDFJaWFNalEybjk4SE1GRU1WTG5vdDNETEN6U0ZabThTQVdnNFpxR1dWM0VhYVJHSy1WMXo2Z0p1MkMwX1paQ0dpR3c?oc=5",
+      "publisher_url": "https://www.aljazeera.com",
+      "source_verified": false,
+      "source_direct": false,
+      "source_role": "aggregator_discovery",
+      "published_utc": "2026-09-07T21:17:23+00:00",
+      "first_seen_utc": "2026-09-07T21:20:03.024651+00:00",
+      "last_seen_utc": "2026-09-07T21:25:01.189932+00:00",
+      "causal_known_utc": "2026-09-07T21:20:03.024651+00:00",
+      "availability_lag_minutes": 2.667078,
+      "category": "commodity_shock",
+      "scope": "all_pairs",
+      "direct_currencies": [],
+      "inferred_currencies": [
+        "CAD",
+        "JPY",
+        "MXN",
+        "NOK"
+      ],
+      "currency_scores": {},
+      "research_currency_scores": {
+        "CAD": 0.5,
+        "JPY": -0.2,
+        "MXN": 0.5,
+        "NOK": 0.5
+      },
+      "topic_article_count": 1,
+      "syndicated_article_count": 1,
+      "distinct_source_count": 1,
+      "publisher_source_count": 1,
+      "corroboration_count": 0,
+      "duplicate_observation_count": 3,
+      "article_event_ids": [
+        "local_news_1bcab0b3adf21144e7eecf4b"
+      ],
+      "headline_variants": [
+        "Oil prices surge as US-Iran strikes intensify in Strait of Hormuz - Al Jazeera"
+      ],
+      "forward_signal_timely": false,
+      "reports_prior_market_move": true,
+      "context_only": true,
+      "context_reason": "reported_market_move_context",
+      "directional_publish_eligible": false,
+      "directional_source_grade": "secondary_requires_corroboration",
+      "directional_uncertainty": 0.565,
+      "estimated_reaction_horizon_minutes": 180,
+      "post_window_minutes": 360,
+      "secondary_analysis_context": false,
+      "non_catalyst_context": false,
+      "classification_version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+      "publication_age_minutes": 8.0664064,
+      "causal_age_minutes": 5.399328883333334,
+      "within_reaction_horizon": true,
+      "eligible_pair_count": 0,
+      "eligible_pairs": []
+    },
+    {
+      "topic_id": "local_news_47b0f10486893e1ca52a1d62",
+      "event_id": "local_news_5a301e36621d8390776194bf",
+      "headline": "Poilievre calls for transparency on rejected trade deal during Regina visit - CTV News",
+      "summary": "",
+      "source_id": "google_news_trade_policy",
+      "source_ids": [
+        "google_news_trade_policy"
+      ],
+      "source_names": [
+        "CTV News"
+      ],
+      "source_url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNaWtLVGxqRHFGTXFDcGlqVFJjUV9ScTU3MXM4ZzktVjdJaUVPVmlnTktYazgtS1FhbHZHSVNOSUhxem9CbElTSWNhRk9NVFo2R204a3BZY0oyVXEtRTJ1SmFmaTBnNDdRUkJOWkdSRE1FcWhEZ1JzRXJpSWYtZEZFNW1GUHpDRHZIcjlUVHJGd2Q4QVJoRWtPUnhIMko4T0p4V3Z4UUV0VmNTWmkyTmVSVUlUZmpCbktx?oc=5",
+      "publisher_url": "https://guelph.ctvnews.ca",
+      "source_verified": false,
+      "source_direct": false,
+      "source_role": "aggregator_discovery",
+      "published_utc": "2026-09-07T20:43:16+00:00",
+      "first_seen_utc": "2026-09-07T20:49:54.284983+00:00",
+      "last_seen_utc": "2026-09-07T21:25:02.091761+00:00",
+      "causal_known_utc": "2026-09-07T20:49:54.284983+00:00",
+      "availability_lag_minutes": 6.638083,
+      "category": "risk_off_geopolitical_or_financial",
+      "scope": "all_pairs",
+      "direct_currencies": [],
+      "inferred_currencies": [
+        "AUD",
+        "CAD",
+        "CHF",
+        "JPY",
+        "MXN",
+        "NOK",
+        "NZD",
+        "USD",
+        "ZAR"
+      ],
+      "currency_scores": {},
+      "research_currency_scores": {
+        "AUD": -0.4875,
+        "CAD": -0.4875,
+        "CHF": 0.4125,
+        "JPY": 0.4125,
+        "MXN": -0.4875,
+        "NOK": -0.4875,
+        "NZD": -0.4875,
+        "USD": 0.4125,
+        "ZAR": -0.4875
+      },
+      "topic_article_count": 2,
+      "syndicated_article_count": 2,
+      "distinct_source_count": 1,
+      "publisher_source_count": 1,
+      "corroboration_count": 0,
+      "duplicate_observation_count": 0,
+      "article_event_ids": [
+        "local_news_5a301e36621d8390776194bf",
+        "local_news_f390679608564767364639dd"
+      ],
+      "headline_variants": [
+        "Poilievre calls for transparency on rejected trade deal during Regina visit - CTV News"
+      ],
+      "forward_signal_timely": true,
+      "reports_prior_market_move": false,
+      "context_only": true,
+      "context_reason": "secondary_uncorroborated_directional_context",
+      "directional_publish_eligible": false,
+      "directional_source_grade": "secondary_requires_corroboration",
+      "directional_uncertainty": 0.611875,
+      "estimated_reaction_horizon_minutes": 360,
+      "post_window_minutes": 720,
+      "secondary_analysis_context": false,
+      "non_catalyst_context": false,
+      "classification_version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+      "publication_age_minutes": 42.183073066666665,
+      "causal_age_minutes": 35.54499001666667,
+      "within_reaction_horizon": true,
+      "eligible_pair_count": 0,
+      "eligible_pairs": []
+    },
+    {
+      "topic_id": "local_news_de069b682c693d614e93bc36",
+      "event_id": "local_news_7574ec396d163d0ba47b22e4",
+      "headline": "investingLive Americas FX news wrap 7 Sept: USD falls as the yen surges on BOJ rate-hike expectations",
+      "summary": "Crude oil technicals: Buyers test key resistance near $93.50 European major indices close mixed on the day Copper reaches a new record high on the LME Kickstart the North American FX session. The USDJPY is the big mover. The EUR and GBP are down modestly investingLive European session wrap: Oil climbs, yen surges amid US holiday The US dollar moved mostly lower in holiday-thinned trading, led by a sharp decline against the Japanese yen. US markets were closed for the Labor Day holiday, but that did not stop USDJPY from extending its recent move to the downside. The pair fell 1.22% to 154.33 after reaching a low of 154.07—the lowest level in about six months. The yen has now strengthened by roughly 3.4% over the last five trading days. The catalyst continues to be the changing outlook for Bank of Japan policy. Takuji Aida, an economic adviser to Japanese Prime Minister Sanae Takaichi—and someone previously viewed as opposing tighter policy—said he expects the BOJ to raise rates at its September meeting. Markets are now close to fully pricing in a 25-basis-point increase to 1.25%. That is important because USDJPY has been supported for years by the wide interest-rate differential between the United States and Japan. If the BOJ raises rates while the Federal Reserve remains on hold, that spread begins to narrow. That reduces the attractiveness of borrowing yen to purchase higher-yielding assets—the so-called yen carry trade. There was also continued speculation about possible Japanese intervention during thin holiday trading. However, the more fundamental story remains the rising probability of a BOJ rate increase, combined with the possibility that the Fed stays on hold following Governor Christopher Waller’s more dovish comments last week. The USD was lower against all the major currencies except the New Zealand dollar, where it gained a modest 0.09%. The closing snapshot shows: EURUSD rose 0.08% to 1.1622 USDJPY fell 1.22% to 154.33 GBPUSD rose 0.12% to 1.3537 USDCHF fell 0.02% to 0.8093 USDCAD fell 0.15% to 1.3816 AUDUSD rose 0.19% to 0.7216 NZDUSD fell 0.09% to 0.5875 Oil rises as Middle East tensions remain elevated Crude oil futures rose $1.22, or 1.33%, to $92.70. Renewed tensions around the Strait of Hormuz increased concerns about energy supplies and shipping disruptions. Iran reportedly fired ballistic missiles toward two US Navy warships, while the United States responded by striking three Iranian tankers. With a significant share of the world’s oil moving through the Strait of Hormuz, any escalation tends to add a geopolitical risk premium to crude prices. Higher energy prices also have a broader market impact. A sustained rise in oil increases inflation risks and can make it more difficult for central banks to ease monetary policy. Other markets showed: Gold fell $21.12, or 0.48%, to $4,406.78 Silver fell $0.04, or 0.06%, to $66.16 Bitcoin fell $1,178, or 1.47%, to $79,161 European stocks end mixed in quiet trading European shares finished mixed, with trading volumes reduced by the US holiday. Higher oil prices supported energy shares, but also increased concerns about inflation and the future path of European interest rates. Better European economic data provided some support. Eurozone investor confidence rose to a four-year high, while GDP growth was stronger than expected. However, the stronger data and higher oil prices also reinforced expectations that the European Central Bank may need to tighten policy further. The major indices closed: Germany’s DAX: -0.15% at 26,006.54 France’s CAC 40: +0.33% at 8,306.16 U.K.’s FTSE 100: -0.08% at 10,822.14 Spain’s Ibex: -0.14% at 20,021.80 Italy’s FTSE MIB: +0.25% at 52,229.56 Europe’s STOXX 600: -0.02% at 639.72 European yields move sharply higher European bond yields moved higher as traders factored in stronger growth data, elevated oil prices and the potential for additional central-bank tightening. The changes in benchmark 10-year yields were: Germany: 3.386%, up 4.7 basis points France: 4.251%, up 5.6 basis points U.K.: 5.178%, up 4.4 basis points Spain: 3.826%, up 5.2 basis points Italy: 4.205%, up 5.3 basis points For traders, the lesson from today’s market is that changing interest-rate expectations remain a major driver of currency flows. USDJPY is the clearest example. Intervention concerns may accelerate the move, but the more lasting influence will come from whether the Bank of Japan follows through with a rate hike—and whether the Federal Reserve remains on hold. This article was written by Greg Michalowski at investinglive.com.",
+      "source_id": "finnhub_fx_market_news",
+      "source_ids": [
+        "finnhub_fx_market_news",
+        "google_news_global_risk"
+      ],
+      "source_names": [
+        "Forexlive",
+        "investingLive"
+      ],
+      "source_url": "https://investinglive.com/news/investinglive-americas-fx-news-wrap-7-sept-usd-falls-as-the-yen-surges-on-boj-rate-hike-expectations",
+      "publisher_url": "",
+      "source_verified": false,
+      "source_direct": false,
+      "source_role": "aggregator_discovery",
+      "published_utc": "2026-09-07T19:28:20+00:00",
+      "first_seen_utc": "2026-09-07T19:54:28.841525+00:00",
+      "last_seen_utc": "2026-09-07T20:03:14.754912+00:00",
+      "causal_known_utc": "2026-09-07T19:54:28.841525+00:00",
+      "availability_lag_minutes": 26.147359,
+      "category": "market_news",
+      "scope": "currency",
+      "direct_currencies": [
+        "AUD",
+        "CAD",
+        "CHF",
+        "EUR",
+        "GBP",
+        "JPY",
+        "NZD",
+        "USD"
+      ],
+      "inferred_currencies": [],
+      "currency_scores": {},
+      "research_currency_scores": {
+        "USD": -0.7
+      },
+      "topic_article_count": 2,
+      "syndicated_article_count": 2,
+      "distinct_source_count": 1,
+      "publisher_source_count": 2,
+      "corroboration_count": 0,
+      "duplicate_observation_count": 0,
+      "article_event_ids": [
+        "local_news_7574ec396d163d0ba47b22e4",
+        "local_news_b345a1a615f9ea6accd7d5b4"
+      ],
+      "headline_variants": [
+        "investingLive Americas FX news wrap 7 Sept: USD falls as the yen surges on BOJ rate-hike expectations",
+        "investingLive Americas FX news wrap 7 Sept: USD falls as the yen surges on BOJ rate-hike expectations - investingLive"
+      ],
+      "forward_signal_timely": false,
+      "reports_prior_market_move": true,
+      "context_only": true,
+      "context_reason": "reported_market_move_context",
+      "directional_publish_eligible": false,
+      "directional_source_grade": "secondary_requires_corroboration",
+      "directional_uncertainty": 0.275,
+      "estimated_reaction_horizon_minutes": 60,
+      "post_window_minutes": 180,
+      "secondary_analysis_context": false,
+      "non_catalyst_context": false,
+      "classification_version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+      "publication_age_minutes": 117.1164064,
+      "causal_age_minutes": 90.96904765,
+      "within_reaction_horizon": false,
+      "eligible_pair_count": 0,
+      "eligible_pairs": []
+    },
+    {
+      "topic_id": "local_news_798e154eeec33af99c5697a2",
+      "event_id": "local_news_2bac48316a5b2f13af0051ee",
+      "headline": "FxWirePro : USD / ZAR edges higher as rand weakens ahead of key economic releases this week",
+      "summary": "",
+      "source_id": "gdelt_fx_macro_discovery",
+      "source_ids": [
+        "gdelt_fx_macro_discovery"
+      ],
+      "source_names": [
+        "econotimes.com"
+      ],
+      "source_url": "http://www.econotimes.com/FxWirePro-USD-ZAR-edges-higher-as-rand-weakens-ahead-of-key-economic-releases-this-week-1751439",
+      "publisher_url": "",
+      "source_verified": false,
+      "source_direct": false,
+      "source_role": "aggregator_discovery",
+      "published_utc": "2026-09-07T18:45:00+00:00",
+      "first_seen_utc": "2026-09-07T19:09:59.556996+00:00",
+      "last_seen_utc": "2026-09-07T19:09:59.556996+00:00",
+      "causal_known_utc": "2026-09-07T19:09:59.556996+00:00",
+      "availability_lag_minutes": 24.992617,
+      "category": "market_news",
+      "scope": "currency",
+      "direct_currencies": [
+        "USD",
+        "ZAR"
+      ],
+      "inferred_currencies": [],
+      "currency_scores": {},
+      "research_currency_scores": {
+        "USD": -0.7,
+        "ZAR": 0.7
+      },
+      "topic_article_count": 1,
+      "syndicated_article_count": 1,
+      "distinct_source_count": 1,
+      "publisher_source_count": 1,
+      "corroboration_count": 0,
+      "duplicate_observation_count": 0,
+      "article_event_ids": [
+        "local_news_2bac48316a5b2f13af0051ee"
+      ],
+      "headline_variants": [
+        "FxWirePro : USD / ZAR edges higher as rand weakens ahead of key economic releases this week"
+      ],
+      "forward_signal_timely": false,
+      "reports_prior_market_move": true,
+      "context_only": true,
+      "context_reason": "reported_market_move_context",
+      "directional_publish_eligible": false,
+      "directional_source_grade": "contextual_directional",
+      "directional_uncertainty": 0.485,
+      "estimated_reaction_horizon_minutes": 60,
+      "post_window_minutes": 180,
+      "secondary_analysis_context": false,
+      "non_catalyst_context": false,
+      "classification_version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+      "publication_age_minutes": 160.44973973333333,
+      "causal_age_minutes": 135.45712313333334,
+      "within_reaction_horizon": false,
+      "eligible_pair_count": 0,
+      "eligible_pairs": []
+    },
+    {
+      "topic_id": "local_news_3056f040ce69444fc70596e9",
+      "event_id": "local_news_b230c0b124be099c0e9fbd9b",
+      "headline": "FxWirePro : GBP / USD gains some ground but outlook is bearish",
+      "summary": "",
+      "source_id": "gdelt_fx_macro_discovery",
+      "source_ids": [
+        "gdelt_fx_macro_discovery"
+      ],
+      "source_names": [
+        "econotimes.com"
+      ],
+      "source_url": "http://www.econotimes.com/FxWirePro-GBP-USD-gains-some-ground-but-outlook-is-bearish-1751442",
+      "publisher_url": "",
+      "source_verified": false,
+      "source_direct": false,
+      "source_role": "aggregator_discovery",
+      "published_utc": "2026-09-07T18:45:00+00:00",
+      "first_seen_utc": "2026-09-07T19:09:59.556996+00:00",
+      "last_seen_utc": "2026-09-07T19:09:59.556996+00:00",
+      "causal_known_utc": "2026-09-07T19:09:59.556996+00:00",
+      "availability_lag_minutes": 24.992617,
+      "category": "market_news",
+      "scope": "currency",
+      "direct_currencies": [
+        "GBP",
+        "USD"
+      ],
+      "inferred_currencies": [],
+      "currency_scores": {},
+      "research_currency_scores": {
+        "GBP": 0.7,
+        "USD": -0.7
+      },
+      "topic_article_count": 1,
+      "syndicated_article_count": 1,
+      "distinct_source_count": 1,
+      "publisher_source_count": 1,
+      "corroboration_count": 0,
+      "duplicate_observation_count": 0,
+      "article_event_ids": [
+        "local_news_b230c0b124be099c0e9fbd9b"
+      ],
+      "headline_variants": [
+        "FxWirePro : GBP / USD gains some ground but outlook is bearish"
+      ],
+      "forward_signal_timely": false,
+      "reports_prior_market_move": true,
+      "context_only": true,
+      "context_reason": "reported_market_move_context",
+      "directional_publish_eligible": false,
+      "directional_source_grade": "contextual_directional",
+      "directional_uncertainty": 0.485,
+      "estimated_reaction_horizon_minutes": 60,
+      "post_window_minutes": 180,
+      "secondary_analysis_context": false,
+      "non_catalyst_context": false,
+      "classification_version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+      "publication_age_minutes": 160.44973973333333,
+      "causal_age_minutes": 135.45712313333334,
+      "within_reaction_horizon": false,
+      "eligible_pair_count": 0,
+      "eligible_pairs": []
+    },
+    {
+      "topic_id": "local_news_b0fa9c01d477003627be6f79",
+      "event_id": "local_news_c46d766bb90ae6a2d26ce870",
+      "headline": "Japanese Yen Extends Gains, Hits the Highest in Over Six Months - Forex Factory",
+      "summary": "",
+      "source_id": "google_news_fx_macro",
+      "source_ids": [
+        "google_news_fx_macro"
+      ],
+      "source_names": [
+        "Forex Factory"
+      ],
+      "source_url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxNanBWbmdXb2dBWmhmNWpkWERFcmlTYmJBZ1UtYVRKVURPV2UyMndYendVSUtCOW0zY25QbmMzZzB1VS1jWWJXd1JsWF9LSFQ4MDQ3M25mUnE5eWlpdmVFOXhHeU5JTDBfQmY2ZVJJTFJuNElYNmoycmtKYWpNTDY2TFh6cDQtRUplalB4Z1FUYzg3UdIBlwFBVV95cUxObjNHRTBuY1hyTzgxU19SQU1lV2RnaXZqR0V1cTd6VjlOOVhJNWYwYURUbTBYU2ROSjI5YVRJbVFTdXY2dm5pU0w3RjY5MmRvR1VucUpvLXNjalI4Qmx2QnVpTDhXZ1lCZU1Ed0g2ZVl0YV9UMU1nYUFuU3RpaWRvRTd6Z3pUbXdGNjc2akxvZVFPUnB3MERn?oc=5",
+      "publisher_url": "https://www.forexfactory.com",
+      "source_verified": false,
+      "source_direct": false,
+      "source_role": "news_aggregator",
+      "published_utc": "2026-09-07T18:44:00+00:00",
+      "first_seen_utc": "2026-09-07T19:06:01.442635+00:00",
+      "last_seen_utc": "2026-09-07T19:06:01.442635+00:00",
+      "causal_known_utc": "2026-09-07T19:06:01.442635+00:00",
+      "availability_lag_minutes": 22.024044,
+      "category": "market_news",
+      "scope": "currency",
+      "direct_currencies": [
+        "JPY"
+      ],
+      "inferred_currencies": [],
+      "currency_scores": {},
+      "research_currency_scores": {
+        "JPY": 0.7
+      },
+      "topic_article_count": 1,
+      "syndicated_article_count": 1,
+      "distinct_source_count": 1,
+      "publisher_source_count": 1,
+      "corroboration_count": 0,
+      "duplicate_observation_count": 0,
+      "article_event_ids": [
+        "local_news_c46d766bb90ae6a2d26ce870"
+      ],
+      "headline_variants": [
+        "Japanese Yen Extends Gains, Hits the Highest in Over Six Months - Forex Factory"
+      ],
+      "forward_signal_timely": false,
+      "reports_prior_market_move": true,
+      "context_only": true,
+      "context_reason": "reported_market_move_context",
+      "directional_publish_eligible": false,
+      "directional_source_grade": "contextual_directional",
+      "directional_uncertainty": 0.505,
+      "estimated_reaction_horizon_minutes": 60,
+      "post_window_minutes": 180,
+      "secondary_analysis_context": false,
+      "non_catalyst_context": false,
+      "classification_version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+      "publication_age_minutes": 161.44973973333333,
+      "causal_age_minutes": 139.42569581666666,
+      "within_reaction_horizon": false,
+      "eligible_pair_count": 0,
+      "eligible_pairs": []
+    },
+    {
+      "topic_id": "local_news_f4a6bd7f91cece8a320d028f",
+      "event_id": "local_news_b0613ba847a8853f8809cbd5",
+      "headline": "United States Dollar Index trades under pressure as Yen buying accelerates - Bitget",
+      "summary": "",
+      "source_id": "google_news_fx_macro",
+      "source_ids": [
+        "google_news_fx_macro"
+      ],
+      "source_names": [
+        "Bitget",
+        "tmgm.com"
+      ],
+      "source_url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTFBlMFJIdGpZZVRMSnFlckhLMzMtWXhnUUdMa21SMlpjVlY0cG9WR3NVME1MdXBFR3ZQNHo5Z3VJVVV5ZE41SXNNVmdJcFlmMUxNXzU2S2ZmbmtnbFVERDRibHlLQdIBY0FVX3lxTFBlMFJIdGpZZVRMSnFlckhLMzMtWXhnUUdMa21SMlpjVlY0cG9WR3NVME1MdXBFR3ZQNHo5Z3VJVVV5ZE41SXNNVmdJcFlmMUxNXzU2S2ZmbmtnbFVERDRibHlLQQ?oc=5",
+      "publisher_url": "https://www.bitget.com",
+      "source_verified": false,
+      "source_direct": false,
+      "source_role": "news_aggregator",
+      "published_utc": "2026-09-07T18:31:16+00:00",
+      "first_seen_utc": "2026-09-07T19:01:46.447882+00:00",
+      "last_seen_utc": "2026-09-07T19:54:28.260055+00:00",
+      "causal_known_utc": "2026-09-07T19:01:46.447882+00:00",
+      "availability_lag_minutes": 30.507465,
+      "category": "fx_intervention",
+      "scope": "currency",
+      "direct_currencies": [
+        "JPY"
+      ],
+      "inferred_currencies": [],
+      "currency_scores": {},
+      "research_currency_scores": {
+        "JPY": 0.175
+      },
+      "topic_article_count": 2,
+      "syndicated_article_count": 2,
+      "distinct_source_count": 1,
+      "publisher_source_count": 2,
+      "corroboration_count": 0,
+      "duplicate_observation_count": 22,
+      "article_event_ids": [
+        "local_news_4e8412ee3d219f96b78e0a75",
+        "local_news_b0613ba847a8853f8809cbd5"
+      ],
+      "headline_variants": [
+        "United States Dollar Index trades under pressure as Yen buying accelerates - Bitget",
+        "United States Dollar Index trades under pressure as Yen buying accelerates - tmgm.com"
+      ],
+      "forward_signal_timely": false,
+      "reports_prior_market_move": false,
+      "context_only": true,
+      "context_reason": "source_late_for_reaction_horizon",
+      "directional_publish_eligible": false,
+      "directional_source_grade": "secondary_requires_corroboration",
+      "directional_uncertainty": 0.79375,
+      "estimated_reaction_horizon_minutes": 180,
+      "post_window_minutes": 360,
+      "secondary_analysis_context": false,
+      "non_catalyst_context": false,
+      "classification_version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+      "publication_age_minutes": 174.18307306666665,
+      "causal_age_minutes": 143.6756083666667,
+      "within_reaction_horizon": true,
+      "eligible_pair_count": 0,
+      "eligible_pairs": []
+    },
+    {
+      "topic_id": "local_news_bb672d3d38cc6aa01bdda2c2",
+      "event_id": "local_news_d2b8e2b772bd3abc14c4b50c",
+      "headline": "Deutsche Bank expects ECB to extend rate hikes through December - Bilyonaryo",
+      "summary": "",
+      "source_id": "google_news_fx_macro",
+      "source_ids": [
+        "google_news_fx_macro"
+      ],
+      "source_names": [
+        "Bilyonaryo"
+      ],
+      "source_url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQcGFoNW1UR3ZNOEQ2UzRNS0piVXpOajJOSFpUaUN6OFJGZG02UE5qenRIUUQ1UURONXNCYjZIV0JHckpKM2hxdndpLXUyazJEUllZa0RJc2NVSUVobFZzMHVJb1VXUnZvY1M4bVJIWk5IVDQzNk05S0FGdERRUkl6NkZqX2xvMUUycXBJT2NIZGc?oc=5",
+      "publisher_url": "https://bilyonaryo.com",
+      "source_verified": false,
+      "source_direct": false,
+      "source_role": "news_aggregator",
+      "published_utc": "2026-09-07T17:44:41+00:00",
+      "first_seen_utc": "2026-09-07T17:49:46.893665+00:00",
+      "last_seen_utc": "2026-09-07T18:27:37.977207+00:00",
+      "causal_known_utc": "2026-09-07T17:49:46.893665+00:00",
+      "availability_lag_minutes": 5.098228,
+      "category": "monetary_policy",
+      "scope": "currency",
+      "direct_currencies": [
+        "EUR"
+      ],
+      "inferred_currencies": [],
+      "currency_scores": {},
+      "research_currency_scores": {
+        "EUR": 0.9
+      },
+      "topic_article_count": 1,
+      "syndicated_article_count": 1,
+      "distinct_source_count": 1,
+      "publisher_source_count": 1,
+      "corroboration_count": 0,
+      "duplicate_observation_count": 2,
+      "article_event_ids": [
+        "local_news_d2b8e2b772bd3abc14c4b50c"
+      ],
+      "headline_variants": [
+        "Deutsche Bank expects ECB to extend rate hikes through December - Bilyonaryo"
+      ],
+      "forward_signal_timely": true,
+      "reports_prior_market_move": false,
+      "context_only": true,
+      "context_reason": "secondary_uncorroborated_macro_context",
+      "directional_publish_eligible": false,
+      "directional_source_grade": "secondary_requires_corroboration",
+      "directional_uncertainty": 0.395,
+      "estimated_reaction_horizon_minutes": 180,
+      "post_window_minutes": 360,
+      "secondary_analysis_context": false,
+      "non_catalyst_context": false,
+      "classification_version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+      "publication_age_minutes": 220.7664064,
+      "causal_age_minutes": 215.66817865,
+      "within_reaction_horizon": false,
+      "eligible_pair_count": 0,
+      "eligible_pairs": []
+    },
+    {
+      "topic_id": "local_news_5ca833dea31d69a0e3d604a6",
+      "event_id": "local_news_5bff41ae477cd616c080af9e",
+      "headline": "Iran Announces Restricted Zone Outside Strait of Hormuz, Extending From U.S. Blockade Line: 36 outlets compared - NewsCord",
+      "summary": "",
+      "source_id": "google_news_systemic_catalyst",
+      "source_ids": [
+        "google_news_systemic_catalyst"
+      ],
+      "source_names": [
+        "NewsCord"
+      ],
+      "source_url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxPWDlqMmFFNFpPd1AxdWF3Tk5rVDNPSmJmNG9FRGJLMmhVRVR6SE1IVVlzbmVGdFZ3R1lxVTdmb29pd3hNRFZON3ZDZWNacjZINVdILWNqeXVxNEJ6R2ZlRnh1emd4WUR6b2xoMGhWUVJBblNJalJCZG5uNjhFMWRqcko2WEZrVHBmNTNNNEJvY1VFc0xFcS1sUDZJZ29wOUZkVk9YRDl6WkxZWExrTEQwRXRnUjdQcG5aRDJRd1pmRi1MOFlnZzZoNnVXMjlXdG5ITGV5SmRYRlVkbXVubHg2SzFWV0h2dENIY0E?oc=5",
+      "publisher_url": "https://newscord.org",
+      "source_verified": false,
+      "source_direct": false,
+      "source_role": "aggregator_discovery",
+      "published_utc": "2026-09-07T17:25:54+00:00",
+      "first_seen_utc": "2026-09-07T17:29:45.172645+00:00",
+      "last_seen_utc": "2026-09-07T17:29:45.172645+00:00",
+      "causal_known_utc": "2026-09-07T17:29:45.172645+00:00",
+      "availability_lag_minutes": 3.852877,
+      "category": "risk_off_geopolitical_or_financial",
+      "scope": "all_pairs",
+      "direct_currencies": [],
+      "inferred_currencies": [
+        "AUD",
+        "CHF",
+        "JPY",
+        "NZD",
+        "USD",
+        "ZAR"
+      ],
+      "currency_scores": {},
+      "research_currency_scores": {
+        "AUD": -0.4875,
+        "CHF": 0.4125,
+        "JPY": 0.4125,
+        "NZD": -0.4875,
+        "USD": 0.4125,
+        "ZAR": -0.4875
+      },
+      "topic_article_count": 1,
+      "syndicated_article_count": 1,
+      "distinct_source_count": 1,
+      "publisher_source_count": 1,
+      "corroboration_count": 0,
+      "duplicate_observation_count": 0,
+      "article_event_ids": [
+        "local_news_5bff41ae477cd616c080af9e"
+      ],
+      "headline_variants": [
+        "Iran Announces Restricted Zone Outside Strait of Hormuz, Extending From U.S. Blockade Line: 36 outlets compared - NewsCord"
+      ],
+      "forward_signal_timely": true,
+      "reports_prior_market_move": false,
+      "context_only": true,
+      "context_reason": "secondary_uncorroborated_directional_context",
+      "directional_publish_eligible": false,
+      "directional_source_grade": "secondary_requires_corroboration",
+      "directional_uncertainty": 0.621875,
+      "estimated_reaction_horizon_minutes": 360,
+      "post_window_minutes": 720,
+      "secondary_analysis_context": false,
+      "non_catalyst_context": false,
+      "classification_version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+      "publication_age_minutes": 239.54973973333333,
+      "causal_age_minutes": 235.69686231666668,
+      "within_reaction_horizon": true,
+      "eligible_pair_count": 0,
+      "eligible_pairs": []
+    },
+    {
+      "topic_id": "local_news_6da63b65d49144aeae6ae62b",
+      "event_id": "local_news_e2764b5f0de4649703d82a35",
+      "headline": "Hong Kong Stock Exchange Today: Hang Seng Falls to 25,413.12 as Fed Rate-Hike Fears Hit Tech Amid US-Iran Conflict - BBN Times",
+      "summary": "",
+      "source_id": "google_news_global_risk",
+      "source_ids": [
+        "google_news_global_risk"
+      ],
+      "source_names": [
+        "BBN Times"
+      ],
+      "source_url": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxPdFNXMVVZWVZ0RHdabWx5LXBYTkpjbFIwZlJaczhLY29zejkxRGIwU1BVbnRsR0ZWbkNZWThCUVVtajdFcmJzWEp3dGEteGFKWlphVTdzcURPZXhqeUhlMWNVTWhIazlpY0JYLUJYRDVjWXJheE5OYUhiQnJCRms0bG4wUnZsaWRfbklGcHd2RnNEbnV4d0dCempHaExPcHJncjY1TzgxUVZxcXd0aUN3bWJVQnBzMmNiNUpjYlR1ejFscDd3RnFRcURvTU5MZ2NrYVVVWkxqc3ZUNXBWYjM3YmFn?oc=5",
+      "publisher_url": "https://www.bbntimes.com",
+      "source_verified": false,
+      "source_direct": false,
+      "source_role": "news_aggregator",
+      "published_utc": "2026-09-07T17:09:46+00:00",
+      "first_seen_utc": "2026-09-07T17:12:19.204041+00:00",
+      "last_seen_utc": "2026-09-07T17:12:19.204041+00:00",
+      "causal_known_utc": "2026-09-07T17:12:19.204041+00:00",
+      "availability_lag_minutes": 2.553401,
+      "category": "monetary_policy",
+      "scope": "currency",
+      "direct_currencies": [
+        "HKD",
+        "USD"
+      ],
+      "inferred_currencies": [],
+      "currency_scores": {},
+      "research_currency_scores": {
+        "HKD": 0.9,
+        "USD": 0.9
+      },
+      "topic_article_count": 1,
+      "syndicated_article_count": 1,
+      "distinct_source_count": 1,
+      "publisher_source_count": 1,
+      "corroboration_count": 0,
+      "duplicate_observation_count": 0,
+      "article_event_ids": [
+        "local_news_e2764b5f0de4649703d82a35"
+      ],
+      "headline_variants": [
+        "Hong Kong Stock Exchange Today: Hang Seng Falls to 25,413.12 as Fed Rate-Hike Fears Hit Tech Amid US-Iran Conflict - BBN Times"
+      ],
+      "forward_signal_timely": false,
+      "reports_prior_market_move": true,
+      "context_only": true,
+      "context_reason": "reported_market_move_context",
+      "directional_publish_eligible": false,
+      "directional_source_grade": "secondary_requires_corroboration",
+      "directional_uncertainty": 0.345,
+      "estimated_reaction_horizon_minutes": 180,
+      "post_window_minutes": 360,
+      "secondary_analysis_context": false,
+      "non_catalyst_context": false,
+      "classification_version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+      "publication_age_minutes": 255.68307306666665,
+      "causal_age_minutes": 253.12967238333334,
+      "within_reaction_horizon": false,
+      "eligible_pair_count": 0,
+      "eligible_pairs": []
+    },
+    {
+      "topic_id": "local_news_d9f22e2fa5bc67c51e7d2cb6",
+      "event_id": "local_news_f31764f38ec40120367ecd53",
+      "headline": "European Markets Dip Amid Oil Price Surge and Novartis (NVS) Sto - GuruFocus",
+      "summary": "",
+      "source_id": "google_news_global_risk",
+      "source_ids": [
+        "google_news_global_risk"
+      ],
+      "source_names": [
+        "GuruFocus"
+      ],
+      "source_url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPQTBRc1lURlBVVGg3QmdGX2hHYVpBOXlERzc0U1AxX1BKZHJoUEFHQjRkTGJLZl9Oa0R2eDBiTVZDc1ZWeDRCQ29UVDFoOWdHelhZeExZM2pIV2VBOWE1bkdGVXRoY25KNzlWQ3hyRkw2UGd2ejdrNTdtVkZpWHBQbkZUQWY4Qy1pbDRucnhIbEpqOEhVOUxiQmh6Q2Vwa0J1YjR0MlVJeXQ3cG9wb2kyeA?oc=5",
+      "publisher_url": "https://www.gurufocus.com",
+      "source_verified": false,
+      "source_direct": false,
+      "source_role": "news_aggregator",
+      "published_utc": "2026-09-07T17:06:10+00:00",
+      "first_seen_utc": "2026-09-07T17:08:10.214471+00:00",
+      "last_seen_utc": "2026-09-07T17:08:10.214471+00:00",
+      "causal_known_utc": "2026-09-07T17:08:10.214471+00:00",
+      "availability_lag_minutes": 2.003575,
+      "category": "commodity_shock",
+      "scope": "all_pairs",
+      "direct_currencies": [],
+      "inferred_currencies": [
+        "CAD",
+        "JPY",
+        "MXN",
+        "NOK"
+      ],
+      "currency_scores": {},
+      "research_currency_scores": {
+        "CAD": 0.5,
+        "JPY": -0.2,
+        "MXN": 0.5,
+        "NOK": 0.5
+      },
+      "topic_article_count": 1,
+      "syndicated_article_count": 1,
+      "distinct_source_count": 1,
+      "publisher_source_count": 1,
+      "corroboration_count": 0,
+      "duplicate_observation_count": 0,
+      "article_event_ids": [
+        "local_news_f31764f38ec40120367ecd53"
+      ],
+      "headline_variants": [
+        "European Markets Dip Amid Oil Price Surge and Novartis (NVS) Sto - GuruFocus"
+      ],
+      "forward_signal_timely": false,
+      "reports_prior_market_move": true,
+      "context_only": true,
+      "context_reason": "reported_market_move_context",
+      "directional_publish_eligible": false,
+      "directional_source_grade": "secondary_requires_corroboration",
+      "directional_uncertainty": 0.565,
+      "estimated_reaction_horizon_minutes": 180,
+      "post_window_minutes": 360,
+      "secondary_analysis_context": false,
+      "non_catalyst_context": false,
+      "classification_version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+      "publication_age_minutes": 259.28307306666665,
+      "causal_age_minutes": 257.27949855,
+      "within_reaction_horizon": false,
+      "eligible_pair_count": 0,
+      "eligible_pairs": []
+    },
+    {
+      "topic_id": "local_news_a7e0ef0b9148a194e1ba0d4a",
+      "event_id": "local_news_76851e0eb778bb8cc3a87094",
+      "headline": "AUDUSD Technicals: AUDUSD pushes to a four-month high as copper reaches a new record",
+      "summary": "The AUDUSD is extending higher, helped by rising commodity prices and renewed strength in copper, which reached another record high today. Australia is a major commodity exporter, particularly of iron ore, coal and liquefied natural gas. It is also one of the world’s leading copper producers. As a result, the Australian dollar is often viewed as a “commodity currency.” When commodity prices rise, Australia’s export revenues and terms of trade can improve. That does not guarantee the Australian dollar will strengthen, but it can provide a fundamental tailwind. Today, that tailwind is helping the AUDUSD extend to its highest level since the middle of May. Buyers test the next technical ceiling The AUDUSD has reached 0.7224, taking the pair into an important swing area between 0.7221 and 0.7228. That area has influenced the price going back to April and represents the next key test for buyers. A swing area is a zone where the market has previously found support or resistance. Traders watch these areas because previous turning points can attract buyers, sellers and profit-taking when they are revisited. Getting above 0.7228 is the first step. Staying above it is equally important. A brief move through resistance followed by a quick reversal would suggest buyers could not maintain control. Conversely, a sustained break above the area would give buyers greater confidence and shift the focus toward the May high at 0.72769. A longer-term double top is getting closer The May high at 0.72769 nearly matched the May 2022 high at 0.72823. That creates a significant longer-term double-top area between those two levels. Double tops are often viewed as resistance because the market previously reached the same general price area and failed to continue higher. Sellers may use the zone to establish positions, while buyers who entered at lower levels may take profits. However, a double top is only resistance until it is broken. If the AUDUSD can move above 0.72823—and remain above that level—the failed ceiling could become a catalyst for additional upside momentum. From a longer-term perspective, that would represent a meaningful bullish breakout and open the door for the market to explore higher levels. The moving averages define the short-term risk Although the upside targets are becoming clearer, successful trading is also about knowing where the bullish technical picture would begin to weaken. For the AUDUSD, the closest risk-defining levels are the rising 100-hour and 200-hour moving averages: 100-hour moving average: 0.7183 200-hour moving average: 0.71787 Those moving averages were tested on Friday following the stronger-than-expected US jobs report. The initial fundamental reaction favored the US dollar and pushed the AUDUSD lower. However, the pair found willing buyers against the moving-average support and subsequently rebounded. That price action was important. The stronger US data gave sellers an opportunity to take control, but they could not push the price below the key moving averages. In other words, the sellers had their shot and missed. Buyers leaned against the technical support, defined their risk and maintained control of the trend. What would weaken the bullish bias? As long as the AUDUSD remains above the rising 100-hour and 200-hour moving averages, the buyers remain in firm control. A move below the 100-hour moving average would be the first warning that the upside momentum is weakening. However, it would take a sustained break below both moving averages to shift the short-term bias more decisively back toward the sellers. For traders looking for further upside, the roadmap is relatively straightforward: Hold above the 100-hour and 200-hour moving averages to preserve the bullish bias. Break and stay above the 0.7221–0.7228 swing area to confirm the next upside leg. Target the longer-term double-top resistance between 0.72769 and 0.72823. A sustained break above 0.72823 would strengthen the longer-term bullish outlook. Commodity strength—led by record copper prices—is providing the fundamental support. The technical price action is confirming that story, with the AUDUSD making new multi-month highs and remaining comfortably above its rising hourly moving averages. Until the pair moves and stays below those moving averages, the buyers remain in control. In a video above, I outline the key technical levels in play and give additional color commentary for the pair from a technical perspective. This article was written by Greg Michalowski at investinglive.com.",
+      "source_id": "finnhub_fx_market_news",
+      "source_ids": [
+        "finnhub_fx_market_news"
+      ],
+      "source_names": [
+        "Forexlive"
+      ],
+      "source_url": "https://investinglive.com/technical-analysis/audusd-technicals-audusd-pushes-to-a-four-month-high-as-copper-reaches-a-new-record",
+      "publisher_url": "",
+      "source_verified": false,
+      "source_direct": false,
+      "source_role": "aggregator_discovery",
+      "published_utc": "2026-09-07T16:49:46+00:00",
+      "first_seen_utc": "2026-09-07T17:03:53.548267+00:00",
+      "last_seen_utc": "2026-09-07T17:20:00.474780+00:00",
+      "causal_known_utc": "2026-09-07T17:03:53.548267+00:00",
+      "availability_lag_minutes": 14.125804,
+      "category": "monetary_policy",
+      "scope": "currency",
+      "direct_currencies": [
+        "AUD",
+        "USD"
+      ],
+      "inferred_currencies": [],
+      "currency_scores": {},
+      "research_currency_scores": {
+        "AUD": 0.45,
+        "USD": 0.45
+      },
+      "topic_article_count": 1,
+      "syndicated_article_count": 1,
+      "distinct_source_count": 1,
+      "publisher_source_count": 1,
+      "corroboration_count": 0,
+      "duplicate_observation_count": 1,
+      "article_event_ids": [
+        "local_news_76851e0eb778bb8cc3a87094"
+      ],
+      "headline_variants": [
+        "AUDUSD Technicals: AUDUSD pushes to a four-month high as copper reaches a new record"
+      ],
+      "forward_signal_timely": true,
+      "reports_prior_market_move": false,
+      "context_only": true,
+      "context_reason": "secondary_uncorroborated_macro_context",
+      "directional_publish_eligible": false,
+      "directional_source_grade": "secondary_requires_corroboration",
+      "directional_uncertainty": 0.5125,
+      "estimated_reaction_horizon_minutes": 180,
+      "post_window_minutes": 360,
+      "secondary_analysis_context": false,
+      "non_catalyst_context": false,
+      "classification_version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+      "publication_age_minutes": 275.6830730666667,
+      "causal_age_minutes": 261.55726861666665,
+      "within_reaction_horizon": false,
+      "eligible_pair_count": 0,
+      "eligible_pairs": []
+    },
+    {
+      "topic_id": "local_news_53cdce28718001b9f51e34e3",
+      "event_id": "local_news_daac7ec241409e6305b6ef94",
+      "headline": "CAC 40 Today: French Stocks Rise 0.33% as Oil & Gas Rally Lifts Paris Amid Fresh US-Iran Tensions - BBN Times",
+      "summary": "",
+      "source_id": "google_news_global_risk",
+      "source_ids": [
+        "google_news_global_risk"
+      ],
+      "source_names": [
+        "BBN Times"
+      ],
+      "source_url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxPd3FlMDJkWDRLdXhkelVvdmUwNjdoeHoxd1dSTU9nS2dIOEVlRXpST19PTUp1eXEyVE1Qb1NtSkFZdGZ4VGhkNkxHaFBYNEF3Tnpoc1JQZERISHl6SEZpekJIOWRoREZkTGdjeEpjNDFzVlRxLVRLYWFSajhFSHpZWnNpWkJ1OGRUdjFiYVdYRHdKU2lrWUw4Ni0zSEdjMTkxRE9LS25BWEJpb1huT3ZUM1VaUlowSnVpZlhQXzZIaEo1d3Fac0c0?oc=5",
+      "publisher_url": "https://www.bbntimes.com",
+      "source_verified": false,
+      "source_direct": false,
+      "source_role": "news_aggregator",
+      "published_utc": "2026-09-07T16:49:43+00:00",
+      "first_seen_utc": "2026-09-07T17:00:41.064329+00:00",
+      "last_seen_utc": "2026-09-07T17:00:41.064329+00:00",
+      "causal_known_utc": "2026-09-07T17:00:41.064329+00:00",
+      "availability_lag_minutes": 10.967739,
+      "category": "commodity_shock",
+      "scope": "all_pairs",
+      "direct_currencies": [],
+      "inferred_currencies": [
+        "CAD",
+        "JPY",
+        "MXN",
+        "NOK"
+      ],
+      "currency_scores": {},
+      "research_currency_scores": {
+        "CAD": 0.5,
+        "JPY": -0.2,
+        "MXN": 0.5,
+        "NOK": 0.5
+      },
+      "topic_article_count": 1,
+      "syndicated_article_count": 1,
+      "distinct_source_count": 1,
+      "publisher_source_count": 1,
+      "corroboration_count": 0,
+      "duplicate_observation_count": 0,
+      "article_event_ids": [
+        "local_news_daac7ec241409e6305b6ef94"
+      ],
+      "headline_variants": [
+        "CAC 40 Today: French Stocks Rise 0.33% as Oil & Gas Rally Lifts Paris Amid Fresh US-Iran Tensions - BBN Times"
+      ],
+      "forward_signal_timely": false,
+      "reports_prior_market_move": true,
+      "context_only": true,
+      "context_reason": "reported_market_move_context",
+      "directional_publish_eligible": false,
+      "directional_source_grade": "secondary_requires_corroboration",
+      "directional_uncertainty": 0.565,
+      "estimated_reaction_horizon_minutes": 180,
+      "post_window_minutes": 360,
+      "secondary_analysis_context": false,
+      "non_catalyst_context": false,
+      "classification_version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+      "publication_age_minutes": 275.73307306666663,
+      "causal_age_minutes": 264.76533425,
+      "within_reaction_horizon": false,
+      "eligible_pair_count": 0,
+      "eligible_pairs": []
+    },
+    {
+      "topic_id": "local_news_0fc2d992c4cde06f5731f35c",
+      "event_id": "local_news_65129660bec16e4b9edc13ce",
+      "headline": "Oil Jumps Near 7-Week High as Hormuz Tensions Spike - NAI500",
+      "summary": "",
+      "source_id": "google_news_systemic_catalyst",
+      "source_ids": [
+        "google_news_systemic_catalyst"
+      ],
+      "source_names": [
+        "NAI500"
+      ],
+      "source_url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNWTBtSVM1RzlRX2RkSlAwVjhlNDY1WGxGeDVKM3lONnhpZVZhaVBJdExfZ3hhWHVheHE1WmR0LV9ISWw3T1BndTA0TS1NZHNNd3N0QmFSN1gtUTFzek1hOTE1TlJCTHFidl9XaFZ2azV5OGZhS1RRcXdvTlJkdEFPMkZXd2tOOTBIZUZVTw?oc=5",
+      "publisher_url": "https://nai500.com",
+      "source_verified": false,
+      "source_direct": false,
+      "source_role": "aggregator_discovery",
+      "published_utc": "2026-09-07T15:51:41+00:00",
+      "first_seen_utc": "2026-09-07T16:02:18.738913+00:00",
+      "last_seen_utc": "2026-09-07T16:02:18.738913+00:00",
+      "causal_known_utc": "2026-09-07T16:02:18.738913+00:00",
+      "availability_lag_minutes": 10.628982,
+      "category": "commodity_shock",
+      "scope": "all_pairs",
+      "direct_currencies": [],
+      "inferred_currencies": [
+        "CAD",
+        "JPY",
+        "MXN",
+        "NOK"
+      ],
+      "currency_scores": {},
+      "research_currency_scores": {
+        "CAD": 0.5,
+        "JPY": -0.2,
+        "MXN": 0.5,
+        "NOK": 0.5
+      },
+      "topic_article_count": 1,
+      "syndicated_article_count": 1,
+      "distinct_source_count": 1,
+      "publisher_source_count": 1,
+      "corroboration_count": 0,
+      "duplicate_observation_count": 0,
+      "article_event_ids": [
+        "local_news_65129660bec16e4b9edc13ce"
+      ],
+      "headline_variants": [
+        "Oil Jumps Near 7-Week High as Hormuz Tensions Spike - NAI500"
+      ],
+      "forward_signal_timely": false,
+      "reports_prior_market_move": true,
+      "context_only": true,
+      "context_reason": "reported_market_move_context",
+      "directional_publish_eligible": false,
+      "directional_source_grade": "secondary_requires_corroboration",
+      "directional_uncertainty": 0.565,
+      "estimated_reaction_horizon_minutes": 180,
+      "post_window_minutes": 360,
+      "secondary_analysis_context": false,
+      "non_catalyst_context": false,
+      "classification_version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+      "publication_age_minutes": 333.7664064,
+      "causal_age_minutes": 323.1374245166666,
+      "within_reaction_horizon": false,
+      "eligible_pair_count": 0,
+      "eligible_pairs": []
+    },
+    {
+      "topic_id": "local_news_07ee6a80e67bed83075cf526",
+      "event_id": "local_news_d079fea105fee8d0f33ddb82",
+      "headline": "Kickstart the North American FX session. The USDJPY is the big mover. The EUR and GBP are down modestly",
+      "summary": "Happy Labor Day to those traders in North America. Although the US stock and bond markets are closed (and in Canada too), the forex market is up and alive. The overall bias is to the downside with the USD is moving lower led by an oversized decline vs the JPY of -1.15% leading the declines. Some catalysts for the move: BOJ rate-hike expectations: Markets increasingly expect the Bank of Japan to raise rates by 25 basis points next week, with another potential increase later this year. Narrowing yield spreads: Japanese yields are rising relative to U.S. yields. A narrower U.S.–Japan interest-rate advantage makes holding dollars against the yen less attractive. Intervention concerns: Japan’s recent record yen-buying intervention remains fresh in traders’ minds. That is discouraging aggressive USDJPY buying and may be forcing some shorts in the yen to cover. Carry-trade unwinding: Traders who borrowed cheap yen to buy higher-yielding assets are buying those yen back as the interest-rate outlook changes. Technical momentum: USDJPY broke below support near 155.15, triggering stops and accelerating the decline toward 154.00. Thin holiday liquidity: With U.S. markets closed for Labor Day, lighter liquidity may be magnifying the move. The greenback's move to the downside is more limited vs the EUR at -0.10% and the GBP at -0.12% In the video above, I take a look at those three currency pairs from a technical perspective to kickstart the holiday session in North America. Middle East tensions rise over the weekend Geopolitical tensions in the Middle East increased over the weekend, helping push oil prices higher to start the new trading week. The most significant development involved a direct escalation between the United States and Iran. Iran fired ballistic missiles toward two U.S. Navy ships, although no American personnel were injured. The U.S. responded by striking three Iranian crude-oil tankers and warned that additional Iranian vessels could be targeted. Shipping through the Strait of Hormuz slows Shipping activity through the Strait of Hormuz also declined sharply. Iran is expected to announce a new restricted zone and shipping corridor in the Gulf, increasing the risk of further disruptions through one of the world’s most important energy chokepoints. Elsewhere in the region: Fighting between Israel and Hezbollah intensified. Hezbollah launched drones toward Israel, while Israel carried out additional strikes in southern Lebanon. Israeli strikes continued in Gaza over the weekend. Israeli Prime Minister Benjamin Netanyahu reportedly ordered the removal of unauthorized settler outposts in the West Bank following U.S. pressure over increased settler violence. Oil prices move higher The oil market is responding to the increased geopolitical risk: WTI crude oil is up $0.88, or approximately 1.0%, at $92.36. Brent crude oil is up $1.21, or 1.25%, at $97.48. Why the Strait of Hormuz matters A significant share of the world’s oil and liquefied natural gas passes through the Strait of Hormuz. Even if the physical supply of oil has not yet declined significantly, the threat of disruption can push prices higher. Shipping companies may also face higher insurance, security and transportation costs. Those additional expenses can eventually be reflected in the price of oil. Understanding the geopolitical risk premium The additional amount buyers are willing to pay because of the threat of a future supply disruption is commonly called a geopolitical risk premium. It is important for traders to understand that oil markets trade expectations, not simply current supply. Prices can rise before an actual shortage develops. Conversely, oil could quickly give back some of its gains if tensions ease and shipping activity returns to normal. What traders should watch next The concern is no longer limited to threats surrounding the Strait of Hormuz. The weekend included direct attacks involving U.S. warships and Iranian oil tankers, along with another sharp decline in commercial shipping through the strait. As long as shipping remains restricted and the risk of retaliation continues, oil prices are likely to maintain a geopolitical risk premium. The next question is whether the conflict remains contained or expands into additional attacks against tankers, energy infrastructure or other shipping routes. This article was written by Greg Michalowski at investinglive.com.",
+      "source_id": "finnhub_fx_market_news",
+      "source_ids": [
+        "finnhub_fx_market_news"
+      ],
+      "source_names": [
+        "Forexlive"
+      ],
+      "source_url": "https://investinglive.com/technical-analysis/kickstart-the-north-american-fx-session-the-usdjpy-is-the-big-mover-the-eur-and-gbp-are-down-modestly",
+      "publisher_url": "",
+      "source_verified": false,
+      "source_direct": false,
+      "source_role": "aggregator_discovery",
+      "published_utc": "2026-09-07T13:08:34+00:00",
+      "first_seen_utc": "2026-09-07T13:31:17.615767+00:00",
+      "last_seen_utc": "2026-09-07T13:31:17.615767+00:00",
+      "causal_known_utc": "2026-09-07T13:31:17.615767+00:00",
+      "availability_lag_minutes": 22.726929,
+      "category": "risk_off_geopolitical_or_financial",
+      "scope": "all_pairs",
+      "direct_currencies": [
+        "CAD",
+        "EUR",
+        "GBP",
+        "JPY",
+        "USD"
+      ],
+      "inferred_currencies": [
+        "AUD",
+        "CHF",
+        "NZD",
+        "ZAR"
+      ],
+      "currency_scores": {},
+      "research_currency_scores": {
+        "AUD": -0.4875,
+        "CHF": 0.4125,
+        "NZD": -0.4875,
+        "USD": 0.4125,
+        "ZAR": -0.4875
+      },
+      "topic_article_count": 1,
+      "syndicated_article_count": 1,
+      "distinct_source_count": 1,
+      "publisher_source_count": 1,
+      "corroboration_count": 0,
+      "duplicate_observation_count": 0,
+      "article_event_ids": [
+        "local_news_d079fea105fee8d0f33ddb82"
+      ],
+      "headline_variants": [
+        "Kickstart the North American FX session. The USDJPY is the big mover. The EUR and GBP are down modestly"
+      ],
+      "forward_signal_timely": false,
+      "reports_prior_market_move": true,
+      "context_only": true,
+      "context_reason": "reported_market_move_context",
+      "directional_publish_eligible": false,
+      "directional_source_grade": "secondary_requires_corroboration",
+      "directional_uncertainty": 0.391875,
+      "estimated_reaction_horizon_minutes": 360,
+      "post_window_minutes": 720,
+      "secondary_analysis_context": false,
+      "non_catalyst_context": false,
+      "classification_version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+      "publication_age_minutes": 496.88307306666667,
+      "causal_age_minutes": 474.15614361666667,
+      "within_reaction_horizon": false,
+      "eligible_pair_count": 0,
+      "eligible_pairs": []
+    },
+    {
+      "topic_id": "local_news_110098dedaaf0a5bb7d143c3",
+      "event_id": "local_news_14a1e0a729760a80f24cb439",
+      "headline": "Did the US Counter-Blockade in Hormuz Work? Gulf Oil Exports Recover to 50% of Prewar Levels - bloomingbit",
+      "summary": "",
+      "source_id": "google_news_systemic_catalyst",
+      "source_ids": [
+        "google_news_systemic_catalyst"
+      ],
+      "source_names": [
+        "bloomingbit"
+      ],
+      "source_url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9BRXlpUVhIUTdQZjc1OUNjQUgyVXpRUmVBTkRwa2ktSXlLT2xSaGk0RlhtQk1VMjB4RFRZMzNKc1hzaHBzUU5JT2g1b0pCaUhXTFhlUw?oc=5",
+      "publisher_url": "https://en.bloomingbit.io",
+      "source_verified": false,
+      "source_direct": false,
+      "source_role": "aggregator_discovery",
+      "published_utc": "2026-09-07T10:28:56+00:00",
+      "first_seen_utc": "2026-09-07T11:01:32.449083+00:00",
+      "last_seen_utc": "2026-09-07T11:01:32.449083+00:00",
+      "causal_known_utc": "2026-09-07T11:01:32.449083+00:00",
+      "availability_lag_minutes": 32.607485,
+      "category": "risk_off_geopolitical_or_financial",
+      "scope": "all_pairs",
+      "direct_currencies": [],
+      "inferred_currencies": [
+        "AUD",
+        "CHF",
+        "JPY",
+        "NZD",
+        "USD",
+        "ZAR"
+      ],
+      "currency_scores": {},
+      "research_currency_scores": {
+        "AUD": -0.4875,
+        "CHF": 0.4125,
+        "JPY": 0.4125,
+        "NZD": -0.4875,
+        "USD": 0.4125,
+        "ZAR": -0.4875
+      },
+      "topic_article_count": 1,
+      "syndicated_article_count": 1,
+      "distinct_source_count": 1,
+      "publisher_source_count": 1,
+      "corroboration_count": 0,
+      "duplicate_observation_count": 0,
+      "article_event_ids": [
+        "local_news_14a1e0a729760a80f24cb439"
+      ],
+      "headline_variants": [
+        "Did the US Counter-Blockade in Hormuz Work? Gulf Oil Exports Recover to 50% of Prewar Levels - bloomingbit"
+      ],
+      "forward_signal_timely": false,
+      "reports_prior_market_move": false,
+      "context_only": true,
+      "context_reason": "source_late_for_reaction_horizon",
+      "directional_publish_eligible": false,
+      "directional_source_grade": "secondary_requires_corroboration",
+      "directional_uncertainty": 0.571875,
+      "estimated_reaction_horizon_minutes": 360,
+      "post_window_minutes": 720,
+      "secondary_analysis_context": false,
+      "non_catalyst_context": false,
+      "classification_version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+      "publication_age_minutes": 656.5164064,
+      "causal_age_minutes": 623.9089216833333,
+      "within_reaction_horizon": false,
+      "eligible_pair_count": 0,
+      "eligible_pairs": []
+    },
+    {
+      "topic_id": "local_news_ea6eff553f3349c00e69641a",
+      "event_id": "local_news_27e428b1e24146c7c700112c",
+      "headline": "War, latest news. Oil prices rise following US-Iran air strikes. UN: appalled by Israel’s proposals on Gaza - Il Sole 24 ORE",
+      "summary": "",
+      "source_id": "google_news_systemic_catalyst",
+      "source_ids": [
+        "google_news_systemic_catalyst"
+      ],
+      "source_names": [
+        "Il Sole 24 ORE"
+      ],
+      "source_url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxQRVBvQmpTc1FUTzNQTTNGUjZpRTJQdE81NUs1QWlNaWFrdUZucWNKbGhWZ0ZWOW5TMEtyNXBFMTBHano4WFU4UGhTWWR0UkNPaDRMMkpucW5hQ3VpUTZVNDE2OEtiNzI4WnhrQi01c0QwZkVJYWVhd0NxWHphZ3VsNWZrbWZKN0JEUGxVTl9SNWxEZjB2WGhHbFpyaUVZMVhjc0JvV2l2LXpMNGFLMkdsT0hjVDJhNDhRTncxQUlkRzFrN3Q3R285anZ2NUluZw?oc=5",
+      "publisher_url": "https://en.ilsole24ore.com",
+      "source_verified": false,
+      "source_direct": false,
+      "source_role": "aggregator_discovery",
+      "published_utc": "2026-09-07T10:20:54+00:00",
+      "first_seen_utc": "2026-09-07T10:23:09.737753+00:00",
+      "last_seen_utc": "2026-09-07T20:54:08.047382+00:00",
+      "causal_known_utc": "2026-09-07T10:23:09.737753+00:00",
+      "availability_lag_minutes": 2.262296,
+      "category": "risk_off_geopolitical_or_financial",
+      "scope": "all_pairs",
+      "direct_currencies": [],
+      "inferred_currencies": [
+        "AUD",
+        "CHF",
+        "JPY",
+        "NZD",
+        "USD",
+        "ZAR"
+      ],
+      "currency_scores": {},
+      "research_currency_scores": {
+        "AUD": -0.4875,
+        "CHF": 0.4125,
+        "JPY": 0.2125,
+        "NZD": -0.4875,
+        "USD": 0.4125,
+        "ZAR": -0.4875
+      },
+      "topic_article_count": 2,
+      "syndicated_article_count": 2,
+      "distinct_source_count": 1,
+      "publisher_source_count": 1,
+      "corroboration_count": 0,
+      "duplicate_observation_count": 4,
+      "article_event_ids": [
+        "local_news_106ddf452a6c0312c5799b27",
+        "local_news_27e428b1e24146c7c700112c"
+      ],
+      "headline_variants": [
+        "War, latest news. Oil prices rise following US-Iran air strikes. UN: appalled by Israel’s proposals on Gaza - Il Sole 24 ORE"
+      ],
+      "forward_signal_timely": true,
+      "reports_prior_market_move": false,
+      "context_only": true,
+      "context_reason": "secondary_uncorroborated_directional_context",
+      "directional_publish_eligible": false,
+      "directional_source_grade": "secondary_requires_corroboration",
+      "directional_uncertainty": 0.521875,
+      "estimated_reaction_horizon_minutes": 360,
+      "post_window_minutes": 720,
+      "secondary_analysis_context": false,
+      "non_catalyst_context": false,
+      "classification_version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+      "publication_age_minutes": 664.5497397333334,
+      "causal_age_minutes": 662.28744385,
+      "within_reaction_horizon": false,
+      "eligible_pair_count": 0,
+      "eligible_pairs": []
+    }
+  ],
+  "examples": [
+    {
+      "topic_id": "local_news_a0f3439245301f8d074b62e5",
+      "event_id": "local_news_b810d719111db15cd3d7b8ed",
+      "headline": "Blockade Pushes Iran Output Onto Domestic Market - Energy Intelligence",
+      "summary": "",
+      "source_id": "google_news_global_risk",
+      "source_ids": [
+        "google_news_global_risk"
+      ],
+      "source_names": [
+        "CNN",
+        "Energy Intelligence"
+      ],
+      "source_url": "https://news.google.com/rss/articles/CBMickFVX3lxTE8zY1pUUWFiWDZuUkFXQ0NmRk85R2VBT1VhWXVHQW5vZnViTlRmQno5NkpCaDFuTzJWODVITV95MFJ2VmhRLWw1QVczNUlRQ1g2Z0U2ZTI5SEN3NHZpWUhOT1JTckZGX1c0SGtqSDdtajlZQQ?oc=5",
+      "publisher_url": "https://www.energyintel.com",
+      "source_verified": false,
+      "source_direct": false,
+      "source_role": "news_aggregator",
+      "published_utc": "2026-09-07T16:32:39+00:00",
+      "first_seen_utc": "2026-09-07T16:34:45.892010+00:00",
+      "last_seen_utc": "2026-09-07T18:15:25.043440+00:00",
+      "causal_known_utc": "2026-09-07T16:34:45.892010+00:00",
+      "availability_lag_minutes": 2.114867,
+      "category": "risk_off_geopolitical_or_financial",
+      "scope": "all_pairs",
+      "direct_currencies": [],
+      "inferred_currencies": [
+        "AUD",
+        "CAD",
+        "CHF",
+        "JPY",
+        "MXN",
+        "NOK",
+        "NZD",
+        "USD",
+        "ZAR"
+      ],
+      "currency_scores": {
+        "AUD": -0.4875,
+        "CAD": -0.4875,
+        "CHF": 0.4125,
+        "JPY": 0.4125,
+        "MXN": -0.4875,
+        "NOK": -0.4875,
+        "NZD": -0.4875,
+        "USD": 0.4125,
+        "ZAR": -0.4875
+      },
+      "research_currency_scores": {},
+      "topic_article_count": 2,
+      "syndicated_article_count": 2,
+      "distinct_source_count": 2,
+      "publisher_source_count": 2,
+      "corroboration_count": 1,
+      "duplicate_observation_count": 0,
+      "article_event_ids": [
+        "local_news_b810d719111db15cd3d7b8ed",
+        "local_news_bbff2c0b21b42ab8deb8499f"
+      ],
+      "headline_variants": [
+        "Blockade Pushes Iran Output Onto Domestic Market - Energy Intelligence",
+        "Trump’s blockade pushes Iran toward military escalation - CNN"
+      ],
+      "forward_signal_timely": true,
+      "reports_prior_market_move": false,
+      "context_only": false,
+      "context_reason": "",
+      "directional_publish_eligible": true,
+      "directional_source_grade": "corroborated_secondary",
+      "directional_uncertainty": 0.621875,
+      "estimated_reaction_horizon_minutes": 360,
+      "post_window_minutes": 720,
+      "secondary_analysis_context": false,
+      "non_catalyst_context": false,
+      "classification_version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+      "publication_age_minutes": 292.7997397333333,
+      "causal_age_minutes": 290.6848729,
+      "within_reaction_horizon": true,
+      "eligible_pair_count": 50,
+      "eligible_pairs": [
+        "AUD_CHF",
+        "AUD_HKD",
+        "AUD_JPY",
+        "AUD_SGD",
+        "AUD_USD",
+        "CAD_CHF",
+        "CAD_HKD",
+        "CAD_JPY",
+        "CAD_SGD",
+        "CHF_HKD",
+        "CHF_ZAR",
+        "EUR_AUD",
+        "EUR_CAD",
+        "EUR_CHF",
+        "EUR_JPY",
+        "EUR_NOK",
+        "EUR_NZD",
+        "EUR_USD",
+        "EUR_ZAR",
+        "GBP_AUD",
+        "GBP_CAD",
+        "GBP_CHF",
+        "GBP_JPY",
+        "GBP_NZD",
+        "GBP_USD",
+        "GBP_ZAR",
+        "HKD_JPY",
+        "NZD_CHF",
+        "NZD_HKD",
+        "NZD_JPY",
+        "NZD_SGD",
+        "NZD_USD",
+        "SGD_CHF",
+        "SGD_JPY",
+        "TRY_JPY",
+        "USD_CAD",
+        "USD_CNH",
+        "USD_CZK",
+        "USD_DKK",
+        "USD_HKD",
+        "USD_HUF",
+        "USD_MXN",
+        "USD_NOK",
+        "USD_PLN",
+        "USD_SEK",
+        "USD_SGD",
+        "USD_THB",
+        "USD_TRY",
+        "USD_ZAR",
+        "ZAR_JPY"
+      ]
+    },
+    {
+      "topic_id": "local_news_a7e0ef0b9148a194e1ba0d4a",
+      "event_id": "local_news_76851e0eb778bb8cc3a87094",
+      "headline": "AUDUSD Technicals: AUDUSD pushes to a four-month high as copper reaches a new record",
+      "summary": "The AUDUSD is extending higher, helped by rising commodity prices and renewed strength in copper, which reached another record high today. Australia is a major commodity exporter, particularly of iron ore, coal and liquefied natural gas. It is also one of the world’s leading copper producers. As a result, the Australian dollar is often viewed as a “commodity currency.” When commodity prices rise, Australia’s export revenues and terms of trade can improve. That does not guarantee the Australian dollar will strengthen, but it can provide a fundamental tailwind. Today, that tailwind is helping the AUDUSD extend to its highest level since the middle of May. Buyers test the next technical ceiling The AUDUSD has reached 0.7224, taking the pair into an important swing area between 0.7221 and 0.7228. That area has influenced the price going back to April and represents the next key test for buyers. A swing area is a zone where the market has previously found support or resistance. Traders watch these areas because previous turning points can attract buyers, sellers and profit-taking when they are revisited. Getting above 0.7228 is the first step. Staying above it is equally important. A brief move through resistance followed by a quick reversal would suggest buyers could not maintain control. Conversely, a sustained break above the area would give buyers greater confidence and shift the focus toward the May high at 0.72769. A longer-term double top is getting closer The May high at 0.72769 nearly matched the May 2022 high at 0.72823. That creates a significant longer-term double-top area between those two levels. Double tops are often viewed as resistance because the market previously reached the same general price area and failed to continue higher. Sellers may use the zone to establish positions, while buyers who entered at lower levels may take profits. However, a double top is only resistance until it is broken. If the AUDUSD can move above 0.72823—and remain above that level—the failed ceiling could become a catalyst for additional upside momentum. From a longer-term perspective, that would represent a meaningful bullish breakout and open the door for the market to explore higher levels. The moving averages define the short-term risk Although the upside targets are becoming clearer, successful trading is also about knowing where the bullish technical picture would begin to weaken. For the AUDUSD, the closest risk-defining levels are the rising 100-hour and 200-hour moving averages: 100-hour moving average: 0.7183 200-hour moving average: 0.71787 Those moving averages were tested on Friday following the stronger-than-expected US jobs report. The initial fundamental reaction favored the US dollar and pushed the AUDUSD lower. However, the pair found willing buyers against the moving-average support and subsequently rebounded. That price action was important. The stronger US data gave sellers an opportunity to take control, but they could not push the price below the key moving averages. In other words, the sellers had their shot and missed. Buyers leaned against the technical support, defined their risk and maintained control of the trend. What would weaken the bullish bias? As long as the AUDUSD remains above the rising 100-hour and 200-hour moving averages, the buyers remain in firm control. A move below the 100-hour moving average would be the first warning that the upside momentum is weakening. However, it would take a sustained break below both moving averages to shift the short-term bias more decisively back toward the sellers. For traders looking for further upside, the roadmap is relatively straightforward: Hold above the 100-hour and 200-hour moving averages to preserve the bullish bias. Break and stay above the 0.7221–0.7228 swing area to confirm the next upside leg. Target the longer-term double-top resistance between 0.72769 and 0.72823. A sustained break above 0.72823 would strengthen the longer-term bullish outlook. Commodity strength—led by record copper prices—is providing the fundamental support. The technical price action is confirming that story, with the AUDUSD making new multi-month highs and remaining comfortably above its rising hourly moving averages. Until the pair moves and stays below those moving averages, the buyers remain in control. In a video above, I outline the key technical levels in play and give additional color commentary for the pair from a technical perspective. This article was written by Greg Michalowski at investinglive.com.",
+      "source_id": "finnhub_fx_market_news",
+      "source_ids": [
+        "finnhub_fx_market_news"
+      ],
+      "source_names": [
+        "Forexlive"
+      ],
+      "source_url": "https://investinglive.com/technical-analysis/audusd-technicals-audusd-pushes-to-a-four-month-high-as-copper-reaches-a-new-record",
+      "publisher_url": "",
+      "source_verified": false,
+      "source_direct": false,
+      "source_role": "aggregator_discovery",
+      "published_utc": "2026-09-07T16:49:46+00:00",
+      "first_seen_utc": "2026-09-07T17:03:53.548267+00:00",
+      "last_seen_utc": "2026-09-07T17:20:00.474780+00:00",
+      "causal_known_utc": "2026-09-07T17:03:53.548267+00:00",
+      "availability_lag_minutes": 14.125804,
+      "category": "monetary_policy",
+      "scope": "currency",
+      "direct_currencies": [
+        "AUD",
+        "USD"
+      ],
+      "inferred_currencies": [],
+      "currency_scores": {},
+      "research_currency_scores": {
+        "AUD": 0.45,
+        "USD": 0.45
+      },
+      "topic_article_count": 1,
+      "syndicated_article_count": 1,
+      "distinct_source_count": 1,
+      "publisher_source_count": 1,
+      "corroboration_count": 0,
+      "duplicate_observation_count": 1,
+      "article_event_ids": [
+        "local_news_76851e0eb778bb8cc3a87094"
+      ],
+      "headline_variants": [
+        "AUDUSD Technicals: AUDUSD pushes to a four-month high as copper reaches a new record"
+      ],
+      "forward_signal_timely": true,
+      "reports_prior_market_move": false,
+      "context_only": true,
+      "context_reason": "secondary_uncorroborated_macro_context",
+      "directional_publish_eligible": false,
+      "directional_source_grade": "secondary_requires_corroboration",
+      "directional_uncertainty": 0.5125,
+      "estimated_reaction_horizon_minutes": 180,
+      "post_window_minutes": 360,
+      "secondary_analysis_context": false,
+      "non_catalyst_context": false,
+      "classification_version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+      "publication_age_minutes": 275.6830730666667,
+      "causal_age_minutes": 261.55726861666665,
+      "within_reaction_horizon": false,
+      "eligible_pair_count": 0,
+      "eligible_pairs": []
+    },
+    {
+      "topic_id": "local_news_07ee6a80e67bed83075cf526",
+      "event_id": "local_news_d079fea105fee8d0f33ddb82",
+      "headline": "Kickstart the North American FX session. The USDJPY is the big mover. The EUR and GBP are down modestly",
+      "summary": "Happy Labor Day to those traders in North America. Although the US stock and bond markets are closed (and in Canada too), the forex market is up and alive. The overall bias is to the downside with the USD is moving lower led by an oversized decline vs the JPY of -1.15% leading the declines. Some catalysts for the move: BOJ rate-hike expectations: Markets increasingly expect the Bank of Japan to raise rates by 25 basis points next week, with another potential increase later this year. Narrowing yield spreads: Japanese yields are rising relative to U.S. yields. A narrower U.S.–Japan interest-rate advantage makes holding dollars against the yen less attractive. Intervention concerns: Japan’s recent record yen-buying intervention remains fresh in traders’ minds. That is discouraging aggressive USDJPY buying and may be forcing some shorts in the yen to cover. Carry-trade unwinding: Traders who borrowed cheap yen to buy higher-yielding assets are buying those yen back as the interest-rate outlook changes. Technical momentum: USDJPY broke below support near 155.15, triggering stops and accelerating the decline toward 154.00. Thin holiday liquidity: With U.S. markets closed for Labor Day, lighter liquidity may be magnifying the move. The greenback's move to the downside is more limited vs the EUR at -0.10% and the GBP at -0.12% In the video above, I take a look at those three currency pairs from a technical perspective to kickstart the holiday session in North America. Middle East tensions rise over the weekend Geopolitical tensions in the Middle East increased over the weekend, helping push oil prices higher to start the new trading week. The most significant development involved a direct escalation between the United States and Iran. Iran fired ballistic missiles toward two U.S. Navy ships, although no American personnel were injured. The U.S. responded by striking three Iranian crude-oil tankers and warned that additional Iranian vessels could be targeted. Shipping through the Strait of Hormuz slows Shipping activity through the Strait of Hormuz also declined sharply. Iran is expected to announce a new restricted zone and shipping corridor in the Gulf, increasing the risk of further disruptions through one of the world’s most important energy chokepoints. Elsewhere in the region: Fighting between Israel and Hezbollah intensified. Hezbollah launched drones toward Israel, while Israel carried out additional strikes in southern Lebanon. Israeli strikes continued in Gaza over the weekend. Israeli Prime Minister Benjamin Netanyahu reportedly ordered the removal of unauthorized settler outposts in the West Bank following U.S. pressure over increased settler violence. Oil prices move higher The oil market is responding to the increased geopolitical risk: WTI crude oil is up $0.88, or approximately 1.0%, at $92.36. Brent crude oil is up $1.21, or 1.25%, at $97.48. Why the Strait of Hormuz matters A significant share of the world’s oil and liquefied natural gas passes through the Strait of Hormuz. Even if the physical supply of oil has not yet declined significantly, the threat of disruption can push prices higher. Shipping companies may also face higher insurance, security and transportation costs. Those additional expenses can eventually be reflected in the price of oil. Understanding the geopolitical risk premium The additional amount buyers are willing to pay because of the threat of a future supply disruption is commonly called a geopolitical risk premium. It is important for traders to understand that oil markets trade expectations, not simply current supply. Prices can rise before an actual shortage develops. Conversely, oil could quickly give back some of its gains if tensions ease and shipping activity returns to normal. What traders should watch next The concern is no longer limited to threats surrounding the Strait of Hormuz. The weekend included direct attacks involving U.S. warships and Iranian oil tankers, along with another sharp decline in commercial shipping through the strait. As long as shipping remains restricted and the risk of retaliation continues, oil prices are likely to maintain a geopolitical risk premium. The next question is whether the conflict remains contained or expands into additional attacks against tankers, energy infrastructure or other shipping routes. This article was written by Greg Michalowski at investinglive.com.",
+      "source_id": "finnhub_fx_market_news",
+      "source_ids": [
+        "finnhub_fx_market_news"
+      ],
+      "source_names": [
+        "Forexlive"
+      ],
+      "source_url": "https://investinglive.com/technical-analysis/kickstart-the-north-american-fx-session-the-usdjpy-is-the-big-mover-the-eur-and-gbp-are-down-modestly",
+      "publisher_url": "",
+      "source_verified": false,
+      "source_direct": false,
+      "source_role": "aggregator_discovery",
+      "published_utc": "2026-09-07T13:08:34+00:00",
+      "first_seen_utc": "2026-09-07T13:31:17.615767+00:00",
+      "last_seen_utc": "2026-09-07T13:31:17.615767+00:00",
+      "causal_known_utc": "2026-09-07T13:31:17.615767+00:00",
+      "availability_lag_minutes": 22.726929,
+      "category": "risk_off_geopolitical_or_financial",
+      "scope": "all_pairs",
+      "direct_currencies": [
+        "CAD",
+        "EUR",
+        "GBP",
+        "JPY",
+        "USD"
+      ],
+      "inferred_currencies": [
+        "AUD",
+        "CHF",
+        "NZD",
+        "ZAR"
+      ],
+      "currency_scores": {},
+      "research_currency_scores": {
+        "AUD": -0.4875,
+        "CHF": 0.4125,
+        "NZD": -0.4875,
+        "USD": 0.4125,
+        "ZAR": -0.4875
+      },
+      "topic_article_count": 1,
+      "syndicated_article_count": 1,
+      "distinct_source_count": 1,
+      "publisher_source_count": 1,
+      "corroboration_count": 0,
+      "duplicate_observation_count": 0,
+      "article_event_ids": [
+        "local_news_d079fea105fee8d0f33ddb82"
+      ],
+      "headline_variants": [
+        "Kickstart the North American FX session. The USDJPY is the big mover. The EUR and GBP are down modestly"
+      ],
+      "forward_signal_timely": false,
+      "reports_prior_market_move": true,
+      "context_only": true,
+      "context_reason": "reported_market_move_context",
+      "directional_publish_eligible": false,
+      "directional_source_grade": "secondary_requires_corroboration",
+      "directional_uncertainty": 0.391875,
+      "estimated_reaction_horizon_minutes": 360,
+      "post_window_minutes": 720,
+      "secondary_analysis_context": false,
+      "non_catalyst_context": false,
+      "classification_version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+      "publication_age_minutes": 496.88307306666667,
+      "causal_age_minutes": 474.15614361666667,
+      "within_reaction_horizon": false,
+      "eligible_pair_count": 0,
+      "eligible_pairs": []
+    },
+    {
+      "topic_id": "local_news_0fc2d992c4cde06f5731f35c",
+      "event_id": "local_news_65129660bec16e4b9edc13ce",
+      "headline": "Oil Jumps Near 7-Week High as Hormuz Tensions Spike - NAI500",
+      "summary": "",
+      "source_id": "google_news_systemic_catalyst",
+      "source_ids": [
+        "google_news_systemic_catalyst"
+      ],
+      "source_names": [
+        "NAI500"
+      ],
+      "source_url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNWTBtSVM1RzlRX2RkSlAwVjhlNDY1WGxGeDVKM3lONnhpZVZhaVBJdExfZ3hhWHVheHE1WmR0LV9ISWw3T1BndTA0TS1NZHNNd3N0QmFSN1gtUTFzek1hOTE1TlJCTHFidl9XaFZ2azV5OGZhS1RRcXdvTlJkdEFPMkZXd2tOOTBIZUZVTw?oc=5",
+      "publisher_url": "https://nai500.com",
+      "source_verified": false,
+      "source_direct": false,
+      "source_role": "aggregator_discovery",
+      "published_utc": "2026-09-07T15:51:41+00:00",
+      "first_seen_utc": "2026-09-07T16:02:18.738913+00:00",
+      "last_seen_utc": "2026-09-07T16:02:18.738913+00:00",
+      "causal_known_utc": "2026-09-07T16:02:18.738913+00:00",
+      "availability_lag_minutes": 10.628982,
+      "category": "commodity_shock",
+      "scope": "all_pairs",
+      "direct_currencies": [],
+      "inferred_currencies": [
+        "CAD",
+        "JPY",
+        "MXN",
+        "NOK"
+      ],
+      "currency_scores": {},
+      "research_currency_scores": {
+        "CAD": 0.5,
+        "JPY": -0.2,
+        "MXN": 0.5,
+        "NOK": 0.5
+      },
+      "topic_article_count": 1,
+      "syndicated_article_count": 1,
+      "distinct_source_count": 1,
+      "publisher_source_count": 1,
+      "corroboration_count": 0,
+      "duplicate_observation_count": 0,
+      "article_event_ids": [
+        "local_news_65129660bec16e4b9edc13ce"
+      ],
+      "headline_variants": [
+        "Oil Jumps Near 7-Week High as Hormuz Tensions Spike - NAI500"
+      ],
+      "forward_signal_timely": false,
+      "reports_prior_market_move": true,
+      "context_only": true,
+      "context_reason": "reported_market_move_context",
+      "directional_publish_eligible": false,
+      "directional_source_grade": "secondary_requires_corroboration",
+      "directional_uncertainty": 0.565,
+      "estimated_reaction_horizon_minutes": 180,
+      "post_window_minutes": 360,
+      "secondary_analysis_context": false,
+      "non_catalyst_context": false,
+      "classification_version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+      "publication_age_minutes": 333.7664064,
+      "causal_age_minutes": 323.1374245166666,
+      "within_reaction_horizon": false,
+      "eligible_pair_count": 0,
+      "eligible_pairs": []
+    }
+  ],
+  "retained_articles_last24h": 94,
+  "retained_articles_last24h_categories": {
+    "commodity_shock": 28,
+    "fx_intervention": 5,
+    "growth_release": 2,
+    "inflation_context": 6,
+    "inflation_release": 3,
+    "labor_release": 2,
+    "market_news": 11,
+    "monetary_policy": 22,
+    "risk_off_geopolitical_or_financial": 13,
+    "risk_on_deescalation": 2
+  },
+  "retained_context_article_count": 314,
+  "retained_context_categories": {
+    "commodity_shock": 2,
+    "fx_intervention": 1,
+    "growth_release": 12,
+    "inflation_context": 47,
+    "inflation_release": 8,
+    "labor_release": 6,
+    "market_news": 199,
+    "monetary_policy": 16,
+    "trade_policy": 23
+  },
+  "current_enabled_source_errors": [
+    {
+      "source_id": "gdelt_fx_macro_discovery",
+      "last_attempt_utc": "2026-09-07T19:25:21.603427+00:00",
+      "last_success_utc": "2026-09-07T19:09:43.357957+00:00",
+      "last_status": 429,
+      "consecutive_errors": 1,
+      "retry_after_utc": "2026-09-08T01:25:21.603427+00:00",
+      "parsed_items": 250,
+      "error_category": "rate_limit"
+    },
+    {
+      "source_id": "hkma_press_api",
+      "last_attempt_utc": "2026-09-07T20:31:40.601354+00:00",
+      "last_success_utc": "2026-09-07T16:05:32.342193+00:00",
+      "last_status": 0,
+      "consecutive_errors": 10,
+      "retry_after_utc": "",
+      "parsed_items": 100,
+      "error_category": "transport_error"
+    },
+    {
+      "source_id": "sweden_scb_cpif_snapshot_direct_v1",
+      "last_attempt_utc": "2026-09-07T21:11:28.182479+00:00",
+      "last_success_utc": "2026-09-07T21:11:28.182479+00:00",
+      "last_status": 200,
+      "consecutive_errors": 1,
+      "retry_after_utc": null,
+      "parsed_items": 1,
+      "error_category": "parse_error"
+    }
+  ],
+  "policy": {
+    "execution_eligible": false,
+    "matrix_weight": 0.0,
+    "promotion_requirement": "chronological validation before any execution weight",
+    "research_only": true
+  },
+  "runtime_writes": false,
+  "classification_reruns": 0,
+  "limitations": [
+    "This audits what the collector retained and published, not the truth of the underlying news claims.",
+    "Articles and topics are captured at their own observation clocks; exact manifest hashes preserve each generation.",
+    "A category-based H6 window is a configured research assumption; age below six hours does not establish a fresh catalyst or predictive validity.",
+    "50 pair directions from one global headline are dependent projections, not50 independent news signals."
+  ]
+}

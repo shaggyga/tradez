@@ -1,12 +1,6 @@
-* text=auto
-*.py text eol=lf
-*.md text eol=lf
-*.json text eol=lf
-*.yaml text eol=lf
-*.yml text eol=lf
-*.toml text eol=lf
-*.ps1 text eol=crlf
-*.cmd text eol=crlf
+# Research contracts and audit receipts verify exact file bytes by SHA256.
+# Preserve those bytes in commits and checkouts on every operating system.
+* -text
 *.png binary
 *.jpg binary
 *.jpeg binary

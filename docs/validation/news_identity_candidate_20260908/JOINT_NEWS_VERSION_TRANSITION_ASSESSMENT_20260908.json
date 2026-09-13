@@ -1,0 +1,50 @@
+{
+  "all_order_promotion_authorization_account_proof_flags_to_remain_false": true,
+  "assessed_utc": "2026-09-08T14:32:05.141015+00:00",
+  "bindings": [
+    {
+      "bytes": 58519,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\news_repair_review\\JOINT_NEWS_VERSION_TRANSITION_20260908.json",
+      "sha256": "e2f3e363ff32340e6cf3cf2fea7155b98ea92b9080979e909771d1f72fce2a09"
+    },
+    {
+      "bytes": 7042,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\news_repair_review\\JOINT_NEWS_VERSION_TRANSITION_20260908.md",
+      "sha256": "cbbd5c0e4b2688df4a99e3023ede279f5acf8ac20f339ca882564b6e013f9060"
+    },
+    {
+      "bytes": 9135,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\news_repair_review\\capture_transition_bindings.py",
+      "sha256": "b635cbc39c0c432bac3a631cc52f1d797566fcc1989b7c485ea8681bfe07acb0"
+    },
+    {
+      "bytes": 3042,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\news_repair_review\\finalize_transition_review.py",
+      "sha256": "208e3534e29a65d9bd4be62e2345c63bb6308078c76d692003b47f051f12e6ea"
+    }
+  ],
+  "canonical_source_or_registration_edits": 0,
+  "changed_member_transition": {
+    "condition": "Classification version or governed member content changes.",
+    "requirement": "Separate or explicitly partitioned new ingestion; do not contaminate the old reader-selected mapping rows. Preserve each original member and its availability receipts."
+  },
+  "clarification_of_raw_capture": "Its new_history path and new governance module are conditional options for changed classified/governed content, not required for publication-only repair.",
+  "current_phase": "offline candidate only; no deployment, registration or runtime changes",
+  "deployment_actions": 0,
+  "old_study_continuation": "Permissible under original unchanged source/output/history semantics; this static audit makes no runtime-health assertion.",
+  "per_pair_contracts_verified": 68,
+  "publication_only_transition": {
+    "condition": "Original classified members and governed content remain unchanged; only reconciliation/publication implementation changes.",
+    "may_preserve_classifier_semantic_version": true,
+    "may_read_existing_governed_history_unchanged": true,
+    "new_governance_worker_required": false,
+    "new_news_database_required": false,
+    "new_source_bindings_and_forecast_cohort_required_if_deployed": true,
+    "original_clocks_hashes_visibility_and_expiry_preserved": true
+  },
+  "registered_sources_verified": 16,
+  "runtime_or_database_actions": 0,
+  "schema": "joint_news_transition_assessment_v1_20260908",
+  "source_observed_utc": "2026-09-08T14:26:58.609263+00:00",
+  "status": "completed_readonly_offline_plan"
+}

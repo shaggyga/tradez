@@ -1,0 +1,69 @@
+{
+  "schema": "feature_curve_inventory_closure_v1_20260908",
+  "observed_utc": "2026-09-08T01:31:06.492513+00:00",
+  "exact_model_name_searched": "unified_intrahour_forecast_latest.joblib",
+  "archive_count": 64,
+  "archive_matches": [],
+  "appdata_paths": [
+    {
+      "path": "C:\\Users\\zmoor\\AppData\\Local\\ForexResearchData\\unified_intrahour_v1\\models\\unified_intrahour_forecast_latest.joblib",
+      "exists": true,
+      "bytes": 500050
+    },
+    {
+      "path": "C:\\Users\\zmoor\\AppData\\Local\\ForexResearchData\\unified_intrahour_v1\\latest_validation.json",
+      "exists": true,
+      "bytes": 118048
+    },
+    {
+      "path": "C:\\Users\\zmoor\\AppData\\Local\\ForexResearchData\\unified_intrahour_v1\\latest_shadow_forecast_curves.json",
+      "exists": true,
+      "bytes": 274033
+    },
+    {
+      "path": "C:\\Users\\zmoor\\AppData\\Local\\ForexResearchData\\unified_intrahour_v1\\build_manifest.json",
+      "exists": true,
+      "bytes": 37623
+    },
+    {
+      "path": "C:\\Users\\zmoor\\AppData\\Local\\ForexResearchData\\unified_intrahour_v1\\matrix_manifest.json",
+      "exists": true,
+      "bytes": 8918
+    },
+    {
+      "path": "C:\\Users\\zmoor\\AppData\\Local\\ForexResearchData\\unified_intrahour_v1\\unified_feature_registry.csv",
+      "exists": true,
+      "bytes": 146051
+    },
+    {
+      "path": "C:\\Users\\zmoor\\AppData\\Local\\ForexResearchData\\unified_intrahour_v1\\unified_training_matrix.parquet",
+      "exists": true,
+      "bytes": 506583144
+    }
+  ],
+  "retained_validation": {
+    "feature_schema_version": "unified_intrahour_features_v4_native_pip",
+    "status": "complete",
+    "verdict": "FAIL",
+    "forecast_validation_pass": false,
+    "after_cost_tradability_pass": false,
+    "deployment_eligible": false,
+    "deployment_performed": false,
+    "live_execution_enabled": false,
+    "artifact": "C:\\Users\\zmoor\\AppData\\Local\\ForexResearchData\\unified_intrahour_v1\\models\\unified_intrahour_forecast_latest.joblib",
+    "artifact_sha256": "46370f88ae3e51e59da4988fd7dcc0e1c46bb893a5c413e8e9736d3badf2fb52"
+  },
+  "inspected_source_sha256": {
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_unified_intrahour_shadow_producer.py": "3eb26e98630f6a52a25b8411334127ba1888422180c05eb9936089cca9e5be59",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_ma_feature_grid.py": "e8b277c78aee6431f945bc73ba9d6b1948e7ab0e11b370aa188891ff500b955c",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_practice_shadow_strategy_lab.py": "c6671bae42fa05fecd16e179cf86ced322be0d84e29666de015b978b4a007fb6",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_signal_contribution_feed.py": "42e612b35be6e376eee6f033ff9eb9f7520444bc5cd5543b496566994aba142b",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_always_on_supervisor.ps1": "dc07dc530bb59047017834951e2a57da14e4cc957602421abfee59ba79d7dd21",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_practice_live_dashboard.py": "a5dd6945cc448a6ab86fa5fab8d55aea6040bf197e5a50117fb1bbc218d2f9fe",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_main_signal_dashboard.html": "3ffead742b158de5685b01fef2b25c3e68a556f365356828da9d90f0b91aced4",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\MA_FEATURE_GRID.md": "3c263030e644dd23d0e107e3f43b417976352639560be03f93bbd1abb78fb35f",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\tools\\vault_worktree_snapshot.py": "5868f3794de8e98b75f459be72d08971184002a4a7da1f1bdd78ef6cbd144515",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\.gitignore": "21d2bc958c443e8088647e38851205480a4e6cbe1d6458ad7c17c2c9288aa18c"
+  },
+  "scope": "Metadata only. The large training matrix and serialized model bytes were not read by this closure; sibling evaluation separately owns the fitted artifact hash/validation audit. Zero archive matches is limited to the explicitly inventoried vault/source, vault-root, local artifacts and quarantine checkpoint locations, not the entire computer."
+}

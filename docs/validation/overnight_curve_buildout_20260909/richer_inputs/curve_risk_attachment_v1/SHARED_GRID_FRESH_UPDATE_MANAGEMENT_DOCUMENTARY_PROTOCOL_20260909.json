@@ -1,0 +1,102 @@
+{
+  "account_access": false,
+  "activation_epoch": null,
+  "arms": [
+    "no_trade",
+    "fixed_initial_hold",
+    "original_fixed_manager_reference",
+    "direction_gated_static_manager",
+    "direction_gated_fresh_manager"
+  ],
+  "can_promote": false,
+  "common_terminal": "R0+3600",
+  "conditional_remaining_risk": false,
+  "created_epoch": 1788949833.308902,
+  "document": {
+    "bytes": 15907,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\curve_risk_attachment_v1\\SHARED_GRID_FRESH_UPDATE_MANAGEMENT_PREREGISTRATION_DRAFT_20260909.md",
+    "sha256": "1bd43d022625799cdc638875474189dc002a8655dfbe52f1d37bf05d21e39f2a"
+  },
+  "exact_episode_dates": null,
+  "execution_authorized": false,
+  "forecast_publication_and_consumption_deadline_sec": 20,
+  "forecast_updates_every_decision": false,
+  "frozen_source_bindings": null,
+  "guard_comparison": "direction_gated_static_minus_original_fixed_manager",
+  "inherited_economics": {
+    "maximum_entry_spread_bps": "5",
+    "maximum_holding_sec": 3600,
+    "minimum_entry_cost_ratio": "1",
+    "notional_usd": "2500",
+    "slippage_bps_per_leg": ".1",
+    "switch_incremental_hurdle_usd": ".05",
+    "unit_increment": 1
+  },
+  "inherited_observation_controls": {
+    "decision_cadence_sec": 60,
+    "entry_cutoff_before_target_sec": 12,
+    "execution_delay_sec": 1,
+    "maximum_decision_lateness_sec": 10,
+    "maximum_quote_age_sec": 5,
+    "maximum_quote_wait_sec": 10,
+    "terminal_grace_sec": 15
+  },
+  "instrument": "GBP_USD",
+  "later_news_technical_ablation": "separately_registered_point_in_time_sources_same_original_event_and_outcome_grid",
+  "missing_required_refresh_policy": "withhold_entry_rotation_and_exit_unavailable_incumbent_at_next_valid_shared_quote",
+  "model_artifact": null,
+  "no_existing_record_import": true,
+  "no_threshold_tuning_from_three_episodes": true,
+  "orders_enabled": false,
+  "original_control_reference": {
+    "bytes": 5214,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\observed_curve_management_v1_20260909.json",
+    "sha256": "60689101fb63a8bcce2465d19f627b9b2ce357d1ee271c65298f255663d991e1"
+  },
+  "original_target_reset": false,
+  "position_decision_cadence_sec": 60,
+  "price_convention": "official_midpoint",
+  "primary_comparison": "fresh_minus_direction_gated_static_matched_terminal_virtual_USD",
+  "prior_paper_evidence": {
+    "bytes": 8370,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\OBSERVED_THREE_EPISODE_FINAL_RESULT_20260909.json",
+    "sha256": "b31bfe23669a440a71ff884dc29ac04e4ff22131f9a2216d7a49c8cfd0b617cb"
+  },
+  "proposed_calendar_rule": {
+    "reference_closes_utc": [
+      "06:01",
+      "08:01",
+      "10:01"
+    ],
+    "replacement_of_missing_attempts": false,
+    "scheduled_attempts": 60,
+    "utc_weekdays_after_actual_registration": 20
+  },
+  "proposed_updates": [
+    {
+      "native_horizon_sec": 3600,
+      "reference_offset_sec": 0
+    },
+    {
+      "native_horizon_sec": 1800,
+      "reference_offset_sec": 1800
+    },
+    {
+      "native_horizon_sec": 900,
+      "reference_offset_sec": 2700
+    }
+  ],
+  "reference_price_grid": "epoch_mod300_equal60",
+  "registration_blockers": [
+    "Exact-target predictor/model/validation absent; old0..7trainingwindow cannot relabel exact.",
+    "New shared-reference producer and separate entry/continuation selector required.",
+    "Actual model/source/fit/calendar/init/resource identities unfilled; no activation requested."
+  ],
+  "risk_attachment_missing_disables_curve_update": false,
+  "risk_diagnostic_only": true,
+  "runtime_integration": false,
+  "schema_version": "shared_grid_fresh_update_management_documentary_protocol_v1_20260909",
+  "status": "draft_not_registered_not_launched",
+  "study_id": null,
+  "update_first_eligible_decision": "next_scheduled_minute_after_declared_reference"
+}

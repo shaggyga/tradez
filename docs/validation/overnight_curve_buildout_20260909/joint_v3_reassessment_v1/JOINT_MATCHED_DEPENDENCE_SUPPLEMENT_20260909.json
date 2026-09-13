@@ -1,0 +1,825 @@
+{
+  "comparisons": {
+    "matched_price_only": {
+      "common_valid_denominator": 2182,
+      "different_direction_count": 471,
+      "direction_pairs": [
+        {
+          "comparator_side": -1,
+          "count": 833,
+          "joint_side": -1
+        },
+        {
+          "comparator_side": 0,
+          "count": 0,
+          "joint_side": -1
+        },
+        {
+          "comparator_side": 1,
+          "count": 195,
+          "joint_side": -1
+        },
+        {
+          "comparator_side": -1,
+          "count": 0,
+          "joint_side": 0
+        },
+        {
+          "comparator_side": 0,
+          "count": 0,
+          "joint_side": 0
+        },
+        {
+          "comparator_side": 1,
+          "count": 0,
+          "joint_side": 0
+        },
+        {
+          "comparator_side": -1,
+          "count": 276,
+          "joint_side": 1
+        },
+        {
+          "comparator_side": 0,
+          "count": 0,
+          "joint_side": 1
+        },
+        {
+          "comparator_side": 1,
+          "count": 878,
+          "joint_side": 1
+        }
+      ],
+      "groups": {
+        "different_direction": {
+          "count": 471,
+          "mean_joint_minus_comparator_absolute_error_bps": "0.16977835515904678492897277245989366159795947477822989103930674484945180572834499",
+          "mean_joint_minus_comparator_net_bps": "0.28905216346569863343305173691024706472961060821484681036067370396014809772002166"
+        },
+        "same_direction": {
+          "count": 1711,
+          "mean_joint_minus_comparator_absolute_error_bps": "0.12631182080871806194413048719284599209371615509020607955812641830815077690931414",
+          "mean_joint_minus_comparator_net_bps": "0E-81"
+        }
+      },
+      "mean_absolute_prediction_difference_bps": "0.80487073969787141112281477993064709940158383283771139961870900834817987482293506",
+      "mean_joint_minus_comparator_absolute_error_bps": "0.13569437703191000902289341861391815173464127130150727809508147504552602190187306",
+      "mean_joint_minus_comparator_net_bps": "0.062393936293466570278170196189150489224402656493672249165846615291122710369445555",
+      "mean_joint_minus_comparator_prediction_bps": "0.30004511057051025680256872544949784281701443600594902707546184399248717398322825",
+      "prediction_difference_actual_return_pearson": "0.022551856990129734196644878346395047357781668909715521330371977018424939752815527",
+      "same_direction_count": 1711,
+      "signed_error_pearson": "0.96870293960678695819317892693332686154416530580973563691595823962821131053375344",
+      "signed_prediction_pearson": "0.55565204383484757154066240207476985986398647112892002978464712572142190115156492"
+    },
+    "neutral_news_ablation": {
+      "common_valid_denominator": 2182,
+      "different_direction_count": 822,
+      "direction_pairs": [
+        {
+          "comparator_side": -1,
+          "count": 696,
+          "joint_side": -1
+        },
+        {
+          "comparator_side": 0,
+          "count": 0,
+          "joint_side": -1
+        },
+        {
+          "comparator_side": 1,
+          "count": 332,
+          "joint_side": -1
+        },
+        {
+          "comparator_side": -1,
+          "count": 0,
+          "joint_side": 0
+        },
+        {
+          "comparator_side": 0,
+          "count": 0,
+          "joint_side": 0
+        },
+        {
+          "comparator_side": 1,
+          "count": 0,
+          "joint_side": 0
+        },
+        {
+          "comparator_side": -1,
+          "count": 490,
+          "joint_side": 1
+        },
+        {
+          "comparator_side": 0,
+          "count": 0,
+          "joint_side": 1
+        },
+        {
+          "comparator_side": 1,
+          "count": 664,
+          "joint_side": 1
+        }
+      ],
+      "groups": {
+        "different_direction": {
+          "count": 822,
+          "mean_joint_minus_comparator_absolute_error_bps": "0.22751361035599052165979562419765721030152926324509798448076437045572983384100145",
+          "mean_joint_minus_comparator_net_bps": "-0.52652560554494042892943628034278798441135125646488786753098427590969438434256754"
+        },
+        "same_direction": {
+          "count": 1360,
+          "mean_joint_minus_comparator_absolute_error_bps": "0.073639244776108101597167289423598664302388389582966584813524103770929130503474949",
+          "mean_joint_minus_comparator_net_bps": "0E-81"
+        }
+      },
+      "mean_absolute_prediction_difference_bps": "1.3658292582476601669505878707729997616965861317628298679721966740827407588543205",
+      "mean_joint_minus_comparator_absolute_error_bps": "0.13160658139694373371975229913224950060453953447310041181923973127546908382311136",
+      "mean_joint_minus_comparator_net_bps": "-0.19835199255634327799266572980832801245927164656926573194796932850493528136094891",
+      "mean_joint_minus_comparator_prediction_bps": "0.52062770313243768436326774577823599335248104176141161514640942063927753696747951",
+      "prediction_difference_actual_return_pearson": "-0.030636774572263941408909746157270328258122404936938904137152896098482951640838747",
+      "same_direction_count": 1360,
+      "signed_error_pearson": "0.92883100807349714766270344483632834247307418479960611954639795170389765883563989",
+      "signed_prediction_pearson": "0.25378362661326469890134075636479771791989397158888275954537624300059788829834305"
+    }
+  },
+  "completed_epoch": 1788944095.9069345,
+  "exact_zero_actual_return_count": 13,
+  "helper_sha256": "34ca9ac905fedf78d2e51be9dd4450e70899be1c8f0d0a7c481b0dcf0379b751",
+  "input_bindings": [
+    {
+      "input_sha256": "1e03ee452b3d0025fc923ba01faecc6bc5adaa1beff435378b4cce945b1e2e52",
+      "instrument": "AUD_CAD",
+      "logical_payload_sha256": "edd6bc60b6a6b2add6ef800d353c50da54f662a5ae0ea2c136587b3487d4e386",
+      "result_sha256": "783ca4e8d7a9b5152934f20b20a00ec6c2478918342dd0fb3aa336864f416f7e",
+      "scored_rows": 28
+    },
+    {
+      "input_sha256": "fc318ad378724bf9e4d71409ae5b4f442bcc980327d280c33ddf672b868b7add",
+      "instrument": "AUD_CHF",
+      "logical_payload_sha256": "eeb6837eb3470309a61a6bf414f12cbcf31f9c46177f343717c01502edbce5fa",
+      "result_sha256": "eec8a4a67a151dbd7f25463d3644307b03504b156b432b8036122de2f14190a3",
+      "scored_rows": 38
+    },
+    {
+      "input_sha256": "d49573aa0ca6af6a900867287c0bb552ac997d1d642f514092592128ff6e4245",
+      "instrument": "AUD_HKD",
+      "logical_payload_sha256": "21e93a4e078adda4f15e2f1734fc8ccfe6eee4ec6bbb2045cfc97aac260309c7",
+      "result_sha256": "399557d0776f83454b8c4284ff80ac7af3c5439ad875d77f74eee1fa407b3f0f",
+      "scored_rows": 34
+    },
+    {
+      "input_sha256": "1563e83d11bd84cd8b7fbb5b030b977e967ff9deb674e179495c91e9bef4441e",
+      "instrument": "AUD_JPY",
+      "logical_payload_sha256": "660aac132ab539e70b655a4951d3111bc57f65ca43d5292cede1645a998f1d2e",
+      "result_sha256": "5c577a2bc7e0dc878f40de42084571dd09e955951e3d46a6cb2d53c6014fbbbe",
+      "scored_rows": 38
+    },
+    {
+      "input_sha256": "711ba8ac2cc62bf06f9222b867c6c61d239704eda20e715e632a87ec53b87dff",
+      "instrument": "AUD_NZD",
+      "logical_payload_sha256": "87e6624c30a80892649febe4bb5de2a238f4efa4dacdafb6c8584484d13e598d",
+      "result_sha256": "d03023516b8b8d259570a92eb3b2172f1ed61f2930c3566191df87d11c5da15a",
+      "scored_rows": 38
+    },
+    {
+      "input_sha256": "da3ec59679952fe798f79b3ab407134c65008c2b7792702ac92bb8d37a3e4479",
+      "instrument": "AUD_SGD",
+      "logical_payload_sha256": "56e94ea5bc2979529467701a572fd349844ad2ff4327c02da37f2c6aeb325f7f",
+      "result_sha256": "17e54e305c2651f6f7387243af1688d1c61ea647a99488262e34c4b04e998fb2",
+      "scored_rows": 31
+    },
+    {
+      "input_sha256": "61dc2166c028457f95e036827c90320fa1abcc8d6b6d04d6673cb8cc719a45f0",
+      "instrument": "AUD_USD",
+      "logical_payload_sha256": "ccc51955e4d40b6d4ae4a834b2d4be873518d7e7a2fcd921defb30010e929761",
+      "result_sha256": "2f0f9a9e389f4e93034d3f7f3ff7a3072b363e3592f677b5b66766ada4fd9d42",
+      "scored_rows": 35
+    },
+    {
+      "input_sha256": "966321434593737beb94cddd4eb18767823fff6a4d23a162ca197d69b856f64a",
+      "instrument": "CAD_CHF",
+      "logical_payload_sha256": "f133a4a8a979417f75878b84edc6924d8225f2ed87fb22a6b5bf004d0731359a",
+      "result_sha256": "82e99183cc619929b6fb8fa722b7a335cee61b8fff37b3ee586116ddda295597",
+      "scored_rows": 28
+    },
+    {
+      "input_sha256": "1afa9d7f68e7f62632b5f861b03d80d9fb8d5ec173d402d48a4338bb8330b6ba",
+      "instrument": "CAD_HKD",
+      "logical_payload_sha256": "732df8bb8aa817996df92b5c387eb21049bb5595d58a2bbecb666e3968fba302",
+      "result_sha256": "03d8aba8f90883a0ac2b471fb6d9b7592c78d6a324d8723ef116784d907601c5",
+      "scored_rows": 30
+    },
+    {
+      "input_sha256": "58211f538c3adc61ebd11c0092ca8233d6ea0815729906f53f51719363107404",
+      "instrument": "CAD_JPY",
+      "logical_payload_sha256": "e59b703699260fea72be54e69e641ed7a54936968f7518c47d91134c7eb8f55c",
+      "result_sha256": "e3b6379a58e459ac8cd905cad0ee36dbbbd00e3c06e908d3cb507904067bff31",
+      "scored_rows": 37
+    },
+    {
+      "input_sha256": "2bc00e113175b9bd841f1f2074c9a8d2acd34384c626670ba0db0ca7f880f089",
+      "instrument": "CAD_SGD",
+      "logical_payload_sha256": "aa6bad751de06b4166496dcdee1b80a590e30c6b017b22d5292c3c2cb5b8c5f8",
+      "result_sha256": "2c803b0c938cf138d67c1add983a07dceaefe6fde362793273aadf8eae027419",
+      "scored_rows": 28
+    },
+    {
+      "input_sha256": "12378799ac4199c3a9daeae60b47974427e54fa49c7c90b802fc9e49a0cc855e",
+      "instrument": "CHF_HKD",
+      "logical_payload_sha256": "d71450f39767c08dd2597f98637bbd0017d9f8e9bfad607106cc889a51499be6",
+      "result_sha256": "ed32906f61926c31605a3c8a098582c89dc727cebf38049455ba075154a38989",
+      "scored_rows": 39
+    },
+    {
+      "input_sha256": "32c9e2358d9f315ab9fcb92e8e7fbe2d400ce2d8260e5b64acfe1926ca4e6125",
+      "instrument": "CHF_JPY",
+      "logical_payload_sha256": "904caa0f5eeae60e688b481136b88d4921e6157b8401fec6469bc01526ba5c51",
+      "result_sha256": "9a6b6f5a05ef8de67a521ce343b8bf7e0cca98296c21195d132358b12a5e1fe2",
+      "scored_rows": 35
+    },
+    {
+      "input_sha256": "dcdced68a5cde7ee6957f772c8ef5c5e45a9f9f4c4483dcfdcae2e2846706ece",
+      "instrument": "CHF_ZAR",
+      "logical_payload_sha256": "83ad6aeb6091c6fe3f36ab7a160f04aa13d43f16f3e7f4386945c08363e4e813",
+      "result_sha256": "45fed7c794587f745354120e83ad03af7a22e96753269d412877f9d0e97170f4",
+      "scored_rows": 38
+    },
+    {
+      "input_sha256": "fad68818f153b1239e2e537285d3c53eb0746d14fcc6a281c4bbfe5b141a8683",
+      "instrument": "EUR_AUD",
+      "logical_payload_sha256": "c240b6e56fa8ab88a995ccdd10b880a6728cf4255bccbbd617e5325e0f7a0130",
+      "result_sha256": "d5fe6c87bac681616761afeff435ae21653c371d508bb314104e2c2f32e01c54",
+      "scored_rows": 36
+    },
+    {
+      "input_sha256": "741a42296546210b9ef0179d1232d43721c09d72421bc1a9c40c8a109d0af7b6",
+      "instrument": "EUR_CAD",
+      "logical_payload_sha256": "67dc58fd628d8452638b7f335746397f04cbb1204ac2ddbe59b58e5fbab357a7",
+      "result_sha256": "4550fb3632b479150df344ec0901484bc14e3cab3bdaae50e87140dbbb45898c",
+      "scored_rows": 37
+    },
+    {
+      "input_sha256": "56dad64561996bf535f75978f8cfaba3dc4cae4efc2e2f5fd49e8547306b2c7c",
+      "instrument": "EUR_CHF",
+      "logical_payload_sha256": "15be229697519c8bf677f7797d091db64762cbd47de943b5e6ae1002c1acf977",
+      "result_sha256": "6a63c1101ea651bf59a256af8b5038aeb236ad551aa90165d10cb791058b1112",
+      "scored_rows": 32
+    },
+    {
+      "input_sha256": "c6e004668aaa9bf5370ec4152a4881bbba4ddd14a426b7e534b0b6d289a468e7",
+      "instrument": "EUR_CZK",
+      "logical_payload_sha256": "4b087429ae02d0592a9a087a0506315a2cbf6f30739fb4dc0b57772d2edc0f24",
+      "result_sha256": "9da1c3b95f2dbbb61f30639d1f3dda5d95c822cf919778937ef2eadfa2a6003f",
+      "scored_rows": 37
+    },
+    {
+      "input_sha256": "a5540a4003ae419abf99b96bd03421a7cfb7f1fc2ef0a311f114b9a02848ff32",
+      "instrument": "EUR_DKK",
+      "logical_payload_sha256": "dc10695339948b893ef81212d0847979ba2b0459f0dfc9383b9dda35eeea5bd6",
+      "result_sha256": "4896b027a505260a131e79872991727ef35823c813025ca40fb8c4ea00a06c9f",
+      "scored_rows": 19
+    },
+    {
+      "input_sha256": "1ed74adf7e3c3b44963f18dc4b728fea4dc9f81474c3f78cbd2b87f608cd6ba3",
+      "instrument": "EUR_GBP",
+      "logical_payload_sha256": "f5615009fb5090391853310b962281add83c84721532ce47aab7dc2e5a7108d4",
+      "result_sha256": "65d645959aca6f93c4b1426fba1838cb6229226abb4028dd9bbc888bbed1df22",
+      "scored_rows": 36
+    },
+    {
+      "input_sha256": "d2c185b71ca7c98c1290a70285648a793ec928cb51fda523d70fdea7580eae04",
+      "instrument": "EUR_HKD",
+      "logical_payload_sha256": "f0733e9a736de2c36388e4c7f5e03c47cbadaaab04f5c76316fa881b2446ecdb",
+      "result_sha256": "a941930c4036caa6c18c43c344e18ed3ce85717fa00ca798dd0d738e8edabf0c",
+      "scored_rows": 38
+    },
+    {
+      "input_sha256": "9102fa48e9ec4f706f15612fe5eefa6d33f9581fd223dbdabd8970aaa0a32a97",
+      "instrument": "EUR_HUF",
+      "logical_payload_sha256": "ef699dd42f1b3174b23506a1ffd0ebe730ecf4ad383d05b58c394be1f032ee43",
+      "result_sha256": "fdb7c937e0abb5af521d5957cd77de0e8dadb7bd6c50473f59e3268c46e9ee5e",
+      "scored_rows": 35
+    },
+    {
+      "input_sha256": "3911c35639efd4ca8ca2725c0359ed33b723a5630bbc21239cd9a8f88284e5a2",
+      "instrument": "EUR_JPY",
+      "logical_payload_sha256": "d342078c7a69b175d0df85e2b51e5318294af6464347d7a733b33906102208e5",
+      "result_sha256": "e5119a7fe51cf13ed18508a6720f62b6a96ef466757a931594b11b6412e2d4a3",
+      "scored_rows": 36
+    },
+    {
+      "input_sha256": "2671fdd8c46a6317e04e7fb66b906b62aba08fa0dbf13888373a749c70a08b84",
+      "instrument": "EUR_NOK",
+      "logical_payload_sha256": "1b552d3e9dac664bb83f5e0090af042a80e961dadfb18e5dc906a20e5bb16e23",
+      "result_sha256": "10c5f689973600571e0c8446bebaf49901835ef1d7cce229524ab7a46457e665",
+      "scored_rows": 35
+    },
+    {
+      "input_sha256": "f931e5391dfe139e0e156109cc48223ca6032b64280b2656be3466de2ade47bb",
+      "instrument": "EUR_NZD",
+      "logical_payload_sha256": "c81f9a0e19e77baca652ed3d591414bd31c3f2def03d8eb2b23c715c3bd37ae0",
+      "result_sha256": "2743677dd5f7a6ef90b295baf8d381879d507255ca77b95741af996ef7e5d0d9",
+      "scored_rows": 38
+    },
+    {
+      "input_sha256": "7635963f326506f8d87c9144d5a0f068c2b4ad8433a968916fb6efc4d1358321",
+      "instrument": "EUR_PLN",
+      "logical_payload_sha256": "943429c42c02e9274389349d68fd6d2d7e6018092cfcdd4b6267af5c47617a11",
+      "result_sha256": "a624d522d9c36bc1402d0ca57ad748a8477de5e37bd4de4ee7995a6496895e1b",
+      "scored_rows": 33
+    },
+    {
+      "input_sha256": "ff4f2329a379c3b1d47e2db5a3a8dad9f245c39d564ce8375e4f7f111e4e7025",
+      "instrument": "EUR_SEK",
+      "logical_payload_sha256": "24789ec802b62b02c7cb0af7a399b2520a226295893fe897f02f6967fb251928",
+      "result_sha256": "739956fe97ba6cdd33943e4cdf62a08f8e9ef9d38024b88879240641004a85d6",
+      "scored_rows": 34
+    },
+    {
+      "input_sha256": "e62ab9cd016afa1d6c08ad0b4b1b103848a15dcd21f88141d59b1d5f9d93dc7b",
+      "instrument": "EUR_SGD",
+      "logical_payload_sha256": "210910b36020dd2024ffed9f4f0ff9c2ab12c314bc7af21db526d7cb8a9f8df3",
+      "result_sha256": "de490cd12dd2900116811754ae7147eccf0d24f72489419b6855ed31be70fcc1",
+      "scored_rows": 35
+    },
+    {
+      "input_sha256": "05469cb840f856ec5c400c20154833ed729ccb878431de457996506df50b9264",
+      "instrument": "EUR_TRY",
+      "logical_payload_sha256": "e67602d97448004b628a0356c79320e46384482a2fe6f1d1bc111ab5ac54eefe",
+      "result_sha256": "c84b1f72e19e05dc36d6bc3cca8e8d8014ffb261eeee40033482b295f4386342",
+      "scored_rows": 4
+    },
+    {
+      "input_sha256": "11f162aff61ed78c3301b11a68099dc018d9a13053bc9debb260bc4f9b3283fc",
+      "instrument": "EUR_USD",
+      "logical_payload_sha256": "f32d6db667e82c4c738e0620e2d0ccba28173b9f4e9d66ff658c138c10ea0dc2",
+      "result_sha256": "a44bb1568133d826b9040545b87956950608c6a455224c1776be8f0d811de2cb",
+      "scored_rows": 37
+    },
+    {
+      "input_sha256": "8cf9702fb1310574adff9ca49e664b1bc342fddbce98d2177b54c1ac2d6ac1b0",
+      "instrument": "EUR_ZAR",
+      "logical_payload_sha256": "cca2fc7699985ae4472431811fc99bb94fb501f5ee7252929648831cd2623415",
+      "result_sha256": "fea41cf91a9d6724758589bfb27cc76c5bd46d28207c8c84e71eb578f9b18e86",
+      "scored_rows": 39
+    },
+    {
+      "input_sha256": "81c3742efa2fc1e168c0f1a6b55a4bf3a3bbfc1051168ed0189ca8668be7abd3",
+      "instrument": "GBP_AUD",
+      "logical_payload_sha256": "77e679db0bfd41eb94203d9d658c3e9836753069e98d42149258574296d2cc22",
+      "result_sha256": "40b07b585f1079fa68e7b5c2ea79e7bd79246a0dc302b34fbd5f608bd9721737",
+      "scored_rows": 38
+    },
+    {
+      "input_sha256": "fcb7a863cbb249f23d49cd500eebb60fe62d760c29e6e954ea758e6199ab76d7",
+      "instrument": "GBP_CAD",
+      "logical_payload_sha256": "44c02795cb02b50ec62a1e476576c7e28da17f3e8f25e94ff61af36bc2bacaa3",
+      "result_sha256": "8e54b7037a18bc3cfd3a48a8e59a4766c6dd6f2ca019d8f5eee25ebdf24b9022",
+      "scored_rows": 35
+    },
+    {
+      "input_sha256": "255a1651df60923ffcae33b5dbba341b25bb8420dc5150da517e237df369f574",
+      "instrument": "GBP_CHF",
+      "logical_payload_sha256": "0084edf6a3ee165404f528a7bf977b5dc33a69b07cc503ae64ad36f30c8b710c",
+      "result_sha256": "728dbd26e487d617dcc2b2417132a256aa2e55cf399342aee6a4012197d7000f",
+      "scored_rows": 37
+    },
+    {
+      "input_sha256": "0efc7dad3dc9c213b3340b0969db359d8640e419d35b93f0c9713c6f67a4499b",
+      "instrument": "GBP_HKD",
+      "logical_payload_sha256": "1a3e606a4d6a8f1e27797d9aaea24159d73041f33cd6f8eaca0939e9738bbf38",
+      "result_sha256": "ee6115fc043a59ab3a4970931b7a79161aa7d0f30f956e07223c88417c37d2d8",
+      "scored_rows": 34
+    },
+    {
+      "input_sha256": "a4f26cc1358dbaa589e7f0cc0632bb260594965589daff342413877ca98c0080",
+      "instrument": "GBP_JPY",
+      "logical_payload_sha256": "9651db65f99a1b81ba4c06ec09756fe6352fc8a0b84b23eb66b90ac08ec020b7",
+      "result_sha256": "b0f519eff2f103073a0f0b6da6a7ba0d535848590234211d7b8ac03365c36785",
+      "scored_rows": 37
+    },
+    {
+      "input_sha256": "b068a47ed4a915c4fc2dd628c29d6fa3aa1ca21d90a774a1183d3401b6709ebe",
+      "instrument": "GBP_NZD",
+      "logical_payload_sha256": "8a0a95bd2732da2bdb0c4f46e8c2406abf9a5a7f633ab637217a0d2edceb0c31",
+      "result_sha256": "b49cfaf5facba155ad527f646a754034459de00373ce95af1f9545e699ea0cde",
+      "scored_rows": 34
+    },
+    {
+      "input_sha256": "0a58bf017689f3da7d524744355c265f8ea478fd5f3351ae209f415396215fba",
+      "instrument": "GBP_PLN",
+      "logical_payload_sha256": "ad1786d46d23db66a76849174ee961576b14017da7e0afbd2bb37ec401e59eb8",
+      "result_sha256": "292923293b67679c815c45682bb27adeed446fb7698db9442b72d06abde009dc",
+      "scored_rows": 35
+    },
+    {
+      "input_sha256": "b244c81d79e334a7ce0d0057f338e12ddb72ba76ca4af3b7d861020f322cb9de",
+      "instrument": "GBP_SGD",
+      "logical_payload_sha256": "eabffda913d73a68460b331c31ee723934230ff4b8ee3c8ba308b3618b7334b0",
+      "result_sha256": "6009b3d317c5ebb36f29c0d7d725e474daf2679fbd5e5042729885abd3311ad9",
+      "scored_rows": 30
+    },
+    {
+      "input_sha256": "74f7c40045467fcbeaa956a401d765365844bd66413466de512a58016a4425aa",
+      "instrument": "GBP_USD",
+      "logical_payload_sha256": "163fca7829e3f04df666e85a3ed805c38333472a1bd2df3873d7bf0bc2c1d52c",
+      "result_sha256": "a292cb7f9407d8932ff6ebf1364e4dbdf436b013bf8fb59e7de144713d0c1f25",
+      "scored_rows": 35
+    },
+    {
+      "input_sha256": "3ff5287ced4ba3e89df6f790cd06c3a39e98746a3515717fbe8605ddbe835153",
+      "instrument": "GBP_ZAR",
+      "logical_payload_sha256": "bb11df267d674bc89ee01cb5a26f0e99a560a32fd7c050608a99fef9edf2ec3b",
+      "result_sha256": "06a2478618dead33d73abb62b0fa7079d83ad01637223a502435d6ac8dfd5e5e",
+      "scored_rows": 35
+    },
+    {
+      "input_sha256": "cf1d0af6f849a003e6964ab49bad1a4a3997585cd953706f55a13c95907d9b13",
+      "instrument": "HKD_JPY",
+      "logical_payload_sha256": "65280b26faf24d466caa1c19a141bdf38d09456429b80c319db4f41c75672891",
+      "result_sha256": "b4d3cbd5024f4999c93172e5810e1141af9059c6acef8984b428da4bbbf6a2d1",
+      "scored_rows": 35
+    },
+    {
+      "input_sha256": "3f0956c3965409d0cb8a9d80d1ba1b38354d255abfa63ee2c0ea9d9bd7f2fefc",
+      "instrument": "NZD_CAD",
+      "logical_payload_sha256": "dfb8fa1fa0b07c78d51284a10925cde5e89a72a814f19c2b78839fac7036b72e",
+      "result_sha256": "12b36ce8db94078825624df6e9a1a90af77cd617dc189d39ccb029a378c0abc8",
+      "scored_rows": 29
+    },
+    {
+      "input_sha256": "59a8892e5868969609296fa998603a41fd32f95771b9f5e52e103456d99e098f",
+      "instrument": "NZD_CHF",
+      "logical_payload_sha256": "82a7b25ef5e50020894a71e120dc4de5710b44bf4676c9c7996e585180425c3f",
+      "result_sha256": "d01f05af45b2d0f7b5eff151658130c171f046da60834ed06609632920874ff8",
+      "scored_rows": 34
+    },
+    {
+      "input_sha256": "b16755632f07e45252945f03f4050787911b3c55bfdead8f1194e846e964c49e",
+      "instrument": "NZD_HKD",
+      "logical_payload_sha256": "f977c91d1f4b36d0375db03a777add6ca3900f6d6435901f2212995024ca11f8",
+      "result_sha256": "46bd3d812913d0c680a459f5f836f405ced172c94e423fdc3817b4a6a0ec7528",
+      "scored_rows": 30
+    },
+    {
+      "input_sha256": "ef63be7e19e6719d16dd147f4a35f1e72056499f8e80c51b6f742cab2f8d7e7f",
+      "instrument": "NZD_JPY",
+      "logical_payload_sha256": "3443ed55049667a195480d870ae5feb4c7c2e6906c0dfcd6e948fbea7093df88",
+      "result_sha256": "6bd6785d549dfe075bb3c808b1f8fbce9bffe45929f6a118981c716e4b814a43",
+      "scored_rows": 36
+    },
+    {
+      "input_sha256": "7c5a46667a4e93553bba99237bf1d335fc4eb7ebab02d9b528fe1c2ba6c7212a",
+      "instrument": "NZD_SGD",
+      "logical_payload_sha256": "ea5539715e644fe39168c82dc48940356da1bd8e72e131163a01012ff19657a0",
+      "result_sha256": "adbf29a2dda30c2870a58f0f9b7228046cc3232c44002e611aa780972e260f4a",
+      "scored_rows": 30
+    },
+    {
+      "input_sha256": "577fa39b46f7fae8e1b354eeeae13472bd09dc5f5d0c02416c63ffc31b9586fd",
+      "instrument": "NZD_USD",
+      "logical_payload_sha256": "6e3b5f000fcb4bf7fa188c3c4290492a36ca5ee481e075190ccf697820519099",
+      "result_sha256": "4f7ac85e0f0843e2d645de7cbcbd0b224573b04680ad046cb59974a6ae1e648e",
+      "scored_rows": 36
+    },
+    {
+      "input_sha256": "4af91604437be65175e9d608c025262d38b7c9880435b325efc113330774b47e",
+      "instrument": "SGD_CHF",
+      "logical_payload_sha256": "9706cbc705bb588eb1fc9b3d775a16aa3b03031e87e397f55aff7f91f55c6679",
+      "result_sha256": "1ec1a90d410a3ba221d5f6ec6c0a002e6176060f88c8095191f12588127fdd63",
+      "scored_rows": 30
+    },
+    {
+      "input_sha256": "c0d2dcbed31c1bb7613139755f6743850e4a599b9a1c2fb50f3301182909589e",
+      "instrument": "SGD_JPY",
+      "logical_payload_sha256": "d5a30909d106550b1c582dfec8f4b2d91c1a42668448c687005d599e377723dc",
+      "result_sha256": "1cef0168908acff4dfed9a2b68f1a7c8c0295284b1cb2cb25896f6bce606ede2",
+      "scored_rows": 34
+    },
+    {
+      "input_sha256": "8df5977894487f836a660f6e6dab287dd4e729f2e7cba3f985b02e851cb01a27",
+      "instrument": "TRY_JPY",
+      "logical_payload_sha256": "e01ab8d796611ee90cf77928dfd2602f2f9e6d1da59d291d96fa2889921afd1b",
+      "result_sha256": "d07a25621cbedfae80048b3212fc0b870cd718615019a8096028f77406c9cdb6",
+      "scored_rows": 0
+    },
+    {
+      "input_sha256": "ae6577509e92a6bc6f8897ba53a4fe8129a12e702047eb06d515a9fec50439d7",
+      "instrument": "USD_CAD",
+      "logical_payload_sha256": "41a4421140a615e97b5c545190794f3ccff255f351e83109e2a179387bec7e19",
+      "result_sha256": "a4c79e9dc0e0ce8dda572267a83dfb489208703f59908b3a6af78e6c37602b65",
+      "scored_rows": 36
+    },
+    {
+      "input_sha256": "8652ff249f786ddde44a0271bbda74a07bb4ae903a4d93b865c11601df149db6",
+      "instrument": "USD_CHF",
+      "logical_payload_sha256": "ab59a47f4ef821fdbfeb8a4519cacc98a8a1c7a7e0bbb8a72e01208f8f96cc10",
+      "result_sha256": "1bc1e530b314834b5172b618f70ce3d01494d44ebcabe4afa0a5716c96db881f",
+      "scored_rows": 32
+    },
+    {
+      "input_sha256": "df66b7780fddff80f6167ebd64ee1ab0726c8e263eebafc755e0b07ff1c38a0b",
+      "instrument": "USD_CNH",
+      "logical_payload_sha256": "b02d3a1b3216a9668b9e8f1c3bbb791850cc36b3be57fd567706de697f554ad1",
+      "result_sha256": "8c36e88c3642e0798faf50526457761a87a32471b55d0cc81342bb8c5df8d86d",
+      "scored_rows": 34
+    },
+    {
+      "input_sha256": "6c341762f6837c85bc58c026a440d1089c042cccf817b906dae43c2dc886326c",
+      "instrument": "USD_CZK",
+      "logical_payload_sha256": "b2c1d476cd059606e144f493e0cb0ef5038e14e2782a1da10677b80ffda267f8",
+      "result_sha256": "ab0de1831b49e6782526e50025ab262cfa0e0e5a4c39771f2b7c02b4a0e0d5d5",
+      "scored_rows": 36
+    },
+    {
+      "input_sha256": "ff8b94912f0bbe8d90e5564fb0dd6da23cd32e840fa110b861f25614835d8a90",
+      "instrument": "USD_DKK",
+      "logical_payload_sha256": "9f312bfc75659206b802eeca8fabbd385c213de6fde7a529b63f4b60bd488870",
+      "result_sha256": "e2a7e6ec3406b0d562f7c4eb4bd9fc4302b4eb5ea8ece7bfde58dc044d6d1df4",
+      "scored_rows": 32
+    },
+    {
+      "input_sha256": "710264b40af4c8d401197faf1416a84445fd1394502046fb224e059f66fdcee1",
+      "instrument": "USD_HKD",
+      "logical_payload_sha256": "95b0205a99fdf5e4609d61f9042c23cf4c9ba5a334cc5f0ca6181ed73489457f",
+      "result_sha256": "719670d65eeb750a89fe364a2106b24cb3efa15c154116e6c2050f369482f7ad",
+      "scored_rows": 13
+    },
+    {
+      "input_sha256": "b9cc283bc894eefae5168b53980b87c37183a3585f23b6453aa06cbfc099852b",
+      "instrument": "USD_HUF",
+      "logical_payload_sha256": "4915e568246103360a50da4ac0b79687f0ce24e64bb097c7559ca387f3adacd5",
+      "result_sha256": "f60b87d0713be9f023e8f30b718d2b56c22d3ecdbc805b6cd8ee2e8002e4a7c4",
+      "scored_rows": 35
+    },
+    {
+      "input_sha256": "d6f54908aab26c9e83fdfdd2697081b5604efa041985c14b323c6558d761b0c1",
+      "instrument": "USD_JPY",
+      "logical_payload_sha256": "8965c8455c95df3ca09517f3ebe5138aed5144bf8d087fca08d992d0f1209282",
+      "result_sha256": "4129d903797dd4ce2cf8f1e8c94ad277f653bad1bdd0db267bf84bf591ba2ce5",
+      "scored_rows": 34
+    },
+    {
+      "input_sha256": "9528b08a372d5349a383b9d88dcfe86b0011f7d684785b2de7aa5b24a5e00170",
+      "instrument": "USD_MXN",
+      "logical_payload_sha256": "91a39fd6eca86bdb82d0f63c5530f513ade9b32a44ef5b4d5d2cb188cd1eabde",
+      "result_sha256": "889ee68dcdd7a0fedfb165629e1be107151eaae3d0b450b6c0ddafd947f47319",
+      "scored_rows": 31
+    },
+    {
+      "input_sha256": "6c5ec5ede1d39fad55628b38091f7032206562571e5ab7e03708507b48dd6110",
+      "instrument": "USD_NOK",
+      "logical_payload_sha256": "db8cc215631abcc3125e32bcac7bf38de754038b4c3c4a508bdefa998b0f98f4",
+      "result_sha256": "464482865f44f518f9631a870f8934d32e2dc22368d7e2dd598e17283f596ec8",
+      "scored_rows": 34
+    },
+    {
+      "input_sha256": "f9ea61bb79ec91a5e1f2249ab83c49ad90ab7eb11a84f1fb86af39773982f4e1",
+      "instrument": "USD_PLN",
+      "logical_payload_sha256": "815c371ee166717412056ec1e1b13095a678863c95639be27f75cdb6ea98bd7b",
+      "result_sha256": "82933ac7e591ac62485d295f53a152ac09908888fca7c9afc5011e4885b1ab6f",
+      "scored_rows": 34
+    },
+    {
+      "input_sha256": "0dc5589fd0e9270903d24fa8c06a4db4b8c0d9a68849edaaef0dae4d09c52ca7",
+      "instrument": "USD_SEK",
+      "logical_payload_sha256": "8955c6651877b35e0bc4bb29ad3e8c9a15a13c5b015870871374ae3ed4cbd33f",
+      "result_sha256": "323c086f45f4af0f4bd1c187818b2d46ab4d0a7c6c63ab543d82821443373d22",
+      "scored_rows": 35
+    },
+    {
+      "input_sha256": "ea93471fbf5b3cb1dafd1eea16d21fa16767076e5fa03cd908ce204b6872cb1b",
+      "instrument": "USD_SGD",
+      "logical_payload_sha256": "dece6fdf4a7b98b3ccb0e96235ee79ef84a9bb7d34fa32e7898ff374c4dccef2",
+      "result_sha256": "b72e99de488560879e17bb11f1aead0631f36a3dcd6422b36f623a8b78c10988",
+      "scored_rows": 35
+    },
+    {
+      "input_sha256": "baa5a53abe0b4f884dfca1ce96f990faa16ec0db54dda7c5d0aecab05d31fd41",
+      "instrument": "USD_THB",
+      "logical_payload_sha256": "e942d30ad13d9fb780ab87068d0d87852669e103250493324660fb19cbc331c4",
+      "result_sha256": "8a1deb6b2e97855410fc232ba3d816a0236e1677fa8a381269a4e89b2ee76095",
+      "scored_rows": 26
+    },
+    {
+      "input_sha256": "91725ffdcfd42bdb0e3ac45e39b29f57a378e9a9bcf5e3354c86959feb4e2c82",
+      "instrument": "USD_TRY",
+      "logical_payload_sha256": "27eab93254c33763c030c852a3f2eabbe3322d705cd1e726185c1ab90005cc80",
+      "result_sha256": "57ad0f084569cd459b290fe4814c90c4f806d5bfce16dd3a4fa60fbf4e3644e2",
+      "scored_rows": 0
+    },
+    {
+      "input_sha256": "e0aabac10e33f636b69dbcecc43927126785f7568989726b9c7146dda1c63edb",
+      "instrument": "USD_ZAR",
+      "logical_payload_sha256": "ca7d6a0c34dada153727b446b85d7e450be27baa6b3229554124b3add36b53c5",
+      "result_sha256": "45d59f86b25e898834da24ddebc1c57626b1d1aa6277c57b82e4c0e97100bb21",
+      "scored_rows": 37
+    },
+    {
+      "input_sha256": "68414af56e7619fa82d5ee57d0276fd02604226956c2ccb2cf1c53dc61b04ef5",
+      "instrument": "ZAR_JPY",
+      "logical_payload_sha256": "d2054fa90a657a0d54be0d476d85f569314c541e802c3ebe3bfc6e8bea7adc61",
+      "result_sha256": "02779a3613185e225312142952edd42c39d930af8ae4b3bffa9ddd192c599c72",
+      "scored_rows": 16
+    }
+  ],
+  "limits": [
+    "Matched price-only and neutral-news values are the original pre-issue diagnostics on identical joint decisions and economic endpoints, not independent price-family forecasts.",
+    "Neutral-news difference is an ablation of the same fitted model, not identified causal news impact. Joint versus price-only also includes fitted-model differences.",
+    "All correlations are descriptive. Shared realized returns mechanically increase signed error correlation; overlapping H1 windows, currencies and source captures prevent independent-trial claims.",
+    "Direction-agreement groups are predefined by the original forecasts, not selected by profitable outcomes. Primary paired means retain every valid original completed row.",
+    "Brier exists only for original retained probability baselines; neither comparator has a probability. Signed forecast differences are not calibrated probabilities.",
+    "Original scored MAE/net fields are preserved, not recalculated from independently rounded serialized return ratios. Comparator pre-issue pips and return conversion are reconciled with retained input diagnostics.",
+    "Net bps use registered bid/ask endpoints, not actual trading, financing or USD account P&L. Snapshot clocks are per database and not globally atomic."
+  ],
+  "original_dependence": {
+    "distinct_exact_reference_epochs": 2182,
+    "distinct_pair_reference_target_events": 2182,
+    "greedy_nonoverlapping_H1_reference_windows_within_pairs": 641,
+    "independent_sample_size": null,
+    "pairs": 66,
+    "reference_15minute_utc_buckets": 47,
+    "reference_utc_days": 2,
+    "reference_utc_hours": 12,
+    "scored_rows": 2182,
+    "warning": "Clock counts and nonoverlapping within-pair windows do not establish independence: currencies share market factors, families share inputs, and H1 windows overlap."
+  },
+  "original_event_identity_sha256": "523f295c69066158373df5044cf1de3e00304d78cf6d8130ee44e211a3413446",
+  "original_metrics": {
+    "fair_coin": {
+      "brier_denominator": 2182,
+      "direction_hit_rate_when_directional": null,
+      "direction_hits": 0,
+      "directional_decisions": 0,
+      "mae_bps": null,
+      "magnitude_denominator": 0,
+      "mean_brier": "0.25",
+      "mean_net_bps_per_valid_decision": "0",
+      "neutral_decisions": 2182,
+      "positive_after_spread": 0,
+      "positive_after_spread_rate_when_directional": null,
+      "probability_scope": "fixed_0.5_probability_baseline",
+      "rmse_bps": null,
+      "stress_mean_net_bps_per_valid_decision": {
+        "0": "0",
+        "0.5": "0",
+        "1": "0"
+      },
+      "valid_completed_decisions": 2182
+    },
+    "matched_price_only": {
+      "brier_denominator": 0,
+      "direction_hit_rate_when_directional": "0.50366636113657195233730522456461961503208065994500458295142071494042163153070577",
+      "direction_hits": 1099,
+      "directional_decisions": 2182,
+      "mae_bps": "3.8959956076448909966141960076536963294544251657389226320969864844165645075210364",
+      "magnitude_denominator": 2182,
+      "mean_brier": null,
+      "mean_net_bps_per_valid_decision": "-4.8305136300199801338359490987525131046084398028329561217224659352918396836365522",
+      "neutral_decisions": 0,
+      "positive_after_spread": 421,
+      "positive_after_spread_rate_when_directional": "0.19294225481209899175068744271310724106324472960586617781851512373968835930339138",
+      "probability_scope": "no_probability_forecast_provided",
+      "rmse_bps": "5.8561375378826271070514741528126464868364191366230286986090228163128118458605935",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0": "-4.8305136300199801338359490987525131046084398028329561217224659352918396836365522",
+        "0.5": "-5.3305136300199801338359490987525131046084398028329561217224659352918396836365522",
+        "1": "-5.8305136300199801338359490987525131046084398028329561217224659352918396836365555"
+      },
+      "valid_completed_decisions": 2182
+    },
+    "neutral_news_ablation": {
+      "brier_denominator": 0,
+      "direction_hit_rate_when_directional": "0.52841429880843263061411549037580201649862511457378551787351054078826764436296975",
+      "direction_hits": 1153,
+      "directional_decisions": 2182,
+      "mae_bps": "3.9000834032798572719173371271353649805845269025673294983728282281866214455997980",
+      "magnitude_denominator": 2182,
+      "mean_brier": null,
+      "mean_net_bps_per_valid_decision": "-4.5697677011701702855651131727550346029247654997700181406086499914957816919061586",
+      "neutral_decisions": 0,
+      "positive_after_spread": 445,
+      "positive_after_spread_rate_when_directional": "0.20394133822181484876260311640696608615948670944087992667277726856095325389550871",
+      "probability_scope": "no_probability_forecast_provided",
+      "rmse_bps": "5.9206740212916482287810515021345703356767810689557580845868745483501577544402614",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0": "-4.5697677011701702855651131727550346029247654997700181406086499914957816919061586",
+        "0.5": "-5.0697677011701702855651131727550346029247654997700181406086499914957816919061595",
+        "1": "-5.5697677011701702855651131727550346029247654997700181406086499914957816919061590"
+      },
+      "valid_completed_decisions": 2182
+    },
+    "no_trade": {
+      "brier_denominator": 0,
+      "direction_hit_rate_when_directional": null,
+      "direction_hits": 0,
+      "directional_decisions": 0,
+      "mae_bps": null,
+      "magnitude_denominator": 0,
+      "mean_brier": null,
+      "mean_net_bps_per_valid_decision": "0",
+      "neutral_decisions": 2182,
+      "positive_after_spread": 0,
+      "positive_after_spread_rate_when_directional": null,
+      "probability_scope": "no_probability_forecast_provided",
+      "rmse_bps": null,
+      "stress_mean_net_bps_per_valid_decision": {
+        "0": "0",
+        "0.5": "0",
+        "1": "0"
+      },
+      "valid_completed_decisions": 2182
+    },
+    "ridge_price_news_v1": {
+      "brier_denominator": 2182,
+      "direction_hit_rate_when_directional": "0.48533455545371219065077910174152153987167736021998166819431714023831347387717690",
+      "direction_hits": 1059,
+      "directional_decisions": 2182,
+      "mae_bps": "4.0316899846768010056370894262676144811890664370404299101920679594620905294229093",
+      "magnitude_denominator": 2182,
+      "mean_brier": "0.25211899825983496228369828072403286741521539871677360219981668194317140238313474",
+      "mean_net_bps_per_valid_decision": "-4.7681196937265135635577789025633626153840371463392838725566193200007169732671077",
+      "neutral_decisions": 0,
+      "positive_after_spread": 410,
+      "positive_after_spread_rate_when_directional": "0.18790100824931255728689275893675527039413382218148487626031164069660861594867094",
+      "probability_scope": "uncalibrated_registered_predictions",
+      "rmse_bps": "5.9577791665718664035541647996863707829738484984446976061973794285785744908346256",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0": "-4.7681196937265135635577789025633626153840371463392838725566193200007169732671077",
+        "0.5": "-5.2681196937265135635577789025633626153840371463392838725566193200007169732671059",
+        "1": "-5.7681196937265135635577789025633626153840371463392838725566193200007169732671082"
+      },
+      "valid_completed_decisions": 2182
+    },
+    "rolling_class_rate": {
+      "brier_denominator": 2182,
+      "direction_hit_rate_when_directional": "0.54992967651195499296765119549929676511954992967651195499296765119549929676511955",
+      "direction_hits": 391,
+      "directional_decisions": 711,
+      "mae_bps": null,
+      "magnitude_denominator": 0,
+      "mean_brier": "0.25228698828048427526733395059817083564903806006379458058972590111763319131239427",
+      "mean_net_bps_per_valid_decision": "-0.83905428237441420245086358978029066798220918429067808132548208072963905677182250",
+      "neutral_decisions": 1471,
+      "positive_after_spread": 213,
+      "positive_after_spread_rate_when_directional": "0.29957805907172995780590717299578059071729957805907172995780590717299578059071730",
+      "probability_scope": "causally_available_prior_labels_only",
+      "rmse_bps": null,
+      "stress_mean_net_bps_per_valid_decision": {
+        "0": "-0.83905428237441420245086358978029066798220918429067808132548208072963905677182250",
+        "0.5": "-1.0019782053808303344398645063705748109702935105968192362292401008946253079175603",
+        "1": "-1.1649021283872464664288654229608589539583778369029603911329981210596115590632980"
+      },
+      "valid_completed_decisions": 2182
+    },
+    "zero_move": {
+      "brier_denominator": 0,
+      "direction_hit_rate_when_directional": null,
+      "direction_hits": 0,
+      "directional_decisions": 0,
+      "mae_bps": "3.7961172821982305366454525833593168043838689264063264353604554238496539188389015",
+      "magnitude_denominator": 2182,
+      "mean_brier": null,
+      "mean_net_bps_per_valid_decision": "0",
+      "neutral_decisions": 2182,
+      "positive_after_spread": 0,
+      "positive_after_spread_rate_when_directional": null,
+      "probability_scope": "no_probability_forecast_provided",
+      "rmse_bps": "5.6811652059361660363539894358212863136279321734120165627629129684861611152436317",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0": "0",
+        "0.5": "0",
+        "1": "0"
+      },
+      "valid_completed_decisions": 2182
+    }
+  },
+  "original_paired_deltas": {
+    "matched_price_only": {
+      "mean_joint_minus_comparator_absolute_error_bps": "0.13569437703191000902289341861391815173464127130150727809508147504552602190187306",
+      "mean_joint_minus_comparator_net_bps": "0.062393936293466570278170196189150489224402656493672249165846615291122710369445555",
+      "same_completed_denominator": 2182
+    },
+    "neutral_news_ablation": {
+      "mean_joint_minus_comparator_absolute_error_bps": "0.13160658139694373371975229913224950060453953447310041181923973127546908382311136",
+      "mean_joint_minus_comparator_net_bps": "-0.19835199255634327799266572980832801245927164656926573194796932850493528136094891",
+      "same_completed_denominator": 2182
+    }
+  },
+  "original_report": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\V3_COMPLETED_PERFORMANCE_20260909.json",
+    "sha256": "cd435169e303d1b867787f58a35a6ebbc54932e4358e5c1541a6493597ee88e3"
+  },
+  "read_only_scope": "Only already retained external assessment files; no live DB, source-news replay, GET, model fit or economic rescoring.",
+  "repeated_input_descriptors": {
+    "distinct_news_capture_hashes": 921,
+    "distinct_price_feature_cutoff_epochs": 259,
+    "independent_sample_size": null
+  },
+  "schema_version": "joint_v3_matched_dependence_supplement_v1_20260909",
+  "started_epoch": 1788944084.5424197,
+  "status": "passed",
+  "total_external_input_bytes": 461394724,
+  "valid_original_completed_decisions": 2182
+}

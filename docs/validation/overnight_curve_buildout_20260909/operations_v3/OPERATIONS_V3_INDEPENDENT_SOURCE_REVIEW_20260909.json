@@ -1,0 +1,62 @@
+{
+  "limitations": [
+    "OS PID presence alone does not authenticate process start identity or forecasting health; original underlying observation scope is retained.",
+    "Expected 15 workers describes post-retirement operation; this source review does not establish that retirement has happened."
+  ],
+  "remaining_blockers": [],
+  "review_completed_epoch": 1788946422.5062528,
+  "review_scope": "Read-only complete new wrapper/test and relevant accepted-base integration source; no actual operations collection, test rerun, runtime write or source edit.",
+  "reviewed_behavior": [
+    "Pins the accepted V2 wrapper and new supervisor/health/retirement manifest, rechecking before and after collection.",
+    "Loads a fresh private V2 module and restores overridden function/hash globals on success and failure; accepted source bytes remain unchanged.",
+    "Exact 15-name expected set is checked, missing versus supervisor-reported status and OS PID presence remain distinct.",
+    "Retired two-worker rows are retained separately; absent rows are not converted into inactive claims. Old producer failures, current sources, pilot/paper/risk, bounds and historical old-17 reports remain unchanged.",
+    "No observer HTTP/GET/order operations added; new external output must be a fresh immediate-child JSON with durable write and exact readback."
+  ],
+  "runtime_actions": false,
+  "schema_version": "independent_source_review_v1",
+  "source_evidence": [
+    {
+      "bytes": 5574,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\operations_v3\\capture_operations_v3.py",
+      "sha256": "f3c5091df48f1caa95b588e8c16ca1ccd45b599f805bd7f9a00d263bfae3fdfb"
+    },
+    {
+      "bytes": 3427,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\operations_v3\\test_capture_operations_v3.py",
+      "sha256": "166dd916097715c0a2de6cc58e3632b49f87cfc9eea0f9f3655459a287b7a90c"
+    },
+    {
+      "bytes": 25249,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\operations_v2\\capture_operations_v2.py",
+      "sha256": "2e378d5a83d6b8f68446c2fb762ca959b95b48430de1b59d01c651b81e3ba128"
+    },
+    {
+      "bytes": 219184,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_always_on_supervisor.ps1",
+      "sha256": "28c226f56105331cb7e828bc54a02359f814f98b55838ca12f36cf19e733473e"
+    },
+    {
+      "bytes": 12682,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_project_runtime_health.py",
+      "sha256": "e4c6349dc32a45abc7c692e17611bde3a1871e2be5b153a9d8a5693f4c4fa32f"
+    },
+    {
+      "bytes": 7395,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\joint_study_runtime_retirement_v1_20260909.json",
+      "sha256": "38e7c9be1e8c6d8a2b14bb36f54526751bdf9cd8ddd762fed8840bd927a74faf"
+    }
+  ],
+  "status": "passed",
+  "test_evidence": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "source": {
+      "bytes": 1644,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\operations_v3\\operations_v3_tests.xml",
+      "sha256": "369cf7271ae84ac727b4629998eb2916f1e5d6b8f4f9a29f81a1e82e657ecd18"
+    },
+    "tests": 8
+  }
+}

@@ -1,0 +1,224 @@
+{
+  "affected_files_outside_all_four_closures": true,
+  "affected_source_bindings": {
+    "oanda_advisor_account_manager_auto.py": {
+      "bytes": 316757,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_advisor_account_manager_auto.py",
+      "sha256": "af211315d359e07a5b41b38ca0c4d30f75a7851ea5ce521a84b08d2af9983e27"
+    },
+    "oanda_technical_account_manager_auto.py": {
+      "bytes": 556814,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_technical_account_manager_auto.py",
+      "sha256": "5580289feb6a5245a383c2f63194200afeddb7e0ec8b9ac7baa53f4ebe2fdfbd"
+    }
+  },
+  "broker_requests": false,
+  "created_epoch": 1788951392.058823,
+  "curated_selection_reference_scan": {
+    "matches": [],
+    "scanned_selection_files": 13,
+    "scope": "Current external CURATED_*.json exact string references only; not an exhaustive scan of every historical review."
+  },
+  "current_registered_closures": [
+    {
+      "affected_members": [],
+      "all_source_hashes_match": true,
+      "registry": {
+        "bytes": 350877,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\joint_price_news_study_v3_20260908.json",
+        "sha256": "ee075e69e80ca56dfdf45abe1f7a1a301612176e67f7622eab1adf2bd9af8771"
+      },
+      "source_count": 20
+    },
+    {
+      "affected_members": [],
+      "all_source_hashes_match": true,
+      "registry": {
+        "bytes": 4292,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\recovered_second_curve_pilot_v1_20260909.json",
+        "sha256": "ae64f2cae6df44dad81b46deb16e95e4d5f67dabb7fc1e65289b96ba6b0fe2b2"
+      },
+      "source_count": 14
+    },
+    {
+      "affected_members": [],
+      "all_source_hashes_match": true,
+      "registry": {
+        "bytes": 5214,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\observed_curve_management_v1_20260909.json",
+        "sha256": "60689101fb63a8bcce2465d19f627b9b2ce357d1ee271c65298f255663d991e1"
+      },
+      "source_count": 20
+    },
+    {
+      "affected_members": [],
+      "all_source_hashes_match": true,
+      "registry": {
+        "bytes": 2886,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\m1_risk_distributions_v1_20260909.json",
+        "sha256": "855c3bb96105c0cf0943ebbb5d28e6d10b6b9bf718573883f897161d08453674"
+      },
+      "source_count": 8
+    }
+  ],
+  "diagnostics": {
+    "final_xml": {
+      "bytes": 5554,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\management_correctness_audit_v1\\existing_account_reconciliation_diagnostics_final.xml",
+      "sha256": "7f6d6e060fda4063d34051a8dd7baa12d58600a36db22b460a1e49b0abc11336"
+    },
+    "initial_failure": "20 setup errors from missing lineno on the new synthetic future-annotations AST node; corrected harness only.",
+    "initial_harness_failure": {
+      "bytes": 34298,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\management_correctness_audit_v1\\existing_account_reconciliation_diagnostics.xml",
+      "sha256": "9141c1285b453e6bf411c14338062c1ac3f4434ad9193255143b4ece1a9ee6cb"
+    },
+    "live_data_reads": false,
+    "passed": 20,
+    "passing_means": "Observed old defects reproduced plus confirmed-still-open control; not acceptance of defective behavior.",
+    "pytest_duration_sec": 8.44,
+    "runtime_imports": false,
+    "test_source": {
+      "bytes": 6669,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\management_correctness_audit_v1\\test_existing_account_reconciliation_diagnostics.py",
+      "sha256": "df03750ebea4af07db67f14b6f0b18442ef072295c8889c8c79e48de8da8f6f7"
+    },
+    "transport": "fake in-memory methods only"
+  },
+  "findings": [
+    {
+      "description": "Failed or disabled recheck is indistinguishable from confirmed closed; full/partial close reports accepted_after_recheck and FLIP may open.",
+      "id": "R1",
+      "priority": "high",
+      "reachability": "Both managers: close request raises; subsequent get_open_trades raises or configured recheck is disabled. find_open_trade returns None, which close interprets as confirmation."
+    },
+    {
+      "description": "Explicit missing trade ID can fall back to a different trade, including a same-instrument successor, and handle_position_action retargets CLOSE.",
+      "id": "R2",
+      "priority": "high",
+      "reachability": "A previously observed target vanishes before the mandatory recheck and exactly one other matching trade remains."
+    },
+    {
+      "description": "A partial-close exception plus any observed unit decrease logs the requested close quantity, even if the observed reduction differs.",
+      "id": "R3",
+      "priority": "medium",
+      "reachability": "Requested50 of100; independent observation has80 units. Existing code records accepted_after_recheck units50 without transaction attribution."
+    },
+    {
+      "description": "General TIGHTEN forwards a less-protective stop without comparing the existing stop/direction; the separate graceful-shutdown stop helper does contain a non-worsening gate.",
+      "id": "R4",
+      "priority": "medium",
+      "reachability": "A long trade with existing1.1 stop receives TIGHTEN stop1.0, which is passed unchanged to the fake dependent-order transport."
+    }
+  ],
+  "function_lines": {
+    "oanda_advisor_account_manager_auto.py": {
+      "close_trade": {
+        "end": 4037,
+        "start": 4021
+      },
+      "compute_shutdown_stop": {
+        "end": 4368,
+        "start": 4316
+      },
+      "find_open_trade": {
+        "end": 2587,
+        "start": 2566
+      },
+      "handle_position_action": {
+        "end": 3973,
+        "start": 3908
+      },
+      "partial_close_trade": {
+        "end": 4019,
+        "start": 3997
+      },
+      "run_shutdown_fade_pass": {
+        "end": 4472,
+        "start": 4370
+      },
+      "tighten_trade": {
+        "end": 3995,
+        "start": 3975
+      }
+    },
+    "oanda_technical_account_manager_auto.py": {
+      "close_trade": {
+        "end": 4989,
+        "start": 4973
+      },
+      "compute_shutdown_stop": {
+        "end": 5410,
+        "start": 5358
+      },
+      "find_open_trade": {
+        "end": 3935,
+        "start": 3914
+      },
+      "handle_position_action": {
+        "end": 4925,
+        "start": 4860
+      },
+      "partial_close_trade": {
+        "end": 4971,
+        "start": 4949
+      },
+      "run_shutdown_fade_pass": {
+        "end": 5514,
+        "start": 5412
+      },
+      "tighten_trade": {
+        "end": 4947,
+        "start": 4927
+      }
+    }
+  },
+  "minimal_correction_design": {
+    "compatibility": "Keep old caller-facing optional lookup available only where unknown and missing both mean refuse. Use new typed status for close reconciliation and initial/open/flip admission; audit every caller. Do not globally replace None with a truthy result dict.",
+    "identity": "If an explicit ID was supplied, never fall back to another ID. Instrument fallback may exist only as a distinct explicit lookup policy when no ID was supplied.",
+    "implementation_status": "Proposal only. No original file edited; parent approval and separately reviewed tests/source-history transition required before any integration.",
+    "observation": "Successful complete open-trades response plus exact requested trade ID establishes open/closed; error, disabled read, malformed/incomplete response, duplicate identity or unusable units establishes unknown. Preserve original observation clock and requested identity.",
+    "partial": "Preserve requested and observed units separately. Only exact identity and an observed valid reduction establish reduced position state; a different amount remains partial/unattributed rather than silently claiming the requested quantity. Preserve any confirmed remainder.",
+    "states": [
+      "confirmed_open",
+      "confirmed_closed",
+      "unknown"
+    ],
+    "unknown": "Do not assign0 remaining, claim accepted_after_recheck, record a successful quantity, or permit a FLIP open leg. Retain an uncertainty/pending reconciliation event. Do not immediately retry an ambiguous close blindly."
+  },
+  "no_runtime_source_registry_or_database_changes": true,
+  "policy_distinctions": [
+    "Specific stop distances, profit multipliers, partial percentages, fade confirmation and hold-past-horizon are policy choices; no winning values are inferred from the three paper episodes.",
+    "Frozen lab manager retains broker-stop/trailing/profit-lock/native time exits; absence of a local quote suppresses price-conditioned decisions but its scheduled close intent is still separate.",
+    "Historical S5 exit sweep tests old stop first and tightens trailing stop only after close, but last-available-bar settlement and exact barrier-price fills are approximations, not the strict native outcome/executable-fill contract.",
+    "No claim that these legacy account lanes are active in the current research-only runtime. No new frozen paper arithmetic was evaluated."
+  ],
+  "preserved_before_sources": [
+    {
+      "copy": {
+        "bytes": 556814,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\management_correctness_audit_v1\\before_source\\oanda_technical_account_manager_auto.py",
+        "sha256": "5580289feb6a5245a383c2f63194200afeddb7e0ec8b9ac7baa53f4ebe2fdfbd"
+      },
+      "original": {
+        "bytes": 556814,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_technical_account_manager_auto.py",
+        "sha256": "5580289feb6a5245a383c2f63194200afeddb7e0ec8b9ac7baa53f4ebe2fdfbd"
+      }
+    },
+    {
+      "copy": {
+        "bytes": 316757,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\management_correctness_audit_v1\\before_source\\oanda_advisor_account_manager_auto.py",
+        "sha256": "af211315d359e07a5b41b38ca0c4d30f75a7851ea5ce521a84b08d2af9983e27"
+      },
+      "original": {
+        "bytes": 316757,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_advisor_account_manager_auto.py",
+        "sha256": "af211315d359e07a5b41b38ca0c4d30f75a7851ea5ce521a84b08d2af9983e27"
+      }
+    }
+  ],
+  "schema_version": "existing_manager_correctness_source_audit_v1_20260909",
+  "status": "reachable_defects_reproduced_no_fix_or_runtime_action"
+}

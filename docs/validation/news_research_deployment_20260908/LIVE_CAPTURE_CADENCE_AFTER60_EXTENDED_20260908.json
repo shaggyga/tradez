@@ -1,0 +1,1405 @@
+{
+  "after_metrics": {
+    "completed_pair_captures": 44,
+    "completed_pair_captures_per_minute": 4.132514119793808,
+    "completion_spacing_sec": {
+      "count": 43,
+      "max": 41.762348890304565,
+      "median": 10.870984077453613,
+      "min": 1.0571324825286865
+    },
+    "distinct_completed_pairs": 44,
+    "distinct_publications": 12,
+    "joint_counts": {
+      "building": 0,
+      "forecast": 60,
+      "ready": 1,
+      "unavailable": 7,
+      "warming": 0
+    },
+    "joint_error_delta_from_original_baseline": 0,
+    "joint_observation_to_ready_sec": {
+      "count": 43,
+      "max": 10.899490356445312,
+      "median": 0.8666098117828369,
+      "min": 0.2545039653778076
+    },
+    "pre_reload_publication_captures": 1,
+    "producer_current_process_errors": 0,
+    "readiness_started_before_reload": 0,
+    "ready_status_counts": {
+      "abstain": 3,
+      "ready": 41
+    },
+    "shared_captures": 17,
+    "shared_files_per_completed_pair_capture": 0.38636363636363635,
+    "stored_bytes": 40917071,
+    "stored_mib_per_hour_at_window_rate": 219.8961088632745,
+    "window_sec": 638.8362927436829
+  },
+  "all_captures_currently_on_disk": 45,
+  "baseline_binding": {
+    "bytes": 48138,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\news_identity_integration_20260908\\LIVE_CAPTURE_CADENCE_DIAGNOSTIC_20260908.json",
+    "sha256": "4b1f4643c9e6df28e5ce3fac23c15f804c9f3638f574ae5e59732e09c5e33272"
+  },
+  "before_metrics": {
+    "completed_pair_captures": 17,
+    "completion_spacing_sec": {
+      "count": 16,
+      "max": 24.344069242477417,
+      "median": 20.52284288406372,
+      "min": 14.97591233253479
+    },
+    "shared_captures": 18,
+    "shared_files_per_completed_pair_capture": 1.0588235294117647,
+    "stored_mib_per_hour_at_observed_rate": 418.53275266949873,
+    "window_note": "Baseline initial-run rate uses between-capture span; after rate uses full explicit reload-to-observation window, including startup and in-flight work."
+  },
+  "broker_calls": 0,
+  "database_connections": 0,
+  "files_opened": 18,
+  "filtered_readiness": [
+    {
+      "event_observed_epoch": 1788898659.2212884,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 61,
+          "current_real_returns": 60,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 169,
+          "mature_exact_h1_training_rows": 178,
+          "nonzero_news_context_training_rows": 168,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        }
+      },
+      "instrument": "EUR_USD",
+      "observed_epoch": 1788898650.8853695,
+      "reasons": [],
+      "source_capture_sha256": "28397227cc8eb1a949d6ab8af80228c0b6ffb3210ddaee8f7ec9d478a32da3e4",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788898688.0145674,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 61,
+          "current_real_returns": 60,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 153,
+          "mature_exact_h1_training_rows": 178,
+          "nonzero_news_context_training_rows": 152,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        }
+      },
+      "instrument": "EUR_ZAR",
+      "observed_epoch": 1788898678.3361762,
+      "reasons": [],
+      "source_capture_sha256": "17168dce7e7dd7bf6fc0f79094740c5ee312a3171ee93a03d31ade45cc34fbde",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788898721.206077,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 61,
+          "current_real_returns": 60,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 151,
+          "mature_exact_h1_training_rows": 182,
+          "nonzero_news_context_training_rows": 150,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        }
+      },
+      "instrument": "GBP_AUD",
+      "observed_epoch": 1788898711.1029007,
+      "reasons": [],
+      "source_capture_sha256": "ca6bb2271a29e93b5f3e781a684a457f25ac8e0386dc0aefe19879f362fee51e",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788898760.1474295,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 61,
+          "current_real_returns": 60,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 175,
+          "mature_exact_h1_training_rows": 176,
+          "nonzero_news_context_training_rows": 174,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 5
+        }
+      },
+      "instrument": "GBP_CAD",
+      "observed_epoch": 1788898749.247939,
+      "reasons": [],
+      "source_capture_sha256": "be0129d9f4086760e1c3eb3f03253d835495b5cc16377641dfce070f8350b579",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788898796.3451304,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 61,
+          "current_real_returns": 60,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 152,
+          "mature_exact_h1_training_rows": 182,
+          "nonzero_news_context_training_rows": 151,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        }
+      },
+      "instrument": "GBP_CHF",
+      "observed_epoch": 1788898787.2012892,
+      "reasons": [],
+      "source_capture_sha256": "5224b4be5c545a771506bf1a67a0819a318a363b95c631e85046fed177a940b9",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788898811.8531322,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 61,
+          "current_real_returns": 60,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 18,
+          "mature_exact_h1_training_rows": 176,
+          "nonzero_news_context_training_rows": 17,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        }
+      },
+      "instrument": "GBP_HKD",
+      "observed_epoch": 1788898811.3964148,
+      "reasons": [],
+      "source_capture_sha256": "2a20f111a540a6e163b2373b7693e2812a0371cbac059a83b202c52859a752d1",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788898836.755744,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 61,
+          "current_real_returns": 60,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 182,
+          "mature_exact_h1_training_rows": 182,
+          "nonzero_news_context_training_rows": 182,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 5
+        }
+      },
+      "instrument": "GBP_JPY",
+      "observed_epoch": 1788898825.9767797,
+      "reasons": [],
+      "source_capture_sha256": "cd916627d4a7816fd378977a6a3e6324fb6e11a9a371c93e37c901f658ec21f9",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788898858.171514,
+      "family_readiness": {},
+      "instrument": "GBP_NZD",
+      "observed_epoch": null,
+      "reasons": [
+        "ValueError:future_news_mapping"
+      ],
+      "source_capture_sha256": "1393560fca0c0074d637d1f3f9695e3569f30d9ed4ffd4ba4f3079136902017c",
+      "status": "abstain"
+    },
+    {
+      "event_observed_epoch": 1788898893.4744794,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 61,
+          "current_real_returns": 60,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 15,
+          "mature_exact_h1_training_rows": 178,
+          "nonzero_news_context_training_rows": 14,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        }
+      },
+      "instrument": "GBP_PLN",
+      "observed_epoch": 1788898883.659645,
+      "reasons": [],
+      "source_capture_sha256": "3e42c7decdaac2736673970b9af220267804b3eb64d3e69323c8664d290821e0",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788898935.2368283,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 60,
+          "current_real_returns": 59,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 13,
+          "mature_exact_h1_training_rows": 170,
+          "nonzero_news_context_training_rows": 12,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        }
+      },
+      "instrument": "GBP_SGD",
+      "observed_epoch": 1788898924.5170698,
+      "reasons": [],
+      "source_capture_sha256": "4163052cfcb8457b9d94f7858ac02223a7199fa6bd9e1f98f9a821cc3022151b",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788898939.8766675,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 61,
+          "current_real_returns": 60,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 172,
+          "mature_exact_h1_training_rows": 182,
+          "nonzero_news_context_training_rows": 171,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        }
+      },
+      "instrument": "GBP_USD",
+      "observed_epoch": 1788898938.5393083,
+      "reasons": [],
+      "source_capture_sha256": "346085c62a713a61e2cfd3006d528d1791e7d5dfd6b498fd85e9ded973428724",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788898943.8007135,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 61,
+          "current_real_returns": 60,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 150,
+          "mature_exact_h1_training_rows": 180,
+          "nonzero_news_context_training_rows": 149,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        }
+      },
+      "instrument": "GBP_ZAR",
+      "observed_epoch": 1788898942.9341037,
+      "reasons": [],
+      "source_capture_sha256": "096002aaa72a34372fcd042202235c2f4b8cf654d5ecafd167219b0400ecc956",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788898975.604941,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 61,
+          "current_real_returns": 60,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 177,
+          "mature_exact_h1_training_rows": 177,
+          "nonzero_news_context_training_rows": 177,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 5
+        }
+      },
+      "instrument": "HKD_JPY",
+      "observed_epoch": 1788898966.8061314,
+      "reasons": [],
+      "source_capture_sha256": "65fc19c14dbfbae4fa4b1ed7fe5ecdea4dbe395f3e9336e18e5cd68ff184e3cf",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788898985.9026525,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 58,
+          "current_real_returns": 57,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 157,
+          "mature_exact_h1_training_rows": 157,
+          "nonzero_news_context_training_rows": 156,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 5
+        }
+      },
+      "instrument": "NZD_CAD",
+      "observed_epoch": 1788898985.566069,
+      "reasons": [],
+      "source_capture_sha256": "5495d8d41ea87d2d389e1a41b0350718dff4e7a9b1277a9006b99b03ecd54377",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788898988.8400304,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 57,
+          "current_real_returns": 56,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 131,
+          "mature_exact_h1_training_rows": 162,
+          "nonzero_news_context_training_rows": 130,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        }
+      },
+      "instrument": "NZD_CHF",
+      "observed_epoch": 1788898988.2418833,
+      "reasons": [],
+      "source_capture_sha256": "b3b1f7841a523342c1312e88f7fc2fcdf3236f31e0bef9902f1f0d00d7242a75",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788898992.3852835,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 48,
+          "current_real_returns": 47,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 130,
+          "mature_exact_h1_training_rows": 164,
+          "nonzero_news_context_training_rows": 129,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        }
+      },
+      "instrument": "NZD_HKD",
+      "observed_epoch": 1788898991.6392689,
+      "reasons": [],
+      "source_capture_sha256": "214d6f8dbceed684c08828a4587831f74e4c72629e34ed927637fc5deb0558d7",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788898995.1740184,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 61,
+          "current_real_returns": 60,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 174,
+          "mature_exact_h1_training_rows": 174,
+          "nonzero_news_context_training_rows": 174,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 5
+        }
+      },
+      "instrument": "NZD_JPY",
+      "observed_epoch": 1788898994.6121361,
+      "reasons": [],
+      "source_capture_sha256": "d65043e2e1769886f291ecfa994872f867b8736bec61b6e0d4e68f8b56695c3e",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788898998.1272902,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 50,
+          "current_real_returns": 49,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 131,
+          "mature_exact_h1_training_rows": 164,
+          "nonzero_news_context_training_rows": 130,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        }
+      },
+      "instrument": "NZD_SGD",
+      "observed_epoch": 1788898997.6892319,
+      "reasons": [],
+      "source_capture_sha256": "e10af9d9f92a230db615e036a6165bbd8f71b3003638282b811bbcaf2cd26a7a",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788899000.948537,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 57,
+          "current_real_returns": 56,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 163,
+          "mature_exact_h1_training_rows": 171,
+          "nonzero_news_context_training_rows": 162,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        }
+      },
+      "instrument": "NZD_USD",
+      "observed_epoch": 1788899000.478966,
+      "reasons": [],
+      "source_capture_sha256": "62d56a78753d6b1dfd34a525a7a88256bc6ede3a2d67daa0d41775a3988d7411",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788899018.2802134,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 60,
+          "current_real_returns": 59,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 132,
+          "mature_exact_h1_training_rows": 166,
+          "nonzero_news_context_training_rows": 131,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        }
+      },
+      "instrument": "SGD_CHF",
+      "observed_epoch": 1788899010.864612,
+      "reasons": [],
+      "source_capture_sha256": "991a43064ca506b9326f8c019bf62fa1688f480554693cbd054714af54fc7bea",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788899035.337465,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 61,
+          "current_real_returns": 60,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 180,
+          "mature_exact_h1_training_rows": 180,
+          "nonzero_news_context_training_rows": 180,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 5
+        }
+      },
+      "instrument": "SGD_JPY",
+      "observed_epoch": 1788899027.8927383,
+      "reasons": [],
+      "source_capture_sha256": "28655e18015e8a6fecc2b3582620fb4e8d2510eca1ece2d745aa5ad2f87f9d0b",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788899046.2084491,
+      "family_readiness": {},
+      "instrument": "TRY_JPY",
+      "observed_epoch": 1788899045.619843,
+      "reasons": [
+        "ValueError:price_input_unavailable:TRY_JPY:ValueError:stale_or_future_pair_reference"
+      ],
+      "source_capture_sha256": "e22d731e20c3978cf6dce40f8b17061453556f0994612301522264d61cb845ba",
+      "status": "abstain"
+    },
+    {
+      "event_observed_epoch": 1788899065.584213,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 61,
+          "current_real_returns": 60,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 182,
+          "mature_exact_h1_training_rows": 182,
+          "nonzero_news_context_training_rows": 182,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 5
+        }
+      },
+      "instrument": "USD_CAD",
+      "observed_epoch": 1788899058.1107416,
+      "reasons": [],
+      "source_capture_sha256": "79715c89134d26befd5885468787d7e38a8a1411076ba37e630af6401584c25a",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788899078.2122395,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 60,
+          "current_real_returns": 59,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 168,
+          "mature_exact_h1_training_rows": 178,
+          "nonzero_news_context_training_rows": 167,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        }
+      },
+      "instrument": "USD_CHF",
+      "observed_epoch": 1788899068.614349,
+      "reasons": [],
+      "source_capture_sha256": "0fdc717934f420a048ae9ea67ec5b5fe249da37c5bcfd6e66045bc1155a9438b",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788899097.4550874,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 61,
+          "current_real_returns": 60,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 170,
+          "mature_exact_h1_training_rows": 180,
+          "nonzero_news_context_training_rows": 169,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        }
+      },
+      "instrument": "USD_CNH",
+      "observed_epoch": 1788899089.9475515,
+      "reasons": [],
+      "source_capture_sha256": "b2e24bdecf82deadd3aa9560bdaac6b14187ad8d9ded376843ebf51255fe77f4",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788899118.2536814,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 61,
+          "current_real_returns": 60,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 170,
+          "mature_exact_h1_training_rows": 180,
+          "nonzero_news_context_training_rows": 169,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        }
+      },
+      "instrument": "USD_CZK",
+      "observed_epoch": 1788899108.7531166,
+      "reasons": [],
+      "source_capture_sha256": "f9262933f43f3153da50dcdddd07965dce4aa85d65d0a574f507d9c0b8b9da0e",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788899122.5253732,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 61,
+          "current_real_returns": 60,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 170,
+          "mature_exact_h1_training_rows": 180,
+          "nonzero_news_context_training_rows": 169,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        }
+      },
+      "instrument": "USD_DKK",
+      "observed_epoch": 1788899121.9951642,
+      "reasons": [],
+      "source_capture_sha256": "254d42014360ff0657b3e3c4e34658ff9f0c98c4f42f4a2aaf5f02569794f597",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788899126.905445,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 37,
+          "current_real_returns": 36,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 112,
+          "mature_exact_h1_training_rows": 116,
+          "nonzero_news_context_training_rows": 111,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        }
+      },
+      "instrument": "USD_HKD",
+      "observed_epoch": 1788899125.776822,
+      "reasons": [],
+      "source_capture_sha256": "5019be243b016f5ebd549b0f2dc9d412afed3a3ca34edb1761d281ebdedc1eb2",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788899159.5585642,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 61,
+          "current_real_returns": 60,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 170,
+          "mature_exact_h1_training_rows": 180,
+          "nonzero_news_context_training_rows": 169,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        }
+      },
+      "instrument": "USD_HUF",
+      "observed_epoch": 1788899150.4755154,
+      "reasons": [],
+      "source_capture_sha256": "752ff20daf86caa26d242ce385d0152ada8e750f0277e140fd2480e7ce197d56",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788899172.7649286,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 61,
+          "current_real_returns": 60,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 180,
+          "mature_exact_h1_training_rows": 180,
+          "nonzero_news_context_training_rows": 180,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 5
+        }
+      },
+      "instrument": "USD_JPY",
+      "observed_epoch": 1788899172.276818,
+      "reasons": [],
+      "source_capture_sha256": "0c49ce1609975f09cdbb2254fae3190cdf4d80cbbd53845285435ed7f4467b43",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788899181.819731,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 61,
+          "current_real_returns": 60,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 177,
+          "mature_exact_h1_training_rows": 177,
+          "nonzero_news_context_training_rows": 177,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 5
+        }
+      },
+      "instrument": "USD_MXN",
+      "observed_epoch": 1788899181.28496,
+      "reasons": [],
+      "source_capture_sha256": "f9a40209cc187e20e517fa51744ea6916cc0842a9e8c60cb16f73025f2e6a5cf",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788899186.7708888,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 61,
+          "current_real_returns": 60,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 178,
+          "mature_exact_h1_training_rows": 178,
+          "nonzero_news_context_training_rows": 178,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 5
+        }
+      },
+      "instrument": "USD_NOK",
+      "observed_epoch": 1788899185.9409125,
+      "reasons": [],
+      "source_capture_sha256": "df4a0b0a5e88e8194536806d83c6b5bf15b392f6c3431e93bd3bd63cde04e68c",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788899208.2473545,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 61,
+          "current_real_returns": 60,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 170,
+          "mature_exact_h1_training_rows": 180,
+          "nonzero_news_context_training_rows": 169,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        }
+      },
+      "instrument": "USD_PLN",
+      "observed_epoch": 1788899200.0742247,
+      "reasons": [],
+      "source_capture_sha256": "6e2901b05865a042fb6b2f2a451afcfe2fa01a83d5958a917c1085f526c569ab",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788899221.0710413,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 61,
+          "current_real_returns": 60,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 168,
+          "mature_exact_h1_training_rows": 178,
+          "nonzero_news_context_training_rows": 167,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        }
+      },
+      "instrument": "USD_SEK",
+      "observed_epoch": 1788899220.2941105,
+      "reasons": [],
+      "source_capture_sha256": "75e0e86d430da7f7949a5157d1e8998505bd0cd787c678c36ba4ba4c1bae2198",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788899225.410612,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 60,
+          "current_real_returns": 59,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 170,
+          "mature_exact_h1_training_rows": 180,
+          "nonzero_news_context_training_rows": 169,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        }
+      },
+      "instrument": "USD_SGD",
+      "observed_epoch": 1788899224.3333328,
+      "reasons": [],
+      "source_capture_sha256": "d31bf0e6a0848fc3ea46ab4a4704547483773feacf07aafeba727233d0ecf330",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788899229.4157846,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 46,
+          "current_real_returns": 45,
+          "current_span_sec": 3540,
+          "distinct_news_context_patterns": 129,
+          "mature_exact_h1_training_rows": 137,
+          "nonzero_news_context_training_rows": 128,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        }
+      },
+      "instrument": "USD_THB",
+      "observed_epoch": 1788899228.8825524,
+      "reasons": [],
+      "source_capture_sha256": "57a0d26d6e5bfb76782849656da34e5c5207a1d277862662198473b92784303d",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788899232.2065556,
+      "family_readiness": {},
+      "instrument": "USD_TRY",
+      "observed_epoch": 1788899231.9520516,
+      "reasons": [
+        "ValueError:price_input_unavailable:USD_TRY:ValueError:stale_or_future_pair_reference"
+      ],
+      "source_capture_sha256": "c12fbea3591a187a2432278dd50ab85626793276b335d4c0a11bca979755342a",
+      "status": "abstain"
+    },
+    {
+      "event_observed_epoch": 1788899235.240989,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 58,
+          "current_real_returns": 57,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 169,
+          "mature_exact_h1_training_rows": 179,
+          "nonzero_news_context_training_rows": 168,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        }
+      },
+      "instrument": "USD_ZAR",
+      "observed_epoch": 1788899234.7370443,
+      "reasons": [],
+      "source_capture_sha256": "ac04a676745f69df5a018934d9ca794765ce10d69b187fe819e1c3cadfee17b8",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788899237.856147,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 50,
+          "current_real_returns": 49,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 127,
+          "mature_exact_h1_training_rows": 127,
+          "nonzero_news_context_training_rows": 127,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 1
+        }
+      },
+      "instrument": "ZAR_JPY",
+      "observed_epoch": 1788899237.3307064,
+      "reasons": [],
+      "source_capture_sha256": "98a0f5dd95b1c118386a46952774232f6fb8c4b6cde8875992f8f2aeaf3d2158",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788899238.9132795,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 53,
+          "current_real_returns": 52,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 158,
+          "mature_exact_h1_training_rows": 158,
+          "nonzero_news_context_training_rows": 157,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 5
+        }
+      },
+      "instrument": "AUD_CAD",
+      "observed_epoch": 1788899238.4859216,
+      "reasons": [],
+      "source_capture_sha256": "5bdb0a8da3a2e0c001988abcdee91e3ab1a617520bd43cf6037837f6e5be1c9d",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788899242.962255,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 58,
+          "current_real_returns": 57,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 134,
+          "mature_exact_h1_training_rows": 167,
+          "nonzero_news_context_training_rows": 133,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        }
+      },
+      "instrument": "AUD_CHF",
+      "observed_epoch": 1788899242.3437743,
+      "reasons": [],
+      "source_capture_sha256": "9c2fef54bce77ca94161df85886da4eb97cdb11dded7113a3ab62206a3d81b58",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788899246.7754054,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 60,
+          "current_real_returns": 59,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 139,
+          "mature_exact_h1_training_rows": 177,
+          "nonzero_news_context_training_rows": 138,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        }
+      },
+      "instrument": "AUD_HKD",
+      "observed_epoch": 1788899246.1724288,
+      "reasons": [],
+      "source_capture_sha256": "96a12611f7fc29be7f7fc81812f043c048f310713dd636aeb7a374225190ef36",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788899268.4663107,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 61,
+          "current_real_returns": 60,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 182,
+          "mature_exact_h1_training_rows": 182,
+          "nonzero_news_context_training_rows": 182,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 5
+        }
+      },
+      "instrument": "AUD_JPY",
+      "observed_epoch": 1788899259.6786213,
+      "reasons": [],
+      "source_capture_sha256": "5381ada4342ecb22dc95f7ed0f19501c468cdc5f23f94a5d14d54e3117064d26",
+      "status": "ready"
+    },
+    {
+      "event_observed_epoch": 1788899271.6665142,
+      "family_readiness": {
+        "ridge_price_news_v1": {
+          "current_real_prices": 61,
+          "current_real_returns": 60,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 140,
+          "mature_exact_h1_training_rows": 176,
+          "nonzero_news_context_training_rows": 139,
+          "ready": true,
+          "reasons": [],
+          "required_joint_training_rows": 48,
+          "status": "ready",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        }
+      },
+      "instrument": "AUD_NZD",
+      "observed_epoch": 1788899270.9389665,
+      "reasons": [],
+      "source_capture_sha256": "87510431de7c4e6862f82613829cc8ed5f3fdf1aed3cccbca8b9548868a79885",
+      "status": "ready"
+    }
+  ],
+  "filtered_shared_captures": [
+    {
+      "canonical_bytes": 13326914,
+      "current_snapshot_sha256": "7baf84120ae76fb3cce3023e6746051a5a15444699c12d2a2c7616b94233fce8",
+      "file": "04d24ebb5e4c502443a8c223e811bc9132037adc3742d06e6e9fb57efc8dec14.json.gz",
+      "first_observed_epoch": 1788898646.7219067,
+      "history_raw_bytes": 56091424,
+      "history_read_duration_sec": 8.5,
+      "history_rows": 5533,
+      "news_evidence_epoch": 1788898621.64134,
+      "news_generated_epoch": 1788898623.537023,
+      "pre_reload_publication": true,
+      "stored_bytes": 2404517,
+      "stored_sha256": "a195419e5ecda6e9b715be4169c3f540bb0b1462adf962326dd2244818c054a2"
+    },
+    {
+      "canonical_bytes": 13326933,
+      "current_snapshot_sha256": "c54eb6ea199aab7b4ee7c981f1ef94fdd424833ca278c38ee3b1d10326963529",
+      "file": "0d106fd65b7bf985f8a0e4297c30481c2ee9861a124bccb29ea42bdbf9a22d03.json.gz",
+      "first_observed_epoch": 1788898675.2029362,
+      "history_raw_bytes": 56091424,
+      "history_read_duration_sec": 5.390000000130385,
+      "history_rows": 5533,
+      "news_evidence_epoch": 1788898647.018296,
+      "news_generated_epoch": 1788898648.964939,
+      "pre_reload_publication": false,
+      "stored_bytes": 2404504,
+      "stored_sha256": "efcad6900668cbbe48f0b3f35baebde89cfa4912da9499cdaf9e784fe8702361"
+    },
+    {
+      "canonical_bytes": 13326933,
+      "current_snapshot_sha256": "c54eb6ea199aab7b4ee7c981f1ef94fdd424833ca278c38ee3b1d10326963529",
+      "file": "e528126f5a001b075215848556a7082a9d57936e3be4ccaa6ea5f5e9b8926e33.json.gz",
+      "first_observed_epoch": 1788898707.615858,
+      "history_raw_bytes": 56091424,
+      "history_read_duration_sec": 5.844000000040978,
+      "history_rows": 5533,
+      "news_evidence_epoch": 1788898647.018296,
+      "news_generated_epoch": 1788898648.964939,
+      "pre_reload_publication": false,
+      "stored_bytes": 2404505,
+      "stored_sha256": "b44cddbde1821d94c6b0b06adfb03615a76864fafaed89b3204e053b00ffd43b"
+    },
+    {
+      "canonical_bytes": 13326936,
+      "current_snapshot_sha256": "ce16f75f4011dc0e1f4a3dbdbdf3f2855f33ff48826e689b367f5b28dac6e7cc",
+      "file": "31bf46fec500c4a6249e4c8d45bd644263a9c0336a218ebc3c8592882f64af5e.json.gz",
+      "first_observed_epoch": 1788898746.1591318,
+      "history_raw_bytes": 56091424,
+      "history_read_duration_sec": 6.077999999979511,
+      "history_rows": 5533,
+      "news_evidence_epoch": 1788898706.914988,
+      "news_generated_epoch": 1788898709.016248,
+      "pre_reload_publication": false,
+      "stored_bytes": 2404528,
+      "stored_sha256": "25d0e97127fd31094112a00b62cd9fc0dc261c8e3defc061771659c52c7de017"
+    },
+    {
+      "canonical_bytes": 13326954,
+      "current_snapshot_sha256": "dd6c64fc442569d5fed758f6f0f81ab96faf6d9a6f245b96d67c109b79d1e198",
+      "file": "7d6e3abcedfdea5db27b3a42acf42d4a2b1ca9c867e72995ad19db16481649c1.json.gz",
+      "first_observed_epoch": 1788898784.023642,
+      "history_raw_bytes": 56091424,
+      "history_read_duration_sec": 5.937000000150874,
+      "history_rows": 5533,
+      "news_evidence_epoch": 1788898767.027926,
+      "news_generated_epoch": 1788898768.392897,
+      "pre_reload_publication": false,
+      "stored_bytes": 2404508,
+      "stored_sha256": "691dc1492ff7edc45e41ff129e73db71ccdb7eff9f890acce8ede3ec18e7b7e8"
+    },
+    {
+      "canonical_bytes": 13330656,
+      "current_snapshot_sha256": "a0a49e8c943ba9987146816655646a942c7210427e0ea464e51246a63fc8fea0",
+      "file": "f407c2cb485bc3a63ea451870641b012a9663027c115a6f7fd1aaad23dc051ec.json.gz",
+      "first_observed_epoch": 1788898880.0626175,
+      "history_raw_bytes": 56112132,
+      "history_read_duration_sec": 6.202999999979511,
+      "history_rows": 5535,
+      "news_evidence_epoch": 1788898827.004712,
+      "news_generated_epoch": 1788898828.458356,
+      "pre_reload_publication": false,
+      "stored_bytes": 2405606,
+      "stored_sha256": "4bcd9e5eef07f21718feed1f3c5db9f184d7b4b3760c08fb1862ceaa91dce805"
+    },
+    {
+      "canonical_bytes": 13342852,
+      "current_snapshot_sha256": "4eb220bfb0e41bdcbda3ac2b75442525f4b10e8a87526d803b3893c42001ca55",
+      "file": "2ff94ae80d1df956183a977918f71a014d32d6c02e46d701b895c62b7b1cce62.json.gz",
+      "first_observed_epoch": 1788898921.1749852,
+      "history_raw_bytes": 56180617,
+      "history_read_duration_sec": 7.733999999938533,
+      "history_rows": 5542,
+      "news_evidence_epoch": 1788898887.31776,
+      "news_generated_epoch": 1788898889.436777,
+      "pre_reload_publication": false,
+      "stored_bytes": 2408268,
+      "stored_sha256": "7a06b65d02865b4cf440b468fdd247636d4a58c34c753ad3b625a21c25664b5a"
+    },
+    {
+      "canonical_bytes": 13342919,
+      "current_snapshot_sha256": "16558324f82aaa5cf444e2d881d47bef5f7a49b834d2e92a9ff6e232013d38c7",
+      "file": "e477e635bf76872013435825bdf712405c473efbee4d9202f74db8bb5266b237.json.gz",
+      "first_observed_epoch": 1788898963.8671098,
+      "history_raw_bytes": 56180617,
+      "history_read_duration_sec": 6.5939999998081475,
+      "history_rows": 5542,
+      "news_evidence_epoch": 1788898947.105027,
+      "news_generated_epoch": 1788898948.555263,
+      "pre_reload_publication": false,
+      "stored_bytes": 2408287,
+      "stored_sha256": "38ad6a4e38427342c87361309fd95c0ad0135da8157bc77a7b1c0c022de94f52"
+    },
+    {
+      "canonical_bytes": 13342918,
+      "current_snapshot_sha256": "16558324f82aaa5cf444e2d881d47bef5f7a49b834d2e92a9ff6e232013d38c7",
+      "file": "f4c315fb0d2d0f4701a70ba97b3cc70024aa741d45f1c4e2c927d5190d4d6dfe.json.gz",
+      "first_observed_epoch": 1788899008.0098455,
+      "history_raw_bytes": 56180617,
+      "history_read_duration_sec": 5.094000000040978,
+      "history_rows": 5542,
+      "news_evidence_epoch": 1788898947.105027,
+      "news_generated_epoch": 1788898948.555263,
+      "pre_reload_publication": false,
+      "stored_bytes": 2408290,
+      "stored_sha256": "3107357ffb3bb5f6a8f532414350db06b65b0ba48643b0bf331c7d7e155d29af"
+    },
+    {
+      "canonical_bytes": 13342971,
+      "current_snapshot_sha256": "8cb4a43d8b3ebe93174d5eb6b20bd9991448d25236a2aa11d9b890b09ca89581",
+      "file": "54ea95eb56da8483a21aa6f6729250dbabb8dbe7012dfd8cfd45cfddc865cfa9.json.gz",
+      "first_observed_epoch": 1788899025.1408818,
+      "history_raw_bytes": 56180617,
+      "history_read_duration_sec": 4.766000000061467,
+      "history_rows": 5542,
+      "news_evidence_epoch": 1788899006.966459,
+      "news_generated_epoch": 1788899008.523509,
+      "pre_reload_publication": false,
+      "stored_bytes": 2408298,
+      "stored_sha256": "68a9dea572359ed50b73233bcd35175efbedb84c50d7b5d04e8ec067c0d52fd4"
+    },
+    {
+      "canonical_bytes": 13342970,
+      "current_snapshot_sha256": "8cb4a43d8b3ebe93174d5eb6b20bd9991448d25236a2aa11d9b890b09ca89581",
+      "file": "46fb2a2833b5f90c5619016acd6b8472efe76b6daed5e4c73d534f4f864c61a0.json.gz",
+      "first_observed_epoch": 1788899042.907943,
+      "history_raw_bytes": 56180617,
+      "history_read_duration_sec": 5.0310000001918525,
+      "history_rows": 5542,
+      "news_evidence_epoch": 1788899006.966459,
+      "news_generated_epoch": 1788899008.523509,
+      "pre_reload_publication": false,
+      "stored_bytes": 2408306,
+      "stored_sha256": "5f3dbb187f25fd4c879c06b045ac424e6b37feddf414d0c4bc39595e4dd4720a"
+    },
+    {
+      "canonical_bytes": 13342957,
+      "current_snapshot_sha256": "8cb4a43d8b3ebe93174d5eb6b20bd9991448d25236a2aa11d9b890b09ca89581",
+      "file": "fed103bfd34421888705a60198dbf53573ec92b3204a97861b139f2900664b2c.json.gz",
+      "first_observed_epoch": 1788899055.031683,
+      "history_raw_bytes": 56180617,
+      "history_read_duration_sec": 5.375,
+      "history_rows": 5542,
+      "news_evidence_epoch": 1788899006.966459,
+      "news_generated_epoch": 1788899008.523509,
+      "pre_reload_publication": false,
+      "stored_bytes": 2408295,
+      "stored_sha256": "397dc33a9a6cf7bf79b16007da66b593cc37c8aa4a246a07d0c429eda5ad5db9"
+    },
+    {
+      "canonical_bytes": 13342967,
+      "current_snapshot_sha256": "7b49ec1a50840edc6986ee090044712e4683c77420f7eace412a8de49400bed0",
+      "file": "819c7a6d53e07272e4de7be6b4e12257a13d27c1ceb1ef8a879d01360384ed17.json.gz",
+      "first_observed_epoch": 1788899087.2074225,
+      "history_raw_bytes": 56180617,
+      "history_read_duration_sec": 5.155999999959022,
+      "history_rows": 5542,
+      "news_evidence_epoch": 1788899067.005983,
+      "news_generated_epoch": 1788899068.551455,
+      "pre_reload_publication": false,
+      "stored_bytes": 2408297,
+      "stored_sha256": "bc4fb5fad35a92f59291b518a10b9d83380974e6b6e79e60972d599bc9758017"
+    },
+    {
+      "canonical_bytes": 13342967,
+      "current_snapshot_sha256": "7b49ec1a50840edc6986ee090044712e4683c77420f7eace412a8de49400bed0",
+      "file": "8e94f89da8d510ea1b5511ddccddbfedc5d5c516de733213eb4b98b258c292b5.json.gz",
+      "first_observed_epoch": 1788899105.8116853,
+      "history_raw_bytes": 56180617,
+      "history_read_duration_sec": 5.672000000020489,
+      "history_rows": 5542,
+      "news_evidence_epoch": 1788899067.005983,
+      "news_generated_epoch": 1788899068.551455,
+      "pre_reload_publication": false,
+      "stored_bytes": 2408291,
+      "stored_sha256": "158e728e09a0b9c7bcfa24af594394eaaced9e9a7f32cd472917bc796a1223dc"
+    },
+    {
+      "canonical_bytes": 13342986,
+      "current_snapshot_sha256": "0d182010b3e9108fd148e8a7529d46b74fe9578de18db472da74194493c4c88a",
+      "file": "26c8c4e4f5591d91d9b7480b7060ed2f7ba466bd2013a624e0d3b744e6a42a03.json.gz",
+      "first_observed_epoch": 1788899147.8155048,
+      "history_raw_bytes": 56180617,
+      "history_read_duration_sec": 5.484000000171363,
+      "history_rows": 5542,
+      "news_evidence_epoch": 1788899127.055771,
+      "news_generated_epoch": 1788899128.452637,
+      "pre_reload_publication": false,
+      "stored_bytes": 2408275,
+      "stored_sha256": "d8badc21dd2fd99a3d573b300ba116710cee10357c36c176272ef2e147f31a19"
+    },
+    {
+      "canonical_bytes": 13333686,
+      "current_snapshot_sha256": "0167e4803cb2035aa2cf54ddd5ed16204d6f024d5549192c79d8ee1d81117b49",
+      "file": "a890589a556efa23655f166e7a50965976cb5536562b05b8065517e0356262ca.json.gz",
+      "first_observed_epoch": 1788899197.2431858,
+      "history_raw_bytes": 56131348,
+      "history_read_duration_sec": 5.3899999998975545,
+      "history_rows": 5537,
+      "news_evidence_epoch": 1788899187.269509,
+      "news_generated_epoch": 1788899188.8086,
+      "pre_reload_publication": false,
+      "stored_bytes": 2406381,
+      "stored_sha256": "1c29a4c7f78a9bd3c347045c0e21de8bed73baf941941a73b02f5b31161ddbaa"
+    },
+    {
+      "canonical_bytes": 13359602,
+      "current_snapshot_sha256": "bdba13a970099f02238b4ec32b81a7189cbd209a90e711e0713255841427f544",
+      "file": "e87e605f01115740fb4a4a1d75763306a5240e8df2ce22f8517295107da75d3a.json.gz",
+      "first_observed_epoch": 1788899256.5446682,
+      "history_raw_bytes": 56131348,
+      "history_read_duration_sec": 5.390999999828637,
+      "history_rows": 5537,
+      "news_evidence_epoch": 1788899247.102234,
+      "news_generated_epoch": 1788899248.522283,
+      "pre_reload_publication": false,
+      "stored_bytes": 2407915,
+      "stored_sha256": "c7dc3ab436280dc098b50251226bb1673494684a75791a1c6d858a31a698671e"
+    }
+  ],
+  "heartbeat_bindings": [
+    {
+      "bytes": 723,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\joint_price_news_study_v3\\heartbeat.json",
+      "sha256": "27dfed19b4b1cf2ef6f1610eeec3148bd40affda890a4c6e63af6e6ed26dabcb"
+    },
+    {
+      "bytes": 597,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment_repair_v1\\heartbeat.json",
+      "sha256": "399a5059555bf1cc9f7b85c8c8099f38c14e0941d103a8cd4bc08da280330bfa"
+    }
+  ],
+  "heartbeat_observations": {
+    "joint": {
+      "account_eligible": false,
+      "active_pair": "AUD_SGD",
+      "can_authorize": false,
+      "can_place_orders": false,
+      "can_promote": false,
+      "counts": {
+        "building": 0,
+        "forecast": 60,
+        "ready": 1,
+        "unavailable": 7,
+        "warming": 0
+      },
+      "errors": 0,
+      "family_count": 68,
+      "generated_epoch": 1788899280.047673,
+      "heartbeat_publication_errors": 0,
+      "historical_rows_imported": false,
+      "last_error": "",
+      "pair_count": 68,
+      "pairs_with_forecast": 60,
+      "phase": "research_collection",
+      "proof_eligible": false,
+      "registry_sha256": "ee075e69e80ca56dfdf45abe1f7a1a301612176e67f7622eab1adf2bd9af8771",
+      "research_only": true,
+      "schema_version": "joint_price_news_forecast_heartbeat_v3_20260908",
+      "summary_sha256": "dfdb59fc8a24a46bce15bb257ea443a786a923854decafd3b0ff416aa299fd5d",
+      "supported_decision": "no_trade"
+    },
+    "producer": {
+      "account_eligible": false,
+      "can_authorize": false,
+      "can_place_orders": false,
+      "can_promote": false,
+      "errors": 0,
+      "execution_eligible": false,
+      "generated_epoch": 1788899248.810341,
+      "generated_utc": "2026-09-08T20:27:28.810341+00:00",
+      "last_error": "",
+      "phase": "research_collection",
+      "proof_eligible": false,
+      "publication_epoch": 1788899248.810341,
+      "research_only": true,
+      "schema_version": "repaired_joint_news_heartbeat_v1_20260908",
+      "snapshot_generated_utc": "2026-09-08T20:27:28.522283+00:00",
+      "snapshot_sha256": "bdba13a970099f02238b4ec32b81a7189cbd209a90e711e0713255841427f544",
+      "source_status": "current",
+      "status": "current"
+    }
+  },
+  "inflight_pre_reload_shared_artifacts": [],
+  "inspection_completed_utc": "2026-09-08T20:28:03.098662+00:00",
+  "limitations": [
+    "All after rows satisfy their required actual clock cutoff; in-flight crossings are explicitly identified.",
+    "Completion spacing includes capture, fit and scheduler work, not isolated model-fit latency.",
+    "A short before/after operational observation is not a guarantee of future throughput, storage growth or forecast accuracy.",
+    "Governance DB/WAL changes may invalidate capture cache even within a60-second current publication."
+  ],
+  "observed_window_end_epoch": 1788899278.4484327,
+  "observed_window_end_utc": "2026-09-08T20:27:58.448433+00:00",
+  "readiness_binding": {
+    "bytes": 46086,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\joint_price_news_study_v3\\readiness.jsonl",
+    "sha256": "d3b16d58cb85b1ee1a47612a3e2e72665675efb2ede9a76519f430939efe7dda"
+  },
+  "readiness_partial_tail_preserved": null,
+  "reload_completed_epoch": 1788898639.61214,
+  "reload_completed_utc": "2026-09-08T20:17:19.612140+00:00",
+  "schema": "research_capture_cadence_after60_comparison_v1_20260908",
+  "source_or_runtime_changes": 0,
+  "status": "completed_readonly"
+}

@@ -1,0 +1,101 @@
+"""Retain exact tested/reviewed offline candidate bytes; no runtime reads."""
+import ast
+import hashlib
+import json
+from pathlib import Path
+import time
+import xml.etree.ElementTree as ET
+
+BASE=Path(__file__).resolve().parent
+ROOT=BASE.parents[1]/'trad'
+REVIEW='OBSERVER_API_V2_INDEPENDENT_SOURCE_REVIEW_20260909.json'
+REVIEW_SHA='a983643099e243b44d87afbebcb0da6b33c53eb2b4eca2eeceba5d64cac5bede'
+OLD_PINS={
+    'oanda_joint_v3_ledger_status_observer_v1.py':'d2dc17dfee52603ae1ccf61433f4a1a73cd1650fdf44c5f1daaa60cf133d8699',
+    'oanda_joint_v3_ledger_observer_api_v1.py':'26814b7f7a2a5c9dd7457bf1c1231ebb98f8a496139169f69c20187d436543ed',
+    'oanda_immutable_summary_publication_v1.py':'53abafc379216797945543464fe218511f53b17a2d0d9d9cecb700146eff4bf7',
+    'oanda_practice_live_dashboard.py':'3882467376ddace472163baa8f37d2c729d4d3fd9ba18c18c66936c2a0cbb17a',
+    'oanda_main_signal_dashboard.html':'da9ae85ac0efd524a59ab7f24cf5de6602b737610e996556abf4b0e783b690c6',
+    'config/joint_v3_ledger_observer_api_v1_20260909.json':'983ac47caa3ba2a4ac8021876ce7e0a371ebdae2ef36ccb1d7a2636a046a4073',
+    'config/joint_price_news_study_v3_20260908.json':'ee075e69e80ca56dfdf45abe1f7a1a301612176e67f7622eab1adf2bd9af8771',
+}
+
+
+def sha(raw):return hashlib.sha256(raw).hexdigest()
+
+
+def file_record(path):
+    raw=path.read_bytes()
+    return dict(path=str(path),sha256=sha(raw),bytes=len(raw))
+
+
+def need(ok):
+    if not ok:raise ValueError('validation_binding_failed')
+
+
+def blocks(path):
+    tree=ast.parse(path.read_bytes())
+    return {n.name:ast.dump(n,include_attributes=False) for n in tree.body if isinstance(n,(ast.FunctionDef,ast.ClassDef))}
+
+
+def run():
+    review_raw=(BASE/REVIEW).read_bytes();need(sha(review_raw)==REVIEW_SHA)
+    review=json.loads(review_raw);need(review['status']=='passed' and review['remaining_blockers']==[])
+    sources=[]
+    for expected in review['source_evidence']:
+        record=file_record(Path(expected['path']));need(record==expected);sources.append(record)
+    tests=review['owner_test_evidence'];test_raw=Path(tests['path']).read_bytes();need(sha(test_raw)==tests['sha256'])
+    tree=ET.fromstring(test_raw);suites=list(tree) if tree.tag=='testsuites' else [tree]
+    counts={key:sum(int(s.attrib.get(key,0)) for s in suites) for key in ('tests','failures','errors','skipped')}
+    need(counts==dict(tests=106,failures=0,errors=0,skipped=1))
+    original=[]
+    for name,want in OLD_PINS.items():
+        record=file_record(ROOT/name);need(record['sha256']==want);original.append(record)
+    registry=json.loads((ROOT/'config/joint_price_news_study_v3_20260908.json').read_bytes())
+    registered=[]
+    for name,want in registry['source_bindings'].items():
+        record=file_record(ROOT/name);need(record['sha256']==want);registered.append(record)
+    need(len(registered)==20)
+    prior=blocks(ROOT/'oanda_joint_v3_ledger_status_observer_v1.py');current=blocks(ROOT/'oanda_joint_v3_ledger_status_observer_v2.py')
+    helper_hashes={}
+    for name,value in prior.items():
+        if name=='observe_joint_v3':continue
+        need(current[name]==value);helper_hashes[name]=sha(value.encode())
+    api_old=blocks(ROOT/'oanda_joint_v3_ledger_observer_api_v1.py')
+    need(api_old==blocks(ROOT/'oanda_joint_v3_ledger_observer_api_v2.py'))
+    accepted=BASE/'observer_api_v2_accepted_source';accepted.mkdir(exist_ok=False)
+    copies=[]
+    for record in sources:
+        path=Path(record['path']);raw=path.read_bytes();need(sha(raw)==record['sha256'])
+        destination=accepted/(path.name+'.txt')
+        with destination.open('xb') as stream:stream.write(raw)
+        copy=file_record(destination);need(copy['sha256']==record['sha256']);copies.append(dict(original_source=record,retained_source=copy))
+    prior_xml=[]
+    for name in ('observer_api_v2_candidate_tests.xml','observer_api_v2_focused_tests.xml'):
+        prior_xml.append(file_record(BASE/name))
+    value=dict(schema_version='joint_v3_observer_api_v2_implementation_validation_v1_20260909',
+        status='passed_offline_candidate_validation_not_activated',retained_epoch=time.time(),source_copies=copies,
+        tests={**tests,**counts, 'passed':105,'skip_reason':'Windows symbolic-link privilege unavailable'},
+        independent_source_review=file_record(BASE/REVIEW),preserved_original_files=original,
+        unchanged_registered_original_sources=registered,original_verification_helper_ast_sha256=helper_hashes,
+        original_api_function_class_ast_sha256={name:sha(value.encode()) for name,value in api_old.items()},
+        design=file_record(BASE/'BOUNDED_OBSERVER_V2_RETRY_DESIGN_20260909.json'),
+        implementation_note=file_record(BASE/'OBSERVER_V2_RETRY_IMPLEMENTATION_20260909.md'),
+        prior_attempt_test_evidence=prior_xml,
+        prior_attempt_source_directories=[str(BASE/'observer_v2_first_candidate_source'),str(BASE/'observer_v2_before_wall_continuity')],
+        source_closure=dict(observer_files=3,api_files=4,original_joint_registered_files=20),
+        policy=dict(original_ledger_budget_sec=8,first_pass_pair_cap_sec=.25,retry_pair_cap_sec=.5,maximum_attempts_per_pair=2),
+        authority=dict(research_only=True,execution_eligible=False,can_place_orders=False,can_promote=False,
+            can_authorize=False,account_eligible=False,proof_eligible=False),
+        actual_candidate_observation_performed=False,active_routing_changed=False,runtime_writes=False,
+        current_readiness_or_trading_performance_claim=False,
+        limits=['Tests and independent source review establish the bounded candidate implementation, not a live reliability rate.',
+            'Original report/cache clocks and H1 targets remain unchanged; active V1 remains separately named.',
+            'Mandatory bounded source/envelope reads retain the original budget scope; eight seconds is not universal OS cancellation.'])
+    raw=(json.dumps(value,sort_keys=True,indent=2,allow_nan=False)+'\n').encode()
+    path=BASE/'OBSERVER_API_V2_IMPLEMENTATION_VALIDATION_20260909.json'
+    with path.open('xb') as stream:stream.write(raw)
+    print(json.dumps(dict(path=str(path),sha256=sha(raw),tests=counts,passed=105,status=value['status'])))
+
+
+if __name__=='__main__':run()

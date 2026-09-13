@@ -30,9 +30,11 @@ DEFAULT_STATE = STATE_ROOT / "top_signal_position_ledger_v1.json"
 DEFAULT_MAX_QUOTE_AGE_SEC = 90.0
 MAX_TARGET_QUOTE_DISTANCE_SEC = 60.0
 FACTOR_EPISODE_GAP_SEC = 900.0
-MEASUREMENT_VERSION = "raw_all_signal_consensus_v3_exact_target_quote"
-PREVIOUS_MEASUREMENT_VERSION = "raw_all_signal_consensus_v2"
+MEASUREMENT_VERSION = "raw_all_signal_consensus_v5_strict_horizon_lineage"
+PREVIOUS_MEASUREMENT_VERSION = "raw_all_signal_consensus_v4_horizon_lineage"
+OLDER_MEASUREMENT_VERSION = "raw_all_signal_consensus_v3_exact_target_quote"
 LEGACY_MEASUREMENT_VERSION = "legacy_filtered_direction_v1"
+AGGREGATE_SIGNAL_LINEAGE_CONTRACT_ID = "all_signal_horizon_lineage_v1"
 CANONICAL_HORIZONS = (
     60,
     120,
@@ -240,8 +242,28 @@ def candidates_by_horizon(
             blocked = list(point.get("signal_blocked_by") or [])
             if not blocked:
                 blocked = list(signal.get("signal_blocked_by") or [])
+            source_signal_id = str(signal.get("id") or "")
+            aggregate_signal_id = str(
+                point.get("aggregate_signal_id")
+                or signal.get("aggregate_signal_id")
+                or ""
+            )
+            signal_lineage_contract_id = str(
+                point.get("aggregate_signal_lineage_contract_id")
+                or signal.get("aggregate_signal_lineage_contract_id")
+                or "legacy_source_signal_id"
+            )
+            strict_lineage_available = bool(
+                aggregate_signal_id.startswith("aggregate_signal_")
+                and signal_lineage_contract_id
+                == AGGREGATE_SIGNAL_LINEAGE_CONTRACT_ID
+            )
+            if not aggregate_signal_id:
+                aggregate_signal_id = source_signal_id
             candidate = {
-                "signal_id": str(signal.get("id") or ""),
+                "signal_id": aggregate_signal_id,
+                "source_signal_id": source_signal_id,
+                "signal_lineage_contract_id": signal_lineage_contract_id,
                 "instrument": instrument,
                 "direction": direction,
                 "side": display_side(direction),
@@ -287,6 +309,50 @@ def candidates_by_horizon(
                         signal.get("direction_conflict"),
                     )
                 ),
+                "direction_conflict_contract_id": str(
+                    point.get("direction_conflict_contract_id")
+                    or signal.get("direction_conflict_contract_id")
+                    or "legacy_direction_conflict"
+                ),
+                "direction_conflict_details": {
+                    "contributor_count": int(
+                        point.get("direction_conflict_contributor_count")
+                        or signal.get("direction_conflict_contributor_count")
+                        or 0
+                    ),
+                    "account_eligible_count": int(
+                        point.get("direction_conflict_account_eligible_count")
+                        or signal.get("direction_conflict_account_eligible_count")
+                        or 0
+                    ),
+                    "execution_component_count": int(
+                        point.get(
+                            "direction_conflict_execution_component_count"
+                        )
+                        or signal.get(
+                            "direction_conflict_execution_component_count"
+                        )
+                        or 0
+                    ),
+                    "shadow_only_count": int(
+                        point.get("direction_conflict_shadow_only_count")
+                        or signal.get("direction_conflict_shadow_only_count")
+                        or 0
+                    ),
+                    "only_shadow_or_account_ineligible": bool(
+                        point.get(
+                            "direction_conflict_only_shadow_or_account_ineligible"
+                        )
+                        or signal.get(
+                            "direction_conflict_only_shadow_or_account_ineligible"
+                        )
+                    ),
+                    "contributors": list(
+                        point.get("direction_conflict_contributors")
+                        or signal.get("direction_conflict_contributors")
+                        or []
+                    ),
+                },
                 "blocked_by": blocked,
                 "execution_validation": dict(validation)
                 if isinstance(validation, dict)
@@ -303,8 +369,11 @@ def candidates_by_horizon(
                     LEGACY_MEASUREMENT_VERSION
                     if direction_source == "legacy_snapshot_fallback"
                     else MEASUREMENT_VERSION
+                    if strict_lineage_available
+                    else PREVIOUS_MEASUREMENT_VERSION
                 ),
                 "direction_source": direction_source,
+                "strict_lineage_available": strict_lineage_available,
             }
             aggressive_shadow = (
                 (
@@ -360,6 +429,8 @@ def open_database(path: Path) -> sqlite3.Connection:
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             cohort_key TEXT NOT NULL UNIQUE,
             signal_id TEXT NOT NULL,
+            source_signal_id TEXT NOT NULL DEFAULT '',
+            signal_lineage_contract_id TEXT NOT NULL DEFAULT 'legacy_source_signal_id',
             observed_at TEXT NOT NULL,
             opened_epoch REAL NOT NULL,
             opened_at TEXT NOT NULL,
@@ -379,6 +450,8 @@ def open_database(path: Path) -> sqlite3.Connection:
             signal_eligible INTEGER NOT NULL,
             validated INTEGER NOT NULL,
             direction_conflict INTEGER NOT NULL,
+            direction_conflict_contract_id TEXT NOT NULL DEFAULT 'legacy_direction_conflict',
+            direction_conflict_details_json TEXT NOT NULL DEFAULT '{}',
             blocked_by_json TEXT NOT NULL,
             confidence REAL NOT NULL,
             projected_net_pips REAL NOT NULL,
@@ -442,6 +515,16 @@ def open_database(path: Path) -> sqlite3.Connection:
             "DEFAULT 'legacy_filtered_direction'"
         )
     for column, definition in (
+        ("source_signal_id", "TEXT NOT NULL DEFAULT ''"),
+        (
+            "signal_lineage_contract_id",
+            "TEXT NOT NULL DEFAULT 'legacy_source_signal_id'",
+        ),
+        (
+            "direction_conflict_contract_id",
+            "TEXT NOT NULL DEFAULT 'legacy_direction_conflict'",
+        ),
+        ("direction_conflict_details_json", "TEXT NOT NULL DEFAULT '{}'"),
         ("outcome_quote_epoch", "REAL"),
         ("outcome_quote_at", "TEXT"),
         ("target_quote_distance_sec", "REAL"),
@@ -737,14 +820,18 @@ def open_positions(
 ) -> int:
     opened = 0
     open_horizons = {
-        int(row[0])
+        (int(row[0]), str(row[1]))
         for row in connection.execute(
-            "SELECT horizon_sec FROM positions WHERE status='open'"
+            "SELECT horizon_sec, measurement_version FROM positions "
+            "WHERE status='open'"
         ).fetchall()
     }
     for candidate in candidates:
         horizon = int(candidate["horizon_sec"])
-        if horizon in open_horizons:
+        measurement_version = str(
+            candidate.get("measurement_version") or MEASUREMENT_VERSION
+        )
+        if (horizon, measurement_version) in open_horizons:
             continue
         values = quote_values(quotes, str(candidate["instrument"]))
         if values is None:
@@ -752,24 +839,34 @@ def open_positions(
         bid, ask, pip = values
         entry_quote_epoch = quote_epoch(quotes.get(str(candidate["instrument"])) or {})
         opened_epoch = entry_quote_epoch if entry_quote_epoch is not None else now_epoch
-        cohort_key = f"{horizon}:{int(opened_epoch)}:{candidate['instrument']}:{candidate['direction']}"
+        cohort_key = (
+            f"{measurement_version}:{horizon}:{int(opened_epoch)}:"
+            f"{candidate['instrument']}:{candidate['direction']}"
+        )
         cursor = connection.execute(
             """
             INSERT OR IGNORE INTO positions(
-                cohort_key, signal_id, observed_at, opened_epoch, opened_at,
+                cohort_key, signal_id, source_signal_id,
+                signal_lineage_contract_id, observed_at, opened_epoch, opened_at,
                 target_epoch, target_at, instrument, direction, side,
                 horizon_sec, horizon_label, family, lane_id, input_timeframe,
                 policy_state, signal_eligible, validated, direction_conflict,
+                direction_conflict_contract_id, direction_conflict_details_json,
                 blocked_by_json, confidence, projected_net_pips,
                 projected_net_pips_per_hour, gross_to_spread, entry_bid,
                 measurement_version, direction_source, entry_ask, entry_mid,
                 entry_spread_pips, best_net_pips,
                 worst_net_pips, status
-            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, 'open')
+            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, 'open')
             """,
             (
                 cohort_key,
                 candidate["signal_id"],
+                candidate.get("source_signal_id", ""),
+                candidate.get(
+                    "signal_lineage_contract_id",
+                    "legacy_source_signal_id",
+                ),
                 observed_at,
                 opened_epoch,
                 datetime.fromtimestamp(opened_epoch, UTC).isoformat(),
@@ -787,13 +884,22 @@ def open_positions(
                 int(candidate["signal_eligible"]),
                 int(candidate["validated"]),
                 int(candidate["direction_conflict"]),
+                candidate.get(
+                    "direction_conflict_contract_id",
+                    "legacy_direction_conflict",
+                ),
+                json.dumps(
+                    candidate.get("direction_conflict_details") or {},
+                    separators=(",", ":"),
+                    sort_keys=True,
+                ),
                 json.dumps(candidate["blocked_by"], separators=(",", ":")),
                 candidate["signal_confidence"],
                 candidate["projected_net_pips"],
                 candidate["projected_net_pips_per_hour"],
                 candidate["gross_to_spread"],
                 bid,
-                candidate.get("measurement_version", MEASUREMENT_VERSION),
+                measurement_version,
                 candidate.get("direction_source", "raw_all_signal_consensus"),
                 ask,
                 (bid + ask) / 2.0,
@@ -804,7 +910,7 @@ def open_positions(
         )
         if cursor.rowcount == 1:
             opened += 1
-            open_horizons.add(horizon)
+            open_horizons.add((horizon, measurement_version))
     connection.commit()
     return opened
 
@@ -1163,6 +1269,9 @@ def position_metadata_payload(connection: sqlite3.Connection) -> dict[str, Any]:
             "previous_v2_matured": int(
                 measurement_counts.get(PREVIOUS_MEASUREMENT_VERSION, 0)
             ),
+            "older_v3_matured": int(
+                measurement_counts.get(OLDER_MEASUREMENT_VERSION, 0)
+            ),
         },
         "maturity_integrity": maturity_integrity,
     }
@@ -1275,6 +1384,11 @@ def publish_state(
                 "entry_liquidity_bucket_basis": "entry_spread_pips",
                 "target_quote_contract": "quote timestamp at or after target and no more than 60 seconds late",
                 "historical_rows_without_quote_timestamp_are_noncanonical": True,
+                "aggregate_lineage_contract_id": (
+                    AGGREGATE_SIGNAL_LINEAGE_CONTRACT_ID
+                ),
+                "strict_lineage_required_for_current_version": True,
+                "transitional_version": PREVIOUS_MEASUREMENT_VERSION,
             },
             "counts": metadata["counts"],
             "maturity_integrity": metadata["maturity_integrity"],

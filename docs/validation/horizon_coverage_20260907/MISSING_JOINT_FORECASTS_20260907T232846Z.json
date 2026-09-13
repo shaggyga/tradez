@@ -1,0 +1,2447 @@
+{
+  "schema_version": "missing_joint_forecast_audit_v1_20260907",
+  "status": "completed_read_only_audit",
+  "started_epoch": 1788823726.0374033,
+  "finished_epoch": 1788823726.5570128,
+  "observed_utc": "2026-09-07T23:28:46.349568+00:00",
+  "api": {
+    "url": "http://127.0.0.1:8765/api/main",
+    "request_started_epoch": 1788823726.054358,
+    "response_finished_epoch": 1788823726.349568,
+    "raw_response_sha256": "aa404ddfeddf6a19728f0b0b1ad1b5108d319d8523e3e82657e7a0bed2223bae",
+    "raw_response_scope": "Observed in memory; only relevant forecast projection retained, account fields omitted.",
+    "joint": {
+      "study_version": "joint_v2",
+      "status": "current",
+      "reason": null,
+      "reason_label": null,
+      "generated_epoch": 1788823709.7836125,
+      "observed_epoch": 1788823722.136295,
+      "counts": {
+        "forecast": 61,
+        "warming": 1,
+        "unavailable": 6
+      },
+      "research_only": true,
+      "can_place_orders": false,
+      "can_promote": false,
+      "publication_read_attempts": 1,
+      "publication_read_failures": [],
+      "retained_generation": null,
+      "probability_scope": "uncalibrated_model_estimate_not_verified_accuracy",
+      "family_counts": {
+        "ridge_price_news_v1": {
+          "forecast": 61,
+          "warming": 1,
+          "unavailable": 6
+        }
+      },
+      "registry_sha256": "20fea86e661efd758536b81fa5c474a440feee2e6af48b28a1016b1538d3691e",
+      "worker_observation": {
+        "generated_epoch": 1788823720.2009413,
+        "age_sec": 1.9353537559509277,
+        "errors": 0,
+        "heartbeat_publication_errors": 0
+      },
+      "ledger_counts": {
+        "attempts": 183,
+        "forecasts": 183,
+        "publication": 183,
+        "consumption": 183,
+        "outcomes": 0,
+        "exclusions": 6
+      },
+      "ledger_counts_scope": "verified_family_snapshots_only",
+      "summary_sha256": "9f7f7dc4660067c54c81586a65cc619a639784e93ec838365ab6e54a6f2e5bc0",
+      "summary_age_sec": 12.35268259048462
+    },
+    "price_only": {
+      "study_version": 2,
+      "status": "current",
+      "reason": null,
+      "reason_label": null,
+      "generated_epoch": 1788823710.5894578,
+      "observed_epoch": 1788823722.0794475,
+      "counts": {
+        "forecast": 65,
+        "unavailable": 3
+      },
+      "research_only": true,
+      "can_place_orders": false,
+      "can_promote": false,
+      "publication_read_attempts": 1,
+      "publication_read_failures": [],
+      "retained_generation": null,
+      "probability_scope": "uncalibrated_model_estimate_not_verified_accuracy",
+      "family_counts": {
+        "probabilistic_state_space": {
+          "forecast": 65,
+          "unavailable": 3
+        },
+        "ridge_return_repaired": {
+          "forecast": 65,
+          "unavailable": 3
+        }
+      },
+      "registry_sha256": "f7dc675925a765c0bb369282895f2839326476a05eadb7f5df6e0f27a10ed505",
+      "worker_observation": {
+        "generated_epoch": 1788823721.6116993,
+        "age_sec": 0.46774816513061523,
+        "errors": 0,
+        "heartbeat_publication_errors": 0
+      },
+      "ledger_counts": {
+        "attempts": 1278,
+        "forecasts": 1278,
+        "publication": 1278,
+        "consumption": 1278,
+        "outcomes": 645,
+        "exclusions": 145
+      },
+      "ledger_counts_scope": "verified_family_snapshots_only",
+      "summary_sha256": "276a2cd6fde6f69bfd272b71f2160008edf9ba4dfc5d20aa01a81d10e1e18b82",
+      "summary_age_sec": 11.489989757537842
+    }
+  },
+  "universe_count": 68,
+  "active_joint_pair_count": 61,
+  "missing_pairs": [
+    "EUR_DKK",
+    "EUR_TRY",
+    "GBP_HKD",
+    "GBP_PLN",
+    "GBP_SGD",
+    "TRY_JPY",
+    "USD_TRY"
+  ],
+  "categories": {
+    "insufficient_joint_training_labels": 1,
+    "no_current_tradeable_stream_quote": 3,
+    "insufficient_news_context_training_support": 3
+  },
+  "rows": [
+    {
+      "instrument": "EUR_DKK",
+      "classification": "insufficient_joint_training_labels",
+      "structural_reasons_at_retained_input": [
+        "mature_joint_h1_training_rows:39<48"
+      ],
+      "joint_api": {
+        "instrument": "EUR_DKK",
+        "status": "warming",
+        "reason": "mature_joint_h1_training_rows:39<48",
+        "reason_label": "Waiting for model inputs",
+        "observed_epoch": 1788823709.7836125,
+        "families": {
+          "ridge_price_news_v1": {
+            "status": "warming",
+            "reason": "mature_joint_h1_training_rows:39<48",
+            "current_readiness": {
+              "observed_epoch": 1788823697.9586477,
+              "status": "blocked",
+              "reason": "mature_joint_h1_training_rows:39<48",
+              "diagnostics": {
+                "current_real_prices": 34,
+                "current_real_returns": 33,
+                "current_span_sec": 3600,
+                "distinct_news_context_patterns": 20,
+                "mature_exact_h1_training_rows": 39,
+                "nonzero_news_context_training_rows": 19,
+                "ready": false,
+                "reasons": [
+                  "mature_joint_h1_training_rows:39<48"
+                ],
+                "required_joint_training_rows": 48,
+                "status": "blocked",
+                "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+                "vetted_news_training_rows": 0
+              },
+              "reason_label": "39/48 mature H1 labels \u00b7 19/12 rows with news context \u00b7 20/8 distinct context patterns",
+              "price_bar_close_epoch": 1788823500,
+              "news_evidence_epoch": 1788823645.781067,
+              "news_expires_epoch": 1788823945.781067
+            },
+            "last_attempt": null,
+            "counts": {
+              "attempts": 0,
+              "consumption": 0,
+              "diagnostics": 0,
+              "entries": 0,
+              "exclusions": 0,
+              "forecasts": 0,
+              "inputs": 0,
+              "outcomes": 0,
+              "publication": 0,
+              "quotes": 44
+            }
+          }
+        },
+        "active_forecasts": []
+      },
+      "price_only_api": {
+        "instrument": "EUR_DKK",
+        "status": "forecast",
+        "reason": "forecast",
+        "reason_label": "2 independent H1 estimates",
+        "observed_epoch": 1788823710.5894578,
+        "families": {
+          "probabilistic_state_space": {
+            "status": "forecast",
+            "reason": "forecast",
+            "current_readiness": {
+              "observed_epoch": 1788823565.5397587,
+              "status": "ready",
+              "reason": "",
+              "diagnostics": {
+                "current_real_prices": 34,
+                "current_real_returns": 33,
+                "current_span_sec": 3600,
+                "current_window_start_epoch": 1788819840,
+                "mature_exact_h1_training_rows": 780,
+                "maximum_current_gap_sec": 540,
+                "ready": true,
+                "reasons": [],
+                "required_ridge_training_rows": 24,
+                "retained_real_rows": 4096,
+                "session_start_epoch": 1788728640,
+                "status": "ready"
+              },
+              "reason_label": "33/8 real returns over 60 min (needs 15 min); Ridge 780/24 mature H1 labels"
+            },
+            "last_attempt": {
+              "epoch": 1788823038.9320564,
+              "attempt_id": "2931f8762752ae859710c3452441e196f579d76f2a912bec4ab9bf6fa971ade8",
+              "bucket": 1987581,
+              "reason": "published",
+              "reason_label": "published"
+            },
+            "counts": {
+              "attempts": 10,
+              "consumption": 10,
+              "diagnostics": 0,
+              "entries": 5,
+              "exclusions": 9,
+              "forecasts": 10,
+              "inputs": 9,
+              "outcomes": 1,
+              "publication": 10,
+              "quotes": 214
+            }
+          },
+          "ridge_return_repaired": {
+            "status": "forecast",
+            "reason": "forecast",
+            "current_readiness": {
+              "observed_epoch": 1788823565.5397587,
+              "status": "ready",
+              "reason": "",
+              "diagnostics": {
+                "current_real_prices": 34,
+                "current_real_returns": 33,
+                "current_span_sec": 3600,
+                "current_window_start_epoch": 1788819840,
+                "mature_exact_h1_training_rows": 780,
+                "maximum_current_gap_sec": 540,
+                "ready": true,
+                "reasons": [],
+                "required_ridge_training_rows": 24,
+                "retained_real_rows": 4096,
+                "session_start_epoch": 1788728640,
+                "status": "ready"
+              },
+              "reason_label": "33/8 real returns over 60 min (needs 15 min); Ridge 780/24 mature H1 labels"
+            },
+            "last_attempt": {
+              "epoch": 1788823064.9623063,
+              "attempt_id": "3bfbf73adbc43808796d640b8fc7f4ae4a4f018413f899729b12ad8e6db16e87",
+              "bucket": 1987581,
+              "reason": "published",
+              "reason_label": "published"
+            },
+            "counts": {
+              "attempts": 10,
+              "consumption": 10,
+              "diagnostics": 0,
+              "entries": 9,
+              "exclusions": 4,
+              "forecasts": 10,
+              "inputs": 9,
+              "outcomes": 3,
+              "publication": 10,
+              "quotes": 214
+            }
+          }
+        },
+        "active_forecasts": [
+          {
+            "family": "probabilistic_state_space",
+            "decision_id": "e95b5f766d4ef58ebf3eeb0823e15871d3cfd9294af5a338b835ff251ba56db2",
+            "reference_epoch": 1788823029.027864,
+            "issued_epoch": 1788823039.7802944,
+            "target_epoch": 1788826629.027864,
+            "predicted_return_bps": 0.022595362826411197,
+            "probability_up": 0.5344497182475253,
+            "side": 1,
+            "forecast_sha256": "d50f20ecc5d53d7711b4341d10b3998d7c1a468c5190ac11de77fba367827f7b"
+          },
+          {
+            "family": "ridge_return_repaired",
+            "decision_id": "f7ed388b5bf79e6925355a741723f30a9894713fc03df4de1bc834ef5caa6d2b",
+            "reference_epoch": 1788823029.027864,
+            "issued_epoch": 1788823065.6071072,
+            "target_epoch": 1788826629.027864,
+            "predicted_return_bps": 0.01377302795716293,
+            "probability_up": 0.5123713726426831,
+            "side": 1,
+            "forecast_sha256": "c899c195a592bb0c9289f4a79e5f0cbbb0cf545ebbf6c646a3f2ad9cedeaac0c"
+          }
+        ]
+      },
+      "direct_summary_row": {
+        "instrument": "EUR_DKK",
+        "status": null,
+        "reason": null,
+        "reason_label": null,
+        "observed_epoch": null,
+        "families": {
+          "ridge_price_news_v1": {
+            "status": "warming",
+            "reason": "mature_joint_h1_training_rows:39<48",
+            "current_readiness": {
+              "diagnostics": {
+                "current_real_prices": 34,
+                "current_real_returns": 33,
+                "current_span_sec": 3600,
+                "distinct_news_context_patterns": 20,
+                "mature_exact_h1_training_rows": 39,
+                "nonzero_news_context_training_rows": 19,
+                "ready": false,
+                "reasons": [
+                  "mature_joint_h1_training_rows:39<48"
+                ],
+                "required_joint_training_rows": 48,
+                "status": "blocked",
+                "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+                "vetted_news_training_rows": 0
+              },
+              "news_evidence_epoch": 1788823645.781067,
+              "news_expires_epoch": 1788823945.781067,
+              "observed_epoch": 1788823697.9586477,
+              "price_bar_close_epoch": 1788823500,
+              "reason": "mature_joint_h1_training_rows:39<48",
+              "status": "blocked"
+            },
+            "last_attempt": null,
+            "counts": {
+              "attempts": 0,
+              "consumption": 0,
+              "diagnostics": 0,
+              "entries": 0,
+              "exclusions": 0,
+              "forecasts": 0,
+              "inputs": 0,
+              "outcomes": 0,
+              "publication": 0,
+              "quotes": 44
+            }
+          }
+        },
+        "active_forecasts": []
+      },
+      "latest_readiness_event": {
+        "event_observed_epoch": 1788823698.4189227,
+        "family_readiness": {
+          "ridge_price_news_v1": {
+            "current_real_prices": 34,
+            "current_real_returns": 33,
+            "current_span_sec": 3600,
+            "distinct_news_context_patterns": 20,
+            "mature_exact_h1_training_rows": 39,
+            "nonzero_news_context_training_rows": 19,
+            "ready": false,
+            "reasons": [
+              "mature_joint_h1_training_rows:39<48"
+            ],
+            "required_joint_training_rows": 48,
+            "status": "blocked",
+            "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+            "vetted_news_training_rows": 0
+          }
+        },
+        "instrument": "EUR_DKK",
+        "observed_epoch": 1788823697.9586477,
+        "reasons": [],
+        "source_capture_sha256": "cfd042820d8758e1a74a4d37de4dbc8a23fc651999b55afe8eed132a75ccc009",
+        "status": "ready"
+      },
+      "latest_retained_numeric_readiness_event": {
+        "event_observed_epoch": 1788823698.4189227,
+        "family_readiness": {
+          "ridge_price_news_v1": {
+            "current_real_prices": 34,
+            "current_real_returns": 33,
+            "current_span_sec": 3600,
+            "distinct_news_context_patterns": 20,
+            "mature_exact_h1_training_rows": 39,
+            "nonzero_news_context_training_rows": 19,
+            "ready": false,
+            "reasons": [
+              "mature_joint_h1_training_rows:39<48"
+            ],
+            "required_joint_training_rows": 48,
+            "status": "blocked",
+            "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+            "vetted_news_training_rows": 0
+          }
+        },
+        "instrument": "EUR_DKK",
+        "observed_epoch": 1788823697.9586477,
+        "reasons": [],
+        "source_capture_sha256": "cfd042820d8758e1a74a4d37de4dbc8a23fc651999b55afe8eed132a75ccc009",
+        "status": "ready"
+      },
+      "quote_snapshot_row": {
+        "instrument": null,
+        "source": "stream",
+        "tradeable": true,
+        "time": "2026-09-07T23:28:13.829933493Z",
+        "bid": 7.47444,
+        "ask": 7.47564,
+        "pip": 0.0001
+      },
+      "joint_ledger": {
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\joint_price_news_study_v2\\pairs\\EUR_DKK\\ridge_price_news_v1\\study.sqlite",
+        "status": "read_only_snapshot",
+        "started_epoch": 1788823726.4742346,
+        "finished_epoch": 1788823726.4762297,
+        "counts": {
+          "quotes": 44,
+          "attempts": 0,
+          "diagnostics": 0,
+          "inputs": 0,
+          "forecasts": 0,
+          "publication": 0,
+          "consumption": 0,
+          "entries": 0,
+          "outcomes": 0,
+          "exclusions": 0
+        },
+        "last_attempt": null,
+        "last_retained_quote": {
+          "instrument": "EUR_DKK",
+          "market_epoch": 1788823693.829933,
+          "available_epoch": 1788823697.7831151,
+          "bid": "7.47444",
+          "ask": "7.47564",
+          "tradeable": true,
+          "quote_id": "f5c9dca50dde66def30ebbc0eeb61bf38fd929e3d5da4bc5f41fcc46085e81d7"
+        }
+      },
+      "price_ledgers": {
+        "probabilistic_state_space": {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\pair_local_forecast_study_v2\\pairs\\EUR_DKK\\probabilistic_state_space\\study.sqlite",
+          "status": "read_only_snapshot",
+          "started_epoch": 1788823726.4772267,
+          "finished_epoch": 1788823726.4792216,
+          "counts": {
+            "quotes": 214,
+            "attempts": 10,
+            "diagnostics": 0,
+            "inputs": 9,
+            "forecasts": 10,
+            "publication": 10,
+            "consumption": 10,
+            "entries": 5,
+            "outcomes": 1,
+            "exclusions": 9
+          },
+          "last_attempt": {
+            "id": "2931f8762752ae859710c3452441e196f579d76f2a912bec4ab9bf6fa971ade8",
+            "bucket": 1987581,
+            "sequence": 1,
+            "epoch": 1788823038.9320564,
+            "reference_id": "8fc2ac8c7035b571ab7742229db432a31283a189b1284b636b58c19eca4ea85a"
+          },
+          "last_retained_quote": {
+            "instrument": "EUR_DKK",
+            "market_epoch": 1788823693.829933,
+            "available_epoch": 1788823696.781287,
+            "bid": "7.47444",
+            "ask": "7.47564",
+            "tradeable": true,
+            "quote_id": "f5c9dca50dde66def30ebbc0eeb61bf38fd929e3d5da4bc5f41fcc46085e81d7"
+          }
+        },
+        "ridge_return_repaired": {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\pair_local_forecast_study_v2\\pairs\\EUR_DKK\\ridge_return_repaired\\study.sqlite",
+          "status": "read_only_snapshot",
+          "started_epoch": 1788823726.4792216,
+          "finished_epoch": 1788823726.4812155,
+          "counts": {
+            "quotes": 214,
+            "attempts": 10,
+            "diagnostics": 0,
+            "inputs": 9,
+            "forecasts": 10,
+            "publication": 10,
+            "consumption": 10,
+            "entries": 9,
+            "outcomes": 3,
+            "exclusions": 4
+          },
+          "last_attempt": {
+            "id": "3bfbf73adbc43808796d640b8fc7f4ae4a4f018413f899729b12ad8e6db16e87",
+            "bucket": 1987581,
+            "sequence": 1,
+            "epoch": 1788823064.9623063,
+            "reference_id": "8fc2ac8c7035b571ab7742229db432a31283a189b1284b636b58c19eca4ea85a"
+          },
+          "last_retained_quote": {
+            "instrument": "EUR_DKK",
+            "market_epoch": 1788823693.829933,
+            "available_epoch": 1788823696.781287,
+            "bid": "7.47444",
+            "ask": "7.47564",
+            "tradeable": true,
+            "quote_id": "f5c9dca50dde66def30ebbc0eeb61bf38fd929e3d5da4bc5f41fcc46085e81d7"
+          }
+        }
+      }
+    },
+    {
+      "instrument": "EUR_TRY",
+      "classification": "no_current_tradeable_stream_quote",
+      "structural_reasons_at_retained_input": [],
+      "joint_api": {
+        "instrument": "EUR_TRY",
+        "status": "unavailable",
+        "reason": "ValueError:market_closed_or_no_stream_quote",
+        "reason_label": "Needs a fresh quote",
+        "observed_epoch": 1788823709.7836125,
+        "families": {
+          "ridge_price_news_v1": {
+            "status": "unavailable",
+            "reason": "ValueError:market_closed_or_no_stream_quote",
+            "current_readiness": {
+              "observed_epoch": 1788823708.1001027,
+              "status": "unavailable",
+              "reason": "stale_or_missing_joint_input",
+              "diagnostics": {},
+              "reason_label": "Current price or news input unavailable; Input unavailable: stale or unavailable news input",
+              "price_bar_close_epoch": null,
+              "news_evidence_epoch": null,
+              "news_expires_epoch": null
+            },
+            "last_attempt": null,
+            "counts": {
+              "attempts": 0,
+              "consumption": 0,
+              "diagnostics": 0,
+              "entries": 0,
+              "exclusions": 0,
+              "forecasts": 0,
+              "inputs": 0,
+              "outcomes": 0,
+              "publication": 0,
+              "quotes": 0
+            }
+          }
+        },
+        "active_forecasts": []
+      },
+      "price_only_api": {
+        "instrument": "EUR_TRY",
+        "status": "unavailable",
+        "reason": "ValueError:market_closed_or_no_stream_quote | ValueError:market_closed_or_no_stream_quote",
+        "reason_label": "Needs a fresh quote; Needs a fresh quote",
+        "observed_epoch": 1788823710.5894578,
+        "families": {
+          "probabilistic_state_space": {
+            "status": "unavailable",
+            "reason": "ValueError:market_closed_or_no_stream_quote",
+            "current_readiness": {
+              "observed_epoch": 1788815580.4792027,
+              "status": "unavailable",
+              "reason": "stale_or_future_pair_input",
+              "diagnostics": {},
+              "reason_label": "Readiness unavailable: stale or future pair input"
+            },
+            "last_attempt": null,
+            "counts": {
+              "attempts": 0,
+              "consumption": 0,
+              "diagnostics": 0,
+              "entries": 0,
+              "exclusions": 0,
+              "forecasts": 0,
+              "inputs": 0,
+              "outcomes": 0,
+              "publication": 0,
+              "quotes": 0
+            }
+          },
+          "ridge_return_repaired": {
+            "status": "unavailable",
+            "reason": "ValueError:market_closed_or_no_stream_quote",
+            "current_readiness": {
+              "observed_epoch": 1788815580.4792027,
+              "status": "unavailable",
+              "reason": "stale_or_future_pair_input",
+              "diagnostics": {},
+              "reason_label": "Readiness unavailable: stale or future pair input"
+            },
+            "last_attempt": null,
+            "counts": {
+              "attempts": 0,
+              "consumption": 0,
+              "diagnostics": 0,
+              "entries": 0,
+              "exclusions": 0,
+              "forecasts": 0,
+              "inputs": 0,
+              "outcomes": 0,
+              "publication": 0,
+              "quotes": 0
+            }
+          }
+        },
+        "active_forecasts": []
+      },
+      "direct_summary_row": {
+        "instrument": "EUR_TRY",
+        "status": null,
+        "reason": null,
+        "reason_label": null,
+        "observed_epoch": null,
+        "families": {
+          "ridge_price_news_v1": {
+            "status": "unavailable",
+            "reason": "ValueError:market_closed_or_no_stream_quote",
+            "current_readiness": {
+              "diagnostics": {},
+              "news_evidence_epoch": null,
+              "news_expires_epoch": null,
+              "observed_epoch": 1788823708.1001027,
+              "price_bar_close_epoch": null,
+              "reason": "stale_or_unavailable_news_input",
+              "status": "unavailable"
+            },
+            "last_attempt": null,
+            "counts": {
+              "attempts": 0,
+              "consumption": 0,
+              "diagnostics": 0,
+              "entries": 0,
+              "exclusions": 0,
+              "forecasts": 0,
+              "inputs": 0,
+              "outcomes": 0,
+              "publication": 0,
+              "quotes": 0
+            }
+          }
+        },
+        "active_forecasts": []
+      },
+      "latest_readiness_event": {
+        "event_observed_epoch": 1788823708.157456,
+        "family_readiness": {},
+        "instrument": "EUR_TRY",
+        "observed_epoch": 1788823708.1001027,
+        "reasons": [
+          "ValueError:price_input_unavailable:EUR_TRY:ValueError:stale_or_future_pair_reference"
+        ],
+        "source_capture_sha256": "cca02150782794798f91956827f323279490f0a63a8ab837372cb50179630fea",
+        "status": "abstain"
+      },
+      "latest_retained_numeric_readiness_event": null,
+      "quote_snapshot_row": {
+        "instrument": null,
+        "source": "stream",
+        "tradeable": false,
+        "time": "2026-09-07T14:59:55.011593589Z",
+        "bid": 56.36506,
+        "ask": 56.3892,
+        "pip": 0.0001
+      },
+      "joint_ledger": {
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\joint_price_news_study_v2\\pairs\\EUR_TRY\\ridge_price_news_v1\\study.sqlite",
+        "status": "read_only_snapshot",
+        "started_epoch": 1788823726.482213,
+        "finished_epoch": 1788823726.4832106,
+        "counts": {
+          "quotes": 0,
+          "attempts": 0,
+          "diagnostics": 0,
+          "inputs": 0,
+          "forecasts": 0,
+          "publication": 0,
+          "consumption": 0,
+          "entries": 0,
+          "outcomes": 0,
+          "exclusions": 0
+        },
+        "last_attempt": null,
+        "last_retained_quote": null
+      },
+      "price_ledgers": {
+        "probabilistic_state_space": {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\pair_local_forecast_study_v2\\pairs\\EUR_TRY\\probabilistic_state_space\\study.sqlite",
+          "status": "read_only_snapshot",
+          "started_epoch": 1788823726.4832106,
+          "finished_epoch": 1788823726.4852052,
+          "counts": {
+            "quotes": 0,
+            "attempts": 0,
+            "diagnostics": 0,
+            "inputs": 0,
+            "forecasts": 0,
+            "publication": 0,
+            "consumption": 0,
+            "entries": 0,
+            "outcomes": 0,
+            "exclusions": 0
+          },
+          "last_attempt": null,
+          "last_retained_quote": null
+        },
+        "ridge_return_repaired": {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\pair_local_forecast_study_v2\\pairs\\EUR_TRY\\ridge_return_repaired\\study.sqlite",
+          "status": "read_only_snapshot",
+          "started_epoch": 1788823726.4852052,
+          "finished_epoch": 1788823726.486202,
+          "counts": {
+            "quotes": 0,
+            "attempts": 0,
+            "diagnostics": 0,
+            "inputs": 0,
+            "forecasts": 0,
+            "publication": 0,
+            "consumption": 0,
+            "entries": 0,
+            "outcomes": 0,
+            "exclusions": 0
+          },
+          "last_attempt": null,
+          "last_retained_quote": null
+        }
+      }
+    },
+    {
+      "instrument": "GBP_HKD",
+      "classification": "insufficient_news_context_training_support",
+      "structural_reasons_at_retained_input": [
+        "nonzero_news_context_training_rows:10<12"
+      ],
+      "joint_api": {
+        "instrument": "GBP_HKD",
+        "status": "unavailable",
+        "reason": "ValueError:current_news_stale_or_future",
+        "reason_label": "Current input unavailable",
+        "observed_epoch": 1788823709.7836125,
+        "families": {
+          "ridge_price_news_v1": {
+            "status": "unavailable",
+            "reason": "ValueError:current_news_stale_or_future",
+            "current_readiness": {
+              "observed_epoch": null,
+              "status": "unavailable",
+              "reason": "ValueError:current_news_stale_or_future",
+              "reason_label": "Readiness input not yet observed",
+              "diagnostics": {}
+            },
+            "last_attempt": null,
+            "counts": {
+              "attempts": 0,
+              "consumption": 0,
+              "diagnostics": 0,
+              "entries": 0,
+              "exclusions": 0,
+              "forecasts": 0,
+              "inputs": 0,
+              "outcomes": 0,
+              "publication": 0,
+              "quotes": 569
+            }
+          }
+        },
+        "active_forecasts": []
+      },
+      "price_only_api": {
+        "instrument": "GBP_HKD",
+        "status": "forecast",
+        "reason": "forecast",
+        "reason_label": "2 independent H1 estimates",
+        "observed_epoch": 1788823710.5894578,
+        "families": {
+          "probabilistic_state_space": {
+            "status": "forecast",
+            "reason": "forecast",
+            "current_readiness": {
+              "observed_epoch": 1788823605.234816,
+              "status": "ready",
+              "reason": "",
+              "diagnostics": {
+                "current_real_prices": 56,
+                "current_real_returns": 55,
+                "current_span_sec": 3600,
+                "current_window_start_epoch": 1788819900,
+                "mature_exact_h1_training_rows": 1285,
+                "maximum_current_gap_sec": 240,
+                "ready": true,
+                "reasons": [],
+                "required_ridge_training_rows": 24,
+                "retained_real_rows": 4096,
+                "session_start_epoch": 1788728640,
+                "status": "ready"
+              },
+              "reason_label": "55/8 real returns over 60 min (needs 15 min); Ridge 1285/24 mature H1 labels"
+            },
+            "last_attempt": {
+              "epoch": 1788822928.2587242,
+              "attempt_id": "1dfe89671efc3b3629a791091d73a3ca4740f43472fe64897ce502cac3cc54c1",
+              "bucket": 1987581,
+              "reason": "published",
+              "reason_label": "published"
+            },
+            "counts": {
+              "attempts": 10,
+              "consumption": 10,
+              "diagnostics": 0,
+              "entries": 8,
+              "exclusions": 3,
+              "forecasts": 10,
+              "inputs": 9,
+              "outcomes": 3,
+              "publication": 10,
+              "quotes": 902
+            }
+          },
+          "ridge_return_repaired": {
+            "status": "forecast",
+            "reason": "forecast",
+            "current_readiness": {
+              "observed_epoch": 1788823605.234816,
+              "status": "ready",
+              "reason": "",
+              "diagnostics": {
+                "current_real_prices": 56,
+                "current_real_returns": 55,
+                "current_span_sec": 3600,
+                "current_window_start_epoch": 1788819900,
+                "mature_exact_h1_training_rows": 1285,
+                "maximum_current_gap_sec": 240,
+                "ready": true,
+                "reasons": [],
+                "required_ridge_training_rows": 24,
+                "retained_real_rows": 4096,
+                "session_start_epoch": 1788728640,
+                "status": "ready"
+              },
+              "reason_label": "55/8 real returns over 60 min (needs 15 min); Ridge 1285/24 mature H1 labels"
+            },
+            "last_attempt": {
+              "epoch": 1788822979.8228755,
+              "attempt_id": "a4ff0561431839300452098625a0e2a3deb9146ee4ef0ff94667f809f2983387",
+              "bucket": 1987581,
+              "reason": "published",
+              "reason_label": "published"
+            },
+            "counts": {
+              "attempts": 10,
+              "consumption": 10,
+              "diagnostics": 0,
+              "entries": 9,
+              "exclusions": 2,
+              "forecasts": 10,
+              "inputs": 9,
+              "outcomes": 5,
+              "publication": 10,
+              "quotes": 902
+            }
+          }
+        },
+        "active_forecasts": [
+          {
+            "family": "probabilistic_state_space",
+            "decision_id": "0415dc0e149e5fcfd065d95626428b9482285f7f13e7e9d1989cb484c68a8c82",
+            "reference_epoch": 1788822924.993082,
+            "issued_epoch": 1788822929.3597941,
+            "target_epoch": 1788826524.993082,
+            "predicted_return_bps": 1.958392188464369,
+            "probability_up": 0.6728770543473843,
+            "side": 1,
+            "forecast_sha256": "e5b6be5d5cbb9fa6221eb6a5625e9bc094406c606fc29d1bac27fa918facf122"
+          },
+          {
+            "family": "ridge_return_repaired",
+            "decision_id": "a5b2e14beb935d6ca8da4c2aeadebdf8bcb0357b3e8b44bdae5a0b39fdba21c0",
+            "reference_epoch": 1788822975.17952,
+            "issued_epoch": 1788822980.5748632,
+            "target_epoch": 1788826575.17952,
+            "predicted_return_bps": -1.4586868404715658,
+            "probability_up": 0.4514189802651942,
+            "side": -1,
+            "forecast_sha256": "a96b3bbd1adb515c1d00ff363e88f79e22b3a23ad2d5e13ee3d1d3f3658b9bc5"
+          }
+        ]
+      },
+      "direct_summary_row": {
+        "instrument": "GBP_HKD",
+        "status": null,
+        "reason": null,
+        "reason_label": null,
+        "observed_epoch": null,
+        "families": {
+          "ridge_price_news_v1": {
+            "status": "warming",
+            "reason": "nonzero_news_context_training_rows:10<12",
+            "current_readiness": {
+              "diagnostics": {
+                "current_real_prices": 56,
+                "current_real_returns": 55,
+                "current_span_sec": 3600,
+                "distinct_news_context_patterns": 11,
+                "mature_exact_h1_training_rows": 92,
+                "nonzero_news_context_training_rows": 10,
+                "ready": false,
+                "reasons": [
+                  "nonzero_news_context_training_rows:10<12"
+                ],
+                "required_joint_training_rows": 48,
+                "status": "blocked",
+                "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+                "vetted_news_training_rows": 0
+              },
+              "news_evidence_epoch": 1788823645.781067,
+              "news_expires_epoch": 1788823945.781067,
+              "observed_epoch": 1788823713.6463406,
+              "price_bar_close_epoch": 1788823560,
+              "reason": "nonzero_news_context_training_rows:10<12",
+              "status": "blocked"
+            },
+            "last_attempt": null,
+            "counts": {
+              "attempts": 0,
+              "consumption": 0,
+              "diagnostics": 0,
+              "entries": 0,
+              "exclusions": 0,
+              "forecasts": 0,
+              "inputs": 0,
+              "outcomes": 0,
+              "publication": 0,
+              "quotes": 572
+            }
+          }
+        },
+        "active_forecasts": []
+      },
+      "latest_readiness_event": {
+        "event_observed_epoch": 1788823713.951524,
+        "family_readiness": {
+          "ridge_price_news_v1": {
+            "current_real_prices": 56,
+            "current_real_returns": 55,
+            "current_span_sec": 3600,
+            "distinct_news_context_patterns": 11,
+            "mature_exact_h1_training_rows": 92,
+            "nonzero_news_context_training_rows": 10,
+            "ready": false,
+            "reasons": [
+              "nonzero_news_context_training_rows:10<12"
+            ],
+            "required_joint_training_rows": 48,
+            "status": "blocked",
+            "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+            "vetted_news_training_rows": 0
+          }
+        },
+        "instrument": "GBP_HKD",
+        "observed_epoch": 1788823713.6463406,
+        "reasons": [],
+        "source_capture_sha256": "c7d85f027290d4ea62a70ed7937396509de3d13c6080152a4a7766a882b387d3",
+        "status": "ready"
+      },
+      "latest_retained_numeric_readiness_event": {
+        "event_observed_epoch": 1788823713.951524,
+        "family_readiness": {
+          "ridge_price_news_v1": {
+            "current_real_prices": 56,
+            "current_real_returns": 55,
+            "current_span_sec": 3600,
+            "distinct_news_context_patterns": 11,
+            "mature_exact_h1_training_rows": 92,
+            "nonzero_news_context_training_rows": 10,
+            "ready": false,
+            "reasons": [
+              "nonzero_news_context_training_rows:10<12"
+            ],
+            "required_joint_training_rows": 48,
+            "status": "blocked",
+            "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+            "vetted_news_training_rows": 0
+          }
+        },
+        "instrument": "GBP_HKD",
+        "observed_epoch": 1788823713.6463406,
+        "reasons": [],
+        "source_capture_sha256": "c7d85f027290d4ea62a70ed7937396509de3d13c6080152a4a7766a882b387d3",
+        "status": "ready"
+      },
+      "quote_snapshot_row": {
+        "instrument": null,
+        "source": "stream",
+        "tradeable": true,
+        "time": "2026-09-07T23:28:39.208185842Z",
+        "bid": 10.61821,
+        "ask": 10.62025,
+        "pip": 0.0001
+      },
+      "joint_ledger": {
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\joint_price_news_study_v2\\pairs\\GBP_HKD\\ridge_price_news_v1\\study.sqlite",
+        "status": "read_only_snapshot",
+        "started_epoch": 1788823726.486202,
+        "finished_epoch": 1788823726.4881966,
+        "counts": {
+          "quotes": 572,
+          "attempts": 0,
+          "diagnostics": 0,
+          "inputs": 0,
+          "forecasts": 0,
+          "publication": 0,
+          "consumption": 0,
+          "entries": 0,
+          "outcomes": 0,
+          "exclusions": 0
+        },
+        "last_attempt": null,
+        "last_retained_quote": {
+          "instrument": "GBP_HKD",
+          "market_epoch": 1788823719.208185,
+          "available_epoch": 1788823723.1864867,
+          "bid": "10.61821",
+          "ask": "10.62025",
+          "tradeable": true,
+          "quote_id": "7d5e36b68298d8244ead7ef8c6812279d50d3f8ff37235b3808f2a170a196086"
+        }
+      },
+      "price_ledgers": {
+        "probabilistic_state_space": {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\pair_local_forecast_study_v2\\pairs\\GBP_HKD\\probabilistic_state_space\\study.sqlite",
+          "status": "read_only_snapshot",
+          "started_epoch": 1788823726.4881966,
+          "finished_epoch": 1788823726.4901927,
+          "counts": {
+            "quotes": 905,
+            "attempts": 10,
+            "diagnostics": 0,
+            "inputs": 9,
+            "forecasts": 10,
+            "publication": 10,
+            "consumption": 10,
+            "entries": 8,
+            "outcomes": 3,
+            "exclusions": 3
+          },
+          "last_attempt": {
+            "id": "1dfe89671efc3b3629a791091d73a3ca4740f43472fe64897ce502cac3cc54c1",
+            "bucket": 1987581,
+            "sequence": 1,
+            "epoch": 1788822928.2587242,
+            "reference_id": "54571336836f80c9ed94e189f1451becd37e326dee229b5bf1f8c5b3befb9497"
+          },
+          "last_retained_quote": {
+            "instrument": "GBP_HKD",
+            "market_epoch": 1788823719.208185,
+            "available_epoch": 1788823721.863026,
+            "bid": "10.61821",
+            "ask": "10.62025",
+            "tradeable": true,
+            "quote_id": "7d5e36b68298d8244ead7ef8c6812279d50d3f8ff37235b3808f2a170a196086"
+          }
+        },
+        "ridge_return_repaired": {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\pair_local_forecast_study_v2\\pairs\\GBP_HKD\\ridge_return_repaired\\study.sqlite",
+          "status": "read_only_snapshot",
+          "started_epoch": 1788823726.4901927,
+          "finished_epoch": 1788823726.4931834,
+          "counts": {
+            "quotes": 905,
+            "attempts": 10,
+            "diagnostics": 0,
+            "inputs": 9,
+            "forecasts": 10,
+            "publication": 10,
+            "consumption": 10,
+            "entries": 9,
+            "outcomes": 5,
+            "exclusions": 2
+          },
+          "last_attempt": {
+            "id": "a4ff0561431839300452098625a0e2a3deb9146ee4ef0ff94667f809f2983387",
+            "bucket": 1987581,
+            "sequence": 1,
+            "epoch": 1788822979.8218787,
+            "reference_id": "bebcd9ae4b9ded4d070feaa546f24c9445cd341606fd000f1cec9e5212035d97"
+          },
+          "last_retained_quote": {
+            "instrument": "GBP_HKD",
+            "market_epoch": 1788823719.208185,
+            "available_epoch": 1788823721.8640232,
+            "bid": "10.61821",
+            "ask": "10.62025",
+            "tradeable": true,
+            "quote_id": "7d5e36b68298d8244ead7ef8c6812279d50d3f8ff37235b3808f2a170a196086"
+          }
+        }
+      }
+    },
+    {
+      "instrument": "GBP_PLN",
+      "classification": "insufficient_news_context_training_support",
+      "structural_reasons_at_retained_input": [
+        "nonzero_news_context_training_rows:7<12"
+      ],
+      "joint_api": {
+        "instrument": "GBP_PLN",
+        "status": "unavailable",
+        "reason": "ValueError:current_news_stale_or_future",
+        "reason_label": "Current input unavailable",
+        "observed_epoch": 1788823709.7836125,
+        "families": {
+          "ridge_price_news_v1": {
+            "status": "unavailable",
+            "reason": "ValueError:current_news_stale_or_future",
+            "current_readiness": {
+              "observed_epoch": null,
+              "status": "unavailable",
+              "reason": "ValueError:current_news_stale_or_future",
+              "reason_label": "Readiness input not yet observed",
+              "diagnostics": {}
+            },
+            "last_attempt": null,
+            "counts": {
+              "attempts": 0,
+              "consumption": 0,
+              "diagnostics": 0,
+              "entries": 0,
+              "exclusions": 0,
+              "forecasts": 0,
+              "inputs": 0,
+              "outcomes": 0,
+              "publication": 0,
+              "quotes": 500
+            }
+          }
+        },
+        "active_forecasts": []
+      },
+      "price_only_api": {
+        "instrument": "GBP_PLN",
+        "status": "forecast",
+        "reason": "forecast",
+        "reason_label": "2 independent H1 estimates",
+        "observed_epoch": 1788823710.5894578,
+        "families": {
+          "probabilistic_state_space": {
+            "status": "forecast",
+            "reason": "forecast",
+            "current_readiness": {
+              "observed_epoch": 1788823605.8661447,
+              "status": "ready",
+              "reason": "",
+              "diagnostics": {
+                "current_real_prices": 60,
+                "current_real_returns": 59,
+                "current_span_sec": 3600,
+                "current_window_start_epoch": 1788819900,
+                "mature_exact_h1_training_rows": 1295,
+                "maximum_current_gap_sec": 120,
+                "ready": true,
+                "reasons": [],
+                "required_ridge_training_rows": 24,
+                "retained_real_rows": 4096,
+                "session_start_epoch": 1788728640,
+                "status": "ready"
+              },
+              "reason_label": "59/8 real returns over 60 min (needs 15 min); Ridge 1295/24 mature H1 labels"
+            },
+            "last_attempt": {
+              "epoch": 1788822931.5833485,
+              "attempt_id": "82a44afbf1be0904472582b1f351126ab511d0ea416c4e77a848229ce69e8eac",
+              "bucket": 1987581,
+              "reason": "published",
+              "reason_label": "published"
+            },
+            "counts": {
+              "attempts": 10,
+              "consumption": 10,
+              "diagnostics": 0,
+              "entries": 10,
+              "exclusions": 1,
+              "forecasts": 10,
+              "inputs": 9,
+              "outcomes": 5,
+              "publication": 10,
+              "quotes": 1221
+            }
+          },
+          "ridge_return_repaired": {
+            "status": "forecast",
+            "reason": "forecast",
+            "current_readiness": {
+              "observed_epoch": 1788823605.8661447,
+              "status": "ready",
+              "reason": "",
+              "diagnostics": {
+                "current_real_prices": 60,
+                "current_real_returns": 59,
+                "current_span_sec": 3600,
+                "current_window_start_epoch": 1788819900,
+                "mature_exact_h1_training_rows": 1295,
+                "maximum_current_gap_sec": 120,
+                "ready": true,
+                "reasons": [],
+                "required_ridge_training_rows": 24,
+                "retained_real_rows": 4096,
+                "session_start_epoch": 1788728640,
+                "status": "ready"
+              },
+              "reason_label": "59/8 real returns over 60 min (needs 15 min); Ridge 1295/24 mature H1 labels"
+            },
+            "last_attempt": {
+              "epoch": 1788822982.9012568,
+              "attempt_id": "c304bab518302ab876749c756e74df5fd1527bb1925d2c08fe04b5a42f615ee1",
+              "bucket": 1987581,
+              "reason": "published",
+              "reason_label": "published"
+            },
+            "counts": {
+              "attempts": 10,
+              "consumption": 10,
+              "diagnostics": 0,
+              "entries": 10,
+              "exclusions": 1,
+              "forecasts": 10,
+              "inputs": 9,
+              "outcomes": 5,
+              "publication": 10,
+              "quotes": 1221
+            }
+          }
+        },
+        "active_forecasts": [
+          {
+            "family": "probabilistic_state_space",
+            "decision_id": "b95c681cf58b1607779768d658c512167a638c0fbe0fe8ffd0e739c26eefd7d0",
+            "reference_epoch": 1788822927.099293,
+            "issued_epoch": 1788822932.8155904,
+            "target_epoch": 1788826527.099293,
+            "predicted_return_bps": 1.0195514331395759,
+            "probability_up": 0.5739693855843251,
+            "side": 1,
+            "forecast_sha256": "1966327768e052b31e06df721fd1cd12c035410ea4441b53d88be04378644759"
+          },
+          {
+            "family": "ridge_return_repaired",
+            "decision_id": "c31959c4c28ceb8cb5de58197c5b68863f2fb7fa0810f7b0c449da43fd968a7a",
+            "reference_epoch": 1788822979.00664,
+            "issued_epoch": 1788822984.0152755,
+            "target_epoch": 1788826579.00664,
+            "predicted_return_bps": 0.07085298572007713,
+            "probability_up": 0.5026811244658238,
+            "side": 1,
+            "forecast_sha256": "cb9854ecf0bbef852d6e59e3d13df15a678a9dc629a38e5e694af730c48ae80f"
+          }
+        ]
+      },
+      "direct_summary_row": {
+        "instrument": "GBP_PLN",
+        "status": null,
+        "reason": null,
+        "reason_label": null,
+        "observed_epoch": null,
+        "families": {
+          "ridge_price_news_v1": {
+            "status": "warming",
+            "reason": "nonzero_news_context_training_rows:7<12",
+            "current_readiness": {
+              "diagnostics": {
+                "current_real_prices": 60,
+                "current_real_returns": 59,
+                "current_span_sec": 3600,
+                "distinct_news_context_patterns": 8,
+                "mature_exact_h1_training_rows": 94,
+                "nonzero_news_context_training_rows": 7,
+                "ready": false,
+                "reasons": [
+                  "nonzero_news_context_training_rows:7<12"
+                ],
+                "required_joint_training_rows": 48,
+                "status": "blocked",
+                "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+                "vetted_news_training_rows": 0
+              },
+              "news_evidence_epoch": 1788823645.781067,
+              "news_expires_epoch": 1788823945.781067,
+              "observed_epoch": 1788823716.7580874,
+              "price_bar_close_epoch": 1788823560,
+              "reason": "nonzero_news_context_training_rows:7<12",
+              "status": "blocked"
+            },
+            "last_attempt": null,
+            "counts": {
+              "attempts": 0,
+              "consumption": 0,
+              "diagnostics": 0,
+              "entries": 0,
+              "exclusions": 0,
+              "forecasts": 0,
+              "inputs": 0,
+              "outcomes": 0,
+              "publication": 0,
+              "quotes": 503
+            }
+          }
+        },
+        "active_forecasts": []
+      },
+      "latest_readiness_event": {
+        "event_observed_epoch": 1788823717.38592,
+        "family_readiness": {
+          "ridge_price_news_v1": {
+            "current_real_prices": 60,
+            "current_real_returns": 59,
+            "current_span_sec": 3600,
+            "distinct_news_context_patterns": 8,
+            "mature_exact_h1_training_rows": 94,
+            "nonzero_news_context_training_rows": 7,
+            "ready": false,
+            "reasons": [
+              "nonzero_news_context_training_rows:7<12"
+            ],
+            "required_joint_training_rows": 48,
+            "status": "blocked",
+            "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+            "vetted_news_training_rows": 0
+          }
+        },
+        "instrument": "GBP_PLN",
+        "observed_epoch": 1788823716.7580874,
+        "reasons": [],
+        "source_capture_sha256": "97c09dba97f2194cdaa01459649f0176783f9dca94d9e4c11396380635a57d87",
+        "status": "ready"
+      },
+      "latest_retained_numeric_readiness_event": {
+        "event_observed_epoch": 1788823717.38592,
+        "family_readiness": {
+          "ridge_price_news_v1": {
+            "current_real_prices": 60,
+            "current_real_returns": 59,
+            "current_span_sec": 3600,
+            "distinct_news_context_patterns": 8,
+            "mature_exact_h1_training_rows": 94,
+            "nonzero_news_context_training_rows": 7,
+            "ready": false,
+            "reasons": [
+              "nonzero_news_context_training_rows:7<12"
+            ],
+            "required_joint_training_rows": 48,
+            "status": "blocked",
+            "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+            "vetted_news_training_rows": 0
+          }
+        },
+        "instrument": "GBP_PLN",
+        "observed_epoch": 1788823716.7580874,
+        "reasons": [],
+        "source_capture_sha256": "97c09dba97f2194cdaa01459649f0176783f9dca94d9e4c11396380635a57d87",
+        "status": "ready"
+      },
+      "quote_snapshot_row": {
+        "instrument": null,
+        "source": "stream",
+        "tradeable": true,
+        "time": "2026-09-07T23:28:44.198105765Z",
+        "bid": 5.0183,
+        "ask": 5.02451,
+        "pip": 0.0001
+      },
+      "joint_ledger": {
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\joint_price_news_study_v2\\pairs\\GBP_PLN\\ridge_price_news_v1\\study.sqlite",
+        "status": "read_only_snapshot",
+        "started_epoch": 1788823726.4931834,
+        "finished_epoch": 1788823726.4941816,
+        "counts": {
+          "quotes": 504,
+          "attempts": 0,
+          "diagnostics": 0,
+          "inputs": 0,
+          "forecasts": 0,
+          "publication": 0,
+          "consumption": 0,
+          "entries": 0,
+          "outcomes": 0,
+          "exclusions": 0
+        },
+        "last_attempt": null,
+        "last_retained_quote": {
+          "instrument": "GBP_PLN",
+          "market_epoch": 1788823724.198105,
+          "available_epoch": 1788823725.6943214,
+          "bid": "5.0183",
+          "ask": "5.02451",
+          "tradeable": true,
+          "quote_id": "d376fe12cab8b0edaf9888fa6f37a14a97da4d1c11acfdf5671e40fd37fe6a1f"
+        }
+      },
+      "price_ledgers": {
+        "probabilistic_state_space": {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\pair_local_forecast_study_v2\\pairs\\GBP_PLN\\probabilistic_state_space\\study.sqlite",
+          "status": "read_only_snapshot",
+          "started_epoch": 1788823726.4941816,
+          "finished_epoch": 1788823726.5031571,
+          "counts": {
+            "quotes": 1225,
+            "attempts": 10,
+            "diagnostics": 0,
+            "inputs": 9,
+            "forecasts": 10,
+            "publication": 10,
+            "consumption": 10,
+            "entries": 10,
+            "outcomes": 5,
+            "exclusions": 1
+          },
+          "last_attempt": {
+            "id": "82a44afbf1be0904472582b1f351126ab511d0ea416c4e77a848229ce69e8eac",
+            "bucket": 1987581,
+            "sequence": 1,
+            "epoch": 1788822931.5823512,
+            "reference_id": "9be31ba1ffcf14bb800e2927ca11e2594d3df6191591b32f099ea75aa72db4e7"
+          },
+          "last_retained_quote": {
+            "instrument": "GBP_PLN",
+            "market_epoch": 1788823724.198105,
+            "available_epoch": 1788823726.3366024,
+            "bid": "5.0183",
+            "ask": "5.02451",
+            "tradeable": true,
+            "quote_id": "d376fe12cab8b0edaf9888fa6f37a14a97da4d1c11acfdf5671e40fd37fe6a1f"
+          }
+        },
+        "ridge_return_repaired": {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\pair_local_forecast_study_v2\\pairs\\GBP_PLN\\ridge_return_repaired\\study.sqlite",
+          "status": "read_only_snapshot",
+          "started_epoch": 1788823726.5031571,
+          "finished_epoch": 1788823726.5101385,
+          "counts": {
+            "quotes": 1225,
+            "attempts": 10,
+            "diagnostics": 0,
+            "inputs": 9,
+            "forecasts": 10,
+            "publication": 10,
+            "consumption": 10,
+            "entries": 10,
+            "outcomes": 5,
+            "exclusions": 1
+          },
+          "last_attempt": {
+            "id": "c304bab518302ab876749c756e74df5fd1527bb1925d2c08fe04b5a42f615ee1",
+            "bucket": 1987581,
+            "sequence": 1,
+            "epoch": 1788822982.9012568,
+            "reference_id": "07c02c1476500964aca8f4f8a3ff2161342e2458c7e7ec20d5d4e660a0c7d204"
+          },
+          "last_retained_quote": {
+            "instrument": "GBP_PLN",
+            "market_epoch": 1788823724.198105,
+            "available_epoch": 1788823726.3375998,
+            "bid": "5.0183",
+            "ask": "5.02451",
+            "tradeable": true,
+            "quote_id": "d376fe12cab8b0edaf9888fa6f37a14a97da4d1c11acfdf5671e40fd37fe6a1f"
+          }
+        }
+      }
+    },
+    {
+      "instrument": "GBP_SGD",
+      "classification": "insufficient_news_context_training_support",
+      "structural_reasons_at_retained_input": [
+        "nonzero_news_context_training_rows:5<12",
+        "distinct_news_context_patterns:6<8"
+      ],
+      "joint_api": {
+        "instrument": "GBP_SGD",
+        "status": "unavailable",
+        "reason": "ValueError:current_news_stale_or_future",
+        "reason_label": "Current input unavailable",
+        "observed_epoch": 1788823709.7836125,
+        "families": {
+          "ridge_price_news_v1": {
+            "status": "unavailable",
+            "reason": "ValueError:current_news_stale_or_future",
+            "current_readiness": {
+              "observed_epoch": null,
+              "status": "unavailable",
+              "reason": "ValueError:current_news_stale_or_future",
+              "reason_label": "Readiness input not yet observed",
+              "diagnostics": {}
+            },
+            "last_attempt": null,
+            "counts": {
+              "attempts": 0,
+              "consumption": 0,
+              "diagnostics": 0,
+              "entries": 0,
+              "exclusions": 0,
+              "forecasts": 0,
+              "inputs": 0,
+              "outcomes": 0,
+              "publication": 0,
+              "quotes": 457
+            }
+          }
+        },
+        "active_forecasts": []
+      },
+      "price_only_api": {
+        "instrument": "GBP_SGD",
+        "status": "forecast",
+        "reason": "forecast",
+        "reason_label": "2 independent H1 estimates",
+        "observed_epoch": 1788823710.5894578,
+        "families": {
+          "probabilistic_state_space": {
+            "status": "forecast",
+            "reason": "forecast",
+            "current_readiness": {
+              "observed_epoch": 1788823606.0805707,
+              "status": "ready",
+              "reason": "",
+              "diagnostics": {
+                "current_real_prices": 54,
+                "current_real_returns": 53,
+                "current_span_sec": 3600,
+                "current_window_start_epoch": 1788819900,
+                "mature_exact_h1_training_rows": 1268,
+                "maximum_current_gap_sec": 240,
+                "ready": true,
+                "reasons": [],
+                "required_ridge_training_rows": 24,
+                "retained_real_rows": 4096,
+                "session_start_epoch": 1788728640,
+                "status": "ready"
+              },
+              "reason_label": "53/8 real returns over 60 min (needs 15 min); Ridge 1268/24 mature H1 labels"
+            },
+            "last_attempt": {
+              "epoch": 1788822932.899366,
+              "attempt_id": "de75fe185e16b875fe021019e71c6951b0c327370db4810682c83d2353df9ee4",
+              "bucket": 1987581,
+              "reason": "published",
+              "reason_label": "published"
+            },
+            "counts": {
+              "attempts": 9,
+              "consumption": 9,
+              "diagnostics": 0,
+              "entries": 8,
+              "exclusions": 1,
+              "forecasts": 9,
+              "inputs": 9,
+              "outcomes": 4,
+              "publication": 9,
+              "quotes": 927
+            }
+          },
+          "ridge_return_repaired": {
+            "status": "forecast",
+            "reason": "forecast",
+            "current_readiness": {
+              "observed_epoch": 1788823606.0805707,
+              "status": "ready",
+              "reason": "",
+              "diagnostics": {
+                "current_real_prices": 54,
+                "current_real_returns": 53,
+                "current_span_sec": 3600,
+                "current_window_start_epoch": 1788819900,
+                "mature_exact_h1_training_rows": 1268,
+                "maximum_current_gap_sec": 240,
+                "ready": true,
+                "reasons": [],
+                "required_ridge_training_rows": 24,
+                "retained_real_rows": 4096,
+                "session_start_epoch": 1788728640,
+                "status": "ready"
+              },
+              "reason_label": "53/8 real returns over 60 min (needs 15 min); Ridge 1268/24 mature H1 labels"
+            },
+            "last_attempt": {
+              "epoch": 1788822984.1210136,
+              "attempt_id": "ff3ac8728cc20b535dd4fcae3b3cddc7c49c22ee08a96b729ffec38a829dedf6",
+              "bucket": 1987581,
+              "reason": "published",
+              "reason_label": "published"
+            },
+            "counts": {
+              "attempts": 9,
+              "consumption": 9,
+              "diagnostics": 0,
+              "entries": 9,
+              "exclusions": 0,
+              "forecasts": 9,
+              "inputs": 9,
+              "outcomes": 5,
+              "publication": 9,
+              "quotes": 927
+            }
+          }
+        },
+        "active_forecasts": [
+          {
+            "family": "probabilistic_state_space",
+            "decision_id": "6d9af955cfb482bf8dc8bc952a1096cf857722dfd29997e36856948c18acd86b",
+            "reference_epoch": 1788822929.559627,
+            "issued_epoch": 1788822933.2933128,
+            "target_epoch": 1788826529.559627,
+            "predicted_return_bps": -0.30743575610470397,
+            "probability_up": 0.483977004729227,
+            "side": -1,
+            "forecast_sha256": "d3784b2e657b047fd261f35173335af88e269b199722d0bdf2ab563a2822d7d8"
+          },
+          {
+            "family": "ridge_return_repaired",
+            "decision_id": "c80657e9fc7498b3e042d68d04a94596b17554ad1adea09870add911ea68e5b1",
+            "reference_epoch": 1788822980.647865,
+            "issued_epoch": 1788822984.7902567,
+            "target_epoch": 1788826580.647865,
+            "predicted_return_bps": -0.32329932379416465,
+            "probability_up": 0.4840817786646679,
+            "side": -1,
+            "forecast_sha256": "fb87420fd9ca63798ab847954fa8f7a42351324e19f39ec0449f474dba0e7004"
+          }
+        ]
+      },
+      "direct_summary_row": {
+        "instrument": "GBP_SGD",
+        "status": null,
+        "reason": null,
+        "reason_label": null,
+        "observed_epoch": null,
+        "families": {
+          "ridge_price_news_v1": {
+            "status": "warming",
+            "reason": "nonzero_news_context_training_rows:5<12|distinct_news_context_patterns:6<8",
+            "current_readiness": {
+              "diagnostics": {
+                "current_real_prices": 54,
+                "current_real_returns": 53,
+                "current_span_sec": 3600,
+                "distinct_news_context_patterns": 6,
+                "mature_exact_h1_training_rows": 86,
+                "nonzero_news_context_training_rows": 5,
+                "ready": false,
+                "reasons": [
+                  "nonzero_news_context_training_rows:5<12",
+                  "distinct_news_context_patterns:6<8"
+                ],
+                "required_joint_training_rows": 48,
+                "status": "blocked",
+                "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+                "vetted_news_training_rows": 0
+              },
+              "news_evidence_epoch": 1788823645.781067,
+              "news_expires_epoch": 1788823945.781067,
+              "observed_epoch": 1788823717.9903197,
+              "price_bar_close_epoch": 1788823560,
+              "reason": "nonzero_news_context_training_rows:5<12|distinct_news_context_patterns:6<8",
+              "status": "blocked"
+            },
+            "last_attempt": null,
+            "counts": {
+              "attempts": 0,
+              "consumption": 0,
+              "diagnostics": 0,
+              "entries": 0,
+              "exclusions": 0,
+              "forecasts": 0,
+              "inputs": 0,
+              "outcomes": 0,
+              "publication": 0,
+              "quotes": 462
+            }
+          }
+        },
+        "active_forecasts": []
+      },
+      "latest_readiness_event": {
+        "event_observed_epoch": 1788823718.215718,
+        "family_readiness": {
+          "ridge_price_news_v1": {
+            "current_real_prices": 54,
+            "current_real_returns": 53,
+            "current_span_sec": 3600,
+            "distinct_news_context_patterns": 6,
+            "mature_exact_h1_training_rows": 86,
+            "nonzero_news_context_training_rows": 5,
+            "ready": false,
+            "reasons": [
+              "nonzero_news_context_training_rows:5<12",
+              "distinct_news_context_patterns:6<8"
+            ],
+            "required_joint_training_rows": 48,
+            "status": "blocked",
+            "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+            "vetted_news_training_rows": 0
+          }
+        },
+        "instrument": "GBP_SGD",
+        "observed_epoch": 1788823717.9903197,
+        "reasons": [],
+        "source_capture_sha256": "7cd11ecb942a63465f2e41a901f451c5eae5b7033183a04aef5e410d425e3049",
+        "status": "ready"
+      },
+      "latest_retained_numeric_readiness_event": {
+        "event_observed_epoch": 1788823718.215718,
+        "family_readiness": {
+          "ridge_price_news_v1": {
+            "current_real_prices": 54,
+            "current_real_returns": 53,
+            "current_span_sec": 3600,
+            "distinct_news_context_patterns": 6,
+            "mature_exact_h1_training_rows": 86,
+            "nonzero_news_context_training_rows": 5,
+            "ready": false,
+            "reasons": [
+              "nonzero_news_context_training_rows:5<12",
+              "distinct_news_context_patterns:6<8"
+            ],
+            "required_joint_training_rows": 48,
+            "status": "blocked",
+            "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+            "vetted_news_training_rows": 0
+          }
+        },
+        "instrument": "GBP_SGD",
+        "observed_epoch": 1788823717.9903197,
+        "reasons": [],
+        "source_capture_sha256": "7cd11ecb942a63465f2e41a901f451c5eae5b7033183a04aef5e410d425e3049",
+        "status": "ready"
+      },
+      "quote_snapshot_row": {
+        "instrument": null,
+        "source": "stream",
+        "tradeable": true,
+        "time": "2026-09-07T23:28:44.765501415Z",
+        "bid": 1.71385,
+        "ask": 1.7146,
+        "pip": 0.0001
+      },
+      "joint_ledger": {
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\joint_price_news_study_v2\\pairs\\GBP_SGD\\ridge_price_news_v1\\study.sqlite",
+        "status": "read_only_snapshot",
+        "started_epoch": 1788823726.5101385,
+        "finished_epoch": 1788823726.5121334,
+        "counts": {
+          "quotes": 463,
+          "attempts": 0,
+          "diagnostics": 0,
+          "inputs": 0,
+          "forecasts": 0,
+          "publication": 0,
+          "consumption": 0,
+          "entries": 0,
+          "outcomes": 0,
+          "exclusions": 0
+        },
+        "last_attempt": null,
+        "last_retained_quote": {
+          "instrument": "GBP_SGD",
+          "market_epoch": 1788823724.765501,
+          "available_epoch": 1788823725.695318,
+          "bid": "1.71385",
+          "ask": "1.7146",
+          "tradeable": true,
+          "quote_id": "8591706e67de738dda35726569777a7eb274189097d529f9edacad9306327fef"
+        }
+      },
+      "price_ledgers": {
+        "probabilistic_state_space": {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\pair_local_forecast_study_v2\\pairs\\GBP_SGD\\probabilistic_state_space\\study.sqlite",
+          "status": "read_only_snapshot",
+          "started_epoch": 1788823726.5121334,
+          "finished_epoch": 1788823726.5231035,
+          "counts": {
+            "quotes": 933,
+            "attempts": 9,
+            "diagnostics": 0,
+            "inputs": 9,
+            "forecasts": 9,
+            "publication": 9,
+            "consumption": 9,
+            "entries": 8,
+            "outcomes": 4,
+            "exclusions": 1
+          },
+          "last_attempt": {
+            "id": "de75fe185e16b875fe021019e71c6951b0c327370db4810682c83d2353df9ee4",
+            "bucket": 1987581,
+            "sequence": 1,
+            "epoch": 1788822932.8983688,
+            "reference_id": "adb54584de92e374ca534643ce4eb54b734e73dc6727490a79c991c454763ea8"
+          },
+          "last_retained_quote": {
+            "instrument": "GBP_SGD",
+            "market_epoch": 1788823724.765501,
+            "available_epoch": 1788823726.3375998,
+            "bid": "1.71385",
+            "ask": "1.7146",
+            "tradeable": true,
+            "quote_id": "8591706e67de738dda35726569777a7eb274189097d529f9edacad9306327fef"
+          }
+        },
+        "ridge_return_repaired": {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\pair_local_forecast_study_v2\\pairs\\GBP_SGD\\ridge_return_repaired\\study.sqlite",
+          "status": "read_only_snapshot",
+          "started_epoch": 1788823726.5231035,
+          "finished_epoch": 1788823726.530085,
+          "counts": {
+            "quotes": 933,
+            "attempts": 9,
+            "diagnostics": 0,
+            "inputs": 9,
+            "forecasts": 9,
+            "publication": 9,
+            "consumption": 9,
+            "entries": 9,
+            "outcomes": 5,
+            "exclusions": 0
+          },
+          "last_attempt": {
+            "id": "ff3ac8728cc20b535dd4fcae3b3cddc7c49c22ee08a96b729ffec38a829dedf6",
+            "bucket": 1987581,
+            "sequence": 1,
+            "epoch": 1788822984.1200159,
+            "reference_id": "203a96687753ab620bc1f349070bfe46c82aeb1a5d0f2e988dc44864f06fed03"
+          },
+          "last_retained_quote": {
+            "instrument": "GBP_SGD",
+            "market_epoch": 1788823724.765501,
+            "available_epoch": 1788823726.338597,
+            "bid": "1.71385",
+            "ask": "1.7146",
+            "tradeable": true,
+            "quote_id": "8591706e67de738dda35726569777a7eb274189097d529f9edacad9306327fef"
+          }
+        }
+      }
+    },
+    {
+      "instrument": "TRY_JPY",
+      "classification": "no_current_tradeable_stream_quote",
+      "structural_reasons_at_retained_input": [],
+      "joint_api": {
+        "instrument": "TRY_JPY",
+        "status": "unavailable",
+        "reason": "ValueError:market_closed_or_no_stream_quote",
+        "reason_label": "Needs a fresh quote",
+        "observed_epoch": 1788823709.7836125,
+        "families": {
+          "ridge_price_news_v1": {
+            "status": "unavailable",
+            "reason": "ValueError:market_closed_or_no_stream_quote",
+            "current_readiness": {
+              "observed_epoch": null,
+              "status": "unavailable",
+              "reason": "ValueError:current_news_stale_or_future",
+              "reason_label": "Readiness input not yet observed",
+              "diagnostics": {}
+            },
+            "last_attempt": null,
+            "counts": {
+              "attempts": 0,
+              "consumption": 0,
+              "diagnostics": 0,
+              "entries": 0,
+              "exclusions": 0,
+              "forecasts": 0,
+              "inputs": 0,
+              "outcomes": 0,
+              "publication": 0,
+              "quotes": 0
+            }
+          }
+        },
+        "active_forecasts": []
+      },
+      "price_only_api": {
+        "instrument": "TRY_JPY",
+        "status": "unavailable",
+        "reason": "ValueError:market_closed_or_no_stream_quote | ValueError:market_closed_or_no_stream_quote",
+        "reason_label": "Needs a fresh quote; Needs a fresh quote",
+        "observed_epoch": 1788823710.5894578,
+        "families": {
+          "probabilistic_state_space": {
+            "status": "unavailable",
+            "reason": "ValueError:market_closed_or_no_stream_quote",
+            "current_readiness": {
+              "observed_epoch": 1788815587.039107,
+              "status": "unavailable",
+              "reason": "stale_or_future_pair_input",
+              "diagnostics": {},
+              "reason_label": "Readiness unavailable: stale or future pair input"
+            },
+            "last_attempt": null,
+            "counts": {
+              "attempts": 0,
+              "consumption": 0,
+              "diagnostics": 0,
+              "entries": 0,
+              "exclusions": 0,
+              "forecasts": 0,
+              "inputs": 0,
+              "outcomes": 0,
+              "publication": 0,
+              "quotes": 0
+            }
+          },
+          "ridge_return_repaired": {
+            "status": "unavailable",
+            "reason": "ValueError:market_closed_or_no_stream_quote",
+            "current_readiness": {
+              "observed_epoch": 1788815587.039107,
+              "status": "unavailable",
+              "reason": "stale_or_future_pair_input",
+              "diagnostics": {},
+              "reason_label": "Readiness unavailable: stale or future pair input"
+            },
+            "last_attempt": null,
+            "counts": {
+              "attempts": 0,
+              "consumption": 0,
+              "diagnostics": 0,
+              "entries": 0,
+              "exclusions": 0,
+              "forecasts": 0,
+              "inputs": 0,
+              "outcomes": 0,
+              "publication": 0,
+              "quotes": 0
+            }
+          }
+        },
+        "active_forecasts": []
+      },
+      "direct_summary_row": {
+        "instrument": "TRY_JPY",
+        "status": null,
+        "reason": null,
+        "reason_label": null,
+        "observed_epoch": null,
+        "families": {
+          "ridge_price_news_v1": {
+            "status": "unavailable",
+            "reason": "ValueError:market_closed_or_no_stream_quote",
+            "current_readiness": {
+              "diagnostics": {},
+              "news_evidence_epoch": null,
+              "news_expires_epoch": null,
+              "observed_epoch": null,
+              "price_bar_close_epoch": null,
+              "reason": "ValueError:current_news_stale_or_future",
+              "status": "unavailable"
+            },
+            "last_attempt": null,
+            "counts": {
+              "attempts": 0,
+              "consumption": 0,
+              "diagnostics": 0,
+              "entries": 0,
+              "exclusions": 0,
+              "forecasts": 0,
+              "inputs": 0,
+              "outcomes": 0,
+              "publication": 0,
+              "quotes": 0
+            }
+          }
+        },
+        "active_forecasts": []
+      },
+      "latest_readiness_event": {
+        "event_observed_epoch": 1788823629.1104527,
+        "family_readiness": {},
+        "instrument": "TRY_JPY",
+        "observed_epoch": null,
+        "reasons": [
+          "ValueError:current_news_stale_or_future"
+        ],
+        "source_capture_sha256": "c7d12b754b77fa7a5cdfbb6f544a090465db0b4ce06a9beb292b85aa9d6d712b",
+        "status": "abstain"
+      },
+      "latest_retained_numeric_readiness_event": null,
+      "quote_snapshot_row": {
+        "instrument": null,
+        "source": "stream",
+        "tradeable": false,
+        "time": "2026-09-07T14:59:55.014569919Z",
+        "bid": 3.179,
+        "ask": 3.19,
+        "pip": 0.01
+      },
+      "joint_ledger": {
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\joint_price_news_study_v2\\pairs\\TRY_JPY\\ridge_price_news_v1\\study.sqlite",
+        "status": "read_only_snapshot",
+        "started_epoch": 1788823726.5310824,
+        "finished_epoch": 1788823726.5320797,
+        "counts": {
+          "quotes": 0,
+          "attempts": 0,
+          "diagnostics": 0,
+          "inputs": 0,
+          "forecasts": 0,
+          "publication": 0,
+          "consumption": 0,
+          "entries": 0,
+          "outcomes": 0,
+          "exclusions": 0
+        },
+        "last_attempt": null,
+        "last_retained_quote": null
+      },
+      "price_ledgers": {
+        "probabilistic_state_space": {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\pair_local_forecast_study_v2\\pairs\\TRY_JPY\\probabilistic_state_space\\study.sqlite",
+          "status": "read_only_snapshot",
+          "started_epoch": 1788823726.5320797,
+          "finished_epoch": 1788823726.5330768,
+          "counts": {
+            "quotes": 0,
+            "attempts": 0,
+            "diagnostics": 0,
+            "inputs": 0,
+            "forecasts": 0,
+            "publication": 0,
+            "consumption": 0,
+            "entries": 0,
+            "outcomes": 0,
+            "exclusions": 0
+          },
+          "last_attempt": null,
+          "last_retained_quote": null
+        },
+        "ridge_return_repaired": {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\pair_local_forecast_study_v2\\pairs\\TRY_JPY\\ridge_return_repaired\\study.sqlite",
+          "status": "read_only_snapshot",
+          "started_epoch": 1788823726.5330768,
+          "finished_epoch": 1788823726.5340738,
+          "counts": {
+            "quotes": 0,
+            "attempts": 0,
+            "diagnostics": 0,
+            "inputs": 0,
+            "forecasts": 0,
+            "publication": 0,
+            "consumption": 0,
+            "entries": 0,
+            "outcomes": 0,
+            "exclusions": 0
+          },
+          "last_attempt": null,
+          "last_retained_quote": null
+        }
+      }
+    },
+    {
+      "instrument": "USD_TRY",
+      "classification": "no_current_tradeable_stream_quote",
+      "structural_reasons_at_retained_input": [],
+      "joint_api": {
+        "instrument": "USD_TRY",
+        "status": "unavailable",
+        "reason": "ValueError:market_closed_or_no_stream_quote",
+        "reason_label": "Needs a fresh quote",
+        "observed_epoch": 1788823709.7836125,
+        "families": {
+          "ridge_price_news_v1": {
+            "status": "unavailable",
+            "reason": "ValueError:market_closed_or_no_stream_quote",
+            "current_readiness": {
+              "observed_epoch": 1788823673.59619,
+              "status": "unavailable",
+              "reason": "stale_or_missing_joint_input",
+              "diagnostics": {},
+              "reason_label": "Current price or news input unavailable; Input unavailable: stale or unavailable news input",
+              "price_bar_close_epoch": null,
+              "news_evidence_epoch": null,
+              "news_expires_epoch": null
+            },
+            "last_attempt": null,
+            "counts": {
+              "attempts": 0,
+              "consumption": 0,
+              "diagnostics": 0,
+              "entries": 0,
+              "exclusions": 0,
+              "forecasts": 0,
+              "inputs": 0,
+              "outcomes": 0,
+              "publication": 0,
+              "quotes": 0
+            }
+          }
+        },
+        "active_forecasts": []
+      },
+      "price_only_api": {
+        "instrument": "USD_TRY",
+        "status": "unavailable",
+        "reason": "ValueError:market_closed_or_no_stream_quote | ValueError:market_closed_or_no_stream_quote",
+        "reason_label": "Needs a fresh quote; Needs a fresh quote",
+        "observed_epoch": 1788823710.5894578,
+        "families": {
+          "probabilistic_state_space": {
+            "status": "unavailable",
+            "reason": "ValueError:market_closed_or_no_stream_quote",
+            "current_readiness": {
+              "observed_epoch": 1788815592.092854,
+              "status": "unavailable",
+              "reason": "stale_or_future_pair_input",
+              "diagnostics": {},
+              "reason_label": "Readiness unavailable: stale or future pair input"
+            },
+            "last_attempt": null,
+            "counts": {
+              "attempts": 0,
+              "consumption": 0,
+              "diagnostics": 0,
+              "entries": 0,
+              "exclusions": 0,
+              "forecasts": 0,
+              "inputs": 0,
+              "outcomes": 0,
+              "publication": 0,
+              "quotes": 0
+            }
+          },
+          "ridge_return_repaired": {
+            "status": "unavailable",
+            "reason": "ValueError:market_closed_or_no_stream_quote",
+            "current_readiness": {
+              "observed_epoch": 1788815592.092854,
+              "status": "unavailable",
+              "reason": "stale_or_future_pair_input",
+              "diagnostics": {},
+              "reason_label": "Readiness unavailable: stale or future pair input"
+            },
+            "last_attempt": null,
+            "counts": {
+              "attempts": 0,
+              "consumption": 0,
+              "diagnostics": 0,
+              "entries": 0,
+              "exclusions": 0,
+              "forecasts": 0,
+              "inputs": 0,
+              "outcomes": 0,
+              "publication": 0,
+              "quotes": 0
+            }
+          }
+        },
+        "active_forecasts": []
+      },
+      "direct_summary_row": {
+        "instrument": "USD_TRY",
+        "status": null,
+        "reason": null,
+        "reason_label": null,
+        "observed_epoch": null,
+        "families": {
+          "ridge_price_news_v1": {
+            "status": "unavailable",
+            "reason": "ValueError:market_closed_or_no_stream_quote",
+            "current_readiness": {
+              "diagnostics": {},
+              "news_evidence_epoch": null,
+              "news_expires_epoch": null,
+              "observed_epoch": 1788823673.59619,
+              "price_bar_close_epoch": null,
+              "reason": "stale_or_unavailable_news_input",
+              "status": "unavailable"
+            },
+            "last_attempt": null,
+            "counts": {
+              "attempts": 0,
+              "consumption": 0,
+              "diagnostics": 0,
+              "entries": 0,
+              "exclusions": 0,
+              "forecasts": 0,
+              "inputs": 0,
+              "outcomes": 0,
+              "publication": 0,
+              "quotes": 0
+            }
+          }
+        },
+        "active_forecasts": []
+      },
+      "latest_readiness_event": {
+        "event_observed_epoch": 1788823673.929299,
+        "family_readiness": {},
+        "instrument": "USD_TRY",
+        "observed_epoch": 1788823673.59619,
+        "reasons": [
+          "ValueError:price_input_unavailable:USD_TRY:ValueError:stale_or_future_pair_reference"
+        ],
+        "source_capture_sha256": "06776ac2912233cbb956e7938a7a8eac2d41d6b1d68ac69627efc2c73c604441",
+        "status": "abstain"
+      },
+      "latest_retained_numeric_readiness_event": null,
+      "quote_snapshot_row": {
+        "instrument": null,
+        "source": "stream",
+        "tradeable": false,
+        "time": "2026-09-07T14:59:55.016952305Z",
+        "bid": 48.42671,
+        "ask": 48.43813,
+        "pip": 0.0001
+      },
+      "joint_ledger": {
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\joint_price_news_study_v2\\pairs\\USD_TRY\\ridge_price_news_v1\\study.sqlite",
+        "status": "read_only_snapshot",
+        "started_epoch": 1788823726.535072,
+        "finished_epoch": 1788823726.5360699,
+        "counts": {
+          "quotes": 0,
+          "attempts": 0,
+          "diagnostics": 0,
+          "inputs": 0,
+          "forecasts": 0,
+          "publication": 0,
+          "consumption": 0,
+          "entries": 0,
+          "outcomes": 0,
+          "exclusions": 0
+        },
+        "last_attempt": null,
+        "last_retained_quote": null
+      },
+      "price_ledgers": {
+        "probabilistic_state_space": {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\pair_local_forecast_study_v2\\pairs\\USD_TRY\\probabilistic_state_space\\study.sqlite",
+          "status": "read_only_snapshot",
+          "started_epoch": 1788823726.5360699,
+          "finished_epoch": 1788823726.537066,
+          "counts": {
+            "quotes": 0,
+            "attempts": 0,
+            "diagnostics": 0,
+            "inputs": 0,
+            "forecasts": 0,
+            "publication": 0,
+            "consumption": 0,
+            "entries": 0,
+            "outcomes": 0,
+            "exclusions": 0
+          },
+          "last_attempt": null,
+          "last_retained_quote": null
+        },
+        "ridge_return_repaired": {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\pair_local_forecast_study_v2\\pairs\\USD_TRY\\ridge_return_repaired\\study.sqlite",
+          "status": "read_only_snapshot",
+          "started_epoch": 1788823726.537066,
+          "finished_epoch": 1788823726.5390615,
+          "counts": {
+            "quotes": 0,
+            "attempts": 0,
+            "diagnostics": 0,
+            "inputs": 0,
+            "forecasts": 0,
+            "publication": 0,
+            "consumption": 0,
+            "entries": 0,
+            "outcomes": 0,
+            "exclusions": 0
+          },
+          "last_attempt": null,
+          "last_retained_quote": null
+        }
+      }
+    }
+  ],
+  "underlying_publication": {
+    "summary_source": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\joint_price_news_study_v2\\summary.json",
+      "sha256": "85589a3ff7a7ec5799aac838f20b757088168d161011b4d0af40cd83e2724357",
+      "bytes": 220535,
+      "read_finished_epoch": 1788823726.4313495
+    },
+    "summary_generated_epoch": 1788823725.4290304,
+    "heartbeat_source": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\joint_price_news_study_v2\\heartbeat.json",
+      "sha256": "a664a94c13aede86cc8fc8d326fbd98a03db2b0c2e5c4e219db00509c37c4ccc",
+      "bytes": 724,
+      "read_finished_epoch": 1788823726.441322
+    },
+    "heartbeat": {
+      "account_eligible": false,
+      "active_pair": "NZD_JPY",
+      "can_authorize": false,
+      "can_place_orders": false,
+      "can_promote": false,
+      "counts": {
+        "building": 0,
+        "forecast": 61,
+        "ready": 0,
+        "unavailable": 3,
+        "warming": 4
+      },
+      "errors": 0,
+      "family_count": 68,
+      "generated_epoch": 1788823725.4539642,
+      "heartbeat_publication_errors": 0,
+      "historical_rows_imported": false,
+      "last_error": "",
+      "pair_count": 68,
+      "pairs_with_forecast": 61,
+      "phase": "research_collection",
+      "proof_eligible": false,
+      "registry_sha256": "20fea86e661efd758536b81fa5c474a440feee2e6af48b28a1016b1538d3691e",
+      "research_only": true,
+      "schema_version": "joint_price_news_forecast_heartbeat_v2_20260907",
+      "summary_sha256": "85589a3ff7a7ec5799aac838f20b757088168d161011b4d0af40cd83e2724357",
+      "supported_decision": "no_trade"
+    },
+    "quote_source": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_market_quotes_v1.json",
+      "sha256": "e5e260a894a1d5553599294755e7f59acb57f7541bf139cf2e44250d7f5e4953",
+      "bytes": 9411,
+      "read_finished_epoch": 1788823726.441322
+    },
+    "heartbeat_binds_captured_summary_bytes": true
+  },
+  "readiness_log_observation": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\joint_price_news_study_v2\\readiness.jsonl",
+    "source_size_at_read": 927450,
+    "tail_offset_before_partial_line_drop": 0,
+    "retained_tail_bytes": 927450,
+    "retained_tail_sha256": "19abac1d16e8fbc2c8dd3d8efa572dfa620cbf7b905751c3bb806a4ed33b245d",
+    "scope": "Latest matching events projected above; no full log copy."
+  },
+  "registry_source_checks": {
+    "joint_before": {
+      "source": {
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\joint_price_news_study_v2_20260907.json",
+        "sha256": "20fea86e661efd758536b81fa5c474a440feee2e6af48b28a1016b1538d3691e",
+        "bytes": 308371,
+        "read_finished_epoch": 1788823726.0413938
+      },
+      "binding_count": 16,
+      "source_bindings_match": {
+        "oanda_causal_forecast_inputs.py": true,
+        "oanda_causal_forecast_inputs_gap_v2.py": true,
+        "oanda_causal_forecast_inputs_joint_news_v1.py": true,
+        "oanda_causal_forecast_inputs_pair_v2.py": true,
+        "oanda_causal_forecast_ledger_joint_news_v1.py": true,
+        "oanda_causal_prediction_baselines.py": true,
+        "oanda_exact_price_scoring.py": true,
+        "oanda_fixed_forecast_evaluation_joint_news_v1.py": true,
+        "oanda_joint_price_news_forecast_study_v2.py": true,
+        "oanda_joint_price_news_models_v1.py": true,
+        "oanda_local_news_sentiment.py": true,
+        "oanda_news_causal_aggregation_guard_v1.py": true,
+        "oanda_news_classification_contract.py": true,
+        "oanda_pair_local_models_v2.py": true,
+        "oanda_source_governance.py": true,
+        "oanda_source_governance_news_fast_lane.py": true
+      },
+      "all_source_bindings_match": true
+    },
+    "joint_after": {
+      "source": {
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\joint_price_news_study_v2_20260907.json",
+        "sha256": "20fea86e661efd758536b81fa5c474a440feee2e6af48b28a1016b1538d3691e",
+        "bytes": 308371,
+        "read_finished_epoch": 1788823726.5410554
+      },
+      "binding_count": 16,
+      "source_bindings_match": {
+        "oanda_causal_forecast_inputs.py": true,
+        "oanda_causal_forecast_inputs_gap_v2.py": true,
+        "oanda_causal_forecast_inputs_joint_news_v1.py": true,
+        "oanda_causal_forecast_inputs_pair_v2.py": true,
+        "oanda_causal_forecast_ledger_joint_news_v1.py": true,
+        "oanda_causal_prediction_baselines.py": true,
+        "oanda_exact_price_scoring.py": true,
+        "oanda_fixed_forecast_evaluation_joint_news_v1.py": true,
+        "oanda_joint_price_news_forecast_study_v2.py": true,
+        "oanda_joint_price_news_models_v1.py": true,
+        "oanda_local_news_sentiment.py": true,
+        "oanda_news_causal_aggregation_guard_v1.py": true,
+        "oanda_news_classification_contract.py": true,
+        "oanda_pair_local_models_v2.py": true,
+        "oanda_source_governance.py": true,
+        "oanda_source_governance_news_fast_lane.py": true
+      },
+      "all_source_bindings_match": true
+    },
+    "price_before": {
+      "source": {
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\pair_local_forecast_study_v2_20260907.json",
+        "sha256": "f7dc675925a765c0bb369282895f2839326476a05eadb7f5df6e0f27a10ed505",
+        "bytes": 476898,
+        "read_finished_epoch": 1788823726.051366
+      },
+      "binding_count": 9,
+      "source_bindings_match": {
+        "oanda_causal_forecast_inputs.py": true,
+        "oanda_causal_forecast_inputs_gap_v2.py": true,
+        "oanda_causal_forecast_inputs_pair_v2.py": true,
+        "oanda_causal_forecast_ledger_pair_v2.py": true,
+        "oanda_causal_prediction_baselines.py": true,
+        "oanda_exact_price_scoring.py": true,
+        "oanda_fixed_forecast_evaluation_pair_v2.py": true,
+        "oanda_pair_local_forecast_study_v2.py": true,
+        "oanda_pair_local_models_v2.py": true
+      },
+      "all_source_bindings_match": true
+    },
+    "price_after": {
+      "source": {
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\pair_local_forecast_study_v2_20260907.json",
+        "sha256": "f7dc675925a765c0bb369282895f2839326476a05eadb7f5df6e0f27a10ed505",
+        "bytes": 476898,
+        "read_finished_epoch": 1788823726.555018
+      },
+      "binding_count": 9,
+      "source_bindings_match": {
+        "oanda_causal_forecast_inputs.py": true,
+        "oanda_causal_forecast_inputs_gap_v2.py": true,
+        "oanda_causal_forecast_inputs_pair_v2.py": true,
+        "oanda_causal_forecast_ledger_pair_v2.py": true,
+        "oanda_causal_prediction_baselines.py": true,
+        "oanda_exact_price_scoring.py": true,
+        "oanda_fixed_forecast_evaluation_pair_v2.py": true,
+        "oanda_pair_local_forecast_study_v2.py": true,
+        "oanda_pair_local_models_v2.py": true
+      },
+      "all_source_bindings_match": true
+    }
+  },
+  "limits": [
+    "API, publication files, readiness log and each ledger have separate retained observation clocks; no globally atomic snapshot claim.",
+    "No fitting, new input capture, broker request, publication, backfill, source or runtime mutation was performed.",
+    "Threshold counts are engineering criteria in this frozen model, not a proof that every smaller-sample estimate is mathematically impossible.",
+    "Price-only predictions are legitimate distinct research estimates with uncalibrated uncertainty; they must not be relabeled as fitted joint news predictions.",
+    "Existing H1 forecasts cannot be reconstructed into forecasts that were actually issued earlier at other horizons.",
+    "No fresh tradeable stream quote means there is no verified current executable reference; it does not prove the currency has no market elsewhere."
+  ]
+}

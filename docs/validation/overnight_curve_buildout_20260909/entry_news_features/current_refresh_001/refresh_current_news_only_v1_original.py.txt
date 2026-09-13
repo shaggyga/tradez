@@ -1,0 +1,179 @@
+"""One current-file-only diagnostic; no database, network, fit or runtime writes."""
+from collections import Counter
+import datetime as dt
+import hashlib
+import json
+import os
+from pathlib import Path
+import re
+import statistics
+import sys
+import time
+
+HERE=Path(__file__).resolve().parent
+PROJECT=HERE.parents[1]/'trad'
+CURRENT=PROJECT/'data/oanda_training_manager/local_news_sentiment_repair_v1/current_news_v1.json'
+REGISTRY=PROJECT/'config/joint_price_news_study_v3_20260908.json'
+REGISTRY_SHA='ee075e69e80ca56dfdf45abe1f7a1a301612176e67f7622eab1adf2bd9af8771'
+JOIN_SHA='491e0dbd91932bdf6db302cd56cbe5308cb6027ab82d5c77c753ac13eb2687e2'
+MAX_BYTES=16*1024*1024
+PAIRS=('EUR_USD','GBP_USD','USD_JPY')
+
+
+def sha(raw):return hashlib.sha256(raw).hexdigest()
+
+
+def require(value, reason):
+    if not value:raise ValueError(reason)
+
+
+def deny_io(event, args):
+    if event.startswith('sqlite3.connect') or event in ('socket.connect','socket.getaddrinfo','subprocess.Popen','os.system'):
+        raise RuntimeError('current_only_audit_forbids_database_network_or_process')
+
+
+def load_json(raw):
+    def pairs(values):
+        result={}
+        for key,value in values:
+            require(key not in result,'duplicate_json_key');result[key]=value
+        return result
+    return json.loads(raw,object_pairs_hook=pairs,
+        parse_constant=lambda _:(_ for _ in ()).throw(ValueError('nonfinite_json')))
+
+
+def identity(info):
+    return dict(device=info.st_dev,inode=info.st_ino,bytes=info.st_size,mtime_ns=info.st_mtime_ns)
+
+
+def bounded_read(path, maximum=MAX_BYTES, *, clock=time.time):
+    started=clock();before=path.stat()
+    require(not getattr(before,'st_file_attributes',0)&0x400,'reparse_source_refused')
+    require(0<before.st_size<=maximum,'source_file_size_bound')
+    with path.open('rb') as stream:
+        opened=os.fstat(stream.fileno());raw=stream.read(maximum+1);closed=os.fstat(stream.fileno())
+    after=path.stat();completed=clock()
+    require(started<=completed,'source_read_clock_regression')
+    require(len(raw)<=maximum and len(raw)==before.st_size,'source_read_size_mismatch')
+    require(identity(before)==identity(opened)==identity(closed)==identity(after),'source_changed_during_read')
+    return raw,dict(path=str(path),sha256=sha(raw),bytes=len(raw),read_started_epoch=started,
+        read_completed_epoch=completed,before_stat=identity(before),after_stat=identity(after),stable=True)
+
+
+def save_new(path, raw):
+    with path.open('xb') as stream:
+        stream.write(raw);stream.flush();os.fsync(stream.fileno())
+    return dict(path=str(path),sha256=sha(raw),bytes=len(raw))
+
+
+def save_json(path, value):
+    return save_new(path,(json.dumps(value,sort_keys=True,indent=2,allow_nan=False)+'\n').encode())
+
+
+def compact_reason(exc):
+    text=str(exc)
+    return text if re.fullmatch('[A-Za-z_][A-Za-z0-9_]{0,100}',text) else type(exc).__name__+'_bounded_diagnostic'
+
+
+def age_summary(rows, cutoff):
+    values=[cutoff-r['original_known_epoch'] for r in rows]
+    return dict(count=len(values),minimum_sec=min(values) if values else None,
+        median_sec=statistics.median(values) if values else None,maximum_sec=max(values) if values else None)
+
+
+def main():
+    sys.dont_write_bytecode=True
+    sys.addaudithook(deny_io)
+    sys.path.insert(0,str(PROJECT))
+    started=time.time();out=HERE/'current_refresh_001'
+    require(not out.exists(),'fresh_external_output_required');out.mkdir();private=out/'private';private.mkdir()
+    result=dict(schema_version='entry_news_current_only_refresh_v1_20260909',status='not_completed',
+        started_epoch=started,scope='One complete published repaired current-news file; three pair feature diagnostics only.',
+        historical_factors=dict(status='not_sampled',database_reads=0,universe_count=None),
+        matured_response_memory=dict(status='not_sampled',database_reads=0,universe_count=None),
+        research_only=True,can_place_orders=False,can_promote=False,can_authorize=False,
+        account_eligible=False,execution_eligible=False,proof_eligible=False,forecast_issued=False,
+        model_fits=False,database_reads=0,network_requests=0,runtime_writes=False,
+        limits=dict(current_file_bytes=MAX_BYTES,complete_file_reads=1,pairs=list(PAIRS)),
+        helper_sha256=sha(Path(__file__).read_bytes()))
+    try:
+        registry_raw,registry_read=bounded_read(REGISTRY,2*1024*1024)
+        require(sha(registry_raw)==REGISTRY_SHA,'original_joint_registry_changed')
+        registered=load_json(registry_raw)['source_bindings']
+        own_raw,own_read=bounded_read(PROJECT/'oanda_entry_news_feature_join_v1.py',1024*1024)
+        require(sha(own_raw)==JOIN_SHA,'accepted_join_source_changed')
+        # Verify registered producer sources before import; no source-code wrapper is executed.
+        names=('oanda_local_news_sentiment_repair_v1.py','oanda_news_topic_identity_reconciliation_v1.py',
+            'oanda_local_news_sentiment.py','oanda_news_causal_aggregation_guard_v1.py',
+            'oanda_news_classification_contract.py','oanda_news_event_tagger.py','oanda_news_collector_contract.py')
+        bindings={name:registered[name] for name in names};before={}
+        for name,expected in bindings.items():
+            source_raw,read=bounded_read(PROJECT/name,2*1024*1024)
+            require(sha(source_raw)==expected,'registered_producer_source_changed');before[name]=read
+        import oanda_entry_news_feature_join_v1 as join
+        import oanda_local_news_sentiment_repair_v1 as producer
+        require(bindings==producer.source_bindings(),'loaded_producer_closure_changed')
+        raw,source_read=bounded_read(CURRENT)
+        raw_file=save_new(private/'CURRENT_NEWS_RAW_20260909.json',raw)
+        snapshot=load_json(raw);validation_started=time.time()
+        core=producer.validate_repaired_snapshot(snapshot);validation_completed=time.time()
+        asof=join.utc(core['as_of_utc']);generated=join.utc(core['generated_utc'])
+        consumer=time.time()
+        require(asof<=generated<=source_read['read_completed_epoch']<=validation_started<=validation_completed<=consumer,
+            'source_validation_consumer_clock_order')
+        envelope=dict(complete=True,guard_version=core['guard_version'],classification_version=core['classification_version'],
+            source_bindings=bindings,raw_source_sha256=sha(raw),as_of_epoch=asof,
+            source_visible_epoch=source_read['read_completed_epoch'],consumer_observed_epoch=consumer,
+            topics=core['topics'],topics_sha256=join.digest(core['topics']))
+        joins={};pairs={}
+        for instrument in PAIRS:
+            began=time.time()
+            value=join.join_entry_news_features(instrument=instrument,cutoff_epoch=consumer,
+                current_news=envelope,expected_source_bindings=bindings)
+            completed=time.time();joins[instrument]=value;current=value['current_news']
+            require(consumer<=began<=value['diagnostic_observed_epoch']<=completed,'join_actual_clock_order')
+            require(value['entry_factors']['status']=='not_provided' and value['matured_response_memory']['status']=='not_provided',
+                'history_must_remain_unprovided')
+            pairs[instrument]=dict(current_status=current['status'],reason=current.get('reason'),
+                context_members=len(current['context']),context_only_members=len(current['context_only']),
+                forward_context_overlap_member_count=current['forward_context_overlap_member_count'],
+                vetted_topics=len(current['vetted']),post_move_discovery_members=len(current['discovery']),
+                rejections=dict(Counter(row['reason'] for row in current['rejections'])),
+                pair_context_support=value['news_features']['context_balance']['support_count'],
+                pair_vetted_support=value['news_features']['vetted_balance']['support_count'],
+                feature_status={name:field['status'] for name,field in value['news_features'].items()},
+                context_age=age_summary(current['context'],consumer),discovery_age=age_summary(current['discovery'],consumer),
+                diagnostic_sha256=value['diagnostic_sha256'],computation_started_epoch=began,
+                original_diagnostic_observed_epoch=value['diagnostic_observed_epoch'],computation_completed_epoch=completed,
+                factor_lane_status='not_sampled',memory_lane_status='not_sampled')
+        after={}
+        for name,expected in {**bindings,'oanda_entry_news_feature_join_v1.py':JOIN_SHA}.items():
+            source_raw,read=bounded_read(PROJECT/name,2*1024*1024);require(sha(source_raw)==expected,'source_changed_after_join');after[name]=read
+        registry_after,after_registry_read=bounded_read(REGISTRY,2*1024*1024)
+        require(registry_after==registry_raw,'original_joint_registry_changed_after_join')
+        joins_file=save_json(private/'CURRENT_NEWS_JOINS_20260909.json',joins)
+        members=[m for topic in core['topics'] for m in topic['causal_aggregation_guard']['members']]
+        result.update(status='completed',source_read=source_read,source_replay='verified',source_as_of_epoch=asof,
+            source_generated_epoch=generated,validation_started_epoch=validation_started,validation_completed_epoch=validation_completed,
+            consumer_observed_epoch=consumer,feature_cutoff_epoch=consumer,source_age_at_feature_cutoff_sec=consumer-asof,
+            source_topics=len(core['topics']),source_news_state=core['news_state'],source_original_counts=core['counts'],
+            original_member_occurrences=len(members),distinct_original_member_ids=len({m['event_id'] for m in members}),
+            classification_versions=dict(Counter(m['classification_version'] for m in members)),pairs=pairs,
+            source_bindings=bindings,source_reads_before=before,join_source_read=own_read,source_reads_after=after,
+            registry_read=registry_read,registry_after_read=after_registry_read,sources_unchanged=True,
+            private_evidence=[raw_file,joins_file],
+            interpretation=['Current population counts are shared source members; pair support is separately filtered by currency.',
+                'Context is not independently vetted direction, and missing/empty directional support is not a forecast probability.',
+                'Post-move explanations remain discovery only; original clocks and one-hour context policy remain unchanged.',
+                'Factor and response-memory databases were not sampled. Empty function inputs do not describe their universe size.',
+                'This new feature diagnostic does not replace the frozen34-input joint model or publish a forecast.'])
+    except Exception as exc:
+        result.update(status='withheld',reason=compact_reason(exc))
+    result['completed_epoch']=time.time()
+    final=save_json(out/'ENTRY_NEWS_CURRENT_REFRESH_20260909.json',result)
+    print(json.dumps(dict(receipt=final,status=result['status'],reason=result.get('reason'),
+        source_age_sec=result.get('source_age_at_feature_cutoff_sec'),pairs=result.get('pairs'))))
+    return 0 if result['status']=='completed' else 1
+
+
+if __name__=='__main__':raise SystemExit(main())

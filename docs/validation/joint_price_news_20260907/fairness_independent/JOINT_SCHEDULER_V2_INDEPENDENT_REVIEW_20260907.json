@@ -1,0 +1,69 @@
+{
+  "schema_version": "bounded_independent_source_review_v1_20260907",
+  "observed_utc": "2026-09-07T22:41:15.301120+00:00",
+  "status": "passed",
+  "reviewer": "pair_model_inputs",
+  "runtime_or_broker_actions": false,
+  "source_edits": false,
+  "sources": [
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_joint_price_news_forecast_study_v2.py",
+      "sha256": "a27fe6e6ee3bf6ec2fdbf52be43661918cee18a5091f096c65994caa5fc24282",
+      "bytes": 31813
+    }
+  ],
+  "review_findings": [
+    {
+      "finding": "Shared fit/capture cursor could permanently omit half an even pair universe under repeated failed fits and changing inputs.",
+      "status": "closed",
+      "repair": "Independent fit_cursor and capture_cursor preserve per-class pair rotation; phases alternate."
+    },
+    {
+      "finding": "New worker must retain shared captures in its own versioned runtime.",
+      "status": "closed",
+      "repair": "Explicit study/news_captures argument and resolved descriptor-parent equality fail closed on cross-root cache reuse."
+    }
+  ],
+  "source_review": [
+    "Both work classes get visits despite continual source updates or repeated failed fits.",
+    "Fit readiness still checks source price/news clocks and fresh quote; no fabricated observation time on failed shared capture.",
+    "Separate v2 config/runtime/schema and required 16-source registry binding retain all existing frozen model/input/ledger/evaluator files."
+  ],
+  "independent_probe": {
+    "before": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\joint_price_news_20260907\\fairness_independent\\SCHEDULER_PARITY_PROBE_33978088db94.json",
+      "sha256": "dda5360a28d3779092d11c00d4772d6ef2db0db17a2bee63d13bb178b3863273",
+      "bytes": 5206
+    },
+    "after": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\joint_price_news_20260907\\fairness_independent\\SCHEDULER_PARITY_PROBE_a27fe6e6ee3b.json",
+      "sha256": "d4554662e56ba22dfb5a72e66eace4799fafe154c771d76c841fef870b0d5a54",
+      "bytes": 5212
+    },
+    "helper": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\joint_price_news_20260907\\fairness_independent\\probe_scheduler.py",
+      "sha256": "02368805e70c9f397d5633806d025349e3fbf84fb7c90f5c57fe875f948a531b",
+      "bytes": 2686
+    },
+    "operations_each_probe": 72,
+    "pairs": 6,
+    "fixed_fits_each_pair": 6,
+    "fixed_captures_each_pair": 6,
+    "scope": "Isolated scheduler only: no runner constructor, executor, ledger files or live clock; not a live throughput or uptime test."
+  },
+  "owner_test_evidence": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\joint_price_news_20260907\\scheduler_v2\\worker_final_tests.xml",
+    "sha256": "19e0a00be16672dcd73f183ba2fb0c1c9a7da9f831ac6f0c734c49c8669c4799",
+    "bytes": 9558,
+    "cases": 60,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "owner_test_scope": "Owner reports 68-pair continuous-update regression and 408 alternating tasks with three fits and three captures per pair; 60 pytest cases total, not 408 tests.",
+  "limitations": [
+    "The v1 collector eventually published; the initial delay is preserved rather than described as permanent zero output.",
+    "Actual runtime preflight, activation and dashboard reload are separately verified by root."
+  ],
+  "remaining_blockers": []
+}

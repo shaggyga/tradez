@@ -1,0 +1,202 @@
+{
+  "schema_version": "integrity_saved_payload_optimization_benchmark_v1",
+  "generated_utc": "2026-09-06T04:09:00.792702+00:00",
+  "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+  "input": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\project_integrity_audit_v1.json",
+    "sha256": "a93a6bfcaf4c9c752c8601175537a1837b434ade23bac5a802618b4be53fe6ca",
+    "bytes": 98926690
+  },
+  "scope": "Actual saved payload, offline transform/serialization/decode/temp writes only. No full integrity run, current audit computation, database queries, ownership-guard timing, broker, network or workers. Repeated reads likely use warm OS cache. Five samples are not latency-percentile evidence.",
+  "production_database_connections": 0,
+  "network_calls": 0,
+  "worker_starts": 0,
+  "baseline_full_snapshot_and_history_write": {
+    "samples": 5,
+    "median_ms": 3325.8095,
+    "minimum_ms": 3191.1966,
+    "maximum_ms": 3506.35,
+    "raw_ms": [
+      3506.35,
+      3408.4531,
+      3191.1966,
+      3309.1708,
+      3325.8095
+    ],
+    "p95_estimated": false
+  },
+  "first_compact_publication_with_new_detail_artifacts": {
+    "samples": 5,
+    "median_ms": 1172.7382,
+    "minimum_ms": 1154.1812,
+    "maximum_ms": 1257.3645,
+    "raw_ms": [
+      1154.1812,
+      1201.7488,
+      1257.3645,
+      1160.9934,
+      1172.7382
+    ],
+    "p95_estimated": false
+  },
+  "detail_artifacts": {
+    "count": 5,
+    "total_bytes": 73162637,
+    "per_section_rows": {
+      "move_first_operational_mapping_alignment_v2": 420,
+      "move_first_operational_mapping_alignment_v3": 366,
+      "move_first_operational_mapping_alignment_v4": 1392,
+      "move_first_operational_mapping_alignment": 60,
+      "move_first_live_arm_alignment": 2074
+    },
+    "references": {
+      "move_first_operational_mapping_alignment_v2": {
+        "contract_id": "project_integrity_episode_rows_v1_20260906",
+        "field": "episode_rows",
+        "path": "project_integrity_details_v1/sha256/81/815730932c7e8c5906f3f46c2744a03c2e7cbc3361e7c4a3fc09a623b0cfbc46.json",
+        "sha256": "815730932c7e8c5906f3f46c2744a03c2e7cbc3361e7c4a3fc09a623b0cfbc46",
+        "bytes": 13719602,
+        "item_count": 420
+      },
+      "move_first_operational_mapping_alignment_v3": {
+        "contract_id": "project_integrity_episode_rows_v1_20260906",
+        "field": "episode_rows",
+        "path": "project_integrity_details_v1/sha256/4e/4e420619a9df8ecaf1aa736784a9612ab7d98cb0c0024bded578781fba49e2ae.json",
+        "sha256": "4e420619a9df8ecaf1aa736784a9612ab7d98cb0c0024bded578781fba49e2ae",
+        "bytes": 11615653,
+        "item_count": 366
+      },
+      "move_first_operational_mapping_alignment_v4": {
+        "contract_id": "project_integrity_episode_rows_v1_20260906",
+        "field": "episode_rows",
+        "path": "project_integrity_details_v1/sha256/6d/6dd11a6f01ecd01497e8863dd24043973b51e78d1a68b2eeabc5f5bd5b381996.json",
+        "sha256": "6dd11a6f01ecd01497e8863dd24043973b51e78d1a68b2eeabc5f5bd5b381996",
+        "bytes": 36896739,
+        "item_count": 1392
+      },
+      "move_first_operational_mapping_alignment": {
+        "contract_id": "project_integrity_episode_rows_v1_20260906",
+        "field": "episode_rows",
+        "path": "project_integrity_details_v1/sha256/d8/d8b5a0788d8a40f4d6c10a06151b4f06b4c156bda20c9df9c4e5e18b66a586af.json",
+        "sha256": "d8b5a0788d8a40f4d6c10a06151b4f06b4c156bda20c9df9c4e5e18b66a586af",
+        "bytes": 2292844,
+        "item_count": 60
+      },
+      "move_first_live_arm_alignment": {
+        "contract_id": "project_integrity_episode_rows_v1_20260906",
+        "field": "episode_rows",
+        "path": "project_integrity_details_v1/sha256/e8/e84f8729e4a7123e4036c0f21b277ca5ae3618a2632f2c2aecd48c6430c09c8b.json",
+        "sha256": "e84f8729e4a7123e4036c0f21b277ca5ae3618a2632f2c2aecd48c6430c09c8b",
+        "bytes": 8637799,
+        "item_count": 2074
+      }
+    }
+  },
+  "repeat_compact_publication_changed_clocks_same_rows_including_artifact_hash_verification": {
+    "samples": 5,
+    "median_ms": 1078.9229,
+    "minimum_ms": 1066.9918,
+    "maximum_ms": 1104.1556,
+    "raw_ms": [
+      1104.1556,
+      1097.6676,
+      1071.9444,
+      1078.9229,
+      1066.9918
+    ],
+    "p95_estimated": false
+  },
+  "equivalence": {
+    "exact_original_reconstruction": true,
+    "changed_clocks_exact_reconstruction": true,
+    "unchanged_rows_reused_without_rewrite": true,
+    "all_top_level_checks_verdicts_counts_authority_preserved": true,
+    "all_non_episode_section_fields_preserved": true,
+    "saved_source_hash_unchanged": true
+  },
+  "bytes": {
+    "baseline_current": 98926690,
+    "compact_current": 167893,
+    "baseline_history_row": 73356296,
+    "compact_history_row": 136573,
+    "current_reduction_percent": 99.83028543661977,
+    "history_row_reduction_percent": 99.81382238819691
+  },
+  "full_snapshot_serialization": {
+    "samples": 5,
+    "median_ms": 2551.1719,
+    "minimum_ms": 2463.1244,
+    "maximum_ms": 2671.6334,
+    "raw_ms": [
+      2554.12,
+      2463.1244,
+      2671.6334,
+      2551.1719,
+      2505.8659
+    ],
+    "p95_estimated": false
+  },
+  "compact_snapshot_serialization": {
+    "samples": 5,
+    "median_ms": 3.8148,
+    "minimum_ms": 2.9078,
+    "maximum_ms": 4.8838,
+    "raw_ms": [
+      4.3448,
+      2.9078,
+      3.8148,
+      3.4654,
+      4.8838
+    ],
+    "p95_estimated": false
+  },
+  "full_snapshot_decode": {
+    "samples": 5,
+    "median_ms": 422.2536,
+    "minimum_ms": 416.7829,
+    "maximum_ms": 432.0045,
+    "raw_ms": [
+      432.0045,
+      418.0112,
+      422.2536,
+      424.8047,
+      416.7829
+    ],
+    "p95_estimated": false
+  },
+  "compact_snapshot_decode": {
+    "samples": 5,
+    "median_ms": 0.7588,
+    "minimum_ms": 0.7515,
+    "maximum_ms": 0.8408,
+    "raw_ms": [
+      0.8408,
+      0.7613,
+      0.7588,
+      0.7566,
+      0.7515
+    ],
+    "p95_estimated": false
+  },
+  "full_snapshot_serialization_peak": {
+    "incremental_peak_python_allocated_bytes": 364305136,
+    "scope": "one separate tracemalloc sample; input object already resident; not process RSS or a timing sample"
+  },
+  "compact_repeat_transform_and_serialization_peak": {
+    "incremental_peak_python_allocated_bytes": 196030476,
+    "scope": "one separate tracemalloc sample; input object already resident; not process RSS or a timing sample"
+  },
+  "full_snapshot_decode_peak": {
+    "incremental_peak_python_allocated_bytes": 230935741,
+    "scope": "one separate tracemalloc sample; input object already resident; not process RSS or a timing sample"
+  },
+  "compact_snapshot_decode_peak": {
+    "incremental_peak_python_allocated_bytes": 469655,
+    "scope": "one separate tracemalloc sample; input object already resident; not process RSS or a timing sample"
+  },
+  "source_sha256": {
+    "oanda_integrity_publication.py": "8458e297d2bb09f9089f7fd3c82f4718694a4504ff6c311d2f060371fb034942",
+    "oanda_project_integrity_audit.py": "c654d4d2f9089be99fa14cf5b50b1236bec5b7fe3c8beea610087c88e84acbc6",
+    "test_oanda_integrity_publication.py": "029a752c52b8adaabe19f8183d6805d108bde195c365713fbcc29997d1f5f01b"
+  }
+}

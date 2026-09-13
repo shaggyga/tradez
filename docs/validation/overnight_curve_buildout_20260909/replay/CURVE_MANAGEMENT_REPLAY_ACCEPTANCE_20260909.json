@@ -1,0 +1,53 @@
+{
+  "checks": [
+    "Five separate policies share one predeclared global clock grid and exact execution endpoint/cost/conversion contract.",
+    "USD momentum and USD curve arms use the same selector; unchanged legacy selector is separately labeled within new common deadline constraints.",
+    "Explicit pip metadata, actual tradeable bid/ask, positive/negative direct/inverse USD valuation and decision-time integer sizing preserve economic units.",
+    "All arms choose before fill values are used; atomic failed rotation preserves portfolio/cash; future feedback never changes action or primary state.",
+    "Nonterminal fill observation must precede or equal the next decision; terminal late observations cannot enter a later choice.",
+    "Original target and maximum holding are respected by every arm. Off-grid native targets and at/past-target entries are refused.",
+    "Incumbent estimates remain available below entry hurdle and on neutral/reversed direction, with exact deadline comparability.",
+    "Original target-window and uncertainty semantics are retained; nominal-window approximation requires explicit matching configuration.",
+    "Missing terminal evidence remains unresolved and prevents complete terminal delta; counterfactual branches carry zero additional repetition weight."
+  ],
+  "evidence": {
+    "API_CONTRACT_20260909.md": {
+      "bytes": 8151,
+      "sha256": "1e7929cd8fc35915cc33b941d6161e9a8ae9838552837f810333af46dd666480"
+    },
+    "SYNTHETIC_API_FIXTURE_FINAL_20260909.json": {
+      "bytes": 128365,
+      "sha256": "f0f9010c7160d0996c415be1553208a9c604c31a38006eb35ccfc29388b45315"
+    }
+  },
+  "frozen_historical_source_unchanged": true,
+  "generated_utc": "2026-09-09T05:01:54.647485+00:00",
+  "no_independent_sample_size_claim": true,
+  "remaining_work": [
+    "Independent receipt from peer review is separate; owner final source follows the two reviewed causal fixes and additional boundary fixtures.",
+    "Authenticate curve publication/consumption and source bytes in the integration caller; the pure replay does not prove external timestamps.",
+    "Collect a declared prospective virtual-management episode before making predictive or policy-quality claims."
+  ],
+  "retained_initial_failure": {
+    "cause": "Two synthetic fixture assertions: flat feedback branch selection and Decimal zero formatting; corrected before subsequent passing suites.",
+    "failed": 2,
+    "passed": 62,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\replay\\replay_initial_tests.xml",
+    "sha256": "dfdefb36ae079ea32410be30fb37dc695152a522c29d401ae78f2e785e2e848e"
+  },
+  "schema_version": "curve_management_replay_acceptance_v1_20260909",
+  "scope": "New pure engineering replay only. No runtime, DB, historical model/cohort, broker or account mutation. No actual prospective outcome claim.",
+  "source_sha256": {
+    "oanda_curve_management_replay_v1.py": "52fd04c6b087df4be775e490002afd0744caeb245604b8f577ab0fcff41de8f3",
+    "src/forex_system/research/sequential_portfolio_replay_v1.py": "e1201fdd3387825c9295f13045aeb00e2f87cce9ff819e789faf922ea2e514a6",
+    "test_oanda_curve_management_replay_v1.py": "ead61584cf5dd17605e2ff3d84c6b2303b94c84dc4f58e32a2f89700619673e1"
+  },
+  "status": "passed_pure_mechanics_acceptance",
+  "tests": {
+    "errors": 0,
+    "failed": 0,
+    "passed": 106,
+    "sha256": "b9e72f30093c50d6d4e95886bed7efa0b47f9586c268a2e7d7f699eac33557a2",
+    "xml": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\replay\\replay_final_106_tests.xml"
+  }
+}

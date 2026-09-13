@@ -1,0 +1,32 @@
+{
+  "GET": false,
+  "episode03_original_target_epoch": 1788946975.0,
+  "execution_plan": [
+    "One unchanged frozen verifier reading all three original retained episode chains after terminal grace.",
+    "Unchanged exact cost attribution reads only original verified virtual-action settlements and retains read clocks.",
+    "Unchanged serializer reports same five isolated counterfactual arms per completed episode and preserves missing/unresolved support."
+  ],
+  "model_refit": false,
+  "new_output_names": [
+    "OBSERVED_THREE_EPISODE_FINAL_VERIFICATION_20260909.json",
+    "OBSERVED_THREE_EPISODE_FINAL_COST_ATTRIBUTION_20260909.json",
+    "OBSERVED_THREE_EPISODE_FINAL_SUMMARY_20260909.json"
+  ],
+  "predeclared_episodes": [
+    "episode_01",
+    "episode_02",
+    "episode_03"
+  ],
+  "prepared_epoch": 1788946777.8830345,
+  "registry_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\observed_curve_management_v1_20260909.json",
+  "registry_sha256": "60689101fb63a8bcce2465d19f627b9b2ce357d1ee271c65298f255663d991e1",
+  "runtime_actions": false,
+  "schema_version": "three_episode_final_evaluation_preparation_v1_20260909",
+  "scope": "Predeclared fixed original targets and original records; no cost or policy retuning, no actual account PnL claim.",
+  "source_bindings": {
+    "attribute_verified_episode_costs_v1.py": "df5fdef432c05a7b618f45deccd5598e3de833e8cb2c6b90fe3c6ae33f033f19",
+    "summarize_verified_episodes_v1.py": "da845b43606d138977a74b2ba3260068405e0a55f77f416f3e8aed7e342cda9c",
+    "verify_observed_episodes.py": "870165e26cc0deeb40c638dbf0ea1afa9f678d8e4645552fabc1cb8e65a1959d"
+  },
+  "terminal_quote_grace_sec": 15
+}

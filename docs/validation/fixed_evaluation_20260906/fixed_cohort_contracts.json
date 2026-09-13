@@ -1,0 +1,460 @@
+[
+  {
+    "cohort_generation_id": "lineage_repair_20260829_v1",
+    "cohort_id": "cross_pair_graph_transfer.20260829.d31c46ca1292ec00",
+    "cohort_start_utc": "2026-08-29T12:36:36.550804+00:00",
+    "cost_model_version": "executable_bid_ask_plus_0.25pip_modeled_slippage_v1",
+    "deduplication_rules": {
+      "episode": "shared_signed_currency_factor_within_horizon",
+      "unit": "family_pair_horizon_session_liquidity"
+    },
+    "dimensions": {
+      "horizon_sec": 3600,
+      "liquidity": [
+        "liquid_le_2",
+        "normal_2_to_3",
+        "elevated_3_to_5",
+        "wide_gt_5"
+      ],
+      "pairs": "all snapshot pairs with >=180 completed M1 observations",
+      "sessions": [
+        "asia",
+        "london",
+        "overlap",
+        "new_york",
+        "rollover"
+      ]
+    },
+    "excludes_untagged_forecasts": true,
+    "family": "cross_pair_graph_transfer",
+    "feature_schema_version": "sha256:3c6c9c58faab1ef46fbc73b93f6e64960047a0ef36646ce1fc9d3ef4b360f71f",
+    "forecast_contract_version": "proof_forecast_contract_v2_cohort_bound",
+    "hyperparameters": {
+      "alpha": 25.0,
+      "factor_windows": [
+        1,
+        5,
+        15,
+        60
+      ],
+      "model": "lagged_base_quote_factor_graph_ridge_v2"
+    },
+    "initial_training_cutoff_utc": "2026-08-29T12:37:32.076524+00:00",
+    "initial_training_dataset_sha256": "sha256:pending_first_prospective_forecast_after_lineage_repair",
+    "material_contract_sha256": "d31c46ca1292ec006c233157da9c13d2d8fd58675d2223e84c666347cc5fbb2c",
+    "model_specification": {
+      "alpha": 25.0,
+      "factor_windows": [
+        1,
+        5,
+        15,
+        60
+      ],
+      "model": "lagged_base_quote_factor_graph_ridge_v2"
+    },
+    "pre_governance_forecast_count": 92426,
+    "promotion_thresholds": {
+      "discovery": {
+        "cell_fdr_q": 0.05,
+        "family_fdr_q": 0.05,
+        "minimum_effective_n": 30
+      },
+      "graduation": {
+        "confirmation_minimum_effective_n": 50,
+        "maximum_best_episode_profit_share": 0.5,
+        "minimum_positive_time_block_fraction": 0.67,
+        "minimum_time_blocks": 4
+      },
+      "minimum_economic_edge_pips": {
+        "elevated_3_to_5": {
+          "14400": 3.5,
+          "300": 2.0,
+          "3600": 3.0,
+          "86400": 4.0,
+          "900": 2.5
+        },
+        "liquid_le_2": {
+          "14400": 1.5,
+          "300": 0.75,
+          "3600": 1.25,
+          "86400": 2.0,
+          "900": 1.0
+        },
+        "normal_2_to_3": {
+          "14400": 2.0,
+          "300": 1.25,
+          "3600": 1.75,
+          "86400": 2.5,
+          "900": 1.5
+        },
+        "wide_gt_5": {
+          "14400": 7.0,
+          "300": 4.0,
+          "3600": 6.0,
+          "86400": 8.0,
+          "900": 5.0
+        }
+      },
+      "power": {
+        "alpha_one_sided": 0.05,
+        "target_power": 0.8
+      },
+      "sequential": {
+        "alpha": 0.01,
+        "clip_pips_by_max_horizon_sec": {
+          "14400": 120.0,
+          "300": 20.0,
+          "3600": 60.0,
+          "86400": 250.0,
+          "900": 35.0
+        },
+        "method": "alpha_spending_hoeffding_clipped_mean_v1"
+      }
+    },
+    "source_sha256": "sha256:1bca3b3b583dcad31d25af7dff44e005c417e81d2e6392d763ade02f04cb0752",
+    "training_policy": {
+      "horizon_steps": 60,
+      "lookback_max_bars": 512,
+      "mode": "causal_rolling_completed_m1_v1",
+      "per_forecast_cutoff_and_dataset_hash_required": true
+    }
+  },
+  {
+    "cohort_generation_id": "lineage_repair_20260829_v1",
+    "cohort_id": "modern_tabular_probabilistic_repaired.20260829.34753ccbd209ba5e",
+    "cohort_start_utc": "2026-08-29T12:36:36.550804+00:00",
+    "cost_model_version": "executable_bid_ask_plus_0.25pip_modeled_slippage_v1",
+    "deduplication_rules": {
+      "episode": "shared_signed_currency_factor_within_horizon",
+      "unit": "family_pair_horizon_session_liquidity"
+    },
+    "dimensions": {
+      "horizon_sec": 3600,
+      "liquidity": [
+        "liquid_le_2",
+        "normal_2_to_3",
+        "elevated_3_to_5",
+        "wide_gt_5"
+      ],
+      "pairs": "all snapshot pairs with >=180 completed M1 observations",
+      "sessions": [
+        "asia",
+        "london",
+        "overlap",
+        "new_york",
+        "rollover"
+      ]
+    },
+    "excludes_untagged_forecasts": true,
+    "family": "modern_tabular_probabilistic_repaired",
+    "feature_schema_version": "sha256:3c6c9c58faab1ef46fbc73b93f6e64960047a0ef36646ce1fc9d3ef4b360f71f",
+    "forecast_contract_version": "proof_forecast_contract_v2_cohort_bound",
+    "hyperparameters": {
+      "l2_regularization": 1.0,
+      "learning_rate": 0.06,
+      "max_iter": 40,
+      "max_leaf_nodes": 15,
+      "min_samples_leaf": 40,
+      "model": "pooled_hist_gradient_boosting_regressor_classifier",
+      "random_state": 20260806
+    },
+    "initial_training_cutoff_utc": "2026-08-29T12:37:32.076524+00:00",
+    "initial_training_dataset_sha256": "sha256:pending_first_prospective_forecast_after_lineage_repair",
+    "material_contract_sha256": "34753ccbd209ba5ed39ebd18702f1a6844a6794e7ad532ddc5a44d56a4b3b967",
+    "model_specification": {
+      "l2_regularization": 1.0,
+      "learning_rate": 0.06,
+      "max_iter": 40,
+      "max_leaf_nodes": 15,
+      "min_samples_leaf": 40,
+      "model": "pooled_hist_gradient_boosting_regressor_classifier",
+      "random_state": 20260806
+    },
+    "pre_governance_forecast_count": 92426,
+    "promotion_thresholds": {
+      "discovery": {
+        "cell_fdr_q": 0.05,
+        "family_fdr_q": 0.05,
+        "minimum_effective_n": 30
+      },
+      "graduation": {
+        "confirmation_minimum_effective_n": 50,
+        "maximum_best_episode_profit_share": 0.5,
+        "minimum_positive_time_block_fraction": 0.67,
+        "minimum_time_blocks": 4
+      },
+      "minimum_economic_edge_pips": {
+        "elevated_3_to_5": {
+          "14400": 3.5,
+          "300": 2.0,
+          "3600": 3.0,
+          "86400": 4.0,
+          "900": 2.5
+        },
+        "liquid_le_2": {
+          "14400": 1.5,
+          "300": 0.75,
+          "3600": 1.25,
+          "86400": 2.0,
+          "900": 1.0
+        },
+        "normal_2_to_3": {
+          "14400": 2.0,
+          "300": 1.25,
+          "3600": 1.75,
+          "86400": 2.5,
+          "900": 1.5
+        },
+        "wide_gt_5": {
+          "14400": 7.0,
+          "300": 4.0,
+          "3600": 6.0,
+          "86400": 8.0,
+          "900": 5.0
+        }
+      },
+      "power": {
+        "alpha_one_sided": 0.05,
+        "target_power": 0.8
+      },
+      "sequential": {
+        "alpha": 0.01,
+        "clip_pips_by_max_horizon_sec": {
+          "14400": 120.0,
+          "300": 20.0,
+          "3600": 60.0,
+          "86400": 250.0,
+          "900": 35.0
+        },
+        "method": "alpha_spending_hoeffding_clipped_mean_v1"
+      }
+    },
+    "source_sha256": "sha256:1bca3b3b583dcad31d25af7dff44e005c417e81d2e6392d763ade02f04cb0752",
+    "training_policy": {
+      "horizon_steps": 60,
+      "lookback_max_bars": 512,
+      "mode": "causal_rolling_completed_m1_v1",
+      "per_forecast_cutoff_and_dataset_hash_required": true
+    }
+  },
+  {
+    "cohort_generation_id": "lineage_repair_20260829_v1",
+    "cohort_id": "probabilistic_state_space.20260829.8e91b86317fa23ad",
+    "cohort_start_utc": "2026-08-29T12:36:36.550804+00:00",
+    "cost_model_version": "executable_bid_ask_plus_0.25pip_modeled_slippage_v1",
+    "deduplication_rules": {
+      "episode": "shared_signed_currency_factor_within_horizon",
+      "unit": "family_pair_horizon_session_liquidity"
+    },
+    "dimensions": {
+      "horizon_sec": 3600,
+      "liquidity": [
+        "liquid_le_2",
+        "normal_2_to_3",
+        "elevated_3_to_5",
+        "wide_gt_5"
+      ],
+      "pairs": "all snapshot pairs with >=180 completed M1 observations",
+      "sessions": [
+        "asia",
+        "london",
+        "overlap",
+        "new_york",
+        "rollover"
+      ]
+    },
+    "excludes_untagged_forecasts": true,
+    "family": "probabilistic_state_space",
+    "feature_schema_version": "sha256:3c6c9c58faab1ef46fbc73b93f6e64960047a0ef36646ce1fc9d3ef4b360f71f",
+    "forecast_contract_version": "proof_forecast_contract_v2_cohort_bound",
+    "hyperparameters": {
+      "alpha": 0.08,
+      "history": 256,
+      "model": "local_level_drift_ewma_state_space_v1"
+    },
+    "initial_training_cutoff_utc": "2026-08-29T12:37:32.076524+00:00",
+    "initial_training_dataset_sha256": "sha256:pending_first_prospective_forecast_after_lineage_repair",
+    "material_contract_sha256": "8e91b86317fa23ad43f91ae19af770c4b9fed89e4cfc1fadf42b86277e3e9403",
+    "model_specification": {
+      "alpha": 0.08,
+      "history": 256,
+      "model": "local_level_drift_ewma_state_space_v1"
+    },
+    "pre_governance_forecast_count": 92426,
+    "promotion_thresholds": {
+      "discovery": {
+        "cell_fdr_q": 0.05,
+        "family_fdr_q": 0.05,
+        "minimum_effective_n": 30
+      },
+      "graduation": {
+        "confirmation_minimum_effective_n": 50,
+        "maximum_best_episode_profit_share": 0.5,
+        "minimum_positive_time_block_fraction": 0.67,
+        "minimum_time_blocks": 4
+      },
+      "minimum_economic_edge_pips": {
+        "elevated_3_to_5": {
+          "14400": 3.5,
+          "300": 2.0,
+          "3600": 3.0,
+          "86400": 4.0,
+          "900": 2.5
+        },
+        "liquid_le_2": {
+          "14400": 1.5,
+          "300": 0.75,
+          "3600": 1.25,
+          "86400": 2.0,
+          "900": 1.0
+        },
+        "normal_2_to_3": {
+          "14400": 2.0,
+          "300": 1.25,
+          "3600": 1.75,
+          "86400": 2.5,
+          "900": 1.5
+        },
+        "wide_gt_5": {
+          "14400": 7.0,
+          "300": 4.0,
+          "3600": 6.0,
+          "86400": 8.0,
+          "900": 5.0
+        }
+      },
+      "power": {
+        "alpha_one_sided": 0.05,
+        "target_power": 0.8
+      },
+      "sequential": {
+        "alpha": 0.01,
+        "clip_pips_by_max_horizon_sec": {
+          "14400": 120.0,
+          "300": 20.0,
+          "3600": 60.0,
+          "86400": 250.0,
+          "900": 35.0
+        },
+        "method": "alpha_spending_hoeffding_clipped_mean_v1"
+      }
+    },
+    "source_sha256": "sha256:1bca3b3b583dcad31d25af7dff44e005c417e81d2e6392d763ade02f04cb0752",
+    "training_policy": {
+      "horizon_steps": 60,
+      "lookback_max_bars": 512,
+      "mode": "causal_rolling_completed_m1_v1",
+      "per_forecast_cutoff_and_dataset_hash_required": true
+    }
+  },
+  {
+    "cohort_generation_id": "lineage_repair_20260829_v1",
+    "cohort_id": "ridge_return_repaired.20260829.2c8672a0b00fc5ed",
+    "cohort_start_utc": "2026-08-29T12:36:36.550804+00:00",
+    "cost_model_version": "executable_bid_ask_plus_0.25pip_modeled_slippage_v1",
+    "deduplication_rules": {
+      "episode": "shared_signed_currency_factor_within_horizon",
+      "unit": "family_pair_horizon_session_liquidity"
+    },
+    "dimensions": {
+      "horizon_sec": 3600,
+      "liquidity": [
+        "liquid_le_2",
+        "normal_2_to_3",
+        "elevated_3_to_5",
+        "wide_gt_5"
+      ],
+      "pairs": "all snapshot pairs with >=180 completed M1 observations",
+      "sessions": [
+        "asia",
+        "london",
+        "overlap",
+        "new_york",
+        "rollover"
+      ]
+    },
+    "excludes_untagged_forecasts": true,
+    "family": "ridge_return_repaired",
+    "feature_schema_version": "sha256:3c6c9c58faab1ef46fbc73b93f6e64960047a0ef36646ce1fc9d3ef4b360f71f",
+    "forecast_contract_version": "proof_forecast_contract_v2_cohort_bound",
+    "hyperparameters": {
+      "alpha": 10.0,
+      "model": "per_pair_standardized_ridge",
+      "stride": 3
+    },
+    "initial_training_cutoff_utc": "2026-08-29T12:37:32.076524+00:00",
+    "initial_training_dataset_sha256": "sha256:pending_first_prospective_forecast_after_lineage_repair",
+    "material_contract_sha256": "2c8672a0b00fc5ed84e8d3756f7f1d025477925eddc9188b6cecc6c9f6463f4a",
+    "model_specification": {
+      "alpha": 10.0,
+      "model": "per_pair_standardized_ridge",
+      "stride": 3
+    },
+    "pre_governance_forecast_count": 92426,
+    "promotion_thresholds": {
+      "discovery": {
+        "cell_fdr_q": 0.05,
+        "family_fdr_q": 0.05,
+        "minimum_effective_n": 30
+      },
+      "graduation": {
+        "confirmation_minimum_effective_n": 50,
+        "maximum_best_episode_profit_share": 0.5,
+        "minimum_positive_time_block_fraction": 0.67,
+        "minimum_time_blocks": 4
+      },
+      "minimum_economic_edge_pips": {
+        "elevated_3_to_5": {
+          "14400": 3.5,
+          "300": 2.0,
+          "3600": 3.0,
+          "86400": 4.0,
+          "900": 2.5
+        },
+        "liquid_le_2": {
+          "14400": 1.5,
+          "300": 0.75,
+          "3600": 1.25,
+          "86400": 2.0,
+          "900": 1.0
+        },
+        "normal_2_to_3": {
+          "14400": 2.0,
+          "300": 1.25,
+          "3600": 1.75,
+          "86400": 2.5,
+          "900": 1.5
+        },
+        "wide_gt_5": {
+          "14400": 7.0,
+          "300": 4.0,
+          "3600": 6.0,
+          "86400": 8.0,
+          "900": 5.0
+        }
+      },
+      "power": {
+        "alpha_one_sided": 0.05,
+        "target_power": 0.8
+      },
+      "sequential": {
+        "alpha": 0.01,
+        "clip_pips_by_max_horizon_sec": {
+          "14400": 120.0,
+          "300": 20.0,
+          "3600": 60.0,
+          "86400": 250.0,
+          "900": 35.0
+        },
+        "method": "alpha_spending_hoeffding_clipped_mean_v1"
+      }
+    },
+    "source_sha256": "sha256:1bca3b3b583dcad31d25af7dff44e005c417e81d2e6392d763ade02f04cb0752",
+    "training_policy": {
+      "horizon_steps": 60,
+      "lookback_max_bars": 512,
+      "mode": "causal_rolling_completed_m1_v1",
+      "per_forecast_cutoff_and_dataset_hash_required": true
+    }
+  }
+]

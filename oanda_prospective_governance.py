@@ -373,12 +373,22 @@ def initialize_governance_tables(connection: sqlite3.Connection) -> None:
     )
 
 
+def candidate_definition(cell: dict[str, Any]) -> dict[str, Any]:
+    """Complete frozen identity used by both discovery and registration."""
+    return {key: cell.get(key) for key in (
+        "cell_id", "family", "instrument", "horizon_sec", "session",
+        "liquidity_bucket", "cohort_id", "minimum_economic_edge_pips",
+        "sequential_method", "sequential_clip_bound_pips",
+    )}
+
+
 def lock_discovery_candidate(
     evidence_database: Path,
     *,
     governance_sha256: str,
     cell: dict[str, Any],
     locked_utc: str | None = None,
+    observed_utc: str | None = None,
 ) -> str:
     """Immutably lock a selected discovery cell for a later cohort."""
 
@@ -386,7 +396,7 @@ def lock_discovery_candidate(
     try:
         initialize_governance_tables(connection)
         snapshot = connection.execute(
-            "SELECT inference_json FROM immutable_governance_snapshots WHERE governance_sha256=?",
+            "SELECT inference_json,first_generated_utc FROM immutable_governance_snapshots WHERE governance_sha256=?",
             (governance_sha256,),
         ).fetchone()
         if not snapshot:
@@ -399,15 +409,23 @@ def lock_discovery_candidate(
         )
         if str(cell.get("cell_id")) not in {str(value) for value in candidates}:
             raise ValueError("cell did not pass the frozen discovery snapshot")
-        definition = {
-            key: cell.get(key)
-            for key in (
-                "cell_id", "family", "instrument", "horizon_sec", "session",
-                "liquidity_bucket", "minimum_economic_edge_pips",
-                "sequential_method", "sequential_clip_bound_pips",
-            )
-        }
-        when = str(locked_utc or utc_now())
+        definition = candidate_definition(cell)
+        frozen = (inference.get("candidate_definitions") or {}).get(str(cell["cell_id"]))
+        if frozen is None or definition != frozen:
+            raise ValueError("candidate definition does not match frozen discovery evidence")
+        if not definition.get("sequential_method") or finite(definition.get("sequential_clip_bound_pips")) <= 0.0:
+            raise ValueError("candidate sequential evidence contract is incomplete")
+        # observed_utc is an explicit offline-fixture clock seam. A supplied
+        # lock claim cannot differ from the actual registration observation.
+        when = str(observed_utc or utc_now())
+        observed_time = datetime.fromisoformat(when.replace("Z", "+00:00"))
+        snapshot_time = datetime.fromisoformat(str(snapshot[1]).replace("Z", "+00:00"))
+        if observed_time.tzinfo is None or snapshot_time.tzinfo is None:
+            raise ValueError("registration and discovery clocks must be timezone-aware")
+        if observed_time < snapshot_time:
+            raise ValueError("candidate lock cannot precede the frozen discovery snapshot")
+        if locked_utc is not None and datetime.fromisoformat(str(locked_utc).replace("Z", "+00:00")) != observed_time:
+            raise ValueError("candidate lock must equal observed registration time")
         lock_id = "candidate_lock_" + stable_hash(
             {"governance": governance_sha256, "definition": definition, "locked_utc": when}
         )[:24]
@@ -437,6 +455,7 @@ def open_confirmation_cohort(
     *,
     candidate_lock_id: str,
     start_utc: str,
+    observed_utc: str | None = None,
 ) -> str:
     """Open a later untouched cohort; never backdate it into discovery evidence."""
 
@@ -451,6 +470,11 @@ def open_confirmation_cohort(
             raise ValueError("unknown candidate lock")
         locked_time = datetime.fromisoformat(str(locked[0]).replace("Z", "+00:00"))
         start_time = datetime.fromisoformat(str(start_utc).replace("Z", "+00:00"))
+        observed_time = datetime.fromisoformat(str(observed_utc or utc_now()).replace("Z", "+00:00"))
+        if any(value.tzinfo is None for value in (locked_time, start_time, observed_time)):
+            raise ValueError("confirmation clocks must be timezone-aware")
+        if observed_time < locked_time or start_time < observed_time:
+            raise ValueError("confirmation must be registered before its untouched sample starts")
         if start_time <= locked_time:
             raise ValueError("confirmation must start strictly after candidate lock")
         cohort_id = "confirmation_" + stable_hash(
@@ -568,6 +592,11 @@ def build_governance(
         "evidence_census": census,
         "proof_cohorts": cohorts,
         "graduation_ladder": ladder,
+        "candidate_definitions": {
+            str(row["cell_id"]): candidate_definition(row)
+            for row in cells
+            if row.get("graduation_stage") == "B_discovery_candidate"
+        },
         "stress_contract": {
             "recorded_executable_costs": True,
             "moderate_and_severe_cost_shocks": True,
@@ -584,6 +613,7 @@ def build_governance(
         "evidence_census": census,
         "proof_cohorts": cohorts,
         "graduation_ladder": ladder,
+        "candidate_definitions": inference["candidate_definitions"],
     }
     inference["governance_sha256"] = stable_hash(fingerprint_payload)
     connection = sqlite3.connect(evidence_database, timeout=30.0)

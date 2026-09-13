@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import math
 import sqlite3
 import statistics
@@ -24,6 +25,8 @@ except ModuleNotFoundError:
     from trad.oanda_intrahour_forecast_contract import is_execution_only_feature
     from trad.oanda_strategy_archetypes import strategy_archetype
 
+
+FUZZY_VALIDATION_CONTRACT = 'fuzzy_selection_frozen_actual_maturity_v4'
 
 def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
@@ -452,6 +455,30 @@ class SignalCombinationStore:
         self.connection.close()
 
 
+FUZZY_READER_CLOCK_CONTRACT = 'explicit_artifact_generation_freshness_v1_20260912'
+
+
+def model_generation_clock(value: Any, now: float) -> tuple[float, float | None, str]:
+    """Return true age/epoch/reason; no inferred zone or future-age clamp."""
+    if not math.isfinite(now) or now <= 0:
+        return math.inf, None, 'invalid_reader_wall_clock'
+    if value is None or value == '':
+        return math.inf, None, 'missing_model_generation_time'
+    if not isinstance(value, str) or not value.strip():
+        return math.inf, None, 'invalid_model_generation_time'
+    try:
+        parsed = datetime.fromisoformat(value.strip().replace('Z', '+00:00'))
+        if parsed.tzinfo is None or parsed.utcoffset() is None:
+            return math.inf, None, 'model_generation_timezone_required'
+        generated = parsed.timestamp()
+        if not math.isfinite(generated) or generated <= 0:
+            return math.inf, None, 'invalid_model_generation_time'
+    except (ValueError, TypeError, OverflowError, OSError):
+        return math.inf, None, 'invalid_model_generation_time'
+    age = now - generated
+    return age, generated, 'model_generation_is_future' if age < 0 else ''
+
+
 class SignalCombinationModel:
     """Hot-reload validated fuzzy rules and score the current market vector."""
 
@@ -470,60 +497,94 @@ class SignalCombinationModel:
                 if Path(path) != self.state_path
             ],
         ]
+        if maximum_state_age_sec is not None and (
+            isinstance(maximum_state_age_sec, bool) or not math.isfinite(float(maximum_state_age_sec))
+        ):
+            raise ValueError('finite_maximum_model_age_required')
         self.maximum_state_age_sec = (
             None
             if maximum_state_age_sec is None
             else max(1.0, float(maximum_state_age_sec))
         )
-        self.modified_signature: tuple[tuple[str, int], ...] = ()
+        self.modified_signature: tuple[tuple[str, int, int, int], ...] = ()
         self.state: dict[str, Any] = {}
         self._reload()
 
     def _reload(self) -> None:
-        signature: list[tuple[str, int]] = []
+        read_started = time.time()
+        signature = []
         for path in self.state_paths:
             try:
-                modified = path.stat().st_mtime_ns
+                stat = path.stat()
+                value = (str(path), stat.st_mtime_ns, stat.st_size, stat.st_ino)
             except OSError:
-                modified = -1
-            signature.append((str(path), modified))
-        if self.maximum_state_age_sec is not None:
-            # Re-evaluate a static artifact as wall-clock freshness changes,
-            # without reparsing it on every strategy-lab scan.
-            signature.append(("__freshness_hour__", int(time.time() // 3600)))
+                value = (str(path), -1, -1, -1)
+            signature.append(value)
         frozen_signature = tuple(signature)
-        if frozen_signature == self.modified_signature:
-            return
-        sources: list[dict[str, Any]] = []
-        for path in self.state_paths:
-            try:
-                payload = json.loads(path.read_text(encoding="utf-8"))
-            except (OSError, json.JSONDecodeError):
-                continue
-            if isinstance(payload, dict):
-                sources.append({"path": path, "payload": payload})
-        if not sources:
-            return
+        if frozen_signature != self.modified_signature or getattr(self, '_retry_source_reads', False):
+            self._cached_sources = []
+            self._retry_source_reads = False
+            # A failed replacement must never leave previously admitted rules.
+            self.state = {'generated_at': '', 'rules': [], 'sources': []}
+            for path in self.state_paths:
+                payload = None
+                read_reason = ''
+                try:
+                    payload = json.loads(path.read_text(encoding='utf-8'))
+                    if not isinstance(payload, dict):
+                        payload = None
+                        read_reason = 'model_state_mapping_required'
+                except FileNotFoundError:
+                    read_reason = 'model_state_source_missing'
+                except OSError:
+                    read_reason = 'model_state_source_unreadable'
+                    self._retry_source_reads = True
+                except (ValueError, UnicodeError):
+                    read_reason = 'model_state_source_invalid_json'
+                self._cached_sources.append({'path': path, 'payload': payload, 'read_reason': read_reason})
+        now = time.time()
+        prior_highwater = getattr(self, '_reader_wall_highwater', 0.0)
+        observed = [value for value in (read_started, now) if isinstance(value, (int, float)) and math.isfinite(value) and value > 0]
+        reader_clock_reason = (
+            'invalid_reader_wall_clock' if len(observed) != 2
+            else 'reader_wall_clock_rollback' if min(observed) < prior_highwater or now < read_started
+            else ''
+        )
+        self._reader_wall_highwater = max([prior_highwater, *observed])
+        cached = getattr(self, '_cached_sources', [])
+        sources = [dict(row) for row in cached if isinstance(row['payload'], dict)]
+        unavailable_sources = [
+            {'path': str(row['path']), 'generated_at': None, 'rule_count': 0,
+             'age_sec': None, 'fresh': False, 'contract_valid': None, 'clock_valid': False,
+             'retirement_reason': row['read_reason'], 'reader_clock_contract': FUZZY_READER_CLOCK_CONTRACT}
+            for row in cached if row['payload'] is None
+        ]
         multiple_sources = len(self.state_paths) > 1
         rules: list[dict[str, Any]] = []
         for source in sources:
             path = source["path"]
             payload = source["payload"]
-            generated_text = str(payload.get("generated_at") or "").strip()
-            try:
-                generated_at = datetime.fromisoformat(
-                    generated_text.replace("Z", "+00:00")
-                )
-                if generated_at.tzinfo is None:
-                    generated_at = generated_at.replace(tzinfo=timezone.utc)
-                source_age_sec = max(
-                    0.0,
-                    time.time() - generated_at.timestamp(),
-                )
-            except ValueError:
-                source_age_sec = math.inf
-            source["age_sec"] = source_age_sec
-            source["fresh"] = bool(
+            source_age_sec, generated_epoch, clock_reason = model_generation_clock(payload.get('generated_at'), now)
+            clock_reason = reader_clock_reason or clock_reason
+            source['age_sec'] = source_age_sec
+            source['generated_epoch'] = generated_epoch
+            source['clock_valid'] = not bool(clock_reason)
+            source['clock_reason'] = clock_reason
+            # A rule cannot self-certify a v4 artifact, nor inherit a legacy
+            # qualification merely because the outer schema number is four.
+            raw_rules = payload.get("rules") or []
+            shape_valid = isinstance(raw_rules, list) and isinstance(payload.get('search_config') or {}, dict)
+            rule_contract_rows = raw_rules if isinstance(raw_rules, list) else []
+            requests_v4 = (payload.get("schema_version") == 4
+                or payload.get("validation_contract") == FUZZY_VALIDATION_CONTRACT
+                or any(isinstance(rule, dict) and rule.get("validation_contract") == FUZZY_VALIDATION_CONTRACT for rule in rule_contract_rows))
+            contract_valid = shape_valid and (not requests_v4 or (
+                payload.get("schema_version") == 4
+                and payload.get("validation_contract") == FUZZY_VALIDATION_CONTRACT
+                and isinstance(raw_rules, list)
+                and all(isinstance(rule, dict) and rule.get("validation_contract") == FUZZY_VALIDATION_CONTRACT for rule in raw_rules)))
+            source["contract_valid"] = contract_valid
+            source["fresh"] = contract_valid and source['clock_valid'] and bool(
                 self.maximum_state_age_sec is None
                 or source_age_sec <= self.maximum_state_age_sec
             )
@@ -544,14 +605,17 @@ class SignalCombinationModel:
                 if not isinstance(raw_rule, dict):
                     continue
                 rule = dict(raw_rule)
-                forward_confirmed = bool(rule.get("forward_refit_confirmed"))
+                rule['model_generated_at'] = payload.get('generated_at')
+                v4 = rule.get("validation_contract") == FUZZY_VALIDATION_CONTRACT
+                forward_confirmed = bool(rule.get("forward_refit_confirmed")) and not v4
                 validation_policy_eligible = bool(
                     current_validation_schema and forward_confirmed
                 )
                 if not validation_policy_eligible:
                     rule["account_eligible"] = False
                     rule["validation_policy_reason"] = (
-                        "awaiting_forward_refit_confirmation"
+                        "fuzzy_v4_requires_independent_forward_evidence"
+                        if v4 else "awaiting_forward_refit_confirmation"
                         if current_validation_schema
                         else "legacy_combination_validation_schema"
                     )
@@ -564,27 +628,37 @@ class SignalCombinationModel:
                 if multiple_sources:
                     rule["rule_id"] = f"{path.stem}:{original_id}"
                 rules.append(rule)
-        generated = [str(source["payload"].get("generated_at") or "") for source in sources]
+        fresh_sources = [source for source in sources if source['fresh']]
+        newest_source = max(fresh_sources, key=lambda source: source['generated_epoch'], default=None)
         self.state = {
-            "generated_at": max(generated, default=""),
+            "generated_at": newest_source['payload']['generated_at'] if newest_source else '',
+            "reader_clock_contract": FUZZY_READER_CLOCK_CONTRACT,
+            "reader_clock_reason": reader_clock_reason,
+            "reader_assessed_epoch": now if isinstance(now, (int, float)) and math.isfinite(now) else None,
             "rules": rules,
             "sources": [
                 {
                     "path": str(source["path"]),
                     "generated_at": source["payload"].get("generated_at"),
-                    "rule_count": len(source["payload"].get("rules") or []),
+                    "rule_count": (len(source["payload"].get("rules") or [])
+                        if isinstance(source["payload"].get("rules") or [], list) else None),
                     "age_sec": (
                         round(float(source["age_sec"]), 3)
                         if math.isfinite(float(source["age_sec"]))
                         else None
                     ),
                     "fresh": bool(source["fresh"]),
+                    "contract_valid": bool(source["contract_valid"]),
+                    "clock_valid": bool(source['clock_valid']),
+                    "reader_clock_contract": FUZZY_READER_CLOCK_CONTRACT,
                     "retirement_reason": (
-                        "" if source["fresh"] else "stale_model_state"
+                        "invalid_fuzzy_v4_artifact_or_rule_contract" if not source["contract_valid"]
+                        else source['clock_reason'] if not source['clock_valid']
+                        else "" if source["fresh"] else "stale_model_state"
                     ),
                 }
                 for source in sources
-            ],
+            ] + unavailable_sources,
         }
         self.modified_signature = frozen_signature
 
@@ -595,12 +669,13 @@ class SignalCombinationModel:
             memberships: list[float] = []
             for condition in rule.get("conditions") or []:
                 feature = str(condition.get("feature") or "")
-                if feature not in vector:
+                value = finite(vector.get(feature), math.nan)
+                if feature not in vector or not math.isfinite(value):
                     memberships = []
                     break
                 memberships.append(
                     fuzzy_membership(
-                        vector[feature],
+                        value,
                         str(condition.get("operator") or ">="),
                         finite(condition.get("threshold")),
                         finite(condition.get("width"), 1.0),
@@ -609,14 +684,19 @@ class SignalCombinationModel:
             if not memberships:
                 continue
             membership = min(memberships)
-            holdout = rule.get("holdout") or {}
+            v4 = rule.get("validation_contract") == FUZZY_VALIDATION_CONTRACT
+            holdout = (rule.get("selection_calibration") or {}) if v4 else (rule.get("holdout") or {})
             lower_edge = finite(holdout.get("lower_probability_edge"))
             support = finite(holdout.get("weighted_support"))
             score = membership * max(0.0, lower_edge) * math.log1p(max(0.0, support))
             scored.append(
                 {
                     "ready": True,
-                    "model_generated_at": self.state.get("generated_at"),
+                    "validation_contract": rule.get("validation_contract") or "legacy_pre_v4",
+                    "calibration_split": "selection" if v4 else "legacy_holdout",
+                    "legacy_holdout_fields_are_selection_aliases": v4,
+                    "model_generated_at": rule.get('model_generated_at'),
+                    "reader_clock_contract": FUZZY_READER_CLOCK_CONTRACT,
                     "rule_id": rule.get("rule_id"),
                     "rule_source": rule.get("rule_source"),
                     "original_rule_id": rule.get("original_rule_id"),
@@ -652,7 +732,13 @@ class SignalCombinationModel:
             return {
                 "ready": False,
                 "reason": (
-                    "stale_combination_model_state"
+                    "invalid_combination_model_contract"
+                    if any(row.get("contract_valid") is False for row in self.state.get("sources") or [])
+                    else "unavailable_combination_model_source"
+                    if any(row.get('contract_valid') is None for row in self.state.get('sources') or [])
+                    else "unavailable_combination_model_clock"
+                    if any(row.get('clock_valid') is False for row in self.state.get('sources') or [])
+                    else "stale_combination_model_state"
                     if any(
                         not bool(row.get("fresh", True))
                         for row in self.state.get("sources") or []
@@ -660,6 +746,7 @@ class SignalCombinationModel:
                     else "no_validated_rule"
                 ),
                 "rules_available": len(self.state.get("rules") or []),
+                "reader_clock_contract": FUZZY_READER_CLOCK_CONTRACT,
             }
         scored.sort(key=lambda item: (finite(item.get("score")), finite(item.get("membership"))), reverse=True)
         best = dict(scored[0])
@@ -672,12 +759,12 @@ def read_training_rows(
     horizon_sec: int,
     max_rows: int,
 ) -> list[dict[str, Any]]:
-    connection = sqlite3.connect(Path(database_path), timeout=30.0)
+    connection = sqlite3.connect(Path(database_path).resolve().as_uri() + "?mode=ro", uri=True, timeout=30.0)
     connection.execute("PRAGMA query_only=ON")
     cursor = connection.execute(
         """
         SELECT o.row_id, s.instrument, s.origin_time, s.features_zlib,
-               o.signed_move_pips, o.long_net_pips, o.short_net_pips
+               o.signed_move_pips, o.long_net_pips, o.short_net_pips, o.outcome_time, s.snapshot_id
         FROM outcomes o
         JOIN snapshots s ON s.snapshot_id = o.snapshot_id
         WHERE o.horizon_sec = ?
@@ -687,7 +774,7 @@ def read_training_rows(
         (int(horizon_sec), int(max_rows)),
     )
     rows: list[dict[str, Any]] = []
-    for row_id, instrument, origin_time, payload, signed_move, long_net, short_net in reversed(cursor.fetchall()):
+    for row_id, instrument, origin_time, payload, signed_move, long_net, short_net, outcome_time, snapshot_id in reversed(cursor.fetchall()):
         try:
             features = json.loads(zlib.decompress(payload).decode("utf-8"))
         except (TypeError, ValueError, zlib.error, json.JSONDecodeError):
@@ -697,10 +784,12 @@ def read_training_rows(
                 "row_id": row_id,
                 "instrument": instrument,
                 "origin_time": origin_time,
+                "outcome_time": outcome_time,
+                "snapshot_id": snapshot_id,
                 "features": features,
-                "signed_move_pips": finite(signed_move),
-                "long_net_pips": finite(long_net),
-                "short_net_pips": finite(short_net),
+                "signed_move_pips": signed_move,
+                "long_net_pips": long_net,
+                "short_net_pips": short_net,
             }
         )
     connection.close()
@@ -752,17 +841,21 @@ def _weighted_rule_metrics(
     }
 
 
+
+
+
 def _origin_epoch(value: Any) -> float | None:
     text = str(value or "").strip()
     if not text:
         return None
     try:
         parsed = datetime.fromisoformat(text.replace("Z", "+00:00"))
-    except ValueError:
+        if parsed.tzinfo is None or parsed.utcoffset() is None:
+            return None
+        epoch = parsed.timestamp()
+    except (ValueError, TypeError, OverflowError, OSError):
         return None
-    if parsed.tzinfo is None:
-        parsed = parsed.replace(tzinfo=timezone.utc)
-    return parsed.timestamp()
+    return epoch if math.isfinite(epoch) else None
 
 
 def chronological_partitions(
@@ -770,111 +863,96 @@ def chronological_partitions(
     horizon_sec: int,
     validation_blocks: int,
     train_fraction: float = 0.70,
+    *,
+    as_of_utc: str | None = None,
 ) -> tuple[list[dict[str, Any]], slice, slice, slice, dict[str, Any]]:
-    """Return timestamp-aligned, horizon-purged chronological partitions."""
-
+    """Three disjoint origin blocks, purged by actual label maturity; no fallback."""
+    if validation_blocks != 2:
+        raise ValueError("fuzzy_v4_requires_separate_selection_and_final_holdout")
+    if isinstance(horizon_sec, bool) or not isinstance(horizon_sec, (int, np.integer)) or horizon_sec <= 0:
+        raise ValueError("horizon_sec must be a positive integer")
     if not 0.5 <= float(train_fraction) < 0.95:
         raise ValueError("train_fraction must be in [0.5, 0.95)")
-    ordered = list(rows)
-    parsed = [_origin_epoch(row.get("origin_time")) for row in ordered]
-    timestamp_aligned = bool(parsed and all(value is not None for value in parsed))
-    if timestamp_aligned:
-        ordered = [
-            row
-            for _, row in sorted(
-                zip((float(value) for value in parsed), ordered),
-                key=lambda item: (
-                    item[0],
-                    int(finite(item[1].get("row_id"))),
-                ),
-            )
-        ]
-        epochs = [float(_origin_epoch(row.get("origin_time")) or 0.0) for row in ordered]
-        unique_epochs = sorted(set(epochs))
-        timestamp_aligned = len(unique_epochs) >= 3
-    else:
-        epochs = []
-        unique_epochs = []
+    as_of_text = utc_now() if as_of_utc is None else as_of_utc
+    as_of = _origin_epoch(as_of_text)
+    if as_of is None:
+        raise ValueError("as_of_utc must be an aware finite ISO-8601 timestamp")
+    timed = []
+    for row in rows:
+        origin = _origin_epoch(row.get("origin_time"))
+        maturity = _origin_epoch(row.get("outcome_time"))
+        if origin is None or maturity is None:
+            raise ValueError("fuzzy_v4_missing_or_invalid_aware_origin_or_outcome_time")
+        if maturity < origin + int(horizon_sec):
+            raise ValueError("fuzzy_v4_outcome_before_nominal_target")
+        if maturity > as_of:
+            raise ValueError("fuzzy_v4_outcome_after_as_of")
+        for field in ("signed_move_pips", "long_net_pips", "short_net_pips"):
+            value = row.get(field)
+            if isinstance(value, bool) or not math.isfinite(finite(value, math.nan)):
+                raise ValueError("fuzzy_v4_invalid_outcome_value:" + field)
+        timed.append((origin, maturity, row))
+    timed.sort(key=lambda item: (item[0], int(finite(item[2].get("row_id"))), str(item[2].get("instrument") or "")))
+    clocks = sorted({item[0] for item in timed})
+    if len(clocks) < 3:
+        raise ValueError("fuzzy_v4_insufficient_distinct_origin_clocks")
+    selection_index = max(1, min(len(clocks) - 2, int(len(clocks) * float(train_fraction))))
+    holdout_index = max(selection_index + 1, min(len(clocks) - 1, int(len(clocks) * (float(train_fraction) + (1.0 - float(train_fraction)) / 2.0))))
+    selection_epoch, holdout_epoch = clocks[selection_index], clocks[holdout_index]
+    train_all = [item for item in timed if item[0] < selection_epoch]
+    selection_all = [item for item in timed if selection_epoch <= item[0] < holdout_epoch]
+    train = [item[2] for item in train_all if item[1] < selection_epoch]
+    selection = [item[2] for item in selection_all if item[1] < holdout_epoch]
+    holdout = [item[2] for item in timed if item[0] >= holdout_epoch]
+    if not train or not selection or not holdout:
+        raise ValueError("fuzzy_v4_empty_partition_after_actual_maturity_purge")
+    ordered = [*train, *selection, *holdout]
+    train_end, selection_end = len(train), len(train) + len(selection)
+    return ordered, slice(0, train_end), slice(train_end, selection_end), slice(selection_end, len(ordered)), {
+        "validation_contract": FUZZY_VALIDATION_CONTRACT,
+        "timestamp_aligned": True,
+        "actual_maturity_purged": True,
+        "purge_comparison": "outcome_time strictly before next origin block",
+        "purge_sec": int(horizon_sec),
+        "nominal_horizon_is_minimum_maturity_only": True,
+        "train_fraction": float(train_fraction),
+        "input_rows": len(rows),
+        "retained_rows": len(ordered),
+        "train_rows": len(train), "selection_rows": len(selection), "holdout_rows": len(holdout),
+        "train_rows_purged": len(train_all) - len(train),
+        "selection_rows_purged": len(selection_all) - len(selection),
+        "selection_start_epoch": selection_epoch,
+        "holdout_start_epoch": holdout_epoch,
+        "as_of_utc": datetime.fromtimestamp(as_of, timezone.utc).isoformat(),
+        "train_row_ids": [r.get("row_id") for r in train],
+        "selection_row_ids": [r.get("row_id") for r in selection],
+        "holdout_row_ids": [r.get("row_id") for r in holdout],
+    }
 
-    if timestamp_aligned:
-        selection_epoch_index = max(
-            1,
-            min(
-                len(unique_epochs) - 2,
-                int(len(unique_epochs) * float(train_fraction)),
-            ),
-        )
-        selection_epoch = unique_epochs[selection_epoch_index]
-        selection_start = bisect_left(epochs, selection_epoch)
-        train_end = bisect_left(epochs, selection_epoch - max(0, int(horizon_sec)))
-        if validation_blocks == 1:
-            selection_end = len(ordered)
-            holdout_start = selection_start
-            holdout_epoch = selection_epoch
-        else:
-            holdout_epoch_index = max(
-                selection_epoch_index + 1,
-                min(
-                    len(unique_epochs) - 1,
-                    int(
-                        len(unique_epochs)
-                        * (float(train_fraction) + (1.0 - float(train_fraction)) / 2.0)
-                    ),
-                ),
-            )
-            holdout_epoch = unique_epochs[holdout_epoch_index]
-            holdout_start = bisect_left(epochs, holdout_epoch)
-            selection_end = bisect_left(
-                epochs,
-                holdout_epoch - max(0, int(horizon_sec)),
-            )
-        if train_end > 0 and selection_end > selection_start and holdout_start < len(ordered):
-            return (
-                ordered,
-                slice(0, train_end),
-                slice(selection_start, selection_end),
-                slice(holdout_start, len(ordered)),
-                {
-                    "timestamp_aligned": True,
-                    "purge_sec": max(0, int(horizon_sec)),
-                    "train_fraction": float(train_fraction),
-                    "train_rows": train_end,
-                    "selection_rows": selection_end - selection_start,
-                    "holdout_rows": len(ordered) - holdout_start,
-                    "selection_start_epoch": selection_epoch,
-                    "holdout_start_epoch": holdout_epoch,
-                },
-            )
 
-    split = max(
-        1,
-        min(len(ordered) - 1, int(len(ordered) * float(train_fraction))),
-    )
-    if validation_blocks == 1:
-        selection_start = split
-        selection_end = len(ordered)
-        holdout_start = split
-    else:
-        selection_start = split
-        selection_end = max(
-            split + 1,
-            min(len(ordered) - 1, split + (len(ordered) - split) // 2),
-        )
-        holdout_start = selection_end
-    return (
-        ordered,
-        slice(0, split),
-        slice(selection_start, selection_end),
-        slice(holdout_start, len(ordered)),
-        {
-            "timestamp_aligned": False,
-            "purge_sec": 0,
-            "train_fraction": float(train_fraction),
-            "train_rows": split,
-            "selection_rows": selection_end - selection_start,
-            "holdout_rows": len(ordered) - holdout_start,
-        },
-    )
+def _evaluate_frozen_rule(
+    membership: np.ndarray,
+    signed_move: np.ndarray,
+    long_net: np.ndarray,
+    short_net: np.ndarray,
+    calibration: dict[str, Any],
+) -> dict[str, Any]:
+    """Report unseen outcomes using already frozen direction and probability."""
+    weights = np.clip(np.asarray(membership, dtype=float), 0.0, 1.0)
+    support = float(np.sum(weights))
+    direction = str(calibration["predicted_direction"])
+    probability = float(calibration["probability_up"])
+    result = {"report_only": True, "n": int(np.sum(weights >= 0.5)), "weighted_support": round(support, 3),
+              "frozen_direction": direction, "frozen_probability_up": probability}
+    if support <= 1e-9:
+        return {**result, "direction_accuracy": None, "brier": None, "average_net_pips": None, "average_signed_move_pips": None}
+    actual_up = signed_move > 0.0
+    payoff = long_net if direction == "buy" else short_net
+    return {**result,
+            "direction_accuracy": round(float(np.dot(weights, actual_up == (direction == "buy")) / support), 6),
+            "brier": round(float(np.dot(weights, np.square(actual_up.astype(float) - probability)) / support), 6),
+            "average_net_pips": round(float(np.dot(weights, payoff) / support), 4),
+            "average_signed_move_pips": round(float(np.dot(weights, signed_move) / support), 4)}
 
 
 def _rule_independence_audit(
@@ -972,18 +1050,11 @@ def mine_fuzzy_rules(
     minimum_positive_instrument_fraction: float = 0.60,
     maximum_instrument_weight_fraction: float = 0.50,
     chronological_validation_blocks: int = 2,
+    as_of_utc: str | None = None,
 ) -> list[dict[str, Any]]:
-    """Mine fuzzy interactions with independent chronological validation.
-
-    Candidate discovery always uses the oldest 70% of observations.  The
-    remaining observations are split into selection and final holdout blocks
-    by default.  A rule must reproduce its direction and positive net edge in
-    both blocks before it can be published.  ``chronological_validation_blocks
-    = 1`` preserves the legacy single-holdout behavior for comparison tools.
-    """
-
-    if chronological_validation_blocks not in {1, 2}:
-        raise ValueError("chronological_validation_blocks must be 1 or 2")
+    """Learn on train/selection, freeze rules, and report untouched holdout only."""
+    if chronological_validation_blocks != 2:
+        raise ValueError("fuzzy_v4_requires_separate_selection_and_final_holdout")
     validation_support = (
         int(minimum_holdout_support)
         if chronological_validation_blocks == 1
@@ -1004,6 +1075,7 @@ def mine_fuzzy_rules(
             rows,
             horizon_sec,
             chronological_validation_blocks,
+            as_of_utc=as_of_utc,
         )
     )
     selection_start = int(selection_slice.start or 0)
@@ -1012,7 +1084,7 @@ def mine_fuzzy_rules(
     feature_names = sorted(
         {
             str(name)
-            for row in rows
+            for row in rows[train_slice]
             for name, value in (row.get("features") or {}).items()
             if math.isfinite(finite(value, math.nan))
         }
@@ -1058,8 +1130,11 @@ def mine_fuzzy_rules(
             if level_key in seen_levels:
                 continue
             seen_levels.add(level_key)
+            # Every fitted/scored membership uses the exact published numbers.
+            threshold = round(threshold, 8)
+            published_width = round(width, 8)
             condition_id = f"{name}|{operator}|{threshold:.10g}"
-            membership = _condition_membership(matrix[:, index], operator, threshold, width)
+            membership = _condition_membership(matrix[:, index], operator, threshold, published_width)
             metrics = _weighted_rule_metrics(
                 membership[train_slice],
                 signed_move[train_slice],
@@ -1075,7 +1150,7 @@ def mine_fuzzy_rules(
                 "feature": name,
                 "operator": operator,
                 "threshold": round(threshold, 8),
-                "width": round(width, 8),
+                "width": published_width,
                 "label": label,
                 "training": metrics,
                 "score": score,
@@ -1179,215 +1254,84 @@ def mine_fuzzy_rules(
         layer.sort(key=lambda item: item["training_score"], reverse=True)
         layers[depth] = layer
 
+    # Freeze the selection-only rule set BEFORE calculating final-holdout results.
     audited: list[dict[str, Any]] = []
     audit_per_depth = max(40, max_rules * 2)
-    audit_candidates = [
-        candidate
-        for depth in sorted(layers)
-        for candidate in layers[depth][:audit_per_depth]
-    ]
+    audit_candidates = [candidate for depth in sorted(layers) for candidate in layers[depth][:audit_per_depth]]
     for candidate in audit_candidates:
-        selection_metrics = _weighted_rule_metrics(
-            candidate["membership"][selection_slice],
-            signed_move[selection_slice],
-            long_net[selection_slice],
-            short_net[selection_slice],
-        )
-        if selection_metrics["weighted_support"] < validation_support:
+        calibration = _weighted_rule_metrics(
+            candidate["membership"][selection_slice], signed_move[selection_slice],
+            long_net[selection_slice], short_net[selection_slice])
+        if calibration["weighted_support"] < validation_support:
             continue
-        if (
-            selection_metrics["lower_probability_edge"] <= 0.0
-            or selection_metrics["expected_net_pips"] <= 0.0
-        ):
+        if calibration["lower_probability_edge"] <= 0.0 or calibration["expected_net_pips"] <= 0.0:
             continue
-        if (
-            selection_metrics["predicted_direction"]
-            != candidate["training"]["predicted_direction"]
-        ):
+        if calibration["predicted_direction"] != candidate["training"]["predicted_direction"]:
             continue
-        selection_trade_values = (
-            long_net
-            if selection_metrics["predicted_direction"] == "buy"
-            else short_net
-        )
-        selection_independence = _rule_independence_audit(
-            rows[selection_start:selection_end],
-            candidate["membership"][selection_slice],
-            selection_trade_values[selection_slice],
-            horizon_sec,
-        )
-        final_holdout_metrics = _weighted_rule_metrics(
-            candidate["membership"][holdout_slice],
-            signed_move[holdout_slice],
-            long_net[holdout_slice],
-            short_net[holdout_slice],
-        )
-        if final_holdout_metrics["weighted_support"] < validation_support:
-            continue
-        if (
-            final_holdout_metrics["lower_probability_edge"] <= 0.0
-            or final_holdout_metrics["expected_net_pips"] <= 0.0
-        ):
-            continue
-        if (
-            final_holdout_metrics["predicted_direction"]
-            != selection_metrics["predicted_direction"]
-        ):
-            continue
-        holdout_trade_values = (
-            long_net
-            if final_holdout_metrics["predicted_direction"] == "buy"
-            else short_net
-        )
-        final_holdout_independence = _rule_independence_audit(
-            rows[holdout_start:],
-            candidate["membership"][holdout_slice],
-            holdout_trade_values[holdout_slice],
-            horizon_sec,
-        )
-        # Preserve the legacy 30%-window calibration sample for consumers and
-        # profile support thresholds, but only after each chronological half
-        # has independently reproduced the rule.
-        holdout_metrics = _weighted_rule_metrics(
-            np.concatenate(
-                (
-                    candidate["membership"][selection_slice],
-                    candidate["membership"][holdout_slice],
-                )
-            ),
-            np.concatenate((signed_move[selection_slice], signed_move[holdout_slice])),
-            np.concatenate((long_net[selection_slice], long_net[holdout_slice])),
-            np.concatenate((short_net[selection_slice], short_net[holdout_slice])),
-        )
-        validation_rows = [
-            *rows[selection_start:selection_end],
-            *rows[holdout_start:],
-        ]
-        validation_membership = np.concatenate(
-            (
-                candidate["membership"][selection_slice],
-                candidate["membership"][holdout_slice],
-            )
-        )
-        validation_trade_values = (
-            np.concatenate((long_net[selection_slice], long_net[holdout_slice]))
-            if final_holdout_metrics["predicted_direction"] == "buy"
-            else np.concatenate((short_net[selection_slice], short_net[holdout_slice]))
-        )
+        payoff = long_net if calibration["predicted_direction"] == "buy" else short_net
         independence = _rule_independence_audit(
-            validation_rows,
-            validation_membership,
-            validation_trade_values,
-            horizon_sec,
-        )
-        eligibility_checks = {
-            "independent_time_buckets": (
-                independence["independent_time_bucket_count"] >= minimum_independent_time_buckets
-            ),
-            "time_bucket_profitability": (
-                independence["positive_time_bucket_fraction"]
-                >= minimum_positive_time_bucket_fraction
-            ),
+            rows[selection_slice], candidate["membership"][selection_slice], payoff[selection_slice], horizon_sec)
+        checks = {
+            "independent_time_buckets": independence["independent_time_bucket_count"] >= minimum_independent_time_buckets,
+            "time_bucket_profitability": independence["positive_time_bucket_fraction"] >= minimum_positive_time_bucket_fraction,
             "instrument_replication": independence["instrument_count"] >= minimum_instruments,
-            "instrument_profitability": (
-                independence["positive_instrument_fraction"]
-                >= minimum_positive_instrument_fraction
-            ),
-            "instrument_concentration": (
-                independence["maximum_instrument_weight_fraction"]
-                <= maximum_instrument_weight_fraction
-            ),
+            "instrument_profitability": independence["positive_instrument_fraction"] >= minimum_positive_instrument_fraction,
+            "instrument_concentration": independence["maximum_instrument_weight_fraction"] <= maximum_instrument_weight_fraction,
         }
-        account_eligible = all(eligibility_checks.values())
-        failed_checks = [name for name, passed in eligibility_checks.items() if not passed]
-        conditions_out = [
-            {
-                "feature": part["feature"],
-                "operator": part["operator"],
-                "threshold": part["threshold"],
-                "width": part["width"],
-                "label": part["label"],
-            }
-            for part in candidate["parts"]
-        ]
-        condition_text = " AND ".join(
-            f"{part['feature']} {part['operator']} {part['threshold']:.4g}" for part in conditions_out
-        )
-        selection_score = (
-            selection_metrics["lower_probability_edge"]
-            * math.log1p(selection_metrics["weighted_support"])
-            * selection_metrics["expected_net_pips"]
-        ) / (1.0 + 0.10 * max(0, len(candidate["parts"]) - 2))
-        final_holdout_score = (
-            final_holdout_metrics["lower_probability_edge"]
-            * math.log1p(final_holdout_metrics["weighted_support"])
-            * final_holdout_metrics["expected_net_pips"]
-        ) / (1.0 + 0.10 * max(0, len(candidate["parts"]) - 2))
-        holdout_score = (
-            holdout_metrics["lower_probability_edge"]
-            * math.log1p(holdout_metrics["weighted_support"])
-            * holdout_metrics["expected_net_pips"]
-        ) / (1.0 + 0.10 * max(0, len(candidate["parts"]) - 2))
-        robust_score = min(selection_score, final_holdout_score)
-        condition_count = len(candidate["parts"])
-        feature_domain_summary = rule_feature_domain_summary(conditions_out)
-        audited.append(
-            {
-                "rule_id": f"h{int(horizon_sec)}-r{len(audited) + 1}",
-                "horizon_sec": int(horizon_sec),
-                "condition_count": condition_count,
-                **feature_domain_summary,
-                "search_stage": candidate["search_stage"],
-                "conditions": conditions_out,
-                "condition_text": condition_text,
-                "predicted_direction": final_holdout_metrics["predicted_direction"],
-                "training": candidate["training"],
-                "selection": selection_metrics,
-                "holdout": holdout_metrics,
-                "final_holdout": final_holdout_metrics,
-                "selection_independence_audit": selection_independence,
-                "final_holdout_independence_audit": final_holdout_independence,
-                "independence_audit": independence,
-                "chronological_partition": partition,
-                "training_score": round(candidate["training_score"], 8),
-                "selection_score": round(selection_score, 8),
-                "holdout_score": round(holdout_score, 8),
-                "final_holdout_score": round(final_holdout_score, 8),
-                "score": round(robust_score, 8),
-                "account_eligible": account_eligible,
-                "experimental_depth": condition_count > 3,
-                "shadow_reason": "" if account_eligible else "failed_" + ",".join(failed_checks),
-            }
-        )
-    audited.sort(key=lambda item: (item["score"], item["holdout"]["weighted_support"]), reverse=True)
-
-    # Preserve a small diagnostic sample from each validated depth, then fill by score.
+        parts = [{key: part[key] for key in ("feature", "operator", "threshold", "width", "label")} for part in candidate["parts"]]
+        score = (calibration["lower_probability_edge"] * math.log1p(calibration["weighted_support"]) * calibration["expected_net_pips"]) / (1.0 + 0.10 * max(0, len(parts) - 2))
+        identity = {"validation_contract": FUZZY_VALIDATION_CONTRACT, "horizon_sec": int(horizon_sec),
+                    "conditions": parts, "direction": calibration["predicted_direction"], "calibration": calibration}
+        digest = hashlib.sha256(json.dumps(identity, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()).hexdigest()
+        audited.append({
+            "rule_id": f"h{int(horizon_sec)}-{digest[:20]}", "selection_identity_sha256": digest,
+            "validation_contract": FUZZY_VALIDATION_CONTRACT, "horizon_sec": int(horizon_sec),
+            "condition_count": len(parts), **rule_feature_domain_summary(parts),
+            "search_stage": candidate["search_stage"], "conditions": parts,
+            "condition_text": " AND ".join(f"{p['feature']} {p['operator']} {p['threshold']:.4g}" for p in parts),
+            "predicted_direction": calibration["predicted_direction"], "training": candidate["training"],
+            "selection": calibration, "selection_calibration": calibration,
+            "calibration_split": "selection", "final_holdout_role": "report_only_after_rule_set_frozen",
+            "selection_independence_audit": independence, "independence_audit": independence,
+            "selection_support_checks": checks, "selection_support_eligible": all(checks.values()),
+            "chronological_partition": partition,
+            "training_score": round(candidate["training_score"], 8),
+            "selection_score": round(score, 8), "score": round(score, 8),
+            "account_eligible": False, "forward_refit_confirmed": False,
+            "experimental_depth": len(parts) > 3,
+            "shadow_reason": "fuzzy_v4_requires_independent_forward_evidence",
+            "_membership": candidate["membership"],
+        })
+    audited.sort(key=lambda r: (r["score"], r["selection_calibration"]["weighted_support"], r["rule_id"]), reverse=True)
     by_depth: dict[int, list[dict[str, Any]]] = {}
     for rule in audited:
-        by_depth.setdefault(int(rule["condition_count"]), []).append(rule)
-    reserve_per_depth = max(2, min(6, max_rules // max(1, 2 * len(by_depth))))
-    selected: list[dict[str, Any]] = []
-    selected_ids: set[int] = set()
-    for depth in sorted(by_depth):
-        for rule in by_depth[depth][:reserve_per_depth]:
-            selected.append(rule)
-            selected_ids.add(id(rule))
+        by_depth.setdefault(rule["condition_count"], []).append(rule)
+    reserve = max(2, min(6, max_rules // max(1, 2 * len(by_depth))))
+    selected = [rule for depth in sorted(by_depth) for rule in by_depth[depth][:reserve]]
+    selected_ids = {rule["rule_id"] for rule in selected}
     for rule in audited:
         if len(selected) >= max_rules:
             break
-        if id(rule) not in selected_ids:
+        if rule["rule_id"] not in selected_ids:
             selected.append(rule)
-            selected_ids.add(id(rule))
-    selected.sort(key=lambda item: (item["score"], item["holdout"]["weighted_support"]), reverse=True)
-    for index, rule in enumerate(selected[:max_rules], start=1):
-        rule["rule_id"] = f"h{int(horizon_sec)}-r{index}"
-    return selected[:max_rules]
+            selected_ids.add(rule["rule_id"])
+    selected.sort(key=lambda r: (r["score"], r["selection_calibration"]["weighted_support"], r["rule_id"]), reverse=True)
+    selected = selected[:max_rules]
+    for rank, rule in enumerate(selected, 1):
+        rule["selection_rank"] = rank
+        membership = rule.pop("_membership")[holdout_slice]
+        rule["final_holdout"] = _evaluate_frozen_rule(
+            membership, signed_move[holdout_slice], long_net[holdout_slice], short_net[holdout_slice], rule["selection_calibration"])
+        payoff = long_net if rule["predicted_direction"] == "buy" else short_net
+        rule["final_holdout_independence_audit"] = _rule_independence_audit(
+            rows[holdout_slice], membership, payoff[holdout_slice], horizon_sec)
+    return selected
 
 
 def database_counts(database_path: Path) -> dict[str, Any]:
     if not Path(database_path).is_file():
         return {"snapshots": 0, "outcomes": 0, "horizons": {}}
-    connection = sqlite3.connect(Path(database_path), timeout=30.0)
+    connection = sqlite3.connect(Path(database_path).resolve().as_uri() + "?mode=ro", uri=True, timeout=30.0)
     snapshots = int(connection.execute("SELECT COUNT(*) FROM snapshots").fetchone()[0])
     outcomes = int(connection.execute("SELECT COUNT(*) FROM outcomes").fetchone()[0])
     horizons = {
@@ -1405,6 +1349,14 @@ def write_rule_state(
     horizon_rows: dict[str, int],
     search_config: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
+    # V4 writes a new, explicit cohort; never relabel or overwrite old state.
+    destination = Path(state_path)
+    if destination.exists():
+        prior = json.loads(destination.read_text(encoding="utf-8"))
+        if prior.get("validation_contract") != FUZZY_VALIDATION_CONTRACT:
+            raise ValueError("fuzzy_v4_refuses_legacy_state_overwrite")
+    if any(rule.get("validation_contract") != FUZZY_VALIDATION_CONTRACT for rule in rules):
+        raise ValueError("fuzzy_v4_refuses_mixed_or_legacy_rule_contracts")
     counts = database_counts(database_path)
     config = dict(search_config or {})
     maximum_rule_size = int(config.get("max_conditions") or max((len(rule.get("conditions") or []) for rule in rules), default=3))
@@ -1413,6 +1365,9 @@ def write_rule_state(
     rules_with_domains: list[dict[str, Any]] = []
     for rule in rules:
         rule_out = dict(rule)
+        rule_out["account_eligible"] = False
+        rule_out["forward_refit_confirmed"] = False
+        rule_out["shadow_reason"] = "fuzzy_v4_requires_independent_forward_evidence"
         rule_out.update(rule_feature_domain_summary(rule.get("conditions") or []))
         rule_out["independence_adjusted_score"] = independence_adjusted_rule_score(
             rule_out
@@ -1427,7 +1382,7 @@ def write_rule_state(
         rules_with_domains,
         key=lambda row: (
             finite(row.get("independence_adjusted_score")),
-            finite((row.get("holdout") or {}).get("weighted_support")),
+            finite((row.get("selection_calibration") or row.get("holdout") or {}).get("weighted_support")),
         ),
         reverse=True,
     )
@@ -1446,24 +1401,29 @@ def write_rule_state(
         str(row.get("rule_id") or id(row)) for row in independence_ranked[:12]
     }
     payload = {
-        "schema_version": 3,
+        "schema_version": 4,
+        "validation_contract": FUZZY_VALIDATION_CONTRACT,
         "generated_at": utc_now(),
-        "status": "validated_rules_available" if rules else "collecting_support",
+        "status": "selection_frozen_research_rules_available" if rules else "collecting_support",
         "database": str(Path(database_path).resolve()),
         "method": (
             "exhaustive fuzzy 2-feature conjunctions plus complexity-penalized beam search "
             f"through {maximum_rule_size} features; discovered on oldest 70%, selected on the "
-            "next 15%, and independently confirmed on the newest 15%; boundaries align to "
-            "market timestamps and purge one forecast horizon"
+            "next 15%; frozen rule identities, direction and calibration are then evaluated "
+            "on newest 15% for reporting only; actual outcome maturity must precede "
+            "the next block and the fit as-of clock"
         ),
         "minimum_rule_size": 2,
         "maximum_rule_size": maximum_rule_size,
-        "validated_deep_rules_wired_to_signal_feed": True,
+        "validated_deep_rules_wired_to_signal_feed": False,
+        "research_rules_available_to_signal_feed": True,
+        "final_holdout_role": "report_only_after_rule_set_frozen",
         "search_config": config,
         "counts": counts,
         "horizon_fit_rows": horizon_rows,
-        "validated_rule_count": len(rules),
-        "account_eligible_rule_count": sum(bool(rule.get("account_eligible", True)) for rule in rules),
+        "validated_rule_count": len(rules),  # compatibility counter, not a qualification
+        "selection_frozen_research_rule_count": len(rules),
+        "account_eligible_rule_count": 0,
         "rule_depth_counts": depth_counts,
         "feature_domain_depth_counts": feature_domain_depth_counts,
         "feature_domain_policy": "one diagnostic count per independent information domain; shadow-only",

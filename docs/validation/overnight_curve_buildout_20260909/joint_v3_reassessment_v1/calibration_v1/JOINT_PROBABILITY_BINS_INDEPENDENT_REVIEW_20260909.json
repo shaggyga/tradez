@@ -1,0 +1,87 @@
+{
+  "broker_requests": 0,
+  "closed_finding": {
+    "actual_result_changed_keys": [
+      "completed_epoch",
+      "helper",
+      "started_epoch"
+    ],
+    "all_other_function_asts_unchanged": true,
+    "all_probabilities_bins_and_original_evidence_unchanged": true,
+    "closure": "Both sampled clocks require finite positive non-boolean values; completion must be >=start. Six owner regressions cover rollback, invalid values and equality.",
+    "finding": "New analysis completion clock could be nonfinite or precede its start."
+  },
+  "final_actual_result": {
+    "bytes": 470117,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\calibration_v1\\actual_calibration_002\\JOINT_PROBABILITY_BINS_20260909.json",
+    "sha256": "997ace70fa6be301cba202f83725e98055c67991c945e2f479fab8d8f9faaad8"
+  },
+  "independent_result_checks": {
+    "all_category_denominators_reconciled": true,
+    "all_ten_bins_per_pair_and_overall": true,
+    "completed": 2182,
+    "empty_bin_means_are_null": true,
+    "fair_coin_mean_brier": "0.25",
+    "flat_outcomes_retained": 13,
+    "mean_brier": "0.25211899825983496228369828072403286741521539871677360219981668194317140238313474",
+    "original_aggregate_brier_exact_match": true,
+    "pair_rows": 68
+  },
+  "limits": [
+    "Reviewer read source/tests, both compact retained summaries and the hash-bound original aggregate report; reviewer did not rerun the68 tests, summary, original assessor/scorer or pair result input replay.",
+    "Per-row Brier and endpoint validation is covered by the reviewed code and owner fixtures/run; this review does not independently reread all68 original pair result files or live databases.",
+    "Analysis clocks describe this later descriptive pass and preserve original report cutoffs. Output serialization/persistence is subsequent; no new forecast availability is created.",
+    "Observed bins do not establish calibrated probabilities, independent statistical N or positive trading edge. Overlapping H1 targets and shared currencies/inputs remain explicit."
+  ],
+  "original_aggregate_report": {
+    "bytes": 35700,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\V3_COMPLETED_PERFORMANCE_20260909.json",
+    "sha256": "cd435169e303d1b867787f58a35a6ebbc54932e4358e5c1541a6493597ee88e3"
+  },
+  "owner_test_counts": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 68
+  },
+  "owner_test_reported_duration_sec": 8.73,
+  "owner_test_xml": {
+    "bytes": 14927,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\calibration_v1\\calibration_clock_final_tests.xml",
+    "sha256": "7541e50fe6d9b80cea164540342da5e7b5d086a6f4f0273d3ca934b1d9d7d7f8"
+  },
+  "prior_actual_result": {
+    "bytes": 470118,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\calibration_v1\\actual_calibration_001\\JOINT_PROBABILITY_BINS_20260909.json",
+    "sha256": "ce3835eacbbddf46ef9322d16ba1dfc4c1524bcdea88321c02029c39ec05f19c"
+  },
+  "prior_source": {
+    "bytes": 16356,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\calibration_v1\\initial_candidate\\summarize_joint_probability_bins_v1.py",
+    "sha256": "cafd10acc7f75489bc7e8c4303245c5754e91faa5341e0a6c42acfe687e1731c"
+  },
+  "production_or_runtime_changes": false,
+  "reviewed_utc": "2026-09-09T11:43:36.910796+00:00",
+  "reviewer": "pair_dashboard",
+  "schema_version": "joint_probability_bins_independent_review_v1_20260909",
+  "scoring_or_model_changes": false,
+  "source": {
+    "bytes": 16463,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\calibration_v1\\summarize_joint_probability_bins_v1.py",
+    "sha256": "8cc348275b58be2f78e4eadada5664c5b723650b59fc8298c8745c6a4b107b1d"
+  },
+  "source_review": [
+    "Exact decimal bid/ask midpoint difference defines up iff strictly positive; flats stay zero and are counted explicitly. Original row outcome class/move/Brier and fair-coin Brier must reconcile.",
+    "All ten fixed deciles remain present, including empty bins. Zero enters first and one enters last; exact boundaries have one membership. No fitted calibration or threshold selection.",
+    "Every original completed scored row is included once, including abstentions and flats; duplicate decision identities reject, and all68 pair results remain present even when empty.",
+    "Hash-bound wrapper/report/result identities, pinned source files, completed assessment, native H1 scope, byte/row bounds and final input rechecks retain original provenance.",
+    "Decimal computation uses explicit contexts, independent of ambient precision. Original aggregate Brier and completed denominator must match exactly.",
+    "No scorer/assessor import, DB/network read, fitted model, economic rescoring or mutation of the original artifacts occurs in the summarizer. Output is exclusive; existing output remains retained."
+  ],
+  "status": "passed_bounded_source_and_retained_summary_review",
+  "test_source": {
+    "bytes": 10509,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\calibration_v1\\test_summarize_joint_probability_bins_v1.py",
+    "sha256": "791d6cf39dead6207a931509a22d4c3485b1237bc6f08f831a206f1db8a6b9d4"
+  }
+}

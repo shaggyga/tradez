@@ -1,0 +1,41 @@
+{
+  "evidence": {
+    "NATIVE_CURVE_OUTCOMES_API_20260909.md": {
+      "bytes": 5160,
+      "sha256": "2f867068612d33cd436f95507c035ddf74b1ef076627d0d8f6b606c209f48ba6"
+    },
+    "NATIVE_CURVE_OUTCOMES_SYNTHETIC_FIXTURE_20260909.json": {
+      "bytes": 43836,
+      "sha256": "35fea02afe508f19f6ca93bb829cca2d9cc9dc412595471082b553d4914d01b5"
+    }
+  },
+  "generated_utc": "2026-09-09T05:18:01.955939+00:00",
+  "independent_review_status": "Peer read-only source review found no remaining causal/target blocker; separate source-bound receipt to follow. No independent test rerun attributed.",
+  "initial_fixture_failures_retained": {
+    "failed": 2,
+    "passed": 41,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\replay\\native_outcomes_initial_tests.xml",
+    "sha256": "338626774eeb8fcbbf06ab02748d6193a76d31fce8c13500c0c52ca9c0dbc4a3"
+  },
+  "limits": [
+    "Actual source-query and entry-generation evidence must be bound by the registered caller.",
+    "Entry-to-candle-close costs are hypothetical bid/ask diagnostics with target tradeability unobserved, not broker or manager results.",
+    "Original nominal/window targets, price conventions and zero/missingness denominators remain separate; no calibration or independent trial count claimed."
+  ],
+  "no_orders_or_promotion": true,
+  "schema_version": "native_curve_outcomes_acceptance_v1_20260909",
+  "scope": "Pure synthetic boundary/arithmetic acceptance; no actual forecast outcome assessment or runtime mutation.",
+  "source_sha256": {
+    "oanda_forecast_curve_contract_v1.py": "c03549586f922f6031790fce68a5afb5b98e4eda6157f20c4720b1adb05d0746",
+    "oanda_native_curve_outcomes_v1.py": "aeb8885732dca3abc83a84309126e888d395a88ab348561cc9effb3bfc667d1e",
+    "test_oanda_native_curve_outcomes_v1.py": "f19e2a2e53f33e1861a0857277d7704c5a9797e5efe0b6c28263fe3f9a7411cb"
+  },
+  "status": "passed_pure_outcome_boundary_acceptance",
+  "tests": {
+    "errors": 0,
+    "failed": 0,
+    "passed": 47,
+    "sha256": "c4c77a0fef630c53d1e242edc180c7a1a2c967c4829d67841f642aff37e58427",
+    "xml": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\replay\\native_outcomes_final_47_tests.xml"
+  }
+}

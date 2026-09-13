@@ -1,0 +1,102 @@
+{
+  "schema_version": "forex_operational_mapping_subsecond_causality_validation_v1",
+  "generated_utc": "2026-09-02T12:08:12Z",
+  "scope": "terminal invalidation of second-truncated operational mapping cohorts and zero-backfill V4 cutover",
+  "root_cause": {
+    "component": "oanda_move_first_operational_mapping_alignment_v1.py",
+    "defect": "operational source and mapping receipt timestamps were parsed and compared as integer epoch seconds",
+    "consequence": "a mapping observed during the same integer second but after move onset could be admitted as pre-move knowledge",
+    "affected_surface": "movement-conditioned research diagnostics only",
+    "order_or_authorization_impact": false
+  },
+  "witness": {
+    "source_case_id": "live_move_news_case_v7r3_9f28fc9bc4282c79bc806c1df9ae3bc8",
+    "source_event_id": "source_event_574791fec868df2b5d482e78786ea6eb",
+    "mapping_receipt_id": "news_fast_receipt_19484cd3c40b79400233384477b3",
+    "move_start_utc": "2026-09-02T11:25:00+00:00",
+    "mapping_available_utc": "2026-09-02T11:25:00.757212+00:00",
+    "operational_effective_from_utc": "2026-09-02T11:25:00Z",
+    "receipt_arrival_after_move_start_seconds": 0.757212,
+    "v2_row_index_zero_based": 410,
+    "v3_row_index_zero_based": 356
+  },
+  "terminal_cohorts": {
+    "v2": {
+      "cohort_id": "move_first_operational_mapping_alignment_v2_prospective_20260901T150000Z",
+      "status": "permanently_invalid",
+      "database_path": "data/oanda_training_manager/state/move_first_operational_mapping_alignment_v2_20260901.sqlite",
+      "database_sha256_after_retirement": "60f894b67d6510b3883259a893d3a1eac6cb04416f68db782b5773e4b3e5f328",
+      "report_sha256_after_retirement": "bb948d3f8e5edc9e99d21ebff6abca7af6c1683482b5b6c345236a9e91fb9b2d",
+      "source_cases": 901,
+      "factor_episodes": 420,
+      "receipt_backed_events": 11715,
+      "historical_rows_imported": 0
+    },
+    "v3": {
+      "cohort_id": "move_first_operational_mapping_alignment_v3_prospective_20260901T170000Z",
+      "status": "permanently_invalid",
+      "database_path": "data/oanda_training_manager/state/move_first_operational_mapping_alignment_v3_20260901.sqlite",
+      "database_sha256_after_retirement": "5fa656aabe667550cf5bb9b521a790aee0c206f0b0653c5a96c3fbec2c740e34",
+      "report_sha256_after_retirement": "40528f2bb616f9da8d756b68d76ebcc8695f472778289c95cb7116287596bf03",
+      "source_cases": 793,
+      "factor_episodes": 366,
+      "receipt_backed_events": 9406,
+      "historical_rows_imported": 0
+    },
+    "preservation_policy": "retain exact ledger and final report bytes; never rewrite, merge, backfill, promote, authorize, allocate or execute from them"
+  },
+  "repair": {
+    "timestamp_parser": "timezone-aware floating-point epoch seconds with microsecond preservation",
+    "sort_and_filter_comparisons": "fractional precision retained end to end",
+    "integrity_rule": "mapping_available_utc and operational_effective_from_utc must each be no later than exact move_start_utc",
+    "regression_fixture": "a receipt at 11:25:00.757212Z is rejected for a move starting 11:25:00.000000Z"
+  },
+  "cohort_v4": {
+    "contract_id": "move_first_operational_mapping_alignment_v4_receipt_backed_subsecond_causal_narrative_family_prospective_20260902T121500Z",
+    "cohort_id": "move_first_operational_mapping_alignment_v4_prospective_20260902T121500Z",
+    "activation_utc": "2026-09-02T12:15:00Z",
+    "config_path": "config/move_first_operational_mapping_alignment_v4_20260902.json",
+    "config_sha256": "910a3c498bf2ea454e4316eacc295850e1edb31ca8a64676f6c80e9ab7cec8a1",
+    "historical_rows_imported": 0,
+    "backfill_permitted": false,
+    "operational_clock_rule": "max_source_effective_detail_available_and_mapping_receipt_available_utc_subsecond_precision",
+    "story_deduplication_rule": "conservative_time_bounded_narrative_family_v3",
+    "broad_age_decay_half_life_minutes": 30,
+    "preactivation_snapshot_utc": "2026-09-02T12:07:42.547671Z",
+    "preactivation_source_cases": 0,
+    "preactivation_factor_episodes": 0,
+    "preactivation_receipt_backed_events": 0,
+    "postactivation_snapshot_utc": "2026-09-02T12:17:39.390312Z",
+    "postactivation_source_cases": 0,
+    "postactivation_factor_episodes": 0,
+    "postactivation_receipt_backed_events": 0,
+    "postactivation_verifier_verified": true,
+    "postactivation_verifier_failures": [],
+    "execution_decision": "no_trade"
+  },
+  "code_hashes": {
+    "mapper_sha256": "31bdd60a42e2123ac3319b271ab0d08673bf3d47436e01a38e4059ec100faf43",
+    "mapper_test_sha256": "5949d2ca727a85ba1900e494dea474fbb774ea2cfefce3582455f4d1b5f6f518",
+    "integrity_sha256": "ebda4ae97186952ca032ed93d3a7a0fbbcd962bcee4ae2abd2601b950d3a0f0f",
+    "supervisor_sha256": "f41b54775b4b39466421a5b0e2ca9e00589a868b3c249b3fb46c9a9e7a25a361"
+  },
+  "validation": {
+    "focused_tests_passed": 82,
+    "v2_worker_running": false,
+    "v3_worker_running": false,
+    "v4_worker_running": true,
+    "v4_database_quick_check": "ok",
+    "v4_preactivation_database_rows": 0,
+    "codex_automation_created": false
+  },
+  "safety": {
+    "research_only": true,
+    "selection_conditioned_on_realized_move": true,
+    "predictive_backtest_eligible": false,
+    "promotion_eligible": false,
+    "execution_eligible": false,
+    "can_authorize": false,
+    "can_place_orders": false,
+    "real_money_enabled": false
+  }
+}

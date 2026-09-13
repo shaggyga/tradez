@@ -1,0 +1,52 @@
+{
+  "can_place_orders": false,
+  "can_promote": false,
+  "created_utc": "2026-09-09T05:49:54.715834+00:00",
+  "independent_tests_run": 0,
+  "model_fit_or_injection": false,
+  "remaining_blockers": [],
+  "research_only": true,
+  "review_scope": "Independent bounded source and regression-test review; no independent test rerun.",
+  "runtime_changes": false,
+  "schema_version": "cross_window_independent_review_20260909",
+  "scope_limits": [
+    "This is an independently versioned three-pair feature contract, not equivalence to the historical795-column matrix, learned model input, or directional evidence.",
+    "Shared USD legs, own-return inclusion and overlapping windows create dependence. Peer counts are not independent trials.",
+    "Replayed capture seals bind caller-provided source observations; downstream registration must provide the expected source digest and independently retain actual captured bytes.",
+    "Archive close-at-label-plus60 semantics are explicit; original historical first arrival is not proven and candle tradeability is not inferred."
+  ],
+  "source_bindings": [
+    {
+      "bytes": 20885,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_cross_window_currency_capture_v1.py",
+      "sha256": "dadb75e58a4415d0361c5a9fd51d03488b3ff7f01792d4b0a8c62ee76fa11624"
+    },
+    {
+      "bytes": 16208,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_cross_window_currency_capture_v1.py",
+      "sha256": "4057057003462ddde27dff11014529c8704a72b74512730c4394c30247465fe8"
+    }
+  ],
+  "status": "passed",
+  "supporting_evidence": [
+    {
+      "bytes": 7945,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\cross_window_final_tests.xml",
+      "sha256": "c5befcc08a62744bce26f41f06ca87000d253f003b06f687178dd4b213f9f381"
+    },
+    {
+      "bytes": 5797,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\CROSS_WINDOW_IMPLEMENTATION_VALIDATION_20260909.json",
+      "sha256": "00dc7a7dcb75d5c6b4d135939e35da9fc9bec40d92119364b1eb71ac5c0e7dd9"
+    }
+  ],
+  "verified_properties": [
+    "Tail reads retain exact source bytes, observation clocks and geometry with stable-file and reparse checks. Partial failed peers remain explicit.",
+    "One common real price-close cutoff controls exact1/15/60-minute endpoints; no fallback substitutes a shorter window.",
+    "ATR requires15 exact consecutive close timestamps for14 true ranges with previous-close gaps. Missing support preserves raw deltas but withholds normalization.",
+    "Native pips are fixed to the explicit three-pair metadata;96-digit local Decimal arithmetic prevents ambient context dependence.",
+    "Currency legs use base positive and quote negative, including USD opposite orientation in USD/JPY. Own-return strength and unavailable independent currency peers are explicitly labeled.",
+    "Rank, breadth and sample dispersion use actually available scoped peers; absent values remain null and the three-pair sample is not a historical68-pair replica.",
+    "Future-at-source-observation bars reject. Post-cutoff but already observed bars do not enter endpoint or ATR features; actual source/consumer availability is not backdated."
+  ]
+}

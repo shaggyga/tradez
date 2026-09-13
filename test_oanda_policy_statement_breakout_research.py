@@ -1,4 +1,5 @@
 import datetime as dt
+import json
 
 import oanda_policy_statement_breakout_research as policy
 
@@ -170,3 +171,23 @@ def test_prospective_entry_persistence_is_research_only(tmp_path):
     assert len(rows) == 3
     assert all(row[1] == "pending" for row in rows)
     assert all('"execution_eligible": false' in row[2] for row in rows)
+
+
+def test_worker_heartbeat_is_separate_and_fail_closed(tmp_path):
+    heartbeat = tmp_path / "heartbeat.json"
+    policy.write_worker_heartbeat(
+        heartbeat,
+        phase="building_research_projection",
+        cycle_started_utc="2026-09-02T04:00:00+00:00",
+    )
+    payload = json.loads(heartbeat.read_text(encoding="utf-8"))
+    assert payload["schema_version"] == (
+        "policy_statement_breakout_research_heartbeat_v1"
+    )
+    assert payload["contract_id"] == policy.CONTRACT_ID
+    assert payload["phase"] == "building_research_projection"
+    assert payload["research_only"] is True
+    assert payload["execution_eligible"] is False
+    assert payload["can_place_orders"] is False
+    assert payload["can_promote"] is False
+    assert payload["can_authorize"] is False

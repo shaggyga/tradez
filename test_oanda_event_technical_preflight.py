@@ -77,6 +77,93 @@ def test_preflight_joins_scheduled_events_to_pair_legs_without_direction():
     assert fed["reference_period"] == "2026-09"
 
 
+def test_policy_release_transport_readiness_keeps_fallback_separate_from_direct():
+    events, quotes, signals, coverage = fixtures()
+    official_sources = {
+        "currencies": [
+            {
+                "currency": "USD",
+                "authority_id": "fed",
+                "release_source_ids": ["fed_policy_release"],
+                "calendar_source_ids": ["fed_calendar"],
+            },
+            {
+                "currency": "JPY",
+                "authority_id": "boj",
+                "release_source_ids": ["boj_policy_release"],
+                "calendar_source_ids": ["boj_calendar"],
+            },
+        ]
+    }
+    source_coverage = {
+        "currencies": {
+            "USD": {
+                "sources": [
+                    {
+                        "source_id": "fed_policy_release",
+                        "operational": True,
+                        "healthy": True,
+                        "runtime_status": "enabled",
+                    },
+                    {
+                        "source_id": "fed_calendar",
+                        "operational": True,
+                        "healthy": True,
+                    },
+                ]
+            },
+            "JPY": {
+                "sources": [
+                    {
+                        "source_id": "boj_policy_release",
+                        "operational": False,
+                        "healthy": False,
+                        "runtime_status": "unsupported",
+                    },
+                    {
+                        "source_id": "boj_calendar",
+                        "operational": True,
+                        "healthy": True,
+                    },
+                    {
+                        "source_id": "boj_official_search",
+                        "source_role": "news_aggregator",
+                        "operational": True,
+                        "healthy": True,
+                    },
+                ]
+            },
+        }
+    }
+    payload = preflight.build(
+        events,
+        quotes,
+        signals,
+        coverage,
+        dt.datetime(2026, 8, 16, 6, 0, tzinfo=UTC),
+        45,
+        official_sources=official_sources,
+        source_coverage=source_coverage,
+    )
+    fed = next(row for row in payload["events"] if row["currency"] == "USD")
+    boj = next(row for row in payload["events"] if row["currency"] == "JPY")
+    assert fed["policy_release_transport_state"] == "direct_release_ready"
+    assert fed["policy_direct_release_transport_available"] is True
+    assert boj["policy_release_transport_state"] == (
+        "fallback_only_direct_release_unavailable"
+    )
+    assert boj["policy_direct_release_transport_available"] is False
+    assert boj["policy_fallback_transport_available"] is True
+    assert boj["policy_calendar_transport_available"] is True
+    assert boj["policy_source_blockers"] == ["boj_policy_release:unsupported"]
+    assert payload["policy_direct_release_ready_rows"] == 1
+    assert payload["policy_fallback_only_rows"] == 1
+    assert payload["policy_release_transport_blocked_rows"] == 0
+    assert payload["policy"][
+        "publisher_search_fallback_is_not_direct_release_transport"
+    ] is True
+
+
 def test_preflight_restores_reference_period_from_exact_calendar_identity():
     events = [{
         "event_id": "claims",

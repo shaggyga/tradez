@@ -1,0 +1,60 @@
+{
+  "schema_version": "forex_entry_and_research_followup_v1",
+  "status": "offline_improvements_implemented_runtime_stopped",
+  "source_audit": "docs/FOREX_ENTRY_IMPROVEMENTS_20260906.md",
+  "supersedes_plan_status_only": "FOREX_COMOVEMENT_RESEARCH_PLAN_20260906.json",
+  "original_plan_and_registered_study_preserved": true,
+  "collection_enabled": false,
+  "can_place_orders": false,
+  "can_authorize": false,
+  "can_promote": false,
+  "proof_eligible": false,
+  "items": [
+    {
+      "id": "exact_price_scoring",
+      "priority": 1,
+      "status": "implemented_offline_pending_registered_integration",
+      "delivered": ["oanda_exact_price_scoring.py", "oanda_fixed_forecast_evaluation_exact.py"],
+      "remaining": "Bind exact original reference anchors and the separately versioned scorer in a new registered successor before predictive acceptance. Preserve the stopped original study and historical rows.",
+      "acceptance": "Exact quote labels, clock and identity checks, four-family paired coverage, forecast-target and executable-entry separation, fixed baselines and independent untouched outcomes. No backfill of missing availability."
+    },
+    {
+      "id": "joint_predictor_baselines",
+      "priority": 2,
+      "status": "implemented_offline_no_real_market_validation",
+      "delivered": ["oanda_joint_return_baselines.py"],
+      "remaining": "Separately register fixed own-lag, peer-lag and leave-EURUSD-out dollar-factor arms using genuine synchronized input availability; pair all later outcomes including abstentions.",
+      "acceptance": "Freeze parameters before collection, retain actual fit/issue/commit clocks and original target, compare incremental after-cost performance with own-price and no-trade on untouched decisions. Overlapping rows are not independent episodes."
+    },
+    {
+      "id": "consensus_conflict_scope",
+      "priority": 2,
+      "status": "research_pending_execution_gate_preserved",
+      "remaining": "Compare the current any-opposition veto with an eligibility-aware diagnostic arm, and latest-version-per-model/side handling, retaining exact contributor IDs, weights, role, eligibility, generation/availability and expiry clocks.",
+      "acceptance": "No old weekly conflict is retroactively attributed without lineage. Retain every arm and reject after-the-fact winner selection; require separately governed evidence before changing execution policy."
+    },
+    {
+      "id": "entry_observability",
+      "priority": 2,
+      "status": "sampled_diagnostics_implemented_durable_totals_pending",
+      "delivered": ["Local-versus-shared-feed scope", "Complete final block reason counts before detail truncation", "Explicit pre-final versus authorization stage", "Bounded timestamped executor diagnostics in dashboard payload"],
+      "remaining": "Durable per-session/per-decision counters across restarts, independently labelled recovered exits, monitoring of receipt gaps, and explicit zero-opportunity versus missing-observation coverage.",
+      "acceptance": "Reconcile unique decision counts to orders/fills without summing repeated sampled candidates or recovery events; test restart continuity with isolated fixtures."
+    },
+    {
+      "id": "additional_joint_models",
+      "priority": 3,
+      "status": "pending",
+      "remaining": ["Recursive regularized VAR", "Train-only cointegration/VECM diagnostics", "Fitted dynamic factors and switching regimes", "Prediction-error covariance and prior-label-only ensemble calibration"],
+      "acceptance": "Add complexity only with matched untouched incremental performance over the new compact baselines. Same-time correlation or PCA variance explained is not forecast skill."
+    },
+    {
+      "id": "existing_operational_backlog",
+      "priority": 3,
+      "status": "pending_unchanged",
+      "remaining": ["Integrity query profiling", "Verified storage-growth and retention study", "Collector incremental-yield profiling"],
+      "source": "FOREX_OPTIMIZATION_BACKLOG_20260906.json",
+      "acceptance": "Retain canonical verdicts and first-known clocks, profile on coherent offline fixtures, and preserve recoverable evidence. No live database tuning or deletions in this pass."
+    }
+  ]
+}

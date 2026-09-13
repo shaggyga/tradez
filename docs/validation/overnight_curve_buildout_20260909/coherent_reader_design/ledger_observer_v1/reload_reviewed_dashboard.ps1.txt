@@ -1,0 +1,99 @@
+param(
+    [Parameter(Mandatory=$true)][ValidatePattern('^[0-9a-f]{64}$')][string]$ExpectedDashboardSha256,
+    [Parameter(Mandatory=$true)][ValidatePattern('^[a-z0-9_]+$')][string]$EvidenceName
+)
+$ErrorActionPreference='Stop'
+$projectRoot='C:\Users\zmoor\Documents\forex\trad'
+$evidenceRoot='C:\Users\zmoor\Documents\forex\overnight_curve_buildout_20260909\coherent_reader_design\ledger_observer_v1'
+if([IO.Path]::GetFullPath($PSScriptRoot) -ne $evidenceRoot){throw 'Unexpected reload workspace'}
+$output=Join-Path $evidenceRoot $EvidenceName
+if(Test-Path -LiteralPath $output){throw 'Reload evidence directory already exists'}
+$dashboardPath=Join-Path $projectRoot 'oanda_practice_live_dashboard.py'
+$supervisorPath=Join-Path $projectRoot 'oanda_always_on_supervisor.ps1'
+$configPath=Join-Path $projectRoot 'config\joint_v3_ledger_observer_api_v1_20260909.json'
+$configSha='983ac47caa3ba2a4ac8021876ce7e0a371ebdae2ef36ccb1d7a2636a046a4073'
+$expectedRegistries=@{
+    'joint_price_news_study_v3_20260908.json'='ee075e69e80ca56dfdf45abe1f7a1a301612176e67f7622eab1adf2bd9af8771'
+    'recovered_second_curve_pilot_v1_20260909.json'='ae64f2cae6df44dad81b46deb16e95e4d5f67dabb7fc1e65289b96ba6b0fe2b2'
+    'observed_curve_management_v1_20260909.json'='60689101fb63a8bcce2465d19f627b9b2ce357d1ee271c65298f255663d991e1'
+    'm1_risk_distributions_v1_20260909.json'='855c3bb96105c0cf0943ebbb5d28e6d10b6b9bf718573883f897161d08453674'
+}
+function Hash-File([string]$Path){(Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant()}
+function Verify-Sources {
+    if((Hash-File $dashboardPath) -ne $ExpectedDashboardSha256){throw 'Untested dashboard source'}
+    if((Hash-File $configPath) -ne $configSha){throw 'API specification differs from reviewed bytes'}
+    $api=Get-Content -LiteralPath $configPath -Raw | ConvertFrom-Json
+    foreach($binding in $api.source_bindings.PSObject.Properties){
+        if((Hash-File (Join-Path $projectRoot $binding.Name)) -ne $binding.Value){throw 'API source binding mismatch'}
+    }
+    foreach($name in $expectedRegistries.Keys){
+        $path=Join-Path (Join-Path $projectRoot 'config') $name
+        if((Hash-File $path) -ne $expectedRegistries[$name]){throw 'Study registry mismatch'}
+        $registry=Get-Content -LiteralPath $path -Raw | ConvertFrom-Json
+        if($registry.research_only -ne $true -or $registry.can_place_orders -ne $false -or $registry.can_promote -ne $false -or $registry.can_authorize -ne $false){throw 'Study authority mismatch'}
+        foreach($binding in $registry.source_bindings.PSObject.Properties){
+            if($binding.Name -notmatch '^(?:[a-z0-9_]+/)*[a-z0-9_]+\.py$'){throw 'Unexpected registered source path'}
+            $source=[IO.Path]::GetFullPath((Join-Path $projectRoot $binding.Name))
+            if(-not $source.StartsWith($projectRoot+'\',[StringComparison]::OrdinalIgnoreCase)){throw 'Source path escape'}
+            if((Hash-File $source) -ne $binding.Value){throw 'Frozen study source changed'}
+        }
+    }
+}
+function Get-ProjectProcesses {
+    @(Get-CimInstance Win32_Process | Where-Object {$_.Name -match '^(python|pythonw|pwsh|powershell)(\.exe)?$'} | ForEach-Object {
+        $match=[regex]::Match([string]$_.CommandLine,'(?i)(?:"([^"]+\.(?:py|ps1))"|([^\s"]+\.(?:py|ps1)))(?:\s|$)')
+        $path=if($match.Groups[1].Success){$match.Groups[1].Value}else{$match.Groups[2].Value}
+        if($path.StartsWith($projectRoot+'\',[StringComparison]::OrdinalIgnoreCase)){
+            [pscustomobject]@{Raw=$_;ScriptPath=$path}
+        }
+    })
+}
+function Private-FreeIdentity($Row){
+    [ordered]@{pid=[int]$Row.Raw.ProcessId;parent_pid=[int]$Row.Raw.ParentProcessId;name=$Row.Raw.Name;created_utc=$Row.Raw.CreationDate.ToUniversalTime().ToString('o');script_path=$Row.ScriptPath}
+}
+function Assert-SameProcess($Observed){
+    $current=@(Get-CimInstance Win32_Process -Filter ('ProcessId = '+[int]$Observed.Raw.ProcessId))
+    if($current.Count -ne 1 -or $current[0].Name -ne $Observed.Raw.Name -or $current[0].CreationDate -ne $Observed.Raw.CreationDate -or $current[0].CommandLine -ne $Observed.Raw.CommandLine){throw 'Preserved process identity changed'}
+}
+Verify-Sources
+$before=@(Get-ProjectProcesses)
+$dashboard=@($before | Where-Object {$_.ScriptPath -eq $dashboardPath})
+$supervisor=@($before | Where-Object {$_.ScriptPath -eq $supervisorPath})
+if($dashboard.Count -ne 2 -or $supervisor.Count -ne 1 -or $supervisor[0].Raw.ProcessId -ne 21472){throw 'Unexpected dashboard or supervisor inventory'}
+if(@($dashboard | Where-Object {$_.Raw.Name -ne 'python.exe'}).Count -ne 0){throw 'Unexpected dashboard executable'}
+$oldIds=@($dashboard | ForEach-Object {[int]$_.Raw.ProcessId})
+if(@($dashboard | Where-Object {$_.Raw.ParentProcessId -in $oldIds}).Count -ne 1){throw 'Dashboard parent/child relationship missing'}
+$listener=@(Get-NetTCPConnection -LocalAddress '127.0.0.1' -LocalPort 8765 -State Listen)
+if($listener.Count -ne 1 -or $listener[0].OwningProcess -notin $oldIds){throw 'Dashboard port owner mismatch'}
+$preserved=@($before | Where-Object {$_.ScriptPath -ne $dashboardPath})
+if($preserved.Count -ne 39){throw 'Expected 17 main workers and three separate studies plus supervisor'}
+$null=New-Item -ItemType Directory -Path $output
+[ordered]@{schema_version='dashboard_reload_before_v1_20260909';observed_utc=(Get-Date).ToUniversalTime().ToString('o');processes=@($before | ForEach-Object {Private-FreeIdentity $_});dashboard_source_sha256=$ExpectedDashboardSha256;api_config_sha256=$configSha;orders_enabled=$false} | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath (Join-Path $output 'BEFORE.json') -Encoding utf8
+# Stop only the two identified dashboard processes. The existing supervisor
+# replaces this worker; this script never launches or stops any other worker.
+foreach($row in $dashboard){
+    $remaining=@(Get-CimInstance Win32_Process -Filter ('ProcessId = '+[int]$row.Raw.ProcessId))
+    if($remaining.Count -eq 0){continue}
+    Assert-SameProcess $row
+    Stop-Process -Id $row.Raw.ProcessId -Force
+}
+$deadline=(Get-Date).AddSeconds(45)
+$ready=$false
+do {
+    Assert-SameProcess $supervisor[0]
+    $after=@(Get-ProjectProcesses)
+    $replacement=@($after | Where-Object {$_.ScriptPath -eq $dashboardPath -and $_.Raw.ProcessId -notin $oldIds})
+    if($replacement.Count -eq 2){
+        $newIds=@($replacement | ForEach-Object {[int]$_.Raw.ProcessId})
+        $listeners=@(Get-NetTCPConnection -LocalAddress '127.0.0.1' -LocalPort 8765 -State Listen -ErrorAction SilentlyContinue)
+        if($listeners.Count -eq 1 -and $listeners[0].OwningProcess -in $newIds){$ready=$true;break}
+    }
+    Start-Sleep -Milliseconds 500
+} while((Get-Date) -lt $deadline)
+if(-not $ready){throw 'Existing supervisor did not replace dashboard within 45 seconds; preservation verification remains pending'}
+foreach($row in $preserved){Assert-SameProcess $row}
+Verify-Sources
+$after=@(Get-ProjectProcesses)
+if($after.Count -ne $before.Count){throw 'Project process count changed during dashboard reload'}
+[ordered]@{schema_version='dashboard_reload_after_v1_20260909';observed_utc=(Get-Date).ToUniversalTime().ToString('o');status='port_and_process_verified_http_pending';old_dashboard_pids=$oldIds;new_dashboard_pids=$newIds;preserved_other_process_count=$preserved.Count;preserved_supervisor_pid=21472;processes=@($after | ForEach-Object {Private-FreeIdentity $_});dashboard_source_sha256=$ExpectedDashboardSha256;api_config_sha256=$configSha;all_frozen_study_sources_match=$true;supervisor_restarted=$false;direct_process_launches=0;orders_enabled=$false} | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath (Join-Path $output 'AFTER.json') -Encoding utf8
+[ordered]@{status='port_and_process_verified_http_pending';evidence=$output;old_dashboard_pids=$oldIds;new_dashboard_pids=$newIds;preserved_other_process_count=$preserved.Count} | ConvertTo-Json -Compress

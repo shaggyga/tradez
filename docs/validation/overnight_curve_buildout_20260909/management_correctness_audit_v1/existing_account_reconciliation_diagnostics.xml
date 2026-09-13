@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="20" failures="0" skipped="0" tests="20" time="10.399" timestamp="2026-09-09T06:53:45.788043-04:00" hostname="DESKTOP-Q2EDIEU"><testcase classname="overnight_curve_buildout_20260909.management_correctness_audit_v1.test_existing_account_reconciliation_diagnostics" name="test_demonstrates_unknown_full_close_is_mislabeled_confirmed[oanda_technical_account_manager_auto.py-True]" time="0.574"><error message="failed on setup with &quot;TypeError: required field &quot;lineno&quot; missing from stmt&quot;">request = &lt;SubRequest 'manager' for &lt;Function test_demonstrates_unknown_full_close_is_mislabeled_confirmed[oanda_technical_account_manager_auto.py-True]&gt;&gt;
+
+    @pytest.fixture(params=FILES)
+    def manager(request):
+        path=ROOT/request.param;raw=path.read_bytes();tree=ast.parse(raw,filename=str(path))
+        cls=next(node for node in tree.body if isinstance(node,ast.ClassDef) and node.name=='ForexManager')
+        methods=[node for node in cls.body if isinstance(node,ast.FunctionDef) and node.name in METHODS]
+        helpers=[node for node in tree.body if isinstance(node,ast.FunctionDef) and node.name in HELPERS]
+        assert {node.name for node in methods}==set(METHODS)
+        assert {node.name for node in helpers}==set(HELPERS)
+        module=ast.Module(body=[ast.ImportFrom(module='__future__',names=[ast.alias(name='annotations')],level=0)]+helpers+methods,type_ignores=[])
+        namespace=dict(math=math,re=re,cfg_bool=lambda *args,default=True:default)
+&gt;       exec(compile(module,str(path),'exec'),namespace)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: required field "lineno" missing from stmt
+
+overnight_curve_buildout_20260909\management_correctness_audit_v1\test_existing_account_reconciliation_diagnostics.py:32: TypeError</error></testcase><testcase classname="overnight_curve_buildout_20260909.management_correctness_audit_v1.test_existing_account_reconciliation_diagnostics" name="test_demonstrates_unknown_full_close_is_mislabeled_confirmed[oanda_technical_account_manager_auto.py-False]" time="0.605"><error message="failed on setup with &quot;TypeError: required field &quot;lineno&quot; missing from stmt&quot;">request = &lt;SubRequest 'manager' for &lt;Function test_demonstrates_unknown_full_close_is_mislabeled_confirmed[oanda_technical_account_manager_auto.py-False]&gt;&gt;
+
+    @pytest.fixture(params=FILES)
+    def manager(request):
+        path=ROOT/request.param;raw=path.read_bytes();tree=ast.parse(raw,filename=str(path))
+        cls=next(node for node in tree.body if isinstance(node,ast.ClassDef) and node.name=='ForexManager')
+        methods=[node for node in cls.body if isinstance(node,ast.FunctionDef) and node.name in METHODS]
+        helpers=[node for node in tree.body if isinstance(node,ast.FunctionDef) and node.name in HELPERS]
+        assert {node.name for node in methods}==set(METHODS)
+        assert {node.name for node in helpers}==set(HELPERS)
+        module=ast.Module(body=[ast.ImportFrom(module='__future__',names=[ast.alias(name='annotations')],level=0)]+helpers+methods,type_ignores=[])
+        namespace=dict(math=math,re=re,cfg_bool=lambda *args,default=True:default)
+&gt;       exec(compile(module,str(path),'exec'),namespace)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: required field "lineno" missing from stmt
+
+overnight_curve_buildout_20260909\management_correctness_audit_v1\test_existing_account_reconciliation_diagnostics.py:32: TypeError</error></testcase><testcase classname="overnight_curve_buildout_20260909.management_correctness_audit_v1.test_existing_account_reconciliation_diagnostics" name="test_demonstrates_unknown_full_close_is_mislabeled_confirmed[oanda_advisor_account_manager_auto.py-True]" time="0.229"><error message="failed on setup with &quot;TypeError: required field &quot;lineno&quot; missing from stmt&quot;">request = &lt;SubRequest 'manager' for &lt;Function test_demonstrates_unknown_full_close_is_mislabeled_confirmed[oanda_advisor_account_manager_auto.py-True]&gt;&gt;
+
+    @pytest.fixture(params=FILES)
+    def manager(request):
+        path=ROOT/request.param;raw=path.read_bytes();tree=ast.parse(raw,filename=str(path))
+        cls=next(node for node in tree.body if isinstance(node,ast.ClassDef) and node.name=='ForexManager')
+        methods=[node for node in cls.body if isinstance(node,ast.FunctionDef) and node.name in METHODS]
+        helpers=[node for node in tree.body if isinstance(node,ast.FunctionDef) and node.name in HELPERS]
+        assert {node.name for node in methods}==set(METHODS)
+        assert {node.name for node in helpers}==set(HELPERS)
+        module=ast.Module(body=[ast.ImportFrom(module='__future__',names=[ast.alias(name='annotations')],level=0)]+helpers+methods,type_ignores=[])
+        namespace=dict(math=math,re=re,cfg_bool=lambda *args,default=True:default)
+&gt;       exec(compile(module,str(path),'exec'),namespace)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: required field "lineno" missing from stmt
+
+overnight_curve_buildout_20260909\management_correctness_audit_v1\test_existing_account_reconciliation_diagnostics.py:32: TypeError</error></testcase><testcase classname="overnight_curve_buildout_20260909.management_correctness_audit_v1.test_existing_account_reconciliation_diagnostics" name="test_demonstrates_unknown_full_close_is_mislabeled_confirmed[oanda_advisor_account_manager_auto.py-False]" time="0.243"><error message="failed on setup with &quot;TypeError: required field &quot;lineno&quot; missing from stmt&quot;">request = &lt;SubRequest 'manager' for &lt;Function test_demonstrates_unknown_full_close_is_mislabeled_confirmed[oanda_advisor_account_manager_auto.py-False]&gt;&gt;
+
+    @pytest.fixture(params=FILES)
+    def manager(request):
+        path=ROOT/request.param;raw=path.read_bytes();tree=ast.parse(raw,filename=str(path))
+        cls=next(node for node in tree.body if isinstance(node,ast.ClassDef) and node.name=='ForexManager')
+        methods=[node for node in cls.body if isinstance(node,ast.FunctionDef) and node.name in METHODS]
+        helpers=[node for node in tree.body if isinstance(node,ast.FunctionDef) and node.name in HELPERS]
+        assert {node.name for node in methods}==set(METHODS)
+        assert {node.name for node in helpers}==set(HELPERS)
+        module=ast.Module(body=[ast.ImportFrom(module='__future__',names=[ast.alias(name='annotations')],level=0)]+helpers+methods,type_ignores=[])
+        namespace=dict(math=math,re=re,cfg_bool=lambda *args,default=True:default)
+&gt;       exec(compile(module,str(path),'exec'),namespace)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: required field "lineno" missing from stmt
+
+overnight_curve_buildout_20260909\management_correctness_audit_v1\test_existing_account_reconciliation_diagnostics.py:32: TypeError</error></testcase><testcase classname="overnight_curve_buildout_20260909.management_correctness_audit_v1.test_existing_account_reconciliation_diagnostics" name="test_demonstrates_unknown_partial_close_becomes_zero_remaining[oanda_technical_account_manager_auto.py-True]" time="1.034"><error message="failed on setup with &quot;TypeError: required field &quot;lineno&quot; missing from stmt&quot;">request = &lt;SubRequest 'manager' for &lt;Function test_demonstrates_unknown_partial_close_becomes_zero_remaining[oanda_technical_account_manager_auto.py-True]&gt;&gt;
+
+    @pytest.fixture(params=FILES)
+    def manager(request):
+        path=ROOT/request.param;raw=path.read_bytes();tree=ast.parse(raw,filename=str(path))
+        cls=next(node for node in tree.body if isinstance(node,ast.ClassDef) and node.name=='ForexManager')
+        methods=[node for node in cls.body if isinstance(node,ast.FunctionDef) and node.name in METHODS]
+        helpers=[node for node in tree.body if isinstance(node,ast.FunctionDef) and node.name in HELPERS]
+        assert {node.name for node in methods}==set(METHODS)
+        assert {node.name for node in helpers}==set(HELPERS)
+        module=ast.Module(body=[ast.ImportFrom(module='__future__',names=[ast.alias(name='annotations')],level=0)]+helpers+methods,type_ignores=[])
+        namespace=dict(math=math,re=re,cfg_bool=lambda *args,default=True:default)
+&gt;       exec(compile(module,str(path),'exec'),namespace)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: required field "lineno" missing from stmt
+
+overnight_curve_buildout_20260909\management_correctness_audit_v1\test_existing_account_reconciliation_diagnostics.py:32: TypeError</error></testcase><testcase classname="overnight_curve_buildout_20260909.management_correctness_audit_v1.test_existing_account_reconciliation_diagnostics" name="test_demonstrates_unknown_partial_close_becomes_zero_remaining[oanda_technical_account_manager_auto.py-False]" time="0.662"><error message="failed on setup with &quot;TypeError: required field &quot;lineno&quot; missing from stmt&quot;">request = &lt;SubRequest 'manager' for &lt;Function test_demonstrates_unknown_partial_close_becomes_zero_remaining[oanda_technical_account_manager_auto.py-False]&gt;&gt;
+
+    @pytest.fixture(params=FILES)
+    def manager(request):
+        path=ROOT/request.param;raw=path.read_bytes();tree=ast.parse(raw,filename=str(path))
+        cls=next(node for node in tree.body if isinstance(node,ast.ClassDef) and node.name=='ForexManager')
+        methods=[node for node in cls.body if isinstance(node,ast.FunctionDef) and node.name in METHODS]
+        helpers=[node for node in tree.body if isinstance(node,ast.FunctionDef) and node.name in HELPERS]
+        assert {node.name for node in methods}==set(METHODS)
+        assert {node.name for node in helpers}==set(HELPERS)
+        module=ast.Module(body=[ast.ImportFrom(module='__future__',names=[ast.alias(name='annotations')],level=0)]+helpers+methods,type_ignores=[])
+        namespace=dict(math=math,re=re,cfg_bool=lambda *args,default=True:default)
+&gt;       exec(compile(module,str(path),'exec'),namespace)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: required field "lineno" missing from stmt
+
+overnight_curve_buildout_20260909\management_correctness_audit_v1\test_existing_account_reconciliation_diagnostics.py:32: TypeError</error></testcase><testcase classname="overnight_curve_buildout_20260909.management_correctness_audit_v1.test_existing_account_reconciliation_diagnostics" name="test_demonstrates_unknown_partial_close_becomes_zero_remaining[oanda_advisor_account_manager_auto.py-True]" time="0.239"><error message="failed on setup with &quot;TypeError: required field &quot;lineno&quot; missing from stmt&quot;">request = &lt;SubRequest 'manager' for &lt;Function test_demonstrates_unknown_partial_close_becomes_zero_remaining[oanda_advisor_account_manager_auto.py-True]&gt;&gt;
+
+    @pytest.fixture(params=FILES)
+    def manager(request):
+        path=ROOT/request.param;raw=path.read_bytes();tree=ast.parse(raw,filename=str(path))
+        cls=next(node for node in tree.body if isinstance(node,ast.ClassDef) and node.name=='ForexManager')
+        methods=[node for node in cls.body if isinstance(node,ast.FunctionDef) and node.name in METHODS]
+        helpers=[node for node in tree.body if isinstance(node,ast.FunctionDef) and node.name in HELPERS]
+        assert {node.name for node in methods}==set(METHODS)
+        assert {node.name for node in helpers}==set(HELPERS)
+        module=ast.Module(body=[ast.ImportFrom(module='__future__',names=[ast.alias(name='annotations')],level=0)]+helpers+methods,type_ignores=[])
+        namespace=dict(math=math,re=re,cfg_bool=lambda *args,default=True:default)
+&gt;       exec(compile(module,str(path),'exec'),namespace)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: required field "lineno" missing from stmt
+
+overnight_curve_buildout_20260909\management_correctness_audit_v1\test_existing_account_reconciliation_diagnostics.py:32: TypeError</error></testcase><testcase classname="overnight_curve_buildout_20260909.management_correctness_audit_v1.test_existing_account_reconciliation_diagnostics" name="test_demonstrates_unknown_partial_close_becomes_zero_remaining[oanda_advisor_account_manager_auto.py-False]" time="0.241"><error message="failed on setup with &quot;TypeError: required field &quot;lineno&quot; missing from stmt&quot;">request = &lt;SubRequest 'manager' for &lt;Function test_demonstrates_unknown_partial_close_becomes_zero_remaining[oanda_advisor_account_manager_auto.py-False]&gt;&gt;
+
+    @pytest.fixture(params=FILES)
+    def manager(request):
+        path=ROOT/request.param;raw=path.read_bytes();tree=ast.parse(raw,filename=str(path))
+        cls=next(node for node in tree.body if isinstance(node,ast.ClassDef) and node.name=='ForexManager')
+        methods=[node for node in cls.body if isinstance(node,ast.FunctionDef) and node.name in METHODS]
+        helpers=[node for node in tree.body if isinstance(node,ast.FunctionDef) and node.name in HELPERS]
+        assert {node.name for node in methods}==set(METHODS)
+        assert {node.name for node in helpers}==set(HELPERS)
+        module=ast.Module(body=[ast.ImportFrom(module='__future__',names=[ast.alias(name='annotations')],level=0)]+helpers+methods,type_ignores=[])
+        namespace=dict(math=math,re=re,cfg_bool=lambda *args,default=True:default)
+&gt;       exec(compile(module,str(path),'exec'),namespace)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: required field "lineno" missing from stmt
+
+overnight_curve_buildout_20260909\management_correctness_audit_v1\test_existing_account_reconciliation_diagnostics.py:32: TypeError</error></testcase><testcase classname="overnight_curve_buildout_20260909.management_correctness_audit_v1.test_existing_account_reconciliation_diagnostics" name="test_demonstrates_failed_close_and_failed_recheck_admit_flip_open[oanda_technical_account_manager_auto.py]" time="0.657"><error message="failed on setup with &quot;TypeError: required field &quot;lineno&quot; missing from stmt&quot;">request = &lt;SubRequest 'manager' for &lt;Function test_demonstrates_failed_close_and_failed_recheck_admit_flip_open[oanda_technical_account_manager_auto.py]&gt;&gt;
+
+    @pytest.fixture(params=FILES)
+    def manager(request):
+        path=ROOT/request.param;raw=path.read_bytes();tree=ast.parse(raw,filename=str(path))
+        cls=next(node for node in tree.body if isinstance(node,ast.ClassDef) and node.name=='ForexManager')
+        methods=[node for node in cls.body if isinstance(node,ast.FunctionDef) and node.name in METHODS]
+        helpers=[node for node in tree.body if isinstance(node,ast.FunctionDef) and node.name in HELPERS]
+        assert {node.name for node in methods}==set(METHODS)
+        assert {node.name for node in helpers}==set(HELPERS)
+        module=ast.Module(body=[ast.ImportFrom(module='__future__',names=[ast.alias(name='annotations')],level=0)]+helpers+methods,type_ignores=[])
+        namespace=dict(math=math,re=re,cfg_bool=lambda *args,default=True:default)
+&gt;       exec(compile(module,str(path),'exec'),namespace)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: required field "lineno" missing from stmt
+
+overnight_curve_buildout_20260909\management_correctness_audit_v1\test_existing_account_reconciliation_diagnostics.py:32: TypeError</error></testcase><testcase classname="overnight_curve_buildout_20260909.management_correctness_audit_v1.test_existing_account_reconciliation_diagnostics" name="test_demonstrates_failed_close_and_failed_recheck_admit_flip_open[oanda_advisor_account_manager_auto.py]" time="0.239"><error message="failed on setup with &quot;TypeError: required field &quot;lineno&quot; missing from stmt&quot;">request = &lt;SubRequest 'manager' for &lt;Function test_demonstrates_failed_close_and_failed_recheck_admit_flip_open[oanda_advisor_account_manager_auto.py]&gt;&gt;
+
+    @pytest.fixture(params=FILES)
+    def manager(request):
+        path=ROOT/request.param;raw=path.read_bytes();tree=ast.parse(raw,filename=str(path))
+        cls=next(node for node in tree.body if isinstance(node,ast.ClassDef) and node.name=='ForexManager')
+        methods=[node for node in cls.body if isinstance(node,ast.FunctionDef) and node.name in METHODS]
+        helpers=[node for node in tree.body if isinstance(node,ast.FunctionDef) and node.name in HELPERS]
+        assert {node.name for node in methods}==set(METHODS)
+        assert {node.name for node in helpers}==set(HELPERS)
+        module=ast.Module(body=[ast.ImportFrom(module='__future__',names=[ast.alias(name='annotations')],level=0)]+helpers+methods,type_ignores=[])
+        namespace=dict(math=math,re=re,cfg_bool=lambda *args,default=True:default)
+&gt;       exec(compile(module,str(path),'exec'),namespace)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: required field "lineno" missing from stmt
+
+overnight_curve_buildout_20260909\management_correctness_audit_v1\test_existing_account_reconciliation_diagnostics.py:32: TypeError</error></testcase><testcase classname="overnight_curve_buildout_20260909.management_correctness_audit_v1.test_existing_account_reconciliation_diagnostics" name="test_confirmed_still_open_control_does_not_admit_flip[oanda_technical_account_manager_auto.py]" time="1.086"><error message="failed on setup with &quot;TypeError: required field &quot;lineno&quot; missing from stmt&quot;">request = &lt;SubRequest 'manager' for &lt;Function test_confirmed_still_open_control_does_not_admit_flip[oanda_technical_account_manager_auto.py]&gt;&gt;
+
+    @pytest.fixture(params=FILES)
+    def manager(request):
+        path=ROOT/request.param;raw=path.read_bytes();tree=ast.parse(raw,filename=str(path))
+        cls=next(node for node in tree.body if isinstance(node,ast.ClassDef) and node.name=='ForexManager')
+        methods=[node for node in cls.body if isinstance(node,ast.FunctionDef) and node.name in METHODS]
+        helpers=[node for node in tree.body if isinstance(node,ast.FunctionDef) and node.name in HELPERS]
+        assert {node.name for node in methods}==set(METHODS)
+        assert {node.name for node in helpers}==set(HELPERS)
+        module=ast.Module(body=[ast.ImportFrom(module='__future__',names=[ast.alias(name='annotations')],level=0)]+helpers+methods,type_ignores=[])
+        namespace=dict(math=math,re=re,cfg_bool=lambda *args,default=True:default)
+&gt;       exec(compile(module,str(path),'exec'),namespace)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: required field "lineno" missing from stmt
+
+overnight_curve_buildout_20260909\management_correctness_audit_v1\test_existing_account_reconciliation_diagnostics.py:32: TypeError</error></testcase><testcase classname="overnight_curve_buildout_20260909.management_correctness_audit_v1.test_existing_account_reconciliation_diagnostics" name="test_confirmed_still_open_control_does_not_admit_flip[oanda_advisor_account_manager_auto.py]" time="0.231"><error message="failed on setup with &quot;TypeError: required field &quot;lineno&quot; missing from stmt&quot;">request = &lt;SubRequest 'manager' for &lt;Function test_confirmed_still_open_control_does_not_admit_flip[oanda_advisor_account_manager_auto.py]&gt;&gt;
+
+    @pytest.fixture(params=FILES)
+    def manager(request):
+        path=ROOT/request.param;raw=path.read_bytes();tree=ast.parse(raw,filename=str(path))
+        cls=next(node for node in tree.body if isinstance(node,ast.ClassDef) and node.name=='ForexManager')
+        methods=[node for node in cls.body if isinstance(node,ast.FunctionDef) and node.name in METHODS]
+        helpers=[node for node in tree.body if isinstance(node,ast.FunctionDef) and node.name in HELPERS]
+        assert {node.name for node in methods}==set(METHODS)
+        assert {node.name for node in helpers}==set(HELPERS)
+        module=ast.Module(body=[ast.ImportFrom(module='__future__',names=[ast.alias(name='annotations')],level=0)]+helpers+methods,type_ignores=[])
+        namespace=dict(math=math,re=re,cfg_bool=lambda *args,default=True:default)
+&gt;       exec(compile(module,str(path),'exec'),namespace)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: required field "lineno" missing from stmt
+
+overnight_curve_buildout_20260909\management_correctness_audit_v1\test_existing_account_reconciliation_diagnostics.py:32: TypeError</error></testcase><testcase classname="overnight_curve_buildout_20260909.management_correctness_audit_v1.test_existing_account_reconciliation_diagnostics" name="test_demonstrates_exact_missing_id_falls_back_to_other_trade[oanda_technical_account_manager_auto.py]" time="0.597"><error message="failed on setup with &quot;TypeError: required field &quot;lineno&quot; missing from stmt&quot;">request = &lt;SubRequest 'manager' for &lt;Function test_demonstrates_exact_missing_id_falls_back_to_other_trade[oanda_technical_account_manager_auto.py]&gt;&gt;
+
+    @pytest.fixture(params=FILES)
+    def manager(request):
+        path=ROOT/request.param;raw=path.read_bytes();tree=ast.parse(raw,filename=str(path))
+        cls=next(node for node in tree.body if isinstance(node,ast.ClassDef) and node.name=='ForexManager')
+        methods=[node for node in cls.body if isinstance(node,ast.FunctionDef) and node.name in METHODS]
+        helpers=[node for node in tree.body if isinstance(node,ast.FunctionDef) and node.name in HELPERS]
+        assert {node.name for node in methods}==set(METHODS)
+        assert {node.name for node in helpers}==set(HELPERS)
+        module=ast.Module(body=[ast.ImportFrom(module='__future__',names=[ast.alias(name='annotations')],level=0)]+helpers+methods,type_ignores=[])
+        namespace=dict(math=math,re=re,cfg_bool=lambda *args,default=True:default)
+&gt;       exec(compile(module,str(path),'exec'),namespace)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: required field "lineno" missing from stmt
+
+overnight_curve_buildout_20260909\management_correctness_audit_v1\test_existing_account_reconciliation_diagnostics.py:32: TypeError</error></testcase><testcase classname="overnight_curve_buildout_20260909.management_correctness_audit_v1.test_existing_account_reconciliation_diagnostics" name="test_demonstrates_exact_missing_id_falls_back_to_other_trade[oanda_advisor_account_manager_auto.py]" time="0.248"><error message="failed on setup with &quot;TypeError: required field &quot;lineno&quot; missing from stmt&quot;">request = &lt;SubRequest 'manager' for &lt;Function test_demonstrates_exact_missing_id_falls_back_to_other_trade[oanda_advisor_account_manager_auto.py]&gt;&gt;
+
+    @pytest.fixture(params=FILES)
+    def manager(request):
+        path=ROOT/request.param;raw=path.read_bytes();tree=ast.parse(raw,filename=str(path))
+        cls=next(node for node in tree.body if isinstance(node,ast.ClassDef) and node.name=='ForexManager')
+        methods=[node for node in cls.body if isinstance(node,ast.FunctionDef) and node.name in METHODS]
+        helpers=[node for node in tree.body if isinstance(node,ast.FunctionDef) and node.name in HELPERS]
+        assert {node.name for node in methods}==set(METHODS)
+        assert {node.name for node in helpers}==set(HELPERS)
+        module=ast.Module(body=[ast.ImportFrom(module='__future__',names=[ast.alias(name='annotations')],level=0)]+helpers+methods,type_ignores=[])
+        namespace=dict(math=math,re=re,cfg_bool=lambda *args,default=True:default)
+&gt;       exec(compile(module,str(path),'exec'),namespace)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: required field "lineno" missing from stmt
+
+overnight_curve_buildout_20260909\management_correctness_audit_v1\test_existing_account_reconciliation_diagnostics.py:32: TypeError</error></testcase><testcase classname="overnight_curve_buildout_20260909.management_correctness_audit_v1.test_existing_account_reconciliation_diagnostics" name="test_demonstrates_handle_action_retargets_a_different_same_pair_trade[oanda_technical_account_manager_auto.py]" time="0.612"><error message="failed on setup with &quot;TypeError: required field &quot;lineno&quot; missing from stmt&quot;">request = &lt;SubRequest 'manager' for &lt;Function test_demonstrates_handle_action_retargets_a_different_same_pair_trade[oanda_technical_account_manager_auto.py]&gt;&gt;
+
+    @pytest.fixture(params=FILES)
+    def manager(request):
+        path=ROOT/request.param;raw=path.read_bytes();tree=ast.parse(raw,filename=str(path))
+        cls=next(node for node in tree.body if isinstance(node,ast.ClassDef) and node.name=='ForexManager')
+        methods=[node for node in cls.body if isinstance(node,ast.FunctionDef) and node.name in METHODS]
+        helpers=[node for node in tree.body if isinstance(node,ast.FunctionDef) and node.name in HELPERS]
+        assert {node.name for node in methods}==set(METHODS)
+        assert {node.name for node in helpers}==set(HELPERS)
+        module=ast.Module(body=[ast.ImportFrom(module='__future__',names=[ast.alias(name='annotations')],level=0)]+helpers+methods,type_ignores=[])
+        namespace=dict(math=math,re=re,cfg_bool=lambda *args,default=True:default)
+&gt;       exec(compile(module,str(path),'exec'),namespace)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: required field "lineno" missing from stmt
+
+overnight_curve_buildout_20260909\management_correctness_audit_v1\test_existing_account_reconciliation_diagnostics.py:32: TypeError</error></testcase><testcase classname="overnight_curve_buildout_20260909.management_correctness_audit_v1.test_existing_account_reconciliation_diagnostics" name="test_demonstrates_handle_action_retargets_a_different_same_pair_trade[oanda_advisor_account_manager_auto.py]" time="0.250"><error message="failed on setup with &quot;TypeError: required field &quot;lineno&quot; missing from stmt&quot;">request = &lt;SubRequest 'manager' for &lt;Function test_demonstrates_handle_action_retargets_a_different_same_pair_trade[oanda_advisor_account_manager_auto.py]&gt;&gt;
+
+    @pytest.fixture(params=FILES)
+    def manager(request):
+        path=ROOT/request.param;raw=path.read_bytes();tree=ast.parse(raw,filename=str(path))
+        cls=next(node for node in tree.body if isinstance(node,ast.ClassDef) and node.name=='ForexManager')
+        methods=[node for node in cls.body if isinstance(node,ast.FunctionDef) and node.name in METHODS]
+        helpers=[node for node in tree.body if isinstance(node,ast.FunctionDef) and node.name in HELPERS]
+        assert {node.name for node in methods}==set(METHODS)
+        assert {node.name for node in helpers}==set(HELPERS)
+        module=ast.Module(body=[ast.ImportFrom(module='__future__',names=[ast.alias(name='annotations')],level=0)]+helpers+methods,type_ignores=[])
+        namespace=dict(math=math,re=re,cfg_bool=lambda *args,default=True:default)
+&gt;       exec(compile(module,str(path),'exec'),namespace)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: required field "lineno" missing from stmt
+
+overnight_curve_buildout_20260909\management_correctness_audit_v1\test_existing_account_reconciliation_diagnostics.py:32: TypeError</error></testcase><testcase classname="overnight_curve_buildout_20260909.management_correctness_audit_v1.test_existing_account_reconciliation_diagnostics" name="test_demonstrates_any_unit_reduction_is_logged_as_requested_partial_amount[oanda_technical_account_manager_auto.py]" time="0.966"><error message="failed on setup with &quot;TypeError: required field &quot;lineno&quot; missing from stmt&quot;">request = &lt;SubRequest 'manager' for &lt;Function test_demonstrates_any_unit_reduction_is_logged_as_requested_partial_amount[oanda_technical_account_manager_auto.py]&gt;&gt;
+
+    @pytest.fixture(params=FILES)
+    def manager(request):
+        path=ROOT/request.param;raw=path.read_bytes();tree=ast.parse(raw,filename=str(path))
+        cls=next(node for node in tree.body if isinstance(node,ast.ClassDef) and node.name=='ForexManager')
+        methods=[node for node in cls.body if isinstance(node,ast.FunctionDef) and node.name in METHODS]
+        helpers=[node for node in tree.body if isinstance(node,ast.FunctionDef) and node.name in HELPERS]
+        assert {node.name for node in methods}==set(METHODS)
+        assert {node.name for node in helpers}==set(HELPERS)
+        module=ast.Module(body=[ast.ImportFrom(module='__future__',names=[ast.alias(name='annotations')],level=0)]+helpers+methods,type_ignores=[])
+        namespace=dict(math=math,re=re,cfg_bool=lambda *args,default=True:default)
+&gt;       exec(compile(module,str(path),'exec'),namespace)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: required field "lineno" missing from stmt
+
+overnight_curve_buildout_20260909\management_correctness_audit_v1\test_existing_account_reconciliation_diagnostics.py:32: TypeError</error></testcase><testcase classname="overnight_curve_buildout_20260909.management_correctness_audit_v1.test_existing_account_reconciliation_diagnostics" name="test_demonstrates_any_unit_reduction_is_logged_as_requested_partial_amount[oanda_advisor_account_manager_auto.py]" time="0.198"><error message="failed on setup with &quot;TypeError: required field &quot;lineno&quot; missing from stmt&quot;">request = &lt;SubRequest 'manager' for &lt;Function test_demonstrates_any_unit_reduction_is_logged_as_requested_partial_amount[oanda_advisor_account_manager_auto.py]&gt;&gt;
+
+    @pytest.fixture(params=FILES)
+    def manager(request):
+        path=ROOT/request.param;raw=path.read_bytes();tree=ast.parse(raw,filename=str(path))
+        cls=next(node for node in tree.body if isinstance(node,ast.ClassDef) and node.name=='ForexManager')
+        methods=[node for node in cls.body if isinstance(node,ast.FunctionDef) and node.name in METHODS]
+        helpers=[node for node in tree.body if isinstance(node,ast.FunctionDef) and node.name in HELPERS]
+        assert {node.name for node in methods}==set(METHODS)
+        assert {node.name for node in helpers}==set(HELPERS)
+        module=ast.Module(body=[ast.ImportFrom(module='__future__',names=[ast.alias(name='annotations')],level=0)]+helpers+methods,type_ignores=[])
+        namespace=dict(math=math,re=re,cfg_bool=lambda *args,default=True:default)
+&gt;       exec(compile(module,str(path),'exec'),namespace)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: required field "lineno" missing from stmt
+
+overnight_curve_buildout_20260909\management_correctness_audit_v1\test_existing_account_reconciliation_diagnostics.py:32: TypeError</error></testcase><testcase classname="overnight_curve_buildout_20260909.management_correctness_audit_v1.test_existing_account_reconciliation_diagnostics" name="test_demonstrates_tighten_does_not_reject_a_looser_existing_stop[oanda_technical_account_manager_auto.py]" time="0.560"><error message="failed on setup with &quot;TypeError: required field &quot;lineno&quot; missing from stmt&quot;">request = &lt;SubRequest 'manager' for &lt;Function test_demonstrates_tighten_does_not_reject_a_looser_existing_stop[oanda_technical_account_manager_auto.py]&gt;&gt;
+
+    @pytest.fixture(params=FILES)
+    def manager(request):
+        path=ROOT/request.param;raw=path.read_bytes();tree=ast.parse(raw,filename=str(path))
+        cls=next(node for node in tree.body if isinstance(node,ast.ClassDef) and node.name=='ForexManager')
+        methods=[node for node in cls.body if isinstance(node,ast.FunctionDef) and node.name in METHODS]
+        helpers=[node for node in tree.body if isinstance(node,ast.FunctionDef) and node.name in HELPERS]
+        assert {node.name for node in methods}==set(METHODS)
+        assert {node.name for node in helpers}==set(HELPERS)
+        module=ast.Module(body=[ast.ImportFrom(module='__future__',names=[ast.alias(name='annotations')],level=0)]+helpers+methods,type_ignores=[])
+        namespace=dict(math=math,re=re,cfg_bool=lambda *args,default=True:default)
+&gt;       exec(compile(module,str(path),'exec'),namespace)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: required field "lineno" missing from stmt
+
+overnight_curve_buildout_20260909\management_correctness_audit_v1\test_existing_account_reconciliation_diagnostics.py:32: TypeError</error></testcase><testcase classname="overnight_curve_buildout_20260909.management_correctness_audit_v1.test_existing_account_reconciliation_diagnostics" name="test_demonstrates_tighten_does_not_reject_a_looser_existing_stop[oanda_advisor_account_manager_auto.py]" time="0.234"><error message="failed on setup with &quot;TypeError: required field &quot;lineno&quot; missing from stmt&quot;">request = &lt;SubRequest 'manager' for &lt;Function test_demonstrates_tighten_does_not_reject_a_looser_existing_stop[oanda_advisor_account_manager_auto.py]&gt;&gt;
+
+    @pytest.fixture(params=FILES)
+    def manager(request):
+        path=ROOT/request.param;raw=path.read_bytes();tree=ast.parse(raw,filename=str(path))
+        cls=next(node for node in tree.body if isinstance(node,ast.ClassDef) and node.name=='ForexManager')
+        methods=[node for node in cls.body if isinstance(node,ast.FunctionDef) and node.name in METHODS]
+        helpers=[node for node in tree.body if isinstance(node,ast.FunctionDef) and node.name in HELPERS]
+        assert {node.name for node in methods}==set(METHODS)
+        assert {node.name for node in helpers}==set(HELPERS)
+        module=ast.Module(body=[ast.ImportFrom(module='__future__',names=[ast.alias(name='annotations')],level=0)]+helpers+methods,type_ignores=[])
+        namespace=dict(math=math,re=re,cfg_bool=lambda *args,default=True:default)
+&gt;       exec(compile(module,str(path),'exec'),namespace)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: required field "lineno" missing from stmt
+
+overnight_curve_buildout_20260909\management_correctness_audit_v1\test_existing_account_reconciliation_diagnostics.py:32: TypeError</error></testcase></testsuite></testsuites>

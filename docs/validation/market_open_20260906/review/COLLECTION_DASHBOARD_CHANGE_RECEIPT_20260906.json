@@ -1,0 +1,44 @@
+{
+  "observed_utc": "2026-09-06T19:52:05.6169771Z",
+  "sources": [
+    {
+      "name": "oanda_practice_live_dashboard.py",
+      "bytes": 410311,
+      "sha256": "b9c6661d66ea40001aa84abb6af85403cf51672b5eb29c294319809842b7ddab",
+      "before_sha256": "97c788f7dd81076c607d4ae699c053863026539713eb21e4ec29b8051a7389ca"
+    },
+    {
+      "name": "oanda_main_signal_dashboard.html",
+      "bytes": 120522,
+      "sha256": "ec99702a48a58f6059daec7bc22ce26644ba564bb155cfe889fcf21b6a9528ea",
+      "before_sha256": "063a51e90266978d4ba3eb2c439289265f58926aed1fbde702347f4640aefb6a"
+    },
+    {
+      "name": "test_oanda_collection_dashboard_status.py",
+      "bytes": 11639,
+      "sha256": "7fce82b01f8289f241e429be2f0e63f9f29142fc306dc0b49c05e92d8584b2b2",
+      "before_sha256": null
+    }
+  ],
+  "result": "Separate collection_status API and main-page banner/header; existing strategy/execution active remains unchanged.",
+  "observations_required": [
+    "Fresh registered study heartbeat and matching inert contract hash",
+    "Fresh connected practice-007 quote transport heartbeat",
+    "Fresh explicitly verified practice-007 account values, positions and orders"
+  ],
+  "unknown_policy": "Missing, stale, future, malformed, identity-mismatched or unhealthy observations produce unknown collection status, not false zero/off claims.",
+  "warmup": "335 completed common M1 bars, about 5h35 after a gap plus archive/model cadence delay. Progress unknown unless explicitly reported; this is not an ETA.",
+  "error_scope": "Status describes recent liveness observations, not forecast success or error-free operation. Cumulative study and heartbeat publication errors are displayed separately.",
+  "trading_scope": "Registered research study only. No order, promotion, strategy-active or execution-active flag enabled.",
+  "tests": {
+    "xml_sha256": "87500b0d13afb1b06b745ac5d8a9e6c3c99479835125ba38170dd1965fad68f1",
+    "errors": 0,
+    "failed": 0,
+    "xml": "collection_dashboard_tests.xml",
+    "includes": "35 collection-status fixture tests, 19 existing executor diagnostic tests, isolated Node HTML header/banner execution",
+    "passed": 54,
+    "elapsed_sec": 2.62
+  },
+  "verification_boundary": "Fixture tests guard database/network access and mock heavy dashboard loaders. No broker, credentials, workers or production databases used. Parent owns dashboard-only restart and final served API verification.",
+  "prior_observation_note": "COLLECTION_DASHBOARD_OBSERVATION_20260906.json captures real local JSON liveness before the final cumulative-error display fields were added; do not treat it as a final served API receipt."
+}

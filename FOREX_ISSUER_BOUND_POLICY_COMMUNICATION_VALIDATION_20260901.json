@@ -1,0 +1,127 @@
+{
+  "schema_version": "forex_issuer_bound_policy_communication_validation_v1",
+  "generated_utc": "2026-09-01T15:49:57.658668Z",
+  "scope": "prospective authority-communication issuer binding and immutable paired-evaluator retirement",
+  "classification_repair": {
+    "classification_version": "local_fx_news_rules_20260901_v153_authority_communication_source_binding",
+    "contract_id": "issuer_bound_policy_communication_v2_authority_source_identity_20260901",
+    "cohort_id": "issuer_bound_policy_communication_v2_prospective_20260901T160000Z",
+    "activation_utc": "2026-09-01T16:00:00Z",
+    "historical_rows_imported_into_proof": 0,
+    "configured_authority_communication_sources": 10,
+    "source_identity_may_establish_document_type_but_not_direction": true,
+    "mixed_publication_feeds_excluded_from_source_identity_fallback": true,
+    "research_only": true,
+    "execution_eligible": false,
+    "can_authorize": false,
+    "can_promote": false
+  },
+  "frozen_riksbank_regression_case": {
+    "observation_id": "8ba752b858cf7edea3d5ccf618bf8dca3e405b22faa145ef94e734b47142e478",
+    "source_id": "riksbank_speeches",
+    "headline": "Per Jansson: Inflation risks being elevated, but there is scope to wait and see",
+    "source_currency": "SEK",
+    "first_seen_utc": "2026-08-31T10:27:25.444073Z",
+    "v152_diagnostic": {
+      "currencies": ["CAD", "JPY", "MXN", "NOK", "SEK"],
+      "direct_currencies": ["SEK"],
+      "inferred_currencies": ["CAD", "JPY", "MXN", "NOK"],
+      "currency_scores": {"CAD": 0.5, "JPY": -0.2, "MXN": 0.5, "NOK": 0.5},
+      "prospective_semantic_candidate": true,
+      "forward_shadow_candidate": true,
+      "publish_eligible_forward_candidate": false
+    },
+    "v153_projection": {
+      "currencies": ["SEK"],
+      "direct_currencies": ["SEK"],
+      "inferred_currencies": [],
+      "currency_scores": {},
+      "semantic_direction_available": false,
+      "prospective_semantic_candidate": false,
+      "forward_shadow_candidate": false,
+      "publish_eligible_forward_candidate": false,
+      "issuer_binding_method": "configured_authority_communication_source_v2_diagnostic_pre_activation",
+      "activation_eligible": false
+    },
+    "historical_use": "frozen_regression_fixture_only_not_proof"
+  },
+  "live_mapper_checkpoint": {
+    "current_v153_mapping_rows": 1945,
+    "retained_classifier_versions": 11,
+    "retained_mapping_rows_all_versions": 16693,
+    "semantic_direction_rows": 29,
+    "prospective_semantic_candidates": 0,
+    "forward_shadow_candidates": 0,
+    "publish_eligible_forward_candidates": 0,
+    "required_quote_universe": 68,
+    "supported_decision": "no_trade"
+  },
+  "paired_evaluator_retirement": {
+    "cohort_id": "official_event_paired_evaluator_v1_20260830b",
+    "state": "terminally_incomplete_immutable_cohort",
+    "decisions": 32,
+    "invalid_decisions": 32,
+    "arms": 160,
+    "horizon_inputs": 0,
+    "outcomes": 0,
+    "eligible_raw_captures": 47,
+    "due_missing_decisions": 15,
+    "due_missing_upstream_horizons": 160,
+    "live_news_source_config_sha256": "2265fa7346e6fe720184810709a68b911de43a711e531053a3ae06cf58d4e4e2",
+    "frozen_news_source_config_sha256": "6058d3a81d250add66e1d22b0f2541990f3bc90c52575c4a7a97c3361ad0a45b",
+    "frozen_news_source_config_git_commit": "8e115984965e8e952048cf4bb323560e5c496f43",
+    "verifier_resolution": "frozen_git_commit_exact_bytes",
+    "remaining_verifier_failures_are_schedule_or_horizon_gaps": true,
+    "producer_runtime_action": "disabled_preserve_evidence",
+    "verifier_runtime_action": "disabled_preserve_final_audit",
+    "new_cohort_required_for_retry": true,
+    "running_process_count_after_reload": 0
+  },
+  "runtime_checkpoint": {
+    "supervisor_pid": 21976,
+    "watchdog_pid": 20824,
+    "watchdog_restart_circuit_open": false,
+    "account_id": "101-001-37981792-007",
+    "environment": "practice",
+    "balance": 41.6042,
+    "nav": 41.6042,
+    "cumulative_pl": -8.343,
+    "open_trades": 0,
+    "pending_orders": 0,
+    "quoted_instruments": 68,
+    "qualified_candidates": 0,
+    "authorized_entries": 0,
+    "real_money_routing": false,
+    "supported_decision": "no_trade",
+    "c_drive_free_gib": 150.05,
+    "free_memory_gib": 12.15
+  },
+  "validation": {
+    "python_compile": "passed",
+    "focused_tests_collected": 555,
+    "focused_tests": "passed",
+    "paired_evaluator_governance_subset": "66 passed",
+    "powershell_parse": "passed",
+    "sqlite_quick_check": {
+      "official_event_paired_evaluator_v1_20260830b.sqlite": "ok",
+      "official_release_fast_mapping_v3.sqlite": "ok",
+      "evidence_lifecycle_v1.sqlite": "ok"
+    },
+    "file_sha256": {
+      "oanda_news_classification_contract.py": "eb8cda8cd3fa9b0342ecbd683767ebad72517db519e622e50efc71acf82f7d76",
+      "oanda_local_news_sentiment.py": "ba8e69852482d9fe7011c24559f2bbd2fdae47f6ae26b5817e99f44367a2bd62",
+      "oanda_official_release_fast_mapper.py": "dfd912c5f5f2458eecf765f23e088e195a89e225aba93b0295f5fa2240040de0",
+      "oanda_official_event_paired_evaluator_v1_verifier.py": "1f835fc040b73ce79e39adb1c6f6262b666099538759836c5ef9cfdcbfb3d1d9",
+      "oanda_always_on_supervisor.ps1": "d48a058b4d6467e9b5e90d223271b3d5743eb4de05962bfddb02a624ede5ffad",
+      "config/shadow_runtime_retirements_v1.json": "2ba55ae58b68692a683aa3a68ffa8e0ac843f65f003d79abb10692c0c5445608"
+    }
+  },
+  "safety": {
+    "manual_or_discretionary_orders": 0,
+    "manual_position_closes": 0,
+    "practice_gate_relaxed": false,
+    "real_money_enabled": false,
+    "codex_automation_created": false,
+    "historical_evidence_rewritten": false
+  }
+}

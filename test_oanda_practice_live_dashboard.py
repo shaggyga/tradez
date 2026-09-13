@@ -44,10 +44,10 @@ from trad.oanda_practice_live_dashboard import (
 
 
 class PatternDashboardTests(unittest.TestCase):
-    def test_primary_executable_census_reads_only_prospective_cohort_b(self):
+    def test_primary_executable_census_reads_only_prospective_cohort_g(self):
         self.assertEqual(
             dashboard.EXECUTABLE_MOVE_CENSUS.name,
-            "executable_move_census_latest_v1_20260830b.json",
+            "executable_move_census_latest_v3_20260902g.json",
         )
 
     def test_adaptive_level_summary_remains_outside_execution_surface(self):

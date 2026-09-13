@@ -8,6 +8,213 @@ work belongs in `FOREX_PENDING_IMPROVEMENTS.md`. Source availability belongs in
 Historical states before this log was introduced remain preserved in the
 timestamped model-vault checkpoints and the existing specialist reports.
 
+
+
+## 2026-09-06 — independent prediction sanity check and co-movement inventory
+
+Recorded 2026-09-06T15:53:01.014364+00:00. Indexed raw ledger extraction reproduced 8414rows/4156stored
+direction hits/716positive spread outcomes; independent decimal prices corrected
+eight rounding-only hits to4148(49.30%). Four-model368endpoint metrics and1628
+payload hashes reproduce. Independent co-movement verification matched98matrix
+cells and35lagcells; unanimous models were right9/40. D-drive research artifacts
+were located and separated from the four current predictors. Added exact-price
+scoring issue and inactive co-movement research plan. Historical receipts and
+registered collection source remain unchanged; no models fitted or orders placed.
+See docs/FOREX_PREDICTION_SANITY_20260906.md and its validation receipt.
+
+
+## 2026-09-06 — Windows study heartbeat repair and separate io_r2 registration
+
+Recorded 2026-09-06T15:32:22.899414+00:00. Final process-log review found two transient heartbeat replace
+failures despite the recovered worker's zero error counter. Added bounded atomic
+retry and heartbeat failure isolation; preserved the initial zero-forecast
+study and activated a new source-bound io_r2 contract at 2026-09-06T15:30:24.952645+00:00.
+No numerical or timing-rule changes. 63 regression tests, 16 independent
+publication tests and the 12-worker/107-blocked-name gate pass. Collection is
+running, trading disabled, and fresh predictive acceptance remains pending.
+See docs/FOREX_CAUSAL_IO_REPAIR_20260906.md and its hash-bound validation receipt.
+
+
+## 2026-09-06 — causal timing repair and new future-only study
+
+Recorded 2026-09-06T15:16:14.282917+00:00. Resumed collection after finding the previous runtime stopped.
+Implemented a separate timestamped seven-pair input/four-family EURUSD study,
+postcommit publication plus independent consumption, later executable entry,
+and immutable original target. Retired old proof/outcome/calibration workers.
+Legacy calibration readiness now fails closed; separate V2 filters original
+issue-time labels. Bounded input/model work and asynchronous scorecards protect
+quote polling. Combined421tests/29subtests; independent106ledger tests and5000
+calibration oracle forecasts pass. New study registered at 2026-09-06T15:08:20.115287+00:00,
+with zero forecasts/outcomes and closed-market waiting; twelve research workers
+are healthy and trading stays off. Both P1 statuses are implemented_collecting,
+not complete. Historical407decisions still yield zero valid causal pairs.
+See docs/FOREX_CAUSAL_TIMING_REPAIR_20260906.md and its validation/followup JSONs.
+
+
+## 2026-09-06 — authorized collection restart
+
+The user authorized Forex to be on for today's opening. Added a closed
+eleven-worker ResearchCollectionOnly allow-list and a dedicated hidden launcher.
+The prior safe-core launcher still admits practice execution and was not used.
+No executor, model/proof producer, calibration, lifecycle or promotion worker
+was resumed. Source V9/rank V8 and the two existing Forex tasks stay disabled.
+The dedicated read-only stream owns the canonical quote snapshot with its own
+producer identity; pre-restart quote and integrity evidence is preserved.
+Twenty regression tests and an independent 107-name exclusion check passed.
+Live verification found the dashboard responding, quote stream connected,
+fresh collection heartbeats and zero practice trades/orders. Full integrity
+and new prospective event acceptance are not certified by this startup check.
+See docs/FOREX_RESEARCH_RESTART_20260906.md and the corresponding JSON receipt.
+
+
+## 2026-09-06 — fixed EUR/USD baseline evaluation, runtime stopped
+
+Accepted the user's request for a small fixed forecast comparison. Preserved
+all four active families/EUR_USD/one-hour cohorts and versions, including 1,628
+forecasts and 85 missing outcomes. On 368 identical stored endpoints, all four
+models have worse Brier than constant 50%, worse signed-move MAE than zero
+change, and negative stored bid/ask results. These are archival diagnostics.
+
+Built a separate strict offline evaluator and causal rolling baseline helper.
+The original reference price, target and emitted direction remain bound;
+training-label maturity and availability must precede original issue. Missing
+clocks are rejected. The actual archive yields zero strictly scored pairs.
+Combined guarded validation: 158 passed, no failures or skips.
+
+Registered P1 FX-20260906-FOUR-FAMILY-ENTRY-TARGET-AVAILABILITY: all stored entry
+quotes predate recording, publication/feature/label availability evidence is
+missing, and outcome producers use different target/quote clock conventions.
+No historical receipt or cohort was backfilled. The legacy calibration P1
+remains open; future collection needs a separate correctly timestamped producer.
+
+Read-only indexed acquisition left main database/WAL hashes, sizes and mtimes
+unchanged; SQLite's ephemeral SHM reader marks are not claimed unchanged.
+The narrow extract and calculations are preserved for offline reproduction.
+No model was selected, tuned, retrained, promoted, started or traded.
+See docs/FOREX_FIXED_EVALUATION_20260906.md and its dated validation receipt.
+
+## 2026-09-06 — compact integrity publication and prediction assessment, runtime stopped
+
+Implemented compact integrity summaries with immutable, hash-verified episode
+detail; preserved every check and other existing value. Checkpoint exports pin
+the current snapshot and verified detail together, and saved four-hour records
+carry a portable source locator. No current runtime snapshot was rewritten.
+
+On the saved 98.9 MB payload, the current summary is 167,893 bytes and repeat
+publication median falls from 3.326 to 1.079 seconds. Five detail artifacts
+retain 73,162,637 bytes. This is publication overhead, not a full-cycle timing.
+The combined guarded suite passed 131 tests with one Windows symlink skip.
+Source and evidence bindings: `FOREX_OPTIMIZATION_VALIDATION_20260906.json`.
+
+Prediction review: 4,156 of 8,414 current shadow outcomes had correct gross
+direction (49.39%); 716 were positive after spread (8.51%). Calibration replay
+is not verified original-issue-time accuracy. No reliable useful edge is
+demonstrated. Exact cohorts, baselines and limitations are recorded in
+`docs/FOREX_PREDICTION_QUALITY_20260906.md` and its dated JSON receipt.
+
+Registered the calibration availability limitation as the new open P1
+`FX-20260906-CALIBRATION-REPLAY-ISSUE-CLOCK`. Existing account eligibility
+remains false; completing a separately frozen causal study remains pending.
+
+The user-requested improvement log is `FOREX_OPTIMIZATION_BACKLOG_20260906.json`.
+Query profiling, storage/retention assessment, useful source yield and new
+time-causal predictive evidence remain pending. No worker, supervisor,
+dashboard, broker action or source successor was activated. Prior dated
+audit/repair records and source archives are preserved.
+
+## 2026-09-05 — independent audit repairs and performance review, runtime stopped
+
+Repaired final signed-canary revalidation, unavailable currency conversion,
+source publication/entry clocks in a separate disabled successor cohort,
+fastlane committed visibility and transactional cursor recovery, credential
+literal detection, and source-only recreation instructions. Hardened the
+unwired prospective-governance definition lock. Old source/rank and fastlane
+evidence remains unchanged; no production database was rewritten.
+
+Focused offline tests and independent cross-review are recorded with source
+hashes in `FOREX_REPAIR_VALIDATION_20260905.json`. Saved performance and bounded
+fixture benchmarks are recorded in `FOREX_PERFORMANCE_AUDIT_20260905.json`.
+No broker request, worker restart, collection activation or new order occurred.
+The saved degraded integrity report and unconfirmed research remain visible.
+See `docs/FOREX_REPAIR_REVIEW_20260905.md` and
+`docs/FOREX_PERFORMANCE_AUDIT_20260905.md` for scope and remaining validation.
+
+## 2026-09-02 06:07 America/New_York — Lifecycle/genealogy writer collision repaired
+
+- A new lifecycle pass committed 36 governed definitions while the broad
+  research-genealogy worker held the other append-only write transaction. Two
+  post-ingest handoffs ended with `sqlite3.OperationalError: database is
+  locked`. Lifecycle publication correctly remained at its prior 52,883-row
+  state, the independent verifier returned mismatch and project integrity
+  degraded; this was fail-closed and could not authorize an entry.
+- Added a targeted lock/busy-only retry contract with fresh connections,
+  rollback/close on each failed attempt, an explicit 30-second busy timeout,
+  bounded exponential delay and a finite 24-attempt ceiling. Non-lock errors
+  and exhausted contention still propagate. Retry progress is published in the
+  separate fail-closed liveness heartbeat.
+- Changed the broad static genealogy scan from five-minute to hourly cadence.
+  Exact lifecycle coverage is now owned by the targeted prepublication handoff,
+  so the broad collector no longer needs to hold the shared write surface nearly
+  continuously.
+- Reloaded only the hidden local supervisor and the two affected research
+  workers. The single Practice-007 executor was not restarted or duplicated.
+  This was a project-process reload, not a Codex automation.
+- Live recovery published and reconciled 52,919 hypotheses: 43,473 collecting,
+  9,446 futile and zero confirmed. The reloaded evidence worker completed with
+  zero errors, the independent verifier returned `match`, and the subsequent
+  project-integrity audit returned `ok` with all 68 quotes tradeable and
+  `no_trade` still supported.
+- Validation passed 95 focused and 198 related regression tests, Python
+  compilation and Git diff checks. Practice 007 remained flat at NAV 41.6042
+  with zero trades/orders. No evidence, threshold, authorization or routing
+  semantics changed.
+- Refreshed and independently verified 57 credential-free compact-vault
+  records with zero missing files or size/hash mismatches. The full existing
+  vault is 828.70 MiB, below the five-GiB working budget; no checkpoint archive
+  was created or pruned.
+- Hash-bound evidence:
+  `FOREX_LIFECYCLE_GENEALOGY_LOCK_RETRY_VALIDATION_20260902.json`.
+
+## 2026-09-02 05:26 America/New_York — Lifecycle cadence and verified audit-history rotation repaired
+
+- Replaced the independent verifier's fixed lifecycle-publication freshness
+  assumption with a bounded fail-closed rebuild handshake. Grace is valid only
+  when an independently reconstructed lifecycle fingerprint and table
+  highwaters exactly match the prior publication, append-only triggers remain,
+  the database is unchanged, there are zero confirmed candidates and the
+  evidence worker is fresh, error-free and making bounded progress.
+- Exercised that live path under a 300-second ordinary freshness budget, then
+  observed the next independent verifier publication return `match` with zero
+  failures and no confirmed candidates. Project integrity subsequently
+  returned `ok` with zero failures and `no_trade`.
+- Observed—not killed—a legitimate six-hour full source-governance scan. It
+  read about 9.7 GiB and completed in 649 seconds. The audit correctly marked
+  that old input snapshot stale; the next bounded-attestation pass finished in
+  26.55 seconds and was fresh.
+- Added atomic 64-MiB project-integrity JSONL rotation under the audit's
+  publication lock. The first sealed part contained 2,226,255,846 original
+  bytes and 5,931 records. Existing archive code verified gzip round trip,
+  original SHA-256 and byte count, produced a 217,482,001-byte recoverable
+  archive and reclaimed 2,008,773,071 bytes.
+- Raised the verified archive batch to four GiB every six hours after six
+  hours of raw retention, which exceeds measured production. No unverified
+  evidence deletion or live database vacuum was enabled.
+- Reloaded the hidden local supervisor; it adopted existing collectors and the
+  existing single Practice-007 executor. No Codex automation was created.
+- Validation: 1,231 broad lifecycle/verifier changed-surface tests and 220
+  subtests passed; 72 focused project-integrity/supervisor tests passed; the
+  57-item issue register validates with zero open repository-controlled items.
+- Runtime receipt: 68/68 current tradeable quotes, Practice 007 flat at NAV
+  41.6042 with zero positions/orders, 52,883 hypotheses, 9,442 futile, zero
+  confirmed and no selected signal.
+- Refreshed the compact vault to 56 canonical records. Independent destination
+  verification found zero hash/size mismatches and zero credential-like
+  filenames; the full existing vault is 827.14 MiB, below its five-GiB budget.
+  Canonical-only mode built or pruned no checkpoint archive.
+- Hash-bound evidence:
+  `FOREX_LIFECYCLE_VERIFIER_CADENCE_VALIDATION_20260902.json` and
+  `FOREX_PROJECT_INTEGRITY_HISTORY_ROTATION_VALIDATION_20260902.json`.
+
 ## 2026-08-29 18:40 America/New_York — Sequential portfolio replay independently verified
 
 - Added a new content-addressed `sequential_portfolio_replay_v1` sidecar rather
@@ -3855,3 +4062,2391 @@ Validation and safety:
   decimal 5 GB ceiling; C has 167.88 GiB free. No account or research worker
   was stopped for the sync. Vault headroom is narrow but currently valid, so
   future checkpoint publication must continue using verified retention.
+
+## 2026-08-31 15:02 America/New_York — Live-watch defects reconciled into the queue
+
+- A tracking audit found that the pending file still described executable
+  census cohort B as independently verified. Current verifier evidence instead
+  records `verified=false` with 453 failures, including a noncausal clock and
+  missing required open-market minutes. B is now explicitly classified as
+  immutable failed evidence; no row will be backfilled and any successor must
+  be a new cohort after the capture architecture passes fault/load tests.
+- The hidden supervisor again stopped updating after the 13:48 ET checkpoint
+  while many adopted quote, source and evidence children continued running.
+  This proves that child freshness alone cannot certify supervisor health. An
+  external lease/watchdog, orphan inventory and fail-closed recovery test are
+  now P0 work in `FOREX_PENDING_IMPROVEMENTS.md`.
+- The morning ZAR whipsaw, JPY policy/rate-differential context, Polish CPI/GDP
+  and Hungarian producer-price cases are registered as prospective source-map
+  repair work. None receives hindsight attribution or proof credit; missing
+  causal consensus/rate repricing remains an explicit abstention.
+- Practice 007's last account checkpoint remained flat at NAV/balance 41.6042,
+  with zero positions and orders. No manual order, close, gate change,
+  promotion or real-money action occurred.
+- The vault current-record mirrors are updated with this reconciliation. No
+  large archive is generated merely for documentation because the established
+  decimal 5 GB headroom is narrow.
+- At 15:17 ET, a controlled `SafeCoreOnly` launch restored exactly one hidden
+  supervisor and restarted the missing strategy-lab publisher while adopting
+  the already-running safe executor and collectors. The Practice-007 account
+  snapshot immediately refreshed flat at NAV 41.6042 with no positions or
+  orders. By 15:20 the signal feed had repopulated to 641 fresh candidates and
+  three consolidated signals, with zero qualified; normal TTL turnover later
+  produced one unqualified USD/JPY short. This confirms the earlier zero-feed
+  state was an operational publication outage, not evidence that no strategies
+  had fired. No gate, threshold, model, order or cohort was changed.
+- At 15:27 ET, one uncorroborated secondary geopolitical/energy headline was
+  mapped as the same risk-off support score for USD, JPY and several other
+  currencies. The research watchlist still opened USD/JPY-short observation
+  arms from the JPY leg instead of cancelling the equal USD and JPY scores.
+  USD/JPY subsequently rose about 5.9 pips over five minutes and the live H2
+  technical candidate pointed long. The source-conditioned rank correctly
+  admitted zero source rows, the candidate remained unvalidated and Practice
+  007 stayed flat. A base-minus-quote episode-differential regression is now in
+  the pending queue; this case is a negative control, not execution evidence.
+
+## 2026-08-31 16:48 America/New_York — CAD breadth miss retained; false story merge fixed
+
+- A synchronized CAD-strength move cleared recorded costs across several
+  crosses around 16:39 ET, but the governed source rank contained zero rows,
+  no consolidated signal qualified and Practice 007 remained flat. A market
+  recap later mentioned month-end hedging flows; because it reported the move,
+  it is retained as a retrospective hypothesis rather than causal attribution.
+- The context artifact exposed a separate correctness defect: the CAD recap
+  and an unrelated gold/US-Iran story had been merged solely through the
+  generic words `two-week low`. Claim-token normalization now excludes generic
+  high/low period wording. The exact observed pair plus the existing context
+  and opposite-claim regressions pass 3/3.
+- Recycled only the hidden local-news worker; the always-on supervisor
+  relaunched it successfully. No executor, gate, threshold, cohort, account
+  order or historical evidence row was changed.
+
+## 2026-08-31 17:13 America/New_York — Supervisor loss recurred and safe core recovered
+
+- The supervisor's final heartbeat was 16:53:59 ET and contained no terminal
+  error. By 17:08 the supervisor, account writer, local-news collector and
+  strategy-lab publisher were absent; the account and news heartbeats were
+  about fifteen minutes stale, although the independent 68-pair quote stream
+  remained fresh. This is the second same-day silent supervisor loss.
+- Relaunched the existing safe-core stack only. Exactly one supervisor came up,
+  the Practice-007 account refreshed flat at NAV 41.6042 with no positions or
+  orders, local-news collection restarted, and the strategy feed repopulated
+  to 315 rows. Zero signals qualified and no order or gate change occurred.
+- The recurrence is appended to the P0 external-watchdog/lease requirement.
+  The absence of a shutdown/error record means root cause remains unresolved.
+
+## 2026-08-31 17:27 America/New_York — Third silent supervisor loss
+
+- The 17:09 recovery supervisor disappeared before 17:24 with no terminal log
+  event. Quotes remained fresh and Practice 007 remained flat, but the account,
+  local-news and strategy publishers again stopped and the live strategy feed
+  fell to zero.
+- Restored the same safe-core supervisor without changing indicators, models,
+  thresholds, proof cohorts or execution authorization. The strategy lab is
+  rebuilding its normal publication cycle; no candidate qualified and no order
+  was placed.
+
+## 2026-08-31 23:04 America/New_York — Correctness repair cutover and durable case lineage
+
+- Fixed secondary-release subject leakage under classifier V152. The observed
+  Bessent/yen cluster is bound to JPY only; the Japan manufacturing PMI final
+  is bound to JPY with actual 54.9 and prior 54.5, but remains directionally
+  abstaining because no causal pre-release consensus exists. Body mentions are
+  retained only as audit metadata.
+- Fixed pair direction to use one same-episode signed base-minus-quote score.
+  Equal leg scores now cancel, unequal scores emit once, and dependent source
+  map/rank research restarted as wholly new V7/rank-V6 cohorts with zero
+  imported proof rows and an explicit `no_trade` result.
+- Permanently preserved failed executable-census B with its 723 verifier
+  failures. Replacement census C separates absolute-minute all-68 capture from
+  cold evaluation and verification. At this checkpoint C has 33 immutable
+  frames through 03:02 UTC, zero missing open-market minutes and a green
+  independent verifier, including continuity across two controlled supervisor
+  recovery trials.
+- Installed the independent host watchdog with an atomic lease, orphan
+  inventory, bounded restart circuit and immutable incidents. Controlled
+  supervisor terminations produced incidents
+  `49caa57547be42a8936966f12d866747` and
+  `64ffd70cf078432e816edf0a5393a6c1`; each restored exactly one supervisor,
+  preserved Python children and left the 68-pair quote stream and flat account
+  unchanged.
+- Added append-only move-first cohort
+  `move_first_news_case_cohort_v3_prospective_20260901T023000Z` instead of
+  overwriting the mutable 924-case diagnostic. It imports zero history,
+  deduplicates by factor episode, retains raw pair paths, rejects mutation and
+  starts honestly at zero post-cutover cases. The worker is now supervised and
+  independently verifies with SQLite integrity `ok`.
+- Added a machine-validated issue lifecycle register and hash-bound repair
+  receipt. The final focused checkpoint passed the prior 668 regressions, six
+  census-verifier checks, 44 ledger/governance/vault tests and eight supervisor
+  tests; the sole warning is the non-writable pytest cache, not a test failure.
+- Published only the small canonical project records to the shared vault:
+  pending queue, append-only project log, issue register, repair receipt and
+  source/feature records. The four repair/governance targets independently
+  SHA-256-match the canonical files. No large model archive was produced and
+  vault headroom remains above 9.4 MB below the decimal 5 GB ceiling.
+- No order was submitted, no position was manually closed, no gate was
+  loosened and no real-money route was enabled. Practice 007 remains flat and
+  the supported decision remains `no_trade`.
+
+## 2026-09-01 00:17 America/New_York — Repository-controlled pending queue closed
+
+- Replaced the unusable direct KSH PPI article fetch with two stable official
+  KSH surfaces: the Prices topic page supplies the current release, exact
+  publication date and component text; STADAT table `ara0055.csv` independently
+  supplies the current/prior total-industry annual series. The live adapter
+  resolves July 2026 at +1.0% y/y, -0.4% prior and +1.4% m/m, with domestic and
+  non-domestic components, an exact 06:30 UTC clock and HUF-only binding.
+  Direction remains fail-closed without causal consensus/rate repricing. Since
+  activation followed the release, the observed row is bootstrap diagnostics,
+  never prospective proof.
+- Added append-only side cohort
+  `move_first_calendar_episode_labels_v1_prospective_20260901T041500Z`.
+  It imports zero pre-activation cases, labels last-weekday month/quarter ends
+  solely from the case clock, hash-checks labels, and cannot mutate V3 or trade.
+  The August CAD recap remains retrospective and is not imported.
+- Reclassified the ZAR source case to `implemented_collecting`: V3 now retains
+  its factor breadth, raw pair paths, liquidity/cost state and unresolved
+  causal-source status without attaching a later article. No source was
+  invented and no retrospective case was credited.
+- The issue register validates with 14 issues: five complete, seven
+  implemented/collecting, one permanently invalid, one externally blocked and
+  zero open. The remaining external blocker is prospective consensus plus
+  intraday policy-path repricing.
+- Reloaded exactly one hidden supervisor through the existing watchdog. The
+  new calendar worker and updated local-news collector are supervised; no
+  execution threshold, authorization, position or real-money setting changed.
+
+## 2026-09-01 00:26 America/New_York — Safe narrow vault refresh
+
+- Added a first-class `--canonical-only` vault-sync mode so a progress/source
+  refresh cannot accidentally build, copy, retain or prune large checkpoint
+  archives. Its dedicated regression proves that no zip is created.
+- Expanded the credential-free shared state to include the current news-source
+  inventory, central-bank map, machine-readable feature space, V3 move-first
+  contract, prospective calendar-label contract, rank-V6 contract and the
+  evidence-snapshot validation receipt.
+- Published 14 records totaling about 0.76 MB to the OneDrive vault and
+  bound them in `SHARED_PROJECT_STATE_CURRENT.json`. A repeated sync returned
+  unchanged and an independent source/destination SHA-256 comparison found
+  zero mismatches; no historical archive or credential was included.
+
+## 2026-09-01 02:09 America/New_York — Vault returned to a record layer
+
+- Audited the entire 4,990,813,721-byte OneDrive vault. Five July-era bulk
+  roots accounted for 4,111,241,193 bytes: `UNIFIED_QUERY_VAULT`,
+  `FOREX_MODEL_LIBRARY`, `BIGTRIAD_MODEL_LIBRARY`, `fxgap26`, and
+  `GPT_VAULT_COMPLETE.zip`.
+- Added a narrow consolidation utility that accepts only those reviewed direct
+  children, rejects nested/arbitrary paths and symlinks, writes a complete
+  pre-move manifest, moves rather than deletes, and recomputes every hash at
+  the destination. Its focused and existing vault suites passed 45 tests.
+- Moved all five roots intact to
+  `C:\Users\zmoor\Documents\vault_cold_archive\20260901_record_consolidation`.
+  Post-move verification covered 7,327 files and 4,111,241,193 bytes. Receipt
+  ID: `f1d164639412f0176920d7fc6459e5d21b73620a5f5a665b9d9dfdc49c4d18d7`.
+  Byte-identical receipts exist in both locations, and no reviewed target
+  remains under the vault root.
+- Replaced the stale vault README after preserving its exact legacy copy in
+  the cold archive. The vault now retains `projects`, `PROJECT_COMMONS`,
+  `maintenance`, small current records and recovery checkpoints. Its footprint
+  is 885,938,842 bytes, leaving 4,114,061,158 bytes below the decimal 5 GB cap.
+
+## 2026-09-01 03:05 America/New_York — Move-first evidence moved to the live source
+
+- Found that the nominally prospective V3 case ledger still depended on the
+  mutable six-hour historical audit. The audit remains valuable for discovery,
+  but that delay could allow a source/classifier rebuild to occur before a new
+  mover case was durably sealed.
+- Opened wholly new cohort
+  `move_first_live_case_capture_v4_prospective_20260901T070500Z`, with zero
+  historical imports. It copies immutable cases directly from
+  `live_move_news_cases_v7r3.sqlite`, binds the exact snapshot and factor-root
+  contracts, and separately captures membership and root-merge events.
+- V4 hash-checks all captured payloads, rejects later mutation, fails when a
+  live case lacks factor membership, resolves merged factor roots only for
+  effective-count reporting, and remains explicitly research-only/no-trade.
+- Froze the V3 worker without modifying its database. Added minute-level V4
+  supervision and a project-integrity check requiring current, inert,
+  equal-count, cycle-free evidence. Fifty-six focused tests pass; the only
+  warning is the existing non-writable pytest cache.
+- Practice 007 remained flat, no order or close was submitted, no execution or
+  authorization gate changed, and real-money routing stayed disabled.
+- The first eligible V4 row was EUR/HUF, first recorded at `07:06:24Z` and
+  sealed at `07:07:24Z`. The capture database independently verifies, the
+  watchdog recovered exactly one updated supervisor, and the canonical
+  integrity audit reports the V4 check true with no failures.
+
+## 2026-09-01 03:29 America/New_York — Live arm causality audit added
+
+- Audited every direct V4 mover case and found a misleading comparison
+  surface before it reached operational reporting. The stored
+  technical_continuation arm is assigned directly from the realized mover
+  direction, while broad_context_plus_continuation conditionally inherits
+  that label. Their apparent perfect alignment is tautological, not a
+  forecast.
+- Added move_first_live_arm_alignment_v1_20260901, a read-only comparator
+  that verifies every V4 case, membership and root-merge hash; resolves factor
+  roots; selects one deterministic earliest case per resolved episode; scores
+  currency models as base minus quote; and collapses identical named decision
+  vectors.
+- The initial current snapshot contains 19 raw cases and 11 effective factor
+  episodes. Only three pre-move decision vectors exist. Broad context is
+  aligned on 6/9 signaled episodes. The duplicated research-semantic and
+  secondary-discovery vector is aligned on 5/9. Seven named arms are one
+  all-abstain vector. These are move-conditioned attribution diagnostics, not
+  predictive win rates or simulated P/L.
+- The report explicitly separates ten pre-move arms from two label-derived
+  controls and is hard-bound to research-only, no promotion, no
+  authorization, no orders and no_trade. Six dedicated tests plus the
+  project-integrity and vault-sync regression groups pass.
+- Added the comparator to hidden supervision, project-integrity checks, the
+  durable issue register, pending/evidence notes and the compact vault record
+  set. Practice-007 execution policy and real-money routing were not changed.
+
+## 2026-09-01 03:41 America/New_York — Retired Practice-006 residue removed
+
+- Confirmed that the old Practice-006 news challenger is retired, then removed
+  its stale August heartbeat from current project-integrity measurements. Its
+  historical fill count can no longer be mistaken for present activity.
+- Removed the supervisor launch block and made the legacy process name
+  unconditionally disabled. Practice 006 cannot be reactivated through the old
+  optional-switch path; preserved historical evidence was not deleted.
+- Python compilation is clean and 66 focused integrity, move-arm, issue,
+  vault and watchdog tests pass. Practice 007 stayed fail-closed and no order,
+  close, authorization, promotion or real-money change was made.
+
+## 2026-09-01 04:23 America/New_York — UKMTO official-warning body resolution repaired
+
+- Reconstructed the early official maritime-warning path behind the current
+  Strait of Hormuz risk episode. `ukmto_official_search` had observed a UKMTO
+  warning at `00:40:36Z`, before the later multi-currency move, but Google News
+  exposed only the generic title `UKMTO WARNING - UKMTO`; the empty summary
+  correctly produced no currencies, risk score, or directional impulse.
+- Added a bounded resolver for the signed Google News article wrapper, followed
+  by an exact configured-host check before any publisher fetch. The resolved
+  target is the original UKMTO page or PDF; untrusted hosts, malformed replies,
+  oversized responses, and unknown resolver contracts fail closed.
+- Opened the new immutable source cohort
+  `ukmto_official_search_v4_publisher_pdf_resolution_provenance_20260901`.
+  Publisher-resolution time, listing URL, exact resolver contract, and the
+  research-only flag are preserved in classified and retained records. A late
+  historical body can improve attribution but can never be credited as a
+  prospective forecast or execution input.
+- The supervised collector adopted V4 on its first final-code cycle. UKMTO
+  returned an intermittent HTTP 403 during that cycle, so no body was enriched;
+  the source remains enabled with one low-rate detail attempt per poll. This is
+  an explicit availability limitation, not fabricated source coverage.
+- The exact warning PDF resolved and downloaded successfully during the bounded
+  validation probe. Five focused resolver tests and the full news/integrity
+  regression set pass (504 tests). The current incident remains a frozen
+  regression fixture only.
+- Practice 007 remained flat and fail-closed. No order, close, promotion,
+  authorization, threshold, or real-money setting changed.
+
+## 2026-09-01 04:49 America/New_York — Causal mover-gap taxonomy activated
+
+- Added a deterministic source-gap taxonomy to the direct V4 move-first arm
+  audit. For every factor-deduplicated mover it now distinguishes a strict
+  directional hit/miss from strict abstention with an aligned, opposed or
+  conflicted retained forward-timely research story, semantic aggregate,
+  broad context, or no direction. It uses only bytes already sealed before
+  the move start and cannot acquire a later article.
+- Preserved exact strict-exclusion counts and the nearest retained pre-move
+  research story on each episode. Project integrity independently rebuilds
+  the taxonomy totals, reason counts and story counts, verifies the exact
+  contract on every episode, and requires the diagnostic to remain explicitly
+  move-conditioned, research-only and nonexecuting.
+- The current snapshot contains 87 raw cases and 49 resolved factor episodes.
+  Strict direction abstained on all 49. The new taxonomy reports 18 aligned
+  research-story gaps, nine opposed, two conflicted, two aligned and eight
+  opposed research-semantic fallbacks, two aligned and one opposed broad-
+  context fallback, and seven episodes with no retained direction. These are
+  explanation categories, not win rates or tradable evidence.
+- The 08:22–08:27 UTC USD/ZAR case
+  `live_move_news_case_v7r3_0e00b79906a610ecb90a2b5469f6de08`
+  had 109.9 executable net pips of observed room. Strict direction correctly
+  abstained, while one retained pre-move research story aligned: the 08:15:55Z
+  Today.Az tanker-projectile report. It remained non-publishable because it
+  lacked independent directional corroboration. The diagnostic therefore
+  labels the source-quality gap without retroactively crediting a prediction.
+- Sixty-seven focused and broader mover/integrity/vault/capture tests pass.
+  Only the affected read-only alignment and integrity workers were reloaded
+  under the existing local supervisor. Practice 007 remained flat and
+  governed `no_trade`; no execution, authorization or real-money setting was
+  changed, and no Codex automation was created.
+- The integrity reload also exposed a cadence-only false incident: the heavy
+  historical move/news audit and its upstream census both run every six hours
+  but complete on different phases. Requiring the audit to be newer than every
+  census publication marked the system degraded between healthy bounded runs.
+  Integrity now requires both artifacts to be fresh and no more than one
+  configured rebuild window apart. A bounded rebuild benchmark consumed over
+  330 seconds without finishing, so it was stopped before publication rather
+  than converted into a wasteful high-frequency loop. This changes health
+  semantics only; it cannot affect evidence, signals, authorization or trades.
+
+## 2026-09-01 05:29 America/New_York — Syndicated narrative concentration exposed
+
+- Traced the five retained Strait of Hormuz tanker articles through the
+  canonical source registry. Each had a different source event, event ID and
+  story-cluster ID, while every market-episode ID was null. The V2 upstream
+  normalized-headline contract therefore treated five versions of one real
+  narrative as five nominally independent clusters.
+- Added a separate conservative narrative-family layer to the nonexecuting
+  causal-gap audit. It only joins different upstream clusters when event types
+  match, causal clocks are within six hours, and normalized headline anchors
+  meet both a three-term and 50% overlap threshold. The original source-event
+  and story-cluster lineage remains visible and unchanged.
+- The point-in-time report at 09:30 UTC contained 118 raw cases and 71 resolved
+  factor episodes. Ten retained source events in ten upstream clusters
+  collapsed to six narrative families. The five tanker variants formed one
+  family touching 32 episodes; strict independent corroboration remained zero.
+  This materially reduces apparent source breadth and does not award causal
+  credit or forecast proof.
+- Project integrity now reconstructs the family assignments, concentration,
+  dominant share, and nonexecution contract. Seventy-three focused mover,
+  capture, integrity, issue-register and vault tests passed. The affected
+  workers were reloaded under the existing local supervisor; no Codex
+  automation was created.
+- Practice 007 remained flat at NAV 41.6042 with cumulative P/L -8.3430, no
+  open trades or pending orders, governed `no_trade`, and real-money routing
+  disabled.
+
+## 2026-09-01 05:45 America/New_York — Pre-final signal selection made explicit
+
+- Audited the transient USD/JPY signal that passed the signal-level economics
+  gate but was rejected by the direction-conflict gate. The order path behaved
+  correctly, but `practice_007_signal_snapshot_v1.json` called that pre-final
+  object only `selected`, which could mislead dashboards or later diagnostics.
+- Added explicit `selected_stage`, `selected_final_gate_status`, direction-
+  conflict state, and post-conflict routability fields while preserving the
+  legacy object. The dashboard and local monitor now carry those semantics.
+  No execution, sizing, portfolio, re-entry, cost, timing, lifecycle,
+  authorization or order logic changed.
+- Added a deterministic conflicted-signal regression test. The complete
+  strategy-executor suite passed 117 tests and 220 subtests; the combined
+  targeted telemetry and dashboard run passed 59 tests; PowerShell parsing is
+  clean.
+- Reloaded only the strategy lab, Practice-007 top executor and dashboard under
+  the existing local supervisor. The live snapshot now publishes
+  `selected_stage=none`, `selected_final_gate_status=not_selected`, 68 quoted
+  instruments, zero confirmed candidates and no account change.
+- Practice 007 remains flat at NAV 41.6042 with cumulative P/L -8.3430, no open
+  trades or pending orders, `no_trade`, and real-money routing disabled. No
+  Codex automation or heartbeat was created.
+
+## 2026-09-01 05:50 America/New_York — Live pre-final telemetry verification sealed
+
+- The next natural preliminary selection occurred without threshold or input
+  changes: AUD/USD buy signal
+  `exec_signal_65551c68f6a64aac7b200df370c3ce665e4c6a5b`, Donchian breakout,
+  12-hour horizon.
+- The signal snapshot reported one raw qualified candidate, zero
+  nonconflicting candidates, stage `signal_gate_pre_final_execution_gates`,
+  final status `blocked_direction_conflict`, and post-conflict routability
+  false. The executor independently reported the same signal ID and final block
+  `direction_conflict_shadow_only`, followed by
+  `no_nonconflicting_signal_capacity`.
+- No order or fill occurred; entry authorization remained false and real-money
+  routing remained disabled. The complete observation and implementation hashes
+  are sealed in `FOREX_PREFINAL_SELECTION_TELEMETRY_VALIDATION_20260901.json`.
+  The durable telemetry issue is now complete.
+
+## 2026-09-01 06:14 America/New_York — Factor-support sign defect failed closed
+
+- Audited the synchronized HUF reversal and found that factor assignment could
+  choose the less-negative of two currency-strength scores and still mark it
+  non-ambiguous. Across 2,603 causal V7R3 cases, 110 had no positive
+  move-aligned factor; 46 of those were non-ambiguous under the margin-only
+  test.
+- Added the research-only
+  `move_first_factor_support_v1_positive_aligned_primary_and_unambiguous_20260901`
+  diagnostic. It requires a positive signed winning score, an exact primary-
+  winner match, and a clear upstream margin. It does not rewrite any frozen
+  case, factor membership, root merge, or legacy metric.
+- The live prospective report contained 151 raw cases and 92 resolved factor
+  episodes: 68 support-qualified, 22 ambiguous, and two with no aligned
+  positive factor. Project integrity independently reconciled the new section
+  and published `ok / no_trade`.
+- Thirteen focused alignment tests and the combined 52-test alignment/integrity
+  run passed. Only the alignment and integrity workers were reloaded through
+  the existing local supervisor; both resumed normally. No account, execution,
+  authorization, threshold, or real-money setting changed, and no Codex
+  automation was created.
+- The implementation and live counts are sealed in
+  `FOREX_FACTOR_SUPPORT_DIAGNOSTIC_VALIDATION_20260901.json` and registered as
+  `FX-20260901-FACTOR-SUPPORT-SIGN-CONSISTENCY`.
+
+## 2026-09-01 06:43 America/New_York — Point-in-time integrity and support-qualified metrics sealed
+
+- Removed two false operational degradations caused by crossing snapshot and
+  database clocks. Official-release counts now use rows first seen at or before
+  the official snapshot generation time. Narrative-meter completeness now
+  uses seals available at or before the meter snapshot generation time.
+- Preserved all substantive checks: current freshness, database integrity,
+  source coverage, complete 21-currency seals, no premature seals, contract
+  identity, and research-only/nonexecution state remain mandatory. The live
+  full audit published `ok`, zero failed checks, and `no_trade` after reload.
+- Added parallel factor-support-qualified metrics across all 12 move-first
+  arms without altering legacy all-episode metrics. At the frozen validation
+  point, 77 of 107 resolved factor episodes qualified; 30 ambiguous or sign-
+  inconsistent episodes remained visible as controls.
+- Project integrity now independently reconstructs legacy and subset counts,
+  accuracy, alignment room, decision signatures, and equivalence groups from
+  the episode rows. Deliberately corrupted subset metrics and group counts fail
+  closed. The combined focused suite passed 54 tests, and the live alignment
+  report independently verified with no mismatches.
+- Registered the completed point-in-time repair as
+  `FX-20260901-POINT-IN-TIME-INTEGRITY-CUTOFFS` and extended
+  `FX-20260901-FACTOR-SUPPORT-SIGN-CONSISTENCY` with its subset evidence gate.
+  Practice 007 remained flat; no execution, threshold, authorization, order,
+  real-money, automation, or heartbeat setting changed.
+
+## 2026-09-01 07:10 America/New_York — Source-rank abstention production made explicit
+
+- Traced `source_conditioned_currency_rank_v6` end to end after its live state
+  reported a ready V7 input but zero source forecasts. The source database was
+  healthy and contained 560 immutable forecast records; all 560 were explicit
+  abstentions, so the proof-filtered adapter correctly loaded zero.
+- Added a separate point-in-time producer inventory without changing the
+  existing eligibility query. It reports 8 source events, 80 factor
+  observations, 448 JPY rows, 63 NOK rows and 49 SEK rows. Every abstention was
+  caused by effective independent N below the frozen minimum of eight.
+- Added an independent project-integrity reconstruction, future-row cutoff
+  regression, tamper rejection and all-row contract-contamination test. The
+  focused rank/integrity suite passed 49 tests.
+- Reloaded only the rank and integrity workers through the existing local
+  supervisor. The rank worker resumed with `all_rows_abstain`, zero eligible
+  decisions, `no_trade`, and no order capability. The cold full-integrity pass
+  remains in progress on its confirmed live process.
+- Practice 007 remains flat at NAV 41.6042. No entry gate, threshold,
+  authorization, account, real-money, automation, or heartbeat setting changed.
+
+## 2026-09-01 07:13 America/New_York — Source-rank inventory gate closed
+
+- The reloaded cold project-integrity worker published generation 78 with
+  status `ok`, zero failures, and
+  `source_conditioned_rank_v6_inventory_reconciled_and_inert=true`.
+- The independent audit matched 560 raw V7 forecasts, zero rank-eligible
+  forecasts and 560 abstentions at the rank snapshot knowledge cutoff. The
+  source-rank visibility issue is now complete.
+
+## 2026-09-01 07:55 America/New_York — BOJ market-structure taxonomy isolated prospectively
+
+- Traced BOJ event `source_event_1040ccd0e05fefeb02a9ecbd93cfa64e`
+  from the official RSS observation through PDF archiving, frozen V152 mapping,
+  raw quote capture, V7 response evidence, and the source-conditioned rank.
+  The document was published at 07:00:00 UTC, its complete 177,699-byte PDF was
+  available at 07:03:12.752828 UTC, and the mapping clock was 07:03:18.306379
+  UTC. V152 mislabeled the subject as a policy release but correctly set
+  `relevant=false`, zero direction, and no forward publish eligibility.
+- The 07:03:18.322336 UTC raw quote sidecar was only an engineering diagnostic:
+  capture latency was 15.957 ms, but EUR/DKK and TRY/JPY were stale, leaving
+  66/68 valid quotes and zero proof quotes. No direction or causal credit was
+  assigned to the subsequent JPY move.
+- Added a parallel, prospective V8 taxonomy overlay rather than changing the
+  global V152 classifier. The matcher requires the exact BOJ source, host,
+  path, title and JPY leg; it classifies the document as a directionless bond-
+  market-functioning survey and explicitly excludes policy stance. Frozen V7
+  remains active and unchanged.
+- Added source-conditioned rank V7 bound only to V8. It imports no prior rank
+  ledger and supports only research `no_trade`. The first live state reconciled
+  539 V8 forecasts, all abstaining, zero eligible decisions, SQLite `ok`, and
+  no order capability. The preactivation BOJ event remains diagnostic only.
+- The combined source/rank/supervisor regression passed 523 tests; integrity
+  passed 42 tests; the compact-vault sync suite passed 15 tests. The live
+  project-integrity V7/V8 reconciliation check passed. V8, rank V7, frozen V7,
+  and frozen rank V6 are all concurrently supervised.
+- Practice 007 remained flat at NAV 41.6042 with no trades or orders; all 68
+  quotes were fresh. Clock integrity was `ok`; C: retained 151.075 GiB free.
+  Real-money routing remained disabled, and no Codex automation or heartbeat
+  was created.
+
+## 2026-09-01 08:04 America/New_York — Live NOK/HUF move gap reconciled
+
+- Reviewed the current move ledger independently of whether the model had
+  signaled. EUR/NOK's 07:38–07:46 ET fall cleared costs by 71.5 pips and
+  USD/HUF's 07:30–08:00 ET rise cleared costs by 35.7 pips. Both are already
+  immutable V7R3 move-first cases, so no duplicate manual case was created.
+- EUR/NOK had causally available but nonpublishable oil-rise stories that
+  favored NOK. The broad news arm nevertheless opposed the move because it
+  mixed commodity-exporter support with generic risk-off pressure. The frozen
+  technical-continuation arm aligned. This identifies a direct commodity-state
+  and channel-decomposition gap; it is not retrospective predictor credit.
+- USD/HUF had no strict source signal. The factor surface isolated HUF weakness
+  and technical continuation aligned. KSH's official July PPI (1.0% y/y versus
+  -0.4% prior) was available hours earlier but had no pre-release consensus or
+  rate confirmation, so it remained directionless context rather than a claimed
+  catalyst.
+- Added the prospective direct-underlying commodity/risk decomposition to the
+  pending evidence queue. Practice 007 remained governed `no_trade`.
+
+## 2026-09-01 08:17 America/New_York — V4R3 outcome publication race removed
+
+- Investigated project-integrity generation 84 rather than dismissing its
+  single `live_move_news_forward_proof_contract_current` failure as stale.
+  The outcome database itself was healthy, but `base.run()` briefly published
+  an incomplete base payload to the canonical V4R3 filename before the worker
+  attached `upstream_integrity` and transitive-root governance fields.
+- Changed the V4R3 worker to build base JSON/report artifacts in an isolated
+  temporary directory and publish the canonical governed artifacts only once.
+  This preserves atomic-reader semantics across the entire logical payload,
+  not merely each individual file replacement.
+- Added a regression that injects an incomplete base payload, verifies that it
+  never reaches either canonical path, and verifies cleanup of the temporary
+  artifacts. The focused V4R3 outcome plus project-integrity suite passed 49
+  tests. Only the research outcome worker was reloaded under the existing local
+  supervisor; Practice 007 and all entry gates were untouched.
+
+## 2026-09-01 08:35 America/New_York — Direct commodity access classified fail-closed
+
+- Rechecked Practice-007's venue contract read-only: 68 currency instruments,
+  zero non-currency instruments, and no WTI, Brent, or natural-gas symbol.
+- Probed the already-configured Finnhub research entitlement without persisting
+  credentials or credentialed URLs. The catalog exposes OANDA commodity symbol
+  metadata, but direct WTI/Brent/gas quote requests each returned HTTP 403.
+- USO, BNO, and XLE returned timestamped quotes, but the observations were
+  roughly 59,563 seconds old and represent exchange-hours proxies rather than
+  continuous underlying prices. They remain ineligible for causal event-time
+  commodity confirmation, forecasting direction, promotion, or execution.
+- Added a machine-readable access receipt and an explicit source-gap state so
+  future code cannot silently treat metadata, stale ETFs, daily closes, or news
+  descriptions as direct commodity observations. The commodity-versus-risk
+  research hypothesis remains collecting only after a genuinely permitted
+  timestamp-safe underlying source is connected.
+- Project-integrity generation 86 separately completed `ok` with zero failures.
+  Practice 007 remained flat and governed `no_trade`; no automation exists.
+
+## 2026-09-01 09:41 America/New_York — Prospective general-news governance latency repaired
+
+- Diagnosed a live gap between article collection and governed semantic
+  availability. The complete source-governance reconciliation remains the
+  authority for revisions and full registry maintenance, but its long cycle was
+  too slow to provide a causal availability clock for newly first-seen general
+  news.
+- Built a separate inert fast lane and rejected its first attempted cohort
+  before granting it proof credit. V1 used refreshed `last_seen_utc`, scanned
+  537 rows, and wrote 24 receipts; 10 receipts had first-seen timestamps before
+  activation. V1 remains append-only and permanently invalid rather than being
+  deleted, relabeled, or merged.
+- Activated V2 at 13:15 UTC with a new immutable cohort. It scans only
+  `first_seen_utc`, rejects preactivation rows, bounds every scan at its start
+  clock, adds a ten-second conservative governed-availability clock, and
+  exposes only exact-V2 mappings through a contract-filtered operational view.
+  Structured revisions remain assigned to the slow reconciliation rather than
+  being falsely timestamped as fresh news.
+- Project-integrity generation 94 caught a transient verifier race while V2 was
+  advancing: the database held a later receipt batch than the state file being
+  audited. The independent verifier now reconstructs count at the state's
+  `next_scan_cursor_utc` and reports later receipts separately. A regression
+  with two batches on opposite sides of the cutoff proves an older state remains
+  reproducible while the database continues growing.
+- Reloaded only the fast-lane and integrity workers under the existing local
+  supervisor. Generation 95 published `ok` with zero failures. Its frozen
+  snapshot reconciled 42 current V2 receipts and 24 retained invalid V1
+  receipts, with zero preactivation, clock, contract, lineage, operational-view,
+  or inertness violations.
+- Compilation and 103 focused tests passed under the runtime Python 3.12. The
+  only warning was the existing nonfunctional pytest-cache permission warning.
+  Practice 007 remained flat at NAV 41.6042 with zero trades and orders; no
+  execution, authorization, promotion, threshold, real-money, Codex automation,
+  or heartbeat setting changed.
+- Registered V1 as permanently invalid and V2 as implemented/collecting in the
+  machine-validated issue register. The immutable validation receipt is
+  `FOREX_NEWS_GOVERNANCE_FAST_LANE_VALIDATION_20260901.json`.
+
+## 2026-09-01 10:16 America/New_York — Downstream mapping availability made explicit
+
+- Re-audited the live ZAR-factor episode and traced a distinct clock defect:
+  source-event first-seen time could precede a move even when downstream
+  semantic reconciliation completed later. The new V2 news receipts existed,
+  but the frozen V7R3 mover consumer still read `source_events_causal_v1` and
+  had no mapping-availability boundary.
+- Preserved frozen V7R3/V4 bytes and started a new prospective, research-only
+  operational-mapping sidecar at 14:00 UTC. It admits only exact-current V2
+  general-news receipts and current V2 official-adapter receipts whose maximum
+  source/detail/mapping clock is at or before move onset. It imports no older
+  mover cases and cannot promote, authorize, or execute.
+- Added an append-only ledger and cutoff-stable verifier. Tests prove that a
+  post-onset mapping, an unreceipted legacy event, an obsolete contract, a later
+  receipt, a later factor-root merge, or a validly rehashed upstream mutation
+  cannot manufacture or rewrite earlier evidence. Identical story headlines
+  remain deduplicated.
+- Removed a full 7.19-GB source-database integrity scan from the minute-level
+  sidecar hot path after the first live exercise exposed its cost. The sidecar
+  now verifies its exact read-only schema, receipt contracts, safety flags,
+  joins, and clocks; the independent integrity worker retains responsibility
+  for full database validation.
+- Sixty-five focused tests passed. The first live checkpoint sealed five cases
+  into three factor episodes with 19 receipt-backed general-news mappings.
+  Strict news abstained on all three; broad receipt-backed context opposed two
+  and abstained once; technical continuation aligned all three. These are
+  realized-move-conditioned diagnostics and have no predictive or execution
+  standing.
+- Project integrity published `ok` with zero failures and the new receipt-clock
+  check passing. Practice 007 remained flat at balance/NAV 41.6042, cumulative
+  P/L -8.3430, zero trades and zero pending orders; all 68 quotes were current,
+  clock integrity was `ok`, and C: had 150.89 GiB free. No Codex automation or
+  heartbeat was created.
+- Performed one controlled project-supervisor reload so the already-running
+  sidecar became owned by the updated supervisor configuration. The initial
+  30-second watchdog-state wait expired, but process inspection showed the
+  replacement had launched at 14:21:06 UTC. The next authoritative watchdog
+  generation reconciled exactly one supervisor (PID 24064), lease owned,
+  circuit closed, action `none`, empty health reason, and preserved sidecar PID
+  25620. Practice-007 quote and executor streams remained current throughout.
+
+## 2026-09-01 11:03 America/New_York — Receipt-backed consensus deduplicated prospectively
+
+- A source-level review of the live ZAR factor exposed a second-order defect in
+  the new receipt-backed broad arm: Reuters-style wire copies could have
+  different source-local story IDs and headlines ending in different publisher
+  names. V1 therefore overstated independent narrative agreement even though
+  strict direction still abstained and no signal was execution-eligible.
+- Preserved V1 without rewriting or merging it. Opened separate prospective V2
+  cohort
+  `move_first_operational_mapping_alignment_v2_prospective_20260901T150000Z`
+  at 15:00 UTC with zero historical imports. V2 retains every raw receipt and
+  collapses only exact normalized core headlines after conservatively stripping
+  one final publisher suffix. It uses no fuzzy semantic similarity.
+- Added row- and report-level syndicated-duplicate counts. Integrity now proves
+  independent plus duplicate stories equal retained raw receipts and that the
+  top-level duplicate count matches the rows. Synthetic regression proves two
+  publisher-suffixed receipts become one independent story while both causal
+  receipts remain preserved.
+- The first shared-code deployment briefly rejected frozen V1 because it
+  expected V2's new manifest field. Conditional contract binding restored V1
+  byte compatibility, and both ledgers verify cleanly. The integrity audit also
+  gained an explicit fail-closed preactivation state so a future-start cohort is
+  accepted only while every evidence count remains zero; a contaminated fixture
+  fails.
+- During reload verification, a temporary manually started integrity worker
+  overlapped the supervisor-owned worker. After verifying exact commands and
+  parentage, only the temporary wrapper/child pair was stopped. The remaining
+  integrity worker is owned by supervisor PID 19648; V1 and V2 mapping workers
+  are separately supervisor-owned.
+- V2's first post-activation report contained zero cases, episodes, receipts or
+  duplicates, which proves the activation boundary did not backfill V1. The
+  authoritative integrity publication is `ok`, zero failures, both V1/V2 checks
+  true, and supported decision `no_trade`. The combined mapping, integrity,
+  vault, watchdog, source-governance and issue-register suite passed 80 tests.
+- Added a distinct V2 validation receipt and changed compact-vault routing so
+  V1 contract/status/validation remain explicit baselines while V2 is current.
+  No account, threshold, authorization, promotion, real-money, Codex automation
+  or heartbeat setting changed.
+
+## 2026-09-01 11:50 America/New_York — Issuer-bound policy communications and terminal cohort cleanup
+
+- Replayed the exact Riksbank speech that V152 had mapped from direct SEK into
+  CAD, JPY, MXN and NOK through incidental body mentions. The row had never
+  been publishable or executable, but it was a false prospective research arm.
+- Activated classifier V153 prospectively at 16:00 UTC. A narrow map of ten
+  dedicated authority-communication feeds now establishes issuer/document
+  identity while leaving direction to verified content. The frozen case maps
+  to SEK only and remains preactivation diagnostic evidence with no score,
+  candidate, forward arm, promotion or authorization.
+- Repaired the independent Cohort-B paired-event verifier so it reads the exact
+  frozen news-source bytes from Git commit
+  `8e115984965e8e952048cf4bb323560e5c496f43` when the live registry advances.
+  It now distinguishes lineage reconstruction from the cohort's genuine 15
+  missing decisions and 160 missing due horizons.
+- Permanently retired the terminally incomplete paired producer and final
+  failed verifier in `shadow_runtime_retirements_v1.json`. A controlled local
+  supervisor reload stopped both wrapper/child processes and subsequent cycles
+  did not restart them; the immutable database and audit files remain intact.
+- Validation: 555 focused tests passed, PowerShell parsed, issue register passed
+  with 29 items, and quick checks returned `ok` for the paired, mapper and
+  lifecycle databases. Supervisor PID 21976 and watchdog PID 20824 are healthy
+  with the restart circuit closed.
+- Practice 007 remained flat at balance/NAV 41.6042 and cumulative P/L -8.3430,
+  with all 68 prices streaming, zero qualified candidates, zero authorized
+  entries, zero trades/orders and real-money routing disabled. C: had about
+  150.05 GiB free. No Codex automation or heartbeat exists.
+- Evidence is sealed in
+  `FOREX_ISSUER_BOUND_POLICY_COMMUNICATION_VALIDATION_20260901.json`.
+
+## 2026-09-01 12:22 America/New_York — Narrative families replace inflated story counts
+
+- Audited the latest ZAR move-first cases. CHF/ZAR's broad and technical arms
+  aligned with the move, while USD/ZAR's broad arm opposed the realized decline
+  and technical continuation aligned. Strict source direction abstained in both;
+  neither case was execution-eligible.
+- The USD/ZAR broad vote counted 15 nominally independent directional stories,
+  but review showed repeated Hormuz/tanker, sanctions, bond-selloff, and
+  ceasefire narratives. The wider retained surface contained 56 stories, 55
+  exact clusters, and only 25 conservative narrative families. The dominant
+  family appeared across aligned and opposed moves, so its repetition could not
+  be treated as independent agreement.
+- Preserved V1 and V2 evidence unchanged. Runtime-retired V1, retained V2 as the
+  exact publisher-suffix baseline, and deployed prospective V3 cohort
+  `move_first_operational_mapping_alignment_v3_prospective_20260901T170000Z`.
+  V3 uses conservative time-bounded narrative-family components and a frozen
+  30-minute broad-context half-life; strict direction is unchanged.
+- V3 had zero cases, zero factor episodes, and zero historical imports before
+  activation. It is research-only and cannot promote, authorize, execute, relax
+  gates, or enable real money. The all-68 executable-move verifier briefly went
+  stale during the controlled supervisor reload, was recovered by supervision,
+  and returned to verified with no failures.
+- The first post-retirement integrity publication correctly exposed one stale
+  logic switch: it still required the stopped V1 baseline to publish fresh
+  reports. Integrity now validates V1's final immutable report at its own
+  publication clock while requiring V2 and V3 to remain live. A targeted worker
+  restart published `status=ok`, zero failures, with all three checks passing.
+- The durable issue register now contains 30 issues and includes
+  `FX-20260901-NARRATIVE-FAMILY-DECAY` as `implemented_collecting`. The focused
+  mapping, integrity, retirement, supervisor, vault, and issue-register suite
+  passed 79 tests. Practice 007 remained flat at balance/NAV 41.6042, cumulative
+  P/L -8.3430, zero trades/orders; no Codex automation or heartbeat was created.
+- Evidence is sealed in
+  `FOREX_NARRATIVE_FAMILY_DECAY_VALIDATION_20260901.json`.
+
+## 2026-09-01 12:55 America/New_York — OANDA tradeability state preserved end to end
+
+- Investigated the three TRY crosses whose broker quote clocks stopped at
+  10:59:55 ET. A read-only Practice-007 REST observation returned
+  `status=non-tradeable` and `tradeable=false` for `EUR_TRY`, `TRY_JPY`, and
+  `USD_TRY`; the dedicated and executor streams were healthy.
+- Repaired the shared quote transport so current and retained rows preserve
+  OANDA's parsed tradeability state. Snapshot schema 3 now publishes exact
+  current tradeable/non-tradeable/unknown counts and instrument identities.
+- Added an independent project-integrity reconciliation. It permits an
+  explicitly non-tradeable row to remain visible in all-68 research coverage,
+  while rejecting missing/unknown tradeability metadata and leaving the
+  existing execution quote gate fail-closed.
+- Deployed by restarting only the supervisor-owned quote worker and the flat
+  Practice-007 executor. Both canonical and cross-check snapshots then
+  published 68 current quotes, 65 tradeable, three non-tradeable, zero unknown.
+  The executor returned to `streaming`; balance/NAV stayed 41.6042 with zero
+  trades or pending orders.
+- Validation: 40 quote/executor tests and 43 project-integrity tests passed.
+  The durable issue `FX-20260901-QUOTE-TRADEABILITY-STATUS` is complete and the
+  hash-bound record is
+  `FOREX_QUOTE_TRADEABILITY_STATUS_VALIDATION_20260901.json`. No execution,
+  proof, authorization, real-money, Codex-automation, or heartbeat setting was
+  loosened or enabled.
+
+## 2026-09-01 13:01 America/New_York — V3 prospective boundary verified
+
+- The first V3 mapping report generated after its frozen 17:00 UTC activation
+  contained zero cases, zero episodes, zero receipts, zero family duplicates,
+  and zero historical imports. Promotion, authorization, and order placement
+  remained false and the decision remained `no_trade`.
+- This proves that the new narrative-family/age-decay cohort crossed its live
+  activation boundary without importing V1/V2 evidence. It is not evidence of
+  prediction quality; the cohort now waits unchanged for untouched future
+  movement-conditioned cases.
+
+## 2026-09-01 13:37 America/New_York — Aggregate signal lineage and conflict basis corrected
+
+- Audited the 13:02 ET GBP/USD near miss. The preferred 12-hour
+  `breakout_retest.fast` sell had 0.592042 confidence and +1.281 projected net
+  pips but was blocked by direction conflict. The underlying strategy cycle had
+  28 accepted sells and two opposing buys; both buys were account-ineligible
+  inverse-correlation-veto research diagnostics. One minute later the candidate
+  had weakened below ordinary confidence, edge, and structural-support gates.
+- Preserved the direction-conflict gate unchanged. Added exact conflict-basis
+  telemetry so future evidence can separate account-eligible opposition from a
+  shadow-only veto rather than inferring it from a generic blocker string.
+- Repaired per-horizon signal identity. Each horizon now receives a deterministic
+  aggregate ID bound to its contributor lineage, while the raw representative
+  forecast ID is retained separately. The live ranking compactor now preserves
+  both lineage and conflict contracts.
+- V4 had already accepted mixed fallback/source-ID rows before the upstream
+  serializer became live. V4 remains immutable and excluded from current proof.
+  Deployed strict V5 `raw_all_signal_consensus_v5_strict_horizon_lineage`; it
+  accepts only `all_signal_horizon_lineage_v1` rows.
+- Fixed same-cycle horizon deduplication to use `(horizon, measurement_version)`
+  consistently. The live ledger opened all 15 V5 horizons with zero duplicate
+  open horizons and SQLite `quick_check=ok`.
+- Validation: 140 focused tests and 220 subtests passed. Practice 007 remained
+  flat at balance/NAV 41.6042, with zero trades or pending orders. No threshold,
+  proof, authorization, real-money, Codex-automation, or heartbeat setting changed.
+- Evidence is sealed in
+  `FOREX_AGGREGATE_SIGNAL_LINEAGE_AND_CONFLICT_AUDIT_VALIDATION_20260901.json`.
+
+## 2026-09-01 13:55 America/New_York — Secondary crypto context removed from direct FX-factor research
+
+- Audited the live 13:30 ET USD-positive factor episode. Strict source
+  direction abstained; a Coinpaper XRP/ETF outlook was the only active USD
+  research factor because its headline embedded a Fed-rate phrase. It was
+  unverified, uncorroborated, context-only, and could not execute, yet it
+  generated three AUD/USD response arms.
+- Preserved the source receipt and topic row unchanged. Added narrow contract
+  `secondary_crypto_primary_currency_factor_gate_v1_20260901`: crypto-primary
+  secondary stories remain context but cannot directly seed currency-factor
+  response cohorts. Official structured releases and issuer-bound authority
+  communications are unaffected.
+- Opened prospective watchlist V42 and uncorroborated-response V17. Preserved
+  all V16 evidence under its original IDs and kept only the known V15 sampling
+  defect quarantined.
+- Controlled reload produced V42 `status=ok`, one explicit suppressed topic,
+  one remaining JPY research factor and eight total research arms. V17 held
+  three JPY rows and zero rows from the XRP story. SQLite `quick_check=ok`.
+- Validation: 508 focused tests passed. Practice 007 remained flat at
+  balance/NAV 41.6042 with zero trades/orders and real-money disabled. No
+  Codex automation or heartbeat was created.
+- Evidence is sealed in
+  `FOREX_SECONDARY_CRYPTO_SOURCE_FACTOR_GATE_VALIDATION_20260901.json`.
+
+## 2026-09-01 14:34 America/New_York — Executable-move Census D opened without mixed lineage
+
+- Confirmed Census C's terminal source-identity drift rather than rewriting its
+  manifest or history. C is preserved at 856 frames and 58,208 all-pair quote
+  rows through 16:45 UTC; its SQLite quick check passes and its database hash is
+  unchanged.
+- Opened `all68_executable_move_census_v2_20260901d` at the frozen 18:30 UTC
+  boundary. D imported zero rows and committed the exact 18:30, 18:31, 18:32
+  and 18:33 UTC frames, 68 instruments each, with no missing scheduled minute.
+- The independent D verifier reconstructed all four durable frame prefixes and
+  272 quote rows with zero failures. It also verified the frozen config,
+  producer, executor-source and transport hashes. D remains research-only,
+  nonpromotional, nonauthorizing and nonexecuting.
+- The first postactivation integrity call caught an adapter-only contract bug:
+  active census reports omit the status field that exists only during
+  preactivation. Repaired integrity to distinguish the two exact shapes and
+  reject ambiguous mixtures. A direct live check passed at nine D frames; no
+  frozen D implementation or evidence was changed.
+- Added D to the dashboard and independent project-integrity contract; reloaded
+  only the integrity worker. The focused suite passed 200 tests and the
+  issue/vault suite passed 18 tests, including all 15 vault-sync tests.
+- Practice 007 remained flat at balance/NAV 41.6042 with zero trades or pending
+  orders. Clock integrity was `ok`; C: retained about 148 GiB free. No Codex
+  automation or heartbeat exists.
+- Hash-bound evidence:
+  `FOREX_EXECUTABLE_MOVE_CENSUS_COHORT_D_VALIDATION_20260901.json`.
+
+## 2026-09-01 15:19 America/New_York — Census D invalidated; source-compatible Census E activated
+
+- A semantic live audit found that Census D's apparently complete 17-frame
+  series contained zero valid quotes. All 1,156 quote rows were correctly
+  rejected as `source_identity_mismatch`: D froze source schema 2 after the live
+  tradeability-aware quote snapshot advanced to schema 3. Structural verifier
+  agreement therefore did not make D useful evidence.
+- Stopped every D census worker and preserved the database unchanged at SHA-256
+  `fb4a0a95bc3442c415973ab1a2ac95b2d4d0546403420ac6caa4356990b02f0c`.
+  D is permanently invalid and cannot contribute to any edge or lifecycle
+  decision.
+- Added a producer preflight that checks exact source schema and producer
+  identity before activation or database creation. Added an independent
+  semantic verifier that fails on source-identity mismatch or a zero-valid
+  open-market frame. Project integrity now requires the same semantic census.
+- Opened isolated Cohort E at the frozen 19:15 UTC boundary with source schema
+  3, no imports and no backfill. Its first three scheduled frames contained 204
+  rows: 174 valid and 30 stale, with zero source-identity mismatch, zero missing
+  minutes, zero foreign or preactivation rows and SQLite `quick_check=ok`.
+  The independent verifier agreed with zero failures.
+- Only E capture, evaluator and verifier are supervisor-owned. Dashboard and
+  integrity workers were reloaded. The focused suite passed 203 tests, the
+  vault suite passed 15 tests, and the 35-item issue register validates.
+- Practice 007 remained flat at balance/NAV 41.6042 with zero trades/orders.
+  No execution or authorization gate changed, real-money routing remains off,
+  and no Codex automation or heartbeat exists.
+- Hash-bound evidence:
+  `FOREX_EXECUTABLE_MOVE_CENSUS_COHORT_D_VALIDATION_20260901.json` and
+  `FOREX_EXECUTABLE_MOVE_CENSUS_COHORT_E_VALIDATION_20260901.json`.
+
+## 2026-09-01 17:13 America/New_York — Integrity publication repaired; Census E retired and F verified
+
+- Made the project-integrity cutoff honest at publication. The audit now
+  records finish time, publication latency, freshness at publication, and
+  per-phase/component timings; it fails closed when a result takes more than
+  180 seconds from input cutoff to completion.
+- Profiled the original 12-minute path. The dominant work was a mandatory full
+  quick check over the 1.25-GiB news-governance database, followed by an
+  unindexed native-currency contract query. Preserved the full check on a
+  metadata-bound six-hour attestation and added a partial expression index.
+  A current live publication completed in about 21 seconds with identical
+  structured-numeric results and zero failures.
+- Found a real immutable gap in Census E at 20:24 UTC. E ended with 89 frames
+  from 19:15 through 20:44 UTC, 6,052 quote rows, 4,892 valid rows, zero source
+  mismatches and one absent required open minute. The clock was aligned and the
+  capture process remained alive; the exact transient error was unrecoverable
+  because V2 overwrote its error heartbeat after the next successful minute.
+- Stopped E without backfill and opened prospective Census F at 21:00 UTC.
+  F adds same-minute transient retries, durable fsync incident records, a
+  terminal source-contract path and capture priority above the cold evaluator.
+  E's database remains preserved and permanently invalid.
+- F recorded the 21:00-21:04 UTC daily rollover as five exact closed frames.
+  The independent verifier caught its own generic clock-rule mismatch on those
+  frames. Corrected only closed-frame verification to allow an older, nonfuture
+  source snapshot; the unchanged 30-second source-age limit still applies to
+  every open frame. No quote row or evidence result was rewritten.
+- By 21:10 UTC, F held 11 exact frames and 748 quote rows. Its six open frames
+  had 204 valid executable quotes, no missing open minute, no identity mismatch,
+  no zero-valid open frame and no capture incident. The reloaded independent
+  verifier reported zero failures and SQLite `quick_check=ok`.
+- The current verifier/integrity suite passed 75 tests and the vault suite
+  passed 15. The issue register now validates 37 unique items. Practice 007
+  remained flat at balance/NAV 41.6042 with zero orders or trades; real-money,
+  proof and authorization gates remained unchanged. No Codex automation or
+  heartbeat exists.
+- Hash-bound evidence:
+  `FOREX_INTEGRITY_PUBLICATION_FRESHNESS_VALIDATION_20260901.json` and
+  `FOREX_EXECUTABLE_MOVE_CENSUS_COHORT_F_VALIDATION_20260901.json`.
+# 2026-09-01 17:39 America/New_York — RBNZ operational blocker exposed without weakening source truth
+
+- Reconciled the current official-authority report against live collector state.
+  All 21 currencies remain correctly mapped and all 21 schedules are
+  operational, but RBNZ is the sole non-operational direct policy-release leg:
+  20/21 currencies and 59/68 pairs have both direct policy legs operational.
+- Confirmed the exact failure is HTTP 403 on
+  `new_zealand_rbnz_ocr_snapshot_direct_v1`; its bounded collector is already
+  disabled from repeated polling. The official RBNZ calendar, Stats NZ,
+  New Zealand Treasury and publisher-filtered discovery source remain healthy,
+  but are not relabelled as the missing direct policy transport.
+- Added additive operational-blocker diagnostics to
+  `oanda_official_central_bank_coverage.py`: the report now publishes the
+  configured runtime blocker at source, currency, pair and top level. This did
+  not change readiness, source identity, research weight, authorization or
+  execution behavior.
+- Registered `FX-RBNZ-DIRECT-POLICY-TRANSPORT` as externally blocked until a
+  publisher-permitted authenticated email/social channel or explicit allow-list
+  is available. The next official decision clock remains frozen for 2 September
+  2026 at 14:00 Pacific/Auckland; fallback discovery remains research-only.
+- Validation: all 14 central-bank coverage tests passed and the 38-item durable
+  issue register validates with zero errors. Practice 007 remained flat, current
+  and fail-closed; no Codex automation or heartbeat was created.
+# 2026-09-01 17:59 America/New_York — RBNZ blocker diagnostics reloaded at a safe collector boundary
+
+- Waited for the active local-news collection cycle to finish before stopping
+  only its exact wrapper/child process pair. The existing hidden supervisor
+  restored one replacement pair automatically; no foreground process or Codex
+  automation was created.
+- The replacement collector completed its first full 187-source cycle and
+  republished the official-authority coverage artifact with the new diagnostic
+  contract loaded. It still reports the honest result: 21/21 configured,
+  20/21 policy-release legs operational and healthy, 21/21 schedules
+  operational, and 59/68 pairs with both policy-release legs operational.
+- The sole runtime blocker is now explicit in the supervisor-generated report:
+  `NZD:policy_release_not_operational:new_zealand_rbnz_ocr_snapshot_direct_v1:publisher_permission_required_and_http_403_to_bounded_collector_20260830`.
+  No fallback was promoted and no evidence, proof, authorization or execution
+  rule changed.
+- Post-reload watchdog state remained healthy with one supervisor, no restart
+  circuit, no routing capability and real-money routing disabled.
+
+# 2026-09-01 18:48 America/New_York — Discovery-source lineage repaired and independently guarded
+
+- Found a live provenance defect in the current published news surfaces: five
+  of 500 primary rows and 24 of 259 context rows lacked either the configured
+  `source_contract_id` or `source_cohort_id`. Every affected row was from
+  Finnhub or GDELT. They were already indirect, unverified and nonexecuting, so
+  this did not create a trusted source or an order path.
+- Bound new Finnhub/GDELT parser output to exact configured source lineage and
+  extended the bounded retained-row migration to include already-current rows
+  missing lineage. The migration refuses to invent a contract when the actual
+  configured source is absent and preserves stored publication, first-seen and
+  last-seen clocks.
+- Waited for a completed collector cycle, rolled only its exact managed
+  wrapper/child pair, and let the existing hidden supervisor restore it. Its
+  first full 187-source cycle migrated 67 retained rows and completed normally.
+- Live publication now contains 500/500 lineage-bound primary articles and
+  259/259 lineage-bound context articles. The formerly detached RBNZ preview
+  is bound to Finnhub's derived configuration contract while remaining
+  unverified, indirect, irrelevant to execution and `execution_eligible=false`.
+- Reloaded the independent integrity worker at a completed audit boundary. Its
+  source-provenance check now enforces lineage on every current row and reports
+  259/259 bound, zero missing and zero invalid rows.
+- Validation passed 467 collector tests, 46 project-integrity tests and 43
+  news/technical-watchlist tests. The 39-item issue register validates with
+  zero errors. No signal direction, proof, authorization, Practice-007,
+  real-money or Codex-automation setting changed.
+- The compact canonical vault mapping now includes this validation artifact;
+  all 15 vault-sync tests passed and the OneDrive project record was refreshed
+  without copying credentials, live databases or bulk raw evidence.
+- Hash-bound evidence:
+  `FOREX_DISCOVERY_SOURCE_LINEAGE_VALIDATION_20260901.json`.
+
+# 2026-09-01 19:44 America/New_York — Major-move census liveness and cadence repaired
+
+- Confirmed that the apparently stale retrospective major-move census was
+  CPU-active and completed normally. Its last pre-repair cycle took roughly
+  95 minutes, but exposed no in-cycle progress and then slept the full six-hour
+  interval after completion.
+- Added an exact fail-closed heartbeat with bounded progress through the
+  4.1-million-row H1 scan, H1 integrity pass, source-window load/remap, 68-pair
+  executable replay, factor-surface solve and publication.
+- Separated worker liveness from completed-evidence freshness. The supervisor
+  watches the exact heartbeat; project integrity continues to reject a stale
+  completed report even when the worker is alive.
+- Added input-snapshot, analysis-start, analysis-finish, publication and
+  duration clocks, plus true start-to-start interval scheduling.
+- Rolled the worker only at completed/sleeping boundaries. Two live cycles
+  completed in 483.390 and 508.906 seconds with zero stderr. The final cycle
+  scanned 4,114,246 H1 rows, remapped 620/620 recent source windows, completed
+  all 68 instruments, published 11,586 raw moves and 4,312 factor episodes,
+  retained `no_trade`, and scheduled 01:27:41 ET exactly six hours from start.
+- Focused regression coverage passed 78 tests. The current hidden supervisor
+  adopted the exact worker and reports its sleeping heartbeat as fresh. No
+  evidence, proof, authorization, execution, manual-order or real-money rule
+  changed, and no Codex automation was created.
+- Hash-bound evidence:
+  `FOREX_MAJOR_MOVE_CENSUS_LIVENESS_VALIDATION_20260901.json`.
+
+# 2026-09-01 19:58 America/New_York — Lifecycle publication consistency repaired
+
+- The independent verifier exposed an ordinary-cycle mismatch: the append-only
+  lifecycle database had already committed 52,861 hypotheses while the last
+  published lifecycle and genealogy states still described 52,828. It correctly
+  blocked authorization and project integrity; zero candidate was confirmed.
+- Root cause was operation order. `run_lifecycle` committed new cell states and
+  then spent roughly twenty minutes scanning the immutable proof-family outcome
+  surface before publishing the corresponding JSON state.
+- Reordered the cycle so the long read-only proof-velocity scan completes first.
+  Fixed-snapshot checks, current-cell ingestion, summary and atomic publication
+  now follow in one short mutation/publication tail.
+- Added a regression that fixes the order as velocity, bootstrap, ingest,
+  summary. The lifecycle, evidence-operations, verifier and project-integrity
+  suites passed 76 tests.
+- Waited for `idle_between_cycles`, stopped only the exact old wrapper/child
+  pair, and let the hidden supervisor restore one replacement pair. During the
+  replacement's first live velocity scan, database, published state and
+  genealogy remained equal at 52,861 hypotheses: 43,422 collecting, 9,439
+  futile and zero confirmed.
+- The independent verifier then reported `match` with no failed checks and the
+  next project-integrity publication reported `ok` with zero failures. No
+  evidence row, threshold, proof, authorization, Practice-007, manual-order or
+  real-money path changed; no Codex automation was created.
+- Hash-bound evidence:
+  `FOREX_LIFECYCLE_PUBLICATION_CONSISTENCY_VALIDATION_20260901.json`.
+
+# 2026-09-01 20:26 America/New_York — Policy transport readiness and live quote cutoff repaired
+
+- Added source-transport truth to the neutral event/technical preflight. Direct
+  authority release paths, official-publisher search fallbacks and official event
+  calendars are now reported separately with exact source IDs and blockers; none
+  can self-identify as another class.
+- The live V6 preflight reconciled 19 policy rows as 18 direct-release ready, one
+  fallback-only and zero fully blocked. RBNZ is the fallback-only row: the direct
+  OCR transport remains externally blocked, while `rbnz_official_search` and the
+  official decision calendar remain available but explicitly non-direct.
+- Extended independent project-integrity checks to enforce the new contract,
+  count reconciliation, freshness and research-only/no-execution invariants.
+- Found and repaired a separate false integrity degradation. The audit had read
+  the all-68 atomic quote cache before a roughly 33-second input-loading phase,
+  then judged that in-memory copy against a 15-second transport threshold. The
+  quote read and cutoff are now adjacent after the slow inputs; the threshold is
+  unchanged.
+- The supervised replacement publication returned `ok` with zero failures, a
+  4.162-second snapshot age, 68 valid quotes, 65 tradeable, three explicitly
+  non-tradeable TRY pairs, zero unknown tradeability and zero retained quotes.
+- Python compilation and 68 focused tests passed. Practice 007 remained flat at
+  NAV 41.6042 with zero pending orders. No evidence, proof, authorization,
+  execution, manual-order, promotion or real-money policy changed, and no Codex
+  automation was created.
+- Hash-bound evidence:
+  `FOREX_SOURCE_READINESS_AND_INTEGRITY_FRESHNESS_VALIDATION_20260901.json`.
+
+# 2026-09-01 22:43 America/New_York — RBNZ event captured; invalid all-68 semantics replaced prospectively
+
+- The registered 02:00 UTC RBNZ decision produced five immutable V1 attempts
+  through +30 minutes. Every attempt failed the declared all-68 contract, but
+  all nine NZD pairs were present at every horizon and recorded a broad NZD
+  selloff. Executable NZD/USD short paths cleared about 23.9 pips at +1 minute
+  and 44.4 at +30; AUD/NZD long paths cleared about 42.4 and 80.3 pips.
+- The scheduled +60 record subsequently completed the episode as a sixth
+  immutable invalid attempt. NZD/USD-short and AUD/NZD-long diagnostic paths
+  retained about 35.0 and 61.9 pips respectively, below their +30 marks. Its
+  payload hash is
+  `adaf8cb716544a7da070f7a51deca108b408bd955bae3d435c6dfd786d5e5393`;
+  it remains diagnostic-only and cannot become all-68 proof.
+- Root cause was the V1 currentness definition: it required every instrument's
+  last broker price-change clock to be under 15 seconds. A current all-68 OANDA
+  pricing response can legitimately include an unchanged thin-pair tick, and
+  three TRY instruments were explicitly non-tradeable. V1 remains immutable
+  and permanently invalid for all-68 proof; its event-leg rows are diagnostics.
+- Opened directionless V2 only after the event. It uses one read-only OANDA
+  Practice pricing response, requires all 68 rows and explicit tradeability,
+  uses the response observation time for currentness, and preserves broker tick
+  times separately. It imported nothing from V1 and registered 67 future clocks.
+- RBNZ's official result was a 25bp OCR increase to 2.75%. Direct local access
+  remained HTTP 403; `rbnz_official_search` first saw the official-publisher
+  headline at 02:13:58 UTC, after the initial move, and V153 left its explicit
+  action unstructured. V154 adds a prospective official-search policy-rate
+  observation contract for ten governed authority sources. It retains action,
+  basis-point change and rate levels but assigns no FX direction without causal
+  consensus and rate repricing. The live RBNZ fixture predates activation and
+  cannot be reclassified as proof.
+- Updated every supervisor consumer to V154 after an exact-contract mismatch
+  briefly restarted the collector. The existing local supervisor was reloaded;
+  no Codex scheduler or heartbeat was created.
+- Direct official U.S. systemic-geopolitical RSS is healthy at HTTP 200 with ten
+  body-complete items. HTTP-403 linked pages are not retried or used to negate
+  valid RSS evidence.
+- Lifecycle, genealogy and independent verification match at 52,883 hypotheses
+  with 43,441 collecting, 9,442 futile and zero confirmed. Practice 007 remains
+  flat at NAV 41.6042 with no positions or orders.
+- Regression results: 471 news-classifier tests, 68 scheduled-capture/integrity
+  tests, and 121 combined consumer checks passed. The 49-item issue register
+  validates with zero open repository-controlled items.
+- Hash-bound evidence:
+  `FOREX_OFFICIAL_GEOPOLITICAL_AND_SCHEDULED_EVENT_CAPTURE_VALIDATION_20260901.json`.
+
+# 2026-09-01 22:54 America/New_York — Compact vault snapshot publication made byte-consistent
+
+- Added the current official geopolitical/scheduled-event validation and the
+  V2 scheduled-event quote contract to the compact credential-free vault
+  record set.
+- A post-sync verifier caught one mutable-report race. The previous writer
+  hashed the source and then reopened it for copying; a live report could
+  advance between reads. Canonical sync now captures the source once, derives
+  size and SHA-256 from those bytes and atomically writes the same snapshot.
+- Added a regression that deliberately mutates the source after capture and
+  verifies the vault destination and manifest remain bound to the original
+  snapshot. The full vault-sync suite passed 16 tests.
+- The refreshed manifest contained 51 records with zero destination hash/size
+  mismatches and zero credential-like files. Existing vault storage was about
+  814 MiB, with about 137.5 GiB free on C:; canonical-only mode created or
+  pruned no archive.
+- No Codex automation, order, close, proof change, authorization change or
+  real-money route was created.
+- Hash-bound evidence:
+  `FOREX_VAULT_CANONICAL_SNAPSHOT_VALIDATION_20260901.json`.
+
+# 2026-09-02 00:43 America/New_York — Runtime and knowledge-time integrity made snapshot-consistent
+
+- Bound the main integrity artifact and supervisor freshness check to the exact
+  V154 live news-classification contract. An older runtime can no longer look
+  current merely because its output file is recent.
+- Corrected continuous-narrative reconciliation so seals, integrity incidents
+  and gap incidents share the report's generated-time cutoff. Added bounded
+  atomic-read retries for transient Windows replacement races.
+- Pinned independent census verification to one SQLite WAL read transaction.
+  The atomic latest-report bytes are captured before that transaction, the
+  report is reconstructed only through its own knowledge cutoff, and later
+  durable rows are clock-validated without rewriting the earlier snapshot.
+- Preserved the 150-second latest-report freshness limit and 180-second
+  steady-state supervisor limit. Freshness now belongs to atomic read time;
+  cold full replays receive a fail-closed 900-second startup window.
+- Added verifier audit-finished time and changed main integrity from impossible
+  simultaneous frame equality to a verified immutable prefix plus a
+  nonnegative append-only live suffix. Verifier-first read ordering prevents a
+  newly published verifier from being compared with an older projection.
+- Combined regression validation passed 125 tests. After supervised reload,
+  the independent verifier reported zero failures and the main integrity audit
+  reported `ok`, zero failures, V154, 461 current frames, 460 verified frames
+  and one permissible append-only suffix frame. Current news-governance and
+  forward-proof checks also reconciled.
+- Practice 007 remained flat at NAV 41.6042 with zero open trades and zero
+  pending orders. The live snapshot contained 68 quotes, 65 tradeable pairs,
+  three explicitly non-tradeable pairs, zero qualified signals and no
+  selection. No execution or authorization boundary changed.
+- The issue register validates at 51 items: 23 complete, 17
+  implemented/collecting, two superseded/collecting, six permanently invalid,
+  three externally blocked and zero open repository-controlled items.
+- No Forex Codex automation exists in the local automation registry and none
+  was created. The repository's local hidden supervisor remains the sole
+  continuing collection mechanism.
+- Hash-bound evidence:
+  `FOREX_INTEGRITY_RUNTIME_CONTRACT_RELOAD_VALIDATION_20260902.json`.
+
+# 2026-09-02 04:10 America/New_York — Append-only roots, census counts and scheduled factor made operationally consistent
+
+- Repaired the persistent V5R3 snapshot race by validating the exact rowid-
+  ordered prefix declared by the upstream JSON and retaining later SQLite rows
+  only as a nonnegative append-only suffix.
+- Repaired a V7R3 cascading-union defect. After all planned factor edges are
+  applied, every published mover is now resolved to the final canonical root;
+  raw memberships and merge history remain immutable.
+- Separated the census verifier's reconstructed latest-report count from its
+  full durable-database count. Project integrity now checks the exact latest
+  prefix plus any later append-only database suffix instead of requiring
+  impossible simultaneous publication counts.
+- Preserved the frozen allocator cohort while moving publication to its
+  dedicated passive worker. The live state remains
+  `paused_no_eligible_universe`, with five decisions, zero maturities and zero
+  eligible candidates.
+- Activated prospective scheduled-event factor cohort
+  `scheduled_event_factor_reaction_v1_20260902b` from 06:00 UTC. It carries 67
+  event clocks and currently has zero decisions, forecasts or outcomes; the
+  preactivation RBNZ case remains regression-only.
+- Recovered the unchanged official U.S. Treasury daily-yield collector after a
+  transient TLS EOF. It parsed 168 rows, inserted zero, retained 17 prospective
+  rows and continued to abstain.
+- Found and stopped exact PIDs 2876 and 27808 after verifying they were orphaned
+  read-only Codex inspection shells, not supervisor or project workers. This
+  released roughly two CPU cores without changing collection or evidence.
+- Allowed the supervised 924-case movement-conditioned news audit to finish
+  rather than bypassing its eight-hour freshness check. Its atomic report
+  republished at 04:03:42 ET; project integrity then returned `ok` with zero
+  failures at 04:05:09 ET.
+- Live receipt: 665 census frames matched the verified latest and database
+  prefixes, forward and persistent histories were clean, lifecycle verification
+  matched at 52,883 hypotheses with zero confirmed candidates, all 68 quotes
+  were current/tradeable, and Practice 007 remained flat at NAV 41.6042.
+- Storage remained safe at 126.49 GiB free. The short-window growth estimate is
+  a `watch` condition, not a deletion trigger; automatic evidence deletion and
+  live vacuum remain disabled.
+- Refreshed the compact shared vault to 54 credential-free canonical records.
+  An independent pass verified all destination sizes and SHA-256 hashes with
+  zero mismatches and found no credential-like filenames. The full existing
+  Forex vault occupies 824.57 MiB, below the five-gigabyte working budget; no
+  checkpoint archive was created or pruned.
+- Validation passed 244 cross-component tests and 16 vault tests. The updated
+  55-item issue register validates with 26 complete, 18 collecting, two
+  superseded/collecting, six permanently invalid, three externally blocked and
+  zero open items.
+- No order, close, proof change, authorization change, promotion, real-money
+  route or Codex automation was created.
+- Hash-bound evidence:
+  `FOREX_SCHEDULED_FACTOR_AND_INTEGRITY_LIVENESS_VALIDATION_20260902.json`.
+
+# 2026-09-02 06:42 America/New_York — Signal snapshot restored fresh REST quote coverage
+
+- Found a live mismatch: the all-68 OANDA quote transport was current and
+  tradeable, but the strategy-lab signal snapshot reported zero market quotes.
+- Root cause was REST-mode wiring. The executor received a quote provider only
+  when the lab's optional private stream was enabled; its normal REST fallback
+  could not reprice ranked candidates or populate snapshot quote diagnostics.
+- Added a fresh read-only REST provider with a stream overlay when available.
+  Broker timestamps, tradeability and the existing 30-second rejection gate
+  remain authoritative and fail closed.
+- Added explicit snapshot diagnostics for ranked-instrument scope, provider
+  state, expected/valid/rejected counts, coverage ratio, rejection reasons and
+  exact rejected instruments.
+- After a targeted supervised worker reload, the live matrix reported provider
+  `ok`, 65 expected ranked instruments, 64 valid quotes (98.46%) and one honest
+  exclusion: `EUR_DKK=stale_quote`.
+- Reviewed the concurrent CAD/SGD 5-minute cost-clearing move. The immutable
+  case was already captured with 3.3 gross pips, 1.4 executable net pips, broad
+  context and technical continuation aligned short, but no strict forward
+  publishable news direction. It correctly remains research-only rather than a
+  claimed news win.
+- Related regression validation passed 303 tests and 220 subtests. The
+  independent evidence verifier returned `match`, authorization-safe, with
+  52,919 governed hypotheses and zero confirmed candidates.
+- Practice 007 remained flat at NAV/balance 41.6042 with zero positions and
+  orders. No proof, authorization, promotion, execution or real-money gate was
+  changed, and no Codex automation was created.
+- Refreshed the compact vault to 58 credential-free canonical records. An
+  independent pass found zero missing files, size mismatches or SHA-256
+  mismatches; the Forex vault occupies 830.13 MiB and remains below the 5 GiB
+  working budget.
+- Hash-bound evidence:
+  `FOREX_SIGNAL_SNAPSHOT_QUOTE_COVERAGE_VALIDATION_20260902.json`.
+
+# 2026-09-02 08:08 America/New_York — Census G validated and subsecond mapping leakage cut over
+
+- Permanently invalidated executable-move Census F after its durable incident
+  ledger proved the required 10:46 UTC open-market frame was not committed.
+  The canonical quote file temporarily identified `strategy_lab_price_stream`
+  instead of `practice_007_fast_executor_price_stream`; the source gate failed
+  closed and recorded both the failed attempt and terminal target failure.
+- Preserved F unchanged: quick check `ok`, 846 frames, 57,528 quote rows, 846
+  receipts, zero wrong-sized frames, missing receipts, source-mismatch rows,
+  foreign rows, preactivation rows or zero-valid open frames apart from the one
+  absent required clock. Frozen database SHA-256 is
+  `462edb0886705e561fa93e17afb7a83a906e45471941009c1fe63203d5a51510`.
+- Enforced exclusive quote ownership. Strategy-lab research quotes publish to a
+  separate snapshot and can no longer overwrite the executor evidence source.
+- Activated zero-import Census G at 11:30 UTC. At the validation cutoff it held
+  39 frames, 2,652 quote rows and 39 receipts with exactly 68 rows per frame,
+  zero source/cohort/preactivation defects and a clean independent verifier.
+- Repaired the G verifier's performance checkpoint metadata. Its initial cache
+  inherited base Cohort-B identity and pins, which forced safe full audits but
+  did not change verdicts. The checkpoint now binds exact G config, producer,
+  source producer, quote transport and verifier hashes.
+- Independently found a second correctness defect: V2/V3 operational news-to-
+  move mapping truncated timestamps to integer seconds. A receipt observed at
+  `11:25:00.757212Z` was admitted for a move beginning at
+  `11:25:00.000000Z`. This was subsecond lookahead in research diagnostics.
+- Disabled and permanently invalidated V2/V3 while preserving their exact final
+  ledgers and reports. They never had execution, authorization or promotion
+  capability.
+- Replaced integer clocks with timezone-aware fractional epoch seconds and
+  added creator and independent-integrity regression fixtures. V4 started with
+  zero imports/no backfill and remains empty until its 12:15 UTC activation.
+  It retains the frozen narrative-family dedupe and 30-minute broad-context
+  decay while requiring both mapping clocks at or before exact move onset.
+- The focused collector/integrity/supervisor suite passed 82 tests. The 61-item
+  issue register validates with 30 complete, 17 collecting, two superseded,
+  nine permanently invalid, three externally blocked and zero open items.
+- Practice 007 remained flat at NAV/balance 41.6042 with zero trades and orders.
+  No order, close, proof, authorization, promotion or real-money gate changed.
+  No Codex automation or heartbeat was created; only the local hidden project
+  supervisor and workers continue.
+- Hash-bound evidence:
+  `FOREX_EXECUTABLE_MOVE_CENSUS_COHORT_G_VALIDATION_20260902.json` and
+  `FOREX_OPERATIONAL_MAPPING_SUBSECOND_CAUSALITY_VALIDATION_20260902.json`.
+# 2026-09-02 08:34 ET — final in-chat validation, vault refresh and live receipt
+
+- Confirmed that no Codex automation or heartbeat is active for this work. The
+  hidden supervisor/watchdog are local project processes only.
+- The restarted project-integrity worker loaded the V4 subsecond-causal
+  operational-mapping contract and published `ok`, zero failures, `no_trade`,
+  no authorization/promotion capability and zero imported/backfilled V4 rows.
+- The final combined regression gate passed 279 tests and 220 subtests. Changed
+  Python compiled, supervisor PowerShell parsed, Git diff validation passed and
+  the 61-item issue register validated with zero open items.
+- Census G independently verified 58 required open-market frames with no missing
+  schedule, source mismatch, preactivation/foreign row or zero-valid open frame.
+- Practice 007 was current and flat at balance/NAV 41.6042, cumulative P/L
+  -8.3430, zero open trades and zero pending orders. All 68 OANDA quotes were
+  current/tradeable. The live executor exposed one USD/CAD sell candidate but
+  blocked it on an explicit direction conflict; no order was submitted.
+- The compact vault was refreshed to 62 canonical records. Independent
+  destination verification found zero missing/hash/size mismatches and no
+  credential-like filenames; the complete Forex vault measured 833 MiB.
+- Official/news coverage remained 21/21 currencies and 68/68 two-leg direct
+  pairs: 160 of 175 unique sources healthy, five degraded and ten inactive.
+  Redundant direct coverage kept every pair live; causal consensus, direct RBNZ
+  access and options expectations remain the external gaps.
+- C: retained 121.46 GiB free and storage status remained `ok`. A 10-second
+  resource sample found sustained 93.8% CPU and 75.5% memory use. Data and
+  execution-critical publications remained fresh, so no causal sampling or
+  executor cadence was weakened. Exact-output research CPU reduction remains a
+  performance priority under the existing fail-closed contracts.
+- No manual/discretionary order, close, proof change, threshold change,
+  authorization bypass, real-money route or automation was created.
+
+# 2026-09-02 08:50 ET — lifecycle semantic-republication race repaired
+
+- A post-receipt project-integrity cycle failed closed only on
+  `independent_verifier_matches`. The independent verifier had completed at
+  08:34:04 ET; the lifecycle worker republished the same governed state at
+  08:34:16 ET. Whole-file hashes differed because the outer generation clock
+  changed, while the exact independently governed state remained identical:
+  52,919 hypotheses, state SHA-256
+  `bc4244453c98c3b3d56f5f8be232254cc8aa04b2e4f9d6ea1ec220d80770b12c`,
+  event high-water 53,376, 43,473 collecting, 9,446 futile and zero confirmed.
+- Kept raw lifecycle-file equality as the primary completed-verifier path. A
+  newer publication can now pass only when its complete self-consistent
+  `evidence_lifecycle_publication_integrity_v1` object exactly equals the
+  verifier's passed published attestation, including state hash, all counts,
+  event/retirement/reconsideration high-waters and contract identity.
+- Regression cases prove that an exact semantic republication passes, while a
+  one-row high-water change, failed attestation, count mismatch or raw mismatch
+  without the semantic attestation fails. Focused integrity/supervisor tests
+  passed 71/71.
+- Reloaded only the supervised read-only integrity worker. The live audit
+  returned `ok`, zero failures, `independent_verifier_matches=true`,
+  `no_trade`, `can_place_orders=false` and `can_promote=false`.
+- The issue register now validates 62 items: 31 complete, 17 collecting, two
+  superseded/collecting, nine permanently invalid, three externally blocked and
+  zero open. No evidence row, entry gate, promotion rule, authorization rule,
+  order, position or real-money setting changed.
+- Hash-bound evidence:
+  `FOREX_LIFECYCLE_SEMANTIC_REPUBLICATION_VALIDATION_20260902.json`.
+
+# 2026-09-02 09:10 ET — signal-trial barrier-summary CPU hotspot removed
+
+- Read-only profiling isolated the slowest signal-trial publication component:
+  `summarized_competing_risk_barriers` took 5.447926 seconds over 15,117 live
+  rows, while the other summary families together were materially smaller. The
+  cause was two reverse full-history scans that made decision and factor-episode
+  assignment quadratic.
+- Replaced those scans with an exact latest-decision identity index and a
+  horizon/barrier/factor candidate-episode index. The latter still selects the
+  latest globally matching episode, preserving the former reverse-scan result.
+- On the identical live database snapshot, the optimized function completed in
+  0.602380 seconds (9.044x faster) and emitted the exact same canonical JSON
+  SHA-256 `c6780fbb528eb8c58235f602fcceb3a9cdb90ae89099625706ef9a7fe0d4c2b4`.
+- Reloaded only the supervised research-only signal-trial worker. Its live
+  15,132-row publication matched an independent read-only rebuild exactly; the
+  rebuild completed in 0.549845 seconds. A 20-second runtime sample used 32.33%
+  of one core (4.04% of the eight-core host) and 90.3 MiB working set.
+- The relevant ledger, integrity, supervisor, vault and issue-register suite
+  passed 135 tests. The register validates with 63 issues: 32 complete, 17
+  collecting, two superseded, nine permanently invalid, three externally
+  blocked and zero open.
+- The five-second collection cadence, immutable evidence, proof, authorization,
+  execution and real-money boundaries were unchanged. Practice 007 was flat
+  before reload; no order or close was submitted, and no Codex automation was
+  created.
+- Hash-bound evidence:
+  `FOREX_SIGNAL_TRIAL_BARRIER_SUMMARY_PERFORMANCE_VALIDATION_20260902.json`.
+- Refreshed the compact vault to 64 credential-free canonical records. An
+  independent destination pass found zero missing, size-mismatched or
+  hash-mismatched records and no credential-like filenames. The complete vault
+  is 834.08 MiB across 5,719 files; manifest SHA-256 is
+  `aee8f861423dc2bacdfa4e611c0df0313acefc908cb4e86d95c26aba31ef89a8`.
+- Final live receipt at 09:23 ET: Practice 007 remained flat at balance/NAV
+  41.6042 with cumulative P/L -8.3430, zero trades and zero orders; all 68 quotes
+  were current and tradeable. Project integrity was `ok` with zero failures,
+  `no_trade`, no promotion or entry capability and real-money routing disabled.
+  Census G independently verified 113/113 required frames with zero failures.
+  The affected signal-trial, lifecycle, allocator, position-ledger and Census G
+  databases all returned SQLite `quick_check=ok`.
+- Whole-machine CPU remained saturated after the localized 9.044x repair. A
+  process sample identified the execution-critical executor and the research
+  strategy lab as the remaining largest consumers. The latest strategy-lab
+  cycles completed in 87.6, 87.6 and 103.8 seconds; no lock error appeared in
+  the latest 12,000 log rows. This is the next exact-output performance path,
+  not authority to slow evidence collection or alter execution semantics.
+
+# 2026-09-02 10:44 ET — full project restart validated
+
+- Re-enabled the existing `ForexSafeCoreAtLogon` and unified-dashboard tasks,
+  started the hidden watchdog, and restored one healthy supervisor without
+  creating a Codex automation.
+- A clean restart exposed a missing canonical quote-mirror argument in the
+  supervised Practice-007 fast-executor command. Added the exact canonical
+  snapshot path and one-second cadence while retaining the independent
+  transport seed. Live output is schema 3, executor-owned, 68/68 tradeable and
+  contains zero retained rows.
+- Preserved Census G as permanently invalid after the explicit pause omitted
+  seven required open-market minutes (13:54–14:00 UTC). Its final database has
+  173 frames, 11,764 quote rows, `quick_check=ok`, and SHA-256
+  `c2de90bef9b2ea39dab30573e31aa1ad69a26286140a8013f8613bfea3536bb8`.
+- Started zero-import/no-backfill Cohort H at 14:40 UTC. The first three
+  independently verified frames contained 204 quote rows, zero source mismatch,
+  zero zero-valid open frames and zero verifier failures. Project integrity
+  returned `ok` with zero failures.
+- Focused validation passed 102 tests. The issue register validates 66 issues:
+  33 complete, 17 collecting, two superseded, ten permanently invalid, three
+  externally blocked and one open Bank of Canada publication-handoff issue.
+- Practice 007 remained flat at balance/NAV 41.6042, cumulative P/L -8.3430,
+  zero open trades and zero orders. No manual order or close, gate loosening,
+  historical repair, real-money route, or automation occurred.
+- The concurrent Bank of Canada window produced broad CAD strength, but the
+  direct official URL still served its pre-release placeholder and the fast
+  lane inserted no new direct observation. Logged the publication-handoff gap;
+  no causal win was credited from later secondary headlines.
+- Hash-bound evidence:
+  `FOREX_CLEAN_RESTART_AND_COHORT_H_VALIDATION_20260902.json`.
+
+# 2026-09-02 10:56 ET — restart handoff finalized
+
+- The long-lived project-integrity worker had been adopted before the Cohort-H
+  contract edit and published one stale Cohort-G check after restart. Reloaded
+  only that exact read-only worker; the fresh audit now binds Cohort H and is
+  `ok` with zero failures, `no_trade`, `can_place_orders=false` and
+  `can_promote=false`.
+- Cohort H independently verifies 17/17 frames, 1,156 quote rows, zero source
+  mismatches and zero zero-valid open-market frames. It remains research-only.
+- Refreshed the compact credential-free vault: 65 canonical records,
+  45,787,443 bytes, content SHA-256
+  `67c1f46fc3dabe026c2654f57a7fdbc71d4c57afea05db3544696db11702b62c`;
+  destination manifest SHA-256
+  `1d85524fc66fc895c0a1e00b4171b99e94eab1176864558d173b755227ab9feb`.
+- Practice 007 remained flat at balance/NAV 41.6042 with zero trades and zero
+  orders. The executor had 68/68 live quotes, zero qualified candidates, and
+  no entry authorization. No order, close, gate change, real-money route or
+  Codex automation occurred.
+
+# 2026-09-02 14:51 ET — redundant research stdout growth repaired
+
+- Live storage monitoring isolated three research workers that were copying
+  their already-published multi-megabyte JSON payloads into unbounded stdout
+  logs. The frozen pre-reload logs total 2,708,514,041 bytes; no historical log
+  was deleted, truncated, or rewritten.
+- Added a quiet runtime mode to the official fast mapper, move-first live-arm
+  alignment and move-first operational-alignment worker, then enabled it in
+  the three exact active supervisor definitions. Reports, heartbeats, ledgers,
+  cadences and evidence contracts are unchanged.
+- Reloaded only the supervisor and the three affected launcher/runtime pairs.
+  Their replacement stdout and error logs remained at zero bytes across
+  multiple completed cycles while all three reports continued advancing. The
+  old log sizes remained frozen and a direct 25-second disk sample ended with
+  57,372,672 more free bytes, ending the prior monotonic fall.
+- A restart-freshness integrity check was briefly degraded for the persistent
+  move-context report, then recovered without intervention. Current project
+  integrity is `ok` with zero failures; Cohort H independently verified 249
+  frames; Practice 007 remained flat at NAV 41.6042 with zero orders/fills and
+  no authorization.
+- Python compilation and PowerShell parsing passed. The focused suite now
+  passes 52 tests, including a dedicated supervisor regression requiring quiet
+  mode on all three large-report workers. Issue-register validation passes with
+  67 issues and 34 complete; the Bank of Canada publication handoff remains the
+  only open item.
+- Hash-bound evidence:
+  `FOREX_RESEARCH_STDOUT_GROWTH_VALIDATION_20260902.json`.
+
+# 2026-09-02 16:12 ET — official-event quote evidence preserved per pair
+
+- Audited all 34 prospective raw official-event quote attempts. None met the
+  legacy exact-all-68 rule, although each held 53–67 valid instrument quotes.
+  The distribution was 53x1, 56x1, 60x1, 61x1, 62x5, 63x4, 64x12, 65x3,
+  66x4 and 67x2. `TRY_JPY` was absent or invalid in all 34 attempts,
+  `EUR_DKK` in 27 and `USD_TRY` in 23.
+- Preserved that old cohort and its exact-all-68 result unchanged. Added a
+  separate zero-import research cohort,
+  `official_event_pair_quote_capture_v1_20260902a`, activated at 20:15 UTC.
+  It reads the raw official-release ledger before semantics, keeps the entire
+  68-row audit surface, and applies freshness and tradeability eligibility per
+  pair so one stale exotic cannot erase a valid direct event leg.
+- Added an independent no-producer-import verifier, append-only SQLite guards,
+  payload/lineage hashes, supervised one-second heartbeats and quiet logs.
+  Compilation and PowerShell parsing passed; 76 event/fast-lane tests and 37
+  vault/supervision/register tests passed. The live empty preactivation ledger
+  verifies with zero failures and `quick_check=ok`.
+- Around 15:55 ET, JPY strengthened broadly: USD/JPY fell roughly 9 pips over
+  five minutes and CAD/JPY roughly 7. A 15:27 ET secondary headline repeating
+  prior U.S.-BOJ policy commentary was not treated as causal. The executor
+  later surfaced a USD/JPY sell around 59% confidence and +3.8 to +3.9 projected
+  net pips at eight hours, but an account-eligible opposing forecast triggered
+  the direction-conflict gate. There was no confirmed lifecycle candidate or
+  canary authorization, so no order was routed and no retrospective win was
+  credited.
+- The Bank of Canada same-URL placeholder handoff is implemented and live. Its
+  September 2 recovery remains diagnostic-only; the next untouched decision
+  transition is the acceptance test.
+- Refreshed both vault surfaces after the change. The news/source checkpoint
+  contains 126 credential-free files and 654,232,014 represented bytes with
+  content SHA-256
+  `cd13bca9009971e2ee7db1963b096e21cc064ec172ce9b2287ff591c47018b28`.
+  The compact current-state vault contains 68 records and 51,350,879 bytes with
+  content SHA-256
+  `82fce468cb0e01cac5d87090d65053c3b59d5e27b939537a85eb0ab6f74e066b`.
+  An independent destination pass found zero missing, size-mismatched or
+  hash-mismatched compact records and matched the source archive hash. The
+  complete forex vault occupies 0.833 GiB, well below its five-GiB budget.
+- The independent evidence verifier recovered to `match` and the next complete
+  project-integrity pass recovered to `ok` with zero failures. The preceding
+  degradation was a fail-closed stale-output interval while the evidence
+  verifier rebuilt; it did not affect quotes, account state or authorization.
+
+# 2026-09-02 16:28 ET — JPY continuation onset was captured before the burst
+
+- Traced the 15:55 ET JPY-strength burst through the immutable mover case and
+  outcome ledgers. The USD/JPY decrease began at 15:12 ET and was first
+  captured prospectively at 15:18:44 ET, when its executable move was only
+  2.6 pips. This preceded the sharpest segment by roughly 37 minutes.
+- The frozen technical-continuation arm was short and matured to +25.4 pips
+  after cost at 60 minutes, with 30.1-pip MFE and 3.7-pip adverse excursion.
+  The broad-context arm was long and lost 28.4 pips after cost; the causal
+  narrative state for both USD and JPY was neutral with no current evidence.
+- The 15:54–16:04 ET derived-report restart interval did not erase this case:
+  its onset was already immutable and outcomes continued maturing. Cohort H
+  independently retained all 12 USD/JPY minute quotes from 15:50 through
+  16:01 ET. The prior apparent miss came from searching by the sharp-burst
+  clock rather than the earlier stable case onset.
+- This remains one research-only observation, not proof or an account-level
+  missed order. There was no confirmed lifecycle candidate or canary
+  authorization, so Practice 007 correctly did not trade. No evidence,
+  promotion, authorization, execution, or real-money gate changed.
+- Hash-bound audit: `FOREX_JPY_CONTINUATION_CASE_AUDIT_20260902.json`, SHA-256
+  `4bf286e725397d6ca57a6a0dce1b1e2663ef3227c57fff59916a7b966916aeec`.
+
+# 2026-09-02 17:57 ET — immutable first-seen activation replay repaired
+
+- Found a repeat-poll causality defect: an article first observed before a
+  prospective classifier rule activated could inherit an activation-eligible
+  flag when the same stable URL was polled later. The stored row retained its
+  original `first_seen_utc`, but its semantics were not replayed at that clock.
+- Deployed
+  `local_fx_news_rules_20260902_v157_immutable_first_seen_activation_replay`.
+  Any positive activation claim that predates immutable first-seen now forces a
+  complete replay at the original clock. RBNZ structured numeric fields created
+  by the later poll are removed before replay so they cannot bootstrap their
+  own prospective eligibility.
+- Verified the live Pentagon clinical-guidance row is neutral, guarded,
+  non-structured and activation-ineligible. The 02:13:58 UTC pre-activation
+  RBNZ row is also activation-ineligible and non-structured; the distinct
+  04:44 UTC post-activation observation correctly retains 2.75% actual versus
+  2.5% previous while remaining nonexecuting.
+- Scanned 99,549 candidate payload rows: nine positive activation claims and
+  zero claims whose immutable first-seen clock predates activation. The active
+  242-article context surface is entirely V157.
+- Python compilation, PowerShell parsing and 609 focused tests passed. The
+  independent verifier completed a scheduled full pass in 3,822.875 seconds,
+  rebuilt 52,919 hypotheses, and returned `match` with zero failures or
+  warnings. The following project-integrity pass returned `ok` with V157 and
+  zero failures.
+- The large classifier migration caused temporary reader lock exits before the
+  scoped supervisor reload. All replacement workers are current and their
+  stderr logs remain empty; exactly one supervisor is active.
+- Practice 007 remained flat at NAV 41.6042 and cumulative P/L -8.3430 with
+  zero positions, orders, fills, qualified candidates or authorization. No
+  proof, threshold, promotion, execution or real-money gate changed.
+- Hash-bound evidence:
+  `FOREX_IMMUTABLE_FIRST_SEEN_ACTIVATION_REPLAY_VALIDATION_20260902.json`,
+  SHA-256
+  `6aaadd2c8e4051b8ecce93a6171bd11c6b90724d0cdc3630a97508744fb6c1ce`.
+## 2026-09-02 19:31 America/New_York — GDELT secure transport incident bounded
+
+- Reproduced the sole persistent source degradation at the documented GDELT
+  DOC API HTTPS host: 20 collector failures since the last success on 1
+  September at 17:01 ET, with both TCP-connect and TLS-handshake timeouts.
+- Verified that plain HTTP responds but rejected it as an ingestion downgrade.
+  Verified separately that GDELT's HTTPS bulk-export index responds, while
+  preserving it as a distinct future source/parser cohort rather than silently
+  substituting or backfilling the DOC evidence.
+- Retained the existing bounded one-hour retry. GDELT remains supplementary,
+  unverified, research-only and nonexecuting; 174 of 175 enabled sources remain
+  healthy and official/Practice-007 coverage is unchanged.
+- Added blocked-external issue `FX-20260902-GDELT-HTTPS-TRANSPORT`, updated the
+  source-gap register, and created hash-bound receipt
+  `FOREX_GDELT_SECURE_TRANSPORT_INCIDENT_20260902.json`.
+
+## 2026-09-02 19:45 America/New_York — source-rank V7 publication race repaired
+
+- A live integrity pass caught `source_conditioned_rank_v7_inventory_reconciled_and_inert`
+  false while Practice 007 was flat and unauthorized. The next complete rank
+  publication reconciled, identifying a transient publication defect rather
+  than source-data or lifecycle contamination.
+- Root cause: rank V7 passed its public output paths through the inherited V6
+  cycle, briefly exposing a valid JSON document that lacked the final V8
+  lineage and V7 inert-policy fields. Integrity correctly failed closed.
+- Rank V7 now builds inherited documents at unique private staging paths and
+  exposes only the completed V7 document through one final atomic publication.
+  Staging files are removed in a `finally` block.
+- Nineteen adapter/supervisor tests and 60 project-integrity tests passed. A
+  20-second live stress read covered 1,678 reads across several publication
+  cycles with zero parse errors and zero invalid-contract reads. The repaired
+  worker was reloaded under the existing hidden supervisor; the post-repair
+  independent project-integrity audit returned `ok` with zero failures.
+- No thresholds, proof cohorts, authorization rules, execution behavior or
+  real-money routing changed. Hash-bound receipt:
+  `FOREX_SOURCE_RANK_V7_ATOMIC_PUBLICATION_VALIDATION_20260902.json`, SHA-256
+  `0012b52873db14f6b98d69149604657f1eb180a2f09298a51f457426cb802661`.
+
+## 2026-09-02 20:14 America/New_York — first per-pair T0 event and horizon path
+
+- The first untouched upstream per-pair event was a direct BOJ spreadsheet,
+  published 23:50 UTC, first seen at 23:52:45.314 UTC and captured at
+  23:52:46.574 UTC. Fifty-nine of 65 explicitly tradeable pairs passed the
+  frozen freshness checks. The independent T0 verifier returned `verified`.
+- The semantic mapper correctly kept it context-only with no deterministic FX
+  impulse. No direction, catalyst attribution, candidate, authorization or
+  order was manufactured from the publisher label.
+- Added a separate prospective per-pair outcome cohort activated at 00:20 UTC.
+  It stores one terminal 1/5/15/30/60-minute attempt per new event, preserves
+  both executable directions and cost stresses, never reacquires entry quotes,
+  and prevents one invalid pair from erasing the rest.
+- The BOJ observation predates the new cohort and is intentionally excluded.
+  At validation the append-only database was empty and healthy; the independent
+  verifier reported zero failures. The hidden producer and verifier are live.
+- Python compilation, PowerShell parsing, 59 focused governance tests and 20
+  supported-runtime tests passed. Practice 007 remained flat and unauthorized;
+  proof, promotion, authorization, execution and real-money gates are unchanged.
+- Hash-bound evidence:
+  `FOREX_OFFICIAL_EVENT_PAIR_HORIZON_CAPTURE_VALIDATION_20260902.json`.
+
+## 2026-09-02 20:19 America/New_York — BOJ scheme-alias duplicate fixed
+
+- The same BOJ spreadsheet entered twice because the RSS GUID alternated from
+  `http` to `https`; title, publisher time and normalized destination matched.
+- URL-valued external IDs are now canonicalized before stable publisher
+  identity hashing. Raw aliases remain immutable diagnostic revisions, but a
+  scheme-only revision cannot become prospective or capture another eligible
+  T0 quote surface.
+- Both historical BOJ observations remain preserved and both predate the new
+  horizon cohort, so neither is silently rewritten or credited there.
+- Forty-five focused tests passed and the scoped live fast-lane replacement
+  completed with zero source errors. Practice 007 remained flat with zero
+  orders; all proof, authorization, execution and real-money gates are intact.
+- Hash-bound evidence:
+  `FOREX_OFFICIAL_RELEASE_URL_IDENTITY_DEDUP_VALIDATION_20260902.json`.
+
+## 2026-09-02 20:44 America/New_York — live RBA event exposed a cross-ledger T0 gap
+
+- The first post-activation event for the per-pair horizon cohort was the
+  direct RBA release `RITS Consultation and Retail CBDC Update`, published at
+  00:30 UTC. The main collector's immutable first-seen clock was
+  00:31:04.777 UTC, while the official fast-lane append clock was
+  00:32:52.302 UTC. The V1 T0 worker is intentionally bound only to the fast
+  lane and froze 62 eligible pair entries at 00:32:53.950 UTC.
+- The 107.525-second cross-ledger first-seen difference proves that
+  `fast-lane first` is not always `system-wide earliest`. Existing V1 evidence
+  remains unchanged and correctly labelled. New issue
+  `FX-20260902-OFFICIAL-EVENT-EARLIEST-SOURCE-CLOCK` requires a zero-import
+  dual-ledger cohort with one canonical publisher identity, an actual
+  row-observed clock, and independent verification; a late row may not claim
+  retrospective actionability.
+- Semantic classification correctly made the RBA payments/CBDC consultation
+  context-only with no rate or stance implication. At 1, 5 and 15 minutes the
+  new terminal maturer inserted exactly one attempt per horizon, independently
+  verified every append-only row and rejected stale/out-of-window exits. The
+  apparent JPY-cross movement was a separate JPY-strength factor and was not
+  attributed to the AUD item.
+- A JPY-strength episode began at 00:19 UTC. USD/JPY cleared approximately
+  8.4 pips in its first five-minute case and later exceeded 30 net pips over
+  30 minutes. Strict news direction was neutral; the sealed technical arm was
+  short. The production signal surfaced only late and remained direction-
+  conflicted, lifecycle-unconfirmed and unauthorized, so Practice 007 stayed
+  flat. This case is retained for prospective comparison and did not change
+  any threshold or execution policy.
+- The watchdog performed one controlled supervisor recovery and the new
+  supervisor adopted the event T0 producer, horizon maturer and both independent
+  verifiers without duplicates. Project integrity remained `ok`; no manual
+  order, close, proof change, authorization bypass or real-money route occurred.
+- The terminal 30-minute horizon matured at 01:02:52.572 UTC, only 0.271 seconds
+  after its exact target. It wrote 62 immutable pair outcomes: 57 valid, two
+  stale and three outside the frozen target window. The independent verifier
+  remained `verified` with zero failures. AUD/USD moved only +1.05 midpoint
+  pips and lost 0.30 pips after executable buy cost; the apparently profitable
+  AUD/JPY short belonged to the separate market-wide JPY episode. The event
+  therefore supplies valid collection evidence but no AUD-direction result.
+- One integrity cycle at 21:04:57 ET failed closed because its input snapshot
+  read no usable official-fast-lane heartbeat. The collector itself completed
+  normally at 21:06:32 with 2,038 observations and an inert research-only
+  policy. A new full integrity run at 21:08:47 read the fresh heartbeat,
+  independently reconciled all 2,038 rows and returned `ok` with zero failures.
+  Practice 007 stayed flat throughout; the transient is retained as an
+  operational observation and no freshness threshold was weakened.
+
+## 2026-09-02 21:27 America/New_York — seven-hour live watch closeout
+
+- The bounded watch ran from 14:24:58 through 21:24:58 ET without a Codex
+  automation. Practice 007 ended flat at balance/NAV 41.6042, cumulative P/L
+  -8.3430, no unrealized P/L, no trades, no orders, no qualified signal and no
+  selected execution stage. No discretionary order, manual close, proof or
+  authorization relaxation, or real-money route occurred.
+- The late dominant episode was broad JPY strength. USD/JPY reached an observed
+  60-minute after-cost move of about 39.95 pips before ending the final sample
+  near 24.55 pips. Strict forward news remained neutral at onset; the sealed
+  technical-continuation arm was short, but production selection was late,
+  direction-conflicted and unauthorized. No new official JPY event was observed
+  at onset, so the move remains causally unexplained rather than being credited
+  to the nearby RBA or BOJ context items.
+- The first real post-activation RBA event exercised the complete per-pair
+  1/5/15/30-minute outcome path: four terminal attempts, 248 outcomes, 225 valid,
+  23 explicitly invalid, independent verifier `verified`, zero failures. The
+  60-minute attempt is due at 21:32:52 ET after this bounded watch and remains
+  assigned to the always-on worker.
+- The event also exposed the only open repository-controlled repair: the main
+  official collector durably observed it 107.525 seconds before the fast lane
+  that currently drives T0. Issue
+  `FX-20260902-OFFICIAL-EVENT-EARLIEST-SOURCE-CLOCK` requires a new zero-import
+  dual-ledger cohort; V1 evidence remains immutable and no late row can receive
+  retrospective actionability.
+- Final system state: one hidden supervisor, healthy watchdog and no open
+  circuit; 68 quotes with 65 explicitly tradeable; project integrity `ok` with
+  zero failures; synchronized host clock; 21/21 currencies and 68/68 pair
+  coverage. The latest source census had 175 unique sources, 161 healthy, 165
+  operational, four degraded-only and ten inactive-only. Causal consensus,
+  permitted direct RBNZ access, secure GDELT transport and usable options data
+  remain external or unavailable gaps.
+- Storage remained `ok` with 111.122 GiB free. Managed SQLite allocation was
+  73.140 GB, WAL 0.966 GB and logs 34.299 GB. The short-window growth estimate
+  is advisory `watch` and volatile (13.69 projected days to the 50-GiB reserve);
+  automatic evidence deletion and live vacuum remain disabled. A closing sample
+  reached 100% CPU and 84.9% memory while all critical publications remained
+  fresh; unrelated applications and other projects were not altered.
+- The closing issue-register validator passed all 74 entries (one open), Python
+  compilation passed, 39 focused tests passed, the supervisor PowerShell parsed,
+  and `git diff --check` found only line-ending notices. Hash-bound receipt:
+  `FOREX_SEVEN_HOUR_LIVE_WATCH_VALIDATION_20260902.json`.
+- The final canonical vault publish contains 75 credential-free records. An
+  independent destination pass found zero missing files, hash mismatches, size
+  mismatches or credential-like filenames. The complete Forex vault occupies
+  854.87 MiB, safely below its five-GiB working budget.
+
+## 2026-09-04 11:06 America/New_York — current miss audit and causal-ingestion repairs
+
+- Rebuilt the week-to-date move audit from the active V7r3 mover history after
+  finding that the recap still defaulted to a retired database. The corrected
+  frozen report contains 4,833 logical mover cases, 1,900 factor episodes and
+  127 material episodes at or above 15 basis points. It has 23 independent
+  official clocks plus nine calendar-only clocks, two source-direction-resolved
+  alignments and zero strict publishable directional matches. Broad nearby
+  headlines remain context and are not credited as causes.
+- The most important fresh miss was the 12:30 UTC U.S. jobs episode. USD/CAD
+  gained about 53.2 basis points over five minutes (roughly 73.4 gross and 70.5
+  after-cost pips on its native pip scale), while the sealed technical trend
+  opposed the move and strict news direction was neutral. The official BLS
+  Employment Situation actual was absent from the causal collector, the exact
+  event clock was absent from the scheduled all-68 capture, and the first broad
+  +162,000-jobs confirmation appeared roughly 24 minutes after release.
+- Added a dedicated BLS Employment Situation current-release parser and exact
+  official-calendar source. A live official-page check recovered +162,000
+  payrolls, 4.1% unemployment, +0.3% monthly earnings and +55,000 combined
+  prior-month revisions at the official 08:30 ET embargo clock. Consensus stays
+  unavailable and USD direction stays neutral. The first post-activation page
+  is bootstrap-only; no historical win or evidence was manufactured.
+- Fixed the broader guid-less mutable-feed failure that allowed BLS Latest
+  Numbers to overwrite a stale row: recurring containers now receive a stable
+  publisher identity and every material payload hash becomes a distinct
+  immutable version with its own causal first-seen clock.
+- Repaired two other audit defects before drawing conclusions: 325 repeated
+  Swiss CPI rows were traced to a date-only publisher clock and stabilized by
+  material identity without deleting history; official-clock counts now
+  deduplicate those preserved physical rows. The mover recap and reconstruction
+  defaults now point to V7r3 rather than the retired V1 history.
+- Implemented the earlier cross-ledger T0 issue as a separate V2 cohort with a
+  15:30 UTC zero-import activation. It observes both immutable official ledgers,
+  retains every alias and clock, canonicalizes publisher identity, takes one
+  all-68 quote snapshot from the first durably observable event, and has an
+  independently implemented verifier. The pre-activation empty state verifies;
+  an untouched later event is still required before calling the timing repair
+  empirically proven.
+- Python compilation and JSON parsing passed. The supported Python 3.12 runtime
+  passed 510 local-news, event-clock, scheduled-capture and source-readiness
+  tests. The issue register now validates all 75 entries with zero open items;
+  both new paths remain `implemented_collecting`, research-only and unable to
+  promote, authorize or route an order.
+- Practice 007 remained flat at balance/NAV 41.6042, cumulative P/L -8.3430,
+  with zero positions and pending orders. No gate, threshold, manual-order
+  policy or real-money setting changed.
+
+## 2026-09-04 11:53 America/New_York — frozen recap source-coverage clock fixed
+
+- The exact-cutoff recap's zero-of-21 central-bank line was a reporting defect,
+  not a live source outage. Its mutable snapshot reader preferred an old source
+  `as_of_utc` over the file's post-cutoff generation clock and admitted a
+  transient one-pair collector-startup replacement.
+- Publication clocks now take precedence. If the live replacement is newer
+  than the requested cutoff, the compiler selects the latest complete record
+  from append-only collector output at or before that cutoff.
+- The same 14:31:30 UTC evidence cutoff now reports 21/21 configured, 20/21
+  release-operational and release-healthy central-bank currencies, and 59/68
+  pairs with both policy legs operational. Direct RBNZ access remains the one
+  explicit external gap.
+- The report contract advanced to
+  `week_to_date_project_event_move_recap_v5_cutoff_safe_snapshot_clocks_20260904`.
+  Eleven focused tests passed; JSON/Markdown hashes match the manifest. The
+  supported decision remains `no_trade`, and the report has no execution or
+  governance mutation surface. Receipt:
+  `FOREX_WEEK_RECAP_CUTOFF_CLOCK_VALIDATION_20260904.json`.
+
+## 2026-09-04 12:04 America/New_York — dual-ledger event capture receives first untouched observation
+
+- The zero-import official-event V2 cohort received its first post-activation
+  item: SARB published an old April 2025 Financial Markets Liaison Group record.
+  The dedicated fast lane observed it at 15:49:06.914 UTC and the general-news
+  append path observed the same canonical publisher identity 323.289 seconds
+  later.
+- The collector retained both source aliases and clocks while writing exactly
+  one terminal capture. Its snapshot represented all 68 instruments; 59 were
+  explicitly tradeable and fresh, six were excluded for quote age over the
+  frozen 30-second limit, and EUR/TRY, TRY/JPY and USD/TRY were excluded because
+  OANDA marked them nontradeable.
+- The separately implemented verifier reconstructed two eligible aliases, one
+  capture, 59 eligible pair quotes and zero integrity failures. Semantic mapping
+  happened after the quote freeze and correctly classified the old meeting
+  record as context-only with no deterministic ZAR direction.
+- This is untouched evidence that basic dual-ledger detection, identity dedup,
+  quote freezing and fail-closed freshness work. It is not predictive evidence
+  and it does not yet exercise the adverse case where a later-arriving ledger
+  proves an earlier immutable source clock, so the issue remains
+  `implemented_collecting`. Practice 007 stayed flat and no execution setting
+  changed.
+
+## 2026-09-04 12:21 America/New_York — V2 quote timestamp invalidated; zero-import V3 activated
+
+- Adversarial inspection of the first untouched V2 capture found that its
+  `captured_utc` was the 15:49:06.914 UTC worker-cycle start, but the quote
+  snapshot used by the same record was generated at 15:49:08.413 UTC. The
+  −1.498644-second snapshot age made the reported zero detection latency false.
+  The event was directionless and no order was affected, but this invalidates V2
+  as event-time quote proof.
+- Preserved the V2 producer, independent verifier and append-only database and
+  stopped only their obsolete processes. V2 is registered permanently invalid;
+  nothing was deleted, relabeled or imported.
+- Activated V3 at 16:20 UTC as a distinct zero-import cohort. It records
+  `captured_utc` after reading the quote snapshot, recomputes every clock-derived
+  field, and fails all pairs closed if the capture clock precedes snapshot
+  generation. Its separate verifier independently checks snapshot, pair-quote
+  and event-offset arithmetic without importing the producer or broker client.
+- The watchdog completed a controlled supervisor reload. Exactly one V3 producer
+  and one V3 verifier are supervisor-owned; no V2 runtime remains. The first
+  post-activation state contains zero aliases, zero captures, zero imports and
+  zero verifier failures.
+- Fourteen focused tests pass, Python compilation and supervisor PowerShell
+  parsing pass, and the issue register validates 77 entries with zero open
+  repository repairs. No execution, promotion, authorization, threshold or
+  real-money setting changed. Receipt:
+  `FOREX_OFFICIAL_EVENT_CAPTURE_READ_CLOCK_VALIDATION_20260904.json`.
+
+## 2026-09-04 14:02 America/New_York — miss-driven source, semantic, clock and lock repairs
+
+- The 08:30 ET U.S./Canada jobs episode remains the clearest fresh miss:
+  USD/CAD moved about 53.2 basis points in five minutes, while strict causal
+  news was neutral and the sealed pre-event technical direction opposed it.
+  The BLS parser/calendar repair is now hash-bound. The direct Statistics
+  Canada transport also moved to a new prospective curl-retry cohort after the
+  first urllib request reset; its first live attempt returned HTTP 200 and one
+  parsed release. Neither historical event receives retrospective credit.
+- Removed a false USD-long semantic thesis. Future-data-dependent Fed language
+  is now nondirectional; publisher-wrapped copies of the same story collapse;
+  rate-market roundups and technical-analysis headlines remain context-only.
+- Recovered an official Japanese Finance Ministry press conference first seen
+  at 08:13:25 ET, 33.58 minutes before the large JPY acceleration. Its text
+  discussed reflation, yen valuation, rate differentials and intervention, but
+  causal attribution remains unproven. A new post-14:00 ET Japanese-language,
+  issuer-bound research cohort is deliberately modest, confirmation-gated and
+  unable to publish or execute. The historical page is diagnostic-only.
+- Replaced the watchlist's pre-input-read clock after observing approximately
+  minus 1.9-second quote ages. Current cohort V44 inherits the corrected clock,
+  publishes zero negative ages and imports no old evidence.
+- Hardened the watchlist and source-governance readers after a long collector
+  transaction exposed a SQLite lock during reload. Both now wait up to 30
+  seconds and fail closed; the governance fast lane preserves its cursor. Only
+  those two read-only worker hierarchies were reloaded under the existing hidden
+  supervisor.
+- Validation passed 486 news-classification tests, 46 watchlist tests, 40
+  source-governance tests and 18 supervisor tests, plus Python compilation.
+  The hash-bound 82-item issue register validates with zero open repository
+  repairs. Practice 007 remained flat at NAV 41.6042 with no positions, orders,
+  qualified signal or selected entry; no threshold, authorization, execution or
+  real-money setting changed.
+- Hash-bound records:
+  `FOREX_BLS_EMPLOYMENT_DIRECT_PATH_VALIDATION_20260904.json`,
+  `FOREX_STATCAN_LFS_DIRECT_PATH_VALIDATION_20260904.json`,
+  `FOREX_CONDITIONAL_POLICY_AND_SYNDICATION_GUARD_VALIDATION_20260904.json`,
+  `FOREX_WATCHLIST_POST_INPUT_READ_CLOCK_VALIDATION_20260904.json`,
+  `FOREX_JAPAN_EXTERNAL_POLICY_PRESSURE_RESEARCH_VALIDATION_20260904.json`, and
+  `FOREX_SQLITE_READER_LOCK_HARDENING_VALIDATION_20260904.json`.
+
+## 2026-09-04 15:25 America/New_York — late-session semantic misses and synchronized V161 reload
+
+- The retained feed exposed two additional semantic false positives. A call for
+  a temporary Russia-Ukraine ceasefire had been treated as realized risk-on,
+  creating an uncorroborated high-beta basket. Separately, an increase in oil
+  drilling rigs had been read as an oil-price rise and had become a publishable
+  CAD/MXN/NOK commodity thesis. A publisher-labelled Iranian-oil analysis also
+  appeared as a fresh risk event.
+- V160 introduced an explicit proposal-versus-agreement guard: requests and
+  calls for de-escalation are context-only until agreement, announcement or
+  implementation is explicit. V161 introduced a separate market-state guard:
+  rig and rig-count changes require commodity repricing evidence, and secondary
+  analysis is contextual without a fresh directly observed event. Explicit
+  commodity price moves caused by new supply disruptions remain directional.
+- Historical rows were reclassified only for diagnosis. The ceasefire row now
+  has zero risk and currency scores with reason
+  `deescalation_proposal_without_agreement`; the rig cluster has zero direction
+  with reason `commodity_operational_metric_requires_price_repricing`; and the
+  Eurasia analysis has zero direction with reason
+  `secondary_analysis_not_fresh_catalyst`. None receives proof credit.
+- A V160 cycle failed closed at 18:58:55 UTC because V161 files were deployed
+  while the process retained the old contract module. The mixed-version worker
+  published no terminal evidence and affected no position or order. A complete
+  supervisor/watchdog reload then ran one clean V161 cycle from 19:02:18 UTC to
+  19:22:33 UTC: 192/192 sources completed, 38 items inserted, 1,742 duplicates
+  identified, 5,000 bounded candidates processed, 5,630 retained articles
+  reclassified and zero rows pruned.
+- Live V161/V46 watchlist output remained `ok`, with zero negative quote ages
+  and no active source factor. The official-event V3 verifier remained verified
+  with zero failures. Practice 007 stayed flat at NAV 41.6042 with zero open
+  trades, pending orders, qualified signals or selected entry.
+- Validation passed 491 news, 46 watchlist and 14 supervisor tests plus Python
+  compilation. The 85-item hash-bound issue register validates with zero open
+  repository repairs. Receipts:
+  `FOREX_DEESCALATION_PROPOSAL_GUARD_VALIDATION_20260904.json`,
+  `FOREX_MARKET_STATE_ANALYSIS_GUARD_VALIDATION_20260904.json`, and
+  `FOREX_CLASSIFICATION_HOT_RELOAD_INCIDENT_20260904.json`.
+
+## 2026-09-04 16:07 America/New_York — conditional recap and opposing-policy claim guards
+
+- Continued inspection of retained live source output found three more false
+  directions. A commentary column saying a Fed hike depended on future hot
+  inflation was scored as a present USD-positive action. A commodity headline
+  describing an oil move already accumulated over the week was treated as new
+  repricing. A syndicated headline juxtaposing a claimed Fed-hike implication
+  and a separate rate-cut demand inherited the final clause's USD-short score.
+- V162 added explicit future-condition and already-reported commodity-state
+  guards. V163 then superseded that brief research lineage and added a
+  same-currency opposing-policy-claim conflict: nonofficial text containing
+  both tightening and easing claims now clears all directional scores unless
+  the claims can be causally separated. The policy-easing detector is narrow
+  enough that ordinary wording such as inflation *easing* does not trigger it.
+  Explicit direct official policy actions and genuinely fresh commodity
+  repricing remain eligible.
+- No prior article, forecast or outcome was imported into either new lineage.
+  The examples were reclassified for engineering diagnosis only and receive no
+  historical proof credit. Practice 007 remained flat; no order, position,
+  authorization, threshold or real-money setting changed.
+- A clean V163/V48 live cycle ran from 19:49:32 UTC through 20:06:20 UTC. It
+  completed all 192 configured sources, inserted six new items, identified
+  1,670 duplicates, processed 5,000 bounded candidates, retained 5,611
+  reclassifications and pruned one row. The watchlist remained `ok`, emitted no
+  active source factor and had zero negative quote ages.
+- Validation passed 494 news tests, 46 watchlist tests and 14 supervisor-
+  integrity tests, plus Python compilation and PowerShell parsing. The 87-item
+  issue register validates with 46 complete, 24 implemented/collecting, two
+  superseded/collecting, 11 permanently invalid, four externally blocked and
+  zero open repository repairs. Receipts:
+  `FOREX_CONDITIONAL_MARKET_RECAP_GUARD_VALIDATION_20260904.json` and
+  `FOREX_OPPOSING_POLICY_CLAIM_GUARD_VALIDATION_20260904.json`.
+
+## 2026-09-04 16:33 America/New_York — conflict-duration recap guard
+
+- At 16:08:37 ET, one uncorroborated Google News headline saying the Iran
+  conflict had entered its seventh month produced a 0.75 risk-off score and
+  nine research currency factors. It was never publishable, confirmable,
+  authorizable or executable, but it was not a fresh escalation clock and
+  would have polluted the prospective secondary-news response cohorts.
+- V164/V49 adds a narrow conflict-duration recap rule. A nonofficial war or
+  conflict entering an ordinal month or year is retained as retrospective
+  context with zero risk and currency scores. An explicit newly observed
+  strike, attack, sanction, mobilization or other action remains on the normal
+  event path. The observed headline predates the 20:25 UTC activation boundary
+  and is diagnostic-only; no prior row or outcome enters the new cohort.
+- The complete worker hierarchy was stopped before the tested bundle changed,
+  then restarted under exactly one hidden supervisor and one watchdog. The
+  clean V164 cycle ran from 20:20:08 through 20:30:43 UTC, completed 192/192
+  sources, inserted 13 items, identified 1,267 duplicates, processed 5,000
+  bounded candidates and reclassified 5,598 retained rows. The aligned V49
+  watchlist remained `ok`, with zero source factors and zero negative quote
+  ages.
+- Validation passed 496 news, 46 watchlist and 14 supervisor-integrity tests,
+  Python compilation, PowerShell parsing and `git diff --check` (existing line-
+  ending notices only). Practice 007 remained flat at NAV 41.6042 with no
+  positions, orders or qualified signals. The 88-item issue register validates
+  with 47 complete and zero open repository repairs. Receipt:
+  `FOREX_CONFLICT_DURATION_RECAP_GUARD_VALIDATION_20260904.json`.
+
+## 2026-09-04 17:13 America/New_York — miss recap and Friday-close seal
+
+- The bounded observation pass reached the 17:00 ET close. Practice 007 stayed
+  flat at balance/NAV 41.6042 and cumulative P/L -8.3430, with no position,
+  pending order, qualified signal or selected signal. No manual order or close
+  was submitted, no gate was loosened and real-money routing remained off.
+- The largest verified miss was the 08:30 ET USD/CAD employment response:
+  +53.213 bps, 73.4 gross pips and 70.5 estimated net pips over five minutes.
+  The scheduled clock existed, but exact official BLS/Statistics Canada
+  actuals, causal pre-release consensus and rate repricing were absent from the
+  strict event-time path. Direct official paths were added only prospectively.
+  The JPY morning move was linked only to a nondeterministic Ministry of
+  Finance policy-pressure context; it was isolated into a new prospective
+  research cohort rather than credited as a historical hit.
+- The frozen cutoff-safe week report records 40 official-source items, 24
+  independent official clocks, nine calendar clocks, 5,088 logical move cases,
+  2,001 factor episodes and 130 episodes of at least 15 bps. Twenty-two
+  official clocks had later cost-clearing paths; four passed the strict
+  timing/movement screen; none had a strict pre-move directional match. Causal
+  pre-release consensus coverage remained 0/21 and the decision stayed
+  `no_trade`.
+- Source coverage ended at 192 configured / 182 operational, covering all 21
+  currencies and 68 emitted pairs. Direct central-bank release transport was
+  operational for 20/21 currencies and both legs of 59/68 pairs; direct RBNZ
+  transport and causal consensus remain external gaps. All 68 quote slots were
+  populated before close; 65 were tradeable, with EUR_TRY, TRY_JPY and USD_TRY
+  broker-marked nontradeable.
+- Project integrity, broker-clock integrity and five SQLite quick checks were
+  clean. Storage had 95.819 GiB free against the 50 GiB reserve. The final CPU
+  sample was elevated at 96% during scheduled research and close-report work,
+  but worker and integrity checks were healthy.
+- The vault mapping was expanded to cover all 4 September repair receipts, the
+  frozen week-to-date report and the close receipt. Vault sync tests passed
+  16/16. The final canonical snapshot contains 93 records (about 97.2 MB),
+  with zero target hash/size failures, zero static source mismatches, zero
+  credential-named files and zero API-key/token/secret value matches. Three
+  continuously generated research-status sources advanced after the snapshot
+  and are explicitly treated as dynamic. The project remains running under one
+  supervisor and one watchdog; the market-close monitoring pass is complete.
+- Frozen report:
+  `data/oanda_training_manager/reports/week_to_date_event_move_audit/WEEK_TO_DATE_PROJECT_EVENT_MOVE_RECAP_20260904T210000Z.md`.
+  Receipt: `FOREX_MISS_RECAP_AND_MARKET_CLOSE_WATCH_VALIDATION_20260904.json`
+  (SHA-256 `46f57efe172afc5c333cd11ea67a27acf5ae5e5eebec026eabb737d8cebb9fc7`).
+
+## 2026-09-04 22:27 America/New_York — Stopped-session vault reset and independent fault handoff
+
+- The user clarified that the market session should end. The canonical
+  supervisor, watchdog, worker tree and dashboard were stopped. The exact
+  `ForexSafeCoreAtLogon` task is disabled; its old demo-watchdog task was already
+  disabled. The shared BIGTRIAD dashboard logon task remains separately owned
+  and unchanged. No new monitor or automation was created. Nothing in this
+  record authorizes a restart.
+- Prior saved close observations are preserved. A brief supervisor recovery
+  before the user's clarification and the final stop are explicitly recorded in
+  `FOREX_AUDIT_STATE_CURRENT.json`. Final saved account: flat, NAV/balance
+  41.6042, no pending orders. No manual order/close or trading-gate change occurred.
+- Independent miniature fixtures reproduced three fast-lane defects: claimed
+  availability can precede a delayed durable commit, building progress overwrites
+  committed integrity state, and retry/interrupted state resets a progressed
+  cursor. They are NOT fixed or silently closed. The validated register now
+  has 91 items and three open repairs; the fault audit contains reproducible
+  evidence and explicitly leaves historical exposure undetermined.
+- Source-response V8 remains frozen to classifier V152 while current news is
+  V164/watchlist V49. Rank V7 and V8 still have no compatible prospective proof;
+  this is a coverage/evidence gap, not permission to merge historical lineages.
+- Replaced the obsolete vault entrance with readable audit/state/fault/source/
+  recreation/queue entrypoints. Preserved the old source README as a dated
+  reference. Updated only Forex's shared-brain and PROJECT_COMMONS records;
+  other project states are unchanged.
+- Added exact dirty-worktree source export rather than treating the August 30
+  committed archive as current. It includes untracked September code, tests,
+  configs, dependency inventories and receipts, excludes runtime data/secrets,
+  validates persisted hashes/ZIP members and syntax without importing trading
+  modules, and does not alter Git history. Its independently verified export
+  pointer is `source/WORKTREE_SOURCE_LATEST.json` in the vault.
+- Hardened current-record sync: all configured records, credential scans and
+  contained paths must pass preflight before publication. Missing/invalid data
+  cannot silently leave an apparently successful stale manifest. Existing records
+  survive failed preflight. Added Windows long-path support to recoverable cleanup.
+- Moved 53 explicitly reviewed legacy vault targets intact to local
+  `artifacts/vault_cleanup/review_reset_20260905`: 5,637 files, 823,890,291 bytes.
+  Per-file pre/post hashes, directory inventories, a numbered journal and the
+  previous vault README are preserved. No evidence was deleted. Receipt SHA-256:
+  `7d310d05eddc22579929f1b5efb9586aaa84eec933d971c024ffdac60c4e3ca8`.
+- Validation: 90 focused maintenance tests passed; one Windows symlink-privilege
+  test skipped. The 91-item register validates with zero errors. Evidence:
+  `FOREX_VAULT_RESET_VALIDATION_20260905.json`, `FOREX_FAULT_AUDIT_CURRENT.json`.
+  Local vault bytes and recovery records are verified; OneDrive server-side
+  upload and complete historical reconstruction are not claimed.
+- Next activity belongs to the user's independent project review/reorientation.
+  Preserve stopped status, no-trade and all unresolved causal/evidence gates.
+
+## 2026-09-07 — Signals/live comparison and gap-aware research repair
+
+- Three practice GET probes returned nearby candles but omitted the requested AUD/USD 10:26/13:26 and NZD/USD 12:35 UTC minutes. No prices were synthesized or archive rows written by the probe.
+- Prepared a separate `gap_v2` study using valid retained training segments and 61 current shared closes, with exact H1 targets and Decimal bid/ask scoring. The original six registered sources and earlier cohort remain intact. The 16:09 UTC input probe still reported 4/61 current closes after additional AUD/USD, NZD/USD and USD/CHF holes; this is not a forecast-readiness claim.
+- Added a Signals/live market comparison with distinct descriptive technical/news context, timed model forecasts and current/unknown account state. Hardened malformed source handling, byte-preserving gap insertion and finite display values. A separate Friday-to-Sunday/Monday gap baseline remains offline, with no trading authority.
+- Separate overlapping suites passed: 181 worker/ledger, 91 input/numerical, 79 updater/market, 79 dashboard and 87 weekend-baseline tests. No combined unique-test total or improved prediction accuracy is claimed. The prior 49.30% direction figure remains historical and lacks strict causal clock evidence.
+- Runtime activation, final API/process/account verification and fresh outcomes: **pending verification**. Report: [signals/live optimization](docs/FOREX_SIGNALS_LIVE_OPTIMIZATION_20260907.md). Planned receipt: [FOREX_SIGNALS_LIVE_OPTIMIZATION_VALIDATION_20260907.json](FOREX_SIGNALS_LIVE_OPTIMIZATION_VALIDATION_20260907.json).
+
+## 2026-09-07 16:30:55 UTC — EUR/USD-only companion activated and publishing
+
+- Activated the separate `eurusd_v1` primary study at **16:29:37.1677358 UTC (12:29:37 ET)** under contract `515c81be37a8828da1fd89edcbee33083ac1f6cae1b2e13bdb5338961058afe0`. The research source gate admits thirteen workers by adding only `eurusd_local_forecast_study`; execution remains disabled. The existing four-family `gap_v2` registration remains active and unchanged, still subject to peer gaps.
+- The companion reads only EUR/USD, retains up to 1,024 actual rows, requires 61 consecutive current closes and preserves exact H1 training and outcome clocks. A bounded actual input probe was ready in 0.0278 seconds; the two-model fit took 0.1465 seconds. Missing peer files do not block ridge/state-space models; missing EUR/USD intervals remain absent and can still cause abstention.
+- At **16:30:55 UTC**, the read-only live check verified two forecast sets/four model records, two postcommit publications, two independent consumptions and two strictly later quote matches for evaluation. Outcomes, exclusions and diagnostics were zero. Source and causal clock checks passed. Both initial sets share reference 1.16279 and target **17:29:37 UTC (13:29:37 ET)**, so they are not four independent market trials.
+- Both first-set model estimates were upward: ridge probability-up 58.91% and expected +0.9654 pip; state-space probability-up 54.95% and expected +0.3217 pip. They remain unscored estimates, with no accuracy or calibration improvement established and no orders authorized.
+- Separate overlapping suites passed: 181 EUR/USD worker/ledger, 100 EUR/USD input/model, 181 shared-study worker/ledger, 91 shared-study input/model, 94 dashboard, 79 updater/market and 87 offline weekend/reopening tests. These counts are not a summed unique-test total.
+- Evidence: workspace `warmup_repair_20260907/EURUSD_ACTIVATION_RECEIPT.json` and `LIVE_COMPANION_VERIFICATION_1788798655.json`; canonical [report](docs/FOREX_SIGNALS_LIVE_OPTIMIZATION_20260907.md) and [validation](FOREX_SIGNALS_LIVE_OPTIMIZATION_VALIDATION_20260907.json). The earlier 16:09 UTC 4/61 peer-window probe, predecessor 78-attempt/78-abstention/zero-forecast snapshot and original six source bindings remain intact. Source/vault pointers refresh after final export validation; the canonical map remains 143 records.
+
+
+## 2026-09-07 — independent pair forecast coverage and verified recovery
+
+Recorded 2026-09-07T17:24:40.446872+00:00. Added two pair-local research families for a fixed
+68-instrument registry using observed pip metadata, independent own-pair input
+readiness, exact H1 targets and separate immutable ledgers. All 68 registrations
+activated at 17:17:23–25 UTC with zero imported evidence. The 17:19:00 UTC live
+check found 20 pairs/20 forecast sets/40 model predictions, 20 postcommit
+publications, 20 independent consumptions, 19 later quote entries and zero
+outcomes. Dashboard coverage was 20 forecasting, 43 warming and 5 unavailable.
+Model estimates remain uncalibrated; this establishes coverage, not accuracy.
+
+The closed research gate admits exactly 14 workers. The controlled reload
+aborted after supervisor/dashboard stops when the second dashboard PID had
+already exited; the root task recovered through the unchanged hidden launcher.
+Independent before/after heartbeat and current process checks verified 14
+running workers and preserved all 12 untouched workers' 24 process identities.
+845 Python tests and the isolated gate checks passed. Existing registered
+study sources and evidence remain unchanged; orders/promotion stay disabled.
+Pending acceptance is fresh H1 outcomes, baseline/calibration/after-cost
+evaluation and final source/vault export. See
+[the coverage and recovery report](docs/FOREX_PAIR_FORECAST_COVERAGE_20260907.md).
+
+
+## 2026-09-07 — dashboard publication read consistency
+
+Recorded 2026-09-07T18:01:39.759510+00:00. Fixed two display races found after the pair-coverage export:
+sampling the consumer clock before reading a newer heartbeat, and reading
+summary/heartbeat files from different atomic publication generations. The
+reader now observes time after reading and hashes, with bounded retries and
+retained verified generations only while the fresh heartbeat binds their exact
+bytes. Original source and forecast clocks remain unchanged. Future or stale clocks,
+tampered seals, identities and persistent mismatches remain fail-closed.
+Focused tests and sustained live observation across multiple summary generations
+passed. Only the dashboard restarted; the supervisor and thirteen other workers
+were preserved. The registered studies and earlier receipt bytes are unchanged.
+See [the follow-up report](docs/FOREX_PAIR_DASHBOARD_CONSISTENCY_20260907.md).
+This fixes display continuity; predictive accuracy still needs prospective
+baseline, calibration and after-cost evaluation.
+
+
+## 2026-09-07 — operational status, news context and supplemental scoring
+
+Recorded 2026-09-07T18:41:09.139355+00:00. Pair-specific neutral news context and forward-signal status
+are visible; global feed counts appear once. Partial-operation status separates
+all-pair research from the original EUR/USD/shared companion. A bounded
+read-only audit verified six actual EUR/USD broker minute omissions, with no
+recoverable prices or local read/parser fault. A separate engineering report
+excludes every member of repeated-reference groups before calling the unchanged
+EUR/USD scorer; original registered scorecards and evidence remain intact.
+Final tests and actual runtime/UI checks are in
+[the operational repair report](docs/FOREX_OPERATIONAL_STATUS_REPAIR_20260907.md).
+The user-requested active `check-forex-bot-health` monitor runs every 15 minutes,
+quiet while unchanged and notifying on meaningful changes or action needed.
+No second automation, source collector revision, synthetic candle, registered
+model edit, forecast backfill, or trading authorization was introduced.
+
+
+## 2026-09-07 — combined model, verified news admission and simpler navigation
+
+The completed one-hour watch and later independent price-v2 audit confirmed poor after-spread performance; those records remain intact. Sparse-minute independent families improved forecast availability without an accuracy claim. News v165 now checks each member's own availability and expiry and independent support for the same claim; the audited false 50-pair directional proxy was removed.
+
+A fitted joint model uses technical and point-in-time news features and interactions, retaining matched price-only and neutral-news predictions for exact paired evaluation. The initial joint scheduler suffered refresh-priority delay at 68 pairs; it eventually published and remains a running comparison so its outcomes can mature. Separately registered scheduler v2 alternates work classes with independent cursors. Its 180-second live trial produced 59 verified publications, 52 later entries and three timed entry exclusions with zero worker errors; all published inputs and coefficient projections were independently checked.
+
+Canonical activation, controlled reloads and live audits are source-bound in [the combined report](docs/FOREX_JOINT_PRICE_NEWS_20260907.md). The dashboard presents combined forecasts and their news adjustment, separate price-only comparisons, observed market moves and actual positions. Stale news remains explicit. Runtime supervision targets 15 research workers; storage inventories 352 registered/core database paths.
+
+README and current orientation now point to an active pipeline and research index. Previous guides are preserved verbatim. Frozen sources and old outcomes remain unchanged. The bot-health automation is paused; no replacement schedule, orders or promotion were enabled. Joint predictive value, calibration, broader history, after-cost acceptance, news publication latency and old scheduler retirement remain pending.
+
+
+## 2026-09-07 23:42 UTC — forecast visibility and horizon strictness review
+
+The live UI now separates combined, price-only and unavailable forecasts, exposing existing technical predictions inline when the joint model is blocked. Dated desktop/mobile verification showed 61 combined, 4 price-only and 3 unavailable; 240 focused tests passed. No model, registration, gate, runtime worker or outcome was changed.
+
+The seven-pair audit distinguished four training/context blockers from three TRY pairs without accepted current quotes. A causal historical replay showed that denser anchors supply enough rows to meet the unchanged counts for all four, but overlapping outcomes and age-derived patterns are not independent evidence. The model still publishes H1 only and has no vetted directional-news training examples in the audited pairs. A broader joint horizon curve with partial-input handling and honest uncertainty is explicitly pending, not reported as implemented.
+
+Intermittent joint summary/heartbeat mismatch API observations and subsequent coherent producer checks are both retained; their exact failure phase remains unresolved. Source binding guards were preserved. See docs/FOREX_HORIZON_COVERAGE_REVIEW_20260907.md and FOREX_HORIZON_COVERAGE_REVIEW_VALIDATION_20260907.json for evidence and limitations.
+
+
+## 2026-09-08 UTC — existing feature and horizon audit; scope correction
+
+The earlier H1-focused review missed implemented broad engines. The completed audit verified the real 227/corrected 220 feature families, fitted 795-input eight-horizon curve, 643-field MA grid/610 fitted cells, second-ridge surfaces and direct currency panel. Retained C/D/AppData artifacts and reports are hash-bound.
+
+Confirmed findings: C lacks 36 intrahour source modules, omitted by the Git-based vault export because the whole directory is ignored; matching copies remain on D/checkpoints. Historical macro fields are constant across both technical datasets. Five nominal 15-minute cross features duplicate one-minute columns across 205,029 rows. The retained unified model has 49.416% mean direction accuracy and slightly worse error than no change. Original 227-field timing defects and stronger cost-survival than direction results remain explicit. Current D v5 source is not automatically compatible with the fitted v4 artifact.
+
+The pending plan now begins with recovery, compatibility, specific feature/cost repairs and measured news integration using existing engines. Guides and vault mappings point to the new audit; previous dated reports and receipts remain unchanged. No model training/loading/rescoring/restoration, runtime reload, order action, registration or ledger edit occurred. See `docs/FOREX_EXISTING_FEATURE_HORIZON_AUDIT_20260908.md` and `FOREX_EXISTING_FEATURE_HORIZON_AUDIT_VALIDATION_20260908.json`.
+
+
+## 2026-09-08 UTC — retained blurb dataset audit addendum
+
+Verified the actual 7,048-row/68-pair legacy CSV (1,095 retained news matches), the 405,794,816-byte spike/blurb reconstruction database with 2,935 factors and 6,465 distinct market episodes, and the separate movement/news database. The recovered ZIP contains source/example material; its missing bulk corpus does not imply the separate datasets are absent.
+
+The historical analog tables contain no scored prequential forecasts; recovered_blurb_analog_v1 is registered inactive and emits zero. Separate news-plus-technical backtests did exist. The earlier constant-macro finding applies to specific fitted matrices, not the whole project. Guides and pending work now include this lineage. Earlier audit reports, model sources, registrations, databases and runtime remain unchanged. See `docs/FOREX_BLURB_DATASET_AUDIT_20260908.md`.
+
+## 2026-09-08 UTC — explanatory feature dictionary for project and vault
+
+Addressed the user's requirement that the vault explain the project rather than merely archive files. Added readable and machine-readable dictionaries, a synthetic sparse-price/news worked example, source-bound authored records, and an offline deterministic builder/checker. Navigation in project README, vault start guide and both research indexes points to the explanations.
+
+Coverage distinguishes 251 historical design entries across 22 blocks; the actual 34-input joint price/news calculation; and six historical schemas with 2,169 versioned field records (227, 267, 795, 643, 14 and 223). These overlapping counts are not independent predictors. Historical recipes distinguish matched source, current analogous source, design intent, inert inputs and missing original-version definitions. The design catalogue has 208 intent-only entries, 19 inspected offline calculations, two controller calculations and 22 inspected but inert book/depth fields. None was silently promoted to a live feature.
+
+Validation: 55 focused dictionary/vault tests passed, including exact current-vector order, dense/sparse price arithmetic, raw news interaction math, membership/duplicate/required-field checks, historical field counts, nested source-reference bindings, drift rejection and deterministic reconstruction. All 39 inspected source-hash bindings matched; 36 local referenced files passed line checks. The small historical panel schema receipt preserves its original report hash without copying runtime evidence into the documentation dependency set.
+
+Canonical sync includes both dictionary formats, worked example and dated validation receipt; the credential-scanned worktree snapshot carries the authored explanations and tooling. The latest vault manifest/source pointer remain authoritative for completed publication. No model, fit, registration, runtime worker, broker state, order gate or historical evidence was changed by this documentation pass. Remaining source-recovery and prediction-acceptance work stays in pending. See `FOREX_FEATURE_DICTIONARY_VALIDATION_20260908.json`.
+
+## 2026-09-08 UTC — vault-only readability and reconstruction contract
+
+An independent reader audit found contradictory running/stopped/monitor descriptions and six broken source-layout links in the old recreation page, machine-only evidence references, and ambiguity between shared-state `trad/` paths and ZIP member roots. Replaced the current recreation page with a coherent inspect-only portal and preserved its historical text separately; the prior exact bytes remain in source snapshot `cee1a459037c8513e032ba5ff50eeb5d277e9d8de8565b490acd3084459f2947`. Added `SYSTEM_GUIDE.md` for purpose, source-to-feature-to-model-to-outcome flow, counts, clock/cost/baseline definitions, cohorts, configuration authority, missing artifacts and safe offline inspection.
+
+Retained the September 7 19:36–20:36 UTC watch report and supporting summary under source documentation and vault aliases. Text/JSON semantic identity was verified against the original files; original sample/ledger dependencies remain explicitly external. Source README, vault entrypoint, research index and active pipeline now state their observation boundary rather than equating export time with worker liveness.
+
+Added `tools/audit_forex_vault_readability.py`, which reads only the vault, validates canonical record hashes/UTF-8/JSON, validates current archive inventory/member hashes, compares record/source versions and indexes links/literal paths. It generates `KNOWLEDGE_INDEX.md` and `VAULT_READABILITY_REPORT.json` after publication; these derived outputs are deliberately excluded from the canonical manifest to avoid self-reference. It identifies source-layout aliases, archived members, external dependencies and unverified same-name lookup candidates without executing code or opening linked machine-local paths. Navigation checks cover the generated index's required destinations as well as entry pages.
+
+Validation: 76 focused tests passed; one actual-symlink fixture was skipped because the host disallows creating test symlinks. Host-independent redirect tests passed, including dangling-output and supplemental-parent protections. Existing dictionary generation/source bindings remain unchanged and verified. Independent review found three auditor hardening gaps, all addressed before final publication. No runtime, model, cohort, ledger, broker/account, automation or order setting was changed. Remaining historical source/data and predictive acceptance gaps stay explicit. Publication outcomes are bound by the latest shared-state manifest, source pointer and generated readability report; see `FOREX_VAULT_READABILITY_VALIDATION_20260908.json`.
+
+
+## 2026-09-08 — first revamp phase: baseline and recovery completed
+
+Reconciled the clarified vault/backlog and freshly verified source, dictionary and model bindings. Preserved the current 2,202-file source snapshot in an isolated copy, 36 D intrahour modules separately from v4 artifacts, actual fitted models and the full unified matrix.63 static backup files total 597,968,093 bytes. Online backups preserve 272 selected study databases (6,319,161,344 bytes), each individually coherent and integrity-checked. No live worker, registry, trading setting, model implementation or original ledger was edited.
+
+The source/artifact recovery check reproduced second-ridge 13 horizons twice with an independent coefficient oracle and retained UTC input verification. It is engineering replay on pre-fit historical data, not a forecast-success claim. MA and unified v4/v5 compatibility remain open.
+
+Three retained runtime observations 13:58:33–14:06:48 UTC found 15 expected workers alive but no current combined forecasts. A two-topic case exactly reproduces conflicting_current_topic_identity; last successful joint publication was 10:33 UTC. Price-v2 retained an intervening generation-mismatch failure and later restored 68-pair visibility while its worker progressed. These are the first remediation items.
+
+Frozen scoring reconciled 12,034 original completed model records. Joint v2 has 2,779 outcomes, 52.07% direction, 30.66% positive after spread and -2.9693 mean net bps; all four main model groups underperform their zero-move magnitude and fixed 50% probability baselines. The +0.2009 bps joint-v2 difference versus matched price-only remains a dependent sample diagnostic. Previous records remain dated evidence. See docs/FOREX_REVAMP_BASELINE_RECOVERY_20260908.md and its source-bound validation receipt.
+
+
+## 2026-09-08 — offline news identity repair candidate accepted
+
+Prepared a pure producer-side reconciliation candidate outside live modules. The retained two-topic collision replays as one context-only topic with all 17 original member payloads preserved. The final 89-test run passed, including the unchanged admission suite and checks for identity ambiguity, original member clocks, stale singleton directions, window intersection, syndication, internal duplicate rejection and bounds. Earlier 88-test artifacts remain retained. No live source, registration, worker or original ledger changed. The baseline/recovery records remain unchanged. New version/cohort integration and fresh operational/predictive acceptance remain pending. See docs/FOREX_NEWS_IDENTITY_CANDIDATE_20260908.md.
+
+
+## September 8 — repaired news research deployed and observed
+
+At 2026-09-08T20:45:30.284992+00:00, the separate v3 registry was selected with 65/68 current combined H1 forecast pairs and 17/17 research workers. The initial activation created 68 empty ledgers using actual clocks; no historical predictions were imported. Repaired topic admission, complete paged history and verified capture reuse passed their final tests and actual inputs. The operational producer interval is 60 seconds after a measured 15-second recapture problem; all expiry limits remain fixed. Source-bound validation: FOREX_NEWS_RESEARCH_DEPLOYMENT_VALIDATION_20260908.json, SHA-256 ea752004281462e857eca7334014c705942e338b7aaf1c478b145b0b434b991e. Original model/scorer contracts remain unchanged, and no order or promotion capability was enabled. New performance acceptance and broad-model recovery remain pending.
+
+## 2026-09-09 — overnight curve and management buildout, interim 07:25 UTC
+
+Work continues in the current task until 09:00 Eastern (13:00 UTC); dashboard work is deferred and orders/promotion/authorization remain disabled. The recovered second-ridge pilot and separate three-episode GBP/USD paper manager are running with their frozen source closures. The final management activation suite passed 266 tests; the independent 17-case verifier reconciled 23 completed first-episode steps at 07:07 UTC with zero issues. The episode was still open and negative; no management or forecasting advantage is claimed.
+
+The causal MA repairs, richer-feature comparison, strict path-risk development, entry-news eligibility and cross-window companions are retained separately. All richer MA families lost the nine-cell MAE comparison to compact/zero change. Volatility scaling improved movement-size/range development losses but adverse-risk results were mixed, with nine dates and no fresh confirmation. Existing currency/count/margin/overlap controls were found; a pure valued-currency risk diagnostic is being built.
+
+A separate transport-only publication observer passed 42 tests and independent review. It preserves exact pending summary bytes and only selects a generation bound by the observed heartbeat; it explicitly does not validate forecast rows. Its initial 30-second capture had 17 coherent and 13 unavailable observations, and a ten-minute read-only probe started at 07:24:41 UTC. No producer/dashboard integration was performed. Evaluation optimization is being checked against identical retained inputs and original clocks before claiming a speed improvement.
+
+Details and evidence: ../overnight_curve_buildout_20260909/PROGRESS_0725_20260909.md and WORK_PLAN.md. Final morning verification, completed results and vault publication remain pending; original records and intermediate failures are retained.
+
+## 2026-09-09 08:28 UTC — prospective risk collection and exact paper cost attribution
+
+In-chat work continues to 13:00 UTC. Added docs/FOREX_OVERNIGHT_CURVE_BUILDOUT_20260909.md and updated the pending queue with implementation, measured negative results and remaining work. This is an interim record, not final morning verification.
+
+The fixed M1 risk-distribution worker passed its combined 184-test suite and independent review, then launched at 08:14:04 UTC under registry 855c3bb96105c0cf0943ebbb5d28e6d10b6b9bf718573883f897161d08453674 (eight frozen sources). First reference 08:16 produced three independently consumed 72-node chains; the first retained audit verified 216 pending nodes and zero issues. Both fixed methods are emitted without fitting or selection. Last issue 11:41, collection end 12:45 UTC. All prior 20/14/20 source closures matched at registration. Orders, promotion and management routing remain disabled.
+
+The first observed GBP/USD paper episode completed 60 scheduled steps with no gaps or verification issues. All five isolated arms ended flat. New independent quote-cost decomposition reconciles signed midpoint movement minus actual retained half-spreads and assumed 0.1 bps slippage per leg to every realized dollar. Results: legacy -11.66650770285 USD (31 round trips), USD momentum -4.65642533365 (15), USD curve -2.79361200590 (5), hold -1.10049446375 (1), no-trade 0. The old policy's gross movement was only -0.175285; repeated spread/slippage costs were 11.49122270285. The cost helper passed 21 tests and review; acceptance 1dc5e6088a2d966fcf5e99184c65e836403d54ceae6b8e8b6a7ec4f9f6d02265. These are hypothetical scenarios, not account fills or independent profitable-policy evidence.
+
+All 45 unavailable observations in the ten-minute producer transport probe matched a mutable last_attempt alias defect. A separate immutable publication boundary and read-only ledger observer are reviewed. The 08:13 UTC actual ledger pass verified 68/68 ledgers and 66 current original H1 forecasts, while TRY/JPY and USD/TRY lacked publication. It does not validate a mismatched historical heartbeat or claim current inputs are ready. Backend integration is being built; appearance work is deferred. The current larger second-ridge outcome evaluation continues while a further exact-result optimization addresses nonlinear repeated capture decoding. Final outcomes, operational rechecks and vault export remain pending.
+
+## 2026-09-09 10:31 UTC — completed management evidence and forecast-reader repair
+
+All three predeclared GBP/USD paper episodes completed with 178 verified scheduled steps, zero issues or missing steps and all isolated arms flat. Exact net virtual USD: fixed hold +2.05980878530, no-trade 0, curve manager -5.67382004780, USD momentum -14.82256228100, legacy momentum -28.78965263215. Curve versus matched momentum gained 9.14874223320 relative USD through 14.51253223320 lower costs despite 5.363790 worse gross midpoint movement. This does not establish predictive skill. The static-terminal rebasing diagnosis now has a separately tested inactive direction-admission check; no counterfactual guarded-policy PnL was fabricated.
+
+The 2,182-original-outcome joint-v3 reassessment remained negative after spread. The larger recovered second-ridge evaluation verified 1,154 original chains and 747 retained captures with zero issues, preserving all 156 cells; its native official-M EUR/USD H1 result had deteriorated to 37.35% direction and -2.4287 mean net bps over 166 outcomes. Earlier favorable small samples remain dated history. A fresh risk audit verified 68 original chains and all 216 distribution cells with zero issues; many original horizons remain pending and calibration is unproven. The new exact-event curve/risk attachment validator passed 55 tests and correctly refused mismatched actual S5/M1 references and targets. A common-grid fresh-update management protocol is being prepared as an unregistered document only.
+
+The old joint-v1/v2 workers were retired after all 4,050 original forecast obligations reconciled to outcomes or explicit exclusions. Main research remained running. The separate ledger-backed endpoint/table was activated and verified, including original-target expiry and stalled-request handling. A 20-minute live probe then found recurring brief pair-level read failures while every pair was visited and total scan time remained below three seconds. The reviewed V2 reader adds at most one fresh eligible retry inside the same eight-second overall budget. Its one-shot actual pass verified 68 ledgers/66 current forecasts without needing retries. Four exact reviewed binding/test files have now been applied; canonical integration checks and dashboard-only reload are pending. The prior 33 non-dashboard process identities, including the current supervisor, are to remain intact.
+
+The current feature dictionary passed its 39 source-binding checks. Source-export preparation scanned 2,480 eligible files without failures and with unchanged inventory; final source/evidence publication remains pending. The consolidated report and pending queue retain negative findings, inactive status and machine-local dependencies. Work continues to 13:00 UTC, with no order, promotion or account authorization enabled.
+
+
+## 2026-09-09 12:11 UTC — user-requested early closeout; later evaluations not run
+
+The user requested closeout at approximately 12:08 UTC, before the original 13:00 work deadline. This entry records the actual documentation completion time. The draft was written at 12:05:06 UTC with an intended 12:10 heading; its exact bytes are retained in documentation_final_draft_001 and are superseded here. Original earlier log history is unchanged.
+
+Latest completed results remain joint assessment001 (2,182 original outcomes, negative after spread), fixed probability analysis002 (68 tests; original Brier 0.2521189983 and 13 flats), pilot complete table002 (1,154 chains; 27,964 scored node views with pending/missing counts retained), risk004 (68 chains,216 groups/108 paired cells), and all three paper episodes (curve net -$5.67382004780 versus hold +$2.05980878530). The planned later main/pilot/risk evaluations were canceled before starting. Existing collection/news-observation processes retain their original limits; remaining observations are not claimed evaluated.
+
+The final 12:09:03–12:09:09 operations read verified 15 main workers,35 processes,all four frozen closures and66 current forecasts. Original producer generation mismatch/13 errors and repaired-news cumulative five errors remain explicit;67/68 quotes were within60 seconds. Logged TRY family readiness was17/48 and37/48 at separate original clocks, not a monotonic ETA.
+
+Completed engineering includes the V2 endpoint probe (77 polls/67 reports,19 first failures and19 fresh forecast recoveries,zero final failures); inactive existing-manager reconciliation86 tests; channels39; bridge315 overlapping integration cases; and dictionary metadata build/check34 tests. These test counts are not additive. The H3 bridge used an old issued chain,a newly observed quote and hypothetical flat state; it was not a fresh forecast or fill. The Sep8 dictionary validation remains historical; the Sep9 metadata receipt binds refreshed documents without feature-math changes.
+
+Only the five assigned documentation files changed in this closeout. Prior bytes/diffs/hashes are retained. Initial portable project copy001 completed with617 files/26,554,108 bytes; final validation and vault publication remain separate receipt-bound actions. No model,scorer,registry,runtime,execution authorization or publisher mapping changed in this documentation pass.
+
+
+## 2026-09-09 12:28:31 UTC â€” user resumed through 09:00 Eastern
+
+Created docs/FOREX_CONTINUATION_TO_0900_20260909.md and linked it from README/current pending work. The prior early-close report, validation, 629-member evidence index and published snapshot remain unchanged. New main and curve assessments are underway; risk and passive news-clock finalization are planned at/after12:45. These are not completed results yet. No registered source/model/runtime/order authority changed. Exact before bytes and new documentation hashes are retained separately.
+
+
+## 2026-09-09 12:50:30 UTC - continuation handoff through 09:00 Eastern
+
+The resumed assessment added725 outcomes to the exact unchanged prior2182, for2907 total:47.51% direction,-4.6798 mean net bps after spread, and Brier0.2530481972 versus0.25. This is cumulative unchanged-model evidence, not an effect of observer or inactive-manager repairs. Later curve/risk and passive news-clock results are recorded at their own original cutoffs in docs/FOREX_CONTINUATION_TO_0900_20260909.md, including pending/missing observations.
+
+The continuation has a separate validation/evidence index; the published early-close report/validation629-member index remain byte-identical. The final source pointer/manifest identifies the full resulting inventory. README and current pending work now link the continuation, with all earlier dated history preserved. Source/record publication remains established only by its own receipt. No broker action, runtime change, learned-number edit, scorer change or execution authorization occurred in this documentation pass.
+
+
+## 2026-09-09 19:09:47 UTC — user-authorized Practice007 trading activated
+
+Enabled the finite current-joint-v3 price/news practice route after 286 focused tests and independent adapter, policy, broker and runner reviews. The actual practice account started flat with USD41.6042. The first order opened USD/JPY short166 at153.667 at19:08:03UTC, with broker-held stop153.736 and $8.30 initial margin. A separate GET-only reconciliation confirmed original order2462/fill-and-trade2463/stop2464 and retained all three transactions. At verification, one trade remained open, balance41.6042 and marked NAV41.6031; no profit or accuracy acceptance is claimed.
+
+Implemented durable single-use intent claims, exact order/trade/transaction reconciliation, fresh original-terminal cost/risk checks, actual USD conversions/sizing, one-position limits, permanent observed session-loss stop, independent mandatory exits, a native Windows account lock and hidden watchdog. An initial Windows text-mode lock mismatch refused before broker calls; binary mode and real filesystem regression tests repaired it before the successful restart. The original research supervisor/collectors/studies and all research-only promotion contracts remain unchanged. No real-money route or scheduled/chat monitoring was enabled.
+
+The worker runs independently through FridaySeptember11,20:45UTC/16:45EDT, with original-H1 target exits and close-only recovery until confirmation if necessary. Details and outstanding research: docs/FOREX_PRACTICE_TRIAL_20260909.md. Exact activation receipt is practice_current_setup_20260909/runtime/PRACTICE_TRIAL_ACTIVATION_VERIFIED_20260909.json (SHA7391019844cef6fc33e7a0499e7d2d78fa7dc606feea217d05d6267b071a784c); immutable source/test snapshots, SQLite activation backup and per-component review receipts are external to the live state. Future results remain pending for the user's end-of-week review.
+
+
+## 2026-09-10 UTC — September 9 Eastern evening trade review
+
+Six broker-confirmed closed losses sum to−$0.3175/−0.763144%, balance41.6042→41.2867, currently flat. All26transactions reconcile; $0.1824 reported spread costs are embedded in P/L. Five stop exits, one original-target exit, and two refused AUD/JPY claims. Original H1 direction2/5 with one missing after reboot. Four/five executable entry-to-expiry price changes were negative; wider stops are not assigned success.
+
+Windows reboot near21:37UTC/17:37EDT left only the dashboard running. Boot recovery was absent from the finite trial setup. Review, exact artifacts and independent checks: docs/FOREX_PRACTICE_TRADE_REVIEW_20260909.md and C:/Users/zmoor/Documents/forex/practice_trade_review_20260909. An analysis-only HKD/JPY pip display was corrected in preserved V2; actual dollars/risk/live source were unchanged. No order, restart, model fit, policy change or original-outcome edit occurred in this review.
+
+
+## 2026-09-10T15:10:40.288780+00:00 — user-requested Practice007 resume and sign-in recovery
+
+Restored the research supervisor and original finite practice watchdog/worker after explicit user instruction to enable trading. Independent practice GETs confirmed resumed USD/CHF execution and, at final observation, NZD/JPY short283 with broker-held stop; balance USD41.1189, marked NAV41.0233. These later losses/marks remain recorded, not reset. The original baseline, source/config, risk limits and Friday 20:45 UTC cutoff are unchanged.
+
+Added source-bound hidden recovery guard and current-user Windows sign-in task, then invoked its installed action and verified existing services without duplication. 29 native PowerShell checks and independent source review passed; no actual reboot was performed. No Codex monitoring was scheduled. Canonical narrative: docs/FOREX_PRACTICE_RESUME_20260910.md; exact evidence and publication: C:/Users/zmoor/Documents/forex/practice_resume_20260910. Earlier reports/snapshots remain preserved; prediction/cost/management research gaps remain open.
+
+
+## 2026-09-11 — consolidated change register and model-reuse guard against repeated research
+
+Recorded 2026-09-11T18:07:52.424003+00:00. User requested continued tracking of all needed changes and an honest account of model-space/performance coverage, with avoiding repeats a major priority. Added docs/FOREX_CHANGE_REGISTER_20260911.md with 26 stable FXG items and links to the preserved 29-action historical crosswalk. Added docs/FOREX_MODEL_REUSE_REGISTER_20260911.md with prior family results, overlap/denominator limitations, reproduction gaps, and a mandatory prior-work comparison for subsequent experiments. The 140 located family records and 29,366 run records are catalogue coverage; they are not 140 independently validated models or 29,366 reruns. Fourteen reference runs are reconstructable but unvalidated, one partial, and 125 unresolved.
+
+Linked both records from README and the current pending section. Preserved exact pre-edit README/pending/log bytes and hashes under C:/Users/zmoor/Documents/forex/change_tracking_20260911T180103581Z/before. The existing-picture and completed two-hour watch seals remain unchanged; new documentation is a later layer, not a rewrite of those observations. The working queue separates implemented/reviewed/inactive/deployed/observed/unverified states, keeps the daily cap/preflight issues explicit, and reuses already built recovery, curve, news, feature and management components. No live query, code deployment, trading-policy or cap change, broker action, model fit/rescore, process change, vault republish, or recurring monitor occurred in this documentation update. Further buildout remains paused.
+
+
+## 2026-09-11T19:31:58.630632+00:00 — isolated weekend setup and reuse release
+
+User requested stronger setup by reusing the most suitable existing components without blanket rescoring. Prepared weekend_setup_20260911 outside canonical trad: fair forecast scheduling/fresh completion handling, exact prior immutable-order preflight integration, bounded status retries and durable sanitized diagnostics, native fixed-target scheduling/publisher/management components, and a separate unwired future transport budget with clock-rollback protection. Preserved original34-feature H1 numerical/guard contracts and prepared 204 distinct successor research contracts across68pairs. Restored exact HGB164 and ridge14/13-head artifacts plus36 original modules; synthetic compatibility only, no historical fit/rescore.
+
+Final integrated suite603passed; independent extracted curve pipeline93passed; staged/extracted integrity1306files each; two deliberate integrity failures correctly refused and original extracted files restored. Archive SHA256 bb17c97e35c9bd3c1bef297b59a1dba0f7185918d15fcc32d8ed5552a3fb8702. All1328 original copied canonical source/config files unchanged at the recorded check; current finite trial/deadline/cap/funding/ledger preserved. No broker requests, service deployment, oldtrial reset or new activation performed. Selected private replay evidence and live databases/credentials are intentionally not provisioned by this scoped source/artifact package.
+
+Canonical report docs/FOREX_WEEKEND_SETUP_20260911.md; exact release, restoration evidence and completion index C:/Users/zmoor/Documents/forex/weekend_setup_20260911. Updated current change/model-reuse registers and README/pending navigation; exact earlier documentation retained in canonical_docs_before_setup. Currency-news/HGB prospective input wiring, live source/activation/cohort routing, authentic manager state/settlement and any newly dated practice policy remain explicit gaps. Earlier sealed watch/model records remain historical evidence.
+
+
+## September 11 evening — direct direction feature bridge
+
+**September 11 evening — direction research completed:** [Build, measured results and recreation](docs/FOREX_DIRECTION_RESEARCH_20260911.md) records the new same-row technical/peer/news comparison at 5/15/30/60 minutes. 65 tests passed and 96 saved models were recreated. Results remain discovery; the active learner and trading configuration are unchanged.
+
+
+
+## 2026-09-12T03:33:52.533197+00:00 — signed mean/cost study and currency-news retention
+
+**September 11 late evening / September 12 UTC — signed-cost research completed:** [Implementation, results and remaining gaps](docs/FOREX_DIRECTION_DECISION_20260912.md). 130 integrated tests passed; eight saved model bundles and two news captures recreated. Probability calibration improved, but dependable after-cost direction remains unestablished. A four-horizon cost consumer and fresh currency-meter capture path are implemented in the isolated research package; continuous meter collection and broker-manager integration remain open. Earlier operational statements retain their own dates.
+
+Reused the existing boosting/opportunity and signed-regression lineages, exact prior panel/snapshot and separate chronological calibration. 24 learned estimate/group/horizon policies across 39,893 rows: 17 negative, four positive, three with no actions. Positive support is tiny or unstable; signed-return optimism dominates endpoint exit-cost error. No selected replacement. The four 5/15/30/60-minute heads use original target identity, known asymmetric entry prices and predicted exit costs. New current currency capture has its own cohort and actual postcommit visibility; the old V12 ends September 5 and was not inserted into the September 7–11 study. Two captures retained 5,357 raw rows each; no numeric consensus and zero current directional scores.
+
+Exact code, sources, models, test and recreation proofs: C:\Users\zmoor\Documents\forex\direction_decision_20260911. The independent extracted restoration passed its recorded checks. Canonical additions are documentation only; no active numerical source, service, order, trial cap/cutoff, broker account or original outcome changed. A scoped dated vault addendum includes source and evidence metadata; the local restoration ZIP retains private input snapshots separately.
+
+
+## 2026-09-12T04:18:37.892998+00:00 — continuous meter and source identity guard
+
+**September 12 — continuous currency-news capture implemented and started:** [Verified build and current blocker](docs/FOREX_CONTINUOUS_METER_20260912.md). 133 tests passed in both original and restored copies. Exact row deduplication, source-ID/lineage binding, bounded memory/time/storage and process recovery are implemented. The new service is running, but its first two attempts were withheld because upstream clock verification is stale. Automatic approval review blocked starting that dependency; no fresh captures or prediction gains are claimed.
+
+Separate release: C:\Users\zmoor\Documents\forex\currency_meter_continuous_20260912. The original news supervisor was resumed at 03:41 UTC, but the collector returns blocked_clock_integrity. The new passive supervisor/worker started at 04:06 UTC. At 04:11:48 UTC it had two refused attempts, no successful captures, and no heartbeat/diagnostic/clock errors. Existing clock-monitor startup was rejected by automatic approval review with only "blocked by policy"; no retry/bypass or clock-threshold change occurred. No quote stream, broker worker, trial, model or promotion changed. Old signed-cost archive hash verified unchanged.
+
+Storage retains exact versions and ordered manifests; a second capture of the same 5,357 retained rows adds 8 KiB of database storage. The prior full compressed snapshot was about 3.45 MB. Storage peak commit reduced from about 736 MB to 546 MB. New source admission excludes 299 ID/lineage mismatches beyond 59 untrusted-clock rows in the inspected snapshot; the upstream upsert defect remains to repair with versioned provenance. All 133 tests passed in the restored copy; the vault ZIP includes no article database or credentials. Clock dependency, successful future collection, release-surprise inputs, sign-in recovery and later predictive validation remain open.
+
+
+## September 12 — whole-project status and ordered roadmap
+
+**September 12, 11:25–11:26 a.m. Eastern — current status and roadmap:** [Full strengths, weak points, runtime and priorities](docs/FOREX_STATUS_ROADMAP_20260912.md). No local Python/project PowerShell services or dashboard listener were observed. The new meter last recorded 135 blocked attempts and zero publications; clock verification remained stale. The original trial has a retained completed_flat receipt at Friday cutoff; current broker state was not queried. All 27 gap items and the older 29-action crosswalk are preserved. Earlier running statements below retain their original dates.
+
+Read-only runtime inspection and independent data/model and management/recreation reviews produced a consolidated roadmap. Full historical archive consumption remains incomplete; older price-only work can proceed independently of causal news gaps. The final report distinguishes observed runtime, retained local trial completion, older broker checks, staged code and unestablished profitability. Independent review confirmed all 27 FXG items and corrected the 299 source mismatches to an offline admission-audit result. No model, source code, trial policy, process or broker state was changed for this assessment.
+
+
+## 2026-09-12T17:40:11.578551+00:00 — revamp scope correction
+
+**September 12 — revamp scope clarified:** [Full model-audit requirement and first work packages](docs/FOREX_REVAMP_SCOPE_20260912.md). The user confirms ample demo environments; account inventory is not a revamp prerequisite. The original every-model audit remains unfinished. Complete coverage must include later families, material variants and orphaned source/artifacts, with explicit dispositions and selective recomputation. This is a scope correction, not a claim that the audit or revamp has been completed.
+
+FXG-011 now carries the complete original model-audit requirement; FXG-019 makes demo capacity nonblocking. Added evaluator/selection-history checks, source/artifact reverse coverage and explicit per-model dispositions. No model run, runtime change, broker request or account change occurred. Prior sealed roadmap and performance records remain unchanged.

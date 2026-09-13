@@ -1,0 +1,32 @@
+{
+  "started_utc": "2026-09-07T22:16:44.6081437Z",
+  "finished_utc": "2026-09-07T22:16:50.9403758Z",
+  "orders_enabled": false,
+  "old_supervisor": {
+    "pid": 45324,
+    "parent_pid": 38432,
+    "name": "powershell.exe",
+    "created_utc": "2026-09-07T21:19:21.9976220Z",
+    "command": "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File \"C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_always_on_supervisor.ps1\" -Root \"C:\\Users\\zmoor\\Documents\\forex\" -AccountKey OANDA_ACCOUNT_ID_DUM4 -RunLabel research-collection-audit-20260906 -IntervalSec 30 -ChildDurationSec 604800 -SafeCoreOnly -ResearchCollectionOnly"
+  },
+  "python_processes_preserved": 26,
+  "missing_python_ids": [],
+  "worker_stops": 0,
+  "source_bindings": {
+    "oanda_news_causal_aggregation_guard_v1.py": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9",
+    "oanda_always_on_supervisor.ps1": "7773307e8dc9116823bf1e043b8e01df79059ef260657ef6573a82e786dc6e3c",
+    "start_oanda_research_collection.ps1": "c7e2a970b6e8bb69fcdaf5b124b8d935be6326f06a6554408889e111f57f3115",
+    "oanda_news_classification_contract.py": "f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae",
+    "oanda_local_news_sentiment.py": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4"
+  },
+  "python_processes_total": 26,
+  "status": "passed",
+  "joint_registry_absent": true,
+  "new_supervisor": {
+    "pid": 29708,
+    "parent_pid": 41096,
+    "name": "powershell.exe",
+    "created_utc": "2026-09-07T22:16:45.0398400Z",
+    "command": "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File \"C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_always_on_supervisor.ps1\" -Root \"C:\\Users\\zmoor\\Documents\\forex\" -AccountKey OANDA_ACCOUNT_ID_DUM4 -RunLabel research-collection-audit-20260906 -IntervalSec 30 -ChildDurationSec 604800 -SafeCoreOnly -ResearchCollectionOnly"
+  }
+}

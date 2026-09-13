@@ -264,6 +264,24 @@ def open_output_database(path: Path) -> sqlite3.Connection:
         "CREATE INDEX IF NOT EXISTS idx_fast_mapping_candidate_seen "
         "ON official_release_mapping(forward_shadow_candidate, first_seen_utc)"
     )
+    connection.execute(
+        """
+        CREATE TRIGGER IF NOT EXISTS trg_fast_mapping_no_update
+        BEFORE UPDATE ON official_release_mapping
+        BEGIN
+            SELECT RAISE(ABORT, 'official release mapping is append-only');
+        END
+        """
+    )
+    connection.execute(
+        """
+        CREATE TRIGGER IF NOT EXISTS trg_fast_mapping_no_delete
+        BEFORE DELETE ON official_release_mapping
+        BEGIN
+            SELECT RAISE(ABORT, 'official release mapping is append-only');
+        END
+        """
+    )
     connection.commit()
     return connection
 
@@ -481,11 +499,19 @@ def classify_observation(observation: Mapping[str, Any]) -> dict[str, Any]:
     retained_prior_contract = bool(
         observation.get("retained_prior_collector_contract")
     )
+    classification_candidate_activation_eligible = bool(
+        classified.get("issuer_bound_policy_communication") is not True
+        or classified.get(
+            "issuer_bound_policy_communication_activation_eligible"
+        )
+        is True
+    )
     prospective_semantic_candidate = bool(
         input_prospective
         and semantic_direction_available
         and classified.get("source_direct") is True
         and classified.get("source_verified") is True
+        and classification_candidate_activation_eligible
     )
     publish_eligible_forward_candidate = bool(
         prospective_semantic_candidate
@@ -557,6 +583,9 @@ def classify_observation(observation: Mapping[str, Any]) -> dict[str, Any]:
                 else ""
             ),
             "semantic_direction_available": semantic_direction_available,
+            "classification_candidate_activation_eligible": (
+                classification_candidate_activation_eligible
+            ),
             "prospective_semantic_candidate": prospective_semantic_candidate,
             "publish_eligible_forward_candidate": (
                 publish_eligible_forward_candidate
@@ -951,6 +980,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--interval-sec", type=float, default=5.0)
     parser.add_argument("--duration-sec", type=float, default=0.0)
     parser.add_argument("--once", action="store_true")
+    parser.add_argument(
+        "--quiet",
+        action="store_true",
+        help="Suppress the cycle payload on stdout; reports and heartbeats are unchanged.",
+    )
     return parser.parse_args()
 
 
@@ -966,7 +1000,8 @@ def main() -> int:
             heartbeat_path=args.heartbeat,
             limit=args.limit,
         )
-        print(json.dumps(result, sort_keys=True), flush=True)
+        if not args.quiet:
+            print(json.dumps(result, sort_keys=True), flush=True)
         if args.once:
             return 0
         if args.duration_sec > 0 and time.monotonic() - started >= args.duration_sec:

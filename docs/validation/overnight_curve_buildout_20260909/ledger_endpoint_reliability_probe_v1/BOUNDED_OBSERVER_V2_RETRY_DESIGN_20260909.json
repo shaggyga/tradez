@@ -1,0 +1,163 @@
+{
+  "attempt_record": {
+    "clock_scope": "Recorder returns exact actual original clock calls unchanged; maximum64 retained, overflow disables retry. No failed-worker clock reconstruction.",
+    "fields": [
+      "attempt_index",
+      "original_pair",
+      "wall_started_epoch",
+      "wall_completed_epoch",
+      "monotonic_started",
+      "monotonic_completed",
+      "assigned_deadline",
+      "actual_budget_expired",
+      "original_public_reason",
+      "sqlite_primary_code",
+      "bounded_original_clock_trace",
+      "clock_trace_integrity",
+      "retry_eligible",
+      "result_status"
+    ]
+  },
+  "created_epoch": 1788948108.7942646,
+  "deferred": [
+    "No old observer/API/handler/HTML/source change before original20-minute probe closes.",
+    "No production activation until new-module tests, independent review and source-bound acceptance.",
+    "No increased total budget, unbounded retries, priority by forecast/PnL, stale fallback or numerical/model changes."
+  ],
+  "eligible_error_classification": [
+    {
+      "eligible": "only if actual attempt monotonic deadline exhausted AND transparent original-clock trace is finite, bounded and nondecreasing",
+      "note": "V1 line269 combines chronology and deadline checks; public string alone is insufficient.",
+      "reason": "observer_pair_time_budget"
+    },
+    {
+      "eligible": "original caught numeric primary code explicitly identifies transient lock condition; original clock trace valid",
+      "note": "Root explicitly confirmed BUSY/LOCKED before pair deadline are eligible with valid clocks; keep original0.05s connection busy timeout unchanged.",
+      "reason": "sqlite3.Error / primary SQLITE_BUSY or SQLITE_LOCKED"
+    },
+    {
+      "eligible": "actual attempt monotonic deadline exhausted AND original clock trace valid",
+      "note": "Do not infer deadline interruption solely from the broad V1 public reason.",
+      "reason": "sqlite3.Error / primary SQLITE_INTERRUPT"
+    },
+    {
+      "eligible": false,
+      "note": "Corruption, schema errors, permissions and unclassified failures must not be relabeled transient.",
+      "reason": "all other SQLite primary codes / unknown missing code"
+    },
+    {
+      "eligible": false,
+      "note": "No opportunistic retry looking for a later favorable publication.",
+      "reason": "missing verified publication, target elapsed, pending publication, any successful _pair result"
+    },
+    {
+      "eligible": false,
+      "note": "Never retry an integrity rejection; observed integrity cannot be erased by later valid bytes.",
+      "reason": "hash/identity/source/activation/clock/future/record/path integrity failure"
+    }
+  ],
+  "policy": {
+    "deadline_origin": "same actual initial monotonic tick before original registry/source/activation work; no reset or reserve that deprives first pass",
+    "first_pass_pair_budget_sec": 0.25,
+    "mandatory_final_closure_reads": "same bounded mandatory reads as V1; actual total elapsed remains separate from ledger scheduling budget",
+    "maximum_attempts_per_pair": 2,
+    "maximum_clock_calls_retained_per_attempt": 64,
+    "maximum_pair_attempts": 136,
+    "maximum_registered_pairs": 68,
+    "ordering": "complete first pass in original sorted68 order, then eligible first-pass failures in same order",
+    "output_response_limit_bytes": 2097152,
+    "retry_integrity_errors": false,
+    "retry_only_attempted_first_pass_failures": true,
+    "retry_pair_budget_sec": 0.5,
+    "retry_unvisited_pairs": false,
+    "retry_verified_unavailable_rows": false,
+    "source_and_record_limits": "unchanged V1 MAX_SOURCE_BYTES=1MiB and MAX_RECORD_BYTES=256KiB",
+    "total_original_ledger_budget_sec": 8
+  },
+  "proposed_files": [
+    "oanda_joint_v3_ledger_status_observer_v2.py",
+    "oanda_joint_v3_ledger_observer_api_v2.py",
+    "config/joint_v3_ledger_observer_api_v2_20260909.json"
+  ],
+  "provisional_observation": {
+    "at_21_polls": {
+      "recurring_pairs": [
+        "EUR_NOK",
+        "AUD_HKD"
+      ],
+      "reports_with_pair_timeout": 8,
+      "unique_original_reports": 18
+    },
+    "interpretation": "Cross-pair budget loss recurs with observed total pass elapsed ~1.11\u20132.42 seconds on failed reports, below8s. This motivates bounded retry experimentation, not a proven CPU/lock cause or a completed reliability gain.",
+    "source": "actual_probe_002/SANITIZED_SAMPLES.jsonl; active original-source probe not finished"
+  },
+  "report_fields": {
+    "failures": "final unavailable failed-pair reasons; never hide first pass reasons",
+    "first_pass_failures": "all original failed attempted pairs and reasons, preserved even if recovered",
+    "first_pass_verified_pairs": "unique successful first-pass ledger verifications",
+    "retry_attempted_pairs": "unique actual retries",
+    "retry_records": "at most one additional record per eligible pair, including skipped due exhausted global budget",
+    "retry_recovered_forecast_pairs": "fresh verified retry with still-current original publication",
+    "retry_recovered_ledger_pairs": "fresh retry successfully verified ledger, even if no forecast exists",
+    "unvisited_pairs": "registered pairs with no first-pass attempt; never count retry as newly visited twice",
+    "verified_ledger_pairs": "unique final ledger verification count <=68"
+  },
+  "root_policy_clarification": "BUSY/LOCKED explicit transient primary codes do not require deadline exhaustion; INTERRUPT does. First pass0.25s/retry0.5s with original8s global deadline and original0.05s connection timeout.",
+  "schema_version": "joint_v3_observer_bounded_retry_design_v2_20260909",
+  "source_closure": {
+    "api_adds": "new API V2 file plus all observer dependency hashes and new specification; exact schema/pins checked before/after",
+    "observer_files": [
+      "oanda_joint_v3_ledger_status_observer_v2.py",
+      "oanda_joint_v3_ledger_status_observer_v1.py",
+      "oanda_immutable_summary_publication_v1.py"
+    ],
+    "original_forecast_cohort": "unchanged original joint_v3; observer version is not a new model/cohort"
+  },
+  "source_evidence": [
+    {
+      "bytes": 25843,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_joint_v3_ledger_status_observer_v1.py",
+      "sha256": "d2dc17dfee52603ae1ccf61433f4a1a73cd1650fdf44c5f1daaa60cf133d8699"
+    },
+    {
+      "bytes": 15665,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_joint_v3_ledger_observer_api_v1.py",
+      "sha256": "26814b7f7a2a5c9dd7457bf1c1231ebb98f8a496139169f69c20187d436543ed"
+    },
+    {
+      "bytes": 9408,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_immutable_summary_publication_v1.py",
+      "sha256": "53abafc379216797945543464fe218511f53b17a2d0d9d9cecb700146eff4bf7"
+    },
+    {
+      "bytes": 1349,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\joint_v3_ledger_observer_api_v1_20260909.json",
+      "sha256": "983ac47caa3ba2a4ac8021876ce7e0a371ebdae2ef36ccb1d7a2636a046a4073"
+    }
+  ],
+  "status": "design_approved_in_principle_implementation_owned_by_dashboard_agent_no_activation",
+  "test_matrix": [
+    "No failures: V2 calls original _pair exactly once per pair and yields same original rows/forecast identities under a replayed clock trace; only version/scheduler metadata differs.",
+    "Complete sorted first pass precedes any retry; first-pass successes, no-publication, expired and unvisited rows never enter retry queue.",
+    "Pair-time error before actual deadline is nonretryable, even though its public reason matches a time-budget error.",
+    "Pair-time error after deadline with reversed/nonfinite/overflow clock trace is nonretryable; finite exact clock values pass through without replacement.",
+    "SQLite BUSY/LOCKED primary and extended codes map to the correct primary class; unknown/CORRUPT/SCHEMA/READONLY errors never retry. INTERRUPT before deadline never retries.",
+    "Initial .25s cap, retry .5s cap and same8s global deadline enforced with equality fixtures; no newly admitted attempt after total deadline, no third attempt.",
+    "First pass exhausts total budget: exact remaining rows unvisited, no retries. Small remaining budget limits retry deadline below .5s.",
+    "Retry opens a distinct query-only connection/transaction and performs original publication and row-identity checks; original first-attempt row objects cannot be reused.",
+    "Fresh retry success replaces only final observation with retry actual clocks, preserves original forecast reference/issue/target; first failure and timing remain in first-pass diagnostics.",
+    "Fresh retry verifies ledger but no published forecast: recovered-ledger count increments, recovered-forecast count does not.",
+    "Retry integrity failure remains final failure alongside its first transient cause; no fallback to old cached evidence or averaged values.",
+    "First-pass successful rows expire during later retries: aggregate completion rechecks native target and never retimestamps them.",
+    "Before/after source or registry change invalidates complete report even if retry succeeded; exact V1 helper dependency and new V2 file are bound.",
+    "New observer/API/spec/summary schemas and exact source closure; old API refuses V2 and new API does not relabel V1. Counts/attempt logs and2MiB response cap tested.",
+    "All original authority flags false; no writer constructor, broker GET, model fit, ledger mutation or row import.",
+    "API serves an in-flight cached report only under original report/row clocks and generation guards. Retry diagnostics cannot refresh original forecast eligibility.",
+    "Controlled transient delay fixtures demonstrate recovery within same budget; compare full original rows on successful exact-input paths, not favorable performance outcomes."
+  ],
+  "unchanged_semantics": [
+    "Original _pair, _ReadOnlyProxy, verified_publication function slice, _original_row_identities, original contracts,20 original source closure and native clock/target rules.",
+    "Prefer imported source-pinned original V1 helpers; if copied, assert exact AST equality for every unchanged helper. No mutation/monkeypatch of V1 module globals.",
+    "Fresh independently coherent snapshot per attempt, never globally atomic across pairs or attempts."
+  ]
+}

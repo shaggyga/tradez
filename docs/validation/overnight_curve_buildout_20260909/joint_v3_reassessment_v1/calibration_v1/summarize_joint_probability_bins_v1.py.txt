@@ -1,0 +1,282 @@
+"""Fixed descriptive probability bins of original, hash-bound scored outcomes.
+
+Only retained assessment JSON and pinned source bytes are read. No assessor or
+scorer imports, DBs, network, fitting, threshold selection or economic rescoring.
+The binary event is the frozen scorer's up-versus-not-up: an exact flat is zero.
+"""
+from collections import Counter
+from decimal import Context, Decimal, ROUND_HALF_EVEN, localcontext
+from pathlib import Path
+import argparse
+import hashlib
+import json
+import math
+import os
+import re
+import stat
+import time
+
+BASE = Path(__file__).resolve().parent
+ASSESSMENT_BASE = BASE.parent
+FAMILY = 'ridge_price_news_v1'
+STUDY = 'joint_price_news_study_v3'
+REGISTRY_SHA = 'ee075e69e80ca56dfdf45abe1f7a1a301612176e67f7622eab1adf2bd9af8771'
+SOURCE_PINS = {
+    'run_joint_reassessment_v1.py': 'f41c3a0804c087256734b3cd72cc1d3bc23a2d969ed15eac758ea4131ef7342b',
+    'assess_v3.py': 'bad4ea610f01a19e82ae1e38709775ab306c609e2cdb799e35a5da75c44ea5a2',
+    'evaluate_frozen_baseline.py': '186e9000e2af2360e23bbdb752fb83bd26df61ca7c387899a880adae2739b7f1',
+    'oanda_exact_price_scoring.py': 'f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521',
+    'oanda_fixed_forecast_evaluation_joint_news_v1.py': 'c1f9940d57c0d39c1815b22a9114752075042a09da3e196e84829e77b293131d',
+    'joint_price_news_study_v3_20260908.json': REGISTRY_SHA,
+}
+MAX_PAIR_BYTES = 16 * 1024 * 1024
+MAX_TOTAL_BYTES = 256 * 1024 * 1024
+
+
+def need(ok, reason):
+    if not ok:
+        raise ValueError(reason)
+
+
+def sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+
+def canonical(value):
+    return json.dumps(value, sort_keys=True, separators=(',', ':'), allow_nan=False).encode()
+
+
+def unique_object(pairs):
+    result = {}
+    for key, value in pairs:
+        need(key not in result, 'duplicate_json_key')
+        result[key] = value
+    return result
+
+
+def decode(raw):
+    return json.loads(raw, object_pairs_hook=unique_object,
+                      parse_constant=lambda _: (_ for _ in ()).throw(ValueError('nonfinite_json')))
+
+
+def number(value):
+    need(type(value) in (str, int, Decimal), 'exact_decimal_text_required')
+    text = str(value)
+    need(len(text) <= 1024 and re.fullmatch(r'[+-]?(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[eE][+-]?[0-9]+)?', text), 'decimal_syntax')
+    result = Decimal(text)
+    need(result.is_finite() and len(result.as_tuple().digits) <= 256 and abs(result.as_tuple().exponent) <= 512, 'bounded_decimal_required')
+    return result
+
+
+def clock(value):
+    need(type(value) in (int, float) and math.isfinite(value) and value > 0, 'finite_original_clock')
+    return value
+
+
+def plain_path(path):
+    path = path.absolute()
+    need('..' not in path.parts, 'path_traversal')
+    for part in reversed([path, *path.parents]):
+        info = part.lstat()
+        need(not stat.S_ISLNK(info.st_mode) and not getattr(info, 'st_file_attributes', 0) & 1024, 'reparse_path_refused')
+    return path
+
+
+def read_bound(path, expected, cap):
+    path = plain_path(path)
+    need(re.fullmatch('[0-9a-f]{64}', expected or ''), 'expected_sha_required')
+    with path.open('rb') as stream:
+        raw = stream.read(cap + 1)
+    need(len(raw) <= cap and sha(raw) == expected, 'source_hash_or_byte_bound')
+    return raw
+
+
+def midpoint(quote, instrument):
+    need(quote['instrument'] == instrument, 'quote_instrument')
+    bid, ask = number(quote['bid']), number(quote['ask'])
+    need(0 < bid <= ask, 'valid_original_quote')
+    with localcontext(Context(prec=4096, rounding=ROUND_HALF_EVEN)):
+        return (bid + ask) / 2
+
+
+def record(row, instrument):
+    need(row['instrument'] == instrument and row['family'] == FAMILY and row['study'] == STUDY, 'original_row_scope')
+    need(type(row['decision_id']) is str and bool(row['decision_id']), 'original_decision_identity')
+    reference, target = clock(row['reference_epoch']), clock(row['target_epoch'])
+    need(target - reference == 3600, 'original_h1_target')
+    with localcontext(Context(prec=4096, rounding=ROUND_HALF_EVEN)):
+        move = midpoint(row['target'], instrument) - midpoint(row['reference'], instrument)
+    need(move == number(row['actual_midpoint_move']), 'retained_exact_move_mismatch')
+    outcome = 'up' if move > 0 else 'down' if move < 0 else 'flat'
+    need(row['outcome_class'] == outcome, 'retained_outcome_class_mismatch')
+    score = row['scores'][FAMILY]
+    p = number(score['probability_up'])
+    need(0 <= p <= 1, 'probability_range')
+    y = int(move > 0)
+    need(type(score['side']) is int and score['side'] in (-1, 0, 1), 'original_side')
+    with localcontext(Context(prec=80, rounding=ROUND_HALF_EVEN)):
+        brier = (p - y) ** 2
+    need(brier == number(score['brier']), 'original_brier_mismatch')
+    fair = row['scores']['fair_coin']
+    need(number(fair['probability_up']) == Decimal('.5') and number(fair['brier']) == Decimal('.25'), 'original_fair_coin_mismatch')
+    return dict(instrument=instrument, decision_id=row['decision_id'], reference_epoch=reference,
+                target_epoch=target, p=p, y=y, outcome=outcome, brier=brier, side=score['side'])
+
+
+def bin_index(p):
+    p = number(p)
+    need(0 <= p <= 1, 'probability_range')
+    with localcontext(Context(prec=4096, rounding=ROUND_HALF_EVEN)):
+        return min(9, int(p * 10))
+
+
+def aggregate(records):
+    """All completed rows, including abstentions/flats. Empty means stay null."""
+    need(len({r['decision_id'] for r in records}) == len(records), 'duplicate_completed_decision')
+    bins = [[] for _ in range(10)]
+    for item in records:
+        bins[bin_index(item['p'])].append(item)
+    with localcontext(Context(prec=80, rounding=ROUND_HALF_EVEN)):
+        def stats(rows):
+            n = len(rows)
+            brier = sum((r['brier'] for r in rows), Decimal(0))
+            return dict(count=n, up_count=sum(r['y'] for r in rows),
+                        down_count=sum(r['outcome'] == 'down' for r in rows),
+                        flat_count=sum(r['outcome'] == 'flat' for r in rows),
+                        abstained_forecast_count=sum(r['side'] == 0 for r in rows),
+                        mean_probability_up=str(sum((r['p'] for r in rows), Decimal(0)) / n) if n else None,
+                        observed_up_fraction=str(Decimal(sum(r['y'] for r in rows)) / n) if n else None,
+                        mean_brier=str(brier / n) if n else None,
+                        fair_coin_mean_brier='0.25' if n else None,
+                        mean_joint_minus_fair_coin_brier=str(brier / n - Decimal('.25')) if n else None)
+        result = stats(records)
+        result.update(probability_exact_zero_count=sum(r['p'] == 0 for r in records),
+                      probability_exact_one_count=sum(r['p'] == 1 for r in records),
+                      probability_exact_half_count=sum(r['p'] == Decimal('.5') for r in records),
+                      bins=[dict(index=i, lower=str(Decimal(i) / 10), upper=str(Decimal(i + 1) / 10),
+                                 lower_inclusive=True, upper_inclusive=i == 9, **stats(items)) for i, items in enumerate(bins)])
+    need(sum(b['count'] for b in result['bins']) == result['count'], 'single_bin_complete_denominator')
+    return result
+
+
+def summarize_assessment(assessment, wrapper_sha, report_sha):
+    """Pure retained-file join; callers choose an already completed assessment."""
+    began = clock(time.time())
+    assessment = plain_path(Path(assessment))
+    wrapper_path = assessment / 'WRAPPER_COMPLETED.json'
+    report_path = assessment / 'V3_COMPLETED_PERFORMANCE_20260909.json'
+    wrapper_raw = read_bound(wrapper_path, wrapper_sha, 1024 * 1024)
+    report_raw = read_bound(report_path, report_sha, 2 * 1024 * 1024)
+    wrapper, report = decode(wrapper_raw), decode(report_raw)
+    need(wrapper['status'] == report['status'] == 'passed', 'passed_original_assessment_required')
+    need(all(wrapper[k] is False for k in ('GET_requests', 'model_fits', 'runtime_writes')) and
+         all(wrapper[k] is True for k in ('original_arithmetic_unchanged', 'original_assessor_unchanged')), 'original_read_only_arithmetic_required')
+    need(clock(wrapper['started_epoch']) <= clock(wrapper['completed_epoch']) <= began, 'completed_original_assessment_clock')
+    bindings = wrapper['source_bindings']
+    by_name = {Path(p).name: (p, h) for p, h in bindings.items()}
+    need(len(bindings) == len(by_name) == 24, 'original_full_source_closure')
+    for name, expected in SOURCE_PINS.items():
+        need(by_name.get(name, (None, None))[1] == expected, 'frozen_source_pin')
+    need(report['registry_sha256'] == REGISTRY_SHA and report['registered_sources_unchanged'] is True and
+         len(report['source_bindings']) == 20 and all(by_name.get(n, (None, None))[1] == h for n, h in report['source_bindings'].items()), 'report_registered_source_closure')
+    source_raw = {p: read_bound(Path(p), h, 4 * 1024 * 1024) for p, h in bindings.items()}
+    need(report['ledgers'] == len(report['ledger_results']) == 68 and
+         report['unscored_original_completed'] == report['reconciliation_errors'] == 0, 'all_registered_ledgers_required')
+    files = wrapper['output_files']
+    by_relative = {f['relative_path']: f for f in files}
+    need(len(files) == len(by_relative), 'duplicate_wrapper_output')
+    for f in files:
+        rel = Path(f['relative_path'])
+        need(not rel.is_absolute() and '..' not in rel.parts and '\\' not in f['relative_path'] and
+             re.fullmatch('[0-9a-f]{64}', f['sha256']) and type(f['bytes']) is int and f['bytes'] >= 0, 'wrapper_output_identity')
+    ref = by_relative.get(report_path.name, {})
+    need(ref.get('sha256') == report_sha and ref.get('bytes') == len(report_raw), 'wrapper_report_binding')
+    pairs, records, evidence = set(), [], []
+    total_bytes = len(wrapper_raw) + len(report_raw) + sum(map(len, source_raw.values()))
+    retained_reads = []
+    for item in report['ledger_results']:
+        pair = item['instrument']
+        need(re.fullmatch('[A-Z]{3}_[A-Z]{3}', pair) and pair not in pairs and item['status'] == 'passed', 'unique_registered_pair')
+        pairs.add(pair)
+        path = assessment / 'results' / (pair + '.json')
+        need(Path(item['path']) == path, 'exact_original_result_path')
+        expected = by_relative.get('results/' + pair + '.json', {})
+        need(expected.get('sha256') == item['sha256'], 'wrapper_pair_hash_binding')
+        raw = read_bound(path, item['sha256'], MAX_PAIR_BYTES)
+        total_bytes += len(raw)
+        need(len(raw) == expected.get('bytes') and total_bytes <= MAX_TOTAL_BYTES, 'result_byte_bound')
+        result = decode(raw)
+        need(result['status'] == 'passed' and result['instrument'] == pair and result['family'] == FAMILY and result['study'] == STUDY and
+             not result['verification_errors'] and not result['original_completed_not_scored'], 'verified_pair_scope')
+        need(type(result['scored_rows']) is list and len(result['scored_rows']) <= 256, 'original_row_bound')
+        pair_records = [record(row, pair) for row in result['scored_rows']]
+        need(len(pair_records) == result['counts']['outcomes'], 'original_pair_completed_denominator')
+        records.extend(pair_records)
+        evidence.append(dict(instrument=pair, path=str(path), sha256=item['sha256'], bytes=len(raw), completed_count=len(pair_records),
+                             original_snapshot_observed_epoch=result['snapshot_observed_epoch']))
+        retained_reads.append((path, item['sha256'], len(raw)))
+    overall = aggregate(records)
+    need(overall['count'] == report['counts']['outcomes'] == report['metrics'][FAMILY]['valid_completed_decisions'] == report['metrics'][FAMILY]['brier_denominator'], 'complete_original_brier_denominator')
+    need(overall['mean_brier'] == report['metrics'][FAMILY]['mean_brier'] and
+         report['metrics']['fair_coin']['brier_denominator'] == overall['count'] and
+         (overall['count'] == 0 or number(report['metrics']['fair_coin']['mean_brier']) == Decimal('.25')), 'original_aggregate_brier_reconciliation')
+    for path, expected, size in retained_reads:
+        read_bound(path, expected, size)
+    need(read_bound(wrapper_path, wrapper_sha, len(wrapper_raw)) == wrapper_raw and
+         read_bound(report_path, report_sha, len(report_raw)) == report_raw, 'original_identity_changed')
+    for p, raw in source_raw.items():
+        need(read_bound(Path(p), bindings[p], len(raw)) == raw, 'source_changed_during_summary')
+    completed = clock(time.time())
+    need(completed >= began, 'analysis_completion_clock_rollback')
+    return dict(schema_version='joint_probability_fixed_decile_summary_v1_20260909', status='passed',
+                started_epoch=began, completed_epoch=completed, original_report=dict(path=str(report_path), sha256=report_sha),
+                original_wrapper=dict(path=str(wrapper_path), sha256=wrapper_sha), source_bindings=bindings,
+                result_evidence=evidence, input_bytes_read_first_pass=total_bytes,
+                actual_up_event='exact target midpoint minus original reference midpoint > 0; exact flat is not-up (0)',
+                bins_policy='ten fixed [i/10,(i+1)/10) bins; last bin includes 1; no fitted calibration or selection',
+                overall=overall, by_pair={p: aggregate([r for r in records if r['instrument'] == p]) for p in sorted(pairs)},
+                original_event_identity_sha256=sha(canonical(sorted((r['instrument'], r['decision_id'], r['reference_epoch'], r['target_epoch']) for r in records))),
+                original_time_scope={k: report[k] for k in ('snapshot_start_utc', 'snapshot_end_utc', 'reference_start_utc', 'reference_end_utc', 'target_start_utc', 'target_end_utc')},
+                original_disposition={k: report[k] for k in ('counts', 'original_exclusions', 'due_without_outcome_or_exclusion', 'unscored_original_completed')},
+                limits=['All original completed scored outcomes included once, including flat outcomes and forecast abstentions. Missing, excluded and unexpired outcomes are not silently relabelled as failures.',
+                        'Counts are observations, not independent N: H1 targets overlap, currencies and model inputs are shared, and per-DB snapshot clocks differ.',
+                        'Uncalibrated issued probabilities are described, not fitted, repaired or promoted. No confidence interval, threshold choice or improved-alpha claim.',
+                        'Brier reconciles to original scores; no economic rescoring, quote-domain reconstruction or model/input replay. Matched ablations lack probabilities and are not assigned any.',
+                        'Raw input exports, news, account records and live DBs are not read. Only original result quote endpoints establish the exact binary event.'],
+                model_fits=False, fitted_calibration=False, runtime_writes=False, broker_requests=False,
+                order_authorized=False, account_eligible=False, promotion_eligible=False, proof_eligible=False)
+
+
+def write_new(path, raw):
+    with path.open('xb') as stream:
+        stream.write(raw)
+        stream.flush()
+        os.fsync(stream.fileno())
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--assessment', required=True)
+    parser.add_argument('--wrapper-sha', required=True)
+    parser.add_argument('--report-sha', required=True)
+    parser.add_argument('--output-name', required=True)
+    args = parser.parse_args()
+    assessment = plain_path(Path(args.assessment))
+    need(assessment.parent == ASSESSMENT_BASE and re.fullmatch('actual_assessment_[0-9]{3}', assessment.name), 'fixed_external_assessment_root')
+    need(re.fullmatch('[a-z0-9_]{1,80}', args.output_name), 'exclusive_output_name')
+    plain_path(BASE)
+    output = BASE / args.output_name
+    need(not output.exists(), 'new_output_required')
+    source = Path(__file__).read_bytes()
+    result = summarize_assessment(assessment, args.wrapper_sha, args.report_sha)
+    need(Path(__file__).read_bytes() == source, 'summary_source_changed')
+    result['helper'] = dict(path=str(Path(__file__).resolve()), sha256=sha(source))
+    output.mkdir()
+    path = output / 'JOINT_PROBABILITY_BINS_20260909.json'
+    raw = json.dumps(result, indent=2, sort_keys=True, allow_nan=False).encode() + b'\n'
+    write_new(path, raw)
+    print(json.dumps(dict(path=str(path), sha256=sha(raw), overall=result['overall'])))
+
+
+if __name__ == '__main__':
+    main()

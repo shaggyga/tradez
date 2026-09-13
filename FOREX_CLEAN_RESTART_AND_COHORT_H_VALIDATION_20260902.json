@@ -1,0 +1,110 @@
+{
+  "schema_version": "forex_clean_restart_and_cohort_h_validation_v1",
+  "generated_utc": "2026-09-02T14:42:54.0580576Z",
+  "status": "validated_collecting",
+  "trigger": "user_requested_full_project_restart_after_explicit_full_pause",
+  "restart": {
+    "watchdog_pid": 27924,
+    "supervisor_pid": 33252,
+    "watchdog_action": "none",
+    "watchdog_health_reason": "",
+    "scheduled_tasks_reenabled": [
+      "ForexSafeCoreAtLogon",
+      "BIGTRIAD Unified Trading Dashboard"
+    ],
+    "codex_automation_created": false
+  },
+  "canonical_quote_repair": {
+    "defect": "clean supervisor restart omitted the canonical research-market quote mirror argument from the Practice-007 fast executor even though the independent transport seed remained configured",
+    "resolution": "the supervised fast executor now republishes the executor-owned schema-3 canonical quote snapshot every second while retaining the independent transport seed",
+    "live_generated_utc": "2026-09-02T10:42:48.131729-04:00",
+    "producer": "practice_007_fast_executor_price_stream",
+    "schema_version": 3,
+    "quote_count": 68,
+    "tradeable_quote_count": 68,
+    "retained_last_known_count": 0
+  },
+  "retired_parent_cohort": {
+    "cohort_id": "all68_executable_move_census_v3_20260902g",
+    "status": "permanently_invalid",
+    "reason": "required open-market minutes 2026-09-02T13:54:00Z through 2026-09-02T14:00:00Z were absent during the explicit full-project pause",
+    "missing_open_minute_count": 7,
+    "independent_verifier_failure_count": 26,
+    "final_frame_count": 173,
+    "final_quote_row_count": 11764,
+    "database_quick_check": "ok",
+    "database_sha256": "c2de90bef9b2ea39dab30573e31aa1ad69a26286140a8013f8613bfea3536bb8",
+    "repair_or_backfill_permitted": false
+  },
+  "active_successor_cohort": {
+    "cohort_id": "all68_executable_move_census_v3_20260902h",
+    "parent_cohort_id": "all68_executable_move_census_v3_20260902g",
+    "activation_utc": "2026-09-02T14:40:00Z",
+    "historical_row_import_count": 0,
+    "no_backfill": true,
+    "independent_verifier_generated_utc": "2026-09-02T14:42:25.326875Z",
+    "independent_verifier_verified": true,
+    "independent_verifier_failure_count": 0,
+    "verified_frame_count": 3,
+    "verified_quote_row_count": 204,
+    "valid_quote_row_count": 194,
+    "invalid_quote_row_count": 10,
+    "source_identity_mismatch_row_count": 0,
+    "zero_valid_open_market_frame_count": 0,
+    "logical_sides_per_frame": 136,
+    "database_quick_check": "ok",
+    "database_snapshot_sha256_at_three_frames": "14572995cb89b59ea08c9da959bc4c0b11ffe5e48ec885d2b8cf5436faa043e5",
+    "research_only": true,
+    "can_trade": false,
+    "can_authorize": false,
+    "can_promote": false,
+    "supported_execution_decision": "no_trade"
+  },
+  "implementation": [
+    {
+      "path": "config/executable_move_census_v3_20260902h.json",
+      "sha256": "23fecf08359fd59f30af6777c704b97527a027e390b709ae6dd60619acd5f058"
+    },
+    {
+      "path": "oanda_executable_move_census_v3h_verifier.py",
+      "sha256": "13971ba8b3d36e6207e22a775b6b30d95951a95b8847d3c1d81c79ceaba36ece"
+    },
+    {
+      "path": "oanda_always_on_supervisor.ps1",
+      "sha256": "640d47ea3eaf456527adb1f5b259507144a6010ea18695c411f3c4eb03f5d289"
+    },
+    {
+      "path": "oanda_project_integrity_audit.py",
+      "sha256": "351596c71f16246b8df23c7e76eff05a1bc5f8e857f17fd017bdb25bb8b6c14d"
+    }
+  ],
+  "frozen_upstream_bindings": {
+    "census_producer_sha256": "648d35fcfd0d39f51c330be36cf4761f3660d18f3ee5db2b885c0169c3c9c130",
+    "quote_source_producer_sha256": "b98151ab60e2e0e3253d0cfaef1229bb1e2a4bf777a1365aa579be4f1bd294f6",
+    "quote_transport_sha256": "27ea11bc79a3a85cc09f00a88df697f0ecf8bba29b230c309cdf83e8967d8987"
+  },
+  "validation": {
+    "powershell_parse": "passed",
+    "python_compile": "passed",
+    "focused_pytest": "102 passed",
+    "project_integrity_generated_utc": "2026-09-02T10:41:15.757272-04:00",
+    "project_integrity_status": "ok",
+    "project_integrity_failure_count": 0,
+    "executable_move_census_current_independently_verified": true
+  },
+  "practice_007": {
+    "account_id": "101-001-37981792-007",
+    "balance": 41.6042,
+    "nav": 41.6042,
+    "cumulative_pl": -8.3430,
+    "open_trades": 0,
+    "pending_orders": 0
+  },
+  "safety": {
+    "manual_or_discretionary_orders_submitted": false,
+    "manual_positions_closed": false,
+    "real_money_routing_enabled": false,
+    "proof_or_authorization_gates_loosened": false,
+    "historical_rows_relabelled_or_backfilled": false
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "schema_version": "forex_validation_receipt_v1",
+  "generated_utc": "2026-09-04T21:12:00Z",
+  "scope": "miss recap, validated repairs, and observation-only watch through the 2026-09-04 Friday market close",
+  "frozen_market_cutoff_utc": "2026-09-04T21:00:00Z",
+  "safety_boundary": {
+    "canonical_workspace": "C:/Users/zmoor/Documents/forex/trad",
+    "legacy_d_drive_used": false,
+    "manual_orders_submitted": 0,
+    "manual_positions_closed": 0,
+    "execution_gates_loosened": false,
+    "real_money_enabled": false,
+    "existing_policy_wired_practice_executor_permitted": true
+  },
+  "principal_misses": [
+    {
+      "case": "2026-09-04 08:30 ET United States and Canada employment release",
+      "largest_expression": "USD_CAD long",
+      "five_minute_factor_move_bps": 53.213,
+      "five_minute_gross_pips": 73.4,
+      "five_minute_net_pips": 70.5,
+      "pre_move_technical_state": "opposed",
+      "strict_news_state": "neutral_or_conflicted",
+      "root_gap": "The scheduled clock existed, but the exact official BLS and Statistics Canada actuals were not available to the strict directional path at event time; causal pre-release consensus and rate repricing were absent.",
+      "repair": "New prospective direct BLS and bounded Statistics Canada Labour Force Survey paths; no retrospective proof credit."
+    },
+    {
+      "case": "2026-09-04 JPY morning acceleration",
+      "largest_liquid_expression": "USD_JPY short during the JPY-strength episode",
+      "root_gap": "No fresh BOJ decision was published. A Japanese Ministry of Finance press conference was first seen at 08:13:25 ET before the acceleration, but it discussed valuation, rate differentials and intervention risk without proving a deterministic direction.",
+      "repair": "An isolated issuer-bound Japan external-policy-pressure research cohort was added prospectively; the historical case remains diagnostic-only."
+    },
+    {
+      "case": "late-session secondary-news false factors",
+      "root_gap": "Conditional policy commentary, syndication, unilateral ceasefire proposals, operational rig counts, publisher analysis, already-realized market recaps, opposing policy claims, and conflict-duration recaps could inherit directions that were not new causal events.",
+      "repair": "Classification contracts V159 through V164 add fail-closed semantic guards and new zero-import child cohorts."
+    },
+    {
+      "case": "watchlist and runtime integrity",
+      "root_gap": "A pre-input-read report clock produced negative quote ages; concurrent SQLite reads could encounter a long collector transaction; one deployment mixed cached V160 state with V161 source files.",
+      "repair": "Post-read decision clocks, bounded read retries, and synchronized stop-test-restart deployment were validated. The mixed cycle failed closed and published no evidence."
+    }
+  ],
+  "frozen_week_to_date_result": {
+    "contract_id": "week_to_date_project_event_move_recap_v5_cutoff_safe_snapshot_clocks_20260904",
+    "official_source_items": 40,
+    "independent_official_event_clocks": 24,
+    "calendar_only_clocks": 9,
+    "official_clocks_with_posthoc_cost_clearing_path": 22,
+    "strict_timing_movement_candidates": 4,
+    "source_direction_aligned": 3,
+    "source_direction_opposed": 0,
+    "causal_pre_release_consensus_observations": 0,
+    "logical_move_cases": 5088,
+    "factor_episodes": 2001,
+    "material_factor_episodes_ge_15_bps": 130,
+    "strict_pre_move_directional_matches": 0,
+    "supported_decision": "no_trade",
+    "report_json": "data/oanda_training_manager/reports/week_to_date_event_move_audit/WEEK_TO_DATE_PROJECT_EVENT_MOVE_RECAP_20260904T210000Z.json",
+    "report_json_sha256": "dfa0956822f8f6b5fbd6005bbc7e13d176680bda74aa6804ac2e13af6377b34a",
+    "report_markdown": "data/oanda_training_manager/reports/week_to_date_event_move_audit/WEEK_TO_DATE_PROJECT_EVENT_MOVE_RECAP_20260904T210000Z.md",
+    "report_markdown_sha256": "9b9d5fe89b14dafd016855dec1a50e679436057975c9610c6383b3b9c67a2be3"
+  },
+  "close_observation": {
+    "market_close_confirmed_utc": "2026-09-04T21:00:23.7549139Z",
+    "last_quote_snapshot_utc": "2026-09-04T20:59:05.025630Z",
+    "quoted_instruments": 68,
+    "tradeable_before_close": 65,
+    "broker_nontradeable_instruments": [
+      "EUR_TRY",
+      "TRY_JPY",
+      "USD_TRY"
+    ],
+    "cost_clearing_path_at_close": null,
+    "source_factor_count": 0,
+    "watchlist_entry_count": 0,
+    "qualified_signal_count": 0,
+    "selected_signal": null,
+    "official_event_capture_v3_status": "verified",
+    "official_event_capture_v3_failure_count": 0,
+    "classification_version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+    "watchlist_status": "ok",
+    "negative_quote_age_count": 0
+  },
+  "practice_007": {
+    "balance": 41.6042,
+    "nav": 41.6042,
+    "cumulative_pl": -8.343,
+    "unrealized_pl": 0.0,
+    "open_trade_count": 0,
+    "pending_order_count": 0,
+    "current_errors": []
+  },
+  "source_and_system_state": {
+    "configured_news_sources": 192,
+    "operational_news_sources": 182,
+    "configured_currencies": 21,
+    "emitted_pairs": 68,
+    "central_bank_release_operational_currencies": 20,
+    "central_bank_both_legs_operational_pairs": 59,
+    "external_source_gap": "RBNZ direct transport and causal pre-release consensus remain externally blocked",
+    "causal_pre_release_consensus_currencies": 0,
+    "project_integrity_status": "ok",
+    "project_integrity_false_checks": 0,
+    "clock_integrity_status": "ok",
+    "broker_clock_lead_sec": -0.474,
+    "supervisor_count": 1,
+    "watchdog_count": 1,
+    "storage_status": "ok",
+    "free_space_gib": 95.819,
+    "minimum_free_reserve_gib": 50.0,
+    "managed_database_allocated_bytes": 78691872768,
+    "managed_wal_bytes": 1119552480,
+    "cpu_load_pct_at_final_sample": 96.0,
+    "free_memory_gib_at_final_sample": 4.229,
+    "cpu_note": "Elevated during scheduled research and close-report work; workers and integrity checks remained healthy."
+  },
+  "validation": {
+    "news_tests_passed": 496,
+    "watchlist_tests_passed": 46,
+    "supervisor_integrity_tests_passed": 14,
+    "vault_sync_tests_passed": 16,
+    "combined_focused_tests_passed": 572,
+    "python_compile": "passed",
+    "powershell_parse": "passed",
+    "issue_register": {
+      "valid": true,
+      "issue_count": 88,
+      "open_count": 0
+    },
+    "sqlite_quick_check": {
+      "local_news_sentiment_v1.sqlite": "ok",
+      "evidence_lifecycle_v1.sqlite": "ok",
+      "governed_practice_accounting_v1.sqlite": "ok",
+      "allocator_proof_v1.sqlite": "ok",
+      "official_event_pair_quote_capture_v3.sqlite": "ok"
+    },
+    "vault_final_record_count": 93,
+    "vault_target_hash_or_size_failures": 0,
+    "vault_static_source_hash_mismatches": 0,
+    "vault_dynamic_source_records_changed_after_snapshot": 3,
+    "vault_dynamic_source_record_names": [
+      "MOVE_FIRST_LIVE_CASE_CAPTURE_STATUS_CURRENT.json",
+      "MOVE_FIRST_LIVE_ARM_ALIGNMENT_STATUS_CURRENT.json",
+      "MOVE_FIRST_OPERATIONAL_MAPPING_ALIGNMENT_STATUS_CURRENT.json"
+    ],
+    "vault_credential_named_files": 0,
+    "vault_credential_values_checked": 10,
+    "vault_api_key_token_or_secret_value_matches": 0,
+    "vault_auditable_practice_account_id_record_matches": 24,
+    "vault_requires_zero_api_key_token_or_secret_value_matches": true,
+    "vault_allows_auditable_practice_account_identifier": true
+  }
+}

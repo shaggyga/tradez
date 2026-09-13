@@ -1,0 +1,694 @@
+{
+  "audit_completed_epoch": 1788950983.329566,
+  "audit_started_epoch": 1788950978.2137945,
+  "captures": [
+    {
+      "age_at_audit_sec": 16.667566776275635,
+      "canonical_bytes": 14267932,
+      "canonical_other_framing_bytes": 3689,
+      "canonical_sha256": "2d4cb993da420fc61f186ac5bb3237832e97efaed9cac4a13235fe674743fb5e",
+      "capture_seal": "63639911608a87032cc5870503f455603e5db3be76bee48b81fab050f8592dd6",
+      "current_producer": {
+        "as_of_utc": "2026-09-09T10:48:47.264553+00:00",
+        "context_topic_count": 35,
+        "current_members": 71,
+        "directional_topic_count": 0,
+        "generated_utc": "2026-09-09T10:48:48.759642+00:00",
+        "status": "current",
+        "topic_count": 35
+      },
+      "headroom": {
+        "current_producer_evidence_rows": {
+          "limit": 4096,
+          "remaining": 3814,
+          "scope": "Retained complete selected 24-hour current-producer evidence",
+          "used": 282,
+          "used_percent": 6.884765625
+        },
+        "current_producer_raw_payload_bytes": {
+          "limit": 33554432,
+          "remaining": 30629986,
+          "scope": "Measured exact retained current-producer payload strings",
+          "used": 2924446,
+          "used_percent": 8.7155282497406
+        },
+        "current_producer_snapshot_bytes": {
+          "limit": 16777216,
+          "remaining": 13184250,
+          "scope": "Canonical repaired current snapshot nested in shared capture",
+          "used": 3592966,
+          "used_percent": 21.415746212005615
+        },
+        "history_compact_bytes": {
+          "limit": 16777216,
+          "remaining": 6225390,
+          "scope": "History section early bound, subordinate to whole shared-capture limit",
+          "used": 10551826,
+          "used_percent": 62.893784046173096
+        },
+        "history_raw_wrapper_bytes": {
+          "limit": 134217728,
+          "remaining": 74592951,
+          "scope": "Original ingestion-reported verified wrapper bytes; omitted wrappers were not reread",
+          "used": 59624777,
+          "used_percent": 44.423920661211014
+        },
+        "history_read_seconds": {
+          "limit": 20,
+          "remaining": 14.421999999787658,
+          "scope": "Original ingestion-reported duration, not current throughput",
+          "used": 5.5780000002123415,
+          "used_percent": 27.89000000106171
+        },
+        "history_rows": {
+          "limit": 10000,
+          "remaining": 4095,
+          "scope": "Complete retained 48-hour governed mapping rows",
+          "used": 5905,
+          "used_percent": 59.050000000000004
+        },
+        "shared_compressed_bytes": {
+          "limit": 8388608,
+          "remaining": 5801385,
+          "scope": "Stored whole gzip file",
+          "used": 2587223,
+          "used_percent": 30.842101573944092
+        },
+        "shared_logical_bytes": {
+          "limit": 16777216,
+          "remaining": 2509284,
+          "scope": "Entire canonical shared capture, including current proof and history",
+          "used": 14267932,
+          "used_percent": 85.04350185394287
+        }
+      },
+      "original_first_observed_epoch": 1788950961.946222,
+      "original_history_diagnostics": {
+        "compact_history_bytes": 10551826,
+        "complete": true,
+        "first_selected_mapping_epoch": 1788778323.909676,
+        "last_selected_mapping_epoch": 1788950926.799475,
+        "limits": {
+          "page_rows": 128,
+          "raw_bytes": 134217728,
+          "read_sec": 20,
+          "rows": 10000,
+          "shared_canonical_bytes": 16777216,
+          "shared_compressed_bytes": 8388608,
+          "single_raw_row_bytes": 1048576
+        },
+        "observed_limit_epoch": 1788950953.7176855,
+        "raw_byte_scope": "Complete original wrappers verified during ingestion; compact original members retained for feature replay.",
+        "raw_payload_bytes": 59624777,
+        "read_duration_sec": 5.5780000002123415,
+        "schema_version": "complete_bounded_governed_history_v2_20260908",
+        "selected_rows": 5905,
+        "truncated": false,
+        "unique_events": 5905,
+        "window_sec": 172800
+      },
+      "original_history_observation_limit": 1788950953.7176855,
+      "original_news_evidence_epoch": 1788950927.264553,
+      "original_news_generated_epoch": 1788950928.759642,
+      "retained_mapping_range": {
+        "covered_sec": 172602.88979887962,
+        "first": 1788778323.909676,
+        "last": 1788950926.799475
+      },
+      "section_canonical_bytes": {
+        "current_members": 119451,
+        "current_snapshot": 3592966,
+        "history": 10551826
+      },
+      "source": {
+        "bytes": 2587223,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\joint_price_news_study_v3\\news_captures\\63639911608a87032cc5870503f455603e5db3be76bee48b81fab050f8592dd6.json.gz",
+        "read_completed_epoch": 1788950978.6137888,
+        "read_started_epoch": 1788950978.6028197,
+        "sha256": "eea83e377b229557c48e8787506f6f18970445d3c826cd4031751a9efa861ae4",
+        "stat_identity": [
+          1125899908827041,
+          2587223,
+          1788950962840440700
+        ],
+        "stat_stable": true
+      },
+      "source_bindings_verified": 15
+    },
+    {
+      "age_at_audit_sec": 49.73470854759216,
+      "canonical_bytes": 14247990,
+      "canonical_other_framing_bytes": 3685,
+      "canonical_sha256": "454219e68217f3a2ccad119791bd63bf5db80a99ee5ab40ef5d92cbbd1816877",
+      "capture_seal": "b8d48d5372c978d82eefb67eccc28eb06e6b4d6a4c162a0ffdda4f01aabd88f3",
+      "current_producer": {
+        "as_of_utc": "2026-09-09T10:47:47.155260+00:00",
+        "context_topic_count": 34,
+        "current_members": 70,
+        "directional_topic_count": 0,
+        "generated_utc": "2026-09-09T10:47:48.843270+00:00",
+        "status": "current",
+        "topic_count": 34
+      },
+      "headroom": {
+        "current_producer_evidence_rows": {
+          "limit": 4096,
+          "remaining": 3814,
+          "scope": "Retained complete selected 24-hour current-producer evidence",
+          "used": 282,
+          "used_percent": 6.884765625
+        },
+        "current_producer_raw_payload_bytes": {
+          "limit": 33554432,
+          "remaining": 30630182,
+          "scope": "Measured exact retained current-producer payload strings",
+          "used": 2924250,
+          "used_percent": 8.714944124221802
+        },
+        "current_producer_snapshot_bytes": {
+          "limit": 16777216,
+          "remaining": 13192293,
+          "scope": "Canonical repaired current snapshot nested in shared capture",
+          "used": 3584923,
+          "used_percent": 21.36780619621277
+        },
+        "history_compact_bytes": {
+          "limit": 16777216,
+          "remaining": 6235522,
+          "scope": "History section early bound, subordinate to whole shared-capture limit",
+          "used": 10541694,
+          "used_percent": 62.83339262008667
+        },
+        "history_raw_wrapper_bytes": {
+          "limit": 134217728,
+          "remaining": 74650875,
+          "scope": "Original ingestion-reported verified wrapper bytes; omitted wrappers were not reread",
+          "used": 59566853,
+          "used_percent": 44.38076391816139
+        },
+        "history_read_seconds": {
+          "limit": 20,
+          "remaining": 15.452999999979511,
+          "scope": "Original ingestion-reported duration, not current throughput",
+          "used": 4.547000000020489,
+          "used_percent": 22.735000000102445
+        },
+        "history_rows": {
+          "limit": 10000,
+          "remaining": 4101,
+          "scope": "Complete retained 48-hour governed mapping rows",
+          "used": 5899,
+          "used_percent": 58.989999999999995
+        },
+        "shared_compressed_bytes": {
+          "limit": 8388608,
+          "remaining": 5804747,
+          "scope": "Stored whole gzip file",
+          "used": 2583861,
+          "used_percent": 30.80202341079712
+        },
+        "shared_logical_bytes": {
+          "limit": 16777216,
+          "remaining": 2529226,
+          "scope": "Entire canonical shared capture, including current proof and history",
+          "used": 14247990,
+          "used_percent": 84.92463827133179
+        }
+      },
+      "original_first_observed_epoch": 1788950930.291505,
+      "original_history_diagnostics": {
+        "compact_history_bytes": 10541694,
+        "complete": true,
+        "first_selected_mapping_epoch": 1788778143.75167,
+        "last_selected_mapping_epoch": 1788950896.645711,
+        "limits": {
+          "page_rows": 128,
+          "raw_bytes": 134217728,
+          "read_sec": 20,
+          "rows": 10000,
+          "shared_canonical_bytes": 16777216,
+          "shared_compressed_bytes": 8388608,
+          "single_raw_row_bytes": 1048576
+        },
+        "observed_limit_epoch": 1788950925.3728237,
+        "raw_byte_scope": "Complete original wrappers verified during ingestion; compact original members retained for feature replay.",
+        "raw_payload_bytes": 59566853,
+        "read_duration_sec": 4.547000000020489,
+        "schema_version": "complete_bounded_governed_history_v2_20260908",
+        "selected_rows": 5899,
+        "truncated": false,
+        "unique_events": 5899,
+        "window_sec": 172800
+      },
+      "original_history_observation_limit": 1788950925.3728237,
+      "original_news_evidence_epoch": 1788950867.15526,
+      "original_news_generated_epoch": 1788950868.84327,
+      "retained_mapping_range": {
+        "covered_sec": 172752.8940410614,
+        "first": 1788778143.75167,
+        "last": 1788950896.645711
+      },
+      "section_canonical_bytes": {
+        "current_members": 117688,
+        "current_snapshot": 3584923,
+        "history": 10541694
+      },
+      "source": {
+        "bytes": 2583861,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\joint_price_news_study_v3\\news_captures\\b8d48d5372c978d82eefb67eccc28eb06e6b4d6a4c162a0ffdda4f01aabd88f3.json.gz",
+        "read_completed_epoch": 1788950980.0262136,
+        "read_started_epoch": 1788950980.0152426,
+        "sha256": "0bcf303043e5bf9195b17c62a1835638a552a45f0776d90d16a52b3894875cec",
+        "stat_identity": [
+          12103424000538212,
+          2583861,
+          1788950931333154000
+        ],
+        "stat_stable": true
+      },
+      "source_bindings_verified": 15
+    },
+    {
+      "age_at_audit_sec": 68.72955107688904,
+      "canonical_bytes": 14247992,
+      "canonical_other_framing_bytes": 3687,
+      "canonical_sha256": "c831fa2d7688efada2f0e2f712876b122945ea4647c0899946665a862d181977",
+      "capture_seal": "f781f2f17250b5226e104b9ea08f78ddf0361413297b2408c4885d79d698a2f8",
+      "current_producer": {
+        "as_of_utc": "2026-09-09T10:47:47.155260+00:00",
+        "context_topic_count": 34,
+        "current_members": 70,
+        "directional_topic_count": 0,
+        "generated_utc": "2026-09-09T10:47:48.843270+00:00",
+        "status": "current",
+        "topic_count": 34
+      },
+      "headroom": {
+        "current_producer_evidence_rows": {
+          "limit": 4096,
+          "remaining": 3814,
+          "scope": "Retained complete selected 24-hour current-producer evidence",
+          "used": 282,
+          "used_percent": 6.884765625
+        },
+        "current_producer_raw_payload_bytes": {
+          "limit": 33554432,
+          "remaining": 30630182,
+          "scope": "Measured exact retained current-producer payload strings",
+          "used": 2924250,
+          "used_percent": 8.714944124221802
+        },
+        "current_producer_snapshot_bytes": {
+          "limit": 16777216,
+          "remaining": 13192293,
+          "scope": "Canonical repaired current snapshot nested in shared capture",
+          "used": 3584923,
+          "used_percent": 21.36780619621277
+        },
+        "history_compact_bytes": {
+          "limit": 16777216,
+          "remaining": 6235522,
+          "scope": "History section early bound, subordinate to whole shared-capture limit",
+          "used": 10541694,
+          "used_percent": 62.83339262008667
+        },
+        "history_raw_wrapper_bytes": {
+          "limit": 134217728,
+          "remaining": 74650875,
+          "scope": "Original ingestion-reported verified wrapper bytes; omitted wrappers were not reread",
+          "used": 59566853,
+          "used_percent": 44.38076391816139
+        },
+        "history_read_seconds": {
+          "limit": 20,
+          "remaining": 15.858999999938533,
+          "scope": "Original ingestion-reported duration, not current throughput",
+          "used": 4.141000000061467,
+          "used_percent": 20.705000000307336
+        },
+        "history_rows": {
+          "limit": 10000,
+          "remaining": 4101,
+          "scope": "Complete retained 48-hour governed mapping rows",
+          "used": 5899,
+          "used_percent": 58.989999999999995
+        },
+        "shared_compressed_bytes": {
+          "limit": 8388608,
+          "remaining": 5804743,
+          "scope": "Stored whole gzip file",
+          "used": 2583865,
+          "used_percent": 30.80207109451294
+        },
+        "shared_logical_bytes": {
+          "limit": 16777216,
+          "remaining": 2529224,
+          "scope": "Entire canonical shared capture, including current proof and history",
+          "used": 14247992,
+          "used_percent": 84.92465019226074
+        }
+      },
+      "original_first_observed_epoch": 1788950912.8861747,
+      "original_history_diagnostics": {
+        "compact_history_bytes": 10541694,
+        "complete": true,
+        "first_selected_mapping_epoch": 1788778143.75167,
+        "last_selected_mapping_epoch": 1788950896.645711,
+        "limits": {
+          "page_rows": 128,
+          "raw_bytes": 134217728,
+          "read_sec": 20,
+          "rows": 10000,
+          "shared_canonical_bytes": 16777216,
+          "shared_compressed_bytes": 8388608,
+          "single_raw_row_bytes": 1048576
+        },
+        "observed_limit_epoch": 1788950908.4488208,
+        "raw_byte_scope": "Complete original wrappers verified during ingestion; compact original members retained for feature replay.",
+        "raw_payload_bytes": 59566853,
+        "read_duration_sec": 4.141000000061467,
+        "schema_version": "complete_bounded_governed_history_v2_20260908",
+        "selected_rows": 5899,
+        "truncated": false,
+        "unique_events": 5899,
+        "window_sec": 172800
+      },
+      "original_history_observation_limit": 1788950908.4488208,
+      "original_news_evidence_epoch": 1788950867.15526,
+      "original_news_generated_epoch": 1788950868.84327,
+      "retained_mapping_range": {
+        "covered_sec": 172752.8940410614,
+        "first": 1788778143.75167,
+        "last": 1788950896.645711
+      },
+      "section_canonical_bytes": {
+        "current_members": 117688,
+        "current_snapshot": 3584923,
+        "history": 10541694
+      },
+      "source": {
+        "bytes": 2583865,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\joint_price_news_study_v3\\news_captures\\f781f2f17250b5226e104b9ea08f78ddf0361413297b2408c4885d79d698a2f8.json.gz",
+        "read_completed_epoch": 1788950981.6157258,
+        "read_started_epoch": 1788950981.6036823,
+        "sha256": "5199c0f9afb978cf5f235a0662b1b3dca798fe326231b848f0bb6d63d514a867",
+        "stat_identity": [
+          5066549582774760,
+          2583865,
+          1788950914237793000
+        ],
+        "stat_stable": true
+      },
+      "source_bindings_verified": 15
+    }
+  ],
+  "database_reads": 0,
+  "limitations": [
+    "Raw historical-wrapper sizes and ingestion duration are original producer diagnostics, not independently regenerated.",
+    "Current snapshot refers to evidence embedded in each retained capture; this is not a new current producer query.",
+    "No growth-rate, time-to-failure, full archive storage inventory, per-wrapper maximum, or future capacity guarantee is inferred.",
+    "CAS storage deduplication cannot change active logical/row/ingestion ceilings; adoption requires a new bound adapter/cohort and bounded full replay/memory measurements."
+  ],
+  "network_requests": 0,
+  "project_or_runtime_writes": false,
+  "registered_source_evidence": [
+    {
+      "bytes": 15041,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_causal_forecast_inputs.py",
+      "read_completed_epoch": 1788950978.2217736,
+      "read_started_epoch": 1788950978.219779,
+      "sha256": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+      "stat_identity": [
+        12947848929855956,
+        15041,
+        1788706456202774700
+      ],
+      "stat_stable": true
+    },
+    {
+      "bytes": 9636,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_causal_forecast_inputs_gap_v2.py",
+      "read_completed_epoch": 1788950978.2227707,
+      "read_started_epoch": 1788950978.2217736,
+      "sha256": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd",
+      "stat_identity": [
+        191121509187851063,
+        9636,
+        1788797493022400700
+      ],
+      "stat_stable": true
+    },
+    {
+      "bytes": 37292,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_causal_forecast_inputs_joint_news_v2.py",
+      "read_completed_epoch": 1788950978.224766,
+      "read_started_epoch": 1788950978.2227707,
+      "sha256": "ade4fc5eb2aea195d7609964d7b8979ca433a28028e059c65adc1b1b404a277c",
+      "stat_identity": [
+        6473924466263609,
+        37292,
+        1788897557892945200
+      ],
+      "stat_stable": true
+    },
+    {
+      "bytes": 11489,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_causal_forecast_inputs_pair_v2.py",
+      "read_completed_epoch": 1788950978.2267606,
+      "read_started_epoch": 1788950978.224766,
+      "sha256": "8e58491a49fca967e6d8d2a797cc77f142053576c92a724a2e7336d855fb4899",
+      "stat_identity": [
+        12666373953806817,
+        11489,
+        1788815152805803300
+      ],
+      "stat_stable": true
+    },
+    {
+      "bytes": 32265,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_causal_forecast_ledger_joint_news_v2.py",
+      "read_completed_epoch": 1788950978.2287557,
+      "read_started_epoch": 1788950978.2267606,
+      "sha256": "17782392f8e3994ff83620109141770b1f1f8182d863444ed4aaa6067bf4ef72",
+      "stat_identity": [
+        2814749769025082,
+        32265,
+        1788897110286941400
+      ],
+      "stat_stable": true
+    },
+    {
+      "bytes": 6198,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_causal_prediction_baselines.py",
+      "read_completed_epoch": 1788950978.2307506,
+      "read_started_epoch": 1788950978.2287557,
+      "sha256": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+      "stat_identity": [
+        10696049116686980,
+        6198,
+        1788695065190248900
+      ],
+      "stat_stable": true
+    },
+    {
+      "bytes": 9947,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_exact_price_scoring.py",
+      "read_completed_epoch": 1788950978.232826,
+      "read_started_epoch": 1788950978.2307506,
+      "sha256": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521",
+      "stat_identity": [
+        109493765941892804,
+        9947,
+        1788721973622958300
+      ],
+      "stat_stable": true
+    },
+    {
+      "bytes": 38809,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_fixed_forecast_evaluation_joint_news_v1.py",
+      "read_completed_epoch": 1788950978.2338235,
+      "read_started_epoch": 1788950978.232826,
+      "sha256": "c1f9940d57c0d39c1815b22a9114752075042a09da3e196e84829e77b293131d",
+      "stat_identity": [
+        267401227876121484,
+        38809,
+        1788819142962596300
+      ],
+      "stat_stable": true
+    },
+    {
+      "bytes": 36993,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_joint_price_news_forecast_study_v3.py",
+      "read_completed_epoch": 1788950978.2358174,
+      "read_started_epoch": 1788950978.23482,
+      "sha256": "5dfc29c29fbb61daef4f9f9d5c50f8c029a4d9ed57438288839176e6b55a7f80",
+      "stat_identity": [
+        7599824372369835,
+        36993,
+        1788897067603698000
+      ],
+      "stat_stable": true
+    },
+    {
+      "bytes": 9587,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_joint_price_news_models_v1.py",
+      "read_completed_epoch": 1788950978.2378123,
+      "read_started_epoch": 1788950978.2358174,
+      "sha256": "eb153acb966dc04ad950a0bbfcc730e78a9a0da1d8a24e91d641f473f5cfbc23",
+      "stat_identity": [
+        43628621391821355,
+        9587,
+        1788818932163740800
+      ],
+      "stat_stable": true
+    },
+    {
+      "bytes": 829561,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_local_news_sentiment.py",
+      "read_completed_epoch": 1788950978.2418005,
+      "read_started_epoch": 1788950978.2378123,
+      "sha256": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4",
+      "stat_identity": [
+        12103423999715570,
+        829561,
+        1788818587491452100
+      ],
+      "stat_stable": true
+    },
+    {
+      "bytes": 22513,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_local_news_sentiment_repair_v1.py",
+      "read_completed_epoch": 1788950978.2437954,
+      "read_started_epoch": 1788950978.2418005,
+      "sha256": "c2fbad7c290ce1edaa977e99988ab563a2afc6571dc456271e45bde3ca7b2b6b",
+      "stat_identity": [
+        20266198325004967,
+        22513,
+        1788897802216499700
+      ],
+      "stat_stable": true
+    },
+    {
+      "bytes": 22224,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_news_causal_aggregation_guard_v1.py",
+      "read_completed_epoch": 1788950978.2457902,
+      "read_started_epoch": 1788950978.2437954,
+      "sha256": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9",
+      "stat_identity": [
+        171981210771175890,
+        22224,
+        1788818333389886900
+      ],
+      "stat_stable": true
+    },
+    {
+      "bytes": 7251,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_news_classification_contract.py",
+      "read_completed_epoch": 1788950978.2477846,
+      "read_started_epoch": 1788950978.2457902,
+      "sha256": "f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae",
+      "stat_identity": [
+        63613344737315683,
+        7251,
+        1788817352981788800
+      ],
+      "stat_stable": true
+    },
+    {
+      "bytes": 331,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_news_collector_contract.py",
+      "read_completed_epoch": 1788950978.2498543,
+      "read_started_epoch": 1788950978.2477846,
+      "sha256": "41c30599a953d0fd967bc68c5f178d46fc21dd2382ac9fdca78bc3c64ac9f68f",
+      "stat_identity": [
+        54606145482865436,
+        331,
+        1787855405039186200
+      ],
+      "stat_stable": true
+    },
+    {
+      "bytes": 86104,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_news_event_tagger.py",
+      "read_completed_epoch": 1788950978.2527714,
+      "read_started_epoch": 1788950978.2498543,
+      "sha256": "3657872fa84a6f081903307df7209350fed4f713d866735b9387ce375a5e4f3f",
+      "stat_identity": [
+        1688849861421343,
+        86104,
+        1786950855454947400
+      ],
+      "stat_stable": true
+    },
+    {
+      "bytes": 14139,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_news_topic_identity_reconciliation_v1.py",
+      "read_completed_epoch": 1788950978.2537682,
+      "read_started_epoch": 1788950978.2527714,
+      "sha256": "d34b0c72693497e9be6eadc86bd17f0a2c1c1b79ecf010928faf88a5033a7884",
+      "stat_identity": [
+        54887620460495681,
+        14139,
+        1788897280632543300
+      ],
+      "stat_stable": true
+    },
+    {
+      "bytes": 11902,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_pair_local_models_v2.py",
+      "read_completed_epoch": 1788950978.2557626,
+      "read_started_epoch": 1788950978.2537682,
+      "sha256": "294c63bf0ed873395c4850a8722a2622eaa2bc563ceb7ecf9886764c63d8bf24",
+      "stat_identity": [
+        85005442968295786,
+        11902,
+        1788814411355390900
+      ],
+      "stat_stable": true
+    },
+    {
+      "bytes": 114335,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_source_governance.py",
+      "read_completed_epoch": 1788950978.2577574,
+      "read_started_epoch": 1788950978.2557626,
+      "sha256": "c4b7793dcef1b9176079a959019f8b69059fbd6644fddf1e8718f924d3a13950",
+      "stat_identity": [
+        58828270132823934,
+        114335,
+        1788637343394654300
+      ],
+      "stat_stable": true
+    },
+    {
+      "bytes": 29466,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_source_governance_news_fast_lane.py",
+      "read_completed_epoch": 1788950978.259753,
+      "read_started_epoch": 1788950978.2577574,
+      "sha256": "bdd6a2542b3dbddbdf86f7148af4dcb38d0b8591b3f3fcdb843d9eed29898f03",
+      "stat_identity": [
+        2251799815497464,
+        29466,
+        1788637890797733900
+      ],
+      "stat_stable": true
+    }
+  ],
+  "registered_sources_unchanged": true,
+  "registry": {
+    "bytes": 350877,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\joint_price_news_study_v3_20260908.json",
+    "read_completed_epoch": 1788950978.2157903,
+    "read_started_epoch": 1788950978.2137945,
+    "sha256": "ee075e69e80ca56dfdf45abe1f7a1a301612176e67f7622eab1adf2bd9af8771",
+    "stat_identity": [
+      57983845204232873,
+      350877,
+      1788898002352823200
+    ],
+    "stat_stable": true
+  },
+  "schema_version": "retained_news_capacity_audit_v2_20260909",
+  "scope": "Three newest retained capture files selected once by filesystem modification time; exact payload/seal/row-size checks only, no new DB transaction or news-semantic replay.",
+  "source_helper_sha256": "553dc073f205619c1275b99814a0aa8146e7229a1380c9d7e345de7cf9d1972d",
+  "status": "passed_capacity_and_hash_audit"
+}

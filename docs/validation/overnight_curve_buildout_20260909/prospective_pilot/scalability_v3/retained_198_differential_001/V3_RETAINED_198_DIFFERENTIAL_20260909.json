@@ -1,0 +1,126 @@
+{
+  "account_eligible": false,
+  "actual_v3_completed_epoch": 1788942856.0208883,
+  "actual_v3_started_epoch": 1788942764.9429302,
+  "benchmark_source": {
+    "bytes": 7502,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\prospective_pilot\\scalability_v3\\benchmark_retained_198_v3.py",
+    "sha256": "6e6b9e08ba9f3158e182b03e600aa25221e187cfd2e34b96efb9713d1b5998ca"
+  },
+  "can_authorize": false,
+  "can_place_orders": false,
+  "can_promote": false,
+  "capture_bank": {
+    "accounted_bytes": 10652239,
+    "budget_overflow": "original_validation_path",
+    "counts": {
+      "admitted": 114,
+      "indexed_target_lookup": 75160,
+      "semantic_hash_hit": 3562,
+      "validation_hit": 4590
+    },
+    "dynamic_clock_checks_cached": false,
+    "maximum_bytes": 268435456,
+    "maximum_canonical_bytes": 67108864,
+    "maximum_entries": 2048,
+    "parsed_values_recursively_read_only": true,
+    "retained_canonical_bytes": 2579853,
+    "retained_entries": 114,
+    "size_scope": "Owned Python objects including proxy backing dictionaries plus per-entry overhead; not a hard process-memory cap.",
+    "source_election_unchanged": true,
+    "whole_scores_cached": false
+  },
+  "completed_epoch": 1788942857.8383987,
+  "curves": 198,
+  "cycle_count": 38,
+  "exact_checks": {
+    "assessment_except_explicit_v3_metadata": true,
+    "curves": true,
+    "manifest_except_separately_actual_read_times": true,
+    "matched_comparisons": true,
+    "source_captures": true,
+    "variant_attempts": true
+  },
+  "execution_eligible": false,
+  "file_count": 3140,
+  "limits": [
+    "Exactly the prior retained inventory and actual V1 clock trace, replayed solely for engineering equality. V3 real run and file-read clocks are separately retained.",
+    "Original V1/V2 results are byte-pinned and reused, not rerun. Timing ratios compare separate runs under potentially different concurrent load.",
+    "One matched inventory; not a guarantee for later larger inventories or total export time. Final report serialization is outside the measured evaluator wall time.",
+    "No live evaluation, GET, model fit, forecast issue, source edit or runtime write."
+  ],
+  "original_source_read_clock_calls": 1538,
+  "prior_v1_wall_sec": 263.60543879983015,
+  "prior_v2_to_current_v3_ratio": 1.1239483697411303,
+  "prior_v2_wall_sec": 102.36764499987476,
+  "proof_eligible": false,
+  "research_only": true,
+  "result_file": {
+    "bytes": 30337799,
+    "path": "V3_FIXED_INVENTORY_CLOCK_REPLAY_RESULT.json",
+    "sha256": "715378c7154ad289ed02d9c580db4ee521291ea4fbcbc9df3da7bc7fc3d93aa4"
+  },
+  "schema_version": "v3_retained_198_differential_v1_20260909",
+  "source": {
+    "bytes": 13288,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\prospective_pilot\\scalability_v3\\evaluate_prospective_pilot_v3.py",
+    "sha256": "c14278c39e5a180c2a89e5d47f1d0772e5c823c60e8aab56a87d6c38445cc17d"
+  },
+  "source_evidence": [
+    {
+      "bytes": 30334516,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ev2\\V1_FIXED_INVENTORY_RESULT.json",
+      "sha256": "f06357904a7d75b4fc780aa22be2a707e4129f9557d28a6199cc194d0f71fbb3"
+    },
+    {
+      "bytes": 30336927,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ev2\\V2_FIXED_INVENTORY_CLOCK_REPLAY_RESULT.json",
+      "sha256": "e51df83ec87618945caa3917e7351086f7e4523c0ac16843530ffcd0608e1df5"
+    },
+    {
+      "bytes": 1247255,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\prospective_pilot\\scalability_v2\\RETAINED_198_INVENTORY_20260909.json",
+      "sha256": "d6e3cbfab64bd5804a0957828b7293ab0ec262330c4686f61b25a9434daa20f6"
+    },
+    {
+      "bytes": 36714,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\prospective_pilot\\scalability_v2\\V1_ACTUAL_EVALUATION_CLOCK_TRACE_20260909.json",
+      "sha256": "b934ae2a7c0858515c5ac75675d36e3538fc40a124563afa785418d1e2cd635d"
+    },
+    {
+      "bytes": 4326,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ev2\\benchmark_registry_only.json",
+      "sha256": "3bd80b3e6a520c2b5a7942e32056deb9095e1e0bf7a2e5b3efe11d0e3aaf37da"
+    }
+  ],
+  "started_epoch": 1788942729.072094,
+  "status": "passed",
+  "test_source": {
+    "bytes": 8889,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\prospective_pilot\\scalability_v3\\test_evaluate_prospective_pilot_v3.py",
+    "sha256": "58cfb3ec734bd6b92e3e197fc208cf24e7e28c1930b8a3a19439c7cac23e3d24"
+  },
+  "v3_wall_sec": 91.07860090001486,
+  "validation_memo": {
+    "cached_errors": false,
+    "counts": {
+      "contract.validate_consumption:hit": 3800,
+      "contract.validate_consumption:miss": 198,
+      "contract.validate_curve:hit": 594,
+      "contract.validate_curve:miss": 204,
+      "contract.validate_policy:hit": 606,
+      "contract.validate_policy:miss": 1,
+      "contract.validate_prepared:miss": 204,
+      "outcomes._validate_entry:hit": 8480,
+      "outcomes._validate_entry:miss": 192
+    },
+    "maximum_bytes": 67108864,
+    "maximum_entries": 4096,
+    "peak_bytes": 23284821,
+    "persisted_cache": false,
+    "retained_bytes": 23284821,
+    "retained_entries": 799,
+    "whole_scores_cached": false
+  },
+  "withheld_curves": 6
+}

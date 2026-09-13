@@ -1,0 +1,539 @@
+{
+  "schema_version": "forex_pair_forecast_coverage_validation_v1_20260907",
+  "observed_utc": "2026-09-07T17:25:32.297811+00:00",
+  "status": "independent_pair_forecasts_publishing_accuracy_pending",
+  "registry_sha256": "e0aa74fa5d20b7be983050625773834ea68d74ffc15b566ab5e03df9b3380d65",
+  "registered_pairs": 68,
+  "published_pairs_at_live_check": 20,
+  "published_sets_at_live_check": 20,
+  "model_predictions_at_live_check": 40,
+  "live_check_epoch": 1788801540.2936625,
+  "new_outcomes_at_live_check": 0,
+  "tests": [
+    {
+      "tests": 140,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "evidence": "pair_models_inputs_tests.xml"
+    },
+    {
+      "tests": 490,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "evidence": "ledger_tests/pair_ledger_evaluation_final.xml"
+    },
+    {
+      "tests": 202,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "evidence": "dashboard_worker_tests.xml"
+    },
+    {
+      "tests": 13,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "evidence": "pair_reload_preflight_tests.xml"
+    }
+  ],
+  "test_cases_passed": 845,
+  "supervisor_gate": {
+    "status": "passed",
+    "allowed_worker_count": 14,
+    "pair_worker_fixed_command_and_heartbeat": true,
+    "pair_registry_gate_cases": 15,
+    "source_and_activation_validation_delegated_to_order_incapable_worker": true,
+    "blocked_worker_names_tested": 107,
+    "managed_name_count": 120,
+    "unknown_future_worker_blocked": true,
+    "existing_disallowed_workers_stopped_using_stubs": true,
+    "normal_quote_path_preserved": true,
+    "research_canonical_quote_path_verified": true,
+    "only_launch_site_inside_gate": true,
+    "process_starts": 0,
+    "process_stops": 0,
+    "runtime_writes": 0,
+    "supervisor_sha256": "44222699b72d21e697c90eb4214fbdca2eb0e0da49176f7bd43960e923848887",
+    "launcher_sha256": "c7e2a970b6e8bb69fcdaf5b124b8d935be6326f06a6554408889e111f57f3115"
+  },
+  "runtime_recovery_evidence": "docs/validation/pair_forecast_coverage_20260907/PAIR_RUNTIME_RECOVERY_20260907.json",
+  "dashboard_evidence": "docs/validation/pair_forecast_coverage_20260907/LIVE_PAIR_DASHBOARD_VALIDATION.json",
+  "preserved_studies": {
+    "causal_forecast_study_v1_io_r2_20260906.json": {
+      "contract_sha256": "bc99e68db720e0a43b3ec68a7820b3605013d0c2138515f23e648f5b34fadc2a",
+      "source_bindings_unchanged": true
+    },
+    "causal_forecast_study_gap_v2_20260907.json": {
+      "contract_sha256": "a721093ce7e3497aad69d460b07935d46a04b03530125e7f70eb44489fe45f40",
+      "source_bindings_unchanged": true
+    },
+    "causal_forecast_study_eurusd_v1_20260907.json": {
+      "contract_sha256": "515c81be37a8828da1fd89edcbee33083ac1f6cae1b2e13bdb5338961058afe0",
+      "source_bindings_unchanged": true
+    }
+  },
+  "prior_receipts_unchanged": {
+    "FOREX_SIGNALS_LIVE_OPTIMIZATION_VALIDATION_20260907.json": "3671297affd5addd4c2e4080c66d4d74382c24678a3430d7e4694814e5993792",
+    "FOREX_MARKET_OPEN_VALIDATION_20260906.json": "70fd1bb5769ccd53c15e1dd4d20d6d25ad0cbf0ae9e17b85239d461c0b43ed90",
+    "FOREX_ENTRY_IMPROVEMENTS_VALIDATION_20260906.json": "d2b733b0ade4c0c1a53aa8e544f34cbf578fe7dc44d76864bb3ad25d659922be"
+  },
+  "issue_register_validation": {
+    "valid": true,
+    "errors": [],
+    "issue_count": 104,
+    "status_counts": {
+      "blocked_external": 4,
+      "complete": 57,
+      "implemented_collecting": 30,
+      "open": 0,
+      "permanently_invalid": 11,
+      "superseded_collecting": 2
+    }
+  },
+  "account_trading_enabled": false,
+  "can_place_orders": false,
+  "prediction_improvement_demonstrated": false,
+  "historical_forecasts_imported": false,
+  "limitations": [
+    "Each remaining pair needs its own valid inputs and fresh quotes; coverage can change.",
+    "Raw model probabilities are uncalibrated estimates, not measured accuracy.",
+    "New original-H1 outcomes and sufficient prospective samples are required before evaluating predictive improvement.",
+    "Pair-local models do not complete cross-pair or news-predictor research.",
+    "No full database recovery, broad database integrity pass or cloud sync completion claimed."
+  ],
+  "source_bindings": [
+    {
+      "path": "FOREX_AUDIT_START_HERE.md",
+      "bytes": 15084,
+      "sha256": "e573b6d71150b37d06e1126e47b2af326b86d62b8abaded83d5c727aa40af0ce"
+    },
+    {
+      "path": "FOREX_PENDING_IMPROVEMENTS.md",
+      "bytes": 296135,
+      "sha256": "6ee566bef3ceafb513e39af3115d7628e49bedf36302afbf9382f4cb151aaa8b"
+    },
+    {
+      "path": "FOREX_PROJECT_LOG.md",
+      "bytes": 418149,
+      "sha256": "00f2531d5294ee8165887e65619ccc1358f032388b482dea2aa711d16cffa142"
+    },
+    {
+      "path": "README.md",
+      "bytes": 10304,
+      "sha256": "b46c726f632a96c31575ef1a60dd1ac4cd5e2fc9fa634de7521b3af75ba5081d"
+    },
+    {
+      "path": "config/causal_forecast_study_current.json",
+      "bytes": 166,
+      "sha256": "fbbcc673e93847769785e9437254f4d690ad3f6a76ae948966621d8a76ecf6fa"
+    },
+    {
+      "path": "config/pair_local_forecast_study_v1_20260907.json",
+      "bytes": 366648,
+      "sha256": "e0aa74fa5d20b7be983050625773834ea68d74ffc15b566ab5e03df9b3380d65"
+    },
+    {
+      "path": "docs/AUDIT_STATE_CURRENT.md",
+      "bytes": 15349,
+      "sha256": "5da34dd1a42dadea3214bcc7bcc1481e44e3a550d2246720a22d5baa77e8f9cf"
+    },
+    {
+      "path": "docs/FOREX_PAIR_FORECAST_COVERAGE_20260907.md",
+      "bytes": 8682,
+      "sha256": "89b6d19738912474ac203ec6f743b7502d07d2a6ecda2eec0b6b054e13190843"
+    },
+    {
+      "path": "docs/VAULT_RECREATION_CURRENT.md",
+      "bytes": 8840,
+      "sha256": "b83dfb049a4bf4b7131a7bf67ee68cba00bed40406f35d8e6656f0c5516b936a"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/COVERAGE_PREFLIGHT.json",
+      "bytes": 15539,
+      "sha256": "edcc3360f104149ad084a66b075751c3973c572f5bc08b72ffc4fd7e083194d7"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/DASHBOARD_FIXTURE_BROWSER_VALIDATION.json",
+      "bytes": 681,
+      "sha256": "b51c49c538d6ff745955ac948a912b6c559ca90a02c18d9a56e7a4a1bcea04a5"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/LIVE_PAIR_COMPUTE_PREFLIGHT.json",
+      "bytes": 328278,
+      "sha256": "22e104db481b0420f1e0fe552565e41b1e3ec2bb99b17f5378b822f5e0a8b35f"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/LIVE_PAIR_DASHBOARD_VALIDATION.json",
+      "bytes": 4079,
+      "sha256": "f7b0d1d544040c8757b8912561311caa11e0294d8c6ade93952e3acc2df64245"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/LIVE_PAIR_VERIFICATION_1788801540.json",
+      "bytes": 133519,
+      "sha256": "7edce22a31387094373a95993a4b632e720b632b6a01d166a17a62b99e958274"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/PAIR_GATE_RELOAD_20260907_131732_762.json",
+      "bytes": 699,
+      "sha256": "1b426c492d1975db36aeb89b12ca836631adafa8f0e4ccac5ab6dee644783d20"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/PAIR_MODELS_INPUTS_VALIDATION_20260907.json",
+      "bytes": 3023,
+      "sha256": "669ab0d332a8ab203c541a1fa1695374a3844bcca977a9a4a4316b3f1e033f4b"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/PAIR_REGISTRY_ACTIVATION_20260907.json",
+      "bytes": 38206,
+      "sha256": "54f4f17d65ed1e388f988b95d0bf535302049592232bb13d24cdd79f2af32c9c"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/PAIR_REGISTRY_PREPARATION_20260907.json",
+      "bytes": 1943,
+      "sha256": "1bf1adabfd650503b624913065826e6924ba6528685792717946063e033d9534"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/PAIR_RELOAD_PREFLIGHT_20260907_131732_762.json",
+      "bytes": 42430,
+      "sha256": "0c8d97f07338496c7fa84bc53578f1085ef0654a1659f24db262dfbeae5b551a"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/PAIR_RELOAD_RECOVERY_HEARTBEATS.json",
+      "bytes": 49295,
+      "sha256": "36f7420615c48eef3ca7f1fb8b76becdd32017252955e9312d15bcf8fdf4d908"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/PAIR_RELOAD_RECOVERY_PROCESS_SNAPSHOT.json",
+      "bytes": 6957,
+      "sha256": "11da0d3c392d86770566c5563abd5aad5c3a3c9b0628387c4d41a2dd5a4c72cc"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/PAIR_RUNTIME_OBSERVATION_20260907.json",
+      "bytes": 31393,
+      "sha256": "62b0efec85b7642b2b24267f0b67a749729683f528deec96ae9d86643a594ab6"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/PAIR_RUNTIME_RECOVERY_20260907.json",
+      "bytes": 5147,
+      "sha256": "82b3055849369de41e6ed4bff787ef4e7713c1b8f5e617126a37448d39c1ee99"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/PAIR_SUPERVISOR_GATE_REVIEW_20260907.json",
+      "bytes": 696,
+      "sha256": "50cbc8d900ff62a276d3f77aed191ce78d0264d8051f79bae2821b68f32335ae"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/PAIR_SUPERVISOR_INTEGRATION_20260907.json",
+      "bytes": 668,
+      "sha256": "557f76140bf85a771cfd8d53792712b36d0bf78b2fd6c3c5f7d600cf5675eae2"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/QUOTE_METADATA_SNAPSHOT.json",
+      "bytes": 9411,
+      "sha256": "21db4c439994b73ea50cb9bcf54489dc684513da6b8c172cc8bc351d943d009e"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/before_source/FOREX_AUDIT_START_HERE.md",
+      "bytes": 14043,
+      "sha256": "2b4a598bb33063c51d7ee74780974086c276a806ce979519b203fb1fec138f70"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/before_source/FOREX_AUDIT_STATE_CURRENT.json",
+      "bytes": 17050,
+      "sha256": "14eab76ec95219359dcf829f7508cf074fcfe642d68d6cd0a310c14f2c3adee8"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/before_source/FOREX_COMMONS_CURRENT.json",
+      "bytes": 2667,
+      "sha256": "f910ebdd6d8b29547e23a9180f7a20449a1f283f058df0d85d9a693ecbf2b7c4"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/before_source/FOREX_PENDING_IMPROVEMENTS.md",
+      "bytes": 294826,
+      "sha256": "e1ab865d37f11ad458047ce81a5e0e8950c68d59993766848018b52afe274f96"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/before_source/FOREX_PROJECT_LOG.md",
+      "bytes": 416694,
+      "sha256": "df1ea0ee1f79c1cd571ab1e2788e629a07127c455411be4c2b084cb6607788cc"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/before_source/README.md",
+      "bytes": 9279,
+      "sha256": "7f58b1221ece79f232220411a65e68a705b8e9b5e7c6ae7491026914a8659be5"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/before_source/docs/AUDIT_STATE_CURRENT.md",
+      "bytes": 14317,
+      "sha256": "e8b55a4da6c1a2f86810220f458509830504934b4acaa3cf93a3bc9b67b07ad5"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/before_source/docs/VAULT_RECREATION_CURRENT.md",
+      "bytes": 7593,
+      "sha256": "a1aa7436346ca23e26331ed0dbd618f16b4fdf18ffcea25615def7ecbe3ee5b5"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/before_source/forex_model_vault_sync.py",
+      "bytes": 106229,
+      "sha256": "0a1bb238404cf94dc4d28ab62414d2110abc967b57a19ced4508bb7bc5b541a5"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/before_source/oanda_always_on_supervisor.ps1",
+      "bytes": 201513,
+      "sha256": "805084f96da9cb25750eb0e6d8b465b127a036b29d771f7694dd0148a9d1ea36"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/before_source/oanda_main_signal_dashboard.html",
+      "bytes": 131968,
+      "sha256": "35e8d4fa960af11e5c8522ef410884656bb1e0f335c4a074e091881de63c34be"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/before_source/oanda_practice_live_dashboard.py",
+      "bytes": 430354,
+      "sha256": "f527985764c71f096d5167c305b2df9ceefc3fee2bc9102ed7b2864108691f5c"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/before_source/start_oanda_research_collection.ps1",
+      "bytes": 1934,
+      "sha256": "c7e2a970b6e8bb69fcdaf5b124b8d935be6326f06a6554408889e111f57f3115"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/before_source/test_oanda_collection_dashboard_status.py",
+      "bytes": 39175,
+      "sha256": "3d87a5c4fc98cae67714095d822e7616b949917c9a6f261ba7847c2a2714036f"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/dashboard_tests.xml",
+      "bytes": 26243,
+      "sha256": "18e070bf111b600e5cccb6b596d42ee841898807075e2ba68d9de0d9745e1f27"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/dashboard_worker_tests.xml",
+      "bytes": 40048,
+      "sha256": "15847864e205b31bbfedbe90fd52500a841d414c5e8900196ccb6e744a387b0b"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/finalize_record.py",
+      "bytes": 8578,
+      "sha256": "0c9da0c553c6c939b94b61d4c501f8fdd4a10f0a9f256ecc77077115dcf25f11"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/ledger_tests/PAIR_LEDGER_EVALUATION_VALIDATION_20260907.json",
+      "bytes": 4692,
+      "sha256": "260f3182b17b1948a9248a9424f061a7cfcc10fb6f3d87e7d9c476cb9effa829"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/ledger_tests/pair_ledger_evaluation_final.xml",
+      "bytes": 77274,
+      "sha256": "5bff13eb81b8b2153ff08ecb87076fcce3f5e61b1946c09d313c08d7dddee6e1"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/live-pair-dashboard-1440.png",
+      "bytes": 46758,
+      "sha256": "2c4240bb414a14a9e489137d25c2a47f5674ee466ebf775f6180a7b2f6387320"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/live-pair-dashboard-360.png",
+      "bytes": 32445,
+      "sha256": "155dbcf59f09b2e33f9cb5397a0c39b180437d4858ff2c5711a4314dccbd3bb7"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/observe.ps1",
+      "bytes": 4371,
+      "sha256": "127bec26f5a6f042ff74ccc39a3adf9a76714fd2fe8d836642a59210193c23c2"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/pair-dashboard-fixture-1440.png",
+      "bytes": 51868,
+      "sha256": "1f78878d21bcd43297268df3331adb90463901755a9f737e9b3ab8e2558d7035"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/pair-dashboard-fixture-360.png",
+      "bytes": 36037,
+      "sha256": "c7d2365e005c6d15bcb8da073b75e0567cbcf73a6951ebaf940ae809e0ec419b"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/pair-dashboard-fixture-736.png",
+      "bytes": 38674,
+      "sha256": "5f556c5ac651354d6e7d1ce92b146de351590f697bf5181121a1e148fb953277"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/pair_models_inputs_tests.xml",
+      "bytes": 21753,
+      "sha256": "72397ccb0a9e36ada7bff65d1048c523383b07539b74195f96036235cbaa0c7c"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/pair_reload_preflight_tests.xml",
+      "bytes": 2199,
+      "sha256": "f317a74d5051c226eaa4e70f67e4bca105fb06eaa6ebb6e20c435fa30313402c"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/preflight.py",
+      "bytes": 1930,
+      "sha256": "15f4352c1f494d061682d2366c8108e3f24b19f0727fea79dd7ef8f157edd709"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/prepare_pair_registry.py",
+      "bytes": 14085,
+      "sha256": "3bb64d8a04a98ee88aa51364ac7263e210cb85b955ef8f0976be9bd2c9f29436"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/publish_vault.py",
+      "bytes": 7061,
+      "sha256": "b4ba7a745b0e8c8ee2bb731002362f5c6065b64095338fd14ecf7ae84d485268"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/reload_pair_collection.ps1",
+      "bytes": 5040,
+      "sha256": "a2365ac2105e578f08da2707724b7073b0e34e2a2c08c6f47f319aed74f65eed"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/review_pair_gate.ps1",
+      "bytes": 11463,
+      "sha256": "503219d91ed2443617a786e65235aec4580c6f986c35740a32a57534ea1bddd7"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/run_live_pair_compute_preflight.py",
+      "bytes": 4195,
+      "sha256": "67e2a81bb054c2e9757f52e84a37b4db3e732889f305ba36c475f4fb14edf210"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/test_verify_pair_reload.py",
+      "bytes": 3730,
+      "sha256": "536aefd711114e705394911a3a07076a0e1fbfb4d2771dcdac9e004513a5f11a"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/verify_dashboard_fixture.cjs",
+      "bytes": 5207,
+      "sha256": "00dcd5f01acc023bc510f738344bc001cee3ba5073b64e9b03df24f5f0dfc8d2"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/verify_live_pair_dashboard.cjs",
+      "bytes": 5222,
+      "sha256": "595e62981e22f8f87eb5641fb9041e3bdc34c5345a6ff02e9f21306ee25347cd"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/verify_live_pairs.py",
+      "bytes": 5957,
+      "sha256": "ad3f1e595a842920f5d70a39ac0e62547dadc4e7a077fea99feb5d35df6b3bc6"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/verify_pair_reload.py",
+      "bytes": 5044,
+      "sha256": "1c4b6f8d2cdc34800b4ea1996c3311005cedc172b4e82bf8d53f6257051e2dcc"
+    },
+    {
+      "path": "docs/validation/pair_forecast_coverage_20260907/worker_tests.xml",
+      "bytes": 13463,
+      "sha256": "e319d1d266e6f2d7332f8107cc2e94627e93c7de7e5e3417d1942ab0dae99374"
+    },
+    {
+      "path": "forex_model_vault_sync.py",
+      "bytes": 106456,
+      "sha256": "b206a86da2d66ff51304f9eac9393aea2a70f81ef645904b2655b7f6bbcf281c"
+    },
+    {
+      "path": "oanda_always_on_supervisor.ps1",
+      "bytes": 203642,
+      "sha256": "44222699b72d21e697c90eb4214fbdca2eb0e0da49176f7bd43960e923848887"
+    },
+    {
+      "path": "oanda_causal_forecast_inputs.py",
+      "bytes": 15041,
+      "sha256": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281"
+    },
+    {
+      "path": "oanda_causal_forecast_inputs_gap_v2.py",
+      "bytes": 9636,
+      "sha256": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd"
+    },
+    {
+      "path": "oanda_causal_forecast_inputs_pair_v1.py",
+      "bytes": 13584,
+      "sha256": "d4a8356b9df29b7f45cbebc4c9b93e9b5c843c2f1c56c93c088f22e9db856807"
+    },
+    {
+      "path": "oanda_causal_forecast_ledger_pair_v1.py",
+      "bytes": 23666,
+      "sha256": "acf83ef8a15c85465d493f9e614ca7153b28a9e4b4f4e5db7de9aed60c7e6cbb"
+    },
+    {
+      "path": "oanda_causal_prediction_baselines.py",
+      "bytes": 6198,
+      "sha256": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d"
+    },
+    {
+      "path": "oanda_exact_price_scoring.py",
+      "bytes": 9947,
+      "sha256": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521"
+    },
+    {
+      "path": "oanda_fixed_forecast_evaluation_pair_v1.py",
+      "bytes": 30236,
+      "sha256": "aa3479f9ff94c3c74e159e40e008a2553ec8869d196a0ef53651fc521ac450bc"
+    },
+    {
+      "path": "oanda_main_signal_dashboard.html",
+      "bytes": 136192,
+      "sha256": "905fe0be57a7d8c55197581108b6811789d71bc795c2787361aaab1e014f0694"
+    },
+    {
+      "path": "oanda_pair_local_forecast_study_v1.py",
+      "bytes": 23057,
+      "sha256": "9efb8c7b3ac5456adcf436ef0940b256336f8ea774c5befa7f2f23ce01fd7346"
+    },
+    {
+      "path": "oanda_pair_local_models_v1.py",
+      "bytes": 8902,
+      "sha256": "ecd259fd66d74930ee23c715d29a5dba788d56ab2f7198cd1f521b912637ff26"
+    },
+    {
+      "path": "oanda_practice_live_dashboard.py",
+      "bytes": 445035,
+      "sha256": "8eb201d358dc92d16a60c3c3b038ef935ae3b22e4103aaca8ef0e2eaad30abe0"
+    },
+    {
+      "path": "start_oanda_research_collection.ps1",
+      "bytes": 1934,
+      "sha256": "c7e2a970b6e8bb69fcdaf5b124b8d935be6326f06a6554408889e111f57f3115"
+    },
+    {
+      "path": "test_oanda_causal_forecast_inputs_pair_v1.py",
+      "bytes": 17808,
+      "sha256": "9dd549983c8949734aef1afea4460f37465b4ccfc9f77de084368cea266394d7"
+    },
+    {
+      "path": "test_oanda_causal_forecast_ledger_pair_v1.py",
+      "bytes": 41235,
+      "sha256": "b9b9561234c65220937ccb9d668f84b1a18bfffb547bcba7215e97b3d0b1fbdb"
+    },
+    {
+      "path": "test_oanda_collection_dashboard_status.py",
+      "bytes": 39175,
+      "sha256": "3d87a5c4fc98cae67714095d822e7616b949917c9a6f261ba7847c2a2714036f"
+    },
+    {
+      "path": "test_oanda_fixed_forecast_evaluation_pair_v1.py",
+      "bytes": 4647,
+      "sha256": "13598898fd93b971be4c1d9f5251fc7fc27d779d5fb0c6131277e1147858c91c"
+    },
+    {
+      "path": "test_oanda_pair_forecast_dashboard.py",
+      "bytes": 12703,
+      "sha256": "2e4f27506b868040772c5c4921350cd01ecbcf7bc9fc2f192262e289d4c47498"
+    },
+    {
+      "path": "test_oanda_pair_local_forecast_worker_v1.py",
+      "bytes": 19035,
+      "sha256": "2c34ecba8aaf607706587645c35caf9b7f2e23f750d77fd6a80baf20069815d2"
+    },
+    {
+      "path": "test_oanda_pair_local_models_v1.py",
+      "bytes": 13329,
+      "sha256": "ab092a5ce8f1904a17c239a70c61a293a6e5f4ae8f6d4f92600753ca7986b295"
+    }
+  ]
+}

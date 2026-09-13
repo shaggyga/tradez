@@ -1,0 +1,115 @@
+{
+  "GET_requests": false,
+  "accepted_source": [
+    {
+      "bytes": 25249,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\operations_v2\\accepted_source\\capture_operations_v2.py",
+      "sha256": "2e378d5a83d6b8f68446c2fb762ca959b95b48430de1b59d01c651b81e3ba128"
+    },
+    {
+      "bytes": 13787,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\operations_v2\\accepted_source\\test_capture_operations_v2.py",
+      "sha256": "2297b5c5a65094d15c0a88c072d19ef2481b87250169b44c2f82170fdf8974bf"
+    }
+  ],
+  "account_or_NAV_reads": false,
+  "actual_observation": {
+    "bytes": 800784,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\operations_v2\\actual_observation_003.json",
+    "sha256": "751581203a3bd376699c5c49aaff34995e17d5e3e0922083882552e337769302"
+  },
+  "bindings": {
+    "OPERATIONS_ACTUAL_ATTEMPT_001_FAILED_20260909.json": {
+      "bytes": 331,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\operations_v2\\OPERATIONS_ACTUAL_ATTEMPT_001_FAILED_20260909.json",
+      "sha256": "95a16d2392d3eff207b1b52e370e58aafad9ec41ecd1d87dd9af8c11acedee55"
+    },
+    "OPERATIONS_ACTUAL_ATTEMPT_002_FAILED_20260909.json": {
+      "bytes": 496,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\operations_v2\\OPERATIONS_ACTUAL_ATTEMPT_002_FAILED_20260909.json",
+      "sha256": "a5bd0de8319d673733130e81a5a61a299727ef04949aece2bd94adeddc2057e3"
+    },
+    "capture_operations_v2.py": {
+      "bytes": 25249,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\operations_v2\\capture_operations_v2.py",
+      "sha256": "2e378d5a83d6b8f68446c2fb762ca959b95b48430de1b59d01c651b81e3ba128"
+    },
+    "operations_v2_inventory_final_tests.xml": {
+      "bytes": 4504,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\operations_v2\\operations_v2_inventory_final_tests.xml",
+      "sha256": "4dce378be90dd495e675ac5b68e521c7f2f888f3046be24a462fe8b1db4e2da9"
+    },
+    "test_capture_operations_v2.py": {
+      "bytes": 13787,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\operations_v2\\test_capture_operations_v2.py",
+      "sha256": "2297b5c5a65094d15c0a88c072d19ef2481b87250169b44c2f82170fdf8974bf"
+    }
+  },
+  "created_utc": "2026-09-09T09:00:05.708176+00:00",
+  "independent_review": {
+    "findings_closed": [
+      "Nested registered path rejected by initial flat-path regex.",
+      "Initial quote membership field did not exist in producer schema.",
+      "Paper declares account_access rather than account_eligible; schema-specific false fields now required without inventing missing values.",
+      "4,096 unrelated log files exhausted the initial global cap; measured13,439 total/190 supervisor files supports32,768 metadata and1,024 supervisor-candidate limits. Bound failure now leaves only that section unavailable."
+    ],
+    "reviewer": "parent agent",
+    "scope": "Parent read-only review of contained registered paths, exact frozen quote coverage contract, supervisor shape, schema-specific paper authority and bounded metadata inventory; authorized actual read-only runs.",
+    "source": "Retained task messages; no independent review file fabricated."
+  },
+  "limitations": [
+    "OS PID presence corroborates supervisor-reported process identities; no HTTP/API health claim or model performance assessment.",
+    "Paper markers and risk/pilot stage counts are producer evidence, not full outcome verification.",
+    "Archive tail measures retained CSV record clocks without a provider-completeness claim.",
+    "Latest news gzip is a byte-capacity measurement only; its semantic seal is not replayed and no raw text is exported.",
+    "Current news producer unavailability remains explicit even though original forecasts remain unelapsed and verified."
+  ],
+  "observed_summary": {
+    "all_frozen_sources_match": true,
+    "current_tradeable_quotes": 68,
+    "finished_epoch": 1788944275.6089482,
+    "independent_joint_current_pairs": 66,
+    "independent_joint_ledgers_verified": 68,
+    "main17_os_present_count": 17,
+    "news_decoded_bytes": 14178615,
+    "news_decoded_cap_bytes": 16777216,
+    "pilot_completed_cycles": 205,
+    "pilot_stage_counts": {
+      "attempts": 1215,
+      "curves_consumed": 1154,
+      "curves_issued": 1154,
+      "curves_published": 1154,
+      "skipped_prior_schedule_slots": 0
+    },
+    "repaired_news_last_error": "ValueError:news_clock_invalid",
+    "repaired_news_status": "unavailable",
+    "risk_planned_status_counts": {
+      "producer_reported_issued_published_consumed": 25,
+      "producer_reported_withheld_or_partial": 2,
+      "scheduled_not_started": 99
+    },
+    "risk_stage_counts": {
+      "complete_chain_count": 25,
+      "consumption_count": 25,
+      "publication_count": 25,
+      "retained_issue_count": 25
+    },
+    "started_epoch": 1788944268.8912654
+  },
+  "preserved_failed_actual_attempts": 2,
+  "runtime_writes": false,
+  "schema_version": "operations_v2_acceptance_v1_20260909",
+  "scope": "Operational collection and accepted read-only publication observer only, not predictive scoring. Original producer diagnostics are separate from committed-ledger acceptance.",
+  "source_changes_to_frozen_files": false,
+  "status": "passed_operational_observation_with_explicit_component_status",
+  "tests": {
+    "errors": "0",
+    "failures": "0",
+    "hostname": "DESKTOP-Q2EDIEU",
+    "name": "pytest",
+    "skipped": "0",
+    "tests": "29",
+    "time": "3.839",
+    "timestamp": "2026-09-09T04:57:35.128354-04:00"
+  }
+}

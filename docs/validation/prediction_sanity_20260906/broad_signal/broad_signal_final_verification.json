@@ -1,0 +1,1236 @@
+{
+  "generated_utc": "2026-09-06T15:49:23.612009+00:00",
+  "scope": "Final offline arithmetic and timing sanity check of the exact frozen 8,414-row v5 matured, maturity_valid=1 extraction; no executable edge claim.",
+  "supersedes": {
+    "filename": "broad_signal_raw_verification.json",
+    "sha256": "fc07c63b14e4544b2945b36e016049b55443f2ebabf3b650685669ddfd598e30",
+    "reason": "The preliminary suffix-based pip assumption was invalid for 247 rows across four instruments. Its recomputed mixed-pip means, spread-drag means and arithmetic-mismatch claims are invalid. This report supersedes the entire preliminary analysis; original extraction, row counts, prices, clocks, bps, hashes and duplicate counts were valid and are retained."
+  },
+  "raw_extraction": {
+    "database": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\top_signal_position_ledger_v1.sqlite",
+    "query": "SELECT id,cohort_key,signal_id,observed_at,opened_epoch,opened_at,target_epoch,target_at,closed_epoch,closed_at,instrument,direction,side,horizon_sec,horizon_label,family,lane_id,input_timeframe,policy_state,signal_eligible,validated,direction_conflict,blocked_by_json,confidence,projected_net_pips,projected_net_pips_per_hour,gross_to_spread,entry_bid,entry_ask,entry_mid,entry_spread_pips,exit_bid,exit_ask,exit_mid,gross_pips,net_pips,win,best_net_pips,worst_net_pips,time_to_positive_sec,status,measurement_version,direction_source,outcome_quote_epoch,outcome_quote_at,target_quote_distance_sec,maturity_valid,maturity_reason,source_signal_id,signal_lineage_contract_id,direction_conflict_contract_id FROM positions WHERE status='matured' AND measurement_version=? AND maturity_valid=1 LIMIT 20001",
+    "parameters": [
+      "raw_all_signal_consensus_v5_strict_horizon_lineage"
+    ],
+    "query_plan": [
+      [
+        4,
+        0,
+        59,
+        "SEARCH positions USING INDEX position_factor_episode_order (status=? AND measurement_version=? AND maturity_valid=?)"
+      ]
+    ],
+    "query_seconds": 0.3279999999795109,
+    "query_row_limit": 20001,
+    "database_and_wal_before": {
+      "top_signal_position_ledger_v1.sqlite": {
+        "bytes": 200957952,
+        "mtime_ns": 1788554613713280900,
+        "sha256": "316ca6370cc42cfd34e9f9b12dcc6a0070f863ab4b5452029d0524804d5187d6"
+      },
+      "top_signal_position_ledger_v1.sqlite-wal": {
+        "bytes": 7976352,
+        "mtime_ns": 1788573987895897600,
+        "sha256": "93a680aa2013bd9f4fe22d4d0d3917b3f634893125411233acf1a08472646c23"
+      }
+    },
+    "database_and_wal_after": {
+      "top_signal_position_ledger_v1.sqlite": {
+        "bytes": 200957952,
+        "mtime_ns": 1788554613713280900,
+        "sha256": "316ca6370cc42cfd34e9f9b12dcc6a0070f863ab4b5452029d0524804d5187d6"
+      },
+      "top_signal_position_ledger_v1.sqlite-wal": {
+        "bytes": 7976352,
+        "mtime_ns": 1788573987895897600,
+        "sha256": "93a680aa2013bd9f4fe22d4d0d3917b3f634893125411233acf1a08472646c23"
+      }
+    },
+    "unchanged": true,
+    "shm_caveat": "Read-only SQLite may use SHM read marks; no byte-identity assertion for SHM. No production SQL writes executed.",
+    "ledger_revision": [
+      {
+        "singleton": 1,
+        "position_revision": 39593,
+        "metadata_revision": 27068,
+        "mature_revision": 12483
+      }
+    ],
+    "version_status_counts": {
+      "open": [
+        {
+          "maturity_valid": null,
+          "n": 15
+        }
+      ],
+      "matured": [
+        {
+          "maturity_valid": 1,
+          "n": 8414
+        }
+      ],
+      "quarantined_maturity": [
+        {
+          "maturity_valid": 0,
+          "n": 686
+        }
+      ]
+    },
+    "selected_rows_sha256": "3a1f0dec20cc30b140afe5dd102b7ea96051b3a3ad5cb0d0d9ca7c2cc91ee851"
+  },
+  "raw_stored_float_metrics": {
+    "rows": 8414,
+    "up": 4024,
+    "down": 4112,
+    "flat": 278,
+    "direction_hits": 4156,
+    "direction_accuracy": 0.4939386736391728,
+    "direction_accuracy_pct": 49.39386736391728,
+    "nonflat_rows": 8136,
+    "nonflat_direction_accuracy": 0.5108161258603736,
+    "nonflat_direction_accuracy_pct": 51.081612586037366,
+    "net_positive_rows": 716,
+    "net_positive_rate": 0.08509626812455431,
+    "net_positive_pct": 8.509626812455432,
+    "fair_random_sign_flats_count_as_misses_expected_accuracy": 0.4834799144283337,
+    "fair_random_sign_flats_count_as_misses_expected_accuracy_pct": 48.347991442833376,
+    "same_row_always_buy_accuracy": 0.4782505348229142,
+    "same_row_always_sell_accuracy": 0.4887092940337533,
+    "same_row_hindsight_majority_accuracy": 0.4887092940337533,
+    "hits_that_do_not_clear_spread": 3440,
+    "fraction_of_direction_hits_not_clearing_spread": 0.8277189605389798
+  },
+  "raw_count_match_saved_report": true,
+  "decimal_retained_price_sensitivity": {
+    "rows": 8414,
+    "up": 4014,
+    "down": 4104,
+    "flat": 296,
+    "direction_hits": 4148,
+    "direction_accuracy": 0.49298787734727834,
+    "direction_accuracy_pct": 49.29878773472783,
+    "nonflat_rows": 8118,
+    "nonflat_direction_accuracy": 0.5109632914510963,
+    "nonflat_direction_accuracy_pct": 51.096329145109635,
+    "net_positive_rows": 716,
+    "net_positive_rate": 0.08509626812455431,
+    "net_positive_pct": 8.509626812455432,
+    "fair_random_sign_flats_count_as_misses_expected_accuracy": 0.48241026859995245,
+    "fair_random_sign_flats_count_as_misses_expected_accuracy_pct": 48.241026859995245,
+    "same_row_always_buy_accuracy": 0.4770620394580461,
+    "same_row_always_sell_accuracy": 0.4877584977418588,
+    "same_row_hindsight_majority_accuracy": 0.4877584977418588,
+    "hits_that_do_not_clear_spread": 3432,
+    "fraction_of_direction_hits_not_clearing_spread": 0.8273866923818708,
+    "method": "Decimal(str(stored bid/ask)) midpoint comparison. These are exact decimal forms of retained float prices, not unavailable original vendor strings. Flat outcomes count as misses.",
+    "changes_to_production": false,
+    "percentage_point_direction_change": -0.09507962918944617,
+    "nonzero_float_to_decimal_flat_count": 18,
+    "spurious_positive_hit_ids": [
+      63704,
+      66783,
+      67912,
+      68562,
+      68770,
+      68787,
+      69841,
+      70053
+    ],
+    "all_nonzero_float_to_flat_transitions": [
+      {
+        "id": 63144,
+        "instrument": "USD_JPY",
+        "direction": "sell",
+        "entry_bid": 160.206,
+        "entry_ask": 160.22,
+        "exit_bid": 160.205,
+        "exit_ask": 160.221,
+        "gross_pips": -2.8421709430404007e-12,
+        "net_pips": -1.500000000001478,
+        "float_midpoint_move": 2.842170943040401e-14,
+        "decimal_midpoint_move": "0.000",
+        "spurious_hit": false
+      },
+      {
+        "id": 63360,
+        "instrument": "GBP_NZD",
+        "direction": "buy",
+        "entry_bid": 2.29258,
+        "entry_ask": 2.29387,
+        "exit_bid": 2.29254,
+        "exit_ask": 2.29391,
+        "gross_pips": -4.440892098500626e-12,
+        "net_pips": -13.300000000002754,
+        "float_midpoint_move": -4.440892098500626e-16,
+        "decimal_midpoint_move": "0.00000",
+        "spurious_hit": false
+      },
+      {
+        "id": 63702,
+        "instrument": "GBP_USD",
+        "direction": "buy",
+        "entry_bid": 1.35053,
+        "entry_ask": 1.35071,
+        "exit_bid": 1.35052,
+        "exit_ask": 1.35072,
+        "gross_pips": -2.220446049250313e-12,
+        "net_pips": -1.900000000001345,
+        "float_midpoint_move": -2.220446049250313e-16,
+        "decimal_midpoint_move": "0.00000",
+        "spurious_hit": false
+      },
+      {
+        "id": 63704,
+        "instrument": "GBP_USD",
+        "direction": "buy",
+        "entry_bid": 1.35055,
+        "entry_ask": 1.35073,
+        "exit_bid": 1.35054,
+        "exit_ask": 1.35074,
+        "gross_pips": 2.220446049250313e-12,
+        "net_pips": -1.8999999999991246,
+        "float_midpoint_move": 2.220446049250313e-16,
+        "decimal_midpoint_move": "0.00000",
+        "spurious_hit": true
+      },
+      {
+        "id": 64174,
+        "instrument": "AUD_USD",
+        "direction": "sell",
+        "entry_bid": 0.71383,
+        "entry_ask": 0.71395,
+        "exit_bid": 0.71382,
+        "exit_ask": 0.71396,
+        "gross_pips": -1.1102230246251565e-12,
+        "net_pips": -1.300000000000745,
+        "float_midpoint_move": 1.1102230246251565e-16,
+        "decimal_midpoint_move": "0.00000",
+        "spurious_hit": false
+      },
+      {
+        "id": 64218,
+        "instrument": "AUD_USD",
+        "direction": "sell",
+        "entry_bid": 0.71412,
+        "entry_ask": 0.71426,
+        "exit_bid": 0.71413,
+        "exit_ask": 0.71425,
+        "gross_pips": -1.1102230246251565e-12,
+        "net_pips": -1.300000000000745,
+        "float_midpoint_move": 1.1102230246251565e-16,
+        "decimal_midpoint_move": "0.00000",
+        "spurious_hit": false
+      },
+      {
+        "id": 64578,
+        "instrument": "USD_CAD",
+        "direction": "sell",
+        "entry_bid": 1.39343,
+        "entry_ask": 1.3936,
+        "exit_bid": 1.39342,
+        "exit_ask": 1.39361,
+        "gross_pips": -2.220446049250313e-12,
+        "net_pips": -1.80000000000069,
+        "float_midpoint_move": 2.220446049250313e-16,
+        "decimal_midpoint_move": "0.00000",
+        "spurious_hit": false
+      },
+      {
+        "id": 66345,
+        "instrument": "EUR_DKK",
+        "direction": "buy",
+        "entry_bid": 7.47456,
+        "entry_ask": 7.47583,
+        "exit_bid": 7.47457,
+        "exit_ask": 7.47582,
+        "gross_pips": -8.881784197001252e-12,
+        "net_pips": -12.60000000000261,
+        "float_midpoint_move": -8.881784197001252e-16,
+        "decimal_midpoint_move": "0.00000",
+        "spurious_hit": false
+      },
+      {
+        "id": 66783,
+        "instrument": "EUR_USD",
+        "direction": "buy",
+        "entry_bid": 1.15888,
+        "entry_ask": 1.15903,
+        "exit_bid": 1.15887,
+        "exit_ask": 1.15904,
+        "gross_pips": 2.220446049250313e-12,
+        "net_pips": -1.5999999999993797,
+        "float_midpoint_move": 2.220446049250313e-16,
+        "decimal_midpoint_move": "0.00000",
+        "spurious_hit": true
+      },
+      {
+        "id": 67912,
+        "instrument": "USD_CAD",
+        "direction": "buy",
+        "entry_bid": 1.38025,
+        "entry_ask": 1.38044,
+        "exit_bid": 1.38026,
+        "exit_ask": 1.38043,
+        "gross_pips": 2.220446049250313e-12,
+        "net_pips": -1.7999999999984695,
+        "float_midpoint_move": 2.220446049250313e-16,
+        "decimal_midpoint_move": "0.00000",
+        "spurious_hit": true
+      },
+      {
+        "id": 68562,
+        "instrument": "SGD_CHF",
+        "direction": "sell",
+        "entry_bid": 0.63617,
+        "entry_ask": 0.63631,
+        "exit_bid": 0.63616,
+        "exit_ask": 0.63632,
+        "gross_pips": 1.1102230246251565e-12,
+        "net_pips": -1.4999999999998348,
+        "float_midpoint_move": -1.1102230246251565e-16,
+        "decimal_midpoint_move": "0.00000",
+        "spurious_hit": true
+      },
+      {
+        "id": 68770,
+        "instrument": "GBP_USD",
+        "direction": "buy",
+        "entry_bid": 1.35377,
+        "entry_ask": 1.35392,
+        "exit_bid": 1.35376,
+        "exit_ask": 1.35393,
+        "gross_pips": 2.220446049250313e-12,
+        "net_pips": -1.5999999999993797,
+        "float_midpoint_move": 2.220446049250313e-16,
+        "decimal_midpoint_move": "0.00000",
+        "spurious_hit": true
+      },
+      {
+        "id": 68787,
+        "instrument": "EUR_GBP",
+        "direction": "buy",
+        "entry_bid": 0.85922,
+        "entry_ask": 0.85935,
+        "exit_bid": 0.85923,
+        "exit_ask": 0.85934,
+        "gross_pips": 1.1102230246251565e-12,
+        "net_pips": -1.1999999999989797,
+        "float_midpoint_move": 1.1102230246251565e-16,
+        "decimal_midpoint_move": "0.00000",
+        "spurious_hit": true
+      },
+      {
+        "id": 69532,
+        "instrument": "EUR_GBP",
+        "direction": "buy",
+        "entry_bid": 0.85923,
+        "entry_ask": 0.85936,
+        "exit_bid": 0.85922,
+        "exit_ask": 0.85937,
+        "gross_pips": -1.1102230246251565e-12,
+        "net_pips": -1.40000000000029,
+        "float_midpoint_move": -1.1102230246251565e-16,
+        "decimal_midpoint_move": "0.00000",
+        "spurious_hit": false
+      },
+      {
+        "id": 69565,
+        "instrument": "EUR_DKK",
+        "direction": "buy",
+        "entry_bid": 7.47367,
+        "entry_ask": 7.47494,
+        "exit_bid": 7.47366,
+        "exit_ask": 7.47495,
+        "gross_pips": -8.881784197001252e-12,
+        "net_pips": -12.80000000000392,
+        "float_midpoint_move": -8.881784197001252e-16,
+        "decimal_midpoint_move": "0.00000",
+        "spurious_hit": false
+      },
+      {
+        "id": 69841,
+        "instrument": "GBP_CHF",
+        "direction": "sell",
+        "entry_bid": 1.09312,
+        "entry_ask": 1.09355,
+        "exit_bid": 1.0931,
+        "exit_ask": 1.09357,
+        "gross_pips": 2.220446049250313e-12,
+        "net_pips": -4.499999999998394,
+        "float_midpoint_move": -2.220446049250313e-16,
+        "decimal_midpoint_move": "0.00000",
+        "spurious_hit": true
+      },
+      {
+        "id": 70053,
+        "instrument": "USD_HKD",
+        "direction": "buy",
+        "entry_bid": 7.84023,
+        "entry_ask": 7.84057,
+        "exit_bid": 7.84025,
+        "exit_ask": 7.84055,
+        "gross_pips": 8.881784197001252e-12,
+        "net_pips": -3.1999999999943185,
+        "float_midpoint_move": 8.881784197001252e-16,
+        "decimal_midpoint_move": "0.00000",
+        "spurious_hit": true
+      },
+      {
+        "id": 70124,
+        "instrument": "EUR_GBP",
+        "direction": "buy",
+        "entry_bid": 0.85862,
+        "entry_ask": 0.85875,
+        "exit_bid": 0.85861,
+        "exit_ask": 0.85876,
+        "gross_pips": -1.1102230246251565e-12,
+        "net_pips": -1.40000000000029,
+        "float_midpoint_move": -1.1102230246251565e-16,
+        "decimal_midpoint_move": "0.00000",
+        "spurious_hit": false
+      }
+    ],
+    "negative_nonzero_float_to_flat_count": 10
+  },
+  "internal_arithmetic_check": {
+    "mismatch_count": 0,
+    "tolerance_pips": 1e-07,
+    "pip_method": "(entry_ask-entry_bid)/stored_entry_spread_pips; positive, constant per instrument within 1e-12; no stored pip_size or original broker metadata exists to independently validate that convention.",
+    "pip_map": {
+      "AUD_CAD": {
+        "rows": 125,
+        "inferred_pip": 0.0001
+      },
+      "AUD_CHF": {
+        "rows": 252,
+        "inferred_pip": 0.0001
+      },
+      "AUD_HKD": {
+        "rows": 33,
+        "inferred_pip": 0.0001
+      },
+      "AUD_JPY": {
+        "rows": 249,
+        "inferred_pip": 0.01
+      },
+      "AUD_NZD": {
+        "rows": 113,
+        "inferred_pip": 0.0001
+      },
+      "AUD_SGD": {
+        "rows": 116,
+        "inferred_pip": 0.0001
+      },
+      "AUD_USD": {
+        "rows": 411,
+        "inferred_pip": 0.0001
+      },
+      "CAD_CHF": {
+        "rows": 206,
+        "inferred_pip": 0.0001
+      },
+      "CAD_HKD": {
+        "rows": 83,
+        "inferred_pip": 0.0001
+      },
+      "CAD_JPY": {
+        "rows": 67,
+        "inferred_pip": 0.01
+      },
+      "CAD_SGD": {
+        "rows": 301,
+        "inferred_pip": 0.0001
+      },
+      "CHF_HKD": {
+        "rows": 34,
+        "inferred_pip": 0.0001
+      },
+      "CHF_JPY": {
+        "rows": 66,
+        "inferred_pip": 0.01
+      },
+      "CHF_ZAR": {
+        "rows": 17,
+        "inferred_pip": 0.0001
+      },
+      "EUR_AUD": {
+        "rows": 58,
+        "inferred_pip": 0.0001
+      },
+      "EUR_CAD": {
+        "rows": 243,
+        "inferred_pip": 0.0001
+      },
+      "EUR_CHF": {
+        "rows": 130,
+        "inferred_pip": 0.0001
+      },
+      "EUR_CZK": {
+        "rows": 38,
+        "inferred_pip": 0.0001
+      },
+      "EUR_DKK": {
+        "rows": 150,
+        "inferred_pip": 0.0001
+      },
+      "EUR_GBP": {
+        "rows": 195,
+        "inferred_pip": 0.0001
+      },
+      "EUR_HKD": {
+        "rows": 23,
+        "inferred_pip": 0.0001
+      },
+      "EUR_HUF": {
+        "rows": 19,
+        "inferred_pip": 0.01
+      },
+      "EUR_JPY": {
+        "rows": 152,
+        "inferred_pip": 0.01
+      },
+      "EUR_NOK": {
+        "rows": 3,
+        "inferred_pip": 0.0001
+      },
+      "EUR_NZD": {
+        "rows": 54,
+        "inferred_pip": 0.0001
+      },
+      "EUR_PLN": {
+        "rows": 48,
+        "inferred_pip": 0.0001
+      },
+      "EUR_SEK": {
+        "rows": 26,
+        "inferred_pip": 0.0001
+      },
+      "EUR_SGD": {
+        "rows": 183,
+        "inferred_pip": 0.0001
+      },
+      "EUR_USD": {
+        "rows": 306,
+        "inferred_pip": 0.0001
+      },
+      "EUR_ZAR": {
+        "rows": 7,
+        "inferred_pip": 0.0001
+      },
+      "GBP_AUD": {
+        "rows": 51,
+        "inferred_pip": 0.0001
+      },
+      "GBP_CAD": {
+        "rows": 70,
+        "inferred_pip": 0.0001
+      },
+      "GBP_CHF": {
+        "rows": 94,
+        "inferred_pip": 0.0001
+      },
+      "GBP_HKD": {
+        "rows": 35,
+        "inferred_pip": 0.0001
+      },
+      "GBP_JPY": {
+        "rows": 101,
+        "inferred_pip": 0.01
+      },
+      "GBP_NZD": {
+        "rows": 22,
+        "inferred_pip": 0.0001
+      },
+      "GBP_PLN": {
+        "rows": 43,
+        "inferred_pip": 0.0001
+      },
+      "GBP_SGD": {
+        "rows": 49,
+        "inferred_pip": 0.0001
+      },
+      "GBP_USD": {
+        "rows": 474,
+        "inferred_pip": 0.0001
+      },
+      "GBP_ZAR": {
+        "rows": 7,
+        "inferred_pip": 0.0001
+      },
+      "HKD_JPY": {
+        "rows": 16,
+        "inferred_pip": 0.0001
+      },
+      "NZD_CAD": {
+        "rows": 92,
+        "inferred_pip": 0.0001
+      },
+      "NZD_CHF": {
+        "rows": 130,
+        "inferred_pip": 0.0001
+      },
+      "NZD_HKD": {
+        "rows": 43,
+        "inferred_pip": 0.0001
+      },
+      "NZD_JPY": {
+        "rows": 80,
+        "inferred_pip": 0.01
+      },
+      "NZD_SGD": {
+        "rows": 204,
+        "inferred_pip": 0.0001
+      },
+      "NZD_USD": {
+        "rows": 164,
+        "inferred_pip": 0.0001
+      },
+      "SGD_CHF": {
+        "rows": 253,
+        "inferred_pip": 0.0001
+      },
+      "SGD_JPY": {
+        "rows": 26,
+        "inferred_pip": 0.01
+      },
+      "TRY_JPY": {
+        "rows": 56,
+        "inferred_pip": 0.01
+      },
+      "USD_CAD": {
+        "rows": 460,
+        "inferred_pip": 0.0001
+      },
+      "USD_CHF": {
+        "rows": 305,
+        "inferred_pip": 0.0001
+      },
+      "USD_CNH": {
+        "rows": 42,
+        "inferred_pip": 0.0001
+      },
+      "USD_CZK": {
+        "rows": 22,
+        "inferred_pip": 0.0001
+      },
+      "USD_DKK": {
+        "rows": 45,
+        "inferred_pip": 0.0001
+      },
+      "USD_HKD": {
+        "rows": 238,
+        "inferred_pip": 0.0001
+      },
+      "USD_HUF": {
+        "rows": 42,
+        "inferred_pip": 0.01
+      },
+      "USD_JPY": {
+        "rows": 882,
+        "inferred_pip": 0.01
+      },
+      "USD_MXN": {
+        "rows": 21,
+        "inferred_pip": 0.0001
+      },
+      "USD_NOK": {
+        "rows": 19,
+        "inferred_pip": 0.0001
+      },
+      "USD_PLN": {
+        "rows": 51,
+        "inferred_pip": 0.0001
+      },
+      "USD_SEK": {
+        "rows": 34,
+        "inferred_pip": 0.0001
+      },
+      "USD_SGD": {
+        "rows": 138,
+        "inferred_pip": 0.0001
+      },
+      "USD_THB": {
+        "rows": 170,
+        "inferred_pip": 0.01
+      },
+      "USD_TRY": {
+        "rows": 27,
+        "inferred_pip": 0.0001
+      },
+      "USD_ZAR": {
+        "rows": 2,
+        "inferred_pip": 0.0001
+      },
+      "ZAR_JPY": {
+        "rows": 198,
+        "inferred_pip": 0.01
+      }
+    },
+    "nonstandard_relative_to_suffix_assumption": {
+      "EUR_HUF": {
+        "rows": 19,
+        "inferred_pip": 0.01,
+        "invalid_suffix_assumption": 0.0001
+      },
+      "HKD_JPY": {
+        "rows": 16,
+        "inferred_pip": 0.0001,
+        "invalid_suffix_assumption": 0.01
+      },
+      "USD_HUF": {
+        "rows": 42,
+        "inferred_pip": 0.01,
+        "invalid_suffix_assumption": 0.0001
+      },
+      "USD_THB": {
+        "rows": 170,
+        "inferred_pip": 0.01,
+        "invalid_suffix_assumption": 0.0001
+      }
+    },
+    "nonstandard_row_count": 247,
+    "stored_mean_gross_pips_mixed_instrument_diagnostic": 0.002911813643948738,
+    "stored_mean_net_pips_mixed_instrument_diagnostic": -6.318849536486785,
+    "entry_spread_pips": {
+      "n": 8414,
+      "min": 0.9999999999999787,
+      "median": 2.199999999999136,
+      "p95": 21.00000000000435,
+      "max": 524.8999999999882,
+      "mean": 6.35843831709056
+    },
+    "exit_spread_pips": {
+      "n": 8414,
+      "min": 0.9999999999999787,
+      "median": 2.199999999999136,
+      "p95": 20.999999999995467,
+      "max": 523.8999999999904,
+      "mean": 6.285084383170878
+    },
+    "roundtrip_spread_drag_pips": {
+      "n": 8414,
+      "min": 0.9999999999999787,
+      "median": 2.1500000000002073,
+      "p95": 21.350000000000534,
+      "max": 524.3999999999893,
+      "mean": 6.321761350130719
+    },
+    "mean_gross_bps_equal_row_descriptive": -0.02049449920481829,
+    "mean_net_bps_equal_row_descriptive": -3.464478988150496,
+    "bps_method": "Computed directly from retained prices and entry midpoint, without pip assumptions. Equal-row descriptive means are not actual portfolio returns."
+  },
+  "selection_and_dependence": {
+    "duplicates": {
+      "id": {
+        "unique": 8414,
+        "repeated_keys": 0,
+        "extra_rows_beyond_unique": 0,
+        "max_repetitions": 1
+      },
+      "cohort_key": {
+        "unique": 8414,
+        "repeated_keys": 0,
+        "extra_rows_beyond_unique": 0,
+        "max_repetitions": 1
+      },
+      "signal_id": {
+        "unique": 6465,
+        "repeated_keys": 1398,
+        "extra_rows_beyond_unique": 1949,
+        "max_repetitions": 17
+      },
+      "source_signal_id": {
+        "unique": 2837,
+        "repeated_keys": 2061,
+        "extra_rows_beyond_unique": 5577,
+        "max_repetitions": 36
+      },
+      "signal_id|horizon_sec": {
+        "unique": 6465,
+        "repeated_keys": 1398,
+        "extra_rows_beyond_unique": 1949,
+        "max_repetitions": 17
+      },
+      "source_signal_id|horizon_sec": {
+        "unique": 6404,
+        "repeated_keys": 1429,
+        "extra_rows_beyond_unique": 2010,
+        "max_repetitions": 17
+      },
+      "instrument|opened_epoch|target_epoch|direction": {
+        "unique": 8414,
+        "repeated_keys": 0,
+        "extra_rows_beyond_unique": 0,
+        "max_repetitions": 1
+      },
+      "instrument|opened_epoch|target_epoch": {
+        "unique": 8414,
+        "repeated_keys": 0,
+        "extra_rows_beyond_unique": 0,
+        "max_repetitions": 1
+      }
+    },
+    "family_counts": {
+      "hurst_regime_forecast": 480,
+      "momentum": 92,
+      "kama_adaptive_trend": 17,
+      "linear_regression_trend": 90,
+      "volatility_squeeze_breakout": 35,
+      "permutation_entropy_momentum": 34,
+      "breakout_volume_confluence": 10,
+      "cross_sectional_pair_rank": 87,
+      "donchian_breakout": 69,
+      "micro_channel_break": 414,
+      "spread_compression_momentum": 20,
+      "ema_trend_cross": 38,
+      "cci_reversion": 16,
+      "stochastic_reversal": 106,
+      "atr_mean_reversion": 125,
+      "volume_climax_reversal": 8,
+      "rsi_trend_continuation": 83,
+      "macd_rsi_reversal": 26,
+      "higher_timeframe_alignment": 59,
+      "trend_momentum_confluence": 108,
+      "online_ar_forecast": 338,
+      "cross_pair_lead_lag": 40,
+      "volume_impulse": 70,
+      "bollinger_reversion": 542,
+      "pullback": 112,
+      "currency_strength": 382,
+      "cusum_breakout": 157,
+      "candlestick_reversal": 16,
+      "efficiency_filtered_momentum": 2,
+      "pattern_count_forecast": 1115,
+      "oscillator_reversion_confluence": 833,
+      "vwap_deviation_reversion": 422,
+      "garch_volatility_breakout": 270,
+      "kalman_local_trend": 701,
+      "markov_sign_transition": 55,
+      "inverse_correlation_veto": 379,
+      "timeframe_equation_matrix": 138,
+      "variance_ratio_regime": 313,
+      "theil_sen_trend": 225,
+      "regime_switching": 95,
+      "cross_market_confluence": 66,
+      "har_volatility_momentum": 62,
+      "bipower_jump_reversal": 9,
+      "relative_value_reversion": 36,
+      "range_expansion": 32,
+      "spread_mean_reversion": 3,
+      "supervised_return_rank": 39,
+      "breakout_retest": 38,
+      "ny_session_vwap_sell_reversion": 7
+    },
+    "direction_source_counts": {
+      "raw_all_signal_consensus": 8019,
+      "filtered_execution_consensus": 395
+    },
+    "eligibility_counts": {
+      "(0, 0, 0)": 787,
+      "(1, 0, 1)": 386,
+      "(1, 1, 1)": 9,
+      "(0, 1, 1)": 6034,
+      "(0, 0, 1)": 1166,
+      "(0, 1, 0)": 32
+    },
+    "horizon_1_to_3min_weight": 0.795459947706204,
+    "population_caveats": [
+      "One chosen horizon candidate while previous horizon position remains open; selected diagnostic rows, not all model forecasts.",
+      "Horizon rows/pairs and reused signals are correlated; independent N and valid inference intervals unavailable.",
+      "A v5 lineage and maturity_valid=1 label verifies only the implemented filters, not original publication timing or execution feasibility.",
+      "Majority direction and equal-row bps scores are descriptive of these same observed rows, not pre-registered deployable baselines."
+    ]
+  },
+  "horizon_stored_counts": {
+    "60": {
+      "rows": 3487,
+      "direction_hits": 1726,
+      "net_positive": 116
+    },
+    "120": {
+      "rows": 1897,
+      "direction_hits": 953,
+      "net_positive": 163
+    },
+    "180": {
+      "rows": 1309,
+      "direction_hits": 653,
+      "net_positive": 170
+    },
+    "300": {
+      "rows": 785,
+      "direction_hits": 387,
+      "net_positive": 80
+    },
+    "600": {
+      "rows": 406,
+      "direction_hits": 190,
+      "net_positive": 61
+    },
+    "900": {
+      "rows": 220,
+      "direction_hits": 105,
+      "net_positive": 41
+    },
+    "1800": {
+      "rows": 136,
+      "direction_hits": 58,
+      "net_positive": 29
+    },
+    "3600": {
+      "rows": 72,
+      "direction_hits": 28,
+      "net_positive": 18
+    },
+    "7200": {
+      "rows": 36,
+      "direction_hits": 26,
+      "net_positive": 16
+    },
+    "10800": {
+      "rows": 24,
+      "direction_hits": 16,
+      "net_positive": 12
+    },
+    "14400": {
+      "rows": 17,
+      "direction_hits": 7,
+      "net_positive": 5
+    },
+    "21600": {
+      "rows": 11,
+      "direction_hits": 4,
+      "net_positive": 2
+    },
+    "28800": {
+      "rows": 6,
+      "direction_hits": 2,
+      "net_positive": 2
+    },
+    "43200": {
+      "rows": 6,
+      "direction_hits": 1,
+      "net_positive": 1
+    },
+    "86400": {
+      "rows": 2,
+      "direction_hits": 0,
+      "net_positive": 0
+    }
+  },
+  "policy_stored_counts": {
+    "aggressive_shadow": {
+      "rows": 1,
+      "direction_hits": 1,
+      "net_positive": 1
+    },
+    "conflicted_aggressive_shadow": {
+      "rows": 328,
+      "direction_hits": 177,
+      "net_positive": 139
+    },
+    "diagnostic_shadow": {
+      "rows": 8085,
+      "direction_hits": 3978,
+      "net_positive": 576
+    }
+  },
+  "timing": {
+    "target_quote_delay_sec": {
+      "n": 8414,
+      "min": 5.507469177246094e-05,
+      "median": 4.082399487495422,
+      "p95": 33.458312034606934,
+      "max": 59.99933099746704,
+      "mean": 7.836920319981775
+    },
+    "signal_snapshot_time_minus_entry_quote_sec": {
+      "n": 8414,
+      "min": -1118.5112869739532,
+      "median": -52.93490791320801,
+      "p95": 8.387089967727661,
+      "max": 117.33059406280518,
+      "mean": -73.11110698621404
+    },
+    "entry_quotes_before_signal_snapshot_time": 624,
+    "signal_snapshot_more_than_90sec_old_at_entry_quote": 1907,
+    "missing_availability_fields": "No original forecast issue/committed availability, successor consumer observation, entry/exit local receipt, or per-quote tradeable status is retained in this ledger; observed_at is signal snapshot updated_at/generated_utc, not actual observation/commit.",
+    "signal_snapshot_at_or_after_original_target": 27,
+    "snapshot_at_or_after_target_direction_hits": 12,
+    "snapshot_at_or_after_target_net_positive": 0,
+    "snapshot_at_or_after_outcome_provider_quote": 0,
+    "snapshot_at_or_after_target_rows": [
+      {
+        "id": 62865,
+        "instrument": "CAD_SGD",
+        "horizon_sec": 60,
+        "observed_at": "2026-09-01T18:09:19.474764+00:00",
+        "opened_at": "2026-09-01T18:08:13.056304+00:00",
+        "target_at": "2026-09-01T18:09:13.056304+00:00",
+        "outcome_quote_at": "2026-09-01T18:09:45.478102+00:00"
+      },
+      {
+        "id": 62883,
+        "instrument": "CAD_SGD",
+        "horizon_sec": 60,
+        "observed_at": "2026-09-01T18:20:12.207401+00:00",
+        "opened_at": "2026-09-01T18:18:55.293224+00:00",
+        "target_at": "2026-09-01T18:19:55.293224+00:00",
+        "outcome_quote_at": "2026-09-01T18:20:36.868540+00:00"
+      },
+      {
+        "id": 63040,
+        "instrument": "NZD_SGD",
+        "horizon_sec": 60,
+        "observed_at": "2026-09-01T19:42:28.561835+00:00",
+        "opened_at": "2026-09-01T19:41:03.681767+00:00",
+        "target_at": "2026-09-01T19:42:03.681767+00:00",
+        "outcome_quote_at": "2026-09-01T19:42:59.089244+00:00"
+      },
+      {
+        "id": 63080,
+        "instrument": "ZAR_JPY",
+        "horizon_sec": 60,
+        "observed_at": "2026-09-01T20:01:52.623491+00:00",
+        "opened_at": "2026-09-01T20:00:49.617513+00:00",
+        "target_at": "2026-09-01T20:01:49.617513+00:00",
+        "outcome_quote_at": "2026-09-01T20:02:45.832713+00:00"
+      },
+      {
+        "id": 63134,
+        "instrument": "CAD_SGD",
+        "horizon_sec": 60,
+        "observed_at": "2026-09-01T20:29:00.584086+00:00",
+        "opened_at": "2026-09-01T20:27:43.682789+00:00",
+        "target_at": "2026-09-01T20:28:43.682789+00:00",
+        "outcome_quote_at": "2026-09-01T20:29:26.608133+00:00"
+      },
+      {
+        "id": 63155,
+        "instrument": "NZD_CHF",
+        "horizon_sec": 60,
+        "observed_at": "2026-09-01T20:41:47.618879+00:00",
+        "opened_at": "2026-09-01T20:40:36.371600+00:00",
+        "target_at": "2026-09-01T20:41:36.371600+00:00",
+        "outcome_quote_at": "2026-09-01T20:42:00.769606+00:00"
+      },
+      {
+        "id": 63294,
+        "instrument": "EUR_DKK",
+        "horizon_sec": 60,
+        "observed_at": "2026-09-01T21:58:40.344969+00:00",
+        "opened_at": "2026-09-01T21:57:31.799279+00:00",
+        "target_at": "2026-09-01T21:58:31.799279+00:00",
+        "outcome_quote_at": "2026-09-01T21:59:22.080191+00:00"
+      },
+      {
+        "id": 63332,
+        "instrument": "CAD_CHF",
+        "horizon_sec": 60,
+        "observed_at": "2026-09-01T22:16:19.293852+00:00",
+        "opened_at": "2026-09-01T22:15:11.088012+00:00",
+        "target_at": "2026-09-01T22:16:11.088012+00:00",
+        "outcome_quote_at": "2026-09-01T22:16:50.750292+00:00"
+      },
+      {
+        "id": 63490,
+        "instrument": "AUD_CAD",
+        "horizon_sec": 60,
+        "observed_at": "2026-09-01T23:31:15.023146+00:00",
+        "opened_at": "2026-09-01T23:30:13.578399+00:00",
+        "target_at": "2026-09-01T23:31:13.578399+00:00",
+        "outcome_quote_at": "2026-09-01T23:31:43.389265+00:00"
+      },
+      {
+        "id": 63967,
+        "instrument": "EUR_DKK",
+        "horizon_sec": 60,
+        "observed_at": "2026-09-02T03:27:58.801854+00:00",
+        "opened_at": "2026-09-02T03:26:51.884300+00:00",
+        "target_at": "2026-09-02T03:27:51.884300+00:00",
+        "outcome_quote_at": "2026-09-02T03:28:04.049974+00:00"
+      },
+      {
+        "id": 64190,
+        "instrument": "CAD_SGD",
+        "horizon_sec": 60,
+        "observed_at": "2026-09-02T05:26:18.684402+00:00",
+        "opened_at": "2026-09-02T05:25:17.335975+00:00",
+        "target_at": "2026-09-02T05:26:17.335975+00:00",
+        "outcome_quote_at": "2026-09-02T05:26:51.919122+00:00"
+      },
+      {
+        "id": 65289,
+        "instrument": "USD_HKD",
+        "horizon_sec": 60,
+        "observed_at": "2026-09-02T14:24:53.384358+00:00",
+        "opened_at": "2026-09-02T14:23:44.385154+00:00",
+        "target_at": "2026-09-02T14:24:44.385154+00:00",
+        "outcome_quote_at": "2026-09-02T14:25:31.902829+00:00"
+      },
+      {
+        "id": 65489,
+        "instrument": "USD_HKD",
+        "horizon_sec": 60,
+        "observed_at": "2026-09-02T15:55:10.590174+00:00",
+        "opened_at": "2026-09-02T15:54:10.100492+00:00",
+        "target_at": "2026-09-02T15:55:10.100492+00:00",
+        "outcome_quote_at": "2026-09-02T15:55:29.948784+00:00"
+      },
+      {
+        "id": 66172,
+        "instrument": "AUD_HKD",
+        "horizon_sec": 60,
+        "observed_at": "2026-09-02T21:40:45.132072+00:00",
+        "opened_at": "2026-09-02T21:39:32.186204+00:00",
+        "target_at": "2026-09-02T21:40:32.186204+00:00",
+        "outcome_quote_at": "2026-09-02T21:41:19.071091+00:00"
+      },
+      {
+        "id": 66283,
+        "instrument": "NZD_JPY",
+        "horizon_sec": 60,
+        "observed_at": "2026-09-02T22:34:55.383542+00:00",
+        "opened_at": "2026-09-02T22:33:45.773678+00:00",
+        "target_at": "2026-09-02T22:34:45.773678+00:00",
+        "outcome_quote_at": "2026-09-02T22:35:05.908302+00:00"
+      },
+      {
+        "id": 66304,
+        "instrument": "GBP_HKD",
+        "horizon_sec": 60,
+        "observed_at": "2026-09-02T22:44:04.806476+00:00",
+        "opened_at": "2026-09-02T22:43:02.534472+00:00",
+        "target_at": "2026-09-02T22:44:02.534472+00:00",
+        "outcome_quote_at": "2026-09-02T22:44:11.623071+00:00"
+      },
+      {
+        "id": 66310,
+        "instrument": "EUR_SGD",
+        "horizon_sec": 60,
+        "observed_at": "2026-09-02T22:46:59.444085+00:00",
+        "opened_at": "2026-09-02T22:45:49.310255+00:00",
+        "target_at": "2026-09-02T22:46:49.310255+00:00",
+        "outcome_quote_at": "2026-09-02T22:47:08.838219+00:00"
+      },
+      {
+        "id": 66395,
+        "instrument": "EUR_CZK",
+        "horizon_sec": 60,
+        "observed_at": "2026-09-02T23:27:03.262112+00:00",
+        "opened_at": "2026-09-02T23:25:59.458442+00:00",
+        "target_at": "2026-09-02T23:26:59.458442+00:00",
+        "outcome_quote_at": "2026-09-02T23:27:45.062882+00:00"
+      },
+      {
+        "id": 66641,
+        "instrument": "USD_HKD",
+        "horizon_sec": 60,
+        "observed_at": "2026-09-03T01:25:20.493653+00:00",
+        "opened_at": "2026-09-03T01:24:20.110671+00:00",
+        "target_at": "2026-09-03T01:25:20.110671+00:00",
+        "outcome_quote_at": "2026-09-03T01:25:35.777456+00:00"
+      },
+      {
+        "id": 66901,
+        "instrument": "EUR_DKK",
+        "horizon_sec": 60,
+        "observed_at": "2026-09-03T03:23:39.579767+00:00",
+        "opened_at": "2026-09-03T03:22:34.442810+00:00",
+        "target_at": "2026-09-03T03:23:34.442810+00:00",
+        "outcome_quote_at": "2026-09-03T03:23:50.520371+00:00"
+      },
+      {
+        "id": 68847,
+        "instrument": "ZAR_JPY",
+        "horizon_sec": 60,
+        "observed_at": "2026-09-03T19:20:02.305287+00:00",
+        "opened_at": "2026-09-03T19:19:01.280350+00:00",
+        "target_at": "2026-09-03T19:20:01.280350+00:00",
+        "outcome_quote_at": "2026-09-03T19:20:22.227943+00:00"
+      },
+      {
+        "id": 70526,
+        "instrument": "EUR_DKK",
+        "horizon_sec": 60,
+        "observed_at": "2026-09-04T09:54:53.317059+00:00",
+        "opened_at": "2026-09-04T09:53:46.831381+00:00",
+        "target_at": "2026-09-04T09:54:46.831381+00:00",
+        "outcome_quote_at": "2026-09-04T09:55:35.123676+00:00"
+      },
+      {
+        "id": 70685,
+        "instrument": "CAD_SGD",
+        "horizon_sec": 60,
+        "observed_at": "2026-09-04T11:10:31.729992+00:00",
+        "opened_at": "2026-09-04T11:09:20.083366+00:00",
+        "target_at": "2026-09-04T11:10:20.083366+00:00",
+        "outcome_quote_at": "2026-09-04T11:11:18.123341+00:00"
+      },
+      {
+        "id": 71414,
+        "instrument": "USD_HKD",
+        "horizon_sec": 60,
+        "observed_at": "2026-09-04T17:01:32.612435+00:00",
+        "opened_at": "2026-09-04T17:00:31.921062+00:00",
+        "target_at": "2026-09-04T17:01:31.921062+00:00",
+        "outcome_quote_at": "2026-09-04T17:02:29.760258+00:00"
+      },
+      {
+        "id": 71586,
+        "instrument": "CAD_SGD",
+        "horizon_sec": 60,
+        "observed_at": "2026-09-04T18:20:56.100377+00:00",
+        "opened_at": "2026-09-04T18:19:46.221571+00:00",
+        "target_at": "2026-09-04T18:20:46.221571+00:00",
+        "outcome_quote_at": "2026-09-04T18:21:43.406875+00:00"
+      },
+      {
+        "id": 71637,
+        "instrument": "ZAR_JPY",
+        "horizon_sec": 60,
+        "observed_at": "2026-09-04T18:44:13.423100+00:00",
+        "opened_at": "2026-09-04T18:43:06.757526+00:00",
+        "target_at": "2026-09-04T18:44:06.757526+00:00",
+        "outcome_quote_at": "2026-09-04T18:44:30.506417+00:00"
+      },
+      {
+        "id": 71667,
+        "instrument": "USD_HKD",
+        "horizon_sec": 60,
+        "observed_at": "2026-09-04T18:59:24.344795+00:00",
+        "opened_at": "2026-09-04T18:58:07.370794+00:00",
+        "target_at": "2026-09-04T18:59:07.370794+00:00",
+        "outcome_quote_at": "2026-09-04T18:59:46.266643+00:00"
+      }
+    ],
+    "interpretation": "observed_at is the signal snapshot updated_at/generated_utc, not a local read clock. These 27 selected snapshots are timestamped at or after a retrospectively assigned target. Underlying original forecast issue/publication and actual quote local receipt are not retained, so causal availability cannot be established."
+  },
+  "current_registered_scorer_precision_followup": {
+    "files_unmodified": true,
+    "references": [
+      "oanda_top_signal_position_ledger.py:707-712 midpoint subtraction; :926 strict >0 count",
+      "oanda_causal_forecast_ledger.py:254 float reference midpoint",
+      "oanda_fixed_forecast_evaluation.py:297-300 float midpoint subtraction",
+      "oanda_fixed_forecast_evaluation.py:303 actual>0 label; :190-194 strict sign metrics",
+      "oanda_causal_forecast_study.py:22 and :126 imports/calls this scorer"
+    ],
+    "finding": "The current registered scorer has the same float midpoint classification sensitivity. This read-only review demonstrates code susceptibility; it does not establish any affected prospective scored row."
+  },
+  "remaining_limits": [
+    "No original quote decimal strings or stored pip size to validate broker precision metadata independently.",
+    "No local quote receipt, original forecast committed availability, consumer first observation or per-quote tradeable flags in this historical ledger.",
+    "Repeated signals and overlapping horizons mean 8,414 rows are not 8,414 independent prediction trials; confidence intervals and executable edge are unestablished.",
+    "This broad 49-family selected diagnostic population is distinct from the four-family repaired prospective collection.",
+    "Class baselines are descriptive of this same observed sample, not pre-registered deployable baselines; the sub-50% headline alone cannot establish worse-than-random prediction quality."
+  ],
+  "source_bindings": {
+    "oanda_top_signal_position_ledger.py": "a7011253a1fa713b2a684ee525c667e8ac4429aa345b514f5d74eacc8f8b7053",
+    "FOREX_PREDICTION_QUALITY_20260906.json": "205ca0f6a5fbd40af7b45c0994ffcf93424da675e79b4637d030cd84560d489e",
+    "oanda_causal_forecast_ledger.py": "4ddd413261fc294922bf2664bb0ae018d8469a3422942567849c1624ba32cd1f",
+    "oanda_fixed_forecast_evaluation.py": "482af854fae94d53aea82c109ffb6a00f265f3ecebdbc3137e200cb07d142708",
+    "oanda_causal_forecast_study.py": "e50a9a8ef5bbfe739d177d1bcf8632362bcad06b68694eb7c599c70a33fbd44e"
+  },
+  "offline_finalizer_sha256": "03e776588e327f864dcf9fa80f41ca1ee98eb79e29fb5d71b45cb14659ae81b7",
+  "original_extractor_sha256": "ebdf04df649d5620df696a141e68145501d903d3d1e1fb53f85cb4552f0cb88e"
+}

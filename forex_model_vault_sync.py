@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import io
 import json
 import os
 import re
@@ -22,6 +23,17 @@ except ModuleNotFoundError:
         VaultImportError,
         audit_archive,
         import_archives,
+    )
+
+try:
+    from oanda_integrity_publication import (
+        DETAIL_DIRECTORY as INTEGRITY_DETAIL_DIRECTORY,
+        verified_detail_artifact_bytes,
+    )
+except ModuleNotFoundError:
+    from trad.oanda_integrity_publication import (
+        DETAIL_DIRECTORY as INTEGRITY_DETAIL_DIRECTORY,
+        verified_detail_artifact_bytes,
     )
 
 
@@ -46,16 +58,615 @@ DEFAULT_VAULT_PROJECT = (
     Path.home() / "OneDrive" / "thevault" / "projects" / "forex"
 )
 CANONICAL_PROJECT_RECORDS = (
+    (Path("trad/docs/FOREX_OVERNIGHT_CURVE_BUILDOUT_20260909.md"), "OVERNIGHT_CURVE_BUILDOUT_CURRENT.md"),
+    (Path("trad/FOREX_OVERNIGHT_CURVE_BUILDOUT_VALIDATION_20260909.json"), "OVERNIGHT_CURVE_BUILDOUT_VALIDATION_CURRENT.json"),
+    (Path("trad/docs/FOREX_NEWS_RESEARCH_DEPLOYMENT_20260908.md"), "NEWS_RESEARCH_DEPLOYMENT_CURRENT.md"),
+    (Path("trad/FOREX_NEWS_RESEARCH_DEPLOYMENT_VALIDATION_20260908.json"), "NEWS_RESEARCH_DEPLOYMENT_VALIDATION_CURRENT.json"),
+    (Path("trad/docs/FOREX_NEWS_IDENTITY_CANDIDATE_20260908.md"), "NEWS_IDENTITY_CANDIDATE_CURRENT.md"),
+    (Path("trad/FOREX_NEWS_IDENTITY_CANDIDATE_VALIDATION_20260908.json"), "NEWS_IDENTITY_CANDIDATE_VALIDATION_CURRENT.json"),
+    (Path("trad/docs/FOREX_REVAMP_BASELINE_RECOVERY_20260908.md"), "REVAMP_BASELINE_RECOVERY_CURRENT.md"),
+    (Path("trad/FOREX_REVAMP_BASELINE_RECOVERY_VALIDATION_20260908.json"), "REVAMP_BASELINE_RECOVERY_VALIDATION_CURRENT.json"),
+    (Path("trad/docs/VAULT_SYSTEM_GUIDE.md"), "SYSTEM_GUIDE.md"),
+    (Path("trad/FOREX_VAULT_READABILITY_VALIDATION_20260908.json"), "VAULT_READABILITY_VALIDATION_CURRENT.json"),
+    (Path("trad/docs/VAULT_RECREATION_HISTORY_THROUGH_20260907.md"), "RECREATION_HISTORY_THROUGH_20260907.md"),
+    (Path("trad/docs/validation/vault_readability_20260908/LIVE_WATCH_REPORT_20260907.md"), "LIVE_WATCH_REPORT_20260907.md"),
+    (Path("trad/docs/validation/vault_readability_20260908/LIVE_WATCH_SUMMARY_20260907.json"), "LIVE_WATCH_SUMMARY_20260907.json"),
+    (Path("trad/docs/FOREX_FEATURE_DICTIONARY_CURRENT.md"), "FEATURE_DICTIONARY_CURRENT.md"),
+    (Path("trad/docs/FOREX_FEATURE_DICTIONARY_CURRENT.json"), "FEATURE_DICTIONARY_CURRENT.json"),
+    (Path("trad/FOREX_FEATURE_DICTIONARY_VALIDATION_20260908.json"), "FEATURE_DICTIONARY_VALIDATION_CURRENT.json"),
+    (Path("trad/docs/feature_dictionary/active_joint_walkthrough.md"), "FEATURE_GENERATION_WORKED_EXAMPLE.md"),
+    (Path("trad/docs/FOREX_BLURB_DATASET_AUDIT_20260908.md"), "BLURB_DATASET_AUDIT_CURRENT.md"),
+    (Path("trad/FOREX_BLURB_DATASET_AUDIT_VALIDATION_20260908.json"), "BLURB_DATASET_AUDIT_VALIDATION_CURRENT.json"),
+    (Path("trad/docs/FOREX_EXISTING_FEATURE_HORIZON_AUDIT_20260908.md"), "EXISTING_FEATURE_HORIZON_AUDIT_CURRENT.md"),
+    (Path("trad/FOREX_EXISTING_FEATURE_HORIZON_AUDIT_VALIDATION_20260908.json"), "EXISTING_FEATURE_HORIZON_AUDIT_VALIDATION_CURRENT.json"),
+    (Path("trad/docs/FOREX_HORIZON_COVERAGE_REVIEW_20260907.md"), "HORIZON_COVERAGE_REVIEW_CURRENT.md"),
+    (Path("trad/FOREX_HORIZON_COVERAGE_REVIEW_VALIDATION_20260907.json"), "HORIZON_COVERAGE_REVIEW_VALIDATION_CURRENT.json"),
+    (Path("trad/docs/FOREX_PRICE_V2_FIRST_OUTCOMES_20260907.md"), "FOREX_PRICE_V2_FIRST_OUTCOMES_20260907.md"),
+    (Path("trad/docs/ACTIVE_PIPELINE.md"), "ACTIVE_PIPELINE.md"),
+    (Path("trad/docs/RESEARCH_INDEX_VAULT.md"), "RESEARCH_INDEX.md"),
+    (Path("trad/docs/FOREX_JOINT_PRICE_NEWS_20260907.md"), "JOINT_PRICE_NEWS_CURRENT.md"),
+    (Path("trad/FOREX_JOINT_PRICE_NEWS_VALIDATION_20260907.json"), "JOINT_PRICE_NEWS_VALIDATION_CURRENT.json"),
+    (Path("trad/docs/CURRENT_NEWS_AUDIT_AND_REPAIR_20260907.md"), "CURRENT_NEWS_AUDIT_AND_REPAIR.md"),
+    (Path("trad/NEWS_CAUSAL_AGGREGATION_VALIDATION_20260907.json"), "NEWS_CAUSAL_AGGREGATION_VALIDATION.json"),
+    (Path("trad/docs/FOREX_PAIR_FAMILY_REPAIR_20260907.md"), "PAIR_FAMILY_REPAIR_CURRENT.md"),
+    (Path("trad/FOREX_PAIR_FAMILY_REPAIR_VALIDATION_20260907.json"), "PAIR_FAMILY_REPAIR_VALIDATION_CURRENT.json"),
+    (Path("trad/docs/FOREX_OPERATIONAL_STATUS_REPAIR_20260907.md"), "OPERATIONAL_STATUS_REPAIR_CURRENT.md"),
+    (Path("trad/FOREX_OPERATIONAL_STATUS_REPAIR_VALIDATION_20260907.json"), "OPERATIONAL_STATUS_REPAIR_VALIDATION_CURRENT.json"),
+    (Path("trad/docs/FOREX_PAIR_DASHBOARD_CONSISTENCY_20260907.md"), "PAIR_DASHBOARD_CONSISTENCY_CURRENT.md"),
+    (Path("trad/FOREX_PAIR_DASHBOARD_CONSISTENCY_VALIDATION_20260907.json"), "PAIR_DASHBOARD_CONSISTENCY_VALIDATION_CURRENT.json"),
+    (Path("trad/docs/FOREX_PAIR_FORECAST_COVERAGE_20260907.md"), "PAIR_FORECAST_COVERAGE_CURRENT.md"),
+    (Path("trad/FOREX_PAIR_FORECAST_COVERAGE_VALIDATION_20260907.json"), "PAIR_FORECAST_COVERAGE_VALIDATION_CURRENT.json"),
+    (Path("trad/docs/FOREX_SIGNALS_LIVE_OPTIMIZATION_20260907.md"), "SIGNALS_LIVE_OPTIMIZATION_CURRENT.md"),
+    (Path("trad/FOREX_SIGNALS_LIVE_OPTIMIZATION_VALIDATION_20260907.json"), "SIGNALS_LIVE_OPTIMIZATION_VALIDATION_CURRENT.json"),
+    (Path("trad/docs/FOREX_MARKET_OPEN_20260906.md"), "MARKET_OPEN_CURRENT.md"),
+    (Path("trad/FOREX_MARKET_OPEN_VALIDATION_20260906.json"), "MARKET_OPEN_VALIDATION_CURRENT.json"),
+    (Path("trad/docs/FOREX_ENTRY_IMPROVEMENTS_20260906.md"), "ENTRY_IMPROVEMENTS_CURRENT.md"),
+    (Path("trad/FOREX_ENTRY_IMPROVEMENTS_VALIDATION_20260906.json"), "ENTRY_IMPROVEMENTS_VALIDATION_CURRENT.json"),
+    (Path("trad/FOREX_ENTRY_RESEARCH_FOLLOWUP_20260906.json"), "ENTRY_RESEARCH_FOLLOWUP_CURRENT.json"),
+    (Path("trad/docs/FOREX_WEEK_ENTRY_AUDIT_20260906.md"), "WEEK_ENTRY_AUDIT_CURRENT.md"),
+    (Path("trad/FOREX_WEEK_ENTRY_AUDIT_20260906.json"), "WEEK_ENTRY_AUDIT_CURRENT.json"),
+    (Path("trad/FOREX_RUNTIME_STOP_20260906.json"), "RUNTIME_STOP_CURRENT.json"),
+    (Path("trad/docs/FOREX_PREDICTION_SANITY_20260906.md"), "PREDICTION_SANITY_CURRENT.md"),
+    (Path("trad/FOREX_PREDICTION_SANITY_VALIDATION_20260906.json"), "PREDICTION_SANITY_VALIDATION_CURRENT.json"),
+    (Path("trad/docs/FOREX_MODEL_INVENTORY_20260906.md"), "MODEL_INVENTORY_CURRENT.md"),
+    (Path("trad/FOREX_COMOVEMENT_RESEARCH_PLAN_20260906.json"), "COMOVEMENT_RESEARCH_PLAN_CURRENT.json"),
+    (Path("trad/docs/FOREX_CAUSAL_TIMING_REPAIR_20260906.md"), "CAUSAL_TIMING_REPAIR_CURRENT.md"),
+    (Path("trad/FOREX_CAUSAL_TIMING_REPAIR_VALIDATION_20260906.json"), "CAUSAL_TIMING_REPAIR_VALIDATION_CURRENT.json"),
+    (Path("trad/FOREX_CAUSAL_IO_FOLLOWUP_20260906.json"), "CAUSAL_TIMING_FOLLOWUP_CURRENT.json"),
+    (Path("trad/config/causal_forecast_study_v1_io_r2_20260906.json"), "CAUSAL_FORECAST_STUDY_PROTOCOL_CURRENT.json"),
+    (Path("trad/docs/FOREX_CAUSAL_IO_REPAIR_20260906.md"), "CAUSAL_IO_REPAIR_CURRENT.md"),
+    (Path("trad/FOREX_CAUSAL_IO_REPAIR_VALIDATION_20260906.json"), "CAUSAL_IO_REPAIR_VALIDATION_CURRENT.json"),
+    (Path("trad/docs/FOREX_RESEARCH_RESTART_20260906.md"), "RESEARCH_RESTART_CURRENT.md"),
+    (Path("trad/FOREX_RESEARCH_RESTART_VALIDATION_20260906.json"), "RESEARCH_RESTART_VALIDATION_CURRENT.json"),
+    (Path("trad/docs/FOREX_FIXED_EVALUATION_20260906.md"), "FIXED_EVALUATION_CURRENT.md"),
+    (Path("trad/FOREX_FIXED_EVALUATION_VALIDATION_20260906.json"), "FIXED_EVALUATION_VALIDATION_CURRENT.json"),
+    (Path("trad/FOREX_FIXED_EVALUATION_RESULTS_20260906.json"), "FIXED_EVALUATION_RESULTS_CURRENT.json"),
+    (Path("trad/FOREX_FIXED_EVALUATION_FOLLOWUP_20260906.json"), "FIXED_EVALUATION_FOLLOWUP_CURRENT.json"),
+    (Path("trad/config/fixed_forecast_evaluation_v1_20260906.json"), "FIXED_EVALUATION_PROTOCOL_CURRENT.json"),
+    (Path("trad/docs/FOREX_OPTIMIZATION_REVIEW_20260906.md"), "OPTIMIZATION_REVIEW_CURRENT.md"),
+    (Path("trad/FOREX_OPTIMIZATION_VALIDATION_20260906.json"), "OPTIMIZATION_VALIDATION_CURRENT.json"),
+    (Path("trad/docs/FOREX_PREDICTION_QUALITY_20260906.md"), "PREDICTION_QUALITY_CURRENT.md"),
+    (Path("trad/FOREX_PREDICTION_QUALITY_20260906.json"), "PREDICTION_QUALITY_CURRENT.json"),
+    (Path("trad/FOREX_OPTIMIZATION_BACKLOG_20260906.json"), "OPTIMIZATION_BACKLOG_CURRENT.json"),
+    (Path("trad/docs/FOREX_REPAIR_REVIEW_20260905.md"), "REPAIR_REVIEW_CURRENT.md"),
+    (Path("trad/FOREX_REPAIR_VALIDATION_20260905.json"), "REPAIR_VALIDATION_CURRENT.json"),
+    (Path("trad/docs/FOREX_PERFORMANCE_AUDIT_20260905.md"), "PERFORMANCE_AUDIT_CURRENT.md"),
+    (Path("trad/FOREX_PERFORMANCE_AUDIT_20260905.json"), "PERFORMANCE_AUDIT_CURRENT.json"),
+    (Path("trad/docs/FOREX_INDEPENDENT_AUDIT_20260905.md"), "INDEPENDENT_AUDIT_20260905.md"),
+    (Path("trad/FOREX_INDEPENDENT_AUDIT_20260905.json"), "INDEPENDENT_AUDIT_20260905.json"),
+    (Path("trad/config/source_factor_response_v9.json"), "SOURCE_FACTOR_RESPONSE_V9_INACTIVE.json"),
+    (Path("trad/config/source_conditioned_currency_rank_v8.json"), "SOURCE_CONDITIONED_CURRENCY_RANK_V8_INACTIVE.json"),
+    (Path("trad/FOREX_AUDIT_START_HERE.md"), "README.md"),
+    (Path("trad/FOREX_AUDIT_START_HERE.md"), "AUDIT_START_HERE.md"),
+    (Path("trad/FOREX_AUDIT_STATE_CURRENT.json"), "AUDIT_STATE_CURRENT.json"),
+    (Path("trad/docs/AUDIT_STATE_CURRENT.md"), "AUDIT_STATE_CURRENT.md"),
+    (Path("trad/docs/FOREX_FAULT_AUDIT_CURRENT.md"), "FAULT_AUDIT_CURRENT.md"),
+    (Path("trad/FOREX_FAULT_AUDIT_CURRENT.json"), "FAULT_AUDIT_CURRENT.json"),
+    (Path("trad/FOREX_VAULT_RESET_VALIDATION_20260905.json"), "VAULT_RESET_VALIDATION_CURRENT.json"),
+    (Path("trad/config/move_first_news_case_cohort_v3_20260901.json"), "MOVE_FIRST_NEWS_CASE_COHORT_CURRENT.json"),
+    (Path("trad/docs/VAULT_RECREATION_CURRENT.md"), "RECREATION.md"),
+    (Path("trad/config/requirements-research-audit-20260905.txt"), "RESEARCH_DEPENDENCIES_CURRENT.txt"),
     (Path("trad/FOREX_PENDING_IMPROVEMENTS.md"), "PENDING_IMPROVEMENTS_CURRENT.md"),
     (Path("trad/FOREX_PROJECT_LOG.md"), "PROJECT_LOG_CURRENT.md"),
+    (Path("trad/FOREX_ISSUE_REGISTER_CURRENT.json"), "ISSUE_REGISTER_CURRENT.json"),
+    (
+        Path("trad/FOREX_CORRECTNESS_REPAIR_VALIDATION_20260901.json"),
+        "CORRECTNESS_REPAIR_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_OFFICIAL_GEOPOLITICAL_AND_SCHEDULED_EVENT_CAPTURE_"
+            "VALIDATION_20260901.json"
+        ),
+        "OFFICIAL_GEOPOLITICAL_AND_SCHEDULED_EVENT_CAPTURE_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path("trad/FOREX_VAULT_CANONICAL_SNAPSHOT_VALIDATION_20260901.json"),
+        "VAULT_CANONICAL_SNAPSHOT_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_EXECUTABLE_MOVE_CENSUS_COHORT_D_"
+            "VALIDATION_20260901.json"
+        ),
+        "EXECUTABLE_MOVE_CENSUS_COHORT_D_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_EXECUTABLE_MOVE_CENSUS_COHORT_E_"
+            "VALIDATION_20260901.json"
+        ),
+        "EXECUTABLE_MOVE_CENSUS_COHORT_E_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_EXECUTABLE_MOVE_CENSUS_COHORT_F_"
+            "VALIDATION_20260901.json"
+        ),
+        "EXECUTABLE_MOVE_CENSUS_COHORT_F_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_EXECUTABLE_MOVE_CENSUS_COHORT_G_"
+            "VALIDATION_20260902.json"
+        ),
+        "EXECUTABLE_MOVE_CENSUS_COHORT_G_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_INTEGRITY_PUBLICATION_FRESHNESS_"
+            "VALIDATION_20260901.json"
+        ),
+        "INTEGRITY_PUBLICATION_FRESHNESS_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path("trad/FOREX_EVIDENCE_SNAPSHOT_VALIDATION_20260901.json"),
+        "EVIDENCE_SNAPSHOT_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path("trad/FOREX_PREFINAL_SELECTION_TELEMETRY_VALIDATION_20260901.json"),
+        "PREFINAL_SELECTION_TELEMETRY_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path("trad/FOREX_FACTOR_SUPPORT_DIAGNOSTIC_VALIDATION_20260901.json"),
+        "FACTOR_SUPPORT_DIAGNOSTIC_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path("trad/FOREX_FACTOR_SUPPORT_METRICS_VALIDATION_20260901.json"),
+        "FACTOR_SUPPORT_METRICS_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path("trad/FOREX_POINT_IN_TIME_INTEGRITY_VALIDATION_20260901.json"),
+        "POINT_IN_TIME_INTEGRITY_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path("trad/FOREX_SOURCE_RANK_ABSTAIN_INVENTORY_VALIDATION_20260901.json"),
+        "SOURCE_RANK_ABSTAIN_INVENTORY_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path("trad/FOREX_BOJ_MARKET_STRUCTURE_OVERLAY_VALIDATION_20260901.json"),
+        "BOJ_MARKET_STRUCTURE_OVERLAY_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path("trad/FOREX_OUTCOME_PUBLICATION_ATOMICITY_VALIDATION_20260901.json"),
+        "OUTCOME_PUBLICATION_ATOMICITY_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path("trad/FOREX_NEWS_GOVERNANCE_FAST_LANE_VALIDATION_20260901.json"),
+        "NEWS_GOVERNANCE_FAST_LANE_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path("trad/FOREX_OPERATIONAL_MAPPING_ALIGNMENT_VALIDATION_20260901.json"),
+        "OPERATIONAL_MAPPING_ALIGNMENT_V1_VALIDATION_BASELINE.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_OPERATIONAL_MAPPING_SYNDICATION_DEDUP_"
+            "VALIDATION_20260901.json"
+        ),
+        "OPERATIONAL_MAPPING_ALIGNMENT_V2_VALIDATION_BASELINE.json",
+    ),
+    (
+        Path("trad/FOREX_NARRATIVE_FAMILY_DECAY_VALIDATION_20260901.json"),
+        "OPERATIONAL_MAPPING_ALIGNMENT_V3_INVALIDATED_BASELINE.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_OPERATIONAL_MAPPING_SUBSECOND_CAUSALITY_"
+            "VALIDATION_20260902.json"
+        ),
+        "OPERATIONAL_MAPPING_ALIGNMENT_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_QUOTE_TRADEABILITY_STATUS_"
+            "VALIDATION_20260901.json"
+        ),
+        "QUOTE_TRADEABILITY_STATUS_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_AGGREGATE_SIGNAL_LINEAGE_AND_CONFLICT_AUDIT_"
+            "VALIDATION_20260901.json"
+        ),
+        "AGGREGATE_SIGNAL_LINEAGE_AND_CONFLICT_AUDIT_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_SECONDARY_CRYPTO_SOURCE_FACTOR_GATE_"
+            "VALIDATION_20260901.json"
+        ),
+        "SECONDARY_CRYPTO_SOURCE_FACTOR_GATE_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path("trad/FOREX_DIRECT_COMMODITY_ACCESS_AUDIT_20260901.json"),
+        "DIRECT_COMMODITY_ACCESS_AUDIT_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_ISSUER_BOUND_POLICY_COMMUNICATION_"
+            "VALIDATION_20260901.json"
+        ),
+        "ISSUER_BOUND_POLICY_COMMUNICATION_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_DISCOVERY_SOURCE_LINEAGE_"
+            "VALIDATION_20260901.json"
+        ),
+        "DISCOVERY_SOURCE_LINEAGE_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_MAJOR_MOVE_CENSUS_LIVENESS_"
+            "VALIDATION_20260901.json"
+        ),
+        "MAJOR_MOVE_CENSUS_LIVENESS_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_LIFECYCLE_PUBLICATION_CONSISTENCY_"
+            "VALIDATION_20260901.json"
+        ),
+        "LIFECYCLE_PUBLICATION_CONSISTENCY_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_SOURCE_READINESS_AND_INTEGRITY_FRESHNESS_"
+            "VALIDATION_20260901.json"
+        ),
+        "SOURCE_READINESS_AND_INTEGRITY_FRESHNESS_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_INTEGRITY_RUNTIME_CONTRACT_RELOAD_"
+            "VALIDATION_20260902.json"
+        ),
+        "INTEGRITY_RUNTIME_CONTRACT_RELOAD_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_SCHEDULED_FACTOR_AND_INTEGRITY_LIVENESS_"
+            "VALIDATION_20260902.json"
+        ),
+        "SCHEDULED_FACTOR_AND_INTEGRITY_LIVENESS_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_LIFECYCLE_VERIFIER_CADENCE_"
+            "VALIDATION_20260902.json"
+        ),
+        "LIFECYCLE_VERIFIER_CADENCE_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_PROJECT_INTEGRITY_HISTORY_ROTATION_"
+            "VALIDATION_20260902.json"
+        ),
+        "PROJECT_INTEGRITY_HISTORY_ROTATION_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_LIFECYCLE_GENEALOGY_LOCK_RETRY_"
+            "VALIDATION_20260902.json"
+        ),
+        "LIFECYCLE_GENEALOGY_LOCK_RETRY_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_LIFECYCLE_SEMANTIC_REPUBLICATION_"
+            "VALIDATION_20260902.json"
+        ),
+        "LIFECYCLE_SEMANTIC_REPUBLICATION_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_SIGNAL_TRIAL_BARRIER_SUMMARY_PERFORMANCE_"
+            "VALIDATION_20260902.json"
+        ),
+        "SIGNAL_TRIAL_BARRIER_SUMMARY_PERFORMANCE_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_SUPERVISOR_PROCESS_SNAPSHOT_PERFORMANCE_"
+            "VALIDATION_20260902.json"
+        ),
+        "SUPERVISOR_PROCESS_SNAPSHOT_PERFORMANCE_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_SIGNAL_SNAPSHOT_QUOTE_COVERAGE_"
+            "VALIDATION_20260902.json"
+        ),
+        "SIGNAL_SNAPSHOT_QUOTE_COVERAGE_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path("trad/FOREX_RESEARCH_STDOUT_GROWTH_VALIDATION_20260902.json"),
+        "RESEARCH_STDOUT_GROWTH_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path("trad/FOREX_BOC_PLACEHOLDER_HANDOFF_VALIDATION_20260902.json"),
+        "BOC_PLACEHOLDER_HANDOFF_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_OFFICIAL_EVENT_PAIR_QUOTE_CAPTURE_"
+            "VALIDATION_20260902.json"
+        ),
+        "OFFICIAL_EVENT_PAIR_QUOTE_CAPTURE_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_OFFICIAL_EVENT_PAIR_HORIZON_CAPTURE_"
+            "VALIDATION_20260902.json"
+        ),
+        "OFFICIAL_EVENT_PAIR_HORIZON_CAPTURE_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_OFFICIAL_RELEASE_URL_IDENTITY_DEDUP_"
+            "VALIDATION_20260902.json"
+        ),
+        "OFFICIAL_RELEASE_URL_IDENTITY_DEDUP_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_IMMUTABLE_FIRST_SEEN_ACTIVATION_REPLAY_"
+            "VALIDATION_20260902.json"
+        ),
+        "IMMUTABLE_FIRST_SEEN_ACTIVATION_REPLAY_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path("trad/FOREX_JPY_CONTINUATION_CASE_AUDIT_20260902.json"),
+        "JPY_CONTINUATION_CASE_AUDIT_CURRENT.json",
+    ),
+    (
+        Path("trad/FOREX_SEVEN_HOUR_LIVE_WATCH_VALIDATION_20260902.json"),
+        "SEVEN_HOUR_LIVE_WATCH_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path("trad/FOREX_GDELT_SECURE_TRANSPORT_INCIDENT_20260902.json"),
+        "GDELT_SECURE_TRANSPORT_INCIDENT_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_SOURCE_RANK_V7_ATOMIC_PUBLICATION_"
+            "VALIDATION_20260902.json"
+        ),
+        "SOURCE_RANK_V7_ATOMIC_PUBLICATION_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path("trad/FOREX_WEEK_RECAP_CUTOFF_CLOCK_VALIDATION_20260904.json"),
+        "WEEK_RECAP_CUTOFF_CLOCK_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path("trad/FOREX_OFFICIAL_EVENT_CAPTURE_READ_CLOCK_VALIDATION_20260904.json"),
+        "OFFICIAL_EVENT_CAPTURE_READ_CLOCK_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path("trad/FOREX_BLS_EMPLOYMENT_DIRECT_PATH_VALIDATION_20260904.json"),
+        "BLS_EMPLOYMENT_DIRECT_PATH_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path("trad/FOREX_STATCAN_LFS_DIRECT_PATH_VALIDATION_20260904.json"),
+        "STATCAN_LFS_DIRECT_PATH_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_CONDITIONAL_POLICY_AND_SYNDICATION_GUARD_"
+            "VALIDATION_20260904.json"
+        ),
+        "CONDITIONAL_POLICY_AND_SYNDICATION_GUARD_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_WATCHLIST_POST_INPUT_READ_CLOCK_"
+            "VALIDATION_20260904.json"
+        ),
+        "WATCHLIST_POST_INPUT_READ_CLOCK_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_JAPAN_EXTERNAL_POLICY_PRESSURE_RESEARCH_"
+            "VALIDATION_20260904.json"
+        ),
+        "JAPAN_EXTERNAL_POLICY_PRESSURE_RESEARCH_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_SQLITE_READER_LOCK_HARDENING_"
+            "VALIDATION_20260904.json"
+        ),
+        "SQLITE_READER_LOCK_HARDENING_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_DEESCALATION_PROPOSAL_GUARD_"
+            "VALIDATION_20260904.json"
+        ),
+        "DEESCALATION_PROPOSAL_GUARD_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_MARKET_STATE_ANALYSIS_GUARD_"
+            "VALIDATION_20260904.json"
+        ),
+        "MARKET_STATE_ANALYSIS_GUARD_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path("trad/FOREX_CLASSIFICATION_HOT_RELOAD_INCIDENT_20260904.json"),
+        "CLASSIFICATION_HOT_RELOAD_INCIDENT_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_CONDITIONAL_MARKET_RECAP_GUARD_"
+            "VALIDATION_20260904.json"
+        ),
+        "CONDITIONAL_MARKET_RECAP_GUARD_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_OPPOSING_POLICY_CLAIM_GUARD_"
+            "VALIDATION_20260904.json"
+        ),
+        "OPPOSING_POLICY_CLAIM_GUARD_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_CONFLICT_DURATION_RECAP_GUARD_"
+            "VALIDATION_20260904.json"
+        ),
+        "CONFLICT_DURATION_RECAP_GUARD_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/FOREX_MISS_RECAP_AND_MARKET_CLOSE_WATCH_"
+            "VALIDATION_20260904.json"
+        ),
+        "MISS_RECAP_AND_MARKET_CLOSE_WATCH_VALIDATION_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/data/oanda_training_manager/reports/"
+            "week_to_date_event_move_audit/"
+            "WEEK_TO_DATE_PROJECT_EVENT_MOVE_RECAP_20260904T210000Z.json"
+        ),
+        "WEEK_TO_DATE_PROJECT_EVENT_MOVE_RECAP_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/data/oanda_training_manager/reports/"
+            "week_to_date_event_move_audit/"
+            "WEEK_TO_DATE_PROJECT_EVENT_MOVE_RECAP_20260904T210000Z.md"
+        ),
+        "WEEK_TO_DATE_PROJECT_EVENT_MOVE_RECAP_CURRENT.md",
+    ),
+    (
+        Path(
+            "trad/data/oanda_training_manager/reports/"
+            "week_to_date_event_move_audit/"
+            "WEEK_TO_DATE_PROJECT_EVENT_MOVE_RECAP_20260904T210000Z.sha256"
+        ),
+        "WEEK_TO_DATE_PROJECT_EVENT_MOVE_RECAP_CURRENT.sha256",
+    ),
     (
         Path("trad/config/forex_source_gap_register_v1.json"),
         "SOURCE_GAP_REGISTER_CURRENT.json",
     ),
     (Path("trad/MODEL_FEATURE_SPACE.md"), "MODEL_FEATURE_SPACE_CURRENT.md"),
+    (Path("trad/config/model_feature_space.json"), "MODEL_FEATURE_SPACE_CURRENT.json"),
+    (Path("trad/config/news_sources_v1.json"), "NEWS_SOURCES_CURRENT.json"),
+    (
+        Path("trad/config/official_central_bank_source_map_v1.json"),
+        "OFFICIAL_CENTRAL_BANK_SOURCE_MAP_CURRENT.json",
+    ),
     (
         Path("trad/config/official_currency_source_depth_v1.json"),
         "OFFICIAL_CURRENCY_SOURCE_DEPTH_CURRENT.json",
+    ),
+    (
+        Path("trad/config/scheduled_event_quote_capture_v2.json"),
+        "SCHEDULED_EVENT_QUOTE_CAPTURE_CONTRACT_CURRENT.json",
+    ),
+    (
+        Path("trad/config/scheduled_event_factor_reaction_v1_20260902b.json"),
+        "SCHEDULED_EVENT_FACTOR_REACTION_CONTRACT_CURRENT.json",
+    ),
+    (
+        Path("trad/config/move_first_live_case_capture_v4_20260901.json"),
+        "MOVE_FIRST_LIVE_CASE_CAPTURE_CONTRACT_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/data/oanda_training_manager/reports/"
+            "move_first_live_case_capture_v4/"
+            "MOVE_FIRST_LIVE_CASE_CAPTURE_CURRENT.json"
+        ),
+        "MOVE_FIRST_LIVE_CASE_CAPTURE_STATUS_CURRENT.json",
+    ),
+    (
+        Path("trad/config/move_first_live_arm_alignment_v1_20260901.json"),
+        "MOVE_FIRST_LIVE_ARM_ALIGNMENT_CONTRACT_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/data/oanda_training_manager/reports/"
+            "move_first_live_arm_alignment_v1/"
+            "MOVE_FIRST_LIVE_ARM_ALIGNMENT_CURRENT.json"
+        ),
+        "MOVE_FIRST_LIVE_ARM_ALIGNMENT_STATUS_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/config/"
+            "move_first_operational_mapping_alignment_v1_20260901.json"
+        ),
+        "MOVE_FIRST_OPERATIONAL_MAPPING_ALIGNMENT_V1_BASELINE.json",
+    ),
+    (
+        Path(
+            "trad/data/oanda_training_manager/reports/"
+            "move_first_operational_mapping_alignment_v1/"
+            "MOVE_FIRST_OPERATIONAL_MAPPING_ALIGNMENT_CURRENT.json"
+        ),
+        "MOVE_FIRST_OPERATIONAL_MAPPING_ALIGNMENT_V1_STATUS_BASELINE.json",
+    ),
+    (
+        Path(
+            "trad/config/"
+            "move_first_operational_mapping_alignment_v2_20260901.json"
+        ),
+        "MOVE_FIRST_OPERATIONAL_MAPPING_ALIGNMENT_V2_BASELINE.json",
+    ),
+    (
+        Path(
+            "trad/data/oanda_training_manager/reports/"
+            "move_first_operational_mapping_alignment_v2/"
+            "MOVE_FIRST_OPERATIONAL_MAPPING_ALIGNMENT_CURRENT.json"
+        ),
+        "MOVE_FIRST_OPERATIONAL_MAPPING_ALIGNMENT_V2_STATUS_BASELINE.json",
+    ),
+    (
+        Path(
+            "trad/config/"
+            "move_first_operational_mapping_alignment_v3_20260901.json"
+        ),
+        "MOVE_FIRST_OPERATIONAL_MAPPING_ALIGNMENT_V3_INVALIDATED_BASELINE.json",
+    ),
+    (
+        Path(
+            "trad/data/oanda_training_manager/reports/"
+            "move_first_operational_mapping_alignment_v3/"
+            "MOVE_FIRST_OPERATIONAL_MAPPING_ALIGNMENT_CURRENT.json"
+        ),
+        "MOVE_FIRST_OPERATIONAL_MAPPING_ALIGNMENT_V3_STATUS_INVALIDATED_BASELINE.json",
+    ),
+    (
+        Path(
+            "trad/config/"
+            "move_first_operational_mapping_alignment_v4_20260902.json"
+        ),
+        "MOVE_FIRST_OPERATIONAL_MAPPING_ALIGNMENT_CONTRACT_CURRENT.json",
+    ),
+    (
+        Path(
+            "trad/data/oanda_training_manager/reports/"
+            "move_first_operational_mapping_alignment_v4/"
+            "MOVE_FIRST_OPERATIONAL_MAPPING_ALIGNMENT_CURRENT.json"
+        ),
+        "MOVE_FIRST_OPERATIONAL_MAPPING_ALIGNMENT_STATUS_CURRENT.json",
+    ),
+    (
+        Path("trad/config/move_first_calendar_episode_labels_v1_20260901.json"),
+        "MOVE_FIRST_CALENDAR_EPISODE_LABELS_CURRENT.json",
+    ),
+    (
+        Path("trad/config/source_conditioned_currency_rank_v6.json"),
+        "SOURCE_CONDITIONED_CURRENCY_RANK_V6_BASELINE.json",
+    ),
+    (
+        Path("trad/config/source_conditioned_currency_rank_v7.json"),
+        "SOURCE_CONDITIONED_CURRENCY_RANK_CURRENT.json",
     ),
 )
 SECOND_FORECAST_ARTIFACTS = (
@@ -234,6 +845,14 @@ NEWS_EVENT_TAGGING_SOURCE_FILES = (
     Path("trad/oanda_official_release_fast_lane_contract.py"),
     Path("trad/oanda_official_event_quote_horizon_capture_v1.py"),
     Path("trad/oanda_official_event_quote_horizon_capture_v1_verifier.py"),
+    Path("trad/oanda_official_event_pair_quote_capture_v1.py"),
+    Path("trad/oanda_official_event_pair_quote_capture_v1_verifier.py"),
+    Path("trad/oanda_official_event_pair_quote_capture_v2.py"),
+    Path("trad/oanda_official_event_pair_quote_capture_v2_verifier.py"),
+    Path("trad/oanda_official_event_pair_quote_capture_v3.py"),
+    Path("trad/oanda_official_event_pair_quote_capture_v3_verifier.py"),
+    Path("trad/oanda_official_event_pair_horizon_capture_v1.py"),
+    Path("trad/oanda_official_event_pair_horizon_capture_v1_verifier.py"),
     Path("trad/oanda_official_event_paired_evaluator_v1.py"),
     Path("trad/oanda_official_event_paired_evaluator_v1_verifier.py"),
     Path("trad/oanda_official_release_fast_mapper.py"),
@@ -242,9 +861,17 @@ NEWS_EVENT_TAGGING_SOURCE_FILES = (
     Path("trad/oanda_causal_source_factor_response_map_v2.py"),
     Path("trad/oanda_causal_source_factor_response_map_v3.py"),
     Path("trad/oanda_causal_source_factor_response_map_v4.py"),
+    Path("trad/oanda_causal_source_factor_response_map_v5.py"),
+    Path("trad/oanda_causal_source_factor_response_map_v6.py"),
+    Path("trad/oanda_causal_source_factor_response_map_v7.py"),
+    Path("trad/oanda_causal_source_factor_response_map_v8.py"),
     Path("trad/oanda_source_conditioned_currency_rank_v1.py"),
     Path("trad/oanda_source_conditioned_currency_rank_v2.py"),
     Path("trad/oanda_source_conditioned_currency_rank_v3.py"),
+    Path("trad/oanda_source_conditioned_currency_rank_v4.py"),
+    Path("trad/oanda_source_conditioned_currency_rank_v5.py"),
+    Path("trad/oanda_source_conditioned_currency_rank_v6.py"),
+    Path("trad/oanda_source_conditioned_currency_rank_v7.py"),
     Path("trad/oanda_source_governance.py"),
     Path("trad/oanda_project_integrity_audit.py"),
     Path("trad/oanda_news_source_coverage.py"),
@@ -266,6 +893,10 @@ NEWS_EVENT_TAGGING_SOURCE_FILES = (
     Path("trad/config/forex_source_gap_register_v1.json"),
     Path("trad/config/official_central_bank_source_map_v1.json"),
     Path("trad/config/official_event_quote_horizon_capture_v1.json"),
+    Path("trad/config/official_event_pair_quote_capture_v1.json"),
+    Path("trad/config/official_event_pair_quote_capture_v2.json"),
+    Path("trad/config/official_event_pair_quote_capture_v3.json"),
+    Path("trad/config/official_event_pair_horizon_capture_v1.json"),
     Path("trad/config/official_event_paired_evaluator_v1.json"),
     Path("trad/config/official_currency_source_depth_v1.json"),
     Path("trad/config/linked_currency_policy_drivers_v1.json"),
@@ -274,6 +905,10 @@ NEWS_EVENT_TAGGING_SOURCE_FILES = (
     Path("trad/config/source_conditioned_currency_rank_v1.json"),
     Path("trad/config/source_conditioned_currency_rank_v2.json"),
     Path("trad/config/source_conditioned_currency_rank_v3.json"),
+    Path("trad/config/source_conditioned_currency_rank_v4.json"),
+    Path("trad/config/source_conditioned_currency_rank_v5.json"),
+    Path("trad/config/source_conditioned_currency_rank_v6.json"),
+    Path("trad/config/source_conditioned_currency_rank_v7.json"),
     Path("trad/docs/ALL_PAIR_NEWS_EVENT_TAGGING.md"),
     Path("trad/docs/OFFICIAL_EVENT_QUOTE_HORIZON_CAPTURE_V1.md"),
     Path("trad/docs/OFFICIAL_EVENT_PAIRED_EVALUATOR_V1.md"),
@@ -286,6 +921,10 @@ NEWS_EVENT_TAGGING_SOURCE_FILES = (
     Path("trad/test_oanda_official_release_fast_lane_communications.py"),
     Path("trad/test_oanda_official_event_quote_horizon_capture_v1.py"),
     Path("trad/test_oanda_official_event_quote_horizon_capture_v1_verifier.py"),
+    Path("trad/test_oanda_official_event_pair_quote_capture_v1.py"),
+    Path("trad/test_oanda_official_event_pair_quote_capture_v2.py"),
+    Path("trad/test_oanda_official_event_pair_quote_capture_v3.py"),
+    Path("trad/test_oanda_official_event_pair_horizon_capture_v1.py"),
     Path("trad/test_oanda_official_event_paired_evaluator_v1.py"),
     Path("trad/test_oanda_official_event_paired_evaluator_v1_verifier.py"),
     Path("trad/test_oanda_source_governance.py"),
@@ -296,9 +935,17 @@ NEWS_EVENT_TAGGING_SOURCE_FILES = (
     Path("trad/test_oanda_causal_source_factor_response_map_v2.py"),
     Path("trad/test_oanda_causal_source_factor_response_map_v3.py"),
     Path("trad/test_oanda_causal_source_factor_response_map_v4.py"),
+    Path("trad/test_oanda_causal_source_factor_response_map_v5.py"),
+    Path("trad/test_oanda_causal_source_factor_response_map_v6.py"),
+    Path("trad/test_oanda_causal_source_factor_response_map_v7.py"),
+    Path("trad/test_oanda_causal_source_factor_response_map_v8.py"),
     Path("trad/test_oanda_source_conditioned_currency_rank_v1.py"),
     Path("trad/test_oanda_source_conditioned_currency_rank_v2.py"),
     Path("trad/test_oanda_source_conditioned_currency_rank_v3.py"),
+    Path("trad/test_oanda_source_conditioned_currency_rank_v4.py"),
+    Path("trad/test_oanda_source_conditioned_currency_rank_v5.py"),
+    Path("trad/test_oanda_source_conditioned_currency_rank_v6.py"),
+    Path("trad/test_oanda_source_conditioned_currency_rank_v7.py"),
     Path("trad/test_oanda_shadow_runtime_retirements.py"),
     Path("trad/test_oanda_atomic_publish_resilience.py"),
     Path("trad/test_oanda_progress_heartbeat_wiring.py"),
@@ -392,6 +1039,9 @@ CURRENT_STATE_ARTIFACTS = (
         "trad/data/oanda_training_manager/model_space/"
         "modern_model_dependency_status_latest.json"
     ),
+)
+INTEGRITY_SNAPSHOT_ARTIFACTS = (
+    Path("trad/data/oanda_training_manager/state/project_integrity_audit_v1.json"),
 )
 MODEL_LIFECYCLE_FILES = (
     Path("trad/data/oanda_training_manager/model_lifecycle/index.json"),
@@ -524,6 +1174,34 @@ def iter_tree(root: Path):
             if path.suffix.lower() not in SOURCE_EXTENSIONS:
                 continue
             yield path
+
+
+def _capture_integrity_exports(root: Path, files: list[Path]) -> dict[str, bytes]:
+    """Pin the exact included integrity snapshots and their verified closure.
+
+    Only this explicit snapshot allowlist can add dependencies. In particular,
+    this never walks the detail directory or follows references in other JSON.
+    Relative archive paths preserve the original snapshot-directory base.
+    """
+    included = {path.relative_to(root).as_posix() for path in files}
+    captured: dict[str, bytes] = {}
+    resolved_root = root.resolve()
+    for relative in INTEGRITY_SNAPSHOT_ARTIFACTS:
+        name = relative.as_posix()
+        if name not in included:
+            continue
+        path = root / relative
+        if not path.resolve().is_relative_to(resolved_root):
+            raise ValueError("integrity snapshot escapes checkpoint root")
+        encoded = path.read_bytes()
+        payload = json.loads(encoded)
+        if not isinstance(payload, dict):
+            raise ValueError("integrity checkpoint snapshot is not an object")
+        artifacts = verified_detail_artifact_bytes(payload, snapshot_dir=path.parent)
+        captured[name] = encoded
+        for artifact, content in artifacts.items():
+            captured[artifact.relative_to(resolved_root).as_posix()] = content
+    return captured
 
 
 def collect_files(root: Path) -> list[Path]:
@@ -762,6 +1440,10 @@ def collect_files(root: Path) -> list[Path]:
                 if path.is_file():
                     selected[path.relative_to(root).as_posix()] = path
 
+    # Include only the verified transitive closure of explicitly selected
+    # integrity snapshots. Missing/corrupt details abort checkpoint collection.
+    for relative in _capture_integrity_exports(root, list(selected.values())):
+        selected[relative] = root / relative
     return [selected[key] for key in sorted(selected)]
 
 
@@ -825,6 +1507,21 @@ def write_zip(
     manifest: dict,
     destination: Path,
 ) -> dict:
+    # A current snapshot can change after collect_files(). Capture its current
+    # bytes and exact detail closure before creating/replacing any checkpoint;
+    # use these same verified bytes throughout ZIP creation.
+    captured = _capture_integrity_exports(root, files)
+    selected = {path.relative_to(root).as_posix(): path for path in files}
+    for relative in INTEGRITY_SNAPSHOT_ARTIFACTS:
+        if relative.as_posix() not in captured:
+            continue
+        prefix = (relative.parent / INTEGRITY_DETAIL_DIRECTORY).as_posix() + "/"
+        selected = {
+            name: path for name, path in selected.items()
+            if not name.startswith(prefix) or name in captured
+        }
+    selected.update({name: root / name for name in captured})
+    files = [selected[name] for name in sorted(selected)]
     destination.parent.mkdir(parents=True, exist_ok=True)
     fd, temp_name = tempfile.mkstemp(prefix="forex_model_checkpoint_", suffix=".tmp", dir=destination.parent)
     os.close(fd)
@@ -841,7 +1538,11 @@ def write_zip(
                     date_time=(1980, 1, 1, 0, 0, 0),
                 )
                 member.compress_type = zipfile.ZIP_DEFLATED
-                with open_binary_read(path) as source, archive.open(
+                source_stream = (
+                    io.BytesIO(captured[relative]) if relative in captured
+                    else open_binary_read(path)
+                )
+                with source_stream as source, archive.open(
                     member,
                     "w",
                     force_zip64=True,
@@ -888,6 +1589,26 @@ def copy_file_atomic(source: Path, destination: Path) -> None:
     temp_path = Path(temp_name)
     try:
         shutil.copy2(source, temp_path)
+        os.replace(temp_path, destination)
+    finally:
+        temp_path.unlink(missing_ok=True)
+
+
+def write_bytes_atomic(destination: Path, payload: bytes) -> None:
+    """Publish one already-captured byte snapshot without a second source read."""
+
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    fd, temp_name = tempfile.mkstemp(
+        prefix=f"{destination.name}.",
+        suffix=".tmp",
+        dir=destination.parent,
+    )
+    temp_path = Path(temp_name)
+    try:
+        with os.fdopen(fd, "wb") as handle:
+            handle.write(payload)
+            handle.flush()
+            os.fsync(handle.fileno())
         os.replace(temp_path, destination)
     finally:
         temp_path.unlink(missing_ok=True)
@@ -1213,40 +1934,84 @@ def sync_bootstrap_files(root: Path, vault_project: Path) -> dict:
 
 
 def sync_canonical_project_records(root: Path, vault_project: Path) -> dict:
-    """Publish small current source/feature/progress records beside the archive."""
+    """Preflight every required record before publishing any current bytes."""
+    try:
+        from tools import vault_worktree_snapshot as source_safety
+    except ModuleNotFoundError:
+        from trad.tools import vault_worktree_snapshot as source_safety
 
-    rows = []
-    changed = False
+    root = Path(root).absolute()
+    vault_project = Path(vault_project).absolute()
+    # Reject name-surrogate redirects, but permit OneDrive hydration tags.
+    for directory in (root, vault_project):
+        for ancestor in (directory, *directory.parents):
+            if ancestor.is_symlink() or getattr(ancestor.lstat(), "st_reparse_tag", 0) & 0x20000000:
+                raise RuntimeError("canonical record preflight rejected a redirected root")
+        if not directory.is_dir():
+            raise RuntimeError("canonical record preflight requires existing directories")
+    if not CANONICAL_PROJECT_RECORDS:
+        raise RuntimeError("canonical record preflight has no configured records")
+    private_values = source_safety.known_private_values([root / "trad" / "creds"])
+    prepared = []
+    destinations_seen = set()
     for relative_path, destination_name in CANONICAL_PROJECT_RECORDS:
-        source = root / relative_path
-        if not source.is_file():
-            continue
-        digest = sha256_file(source)
+        relative_name = relative_path.as_posix()
+        source_safety.safe_name(relative_name)
+        source_safety.safe_name(destination_name)
+        if "/" in destination_name or destination_name.casefold() in destinations_seen:
+            raise RuntimeError("canonical record preflight rejected duplicate/nonlocal destination")
+        destinations_seen.add(destination_name.casefold())
+        try:
+            source = source_safety.regular_file(root, relative_name)
+            snapshot = source.read_bytes()
+        except (OSError, RuntimeError) as exc:
+            raise RuntimeError(
+                f"canonical record preflight missing/invalid required source: {relative_name}"
+            ) from exc
+        source_safety.audit_payload(relative_name.removeprefix("trad/"), snapshot, private_values)
+        digest = hashlib.sha256(snapshot).hexdigest()
+        snapshot_size = len(snapshot)
         target = vault_project / destination_name
+        if target.exists() or target.is_symlink():
+            source_safety.regular_file(vault_project, destination_name)
         target_matches = (
             target.is_file()
-            and target.stat().st_size == source.stat().st_size
+            and target.stat().st_size == snapshot_size
             and sha256_file(target) == digest
         )
-        if not target_matches:
-            copy_file_atomic(source, target)
-            changed = True
-        rows.append(
-            {
+        prepared.append((target, snapshot, target_matches, {
                 "name": destination_name,
-                "source": relative_path.as_posix(),
-                "size": source.stat().st_size,
+                "source": relative_name,
+                "size": snapshot_size,
                 "sha256": digest,
-            }
-        )
+            }))
+    manifest_path = vault_project / "SHARED_PROJECT_STATE_CURRENT.json"
+    if manifest_path.exists() or manifest_path.is_symlink():
+        source_safety.regular_file(vault_project, manifest_path.name)
+    # All configured source bytes and output paths are now approved. A failed
+    # preflight above leaves both old records and the old manifest untouched.
+    rows = []
+    changed = False
+    for target, snapshot, target_matches, row in prepared:
+        if not target_matches:
+            write_bytes_atomic(target, snapshot)
+            changed = True
+        if sha256_file(target) != row["sha256"]:
+            raise RuntimeError("canonical record persisted-byte verification failed")
+        rows.append(row)
     manifest = {
         "schema_version": 1,
         "generated_utc": datetime.now(timezone.utc).isoformat(),
         "records": rows,
         "record_count": len(rows),
         "contains_credentials": False,
+        "credential_audit": {
+            "passed": True,
+            "records_scanned": len(rows),
+            "known_private_values_checked": bool(private_values),
+            "shared_pattern_rules": sorted(source_safety.credentials.PATTERNS),
+        },
     }
-    manifest_path = vault_project / "SHARED_PROJECT_STATE_CURRENT.json"
     previous = load_json_optional(manifest_path)
     comparable_previous = dict(previous)
     comparable_previous.pop("generated_utc", None)
@@ -1910,6 +2675,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--retention", type=int, default=12)
     parser.add_argument("--destination", type=Path, action="append")
     parser.add_argument("--news-event-only", action="store_true")
+    parser.add_argument(
+        "--canonical-only",
+        action="store_true",
+        help=(
+            "Publish only the small credential-free current project records; "
+            "do not build, copy, or prune checkpoint archives."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -1917,7 +2690,48 @@ def main() -> int:
     args = parse_args()
     destinations = args.destination or [DEFAULT_VAULT_PROJECT]
     while True:
-        if args.news_event_only:
+        if args.news_event_only and args.canonical_only:
+            raise ValueError("--news-event-only and --canonical-only are mutually exclusive")
+        if args.canonical_only:
+            results = []
+            for destination in destinations:
+                destination = destination.resolve()
+                destination.mkdir(parents=True, exist_ok=True)
+                records = sync_canonical_project_records(
+                    args.root.resolve(),
+                    destination,
+                )
+                results.append(
+                    {
+                        "destination": str(destination),
+                        "changed": records["changed"],
+                        "canonical_project_records": records,
+                    }
+                )
+            result = {
+                "manifest": {
+                    "content_sha256": hashlib.sha256(
+                        json.dumps(
+                            [
+                                item["canonical_project_records"]["records"]
+                                for item in results
+                            ],
+                            sort_keys=True,
+                        ).encode("utf-8")
+                    ).hexdigest(),
+                    "file_count": sum(
+                        len(item["canonical_project_records"]["records"])
+                        for item in results
+                    ),
+                    "total_bytes": sum(
+                        row["size"]
+                        for item in results
+                        for row in item["canonical_project_records"]["records"]
+                    ),
+                },
+                "destinations": results,
+            }
+        elif args.news_event_only:
             result = sync_news_event_checkpoint(
                 args.root.resolve(),
                 destinations,

@@ -204,6 +204,7 @@ def test_mapper_rejects_wrong_fast_lane_contract(monkeypatch, tmp_path: Path):
     input_database = tmp_path / "input.sqlite"
     _seed_input(monkeypatch, input_database)
     with sqlite3.connect(input_database) as connection:
+        connection.execute("DROP TRIGGER trg_fast_lane_observation_no_update")
         connection.execute(
             "UPDATE official_release_observation SET collector_contract_id = 'forged'"
         )
@@ -226,6 +227,7 @@ def test_mapper_retains_prior_contract_as_nonprospective_diagnostic(
     input_database = tmp_path / "input.sqlite"
     _seed_input(monkeypatch, input_database)
     with sqlite3.connect(input_database) as connection:
+        connection.execute("DROP TRIGGER trg_fast_lane_observation_no_update")
         connection.execute(
             """
             UPDATE official_release_observation

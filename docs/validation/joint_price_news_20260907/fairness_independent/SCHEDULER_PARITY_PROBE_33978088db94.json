@@ -1,0 +1,315 @@
+{
+  "source_sha256": "33978088db94ea5a21e014457dee475ae32acda7014e541f6309d357ab868686",
+  "fits": {
+    "AUD_CAD": 12,
+    "AUD_JPY": 12,
+    "AUD_USD": 12
+  },
+  "captures": {
+    "AUD_CHF": 12,
+    "AUD_NZD": 12,
+    "CAD_CHF": 12
+  },
+  "pairs_never_fit": [
+    "AUD_CHF",
+    "AUD_NZD",
+    "CAD_CHF"
+  ],
+  "pairs_never_captured": [
+    "AUD_CAD",
+    "AUD_JPY",
+    "AUD_USD"
+  ],
+  "conditions": "six even-count pairs, continuously changed fresh quotes/signatures, repeated failed fits,31s per operation",
+  "live_runtime_interaction": false,
+  "actions": [
+    {
+      "kind": "fit",
+      "pair": "AUD_CAD"
+    },
+    {
+      "kind": "capture",
+      "pair": "AUD_CHF"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_JPY"
+    },
+    {
+      "kind": "capture",
+      "pair": "AUD_NZD"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_USD"
+    },
+    {
+      "kind": "capture",
+      "pair": "CAD_CHF"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_CAD"
+    },
+    {
+      "kind": "capture",
+      "pair": "AUD_CHF"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_JPY"
+    },
+    {
+      "kind": "capture",
+      "pair": "AUD_NZD"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_USD"
+    },
+    {
+      "kind": "capture",
+      "pair": "CAD_CHF"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_CAD"
+    },
+    {
+      "kind": "capture",
+      "pair": "AUD_CHF"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_JPY"
+    },
+    {
+      "kind": "capture",
+      "pair": "AUD_NZD"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_USD"
+    },
+    {
+      "kind": "capture",
+      "pair": "CAD_CHF"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_CAD"
+    },
+    {
+      "kind": "capture",
+      "pair": "AUD_CHF"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_JPY"
+    },
+    {
+      "kind": "capture",
+      "pair": "AUD_NZD"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_USD"
+    },
+    {
+      "kind": "capture",
+      "pair": "CAD_CHF"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_CAD"
+    },
+    {
+      "kind": "capture",
+      "pair": "AUD_CHF"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_JPY"
+    },
+    {
+      "kind": "capture",
+      "pair": "AUD_NZD"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_USD"
+    },
+    {
+      "kind": "capture",
+      "pair": "CAD_CHF"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_CAD"
+    },
+    {
+      "kind": "capture",
+      "pair": "AUD_CHF"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_JPY"
+    },
+    {
+      "kind": "capture",
+      "pair": "AUD_NZD"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_USD"
+    },
+    {
+      "kind": "capture",
+      "pair": "CAD_CHF"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_CAD"
+    },
+    {
+      "kind": "capture",
+      "pair": "AUD_CHF"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_JPY"
+    },
+    {
+      "kind": "capture",
+      "pair": "AUD_NZD"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_USD"
+    },
+    {
+      "kind": "capture",
+      "pair": "CAD_CHF"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_CAD"
+    },
+    {
+      "kind": "capture",
+      "pair": "AUD_CHF"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_JPY"
+    },
+    {
+      "kind": "capture",
+      "pair": "AUD_NZD"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_USD"
+    },
+    {
+      "kind": "capture",
+      "pair": "CAD_CHF"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_CAD"
+    },
+    {
+      "kind": "capture",
+      "pair": "AUD_CHF"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_JPY"
+    },
+    {
+      "kind": "capture",
+      "pair": "AUD_NZD"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_USD"
+    },
+    {
+      "kind": "capture",
+      "pair": "CAD_CHF"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_CAD"
+    },
+    {
+      "kind": "capture",
+      "pair": "AUD_CHF"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_JPY"
+    },
+    {
+      "kind": "capture",
+      "pair": "AUD_NZD"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_USD"
+    },
+    {
+      "kind": "capture",
+      "pair": "CAD_CHF"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_CAD"
+    },
+    {
+      "kind": "capture",
+      "pair": "AUD_CHF"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_JPY"
+    },
+    {
+      "kind": "capture",
+      "pair": "AUD_NZD"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_USD"
+    },
+    {
+      "kind": "capture",
+      "pair": "CAD_CHF"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_CAD"
+    },
+    {
+      "kind": "capture",
+      "pair": "AUD_CHF"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_JPY"
+    },
+    {
+      "kind": "capture",
+      "pair": "AUD_NZD"
+    },
+    {
+      "kind": "fit",
+      "pair": "AUD_USD"
+    },
+    {
+      "kind": "capture",
+      "pair": "CAD_CHF"
+    }
+  ]
+}

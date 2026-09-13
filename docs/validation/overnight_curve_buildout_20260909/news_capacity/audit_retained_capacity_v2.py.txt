@@ -1,0 +1,156 @@
+"""Read three newest immutable shared captures; no DB, network, or project writes."""
+from pathlib import Path
+import datetime as dt
+import hashlib
+import json
+import os
+import time
+import zlib
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parent.parent / 'trad'
+REGISTRY_SHA = 'ee075e69e80ca56dfdf45abe1f7a1a301612176e67f7622eab1adf2bd9af8771'
+MIB = 1024 * 1024
+LOGICAL = 16 * MIB
+STORED = 8 * MIB
+SHARED_SOURCE_NAMES = {
+    'oanda_joint_price_news_models_v1.py', 'oanda_causal_forecast_inputs_joint_news_v2.py',
+    'oanda_pair_local_models_v2.py', 'oanda_causal_forecast_inputs_pair_v2.py',
+    'oanda_causal_forecast_inputs.py', 'oanda_causal_forecast_inputs_gap_v2.py',
+    'oanda_local_news_sentiment_repair_v1.py', 'oanda_news_topic_identity_reconciliation_v1.py',
+    'oanda_local_news_sentiment.py', 'oanda_news_classification_contract.py',
+    'oanda_news_causal_aggregation_guard_v1.py', 'oanda_news_event_tagger.py',
+    'oanda_news_collector_contract.py', 'oanda_source_governance.py', 'oanda_source_governance_news_fast_lane.py'}
+
+
+def need(ok, reason):
+    if not ok:
+        raise ValueError(reason)
+
+
+def encoded(value):
+    return json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=False, allow_nan=False).encode()
+
+
+def sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+
+def read(path, limit):
+    start = time.time()
+    identity = lambda stat: (stat.st_ino, stat.st_size, stat.st_mtime_ns)
+    before = path.stat()
+    need(before.st_size <= limit, 'file_bound')
+    with path.open('rb') as stream:
+        opened = os.fstat(stream.fileno())
+        raw = stream.read(limit + 1)
+        closed = os.fstat(stream.fileno())
+    after = path.stat()
+    need(len(raw) <= limit and identity(before) == identity(opened) == identity(closed) == identity(after), 'file_changed_or_bound')
+    return raw, dict(path=str(path.resolve()), sha256=sha(raw), bytes=len(raw), read_started_epoch=start,
+                     read_completed_epoch=time.time(), stat_identity=list(identity(after)), stat_stable=True)
+
+
+def unpack(raw):
+    decoder = zlib.decompressobj(16 + zlib.MAX_WBITS)
+    result = decoder.decompress(raw, LOGICAL + 1)
+    need(len(result) <= LOGICAL and not decoder.unconsumed_tail, 'logical_decompression_bound')
+    need(decoder.eof and not decoder.unused_data, 'gzip_geometry')
+    return result
+
+
+def headroom(used, limit, scope):
+    need(0 <= used <= limit, 'capacity_bound')
+    return dict(used=used, limit=limit, remaining=limit-used, used_percent=used/limit*100, scope=scope)
+
+
+def check_capture(path, bindings):
+    stored, evidence = read(path, STORED)
+    raw = unpack(stored)
+    value = json.loads(raw)
+    need(raw == encoded(value), 'canonical_bytes')
+    seal = value['news_capture_sha256']
+    need(sha(encoded({k: v for k, v in value.items() if k != 'news_capture_sha256'})) == seal == path.name.removesuffix('.json.gz'), 'capture_seal')
+    need(value['schema_version'] == 'joint_news_shared_capture_v2_20260908', 'capture_schema')
+    need(value['source_bindings'] == {k: bindings[k] for k in SHARED_SOURCE_NAMES}, 'capture_source_bindings')
+    history = value['history']; diagnostic = value['history_diagnostics']
+    ids = [row['source_event_id'] for row in history]
+    need(len(ids) == len(set(ids)) == diagnostic['selected_rows'] == diagnostic['unique_events'], 'history_identity')
+    need(diagnostic['complete'] is True and diagnostic['truncated'] is False and diagnostic['window_sec'] == 172800, 'history_complete_scope')
+    history_bytes = len(encoded(history))
+    need(history_bytes == diagnostic['compact_history_bytes'], 'history_byte_count')
+    expected_limits = dict(rows=10000, page_rows=128, raw_bytes=128*MIB, single_raw_row_bytes=MIB,
+        shared_canonical_bytes=LOGICAL, shared_compressed_bytes=STORED, read_sec=20)
+    need(diagnostic['limits'] == expected_limits, 'history_limit_identity')
+    snapshot = value['current_snapshot']; source = snapshot['source_evidence']; source_rows = source['rows']
+    need(sha(encoded({k: v for k, v in snapshot.items() if k != 'payload_sha256'})) == snapshot['payload_sha256'], 'producer_seal')
+    need(source['row_count'] == len(source_rows) and source['rows_sha256'] == sha(encoded(source_rows)), 'producer_row_count_or_hash')
+    source_raw_bytes = 0
+    for row in source_rows:
+        item = row['payload_json'].encode()
+        need(sha(item) == row['payload_sha256'], 'producer_member_hash')
+        source_raw_bytes += len(item)
+    section_bytes = {key: len(encoded(value[key])) for key in ('history', 'current_snapshot', 'current_members')}
+    mapping = [row['mapping_visible_epoch'] for row in history]
+    observed = value['first_observed_epoch']
+    need(observed <= evidence['read_completed_epoch'], 'capture_future_at_audit')
+    return dict(source=evidence, canonical_sha256=sha(raw), canonical_bytes=len(raw), capture_seal=seal,
+        original_first_observed_epoch=observed, age_at_audit_sec=evidence['read_completed_epoch']-observed,
+        original_news_evidence_epoch=value['news_evidence_epoch'], original_news_generated_epoch=value['news_generated_epoch'],
+        original_history_observation_limit=diagnostic['observed_limit_epoch'], source_bindings_verified=len(SHARED_SOURCE_NAMES),
+        section_canonical_bytes=section_bytes, canonical_other_framing_bytes=len(raw)-sum(section_bytes.values()),
+        original_history_diagnostics=diagnostic,
+        retained_mapping_range=dict(first=min(mapping), last=max(mapping), covered_sec=max(mapping)-min(mapping)),
+        headroom=dict(shared_logical_bytes=headroom(len(raw), LOGICAL, 'Entire canonical shared capture, including current proof and history'),
+            shared_compressed_bytes=headroom(len(stored), STORED, 'Stored whole gzip file'),
+            history_rows=headroom(len(history), 10000, 'Complete retained 48-hour governed mapping rows'),
+            history_raw_wrapper_bytes=headroom(diagnostic['raw_payload_bytes'], 128*MIB, 'Original ingestion-reported verified wrapper bytes; omitted wrappers were not reread'),
+            history_compact_bytes=headroom(history_bytes, LOGICAL, 'History section early bound, subordinate to whole shared-capture limit'),
+            history_read_seconds=headroom(diagnostic['read_duration_sec'], 20, 'Original ingestion-reported duration, not current throughput'),
+            current_producer_evidence_rows=headroom(len(source_rows), 4096, 'Retained complete selected 24-hour current-producer evidence'),
+            current_producer_raw_payload_bytes=headroom(source_raw_bytes, 32*MIB, 'Measured exact retained current-producer payload strings'),
+            current_producer_snapshot_bytes=headroom(section_bytes['current_snapshot'], LOGICAL, 'Canonical repaired current snapshot nested in shared capture')),
+        current_producer=dict(as_of_utc=snapshot['as_of_utc'], generated_utc=snapshot['generated_utc'],
+            status=snapshot['status'], topic_count=snapshot['topic_count'], directional_topic_count=snapshot['directional_topic_count'],
+            context_topic_count=snapshot['context_topic_count'], current_members=len(value['current_members'])))
+
+
+def main():
+    output = HERE / 'retained_capacity_v2_001'
+    need(not output.exists(), 'fresh_output_required')
+    output.mkdir()
+    began = time.time()
+    registry_path = ROOT / 'config/joint_price_news_study_v3_20260908.json'
+    raw, registry_evidence = read(registry_path, MIB)
+    need(sha(raw) == REGISTRY_SHA, 'registry_hash')
+    registry = json.loads(raw); bindings = registry['source_bindings']; sources = []
+    for name, expected in sorted(bindings.items()):
+        source_raw, evidence = read(ROOT/name, 4*MIB)
+        need(evidence['sha256'] == expected, 'frozen_source_changed')
+        sources.append(evidence)
+    directory = ROOT / 'data/oanda_training_manager/joint_price_news_study_v3/news_captures'
+    paths = sorted(directory.glob('*.json.gz'), key=lambda path: path.stat().st_mtime_ns, reverse=True)[:3]
+    need(len(paths) == 3, 'three_sources_required')
+    captures = [check_capture(path, bindings) for path in paths]
+    for evidence in sources:
+        source_raw, after = read(Path(evidence['path']), 4*MIB)
+        need(after['sha256'] == evidence['sha256'], 'frozen_source_changed_after')
+    result = dict(schema_version='retained_news_capacity_audit_v2_20260909', status='passed_capacity_and_hash_audit',
+        audit_started_epoch=began, audit_completed_epoch=time.time(), registry=registry_evidence,
+        registered_source_evidence=sources, registered_sources_unchanged=True, captures=captures,
+        scope='Three newest retained capture files selected once by filesystem modification time; exact payload/seal/row-size checks only, no new DB transaction or news-semantic replay.',
+        source_helper_sha256=sha(Path(__file__).read_bytes()), database_reads=0, network_requests=0, project_or_runtime_writes=False,
+        limitations=['Raw historical-wrapper sizes and ingestion duration are original producer diagnostics, not independently regenerated.',
+            'Current snapshot refers to evidence embedded in each retained capture; this is not a new current producer query.',
+            'No growth-rate, time-to-failure, full archive storage inventory, per-wrapper maximum, or future capacity guarantee is inferred.',
+            'CAS storage deduplication cannot change active logical/row/ingestion ceilings; adoption requires a new bound adapter/cohort and bounded full replay/memory measurements.'])
+    payload = (json.dumps(result, sort_keys=True, indent=2, allow_nan=False)+'\n').encode()
+    path = output/'RETAINED_NEWS_CAPACITY_AUDIT_20260909.json'
+    with path.open('xb') as stream:
+        stream.write(payload); stream.flush(); os.fsync(stream.fileno())
+    print(json.dumps(dict(path=str(path), sha256=sha(payload), bytes=len(payload),
+        captured=len(captures), latest=captures[0]['headroom'], completed_epoch=result['audit_completed_epoch'])))
+
+
+if __name__ == '__main__':
+    main()

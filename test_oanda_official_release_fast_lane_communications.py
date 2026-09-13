@@ -8,6 +8,7 @@ import oanda_causal_source_factor_response_map_v5 as causal_v5
 import oanda_event_technical_preflight as preflight
 import oanda_local_news_sentiment as news
 import oanda_official_release_fast_lane as fast
+import oanda_official_release_fast_mapper as mapper
 from oanda_official_release_fast_lane_contract import (
     OFFICIAL_RELEASE_FAST_LANE_PRIOR_COHORT_ID,
     OFFICIAL_RELEASE_FAST_LANE_PRIOR_CONTRACT_ID,
@@ -71,6 +72,34 @@ def _friday_warsh_speech_fixture() -> dict:
     )
 
 
+def _riksbank_unlabelled_speech_fixture() -> dict:
+    """Frozen shape of a speech whose source-native title omits ``speech``."""
+
+    return _official_raw(
+        source_id="riksbank_speeches",
+        source_name="Sveriges Riksbank speeches",
+        currency="SEK",
+        title=(
+            "Per Jansson: Inflation risks being elevated, but there is scope "
+            "to wait and see"
+        ),
+        summary=(
+            "Deputy Governor Per Jansson said monetary policy must respond if "
+            "inflation risks persist, may raise the policy rate, and may keep "
+            "rates higher for longer. The presentation discusses rising "
+            "aviation fuel and oil "
+            "prices and compares Canada, Mexico, Norway and Japan; those are "
+            "foreign examples, not source observations for CAD, MXN, NOK or "
+            "JPY."
+        ),
+        url=(
+            "https://www.riksbank.se/en-gb/press-and-published/"
+            "speeches-and-presentations/2026/per-jansson-inflation-risks"
+        ),
+        published_utc="2026-08-31T08:30:10+00:00",
+    )
+
+
 def test_governed_authoritative_communications_join_fast_lane() -> None:
     config = fast.read_json(fast.CONFIG_PATH, {})
     mapping = fast.read_json(fast.CENTRAL_BANK_MAP_PATH, {})
@@ -90,6 +119,18 @@ def test_governed_authoritative_communications_join_fast_lane() -> None:
         selected[source_id].get("trusted_domains")
         for source_id in communication_ids
     )
+    assert set(
+        news.ISSUER_BOUND_POLICY_COMMUNICATION_SOURCE_CURRENCIES_V2
+    ) <= communication_ids
+    authority_currency_by_communication = {
+        source_id: row["currency"]
+        for row in mapping["currencies"]
+        for source_id in row.get("communication_source_ids") or []
+    }
+    assert news.ISSUER_BOUND_POLICY_COMMUNICATION_SOURCE_CURRENCIES_V2 == {
+        source_id: authority_currency_by_communication[source_id]
+        for source_id in news.ISSUER_BOUND_POLICY_COMMUNICATION_SOURCE_CURRENCIES_V2
+    }
     assert fast.CONTRACT_ID != OFFICIAL_RELEASE_FAST_LANE_PRIOR_CONTRACT_ID
     assert fast.COLLECTOR_COHORT_ID != OFFICIAL_RELEASE_FAST_LANE_PRIOR_COHORT_ID
 
@@ -217,7 +258,14 @@ def test_friday_warsh_fixture_is_historical_but_future_cohort_is_issuer_bound(
     assert historical[
         "issuer_bound_policy_communication_activation_eligible"
     ] is False
-    assert historical["issuer_bound_policy_communication"] is False
+    assert historical["issuer_bound_policy_communication"] is True
+    assert historical["issuer_bound_policy_communication_source_identity"] is True
+    assert historical["issuer_bound_policy_communication_contract_id"] == (
+        news.ISSUER_BOUND_POLICY_COMMUNICATION_SOURCE_CONTRACT_ID_V2
+    )
+    assert historical["direct_currencies"] == ["USD"]
+    assert set(historical["currency_scores"]) <= {"USD"}
+    assert historical["directional_publish_eligible"] is False
 
     prospective = news.classify_article(
         raw,
@@ -251,6 +299,57 @@ def test_friday_warsh_fixture_is_historical_but_future_cohort_is_issuer_bound(
     assert set(prospective["currency_scores"]) <= {"USD"}
     assert prospective["directional_publish_eligible"] is False
     assert prospective["directional_research_only"] is True
+
+
+def test_riksbank_source_container_binds_scope_without_retroactive_candidate(
+) -> None:
+    raw = _riksbank_unlabelled_speech_fixture()
+    activation = news.parse_datetime(
+        news.ISSUER_BOUND_POLICY_COMMUNICATION_SOURCE_ACTIVATED_UTC_V2
+    )
+    assert activation is not None
+
+    diagnostic = news.classify_article(
+        raw,
+        first_seen=activation - dt.timedelta(days=1),
+    )
+    assert diagnostic["issuer_bound_policy_communication"] is True
+    assert diagnostic["issuer_bound_policy_communication_source_identity"] is True
+    assert diagnostic["issuer_bound_policy_communication_activation_eligible"] is False
+    assert diagnostic["policy_document_type"] == "policy_communication"
+    assert diagnostic["direct_currencies"] == ["SEK"]
+    assert diagnostic["currencies"] == ["SEK"]
+    assert set(diagnostic["currency_scores"]) <= {"SEK"}
+    assert set(diagnostic["research_currency_scores"]) <= {"SEK"}
+    assert diagnostic["inferred_currencies"] == []
+
+    preactivation_mapping = mapper.classify_observation(
+        {
+            "first_seen_utc": news.iso_utc(activation - dt.timedelta(days=1)),
+            "prospective_observation": True,
+            "raw": raw,
+        }
+    )
+    assert preactivation_mapping["semantic_direction_available"] is True
+    assert preactivation_mapping["classification_candidate_activation_eligible"] is False
+    assert preactivation_mapping["prospective_semantic_candidate"] is False
+    assert preactivation_mapping["forward_shadow_candidate"] is False
+
+    prospective_mapping = mapper.classify_observation(
+        {
+            "first_seen_utc": news.iso_utc(activation + dt.timedelta(minutes=1)),
+            "prospective_observation": True,
+            "raw": raw,
+        }
+    )
+    assert prospective_mapping[
+        "issuer_bound_policy_communication_activation_eligible"
+    ] is True
+    assert prospective_mapping["classification_candidate_activation_eligible"] is True
+    assert prospective_mapping["prospective_semantic_candidate"] is True
+    assert prospective_mapping["forward_shadow_candidate"] is True
+    assert set(prospective_mapping["currency_scores"]) == {"SEK"}
+    assert prospective_mapping["inferred_currencies"] == []
 
 
 def test_cbrt_student_contest_remains_excluded_from_current_proof() -> None:

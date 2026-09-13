@@ -3,10 +3,12 @@ import sqlite3
 import tempfile
 import time
 import unittest
+from datetime import datetime, timezone
 from pathlib import Path
 
 from trad.oanda_edge_evidence_worker import (
-    ProgressHeartbeat, checkpoint_matches_semantic_inputs,
+    ProgressHeartbeat, checkpoint_can_defer_append_only_growth,
+    checkpoint_matches_semantic_inputs,
     checkpoint_outputs_match, file_snapshot, input_fingerprint,
     macro_state_sha256, output_integrity,
 )
@@ -156,27 +158,67 @@ class EdgeEvidenceWorkerTests(unittest.TestCase):
                 second["diagnostic_database_snapshots"],
             )
 
-    def test_pre_split_checkpoint_can_migrate_when_only_news_diagnostic_differs(self):
+    def test_pre_split_checkpoint_can_migrate_when_only_news_or_macro_diagnostics_differ(self):
         current = {
             "database_snapshots": [{"role": "source", "highwaters": {"x": [1]}}],
             "content_sha256": {"report.py": "same"},
             "cohort_definition_sha256": {"cohort": "same"},
-            "macro_state_sha256": "same",
+            "diagnostic_macro_state_sha256": "new",
         }
         checkpoint = {
             **current,
             "database_snapshots": [
-                current["database_snapshots"][0],
+                dict(
+                    current["database_snapshots"][0],
+                    highwaters={"x": [1]},
+                ),
                 {"role": "news", "highwaters": {"topic_events": [1, 1, 1]}},
+                {"role": "macro", "highwaters": {"reactions": [10]}},
             ],
+            "macro_state_sha256": "old",
             "content_sha256": {
                 **current["content_sha256"],
                 "worker.py": "operational-only",
             },
         }
         self.assertTrue(checkpoint_matches_semantic_inputs(checkpoint, current))
-        checkpoint["macro_state_sha256"] = "changed"
+        checkpoint["database_snapshots"][0]["highwaters"] = {"x": [2]}
         self.assertFalse(checkpoint_matches_semantic_inputs(checkpoint, current))
+
+    def test_append_only_growth_can_defer_only_inside_bounded_cadence(self):
+        now = datetime.now(timezone.utc).isoformat()
+        common = {
+            "content_sha256": {"report.py": "same"},
+            "cohort_definition_sha256": {"cohort": "same"},
+        }
+        checkpoint = {
+            **common,
+            "completed_utc": now,
+            "database_snapshots": [
+                {
+                    "role": "source", "path": "source.sqlite", "exists": True,
+                    "schema_sha256": "schema", "highwaters": {"outcomes": [1, 10]},
+                },
+                {"role": "candidate_cohorts", "highwaters": {"cohorts": [1]}},
+            ],
+        }
+        current = {
+            **common,
+            "database_snapshots": [
+                {
+                    "role": "source", "path": "source.sqlite", "exists": True,
+                    "schema_sha256": "schema", "highwaters": {"outcomes": [1, 20]},
+                },
+                {"role": "candidate_cohorts", "highwaters": {"cohorts": [1]}},
+            ],
+        }
+        self.assertTrue(checkpoint_can_defer_append_only_growth(
+            checkpoint, current, minimum_rebuild_interval_sec=21600.0
+        ))
+        current["content_sha256"] = {"report.py": "changed"}
+        self.assertFalse(checkpoint_can_defer_append_only_growth(
+            checkpoint, current, minimum_rebuild_interval_sec=21600.0
+        ))
 
     def test_progress_heartbeat_is_fresh_during_long_build(self):
         with tempfile.TemporaryDirectory() as directory:

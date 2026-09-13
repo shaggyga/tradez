@@ -186,6 +186,85 @@ def test_transitive_root_merges_only_reduce_effective_n() -> None:
     assert canonical_n <= raw_n
 
 
+def test_same_pass_cascading_unions_publish_only_final_canonical_roots() -> None:
+    rows = [
+        _row(
+            "USD_HUF",
+            "2026-08-27T00:00:00+00:00",
+            "2026-08-27T00:01:00+00:00",
+            primary="HUF-",
+        ),
+        _row(
+            "EUR_HUF",
+            "2026-08-27T00:00:30+00:00",
+            "2026-08-27T00:02:00+00:00",
+            primary="HUF-",
+        ),
+        _row(
+            "GBP_HUF",
+            "2026-08-27T00:10:00+00:00",
+            "2026-08-27T00:11:00+00:00",
+            primary="HUF-",
+        ),
+        _row(
+            "CHF_HUF",
+            "2026-08-27T00:10:30+00:00",
+            "2026-08-27T00:12:00+00:00",
+            primary="HUF-",
+        ),
+    ]
+    raw_roots = ("root-a", "root-c", "root-a", "root-d")
+    registered = {
+        "root-a": "2026-08-27T01:00:00+00:00",
+        "root-c": "2026-08-27T03:00:00+00:00",
+        "root-d": "2026-08-27T00:00:00+00:00",
+    }
+    registry = {
+        "memberships": {
+            str(row["case_id"]): {
+                "raw_root_id": root,
+                "canonical_root_id": root,
+                "factor_primary_token": "HUF-",
+                "registered_utc": registered[root],
+            }
+            for row, root in zip(rows, raw_roots, strict=True)
+        },
+        "edges": {},
+        "root_registered_utc": registered,
+        "cycle": False,
+    }
+
+    assignment = v7r3.assign_transitive_factor_episodes(
+        rows,
+        registry,
+        detected_utc="2026-08-27T04:00:00+00:00",
+    )
+
+    assert assignment["planned_merges"] == [
+        {
+            "from_root_id": "root-c",
+            "into_root_id": "root-a",
+            "factor_primary_token": "HUF-",
+            "bridge_case_ids": ",".join(
+                sorted(str(row["case_id"]) for row in rows[:2])
+            ),
+        },
+        {
+            "from_root_id": "root-a",
+            "into_root_id": "root-d",
+            "factor_primary_token": "HUF-",
+            "bridge_case_ids": ",".join(
+                sorted(str(row["case_id"]) for row in rows[2:])
+            ),
+        },
+    ]
+    assert assignment["canonical_episode_count"] == 1
+    assert {str(row["factor_episode_canonical_root_id"]) for row in rows} == {
+        "root-d"
+    }
+    assert {str(row["factor_episode_id"]) for row in rows} == {"root-d"}
+
+
 def test_different_primary_and_disjoint_intervals_do_not_merge() -> None:
     different_primary = [
         _row(

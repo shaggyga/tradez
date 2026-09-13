@@ -1,0 +1,46 @@
+{
+  "schema_version": "joint_input_worker_independent_review_v1",
+  "observed_utc": "2026-09-07T22:17:36.422278+00:00",
+  "status": "passed",
+  "source_bindings": {
+    "oanda_joint_price_news_models_v1.py": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_joint_price_news_models_v1.py",
+      "bytes": 9587,
+      "sha256": "eb153acb966dc04ad950a0bbfcc730e78a9a0da1d8a24e91d641f473f5cfbc23"
+    },
+    "oanda_causal_forecast_inputs_joint_news_v1.py": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_causal_forecast_inputs_joint_news_v1.py",
+      "bytes": 31037,
+      "sha256": "9375f116571ef43c18eae65c14fc53fb2f98d8ab132d4b000a0971986d2890ec"
+    },
+    "oanda_joint_price_news_forecast_study_v1.py": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_joint_price_news_forecast_study_v1.py",
+      "bytes": 29859,
+      "sha256": "e6b8a38e6c0dd26455037c802fbca17a810d6b4f92535b8144c5dd9a5c4a697e"
+    }
+  },
+  "registry_builder": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\joint_price_news_20260907\\prepare_registry.py",
+    "bytes": 4486,
+    "sha256": "a9656c9bcbfde7d9e5088900806a2a91a0b584c049c5802198c90780530ef2b0"
+  },
+  "closed_findings": [
+    "Cached captures recheck current source bindings on every return.",
+    "Historical context waits for both committed mapping and own member observation.",
+    "Current snapshot requires exact producer binding set and inert flags; state/counts/proofs replay.",
+    "Retained history semantic payload hashes are verified at ingestion; canonical current snapshot hash is replay checked.",
+    "Raw-byte/full-wrapper provenance scope distinguishes ingest hashes from compact retained feature evidence."
+  ],
+  "reviewed_boundaries": [
+    "Exact H1 maturity, same-session real timestamps, training-only standardization and matched-row baseline.",
+    "Single bounded gzip member,16MiB expanded/8MiB stored; immutable content-addressed publication.",
+    "Registry16source/dependency/inert contracts, actual observed quotes, original publication clocks, no-attempt once mode.",
+    "Current input freshness/news expiry controls new fits; old forecasts retain original H1 targets."
+  ],
+  "remaining_blockers": [],
+  "runtime_changes": false,
+  "limits": [
+    "Runtime activation/live pipeline verification belongs to root and is not claimed by this source review.",
+    "Observe a complete live capture/fit cycle when checking scheduler throughput; no live scheduler failure established here."
+  ]
+}

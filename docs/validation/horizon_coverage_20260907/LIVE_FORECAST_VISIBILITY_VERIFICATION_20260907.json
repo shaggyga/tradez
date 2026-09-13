@@ -1,0 +1,271 @@
+{
+  "schema": "forecast_visibility_live_review_v1_20260907",
+  "started_utc": "2026-09-07T23:34:08.951Z",
+  "status": "passed",
+  "page_errors": [],
+  "http_errors": [],
+  "request_failures": [],
+  "pairs": [
+    {
+      "instrument": "EUR_DKK",
+      "observed_utc": "2026-09-07T23:34:11.061Z",
+      "text": "EUR / DKK\tNo fresh quote\nPrice comparison unavailable\n\tHistory unavailable\nNo matching history anchor\n\tUnavailable\nNo 15m history anchor\n\tContext only\n8 related · 0 current directional\n1 with directional context\nNews context\n\t\nPrice-only forecast · news not included\nState space: Up\nExpected move +0.01 bps · before costs\nIssued 07:30 PM EDT · H1 target 08:30 PM EDT\nRidge: Up\nExpected move +0.00 bps · before costs\nIssued 07:32 PM EDT · H1 target 08:32 PM EDT\nCurrent quoted spread: unavailable\n2 model predictions · H1 · in progress\nCombined model: Current price or news input unavailable\nInput observed 07:31 PM EDT · Current price or news input unavailable; 39/48 mature H1 labels · 19/12 rows with news context · 20/8 distinct context patterns\n\tFlat",
+      "inline_count": 1,
+      "joint_blocker": "Combined model: Current price or news input unavailable\nInput observed 07:31 PM EDT · Current price or news input unavailable; 39/48 mature H1 labels · 19/12 rows with news context · 20/8 distinct context patterns",
+      "price_arms": [
+        {
+          "family": "probabilistic_state_space",
+          "cohort_id": "causal_pair_family_v2_20260907.EUR_DKK.probabilistic_state_space.prospective",
+          "instrument": "EUR_DKK",
+          "pip_size": "0.0001",
+          "horizon_sec": 3600,
+          "reference_epoch": 1788823812.052287,
+          "reference_mid": "7.47503",
+          "issued_epoch": 1788823822.9773989,
+          "target_epoch": 1788827412.052287,
+          "side": 1,
+          "probability_up": 0.5361775193969518,
+          "predicted_return_bps": 0.0068688504091591026,
+          "decision_id": "10596d8c1f12fd701a23f5b3e9521c521aa5223e042f65db962b9d3d65e0c92a",
+          "publication_epoch": 1788823823.0492067,
+          "reference_available_epoch": 1788823814.9686406,
+          "consumption_epoch": 1788823823.057186,
+          "publication_verified_epoch": 1788824044.3147542,
+          "forecast_sha256": "ebfe3c47a8705b342aeb586461247c94c799c6aa7e79f905d211e88a2bd6f150",
+          "publication_receipt_sha256": "ab59061434326f389b6d83c1d84375cc61c51a0aa278b358bb2502dcbc96d484",
+          "consumer_receipt_sha256": "1bf947359a8dc6bf718039b761d3f823f899798dc793f3263c91401e6c8ed589"
+        },
+        {
+          "family": "ridge_return_repaired",
+          "cohort_id": "causal_pair_family_v2_20260907.EUR_DKK.ridge_return_repaired.prospective",
+          "instrument": "EUR_DKK",
+          "pip_size": "0.0001",
+          "horizon_sec": 3600,
+          "reference_epoch": 1788823925.679086,
+          "reference_mid": "7.475025",
+          "issued_epoch": 1788823954.877362,
+          "target_epoch": 1788827525.679086,
+          "side": 1,
+          "probability_up": 0.502531034095916,
+          "predicted_return_bps": 0.0028139301702281207,
+          "decision_id": "728174618e6b20327241869ba3f2a729791e3a042249a1979972257beda24ce0",
+          "publication_epoch": 1788823954.9591432,
+          "reference_available_epoch": 1788823929.1703331,
+          "consumption_epoch": 1788823954.9691167,
+          "publication_verified_epoch": 1788824044.3167493,
+          "forecast_sha256": "f806db1aa80eddb8eeab2f8b541e6162650a695645a7c16ed8d7805748a847c4",
+          "publication_receipt_sha256": "a9bf6b3fcc90c93244421282d83fecd8659006a12e296f23e366f742194f2d2c",
+          "consumer_receipt_sha256": "a113b6ecd47ad9fcfe79189e29055f31c64d52544e021a6674f76662d835723b"
+        }
+      ],
+      "joint_status": "current"
+    },
+    {
+      "instrument": "GBP_HKD",
+      "observed_utc": "2026-09-07T23:34:11.093Z",
+      "text": "GBP / HKD\t10.61944\n20.20p spread · 11s\n\t-0.003%\n-3.00p · 15m\n\tDown\n15m momentum -0.28 bps\n\tContext only\n7 related · 0 current directional\n0 with directional context\nNews context\n\t\nPrice-only forecast · news not included\nState space: Up\nExpected move +1.77 bps · before costs\nIssued 07:30 PM EDT · H1 target 08:30 PM EDT\nRidge: Down\nExpected move -1.51 bps · before costs\nIssued 07:31 PM EDT · H1 target 08:31 PM EDT\nCurrent quoted spread: 1.90 bps · 20.20p\n2 model predictions · H1 · in progress\nCombined model: Current price or news input unavailable\n\tFlat",
+      "inline_count": 1,
+      "joint_blocker": "Combined model: Current price or news input unavailable",
+      "price_arms": [
+        {
+          "family": "probabilistic_state_space",
+          "cohort_id": "causal_pair_family_v2_20260907.GBP_HKD.probabilistic_state_space.prospective",
+          "instrument": "GBP_HKD",
+          "pip_size": "0.0001",
+          "horizon_sec": 3600,
+          "reference_epoch": 1788823824.898019,
+          "reference_mid": "10.62073",
+          "issued_epoch": 1788823835.09331,
+          "target_epoch": 1788827424.898019,
+          "side": 1,
+          "probability_up": 0.6034616468018468,
+          "predicted_return_bps": 1.7747428865270511,
+          "decision_id": "bb4cc42a228c73cff4753d9c2c02d4d150318ea025f271ab15db5e18febd4914",
+          "publication_epoch": 1788823835.1671138,
+          "reference_available_epoch": 1788823828.6160388,
+          "consumption_epoch": 1788823835.175092,
+          "publication_verified_epoch": 1788824044.3725994,
+          "forecast_sha256": "d5684740670bbdf40a332636f5ae7365d464525b137908173605d11298a58d2e",
+          "publication_receipt_sha256": "181f6682a6a6052fee2361c4e490361a3c676e8f583b8f26f40fbc8f28c6748f",
+          "consumer_receipt_sha256": "e507b14578ba9593e54409ad736a6122bd37db4c1245d8c94d7effe11df8c42a"
+        },
+        {
+          "family": "ridge_return_repaired",
+          "cohort_id": "causal_pair_family_v2_20260907.GBP_HKD.ridge_return_repaired.prospective",
+          "instrument": "GBP_HKD",
+          "pip_size": "0.0001",
+          "horizon_sec": 3600,
+          "reference_epoch": 1788823886.066927,
+          "reference_mid": "10.62072",
+          "issued_epoch": 1788823890.7757356,
+          "target_epoch": 1788827486.066927,
+          "side": -1,
+          "probability_up": 0.4499282068271573,
+          "predicted_return_bps": -1.5052621678876832,
+          "decision_id": "4691cd5c2c8f8b4c84c8daed98a8a18dba38a603ae0e81bf106d544b92cb353f",
+          "publication_epoch": 1788823890.8575163,
+          "reference_available_epoch": 1788823888.8248925,
+          "consumption_epoch": 1788823890.8664918,
+          "publication_verified_epoch": 1788824044.3745952,
+          "forecast_sha256": "b651f13db78f3151e6c7bf5f78c5fc872d32586da7f86fbe3fc0d40340cf5e21",
+          "publication_receipt_sha256": "53ce28dd079876df85ca1a35ba3bf5ec5db236444b8fb34949d91d73d6a9e51a",
+          "consumer_receipt_sha256": "e2d6d5b17bf1c23e78fdf8be7e33b4cbe5861882f8e59fcfabc4facd690994c5"
+        }
+      ],
+      "joint_status": "current"
+    },
+    {
+      "instrument": "GBP_PLN",
+      "observed_utc": "2026-09-07T23:34:11.135Z",
+      "text": "GBP / PLN\t5.02201\n60.10p spread · 7s\n\t+0.013%\n+6.35p · 15m\n\tUp\n15m momentum +1.26 bps\n\tContext only\n7 related · 0 current directional\n0 with directional context\nNews context\n\t\nPrice-only forecast · news not included\nState space: Up\nExpected move +0.52 bps · before costs\nIssued 07:30 PM EDT · H1 target 08:30 PM EDT\nRidge: Up\nExpected move +0.05 bps · before costs\nIssued 07:31 PM EDT · H1 target 08:31 PM EDT\nCurrent quoted spread: 11.97 bps · 60.10p\n2 model predictions · H1 · in progress\nCombined model: Current price or news input unavailable\n\tFlat",
+      "inline_count": 1,
+      "joint_blocker": "Combined model: Current price or news input unavailable",
+      "price_arms": [
+        {
+          "family": "probabilistic_state_space",
+          "cohort_id": "causal_pair_family_v2_20260907.GBP_PLN.probabilistic_state_space.prospective",
+          "instrument": "GBP_PLN",
+          "pip_size": "0.0001",
+          "horizon_sec": 3600,
+          "reference_epoch": 1788823836.22863,
+          "reference_mid": "5.021875",
+          "issued_epoch": 1788823839.3599458,
+          "target_epoch": 1788827436.22863,
+          "side": 1,
+          "probability_up": 0.5292512559676921,
+          "predicted_return_bps": 0.5206360729891246,
+          "decision_id": "401a29d384b450191aa217b9b36eb7c336fd323475381b234c026fc7097766bd",
+          "publication_epoch": 1788823839.4497046,
+          "reference_available_epoch": 1788823837.909823,
+          "consumption_epoch": 1788823839.4676561,
+          "publication_verified_epoch": 1788824044.3835695,
+          "forecast_sha256": "0ab9d72a1da26cece1d96e67d90ebddd5a94c3afbbbbd3e17a2a1481273e474f",
+          "publication_receipt_sha256": "92678b9fc46da029595c52df1ff836f0326c64834d52941d449f8215806f317b",
+          "consumer_receipt_sha256": "e539dba8d45286c12fb48edc09595db586c8c0410318756702bd2d1a90893992"
+        },
+        {
+          "family": "ridge_return_repaired",
+          "cohort_id": "causal_pair_family_v2_20260907.GBP_PLN.ridge_return_repaired.prospective",
+          "instrument": "GBP_PLN",
+          "pip_size": "0.0001",
+          "horizon_sec": 3600,
+          "reference_epoch": 1788823888.523421,
+          "reference_mid": "5.021595",
+          "issued_epoch": 1788823894.7937272,
+          "target_epoch": 1788827488.523421,
+          "side": 1,
+          "probability_up": 0.501806199868801,
+          "predicted_return_bps": 0.04769144239354167,
+          "decision_id": "fe8303db2612eb5e8746fb8febb4af1ae57250c55b9fe73a1e089195b916f70b",
+          "publication_epoch": 1788823894.8755074,
+          "reference_available_epoch": 1788823891.333751,
+          "consumption_epoch": 1788823894.885482,
+          "publication_verified_epoch": 1788824044.3845668,
+          "forecast_sha256": "7f232509be1fa4766db6719a7547071245fb3ea73f0d47d07175b0bdc6d164b1",
+          "publication_receipt_sha256": "50d56ae63416f383b34a57e2967059181d1a83bfa21f6577de71d5d9b28e7499",
+          "consumer_receipt_sha256": "d4340d73984914b5cd23fcf294656438256c59513e458642e238fa898821abe6"
+        }
+      ],
+      "joint_status": "current"
+    },
+    {
+      "instrument": "GBP_SGD",
+      "observed_utc": "2026-09-07T23:34:11.172Z",
+      "text": "GBP / SGD\t1.71431\n7.40p spread · 10s\n\t-0.002%\n-0.30p · 15m\n\tDown\n15m momentum -0.17 bps\n\tContext only\n7 related · 0 current directional\n0 with directional context\nNews context\n\t\nPrice-only forecast · news not included\nState space: Down\nExpected move -0.41 bps · before costs\nIssued 07:30 PM EDT · H1 target 08:30 PM EDT\nRidge: Down\nExpected move -0.33 bps · before costs\nIssued 07:31 PM EDT · H1 target 08:31 PM EDT\nCurrent quoted spread: 4.32 bps · 7.40p\n2 model predictions · H1 · in progress\nCombined model: Current price or news input unavailable\n\tFlat",
+      "inline_count": 1,
+      "joint_blocker": "Combined model: Current price or news input unavailable",
+      "price_arms": [
+        {
+          "family": "probabilistic_state_space",
+          "cohort_id": "causal_pair_family_v2_20260907.GBP_SGD.probabilistic_state_space.prospective",
+          "instrument": "GBP_SGD",
+          "pip_size": "0.0001",
+          "horizon_sec": 3600,
+          "reference_epoch": 1788823836.44641,
+          "reference_mid": "1.714425",
+          "issued_epoch": 1788823839.866613,
+          "target_epoch": 1788827436.44641,
+          "side": -1,
+          "probability_up": 0.47542352605722515,
+          "predicted_return_bps": -0.41019204599304626,
+          "decision_id": "4389ba713be944c9fc9455672bd3f536224b19dd86da77ff1d6f36b91081117b",
+          "publication_epoch": 1788823840.0152152,
+          "reference_available_epoch": 1788823837.9118178,
+          "consumption_epoch": 1788823840.0251884,
+          "publication_verified_epoch": 1788824044.3865626,
+          "forecast_sha256": "93fecb10533183bd133d99d3f1aee4d7dceaf7af9bdd59f765eb4bc738971ed0",
+          "publication_receipt_sha256": "34b914af4812ef6d1983bda618737b86f9e6963b2d9825725c9d3da102378c2e",
+          "consumer_receipt_sha256": "bf2c5cd48381c0ca4f3c290c7e2115ec27a4ff7bcf9f6ac6d4e0eb9d528ffedc"
+        },
+        {
+          "family": "ridge_return_repaired",
+          "cohort_id": "causal_pair_family_v2_20260907.GBP_SGD.ridge_return_repaired.prospective",
+          "instrument": "GBP_SGD",
+          "pip_size": "0.0001",
+          "horizon_sec": 3600,
+          "reference_epoch": 1788823885.184539,
+          "reference_mid": "1.714425",
+          "issued_epoch": 1788823896.4887722,
+          "target_epoch": 1788827485.184539,
+          "side": -1,
+          "probability_up": 0.4835485280108027,
+          "predicted_return_bps": -0.33144353908940927,
+          "decision_id": "71aa4b9afa4d466891ba4215a63c639474cfa07d005d0e4b160c262b001fd745",
+          "publication_epoch": 1788823896.5715497,
+          "reference_available_epoch": 1788823888.831875,
+          "consumption_epoch": 1788823896.5805259,
+          "publication_verified_epoch": 1788824044.388558,
+          "forecast_sha256": "20533f2628f785c05d218c191ca3aa95ba4890947e01fb19f1099584f70afb7f",
+          "publication_receipt_sha256": "d6af54bd8e9052d6be97afebb56f8e2916d03e7ed78b22d4afc8fd6d4f0921a8",
+          "consumer_receipt_sha256": "9636b3a670f07dd5025742b6e5383ae92d9799cb79e149de41cceba54d34f79b"
+        }
+      ],
+      "joint_status": "current"
+    }
+  ],
+  "source_sha256": {
+    "oanda_main_signal_dashboard.html": "3ffead742b158de5685b01fef2b25c3e68a556f365356828da9d90f0b91aced4",
+    "oanda_practice_live_dashboard.py": "a5dd6945cc448a6ab86fa5fab8d55aea6040bf197e5a50117fb1bbc218d2f9fe"
+  },
+  "initial": {
+    "observed_utc": "2026-09-07T23:34:10.777Z",
+    "headline": "Partially operational · 61 combined · 4 price-only · 3 unavailable · research only",
+    "coverage_label": "61 combined · 4 price-only · 3 unavailable",
+    "coverage": {
+      "combined": 61,
+      "price_only": 4,
+      "unavailable": 3,
+      "total": 68
+    },
+    "joint": {
+      "status": "current",
+      "reason": null,
+      "generated_epoch": 1788824033.61066,
+      "summary_sha256": "490f1d958799da695bafd8450148fcbf193dcf11f01201e44301ff38c35c5fb6"
+    },
+    "price": {
+      "status": "current",
+      "generated_epoch": 1788824044.4972656,
+      "summary_sha256": "e7c07757ea966b5a96300d98f091600f0a047eba123e21b8eb569cb639758960"
+    },
+    "news": {
+      "status": "current",
+      "as_of_utc": "2026-09-07T23:33:34.662114+00:00",
+      "generated_utc": "2026-09-07T23:33:50.400632+00:00"
+    },
+    "primary_study": "joint_price_news_v2",
+    "orders_disabled": true
+  },
+  "missing_quote": {
+    "observed_utc": "2026-09-07T23:34:11.338Z",
+    "text": "EUR / TRY\tNo fresh quote\nPrice comparison unavailable\n\tHistory unavailable\nNo matching history anchor\n\tUnavailable\nNo 15m history anchor\n\tContext only\n8 related · 0 current directional\n1 with directional context\nNews context\n\tCurrent price or news input unavailable\nOther price-only models\n\tFlat",
+    "inline_count": 0
+  },
+  "mobile": {
+    "body": 360,
+    "viewport": 360,
+    "text": "EUR / DKK\tNo fresh quote\nPrice comparison unavailable\n\tHistory unavailable\nNo matching history anchor\n\tUnavailable\nNo 60m history anchor\n\tContext only\n8 related · 0 current directional\n1 with directional context\nNews context\n\t\nPrice-only forecast · news not included\nState space: Up\nExpected move +0.01 bps · before costs\nIssued 07:30 PM EDT · H1 target 08:30 PM EDT\nRidge: Up\nExpected move +0.00 bps · before costs\nIssued 07:32 PM EDT · H1 target 08:32 PM EDT\nCurrent quoted spread: unavailable\n2 model predictions · H1 · in progress\nCombined model: Current price or news input unavailable\nInput observed 07:31 PM EDT · Current price or news input unavailable; 39/48 mature H1 labels · 19/12 rows with news context · 20/8 distinct context patterns\n\tFlat"
+  },
+  "finished_utc": "2026-09-07T23:34:11.611Z",
+  "scope": "Actual headless Edge UI and API observation. Filters changed only; no backend reload, model, registration or order changes. Coverage is a dated availability observation, not predictive success."
+}

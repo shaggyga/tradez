@@ -1,0 +1,50 @@
+{
+  "can_place_orders": false,
+  "can_promote": false,
+  "created_utc": "2026-09-09T05:49:54.692896+00:00",
+  "independent_tests_run": 0,
+  "model_fit_or_injection": false,
+  "remaining_blockers": [],
+  "research_only": true,
+  "review_scope": "Independent bounded source and regression-test review; no independent test rerun.",
+  "runtime_changes": false,
+  "schema_version": "ma_causal_features_independent_review_20260909",
+  "scope_limits": [
+    "Pure feature helper has no timestamp, source capture or availability proof. Caller must validate real ordered completed bars, actual observation and explicit gap/timeframe semantics.",
+    "Changed features are a new version. Compatibility with retained fitted weights is explicitly unproven; this review authorizes no refit, injection, forecast or deployment.",
+    "Prefix row counts are not elapsed-clock durations. Full supplied EMA history is intentionally retained; silently truncating history changes values.",
+    "Bounds prevent unbounded row/selection sizes but do not constitute a measured memory/runtime guarantee."
+  ],
+  "source_bindings": [
+    {
+      "bytes": 6844,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_ma_causal_features_v2.py",
+      "sha256": "55c830f8b78450f7f80d82d4e644ca1d30d294f77aa3e392a07e174deb387161"
+    },
+    {
+      "bytes": 4353,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_ma_causal_features_v2.py",
+      "sha256": "3cb2867860a584a906c13625f7b36376b1ab135e7ad497e9f55f3ce4f807258a"
+    }
+  ],
+  "status": "passed",
+  "supporting_evidence": [
+    {
+      "bytes": 5699,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\ma_causal_features_initial_tests.xml",
+      "sha256": "8c396a76ac1d73a239655b55a4dbbfc4c5f9a09ec1d712f9668ee4172f0b7b15"
+    },
+    {
+      "bytes": 37285,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\MA_PREFIX_CAUSALITY_PROBE_20260909.json",
+      "sha256": "8adcb358ac447f907d6bfb2c12ba42ae59eb0e9a0ee2c019c674b1b225c319e1"
+    }
+  ],
+  "verified_properties": [
+    "Exact-hash original source is parsed and only named constants/functions compile in a private namespace. Original source and module globals remain unchanged.",
+    "Scale uses current valid rolling changes or a median of strictly earlier valid scales; it cannot use future suffix values.",
+    "The no-observed-crossover fallback uses current prefix row count rather than final dataset length.",
+    "Remaining SMA/EMA/differences and cross-period aggregates are prefix-causal by row index; selected-vector and matrix paths share the same original numerical implementation.",
+    "Tests cover exact prefix equality across five timeframes and four shapes, source mismatch, input bounds and preserved full-history EMA initialization."
+  ]
+}

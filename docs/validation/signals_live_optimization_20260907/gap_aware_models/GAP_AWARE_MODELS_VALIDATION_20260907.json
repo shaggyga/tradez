@@ -1,0 +1,136 @@
+{
+  "schema_version": "gap_aware_four_family_offline_validation_v1_20260907",
+  "generated_utc": "2026-09-07T16:02:03.028772+00:00",
+  "source_sha256": {
+    "oanda_gap_aware_four_family_models.py": "0ed224abcd0e7b53a26921acc29af208f074701fe02ce5cf4e0f1ee6f84c7e09",
+    "test_oanda_gap_aware_four_family_models.py": "d482d2cf4813e81e596373cc1464e6ce6a64562a165583e996fa364f858b5874"
+  },
+  "evidence_sha256": {
+    "integration_tests.xml": "5ec8bed75d9213f2df0077417cbe50d48696dd2f30142f4cc94f657c36ce9c04",
+    "run_tests.py": "f8a1d6fa11f0c2c0402b2593da30678deb9daa023aa639ca9827a74a0756b09d"
+  },
+  "tests": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "48",
+    "time": "4.641",
+    "timestamp": "2026-09-07T12:00:09.762337-04:00",
+    "hostname": "DESKTOP-Q2EDIEU"
+  },
+  "python_executable": "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe",
+  "dependencies": {
+    "python": "3.12.10",
+    "numpy": "2.5.1",
+    "scikit-learn": "1.9.0",
+    "pytest": "9.1.1"
+  },
+  "invocation": "OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1; C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe -B ..\\warmup_repair_20260907\\gap_aware_models\\run_tests.py test_oanda_gap_aware_four_family_models.py",
+  "parameters": {
+    "horizon_sec": 3600,
+    "maximum_real_rows_per_pair": 1024,
+    "current_common_closes": 61,
+    "feature_windows_minutes": [
+      1,
+      3,
+      5,
+      15,
+      30,
+      60
+    ],
+    "ridge_alpha": 10.0,
+    "ridge_minimum_rows": 24,
+    "ridge_stride_minutes": 3,
+    "pooled_stride_minutes": 5,
+    "pooled_minimum_rows_per_pair": 24,
+    "pooled_minimum_rows": 300,
+    "hgb_max_iter": 40,
+    "hgb_max_leaf_nodes": 15,
+    "hgb_min_samples_leaf": 40,
+    "hgb_learning_rate": 0.06,
+    "hgb_l2_regularization": 1.0,
+    "hgb_random_state": 20260806,
+    "graph_alpha": 25.0,
+    "graph_stride_minutes": 3,
+    "graph_factor_windows_minutes": [
+      1,
+      5,
+      15,
+      60
+    ],
+    "graph_minimum_rows": 32,
+    "state_alpha": 0.08,
+    "state_maximum_prices": 256,
+    "state_minimum_returns": 60,
+    "sampling_phase": "epoch_minute_modulo_stride_equals_zero",
+    "training_gap_policy": "all feature and 60-minute target intervals must exist"
+  },
+  "fixture": {
+    "scope": "synthetic_clock_and_price_fixture_only",
+    "friday_rows_per_pair": 512,
+    "sunday_rows_per_pair": 61,
+    "real_rows_per_pair": 573,
+    "current_common_one_minute_intervals": 60,
+    "families_returned": [
+      "cross_pair_graph_transfer",
+      "modern_tabular_probabilistic_repaired",
+      "probabilistic_state_space",
+      "ridge_return_repaired"
+    ],
+    "training_rows_by_family": {
+      "ridge_return_repaired": 131,
+      "modern_tabular_probabilistic_repaired": 553,
+      "cross_pair_graph_transfer": 131,
+      "probabilistic_state_space": 0
+    },
+    "state_observations": 60
+  },
+  "timing": {
+    "repetitions": 5,
+    "median_sec": 0.12725500005763024,
+    "scope": "four pure model fits on synthetic snapshots; not whole-system latency"
+  },
+  "registered_six_source_bindings_unchanged": {
+    "oanda_causal_forecast_inputs.py": {
+      "expected": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+      "actual": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281"
+    },
+    "oanda_causal_forecast_ledger.py": {
+      "expected": "4ddd413261fc294922bf2664bb0ae018d8469a3422942567849c1624ba32cd1f",
+      "actual": "4ddd413261fc294922bf2664bb0ae018d8469a3422942567849c1624ba32cd1f"
+    },
+    "oanda_causal_forecast_study.py": {
+      "expected": "e50a9a8ef5bbfe739d177d1bcf8632362bcad06b68694eb7c599c70a33fbd44e",
+      "actual": "e50a9a8ef5bbfe739d177d1bcf8632362bcad06b68694eb7c599c70a33fbd44e"
+    },
+    "oanda_causal_prediction_baselines.py": {
+      "expected": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+      "actual": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d"
+    },
+    "oanda_fixed_forecast_evaluation.py": {
+      "expected": "482af854fae94d53aea82c109ffb6a00f265f3ecebdbc3137e200cb07d142708",
+      "actual": "482af854fae94d53aea82c109ffb6a00f265f3ecebdbc3137e200cb07d142708"
+    },
+    "oanda_proof_shadow_predictors.py": {
+      "expected": "51c3f945eadb3f26166cfddd37d97451ef21e2b69ece6664c57ee06c145ff417",
+      "actual": "51c3f945eadb3f26166cfddd37d97451ef21e2b69ece6664c57ee06c145ff417"
+    }
+  },
+  "historical_real_data_accuracy_established": false,
+  "prospective_forecasts_created": 0,
+  "runtime_activated": false,
+  "database_writes": false,
+  "external_orders_or_network": false,
+  "current_registration_modified": false,
+  "limitations": [
+    "This pure helper receives market START epochs, not actual availability clocks.",
+    "Root capture must verify duplicates, source bytes, complete M1 bars, actual capture time and latest common cutoff.",
+    "Retained historical labels become usable only after actual current observation and a later completion/issue clock.",
+    "The return-gap policy conservatively requires every feature and H1 target interval; insufficient retained valid rows still abstain.",
+    "Current features require61 common closes, not61 minutes of elapsed wall time or guaranteed forecasting readiness.",
+    "Graph uses the original per-pair pip factor construction; this is not a normalized covariance, VECM or joint-return model.",
+    "Source changes and fixed UTC sampling require separate registration; old predictions/proof are not relabeled.",
+    "Tests and synthetic timings establish engineering behavior, not accuracy or economic edge."
+  ]
+}

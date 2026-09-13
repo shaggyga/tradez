@@ -5,6 +5,7 @@ import hashlib
 import json
 from pathlib import Path
 import sqlite3
+import subprocess
 
 import pytest
 
@@ -13,6 +14,49 @@ import oanda_official_event_paired_evaluator_v1 as subject
 
 UTC = dt.timezone.utc
 EVENT = dt.datetime(2026, 8, 30, 19, 10, tzinfo=UTC)
+REAL_VALIDATE_DEPENDENCY_SOURCES = subject.validate_dependency_sources
+
+
+def frozen_news_source_contract() -> tuple[bytes, dict[str, tuple[str, str]]]:
+    raw = subprocess.check_output(
+        [
+            "git",
+            "cat-file",
+            "blob",
+            "8e115984965e8e952048cf4bb323560e5c496f43:config/news_sources_v1.json",
+        ],
+        cwd=Path(__file__).resolve().parent,
+        stderr=subprocess.DEVNULL,
+        creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+        timeout=15,
+    )
+    assert hashlib.sha256(raw).hexdigest() == subject.REQUIRED_NEWS_SOURCE_CONFIG_SHA256
+    payload = json.loads(raw.decode("utf-8"))
+    lineages = {
+        str(row["source_id"]): subject._configured_source_lineage(row)
+        for row in payload.get("sources") or []
+        if isinstance(row, dict) and row.get("source_id")
+    }
+    assert lineages
+    return raw, lineages
+
+
+@pytest.fixture(autouse=True)
+def bind_frozen_news_source_contract(monkeypatch: pytest.MonkeyPatch) -> None:
+    raw, lineages = frozen_news_source_contract()
+    monkeypatch.setattr(
+        subject,
+        "validate_news_source_config",
+        lambda path=subject.NEWS_SOURCE_CONFIG_PATH: (raw, lineages),
+    )
+    monkeypatch.setattr(
+        subject,
+        "validate_dependency_sources",
+        lambda: (
+            subject.REQUIRED_FAST_LANE_SOURCE_SHA256,
+            subject.REQUIRED_HORIZON_CAPTURE_SOURCE_SHA256,
+        ),
+    )
 
 
 def test_cohort_b_uses_isolated_paths_and_preserves_a_sentinel(tmp_path: Path):
@@ -383,11 +427,23 @@ def test_source_contract_and_cohort_are_frozen_together():
 def test_dependency_limit_drift_is_rejected_before_evaluation(
     monkeypatch: pytest.MonkeyPatch,
 ):
+    current_fast = Path(subject.fast_lane.__file__).read_bytes()
+    current_horizon = Path(subject.horizon_v1.__file__).read_bytes()
+    real_sha256_bytes = subject.sha256_bytes
+
+    def frozen_dependency_hashes(value: bytes) -> str:
+        if value == current_fast:
+            return subject.REQUIRED_FAST_LANE_SOURCE_SHA256
+        if value == current_horizon:
+            return subject.REQUIRED_HORIZON_CAPTURE_SOURCE_SHA256
+        return real_sha256_bytes(value)
+
+    monkeypatch.setattr(subject, "sha256_bytes", frozen_dependency_hashes)
     monkeypatch.setattr(
         subject.fast_lane, "QUOTE_CAPTURE_MAX_QUOTE_AGE_SECONDS", 31.0
     )
     with pytest.raises(ValueError, match="dependency timing limits changed"):
-        subject.validate_dependency_sources()
+        REAL_VALIDATE_DEPENDENCY_SOURCES()
 
 
 def test_decision_copies_all_input_material_and_seals_full_schedule():

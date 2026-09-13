@@ -19,6 +19,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable, Sequence
 
+try:
+    from oanda_profit_factor_contract_v2 import CONTRACT, factor_fields, profit_factor_at_least, pooled_profit_factor
+except ModuleNotFoundError:
+    from trad.oanda_profit_factor_contract_v2 import CONTRACT, factor_fields, profit_factor_at_least, pooled_profit_factor
+
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
@@ -154,7 +159,7 @@ def atomic_json_dump(value: Any, path: Path) -> None:
     temporary = path.with_suffix(path.suffix + f".{os.getpid()}.tmp")
     try:
         temporary.write_text(
-            json.dumps(value, indent=2, sort_keys=True, default=str) + "\n",
+            json.dumps(value, indent=2, sort_keys=True, default=str, allow_nan=False) + "\n",
             encoding="utf-8",
         )
         os.replace(temporary, path)
@@ -339,6 +344,9 @@ def score_exposure(
 
 
 def execution_metrics(scored: pd.DataFrame) -> dict[str, Any]:
+    for column in ("exposure", "realized_net_pips", "market_mid_move_pips", "predicted_direction"):
+        if not np.isfinite(scored[column].to_numpy(float)).all():
+            raise ValueError("nonfinite_execution_metric_input")
     active = scored[np.abs(scored["exposure"].to_numpy(float)) > 1e-9]
     pips = active["realized_net_pips"].to_numpy(float)
     if len(active):
@@ -360,7 +368,7 @@ def execution_metrics(scored: pd.DataFrame) -> dict[str, Any]:
         "mean_net_pips": float(np.mean(pips)) if len(pips) else 0.0,
         "median_net_pips": float(np.median(pips)) if len(pips) else 0.0,
         "sum_net_pips": float(np.sum(pips)) if len(pips) else 0.0,
-        "profit_factor": gross_win / gross_loss if gross_loss > 0.0 else 0.0,
+        **factor_fields(gross_win, gross_loss),
         "max_drawdown_pips": float(np.max(drawdown)) if len(drawdown) else 0.0,
         "mean_abs_exposure": float(np.mean(np.abs(active["exposure"]))) if len(active) else 0.0,
     }
@@ -452,7 +460,7 @@ def choose_confidence_threshold(
         for row in rows
         if row["trades"] >= minimum_trades
         and row["mean_net_pips"] > 0.0
-        and row["profit_factor"] >= 1.05
+        and profit_factor_at_least(row, 1.05)
     ]
     if not viable:
         return 0.70, rows
@@ -491,7 +499,7 @@ def _validation_block(
     performance = {
         "minimum_trades": metrics["trades"] >= max(100, minimum_events // 5),
         "positive_mean_net_pips": metrics["mean_net_pips"] > 0.0,
-        "profit_factor": metrics["profit_factor"] >= 1.10,
+        "profit_factor": profit_factor_at_least(metrics, 1.10),
         "auc": bool(classification and classification.get("auc") is not None and classification["auc"] >= 0.52),
         "broad_cell_activity": stability["active_cell_fraction"] >= 0.75,
         "positive_cell_majority": stability["positive_active_cell_fraction"] >= 0.55,
@@ -840,10 +848,13 @@ def combine_cell_results(model: str, results: Sequence[dict[str, Any]]) -> dict[
         "direction_accuracy": weighted("direction_accuracy", trades),
         "win_rate": weighted("win_rate", trades),
         "mean_net_pips": float(sum_net / trades) if trades else 0.0,
-        "median_net_pips": weighted("median_net_pips", trades),
+        "median_net_pips": None,
+        "median_net_pips_status": "unavailable_without_pooled_outcomes",
         "sum_net_pips": float(sum_net),
-        "profit_factor": weighted("profit_factor", trades),
-        "max_drawdown_pips": max(
+        **pooled_profit_factor(cells),
+        "max_drawdown_pips": None,
+        "max_drawdown_pips_status": "unavailable_without_ordered_portfolio_path",
+        "maximum_cell_drawdown_pips": max(
             (float(cell.get("max_drawdown_pips") or 0.0) for cell in cells),
             default=0.0,
         ),
@@ -1851,9 +1862,10 @@ def run_validation(
         row for row in valid if (row.get("validation") or {}).get("performance_passed")
     ]
     report = {
-        "schema_version": 1,
+        "schema_version": 2,
         "generated_utc": utc_iso(),
         "scope": "market backtests for runnable models previously limited to synthetic evidence",
+        "execution_metrics_contract": CONTRACT,
         "execution_policy": "shadow_only_no_account_wiring",
         "account_wired": False,
         "dataset": dataset,

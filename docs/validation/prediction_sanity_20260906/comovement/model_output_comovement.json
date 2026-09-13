@@ -1,0 +1,128 @@
+{
+  "classification": "already_inspected_archival_diagnostic_not_causal_or_executable_proof",
+  "source": "docs\\validation\\fixed_evaluation_20260906\\selected_candidate_rows.json",
+  "source_sha256": "dc3e20355b420d23406162678743f903feff4cc1689f28353f9da870d1358e12",
+  "n_matching_decisions": 368,
+  "families": [
+    "cross_pair_graph_transfer",
+    "modern_tabular_probabilistic_repaired",
+    "probabilistic_state_space",
+    "ridge_return_repaired"
+  ],
+  "pairs": [
+    {
+      "families": [
+        "cross_pair_graph_transfer",
+        "modern_tabular_probabilistic_repaired"
+      ],
+      "n": 368,
+      "probability_correlation": 0.08254693367881828,
+      "expected_move_correlation": 0.07232027065054886,
+      "probability_error_correlation": 0.8800182805904556,
+      "same_direction_count": 169,
+      "same_direction_rate": 0.4592391304347826,
+      "both_direction_correct_count": 66,
+      "both_direction_wrong_count": 103
+    },
+    {
+      "families": [
+        "cross_pair_graph_transfer",
+        "probabilistic_state_space"
+      ],
+      "n": 368,
+      "probability_correlation": -0.18928888390737816,
+      "expected_move_correlation": -0.12671249115975106,
+      "probability_error_correlation": 0.7024406125771742,
+      "same_direction_count": 148,
+      "same_direction_rate": 0.40217391304347827,
+      "both_direction_correct_count": 56,
+      "both_direction_wrong_count": 92
+    },
+    {
+      "families": [
+        "cross_pair_graph_transfer",
+        "ridge_return_repaired"
+      ],
+      "n": 368,
+      "probability_correlation": 0.6170459259786519,
+      "expected_move_correlation": 0.33345622803090097,
+      "probability_error_correlation": 0.912473583760065,
+      "same_direction_count": 269,
+      "same_direction_rate": 0.7309782608695652,
+      "both_direction_correct_count": 110,
+      "both_direction_wrong_count": 159
+    },
+    {
+      "families": [
+        "modern_tabular_probabilistic_repaired",
+        "probabilistic_state_space"
+      ],
+      "n": 368,
+      "probability_correlation": -0.1066905441910607,
+      "expected_move_correlation": 0.03394249354704554,
+      "probability_error_correlation": 0.8121262086550395,
+      "same_direction_count": 177,
+      "same_direction_rate": 0.48097826086956524,
+      "both_direction_correct_count": 80,
+      "both_direction_wrong_count": 97
+    },
+    {
+      "families": [
+        "modern_tabular_probabilistic_repaired",
+        "ridge_return_repaired"
+      ],
+      "n": 368,
+      "probability_correlation": -0.005636032370551836,
+      "expected_move_correlation": 0.04825685941393846,
+      "probability_error_correlation": 0.8503739141008239,
+      "same_direction_count": 158,
+      "same_direction_rate": 0.42934782608695654,
+      "both_direction_correct_count": 64,
+      "both_direction_wrong_count": 94
+    },
+    {
+      "families": [
+        "probabilistic_state_space",
+        "ridge_return_repaired"
+      ],
+      "n": 368,
+      "probability_correlation": -0.21165752007265243,
+      "expected_move_correlation": -0.2112807907455406,
+      "probability_error_correlation": 0.6739921261248627,
+      "same_direction_count": 163,
+      "same_direction_rate": 0.4429347826086957,
+      "both_direction_correct_count": 67,
+      "both_direction_wrong_count": 96
+    }
+  ],
+  "unanimous": {
+    "n": 40,
+    "hits": 9,
+    "direction_accuracy_flats_miss": 0.225,
+    "coverage": 0.10869565217391304
+  },
+  "three_or_four_agree": {
+    "n": 228,
+    "hits": 92,
+    "direction_accuracy_flats_miss": 0.40350877192982454,
+    "coverage": 0.6195652173913043
+  },
+  "two_two_ties": 140,
+  "mean_probability_brier": 0.2965976835568078,
+  "constant_half_brier": 0.25,
+  "mean_signed_prediction_mae": 4.968263817255434,
+  "zero_move_mae": 3.93410326086958,
+  "correct_models_per_decision": {
+    "0": 31,
+    "1": 105,
+    "2": 140,
+    "3": 83,
+    "4": 9
+  },
+  "limitations": [
+    "Six previously inspected UTC days with overlapping one-hour outcomes; no independent-sample significance claim.",
+    "Equal averaging and agreement slices are retrospective diagnostics, not registered strategies or validated improvements.",
+    "Outcome error correlation includes the shared realized target; it is descriptive, not independent proof of duplicate features.",
+    "Archived entry/publication and target-clock defects remain; metrics do not establish realizable trading results."
+  ]
+}

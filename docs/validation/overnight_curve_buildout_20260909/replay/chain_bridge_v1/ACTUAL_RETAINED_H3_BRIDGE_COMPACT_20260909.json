@@ -1,0 +1,90 @@
+{
+  "account_state_observations": 0,
+  "actual_or_virtual_fills": 0,
+  "actual_quote_mapping_status": "available",
+  "actual_quote_observation": {
+    "age_sec_at_decision": 3.6807920932769775,
+    "market_epoch": 1788954142.077878,
+    "raw_sha256": "030b8dd40c88a02bbf1f51326cba95243cb424f0f67478caf025b6f8fa78eb4a",
+    "read_completed_epoch": 1788954145.713717,
+    "read_started_epoch": 1788954145.7117214,
+    "receipt_sha256": "abc89b7fb0f98d2758c92bd9d952955fe817ae4207ab981e821c63287f487e8d"
+  },
+  "actual_quote_refusals": {},
+  "broker_requests": 0,
+  "candidate_side": -1,
+  "candidate_status": "available",
+  "created_epoch": 1788954282.5464885,
+  "current_forecast_update_claim": false,
+  "cycle_id": "cycle_1788944035618347400",
+  "cycle_names_examined": 169,
+  "decision_epoch": 1788954145.75867,
+  "diagnostic_computed_epoch": 1788954145.8809588,
+  "expected_remaining_move_pips": "-20.2763473731042846",
+  "expected_terminal_price": "1.35421236526268957154",
+  "helper": {
+    "bytes": 15467,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\replay\\chain_bridge_v1\\diagnose_latest_retained_gbp_h3.py",
+    "sha256": "2390a4eb63a823b8365d3e0e286a2fc81a8e18aa5ac723a2ee2aa9d2cc47c805"
+  },
+  "hypothetical_scenario": {
+    "actual_state_known_epoch": 1788954145.6987557,
+    "actual_state_read": {
+      "payload_sha256": "6c5a3f34374d3a857bc3d12ffb3c76b5fc5903e883a66dade2e8e04abcbc52ca",
+      "read_completed_epoch": 1788954145.710725,
+      "read_started_epoch": 1788954145.7087302
+    },
+    "diagnostic_action": "enter",
+    "integer_base_units": 1843,
+    "kind": "new_hypothetical_flat_state_not_account_or_existing_paper_state",
+    "maximum_holding_sec": 3600,
+    "notional_cap_usd": "2500",
+    "policy_source": {
+      "bytes": 7124,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\observed_curve_management_v1_20260909\\episodes\\episode_01\\episode_config.json",
+      "raw_sha256": "f1c44715edc585e7a206beb40a03b8a0f324b4725bdab38d2fc51193884325cd",
+      "read_completed_epoch": 1788954145.6976743,
+      "read_started_epoch": 1788954145.6807191
+    },
+    "side": -1,
+    "slippage_bps_per_leg": "0.1"
+  },
+  "independent_helper_review_status": "Parent source/receipt review requested separately; pure bridge independent review already accepted.",
+  "instrument": "GBP_USD",
+  "limitation": "This establishes one retained-chain/current-quote diagnostic compatibility result. The newly constructed flat state is hypothetical. It establishes no entry, fill, account state, efficacy or fresh information update.",
+  "manager_activations": 0,
+  "metadata_entries": 370,
+  "new_forecasts": 0,
+  "node_id": "curve_node_v1_5979ded3258ba4fe2a2797a8fbaf912ee8005afe81a6542677989d57698d2c76",
+  "original_curve_sha256": "4c5c153aee9fd2a232c2c14ad8b6d8b3e74572968e12b1ba50f83871d3e00829",
+  "original_horizon_sec": 10800,
+  "original_issued_epoch": 1788944041.2525072,
+  "original_receipt": {
+    "bytes": 14071,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\replay\\chain_bridge_v1\\actual_retained_compatibility_001\\ACTUAL_RETAINED_H3_BRIDGE_DIAGNOSTIC_20260909.json",
+    "sha256": "5ee91121dbd8e98b9162b51a8d7e33c2665cae7d8992fc5a7a00eb8de8d4b865"
+  },
+  "original_receipts_not_retimed": true,
+  "original_reference_epoch": 1788944030.0,
+  "original_target_epoch": 1788954830.0,
+  "original_target_policy": "first complete real S5 bar at/after nominal within7seconds; nominal management approximation retained",
+  "pnl_calculations": 0,
+  "prepared_continuation_count": 1,
+  "prepared_entry_count": 1,
+  "price_convention": "official_midpoint",
+  "private_inputs_not_exported": true,
+  "pure_bridge_acceptance": {
+    "bytes": 5220,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\replay\\chain_bridge_v1\\CURVE_CHAIN_MANAGEMENT_BRIDGE_ACCEPTANCE_20260909.json",
+    "sha256": "46f6d1bfb659fa87cae18d2ff1bb0887a03d24459898cbc0c0be1c1daff2fa8d"
+  },
+  "refusals": [],
+  "registry_unchanged": true,
+  "schema_version": "retained_h3_bridge_compact_diagnostic_v1_20260909",
+  "selection_method": "Latest retained complete GBP_USD official-M publication by numeric cycle name; fixed H3 selected before inspecting prediction/returns; no outcome/side selection.",
+  "semantic_entry_admitted": true,
+  "semantic_reason": "original_and_remaining_direction_consistent",
+  "source_and_original_inference_replayed": true,
+  "source_bindings_unchanged": true,
+  "status": "actual_local_input_compatibility_observed_no_management_activation"
+}

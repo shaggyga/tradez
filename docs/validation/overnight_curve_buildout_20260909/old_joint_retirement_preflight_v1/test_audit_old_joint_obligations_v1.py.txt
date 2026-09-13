@@ -1,0 +1,53 @@
+import audit_old_joint_obligations_v1 as a
+import pytest
+
+
+def tables(**overrides):
+    result={k:[] for k in a.COLUMNS if k!='forecasts'};result.update(overrides);return result
+
+
+def test_completed_published_consumed_outcome_has_no_outstanding_obligation():
+    counts,issues=a.obligations({'f':{'target':200}},tables(publication=[{'id':'f'}],consumption=[{'id':'f','epoch':100}],entries=[{'id':'f'}],outcomes=[{'id':'f'}]),300)
+    assert not issues and counts['terminal_outcomes']==1
+
+
+def test_missing_publication_consumption_and_settlement_remain_blockers():
+    counts,issues=a.obligations({'f':{'target':200}},tables(),300)
+    assert counts['unpublished_forecast']==counts['unconsumed_forecast']==counts['unresolved_forecasts']==1
+    assert {r['reason'] for r in issues}=={'unpublished_forecast','unconsumed_forecast','unresolved_without_consumption'}
+
+
+def test_entry_deadline_equality_is_not_fabricated_expiry():
+    f={'f':{'target':200}};t=tables(publication=[{'id':'f'}],consumption=[{'id':'f','epoch':100}])
+    counts,_=a.obligations(f,t,160);assert counts['unresolved_deadline_not_elapsed']==1
+    counts,_=a.obligations(f,t,160.001);assert counts['unresolved_deadline_elapsed']==1
+
+
+def test_target_quote_grace_remains_outstanding_until_elapsed():
+    f={'f':{'target':200}};t=tables(publication=[{'id':'f'}],consumption=[{'id':'f','epoch':100}],entries=[{'id':'f'}])
+    counts,_=a.obligations(f,t,260);assert counts['unresolved_deadline_not_elapsed']==1
+    counts,_=a.obligations(f,t,260.001);assert counts['unresolved_deadline_elapsed']==1
+
+
+def test_orphans_and_conflicting_terminal_states_are_not_success():
+    t=tables(publication=[{'id':'f'}],consumption=[{'id':'f','epoch':100}],outcomes=[{'id':'f'}],exclusions=[{'id':'f'},{'id':'orphan'}])
+    counts,_=a.obligations({'f':{'target':200}},t,300)
+    assert counts['orphan_exclusions']==counts['outcome_and_exclusion']==counts['outcome_without_entry']==1
+
+
+def test_future_original_target_is_explicit_even_with_recorded_exclusion():
+    t=tables(publication=[{'id':'f'}],consumption=[{'id':'f','epoch':100}],exclusions=[{'id':'f'}])
+    counts,_=a.obligations({'f':{'target':200}},t,180)
+    assert counts['future_original_target']==1 and counts.get('unresolved_forecasts',0)==0
+
+
+@pytest.mark.parametrize('table',list(a.COLUMNS))
+def test_duplicate_persisted_ids_cannot_collapse(table):
+    with pytest.raises(ValueError,match='duplicate_or_invalid_id'):
+        a.unique_rows([{'id':'one'},{'id':'one'}],table)
+
+
+def test_selected_quote_digest_is_order_independent_but_changes_with_retained_payload():
+    rows=[{'id':'a','row_sha256':'1','market_epoch':10},{'id':'b','row_sha256':'2','market_epoch':11}]
+    assert a.selected_quote_identity(rows)==a.selected_quote_identity(list(reversed(rows)))
+    assert a.selected_quote_identity(rows)!=a.selected_quote_identity([{**rows[0],'row_sha256':'3'},rows[1]])

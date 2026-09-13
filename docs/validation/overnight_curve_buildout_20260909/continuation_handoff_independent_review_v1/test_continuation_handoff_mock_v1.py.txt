@@ -1,0 +1,100 @@
+"""Mock-only handoff regression checks; no real validate/publish calls."""
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+import sys
+from types import SimpleNamespace
+import pytest
+
+BASE=Path(__file__).resolve().parents[1]
+SOURCE=BASE/'run_continuation_handoff_v1.py'
+
+@pytest.fixture
+def env(tmp_path, monkeypatch):
+    testbase=tmp_path/'evidence';testbase.mkdir()
+    source=testbase/SOURCE.name;source.write_bytes(SOURCE.read_bytes())
+    spec=importlib.util.spec_from_file_location('mocked_continuation_wrapper',source)
+    mod=importlib.util.module_from_spec(spec);spec.loader.exec_module(mod)
+    for name,_ in mod.IMPLEMENTATIONS.values():
+        (testbase/name).write_bytes((BASE/name).read_bytes())
+    root=tmp_path/'trad';(root/'docs').mkdir(parents=True)
+    old=[root/'docs/FOREX_OVERNIGHT_CURVE_BUILDOUT_20260909.md',root/'FOREX_OVERNIGHT_CURVE_BUILDOUT_VALIDATION_20260909.json']
+    for path in old:path.write_bytes(b'accepted original bytes')
+    calls=[];loaded=SimpleNamespace()
+    def spec_from(name,path):
+        def execute(target):
+            target.__file__=str(path)
+            def main():
+                calls.append({'argv':list(sys.argv),'file':target.__file__,'report':target.REPORT,'validation':getattr(target,'OUTPUT',getattr(target,'VALIDATION',None))})
+                if hasattr(loaded,'action'):loaded.action()
+            target.main=main
+        return SimpleNamespace(loader=SimpleNamespace(exec_module=execute))
+    monkeypatch.setattr(mod,'importlib',SimpleNamespace(util=SimpleNamespace(spec_from_file_location=spec_from,module_from_spec=lambda spec:loaded)))
+    monkeypatch.setattr(mod,'time',SimpleNamespace(time=lambda:1788957600.0))
+    return mod,calls,loaded,old
+
+@pytest.mark.parametrize('phase',['validate','publish'])
+def test_phase_exact_forwarding_fixed_paths_no_old_mutation(env,monkeypatch,phase):
+    mod,calls,loaded,old=env
+    args=['wrapper','--phase',phase,'--expected-report-sha256','a'*64,'--output-directory','new-output']
+    monkeypatch.setattr(sys,'argv',args)
+    mod.main()
+    assert sys.argv is args
+    call=calls[0]
+    assert call['argv']==[str(mod.BASE/mod.IMPLEMENTATIONS[phase][0]),*args[3:]]
+    assert call['file']==str(mod.BASE/mod.IMPLEMENTATIONS[phase][0])
+    expected_report=mod.ROOT/mod.REPORT if phase=='validate' else mod.REPORT
+    expected_validation=mod.ROOT/mod.VALIDATION if phase=='validate' else mod.VALIDATION
+    assert call['report']==expected_report and call['validation']==expected_validation
+    completed=json.loads((mod.BASE/f'CONTINUATION_{phase.upper()}_COMPLETED_20260909.json').read_bytes())
+    assert completed['wrapper_sha256']==hashlib.sha256(Path(mod.__file__).read_bytes()).hexdigest()
+    assert all(path.read_bytes()==b'accepted original bytes' for path in old)
+    assert completed['reviewed_implementation']['sha256']==mod.IMPLEMENTATIONS[phase][1]
+
+@pytest.mark.parametrize('phase',['validate','publish'])
+def test_initial_changed_source_refuses_before_invocation_or_import(env,monkeypatch,phase):
+    mod,calls,_,_=env;(mod.BASE/mod.IMPLEMENTATIONS[phase][0]).write_bytes(b'changed')
+    monkeypatch.setattr(sys,'argv',['w','--phase',phase])
+    with pytest.raises(ValueError,match='reviewed_handoff_implementation_changed'):mod.main()
+    assert not calls and not list(mod.BASE.glob('CONTINUATION_*'))
+
+@pytest.mark.parametrize('changed',['implementation','wrapper'])
+def test_source_changed_during_phase_no_success_receipt(env,monkeypatch,changed):
+    mod,calls,loaded,_=env
+    target=mod.BASE/mod.IMPLEMENTATIONS['validate'][0] if changed=='implementation' else Path(mod.__file__)
+    loaded.action=lambda:target.write_bytes(b'changed after fake phase')
+    monkeypatch.setattr(sys,'argv',['w','--phase','validate'])
+    with pytest.raises(ValueError,match='continuation_handoff_source_changed'):mod.main()
+    assert calls and not (mod.BASE/'CONTINUATION_VALIDATE_COMPLETED_20260909.json').exists()
+
+@pytest.mark.parametrize('phase',['validate','publish'])
+def test_failure_restores_argv_and_preserves_started_only(env,monkeypatch,phase):
+    mod,calls,loaded,_=env
+    def fail():raise RuntimeError('mocked phase refused')
+    loaded.action=fail
+    original=['w','--phase',phase];monkeypatch.setattr(sys,'argv',original)
+    with pytest.raises(RuntimeError,match='mocked phase refused'):mod.main()
+    assert sys.argv is original
+    assert (mod.BASE/f'CONTINUATION_{phase.upper()}_INVOCATION_20260909.json').exists()
+    assert not (mod.BASE/f'CONTINUATION_{phase.upper()}_COMPLETED_20260909.json').exists()
+
+@pytest.mark.parametrize('phase',['validate','publish'])
+def test_duplicate_invocation_never_reruns_phase(env,monkeypatch,phase):
+    mod,calls,_,_=env;monkeypatch.setattr(sys,'argv',['w','--phase',phase]);mod.main()
+    with pytest.raises(FileExistsError):mod.main()
+    assert len(calls)==1
+
+@pytest.mark.parametrize("value",[float("nan"),float("inf"),0,-1])
+def test_invalid_start_clock_refuses_before_phase(env,monkeypatch,value):
+    mod,calls,_,_=env;monkeypatch.setattr(sys,"argv",["w","--phase","validate"])
+    monkeypatch.setattr(mod,"time",SimpleNamespace(time=lambda:value))
+    with pytest.raises(ValueError):mod.main()
+    assert not calls and not list(mod.BASE.glob("CONTINUATION_*"))
+
+@pytest.mark.parametrize("value",[float("nan"),float("inf"),1788957599.9])
+def test_invalid_completion_clock_has_no_success(env,monkeypatch,value):
+    mod,calls,_,_=env;monkeypatch.setattr(sys,"argv",["w","--phase","validate"])
+    clocks=iter([1788957600.0,value]);monkeypatch.setattr(mod,"time",SimpleNamespace(time=lambda:next(clocks)))
+    with pytest.raises(ValueError):mod.main()
+    assert calls and not (mod.BASE/"CONTINUATION_VALIDATE_COMPLETED_20260909.json").exists()

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="6" time="0.332" timestamp="2026-09-09T04:27:05.636142-04:00" hostname="DESKTOP-Q2EDIEU"><testcase classname="test_run_joint_reassessment_v1" name="test_original_output_untouched_and_same_process_globals_restored" time="0.048"><failure message="OSError: [Errno 9] Bad file descriptor">tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-4795/test_original_output_untouched0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x000002DF90A67D40&gt;
+
+    def test_original_output_untouched_and_same_process_globals_restored(tmp_path,monkeypatch):
+        module,old,_=fixture(tmp_path,monkeypatch)
+&gt;       result=w.run(tmp_path/'fresh')
+               ^^^^^^^^^^^^^^^^^^^^^^^
+
+test_run_joint_reassessment_v1.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+run_joint_reassessment_v1.py:116: in run
+    inventory=sync_inventory(output)
+              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+output = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-4795/test_original_output_untouched0/fresh')
+
+    def sync_inventory(output):
+        records=[];total=0
+        paths=list(output.iterdir())
+        need(len(paths)&lt;=6,'output_root_inventory')
+        for directory in (output/'inputs',output/'results'):
+            if directory.exists():
+                safe(directory);children=[]
+                for i,path in enumerate(directory.iterdir(),1):
+                    need(i&lt;=68,'output_pair_inventory');children.append(path)
+                paths.extend(children)
+        for path in paths:
+            if path.is_dir():continue
+            safe(path)
+            with path.open('rb') as stream:
+&gt;               os.fsync(stream.fileno());h=hashlib.sha256();size=0
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+E               OSError: [Errno 9] Bad file descriptor
+
+run_joint_reassessment_v1.py:93: OSError</failure></testcase><testcase classname="test_run_joint_reassessment_v1" name="test_partial_failure_retained_without_false_completion" time="0.025" /><testcase classname="test_run_joint_reassessment_v1" name="test_changed_source_on_import_refused_before_output" time="0.005" /><testcase classname="test_run_joint_reassessment_v1" name="test_bad_and_existing_output_roots_refused" time="0.004" /><testcase classname="test_run_joint_reassessment_v1" name="test_serial_map_does_not_schedule_after_failure" time="0.001" /><testcase classname="test_run_joint_reassessment_v1" name="test_serial_pair_cap" time="0.001" /></testsuite></testsuites>

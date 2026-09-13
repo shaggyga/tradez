@@ -57,6 +57,7 @@ TERMINAL_STATES = {
     "futility_rejected",
     "confirmed_candidate",
 }
+LIFECYCLE_INTEGRITY_CONTRACT = "evidence_lifecycle_publication_integrity_v1"
 
 
 def utc_now() -> str:
@@ -934,6 +935,79 @@ def lifecycle_summary(connection: sqlite3.Connection) -> dict[str, Any]:
     }
 
 
+def lifecycle_publication_integrity(
+    connection: sqlite3.Connection,
+) -> dict[str, Any]:
+    """Bind the aggregate publication to the exact append-only DB state.
+
+    Lifecycle evaluation can legitimately take longer than the verifier's
+    ordinary publication-age budget.  The independent verifier may accept an
+    older, fail-closed publication while that calculation is running only when
+    this fingerprint still matches a fresh read of the database.  Include the
+    complete latest event (including confirmation evidence) for every
+    hypothesis so equal aggregate counts cannot disguise a changed candidate.
+    """
+
+    current_rows = [
+        {
+            "hypothesis_id": str(row[0]),
+            "cohort_id": None if row[1] is None else str(row[1]),
+            "definition_sha256": str(row[2]),
+            "event_rowid": int(row[3]),
+            "next_state": str(row[4]),
+            "observed_utc": str(row[5]),
+            "source_run_id": str(row[6]),
+            "evidence_json": str(row[7]),
+        }
+        for row in connection.execute(
+            """
+            SELECT hypothesis.hypothesis_id,hypothesis.cohort_id,
+                   hypothesis.definition_sha256,event.rowid,event.next_state,
+                   event.observed_utc,event.source_run_id,event.evidence_json
+            FROM hypotheses AS hypothesis
+            JOIN lifecycle_events AS event
+              ON event.hypothesis_id=hypothesis.hypothesis_id
+            JOIN (
+                SELECT hypothesis_id,MAX(rowid) AS latest_rowid
+                FROM lifecycle_events GROUP BY hypothesis_id
+            ) AS latest ON latest.latest_rowid=event.rowid
+            ORDER BY hypothesis.hypothesis_id
+            """
+        )
+    ]
+
+    def table_extent(table: str) -> tuple[int, int]:
+        count, highwater = connection.execute(
+            f"SELECT COUNT(*),COALESCE(MAX(rowid),0) FROM {table}"
+        ).fetchone()
+        return int(count), int(highwater)
+
+    hypothesis_count, hypothesis_highwater = table_extent("hypotheses")
+    event_count, event_highwater = table_extent("lifecycle_events")
+    retirement_count, retirement_highwater = table_extent("futility_retirements")
+    reconsideration_count, reconsideration_highwater = table_extent(
+        "reconsideration_decisions"
+    )
+    current_states = Counter(row["next_state"] for row in current_rows)
+    return {
+        "contract": LIFECYCLE_INTEGRITY_CONTRACT,
+        "hypothesis_count": hypothesis_count,
+        "hypothesis_highwater_rowid": hypothesis_highwater,
+        "lifecycle_event_count": event_count,
+        "lifecycle_event_highwater_rowid": event_highwater,
+        "futility_retirement_count": retirement_count,
+        "futility_retirement_highwater_rowid": retirement_highwater,
+        "reconsideration_count": reconsideration_count,
+        "reconsideration_highwater_rowid": reconsideration_highwater,
+        "current_state_count": len(current_rows),
+        "current_states": {
+            state: int(current_states.get(state, 0))
+            for state in sorted(TERMINAL_STATES)
+        },
+        "current_state_sha256": stable_hash(current_rows),
+    }
+
+
 def run_lifecycle(
     *,
     database_path: Path = DEFAULT_DATABASE,
@@ -943,10 +1017,22 @@ def run_lifecycle(
     source_database: Path = DEFAULT_SOURCE_DATABASE,
     cohort_state_path: Path = DEFAULT_COHORT_STATE,
     progress_callback: Any = None,
+    post_ingest_sync: Any = None,
 ) -> dict[str, Any]:
     config = read_json(config_path)
     connection = initialize_database(database_path)
     try:
+        # The velocity pass scans the large immutable outcome surface and may
+        # take many minutes.  Run it before committing any lifecycle change so
+        # the independent verifier never observes a new database high-water
+        # paired with the previous published state merely because this
+        # read-only calculation is still running.
+        if progress_callback is not None:
+            progress_callback("measuring_proof_cohort_velocity", {})
+        velocity = proof_cohort_velocity(
+            source_database=source_database,
+            cohort_state_path=cohort_state_path,
+        )
         if progress_callback is not None:
             progress_callback("checking_fixed_snapshot", {})
         bootstrap = bootstrap_fixed_snapshot(
@@ -960,15 +1046,28 @@ def run_lifecycle(
             config=config,
             progress_callback=progress_callback,
         )
-        if progress_callback is not None:
-            progress_callback("measuring_proof_cohort_velocity", {})
-        velocity = proof_cohort_velocity(
-            source_database=source_database,
-            cohort_state_path=cohort_state_path,
-        )
+        genealogy_sync = {
+            "ok": True,
+            "status": "not_requested",
+        }
+        if post_ingest_sync is not None:
+            if progress_callback is not None:
+                progress_callback("synchronizing_lifecycle_genealogy", {})
+            result = post_ingest_sync(database_path)
+            if not isinstance(result, dict):
+                raise RuntimeError("post-ingest lifecycle sync returned no result")
+            genealogy_sync = dict(result)
+            if not bool(genealogy_sync.get("ok")):
+                raise RuntimeError(
+                    "post-ingest lifecycle genealogy synchronization failed: "
+                    f"{genealogy_sync}"
+                )
         if progress_callback is not None:
             progress_callback("summarizing_lifecycle", {})
         summary = lifecycle_summary(connection)
+        if progress_callback is not None:
+            progress_callback("fingerprinting_lifecycle_publication", {})
+        integrity = lifecycle_publication_integrity(connection)
     finally:
         connection.close()
     payload = {
@@ -982,6 +1081,8 @@ def run_lifecycle(
         "terminal_states": sorted(TERMINAL_STATES),
         "bootstrap": bootstrap,
         "current_ingest": current,
+        "integrity": integrity,
+        "genealogy_sync": genealogy_sync,
         "lifecycle": summary,
         "proof_cohort_evidence_velocity": velocity,
         "post_null_rule": (
@@ -1002,6 +1103,7 @@ __all__ = [
     "bootstrap_fixed_snapshot",
     "initialize_database",
     "ingest_current_cells",
+    "lifecycle_publication_integrity",
     "proof_cohort_velocity",
     "register_reconsideration",
     "run_lifecycle",

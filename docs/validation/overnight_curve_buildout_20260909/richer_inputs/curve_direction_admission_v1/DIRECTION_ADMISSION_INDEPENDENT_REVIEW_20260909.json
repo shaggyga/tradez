@@ -1,0 +1,34 @@
+{
+  "bindings": {
+    "direction_admission_final_tests.xml": {
+      "bytes": 6933,
+      "sha256": "acfcc3e948d053adddeefc5efc6723b80aec86e11633a121314116f3d23e7ac7"
+    },
+    "oanda_curve_direction_admission_v1.py": {
+      "bytes": 9991,
+      "sha256": "b3453296c20aa7e207826f30c7c7b2d697b42929f595aabeb5f9b21087b8ba7a"
+    },
+    "test_oanda_curve_direction_admission_v1.py": {
+      "bytes": 11874,
+      "sha256": "da310b6aa24f65542a87f7f6a4259c5e22fa4d32c1b038e9ec4d1a8a414a281d"
+    }
+  },
+  "created_utc": "2026-09-09T09:12:41.218164+00:00",
+  "limits": [
+    "Parent/owner40-case XML is bound as retained evidence, not a reviewer test run.",
+    "No all59-episode context classification or counterfactual performance is included in this review.",
+    "New version remains separate from frozen cohorts; future integration must pin its source and full state/publication contracts."
+  ],
+  "remaining_blockers": [],
+  "review_scope": "Read-only semantic source review; no independent test rerun, original episode classification, runtime or model change.",
+  "schema_version": "curve_direction_admission_independent_review_v1_20260909",
+  "status": "passed_bounded_source_review",
+  "verified_boundaries": [
+    "Reuses unchanged original candidate validation and retains original sealed candidate, target and probability scope.",
+    "Original forecast side is checked against original reference-to-terminal direction; entry and opposite-side rotation need nonzero original direction consistent with rebased remaining direction.",
+    "Entry refusal does not remove existing-side continuation. Wrong instrument/native target yields explicit incomparable continuation; no interpolation or forced entry.",
+    "Neutral original forecasts cannot become new directional evidence solely through terminal crossing.",
+    "Envelope explicitly certifies a necessary semantic condition only, with no fresh-input, calibrated remaining-probability, execution, sizing or empirical-success claim.",
+    "Incumbent descriptor uses exact pair identity, observed-before-decision clock and state hash; actual state I/O authentication remains the caller responsibility."
+  ]
+}

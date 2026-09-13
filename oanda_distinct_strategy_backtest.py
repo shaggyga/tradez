@@ -481,10 +481,12 @@ def load_prior_baselines(path: Path) -> list[dict[str, Any]]:
         return [row for row in csv.DictReader(handle) if row.get("pattern") in wanted]
 
 
-def load_news(path: Path) -> dict[str, Any]:
-    if not path.exists():
-        return {}
-    return json.loads(path.read_text(encoding="utf-8"))
+def load_news(path: Path) -> dict[str,Any]:
+    if not path.exists():return {}
+    payload=json.loads(path.read_text(encoding='utf-8'))
+    if (payload.get('contract')=='news_category_follow_fade_bps_actual_maturity_v2_20260912' or payload.get('endpoint_contract')=='news_four_quote_endpoints_entry_mid_bps_v2_20260912'):
+        raise ValueError('new_bps_news_report_requires_version_aware_reader;legacy_pip_renderer_refused')
+    return payload
 
 
 def pair_group_diagnostics(pair_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -523,6 +525,8 @@ def render_report(
     news: Mapping[str, Any],
     group_rows: list[dict[str, Any]],
 ) -> str:
+    if (news.get('contract')=='news_category_follow_fade_bps_actual_maturity_v2_20260912' or news.get('endpoint_contract')=='news_four_quote_endpoints_entry_mid_bps_v2_20260912'):
+        raise ValueError('new_bps_news_report_requires_version_aware_reader;legacy_pip_renderer_refused')
     promoted = [row for row in candidates if row["promoted"]]
     lines = [
         "# Distinct Strategy Backtest — 2026-08-02",

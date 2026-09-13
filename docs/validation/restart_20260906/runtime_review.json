@@ -1,0 +1,475 @@
+{
+  "schema_version": 1,
+  "review": "independent_collection_restart_observation",
+  "observed_utc": "2026-09-06T12:23:09.5994525Z",
+  "status": "collection_isolation_verified",
+  "expected_supervisor_pid": 22692,
+  "global_oanda_forex_inventory_scope": "All host Python/PowerShell script entrypoints matching OANDA/Forex names, without project-root restriction; arbitrary renamed or embedded programs are outside this observation",
+  "global_processes": [
+    {
+      "pid": 22692,
+      "parent_pid": 45072,
+      "script": "oanda_always_on_supervisor.ps1",
+      "supervisor_descendant": true,
+      "execution_flags": false,
+      "permitted": true,
+      "created_utc": "2026-09-06T12:16:44.0123750Z"
+    },
+    {
+      "pid": 16100,
+      "parent_pid": 22692,
+      "script": "oanda_account_snapshot_writer.py",
+      "supervisor_descendant": true,
+      "execution_flags": false,
+      "permitted": true,
+      "created_utc": "2026-09-06T12:16:45.3998010Z"
+    },
+    {
+      "pid": 8472,
+      "parent_pid": 16100,
+      "script": "oanda_account_snapshot_writer.py",
+      "supervisor_descendant": true,
+      "execution_flags": false,
+      "permitted": true,
+      "created_utc": "2026-09-06T12:16:45.4973880Z"
+    },
+    {
+      "pid": 21552,
+      "parent_pid": 22692,
+      "script": "oanda_practice_live_dashboard.py",
+      "supervisor_descendant": true,
+      "execution_flags": false,
+      "permitted": true,
+      "created_utc": "2026-09-06T12:16:45.5946440Z"
+    },
+    {
+      "pid": 24048,
+      "parent_pid": 21552,
+      "script": "oanda_practice_live_dashboard.py",
+      "supervisor_descendant": true,
+      "execution_flags": false,
+      "permitted": true,
+      "created_utc": "2026-09-06T12:16:45.7003750Z"
+    },
+    {
+      "pid": 38356,
+      "parent_pid": 22692,
+      "script": "oanda_local_news_sentiment.py",
+      "supervisor_descendant": true,
+      "execution_flags": false,
+      "permitted": true,
+      "created_utc": "2026-09-06T12:16:45.7087510Z"
+    },
+    {
+      "pid": 42580,
+      "parent_pid": 22692,
+      "script": "oanda_official_release_fast_lane.py",
+      "supervisor_descendant": true,
+      "execution_flags": false,
+      "permitted": true,
+      "created_utc": "2026-09-06T12:16:45.8006150Z"
+    },
+    {
+      "pid": 43776,
+      "parent_pid": 38356,
+      "script": "oanda_local_news_sentiment.py",
+      "supervisor_descendant": true,
+      "execution_flags": false,
+      "permitted": true,
+      "created_utc": "2026-09-06T12:16:45.8045980Z"
+    },
+    {
+      "pid": 40356,
+      "parent_pid": 22692,
+      "script": "oanda_official_release_fast_mapper.py",
+      "supervisor_descendant": true,
+      "execution_flags": false,
+      "permitted": true,
+      "created_utc": "2026-09-06T12:16:45.9029460Z"
+    },
+    {
+      "pid": 3296,
+      "parent_pid": 42580,
+      "script": "oanda_official_release_fast_lane.py",
+      "supervisor_descendant": true,
+      "execution_flags": false,
+      "permitted": true,
+      "created_utc": "2026-09-06T12:16:45.9056950Z"
+    },
+    {
+      "pid": 45292,
+      "parent_pid": 40356,
+      "script": "oanda_official_release_fast_mapper.py",
+      "supervisor_descendant": true,
+      "execution_flags": false,
+      "permitted": true,
+      "created_utc": "2026-09-06T12:16:46.0307940Z"
+    },
+    {
+      "pid": 14560,
+      "parent_pid": 22692,
+      "script": "oanda_all68_m1_forward_updater.py",
+      "supervisor_descendant": true,
+      "execution_flags": false,
+      "permitted": true,
+      "created_utc": "2026-09-06T12:16:46.1935120Z"
+    },
+    {
+      "pid": 42644,
+      "parent_pid": 22692,
+      "script": "oanda_source_governance_news_fast_lane.py",
+      "supervisor_descendant": true,
+      "execution_flags": false,
+      "permitted": true,
+      "created_utc": "2026-09-06T12:16:46.5747850Z"
+    },
+    {
+      "pid": 42752,
+      "parent_pid": 42644,
+      "script": "oanda_source_governance_news_fast_lane.py",
+      "supervisor_descendant": true,
+      "execution_flags": false,
+      "permitted": true,
+      "created_utc": "2026-09-06T12:16:46.9078430Z"
+    },
+    {
+      "pid": 22220,
+      "parent_pid": 14560,
+      "script": "oanda_all68_m1_forward_updater.py",
+      "supervisor_descendant": true,
+      "execution_flags": false,
+      "permitted": true,
+      "created_utc": "2026-09-06T12:16:46.9156710Z"
+    },
+    {
+      "pid": 13880,
+      "parent_pid": 22692,
+      "script": "oanda_practice_quote_stream.py",
+      "supervisor_descendant": true,
+      "execution_flags": false,
+      "permitted": true,
+      "created_utc": "2026-09-06T12:17:17.3684180Z"
+    },
+    {
+      "pid": 20388,
+      "parent_pid": 13880,
+      "script": "oanda_practice_quote_stream.py",
+      "supervisor_descendant": true,
+      "execution_flags": false,
+      "permitted": true,
+      "created_utc": "2026-09-06T12:17:17.4513030Z"
+    },
+    {
+      "pid": 11660,
+      "parent_pid": 22692,
+      "script": "oanda_clock_integrity_monitor.py",
+      "supervisor_descendant": true,
+      "execution_flags": false,
+      "permitted": true,
+      "created_utc": "2026-09-06T12:17:48.0835380Z"
+    },
+    {
+      "pid": 33776,
+      "parent_pid": 11660,
+      "script": "oanda_clock_integrity_monitor.py",
+      "supervisor_descendant": true,
+      "execution_flags": false,
+      "permitted": true,
+      "created_utc": "2026-09-06T12:17:48.1555060Z"
+    },
+    {
+      "pid": 30180,
+      "parent_pid": 22692,
+      "script": "oanda_project_integrity_audit.py",
+      "supervisor_descendant": true,
+      "execution_flags": false,
+      "permitted": true,
+      "created_utc": "2026-09-06T12:21:22.6502450Z"
+    },
+    {
+      "pid": 45900,
+      "parent_pid": 30180,
+      "script": "oanda_project_integrity_audit.py",
+      "supervisor_descendant": true,
+      "execution_flags": false,
+      "permitted": true,
+      "created_utc": "2026-09-06T12:21:22.7204210Z"
+    },
+    {
+      "pid": 32288,
+      "parent_pid": 22692,
+      "script": "oanda_storage_headroom_guard.py",
+      "supervisor_descendant": true,
+      "execution_flags": false,
+      "permitted": true,
+      "created_utc": "2026-09-06T12:21:53.4610570Z"
+    },
+    {
+      "pid": 16304,
+      "parent_pid": 32288,
+      "script": "oanda_storage_headroom_guard.py",
+      "supervisor_descendant": true,
+      "execution_flags": false,
+      "permitted": true,
+      "created_utc": "2026-09-06T12:21:53.5442620Z"
+    }
+  ],
+  "unexpected_processes": [],
+  "other_supervisor_descendants": [],
+  "python_worker_scripts": [
+    "oanda_account_snapshot_writer.py",
+    "oanda_practice_live_dashboard.py",
+    "oanda_local_news_sentiment.py",
+    "oanda_official_release_fast_lane.py",
+    "oanda_official_release_fast_mapper.py",
+    "oanda_all68_m1_forward_updater.py",
+    "oanda_source_governance_news_fast_lane.py",
+    "oanda_practice_quote_stream.py",
+    "oanda_clock_integrity_monitor.py",
+    "oanda_project_integrity_audit.py",
+    "oanda_storage_headroom_guard.py"
+  ],
+  "venv_process_pairs": "Each admitted Python worker normally has a venv launcher plus one base-interpreter child; these are one worker, not duplicate independent workers",
+  "supervisor_heartbeat_utc": "2026-09-06T12:22:55.1096568Z",
+  "managed_running": [
+    {
+      "name": "account_snapshot",
+      "pids": [
+        16100,
+        8472
+      ],
+      "freshness": {
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\account_007_dashboard_v1.json",
+        "age_sec": 1.6,
+        "fresh": true,
+        "reason": "fresh"
+      }
+    },
+    {
+      "name": "live_dashboard",
+      "pids": [
+        21552,
+        24048
+      ],
+      "freshness": {
+        "path": "",
+        "age_sec": null,
+        "fresh": true,
+        "reason": "not_checked"
+      }
+    },
+    {
+      "name": "local_news_sentiment",
+      "pids": [
+        38356,
+        43776
+      ],
+      "freshness": {
+        "observed_json_value": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\collector_heartbeat_v1.json",
+        "progress_sequence": 198,
+        "expected_json_field": "classification_version",
+        "phase": "postprocessing_evidence",
+        "expected_json_value": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+        "age_sec": 6.2,
+        "reason": "fresh",
+        "fresh": true,
+        "progress_age_sec": 2.2
+      }
+    },
+    {
+      "name": "official_release_fast_lane",
+      "pids": [
+        42580,
+        3296
+      ],
+      "freshness": {
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\official_release_fast_lane_heartbeat_v4.json",
+        "progress_sequence": 34,
+        "phase": "polling_official_sources",
+        "age_sec": 0.9,
+        "reason": "fresh",
+        "fresh": true,
+        "progress_age_sec": 0
+      }
+    },
+    {
+      "name": "official_release_fast_mapper",
+      "pids": [
+        40356,
+        45292
+      ],
+      "freshness": {
+        "observed_json_value": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\official_release_fast_mapping_heartbeat_v3.json",
+        "expected_json_field": "required_classification_version",
+        "phase": "cycle_complete",
+        "expected_json_value": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+        "age_sec": 0.2,
+        "reason": "fresh",
+        "fresh": true
+      }
+    },
+    {
+      "name": "all68_m1_forward_archive",
+      "pids": [
+        14560,
+        22220
+      ],
+      "freshness": {
+        "phase": "sleeping",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\all68_m1_forward_update_heartbeat_v1.json",
+        "age_sec": 0.3,
+        "fresh": true,
+        "reason": "fresh"
+      }
+    },
+    {
+      "name": "practice_007_quote_stream",
+      "pids": [
+        13880,
+        20388
+      ],
+      "freshness": {
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_quote_stream_heartbeat_v1.json",
+        "phase_age_sec": 333.2,
+        "phase": "streaming",
+        "age_sec": 0.7,
+        "reason": "fresh",
+        "fresh": true
+      }
+    },
+    {
+      "name": "clock_integrity_monitor",
+      "pids": [
+        11660,
+        33776
+      ],
+      "freshness": {
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\clock_integrity_v1.json",
+        "age_sec": 5.5,
+        "fresh": true,
+        "reason": "fresh"
+      }
+    },
+    {
+      "name": "source_governance_news_fast_lane",
+      "pids": [
+        42644,
+        42752
+      ],
+      "freshness": {
+        "observed_json_value": "news_source_governance_fast_lane_v3_committed_visibility_20260905",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\source_governance_news_fast_lane_v3.json",
+        "expected_json_field": "contract_id",
+        "phase": "",
+        "expected_json_value": "news_source_governance_fast_lane_v3_committed_visibility_20260905",
+        "age_sec": 2.2,
+        "reason": "fresh",
+        "fresh": true
+      }
+    },
+    {
+      "name": "project_integrity_audit",
+      "pids": [
+        30180,
+        45900
+      ],
+      "freshness": {
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\project_integrity_audit_v1.json",
+        "process_age_sec": 92.4,
+        "startup_grace_sec": 1500,
+        "age_sec": 124624.8,
+        "reason": "startup_grace",
+        "fresh": true
+      }
+    },
+    {
+      "name": "storage_headroom_guard",
+      "pids": [
+        32288,
+        16304
+      ],
+      "freshness": {
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\storage_headroom_v1.json",
+        "age_sec": 58,
+        "fresh": true,
+        "reason": "fresh"
+      }
+    }
+  ],
+  "blocked_worker_count": 103,
+  "supervisor_errors": [],
+  "nonempty_new_stderr_logs": [],
+  "quote_publication": {
+    "generated_utc": "2026-09-06T08:17:21.045251-04:00",
+    "producer": "practice_007_dedicated_quote_stream",
+    "research_only": true,
+    "quote_count": 68,
+    "current_quote_count": 68,
+    "current_tradeable_quote_count": 0,
+    "current_non_tradeable_quote_count": 68,
+    "retained_last_known_count": 0,
+    "retained_quotes_execution_eligible": false,
+    "execution_requires_independent_freshness_check": true,
+    "earliest_broker_tick": "2026-09-04T14:59:55.018073957Z",
+    "latest_broker_tick": "2026-09-04T20:59:05.352199091Z",
+    "stream_connected": true,
+    "stream_last_event_age_sec": 4.203,
+    "can_place_orders": false,
+    "explanation": "Initial weekend stream rows are current-connection observations of old broker ticks explicitly marked nontradeable; current coverage does not imply executable freshness."
+  },
+  "news_fastlane_v3": {
+    "generated_utc": "2026-09-06T08:22:52.774911-04:00",
+    "status": "ok",
+    "contract_id": "news_source_governance_fast_lane_v3_committed_visibility_20260905",
+    "transaction_committed": true,
+    "committed_batch_seq": 13,
+    "scan_cursor_rowid": 164473,
+    "next_scan_cursor_rowid": 181353,
+    "committed_input_high_watermark": 310286,
+    "input_row_count": 1000,
+    "rejected_preactivation_count": 1000,
+    "new_receipt_count": 0,
+    "total_receipt_count": 0,
+    "mapping_visible_utc": "2026-09-06T08:22:52.770922-04:00",
+    "can_place_orders": false,
+    "can_authorize": false,
+    "can_promote": false,
+    "supported_decision": "no_trade",
+    "limitation": "Worker is progressing through preactivation rows; no fresh prospective receipt acceptance demonstrated yet. No database integrity scan performed by this review."
+  },
+  "account": {
+    "snapshot_time": "2026-09-06T08:23:08.679297-04:00",
+    "environment": "practice",
+    "open_trades": 0,
+    "pending_orders": 0,
+    "values_current": true
+  },
+  "clock": {
+    "generated_utc": "2026-09-06T08:22:49.514648-04:00",
+    "status": "mitigated",
+    "host_clock_synchronized": true,
+    "broker_clock_sample_count": 0,
+    "reasons": [
+      "broker_clock_offset_unavailable"
+    ]
+  },
+  "forex_tasks": [
+    {
+      "name": "ForexGptOrigConstantRotationDemoWatchdog",
+      "state": "Disabled"
+    },
+    {
+      "name": "ForexSafeCoreAtLogon",
+      "state": "Disabled"
+    }
+  ],
+  "runtime_mutations_by_review": 0,
+  "database_scans_by_review": 0,
+  "limits": [
+    "Point-in-time runtime inspection; does not establish future worker health",
+    "Integrity publication completion is assessed separately by root",
+    "Research collection does not repair the excluded forecasting producer contracts"
+  ]
+}

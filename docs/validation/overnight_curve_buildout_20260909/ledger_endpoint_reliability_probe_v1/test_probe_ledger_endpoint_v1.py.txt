@@ -1,0 +1,79 @@
+import copy
+import json
+import pytest
+import probe_ledger_endpoint_v1 as p
+
+def fixture():
+    pairs=[f'A{chr(65+i//26)}{chr(65+i%26)}_USD' for i in range(68)]
+    rows=[dict(instrument=pair,families={p.FAMILY:dict(observed_epoch=1000,reason='no_verified_published_forecast',latest_forecast=None,ledger_observation={'contract_and_activation_verified':False})}) for pair in pairs]
+    summary=dict(rows=rows);summary['payload_sha256']=p.seal(summary)
+    report=dict(summary=summary,summary_sha256=p.sha(p.canonical(summary)),observer_spec={},observer_spec_sha256=p.sha(p.canonical({})),started_epoch=999,completed_epoch=1000,registered_pairs=68,verified_ledger_pairs=67,unvisited_pairs=0,elapsed_monotonic_sec=1,failures={pairs[0]:'observer_pair_time_budget'},original_producer_envelope={'status':'generation_mismatch','producer_reported_errors':6})
+    report['payload_sha256']=p.seal(report)
+    consumer=dict(observed_epoch=1001,observation_completed_epoch=1000,registered_pairs=68,verified_ledger_pairs=67,unvisited_pairs=0,current_forecast_pairs=0,active_forecast_ids=[])
+    value=dict(schema_version='joint_v3_ledger_observer_api_v1_20260909',status='partial_ledger_observation',research_only=True,consumer=consumer,observer_report=report,observer_report_sha256=p.sha(p.canonical(report)),observer_api_specification_sha256='a'*64,failures=report['failures'],original_producer_envelope=report['original_producer_envelope'])
+    for key in ('can_place_orders','can_promote','can_authorize','account_eligible','proof_eligible','historical_rows_imported'):value[key]=False
+    value['payload_sha256']=p.seal(value)
+    receipt=dict(status=200,complete_response=True,read_completed_epoch=1002,elapsed_monotonic_sec=.1)
+    return value,receipt
+
+def test_partial_report_keeps_original_clocks_and_failure():
+    value,r=fixture();original=copy.deepcopy(value);got=p.summarize_response(p.canonical(value),r,'a'*64)
+    assert got['verified_pairs']==67 and got['failures']==value['failures']
+    assert got['original_consumer_epoch']==1001 and got['report_age_at_probe_read_sec']==2
+    assert got['original_producer']['status']=='generation_mismatch' and value==original
+
+def test_tempered_report_does_not_receive_fresh_provenance():
+    value,r=fixture();value['observer_report']['completed_epoch']=1003;value['payload_sha256']=p.seal(value)
+    with pytest.raises(ValueError,match='report_hash'):p.summarize_response(p.canonical(value),r,'a'*64)
+
+def test_future_consumer_refuses_even_with_api_reseal():
+    value,r=fixture();value['consumer']['observed_epoch']=1003;value['payload_sha256']=p.seal(value)
+    with pytest.raises(ValueError,match='clock_order'):p.summarize_response(p.canonical(value),r,'a'*64)
+
+def test_same_report_repeats_do_not_inflate_failure_recurrence():
+    value,r=fixture();projection=p.summarize_response(p.canonical(value),r,'a'*64)
+    sample=dict(read=r,projection=projection)
+    a=p.aggregate([sample,sample]);assert a['distinct_reports']==1 and a['per_pair_failures'][0]['distinct_report_count']==1
+    second=copy.deepcopy(sample);second['projection']['observer_report_sha256']='new'
+    a=p.aggregate([sample,second]);assert a['per_pair_failures'][0]['recurrence']=='recurring'
+
+def test_request_count_boundary_precedes_http(tmp_path):
+    reader=p.Reader(tmp_path);reader.count=p.MAX_REQUESTS
+    with pytest.raises(ValueError,match='request_count_bound'):reader.get(p.ENDPOINT)
+    assert reader.count==p.MAX_REQUESTS
+
+@pytest.mark.parametrize('endpoint',['/api/main','/api/account','http://example.com/','/api/news'])
+def test_endpoint_allowlist_precedes_network(tmp_path,endpoint):
+    reader=p.Reader(tmp_path)
+    with pytest.raises(ValueError,match='endpoint_not_allowlisted'):reader.get(endpoint)
+    assert reader.count==0
+
+def test_duplicate_or_nonfinite_json_rejected():
+    with pytest.raises(ValueError,match='duplicate_json_key'):p.decode(b'{"x":1,"x":2}')
+    with pytest.raises(ValueError,match='nonfinite_json'):p.decode(b'{"x":NaN}')
+
+def test_total_request_and_response_budget_exact():
+    assert p.LEDGER_REQUESTS+2==p.MAX_REQUESTS==79
+    assert p.MAX_REQUESTS+p.PRIOR_HTTP_REQUESTS==80
+    assert (p.MAX_REQUESTS+p.PRIOR_HTTP_REQUESTS)*p.MAX_RESPONSE==p.MAX_TOTAL==160*1024*1024
+    assert p.TIMEOUT==12 and p.INTERVAL==15 and p.DURATION==1200
+
+def test_complete_closed_response_does_not_touch_closed_socket(tmp_path,monkeypatch):
+    class Response:
+        status=200
+        closed=False
+        def isclosed(self):return self.closed
+        def read1(self,size):self.closed=True;return b'complete body'
+    response=Response()
+    class Socket:
+        def settimeout(self,value):assert not response.closed
+    class Connection:
+        sock=Socket()
+        def __init__(self,*args,**kwargs):pass
+        def request(self,*args,**kwargs):pass
+        def getresponse(self):return response
+        def close(self):pass
+    monkeypatch.setattr(p.http.client,'HTTPConnection',Connection)
+    (tmp_path/'private_responses').mkdir()
+    raw,receipt=p.Reader(tmp_path).get('/')
+    assert raw==b'complete body' and receipt['complete_response'] is True and receipt['error'] is None

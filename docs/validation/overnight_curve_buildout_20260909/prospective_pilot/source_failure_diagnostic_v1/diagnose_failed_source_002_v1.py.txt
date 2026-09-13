@@ -1,0 +1,137 @@
+"""Bounded retained-receipt diagnosis; no network, source replay or rescoring."""
+from pathlib import Path
+from datetime import datetime, timezone
+import hashlib
+import json
+import math
+import os
+import stat
+import time
+
+BASE = Path(__file__).resolve().parents[1]
+ASSESSMENT = BASE / 'scalability_v3/actual_evaluation_002'
+REPORT_SHA = '24c5b477a2f9781c792d3375e91d09b639c9cc4c3141dbac4513c34d6790de31'
+REGISTRY_SHA = 'ae64f2cae6df44dad81b46deb16e95e4d5f67dabb7fc1e65289b96ba6b0fe2b2'
+EXPECTED_DIRECTORY = 'cycles/cycle_1788949915619204500/gbp_usd'
+
+
+def need(ok, reason):
+    if not ok:
+        raise ValueError(reason)
+
+
+def sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+
+def canonical(value):
+    return json.dumps(value, sort_keys=True, separators=(',', ':'), allow_nan=False).encode()
+
+
+def read(path, expected, cap):
+    path = path.absolute()
+    need('..' not in path.parts, 'path_scope')
+    for item in [path, *path.parents]:
+        info = item.lstat()
+        need(not stat.S_ISLNK(info.st_mode) and not getattr(info, 'st_file_attributes', 0) & 1024, 'reparse_refused')
+    with path.open('rb') as stream:
+        raw = stream.read(cap + 1)
+    need(len(raw) <= cap and sha(raw) == expected, 'original_file_hash_or_bound')
+    return json.loads(raw), dict(path=str(path), sha256=expected, bytes=len(raw))
+
+
+def utc(epoch):
+    return datetime.fromtimestamp(epoch, timezone.utc).isoformat()
+
+
+def run():
+    began = time.time()
+    report, report_ref = read(ASSESSMENT / 'PROSPECTIVE_PILOT_EVALUATION.json', REPORT_SHA, 2 * 1024 * 1024)
+    need(report['status'] == 'completed' and report['issues'] == [] and report['source_closure_unchanged'] is True,
+         'completed_verified_assessment_required')
+    indexes = {r['path']: r for r in report['evidence_files']}
+    need(len(indexes) == len(report['evidence_files']), 'unique_evidence_index')
+    sources, sources_ref = read(ASSESSMENT / 'source_captures.json', indexes['source_captures.json']['sha256'], 4 * 1024 * 1024)
+    manifest, manifest_ref = read(ASSESSMENT / 'manifest.json', indexes['manifest.json']['sha256'], 16 * 1024 * 1024)
+    by_path = {r['relative_path']: r for r in manifest}
+    need(len(by_path) == len(manifest), 'unique_retained_inventory')
+    failed = [r for r in sources if r['status'] != 'verified']
+    need(len(failed) == 1 and failed[0] == dict(directory=EXPECTED_DIRECTORY, instrument='GBP_USD',
+         reason_code='non_200_response', status='failed_source_capture'), 'exact_failed_source_inventory')
+    runtime = Path(report['runtime_root'])
+    evidence = []
+    def original(relative, cap):
+        item = by_path[relative]
+        value, ref = read(runtime / relative, item['sha256'], cap)
+        need(ref['bytes'] == item['bytes'], 'original_retained_bytes')
+        ref['original_evaluator_observed_epoch'] = item['observed_epoch']
+        evidence.append(ref)
+        return value
+    receipt = original(EXPECTED_DIRECTORY + '/capture_receipt.json', 65536)
+    cycle = original(str(Path(EXPECTED_DIRECTORY).parent).replace('\\', '/') + '/cycle_completed.json', 65536)
+    registry, registry_ref = read(Path(report['registry_path']), REGISTRY_SHA, 1024 * 1024)
+    need(sha(canonical({k: v for k, v in receipt.items() if k != 'receipt_sha256'})) == receipt['receipt_sha256'], 'failed_receipt_seal')
+    need(receipt['status'] == 'failed' and receipt['instrument'] == 'GBP_USD' and receipt['http_status'] == 504
+         and receipt['error_reason'] == 'non_200_response' and receipt['error_type'] == 'ValueError', 'failed_receipt_identity')
+    need(receipt['research_only'] is True and all(receipt[k] is False for k in
+         ('account_access', 'account_eligible', 'can_authorize', 'can_place_orders', 'can_promote',
+          'execution_eligible', 'forecast_issued', 'proof_eligible')), 'research_only_receipt')
+    need(receipt['request']['method'] == 'GET' and receipt['request']['request_count'] == 1 and
+         receipt['request']['automatic_retries'] == 0 and receipt['request']['redirects_allowed'] is False and
+         receipt['request']['params'] == dict(count=120, granularity='S5', price='MBA', smooth='false'), 'original_request_contract')
+    need(not any(k in receipt for k in ('read_completed_epoch', 'first_observed_epoch', 'capture_completed_epoch', 'raw_response')), 'no_invented_failed_read_clock')
+    need(cycle['started_epoch'] <= receipt['request_started_epoch'] <= cycle['completed_epoch'] and
+         receipt['request_started_epoch'] > registry['issue_cutoff_epoch'], 'original_cycle_and_phase_clocks')
+    pair = next(p for p in cycle['pairs'] if p['instrument'] == 'GBP_USD')
+    need(pair['status'] == 'failed' and pair['attempts'] == [] and pair['reason_code'] == receipt['error_reason'] and
+         pair['capture_receipt']['sha256'] == evidence[0]['sha256'], 'worker_failed_receipt_link')
+    need(all(cycle[k] == 0 for k in ('curves_issued', 'curves_published', 'curves_consumed')), 'collection_only_cycle')
+    source_evidence = []
+    project = Path(report['registry_path']).parent.parent
+    for name, expected in registry['source_bindings'].items():
+        raw = (project / name).read_bytes()
+        need(sha(raw) == expected == report['source_bindings'][name], 'original_frozen_closure')
+        source_evidence.append(dict(path=str(project / name), sha256=expected, bytes=len(raw)))
+    need(len(source_evidence) == 14 and all(registry['source_bindings'][n] == h for n, h in receipt['source_bindings'].items()), 'capture_and_pilot_bindings')
+    peers = sorted([r for r in sources if r['instrument'] == 'GBP_USD'], key=lambda r: r['directory'])
+    index = peers.index(failed[0])
+    neighbors = []
+    for direction, item in (('previous', peers[index-1]), ('next', peers[index+1])):
+        need(item['status'] == 'verified', 'adjacent_verified_source_required')
+        neighbors.append(dict(direction=direction, directory=item['directory'], original_read_completed_epoch=item['original_read_completed_epoch'],
+                              original_read_completed_utc=utc(item['original_read_completed_epoch']), raw_source_sha256=item['raw_source_sha256'],
+                              receipt_sha256=item['receipt_sha256'], complete_row_count=item['coverage']['complete_row_count'],
+                              first_complete_bar_label_epoch=item['coverage']['first_complete_bar_label_epoch'],
+                              last_complete_bar_label_epoch=item['coverage']['last_complete_bar_label_epoch'],
+                              provider_gap_count=len(item['coverage']['gaps']), missing_s5_intervals=item['coverage']['missing_s5_intervals']))
+    completed = time.time()
+    need(math.isfinite(began) and math.isfinite(completed) and completed >= began, 'actual_diagnostic_clock')
+    result = dict(schema_version='pilot_retained_failed_source_diagnosis_v1_20260909', status='passed',
+                  diagnostic_started_epoch=began, diagnostic_completed_epoch=completed, report=report_ref,
+                  source_index=sources_ref, retained_inventory=manifest_ref, registry=registry_ref, original_receipt_and_cycle=evidence,
+                  source_evidence=source_evidence, failure=failed[0], http_status=504, failed_receipt_seal_verified=True,
+                  original_capture_workflow_started_epoch=receipt['request_started_epoch'], original_capture_workflow_started_utc=utc(receipt['request_started_epoch']),
+                  original_cycle_completed_epoch=cycle['completed_epoch'], original_cycle_completed_utc=utc(cycle['completed_epoch']),
+                  original_issue_cutoff_epoch=registry['issue_cutoff_epoch'], original_issue_cutoff_utc=utc(registry['issue_cutoff_epoch']),
+                  failed_read_completed_epoch=None, failed_response_body_retained=False, exact_failure_latency_sec=None,
+                  original_request_count=1, automatic_retries=0, cycle_pair_statuses={p['instrument']:p['status'] for p in cycle['pairs']},
+                  cycle_curves_issued=0, cycle_curves_published=0, cycle_curves_consumed=0, adjacent_original_sources=neighbors,
+                  original_source_status_counts=report['source_capture_status_counts'], original_curve_status_counts=report['curve_chain_status_counts'],
+                  original_view_dispositions=report['view_dispositions'], original_evidence_issue_count=len(report['issues']),
+                  interpretation=['One correctly hash-bound failed collection receipt records HTTP504/non_200_response. This is distinct from an evaluator verification issue; original issues is empty.',
+                    'The fixed08:55 issuance cutoff had passed. This cycle attempted no variant forecasts, so this failure did not omit a newly issued curve at that cycle.',
+                    'The failed source supplies no candle rows or coverage. It remains counted as failed and never becomes a zero return, valid endpoint or synthetic source interval.',
+                    'The original request_started field is sampled before credential/session setup; it is a capture-workflow clock, not an exact wire-send timestamp. Failed responses have no read/completion clock or retained body, so exact network latency and underlying failure cause are unavailable.',
+                    'Adjacent original successful GBP observations have overlapping returned domains and separately disclosed provider gaps. They are not stitched or substituted for the failed query, and do not prove that every target endpoint was observed.',
+                    'No scoring rerun or counterfactual attribution was performed. The620provider omissions,250coverage omissions,1166pending and4withheld views cannot be attributed to this single HTTP504 from this bounded receipt audit.'],
+                  runtime_writes=False, broker_requests=0, model_fits=0, rescoring_performed=False, proof_eligible=False)
+    result['helper'] = dict(path=str(Path(__file__).resolve()), sha256=sha(Path(__file__).read_bytes()))
+    output = Path(__file__).resolve().parent / 'PILOT_SOURCE_FAILURE_002_DIAGNOSIS_20260909.json'
+    raw = json.dumps(result, sort_keys=True, indent=2, allow_nan=False).encode() + b'\n'
+    with output.open('xb') as stream:
+        stream.write(raw); stream.flush(); os.fsync(stream.fileno())
+    print(json.dumps(dict(path=str(output), sha256=sha(raw), http_status=504, source_failures=1, evidence_issues=0)))
+
+
+if __name__ == '__main__':
+    run()

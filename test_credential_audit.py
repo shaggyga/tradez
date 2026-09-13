@@ -81,3 +81,76 @@ def test_private_path_variants_are_rejected(tmp_path: Path, relative: str) -> No
     result = audit(tmp_path, "candidate")
     assert result["passed"] is False
     assert result["findings"][0]["rule"] == "banned_private_path"
+
+
+@pytest.mark.parametrize("quote", ['"', "'"])
+def test_quoted_identifier_like_password_is_rejected(tmp_path: Path, quote: str) -> None:
+    git(tmp_path, "init")
+    secret = "Alphabetic" + "PrivatePassword"
+    (tmp_path / "source.py").write_text(f"password = {quote}{secret}{quote}\n", encoding="utf-8")
+    result = audit(tmp_path, "candidate")
+    assert result["passed"] is False
+    assert result["findings"][0]["rule"] == "credential_assignment"
+    assert secret not in str(result)
+
+
+@pytest.mark.parametrize("filename", ["config.yaml", "config.ini", "config.json", "README.md"])
+def test_bare_config_password_is_not_a_source_reference(tmp_path: Path, filename: str) -> None:
+    git(tmp_path, "init")
+    value = "Alphabetic" + "PrivatePassword"
+    (tmp_path / filename).write_text(f"password: {value}\n", encoding="utf-8")
+    assert audit(tmp_path, "candidate")["passed"] is False
+
+
+def test_unquoted_python_reference_remains_allowed(tmp_path: Path) -> None:
+    git(tmp_path, "init")
+    (tmp_path / "source.py").write_text(
+        "api_key = " + "configured_token_name\npassword = " + "self.configured_password\n", encoding="utf-8"
+    )
+    assert audit(tmp_path, "candidate")["passed"] is True
+
+
+@pytest.mark.parametrize("style", ["embedded", "triple_direct", "triple_multiline", "triple_embedded", "comment", "raw", "bytes", "fstring"])
+def test_literal_assignment_context_cannot_be_exempted_as_python_reference(tmp_path: Path, style: str) -> None:
+    git(tmp_path, "init")
+    value = "Alphabetic" + "PrivatePassword"
+    payloads = {
+        "embedded": f'message = "password = {value}"\n',
+        "triple_direct": f'password = """{value}"""\n',
+        "triple_multiline": f'password = """\n{value}\n"""\n',
+        "triple_embedded": f'settings = """\npassword={value}\n"""\n',
+        "comment": f'# password = {value}\n',
+        "raw": f'password = r"{value}"\n',
+        "bytes": f"password = b'''{value}'''\n",
+        "fstring": f'message = f"password = {value}"\n',
+    }
+    (tmp_path / "source.py").write_text(payloads[style], encoding="utf-8")
+    result = audit(tmp_path, "candidate")
+    assert result["passed"] is False
+    assert result["findings"][0]["rule"] == "credential_assignment"
+    assert value not in str(result)
+
+
+@pytest.mark.parametrize("filename", ["source.js", "source.ts", "source.jsx", "source.mjs"])
+def test_javascript_strings_and_comments_have_no_reference_exemption(tmp_path: Path, filename: str) -> None:
+    git(tmp_path, "init")
+    value = "Alphabetic" + "PrivatePassword"
+    (tmp_path / filename).write_text(f'const data = "password={value}";\n// password={value}\nconst password = `{value}`;\n', encoding="utf-8")
+    result = audit(tmp_path, "candidate")
+    assert result["passed"] is False
+    assert result["finding_count"] == 3
+
+
+@pytest.mark.parametrize("prefix,encoding", [("# Unicode café £\n", "utf-8"), ("# Unicode café £\n", "utf-8-sig"), ("# coding: latin-1\n# café\n", "latin-1")])
+def test_token_proven_reference_uses_correct_byte_offsets(tmp_path: Path, prefix: str, encoding: str) -> None:
+    git(tmp_path, "init")
+    expression = "self." + "configured_password"
+    (tmp_path / "source.py").write_bytes((prefix + "password = " + expression + "\r\n").encode(encoding))
+    assert audit(tmp_path, "candidate")["passed"] is True
+
+
+def test_uncertain_python_tokenization_does_not_exempt_references(tmp_path: Path) -> None:
+    git(tmp_path, "init")
+    expression = "self." + "configured_password"
+    (tmp_path / "source.py").write_text("password = " + expression + "\nunclosed = (\n", encoding="utf-8")
+    assert audit(tmp_path, "candidate")["passed"] is False

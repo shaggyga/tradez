@@ -23,6 +23,24 @@ import os
 import re
 import ssl
 import sqlite3
+from oanda_news_source_observation_ledger_v1 import (
+    CONTRACT as SOURCE_OBSERVATION_LEDGER_CONTRACT,
+    initialize as initialize_source_observation_ledger,
+    ledger_transaction as source_observation_transaction,
+    record_observation as record_source_observation,
+    select_observation as select_source_observation,
+    bind_active_version as bind_active_source_version,
+    source_version_floor, source_version_provenance_valid,
+    preserve_active_version as preserve_active_source_version,
+    record_projection as record_source_projection,
+)
+from oanda_news_classification_observation_v1 import (
+    CONTRACT as CLASSIFICATION_OBSERVATION_CONTRACT,
+    initialize as initialize_classification_observations,
+    classification_floor, classification_provenance_valid,
+    publication_as_of as classification_publication_as_of,
+    record_and_bind as record_and_bind_classification,
+)
 import subprocess
 import sys
 import threading
@@ -36,14 +54,42 @@ from collections import Counter, defaultdict
 from html.parser import HTMLParser
 from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
-from zoneinfo import ZoneInfo
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 import oanda_news_event_tagger as event_tagger
+from oanda_news_causal_aggregation_guard_v2 import guard_topic as guard_causal_news_topic
+from oanda_news_causal_aggregation_guard_v2 import build_current_news_snapshot
+from oanda_news_causal_aggregation_guard_v2 import MAX_CURRENT_SNAPSHOT_BYTES
 from oanda_news_collector_contract import (
     NEWS_COLLECTOR_COHORT_ID,
     NEWS_COLLECTOR_CONTRACT_ID,
 )
-from oanda_news_classification_contract import NEWS_CLASSIFICATION_VERSION
+from oanda_news_classification_contract import (
+    CONFLICT_DURATION_RECAP_GUARD_ACTIVATED_UTC_V1,
+    CONFLICT_DURATION_RECAP_GUARD_COHORT_ID_V1,
+    CONFLICT_DURATION_RECAP_GUARD_CONTRACT_ID_V1,
+    DEESCALATION_PROPOSAL_GUARD_ACTIVATED_UTC_V1,
+    DEESCALATION_PROPOSAL_GUARD_COHORT_ID_V1,
+    DEESCALATION_PROPOSAL_GUARD_CONTRACT_ID_V1,
+    ISSUER_BOUND_POLICY_COMMUNICATION_SOURCE_ACTIVATED_UTC_V2,
+    ISSUER_BOUND_POLICY_COMMUNICATION_SOURCE_COHORT_ID_V2,
+    ISSUER_BOUND_POLICY_COMMUNICATION_SOURCE_CONTRACT_ID_V2,
+    ISSUER_BOUND_POLICY_COMMUNICATION_SOURCE_CURRENCIES_V2,
+    JAPAN_EXTERNAL_POLICY_PRESSURE_ACTIVATED_UTC_V1,
+    JAPAN_EXTERNAL_POLICY_PRESSURE_COHORT_ID_V1,
+    JAPAN_EXTERNAL_POLICY_PRESSURE_CONTRACT_ID_V1,
+    NEWS_CLASSIFICATION_VERSION,
+    OFFICIAL_DEFENSE_NONMARKET_HEALTH_GUARD_ACTIVATED_UTC_V1,
+    OFFICIAL_DEFENSE_NONMARKET_HEALTH_GUARD_COHORT_ID_V1,
+    OFFICIAL_DEFENSE_NONMARKET_HEALTH_GUARD_CONTRACT_ID_V1,
+    OFFICIAL_SEARCH_POLICY_RATE_ACTIVATED_UTC_V1,
+    OFFICIAL_SEARCH_POLICY_RATE_COHORT_ID_V1,
+    OFFICIAL_SEARCH_POLICY_RATE_CONTRACT_ID_V1,
+    OFFICIAL_SEARCH_POLICY_RATE_SOURCE_CURRENCIES_V1,
+    SECONDARY_MARKET_STATE_GUARD_ACTIVATED_UTC_V1,
+    SECONDARY_MARKET_STATE_GUARD_COHORT_ID_V1,
+    SECONDARY_MARKET_STATE_GUARD_CONTRACT_ID_V1,
+)
 
 try:
     import certifi
@@ -118,6 +164,12 @@ DERIVED_SOURCE_LINEAGE_VERSION = "derived_source_config_lineage_v1"
 OFFICIAL_PDF_ATTACHMENT_PARSER_CONTRACT_ID = (
     "official_same_host_pdf_attachment_v1_pypdf_bounded_20260827"
 )
+GOOGLE_NEWS_OFFICIAL_PUBLISHER_RESOLUTION_CONTRACT_ID = (
+    "google_news_official_publisher_resolution_v1_batchexecute_trusted_host_20260901"
+)
+GOOGLE_NEWS_BATCH_EXECUTE_URL = (
+    "https://news.google.com/_/DotsSplashUi/data/batchexecute"
+)
 SCHEDULED_OFFICIAL_PDF_PROBE_CONTRACT_ID = (
     "scheduled_official_pdf_probe_v1_exact_event_clock_bounded_20260827"
 )
@@ -125,6 +177,9 @@ RECLASSIFICATION_BATCH_SIZE = 5000
 SECONDARY_MACRO_HEADLINE_PARSER_ACTIVATED_UTC = "2026-08-15T21:12:00+00:00"
 SECONDARY_JAPAN_MACHINERY_PARSER_ACTIVATED_UTC = (
     "2026-08-19T01:10:00+00:00"
+)
+SECONDARY_JAPAN_PMI_PARSER_ACTIVATED_UTC = (
+    "2026-09-01T01:30:00+00:00"
 )
 ISSUER_BOUND_POLICY_COMMUNICATION_CONTRACT_ID = (
     "issuer_bound_policy_communication_v1_direct_verified_20260829"
@@ -680,11 +735,19 @@ NEW_CONFLICT_ACTION_PATTERNS = (
     r"imposes?|imposed|expands?|expanded)\b",
     r"\b(?:missile|projectile|drone|airstrike|explosion)\b",
 )
+OFFICIAL_DEFENSE_NONMARKET_HEALTH_PATTERNS = (
+    r"\bclinical\s+guidance\b.{0,96}\b(?:health|human\s+performance)\b",
+    r"\bhealth\s+and\s+human\s+performance\s+optimi[sz]ation\b",
+)
 OFFICIAL_NON_MARKET_PROGRAM_PATTERNS = (
     r"\b(?:culture|cultural|arts?|heritage)\s+(?:festival|programme|program|event)\b",
     r"\brenewable\s+energy\s+(?:cooperation|partnership|dialogue|forum)\b",
     r"\b(?:commemorative|ceremonial|courtesy)\s+(?:visit|meeting|event)\b",
-)
+    # Defense-agency health/personnel guidance can contain standing readiness
+    # boilerplate ("lethal force", "battlefield", "peace through strength")
+    # without reporting a new conflict action.  Preserve the official item as
+    # immutable context, but do not manufacture a global risk-off observation.
+) + OFFICIAL_DEFENSE_NONMARKET_HEALTH_PATTERNS
 NON_EVENT_WAR_PATTERNS = (
     # A procurement headline names a department and a company award; it does
     # not report a new conflict event merely because the agency contains "War".
@@ -719,6 +782,21 @@ FAILED_DEESCALATION_PATTERNS = (
     r"ruled out|rejected)\b",
     r"\b(?:not feasible|stalls?|stalled|collapses?|collapsed|fails?|failed|"
     r"ruled out|rejected)\b.{0,64}\b(?:deal|agreement)\b",
+)
+DEESCALATION_PROPOSAL_PATTERNS = (
+    r"\b(?:calls?\s+for|urges?|seeks?|proposes?|requests?|demands?|"
+    r"asks?\s+for|wants?)\b.{0,64}\b(?:ceasefire|truce|peace\s+deal|"
+    r"peace\s+talks?)\b",
+    r"\b(?:ceasefire|truce|peace\s+deal|peace\s+talks?)\b.{0,64}"
+    r"\b(?:calls?|urges?|seeks?|proposes?|requests?|demands?|asks?|wants?)\b",
+)
+DEESCALATION_ACTUALIZATION_PATTERNS = (
+    r"\b(?:agrees?|agreed|reaches?|reached|signs?|signed|announces?|"
+    r"announced|implements?|implemented)\b.{0,64}\b(?:ceasefire|truce|"
+    r"peace\s+deal|peace\s+agreement)\b",
+    r"\b(?:ceasefire|truce|peace\s+deal|peace\s+agreement)\b.{0,64}"
+    r"\b(?:agreed|reached|signed|announced|implemented|takes?\s+effect|"
+    r"in\s+effect|begins?|began|starts?|started)\b",
 )
 DIRECT_CONFLICT_ESCALATION_PATTERNS = (
     r"\b(?:war|conflict|hostilities)\b.{0,40}\b(?:escalates?|escalated|"
@@ -874,6 +952,20 @@ POLICY_SPECULATION_PATTERN = re.compile(
     r")\b",
     flags=re.I,
 )
+POLICY_DATA_DEPENDENT_GUIDANCE_PATTERN = re.compile(
+    r"\b(?:data|inflation|cpi|jobs?|employment|payrolls?|report|figures?)\b"
+    r".{0,64}\b(?:will|would|could|may|might)\s+(?:help\s+)?"
+    r"(?:determin(?:e|es|ed|ing)|inform|guide|shape)\b.{0,72}"
+    r"\b(?:stance|decision|view|case|support|policy|rate[- ]hikes?|"
+    r"rate[- ]cuts?|tightening|easing)\b|"
+    r"\b(?:stance|decision|view|case|support|policy)\b.{0,72}"
+    r"\b(?:will|would|could|may|might)\s+(?:depend|hinge)\b.{0,64}"
+    r"\b(?:data|inflation|cpi|jobs?|employment|payrolls?|report|figures?)\b|"
+    r"\b(?:rate[- ]hikes?|rate[- ]cuts?|tightening|easing|policy action)\b"
+    r".{0,56}\b(?:depend(?:s|ed|ing)?|hinge(?:s|d|ing)?)\s+on\b"
+    r".{0,56}\b(?:data|inflation|cpi|jobs?|employment|payrolls?|report|figures?)\b",
+    flags=re.I,
+)
 POLICY_CONDITIONAL_ACTION_PATTERN = re.compile(
     r"(?:\b(?:rate hikes?|tightening|higher rates?)\b.{0,64}\bif\b|"
     r"\bif\b.{0,64}\b(?:rate hikes?|tightening|higher rates?)\b)",
@@ -936,6 +1028,16 @@ SEMANTIC_CLUSTER_STOPWORDS = frozenset(
         "is",
         "it",
         "latest",
+        # Generic market-recap wording is not claim identity.  Without these
+        # exclusions, unrelated headlines such as "Canadian dollar rebounds
+        # from two-week low" and "Gold falls to two-week low" satisfy the
+        # three-token overlap rule and are incorrectly displayed as one story.
+        "high",
+        "low",
+        "one",
+        "two",
+        "three",
+        "week",
         "news",
         "of",
         "on",
@@ -1070,6 +1172,12 @@ def causal_known_datetime(article: Mapping[str, Any]) -> dt.datetime | None:
     """
 
     explicit = parse_datetime(article.get("causal_known_utc"))
+    version_floor = source_version_floor(article)
+    if version_floor is not None:
+        explicit = max(explicit, version_floor) if explicit is not None else version_floor
+    derived_floor = classification_floor(article)
+    if derived_floor is not None:
+        explicit = max(explicit, derived_floor) if explicit is not None else derived_floor
     first_seen = parse_datetime(article.get("first_seen_utc"))
     published = parse_datetime(article.get("published_utc"))
     # Enriched figures are a distinct causal observation from a pre-existing
@@ -1258,6 +1366,28 @@ def atomic_write_bytes(path: Path, payload: bytes) -> None:
         temporary.unlink(missing_ok=True)
 
 
+def retain_verified_official_pdf(path: Path, payload: bytes, expected_sha256: str) -> None:
+    """Verify retained bytes on cache hits and after the existing atomic write.
+
+    A mismatched existing archive is preserved and refused. The returned path
+    is evidence for the supplied fetched body, never an unchecked cache alias.
+    """
+    if (type(payload) is not bytes or not 0 < len(payload) <= 64 * 1024 * 1024
+            or not isinstance(expected_sha256, str)
+            or re.fullmatch(r"[0-9a-f]{64}", expected_sha256) is None
+            or hashlib.sha256(payload).hexdigest() != expected_sha256):
+        raise ValueError("official PDF archive input binding invalid")
+    path = Path(path)
+    if path.name != expected_sha256 + ".pdf":
+        raise ValueError("official PDF archive path binding invalid")
+    if not path.exists():
+        atomic_write_bytes(path, payload)
+    with path.open("rb") as retained:
+        current = retained.read(len(payload) + 1)
+    if len(current) != len(payload) or hashlib.sha256(current).hexdigest() != expected_sha256:
+        raise ValueError("official PDF archive hash mismatch")
+
+
 def atomic_write_json(path: Path, payload: Any) -> None:
     atomic_write_text(
         path,
@@ -1312,13 +1442,19 @@ class CollectorCycleProgress:
                 "collector_contract_id": COLLECTOR_CONTRACT_ID,
                 "collector_cohort_id": COLLECTOR_COHORT_ID,
                 "issuer_bound_policy_communication_contract_id": (
-                    ISSUER_BOUND_POLICY_COMMUNICATION_CONTRACT_ID
+                    ISSUER_BOUND_POLICY_COMMUNICATION_SOURCE_CONTRACT_ID_V2
                 ),
                 "issuer_bound_policy_communication_cohort_id": (
-                    ISSUER_BOUND_POLICY_COMMUNICATION_COHORT_ID
+                    ISSUER_BOUND_POLICY_COMMUNICATION_SOURCE_COHORT_ID_V2
                 ),
                 "issuer_bound_policy_communication_activated_utc": (
-                    ISSUER_BOUND_POLICY_COMMUNICATION_ACTIVATED_UTC
+                    ISSUER_BOUND_POLICY_COMMUNICATION_SOURCE_ACTIVATED_UTC_V2
+                ),
+                "prior_issuer_bound_policy_communication_contract_id": (
+                    ISSUER_BOUND_POLICY_COMMUNICATION_CONTRACT_ID
+                ),
+                "prior_issuer_bound_policy_communication_cohort_id": (
+                    ISSUER_BOUND_POLICY_COMMUNICATION_COHORT_ID
                 ),
                 "generated_utc": iso_utc(observed),
                 "heartbeat_utc": iso_utc(observed),
@@ -1622,6 +1758,16 @@ def prospective_collector_provenance(value: Any) -> bool:
     return bool(
         isinstance(value, Mapping)
         and value.get("observation_clock_trusted") is True
+        and classification_provenance_valid(value, {
+            "collector_contract_id": COLLECTOR_CONTRACT_ID,
+            "collector_cohort_id": COLLECTOR_COHORT_ID,
+            "observation_time_contract_id": OBSERVATION_TIME_CONTRACT_ID,
+        })
+        and source_version_provenance_valid(value, {
+            "collector_contract_id": COLLECTOR_CONTRACT_ID,
+            "collector_cohort_id": COLLECTOR_COHORT_ID,
+            "observation_time_contract_id": OBSERVATION_TIME_CONTRACT_ID,
+        })
         and clean_text(value.get("observation_time_contract_id"))
         == OBSERVATION_TIME_CONTRACT_ID
         and clean_text(value.get("collector_contract_id"))
@@ -1672,6 +1818,162 @@ def trusted_host(url: Any, domains: Sequence[Any]) -> bool:
     )
 
 
+def resolve_google_news_official_publisher_url(
+    listing_url: Any,
+    *,
+    timeout_sec: float,
+    maximum_bytes: int = 1_000_000,
+) -> str:
+    """Resolve one Google News wrapper without granting publisher trust.
+
+    Google News RSS items currently expose a signed article identifier in the
+    wrapper page rather than returning an HTTP redirect. This bounded helper
+    asks Google's article-resolution endpoint for the original publisher URL.
+    The caller must still validate the result against its configured official
+    domains before fetching or classifying any content.
+    """
+
+    url = canonical_url(listing_url)
+    parts = urllib.parse.urlsplit(url)
+    if parts.scheme.lower() != "https" or parts.hostname != "news.google.com":
+        raise ValueError(
+            "Google News official resolution requires an HTTPS news.google.com URL"
+        )
+    match = re.fullmatch(r"/(?:rss/)?articles/([A-Za-z0-9_-]{20,500})", parts.path)
+    if match is None:
+        raise ValueError("Google News official resolution URL shape is unsupported")
+    article_id = match.group(1)
+    page_limit = max(100_000, min(1_000_000, int(maximum_bytes)))
+    headers = {
+        "Accept": "text/html,application/xhtml+xml",
+        "Accept-Encoding": "identity",
+        "User-Agent": (
+            "ForexResearchNewsCollector/1.0 "
+            "(causal research; low-rate official publisher resolution)"
+        ),
+    }
+    page_request = urllib.request.Request(url, headers=headers)
+    with urllib.request.urlopen(
+        page_request,
+        timeout=timeout_sec,
+        context=TLS_CONTEXT,
+    ) as response:
+        page = response.read(page_limit + 1)
+    if len(page) > page_limit:
+        raise ValueError("Google News official resolution page exceeds limit")
+    page_text = page.decode("utf-8", errors="replace")
+    tag_match = re.search(
+        rf'''<div\b[^>]*\bdata-n-a-id=["']{re.escape(article_id)}["'][^>]*>''',
+        page_text,
+        flags=re.I | re.S,
+    )
+    if tag_match is None:
+        raise ValueError("Google News official resolution attributes were not found")
+    attributes = {
+        name.lower(): html.unescape(value)
+        for name, _quote, value in re.findall(
+            r'''(data-n-a-(?:id|sg|ts))\s*=\s*(["'])(.*?)\2''',
+            tag_match.group(0),
+            flags=re.I | re.S,
+        )
+    }
+    if attributes.get("data-n-a-id") != article_id:
+        raise ValueError("Google News official resolution article ID mismatch")
+    timestamp = attributes.get("data-n-a-ts") or ""
+    signature = attributes.get("data-n-a-sg") or ""
+    if not re.fullmatch(r"\d{1,20}", timestamp) or not re.fullmatch(
+        r"[A-Za-z0-9_.~-]{10,500}", signature
+    ):
+        raise ValueError("Google News official resolution signature is invalid")
+    request_payload = [
+        "garturlreq",
+        [
+            [
+                "X",
+                "X",
+                ["X", "X"],
+                None,
+                None,
+                1,
+                1,
+                "US:en",
+                None,
+                1,
+                None,
+                None,
+                None,
+                None,
+                None,
+                0,
+                1,
+            ],
+            "X",
+            "X",
+            1,
+            [1, 1, 1],
+            1,
+            1,
+            None,
+            0,
+            0,
+            None,
+            0,
+        ],
+        article_id,
+        int(timestamp),
+        signature,
+    ]
+    rpc = [
+        "Fbv4je",
+        json.dumps(request_payload, separators=(",", ":")),
+    ]
+    body = urllib.parse.urlencode(
+        {"f.req": json.dumps([[rpc]], separators=(",", ":"))}
+    ).encode("utf-8")
+    batch_request = urllib.request.Request(
+        GOOGLE_NEWS_BATCH_EXECUTE_URL,
+        data=body,
+        headers={
+            **headers,
+            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        },
+    )
+    with urllib.request.urlopen(
+        batch_request,
+        timeout=timeout_sec,
+        context=TLS_CONTEXT,
+    ) as response:
+        batch = response.read(500_001)
+    if len(batch) > 500_000:
+        raise ValueError("Google News official resolution response exceeds limit")
+    response_text = batch.decode("utf-8", errors="replace")
+    json_line = next(
+        (
+            line.strip()
+            for line in response_text.splitlines()
+            if line.lstrip().startswith("[[")
+        ),
+        "",
+    )
+    if not json_line:
+        raise ValueError("Google News official resolution response is missing JSON")
+    try:
+        outer = json.loads(json_line)
+        nested = json.loads(outer[0][2])
+        resolved = canonical_url(nested[1])
+    except (IndexError, TypeError, json.JSONDecodeError) as exc:
+        raise ValueError("Google News official resolution response is invalid") from exc
+    resolved_parts = urllib.parse.urlsplit(resolved)
+    if (
+        resolved_parts.scheme.lower() not in {"http", "https"}
+        or not resolved_parts.hostname
+    ):
+        raise ValueError(
+            "Google News official resolution returned an invalid publisher URL"
+        )
+    return resolved
+
+
 def entry_source_url(node: ET.Element) -> str:
     for child in node.iter():
         if local_name(child.tag) == "source":
@@ -1681,6 +1983,8 @@ def entry_source_url(node: ET.Element) -> str:
 
 def parse_rss(payload: bytes, source: Mapping[str, Any]) -> list[dict[str, Any]]:
     root = ET.fromstring(payload)
+    if local_name(root.tag) not in {"rss", "feed", "rdf"}:
+        raise ValueError("expected RSS, Atom or RDF feed root")
     entries = [
         node
         for node in root.iter()
@@ -1734,6 +2038,28 @@ def parse_rss(payload: bytes, source: Mapping[str, Any]) -> list[dict[str, Any]]
             # mentions such as "Investing.com South Africa".
             summary = ""
         external_id = child_text(node, ("guid", "id"))
+        if source.get("recurring_release_feed") and not external_id:
+            # Some authoritative singleton feeds (notably BLS "Latest
+            # Numbers") omit guid/id while reusing one URL and title forever.
+            # Give the publisher container a stable series identity so the
+            # material-content hash below can create a new immutable version
+            # whenever the embedded figures change.  Without this fallback a
+            # fresh release overwrites an old row and inherits its stale
+            # first-seen clock.
+            external_id = "recurring_container:" + hashlib.sha256(
+                "|".join(
+                    (
+                        clean_text(source.get("source_id")),
+                        canonical_url(
+                            urllib.parse.urljoin(
+                                str(source.get("url") or ""),
+                                entry_link(node),
+                            )
+                        ),
+                        clean_text(title),
+                    )
+                ).encode("utf-8")
+            ).hexdigest()
         row = {
                 "source_id": source.get("source_id"),
                 "source_name": (
@@ -2419,6 +2745,91 @@ def parse_abs_official_page_release_clock(value: Any) -> dt.datetime | None:
     return local_release.astimezone(UTC)
 
 
+def mutable_detail_versioning_active(
+    source: Mapping[str, Any],
+    *,
+    now: dt.datetime,
+) -> bool:
+    """Return whether an explicitly governed mutable-page contract is active."""
+
+    if source.get("detail_mutable_placeholder_versioning") is not True:
+        return False
+    contract_id = clean_text(source.get("detail_mutable_placeholder_contract_id"))
+    activation = parse_datetime(source.get("detail_mutable_placeholder_activated_utc"))
+    patterns = source.get("detail_placeholder_text_patterns")
+    return bool(
+        contract_id
+        and activation is not None
+        and activation <= now
+        and isinstance(patterns, list)
+        and patterns
+    )
+
+
+def mutable_detail_refetch_pending(
+    source: Mapping[str, Any],
+    source_state: Mapping[str, Any],
+    url: str,
+    *,
+    now: dt.datetime,
+) -> bool:
+    """Bound re-fetches to an observed placeholder or one migration baseline.
+
+    This is deliberately opt-in. Most official documents are immutable and
+    retain the original one-fetch rule. A few central banks pre-publish the
+    final decision URL as a placeholder and replace that same page at release
+    time; those pages need a short, governed content-version window.
+    """
+
+    if not url or not mutable_detail_versioning_active(source, now=now):
+        return False
+    first_seen_by_url = source_state.get("detail_first_seen_utc_by_url")
+    if not isinstance(first_seen_by_url, Mapping) or url not in first_seen_by_url:
+        return False
+    first_seen = parse_datetime(first_seen_by_url.get(url))
+    if first_seen is None:
+        return False
+    age_minutes = (now - first_seen).total_seconds() / 60.0
+    maximum_age = max(
+        1.0,
+        safe_float(
+            source.get("detail_mutable_refetch_max_age_minutes"),
+            240.0,
+        ),
+    )
+    if not (-1.0 <= age_minutes <= maximum_age):
+        return False
+    hashes = source_state.get("detail_content_sha256_by_url")
+    placeholders = source_state.get("detail_content_is_placeholder_by_url")
+    baseline_missing = not isinstance(hashes, Mapping) or not clean_text(
+        hashes.get(url)
+    )
+    was_placeholder = bool(
+        isinstance(placeholders, Mapping) and placeholders.get(url) is True
+    )
+    return baseline_missing or was_placeholder
+
+
+def mutable_detail_placeholder_matches(
+    source: Mapping[str, Any],
+    *,
+    title: Any,
+    document_text: Any,
+) -> bool:
+    """Match only source-configured placeholder language."""
+
+    text = f"{clean_text(title)}\n{clean_text(document_text)}"
+    for configured in source.get("detail_placeholder_text_patterns") or ():
+        try:
+            if re.search(str(configured), text, flags=re.I):
+                return True
+        except re.error:
+            # A malformed optional pattern cannot broaden collection or make an
+            # ordinary immutable page mutable. Source-contract tests reject it.
+            continue
+    return False
+
+
 def enrich_recent_official_release_details(
     articles: list[dict[str, Any]],
     source: Mapping[str, Any],
@@ -2458,6 +2869,30 @@ def enrich_recent_official_release_details(
         if isinstance(prior_times, Mapping)
         else {}
     )
+    prior_content_hashes_raw = source_state.get("detail_content_sha256_by_url")
+    prior_content_hashes = (
+        {str(key): clean_text(value) for key, value in prior_content_hashes_raw.items()}
+        if isinstance(prior_content_hashes_raw, Mapping)
+        else {}
+    )
+    prior_placeholders_raw = source_state.get(
+        "detail_content_is_placeholder_by_url"
+    )
+    prior_placeholders = (
+        {str(key): value is True for key, value in prior_placeholders_raw.items()}
+        if isinstance(prior_placeholders_raw, Mapping)
+        else {}
+    )
+    prior_version_counts_raw = source_state.get("detail_content_version_count_by_url")
+    prior_version_counts = (
+        {
+            str(key): max(0, int(safe_float(value, 0)))
+            for key, value in prior_version_counts_raw.items()
+        }
+        if isinstance(prior_version_counts_raw, Mapping)
+        else {}
+    )
+    mutable_versioning = mutable_detail_versioning_active(source, now=now)
     enriched = 0
     attempted_details = 0
     error = ""
@@ -2495,6 +2930,12 @@ def enrich_recent_official_release_details(
             and url in first_seen_by_url
             and attachment_parent_state_key not in first_seen_by_url
         )
+        mutable_refetch_pending = mutable_detail_refetch_pending(
+            source,
+            source_state,
+            url,
+            now=now,
+        )
         google_official_redirect = bool(
             str(source.get("retrieval_via") or "")
             == "google_news_official_site_search"
@@ -2518,7 +2959,11 @@ def enrich_recent_official_release_details(
             and article.get("source_listing_bootstrap")
             and -1.0 <= age_minutes <= maximum_age_minutes
         )
-        if url in first_seen_by_url and not attachment_upgrade_pending:
+        if (
+            url in first_seen_by_url
+            and not attachment_upgrade_pending
+            and not mutable_refetch_pending
+        ):
             if context_archive_only:
                 # Re-emit the quarantine metadata on later listing polls even
                 # though the official body itself must not be fetched again.
@@ -2540,11 +2985,13 @@ def enrich_recent_official_release_details(
                 and not context_archive_only
                 and not enrich_recent_existing_item
                 and not attachment_upgrade_pending
+                and not mutable_refetch_pending
             )
             or (
                 not (-1.0 <= age_minutes <= maximum_age_minutes)
                 and not context_archive_only
                 and not attachment_upgrade_pending
+                and not mutable_refetch_pending
             )
         ):
             continue
@@ -2561,20 +3008,49 @@ def enrich_recent_official_release_details(
             ),
         ):
             break
-        request = urllib.request.Request(
-            url,
-            headers={
-                "Accept": "application/pdf,text/html,application/xhtml+xml,text/plain",
-                "Accept-Encoding": "identity",
-                "User-Agent": (
-                    "ForexResearchNewsCollector/1.0 "
-                    "(causal research; low-rate primary detail fetch)"
-                ),
-            },
-        )
         attachment_records: list[dict[str, Any]] = []
         attachment_discovery_state = "not_enabled"
         try:
+            detail_request_url = url
+            publisher_resolution_method = ""
+            publisher_resolution_known_utc = ""
+            if google_official_redirect:
+                resolution_contract = clean_text(
+                    source.get("google_news_publisher_resolution_contract_id")
+                )
+                if (
+                    resolution_contract
+                    != GOOGLE_NEWS_OFFICIAL_PUBLISHER_RESOLUTION_CONTRACT_ID
+                ):
+                    raise ValueError(
+                        "Google News official publisher resolution contract is invalid"
+                    )
+                detail_request_url = resolve_google_news_official_publisher_url(
+                    url,
+                    timeout_sec=timeout_sec,
+                    maximum_bytes=detail_limit,
+                )
+                if not trusted_host(detail_request_url, trusted_domains):
+                    raise ValueError(
+                        "Google News resolved outside configured official domains"
+                    )
+                publisher_resolution_method = (
+                    GOOGLE_NEWS_OFFICIAL_PUBLISHER_RESOLUTION_CONTRACT_ID
+                )
+                publisher_resolution_known_utc = iso_utc(now)
+            request = urllib.request.Request(
+                detail_request_url,
+                headers={
+                    "Accept": (
+                        "application/pdf,text/html,application/xhtml+xml,text/plain"
+                    ),
+                    "Accept-Encoding": "identity",
+                    "User-Agent": (
+                        "ForexResearchNewsCollector/1.0 "
+                        "(causal research; low-rate primary detail fetch)"
+                    ),
+                },
+            )
             with urllib.request.urlopen(
                 request,
                 timeout=timeout_sec,
@@ -2818,7 +3294,10 @@ def enrich_recent_official_release_details(
                     attachment_sha256 = hashlib.sha256(
                         attachment_payload
                     ).hexdigest()
-                    attachment_available = first_seen_by_url.setdefault(
+                    # Stage the clock in the article's attachment record.
+                    # A later attachment or archive failure must not advance
+                    # returned availability state for this rejected article.
+                    attachment_available = first_seen_by_url.get(
                         resolved_attachment_url, iso_utc(now)
                     )
                     attachment_archive_path = ""
@@ -2836,8 +3315,9 @@ def enrich_recent_official_release_details(
                             / safe_source_id
                             / f"{attachment_sha256}.pdf"
                         )
-                        if not archive_path.exists():
-                            atomic_write_bytes(archive_path, attachment_payload)
+                        retain_verified_official_pdf(
+                            archive_path, attachment_payload, attachment_sha256
+                        )
                         attachment_archive_path = str(archive_path)
                     attachment_records.append(
                         {
@@ -2885,18 +3365,119 @@ def enrich_recent_official_release_details(
             quality_issue = official_document_quality_issue(document_text)
             if quality_issue:
                 raise ValueError(f"official detail quality rejected:{quality_issue}")
+            verified_detail_archive_path = ""
+            if parser_kind == "official_pdf_text" and bool(source.get("archive_official_pdfs", True)):
+                safe_source_id = re.sub(
+                    r"[^a-z0-9_.-]+", "_", str(source.get("source_id") or "official").lower()
+                ).strip("._") or "official"
+                detail_sha256 = hashlib.sha256(detail).hexdigest()
+                archive_path = DEFAULT_OUTPUT_ROOT / "official_documents" / safe_source_id / f"{detail_sha256}.pdf"
+                retain_verified_official_pdf(archive_path, detail, detail_sha256)
+                verified_detail_archive_path = str(archive_path)
         except (OSError, ValueError, PdfReadError, urllib.error.HTTPError) as exc:
             error = str(exc)[:500]
             continue
-        detail_available = first_seen_by_url.setdefault(url, iso_utc(now))
+        # All selected attachments, document quality, and optional PDF
+        # archives have passed. Preserve prior clocks and successful insertion
+        # order, committing no attachment clocks from a refused article.
+        for attachment_record in attachment_records:
+            first_seen_by_url.setdefault(
+                attachment_record["url"], attachment_record["available_utc"]
+            )
+        raw_detail_sha256 = hashlib.sha256(detail).hexdigest()
+        material_content_sha256 = hashlib.sha256(
+            clean_text(document_text).encode("utf-8")
+        ).hexdigest()
+        prior_material_sha256 = clean_text(prior_content_hashes.get(url))
+        baseline_observed_late = bool(
+            mutable_versioning
+            and url in first_seen_by_url
+            and not prior_material_sha256
+        )
+        material_changed = bool(
+            mutable_versioning
+            and prior_material_sha256
+            and prior_material_sha256 != material_content_sha256
+        )
+        current_placeholder = bool(
+            mutable_versioning
+            and mutable_detail_placeholder_matches(
+                source,
+                title=article.get("title"),
+                document_text=document_text,
+            )
+        )
+        content_version_count = (
+            max(1, prior_version_counts.get(url, 1)) + 1
+            if material_changed
+            else max(1, prior_version_counts.get(url, 1))
+        )
+        detail_available = (
+            iso_utc(now)
+            if material_changed or baseline_observed_late
+            else first_seen_by_url.setdefault(url, iso_utc(now))
+        )
         article["summary"] = document_text
         article["detail_enriched"] = True
         article["detail_enrichment_kind"] = parser_kind
         article["detail_available_utc"] = detail_available
-        article["detail_content_sha256"] = hashlib.sha256(detail).hexdigest()
+        article["detail_content_sha256"] = raw_detail_sha256
         article["detail_content_bytes"] = len(detail)
         article["detail_text_characters"] = len(document_text)
         article["detail_source_url"] = final_url
+        if mutable_versioning:
+            article.update(
+                {
+                    "material_content_sha256": material_content_sha256,
+                    "content_versioned_at_collection": True,
+                    "mutable_content_source": True,
+                    "publisher_container_timestamp_utc": clean_text(
+                        article.get("published_utc")
+                    ),
+                    "detail_content_version_contract_id": clean_text(
+                        source.get("detail_mutable_placeholder_contract_id")
+                    ),
+                    "detail_content_version_number": content_version_count,
+                    "detail_placeholder_observed": current_placeholder,
+                    "_detail_state_content_sha256": material_content_sha256,
+                    "_detail_state_is_placeholder": current_placeholder,
+                    "_detail_state_version_count": content_version_count,
+                }
+            )
+        if material_changed or baseline_observed_late:
+            # A stable publisher URL now exposes materially different content.
+            # Give the new body its own immutable event identity while keeping
+            # the earlier placeholder row untouched. A migration baseline is
+            # explicitly quarantined and can never be credited as prospective
+            # proof for a transition that happened before this contract.
+            article.update(
+                {
+                    "structured_event": True,
+                    "event_series_id": clean_text(article.get("external_id")) or url,
+                    "immutable_source_version_boundary": True,
+                    "detail_content_transition": material_changed,
+                    "detail_placeholder_transition": bool(
+                        material_changed
+                        and prior_placeholders.get(url) is True
+                        and not current_placeholder
+                    ),
+                    "supersedes_material_content_sha256": prior_material_sha256,
+                    "content_version_observed_utc": iso_utc(now),
+                }
+            )
+        if baseline_observed_late:
+            article["source_listing_bootstrap"] = True
+            article["detail_existing_item_observed_late"] = True
+            article["detail_version_baseline_observed_late"] = True
+        if publisher_resolution_method:
+            article["detail_listing_url"] = url
+            article["detail_publisher_resolution_contract_id"] = (
+                publisher_resolution_method
+            )
+            article["detail_publisher_resolution_known_utc"] = (
+                publisher_resolution_known_utc
+            )
+            article["detail_publisher_resolution_research_only"] = True
         if clean_text(source.get("source_id")) == "abs_latest_releases":
             official_release = parse_abs_official_page_release_clock(document_text)
             if official_release is not None:
@@ -2957,23 +3538,8 @@ def enrich_recent_official_release_details(
             # Preserve the causal quarantine even on later listing polls.
             article["source_listing_bootstrap"] = True
             article["detail_context_archive_only"] = True
-        if parser_kind == "official_pdf_text" and bool(
-            source.get("archive_official_pdfs", True)
-        ):
-            safe_source_id = re.sub(
-                r"[^a-z0-9_.-]+",
-                "_",
-                str(source.get("source_id") or "official").lower(),
-            ).strip("._") or "official"
-            archive_path = (
-                DEFAULT_OUTPUT_ROOT
-                / "official_documents"
-                / safe_source_id
-                / f"{article['detail_content_sha256']}.pdf"
-            )
-            if not archive_path.exists():
-                atomic_write_bytes(archive_path, detail)
-            article["detail_archive_path"] = str(archive_path)
+        if verified_detail_archive_path:
+            article["detail_archive_path"] = verified_detail_archive_path
         article["detail_enrichment_research_only"] = bool(
             enrichment_kind
             in {
@@ -3261,6 +3827,7 @@ def decompose_source_native_component_changes(
         "inflation",
         "core_inflation",
     }
+    policy_rate_names = {"policy_rate"}
     observations: list[dict[str, Any]] = []
     rate_channel_signs: set[int] = set()
     for component_name, raw_values in components.items():
@@ -3274,6 +3841,8 @@ def decompose_source_native_component_changes(
             if component_name in activity_names
             else "inflation_expectations"
             if component_name in inflation_names
+            else "policy_rate"
+            if component_name in policy_rate_names
             else "other"
         )
         delta_previous = (
@@ -3292,7 +3861,11 @@ def decompose_source_native_component_changes(
             else delta_previous
         )
         rate_channel_sign = 0
-        if dimension in {"activity_growth", "inflation_expectations"}:
+        if dimension in {
+            "activity_growth",
+            "inflation_expectations",
+            "policy_rate",
+        }:
             if directional_input is not None and directional_input > 0:
                 rate_channel_sign = 1
             elif directional_input is not None and directional_input < 0:
@@ -3358,7 +3931,7 @@ def parse_json_records(
         str(records_path),
     )
     if not isinstance(rows, list):
-        return []
+        raise ValueError("configured JSON records path must resolve to a list")
     fields = source.get("fields") if isinstance(source.get("fields"), Mapping) else {}
     include = [
         re.compile(str(pattern), flags=re.I)
@@ -5819,6 +6392,12 @@ def parse_finnhub_news(
                 "external_id": clean_text(row.get("id")),
                 "vendor_category": clean_text(row.get("category")),
                 "vendor_related": clean_text(row.get("related")),
+                # Keep credentialed aggregator observations bound to the exact
+                # configured source contract just like every other parser.
+                # The source remains unverified, indirect and research-only;
+                # this is lineage metadata, not an execution or trust upgrade.
+                "source_contract_id": clean_text(source.get("source_contract_id")),
+                "source_cohort_id": clean_text(source.get("source_cohort_id")),
             }
         )
     return output
@@ -6670,6 +7249,287 @@ def parse_ksh_prices_snapshot(
     ]
 
 
+def _ksh_ppi_history_values(
+    payload: bytes,
+    *,
+    current_period: dt.datetime,
+    encoding: str = "cp1252",
+) -> tuple[float, float]:
+    """Return current/prior headline PPI y/y changes from KSH STADAT.
+
+    The official table contains several stacked index panels.  Select only the
+    explicitly labelled ``Corresponding period of the previous year`` panel
+    and its exact ``Total industry B+C+D+E`` column.  This avoids accidentally
+    treating a level or month-on-month panel as the annual change.
+    """
+
+    try:
+        rows = list(
+            csv.reader(
+                io.StringIO(payload.decode(encoding, errors="strict")),
+                delimiter=";",
+            )
+        )
+    except (LookupError, UnicodeError, csv.Error) as exc:
+        raise ValueError("KSH PPI history CSV is malformed") from exc
+    if len(rows) < 4:
+        raise ValueError("KSH PPI history CSV is empty")
+    header = rows[1]
+    if not header or clean_text(header[-1]) != "Total industry B+C+D+E":
+        raise ValueError("KSH PPI total-industry column is missing")
+    panel_index = next(
+        (
+            index
+            for index, row in enumerate(rows)
+            if row
+            and clean_text(row[0]).casefold().startswith(
+                "corresponding period of the previous year"
+            )
+        ),
+        None,
+    )
+    if panel_index is None:
+        raise ValueError("KSH PPI annual-change panel is missing")
+    values: dict[tuple[int, int], float] = {}
+    table_year: int | None = None
+    for row in rows[panel_index + 1 :]:
+        if not row:
+            continue
+        first = clean_text(row[0])
+        if first and not re.fullmatch(r"20\d{2}", first):
+            break
+        if first:
+            table_year = int(first)
+        month = clean_text(row[1] if len(row) > 1 else "")
+        if table_year is None or not month:
+            continue
+        try:
+            month_number = dt.datetime.strptime(month, "%B").month
+        except ValueError:
+            continue
+        raw_value = clean_text(row[-1]).replace(",", ".")
+        value = optional_float(raw_value)
+        if value is not None:
+            values[(table_year, month_number)] = round(value - 100.0, 12)
+    previous_period = current_period.replace(day=1) - dt.timedelta(days=1)
+    current_value = values.get((current_period.year, current_period.month))
+    previous_value = values.get((previous_period.year, previous_period.month))
+    if current_value is None or previous_value is None:
+        raise ValueError("KSH PPI current/prior annual changes are missing")
+    return current_value, previous_value
+
+
+def parse_ksh_ppi_release_snapshot(
+    payload: bytes,
+    history_payload: bytes,
+    source: Mapping[str, Any],
+) -> list[dict[str, Any]]:
+    """Parse the current KSH PPI release from stable first-party surfaces.
+
+    KSH's topic page exposes the current release summary, component changes,
+    and exact publication date.  Its STADAT CSV supplies an independently
+    checkable current/prior annual series.  The source remains direction-neutral
+    because neither surface supplies a causally captured market consensus.
+    """
+
+    encoding = clean_text(source.get("encoding")) or "iso-8859-2"
+    try:
+        parser = _OfficialDocumentTextParser()
+        parser.feed(payload.decode(encoding, errors="strict"))
+        text = clean_text(parser.text())
+    except (LookupError, UnicodeError) as exc:
+        raise ValueError("KSH PPI topic page encoding is invalid") from exc
+    period_match = re.search(
+        r"\bIndustrial producer prices,\s*(?P<month>[A-Z][a-z]+)\s+"
+        r"(?P<year>20\d{2})\b",
+        text,
+    )
+    headline_match = re.search(
+        r"\bIndustrial producer prices were\s+(?:an average\s+)?"
+        r"(?P<value>\d+(?:\.\d+)?)%\s+(?P<direction>higher|lower)\b",
+        text,
+        flags=re.I,
+    )
+    monthly_match = re.search(
+        r"\bCompared to (?:the )?previous month,.*?"
+        r"industrial producer prices as a whole\s+"
+        r"(?:became|were|increased|decreased)\s+"
+        r"(?P<value>\d+(?:\.\d+)?)%\s+(?P<direction>higher|lower)\b",
+        text,
+        flags=re.I,
+    )
+    annual_components = re.search(
+        r"\bDomestic output prices\s+"
+        r"(?P<domestic_verb>rose|increased|were up|went up|fell|decreased|"
+        r"lessened|were cut|diminished)\s+(?:by\s+)?"
+        r"(?P<domestic>\d+(?:\.\d+)?)%.*?"
+        r"non-domestic(?: output prices| ones)?\s+"
+        r"(?:(?P<nondomestic_verb>rose|increased|were up|went up|fell|"
+        r"decreased|lessened|were cut|diminished)\s+)?(?:by\s+)?"
+        r"(?P<nondomestic>\d+(?:\.\d+)?)%\s+compared to",
+        text,
+        flags=re.I,
+    )
+    monthly_components = re.search(
+        r"\bCompared to (?:the )?previous month,\s+domestic output prices\s+"
+        r"(?P<domestic_verb>went up|rose|increased|were up|fell|decreased|"
+        r"lessened|were cut|diminished)\s+(?:by\s+)?"
+        r"(?P<domestic>\d+(?:\.\d+)?)%.*?"
+        r"non-domestic output prices\s+"
+        r"(?:(?P<nondomestic_verb>went up|rose|increased|were up|fell|"
+        r"decreased|lessened|were cut|diminished)\s+)?(?:by\s+)?"
+        r"(?P<nondomestic>\d+(?:\.\d+)?)%",
+        text,
+        flags=re.I,
+    )
+    if not all(
+        (period_match, headline_match, monthly_match, annual_components, monthly_components)
+    ):
+        raise ValueError("KSH PPI release summary is incomplete")
+    try:
+        reference_date = dt.datetime.strptime(
+            f"{period_match.group('month')} {period_match.group('year')}",
+            "%B %Y",
+        )
+    except ValueError as exc:
+        raise ValueError("KSH PPI reference period is invalid") from exc
+    release_match = re.search(
+        rf"\bIndustrial producer prices,\s*{re.escape(period_match.group('month'))}"
+        rf"\s+{period_match.group('year')}\s+"
+        r"(?P<released>\d{2}/\d{2}/20\d{2})\s+"
+        r"(?P<next>\d{2}/\d{2}/20\d{2})\b",
+        text,
+        flags=re.I,
+    )
+    if release_match is None:
+        raise ValueError("KSH PPI exact publication date is missing")
+    try:
+        release_date = dt.datetime.strptime(
+            release_match.group("released"), "%d/%m/%Y"
+        ).date()
+        release_clock = dt.datetime.combine(
+            release_date,
+            dt.time(8, 30, tzinfo=ZoneInfo("Europe/Budapest")),
+        ).astimezone(UTC)
+    except ValueError as exc:
+        raise ValueError("KSH PPI exact publication date is invalid") from exc
+
+    def signed(value: str, direction: str) -> float:
+        parsed = optional_float(value)
+        if parsed is None:
+            raise ValueError("KSH PPI component value is invalid")
+        if clean_text(direction).casefold() in {
+            "lower", "fell", "decreased", "lessened", "were cut", "diminished"
+        }:
+            return -abs(parsed)
+        return abs(parsed)
+
+    annual_value = signed(
+        headline_match.group("value"), headline_match.group("direction")
+    )
+    monthly_value = signed(
+        monthly_match.group("value"), monthly_match.group("direction")
+    )
+    history_current, previous_value = _ksh_ppi_history_values(
+        history_payload,
+        current_period=reference_date,
+        encoding=clean_text(source.get("history_encoding")) or "cp1252",
+    )
+    if abs(history_current - annual_value) > 0.05:
+        raise ValueError("KSH PPI release and STADAT headline values disagree")
+    annual_domestic = signed(
+        annual_components.group("domestic"), annual_components.group("domestic_verb")
+    )
+    annual_nondomestic = signed(
+        annual_components.group("nondomestic"),
+        annual_components.group("nondomestic_verb")
+        or annual_components.group("domestic_verb"),
+    )
+    monthly_domestic = signed(
+        monthly_components.group("domestic"),
+        monthly_components.group("domestic_verb"),
+    )
+    monthly_nondomestic = signed(
+        monthly_components.group("nondomestic"),
+        monthly_components.group("nondomestic_verb")
+        or monthly_components.group("domestic_verb"),
+    )
+    components = {
+        "headline_ppi_yoy": {
+            "actual": annual_value,
+            "previous": previous_value,
+            "unit": "year_percent_change",
+        },
+        "headline_ppi_mom": {
+            "actual": monthly_value,
+            "unit": "month_percent_change",
+        },
+        "domestic_output_ppi_yoy": {
+            "actual": annual_domestic,
+            "unit": "year_percent_change",
+        },
+        "non_domestic_output_ppi_yoy": {
+            "actual": annual_nondomestic,
+            "unit": "year_percent_change",
+        },
+        "domestic_output_ppi_mom": {
+            "actual": monthly_domestic,
+            "unit": "month_percent_change",
+        },
+        "non_domestic_output_ppi_mom": {
+            "actual": monthly_nondomestic,
+            "unit": "month_percent_change",
+        },
+    }
+    period = reference_date.strftime("%YM%m")
+    source_with_clock = dict(source)
+    source_with_clock["release_utc_by_reference"] = {
+        period: iso_utc(release_clock)
+    }
+    article = _official_numeric_table_article(
+        source_with_clock,
+        source_kind="ksh_ppi_release_snapshot",
+        provider_prefix="ksh_ppi",
+        period=period,
+        actual=annual_value,
+        previous=previous_value,
+        title=clean_text(source.get("event_name")),
+        summary=(
+            f"Official Hungarian Central Statistical Office industrial producer "
+            f"prices: {annual_value:.12g}% y/y and {monthly_value:.12g}% m/m for "
+            f"{period}; domestic {annual_domestic:.12g}% y/y and "
+            f"{monthly_domestic:.12g}% m/m; non-domestic "
+            f"{annual_nondomestic:.12g}% y/y and {monthly_nondomestic:.12g}% m/m."
+        ),
+        native_update=release_date.isoformat(),
+        components=components,
+    )
+    article.update(
+        {
+            "scheduled_utc": iso_utc(release_clock),
+            "source_reported_update_utc": iso_utc(release_clock),
+            "revision_state": "not_reported_by_source",
+            "release_components": [
+                {"component_id": key, **value} for key, value in components.items()
+            ],
+            "numeric_direction_policy": (
+                "abstain_until_causal_consensus_and_rate_repricing"
+            ),
+            "history_table_url": canonical_url(source.get("history_table_url")),
+        }
+    )
+    return [article]
+
+
+class SourceContentPending(ValueError):
+    """A valid provider page explicitly lacks the registered final measure."""
+
+    def __init__(self, reason: str, details: Mapping[str, Any]):
+        super().__init__(reason)
+        self.reason = reason
+        self.details = dict(details)
+
+
 def parse_scb_cpi_snapshot(
     payload: bytes,
     source: Mapping[str, Any],
@@ -6692,6 +7552,33 @@ def parse_scb_cpi_snapshot(
         flags=re.I,
     )
     if release is None:
+        # The product page alternates between final CPI/CPIF releases and a
+        # preliminary CPI-only flash. Never substitute that CPI for target CPIF
+        # or combine August preliminary CPI with July final key figures.
+        flash = re.search(
+            r"Flash CPI:\s*Inflation rate [-+]?\d+(?:\.\d+)? percent in "
+            r"(?P<period>[A-Z][a-z]+ \d{4}).{0,160}?"
+            r"The preliminary CPI inflation rate for (?P=period) was "
+            r"[-+]?\d+(?:\.\d+)? percent.{0,500}?"
+            r"The regular publication for (?P<month>[A-Z][a-z]+) takes place on "
+            r"(?P<release>[A-Z][a-z]+ \d{1,2})\.", text, flags=re.I,
+        )
+        if flash:
+            period_date = dt.datetime.strptime(flash.group("period"), "%B %Y")
+            if flash.group("month").casefold() != period_date.strftime("%B").casefold():
+                raise ValueError("SCB flash and regular release periods disagree")
+            release_date = dt.datetime.strptime(
+                flash.group("release") + " " + str(period_date.year), "%B %d %Y"
+            )
+            if release_date.month < period_date.month:
+                release_date = release_date.replace(year=release_date.year + 1)
+            if release_date <= period_date:
+                raise ValueError("SCB regular release date precedes reference period")
+            raise SourceContentPending("awaiting_regular_cpif_release", {
+                "reference_period": period_date.strftime("%YM%m"),
+                "regular_release_date": release_date.date().isoformat(),
+                "source_stage": "preliminary_cpi_only", "numeric_rows_emitted": 0,
+            })
         raise ValueError("SCB current CPI/CPIF release summary is missing or malformed")
     try:
         period_date = dt.datetime.strptime(release.group(1), "%B %Y")
@@ -7257,6 +8144,435 @@ def parse_bls_current_release(
     return output
 
 
+def parse_bls_employment_current_release(
+    payload: bytes,
+    source: Mapping[str, Any],
+) -> list[dict[str, Any]]:
+    """Parse the official BLS Employment Situation singleton prospectively.
+
+    The generic BLS latest-numbers feed is a mutable multi-release container
+    and is not a dependable release-time contract.  The Employment Situation
+    ``nr0`` page carries the official embargo clock and the source-native
+    payroll, unemployment, earnings, and revision facts.  This adapter keeps
+    those factors separate and direction-neutral: causal consensus and
+    contemporaneous rate repricing are still required before interpreting a
+    value as USD-positive or USD-negative.
+    """
+
+    parser = _OfficialDocumentTextParser()
+    parser.feed(
+        payload.decode(str(source.get("encoding") or "utf-8"), errors="replace")
+    )
+    text = parser.text()
+    release = re.search(
+        r"THE EMPLOYMENT SITUATION\s*[-–]\s*([A-Z][A-Z]+)\s+(\d{4})",
+        text,
+        flags=re.I,
+    )
+    embargo = re.search(
+        r"(?:EMBARGOED UNTIL\s*)?8:30\s*a\.m\.\s*\(ET\)\s*"
+        r"(?:Monday|Tuesday|Wednesday|Thursday|Friday),\s*"
+        r"([A-Z][a-z]+\s+\d{1,2},\s+\d{4})",
+        text,
+        flags=re.I,
+    )
+    if not release or not embargo:
+        return []
+    month_name = release.group(1).title()
+    year = int(release.group(2))
+    try:
+        reference_date = dt.datetime.strptime(
+            f"{month_name} {year}", "%B %Y"
+        ).date()
+        release_local = dt.datetime.strptime(
+            embargo.group(1), "%B %d, %Y"
+        ).replace(hour=8, minute=30, tzinfo=ZoneInfo("America/New_York"))
+    except ValueError:
+        return []
+    reference_period = reference_date.strftime("%Y-%m")
+    published_utc = release_local.astimezone(UTC).isoformat()
+
+    def number(fragment: str) -> float | None:
+        match = re.search(r"[+-]?\d[\d,]*(?:\.\d+)?", fragment)
+        if not match:
+            return None
+        return float(match.group(0).replace(",", ""))
+
+    payroll_match = re.search(
+        r"Total nonfarm payroll employment\s+"
+        r"(increased|rose|grew|decreased|declined|fell)\s+by\s+"
+        r"([+-]?\d[\d,]*)\s+in\s+" + re.escape(month_name),
+        text,
+        flags=re.I,
+    )
+    payroll_parenthetical = re.search(
+        r"(?:Both\s+)?(?:total\s+)?nonfarm payroll employment\s*"
+        r"\(\s*([+-]?\d[\d,]*)\s*\)",
+        text,
+        flags=re.I,
+    )
+    payroll_actual: float | None = None
+    payroll_summary = ""
+    if payroll_match:
+        payroll_actual = abs(number(payroll_match.group(2)) or 0.0)
+        if payroll_match.group(1).lower() in {"decreased", "declined", "fell"}:
+            payroll_actual = -payroll_actual
+        payroll_summary = clean_text(payroll_match.group(0))
+    elif payroll_parenthetical:
+        payroll_actual = number(payroll_parenthetical.group(1))
+        payroll_summary = clean_text(payroll_parenthetical.group(0))
+    if payroll_actual is None:
+        return []
+
+    prior_month_name = (
+        reference_date.replace(day=1) - dt.timedelta(days=1)
+    ).strftime("%B")
+    prior_payroll_match = re.search(
+        r"(?:the\s+)?change\s+for\s+" + re.escape(prior_month_name)
+        + r"\s+was\s+revised\b.*?\bto\s+([+-]?\d[\d,]*)",
+        text,
+        flags=re.I,
+    )
+    prior_payroll = (
+        number(prior_payroll_match.group(1)) if prior_payroll_match else None
+    )
+    combined_revision_match = re.search(
+        r"With these revisions,\s+employment\b.*?\bcombined\s+is\s+"
+        r"(\d[\d,]*)\s+(higher|lower)\s+than\s+previously\s+reported",
+        text,
+        flags=re.I,
+    )
+    combined_revision: float | None = None
+    if combined_revision_match:
+        combined_revision = abs(number(combined_revision_match.group(1)) or 0.0)
+        if combined_revision_match.group(2).lower() == "lower":
+            combined_revision = -combined_revision
+
+    unemployment_match = re.search(
+        r"unemployment rate\s+"
+        r"(was unchanged at|remained at|edged up to|rose to|increased to|"
+        r"edged down to|fell to|declined to)\s+"
+        r"(\d+(?:\.\d+)?)\s+percent",
+        text,
+        flags=re.I,
+    )
+    unemployment_actual = (
+        number(unemployment_match.group(2)) if unemployment_match else None
+    )
+    unemployment_previous = (
+        unemployment_actual
+        if unemployment_match
+        and unemployment_match.group(1).lower() in {"was unchanged at", "remained at"}
+        else None
+    )
+
+    earnings_match = re.search(
+        r"average hourly earnings for all employees\b.*?"
+        r"(rose|increased|gained|fell|declined|decreased)\s+by\s+"
+        r"\d+\s+cents?,\s+or\s+(\d+(?:\.\d+)?)\s+percent",
+        text,
+        flags=re.I,
+    )
+    earnings_actual: float | None = None
+    if earnings_match:
+        earnings_actual = abs(number(earnings_match.group(2)) or 0.0)
+        if earnings_match.group(1).lower() in {"fell", "declined", "decreased"}:
+            earnings_actual = -earnings_actual
+    earnings_yoy_match = re.search(
+        r"Over the year,\s+average hourly earnings\s+have\s+"
+        r"(?:increased|risen|decreased|declined)\s+by\s+"
+        r"([+-]?\d+(?:\.\d+)?)\s+percent",
+        text,
+        flags=re.I,
+    )
+    earnings_yoy = (
+        number(earnings_yoy_match.group(1)) if earnings_yoy_match else None
+    )
+
+    definitions: list[tuple[str, str, float, float | None, str, str, dict[str, Any]]] = [
+        (
+            "CES0000000001_NET_CHANGE",
+            "Total Nonfarm Payroll Employment Monthly Change",
+            payroll_actual,
+            prior_payroll,
+            "jobs",
+            payroll_summary,
+            {
+                "monthly_change_jobs": {
+                    "actual": payroll_actual,
+                    "prior_month_revised": prior_payroll,
+                },
+                "prior_two_month_revision_jobs": {"actual": combined_revision},
+            },
+        )
+    ]
+    if unemployment_actual is not None:
+        definitions.append(
+            (
+                "LNS14000000_LEVEL",
+                "Unemployment Rate",
+                unemployment_actual,
+                unemployment_previous,
+                "percent",
+                clean_text(unemployment_match.group(0)) if unemployment_match else "",
+                {
+                    "unemployment_rate": {
+                        "actual": unemployment_actual,
+                        "previous": unemployment_previous,
+                    }
+                },
+            )
+        )
+    if earnings_actual is not None:
+        definitions.append(
+            (
+                "CES0500000003_PCT_CHANGE",
+                "Average Hourly Earnings Monthly Change",
+                earnings_actual,
+                None,
+                "percent_change",
+                clean_text(earnings_match.group(0)) if earnings_match else "",
+                {
+                    "month_over_month": {"actual": earnings_actual},
+                    "year_over_year": {"actual": earnings_yoy},
+                },
+            )
+        )
+    if combined_revision is not None:
+        definitions.append(
+            (
+                "CES_PRIOR_TWO_MONTH_REVISION",
+                "Prior Two-Month Payroll Revision",
+                combined_revision,
+                None,
+                "jobs",
+                clean_text(combined_revision_match.group(0))
+                if combined_revision_match else "",
+                {"prior_two_month_revision_jobs": {"actual": combined_revision}},
+            )
+        )
+
+    output: list[dict[str, Any]] = []
+    for series_id, event_name, actual, previous, unit, summary, components in definitions:
+        external_id = hashlib.sha256(
+            json.dumps(
+                {
+                    "series_id": series_id,
+                    "reference_period": reference_period,
+                    "actual": actual,
+                    "previous": previous,
+                    "components": components,
+                },
+                sort_keys=True,
+            ).encode("utf-8")
+        ).hexdigest()
+        output.append(
+            {
+                "source_id": source.get("source_id"),
+                "source_name": source.get("name"),
+                "source_kind": "bls_employment_current_release",
+                "source_quality": source.get("quality", 1.0),
+                "source_verified": bool(source.get("verified")),
+                "source_direct": configured_source_is_direct(source),
+                "retrieval_via": str(source.get("retrieval_via") or "direct"),
+                "source_role": source_role(source),
+                "source_contract_id": clean_text(source.get("source_contract_id")),
+                "source_cohort_id": clean_text(source.get("source_cohort_id")),
+                "numeric_parser_activated_utc": clean_text(
+                    source.get("numeric_parser_activated_utc")
+                ),
+                "numeric_extraction_contract_id": clean_text(
+                    source.get("numeric_extraction_contract_id")
+                ),
+                "source_currencies": list(source.get("currencies") or []),
+                "title": f"{event_name} - {month_name} {year}",
+                "summary": summary,
+                "url": canonical_url(source.get("url")),
+                "published_utc": published_utc,
+                "published_time_inferred": False,
+                "external_id": external_id,
+                "structured_event": True,
+                "event_series_id": series_id,
+                "event_name": event_name,
+                "event_country": "United States",
+                "reference_period": reference_period,
+                "timing_precision": "official_embargo_timestamp",
+                "unit": unit,
+                "actual": str(actual),
+                "actual_value": actual,
+                "previous": "" if previous is None else str(previous),
+                "previous_value": previous,
+                "consensus": "",
+                "consensus_value": None,
+                "source_native_components": components,
+                "directional_research_only": True,
+            }
+        )
+    return output
+
+
+def parse_statcan_major_indicators(
+    payload: bytes,
+    source: Mapping[str, Any],
+) -> list[dict[str, Any]]:
+    """Parse Canada's current Labour Force Survey from the official JSON API.
+
+    The Daily Atom feed is useful for discovery, but it can remain unchanged
+    across the 08:30 release boundary.  Statistics Canada's ``ind-econ`` web
+    service is the first-party machine-readable surface used by The Daily and
+    exposes the current national employment level, monthly change and
+    unemployment rate.  This adapter is a redundant prospective path.  It
+    deliberately preserves source-native changes without interpreting CAD
+    direction because a causal pre-release consensus and contemporaneous rate
+    repricing are not available here.
+    """
+
+    parsed = json.loads(payload.decode("utf-8-sig"))
+    indicators = (parsed.get("results") or {}).get("indicators") or []
+    national: dict[str, Mapping[str, Any]] = {}
+    for row in indicators:
+        if not isinstance(row, Mapping):
+            continue
+        try:
+            geo_code = int(row.get("geo_code"))
+        except (TypeError, ValueError):
+            continue
+        daily_title = clean_text((row.get("daily_title") or {}).get("en"))
+        title = clean_text((row.get("title") or {}).get("en"))
+        if geo_code != 0 or daily_title.lower() != "labour force survey":
+            continue
+        if title.lower() in {"employment level", "unemployment rate"}:
+            national[title.lower()] = row
+    employment = national.get("employment level")
+    unemployment = national.get("unemployment rate")
+    if employment is None or unemployment is None:
+        return []
+
+    release_date_text = clean_text(employment.get("release_date"))
+    reference_period = clean_text((employment.get("refper") or {}).get("en"))
+    daily_path = clean_text((employment.get("daily_url") or {}).get("en"))
+    if not release_date_text or not reference_period or not daily_path:
+        return []
+    try:
+        release_date = dt.date.fromisoformat(release_date_text)
+        release_local = dt.datetime.combine(
+            release_date,
+            dt.time(hour=8, minute=30),
+            tzinfo=ZoneInfo(str(source.get("source_timezone") or "America/Toronto")),
+        )
+    except (ValueError, ZoneInfoNotFoundError):
+        return []
+
+    def numeric_text(value: Any) -> float | None:
+        match = re.search(r"[+-]?\d[\d,]*(?:\.\d+)?", clean_text(value))
+        if match is None:
+            return None
+        return optional_float(match.group(0).replace(",", ""))
+
+    employment_level = numeric_text((employment.get("value") or {}).get("en"))
+    employment_change = numeric_text(
+        ((employment.get("growth_rate") or {}).get("growth") or {}).get("en")
+    )
+    unemployment_rate = numeric_text((unemployment.get("value") or {}).get("en"))
+    unemployment_change = numeric_text(
+        ((unemployment.get("growth_rate") or {}).get("growth") or {}).get("en")
+    )
+    if employment_level is None or employment_change is None or unemployment_rate is None:
+        return []
+    unemployment_previous = (
+        unemployment_rate - unemployment_change
+        if unemployment_change is not None
+        else None
+    )
+    published_utc = release_local.astimezone(UTC).isoformat()
+    page_url = urllib.parse.urljoin(
+        "https://www150.statcan.gc.ca/n1/", daily_path.lstrip("/")
+    )
+    components: dict[str, dict[str, Any]] = {
+        "employment_level": {
+            "actual_value": employment_level,
+            "unit": "persons",
+        },
+        "employment_monthly_change": {
+            "actual_value": employment_change,
+            "unit": "month_percent_change",
+        },
+        "unemployment_rate": {
+            "actual_value": unemployment_rate,
+            "previous_value": unemployment_previous,
+            "unit": "percent",
+        },
+    }
+    if unemployment_change is not None:
+        components["unemployment_rate_monthly_change"] = {
+            "actual_value": unemployment_change,
+            "unit": "percentage_points",
+        }
+    identity = {
+        "reference_period": reference_period,
+        "release_date": release_date_text,
+        "employment_level": employment_level,
+        "employment_change": employment_change,
+        "unemployment_rate": unemployment_rate,
+        "unemployment_change": unemployment_change,
+    }
+    external_id = hashlib.sha256(
+        json.dumps(identity, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()
+    summary = (
+        f"Canada employment level {employment_level:.0f}; monthly change "
+        f"{employment_change:.12g}%; unemployment rate "
+        f"{unemployment_rate:.12g}%"
+    )
+    if unemployment_change is not None:
+        summary += f"; monthly change {unemployment_change:.12g} percentage points"
+    return [
+        {
+            "source_id": source.get("source_id"),
+            "source_name": source.get("name"),
+            "source_kind": "statcan_major_indicators",
+            "source_quality": source.get("quality", 1.0),
+            "source_verified": bool(source.get("verified")),
+            "source_direct": configured_source_is_direct(source),
+            "retrieval_via": str(source.get("retrieval_via") or "direct"),
+            "source_role": source_role(source),
+            "source_contract_id": clean_text(source.get("source_contract_id")),
+            "source_cohort_id": clean_text(source.get("source_cohort_id")),
+            "numeric_parser_activated_utc": clean_text(
+                source.get("numeric_parser_activated_utc")
+            ),
+            "numeric_extraction_contract_id": clean_text(
+                source.get("numeric_extraction_contract_id")
+            ),
+            "source_currencies": ["CAD"],
+            "title": f"Labour Force Survey - {reference_period}",
+            "summary": summary,
+            "url": page_url,
+            "published_utc": published_utc,
+            "published_time_inferred": False,
+            "external_id": external_id,
+            "structured_event": True,
+            "event_series_id": "statcan_labour_force_national_bundle",
+            "event_name": "Statistics Canada Labour Force Survey",
+            "event_country": "Canada",
+            "reference_period": reference_period,
+            "timing_precision": "official_0830_eastern_service_clock",
+            "unit": "month_percent_change",
+            "actual": f"{employment_change:.12g}",
+            "actual_value": employment_change,
+            "previous": "",
+            "previous_value": None,
+            "consensus": "",
+            "consensus_value": None,
+            "source_native_components": components,
+            "directional_research_only": True,
+            "numeric_direction_policy": (
+                "abstain_until_causal_consensus_and_rate_repricing"
+            ),
+        }
+    ]
+
+
 def parse_japan_cpi_csv(
     payload: bytes,
     source: Mapping[str, Any],
@@ -7614,6 +8930,11 @@ def parse_gdelt(payload: bytes, source: Mapping[str, Any]) -> list[dict[str, Any
                 "domain": domain,
                 "language": row.get("language"),
                 "source_country": row.get("sourcecountry"),
+                # Broad discovery observations still need immutable lineage.
+                # This does not upgrade GDELT to a verified/direct source or
+                # make its content eligible for execution.
+                "source_contract_id": clean_text(source.get("source_contract_id")),
+                "source_cohort_id": clean_text(source.get("source_cohort_id")),
             }
         )
     return output
@@ -7805,6 +9126,10 @@ def fetch_source(
         source.setdefault("detail_enrichment", "official_document_text")
         source.setdefault("detail_max_age_minutes", 1440)
         source.setdefault("directional_research_only", True)
+        source.setdefault(
+            "google_news_publisher_resolution_contract_id",
+            GOOGLE_NEWS_OFFICIAL_PUBLISHER_RESOLUTION_CONTRACT_ID,
+        )
     source_kind = str(source.get("kind") or "").lower()
     if source_kind == "recurring_release_calendar":
         articles = build_recurring_release_calendar(source, now=now)
@@ -7900,11 +9225,38 @@ def fetch_source(
         and len(source_state.get("detail_first_seen_utc_by_url") or {})
         < detail_context_target
     )
+    mutable_detail_pending = bool(
+        source.get("detail_mutable_placeholder_versioning") is True
+        and any(
+            mutable_detail_refetch_pending(
+                source,
+                source_state,
+                canonical_url(url),
+                now=now,
+            )
+            for url in (
+                source_state.get("detail_first_seen_utc_by_url") or {}
+            )
+        )
+    )
+    # A transport success is not a successful ingestion. Unparsed or pending
+    # bodies must be fetched again, even when the server retains its ETag.
+    body_retry_required = bool(
+        source_state.get("source_body_retry_required")
+        or source_state.get("last_parse_status") in {"error", "pending_source_content"}
+    )
     conditional_get = bool(
-        source.get("conditional_get", True)
+        not body_retry_required
+        and source.get("conditional_get", True)
         and not source_contract_changed
         and not context_archive_pending
+        and not mutable_detail_pending
     )
+    if not conditional_get:
+        # Configured headers must obey the same forced-body rule as retained
+        # state validators, including arbitrary HTTP header capitalization.
+        headers = {key: value for key, value in headers.items()
+                   if str(key).lower() not in {"if-none-match", "if-modified-since"}}
     if conditional_get and source_state.get("etag"):
         headers["If-None-Match"] = str(source_state["etag"])
     if conditional_get and source_state.get("last_modified"):
@@ -7935,9 +9287,50 @@ def fetch_source(
         method="POST" if request_data is not None else None,
     )
     updated = dict(source_state)
+    if source.get("source_contract_derived") is not True:
+        # An explicit source contract supersedes the fallback hash-derived
+        # lineage. Do not leave stale derived-lineage labels in runtime state;
+        # they make an explicit cohort appear mixed even though the configured
+        # contract and parser have already changed.
+        for stale_lineage_field in (
+            "source_contract_derived",
+            "source_lineage_version",
+            "source_config_sha256",
+        ):
+            updated.pop(stale_lineage_field, None)
     updated["last_attempt_utc"] = iso_utc(now)
     updated["source_contract_id"] = clean_text(source.get("source_contract_id"))
     updated["source_cohort_id"] = clean_text(source.get("source_cohort_id"))
+    if source_contract_changed:
+        updated["source_lineage_adopted_utc"] = iso_utc(now)
+        if observed_source_contract:
+            updated["previous_source_contract_id"] = observed_source_contract
+        if not source.get("detail_enrichment"):
+            # Detail-page failures belong to the former source contract.  A
+            # feed-body-only successor must not keep advertising or retrying a
+            # forbidden detail transport that is no longer configured.
+            updated.pop("detail_enriched_items", None)
+            updated.pop("detail_first_seen_utc_by_url", None)
+            updated.pop("last_detail_error", None)
+    final_request_started = False
+
+    def not_modified_result():
+        updated.update(last_status=304, response_bytes=0,
+                       http_transport=clean_text(source.get("http_transport")).lower() or "urllib")
+        sent_validator = any(
+            str(key).lower() in {"if-none-match", "if-modified-since"} and value
+            for key, value in headers.items()
+        )
+        if not final_request_started or not conditional_get or not sent_validator:
+            updated.update(
+                last_error="not_modified_without_usable_conditional_body",
+                consecutive_errors=int(source_state.get("consecutive_errors") or 0) + 1,
+                source_body_retry_required=True,
+            )
+        else:
+            updated.update(last_success_utc=iso_utc(now), last_error="", consecutive_errors=0)
+        return [], updated
+
     try:
         opener: urllib.request.OpenerDirector | None = None
         bootstrap_url = clean_text(source.get("bootstrap_url"))
@@ -7981,6 +9374,7 @@ def fetch_source(
                 if len(bootstrap_payload) > bootstrap_limit:
                     raise ValueError("source bootstrap payload exceeds limit")
         transport = clean_text(source.get("http_transport")).lower() or "urllib"
+        final_request_started = True
         if transport == "requests":
             if requests is None:
                 raise ValueError("requests transport is configured but unavailable")
@@ -7996,16 +9390,7 @@ def fetch_source(
             ) as response:
                 status = int(response.status_code)
                 if status == 304:
-                    updated.update(
-                        {
-                            "last_success_utc": iso_utc(now),
-                            "last_status": 304,
-                            "last_error": "",
-                            "consecutive_errors": 0,
-                            "response_bytes": 0,
-                        }
-                    )
-                    return [], updated
+                    return not_modified_result()
                 if status >= 400:
                     retry_after = safe_float(response.headers.get("Retry-After"), 0.0)
                     excerpt = response.raw.read(500, decode_content=True)
@@ -8129,17 +9514,7 @@ def fetch_source(
                     f"curl transport exit {completed.returncode}: {error_text[:300]}"
                 )
             if status == 304:
-                updated.update(
-                    {
-                        "last_success_utc": iso_utc(now),
-                        "last_status": 304,
-                        "last_error": "",
-                        "consecutive_errors": 0,
-                        "response_bytes": 0,
-                        "http_transport": "curl",
-                    }
-                )
-                return [], updated
+                return not_modified_result()
             if status >= 400:
                 error_body = clean_text(
                     body[:500].decode("utf-8", errors="replace")
@@ -8202,16 +9577,7 @@ def fetch_source(
             raise ValueError(f"unsupported http_transport: {transport}")
     except urllib.error.HTTPError as exc:
         if exc.code == 304:
-            updated.update(
-                {
-                    "last_success_utc": iso_utc(now),
-                    "last_status": 304,
-                    "last_error": "",
-                    "consecutive_errors": 0,
-                    "response_bytes": 0,
-                }
-            )
-            return [], updated
+            return not_modified_result()
         retry_after = safe_float(exc.headers.get("Retry-After"), 0.0)
         updated.update(
             {
@@ -8309,6 +9675,41 @@ def fetch_source(
             articles = parse_cnb_homepage_inflation(payload, source)
         elif kind == "ksh_prices_snapshot":
             articles = parse_ksh_prices_snapshot(payload, source)
+        elif kind == "ksh_ppi_release_snapshot":
+            history_url = canonical_url(source.get("history_table_url"))
+            if not history_url or not trusted_host(
+                history_url, source.get("trusted_domains") or ()
+            ):
+                raise ValueError("KSH PPI history table URL is missing or untrusted")
+            history_headers = {
+                str(key): str(value)
+                for key, value in headers.items()
+                if str(key).lower() not in {"if-none-match", "if-modified-since"}
+            }
+            history_headers["Accept"] = "text/csv,application/octet-stream"
+            try:
+                history_request = urllib.request.Request(
+                    history_url, headers=history_headers
+                )
+                with urllib.request.urlopen(
+                    history_request,
+                    timeout=timeout_sec,
+                    context=TLS_CONTEXT,
+                ) as history_response:
+                    history_payload = history_response.read(maximum_bytes + 1)
+                    history_status = int(history_response.status)
+            except (OSError, urllib.error.HTTPError) as exc:
+                raise ValueError(f"KSH PPI history fetch failed: {exc}") from exc
+            if len(history_payload) > maximum_bytes:
+                raise ValueError("KSH PPI history payload exceeds configured limit")
+            updated["history_table_status"] = history_status
+            updated["history_table_bytes"] = len(history_payload)
+            updated["history_table_sha256"] = hashlib.sha256(
+                history_payload
+            ).hexdigest()
+            articles = parse_ksh_ppi_release_snapshot(
+                payload, history_payload, source
+            )
         elif kind == "scb_cpi_snapshot":
             articles = parse_scb_cpi_snapshot(payload, source)
         elif kind == "tuik_press_indicators":
@@ -8319,19 +9720,48 @@ def fetch_source(
             articles = parse_umich_current_release(payload, source)
         elif kind == "bls_current_release":
             articles = parse_bls_current_release(payload, source)
+        elif kind == "bls_employment_current_release":
+            articles = parse_bls_employment_current_release(payload, source)
+        elif kind == "statcan_major_indicators":
+            articles = parse_statcan_major_indicators(payload, source)
         elif kind == "japan_cpi_csv":
             articles = parse_japan_cpi_csv(payload, source)
         elif kind == "japan_cpi_current_summary":
             articles = parse_japan_cpi_current_summary(payload, source)
-        else:
+        elif kind in {"", "rss", "atom"}:
             articles = parse_rss(payload, source)
+        else:
+            raise ValueError(f"unsupported source kind: {kind}")
+    except SourceContentPending as exc:
+        # Preserve the last successfully parsed listing/bootstrap boundary.
+        if "last_success_utc" in source_state:
+            updated["last_success_utc"] = source_state["last_success_utc"]
+        else:
+            updated.pop("last_success_utc", None)
+        updated["source_body_retry_required"] = True
+        updated.update(
+            last_parse_status="pending_source_content", last_error="", consecutive_errors=0,
+            parsed_items=0, source_content_state={"status": exc.reason, **exc.details,
+                                               "observed_utc": iso_utc(now)},
+        )
+        return [], updated
     except (ValueError, ET.ParseError, json.JSONDecodeError, UnicodeError) as exc:
+        updated["last_parse_status"] = "error"
         updated["last_error"] = f"parse_error: {exc}"[:500]
-        updated["consecutive_errors"] = int(updated.get("consecutive_errors") or 0) + 1
+        updated["consecutive_errors"] = int(source_state.get("consecutive_errors") or 0) + 1
+        updated["source_body_retry_required"] = True
+        if "last_success_utc" in source_state:
+            updated["last_success_utc"] = source_state["last_success_utc"]
+        else:
+            updated.pop("last_success_utc", None)
         provider_retry = provider_parse_retry_after(kind, exc, now)
         if provider_retry:
             updated["retry_after_utc"] = provider_retry
         return [], updated
+    updated.pop("source_body_retry_required", None)
+    updated["last_parse_status"] = "parsed"
+    updated["last_parse_success_utc"] = iso_utc(now)
+    updated.pop("source_content_state", None)
     rss_listing_bootstrap = bool(
         kind == "rss"
         and source.get("bootstrap_existing_items")
@@ -8367,6 +9797,8 @@ def fetch_source(
     if kind in {
         "umich_current_release",
         "bls_current_release",
+        "bls_employment_current_release",
+        "statcan_major_indicators",
         "singstat_table",
         "ssb_jsonstat2_cpi_yoy",
         "denmark_statbank_cpi_yoy",
@@ -8376,6 +9808,7 @@ def fetch_source(
         "sarb_homepage_rates",
         "cnb_homepage_inflation",
         "ksh_prices_snapshot",
+        "ksh_ppi_release_snapshot",
         "scb_cpi_snapshot",
         "tuik_press_indicators",
         "rbnz_ocr_snapshot",
@@ -8399,6 +9832,46 @@ def fetch_source(
         updated["detail_enriched_items"] = detail_count
         updated["detail_first_seen_utc_by_url"] = detail_times
         updated["last_detail_error"] = detail_error
+        content_hashes = dict(
+            source_state.get("detail_content_sha256_by_url") or {}
+        )
+        placeholder_states = dict(
+            source_state.get("detail_content_is_placeholder_by_url") or {}
+        )
+        version_counts = dict(
+            source_state.get("detail_content_version_count_by_url") or {}
+        )
+        for article in articles:
+            detail_url = canonical_url(article.get("url"))
+            content_hash = clean_text(
+                article.pop("_detail_state_content_sha256", "")
+            )
+            placeholder_state = article.pop(
+                "_detail_state_is_placeholder",
+                None,
+            )
+            version_count = article.pop("_detail_state_version_count", None)
+            if not detail_url or not content_hash:
+                continue
+            content_hashes[detail_url] = content_hash
+            placeholder_states[detail_url] = placeholder_state is True
+            version_counts[detail_url] = max(1, int(safe_float(version_count, 1)))
+        retained_detail_urls = set(detail_times)
+        updated["detail_content_sha256_by_url"] = {
+            str(key): clean_text(value)
+            for key, value in content_hashes.items()
+            if str(key) in retained_detail_urls and clean_text(value)
+        }
+        updated["detail_content_is_placeholder_by_url"] = {
+            str(key): value is True
+            for key, value in placeholder_states.items()
+            if str(key) in retained_detail_urls
+        }
+        updated["detail_content_version_count_by_url"] = {
+            str(key): max(1, int(safe_float(value, 1)))
+            for key, value in version_counts.items()
+            if str(key) in retained_detail_urls
+        }
     updated["parsed_items"] = len(articles)
     return articles, updated
 
@@ -8592,6 +10065,15 @@ def policy_assertion_status(
     )
     if any(re.search(pattern, title, flags=re.I) for pattern in POLICY_NEUTRAL_PATTERNS):
         return "neutral_or_expected_hold", 0.0
+    if POLICY_DATA_DEPENDENT_GUIDANCE_PATTERN.search(title):
+        # A speaker saying that a future release will determine their stance
+        # does not reveal the sign of that future release or policy decision.
+        # Preserve it as conditional context, with no currency impulse even
+        # when the quote is carried by an official transport.
+        return (
+            "official_conditional" if source_verified else "unverified_speculation",
+            0.0,
+        )
     if (
         (
             not date_only_title
@@ -8682,6 +10164,75 @@ def extract_currencies(
     ):
         found.add("USD")
     return sorted(found)
+
+
+def external_policy_subject_currencies(headline: str) -> list[str]:
+    """Return the policy target, not the nationality of a commentator.
+
+    Secondary headlines often lead with a U.S. official and then describe a
+    policy action that belongs to another authority (for example, Treasury
+    Secretary Bessent calling on Japan to raise rates and support the yen).
+    Treating every named authority as a directional leg created a synthetic
+    USD factor from a JPY thesis.  This deliberately narrow rule requires both
+    a directive/expectation verb and an explicit policy or currency action in
+    the target clause.  Ambiguous or multi-currency targets remain unbound.
+    """
+
+    value = clean_text(headline)
+    match = re.search(
+        r"\b(?:calls?\s+on|urges?|expects?)\b(?P<target>.{0,220})$",
+        value,
+        flags=re.I,
+    )
+    if match is None:
+        return []
+    target = clean_text(match.group("target"))
+    if not re.search(
+        r"\b(?:interest\s+rates?|policy\s+rates?|rate\s+hikes?|"
+        r"rais(?:e|es|ed|ing)\s+rates?|cut(?:s|ting)?\s+rates?|"
+        r"central\s+bank|boj|boost\s+(?:the\s+)?yen|stronger\s+yen|"
+        r"support\s+(?:the\s+)?yen)\b",
+        target,
+        flags=re.I,
+    ):
+        return []
+    currencies = extract_currencies(target)
+    return currencies if len(currencies) == 1 else []
+
+
+def secondary_release_subject_currencies(headline: str) -> list[str]:
+    """Bind a release-shaped secondary headline to one named economy.
+
+    A long article body may discuss comparison countries, policy implications,
+    commodities and prior stories.  Those are context, not additional release
+    subjects.  Binding is intentionally limited to one currency named in a
+    headline that clearly identifies a statistical release family; multi-
+    economy roundups abstain rather than choosing a subject.
+    """
+
+    value = clean_text(headline)
+    if not re.search(
+        r"\b(?:pmi|purchasing\s+managers(?:'|’)?\s+index|cpi|ppi|"
+        r"consumer\s+prices?|producer\s+prices?|inflation|"
+        r"unemployment|employment|payrolls?|retail\s+sales?|"
+        r"industrial\s+production|gdp|gross\s+domestic\s+product|"
+        r"trade\s+balance|current\s+account|machine(?:ry)?\s+orders?)\b",
+        value,
+        flags=re.I,
+    ):
+        return []
+    if not re.search(
+        r"\b(?:index|release|report|data|figures?|actual|expected|"
+        r"hit(?:s)?|post(?:s|ed)?|rise(?:s|n)?|rose|fall(?:s|en)?|fell|"
+        r"expand(?:s|ed|ing)?|contract(?:s|ed|ing)?|"
+        r"accelerat(?:e|es|ed|ing)|slow(?:s|ed|ing)?|"
+        r"surge(?:s|d)?|drop(?:s|ped)?|\d+(?:\.\d+)?\s*%?)\b",
+        value,
+        flags=re.I,
+    ):
+        return []
+    currencies = extract_currencies(value)
+    return currencies if len(currencies) == 1 else []
 
 
 def extract_policy_currencies(text: str) -> list[str]:
@@ -8782,6 +10333,7 @@ REPORTED_MARKET_MOVE_HEADLINE_PATTERN = re.compile(
     r"firm(?:s|ed|ing)?|surg(?:e|es|ed|ing)|jump(?:s|ed|ing)?|"
     r"rall(?:y|ies|ied|ying)|strengthen(?:s|ed|ing)?|stronger|"
     r"march(?:es|ed|ing)?|"
+    r"head(?:s|ed|ing)?\s+(?:higher|lower|toward(?:s)?|for)|"
     r"recover(?:s|ed|ing)?|rebound(?:s|ed|ing)?|retreat(?:s|ed|ing)?|"
     r"eas(?:e|es|ed|ing)|stead(?:y|ies|ied|ying)|"
     r"(?:end|close)(?:s|d|ed|ing)?\s+(?:higher|lower)|"
@@ -8793,6 +10345,13 @@ REPORTED_MARKET_MOVE_HEADLINE_PATTERN = re.compile(
     r"slid(?:e|es)?|weaken(?:s|ed|ing)?|weaker|crack(?:s|ed|ing)?|declin(?:e|es|ed|ing)|"
     r"drop(?:s|ped|ping)?|tumbl(?:e|es|ed|ing)|"
     r"plung(?:e|es|ed|ing)|add(?:s|ed|ing)?)\b",
+    flags=re.I,
+)
+SECONDARY_REPORTED_COMMODITY_STATE_PATTERN = re.compile(
+    r"\b(?:oil|crude|brent|wti|natural\s+gas|gold|silver|copper)\b"
+    r".{0,64}\b(?:head(?:s|ed|ing)?\s+(?:toward(?:s)?|for)|"
+    r"on\s+track\s+for)\b.{0,40}\b(?:weekly|monthly)\s+"
+    r"(?:rise|gain|fall|drop)\b",
     flags=re.I,
 )
 LIVE_MULTI_ASSET_RECAP_HEADLINE_PATTERN = re.compile(
@@ -8889,7 +10448,14 @@ SECONDARY_MARKET_POLICY_EXPECTATION_PATTERN = re.compile(
     r"\bbrac(?:e|es|ed|ing)\b.{0,80}"
     r"\b(?:hawkish|dovish|rate[- ]hikes?|rate[- ]cuts?|"
     r"central\s+bank|ecb|fed(?:eral\s+reserve)?|bank\s+of\s+england|"
-    r"bank\s+of\s+japan|reserve\s+bank)\b",
+    r"bank\s+of\s+japan|reserve\s+bank)\b|"
+    r"\b(?:how\s+have\s+)?(?:interest|policy)\s+rate\s+"
+    r"(?:expectations?|pricing)\b.{0,72}"
+    r"\b(?:change(?:d|s|ing)?|shift(?:ed|s|ing)?|move(?:d|s|ing)?|"
+    r"repric(?:e|es|ed|ing))\b|"
+    r"\b(?:change(?:d|s|ing)?|shift(?:ed|s|ing)?|move(?:d|s|ing)?|"
+    r"repric(?:e|es|ed|ing))\b.{0,72}"
+    r"\b(?:interest|policy)\s+rate\s+(?:expectations?|pricing)\b",
     flags=re.I,
 )
 GEOPOLITICAL_HYPOTHETICAL_PATTERN = re.compile(
@@ -9504,6 +11070,12 @@ def verbal_currency_stability_research_scores(
                 text,
                 flags=re.I,
             )
+            or re.search(
+                rf"\b(?:calls?\s+on|urges?)\b.{{0,80}}\b(?:boost|strengthen|"
+                rf"support|stabili[sz]e)\s+(?:the\s+)?{alias}\b",
+                text,
+                flags=re.I,
+            )
         )
         if supports_stability:
             output[str(currency)] = 0.35
@@ -9949,6 +11521,122 @@ def issuer_bound_policy_communication(
             flags=re.I,
         )
     )
+
+
+def configured_authority_policy_communication(
+    raw: Mapping[str, Any],
+    *,
+    title: str,
+    text: str,
+    source_currencies: Sequence[str],
+    document_type: str,
+) -> bool:
+    """Recognize a policy communication from its governed source container.
+
+    Some dedicated central-bank speech feeds publish source-native titles that
+    do not contain a document label. The source ID and issuer currency are
+    therefore allowed to establish *document identity*, but never direction.
+    Direction is still derived from the issuer-bound text, remains research
+    only, and is admitted prospectively only after the V2 activation clock.
+
+    Mixed press/publication feeds are intentionally absent from the source map
+    and must continue to identify a speech or press conference explicitly.
+    """
+
+    source_id = clean_text(raw.get("source_id"))
+    expected_currency = (
+        ISSUER_BOUND_POLICY_COMMUNICATION_SOURCE_CURRENCIES_V2.get(source_id)
+    )
+    if (
+        not expected_currency
+        or raw.get("source_verified") is not True
+        or raw.get("source_direct", raw.get("source_verified")) is not True
+        or set(source_currencies) != {expected_currency}
+        or document_type
+        not in {
+            "",
+            "official_policy_document",
+            "policy_communication",
+        }
+        or policy_non_stance_liquidity_implementation(title, text)
+    ):
+        return False
+    role = source_role(raw)
+    if role not in {
+        "primary_policy_release",
+        "primary_policy_communication",
+        "primary_policy_and_event_communication",
+        "primary_policy_commentary",
+    }:
+        return False
+    return bool(
+        re.search(
+            r"\b(?:monetary policy|interest rates?|policy rates?|bank rate|"
+            r"official cash rate|repo rate|inflation(?: target| risks?)?|"
+            r"economic outlook|labou?r market|employment)\b",
+            f"{clean_text(title)}. {clean_text(text)[:12_000]}",
+            flags=re.I,
+        )
+        or (
+            source_id == "japan_mof_press_conferences_ja"
+            and re.search(
+                r"(?:金融政策|政策金利|金利差|長期金利|物価|円安|円高|"
+                r"為替(?:市場|介入)|協調介入|リフレ(?:政策|論)?)",
+                f"{clean_text(title)}。{clean_text(text)[:12_000]}",
+            )
+        )
+    )
+
+
+def japan_external_policy_pressure_research(
+    raw: Mapping[str, Any],
+    *,
+    text: str,
+    source_currencies: Sequence[str],
+) -> bool:
+    """Detect issuer-bound external tightening pressure in Japan MOF Q&A.
+
+    Reporter questions can quote a foreign official while the minister
+    disputes whether the comment was a formal request. The information may
+    still alter expectations for the yen, but it is not a BOJ decision or a
+    confirmed intervention. Keep this deliberately narrow and research-only:
+    exact direct source, issuer currency, trusted host, explicit pressure to
+    end reflation, and an FX/rate transmission channel in the same document.
+    """
+
+    if (
+        clean_text(raw.get("source_id"))
+        != "japan_mof_press_conferences_ja"
+        or raw.get("source_verified") is not True
+        or raw.get("source_direct", raw.get("source_verified")) is not True
+        or set(source_currencies) != {"JPY"}
+        or not trusted_host(raw.get("url"), ("mof.go.jp",))
+    ):
+        return False
+    bounded = clean_text(text)[:20_000]
+    external_tightening_pressure = bool(
+        re.search(r"\bstop\s+the\s+reflation\b", bounded, flags=re.I)
+        or re.search(
+            r"リフレ(?:政策|論)?(?:を|は)?(?:やめる|やめろ|止める|"
+            r"停止|終了)(?:べき)?",
+            bounded,
+        )
+    )
+    rate_or_fx_channel = bool(
+        re.search(
+            r"(?:金利差|円の過小評価|円安|円高|為替(?:市場|介入)|"
+            r"協調介入|日銀|日本銀行)",
+            bounded,
+        )
+        or re.search(
+            r"\b(?:rate differential|undervalued yen|weak yen|"
+            r"foreign[- ]exchange intervention|coordinated intervention|"
+            r"bank of japan)\b",
+            bounded,
+            flags=re.I,
+        )
+    )
+    return external_tightening_pressure and rate_or_fx_channel
 
 
 def boj_issuer_bound_policy_attachment(
@@ -10531,6 +12219,232 @@ def official_numeric_release_fields(
                 "actual_value": value,
             }
         return {}
+    if source_id == "hungary_ksh_industrial_ppi_first_release_direct_v1":
+        if not bool(raw.get("detail_enriched")) or clean_text(
+            raw.get("detail_enrichment_kind")
+        ) not in {"official_document_text", "official_html_text"}:
+            return {}
+        summary = clean_text(raw.get("summary"))
+        period_match = re.search(
+            r"\bIndustrial producer prices,\s*(?P<month>[A-Z][a-z]+)\s+"
+            r"(?P<year>20\d{2})\b",
+            summary,
+        )
+        release_match = re.search(
+            r"\bPublished\s+on:\s*(?P<day>\d{1,2})\s+"
+            r"(?P<month>[A-Z][a-z]+)\s+(?P<year>20\d{2})\b",
+            summary,
+        )
+        headline_match = re.search(
+            r"\bIndustrial producer prices were\s+(?:an average\s+)?"
+            r"(?P<value>\d+(?:\.\d+)?)%\s+"
+            r"(?P<direction>higher|lower)\b",
+            summary,
+            flags=re.I,
+        )
+        monthly_match = re.search(
+            r"\bCompared to (?:the )?previous month,.*?"
+            r"industrial producer prices as a whole\s+"
+            r"(?:became|were|increased|decreased)\s+"
+            r"(?P<value>\d+(?:\.\d+)?)%\s+"
+            r"(?P<direction>higher|lower)\b",
+            summary,
+            flags=re.I,
+        )
+        if not all((period_match, release_match, headline_match, monthly_match)):
+            return {}
+        try:
+            reference_date = dt.datetime.strptime(
+                f"{period_match.group('month')} {period_match.group('year')}",
+                "%B %Y",
+            )
+            release_date = dt.datetime.strptime(
+                f"{release_match.group('day')} {release_match.group('month')} "
+                f"{release_match.group('year')}",
+                "%d %B %Y",
+            )
+            release_clock = dt.datetime(
+                release_date.year,
+                release_date.month,
+                release_date.day,
+                8,
+                30,
+                tzinfo=ZoneInfo("Europe/Budapest"),
+            ).astimezone(UTC)
+        except (TypeError, ValueError) as exc:
+            raise ValueError("KSH PPI period or publication date is invalid") from exc
+
+        previous_date = reference_date.replace(day=1) - dt.timedelta(days=1)
+        table_match = re.search(
+            r"\bIndustrial price indices\b(?P<table>.*?)(?:\bNext:|$)",
+            summary,
+            flags=re.I,
+        )
+        table_rows: dict[tuple[int, int], tuple[float, float, float]] = {}
+        table_year: int | None = None
+        if table_match is not None:
+            row_pattern = re.compile(
+                r"(?:(?P<year>20\d{2})\s+)?"
+                r"(?P<month>January|February|March|April|May|June|July|August|"
+                r"September|October|November|December)\s+"
+                r"(?P<domestic>\d+(?:\.\d+)?)\s+"
+                r"(?P<nondomestic>\d+(?:\.\d+)?)\s+"
+                r"(?P<total>\d+(?:\.\d+)?)\b",
+                flags=re.I,
+            )
+            for row in row_pattern.finditer(table_match.group("table")):
+                if row.group("year"):
+                    table_year = int(row.group("year"))
+                if table_year is None:
+                    continue
+                month_number = dt.datetime.strptime(
+                    row.group("month"), "%B"
+                ).month
+                table_rows[(table_year, month_number)] = (
+                    float(row.group("domestic")),
+                    float(row.group("nondomestic")),
+                    float(row.group("total")),
+                )
+        previous_row = table_rows.get((previous_date.year, previous_date.month))
+        annual_components = re.search(
+            r"\bDomestic output prices\s+"
+            r"(?P<domestic_verb>rose|increased|were up|went up|fell|decreased|"
+            r"lessened|were cut|diminished)\s+(?:by\s+)?"
+            r"(?P<domestic>\d+(?:\.\d+)?)%.*?"
+            r"non-domestic(?: output prices| ones)?\s+"
+            r"(?:(?P<nondomestic_verb>rose|increased|were up|went up|fell|"
+            r"decreased|lessened|were cut|diminished)\s+)?(?:by\s+)?"
+            r"(?P<nondomestic>\d+(?:\.\d+)?)%\s+compared to",
+            summary,
+            flags=re.I,
+        )
+        monthly_components = re.search(
+            r"\bCompared to (?:the )?previous month,\s+domestic output prices\s+"
+            r"(?P<domestic_verb>went up|rose|increased|were up|fell|decreased|"
+            r"lessened|were cut|diminished)\s+(?:by\s+)?"
+            r"(?P<domestic>\d+(?:\.\d+)?)%.*?"
+            r"non-domestic output prices\s+"
+            r"(?:(?P<nondomestic_verb>went up|rose|increased|were up|fell|"
+            r"decreased|lessened|were cut|diminished)\s+)?(?:by\s+)?"
+            r"(?P<nondomestic>\d+(?:\.\d+)?)%",
+            summary,
+            flags=re.I,
+        )
+        if not all((previous_row, annual_components, monthly_components)):
+            return {}
+
+        def signed(value: str, direction: str) -> float:
+            parsed = optional_float(value)
+            if parsed is None:
+                raise ValueError("KSH PPI numeric value is invalid")
+            direction = clean_text(direction).casefold()
+            if direction in {
+                "lower", "fell", "decreased", "lessened", "were cut", "diminished"
+            }:
+                return -abs(parsed)
+            return abs(parsed)
+
+        annual_value = signed(
+            headline_match.group("value"), headline_match.group("direction")
+        )
+        monthly_value = signed(
+            monthly_match.group("value"), monthly_match.group("direction")
+        )
+        previous_value = round(float(previous_row[2]) - 100.0, 12)
+        annual_domestic = signed(
+            annual_components.group("domestic"),
+            annual_components.group("domestic_verb"),
+        )
+        annual_nondomestic = signed(
+            annual_components.group("nondomestic"),
+            annual_components.group("nondomestic_verb")
+            or annual_components.group("domestic_verb"),
+        )
+        monthly_domestic = signed(
+            monthly_components.group("domestic"),
+            monthly_components.group("domestic_verb"),
+        )
+        monthly_nondomestic = signed(
+            monthly_components.group("nondomestic"),
+            monthly_components.group("nondomestic_verb")
+            or monthly_components.group("domestic_verb"),
+        )
+        if any(
+            abs(value) > 100.0
+            for value in (
+                annual_value,
+                monthly_value,
+                previous_value,
+                annual_domestic,
+                annual_nondomestic,
+                monthly_domestic,
+                monthly_nondomestic,
+            )
+        ):
+            return {}
+        detail_known = parse_datetime(raw.get("detail_available_utc"))
+        activation = parse_datetime(raw.get("numeric_parser_activated_utc"))
+        numeric_known = max(
+            candidate
+            for candidate in (first_seen, release_clock, detail_known, activation)
+            if candidate is not None
+        )
+        components = {
+            "headline_ppi_yoy": {
+                "actual_value": annual_value,
+                "previous_value": previous_value,
+                "unit": "year_percent_change",
+            },
+            "headline_ppi_mom": {
+                "actual_value": monthly_value,
+                "unit": "month_percent_change",
+            },
+            "domestic_output_ppi_yoy": {
+                "actual_value": annual_domestic,
+                "unit": "year_percent_change",
+            },
+            "non_domestic_output_ppi_yoy": {
+                "actual_value": annual_nondomestic,
+                "unit": "year_percent_change",
+            },
+            "domestic_output_ppi_mom": {
+                "actual_value": monthly_domestic,
+                "unit": "month_percent_change",
+            },
+            "non_domestic_output_ppi_mom": {
+                "actual_value": monthly_nondomestic,
+                "unit": "month_percent_change",
+            },
+        }
+        return {
+            "structured_event": True,
+            "source_currencies": ["HUF"],
+            "scheduled_utc": iso_utc(release_clock),
+            "source_reported_update_utc": iso_utc(release_clock),
+            "event_series_id": "hungary_ksh_industrial_ppi_yoy",
+            "event_name": "Hungary industrial producer price annual change",
+            "event_country": "Hungary",
+            "reference_period": reference_date.strftime("%YM%m"),
+            "unit": "year_percent_change",
+            "actual": f"{annual_value:.12g}",
+            "actual_value": annual_value,
+            "previous": f"{previous_value:.12g}",
+            "previous_value": previous_value,
+            "revision_state": "not_reported_by_source",
+            "source_native_components": components,
+            "release_components": [
+                {"component_id": key, **value} for key, value in components.items()
+            ],
+            "importance": "medium",
+            "numeric_causal_known_utc": iso_utc(numeric_known),
+            "numeric_extraction_contract_id": str(
+                raw.get("numeric_extraction_contract_id")
+                or "hungary_ksh_industrial_ppi_components_v1_20260901"
+            ),
+            "numeric_direction_policy": (
+                "abstain_until_causal_consensus_and_rate_repricing"
+            ),
+        }
     if source_id == "swiss_fso_releases":
         title = clean_text(raw.get("title"))
         summary = clean_text(raw.get("summary"))
@@ -10573,11 +12487,23 @@ def official_numeric_release_fields(
             if value is None:
                 return {}
             value = -abs(value) if match.group("verb").lower() == "sank" else abs(value)
-            published = parse_datetime(raw.get("published_utc")) or first_seen
+            published = parse_datetime(raw.get("published_utc"))
+            published_time_inferred = bool(
+                raw.get("published_time_inferred")
+            ) or published is None
+            # The FSO RSS currently supplies a date-only clock for these
+            # releases. That date is useful display context, but it is not an
+            # exact source release/update timestamp. Substituting each poll's
+            # ``first_seen`` value here made ``structured_version`` change on
+            # every collection cycle and stored the same CPI value as a fresh
+            # release hundreds of times. Keep first_seen as the causal
+            # availability boundary below while leaving the native release
+            # clock empty until the publisher supplies an exact timestamp.
+            native_release = None if published_time_inferred else published
             activation = parse_datetime(raw.get("numeric_parser_activated_utc"))
             numeric_known = max(
                 candidate
-                for candidate in (first_seen, published, activation)
+                for candidate in (first_seen, native_release, activation)
                 if candidate is not None
             )
             reference = re.search(
@@ -10585,8 +12511,12 @@ def official_numeric_release_fields(
             )
             return {
                 "structured_event": True,
-                "scheduled_utc": iso_utc(published),
-                "source_reported_update_utc": iso_utc(published),
+                "scheduled_utc": (
+                    iso_utc(native_release) if native_release is not None else ""
+                ),
+                "source_reported_update_utc": (
+                    iso_utc(native_release) if native_release is not None else ""
+                ),
                 "event_series_id": series_id,
                 "event_name": event_name,
                 "event_country": "Switzerland",
@@ -11234,6 +13164,106 @@ def secondary_macro_headline_numeric_fields(
             "directional_research_only": True,
         }
 
+    if clean_text(raw.get("source_id")) == "finnhub_fx_market_news":
+        match = re.search(
+            r"^Japan\s+(?:(?P<month>[A-Za-z]+)\s+)?manufacturing\s+PMI\s+"
+            r"(?:hits?|at|prints?)\s+(?P<actual>\d+(?:\.\d+)?)\b",
+            title,
+            flags=re.I,
+        )
+        if match is not None:
+            actual = optional_float(match.group("actual"))
+            if actual is None:
+                return {}
+            summary = clean_text(raw.get("summary"))
+            previous_match = re.search(
+                r"\bfrom\s+(?P<previous>\d+(?:\.\d+)?)\s+in\s+"
+                r"(?P<previous_month>[A-Za-z]+)\b",
+                summary,
+                flags=re.I,
+            )
+            flash_match = re.search(
+                r"\b(?:below|versus|vs\.?|from)\s+(?:a\s+|the\s+)?"
+                r"flash\s+(?:reading|estimate)\s+(?:of\s+)?"
+                r"(?P<flash>\d+(?:\.\d+)?)\b",
+                summary,
+                flags=re.I,
+            )
+            month = clean_text(match.group("month"))
+            if not month:
+                period_match = re.search(
+                    r"\b(?:PMI|index)\b.{0,120}\b(?:in|for)\s+"
+                    r"(?P<month>January|February|March|April|May|June|July|"
+                    r"August|September|October|November|December)\b",
+                    summary,
+                    flags=re.I,
+                )
+                month = (
+                    clean_text(period_match.group("month"))
+                    if period_match is not None
+                    else ""
+                )
+            published = parse_datetime(raw.get("published_utc"))
+            activation = parse_datetime(
+                SECONDARY_JAPAN_PMI_PARSER_ACTIVATED_UTC
+            )
+            numeric_known = max(
+                candidate
+                for candidate in (first_seen, published, activation)
+                if candidate is not None
+            )
+            components: dict[str, Any] = {
+                "final": {"actual_value": actual, "unit": "index_points"}
+            }
+            if flash_match is not None:
+                components["flash_estimate"] = {
+                    "actual_value": optional_float(flash_match.group("flash")),
+                    "unit": "index_points",
+                }
+            fields: dict[str, Any] = {
+                "structured_event": True,
+                "source_currencies": ["JPY"],
+                "event_series_id": "sp_global_japan_manufacturing_pmi_final",
+                "event_name": "S&P Global Japan Manufacturing PMI final",
+                "event_country": "Japan",
+                "reference_period": month,
+                "unit": "index_points",
+                "actual": f"{actual:.12g}",
+                "actual_value": actual,
+                "numeric_causal_known_utc": iso_utc(numeric_known),
+                "numeric_extraction_contract_id": (
+                    "secondary_japan_manufacturing_pmi_final_v1_20260901"
+                ),
+                "numeric_direction_policy": (
+                    "abstain_pending_authoritative_value_and_causal_consensus"
+                ),
+                "numeric_verification_state": (
+                    "secondary_claim_not_authoritative_source"
+                ),
+                "release_stage": "final",
+                "consensus_capture_state": (
+                    "unavailable_no_pre_release_snapshot"
+                ),
+                "directional_research_only": True,
+                "source_native_components": components,
+            }
+            if previous_match is not None:
+                previous = optional_float(previous_match.group("previous"))
+                fields.update(
+                    {
+                        "previous": f"{previous:.12g}",
+                        "previous_value": previous,
+                    }
+                )
+                components["previous_final"] = {
+                    "actual_value": previous,
+                    "unit": "index_points",
+                    "reference_period": clean_text(
+                        previous_match.group("previous_month")
+                    ),
+                }
+            return fields
+
     if clean_text(raw.get("source_id")) != "finnhub_fx_market_news":
         return {}
     match = re.search(
@@ -11301,6 +13331,144 @@ def secondary_macro_headline_numeric_fields(
     return fields
 
 
+def official_search_policy_rate_headline_fields(
+    raw: Mapping[str, Any],
+    *,
+    first_seen: dt.datetime,
+) -> dict[str, Any]:
+    """Retain an explicit official-domain rate action without inventing FX alpha.
+
+    These rows arrive through a Google News official-publisher search because
+    a direct central-bank surface can be blocked or slow.  Publisher-domain
+    verification makes the compact action/level useful research evidence, but
+    the intermediary transport and absent pre-release consensus prevent it
+    from standing in for the direct statement or assigning currency direction.
+    The September RBNZ miss predates this contract and remains a frozen
+    regression fixture rather than retroactive proof.
+    """
+
+    source_id = clean_text(raw.get("source_id"))
+    expected_currency = OFFICIAL_SEARCH_POLICY_RATE_SOURCE_CURRENCIES_V1.get(
+        source_id
+    )
+    source_currencies = {
+        clean_text(value).upper() for value in raw.get("source_currencies") or []
+    }
+    if (
+        not expected_currency
+        or raw.get("source_verified") is not True
+        or raw.get("source_direct", False) is True
+        or clean_text(raw.get("retrieval_via"))
+        != "google_news_official_site_search"
+        or source_currencies != {expected_currency}
+    ):
+        return {}
+
+    headline = headline_content(
+        raw.get("title"), publisher_name=raw.get("source_name")
+    )
+    rate_label = (
+        r"(?:ocr|official cash rate|policy rate|interest rate|bank rate|"
+        r"key rate|repo rate|reference rate|base rate)"
+    )
+    action = (
+        r"(?P<action>increas(?:e[sd]?|ing)|rais(?:e[sd]?|ing)|"
+        r"hik(?:e[sd]?|ing)|reduc(?:e[sd]?|ing)|lower(?:s|ed|ing)?|"
+        r"cut(?:s|ting)?)"
+    )
+    patterns = (
+        rf"\b{rate_label}\b.{{0,32}}\b{action}\b",
+        rf"\b{action}\b.{{0,32}}\b{rate_label}\b",
+    )
+    match = next(
+        (
+            candidate
+            for pattern in patterns
+            if (candidate := re.search(
+                pattern
+                + r"(?:\s+by)?\s+(?P<basis_points>\d+(?:\.\d+)?)\s*"
+                r"(?:basis points?|bps?|bp)\b.{0,24}\b(?:to|at)\s+"
+                r"(?P<level>\d+(?:\.\d+)?)\s*%",
+                headline,
+                flags=re.I,
+            ))
+        ),
+        None,
+    )
+    if match is None:
+        return {}
+
+    action_text = match.group("action").lower()
+    direction = -1 if re.match(r"(?:reduc|lower|cut)", action_text) else 1
+    basis_points = float(match.group("basis_points"))
+    level = float(match.group("level"))
+    signed_basis_points = direction * basis_points
+    previous_level = level - signed_basis_points / 100.0
+    observed = first_seen
+    if observed.tzinfo is None:
+        observed = observed.replace(tzinfo=dt.timezone.utc)
+    observed = observed.astimezone(dt.timezone.utc)
+    activated = parse_datetime(OFFICIAL_SEARCH_POLICY_RATE_ACTIVATED_UTC_V1)
+    activation_eligible = bool(activated is not None and observed >= activated)
+    policy_action = "hike" if direction > 0 else "cut"
+    diagnostic = {
+        "official_search_policy_rate_headline_detected": True,
+        "official_search_policy_rate_action": policy_action,
+        "official_search_policy_rate_change_bp": round(signed_basis_points, 6),
+        "official_search_policy_rate_level": round(level, 8),
+        "official_search_policy_rate_previous_level": round(previous_level, 8),
+        "official_search_policy_rate_contract_id": (
+            OFFICIAL_SEARCH_POLICY_RATE_CONTRACT_ID_V1
+        ),
+        "official_search_policy_rate_cohort_id": (
+            OFFICIAL_SEARCH_POLICY_RATE_COHORT_ID_V1
+            if activation_eligible
+            else ""
+        ),
+        "official_search_policy_rate_activated_utc": (
+            OFFICIAL_SEARCH_POLICY_RATE_ACTIVATED_UTC_V1
+        ),
+        "official_search_policy_rate_activation_eligible": activation_eligible,
+        "directional_research_only": True,
+        "numeric_direction_policy": (
+            "research_only_pending_pre_release_consensus_and_rate_repricing"
+        ),
+        "consensus_capture_state": "missing_pre_release_consensus",
+    }
+    if not activation_eligible:
+        return diagnostic
+    return {
+        **diagnostic,
+        "structured_event": True,
+        "event_series_id": f"{expected_currency.lower()}_official_policy_rate",
+        "event_name": f"{expected_currency} official policy rate decision",
+        "unit": "percent",
+        "actual": f"{level:.12g}%",
+        "actual_value": level,
+        "previous": f"{previous_level:.12g}%",
+        "previous_value": previous_level,
+        "release_components": ["policy_rate"],
+        "source_native_components": {
+            "policy_rate": {
+                "actual": level,
+                "previous": previous_level,
+                "consensus": None,
+            }
+        },
+        "numeric_causal_known_utc": iso_utc(observed),
+        "numeric_parser_activated_utc": (
+            OFFICIAL_SEARCH_POLICY_RATE_ACTIVATED_UTC_V1
+        ),
+        "numeric_extraction_contract_id": (
+            OFFICIAL_SEARCH_POLICY_RATE_CONTRACT_ID_V1
+        ),
+        "numeric_verification_state": (
+            "trusted_official_publisher_headline_via_search_not_direct_body"
+        ),
+        "release_stage": "initial_official_search_headline_observation",
+    }
+
+
 def classify_article(
     raw: Mapping[str, Any],
     *,
@@ -11328,6 +13496,9 @@ def classify_article(
         raw["summary"] = ""
     raw.update(official_numeric_release_fields(raw, first_seen=first_seen))
     raw.update(secondary_macro_headline_numeric_fields(raw, first_seen=first_seen))
+    raw.update(
+        official_search_policy_rate_headline_fields(raw, first_seen=first_seen)
+    )
     title = clean_text(raw.get("title"))
     summary = clean_text(raw.get("summary"))
     if trusted_host(raw.get("url"), ("news.google.com",)):
@@ -11339,6 +13510,23 @@ def classify_article(
     ]
     mentioned_currencies = extract_currencies(text, source_currencies)
     mentioned_currency_entities = list(mentioned_currencies)
+    policy_subject_currencies = external_policy_subject_currencies(
+        clean_headline
+    )
+    release_subject_currencies = secondary_release_subject_currencies(
+        clean_headline
+    )
+    semantic_subject_currencies = (
+        source_currencies
+        if bool(raw.get("structured_event")) and source_currencies
+        else policy_subject_currencies
+        or release_subject_currencies
+    )
+    if semantic_subject_currencies:
+        # Preserve every entity for audit, but restrict the directional event
+        # legs to the issuing/target economy.  This also protects long article
+        # bodies containing comparison countries and appended prior stories.
+        mentioned_currencies = sorted(set(semantic_subject_currencies))
     policy_currencies = extract_policy_currencies(text)
     currencies = list(mentioned_currencies)
     official = bool(raw.get("source_verified"))
@@ -11409,14 +13597,27 @@ def classify_article(
     headline_text = clean_headline.lower()
     secondary_market_roundup = bool(
         not official
-        and len(summary) >= 1000
-        and re.search(
-            r"\b(?:what can you trade|markets? (?:and setups )?to watch|"
-            r"key takeaways for traders|(?:european|asian|u\.?s\.?|new york|"
-            r"london|daily|market) session wrap|(?:daily|market) wrap|"
-            r"(?:fx|forex)\s+news\s+wrap)\b",
-            f"{headline_text}. {summary.lower()}",
-            flags=re.I,
+        and (
+            # Technical-analysis and levels articles describe an already
+            # observed market state. Their appended news recap can explain a
+            # move, but it is not the causal source and must not seed one.
+            re.search(
+                r"\b(?:fx|forex|currency|pair|usd|eur|gbp|jpy)?\s*"
+                r"technical\s+analysis\b",
+                headline_text,
+                flags=re.I,
+            )
+            or (
+                len(summary) >= 1000
+                and re.search(
+                    r"\b(?:what can you trade|markets? (?:and setups )?to watch|"
+                    r"key takeaways for traders|(?:european|asian|u\.?s\.?|new york|"
+                    r"london|daily|market) session wrap|(?:daily|market) wrap|"
+                    r"(?:fx|forex)\s+news\s+wrap)\b",
+                    f"{headline_text}. {summary.lower()}",
+                    flags=re.I,
+                )
+            )
         )
     )
     # An unverified market roundup can mention old intervention episodes deep
@@ -11461,6 +13662,12 @@ def classify_article(
         or REPORTED_MARKET_MOVE_HEADLINE_PATTERN.search(
             clean_headline.lower()
         )
+        or (
+            not official
+            and SECONDARY_REPORTED_COMMODITY_STATE_PATTERN.search(
+                clean_headline.lower()
+            )
+        )
         or LIVE_MULTI_ASSET_RECAP_HEADLINE_PATTERN.search(
             clean_headline.lower()
         )
@@ -11504,8 +13711,41 @@ def classify_article(
             clean_headline.lower()
         )
     )
+    secondary_conflict_duration_recap = bool(
+        not official
+        and re.search(
+            r"\b(?:war|conflict)\s+enters\s+(?:its\s+)?"
+            r"(?:an?\s+)?(?:first|second|third|fourth|fifth|sixth|seventh|"
+            r"eighth|ninth|tenth|eleventh|twelfth|\d+(?:st|nd|rd|th)?)\s+"
+            r"(?:month|year)\b",
+            clean_headline,
+            flags=re.I,
+        )
+    )
+    if secondary_conflict_duration_recap:
+        reports_prior_market_move = True
     non_catalyst_context = bool(
         not official and NON_CATALYST_CONTEXT_PATTERN.search(text)
+    )
+    secondary_analysis_context = bool(
+        not official
+        and re.search(
+            r"(?:[-\u2013\u2014|\ufffd]\s*analysis\b|"
+            r"\banalysis\s*[-\u2013\u2014|\ufffd])",
+            clean_headline,
+            flags=re.I,
+        )
+    )
+    commodity_operational_metric_context = bool(
+        not official
+        and re.search(
+            r"\b(?:oil|crude|natural\s+gas|gas)\b.{0,72}"
+            r"\b(?:drilling\s+)?rig(?:s|\s+count)?\b|"
+            r"\b(?:drilling\s+)?rig(?:s|\s+count)?\b.{0,72}"
+            r"\b(?:oil|crude|natural\s+gas|gas)\b",
+            clean_headline,
+            flags=re.I,
+        )
     )
     secondary_market_policy_expectation = bool(
         not official
@@ -11589,6 +13829,14 @@ def classify_article(
             flags=re.I,
         )
     )
+    official_defense_nonmarket_health_guard = bool(
+        official
+        and clean_text(raw.get("source_id")) == "us_dow_releases_direct_v1"
+        and any(
+            re.search(pattern, text, flags=re.I)
+            for pattern in OFFICIAL_DEFENSE_NONMARKET_HEALTH_PATTERNS
+        )
+    )
     official_non_market_program = bool(
         official
         and any(
@@ -11650,12 +13898,21 @@ def classify_article(
             tzinfo=dt.timezone.utc
         )
     issuer_scope_first_seen = issuer_scope_first_seen.astimezone(dt.timezone.utc)
-    issuer_scope_activation = parse_datetime(
-        ISSUER_BOUND_POLICY_COMMUNICATION_ACTIVATED_UTC
+    secondary_market_state_guard_activation = parse_datetime(
+        SECONDARY_MARKET_STATE_GUARD_ACTIVATED_UTC_V1
     )
-    issuer_bound_policy_communication_activation_eligible = bool(
-        issuer_scope_activation is not None
-        and issuer_scope_first_seen >= issuer_scope_activation
+    secondary_market_state_guard_activation_eligible = bool(
+        (secondary_analysis_context or commodity_operational_metric_context)
+        and secondary_market_state_guard_activation is not None
+        and issuer_scope_first_seen >= secondary_market_state_guard_activation
+    )
+    conflict_duration_recap_guard_activation = parse_datetime(
+        CONFLICT_DURATION_RECAP_GUARD_ACTIVATED_UTC_V1
+    )
+    conflict_duration_recap_guard_activation_eligible = bool(
+        secondary_conflict_duration_recap
+        and conflict_duration_recap_guard_activation is not None
+        and issuer_scope_first_seen >= conflict_duration_recap_guard_activation
     )
     candidate_policy_document_type = (
         policy_document_type(title, text)
@@ -11664,15 +13921,82 @@ def classify_article(
         and bool(raw.get("source_direct", raw.get("source_verified", False)))
         else ""
     )
-    issuer_bound_policy_communication_observation = (
-        issuer_bound_policy_communication(
-            raw,
-            title=title,
-            text=text,
-            source_currencies=source_currencies,
-            first_seen=first_seen,
-            document_type=candidate_policy_document_type,
+    legacy_issuer_bound_policy_communication = issuer_bound_policy_communication(
+        raw,
+        title=title,
+        text=text,
+        source_currencies=source_currencies,
+        first_seen=first_seen,
+        document_type=candidate_policy_document_type,
+    )
+    source_bound_policy_communication = configured_authority_policy_communication(
+        raw,
+        title=title,
+        text=text,
+        source_currencies=source_currencies,
+        document_type=candidate_policy_document_type,
+    )
+    source_binding_activation = parse_datetime(
+        ISSUER_BOUND_POLICY_COMMUNICATION_SOURCE_ACTIVATED_UTC_V2
+    )
+    source_binding_activation_eligible = bool(
+        source_bound_policy_communication
+        and source_binding_activation is not None
+        and issuer_scope_first_seen >= source_binding_activation
+    )
+    if source_bound_policy_communication and source_binding_activation_eligible:
+        issuer_bound_policy_communication_contract_id = (
+            ISSUER_BOUND_POLICY_COMMUNICATION_SOURCE_CONTRACT_ID_V2
         )
+        issuer_bound_policy_communication_cohort_id = (
+            ISSUER_BOUND_POLICY_COMMUNICATION_SOURCE_COHORT_ID_V2
+        )
+        issuer_bound_policy_communication_activated_utc = (
+            ISSUER_BOUND_POLICY_COMMUNICATION_SOURCE_ACTIVATED_UTC_V2
+        )
+        issuer_bound_policy_communication_binding_method = (
+            "configured_authority_communication_source_v2"
+        )
+        issuer_bound_policy_communication_contract_activation_eligible = True
+    elif legacy_issuer_bound_policy_communication:
+        issuer_bound_policy_communication_contract_id = (
+            ISSUER_BOUND_POLICY_COMMUNICATION_CONTRACT_ID
+        )
+        issuer_bound_policy_communication_cohort_id = (
+            ISSUER_BOUND_POLICY_COMMUNICATION_COHORT_ID
+        )
+        issuer_bound_policy_communication_activated_utc = (
+            ISSUER_BOUND_POLICY_COMMUNICATION_ACTIVATED_UTC
+        )
+        issuer_bound_policy_communication_binding_method = "document_identity_v1"
+        issuer_bound_policy_communication_contract_activation_eligible = True
+    elif source_bound_policy_communication:
+        # Reclassifying an older source row may correct its diagnostic scope,
+        # but it can never acquire prospective proof standing retroactively.
+        issuer_bound_policy_communication_contract_id = (
+            ISSUER_BOUND_POLICY_COMMUNICATION_SOURCE_CONTRACT_ID_V2
+        )
+        issuer_bound_policy_communication_cohort_id = (
+            ISSUER_BOUND_POLICY_COMMUNICATION_SOURCE_COHORT_ID_V2
+        )
+        issuer_bound_policy_communication_activated_utc = (
+            ISSUER_BOUND_POLICY_COMMUNICATION_SOURCE_ACTIVATED_UTC_V2
+        )
+        issuer_bound_policy_communication_binding_method = (
+            "configured_authority_communication_source_v2_diagnostic_pre_activation"
+        )
+        issuer_bound_policy_communication_contract_activation_eligible = False
+    else:
+        issuer_bound_policy_communication_contract_id = ""
+        issuer_bound_policy_communication_cohort_id = ""
+        issuer_bound_policy_communication_activated_utc = (
+            ISSUER_BOUND_POLICY_COMMUNICATION_SOURCE_ACTIVATED_UTC_V2
+        )
+        issuer_bound_policy_communication_binding_method = ""
+        issuer_bound_policy_communication_contract_activation_eligible = False
+    issuer_bound_policy_communication_observation = bool(
+        legacy_issuer_bound_policy_communication
+        or source_bound_policy_communication
     )
     official_policy_release = bool(
         official
@@ -11697,6 +14021,20 @@ def classify_article(
         or issuer_bound_policy_attachment
         or issuer_bound_policy_communication_observation
     )
+    japan_external_policy_pressure = japan_external_policy_pressure_research(
+        raw,
+        text=text,
+        source_currencies=source_currencies,
+    )
+    japan_external_policy_pressure_activation = parse_datetime(
+        JAPAN_EXTERNAL_POLICY_PRESSURE_ACTIVATED_UTC_V1
+    )
+    japan_external_policy_pressure_activation_eligible = bool(
+        japan_external_policy_pressure
+        and japan_external_policy_pressure_activation is not None
+        and issuer_scope_first_seen
+        >= japan_external_policy_pressure_activation
+    )
     if issuer_bound_policy_context and source_currencies:
         # Foreign central banks and currencies commonly appear in the policy
         # backdrop. The issuer binding is authoritative for this source row;
@@ -11705,7 +14043,12 @@ def classify_article(
         mentioned_currencies = sorted(set(source_currencies))
         currencies = list(mentioned_currencies)
     document_type = (
-        candidate_policy_document_type or policy_document_type(title, text)
+        (
+            "policy_communication"
+            if source_bound_policy_communication
+            else candidate_policy_document_type
+            or policy_document_type(title, text)
+        )
         if issuer_bound_policy_context
         else ""
     )
@@ -11784,6 +14127,8 @@ def classify_article(
     direction_text = (
         policy_direction_text(title, text, document_type)
         if issuer_bound_policy_context
+        else headline_text
+        if release_subject_currencies
         else text
     )
     hawkish = phrase_total(direction_text, HAWKISH_TERMS)
@@ -11938,6 +14283,9 @@ def classify_article(
         # "rate-hike expectations".
         hawkish = 0.0
         dovish = min(dovish, -0.35)
+    policy_data_dependent_guidance = bool(
+        POLICY_DATA_DEPENDENT_GUIDANCE_PATTERN.search(title.lower())
+    )
     assertion_status, assertion_weight = policy_assertion_status(
         title.lower(),
         source_verified=official,
@@ -12022,7 +14370,13 @@ def classify_article(
         )[0]
         risk_text = f"{headline_text}. {foreign_policy_lead.lower()}"
     else:
-        risk_text = headline_text if official and official_context_role else text
+        risk_text = (
+            headline_text
+            if release_subject_currencies
+            else headline_text
+            if official and official_context_role
+            else text
+        )
     risk_off = clamp(phrase_total(risk_text, RISK_OFF_TERMS), 0.0, 1.0)
     non_event_war = bool(
         re.search(
@@ -12076,6 +14430,33 @@ def classify_article(
         # even when a compact headline contains no currency or market token.
         # Source corroboration and first-availability timing still determine
         # whether the clustered topic can publish a directional signal.
+        relevant = True
+    deescalation_proposal = any(
+        re.search(pattern, risk_text, flags=re.I)
+        for pattern in DEESCALATION_PROPOSAL_PATTERNS
+    )
+    deescalation_actualized = any(
+        re.search(pattern, risk_text, flags=re.I)
+        for pattern in DEESCALATION_ACTUALIZATION_PATTERNS
+    )
+    deescalation_proposal_only = bool(
+        deescalation_proposal and not deescalation_actualized
+    )
+    deescalation_proposal_guard_activation = parse_datetime(
+        DEESCALATION_PROPOSAL_GUARD_ACTIVATED_UTC_V1
+    )
+    deescalation_proposal_guard_activation_eligible = bool(
+        deescalation_proposal_only
+        and deescalation_proposal_guard_activation is not None
+        and issuer_scope_first_seen >= deescalation_proposal_guard_activation
+    )
+    if deescalation_proposal_only:
+        # A single actor asking for a ceasefire is negotiation intent, not a
+        # completed de-escalation.  Preserve the observation for later event
+        # research but do not manufacture a broad AUD/CAD/MXN/NOK/NZD/ZAR
+        # risk-on basket (or its CHF/JPY/USD inverse).
+        fresh_deescalation = False
+        risk_on = 0.0
         relevant = True
     administrative_sanctions_cleanup = bool(
         re.search(
@@ -12284,6 +14665,14 @@ def classify_article(
         risk_off = 0.0
         risk_on = 0.0
         relevant = False
+    if secondary_market_roundup:
+        # Apply the boundary after every escalation/de-escalation transform.
+        # A long technical article can append genuine conflict context after
+        # the earlier preliminary reset; that background still is not a new
+        # causal event observed by this market-state article.
+        monetary_impulse = 0.0
+        risk_off = 0.0
+        risk_on = 0.0
     tokens = re.findall(r"[a-z][a-z'-]+", text)
     generic_sentiment = clamp(
         (
@@ -12294,7 +14683,13 @@ def classify_article(
     )
 
     scores: dict[str, float] = defaultdict(float)
-    directional_currencies = source_currencies or policy_currencies or currencies
+    directional_currencies = (
+        source_currencies
+        or policy_subject_currencies
+        or release_subject_currencies
+        or policy_currencies
+        or currencies
+    )
     if monetary_impulse and not secondary_mixed_macro_direction_conflict:
         for currency in directional_currencies:
             scores[currency] += monetary_impulse
@@ -12321,8 +14716,11 @@ def classify_article(
             if energy_supply_geopolitical_event and currency in OIL_EXPORTERS:
                 continue
             scores[currency] += 0.55 * risk_on
+    commodity_direction_text = (
+        headline_text if release_subject_currencies else text
+    )
     oil_up = any(
-        phrase in text
+        phrase in commodity_direction_text
         for phrase in (
             "oil prices rise",
             "oil prices surge",
@@ -12340,12 +14738,12 @@ def classify_article(
             r"\b(?:oil|crude(?:\s+oil)?|brent|wti)\b.{0,96}\b"
             r"(?:prices?\s+)?(?:rise(?:s|n)?|rose|surge(?:s|d)?|"
             r"jump(?:s|ed)?|rall(?:y|ies|ied)|soar(?:s|ed)?)\b",
-            text,
+            commodity_direction_text,
             flags=re.I,
         )
     )
     oil_down = any(
-        phrase in text
+        phrase in commodity_direction_text
         for phrase in (
             "oil prices fall",
             "oil prices drop",
@@ -12361,7 +14759,9 @@ def classify_article(
             "supply glut",
         )
     )
-    local_oil_up, local_oil_down = clause_local_oil_direction(text)
+    local_oil_up, local_oil_down = clause_local_oil_direction(
+        commodity_direction_text
+    )
     if local_oil_up or local_oil_down:
         # Prefer the direction in the commodity's own clause over broad
         # fallback matching that may cross into another asset's clause.
@@ -12441,6 +14841,21 @@ def classify_article(
         # the published feed, so `relevant = false` alone is not a sufficient
         # boundary.
         scores = {}
+    if (
+        secondary_analysis_context
+        or commodity_operational_metric_context
+        or secondary_conflict_duration_recap
+    ):
+        # An analysis label marks interpretation rather than a new causal
+        # event, while rig counts measure upstream activity rather than the
+        # direction of executable oil prices.  Both remain useful context;
+        # neither may inherit an immediate FX basket from words such as
+        # ``blockade``, ``oil`` or ``rise``.
+        scores = {}
+        risk_off = 0.0
+        risk_on = 0.0
+        oil_up = False
+        oil_down = False
     if non_stance_liquidity_implementation:
         # Fail closed even if a future wording change happens to trigger an
         # intervention, reported-move, commodity, or activity phrase above.
@@ -12490,6 +14905,9 @@ def classify_article(
         # rate context for later prospective proof.
         official_duration_liquidity_research_scores = {"USD": -0.55}
         scores = {}
+    japan_external_policy_pressure_research_scores = (
+        {"JPY": 0.45} if japan_external_policy_pressure else {}
+    )
     non_catalyst_research_scores: dict[str, float] = {}
     if non_catalyst_context and scores:
         # The publisher explicitly states that the information was known or
@@ -12542,8 +14960,19 @@ def classify_article(
             if currency in native
         }
         currencies = sorted(native)
+    elif semantic_subject_currencies:
+        # Subject binding is also applied after global risk/commodity and
+        # reported-move transforms so no later rule can re-expand one release
+        # or cross-authority policy thesis into unrelated currency factors.
+        native = set(semantic_subject_currencies)
+        scores = {
+            currency: value
+            for currency, value in scores.items()
+            if currency in native
+        }
+        currencies = sorted(native)
     semantic_claims = semantic_claim_decomposition(
-        text,
+        direction_text,
         directional_currencies or currencies,
     )
     semantic_claim_signs = {
@@ -12564,7 +14993,30 @@ def classify_article(
         # release whose actual claim is cooling employment. The semantic side
         # remains research-only until causal surprise/rate evidence exists.
         scores = {}
-    semantic_claim_conflict = len(semantic_claim_signs) > 1
+    headline_policy_signs: set[int] = set()
+    if re.search(
+        r"\b(?:rate[- ]hikes?|fed\s+hikes?|hiking\s+(?:the\s+)?(?:policy\s+)?rate|"
+        r"tighten(?:s|ed|ing)?|higher\s+rates?)\b",
+        headline_text,
+        flags=re.I,
+    ):
+        headline_policy_signs.add(1)
+    if re.search(
+        r"\b(?:rate[- ]cuts?|cutting\s+(?:the\s+)?(?:policy\s+)?rate|"
+        r"policy\s+easing|eas(?:e|es|ed|ing)\s+(?:policy|rates?)|"
+        r"lower\s+rates?)\b",
+        headline_text,
+        flags=re.I,
+    ):
+        headline_policy_signs.add(-1)
+    opposing_policy_claim_conflict = bool(
+        not official
+        and len(headline_policy_signs) > 1
+        and len(set(directional_currencies or currencies)) <= 1
+    )
+    semantic_claim_conflict = bool(
+        len(semantic_claim_signs) > 1 or opposing_policy_claim_conflict
+    )
     semantic_conflict_scores = (
         dict(scores or structured_absolute_scores)
         if semantic_claim_conflict
@@ -12692,6 +15144,7 @@ def classify_article(
             r"contract(?:s|ed|ing)?|rise(?:s|n)?|rose|fall(?:s|en)?|fell|"
             r"accelerat(?:e|es|ed|ing)|slow(?:s|ed|ing)?|"
             r"strengthen(?:s|ed|ing)?|weaken(?:s|ed|ing)?|"
+            r"hit(?:s|ting)?|surge(?:s|d|ing)?|"
             r"index|release|report|data|figures?)\b",
             release_headline_text,
             flags=re.I,
@@ -12726,6 +15179,12 @@ def classify_article(
             structured_identity_text,
         ):
             structured_native_category = "monetary_policy"
+        elif re.search(
+            r"\b(?:pmi|purchasing managers(?:'|’)? index|"
+            r"business activity|consumer sentiment|consumer confidence)\b",
+            structured_identity_text,
+        ):
+            structured_native_category = "business_activity_release"
         elif re.search(
             r"\b(?:gdp|gross domestic product|retail sales?|industrial "
             r"production|manufacturing output|economic activity)\b",
@@ -12954,7 +15413,7 @@ def classify_article(
         for currency, score in scores.items()
     }
     stability_research_scores = verbal_currency_stability_research_scores(
-        text,
+        direction_text,
         mentioned_currencies,
     )
     research_currency_scores = (
@@ -12966,6 +15425,8 @@ def classify_article(
         if secondary_inflation_expectations_scores and not scores
         else official_duration_liquidity_research_scores
         if official_duration_liquidity_research_scores and not scores
+        else japan_external_policy_pressure_research_scores
+        if japan_external_policy_pressure_research_scores and not scores
         else official_fiscal_narrative_research_scores
         if official_fiscal_narrative_research_scores and not scores
         else semantic_conflict_scores
@@ -13247,6 +15708,16 @@ def classify_article(
             safe_float(raw.get("detail_text_characters"), 0)
         ),
         "detail_source_url": canonical_url(raw.get("detail_source_url")),
+        "detail_listing_url": canonical_url(raw.get("detail_listing_url")),
+        "detail_publisher_resolution_contract_id": clean_text(
+            raw.get("detail_publisher_resolution_contract_id")
+        ),
+        "detail_publisher_resolution_known_utc": clean_text(
+            raw.get("detail_publisher_resolution_known_utc")
+        ),
+        "detail_publisher_resolution_research_only": bool(
+            raw.get("detail_publisher_resolution_research_only")
+        ),
         "detail_archive_path": clean_text(raw.get("detail_archive_path")),
         "detail_attachment_discovery_state": clean_text(
             raw.get("detail_attachment_discovery_state")
@@ -13385,6 +15856,37 @@ def classify_article(
         ),
         "numeric_extraction_contract_id": numeric_contract,
         "numeric_direction_policy": clean_text(raw.get("numeric_direction_policy")),
+        "numeric_verification_state": clean_text(
+            raw.get("numeric_verification_state")
+        ),
+        "official_search_policy_rate_headline_detected": bool(
+            raw.get("official_search_policy_rate_headline_detected")
+        ),
+        "official_search_policy_rate_action": clean_text(
+            raw.get("official_search_policy_rate_action")
+        ),
+        "official_search_policy_rate_change_bp": optional_float(
+            raw.get("official_search_policy_rate_change_bp")
+        ),
+        "official_search_policy_rate_level": optional_float(
+            raw.get("official_search_policy_rate_level")
+        ),
+        "official_search_policy_rate_previous_level": optional_float(
+            raw.get("official_search_policy_rate_previous_level")
+        ),
+        "official_search_policy_rate_contract_id": clean_text(
+            raw.get("official_search_policy_rate_contract_id")
+        ),
+        "official_search_policy_rate_cohort_id": clean_text(
+            raw.get("official_search_policy_rate_cohort_id")
+        ),
+        "official_search_policy_rate_activated_utc": clean_text(
+            raw.get("official_search_policy_rate_activated_utc")
+        ),
+        "official_search_policy_rate_activation_eligible": bool(
+            raw.get("official_search_policy_rate_activation_eligible")
+        ),
+        "release_stage": clean_text(raw.get("release_stage")),
         "consensus_capture_state": clean_text(raw.get("consensus_capture_state")),
         "activity_release_direction": activity_release_direction,
         "secondary_mixed_macro_direction_conflict": (
@@ -13434,6 +15936,16 @@ def classify_article(
             if secondary_inflation_expectations_context and context_only
             else "official_duration_liquidity_policy_research_only"
             if official_duration_liquidity_research_scores and context_only
+            else "japan_external_policy_pressure_research_only"
+            if japan_external_policy_pressure_research_scores and context_only
+            else "deescalation_proposal_without_agreement"
+            if deescalation_proposal_only and context_only
+            else "commodity_operational_metric_requires_price_repricing"
+            if commodity_operational_metric_context and context_only
+            else "secondary_analysis_not_fresh_catalyst"
+            if secondary_analysis_context and context_only
+            else "secondary_conflict_duration_recap_not_fresh_catalyst"
+            if secondary_conflict_duration_recap and context_only
             else "official_fiscal_narrative_research_only"
             if official_fiscal_narrative_research_scores and context_only
             else "multi_claim_semantic_conflict"
@@ -13461,6 +15973,26 @@ def classify_article(
         "directional_evidence": bool(scores),
         "semantic_claims": semantic_claims,
         "semantic_claim_conflict": semantic_claim_conflict,
+        "opposing_policy_claim_conflict": opposing_policy_claim_conflict,
+        "secondary_conflict_duration_recap": secondary_conflict_duration_recap,
+        "conflict_duration_recap_guard_contract_id": (
+            CONFLICT_DURATION_RECAP_GUARD_CONTRACT_ID_V1
+            if secondary_conflict_duration_recap
+            else ""
+        ),
+        "conflict_duration_recap_guard_cohort_id": (
+            CONFLICT_DURATION_RECAP_GUARD_COHORT_ID_V1
+            if secondary_conflict_duration_recap
+            else ""
+        ),
+        "conflict_duration_recap_guard_activated_utc": (
+            CONFLICT_DURATION_RECAP_GUARD_ACTIVATED_UTC_V1
+            if secondary_conflict_duration_recap
+            else ""
+        ),
+        "conflict_duration_recap_guard_activation_eligible": bool(
+            conflict_duration_recap_guard_activation_eligible
+        ),
         "semantic_claim_contract": "economic_claim_decomposition_v1",
         "research_currency_scores": research_currency_scores,
         "research_directional_basis": (
@@ -13472,6 +16004,8 @@ def classify_article(
             if secondary_inflation_expectations_scores
             else "official_duration_liquidity_policy_requires_rate_and_price_confirmation"
             if official_duration_liquidity_research_scores
+            else "japan_external_policy_pressure_requires_rate_and_price_confirmation"
+            if japan_external_policy_pressure_research_scores
             else "verbal_currency_stability_support"
             if stability_research_scores
             else "absolute_primary_spending_release_without_consensus"
@@ -13505,6 +16039,27 @@ def classify_article(
             or secondary_inflation_expectations_context
         ),
         "official_policy_release": official_policy_release,
+        "japan_external_policy_pressure_research": bool(
+            japan_external_policy_pressure
+        ),
+        "japan_external_policy_pressure_contract_id": (
+            JAPAN_EXTERNAL_POLICY_PRESSURE_CONTRACT_ID_V1
+            if japan_external_policy_pressure
+            else ""
+        ),
+        "japan_external_policy_pressure_cohort_id": (
+            JAPAN_EXTERNAL_POLICY_PRESSURE_COHORT_ID_V1
+            if japan_external_policy_pressure
+            else ""
+        ),
+        "japan_external_policy_pressure_activated_utc": (
+            JAPAN_EXTERNAL_POLICY_PRESSURE_ACTIVATED_UTC_V1
+            if japan_external_policy_pressure
+            else ""
+        ),
+        "japan_external_policy_pressure_activation_eligible": bool(
+            japan_external_policy_pressure_activation_eligible
+        ),
         "issuer_bound_policy_attachment": issuer_bound_policy_attachment,
         "issuer_bound_policy_attachment_contract_id": (
             "boj_official_policy_speech_pdf_currency_binding_v1_20260827"
@@ -13515,26 +16070,53 @@ def classify_article(
             issuer_bound_policy_communication_observation
         ),
         "issuer_bound_policy_communication_contract_id": (
-            ISSUER_BOUND_POLICY_COMMUNICATION_CONTRACT_ID
-            if issuer_bound_policy_communication_observation
-            else ""
+            issuer_bound_policy_communication_contract_id
         ),
         "issuer_bound_policy_communication_cohort_id": (
-            ISSUER_BOUND_POLICY_COMMUNICATION_COHORT_ID
-            if issuer_bound_policy_communication_observation
-            else ""
+            issuer_bound_policy_communication_cohort_id
         ),
         "issuer_bound_policy_communication_activated_utc": (
-            ISSUER_BOUND_POLICY_COMMUNICATION_ACTIVATED_UTC
+            issuer_bound_policy_communication_activated_utc
         ),
         "issuer_bound_policy_communication_activation_eligible": bool(
-            issuer_bound_policy_communication_activation_eligible
+            issuer_bound_policy_communication_contract_activation_eligible
+        ),
+        "issuer_bound_policy_communication_binding_method": (
+            issuer_bound_policy_communication_binding_method
+        ),
+        "issuer_bound_policy_communication_source_identity": bool(
+            source_bound_policy_communication
         ),
         "policy_document_type": document_type,
         "policy_stance_bearing_eligible": policy_stance_bearing_eligible,
         "official_non_market_research": official_non_market_research,
         "official_non_market_administrative": (
             official_non_market_administrative
+        ),
+        "official_defense_nonmarket_health_guard": (
+            official_defense_nonmarket_health_guard
+        ),
+        "official_defense_nonmarket_health_guard_contract_id": (
+            OFFICIAL_DEFENSE_NONMARKET_HEALTH_GUARD_CONTRACT_ID_V1
+            if official_defense_nonmarket_health_guard
+            else ""
+        ),
+        "official_defense_nonmarket_health_guard_cohort_id": (
+            OFFICIAL_DEFENSE_NONMARKET_HEALTH_GUARD_COHORT_ID_V1
+            if official_defense_nonmarket_health_guard
+            else ""
+        ),
+        "official_defense_nonmarket_health_guard_activated_utc": (
+            OFFICIAL_DEFENSE_NONMARKET_HEALTH_GUARD_ACTIVATED_UTC_V1
+            if official_defense_nonmarket_health_guard
+            else ""
+        ),
+        "official_defense_nonmarket_health_guard_activation_eligible": bool(
+            official_defense_nonmarket_health_guard
+            and first_seen
+            >= dt.datetime.fromisoformat(
+                OFFICIAL_DEFENSE_NONMARKET_HEALTH_GUARD_ACTIVATED_UTC_V1
+            )
         ),
         "non_stance_liquidity_implementation": (
             non_stance_liquidity_implementation
@@ -13650,6 +16232,8 @@ def classify_article(
             and source_currencies
         ),
         "source_currencies": sorted(set(source_currencies)),
+        "policy_subject_currencies": sorted(set(policy_subject_currencies)),
+        "release_subject_currencies": sorted(set(release_subject_currencies)),
         "mentioned_currency_entities": sorted(
             set(mentioned_currency_entities)
         ),
@@ -13661,8 +16245,51 @@ def classify_article(
         "monetary_impulse": round(monetary_impulse, 6),
         "policy_assertion_status": assertion_status,
         "policy_assertion_weight": assertion_weight,
+        "policy_data_dependent_guidance": policy_data_dependent_guidance,
         "risk_off_score": round(risk_off, 6),
         "risk_on_score": round(risk_on, 6),
+        "secondary_analysis_context": secondary_analysis_context,
+        "commodity_operational_metric_context": (
+            commodity_operational_metric_context
+        ),
+        "secondary_market_state_guard_contract_id": (
+            SECONDARY_MARKET_STATE_GUARD_CONTRACT_ID_V1
+            if secondary_analysis_context or commodity_operational_metric_context
+            else ""
+        ),
+        "secondary_market_state_guard_cohort_id": (
+            SECONDARY_MARKET_STATE_GUARD_COHORT_ID_V1
+            if secondary_analysis_context or commodity_operational_metric_context
+            else ""
+        ),
+        "secondary_market_state_guard_activated_utc": (
+            SECONDARY_MARKET_STATE_GUARD_ACTIVATED_UTC_V1
+            if secondary_analysis_context or commodity_operational_metric_context
+            else ""
+        ),
+        "secondary_market_state_guard_activation_eligible": bool(
+            secondary_market_state_guard_activation_eligible
+        ),
+        "deescalation_proposal_only": deescalation_proposal_only,
+        "deescalation_actualized": deescalation_actualized,
+        "deescalation_proposal_guard_contract_id": (
+            DEESCALATION_PROPOSAL_GUARD_CONTRACT_ID_V1
+            if deescalation_proposal_only
+            else ""
+        ),
+        "deescalation_proposal_guard_cohort_id": (
+            DEESCALATION_PROPOSAL_GUARD_COHORT_ID_V1
+            if deescalation_proposal_only
+            else ""
+        ),
+        "deescalation_proposal_guard_activated_utc": (
+            DEESCALATION_PROPOSAL_GUARD_ACTIVATED_UTC_V1
+            if deescalation_proposal_only
+            else ""
+        ),
+        "deescalation_proposal_guard_activation_eligible": bool(
+            deescalation_proposal_guard_activation_eligible
+        ),
         "official_sanctions_escalation": official_sanctions_escalation,
         "commodity_exporter_direction_state": (
             "ambiguous_pending_authoritative_repricing_or_price_reaction"
@@ -13794,6 +16421,18 @@ def open_database(path: Path) -> sqlite3.Connection:
         "CREATE INDEX IF NOT EXISTS idx_articles_source_headline "
         "ON articles(source_name, headline, first_seen_utc)"
     )
+    # Project integrity verifies every source-native currency-bound row for the
+    # current classifier. Without this narrow partial expression index SQLite
+    # scans the full article history even though only a few hundred rows are
+    # relevant. The predicate is version-agnostic, so later classifier cohorts
+    # reuse the same compact index.
+    connection.execute(
+        "CREATE INDEX IF NOT EXISTS idx_articles_native_currency_contract "
+        "ON articles(json_extract(payload_json,'$.classification_version')) "
+        "WHERE json_extract(payload_json,'$.source_native_currency_bound')=1"
+    )
+    initialize_source_observation_ledger(connection)
+    initialize_classification_observations(connection)
     return connection
 
 
@@ -13983,6 +16622,7 @@ def upsert_topic_events(
     connection: sqlite3.Connection,
     topics: Sequence[Mapping[str, Any]],
 ) -> tuple[int, int]:
+    caller_owned_transaction = connection.in_transaction
     inserted = 0
     updated = 0
     # cluster_articles keeps individual article rows annotated with a shared
@@ -14110,7 +16750,8 @@ def upsert_topic_events(
             (*values, topic_id),
         )
         updated += 1
-    connection.commit()
+    if not caller_owned_transaction:
+        connection.commit()
     return inserted, updated
 
 
@@ -14122,6 +16763,7 @@ def reconcile_topic_history(
 ) -> int:
     """Remove superseded topic identities while raw evidence is still retained."""
 
+    caller_owned_transaction = connection.in_transaction
     ids = [str(value) for value in current_topic_ids if str(value)]
     if ids:
         placeholders = ",".join("?" for _ in ids)
@@ -14138,7 +16780,8 @@ def reconcile_topic_history(
             "DELETE FROM topic_events WHERE first_known_utc >= ?",
             (iso_utc(since),),
         )
-    connection.commit()
+    if not caller_owned_transaction:
+        connection.commit()
     return max(0, int(cursor.rowcount))
 
 
@@ -14160,7 +16803,11 @@ ARTICLE_STORAGE_VOLATILE_FIELDS = {
 
 def article_storage_payload(article: Mapping[str, Any]) -> dict[str, Any]:
     volatile_fields = set(ARTICLE_STORAGE_VOLATILE_FIELDS)
-    if bool(article.get("published_time_inferred")):
+    if article.get("source_observation_ledger_contract") == SOURCE_OBSERVATION_LEDGER_CONTRACT or article.get("classification_observation_contract") == CLASSIFICATION_OBSERVATION_CONTRACT:
+        # Existing readers that already honor the explicit causal clock also
+        # retain the new version floor; it must not disappear during compaction.
+        volatile_fields.discard("causal_known_utc")
+    if bool(article.get("published_time_inferred")) and article.get("source_observation_ledger_contract") != SOURCE_OBSERVATION_LEDGER_CONTRACT and article.get("classification_observation_contract") != CLASSIFICATION_OBSERVATION_CONTRACT:
         # HTML listing pages without machine-readable dates use first_seen as
         # their causal time.  The rendered published timestamp therefore moves
         # with every poll and is not a content revision.
@@ -14172,14 +16819,172 @@ def article_storage_payload(article: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
+STRUCTURED_MATERIAL_FIELDS = (
+    "event_series_id",
+    "reference_period",
+    "reference_date",
+    "actual",
+    "actual_value",
+    "consensus",
+    "consensus_value",
+    "previous",
+    "previous_value",
+    "revised_previous",
+    "revised_previous_value",
+    "release_components",
+    "source_native_components",
+    "material_content_sha256",
+)
+
+
+def structured_material_identity(article: Mapping[str, Any]) -> str:
+    """Return the stable economic identity of one structured observation.
+
+    Observation and inferred publication clocks are deliberately excluded.
+    A changed value, revision, component set, reference period, or content hash
+    remains a distinct material version.
+    """
+
+    if not bool(article.get("structured_event")):
+        return ""
+    lineage = clean_text(article.get("event_lineage_id"))
+    if not lineage:
+        # Compact storage intentionally omits the derived lineage id. Rebuild
+        # it from the same publisher identity inputs used by classification so
+        # an existing compact row can still suppress a repeated inferred-clock
+        # observation after a parser repair.
+        source_id = clean_text(article.get("source_id"))
+        external_id = clean_text(article.get("external_id"))
+        identity_url = canonical_url(
+            article.get("source_url") or article.get("url")
+        )
+        if external_id:
+            identity = f"{source_id}:{external_id}"
+        elif identity_url:
+            identity = identity_url
+        else:
+            identity = normalized_headline(
+                article.get("headline") or article.get("title")
+            )
+        if identity:
+            lineage = stable_id("structured_lineage", identity)
+    if not lineage:
+        return ""
+    material = {key: article.get(key) for key in STRUCTURED_MATERIAL_FIELDS}
+    return stable_id(
+        lineage,
+        json.dumps(material, sort_keys=True, separators=(",", ":")),
+    )
+
+
+def activation_claim_predates_immutable_first_seen(
+    article: Mapping[str, Any],
+    immutable_first_seen: dt.datetime,
+) -> bool:
+    """Detect a prospective-contract claim created by a later repeat poll.
+
+    A source can return the same stable URL indefinitely.  Classification is
+    performed before the database lookup, so a repeat observed after a new
+    contract activates can initially carry ``*_activation_eligible=True`` even
+    though the row's immutable first-seen clock predates that contract.  The
+    stored first-seen timestamp must govern every prospective admission claim.
+
+    Only a positive claim whose explicit activation boundary is later than the
+    immutable first-seen time requires replay.  A false flag can also mean the
+    article is simply not an observation of that contract, so time alone must
+    never turn a false flag true.
+    """
+
+    for key, value in article.items():
+        suffix = "_activation_eligible"
+        if not key.endswith(suffix) or not bool(value):
+            continue
+        activated = parse_datetime(
+            article.get(f"{key[:-len(suffix)]}_activated_utc")
+        )
+        if activated is not None and immutable_first_seen < activated:
+            return True
+    return False
+
+
+def replay_article_at_immutable_first_seen(
+    article: Mapping[str, Any],
+    immutable_first_seen: dt.datetime,
+) -> dict[str, Any]:
+    """Rebuild activation-sensitive semantics on the original causal clock."""
+
+    if not activation_claim_predates_immutable_first_seen(
+        article, immutable_first_seen
+    ):
+        return dict(article)
+    raw = dict(article)
+    raw["title"] = article.get("headline") or article.get("title") or ""
+    raw["url"] = article.get("source_url") or article.get("url") or ""
+    if not raw.get("source_currencies"):
+        raw["source_currencies"] = list(article.get("currencies") or [])
+    official_search_activation = parse_datetime(
+        article.get("official_search_policy_rate_activated_utc")
+    )
+    if (
+        bool(article.get("official_search_policy_rate_activation_eligible"))
+        and official_search_activation is not None
+        and immutable_first_seen < official_search_activation
+    ):
+        # These fields were synthesized only because the later repeat poll was
+        # (incorrectly) considered post-activation.  Remove them before replay
+        # so the pre-activation diagnostic cannot inherit structured-release
+        # standing from its own previously classified payload.
+        for key in (
+            "structured_event",
+            "event_series_id",
+            "event_name",
+            "unit",
+            "actual",
+            "actual_value",
+            "previous",
+            "previous_value",
+            "release_components",
+            "source_native_components",
+            "structured_component_change",
+            "numeric_causal_known_utc",
+            "numeric_parser_activated_utc",
+            "numeric_extraction_contract_id",
+            "numeric_verification_state",
+            "release_stage",
+        ):
+            raw.pop(key, None)
+    return classify_article(raw, first_seen=immutable_first_seen)
+
+
 def upsert_articles(
     connection: sqlite3.Connection,
     articles: Sequence[Mapping[str, Any]],
     now: dt.datetime,
+    *,
+    classification_clock_provider: Any = None,
+    observation_receipt: Any = None,
+) -> tuple[int, int]:
+    """Atomically retain source observations and update coherent projections."""
+    receipt = observation_receipt if isinstance(observation_receipt, dict) else {}
+    receipt.update(source_observations_refused=0, classification_observations_refused=0)
+    with source_observation_transaction(connection):
+        initialize_source_observation_ledger(connection)
+        initialize_classification_observations(connection)
+        return _upsert_articles_with_source_observations(connection, articles, now, classification_clock_provider=classification_clock_provider, observation_receipt=receipt)
+
+
+def _upsert_articles_with_source_observations(
+    connection: sqlite3.Connection,
+    articles: Sequence[Mapping[str, Any]],
+    now: dt.datetime,
+    *,
+    classification_clock_provider: Any = None,
+    observation_receipt: Any = None,
 ) -> tuple[int, int]:
     inserted = 0
     duplicates = 0
     for article in articles:
+        incoming_observation = dict(article)
         storage_event_id = str(article["event_id"])
         existing = connection.execute(
             """
@@ -14194,29 +16999,101 @@ def upsert_articles(
         # article URL is inserted again as apparently new causal evidence.
         # Structured releases are excluded because their versioned event ids
         # intentionally preserve actual/revision updates.
+        activation_sensitive_claim = any(
+            key.endswith("_activation_eligible") and bool(value)
+            for key, value in article.items()
+        )
         if (
             existing is None
-            and not bool(article.get("structured_event"))
             and not bool(article.get("immutable_source_version_boundary"))
             and str(article.get("source_url") or "")
+            and (
+                not bool(article.get("structured_event"))
+                or activation_sensitive_claim
+                or bool(article.get("published_time_inferred"))
+            )
         ):
-            stable_existing = connection.execute(
+            stable_candidates = connection.execute(
                 """
                 SELECT event_id, first_seen_utc, published_utc, payload_json
                 FROM articles
-                WHERE source_id = ? AND source_url = ? AND source_url <> ''
+                WHERE event_id IN (
+                    SELECT event_id FROM articles
+                    WHERE source_id = ? AND source_url = ? AND source_url <> ''
+                    UNION
+                    SELECT canonical_event_id FROM article_source_versions_v1 AS v
+                    WHERE json_extract(v.source_identity_json,'$.source_id') = ?
+                      AND json_extract(v.content_json,'$.source_url') = ?
+                      AND EXISTS (
+                        SELECT 1 FROM article_source_observations_v1 AS o
+                        WHERE o.version_id = v.version_id
+                          AND o.clock_status = 'valid_attested_observation'
+                      )
+                )
                 ORDER BY first_seen_utc, event_id
-                LIMIT 1
                 """,
-                (article["source_id"], article["source_url"]),
-            ).fetchone()
-            if stable_existing is not None:
+                (article["source_id"], article["source_url"], article["source_id"], article["source_url"]),
+            ).fetchall()
+            stable_existing = stable_candidates[0] if stable_candidates else None
+            inferred_structured_material_match = False
+            if (
+                bool(article.get("structured_event"))
+                and bool(article.get("published_time_inferred"))
+            ):
+                current_material_identity = structured_material_identity(article)
+                stable_existing = None
+                for candidate in stable_candidates:
+                    try:
+                        candidate_payload = json.loads(str(candidate[3] or "{}"))
+                    except (TypeError, ValueError, json.JSONDecodeError):
+                        continue
+                    if (
+                        current_material_identity
+                        and structured_material_identity(candidate_payload)
+                        == current_material_identity
+                    ):
+                        stable_existing = candidate
+                        inferred_structured_material_match = True
+                        break
+            stable_first_seen = (
+                parse_datetime(stable_existing[1])
+                if stable_existing is not None
+                else None
+            )
+            retroactive_activation_claim = bool(
+                stable_first_seen is not None
+                and activation_claim_predates_immutable_first_seen(
+                    article, stable_first_seen
+                )
+            )
+            if stable_existing is not None and (
+                not bool(article.get("structured_event"))
+                or retroactive_activation_claim
+                or inferred_structured_material_match
+            ):
                 storage_event_id = str(stable_existing[0])
                 existing = (
                     stable_existing[1],
                     stable_existing[2],
                     stable_existing[3],
                 )
+        source_observation = record_source_observation(
+            connection, incoming_observation, storage_event_id, now,
+            expected_provenance={
+                "collector_contract_id": COLLECTOR_CONTRACT_ID,
+                "collector_cohort_id": COLLECTOR_COHORT_ID,
+                "observation_time_contract_id": OBSERVATION_TIME_CONTRACT_ID,
+            },
+        )
+        try:
+            previous_for_selection = json.loads(str(existing[2])) if existing else {}
+        except (TypeError, ValueError, json.JSONDecodeError):
+            previous_for_selection = {}
+        if not select_source_observation(source_observation, previous_for_selection, incoming_observation):
+            if not source_observation["eligible"]:
+                observation_receipt["source_observations_refused"] += 1
+            duplicates += int(existing is not None)
+            continue
         payload = dict(article)
         if storage_event_id != str(article["event_id"]):
             original_event_id = str(article["event_id"])
@@ -14225,6 +17102,14 @@ def upsert_articles(
                 if str(payload.get(identity_field) or "") == original_event_id:
                     payload[identity_field] = storage_event_id
         if existing:
+            immutable_first_seen = parse_datetime(existing[0])
+            if immutable_first_seen is not None:
+                article = replay_article_at_immutable_first_seen(
+                    article, immutable_first_seen
+                )
+                payload = dict(article)
+                if storage_event_id != str(article["event_id"]):
+                    payload["event_id"] = storage_event_id
             payload["first_seen_utc"] = existing[0]
             try:
                 previous_payload = json.loads(str(existing[2]))
@@ -14268,22 +17153,22 @@ def upsert_articles(
                 payload[provenance_field] = previous_payload.get(
                     provenance_field, legacy_default
                 )
-            if bool(previous_payload.get("detail_enriched")) and not bool(
-                payload.get("detail_enriched")
-            ):
-                # A release-detail fetch is monotonic evidence.  Once the
-                # official figures have been observed, a later plain RSS poll
-                # must not replace them with an empty/truncated feed summary or
-                # erase its first-availability boundary.  The deterministic
-                # classification is derived from that detail text as well, so
-                # preserve the entire enriched payload.  Preserving its older
-                # classification_version is intentional: when rules change,
-                # the subsequent retained-corpus reclassification will rebuild
-                # the enriched record from its stored body instead of skipping
-                # an RSS-downgraded row that merely carries the new version.
-                payload = dict(previous_payload)
-                payload["event_id"] = storage_event_id
-                payload["first_seen_utc"] = existing[0]
+            if bool(previous_payload.get("detail_enriched")) and not bool(payload.get("detail_enriched")):
+                # The raw incoming observation is retained independently. Keep
+                # all canonical fields on the prior enriched projection.
+                duplicates += 1
+                continue
+            payload = bind_active_source_version(payload, source_observation, previous_payload)
+            payload = record_and_bind_classification(connection, payload, previous_payload,
+                classification_clock_provider, expected_provenance={
+                "collector_contract_id": COLLECTOR_CONTRACT_ID,
+                "collector_cohort_id": COLLECTOR_COHORT_ID,
+                "observation_time_contract_id": OBSERVATION_TIME_CONTRACT_ID,
+            }, operation="upsert_update")
+            if payload is None:
+                observation_receipt["classification_observations_refused"] += 1
+                duplicates += 1
+                continue
             if json.dumps(
                 article_storage_payload(previous_payload),
                 sort_keys=True,
@@ -14296,7 +17181,7 @@ def upsert_articles(
             connection.execute(
                 """
                 UPDATE articles
-                SET source_name = ?, source_quality = ?, source_verified = ?,
+                SET source_id = ?, source_kind = ?, source_name = ?, source_quality = ?, source_verified = ?,
                     last_seen_utc = ?, headline = ?, summary = ?,
                     source_url = ?, domain = ?, relevant = ?, category = ?,
                     scope = ?, currencies_json = ?, currency_scores_json = ?,
@@ -14308,33 +17193,46 @@ def upsert_articles(
                 WHERE event_id = ?
                 """,
                 (
-                    article["source_name"],
-                    article["source_quality"],
-                    int(bool(article["source_verified"])),
+                    payload["source_id"],
+                    payload["source_kind"],
+                    payload["source_name"],
+                    payload["source_quality"],
+                    int(bool(payload["source_verified"])),
                     iso_utc(now),
-                    article["headline"],
+                    payload["headline"],
                     payload["summary"],
-                    article["source_url"],
-                    article["domain"],
-                    int(bool(article["relevant"])),
-                    article["category"],
-                    article["scope"],
-                    json.dumps(article["currencies"], sort_keys=True),
-                    json.dumps(article["currency_scores"], sort_keys=True),
-                    json.dumps(article["directional_bias"], sort_keys=True),
-                    article["generic_sentiment_score"],
-                    article["monetary_impulse"],
-                    article["risk_off_score"],
-                    article["risk_on_score"],
-                    article["directional_confidence"],
-                    article["severity"],
-                    article["movement_potential"],
-                    article["post_window_minutes"],
+                    payload["source_url"],
+                    payload["domain"],
+                    int(bool(payload["relevant"])),
+                    payload["category"],
+                    payload["scope"],
+                    json.dumps(payload["currencies"], sort_keys=True),
+                    json.dumps(payload["currency_scores"], sort_keys=True),
+                    json.dumps(payload["directional_bias"], sort_keys=True),
+                    payload["generic_sentiment_score"],
+                    payload["monetary_impulse"],
+                    payload["risk_off_score"],
+                    payload["risk_on_score"],
+                    payload["directional_confidence"],
+                    payload["severity"],
+                    payload["movement_potential"],
+                    payload["post_window_minutes"],
                     json.dumps(article_storage_payload(payload), sort_keys=True),
                     storage_event_id,
                 ),
             )
+            record_source_projection(connection, storage_event_id, "upsert_update")
             duplicates += 1
+            continue
+        payload = bind_active_source_version(payload, source_observation)
+        payload = record_and_bind_classification(connection, payload, {},
+            classification_clock_provider, expected_provenance={
+                "collector_contract_id": COLLECTOR_CONTRACT_ID,
+                "collector_cohort_id": COLLECTOR_COHORT_ID,
+                "observation_time_contract_id": OBSERVATION_TIME_CONTRACT_ID,
+            }, operation="upsert_insert")
+        if payload is None:
+            observation_receipt["classification_observations_refused"] += 1
             continue
         connection.execute(
             """
@@ -14352,37 +17250,37 @@ def upsert_articles(
             """,
             (
                 storage_event_id,
-                article["source_id"],
-                article["source_name"],
-                article["source_kind"],
-                article["source_quality"],
-                int(bool(article["source_verified"])),
-                article["published_utc"],
-                article["first_seen_utc"],
-                article["last_seen_utc"],
-                article["headline"],
-                article["summary"],
-                article["source_url"],
-                article["domain"],
-                int(bool(article["relevant"])),
-                article["category"],
-                article["scope"],
-                json.dumps(article["currencies"], sort_keys=True),
-                json.dumps(article["currency_scores"], sort_keys=True),
-                json.dumps(article["directional_bias"], sort_keys=True),
-                article["generic_sentiment_score"],
-                article["monetary_impulse"],
-                article["risk_off_score"],
-                article["risk_on_score"],
-                article["directional_confidence"],
-                article["severity"],
-                article["movement_potential"],
-                article["post_window_minutes"],
+                payload["source_id"],
+                payload["source_name"],
+                payload["source_kind"],
+                payload["source_quality"],
+                int(bool(payload["source_verified"])),
+                payload["published_utc"],
+                payload["first_seen_utc"],
+                payload["last_seen_utc"],
+                payload["headline"],
+                payload["summary"],
+                payload["source_url"],
+                payload["domain"],
+                int(bool(payload["relevant"])),
+                payload["category"],
+                payload["scope"],
+                json.dumps(payload["currencies"], sort_keys=True),
+                json.dumps(payload["currency_scores"], sort_keys=True),
+                json.dumps(payload["directional_bias"], sort_keys=True),
+                payload["generic_sentiment_score"],
+                payload["monetary_impulse"],
+                payload["risk_off_score"],
+                payload["risk_on_score"],
+                payload["directional_confidence"],
+                payload["severity"],
+                payload["movement_potential"],
+                payload["post_window_minutes"],
                 json.dumps(article_storage_payload(payload), sort_keys=True),
             ),
         )
+        record_source_projection(connection, storage_event_id, "upsert_insert")
         inserted += 1
-    connection.commit()
     return inserted, duplicates
 
 
@@ -14710,35 +17608,10 @@ def collapse_exact_source_url_duplicates(
     for index, article in enumerate(articles):
         item = dict(article)
         source_url = canonical_url(item.get("source_url"))
-        if (
-            bool(item.get("structured_event"))
-            and clean_text(item.get("event_lineage_id"))
-        ):
-            material = {
-                key: item.get(key)
-                for key in (
-                    "event_series_id",
-                    "reference_period",
-                    "reference_date",
-                    "actual",
-                    "actual_value",
-                    "consensus",
-                    "consensus_value",
-                    "previous",
-                    "previous_value",
-                    "revised_previous",
-                    "revised_previous_value",
-                    "release_components",
-                    "source_native_components",
-                    "material_content_sha256",
-                )
-            }
+        if structured_material_identity(item):
             key = (
                 "structured_lineage",
-                stable_id(
-                    clean_text(item.get("event_lineage_id")),
-                    json.dumps(material, sort_keys=True, separators=(",", ":")),
-                ),
+                structured_material_identity(item),
             )
         elif source_url and not bool(item.get("structured_event")):
             key = ("url", source_url)
@@ -14857,9 +17730,11 @@ def reclassify_stored_articles(
     since: dt.datetime,
     maximum_rows: int = RECLASSIFICATION_BATCH_SIZE,
     progress_callback: Any = None,
+    classification_clock_provider: Any = None,
 ) -> int:
     """Apply the current deterministic rules to retained pre-versioned rows."""
 
+    caller_owned_transaction = connection.in_transaction
     rows = connection.execute(
         """
         SELECT event_id, payload_json, first_seen_utc, last_seen_utc,
@@ -14877,6 +17752,16 @@ def reclassify_stored_articles(
                    THEN json_extract(payload_json,'$.published_utc') END,
               ''
             ) <> COALESCE(published_utc,'')
+            OR COALESCE(
+              CASE WHEN json_valid(payload_json)
+                   THEN json_extract(payload_json,'$.source_contract_id') END,
+              ''
+            ) = ''
+            OR COALESCE(
+              CASE WHEN json_valid(payload_json)
+                   THEN json_extract(payload_json,'$.source_cohort_id') END,
+              ''
+            ) = ''
           )
         -- Reclassify verified official observations first, then newest-first
         -- within each trust tier. A rule upgrade can otherwise leave a
@@ -14912,12 +17797,19 @@ def reclassify_stored_articles(
             previous.get("classification_version") == CLASSIFICATION_VERSION
             and str(previous.get("published_utc") or "")
             == str(stored_published_text or "")
+            and clean_text(previous.get("source_contract_id"))
+            and clean_text(previous.get("source_cohort_id"))
         ):
             continue
         first_seen = parse_datetime(first_seen_text)
         if first_seen is None:
             continue
-        source = sources.get(str(previous.get("source_id") or "")) or {}
+        source_config = sources.get(str(previous.get("source_id") or ""))
+        if not isinstance(source_config, Mapping) or not source_config:
+            # A retained observation cannot be bound to an invented contract.
+            # Leave it unchanged until its actual configured source is present.
+            continue
+        source = source_config_lineage(source_config)
         diagnostic_release_urls = {
             canonical_url(value)
             for value in (source.get("diagnostic_release_utc_by_url") or {})
@@ -14988,6 +17880,10 @@ def reclassify_stored_articles(
                         "detail_content_bytes",
                         "detail_text_characters",
                         "detail_source_url",
+                        "detail_listing_url",
+                        "detail_publisher_resolution_contract_id",
+                        "detail_publisher_resolution_known_utc",
+                        "detail_publisher_resolution_research_only",
                         "detail_archive_path",
                         "detail_attachment_discovery_state",
                         "detail_attachment_enriched",
@@ -15075,43 +17971,62 @@ def reclassify_stored_articles(
         updated["event_id"] = str(event_id)
         updated["first_seen_utc"] = str(first_seen_text)
         updated["last_seen_utc"] = str(last_seen_text)
-        connection.execute(
-            """
-            UPDATE articles
-            SET relevant = ?, category = ?, scope = ?, currencies_json = ?,
-                source_url = ?, domain = ?,
-                currency_scores_json = ?, directional_bias_json = ?,
-                generic_sentiment_score = ?, monetary_impulse = ?,
-                risk_off_score = ?, risk_on_score = ?,
-                directional_confidence = ?, severity = ?,
-                movement_potential = ?, post_window_minutes = ?,
-                payload_json = ?
-            WHERE event_id = ?
-            """,
-            (
-                int(bool(updated["relevant"])),
-                updated["category"],
-                updated["scope"],
-                json.dumps(updated["currencies"], sort_keys=True),
-                updated["source_url"],
-                updated["domain"],
-                json.dumps(updated["currency_scores"], sort_keys=True),
-                json.dumps(updated["directional_bias"], sort_keys=True),
-                updated["generic_sentiment_score"],
-                updated["monetary_impulse"],
-                updated["risk_off_score"],
-                updated["risk_on_score"],
-                updated["directional_confidence"],
-                updated["severity"],
-                updated["movement_potential"],
-                updated["post_window_minutes"],
-                json.dumps(updated, sort_keys=True),
-                event_id,
-            ),
-        )
+        updated = preserve_active_source_version(updated, previous)
+        with source_observation_transaction(connection):
+            initialize_classification_observations(connection)
+            updated = record_and_bind_classification(connection, updated, previous,
+                classification_clock_provider, expected_provenance={
+                "collector_contract_id": COLLECTOR_CONTRACT_ID,
+                "collector_cohort_id": COLLECTOR_COHORT_ID,
+                "observation_time_contract_id": OBSERVATION_TIME_CONTRACT_ID,
+            }, operation="retained_reclassification",
+                expected_stored_payload_json=payload_json)
+            if updated is None:
+                continue
+            update_cursor = connection.execute(
+                """
+                UPDATE articles
+                SET source_id = ?, source_kind = ?, source_name = ?, source_quality = ?, source_verified = ?,
+                relevant = ?, category = ?, scope = ?, currencies_json = ?,
+                    source_url = ?, domain = ?,
+                    currency_scores_json = ?, directional_bias_json = ?,
+                    generic_sentiment_score = ?, monetary_impulse = ?,
+                    risk_off_score = ?, risk_on_score = ?,
+                    directional_confidence = ?, severity = ?,
+                    movement_potential = ?, post_window_minutes = ?,
+                    payload_json = ?
+                WHERE event_id = ? AND payload_json = ?
+                """,
+                (
+                    updated["source_id"], updated["source_kind"], updated["source_name"],
+                    updated["source_quality"], int(bool(updated["source_verified"])),
+                    int(bool(updated["relevant"])),
+                    updated["category"],
+                    updated["scope"],
+                    json.dumps(updated["currencies"], sort_keys=True),
+                    updated["source_url"],
+                    updated["domain"],
+                    json.dumps(updated["currency_scores"], sort_keys=True),
+                    json.dumps(updated["directional_bias"], sort_keys=True),
+                    updated["generic_sentiment_score"],
+                    updated["monetary_impulse"],
+                    updated["risk_off_score"],
+                    updated["risk_on_score"],
+                    updated["directional_confidence"],
+                    updated["severity"],
+                    updated["movement_potential"],
+                    updated["post_window_minutes"],
+                    json.dumps(updated, sort_keys=True),
+                    event_id, payload_json,
+                ),
+            )
+            if update_cursor.rowcount != 1:
+                raise ValueError("source_projection_changed_during_classification")
+            record_source_projection(connection, str(event_id), "retained_reclassification")
         changed += 1
         if processed % 100 == 0:
-            connection.commit()
+            if not caller_owned_transaction:
+                connection.commit()
             emit_collector_progress(
                 progress_callback,
                 "postprocessing_evidence",
@@ -15120,7 +18035,8 @@ def reclassify_stored_articles(
                 processed_rows=processed,
                 reclassified_rows=changed,
             )
-    connection.commit()
+    if not caller_owned_transaction:
+        connection.commit()
     emit_collector_progress(
         progress_callback,
         "postprocessing_evidence",
@@ -15139,6 +18055,7 @@ def refresh_recent_topic_contract(
     since: dt.datetime,
     as_of: dt.datetime,
     progress_callback: Any = None,
+    classification_clock_provider: Any = None,
 ) -> dict[str, int]:
     """Publish recent rule upgrades before waiting on network collection.
 
@@ -15150,47 +18067,56 @@ def refresh_recent_topic_contract(
     history is still migrated later in the ordinary maintenance pass.
     """
 
-    reclassified = reclassify_stored_articles(
-        connection,
-        sources=sources,
-        since=since,
-        progress_callback=progress_callback,
-    )
-    stale_topic_count = 0
-    for (payload_json,) in connection.execute(
-        "SELECT payload_json FROM topic_events WHERE first_known_utc >= ?",
-        (iso_utc(since),),
-    ).fetchall():
-        try:
-            payload = json.loads(str(payload_json or "{}"))
-        except (TypeError, ValueError, json.JSONDecodeError):
-            stale_topic_count += 1
-            continue
-        if str(payload.get("classification_version") or "") != CLASSIFICATION_VERSION:
-            stale_topic_count += 1
-    if not reclassified and not stale_topic_count:
+    with source_observation_transaction(connection):
+        reclassified = reclassify_stored_articles(
+            connection,
+            sources=sources,
+            since=since,
+            progress_callback=progress_callback,
+            classification_clock_provider=classification_clock_provider,
+        )
+        stale_topic_count = 0
+        for (payload_json,) in connection.execute(
+            "SELECT payload_json FROM topic_events WHERE first_known_utc >= ?",
+            (iso_utc(since),),
+        ).fetchall():
+            try:
+                payload = json.loads(str(payload_json or "{}"))
+            except (TypeError, ValueError, json.JSONDecodeError):
+                stale_topic_count += 1
+                continue
+            if str(payload.get("classification_version") or "") != CLASSIFICATION_VERSION:
+                stale_topic_count += 1
+        if not reclassified and not stale_topic_count:
+            return {
+                "reclassified": 0,
+                "stale_topics": 0,
+                "topic_inserted": 0,
+                "topic_updated": 0,
+                "topic_removed": 0,
+            }
+        relevant = load_relevant_articles(connection, since=since)
+        publication_floor = max([as_of] + [value for row in relevant if (value := classification_floor(row)) is not None])
+        assessment_as_of = classification_publication_as_of(classification_clock_provider,
+            publication_floor, expected_provenance={
+                "collector_contract_id": COLLECTOR_CONTRACT_ID,
+                "collector_cohort_id": COLLECTOR_COHORT_ID,
+                "observation_time_contract_id": OBSERVATION_TIME_CONTRACT_ID,
+            })
+        topics = cluster_articles(relevant, as_of=assessment_as_of)
+        inserted, updated = upsert_topic_events(connection, topics)
+        removed = reconcile_topic_history(
+            connection,
+            since=since,
+            current_topic_ids=[str(topic.get("topic_id") or "") for topic in topics],
+        )
         return {
-            "reclassified": 0,
-            "stale_topics": 0,
-            "topic_inserted": 0,
-            "topic_updated": 0,
-            "topic_removed": 0,
+            "reclassified": reclassified,
+            "stale_topics": stale_topic_count,
+            "topic_inserted": inserted,
+            "topic_updated": updated,
+            "topic_removed": removed,
         }
-    relevant = load_relevant_articles(connection, since=since)
-    topics = cluster_articles(relevant, as_of=as_of)
-    inserted, updated = upsert_topic_events(connection, topics)
-    removed = reconcile_topic_history(
-        connection,
-        since=since,
-        current_topic_ids=[str(topic.get("topic_id") or "") for topic in topics],
-    )
-    return {
-        "reclassified": reclassified,
-        "stale_topics": stale_topic_count,
-        "topic_inserted": inserted,
-        "topic_updated": updated,
-        "topic_removed": removed,
-    }
 
 
 def prune_database(
@@ -15414,6 +18340,26 @@ def article_source_identity(article: Mapping[str, Any]) -> str:
     return "unknown"
 
 
+def syndication_headline_key(article: Mapping[str, Any]) -> str:
+    """Normalize presentation wrappers before testing story independence."""
+
+    text = headline_content(
+        article.get("headline"),
+        publisher_name=article.get("source_name"),
+    )
+    # Redistributors commonly prepend a vertical/category label while keeping
+    # the wire copy unchanged. That label and a publisher suffix must not turn
+    # one story into apparent independent corroboration.
+    text = re.sub(
+        r"^(?:(?:business|world|financial|market|latest|international)\s+"
+        r"news|news)\s*(?:\||:|-)\s*",
+        "",
+        text,
+        flags=re.I,
+    )
+    return re.sub(r"[^a-z0-9]+", " ", text.lower()).strip()
+
+
 def independent_source_representatives(
     articles: Sequence[Mapping[str, Any]],
 ) -> tuple[dict[str, Mapping[str, Any]], int]:
@@ -15445,7 +18391,7 @@ def independent_source_representatives(
 
     publishers_by_headline: dict[str, set[str]] = defaultdict(set)
     for article in articles:
-        headline_key = normalized_headline(article.get("headline"))
+        headline_key = syndication_headline_key(article)
         if headline_key:
             publishers_by_headline[headline_key].add(
                 article_source_identity(article)
@@ -15618,6 +18564,7 @@ def cluster_articles(
 ) -> list[dict[str, Any]]:
     """Collapse paraphrases of one topic without counting polls as support."""
 
+    guard_as_of = as_of if as_of is not None else utc_now()
     candidates: list[dict[str, Any]] = []
     for raw in articles:
         article = dict(raw)
@@ -15625,7 +18572,9 @@ def cluster_articles(
         if as_of is not None and (causal_known is None or causal_known > as_of):
             continue
         if article.get("topic_clustered"):
-            candidates.append(enforce_directional_publication_invariants(article))
+            candidates.append(guard_causal_news_topic(
+                enforce_directional_publication_invariants(article), None, as_of=guard_as_of
+            ))
             continue
         headline_key = normalized_headline(article.get("headline"))
         signature = str(article.get("topic_signature") or "")
@@ -16119,7 +19068,9 @@ def cluster_articles(
         )
         result.pop("_cluster_signature", None)
         result.pop("_headline_key", None)
-        output.append(enforce_directional_publication_invariants(result))
+        output.append(guard_causal_news_topic(
+            enforce_directional_publication_invariants(result), rows, as_of=guard_as_of
+        ))
     output.sort(
         key=lambda article: (
             str(article.get("published_utc") or ""),
@@ -16261,6 +19212,36 @@ def cluster_context_articles(
     return output
 
 
+def collection_observation_time(local_now, *, clock_integrity_path=None):
+    """Route every production observation to the explicit run clock, if set.
+
+    Omitting the path retains the original call and its default clock contract.
+    Passing a path selects an input; it does not inject or relax attestation.
+    """
+    if clock_integrity_path is None:
+        return normalized_observation_time(local_now)
+    return normalized_observation_time(local_now, clock_integrity_path=clock_integrity_path)
+
+
+def refresh_pair_aggregation_clock(
+    previous_cutoff: dt.datetime, *, now: dt.datetime | None = None,
+    clock_integrity_path: Path | None = None
+) -> tuple[dt.datetime, dict[str, Any]]:
+    """Sample an attested clock after input reads, before fresh aggregation.
+
+    Explicit clocks retain the existing deterministic offline test interface.
+    Production callers must re-evaluate the actual inputs at this cutoff.
+    """
+    if now is not None:
+        if now.tzinfo is None or now < previous_cutoff:
+            raise ValueError("pair_aggregation_clock_invalid")
+        return now, {"source": "explicit_offline_clock", "trusted": False}
+    cutoff, attestation = collection_observation_time(utc_now(), clock_integrity_path=clock_integrity_path)
+    if cutoff < previous_cutoff or not prospective_clock_attestation(attestation):
+        raise ValueError("pair_aggregation_clock_untrusted_or_regressed")
+    return cutoff, attestation
+
+
 def build_pair_scores(
     articles: Sequence[Mapping[str, Any]],
     instruments: Sequence[str],
@@ -16287,12 +19268,16 @@ def build_pair_scores(
         causal_age_minutes = max(
             0.0, (as_of - causal_known).total_seconds() / 60.0
         )
+        # Availability gates admission; later computation does not renew the
+        # age or reaction phase of the underlying story/material evidence.
+        evidence_known = parse_datetime(article.get("source_evidence_available_utc")) or causal_known
+        evidence_age_minutes = max(0.0, (as_of - evidence_known).total_seconds() / 60.0)
         post_window = max(1.0, safe_float(article.get("post_window_minutes"), 180.0))
         if publication_age_minutes > post_window:
             continue
         decay = math.exp(
             -math.log(2.0)
-            * causal_age_minutes
+            * evidence_age_minutes
             / max(30.0, post_window / 2.0)
         )
         weight = (
@@ -16318,6 +19303,7 @@ def build_pair_scores(
                 **article,
                 "_age_minutes": publication_age_minutes,
                 "_causal_age_minutes": causal_age_minutes,
+                "_source_evidence_age_minutes": evidence_age_minutes,
                 "_weight": weight,
                 "_reaction_horizon_minutes": reaction_horizon,
                 "_remaining_relevance_minutes": max(
@@ -16325,7 +19311,7 @@ def build_pair_scores(
                 ),
                 "_reaction_phase": (
                     "initial_reaction"
-                    if causal_age_minutes <= reaction_horizon
+                    if evidence_age_minutes <= reaction_horizon
                     else "continuation_context"
                 ),
             }
@@ -16756,6 +19742,8 @@ def run_cycle(
     ledger_path: Path = DEFAULT_LEDGER,
     event_root: Path = DEFAULT_EVENT_ROOT,
     state_path: Path | None = None,
+    clock_integrity_path: Path | None = None,
+    coverage_root: Path | None = None,
     refresh_event_catalog: bool = True,
     force: bool = False,
     now: dt.datetime | None = None,
@@ -16764,7 +19752,7 @@ def run_cycle(
     emit_collector_progress(progress_callback, "starting_cycle")
     raw_current = now or utc_now()
     if now is None:
-        current, observation_clock = normalized_observation_time(raw_current)
+        current, observation_clock = collection_observation_time(raw_current, clock_integrity_path=clock_integrity_path)
     else:
         current = (
             raw_current.replace(tzinfo=UTC)
@@ -16860,12 +19848,25 @@ def run_cycle(
     database_path = output_root / "local_news_sentiment_v1.sqlite"
     emit_collector_progress(progress_callback, "opening_database")
     connection = process_database(database_path)
+    def classification_clock_provider():
+        observed, clock_evidence = (
+            collection_observation_time(utc_now(), clock_integrity_path=clock_integrity_path) if now is None
+            else (current, observation_clock)
+        )
+        return observed, {
+            "collector_contract_id": COLLECTOR_CONTRACT_ID,
+            "collector_cohort_id": COLLECTOR_COHORT_ID,
+            "observation_time_contract_id": OBSERVATION_TIME_CONTRACT_ID,
+            "observation_clock_trusted": prospective_clock_attestation(clock_evidence),
+            "observation_clock_source": clean_text(clock_evidence.get("source")),
+        }
     priority_refresh = refresh_recent_topic_contract(
         connection,
         sources=configured_sources,
         since=max(retention_cutoff, current - dt.timedelta(hours=6)),
         as_of=current,
         progress_callback=progress_callback,
+        classification_clock_provider=classification_clock_provider,
     )
     incremental_topic_history_inserted += priority_refresh["topic_inserted"]
     incremental_topic_history_updated += priority_refresh["topic_updated"]
@@ -16940,7 +19941,7 @@ def run_cycle(
         source_observed = current
         source_clock = observation_clock
         if now is None:
-            source_observed, source_clock = normalized_observation_time(utc_now())
+            source_observed, source_clock = collection_observation_time(utc_now(), clock_integrity_path=clock_integrity_path)
             if not prospective_clock_attestation(source_clock):
                 source_results.append(
                     {
@@ -16960,7 +19961,7 @@ def run_cycle(
         updated["collector_contract_id"] = COLLECTOR_CONTRACT_ID
         updated["classification_version"] = CLASSIFICATION_VERSION
         if now is None:
-            source_observed, source_clock = normalized_observation_time(utc_now())
+            source_observed, source_clock = collection_observation_time(utc_now(), clock_integrity_path=clock_integrity_path)
             if not prospective_clock_attestation(source_clock):
                 # The response is deliberately not classified or committed.
                 # Only a content hash/count enters the diagnostic state; it is
@@ -17019,14 +20020,28 @@ def run_cycle(
         classified.extend(source_classified)
         retention_expired.extend(source_expired)
         if source_classified:
+            upsert_receipt = {}
             source_inserted, source_duplicates = upsert_articles(
                 connection,
                 source_classified,
                 source_observed,
+                classification_clock_provider=classification_clock_provider,
+                observation_receipt=upsert_receipt,
             )
             connection.commit()
             inserted += source_inserted
             duplicates += source_duplicates
+            if upsert_receipt["source_observations_refused"] or upsert_receipt["classification_observations_refused"]:
+                # Keep the prior ETag/Last-Modified and polling cadence so the
+                # next trusted poll can retry the retained but unpublished row.
+                source_states[source_id] = prior
+                source_results.append({
+                    "source_id": source_id,
+                    "status": "quarantined_source_or_classification_clock",
+                    "items": len(rows),
+                    "observation_receipt": dict(upsert_receipt),
+                })
+                continue
             # Reload from the immutable ledger before publishing incremental
             # topics.  Duplicate feed rows were observed earlier than this
             # poll and must retain that original causal timestamp.
@@ -17041,7 +20056,13 @@ def run_cycle(
                 source_topics = cluster_incremental_topics_with_history(
                     connection,
                     source_relevant,
-                    as_of=source_observed,
+                    as_of=classification_publication_as_of(classification_clock_provider,
+                        max([source_observed] + [value for row in source_relevant if (value := classification_floor(row)) is not None]),
+                        expected_provenance={
+                "collector_contract_id": COLLECTOR_CONTRACT_ID,
+                "collector_cohort_id": COLLECTOR_COHORT_ID,
+                "observation_time_contract_id": OBSERVATION_TIME_CONTRACT_ID,
+            }),
                 )
                 source_topic_inserted, source_topic_updated = upsert_topic_events(
                     connection,
@@ -17052,10 +20073,14 @@ def run_cycle(
         source_results.append(
             {
                 "source_id": source_id,
-                "status": "ok" if not updated.get("last_error") else "error",
+                "status": (
+                    "pending_source_content" if updated.get("last_parse_status") == "pending_source_content"
+                    else "ok" if not updated.get("last_error") else "error"
+                ),
                 "http_status": updated.get("last_status"),
                 "items": len(rows),
                 "error": updated.get("last_error") or "",
+                "source_content_state": updated.get("source_content_state"),
             }
         )
         if str(source.get("kind") or "").lower() == "gdelt":
@@ -17072,7 +20097,7 @@ def run_cycle(
     completed = current
     completion_clock = observation_clock
     if now is None:
-        completed, completion_clock = normalized_observation_time(utc_now())
+        completed, completion_clock = collection_observation_time(utc_now(), clock_integrity_path=clock_integrity_path)
         if not prospective_clock_attestation(completion_clock):
             connection.commit()
             close_process_database(database_path, connection)
@@ -17115,6 +20140,7 @@ def run_cycle(
             sources=configured_sources,
             since=retention_cutoff,
             progress_callback=progress_callback,
+            classification_clock_provider=classification_clock_provider,
         )
         reclassified = priority_refresh["reclassified"] + historical_reclassified
         emit_collector_progress(
@@ -17151,6 +20177,13 @@ def run_cycle(
         relevant_items=len(relevant),
         context_items=len(context_only),
     )
+    completed = classification_publication_as_of(classification_clock_provider,
+        max([completed] + [value for row in [*relevant, *context_only] if (value := classification_floor(row)) is not None]),
+        expected_provenance={
+                "collector_contract_id": COLLECTOR_CONTRACT_ID,
+                "collector_cohort_id": COLLECTOR_COHORT_ID,
+                "observation_time_contract_id": OBSERVATION_TIME_CONTRACT_ID,
+            })
     published_relevant = cluster_articles(relevant, as_of=completed)
     published_context = cluster_context_articles(context_only, as_of=completed)
     persistent_policy_state = build_persistent_policy_state(
@@ -17187,8 +20220,32 @@ def run_cycle(
         context_items=len(context_only),
     )
     instruments = event_tagger.discover_instruments()
+    # Retained inputs have now been read and topic/ledger maintenance completed.
+    # Recompute eligibility and decay at an actual fresh cutoff; no input arrival
+    # clock or existing result is relabelled as a new observation.
+    input_processing_cutoff = completed
+    aggregation_options = {} if clock_integrity_path is None else {"clock_integrity_path": clock_integrity_path}
+    completed, aggregation_clock = refresh_pair_aggregation_clock(completed, now=now, **aggregation_options)
     pair_scores = build_pair_scores(published_relevant, instruments, as_of=completed)
+    pair_scores["aggregation_clock"] = aggregation_clock
+    pair_scores["input_processing_cutoff_utc"] = iso_utc(input_processing_cutoff)
     atomic_write_json(output_root / "pair_sentiment_latest.json", pair_scores)
+    joint_news = build_current_news_snapshot(published_relevant, as_of=completed)
+    joint_news["source_bindings"] = {
+        filename: hashlib.sha256((Path(__file__).resolve().parent / filename).read_bytes()).hexdigest()
+        for filename in (
+            "oanda_local_news_sentiment.py", "oanda_news_classification_contract.py",
+            "oanda_news_causal_aggregation_guard_v1.py", "oanda_news_causal_aggregation_guard_v2.py",
+            "oanda_news_source_observation_ledger_v1.py", "oanda_news_classification_observation_v1.py",
+        )
+    }
+    joint_news["aggregation_clock"] = aggregation_clock
+    joint_news["generated_utc"] = iso_utc(utc_now())
+    if len(json.dumps(joint_news, indent=2, sort_keys=True, allow_nan=False).encode("utf-8")) + 1 > MAX_CURRENT_SNAPSHOT_BYTES:
+        joint_news.update(status="unavailable", news_state="unavailable", topics=[],
+                          topic_count=0, directional_topic_count=0, context_topic_count=0,
+                          errors=["published_snapshot_byte_bound"])
+    atomic_write_json(output_root / "joint_news_current_v1.json", joint_news)
     atomic_write_json(
         output_root / "persistent_policy_state_v1.json",
         persistent_policy_state,
@@ -17207,6 +20264,10 @@ def run_cycle(
     # mapped, verified first-party central-bank/reserve-authority source.
     import oanda_official_central_bank_coverage as central_bank_coverage
 
+    coverage_json_path = (central_bank_coverage.DEFAULT_JSON if coverage_root is None
+                          else coverage_root / central_bank_coverage.DEFAULT_JSON.name)
+    coverage_markdown_path = (central_bank_coverage.DEFAULT_MD if coverage_root is None
+                              else coverage_root / central_bank_coverage.DEFAULT_MD.name)
     central_bank_report = central_bank_coverage.build_report(
         mapping=load_json(central_bank_coverage.DEFAULT_MAP, {}),
         source_config=config,
@@ -17215,9 +20276,9 @@ def run_cycle(
         instruments=instruments,
         as_of=completed,
     )
-    atomic_write_json(central_bank_coverage.DEFAULT_JSON, central_bank_report)
+    atomic_write_json(coverage_json_path, central_bank_report)
     atomic_write_text(
-        central_bank_coverage.DEFAULT_MD,
+        coverage_markdown_path,
         central_bank_coverage.render_markdown(central_bank_report),
     )
     atomic_write_json(
@@ -17282,13 +20343,19 @@ def run_cycle(
         "collector_contract_id": COLLECTOR_CONTRACT_ID,
         "collector_cohort_id": COLLECTOR_COHORT_ID,
         "issuer_bound_policy_communication_contract_id": (
-            ISSUER_BOUND_POLICY_COMMUNICATION_CONTRACT_ID
+            ISSUER_BOUND_POLICY_COMMUNICATION_SOURCE_CONTRACT_ID_V2
         ),
         "issuer_bound_policy_communication_cohort_id": (
-            ISSUER_BOUND_POLICY_COMMUNICATION_COHORT_ID
+            ISSUER_BOUND_POLICY_COMMUNICATION_SOURCE_COHORT_ID_V2
         ),
         "issuer_bound_policy_communication_activated_utc": (
-            ISSUER_BOUND_POLICY_COMMUNICATION_ACTIVATED_UTC
+            ISSUER_BOUND_POLICY_COMMUNICATION_SOURCE_ACTIVATED_UTC_V2
+        ),
+        "prior_issuer_bound_policy_communication_contract_id": (
+            ISSUER_BOUND_POLICY_COMMUNICATION_CONTRACT_ID
+        ),
+        "prior_issuer_bound_policy_communication_cohort_id": (
+            ISSUER_BOUND_POLICY_COMMUNICATION_COHORT_ID
         ),
         "generated_utc": iso_utc(completed),
         "status": "ok",
@@ -17396,7 +20463,7 @@ def run_cycle(
                 output_root / "source_coverage_latest.json"
             ),
             "official_central_bank_coverage": str(
-                central_bank_coverage.DEFAULT_JSON
+                coverage_json_path
             ),
             "context_articles": str(output_root / "context_articles_latest.json"),
             "event_context": str(event_root / "latest_pair_news_context.json"),
@@ -17425,6 +20492,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--ledger", type=Path, default=DEFAULT_LEDGER)
     parser.add_argument("--event-root", type=Path, default=DEFAULT_EVENT_ROOT)
     parser.add_argument("--state", type=Path)
+    parser.add_argument("--clock-integrity-state", type=Path, help="Explicit clock attestation for this collection run; original default when omitted")
+    parser.add_argument("--coverage-root", type=Path, help="Monetary-authority JSON and Markdown output directory; original defaults when omitted")
     parser.add_argument("--interval-sec", type=float, default=60.0)
     parser.add_argument("--duration-sec", type=float, default=0.0)
     parser.add_argument("--once", action="store_true")
@@ -17481,6 +20550,8 @@ def main() -> int:
                 ledger_path=args.ledger,
                 event_root=args.event_root,
                 state_path=args.state,
+                clock_integrity_path=getattr(args, "clock_integrity_state", None),
+                coverage_root=getattr(args, "coverage_root", None),
                 refresh_event_catalog=not args.no_refresh_event_catalog,
                 force=bool(args.force and first),
                 progress_callback=progress.update,

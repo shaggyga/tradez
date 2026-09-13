@@ -1,0 +1,342 @@
+"""Deterministic scheduling/clock adversaries; no live ledger or runtime writes."""
+import ast
+from copy import deepcopy
+import hashlib
+import json
+from pathlib import Path
+import sqlite3
+
+import pytest
+
+import oanda_joint_v3_ledger_status_observer_v1 as old
+import oanda_joint_v3_ledger_status_observer_v2 as observer
+import oanda_joint_v3_ledger_observer_api_v1 as old_api
+import oanda_joint_v3_ledger_observer_api_v2 as api
+from test_oanda_joint_v3_ledger_status_observer_v2 import world, run, slot, pair, REGISTRY_PATH
+from test_oanda_joint_v3_ledger_observer_api_v2 import make_api
+
+
+class Clock:
+    def __init__(self):self.tick=100.;self.wall=1788940000.
+    def advance(self,seconds):self.tick+=seconds;self.wall+=seconds
+    def monotonic(self):return self.tick
+    def clock(self):return self.wall
+
+
+def setup_schedule(monkeypatch, behavior, *, count=3, initial=100.):
+    clock=Clock();clock.tick=initial;calls=[]
+    pairs=['AUD_CAD','EUR_USD','GBP_USD'][:count]
+    registry={'pairs':{p:dict(pip_size=.0001,families={observer.FAMILY:{
+        'contract_sha256':'a'*64,'contract':{'cohorts':{observer.FAMILY:p}}}}) for p in pairs}}
+    activated={p:{'activated_epoch':clock.wall-100} for p in pairs}
+    def fake(path,spec,activation,rules,wall,mono,deadline):
+        pair=Path(path).parts[-3];index=1+sum(c[0]==pair for c in calls)
+        calls.append((pair,index,mono(),deadline))
+        return behavior(pair,index,clock,wall,deadline)
+    monkeypatch.setattr(observer,'_pair',fake)
+    def run_schedule(budget=8):
+        return observer._observe_pairs(registry,Path('unused'),activated,{},clock.clock,
+            observer._MonotonicClock(clock.monotonic),initial+budget)
+    return clock,calls,run_schedule
+
+
+def verified(clock, *, target=None):
+    forecast={'target_epoch':target or clock.wall+100,'issued_epoch':clock.wall-10,
+        'reference_epoch':clock.wall-20,'decision_id':'b'*64}
+    return dict(status='forecast',reason='verified_original_forecast',latest_forecast=forecast,
+        observed_epoch=clock.wall,ledger_observation={'query_only':True})
+
+
+def timeout(clock, deadline):
+    clock.advance(max(0,deadline-clock.tick))
+    raise observer.ObserverError('observer_pair_time_budget')
+
+
+def sqlite_failure(numeric):
+    exc=sqlite3.OperationalError('private details must never be exported')
+    if numeric is not None:exc.sqlite_errorcode=numeric
+    return exc
+
+
+def test_all_accepted_v1_verification_helpers_have_identical_ast_and_api_cache_is_identical():
+    def blocks(module):
+        return {n.name:ast.dump(n,include_attributes=False) for n in ast.parse(Path(module.__file__).read_bytes()).body
+            if isinstance(n,(ast.FunctionDef,ast.ClassDef))}
+    before,after=blocks(old),blocks(observer)
+    for name,value in before.items():
+        if name!='observe_joint_v3':assert after[name]==value,name
+    assert blocks(old_api)==blocks(api)
+    assert observer.SOURCE_NAMES==old.SOURCE_NAMES and len(observer.SOURCE_NAMES)==20
+    assert set(observer.OWN_FILES)=={Path(observer.__file__).name,Path(old.__file__).name,'oanda_immutable_summary_publication_v1.py'}
+    assert api.SOURCE_NAMES==set(observer.OWN_FILES)|{Path(api.__file__).name}
+    assert hashlib.sha256(Path(old.__file__).read_bytes()).hexdigest()=='d2dc17dfee52603ae1ccf61433f4a1a73cd1650fdf44c5f1daaa60cf133d8699'
+    assert hashlib.sha256(Path(old_api.__file__).read_bytes()).hexdigest()=='26814b7f7a2a5c9dd7457bf1c1231ebb98f8a496139169f69c20187d436543ed'
+
+
+def test_no_failure_rows_equal_original_observer_at_same_actual_fixture_clock(world):
+    prior=old.observe_joint_v3(REGISTRY_PATH,world['study'],expected_observer_source_bindings=old.own_source_bindings(),
+        expected_activation_sha256=world['activation_sha'],clock=lambda:world['now'])
+    current=run(world)
+    assert current['summary']['rows']==prior['summary']['rows']
+    assert current['failures']==prior['failures']
+    assert current['current_forecast_pairs']==prior['current_forecast_pairs']
+    assert current['scheduling']['retry_attempted_pairs']==0
+    assert current['observer_spec']['origin_registry_sha256']==prior['observer_spec']['origin_registry_sha256']
+    assert current['schema_version']!=prior['schema_version']
+
+
+def test_full_sorted_first_pass_then_one_fresh_retry_and_original_first_failure_retained(monkeypatch):
+    def behavior(pair,index,clock,wall,deadline):
+        wall()
+        if index==1 and pair in ('AUD_CAD','GBP_USD'):timeout(clock,deadline)
+        clock.advance(.01);return verified(clock)
+    clock,calls,scheduled=setup_schedule(monkeypatch,behavior)
+    rows,info=scheduled()
+    assert [(p,i) for p,i,_,_ in calls]==[('AUD_CAD',1),('EUR_USD',1),('GBP_USD',1),('AUD_CAD',2),('GBP_USD',2)]
+    for _,index,start,end in calls:assert end-start==pytest.approx(.25 if index==1 else .5)
+    assert info['first_pass_failures']=={'AUD_CAD':'observer_pair_time_budget','GBP_USD':'observer_pair_time_budget'}
+    assert info['failures']=={} and info['verified_ledger_pairs']==3 and info['retry_recovered_ledger_pairs']==2
+    assert info['first_pass_verified_pairs']==1 and info['attempted_pairs']==3 and info['total_pair_attempts']==5
+    assert all(len(r['bounded_original_clock_trace'])<=64 and r['clock_trace_integrity'] for r in info['attempt_records'])
+    assert info['attempt_records'][0]['wall_completed_epoch']<rows[0]['families'][observer.FAMILY]['observed_epoch']
+
+
+@pytest.mark.parametrize('errorcode,elapsed,eligible',[
+    (sqlite3.SQLITE_BUSY,False,True),(sqlite3.SQLITE_LOCKED,False,True),
+    (sqlite3.SQLITE_BUSY+256,False,True),(sqlite3.SQLITE_INTERRUPT,False,False),
+    (sqlite3.SQLITE_INTERRUPT,True,True),(sqlite3.SQLITE_CORRUPT,True,False),
+    (sqlite3.SQLITE_SCHEMA,True,False),(sqlite3.SQLITE_READONLY,True,False),
+    (None,True,False),('5',True,False)])
+def test_only_explicit_transient_sqlite_primary_codes_are_retried(monkeypatch,errorcode,elapsed,eligible):
+    def behavior(pair,index,clock,wall,deadline):
+        wall()
+        if index==1:
+            if elapsed:clock.advance(deadline-clock.tick)
+            raise sqlite_failure(errorcode)
+        return verified(clock)
+    _,calls,scheduled=setup_schedule(monkeypatch,behavior,count=1)
+    _,info=scheduled()
+    assert len(calls)==1+eligible
+    assert info['attempt_records'][0]['retry_eligible'] is eligible
+    assert 'private details' not in json.dumps(info)
+
+
+@pytest.mark.parametrize('case',['before_deadline','wall_regression','nonfinite','trace_overflow','integrity_failure'])
+def test_time_reason_alone_and_invalid_clocks_cannot_enable_retry(monkeypatch,case):
+    def behavior(pair,index,clock,wall,deadline):
+        wall()
+        if case=='before_deadline':raise observer.ObserverError('observer_pair_time_budget')
+        clock.advance(deadline-clock.tick)
+        if case=='wall_regression':clock.wall-=10;wall();clock.wall+=10
+        if case=='nonfinite':
+            saved=clock.wall;clock.wall=float('nan');wall();clock.wall=saved
+        if case=='trace_overflow':
+            for _ in range(65):wall()
+        raise observer.ObserverError('observer_registered_contract_mismatch' if case=='integrity_failure' else 'observer_pair_time_budget')
+    _,calls,scheduled=setup_schedule(monkeypatch,behavior,count=1)
+    _,info=scheduled()
+    assert len(calls)==1 and info['retry_attempted_pairs']==0
+    record=info['attempt_records'][0]
+    assert not record['retry_eligible'] and len(record['bounded_original_clock_trace'])<=64
+    assert record['original_public_reason']==('observer_registered_contract_mismatch' if case=='integrity_failure' else 'observer_pair_time_budget')
+    json.dumps(info,allow_nan=False)
+
+
+@pytest.mark.parametrize('status,reason',[('unavailable','no_verified_published_forecast'),('unavailable','original_h1_target_elapsed'),('forecast','verified_original_forecast')])
+def test_successful_verification_never_retries_even_when_no_forecast(monkeypatch,status,reason):
+    def behavior(pair,index,clock,wall,deadline):
+        value=verified(clock);value.update(status=status,reason=reason)
+        if status=='unavailable':value['latest_forecast']=None
+        return value
+    _,calls,scheduled=setup_schedule(monkeypatch,behavior,count=1)
+    _,info=scheduled()
+    assert len(calls)==1 and info['retry_attempted_pairs']==0 and info['verified_ledger_pairs']==1
+
+
+def test_global_deadline_exhaustion_leaves_unvisited_rows_and_skipped_retry_explicit(monkeypatch):
+    def behavior(pair,index,clock,wall,deadline):timeout(clock,deadline)
+    _,calls,scheduled=setup_schedule(monkeypatch,behavior)
+    rows,info=scheduled(budget=.5)
+    assert [(p,i) for p,i,_,_ in calls]==[('AUD_CAD',1),('EUR_USD',1)]
+    assert rows[-1]['families'][observer.FAMILY]['reason']=='observer_budget_exhausted'
+    assert info['attempted_pairs']==2 and info['retry_attempted_pairs']==0
+    assert len(info['retry_records'])==2 and all(r['status']=='not_attempted' for r in info['retry_records'])
+
+
+def test_retry_uses_only_remaining_original_budget_and_never_a_third_attempt(monkeypatch):
+    def behavior(pair,index,clock,wall,deadline):timeout(clock,deadline)
+    _,calls,scheduled=setup_schedule(monkeypatch,behavior,count=1)
+    _,info=scheduled(budget=.4)
+    assert len(calls)==2 and calls[1][3]-calls[1][2]==pytest.approx(.15)
+    assert info['verified_ledger_pairs']==0 and info['failures']=={'AUD_CAD':'observer_pair_time_budget'}
+    assert info['attempt_records'][-1]['monotonic_completed']==pytest.approx(100.4)
+
+
+def test_retry_integrity_error_is_final_without_carry_forward(monkeypatch):
+    def behavior(pair,index,clock,wall,deadline):
+        if index==1:timeout(clock,deadline)
+        raise observer.ObserverError('observer_registered_contract_mismatch')
+    _,calls,scheduled=setup_schedule(monkeypatch,behavior,count=1)
+    rows,info=scheduled()
+    assert len(calls)==2 and info['failures']['AUD_CAD']=='observer_registered_contract_mismatch'
+    assert info['first_pass_failures']['AUD_CAD']=='observer_pair_time_budget'
+    assert rows[0]['families'][observer.FAMILY]['latest_forecast'] is None
+
+
+def test_recovered_ledger_without_publication_is_counted_separately(monkeypatch):
+    def behavior(pair,index,clock,wall,deadline):
+        if index==1:timeout(clock,deadline)
+        return dict(status='unavailable',reason='no_verified_published_forecast',latest_forecast=None,observed_epoch=clock.wall)
+    _,_,scheduled=setup_schedule(monkeypatch,behavior,count=1)
+    rows,info=scheduled()
+    assert info['retry_recovered_ledger_pairs']==1 and info['verified_ledger_pairs']==1
+    assert rows[0]['families'][observer.FAMILY]['latest_forecast'] is None
+
+
+def test_fresh_retry_reopens_original_readonly_transaction_and_retains_native_clocks(world,monkeypatch):
+    clock=Clock();clock.wall=world['now'];original=observer._pair;attempts=[];connections=[]
+    connect=observer.sqlite3.connect
+    def seen(*args,**kwargs):
+        db=connect(*args,**kwargs);connections.append((args,kwargs,db));return db
+    monkeypatch.setattr(observer.sqlite3,'connect',seen)
+    def delayed(*args):
+        result=original(*args)
+        if Path(args[0])==world['path']:
+            attempts.append(deepcopy(result))
+            if len(attempts)==1:timeout(clock,args[-1])
+        return result
+    monkeypatch.setattr(observer,'_pair',delayed)
+    report=run(world,clock=clock.clock,monotonic=clock.monotonic)
+    assert len(attempts)==len(connections)==2
+    assert connections[0][2] is not connections[1][2]
+    assert all('?mode=ro' in call[0][0] and call[1]['uri'] is True for call in connections)
+    for call in connections:
+        with pytest.raises(sqlite3.ProgrammingError):call[2].execute('SELECT 1')
+    current=slot(report)['latest_forecast'];prior=attempts[0]['latest_forecast']
+    for key in ('reference_epoch','target_epoch','issued_epoch','publication_epoch','consumption_epoch','forecast_sha256'):
+        assert current[key]==prior[key]
+    assert slot(report)['observed_epoch']>attempts[0]['observed_epoch']
+    assert report['scheduling']['retry_recovered_forecast_pairs']==1
+
+
+def test_native_target_can_expire_while_other_pair_is_retried(world,monkeypatch):
+    clock=Clock();target=world['fixture']['tables']['forecasts'][0]['target'];clock.wall=target-.3
+    original=observer._pair;count=[]
+    def delay(path,spec,activation,rules,wall,mono,deadline):
+        if Path(path).parts[-3]=='GBP_USD':
+            count.append(1);timeout(clock,deadline)
+        return original(path,spec,activation,rules,wall,mono,deadline)
+    monkeypatch.setattr(observer,'_pair',delay)
+    report=run(world,clock=clock.clock,monotonic=clock.monotonic)
+    assert len(count)==2 and report['current_forecast_pairs']==0
+    assert slot(report)['reason']=='original_h1_target_elapsed_during_observation'
+    assert slot(report)['ledger_observation']['latest_original_target_epoch']==target
+    assert slot(report)['observed_epoch']<target<report['completed_epoch']
+
+
+@pytest.mark.parametrize('value',[0,.5,7.9,8.1,30,True,float('nan')])
+def test_v2_total_budget_is_exactly_eight_seconds(world,value):
+    with pytest.raises(observer.ObserverError,match='total_time_budget'):run(world,time_budget_sec=value)
+
+
+def test_monotonic_regression_is_sticky_and_cannot_extend_deadline():
+    values=iter([100,101,100,102]);clock=observer._MonotonicClock(lambda:next(values))
+    assert clock()==100 and clock()==101
+    with pytest.raises(observer.ObserverError,match='monotonic'):clock()
+    with pytest.raises(observer.ObserverError,match='monotonic'):clock()
+
+
+def test_wall_rollback_between_attempts_rejects_entire_observation(world,monkeypatch):
+    clock=Clock();clock.wall=world['now'];original=observer._pair;calls=[]
+    def failed_first(*args):
+        result=original(*args)
+        if Path(args[0])==world['path']:
+            calls.append(1)
+            if len(calls)==1:timeout(clock,args[-1])
+        return result
+    monkeypatch.setattr(observer,'_pair',failed_first)
+    attempt=observer._attempt_pair
+    def rollback(*args):
+        if args[-1]==2:clock.wall-=.1
+        return attempt(*args)
+    monkeypatch.setattr(observer,'_attempt_pair',rollback)
+    with pytest.raises(observer.ObserverError,match='wall_clock_integrity'):
+        run(world,clock=clock.clock,monotonic=clock.monotonic)
+    assert len(calls)==1  # No fresh _pair validation after the detected anomaly.
+
+
+def test_wall_rollback_between_pairs_cannot_age_into_later_valid_report(world,monkeypatch):
+    clock=Clock();clock.wall=world['now'];original=observer._attempt_pair;calls=[]
+    def rollback(*args):
+        calls.append(args[0])
+        if len(calls)==2:clock.wall-=.01
+        return original(*args)
+    monkeypatch.setattr(observer,'_attempt_pair',rollback)
+    with pytest.raises(observer.ObserverError,match='wall_clock_integrity'):
+        run(world,clock=clock.clock,monotonic=clock.monotonic)
+    assert len(calls)==2
+
+
+def test_observation_wall_clock_is_sticky_and_returns_exact_valid_samples():
+    values=iter([100.125,100.25,100.1,101.])
+    clock=observer._ObservationClock(lambda:next(values))
+    assert clock()==100.125 and clock()==100.25
+    with pytest.raises(observer.ObserverError,match='wall_clock_integrity'):clock()
+    with pytest.raises(observer.ObserverError,match='wall_clock_integrity'):clock()
+
+
+def test_old_api_refuses_v2_report_and_v2_refuses_old_report(world):
+    instance,spec,clock=make_api(world);value=instance.get()
+    assert value['schema_version']==api.SCHEMA and value['observer_report']['schema_version']==observer.SCHEMA
+    old_spec=deepcopy(spec);old_spec['schema_version']=old_api.SPEC_SCHEMA
+    old_spec['source_bindings']={**old.own_source_bindings(),old_api.OWN_NAME:old_api._IMPORTED_SOURCE_SHA256}
+    old_instance=old_api.LedgerObservationAPI(old_spec,expected_specification_sha256=old.digest(old_spec),clock=lambda:clock.wall,monotonic=lambda:clock.tick)
+    old_value=old_instance.get()
+    with pytest.raises(ValueError):old_instance._validate_report(observer.encoded(value['observer_report']),old_spec,world['registry'],clock.wall)
+    with pytest.raises(ValueError):instance._validate_report(old.encoded(old_value['observer_report']),spec,world['registry'],clock.wall)
+
+
+def test_report_cap_remains_two_mebibytes_and_rejects_excess(world,monkeypatch):
+    assert observer.MAX_REPORT_BYTES==api.MAX_REPORT_BYTES==2*1024*1024
+    monkeypatch.setattr(observer,'MAX_REPORT_BYTES',64)
+    with pytest.raises(observer.ObserverError,match='report_byte_bound'):run(world)
+
+
+def test_changed_source_after_successful_retry_rejects_entire_report(world,monkeypatch):
+    clock=Clock();clock.wall=world['now'];original=observer._pair;calls=[]
+    def retry(*args):
+        result=original(*args)
+        if Path(args[0])==world['path']:
+            calls.append(1)
+            if len(calls)==1:timeout(clock,args[-1])
+        return result
+    monkeypatch.setattr(observer,'_pair',retry)
+    closure=observer._closure
+    def changed(*args):
+        values,receipts=closure(*args)
+        if len(calls)==2:values={**values,'oanda_news_collector_contract.py':b'changed after retry'}
+        return values,receipts
+    monkeypatch.setattr(observer,'_closure',changed)
+    with pytest.raises(observer.ObserverError,match='source_identity_changed'):
+        run(world,clock=clock.clock,monotonic=clock.monotonic)
+    assert len(calls)==2
+
+
+def test_recovered_report_cache_keeps_attempt_clocks_and_does_not_reissue(world,monkeypatch):
+    instance,_,clock=make_api(world);original=observer._pair;calls=[]
+    def retry(*args):
+        result=original(*args)
+        if Path(args[0])==world['path']:
+            calls.append(1)
+            if len(calls)==1:
+                clock.advance(args[-1]-clock.tick)
+                raise observer.ObserverError('observer_pair_time_budget')
+        return result
+    monkeypatch.setattr(observer,'_pair',retry)
+    first=instance.get();assert first['consumer']['current_forecast_pairs']==1
+    assert first['observer_report']['scheduling']['retry_recovered_forecast_pairs']==1
+    original_records=deepcopy(first['observer_report']['scheduling']['attempt_records'])
+    clock.advance(4);second=instance.get()
+    assert len(calls)==2 and second['observer_report_sha256']==first['observer_report_sha256']
+    assert second['observer_report']['scheduling']['attempt_records']==original_records
+    assert second['consumer']['observation_age_sec']==pytest.approx(4)

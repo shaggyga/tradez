@@ -1,0 +1,52 @@
+{
+  "execution_performed": false,
+  "expected_after": 37,
+  "expected_before": 41,
+  "expected_preserved": 34,
+  "findings": [],
+  "generated_utc": "2026-09-09T09:34:55.887039+00:00",
+  "helper_source_review": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\old_joint_retirement_preflight_v1\\COMBINED_RELOAD_HELPER_INDEPENDENT_SOURCE_REVIEW_20260909.json",
+    "sha256": "6b76222a830d1491fbc3034acdfe3bbad889eb81f405cfa83bec6e5d83422df9"
+  },
+  "limits": [
+    "The reviewed helper must recheck current process identities and preflight freshness at execution. This review does not substitute for its runtime checks.",
+    "HTTP and browser acceptance follows successful controlled replacement; no claim of execution completion."
+  ],
+  "live_process_census_repeated": false,
+  "main_workers_after": 15,
+  "preflight": {
+    "age_sec_at_review": 118.15412020683289,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\old_joint_retirement_preflight_v1\\before_combined_reload_001\\OLD_JOINT_RETIREMENT_OBLIGATIONS_20260909.json",
+    "registered_ledgers": 136,
+    "sha256": "3b05941605dadb4ffbcce3ef48816b0d986e82544753e9998cb1c4c2eb13d7e0",
+    "status": "no_retirement_obligation_blocker_observed"
+  },
+  "process_actions_performed": false,
+  "registry_closures_verified": {
+    "joint_price_news_study_v3_20260908.json": {
+      "registry_sha256": "ee075e69e80ca56dfdf45abe1f7a1a301612176e67f7622eab1adf2bd9af8771",
+      "source_binding_count": 20
+    },
+    "m1_risk_distributions_v1_20260909.json": {
+      "registry_sha256": "855c3bb96105c0cf0943ebbb5d28e6d10b6b9bf718573883f897161d08453674",
+      "source_binding_count": 8
+    },
+    "observed_curve_management_v1_20260909.json": {
+      "registry_sha256": "60689101fb63a8bcce2465d19f627b9b2ce357d1ee271c65298f255663d991e1",
+      "source_binding_count": 20
+    },
+    "recovered_second_curve_pilot_v1_20260909.json": {
+      "registry_sha256": "ae64f2cae6df44dad81b46deb16e95e4d5f67dabb7fc1e65289b96ba6b0fe2b2",
+      "source_binding_count": 14
+    }
+  },
+  "schema_version": "combined_reload_specification_independent_review_v1_20260909",
+  "scope": "All declared source/evidence hashes and each of the four frozen registry source closures independently checked; exact table/observer/config, reviewed retirement preparation and safe launcher/helper are included. Prior source-only specification-pending limitation is now closed.",
+  "source_bindings_verified": 18,
+  "specification": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\old_joint_retirement_preflight_v1\\COMBINED_RETIREMENT_RELOAD_SPECIFICATION_20260909.json",
+    "sha256": "5f7e476f5d304d585c347927e4c9ec309fffec1a56646666265441bfd7c9e9bc"
+  },
+  "status": "passed"
+}

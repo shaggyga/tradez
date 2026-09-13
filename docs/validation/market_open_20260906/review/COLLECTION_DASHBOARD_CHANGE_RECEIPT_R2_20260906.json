@@ -1,0 +1,49 @@
+{
+  "schema_version": "collection_dashboard_status_fix_r2_20260906",
+  "observed_utc": "2026-09-06T19:55:22.2760099Z",
+  "sources": [
+    {
+      "name": "oanda_practice_live_dashboard.py",
+      "bytes": 410784,
+      "sha256": "50f737a158bbd5231a8f6e11214e1d297d1b944f409f675d03427abda88e7441",
+      "previous_sha256": "b9c6661d66ea40001aa84abb6af85403cf51672b5eb29c294319809842b7ddab"
+    },
+    {
+      "name": "oanda_main_signal_dashboard.html",
+      "bytes": 120549,
+      "sha256": "8ff61524a826bb854f99b1899497ae587aab05da749a405d5bac826c32367bd8",
+      "previous_sha256": "ec99702a48a58f6059daec7bc22ce26644ba564bb155cfe889fcf21b6a9528ea"
+    },
+    {
+      "name": "test_oanda_collection_dashboard_status.py",
+      "bytes": 12656,
+      "sha256": "e5cae2ff8b9a0c5ea4fc1abaeb4ac272d265ee1b87784e5210e2956e67dd5670",
+      "previous_sha256": "7fce82b01f8289f241e429be2f0e63f9f29142fc306dc0b49c05e92d8584b2b2"
+    }
+  ],
+  "fixes": [
+    "Current stream event age equals stored last_event_age_sec plus elapsed time since heartbeat; only combined ages from 0 through 90 seconds are healthy. Negative stored ages remain invalid.",
+    "API and UI label scoped to Research collection running; study trading disabled. Banner remains correct when active=true elsewhere; existing trading-active logic is unchanged."
+  ],
+  "regressions": [
+    "Heartbeat80s plus event80s fails as160s",
+    "Heartbeat45s plus event46s fails as91s",
+    "Heartbeat45s plus event45s passes at90s",
+    "Rendered main banner with active=true stays study-scoped while header remains Live"
+  ],
+  "tests": {
+    "failed": 0,
+    "passed": 57,
+    "elapsed_sec": 2.67,
+    "xml": "collection_dashboard_tests_r2.xml",
+    "xml_sha256": "24d94e065d787fb7e143166d557d26cf8a6036645d52c72054d41cd2b89477e9",
+    "errors": 0
+  },
+  "preserved_history": [
+    "COLLECTION_DASHBOARD_CHANGE_RECEIPT_20260906.json",
+    "collection_dashboard_tests.xml",
+    "collection_status_r2_before_source"
+  ],
+  "previous_receipt_sha256": "5be8a5e5cff5ea257a3dd2d977b4e7867ed8763ad304a88c3517cdb8365344ee",
+  "scope": "Only dashboard Python, main HTML and their new collection status test changed. No registered source, model, execution gate, process, task, configuration, database or credentials changed. Parent owns second dashboard-only reload and served API verification."
+}

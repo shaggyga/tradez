@@ -1,0 +1,333 @@
+{
+  "schema_version": "forex_fixed_evaluation_results_v1",
+  "generated_utc": "2026-09-06T12:01:19.796035+00:00",
+  "protocol": "config/fixed_forecast_evaluation_v1_20260906.json",
+  "classification": "already_inspected_archive_diagnostic_and_strict_availability_check",
+  "forex_stopped": true,
+  "proof_eligible": false,
+  "account_eligible": false,
+  "archive_population": {
+    "complete_matched_endpoint_epochs": 368,
+    "exclusion_epoch_counts": {
+      "different_endpoint_clock_or_quote": 17,
+      "missing_one_or_more_outcomes": 22
+    },
+    "families": [
+      "cross_pair_graph_transfer",
+      "modern_tabular_probabilistic_repaired",
+      "probabilistic_state_space",
+      "ridge_return_repaired"
+    ],
+    "fitting_or_parameter_tuning": false,
+    "forecast_universe_rows": 1628,
+    "horizon_sec": 3600,
+    "instrument": "EUR_USD",
+    "original_reference_epochs": 407,
+    "outcome_timing": "Mixed retained producers: canonical_quote_snapshot_v1 targets recorded_utc+1h and reports local snapshot exit time; legacy recovered results use entry-relative age and report provider quote time, with local receipt missing. No clock substitution or target repair was attempted.",
+    "retained_endpoint_producer_counts": {
+      "canonical_quote_snapshot_v1": 353,
+      "legacy_recovered_provider_quote_clock": 15
+    },
+    "retained_utc_day_counts": {
+      "2026-08-30": 11,
+      "2026-08-31": 49,
+      "2026-09-01": 89,
+      "2026-09-02": 69,
+      "2026-09-03": 81,
+      "2026-09-04": 69
+    }
+  },
+  "archive_class_balance": {
+    "down": 195,
+    "flat": 1,
+    "up": 172
+  },
+  "archive_metric_definitions": {
+    "additional_slippage": "Fixed illustrative0.25pip subtraction from quote-net, matching named cohort cost assumption; not measured execution slippage.",
+    "baseline_rolling_class_rate": "Unavailable; historical label availability not established.",
+    "brier": "(original frozen probability_up - 1[midpoint change>0])**2. Flat counts as non-up for this binary label.",
+    "dependence": "368 overlapping issueepochs from6 UTCdays. No independent-sample significance, confidence interval or prospective promotion claim.",
+    "direction": "Forecast direction times actual midpoint change >0; flats miss.",
+    "net_bid_ask": "Buy:exitbid-entryask; sell:entrybid-exitask, divided by0.0001. Historical snapshotquotes predatingforecastrecording; not a realizable trade result.",
+    "no_trade": "Zero net and zero coverage; not a direction forecast.",
+    "signed_move_mae": "Absolute error between original expected_signed_pips and actual signed midpoint move."
+  },
+  "archive_family_metrics": {
+    "cross_pair_graph_transfer": {
+      "brier_difference_model_minus_constant": 0.11150261921928513,
+      "brier_up_vs_nonup": 0.36150261921928506,
+      "constant_probability_0_5_brier": 0.25,
+      "gross_direction_accuracy_flats_miss": 0.42391304347826086,
+      "mean_net_bid_ask_minus_additional_0_25pip_slippage": -2.1798913043478465,
+      "mean_net_bid_ask_pips": -1.9298913043478465,
+      "mean_spread_drag_pips": 1.644701086956659,
+      "model_coverage_on_paired_set": 1.0,
+      "n_same_paired_endpoints": 368,
+      "no_trade_coverage": 0.0,
+      "no_trade_mean_net_pips": 0.0,
+      "positive_net_bid_ask_rate": 0.3016304347826087,
+      "signed_move_mae_difference_model_minus_zero": 1.6210634157608508,
+      "signed_move_mae_pips": 5.555166676630431,
+      "zero_move_mae_pips": 3.93410326086958
+    },
+    "modern_tabular_probabilistic_repaired": {
+      "brier_difference_model_minus_constant": 0.023825749541446846,
+      "brier_up_vs_nonup": 0.27382574954144684,
+      "constant_probability_0_5_brier": 0.25,
+      "gross_direction_accuracy_flats_miss": 0.47554347826086957,
+      "mean_net_bid_ask_minus_additional_0_25pip_slippage": -2.5777173913043256,
+      "mean_net_bid_ask_pips": -2.3277173913043256,
+      "mean_spread_drag_pips": 1.6447010869565202,
+      "model_coverage_on_paired_set": 1.0,
+      "n_same_paired_endpoints": 368,
+      "no_trade_coverage": 0.0,
+      "no_trade_mean_net_pips": 0.0,
+      "positive_net_bid_ask_rate": 0.32065217391304346,
+      "signed_move_mae_difference_model_minus_zero": 0.5023606385870117,
+      "signed_move_mae_pips": 4.436463899456592,
+      "zero_move_mae_pips": 3.93410326086958
+    },
+    "probabilistic_state_space": {
+      "brier_difference_model_minus_constant": 0.13676099266727698,
+      "brier_up_vs_nonup": 0.386760992667277,
+      "constant_probability_0_5_brier": 0.25,
+      "gross_direction_accuracy_flats_miss": 0.4782608695652174,
+      "mean_net_bid_ask_minus_additional_0_25pip_slippage": -2.008695652173916,
+      "mean_net_bid_ask_pips": -1.7586956521739159,
+      "mean_spread_drag_pips": 1.6447010869565684,
+      "model_coverage_on_paired_set": 1.0,
+      "n_same_paired_endpoints": 368,
+      "no_trade_coverage": 0.0,
+      "no_trade_mean_net_pips": 0.0,
+      "positive_net_bid_ask_rate": 0.32065217391304346,
+      "signed_move_mae_difference_model_minus_zero": 3.7877932717391536,
+      "signed_move_mae_pips": 7.721896532608733,
+      "zero_move_mae_pips": 3.93410326086958
+    },
+    "ridge_return_repaired": {
+      "brier_difference_model_minus_constant": 0.1283518972280584,
+      "brier_up_vs_nonup": 0.37835189722805834,
+      "constant_probability_0_5_brier": 0.25,
+      "gross_direction_accuracy_flats_miss": 0.4429347826086957,
+      "mean_net_bid_ask_minus_additional_0_25pip_slippage": -1.9228260869565295,
+      "mean_net_bid_ask_pips": -1.6728260869565295,
+      "mean_spread_drag_pips": 1.6447010869566285,
+      "model_coverage_on_paired_set": 1.0,
+      "n_same_paired_endpoints": 368,
+      "no_trade_coverage": 0.0,
+      "no_trade_mean_net_pips": 0.0,
+      "positive_net_bid_ask_rate": 0.32608695652173914,
+      "signed_move_mae_difference_model_minus_zero": 2.890655089673865,
+      "signed_move_mae_pips": 6.824758350543445,
+      "zero_move_mae_pips": 3.93410326086958
+    }
+  },
+  "strict_evaluation": {
+    "schema_version": "fixed_forecast_evaluation_report_v1",
+    "generated_utc": "2026-09-06T11:57:57.443651+00:00",
+    "contract_id": "eurusd_h1_four_family_fixed_comparison_v1_20260906",
+    "protocol_sha256": "aa67c226b7da42cbf567385037a738ca9c3e29d6d28d1b036e9e37b1ce89f8c2",
+    "input_sha256": "657cad4c556a5607b3c6aa8665707059a4d37d3ed5d3a6ff5f221a2f57d6c026",
+    "status": "no_clock_valid_paired_decisions",
+    "proof_eligible": false,
+    "account_eligible": false,
+    "runtime_started": false,
+    "coverage": {
+      "total_decisions": 407,
+      "total_forecasts": 1628,
+      "complete_four_family_decisions": 407,
+      "complete_clock_valid_decisions": 0,
+      "paired_scored_decisions": 0
+    },
+    "per_family_coverage": {
+      "cross_pair_graph_transfer": {
+        "issued": 407,
+        "clock_valid": 0,
+        "paired_scored": 0
+      },
+      "modern_tabular_probabilistic_repaired": {
+        "issued": 407,
+        "clock_valid": 0,
+        "paired_scored": 0
+      },
+      "probabilistic_state_space": {
+        "issued": 407,
+        "clock_valid": 0,
+        "paired_scored": 0
+      },
+      "ridge_return_repaired": {
+        "issued": 407,
+        "clock_valid": 0,
+        "paired_scored": 0
+      }
+    },
+    "quote_exclusions": {},
+    "decision_exclusion_counts": {
+      "forecast_clock_identity_or_value_invalid": 407
+    },
+    "paired_summaries": {
+      "cross_pair_graph_transfer": {
+        "decisions": 0,
+        "directional_decisions": 0,
+        "abstentions": 0,
+        "mean_brier": null,
+        "direction_hit_rate_when_directional": null,
+        "positive_after_spread_rate_when_directional": null,
+        "mean_net_bps_per_decision": null,
+        "mae_bps": null,
+        "rmse_bps": null,
+        "stress_mean_net_bps_per_decision": {}
+      },
+      "modern_tabular_probabilistic_repaired": {
+        "decisions": 0,
+        "directional_decisions": 0,
+        "abstentions": 0,
+        "mean_brier": null,
+        "direction_hit_rate_when_directional": null,
+        "positive_after_spread_rate_when_directional": null,
+        "mean_net_bps_per_decision": null,
+        "mae_bps": null,
+        "rmse_bps": null,
+        "stress_mean_net_bps_per_decision": {}
+      },
+      "probabilistic_state_space": {
+        "decisions": 0,
+        "directional_decisions": 0,
+        "abstentions": 0,
+        "mean_brier": null,
+        "direction_hit_rate_when_directional": null,
+        "positive_after_spread_rate_when_directional": null,
+        "mean_net_bps_per_decision": null,
+        "mae_bps": null,
+        "rmse_bps": null,
+        "stress_mean_net_bps_per_decision": {}
+      },
+      "ridge_return_repaired": {
+        "decisions": 0,
+        "directional_decisions": 0,
+        "abstentions": 0,
+        "mean_brier": null,
+        "direction_hit_rate_when_directional": null,
+        "positive_after_spread_rate_when_directional": null,
+        "mean_net_bps_per_decision": null,
+        "mae_bps": null,
+        "rmse_bps": null,
+        "stress_mean_net_bps_per_decision": {}
+      },
+      "fair_coin": {
+        "decisions": 0,
+        "directional_decisions": 0,
+        "abstentions": 0,
+        "mean_brier": null,
+        "direction_hit_rate_when_directional": null,
+        "positive_after_spread_rate_when_directional": null,
+        "mean_net_bps_per_decision": null,
+        "mae_bps": null,
+        "rmse_bps": null,
+        "stress_mean_net_bps_per_decision": {}
+      },
+      "zero_move": {
+        "decisions": 0,
+        "directional_decisions": 0,
+        "abstentions": 0,
+        "mean_brier": null,
+        "direction_hit_rate_when_directional": null,
+        "positive_after_spread_rate_when_directional": null,
+        "mean_net_bps_per_decision": null,
+        "mae_bps": null,
+        "rmse_bps": null,
+        "stress_mean_net_bps_per_decision": {}
+      },
+      "no_trade": {
+        "decisions": 0,
+        "directional_decisions": 0,
+        "abstentions": 0,
+        "mean_brier": null,
+        "direction_hit_rate_when_directional": null,
+        "positive_after_spread_rate_when_directional": null,
+        "mean_net_bps_per_decision": null,
+        "mae_bps": null,
+        "rmse_bps": null,
+        "stress_mean_net_bps_per_decision": {}
+      },
+      "rolling_class_rate": {
+        "decisions": 0,
+        "directional_decisions": 0,
+        "abstentions": 0,
+        "mean_brier": null,
+        "direction_hit_rate_when_directional": null,
+        "positive_after_spread_rate_when_directional": null,
+        "mean_net_bps_per_decision": null,
+        "mae_bps": null,
+        "rmse_bps": null,
+        "stress_mean_net_bps_per_decision": {}
+      }
+    },
+    "paired_deltas": {
+      "cross_pair_graph_transfer": {
+        "decisions": 0,
+        "mean_brier_minus_fair_coin": null,
+        "mean_brier_minus_rolling_class_rate": null,
+        "mae_bps_minus_zero_move": null,
+        "mean_net_bps_minus_no_trade": null
+      },
+      "modern_tabular_probabilistic_repaired": {
+        "decisions": 0,
+        "mean_brier_minus_fair_coin": null,
+        "mean_brier_minus_rolling_class_rate": null,
+        "mae_bps_minus_zero_move": null,
+        "mean_net_bps_minus_no_trade": null
+      },
+      "probabilistic_state_space": {
+        "decisions": 0,
+        "mean_brier_minus_fair_coin": null,
+        "mean_brier_minus_rolling_class_rate": null,
+        "mae_bps_minus_zero_move": null,
+        "mean_net_bps_minus_no_trade": null
+      },
+      "ridge_return_repaired": {
+        "decisions": 0,
+        "mean_brier_minus_fair_coin": null,
+        "mean_brier_minus_rolling_class_rate": null,
+        "mae_bps_minus_zero_move": null,
+        "mean_net_bps_minus_no_trade": null
+      }
+    },
+    "outcome_counts": {},
+    "observed_utc_day_blocks": 0,
+    "independent_sample_size": null,
+    "limitations": [
+      "Input clocks are internally checked assertions; not independent proof of past availability.",
+      "Historical scope was chosen after inspection and cannot become prospective confirmation.",
+      "Only paired common decisions are scored; missing forecasts and quotes remain visible in coverage.",
+      "Rolling baseline uses unique valid paired target events with labels available strictly before earliest issue.",
+      "Bid/ask and explicit stress only; no financing, guaranteed fills or account-currency portfolio P/L.",
+      "Overlapping forecasts and UTC blocks do not establish independent trials.",
+      "No automatic model selection, retraining, promotion, collection or execution is provided."
+    ]
+  },
+  "availability": {
+    "entry_quote_reference_precedes_forecast_recording_rows": 1628,
+    "forecast_universe_rows": 1628,
+    "missing_outcome_rows": 85,
+    "null_committed_clock_rows": 1628,
+    "null_feature_first_availability_clock_rows": 1628,
+    "null_issued_clock_rows": 1628,
+    "null_published_clock_rows": 1628,
+    "null_training_label_first_availability_clock_rows": 1628,
+    "strict_eligible_rows": 0
+  },
+  "outcome_producers": {
+    "canonical_quote_snapshot_v1": 1483,
+    "legacy_recovered_provider_quote_clock": 60
+  },
+  "stored_direction_probability_disagreements": 82,
+  "interpretation": [
+    "All four archived probabilities have worse Brier than constant0.5 on the368paired stored endpoints.",
+    "All four archived signed-return forecasts have greater MAE than zero change on exactly those endpoints.",
+    "All four stored bid/ask results are negative; these prices do not establish executable entries after publication.",
+    "Strict evaluator accepts0of407shared decisions because required availability evidence is absent.",
+    "Neither the archive nor new fixture tests establish independent predictive confirmation."
+  ],
+  "evidence_root": "docs/validation/fixed_evaluation_20260906"
+}

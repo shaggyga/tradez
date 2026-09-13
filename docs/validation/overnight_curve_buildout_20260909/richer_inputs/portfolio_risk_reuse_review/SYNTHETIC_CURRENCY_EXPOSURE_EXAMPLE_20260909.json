@@ -1,0 +1,484 @@
+{
+  "actual_current_positions_observed": false,
+  "computed_at_utc": "2026-09-09T07:27:22.244552+00:00",
+  "evidence_class": "synthetic_engineering_fixture_not_market_or_account_observation",
+  "explanation": "Illustrative long1000 EUR/USD plus candidate long1000 GBP/USD shares shortUSD risk. Test quotes, clocks and caps are fabricated fixtures and are not suggested policy.",
+  "result": {
+    "account_eligible": false,
+    "actual_account_positions_observed": false,
+    "after": {
+      "conservative_gross_currency_leg_attribution_usd": "4700.4000",
+      "conservative_gross_position_notional_usd": "2350.4000",
+      "count_capacity_remaining": 6,
+      "currencies": {
+        "EUR": {
+          "conservative_abs_net_usd": "1100.2000",
+          "conservative_gross_usd": "1100.2000",
+          "conversion": {
+            "available_epoch": 999.75,
+            "buy_currency_usd": "1.1002",
+            "currency": "EUR",
+            "instrument": "EUR_USD",
+            "market_epoch": 999.25,
+            "mid_currency_usd": "1.1000",
+            "quote_id": "q.EUR_USD",
+            "sell_currency_usd": "1.0998"
+          },
+          "gross_leg_share": "0.234065185941621989617904859160922474683005701642413411624542592119819589822142796357756786656454769806824951067994213258446089694494085609735341673049102204067738915836950046804527274274529827",
+          "gross_units": "1000",
+          "long_position_count": 1,
+          "long_units": "1000",
+          "net_signed_mid_usd_risk_equivalent": "1100.0000",
+          "net_signed_units": "1000",
+          "short_position_count": 0,
+          "short_units": "0",
+          "valuation_status": "valued"
+        },
+        "GBP": {
+          "conservative_abs_net_usd": "1250.2000",
+          "conservative_gross_usd": "1250.2000",
+          "conversion": {
+            "available_epoch": 999.75,
+            "buy_currency_usd": "1.2502",
+            "currency": "GBP",
+            "instrument": "GBP_USD",
+            "market_epoch": 999.25,
+            "mid_currency_usd": "1.2500",
+            "quote_id": "q.GBP_USD",
+            "sell_currency_usd": "1.2498"
+          },
+          "gross_leg_share": "0.265977363628627350863756276061611777721045017445323802229597481065441239043485660794825972257680197430005956939834907667432558931154795336567100672283209939579610245936516041187984001361586248",
+          "gross_units": "1000",
+          "long_position_count": 1,
+          "long_units": "1000",
+          "net_signed_mid_usd_risk_equivalent": "1250.0000",
+          "net_signed_units": "1000",
+          "short_position_count": 0,
+          "short_units": "0",
+          "valuation_status": "valued"
+        },
+        "JPY": {
+          "conservative_abs_net_usd": "0",
+          "conservative_gross_usd": "0",
+          "conversion": null,
+          "gross_leg_share": "0",
+          "gross_units": "0",
+          "long_position_count": 0,
+          "long_units": "0",
+          "net_signed_mid_usd_risk_equivalent": "0",
+          "net_signed_units": "0",
+          "short_position_count": 0,
+          "short_units": "0",
+          "valuation_status": "no_exposure"
+        },
+        "USD": {
+          "conservative_abs_net_usd": "2350.0000",
+          "conservative_gross_usd": "2350.0000",
+          "conversion": {
+            "buy_currency_usd": "1",
+            "currency": "USD",
+            "instrument": null,
+            "mid_currency_usd": "1",
+            "quote_id": "USD_identity",
+            "sell_currency_usd": "1"
+          },
+          "gross_leg_share": "0.499957450429750659518338864777465747595949280912262786145859926814739171134371542847417241085865032763169091992170879074121351374351119053697557654667687856352650838226533912007488724363883925",
+          "gross_units": "2350.0000",
+          "long_position_count": 0,
+          "long_units": "0",
+          "net_signed_mid_usd_risk_equivalent": "-2350.0000",
+          "net_signed_units": "-2350.0000",
+          "short_position_count": 2,
+          "short_units": "2350.0000",
+          "valuation_status": "valued"
+        }
+      },
+      "limit_breaches": [
+        {
+          "actual": 2,
+          "currency": "USD",
+          "limit": "maximum_currency_direction_positions",
+          "maximum": 1,
+          "side": "short"
+        },
+        {
+          "actual": "2350.0000",
+          "currency": "USD",
+          "limit": "maximum_currency_gross_usd",
+          "maximum": "2000",
+          "side": null
+        }
+      ],
+      "position_count": 2,
+      "positions": [
+        {
+          "base_units": 1000,
+          "candidate": true,
+          "conservative_position_notional_usd": "1250.2000",
+          "instrument": "GBP_USD",
+          "legs": [
+            {
+              "conservative_absolute_usd_risk_equivalent": "1250.2000",
+              "conversion": {
+                "available_epoch": 999.75,
+                "buy_currency_usd": "1.2502",
+                "currency": "GBP",
+                "instrument": "GBP_USD",
+                "market_epoch": 999.25,
+                "mid_currency_usd": "1.2500",
+                "quote_id": "q.GBP_USD",
+                "sell_currency_usd": "1.2498"
+              },
+              "currency": "GBP",
+              "factor_id": "currency:GBP:long",
+              "signed_mid_usd_risk_equivalent": "1250.0000",
+              "signed_risk_units": "1000"
+            },
+            {
+              "conservative_absolute_usd_risk_equivalent": "1250.0000",
+              "conversion": {
+                "buy_currency_usd": "1",
+                "currency": "USD",
+                "instrument": null,
+                "mid_currency_usd": "1",
+                "quote_id": "USD_identity",
+                "sell_currency_usd": "1"
+              },
+              "currency": "USD",
+              "factor_id": "currency:USD:short",
+              "signed_mid_usd_risk_equivalent": "-1250.0000",
+              "signed_risk_units": "-1250.0000"
+            }
+          ],
+          "mark_quote_id": "q.GBP_USD",
+          "mark_quote_sha256": "f1fd6206e03bb8b5a1d6d2cfe56d95210388f61d0aa2388fda88dc9f7b1beaf4",
+          "mid": "1.2500",
+          "mid_position_notional_usd": "1250.0000",
+          "row_id": "candidate1",
+          "side": 1,
+          "source_record_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "base_units": 1000,
+          "candidate": false,
+          "conservative_position_notional_usd": "1100.2000",
+          "instrument": "EUR_USD",
+          "legs": [
+            {
+              "conservative_absolute_usd_risk_equivalent": "1100.2000",
+              "conversion": {
+                "available_epoch": 999.75,
+                "buy_currency_usd": "1.1002",
+                "currency": "EUR",
+                "instrument": "EUR_USD",
+                "market_epoch": 999.25,
+                "mid_currency_usd": "1.1000",
+                "quote_id": "q.EUR_USD",
+                "sell_currency_usd": "1.0998"
+              },
+              "currency": "EUR",
+              "factor_id": "currency:EUR:long",
+              "signed_mid_usd_risk_equivalent": "1100.0000",
+              "signed_risk_units": "1000"
+            },
+            {
+              "conservative_absolute_usd_risk_equivalent": "1100.0000",
+              "conversion": {
+                "buy_currency_usd": "1",
+                "currency": "USD",
+                "instrument": null,
+                "mid_currency_usd": "1",
+                "quote_id": "USD_identity",
+                "sell_currency_usd": "1"
+              },
+              "currency": "USD",
+              "factor_id": "currency:USD:short",
+              "signed_mid_usd_risk_equivalent": "-1100.0000",
+              "signed_risk_units": "-1100.0000"
+            }
+          ],
+          "mark_quote_id": "q.EUR_USD",
+          "mark_quote_sha256": "764d8701ae27cb82cfeb372bd150f9ab9dc57fd10fabc81f3b8ce583689d6579",
+          "mid": "1.1000",
+          "mid_position_notional_usd": "1100.0000",
+          "row_id": "p1",
+          "side": 1,
+          "source_record_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        }
+      ],
+      "within_supplied_limits": false
+    },
+    "before": {
+      "conservative_gross_currency_leg_attribution_usd": "2200.2000",
+      "conservative_gross_position_notional_usd": "1100.2000",
+      "count_capacity_remaining": 7,
+      "currencies": {
+        "EUR": {
+          "conservative_abs_net_usd": "1100.2000",
+          "conservative_gross_usd": "1100.2000",
+          "conversion": {
+            "available_epoch": 999.75,
+            "buy_currency_usd": "1.1002",
+            "currency": "EUR",
+            "instrument": "EUR_USD",
+            "market_epoch": 999.25,
+            "mid_currency_usd": "1.1000",
+            "quote_id": "q.EUR_USD",
+            "sell_currency_usd": "1.0998"
+          },
+          "gross_leg_share": "0.500045450413598763748750113626033996909371875284065084992273429688210162712480683574220525406781201708935551313516953004272338878283792382510680847195709480956276702117989273702390691755294973",
+          "gross_units": "1000",
+          "long_position_count": 1,
+          "long_units": "1000",
+          "net_signed_mid_usd_risk_equivalent": "1100.0000",
+          "net_signed_units": "1000",
+          "short_position_count": 0,
+          "short_units": "0",
+          "valuation_status": "valued"
+        },
+        "GBP": {
+          "conservative_abs_net_usd": "0",
+          "conservative_gross_usd": "0",
+          "conversion": null,
+          "gross_leg_share": "0",
+          "gross_units": "0",
+          "long_position_count": 0,
+          "long_units": "0",
+          "net_signed_mid_usd_risk_equivalent": "0",
+          "net_signed_units": "0",
+          "short_position_count": 0,
+          "short_units": "0",
+          "valuation_status": "no_exposure"
+        },
+        "JPY": {
+          "conservative_abs_net_usd": "0",
+          "conservative_gross_usd": "0",
+          "conversion": null,
+          "gross_leg_share": "0",
+          "gross_units": "0",
+          "long_position_count": 0,
+          "long_units": "0",
+          "net_signed_mid_usd_risk_equivalent": "0",
+          "net_signed_units": "0",
+          "short_position_count": 0,
+          "short_units": "0",
+          "valuation_status": "no_exposure"
+        },
+        "USD": {
+          "conservative_abs_net_usd": "1100.0000",
+          "conservative_gross_usd": "1100.0000",
+          "conversion": {
+            "buy_currency_usd": "1",
+            "currency": "USD",
+            "instrument": null,
+            "mid_currency_usd": "1",
+            "quote_id": "USD_identity",
+            "sell_currency_usd": "1"
+          },
+          "gross_leg_share": "0.499954549586401236251249886373966003090628124715934915007726570311789837287519316425779474593218798291064448686483046995727661121716207617489319152804290519043723297882010726297609308244705027",
+          "gross_units": "1100.0000",
+          "long_position_count": 0,
+          "long_units": "0",
+          "net_signed_mid_usd_risk_equivalent": "-1100.0000",
+          "net_signed_units": "-1100.0000",
+          "short_position_count": 1,
+          "short_units": "1100.0000",
+          "valuation_status": "valued"
+        }
+      },
+      "limit_breaches": [],
+      "position_count": 1,
+      "positions": [
+        {
+          "base_units": 1000,
+          "candidate": false,
+          "conservative_position_notional_usd": "1100.2000",
+          "instrument": "EUR_USD",
+          "legs": [
+            {
+              "conservative_absolute_usd_risk_equivalent": "1100.2000",
+              "conversion": {
+                "available_epoch": 999.75,
+                "buy_currency_usd": "1.1002",
+                "currency": "EUR",
+                "instrument": "EUR_USD",
+                "market_epoch": 999.25,
+                "mid_currency_usd": "1.1000",
+                "quote_id": "q.EUR_USD",
+                "sell_currency_usd": "1.0998"
+              },
+              "currency": "EUR",
+              "factor_id": "currency:EUR:long",
+              "signed_mid_usd_risk_equivalent": "1100.0000",
+              "signed_risk_units": "1000"
+            },
+            {
+              "conservative_absolute_usd_risk_equivalent": "1100.0000",
+              "conversion": {
+                "buy_currency_usd": "1",
+                "currency": "USD",
+                "instrument": null,
+                "mid_currency_usd": "1",
+                "quote_id": "USD_identity",
+                "sell_currency_usd": "1"
+              },
+              "currency": "USD",
+              "factor_id": "currency:USD:short",
+              "signed_mid_usd_risk_equivalent": "-1100.0000",
+              "signed_risk_units": "-1100.0000"
+            }
+          ],
+          "mark_quote_id": "q.EUR_USD",
+          "mark_quote_sha256": "764d8701ae27cb82cfeb372bd150f9ab9dc57fd10fabc81f3b8ce583689d6579",
+          "mid": "1.1000",
+          "mid_position_notional_usd": "1100.0000",
+          "row_id": "p1",
+          "side": 1,
+          "source_record_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        }
+      ],
+      "within_supplied_limits": true
+    },
+    "broker_requests": 0,
+    "can_authorize": false,
+    "can_place_orders": false,
+    "can_promote": false,
+    "candidate_mode": "additive_same_scenario_what_if",
+    "changed_gross_position_notional_usd": "1250.2000",
+    "decision_epoch": 1000.0,
+    "execution_eligible": false,
+    "input_evidence": {
+      "candidate": {
+        "available_epoch": 999.0,
+        "base_units": 1000,
+        "candidate_id": "candidate1",
+        "instrument": "GBP_USD",
+        "scenario_id": "episode1.curve",
+        "side": 1,
+        "source_record_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      "decision_epoch": 1000.0,
+      "limits": {
+        "maximum_currency_abs_net_usd": {
+          "EUR": "1000000",
+          "GBP": "1000000",
+          "JPY": "1000000",
+          "USD": "1000000"
+        },
+        "maximum_currency_direction_positions": 1,
+        "maximum_currency_gross_leg_share": {
+          "EUR": "1",
+          "GBP": "1",
+          "JPY": "1",
+          "USD": "1"
+        },
+        "maximum_currency_gross_usd": {
+          "EUR": "1000000",
+          "GBP": "1000000",
+          "JPY": "1000000",
+          "USD": "2000"
+        },
+        "maximum_gross_position_notional_usd": "1000000",
+        "maximum_positions": 8,
+        "maximum_quote_age_sec": 5
+      },
+      "metadata": {
+        "EUR_USD": {
+          "base_currency": "EUR",
+          "instrument": "EUR_USD",
+          "pip_size": "0.0001",
+          "quote_currency": "USD",
+          "unit_increment": 1
+        },
+        "GBP_USD": {
+          "base_currency": "GBP",
+          "instrument": "GBP_USD",
+          "pip_size": "0.0001",
+          "quote_currency": "USD",
+          "unit_increment": 1
+        },
+        "USD_JPY": {
+          "base_currency": "USD",
+          "instrument": "USD_JPY",
+          "pip_size": "0.01",
+          "quote_currency": "JPY",
+          "unit_increment": 1
+        }
+      },
+      "observed_epoch": 1001.0,
+      "positions": [
+        {
+          "base_units": 1000,
+          "instrument": "EUR_USD",
+          "opened_epoch": 900.0,
+          "position_id": "p1",
+          "scenario_id": "episode1.curve",
+          "side": 1,
+          "source_record_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "state_available_epoch": 950.0
+        }
+      ],
+      "quotes": {
+        "EUR_USD": {
+          "ask": "1.1002",
+          "available_epoch": 999.75,
+          "bid": "1.0998",
+          "instrument": "EUR_USD",
+          "market_epoch": 999.25,
+          "quote_id": "q.EUR_USD",
+          "source_record_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "tradeable": true
+        },
+        "GBP_USD": {
+          "ask": "1.2502",
+          "available_epoch": 999.75,
+          "bid": "1.2498",
+          "instrument": "GBP_USD",
+          "market_epoch": 999.25,
+          "quote_id": "q.GBP_USD",
+          "source_record_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "tradeable": true
+        },
+        "USD_JPY": {
+          "ask": "150.02",
+          "available_epoch": 999.75,
+          "bid": "149.98",
+          "instrument": "USD_JPY",
+          "market_epoch": 999.25,
+          "quote_id": "q.USD_JPY",
+          "source_record_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "tradeable": true
+        }
+      },
+      "scenario_id": "episode1.curve"
+    },
+    "input_sha256": "052917cbb3a646921782d204273cb06fcdb7faac275918310ab474e8ecc4951e",
+    "manager_activation": false,
+    "observed_epoch": 1001.0,
+    "orders_enabled": false,
+    "projection_sha256": "159b88496ac4a841b716d1e5efd193c6ede8566fde9fe4072eb2ad0b518be882",
+    "proof_eligible": false,
+    "research_only": true,
+    "runtime_writes": false,
+    "scenario_id": "episode1.curve",
+    "schema_version": "currency_exposure_projection_v1_20260909",
+    "scopes": [
+      "Current midpoint FX risk-factor sensitivity legs, not financed entry legs, account cash, NAV, margin or leverage.",
+      "Signed base units and minus base units times current pair midpoint in quote currency; no entry-price balance reconstruction.",
+      "Midpoint risk USD uses direct midpoint or inverse midpoint; conservative absolute valuation uses USD purchase cost from verified bid/ask.",
+      "Gross currency-leg attribution counts both economic legs by design; it is separate from gross position notional and is not portfolio loss.",
+      "Currency topology and concentration are not return/error covariance, VaR, probability or independent confirmation.",
+      "Single caller-attested virtual scenario; never combine counterfactual arms or separate episode accounts.",
+      "Limits are diagnostic caller inputs, not tuned thresholds, authorization or a recommendation to trade.",
+      "Financial arithmetic uses a private192-digit Decimal context; JSON clock comparisons use Decimal(str(value)) before reused clock validation.",
+      "Module-load source fingerprints bind loaded source files; no live source reread or runtime authenticity claim is made."
+    ],
+    "source_bindings": {
+      "oanda_currency_exposure_projection_v1.py": "8feee4c9c007ddd1ef5591fa6671783a6497fc6fa88046458ebde34e615835fa",
+      "oanda_curve_management_replay_v1.py": "52fd04c6b087df4be775e490002afd0744caeb245604b8f577ab0fcff41de8f3",
+      "src/forex_system/contracts/signed_currency_exposure.py": "aeb0301a68ba5e2bb8e10ac1771f1799e962122f8cad8ef35c947f6971a69fa9",
+      "src/forex_system/research/sequential_portfolio_replay_v1.py": "e1201fdd3387825c9295f13045aeb00e2f87cce9ff819e789faf922ea2e514a6"
+    },
+    "status": "complete_diagnostic"
+  }
+}

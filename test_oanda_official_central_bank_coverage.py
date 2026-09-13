@@ -45,6 +45,21 @@ def test_canonical_contract_maps_all_21_currencies_and_exposes_rbnz_runtime_gap(
     assert report["currencies"]["NZD"]["configured_complete"] is True
     assert report["currencies"]["NZD"]["release_operational"] is False
     assert report["currencies"]["NZD"]["schedule_operational"] is True
+    assert report["currencies"]["NZD"]["operational_blockers"] == [
+        "policy_release_not_operational:new_zealand_rbnz_ocr_snapshot_direct_v1:"
+        "publisher_permission_required_and_http_403_to_bounded_collector_20260830"
+    ]
+    assert report["operational_blockers"] == [
+        "NZD:policy_release_not_operational:"
+        "new_zealand_rbnz_ocr_snapshot_direct_v1:"
+        "publisher_permission_required_and_http_403_to_bounded_collector_20260830"
+    ]
+    assert report["pairs"]["AUD_NZD"]["operational_blockers"] == [
+        "quote_policy_release_not_operational:NZD"
+    ]
+    assert report["pairs"]["NZD_USD"]["operational_blockers"] == [
+        "base_policy_release_not_operational:NZD"
+    ]
 
 
 def test_aggregator_cannot_satisfy_official_bank_contract() -> None:

@@ -101,13 +101,14 @@ def test_v6_keeps_relevance_exclusion_and_activation_gates():
     assert by_headline["excluded"]["prospective_proof_eligible"] is False
 
 
-def test_supervisor_starts_v6_and_retires_v5():
+def test_supervisor_preserves_v6_and_starts_v8():
     supervisor = (subject.ROOT / "oanda_always_on_supervisor.ps1").read_text(
         encoding="utf-8"
     )
-    assert '-Name "causal_source_factor_response_map_v6"' in supervisor
+    assert '-Name "causal_source_factor_response_map_v6_preserved"' in supervisor
     assert '-Needle "oanda_causal_source_factor_response_map_v6.py"' in supervisor
-    assert "causal_source_factor_response_map_latest_v6.json" in supervisor
+    assert '-Name "causal_source_factor_response_map_v8"' in supervisor
+    assert "causal_source_factor_response_map_latest_v8.json" in supervisor
     assert '-Name "causal_source_factor_response_map_v5_preserved"' in supervisor
     assert '-Needle "oanda_causal_source_factor_response_map_v5.py"' in supervisor
     assert "v6_v151_pair_breakout_recap_cutover" in supervisor

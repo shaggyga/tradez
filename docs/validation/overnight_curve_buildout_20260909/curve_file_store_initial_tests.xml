@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="37" time="3.939" timestamp="2026-09-09T01:07:06.509609-04:00" hostname="DESKTOP-Q2EDIEU"><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_complete_files_are_canonical_and_observation_clocks_are_separate" time="0.163" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_existing_publication_preserves_original_bytes_and_clocks" time="0.118" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_optional_consumption_record_is_immutable_and_idempotent" time="0.156" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_plain_read_has_no_filesystem_mutation" time="0.085" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_descriptor_tamper_is_withheld_without_reading_other_paths[schema_version-other]" time="0.050" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_descriptor_tamper_is_withheld_without_reading_other_paths[curve_sha256-../outside]" time="0.049" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_descriptor_tamper_is_withheld_without_reading_other_paths[curve_sha256-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa]" time="0.051" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_descriptor_tamper_is_withheld_without_reading_other_paths[publication_sha256-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa]" time="0.075" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_descriptor_tamper_is_withheld_without_reading_other_paths[persisted_curve_bytes_sha256-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb]" time="0.064" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_descriptor_tamper_is_withheld_without_reading_other_paths[publication_bytes_sha256-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb]" time="0.071" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_descriptor_tamper_is_withheld_without_reading_other_paths[descriptor_sha256-0000000000000000000000000000000000000000000000000000000000000000]" time="0.052" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_descriptor_tamper_is_withheld_without_reading_other_paths[research_only-False]" time="0.051" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_descriptor_tamper_is_withheld_without_reading_other_paths[can_place_orders-True]" time="0.053" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_descriptor_tamper_is_withheld_without_reading_other_paths[execution_eligible-1]" time="0.049" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_descriptor_cannot_supply_a_path" time="0.066" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_source_mismatch_prevents_any_publication" time="0.010" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_source_mismatch_rejects_existing_consumer" time="0.064" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_corrupt_or_truncated_immutable_file_is_rejected_and_not_replaced[curve.json]" time="0.097" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_corrupt_or_truncated_immutable_file_is_rejected_and_not_replaced[publication.json]" time="0.099" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_missing_receipt_means_retained_orphan_not_success" time="0.074" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_failed_fsync_is_not_reported_success_and_orphan_is_retained" time="0.032" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_existing_curve_collision_does_not_change_bytes" time="0.037" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_bounded_read_refuses_large_payload" time="0.009" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_noncanonical_or_ambiguous_json_fails[{&quot;x&quot;:1,&quot;x&quot;:2}]" time="0.001" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_noncanonical_or_ambiguous_json_fails[{&quot;x&quot;:NaN}]" time="0.001" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_noncanonical_or_ambiguous_json_fails[{ &quot;x&quot;:1}]" time="0.001" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_noncanonical_or_ambiguous_json_fails[[]\n]" time="0.001" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_noncanonical_or_ambiguous_json_fails[\xff]" time="0.001" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_actual_publisher_clock_cannot_go_backward_or_past_deadline[kwargs0]" time="0.013" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_actual_publisher_clock_cannot_go_backward_or_past_deadline[kwargs1]" time="0.043" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_actual_publisher_clock_cannot_go_backward_or_past_deadline[kwargs2]" time="0.051" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_consumer_clock_is_sampled_after_independent_reads" time="0.083" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_concurrent_existing_publication_and_independent_reads" time="0.393" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_reader_refuses_during_first_publication_then_succeeds" time="0.126" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_returned_mutation_cannot_change_persisted_source" time="0.134" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_symlink_component_is_rejected_without_writing_through" time="0.019" /><testcase classname="test_oanda_forecast_curve_file_store_v1" name="test_actual_windows_junction_is_rejected" time="0.452"><failure message="subprocess.CalledProcessError: Command '['powershell.exe', '-NoProfile', '-NonInteractive', '-File', 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-4734\\test_actual_windows_junction_i0\\create_junction.ps1', 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-4734\\test_actual_windows_junction_i0\\junction', 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-4734\\test_actual_windows_junction_i0\\outside']' returned non-zero exit status 1.">tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-4734/test_actual_windows_junction_i0')
+
+    @pytest.mark.skipif(os.name!='nt',reason='Actual NTFS junction case is Windows-specific')
+    def test_actual_windows_junction_is_rejected(tmp_path):
+        outside=tmp_path/'outside'
+        outside.mkdir()
+        linked=tmp_path/'junction'
+        script=tmp_path/'create_junction.ps1'
+        script.write_text('param([string]$LinkPath,[string]$TargetPath)\nNew-Item -ItemType Junction -Path $LinkPath -Target $TargetPath -ErrorAction Stop | Out-Null\n')
+&gt;       subprocess.run(['powershell.exe','-NoProfile','-NonInteractive','-File',str(script),str(linked),str(outside)],
+            check=True,capture_output=True,timeout=15)
+
+test_oanda_forecast_curve_file_store_v1.py:287: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+input = None, capture_output = True, timeout = 15, check = True
+popenargs = (['powershell.exe', '-NoProfile', '-NonInteractive', '-File', 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor...:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-4734\\test_actual_windows_junction_i0\\junction', ...],)
+kwargs = {'stdout': -1, 'stderr': -1}
+
+    def run(*popenargs,
+            input=None, capture_output=False, timeout=None, check=False, **kwargs):
+        """Run command with arguments and return a CompletedProcess instance.
+    
+        The returned instance will have attributes args, returncode, stdout and
+        stderr. By default, stdout and stderr are not captured, and those attributes
+        will be None. Pass stdout=PIPE and/or stderr=PIPE in order to capture them,
+        or pass capture_output=True to capture both.
+    
+        If check is True and the exit code was non-zero, it raises a
+        CalledProcessError. The CalledProcessError object will have the return code
+        in the returncode attribute, and output &amp; stderr attributes if those streams
+        were captured.
+    
+        If timeout (seconds) is given and the process takes too long,
+         a TimeoutExpired exception will be raised.
+    
+        There is an optional argument "input", allowing you to
+        pass bytes or a string to the subprocess's stdin.  If you use this argument
+        you may not also use the Popen constructor's "stdin" argument, as
+        it will be used internally.
+    
+        By default, all communication is in bytes, and therefore any "input" should
+        be bytes, and the stdout and stderr will be bytes. If in text mode, any
+        "input" should be a string, and stdout and stderr will be strings decoded
+        according to locale encoding, or by "encoding" if set. Text mode is
+        triggered by setting any of text, encoding, errors or universal_newlines.
+    
+        The other arguments are the same as for the Popen constructor.
+        """
+        if input is not None:
+            if kwargs.get('stdin') is not None:
+                raise ValueError('stdin and input arguments may not both be used.')
+            kwargs['stdin'] = PIPE
+    
+        if capture_output:
+            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
+                raise ValueError('stdout and stderr arguments may not be used '
+                                 'with capture_output.')
+            kwargs['stdout'] = PIPE
+            kwargs['stderr'] = PIPE
+    
+        with Popen(*popenargs, **kwargs) as process:
+            try:
+                stdout, stderr = process.communicate(input, timeout=timeout)
+            except TimeoutExpired as exc:
+                process.kill()
+                if _mswindows:
+                    # Windows accumulates the output in a single blocking
+                    # read() call run on child threads, with the timeout
+                    # being done in a join() on those threads.  communicate()
+                    # _after_ kill() is required to collect that and add it
+                    # to the exception.
+                    exc.stdout, exc.stderr = process.communicate()
+                else:
+                    # POSIX _communicate already populated the output so
+                    # far into the TimeoutExpired exception.
+                    process.wait()
+                raise
+            except:  # Including KeyboardInterrupt, communicate handled that.
+                process.kill()
+                # We don't call process.wait() as .__exit__ does that for us.
+                raise
+            retcode = process.poll()
+            if check and retcode:
+&gt;               raise CalledProcessError(retcode, process.args,
+                                         output=stdout, stderr=stderr)
+E               subprocess.CalledProcessError: Command '['powershell.exe', '-NoProfile', '-NonInteractive', '-File', 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-4734\\test_actual_windows_junction_i0\\create_junction.ps1', 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-4734\\test_actual_windows_junction_i0\\junction', 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-4734\\test_actual_windows_junction_i0\\outside']' returned non-zero exit status 1.
+
+..\..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:571: CalledProcessError</failure></testcase></testsuite></testsuites>

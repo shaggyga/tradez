@@ -1,0 +1,24 @@
+{
+  "schema_version": "s5_capture_independent_source_review_v1_20260909",
+  "generated_utc": "2026-09-09T05:19:26.439835+00:00",
+  "status": "passed",
+  "source_hashes": {
+    "oanda_s5_mba_research_capture_v1.py": "38fe20f4e55d970f074c71f7acee5f5adaebc9ac7766a532efcd782b34abbb45",
+    "test_oanda_s5_mba_research_capture_v1.py": "2a58e672bd400a27eced622efcc5e0f72092d7e7f17696389e87c66ce8c6a6bf"
+  },
+  "closed_findings": [
+    "Midpoint and spread feature arithmetic now runs in explicit192-digit Decimal context with two low-precision parity fixtures.",
+    "execution_eligible is explicitly false, and successful receipt replay requires exact full key schema."
+  ],
+  "other_checked_boundaries": [
+    "Original read and capture clocks retained; no renewal on replay.",
+    "Exact allowed request and source/raw/count bindings; no redirect or retry.",
+    "Incomplete candles retained separately; no candle tradeability inference.",
+    "Numeric precision/magnitude bounds and exact registry pip binding."
+  ],
+  "limitations": [
+    "Read-only source/test review; no independent pytest rerun or live GET.",
+    "requests timeout and successful-response elapsed budget do not establish a hard wall-clock cancellation guarantee against every DNS or streaming stall.",
+    "Actual source availability, trusted receipt persistence and future original-target evaluation remain caller responsibilities."
+  ]
+}

@@ -1,0 +1,189 @@
+{
+  "active_pair_count": 61,
+  "api_pair": "EUR_USD",
+  "api_pair_news": {
+    "as_of_utc": "2026-09-07T22:47:17.922925+00:00",
+    "context_directional_event_count": 7,
+    "current_directional_event_count": 0,
+    "direction": "NEUTRAL",
+    "display_label": "Context only",
+    "events": [
+      {
+        "category": "risk_off_geopolitical_or_financial",
+        "headline": "Kickstart the North American FX session. The USDJPY is the big mover. The EUR and GBP are down modestly",
+        "reaction_phase": "continuation_context",
+        "source_name": "Forexlive"
+      },
+      {
+        "category": "risk_off_geopolitical_or_financial",
+        "headline": "Blockade Pushes Iran Output Onto Domestic Market - Energy Intelligence",
+        "reaction_phase": "continuation_context",
+        "source_name": "Energy Intelligence"
+      }
+    ],
+    "evidence_age_sec": 262.045,
+    "evidence_quality": "NO_CURRENT_EVIDENCE",
+    "instrument": "EUR_USD",
+    "reason": null,
+    "relevant_event_count": 10,
+    "status": "current"
+  },
+  "api_primary_collection": {
+    "can_place_orders": false,
+    "can_promote": false,
+    "expected_model_count": 68,
+    "forecasting": {
+      "active_family_forecasts": 61,
+      "blocked": false,
+      "family_forecast_counts": {
+        "ridge_price_news_v1": 61
+      },
+      "label": "Partially operational \u00b7 61/68 combined H1 forecasts",
+      "observation_current": true,
+      "pairs_with_forecast": 61,
+      "scope": "combined_price_news_coverage",
+      "state": "published"
+    },
+    "label": "Partially operational \u00b7 61/68 combined H1 forecasts",
+    "model_attempts": {
+      "counts": {
+        "attempts": 61,
+        "consumption": 61,
+        "exclusions": 4,
+        "forecasts": 61,
+        "outcomes": 0,
+        "publication": 61
+      },
+      "latest_attempt": null,
+      "latest_published_forecast": null,
+      "observed_epoch": 1788821499.6513042,
+      "scope": "joint_price_news_v2_ledgers_only",
+      "status": "available"
+    },
+    "observations": {
+      "account": {
+        "age_sec": 1.94,
+        "current": true,
+        "max_age_sec": 90,
+        "observed_at": "2026-09-07T22:51:37.510992+00:00",
+        "status": "current"
+      },
+      "quote_stream": {
+        "age_sec": 1.365,
+        "current": true,
+        "current_stream_event_age_sec": 1.553,
+        "max_age_sec": 90,
+        "observed_at": "2026-09-07T22:51:38.085455+00:00",
+        "scope": "stream_transport_heartbeat_not_tradeable_price_freshness",
+        "status": "current"
+      },
+      "study": {
+        "age_sec": 1.354414463043213,
+        "current": true,
+        "max_age_sec": 90,
+        "observed_at": 1788821498.4006128,
+        "reported_cumulative_errors": 0,
+        "reported_cumulative_heartbeat_publication_errors": 0,
+        "status": "current"
+      }
+    },
+    "registered_pair_count": 68,
+    "registered_study_trading_enabled": false,
+    "research_only": true,
+    "running": true,
+    "running_scope": "current_registered_worker_observation_not_trading_readiness_or_forecast_success",
+    "schema_version": "joint_price_news_collection_status_v2_20260907",
+    "scope": "registered_joint_price_news_research",
+    "selected_study": "joint_price_news_v2",
+    "status": "running",
+    "strategy_or_execution_activation_changed": false,
+    "unavailable_observations": [],
+    "warmup": {
+      "explanation": "Each pair needs its own observed price and guarded news inputs,48 mature H1 labels and sufficient varied news context. Current readiness and last attempts are separate.",
+      "last_reported_common_bars": null,
+      "required_common_m1_bars": null,
+      "scope": "current_pair_price_and_news_inputs"
+    }
+  },
+  "classification_version": "local_fx_news_rules_20260907_v165_causal_member_admission",
+  "directional_topics": 0,
+  "finished_epoch": 1788821501.1593258,
+  "guard_replayed_current_topic_count": 12,
+  "guard_version": "causal_news_member_admission_v1_20260907",
+  "joint_generation_epoch": 1788821487.195616,
+  "joint_observed_epoch": 1788821499.6513042,
+  "joint_registry_sha256": "20fea86e661efd758536b81fa5c474a440feee2e6af48b28a1016b1538d3691e",
+  "joint_summary_sha256": "cc5b5db1df4f2a48a082bdb025c675628049e73bed1a0c9ca6d03465c48bdf6d",
+  "news_state": "context_only",
+  "prior_gap": {
+    "dashboard_correctly_unavailable": true,
+    "news_as_of_utc": "2026-09-07T22:41:34.946294+00:00",
+    "observed_utc": "2026-09-07T22:47:16.057Z",
+    "source_age_approx_sec": 341
+  },
+  "samples": [
+    {
+      "collector_heartbeat": {
+        "cycle_started_utc": "2026-09-07T22:48:35.870005+00:00",
+        "details": {
+          "attempted_sources": 104,
+          "candidate_rows": 5000,
+          "completed_sources": 192,
+          "configured_sources": 192,
+          "duplicate_items": 1232,
+          "inserted_items": 6,
+          "postprocess_step": "loading_retained_evidence",
+          "processed_rows": 5000,
+          "pruned_rows": 0,
+          "reclassified_rows": 4993,
+          "source_id": "google_news_market_ticker"
+        },
+        "generated_utc": "2026-09-07T22:51:36.122187+00:00",
+        "heartbeat_utc": "2026-09-07T22:51:36.122187+00:00",
+        "phase": "postprocessing_evidence",
+        "status": "running_cycle"
+      },
+      "joint_counts": {
+        "forecast": 61,
+        "unavailable": 4,
+        "warming": 3
+      },
+      "joint_forecast_pairs": 61,
+      "joint_status": "current",
+      "ledger_counts": {
+        "attempts": 61,
+        "consumption": 61,
+        "exclusions": 4,
+        "forecasts": 61,
+        "outcomes": 0,
+        "publication": 61
+      },
+      "news_age_sec": 263.09427070617676,
+      "news_as_of_utc": "2026-09-07T22:47:17.922925+00:00",
+      "news_generated_utc": "2026-09-07T22:47:33.401636+00:00",
+      "news_status": "current",
+      "observed_epoch": 1788821501.0171957,
+      "request_started_epoch": 1788821499.3281698,
+      "worker_observation": {
+        "age_sec": 1.2506914138793945,
+        "errors": 0,
+        "generated_epoch": 1788821498.4006128,
+        "heartbeat_publication_errors": 0
+      }
+    }
+  ],
+  "schema": "fresh_news_joint_growth_case_v1_20260907",
+  "scope": "Read-only current observations, with every failed/stale sample retained. Source timestamps unchanged; fresh evidence is not directional success, model accuracy or trading readiness.",
+  "source_age_sec": 263.2114670276642,
+  "source_bindings": {
+    "oanda_local_news_sentiment.py": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4",
+    "oanda_news_causal_aggregation_guard_v1.py": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9",
+    "oanda_news_classification_contract.py": "f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae"
+  },
+  "source_observed_epoch": 1788821501.134392,
+  "source_sha256": "e4cf8b8bac9b55806af065a9ba1f3de79acb87bf050d19e28709eacc515e8eda",
+  "source_snapshot_path": "C:\\Users\\zmoor\\Documents\\forex\\joint_price_news_20260907\\dashboard\\FRESH_V165_JOINT_SOURCE_20260907.json",
+  "started_epoch": 1788821499.3281698,
+  "status": "passed",
+  "topic_count": 12
+}

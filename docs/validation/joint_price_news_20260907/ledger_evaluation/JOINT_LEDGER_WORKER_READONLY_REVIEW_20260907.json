@@ -1,0 +1,28 @@
+{
+  "status": "passed",
+  "observed_utc": "2026-09-07T22:17:58.442904+00:00",
+  "review_type": "bounded_independent_source_review",
+  "source_bindings": {
+    "oanda_causal_forecast_ledger_joint_news_v1.py": "df915eddafbc9265eb19c9b6757eb14441ebd9ca3864f6601f5a70ca39d65d7b",
+    "oanda_fixed_forecast_evaluation_joint_news_v1.py": "c1f9940d57c0d39c1815b22a9114752075042a09da3e196e84829e77b293131d",
+    "oanda_joint_price_news_forecast_study_v1.py": "e6b8a38e6c0dd26455037c802fbca17a810d6b4f92535b8144c5dd9a5c4a697e",
+    "oanda_always_on_supervisor.ps1": "7773307e8dc9116823bf1e043b8e01df79059ef260657ef6573a82e786dc6e3c"
+  },
+  "checks": [
+    "Original source-news generation, independent consumer availability and input-read clocks remain ordered.",
+    "Actual issuance rejects news older than300seconds or beyond inclusive original expiry.",
+    "Training news availability and feature cutoff precede exact H1 label maturity and price cutoff.",
+    "All successful singleton publications retain immutable bucket/reference guards and independent publication/consumer clocks.",
+    "Exact comparator magnitude scores use the same complete valid joint decisions and reference,entry,target quotes; no probability/Brier result is claimed.",
+    "Worker verifies exact16source bindings,dependency versions,contract hash,singleton family,pip metadata and inert flags.",
+    "Joint supervisor gate is disabled without an explicit inert registered config and only adds a BelowNormal research worker."
+  ],
+  "limitations": [
+    "No pytest cases attributed to this source review. Owners retain their source-bound test receipts.",
+    "Historical reconstruction correctness additionally depends on separately reviewed adapter/model sources.",
+    "Live publication and forecast accuracy are not established by a source review."
+  ],
+  "runtime_writes": false,
+  "source_edits": false,
+  "broker_calls": false
+}

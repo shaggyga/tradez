@@ -87,6 +87,26 @@ CREATE TRIGGER factor_finalizations_no_delete BEFORE DELETE ON factor_episode_fi
 """
 
 
+def test_read_snapshot_excludes_concurrent_wal_commits(tmp_path: Path) -> None:
+    database = tmp_path / "snapshot.sqlite"
+    writer = sqlite3.connect(database)
+    writer.execute("PRAGMA journal_mode=WAL")
+    writer.execute("CREATE TABLE observations(value INTEGER)")
+    writer.execute("INSERT INTO observations VALUES(1)")
+    writer.commit()
+
+    reader = verifier._open_readonly(database)
+    try:
+        verifier._begin_read_snapshot(reader)
+        assert reader.in_transaction is True
+        writer.execute("INSERT INTO observations VALUES(2)")
+        writer.commit()
+        assert reader.execute("SELECT COUNT(*) FROM observations").fetchone()[0] == 1
+    finally:
+        reader.close()
+        writer.close()
+
+
 def _manifest(connection: sqlite3.Connection) -> None:
     config_raw = verifier.CONFIG_PATH.read_bytes()
     universe = list(verifier.EXPECTED_INSTRUMENTS)
@@ -323,10 +343,65 @@ def _seed(
 
 
 def _verify(database: Path, latest: Path, generated: dt.datetime, **overrides):
-    return verifier.verify(
-        database_path=database, latest_path=latest,
-        now=generated + dt.timedelta(seconds=1), **overrides,
+    # Algorithm fixtures are rebuilt from the current local source producer.
+    # Bind that identity only for the duration of the unit call; the immutable
+    # historical cohort verifier retains its original literal pin in runtime.
+    previous = verifier.FROZEN_SOURCE_PRODUCER_SHA256
+    verifier.FROZEN_SOURCE_PRODUCER_SHA256 = verifier.sha(
+        verifier.SOURCE_PRODUCER_PATH.read_bytes()
     )
+    effective_now = overrides.pop("now", generated + dt.timedelta(seconds=1))
+    try:
+        return verifier.verify(
+            database_path=database, latest_path=latest,
+            now=effective_now, **overrides,
+        )
+    finally:
+        verifier.FROZEN_SOURCE_PRODUCER_SHA256 = previous
+
+
+def test_historical_source_pin_detects_current_source_contract_rotation():
+    assert verifier.sha(verifier.SOURCE_PRODUCER_PATH.read_bytes()) != (
+        verifier.FROZEN_SOURCE_PRODUCER_SHA256
+    )
+
+
+def test_raw_snapshot_clock_is_fresh_when_open_and_nonfuture_when_closed():
+    closed = dt.datetime(2026, 9, 1, 21, 0, tzinfo=UTC)
+    open_market = dt.datetime(2026, 9, 1, 21, 5, tzinfo=UTC)
+    assert not verifier.market_open(closed)
+    assert verifier.market_open(open_market)
+    assert verifier.raw_generated_clock_valid(600.0, closed)
+    assert not verifier.raw_generated_clock_valid(600.0, open_market)
+    assert not verifier.raw_generated_clock_valid(-3.0, closed)
+    assert not verifier.raw_generated_clock_valid(None, closed)
+
+
+def test_latest_freshness_is_bound_to_atomic_read_not_later_replay_time(
+    tmp_path: Path,
+) -> None:
+    database, latest, generated = _seed(tmp_path)
+    connection = verifier._open_readonly(database)
+    try:
+        verifier._begin_read_snapshot(connection)
+        failures: list[str] = []
+        _, frames, quote_cache, _, _, _ = verifier._verify_frames(
+            connection,
+            failures,
+            generated + dt.timedelta(seconds=170),
+        )
+        verifier._verify_latest(
+            latest,
+            connection,
+            frames,
+            quote_cache,
+            generated + dt.timedelta(seconds=170),
+            failures,
+            latest_observed_at=generated + dt.timedelta(seconds=149),
+        )
+        assert failures == []
+    finally:
+        connection.close()
 
 
 def test_frozen_pre_activation_empty_state_verifies_without_database(tmp_path):
@@ -355,11 +430,7 @@ def test_frozen_pre_activation_empty_state_verifies_without_database(tmp_path):
         verifier.canonical(payload)
     )
     latest.write_bytes(verifier.canonical(payload))
-    result = verifier.verify(
-        database_path=database,
-        latest_path=latest,
-        now=generated + dt.timedelta(seconds=1),
-    )
+    result = _verify(database, latest, generated)
     assert result["verified"], result["failures"]
     assert result["counts"]["frames"] == 0
     assert not database.exists()
@@ -379,6 +450,8 @@ def test_clean_full_68_by_2_fixture_verifies(tmp_path):
     result = _verify(database, latest, generated)
     assert result["verified"], result["failures"]
     assert result["counts"]["frames"] == 3
+    assert result["audit_finished_utc"] == result["generated_utc"]
+    assert result["audit_duration_sec"] == 0.0
     assert result["counts"]["frame_quotes"] == 204
     assert result["counts"]["window_evaluations"] == 1
     payload = json.loads(latest.read_bytes())
@@ -388,6 +461,69 @@ def test_clean_full_68_by_2_fixture_verifies(tmp_path):
         block["valid_count"] + block["invalid_count"] + block["pending_count"] == 136
         for block in payload["horizons"]
     )
+
+
+def test_latest_replay_ignores_durable_rows_after_its_knowledge_cutoff(
+    tmp_path: Path,
+) -> None:
+    database, latest, generated = _seed(tmp_path)
+    connection = sqlite3.connect(database)
+    connection.row_factory = sqlite3.Row
+    connection.execute("PRAGMA foreign_keys=ON")
+    later_scheduled = verifier.ACTIVATION_UTC + dt.timedelta(minutes=3)
+    _insert_frame(connection, later_scheduled, 6.0)
+    frames = list(
+        connection.execute(
+            "SELECT f.* FROM frames f JOIN frame_commit_receipts r "
+            "ON r.frame_id=f.frame_id AND r.within_first_horizon=1 "
+            "ORDER BY f.scheduled_utc"
+        )
+    )
+    quote_cache = {
+        frame["frame_id"]: {
+            row["instrument"]: row
+            for row in connection.execute(
+                "SELECT * FROM frame_quotes WHERE frame_id=? ORDER BY universe_index",
+                (frame["frame_id"],),
+            )
+        }
+        for frame in frames
+    }
+    target = verifier.ACTIVATION_UTC + dt.timedelta(minutes=2)
+    block = verifier._build_block(
+        frames, quote_cache, target, 1, terminal_missing_is_final=True
+    )
+    digests = verifier._window_digests(block)
+    connection.execute(
+        "INSERT INTO window_evaluations VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        (
+            verifier.iso(target),
+            1,
+            block["entry_frame_id"],
+            block["exit_frame_id"],
+            verifier.iso(later_scheduled + dt.timedelta(seconds=20)),
+            "evaluated",
+            136,
+            block["valid_count"],
+            block["cleared_count"],
+            block["path_cleared_count"],
+            block["invalid_count"],
+            block["pending_count"],
+            *digests,
+        ),
+    )
+    connection.commit()
+    connection.close()
+
+    result = _verify(
+        database,
+        latest,
+        generated,
+        now=later_scheduled + dt.timedelta(seconds=30),
+    )
+    assert result["verified"] is True, result["failures"]
+    assert result["counts"]["frames"] == 4
+    assert result["counts"]["window_evaluations"] == 1
 
 
 def test_executable_math_uses_ask_to_bid_and_slippage_once(tmp_path):

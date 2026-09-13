@@ -1,0 +1,694 @@
+"""Separate v4 joint research cohort with immutable summary publication.
+
+Reuses the retained weekend fair scheduler and unchanged numeric model.
+Status coherence does not establish forecast or trading eligibility.
+
+Each registered pair owns a separate immutable ledger and cadence. No broker
+API, execution feed, lifecycle, promotion or order capability is imported.
+"""
+from __future__ import annotations
+import argparse
+from contextlib import closing
+from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime
+import hashlib
+import importlib.metadata
+import json
+import math
+import os
+from pathlib import Path
+import platform
+import re
+import sqlite3
+import time
+
+import oanda_immutable_summary_publication_v1 as summary_boundary
+
+from oanda_causal_forecast_ledger_joint_news_v2 import CausalForecastLedger, digest, encoded, validate_contract, number, utc
+from oanda_fixed_forecast_evaluation_joint_news_v1 import evaluate, jsonable, loads_exact_prices, forecast_errors
+from oanda_exact_price_scoring import decimal_value, quote_midpoint
+
+SCHEDULING_VERSION='bounded_fresh_capture_handoff_v1_20260911'
+
+ROOT=Path(__file__).resolve().parent
+DEFAULT_CONFIG=ROOT/'config/joint_price_news_study_v4_20260912.json'
+STUDY=ROOT/'data/oanda_training_manager/joint_price_news_study_v4'
+FAMILIES=frozenset({'ridge_price_news_v1'})
+REGISTRY_SCHEMA='joint_price_news_registry_v4_20260912'
+SUMMARY_SCHEMA='joint_price_news_forecast_summary_v4_20260912'
+HEARTBEAT_SCHEMA='joint_price_news_forecast_heartbeat_v4_20260912'
+COHORT_SCOPE='immutable_publication_v4_20260912'
+REQUIRED_SOURCE_BINDINGS=frozenset({
+ 'oanda_joint_price_news_forecast_study_v4.py','oanda_causal_forecast_ledger_joint_news_v2.py',
+ 'oanda_fixed_forecast_evaluation_joint_news_v1.py','oanda_joint_price_news_models_v1.py',
+ 'oanda_causal_forecast_inputs_joint_news_v2.py','oanda_causal_forecast_inputs.py',
+ 'oanda_causal_forecast_inputs_gap_v2.py','oanda_exact_price_scoring.py',
+ 'oanda_causal_prediction_baselines.py','oanda_pair_local_models_v2.py',
+ 'oanda_causal_forecast_inputs_pair_v2.py','oanda_news_causal_aggregation_guard_v1.py',
+ 'oanda_news_classification_contract.py','oanda_local_news_sentiment.py',
+ 'oanda_source_governance.py','oanda_source_governance_news_fast_lane.py',
+ 'oanda_local_news_sentiment_repair_v1.py','oanda_news_topic_identity_reconciliation_v1.py',
+ 'oanda_news_event_tagger.py','oanda_news_collector_contract.py',
+ 'oanda_immutable_summary_publication_v1.py'})
+
+def bounded_bytes(path,limit):
+    with Path(path).open('rb') as handle:raw=handle.read(limit+1)
+    if len(raw)>limit:raise ValueError('source_size_limit')
+    return raw
+
+def read_summary_bytes(path):
+    # A readback size refusal is a counted status-publication error.
+    # Keep ordinary registry/source-reader validation unchanged.
+    try:return bounded_bytes(path,summary_boundary.MAX_BYTES)
+    except ValueError as exc:
+        if str(exc)!='source_size_limit':raise
+        raise summary_boundary.SummaryBoundaryError('summary_boundary_readback_size_limit') from None
+
+
+def atomic_json(path,value):
+    return atomic_bytes(path,encoded(value))
+
+
+def atomic_bytes(path,raw):
+    if type(raw) is not bytes:raise TypeError("immutable_publication_bytes_required")
+    path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
+    temporary=path.with_name(path.name+f'.{os.getpid()}.{time.time_ns()}.tmp')
+    owned=False
+    try:
+        with temporary.open('xb') as handle:
+            owned=True;handle.write(raw);handle.flush();os.fsync(handle.fileno())
+        for attempt in range(8):
+            try:os.replace(temporary,path);break
+            except OSError as exc:
+                if (not isinstance(exc,PermissionError) and getattr(exc,'winerror',None) not in (5,32,33)) or attempt==7:raise
+                time.sleep(min(.01*2**attempt,.5))
+    finally:
+        if owned:
+            try:temporary.unlink(missing_ok=True)
+            except OSError:pass
+
+def epoch(value):
+    parsed=datetime.fromisoformat(value.replace('Z','+00:00'))
+    if parsed.tzinfo is None:raise ValueError('timezone_required')
+    return parsed.timestamp()
+
+def load_registry(path):
+    registry=json.loads(bounded_bytes(path,1024*1024))
+    if registry.get('schema_version')!=REGISTRY_SCHEMA or registry.get('registry_id')!='joint_price_news_study_v4_20260912':
+        raise ValueError('registry_identity')
+    if registry.get('collection_enabled') is not True or registry.get('research_only') is not True:
+        raise ValueError('research_collection_required')
+    for flag in ('can_place_orders','can_promote','can_authorize','account_eligible','proof_eligible','historical_rows_imported'):
+        if registry.get(flag) is not False:raise ValueError('inert_registry_required')
+    if set(registry.get('source_bindings',{}))!=REQUIRED_SOURCE_BINDINGS:raise ValueError('complete_source_bindings_required')
+    for name,expected in registry['source_bindings'].items():
+        if hashlib.sha256((ROOT/name).read_bytes()).hexdigest()!=expected:raise ValueError('source_binding_mismatch:'+name)
+    dependencies=registry.get('dependency_versions',{})
+    if set(dependencies)!={'python','numpy','scikit-learn'}:raise ValueError('complete_dependency_bindings_required')
+    for package,expected in dependencies.items():
+        actual=platform.python_version() if package=='python' else importlib.metadata.version(package)
+        if actual!=expected:raise ValueError('dependency_binding_mismatch:'+package)
+    pairs=registry.get('pairs',{})
+    if not isinstance(pairs,dict) or not 1<=len(pairs)<=68:raise ValueError('bounded_pair_registry_required')
+    cohorts=[]
+    for pair,item in pairs.items():
+        if not re.fullmatch(r'[A-Z]{3}_[A-Z]{3}',pair):raise ValueError('pair_identity')
+        if set(item.get('families',{})) != FAMILIES:raise ValueError('registered_joint_family_slot_required')
+        for family, slot in item['families'].items():
+            contract=slot['contract'];validate_contract(contract)
+            identity=contract.get('cohorts',{}).get(family,'')
+            prefix=f'joint_price_news_v1_20260907.{pair}.{family}.{COHORT_SCOPE}.'
+            if not isinstance(identity,str) or not identity.startswith(prefix) or not re.fullmatch(r'[a-z0-9][a-z0-9_]{0,63}',identity[len(prefix):]):
+                raise ValueError('new_v4_cohort_scope_required')
+            if contract.get('contract_id')!=identity or contract['evaluation_protocol'].get('contract_id')!=identity+'.evaluation':
+                raise ValueError('new_v4_contract_identity_required')
+            if contract['instrument']!=pair or contract['family']!=family or decimal_value(item['pip_size'])!=decimal_value(contract['pip_size']):
+                raise ValueError('registered_pair_family_or_pip_mismatch')
+            if digest(contract)!=slot['contract_sha256']:raise ValueError('contract_hash_mismatch')
+            if contract.get('source_bindings')!=registry['source_bindings'] or contract.get('dependency_versions')!=dependencies:
+                raise ValueError('pair_source_or_dependency_mismatch')
+            if contract['numeric_model_source_sha256']!=registry['source_bindings']['oanda_joint_price_news_models_v1.py']:
+                raise ValueError('numeric_model_binding_mismatch')
+            if contract['model_version']!='sha256:'+registry['source_bindings']['oanda_joint_price_news_models_v1.py']:
+                raise ValueError('model_version_source_binding_mismatch')
+            if contract['feature_version']!='sha256:'+registry['source_bindings']['oanda_causal_forecast_inputs_joint_news_v2.py']:
+                raise ValueError('feature_version_source_binding_mismatch')
+            cohorts.extend(contract['cohorts'].values())
+    if len(cohorts)!=len(set(cohorts)):raise ValueError('cohort_reuse')
+    return registry
+
+
+def activate_fresh_study(config=DEFAULT_CONFIG,*,study=STUDY,clock=time.time):
+    """Explicit deployment-only activation; never starts a worker or imports rows.
+
+    Registration preparation is not activation. Each new ledger samples its
+    actual clock here after registration/source verification. Existing or
+    partially activated roots are never reopened by this helper.
+    """
+    registry=load_registry(config)
+    study=Path(study)
+    resolved=study.resolve()
+    if study.name!='joint_price_news_study_v4' or study.is_symlink() or resolved.exists():
+        raise ValueError('wholly_absent_v4_study_root_required')
+    started=number(clock());records=[]
+    if started<=0:raise ValueError('positive_activation_clock_required')
+    # Explicit directory creation is an atomic refusal of a competing activation.
+    resolved.mkdir(parents=True,exist_ok=False)
+    try:
+        for pair,item in sorted(registry['pairs'].items()):
+            for family,spec in sorted(item['families'].items()):
+                path=(resolved/'pairs'/pair/family/'study.sqlite').resolve()
+                if not path.is_relative_to(resolved) or path.exists():
+                    raise ValueError('new_ledger_path_required')
+                ledger=CausalForecastLedger(path,spec['contract'],clock=clock,activate=True)
+                try:
+                    counts=ledger.counts()
+                    if any(counts.values()):raise ValueError('new_ledger_must_be_empty')
+                    if ledger.activated_epoch<started:raise ValueError('activation_clock_before_deployment')
+                    records.append({'instrument':pair,'family':family,'path':str(path),
+                        'contract_sha256':ledger.contract_hash,'activated_epoch':ledger.activated_epoch,'counts':counts})
+                finally:ledger.close()
+        if digest(load_registry(config))!=digest(registry):raise ValueError('registration_changed_during_activation')
+        completed=number(clock())
+        if any(r['activated_epoch']>completed for r in records):raise ValueError('activation_clock_after_completion')
+        receipt={'schema_version':'joint_price_news_v4_activation_receipt_20260912','status':'activated_empty',
+            'registry_sha256':digest(registry),'registry_path':str(Path(config).resolve()),
+            'registry_file_sha256':hashlib.sha256(Path(config).read_bytes()).hexdigest(),
+            'source_bindings':registry['source_bindings'],'activation_started_epoch':started,
+            'activation_completed_epoch':completed,'study_root':str(resolved),'ledgers':records,
+            'historical_rows_imported':False,'worker_started':False,'research_only':True,
+            **{flag:False for flag in INERT_FLAGS}}
+        atomic_json(resolved/'activation_receipt.json',receipt)
+        return receipt
+    except BaseException as exc:
+        atomic_json(resolved/'activation_failed.json',{'schema_version':'joint_price_news_v4_failed_activation_20260912',
+            'status':'partial_activation_requires_explicit_review','registry_sha256':digest(registry),
+            'completed_ledgers':records,'error':type(exc).__name__+':'+str(exc)[:500],
+            'historical_rows_imported':False,'worker_started':False})
+        raise
+
+
+def verify_activated_study(registry,study,*,clock=time.time):
+    """Read-only preflight before a worker lock/directory or writer is opened."""
+    root=Path(study).resolve();observed=number(clock())
+    for pair,item in registry['pairs'].items():
+        for family,spec in item['families'].items():
+            path=(root/'pairs'/pair/family/'study.sqlite').resolve()
+            if not path.is_relative_to(root) or not path.is_file():
+                raise ValueError('complete_prior_v3_activation_required')
+            with closing(sqlite3.connect(path.as_uri()+'?mode=ro',uri=True)) as db:
+                db.execute('PRAGMA query_only=ON')
+                saved=db.execute('SELECT sha,payload FROM contract WHERE id=1').fetchone()
+                activation=db.execute('SELECT epoch,contract_sha FROM activation WHERE id=1').fetchone()
+                if saved!=(spec['contract_sha256'],encoded(spec['contract']).decode()):
+                    raise ValueError('activated_contract_mismatch')
+                if activation is None or activation[1]!=spec['contract_sha256'] or not 0<number(activation[0])<=observed:
+                    raise ValueError('actual_v3_activation_required')
+    return True
+
+def read_snapshot(path,*,clock=time.time):
+    raw=bounded_bytes(path,262144);observed=number(clock())
+    snapshot=loads_exact_prices(raw)
+    if (not isinstance(snapshot,dict) or snapshot.get('producer')!='practice_007_dedicated_quote_stream'
+        or not isinstance(snapshot.get('quotes'),dict) or not isinstance(snapshot.get('coverage'),dict)
+        or not isinstance(snapshot['coverage'].get('retained_last_known_instruments'),list)):
+        raise ValueError('quote_snapshot_identity_or_shape')
+    retained=snapshot['coverage']['retained_last_known_instruments']
+    if len(snapshot['quotes'])>68 or len(retained)>68 or any(not isinstance(pair,str) for pair in retained):
+        raise ValueError('quote_snapshot_coverage_shape')
+    if not 0<=observed-epoch(snapshot['generated_utc'])<=60:raise ValueError('stale_or_future_quote_snapshot')
+    return snapshot,observed,hashlib.sha256(raw).hexdigest()
+
+def pair_quote(snapshot,observed,source_hash,pair,pip):
+    observed=number(observed)
+    quote=snapshot['quotes'].get(pair)
+    if not isinstance(quote,dict):raise ValueError('no_pair_quote')
+    if quote.get('instrument',pair)!=pair:raise ValueError('quote_pair_identity_mismatch')
+    if pair in snapshot['coverage']['retained_last_known_instruments']:raise ValueError('retained_quote_not_current')
+    if quote.get('source')!='stream' or quote.get('tradeable') is not True:raise ValueError('market_closed_or_no_stream_quote')
+    market=epoch(quote['time'])
+    if not 0<=observed-market<=60:raise ValueError('no_fresh_quote')
+    if decimal_value(quote['pip'])!=decimal_value(pip):raise ValueError('quote_pip_metadata_mismatch')
+    if not 0<decimal_value(quote['bid'])<=decimal_value(quote['ask']):raise ValueError('quote_price_order')
+    return {'instrument':pair,'pip_size':pip,'market_epoch':market,'available_epoch':observed,
+        'bid':str(decimal_value(quote['bid'])),'ask':str(decimal_value(quote['ask'])),'tradeable':True,
+        'provider_time':quote['time'],'raw_provider_quote':jsonable(quote),
+        'source_snapshot_sha256':source_hash,'producer':snapshot['producer']}
+
+
+INERT_FLAGS=('can_place_orders','can_promote','can_authorize','account_eligible','proof_eligible','historical_rows_imported')
+
+
+def write_scorecard(ledger,destination):
+    dataset,protocol=ledger.export_evaluation()
+    report=jsonable(evaluate(dataset,protocol))
+    report.update(collection_counts=dataset['collection_counts'],study_contract_sha256=ledger.contract_hash,
+        interpretation='Independent family research cohort. Probabilities are uncalibrated; availability is not accuracy or execution authority.')
+    atomic_json(destination,report)
+    return report
+
+
+def verified_publication(ledger):
+    """Verify committed forecast, publication and consumer receipts independently."""
+    rows=ledger._read('''SELECT f.id,f.sha,f.payload,p.epoch AS published,p.forecast_sha,
+        c.epoch AS consumed,c.forecast_sha AS consumed_sha,c.publication_sha,a.id AS attempt_id,
+        q.payload AS reference FROM forecasts f JOIN publication p ON p.id=f.id
+        JOIN consumption c ON c.id=f.id JOIN attempts a ON a.id=f.attempt_id
+        JOIN quotes q ON q.id=a.reference_id ORDER BY f.bucket DESC LIMIT 1''')
+    if not rows:return None
+    row=rows[0];payload=json.loads(row['payload']);quote=json.loads(row['reference'])
+    contract=ledger.contract;published=number(row['published']);consumed=number(row['consumed']);now=number(ledger.clock())
+    publication_receipt={'epoch':published,'forecast_sha':row['sha']}
+    publication_hash=digest(publication_receipt)
+    if (digest(payload)!=row['sha'] or row['sha']!=row['forecast_sha'] or row['sha']!=row['consumed_sha']
+        or payload['decision_id']!=row['id'] or row['publication_sha']!=publication_hash):
+        raise ValueError('summary_publication_or_consumer_hash_mismatch')
+    pair=contract['instrument'];pip=decimal_value(contract['pip_size']);family=contract['family']
+    if (payload.get('instrument')!=pair or quote.get('instrument')!=pair or payload.get('family')!=family
+        or payload.get('attempt_id')!=row['attempt_id']
+        or decimal_value(payload.get('pip_size'))!=pip or decimal_value(quote.get('pip_size'))!=pip
+        or payload.get('reference_quote_id')!=quote.get('quote_id')):
+        raise ValueError('summary_pair_reference_mismatch')
+    available=number(quote['available_epoch']);market=number(quote['market_epoch'])
+    target=number(payload['target_epoch']);arms=payload['forecasts']
+    if (not ledger.activated_epoch<available<=published<=consumed<=now or not 0<=available-market<=60
+        or target!=market+3600 or payload['reference_epoch']!=market or not consumed<target
+        or len(arms)!=1 or arms[0]['family']!=family):
+        raise ValueError('summary_publication_clock_or_family')
+    arm=arms[0];issue=number(arm['issued_epoch']);p=number(arm['probability_up']);number(arm['predicted_return_bps'])
+    protocol={**contract['evaluation_protocol'],'historical_start_utc':utc(ledger.activated_epoch)}
+    errors=forecast_errors({**arm,'committed_available_epoch':consumed},payload,protocol)
+    if (errors or arm.get('forecast_id')!=row['id']+':'+family
+        or any(arm.get(flag) is not False for flag in ('can_place_orders','account_eligible','proof_eligible'))):
+        raise ValueError('summary_full_forecast_contract_binding')
+    if (arm['instrument']!=pair or decimal_value(arm['pip_size'])!=pip
+        or arm['cohort_id']!=contract['cohorts'][family]
+        or arm['reference_epoch']!=market or arm['target_epoch']!=target
+        or decimal_value(arm['reference_mid'])!=quote_midpoint(quote)
+        or not available<=issue<=published or not 0<=p<=1
+        or type(arm['side']) is not int or arm['side'] not in (-1,0,1)):
+        raise ValueError('summary_arm_binding')
+    compact={key:arm[key] for key in ('family','cohort_id','instrument','pip_size','horizon_sec','reference_epoch',
+        'reference_mid','issued_epoch','target_epoch','side','probability_up','predicted_return_bps')}
+    diagnostics=arm.get('diagnostics',{})
+    compact['input_contributions']={key:diagnostics[key] for key in (
+        'matched_price_only_expected_pips','neutral_news_ablation_expected_pips','news_ablation_difference_pips',
+        'training_rows','nonzero_news_context_training_rows','vetted_news_training_rows',
+        'news_feature_names','current_news_features','news_ablation_scope','training_scope','probability_scope') if key in diagnostics}
+    for key in ('news_capture_sha256','news_evidence_epoch','news_generated_epoch','news_first_observed_epoch',
+                'news_available_epoch','news_expires_epoch'):
+        compact[key]=arm[key]
+    return {'decision_id':row['id'],'instrument':pair,'family':family,'horizon_sec':3600,'publication_epoch':published,
+        'reference_epoch':market,'reference_available_epoch':available,'issued_epoch':issue,'target_epoch':target,
+        'forecast_sha256':row['sha'],'publication_receipt_sha256':publication_hash,
+        'publication_verified':True,'publication_verified_epoch':now,'consumption_verified':True,'consumption_epoch':consumed,
+        'consumer_receipt_sha256':digest({'epoch':consumed,'forecast_sha':row['sha'],'publication_sha':publication_hash}),
+        'forecasts':[compact]}
+
+
+def input_readiness(capture,family,now):
+    source_clocks={'price_bar_close_epoch':(capture or {}).get('max_bar_close_epoch'),
+                   'news_evidence_epoch':(capture or {}).get('news_evidence_epoch'),
+                   'news_expires_epoch':(capture or {}).get('news_expires_epoch')}
+    if not capture:return {'observed_epoch':None,'status':'unavailable','reason':'awaiting_pair_input_read','diagnostics':{},**source_clocks}
+    if capture.get('first_observed_epoch') is None:
+        return {'observed_epoch':None,'status':'unavailable','reason':'|'.join(capture.get('reasons',[])) or 'pair_input_read_failed','diagnostics':{},**source_clocks}
+    observed=number(capture['first_observed_epoch'])
+    diagnostics=capture.get('family_readiness',{}).get(family,{})
+    reason='|'.join(diagnostics.get('reasons',[]) or capture.get('reasons',[]))
+    status='ready' if capture.get('status')=='ready' and diagnostics.get('ready') is True else 'blocked'
+    maturity=capture.get('max_bar_close_epoch')
+    if maturity is None or not 0<=now-number(maturity)<=900:
+        status='unavailable';reason='stale_or_future_pair_input'
+    evidence=capture.get('news_evidence_epoch');expires=capture.get('news_expires_epoch')
+    if evidence is None or expires is None or not 0<=now-number(evidence)<=300 or now>number(expires):
+        status='unavailable';reason='stale_or_unavailable_news_input'
+    return {'observed_epoch':observed,'status':status,'reason':reason,'diagnostics':diagnostics,**source_clocks}
+
+
+def build_summary(registry,states,now):
+    rows=[]
+    for pair,item in sorted(registry['pairs'].items()):
+        state=states[pair];slots={}
+        for family in sorted(FAMILIES):
+            slot=state['families'][family];ledger=slot['ledger'];forecast=slot.get('publication')
+            if forecast and forecast['target_epoch']<=now:forecast=None
+            readiness=input_readiness(state.get('capture'),family,now)
+            reason=state.get('capture_error') if not state.get('capture') else None
+            reason=reason or readiness['reason'] or slot.get('reason') or 'awaiting_family_attempt'
+            status='ready' if readiness['status']=='ready' else 'warming'
+            if readiness['status']=='unavailable':status='unavailable'
+            if state.get('quote_reason'):status='unavailable';reason=state['quote_reason']
+            if slot.get('building'):status='building';reason='building_family_model'
+            if forecast:status='forecast';reason='forecast'
+            slots[family]={'status':status,'reason':reason[:4096],'observed_epoch':now,
+                'activated_epoch':ledger.activated_epoch,'contract_sha256':ledger.contract_hash,
+                'cohort_id':ledger.contract['cohorts'][family],'current_readiness':readiness,
+                'last_attempt':slot.get('last_attempt'),'latest_forecast':forecast,'counts':ledger.counts()}
+        rows.append({'instrument':pair,'pip_size':item['pip_size'],'families':slots})
+    summary={'schema_version':SUMMARY_SCHEMA,'registry_sha256':digest(registry),'generated_epoch':now,
+        'research_only':True,**{flag:False for flag in INERT_FLAGS},'rows':rows}
+    summary['payload_sha256']=digest(summary)
+    if len(encoded(summary))>1024*1024:raise ValueError('summary_size_limit')
+    return summary
+
+
+def capture_once(candle_root,pair,pip,storage_root):
+    from oanda_causal_forecast_inputs_joint_news_v2 import capture_inputs,capture_news_inputs
+    try:
+        descriptor=capture_news_inputs(Path(candle_root).resolve().parent,storage_root=storage_root)
+        if Path(descriptor['news_capture_path']).resolve().parent!=Path(storage_root).resolve():
+            raise ValueError('shared_news_storage_root_mismatch')
+    except (OSError,ValueError,KeyError,TypeError,sqlite3.Error) as exc:
+        unavailable={'status':'abstain','pairs':[pair],'output_instrument':pair,'pip_size':pip,
+                     'reasons':[type(exc).__name__+':'+str(exc)[:300]],'family_readiness':{},'available_families':[]}
+        unavailable['source_capture_sha256']=digest(unavailable)
+        return unavailable
+    return capture_inputs(candle_root,pair,pip_size=pip,news_capture=descriptor)
+
+
+def fit_capture(capture,family):
+    from oanda_causal_forecast_inputs_joint_news_v2 import compute_predictions
+    return compute_predictions(capture,families=(family,))
+
+
+def source_signature(candle_root,pair):
+    from oanda_causal_forecast_inputs_joint_news_v2 import source_signature as combined_signature
+    return combined_signature(candle_root,pair)
+
+
+class PairRunner:
+    """Serial fitting, continuous quotes, independent successful family slots."""
+    def __init__(self,registry,study,candle_root,quote_path,*,clock=time.time,activate=False):
+        self.registry=registry;self.study=Path(study);self.candle_root=Path(candle_root);self.quote_path=Path(quote_path)
+        self.clock=clock;self.states={};self.current={};self.queue=sorted(registry['pairs'])
+        self.future=None;self.active=None;self.score_future=None;self.score_key=None
+        self.pool=ThreadPoolExecutor(max_workers=1,thread_name_prefix='joint-price-news-fit')
+        self.score_pool=ThreadPoolExecutor(max_workers=1,thread_name_prefix='joint-price-news-score')
+        self.last_poll=self.last_summary=self.last_heartbeat=0.0;self.summary=None;self.errors=0
+        self.published_summary=None
+        self.heartbeat_errors=0;self.last_error=''
+        self.capture_cursor=0;self.fit_cursor=0;self.prefer_fit=True
+        self.fresh_capture_pair=None;self.fresh_priority_allowed=True
+        self.family_cursors={};self.scheduler_events=[];self.scheduler_diagnostic_errors=0
+        self.scheduler_events_total=0;self.scheduler_events_evicted=0
+        try:
+            for pair,item in registry['pairs'].items():
+                state={'families':{},'quote_reason':'awaiting_current_quote','capture':None,'source_signature':None,'last_scan':0.0}
+                self.states[pair]=state
+                for family,registered in item['families'].items():
+                    ledger=CausalForecastLedger(self.study/'pairs'/pair/family/'study.sqlite',registered['contract'],clock=clock,activate=activate)
+                    slot={'ledger':ledger,'reason':'awaiting_family_attempt','building':False,'last_try':0.0,
+                        'last_success_bucket':-1,'failed_basis':None,'last_score':0.0,'scored_outcomes':0}
+                    state['families'][family]=slot
+                    row=ledger.db.execute('SELECT MAX(bucket) FROM forecasts').fetchone()
+                    if row[0] is not None:slot['last_success_bucket']=row[0]
+                    last=ledger.db.execute('SELECT id,bucket,epoch FROM attempts ORDER BY epoch DESC LIMIT 1').fetchone()
+                    if last:slot['last_attempt']={'attempt_id':last['id'],'bucket':last['bucket'],'epoch':last['epoch'],'reason':'retained_attempt'}
+                    ledger.settle();slot['publication']=verified_publication(ledger)
+        except BaseException:
+            self.close();raise
+
+    def error(self,pair,exc):
+        reason=type(exc).__name__+':'+str(exc);self.errors+=1;self.last_error=pair+':'+reason
+        return reason
+
+    def poll_quotes(self):
+        self.current={}
+        try:snapshot,observed,source=read_snapshot(self.quote_path,clock=self.clock)
+        except Exception as exc:
+            for state in self.states.values():state['quote_reason']=type(exc).__name__+':'+str(exc)
+            return
+        for pair,state in self.states.items():
+            try:
+                quote=pair_quote(snapshot,observed,source,pair,self.registry['pairs'][pair]['pip_size'])
+                self.current[pair]={family:slot['ledger'].observe_quote(quote) for family,slot in state['families'].items()}
+                state['quote_reason']=''
+            except Exception as exc:state['quote_reason']=type(exc).__name__+':'+str(exc)
+
+    def finish_work(self):
+        if self.future is None or not self.future.done():return
+        kind,pair,detail=self.active;state=self.states[pair]
+        work_observed=number(self.clock());issue_started=None;outcome='completed';error_code=None;guard_code=None
+        try:
+            value=self.future.result()
+            if kind=='capture':
+                state['capture']=value;state['source_signature']=detail
+                state['capture_received_epoch']=work_observed;self.fresh_capture_pair=pair
+                observation={'instrument':pair,'observed_epoch':value.get('first_observed_epoch'),'event_observed_epoch':number(self.clock()),
+                    'source_capture_sha256':value.get('source_capture_sha256'),'status':value.get('status'),
+                    'reasons':value.get('reasons',[]),'family_readiness':value.get('family_readiness',{})}
+                with (self.study/'readiness.jsonl').open('ab') as handle:handle.write(encoded(observation)+b'\n')
+            else:
+                family,attempt_id,capture,basis=detail;slot=state['families'][family];ledger=slot['ledger']
+                if value.get('status') in ('ready','partial') and family in value.get('predictions',{}):
+                    issue_started=number(self.clock())
+                    ledger.issue(attempt_id,capture,value);ledger.consume_publications()
+                    slot['publication']=verified_publication(ledger);slot['last_success_bucket']=slot['last_attempt']['bucket']
+                    slot['reason']='';slot['last_attempt']['reason']='published';slot['failed_basis']=None
+                else:
+                    outcome='abstained'
+                    reason='|'.join(value.get('reasons',[])) or 'selected_family_unavailable'
+                    ledger.record_abstention(attempt_id,{'reason':reason},capture=capture,result=value)
+                    slot['reason']=reason;slot['last_attempt']['reason']=reason;slot['failed_basis']=basis
+        except Exception as exc:
+            outcome='failed';error_code=type(exc).__name__
+            if type(exc) is ValueError and str(exc) in {
+                    'news_stale_or_future_at_actual_issue','news_original_expiry_before_actual_issue',
+                    'cached_input_expired_before_issue','computation_before_attempt_or_target_expired',
+                    'construction_deadline_exceeded','input_or_learning_availability_order'}:
+                guard_code=str(exc)
+            reason=self.error(pair,exc)
+            if kind=='capture':
+                state['source_signature']=detail;state['capture']=None;state['capture_error']=reason
+                if getattr(self,'fresh_capture_pair',None)==pair:self.fresh_capture_pair=None
+            else:
+                family,attempt_id,capture,basis=detail;slot=state['families'][family]
+                slot['reason']=reason;slot['last_attempt']['reason']=reason;slot['failed_basis']=basis
+                try:slot['ledger'].record_abstention(attempt_id,{'reason':reason},capture=capture)
+                except Exception as diagnostic_exc:self.error(pair,diagnostic_exc)
+        finally:
+            captured=state.get('capture') if kind=='capture' else detail[2]
+            self.record_scheduler_event('work_finished',pair,captured,kind=kind,
+                completed_work_observed_epoch=work_observed,issue_call_started_epoch=issue_started,
+                outcome=outcome,error_code=error_code,guard_code=guard_code,
+                computation_completed_epoch=value.get('computed_epoch') if 'value' in locals() and isinstance(value,dict) else None)
+            if kind=='fit':state['families'][detail[0]]['building']=False
+            self.future=None;self.active=None
+
+    def record_scheduler_event(self,event,pair,capture=None,**details):
+        # No I/O on this critical path. The existing heartbeat publishes only the
+        # newest 32 bounded records; original attempts remain durable in the ledger.
+        self.scheduler_events_total=getattr(self,'scheduler_events_total',0)+1
+        try:
+            row={'schema_version':SCHEDULING_VERSION,'event':event,'instrument':pair,
+                 'observed_epoch':number(self.clock()),**details}
+            for key in ('source_capture_sha256','first_observed_epoch','max_bar_close_epoch',
+                        'news_capture_sha256','news_evidence_epoch','news_generated_epoch',
+                        'news_first_observed_epoch','news_available_epoch','news_expires_epoch'):
+                if isinstance(capture,dict) and key in capture:row[key]=capture[key]
+            raw=encoded(row)
+            if len(raw)>4096:raise ValueError('scheduler_event_bound')
+            # Canonical snapshot, not a mutable alias to a capture or caller data.
+            events=getattr(self,'scheduler_events',[]);events.append(json.loads(raw))
+            self.scheduler_events_evicted=getattr(self,'scheduler_events_evicted',0)+max(0,len(events)-32)
+            self.scheduler_events=events[-32:]
+        except Exception:
+            self.scheduler_diagnostic_errors=getattr(self,'scheduler_diagnostic_errors',0)+1
+
+    def schedule_work(self):
+        if self.future is not None:return
+        now=number(self.clock());bucket=int(now//900)
+        phases=(self.schedule_fit,self.schedule_capture) if getattr(self,'prefer_fit',True) else (self.schedule_capture,self.schedule_fit)
+        for phase in phases:
+            if phase(now,bucket):return
+
+    def schedule_capture(self,now,bucket):
+        for _ in range(len(self.queue)):
+            index=getattr(self,'capture_cursor',0)
+            pair=self.queue[index];self.capture_cursor=(index+1)%len(self.queue);state=self.states[pair]
+            if now-state['last_scan']>=30:
+                state['last_scan']=now
+                try:
+                    signature=source_signature(self.candle_root,pair)
+                except OSError as exc:
+                    state['capture']=None;state['capture_error']=type(exc).__name__+':'+str(exc)[:300]
+                    state['source_signature']=None;continue
+                if signature!=state['source_signature']:
+                    self.active=('capture',pair,signature)
+                    self.future=self.pool.submit(capture_once,self.candle_root,pair,self.registry['pairs'][pair]['pip_size'],self.study/'news_captures')
+                    self.prefer_fit=True
+                    self.record_scheduler_event('capture_dispatched',pair)
+                    return True
+        return False
+
+    def schedule_fit(self,now,bucket):
+        # At most one priority handoff between ordinary round-robin fits.
+        # Priority never advances the ordinary cursor, so a single changing
+        # pair cannot starve other cached ready pairs or their control families.
+        preferred=getattr(self,'fresh_capture_pair',None);self.fresh_capture_pair=None
+        start=getattr(self,'fit_cursor',0)
+        regular=self.queue[start:]+self.queue[:start]
+        priority=preferred if getattr(self,'fresh_priority_allowed',True) and preferred in regular and preferred!=regular[0] else None
+        pairs=([priority] if priority is not None else [])+[p for p in regular if p!=priority]
+        for pair in pairs:
+            state=self.states[pair];capture=state.get('capture')
+            families=sorted(state['families']);cursors=getattr(self,'family_cursors',{})
+            cursor=cursors.get(pair,0)%len(families)
+            for offset in range(len(families)):
+                family=families[(cursor+offset)%len(families)];slot=state['families'][family]
+                quote=self.current.get(pair,{}).get(family)
+                if not quote or slot['last_success_bucket']>=bucket or now-slot['last_try']<30:continue
+                if input_readiness(capture,family,now)['status']!='ready':continue
+                if number(capture['first_observed_epoch'])>now:continue
+                if not 0<=now-quote['market_epoch']<=60:continue
+                basis=(capture['source_capture_sha256'],quote['quote_id'],bucket)
+                if slot['failed_basis']==basis:continue
+                slot['last_try']=now;attempt_id=None
+                try:
+                    attempt_id=slot['ledger'].begin_attempt(bucket,quote)
+                    if attempt_id is None:slot['last_success_bucket']=bucket;continue
+                    slot['last_attempt']={'epoch':number(self.clock()),'reason':'building','attempt_id':attempt_id,'bucket':bucket}
+                    dispatch=number(self.clock())
+                    if (input_readiness(capture,family,dispatch)['status']!='ready'
+                            or number(capture['first_observed_epoch'])>dispatch
+                            or not 0<=dispatch-quote['market_epoch']<=60):
+                        raise ValueError('scheduler_inputs_unavailable_before_dispatch')
+                    slot['building']=True
+                    self.active=('fit',pair,(family,attempt_id,capture,basis))
+                    self.future=self.pool.submit(fit_capture,capture,family)
+                    self.prefer_fit=False
+                    cursors[pair]=(cursor+offset+1)%len(families);self.family_cursors=cursors
+                    if pair==priority:self.fresh_priority_allowed=False
+                    else:
+                        self.fit_cursor=(self.queue.index(pair)+1)%len(self.queue)
+                        self.fresh_priority_allowed=True
+                    self.record_scheduler_event('fit_dispatched',pair,capture,family=family,
+                        attempt_id=attempt_id,capture_received_epoch=state.get('capture_received_epoch'),
+                        selected_epoch=now,dispatch_checked_epoch=dispatch,
+                        queue_age_sec=dispatch-number(capture['first_observed_epoch']),
+                        priority_handoff=pair==priority)
+                    return True
+                except Exception as exc:
+                    reason=self.error(pair,exc);slot['reason']=reason;slot['building']=False
+                    if attempt_id is not None:
+                        if slot.get('last_attempt',{}).get('attempt_id')!=attempt_id:
+                            # No invented wall clock if sampling failed after the durable claim.
+                            slot['last_attempt']={'epoch':None,'attempt_id':attempt_id,'bucket':bucket}
+                        slot['last_attempt']['reason']=reason;slot['failed_basis']=basis
+                        try:slot['ledger'].record_abstention(attempt_id,{'reason':reason},capture=capture)
+                        except Exception as diagnostic_exc:self.error(pair,diagnostic_exc)
+                    self.future=None;self.active=None
+                    self.record_scheduler_event('fit_dispatch_failed',pair,capture,family=family,
+                        attempt_id=attempt_id,error_code=type(exc).__name__)
+        return False
+
+    def score(self):
+        if self.score_future is not None and self.score_future.done():
+            pair,family=self.score_key;slot=self.states[pair]['families'][family]
+            try:slot['scored_outcomes']=self.score_future.result()['collection_counts']['outcomes']
+            except Exception as exc:self.error(pair,exc)
+            self.score_future=None;self.score_key=None
+        if self.score_future is not None:return
+        now=number(self.clock())
+        for pair,state in self.states.items():
+            for family,slot in state['families'].items():
+                if now-slot['last_score']<60:continue
+                count=slot['ledger'].db.execute('SELECT COUNT(*) FROM outcomes').fetchone()[0]
+                if count<=slot['scored_outcomes']:continue
+                slot['last_score']=now;self.score_key=(pair,family)
+                self.score_future=self.score_pool.submit(write_scorecard,slot['ledger'],self.study/'pairs'/pair/family/'scorecard.json')
+                return
+
+    def publish_status(self,*,force=False):
+        now=number(self.clock())
+        if force or now-self.last_summary>=15:
+            for pair,state in self.states.items():
+                for slot in state['families'].values():
+                    try:slot['publication']=verified_publication(slot['ledger'])
+                    except Exception as exc:slot['publication']=None;self.error(pair,exc)
+            now=number(self.clock());summary=build_summary(self.registry,self.states,now)
+            frozen=summary_boundary.freeze_summary(summary,expected_schema=SUMMARY_SCHEMA,
+                expected_registry_sha256=digest(self.registry))
+            atomic_bytes(self.study/'summary.json',frozen.raw)
+            observed=read_summary_bytes(self.study/'summary.json')
+            published=summary_boundary.verify_written_summary(frozen,observed,
+                read_completed_epoch=number(self.clock()))
+            # Advance only after actual exact-byte readback; no mutable state
+            # alias can alter the acknowledged generation or its counts.
+            self.published_summary=published
+            self.summary=json.loads(frozen.raw)
+            self.last_summary=published.read_completed_epoch
+        if getattr(self,'published_summary',None) is not None and (force or now-self.last_heartbeat>=5):
+            fields=summary_boundary.heartbeat_fields(self.published_summary,
+                generated_epoch=number(self.clock()))
+            heartbeat={'schema_version':HEARTBEAT_SCHEMA,**fields,'research_only':True,
+                **{flag:False for flag in INERT_FLAGS},'phase':'research_collection','supported_decision':'no_trade',
+                'errors':self.errors,'last_error':self.last_error[:4096],'heartbeat_publication_errors':self.heartbeat_errors,
+                'active_pair':self.active[1] if self.active else None,
+                'scheduling_version':SCHEDULING_VERSION,
+                'scheduler_diagnostic_errors':getattr(self,'scheduler_diagnostic_errors',0),
+                'scheduler_events_total':getattr(self,'scheduler_events_total',0),
+                'scheduler_events_evicted':getattr(self,'scheduler_events_evicted',0),
+                'scheduler_events_retained':len(getattr(self,'scheduler_events',[])),
+                'scheduler_events':list(getattr(self,'scheduler_events',[])),
+                'scheduler_event_retention':'latest_32_in_memory_published_with_existing_heartbeat'}
+            atomic_json(self.study/'heartbeat.json',heartbeat);self.last_heartbeat=now
+
+    def tick(self):
+        # Drain and hand off completed work before ancillary quote/settlement I/O.
+        self.finish_work();self.schedule_work()
+        now=number(self.clock())
+        if now-self.last_poll>=2:
+            self.poll_quotes();self.last_poll=now
+            for pair,state in self.states.items():
+                for slot in state['families'].values():
+                    try:slot['ledger'].settle()
+                    except Exception as exc:self.error(pair,exc)
+        self.finish_work();self.schedule_work();self.score()
+        try:self.publish_status()
+        except (OSError,summary_boundary.SummaryBoundaryError) as exc:
+            self.errors+=1;self.heartbeat_errors+=1;self.last_error='status_publication:'+type(exc).__name__
+
+    def close(self):
+        self.pool.shutdown(wait=True,cancel_futures=True);self.score_pool.shutdown(wait=True,cancel_futures=True)
+        for state in self.states.values():
+            for slot in state['families'].values():slot['ledger'].close()
+
+
+def run(config=DEFAULT_CONFIG,*,duration_sec=0,once=False):
+    registry=load_registry(config)
+    verify_activated_study(registry,STUDY)
+    for variable in ('OMP_NUM_THREADS','OPENBLAS_NUM_THREADS','MKL_NUM_THREADS','NUMEXPR_NUM_THREADS','LOKY_MAX_CPU_COUNT'):
+        os.environ[variable]='1'
+    STUDY.mkdir(parents=True,exist_ok=True)
+    import msvcrt
+    lock=(STUDY/'worker.lock').open('a+b');lock.seek(0)
+    if not lock.read(1):lock.write(b'0');lock.flush()
+    lock.seek(0)
+    try:msvcrt.locking(lock.fileno(),msvcrt.LK_NBLCK,1)
+    except OSError:lock.close();raise RuntimeError('pair_worker_already_running')
+    runner=None;begun=time.monotonic()
+    try:
+        runner=PairRunner(registry,STUDY,ROOT/'data/oanda_training_manager/candles',
+            ROOT/'data/oanda_training_manager/state/practice_007_market_quotes_v1.json',activate=False)
+        if once:
+            runner.poll_quotes();runner.publish_status(force=True);return
+        while True:
+            runner.tick()
+            if duration_sec>0 and time.monotonic()-begun>=duration_sec:break
+            time.sleep(.2)
+    finally:
+        if runner is not None:runner.close()
+        lock.seek(0);msvcrt.locking(lock.fileno(),msvcrt.LK_UNLCK,1);lock.close()
+
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--config',type=Path,default=DEFAULT_CONFIG)
+    parser.add_argument('--duration-sec',type=float,default=0)
+    parser.add_argument('--once',action='store_true',help='Observe quotes and status once without numeric attempts')
+    args=parser.parse_args();run(args.config,duration_sec=args.duration_sec,once=args.once)
+
+
+if __name__=='__main__':main()

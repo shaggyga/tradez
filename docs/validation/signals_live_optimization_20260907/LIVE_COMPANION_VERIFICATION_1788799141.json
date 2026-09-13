@@ -1,0 +1,103 @@
+{
+  "observed_epoch": 1788799141.4127538,
+  "contract_sha256": "515c81be37a8828da1fd89edcbee33083ac1f6cae1b2e13bdb5338961058afe0",
+  "counts": {
+    "quotes": 77,
+    "attempts": 2,
+    "diagnostics": 0,
+    "inputs": 2,
+    "forecasts": 2,
+    "publication": 2,
+    "consumption": 2,
+    "entries": 2,
+    "outcomes": 0,
+    "exclusions": 0
+  },
+  "checked_sets": [
+    {
+      "decision_id": "de7a083f978653491d578f25885363f96a9d465b933dc6adebc88b395d89b892",
+      "forecasts": [
+        {
+          "family": "probabilistic_state_space",
+          "side": 1,
+          "probability_up": 0.5494881590099185,
+          "predicted_return_bps": 0.2766311998408384,
+          "issued_epoch": 1788798581.3371437,
+          "reference_epoch": 1788798577.012127,
+          "reference_mid": "1.16279",
+          "target_epoch": 1788802177.012127,
+          "feature_cutoff_epoch": 1788798300.0,
+          "features_available_epoch": 1788798579.4721022,
+          "training_label_maturity_max_epoch": 1788798300.0,
+          "training_labels_available_max_epoch": 1788798579.4721022
+        },
+        {
+          "family": "ridge_return_repaired",
+          "side": 1,
+          "probability_up": 0.5891316546516777,
+          "predicted_return_bps": 0.8302503645592194,
+          "issued_epoch": 1788798581.3371437,
+          "reference_epoch": 1788798577.012127,
+          "reference_mid": "1.16279",
+          "target_epoch": 1788802177.012127,
+          "feature_cutoff_epoch": 1788798300.0,
+          "features_available_epoch": 1788798579.4721022,
+          "training_label_maturity_max_epoch": 1788798300.0,
+          "training_labels_available_max_epoch": 1788798579.4721022
+        }
+      ],
+      "published_epoch": 1788798581.3560915,
+      "consumed_epoch": 1788798583.3727136,
+      "source_capture_sha256": "4d869b1087c056c6cf8a4877b5ac627e2480ef2d0388d1071ea99243fd2a1455",
+      "retained_eurusd_bars": 1024,
+      "evaluation_entry_observed": true,
+      "evaluation_entry_market_epoch": 1788798610.702465,
+      "evaluation_entry_available_epoch": 1788798611.6196496
+    },
+    {
+      "decision_id": "c5c9d291ed8395972585439641fe66e21a2e2168f643909b871e5d952a71987a",
+      "forecasts": [
+        {
+          "family": "probabilistic_state_space",
+          "side": 1,
+          "probability_up": 0.5494881590099185,
+          "predicted_return_bps": 0.2766311998408384,
+          "issued_epoch": 1788798603.5380754,
+          "reference_epoch": 1788798577.012127,
+          "reference_mid": "1.16279",
+          "target_epoch": 1788802177.012127,
+          "feature_cutoff_epoch": 1788798300.0,
+          "features_available_epoch": 1788798601.5812528,
+          "training_label_maturity_max_epoch": 1788798300.0,
+          "training_labels_available_max_epoch": 1788798601.5812528
+        },
+        {
+          "family": "ridge_return_repaired",
+          "side": 1,
+          "probability_up": 0.5891316546516777,
+          "predicted_return_bps": 0.8302503645592194,
+          "issued_epoch": 1788798603.5380754,
+          "reference_epoch": 1788798577.012127,
+          "reference_mid": "1.16279",
+          "target_epoch": 1788802177.012127,
+          "feature_cutoff_epoch": 1788798300.0,
+          "features_available_epoch": 1788798601.5812528,
+          "training_label_maturity_max_epoch": 1788798300.0,
+          "training_labels_available_max_epoch": 1788798601.5812528
+        }
+      ],
+      "published_epoch": 1788798603.5640063,
+      "consumed_epoch": 1788798605.571175,
+      "source_capture_sha256": "16e674145421aeb1e327e17ee4e1e40581b73b0dc75e6a6ca699d1501f1617f1",
+      "retained_eurusd_bars": 1024,
+      "evaluation_entry_observed": true,
+      "evaluation_entry_market_epoch": 1788798610.702465,
+      "evaluation_entry_available_epoch": 1788798611.6196496
+    }
+  ],
+  "actual_publication_and_clock_checks": "passed",
+  "broker_order_calls": 0,
+  "account_trading_enabled": false,
+  "accuracy_improvement_demonstrated": false,
+  "outcome_interpretation": "Unfinished original-H1 forecasts remain unscored."
+}

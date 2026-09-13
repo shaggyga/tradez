@@ -1,0 +1,89 @@
+{
+  "schema_version": "weekend_reopening_baseline_validation_v1_20260907",
+  "generated_utc": "2026-09-07T15:53:30.266579+00:00",
+  "source_sha256": {
+    "oanda_weekend_reopening_baseline.py": "dd85c34921017cc8a696ab133fbfaf6374e3d60a999f9a500d2bffbc340921c0",
+    "test_oanda_weekend_reopening_baseline.py": "2280b0e54dce6c4b87916b3a6549275193c58d3a11b968fabdfd652185ab482a",
+    "oanda_exact_price_scoring.py": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521"
+  },
+  "evidence_sha256": {
+    "integration_tests.xml": "0c4de1173eda4e8da025a68f5dc29e79de01371e7b0b97a3e3b04313c14a63df",
+    "run_tests.py": "f8a1d6fa11f0c2c0402b2593da30678deb9daa023aa639ca9827a74a0756b09d"
+  },
+  "tests": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "87",
+    "time": "0.694",
+    "timestamp": "2026-09-07T11:50:41.249382-04:00",
+    "hostname": "DESKTOP-Q2EDIEU"
+  },
+  "python_executable": "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe",
+  "python_version": "3.12.10",
+  "invocation": "& 'C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe' -B '..\\warmup_repair_20260907\\weekend_baseline\\run_tests.py' test_oanda_weekend_reopening_baseline.py",
+  "parameters": {
+    "instrument": "EUR_USD",
+    "horizon_sec": 3600,
+    "initial_decision_window_sec": 300,
+    "maximum_quote_age_sec": 60,
+    "maximum_anchor_age_before_close_sec": 300,
+    "maximum_opening_spread_pips": "2",
+    "minimum_absolute_gap_opening_spreads_exclusive": "2",
+    "pip_size": "0.0001",
+    "minimum_closure_sec": 86400,
+    "maximum_closure_sec": 345600,
+    "session_calendar_rule": "explicit_UTC_Friday_close_to_Sunday_or_Monday_reopen",
+    "arms": [
+      "gap_fade",
+      "gap_continuation",
+      "no_trade"
+    ]
+  },
+  "parameters_sha256": "704df06cea932e6406a5c431dd75c0bd6daa79a5ede8e87b507d5b026583f3a9",
+  "fixture_timing": {
+    "repetitions": 25,
+    "median_sec": 0.00019599997904151678,
+    "scope": "pure helper, two synthetic price records; not whole-project performance"
+  },
+  "registered_six_source_bindings_unchanged": {
+    "oanda_causal_forecast_inputs.py": {
+      "expected": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+      "actual": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281"
+    },
+    "oanda_causal_forecast_ledger.py": {
+      "expected": "4ddd413261fc294922bf2664bb0ae018d8469a3422942567849c1624ba32cd1f",
+      "actual": "4ddd413261fc294922bf2664bb0ae018d8469a3422942567849c1624ba32cd1f"
+    },
+    "oanda_causal_forecast_study.py": {
+      "expected": "e50a9a8ef5bbfe739d177d1bcf8632362bcad06b68694eb7c599c70a33fbd44e",
+      "actual": "e50a9a8ef5bbfe739d177d1bcf8632362bcad06b68694eb7c599c70a33fbd44e"
+    },
+    "oanda_causal_prediction_baselines.py": {
+      "expected": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+      "actual": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d"
+    },
+    "oanda_fixed_forecast_evaluation.py": {
+      "expected": "482af854fae94d53aea82c109ffb6a00f265f3ecebdbc3137e200cb07d142708",
+      "actual": "482af854fae94d53aea82c109ffb6a00f265f3ecebdbc3137e200cb07d142708"
+    },
+    "oanda_proof_shadow_predictors.py": {
+      "expected": "51c3f945eadb3f26166cfddd37d97451ef21e2b69ece6664c57ee06c145ff417",
+      "actual": "51c3f945eadb3f26166cfddd37d97451ef21e2b69ece6664c57ee06c145ff417"
+    }
+  },
+  "historical_real_data_accuracy_established": false,
+  "prospective_forecasts_created": 0,
+  "runtime_activated": false,
+  "database_writes": false,
+  "external_orders_or_network": false,
+  "source_registration_changed": false,
+  "limitations": [
+    "Synthetic clocks are fixture clocks only; no historic or current market performance was tested.",
+    "Calendar and actual observation provenance are caller assertions, not independent attestation.",
+    "Late opening decisions and elapsed targets abstain; Monday replay cannot become a Sunday forecast.",
+    "Fixed research spread/gap limits were not historically tuned and do not authorize execution.",
+    "Future integration requires separate registration, immutable receipt publication, unique event enforcement, and independent executable entry/target quotes."
+  ]
+}

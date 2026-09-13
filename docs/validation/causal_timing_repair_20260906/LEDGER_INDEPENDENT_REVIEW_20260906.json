@@ -1,0 +1,61 @@
+{
+  "schema_version": "independent_causal_ledger_fixture_review_v1",
+  "generated_utc": "2026-09-06T15:03:05.077145+00:00",
+  "reviewer": "ledger_adversarial_review",
+  "status": "all_reviewed_boundary_and_real_capture_checks_passed",
+  "validation": {
+    "tests": 106,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "junit": "ledger_review_v4.xml",
+  "runtime_started": false,
+  "production_database_opened": false,
+  "network_allowed": false,
+  "subprocesses_allowed": false,
+  "python_threads_allowed": false,
+  "writes_and_sqlite_scope": "disposable causal_repair_20260906 fixtures only",
+  "source_sha256": {
+    "oanda_causal_forecast_ledger.py": "4ddd413261fc294922bf2664bb0ae018d8469a3422942567849c1624ba32cd1f",
+    "oanda_causal_forecast_inputs.py": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+    "oanda_fixed_forecast_evaluation.py": "482af854fae94d53aea82c109ffb6a00f265f3ecebdbc3137e200cb07d142708",
+    "test_oanda_causal_forecast_ledger.py": "e779dd89195d3ecffda779d25fdcb7c42d8743c6c588859720e01389ae69c075"
+  },
+  "harness_sha256": "ff2896c61e83bb7654662078962017d4d3d884649d65d1ed63bbc07d8511898f",
+  "junit_sha256": "2e3376fa2b6b32c86d6aaaaab5a4347fcb1eb93b8a82c2f84a6d03c168d50ea5",
+  "covered": [
+    "Explicit actual-time activation; immutable source/cohort/protocol/tolerance/research constraints.",
+    "Forecast commit independently visible before postcommit receipt; separate committed consumer observation.",
+    "Crash after forecast commit and late recovery use actual recovery clocks without resetting original target.",
+    "Later market tick and observation both strictly after consumer receipt; exact entry/target deadlines.",
+    "Ledger owns local quote availability; numeric-equivalent duplicate ticks retain first observation.",
+    "Captured-byte validation, model/source/dependency/capture-result binding, compute-before-issue order.",
+    "All-four-or-none output; invalid probabilities/sides/numbers cannot partially publish.",
+    "Arbitrary cadence buckets rejected; same attempt cannot rerank or republish.",
+    "Earliest eligible entry and target remain selected even when later quote prices improve return.",
+    "Missing entries/targets and missing consumer receipt remain explicit exclusions.",
+    "Clock regression rejected during observation and independent export, including after reopen.",
+    "Append-only SQL UPDATE/DELETE triggers for every retained evidence table.",
+    "Unrelated preexisting SQLite database rejected without any byte modification.",
+    "Independent export snapshot cannot see uncommitted producer rows or consume producer transaction.",
+    "Four cohorts exported into existing strict scorer with preserved sides, target and bid/ask stress costs.",
+    "Actual synthetic seven-pair CSV capture and four original numerical model functions feed ledger/scorer."
+  ],
+  "review_findings_fixed_by_root": [
+    "Incomplete contract and nested evaluator consistency checks.",
+    "Mutable caller-owned contract dictionaries after hash retention.",
+    "Caller-supplied backdated quote availability.",
+    "Model/capture/source/dependency and completion-time binding omissions.",
+    "Ledger strictly-later market entry inconsistent with evaluator equality acceptance.",
+    "Numeric-equivalent tick identities could produce separate first-observation records.",
+    "Unconstrained integer cadence buckets and unbound input timeframe."
+  ],
+  "limitations": [
+    "These are engineering checks, not prediction quality, prospective edge, independent attestation, or authority to trade.",
+    "Boundary-only tests intentionally use minimal marked input captures and a validator seam; two real-capture integration cases use the original validator and numerical functions.",
+    "Native numerical parallelism is constrained to one thread by OMP/BLAS/LOKY environment settings; runtime throughput was not benchmarked.",
+    "No production worker, actual broker quote, historical database, external account, or live study activation was used.",
+    "Source hashes describe reviewed bytes at receipt creation; later implementation changes require appropriate rerun."
+  ]
+}

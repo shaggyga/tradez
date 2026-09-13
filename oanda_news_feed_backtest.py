@@ -28,6 +28,16 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 import oanda_local_news_sentiment as news
+try:
+    from oanda_news_research_report_io_v1 import read_json_snapshot,new_run_report_path,publish_new_json_report
+except ModuleNotFoundError:
+    from trad.oanda_news_research_report_io_v1 import read_json_snapshot,new_run_report_path,publish_new_json_report
+try:
+    from oanda_news_reaction_contract_v2 import ENDPOINT_CONTRACT,aware_time,endpoint_returns,finite_number,positive_integer
+    from oanda_instrument_pips_v2 import CONTRACT as PIP_CONTRACT,resolve_pip_contract
+except ModuleNotFoundError:
+    from trad.oanda_news_reaction_contract_v2 import ENDPOINT_CONTRACT,aware_time,endpoint_returns,finite_number,positive_integer
+    from trad.oanda_instrument_pips_v2 import CONTRACT as PIP_CONTRACT,resolve_pip_contract
 
 
 ROOT = Path(__file__).resolve().parent
@@ -47,7 +57,7 @@ DEFAULT_REPORT = (
     / "oanda_training_manager"
     / "reports"
     / "news_feed_backtest"
-    / "news_feed_cleanup_backtest_latest.json"
+    / "news_feed_exact_endpoints_v6_latest.json"
 )
 DEFAULT_RECLASSIFICATION_CACHE = (
     ROOT
@@ -59,7 +69,7 @@ DEFAULT_RECLASSIFICATION_CACHE = (
 DEFAULT_CREDS = ROOT / "creds"
 DEFAULT_PAIRS = tuple(news.event_tagger.discover_instruments())
 UTC = dt.timezone.utc
-SCHEMA_VERSION = "local_news_topic_movement_backtest_v4"
+SCHEMA_VERSION = "local_news_topic_movement_backtest_v6"
 EVENT_CLUSTER_WINDOW_MINUTES = 30
 EVENT_CLUSTER_DIRECTION_AGREEMENT = 0.80
 
@@ -68,23 +78,19 @@ def parse_timestamp(value: Any) -> dt.datetime | None:
     return news.parse_datetime(value)
 
 
-def load_pip_sizes(
-    path: Path = DEFAULT_INSTRUMENT_METADATA,
-) -> dict[str, float]:
-    payload = news.load_json(path, {})
-    instruments = payload.get("instruments") if isinstance(payload, Mapping) else {}
-    if not isinstance(instruments, Mapping):
-        return {}
-    output: dict[str, float] = {}
-    for instrument, metadata in instruments.items():
-        if not isinstance(metadata, Mapping):
-            continue
-        try:
-            location = int(metadata.get("pipLocation"))
-        except (TypeError, ValueError):
-            continue
-        output[str(instrument)] = 10.0 ** location
-    return output
+def _load_pip_contracts_snapshot(path: Path = DEFAULT_INSTRUMENT_METADATA):
+    payload,identity=read_json_snapshot(path,allow_missing=True)
+    instruments=payload.get('instruments',{})
+    if not isinstance(instruments,Mapping):raise ValueError('instrument_metadata_mapping_required')
+    return {str(instrument):resolve_pip_contract(str(instrument),metadata) for instrument,metadata in instruments.items()},identity
+
+
+def load_pip_contracts(path: Path = DEFAULT_INSTRUMENT_METADATA) -> dict[str,dict[str,Any]]:
+    return _load_pip_contracts_snapshot(path)[0]
+
+
+def load_pip_sizes(path: Path = DEFAULT_INSTRUMENT_METADATA) -> dict[str, float]:
+    return {pair: receipt["pip"] for pair, receipt in load_pip_contracts(path).items()}
 
 
 def load_key_value_creds(path: Path) -> dict[str, Any]:
@@ -1116,119 +1122,95 @@ def restore_secondary_research_scores(
 
 
 def score_call(
-    call: Mapping[str, Any],
-    candles: Sequence[Mapping[str, Any]],
-    horizon_minutes: int,
-    *,
-    pip_size: float | None = None,
+    call: Mapping[str, Any], candles: Sequence[Mapping[str, Any]], horizon_minutes: int,
+    *, pip_size: float | None = None, pip_contract: Mapping[str, Any] | None = None,
+    as_of_utc: Any = None,
 ) -> dict[str, Any] | None:
+    horizon_minutes = positive_integer(horizon_minutes, "horizon_minutes")
+    signal_time = aware_time(call.get("signal_utc"), "signal_utc")
+    asof = aware_time(dt.datetime.now(UTC) if as_of_utc is None else as_of_utc, "as_of_utc")
+    target_time = signal_time + dt.timedelta(minutes=horizon_minutes)
     if not candles:
         return None
-    times = [row["timestamp"] for row in candles]
-    signal_time = call["signal_utc"]
-    target_time = signal_time + dt.timedelta(minutes=horizon_minutes)
-    entry_index = bisect.bisect_left(times, signal_time)
-    exit_index = bisect.bisect_left(times, target_time)
+    times = [aware_time(row.get("timestamp"), "candle_timestamp") for row in candles]
+    if any(later <= earlier for earlier, later in zip(times, times[1:])):
+        raise ValueError("news_v2_candle_clocks_must_be_unique_increasing")
+    entry_index, exit_index = bisect.bisect_left(times, signal_time), bisect.bisect_left(times, target_time)
     if entry_index >= len(candles) or exit_index >= len(candles):
         return None
-    entry = candles[entry_index]
-    exit_row = candles[exit_index]
-    if (entry["timestamp"] - signal_time).total_seconds() > 300:
+    entry, exit_row = candles[entry_index], candles[exit_index]
+    if (times[entry_index] - signal_time).total_seconds() > 300 or (times[exit_index] - target_time).total_seconds() > 300:
         return None
-    if (exit_row["timestamp"] - target_time).total_seconds() > 300:
-        return None
-    path = candles[entry_index : exit_index + 1]
-    resolved_pip_size = (
-        safe
-        if (safe := news.safe_float(pip_size, 0.0)) > 0
-        else 0.01
-        if str(call["pair"]).endswith("_JPY")
-        else 0.0001
-    )
-    if call["direction"] == "LONG":
-        entry_price = entry["ask_open"]
-        exit_price = exit_row["bid_open"]
-        pnl_pips = (exit_price - entry_price) / resolved_pip_size
-        mfe_pips = (
-            max(news.safe_float(row.get("bid_high"), row["bid_open"]) for row in path)
-            - entry_price
-        ) / resolved_pip_size
-        mae_pips = (
-            min(news.safe_float(row.get("bid_low"), row["bid_open"]) for row in path)
-            - entry_price
-        ) / resolved_pip_size
-    else:
-        entry_price = entry["bid_open"]
-        exit_price = exit_row["ask_open"]
-        pnl_pips = (entry_price - exit_price) / resolved_pip_size
-        mfe_pips = (
-            entry_price
-            - min(news.safe_float(row.get("ask_low"), row["ask_open"]) for row in path)
-        ) / resolved_pip_size
-        mae_pips = (
-            entry_price
-            - max(news.safe_float(row.get("ask_high"), row["ask_open"]) for row in path)
-        ) / resolved_pip_size
-    return {
-        **call,
-        "signal_utc": news.iso_utc(signal_time),
-        "entry_utc": news.iso_utc(entry["timestamp"]),
-        "exit_utc": news.iso_utc(exit_row["timestamp"]),
-        "horizon_minutes": horizon_minutes,
-        "entry_price": entry_price,
-        "exit_price": exit_price,
+    explicit_pip = pip_contract.get("pip") if pip_contract is not None else pip_size
+    endpoint = endpoint_returns(
+        pair=call.get("pair"), direction=call.get("direction"), horizon_minutes=horizon_minutes,
+        signal_utc=signal_time, entry_utc=times[entry_index], nominal_target_utc=target_time,
+        exit_utc=times[exit_index], as_of_utc=asof,
+        entry_bid=entry.get("bid_open"), entry_ask=entry.get("ask_open"),
+        exit_bid=exit_row.get("bid_open"), exit_ask=exit_row.get("ask_open"),
+        pip_metadata={"instrument": call.get("pair"), "pip": explicit_pip} if explicit_pip is not None else None)
+    if pip_contract is not None:
+        if (pip_contract.get("contract") != PIP_CONTRACT
+                or pip_contract.get("instrument") != endpoint["pair"]
+                or not math.isclose(finite_number(pip_contract.get("pip"), "pip", positive=True), endpoint["pip_size"], rel_tol=1e-12)):
+            raise ValueError("news_v2_pip_provenance_mismatch")
+        endpoint["pip_contract"] = dict(pip_contract)
+    long_side = endpoint["direction"] == "LONG"
+    entry_price = endpoint["entry_ask"] if long_side else endpoint["entry_bid"]
+    exit_price = endpoint["exit_bid"] if long_side else endpoint["exit_ask"]
+    pnl_pips = ((exit_price-entry_price) if long_side else (entry_price-exit_price)) / endpoint["pip_size"]
+    # The exit is an M1 open. Do not include that bar's subsequent highs/lows.
+    path = candles[entry_index:exit_index]
+    side = "bid" if long_side else "ask"
+    path_prices = []
+    fallback_count = 0
+    for row in path:
+        values = []
+        for field in (side+"_high", side+"_low"):
+            if row.get(field) is None:
+                fallback_count += 1
+                value = row.get(side+"_open")
+            else:
+                value = row[field]
+            values.append(finite_number(value, field, positive=True))
+        path_prices.extend(values)
+    path_prices += [endpoint["entry_bid"] if long_side else endpoint["entry_ask"], exit_price]
+    excursions = [((value-entry_price) if long_side else (entry_price-value))/endpoint["pip_size"] for value in path_prices]
+    return {**call, **endpoint,
+        "entry_price": entry_price, "exit_price": exit_price,
         "pnl_pips": round(pnl_pips, 6),
-        "return_pct": round(
-            (
-                (exit_price - entry_price) / entry_price
-                if call["direction"] == "LONG"
-                else (entry_price - exit_price) / entry_price
-            )
-            * 100.0,
-            9,
-        ),
-        "mfe_pips": round(mfe_pips, 6),
-        "mae_pips": round(mae_pips, 6),
-        "entry_spread_pips": round(
-            (entry["ask_open"] - entry["bid_open"]) / resolved_pip_size,
-            6,
-        ),
-        "entry_spread_pct": round(
-            (entry["ask_open"] - entry["bid_open"]) / entry_price * 100.0,
-            9,
-        ),
-        "exit_spread_pips": round(
-            (exit_row["ask_open"] - exit_row["bid_open"]) / resolved_pip_size,
-            6,
-        ),
-        "profitable": pnl_pips > 0,
-    }
+        "return_pct": round(((exit_price-entry_price) if long_side else (entry_price-exit_price))/entry_price*100.0, 9),
+        "mfe_pips": round(max(excursions), 6), "mae_pips": round(min(excursions), 6),
+        "excursion_contract": "M1 extrema strictly before exit open plus exact endpoints;not_tick_path_execution_proof",
+        "excursion_missing_extrema_open_proxy_fields": fallback_count,
+        "entry_spread_pips": round((endpoint["entry_ask"]-endpoint["entry_bid"])/endpoint["pip_size"], 6),
+        "exit_spread_pips": round((endpoint["exit_ask"]-endpoint["exit_bid"])/endpoint["pip_size"], 6),
+        "entry_spread_pct": round((endpoint["entry_ask"]-endpoint["entry_bid"])/entry_price*100.0, 9),
+        "profitable": pnl_pips > 0}
 
 
-def summarize(rows: Sequence[Mapping[str, Any]], call_count: int) -> dict[str, Any]:
-    pips = [news.safe_float(row.get("pnl_pips")) for row in rows]
-    mfe = [news.safe_float(row.get("mfe_pips")) for row in rows]
-    mae = [news.safe_float(row.get("mae_pips")) for row in rows]
-    return {
-        "directional_calls": call_count,
-        "scored_calls": len(rows),
-        "price_coverage": round(len(rows) / call_count, 6) if call_count else 0.0,
-        "profitable_calls": sum(bool(row.get("profitable")) for row in rows),
-        "direction_accuracy": (
-            round(sum(bool(row.get("profitable")) for row in rows) / len(rows), 6)
-            if rows
-            else None
-        ),
-        "average_executable_pips": round(statistics.fmean(pips), 6)
-        if pips
-        else None,
-        "median_executable_pips": round(statistics.median(pips), 6)
-        if pips
-        else None,
-        "total_executable_pips": round(sum(pips), 6) if pips else None,
-        "average_mfe_pips": round(statistics.fmean(mfe), 6) if mfe else None,
-        "average_mae_pips": round(statistics.fmean(mae), 6) if mae else None,
-    }
+def summarize(rows: Sequence[Mapping[str,Any]],call_count: int) -> dict[str,Any]:
+    values=[];invalid=0
+    for row in rows:
+        if not isinstance(row,Mapping) or row.get('endpoint_contract')!=ENDPOINT_CONTRACT:
+            invalid+=1;continue
+        try:
+            recomputed=endpoint_returns(pair=row.get('pair'),direction=row.get('direction'),horizon_minutes=row.get('horizon_minutes'),
+                signal_utc=row.get('signal_utc'),entry_utc=row.get('entry_utc'),nominal_target_utc=row.get('nominal_target_utc'),
+                exit_utc=row.get('exit_utc'),as_of_utc=row.get('as_of_utc'),entry_bid=row.get('entry_bid'),entry_ask=row.get('entry_ask'),
+                exit_bid=row.get('exit_bid'),exit_ask=row.get('exit_ask'),pip_metadata={'pip':row.get('pip_size')})
+            values.append(recomputed['follow_net_bps'])
+        except (TypeError,ValueError):invalid+=1
+    profitable=sum(value>0 for value in values)
+    return {'directional_calls':call_count,'scored_calls':len(rows),'price_coverage':round(len(rows)/call_count,6) if call_count else 0.,
+        'valid_exact_endpoint_return_calls':len(values),'invalid_exact_endpoint_return_calls':invalid,
+        'return_unit':'bps','return_method':'chosen_side_four_exact_quotes_divided_by_common_entry_mid_notional;equal_notional_per_call',
+        'profitable_calls':profitable,'profitable_after_spread_fraction':profitable/len(values) if values else None,
+        'average_executable_bps':math.fsum(values)/len(values) if values else None,
+        'median_executable_bps':statistics.median(values) if values else None,
+        'sum_executable_bps':math.fsum(values) if values else None,
+        'sum_scope':'sum_of_normalized_call_returns;not_compounded_portfolio_return',
+        'native_pip_aggregation_scope':'native_pips_retained_per_call_and_pair_only;not_cross_pair_comparable'}
 
 
 def normalized_return_summary(values: Sequence[float]) -> dict[str, Any]:
@@ -1561,7 +1543,7 @@ def topic_outcome_summary(
                 "pair": pair,
                 "horizon_minutes": horizon,
                 "sample_size": len(group),
-                "direction_accuracy": round(
+                "profitable_after_spread_fraction": round(
                     sum(value > 0 for value in pips) / len(pips),
                     6,
                 ),
@@ -1611,7 +1593,7 @@ def source_outcome_summary(
                 "pair": pair,
                 "horizon_minutes": horizon,
                 "sample_size": len(group),
-                "direction_accuracy": round(
+                "profitable_after_spread_fraction": round(
                     sum(value > 0 for value in pips) / len(pips),
                     6,
                 ),
@@ -1755,14 +1737,20 @@ def run_backtest(
     database: Path = DEFAULT_DATABASE,
     config_path: Path = DEFAULT_CONFIG,
     candle_root: Path = DEFAULT_CANDLE_ROOT,
-    report_path: Path = DEFAULT_REPORT,
+    report_path: Path | None = None,
     instrument_metadata_path: Path = DEFAULT_INSTRUMENT_METADATA,
     pairs: Sequence[str] = DEFAULT_PAIRS,
     horizons: Sequence[int] = (15, 60, 240),
     since: dt.datetime,
     reclassification_cache: Path = DEFAULT_RECLASSIFICATION_CACHE,
+    candle_refresh_result: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
-    pip_sizes = load_pip_sizes(instrument_metadata_path)
+    report_path=new_run_report_path(DEFAULT_REPORT) if report_path is None else Path(report_path)
+    if Path(report_path).exists():
+        raise ValueError("refuse_overwriting_existing_news_report;legacy_news_replay_report_targets_also_forbidden")
+    scoring_as_of = dt.datetime.now(UTC).isoformat()
+    pip_contracts,metadata_identity = _load_pip_contracts_snapshot(instrument_metadata_path)
+    pip_sizes = {pair: receipt["pip"] for pair, receipt in pip_contracts.items()}
     baseline = load_articles(database, since=since)
     current_articles, cache_audit = reclassify_articles_cached(
         baseline,
@@ -1859,6 +1847,8 @@ def run_backtest(
                         candles.get(str(call["pair"])) or [],
                         int(horizon),
                         pip_size=pip_sizes.get(str(call["pair"])),
+                        pip_contract=pip_contracts.get(str(call["pair"])),
+                        as_of_utc=scoring_as_of,
                     )
                 )
                 is not None
@@ -1908,6 +1898,12 @@ def run_backtest(
     )
     report = {
         "schema_version": SCHEMA_VERSION,
+        "endpoint_contract": ENDPOINT_CONTRACT,
+        "scoring_as_of_utc": scoring_as_of,
+        "reaction_input_unit": "exact_four_quote_endpoints;bps_recomputed_by_v2_consumer",
+        "instrument_metadata_source": metadata_identity,
+        "output_path":str(report_path.absolute()),
+        "publication_contract":"immutable_new_run_no_overwrite",
         "generated_utc": news.iso_utc(),
         "status": "ok",
         "policy": {
@@ -2020,7 +2016,8 @@ def run_backtest(
             ]
         ),
     }
-    news.atomic_write_json(report_path, report)
+    if candle_refresh_result is not None:report["candle_refresh"]=dict(candle_refresh_result)
+    publish_new_json_report(report_path,report)
     return report
 
 
@@ -2034,7 +2031,7 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         default=DEFAULT_INSTRUMENT_METADATA,
     )
-    parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
+    parser.add_argument("--report", type=Path, default=None, help="Absent target path; default creates immutable unique run report")
     parser.add_argument(
         "--reclassification-cache",
         type=Path,
@@ -2072,17 +2069,15 @@ def main() -> int:
         horizons=args.horizons,
         since=since,
         reclassification_cache=args.reclassification_cache,
+        candle_refresh_result=refresh_result,
     )
-    if refresh_result is not None:
-        report["candle_refresh"] = refresh_result
-        news.atomic_write_json(args.report, report)
     print(
         json.dumps(
             {
                 "status": report["status"],
                 "classifier_audit": report["classifier_audit"],
                 "results": report["results"],
-                "report": str(args.report),
+                "report": report["output_path"],
             },
             indent=2,
             sort_keys=True,

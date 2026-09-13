@@ -1,0 +1,69 @@
+{
+  "schema": "credential_assignment_optimization_validation_v1_20260907",
+  "status": "passed",
+  "observed_utc": "2026-09-07T19:07:29.157941+00:00",
+  "changed_runtime_code_scope": "Only PATTERNS.credential_assignment expression; replacing this AST expression with original makes entire source AST identical.",
+  "scope": "Full-payload finditer callers only; explicit starting positions inside an identifier are not an equivalent API and are not used by the scanner.",
+  "detection_rules_removed": 0,
+  "exemptions_added": 0,
+  "real_credentials_read": false,
+  "full_repository_scan_started": false,
+  "initial_regression_run": {
+    "xml": "scanner_tests.xml",
+    "cases": 132,
+    "passed": 131,
+    "failed": 1,
+    "failure": "New synthetic test-source concatenation looked like a credential literal; archive correctly rejected it. Only test string construction changed; no rule or exemption was relaxed.",
+    "existing_credential_and_snapshot_cases_passed": 68
+  },
+  "final_targeted_run": {
+    "xml": "scanner_linear_tests.xml",
+    "cases": 64,
+    "passed": 64,
+    "failed": 0,
+    "bounded_randomized_payload_comparisons": 5000,
+    "additional_quote_key_separator_cases": 1260,
+    "python_reference_cases": 28,
+    "large_synthetic_run_bytes": 252696,
+    "both_changed_files_pass_archive_audit": true
+  },
+  "independent_review_reported": {
+    "reviewer": "pair_dashboard",
+    "status": "passed",
+    "full_payload_span_capture_comparisons": 50736,
+    "python_reference_comparisons": 1728,
+    "differences": 0
+  },
+  "source_and_evidence_bindings": [
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\credential_scan_optimization_20260907\\before_source\\credential_audit.py",
+      "sha256": "14b9cb8327bf5e46825038f5d80fa9fb3a9cf8f57ee6937d93387489e6751405",
+      "bytes": 12689
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\tools\\credential_audit.py",
+      "sha256": "c7e5fc81644c87d322b9f57c9e2a0d013e44f0c3d50b964dca268ee9aebf5d08",
+      "bytes": 13096
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_credential_audit_linear_assignment.py",
+      "sha256": "a8bab2913da724ff29f8156c543f9e9ad5116f2d1595f3995293acbf6fb313d6",
+      "bytes": 6973
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\credential_scan_optimization_20260907\\scanner_tests.xml",
+      "sha256": "080ff0dcbecb062e0c226ee759e30494060791eba7eca8186bbd12e72d87bbd3",
+      "bytes": 22598
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\credential_scan_optimization_20260907\\scanner_linear_tests.xml",
+      "sha256": "c8827464c83d055a7cd8d08d3cf1604a02a161925bbe0b68d1fe5c9cb93b3ff6",
+      "bytes": 11186
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\credential_scan_optimization_20260907\\SCANNER_SYNTHETIC_PERFORMANCE_20260907.json",
+      "sha256": "afe5db96b9ffed945505d3740994fe48b3bdfca0c48ffe727a96b384c6287286",
+      "bytes": 861
+    }
+  ]
+}

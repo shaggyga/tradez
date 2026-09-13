@@ -1,0 +1,65 @@
+{
+  "bindings": {
+    "frozen_outcomes": {
+      "bytes": 31816,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_native_curve_outcomes_v1.py",
+      "sha256": "f90b237543aff4d86f5d3c93aeec1f738743fd6c9ba75c60f96ecfc8b605b68b"
+    },
+    "owner_tests": {
+      "bytes": 9388,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\prospective_pilot\\scalability_v3\\test_evaluate_prospective_pilot_v3.py",
+      "sha256": "6fafa24d2ab51b4ca8739f46d9902f7cccdd790f788df4b099c031bf09c7ebc6"
+    },
+    "owner_xml": {
+      "bytes": 5515,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\prospective_pilot\\scalability_v3\\v3_reference_identity_final_tests.xml",
+      "sha256": "29c93445728cd74f6ee6509783bb0817ce879b137f8f1e0fa58d02f71dd05fb8"
+    },
+    "pinned_v2": {
+      "bytes": 11045,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\prospective_pilot\\scalability_v2\\evaluate_prospective_pilot_v2.py",
+      "sha256": "138ca479515b1b22e023757f937c5887e77bcba212b7a56d94d788eed679a46c"
+    },
+    "source": {
+      "bytes": 13381,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\prospective_pilot\\scalability_v3\\evaluate_prospective_pilot_v3.py",
+      "sha256": "bdab15904cfe82c5a7db12a66055fefe186f333fb0d50c4fff63e13bff04fee3"
+    }
+  },
+  "created_utc": "2026-09-09T08:44:52.324628+00:00",
+  "limits": [
+    "This is a single-process, non-overlapping validation-session helper; its scoped global patches are not a concurrent evaluator service.",
+    "Accounted object bytes are not a hard process working-set cap.",
+    "Owner synthetic tests and separate matched-output/clock benchmarks are not independent performance recomputation by this reviewer."
+  ],
+  "owner_test_xml_summary": {
+    "errors": "0",
+    "failures": "0",
+    "hostname": "DESKTOP-Q2EDIEU",
+    "name": "pytest",
+    "skipped": "0",
+    "tests": "25",
+    "time": "42.216",
+    "timestamp": "2026-09-09T04:36:15.616141-04:00"
+  },
+  "remaining_blockers": [],
+  "review_findings": [
+    {
+      "finding": "Owner identified potential subclass hash/equality impersonation of a bank reference.",
+      "resolution": "Bank validation requires the stored reference to be the same Python object before admitting its parsed capture.",
+      "status": "closed"
+    }
+  ],
+  "review_scope": "Read-only source review; no independent test rerun, live input reads, evaluation, runtime integration or source edits.",
+  "reviewer": "pair_ledger_evaluation",
+  "schema_version": "pilot_evaluator_v3_independent_review_v1_20260909",
+  "status": "passed_bounded_source_review",
+  "verified_boundaries": [
+    "Original capture validation precedes admission of detached canonical bytes and recursively immutable parsed values.",
+    "Opaque references require exact bank-owned identity, including the explicit same-reference check against hash/equality impersonation.",
+    "Cached semantic hashes require the exact immutable nested objects plus exact scalar types/values and complete field identity.",
+    "Bisect target lookup matches the frozen branch order and rechecks current maturity each call; the original rolling source election and scoring remain unchanged.",
+    "Bounded bank overflow follows original validation, with no source-domain truncation; dynamic clocks, failures and whole scores are not cached.",
+    "Source hashes bracket execution and patched functions are restored on exit."
+  ]
+}

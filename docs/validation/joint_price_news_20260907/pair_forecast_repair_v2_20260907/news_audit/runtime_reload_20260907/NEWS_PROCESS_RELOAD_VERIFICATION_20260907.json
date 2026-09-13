@@ -1,0 +1,117 @@
+{
+  "orders_enabled": false,
+  "finished_utc": "2026-09-07T22:08:46.4635234Z",
+  "unrelated_worker_processes_preserved": 20,
+  "stopped": [
+    {
+      "pid": 24008,
+      "status": "stopped_verified_identity",
+      "observed_utc": "2026-09-07T22:08:33.0086125Z"
+    },
+    {
+      "pid": 4196,
+      "status": "stopped_verified_identity",
+      "observed_utc": "2026-09-07T22:08:33.0822017Z"
+    },
+    {
+      "pid": 1212,
+      "status": "already_exited",
+      "observed_utc": "2026-09-07T22:08:33.1437063Z"
+    },
+    {
+      "pid": 17664,
+      "status": "stopped_verified_identity",
+      "observed_utc": "2026-09-07T22:08:33.2107947Z"
+    },
+    {
+      "pid": 7244,
+      "status": "already_exited",
+      "observed_utc": "2026-09-07T22:08:33.2715043Z"
+    },
+    {
+      "pid": 36080,
+      "status": "already_exited",
+      "observed_utc": "2026-09-07T22:08:33.3311500Z"
+    },
+    {
+      "pid": 5236,
+      "status": "stopped_verified_identity",
+      "observed_utc": "2026-09-07T22:08:33.3986112Z"
+    },
+    {
+      "pid": 19584,
+      "status": "already_exited",
+      "observed_utc": "2026-09-07T22:08:33.4631162Z"
+    }
+  ],
+  "supervisor_preserved": {
+    "pid": 45324,
+    "parent_pid": 38432,
+    "name": "powershell.exe",
+    "created_utc": "2026-09-07T21:19:21.9976220Z",
+    "command": "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File \"C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_always_on_supervisor.ps1\" -Root \"C:\\Users\\zmoor\\Documents\\forex\" -AccountKey OANDA_ACCOUNT_ID_DUM4 -RunLabel research-collection-audit-20260906 -IntervalSec 30 -ChildDurationSec 604800 -SafeCoreOnly -ResearchCollectionOnly"
+  },
+  "status": "passed",
+  "new_targets": [
+    {
+      "pid": 6972,
+      "parent_pid": 45324,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T22:08:44.7695310Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_local_news_sentiment.py --interval-sec 60 --duration-sec 604800 "
+    },
+    {
+      "pid": 14980,
+      "parent_pid": 6972,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T22:08:44.8375390Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_local_news_sentiment.py --interval-sec 60 --duration-sec 604800 "
+    },
+    {
+      "pid": 37408,
+      "parent_pid": 45324,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T22:08:44.8712450Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_official_release_fast_lane.py --interval-sec 15 --duration-sec 604800 "
+    },
+    {
+      "pid": 44324,
+      "parent_pid": 37408,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T22:08:44.9417190Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_official_release_fast_lane.py --interval-sec 15 --duration-sec 604800 "
+    },
+    {
+      "pid": 21064,
+      "parent_pid": 45324,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T22:08:44.9938090Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_official_release_fast_mapper.py --interval-sec 5 --duration-sec 604800 --quiet "
+    },
+    {
+      "pid": 25916,
+      "parent_pid": 21064,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T22:08:45.0811600Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_official_release_fast_mapper.py --interval-sec 5 --duration-sec 604800 --quiet "
+    },
+    {
+      "pid": 11652,
+      "parent_pid": 45324,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T22:08:45.8741090Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_source_governance_news_fast_lane.py --news-database C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\local_news_sentiment_v1.sqlite --database C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\source_governance_v1.sqlite --state C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\source_governance_news_fast_lane_v3.json --interval-sec 30 --duration-sec 604800 "
+    },
+    {
+      "pid": 44784,
+      "parent_pid": 11652,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T22:08:45.9560780Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_source_governance_news_fast_lane.py --news-database C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\local_news_sentiment_v1.sqlite --database C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\source_governance_v1.sqlite --state C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\source_governance_news_fast_lane_v3.json --interval-sec 30 --duration-sec 604800 "
+    }
+  ],
+  "started_utc": "2026-09-07T22:08:32.7154481Z",
+  "live_artifact_verification": "pending first completed v165 collector cycle",
+  "supervisor_restarted": false,
+  "manual_worker_launches": 0
+}

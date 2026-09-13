@@ -1878,6 +1878,14 @@ def test_lifecycle_genealogy_incrementally_skips_unchanged_rows(tmp_path: Path) 
     target.close()
 
 
+def test_genealogy_connection_has_bounded_busy_timeout(tmp_path: Path) -> None:
+    connection = connect(tmp_path / "genealogy.sqlite")
+    try:
+        assert connection.execute("PRAGMA busy_timeout").fetchone()[0] == 30000
+    finally:
+        connection.close()
+
+
 def test_internal_discovery_and_adapter_retirement_are_explicit(tmp_path: Path) -> None:
     artifact = tmp_path / "artifact.json"
     artifact.write_text(json.dumps({

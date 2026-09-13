@@ -1,0 +1,212 @@
+{
+  "schema_version": "eurusd_local_model_validation_and_integration_review_v1_20260907",
+  "generated_utc": "2026-09-07T16:31:23.647863+00:00",
+  "source_sha256": {
+    "oanda_eurusd_local_models_v1.py": "8cd57cb20d26a220dcc1328b949d5e380d31e9d63ece12af743a010ac4b263d7",
+    "test_oanda_eurusd_local_models_v1.py": "3acf15a07b758e6567916caa2bb16846c808aff90bc409738dab108dda606bde"
+  },
+  "evidence_sha256": {
+    "integration_tests.xml": "ea48e23d25526b0ed36d2f3a3c745d7af08e3ca85bed8c79ae843e8599b27f63",
+    "run_tests.py": "f8a1d6fa11f0c2c0402b2593da30678deb9daa023aa639ca9827a74a0756b09d"
+  },
+  "tests": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "54",
+    "time": "4.335",
+    "timestamp": "2026-09-07T12:26:07.076721-04:00",
+    "hostname": "DESKTOP-Q2EDIEU"
+  },
+  "python_executable": "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe",
+  "dependencies": {
+    "python": "3.12.10",
+    "numpy": "2.5.1",
+    "pytest": "9.1.1",
+    "sklearn_used_by_four_family_test_oracle_only": "1.9.0"
+  },
+  "invocation": "OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1; C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe -B ..\\warmup_repair_20260907\\eurusd_local_models\\run_tests.py test_oanda_eurusd_local_models_v1.py",
+  "parameters": {
+    "instrument": "EUR_USD",
+    "horizon_sec": 3600,
+    "maximum_real_rows": 1024,
+    "current_eurusd_closes": 61,
+    "feature_windows_minutes": [
+      1,
+      3,
+      5,
+      15,
+      30,
+      60
+    ],
+    "pip_size": 0.0001,
+    "ridge_alpha": 10.0,
+    "ridge_minimum_rows": 24,
+    "ridge_stride_minutes": 3,
+    "state_alpha": 0.08,
+    "state_maximum_prices": 256,
+    "state_minimum_returns": 60,
+    "sampling_phase": "epoch_minute_modulo_3_equals_zero",
+    "training_gap_policy": "all 121 feature_and_target_prices_must_exist"
+  },
+  "families": [
+    "ridge_return_repaired",
+    "probabilistic_state_space"
+  ],
+  "fixture": {
+    "scope": "synthetic_prices_and_clocks_only",
+    "retained_real_rows": 573,
+    "friday_rows": 512,
+    "sunday_closes": 61,
+    "current_one_minute_intervals": 60,
+    "ridge_training_rows": 131,
+    "state_observations": 60
+  },
+  "timing": {
+    "repetitions": 5,
+    "median_sec": 0.019430199987255037,
+    "scope": "pure local model helper, not whole-project latency"
+  },
+  "old_registered_bindings_unchanged": {
+    "causal_forecast_study_v1_io_r2_20260906.json": {
+      "oanda_causal_forecast_inputs.py": {
+        "expected": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+        "actual": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281"
+      },
+      "oanda_causal_forecast_ledger.py": {
+        "expected": "4ddd413261fc294922bf2664bb0ae018d8469a3422942567849c1624ba32cd1f",
+        "actual": "4ddd413261fc294922bf2664bb0ae018d8469a3422942567849c1624ba32cd1f"
+      },
+      "oanda_causal_forecast_study.py": {
+        "expected": "e50a9a8ef5bbfe739d177d1bcf8632362bcad06b68694eb7c599c70a33fbd44e",
+        "actual": "e50a9a8ef5bbfe739d177d1bcf8632362bcad06b68694eb7c599c70a33fbd44e"
+      },
+      "oanda_causal_prediction_baselines.py": {
+        "expected": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+        "actual": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d"
+      },
+      "oanda_fixed_forecast_evaluation.py": {
+        "expected": "482af854fae94d53aea82c109ffb6a00f265f3ecebdbc3137e200cb07d142708",
+        "actual": "482af854fae94d53aea82c109ffb6a00f265f3ecebdbc3137e200cb07d142708"
+      },
+      "oanda_proof_shadow_predictors.py": {
+        "expected": "51c3f945eadb3f26166cfddd37d97451ef21e2b69ece6664c57ee06c145ff417",
+        "actual": "51c3f945eadb3f26166cfddd37d97451ef21e2b69ece6664c57ee06c145ff417"
+      }
+    },
+    "causal_forecast_study_gap_v2_20260907.json": {
+      "oanda_causal_forecast_inputs.py": {
+        "expected": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+        "actual": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281"
+      },
+      "oanda_causal_forecast_inputs_gap_v2.py": {
+        "expected": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd",
+        "actual": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd"
+      },
+      "oanda_causal_forecast_ledger_gap_v2.py": {
+        "expected": "7da94bd35291bf684e367bd91085cd5fb477f188d1347bc2d5dd7b1a113edf43",
+        "actual": "7da94bd35291bf684e367bd91085cd5fb477f188d1347bc2d5dd7b1a113edf43"
+      },
+      "oanda_causal_forecast_study_gap_v2.py": {
+        "expected": "3d9fd2a7ef93944ecbc941deeef5d5090f4a4f4818930a2a577e8650761a5106",
+        "actual": "3d9fd2a7ef93944ecbc941deeef5d5090f4a4f4818930a2a577e8650761a5106"
+      },
+      "oanda_causal_prediction_baselines.py": {
+        "expected": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+        "actual": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d"
+      },
+      "oanda_exact_price_scoring.py": {
+        "expected": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521",
+        "actual": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521"
+      },
+      "oanda_fixed_forecast_evaluation_exact.py": {
+        "expected": "173339dce8df3807eae38ed858c5df02979f2bc6e11df61d3c032de773fdcef0",
+        "actual": "173339dce8df3807eae38ed858c5df02979f2bc6e11df61d3c032de773fdcef0"
+      },
+      "oanda_gap_aware_four_family_models.py": {
+        "expected": "0ed224abcd0e7b53a26921acc29af208f074701fe02ce5cf4e0f1ee6f84c7e09",
+        "actual": "0ed224abcd0e7b53a26921acc29af208f074701fe02ce5cf4e0f1ee6f84c7e09"
+      }
+    }
+  },
+  "new_companion_contract_sha256": "515c81be37a8828da1fd89edcbee33083ac1f6cae1b2e13bdb5338961058afe0",
+  "new_companion_source_bindings_reviewed": {
+    "oanda_causal_forecast_inputs.py": {
+      "expected": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+      "actual": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281"
+    },
+    "oanda_causal_forecast_inputs_eurusd_v1.py": {
+      "expected": "559cce99d33946708475bb39ee68b77f0d1fe1ae6d1edb435b3110b6f9cdd1e6",
+      "actual": "559cce99d33946708475bb39ee68b77f0d1fe1ae6d1edb435b3110b6f9cdd1e6"
+    },
+    "oanda_causal_forecast_inputs_gap_v2.py": {
+      "expected": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd",
+      "actual": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd"
+    },
+    "oanda_causal_forecast_ledger_eurusd_v1.py": {
+      "expected": "c3a085373f5f8f511db5148895b2ac21a57ca0d0464923cb40b5a43b3f61e108",
+      "actual": "c3a085373f5f8f511db5148895b2ac21a57ca0d0464923cb40b5a43b3f61e108"
+    },
+    "oanda_causal_forecast_study_eurusd_v1.py": {
+      "expected": "0619e52d800dbe2ec8a270548e39db5d98d4ad53ef19d385f6a638b9328e375c",
+      "actual": "0619e52d800dbe2ec8a270548e39db5d98d4ad53ef19d385f6a638b9328e375c"
+    },
+    "oanda_causal_prediction_baselines.py": {
+      "expected": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+      "actual": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d"
+    },
+    "oanda_eurusd_local_models_v1.py": {
+      "expected": "8cd57cb20d26a220dcc1328b949d5e380d31e9d63ece12af743a010ac4b263d7",
+      "actual": "8cd57cb20d26a220dcc1328b949d5e380d31e9d63ece12af743a010ac4b263d7"
+    },
+    "oanda_exact_price_scoring.py": {
+      "expected": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521",
+      "actual": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521"
+    },
+    "oanda_fixed_forecast_evaluation_eurusd_v1.py": {
+      "expected": "15e08b984700b1d5bd22f0b77c0c2f6cefb06f48424eed6ad26ea0bbe58affb9",
+      "actual": "15e08b984700b1d5bd22f0b77c0c2f6cefb06f48424eed6ad26ea0bbe58affb9"
+    }
+  },
+  "independent_integration_review": {
+    "scope": "EURUSD worker/ledger/evaluator diffs against frozen gap_v2 and exact evaluator; PowerShell gate read-only",
+    "blocking_findings": [],
+    "two_family_gate": "exactly ridge_return_repaired and probabilistic_state_space, with distinct new ledger cohorts",
+    "evaluator_row_count": "exactly2 forecasts, complete_two_family_decisions counter; prior residual4 repaired by root before final review",
+    "clocks": "input maturity, actual observed capture, later completion/issue, durable publication and independent consumption unchanged",
+    "targets_and_prices": "original H1 targets and fresh executable entry/target quotes retained; Decimal observed-price scoring unchanged",
+    "supervisor_sha256": "805084f96da9cb25750eb0e6d8b465b127a036b29d771f7694dd0148a9d1ea36",
+    "powershell_ast_parse_errors_observed": 0,
+    "unique_research_allowlist_count": 13,
+    "research_allowlist": [
+      "account_snapshot",
+      "live_dashboard",
+      "local_news_sentiment",
+      "official_release_fast_lane",
+      "official_release_fast_mapper",
+      "source_governance_news_fast_lane",
+      "practice_007_quote_stream",
+      "clock_integrity_monitor",
+      "all68_m1_forward_archive",
+      "project_integrity_audit",
+      "storage_headroom_guard",
+      "causal_forecast_study_v1",
+      "eurusd_local_forecast_study"
+    ],
+    "sole_added_worker": "eurusd_local_forecast_study",
+    "unknown_or_execution_workers_remain_excluded": true
+  },
+  "historical_real_data_accuracy_established": false,
+  "prospective_forecasts_created_by_this_subtask": 0,
+  "process_start_or_reload_by_this_subtask": 0,
+  "broker_calls_by_this_subtask": 0,
+  "live_csv_or_database_writes_by_this_subtask": 0,
+  "limitations": [
+    "This direct EURUSD-only API receives market START epochs, not actual observation clocks.",
+    "Caller must verify instrument/duplicates/source bytes, observe availability and require both families before issuance.",
+    "There is no peer substitution, imputation or bypass of EURUSD current61-close and mature-label requirements.",
+    "The state output uses uncalibrated inherited Gaussian/EWMA conventions; no accuracy or trading authority is established.",
+    "Runtime activation and current outcome validation belong to root; this receipt does not assert the whole project remains stopped."
+  ]
+}

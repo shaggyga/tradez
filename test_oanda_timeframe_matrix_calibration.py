@@ -32,7 +32,7 @@ class TimeframeMatrixCalibrationTests(unittest.TestCase):
         self.assertEqual(state["independence_block_sec"], 86400)
         self.assertFalse(state["validation_ready"])
 
-    def test_incremental_walk_forward_calibration_is_shadow_only(self):
+    def test_incremental_row_order_diagnostics_cannot_claim_readiness(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             source = root / "outcomes.sqlite"
@@ -91,10 +91,30 @@ class TimeframeMatrixCalibrationTests(unittest.TestCase):
             self.assertEqual(surface["n"], 140)
             self.assertGreater(surface["oos_n"], 80)
             self.assertFalse(surface["account_eligible"])
+            self.assertFalse(surface["proof_eligible"])
+            self.assertFalse(surface["validation_ready"])
+            self.assertFalse(surface["issue_time_availability_verified"])
+            self.assertEqual(surface["status"], "diagnostic_replay")
+            self.assertEqual(first["ready_surface_count"], 0)
+            self.assertFalse(first["proof_eligible"])
             self.assertEqual(second["processed_rows_this_run"], 0)
             self.assertEqual(second["last_source_row_id"], 140)
             saved = json.loads((root / "calibration.json").read_text(encoding="utf-8"))
             self.assertIn(key, saved["pair_surfaces"])
+
+    def test_good_replay_numbers_remain_diagnostic_even_when_old_thresholds_pass(self):
+        stats = SurfaceStats("pair", "EUR_USD|lane|300", "lane", "EUR_USD", 300)
+        for index in range(140):
+            stats.observe(raw_probability_up=0.8, actual_up=1.0,
+                          long_net_pips=2.0, short_net_pips=-2.0,
+                          observed_utc=f"2026-07-{1 + index // 24:02d}T{index % 24:02d}:00:00+00:00")
+        state = stats.state()
+        self.assertTrue(state["diagnostic_thresholds_met"])
+        self.assertFalse(state["validation_ready"])
+        self.assertFalse(state["proof_eligible"])
+        self.assertEqual(state["n"], 140)
+        self.assertEqual(state["oos_n"], 100)
+        self.assertGreater(state["calibrated_accuracy"], 0.99)
 
 
 if __name__ == "__main__":

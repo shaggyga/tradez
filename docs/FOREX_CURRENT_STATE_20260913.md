@@ -1,0 +1,44 @@
+**Current operational checkpoint - 2026-09-13T13:43:38.829786+00:00:** [Current state, evidence and recreation](FOREX_OPERATIONAL_CHECKPOINT_20260913.md). Earlier status below is historical; its original bytes are preserved.
+
+**Current stop checkpoint — 2026-09-13T11:14:00.478497+00:00:** [Status, results and next work](FOREX_STOP_CHECKPOINT_20260913.md). Work stopped on request; earlier status below is historical and preserved.
+
+**Current checkpoint — 2026-09-13T03:05:46.537951+00:00:** [Current state, next work and market-open setup](FOREX_MARKET_OPEN_SETUP_20260913.md). This dated update supersedes older status statements below; their original evidence remains preserved.
+
+# Forex current state — September 12 evening, Eastern time
+
+Final process recheck at 2026-09-13T01:23:14.0574413Z: no Python or project PowerShell process and no dashboard listener were observed. The offline fitting/replay jobs have finished; no live service was started. The earlier detailed input/recovery observations retain their own timestamps. [Final read-only process evidence](C:/Users/zmoor/Documents/forex/revamp_8h_20260912/runtime/market_open_readiness_001/PROCESS_OBSERVATION_003.json).
+
+Evidence reconciled at 2026-09-13T01:21:57.062602+00:00. The actual project is `C:/Users/zmoor/Documents/forex/trad`. This checkpoint supersedes the earlier stopped-run notices. The richer comparison and the new outcome-recorder repair are complete within their tested scope. **The project is still stopped and is not operationally ready for market open. No dependable profitable setup has been established.**
+
+| Area | Current evidence | Remaining limit |
+|---|---|---|
+| Model/source audit | All 300 versions in the defined source census dispositioned; older model catalogue and five project chats reconciled | This is not a rerun of every historical model. Missing exact sources/artifacts and deferred D references remain recorded. |
+| Primary archive | 53,512,475 M1 rows across 68 pairs; 875,146 original hourly origins prepared | Every source minute is not a fitted observation; target, continuity and maturity eligibility remain explicit. |
+| Larger features | 631 additional definitions; 378 ever populated and 253 entirely missing | At sampled decisions, available histories reach at most 22 H1 bars and five H4 bars. Long-window fields cannot populate under this strict-gap construction. |
+| Software repairs | Ten earlier repair groups integrated; separate corrected typed outcome profile installed and packaged | Its 210 synthetic tests also pass after source-only relocation. Old live callers have not been repointed and live behavior is unproved. |
+| Research reproduction | All six richer artifacts reproduce 841,178 estimates exactly; six reused baseline arms also match; all 12 reports and six deltas recomputed | Exact reproduction is not profitable direction, portable native runtime recovery or deployment qualification. |
+| Operation | Read-only 00:44 UTC snapshot found offline research jobs, no live component process and no dashboard listener | Clock proof is stale; the recovery task belongs to the ended Friday trial; four exact default model-gap artifacts and their report are absent. |
+
+The completed richer study adds the 631 close/clock fields to the compact 24, with 68 fixed identity slots, for one-hour and four-hour horizons over three original periods. The actual four-hour population has 67 pairs: EUR/DKK has no eligible H240 observations. The fixed identity layout is preserved; no rows or forecasts were invented for it. Some individual assessment periods cover fewer pairs. Three completed H60 fits were reused byte-for-byte when execution was corrected; only the missing H240 fits were added. The receipt-size, memory and pair-universe failures and their separate revisions remain preserved. [Exact comparison results](C:/Users/zmoor/Documents/forex/revamp_8h_20260912/direction_richer_archive_003/results_recomputed_004/RESULTS.md).
+
+Five of six richer cells lose after the declared executable costs. Direction ranges from 50.215% to 51.159%. The only positive cell is H60 in 2026: 324 selected decisions out of 186,582, mean +1.1129 bps after bid/ask endpoints and one additional basis point of cost; the fixed one-minute entry delay leaves +0.8330 bps. At two extra basis points the original-entry mean is only +0.1129 bps. Its earlier two periods lose, and all three H240 periods lose.
+
+That positive cell is highly concentrated. July 31 contributes +583.44 summed observation-bps, more than the whole cell's +360.59; all other dates combined are negative. Equal weighting by active pair, active decision clock or active day also gives negative averages. The original descriptive daily HAC mean/standard-error ratio is about 0.48. These are dependent historical endpoint proxies on already-inspected development periods, not broker trades, account returns or a selected strategy. [Concentration appendix](C:/Users/zmoor/Documents/forex/revamp_8h_20260912/direction_richer_archive_003/results_concentration_004/DESCRIPTIVE_APPENDIX_001.md). The earlier compact/peer comparison likewise established no repeatable positive setup: 32 negative, two positive and two no-position cells out of 36.
+
+The new recorder separates side-profit probabilities and ranking scores from midpoint P(up). Unsupported midpoint probability and Brier remain null. Buy/sell and hold outcomes have separate denominators, and original forecast, entry and target clocks are preserved. Five exact-identity checks now reject changed JSON numeric/boolean types. The installed and relocated copies pass the same 210 related software cases; these are not independent trading trials. [Typed profile and source package](C:/Users/zmoor/Documents/forex/trad/docs/TYPED_OUTCOME_PROFILE_V4_20260912.md).
+
+For market open, work proceeds in this order:
+
+1. Resolve the recorded clock-start blocker and establish fresh project clock evidence. A running Windows time service alone does not provide that evidence.
+2. Wire a current passive operating/recovery profile around the tested components. The existing Ready task is pinned to September 11, 20:45 UTC and the completed trial. Its old deadline, latches, claims and ledgers remain intact.
+3. Observe an actual fresh quote/archive path, successful news collection and acknowledged publication together. Stale running flags, a heartbeat or a blocked news cycle do not establish current operation.
+4. Restore a selected model's exact input, artifact, source and runtime dependencies, then verify the producer-to-outcome path. The new offline HGB bundles cannot simply replace missing classifier defaults. A separately specified practice experiment and position-management configuration remain necessary.
+5. Continue targeted research: calendar-aware history carry, original-known official news and same-original-terminal management decisions. The older manager comparison still has the audited future-terminal equity/selection issue; that result cannot validate early exits. More feature names or an isolated winning period do not close these gaps.
+
+The weekend idea already has an inactive EUR/USD gap-fade/continuation/no-trade helper. Reuse it if verified final-Friday and first-open observations are available, with an explicit calendar and prospective scoring. It has no fitted-model warm-up requirement, but no established profitable performance or integrated collector. Calendar-aware carry was also already documented as a separate history contract; the new work measures its importance rather than inventing a duplicate project. [History support and reuse](C:/Users/zmoor/Documents/forex/revamp_8h_20260912/direction_richer_archive_003/feature_support_explanation_001/HISTORY_REUSE_ADDENDUM_001.md).
+
+Most OANDA US FX instruments reopen Sunday, September 13 at **5:05 p.m. New York time**; TRY pairs have separate hours. This is the planning target, not proof that every input will be ready at opening. [OANDA's current hours](https://www.oanda.com/us-en/trading/hours-of-operation/). [Exact operational readiness and blockers](C:/Users/zmoor/Documents/forex/revamp_8h_20260912/runtime/market_open_readiness_001/MARKET_OPEN_READINESS_002.md).
+
+Two source-recovery packages now have local vault readback and scoped restoration checks. They do not contain every model, native dependency, private database or credential, and local OneDrive writes do not prove cloud sync. Existing change IDs and prior results remain in the registers; no new trial, service, trading activation or post-turn monitoring schedule was created.
+
+The earlier clock-monitor startup was rejected by automatic approval review as “blocked by policy,” according to the retained continuation record. It has not been retried or bypassed. Offline checks and source publication have continued independently.

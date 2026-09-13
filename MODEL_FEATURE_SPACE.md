@@ -11,6 +11,10 @@ Current distinctions:
 - OANDA executable quotes/candles, spread/cost state, official-source mapping,
   narrative meter v12, CFTC positioning, governed proof cohorts, and the clean
   causal level-band cohort are current inputs or research collectors.
+- OANDA ClientPrice tradeability is now preserved separately from freshness in
+  quote snapshot schema 3. It is an execution/coverage condition, not alpha:
+  `tradeable=false` remains visible in all-68 research coverage but is rejected
+  from executable pricing, and an unknown current status fails integrity.
 - Order-book, position-book, pricing-depth, and microprice contracts remain
   unavailable/inert. A 14,888,709-forecast census found no causally populated
   book observations or informative depth.
@@ -263,3 +267,72 @@ The programmatic spec is in `trad/config/model_feature_space.json`.
 
 - Goal: Guarantee wide-feature datasets remain leakage-safe and compatible with TP/SL, time-stop, and triple-barrier labels.
 - Promotion gate: all training rows have deterministic max-lookback and forward-label metadata before model comparison
+
+## Aggregate signal identity and conflict diagnostics
+
+These are governance and attribution fields, not new alpha features:
+
+### aggregate_signal_lineage
+
+- Contract: `all_signal_horizon_lineage_v1`.
+- Purpose: deterministically identifies the exact instrument × horizon × direction
+  reconstruction and its sorted raw contributors.
+- Stored outputs: `aggregate_signal_id`, `source_signal_id`,
+  `signal_lineage_contract_id`.
+- Proof rule: only strict-lineage V5 rows may enter the current top-signal
+  prospective summary; mixed V4 and legacy rows remain separate.
+
+### direction_conflict_basis
+
+- Contract: `any_opposing_preferred_horizon_contributor_v1`.
+- Purpose: explains which contributors triggered the unchanged direction-conflict
+  veto and whether they were executable, account-eligible, or shadow-only.
+- Stored outputs: opposing contributor count, account-eligible count, execution
+  component count, shadow-only count, `only_shadow_or_account_ineligible`, and a
+  compact contributor lineage list.
+- Research use: compare untouched after-cost outcomes with versus without
+  shadow-only conflict, while keeping the production veto unchanged until the
+  governed cohort supplies independent evidence.
+
+## Source-factor admission controls
+
+### secondary_crypto_primary_context
+
+- Contract: `secondary_crypto_primary_currency_factor_gate_v1_20260901`.
+- Purpose: prevents a secondary crypto/ETF outlook from becoming a direct FX
+  factor solely because its headline embeds a rate, yield, or central-bank
+  phrase.
+- Storage rule: retain the original receipt and topic as immutable context;
+  suppress only its admission to the uncorroborated currency-response cohort.
+- Exemptions: verified issuer-bound authority communications and structured
+  official releases continue through their existing causal contracts.
+- Proof rule: V16 evidence remains frozen; only untouched V17 observations use
+  this admission rule. This feature is research-only and cannot authorize or
+  execute.
+
+## Executable movement census evidence contract
+
+### all68_executable_move_census_v2_20260901e
+
+- Purpose: measure every declared long and short path across all 68 OANDA
+  instruments against executable bid/ask endpoints and one frozen round-trip
+  slippage deduction.
+- Unit: immutable minute frame × instrument × side, with fixed 1, 5, 10, 15,
+  30 and 60 minute terminal windows plus descriptive causal path fields.
+- Inputs: 68-row all-pair quote snapshot, broker tradeability state, quote age,
+  source/transport identities, market calendar, pip map and frozen cost model.
+- Stored outputs: terminal net pips/bps, first cost-clear minute, maximum and
+  minimum executable path net, factor/episode summaries, frame receipts and
+  schedule-gap census.
+- Independence: signed-currency factor × 15-minute entry episode deduplication;
+  the raw 136 sides remain reconstructible and are not treated as independent
+  confirmations.
+- Lineage: D is permanently invalid because it bound source schema 2 while the
+  live tradeability snapshot was schema 3. E imports no D rows and starts at
+  2026-09-01 19:15 UTC. Any change to config, producer, quote source, transport,
+  horizons or cost contract requires another cohort ID.
+- Governance: an independent verifier replays hashes, frame-prefix receipts,
+  counts, timing and schedule completeness. It also rejects source-identity
+  mismatches and any open-market frame with zero valid executable quotes. This
+  census is evidence plumbing, not alpha; it cannot trade, authorize or promote
+  and supports only `no_trade`.

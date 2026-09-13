@@ -59,14 +59,14 @@ RATE_REPRICING_CLOCK_BOUND_COHORT_ID = (
 DAILY_RATE_CLOCK_BOUND_COHORT_ID = (
     "official_daily_rate_context_v2_clock_v4_20260817"
 )
+PAIR_SCORE_CONTRACT_ID = (
+    "same_episode_signed_base_minus_quote_currency_score_v1_20260901"
+)
 
 UTC = dt.timezone.utc
-# V40 begins when the source-independent remaining-move and causal
-# surprise/rate comparison arms enter the collector policy.  V39 is preserved
-# as the exact parent: adding arms under its ID caused the append-only
-# genealogy registrar to detect a definition conflict and correctly fail
-# closed.
-PARENT_COHORT_ID = "news_technical_watchlist_v39_energy_exporter_ambiguity_20260818"
+# V41 begins when every news expression is defined by the signed base-minus-
+# quote score for the same source episode.  V40 and all of its child cohorts
+# remain immutable; equal same-episode scores on both pair legs now cancel.
 # A classifier rollout can leave the retained topic table on the prior
 # semantic contract for part of a collection pass.  The v4 cohort explicitly
 # requires the current classifier version so stale topic payloads cannot seed
@@ -131,86 +131,125 @@ PARENT_COHORT_ID = "news_technical_watchlist_v39_energy_exporter_ambiguity_20260
 # V34 adds separately typed SGD two-year and HKD one-month funding context;
 # unlike tenors are never treated as a cross-currency rate differential. V35
 # additionally binds slow-rate context to the underlying rate date: a fresh
-# collector poll cannot make a stale month-end observation look current.
-COHORT_ID = "news_technical_watchlist_v40_comparison_arms_20260824"
+# collector poll cannot make a stale month-end observation look current. V41
+# expresses every news thesis as signed base-minus-quote currency scores. V42
+# prevents crypto-primary secondary headlines from becoming direct currency
+# factors merely because they mention a central bank, rate, or yield. The
+# underlying story remains immutable context in the source ledger. V43 starts
+# after the live report was found to use its cycle-start clock even though the
+# quote file was read later. Every decision clock is now taken only after all
+# bounded input snapshots have been read, and quote ages are recomputed against
+# that post-read clock. V42 and all of its child cohorts stay immutable. V44
+# admits only prospectively activated, issuer-bound Japan MOF external-policy
+# pressure into the isolated official research arm. It cannot publish,
+# authorize, or execute and must still receive rate/price confirmation. V45
+# begins when unilateral ceasefire proposals stop creating broad risk-on
+# factors. V46 begins when publisher-labelled analysis and commodity
+# operational metrics stop inheriting immediate FX directions. Every prior
+# cohort remains immutable. V47 begins after conditional policy actions and
+# already-realized weekly market recaps stop becoming new research factors.
+# V48 begins after opposing same-currency policy claims stop being flattened.
+# V49 begins after secondary conflict-duration recaps stop being treated as a
+# newly observed escalation. Every V48 row remains immutable.
+PARENT_COHORT_ID = "news_technical_watchlist_v48_opposing_policy_claim_guard_20260904"
+COHORT_ID = "news_technical_watchlist_v49_conflict_duration_recap_guard_20260904"
 UNCORROBORATED_NEWS_PARENT_COHORTS = {
-    5: "uncorroborated_news_response_h5_v14_reaction_gated_20260818",
-    15: "uncorroborated_news_response_h15_v14_reaction_gated_20260818",
-    30: "uncorroborated_news_response_h30_v14_reaction_gated_20260818",
+    5: "uncorroborated_news_response_h5_v23_opposing_policy_claim_guard_20260904",
+    15: "uncorroborated_news_response_h15_v23_opposing_policy_claim_guard_20260904",
+    30: "uncorroborated_news_response_h30_v23_opposing_policy_claim_guard_20260904",
 }
 UNCORROBORATED_NEWS_COHORTS = {
+    5: "uncorroborated_news_response_h5_v24_conflict_duration_recap_guard_20260904",
+    15: "uncorroborated_news_response_h15_v24_conflict_duration_recap_guard_20260904",
+    30: "uncorroborated_news_response_h30_v24_conflict_duration_recap_guard_20260904",
+}
+UNCORROBORATED_NEWS_INVALID_SAMPLING_COHORTS = {
     5: "uncorroborated_news_response_h5_v15_energy_exporter_ambiguity_20260818",
     15: "uncorroborated_news_response_h15_v15_energy_exporter_ambiguity_20260818",
     30: "uncorroborated_news_response_h30_v15_energy_exporter_ambiguity_20260818",
 }
+SECONDARY_CRYPTO_PRIMARY_GATE_CONTRACT_ID = (
+    "secondary_crypto_primary_currency_factor_gate_v1_20260901"
+)
+SECONDARY_CRYPTO_PRIMARY_PATTERN = re.compile(
+    r"\b(?:xrp|bitcoin|btc|ethereum|eth|crypto(?:currency|currencies)?|"
+    r"altcoin|stablecoin|dogecoin|solana|cardano|memecoin|token)\b",
+    re.IGNORECASE,
+)
 RECONFIRMATION_COHORT_ID = (
-    "news_technical_reconfirmation_h15_v32_energy_exporter_ambiguity_20260818"
+    "news_technical_reconfirmation_h15_v40_conflict_duration_recap_guard_20260904"
 )
 RECONFIRMATION_PARENT_COHORT_ID = (
-    "news_technical_reconfirmation_h15_v31_persistent_sma_20260818"
+    "news_technical_reconfirmation_h15_v39_opposing_policy_claim_guard_20260904"
 )
 NEWS_MAGNITUDE_COHORTS = {
-    "news_magnitude_ranked_h5": "news_magnitude_ranked_h5_v33_energy_exporter_ambiguity_20260818",
-    "news_magnitude_ranked_h15": "news_magnitude_ranked_h15_v33_energy_exporter_ambiguity_20260818",
-    "news_magnitude_ranked_h30": "news_magnitude_ranked_h30_v27_energy_exporter_ambiguity_20260818",
+    "news_magnitude_ranked_h5": "news_magnitude_ranked_h5_v41_conflict_duration_recap_guard_20260904",
+    "news_magnitude_ranked_h15": "news_magnitude_ranked_h15_v41_conflict_duration_recap_guard_20260904",
+    "news_magnitude_ranked_h30": "news_magnitude_ranked_h30_v35_conflict_duration_recap_guard_20260904",
     "news_magnitude_direction_confirmed_h5": (
-        "news_magnitude_direction_confirmed_h5_v33_energy_exporter_ambiguity_20260818"
+        "news_magnitude_direction_confirmed_h5_v41_conflict_duration_recap_guard_20260904"
     ),
     "news_magnitude_direction_confirmed_h15": (
-        "news_magnitude_direction_confirmed_h15_v33_energy_exporter_ambiguity_20260818"
+        "news_magnitude_direction_confirmed_h15_v41_conflict_duration_recap_guard_20260904"
     ),
     "news_magnitude_direction_confirmed_h30": (
-        "news_magnitude_direction_confirmed_h30_v27_energy_exporter_ambiguity_20260818"
+        "news_magnitude_direction_confirmed_h30_v35_conflict_duration_recap_guard_20260904"
     ),
 }
 NEWS_REMAINING_MOVE_COHORTS = {
     **{
         f"news_remaining_move_cost_clear_h{horizon}": (
-            f"news_remaining_move_cost_clear_h{horizon}_v1_20260824"
+            f"news_remaining_move_cost_clear_h{horizon}_v9_conflict_duration_recap_guard_20260904"
         )
         for horizon in (5, 15, 30)
     },
     **{
         f"news_remaining_move_negative_control_h{horizon}": (
-            f"news_remaining_move_negative_control_h{horizon}_v1_20260824"
+            f"news_remaining_move_negative_control_h{horizon}_v9_conflict_duration_recap_guard_20260904"
         )
         for horizon in (5, 15, 30)
     },
 }
 NEWS_REMAINING_MOVE_PARENT_COHORTS = {
-    arm: NEWS_MAGNITUDE_COHORTS[
-        f"news_magnitude_ranked_h{arm.rsplit('h', 1)[-1]}"
-    ]
+    arm: f"{arm}_v8_opposing_policy_claim_guard_20260904"
     for arm in NEWS_REMAINING_MOVE_COHORTS
 }
 OFFICIAL_RELEASE_FAST_CONFIRMATION_COHORT_ID = (
-    "official_release_fast_multileg_h15_v1_20260818"
+    "official_release_fast_multileg_h15_v9_conflict_duration_recap_guard_20260904"
 )
 OFFICIAL_SURPRISE_RATE_COHORTS = {
     "official_surprise_rate_confirmed_h15": (
-        "official_surprise_rate_confirmed_h15_v1_20260824"
+        "official_surprise_rate_confirmed_h15_v9_conflict_duration_recap_guard_20260904"
     ),
     "official_surprise_rate_negative_control_h15": (
-        "official_surprise_rate_negative_control_h15_v1_20260824"
+        "official_surprise_rate_negative_control_h15_v9_conflict_duration_recap_guard_20260904"
+    ),
+}
+OFFICIAL_SURPRISE_RATE_PARENT_COHORTS = {
+    "official_surprise_rate_confirmed_h15": (
+        "official_surprise_rate_confirmed_h15_v8_opposing_policy_claim_guard_20260904"
+    ),
+    "official_surprise_rate_negative_control_h15": (
+        "official_surprise_rate_negative_control_h15_v8_opposing_policy_claim_guard_20260904"
     ),
 }
 OFFICIAL_SURPRISE_RATE_MIN_ABS_Z = 0.5
 OFFICIAL_SURPRISE_RATE_MIN_ABS_CHANGE_BPS = 1.0
 OFFICIAL_RELEASE_FAST_CONFIRMATION_PARENT_COHORT_ID = (
-    "news_technical_watchlist_v38_event_novelty_release_bundle_20260818"
+    "official_release_fast_multileg_h15_v8_opposing_policy_claim_guard_20260904"
 )
 NEWS_MAGNITUDE_PARENT_COHORTS = {
-    "news_magnitude_ranked_h5": "news_magnitude_ranked_h5_v32_reaction_gated_20260818",
-    "news_magnitude_ranked_h15": "news_magnitude_ranked_h15_v32_reaction_gated_20260818",
-    "news_magnitude_ranked_h30": "news_magnitude_ranked_h30_v26_reaction_gated_20260818",
+    "news_magnitude_ranked_h5": "news_magnitude_ranked_h5_v40_opposing_policy_claim_guard_20260904",
+    "news_magnitude_ranked_h15": "news_magnitude_ranked_h15_v40_opposing_policy_claim_guard_20260904",
+    "news_magnitude_ranked_h30": "news_magnitude_ranked_h30_v34_opposing_policy_claim_guard_20260904",
     "news_magnitude_direction_confirmed_h5": (
-        "news_magnitude_direction_confirmed_h5_v32_reaction_gated_20260818"
+        "news_magnitude_direction_confirmed_h5_v40_opposing_policy_claim_guard_20260904"
     ),
     "news_magnitude_direction_confirmed_h15": (
-        "news_magnitude_direction_confirmed_h15_v32_reaction_gated_20260818"
+        "news_magnitude_direction_confirmed_h15_v40_opposing_policy_claim_guard_20260904"
     ),
     "news_magnitude_direction_confirmed_h30": (
-        "news_magnitude_direction_confirmed_h30_v26_reaction_gated_20260818"
+        "news_magnitude_direction_confirmed_h30_v34_opposing_policy_claim_guard_20260904"
     ),
 }
 SCHEMA_VERSION = 1
@@ -433,20 +472,67 @@ def collapse_term_factor_episode_values(
     return collapsed
 
 
-def load_currency_factors(news_db: Path, observed: dt.datetime) -> list[dict[str, Any]]:
+def secondary_crypto_primary_context(payload: Mapping[str, Any]) -> bool:
+    """Identify secondary crypto-first stories that are not FX-policy proof.
+
+    These stories remain immutable narrative context. They cannot directly
+    seed a currency-response cohort merely because a rate or central-bank term
+    appears in a crypto outlook. Verified issuer-bound communications and
+    structured releases are never excluded by this gate.
+    """
+
+    if str(payload.get("directional_source_grade") or "") != (
+        "secondary_requires_corroboration"
+    ):
+        return False
+    if bool(payload.get("structured_event")) or bool(
+        payload.get("issuer_bound_policy_communication")
+    ):
+        return False
+    return bool(
+        SECONDARY_CRYPTO_PRIMARY_PATTERN.search(
+            str(payload.get("headline") or "")
+        )
+    )
+
+
+def load_currency_factors(
+    news_db: Path,
+    observed: dt.datetime,
+    diagnostics: dict[str, Any] | None = None,
+) -> list[dict[str, Any]]:
     if not news_db.exists():
         return []
-    connection = sqlite3.connect(f"file:{news_db.as_posix()}?mode=ro", uri=True)
-    connection.row_factory = sqlite3.Row
-    rows = connection.execute(
-        """
-        SELECT topic_id,topic_signature,first_known_utc,published_utc,category,
-               direct_currencies_json,article_count,distinct_source_count,payload_json
-        FROM topic_events
-        ORDER BY first_known_utc,topic_id
-        """
-    ).fetchall()
-    connection.close()
+    connection: sqlite3.Connection | None = None
+    try:
+        connection = sqlite3.connect(
+            f"file:{news_db.as_posix()}?mode=ro",
+            uri=True,
+            timeout=30.0,
+        )
+        connection.execute("PRAGMA busy_timeout=30000")
+        connection.row_factory = sqlite3.Row
+        rows = connection.execute(
+            """
+            SELECT topic_id,topic_signature,first_known_utc,published_utc,category,
+                   direct_currencies_json,article_count,distinct_source_count,payload_json
+            FROM topic_events
+            ORDER BY first_known_utc,topic_id
+            """
+        ).fetchall()
+        if diagnostics is not None:
+            diagnostics["news_database_read_state"] = "ok"
+    except sqlite3.Error as exc:
+        # Collector migrations may briefly hold an exclusive schema/write
+        # lock. A research consumer must fail closed without crashing or
+        # publishing stale factors; the next supervised cycle retries.
+        if diagnostics is not None:
+            diagnostics["news_database_read_state"] = "temporarily_unavailable"
+            diagnostics["news_database_read_error_type"] = type(exc).__name__
+        return []
+    finally:
+        if connection is not None:
+            connection.close()
     episodes: dict[tuple[str, str], dict[str, Any]] = {}
     for row in rows:
         try:
@@ -481,6 +567,24 @@ def load_currency_factors(news_db: Path, observed: dt.datetime) -> list[dict[str
             )
             and payload.get("research_currency_scores")
         )
+        if uncorroborated_research and secondary_crypto_primary_context(payload):
+            if diagnostics is not None:
+                diagnostics["secondary_crypto_primary_suppressed"] = int(
+                    diagnostics.get("secondary_crypto_primary_suppressed", 0)
+                ) + 1
+                examples = diagnostics.setdefault(
+                    "secondary_crypto_primary_examples", []
+                )
+                if len(examples) < 5:
+                    examples.append(
+                        {
+                            "topic_id": str(row["topic_id"]),
+                            "headline": str(payload.get("headline") or ""),
+                            "source_ids": list(payload.get("source_ids") or []),
+                            "reason": "secondary_crypto_primary_context_only",
+                        }
+                    )
+            continue
         official_release_research = bool(
             not publish_eligible
             and payload.get("research_currency_scores")
@@ -490,6 +594,15 @@ def load_currency_factors(news_db: Path, observed: dt.datetime) -> list[dict[str
                 payload.get("structured_event")
                 or str(payload.get("research_directional_basis") or "")
                 == "official_duration_liquidity_policy_requires_rate_and_price_confirmation"
+                or (
+                    str(payload.get("research_directional_basis") or "")
+                    == "japan_external_policy_pressure_requires_rate_and_price_confirmation"
+                    and bool(
+                        payload.get(
+                            "japan_external_policy_pressure_activation_eligible"
+                        )
+                    )
+                )
             )
         )
         if not publish_eligible and not uncorroborated_research and not official_release_research:
@@ -646,6 +759,47 @@ def load_quotes(path: Path, observed: dt.datetime) -> tuple[dict[str, dict[str, 
         }
     state = "fresh" if result and any(row["fresh"] for row in result.values()) else "closed_or_stale"
     return result, state
+
+
+def rebase_quotes_to_post_read_clock(
+    quotes: Mapping[str, Mapping[str, Any]],
+    observed: dt.datetime,
+) -> tuple[dict[str, dict[str, Any]], str, dict[str, Any]]:
+    """Recompute quote ages only after every bounded input snapshot is read.
+
+    The quote payload is already an immutable in-memory copy at this point.
+    Any quote timestamp later than the post-read decision clock fails closed;
+    a cycle-start timestamp is never allowed to make later-read input appear
+    available earlier than it was.
+    """
+
+    rebased: dict[str, dict[str, Any]] = {}
+    negative_age_instruments: list[str] = []
+    for instrument, source in quotes.items():
+        row = dict(source)
+        quote_time = parse_utc(row.get("time"))
+        if quote_time is None:
+            row["age_sec"] = None
+            row["fresh"] = False
+        else:
+            age = (observed - quote_time).total_seconds()
+            row["age_sec"] = age
+            row["fresh"] = 0.0 <= age <= MAX_QUOTE_AGE_SEC
+            if age < 0.0:
+                negative_age_instruments.append(str(instrument))
+        rebased[str(instrument)] = row
+    state = (
+        "fresh"
+        if rebased and any(row.get("fresh") is True for row in rebased.values())
+        else "closed_or_stale"
+    )
+    return rebased, state, {
+        "contract_id": "watchlist_post_input_read_quote_age_v1_20260904",
+        "quote_count": len(rebased),
+        "negative_quote_age_count": len(negative_age_instruments),
+        "negative_quote_age_instruments": negative_age_instruments,
+        "all_negative_quote_ages_fail_closed": True,
+    }
 
 
 def load_opportunity_forecasts(
@@ -1141,6 +1295,87 @@ def pair_side(currency: str, score: float, instrument: str) -> str:
     return "long" if pair_up else "short"
 
 
+def episode_currency_score_matrix(
+    factors: Iterable[Mapping[str, Any]],
+) -> dict[str, dict[str, float]]:
+    """Build one deterministic currency-score vector per causal episode.
+
+    Repeated identical rows do not add weight. Conflicting distinct scores for
+    one episode/currency are averaged, making unresolved disagreement smaller
+    rather than allowing whichever row happened to be iterated last to win.
+    """
+
+    values: dict[str, dict[str, set[float]]] = {}
+    for factor in factors:
+        episode = str(factor.get("episode_id") or "").strip()
+        currency = str(factor.get("currency") or "").strip().upper()
+        if not episode or not currency:
+            continue
+        score = round(safe_float(factor.get("score")), 12)
+        values.setdefault(episode, {}).setdefault(currency, set()).add(score)
+    return {
+        episode: {
+            currency: sum(sorted(scores)) / len(scores)
+            for currency, scores in sorted(by_currency.items())
+            if scores
+        }
+        for episode, by_currency in sorted(values.items())
+    }
+
+
+def pair_news_score_differential(
+    currency_scores: Mapping[str, float], instrument: str
+) -> dict[str, Any]:
+    """Express one episode as signed base score minus quote score.
+
+    The deterministic owner prevents the same episode/pair from being emitted
+    once from each leg. Equal scores cancel exactly and produce no direction.
+    """
+
+    parts = str(instrument).upper().split("_")
+    if len(parts) != 2:
+        return {
+            "contract_id": PAIR_SCORE_CONTRACT_ID,
+            "base_currency": "",
+            "quote_currency": "",
+            "base_score": 0.0,
+            "quote_score": 0.0,
+            "differential": 0.0,
+            "direction": "neutral",
+            "owner_currency": "",
+        }
+    base, quote = parts
+    base_score = safe_float(currency_scores.get(base))
+    quote_score = safe_float(currency_scores.get(quote))
+    differential = base_score - quote_score
+    if abs(differential) <= 1e-12:
+        direction = "neutral"
+    else:
+        direction = "long" if differential > 0.0 else "short"
+    scored_legs = [
+        currency
+        for currency, score in ((base, base_score), (quote, quote_score))
+        if abs(score) > 1e-12
+    ]
+    owner = (
+        sorted(scored_legs, key=lambda item: (-abs(
+            base_score if item == base else quote_score
+        ), item))[0]
+        if scored_legs
+        else ""
+    )
+    return {
+        "contract_id": PAIR_SCORE_CONTRACT_ID,
+        "base_currency": base,
+        "quote_currency": quote,
+        "base_score": base_score,
+        "quote_score": quote_score,
+        "differential": differential,
+        "direction": direction,
+        "owner_currency": owner,
+    }
+
+
 def signed_currency_factors(instrument: str, direction: str) -> list[str]:
     """Return the two signed currency exposures represented by a pair trade."""
     parts = str(instrument).upper().split("_")
@@ -1377,8 +1612,18 @@ def build_watchlist(
 ) -> list[dict[str, Any]]:
     entries: list[dict[str, Any]] = []
     used_technical: set[str] = set()
+    episode_scores = episode_currency_score_matrix(factors)
+    processed_episode_currencies: set[tuple[str, str]] = set()
     for factor in factors:
         currency = str(factor["currency"])
+        episode_id = str(factor["episode_id"])
+        episode_currency_key = (episode_id, currency)
+        if episode_currency_key in processed_episode_currencies:
+            continue
+        processed_episode_currencies.add(episode_currency_key)
+        source_currency_score = safe_float(
+            episode_scores.get(episode_id, {}).get(currency)
+        )
         factor_first_known = parse_utc(factor.get("first_known_utc"))
         factor_horizon_min = max(1, int(safe_float(factor.get("horizon_min"), DEFAULT_HORIZON_MIN)))
         factor_age_sec = (
@@ -1430,13 +1675,22 @@ def build_watchlist(
             currency, daily_rates_path, observed
         )
         pair_candidates: list[tuple[float, str, str, dict[str, Any]]] = []
+        pair_score_by_instrument: dict[str, dict[str, Any]] = {}
         for instrument, quote in quotes.items():
-            side = pair_side(currency, safe_float(factor["score"]), instrument)
-            if side == "neutral" or not quote.get("fresh"):
+            pair_score = pair_news_score_differential(
+                episode_scores.get(episode_id, {}), instrument
+            )
+            side = str(pair_score["direction"])
+            if (
+                side == "neutral"
+                or str(pair_score["owner_currency"]) != currency
+                or not quote.get("fresh")
+            ):
                 continue
             spread = safe_float(quote.get("spread_pips"), 999999.0)
             if spread > MAX_ENTRY_SPREAD_PIPS:
                 continue
+            pair_score_by_instrument[instrument] = pair_score
             pair_candidates.append((spread, instrument, side, quote))
         pair_limit = (
             MAX_UNCORROBORATED_PAIR_LEGS_PER_FACTOR
@@ -1486,12 +1740,22 @@ def build_watchlist(
             )
             base = {
                 **factor_provenance,
-                "episode_id": factor["episode_id"],
+                "episode_id": episode_id,
                 "currency": currency,
                 "instrument": instrument,
                 "horizon_min": int(factor["horizon_min"]),
                 "news_direction": news_side,
-                "news_score": safe_float(factor["score"]),
+                "news_score": safe_float(
+                    pair_score_by_instrument[instrument]["differential"]
+                ),
+                "source_currency_score": source_currency_score,
+                "episode_currency_scores": dict(
+                    sorted(episode_scores.get(episode_id, {}).items())
+                ),
+                "pair_news_score_differential": dict(
+                    pair_score_by_instrument[instrument]
+                ),
+                "pair_score_contract_id": PAIR_SCORE_CONTRACT_ID,
                 "news_confidence": safe_float(factor["confidence"]),
                 "technical_direction": tech.get("direction") if tech else "neutral",
                 "technical_confidence": safe_float(tech.get("confidence")) if tech else None,
@@ -1556,7 +1820,7 @@ def build_watchlist(
                     else math.inf
                 )
                 currency_direction = (
-                    "long" if safe_float(factor.get("score")) > 0.0 else "short"
+                    "long" if source_currency_score > 0.0 else "short"
                 )
                 surprise_rate_assessment = official_surprise_rate_assessment(
                     macro,
@@ -1715,13 +1979,23 @@ def build_watchlist(
                 }
                 base = {
                     **factor_provenance,
-                    "episode_id": factor["episode_id"],
+                    "episode_id": episode_id,
                     "currency": currency,
                     "instrument": instrument,
                     "horizon_min": horizon_sec // 60,
                     "direction": news_side,
                     "news_direction": news_side,
-                    "news_score": safe_float(factor["score"]),
+                    "news_score": safe_float(
+                        pair_score_by_instrument[instrument]["differential"]
+                    ),
+                    "source_currency_score": source_currency_score,
+                    "episode_currency_scores": dict(
+                        sorted(episode_scores.get(episode_id, {}).items())
+                    ),
+                    "pair_news_score_differential": dict(
+                        pair_score_by_instrument[instrument]
+                    ),
+                    "pair_score_contract_id": PAIR_SCORE_CONTRACT_ID,
                     "news_confidence": safe_float(factor["confidence"]),
                     "technical_direction": tech.get("direction") if tech else "neutral",
                     "technical_confidence": safe_float(tech.get("confidence")) if tech else None,
@@ -1866,13 +2140,23 @@ def build_watchlist(
                 entries.append(
                     {
                         **factor_provenance,
-                        "episode_id": factor["episode_id"],
+                        "episode_id": episode_id,
                         "currency": currency,
                         "instrument": instrument,
                         "horizon_min": horizon_sec // 60,
                         "direction": news_side,
                         "news_direction": news_side,
-                        "news_score": safe_float(factor["score"]),
+                        "news_score": safe_float(
+                            pair_score_by_instrument[instrument]["differential"]
+                        ),
+                        "source_currency_score": source_currency_score,
+                        "episode_currency_scores": dict(
+                            sorted(episode_scores.get(episode_id, {}).items())
+                        ),
+                        "pair_news_score_differential": dict(
+                            pair_score_by_instrument[instrument]
+                        ),
+                        "pair_score_contract_id": PAIR_SCORE_CONTRACT_ID,
                         "news_confidence": safe_float(factor["confidence"]),
                         "technical_direction": (
                             tech.get("direction") if tech else "neutral"
@@ -2176,8 +2460,10 @@ def invalidate_uncorroborated_sampling_transition(
 ) -> int:
     """Quarantine v1 rows whose pair could change across polling cycles."""
 
-    placeholders = ",".join("?" for _ in UNCORROBORATED_NEWS_PARENT_COHORTS)
-    cohort_ids = list(UNCORROBORATED_NEWS_PARENT_COHORTS.values())
+    placeholders = ",".join(
+        "?" for _ in UNCORROBORATED_NEWS_INVALID_SAMPLING_COHORTS
+    )
+    cohort_ids = list(UNCORROBORATED_NEWS_INVALID_SAMPLING_COHORTS.values())
     cursor = connection.execute(
         f"""
         UPDATE watchlist_entries
@@ -2329,7 +2615,8 @@ def run(
     database_path: Path = DEFAULT_DB, state_path: Path = DEFAULT_STATE,
     report_path: Path = DEFAULT_REPORT, observed: dt.datetime | None = None,
 ) -> dict[str, Any]:
-    if observed is None:
+    live_clock = observed is None
+    if live_clock:
         observed, observation_clock = normalized_observation_time(utc_now())
     else:
         observed = observed.astimezone(UTC)
@@ -2339,11 +2626,15 @@ def run(
             "trusted_for_prospective_evidence": False,
             "normalized": False,
         }
-    clock_trusted = bool(
-        observation_clock.get("trusted_for_prospective_evidence") is True
-        and observation_clock.get("contract_id") == OBSERVATION_TIME_CONTRACT_ID
+    input_read_started_utc = observed
+    factor_load_diagnostics: dict[str, Any] = {
+        "gate_contract_id": SECONDARY_CRYPTO_PRIMARY_GATE_CONTRACT_ID,
+        "secondary_crypto_primary_suppressed": 0,
+        "secondary_crypto_primary_examples": [],
+    }
+    factors = load_currency_factors(
+        news_db, observed, diagnostics=factor_load_diagnostics
     )
-    factors = load_currency_factors(news_db, observed)
     technical, technical_state = load_technical_signals(signals_path, observed)
     quotes, market_state = load_quotes(quotes_path, observed)
     history = quote_history_rows(history_path)
@@ -2367,6 +2658,38 @@ def run(
             required_opportunity_cohort,
         )
     persistent_policy_state = load_json(policy_state_path)
+    if live_clock:
+        post_read_observed, post_read_clock = normalized_observation_time(utc_now())
+        input_read_clock_regressed = post_read_observed < input_read_started_utc
+        observed = post_read_observed
+        observation_clock = {
+            **post_read_clock,
+            "input_read_started_utc": iso(input_read_started_utc),
+            "input_read_completed_utc": iso(observed),
+            "input_read_elapsed_sec": round(
+                (observed - input_read_started_utc).total_seconds(), 6
+            ),
+            "input_read_clock_regressed": input_read_clock_regressed,
+            "decision_clock_policy": "post_bounded_input_snapshot_read",
+        }
+        quotes, market_state, quote_clock_diagnostics = (
+            rebase_quotes_to_post_read_clock(quotes, observed)
+        )
+    else:
+        quote_clock_diagnostics = {
+            "contract_id": "nonprospective_replay_quote_age_v1",
+            "quote_count": len(quotes),
+            "negative_quote_age_count": sum(
+                1 for row in quotes.values() if safe_float(row.get("age_sec")) < 0.0
+            ),
+            "all_negative_quote_ages_fail_closed": False,
+        }
+    clock_trusted = bool(
+        observation_clock.get("trusted_for_prospective_evidence") is True
+        and observation_clock.get("contract_id") == OBSERVATION_TIME_CONTRACT_ID
+        and observation_clock.get("input_read_clock_regressed") is not True
+        and quote_clock_diagnostics.get("negative_quote_age_count") == 0
+    )
     entries = build_watchlist(
         factors,
         technical,
@@ -2443,11 +2766,13 @@ def run(
         "market_state": market_state,
         "observation_clock": observation_clock,
         "observation_time_contract_id": OBSERVATION_TIME_CONTRACT_ID,
+        "quote_age_clock": quote_clock_diagnostics,
         "technical_state": technical_state,
         "opportunity_state": opportunity_state,
         "opportunity_forecast_count": len(opportunity),
         "opportunity_required_collector_cohort_id": required_opportunity_cohort,
         "currency_factor_count": len(factors),
+        "source_factor_admission_diagnostics": factor_load_diagnostics,
         "technical_signal_count": len(technical),
         "watchlist_entry_count": len(entries),
         "all_history_diagnostic_lineage_census": all_history_lineage_census,
@@ -2502,9 +2827,16 @@ def run(
             "uncorroborated_news_response_cohorts": dict(
                 UNCORROBORATED_NEWS_COHORTS
             ),
+            "secondary_crypto_primary_gate_contract_id": (
+                SECONDARY_CRYPTO_PRIMARY_GATE_CONTRACT_ID
+            ),
             "uncorroborated_v1_rows_invalidated": invalidated_sampling_transition,
             "required_news_classification_version": NEWS_CLASSIFICATION_VERSION,
             "news_supplies_direction_magnitude_model_supplies_pair_horizon_rank": True,
+            "pair_score_contract_id": PAIR_SCORE_CONTRACT_ID,
+            "pair_direction_is_signed_base_minus_quote": True,
+            "equal_same_episode_leg_scores_cancel": True,
+            "one_pair_expression_owner_per_episode": True,
         },
         "additional_shadow_cohorts": [
             {
@@ -2514,7 +2846,7 @@ def run(
                 "parent_cohort_id": (
                     OFFICIAL_RELEASE_FAST_CONFIRMATION_PARENT_COHORT_ID
                 ),
-                "created_at": "2026-08-18T12:00:00+00:00",
+                "created_at": "2026-09-01T02:30:00+00:00",
                 "idea_origin": "official_release_bundle_multileg_first_reaction",
                 "data_sources": [
                     "official_release_bundle",
@@ -2539,9 +2871,9 @@ def run(
                 {
                     "cohort_id": cohort_id,
                     "parent_cohort_id": (
-                        OFFICIAL_RELEASE_FAST_CONFIRMATION_COHORT_ID
+                        OFFICIAL_SURPRISE_RATE_PARENT_COHORTS[arm]
                     ),
-                    "created_at": "2026-08-24T00:00:00+00:00",
+                    "created_at": "2026-09-01T17:45:00+00:00",
                     "idea_origin": (
                         "causal_official_numeric_surprise_plus_event_time_rate_repricing"
                     ),
@@ -2585,7 +2917,7 @@ def run(
                 # Frozen before the v2 technical-only sampling repair; retain
                 # the original immutable parent declared at creation.
                 "parent_cohort_id": RECONFIRMATION_PARENT_COHORT_ID,
-                "created_at": "2026-08-14T10:43:00+00:00",
+                "created_at": "2026-09-01T02:30:00+00:00",
                 "idea_origin": "news_technical_reconfirmation",
                 "data_sources": [
                     "point_in_time_news",
@@ -2613,7 +2945,7 @@ def run(
                 {
                     "cohort_id": cohort_id,
                     "parent_cohort_id": UNCORROBORATED_NEWS_PARENT_COHORTS[horizon],
-                    "created_at": "2026-08-14T15:54:00+00:00",
+                    "created_at": "2026-09-01T02:30:00+00:00",
                     "idea_origin": "uncorroborated_secondary_news_currency_response",
                     "data_sources": [
                         "secondary_point_in_time_news_discovery",
@@ -2626,6 +2958,12 @@ def run(
                         ),
                         "production_publish_eligible": False,
                         "technical_confirmation_used": False,
+                        "pair_score_contract_id": PAIR_SCORE_CONTRACT_ID,
+                        "equal_same_episode_leg_scores_cancel": True,
+                        "secondary_crypto_primary_gate_contract_id": (
+                            SECONDARY_CRYPTO_PRIMARY_GATE_CONTRACT_ID
+                        ),
+                        "secondary_crypto_primary_stories_remain_context": True,
                     },
                     "label_contract": {
                         "target": "after_cost_market_response",
@@ -2645,7 +2983,7 @@ def run(
                 {
                     "cohort_id": cohort_id,
                     "parent_cohort_id": NEWS_MAGNITUDE_PARENT_COHORTS[arm],
-                    "created_at": "2026-08-14T13:08:00+00:00",
+                    "created_at": "2026-09-01T02:30:00+00:00",
                     "idea_origin": "news_direction_plus_cost_clearance_pair_ranking",
                     "data_sources": [
                         "point_in_time_news",
@@ -2657,6 +2995,7 @@ def run(
                         "ranking_source": "predicted_cost_clearance_then_magnitude_cost_ratio",
                         "maximum_pair_legs_per_currency_factor": MAX_PAIR_LEGS_PER_FACTOR,
                         "price_direction_confirmation_required": "direction_confirmed" in arm,
+                        "pair_score_contract_id": PAIR_SCORE_CONTRACT_ID,
                     },
                     "label_contract": {
                         "target": "after_cost_market_response",
@@ -2681,7 +3020,7 @@ def run(
                 {
                     "cohort_id": cohort_id,
                     "parent_cohort_id": NEWS_REMAINING_MOVE_PARENT_COHORTS[arm],
-                    "created_at": "2026-08-24T00:00:00+00:00",
+                    "created_at": "2026-09-01T02:30:00+00:00",
                     "idea_origin": (
                         "news_remaining_move_after_age_path_and_executable_cost"
                     ),
@@ -2704,6 +3043,7 @@ def run(
                         ),
                         "missing_or_failed_inputs_are_negative_controls": True,
                         "eligible_arm": "cost_clear" in arm,
+                        "pair_score_contract_id": PAIR_SCORE_CONTRACT_ID,
                     },
                     "label_contract": {
                         "target": "after_cost_market_response",
@@ -2731,6 +3071,10 @@ def run(
         "evidence": summary,
         "policy": {
             "one_currency_factor_per_episode": True,
+            "pair_score_contract_id": PAIR_SCORE_CONTRACT_ID,
+            "pair_direction_is_signed_base_minus_quote": True,
+            "equal_same_episode_leg_scores_cancel": True,
+            "mentioned_entities_do_not_create_direction_without_currency_score": True,
             "maximum_pair_legs_per_factor": MAX_PAIR_LEGS_PER_FACTOR,
             "maximum_entry_spread_pips": MAX_ENTRY_SPREAD_PIPS,
             "technical_only_sampling": "one_entry_per_upstream_forecast_instrument_side_horizon",

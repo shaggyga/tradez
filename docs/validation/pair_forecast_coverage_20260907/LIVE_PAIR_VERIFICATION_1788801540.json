@@ -1,0 +1,3617 @@
+{
+  "schema_version": "pair_live_publication_verification_v1_20260907",
+  "observed_epoch": 1788801540.2936625,
+  "registry_sha256": "e0aa74fa5d20b7be983050625773834ea68d74ffc15b566ab5e03df9b3380d65",
+  "pairs": [
+    {
+      "instrument": "AUD_CAD",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801443.494913,
+      "counts": {
+        "quotes": 2,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801493.0195022,
+        "payload": "{\"current_common_bars\":7,\"reasons\":[\"AUD_CAD:ValueError:current_common_warmup:7<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "AUD_CHF",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801443.5253375,
+      "counts": {
+        "quotes": 1,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801511.6542358,
+        "payload": "{\"current_common_bars\":1,\"reasons\":[\"AUD_CHF:ValueError:current_common_warmup:1<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "AUD_HKD",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801443.5542595,
+      "counts": {
+        "quotes": 3,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801493.2258818,
+        "payload": "{\"current_common_bars\":2,\"reasons\":[\"AUD_HKD:ValueError:current_common_warmup:2<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "AUD_JPY",
+      "pip_size": 0.01,
+      "activated_epoch": 1788801443.583182,
+      "counts": {
+        "quotes": 11,
+        "attempts": 1,
+        "diagnostics": 0,
+        "inputs": 1,
+        "forecasts": 1,
+        "publication": 1,
+        "consumption": 1,
+        "entries": 1,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [
+        {
+          "decision_id": "977ae40a16352385b858b311b7b10f4935f999dd9bea09ba4c5c56738aa8a7d5",
+          "forecast_sha256": "0ce85c38cf756b0e652e258c2c11e9678e7b29a06ffd8e4dd8b991a3ec608383",
+          "published_epoch": 1788801493.6856701,
+          "consumed_epoch": 1788801493.6926515,
+          "target_epoch": 1788805087.838192,
+          "input_capture_sha256": "f8fcf092eeb6f61875f6cd104eb971cec998594a0a25d7be50142e747e7374b3",
+          "current_own_bars": 1024,
+          "evaluation_entry_observed": true,
+          "forecasts": [
+            {
+              "family": "probabilistic_state_space",
+              "side": -1,
+              "probability_up": 0.25487103053449056,
+              "predicted_return_bps": -2.9966944373687143,
+              "issued_epoch": 1788801493.6627314,
+              "reference_epoch": 1788801487.838192,
+              "reference_mid": "111.413",
+              "target_epoch": 1788805087.838192
+            },
+            {
+              "family": "ridge_return_repaired",
+              "side": -1,
+              "probability_up": 0.3935230753750577,
+              "predicted_return_bps": -5.590113240433832,
+              "issued_epoch": 1788801493.6627314,
+              "reference_epoch": 1788801487.838192,
+              "reference_mid": "111.413",
+              "target_epoch": 1788805087.838192
+            }
+          ]
+        }
+      ],
+      "latest_diagnostic": null
+    },
+    {
+      "instrument": "AUD_NZD",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801443.612105,
+      "counts": {
+        "quotes": 6,
+        "attempts": 1,
+        "diagnostics": 0,
+        "inputs": 1,
+        "forecasts": 1,
+        "publication": 1,
+        "consumption": 1,
+        "entries": 1,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [
+        {
+          "decision_id": "df5c72a167d1a2e333cffaddf23d532c61db3d9c30ec6e0383a70b07b203ca8d",
+          "forecast_sha256": "a8f56f89591f12eedf568ffd72237db6059eda209768db093f2155b8a0323de0",
+          "published_epoch": 1788801493.9629297,
+          "consumed_epoch": 1788801493.9709084,
+          "target_epoch": 1788805091.044716,
+          "input_capture_sha256": "9ddb29834b0c0191cadd703e75a8f1025b6c3ea91e4de548664d67f14f64a806",
+          "current_own_bars": 1024,
+          "evaluation_entry_observed": true,
+          "forecasts": [
+            {
+              "family": "probabilistic_state_space",
+              "side": -1,
+              "probability_up": 0.32244980698446846,
+              "predicted_return_bps": -1.1369480160743084,
+              "issued_epoch": 1788801493.9439797,
+              "reference_epoch": 1788801491.044716,
+              "reference_mid": "1.22808",
+              "target_epoch": 1788805091.044716
+            },
+            {
+              "family": "ridge_return_repaired",
+              "side": 1,
+              "probability_up": 0.8755539373986523,
+              "predicted_return_bps": 5.068113102758645,
+              "issued_epoch": 1788801493.9439797,
+              "reference_epoch": 1788801491.044716,
+              "reference_mid": "1.22808",
+              "target_epoch": 1788805091.044716
+            }
+          ]
+        }
+      ],
+      "latest_diagnostic": null
+    },
+    {
+      "instrument": "AUD_SGD",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801443.6400316,
+      "counts": {
+        "quotes": 3,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801494.4331958,
+        "payload": "{\"current_common_bars\":2,\"reasons\":[\"AUD_SGD:ValueError:current_common_warmup:2<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "AUD_USD",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801443.6699517,
+      "counts": {
+        "quotes": 4,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801494.6381538,
+        "payload": "{\"current_common_bars\":2,\"reasons\":[\"AUD_USD:ValueError:current_common_warmup:2<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "CAD_CHF",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801443.7008688,
+      "counts": {
+        "quotes": 8,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801494.8421152,
+        "payload": "{\"current_common_bars\":2,\"reasons\":[\"CAD_CHF:ValueError:current_common_warmup:2<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "CAD_HKD",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801443.7307878,
+      "counts": {
+        "quotes": 2,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801495.0475667,
+        "payload": "{\"current_common_bars\":5,\"reasons\":[\"CAD_HKD:ValueError:current_common_warmup:5<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "CAD_JPY",
+      "pip_size": 0.01,
+      "activated_epoch": 1788801443.7617054,
+      "counts": {
+        "quotes": 14,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801495.2535214,
+        "payload": "{\"current_common_bars\":22,\"reasons\":[\"CAD_JPY:ValueError:current_common_warmup:22<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "CAD_SGD",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801443.7946174,
+      "counts": {
+        "quotes": 3,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801495.4584796,
+        "payload": "{\"current_common_bars\":14,\"reasons\":[\"CAD_SGD:ValueError:current_common_warmup:14<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "CHF_HKD",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801443.8265321,
+      "counts": {
+        "quotes": 2,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801495.6619475,
+        "payload": "{\"current_common_bars\":7,\"reasons\":[\"CHF_HKD:ValueError:current_common_warmup:7<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "CHF_JPY",
+      "pip_size": 0.01,
+      "activated_epoch": 1788801443.856453,
+      "counts": {
+        "quotes": 15,
+        "attempts": 1,
+        "diagnostics": 0,
+        "inputs": 1,
+        "forecasts": 1,
+        "publication": 1,
+        "consumption": 1,
+        "entries": 1,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [
+        {
+          "decision_id": "5333c7d2e3848f2bbc2bb3835d8db1431168fb2c9e951510be0e99ebf62882ae",
+          "forecast_sha256": "fc5fecc65d23b454a4e3defc4140061e58275f672dea3dc61002b4c2172fb7b2",
+          "published_epoch": 1788801495.9142728,
+          "consumed_epoch": 1788801495.9202566,
+          "target_epoch": 1788805088.578965,
+          "input_capture_sha256": "fe26553f31e5b2c7d5122bd50ae36b117e1f7b102bafdd3771b4377d98fcf25e",
+          "current_own_bars": 1024,
+          "evaluation_entry_observed": true,
+          "forecasts": [
+            {
+              "family": "probabilistic_state_space",
+              "side": -1,
+              "probability_up": 0.16641857223327716,
+              "predicted_return_bps": -3.8142506142209345,
+              "issued_epoch": 1788801495.895323,
+              "reference_epoch": 1788801488.578965,
+              "reference_mid": "190.710",
+              "target_epoch": 1788805088.578965
+            },
+            {
+              "family": "ridge_return_repaired",
+              "side": -1,
+              "probability_up": 0.27164841028852615,
+              "predicted_return_bps": -10.570234820217145,
+              "issued_epoch": 1788801495.895323,
+              "reference_epoch": 1788801488.578965,
+              "reference_mid": "190.710",
+              "target_epoch": 1788805088.578965
+            }
+          ]
+        }
+      ],
+      "latest_diagnostic": null
+    },
+    {
+      "instrument": "CHF_ZAR",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801443.8898752,
+      "counts": {
+        "quotes": 3,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801496.1302025,
+        "payload": "{\"current_common_bars\":24,\"reasons\":[\"CHF_ZAR:ValueError:current_common_warmup:24<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "EUR_AUD",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801443.921804,
+      "counts": {
+        "quotes": 10,
+        "attempts": 1,
+        "diagnostics": 0,
+        "inputs": 1,
+        "forecasts": 1,
+        "publication": 1,
+        "consumption": 1,
+        "entries": 1,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [
+        {
+          "decision_id": "a8fe517d631446a6434f41a3da897c8173232b00fcae5703e28edfdbf168fddc",
+          "forecast_sha256": "02c47bd0e062c975e4da531e97f9c959b986e599369086fc5c565ef9102bb8f3",
+          "published_epoch": 1788801496.5989664,
+          "consumed_epoch": 1788801496.605948,
+          "target_epoch": 1788805092.517044,
+          "input_capture_sha256": "028a126a2d0672e26e7c611e89a3fca75a2d11402f42f9935eb65b5a602c6f82",
+          "current_own_bars": 1024,
+          "evaluation_entry_observed": true,
+          "forecasts": [
+            {
+              "family": "probabilistic_state_space",
+              "side": -1,
+              "probability_up": 0.11100794196665542,
+              "predicted_return_bps": -2.061607714530181,
+              "issued_epoch": 1788801496.5780241,
+              "reference_epoch": 1788801492.517044,
+              "reference_mid": "1.610415",
+              "target_epoch": 1788805092.517044
+            },
+            {
+              "family": "ridge_return_repaired",
+              "side": -1,
+              "probability_up": 0.18755457731945402,
+              "predicted_return_bps": -2.9223606306026575,
+              "issued_epoch": 1788801496.5780241,
+              "reference_epoch": 1788801492.517044,
+              "reference_mid": "1.610415",
+              "target_epoch": 1788805092.517044
+            }
+          ]
+        }
+      ],
+      "latest_diagnostic": null
+    },
+    {
+      "instrument": "EUR_CAD",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801443.953719,
+      "counts": {
+        "quotes": 13,
+        "attempts": 1,
+        "diagnostics": 0,
+        "inputs": 1,
+        "forecasts": 1,
+        "publication": 1,
+        "consumption": 1,
+        "entries": 1,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [
+        {
+          "decision_id": "09a3046a1a831072e1fce4c7cb43950e9d24e5ea6dc28fef8d269bdd39922212",
+          "forecast_sha256": "ab4882a7306d69d9b6dc8e2f17876a5fb75b13f232ed43eb07d752683b19a160",
+          "published_epoch": 1788801496.8642578,
+          "consumed_epoch": 1788801496.8712382,
+          "target_epoch": 1788805093.010054,
+          "input_capture_sha256": "03b55fbf9b8738b8fe43f3b9d5ed0b0a7d7f1e1270413577fbaa54c976ff4ea9",
+          "current_own_bars": 1024,
+          "evaluation_entry_observed": true,
+          "forecasts": [
+            {
+              "family": "probabilistic_state_space",
+              "side": -1,
+              "probability_up": 0.1887356563292738,
+              "predicted_return_bps": -1.826209795841096,
+              "issued_epoch": 1788801496.8423157,
+              "reference_epoch": 1788801493.010054,
+              "reference_mid": "1.605705",
+              "target_epoch": 1788805093.010054
+            },
+            {
+              "family": "ridge_return_repaired",
+              "side": 1,
+              "probability_up": 0.5769697955961168,
+              "predicted_return_bps": 0.44338329253299247,
+              "issued_epoch": 1788801496.8423157,
+              "reference_epoch": 1788801493.010054,
+              "reference_mid": "1.605705",
+              "target_epoch": 1788805093.010054
+            }
+          ]
+        }
+      ],
+      "latest_diagnostic": null
+    },
+    {
+      "instrument": "EUR_CHF",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801443.9831467,
+      "counts": {
+        "quotes": 7,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801497.0841768,
+        "payload": "{\"current_common_bars\":7,\"reasons\":[\"EUR_CHF:ValueError:current_common_warmup:7<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "EUR_CZK",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801444.0200481,
+      "counts": {
+        "quotes": 3,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801497.2881405,
+        "payload": "{\"current_common_bars\":2,\"reasons\":[\"EUR_CZK:ValueError:current_common_warmup:2<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "EUR_DKK",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801444.0519636,
+      "counts": {
+        "quotes": 0,
+        "attempts": 0,
+        "diagnostics": 0,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": null
+    },
+    {
+      "instrument": "EUR_GBP",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801444.0828803,
+      "counts": {
+        "quotes": 2,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801497.4926095,
+        "payload": "{\"current_common_bars\":27,\"reasons\":[\"EUR_GBP:ValueError:current_common_warmup:27<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "EUR_HKD",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801444.1143036,
+      "counts": {
+        "quotes": 3,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801497.696065,
+        "payload": "{\"current_common_bars\":22,\"reasons\":[\"EUR_HKD:ValueError:current_common_warmup:22<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "EUR_HUF",
+      "pip_size": 0.01,
+      "activated_epoch": 1788801444.1472156,
+      "counts": {
+        "quotes": 18,
+        "attempts": 1,
+        "diagnostics": 0,
+        "inputs": 1,
+        "forecasts": 1,
+        "publication": 1,
+        "consumption": 1,
+        "entries": 1,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [
+        {
+          "decision_id": "b23ff0315aa5040ddf10f0eec5810ee34e368052599719db4b2e8e36faf73703",
+          "forecast_sha256": "58894cdcbe42d1614a7a13582d4f2020de5532cd61a8964075454dfbca0c135a",
+          "published_epoch": 1788801497.9444008,
+          "consumed_epoch": 1788801497.9513829,
+          "target_epoch": 1788805091.89254,
+          "input_capture_sha256": "e65022cd120420da6aaf065c53fe03b8dacd3a2b041ab405ddd15e72b4cdeb18",
+          "current_own_bars": 90,
+          "evaluation_entry_observed": true,
+          "forecasts": [
+            {
+              "family": "probabilistic_state_space",
+              "side": -1,
+              "probability_up": 0.08072262361098398,
+              "predicted_return_bps": -5.034606541058812,
+              "issued_epoch": 1788801497.9254527,
+              "reference_epoch": 1788801491.89254,
+              "reference_mid": "363.7095",
+              "target_epoch": 1788805091.89254
+            },
+            {
+              "family": "ridge_return_repaired",
+              "side": 1,
+              "probability_up": 0.6947724232610606,
+              "predicted_return_bps": 6.0405100218025245,
+              "issued_epoch": 1788801497.9254527,
+              "reference_epoch": 1788801491.89254,
+              "reference_mid": "363.7095",
+              "target_epoch": 1788805091.89254
+            }
+          ]
+        }
+      ],
+      "latest_diagnostic": null
+    },
+    {
+      "instrument": "EUR_JPY",
+      "pip_size": 0.01,
+      "activated_epoch": 1788801444.1821237,
+      "counts": {
+        "quotes": 18,
+        "attempts": 1,
+        "diagnostics": 0,
+        "inputs": 1,
+        "forecasts": 1,
+        "publication": 1,
+        "consumption": 1,
+        "entries": 1,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [
+        {
+          "decision_id": "ccec85dd646bbc83587a28684d753741c4dbfe26ae7578525e9b7f5ff3db29a0",
+          "forecast_sha256": "2485c6885d6e9b364377065797840a26e56646507b4b7543d8d4020e4a42310c",
+          "published_epoch": 1788801498.2212198,
+          "consumed_epoch": 1788801498.230196,
+          "target_epoch": 1788805095.616913,
+          "input_capture_sha256": "43bc10af2022fa3a42392551402dd5db5bff44f44dda1b5c2470665b8802f339",
+          "current_own_bars": 1024,
+          "evaluation_entry_observed": true,
+          "forecasts": [
+            {
+              "family": "probabilistic_state_space",
+              "side": -1,
+              "probability_up": 0.07989908284494163,
+              "predicted_return_bps": -6.084002917959008,
+              "issued_epoch": 1788801498.2022707,
+              "reference_epoch": 1788801495.616913,
+              "reference_mid": "179.419",
+              "target_epoch": 1788805095.616913
+            },
+            {
+              "family": "ridge_return_repaired",
+              "side": -1,
+              "probability_up": 0.3155603120269371,
+              "predicted_return_bps": -9.163223746505093,
+              "issued_epoch": 1788801498.2022707,
+              "reference_epoch": 1788801495.616913,
+              "reference_mid": "179.419",
+              "target_epoch": 1788805095.616913
+            }
+          ]
+        }
+      ],
+      "latest_diagnostic": null
+    },
+    {
+      "instrument": "EUR_NOK",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801444.2145457,
+      "counts": {
+        "quotes": 3,
+        "attempts": 1,
+        "diagnostics": 0,
+        "inputs": 1,
+        "forecasts": 1,
+        "publication": 1,
+        "consumption": 1,
+        "entries": 1,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [
+        {
+          "decision_id": "8debf083f81197e82a46513a01d490e11b09fac8f4ff47eecc395290ab069407",
+          "forecast_sha256": "621c2ef78f6fbd4b29c3e98de8041ee011e442773bf65235200a71bd3dd7fece",
+          "published_epoch": 1788801498.7568326,
+          "consumed_epoch": 1788801498.76481,
+          "target_epoch": 1788805090.069712,
+          "input_capture_sha256": "b8db493ccb047259e5f07ecc5818243f630387eaf74e57548aae6d385fb0a323",
+          "current_own_bars": 86,
+          "evaluation_entry_observed": true,
+          "forecasts": [
+            {
+              "family": "probabilistic_state_space",
+              "side": -1,
+              "probability_up": 0.3722332325417175,
+              "predicted_return_bps": -0.7475634516823441,
+              "issued_epoch": 1788801498.731392,
+              "reference_epoch": 1788801490.069712,
+              "reference_mid": "10.777715",
+              "target_epoch": 1788805090.069712
+            },
+            {
+              "family": "ridge_return_repaired",
+              "side": -1,
+              "probability_up": 0.4344274910382868,
+              "predicted_return_bps": -0.9573043599105026,
+              "issued_epoch": 1788801498.731392,
+              "reference_epoch": 1788801490.069712,
+              "reference_mid": "10.777715",
+              "target_epoch": 1788805090.069712
+            }
+          ]
+        }
+      ],
+      "latest_diagnostic": null
+    },
+    {
+      "instrument": "EUR_NZD",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801444.2474592,
+      "counts": {
+        "quotes": 4,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801498.9757557,
+        "payload": "{\"current_common_bars\":7,\"reasons\":[\"EUR_NZD:ValueError:current_common_warmup:7<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "EUR_PLN",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801444.2823641,
+      "counts": {
+        "quotes": 4,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801499.1797361,
+        "payload": "{\"current_common_bars\":5,\"reasons\":[\"EUR_PLN:ValueError:current_common_warmup:5<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "EUR_SEK",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801444.3132808,
+      "counts": {
+        "quotes": 2,
+        "attempts": 1,
+        "diagnostics": 0,
+        "inputs": 1,
+        "forecasts": 1,
+        "publication": 1,
+        "consumption": 1,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [
+        {
+          "decision_id": "4a8e70743f9d17a1463338c03283e3c7e522f8b0961529233c17c77621151511",
+          "forecast_sha256": "c30673a6c96ae06c519083ad6ffc5bdb20e0ebda91deb0844cc57f5c96194a16",
+          "published_epoch": 1788801499.43465,
+          "consumed_epoch": 1788801499.4426281,
+          "target_epoch": 1788805092.808823,
+          "input_capture_sha256": "297036a66dc7f87bf62780a48a579143acff4ce3d80d51f4b2dc4fd4008a5d54",
+          "current_own_bars": 76,
+          "evaluation_entry_observed": false,
+          "forecasts": [
+            {
+              "family": "probabilistic_state_space",
+              "side": -1,
+              "probability_up": 0.34660343420186945,
+              "predicted_return_bps": -1.0320008216735692,
+              "issued_epoch": 1788801499.4117105,
+              "reference_epoch": 1788801492.808823,
+              "reference_mid": "11.1500",
+              "target_epoch": 1788805092.808823
+            },
+            {
+              "family": "ridge_return_repaired",
+              "side": -1,
+              "probability_up": 0.4517899731762984,
+              "predicted_return_bps": -0.6496780262508306,
+              "issued_epoch": 1788801499.4117105,
+              "reference_epoch": 1788801492.808823,
+              "reference_mid": "11.1500",
+              "target_epoch": 1788805092.808823
+            }
+          ]
+        }
+      ],
+      "latest_diagnostic": null
+    },
+    {
+      "instrument": "EUR_SGD",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801444.3422034,
+      "counts": {
+        "quotes": 2,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801499.6525948,
+        "payload": "{\"current_common_bars\":20,\"reasons\":[\"EUR_SGD:ValueError:current_common_warmup:20<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "EUR_TRY",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801444.3711264,
+      "counts": {
+        "quotes": 0,
+        "attempts": 0,
+        "diagnostics": 0,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": null
+    },
+    {
+      "instrument": "EUR_USD",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801444.4030411,
+      "counts": {
+        "quotes": 6,
+        "attempts": 1,
+        "diagnostics": 0,
+        "inputs": 1,
+        "forecasts": 1,
+        "publication": 1,
+        "consumption": 1,
+        "entries": 1,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [
+        {
+          "decision_id": "825c2a1508a5ab57472829f6a2a3f13d7d5224a8b57d84e1a91a368f060c85a2",
+          "forecast_sha256": "d4bcea87574acca9072fac1410c9bb43602172399cb6f83083a86c7bfd56ffd7",
+          "published_epoch": 1788801499.9099336,
+          "consumed_epoch": 1788801499.919907,
+          "target_epoch": 1788805097.134369,
+          "input_capture_sha256": "b3fdef5e629498c0dcc3941f4956a0cf5fbf6556d0714466a6e5083c6adc2238",
+          "current_own_bars": 1024,
+          "evaluation_entry_observed": true,
+          "forecasts": [
+            {
+              "family": "probabilistic_state_space",
+              "side": -1,
+              "probability_up": 0.16173171245614537,
+              "predicted_return_bps": -2.3454402157456076,
+              "issued_epoch": 1788801499.8899872,
+              "reference_epoch": 1788801497.134369,
+              "reference_mid": "1.162615",
+              "target_epoch": 1788805097.134369
+            },
+            {
+              "family": "ridge_return_repaired",
+              "side": 1,
+              "probability_up": 0.7991481305438113,
+              "predicted_return_bps": 3.0144902286082482,
+              "issued_epoch": 1788801499.8899872,
+              "reference_epoch": 1788801497.134369,
+              "reference_mid": "1.162615",
+              "target_epoch": 1788805097.134369
+            }
+          ]
+        }
+      ],
+      "latest_diagnostic": null
+    },
+    {
+      "instrument": "EUR_ZAR",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801444.4324682,
+      "counts": {
+        "quotes": 2,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801500.1303566,
+        "payload": "{\"current_common_bars\":21,\"reasons\":[\"EUR_ZAR:ValueError:current_common_warmup:21<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "GBP_AUD",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801444.4633865,
+      "counts": {
+        "quotes": 9,
+        "attempts": 1,
+        "diagnostics": 0,
+        "inputs": 1,
+        "forecasts": 1,
+        "publication": 1,
+        "consumption": 1,
+        "entries": 1,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [
+        {
+          "decision_id": "4033a57f3b7ba0892ef97969835975f631de21e325f9ab138712c55ae368d33f",
+          "forecast_sha256": "ee492915ba2e6f07bfa69f63228a437ecbe3ebb0ee15188567c007e1a5ac2912",
+          "published_epoch": 1788801500.4001746,
+          "consumed_epoch": 1788801500.4091482,
+          "target_epoch": 1788805095.36582,
+          "input_capture_sha256": "7944dfcded0b5d2b20d9741596dba5e8aa857d90f8b2e53cca305b9c585c90f8",
+          "current_own_bars": 1024,
+          "evaluation_entry_observed": true,
+          "forecasts": [
+            {
+              "family": "probabilistic_state_space",
+              "side": -1,
+              "probability_up": 0.25149933163592775,
+              "predicted_return_bps": -1.206421703615588,
+              "issued_epoch": 1788801500.3742416,
+              "reference_epoch": 1788801495.36582,
+              "reference_mid": "1.87603",
+              "target_epoch": 1788805095.36582
+            },
+            {
+              "family": "ridge_return_repaired",
+              "side": -1,
+              "probability_up": 0.22228327868130304,
+              "predicted_return_bps": -2.1161939202464732,
+              "issued_epoch": 1788801500.3742416,
+              "reference_epoch": 1788801495.36582,
+              "reference_mid": "1.87603",
+              "target_epoch": 1788805095.36582
+            }
+          ]
+        }
+      ],
+      "latest_diagnostic": null
+    },
+    {
+      "instrument": "GBP_CAD",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801444.4933062,
+      "counts": {
+        "quotes": 8,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801500.9686701,
+        "payload": "{\"current_common_bars\":16,\"reasons\":[\"GBP_CAD:ValueError:current_common_warmup:16<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "GBP_CHF",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801444.5217388,
+      "counts": {
+        "quotes": 4,
+        "attempts": 1,
+        "diagnostics": 0,
+        "inputs": 1,
+        "forecasts": 1,
+        "publication": 1,
+        "consumption": 1,
+        "entries": 1,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [
+        {
+          "decision_id": "99bc838ff7e79fee480f7716fe42fff69330f99d1f699657bcd7d8038f66b2b2",
+          "forecast_sha256": "a6b4cba1c61e463464906b159a061c8f76584718389b63963265a68e81d39ba2",
+          "published_epoch": 1788801501.219507,
+          "consumed_epoch": 1788801501.2264888,
+          "target_epoch": 1788805092.918989,
+          "input_capture_sha256": "a27a51e3fe1439ac9c0ba6b47b712b587aa6db7d6e5f75ceb4651d75600052fb",
+          "current_own_bars": 815,
+          "evaluation_entry_observed": true,
+          "forecasts": [
+            {
+              "family": "probabilistic_state_space",
+              "side": 1,
+              "probability_up": 0.5819577138885587,
+              "predicted_return_bps": 0.5202390946872196,
+              "issued_epoch": 1788801501.2025526,
+              "reference_epoch": 1788801492.918989,
+              "reference_mid": "1.09597",
+              "target_epoch": 1788805092.918989
+            },
+            {
+              "family": "ridge_return_repaired",
+              "side": 1,
+              "probability_up": 0.8194384505745476,
+              "predicted_return_bps": 3.0197464993168177,
+              "issued_epoch": 1788801501.2025526,
+              "reference_epoch": 1788801492.918989,
+              "reference_mid": "1.09597",
+              "target_epoch": 1788805092.918989
+            }
+          ]
+        }
+      ],
+      "latest_diagnostic": null
+    },
+    {
+      "instrument": "GBP_HKD",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801444.5516593,
+      "counts": {
+        "quotes": 4,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801501.4389205,
+        "payload": "{\"current_common_bars\":8,\"reasons\":[\"GBP_HKD:ValueError:current_common_warmup:8<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "GBP_JPY",
+      "pip_size": 0.01,
+      "activated_epoch": 1788801444.5845697,
+      "counts": {
+        "quotes": 17,
+        "attempts": 1,
+        "diagnostics": 0,
+        "inputs": 1,
+        "forecasts": 1,
+        "publication": 1,
+        "consumption": 1,
+        "entries": 1,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [
+        {
+          "decision_id": "cd82d2da2db91e45979d9bcf25a71bd15f1696bf53d25e4b4975496d9bb63f3b",
+          "forecast_sha256": "11bbef5080c4942ebb8ca281cee022e19e4f377ce68b7f8c256f27d9b4088fe4",
+          "published_epoch": 1788801501.6937482,
+          "consumed_epoch": 1788801501.701727,
+          "target_epoch": 1788805099.318795,
+          "input_capture_sha256": "0ed4c6ebf2202ec443d326568e0915c2d9281c7ba5385289b09d68578391d308",
+          "current_own_bars": 1024,
+          "evaluation_entry_observed": true,
+          "forecasts": [
+            {
+              "family": "probabilistic_state_space",
+              "side": -1,
+              "probability_up": 0.17936683749768761,
+              "predicted_return_bps": -4.107517738591276,
+              "issued_epoch": 1788801501.6708095,
+              "reference_epoch": 1788801499.318795,
+              "reference_mid": "209.0125",
+              "target_epoch": 1788805099.318795
+            },
+            {
+              "family": "ridge_return_repaired",
+              "side": -1,
+              "probability_up": 0.3519058345575922,
+              "predicted_return_bps": -7.2851098510953785,
+              "issued_epoch": 1788801501.6708095,
+              "reference_epoch": 1788801499.318795,
+              "reference_mid": "209.0125",
+              "target_epoch": 1788805099.318795
+            }
+          ]
+        }
+      ],
+      "latest_diagnostic": null
+    },
+    {
+      "instrument": "GBP_NZD",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801444.6154869,
+      "counts": {
+        "quotes": 4,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801501.9126697,
+        "payload": "{\"current_common_bars\":7,\"reasons\":[\"GBP_NZD:ValueError:current_common_warmup:7<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "GBP_PLN",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801444.6439178,
+      "counts": {
+        "quotes": 5,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801502.1166346,
+        "payload": "{\"current_common_bars\":21,\"reasons\":[\"GBP_PLN:ValueError:current_common_warmup:21<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "GBP_SGD",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801444.6738384,
+      "counts": {
+        "quotes": 3,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801502.3211002,
+        "payload": "{\"current_common_bars\":9,\"reasons\":[\"GBP_SGD:ValueError:current_common_warmup:9<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "GBP_USD",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801444.7017636,
+      "counts": {
+        "quotes": 7,
+        "attempts": 1,
+        "diagnostics": 0,
+        "inputs": 1,
+        "forecasts": 1,
+        "publication": 1,
+        "consumption": 1,
+        "entries": 1,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [
+        {
+          "decision_id": "dc89f99df24d12429abdb83e021652c4e0e12ae643402f13e677ae910b7d0a8e",
+          "forecast_sha256": "8554c3133f0421d2b143ad7f77627ba773cf462f1a1d1b2eb388fe99b16bc2db",
+          "published_epoch": 1788801502.57094,
+          "consumed_epoch": 1788801502.5814226,
+          "target_epoch": 1788805091.978915,
+          "input_capture_sha256": "858526714c59fc1ebce2734b608ecad6612e04d694f84ae0c799e11a06614d6d",
+          "current_own_bars": 1024,
+          "evaluation_entry_observed": true,
+          "forecasts": [
+            {
+              "family": "probabilistic_state_space",
+              "side": -1,
+              "probability_up": 0.2542675050398546,
+              "predicted_return_bps": -1.522944799620386,
+              "issued_epoch": 1788801502.5529876,
+              "reference_epoch": 1788801491.978915,
+              "reference_mid": "1.354365",
+              "target_epoch": 1788805091.978915
+            },
+            {
+              "family": "ridge_return_repaired",
+              "side": 1,
+              "probability_up": 0.8682767578579811,
+              "predicted_return_bps": 4.091753258771178,
+              "issued_epoch": 1788801502.5529876,
+              "reference_epoch": 1788801491.978915,
+              "reference_mid": "1.354365",
+              "target_epoch": 1788805091.978915
+            }
+          ]
+        }
+      ],
+      "latest_diagnostic": null
+    },
+    {
+      "instrument": "GBP_ZAR",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801444.7316828,
+      "counts": {
+        "quotes": 2,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801503.0806253,
+        "payload": "{\"current_common_bars\":24,\"reasons\":[\"GBP_ZAR:ValueError:current_common_warmup:24<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "HKD_JPY",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801444.762601,
+      "counts": {
+        "quotes": 12,
+        "attempts": 1,
+        "diagnostics": 0,
+        "inputs": 1,
+        "forecasts": 1,
+        "publication": 1,
+        "consumption": 1,
+        "entries": 1,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [
+        {
+          "decision_id": "3e3a79087f0f1ccec67c29eb422507ccdecb2cd0b9e4b97076e4fa8b68768302",
+          "forecast_sha256": "cb63a57545fb3ba6fce41c7e20e97f14beb1cae8d8a170723142c1b0e86a2d1f",
+          "published_epoch": 1788801503.3419757,
+          "consumed_epoch": 1788801503.3479617,
+          "target_epoch": 1788805098.302745,
+          "input_capture_sha256": "863dd78b644fccbf522c8fba1fd4422574e3d6c71c822e67e234cb0e0c543dbc",
+          "current_own_bars": 1024,
+          "evaluation_entry_observed": true,
+          "forecasts": [
+            {
+              "family": "probabilistic_state_space",
+              "side": -1,
+              "probability_up": 0.31007697420313357,
+              "predicted_return_bps": -2.7492350299719104,
+              "issued_epoch": 1788801503.3200336,
+              "reference_epoch": 1788801498.302745,
+              "reference_mid": "19.68456",
+              "target_epoch": 1788805098.302745
+            },
+            {
+              "family": "ridge_return_repaired",
+              "side": -1,
+              "probability_up": 0.28423205775161087,
+              "predicted_return_bps": -12.419126572851923,
+              "issued_epoch": 1788801503.3200336,
+              "reference_epoch": 1788801498.302745,
+              "reference_mid": "19.68456",
+              "target_epoch": 1788805098.302745
+            }
+          ]
+        }
+      ],
+      "latest_diagnostic": null
+    },
+    {
+      "instrument": "NZD_CAD",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801444.7935174,
+      "counts": {
+        "quotes": 3,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801503.558488,
+        "payload": "{\"current_common_bars\":21,\"reasons\":[\"NZD_CAD:ValueError:current_common_warmup:21<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "NZD_CHF",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801444.8264308,
+      "counts": {
+        "quotes": 6,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801503.7624485,
+        "payload": "{\"current_common_bars\":4,\"reasons\":[\"NZD_CHF:ValueError:current_common_warmup:4<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "NZD_HKD",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801444.8603394,
+      "counts": {
+        "quotes": 3,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801503.966902,
+        "payload": "{\"current_common_bars\":1,\"reasons\":[\"NZD_HKD:ValueError:current_common_warmup:1<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "NZD_JPY",
+      "pip_size": 0.01,
+      "activated_epoch": 1788801444.8902595,
+      "counts": {
+        "quotes": 12,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801504.1708817,
+        "payload": "{\"current_common_bars\":23,\"reasons\":[\"NZD_JPY:ValueError:current_common_warmup:23<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "NZD_SGD",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801444.9201787,
+      "counts": {
+        "quotes": 3,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801504.3763332,
+        "payload": "{\"current_common_bars\":5,\"reasons\":[\"NZD_SGD:ValueError:current_common_warmup:5<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "NZD_USD",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801444.953092,
+      "counts": {
+        "quotes": 6,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801504.5807865,
+        "payload": "{\"current_common_bars\":1,\"reasons\":[\"NZD_USD:ValueError:current_common_warmup:1<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "SGD_CHF",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801444.9850056,
+      "counts": {
+        "quotes": 2,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801504.784262,
+        "payload": "{\"current_common_bars\":1,\"reasons\":[\"SGD_CHF:ValueError:current_common_warmup:1<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "SGD_JPY",
+      "pip_size": 0.01,
+      "activated_epoch": 1788801445.016431,
+      "counts": {
+        "quotes": 9,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801505.277003,
+        "payload": "{\"current_common_bars\":1,\"reasons\":[\"SGD_JPY:ValueError:current_common_warmup:1<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "TRY_JPY",
+      "pip_size": 0.01,
+      "activated_epoch": 1788801445.0463502,
+      "counts": {
+        "quotes": 0,
+        "attempts": 0,
+        "diagnostics": 0,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": null
+    },
+    {
+      "instrument": "USD_CAD",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801445.07627,
+      "counts": {
+        "quotes": 3,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801505.480965,
+        "payload": "{\"current_common_bars\":23,\"reasons\":[\"USD_CAD:ValueError:current_common_warmup:23<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "USD_CHF",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801445.108693,
+      "counts": {
+        "quotes": 2,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801505.6844404,
+        "payload": "{\"current_common_bars\":25,\"reasons\":[\"USD_CHF:ValueError:current_common_warmup:25<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "USD_CNH",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801445.1406078,
+      "counts": {
+        "quotes": 3,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801505.888404,
+        "payload": "{\"current_common_bars\":9,\"reasons\":[\"USD_CNH:ValueError:current_common_warmup:9<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "USD_CZK",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801445.16953,
+      "counts": {
+        "quotes": 3,
+        "attempts": 1,
+        "diagnostics": 0,
+        "inputs": 1,
+        "forecasts": 1,
+        "publication": 1,
+        "consumption": 1,
+        "entries": 1,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [
+        {
+          "decision_id": "81fc361631c5c4c7d1c4d6a2c9321af5fa3dd8c886af8e06168a362dfd79d3dc",
+          "forecast_sha256": "7ffde45bf5a368beaeb17103a16dde7b7b9fcc4548dd238422b757ae61c572e0",
+          "published_epoch": 1788801506.1407452,
+          "consumed_epoch": 1788801506.1467276,
+          "target_epoch": 1788805086.276089,
+          "input_capture_sha256": "ef2ba0e38be04b83c8f4cd44296f88c66a83c0dce300448ff4c313c4b75fdd09",
+          "current_own_bars": 716,
+          "evaluation_entry_observed": true,
+          "forecasts": [
+            {
+              "family": "probabilistic_state_space",
+              "side": 1,
+              "probability_up": 0.9058271582755115,
+              "predicted_return_bps": 3.1865074302062055,
+              "issued_epoch": 1788801506.1198008,
+              "reference_epoch": 1788801486.276089,
+              "reference_mid": "20.8104",
+              "target_epoch": 1788805086.276089
+            },
+            {
+              "family": "ridge_return_repaired",
+              "side": -1,
+              "probability_up": 0.4822810635366426,
+              "predicted_return_bps": -0.20210104786243555,
+              "issued_epoch": 1788801506.1198008,
+              "reference_epoch": 1788801486.276089,
+              "reference_mid": "20.8104",
+              "target_epoch": 1788805086.276089
+            }
+          ]
+        }
+      ],
+      "latest_diagnostic": null
+    },
+    {
+      "instrument": "USD_DKK",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801445.1994495,
+      "counts": {
+        "quotes": 3,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801506.359176,
+        "payload": "{\"current_common_bars\":28,\"reasons\":[\"USD_DKK:ValueError:current_common_warmup:28<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "USD_HKD",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801445.2303677,
+      "counts": {
+        "quotes": 0,
+        "attempts": 0,
+        "diagnostics": 0,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": null
+    },
+    {
+      "instrument": "USD_HUF",
+      "pip_size": 0.01,
+      "activated_epoch": 1788801445.2632794,
+      "counts": {
+        "quotes": 19,
+        "attempts": 1,
+        "diagnostics": 0,
+        "inputs": 1,
+        "forecasts": 1,
+        "publication": 1,
+        "consumption": 1,
+        "entries": 1,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [
+        {
+          "decision_id": "90eca2f84971b8d5d8e373b43fb6fcc6841ebbd825bace05d1f5216dbb9b1b9a",
+          "forecast_sha256": "c3dbdbc10941ad796ee4a2a120ca4d913a3fed000814ee02fa674651a2d72af7",
+          "published_epoch": 1788801506.6100085,
+          "consumed_epoch": 1788801506.6159928,
+          "target_epoch": 1788805103.376703,
+          "input_capture_sha256": "f8cc88905a105f62709afea906a6873985b2c0fa32ef1b42fa796b360cb5327e",
+          "current_own_bars": 772,
+          "evaluation_entry_observed": true,
+          "forecasts": [
+            {
+              "family": "probabilistic_state_space",
+              "side": -1,
+              "probability_up": 0.44083423119120757,
+              "predicted_return_bps": -0.6266233811581654,
+              "issued_epoch": 1788801506.589067,
+              "reference_epoch": 1788801503.376703,
+              "reference_mid": "312.822",
+              "target_epoch": 1788805103.376703
+            },
+            {
+              "family": "ridge_return_repaired",
+              "side": 1,
+              "probability_up": 0.6054671697352587,
+              "predicted_return_bps": 3.28341238447308,
+              "issued_epoch": 1788801506.589067,
+              "reference_epoch": 1788801503.376703,
+              "reference_mid": "312.822",
+              "target_epoch": 1788805103.376703
+            }
+          ]
+        }
+      ],
+      "latest_diagnostic": null
+    },
+    {
+      "instrument": "USD_JPY",
+      "pip_size": 0.01,
+      "activated_epoch": 1788801445.2931995,
+      "counts": {
+        "quotes": 17,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801506.8274455,
+        "payload": "{\"current_common_bars\":31,\"reasons\":[\"USD_JPY:ValueError:current_common_warmup:31<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "USD_MXN",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801445.3241174,
+      "counts": {
+        "quotes": 8,
+        "attempts": 1,
+        "diagnostics": 0,
+        "inputs": 1,
+        "forecasts": 1,
+        "publication": 1,
+        "consumption": 1,
+        "entries": 1,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [
+        {
+          "decision_id": "ccae0ec711ca95105910fa7b3eb952bb41865e6fbf93667b5fadc23da0bd1172",
+          "forecast_sha256": "85f52978c405f334f080950ac6691b3ac0f0b6f052fcb39c8c23253f8c8840f6",
+          "published_epoch": 1788801507.3435905,
+          "consumed_epoch": 1788801507.3505716,
+          "target_epoch": 1788805101.737196,
+          "input_capture_sha256": "660f19c22b0af97860b1db7c7156754ef9780224ca795114eeec678dcc92810d",
+          "current_own_bars": 1024,
+          "evaluation_entry_observed": true,
+          "forecasts": [
+            {
+              "family": "probabilistic_state_space",
+              "side": -1,
+              "probability_up": 0.2726530273448501,
+              "predicted_return_bps": -2.21393805253101,
+              "issued_epoch": 1788801507.3156662,
+              "reference_epoch": 1788801501.737196,
+              "reference_mid": "16.927075",
+              "target_epoch": 1788805101.737196
+            },
+            {
+              "family": "ridge_return_repaired",
+              "side": 1,
+              "probability_up": 0.6040036565125627,
+              "predicted_return_bps": 0.7645157951154558,
+              "issued_epoch": 1788801507.3156662,
+              "reference_epoch": 1788801501.737196,
+              "reference_mid": "16.927075",
+              "target_epoch": 1788805101.737196
+            }
+          ]
+        }
+      ],
+      "latest_diagnostic": null
+    },
+    {
+      "instrument": "USD_NOK",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801445.35304,
+      "counts": {
+        "quotes": 3,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801507.564017,
+        "payload": "{\"current_common_bars\":20,\"reasons\":[\"USD_NOK:ValueError:current_common_warmup:20<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "USD_PLN",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801445.3829596,
+      "counts": {
+        "quotes": 4,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801507.7684708,
+        "payload": "{\"current_common_bars\":21,\"reasons\":[\"USD_PLN:ValueError:current_common_warmup:21<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "USD_SEK",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801445.413877,
+      "counts": {
+        "quotes": 13,
+        "attempts": 1,
+        "diagnostics": 0,
+        "inputs": 1,
+        "forecasts": 1,
+        "publication": 1,
+        "consumption": 1,
+        "entries": 1,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [
+        {
+          "decision_id": "3e43430dcf027b6711c0e8657aa07ab0913b8529030e68f9d454d503f9570f53",
+          "forecast_sha256": "ea8f407194ee76aac61b7f7c0d40f94ba38ba77000c3d26003579f8323f17c32",
+          "published_epoch": 1788801508.0163288,
+          "consumed_epoch": 1788801508.0233116,
+          "target_epoch": 1788805104.602246,
+          "input_capture_sha256": "911163c708aacc59410b2dda32f22e9f456dc9e937c0a21573f06c546224b568",
+          "current_own_bars": 1024,
+          "evaluation_entry_observed": true,
+          "forecasts": [
+            {
+              "family": "probabilistic_state_space",
+              "side": 1,
+              "probability_up": 0.5958878745711408,
+              "predicted_return_bps": 1.0991754737613808,
+              "issued_epoch": 1788801507.9983785,
+              "reference_epoch": 1788801504.602246,
+              "reference_mid": "9.59035",
+              "target_epoch": 1788805104.602246
+            },
+            {
+              "family": "ridge_return_repaired",
+              "side": 1,
+              "probability_up": 0.5013099916431918,
+              "predicted_return_bps": 0.02272620560441404,
+              "issued_epoch": 1788801507.9983785,
+              "reference_epoch": 1788801504.602246,
+              "reference_mid": "9.59035",
+              "target_epoch": 1788805104.602246
+            }
+          ]
+        }
+      ],
+      "latest_diagnostic": null
+    },
+    {
+      "instrument": "USD_SGD",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801445.4428005,
+      "counts": {
+        "quotes": 6,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801508.3479476,
+        "payload": "{\"current_common_bars\":20,\"reasons\":[\"USD_SGD:ValueError:current_common_warmup:20<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "USD_THB",
+      "pip_size": 0.01,
+      "activated_epoch": 1788801445.4757123,
+      "counts": {
+        "quotes": 2,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801508.551406,
+        "payload": "{\"current_common_bars\":2,\"reasons\":[\"USD_THB:ValueError:current_common_warmup:2<61\"],\"status\":\"abstain\"}"
+      }
+    },
+    {
+      "instrument": "USD_TRY",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801445.5046341,
+      "counts": {
+        "quotes": 0,
+        "attempts": 0,
+        "diagnostics": 0,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": null
+    },
+    {
+      "instrument": "USD_ZAR",
+      "pip_size": 0.0001,
+      "activated_epoch": 1788801445.536549,
+      "counts": {
+        "quotes": 10,
+        "attempts": 1,
+        "diagnostics": 0,
+        "inputs": 1,
+        "forecasts": 1,
+        "publication": 1,
+        "consumption": 1,
+        "entries": 1,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [
+        {
+          "decision_id": "9cb35efe598f8424d5699edd1a2df337bb8493cf29e192d0bb1d72e2dde53363",
+          "forecast_sha256": "383a58ea399de35a06d59b9f40f8e2489ee44e36c201f44fff2649a01eb5b2a0",
+          "published_epoch": 1788801508.8201914,
+          "consumed_epoch": 1788801508.8281705,
+          "target_epoch": 1788805105.142164,
+          "input_capture_sha256": "70c7475f276cb68e886ac5c6d400c5c55700d1001cd85adbfd5cb9c0e7372010",
+          "current_own_bars": 106,
+          "evaluation_entry_observed": true,
+          "forecasts": [
+            {
+              "family": "probabilistic_state_space",
+              "side": 1,
+              "probability_up": 0.903112430475287,
+              "predicted_return_bps": 3.6875254508855173,
+              "issued_epoch": 1788801508.7922688,
+              "reference_epoch": 1788801505.142164,
+              "reference_mid": "15.99763",
+              "target_epoch": 1788805105.142164
+            },
+            {
+              "family": "ridge_return_repaired",
+              "side": -1,
+              "probability_up": 0.19416347714644167,
+              "predicted_return_bps": -4.489734441740016,
+              "issued_epoch": 1788801508.7922688,
+              "reference_epoch": 1788801505.142164,
+              "reference_mid": "15.99763",
+              "target_epoch": 1788805105.142164
+            }
+          ]
+        }
+      ],
+      "latest_diagnostic": null
+    },
+    {
+      "instrument": "ZAR_JPY",
+      "pip_size": 0.01,
+      "activated_epoch": 1788801445.5704587,
+      "counts": {
+        "quotes": 1,
+        "attempts": 1,
+        "diagnostics": 1,
+        "inputs": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "checked_publications": [],
+      "latest_diagnostic": {
+        "epoch": 1788801509.428579,
+        "payload": "{\"current_common_bars\":1,\"reasons\":[\"ZAR_JPY:ValueError:current_common_warmup:1<61\"],\"status\":\"abstain\"}"
+      }
+    }
+  ],
+  "dashboard_pair_local_forecasts": {
+    "status": "current",
+    "reason": null,
+    "reason_label": null,
+    "generated_epoch": 1788801523.4601097,
+    "observed_epoch": 1788801537.1880956,
+    "rows": [
+      {
+        "instrument": "AUD_CAD",
+        "status": "warming",
+        "reason": "AUD_CAD:ValueError:current_common_warmup:7<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 7/61",
+        "observed_epoch": 1788801523.2679107,
+        "latest_published_forecast": null,
+        "current_common_bars": 7,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801492.7142236
+      },
+      {
+        "instrument": "AUD_CHF",
+        "status": "warming",
+        "reason": "AUD_CHF:ValueError:current_common_warmup:1<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 1/61",
+        "observed_epoch": 1788801523.2699053,
+        "latest_published_forecast": null,
+        "current_common_bars": 1,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801511.4517787
+      },
+      {
+        "instrument": "AUD_HKD",
+        "status": "warming",
+        "reason": "AUD_HKD:ValueError:current_common_warmup:2<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 2/61",
+        "observed_epoch": 1788801523.2738953,
+        "latest_published_forecast": null,
+        "current_common_bars": 2,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801493.0204186
+      },
+      {
+        "instrument": "AUD_JPY",
+        "status": "forecast",
+        "reason": "forecast",
+        "reason_label": "Two H1 model estimates",
+        "observed_epoch": 1788801523.2768884,
+        "latest_published_forecast": {
+          "decision_id": "977ae40a16352385b858b311b7b10f4935f999dd9bea09ba4c5c56738aa8a7d5",
+          "forecast_sha256": "0ce85c38cf756b0e652e258c2c11e9678e7b29a06ffd8e4dd8b991a3ec608383",
+          "forecasts": [
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.AUD_JPY.probabilistic_state_space.7efc395becaac33f",
+              "family": "probabilistic_state_space",
+              "instrument": "AUD_JPY",
+              "issued_epoch": 1788801493.6627314,
+              "predicted_return_bps": -2.9966944373687143,
+              "probability_up": 0.25487103053449056,
+              "reference_epoch": 1788801487.838192,
+              "reference_mid": "111.413",
+              "side": -1,
+              "target_epoch": 1788805087.838192
+            },
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.AUD_JPY.ridge_return_repaired.7efc395becaac33f",
+              "family": "ridge_return_repaired",
+              "instrument": "AUD_JPY",
+              "issued_epoch": 1788801493.6627314,
+              "predicted_return_bps": -5.590113240433832,
+              "probability_up": 0.3935230753750577,
+              "reference_epoch": 1788801487.838192,
+              "reference_mid": "111.413",
+              "side": -1,
+              "target_epoch": 1788805087.838192
+            }
+          ],
+          "horizon_sec": 3600,
+          "instrument": "AUD_JPY",
+          "publication_epoch": 1788801493.6856701,
+          "publication_verified": true,
+          "publication_verified_epoch": 1788801523.2758896,
+          "reference_available_epoch": 1788801492.154683,
+          "target_epoch": 1788805087.838192,
+          "status": "in_progress"
+        },
+        "current_common_bars": 1024,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801493.2268796
+      },
+      {
+        "instrument": "AUD_NZD",
+        "status": "forecast",
+        "reason": "forecast",
+        "reason_label": "Two H1 model estimates",
+        "observed_epoch": 1788801523.278882,
+        "latest_published_forecast": {
+          "decision_id": "df5c72a167d1a2e333cffaddf23d532c61db3d9c30ec6e0383a70b07b203ca8d",
+          "forecast_sha256": "a8f56f89591f12eedf568ffd72237db6059eda209768db093f2155b8a0323de0",
+          "forecasts": [
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.AUD_NZD.probabilistic_state_space.8dc1d41b29d51da3",
+              "family": "probabilistic_state_space",
+              "instrument": "AUD_NZD",
+              "issued_epoch": 1788801493.9439797,
+              "predicted_return_bps": -1.1369480160743084,
+              "probability_up": 0.32244980698446846,
+              "reference_epoch": 1788801491.044716,
+              "reference_mid": "1.22808",
+              "side": -1,
+              "target_epoch": 1788805091.044716
+            },
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.AUD_NZD.ridge_return_repaired.8dc1d41b29d51da3",
+              "family": "ridge_return_repaired",
+              "instrument": "AUD_NZD",
+              "issued_epoch": 1788801493.9439797,
+              "predicted_return_bps": 5.068113102758645,
+              "probability_up": 0.8755539373986523,
+              "reference_epoch": 1788801491.044716,
+              "reference_mid": "1.22808",
+              "side": 1,
+              "target_epoch": 1788805091.044716
+            }
+          ],
+          "horizon_sec": 3600,
+          "instrument": "AUD_NZD",
+          "publication_epoch": 1788801493.9629297,
+          "publication_verified": true,
+          "publication_verified_epoch": 1788801523.278882,
+          "reference_available_epoch": 1788801492.1556802,
+          "target_epoch": 1788805091.044716,
+          "status": "in_progress"
+        },
+        "current_common_bars": 1024,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801493.7016282
+      },
+      {
+        "instrument": "AUD_SGD",
+        "status": "warming",
+        "reason": "AUD_SGD:ValueError:current_common_warmup:2<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 2/61",
+        "observed_epoch": 1788801523.2858636,
+        "latest_published_forecast": null,
+        "current_common_bars": 2,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801493.9798841
+      },
+      {
+        "instrument": "AUD_USD",
+        "status": "warming",
+        "reason": "AUD_USD:ValueError:current_common_warmup:2<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 2/61",
+        "observed_epoch": 1788801523.286861,
+        "latest_published_forecast": null,
+        "current_common_bars": 2,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801494.4351902
+      },
+      {
+        "instrument": "CAD_CHF",
+        "status": "warming",
+        "reason": "CAD_CHF:ValueError:current_common_warmup:2<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 2/61",
+        "observed_epoch": 1788801523.287858,
+        "latest_published_forecast": null,
+        "current_common_bars": 2,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801494.639151
+      },
+      {
+        "instrument": "CAD_HKD",
+        "status": "warming",
+        "reason": "CAD_HKD:ValueError:current_common_warmup:5<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 5/61",
+        "observed_epoch": 1788801523.2915401,
+        "latest_published_forecast": null,
+        "current_common_bars": 5,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801494.8431122
+      },
+      {
+        "instrument": "CAD_JPY",
+        "status": "warming",
+        "reason": "CAD_JPY:ValueError:current_common_warmup:22<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 22/61",
+        "observed_epoch": 1788801523.2915401,
+        "latest_published_forecast": null,
+        "current_common_bars": 22,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801495.0485651
+      },
+      {
+        "instrument": "CAD_SGD",
+        "status": "warming",
+        "reason": "CAD_SGD:ValueError:current_common_warmup:14<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 14/61",
+        "observed_epoch": 1788801523.2950654,
+        "latest_published_forecast": null,
+        "current_common_bars": 14,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801495.2545192
+      },
+      {
+        "instrument": "CHF_HKD",
+        "status": "warming",
+        "reason": "CHF_HKD:ValueError:current_common_warmup:7<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 7/61",
+        "observed_epoch": 1788801523.2950654,
+        "latest_published_forecast": null,
+        "current_common_bars": 7,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801495.4594767
+      },
+      {
+        "instrument": "CHF_JPY",
+        "status": "forecast",
+        "reason": "forecast",
+        "reason_label": "Two H1 model estimates",
+        "observed_epoch": 1788801523.297086,
+        "latest_published_forecast": {
+          "decision_id": "5333c7d2e3848f2bbc2bb3835d8db1431168fb2c9e951510be0e99ebf62882ae",
+          "forecast_sha256": "fc5fecc65d23b454a4e3defc4140061e58275f672dea3dc61002b4c2172fb7b2",
+          "forecasts": [
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.CHF_JPY.probabilistic_state_space.638e9066f94cecac",
+              "family": "probabilistic_state_space",
+              "instrument": "CHF_JPY",
+              "issued_epoch": 1788801495.895323,
+              "predicted_return_bps": -3.8142506142209345,
+              "probability_up": 0.16641857223327716,
+              "reference_epoch": 1788801488.578965,
+              "reference_mid": "190.710",
+              "side": -1,
+              "target_epoch": 1788805088.578965
+            },
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.CHF_JPY.ridge_return_repaired.638e9066f94cecac",
+              "family": "ridge_return_repaired",
+              "instrument": "CHF_JPY",
+              "issued_epoch": 1788801495.895323,
+              "predicted_return_bps": -10.570234820217145,
+              "probability_up": 0.27164841028852615,
+              "reference_epoch": 1788801488.578965,
+              "reference_mid": "190.710",
+              "side": -1,
+              "target_epoch": 1788805088.578965
+            }
+          ],
+          "horizon_sec": 3600,
+          "instrument": "CHF_JPY",
+          "publication_epoch": 1788801495.9142728,
+          "publication_verified": true,
+          "publication_verified_epoch": 1788801523.297086,
+          "reference_available_epoch": 1788801492.1706398,
+          "target_epoch": 1788805088.578965,
+          "status": "in_progress"
+        },
+        "current_common_bars": 1024,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801495.6629453
+      },
+      {
+        "instrument": "CHF_ZAR",
+        "status": "warming",
+        "reason": "CHF_ZAR:ValueError:current_common_warmup:24<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 24/61",
+        "observed_epoch": 1788801523.297086,
+        "latest_published_forecast": null,
+        "current_common_bars": 24,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801495.927238
+      },
+      {
+        "instrument": "EUR_AUD",
+        "status": "forecast",
+        "reason": "forecast",
+        "reason_label": "Two H1 model estimates",
+        "observed_epoch": 1788801523.3130774,
+        "latest_published_forecast": {
+          "decision_id": "a8fe517d631446a6434f41a3da897c8173232b00fcae5703e28edfdbf168fddc",
+          "forecast_sha256": "02c47bd0e062c975e4da531e97f9c959b986e599369086fc5c565ef9102bb8f3",
+          "forecasts": [
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.EUR_AUD.probabilistic_state_space.436049baed8a0272",
+              "family": "probabilistic_state_space",
+              "instrument": "EUR_AUD",
+              "issued_epoch": 1788801496.5780241,
+              "predicted_return_bps": -2.061607714530181,
+              "probability_up": 0.11100794196665542,
+              "reference_epoch": 1788801492.517044,
+              "reference_mid": "1.610415",
+              "side": -1,
+              "target_epoch": 1788805092.517044
+            },
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.EUR_AUD.ridge_return_repaired.436049baed8a0272",
+              "family": "ridge_return_repaired",
+              "instrument": "EUR_AUD",
+              "issued_epoch": 1788801496.5780241,
+              "predicted_return_bps": -2.9223606306026575,
+              "probability_up": 0.18755457731945402,
+              "reference_epoch": 1788801492.517044,
+              "reference_mid": "1.610415",
+              "side": -1,
+              "target_epoch": 1788805092.517044
+            }
+          ],
+          "horizon_sec": 3600,
+          "instrument": "EUR_AUD",
+          "publication_epoch": 1788801496.5989664,
+          "publication_verified": true,
+          "publication_verified_epoch": 1788801523.3130774,
+          "reference_available_epoch": 1788801494.193822,
+          "target_epoch": 1788805092.517044,
+          "status": "in_progress"
+        },
+        "current_common_bars": 1024,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801496.1311998
+      },
+      {
+        "instrument": "EUR_CAD",
+        "status": "forecast",
+        "reason": "forecast",
+        "reason_label": "Two H1 model estimates",
+        "observed_epoch": 1788801523.3170784,
+        "latest_published_forecast": {
+          "decision_id": "09a3046a1a831072e1fce4c7cb43950e9d24e5ea6dc28fef8d269bdd39922212",
+          "forecast_sha256": "ab4882a7306d69d9b6dc8e2f17876a5fb75b13f232ed43eb07d752683b19a160",
+          "forecasts": [
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.EUR_CAD.probabilistic_state_space.1c2111cd1a068989",
+              "family": "probabilistic_state_space",
+              "instrument": "EUR_CAD",
+              "issued_epoch": 1788801496.8423157,
+              "predicted_return_bps": -1.826209795841096,
+              "probability_up": 0.1887356563292738,
+              "reference_epoch": 1788801493.010054,
+              "reference_mid": "1.605705",
+              "side": -1,
+              "target_epoch": 1788805093.010054
+            },
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.EUR_CAD.ridge_return_repaired.1c2111cd1a068989",
+              "family": "ridge_return_repaired",
+              "instrument": "EUR_CAD",
+              "issued_epoch": 1788801496.8423157,
+              "predicted_return_bps": 0.44338329253299247,
+              "probability_up": 0.5769697955961168,
+              "reference_epoch": 1788801493.010054,
+              "reference_mid": "1.605705",
+              "side": 1,
+              "target_epoch": 1788805093.010054
+            }
+          ],
+          "horizon_sec": 3600,
+          "instrument": "EUR_CAD",
+          "publication_epoch": 1788801496.8642578,
+          "publication_verified": true,
+          "publication_verified_epoch": 1788801523.3170784,
+          "reference_available_epoch": 1788801494.1948187,
+          "target_epoch": 1788805093.010054,
+          "status": "in_progress"
+        },
+        "current_common_bars": 1024,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801496.613926
+      },
+      {
+        "instrument": "EUR_CHF",
+        "status": "warming",
+        "reason": "EUR_CHF:ValueError:current_common_warmup:7<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 7/61",
+        "observed_epoch": 1788801523.3210776,
+        "latest_published_forecast": null,
+        "current_common_bars": 7,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801496.8802142
+      },
+      {
+        "instrument": "EUR_CZK",
+        "status": "warming",
+        "reason": "EUR_CZK:ValueError:current_common_warmup:2<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 2/61",
+        "observed_epoch": 1788801523.3210776,
+        "latest_published_forecast": null,
+        "current_common_bars": 2,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801497.0851746
+      },
+      {
+        "instrument": "EUR_DKK",
+        "status": "unavailable",
+        "reason": "ValueError:no_fresh_quote",
+        "reason_label": "No fresh quote",
+        "observed_epoch": 1788801523.3241286,
+        "latest_published_forecast": null,
+        "current_common_bars": null,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": null
+      },
+      {
+        "instrument": "EUR_GBP",
+        "status": "warming",
+        "reason": "EUR_GBP:ValueError:current_common_warmup:27<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 27/61",
+        "observed_epoch": 1788801523.3281236,
+        "latest_published_forecast": null,
+        "current_common_bars": 27,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801497.289138
+      },
+      {
+        "instrument": "EUR_HKD",
+        "status": "warming",
+        "reason": "EUR_HKD:ValueError:current_common_warmup:22<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 22/61",
+        "observed_epoch": 1788801523.3281236,
+        "latest_published_forecast": null,
+        "current_common_bars": 22,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801497.4936063
+      },
+      {
+        "instrument": "EUR_HUF",
+        "status": "forecast",
+        "reason": "forecast",
+        "reason_label": "Two H1 model estimates",
+        "observed_epoch": 1788801523.3321254,
+        "latest_published_forecast": {
+          "decision_id": "b23ff0315aa5040ddf10f0eec5810ee34e368052599719db4b2e8e36faf73703",
+          "forecast_sha256": "58894cdcbe42d1614a7a13582d4f2020de5532cd61a8964075454dfbca0c135a",
+          "forecasts": [
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.EUR_HUF.probabilistic_state_space.1f8b3fbff72920ee",
+              "family": "probabilistic_state_space",
+              "instrument": "EUR_HUF",
+              "issued_epoch": 1788801497.9254527,
+              "predicted_return_bps": -5.034606541058812,
+              "probability_up": 0.08072262361098398,
+              "reference_epoch": 1788801491.89254,
+              "reference_mid": "363.7095",
+              "side": -1,
+              "target_epoch": 1788805091.89254
+            },
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.EUR_HUF.ridge_return_repaired.1f8b3fbff72920ee",
+              "family": "ridge_return_repaired",
+              "instrument": "EUR_HUF",
+              "issued_epoch": 1788801497.9254527,
+              "predicted_return_bps": 6.0405100218025245,
+              "probability_up": 0.6947724232610606,
+              "reference_epoch": 1788801491.89254,
+              "reference_mid": "363.7095",
+              "side": 1,
+              "target_epoch": 1788805091.89254
+            }
+          ],
+          "horizon_sec": 3600,
+          "instrument": "EUR_HUF",
+          "publication_epoch": 1788801497.9444008,
+          "publication_verified": true,
+          "publication_verified_epoch": 1788801523.3281236,
+          "reference_available_epoch": 1788801494.1968136,
+          "target_epoch": 1788805091.89254,
+          "status": "in_progress"
+        },
+        "current_common_bars": 90,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801497.6970623
+      },
+      {
+        "instrument": "EUR_JPY",
+        "status": "forecast",
+        "reason": "forecast",
+        "reason_label": "Two H1 model estimates",
+        "observed_epoch": 1788801523.3321254,
+        "latest_published_forecast": {
+          "decision_id": "ccec85dd646bbc83587a28684d753741c4dbfe26ae7578525e9b7f5ff3db29a0",
+          "forecast_sha256": "2485c6885d6e9b364377065797840a26e56646507b4b7543d8d4020e4a42310c",
+          "forecasts": [
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.EUR_JPY.probabilistic_state_space.ee632a7e173c7b31",
+              "family": "probabilistic_state_space",
+              "instrument": "EUR_JPY",
+              "issued_epoch": 1788801498.2022707,
+              "predicted_return_bps": -6.084002917959008,
+              "probability_up": 0.07989908284494163,
+              "reference_epoch": 1788801495.616913,
+              "reference_mid": "179.419",
+              "side": -1,
+              "target_epoch": 1788805095.616913
+            },
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.EUR_JPY.ridge_return_repaired.ee632a7e173c7b31",
+              "family": "ridge_return_repaired",
+              "instrument": "EUR_JPY",
+              "issued_epoch": 1788801498.2022707,
+              "predicted_return_bps": -9.163223746505093,
+              "probability_up": 0.3155603120269371,
+              "reference_epoch": 1788801495.616913,
+              "reference_mid": "179.419",
+              "side": -1,
+              "target_epoch": 1788805095.616913
+            }
+          ],
+          "horizon_sec": 3600,
+          "instrument": "EUR_JPY",
+          "publication_epoch": 1788801498.2212198,
+          "publication_verified": true,
+          "publication_verified_epoch": 1788801523.3321254,
+          "reference_available_epoch": 1788801496.3466234,
+          "target_epoch": 1788805095.616913,
+          "status": "in_progress"
+        },
+        "current_common_bars": 1024,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801497.9613564
+      },
+      {
+        "instrument": "EUR_NOK",
+        "status": "forecast",
+        "reason": "forecast",
+        "reason_label": "Two H1 model estimates",
+        "observed_epoch": 1788801523.3321254,
+        "latest_published_forecast": {
+          "decision_id": "8debf083f81197e82a46513a01d490e11b09fac8f4ff47eecc395290ab069407",
+          "forecast_sha256": "621c2ef78f6fbd4b29c3e98de8041ee011e442773bf65235200a71bd3dd7fece",
+          "forecasts": [
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.EUR_NOK.probabilistic_state_space.936f2de7750e55bf",
+              "family": "probabilistic_state_space",
+              "instrument": "EUR_NOK",
+              "issued_epoch": 1788801498.731392,
+              "predicted_return_bps": -0.7475634516823441,
+              "probability_up": 0.3722332325417175,
+              "reference_epoch": 1788801490.069712,
+              "reference_mid": "10.777715",
+              "side": -1,
+              "target_epoch": 1788805090.069712
+            },
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.EUR_NOK.ridge_return_repaired.936f2de7750e55bf",
+              "family": "ridge_return_repaired",
+              "instrument": "EUR_NOK",
+              "issued_epoch": 1788801498.731392,
+              "predicted_return_bps": -0.9573043599105026,
+              "probability_up": 0.4344274910382868,
+              "reference_epoch": 1788801490.069712,
+              "reference_mid": "10.777715",
+              "side": -1,
+              "target_epoch": 1788805090.069712
+            }
+          ],
+          "horizon_sec": 3600,
+          "instrument": "EUR_NOK",
+          "publication_epoch": 1788801498.7568326,
+          "publication_verified": true,
+          "publication_verified_epoch": 1788801523.3321254,
+          "reference_available_epoch": 1788801492.1865969,
+          "target_epoch": 1788805090.069712,
+          "status": "in_progress"
+        },
+        "current_common_bars": 86,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801498.2381742
+      },
+      {
+        "instrument": "EUR_NZD",
+        "status": "warming",
+        "reason": "EUR_NZD:ValueError:current_common_warmup:7<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 7/61",
+        "observed_epoch": 1788801523.3361244,
+        "latest_published_forecast": null,
+        "current_common_bars": 7,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801498.7717917
+      },
+      {
+        "instrument": "EUR_PLN",
+        "status": "warming",
+        "reason": "EUR_PLN:ValueError:current_common_warmup:5<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 5/61",
+        "observed_epoch": 1788801523.3401237,
+        "latest_published_forecast": null,
+        "current_common_bars": 5,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801498.9767532
+      },
+      {
+        "instrument": "EUR_SEK",
+        "status": "forecast",
+        "reason": "forecast",
+        "reason_label": "Two H1 model estimates",
+        "observed_epoch": 1788801523.3441238,
+        "latest_published_forecast": {
+          "decision_id": "4a8e70743f9d17a1463338c03283e3c7e522f8b0961529233c17c77621151511",
+          "forecast_sha256": "c30673a6c96ae06c519083ad6ffc5bdb20e0ebda91deb0844cc57f5c96194a16",
+          "forecasts": [
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.EUR_SEK.probabilistic_state_space.a9a3e90e39a7f833",
+              "family": "probabilistic_state_space",
+              "instrument": "EUR_SEK",
+              "issued_epoch": 1788801499.4117105,
+              "predicted_return_bps": -1.0320008216735692,
+              "probability_up": 0.34660343420186945,
+              "reference_epoch": 1788801492.808823,
+              "reference_mid": "11.1500",
+              "side": -1,
+              "target_epoch": 1788805092.808823
+            },
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.EUR_SEK.ridge_return_repaired.a9a3e90e39a7f833",
+              "family": "ridge_return_repaired",
+              "instrument": "EUR_SEK",
+              "issued_epoch": 1788801499.4117105,
+              "predicted_return_bps": -0.6496780262508306,
+              "probability_up": 0.4517899731762984,
+              "reference_epoch": 1788801492.808823,
+              "reference_mid": "11.1500",
+              "side": -1,
+              "target_epoch": 1788805092.808823
+            }
+          ],
+          "horizon_sec": 3600,
+          "instrument": "EUR_SEK",
+          "publication_epoch": 1788801499.43465,
+          "publication_verified": true,
+          "publication_verified_epoch": 1788801523.3441238,
+          "reference_available_epoch": 1788801494.1988084,
+          "target_epoch": 1788805092.808823,
+          "status": "in_progress"
+        },
+        "current_common_bars": 76,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801499.1807342
+      },
+      {
+        "instrument": "EUR_SGD",
+        "status": "warming",
+        "reason": "EUR_SGD:ValueError:current_common_warmup:20<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 20/61",
+        "observed_epoch": 1788801523.3441238,
+        "latest_published_forecast": null,
+        "current_common_bars": 20,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801499.4506068
+      },
+      {
+        "instrument": "EUR_TRY",
+        "status": "unavailable",
+        "reason": "ValueError:market_closed_or_no_stream_quote",
+        "reason_label": "No fresh quote",
+        "observed_epoch": 1788801523.3481233,
+        "latest_published_forecast": null,
+        "current_common_bars": null,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": null
+      },
+      {
+        "instrument": "EUR_USD",
+        "status": "forecast",
+        "reason": "forecast",
+        "reason_label": "Two H1 model estimates",
+        "observed_epoch": 1788801523.3481233,
+        "latest_published_forecast": {
+          "decision_id": "825c2a1508a5ab57472829f6a2a3f13d7d5224a8b57d84e1a91a368f060c85a2",
+          "forecast_sha256": "d4bcea87574acca9072fac1410c9bb43602172399cb6f83083a86c7bfd56ffd7",
+          "forecasts": [
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.EUR_USD.probabilistic_state_space.3f060a258163fba0",
+              "family": "probabilistic_state_space",
+              "instrument": "EUR_USD",
+              "issued_epoch": 1788801499.8899872,
+              "predicted_return_bps": -2.3454402157456076,
+              "probability_up": 0.16173171245614537,
+              "reference_epoch": 1788801497.134369,
+              "reference_mid": "1.162615",
+              "side": -1,
+              "target_epoch": 1788805097.134369
+            },
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.EUR_USD.ridge_return_repaired.3f060a258163fba0",
+              "family": "ridge_return_repaired",
+              "instrument": "EUR_USD",
+              "issued_epoch": 1788801499.8899872,
+              "predicted_return_bps": 3.0144902286082482,
+              "probability_up": 0.7991481305438113,
+              "reference_epoch": 1788801497.134369,
+              "reference_mid": "1.162615",
+              "side": 1,
+              "target_epoch": 1788805097.134369
+            }
+          ],
+          "horizon_sec": 3600,
+          "instrument": "EUR_USD",
+          "publication_epoch": 1788801499.9099336,
+          "publication_verified": true,
+          "publication_verified_epoch": 1788801523.3481233,
+          "reference_available_epoch": 1788801498.4541175,
+          "target_epoch": 1788805097.134369,
+          "status": "in_progress"
+        },
+        "current_common_bars": 1024,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801499.653104
+      },
+      {
+        "instrument": "EUR_ZAR",
+        "status": "warming",
+        "reason": "EUR_ZAR:ValueError:current_common_warmup:21<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 21/61",
+        "observed_epoch": 1788801523.3561347,
+        "latest_published_forecast": null,
+        "current_common_bars": 21,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801499.9278855
+      },
+      {
+        "instrument": "GBP_AUD",
+        "status": "forecast",
+        "reason": "forecast",
+        "reason_label": "Two H1 model estimates",
+        "observed_epoch": 1788801523.3581302,
+        "latest_published_forecast": {
+          "decision_id": "4033a57f3b7ba0892ef97969835975f631de21e325f9ab138712c55ae368d33f",
+          "forecast_sha256": "ee492915ba2e6f07bfa69f63228a437ecbe3ebb0ee15188567c007e1a5ac2912",
+          "forecasts": [
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.GBP_AUD.probabilistic_state_space.39e7672b055244ff",
+              "family": "probabilistic_state_space",
+              "instrument": "GBP_AUD",
+              "issued_epoch": 1788801500.3742416,
+              "predicted_return_bps": -1.206421703615588,
+              "probability_up": 0.25149933163592775,
+              "reference_epoch": 1788801495.36582,
+              "reference_mid": "1.87603",
+              "side": -1,
+              "target_epoch": 1788805095.36582
+            },
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.GBP_AUD.ridge_return_repaired.39e7672b055244ff",
+              "family": "ridge_return_repaired",
+              "instrument": "GBP_AUD",
+              "issued_epoch": 1788801500.3742416,
+              "predicted_return_bps": -2.1161939202464732,
+              "probability_up": 0.22228327868130304,
+              "reference_epoch": 1788801495.36582,
+              "reference_mid": "1.87603",
+              "side": -1,
+              "target_epoch": 1788805095.36582
+            }
+          ],
+          "horizon_sec": 3600,
+          "instrument": "GBP_AUD",
+          "publication_epoch": 1788801500.4001746,
+          "publication_verified": true,
+          "publication_verified_epoch": 1788801523.3571324,
+          "reference_available_epoch": 1788801496.348618,
+          "target_epoch": 1788805095.36582,
+          "status": "in_progress"
+        },
+        "current_common_bars": 1024,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801500.1313539
+      },
+      {
+        "instrument": "GBP_CAD",
+        "status": "warming",
+        "reason": "GBP_CAD:ValueError:current_common_warmup:16<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 16/61",
+        "observed_epoch": 1788801523.3611233,
+        "latest_published_forecast": null,
+        "current_common_bars": 16,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801500.4181235
+      },
+      {
+        "instrument": "GBP_CHF",
+        "status": "forecast",
+        "reason": "forecast",
+        "reason_label": "Two H1 model estimates",
+        "observed_epoch": 1788801523.3641148,
+        "latest_published_forecast": {
+          "decision_id": "99bc838ff7e79fee480f7716fe42fff69330f99d1f699657bcd7d8038f66b2b2",
+          "forecast_sha256": "a6b4cba1c61e463464906b159a061c8f76584718389b63963265a68e81d39ba2",
+          "forecasts": [
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.GBP_CHF.probabilistic_state_space.6385d151ff08a908",
+              "family": "probabilistic_state_space",
+              "instrument": "GBP_CHF",
+              "issued_epoch": 1788801501.2025526,
+              "predicted_return_bps": 0.5202390946872196,
+              "probability_up": 0.5819577138885587,
+              "reference_epoch": 1788801492.918989,
+              "reference_mid": "1.09597",
+              "side": 1,
+              "target_epoch": 1788805092.918989
+            },
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.GBP_CHF.ridge_return_repaired.6385d151ff08a908",
+              "family": "ridge_return_repaired",
+              "instrument": "GBP_CHF",
+              "issued_epoch": 1788801501.2025526,
+              "predicted_return_bps": 3.0197464993168177,
+              "probability_up": 0.8194384505745476,
+              "reference_epoch": 1788801492.918989,
+              "reference_mid": "1.09597",
+              "side": 1,
+              "target_epoch": 1788805092.918989
+            }
+          ],
+          "horizon_sec": 3600,
+          "instrument": "GBP_CHF",
+          "publication_epoch": 1788801501.219507,
+          "publication_verified": true,
+          "publication_verified_epoch": 1788801523.3631165,
+          "reference_available_epoch": 1788801494.2018003,
+          "target_epoch": 1788805092.918989,
+          "status": "in_progress"
+        },
+        "current_common_bars": 815,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801500.9696677
+      },
+      {
+        "instrument": "GBP_HKD",
+        "status": "warming",
+        "reason": "GBP_HKD:ValueError:current_common_warmup:8<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 8/61",
+        "observed_epoch": 1788801523.3651109,
+        "latest_published_forecast": null,
+        "current_common_bars": 8,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801501.236462
+      },
+      {
+        "instrument": "GBP_JPY",
+        "status": "forecast",
+        "reason": "forecast",
+        "reason_label": "Two H1 model estimates",
+        "observed_epoch": 1788801523.394298,
+        "latest_published_forecast": {
+          "decision_id": "cd82d2da2db91e45979d9bcf25a71bd15f1696bf53d25e4b4975496d9bb63f3b",
+          "forecast_sha256": "11bbef5080c4942ebb8ca281cee022e19e4f377ce68b7f8c256f27d9b4088fe4",
+          "forecasts": [
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.GBP_JPY.probabilistic_state_space.9bcfa488542e904d",
+              "family": "probabilistic_state_space",
+              "instrument": "GBP_JPY",
+              "issued_epoch": 1788801501.6708095,
+              "predicted_return_bps": -4.107517738591276,
+              "probability_up": 0.17936683749768761,
+              "reference_epoch": 1788801499.318795,
+              "reference_mid": "209.0125",
+              "side": -1,
+              "target_epoch": 1788805099.318795
+            },
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.GBP_JPY.ridge_return_repaired.9bcfa488542e904d",
+              "family": "ridge_return_repaired",
+              "instrument": "GBP_JPY",
+              "issued_epoch": 1788801501.6708095,
+              "predicted_return_bps": -7.2851098510953785,
+              "probability_up": 0.3519058345575922,
+              "reference_epoch": 1788801499.318795,
+              "reference_mid": "209.0125",
+              "side": -1,
+              "target_epoch": 1788805099.318795
+            }
+          ],
+          "horizon_sec": 3600,
+          "instrument": "GBP_JPY",
+          "publication_epoch": 1788801501.6937482,
+          "publication_verified": true,
+          "publication_verified_epoch": 1788801523.3870776,
+          "reference_available_epoch": 1788801500.6629794,
+          "target_epoch": 1788805099.318795,
+          "status": "in_progress"
+        },
+        "current_common_bars": 1024,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801501.4404292
+      },
+      {
+        "instrument": "GBP_NZD",
+        "status": "warming",
+        "reason": "GBP_NZD:ValueError:current_common_warmup:7<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 7/61",
+        "observed_epoch": 1788801523.3982978,
+        "latest_published_forecast": null,
+        "current_common_bars": 7,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801501.709706
+      },
+      {
+        "instrument": "GBP_PLN",
+        "status": "warming",
+        "reason": "GBP_PLN:ValueError:current_common_warmup:21<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 21/61",
+        "observed_epoch": 1788801523.3982978,
+        "latest_published_forecast": null,
+        "current_common_bars": 21,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801501.913667
+      },
+      {
+        "instrument": "GBP_SGD",
+        "status": "warming",
+        "reason": "GBP_SGD:ValueError:current_common_warmup:9<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 9/61",
+        "observed_epoch": 1788801523.402299,
+        "latest_published_forecast": null,
+        "current_common_bars": 9,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801502.1176343
+      },
+      {
+        "instrument": "GBP_USD",
+        "status": "forecast",
+        "reason": "forecast",
+        "reason_label": "Two H1 model estimates",
+        "observed_epoch": 1788801523.402299,
+        "latest_published_forecast": {
+          "decision_id": "dc89f99df24d12429abdb83e021652c4e0e12ae643402f13e677ae910b7d0a8e",
+          "forecast_sha256": "8554c3133f0421d2b143ad7f77627ba773cf462f1a1d1b2eb388fe99b16bc2db",
+          "forecasts": [
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.GBP_USD.probabilistic_state_space.7c064817d58b0f51",
+              "family": "probabilistic_state_space",
+              "instrument": "GBP_USD",
+              "issued_epoch": 1788801502.5529876,
+              "predicted_return_bps": -1.522944799620386,
+              "probability_up": 0.2542675050398546,
+              "reference_epoch": 1788801491.978915,
+              "reference_mid": "1.354365",
+              "side": -1,
+              "target_epoch": 1788805091.978915
+            },
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.GBP_USD.ridge_return_repaired.7c064817d58b0f51",
+              "family": "ridge_return_repaired",
+              "instrument": "GBP_USD",
+              "issued_epoch": 1788801502.5529876,
+              "predicted_return_bps": 4.091753258771178,
+              "probability_up": 0.8682767578579811,
+              "reference_epoch": 1788801491.978915,
+              "reference_mid": "1.354365",
+              "side": 1,
+              "target_epoch": 1788805091.978915
+            }
+          ],
+          "horizon_sec": 3600,
+          "instrument": "GBP_USD",
+          "publication_epoch": 1788801502.57094,
+          "publication_verified": true,
+          "publication_verified_epoch": 1788801523.402299,
+          "reference_available_epoch": 1788801494.2047937,
+          "target_epoch": 1788805091.978915,
+          "status": "in_progress"
+        },
+        "current_common_bars": 1024,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801502.322098
+      },
+      {
+        "instrument": "GBP_ZAR",
+        "status": "warming",
+        "reason": "GBP_ZAR:ValueError:current_common_warmup:24<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 24/61",
+        "observed_epoch": 1788801523.406884,
+        "latest_published_forecast": null,
+        "current_common_bars": 24,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801502.5933897
+      },
+      {
+        "instrument": "HKD_JPY",
+        "status": "forecast",
+        "reason": "forecast",
+        "reason_label": "Two H1 model estimates",
+        "observed_epoch": 1788801523.406884,
+        "latest_published_forecast": {
+          "decision_id": "3e3a79087f0f1ccec67c29eb422507ccdecb2cd0b9e4b97076e4fa8b68768302",
+          "forecast_sha256": "cb63a57545fb3ba6fce41c7e20e97f14beb1cae8d8a170723142c1b0e86a2d1f",
+          "forecasts": [
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.HKD_JPY.probabilistic_state_space.8428d344a9850ef5",
+              "family": "probabilistic_state_space",
+              "instrument": "HKD_JPY",
+              "issued_epoch": 1788801503.3200336,
+              "predicted_return_bps": -2.7492350299719104,
+              "probability_up": 0.31007697420313357,
+              "reference_epoch": 1788801498.302745,
+              "reference_mid": "19.68456",
+              "side": -1,
+              "target_epoch": 1788805098.302745
+            },
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.HKD_JPY.ridge_return_repaired.8428d344a9850ef5",
+              "family": "ridge_return_repaired",
+              "instrument": "HKD_JPY",
+              "issued_epoch": 1788801503.3200336,
+              "predicted_return_bps": -12.419126572851923,
+              "probability_up": 0.28423205775161087,
+              "reference_epoch": 1788801498.302745,
+              "reference_mid": "19.68456",
+              "side": -1,
+              "target_epoch": 1788805098.302745
+            }
+          ],
+          "horizon_sec": 3600,
+          "instrument": "HKD_JPY",
+          "publication_epoch": 1788801503.3419757,
+          "publication_verified": true,
+          "publication_verified_epoch": 1788801523.406884,
+          "reference_available_epoch": 1788801500.6649747,
+          "target_epoch": 1788805098.302745,
+          "status": "in_progress"
+        },
+        "current_common_bars": 1024,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801503.0816236
+      },
+      {
+        "instrument": "NZD_CAD",
+        "status": "warming",
+        "reason": "NZD_CAD:ValueError:current_common_warmup:21<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 21/61",
+        "observed_epoch": 1788801523.4114707,
+        "latest_published_forecast": null,
+        "current_common_bars": 21,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801503.354941
+      },
+      {
+        "instrument": "NZD_CHF",
+        "status": "warming",
+        "reason": "NZD_CHF:ValueError:current_common_warmup:4<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 4/61",
+        "observed_epoch": 1788801523.4124892,
+        "latest_published_forecast": null,
+        "current_common_bars": 4,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801503.5594845
+      },
+      {
+        "instrument": "NZD_HKD",
+        "status": "warming",
+        "reason": "NZD_HKD:ValueError:current_common_warmup:1<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 1/61",
+        "observed_epoch": 1788801523.4124892,
+        "latest_published_forecast": null,
+        "current_common_bars": 1,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801503.763446
+      },
+      {
+        "instrument": "NZD_JPY",
+        "status": "warming",
+        "reason": "NZD_JPY:ValueError:current_common_warmup:23<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 23/61",
+        "observed_epoch": 1788801523.4124892,
+        "latest_published_forecast": null,
+        "current_common_bars": 23,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801503.9678993
+      },
+      {
+        "instrument": "NZD_SGD",
+        "status": "warming",
+        "reason": "NZD_SGD:ValueError:current_common_warmup:5<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 5/61",
+        "observed_epoch": 1788801523.4164796,
+        "latest_published_forecast": null,
+        "current_common_bars": 5,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801504.1718798
+      },
+      {
+        "instrument": "NZD_USD",
+        "status": "warming",
+        "reason": "NZD_USD:ValueError:current_common_warmup:1<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 1/61",
+        "observed_epoch": 1788801523.4164796,
+        "latest_published_forecast": null,
+        "current_common_bars": 1,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801504.3773308
+      },
+      {
+        "instrument": "SGD_CHF",
+        "status": "warming",
+        "reason": "SGD_CHF:ValueError:current_common_warmup:1<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 1/61",
+        "observed_epoch": 1788801523.4204807,
+        "latest_published_forecast": null,
+        "current_common_bars": 1,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801504.5817842
+      },
+      {
+        "instrument": "SGD_JPY",
+        "status": "warming",
+        "reason": "SGD_JPY:ValueError:current_common_warmup:1<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 1/61",
+        "observed_epoch": 1788801523.4204807,
+        "latest_published_forecast": null,
+        "current_common_bars": 1,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801504.7852545
+      },
+      {
+        "instrument": "TRY_JPY",
+        "status": "unavailable",
+        "reason": "ValueError:market_closed_or_no_stream_quote",
+        "reason_label": "No fresh quote",
+        "observed_epoch": 1788801523.4204807,
+        "latest_published_forecast": null,
+        "current_common_bars": null,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": null
+      },
+      {
+        "instrument": "USD_CAD",
+        "status": "warming",
+        "reason": "USD_CAD:ValueError:current_common_warmup:23<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 23/61",
+        "observed_epoch": 1788801523.4244802,
+        "latest_published_forecast": null,
+        "current_common_bars": 23,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801505.2780004
+      },
+      {
+        "instrument": "USD_CHF",
+        "status": "warming",
+        "reason": "USD_CHF:ValueError:current_common_warmup:25<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 25/61",
+        "observed_epoch": 1788801523.4244802,
+        "latest_published_forecast": null,
+        "current_common_bars": 25,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801505.4819624
+      },
+      {
+        "instrument": "USD_CNH",
+        "status": "warming",
+        "reason": "USD_CNH:ValueError:current_common_warmup:9<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 9/61",
+        "observed_epoch": 1788801523.4244802,
+        "latest_published_forecast": null,
+        "current_common_bars": 9,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801505.6854377
+      },
+      {
+        "instrument": "USD_CZK",
+        "status": "forecast",
+        "reason": "forecast",
+        "reason_label": "Two H1 model estimates",
+        "observed_epoch": 1788801523.4284785,
+        "latest_published_forecast": {
+          "decision_id": "81fc361631c5c4c7d1c4d6a2c9321af5fa3dd8c886af8e06168a362dfd79d3dc",
+          "forecast_sha256": "7ffde45bf5a368beaeb17103a16dde7b7b9fcc4548dd238422b757ae61c572e0",
+          "forecasts": [
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.USD_CZK.probabilistic_state_space.f53d925949afc5c9",
+              "family": "probabilistic_state_space",
+              "instrument": "USD_CZK",
+              "issued_epoch": 1788801506.1198008,
+              "predicted_return_bps": 3.1865074302062055,
+              "probability_up": 0.9058271582755115,
+              "reference_epoch": 1788801486.276089,
+              "reference_mid": "20.8104",
+              "side": 1,
+              "target_epoch": 1788805086.276089
+            },
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.USD_CZK.ridge_return_repaired.f53d925949afc5c9",
+              "family": "ridge_return_repaired",
+              "instrument": "USD_CZK",
+              "issued_epoch": 1788801506.1198008,
+              "predicted_return_bps": -0.20210104786243555,
+              "probability_up": 0.4822810635366426,
+              "reference_epoch": 1788801486.276089,
+              "reference_mid": "20.8104",
+              "side": -1,
+              "target_epoch": 1788805086.276089
+            }
+          ],
+          "horizon_sec": 3600,
+          "instrument": "USD_CZK",
+          "publication_epoch": 1788801506.1407452,
+          "publication_verified": true,
+          "publication_verified_epoch": 1788801523.4284785,
+          "reference_available_epoch": 1788801492.2364633,
+          "target_epoch": 1788805086.276089,
+          "status": "in_progress"
+        },
+        "current_common_bars": 716,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801505.8894012
+      },
+      {
+        "instrument": "USD_DKK",
+        "status": "warming",
+        "reason": "USD_DKK:ValueError:current_common_warmup:28<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 28/61",
+        "observed_epoch": 1788801523.4284785,
+        "latest_published_forecast": null,
+        "current_common_bars": 28,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801506.1547062
+      },
+      {
+        "instrument": "USD_HKD",
+        "status": "unavailable",
+        "reason": "ValueError:no_fresh_quote",
+        "reason_label": "No fresh quote",
+        "observed_epoch": 1788801523.4324791,
+        "latest_published_forecast": null,
+        "current_common_bars": null,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": null
+      },
+      {
+        "instrument": "USD_HUF",
+        "status": "forecast",
+        "reason": "forecast",
+        "reason_label": "Two H1 model estimates",
+        "observed_epoch": 1788801523.4324791,
+        "latest_published_forecast": {
+          "decision_id": "90eca2f84971b8d5d8e373b43fb6fcc6841ebbd825bace05d1f5216dbb9b1b9a",
+          "forecast_sha256": "c3dbdbc10941ad796ee4a2a120ca4d913a3fed000814ee02fa674651a2d72af7",
+          "forecasts": [
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.USD_HUF.probabilistic_state_space.e6375681567eb860",
+              "family": "probabilistic_state_space",
+              "instrument": "USD_HUF",
+              "issued_epoch": 1788801506.589067,
+              "predicted_return_bps": -0.6266233811581654,
+              "probability_up": 0.44083423119120757,
+              "reference_epoch": 1788801503.376703,
+              "reference_mid": "312.822",
+              "side": -1,
+              "target_epoch": 1788805103.376703
+            },
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.USD_HUF.ridge_return_repaired.e6375681567eb860",
+              "family": "ridge_return_repaired",
+              "instrument": "USD_HUF",
+              "issued_epoch": 1788801506.589067,
+              "predicted_return_bps": 3.28341238447308,
+              "probability_up": 0.6054671697352587,
+              "reference_epoch": 1788801503.376703,
+              "reference_mid": "312.822",
+              "side": 1,
+              "target_epoch": 1788805103.376703
+            }
+          ],
+          "horizon_sec": 3600,
+          "instrument": "USD_HUF",
+          "publication_epoch": 1788801506.6100085,
+          "publication_verified": true,
+          "publication_verified_epoch": 1788801523.4324791,
+          "reference_available_epoch": 1788801505.0141962,
+          "target_epoch": 1788805103.376703,
+          "status": "in_progress"
+        },
+        "current_common_bars": 772,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801506.3601701
+      },
+      {
+        "instrument": "USD_JPY",
+        "status": "warming",
+        "reason": "USD_JPY:ValueError:current_common_warmup:31<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 31/61",
+        "observed_epoch": 1788801523.4364786,
+        "latest_published_forecast": null,
+        "current_common_bars": 31,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801506.6249692
+      },
+      {
+        "instrument": "USD_MXN",
+        "status": "forecast",
+        "reason": "forecast",
+        "reason_label": "Two H1 model estimates",
+        "observed_epoch": 1788801523.4403281,
+        "latest_published_forecast": {
+          "decision_id": "ccae0ec711ca95105910fa7b3eb952bb41865e6fbf93667b5fadc23da0bd1172",
+          "forecast_sha256": "85f52978c405f334f080950ac6691b3ac0f0b6f052fcb39c8c23253f8c8840f6",
+          "forecasts": [
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.USD_MXN.probabilistic_state_space.a6c08bd32144ca02",
+              "family": "probabilistic_state_space",
+              "instrument": "USD_MXN",
+              "issued_epoch": 1788801507.3156662,
+              "predicted_return_bps": -2.21393805253101,
+              "probability_up": 0.2726530273448501,
+              "reference_epoch": 1788801501.737196,
+              "reference_mid": "16.927075",
+              "side": -1,
+              "target_epoch": 1788805101.737196
+            },
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.USD_MXN.ridge_return_repaired.a6c08bd32144ca02",
+              "family": "ridge_return_repaired",
+              "instrument": "USD_MXN",
+              "issued_epoch": 1788801507.3156662,
+              "predicted_return_bps": 0.7645157951154558,
+              "probability_up": 0.6040036565125627,
+              "reference_epoch": 1788801501.737196,
+              "reference_mid": "16.927075",
+              "side": 1,
+              "target_epoch": 1788805101.737196
+            }
+          ],
+          "horizon_sec": 3600,
+          "instrument": "USD_MXN",
+          "publication_epoch": 1788801507.3435905,
+          "publication_verified": true,
+          "publication_verified_epoch": 1788801523.4364786,
+          "reference_available_epoch": 1788801505.0151937,
+          "target_epoch": 1788805101.737196,
+          "status": "in_progress"
+        },
+        "current_common_bars": 1024,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801506.828443
+      },
+      {
+        "instrument": "USD_NOK",
+        "status": "warming",
+        "reason": "USD_NOK:ValueError:current_common_warmup:20<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 20/61",
+        "observed_epoch": 1788801523.4403281,
+        "latest_published_forecast": null,
+        "current_common_bars": 20,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801507.3615425
+      },
+      {
+        "instrument": "USD_PLN",
+        "status": "warming",
+        "reason": "USD_PLN:ValueError:current_common_warmup:21<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 21/61",
+        "observed_epoch": 1788801523.44433,
+        "latest_published_forecast": null,
+        "current_common_bars": 21,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801507.5650146
+      },
+      {
+        "instrument": "USD_SEK",
+        "status": "forecast",
+        "reason": "forecast",
+        "reason_label": "Two H1 model estimates",
+        "observed_epoch": 1788801523.449138,
+        "latest_published_forecast": {
+          "decision_id": "3e43430dcf027b6711c0e8657aa07ab0913b8529030e68f9d454d503f9570f53",
+          "forecast_sha256": "ea8f407194ee76aac61b7f7c0d40f94ba38ba77000c3d26003579f8323f17c32",
+          "forecasts": [
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.USD_SEK.probabilistic_state_space.42534088853226be",
+              "family": "probabilistic_state_space",
+              "instrument": "USD_SEK",
+              "issued_epoch": 1788801507.9983785,
+              "predicted_return_bps": 1.0991754737613808,
+              "probability_up": 0.5958878745711408,
+              "reference_epoch": 1788801504.602246,
+              "reference_mid": "9.59035",
+              "side": 1,
+              "target_epoch": 1788805104.602246
+            },
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.USD_SEK.ridge_return_repaired.42534088853226be",
+              "family": "ridge_return_repaired",
+              "instrument": "USD_SEK",
+              "issued_epoch": 1788801507.9983785,
+              "predicted_return_bps": 0.02272620560441404,
+              "probability_up": 0.5013099916431918,
+              "reference_epoch": 1788801504.602246,
+              "reference_mid": "9.59035",
+              "side": 1,
+              "target_epoch": 1788805104.602246
+            }
+          ],
+          "horizon_sec": 3600,
+          "instrument": "USD_SEK",
+          "publication_epoch": 1788801508.0163288,
+          "publication_verified": true,
+          "publication_verified_epoch": 1788801523.448715,
+          "reference_available_epoch": 1788801507.0564513,
+          "target_epoch": 1788805104.602246,
+          "status": "in_progress"
+        },
+        "current_common_bars": 1024,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801507.7694683
+      },
+      {
+        "instrument": "USD_SGD",
+        "status": "warming",
+        "reason": "USD_SGD:ValueError:current_common_warmup:20<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 20/61",
+        "observed_epoch": 1788801523.4501355,
+        "latest_published_forecast": null,
+        "current_common_bars": 20,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801508.0312896
+      },
+      {
+        "instrument": "USD_THB",
+        "status": "warming",
+        "reason": "USD_THB:ValueError:current_common_warmup:2<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 2/61",
+        "observed_epoch": 1788801523.452131,
+        "latest_published_forecast": null,
+        "current_common_bars": 2,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801508.3489451
+      },
+      {
+        "instrument": "USD_TRY",
+        "status": "unavailable",
+        "reason": "ValueError:market_closed_or_no_stream_quote",
+        "reason_label": "No fresh quote",
+        "observed_epoch": 1788801523.4541254,
+        "latest_published_forecast": null,
+        "current_common_bars": null,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": null
+      },
+      {
+        "instrument": "USD_ZAR",
+        "status": "forecast",
+        "reason": "forecast",
+        "reason_label": "Two H1 model estimates",
+        "observed_epoch": 1788801523.4581149,
+        "latest_published_forecast": {
+          "decision_id": "9cb35efe598f8424d5699edd1a2df337bb8493cf29e192d0bb1d72e2dde53363",
+          "forecast_sha256": "383a58ea399de35a06d59b9f40f8e2489ee44e36c201f44fff2649a01eb5b2a0",
+          "forecasts": [
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.USD_ZAR.probabilistic_state_space.b5332a1bf2a89f2d",
+              "family": "probabilistic_state_space",
+              "instrument": "USD_ZAR",
+              "issued_epoch": 1788801508.7922688,
+              "predicted_return_bps": 3.6875254508855173,
+              "probability_up": 0.903112430475287,
+              "reference_epoch": 1788801505.142164,
+              "reference_mid": "15.99763",
+              "side": 1,
+              "target_epoch": 1788805105.142164
+            },
+            {
+              "cohort_id": "causal_pair_local_v1_20260907.USD_ZAR.ridge_return_repaired.b5332a1bf2a89f2d",
+              "family": "ridge_return_repaired",
+              "instrument": "USD_ZAR",
+              "issued_epoch": 1788801508.7922688,
+              "predicted_return_bps": -4.489734441740016,
+              "probability_up": 0.19416347714644167,
+              "reference_epoch": 1788801505.142164,
+              "reference_mid": "15.99763",
+              "side": -1,
+              "target_epoch": 1788805105.142164
+            }
+          ],
+          "horizon_sec": 3600,
+          "instrument": "USD_ZAR",
+          "publication_epoch": 1788801508.8201914,
+          "publication_verified": true,
+          "publication_verified_epoch": 1788801523.4561205,
+          "reference_available_epoch": 1788801507.0583372,
+          "target_epoch": 1788805105.142164,
+          "status": "in_progress"
+        },
+        "current_common_bars": 106,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801508.5524025
+      },
+      {
+        "instrument": "ZAR_JPY",
+        "status": "warming",
+        "reason": "ZAR_JPY:ValueError:current_common_warmup:1<61",
+        "reason_label": "Needs 61 own minute bars \u00b7 last attempt 1/61",
+        "observed_epoch": 1788801523.4601097,
+        "latest_published_forecast": null,
+        "current_common_bars": 1,
+        "required_current_common_bars": 61,
+        "last_attempt_epoch": 1788801508.8391414
+      }
+    ],
+    "counts": {
+      "warming": 43,
+      "forecast": 20,
+      "unavailable": 5
+    },
+    "research_only": true,
+    "can_place_orders": false,
+    "can_promote": false,
+    "probability_scope": "uncalibrated_model_estimate_not_verified_accuracy",
+    "registry_sha256": "e0aa74fa5d20b7be983050625773834ea68d74ffc15b566ab5e03df9b3380d65",
+    "summary_sha256": "11245337b970b4e045ece2de28f8e7df6356a1ea6c7273b88a23d719707cf337",
+    "summary_age_sec": 13.727985858917236
+  },
+  "published_pairs": 20,
+  "published_sets": 20,
+  "outcomes": 0,
+  "preserved_studies": {
+    "causal_forecast_study_v1_io_r2_20260906.json": {
+      "contract_sha256": "bc99e68db720e0a43b3ec68a7820b3605013d0c2138515f23e648f5b34fadc2a",
+      "source_bindings_unchanged": true
+    },
+    "causal_forecast_study_gap_v2_20260907.json": {
+      "contract_sha256": "a721093ce7e3497aad69d460b07935d46a04b03530125e7f70eb44489fe45f40",
+      "source_bindings_unchanged": true
+    },
+    "causal_forecast_study_eurusd_v1_20260907.json": {
+      "contract_sha256": "515c81be37a8828da1fd89edcbee33083ac1f6cae1b2e13bdb5338961058afe0",
+      "source_bindings_unchanged": true
+    }
+  },
+  "original_h1_publication_input_and_entry_checks": "passed",
+  "can_place_orders": false,
+  "prediction_improvement_demonstrated": false
+}

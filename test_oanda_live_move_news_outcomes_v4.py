@@ -173,6 +173,50 @@ def test_v4r3_rejects_rejected_v7r2_lineage(tmp_path: Path) -> None:
         )
 
 
+def test_v4r3_never_publishes_the_incomplete_base_payload(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    database = tmp_path / "cases_v7r3.sqlite"
+    _fragmented_then_bridged_database(database)
+    canonical_output = tmp_path / "live_move_news_outcomes_v4r3.json"
+    canonical_report = tmp_path / "LIVE_MOVE_NEWS_OUTCOMES_CURRENT_V4R3.md"
+    base_publish_paths: list[Path] = []
+
+    def staged_base_run(**kwargs: object) -> dict[str, object]:
+        stage_output = Path(kwargs["output"])
+        stage_report = Path(kwargs["report"])
+        base_publish_paths.extend((stage_output, stage_report))
+        assert stage_output != canonical_output
+        assert stage_report != canonical_report
+        base.atomic_json(stage_output, {"intermediate_base_payload": True})
+        base.atomic_text(stage_report, "intermediate base report")
+        return {
+            "generated_utc": "2026-08-27T09:00:00+00:00",
+            "contract_id": outcomes_v4.CONTRACT_ID,
+            "case_contract_id": outcomes_v4.CASE_CONTRACT_ID,
+            "case_count": 2,
+            "retained_outcome_count": 0,
+            "sqlite_integrity": "ok",
+            "supported_decision": "collect_forward_outcomes",
+        }
+
+    monkeypatch.setattr(base, "run", staged_base_run)
+    monkeypatch.setattr(outcomes_v4, "summarize_canonical", lambda connection: [])
+    payload = outcomes_v4.run(
+        database=database,
+        candle_root=tmp_path / "candles",
+        output=canonical_output,
+        report=canonical_report,
+    )
+
+    published = json.loads(canonical_output.read_text(encoding="utf-8"))
+    assert published == payload
+    assert published["schema_version"] == 4
+    assert published["upstream_integrity"]["ok"] is True
+    assert "intermediate_base_payload" not in published
+    assert all(not path.exists() for path in base_publish_paths)
+
+
 def test_v7r3_and_v6r2_maturation_economics_are_equal() -> None:
     case = {
         "case_id": "economic-case",

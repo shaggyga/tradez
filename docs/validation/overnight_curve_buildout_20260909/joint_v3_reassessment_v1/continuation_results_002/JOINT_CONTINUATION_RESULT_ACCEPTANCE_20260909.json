@@ -1,0 +1,85 @@
+{
+  "assessor_sha256": "bad4ea610f01a19e82ae1e38709775ab306c609e2cdb799e35a5da75c44ea5a2",
+  "broker_requests": 0,
+  "calibration_helper_sha256": "8cc348275b58be2f78e4eadada5664c5b723650b59fc8298c8745c6a4b107b1d",
+  "created_epoch": 1788957151.3996556,
+  "cumulative_rows": {
+    "common_row_identity_comparison_sha256": "df5e0ced3baab33e5136fa0271054f5b2ac5a050da635f8bb4b8618c273f958d",
+    "comparison_external_bytes_read": 49598883,
+    "current_completed_count": 2907,
+    "earlier_completed_count": 2182,
+    "earlier_completed_missing_count": 0,
+    "newly_completed_count": 725,
+    "scope": "Compared every original scored-row JSON value, not re-evaluated endpoints; this is one cumulative cohort and repeated rows must not be summed as new trials.",
+    "shared_completed_count": 2182,
+    "shared_rows_with_any_semantic_byte_change": 0
+  },
+  "independent_sample_size": null,
+  "model_fits": 0,
+  "original_report": {
+    "bytes": 35703,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_002\\V3_COMPLETED_PERFORMANCE_20260909.json",
+    "sha256": "119164bcf43eadbb841b821a9479a51c5305b43a8121477a3016c47d2750c77e"
+  },
+  "original_source_closure": {
+    "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\run_joint_reassessment_v1.py": "f41c3a0804c087256734b3cd72cc1d3bc23a2d969ed15eac758ea4131ef7342b",
+    "C:\\Users\\zmoor\\Documents\\forex\\program_assessment_20260909T0316Z\\performance\\assess_v3.py": "bad4ea610f01a19e82ae1e38709775ab306c609e2cdb799e35a5da75c44ea5a2",
+    "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\evaluate_frozen_baseline.py": "186e9000e2af2360e23bbdb752fb83bd26df61ca7c387899a880adae2739b7f1",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\joint_price_news_study_v3_20260908.json": "ee075e69e80ca56dfdf45abe1f7a1a301612176e67f7622eab1adf2bd9af8771",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_causal_forecast_inputs.py": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_causal_forecast_inputs_gap_v2.py": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_causal_forecast_inputs_joint_news_v2.py": "ade4fc5eb2aea195d7609964d7b8979ca433a28028e059c65adc1b1b404a277c",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_causal_forecast_inputs_pair_v2.py": "8e58491a49fca967e6d8d2a797cc77f142053576c92a724a2e7336d855fb4899",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_causal_forecast_ledger_joint_news_v2.py": "17782392f8e3994ff83620109141770b1f1f8182d863444ed4aaa6067bf4ef72",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_causal_prediction_baselines.py": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_exact_price_scoring.py": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_fixed_forecast_evaluation_joint_news_v1.py": "c1f9940d57c0d39c1815b22a9114752075042a09da3e196e84829e77b293131d",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_joint_price_news_forecast_study_v3.py": "5dfc29c29fbb61daef4f9f9d5c50f8c029a4d9ed57438288839176e6b55a7f80",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_joint_price_news_models_v1.py": "eb153acb966dc04ad950a0bbfcc730e78a9a0da1d8a24e91d641f473f5cfbc23",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_local_news_sentiment.py": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_local_news_sentiment_repair_v1.py": "c2fbad7c290ce1edaa977e99988ab563a2afc6571dc456271e45bde3ca7b2b6b",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_news_causal_aggregation_guard_v1.py": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_news_classification_contract.py": "f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_news_collector_contract.py": "41c30599a953d0fd967bc68c5f178d46fc21dd2382ac9fdca78bc3c64ac9f68f",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_news_event_tagger.py": "3657872fa84a6f081903307df7209350fed4f713d866735b9387ce375a5e4f3f",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_news_topic_identity_reconciliation_v1.py": "d34b0c72693497e9be6eadc86bd17f0a2c1c1b79ecf010928faf88a5033a7884",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_pair_local_models_v2.py": "294c63bf0ed873395c4850a8722a2622eaa2bc563ceb7ecf9886764c63d8bf24",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_source_governance.py": "c4b7793dcef1b9176079a959019f8b69059fbd6644fddf1e8718f924d3a13950",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_source_governance_news_fast_lane.py": "bdd6a2542b3dbddbdf86f7148af4dcb38d0b8591b3f3fcdb843d9eed29898f03"
+  },
+  "original_wrapper": {
+    "bytes": 27409,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_002\\WRAPPER_COMPLETED.json",
+    "sha256": "08a18354f19004a0f3d3a1388e0397f3fbb02d14d76b7f82fcf7d2920004f1b2"
+  },
+  "prior_calibration_validation": {
+    "bytes": 7735,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\calibration_v1\\JOINT_PROBABILITY_BINS_IMPLEMENTATION_VALIDATION_20260909.json",
+    "sha256": "944519bd9576c779cdbeac784d04ee8b7907e87ffc84eb357e5ad96b28ead14d"
+  },
+  "prior_cancellation": {
+    "bytes": 1639,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\PLANNED_1215_ASSESSMENT_CANCELLED_20260909.json",
+    "sha256": "77b7702bf7f30ff6e9bc31804f90fd48b665d7aebfe71b24fb9d8e5eaacc933d"
+  },
+  "probability_application": {
+    "bytes": 473379,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\calibration_v1\\actual_calibration_003\\JOINT_PROBABILITY_BINS_20260909.json",
+    "sha256": "01242a311feadb300ecfd1d60aae32891a6e82ed65693610b00cdd1660d9d4ab"
+  },
+  "runtime_changes": false,
+  "schema_version": "joint_continuation_result_acceptance_v1_20260909",
+  "status": "passed",
+  "summary": {
+    "bytes": 51858,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\continuation_results_002\\JOINT_CONTINUATION_COMPLETE_RESULTS_20260909.json",
+    "sha256": "9e5860c41cce9c37daa94a55ee8b87927a823c52b0429cf11fc30efb43376c07"
+  },
+  "summary_markdown": {
+    "bytes": 3717,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\continuation_results_002\\JOINT_CONTINUATION_COMPLETE_RESULTS_20260909.md",
+    "sha256": "51d3108265705ce76d45bf978e9eeb67a4baa3f5e5c2150f702026737874b560"
+  },
+  "tests_rerun": false,
+  "wrapper_sha256": "f41c3a0804c087256734b3cd72cc1d3bc23a2d969ed15eac758ea4131ef7342b"
+}

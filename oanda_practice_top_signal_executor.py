@@ -539,6 +539,7 @@ class GovernedCanaryAuthorizer:
                     "maximum_units": maximum_units,
                     "maximum_notional": maximum_notional,
                     "maximum_total_exposure": maximum_total_exposure,
+                    "_authorization_payload_signature": expected_signature,
                 }
             )
             break
@@ -571,7 +572,10 @@ class GovernedCanaryAuthorizer:
             ),
             "authorized_entry_count": len(entries),
             "state_reason": error or str(payload.get("reason") or ""),
-            "last_decision": dict(self.last_decision),
+            "last_decision": {
+                key: value for key, value in self.last_decision.items()
+                if not key.startswith("_")
+            },
         }
 
 
@@ -654,10 +658,17 @@ class GovernedPracticeExecutor(lab.PracticeExecutor):
         current_total = 0.0
         for trade in trades:
             instrument = str(trade.get("instrument") or "")
-            units = abs(lab.safe_float(trade.get("currentUnits")))
-            price = lab.safe_float(trade.get("price"))
-            if units > 0.0 and price > 0.0:
-                current_total += units * price * self.quote_to_account_rate(instrument, price)
+            units = abs(lab.safe_float(trade.get("currentUnits"), math.nan))
+            price = lab.safe_float(trade.get("price"), math.nan)
+            if not math.isfinite(units) or (units > 0.0 and (not math.isfinite(price) or price <= 0.0)):
+                return "governed_canary_existing_exposure_invalid"
+            if units > 0.0:
+                conversion = self.quote_to_account_rate(instrument, price)
+                if conversion is None or not math.isfinite(conversion) or conversion <= 0.0:
+                    return "governed_canary_existing_conversion_unavailable"
+                current_total += units * price * conversion
+        if not math.isfinite(current_total):
+            return "governed_canary_existing_exposure_invalid"
         candidate["_governed_current_total_exposure"] = current_total
         if maximum_total <= 0.0 or current_total >= maximum_total:
             return "governed_canary_total_exposure_limit"
@@ -665,6 +676,8 @@ class GovernedPracticeExecutor(lab.PracticeExecutor):
 
     def dynamic_sizing(self, candidate: dict[str, Any], summary: dict[str, Any]) -> tuple[int, dict[str, float]]:
         units, sizing = super().dynamic_sizing(candidate, summary)
+        if units <= 0:
+            return units, sizing
         authorization = candidate.get("_governed_canary_authorization") or {}
         maximum_units = int(lab.safe_float(authorization.get("maximum_units"), 0.0))
         maximum_notional = lab.safe_float(authorization.get("maximum_notional"), 0.0)
@@ -672,12 +685,15 @@ class GovernedPracticeExecutor(lab.PracticeExecutor):
         current_total = lab.safe_float(candidate.get("_governed_current_total_exposure"), 0.0)
         instrument = str(candidate.get("instrument") or "")
         mid = (lab.safe_float(candidate.get("bid")) + lab.safe_float(candidate.get("ask"))) / 2.0
-        conversion = self.quote_to_account_rate(instrument, mid) if mid > 0.0 else 0.0
+        conversion = self.quote_to_account_rate(instrument, mid) if mid > 0.0 else None
+        if conversion is None or not math.isfinite(conversion) or conversion <= 0.0:
+            return 0, {"mode": "blocked", "reason": "governed_canary_conversion_unavailable", "units": 0}
         unit_notional = mid * conversion
+        if not math.isfinite(unit_notional) or unit_notional <= 0.0:
+            return 0, {"mode": "blocked", "reason": "governed_canary_notional_invalid", "units": 0}
         caps = [units, maximum_units]
-        if unit_notional > 0.0:
-            caps.append(int(maximum_notional / unit_notional))
-            caps.append(int(max(0.0, maximum_total-current_total) / unit_notional))
+        caps.append(int(maximum_notional / unit_notional))
+        caps.append(int(max(0.0, maximum_total-current_total) / unit_notional))
         governed_units = max(0, min(caps))
         governed_sizing = dict(sizing)
         governed_sizing.update(
@@ -705,17 +721,6 @@ class GovernedPracticeExecutor(lab.PracticeExecutor):
         quote_epoch = self.canary_authorizer._timestamp_epoch(candidate.get("entry_time"))
         if quote_epoch is None or time.time() - quote_epoch > 15.0 or quote_epoch > time.time() + 60.0:
             return "governed_canary_quote_stale_before_submission"
-        # Force a disk re-read so an edit or revocation after initial
-        # selection cannot hide behind the one-second monitoring cache.
-        self.canary_authorizer._cached_at_monotonic = -math.inf
-        payload, error = self.canary_authorizer._load()
-        if payload is None:
-            return "governed_canary_final_" + error
-        if not self.canary_authorizer.hmac_key:
-            return "governed_canary_final_hmac_key_missing"
-        expected = canary_payload_signature(payload, self.canary_authorizer.hmac_key)
-        if not hmac.compare_digest(str(payload.get("signature_hmac_sha256") or ""), expected):
-            return "governed_canary_final_hmac_invalid"
         lifecycle_ok, lifecycle_reason = self.canary_authorizer._confirmed_lifecycle_state(
             str(decision.get("governed_hypothesis_id") or ""),
             str(decision.get("proof_cohort_id") or ""),
@@ -728,6 +733,31 @@ class GovernedPracticeExecutor(lab.PracticeExecutor):
         )
         if not independent_ok:
             return "governed_canary_final_" + independent_reason
+        # Force a disk re-read so an edit or revocation after initial
+        # selection cannot hide behind the one-second monitoring cache.
+        # Read after proof databases so they cannot delay revocation checks.
+        self.canary_authorizer._cached_at_monotonic = -math.inf
+        payload, error = self.canary_authorizer._load()
+        if payload is None:
+            return "governed_canary_final_" + error
+        if not self.canary_authorizer.hmac_key:
+            return "governed_canary_final_hmac_key_missing"
+        expected = canary_payload_signature(payload, self.canary_authorizer.hmac_key)
+        if not hmac.compare_digest(str(payload.get("signature_hmac_sha256") or ""), expected):
+            return "governed_canary_final_hmac_invalid"
+        if not bool(payload.get("entry_authorized")):
+            return "governed_canary_final_entries_disabled"
+        # Any validly signed replacement requires a new authorization pass;
+        # never reuse a consumed entry after revocation/removal/tightening.
+        if not hmac.compare_digest(
+            str(decision.get("_authorization_payload_signature") or ""), expected
+        ):
+            return "governed_canary_final_authorization_changed"
+        now_epoch = time.time()
+        if now_epoch >= lab.safe_float(decision.get("expires_epoch"), 0.0):
+            return "governed_canary_expired_before_submission"
+        if now_epoch - quote_epoch > 15.0 or quote_epoch > now_epoch + 60.0:
+            return "governed_canary_quote_stale_before_submission"
         if units <= 0 or units > int(lab.safe_float(decision.get("maximum_units"), 0.0)):
             return "governed_canary_final_units_limit"
         return ""
@@ -989,11 +1019,12 @@ def research_quote_payload(
             "source": str(
                 getattr(quote, "source", "") or "fast_executor_rest_poll"
             ),
+            "tradeable": bool(getattr(quote, "tradeable", True)),
         }
         for instrument, quote in usable_price_map(prices).items()
     }
     return {
-        "schema_version": 1,
+        "schema_version": 3,
         "generated_utc": lab.utc_now(),
         "account_suffix": account_id[-4:],
         "producer": "practice_007_fast_executor",

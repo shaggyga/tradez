@@ -1,0 +1,475 @@
+{
+  "classification": "descriptive_inspected_week_comovement_not_predictive_validation",
+  "window_bar_starts_utc": [
+    "2026-08-30T00:00:00+00:00",
+    "2026-09-05T00:00:00+00:00"
+  ],
+  "common_bars": 6904,
+  "pair_order": [
+    "EUR_USD",
+    "GBP_USD",
+    "AUD_USD",
+    "NZD_USD",
+    "USD_JPY",
+    "USD_CHF",
+    "USD_CAD"
+  ],
+  "orientation": "Positive means non-USD currency strengthening versus USD. USD_JPY/USD_CHF/USD_CAD log returns negated.",
+  "source_bindings": [
+    {
+      "pair": "EUR_USD",
+      "path": "data\\oanda_training_manager\\candles\\EUR_USD_M1.csv",
+      "source_sha256": "860d8c569584405b914594553aa7ad45f229ae562f8f4cfe038a5e0c6f2cbf08",
+      "source_bytes": 10850348,
+      "window_rows": 7138,
+      "source_observed_utc": "2026-09-06T15:40:16.400674+00:00"
+    },
+    {
+      "pair": "GBP_USD",
+      "path": "data\\oanda_training_manager\\candles\\GBP_USD_M1.csv",
+      "source_sha256": "1eecafaebc9a84ccb01e9e83dadaeefdac94649f8f6f9055d6c3443b318fc00a",
+      "source_bytes": 10872116,
+      "window_rows": 7169,
+      "source_observed_utc": "2026-09-06T15:40:16.820551+00:00"
+    },
+    {
+      "pair": "AUD_USD",
+      "path": "data\\oanda_training_manager\\candles\\AUD_USD_M1.csv",
+      "source_sha256": "2594a1ef6a844511b5af105db315251e2a1df64d7c57068758235b0c88993545",
+      "source_bytes": 10794096,
+      "window_rows": 7109,
+      "source_observed_utc": "2026-09-06T15:40:17.263367+00:00"
+    },
+    {
+      "pair": "NZD_USD",
+      "path": "data\\oanda_training_manager\\candles\\NZD_USD_M1.csv",
+      "source_sha256": "5485005fbc3e4cb35eda527785690dee93ab4ceac6d327a9c98dca8ad5142994",
+      "source_bytes": 10793007,
+      "window_rows": 7104,
+      "source_observed_utc": "2026-09-06T15:40:17.690227+00:00"
+    },
+    {
+      "pair": "USD_JPY",
+      "path": "data\\oanda_training_manager\\candles\\USD_JPY_M1.csv",
+      "source_sha256": "74bf2e11da3b9765aa09588d4adcdac5b6284fc4aa9dfd5310b65440675f2317",
+      "source_bytes": 10897880,
+      "window_rows": 7166,
+      "source_observed_utc": "2026-09-06T15:40:18.095157+00:00"
+    },
+    {
+      "pair": "USD_CHF",
+      "path": "data\\oanda_training_manager\\candles\\USD_CHF_M1.csv",
+      "source_sha256": "dcc697f49d76d0a8982969748931de7652c2759c1882c27f0bd182f6230de8d5",
+      "source_bytes": 10793683,
+      "window_rows": 7105,
+      "source_observed_utc": "2026-09-06T15:40:18.485115+00:00"
+    },
+    {
+      "pair": "USD_CAD",
+      "path": "data\\oanda_training_manager\\candles\\USD_CAD_M1.csv",
+      "source_sha256": "72743729074f72fc4f1481b6b85665143ae9a43a9503b306b4007154dea5a767",
+      "source_bytes": 10836104,
+      "window_rows": 7131,
+      "source_observed_utc": "2026-09-06T15:40:18.908982+00:00"
+    }
+  ],
+  "captured_candles_sha256": "30ab415c3cf14068567f0260b817a21bceb939d596774479033e9ae0753e0102",
+  "matrices": {
+    "1": {
+      "return_minutes": 1,
+      "utc_anchored_nonoverlapping": false,
+      "n": 6739,
+      "correlation": [
+        [
+          0.9999999999999998,
+          0.8397133869598,
+          0.7474848727805586,
+          0.7005787247053529,
+          0.6151576770957193,
+          0.8217365792356076,
+          0.6897313737336782
+        ],
+        [
+          0.8397133869597998,
+          1.0,
+          0.7262460724903966,
+          0.6734830717067326,
+          0.562610952990697,
+          0.7557577865164161,
+          0.6448585268351569
+        ],
+        [
+          0.7474848727805588,
+          0.7262460724903966,
+          1.0,
+          0.7532014455484264,
+          0.5205306768344186,
+          0.6835654928616434,
+          0.6673213347255089
+        ],
+        [
+          0.7005787247053528,
+          0.6734830717067326,
+          0.7532014455484264,
+          1.0,
+          0.4916012120274288,
+          0.6660809862106831,
+          0.6087552062190993
+        ],
+        [
+          0.6151576770957193,
+          0.5626109529906969,
+          0.5205306768344186,
+          0.4916012120274288,
+          1.0,
+          0.6002273580899505,
+          0.41598942178250936
+        ],
+        [
+          0.8217365792356077,
+          0.7557577865164161,
+          0.6835654928616433,
+          0.6660809862106832,
+          0.6002273580899505,
+          0.9999999999999998,
+          0.6479232894102795
+        ],
+        [
+          0.6897313737336782,
+          0.6448585268351569,
+          0.667321334725509,
+          0.6087552062190993,
+          0.41598942178250936,
+          0.6479232894102795,
+          1.0
+        ]
+      ],
+      "first_principal_component_standardized_variance_share": 0.7118751024194184
+    },
+    "60": {
+      "return_minutes": 60,
+      "utc_anchored_nonoverlapping": true,
+      "n": 87,
+      "correlation": [
+        [
+          0.9999999999999998,
+          0.8167022600095948,
+          0.6100465543757644,
+          0.45593625832543877,
+          0.4023383609404966,
+          0.7963647378272537,
+          0.6152948977330367
+        ],
+        [
+          0.8167022600095948,
+          1.0,
+          0.6052492796360306,
+          0.47432712728950893,
+          0.34755369688968096,
+          0.7120566935251538,
+          0.6118668004989635
+        ],
+        [
+          0.6100465543757643,
+          0.6052492796360306,
+          1.0,
+          0.7221279953298433,
+          0.3560041718566091,
+          0.6043358182333012,
+          0.5776625036540323
+        ],
+        [
+          0.45593625832543877,
+          0.4743271272895089,
+          0.7221279953298434,
+          1.0,
+          0.2578305146284274,
+          0.5281770332691632,
+          0.5311870074872744
+        ],
+        [
+          0.4023383609404965,
+          0.34755369688968096,
+          0.35600417185660904,
+          0.25783051462842743,
+          0.9999999999999998,
+          0.4829341277514378,
+          0.10595399123623114
+        ],
+        [
+          0.7963647378272537,
+          0.7120566935251538,
+          0.6043358182333012,
+          0.5281770332691632,
+          0.4829341277514378,
+          1.0,
+          0.6193654372053742
+        ],
+        [
+          0.6152948977330367,
+          0.6118668004989635,
+          0.5776625036540323,
+          0.5311870074872743,
+          0.10595399123623114,
+          0.6193654372053743,
+          1.0
+        ]
+      ],
+      "first_principal_component_standardized_variance_share": 0.614862944522128
+    }
+  },
+  "lagged_correlations_all_fixed_cells": [
+    {
+      "predictor_pair": "EUR_USD",
+      "past_return_minutes": 1,
+      "future_eurusd_minutes": 60,
+      "n": 87,
+      "correlation": 0.04762291802101632
+    },
+    {
+      "predictor_pair": "GBP_USD",
+      "past_return_minutes": 1,
+      "future_eurusd_minutes": 60,
+      "n": 87,
+      "correlation": -0.04382386273977797
+    },
+    {
+      "predictor_pair": "AUD_USD",
+      "past_return_minutes": 1,
+      "future_eurusd_minutes": 60,
+      "n": 87,
+      "correlation": 0.12284290880656537
+    },
+    {
+      "predictor_pair": "NZD_USD",
+      "past_return_minutes": 1,
+      "future_eurusd_minutes": 60,
+      "n": 87,
+      "correlation": 0.08205479790610368
+    },
+    {
+      "predictor_pair": "USD_JPY",
+      "past_return_minutes": 1,
+      "future_eurusd_minutes": 60,
+      "n": 87,
+      "correlation": 0.07709037704980065
+    },
+    {
+      "predictor_pair": "USD_CHF",
+      "past_return_minutes": 1,
+      "future_eurusd_minutes": 60,
+      "n": 87,
+      "correlation": 0.10370710196879966
+    },
+    {
+      "predictor_pair": "USD_CAD",
+      "past_return_minutes": 1,
+      "future_eurusd_minutes": 60,
+      "n": 87,
+      "correlation": 0.11454075396075264
+    },
+    {
+      "predictor_pair": "EUR_USD",
+      "past_return_minutes": 5,
+      "future_eurusd_minutes": 60,
+      "n": 87,
+      "correlation": 0.056089218891964096
+    },
+    {
+      "predictor_pair": "GBP_USD",
+      "past_return_minutes": 5,
+      "future_eurusd_minutes": 60,
+      "n": 87,
+      "correlation": -0.03027190871175576
+    },
+    {
+      "predictor_pair": "AUD_USD",
+      "past_return_minutes": 5,
+      "future_eurusd_minutes": 60,
+      "n": 87,
+      "correlation": 0.0716375346566279
+    },
+    {
+      "predictor_pair": "NZD_USD",
+      "past_return_minutes": 5,
+      "future_eurusd_minutes": 60,
+      "n": 87,
+      "correlation": 0.015983506355602566
+    },
+    {
+      "predictor_pair": "USD_JPY",
+      "past_return_minutes": 5,
+      "future_eurusd_minutes": 60,
+      "n": 87,
+      "correlation": 0.13685131825541935
+    },
+    {
+      "predictor_pair": "USD_CHF",
+      "past_return_minutes": 5,
+      "future_eurusd_minutes": 60,
+      "n": 87,
+      "correlation": 0.08687206792929163
+    },
+    {
+      "predictor_pair": "USD_CAD",
+      "past_return_minutes": 5,
+      "future_eurusd_minutes": 60,
+      "n": 87,
+      "correlation": -0.042175417571731454
+    },
+    {
+      "predictor_pair": "EUR_USD",
+      "past_return_minutes": 15,
+      "future_eurusd_minutes": 60,
+      "n": 84,
+      "correlation": 0.03044319890882633
+    },
+    {
+      "predictor_pair": "GBP_USD",
+      "past_return_minutes": 15,
+      "future_eurusd_minutes": 60,
+      "n": 84,
+      "correlation": -0.03884122412259268
+    },
+    {
+      "predictor_pair": "AUD_USD",
+      "past_return_minutes": 15,
+      "future_eurusd_minutes": 60,
+      "n": 84,
+      "correlation": 0.17727815382577783
+    },
+    {
+      "predictor_pair": "NZD_USD",
+      "past_return_minutes": 15,
+      "future_eurusd_minutes": 60,
+      "n": 84,
+      "correlation": 0.04734434515210161
+    },
+    {
+      "predictor_pair": "USD_JPY",
+      "past_return_minutes": 15,
+      "future_eurusd_minutes": 60,
+      "n": 84,
+      "correlation": 0.17323389703772793
+    },
+    {
+      "predictor_pair": "USD_CHF",
+      "past_return_minutes": 15,
+      "future_eurusd_minutes": 60,
+      "n": 84,
+      "correlation": 0.12017059963544223
+    },
+    {
+      "predictor_pair": "USD_CAD",
+      "past_return_minutes": 15,
+      "future_eurusd_minutes": 60,
+      "n": 84,
+      "correlation": -0.03608317155067847
+    },
+    {
+      "predictor_pair": "EUR_USD",
+      "past_return_minutes": 60,
+      "future_eurusd_minutes": 60,
+      "n": 77,
+      "correlation": -0.1372301509244254
+    },
+    {
+      "predictor_pair": "GBP_USD",
+      "past_return_minutes": 60,
+      "future_eurusd_minutes": 60,
+      "n": 77,
+      "correlation": -0.2223899275533134
+    },
+    {
+      "predictor_pair": "AUD_USD",
+      "past_return_minutes": 60,
+      "future_eurusd_minutes": 60,
+      "n": 77,
+      "correlation": -0.04517714903915783
+    },
+    {
+      "predictor_pair": "NZD_USD",
+      "past_return_minutes": 60,
+      "future_eurusd_minutes": 60,
+      "n": 77,
+      "correlation": -0.03041847409193718
+    },
+    {
+      "predictor_pair": "USD_JPY",
+      "past_return_minutes": 60,
+      "future_eurusd_minutes": 60,
+      "n": 77,
+      "correlation": -0.021340188967019526
+    },
+    {
+      "predictor_pair": "USD_CHF",
+      "past_return_minutes": 60,
+      "future_eurusd_minutes": 60,
+      "n": 77,
+      "correlation": -0.05156164967321338
+    },
+    {
+      "predictor_pair": "USD_CAD",
+      "past_return_minutes": 60,
+      "future_eurusd_minutes": 60,
+      "n": 77,
+      "correlation": -0.09073297180308487
+    },
+    {
+      "predictor_pair": "EUR_USD",
+      "past_return_minutes": 120,
+      "future_eurusd_minutes": 60,
+      "n": 68,
+      "correlation": -0.16271681120759426
+    },
+    {
+      "predictor_pair": "GBP_USD",
+      "past_return_minutes": 120,
+      "future_eurusd_minutes": 60,
+      "n": 68,
+      "correlation": -0.2593497845231637
+    },
+    {
+      "predictor_pair": "AUD_USD",
+      "past_return_minutes": 120,
+      "future_eurusd_minutes": 60,
+      "n": 68,
+      "correlation": 0.008003768814191022
+    },
+    {
+      "predictor_pair": "NZD_USD",
+      "past_return_minutes": 120,
+      "future_eurusd_minutes": 60,
+      "n": 68,
+      "correlation": 0.051280351453317524
+    },
+    {
+      "predictor_pair": "USD_JPY",
+      "past_return_minutes": 120,
+      "future_eurusd_minutes": 60,
+      "n": 68,
+      "correlation": -0.01907349568451942
+    },
+    {
+      "predictor_pair": "USD_CHF",
+      "past_return_minutes": 120,
+      "future_eurusd_minutes": 60,
+      "n": 68,
+      "correlation": -0.05357439467931795
+    },
+    {
+      "predictor_pair": "USD_CAD",
+      "past_return_minutes": 120,
+      "future_eurusd_minutes": 60,
+      "n": 68,
+      "correlation": -0.04718137667846954
+    }
+  ],
+  "limitations": [
+    "Only six already inspected UTC days; correlations do not establish a stable relation or a forecast edge.",
+    "Midpoint candle returns exclude bid/ask costs, slippage and execution availability.",
+    "No data filling; gaps remove returns whose entire interval is not consecutive.",
+    "PCA uses this whole descriptive window; no fitted factor is credited as known before a forecast.",
+    "Lead-lag table retains every fixed pair/window; no best cell chosen, no causal claim, no model activated."
+  ]
+}

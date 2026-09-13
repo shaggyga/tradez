@@ -1,0 +1,28 @@
+{
+  "schema_version": "forex_causal_baseline_validation_v1",
+  "generated_utc": "2026-09-06T11:45:15.8970483Z",
+  "result": "passed",
+  "test_count": 55,
+  "duration_seconds": 0.63,
+  "runtime_started": false,
+  "production_database_access": false,
+  "validation": "Guarded offline pytest forbids threads, network, subprocesses, production SQLite access and writes outside disposable evidence folder.",
+  "source_bindings": [
+    {
+      "path": "trad/oanda_causal_prediction_baselines.py",
+      "sha256": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d"
+    },
+    {
+      "path": "trad/test_oanda_causal_prediction_baselines.py",
+      "sha256": "fa0a8aa12c46118d91b28f3e94f6b5229a61fc2d2a739716564190a609b70608"
+    },
+    {
+      "path": "evaluation_20260906/baselines/run_tests.py",
+      "sha256": "467415c2965a49d14b7bcb590e7418db3f819d11b0b6eb99c4e3bfe3089aba38"
+    },
+    {
+      "path": "evaluation_20260906/baselines/integration_tests.xml",
+      "sha256": "0dc1e0b0eec0131e5ac34a372732e1d6ea203f5c4f2b290b687f7bb1c4c7dd87"
+    }
+  ]
+}

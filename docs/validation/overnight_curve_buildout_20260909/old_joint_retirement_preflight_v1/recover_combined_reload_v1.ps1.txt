@@ -1,0 +1,71 @@
+$ErrorActionPreference='Stop'
+$base='C:\Users\zmoor\Documents\forex\overnight_curve_buildout_20260909\old_joint_retirement_preflight_v1'
+$project='C:\Users\zmoor\Documents\forex\trad'
+if([IO.Path]::GetFullPath($PSScriptRoot) -ne $base){throw 'Unexpected recovery workspace'}
+$output=Join-Path $base 'combined_reload_recovery_001'
+if(Test-Path -LiteralPath $output){throw 'Recovery evidence exists'}
+$specPath=Join-Path $base 'COMBINED_RETIREMENT_RELOAD_SPECIFICATION_20260909.json'
+if((Get-FileHash -LiteralPath $specPath -Algorithm SHA256).Hash.ToLowerInvariant() -ne '5f7e476f5d304d585c347927e4c9ec309fffec1a56646666265441bfd7c9e9bc'){throw 'Specification changed'}
+$spec=Get-Content -LiteralPath $specPath -Raw|ConvertFrom-Json
+foreach($b in $spec.source_bindings.PSObject.Properties){if((Get-FileHash -LiteralPath $b.Name -Algorithm SHA256).Hash.ToLowerInvariant() -ne $b.Value){throw 'Reviewed source changed'}}
+$beforePath=Join-Path $base 'combined_reload_001\BEFORE.json'
+if((Get-FileHash -LiteralPath $beforePath -Algorithm SHA256).Hash.ToLowerInvariant() -ne 'e763dc53fb4755ec17cc77f2cea594aa2ae91f20e98e529dc495f982300a76db'){throw 'Original process receipt changed'}
+$before=Get-Content -LiteralPath $beforePath -Raw|ConvertFrom-Json
+$original=@{}
+foreach($row in $before.processes){$original[[int]$row.pid]=$row}
+$stopIds=@(2056,6528,14540,18896,21472,23008,30612)
+$preserved=@($before.processes|Where-Object {$_.pid -notin $stopIds})
+if($before.preserved_count -ne 34 -or $preserved.Count -ne 34){throw 'Original preservation inventory mismatch'}
+function Current-Identity($row,[bool]$mayBeAbsent=$false){
+    $now=@(Get-CimInstance Win32_Process -Filter ('ProcessId = '+[int]$row.pid))
+    if($mayBeAbsent -and $now.Count -eq 0){return $null}
+    if($now.Count -ne 1){throw 'Original process absent'}
+    $created=if($row.created_utc -is [DateTime]){$row.created_utc.ToUniversalTime()}else{[DateTime]::Parse($row.created_utc).ToUniversalTime()}
+    if($now[0].CreationDate.ToUniversalTime() -ne $created -or $now[0].Name -ne $row.name -or $now[0].ParentProcessId -ne $row.parent_pid){throw 'Original process identity changed'}
+    $match=[regex]::Match([string]$now[0].CommandLine,'(?i)(?:"([^"]+\.(?:py|ps1))"|([^\s"]+\.(?:py|ps1)))(?:\s|$)')
+    $path=if($match.Groups[1].Success){$match.Groups[1].Value}else{$match.Groups[2].Value}
+    if($path -ne $row.script_path){throw 'Original process script changed'}
+    return $now[0]
+}
+foreach($row in $preserved){$null=Current-Identity $row}
+foreach($id in @(2056,6528,14540,21472,30612)){if(@(Get-CimInstance Win32_Process -Filter ('ProcessId = '+$id)).Count -ne 0){throw 'Previously exited process unexpectedly present'}}
+$null=New-Item -ItemType Directory -Path $output
+@{status='preserved34_verified_before_recovery';observed_utc=[DateTime]::UtcNow.ToString('o');original_before_sha256=(Get-FileHash -LiteralPath $beforePath -Algorithm SHA256).Hash.ToLowerInvariant();reason='An intended wrapper exited between the initial existence query and a second identity query after its child was stopped.'}|ConvertTo-Json|Set-Content -LiteralPath (Join-Path $output 'BEFORE.json') -Encoding utf8
+foreach($id in @(18896,23008)){
+    $now=Current-Identity $original[$id] $true
+    if($null -ne $now){Stop-Process -Id $id -Force -ErrorAction SilentlyContinue}
+}
+foreach($id in $stopIds){if(@(Get-CimInstance Win32_Process -Filter ('ProcessId = '+$id)).Count -ne 0){throw 'Intended old process remains'}}
+foreach($row in $preserved){$null=Current-Identity $row}
+$postDirectory=Join-Path $base 'combined_reload_recovery_001_post_obligations'
+& 'C:\Users\zmoor\AppData\Local\CodexRuntimes\timeseries312\Scripts\python.exe' -B (Join-Path $base 'recheck_old_joint_retirement_v1.py') --baseline (Join-Path $base 'before_combined_reload_001\OLD_JOINT_RETIREMENT_OBLIGATIONS_20260909.json') --baseline-sha256 3b05941605dadb4ffbcce3ef48816b0d986e82544753e9998cb1c4c2eb13d7e0 --output-directory $postDirectory | Set-Content -LiteralPath (Join-Path $output 'POST_OBLIGATIONS_STDOUT.txt') -Encoding utf8
+if($LASTEXITCODE -ne 0){throw 'Post-retirement obligations changed'}
+foreach($b in $spec.source_bindings.PSObject.Properties){if((Get-FileHash -LiteralPath $b.Name -Algorithm SHA256).Hash.ToLowerInvariant() -ne $b.Value){throw 'Reviewed source changed'}}
+foreach($r in $spec.registries.PSObject.Properties){
+    $path=Join-Path (Join-Path $project 'config') $r.Name
+    if((Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash.ToLowerInvariant() -ne $r.Value){throw 'Frozen registry changed'}
+    $registry=Get-Content -LiteralPath $path -Raw|ConvertFrom-Json
+    foreach($b in $registry.source_bindings.PSObject.Properties){if((Get-FileHash -LiteralPath (Join-Path $project $b.Name) -Algorithm SHA256).Hash.ToLowerInvariant() -ne $b.Value){throw 'Frozen study source changed'}}
+}
+& (Join-Path $project 'start_oanda_research_collection.ps1') -Root 'C:\Users\zmoor\Documents\forex' | Set-Content -LiteralPath (Join-Path $output 'LAUNCH_STDOUT.txt') -Encoding utf8
+$deadline=[DateTime]::UtcNow.AddSeconds(45)
+$ready=$false
+do {
+    $port=@(Get-NetTCPConnection -LocalAddress '127.0.0.1' -LocalPort 8765 -State Listen -ErrorAction SilentlyContinue)
+    if($port.Count -eq 1 -and $port[0].OwningProcess -notin $stopIds){$ready=$true;break}
+    Start-Sleep -Milliseconds 500
+}while([DateTime]::UtcNow -lt $deadline)
+if(-not $ready){throw 'Replacement dashboard listener not ready'}
+foreach($row in $preserved){$null=Current-Identity $row}
+$processes=@(Get-CimInstance Win32_Process | Where-Object {$_.Name -match '^(python|pythonw|pwsh|powershell)(\.exe)?$'}|ForEach-Object {
+    $match=[regex]::Match([string]$_.CommandLine,'(?i)(?:"([^"]+\.(?:py|ps1))"|([^\s"]+\.(?:py|ps1)))(?:\s|$)')
+    $path=if($match.Groups[1].Success){$match.Groups[1].Value}else{$match.Groups[2].Value}
+    if($path.StartsWith($project+'\',[StringComparison]::OrdinalIgnoreCase)){[pscustomobject]@{pid=[int]$_.ProcessId;parent_pid=[int]$_.ParentProcessId;name=$_.Name;created_utc=$_.CreationDate.ToUniversalTime().ToString('o');script_path=$path;research_mode=([string]$_.CommandLine -match '\s-ResearchCollectionOnly(?:\s|$)');safe_core=([string]$_.CommandLine -match '\s-SafeCoreOnly(?:\s|$)')}}
+})
+if($processes.Count -ne 37 -or @($processes|Where-Object {$_.pid -in $stopIds -or $_.script_path -match 'oanda_joint_price_news_forecast_study_v[12]\.py$'}).Count -ne 0){throw 'Final inventory mismatch'}
+$supervisor=@($processes|Where-Object {$_.script_path -eq (Join-Path $project 'oanda_always_on_supervisor.ps1')})
+$dashboard=@($processes|Where-Object {$_.script_path -eq (Join-Path $project 'oanda_practice_live_dashboard.py')})
+if($supervisor.Count -ne 1 -or -not $supervisor[0].research_mode -or -not $supervisor[0].safe_core -or $dashboard.Count -ne 2 -or $port[0].OwningProcess -notin $dashboard.pid){throw 'Replacement process mode or listener mismatch'}
+$receipt=@{status='recovered_port_process_and_obligations_verified_http_pending';observed_utc=[DateTime]::UtcNow.ToString('o');preserved_process_count=34;process_count=37;new_supervisor_pid=$supervisor[0].pid;new_dashboard_pids=$dashboard.pid;processes=$processes;post_obligations_directory=$postDirectory;orders_enabled=$false}
+$receipt|ConvertTo-Json -Depth 5|Set-Content -LiteralPath (Join-Path $output 'AFTER.json') -Encoding utf8
+$receipt|Select-Object status,preserved_process_count,process_count,new_supervisor_pid,new_dashboard_pids|ConvertTo-Json -Compress

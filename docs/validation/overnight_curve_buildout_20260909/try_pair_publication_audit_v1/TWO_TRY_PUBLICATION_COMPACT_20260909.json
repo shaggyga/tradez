@@ -1,0 +1,143 @@
+{
+  "created_epoch": 1788950504.5220811,
+  "helper": {
+    "bytes": 11735,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\try_pair_publication_audit_v1\\audit_try_pair_publication_v1.py",
+    "sha256": "8e3188c7f4a977c2cccae9dc478c063b4193f7fc44c1765f80da08afaec35f79"
+  },
+  "independent_review_completed": false,
+  "limits": [
+    "Readiness counts are original worker-recorded observations from 10:22/10:26 UTC, not newly computed joint readiness at 10:34 UTC.",
+    "Both inputs tables are empty. Compact input-capture readiness records are retained in readiness.jsonl; full blocked input captures were not independently replayed.",
+    "Pre-attempt family readiness is checked before begin_attempt; zero attempts does not mean missing model registration or a numeric fitting failure.",
+    "Fresh local quotes/candle tails do not establish current point-in-time news availability or eligible joint training support.",
+    "Separate coherent read-only transactions are not one globally atomic snapshot; the readiness tail is bounded and not full history.",
+    "No relaxed 48-row requirement, fit, replay, broker request, runtime action, registry change or database write."
+  ],
+  "next_cohort_diagnostic_proposal": "Persist explicit pre-attempt refusal records with actual original input clocks, capture identity, family reason and measured support; keep them distinct from fit attempts. This is a proposal only.",
+  "observation_completed_epoch": 1788950063.9753158,
+  "observation_started_epoch": 1788950063.51833,
+  "original_audit": {
+    "bytes": 18412,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\try_pair_publication_audit_v1\\actual_audit_001\\TWO_TRY_PUBLICATION_AUDIT_20260909.json",
+    "sha256": "2d1cedc718b78a50b3d4c905735d1a091ebde29516678822ee8708248fe4e21d"
+  },
+  "original_source_count": 20,
+  "pairs": [
+    {
+      "activation_epoch": 1788898004.3525393,
+      "cohort_id": "joint_price_news_v1_20260907.TRY_JPY.ridge_price_news_v1.news_repair_v3_20260908.prospective",
+      "contract_sha256": "da980f25fc58c851961554b9bf4f48b8e8ba4a28ce1a567bf1ca90b9a515212d",
+      "current_quote_clocks": {
+        "age_sec": 8.089383840560913,
+        "market_epoch": 1788950055.849889,
+        "observed_epoch": 1788950063.9392729,
+        "status": "current_tradeable_quote"
+      },
+      "instrument": "TRY_JPY",
+      "ledger_counts": {
+        "attempts": 0,
+        "consumption": 0,
+        "diagnostics": 0,
+        "entries": 0,
+        "exclusions": 0,
+        "forecasts": 0,
+        "inputs": 0,
+        "outcomes": 0,
+        "publication": 0,
+        "quotes": 315
+      },
+      "ledger_read_completed_epoch": 1788950063.5683873,
+      "original_readiness": {
+        "family": {
+          "current_real_prices": 17,
+          "current_real_returns": 16,
+          "current_span_sec": 3540,
+          "distinct_news_context_patterns": 17,
+          "mature_exact_h1_training_rows": 17,
+          "nonzero_news_context_training_rows": 17,
+          "ready": false,
+          "reasons": [
+            "mature_joint_h1_training_rows:17<48"
+          ],
+          "required_joint_training_rows": 48,
+          "status": "blocked",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        },
+        "input_observed_epoch": 1788949329.9066815,
+        "logged_epoch": 1788949331.9708357,
+        "original_capture_sha256": "4c94150f567b5c6526d13aeb1a7abedeb8bc8d646f86029d068dc9c2a0ac980f",
+        "original_line_sha256": "d0f0e0b1d6618280942adadf56c1f13ea3aea313a96caba11d20029e1439366b"
+      },
+      "registered": true,
+      "retained_candle_tail": {
+        "age_sec": 323.648451089859,
+        "captured_bytes_sha256": "0fba51d946a65d5adb02bfe74423184d6f4672f5416ceb4960d0d886074facb1",
+        "latest_complete_price_epoch": 1788949740,
+        "read_completed_epoch": 1788950063.648451,
+        "rows": 4096
+      }
+    },
+    {
+      "activation_epoch": 1788898004.888779,
+      "cohort_id": "joint_price_news_v1_20260907.USD_TRY.ridge_price_news_v1.news_repair_v3_20260908.prospective",
+      "contract_sha256": "c21adca206de40c2c3059790fe763d198ec21bd68c163d3007dc59a4497ead3b",
+      "current_quote_clocks": {
+        "age_sec": 10.480411767959595,
+        "market_epoch": 1788950053.458861,
+        "observed_epoch": 1788950063.9392729,
+        "status": "current_tradeable_quote"
+      },
+      "instrument": "USD_TRY",
+      "ledger_counts": {
+        "attempts": 0,
+        "consumption": 0,
+        "diagnostics": 0,
+        "entries": 0,
+        "exclusions": 0,
+        "forecasts": 0,
+        "inputs": 0,
+        "outcomes": 0,
+        "publication": 0,
+        "quotes": 622
+      },
+      "ledger_read_completed_epoch": 1788950063.5713782,
+      "original_readiness": {
+        "family": {
+          "current_real_prices": 46,
+          "current_real_returns": 45,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 39,
+          "mature_exact_h1_training_rows": 40,
+          "nonzero_news_context_training_rows": 38,
+          "ready": false,
+          "reasons": [
+            "mature_joint_h1_training_rows:40<48"
+          ],
+          "required_joint_training_rows": 48,
+          "status": "blocked",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        },
+        "input_observed_epoch": 1788949565.7082427,
+        "logged_epoch": 1788949569.1917303,
+        "original_capture_sha256": "049ed181f12ba43fc44cac5a28f3c0111138eda0442bf82ea1172363505a0fdc",
+        "original_line_sha256": "2f66f19222646b5b1ba9a435be7637d58c8bdd8a814376d6d80433cbf0f683b5"
+      },
+      "registered": true,
+      "retained_candle_tail": {
+        "age_sec": 203.79309821128845,
+        "captured_bytes_sha256": "cd8e13f9f55458148a2339f89ad5176665fae840a36fb184a5cb0e6961965df9",
+        "latest_complete_price_epoch": 1788949860,
+        "read_completed_epoch": 1788950063.7930982,
+        "rows": 4096
+      }
+    }
+  ],
+  "raw_quote_or_candle_prices_included": false,
+  "registry_sha256": "ee075e69e80ca56dfdf45abe1f7a1a301612176e67f7622eab1adf2bd9af8771",
+  "schema_version": "two_try_publication_compact_v1_20260909",
+  "source_bindings_unchanged": true,
+  "test_execution": false
+}

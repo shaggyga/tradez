@@ -45,6 +45,11 @@ Run OANDA practice first and inspect the CSV logs before allowing live execution
 
 from __future__ import annotations
 
+try:
+    import oanda_trade_reconciliation_v1 as trade_reconciliation
+except ModuleNotFoundError:
+    from trad import oanda_trade_reconciliation_v1 as trade_reconciliation
+
 import argparse
 import ast
 import csv
@@ -2495,7 +2500,10 @@ class OandaClient:
         return out
 
     def get_open_trades(self) -> List[Dict[str, Any]]:
-        return self.request("GET", f"/v3/accounts/{self.cfg.oanda_account_id}/openTrades").get("trades", [])
+        response = self.request("GET", f"/v3/accounts/{self.cfg.oanda_account_id}/openTrades")
+        if not isinstance(response, dict) or not isinstance(response.get("trades"), list):
+            raise ValueError("complete open-trades response unavailable")
+        return response["trades"]
 
     def get_transactions_since(self, transaction_id: str) -> Dict[str, Any]:
         return self.request("GET", f"/v3/accounts/{self.cfg.oanda_account_id}/transactions/sinceid", params={"id": str(transaction_id)})
@@ -3389,107 +3397,26 @@ class ForexManager:
         self,
         signal: Dict[str, Any],
     ) -> Dict[str, Any]:
-        """Return shadow-only ensemble score for a candidate signal."""
+        """New research-only calibrated contract; never an entry approval."""
+        # This guarded intake needs an exact caller-bound snapshot. Existing
+        # bundles/feature enrichment are not silently reinterpreted as v2.
+        if not signal.get('_ensemble_feature_contract_ids_v2'):
+            return {'available': False, 'shadow_approved': False,
+                    'signed_entry_qualified': False,
+                    'reason': 'v2 feature source contract unavailable'}
         manifest = self.sync_ensemble_shadow_manifest()
-        bundle = self._ensemble_shadow_bundle
-        if not manifest.get("shadow_scoring_enabled", False) or not bundle:
-            return {"available": False, "reason": "no ensemble shadow bundle"}
-        snapshot = signal.get("_technical_feature_snapshot")
-        if not isinstance(snapshot, dict):
-            snapshot = {}
-        else:
-            snapshot = dict(snapshot)
-        instrument = normalize_instrument(signal.get("instrument", ""))
-        if instrument:
-            snapshot.update(self.live_calendar_features())
-            snapshot.update(self.instrument_research_subset_features(instrument))
-            snapshot["pair_taxonomy_primary"] = self.pair_taxonomy_primary(instrument)
-            snapshot.update(self.pair_taxonomy_features(instrument))
-            snapshot.update(self.carry_proxy_features(instrument))
-            snapshot.update(self.live_regime_features(snapshot, instrument))
-            snapshot.update(self.current_macro_feature_snapshot(instrument))
-            snapshot.update(self.expanded_indicator_snapshot_features(snapshot))
-
-        weighted_probability = 0.0
-        total_weight = 0.0
-        scored_members = []
-        missing_members = []
-        for member in bundle.get("members") or []:
-            spec = dict(member.get("spec") or {})
-            subset = str(spec.get("instrument_subset") or "all")
-            if not self.ensemble_subset_ok(snapshot, subset):
-                continue
-            model = member.get("model")
-            features = list(member.get("features") or [])
-            if model is None or not features:
-                continue
-            values = []
-            missing_feature = ""
-            for feature in features:
-                numeric = safe_float(
-                    signal.get(feature, snapshot.get(feature)),
-                    float("nan"),
-                )
-                if not math.isfinite(numeric):
-                    missing_feature = feature
-                    break
-                values.append(numeric)
-            if missing_feature:
-                missing_members.append({
-                    "experiment_id": member.get("experiment_id", ""),
-                    "missing_feature": missing_feature,
-                })
-                continue
-            try:
-                probability = predict_positive_probability_named(
-                    model,
-                    features,
-                    values,
-                )
-            except Exception as exc:
-                self.log_error("score ensemble shadow member", exc)
-                continue
-            weight = safe_float(member.get("weight"), 1.0)
-            weighted_probability += probability * weight
-            total_weight += weight
-            scored_members.append({
-                "experiment_id": member.get("experiment_id", ""),
-                "target": spec.get("target", ""),
-                "probability": probability,
-                "weight": weight,
-            })
-        ensemble_probability = (
-            weighted_probability / total_weight
-            if total_weight > 0
-            else float("nan")
-        )
-        validation = manifest.get("validation", {})
-        selected = validation.get("selected_threshold", {})
-        threshold = safe_float(selected.get("probability_threshold"), 0.75)
-        min_members = safe_int(validation.get("min_members"), 2)
-        shadow_approved = bool(
-            math.isfinite(ensemble_probability)
-            and ensemble_probability >= threshold
-            and len(scored_members) >= min_members
-        )
-        return {
-            "available": bool(scored_members),
-            "experiment_id": manifest.get("experiment_id", ""),
-            "candidate_id": manifest.get("candidate_id", ""),
-            "mode": manifest.get("ensemble_mode", "shadow"),
-            "probability": ensemble_probability,
-            "threshold": threshold,
-            "member_count": len(scored_members),
-            "min_members": min_members,
-            "shadow_approved": shadow_approved,
-            "members": scored_members[:10],
-            "missing_members": missing_members[:10],
-            "reason": (
-                "ensemble shadow approved"
-                if shadow_approved
-                else "ensemble shadow rejected"
-            ),
-        }
+        if not manifest.get('shadow_scoring_enabled', False):
+            return {'available': False, 'shadow_approved': False,
+                    'signed_entry_qualified': False, 'reason': 'research scoring unavailable'}
+        try:
+            from oanda_ensemble_probability_contract_v2 import manager_research_score_v2
+        except ModuleNotFoundError as exc:
+            if exc.name != 'oanda_ensemble_probability_contract_v2':
+                raise
+            from .oanda_ensemble_probability_contract_v2 import manager_research_score_v2
+        return manager_research_score_v2(
+            self._ensemble_shadow_bundle, signal,
+            signal.get('_technical_feature_snapshot'), manifest.get('research_policy_v2'))
 
     def production_model_allows_new_entries(self) -> Tuple[bool, str]:
         """Return whether this account may open new research-backed entries."""
@@ -3725,6 +3652,7 @@ class ForexManager:
                 if (
                     fallback_candidate_ok
                     and bool(ensemble_shadow.get("shadow_approved", False))
+                    and ensemble_shadow.get("signed_entry_qualified") is True
                     and math.isfinite(ensemble_probability)
                     and ensemble_probability >= fallback_min_probability
                 ):
@@ -3911,28 +3839,28 @@ class ForexManager:
         state.setdefault("recent_action_keys", {})[action_key] = iso_utc()
         self.save_state(state)
 
-    def find_open_trade(self, trade_id: str = "", instrument: str = "", direction: str = "") -> Optional[Dict[str, Any]]:
+    def observe_open_trade(self, trade_id: str = "", instrument: str = "", direction: str = "") -> Dict[str, Any]:
+        if not self.cfg.broker_recheck_before_actions:
+            return trade_reconciliation.unknown("recheck_disabled", observed_epoch=time.time())
         try:
-            trades = self.oanda.get_open_trades()
+            rows = self.oanda.get_open_trades()
+            return trade_reconciliation.observe_trade_rows(rows, trade_id=trade_id,
+                instrument=normalize_instrument(instrument), direction=direction, observed_epoch=time.time())
         except Exception as exc:
             self.log_error("broker recheck open trades", exc)
-            return None
-        tid = str(trade_id or "").strip()
-        inst = normalize_instrument(instrument)
-        want_dir = str(direction or "").strip().upper()
-        for t in trades:
-            if tid and str(t.get("id")) == tid:
-                return t
-        matches = []
-        for t in trades:
-            if inst and str(t.get("instrument")) != inst:
-                continue
-            if want_dir and trade_direction_from_units(t.get("currentUnits")) != want_dir:
-                continue
-            matches.append(t)
-        if len(matches) == 1:
-            return matches[0]
-        return None
+            return trade_reconciliation.unknown("recheck_unavailable", observed_epoch=time.time())
+
+    def find_open_trade(self, trade_id: str = "", instrument: str = "", direction: str = "") -> Optional[Dict[str, Any]]:
+        # Compatibility lookup: callers needing proof of absence must use the typed observation.
+        observed = self.observe_open_trade(trade_id=trade_id, instrument=instrument, direction=direction)
+        return observed["trade"] if observed["status"] == "confirmed_open" else None
+
+    def trade_lookup_blocks_open(self, instrument: str) -> bool:
+        observed = self.observe_open_trade(instrument=instrument)
+        if observed["status"] == "unknown":
+            self.log_action({"instrument": instrument}, "open_recheck", "uncertain_after_recheck",
+                reject_reason=observed["reason_code"], raw_extra={"trade_observation": observed})
+        return observed["status"] != "confirmed_closed"
 
     def reconcile_startup_state(self) -> None:
         account = self.oanda.get_account_summary()
@@ -4835,7 +4763,7 @@ class ForexManager:
             if inst in open_instruments:
                 self.log_action(order, "open", "skipped", reject_reason="instrument already has open trade")
                 continue
-            if self.cfg.broker_recheck_before_actions and self.find_open_trade(instrument=inst):
+            if self.cfg.broker_recheck_before_actions and self.trade_lookup_blocks_open(inst):
                 self.log_action(order, "open", "skipped", reject_reason="broker recheck found existing open trade")
                 open_instruments.add(inst)
                 continue
@@ -4862,14 +4790,21 @@ class ForexManager:
         trade_id = str(action.get("trade_id") or "").strip()
         inst = normalize_instrument(action.get("instrument", ""))
         trade = by_id.get(trade_id)
-        if not trade and inst:
+        if trade and ((trade_id and str(trade.get("id")) != trade_id) or (inst and str(trade.get("instrument")) != inst)):
+            self.log_action(action, "position", "skipped", reject_reason="requested trade identity conflicts with retained position")
+            return
+        if not trade and inst and not trade_id:
             matches = [t for t in by_id.values() if str(t.get("instrument")) == inst]
             if len(matches) == 1:
                 trade = matches[0]
                 trade_id = str(trade.get("id"))
         if not trade:
             if self.cfg.broker_recheck_before_actions:
-                trade = self.find_open_trade(trade_id=trade_id, instrument=inst)
+                observed = self.observe_open_trade(trade_id=trade_id, instrument=inst)
+                if observed["status"] == "unknown":
+                    self.log_action(action, "position", "uncertain_after_recheck", reject_reason=observed["reason_code"], raw_extra={"trade_observation": observed})
+                    return
+                trade = observed["trade"] if observed["status"] == "confirmed_open" else None
                 if trade:
                     trade_id = str(trade.get("id"))
             if not trade:
@@ -4877,11 +4812,12 @@ class ForexManager:
                 return
         inst = str(trade.get("instrument", inst))
         if self.cfg.broker_recheck_before_actions:
-            refreshed = self.find_open_trade(trade_id=str(trade.get("id")), instrument=inst)
-            if not refreshed:
-                self.log_action(action, "position", "skipped", reject_reason="broker recheck found trade already closed")
+            observed = self.observe_open_trade(trade_id=str(trade.get("id")), instrument=inst)
+            if observed["status"] != "confirmed_open":
+                self.log_action(action, "position", "uncertain_after_recheck" if observed["status"] == "unknown" else "skipped",
+                    reject_reason="broker trade state not confirmed open", raw_extra={"trade_observation": observed})
                 return
-            trade = refreshed
+            trade = observed["trade"]
             trade_id = str(trade.get("id"))
         if act not in {"HOLD", "WATCH"}:
             akey = self.action_key(act, action, trade_id=trade_id)
@@ -4901,7 +4837,7 @@ class ForexManager:
             return
         if act == "TIGHTEN":
             status = self.tighten_trade(trade_id, action, meta)
-            if status in {"accepted", "dry_run", "uncertain_after_recheck"}:
+            if status in {"accepted", "dry_run"}:
                 self.remember_action(akey)
             return
         if act == "PARTIAL_CLOSE":
@@ -4925,68 +4861,81 @@ class ForexManager:
         self.log_action(action, "position", "skipped", reject_reason=f"unsupported action {act}")
 
     def tighten_trade(self, trade_id: str, action: Dict[str, Any], meta: InstrumentMeta) -> str:
-        stop_loss = as_optional_float(action.get("stop_loss"))
-        take_profit = first_optional_float(action.get("take_profit"), action.get("tp1"))
-        trailing_pips = as_optional_float(action.get("trailing_stop_pips"))
-        trailing_distance = trailing_pips * meta.pip_size if trailing_pips and trailing_pips > 0 else None
-        if not any(x is not None for x in [stop_loss, take_profit, trailing_distance]):
-            self.log_action(action, "tighten", "skipped", reject_reason="no stop/tp/trailing field supplied")
+        observed = self.observe_open_trade(trade_id=trade_id, instrument=str(action.get("instrument") or ""))
+        if observed["status"] != "confirmed_open":
+            self.log_action(action, "tighten", "uncertain_after_recheck" if observed["status"] == "unknown" else "skipped",
+                reject_reason="protective trade state not confirmed open", raw_extra={"trade_observation": observed})
+            return "uncertain_after_recheck" if observed["status"] == "unknown" else "skipped"
+        trade = observed["trade"]
+        instrument = trade["instrument"]
+        if self.instrument_meta.get(instrument) is not meta:
+            self.log_action(action, "tighten", "skipped", reject_reason="protective instrument metadata mismatch")
+            return "skipped"
+        try:
+            prices = self.oanda.get_prices([instrument])
+            checked = trade_reconciliation.protective_update(trade, action, prices.get(instrument),
+                instrument=instrument, pip_size=meta.pip_size, display_precision=meta.display_precision,
+                observed_epoch=time.time())
+        except Exception as exc:
+            self.log_action(action, "tighten", "skipped", reject_reason="protective recheck refused: " + str(exc)[:240])
             return "skipped"
         if not self.should_execute():
-            self.log_action(action, "tighten", "dry_run")
+            self.log_action(action, "tighten", "dry_run", raw_extra={"protective_check": checked})
             return "dry_run"
         try:
-            res = self.oanda.set_dependent_orders(trade_id, meta.display_precision, stop_loss, take_profit, trailing_distance)
+            res = self.oanda.set_dependent_orders(trade_id, meta.display_precision,
+                checked["stop_loss"], checked["take_profit"], checked["trailing_distance"])
             self.log_action(action, "tighten", "accepted", raw_extra=res)
             return "accepted"
         except Exception as exc:
-            if self.cfg.broker_recheck_before_actions and self.find_open_trade(trade_id=trade_id):
-                self.log_action(action, "tighten", "uncertain_after_recheck", reject_reason=str(exc)[:500])
-                return "uncertain_after_recheck"
-            self.log_action(action, "tighten", "error", reject_reason=str(exc)[:500])
-            return "error"
+            self.log_action(action, "tighten", "uncertain_after_recheck", reject_reason=str(exc)[:500],
+                raw_extra={"protective_check": checked, "confirmation": "dependent order outcome unknown"})
+            return "uncertain_after_recheck"
 
     def partial_close_trade(self, trade: Dict[str, Any], action: Dict[str, Any]) -> str:
-        pct = clamp(safe_float(action.get("partial_close_pct"), 50.0), self.cfg.partial_close_min_pct, self.cfg.partial_close_max_pct)
-        current_units = abs(safe_int(trade.get("currentUnits")))
-        close_units = max(1, int(math.floor(current_units * pct / 100.0)))
-        if close_units >= current_units:
-            close_units = current_units
-        if not self.should_execute():
-            self.log_action(action, "partial_close", "dry_run", units=close_units)
-            return "dry_run"
-        before_units = abs(safe_int(trade.get("currentUnits")))
-        trade_id = str(trade.get("id"))
         try:
-            res = self.oanda.close_trade(trade_id, units=close_units)
-            self.log_action(action, "partial_close", "accepted", units=close_units, raw_extra=res)
-            return "accepted"
+            _, _, signed_units = trade_reconciliation.identity(trade)
+            if signed_units != signed_units.to_integral_value():
+                raise ValueError("fractional units require an explicit reduction contract")
+            current_units = int(signed_units.copy_abs())
+        except (ValueError, TypeError, ArithmeticError) as exc:
+            self.log_action(action, "partial_close", "skipped", reject_reason=str(exc))
+            return "skipped"
+        pct = clamp(safe_float(action.get("partial_close_pct"), 50.0), self.cfg.partial_close_min_pct, self.cfg.partial_close_max_pct)
+        close_units = min(current_units, max(1, int(math.floor(current_units * pct / 100.0))))
+        return self._close_with_state_confirmation(trade, action, kind="partial_close", requested_units=close_units)
+
+    def _close_with_state_confirmation(self, trade: Dict[str, Any], action: Dict[str, Any], *, kind: str, requested_units: Optional[int]) -> str:
+        try:
+            trade_id, instrument, signed_units = trade_reconciliation.identity(trade)
+        except (ValueError, TypeError, ArithmeticError) as exc:
+            self.log_action(action, kind, "skipped", reject_reason=str(exc))
+            return "skipped"
+        intended = signed_units.copy_abs() if requested_units is None else requested_units
+        if not self.should_execute():
+            self.log_action(action, kind, "dry_run", units=str(intended))
+            return "dry_run"
+        failure = ""
+        response = {}
+        try:
+            response = self.oanda.close_trade(trade_id, units=requested_units)
         except Exception as exc:
-            refreshed = self.find_open_trade(trade_id=trade_id) if self.cfg.broker_recheck_before_actions else None
-            after_units = abs(safe_int(refreshed.get("currentUnits"))) if refreshed else 0
-            if after_units < before_units:
-                self.log_action(action, "partial_close", "accepted_after_recheck", units=close_units, reject_reason=str(exc)[:500])
-                return "accepted_after_recheck"
-            self.log_action(action, "partial_close", "error", units=close_units, reject_reason=str(exc)[:500])
-            return "error"
+            failure = str(exc)[:500]
+        observed = self.observe_open_trade(trade_id=trade_id, instrument=instrument)
+        reconciliation = trade_reconciliation.reconcile_reduction(trade, observed, requested_units=requested_units)
+        extra = {"broker_response": response, "trade_observation": observed, "reconciliation": reconciliation,
+                 "requested_units": str(intended), "confirmation_scope": "position state; no transaction attribution"}
+        if reconciliation["status"] == "confirmed_reduction":
+            status = "accepted_after_recheck" if failure else "accepted"
+            self.log_action(action, kind, status, units=reconciliation["observed_reduction_units"],
+                reject_reason=failure, raw_extra=extra)
+            return status
+        self.log_action(action, kind, "uncertain_after_recheck", units="",
+            reject_reason=reconciliation["reason_code"], raw_extra=extra)
+        return "uncertain_after_recheck"
 
     def close_trade(self, trade: Dict[str, Any], action: Dict[str, Any]) -> str:
-        units = abs(safe_int(trade.get("currentUnits")))
-        if not self.should_execute():
-            self.log_action(action, "close", "dry_run", units=units)
-            return "dry_run"
-        trade_id = str(trade.get("id"))
-        try:
-            res = self.oanda.close_trade(trade_id, units=None)
-            self.log_action(action, "close", "accepted", units=units, raw_extra=res)
-            return "accepted"
-        except Exception as exc:
-            refreshed = self.find_open_trade(trade_id=trade_id) if self.cfg.broker_recheck_before_actions else None
-            if refreshed is None:
-                self.log_action(action, "close", "accepted_after_recheck", units=units, reject_reason=str(exc)[:500])
-                return "accepted_after_recheck"
-            self.log_action(action, "close", "error", units=units, reject_reason=str(exc)[:500])
-            return "error"
+        return self._close_with_state_confirmation(trade, action, kind="close", requested_units=None)
 
     def open_trade_from_order(self, order: Dict[str, Any], prices: Dict[str, Dict[str, Any]]) -> str:
         self._last_open_trade_result = None
@@ -5023,7 +4972,7 @@ class ForexManager:
         if not price or not price_tradeable(price):
             self.log_action(order, "event_scout" if order.get("_event_scout") else "open", "skipped", reject_reason="price unavailable or not tradeable")
             return "skipped"
-        if self.cfg.broker_recheck_before_actions and self.find_open_trade(instrument=inst):
+        if self.cfg.broker_recheck_before_actions and self.trade_lookup_blocks_open(inst):
             self.log_action(order, "event_scout" if order.get("_event_scout") else "open", "skipped", reject_reason="broker recheck found existing open trade")
             return "skipped"
         meta = self.instrument_meta[inst]
@@ -5506,7 +5455,7 @@ class ForexManager:
                     self.log_action(taction, "shutdown_tighten", "skipped", reject_reason="duplicate recent shutdown tighten suppressed")
                 else:
                     status = self.tighten_trade(trade_id, taction, meta)
-                    if status in {"accepted", "dry_run", "uncertain_after_recheck"}:
+                    if status in {"accepted", "dry_run"}:
                         self.remember_action(akey)
             else:
                 self.log_action({**action_base, "action": "TIGHTEN"}, "shutdown_tighten", "skipped", reject_reason=stop_reject or "no valid tighter stop")
@@ -10080,10 +10029,12 @@ class ForexManager:
         if not open_trades:
             state["last_volatile_weekend_flatten_utc"] = iso_utc()
             state["last_volatile_weekend_flatten_count"] = 0
+            state["last_volatile_weekend_flatten_dry_run_count"] = 0
             self.save_state(state)
             log(f"{self.lane_prefix()}Weekend flat policy: already flat ({reason}).")
             return 0
         closed = 0
+        dry_run = 0
         log(f"{self.lane_prefix()}Weekend flat policy: closing {len(open_trades)} open volatile-account trade(s). reason={reason}")
         for trade in list(open_trades):
             inst = normalize_instrument(trade.get("instrument"))
@@ -10096,8 +10047,10 @@ class ForexManager:
             }
             try:
                 status = self.close_trade(trade, action)
-                if status not in {"skipped", "error"}:
+                if status in {"accepted", "accepted_after_recheck"}:
                     closed += 1
+                elif status == "dry_run":
+                    dry_run += 1
             except Exception as exc:
                 self.log_error(f"volatile weekend flatten close {inst}", exc)
                 try:
@@ -10107,8 +10060,9 @@ class ForexManager:
         state = self.load_state()
         state["last_volatile_weekend_flatten_utc"] = iso_utc()
         state["last_volatile_weekend_flatten_count"] = closed
+        state["last_volatile_weekend_flatten_dry_run_count"] = dry_run
         self.save_state(state)
-        log(f"{self.lane_prefix()}Weekend flat policy pass complete: closed_attempts={closed}/{len(open_trades)}")
+        log(f"{self.lane_prefix()}Weekend flat policy pass complete: confirmed_closed={closed}/{len(open_trades)} dry_run={dry_run}")
         return closed
 
 

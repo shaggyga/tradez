@@ -1,0 +1,66 @@
+{
+  "schema_version": "eurusd_observed_input_adapter_validation_v1",
+  "created_utc": "2026-09-07T16:27:59.221938+00:00",
+  "scope": "New EURUSD-only input adapter and new fixture tests. All preexisting registered sources, runtime data, configuration, workers and account/order surfaces untouched by this subtask.",
+  "source_files": {
+    "oanda_causal_forecast_inputs_eurusd_v1.py": {
+      "sha256": "559cce99d33946708475bb39ee68b77f0d1fe1ae6d1edb435b3110b6f9cdd1e6",
+      "bytes": 8924
+    },
+    "test_oanda_causal_forecast_inputs_eurusd_v1.py": {
+      "sha256": "d6d899b1ce1e5f74971fe3a48b01dbacc811b0dc7fec47f99cc7ab86d5e0a638",
+      "bytes": 12031
+    },
+    "oanda_eurusd_local_models_v1.py": {
+      "sha256": "8cd57cb20d26a220dcc1328b949d5e380d31e9d63ece12af743a010ac4b263d7",
+      "bytes": 8189
+    }
+  },
+  "tests": {
+    "total": 100,
+    "errors": 0,
+    "failures": 0,
+    "input_tests": 46,
+    "model_tests": 54,
+    "xml": "C:\\Users\\zmoor\\Documents\\forex\\warmup_repair_20260907\\eurusd_local_inputs\\input_model_tests.xml",
+    "xml_sha256": "c70fbd3809fd93fdb7a26e16f3323521c001138c666902df88b3e0554e973730",
+    "junit_elapsed_seconds": 6.388,
+    "console_elapsed_seconds": 6.39
+  },
+  "capture_contract": {
+    "pairs": [
+      "EUR_USD"
+    ],
+    "families": [
+      "ridge_return_repaired",
+      "probabilistic_state_space"
+    ],
+    "maximum_real_rows": 1024,
+    "maximum_tail_bytes": 1048576,
+    "current_consecutive_closes_required": 61,
+    "reference_max_age_sec": 900,
+    "maturity_semantics": "UTC M1 START plus60seconds; actual observation follows stable byte read",
+    "learning_availability": "retained older labels become usable only at actual current source observation; later computation completion required",
+    "peer_pair_reads": 0,
+    "imputed_rows": 0,
+    "numeric_source_sha256": "8cd57cb20d26a220dcc1328b949d5e380d31e9d63ece12af743a010ac4b263d7"
+  },
+  "sourcebound_helper_dependencies": [
+    "oanda_causal_forecast_inputs.py",
+    "oanda_causal_forecast_inputs_gap_v2.py"
+  ],
+  "validated_behavior": [
+    "Missing or malformed peer archives have no effect and are never read.",
+    "512 retained old plus61 current EURUSD closes produce exactly the two requested local families; supervised labels mature before reopening in that fixture.",
+    "Old EURUSD holes remain absent and allow unaffected historical segments; a recent own-pair hole still causes explicit warmup abstention.",
+    "Capture digest, retained source hashes, exact byte geometry, schema/inert identities, all derived fields, maturity/freshness boundaries and actual observation clocks are revalidated.",
+    "Nonzero sub-microsecond timestamps cannot truncate into an exact minute; zero nanoseconds and equivalent nonzero timezone offsets are supported.",
+    "Hash-verified model bytes execute fresh rather than trusting cached modules or pyc; unavailable family or backwards completion clock abstains the entire batch."
+  ],
+  "limitations": [
+    "This new companion requires separate registration and activation by the parent; this subtask did not start it.",
+    "Readiness is not improved prediction accuracy or trading approval.",
+    "Both families remain required and retain their model-specific training minima;61currentcloses alone do not guarantee sufficient supervised historical rows.",
+    "The original multi-pair study remains independent and unchanged."
+  ]
+}

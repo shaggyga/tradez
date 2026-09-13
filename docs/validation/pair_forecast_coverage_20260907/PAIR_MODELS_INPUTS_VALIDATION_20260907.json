@@ -1,0 +1,55 @@
+{
+  "schema_version": "independent_pair_models_inputs_validation_v1",
+  "observed_utc": "2026-09-07T17:02:24.951946+00:00",
+  "status": "tests_passed_independent_review_complete_sources_frozen",
+  "files": {
+    "oanda_pair_local_models_v1.py": "ecd259fd66d74930ee23c715d29a5dba788d56ab2f7198cd1f521b912637ff26",
+    "oanda_causal_forecast_inputs_pair_v1.py": "d4a8356b9df29b7f45cbebc4c9b93e9b5c843c2f1c56c93c088f22e9db856807",
+    "test_oanda_pair_local_models_v1.py": "ab092a5ce8f1904a17c239a70c61a293a6e5f4ae8f6d4f92600753ca7986b295",
+    "test_oanda_causal_forecast_inputs_pair_v1.py": "9dd549983c8949734aef1afea4460f37465b4ccfc9f77de084368cea266394d7"
+  },
+  "existing_readonly_source_sha256": {
+    "oanda_eurusd_local_models_v1.py": "8cd57cb20d26a220dcc1328b949d5e380d31e9d63ece12af743a010ac4b263d7",
+    "oanda_causal_forecast_inputs_eurusd_v1.py": "559cce99d33946708475bb39ee68b77f0d1fe1ae6d1edb435b3110b6f9cdd1e6",
+    "oanda_causal_forecast_inputs.py": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+    "oanda_causal_forecast_inputs_gap_v2.py": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd"
+  },
+  "junit_xml_sha256": "72397ccb0a9e36ada7bff65d1048c523383b07539b74195f96036235cbaa0c7c",
+  "tests": {
+    "passed": 140,
+    "failed": 0,
+    "scope": "Synthetic temporary local CSV archives and pure numerical fixtures; no runtime or broker operations"
+  },
+  "benchmark": {
+    "kind": "synthetic_repeated_numerical_calls_only",
+    "calls": 25,
+    "input_rows": 990,
+    "families": 2,
+    "median_seconds": 0.024993799976073205,
+    "p95_seconds": 0.03829479997511953,
+    "maximum_seconds": 0.04413719999138266
+  },
+  "limitations": [
+    "Model-implied probabilities are not measured out-of-sample accuracy or calibrated confidence.",
+    "Coverage readiness is input eligibility only, not publication or execution authority.",
+    "Each active pair requires explicit frozen metadata pip size; no symbol inference is used.",
+    "All 61 current own-pair closes and 24 valid mature H1 training rows remain mandatory for a complete pair batch.",
+    "These modules never activate studies or write runtime, quote, ledger or broker state."
+  ],
+  "research_only": true,
+  "can_place_orders": false,
+  "can_promote": false,
+  "independent_review": {
+    "reviewer": "/root/pair_ledger_evaluation",
+    "received_utc": "2026-09-07T17:04:33.671391+00:00",
+    "blocking_findings": 0,
+    "checked": [
+      "Exact H1 training maturity with 121 actual minute closes",
+      "EWMA state reset at latest actual gap",
+      "Current own-pair input window and source observation clocks",
+      "Reconstructed capture fields and verified numerical byte loader",
+      "Explicit instrument and metadata pip bindings"
+    ],
+    "inherited_convention": "An exactly zero expected move retains the original EUR adapter side=+1 while probability_up=.5. This is an emitted-side convention, not observed predictive success."
+  }
+}

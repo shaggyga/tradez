@@ -1,0 +1,112 @@
+{
+  "schema_version": "forex_news_governance_fast_lane_validation_v1",
+  "generated_utc": "2026-09-01T13:36:45Z",
+  "issue_ids": [
+    "FX-20260901-NEWS-GOVERNANCE-FAST-LANE-V1",
+    "FX-20260901-NEWS-GOVERNANCE-FAST-LANE-V2"
+  ],
+  "scope": "research_only_general_news_first_seen_to_governed_mapping_availability",
+  "observed_gap": {
+    "description": "general-news rows could be present in the collector before the slower full source-governance reconciliation made their governed mapping available to event-time research consumers",
+    "full_reconciliation_retained": true,
+    "full_reconciliation_role": "revision_and_complete_registry_reconciliation",
+    "execution_effect": false,
+    "evidence_mutation": false
+  },
+  "invalid_v1": {
+    "contract_id": "news_source_governance_fast_lane_v1_prospective_20260901",
+    "cohort_id": "news_source_governance_fast_lane_v1_20260901T125500Z",
+    "activated_utc": "2026-09-01T12:55:00+00:00",
+    "root_cause": "last_seen_utc refreshes allowed old first-seen articles to cross the prospective activation boundary",
+    "scanned_input_rows": 537,
+    "retained_receipts": 24,
+    "preactivation_receipts": 10,
+    "minimum_input_first_seen_utc": "2026-09-01T12:04:35.166087+00:00",
+    "maximum_input_first_seen_utc": "2026-09-01T12:58:22.138121+00:00",
+    "status": "permanently_invalid",
+    "deleted": false,
+    "eligible_for_proof": false,
+    "eligible_for_execution": false,
+    "retention_reason": "preserve the failed cohort and its exact receipts as falsification and lineage evidence"
+  },
+  "corrected_v2": {
+    "contract_id": "news_source_governance_fast_lane_v2_first_seen_prospective_20260901",
+    "cohort_id": "news_source_governance_fast_lane_v2_20260901T131500Z",
+    "activated_utc": "2026-09-01T13:15:00+00:00",
+    "scan_clock": "first_seen_utc",
+    "scan_interval_seconds": 30,
+    "scan_window": "strictly_after_prior_cursor_and_at_or_before_current_scan_start",
+    "availability_safety_seconds": 10,
+    "operational_view": "source_events_fast_mapped_v2",
+    "operational_effective_clock": "maximum_of_source_event_effective_from_and_governance_available",
+    "revision_handling": "deferred_to_full_source_governance_reconciliation",
+    "append_only_receipts": true,
+    "current_view_filters_exact_contract": true,
+    "research_only": true,
+    "supported_decision": "no_trade",
+    "execution_eligible": false,
+    "can_place_orders": false,
+    "can_promote": false,
+    "can_authorize": false,
+    "real_money_routing": false
+  },
+  "concurrency_repair": {
+    "observed_failure": "the shared project audit could read a prior state file after a later receipt batch committed, producing a transient false state-count mismatch",
+    "scanner_fix": "bind every scan to an explicit inclusive upper first-seen cutoff equal to scan_started_utc",
+    "verifier_fix": "reconcile receipt count at next_scan_cursor_utc and separately report later database receipts",
+    "later_receipts_change_prior_snapshot": false,
+    "regression_fixture": "two prospective articles straddling consecutive scan cutoffs; the later receipt is present in the database but excluded from the earlier state reconciliation",
+    "execution_effect": false
+  },
+  "live_validation_snapshot": {
+    "state_generated_utc": "2026-09-01T13:33:40.998094+00:00",
+    "state_snapshot_cutoff_utc": "2026-09-01T13:33:36.124642+00:00",
+    "v2_receipt_count_at_cutoff": 42,
+    "database_current_v2_receipt_count": 42,
+    "receipts_after_state_cutoff": 0,
+    "retained_invalid_v1_receipt_count": 24,
+    "v2_preactivation_receipts": 0,
+    "unknown_contract_receipts": 0,
+    "optimistic_clock_receipts": 0,
+    "input_clock_violations": 0,
+    "contract_or_inert_violations": 0,
+    "orphan_or_hash_mismatched_events": 0,
+    "operational_clock_violations": 0,
+    "append_only_triggers_present": true,
+    "operational_view_present": true,
+    "state_count_reconciled": true,
+    "standalone_integrity_ok": true,
+    "post_reload_project_integrity": "ok",
+    "post_reload_project_integrity_generated_utc": "2026-09-01T13:33:40.322337+00:00",
+    "post_reload_project_integrity_publication_generation": 95,
+    "post_reload_project_integrity_failure_count": 0,
+    "post_reload_fast_lane_check": true
+  },
+  "validation": {
+    "compile_status": "passed",
+    "focused_test_command": "python -m pytest -q trad/test_oanda_source_governance_news_fast_lane.py trad/test_oanda_source_governance.py trad/test_oanda_project_integrity_audit.py",
+    "focused_tests_passed": 103,
+    "focused_tests_failed": 0,
+    "pytest_cache_warning_only": true,
+    "runtime_workers_reloaded": [
+      "oanda_source_governance_news_fast_lane.py",
+      "oanda_project_integrity_audit.py"
+    ],
+    "practice_007_account_unchanged": true,
+    "practice_007_nav": 41.6042,
+    "practice_007_open_trades": 0,
+    "practice_007_pending_orders": 0,
+    "real_money_enabled": false,
+    "codex_automation_created": false
+  },
+  "implementation_sha256": {
+    "oanda_source_governance.py": "fe4259c52f4a2cac178f69b553d7a58813cc395e47ae4673600cb4524066761e",
+    "oanda_source_governance_news_fast_lane.py": "e778853f6fd38de99cd1c41aef22bf367c1047918f38bfd64442a50972bc3370",
+    "test_oanda_source_governance_news_fast_lane.py": "ec6f48614959d1f47e71be93a1161d2b7e1954d4b78973ffe91620a8dde7ecdd",
+    "oanda_project_integrity_audit.py": "9d58d31fe9d7747ee50bb08378552b4bf27686e631f75af1d767f2e7684bfcdc",
+    "test_oanda_project_integrity_audit.py": "544cd875d25ad1c927e324b20d2d0db6322ef4b9d7e9f12775192fb4e8041832",
+    "oanda_always_on_supervisor.ps1": "b9212a8ce71003ca256f18e0d8485b9dfc91b0590882b8485ae1b211212972fd",
+    "forex_model_vault_sync.py": "4a8c33e1487c3c793e58041b2c40ea1a3a1615cc7e2388288bb643cff2460131",
+    "test_forex_model_vault_sync.py": "c034ca5eb6bef65c2d4f0c8520c9524b6997a0ef8a45ebc2171652361cf7f674"
+  }
+}

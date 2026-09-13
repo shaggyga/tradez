@@ -12,12 +12,14 @@ from pathlib import Path
 
 try:
     from oanda_signal_combination_audit import (
+        FUZZY_VALIDATION_CONTRACT,
         mine_fuzzy_rules,
         read_training_rows,
         write_rule_state,
     )
 except ModuleNotFoundError:
     from trad.oanda_signal_combination_audit import (
+        FUZZY_VALIDATION_CONTRACT,
         mine_fuzzy_rules,
         read_training_rows,
         write_rule_state,
@@ -27,7 +29,7 @@ except ModuleNotFoundError:
 PROJECT_ROOT = Path(__file__).resolve().parent
 DEFAULT_STATE_DIR = PROJECT_ROOT / "data" / "oanda_training_manager" / "state"
 DEFAULT_DATABASE = DEFAULT_STATE_DIR / "signal_combination_audit_v1.sqlite"
-DEFAULT_STATE = DEFAULT_STATE_DIR / "signal_combination_audit_v1.json"
+DEFAULT_STATE = DEFAULT_STATE_DIR / "signal_combination_audit_v4.json"
 
 
 def parse_args() -> argparse.Namespace:
@@ -44,9 +46,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--chronological-validation-blocks",
         type=int,
-        choices=(1, 2),
+        choices=(2,),
         default=2,
-        help="Use separate selection/final blocks (2) or the legacy single holdout (1).",
+        help="Require separate selection/final blocks; legacy shared-block research remains in preserved pre-v4 source.",
     )
     parser.add_argument("--max-rules-per-horizon", type=int, default=80)
     parser.add_argument("--max-conditions", type=int, default=3)
@@ -168,8 +170,8 @@ def _utc_epoch(value: object) -> float | None:
         parsed = datetime.fromisoformat(text.replace("Z", "+00:00"))
     except ValueError:
         return None
-    if parsed.tzinfo is None:
-        parsed = parsed.replace(tzinfo=timezone.utc)
+    if parsed.tzinfo is None or parsed.utcoffset() is None:
+        return None
     return parsed.timestamp()
 
 
@@ -218,6 +220,11 @@ def apply_forward_refit_confirmation(
     output: list[dict] = []
     for source in fitted:
         rule = dict(source)
+        if rule.get("validation_contract") == FUZZY_VALIDATION_CONTRACT:
+            rule.update(account_eligible=False, forward_refit_confirmed=False,
+                        shadow_reason="fuzzy_v4_requires_independent_forward_evidence")
+            output.append(rule)
+            continue
         signature = rule_replication_signature(rule)
         prior = previous_by_signature.get(signature)
         first_utc = (
@@ -284,10 +291,12 @@ def carry_forward_unselected_rules(
     return output
 
 
-def fit_once(args: argparse.Namespace) -> dict:
+def fit_once(args: argparse.Namespace, *, as_of_utc: str | None = None) -> dict:
     selected_horizons, cursor_path, next_index = horizon_batch(args)
     selected_set = set(selected_horizons)
     previous = read_json(args.state)
+    if args.state.exists() and previous.get("validation_contract") != FUZZY_VALIDATION_CONTRACT:
+        raise ValueError("fuzzy_v4_refuses_legacy_state_overwrite")
     rules: list[dict] = (
         carry_forward_unselected_rules(
             list(previous.get("rules") or []),
@@ -301,7 +310,9 @@ def fit_once(args: argparse.Namespace) -> dict:
         str(key): int(value)
         for key, value in (previous.get("horizon_fit_rows") or {}).items()
     }
-    validated_utc = datetime.now(timezone.utc).isoformat()
+    validated_utc = datetime.now(timezone.utc).isoformat() if as_of_utc is None else as_of_utc
+    if _utc_epoch(validated_utc) is None:
+        raise ValueError("as_of_utc must be an aware ISO-8601 timestamp")
     if args.database.is_file():
         for horizon in selected_horizons:
             rows = read_training_rows(args.database, horizon, args.max_rows_per_horizon)
@@ -323,6 +334,7 @@ def fit_once(args: argparse.Namespace) -> dict:
                 minimum_positive_instrument_fraction=args.minimum_positive_instrument_fraction,
                 maximum_instrument_weight_fraction=args.maximum_instrument_weight_fraction,
                 chronological_validation_blocks=args.chronological_validation_blocks,
+                as_of_utc=validated_utc,
             )
             if fitted:
                 previous_horizon_rules = [
@@ -352,7 +364,7 @@ def fit_once(args: argparse.Namespace) -> dict:
     rules.sort(
         key=lambda rule: (
             float(rule.get("score") or 0.0),
-            float((rule.get("holdout") or {}).get("weighted_support") or 0.0),
+            float((rule.get("selection_calibration") or {}).get("weighted_support") or 0.0),
         ),
         reverse=True,
     )
@@ -400,7 +412,7 @@ def main() -> int:
         try:
             state = fit_once(args)
             print(
-                f"{state['generated_at']} rules={state['validated_rule_count']} "
+                f"{state['generated_at']} selection_frozen_rules={state['selection_frozen_research_rule_count']} "
                 f"snapshots={state['counts']['snapshots']} outcomes={state['counts']['outcomes']}",
                 flush=True,
             )

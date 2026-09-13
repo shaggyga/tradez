@@ -1,0 +1,96 @@
+{
+  "schema_version": "forex_market_open_preflight_v1",
+  "observed_utc": "2026-09-06T19:37:58.414378+00:00",
+  "status": "passed",
+  "authorization": "User requested readiness for market open after the stopped audit; resume the existing collection-only session.",
+  "scope": "Collection and the existing registered causal study, with execution still disabled.",
+  "contract_id": "causal_four_family_future_collection_v1_io_r2_20260906",
+  "registered_contract_payload_sha256": "bc99e68db720e0a43b3ec68a7820b3605013d0c2138515f23e648f5b34fadc2a",
+  "contract_file_sha256": "64bdb74b6a8b881ee4e93b36b422812786f7218a4c10f8d799ec7dd900f24699",
+  "source_bindings_unchanged": {
+    "oanda_causal_forecast_inputs.py": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+    "oanda_causal_forecast_ledger.py": "4ddd413261fc294922bf2664bb0ae018d8469a3422942567849c1624ba32cd1f",
+    "oanda_causal_forecast_study.py": "e50a9a8ef5bbfe739d177d1bcf8632362bcad06b68694eb7c599c70a33fbd44e",
+    "oanda_causal_prediction_baselines.py": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+    "oanda_fixed_forecast_evaluation.py": "482af854fae94d53aea82c109ffb6a00f265f3ecebdbc3137e200cb07d142708",
+    "oanda_proof_shadow_predictors.py": "51c3f945eadb3f26166cfddd37d97451ef21e2b69ece6664c57ee06c145ff417"
+  },
+  "dependency_versions_verified": {
+    "numpy": "2.5.1",
+    "python": "3.12.10",
+    "scikit-learn": "1.9.0"
+  },
+  "preserved_stopped_study_files": [
+    {
+      "name": "heartbeat.json",
+      "sha256": "71b035ce460ec24b482cd8bfb119d7c910b2bd76087d4c4cbf544ee48ed698d0",
+      "bytes": 773
+    },
+    {
+      "name": "scorecard.json",
+      "sha256": "2a8fc94738e1ac8586d66037544e0ec49544d6dc8c7d79688ed216b8ff423904",
+      "bytes": 5328
+    },
+    {
+      "name": "study.sqlite",
+      "sha256": "79db8f8dbf764394188616ae7266e40ab28ff91a718bc2ae28c2bbcb1e7e08e4",
+      "bytes": 110592
+    },
+    {
+      "name": "study.sqlite-shm",
+      "sha256": "fd4c9fda9cd3f9ae7c962b0ddf37232294d55580e1aa165aa06129b8549389eb",
+      "bytes": 32768
+    },
+    {
+      "name": "study.sqlite-wal",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "name": "worker.lock",
+      "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "bytes": 1
+    }
+  ],
+  "copied_study_quick_check": "ok",
+  "copied_study_tables": [
+    "activation",
+    "attempts",
+    "clocks",
+    "consumption",
+    "contract",
+    "diagnostics",
+    "entries",
+    "exclusions",
+    "forecasts",
+    "inputs",
+    "outcomes",
+    "publication",
+    "quotes"
+  ],
+  "saved_study_counts": {
+    "attempts": 0,
+    "consumption": 0,
+    "diagnostics": 0,
+    "entries": 0,
+    "exclusions": 0,
+    "forecasts": 0,
+    "inputs": 0,
+    "outcomes": 0,
+    "publication": 0,
+    "quotes": 0
+  },
+  "registered_activation_epoch_unchanged": 1788708624.9526446,
+  "config_changed": false,
+  "study_reregistered": false,
+  "runtime_started_by_preflight": false,
+  "market_open_utc": "2026-09-06T21:05:00+00:00",
+  "market_open_new_york": "2026-09-06T17:05:00-04:00",
+  "market_hours_sources": [
+    "https://www.oanda.com/us-en/trading/hours-of-operation/",
+    "https://www.oanda.com/us-en/trading/holiday-trading-hours/"
+  ],
+  "market_hours_scope": "OANDA US ordinary FX hours on September 6; TRY pairs have separate hours.",
+  "can_place_orders": false,
+  "new_offline_models_activated": false
+}

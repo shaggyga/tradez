@@ -1,0 +1,199 @@
+{
+  "adjacent_original_sources": [
+    {
+      "complete_row_count": 120,
+      "direction": "previous",
+      "directory": "cycles/cycle_1788949855618885300/gbp_usd",
+      "first_complete_bar_label_epoch": 1788949160.0,
+      "last_complete_bar_label_epoch": 1788949845.0,
+      "missing_s5_intervals": 18,
+      "original_read_completed_epoch": 1788949857.3815928,
+      "original_read_completed_utc": "2026-09-09T10:30:57.381593+00:00",
+      "provider_gap_count": 11,
+      "raw_source_sha256": "35bbc53dc7491f4dcb24e0850d30c13261bf91710a7e0e37905be5888ca57fde",
+      "receipt_sha256": "307758a3a726aa231dea4882f38f5e928d07690e58c08c2859b466c335c44a8c"
+    },
+    {
+      "complete_row_count": 119,
+      "direction": "next",
+      "directory": "cycles/cycle_1788949975620059300/gbp_usd",
+      "first_complete_bar_label_epoch": 1788949280.0,
+      "last_complete_bar_label_epoch": 1788949965.0,
+      "missing_s5_intervals": 19,
+      "original_read_completed_epoch": 1788949977.3255556,
+      "original_read_completed_utc": "2026-09-09T10:32:57.325556+00:00",
+      "provider_gap_count": 11,
+      "raw_source_sha256": "12b0a2660fc87a8d863646d6e4fea381fedbfd97f6a188c0b9bffb25b07a7ce5",
+      "receipt_sha256": "ad9fd4007dd639ca486a362025eba8a4f493ec534fc1a0dce7f3bee25a1bdd01"
+    }
+  ],
+  "automatic_retries": 0,
+  "broker_requests": 0,
+  "cycle_curves_consumed": 0,
+  "cycle_curves_issued": 0,
+  "cycle_curves_published": 0,
+  "cycle_pair_statuses": {
+    "EUR_USD": "captured",
+    "GBP_USD": "failed",
+    "USD_JPY": "captured"
+  },
+  "diagnostic_completed_epoch": 1788954601.5212073,
+  "diagnostic_started_epoch": 1788954601.343791,
+  "exact_failure_latency_sec": null,
+  "failed_read_completed_epoch": null,
+  "failed_receipt_seal_verified": true,
+  "failed_response_body_retained": false,
+  "failure": {
+    "directory": "cycles/cycle_1788949915619204500/gbp_usd",
+    "instrument": "GBP_USD",
+    "reason_code": "non_200_response",
+    "status": "failed_source_capture"
+  },
+  "helper": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\prospective_pilot\\source_failure_diagnostic_v1\\diagnose_failed_source_002_v1.py",
+    "sha256": "a55d30a314dc4a262af6dc2b4c83a0df159cf5cf8cb87440b74452ce4332db1e"
+  },
+  "http_status": 504,
+  "interpretation": [
+    "One correctly hash-bound failed collection receipt records HTTP504/non_200_response. This is distinct from an evaluator verification issue; original issues is empty.",
+    "The fixed08:55 issuance cutoff had passed. This cycle attempted no variant forecasts, so this failure did not omit a newly issued curve at that cycle.",
+    "The failed source supplies no candle rows or coverage. It remains counted as failed and never becomes a zero return, valid endpoint or synthetic source interval.",
+    "The original request_started field is sampled before credential/session setup; it is a capture-workflow clock, not an exact wire-send timestamp. Failed responses have no read/completion clock or retained body, so exact network latency and underlying failure cause are unavailable.",
+    "Adjacent original successful GBP observations have overlapping returned domains and separately disclosed provider gaps. They are not stitched or substituted for the failed query, and do not prove that every target endpoint was observed.",
+    "No scoring rerun or counterfactual attribution was performed. The620provider omissions,250coverage omissions,1166pending and4withheld views cannot be attributed to this single HTTP504 from this bounded receipt audit."
+  ],
+  "model_fits": 0,
+  "original_capture_workflow_started_epoch": 1788949916.6245992,
+  "original_capture_workflow_started_utc": "2026-09-09T10:31:56.624599+00:00",
+  "original_curve_status_counts": {
+    "scored_chain": 1154
+  },
+  "original_cycle_completed_epoch": 1788949923.3190193,
+  "original_cycle_completed_utc": "2026-09-09T10:32:03.319019+00:00",
+  "original_evidence_issue_count": 0,
+  "original_issue_cutoff_epoch": 1788944100.0,
+  "original_issue_cutoff_utc": "2026-09-09T08:55:00+00:00",
+  "original_receipt_and_cycle": [
+    {
+      "bytes": 1286,
+      "original_evaluator_observed_epoch": 1788953585.4490135,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\recovered_second_curve_pilot_v1_20260909\\cycles\\cycle_1788949915619204500\\gbp_usd\\capture_receipt.json",
+      "sha256": "cff0b08ea4e22054433e235a6f5de5275f7368ee92132a56cb4d3a09207af46f"
+    },
+    {
+      "bytes": 1745,
+      "original_evaluator_observed_epoch": 1788953585.2457142,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\recovered_second_curve_pilot_v1_20260909\\cycles\\cycle_1788949915619204500\\cycle_completed.json",
+      "sha256": "767e99a47c103bc0301fe1a2c812bf95b81fc884367a5704481d839980bc03b9"
+    }
+  ],
+  "original_request_count": 1,
+  "original_source_status_counts": {
+    "failed_source_capture": 1,
+    "verified": 1058
+  },
+  "original_view_dispositions": {
+    "missing_provider_bar": 620,
+    "missing_source_coverage": 250,
+    "pending": 1166,
+    "scored": 27964,
+    "withheld": 4
+  },
+  "proof_eligible": false,
+  "registry": {
+    "bytes": 4292,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\recovered_second_curve_pilot_v1_20260909.json",
+    "sha256": "ae64f2cae6df44dad81b46deb16e95e4d5f67dabb7fc1e65289b96ba6b0fe2b2"
+  },
+  "report": {
+    "bytes": 472453,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\prospective_pilot\\scalability_v3\\actual_evaluation_002\\PROSPECTIVE_PILOT_EVALUATION.json",
+    "sha256": "24c5b477a2f9781c792d3375e91d09b639c9cc4c3141dbac4513c34d6790de31"
+  },
+  "rescoring_performed": false,
+  "retained_inventory": {
+    "bytes": 7316836,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\prospective_pilot\\scalability_v3\\actual_evaluation_002\\manifest.json",
+    "sha256": "65f23e335f0a2a6f39198bf923b373cb8379dd51ae7c790e6b147eecb52e8e3b"
+  },
+  "runtime_writes": false,
+  "schema_version": "pilot_retained_failed_source_diagnosis_v1_20260909",
+  "source_evidence": [
+    {
+      "bytes": 9513,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_curve_management_adapter_v1.py",
+      "sha256": "8fa6cccf1e2525d0186ab7abe0c68fccc4800db7b785a8b9f79f28c320ad1241"
+    },
+    {
+      "bytes": 26812,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_forecast_curve_contract_v1.py",
+      "sha256": "c03549586f922f6031790fce68a5afb5b98e4eda6157f20c4720b1adb05d0746"
+    },
+    {
+      "bytes": 12336,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_forecast_curve_file_store_v1.py",
+      "sha256": "0d537f59e8c90e7957b2d9853d6a5561486ec5004f3b1ee02661c335bdf5fc4d"
+    },
+    {
+      "bytes": 17815,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_live_account_readonly_status.py",
+      "sha256": "2734dda34d532a094eff614d5fe05d01c7aa6a2ebd80ca2bb974f12d8c5d93af"
+    },
+    {
+      "bytes": 31816,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_native_curve_outcomes_v1.py",
+      "sha256": "f90b237543aff4d86f5d3c93aeec1f738743fd6c9ba75c60f96ecfc8b605b68b"
+    },
+    {
+      "bytes": 4240,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_practice_quote_stream.py",
+      "sha256": "f46f5aef1be8ea7a925b7b48cd8a138a06b260b23bccc4c3382c52cac3f04b9d"
+    },
+    {
+      "bytes": 594803,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_practice_shadow_strategy_lab.py",
+      "sha256": "c6671bae42fa05fecd16e179cf86ced322be0d84e29666de015b978b4a007fb6"
+    },
+    {
+      "bytes": 4157,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_recovered_curve_bridge_v1.py",
+      "sha256": "07499ba8c5112b167b171af38a4bf69d414f901640e0301afa5babb381597c13"
+    },
+    {
+      "bytes": 19086,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_recovered_curve_pilot_v1.py",
+      "sha256": "fe7fdcd1f3e3c9473d393bc044721bfb48b48bdca09ee18fa8de8b9b8e02200e"
+    },
+    {
+      "bytes": 21606,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_recovered_second_curve_v1.py",
+      "sha256": "dbc2d606afdeb23840dd9038cd1200301c2211abb4228ef9bab193763323f41d"
+    },
+    {
+      "bytes": 14613,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_research_quote_receipt_v1.py",
+      "sha256": "ba18acd7eeac0eaa7c5cd7f8d4505fa5494c4ad3398345f009d25670169a27ef"
+    },
+    {
+      "bytes": 18061,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_s5_mba_research_capture_v1.py",
+      "sha256": "38fe20f4e55d970f074c71f7acee5f5adaebc9ac7766a532efcd782b34abbb45"
+    },
+    {
+      "bytes": 60604,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_second_forecast.py",
+      "sha256": "3ac9f38bbe7140aae7bf391d1778f658b599199601d811d97d3386f32d727063"
+    },
+    {
+      "bytes": 52800,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_second_forecast_fit.py",
+      "sha256": "238b8e6d83536aa287dc6282a364ccbe7ba016f2e00221e3b95381edd8d4aba8"
+    }
+  ],
+  "source_index": {
+    "bytes": 1963829,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\prospective_pilot\\scalability_v3\\actual_evaluation_002\\source_captures.json",
+    "sha256": "d088100857870610aa5e1b8703aa92486a769f41deba5f1e3e8b30fd905f12c4"
+  },
+  "status": "passed"
+}

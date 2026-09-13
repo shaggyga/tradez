@@ -1,0 +1,755 @@
+{
+  "archive": {
+    "csv_jsonl_parquet_sqlite_corpus_files": [],
+    "file_count": 14,
+    "members": [
+      {
+        "bytes": 22487,
+        "name": "FOREX_NEWS_BLURB_RESEARCH_RECOVERED/COMPLETE_SOURCE_AUDIT_20260806.md",
+        "sha256": "f83adbd85a6cc371dbac987480ed21ccecc3bf010919a500bdf2b4d245bbbee1"
+      },
+      {
+        "bytes": 16030,
+        "name": "FOREX_NEWS_BLURB_RESEARCH_RECOVERED/CODEX_HANDOFF_PROMPT.md",
+        "sha256": "c3d90554c0b5ccfb75dc51698098329ee6528e4cb3da85cbb68006cf60185838"
+      },
+      {
+        "bytes": 7190,
+        "name": "FOREX_NEWS_BLURB_RESEARCH_RECOVERED/README_RECOVERED_PROJECT.md",
+        "sha256": "436272998bc13ee503be19c51a09becdc49ae8674fa6e88eda9dd9b23aff4db0"
+      },
+      {
+        "bytes": 15729,
+        "name": "FOREX_NEWS_BLURB_RESEARCH_RECOVERED/source/fx_spike_chunk_prep_for_chat.py",
+        "sha256": "bd29df5ec2969187ae8fdea667ef74d8f33423535d3d146d439b96dad6e02b87"
+      },
+      {
+        "bytes": 15907,
+        "name": "FOREX_NEWS_BLURB_RESEARCH_RECOVERED/source/fx_jump_news_attribution_gdelt.py",
+        "sha256": "869ce1887ceb9ada4d3f2c2b272783764edeadec116fac665edadb0fd5ed6d3b"
+      },
+      {
+        "bytes": 32309,
+        "name": "FOREX_NEWS_BLURB_RESEARCH_RECOVERED/source/fx_pair_macro_base_builder.py",
+        "sha256": "961d207da20d56b87d8375987ec77844f3a76519fcda0d248849df84817c8a78"
+      },
+      {
+        "bytes": 31918,
+        "name": "FOREX_NEWS_BLURB_RESEARCH_RECOVERED/source/eurusd_macro_movement_attribution.xlsx",
+        "sha256": "f64e187abb511e0abd32c7051d967b4a3bcbd5486eb29c5d05ad8ef7c9ef692d"
+      },
+      {
+        "bytes": 19503,
+        "name": "FOREX_NEWS_BLURB_RESEARCH_RECOVERED/source/fx_abnormal_jump_csv_builder.py",
+        "sha256": "e7e05fd88f066210f172f01a1eb91694beada55ee1608bc42b5f97c093ed5c76"
+      },
+      {
+        "bytes": 30410,
+        "name": "FOREX_NEWS_BLURB_RESEARCH_RECOVERED/source/fx_gpt_macro_factor_mapper.py",
+        "sha256": "e17353613a591d258d764f886a9dff3c43548de5f2d7424964d4524eb171c4f1"
+      },
+      {
+        "bytes": 54462,
+        "name": "FOREX_NEWS_BLURB_RESEARCH_RECOVERED/source/fx_macro_ruleset_from_abnormal_jumps.py",
+        "sha256": "202eb2614014eaf2fe70a224d38af428e07a64fac4f6067080b12a9bc68de4c0"
+      },
+      {
+        "bytes": 42844,
+        "name": "FOREX_NEWS_BLURB_RESEARCH_RECOVERED/source/fx_news_blurb_collector_from_jumps.py",
+        "sha256": "21eb2cff5e18434b490d91532d1f95b532109fa8ce5226dbb4101e5475742686"
+      },
+      {
+        "bytes": 38142,
+        "name": "FOREX_NEWS_BLURB_RESEARCH_RECOVERED/source/fx_pair_macro_deep_research_builder.py",
+        "sha256": "3e18e59d6f10bf627701676fe8847f541f28da1211542588f60a7c51fbe0ead3"
+      },
+      {
+        "bytes": 3075,
+        "name": "FOREX_NEWS_BLURB_RESEARCH_RECOVERED/RECOVERY_MANIFEST.json",
+        "sha256": "ec8e23e91ac07e98c6bacebfd3ccacb567d3470528a3d679d9f08a2f774c4271"
+      },
+      {
+        "bytes": 77,
+        "name": "FOREX_NEWS_BLURB_RESEARCH_RECOVERED/requirements.txt",
+        "sha256": "a0c3383b1f64c87bbdbc74d028f458c9466124ac72044b2b3e843ce1a0ab842b"
+      }
+    ],
+    "python_files": 8,
+    "scope": "Recovered research source package plus worked workbook/docs; not the later bulk blurb/episode database.",
+    "source": {
+      "bytes": 119040,
+      "path": "C:\\Users\\zmoor\\OneDrive\\thevault\\PROJECT_COMMONS\\artifacts\\FOREX_NEWS_BLURB_RESEARCH_RECOVERED.zip",
+      "sha256": "f0b79f7f1f58084573541c428d68b929041d890b7e7f6bdf4db4527b64210903"
+    },
+    "xlsx_files": 1
+  },
+  "databases": {
+    "movement_news_episode_research_v1.sqlite": {
+      "bytes": 92176384,
+      "mtime_ns": 1786989095381830800,
+      "observed_finished_utc": "2026-09-08T01:53:34.143738+00:00",
+      "observed_started_utc": "2026-09-08T01:53:32.953918+00:00",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\movement_news_episode_research_v1.sqlite",
+      "query_only": 1,
+      "query_results": {
+        "base_table_counts": {
+          "duration_sec": 0.313,
+          "rows": [
+            {
+              "rows": 8387,
+              "table_name": "movement_episodes"
+            },
+            {
+              "rows": 170355,
+              "table_name": "episode_source_links"
+            }
+          ],
+          "rows_sha256": "fbf3b0214db38f3aa3db48adb62e5634652b4cdb5778f61eaf6fb886085fbab6",
+          "sql": "SELECT 'movement_episodes' AS table_name,COUNT(*) AS rows FROM movement_episodes UNION ALL SELECT 'episode_source_links',COUNT(*) FROM episode_source_links"
+        },
+        "contract_provenance": {
+          "duration_sec": 0.0,
+          "rows": [
+            {
+              "config_sha256": "c5a618e35fa9adb9f89db23450d5328f4f980ce85b40fd0b4aed10c6914046da",
+              "contract_id": "movement_news_contract_5490cb5657c1993b033cb3cd",
+              "created_utc": "2026-08-09T16:52:25.747035+00:00",
+              "price_manifest_sha256": "f7e66b4a9f84310db22ff2bf1b5e46e1ea652363d01dbd96d16ff2d03fa18300",
+              "source_code_sha256": "20bfb0b2a59788bd02b24be06ebe246a55e8fe1d314e840b51d1cdc5ec60639a",
+              "source_event_highwater_utc": "2026-08-09T16:40:57.412253+00:00"
+            },
+            {
+              "config_sha256": "c5a618e35fa9adb9f89db23450d5328f4f980ce85b40fd0b4aed10c6914046da",
+              "contract_id": "movement_news_contract_5e9f5d84509a47a6c32d8c2f",
+              "created_utc": "2026-08-09T16:56:42.238219+00:00",
+              "price_manifest_sha256": "f7e66b4a9f84310db22ff2bf1b5e46e1ea652363d01dbd96d16ff2d03fa18300",
+              "source_code_sha256": "7d7595370d22e5e62f219bbeed856694e9d9953d0b1936b9996365623f9e0bed",
+              "source_event_highwater_utc": "2026-08-09T16:40:57.412253+00:00"
+            },
+            {
+              "config_sha256": "c5a618e35fa9adb9f89db23450d5328f4f980ce85b40fd0b4aed10c6914046da",
+              "contract_id": "movement_news_contract_4214b2371ce944f810523398",
+              "created_utc": "2026-08-09T17:22:23.884619+00:00",
+              "price_manifest_sha256": "51a7b78d756d57025a90fcad425968ace6d430c0e39e9891cbe65b2dabc8f548",
+              "source_code_sha256": "7d7595370d22e5e62f219bbeed856694e9d9953d0b1936b9996365623f9e0bed",
+              "source_event_highwater_utc": "2026-08-09T17:09:03.799723+00:00"
+            },
+            {
+              "config_sha256": "c5a618e35fa9adb9f89db23450d5328f4f980ce85b40fd0b4aed10c6914046da",
+              "contract_id": "movement_news_contract_6788dc78b3b113270daa0741",
+              "created_utc": "2026-08-17T17:49:20.198283+00:00",
+              "price_manifest_sha256": "3a28633e520fd958cdc58edb916297451528e4945399ac97a7f34b5e72a7f1ee",
+              "source_code_sha256": "e22da6b557e15606d0b486ed7407ba5bc6869b5e86ce2767d2544878a86b191e",
+              "source_event_highwater_utc": "2026-08-17T14:54:05.438220+00:00"
+            }
+          ],
+          "rows_sha256": "782ea223c3b4b430305196a0b8a3b94d47f8b0b046716483827876e0ccf9e624",
+          "sql": "SELECT contract_id,created_utc,config_sha256,source_code_sha256,price_manifest_sha256,source_event_highwater_utc FROM research_contracts"
+        },
+        "episode_scope": {
+          "duration_sec": 0.25,
+          "rows": [
+            {
+              "contract_id": "movement_news_contract_4214b2371ce944f810523398",
+              "episodes": 3918,
+              "episodes_with_pre_entry_directional": 2430,
+              "episodes_with_pre_entry_source": 2578,
+              "first_entry": "2026-01-23T07:34:00+00:00",
+              "last_exit": "2026-08-07T20:30:00+00:00",
+              "market_episodes": 802,
+              "max_horizon_minutes": 1440,
+              "min_horizon_minutes": 5,
+              "pairs": 67
+            },
+            {
+              "contract_id": "movement_news_contract_5490cb5657c1993b033cb3cd",
+              "episodes": 1544,
+              "episodes_with_pre_entry_directional": 1463,
+              "episodes_with_pre_entry_source": 1539,
+              "first_entry": "2026-07-14T11:30:00+00:00",
+              "last_exit": "2026-08-07T20:30:00+00:00",
+              "market_episodes": 280,
+              "max_horizon_minutes": 720,
+              "min_horizon_minutes": 5,
+              "pairs": 66
+            },
+            {
+              "contract_id": "movement_news_contract_5e9f5d84509a47a6c32d8c2f",
+              "episodes": 1696,
+              "episodes_with_pre_entry_directional": 1595,
+              "episodes_with_pre_entry_source": 1686,
+              "first_entry": "2026-04-30T06:50:00+00:00",
+              "last_exit": "2026-08-07T20:30:00+00:00",
+              "market_episodes": 304,
+              "max_horizon_minutes": 1440,
+              "min_horizon_minutes": 5,
+              "pairs": 67
+            },
+            {
+              "contract_id": "movement_news_contract_6788dc78b3b113270daa0741",
+              "episodes": 1229,
+              "episodes_with_pre_entry_directional": 894,
+              "episodes_with_pre_entry_source": 894,
+              "first_entry": "2026-07-07T22:02:00+00:00",
+              "last_exit": "2026-08-14T12:41:00+00:00",
+              "market_episodes": 473,
+              "max_horizon_minutes": 1440,
+              "min_horizon_minutes": 5,
+              "pairs": 16
+            }
+          ],
+          "rows_sha256": "5de0a898adf206263f1b5f2cac9f77f46bb72560e8e83105c1012014618927fc",
+          "sql": "SELECT contract_id,COUNT(*) AS episodes,COUNT(DISTINCT instrument) AS pairs,COUNT(DISTINCT market_episode_id) AS market_episodes,MIN(entry_utc) AS first_entry,MAX(exit_utc) AS last_exit,MIN(horizon_min) AS min_horizon_minutes,MAX(horizon_min) AS max_horizon_minutes,SUM(pre_entry_source_count>0) AS episodes_with_pre_entry_source,SUM(pre_entry_directional_count>0) AS episodes_with_pre_entry_directional FROM movement_episodes GROUP BY contract_id"
+        },
+        "link_timing": {
+          "duration_sec": 0.625,
+          "rows": [
+            {
+              "causal_entry_eligible": 0,
+              "relation": "in_window_ex_post",
+              "rows": 3703,
+              "source_population": "media_aggregator"
+            },
+            {
+              "causal_entry_eligible": 0,
+              "relation": "in_window_ex_post",
+              "rows": 779,
+              "source_population": "official_macro_publisher"
+            },
+            {
+              "causal_entry_eligible": 0,
+              "relation": "in_window_ex_post",
+              "rows": 1402,
+              "source_population": "official_policy_publisher"
+            },
+            {
+              "causal_entry_eligible": 0,
+              "relation": "in_window_ex_post",
+              "rows": 34698,
+              "source_population": "public_market_context"
+            },
+            {
+              "causal_entry_eligible": 1,
+              "relation": "pre_entry_causal",
+              "rows": 12154,
+              "source_population": "media_aggregator"
+            },
+            {
+              "causal_entry_eligible": 1,
+              "relation": "pre_entry_causal",
+              "rows": 1744,
+              "source_population": "official_macro_publisher"
+            },
+            {
+              "causal_entry_eligible": 1,
+              "relation": "pre_entry_causal",
+              "rows": 2552,
+              "source_population": "official_policy_publisher"
+            },
+            {
+              "causal_entry_eligible": 1,
+              "relation": "pre_entry_causal",
+              "rows": 113323,
+              "source_population": "public_market_context"
+            }
+          ],
+          "rows_sha256": "9d49d58c79074056d68b82c8dbf1113a459404718a5e9879243c96626cd1b45b",
+          "sql": "SELECT relation,source_population,causal_entry_eligible,COUNT(*) AS rows FROM episode_source_links GROUP BY 1,2,3"
+        }
+      },
+      "schema_sha256": "060ca74abbd7a66414c2d4d56cb06346994a034755f0bebe8f9733d4cfa3dfbb",
+      "scope": "Coherent read-only SQLite transaction; hash binds returned row results and schema, not entire DB or its external raw payloads."
+    },
+    "spike_blurb_factor_reconstruction_v1.sqlite": {
+      "bytes": 405794816,
+      "mtime_ns": 1787253719504713500,
+      "observed_finished_utc": "2026-09-08T01:53:32.953918+00:00",
+      "observed_started_utc": "2026-09-08T01:53:31.313286+00:00",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\spike_blurb_factor_reconstruction_v1.sqlite",
+      "query_only": 1,
+      "query_results": {
+        "base_table_counts": {
+          "duration_sec": 0.485,
+          "rows": [
+            {
+              "rows": 41454,
+              "table_name": "movement_candidates"
+            },
+            {
+              "rows": 2935,
+              "table_name": "source_attributions"
+            },
+            {
+              "rows": 2935,
+              "table_name": "factor_observations"
+            },
+            {
+              "rows": 265510,
+              "table_name": "movement_factor_links"
+            },
+            {
+              "rows": 2316,
+              "table_name": "factor_response_observations"
+            },
+            {
+              "rows": 7048,
+              "table_name": "legacy_attribution_cases"
+            },
+            {
+              "rows": 7048,
+              "table_name": "legacy_executable_price_windows"
+            },
+            {
+              "rows": 1692,
+              "table_name": "representative_cases"
+            },
+            {
+              "rows": 1646,
+              "table_name": "unmatched_research_episodes"
+            },
+            {
+              "rows": 9,
+              "table_name": "verified_external_source_cases"
+            },
+            {
+              "rows": 13,
+              "table_name": "verified_external_source_documents"
+            }
+          ],
+          "rows_sha256": "3703ae367791438f4caf5fc07d98c10373655415d97a5826edc348f22cac0727",
+          "sql": "SELECT 'movement_candidates' AS table_name,COUNT(*) AS rows FROM movement_candidates\n UNION ALL SELECT 'source_attributions',COUNT(*) FROM source_attributions\n UNION ALL SELECT 'factor_observations',COUNT(*) FROM factor_observations\n UNION ALL SELECT 'movement_factor_links',COUNT(*) FROM movement_factor_links\n UNION ALL SELECT 'factor_response_observations',COUNT(*) FROM factor_response_observations\n UNION ALL SELECT 'legacy_attribution_cases',COUNT(*) FROM legacy_attribution_cases\n UNION ALL SELECT 'legacy_executable_price_windows',COUNT(*) FROM legacy_executable_price_windows\n UNION ALL SELECT 'representative_cases',COUNT(*) FROM representative_cases\n UNION ALL SELECT 'unmatched_research_episodes',COUNT(*) FROM unmatched_research_episodes\n UNION ALL SELECT 'verified_external_source_cases',COUNT(*) FROM verified_external_source_cases\n UNION ALL SELECT 'verified_external_source_documents',COUNT(*) FROM verified_external_source_documents"
+        },
+        "factor_contract_provenance": {
+          "duration_sec": 0.0,
+          "rows": [
+            {
+              "builder_sha256": "61ff87b134a7b767ecb5cafb9e5e560f9b4b03f9f1686471638983079a7cc34c",
+              "created_utc": "2026-08-20T02:23:20.142451+00:00",
+              "factor_contract_id": "spike_blurb_pure_source_factor_v1_20260819",
+              "macro_database_bytes": 22831104,
+              "macro_database_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\macro_surprise_v1.sqlite",
+              "movement_build_contract_id": "spike_blurb_movement_inventory_v1_20260819",
+              "parent_contract_id": "spike_blurb_factor_reconstruction_v1_20260819",
+              "source_database_bytes": 6836518912,
+              "source_database_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\source_governance_v1.sqlite"
+            }
+          ],
+          "rows_sha256": "5fb82db12e6b56f02d3e8fdd6c6bad805b0814ccd0fbb82b2ef0a7fc906fefcc",
+          "sql": "SELECT factor_contract_id,movement_build_contract_id,parent_contract_id,created_utc,builder_sha256,source_database_path,source_database_bytes,macro_database_path,macro_database_bytes FROM factor_contracts"
+        },
+        "factor_state_counts": {
+          "duration_sec": 0.015,
+          "rows": [
+            {
+              "causal_state": "historical_backfill_only",
+              "currency_direction_state": "unresolved_without_expectation_or_market_response",
+              "factor_contract_id": "spike_blurb_pure_source_factor_v1_20260819",
+              "numeric_measurement_state": "actual_minus_latest_known_prior",
+              "rows": 34
+            },
+            {
+              "causal_state": "historical_backfill_only",
+              "currency_direction_state": "unresolved_rate_level_context",
+              "factor_contract_id": "spike_blurb_pure_source_factor_v1_20260819",
+              "numeric_measurement_state": "official_rate_curve_level_or_shape",
+              "rows": 139
+            },
+            {
+              "causal_state": "point_in_time_observed",
+              "currency_direction_state": "unresolved_rate_level_context",
+              "factor_contract_id": "spike_blurb_pure_source_factor_v1_20260819",
+              "numeric_measurement_state": "official_rate_curve_level_or_shape",
+              "rows": 8
+            },
+            {
+              "causal_state": "point_in_time_observed",
+              "currency_direction_state": "semantic_hypothesis_only",
+              "factor_contract_id": "spike_blurb_pure_source_factor_v1_20260819",
+              "numeric_measurement_state": "semantic_model_score_only",
+              "rows": 2754
+            }
+          ],
+          "rows_sha256": "eb900d0511f927b5bb74fcabc5b7aad207001c18a7cfabc4a576f38f25bba5b4",
+          "sql": "SELECT factor_contract_id,causal_state,numeric_measurement_state,currency_direction_state,COUNT(*) AS rows FROM factor_observations GROUP BY 1,2,3,4"
+        },
+        "factor_time_ranges": {
+          "duration_sec": 0.0,
+          "rows": [
+            {
+              "currencies": 21,
+              "execution_eligible": 0,
+              "first_known": "2026-07-28T04:01:41.240406+00:00",
+              "first_published": "2001-02-22T20:09:00+00:00",
+              "first_seen": "2026-07-28T04:01:41.240406+00:00",
+              "forecast_proof_eligible": 0,
+              "last_known": "2026-08-19T23:10:45.466429+00:00",
+              "last_published": "2026-08-19T18:00:00+00:00",
+              "last_seen": "2026-08-19T23:10:45.466429+00:00",
+              "missing_known": 0,
+              "missing_provenance": 0
+            }
+          ],
+          "rows_sha256": "43d450225358b3d4d7c653fabc27e4ffb3276dbe4bb0572ce46bba5ce7c28371",
+          "sql": "SELECT MIN(published_utc) AS first_published,MAX(published_utc) AS last_published,MIN(first_seen_utc) AS first_seen,MAX(first_seen_utc) AS last_seen,MIN(known_utc) AS first_known,MAX(known_utc) AS last_known,COUNT(DISTINCT currency) AS currencies,SUM(known_utc IS NULL OR known_utc='') AS missing_known,SUM(provenance_sha256 IS NULL OR provenance_sha256='') AS missing_provenance,SUM(forecast_proof_eligible) AS forecast_proof_eligible,SUM(execution_eligible) AS execution_eligible FROM factor_observations"
+        },
+        "legacy_contract_provenance": {
+          "duration_sec": 0.0,
+          "rows": [
+            {
+              "builder_sha256": "0c48efcadd2f34027cc9ad03f81a8e96595b237c2fb8ef616894cd03b1a5fc9c",
+              "contract_id": "spike_blurb_legacy_attribution_ledger_v1_20260819",
+              "created_utc": "2026-08-20T03:15:27.536327+00:00",
+              "price_contract_id": "spike_blurb_legacy_price_reacquisition_v1_20260819",
+              "tag_file_sha256": "78508de8ab385f4be300bc7b86d582550cb5cdae03975a7cc643af60522b56d6"
+            }
+          ],
+          "rows_sha256": "93691cdef10fb9540578cba7febd2a499dda443ede84064dffc1b993d8360b3c",
+          "sql": "SELECT contract_id,price_contract_id,created_utc,builder_sha256,tag_file_sha256 FROM legacy_attribution_contracts"
+        },
+        "legacy_scope": {
+          "duration_sec": 0.015,
+          "rows": [
+            {
+              "availability_lead_present": 1095,
+              "first_start": "2024-06-24 06:45:00+00:00",
+              "headline_present": 1095,
+              "last_end": "2026-07-02 13:55:00+00:00",
+              "pairs": 68,
+              "source_url_present": 1095,
+              "source_verified": 1095
+            }
+          ],
+          "rows_sha256": "9395a2d6424e79a24b21ec2ccd86ac89ca4907a453add995547bbb61ff7e89fe",
+          "sql": "SELECT COUNT(DISTINCT instrument) AS pairs,MIN(start_utc) AS first_start,MAX(end_utc) AS last_end,SUM(primary_source_verified) AS source_verified,SUM(primary_headline IS NOT NULL AND primary_headline<>'') AS headline_present,SUM(primary_source_url IS NOT NULL AND primary_source_url<>'') AS source_url_present,SUM(availability_to_move_lead_minutes IS NOT NULL) AS availability_lead_present FROM legacy_attribution_cases"
+        },
+        "legacy_state_counts": {
+          "duration_sec": 0.016,
+          "rows": [
+            {
+              "causal_use_state": "candidate_pre_entry_legacy_unverified",
+              "forecast_proof_eligible": 0,
+              "legacy_flagged_predictive": 159,
+              "price_coverage_state": "exact_window",
+              "rows": 159
+            },
+            {
+              "causal_use_state": "candidate_pre_entry_legacy_unverified",
+              "forecast_proof_eligible": 0,
+              "legacy_flagged_predictive": 2,
+              "price_coverage_state": "partial_window",
+              "rows": 2
+            },
+            {
+              "causal_use_state": "early_move_confirmation_not_entry",
+              "forecast_proof_eligible": 0,
+              "legacy_flagged_predictive": 0,
+              "price_coverage_state": "exact_window",
+              "rows": 176
+            },
+            {
+              "causal_use_state": "early_move_confirmation_not_entry",
+              "forecast_proof_eligible": 0,
+              "legacy_flagged_predictive": 0,
+              "price_coverage_state": "partial_window",
+              "rows": 1
+            },
+            {
+              "causal_use_state": "ex_post_attribution_only",
+              "forecast_proof_eligible": 0,
+              "legacy_flagged_predictive": 0,
+              "price_coverage_state": "exact_window",
+              "rows": 23
+            },
+            {
+              "causal_use_state": "stale_context_only",
+              "forecast_proof_eligible": 0,
+              "legacy_flagged_predictive": 732,
+              "price_coverage_state": "exact_window",
+              "rows": 732
+            },
+            {
+              "causal_use_state": "stale_context_only",
+              "forecast_proof_eligible": 0,
+              "legacy_flagged_predictive": 2,
+              "price_coverage_state": "partial_window",
+              "rows": 2
+            },
+            {
+              "causal_use_state": "unmatched_or_unknown",
+              "forecast_proof_eligible": 0,
+              "legacy_flagged_predictive": 0,
+              "price_coverage_state": "exact_window",
+              "rows": 5912
+            },
+            {
+              "causal_use_state": "unmatched_or_unknown",
+              "forecast_proof_eligible": 0,
+              "legacy_flagged_predictive": 0,
+              "price_coverage_state": "partial_window",
+              "rows": 41
+            }
+          ],
+          "rows_sha256": "8900391153ddd41e00e4e6c2b29250db89e343aaaaba2f92989fe9ac919dedd8",
+          "sql": "SELECT causal_use_state,price_coverage_state,COUNT(*) AS rows,SUM(legacy_predictive_flag) AS legacy_flagged_predictive,SUM(forecast_proof_eligible) AS forecast_proof_eligible FROM legacy_attribution_cases GROUP BY 1,2"
+        },
+        "movement_contract_provenance": {
+          "duration_sec": 0.0,
+          "rows": [
+            {
+              "build_contract_id": "spike_blurb_movement_inventory_v1_20260819",
+              "builder_sha256": "eeaafc572a0bcaecaf7a5a26dd60b2f8685771af3bb5257fe38397f6a39fab65",
+              "cohort_id": "spike_blurb_factor_reconstruction_preflight_20260819a",
+              "config_sha256": "dd5de59b9efb426c3f424043ea954bd7801671e855b26b28109cc5b529347890",
+              "created_utc": "2026-08-20T02:02:53.491272+00:00",
+              "parent_contract_id": "spike_blurb_factor_reconstruction_v1_20260819",
+              "price_manifest_sha256": "a3e5e7f51b14961dc54c0de2438d6fb1f21baf444f7f28b99d20c89cbf23a7c9"
+            }
+          ],
+          "rows_sha256": "9655a8a9704df5576401922f285876564a65e21019f6685baf8da1f971b49978",
+          "sql": "SELECT build_contract_id,parent_contract_id,cohort_id,created_utc,config_sha256,builder_sha256,price_manifest_sha256 FROM reconstruction_contracts"
+        },
+        "movement_link_timing": {
+          "duration_sec": 0.906,
+          "rows": [
+            {
+              "decision_time_eligible": 0,
+              "forecast_proof_eligible": 0,
+              "relation": "during_move_causal",
+              "rows": 56494
+            },
+            {
+              "decision_time_eligible": 0,
+              "forecast_proof_eligible": 0,
+              "relation": "ex_post_factor_overlap",
+              "rows": 29655
+            },
+            {
+              "decision_time_eligible": 1,
+              "forecast_proof_eligible": 0,
+              "relation": "pre_entry_causal",
+              "rows": 101107
+            },
+            {
+              "decision_time_eligible": 0,
+              "forecast_proof_eligible": 0,
+              "relation": "published_pre_entry_observed_late",
+              "rows": 78254
+            }
+          ],
+          "rows_sha256": "86588ef93a30e43cf1c8977ef0d1bbd6e930a562e327cb27f5c0e20114c0617d",
+          "sql": "SELECT relation,decision_time_eligible,forecast_proof_eligible,COUNT(*) AS rows FROM movement_factor_links GROUP BY 1,2,3"
+        },
+        "movement_scope": {
+          "duration_sec": 0.125,
+          "rows": [
+            {
+              "first_entry": "2026-01-13T15:49:00+00:00",
+              "forecast_proof_eligible": 0,
+              "last_exit": "2026-08-14T20:59:00+00:00",
+              "market_episodes": 6465,
+              "max_horizon_minutes": 43200,
+              "min_horizon_minutes": 1,
+              "outcome_selected": 41454,
+              "pairs": 68
+            }
+          ],
+          "rows_sha256": "c3e216b63758b4c5bfcac737c73830f02035349a19fe2b537466de5b0c0ee137",
+          "sql": "SELECT COUNT(DISTINCT instrument) AS pairs,COUNT(DISTINCT market_episode_id) AS market_episodes,MIN(entry_utc) AS first_entry,MAX(exit_utc) AS last_exit,MIN(horizon_min) AS min_horizon_minutes,MAX(horizon_min) AS max_horizon_minutes,SUM(outcome_selected) AS outcome_selected,SUM(forecast_proof_eligible) AS forecast_proof_eligible FROM movement_candidates"
+        },
+        "prequential_analog_coverage": {
+          "duration_sec": 0.047,
+          "rows": [
+            {
+              "contract_id": "spike_blurb_factor_response_analogs_v1_20260819",
+              "execution_eligible": 0,
+              "factors": 131,
+              "first_known": "2026-07-28T05:03:15.959332+00:00",
+              "last_known": "2026-08-14T15:47:20.004272+00:00",
+              "max_horizon_minutes": 120,
+              "min_horizon_minutes": 1,
+              "nonzero_predictions": 0,
+              "rows": 1042,
+              "rows_with_prior_matured_analogs": 13,
+              "scored_predictions": 0,
+              "source_batches": 131
+            },
+            {
+              "contract_id": "spike_blurb_factor_response_analogs_v2_20260819",
+              "execution_eligible": 0,
+              "factors": 160,
+              "first_known": "2026-07-28T05:03:15.959332+00:00",
+              "last_known": "2026-08-19T18:01:01.734052+00:00",
+              "max_horizon_minutes": 120,
+              "min_horizon_minutes": 1,
+              "nonzero_predictions": 0,
+              "rows": 1274,
+              "rows_with_prior_matured_analogs": 23,
+              "scored_predictions": 0,
+              "source_batches": 160
+            }
+          ],
+          "rows_sha256": "dfbca0c62e30c9a1449b8ee01d138cb21c2c833f33afe040ad98af9c83f2e1d8",
+          "sql": "SELECT contract_id,COUNT(*) AS rows,COUNT(DISTINCT factor_id) AS factors,COUNT(DISTINCT source_batch_id) AS source_batches,SUM(prior_matured_analog_n>0) AS rows_with_prior_matured_analogs,SUM(prequential_prediction_sign IS NOT NULL AND prequential_prediction_sign<>0) AS nonzero_predictions,SUM(prequential_correct IS NOT NULL) AS scored_predictions,MIN(known_utc) AS first_known,MAX(known_utc) AS last_known,MIN(horizon_min) AS min_horizon_minutes,MAX(horizon_min) AS max_horizon_minutes,SUM(execution_eligible) AS execution_eligible FROM factor_response_observations GROUP BY contract_id"
+        },
+        "source_population_counts": {
+          "duration_sec": 0.016,
+          "rows": [
+            {
+              "causal_state": "point_in_time_observed",
+              "rows": 1040,
+              "source_population": "official_macro_publisher",
+              "source_priority_class": "official_action_or_release"
+            },
+            {
+              "causal_state": "historical_backfill_only",
+              "rows": 34,
+              "source_population": "official_macro_publisher",
+              "source_priority_class": "official_numeric_series_vintage"
+            },
+            {
+              "causal_state": "point_in_time_observed",
+              "rows": 132,
+              "source_population": "official_policy_publisher",
+              "source_priority_class": "official_action_or_release"
+            },
+            {
+              "causal_state": "point_in_time_observed",
+              "rows": 1582,
+              "source_population": "official_policy_publisher",
+              "source_priority_class": "official_statement_or_document"
+            },
+            {
+              "causal_state": "historical_backfill_only",
+              "rows": 139,
+              "source_population": "official_rates_curve",
+              "source_priority_class": "official_numeric_series_vintage"
+            },
+            {
+              "causal_state": "point_in_time_observed",
+              "rows": 8,
+              "source_population": "official_rates_curve",
+              "source_priority_class": "official_numeric_series_vintage"
+            }
+          ],
+          "rows_sha256": "67bf0052d34ea89f6910adfbbdb4ef8a9739882558d9789e663d4b2d5e29258e",
+          "sql": "SELECT source_population,source_priority_class,causal_state,COUNT(*) AS rows FROM source_attributions GROUP BY 1,2,3"
+        }
+      },
+      "schema_sha256": "cc4926fc98379ee6505c88bf0b23e963482f296aac0998dd142349eae3f72e32",
+      "scope": "Coherent read-only SQLite transaction; hash binds returned row results and schema, not entire DB or its external raw payloads."
+    }
+  },
+  "legacy_tags": {
+    "causal_relation_counts": {
+      "": 5953,
+      "FIRST_WAVE_CONFIRMATION": 177,
+      "POST_HOC_EXPLANATION": 23,
+      "PRE_MOVE": 161,
+      "STALE_CONTEXT": 734
+    },
+    "columns": [
+      "movement_source",
+      "movement_key",
+      "move_id",
+      "instrument",
+      "start_utc",
+      "end_utc",
+      "news_match_status",
+      "news_tag_count",
+      "primary_event_id",
+      "primary_event_utc",
+      "primary_headline",
+      "primary_category",
+      "primary_source_url",
+      "primary_source_verified",
+      "primary_pair_relevance",
+      "primary_match_confidence",
+      "primary_temporal_relation",
+      "primary_causal_relation",
+      "primary_event_to_move_lead_minutes",
+      "primary_availability_to_move_lead_minutes",
+      "primary_predictive_eligible",
+      "primary_expected_pair_direction",
+      "event_ids_json",
+      "event_categories_json",
+      "event_links_json"
+    ],
+    "first_start": "2024-06-24 06:45:00+00:00",
+    "last_end": "2026-07-02 13:55:00+00:00",
+    "news_match_status_counts": {
+      "matched": 1095,
+      "no_verified_time_pair_match": 5953
+    },
+    "nonempty_primary_headlines": 1095,
+    "pairs": 68,
+    "rows": 7048,
+    "scope": "Retained movement-linked tags; stored labels are retrospective attribution candidates, not independent prospective predictions.",
+    "source": {
+      "bytes": 2905992,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\news_event_tags\\significant_move_news_tags.csv",
+      "sha256": "78508de8ab385f4be300bc7b86d582550cb5cdae03975a7cc643af60522b56d6"
+    }
+  },
+  "limits": [
+    "No claim that the recovered source ZIP includes a bulk historical blurb corpus.",
+    "Earlier constant macro fields in the227/220matrix and absent news columns in795 remain true; these separate nonempty blurb/factor datasets do not imply those specific fitted models consumed them.",
+    "Outcome-selected movements, pre-entry eligibility labels and retrospective prequential replays do not establish prospective profitable forecasts."
+  ],
+  "method": "No source imports, fitting, deserialization, network requests, source/runtime mutation or DB writes. Fixed bounded queries in mode=ro/query_only transactions; no all-experiment sweep.",
+  "observed_finished_utc": "2026-09-08T01:53:34.291341+00:00",
+  "observed_started_utc": "2026-09-08T01:53:31.312288+00:00",
+  "schema": "retained_blurb_dataset_audit_v1",
+  "source_bindings": [
+    {
+      "bytes": 5160,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\pure_change_strategy_space_v1.json",
+      "sha256": "b25a87991a7399ae1103968512a763f614a0b8f1d39b03285069965f9aa03a3c"
+    },
+    {
+      "bytes": 4292,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\news_blurb_episode_schema_v1.json",
+      "sha256": "653197a6b18b10efa574a1d8fa3248cc2f1ffd2f4e0f0d5d2fd3239ca7e0dbcd"
+    },
+    {
+      "bytes": 5320,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\spike_blurb_factor_reconstruction_v1.json",
+      "sha256": "dd5de59b9efb426c3f424043ea954bd7801671e855b26b28109cc5b529347890"
+    },
+    {
+      "bytes": 40444,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_spike_blurb_factor_ledger.py",
+      "sha256": "61ff87b134a7b767ecb5cafb9e5e560f9b4b03f9f1686471638983079a7cc34c"
+    },
+    {
+      "bytes": 23918,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_spike_blurb_factor_reconstruction.py",
+      "sha256": "902b348a8c3b9c7db5a727b4498aff23a92ce6385d0c6a47601c0f765ac7706a"
+    },
+    {
+      "bytes": 36919,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_spike_blurb_movement_inventory.py",
+      "sha256": "eeaafc572a0bcaecaf7a5a26dd60b2f8685771af3bb5257fe38397f6a39fab65"
+    },
+    {
+      "bytes": 13762,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_spike_blurb_legacy_attribution_ledger.py",
+      "sha256": "0c48efcadd2f34027cc9ad03f81a8e96595b237c2fb8ef616894cd03b1a5fc9c"
+    },
+    {
+      "bytes": 17313,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_spike_blurb_factor_response_analogs.py",
+      "sha256": "fec30c7d471e4b80937bc3670116ad3e4f43e3b7ad1b8a7c55d86b6a2e8cfe28"
+    },
+    {
+      "bytes": 8526,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_spike_blurb_factor_response_analogs_v2.py",
+      "sha256": "618eca6cc806324d18ba942da093ab43736d34aa340cd5a178c8027d47e0b0a9"
+    },
+    {
+      "bytes": 5667,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\reports\\news_blurb_recovery_20260809\\NEWS_BLURB_RECOVERY_AUDIT_20260809.md",
+      "sha256": "18a44814dd02dee18aa114838f3d0cb6f88488786ed5747024ceb338f24ad86d"
+    }
+  ],
+  "status": "completed_with_scope_limits"
+}

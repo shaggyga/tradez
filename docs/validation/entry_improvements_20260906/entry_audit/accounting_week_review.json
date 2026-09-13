@@ -1,0 +1,652 @@
+{
+  "database": "data\\oanda_training_manager\\state\\governed_practice_accounting_v1.sqlite",
+  "database_sha256": "8a5880ac3dfb0525468b94e4e4d28afa0d95c8db6aab69895bcfd7ab465a4b15",
+  "bytes": 157077504,
+  "query_mode": "mode=ro&immutable=1; query_only; no WAL; bounded tables after metadata/schema inspection",
+  "progress_vm_step_limit": 3000000,
+  "counts": {
+    "account_snapshots": 4323,
+    "execution_attributions": 38,
+    "routeability_sentinels": 31,
+    "account_snapshot_validity": 4323
+  },
+  "schema": [
+    {
+      "type": "table",
+      "name": "account_snapshots",
+      "sql": "CREATE TABLE account_snapshots (\n            snapshot_id TEXT PRIMARY KEY,\n            observed_utc TEXT NOT NULL,\n            account_suffix TEXT NOT NULL,\n            last_transaction_id TEXT,\n            balance REAL NOT NULL,\n            nav REAL NOT NULL,\n            cumulative_pl REAL NOT NULL,\n            margin_used REAL NOT NULL,\n            open_trade_count INTEGER NOT NULL,\n            pending_order_count INTEGER NOT NULL,\n            payload_json TEXT NOT NULL\n        )"
+    },
+    {
+      "type": "index",
+      "name": "sqlite_autoindex_account_snapshots_1",
+      "sql": null
+    },
+    {
+      "type": "table",
+      "name": "execution_attributions",
+      "sql": "CREATE TABLE execution_attributions (\n            client_id TEXT PRIMARY KEY,\n            candidate_id TEXT NOT NULL,\n            submitted_epoch REAL NOT NULL,\n            status TEXT NOT NULL,\n            trade_id TEXT,\n            accounting_bucket TEXT NOT NULL,\n            policy_id TEXT,\n            cohort_id TEXT,\n            allocator_id TEXT,\n            family TEXT,\n            realized_pl REAL,\n            realized_pips REAL,\n            modeled_cost_pips REAL,\n            realized_cost_pips REAL,\n            adverse_slippage_pips REAL,\n            forecast_to_submit_ms REAL,\n            order_roundtrip_ms REAL,\n            attribution_valid INTEGER NOT NULL,\n            attribution_reason TEXT NOT NULL,\n            payload_json TEXT NOT NULL\n        )"
+    },
+    {
+      "type": "index",
+      "name": "sqlite_autoindex_execution_attributions_1",
+      "sql": null
+    },
+    {
+      "type": "table",
+      "name": "routeability_sentinels",
+      "sql": "CREATE TABLE routeability_sentinels (\n            sentinel_date TEXT PRIMARY KEY,\n            observed_utc TEXT NOT NULL,\n            passed INTEGER NOT NULL,\n            environment TEXT NOT NULL,\n            account_suffix TEXT NOT NULL,\n            order_sha256 TEXT NOT NULL,\n            checks_json TEXT NOT NULL,\n            submission_attempted INTEGER NOT NULL\n        )"
+    },
+    {
+      "type": "index",
+      "name": "sqlite_autoindex_routeability_sentinels_1",
+      "sql": null
+    },
+    {
+      "type": "table",
+      "name": "accounting_integrity_events",
+      "sql": "CREATE TABLE accounting_integrity_events (\n            event_id TEXT PRIMARY KEY,\n            observed_utc TEXT NOT NULL,\n            event_type TEXT NOT NULL,\n            client_id TEXT,\n            details_json TEXT NOT NULL\n        )"
+    },
+    {
+      "type": "index",
+      "name": "sqlite_autoindex_accounting_integrity_events_1",
+      "sql": null
+    },
+    {
+      "type": "table",
+      "name": "account_snapshot_validity",
+      "sql": "CREATE TABLE account_snapshot_validity (\n            snapshot_id TEXT PRIMARY KEY,\n            classified_utc TEXT NOT NULL,\n            is_valid INTEGER NOT NULL,\n            snapshot_state TEXT NOT NULL,\n            reason TEXT NOT NULL,\n            details_json TEXT NOT NULL,\n            FOREIGN KEY(snapshot_id) REFERENCES account_snapshots(snapshot_id)\n        )"
+    },
+    {
+      "type": "index",
+      "name": "sqlite_autoindex_account_snapshot_validity_1",
+      "sql": null
+    }
+  ],
+  "week_execution_attributions": [],
+  "all_execution_status_counts": {
+    "filled": 33,
+    "not_filled": 5
+  },
+  "latest_submission_utc": "2026-08-04T03:47:47.751321+00:00",
+  "week_snapshot_count": 510,
+  "valid_current_week_snapshot_count": 510,
+  "week_snapshot_state_counts": {
+    "current": 510
+  },
+  "valid_week_transaction_ids": {
+    "2461": 510
+  },
+  "valid_week_balance_values": [
+    41.6042
+  ],
+  "valid_week_nav_values": [
+    41.6042
+  ],
+  "first_valid_week_snapshot": {
+    "snapshot_id": "practice007_75febe589e50782e05446afc3b761224",
+    "observed_utc": "2026-08-30T21:02:42.949338+00:00",
+    "last_transaction_id": "2461",
+    "balance": 41.6042,
+    "nav": 41.6042,
+    "cumulative_pl": -8.343,
+    "open_trade_count": 0,
+    "pending_order_count": 0,
+    "is_valid": 1,
+    "snapshot_state": "current",
+    "reason": "current"
+  },
+  "last_valid_week_snapshot": {
+    "snapshot_id": "practice007_ad30a619d103e6da740bb691c0434889",
+    "observed_utc": "2026-09-04T20:55:05.027132+00:00",
+    "last_transaction_id": "2461",
+    "balance": 41.6042,
+    "nav": 41.6042,
+    "cumulative_pl": -8.343,
+    "open_trade_count": 0,
+    "pending_order_count": 0,
+    "is_valid": 1,
+    "snapshot_state": "current",
+    "reason": "current"
+  },
+  "nearest_valid_snapshot_before_week": {
+    "snapshot_id": "practice007_a6655e7b884942cb705bc4aed0c76c8a",
+    "observed_utc": "2026-08-30T20:49:42.379729+00:00",
+    "last_transaction_id": "2461",
+    "balance": 41.6042,
+    "nav": 41.6042,
+    "cumulative_pl": -8.343,
+    "open_trade_count": 0,
+    "pending_order_count": 0,
+    "is_valid": 1,
+    "snapshot_state": "current",
+    "reason": "current"
+  },
+  "nearest_valid_snapshot_after_week": {
+    "snapshot_id": "practice007_293fe9441ba38542573f4b7c72d1e4a2",
+    "observed_utc": "2026-09-04T21:07:29.033429+00:00",
+    "last_transaction_id": "2461",
+    "balance": 41.6042,
+    "nav": 41.6042,
+    "cumulative_pl": -8.343,
+    "open_trade_count": 0,
+    "pending_order_count": 0,
+    "is_valid": 1,
+    "snapshot_state": "current",
+    "reason": "current"
+  },
+  "week_routeability_sentinels": [
+    {
+      "sentinel_date": "2026-08-30",
+      "observed_utc": "2026-08-30T00:04:45.546797+00:00",
+      "passed": 1,
+      "submission_attempted": 0
+    },
+    {
+      "sentinel_date": "2026-08-31",
+      "observed_utc": "2026-08-31T00:08:28.243357+00:00",
+      "passed": 1,
+      "submission_attempted": 0
+    },
+    {
+      "sentinel_date": "2026-09-01",
+      "observed_utc": "2026-09-01T00:46:26.859317+00:00",
+      "passed": 1,
+      "submission_attempted": 0
+    },
+    {
+      "sentinel_date": "2026-09-02",
+      "observed_utc": "2026-09-02T00:06:34.128556+00:00",
+      "passed": 1,
+      "submission_attempted": 0
+    },
+    {
+      "sentinel_date": "2026-09-03",
+      "observed_utc": "2026-09-03T00:07:05.126063+00:00",
+      "passed": 1,
+      "submission_attempted": 0
+    },
+    {
+      "sentinel_date": "2026-09-04",
+      "observed_utc": "2026-09-04T00:00:41.041461+00:00",
+      "passed": 1,
+      "submission_attempted": 0
+    }
+  ],
+  "canary_consumption_database_exists": false,
+  "saved_current_records": {
+    "practice_007_top_executor_heartbeat_v1.json": {
+      "sha256": "233a37780b5a3109cef551a5da8d22091bfb04ce73255a81f2d90c607b7529c0",
+      "payload": {
+        "details": {
+          "account_suffix": "-007",
+          "cycle_timings": {
+            "price_refresh_ms": 0.023,
+            "selection_ms": 0.321,
+            "trade_management_ms": 0.04
+          },
+          "cycles": 152,
+          "execution_disabled_reason": "",
+          "execution_enabled": true,
+          "feed_cache": {
+            "cache_age_sec": 1.016,
+            "candidate_count": 0,
+            "expired_candidate_count": 0,
+            "fail_closed": false,
+            "fresh": true,
+            "generation": 18,
+            "last_attempt_epoch": 1788574077.4814734,
+            "last_error": "",
+            "last_refresh_ms": 0.116,
+            "last_success_epoch": 1788574077.4814734,
+            "raw_candidate_count": 0,
+            "refresh_sec": 5.0,
+            "refreshing": false,
+            "semantic_duplicate_rows": 0,
+            "source_counts": {},
+            "source_data_stale": false,
+            "source_generation_counts": {},
+            "source_newest_age_sec": {},
+            "state": "fresh",
+            "ttl_sec": 90.0
+          },
+          "feed_candidates": 0,
+          "fills": 0,
+          "final_selection_blocks": [],
+          "governed_canary_gate": {
+            "authorization_file": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_governed_canary_authorization_v1.json",
+            "authorization_fresh": false,
+            "authorized_entry_count": 0,
+            "configured": true,
+            "consumption_database": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_canary_consumptions_v1.sqlite",
+            "entry_authorized": false,
+            "fail_closed": true,
+            "independent_verifier_guard": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\independent_evidence_verifier_v1_guard_v2.sqlite",
+            "independent_verifier_state": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\independent_evidence_verifier_v1.json",
+            "last_decision": {
+              "allowed": false,
+              "reason": "not_evaluated"
+            },
+            "lifecycle_database": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\evidence_lifecycle_v1.sqlite",
+            "signed_entry_schema_required": 2,
+            "state_reason": "authorization_stale"
+          },
+          "instrument_count": 68,
+          "last_cycle_ms": 0.385,
+          "last_error": null,
+          "last_execution_skip_age_sec": null,
+          "last_execution_skip_reason": "",
+          "last_slow_cycle": null,
+          "new_entry_authorized": false,
+          "nonconflicting_qualified_candidates": 0,
+          "order_telemetry": {
+            "avg_adverse_slippage_pips": null,
+            "avg_missed_entry_move_pips": null,
+            "avg_order_roundtrip_ms": null,
+            "latest": {},
+            "p95_order_roundtrip_ms": null,
+            "sample_count": 0,
+            "status_counts": {}
+          },
+          "prefiltered_candidates": 0,
+          "price_stream": {
+            "broker_clock_lead_sec": null,
+            "broker_clock_sample_count": 0,
+            "clock_sync_status": "unknown",
+            "connected": true,
+            "connection_generation": 1,
+            "last_event_age_sec": 2.907,
+            "metadata_instruments": 68,
+            "quote_observer_errors": 0,
+            "quoted_instruments": 68,
+            "reconnects": 0,
+            "research_snapshot_transport": {
+              "coalesced_snapshots": 3,
+              "database": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_market_quotes_v1.json.sqlite",
+              "enabled": true,
+              "last_error": "",
+              "last_success_age_sec": 68.098,
+              "last_write_ms": 3.569,
+              "mirror": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_market_quotes_v1.json",
+              "mirror_error": "",
+              "pending": false,
+              "submitted_generation": 5,
+              "thread_alive": true,
+              "writing": false,
+              "written_generation": 5
+            },
+            "updates": 68
+          },
+          "priced_instruments": 68,
+          "qualified_candidate_preview": [],
+          "qualified_candidates": 0,
+          "quote_transport": {
+            "coalesced_snapshots": 3,
+            "database": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_market_quotes_v1.json.sqlite",
+            "enabled": true,
+            "last_error": "",
+            "last_success_age_sec": 68.098,
+            "last_write_ms": 3.569,
+            "mirror": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_market_quotes_v1.json",
+            "mirror_error": "",
+            "mode": "price_stream_async_snapshot",
+            "pending": false,
+            "submitted_generation": 5,
+            "thread_alive": true,
+            "writing": false,
+            "written_generation": 5
+          },
+          "rank_timings": {
+            "agreement_sec": 6e-06,
+            "consolidation_sec": 1.2e-05,
+            "economics_sec": 2e-06,
+            "feed_merge_sec": 6e-06,
+            "feed_publish_sec": 4e-06,
+            "feed_recent_sec": 2.6e-05,
+            "promotion_rank_sec": 0.000149,
+            "quality_policy_sec": 3e-06,
+            "quote_refresh_sec": 6e-06,
+            "snapshot_compaction_sec": 5e-06,
+            "total_sec": 0.000225,
+            "validation_sec": 2e-06
+          },
+          "real_money_routing": false,
+          "reentry_guard": {
+            "factor_exit_ages_sec": {
+              "JPY:long": 2813733.439,
+              "JPY:short": 2755567.632
+            },
+            "instrument_cooldown_sec": 1800.0,
+            "instrument_exit_ages_sec": {
+              "AUD_JPY": 2755567.632,
+              "AUD_USD": 3135680.391,
+              "EUR_AUD": 4296459.294,
+              "EUR_GBP": 4296827.58,
+              "EUR_USD": 4295282.154,
+              "GBP_USD": 2808555.476,
+              "NZD_SGD": 4294997.125,
+              "NZD_USD": 4294927.107,
+              "USD_CAD": 3128583.388,
+              "USD_CHF": 2838660.77,
+              "USD_JPY": 2813733.439
+            },
+            "jpy_factor_cooldown_sec": 3600.0,
+            "owned_open_trade_count": 0,
+            "pair_direction_cooldown_sec": 3600.0,
+            "pair_direction_exit_ages_sec": {
+              "AUD_JPY|buy": 2755567.632,
+              "AUD_JPY|sell": 4296419.017,
+              "AUD_USD|buy": 3138364.588,
+              "AUD_USD|sell": 3135680.391,
+              "EUR_AUD|buy": 4296459.294,
+              "EUR_GBP|buy": 4296827.58,
+              "EUR_USD|buy": 4295282.154,
+              "EUR_USD|sell": 4296179.682,
+              "GBP_USD|buy": 2814891.316,
+              "GBP_USD|sell": 2808555.476,
+              "NZD_SGD|sell": 4294997.125,
+              "NZD_USD|sell": 4294927.107,
+              "USD_CAD|buy": 3128583.388,
+              "USD_CHF|buy": 2853186.381,
+              "USD_CHF|sell": 2838660.77,
+              "USD_JPY|buy": 2815829.139,
+              "USD_JPY|sell": 2813733.439
+            },
+            "state_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\logs\\practice_executor_reentry_-007.json"
+          },
+          "session_errors": 0,
+          "signal_feed": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_signal_feed_v1.sqlite",
+          "snapshot_timings": {
+            "async_writer": {
+              "coalesced_generation_count": 0,
+              "enabled": true,
+              "last_error": "",
+              "last_submit_epoch": 1788574078.4836082,
+              "last_success_epoch": 1788574073.4827235,
+              "last_write_ms": 1.963,
+              "pending": true,
+              "submitted_generation": 16,
+              "writing": false,
+              "written_generation": 15
+            },
+            "atomic_write_ms": 0.0,
+            "compaction_ms": 0.007,
+            "coverage_ms": 0.001,
+            "coverage_refreshed": false,
+            "coverage_skipped_consumer_only": true,
+            "queue_ms": 0.038,
+            "quote_copy_ms": 0.02,
+            "total_ms": 0.065
+          },
+          "usable_priced_instruments": 0
+        },
+        "phase": "streaming",
+        "phase_age_sec": 77.485,
+        "phase_updated_at": "2026-09-05T02:06:42.373820+00:00",
+        "pid": 26168,
+        "progress_age_sec": 90.235,
+        "progress_sequence": 0,
+        "progress_updated_at": "2026-09-05T02:06:29.623520+00:00",
+        "role": "practice_007_fast_executor",
+        "schema_version": 1,
+        "started_at": "2026-09-05T02:06:29.623520+00:00",
+        "status": "running",
+        "updated_at": "2026-09-05T02:07:59.863363+00:00",
+        "uptime_sec": 90.235,
+        "worker": "oanda_practice_top_signal_executor"
+      }
+    },
+    "practice_007_governed_canary_authorization_v1.json": {
+      "sha256": "532bd5854fc1050a033b07046eb2760b19a720ff23494e58f14d9691e671592d",
+      "payload": {
+        "account_state_current": true,
+        "account_suffix": "-007",
+        "active_allocator_cohort_id": "governed_top_one_allocator_v1.discovery.20260829.2061fad925c1fe5b",
+        "authorized_entries": [],
+        "auto_route": false,
+        "confirmed_candidate_count": 0,
+        "entry_authorized": false,
+        "environment": "practice",
+        "generated_utc": "2026-09-05T01:41:25.381884+00:00",
+        "independent_verifier_required": true,
+        "manual_orders": false,
+        "real_money_routing": false,
+        "reason": "zero_confirmed_candidates",
+        "routeability_current_passed": true,
+        "schema_version": 2,
+        "signed_entry_payload_required": true
+      }
+    },
+    "practice_007_signal_snapshot_v1.json": {
+      "sha256": "0998ec58d87f3c603610aeb0a628df3f5aa28ab48d7035484aa986ebdc9751e1",
+      "payload": {
+        "account_suffix": "-007",
+        "consolidated_signal_count": 0,
+        "contribution_feed": {},
+        "feed_candidate_count": 0,
+        "market_quotes": {},
+        "nonconflicting_qualified_signal_count": 0,
+        "producer": "practice_007_fast_executor",
+        "qualified_signal_count": 0,
+        "raw_candidate_count": 0,
+        "schema_version": 3,
+        "selected": null,
+        "selected_final_gate_status": "not_selected",
+        "selected_routable_after_direction_conflict_gate": false,
+        "selected_stage": "none",
+        "selection_mode": "consolidated_instrument_horizon_curve",
+        "snapshot_quality": {
+          "contributor_coverage_ratio": null,
+          "expected_contributors": 0,
+          "fresh_contributors": 0,
+          "local_candidate_count": 0,
+          "market_quote_count": 0,
+          "market_quote_coverage_ratio": null,
+          "market_quote_expected_instrument_count": 0,
+          "market_quote_provider_status": "ok",
+          "market_quote_rejected_count": 0,
+          "market_quote_rejected_instruments": {},
+          "market_quote_rejection_reasons": {},
+          "market_quote_scope": "ranked_signal_instruments",
+          "merged_feed_candidate_count": 0
+        },
+        "top_signals": [],
+        "updated_at": "2026-09-05T02:08:03.487184+00:00"
+      }
+    },
+    "governed_practice_accounting_v1.json": {
+      "sha256": "d6e06c9f8d44f83c976fa681423d7fbd9cc40fa05b45c92809072b74dad5173e",
+      "payload": {
+        "accounting": {
+          "account_operational_continuity": {
+            "account_flat": true,
+            "account_state_current": true,
+            "balance": 41.6042,
+            "cumulative_pl": -8.343,
+            "error": null,
+            "flatness_known": true,
+            "last_verified_stale_context": {
+              "balance": 41.6042,
+              "cumulative_pl": -8.343,
+              "last_transaction_id": "2461",
+              "margin_used": 0.0,
+              "nav": 41.6042,
+              "observed_utc": "2026-09-05T01:41:07.175932+00:00",
+              "open_trade_count": 0,
+              "pending_order_count": 0,
+              "stale_context_only": false
+            },
+            "nav": 41.6042,
+            "open_trade_count": 0,
+            "pending_order_count": 0,
+            "reason": "current",
+            "snapshot_state": "current",
+            "status_code": null,
+            "use_for_governed_inference": false
+          },
+          "allocator_counterfactual_and_unavailable_capital": {
+            "active_cohort": "governed_top_one_allocator_v1.discovery.20260829.2061fad925c1fe5b",
+            "available": true,
+            "counterfactual_by_arm": {},
+            "decision_count": 5,
+            "decisions_with_best_rejected_alternative": 0,
+            "eligible_candidate_observations": 0,
+            "explicit_no_trade_count": 5,
+            "superseded_engineering_cohort_count": 3
+          },
+          "by_allocator": {
+            "unassigned": {
+              "attempts": 38,
+              "audited_closed_trades": 1,
+              "fills": 33,
+              "realized_pips": -10.0,
+              "realized_pl": -0.093
+            }
+          },
+          "by_bucket": {
+            "legacy_pre_governance": {
+              "attempts": 38,
+              "audited_closed_trades": 1,
+              "fills": 33,
+              "realized_pips": -10.0,
+              "realized_pl": -0.093
+            }
+          },
+          "by_cohort": {
+            "unassigned": {
+              "attempts": 38,
+              "audited_closed_trades": 1,
+              "fills": 33,
+              "realized_pips": -10.0,
+              "realized_pl": -0.093
+            }
+          },
+          "by_family": {
+            "cross_sectional_pair_rank": {
+              "attempts": 20,
+              "audited_closed_trades": 0,
+              "fills": 16,
+              "realized_pips": 0.0,
+              "realized_pl": 0.0
+            },
+            "micro_channel_break": {
+              "attempts": 1,
+              "audited_closed_trades": 0,
+              "fills": 1,
+              "realized_pips": 0.0,
+              "realized_pl": 0.0
+            },
+            "momentum": {
+              "attempts": 1,
+              "audited_closed_trades": 0,
+              "fills": 1,
+              "realized_pips": 0.0,
+              "realized_pl": 0.0
+            },
+            "oscillator_reversion_confluence": {
+              "attempts": 14,
+              "audited_closed_trades": 1,
+              "fills": 14,
+              "realized_pips": -10.0,
+              "realized_pl": -0.093
+            },
+            "relative_value_reversion": {
+              "attempts": 1,
+              "audited_closed_trades": 0,
+              "fills": 0,
+              "realized_pips": 0.0,
+              "realized_pl": 0.0
+            },
+            "trend_momentum_confluence": {
+              "attempts": 1,
+              "audited_closed_trades": 0,
+              "fills": 1,
+              "realized_pips": 0.0,
+              "realized_pl": 0.0
+            }
+          },
+          "by_policy": {
+            "p007-f8d7ea853389b60f": {
+              "attempts": 38,
+              "audited_closed_trades": 1,
+              "fills": 33,
+              "realized_pips": -10.0,
+              "realized_pl": -0.093
+            }
+          },
+          "execution_transport": {
+            "average_adverse_slippage_pips": 0.0,
+            "average_forecast_to_submit_ms": 1296.0,
+            "average_order_roundtrip_ms": 72.646,
+            "latency_observation_count": 1
+          },
+          "unattributed_governed_execution_count": 0,
+          "virtual_equity_by_governed_cohort": {}
+        },
+        "can_submit_orders": false,
+        "counts": {
+          "classified_snapshots": 4323,
+          "execution_attributions": 38,
+          "integrity_events": 17,
+          "quarantined_snapshots": 41,
+          "routeability_sentinels": 31,
+          "snapshots": 4323,
+          "unavailable_snapshot_events": 17,
+          "valid_snapshots": 4282
+        },
+        "environment": "practice",
+        "generated_utc": "2026-09-05T01:41:25.353959+00:00",
+        "ingestion": {
+          "inserted_attributions": 0,
+          "new_integrity_events": 0
+        },
+        "manual_actions": false,
+        "real_money_routing": false,
+        "research_only": true,
+        "routeability_sentinel": {
+          "account_state_current": true,
+          "already_recorded": true,
+          "checks": {
+            "account_state_current": true,
+            "account_suffix_007": true,
+            "broker_stop_present": true,
+            "client_tag_present": true,
+            "fok": true,
+            "market_order": true,
+            "one_unit": true,
+            "open_only": true,
+            "practice_environment": true,
+            "price_bound_present": true,
+            "submission_forbidden_respected": true,
+            "submission_function_absent": true
+          },
+          "observed_utc": "2026-09-05T00:04:33.644630+00:00",
+          "passed": true,
+          "reason": "stored_routeability_sentinel",
+          "sentinel_date": "2026-09-05",
+          "stored_passed": true,
+          "submission_attempted": false
+        },
+        "schema_version": 1,
+        "snapshot": {
+          "account_suffix": "-007",
+          "balance": 41.6042,
+          "cumulative_pl": -8.343,
+          "last_transaction_id": "2461",
+          "margin_used": 0.0,
+          "nav": 41.6042,
+          "observed_utc": "2026-09-05T01:41:07.175932+00:00",
+          "open_trade_count": 0,
+          "pending_order_count": 0,
+          "recorded": true,
+          "snapshot_id": "practice007_0da6b588aec4d880cb3ee4e70c23322b",
+          "state": "current"
+        },
+        "snapshot_classification_backfill": {
+          "classified": 0,
+          "quarantined": 0,
+          "valid": 0
+        }
+      }
+    }
+  }
+}

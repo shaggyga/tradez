@@ -1,0 +1,84 @@
+{
+  "schema_version": "integrity_publication_optimization_receipt_v1",
+  "generated_utc": "2026-09-06T04:12:32.002117+00:00",
+  "runtime_started": false,
+  "broker_network_calls": 0,
+  "production_database_connections": 0,
+  "production_database_writes": 0,
+  "production_snapshot_rewritten": false,
+  "scope": "Five publication alignment episode_rows arrays only; all other existing values and audit checks preserved. User and other-agent changes preserved.",
+  "tests": {
+    "total": 34,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1,
+    "passed": 33,
+    "skip_reason": "Windows symlink creation unavailable; canonical path rejection tests passed."
+  },
+  "benchmark_equivalence": {
+    "exact_original_reconstruction": true,
+    "changed_clocks_exact_reconstruction": true,
+    "unchanged_rows_reused_without_rewrite": true,
+    "all_top_level_checks_verdicts_counts_authority_preserved": true,
+    "all_non_episode_section_fields_preserved": true,
+    "saved_source_hash_unchanged": true
+  },
+  "benchmark_bytes": {
+    "baseline_current": 98926690,
+    "compact_current": 167893,
+    "baseline_history_row": 73356296,
+    "compact_history_row": 136573,
+    "current_reduction_percent": 99.83028543661977,
+    "history_row_reduction_percent": 99.81382238819691
+  },
+  "files": [
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_integrity_publication.py",
+      "bytes": 9347,
+      "sha256": "8458e297d2bb09f9089f7fd3c82f4718694a4504ff6c311d2f060371fb034942"
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_project_integrity_audit.py",
+      "bytes": 288477,
+      "sha256": "c654d4d2f9089be99fa14cf5b50b1236bec5b7fe3c8beea610087c88e84acbc6"
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_integrity_publication.py",
+      "bytes": 13727,
+      "sha256": "029a752c52b8adaabe19f8183d6805d108bde195c365713fbcc29997d1f5f01b"
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\optimization_20260905\\INTEGRITY_PUBLICATION_OPTIMIZATION.md",
+      "bytes": 5737,
+      "sha256": "6f26d23ccc4ba4f7f1dbe318f63383bccab7082c5b75d270fe3612d27a27c280"
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\optimization_20260905\\run_publication_tests.py",
+      "bytes": 2200,
+      "sha256": "d873048028a7f653a9d5ed6ff3b68be05eeca962f683350fee06f2b786c7127d"
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\optimization_20260905\\pytest_publication.xml",
+      "bytes": 5297,
+      "sha256": "4b3b03c45809c37fa95b26718537e513973683aae246e35d43240f61937ebbc4"
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\optimization_20260905\\benchmark_integrity_publication.py",
+      "bytes": 9285,
+      "sha256": "5a002fb461b6b142facf950be4b51e297de7a09fe80d5df38be7151bfbbd948a"
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\optimization_20260905\\integrity_publication_benchmark.json",
+      "bytes": 7406,
+      "sha256": "bce1732a774afdd1ec95e08b0ce7e0525632eaa2019ab05bc95f7cf5a8fd9cbc"
+    }
+  ],
+  "remaining_limits": [
+    "Current/report/history publication remains separate filesystem operations rather than a multi-file transaction.",
+    "No automatic artifact deletion: retain dependencies for all referencing histories.",
+    "No live full-cycle, production DB query or broker performance test.",
+    "Source alignment reports are still fully read and validated.",
+    "Full original current integrity snapshot remains unchanged while runtime is stopped."
+  ],
+  "independent_review": "Recovery agent found no nested episode-row consumer, verified preserved summary dependencies, and implemented coherent vault/copy reference handling with 38 passing exporter/observer tests; see that agent receipt."
+}

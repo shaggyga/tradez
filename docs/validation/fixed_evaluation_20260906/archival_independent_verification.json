@@ -1,0 +1,42 @@
+{
+  "verified": true,
+  "source_extract_sha256": "dc3e20355b420d23406162678743f903feff4cc1689f28353f9da870d1358e12",
+  "all_original_payload_hashes_verified": true,
+  "all_exact_families_versions_cohorts_verified": true,
+  "forecast_universe": 1628,
+  "shared_reference_epochs": 407,
+  "paired_identical_endpoints": 368,
+  "stored_direction_vs_probability_side_mismatches": 82,
+  "metrics": {
+    "cross_pair_graph_transfer": {
+      "brier_up_vs_nonup": 0.36150261921928506,
+      "signed_move_mae_pips": 5.555166676630431,
+      "zero_move_mae_pips": 3.93410326086958,
+      "mean_net_bid_ask_pips": -1.9298913043478465,
+      "gross_direction_accuracy_flats_miss": 0.42391304347826086
+    },
+    "modern_tabular_probabilistic_repaired": {
+      "brier_up_vs_nonup": 0.27382574954144684,
+      "signed_move_mae_pips": 4.436463899456592,
+      "zero_move_mae_pips": 3.93410326086958,
+      "mean_net_bid_ask_pips": -2.3277173913043256,
+      "gross_direction_accuracy_flats_miss": 0.47554347826086957
+    },
+    "probabilistic_state_space": {
+      "brier_up_vs_nonup": 0.386760992667277,
+      "signed_move_mae_pips": 7.721896532608733,
+      "zero_move_mae_pips": 3.93410326086958,
+      "mean_net_bid_ask_pips": -1.7586956521739159,
+      "gross_direction_accuracy_flats_miss": 0.4782608695652174
+    },
+    "ridge_return_repaired": {
+      "brier_up_vs_nonup": 0.37835189722805834,
+      "signed_move_mae_pips": 6.824758350543445,
+      "zero_move_mae_pips": 3.93410326086958,
+      "mean_net_bid_ask_pips": -1.6728260869565295,
+      "gross_direction_accuracy_flats_miss": 0.4429347826086957
+    }
+  },
+  "strict_causal_or_executable_proof": false,
+  "production_database_connections": 0
+}

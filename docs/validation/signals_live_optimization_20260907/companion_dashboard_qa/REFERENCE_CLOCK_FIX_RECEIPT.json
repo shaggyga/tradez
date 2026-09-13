@@ -1,0 +1,22 @@
+{
+  "schema_version": "dashboard_reference_availability_fix_v1",
+  "generated_utc": "2026-09-07T16:36:48.798516+00:00",
+  "reason": "Live published forecasts were hidden because dashboard incorrectly required broker reference market time to be after registration activation. Actual reference tick preceded activation by0.155609 seconds and was first observed afterward.",
+  "change": "An indexed primary-key lookup binds the reference quote market and actual availability clocks. Availability must be after activation, within registered60-second quote freshness and at or before issue; original reference plus H1 remains fixed.",
+  "source_sha256": {
+    "oanda_practice_live_dashboard.py": "f527985764c71f096d5167c305b2df9ceefc3fee2bc9102ed7b2864108691f5c",
+    "oanda_main_signal_dashboard.html": "35e8d4fa960af11e5c8522ef410884656bb1e0f335c4a074e091881de63c34be",
+    "test_oanda_collection_dashboard_status.py": "3d87a5c4fc98cae67714095d822e7616b949917c9a6f261ba7847c2a2714036f"
+  },
+  "test_count": 94,
+  "test_receipt": "C:\\Users\\zmoor\\Documents\\forex\\warmup_repair_20260907\\dashboard_tests_20260907T163553781204Z\\receipt.json",
+  "test_receipt_sha256": "8a3eb52df54da35be79ec8a2c0666eae7a4160aec6cc37721df741c8ff274f7f",
+  "actual_shape_evidence": "C:\\Users\\zmoor\\Documents\\forex\\warmup_repair_20260907\\companion_dashboard_qa\\actual_forecast_shape_20260907.json",
+  "actual_shape_sha256": "616f16f446981e95cbc591d39a027a56c82f0af6ff661cee778023253babfdee",
+  "initial_failed_live_qa": "C:\\Users\\zmoor\\Documents\\forex\\warmup_repair_20260907\\companion_dashboard_qa\\2026-09-07T16_32_14_582Z\\receipt.json",
+  "registered_sources_changed": false,
+  "production_database_writes": false,
+  "read_only_production_queries": "One bounded snapshot of latest forecast, contract and activation, from110592-byte companion DB; parent explicitly authorized.",
+  "runtime_reload_by_reviewer": false,
+  "pending": "Repeat live UI verification after root reloads the dashboard backend."
+}

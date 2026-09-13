@@ -1,0 +1,52 @@
+from copy import deepcopy
+import pytest
+import probe_ledger_endpoint_v2 as probe
+import summarize_completed_probe_v2 as summary
+from test_probe_ledger_endpoint_v2 import scheduling_fixture
+
+
+def fixture():
+    report=scheduling_fixture()
+    return dict(projection=dict(observer_report_sha256='a'*64,failures={},report_started_epoch=report['started_epoch'],
+        report_completed_epoch=report['completed_epoch'],report_elapsed_monotonic_sec=.5,verified_pairs=68,unvisited_pairs=0,
+        row_reasons={row['instrument']:'verified_original_forecast' for row in report['summary']['rows']},
+        original_producer=dict(status='generation_mismatch',producer_reported_errors=13),
+        scheduling=probe.scheduling_projection(report)))
+
+
+def test_duplicate_cached_reports_do_not_double_count_recovery():
+    sample=fixture();before=deepcopy(sample);result=summary.summarize([sample,deepcopy(sample)])
+    assert result['distinct_original_reports']==1 and result['first_failed_pair_observations']==1
+    assert result['retry_attempt_observations']==result['recovered_ledger_observations']==result['recovered_forecast_observations']==1
+    assert result['final_failed_pair_observations']==0 and result['first_expired_budget_observations']==1
+    assert sample==before
+
+
+def test_same_report_hash_cannot_change_original_scheduling():
+    a=fixture();b=deepcopy(a);b['projection']['scheduling']['recovered_ledger_pairs']=0
+    with pytest.raises(AssertionError,match='conflicting_same_report_identity'):summary.summarize([a,b])
+
+
+def test_distinct_reports_are_separate_observations_even_for_same_pair():
+    a=fixture();b=deepcopy(a);b['projection']['observer_report_sha256']='b'*64
+    result=summary.summarize([a,b])
+    assert result['distinct_original_reports']==2 and result['first_failed_pair_observations']==2
+    assert list(result['first_failure_pair_counts'].values())==[2]
+
+
+def test_final_failed_retry_stays_failed_and_keeps_both_attempts():
+    sample=fixture();p=sample['projection'];schedule=p['scheduling'];pair=next(iter(schedule['first_pass_failures']))
+    p['failures']={pair:'observer_pair_time_budget'};p['verified_pairs']=67
+    schedule.update(recovered_instruments=[],recovered_ledger_pairs=0,recovered_forecast_pairs=0)
+    schedule['attempt_records'][-1]['final_public_reason']='observer_pair_time_budget'
+    result=summary.summarize([sample])
+    assert result['first_failed_pair_observations']==result['final_failed_pair_observations']==1
+    assert result['recovered_ledger_observations']==0
+    assert result['first_failure_and_retry_evidence'][0]['original_retry_attempt'] is not None
+
+
+def test_recovered_empty_ledger_and_unavailable_api_are_not_forecast_recovery():
+    sample=fixture();sample['projection']['scheduling']['recovered_forecast_pairs']=0
+    result=summary.summarize([sample,{'projection':{'status':'unavailable'}},{'error':'http_response_unavailable'}])
+    assert result['distinct_original_reports']==1 and result['recovered_ledger_observations']==1
+    assert result['recovered_forecast_observations']==0

@@ -1,0 +1,67 @@
+{
+  "schema_version": "forex_outcome_publication_atomicity_validation_v1",
+  "generated_utc": "2026-09-01T12:23:07Z",
+  "issue_id": "FX-20260901-OUTCOME-PUBLICATION-ATOMICITY",
+  "scope": "research_only_live_move_outcome_publication",
+  "observed_failure": {
+    "project_integrity_generation": 84,
+    "project_integrity_generated_utc": "2026-09-01T11:58:28.915039Z",
+    "failed_check": "live_move_news_forward_proof_contract_current",
+    "case_database_integrity": "ok",
+    "case_database_membership_conflict_count": 0,
+    "case_database_membership_mismatch_count": 0,
+    "case_database_invalid_root_merge_count": 0,
+    "outcome_contract_id": "live_move_news_forward_outcomes_v4r3_v7r3_transitive_factor_root_union_20260827",
+    "retained_outcome_count": 23090,
+    "outcome_upstream_integrity_visible": false
+  },
+  "root_cause": {
+    "component": "oanda_live_move_news_outcomes_v4.py",
+    "description": "base.run published its pre-V4 payload to the canonical V4R3 output and report paths before V4 attached upstream-integrity and transitive-root governance fields and republished the files",
+    "database_corruption": false,
+    "evidence_mutation": false,
+    "execution_effect": false,
+    "reader_effect": "a concurrent reader could observe a coherent but logically incomplete intermediate payload"
+  },
+  "resolution": {
+    "method": "isolated_temporary_base_stage_then_single_canonical_publish",
+    "canonical_json_publish_count_per_cycle": 1,
+    "canonical_report_publish_count_per_cycle": 1,
+    "temporary_stage_outside_canonical_state_tree": true,
+    "temporary_stage_removed_after_build": true,
+    "database_contract_changed": false,
+    "cohort_changed": false,
+    "outcome_economics_changed": false,
+    "promotion_gate_changed": false,
+    "authorization_changed": false,
+    "execution_changed": false,
+    "real_money_enabled": false
+  },
+  "validation": {
+    "focused_test_command": "python -m pytest -q trad/test_oanda_live_move_news_outcomes_v4.py trad/test_oanda_project_integrity_audit.py",
+    "focused_tests_passed": 49,
+    "focused_tests_failed": 0,
+    "regression_fixture": "deliberately incomplete base payload is written only to the isolated stage and never appears at either canonical path",
+    "stage_cleanup_verified": true,
+    "worker_restart_scope": "oanda_live_move_news_outcomes_v4.py only",
+    "post_restart_output_generated_utc": "2026-09-01T12:15:59.571410Z",
+    "post_restart_schema_version": 4,
+    "post_restart_upstream_integrity_ok": true,
+    "post_restart_upstream_failures": [],
+    "post_restart_sqlite_integrity": "ok",
+    "post_restart_retained_outcome_count": 23221,
+    "post_restart_research_only": true,
+    "post_restart_execution_eligible": false,
+    "post_restart_can_place_orders": false,
+    "post_restart_can_promote": false,
+    "project_integrity_generation_after_fix": 85,
+    "project_integrity_forward_contract_check_after_fix": true,
+    "project_integrity_overall_after_fix": "degraded_by_unrelated_transient_signal_availability_market_state_check"
+  },
+  "implementation_sha256": {
+    "oanda_live_move_news_outcomes_v4.py": "3656e0ebf5ce055b16a83e9bf6c2e13abc93d8a6b88cbf6d3db27adccf1b991e",
+    "test_oanda_live_move_news_outcomes_v4.py": "0e11ab520777bc0b26d70696edf71075f6760fc70a936251025ceb7ea583abfe",
+    "forex_model_vault_sync.py": "c15692db6b3cf1e81a1b83d25a05f651c40c7fa35e80eba97dbab30de4b41918",
+    "test_forex_model_vault_sync.py": "83b35641bc6588fa59c14f30dabe130102864e924ed8529f13b4d7bf352b15d2"
+  }
+}

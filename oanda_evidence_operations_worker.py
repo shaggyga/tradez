@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Hidden evidence-operations worker.
 
-Runs passive lifecycle, allocator-shadow, and Practice-007 accounting cycles.
-It neither imports a broker client nor exposes an order-submission path.
+Runs passive lifecycle and Practice-007 accounting cycles, and reads the
+independently refreshed allocator-shadow publication.  It neither imports a
+broker client nor exposes an order-submission path.
 """
 
 from __future__ import annotations
@@ -10,6 +11,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import sqlite3
 import threading
 import time
 import traceback
@@ -17,20 +19,70 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from oanda_allocator_proof import run_allocator_cycle
-from oanda_governed_practice_accounting import run_accounting_cycle
-from oanda_hypothesis_lifecycle import run_lifecycle
-from oanda_opportunity_decision_level_monitor import run_once as run_opportunity_decision_monitor
-
-
 ROOT = Path(__file__).resolve().parent
 STATE = ROOT / "data" / "oanda_training_manager" / "state"
 REPORT = ROOT / "data" / "oanda_training_manager" / "reports" / "evidence_operations" / "EVIDENCE_OPERATIONS_CURRENT.md"
 CANARY_AUTHORIZATION = STATE / "practice_007_governed_canary_authorization_v1.json"
+ALLOCATOR_STATE = STATE / "allocator_proof_v1.json"
+RESEARCH_GENEALOGY_DATABASE = STATE / "research_genealogy_v1.sqlite"
+GENEALOGY_LOCK_RETRY_ATTEMPTS = 24
+GENEALOGY_LOCK_RETRY_BASE_SEC = 0.25
+GENEALOGY_LOCK_RETRY_MAX_SEC = 5.0
 
 
 def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+def read_json(path: Path) -> dict[str, Any]:
+    try:
+        value = json.loads(path.read_text(encoding="utf-8-sig"))
+    except (OSError, ValueError, json.JSONDecodeError):
+        return {}
+    return value if isinstance(value, dict) else {}
+
+
+def read_allocator_publication(
+    path: Path = ALLOCATOR_STATE,
+    *,
+    maximum_age_sec: float = 900.0,
+    now_epoch: float | None = None,
+) -> dict[str, Any]:
+    """Read the single-producer allocator publication and fail closed if stale."""
+
+    payload = read_json(path)
+    generated = payload.get("generated_utc")
+    try:
+        generated_epoch = datetime.fromisoformat(
+            str(generated).replace("Z", "+00:00")
+        ).timestamp()
+    except (TypeError, ValueError):
+        generated_epoch = None
+    current = float(time.time() if now_epoch is None else now_epoch)
+    age = None if generated_epoch is None else max(0.0, current - generated_epoch)
+    safe_contract = bool(
+        payload.get("research_only") is True
+        and payload.get("can_place_orders") is False
+        and payload.get("can_promote") is False
+        and payload.get("real_money_routing") is False
+    )
+    if safe_contract and age is not None and age <= maximum_age_sec:
+        return payload
+    return {
+        "schema_version": 1,
+        "generated_utc": utc_now(),
+        "status": "allocator_publication_missing_stale_or_unsafe",
+        "source_generated_utc": generated,
+        "source_age_sec": age,
+        "maximum_age_sec": float(maximum_age_sec),
+        "research_only": True,
+        "can_place_orders": False,
+        "can_promote": False,
+        "real_money_routing": False,
+        "collection_state": "unavailable",
+        "evidence": {},
+        "counts": {},
+    }
 
 
 def atomic_json(path: Path, value: dict[str, Any]) -> None:
@@ -55,6 +107,140 @@ def atomic_text(path: Path, value: str) -> None:
     temporary = path.with_suffix(path.suffix + ".tmp")
     temporary.write_text(value, encoding="utf-8")
     temporary.replace(path)
+
+
+def _read_only_count(path: Path, query: str, parameters: tuple[Any, ...] = ()) -> int:
+    connection = sqlite3.connect(
+        f"file:{path.resolve().as_posix()}?mode=ro",
+        uri=True,
+        timeout=30.0,
+    )
+    connection.execute("PRAGMA query_only=ON")
+    try:
+        return int(connection.execute(query, parameters).fetchone()[0])
+    finally:
+        connection.close()
+
+
+def _is_sqlite_lock_contention(error: sqlite3.OperationalError) -> bool:
+    message = str(error).casefold()
+    return "locked" in message or "busy" in message
+
+
+def synchronize_lifecycle_genealogy(
+    lifecycle_database: Path,
+    genealogy_database: Path = RESEARCH_GENEALOGY_DATABASE,
+    *,
+    lock_retry_attempts: int = GENEALOGY_LOCK_RETRY_ATTEMPTS,
+    lock_retry_base_sec: float = GENEALOGY_LOCK_RETRY_BASE_SEC,
+    lock_retry_max_sec: float = GENEALOGY_LOCK_RETRY_MAX_SEC,
+    sleep_fn: Any = time.sleep,
+    monotonic_fn: Any = time.monotonic,
+    progress_callback: Any | None = None,
+    connect_fn: Any | None = None,
+    import_fn: Any | None = None,
+    count_fn: Any | None = None,
+) -> dict[str, Any]:
+    """Mirror the just-committed lifecycle high-water before publication.
+
+    The full genealogy worker imports many large research surfaces.  Lifecycle
+    publication must not wait for that broad pass, so this performs only the
+    append-only governed-cell import and independently reconciles exact counts.
+    A mismatch fails closed and prevents the newer lifecycle JSON from being
+    published by ``run_lifecycle``.
+    """
+
+    # Keep these broad research imports out of process startup so the liveness
+    # heartbeat is established before Windows/NumPy/SQLite initialization.
+    if connect_fn is None or import_fn is None:
+        from oanda_research_genealogy import (
+            connect as connect_genealogy,
+            import_lifecycle as import_lifecycle_genealogy,
+        )
+
+        connect_fn = connect_fn or connect_genealogy
+        import_fn = import_fn or import_lifecycle_genealogy
+
+    observed = utc_now()
+    attempts = max(1, int(lock_retry_attempts))
+    base_delay = max(0.0, float(lock_retry_base_sec))
+    maximum_delay = max(base_delay, float(lock_retry_max_sec))
+    count_rows = count_fn or _read_only_count
+    started = float(monotonic_fn())
+    committed_definitions = 0
+    committed_observations = 0
+
+    for attempt_index in range(attempts):
+        target = None
+        try:
+            target = connect_fn(genealogy_database)
+            definitions, observations = import_fn(
+                target,
+                lifecycle_database,
+                imported_at=observed,
+            )
+            target.commit()
+            committed_definitions += int(definitions)
+            committed_observations += int(observations)
+
+            lifecycle_hypotheses = count_rows(
+                lifecycle_database,
+                "SELECT COUNT(*) FROM hypotheses",
+            )
+            genealogy_governed_cells = count_rows(
+                genealogy_database,
+                "SELECT COUNT(*) FROM experiments WHERE experiment_kind=?",
+                ("governed_cell",),
+            )
+            return {
+                "ok": lifecycle_hypotheses == genealogy_governed_cells,
+                "status": (
+                    "synchronized"
+                    if lifecycle_hypotheses == genealogy_governed_cells
+                    else "count_mismatch"
+                ),
+                "generated_utc": observed,
+                "inserted_definitions": committed_definitions,
+                "inserted_observations": committed_observations,
+                "lifecycle_hypotheses": lifecycle_hypotheses,
+                "genealogy_governed_cells": genealogy_governed_cells,
+                "lock_retry_count": attempt_index,
+                "lock_wait_elapsed_sec": round(
+                    max(0.0, float(monotonic_fn()) - started), 3
+                ),
+                "lock_retry_attempt_limit": attempts,
+                "research_only": True,
+                "can_place_orders": False,
+                "can_promote": False,
+            }
+        except sqlite3.OperationalError as error:
+            if target is not None:
+                try:
+                    target.rollback()
+                except sqlite3.Error:
+                    pass
+                target.close()
+                target = None
+            if not _is_sqlite_lock_contention(error) or attempt_index + 1 >= attempts:
+                raise
+            delay = min(maximum_delay, base_delay * (2**attempt_index))
+            if progress_callback is not None:
+                progress_callback(
+                    {
+                        "lifecycle_step": "waiting_for_genealogy_write_lock",
+                        "genealogy_lock_retry_count": attempt_index + 1,
+                        "genealogy_lock_next_attempt": attempt_index + 2,
+                        "genealogy_lock_attempt_limit": attempts,
+                        "genealogy_lock_retry_delay_sec": round(delay, 3),
+                        "genealogy_lock_error": str(error),
+                    }
+                )
+            sleep_fn(delay)
+        finally:
+            if target is not None:
+                target.close()
+
+    raise RuntimeError("unreachable genealogy synchronization retry state")
 
 
 class OperationsProgressHeartbeat:
@@ -181,6 +367,7 @@ def report_markdown(payload: dict[str, Any]) -> str:
     acct = (accounting.get("accounting") or {}).get("account_operational_continuity") or {}
     sentinel = accounting.get("routeability_sentinel") or {}
     canary = payload.get("practice_canary_authorization") or {}
+    genealogy_sync = lifecycle.get("genealogy_sync") or {}
     velocity = lifecycle.get("proof_cohort_evidence_velocity") or []
     opportunity = payload.get("opportunity_decision_level") or {}
     top_one = opportunity.get("top_one") or {}
@@ -198,6 +385,10 @@ def report_markdown(payload: dict[str, Any]) -> str:
         f"- Permanently retired for futility: **{counts.get('futility_rejected', 0):,}**",
         f"- Confirmed candidates: **{counts.get('confirmed_candidate', 0):,}**",
         f"- Continue collecting: **{counts.get('continue_collecting', 0):,}**",
+        "- Lifecycle/genealogy handoff: "
+        f"**{genealogy_sync.get('status', 'unavailable')}** "
+        f"({genealogy_sync.get('lifecycle_hypotheses', 0):,} / "
+        f"{genealogy_sync.get('genealogy_governed_cells', 0):,})",
         "",
         "## Frozen allocator proof",
         "",
@@ -306,18 +497,35 @@ def cycle(
     progress_callback: Any | None = None,
 ) -> dict[str, Any]:
     progress = progress_callback or (lambda _phase, _details=None: None)
-    progress("running_lifecycle", None)
+    progress("running_lifecycle", {"lifecycle_step": "loading_lifecycle_module"})
+    from oanda_hypothesis_lifecycle import run_lifecycle
+
     lifecycle = run_lifecycle(
+        post_ingest_sync=lambda database_path: synchronize_lifecycle_genealogy(
+            database_path,
+            progress_callback=lambda details: progress(
+                "running_lifecycle", dict(details or {})
+            ),
+        ),
         progress_callback=lambda step, details=None: progress(
             "running_lifecycle",
             {"lifecycle_step": step, **dict(details or {})},
         )
     )
     progress("running_allocator", None)
-    allocator = run_allocator_cycle()
-    progress("running_accounting", None)
+    allocator = read_allocator_publication()
+    progress("running_accounting", {"accounting_step": "loading_accounting_module"})
+    from oanda_governed_practice_accounting import run_accounting_cycle
+
     accounting = run_accounting_cycle()
-    progress("running_opportunity_monitor", None)
+    progress(
+        "running_opportunity_monitor",
+        {"opportunity_step": "loading_opportunity_monitor_module"},
+    )
+    from oanda_opportunity_decision_level_monitor import (
+        run_once as run_opportunity_decision_monitor,
+    )
+
     opportunity_decision_level = run_opportunity_decision_monitor()
     progress("publishing_final_state", None)
     payload = {

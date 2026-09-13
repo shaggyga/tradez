@@ -1,0 +1,312 @@
+{
+  "selection_summary_first_in_window": {
+    "event": "execution_selection_summary",
+    "time": "2026-08-30T21:00:49.082833+00:00",
+    "matrix_candidates": 0,
+    "accepted_candidates": 0,
+    "signal_feed_candidates": 0,
+    "qualified_candidates": 0,
+    "nonconflicting_qualified_candidates": 0,
+    "selected_id": null,
+    "selection_mode": "consolidated_instrument_horizon_curve"
+  },
+  "selection_summary_nonconflicting_example": [
+    {
+      "file": "practice_top_signal_executor_oanda_account_id_dum4_20260901_164904_750787.jsonl",
+      "line": 2108,
+      "time": "2026-09-02T11:17:56.094124+00:00",
+      "qualified_candidates": 5,
+      "nonconflicting": [
+        {
+          "agreement_archetype_count": 4,
+          "agreement_archetype_probability": 0.833333,
+          "agreement_archetypes": [
+            "breakout_expansion",
+            "mean_reversion",
+            "trend_momentum",
+            "volatility_liquidity"
+          ],
+          "component_count": 12,
+          "component_family_count": 6,
+          "component_timeframes": [
+            "multi"
+          ],
+          "conflicted_archetype_count": 0,
+          "direction": "buy",
+          "direction_conflict": false,
+          "direction_state": "buy",
+          "execution_horizon_sec": 21600,
+          "execution_validation": {
+            "historical_ready": true,
+            "minimum_historical_reliability": 0.15,
+            "negative_historical_warmup": false,
+            "paper_consensus_ready": false,
+            "paper_consensus_shadow_only": true,
+            "prediction_quality_negative": false,
+            "prediction_quality_ready": false,
+            "promotion_incomplete": true,
+            "promotion_rejected": false,
+            "recent_ready": false,
+            "representative_negative_historical_warmup": false,
+            "validated": true
+          },
+          "family": "pullback",
+          "historical_expected_net_pips": 15.497,
+          "historical_reliability": 0.711024,
+          "id": "exec_signal_f013645afd8a037f31cfde53998441e1166d4ab3",
+          "instant_projected_net_pips": 0.4,
+          "instrument": "AUD_JPY",
+          "lane_id": "pullback.loose",
+          "normalized_rank_score": 0.00498573,
+          "opposing_archetype_count": 0,
+          "opposing_archetypes": [],
+          "paper_consensus_eligible": false,
+          "preferred_horizon_sec": 21600,
+          "profile": "loose",
+          "projected_net_pips": 2.6625,
+          "projected_net_pips_per_hour": 0.4437,
+          "signal_blocked_by": [],
+          "signal_confidence": 0.555362,
+          "signal_eligible": true,
+          "signal_group_id": "AUD_JPY:all-signals",
+          "signal_score": 0.259169,
+          "strategy_archetype": "mean_reversion",
+          "strategy_independence_shadow_only": true
+        }
+      ]
+    }
+  ],
+  "execution_skip_first_in_window": {
+    "candidate_blocks": [
+      {
+        "detail": {
+          "direction": "sell",
+          "instrument": "EUR_GBP"
+        },
+        "direction": "sell",
+        "id": "exec_signal_d8c93b50bdd8935247cf92bc8157574d956e4f9f",
+        "instrument": "EUR_GBP",
+        "reason": "direction_conflict_shadow_only"
+      }
+    ],
+    "event": "execution_skipped",
+    "open_trade_count": 0,
+    "reason": "no_nonconflicting_signal_capacity",
+    "time": "2026-08-30T22:03:54.204309+00:00"
+  },
+  "cost_block_occurrences": [
+    {
+      "time": "2026-09-01T14:59:37.807412+00:00",
+      "candidate": {
+        "detail": {
+          "applied": true,
+          "cost_gate_after_cost_pips": 0.7,
+          "gate": "multihour",
+          "gross_to_spread": 1.2414,
+          "horizon_sec": 21600,
+          "instant_projected_net_pips": 0.7,
+          "liquidity_quality": 0.85,
+          "max_spread_pips": 3.0,
+          "min_after_cost_pips": 1.0,
+          "min_confidence": 0.55,
+          "min_gross_to_spread": 2.0,
+          "min_liquidity_quality": 0.65,
+          "projected_gross_movement_pips": 3.6,
+          "projected_net_pips": 2.7438,
+          "signal_confidence": 0.557948,
+          "spread_pips": 2.9
+        },
+        "direction": "sell",
+        "id": "exec_signal_a0711b23909b6133c1d9bc8b8b8fac72de95d8ce",
+        "instrument": "CHF_JPY",
+        "reason": "multihour_movement_to_cost"
+      }
+    },
+    {
+      "time": "2026-09-02T11:16:36.057218+00:00",
+      "candidate": {
+        "detail": {
+          "applied": true,
+          "cost_gate_after_cost_pips": 0.5,
+          "gate": "multihour",
+          "gross_to_spread": 1.25,
+          "horizon_sec": 21600,
+          "instant_projected_net_pips": 0.5,
+          "liquidity_quality": 0.85,
+          "max_spread_pips": 3.0,
+          "min_after_cost_pips": 1.0,
+          "min_confidence": 0.55,
+          "min_gross_to_spread": 2.0,
+          "min_liquidity_quality": 0.65,
+          "projected_gross_movement_pips": 2.5,
+          "projected_net_pips": 2.7263,
+          "signal_confidence": 0.556202,
+          "spread_pips": 2.0
+        },
+        "direction": "buy",
+        "id": "exec_signal_69acb2af51b365ae46ba6c3b1925741b248011d3",
+        "instrument": "AUD_JPY",
+        "reason": "multihour_movement_to_cost"
+      }
+    },
+    {
+      "time": "2026-09-02T11:17:10.215640+00:00",
+      "candidate": {
+        "detail": {
+          "applied": true,
+          "cost_gate_after_cost_pips": 0.5,
+          "gate": "multihour",
+          "gross_to_spread": 1.25,
+          "horizon_sec": 21600,
+          "instant_projected_net_pips": 0.5,
+          "liquidity_quality": 0.85,
+          "max_spread_pips": 3.0,
+          "min_after_cost_pips": 1.0,
+          "min_confidence": 0.55,
+          "min_gross_to_spread": 2.0,
+          "min_liquidity_quality": 0.65,
+          "projected_gross_movement_pips": 2.5,
+          "projected_net_pips": 2.7263,
+          "signal_confidence": 0.556202,
+          "spread_pips": 2.0
+        },
+        "direction": "buy",
+        "id": "exec_signal_69acb2af51b365ae46ba6c3b1925741b248011d3",
+        "instrument": "AUD_JPY",
+        "reason": "multihour_movement_to_cost"
+      }
+    },
+    {
+      "time": "2026-09-02T11:17:21.563392+00:00",
+      "candidate": {
+        "detail": {
+          "applied": true,
+          "cost_gate_after_cost_pips": 0.4,
+          "gate": "multihour",
+          "gross_to_spread": 1.1905,
+          "horizon_sec": 21600,
+          "instant_projected_net_pips": 0.4,
+          "liquidity_quality": 0.85,
+          "max_spread_pips": 3.0,
+          "min_after_cost_pips": 1.0,
+          "min_confidence": 0.55,
+          "min_gross_to_spread": 2.0,
+          "min_liquidity_quality": 0.65,
+          "projected_gross_movement_pips": 2.5,
+          "projected_net_pips": 2.6625,
+          "signal_confidence": 0.555362,
+          "spread_pips": 2.1
+        },
+        "direction": "buy",
+        "id": "exec_signal_69acb2af51b365ae46ba6c3b1925741b248011d3",
+        "instrument": "AUD_JPY",
+        "reason": "multihour_movement_to_cost"
+      }
+    },
+    {
+      "time": "2026-09-02T11:17:44.700862+00:00",
+      "candidate": {
+        "detail": {
+          "applied": true,
+          "cost_gate_after_cost_pips": 0.4,
+          "gate": "multihour",
+          "gross_to_spread": 1.1905,
+          "horizon_sec": 21600,
+          "instant_projected_net_pips": 0.4,
+          "liquidity_quality": 0.85,
+          "max_spread_pips": 3.0,
+          "min_after_cost_pips": 1.0,
+          "min_confidence": 0.55,
+          "min_gross_to_spread": 2.0,
+          "min_liquidity_quality": 0.65,
+          "projected_gross_movement_pips": 2.5,
+          "projected_net_pips": 2.6625,
+          "signal_confidence": 0.555362,
+          "spread_pips": 2.1
+        },
+        "direction": "buy",
+        "id": "exec_signal_69acb2af51b365ae46ba6c3b1925741b248011d3",
+        "instrument": "AUD_JPY",
+        "reason": "multihour_movement_to_cost"
+      }
+    },
+    {
+      "time": "2026-09-02T11:17:56.152967+00:00",
+      "candidate": {
+        "detail": {
+          "applied": true,
+          "cost_gate_after_cost_pips": 0.4,
+          "gate": "multihour",
+          "gross_to_spread": 1.1905,
+          "horizon_sec": 21600,
+          "instant_projected_net_pips": 0.4,
+          "liquidity_quality": 0.85,
+          "max_spread_pips": 3.0,
+          "min_after_cost_pips": 1.0,
+          "min_confidence": 0.55,
+          "min_gross_to_spread": 2.0,
+          "min_liquidity_quality": 0.65,
+          "projected_gross_movement_pips": 2.5,
+          "projected_net_pips": 2.6625,
+          "signal_confidence": 0.555362,
+          "spread_pips": 2.1
+        },
+        "direction": "buy",
+        "id": "exec_signal_69acb2af51b365ae46ba6c3b1925741b248011d3",
+        "instrument": "AUD_JPY",
+        "reason": "multihour_movement_to_cost"
+      }
+    }
+  ],
+  "fast_executor_start_first_in_window": {
+    "account_suffix": "-007",
+    "event": "fast_executor_start",
+    "frozen_policy": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_execution_policy_v1.json",
+    "governed_canary_gate": {
+      "authorization_file": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_governed_canary_authorization_v1.json",
+      "authorization_fresh": false,
+      "authorized_entry_count": 0,
+      "configured": true,
+      "consumption_database": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_canary_consumptions_v1.sqlite",
+      "entry_authorized": false,
+      "fail_closed": true,
+      "independent_verifier_guard": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\independent_evidence_verifier_v1_guard_v2.sqlite",
+      "independent_verifier_state": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\independent_evidence_verifier_v1.json",
+      "last_decision": {
+        "allowed": false,
+        "reason": "not_evaluated"
+      },
+      "lifecycle_database": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\evidence_lifecycle_v1.sqlite",
+      "signed_entry_schema_required": 2,
+      "state_reason": "authorization_stale"
+    },
+    "instrument_count": 68,
+    "practice_execution": true,
+    "real_money_routing": false,
+    "scan_pause_sec": 0.5,
+    "signal_feed": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_signal_feed_v1.sqlite",
+    "time": "2026-09-01T00:37:25.410304+00:00"
+  },
+  "old_trade_exit_recovery_example": {
+    "correlation_factor": "",
+    "direction": "buy",
+    "event": "practice_trade_exit_observed",
+    "instrument": "USD_CAD",
+    "source": "recent_transaction_recovery",
+    "time": "2026-09-01T00:37:23.415637+00:00",
+    "trade_id": "2162"
+  },
+  "order_outcome_events_observed_in_week": [],
+  "parsing_notes": [
+    "JSONL timestamps live in time; filter actual UTC timestamps, not filename or sentinel_date alone.",
+    "Rotated part_...jsonl files contain earlier portions of the same run and must be included once.",
+    "execution_selection_summary appears at least 60s apart and is not every loop cycle.",
+    "accepted_candidates/matrix_candidates count locally passed candidates, which are empty in feed-consumer mode.",
+    "signal_feed_candidates counts upstream feed rows per observed summary, before the execution prefilter; do not sum as unique forecasts.",
+    "qualified_candidates is pre-final-gate; selected_id is preliminary and can still fail direction/cost/authorization gates.",
+    "execution_skipped carries candidate_blocks[].reason; top-level no_nonconflicting_signal_capacity conflates several final gates.",
+    "Skip logs repeat at most once per 10s for the same top-level reason; nested reason changes can be suppressed inside that throttle.",
+    "practice_trade_exit_observed source recent_transaction_recovery is a replay observation; its log time is not broker trade time.",
+    "practice_order_filled, practice_order_not_filled, practice_order_error distinguish broker submission outcomes; absent here and cross-checked against accounting."
+  ]
+}

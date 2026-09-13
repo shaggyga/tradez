@@ -1,0 +1,67 @@
+"""Apply four exact reviewed source files; does not restart any process."""
+import hashlib
+import json
+import os
+from pathlib import Path
+import tempfile
+import time
+
+HERE=Path(__file__).resolve().parent
+ROOT=Path(r'C:/Users/zmoor/Documents/forex/trad')
+SPEC=HERE/'DASHBOARD_V2_RELOAD_SPECIFICATION_20260909.json'
+SPEC_SHA='d77856f1a441612dd560507627d6cef05fd204cbcdc1ea5aac86bb6fafeda393'
+NAMES={'oanda_practice_live_dashboard.py','oanda_main_signal_dashboard.html',
+       'test_oanda_joint_v3_ledger_observer_handler_v1.py','test_oanda_joint_v3_ledger_table_visibility.py'}
+
+
+def sha(raw):return hashlib.sha256(raw).hexdigest()
+
+
+def main():
+    started=time.time();raw=SPEC.read_bytes()
+    if sha(raw)!=SPEC_SHA:raise ValueError('reviewed_specification_changed')
+    spec=json.loads(raw);rows=spec['apply_mapping']
+    if len(rows)!=4 or {Path(r['target']).name for r in rows}!=NAMES:raise ValueError('exact_four_targets_required')
+    output=HERE/'APPLICATION_V2_20260909.json'
+    if output.exists() or output.is_symlink():raise ValueError('fresh_application_receipt_required')
+    payloads=[]
+    # Preflight every target/source/dependency before modifying the first file.
+    for row in rows:
+        target=Path(row['target']);source=Path(row['staged_source']['path'])
+        if target.parent!=ROOT or source.parent!=HERE/'staged_project' or source.name!=target.name:
+            raise ValueError('unexpected_source_or_target')
+        if target.is_symlink() or source.is_symlink():raise ValueError('redirected_source_or_target')
+        before=target.read_bytes();after=source.read_bytes()
+        if sha(before)!=row['before_sha256'] or sha(after)!=row['after_sha256']:
+            raise ValueError('application_source_identity_changed')
+        if len(after)!=row['staged_source']['bytes']:raise ValueError('application_source_size_changed')
+        retained=HERE/'before_source'/(target.name+'.txt')
+        if retained.read_bytes()!=before:raise ValueError('exact_before_history_missing')
+        if target.suffix=='.py':compile(after,str(target),'exec',dont_inherit=True)
+        payloads.append((target,before,after))
+    targets={str(p):sha(after) for p,_,after in payloads}
+    for path,expected in spec['source_bindings'].items():
+        if path in targets:
+            if targets[path]!=expected:raise ValueError('after_binding_mismatch')
+        elif sha(Path(path).read_bytes())!=expected:raise ValueError('dependency_changed')
+    applied=[]
+    for target,before,after in payloads:
+        if target.read_bytes()!=before:raise ValueError('concurrent_target_change')
+        with tempfile.NamedTemporaryFile(prefix='.codex_integration_v2_',suffix='.tmp',dir=target.parent,delete=False) as h:
+            staged=Path(h.name);h.write(after);h.flush();os.fsync(h.fileno())
+        if sha(staged.read_bytes())!=sha(after):raise ValueError('application_stage_readback')
+        os.replace(staged,target)
+        if target.read_bytes()!=after:raise ValueError('application_target_readback')
+        applied.append(dict(path=str(target),before_sha256=sha(before),after_sha256=sha(after),bytes=len(after)))
+    for path,expected in spec['source_bindings'].items():
+        if sha(Path(path).read_bytes())!=expected:raise ValueError('post_application_binding_changed')
+    value=dict(schema_version='reviewed_observer_v2_source_application_v1_20260909',status='applied_exact_reviewed_sources',
+        started_epoch=started,completed_epoch=time.time(),helper_sha256=sha(Path(__file__).read_bytes()),
+        specification_sha256=SPEC_SHA,applied=applied,all_bound_sources_match=True,
+        runtime_restart_performed=False,broker_requests=False,orders_enabled=False)
+    raw=(json.dumps(value,indent=2,sort_keys=True)+'\n').encode()
+    with output.open('xb') as h:h.write(raw);h.flush();os.fsync(h.fileno())
+    print(json.dumps(dict(path=str(output),sha256=sha(raw),status=value['status'])))
+
+
+if __name__=='__main__':main()

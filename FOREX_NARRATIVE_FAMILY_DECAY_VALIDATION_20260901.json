@@ -1,0 +1,143 @@
+{
+  "schema_version": "forex_narrative_family_decay_validation_v1",
+  "generated_utc": "2026-09-01T16:39:00Z",
+  "change_id": "FX-20260901-NARRATIVE-FAMILY-DECAY",
+  "status": "validated_deployed_preactivation",
+  "problem": "The receipt-backed V2 broad-context arm still counted near-duplicate publisher variants as independent narratives and gave every retained story full weight across its 120-minute lookback. In the 2026-09-01 USD_ZAR reversal, fifteen nominally independent directional stories produced a +4.625375 broad vote while the actual move and technical continuation control were short. Many rows were variants of a small number of Hormuz, sanctions, bond-selloff and ceasefire narratives.",
+  "live_case_diagnostic": {
+    "instrument": "USD_ZAR",
+    "move_start_utc": "2026-09-01T15:28:00Z",
+    "move_direction": "down",
+    "move_bps": 6.898,
+    "executable_net_pips": 38.5,
+    "receipt_backed_broad_direction": 1,
+    "receipt_backed_broad_weighted_score": 4.625375,
+    "receipt_backed_broad_nominal_independent_stories": 15,
+    "technical_continuation_direction": -1,
+    "strict_direction": 0,
+    "execution_eligible": false,
+    "interpretation": "This is a realized-move-conditioned explanation case, not a predictor backtest or tradable miss. The existing combined news-plus-technical control abstained because broad narrative and continuation disagreed."
+  },
+  "concentration_evidence": {
+    "factor_episodes_audited": 268,
+    "episodes_with_retained_forward_stories": 172,
+    "unique_retained_forward_stories": 56,
+    "unique_retained_story_clusters": 55,
+    "unique_retained_narrative_families": 25,
+    "dominant_narrative_family_episode_count": 87,
+    "dominant_narrative_family_aligned_links": 55,
+    "dominant_narrative_family_opposed_links": 57,
+    "dominant_narrative_family_source_events": 13,
+    "dominant_narrative_family_headline": "Tanker hit by unknown projectiles in Strait of Hormuz",
+    "conclusion": "Repeated coverage materially overstated independent breadth, and the dominant narrative appeared on both aligned and opposed moves. It cannot be treated as independent consensus."
+  },
+  "resolution": {
+    "baseline_preserved": {
+      "contract_id": "move_first_operational_mapping_alignment_v2_receipt_backed_syndication_dedup_prospective_20260901T150000Z",
+      "cohort_id": "move_first_operational_mapping_alignment_v2_prospective_20260901T150000Z",
+      "historical_rows_rewritten": false,
+      "continues_as_exact_syndication_comparison": true
+    },
+    "new_contract": {
+      "contract_id": "move_first_operational_mapping_alignment_v3_receipt_backed_narrative_family_age_decay_prospective_20260901T170000Z",
+      "cohort_id": "move_first_operational_mapping_alignment_v3_prospective_20260901T170000Z",
+      "activation_utc": "2026-09-01T17:00:00Z",
+      "story_deduplication_rule": "conservative_time_bounded_narrative_family_v3",
+      "broad_age_decay_half_life_minutes": 30,
+      "narrative_similarity_requirements": {
+        "same_event_type": true,
+        "maximum_separation_minutes": 120,
+        "minimum_shared_lexical_anchors": 3,
+        "minimum_shorter_headline_overlap": 0.5
+      },
+      "representative_rule": "earliest_causally_available_component_member",
+      "raw_receipts_retained": true,
+      "historical_rows_imported": 0,
+      "selection_conditioned_on_realized_executable_move": true,
+      "predictive_backtest_eligible": false,
+      "promotion_eligible": false,
+      "execution_eligible": false,
+      "can_authorize": false,
+      "can_place_orders": false,
+      "execution_decision": "no_trade"
+    },
+    "runtime_cleanup": {
+      "retired_collector": "move_first_operational_mapping_alignment_v1",
+      "retirement_state": "superseded_preserved_exact_headline_baseline",
+      "historical_ledger_preserved": true,
+      "v2_continues": true,
+      "v3_continues": true
+    },
+    "integrity_baseline_switch": {
+      "problem": "The first deployment still required the runtime-retired V1 report to remain fresh, producing a false degraded integrity state after its timestamp aged out.",
+      "resolution": "Validate the frozen V1 report at its own publication clock with the full causal and inertness contract, while continuing to require live freshness from V2 and V3.",
+      "v1_preserved_baseline_and_inert": true,
+      "v2_current_and_inert": true,
+      "v3_current_and_inert": true,
+      "current_integrity_status": "ok",
+      "current_integrity_failures": [],
+      "supported_decision": "no_trade"
+    },
+    "v3_duplicate_reconciliation": {
+      "problem": "The preactivation integrity path still reconciled V3 independent stories with the V2 exact-syndication duplicate field. A first nonzero narrative-family duplicate would therefore have produced a false failure.",
+      "resolution": "The integrity contract now accepts an explicit duplicate-count field and binds V3 to operational_story_family_duplicate_count while V2 remains bound to operational_syndicated_duplicate_count.",
+      "nonzero_narrative_family_regression": "passed",
+      "old_v2_field_on_v3_fixture": "rejected",
+      "execution_or_promotion_changed": false
+    }
+  },
+  "validation": {
+    "focused_test_command": "python -m pytest -q trad/test_oanda_project_integrity_audit.py trad/test_oanda_move_first_operational_mapping_alignment_v1.py trad/test_oanda_shadow_runtime_retirements.py trad/test_oanda_supervisor_integrity_freshness.py trad/test_forex_model_vault_sync.py trad/test_oanda_issue_register_validator.py",
+    "focused_tests_passed": 79,
+    "focused_tests_failed": 0,
+    "python_compile": "ok",
+    "powershell_supervisor_parse": "ok",
+    "json_parse": "ok",
+    "v3_verify_only": {
+      "verified": true,
+      "failures": [],
+      "source_case_count": 0,
+      "resolved_factor_episode_count": 0,
+      "historical_rows_imported": 0
+    },
+    "runtime": {
+      "watchdog_pid": 20824,
+      "supervisor_pid": 32984,
+      "v2_worker_wrapper_pid": 5960,
+      "v3_worker_wrapper_pid": 13724,
+      "v1_running": false,
+      "v2_running": true,
+      "v3_running": true,
+      "v3_report_generated_utc": "2026-09-01T16:16:13.121352Z",
+      "v3_report_source_case_count": 0,
+      "v3_report_historical_rows_imported": 0,
+      "move_census_verifier_transient_failure_recovered": true,
+      "integrity_worker_restarted_for_baseline_switch": true,
+      "integrity_report_generated_utc": "2026-09-01T16:26:01.035628Z",
+      "integrity_status": "ok",
+      "integrity_failures": [],
+      "codex_automation_created": false
+    },
+    "practice_007": {
+      "verified_at_utc": "2026-09-01T16:16:18.904654Z",
+      "balance": 41.6042,
+      "nav": 41.6042,
+      "cumulative_pl": -8.343,
+      "open_trades": 0,
+      "pending_orders": 0,
+      "real_money_enabled": false
+    }
+  },
+  "sha256": {
+    "oanda_move_first_operational_mapping_alignment_v1.py": "8ad8d8ac994a37a325f508cd4fc950777a31934bddb474d55eca18387d8f1de2",
+    "test_oanda_move_first_operational_mapping_alignment_v1.py": "0582fbbc49127a9a7fb9a4b2027be46d6b374c7309c097670bdb8d5c1e9b6786",
+    "config/move_first_operational_mapping_alignment_v3_20260901.json": "341ee2dbb0ade3af063cde05120d78067cc5d2440a064f282628c26503a49fa7",
+    "oanda_project_integrity_audit.py": "97759c30db66a2eba114ca30224174792e1713b397a056a3e08692029e7f6873",
+    "test_oanda_project_integrity_audit.py": "e2f82547f3d040d317cb33deac209e1e608f759ae9b0f869031db887e7ee70c6",
+    "oanda_always_on_supervisor.ps1": "572aaadacab476561ee8096fb32c8bdcd66f6223e8edf79a4deeee76a76ef170",
+    "config/shadow_runtime_retirements_v1.json": "d922c0552383721b3587f0acf0af5efae5fb04d575f874902b18ab993feea36a",
+    "forex_model_vault_sync.py": "f487d3c97e8862ed04088f7eb3df7e494516352d117be90acec7b520ee28afa6",
+    "test_forex_model_vault_sync.py": "fe3652ec9b60defb62f742cfcdc8c8d7d329f3be5f2de6884eb524491c14c568",
+    "test_oanda_shadow_runtime_retirements.py": "58858fe6755ce4e5065848691ecda31afe87ab8d4e6246404065582f565838e0"
+  }
+}

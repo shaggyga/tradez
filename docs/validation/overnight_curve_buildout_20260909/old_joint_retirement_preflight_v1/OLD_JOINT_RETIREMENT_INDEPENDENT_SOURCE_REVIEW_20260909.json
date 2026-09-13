@@ -1,0 +1,93 @@
+{
+  "deployment_scope": "Preparation only in this review. Controlled process changes and immediate original-record comparisons remain separately required.",
+  "findings_closed": [
+    {
+      "closure": "All six immutable tables now pass unique_rows before maps; duplicate/invalid IDs refuse. Six table-specific regressions retained.",
+      "finding": "Dictionary construction could hide duplicate immutable IDs without proving primary-key shape."
+    },
+    {
+      "closure": "A deterministic sorted selected_quote_evidence_sha256 binds original referenced quote rows separately; the recheck validates retained detail seals and compares both identities.",
+      "finding": "Growing quote-table exclusion also excluded selected quote evidence from pre/post identity."
+    }
+  ],
+  "limitations": [
+    "Per-ledger snapshots are not one global atomic database snapshot.",
+    "This does not independently replay full news/model input, earliest endpoint selection, quote absence, or outcome arithmetic.",
+    "Actual observation 002 and its 4,050 terminal forecasts were collected by the implementation owner, not this reviewer."
+  ],
+  "remaining_blockers": [],
+  "review_completed_epoch": 1788946422.4922175,
+  "review_scope": "Read-only complete auditor/recheck and current-vs-retained supervisor/health deltas, test source and XML review. No test rerun, live ledger read, process action or source edit by reviewer.",
+  "reviewed_behavior": [
+    "136 individually coherent query-only transactions verify original contract/activation and forecast/publication/consumption/entry/outcome/exclusion boundaries. Missing publication/consumption, future native targets, unresolved/mismatched terminal states remain blockers.",
+    "Fixed registry/source closure before and after; fresh exclusive external audit outputs; recheck pins auditor, baseline summary and 136 detail hashes before exact comparison.",
+    "Selected reference/entry/target quote identities remain bound while unrelated new quote rows can grow. No new scoring or claim of historical absent-quote proof.",
+    "Supervisor delta adds only joint_price_news_study_v1 and joint_price_news_study_v2 to the existing disabled-name branch; corresponding launch paths report disabled and do not restart those workers.",
+    "Health expected set changes exactly 17 to 15; old active workers still appear as unexpected active, while raw legacy failures are not upgraded.",
+    "Separate retirement manifest preserves old registry/cohort/source records and requires immediate before/after obligation identity checks."
+  ],
+  "runtime_actions": false,
+  "schema_version": "independent_source_review_v1",
+  "source_evidence": [
+    {
+      "bytes": 17552,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\old_joint_retirement_preflight_v1\\audit_old_joint_obligations_v1.py",
+      "sha256": "d454833f16fd2c3135f6a23a6176233bfb446b22fdf0ebc539d9ff54e831b8e5"
+    },
+    {
+      "bytes": 5297,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\old_joint_retirement_preflight_v1\\recheck_old_joint_retirement_v1.py",
+      "sha256": "2e68afd28dbae27b0721bb490b2b038537691707386ed71788136f48fcbb55e7"
+    },
+    {
+      "bytes": 219184,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_always_on_supervisor.ps1",
+      "sha256": "28c226f56105331cb7e828bc54a02359f814f98b55838ca12f36cf19e733473e"
+    },
+    {
+      "bytes": 12682,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_project_runtime_health.py",
+      "sha256": "e4c6349dc32a45abc7c692e17611bde3a1871e2be5b153a9d8a5693f4c4fa32f"
+    },
+    {
+      "bytes": 7395,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\joint_study_runtime_retirement_v1_20260909.json",
+      "sha256": "38e7c9be1e8c6d8a2b14bb36f54526751bdf9cd8ddd762fed8840bd927a74faf"
+    },
+    {
+      "bytes": 2887,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\old_joint_retirement_preflight_v1\\test_audit_old_joint_obligations_v1.py",
+      "sha256": "2c4adcc5c3519b14b93b2f026aef604550402226ec22948f22155ccbcf45d18d"
+    },
+    {
+      "bytes": 1846,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\old_joint_retirement_preflight_v1\\test_recheck_old_joint_retirement_v1.py",
+      "sha256": "1c5844e142d5b786a78b6501d6ede8316e92a4bdce630725872cba12a2e7efed"
+    }
+  ],
+  "status": "passed",
+  "test_evidence": [
+    {
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "source": {
+        "bytes": 24774,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\old_joint_retirement_preflight_v1\\retirement_preparation_final_tests.xml",
+        "sha256": "031bc22bb3d155f9b158ae4464017eff25c28ee21622aca54669b77e939aac1e"
+      },
+      "tests": 150
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "source": {
+        "bytes": 2978,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\old_joint_retirement_preflight_v1\\old_joint_obligation_review_tests.xml",
+        "sha256": "93d653ad1d5ffd8effae51385c593de78bbbf27240dbdab2d4f0fa859b77ba6d"
+      },
+      "tests": 13
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "findings": [
+    "retained_fit_window preserves original record-count feature mathematics and55\u201370 second endpoint span without filling missing rows.",
+    "exact_grid remains separately named. Per-feature temporal supports disclose real elapsed times, increment/bar counts and missing S5 intervals.",
+    "Original searchsorted-left target selection is explicit at nominal horizon through inclusive+7 seconds, with actual future selected endpoint left null until observed.",
+    "Native label and completed price clocks remain distinct; nominal endpoints are not claimed to be guaranteed original fitted targets.",
+    "Current price conventions must be explicit, while historical ingestion equivalence remains unproven."
+  ],
+  "integration_requirement": "The pure numerical capture seals caller-supplied rows and source digest; its convention tag alone does not verify raw MBA mapping. A separately verified raw mapper must select officialM versus exact BA-derived OHLC and retain that source/convention binding. This does not reinstate the invalid assertion that all historical storedM equals BA midpoint.",
+  "previous_review_retained": "RECOVERED_CURVE_INDEPENDENT_SOURCE_REVIEW_20260909.json",
+  "remaining_blockers": [],
+  "reviewed_utc": "2026-09-09T05:15:22.325610+00:00",
+  "schema_version": "recovered_curve_sampling_target_delta_review_v1_20260909",
+  "scope": "Read-only review of explicit sampling and target-policy delta after original30c21 review. No independent test rerun, fitting, artifact load, acquisition or runtime change.",
+  "source_sha256": {
+    "oanda_recovered_second_curve_v1.py": "dbc2d606afdeb23840dd9038cd1200301c2211abb4228ef9bab193763323f41d",
+    "oanda_second_forecast_fit.py": "238b8e6d83536aa287dc6282a364ccbe7ba016f2e00221e3b95381edd8d4aba8",
+    "test_oanda_recovered_second_curve_v1.py": "d5ffbdc5d0888bde9af446085dea404174efa481fd3bfd48902c33a9dfbe986c"
+  },
+  "status": "passed_bounded_source_review"
+}

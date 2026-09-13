@@ -1,0 +1,216 @@
+"""Fixed local-only 20-minute ledger reliability probe; no source/runtime writes.
+
+77 ledger GETs plus two served-HTML checks and one preserved initial request =
+at most 80 HTTP requests across both attempts. Responses
+stay in a new external private directory; public evidence has clocks/counts only.
+"""
+from collections import Counter, defaultdict
+import argparse
+import hashlib
+import http.client
+import json
+import math
+import os
+from pathlib import Path
+import re
+import statistics
+import time
+
+BASE=Path(__file__).resolve().parent
+ROOT=Path(r'C:/Users/zmoor/Documents/forex/trad')
+PINS={
+ 'oanda_joint_v3_ledger_observer_api_v1.py':'26814b7f7a2a5c9dd7457bf1c1231ebb98f8a496139169f69c20187d436543ed',
+ 'oanda_joint_v3_ledger_status_observer_v1.py':'d2dc17dfee52603ae1ccf61433f4a1a73cd1650fdf44c5f1daaa60cf133d8699',
+ 'config/joint_v3_ledger_observer_api_v1_20260909.json':'983ac47caa3ba2a4ac8021876ce7e0a371ebdae2ef36ccb1d7a2636a046a4073',
+ 'oanda_main_signal_dashboard.html':'da9ae85ac0efd524a59ab7f24cf5de6602b737610e996556abf4b0e783b690c6',
+}
+ENDPOINT='/api/joint-v3-ledger-observation'
+FAMILY='ridge_price_news_v1'
+DURATION=1200
+INTERVAL=15
+LEDGER_REQUESTS=77
+PRIOR_HTTP_REQUESTS=1
+MAX_REQUESTS=79
+TIMEOUT=12
+MAX_RESPONSE=2*1024*1024
+MAX_TOTAL=160*1024*1024
+
+def need(ok,reason):
+    if not ok:raise ValueError(reason)
+
+def sha(raw):return hashlib.sha256(raw).hexdigest()
+def canonical(value):return json.dumps(value,sort_keys=True,separators=(',',':'),allow_nan=False).encode()
+def seal(value):return sha(canonical({k:v for k,v in value.items() if k!='payload_sha256'}))
+def epoch(value):
+    need(type(value) in (int,float) and math.isfinite(value) and value>0,'invalid_clock')
+    return value
+def safe_reason(value):
+    return value if isinstance(value,str) and re.fullmatch(r'[A-Za-z0-9_:.\-]{1,160}',value) else 'unspecified_or_redacted'
+def decode(raw):
+    def unique(pairs):
+        result={}
+        for k,v in pairs:need(k not in result,'duplicate_json_key');result[k]=v
+        return result
+    def invalid(value):raise ValueError('nonfinite_json')
+    return json.loads(raw,object_pairs_hook=unique,parse_constant=invalid)
+def save(path,value):
+    raw=canonical(value)+b'\n'
+    with path.open('xb') as f:f.write(raw);f.flush();os.fsync(f.fileno())
+    return dict(path=str(path),sha256=sha(raw),bytes=len(raw))
+def bindings():
+    result={}
+    for name,want in PINS.items():
+        p=ROOT/name;raw=p.read_bytes();need(len(raw)<=2*1024*1024 and sha(raw)==want,'pinned_source_changed')
+        result[name]=dict(path=str(p),sha256=want,bytes=len(raw))
+    return result
+
+class Reader:
+    def __init__(self,output):self.output=output;self.count=0;self.total=0
+    def get(self,endpoint):
+        need(endpoint in ('/',ENDPOINT),'endpoint_not_allowlisted')
+        need(self.count<MAX_REQUESTS,'request_count_bound')
+        self.count+=1;started=time.time();tick=time.monotonic();deadline=tick+TIMEOUT
+        conn=http.client.HTTPConnection('127.0.0.1',8765,timeout=TIMEOUT)
+        raw=bytearray();status=None;complete=False;error=None
+        try:
+            conn.request('GET',endpoint,headers={'Cache-Control':'no-cache','Connection':'close'})
+            remaining=deadline-time.monotonic();need(remaining>0,'http_total_time_budget')
+            if conn.sock:conn.sock.settimeout(remaining)
+            sock=conn.sock
+            response=conn.getresponse();status=response.status
+            while True:
+                if response.isclosed():complete=True;break
+                remaining=deadline-time.monotonic();need(remaining>0,'http_total_time_budget')
+                if sock:sock.settimeout(remaining)
+                # read1 avoids restarting a per-read timeout inside buffered fill.
+                chunk=response.read1(min(65536,MAX_RESPONSE-len(raw)+1))
+                if not chunk:complete=True;break
+                if len(raw)+len(chunk)>MAX_RESPONSE:
+                    raw.extend(chunk[:MAX_RESPONSE-len(raw)])
+                    raise ValueError('response_byte_bound')
+                raw.extend(chunk)
+            need(time.monotonic()<=deadline,'http_total_time_budget')
+        except Exception as exc:error=safe_reason(str(exc)) if isinstance(exc,ValueError) else type(exc).__name__
+        finally:conn.close()
+        ended=time.time();need(self.total+len(raw)<=MAX_TOTAL,'private_total_byte_bound')
+        path=self.output/'private_responses'/f'{self.count:03d}.bin'
+        with path.open('xb') as f:f.write(raw);f.flush();os.fsync(f.fileno())
+        self.total+=len(raw)
+        return bytes(raw),dict(request_number=self.count,endpoint=endpoint,status=status,complete_response=complete and error is None,
+            read_started_epoch=started,read_completed_epoch=ended,elapsed_monotonic_sec=time.monotonic()-tick,
+            bytes=len(raw),raw_sha256=sha(raw),private_relative_path=str(path.relative_to(self.output)),error=error)
+
+def summarize_response(raw,receipt,spec_sha):
+    need(receipt['status']==200 and receipt['complete_response'],'http_response_unavailable')
+    value=decode(raw);need(type(value) is dict and value.get('schema_version')=='joint_v3_ledger_observer_api_v1_20260909','api_schema')
+    need(value.get('payload_sha256')==seal(value),'api_payload_hash')
+    need(value.get('research_only') is True,'research_scope')
+    for field in ('can_place_orders','can_promote','can_authorize','account_eligible','proof_eligible','historical_rows_imported'):
+        need(value.get(field) is False,'authority_not_inert')
+    result=dict(status=safe_reason(value.get('status')),reason=safe_reason(value.get('reason')),
+        refresh_in_progress=value.get('refresh_in_progress') is True,api_payload_sha256=value['payload_sha256'])
+    if value['status']=='unavailable':return result
+    need(value['status'] in ('current_ledger_observation','partial_ledger_observation'),'api_status')
+    need(value['observer_api_specification_sha256']==spec_sha,'api_specification_identity')
+    report=value['observer_report'];consumer=value['consumer'];summary=report['summary']
+    need(sha(canonical(report))==value['observer_report_sha256'] and report['payload_sha256']==seal(report),'report_hash')
+    need(sha(canonical(summary))==report['summary_sha256'] and summary['payload_sha256']==seal(summary),'summary_hash')
+    need(sha(canonical(report['observer_spec']))==report['observer_spec_sha256'],'observer_spec_hash')
+    started=epoch(report['started_epoch']);completed=epoch(report['completed_epoch']);observed=epoch(consumer['observed_epoch'])
+    read_end=epoch(receipt['read_completed_epoch'])
+    need(started<=completed==consumer['observation_completed_epoch']<=observed<=read_end,'original_report_consumer_clock_order')
+    need(0<=observed-completed<=90,'original_report_age')
+    need(report['registered_pairs']==consumer['registered_pairs']==68,'registered_count')
+    need(report['verified_ledger_pairs']==consumer['verified_ledger_pairs'] and report['unvisited_pairs']==consumer['unvisited_pairs'],'consumer_count_mismatch')
+    active=consumer['active_forecast_ids'];need(len(active)==consumer['current_forecast_pairs'],'active_count_mismatch')
+    active_map={row['instrument']:row for row in active};need(len(active_map)==len(active),'duplicate_active_pair')
+    rows=summary['rows'];need(len(rows)==68 and len({r['instrument'] for r in rows})==68,'row_inventory')
+    row_clocks={};row_reasons={};current_at_read=0
+    for row in rows:
+        pair=row['instrument'];need(re.fullmatch('[A-Z]{3}_[A-Z]{3}',pair),'pair_identity')
+        slot=row['families'][FAMILY];row_epoch=epoch(slot['observed_epoch']);need(row_epoch<=completed,'row_future')
+        ledger=slot.get('ledger_observation',{});duration=None
+        if ledger.get('contract_and_activation_verified') is True:
+            rs=epoch(ledger['read_started_epoch']);re_=epoch(ledger['read_completed_epoch']);ve=epoch(ledger['verification_completed_epoch'])
+            need(rs<=re_<=ve==row_epoch,'row_read_clock_order');duration=ve-rs
+        row_clocks[pair]=dict(observed_epoch=row_epoch,age_at_probe_read_sec=read_end-row_epoch,successful_row_read_and_verification_sec=duration)
+        row_reasons[pair]=safe_reason(slot.get('reason'))
+        if pair in active_map:
+            f=slot['latest_forecast'];a=active_map[pair]
+            need(f is not None and a['decision_id']==f['decision_id'] and a['forecast_sha256']==f['forecast_sha256'],'active_original_identity')
+            need(a['cohort_id']==f['forecasts'][0]['cohort_id'] and observed<epoch(f['target_epoch']),'active_original_target')
+            current_at_read+=int(read_end<f['target_epoch'] and read_end-row_epoch<=90 and read_end-completed<=90)
+    need(set(active_map)<={r['instrument'] for r in rows},'active_pair_inventory')
+    failures=value['failures'];need(failures==report['failures'],'failure_report_mismatch')
+    sanitized_failures={pair:safe_reason(reason) for pair,reason in failures.items()}
+    need(set(sanitized_failures)<={r['instrument'] for r in rows},'failure_pair_identity')
+    producer=value['original_producer_envelope'];need(producer==report['original_producer_envelope'],'producer_report_mismatch')
+    projection={k:producer.get(k) for k in ('status','reason','observed_epoch','summary_generated_epoch','heartbeat_generated_epoch','producer_reported_errors','producer_heartbeat_publication_errors')}
+    for k in ('status','reason'):
+        if k in projection and projection[k] is not None:projection[k]=safe_reason(projection[k])
+    result.update(observer_report_sha256=value['observer_report_sha256'],report_started_epoch=started,report_completed_epoch=completed,
+        original_consumer_epoch=observed,original_report_age_sec=observed-completed,report_age_at_probe_read_sec=read_end-completed,
+        report_elapsed_monotonic_sec=report['elapsed_monotonic_sec'],registered_pairs=68,verified_pairs=consumer['verified_ledger_pairs'],
+        unvisited_pairs=consumer['unvisited_pairs'],original_consumer_current_forecasts=consumer['current_forecast_pairs'],
+        current_forecasts_at_probe_read=current_at_read,failures=sanitized_failures,row_reasons=row_reasons,row_clocks=row_clocks,
+        original_producer=projection)
+    return result
+
+def aggregate(samples):
+    available=[s for s in samples if 'observer_report_sha256' in s.get('projection',{})]
+    reports={s['projection']['observer_report_sha256']:s['projection'] for s in available}
+    failures=defaultdict(list)
+    for identity,p in reports.items():
+        for pair,reason in p['failures'].items():failures[(pair,reason)].append(dict(report_sha256=identity,report_completed_epoch=p['report_completed_epoch']))
+    return dict(request_samples=len(samples),validated_api_samples=len(available),distinct_reports=len(reports),
+        status_counts=dict(Counter(s.get('projection',{}).get('status',s.get('error','unavailable')) for s in samples)),
+        verified_pairs_counts=dict(Counter(str(s['projection']['verified_pairs']) for s in available)),
+        current_forecast_counts=dict(Counter(str(s['projection']['current_forecasts_at_probe_read']) for s in available)),
+        unvisited_counts=dict(Counter(str(s['projection']['unvisited_pairs']) for s in available)),
+        original_producer_status_counts=dict(Counter(s['projection']['original_producer'].get('status') for s in available)),
+        latency_sec=dict(min=min((s['read']['elapsed_monotonic_sec'] for s in samples),default=None),
+            median=statistics.median([s['read']['elapsed_monotonic_sec'] for s in samples]) if samples else None,
+            max=max((s['read']['elapsed_monotonic_sec'] for s in samples),default=None)),
+        per_pair_failures=[dict(instrument=k[0],reason=k[1],distinct_report_count=len(v),recurrence='recurring' if len(v)>1 else 'isolated_in_probe',original_reports=v) for k,v in sorted(failures.items())])
+
+def run(output):
+    need(output.parent==BASE and not output.exists(),'fresh_external_output_required')
+    own=Path(__file__).read_bytes();before=bindings();spec_sha=sha(canonical(decode((ROOT/'config/joint_v3_ledger_observer_api_v1_20260909.json').read_bytes())))
+    output.mkdir();(output/'private_responses').mkdir();reader=Reader(output)
+    began=time.time();tick=time.monotonic();samples=[];status='completed';html=[]
+    save(output/'PROBE_STARTED.json',dict(started_epoch=began,duration_sec=DURATION,ledger_interval_sec=INTERVAL,maximum_total_requests=MAX_REQUESTS,
+        scheduled_ledger_requests=LEDGER_REQUESTS,served_html_checks=2,prior_preserved_http_requests=PRIOR_HTTP_REQUESTS,combined_request_ceiling=80,
+        http_timeout_sec=TIMEOUT,max_response_bytes=MAX_RESPONSE,max_private_response_bytes=MAX_TOTAL,
+        source_bindings=before,probe_source_sha256=sha(own),scope='Only local ledger endpoint and served HTML; no account, news, broker GET or source/runtime edits.'))
+    try:
+        raw,receipt=reader.get('/');html.append(receipt);need(receipt['complete_response'] and receipt['status']==200 and sha(raw)==PINS['oanda_main_signal_dashboard.html'],'served_html_before_identity')
+        with (output/'SANITIZED_SAMPLES.jsonl').open('xb') as log:
+            for index in range(LEDGER_REQUESTS):
+                scheduled=tick+(index+1)*INTERVAL
+                while time.monotonic()<scheduled:time.sleep(min(.5,scheduled-time.monotonic()))
+                if time.monotonic()>=tick+DURATION:status='window_elapsed_before_all_slots';break
+                raw,receipt=reader.get(ENDPOINT);sample=dict(index=index,scheduled_epoch=began+(index+1)*INTERVAL,read=receipt)
+                try:sample['projection']=summarize_response(raw,receipt,spec_sha)
+                except Exception as exc:sample['error']=safe_reason(str(exc)) if isinstance(exc,ValueError) else type(exc).__name__
+                samples.append(sample);log.write(canonical(sample)+b'\n');log.flush();os.fsync(log.fileno())
+                if index%4==0:print(json.dumps(dict(progress=index+1,elapsed_sec=round(time.monotonic()-tick,2),current=sample.get('projection',{}).get('current_forecasts_at_probe_read'),verified=sample.get('projection',{}).get('verified_pairs'),failures=sample.get('projection',{}).get('failures'),error=sample.get('error'))),flush=True)
+            while time.monotonic()<tick+DURATION:time.sleep(min(.5,tick+DURATION-time.monotonic()))
+        raw,receipt=reader.get('/');html.append(receipt);need(receipt['complete_response'] and receipt['status']==200 and sha(raw)==PINS['oanda_main_signal_dashboard.html'],'served_html_after_identity')
+    except Exception as exc:status='stopped_'+(safe_reason(str(exc)) if isinstance(exc,ValueError) else type(exc).__name__)
+    try:after=bindings();unchanged=before==after and own==Path(__file__).read_bytes()
+    except Exception as exc:after=dict(error=type(exc).__name__);unchanged=False
+    result=dict(schema_version='ledger_endpoint_reliability_probe_v1_20260909',status=status,started_epoch=began,completed_epoch=time.time(),
+        observed_monotonic_sec=time.monotonic()-tick,total_http_requests=reader.count,prior_preserved_http_requests=PRIOR_HTTP_REQUESTS,
+        combined_http_requests=reader.count+PRIOR_HTTP_REQUESTS,retained_response_bytes=reader.total,
+        source_bindings_before=before,source_bindings_after=after,all_pinned_sources_unchanged=unchanged,served_html_reads=html,
+        probe_source_sha256=sha(own),summary=aggregate(samples),broker_requests=0,account_or_news_endpoints=0,runtime_or_source_changes=False,
+        limitations=['HTTP polling does not reveal OS scheduling, CPU or lock causality; pair budget failures may occur after successful reads and cannot be timed from missing failure details.',
+            'Cached copies are grouped by original report SHA; request count is not independent report count or trial N.',
+            'API/consumer/report/row clocks are retained separately. Local read completion never retimestamps the underlying forecasts.',
+            'Responses remain private; only this summary and sanitized clock/count samples are intended for curation.',
+            'Socket deadlines bound accepted requests; synchronous OS/network calls are not a universal hard cancellation guarantee.'])
+    receipt=save(output/'LEDGER_ENDPOINT_RELIABILITY_PROBE_20260909.json',result)
+    print(json.dumps(dict(status=status,receipt=receipt,summary=result['summary'])),flush=True)
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('--output-directory',type=Path,required=True);args=p.parse_args();run(args.output_directory.absolute())

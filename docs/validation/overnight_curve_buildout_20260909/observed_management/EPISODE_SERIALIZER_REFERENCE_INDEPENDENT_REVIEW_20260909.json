@@ -1,0 +1,38 @@
+{
+  "created_utc": "2026-09-09T07:27:47.031471+00:00",
+  "findings": [
+    "References come from the selected verifier report for that exact episode, not a newer runtime scan.",
+    "Relative paths reject traversal, backslashes, colons, empty components and duplicates; source hashes/byte counts are bounded.",
+    "References retain original file identity and fixed runtime root; no spread/slippage or actual account PnL is inferred.",
+    "Previous latest-status/common-terminal-denominator behavior is unchanged."
+  ],
+  "independent_test_runs": 0,
+  "live_data_reads": 0,
+  "orders_enabled": false,
+  "prior_review": {
+    "bytes": 2240,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\EPISODE_SERIALIZER_INDEPENDENT_REVIEW_20260909.json",
+    "sha256": "07341da21ecbb7d507c8d18dc77332eac4d656ed0a08bed33f33e3a1fb725c7b"
+  },
+  "remaining_blockers": [],
+  "reviewer": "/root/pair_model_inputs",
+  "runtime_changes": false,
+  "schema_version": "episode_serializer_reference_delta_review_v1_20260909",
+  "scope": "Narrow independent read-only review of added economic source references only; previous full review remains separate.",
+  "source": {
+    "bytes": 16263,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\summarize_verified_episodes_v1.py",
+    "sha256": "da845b43606d138977a74b2ba3260068405e0a55f77f416f3e8aed7e342cda9c"
+  },
+  "status": "passed",
+  "tests": {
+    "bytes": 10222,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\test_summarize_verified_episodes_v1.py",
+    "sha256": "66f3623051e70a117bebb5689bbc9f85accabf42ac1c83c4d187aa8252e5436b"
+  },
+  "xml": {
+    "bytes": 3249,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\episode_serializer_source_refs_tests.xml",
+    "sha256": "a9ac6a33cc315777ccdc9838dc338dd11c89a4d766cb77a58aee397200a57355"
+  }
+}

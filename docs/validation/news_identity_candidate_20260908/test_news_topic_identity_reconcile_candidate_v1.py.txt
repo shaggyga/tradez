@@ -1,0 +1,249 @@
+"""Independent behavioral checks for an offline producer repair candidate."""
+import copy
+import datetime as dt
+import json
+from pathlib import Path
+
+import pytest
+
+import oanda_news_causal_aggregation_guard_v1 as guard
+from news_topic_identity_reconcile_candidate_v1 import reconcile_topic_identities
+from test_oanda_news_causal_aggregation_guard_v1 import START, NOW, row, second
+
+CASE = Path(__file__).resolve().parents[1] / "runtime" / "NEWS_TOPIC_IDENTITY_CONFLICT_CASE_20260908.json"
+
+
+def sealed(member, *, topic_id="same_topic", post_window=360, as_of=NOW):
+    original = {
+        "topic_id": topic_id,
+        "story_cluster_id": "same_story",
+        "topic_signature": "monetary_policy|USD|hike",
+        "topic_clustered": True,
+        "structured_event": False,
+        "scheduled_utc": "",
+        "headline": member["headline"],
+        "source_name": member["source_name"],
+        "source_ids": [member["source_id"]],
+        "source_names": [member["source_name"]],
+        "published_utc": member["published_utc"],
+        "first_seen_utc": member["first_seen_utc"],
+        "causal_known_utc": member["first_seen_utc"],
+        "post_window_minutes": post_window,
+        "currency_scores": member["currency_scores"],
+        "classification_version": guard.CLASSIFICATION_VERSION,
+        "category": member["category"],
+    }
+    return guard.guard_topic(original, [member], as_of=as_of)
+
+
+def member_map(topics):
+    return {m["event_id"]: m for t in topics for m in t["causal_aggregation_guard"]["members"]}
+
+
+def test_retained_runtime_collision_is_resolved_without_creating_direction():
+    case = json.loads(CASE.read_text(encoding="utf-8"))
+    topics = case["conflicts"][0]["topics"]
+    at = dt.datetime.fromisoformat(case["guarded_snapshot"]["as_of_utc"])
+    before = copy.deepcopy(topics)
+    rejected = guard.build_current_news_snapshot(topics, as_of=at)
+    assert rejected["status"] == "unavailable"
+    assert rejected["errors"] == ["conflicting_current_topic_identity"]
+    repaired = reconcile_topic_identities(topics, as_of=at)
+    assert topics == before
+    assert len(repaired) == 1
+    assert repaired[0]["topic_id"] == topics[0]["topic_id"]
+    assert member_map(repaired) == member_map(topics)
+    assert len(member_map(repaired)) == 17
+    current = guard.build_current_news_snapshot(repaired, as_of=at)
+    assert current["status"] == "current"
+    assert current["news_state"] == "context_only"
+    assert current["directional_topic_count"] == 0
+    assert current["topics"][0]["currency_scores"] == {}
+    assert current["topics"][0]["can_place_orders"] is False
+    assert current["topics"][0]["execution_eligible"] is False
+    assert reconcile_topic_identities(list(reversed(topics)), as_of=at) == repaired
+    assert reconcile_topic_identities(repaired, as_of=at) == repaired
+
+
+def test_no_collision_and_empty_inputs_do_not_invent_evidence():
+    first = sealed(row(verified=True), topic_id="first")
+    other = sealed(second(verified=True), topic_id="other")
+    assert reconcile_topic_identities([], as_of=NOW) == []
+    original = [first, other]
+    result = reconcile_topic_identities(original, as_of=NOW)
+    assert {t["topic_id"] for t in result} == {"first", "other"}
+    assert member_map(result) == member_map(original)
+    for t in result:
+        guard.validate_guarded_topic(t, as_of=NOW)
+
+
+def test_identical_repeat_is_one_observation_and_input_order_does_not_matter():
+    a, b = sealed(row()), sealed(second())
+    original = [a, b, copy.deepcopy(a)]
+    result = reconcile_topic_identities(original, as_of=NOW)
+    assert len(result) == 1
+    assert len(member_map(result)) == 2
+    assert reconcile_topic_identities([b, a, copy.deepcopy(a)], as_of=NOW) == result
+
+
+def test_genuine_conflicting_member_payload_is_still_rejected():
+    first = sealed(row(verified=True))
+    changed = row(verified=True)
+    changed["currency_scores"] = {"USD": -0.5}
+    other = sealed(changed)
+    assert guard.build_current_news_snapshot([first, other], as_of=NOW)["status"] == "unavailable"
+    with pytest.raises(ValueError):
+        reconcile_topic_identities([first, other], as_of=NOW)
+
+
+@pytest.mark.parametrize("headline", [
+    "Central bank denies policy rate increase following scheduled committee decision",
+    "Central bank announces policy rate increase to 4 percent following scheduled committee decision",
+    "Ringgit ends lower as oil prices rise and the Fed decision looms",
+])
+def test_same_id_does_not_merge_incompatible_claims(headline):
+    original = [sealed(row(verified=True)), sealed(row("different", verified=True, headline=headline))]
+    with pytest.raises(ValueError):
+        reconcile_topic_identities(original, as_of=NOW)
+
+
+def test_tampered_seal_is_not_repaired_or_ignored():
+    a, b = sealed(row()), sealed(second())
+    b["causal_aggregation_guard"]["members"][0]["first_seen_utc"] = START.isoformat()
+    with pytest.raises(ValueError):
+        reconcile_topic_identities([a, b], as_of=NOW)
+
+
+def test_union_uses_each_publishers_own_clocks_and_original_expiry():
+    a, b = sealed(row()), sealed(second(published=19, seen=20))
+    result = reconcile_topic_identities([a, b], as_of=NOW)[0]
+    assert member_map([result]) == member_map([a, b])
+    assert result["currency_scores"] == {"USD": 0.5}
+    assert result["forward_source_count"] == 2
+    assert result["direction_available_utc"] == (START + dt.timedelta(minutes=20)).isoformat()
+    assert result["direction_expires_utc"] == (START + dt.timedelta(minutes=361)).isoformat()
+    assert result["execution_eligible"] is False
+    assert guard.validate_guarded_topic(result, as_of=NOW)["status"] == "directional"
+
+
+@pytest.mark.parametrize("duplicate_kind", ["headline", "publisher"])
+def test_syndication_and_repeated_publisher_do_not_become_corroboration(duplicate_kind):
+    a, b = row(), second()
+    if duplicate_kind == "headline":
+        b["headline"] = a["headline"]
+    else:
+        b["publisher_url"] = a["publisher_url"]
+    result = reconcile_topic_identities([sealed(a), sealed(b)], as_of=NOW)[0]
+    assert result["currency_scores"] == {}
+    assert result["forward_source_count"] == 0
+
+
+@pytest.mark.parametrize("ineligible_kind", ["late", "future", "expired", "context"])
+def test_ineligible_member_never_borrows_an_earlier_valid_clock(ineligible_kind):
+    a, b = row(), second()
+    if ineligible_kind == "late":
+        b["first_seen_utc"] = (START + dt.timedelta(minutes=31)).isoformat()
+        b["forward_signal_timely"] = False
+    elif ineligible_kind == "future":
+        b["detail_available_utc"] = (NOW + dt.timedelta(minutes=1)).isoformat()
+    elif ineligible_kind == "expired":
+        b["estimated_reaction_horizon_minutes"] = 1
+    else:
+        b["context_only"] = True
+    original = [sealed(a), sealed(b)]
+    try:
+        result = reconcile_topic_identities(original, as_of=NOW)[0]
+    except ValueError as error:
+        # The narrow candidate may reject an entire collision containing future
+        # evidence. That is a withheld snapshot, never a fabricated direction.
+        assert ineligible_kind in {"late", "future"}
+        assert str(error) == "reconcile_member_not_yet_available"
+        return
+    assert member_map([result]) == member_map(original)
+    assert result["currency_scores"] == {}
+    assert result["forward_source_count"] == 0
+
+
+def test_topic_window_cannot_be_extended_by_later_partition():
+    a = sealed(row(), post_window=40)
+    b = sealed(second(published=19, seen=20), post_window=360)
+    result = reconcile_topic_identities([a, b], as_of=NOW)[0]
+    assert dt.datetime.fromisoformat(result["published_utc"]) + dt.timedelta(
+        minutes=result["post_window_minutes"]
+    ) <= START + dt.timedelta(minutes=40)
+    later = START + dt.timedelta(minutes=41)
+    assert guard.build_current_news_snapshot([result], as_of=later)["topics"] == []
+
+
+def test_scheduled_releases_with_different_times_are_not_merged():
+    a, b = sealed(row()), sealed(second())
+    a.update(structured_event=True, scheduled_utc=START.isoformat())
+    b.update(structured_event=True, scheduled_utc=(START + dt.timedelta(hours=1)).isoformat())
+    with pytest.raises(ValueError):
+        reconcile_topic_identities([a, b], as_of=NOW)
+
+
+def test_invalid_as_of_never_creates_a_current_proof():
+    with pytest.raises((ValueError, TypeError)):
+        reconcile_topic_identities([sealed(row()), sealed(second())], as_of=dt.datetime(2026, 9, 7))
+
+
+def test_guard_member_bound_is_enforced_after_union(monkeypatch):
+    a, b = sealed(row()), sealed(second())
+    monkeypatch.setattr(guard, "MAX_MEMBERS", 1)
+    # Both individual proofs remain within the unchanged guard's active limit.
+    guard.validate_guarded_topic(a, as_of=NOW)
+    guard.validate_guarded_topic(b, as_of=NOW)
+    with pytest.raises(ValueError):
+        reconcile_topic_identities([a, b], as_of=NOW)
+
+
+def test_window_and_identity_missingness_cannot_be_guessed():
+    a, b = sealed(row()), sealed(second())
+    b.pop("story_cluster_id")
+    with pytest.raises(ValueError):
+        reconcile_topic_identities([a, b], as_of=NOW)
+
+
+@pytest.mark.parametrize("repeated", [False, True])
+def test_expired_singleton_does_not_return_a_stale_direction(repeated):
+    first = row(verified=True)
+    first["estimated_reaction_horizon_minutes"] = 1
+    at_publication = START + dt.timedelta(minutes=1, seconds=30)
+    old = sealed(first, as_of=at_publication)
+    assert old["directional_publish_eligible"] is True
+    rows = [old, copy.deepcopy(old)] if repeated else [old]
+    result = reconcile_topic_identities(rows, as_of=NOW)
+    assert len(result) == 1
+    assert result[0]["currency_scores"] == {}
+    assert result[0]["directional_publish_eligible"] is False
+    assert result[0]["context_only"] is True
+    assert member_map(result) == member_map(rows)
+
+
+def test_a_reconciled_topic_can_accept_a_later_compatible_partition():
+    a, b = sealed(row()), sealed(second())
+    merged = reconcile_topic_identities([a, b], as_of=NOW)[0]
+    c = sealed(row("c", published=2, seen=3))
+    result = reconcile_topic_identities([merged, c], as_of=NOW)[0]
+    assert member_map([result]) == member_map([a, b, c])
+    assert result["topic_id"] == a["topic_id"]
+    assert result["story_cluster_id"] == a["story_cluster_id"]
+    # c repeats a's headline and cannot add independent support.
+    assert result["forward_source_count"] == 2
+
+
+def test_internal_duplicate_member_rejection_cannot_be_erased_by_union():
+    a, b = sealed(row()), sealed(second())
+    original = copy.deepcopy(a["causal_aggregation_guard"]["original_topic"])
+    original.update({key: a[key] for key in (
+        "story_cluster_id", "topic_signature", "structured_event", "scheduled_utc"
+    )})
+    duplicate_member = row()
+    invalid_support = guard.guard_topic(
+        original, [duplicate_member, copy.deepcopy(duplicate_member)], as_of=NOW
+    )
+    assert guard.validate_guarded_topic(invalid_support, as_of=NOW)["status"] == "context"
+    assert invalid_support["currency_scores"] == {}
+    with pytest.raises(ValueError, match="duplicate_member"):
+        reconcile_topic_identities([invalid_support, b], as_of=NOW)

@@ -178,6 +178,24 @@ def open_database(path: Path) -> sqlite3.Connection:
     )
     connection.execute(
         """
+        CREATE TRIGGER IF NOT EXISTS trg_fast_lane_observation_no_update
+        BEFORE UPDATE ON official_release_observation
+        BEGIN
+            SELECT RAISE(ABORT, 'official release observation is append-only');
+        END
+        """
+    )
+    connection.execute(
+        """
+        CREATE TRIGGER IF NOT EXISTS trg_fast_lane_observation_no_delete
+        BEFORE DELETE ON official_release_observation
+        BEGIN
+            SELECT RAISE(ABORT, 'official release observation is append-only');
+        END
+        """
+    )
+    connection.execute(
+        """
         CREATE TABLE IF NOT EXISTS official_release_quote_capture (
             capture_id TEXT PRIMARY KEY,
             observation_id TEXT NOT NULL UNIQUE,
@@ -371,9 +389,15 @@ def stable_item_payload(row: Mapping[str, Any]) -> dict[str, Any]:
 
 def stable_item_key(row: Mapping[str, Any]) -> str:
     external_id = str(row.get("external_id") or "").strip()
+    # Some authoritative RSS feeds alternate only the scheme of a URL-valued
+    # GUID (observed live on BOJ: http on one poll, https on the next). Treat
+    # those as one publisher identity. The raw payload remains untouched, so
+    # the alias is still visible as a non-prospective material revision.
+    if external_id.casefold().startswith(("http://", "https://")):
+        external_id = news.canonical_url(external_id)
     canonical_url = next(
         (
-            str(row.get(key) or "").strip()
+            news.canonical_url(row.get(key))
             for key in ("source_url", "url", "publisher_url")
             if str(row.get(key) or "").strip()
         ),

@@ -1,0 +1,143 @@
+{
+  "actual_retained_presentations": [
+    {
+      "all_cell_values_equal_original": true,
+      "counts": {
+        "groups": 156,
+        "original_view_dispositions": {
+          "missing_provider_bar": 460,
+          "missing_source_coverage": 396,
+          "pending": 4412,
+          "scored": 24732,
+          "withheld": 4
+        },
+        "verified_chains": 1154
+      },
+      "original_report": {
+        "bytes": 472478,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\prospective_pilot\\scalability_v3\\actual_evaluation_001\\PROSPECTIVE_PILOT_EVALUATION.json",
+        "sha256": "65e273ceaee71a16537f8e31f1689b77e75c660b90785bd415b3bdacef657cfb"
+      },
+      "presentation": {
+        "bytes": 191081,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\prospective_pilot\\complete_results_v3_001\\COMPLETE_PILOT_HORIZON_RESULTS_20260909.json",
+        "sha256": "182cee3dd2df4770a4afa17d2af0a57170ecc8fb29f139070b5f0b7c7a8d2b45"
+      }
+    },
+    {
+      "all_cell_values_equal_original": true,
+      "counts": {
+        "groups": 216,
+        "original_node_dispositions": {
+          "15": {
+            "node_status_counts": {
+              "pending": 216,
+              "scored": 672
+            },
+            "scope": "Method/label node counts; not independent origins, trades or trials."
+          },
+          "30": {
+            "node_status_counts": {
+              "pending": 408,
+              "scored": 480
+            },
+            "scope": "Method/label node counts; not independent origins, trades or trials."
+          },
+          "60": {
+            "node_status_counts": {
+              "pending": 816,
+              "scored": 72
+            },
+            "scope": "Method/label node counts; not independent origins, trades or trials."
+          }
+        },
+        "paired_cells": 108,
+        "verified_chains": 37
+      },
+      "original_report": {
+        "bytes": 932891,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\prospective_risk_v1\\actual_retained_evaluation_003\\RETAINED_RISK_DISTRIBUTION_EVALUATION.json",
+        "sha256": "22e61f85dfe75fcba92cb0a9ca5a74c759f57b59d445727c06c7f10136f45e0e"
+      },
+      "presentation": {
+        "bytes": 230787,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\prospective_risk_v1\\complete_results_003\\COMPLETE_RETAINED_RISK_RESULTS_20260909.json",
+        "sha256": "c35c26bbaf346bc0275d24e9eb64acbc58411bee2b8e9d801a9067454ddc5bd3"
+      }
+    },
+    {
+      "all_cell_values_equal_original": true,
+      "counts": {
+        "groups": 216,
+        "original_node_dispositions": {
+          "15": {
+            "node_status_counts": {
+              "pending": 216,
+              "scored": 1416
+            },
+            "scope": "Method/label node counts; not independent origins, trades or trials."
+          },
+          "30": {
+            "node_status_counts": {
+              "pending": 384,
+              "scored": 1248
+            },
+            "scope": "Method/label node counts; not independent origins, trades or trials."
+          },
+          "60": {
+            "node_status_counts": {
+              "pending": 744,
+              "scored": 888
+            },
+            "scope": "Method/label node counts; not independent origins, trades or trials."
+          }
+        },
+        "paired_cells": 108,
+        "verified_chains": 68
+      },
+      "original_report": {
+        "bytes": 1610590,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\prospective_risk_v1\\actual_retained_evaluation_004\\RETAINED_RISK_DISTRIBUTION_EVALUATION.json",
+        "sha256": "e19cab2cb07ee8b8840bf6bf9167a2d3ce262ad693949578986c2e1217b5a5fd"
+      },
+      "presentation": {
+        "bytes": 303526,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\prospective_risk_v1\\complete_results_004\\COMPLETE_RETAINED_RISK_RESULTS_20260909.json",
+        "sha256": "b35b404261d758893b0041f00522d34f57a079c1dcb480044aea555234694217"
+      }
+    }
+  ],
+  "independent_sample_size": null,
+  "limitations": [
+    "Presentation helpers require trusted exact original report hashes and accepted original statuses; they do not independently authenticate or rescore the original evaluators.",
+    "No pytest suite, broker GET, runtime write, original-report mutation, orsource edit was performed by this reviewer.",
+    "The full reports, raw captures, per-origin evidence and fitted weights remain external private dependencies; portable compact tables do not imply those inputs are included."
+  ],
+  "remaining_blockers": [],
+  "rescoring_performed": false,
+  "review_scope": [
+    "Read-only source review and exact value comparison of every retained group/cell and summary disposition; no model/outcome rescoring or repeated evaluation.",
+    "Pilot156 cells retain all three pairs,13 native horizons,two midpoint conventions,andtwo target views. Direction,Brier,and cost have separate original denominators,neutral/missing rows remain explicit, and no pooled accuracy or independent N is claimed.",
+    "Risk216 groups and108 paired cells preserve both fixed methods and12 labels for every pair/15-30-60-minute horizon. Summed method/label status counts are explicitly node counts,not independent origins,trades ortrials.",
+    "Prior risk003 and latest004 remain separate dated observations with exact original report identities; neither is added to the other as additional N.",
+    "Quantile coverage, interval width and pinball/median errors remain original descriptive metrics; no method selection, calibration proof, remaining-risk distribution, stops orposition-sizing claim is introduced.",
+    "All-cell presentations preserve original report clock/registry/source identities and retain their machine-local source-report dependencies."
+  ],
+  "reviewed_epoch": 1788949430.8111222,
+  "runtime_mutated": false,
+  "schema_version": "complete_results_presentations_independent_review_v1_20260909",
+  "source_evidence": [
+    {
+      "bytes": 8704,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\prospective_pilot\\summarize_retained_pilot_v1.py",
+      "sha256": "2310ff8dbdabea789e359928ff82f95509befc49703d78608a56cdb260bf8864"
+    },
+    {
+      "bytes": 4955,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\prospective_risk_v1\\summarize_retained_risk_v1.py",
+      "sha256": "f48010fc9c5d5f43908507da6dbfc500eaad8379a087abc77f72dd3b91402efe"
+    }
+  ],
+  "source_files_edited": false,
+  "status": "passed"
+}

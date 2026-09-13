@@ -1,0 +1,48 @@
+{
+  "limitations": [
+    "Source fingerprints are measured at import and matched to caller expectations; no source reread occurs during pure projection.",
+    "No fitted covariance, VaR, trading policy, account NAV, margin, leverage or execution result is established.",
+    "This review did not recompute actual financial evidence or validate a live source mapper."
+  ],
+  "owner_tests": {
+    "errors": 0,
+    "failed": 0,
+    "independently_rerun": false,
+    "passed": 66,
+    "skipped": 0,
+    "xml_elapsed_sec": 1.166
+  },
+  "remaining_blockers": [],
+  "review_scope": "Bounded independent read-only module and test source review, with owner XML inspection. No independent test rerun, real position/quote reads, runtime writes, model fitting or broker calls.",
+  "reviewed_boundaries": [
+    "Single explicitly named caller-attested virtual scenario; no cross-arm aggregation.",
+    "Existing positions preserve their original integer units; candidate is additive only.",
+    "Every supplied quote and state availability is at or before the original decision cutoff; later observed clock cannot unlock a future quote.",
+    "Marked signed base/quote risk units use current midpoint, independent of financed entry cash or account holdings.",
+    "EUR/GBP direct and JPY inverse USD midpoint valuation; conservative absolute conversion uses purchase-side bid/ask rates.",
+    "Gross position notional and two-leg currency attribution are distinct; netting never erases gross or directional counts.",
+    "Invalid/missing required valuation fails the whole projection; supplied diagnostic count/notional/net/gross/concentration limits do not authorize execution.",
+    "Private192-digit Decimal context and bounded decimal inputs avoid dependence on ambient arithmetic precision.",
+    "Original source and record hashes remain explicit caller/module-load attestations, not independent authentication of account state."
+  ],
+  "reviewed_epoch": 1788938803.5410893,
+  "schema_version": "currency_exposure_projection_independent_review_v1_20260909",
+  "source_evidence": [
+    {
+      "bytes": 16246,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_currency_exposure_projection_v1.py",
+      "sha256": "8feee4c9c007ddd1ef5591fa6671783a6497fc6fa88046458ebde34e615835fa"
+    },
+    {
+      "bytes": 12301,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_currency_exposure_projection_v1.py",
+      "sha256": "87ad94bbf627e90723eda976aff6dd796f811f1eb1a067422c9be97f61c3a4fd"
+    },
+    {
+      "bytes": 10547,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\portfolio_risk_reuse_review\\exposure_initial_tests.xml",
+      "sha256": "9a5f42d0e7eaeff2773d5b742365274091c5167d6e4fa24da53958aa03e951de"
+    }
+  ],
+  "status": "passed"
+}

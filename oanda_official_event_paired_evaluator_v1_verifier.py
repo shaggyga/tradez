@@ -19,6 +19,7 @@ import os
 from pathlib import Path
 import re
 import sqlite3
+import subprocess
 import time
 from typing import Any, Mapping, Sequence
 
@@ -89,6 +90,10 @@ AUTHORITY_MAP_SHA256 = (
 NEWS_SOURCE_CONFIG_SHA256 = (
     "6058d3a81d250add66e1d22b0f2541990f3bc90c52575c4a7a97c3361ad0a45b"
 )
+FROZEN_NEWS_SOURCE_CONFIG_GIT_COMMIT = (
+    "8e115984965e8e952048cf4bb323560e5c496f43"
+)
+FROZEN_NEWS_SOURCE_CONFIG_GIT_PATH = "config/news_sources_v1.json"
 FAST_LANE_SOURCE_SHA256 = (
     "55f3a1260c2c3644fa2c4de0e70c4fe081e21fff366caeeaae8fe80bfb1d752a"
 )
@@ -346,19 +351,49 @@ def _configured_source_lineage(source: Mapping[str, Any]) -> tuple[str, str]:
 
 def _read_news_source_config(
     path: Path, failures: list[str]
-) -> tuple[bytes, dict[str, tuple[str, str]]]:
+) -> tuple[bytes, dict[str, tuple[str, str]], str]:
+    resolution = "live_path_exact_frozen_bytes"
     try:
         raw = path.read_bytes()
-        parsed = json.loads(raw.decode("utf-8"))
     except (OSError, UnicodeDecodeError, ValueError) as exc:
         failures.append(f"news_source_config:unreadable:{type(exc).__name__}")
-        return b"", {}
+        return b"", {}, "unavailable"
+    if sha256_bytes(raw) != NEWS_SOURCE_CONFIG_SHA256:
+        # The live source registry is expected to evolve. Cohort B must not be
+        # reopened under those new bytes, but its verifier must remain able to
+        # reproduce the exact source-lineage contract it sealed. Resolve the
+        # immutable committed blob by commit ID; never substitute the current
+        # working-tree file and never rewrite the cohort database.
+        try:
+            frozen = subprocess.check_output(
+                [
+                    "git",
+                    "cat-file",
+                    "blob",
+                    (
+                        f"{FROZEN_NEWS_SOURCE_CONFIG_GIT_COMMIT}:"
+                        f"{FROZEN_NEWS_SOURCE_CONFIG_GIT_PATH}"
+                    ),
+                ],
+                cwd=ROOT,
+                stderr=subprocess.DEVNULL,
+                creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+                timeout=15,
+            )
+        except (OSError, subprocess.SubprocessError):
+            frozen = b""
+        if sha256_bytes(frozen) == NEWS_SOURCE_CONFIG_SHA256:
+            raw = frozen
+            resolution = "frozen_git_commit_exact_bytes"
+        else:
+            failures.append("news_source_config:file_sha256:mismatch")
+            return b"", {}, "frozen_bytes_unavailable"
+    try:
+        parsed = json.loads(raw.decode("utf-8"))
+    except (UnicodeDecodeError, ValueError) as exc:
+        failures.append(f"news_source_config:unreadable:{type(exc).__name__}")
+        return b"", {}, "invalid_frozen_bytes"
     payload = parsed if isinstance(parsed, dict) else {}
-    record(
-        failures,
-        sha256_bytes(raw) == NEWS_SOURCE_CONFIG_SHA256,
-        "news_source_config:file_sha256:mismatch",
-    )
     lineages: dict[str, tuple[str, str]] = {}
     for row in payload.get("sources") or []:
         if isinstance(row, Mapping):
@@ -366,7 +401,7 @@ def _read_news_source_config(
             if source_id:
                 lineages[source_id] = _configured_source_lineage(row)
     record(failures, bool(lineages), "news_source_config:lineages:empty")
-    return raw, lineages
+    return raw, lineages, resolution
 
 
 def parse_time(value: Any) -> dt.datetime | None:
@@ -2070,7 +2105,11 @@ def verify_paired_evaluator_database(
     authority_bytes, authority_payload = _read_authority_map(
         authority_map_path, failures
     )
-    news_source_bytes, source_lineages = _read_news_source_config(
+    (
+        news_source_bytes,
+        source_lineages,
+        news_source_config_resolution,
+    ) = _read_news_source_config(
         news_source_config_path, failures
     )
     dependency_hashes: dict[str, str] = {}
@@ -2267,6 +2306,13 @@ def verify_paired_evaluator_database(
         "producer_source_path": str(producer_source_path),
         "authority_map_path": str(authority_map_path),
         "news_source_config_path": str(news_source_config_path),
+        "news_source_config_resolution": news_source_config_resolution,
+        "frozen_news_source_config_git_commit": (
+            FROZEN_NEWS_SOURCE_CONFIG_GIT_COMMIT
+        ),
+        "frozen_news_source_config_git_path": (
+            FROZEN_NEWS_SOURCE_CONFIG_GIT_PATH
+        ),
         "fast_lane_source_path": str(fast_lane_source_path),
         "horizon_source_path": str(horizon_source_path),
         "counts": counts,

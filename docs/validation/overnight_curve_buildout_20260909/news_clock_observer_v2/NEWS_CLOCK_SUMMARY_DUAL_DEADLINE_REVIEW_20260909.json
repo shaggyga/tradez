@@ -1,0 +1,60 @@
+{
+  "bindings": [
+    {
+      "bytes": 11904,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v2\\summarize_completed_news_clock_v1.py",
+      "sha256": "0ed4469ba19692f019e5b072e2698d1b674e5a994dce29926a9d6e36fc2b6d31"
+    },
+    {
+      "bytes": 6523,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v2\\test_summarize_completed_news_clock_v1.py",
+      "sha256": "469ddb20d5596e544ceb67062322a07b39bd0030aa71a0cb521b0c3084d11c4f"
+    },
+    {
+      "bytes": 7691,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v2\\news_clock_summary_closed_tests.xml",
+      "sha256": "1931ffdb15071b90f94969c803a9c3b1df0ce39d0f43ab99bedc76e0b4b59104"
+    },
+    {
+      "bytes": 4437,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v2\\completed_summary_002\\NEWS_CLOCK_V2_COMPLETED_SUMMARY_20260909.json",
+      "sha256": "e947cb427c2d642896a0e6ccc2ae5d7057a43346eb2bda356a2049622f9f12fd"
+    },
+    {
+      "bytes": 18733,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v2\\observe_news_clock_boundaries_v2.py",
+      "sha256": "dc63f1470b6351e774af01c0732de0cc84ac64e04de0b1f7081870a4f643f86e"
+    }
+  ],
+  "broker_requests": false,
+  "completed_epoch": 1788958154.4409494,
+  "limits": [
+    "Actual monotonic elapsed versus wall boundary is not a diagnosis of host-clock drift.",
+    "First rejected application and prior successful source versions remain separately retained.",
+    "No original observer edits, runtime action, network, raw/private reads or new tests by reviewer."
+  ],
+  "owner_tests": {
+    "independently_rerun": false,
+    "passed": 38,
+    "xml": {
+      "bytes": 7691,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v2\\news_clock_summary_closed_tests.xml",
+      "sha256": "1931ffdb15071b90f94969c803a9c3b1df0ce39d0f43ab99bedc76e0b4b59104"
+    }
+  },
+  "previous_review": {
+    "bytes": 2688,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v2\\NEWS_CLOCK_COMPLETED_SUMMARY_INDEPENDENT_REVIEW_20260909.json",
+    "sha256": "31ef0c3c28924bc225c0f504bbd48172395527f0cba1e262d32be344a8c1c1ca"
+  },
+  "remaining_blockers": [],
+  "review_scope": [
+    "Narrow source review against unchanged original observer: admission ends at either fixed wall deadline or original monotonic budget.",
+    "Strict original budget == END minus begin binding, finite ordered clocks and explicit actual stop basis preserve source semantics without wall tolerance or retimestamping.",
+    "Noncurrent-run duration shadowing fixed to separate run_duration; existing rejection fixture now checks original budget survives.",
+    "Compact actual output only checked for11445samples,zero invalidfields,5-to-5counter,no DB diagnostic and exact original monotonic termination; no original full-log replay by reviewer."
+  ],
+  "runtime_changes": false,
+  "schema_version": "news_clock_summary_dual_deadline_review_v1_20260909",
+  "status": "passed"
+}

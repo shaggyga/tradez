@@ -1,0 +1,315 @@
+{
+  "status": "passed",
+  "schema_version": "joint_disposable_preflight_independent_audit_v1_20260907",
+  "started_utc": "2026-09-07T22:24:15.586178+00:00",
+  "finished_utc": "2026-09-07T22:24:22.131179+00:00",
+  "registry_sha256": "85b63f1f26b380001a974f54fc900df739c0edabdc613cc5e64c06bf3412c848",
+  "result_sha256": "38937678531e243f2bc7f9def77895718862c8a2fd0ca22fc4c9008020769d97",
+  "helper_sha256": "b1ec4b0534b97f941c7e4a4431cbe13ad63cc7aac6f4ec10354b1c97314745e5",
+  "source_bindings": {
+    "oanda_causal_forecast_inputs.py": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+    "oanda_causal_forecast_inputs_gap_v2.py": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd",
+    "oanda_causal_forecast_inputs_joint_news_v1.py": "9375f116571ef43c18eae65c14fc53fb2f98d8ab132d4b000a0971986d2890ec",
+    "oanda_causal_forecast_inputs_pair_v2.py": "8e58491a49fca967e6d8d2a797cc77f142053576c92a724a2e7336d855fb4899",
+    "oanda_causal_forecast_ledger_joint_news_v1.py": "df915eddafbc9265eb19c9b6757eb14441ebd9ca3864f6601f5a70ca39d65d7b",
+    "oanda_causal_prediction_baselines.py": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+    "oanda_exact_price_scoring.py": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521",
+    "oanda_fixed_forecast_evaluation_joint_news_v1.py": "c1f9940d57c0d39c1815b22a9114752075042a09da3e196e84829e77b293131d",
+    "oanda_joint_price_news_forecast_study_v1.py": "38272ef9f042c50603cc246fcad86f0adca15792f9926c3b0752aeac141033b5",
+    "oanda_joint_price_news_models_v1.py": "eb153acb966dc04ad950a0bbfcc730e78a9a0da1d8a24e91d641f473f5cfbc23",
+    "oanda_local_news_sentiment.py": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4",
+    "oanda_news_causal_aggregation_guard_v1.py": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9",
+    "oanda_news_classification_contract.py": "f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae",
+    "oanda_pair_local_models_v2.py": "294c63bf0ed873395c4850a8722a2622eaa2bc563ceb7ecf9886764c63d8bf24",
+    "oanda_source_governance.py": "c4b7793dcef1b9176079a959019f8b69059fbd6644fddf1e8718f924d3a13950",
+    "oanda_source_governance_news_fast_lane.py": "bdd6a2542b3dbddbdf86f7148af4dcb38d0b8591b3f3fcdb843d9eed29898f03"
+  },
+  "ledgers": [
+    {
+      "instrument": "AUD_CAD",
+      "contract_sha256": "f7d1f991b298d90b61b4fbd881d1f0419a3303693f243a3708b4d1bbe1173306",
+      "activation_epoch": 1788819583.749874,
+      "database_files": {
+        "study.sqlite": {
+          "bytes": 294912,
+          "sha256": "fa43bcc7bc87b38d9847ab8fde1c1d642431b3a73dec6e893140bb62efb69987"
+        },
+        "study.sqlite-wal": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "counts": {
+        "quotes": 4,
+        "attempts": 1,
+        "diagnostics": 0,
+        "inputs": 1,
+        "forecasts": 1,
+        "publication": 1,
+        "consumption": 1,
+        "entries": 1,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "forecasts": [
+        {
+          "decision_id": "fece317068b65945cfa3b5240eecb1fc64fd4379b83f72b52eaaa9c077a4453f",
+          "forecast_sha256": "61002767f612181d0d2505f35d256d3708e51239741748a7151f0d43a02627db",
+          "input_capture_sha256": "d5c8d332cdec7eaf7841a9d9e4add74e52749bf94c1499c32bbe953a045c6be4",
+          "reference_epoch": 1788819553.072769,
+          "target_epoch": 1788823153.072769,
+          "issue_epoch": 1788819592.7224052,
+          "publication_epoch": 1788819592.7962081,
+          "consumption_epoch": 1788819592.8021917,
+          "entry_market_epoch": 1788819593.973308,
+          "entry_available_epoch": 1788819595.6834795,
+          "news_provenance": {
+            "news_capture_sha256": "af21d729b12eef8c20bcaff78885efbcdc6d9e75231eeb6592c3f7cdb8c3696c",
+            "news_evidence_epoch": 1788819555.635923,
+            "news_generated_epoch": 1788819570.580568,
+            "news_first_observed_epoch": 1788819585.9848945,
+            "news_available_epoch": 1788819585.9848945,
+            "news_expires_epoch": 1788819855.635923
+          },
+          "training_rows": 74,
+          "nonzero_news_context_training_rows": 73,
+          "vetted_news_training_rows": 5,
+          "joint_expected_pips": -0.7902512575664644,
+          "matched_price_only_expected_pips": -0.585732014998106,
+          "neutral_news_ablation_expected_pips": -1.085008782551016,
+          "news_ablation_difference_pips": 0.29475752498455154,
+          "current_news_features": [
+            -0.3333333333333333,
+            1.3862943611198906,
+            -0.6666666666666666,
+            0.7674203861422009,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "coefficient_replay_tolerance": 1e-12
+        }
+      ]
+    },
+    {
+      "instrument": "EUR_HUF",
+      "contract_sha256": "9b56161c8cbfc409021bfffb1b254ba3f82ae3bebc8a652b6ee48979d6622816",
+      "activation_epoch": 1788819583.7927585,
+      "database_files": {
+        "study.sqlite": {
+          "bytes": 360448,
+          "sha256": "dd4210d85a1683229a196658e1d89a3c16383695546e08af96ef6c6794135175"
+        }
+      },
+      "counts": {
+        "quotes": 14,
+        "attempts": 1,
+        "diagnostics": 0,
+        "inputs": 1,
+        "forecasts": 1,
+        "publication": 1,
+        "consumption": 1,
+        "entries": 1,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "forecasts": [
+        {
+          "decision_id": "4f889b27742aa1ac114edbd46390f04792a0e92f895617ebd87068ab2f59652c",
+          "forecast_sha256": "c0e415e3d938b18d4f3a7532b2b1accd32e53e9dd03aa5aea48a4619462ca415",
+          "input_capture_sha256": "ef00edb941c850bdc54f8318c941ad7225ff17bfcb13a28094c97057673259e4",
+          "reference_epoch": 1788819581.011382,
+          "target_epoch": 1788823181.011382,
+          "issue_epoch": 1788819594.2014463,
+          "publication_epoch": 1788819594.2762463,
+          "consumption_epoch": 1788819594.284225,
+          "entry_market_epoch": 1788819602.309913,
+          "entry_available_epoch": 1788819603.7763941,
+          "news_provenance": {
+            "news_capture_sha256": "af21d729b12eef8c20bcaff78885efbcdc6d9e75231eeb6592c3f7cdb8c3696c",
+            "news_evidence_epoch": 1788819555.635923,
+            "news_generated_epoch": 1788819570.580568,
+            "news_first_observed_epoch": 1788819585.9848945,
+            "news_available_epoch": 1788819585.9848945,
+            "news_expires_epoch": 1788819855.635923
+          },
+          "training_rows": 88,
+          "nonzero_news_context_training_rows": 38,
+          "vetted_news_training_rows": 0,
+          "joint_expected_pips": 2.7604835406657413,
+          "matched_price_only_expected_pips": 2.29516335736779,
+          "neutral_news_ablation_expected_pips": 2.7604835406657413,
+          "news_ablation_difference_pips": 0.0,
+          "current_news_features": [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "coefficient_replay_tolerance": 1e-12
+        }
+      ]
+    },
+    {
+      "instrument": "EUR_JPY",
+      "contract_sha256": "b05bf5476ab9edde50078532072184c313ee47eab667fc9f5bf4139571ebb3e6",
+      "activation_epoch": 1788819583.8286629,
+      "database_files": {
+        "study.sqlite": {
+          "bytes": 348160,
+          "sha256": "3288d085a761fd569154700b8cf2398c2bf30eadd055c3d1b277e2fe9da9bf74"
+        }
+      },
+      "counts": {
+        "quotes": 25,
+        "attempts": 1,
+        "diagnostics": 0,
+        "inputs": 1,
+        "forecasts": 1,
+        "publication": 1,
+        "consumption": 1,
+        "entries": 1,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "forecasts": [
+        {
+          "decision_id": "bb948461571895ced77ea80e57b77d63418c094e823a2a1d7cbfba02f2fd88e5",
+          "forecast_sha256": "d5905d910131d602e3f801bb3297a0a4d4e12f14f0db647bf000bfa9c17b8ea7",
+          "input_capture_sha256": "79cdc99fc77fd44c756c524627b738defac90a86fad9512e9e2ed921153a3ac9",
+          "reference_epoch": 1788819590.317103,
+          "target_epoch": 1788823190.317103,
+          "issue_epoch": 1788819595.3962476,
+          "publication_epoch": 1788819595.4650655,
+          "consumption_epoch": 1788819595.4730432,
+          "entry_market_epoch": 1788819600.111576,
+          "entry_available_epoch": 1788819601.7552586,
+          "news_provenance": {
+            "news_capture_sha256": "af21d729b12eef8c20bcaff78885efbcdc6d9e75231eeb6592c3f7cdb8c3696c",
+            "news_evidence_epoch": 1788819555.635923,
+            "news_generated_epoch": 1788819570.580568,
+            "news_first_observed_epoch": 1788819585.9848945,
+            "news_available_epoch": 1788819585.9848945,
+            "news_expires_epoch": 1788819855.635923
+          },
+          "training_rows": 93,
+          "nonzero_news_context_training_rows": 93,
+          "vetted_news_training_rows": 5,
+          "joint_expected_pips": -6.263483631573247,
+          "matched_price_only_expected_pips": -2.5926883441184367,
+          "neutral_news_ablation_expected_pips": -1.977945109598358,
+          "news_ablation_difference_pips": -4.285538521974889,
+          "current_news_features": [
+            -0.004166666666666652,
+            1.3862943611198906,
+            0.3333333333333333,
+            0.7674203861422009,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "coefficient_replay_tolerance": 1e-12
+        }
+      ]
+    },
+    {
+      "instrument": "EUR_USD",
+      "contract_sha256": "de199ef3302d3f0d492b361948171435cfb478f80eac927ef3aea55f236269e5",
+      "activation_epoch": 1788819583.8685555,
+      "database_files": {
+        "study.sqlite": {
+          "bytes": 307200,
+          "sha256": "26c04861755a4e70b06a1986998c8c4192e59556642a72cdde299e9d7ef30a4c"
+        },
+        "study.sqlite-wal": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "counts": {
+        "quotes": 14,
+        "attempts": 1,
+        "diagnostics": 0,
+        "inputs": 1,
+        "forecasts": 1,
+        "publication": 1,
+        "consumption": 1,
+        "entries": 1,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "forecasts": [
+        {
+          "decision_id": "80805c3ff57b4687bb3976f0961ecc42064592eaab5f1cb1e1c908e7265a02a3",
+          "forecast_sha256": "0aefb6a6d7495e6aeea23c64b1be996c81bf0a78ba02a7110670ab6ee1bd92b8",
+          "input_capture_sha256": "0886f0c97d59c5c0a3cc317e41c1e18f55936c47cc05170a178f6fabff5a3c8e",
+          "reference_epoch": 1788819588.3097,
+          "target_epoch": 1788823188.3097,
+          "issue_epoch": 1788819596.6344423,
+          "publication_epoch": 1788819596.6972733,
+          "consumption_epoch": 1788819596.703258,
+          "entry_market_epoch": 1788819602.306597,
+          "entry_available_epoch": 1788819603.7893615,
+          "news_provenance": {
+            "news_capture_sha256": "af21d729b12eef8c20bcaff78885efbcdc6d9e75231eeb6592c3f7cdb8c3696c",
+            "news_evidence_epoch": 1788819555.635923,
+            "news_generated_epoch": 1788819570.580568,
+            "news_first_observed_epoch": 1788819585.9848945,
+            "news_available_epoch": 1788819585.9848945,
+            "news_expires_epoch": 1788819855.635923
+          },
+          "training_rows": 90,
+          "nonzero_news_context_training_rows": 88,
+          "vetted_news_training_rows": 0,
+          "joint_expected_pips": -0.3111323729577318,
+          "matched_price_only_expected_pips": 0.028736404792942226,
+          "neutral_news_ablation_expected_pips": -0.28763506659744736,
+          "news_ablation_difference_pips": -0.02349730636028441,
+          "current_news_features": [
+            -0.4125,
+            0.6931471805599453,
+            -1.0,
+            0.9121925370560752,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "coefficient_replay_tolerance": 1e-12
+        }
+      ]
+    }
+  ],
+  "shared_news_captures": {
+    "af21d729b12eef8c20bcaff78885efbcdc6d9e75231eeb6592c3f7cdb8c3696c": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\joint_price_news_study_v1\\news_captures\\af21d729b12eef8c20bcaff78885efbcdc6d9e75231eeb6592c3f7cdb8c3696c.json.gz",
+      "file_sha256": "198ea5c9319a902dd6d2c4992cf8aecf72d69ac4ba8e26828faf2eb90a354808",
+      "source_news_evidence_epoch": 1788819555.635923,
+      "source_generated_epoch": 1788819570.580568,
+      "original_consumer_observed_epoch": 1788819585.9848945,
+      "history_rows": 3638
+    }
+  },
+  "validated_price_news_captures": 4,
+  "forecasts": 4,
+  "outcomes_due": 0,
+  "outcomes": 0,
+  "model_fits": 0,
+  "coefficient_replays": 12,
+  "scoring_runs": 0,
+  "runtime_writes": false,
+  "broker_calls": false,
+  "orders_enabled": false,
+  "limitations": [
+    "Disposable wiring evidence only; never include these cohorts or rows in canonical prospective performance.",
+    "Stored fitted coefficients were replayed without refitting; capture/feature/training availability was independently reconstructed.",
+    "Current news context features can be nonzero while vetted directional features are zero. This is descriptive context, not direct verified news direction.",
+    "Four successful publications and later quotes demonstrate wiring, not prediction success. H1 outcomes remain future."
+  ]
+}

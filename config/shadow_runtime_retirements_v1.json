@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_utc": "2026-08-28T17:20:00Z",
+  "updated_utc": "2026-09-05T20:20:33.319203+00:00",
   "policy": {
     "retirement_stops_future_collection_only": true,
     "historical_code_and_evidence_are_preserved": true,
@@ -18,7 +18,15 @@
         "script": "oanda_causal_source_factor_response_map_v2.py",
         "contract_id": "causal_source_factor_response_map_v2_point_in_time_episode_20260828",
         "cohort_id": "causal_source_factor_response_map_v2_prospective_20260828T030000Z",
-        "horizons_min": [1, 5, 10, 15, 30, 60, 120]
+        "horizons_min": [
+          1,
+          5,
+          10,
+          15,
+          30,
+          60,
+          120
+        ]
       },
       "preserved_artifacts": [
         "oanda_causal_source_factor_response_map_v1.py",
@@ -40,7 +48,15 @@
         "cohort_id": "causal_source_factor_response_map_v3_prospective_20260828T070000Z",
         "activation_utc": "2026-08-28T07:00:00Z",
         "required_classification_version": "local_fx_news_rules_20260828_v148_official_research_intervention_boundary",
-        "horizons_min": [1, 5, 10, 15, 30, 60, 120]
+        "horizons_min": [
+          1,
+          5,
+          10,
+          15,
+          30,
+          60,
+          120
+        ]
       },
       "preserved_artifacts": [
         "oanda_causal_source_factor_response_map_v2.py",
@@ -63,7 +79,15 @@
         "activation_utc": "2026-08-28T16:00:00Z",
         "required_classification_version": "local_fx_news_rules_20260828_v149_cbrt_non_market_administrative_boundary",
         "proof_eligibility_contract": "classifier_relevant_true_and_empty_exclusion_reason_v1_20260828",
-        "horizons_min": [1, 5, 10, 15, 30, 60, 120]
+        "horizons_min": [
+          1,
+          5,
+          10,
+          15,
+          30,
+          60,
+          120
+        ]
       },
       "preserved_artifacts": [
         "oanda_causal_source_factor_response_map_v3.py",
@@ -86,7 +110,15 @@
         "activation_utc": "2026-08-28T17:00:00Z",
         "required_classification_version": "local_fx_news_rules_20260828_v150_pair_technical_recap_boundary",
         "proof_eligibility_contract": "classifier_relevant_true_and_empty_exclusion_reason_v1_20260828",
-        "horizons_min": [1, 5, 10, 15, 30, 60, 120]
+        "horizons_min": [
+          1,
+          5,
+          10,
+          15,
+          30,
+          60,
+          120
+        ]
       },
       "preserved_artifacts": [
         "oanda_causal_source_factor_response_map_v4.py",
@@ -109,7 +141,15 @@
         "activation_utc": "2026-08-28T17:30:00Z",
         "required_classification_version": "local_fx_news_rules_20260828_v151_pair_breakout_recap_boundary",
         "proof_eligibility_contract": "classifier_relevant_true_and_empty_exclusion_reason_v1_20260828",
-        "horizons_min": [1, 5, 10, 15, 30, 60, 120]
+        "horizons_min": [
+          1,
+          5,
+          10,
+          15,
+          30,
+          60,
+          120
+        ]
       },
       "preserved_artifacts": [
         "oanda_causal_source_factor_response_map_v5.py",
@@ -271,6 +311,117 @@
       "preserved_artifacts": [
         "data/oanda_training_manager/state/executable_opportunity_prospective_v1.sqlite",
         "data/oanda_training_manager/state/executable_opportunity_prospective_v1.json"
+      ]
+    },
+    {
+      "name": "official_event_paired_evaluator_v1",
+      "script": "oanda_official_event_paired_evaluator_v1.py",
+      "state": "retired_terminally_incomplete_immutable_cohort",
+      "runtime_action": "disabled",
+      "reason": "Cohort B sealed 32 terminally invalid decisions and 160 control arms but no matured outcomes; 15 additional due decisions and 160 due upstream horizons are missing. The live news-source registry legitimately advanced after the cohort froze, so the producer correctly fails closed rather than rewriting lineage. Reopening requires a new contract and cohort ID.",
+      "preserved_artifacts": [
+        "oanda_official_event_paired_evaluator_v1.py",
+        "config/official_event_paired_evaluator_v1.json",
+        "data/oanda_training_manager/local_news_sentiment/official_event_paired_evaluator_v1_20260830b.sqlite",
+        "data/oanda_training_manager/local_news_sentiment/official_event_paired_evaluator_heartbeat_v1_20260830b.json"
+      ]
+    },
+    {
+      "name": "official_event_paired_evaluator_verifier_v1",
+      "script": "oanda_official_event_paired_evaluator_v1_verifier.py",
+      "state": "retired_terminal_failed_audit_preserved",
+      "runtime_action": "disabled",
+      "reason": "The independent verifier now resolves the exact frozen news-source bytes from commit 8e115984965e8e952048cf4bb323560e5c496f43 and confirms that the remaining failures are substantive schedule and horizon gaps, not mutable-config drift. Its final failed audit is preserved and should not be regenerated continuously.",
+      "preserved_artifacts": [
+        "oanda_official_event_paired_evaluator_v1_verifier.py",
+        "data/oanda_training_manager/local_news_sentiment/official_event_paired_evaluator_verifier_latest_v1_20260830b.json",
+        "data/oanda_training_manager/local_news_sentiment/official_event_paired_evaluator_verifier_heartbeat_v1_20260830b.json"
+      ]
+    },
+    {
+      "name": "move_first_operational_mapping_alignment_v1",
+      "script": "oanda_move_first_operational_mapping_alignment_v1.py",
+      "state": "superseded_preserved_exact_headline_baseline",
+      "runtime_action": "disabled",
+      "reason": "V1 retained source-local story identities and exact normalized headlines. V2 is the preserved publisher-suffix exact-syndication baseline, while V3 opens a separately frozen conservative narrative-family and age-decay cohort. V1 evidence remains immutable but duplicate live collection is unnecessary.",
+      "successor": {
+        "script": "oanda_move_first_operational_mapping_alignment_v1.py",
+        "contract_id": "move_first_operational_mapping_alignment_v2_receipt_backed_syndication_dedup_prospective_20260901T150000Z",
+        "cohort_id": "move_first_operational_mapping_alignment_v2_prospective_20260901T150000Z"
+      },
+      "preserved_artifacts": [
+        "config/move_first_operational_mapping_alignment_v1_20260901.json",
+        "data/oanda_training_manager/state/move_first_operational_mapping_alignment_v1_20260901.sqlite",
+        "data/oanda_training_manager/reports/move_first_operational_mapping_alignment_v1/MOVE_FIRST_OPERATIONAL_MAPPING_ALIGNMENT_CURRENT.json",
+        "data/oanda_training_manager/reports/move_first_operational_mapping_alignment_v1/MOVE_FIRST_OPERATIONAL_MAPPING_ALIGNMENT_CURRENT.md"
+      ]
+    },
+    {
+      "name": "causal_source_factor_response_map_v7",
+      "script": "oanda_causal_source_factor_response_map_v7.py",
+      "state": "superseded_publication_clock_diagnostics_preserved",
+      "runtime_action": "disabled",
+      "reason": "The prior issue/entry clock can precede consumer-visible publication. Preserve this contract and ledger as diagnostics; no rows are imported or credited as repaired prospective proof.",
+      "successor": {
+        "script": "oanda_causal_source_factor_response_map_v9.py",
+        "collection_enabled": false,
+        "activation": "separate_future_hash_bound_receipt_required"
+      },
+      "preserved_artifacts": [
+        "oanda_causal_source_factor_response_map_v7.py",
+        "data/oanda_training_manager/local_news_sentiment/causal_source_factor_response_map_v7.sqlite",
+        "data/oanda_training_manager/local_news_sentiment/causal_source_factor_response_map_latest_v7.json"
+      ]
+    },
+    {
+      "name": "causal_source_factor_response_map_v8",
+      "script": "oanda_causal_source_factor_response_map_v8.py",
+      "state": "superseded_publication_clock_diagnostics_preserved",
+      "runtime_action": "disabled",
+      "reason": "The prior issue/entry clock can precede consumer-visible publication. Preserve this contract and ledger as diagnostics; no rows are imported or credited as repaired prospective proof.",
+      "successor": {
+        "script": "oanda_causal_source_factor_response_map_v9.py",
+        "collection_enabled": false,
+        "activation": "separate_future_hash_bound_receipt_required"
+      },
+      "preserved_artifacts": [
+        "oanda_causal_source_factor_response_map_v8.py",
+        "data/oanda_training_manager/local_news_sentiment/causal_source_factor_response_map_v8.sqlite",
+        "data/oanda_training_manager/local_news_sentiment/causal_source_factor_response_map_latest_v8.json"
+      ]
+    },
+    {
+      "name": "source_conditioned_currency_rank_v6",
+      "script": "oanda_source_conditioned_currency_rank_v6.py",
+      "state": "superseded_publication_clock_diagnostics_preserved",
+      "runtime_action": "disabled",
+      "reason": "The prior issue/entry clock can precede consumer-visible publication. Preserve this contract and ledger as diagnostics; no rows are imported or credited as repaired prospective proof.",
+      "successor": {
+        "script": "oanda_source_conditioned_currency_rank_v8.py",
+        "collection_enabled": false,
+        "activation": "separate_future_hash_bound_receipt_required"
+      },
+      "preserved_artifacts": [
+        "oanda_source_conditioned_currency_rank_v6.py",
+        "data/oanda_training_manager/state/source_conditioned_currency_rank_v6.sqlite",
+        "data/oanda_training_manager/state/source_conditioned_currency_rank_v6.json"
+      ]
+    },
+    {
+      "name": "source_conditioned_currency_rank_v7",
+      "script": "oanda_source_conditioned_currency_rank_v7.py",
+      "state": "superseded_publication_clock_diagnostics_preserved",
+      "runtime_action": "disabled",
+      "reason": "The prior issue/entry clock can precede consumer-visible publication. Preserve this contract and ledger as diagnostics; no rows are imported or credited as repaired prospective proof.",
+      "successor": {
+        "script": "oanda_source_conditioned_currency_rank_v8.py",
+        "collection_enabled": false,
+        "activation": "separate_future_hash_bound_receipt_required"
+      },
+      "preserved_artifacts": [
+        "oanda_source_conditioned_currency_rank_v7.py",
+        "data/oanda_training_manager/state/source_conditioned_currency_rank_v7.sqlite",
+        "data/oanda_training_manager/state/source_conditioned_currency_rank_v7.json"
       ]
     }
   ],

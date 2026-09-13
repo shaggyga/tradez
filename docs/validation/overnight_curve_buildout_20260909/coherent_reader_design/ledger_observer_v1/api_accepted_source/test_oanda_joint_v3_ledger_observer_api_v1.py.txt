@@ -1,0 +1,346 @@
+from copy import deepcopy
+import hashlib
+import json
+from pathlib import Path
+import threading
+
+import pytest
+
+import oanda_joint_v3_ledger_observer_api_v1 as api
+from test_oanda_joint_v3_ledger_status_observer_v1 import (
+    world, REGISTRY_PATH, save, slot, update)
+
+
+class Clock:
+    def __init__(self, now):
+        self.wall = now
+        self.tick = 100.0
+
+    def advance(self, seconds):
+        self.wall += seconds
+        self.tick += seconds
+
+
+def make_api(world, *, clock=None):
+    clock = clock or Clock(world['now'])
+    selection = world['study'].parent / 'selected_v3.json'
+    selected = dict(schema_version='joint_forecast_primary_selection_v1_20260908', selected='v3',
+        activated_epoch=world['active'] + 2, registry_sha256=api.observer.digest(world['registry']),
+        research_only=True, can_place_orders=False, can_promote=False, can_authorize=False)
+    selection_sha = save(selection, selected)
+    sources = {**api.observer.own_source_bindings(), api.OWN_NAME: api._IMPORTED_SOURCE_SHA256}
+    spec = dict(schema_version=api.SPEC_SCHEMA, registry_path=str(REGISTRY_PATH),
+        registry_sha256=api.observer.ORIGIN_REGISTRY_SHA256, study_root=str(world['study']),
+        activation_sha256=world['activation_sha'], primary_selection_path=str(selection),
+        primary_selection_sha256=selection_sha, source_bindings=sources, refresh_sec=15,
+        max_age_sec=90, ledger_budget_sec=8, **api.AUTHORITY)
+    instance = api.LedgerObservationAPI(spec, expected_specification_sha256=api.observer.digest(spec),
+        clock=lambda: clock.wall, monotonic=lambda: clock.tick)
+    return instance, spec, clock
+
+
+def test_real_ledger_evidence_survives_producer_mismatch_without_false_worker_health(world):
+    instance, _, clock = make_api(world)
+    value = instance.get()
+    assert value['status'] == 'partial_ledger_observation'
+    assert value['consumer']['current_forecast_pairs'] == 1
+    assert value['consumer']['verified_ledger_pairs'] == 1
+    assert value['consumer']['registered_pairs'] == 68
+    assert value['original_producer_envelope']['status'] == 'generation_mismatch'
+    assert value['original_producer_envelope']['producer_reported_errors'] == 7
+    assert value['old_heartbeat_validated_for_forecasts'] is False
+    assert value['current_inputs_observed'] is False
+    assert 'running' not in value and 'worker_observation' not in value
+    assert slot(value['observer_report'])['latest_forecast']['target_epoch'] == world['fixture']['tables']['forecasts'][0]['target']
+    assert value['consumer']['observed_epoch'] == clock.wall
+    assert value['payload_sha256'] == api.observer.digest({k:v for k,v in value.items() if k!='payload_sha256'})
+
+
+def test_cache_hits_preserve_original_bytes_and_clocks_with_independent_return_objects(world, monkeypatch):
+    instance, _, clock = make_api(world)
+    original = api.observer.observe_joint_v3
+    calls = []
+    def counted(*args, **kwargs):
+        calls.append(1)
+        return original(*args, **kwargs)
+    monkeypatch.setattr(api.observer, 'observe_joint_v3', counted)
+    first = instance.get()
+    original_hash = first['observer_report_sha256']
+    observed = first['observer_report']['completed_epoch']
+    first['observer_report']['summary']['rows'].clear()
+    first['consumer']['active_forecast_ids'].clear()
+    clock.advance(3)
+    second = instance.get()
+    assert len(calls) == 1 and len(second['observer_report']['summary']['rows']) == 68
+    assert second['observer_report_sha256'] == original_hash
+    assert second['observer_report']['completed_epoch'] == observed
+    assert second['consumer']['observation_age_sec'] == 3
+    assert len(second['consumer']['active_forecast_ids']) == 1
+    compact = instance.get(compact=True)
+    assert compact['observer_report'] is None and compact['observer_report_sha256'] == original_hash
+    assert compact['consumer']['current_forecast_pairs'] == 1
+
+
+def test_original_target_expiring_inside_cache_only_changes_consumer_projection(world):
+    target = world['fixture']['tables']['forecasts'][0]['target']
+    instance, _, clock = make_api(world, clock=Clock(target - 5))
+    first = instance.get()
+    clock.advance(6)
+    second = instance.get()
+    assert first['consumer']['current_forecast_pairs'] == 1
+    assert second['consumer']['current_forecast_pairs'] == 0
+    assert second['observer_report_sha256'] == first['observer_report_sha256']
+    assert second['observer_report'] == first['observer_report']
+    assert slot(second['observer_report'])['latest_forecast']['target_epoch'] == target
+
+
+@pytest.mark.parametrize('which', ['activation', 'selection'])
+def test_current_identity_failure_clears_prior_cache(world, which):
+    instance, spec, _ = make_api(world)
+    assert instance.get()['consumer']['current_forecast_pairs'] == 1
+    path = world['study'] / 'activation_receipt.json' if which == 'activation' else Path(spec['primary_selection_path'])
+    path.write_bytes(path.read_bytes() + b' ')
+    result = instance.get()
+    assert result['status'] == 'unavailable' and result['observer_report'] is None
+    assert result['reason'] == 'observer_api_' + which + '_changed'
+    assert instance._cache is None
+
+
+def test_original_source_change_is_not_hidden_by_current_cache(world, monkeypatch):
+    instance, _, _ = make_api(world)
+    assert instance.get()['consumer']['current_forecast_pairs'] == 1
+    original = api.observer.read_file
+    def changed(path, **kwargs):
+        raw, receipt = original(path, **kwargs)
+        if Path(path).name == 'oanda_news_collector_contract.py':
+            return raw, {**receipt, 'sha256': 'f' * 64}
+        return raw, receipt
+    monkeypatch.setattr(api.observer, 'read_file', changed)
+    result = instance.get()
+    assert result['status'] == 'unavailable' and result['reason'] == 'observer_source_binding_mismatch'
+    assert instance._cache is None
+
+
+def test_refresh_detects_changed_original_receipt_and_removes_only_invalid_pair(world):
+    instance, _, clock = make_api(world)
+    assert instance.get()['consumer']['current_forecast_pairs'] == 1
+    update(world, 'UPDATE publication SET forecast_sha=?', ('f' * 64,))
+    clock.advance(15)
+    result = instance.get()
+    assert result['consumer']['current_forecast_pairs'] == 0
+    assert 'EUR_USD' in result['failures']
+    assert slot(result['observer_report'])['latest_forecast'] is None
+
+
+@pytest.mark.parametrize('change', ['stale', 'future', 'seal', 'source_bound'])
+def test_malformed_or_aged_cached_report_is_never_current(world, change):
+    instance, _, clock = make_api(world)
+    assert instance.get()['consumer']['current_forecast_pairs'] == 1
+    if change == 'stale':
+        clock.wall += 91  # Retain monotonic tick to exercise cached-wall-clock check.
+    elif change == 'future':
+        clock.wall -= 1
+    else:
+        report = json.loads(instance._cache)
+        if change == 'seal':
+            report['current_forecast_pairs'] = 67
+        else:
+            report['observer_spec']['original_source_bindings']['oanda_news_collector_contract.py'] = 'f' * 64
+            report['observer_spec_sha256'] = api.observer.digest(report['observer_spec'])
+            report['payload_sha256'] = api.observer.digest({k:v for k,v in report.items() if k!='payload_sha256'})
+        instance._cache = api.observer.encoded(report)
+    result = instance.get()
+    assert result['status'] == 'unavailable'
+    assert instance._cache is None
+
+
+def test_cold_concurrent_requests_start_one_scan_and_report_progress(world, monkeypatch):
+    instance, _, _ = make_api(world)
+    entered, release = threading.Event(), threading.Event()
+    original = api.observer.observe_joint_v3
+    calls, results = [], []
+    def delayed(*args, **kwargs):
+        calls.append(1); entered.set()
+        assert release.wait(5)
+        return original(*args, **kwargs)
+    monkeypatch.setattr(api.observer, 'observe_joint_v3', delayed)
+    thread = threading.Thread(target=lambda: results.append(instance.get()))
+    thread.start()
+    try:
+        assert entered.wait(5)
+        second = instance.get()
+        assert second['status'] == 'unavailable' and second['reason'] == 'observation_in_progress'
+        assert second['refresh_in_progress'] is True and len(calls) == 1
+    finally:
+        release.set(); thread.join(10)
+    assert not thread.is_alive() and results[0]['consumer']['current_forecast_pairs'] == 1
+
+
+def test_refresh_in_progress_can_use_only_still_valid_previous_observation(world, monkeypatch):
+    instance, _, clock = make_api(world)
+    first = instance.get()
+    clock.advance(15)
+    entered, release = threading.Event(), threading.Event()
+    original = api.observer.observe_joint_v3
+    results = []
+    def delayed(*args, **kwargs):
+        entered.set(); assert release.wait(5)
+        return original(*args, **kwargs)
+    monkeypatch.setattr(api.observer, 'observe_joint_v3', delayed)
+    thread = threading.Thread(target=lambda: results.append(instance.get()))
+    thread.start()
+    try:
+        assert entered.wait(5)
+        second = instance.get()
+        assert second['refresh_in_progress'] is True
+        assert second['observer_report_sha256'] == first['observer_report_sha256']
+        assert second['consumer']['observation_age_sec'] == 15
+    finally:
+        release.set(); thread.join(10)
+    assert results and results[0]['consumer']['current_forecast_pairs'] == 1
+
+
+def test_bad_selection_during_another_refresh_cannot_be_overwritten_by_that_refresh(world, monkeypatch):
+    instance, spec, _ = make_api(world)
+    entered, release = threading.Event(), threading.Event()
+    original = api.observer.observe_joint_v3
+    results = []
+    def delayed(*args, **kwargs):
+        entered.set(); assert release.wait(5)
+        return original(*args, **kwargs)
+    monkeypatch.setattr(api.observer, 'observe_joint_v3', delayed)
+    thread = threading.Thread(target=lambda: results.append(instance.get()))
+    thread.start()
+    path = Path(spec['primary_selection_path']); raw = path.read_bytes()
+    try:
+        assert entered.wait(5)
+        path.write_bytes(raw + b' ')
+        assert instance.get()['status'] == 'unavailable'
+        path.write_bytes(raw)
+    finally:
+        release.set(); thread.join(10)
+    assert results[0]['status'] == 'unavailable'
+    assert results[0]['reason'] == 'observer_api_concurrent_integrity_failure'
+    assert instance._cache is None
+
+
+def test_cached_reader_cannot_outlive_another_detected_integrity_failure(world, monkeypatch):
+    instance, spec, _ = make_api(world)
+    assert instance.get()['consumer']['current_forecast_pairs'] == 1
+    entered, release = threading.Event(), threading.Event()
+    original = instance._verify_inputs
+    count, results = [], []
+    def delayed():
+        if threading.current_thread().name == 'cached-reader':
+            count.append(1)
+            if len(count) == 2:
+                entered.set(); assert release.wait(5)
+        return original()
+    monkeypatch.setattr(instance, '_verify_inputs', delayed)
+    thread = threading.Thread(name='cached-reader', target=lambda: results.append(instance.get()))
+    thread.start()
+    path = Path(spec['primary_selection_path']); raw = path.read_bytes()
+    try:
+        assert entered.wait(5)
+        path.write_bytes(raw + b' ')
+        assert instance.get()['reason'] == 'observer_api_selection_changed'
+        path.write_bytes(raw)
+    finally:
+        release.set(); thread.join(10)
+    assert not thread.is_alive()
+    assert results[0]['status'] == 'unavailable'
+    assert results[0]['reason'] == 'observer_api_concurrent_integrity_failure'
+    assert results[0]['consumer'] is None and instance._cache is None
+
+
+@pytest.mark.parametrize('change', ['order_flag', 'schema', 'source_hash', 'refresh', 'relative_path'])
+def test_configuration_requires_exact_authority_identity_and_bounds(world, change):
+    _, spec, clock = make_api(world)
+    if change == 'order_flag': spec['can_place_orders'] = True
+    if change == 'schema': spec['schema_version'] = 'joint_price_news_forecast_summary_v3_20260908'
+    if change == 'source_hash': spec['source_bindings'][api.OWN_NAME] = 'f' * 64
+    if change == 'refresh': spec['refresh_sec'] = 60
+    if change == 'relative_path': spec['study_root'] = 'relative'
+    with pytest.raises(ValueError):
+        api.LedgerObservationAPI(spec, expected_specification_sha256=api.observer.digest(spec),
+            clock=lambda: clock.wall, monotonic=lambda: clock.tick)
+
+
+def test_from_specification_requires_pinned_file_bytes(world):
+    _, spec, clock = make_api(world)
+    path = world['study'].parent / 'api_spec.json'
+    sha = save(path, spec)
+    good = api.LedgerObservationAPI.from_specification(path, expected_file_sha256=sha,
+        clock=lambda: clock.wall, monotonic=lambda: clock.tick)
+    assert good.get(compact=True)['consumer']['current_forecast_pairs'] == 1
+    path.write_bytes(path.read_bytes() + b' ')
+    assert good.get()['reason'] == 'observer_api_specification_file_changed'
+    assert good._cache is None
+    with pytest.raises(ValueError, match='observer_api_specification_file_binding'):
+        api.LedgerObservationAPI.from_specification(path, expected_file_sha256=sha)
+
+
+def test_future_selected_study_cannot_age_into_acceptance_during_other_reads(world):
+    _, spec, clock = make_api(world)
+    path = Path(spec['primary_selection_path'])
+    selected = json.loads(path.read_bytes())
+    selected['activated_epoch'] = clock.wall + 1
+    spec['primary_selection_sha256'] = save(path, selected)
+    instance = api.LedgerObservationAPI(spec, expected_specification_sha256=api.observer.digest(spec),
+        clock=lambda: clock.wall, monotonic=lambda: clock.tick)
+    result = instance.get()
+    assert result['status'] == 'unavailable' and result['reason'] == 'observer_api_selection_future'
+
+
+def test_stale_previous_observation_during_refresh_is_withheld(world, monkeypatch):
+    instance, _, clock = make_api(world)
+    assert instance.get()['consumer']['current_forecast_pairs'] == 1
+    clock.advance(15)
+    entered, release = threading.Event(), threading.Event()
+    original = api.observer.observe_joint_v3
+    results = []
+    def delayed(*args, **kwargs):
+        entered.set(); assert release.wait(5)
+        return original(*args, **kwargs)
+    monkeypatch.setattr(api.observer, 'observe_joint_v3', delayed)
+    thread = threading.Thread(target=lambda: results.append(instance.get()))
+    thread.start()
+    try:
+        assert entered.wait(5)
+        clock.advance(76)
+        second = instance.get()
+        assert second['status'] == 'unavailable'
+        assert second['reason'] == 'observer_api_observation_stale'
+        assert second['consumer'] is None
+    finally:
+        release.set(); thread.join(10)
+    assert results[0]['status'] == 'unavailable'
+    assert results[0]['reason'] == 'observer_api_concurrent_integrity_failure'
+
+
+def test_independent_specs_do_not_share_cached_ledger_report(world):
+    first, spec, clock = make_api(world)
+    result = first.get()
+    changed = deepcopy(spec)
+    changed['activation_sha256'] = 'f' * 64
+    second = api.LedgerObservationAPI(changed, expected_specification_sha256=api.observer.digest(changed),
+        clock=lambda: clock.wall, monotonic=lambda: clock.tick)
+    assert second.get()['status'] == 'unavailable'
+    assert first.get()['observer_report_sha256'] == result['observer_report_sha256']
+
+
+def test_failure_messages_never_export_raw_exception_text(world, monkeypatch):
+    instance, _, _ = make_api(world)
+    def failed(*args, **kwargs):
+        raise ValueError('a private article or an identifier must never be returned')
+    monkeypatch.setattr(api.observer, 'observe_joint_v3', failed)
+    result = instance.get()
+    assert result['reason'] == 'observer_invalid_or_unavailable_evidence'
+    assert 'private article' not in json.dumps(result)
+
+
+def test_no_background_or_runtime_write_api_and_no_source_fallback():
+    source = Path(api.__file__).read_text()
+    assert 'threading.Thread(' not in source and '.write_bytes(' not in source
+    assert 'sqlite3.connect' not in source and 'requests.' not in source
+    assert 'project_joint_collection_status' not in source

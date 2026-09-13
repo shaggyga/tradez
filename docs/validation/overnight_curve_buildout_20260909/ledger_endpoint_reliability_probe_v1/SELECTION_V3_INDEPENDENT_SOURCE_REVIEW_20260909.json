@@ -1,0 +1,45 @@
+{
+  "closed_findings": [
+    {
+      "closure": "permitted_evidence_path now rejects private_* and raw_* names before reading; owner added 24 pure path cases.",
+      "finding": "Arbitrary extra path could select actual private_responses because former guard excluded different directory names."
+    }
+  ],
+  "limitations": [
+    "Read-only source review only; no selector execution, export, payload privacy scan, or HTTP requests by reviewer.",
+    "Path guard is not a credential scanner; final selected compact payloads need the separately declared export scan."
+  ],
+  "owner_tests": {
+    "independent_rerun": false,
+    "passed": 24
+  },
+  "remaining_blockers": [],
+  "review_scope": [
+    "Preserves pinned prior selection and exact original entry hashes before extending.",
+    "Four reviewed current source transitions require matching candidate hashes and retained old bytes; six named new source dependencies added.",
+    "Resolved external evidence containment and unique destination names retained; active project and vault are not written.",
+    "Finding closed: private and private_* plus raw/raw_* and data directories now rejected; compact extension allowlist blocks binary datasets.",
+    "Applied/reload/live status gates and explicit compact artifact paths reviewed; selected payload content still requires root final export scan."
+  ],
+  "reviewed_epoch": 1788950811.1230943,
+  "schema_version": "api_table_evidence_selection_v3_independent_review_20260909",
+  "source_evidence": [
+    {
+      "bytes": 8826,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ledger_endpoint_reliability_probe_v1\\select_api_table_retirement_v3.py",
+      "sha256": "b46c259530cbfeb4793b0c8ac5f1f55a1bd22df8e28dd385349959ab8ba5d6c7"
+    },
+    {
+      "bytes": 1452,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ledger_endpoint_reliability_probe_v1\\test_select_api_table_retirement_v3.py",
+      "sha256": "fae19cd148d449accd8b307924f3e2be8c99a02d540ca8a90de4d3f3ed2a1d7d"
+    },
+    {
+      "bytes": 4396,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ledger_endpoint_reliability_probe_v1\\selection_v3_path_guard_tests.xml",
+      "sha256": "298a672ec295182cdac137271a254b780cb7ed26ddb281926d8dcbdc694492ab"
+    }
+  ],
+  "source_or_runtime_changes": false,
+  "status": "passed_bounded_source_review"
+}

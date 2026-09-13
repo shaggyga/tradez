@@ -1,0 +1,146 @@
+def encoded(value):
+    return json.dumps(value, sort_keys=True, separators=(',', ':'), allow_nan=False).encode()
+
+def digest(value):
+    return hashlib.sha256(encoded(value)).hexdigest()
+
+def number(value):
+    if isinstance(value, bool) or not isinstance(value, (int, float)) or (not math.isfinite(value)):
+        raise ValueError('finite_numeric_clock_or_price_required')
+    return float(value)
+
+def input_readiness(capture, family, now):
+    source_clocks = {'price_bar_close_epoch': (capture or {}).get('max_bar_close_epoch'), 'news_evidence_epoch': (capture or {}).get('news_evidence_epoch'), 'news_expires_epoch': (capture or {}).get('news_expires_epoch')}
+    if not capture:
+        return {'observed_epoch': None, 'status': 'unavailable', 'reason': 'awaiting_pair_input_read', 'diagnostics': {}, **source_clocks}
+    if capture.get('first_observed_epoch') is None:
+        return {'observed_epoch': None, 'status': 'unavailable', 'reason': '|'.join(capture.get('reasons', [])) or 'pair_input_read_failed', 'diagnostics': {}, **source_clocks}
+    observed = number(capture['first_observed_epoch'])
+    diagnostics = capture.get('family_readiness', {}).get(family, {})
+    reason = '|'.join(diagnostics.get('reasons', []) or capture.get('reasons', []))
+    status = 'ready' if capture.get('status') == 'ready' and diagnostics.get('ready') is True else 'blocked'
+    maturity = capture.get('max_bar_close_epoch')
+    if maturity is None or not 0 <= now - number(maturity) <= 900:
+        status = 'unavailable'
+        reason = 'stale_or_future_pair_input'
+    evidence = capture.get('news_evidence_epoch')
+    expires = capture.get('news_expires_epoch')
+    if evidence is None or expires is None or (not 0 <= now - number(evidence) <= 300) or (now > number(expires)):
+        status = 'unavailable'
+        reason = 'stale_or_unavailable_news_input'
+    return {'observed_epoch': observed, 'status': status, 'reason': reason, 'diagnostics': diagnostics, **source_clocks}
+
+def build_summary(registry, states, now):
+    rows = []
+    for pair, item in sorted(registry['pairs'].items()):
+        state = states[pair]
+        slots = {}
+        for family in sorted(FAMILIES):
+            slot = state['families'][family]
+            ledger = slot['ledger']
+            forecast = slot.get('publication')
+            if forecast and forecast['target_epoch'] <= now:
+                forecast = None
+            readiness = input_readiness(state.get('capture'), family, now)
+            reason = state.get('capture_error') if not state.get('capture') else None
+            reason = reason or readiness['reason'] or slot.get('reason') or 'awaiting_family_attempt'
+            status = 'ready' if readiness['status'] == 'ready' else 'warming'
+            if readiness['status'] == 'unavailable':
+                status = 'unavailable'
+            if state.get('quote_reason'):
+                status = 'unavailable'
+                reason = state['quote_reason']
+            if slot.get('building'):
+                status = 'building'
+                reason = 'building_family_model'
+            if forecast:
+                status = 'forecast'
+                reason = 'forecast'
+            slots[family] = {'status': status, 'reason': reason[:4096], 'observed_epoch': now, 'activated_epoch': ledger.activated_epoch, 'contract_sha256': ledger.contract_hash, 'cohort_id': ledger.contract['cohorts'][family], 'current_readiness': readiness, 'last_attempt': slot.get('last_attempt'), 'latest_forecast': forecast, 'counts': ledger.counts()}
+        rows.append({'instrument': pair, 'pip_size': item['pip_size'], 'families': slots})
+    summary = {'schema_version': SUMMARY_SCHEMA, 'registry_sha256': digest(registry), 'generated_epoch': now, 'research_only': True, **{flag: False for flag in INERT_FLAGS}, 'rows': rows}
+    summary['payload_sha256'] = digest(summary)
+    if len(encoded(summary)) > 1024 * 1024:
+        raise ValueError('summary_size_limit')
+    return summary
+FAMILIES = frozenset({'ridge_price_news_v1'})
+SUMMARY_SCHEMA = 'joint_price_news_forecast_summary_v3_20260908'
+HEARTBEAT_SCHEMA = 'joint_price_news_forecast_heartbeat_v3_20260908'
+INERT_FLAGS = ('can_place_orders', 'can_promote', 'can_authorize', 'account_eligible', 'proof_eligible', 'historical_rows_imported')
+
+class ExtractedRunner:
+
+    def finish_work(self):
+        if self.future is None or not self.future.done():
+            return
+        kind, pair, detail = self.active
+        state = self.states[pair]
+        try:
+            value = self.future.result()
+            if kind == 'capture':
+                state['capture'] = value
+                state['source_signature'] = detail
+                observation = {'instrument': pair, 'observed_epoch': value.get('first_observed_epoch'), 'event_observed_epoch': number(self.clock()), 'source_capture_sha256': value.get('source_capture_sha256'), 'status': value.get('status'), 'reasons': value.get('reasons', []), 'family_readiness': value.get('family_readiness', {})}
+                with (self.study / 'readiness.jsonl').open('ab') as handle:
+                    handle.write(encoded(observation) + b'\n')
+            else:
+                family, attempt_id, capture, basis = detail
+                slot = state['families'][family]
+                ledger = slot['ledger']
+                if value.get('status') in ('ready', 'partial') and family in value.get('predictions', {}):
+                    ledger.issue(attempt_id, capture, value)
+                    ledger.consume_publications()
+                    slot['publication'] = verified_publication(ledger)
+                    slot['last_success_bucket'] = slot['last_attempt']['bucket']
+                    slot['reason'] = ''
+                    slot['last_attempt']['reason'] = 'published'
+                    slot['failed_basis'] = None
+                else:
+                    reason = '|'.join(value.get('reasons', [])) or 'selected_family_unavailable'
+                    ledger.record_abstention(attempt_id, {'reason': reason}, capture=capture, result=value)
+                    slot['reason'] = reason
+                    slot['last_attempt']['reason'] = reason
+                    slot['failed_basis'] = basis
+        except Exception as exc:
+            reason = self.error(pair, exc)
+            if kind == 'capture':
+                state['source_signature'] = detail
+                state['capture'] = None
+                state['capture_error'] = reason
+            else:
+                family, attempt_id, capture, basis = detail
+                slot = state['families'][family]
+                slot['reason'] = reason
+                slot['last_attempt']['reason'] = reason
+                slot['failed_basis'] = basis
+                try:
+                    slot['ledger'].record_abstention(attempt_id, {'reason': reason}, capture=capture)
+                except Exception as diagnostic_exc:
+                    self.error(pair, diagnostic_exc)
+        finally:
+            if kind == 'fit':
+                state['families'][detail[0]]['building'] = False
+            self.future = None
+            self.active = None
+
+    def publish_status(self, *, force=False):
+        now = number(self.clock())
+        if force or now - self.last_summary >= 15:
+            for pair, state in self.states.items():
+                for slot in state['families'].values():
+                    try:
+                        slot['publication'] = verified_publication(slot['ledger'])
+                    except Exception as exc:
+                        slot['publication'] = None
+                        self.error(pair, exc)
+            now = number(self.clock())
+            summary = build_summary(self.registry, self.states, now)
+            atomic_json(self.study / 'summary.json', summary)
+            self.summary = summary
+            self.last_summary = now
+        if self.summary is not None and (force or now - self.last_heartbeat >= 5):
+            slots = [slot for row in self.summary['rows'] for slot in row['families'].values()]
+            counts = {status: sum((slot['status'] == status for slot in slots)) for status in ('forecast', 'warming', 'building', 'unavailable', 'ready')}
+            heartbeat = {'schema_version': HEARTBEAT_SCHEMA, 'generated_epoch': number(self.clock()), 'registry_sha256': digest(self.registry), 'summary_sha256': digest(self.summary), 'research_only': True, **{flag: False for flag in INERT_FLAGS}, 'phase': 'research_collection', 'supported_decision': 'no_trade', 'pair_count': len(self.states), 'family_count': len(slots), 'counts': counts, 'pairs_with_forecast': sum((any((s['status'] == 'forecast' for s in row['families'].values())) for row in self.summary['rows'])), 'errors': self.errors, 'last_error': self.last_error[:4096], 'heartbeat_publication_errors': self.heartbeat_errors, 'active_pair': self.active[1] if self.active else None}
+            atomic_json(self.study / 'heartbeat.json', heartbeat)
+            self.last_heartbeat = now

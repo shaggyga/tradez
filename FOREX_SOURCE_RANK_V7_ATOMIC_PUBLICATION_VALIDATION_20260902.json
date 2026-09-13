@@ -1,0 +1,58 @@
+{
+  "schema_version": "forex_source_rank_v7_atomic_publication_validation_v1",
+  "generated_utc": "2026-09-02T23:45:00Z",
+  "incident": {
+    "observed_at_utc": "2026-09-02T23:35:15.488271Z",
+    "project_integrity_status": "degraded",
+    "failed_check": "source_conditioned_rank_v7_inventory_reconciled_and_inert",
+    "execution_effect": "fail_closed_no_trade",
+    "orders_or_fills": 0
+  },
+  "root_cause": {
+    "component": "oanda_source_conditioned_currency_rank_v7.py",
+    "description": "The V7 wrapper passed the public V7 state and report paths into the inherited V6 run cycle. The inherited cycle atomically published its incomplete intermediate contract before V7 added the required V8 lineage and inert-policy fields, exposing a brief invalid but parseable live document.",
+    "evidence": "The next completed V7 publication reconciled without data changes, and the full integrity audit immediately returned ok. Source and rank database contents were intact."
+  },
+  "repair": {
+    "description": "Inherited V6 state and report output now publish only to unique process-and-time-scoped private staging paths. V7 adds its complete contract and policy fields before the sole atomic publication to each live path. Staging files are removed in a finally block.",
+    "proof_or_execution_policy_changed": false,
+    "thresholds_changed": false,
+    "real_money_routing_enabled": false
+  },
+  "validation": {
+    "python_compile": "passed",
+    "focused_adapter_and_supervisor_tests": 19,
+    "focused_integrity_tests": 60,
+    "focused_tests_total": 79,
+    "live_read_stress": {
+      "duration_sec": 20,
+      "reads": 1678,
+      "parse_errors": 0,
+      "invalid_contract_reads": 0
+    },
+    "post_repair_integrity": {
+      "generated_utc": "2026-09-02T23:43:48.183751Z",
+      "status": "ok",
+      "failure_count": 0,
+      "source_rank_contract_ok": true,
+      "source_rank_counts_ok": true,
+      "source_rank_inert_ok": true,
+      "source_rank_database_integrity": "ok",
+      "raw_source_forecast_rows": 903,
+      "rank_eligible_rows": 0
+    },
+    "supervised_worker": {
+      "wrapper_pid": 34832,
+      "runtime_pid": 27032,
+      "publication_interval_sec": 5,
+      "status": "running"
+    }
+  },
+  "file_sha256": {
+    "oanda_source_conditioned_currency_rank_v7.py": "5502adf18dab2d27d9b54150dddbb6f2a90f369c80f29a30f19d0cc3755c0325",
+    "test_oanda_source_conditioned_currency_rank_v7.py": "722c7d35a0316fce7c5e124c2a4754ebaf0a6b6ef1c6d5482963eadabaace28b",
+    "oanda_project_integrity_audit.py": "351596c71f16246b8df23c7e76eff05a1bc5f8e857f17fd017bdb25bb8b6c14d",
+    "config/source_conditioned_currency_rank_v7.json": "8339403c4dbe1a8ae267314199f626a83266d943b4d2e59b800673b3e7940e79"
+  },
+  "supported_decision": "no_trade"
+}

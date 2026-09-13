@@ -1,0 +1,323 @@
+{
+  "api_html_changes": false,
+  "broker_calls": false,
+  "configuration_changes": false,
+  "created_epoch": 1788952451.317871,
+  "curated_source_transition": {
+    "interpretation": "Neither modified account source was a member of the four current frozen research closures or named by the13 prior scanned selections. Original source copies/reviews remain preserved; this is a new version of source evidence, not a rewrite of historical acceptance.",
+    "prior_scan": {
+      "matches": [],
+      "scanned_selection_files": 13,
+      "scope": "Current external CURATED_*.json exact string references only; not an exhaustive scan of every historical review."
+    }
+  },
+  "current_registered_closures": [
+    {
+      "affected_members": [],
+      "all_source_hashes_match": true,
+      "registry": {
+        "bytes": 350877,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\joint_price_news_study_v3_20260908.json",
+        "sha256": "ee075e69e80ca56dfdf45abe1f7a1a301612176e67f7622eab1adf2bd9af8771"
+      },
+      "source_count": 20
+    },
+    {
+      "affected_members": [],
+      "all_source_hashes_match": true,
+      "registry": {
+        "bytes": 4292,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\recovered_second_curve_pilot_v1_20260909.json",
+        "sha256": "ae64f2cae6df44dad81b46deb16e95e4d5f67dabb7fc1e65289b96ba6b0fe2b2"
+      },
+      "source_count": 14
+    },
+    {
+      "affected_members": [],
+      "all_source_hashes_match": true,
+      "registry": {
+        "bytes": 5214,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\observed_curve_management_v1_20260909.json",
+        "sha256": "60689101fb63a8bcce2465d19f627b9b2ce357d1ee271c65298f255663d991e1"
+      },
+      "source_count": 20
+    },
+    {
+      "affected_members": [],
+      "all_source_hashes_match": true,
+      "registry": {
+        "bytes": 2886,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\m1_risk_distributions_v1_20260909.json",
+        "sha256": "855c3bb96105c0cf0943ebbb5d28e6d10b6b9bf718573883f897161d08453674"
+      },
+      "source_count": 8
+    }
+  ],
+  "database_writes": false,
+  "function_lines": {
+    "oanda_advisor_account_manager_auto.py": [
+      {
+        "end_line": 1654,
+        "function": "get_open_trades",
+        "line": 1650
+      },
+      {
+        "end_line": 1698,
+        "function": "close_trade",
+        "line": 1696
+      },
+      {
+        "end_line": 2583,
+        "function": "observe_open_trade",
+        "line": 2574
+      },
+      {
+        "end_line": 2588,
+        "function": "find_open_trade",
+        "line": 2585
+      },
+      {
+        "end_line": 2595,
+        "function": "trade_lookup_blocks_open",
+        "line": 2590
+      },
+      {
+        "end_line": 3914,
+        "function": "execute_decision",
+        "line": 3823
+      },
+      {
+        "end_line": 3989,
+        "function": "handle_position_action",
+        "line": 3916
+      },
+      {
+        "end_line": 4021,
+        "function": "tighten_trade",
+        "line": 3991
+      },
+      {
+        "end_line": 4034,
+        "function": "partial_close_trade",
+        "line": 4023
+      },
+      {
+        "end_line": 4063,
+        "function": "_close_with_state_confirmation",
+        "line": 4036
+      },
+      {
+        "end_line": 4066,
+        "function": "close_trade",
+        "line": 4065
+      },
+      {
+        "end_line": 4188,
+        "function": "open_trade_from_order",
+        "line": 4068
+      },
+      {
+        "end_line": 4501,
+        "function": "run_shutdown_fade_pass",
+        "line": 4399
+      }
+    ],
+    "oanda_technical_account_manager_auto.py": [
+      {
+        "end_line": 2506,
+        "function": "get_open_trades",
+        "line": 2502
+      },
+      {
+        "end_line": 2550,
+        "function": "close_trade",
+        "line": 2548
+      },
+      {
+        "end_line": 3931,
+        "function": "observe_open_trade",
+        "line": 3922
+      },
+      {
+        "end_line": 3936,
+        "function": "find_open_trade",
+        "line": 3933
+      },
+      {
+        "end_line": 3943,
+        "function": "trade_lookup_blocks_open",
+        "line": 3938
+      },
+      {
+        "end_line": 4866,
+        "function": "execute_decision",
+        "line": 4802
+      },
+      {
+        "end_line": 4941,
+        "function": "handle_position_action",
+        "line": 4868
+      },
+      {
+        "end_line": 4973,
+        "function": "tighten_trade",
+        "line": 4943
+      },
+      {
+        "end_line": 4986,
+        "function": "partial_close_trade",
+        "line": 4975
+      },
+      {
+        "end_line": 5015,
+        "function": "_close_with_state_confirmation",
+        "line": 4988
+      },
+      {
+        "end_line": 5018,
+        "function": "close_trade",
+        "line": 5017
+      },
+      {
+        "end_line": 5200,
+        "function": "open_trade_from_order",
+        "line": 5020
+      },
+      {
+        "end_line": 5543,
+        "function": "run_shutdown_fade_pass",
+        "line": 5441
+      },
+      {
+        "end_line": 9254,
+        "function": "run_campaign_prune_pass",
+        "line": 9165
+      },
+      {
+        "end_line": 10145,
+        "function": "run_volatile_weekend_flatten_pass",
+        "line": 10097
+      }
+    ],
+    "oanda_trade_reconciliation_v1.py": [
+      {
+        "end_line": 77,
+        "function": "observe_trade_rows",
+        "line": 51
+      },
+      {
+        "end_line": 104,
+        "function": "reconcile_reduction",
+        "line": 81
+      },
+      {
+        "end_line": 164,
+        "function": "protective_update",
+        "line": 108
+      }
+    ]
+  },
+  "historical_acceptance_rewritten": false,
+  "manager_processes_started_or_imported": false,
+  "new_runtime_activation": false,
+  "original_audit": {
+    "bytes": 10348,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\management_correctness_audit_v1\\EXISTING_MANAGER_CORRECTNESS_AUDIT_20260909.json",
+    "sha256": "41cf872a59a51102b9a41830aa74e386551b95cfc926a0d37ab3894021530a93"
+  },
+  "policy_scope": [
+    "Open-entry recheck configuration retains its old opt-out policy; enabled unknown rechecks now refuse entry. A disabled or failed close recheck cannot authorize a real FLIP.",
+    "Confirmed exact position-state reduction is not independently attributed to the submitted order. Requested, observed and remaining units remain separate.",
+    "Partial percentage settings and integer-unit rounding are retained; fractional-unit reduction requires a separate explicit contract.",
+    "Protective quote time must be original broker time, explicitly tradeable and no more than30seconds old; missing or invalid time is not replaced by local retrieval time.",
+    "Unknown dependent-order response is logged uncertain; a successful dependent-order response is transport acceptance, not an independently observed broker fill.",
+    "Existing emergency/local-monitor decision labels describe attempted actions; only typed successful reconciliation confirms closed state. Weekend dry runs now have their own counter.",
+    "The configured later-cycle retry cadence remains unchanged; no immediate blind replay of an ambiguous order is introduced."
+  ],
+  "schema_version": "account_reconciliation_source_transition_v1_20260909",
+  "status": "source_correction_tested_not_activated",
+  "tests": {
+    "duration_sec": 35.23,
+    "final_xml": {
+      "bytes": 20761,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\management_correctness_audit_v1\\account_reconciliation_candidate_final_tests.xml",
+      "sha256": "e3823bdfe8715eace965850e57767c231dd757cad4721163da0fdd9b9dfaf81c"
+    },
+    "manager_modules_imported": false,
+    "new_pure_helper_imported": true,
+    "passed": 85,
+    "prior_xml": [
+      {
+        "bytes": 12166,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\management_correctness_audit_v1\\account_reconciliation_candidate_initial_tests.xml",
+        "sha256": "a381512bccffaa6419f76e29537cbadea384cb7df11a6c4aaf4a83f870959d66"
+      },
+      {
+        "bytes": 19465,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\management_correctness_audit_v1\\account_reconciliation_candidate_decimal_tests.xml",
+        "sha256": "3bfe8130fda82cc1cf436645e7c782d4141ac9643b04211a0dc416900718921a"
+      }
+    ],
+    "source": {
+      "bytes": 13889,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\management_correctness_audit_v1\\test_account_reconciliation_candidate.py",
+      "sha256": "4f95b06d0672bb2d9fc565b952e50e2836e9e3deb0164e0ef0e773a990647677"
+    },
+    "transport": "AST-extracted exact manager methods and in-memory fake transport only"
+  },
+  "transition": [
+    {
+      "accepted_copy": {
+        "bytes": 570962,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\management_correctness_audit_v1\\accepted_source\\oanda_technical_account_manager_auto.py",
+        "sha256": "e6e794a4373a0766dfb6338f75506e3b209b79d57cef419e21375ff40cb3f519"
+      },
+      "before": {
+        "bytes": 556814,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\management_correctness_audit_v1\\before_source\\oanda_technical_account_manager_auto.py",
+        "sha256": "5580289feb6a5245a383c2f63194200afeddb7e0ec8b9ac7baa53f4ebe2fdfbd"
+      },
+      "canonical_after": {
+        "bytes": 570962,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_technical_account_manager_auto.py",
+        "sha256": "e6e794a4373a0766dfb6338f75506e3b209b79d57cef419e21375ff40cb3f519"
+      },
+      "in_active_research_closure": false,
+      "name": "oanda_technical_account_manager_auto.py"
+    },
+    {
+      "accepted_copy": {
+        "bytes": 325727,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\management_correctness_audit_v1\\accepted_source\\oanda_advisor_account_manager_auto.py",
+        "sha256": "f07fb5dc4c1eb460b40bd1108636e1213b082c7c6ca6aa592998e8dcb8389faa"
+      },
+      "before": {
+        "bytes": 316757,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\management_correctness_audit_v1\\before_source\\oanda_advisor_account_manager_auto.py",
+        "sha256": "af211315d359e07a5b41b38ca0c4d30f75a7851ea5ce521a84b08d2af9983e27"
+      },
+      "canonical_after": {
+        "bytes": 325727,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_advisor_account_manager_auto.py",
+        "sha256": "f07fb5dc4c1eb460b40bd1108636e1213b082c7c6ca6aa592998e8dcb8389faa"
+      },
+      "in_active_research_closure": false,
+      "name": "oanda_advisor_account_manager_auto.py"
+    },
+    {
+      "accepted_copy": {
+        "bytes": 9653,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\management_correctness_audit_v1\\accepted_source\\oanda_trade_reconciliation_v1.py",
+        "sha256": "1ee16afa78da74da6aa2542f8c7a0b855e4c7db9713793820852df3e5af63f7d"
+      },
+      "before": null,
+      "canonical_after": {
+        "bytes": 9653,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_trade_reconciliation_v1.py",
+        "sha256": "1ee16afa78da74da6aa2542f8c7a0b855e4c7db9713793820852df3e5af63f7d"
+      },
+      "in_active_research_closure": false,
+      "name": "oanda_trade_reconciliation_v1.py"
+    }
+  ]
+}

@@ -1,0 +1,1973 @@
+{
+  "schema_version": "independent_saved_four_family_sanity_v1",
+  "generated_utc": "2026-09-06T15:39:50.809572+00:00",
+  "method": "Raw frozen forecast_json bytes and joined outcome rows; independent decimal price arithmetic; standard library only; no original scoring helper imported.",
+  "source_bindings": {
+    "docs\\validation\\fixed_evaluation_20260906\\selected_candidate_rows.json": "dc3e20355b420d23406162678743f903feff4cc1689f28353f9da870d1358e12",
+    "FOREX_FIXED_EVALUATION_RESULTS_20260906.json": "7acecda9075ba197f50eb4f9b671246916e8535d0f10d90a8d125bfcb4491cd3"
+  },
+  "script_sha256": "eaeb564ffa1b8da8fef3248198b439f405ca59fb6e8c7860302fc3167280e3fb",
+  "raw_forecasts": 1628,
+  "raw_unique_references": 407,
+  "matched_four_family_references": 368,
+  "raw_missing_outcomes": 85,
+  "paired_exclusions": {
+    "different_endpoint_clock_or_quote": 17,
+    "missing_one_or_more_outcomes": 22
+  },
+  "paired_class_balance": {
+    "up": 172,
+    "down": 195,
+    "flat": 1
+  },
+  "utc_day_counts": {
+    "2026-08-30": 11,
+    "2026-08-31": 49,
+    "2026-09-01": 89,
+    "2026-09-02": 69,
+    "2026-09-03": 81,
+    "2026-09-04": 69
+  },
+  "producer_counts": {
+    "canonical_quote_snapshot_v1": 353,
+    "legacy_recovered_provider_quote_clock": 15
+  },
+  "all_raw_payload_hashes_verified": true,
+  "column_payload_outcome_mismatches": [],
+  "stored_theoretical_net_disagreements_above_0_00000051_pip": [],
+  "decimal_vs_float_label_disagreements": 0,
+  "retained_integrity_events": [
+    {
+      "details_json": "{\"age_sec\":3684.403,\"entry_time\":\"2026-08-31T20:15:45.642019+00:00\",\"instrument\":\"EUR_USD\",\"recovered_from_ledger\":true}",
+      "event_id": "proof_fcae4fe3c4c10bde38a2c48256cb464795186628ebc2bbe5f18566e2ea48c0ed",
+      "event_type": "outcome_censored",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-08-31T21:17:10.849315+00:00",
+      "reason": "stale_quote",
+      "row_id": 14447762
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":false,\"snapshot_age_sec\":8776.91,\"snapshot_boundary_delay_sec\":-1274.29,\"wall_delay_sec\":7502.619}",
+      "event_id": "proof_85e63af9a1c4f2aad415f8bdfcf1746a8ce3ab293d79061d052aff9bcd7b39c4",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T00:37:22.019861+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14448472
+    },
+    {
+      "details_json": "{\"age_sec\":11192.726,\"entry_time\":\"2026-08-31T21:30:53.580088+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_85e63af9a1c4f2aad415f8bdfcf1746a8ce3ab293d79061d052aff9bcd7b39c4",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T00:39:48.549906+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14448996
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":4.789,\"snapshot_boundary_delay_sec\":33.959,\"wall_delay_sec\":38.748}",
+      "event_id": "proof_8745ee8d62d21e88ddabac77b2248c43efdded7cc8ce3e9c26862356e2a59ddb",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T03:47:14.787601+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14450297
+    },
+    {
+      "details_json": "{\"age_sec\":25045.616,\"entry_time\":\"2026-09-01T02:46:18.175988+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_8745ee8d62d21e88ddabac77b2248c43efdded7cc8ce3e9c26862356e2a59ddb",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T09:44:06.812600+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14452986
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":1.388,\"snapshot_boundary_delay_sec\":19.161,\"wall_delay_sec\":20.55}",
+      "event_id": "proof_4a08c40e1cac2a1914b9c7e88bbca4897f9b47755e55be4d5ab9aad5203fa4ba",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T09:06:06.961018+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14451913
+    },
+    {
+      "details_json": "{\"age_sec\":6204.632,\"entry_time\":\"2026-09-01T08:00:19.160035+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_4a08c40e1cac2a1914b9c7e88bbca4897f9b47755e55be4d5ab9aad5203fa4ba",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T09:44:05.644142+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14452772
+    },
+    {
+      "details_json": "{\"age_sec\":3650.631,\"entry_time\":\"2026-09-01T09:31:09.458385+00:00\",\"instrument\":\"EUR_USD\",\"recovered_from_ledger\":true}",
+      "event_id": "proof_0d8a20c32c8a02bcce35ea6a1ac5c17ba73e15bc7395e3a1b084a541ec84231c",
+      "event_type": "outcome_censored",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T10:33:05.068378+00:00",
+      "reason": "stale_quote",
+      "row_id": 14454242
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":1.874,\"snapshot_boundary_delay_sec\":23.169,\"wall_delay_sec\":25.043}",
+      "event_id": "proof_0d8a20c32c8a02bcce35ea6a1ac5c17ba73e15bc7395e3a1b084a541ec84231c",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T10:41:33.147892+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14454526
+    },
+    {
+      "details_json": "{\"age_sec\":28337.935,\"entry_time\":\"2026-09-01T09:31:09.458385+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_0d8a20c32c8a02bcce35ea6a1ac5c17ba73e15bc7395e3a1b084a541ec84231c",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T17:24:09.883781+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14458092
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":false,\"snapshot_age_sec\":277.566,\"snapshot_boundary_delay_sec\":-261.93,\"wall_delay_sec\":15.637}",
+      "event_id": "proof_5836f7c3e41447ad7c10cc94f44ccad800d544f056a91bba829d5d37bd2ed682",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T21:03:41.583545+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14462161
+    },
+    {
+      "details_json": "{\"age_sec\":52425.526,\"entry_time\":\"2026-09-01T19:53:08.683391+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_5836f7c3e41447ad7c10cc94f44ccad800d544f056a91bba829d5d37bd2ed682",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-02T10:27:44.709719+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14466458
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":false,\"snapshot_age_sec\":753.334,\"snapshot_boundary_delay_sec\":-738.115,\"wall_delay_sec\":15.219}",
+      "event_id": "proof_0d976581ad8d42936e4b7d540b6a852b4ca71a85c150aa46b0392eea5129de5b",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-02T14:06:24.917166+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14469981
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.716,\"snapshot_boundary_delay_sec\":23.069,\"wall_delay_sec\":23.785}",
+      "event_id": "proof_d801c29e0645d488660046f0b7ff41e281aa06faa66b4d034718724eb8986df8",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-02T20:02:24.325873+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14473548
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.823,\"snapshot_boundary_delay_sec\":24.036,\"wall_delay_sec\":24.859}",
+      "event_id": "proof_f6a3a1b013bc2f1b32fabdfe4faf75ae3d1b96f7c9a9c9e7aad886f0564f9549",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-02T21:13:34.131165+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14474671
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.718,\"snapshot_boundary_delay_sec\":21.142,\"wall_delay_sec\":21.86}",
+      "event_id": "proof_b4321973b94551092ae05b540619fe8e6a72ac92681390f00d26d85db25d6815",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-03T04:02:06.029174+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14477095
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.22,\"snapshot_boundary_delay_sec\":17.841,\"wall_delay_sec\":18.062}",
+      "event_id": "proof_8bb03e44329f810df457321b36b6bdbdb000760c8e0c5f18012923bfd1471d57",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-03T07:16:28.074741+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14478371
+    },
+    {
+      "details_json": "{\"age_sec\":83325.558,\"entry_time\":\"2026-09-03T06:15:03.370310+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_8bb03e44329f810df457321b36b6bdbdb000760c8e0c5f18012923bfd1471d57",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T05:24:33.123309+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14497273
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.933,\"snapshot_boundary_delay_sec\":17.579,\"wall_delay_sec\":18.513}",
+      "event_id": "proof_410fa12342a20f5c0dbf4c18b4bc9c23e5658d674f5525dde277a6449050e58a",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-03T08:02:10.350538+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14479198
+    },
+    {
+      "details_json": "{\"age_sec\":80602.391,\"entry_time\":\"2026-09-03T07:00:26.537285+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_410fa12342a20f5c0dbf4c18b4bc9c23e5658d674f5525dde277a6449050e58a",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T05:24:32.748258+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14497093
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.777,\"snapshot_boundary_delay_sec\":17.551,\"wall_delay_sec\":18.328}",
+      "event_id": "proof_fe9acd878e56621bf918b83ff9727abc3e39635858061f73e7c9118b7463672c",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-03T11:21:43.738304+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14482072
+    },
+    {
+      "details_json": "{\"age_sec\":68877.242,\"entry_time\":\"2026-09-03T10:15:51.685673+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_fe9acd878e56621bf918b83ff9727abc3e39635858061f73e7c9118b7463672c",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T05:24:31.260114+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14496623
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.53,\"snapshot_boundary_delay_sec\":20.884,\"wall_delay_sec\":21.413}",
+      "event_id": "proof_32e99a5759ae3c9ac4ee903db6c58a8c7e952eca773959abf8845af7f02bdc12",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-03T12:34:48.686968+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14483012
+    },
+    {
+      "details_json": "{\"age_sec\":64199.7,\"entry_time\":\"2026-09-03T11:33:49.228445+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_32e99a5759ae3c9ac4ee903db6c58a8c7e952eca773959abf8845af7f02bdc12",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T05:24:31.078093+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14496443
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.725,\"snapshot_boundary_delay_sec\":23.153,\"wall_delay_sec\":23.878}",
+      "event_id": "proof_1ace4997f8ca7a369494933d872e78f171e7df1f0a2fcbf7892422b4280e83eb",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-03T13:18:07.894597+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14484316
+    },
+    {
+      "details_json": "{\"age_sec\":61625.663,\"entry_time\":\"2026-09-03T12:16:43.264997+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_1ace4997f8ca7a369494933d872e78f171e7df1f0a2fcbf7892422b4280e83eb",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T05:24:30.815212+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14496217
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.343,\"snapshot_boundary_delay_sec\":15.794,\"wall_delay_sec\":16.137}",
+      "event_id": "proof_94d74b10f18592da11a7cc8330bae8d28967e76bcb4592a08f31bc00f0c2662b",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T03:04:44.535770+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14492470
+    },
+    {
+      "details_json": "{\"age_sec\":12074.533,\"entry_time\":\"2026-09-04T02:02:34.395335+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_94d74b10f18592da11a7cc8330bae8d28967e76bcb4592a08f31bc00f0c2662b",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T05:24:27.675910+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14495600
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.166,\"snapshot_boundary_delay_sec\":47.344,\"wall_delay_sec\":47.509}",
+      "event_id": "proof_e4113bf9c6c4f7abb694e25643f5c39aee0e68c1e48c844a8354567c7f2c9073",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T04:18:48.597672+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14494161
+    },
+    {
+      "details_json": "{\"age_sec\":7650.483,\"entry_time\":\"2026-09-04T03:16:18.445349+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_e4113bf9c6c4f7abb694e25643f5c39aee0e68c1e48c844a8354567c7f2c9073",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T05:24:27.507340+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14495056
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":1.09,\"snapshot_boundary_delay_sec\":54.526,\"wall_delay_sec\":55.616}",
+      "event_id": "proof_2abdfdc665471dc190fa054f0bcef839ec073026ee3010cc667ec43dda913fc5",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T07:18:43.924892+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14498147
+    },
+    {
+      "details_json": "{\"age_sec\":71464.537,\"entry_time\":\"2026-09-04T06:15:28.699863+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_2abdfdc665471dc190fa054f0bcef839ec073026ee3010cc667ec43dda913fc5",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-05T02:07:16.707522+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14505825
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.978,\"snapshot_boundary_delay_sec\":81.62,\"wall_delay_sec\":82.598}",
+      "event_id": "proof_25bfb87f0fff0f2f0ca141d524523bab2daa987aec708f2c668c8b35da05c959",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T09:19:09.326115+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14499718
+    },
+    {
+      "details_json": "{\"age_sec\":64266.337,\"entry_time\":\"2026-09-04T08:15:26.900509+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_25bfb87f0fff0f2f0ca141d524523bab2daa987aec708f2c668c8b35da05c959",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-05T02:07:16.057016+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14505556
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":false,\"snapshot_age_sec\":366.297,\"snapshot_boundary_delay_sec\":-350.33,\"wall_delay_sec\":15.967}",
+      "event_id": "proof_2d0d97c183d35c98dd306911ac91a091b5a6de22f23584c76f1db924fbf35dea",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T21:05:11.347567+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14503175
+    },
+    {
+      "details_json": "{\"age_sec\":21914.713,\"entry_time\":\"2026-09-04T20:01:18.524122+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_2d0d97c183d35c98dd306911ac91a091b5a6de22f23584c76f1db924fbf35dea",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-05T02:07:11.628110+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14505192
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":false,\"snapshot_age_sec\":1085.684,\"snapshot_boundary_delay_sec\":-1070.533,\"wall_delay_sec\":15.151}",
+      "event_id": "proof_feb7b1c3562263ec90d917cb1bfbba9081cb3f9bd15d4dd1a7f4518c28334d60",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T21:17:10.740717+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14503645
+    },
+    {
+      "details_json": "{\"age_sec\":21080.261,\"entry_time\":\"2026-09-04T20:15:12.975818+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_feb7b1c3562263ec90d917cb1bfbba9081cb3f9bd15d4dd1a7f4518c28334d60",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-05T02:07:11.578964+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14504866
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":false,\"snapshot_age_sec\":1965.454,\"snapshot_boundary_delay_sec\":-1950.43,\"wall_delay_sec\":15.024}",
+      "event_id": "proof_d039e2f6abb92a9afea07ffc73c9a37471b796b73686ddda28112c5e58eee5cc",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T21:31:50.526085+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14503876
+    },
+    {
+      "details_json": "{\"age_sec\":20142.907,\"entry_time\":\"2026-09-04T20:30:50.330326+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_d039e2f6abb92a9afea07ffc73c9a37471b796b73686ddda28112c5e58eee5cc",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-05T02:07:11.550689+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14504671
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":false,\"snapshot_age_sec\":2851.292,\"snapshot_boundary_delay_sec\":-2836.273,\"wall_delay_sec\":15.019}",
+      "event_id": "proof_7387c33b9b182b8913b4cd60efa94bc36321e0e8ab075ddefa4b85a9d34c1ad6",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T21:46:36.339049+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14504123
+    },
+    {
+      "details_json": "{\"age_sec\":19268.428,\"entry_time\":\"2026-09-04T20:45:24.808793+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_7387c33b9b182b8913b4cd60efa94bc36321e0e8ab075ddefa4b85a9d34c1ad6",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-05T02:07:11.523497+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14504497
+    },
+    {
+      "details_json": "{\"age_sec\":3684.403,\"entry_time\":\"2026-08-31T20:15:45.642019+00:00\",\"instrument\":\"EUR_USD\",\"recovered_from_ledger\":true}",
+      "event_id": "proof_d54f0d0c6609eb007de7da75211d821b5d3b551dadd732ab61e5a9d73f98b07f",
+      "event_type": "outcome_censored",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-08-31T21:17:10.850312+00:00",
+      "reason": "stale_quote",
+      "row_id": 14447766
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":false,\"snapshot_age_sec\":8776.91,\"snapshot_boundary_delay_sec\":-1274.281,\"wall_delay_sec\":7502.629}",
+      "event_id": "proof_90ce88ae9a2b9eb39f897279670265a008dec609a67866b51675f234c3039cdf",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T00:37:22.012881+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14448417
+    },
+    {
+      "details_json": "{\"age_sec\":11192.726,\"entry_time\":\"2026-08-31T21:30:53.580088+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_90ce88ae9a2b9eb39f897279670265a008dec609a67866b51675f234c3039cdf",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T00:39:48.548909+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14448985
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":4.789,\"snapshot_boundary_delay_sec\":33.973,\"wall_delay_sec\":38.762}",
+      "event_id": "proof_a56b8f59448ad040acaf3323283d9b16d79def138ef7cb13d2b7034b1638b238",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T03:47:14.778625+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14450241
+    },
+    {
+      "details_json": "{\"age_sec\":25045.616,\"entry_time\":\"2026-09-01T02:46:18.175988+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_a56b8f59448ad040acaf3323283d9b16d79def138ef7cb13d2b7034b1638b238",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T09:44:06.811602+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14452963
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":1.388,\"snapshot_boundary_delay_sec\":19.17,\"wall_delay_sec\":20.559}",
+      "event_id": "proof_df0020cc1d85823e06e0780df8597d56e29edd75486e510815c50f95a67f06b5",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T09:06:06.950532+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14451846
+    },
+    {
+      "details_json": "{\"age_sec\":6204.632,\"entry_time\":\"2026-09-01T08:00:19.160035+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_df0020cc1d85823e06e0780df8597d56e29edd75486e510815c50f95a67f06b5",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T09:44:05.635166+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14452621
+    },
+    {
+      "details_json": "{\"age_sec\":3650.631,\"entry_time\":\"2026-09-01T09:31:09.458385+00:00\",\"instrument\":\"EUR_USD\",\"recovered_from_ledger\":true}",
+      "event_id": "proof_37b9f1c2bbd688fc56bc745ffbb97a46042c16a6d173fddf00916843fe19905d",
+      "event_type": "outcome_censored",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T10:33:05.067380+00:00",
+      "reason": "stale_quote",
+      "row_id": 14454202
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":1.874,\"snapshot_boundary_delay_sec\":23.18,\"wall_delay_sec\":25.054}",
+      "event_id": "proof_37b9f1c2bbd688fc56bc745ffbb97a46042c16a6d173fddf00916843fe19905d",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T10:41:33.002773+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14454462
+    },
+    {
+      "details_json": "{\"age_sec\":28337.935,\"entry_time\":\"2026-09-01T09:31:09.458385+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_37b9f1c2bbd688fc56bc745ffbb97a46042c16a6d173fddf00916843fe19905d",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T17:24:09.881788+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14458052
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":false,\"snapshot_age_sec\":277.566,\"snapshot_boundary_delay_sec\":-261.926,\"wall_delay_sec\":15.641}",
+      "event_id": "proof_175d415b3f027c3ebeafa008efd69f02bc12eb4b00490ac8a2f39d20e6520042",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T21:03:41.560607+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14462103
+    },
+    {
+      "details_json": "{\"age_sec\":52425.526,\"entry_time\":\"2026-09-01T19:53:08.683391+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_175d415b3f027c3ebeafa008efd69f02bc12eb4b00490ac8a2f39d20e6520042",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-02T10:27:44.715703+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14466528
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":false,\"snapshot_age_sec\":753.334,\"snapshot_boundary_delay_sec\":-738.107,\"wall_delay_sec\":15.227}",
+      "event_id": "proof_6435412209f7f024e40a7cf31e36809e36a251e1a49a56cddc2ee81e65cb5c2d",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-02T14:06:24.909188+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14469916
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.716,\"snapshot_boundary_delay_sec\":23.079,\"wall_delay_sec\":23.795}",
+      "event_id": "proof_806a5c665cfe96f1e1d42ecf8f2c31f0ab56ad82a7450522b4ddaaf29fbe6c14",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-02T20:02:24.314902+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14473494
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.823,\"snapshot_boundary_delay_sec\":24.043,\"wall_delay_sec\":24.866}",
+      "event_id": "proof_f8aa66edb45d977d5ce8ec85a2cd1ccc15cbc5c400536d94dbf925cc784b4eb1",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-02T21:13:33.612940+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14474613
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.718,\"snapshot_boundary_delay_sec\":21.148,\"wall_delay_sec\":21.866}",
+      "event_id": "proof_694db49a43db6372670db628f309b94cc0810efed438406d1bbdec3543b916ab",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-03T04:02:06.017697+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14477031
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.22,\"snapshot_boundary_delay_sec\":17.849,\"wall_delay_sec\":18.07}",
+      "event_id": "proof_7c022457a6a1355fbeb73dbd39d8ab96f3ba4cf218c7f747d379b3b8fc1b61b3",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-03T07:16:28.019379+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14478305
+    },
+    {
+      "details_json": "{\"age_sec\":83325.558,\"entry_time\":\"2026-09-03T06:15:03.370310+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_7c022457a6a1355fbeb73dbd39d8ab96f3ba4cf218c7f747d379b3b8fc1b61b3",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T05:24:33.124305+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14497290
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.933,\"snapshot_boundary_delay_sec\":17.624,\"wall_delay_sec\":18.557}",
+      "event_id": "proof_b08929c2eb989c82dcebc7d330f45b71de375cdc4d4f87a5897e283f4a3e6e1d",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-03T08:02:10.288703+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14479131
+    },
+    {
+      "details_json": "{\"age_sec\":80602.391,\"entry_time\":\"2026-09-03T07:00:26.537285+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_b08929c2eb989c82dcebc7d330f45b71de375cdc4d4f87a5897e283f4a3e6e1d",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T05:24:32.741277+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14496972
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.777,\"snapshot_boundary_delay_sec\":29.16,\"wall_delay_sec\":29.937}",
+      "event_id": "proof_2d6f3a8c3994b29bab029b7646f1cc7cf239b23e09e1e5a15359fb4cef02c14a",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-03T11:21:20.545847+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14482005
+    },
+    {
+      "details_json": "{\"age_sec\":68877.242,\"entry_time\":\"2026-09-03T10:15:51.685673+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_2d6f3a8c3994b29bab029b7646f1cc7cf239b23e09e1e5a15359fb4cef02c14a",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T05:24:31.275075+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14496865
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.53,\"snapshot_boundary_delay_sec\":20.895,\"wall_delay_sec\":21.424}",
+      "event_id": "proof_3a560c282ebe967d19b24c2f9c5132b50c86cbffe0306ad1855f307e874fc4b0",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-03T12:34:48.253098+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14482948
+    },
+    {
+      "details_json": "{\"age_sec\":64199.7,\"entry_time\":\"2026-09-03T11:33:49.228445+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_3a560c282ebe967d19b24c2f9c5132b50c86cbffe0306ad1855f307e874fc4b0",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T05:24:31.078093+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14496433
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.725,\"snapshot_boundary_delay_sec\":23.16,\"wall_delay_sec\":23.885}",
+      "event_id": "proof_161d5aa7d6e5ef940f85f22017d2514260f4e6c7d49c33a175975ae733514b6b",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-03T13:18:07.834249+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14484251
+    },
+    {
+      "details_json": "{\"age_sec\":61625.663,\"entry_time\":\"2026-09-03T12:16:43.264997+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_161d5aa7d6e5ef940f85f22017d2514260f4e6c7d49c33a175975ae733514b6b",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T05:24:30.815212+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14496221
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.343,\"snapshot_boundary_delay_sec\":15.801,\"wall_delay_sec\":16.144}",
+      "event_id": "proof_700820a6aeed6c82f93b538276888cb7a7477634719921d244cdc6b7edace51b",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T03:04:44.173234+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14492408
+    },
+    {
+      "details_json": "{\"age_sec\":12074.533,\"entry_time\":\"2026-09-04T02:02:34.395335+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_700820a6aeed6c82f93b538276888cb7a7477634719921d244cdc6b7edace51b",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T05:24:27.678902+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14495639
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.166,\"snapshot_boundary_delay_sec\":47.35,\"wall_delay_sec\":47.515}",
+      "event_id": "proof_98018d5391d13a052a5d8559b347e37c8adca5d930c2b40ee1d2fdf53fe0ef0f",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T04:18:47.482024+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14494100
+    },
+    {
+      "details_json": "{\"age_sec\":7650.483,\"entry_time\":\"2026-09-04T03:16:18.445349+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_98018d5391d13a052a5d8559b347e37c8adca5d930c2b40ee1d2fdf53fe0ef0f",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T05:24:27.511330+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14495125
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":1.09,\"snapshot_boundary_delay_sec\":54.533,\"wall_delay_sec\":55.623}",
+      "event_id": "proof_fbf521dd7eb81a29d0eba14b5abce23fed22043b14ccaaec00cdaa8c3c6b27dd",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T07:18:43.623172+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14498081
+    },
+    {
+      "details_json": "{\"age_sec\":71464.537,\"entry_time\":\"2026-09-04T06:15:28.699863+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_fbf521dd7eb81a29d0eba14b5abce23fed22043b14ccaaec00cdaa8c3c6b27dd",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-05T02:07:16.697482+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14505597
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.978,\"snapshot_boundary_delay_sec\":81.656,\"wall_delay_sec\":82.634}",
+      "event_id": "proof_9e366605282131f9a35481bd10090a0a68e7308e27648e6c19f8cb4e2857cc05",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T09:19:09.315148+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14499653
+    },
+    {
+      "details_json": "{\"age_sec\":64266.337,\"entry_time\":\"2026-09-04T08:15:26.900509+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_9e366605282131f9a35481bd10090a0a68e7308e27648e6c19f8cb4e2857cc05",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-05T02:07:16.051575+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14505433
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":false,\"snapshot_age_sec\":332.019,\"snapshot_boundary_delay_sec\":-316.553,\"wall_delay_sec\":15.465}",
+      "event_id": "proof_f92de492ba7e7c763c2f6cc52dc62b2db0ca9ffbcca58b5f564c2071fb8480b9",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T21:04:37.127651+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14503072
+    },
+    {
+      "details_json": "{\"age_sec\":21914.713,\"entry_time\":\"2026-09-04T20:01:18.524122+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_f92de492ba7e7c763c2f6cc52dc62b2db0ca9ffbcca58b5f564c2071fb8480b9",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-05T02:07:11.628110+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14505216
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":false,\"snapshot_age_sec\":1085.684,\"snapshot_boundary_delay_sec\":-1070.491,\"wall_delay_sec\":15.193}",
+      "event_id": "proof_66463e864611d23dc27f5de6d99b505d24e3fc295356c4ef5e65080e74346bbe",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T21:17:10.734734+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14503596
+    },
+    {
+      "details_json": "{\"age_sec\":21080.261,\"entry_time\":\"2026-09-04T20:15:12.975818+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_66463e864611d23dc27f5de6d99b505d24e3fc295356c4ef5e65080e74346bbe",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-05T02:07:11.587941+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14504982
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":false,\"snapshot_age_sec\":1965.454,\"snapshot_boundary_delay_sec\":-1950.422,\"wall_delay_sec\":15.032}",
+      "event_id": "proof_6eb77a03573f4f1f1f670191bf99a21cb6d975275b0b9fcc117ee3b4685ec42e",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T21:31:50.504145+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14503817
+    },
+    {
+      "details_json": "{\"age_sec\":20142.907,\"entry_time\":\"2026-09-04T20:30:50.330326+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_6eb77a03573f4f1f1f670191bf99a21cb6d975275b0b9fcc117ee3b4685ec42e",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-05T02:07:11.557647+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14504759
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":false,\"snapshot_age_sec\":2851.292,\"snapshot_boundary_delay_sec\":-2836.266,\"wall_delay_sec\":15.026}",
+      "event_id": "proof_f285252c864dcc1aea1e81a26ace4d24ab94dda59b91dfa0af5efbc84a67f217",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T21:46:36.331069+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14504060
+    },
+    {
+      "details_json": "{\"age_sec\":19268.428,\"entry_time\":\"2026-09-04T20:45:24.808793+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_f285252c864dcc1aea1e81a26ace4d24ab94dda59b91dfa0af5efbc84a67f217",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-05T02:07:11.515859+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14504392
+    },
+    {
+      "details_json": "{\"age_sec\":3684.403,\"entry_time\":\"2026-08-31T20:15:45.642019+00:00\",\"instrument\":\"EUR_USD\",\"recovered_from_ledger\":true}",
+      "event_id": "proof_073518a20800598aa56a971bb2b48373f05885078ee0ea50c253119b01495bce",
+      "event_type": "outcome_censored",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-08-31T21:17:10.855300+00:00",
+      "reason": "stale_quote",
+      "row_id": 14447785
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":false,\"snapshot_age_sec\":8776.91,\"snapshot_boundary_delay_sec\":-1274.29,\"wall_delay_sec\":7502.619}",
+      "event_id": "proof_8a0fbcb0013d4dec1a585be096f997ea2ee1c669a8f011d7c8c32cb15b1c136e",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T00:37:23.845487+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14448527
+    },
+    {
+      "details_json": "{\"age_sec\":11192.726,\"entry_time\":\"2026-08-31T21:30:53.580088+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_8a0fbcb0013d4dec1a585be096f997ea2ee1c669a8f011d7c8c32cb15b1c136e",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T00:39:48.549906+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14448993
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":4.789,\"snapshot_boundary_delay_sec\":33.925,\"wall_delay_sec\":38.714}",
+      "event_id": "proof_508a8d5a05c320ce57a11edf2098880195e096b946a16810cec42aa15683579a",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T03:47:14.797575+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14450353
+    },
+    {
+      "details_json": "{\"age_sec\":25045.616,\"entry_time\":\"2026-09-01T02:46:18.175988+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_508a8d5a05c320ce57a11edf2098880195e096b946a16810cec42aa15683579a",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T09:44:06.815591+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14453043
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":1.388,\"snapshot_boundary_delay_sec\":19.151,\"wall_delay_sec\":20.54}",
+      "event_id": "proof_209a6152e8f818fac2d2880a15124437d01296cf2b36245647008a22fc5808b2",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T09:06:07.278716+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14451980
+    },
+    {
+      "details_json": "{\"age_sec\":6204.632,\"entry_time\":\"2026-09-01T08:00:19.160035+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_209a6152e8f818fac2d2880a15124437d01296cf2b36245647008a22fc5808b2",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T09:44:05.647134+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14452817
+    },
+    {
+      "details_json": "{\"age_sec\":3650.631,\"entry_time\":\"2026-09-01T09:31:09.458385+00:00\",\"instrument\":\"EUR_USD\",\"recovered_from_ledger\":true}",
+      "event_id": "proof_c4beddaf19e6b1dd793972ae99b27cc32f649066566de0487a5b9daf89dccfd0",
+      "event_type": "outcome_censored",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T10:33:05.060398+00:00",
+      "reason": "stale_quote",
+      "row_id": 14454059
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":1.874,\"snapshot_boundary_delay_sec\":23.158,\"wall_delay_sec\":25.032}",
+      "event_id": "proof_c4beddaf19e6b1dd793972ae99b27cc32f649066566de0487a5b9daf89dccfd0",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T10:41:34.675444+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14454590
+    },
+    {
+      "details_json": "{\"age_sec\":28337.935,\"entry_time\":\"2026-09-01T09:31:09.458385+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_c4beddaf19e6b1dd793972ae99b27cc32f649066566de0487a5b9daf89dccfd0",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T17:24:09.873808+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14457909
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":false,\"snapshot_age_sec\":277.566,\"snapshot_boundary_delay_sec\":-261.936,\"wall_delay_sec\":15.631}",
+      "event_id": "proof_908248d20da48bebedffbef530c9f1aa4f84b81af74dae24942288e347d60b19",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T21:03:41.615972+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14462219
+    },
+    {
+      "details_json": "{\"age_sec\":52425.526,\"entry_time\":\"2026-09-01T19:53:08.683391+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_908248d20da48bebedffbef530c9f1aa4f84b81af74dae24942288e347d60b19",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-02T10:27:44.704733+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14466409
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":false,\"snapshot_age_sec\":753.334,\"snapshot_boundary_delay_sec\":-738.121,\"wall_delay_sec\":15.213}",
+      "event_id": "proof_a176b1a987f7f03974a291298a347b8fdcd31e2461e20255e7a3377aaf45d94e",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-02T14:06:24.983502+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14470046
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.716,\"snapshot_boundary_delay_sec\":23.057,\"wall_delay_sec\":23.773}",
+      "event_id": "proof_4c8c9d7a9ceeca92e6d88d5c9c4b6555e83f42a392e82cbac914c4575d69499c",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-02T20:02:24.333851+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14473602
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.823,\"snapshot_boundary_delay_sec\":24.018,\"wall_delay_sec\":24.841}",
+      "event_id": "proof_069102ccb48193d6c41acf3c75fc6f4031c5ba1322694ed595243ea761bebd94",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-02T21:13:34.141138+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14474729
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.718,\"snapshot_boundary_delay_sec\":21.135,\"wall_delay_sec\":21.853}",
+      "event_id": "proof_be969351074601179b2c96b959e31c5f88efdd51ddc1b70f018482b5db7f1a74",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-03T04:02:06.096993+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14477159
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.22,\"snapshot_boundary_delay_sec\":17.833,\"wall_delay_sec\":18.054}",
+      "event_id": "proof_45cc7cd59485e72d5aac5082d40cb8f33f6def7062769b96be8e4c012f42e516",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-03T07:16:28.139588+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14478437
+    },
+    {
+      "details_json": "{\"age_sec\":83325.558,\"entry_time\":\"2026-09-03T06:15:03.370310+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_45cc7cd59485e72d5aac5082d40cb8f33f6def7062769b96be8e4c012f42e516",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T05:24:33.126814+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14497342
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.933,\"snapshot_boundary_delay_sec\":17.548,\"wall_delay_sec\":18.481}",
+      "event_id": "proof_918d4eb0bb683f99c117699fed19f1c8dcea8fef568f2db91f227febb5a92907",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-03T08:02:10.376470+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14479265
+    },
+    {
+      "details_json": "{\"age_sec\":80602.391,\"entry_time\":\"2026-09-03T07:00:26.537285+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_918d4eb0bb683f99c117699fed19f1c8dcea8fef568f2db91f227febb5a92907",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T05:24:32.743271+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14497007
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.777,\"snapshot_boundary_delay_sec\":17.546,\"wall_delay_sec\":18.323}",
+      "event_id": "proof_ece57c9b25d50166a5543f906dc26560abf0f9b840dd20ba8bcc17c4412d71d6",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-03T11:22:03.982200+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14482139
+    },
+    {
+      "details_json": "{\"age_sec\":68877.242,\"entry_time\":\"2026-09-03T10:15:51.685673+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_ece57c9b25d50166a5543f906dc26560abf0f9b840dd20ba8bcc17c4412d71d6",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T05:24:31.260114+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14496630
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.53,\"snapshot_boundary_delay_sec\":20.875,\"wall_delay_sec\":21.404}",
+      "event_id": "proof_442ce9976d2d3613b41c03271f89338f8110e57d1a6b7b3bfdd7638a8180c07a",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-03T12:34:49.288433+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14483076
+    },
+    {
+      "details_json": "{\"age_sec\":64199.7,\"entry_time\":\"2026-09-03T11:33:49.228445+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_442ce9976d2d3613b41c03271f89338f8110e57d1a6b7b3bfdd7638a8180c07a",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T05:24:31.077096+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14496418
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.725,\"snapshot_boundary_delay_sec\":23.133,\"wall_delay_sec\":23.857}",
+      "event_id": "proof_0e501bb0453a4ac71c5dd0df9aa5401bc79527b9515eeff490801cd018b69a63",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-03T13:18:07.912549+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14484381
+    },
+    {
+      "details_json": "{\"age_sec\":61625.663,\"entry_time\":\"2026-09-03T12:16:43.264997+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_0e501bb0453a4ac71c5dd0df9aa5401bc79527b9515eeff490801cd018b69a63",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T05:24:30.815212+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14496227
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.343,\"snapshot_boundary_delay_sec\":15.787,\"wall_delay_sec\":16.13}",
+      "event_id": "proof_aedfd57a175fe58fe01ef6b1fd7ae84d1501192ebc36b058f2e29dd76a5920a5",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T03:05:03.276151+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14492532
+    },
+    {
+      "details_json": "{\"age_sec\":12074.533,\"entry_time\":\"2026-09-04T02:02:34.395335+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_aedfd57a175fe58fe01ef6b1fd7ae84d1501192ebc36b058f2e29dd76a5920a5",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T05:24:27.674913+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14495570
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.166,\"snapshot_boundary_delay_sec\":47.337,\"wall_delay_sec\":47.502}",
+      "event_id": "proof_3452271290167c2434e3fa206ea4d704ad92a5768fef19dec810c102a6c4fc3b",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T04:18:48.633576+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14494222
+    },
+    {
+      "details_json": "{\"age_sec\":7650.483,\"entry_time\":\"2026-09-04T03:16:18.445349+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_3452271290167c2434e3fa206ea4d704ad92a5768fef19dec810c102a6c4fc3b",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T05:24:27.516318+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14495224
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":1.09,\"snapshot_boundary_delay_sec\":54.519,\"wall_delay_sec\":55.609}",
+      "event_id": "proof_cf1fd77dca425a65c38b97e06a493cd6e18b2a838dc4bcfaf89150ac44714520",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T07:18:43.933868+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14498213
+    },
+    {
+      "details_json": "{\"age_sec\":71464.537,\"entry_time\":\"2026-09-04T06:15:28.699863+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_cf1fd77dca425a65c38b97e06a493cd6e18b2a838dc4bcfaf89150ac44714520",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-05T02:07:16.697482+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14505639
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.978,\"snapshot_boundary_delay_sec\":81.605,\"wall_delay_sec\":82.583}",
+      "event_id": "proof_2a4a215284e22fa5e3d9918300584d2edbc159958ff519ede74d223899c73ae9",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T09:19:09.335090+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14499783
+    },
+    {
+      "details_json": "{\"age_sec\":64266.337,\"entry_time\":\"2026-09-04T08:15:26.900509+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_2a4a215284e22fa5e3d9918300584d2edbc159958ff519ede74d223899c73ae9",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-05T02:07:16.057016+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14505547
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":false,\"snapshot_age_sec\":366.297,\"snapshot_boundary_delay_sec\":-350.455,\"wall_delay_sec\":15.842}",
+      "event_id": "proof_081e2a8dad9f5d1ff6c170b2693c11807eac7d98721085f14876edb474e4a72d",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T21:05:11.615374+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14503236
+    },
+    {
+      "details_json": "{\"age_sec\":21914.713,\"entry_time\":\"2026-09-04T20:01:18.524122+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_081e2a8dad9f5d1ff6c170b2693c11807eac7d98721085f14876edb474e4a72d",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-05T02:07:11.628110+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14505212
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":false,\"snapshot_age_sec\":1085.684,\"snapshot_boundary_delay_sec\":-1070.539,\"wall_delay_sec\":15.145}",
+      "event_id": "proof_04181850824d1b4af3604f7671a8d77bf4f4942a1159dff38b3aec056d936555",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T21:17:10.753682+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14503694
+    },
+    {
+      "details_json": "{\"age_sec\":21080.261,\"entry_time\":\"2026-09-04T20:15:12.975818+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_04181850824d1b4af3604f7671a8d77bf4f4942a1159dff38b3aec056d936555",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-05T02:07:11.590331+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14505058
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":false,\"snapshot_age_sec\":1965.454,\"snapshot_boundary_delay_sec\":-1950.436,\"wall_delay_sec\":15.018}",
+      "event_id": "proof_fcbe8550351b40f62bee5b0b2401ed541119a8b286a0332041939b514ab72e0a",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T21:31:50.569967+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14503935
+    },
+    {
+      "details_json": "{\"age_sec\":20142.907,\"entry_time\":\"2026-09-04T20:30:50.330326+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_fcbe8550351b40f62bee5b0b2401ed541119a8b286a0332041939b514ab72e0a",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-05T02:07:11.550689+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14504632
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":false,\"snapshot_age_sec\":2851.292,\"snapshot_boundary_delay_sec\":-2836.281,\"wall_delay_sec\":15.011}",
+      "event_id": "proof_27168a70c54db9c34858e35f8683e5ee43b727201eec2dcbeb8630ed1df5b0d8",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T21:46:36.345031+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14504186
+    },
+    {
+      "details_json": "{\"age_sec\":19268.428,\"entry_time\":\"2026-09-04T20:45:24.808793+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_27168a70c54db9c34858e35f8683e5ee43b727201eec2dcbeb8630ed1df5b0d8",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-05T02:07:11.529688+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14504584
+    },
+    {
+      "details_json": "{\"age_sec\":3684.403,\"entry_time\":\"2026-08-31T20:15:45.642019+00:00\",\"instrument\":\"EUR_USD\",\"recovered_from_ledger\":true}",
+      "event_id": "proof_5fc783592cffedb54f6886611c315fda3a375b5b6ce52dbc52e564fa961103cb",
+      "event_type": "outcome_censored",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-08-31T21:17:10.852308+00:00",
+      "reason": "stale_quote",
+      "row_id": 14447775
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":false,\"snapshot_age_sec\":8776.91,\"snapshot_boundary_delay_sec\":-1271.417,\"wall_delay_sec\":7505.493}",
+      "event_id": "proof_93795d0b0969221e6bbe0a322331ffea7338d861b44fd5580aee62e5d0b626c5",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T00:37:22.005899+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14448362
+    },
+    {
+      "details_json": "{\"age_sec\":11192.726,\"entry_time\":\"2026-08-31T21:30:53.580088+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_93795d0b0969221e6bbe0a322331ffea7338d861b44fd5580aee62e5d0b626c5",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T00:39:48.556887+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14449107
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":4.789,\"snapshot_boundary_delay_sec\":33.983,\"wall_delay_sec\":38.773}",
+      "event_id": "proof_a9e92a9e8d2d4ee1842a60df9426e21c0d5be30cbc9c0aa1ea6cd512c2f2ec62",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T03:47:14.759676+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14450185
+    },
+    {
+      "details_json": "{\"age_sec\":25045.616,\"entry_time\":\"2026-09-01T02:46:18.175988+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_a9e92a9e8d2d4ee1842a60df9426e21c0d5be30cbc9c0aa1ea6cd512c2f2ec62",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T09:44:06.810605+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14452959
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":1.388,\"snapshot_boundary_delay_sec\":19.179,\"wall_delay_sec\":20.568}",
+      "event_id": "proof_e168cff015c4e5f58c6119aca35dfff94336828979f20a05fa0797bb2412cd49",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T09:06:06.939562+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14451779
+    },
+    {
+      "details_json": "{\"age_sec\":6204.632,\"entry_time\":\"2026-09-01T08:00:19.160035+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_e168cff015c4e5f58c6119aca35dfff94336828979f20a05fa0797bb2412cd49",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T09:44:05.635166+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14452616
+    },
+    {
+      "details_json": "{\"age_sec\":3650.631,\"entry_time\":\"2026-09-01T09:31:09.458385+00:00\",\"instrument\":\"EUR_USD\",\"recovered_from_ledger\":true}",
+      "event_id": "proof_8a8429a557ec9abfa18ab8618b09c68f55881edd016fbff534f088112f1743d0",
+      "event_type": "outcome_censored",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T10:33:05.063390+00:00",
+      "reason": "stale_quote",
+      "row_id": 14454122
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":1.874,\"snapshot_boundary_delay_sec\":23.192,\"wall_delay_sec\":25.066}",
+      "event_id": "proof_8a8429a557ec9abfa18ab8618b09c68f55881edd016fbff534f088112f1743d0",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T10:41:31.901140+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14454398
+    },
+    {
+      "details_json": "{\"age_sec\":28337.935,\"entry_time\":\"2026-09-01T09:31:09.458385+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_8a8429a557ec9abfa18ab8618b09c68f55881edd016fbff534f088112f1743d0",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T17:24:09.876800+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14457972
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":false,\"snapshot_age_sec\":277.566,\"snapshot_boundary_delay_sec\":-261.918,\"wall_delay_sec\":15.649}",
+      "event_id": "proof_47fa7916299695d3a4ad7e35dcf70a1eb40472f26def96107a6d2415cdb06a32",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-01T21:03:41.546643+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14462045
+    },
+    {
+      "details_json": "{\"age_sec\":52425.526,\"entry_time\":\"2026-09-01T19:53:08.683391+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_47fa7916299695d3a4ad7e35dcf70a1eb40472f26def96107a6d2415cdb06a32",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-02T10:27:44.710716+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14466473
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":false,\"snapshot_age_sec\":753.334,\"snapshot_boundary_delay_sec\":-738.086,\"wall_delay_sec\":15.248}",
+      "event_id": "proof_0a551e8d905821256a43dadab85116727ac948815b517adcb46a0f44f783850a",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-02T14:06:24.900211+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14469851
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.716,\"snapshot_boundary_delay_sec\":23.146,\"wall_delay_sec\":23.861}",
+      "event_id": "proof_ba68856bf3efa949184eee6b55009e817399298222923a13c7f9ca47c1ac487e",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-02T20:02:24.226632+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14473440
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.309,\"snapshot_boundary_delay_sec\":15.008,\"wall_delay_sec\":15.317}",
+      "event_id": "proof_954c36b35addc6120fa5d545e5de628a8786836a5b992efdd0077fa0be2dea20",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-02T20:50:32.767457+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14474173
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.823,\"snapshot_boundary_delay_sec\":24.051,\"wall_delay_sec\":24.874}",
+      "event_id": "proof_40f4ce636f8c99ed28624aa4c130df47f74e686ce6ca6c333e49a70e8f1632b5",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-02T21:13:33.599975+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14474555
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.718,\"snapshot_boundary_delay_sec\":21.159,\"wall_delay_sec\":21.876}",
+      "event_id": "proof_546f7bc97b6bcbe36560e7835d0356dc189cbdeebd22b53d9411fc514ec10d6d",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-03T04:02:06.005727+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14476967
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.22,\"snapshot_boundary_delay_sec\":17.857,\"wall_delay_sec\":18.077}",
+      "event_id": "proof_5d88e6189c8bac60eabd6a3706d01b512d86044b089d0194d3611dd99d212dec",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-03T07:16:27.978489+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14478239
+    },
+    {
+      "details_json": "{\"age_sec\":83325.558,\"entry_time\":\"2026-09-03T06:15:03.370310+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_5d88e6189c8bac60eabd6a3706d01b512d86044b089d0194d3611dd99d212dec",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T05:24:33.125303+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14497315
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.933,\"snapshot_boundary_delay_sec\":17.751,\"wall_delay_sec\":18.684}",
+      "event_id": "proof_7085b2b94ae6cab72bb136e7d96162f6cf445390c44c7ad6b4af7bf2f097a251",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-03T08:02:10.048314+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14479064
+    },
+    {
+      "details_json": "{\"age_sec\":80602.391,\"entry_time\":\"2026-09-03T07:00:26.537285+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_7085b2b94ae6cab72bb136e7d96162f6cf445390c44c7ad6b4af7bf2f097a251",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T05:24:32.745266+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14497045
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.777,\"snapshot_boundary_delay_sec\":29.177,\"wall_delay_sec\":29.954}",
+      "event_id": "proof_23f9dd5bffb4d20f11feaa67c02de7d8172e1a87190952331ea91b4de4a8ac63",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-03T11:21:19.877596+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14481938
+    },
+    {
+      "details_json": "{\"age_sec\":68877.242,\"entry_time\":\"2026-09-03T10:15:51.685673+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_23f9dd5bffb4d20f11feaa67c02de7d8172e1a87190952331ea91b4de4a8ac63",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T05:24:31.275075+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14496869
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.53,\"snapshot_boundary_delay_sec\":20.905,\"wall_delay_sec\":21.434}",
+      "event_id": "proof_3626b69954371823b272de5c8cad7b4dd3ee34236341038acdeb384544ee3106",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-03T12:34:48.006234+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14482884
+    },
+    {
+      "details_json": "{\"age_sec\":64199.7,\"entry_time\":\"2026-09-03T11:33:49.228445+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_3626b69954371823b272de5c8cad7b4dd3ee34236341038acdeb384544ee3106",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T05:24:31.078093+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14496437
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.725,\"snapshot_boundary_delay_sec\":23.167,\"wall_delay_sec\":23.892}",
+      "event_id": "proof_d34e974fc538226504349813aedb0d9fa0c11b565454cdce6e85ec1ed3dda29e",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-03T13:18:07.496118+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14484186
+    },
+    {
+      "details_json": "{\"age_sec\":61625.663,\"entry_time\":\"2026-09-03T12:16:43.264997+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_d34e974fc538226504349813aedb0d9fa0c11b565454cdce6e85ec1ed3dda29e",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T05:24:30.805238+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14496024
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.343,\"snapshot_boundary_delay_sec\":16.081,\"wall_delay_sec\":16.424}",
+      "event_id": "proof_1848693d8d59fcb089702779f436ff4da84a829d956f9c2d8a967615b939b28f",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T03:04:44.073992+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14492346
+    },
+    {
+      "details_json": "{\"age_sec\":12074.533,\"entry_time\":\"2026-09-04T02:02:34.395335+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_1848693d8d59fcb089702779f436ff4da84a829d956f9c2d8a967615b939b28f",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T05:24:27.682891+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14495715
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.166,\"snapshot_boundary_delay_sec\":47.357,\"wall_delay_sec\":47.522}",
+      "event_id": "proof_6eae9a0e8e0b0126d1a406116a7019e65adc8c4eaf28137a5a15071dea5a9e60",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T04:18:47.435150+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14494039
+    },
+    {
+      "details_json": "{\"age_sec\":7650.483,\"entry_time\":\"2026-09-04T03:16:18.445349+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_6eae9a0e8e0b0126d1a406116a7019e65adc8c4eaf28137a5a15071dea5a9e60",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T05:24:27.513325+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14495166
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":1.09,\"snapshot_boundary_delay_sec\":54.542,\"wall_delay_sec\":55.632}",
+      "event_id": "proof_2d0ee7c30fd7de947a329a5ed7e07060987cef4f4049a4a4ac6dd5fc5306e1f9",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T07:18:43.433662+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14498015
+    },
+    {
+      "details_json": "{\"age_sec\":71464.537,\"entry_time\":\"2026-09-04T06:15:28.699863+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_2d0ee7c30fd7de947a329a5ed7e07060987cef4f4049a4a4ac6dd5fc5306e1f9",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-05T02:07:16.707522+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14505823
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":true,\"snapshot_age_sec\":0.978,\"snapshot_boundary_delay_sec\":81.664,\"wall_delay_sec\":82.642}",
+      "event_id": "proof_4a38ba5b443d41264873cadf717302b578ede928cf72783909b932a62763fdb0",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T09:19:09.272747+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14499588
+    },
+    {
+      "details_json": "{\"age_sec\":64266.337,\"entry_time\":\"2026-09-04T08:15:26.900509+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_4a38ba5b443d41264873cadf717302b578ede928cf72783909b932a62763fdb0",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-05T02:07:16.051575+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14505511
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":false,\"snapshot_age_sec\":332.019,\"snapshot_boundary_delay_sec\":-316.516,\"wall_delay_sec\":15.503}",
+      "event_id": "proof_27dc1f603affb7bad84349cf23c6e8dee38fdc62fc084ea3c409a6498fe93614",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T21:04:37.091748+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14503011
+    },
+    {
+      "details_json": "{\"age_sec\":21914.713,\"entry_time\":\"2026-09-04T20:01:18.524122+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_27dc1f603affb7bad84349cf23c6e8dee38fdc62fc084ea3c409a6498fe93614",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-05T02:07:11.638156+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14505298
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":false,\"snapshot_age_sec\":1085.684,\"snapshot_boundary_delay_sec\":-1070.485,\"wall_delay_sec\":15.199}",
+      "event_id": "proof_8ebd7a280d0341905ee9e3aac457581849b6ce93b767673e0802623511f459b3",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T21:17:10.728241+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14503547
+    },
+    {
+      "details_json": "{\"age_sec\":21080.261,\"entry_time\":\"2026-09-04T20:15:12.975818+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_8ebd7a280d0341905ee9e3aac457581849b6ce93b767673e0802623511f459b3",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-05T02:07:11.585945+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14504959
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":false,\"snapshot_age_sec\":1965.454,\"snapshot_boundary_delay_sec\":-1950.414,\"wall_delay_sec\":15.04}",
+      "event_id": "proof_12f1e95ddc02d5a62a6687cb3e64daab84515fe26eff900f4b089e04f23fca66",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T21:31:50.495168+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14503758
+    },
+    {
+      "details_json": "{\"age_sec\":20142.907,\"entry_time\":\"2026-09-04T20:30:50.330326+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_12f1e95ddc02d5a62a6687cb3e64daab84515fe26eff900f4b089e04f23fca66",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-05T02:07:11.564619+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14504842
+    },
+    {
+      "details_json": "{\"instrument\":\"EUR_USD\",\"quote_available\":false,\"snapshot_age_sec\":2851.292,\"snapshot_boundary_delay_sec\":-2836.26,\"wall_delay_sec\":15.032}",
+      "event_id": "proof_098d64ca589c1e166b44c8112cb998d0ab4c4ad1b0be3cdb82dff054dce7a705",
+      "event_type": "outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-04T21:46:36.325086+00:00",
+      "reason": "maturity_delay_exceeded_grace",
+      "row_id": 14503997
+    },
+    {
+      "details_json": "{\"age_sec\":19268.428,\"entry_time\":\"2026-09-04T20:45:24.808793+00:00\",\"horizon_sec\":3600}",
+      "event_id": "proof_098d64ca589c1e166b44c8112cb998d0ab4c4ad1b0be3cdb82dff054dce7a705",
+      "event_type": "restart_outcome_window_missed",
+      "horizon_sec": 3600,
+      "observed_utc": "2026-09-05T02:07:11.531684+00:00",
+      "reason": "worker_restart_exceeded_horizon_grace",
+      "row_id": 14504619
+    }
+  ],
+  "all_reference_quotes_precede_recording": true,
+  "reference_to_recording_lag_sec": {
+    "minimum": 4.991647005081177,
+    "median": 84.62766599655151,
+    "maximum": 10695.931414842606
+  },
+  "family_metrics": {
+    "cross_pair_graph_transfer": {
+      "all_forecasts": 407,
+      "missing_outcomes": 21,
+      "side_probability_disagreements_all": 0,
+      "paired_count": 368,
+      "correct_direction_count": 156,
+      "incorrect_including_flat": 212,
+      "direction_accuracy": 0.42391304347826086,
+      "direction_accuracy_excluding_one_flat": 0.4250681198910082,
+      "predicted_buy_count": 194,
+      "predicted_sell_count": 174,
+      "correct_buy_count": 77,
+      "correct_sell_count": 79,
+      "up_recall": 0.4476744186046512,
+      "down_recall": 0.40512820512820513,
+      "balanced_accuracy_nonflat": 0.42640131186642816,
+      "positive_net_count": 111,
+      "positive_net_rate": 0.3016304347826087,
+      "mean_net_bid_ask_pips": -1.9298913043478263,
+      "mean_gross_pips": -0.28519021739130435,
+      "mean_spread_drag_pips": 1.6447010869565217,
+      "mean_net_minus_0_25_pip": -2.179891304347826,
+      "brier_up_vs_nonup": 0.36150261921928506,
+      "signed_move_mae_pips": 5.555166676630435,
+      "probability_direction_correct_count": 156,
+      "probability_direction_accuracy": 0.42391304347826086,
+      "side_probability_disagreements_paired": 0,
+      "probability_ties": 0,
+      "expected_zero_forecasts": 0
+    },
+    "modern_tabular_probabilistic_repaired": {
+      "all_forecasts": 407,
+      "missing_outcomes": 21,
+      "side_probability_disagreements_all": 82,
+      "paired_count": 368,
+      "correct_direction_count": 175,
+      "incorrect_including_flat": 193,
+      "direction_accuracy": 0.47554347826086957,
+      "direction_accuracy_excluding_one_flat": 0.4768392370572207,
+      "predicted_buy_count": 155,
+      "predicted_sell_count": 213,
+      "correct_buy_count": 67,
+      "correct_sell_count": 108,
+      "up_recall": 0.38953488372093026,
+      "down_recall": 0.5538461538461539,
+      "balanced_accuracy_nonflat": 0.47169051878354207,
+      "positive_net_count": 118,
+      "positive_net_rate": 0.32065217391304346,
+      "mean_net_bid_ask_pips": -2.327717391304348,
+      "mean_gross_pips": -0.6830163043478261,
+      "mean_spread_drag_pips": 1.6447010869565217,
+      "mean_net_minus_0_25_pip": -2.577717391304348,
+      "brier_up_vs_nonup": 0.27382574954144684,
+      "signed_move_mae_pips": 4.4364638994565215,
+      "probability_direction_correct_count": 161,
+      "probability_direction_accuracy": 0.4375,
+      "side_probability_disagreements_paired": 74,
+      "probability_ties": 0,
+      "expected_zero_forecasts": 0
+    },
+    "probabilistic_state_space": {
+      "all_forecasts": 407,
+      "missing_outcomes": 21,
+      "side_probability_disagreements_all": 0,
+      "paired_count": 368,
+      "correct_direction_count": 176,
+      "incorrect_including_flat": 192,
+      "direction_accuracy": 0.4782608695652174,
+      "direction_accuracy_excluding_one_flat": 0.47956403269754766,
+      "predicted_buy_count": 176,
+      "predicted_sell_count": 192,
+      "correct_buy_count": 78,
+      "correct_sell_count": 98,
+      "up_recall": 0.45348837209302323,
+      "down_recall": 0.5025641025641026,
+      "balanced_accuracy_nonflat": 0.47802623732856286,
+      "positive_net_count": 118,
+      "positive_net_rate": 0.32065217391304346,
+      "mean_net_bid_ask_pips": -1.7586956521739132,
+      "mean_gross_pips": -0.11399456521739129,
+      "mean_spread_drag_pips": 1.6447010869565217,
+      "mean_net_minus_0_25_pip": -2.008695652173913,
+      "brier_up_vs_nonup": 0.386760992667277,
+      "signed_move_mae_pips": 7.721896532608696,
+      "probability_direction_correct_count": 176,
+      "probability_direction_accuracy": 0.4782608695652174,
+      "side_probability_disagreements_paired": 0,
+      "probability_ties": 0,
+      "expected_zero_forecasts": 0
+    },
+    "ridge_return_repaired": {
+      "all_forecasts": 407,
+      "missing_outcomes": 22,
+      "side_probability_disagreements_all": 0,
+      "paired_count": 368,
+      "correct_direction_count": 163,
+      "incorrect_including_flat": 205,
+      "direction_accuracy": 0.4429347826086957,
+      "direction_accuracy_excluding_one_flat": 0.444141689373297,
+      "predicted_buy_count": 191,
+      "predicted_sell_count": 177,
+      "correct_buy_count": 79,
+      "correct_sell_count": 84,
+      "up_recall": 0.45930232558139533,
+      "down_recall": 0.4307692307692308,
+      "balanced_accuracy_nonflat": 0.44503577817531303,
+      "positive_net_count": 120,
+      "positive_net_rate": 0.32608695652173914,
+      "mean_net_bid_ask_pips": -1.672826086956522,
+      "mean_gross_pips": -0.028125000000000008,
+      "mean_spread_drag_pips": 1.6447010869565217,
+      "mean_net_minus_0_25_pip": -1.922826086956522,
+      "brier_up_vs_nonup": 0.37835189722805834,
+      "signed_move_mae_pips": 6.824758350543479,
+      "probability_direction_correct_count": 163,
+      "probability_direction_accuracy": 0.4429347826086957,
+      "side_probability_disagreements_paired": 0,
+      "probability_ties": 0,
+      "expected_zero_forecasts": 0
+    }
+  },
+  "baseline_comparisons": {
+    "always_sell_correct": 195,
+    "always_sell_accuracy": 0.529891304347826,
+    "always_buy_correct": 172,
+    "always_buy_accuracy": 0.4673913043478261,
+    "constant_0_5_brier": 0.25,
+    "zero_move_mae_pips": 3.9341032608695654,
+    "no_trade_net_pips": 0.0,
+    "note": "Constant direction baselines are descriptive comparisons on this inspected sample, not a strategy selected for deployment."
+  },
+  "prior_metrics_comparison": {
+    "cross_pair_graph_transfer": {
+      "direction_accuracy": {
+        "recomputed": 0.42391304347826086,
+        "prior": 0.42391304347826086,
+        "absolute_difference": 0.0,
+        "matches_absolute_1e_9": true
+      },
+      "positive_net_rate": {
+        "recomputed": 0.3016304347826087,
+        "prior": 0.3016304347826087,
+        "absolute_difference": 0.0,
+        "matches_absolute_1e_9": true
+      },
+      "mean_net_bid_ask_pips": {
+        "recomputed": -1.9298913043478263,
+        "prior": -1.9298913043478465,
+        "absolute_difference": 2.020605904817785e-14,
+        "matches_absolute_1e_9": true
+      },
+      "mean_spread_drag_pips": {
+        "recomputed": 1.6447010869565217,
+        "prior": 1.644701086956659,
+        "absolute_difference": 1.3722356584366935e-13,
+        "matches_absolute_1e_9": true
+      },
+      "mean_net_minus_0_25_pip": {
+        "recomputed": -2.179891304347826,
+        "prior": -2.1798913043478465,
+        "absolute_difference": 2.042810365310288e-14,
+        "matches_absolute_1e_9": true
+      },
+      "brier_up_vs_nonup": {
+        "recomputed": 0.36150261921928506,
+        "prior": 0.36150261921928506,
+        "absolute_difference": 0.0,
+        "matches_absolute_1e_9": true
+      },
+      "signed_move_mae_pips": {
+        "recomputed": 5.555166676630435,
+        "prior": 5.555166676630431,
+        "absolute_difference": 4.440892098500626e-15,
+        "matches_absolute_1e_9": true
+      }
+    },
+    "modern_tabular_probabilistic_repaired": {
+      "direction_accuracy": {
+        "recomputed": 0.47554347826086957,
+        "prior": 0.47554347826086957,
+        "absolute_difference": 0.0,
+        "matches_absolute_1e_9": true
+      },
+      "positive_net_rate": {
+        "recomputed": 0.32065217391304346,
+        "prior": 0.32065217391304346,
+        "absolute_difference": 0.0,
+        "matches_absolute_1e_9": true
+      },
+      "mean_net_bid_ask_pips": {
+        "recomputed": -2.327717391304348,
+        "prior": -2.3277173913043256,
+        "absolute_difference": 2.220446049250313e-14,
+        "matches_absolute_1e_9": true
+      },
+      "mean_spread_drag_pips": {
+        "recomputed": 1.6447010869565217,
+        "prior": 1.6447010869565202,
+        "absolute_difference": 1.5543122344752192e-15,
+        "matches_absolute_1e_9": true
+      },
+      "mean_net_minus_0_25_pip": {
+        "recomputed": -2.577717391304348,
+        "prior": -2.5777173913043256,
+        "absolute_difference": 2.220446049250313e-14,
+        "matches_absolute_1e_9": true
+      },
+      "brier_up_vs_nonup": {
+        "recomputed": 0.27382574954144684,
+        "prior": 0.27382574954144684,
+        "absolute_difference": 0.0,
+        "matches_absolute_1e_9": true
+      },
+      "signed_move_mae_pips": {
+        "recomputed": 4.4364638994565215,
+        "prior": 4.436463899456592,
+        "absolute_difference": 7.016609515630989e-14,
+        "matches_absolute_1e_9": true
+      }
+    },
+    "probabilistic_state_space": {
+      "direction_accuracy": {
+        "recomputed": 0.4782608695652174,
+        "prior": 0.4782608695652174,
+        "absolute_difference": 0.0,
+        "matches_absolute_1e_9": true
+      },
+      "positive_net_rate": {
+        "recomputed": 0.32065217391304346,
+        "prior": 0.32065217391304346,
+        "absolute_difference": 0.0,
+        "matches_absolute_1e_9": true
+      },
+      "mean_net_bid_ask_pips": {
+        "recomputed": -1.7586956521739132,
+        "prior": -1.7586956521739159,
+        "absolute_difference": 2.6645352591003757e-15,
+        "matches_absolute_1e_9": true
+      },
+      "mean_spread_drag_pips": {
+        "recomputed": 1.6447010869565217,
+        "prior": 1.6447010869565684,
+        "absolute_difference": 4.6629367034256575e-14,
+        "matches_absolute_1e_9": true
+      },
+      "mean_net_minus_0_25_pip": {
+        "recomputed": -2.008695652173913,
+        "prior": -2.008695652173916,
+        "absolute_difference": 3.1086244689504383e-15,
+        "matches_absolute_1e_9": true
+      },
+      "brier_up_vs_nonup": {
+        "recomputed": 0.386760992667277,
+        "prior": 0.386760992667277,
+        "absolute_difference": 0.0,
+        "matches_absolute_1e_9": true
+      },
+      "signed_move_mae_pips": {
+        "recomputed": 7.721896532608696,
+        "prior": 7.721896532608733,
+        "absolute_difference": 3.730349362740526e-14,
+        "matches_absolute_1e_9": true
+      }
+    },
+    "ridge_return_repaired": {
+      "direction_accuracy": {
+        "recomputed": 0.4429347826086957,
+        "prior": 0.4429347826086957,
+        "absolute_difference": 0.0,
+        "matches_absolute_1e_9": true
+      },
+      "positive_net_rate": {
+        "recomputed": 0.32608695652173914,
+        "prior": 0.32608695652173914,
+        "absolute_difference": 0.0,
+        "matches_absolute_1e_9": true
+      },
+      "mean_net_bid_ask_pips": {
+        "recomputed": -1.672826086956522,
+        "prior": -1.6728260869565295,
+        "absolute_difference": 7.549516567451064e-15,
+        "matches_absolute_1e_9": true
+      },
+      "mean_spread_drag_pips": {
+        "recomputed": 1.6447010869565217,
+        "prior": 1.6447010869566285,
+        "absolute_difference": 1.0680345496894006e-13,
+        "matches_absolute_1e_9": true
+      },
+      "mean_net_minus_0_25_pip": {
+        "recomputed": -1.922826086956522,
+        "prior": -1.9228260869565295,
+        "absolute_difference": 7.549516567451064e-15,
+        "matches_absolute_1e_9": true
+      },
+      "brier_up_vs_nonup": {
+        "recomputed": 0.37835189722805834,
+        "prior": 0.37835189722805834,
+        "absolute_difference": 0.0,
+        "matches_absolute_1e_9": true
+      },
+      "signed_move_mae_pips": {
+        "recomputed": 6.824758350543479,
+        "prior": 6.824758350543445,
+        "absolute_difference": 3.375077994860476e-14,
+        "matches_absolute_1e_9": true
+      }
+    }
+  },
+  "pairwise_comovement_descriptive_only": [
+    {
+      "first": "cross_pair_graph_transfer",
+      "second": "modern_tabular_probabilistic_repaired",
+      "direction_agreement_count": 169,
+      "direction_agreement_rate": 0.4592391304347826,
+      "expected_signed_pips_pearson": 0.07232027065054887,
+      "probability_up_pearson": 0.08254693367881828,
+      "net_pips_pearson": 0.044321299803562864,
+      "both_correct_count": 66,
+      "both_wrong_count": 103
+    },
+    {
+      "first": "cross_pair_graph_transfer",
+      "second": "probabilistic_state_space",
+      "direction_agreement_count": 148,
+      "direction_agreement_rate": 0.40217391304347827,
+      "expected_signed_pips_pearson": -0.12671249115975108,
+      "probability_up_pearson": -0.18928888390737822,
+      "net_pips_pearson": -0.15411667158813291,
+      "both_correct_count": 56,
+      "both_wrong_count": 92
+    },
+    {
+      "first": "cross_pair_graph_transfer",
+      "second": "ridge_return_repaired",
+      "direction_agreement_count": 269,
+      "direction_agreement_rate": 0.7309782608695652,
+      "expected_signed_pips_pearson": 0.333456228030901,
+      "probability_up_pearson": 0.617045925978652,
+      "net_pips_pearson": 0.31757085952482456,
+      "both_correct_count": 110,
+      "both_wrong_count": 159
+    },
+    {
+      "first": "modern_tabular_probabilistic_repaired",
+      "second": "probabilistic_state_space",
+      "direction_agreement_count": 177,
+      "direction_agreement_rate": 0.48097826086956524,
+      "expected_signed_pips_pearson": 0.03394249354704545,
+      "probability_up_pearson": -0.10669054419106067,
+      "net_pips_pearson": 0.012137993907859574,
+      "both_correct_count": 80,
+      "both_wrong_count": 97
+    },
+    {
+      "first": "modern_tabular_probabilistic_repaired",
+      "second": "ridge_return_repaired",
+      "direction_agreement_count": 158,
+      "direction_agreement_rate": 0.42934782608695654,
+      "expected_signed_pips_pearson": 0.048256859413938466,
+      "probability_up_pearson": -0.005636032370551847,
+      "net_pips_pearson": 0.10412130742416607,
+      "both_correct_count": 64,
+      "both_wrong_count": 94
+    },
+    {
+      "first": "probabilistic_state_space",
+      "second": "ridge_return_repaired",
+      "direction_agreement_count": 163,
+      "direction_agreement_rate": 0.4429347826086957,
+      "expected_signed_pips_pearson": -0.21128079074554054,
+      "probability_up_pearson": -0.21165752007265243,
+      "net_pips_pearson": -0.0026048249850945068,
+      "both_correct_count": 67,
+      "both_wrong_count": 96
+    }
+  ],
+  "correct_model_count_per_epoch": {
+    "0": 31,
+    "1": 105,
+    "2": 140,
+    "3": 83,
+    "4": 9
+  },
+  "buy_model_count_per_epoch": {
+    "0": 22,
+    "1": 100,
+    "2": 140,
+    "3": 88,
+    "4": 18
+  },
+  "interpretation": [
+    "Reported 42.39%-47.83% refers to preserved emitted buy/sell direction on 368 matched archived EURUSD one-hour endpoints, not every model and not all market regimes.",
+    "Those four direction percentages reproduce exactly. Each model correctly predicted 156-176 of these 368 outcomes; none accurate is too absolute.",
+    "All four emitted-direction accuracies fall below 50% on this sample; the down-majority constant-direction comparator is 195/368.",
+    "Probability-up is scored independently of emitted direction, which follows expected_signed_pips. The tabular mean-return direction and probability-majority direction can disagree without proving a sign error.",
+    "One flat endpoint counts as a direction miss and a non-up Brier label. Removing it changes percentages only slightly.",
+    "Stored historical quotes predate forecast recording and retained target clocks differ by producer. These diagnostics do not establish realizable trading returns or causal out-of-sample accuracy.",
+    "Forecast horizons overlap and cover six UTC days; independent-trial confidence or significance claims are not justified by the raw row count.",
+    "Comovement calculations describe this already inspected matched subset; no ensemble, signal inversion or threshold optimization was performed."
+  ],
+  "proof_eligible": false,
+  "account_eligible": false,
+  "runtime_started": false
+}

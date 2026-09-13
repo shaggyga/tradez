@@ -1,0 +1,47 @@
+{
+  "can_place_orders": false,
+  "can_promote": false,
+  "closed_findings": [
+    {
+      "closure": "Incumbent target must equal min(original target,entry+max holding); incomparable estimates explicitly exit. New entries beyond holding bound reject. Legacy selector now has the same explicit common-deadline wrapper.",
+      "finding": "Incumbent hold valuation could reference a different/later deadline than the position native target."
+    },
+    {
+      "closure": "Every action including exit/wait/hold now requires execution=decision+configured positive delay. Late retained quote availability is separate from market execution and nonterminal state must be observed by the next decision.",
+      "finding": "Public action executor did not initially enforce precommitted decision latency for all actions."
+    }
+  ],
+  "independent_tests_run": 0,
+  "limitations": [
+    "This review does not establish strategy profitability, forecast calibration, prospective availability of supplied inputs, or equivalence of nominal-boundary management to delayed training targets."
+  ],
+  "observed_epoch": 1788930346.7475777,
+  "remaining_blockers": [],
+  "reviewer": "pair_model_inputs",
+  "runtime_mutations": false,
+  "schema_version": "curve_replay_independent_source_review_v1_20260909",
+  "scope": "bounded independent source review, no additional pytest run or live replay",
+  "source_bindings": [
+    {
+      "bytes": 49616,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_curve_management_replay_v1.py",
+      "sha256": "52fd04c6b087df4be775e490002afd0744caeb245604b8f577ab0fcff41de8f3"
+    },
+    {
+      "bytes": 27691,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_curve_management_replay_v1.py",
+      "sha256": "ead61584cf5dd17605e2ff3d84c6b2303b94c84dc4f58e32a2f89700619673e1"
+    }
+  ],
+  "status": "passed",
+  "verified_properties": [
+    "Direct currency/USD uses bid for profit and ask for loss; inverse USD/currency uses reciprocal ask/bid respectively.",
+    "Integer base units and USD notional conversion are fixed using information available at decision.",
+    "Rotate closes and opens atomically; any late validation failure returns the unchanged portfolio/cash with no legs.",
+    "Executed traded-pair quote must match execution market clock exactly; FX conversion quotes are bounded stale and separately observed.",
+    "All arms decide before future execution maps are used; diagnostic branches and feedback do not feed main state.",
+    "Matching native management target and predeclared execution-grid constraints are explicit across arms.",
+    "Nonzero original target windows require explicit nominal_management_boundary policy; exact_only refuses them and original policy/window remains in candidate evidence.",
+    "Side-zero curve values may inform incumbent valuation without becoming directional new entries."
+  ]
+}

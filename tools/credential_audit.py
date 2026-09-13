@@ -14,7 +14,9 @@ import io
 import json
 import re
 import subprocess
+import tokenize
 from datetime import datetime, timezone
+from functools import lru_cache
 from pathlib import Path
 from typing import Iterable
 
@@ -36,9 +38,15 @@ PATTERNS = {
     "private_key_header": re.compile(rb"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
     "known_token_prefix": re.compile(rb"\b(?:sk-[A-Za-z0-9_-]{20,}|gh[pousr]_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16})\b"),
     "credential_assignment": re.compile(
-        rb"(?i)[\"']?(?:[a-z0-9_-]*(?:api[_-]?key|api[_-]?token|access[_-]?token)"
+        # A full-payload search already starts the greedy key-prefix branch at
+        # the first byte of its identifier run. Retrying that branch inside the
+        # same run is redundant and quadratic for long harmless encoded text.
+        # Keep the boundary after the optional quote, and only on this branch:
+        # the other alternatives intentionally retain their suffix matches.
+        rb"(?i)[\"']?(?:(?<![a-z0-9_-])[a-z0-9_-]*(?:api[_-]?key|api[_-]?token|access[_-]?token)"
         rb"|oanda[_-]?(?:token|access[_-]?token)|secret|password)[\"']?"
-        rb"\s*[=:]\s*[\"']?([A-Za-z0-9._~+/=-]{16,})[\"']?"
+        rb"\s*[=:]\s*(?:[rubf]{0,2}(?:\"{3}|'{3}|[\"'`])\s*)?"
+        rb"([A-Za-z0-9._~+/=-]{16,})(?:\"{3}|'{3}|[\"'`])?"
     ),
     "bearer_token": re.compile(rb"(?i)\bBearer\s+([A-Za-z0-9._~+/=-]{16,})"),
     "credential_query": re.compile(
@@ -78,13 +86,79 @@ def synthetic_fixture_value(path: str, material: bytes) -> bool:
 
 
 def code_reference_value(material: bytes) -> bool:
-    """Recognize a variable/function reference captured as an unquoted value."""
+    """Recognize expression syntax only; this does not classify a literal secret."""
     lowered = material.lower()
     if re.fullmatch(rb"[a-z_][a-z_]*", lowered):
         return True
     return bool(re.fullmatch(rb"[a-z_][a-z0-9_.]*", lowered)) and lowered.startswith(
         (b"args.", b"config.", b"env.", b"os.", b"self.", b"settings.")
     )
+
+
+@lru_cache(maxsize=1)
+def _python_reference_spans(payload: bytes) -> frozenset[tuple[int, int]]:
+    """Prove candidate value spans are NAME/attribute tokens, not literal text.
+
+    Cache only the last source member so repeated matches do not repeatedly
+    tokenize large modules or retain a repository's contents in memory.
+    """
+    candidates = {
+        match.span(1) for match in PATTERNS["credential_assignment"].finditer(payload)
+        if code_reference_value(match.group(1))
+    }
+    if not candidates:
+        return frozenset()
+    try:
+        encoding, _ = tokenize.detect_encoding(io.BytesIO(payload).readline)
+        text = payload.decode(encoding)
+        byte_encoding = "utf-8" if encoding.lower() == "utf-8-sig" else encoding
+        lines = text.split("\n")
+        offsets = []
+        offset = 3 if payload.startswith(b"\xef\xbb\xbf") else 0
+        for line in lines:
+            offsets.append(offset)
+            offset += len((line + "\n").encode(byte_encoding))
+
+        def byte_offset(position: tuple[int, int]) -> int:
+            row, column = position
+            return offsets[row - 1] + len(lines[row - 1][:column].encode(byte_encoding))
+
+        accepted = set()
+        chain_start = chain_end = None
+        after_dot = False
+        for token in tokenize.generate_tokens(io.StringIO(text).readline):
+            if token.type == tokenize.ERRORTOKEN:
+                return frozenset()
+            if token.type == tokenize.NAME:
+                start, end = byte_offset(token.start), byte_offset(token.end)
+                if not after_dot or start != chain_end:
+                    chain_start = start
+                chain_end = end
+                after_dot = False
+                if (chain_start, end) in candidates:
+                    accepted.add((chain_start, end))
+            elif token.type == tokenize.OP and token.string == "." and chain_end is not None:
+                start, end = byte_offset(token.start), byte_offset(token.end)
+                if not after_dot and start == chain_end:
+                    chain_end = end
+                    after_dot = True
+                else:
+                    chain_start = chain_end = None
+                    after_dot = False
+            else:
+                chain_start = chain_end = None
+                after_dot = False
+        return frozenset(accepted)
+    except (SyntaxError, UnicodeError, LookupError, tokenize.TokenError, ValueError, IndexError):
+        # Malformed/unknown source is never evidence for a reference exemption.
+        return frozenset()
+
+
+def credential_assignment_is_reference(path: str, match: re.Match[bytes]) -> bool:
+    """Exempt only token-proven Python references; other languages fail closed."""
+    if Path(path).suffix.lower() not in {".py", ".pyi"}:
+        return False
+    return match.span(1) in _python_reference_spans(match.string)
 
 
 def run_git(root: Path, *args: str, binary: bool = False):
@@ -181,7 +255,7 @@ def audit(root: Path, mode: str, revision: str | None = None) -> dict:
                 material = match.group(1) if match.lastindex else match.group(0)
                 if rule == "credential_assignment" and synthetic_fixture_value(path, material):
                     continue
-                if rule == "credential_assignment" and code_reference_value(material):
+                if rule == "credential_assignment" and credential_assignment_is_reference(path, match):
                     continue
                 line = payload.count(b"\n", 0, match.start()) + 1
                 findings.append(
@@ -193,6 +267,7 @@ def audit(root: Path, mode: str, revision: str | None = None) -> dict:
                     }
                 )
     policy = {
+        "reference_contract": "token_proven_python_name_or_attribute_only_v3_20260905",
         "fixture_paths": sorted(FIXTURE_PATHS),
         "rules": sorted(PATTERNS),
         "banned_names": sorted(BANNED_NAMES),

@@ -1,0 +1,56 @@
+{
+  "schema_version": "news_causal_member_guard_validation_v1_20260907",
+  "status": "passed",
+  "generated_utc": "2026-09-07T22:05:42.284749+00:00",
+  "source_bindings": {
+    "oanda_news_causal_aggregation_guard_v1.py": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9",
+    "oanda_news_classification_contract.py": "f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae",
+    "oanda_local_news_sentiment.py": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4",
+    "test_oanda_news_causal_aggregation_guard_v1.py": "476a9284f467560a33d11959fb50121f0bb7bfb66301e113791c0400b10dfb17",
+    "test_oanda_scb_source_content_state.py": "90b1e79fcd264418df1a9178be7af246692094298f5a33392a11b32fae57e921",
+    "test_oanda_local_news_sentiment.py": "6969af793acb781260e9121248acdcb30052f493b73ab6ea9d2b1e5474cecf6b"
+  },
+  "tests": {
+    "passed": 573,
+    "failed": 0,
+    "skipped": 0,
+    "xml_sha256": "b904b62075f157a78ffab9c8dac7479d905da8662e2e17f8e514c1509e74e7d7"
+  },
+  "artifact_bindings": {
+    "CURRENT_NEWS_CONTENT_AUDIT_20260907.json": "c5dbb0c08ac74ee29e3a2c3a2d034f303e3756ac0d7166199c22d3644accef14",
+    "FORWARD_TOPIC_MEMBER_EVIDENCE_20260907.json": "0681cf2f1372887ff87b38b3b92e011a16c47963e047e52ffda9a80af60826d9",
+    "CORROBORATION_CLOCK_REPRODUCTION_20260907.json": "bb2cb4663f6ff86f9a031e35ab3ff8ddbeacd544646cb7042f3c27f2566cd1bd",
+    "SCB_PUBLIC_SOURCE_PROBE_20260907.json": "0d687c04d40209f16664f120801ec5708ffc6e47c5003d39e5da995de02b0a2a",
+    "SCB_PUBLIC_SOURCE_CAPTURE_20260907.html": "3dd28ace85b2866c7baf814ed527601c22a114768d8cabf5866c85aa9098ca74",
+    "news_guard_collector_final.xml": "b904b62075f157a78ffab9c8dac7479d905da8662e2e17f8e514c1509e74e7d7"
+  },
+  "actual_prior_failure_replay": {
+    "topic_id": "local_news_a0f3439245301f8d074b62e5",
+    "as_of_utc": "2026-09-07T21:25:26.984384+00:00",
+    "new_forward_scores": {},
+    "new_reason": "member_independent_corroboration_missing",
+    "original_first_seen_utc": "2026-09-07T16:34:45.892010+00:00",
+    "current_snapshot_state": "context_only",
+    "guard_sha256": "6c54a64f94139e156c258312bf78bf206e94b8e6b21d3af8565847992ceb7b0e"
+  },
+  "scb_actual_source_replay": {
+    "reason": "awaiting_regular_cpif_release",
+    "reference_period": "2026M08",
+    "regular_release_date": "2026-09-14",
+    "source_stage": "preliminary_cpi_only",
+    "numeric_rows_emitted": 0
+  },
+  "producer_artifact": "data/oanda_training_manager/local_news_sentiment/joint_news_current_v1.json",
+  "classification_version": "local_fx_news_rules_20260907_v165_causal_member_admission",
+  "guard_version": "causal_news_member_admission_v1_20260907",
+  "runtime_reloaded": false,
+  "live_validation": "pending controlled collector reload by root",
+  "orders_enabled": false,
+  "registered_forecast_sources_changed": false,
+  "notes": [
+    "All573 cases belong to the final four-file suite; earlier iterative counts are not additive.",
+    "Current article/topic export lists each contain500 serialized representative rows; producer metadata reports3105 total topics. The94 recent rows in the content audit refer to the exported500, not all retained database articles.",
+    "The v164 captured snapshot and original two-member reproduction remain unchanged.",
+    "Only a fresh guarded joint-news artifact can support the new combined model; no legacy topic is silently upgraded."
+  ]
+}

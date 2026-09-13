@@ -1,0 +1,159 @@
+{
+  "account_eligible": false,
+  "actual_v2_interval": [
+    1788943411.564785,
+    1788943471.558429
+  ],
+  "actual_v3_interval": [
+    1788943471.849909,
+    1788943531.2057707
+  ],
+  "benchmark_registry_sha256": "b49299427f678ecbf6cf1a64bdb289be1169b22b03d608a840adef546205d381",
+  "benchmark_source_sha256": "5d0d5dbb63d060baac66bee5a0c04d9ecece332b52b9c4699966628e64c51738",
+  "can_authorize": false,
+  "can_place_orders": false,
+  "can_promote": false,
+  "clock_calls": 1460,
+  "completed_epoch": 1788943531.6928985,
+  "evidence_files": [
+    {
+      "bytes": 4149581,
+      "path": "V2_WIDE_SOURCE_RESULT.json",
+      "sha256": "1fba5e7e649eb80cd7d492c3339b910fffbf4b2b0291efc2ca685b1dafd9bca7"
+    },
+    {
+      "bytes": 4150415,
+      "path": "V3_WIDE_SOURCE_RESULT.json",
+      "sha256": "c6f62fbb3becd7fca3fd5405c7897aa2c8ca0fa63449964fdbd98e1c4cd81ec3"
+    }
+  ],
+  "exact_checks": {
+    "assessment_except_explicit_v3_metadata": true,
+    "curves": true,
+    "manifest_except_separately_actual_read_times": true,
+    "matched_comparisons": true,
+    "source_captures": true,
+    "variant_attempts": true
+  },
+  "execution_eligible": false,
+  "final_v3_source_sha256": "bdab15904cfe82c5a7db12a66055fefe186f333fb0d50c4fff63e13bff04fee3",
+  "limits": [
+    "Deterministic curve/proof subset; source domains are preserved. This is not the complete study denominator or an accuracy claim.",
+    "V2 used actual new evaluator clocks; V3 replayed them solely for equality. Their actual run and file-read intervals are separate.",
+    "One serial comparison under current shared machine load. Evaluator times exclude output serialization; scoring component times include unchanged scorer plus version-specific validators.",
+    "No source/registry/runtime/model writes, GETs, model fits or forecast publications."
+  ],
+  "original_assessment_sha256": "2f22bb9626ce5424f1a249e66f322184c2d2ab048b597b8200af17f8dde90b81",
+  "proof_eligible": false,
+  "registry_field_changes": [
+    "output_root"
+  ],
+  "research_only": true,
+  "retained_bytes": 69601013,
+  "retained_file_count": 2158,
+  "rolling_score_wall_sec": {
+    "v2_actual_clock": 10.512128699803725,
+    "v3_replayed_clock": 0.7357907004188746
+  },
+  "schema_version": "wide_source12_differential_v1_20260909",
+  "selected_curve_sha256": [
+    "000a89b9b82bd61c069f8766edfa3db1422afba7e04cbaf421d27a2ab61b3c8c",
+    "0029247abdf8746ce9684a69d82ca3681d82c4086bab59cf162aa2a40c340c3d",
+    "00927697b2750c3a81e3eba625a1b8274f90c6498b131f5f3f29b032f3bc6da8",
+    "00dfb65935ae5e5bf5bf3bc775d48d97451afdd0fe21d803af85c72f75c1b9be",
+    "014e5cdab6ce415255698daa547f57bf2cac28a739d015f728430392408cf18b",
+    "01b71238d2017b9825f92df81c5a31ada241e4a355c934c4254639d893374c50",
+    "026e871f8fe09dfa1966a36604a0c4275660aad43422583344dbc5471f7d90cb",
+    "028fc9accbe47a1efdf044c90d7727dec147bc0d52a83b456d3870ceb15f5af2",
+    "02c0ec5b03d40205cd1eb58d9e92799a3df740f9c97107369e4cafa98cfa273d",
+    "02e766eeae8485d0537a6830ba29439f109fdf029a4607af8ee276b98bb13aea",
+    "036a2830bbda18ae2bff493295e423caae0612956d03599a63d727e700636187",
+    "04aafb1599b8c81fa39b38f7bdd2046424252cef0b8f079fdc3b7e019ea4fc16"
+  ],
+  "selected_curves": 12,
+  "source_selection_supplied_capture_counts": [
+    107,
+    21,
+    110,
+    16,
+    3,
+    33,
+    82,
+    104,
+    118,
+    98,
+    83,
+    131
+  ],
+  "source_status_counts": {
+    "verified": 462
+  },
+  "status": "passed",
+  "v2_cache": {
+    "cached_errors": false,
+    "counts": {
+      "contract.validate_consumption:hit": 255,
+      "contract.validate_consumption:miss": 12,
+      "contract.validate_curve:hit": 36,
+      "contract.validate_curve:miss": 12,
+      "contract.validate_policy:hit": 36,
+      "contract.validate_policy:miss": 1,
+      "contract.validate_prepared:miss": 12,
+      "outcomes._validate_entry:hit": 634,
+      "outcomes._validate_entry:miss": 12,
+      "outcomes.validate_candle_capture:hit": 662,
+      "outcomes.validate_candle_capture:miss": 331
+    },
+    "maximum_bytes": 67108864,
+    "maximum_entries": 4096,
+    "peak_bytes": 16368345,
+    "persisted_cache": false,
+    "retained_bytes": 16368345,
+    "retained_entries": 380,
+    "whole_scores_cached": false
+  },
+  "v2_wall_sec": 59.99295470002107,
+  "v3_bank": {
+    "accounted_bytes": 43169154,
+    "budget_overflow": "original_validation_path",
+    "counts": {
+      "admitted": 462,
+      "indexed_target_lookup": 10296,
+      "semantic_hash_hit": 906,
+      "validation_hit": 993
+    },
+    "dynamic_clock_checks_cached": false,
+    "maximum_bytes": 268435456,
+    "maximum_canonical_bytes": 67108864,
+    "maximum_entries": 2048,
+    "parsed_values_recursively_read_only": true,
+    "retained_canonical_bytes": 10454948,
+    "retained_entries": 462,
+    "size_scope": "Owned Python objects including proxy backing dictionaries plus per-entry overhead; not a hard process-memory cap.",
+    "source_election_unchanged": true,
+    "whole_scores_cached": false
+  },
+  "v3_cache": {
+    "cached_errors": false,
+    "counts": {
+      "contract.validate_consumption:hit": 255,
+      "contract.validate_consumption:miss": 12,
+      "contract.validate_curve:hit": 36,
+      "contract.validate_curve:miss": 12,
+      "contract.validate_policy:hit": 36,
+      "contract.validate_policy:miss": 1,
+      "contract.validate_prepared:miss": 12,
+      "outcomes._validate_entry:hit": 634,
+      "outcomes._validate_entry:miss": 12
+    },
+    "maximum_bytes": 67108864,
+    "maximum_entries": 4096,
+    "peak_bytes": 1381410,
+    "persisted_cache": false,
+    "retained_bytes": 1381410,
+    "retained_entries": 49,
+    "whole_scores_cached": false
+  },
+  "v3_wall_sec": 59.35611579986289,
+  "wall_speedup": 1.0107291201854494
+}

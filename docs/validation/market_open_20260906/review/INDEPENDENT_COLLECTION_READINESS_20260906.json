@@ -1,0 +1,412 @@
+{
+  "schema_version": "independent_collection_readiness_review_v1_20260906",
+  "observed_utc": "2026-09-06T19:39:05.965015+00:00",
+  "canonical_project": "C:\\Users\\zmoor\\Documents\\forex\\trad",
+  "assessment": "Static configuration and frozen bindings support a collection-only restart; running readiness requires the parent's post-launch observation. Practice entry is not ready.",
+  "collection_configuration": {
+    "allowlist": [
+      "account_snapshot",
+      "live_dashboard",
+      "local_news_sentiment",
+      "official_release_fast_lane",
+      "official_release_fast_mapper",
+      "source_governance_news_fast_lane",
+      "practice_007_quote_stream",
+      "clock_integrity_monitor",
+      "all68_m1_forward_archive",
+      "project_integrity_audit",
+      "storage_headroom_guard",
+      "causal_forecast_study_v1"
+    ],
+    "allowlist_count": 12,
+    "excluded_trading_and_evidence_workers": {
+      "practice_007_fast_executor": true,
+      "strategy_lab": true,
+      "proof_shadow_predictors": true,
+      "edge_evidence_worker": true,
+      "allocator_proof_worker": true,
+      "evidence_operations_worker": true,
+      "canonical_outcome_worker": true,
+      "model_gap_live_signal": true
+    },
+    "launcher_research_collection_only": true,
+    "supervisor_checks_allowlist_before_start": true,
+    "live_money_environment_disabled": true,
+    "legacy_watchdog_uses_safe_core_launcher": true,
+    "watchdog_requirement": "Do not start the legacy recovery watchdog or enable its tasks for collection-only mode; it recovers the broader safe-core launcher."
+  },
+  "frozen_study": {
+    "contract_id": "causal_four_family_future_collection_v1_io_r2_20260906",
+    "semantic_contract_sha256": "bc99e68db720e0a43b3ec68a7820b3605013d0c2138515f23e648f5b34fadc2a",
+    "source_bindings": {
+      "oanda_causal_forecast_inputs.py": {
+        "expected_sha256": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+        "actual_sha256": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+        "matches": true
+      },
+      "oanda_causal_forecast_ledger.py": {
+        "expected_sha256": "4ddd413261fc294922bf2664bb0ae018d8469a3422942567849c1624ba32cd1f",
+        "actual_sha256": "4ddd413261fc294922bf2664bb0ae018d8469a3422942567849c1624ba32cd1f",
+        "matches": true
+      },
+      "oanda_causal_forecast_study.py": {
+        "expected_sha256": "e50a9a8ef5bbfe739d177d1bcf8632362bcad06b68694eb7c599c70a33fbd44e",
+        "actual_sha256": "e50a9a8ef5bbfe739d177d1bcf8632362bcad06b68694eb7c599c70a33fbd44e",
+        "matches": true
+      },
+      "oanda_causal_prediction_baselines.py": {
+        "expected_sha256": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+        "actual_sha256": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+        "matches": true
+      },
+      "oanda_fixed_forecast_evaluation.py": {
+        "expected_sha256": "482af854fae94d53aea82c109ffb6a00f265f3ecebdbc3137e200cb07d142708",
+        "actual_sha256": "482af854fae94d53aea82c109ffb6a00f265f3ecebdbc3137e200cb07d142708",
+        "matches": true
+      },
+      "oanda_proof_shadow_predictors.py": {
+        "expected_sha256": "51c3f945eadb3f26166cfddd37d97451ef21e2b69ece6664c57ee06c145ff417",
+        "actual_sha256": "51c3f945eadb3f26166cfddd37d97451ef21e2b69ece6664c57ee06c145ff417",
+        "matches": true
+      }
+    },
+    "all_bindings_match": true,
+    "actual_dependency_versions": {
+      "python": "3.12.10",
+      "numpy": "2.5.1",
+      "scikit-learn": "1.9.0"
+    },
+    "expected_dependency_versions": {
+      "numpy": "2.5.1",
+      "python": "3.12.10",
+      "scikit-learn": "1.9.0"
+    },
+    "all_dependency_versions_match": true,
+    "heartbeat_semantic_contract_matches": true,
+    "collection_enabled": true,
+    "safety_flags": {
+      "research_only": true,
+      "can_place_orders": false,
+      "can_authorize": false,
+      "can_promote": false,
+      "account_eligible": false,
+      "proof_eligible": false,
+      "historical_rows_imported": false
+    },
+    "diagnostic_source_changes": {
+      "oanda_practice_live_dashboard.py": {
+        "source_bound_by_current_study": false,
+        "sha256": "97c788f7dd81076c607d4ae699c053863026539713eb21e4ec29b8051a7389ca"
+      },
+      "oanda_practice_shadow_strategy_lab.py": {
+        "source_bound_by_current_study": false,
+        "sha256": "c6671bae42fa05fecd16e179cf86ced322be0d84e29666de015b978b4a007fb6"
+      },
+      "oanda_entry_diagnostics.py": {
+        "source_bound_by_current_study": false,
+        "sha256": "6cb6146d85b775ab0699a4b4b0dfeac78952cd0b2277c0eac3a3d7d22e70ca97"
+      }
+    },
+    "diagnostic_scope": "Lab telemetry and dashboard log reading do not change any frozen study source or provide an order/promotion path. New exact-price offline evaluator is not wired into the registered worker.",
+    "saved_heartbeat": {
+      "account_eligible": false,
+      "activated_epoch": 1788708624.9526446,
+      "active_bucket": null,
+      "can_place_orders": false,
+      "can_promote": false,
+      "contract_id": "causal_four_family_future_collection_v1_io_r2_20260906",
+      "contract_sha256": "bc99e68db720e0a43b3ec68a7820b3605013d0c2138515f23e648f5b34fadc2a",
+      "counts": {
+        "attempts": 0,
+        "consumption": 0,
+        "diagnostics": 0,
+        "entries": 0,
+        "exclusions": 0,
+        "forecasts": 0,
+        "inputs": 0,
+        "outcomes": 0,
+        "publication": 0,
+        "quotes": 0
+      },
+      "errors": 0,
+      "generated_epoch": 1788723544.2636087,
+      "heartbeat_publication_errors": 0,
+      "last_heartbeat_publication_error": "",
+      "last_reason": "market_closed_or_quote_not_tradeable",
+      "phase": "waiting_for_tradeable_quote",
+      "proof_eligible": false,
+      "research_only": true,
+      "schema_version": "causal_forecast_study_heartbeat_v1",
+      "supported_decision": "no_trade"
+    },
+    "saved_heartbeat_age_sec": 1.701,
+    "saved_scorecard_status": "no_clock_valid_paired_decisions",
+    "saved_scorecard_counts": {
+      "attempts": 0,
+      "consumption": 0,
+      "diagnostics": 0,
+      "entries": 0,
+      "exclusions": 0,
+      "forecasts": 0,
+      "inputs": 0,
+      "outcomes": 0,
+      "publication": 0,
+      "quotes": 0
+    }
+  },
+  "market_data": {
+    "quote_producer": "practice_007_dedicated_quote_stream",
+    "quote_count": 68,
+    "tradeable_quote_count": 0,
+    "eurusd_quote": {
+      "ask": 1.16147,
+      "bid": 1.16129,
+      "pip": 0.0001,
+      "source": "stream",
+      "time": "2026-09-04T20:59:05.307013559Z",
+      "tradeable": false
+    },
+    "archive_saved_status": "running",
+    "archive_saved_phase": "updating_pairs",
+    "archive_heartbeat_age_sec": 0.28,
+    "archive_progress": {
+      "instrument": "USD_CHF",
+      "last_error": "",
+      "pair_count": 68,
+      "pairs_completed": 53
+    },
+    "bounded_candle_tails": {
+      "EUR_USD": {
+        "file": "data\\oanda_training_manager\\candles\\EUR_USD_M1.csv",
+        "file_bytes": 10850348,
+        "bytes_read": 131221,
+        "tail_sha256": "0a488a3881d1d2ffc40aaf4dab018310a55bc4ac60a731751166b0128818539c",
+        "header_sha256": "6d9ae0b20bcc2c84f99550a54bfadbb894b330867933330e273054d03946506d",
+        "parsed_tail_rows": 706,
+        "latest_minute_start_utc": "2026-09-04T20:59:00+00:00",
+        "latest_bar_close_age_sec": 167945.965
+      },
+      "GBP_USD": {
+        "file": "data\\oanda_training_manager\\candles\\GBP_USD_M1.csv",
+        "file_bytes": 10872116,
+        "bytes_read": 131221,
+        "tail_sha256": "b0018547a75d4d65b1425113d3546f93d7843fcfa6c147fb1190f3196126906e",
+        "header_sha256": "6d9ae0b20bcc2c84f99550a54bfadbb894b330867933330e273054d03946506d",
+        "parsed_tail_rows": 706,
+        "latest_minute_start_utc": "2026-09-04T20:59:00+00:00",
+        "latest_bar_close_age_sec": 167945.965
+      },
+      "AUD_USD": {
+        "file": "data\\oanda_training_manager\\candles\\AUD_USD_M1.csv",
+        "file_bytes": 10794096,
+        "bytes_read": 131221,
+        "tail_sha256": "160b815ebca04658fd22ab0f8b04e73020a6f9277e8b9818c2e7b3b7091d2f83",
+        "header_sha256": "6d9ae0b20bcc2c84f99550a54bfadbb894b330867933330e273054d03946506d",
+        "parsed_tail_rows": 709,
+        "latest_minute_start_utc": "2026-09-04T20:59:00+00:00",
+        "latest_bar_close_age_sec": 167945.965
+      },
+      "NZD_USD": {
+        "file": "data\\oanda_training_manager\\candles\\NZD_USD_M1.csv",
+        "file_bytes": 10793007,
+        "bytes_read": 131221,
+        "tail_sha256": "4d351b575731dd5526e8f97d6b64f7f9020b349971d71b5e4c83b16bab6ce50a",
+        "header_sha256": "6d9ae0b20bcc2c84f99550a54bfadbb894b330867933330e273054d03946506d",
+        "parsed_tail_rows": 709,
+        "latest_minute_start_utc": "2026-09-04T20:59:00+00:00",
+        "latest_bar_close_age_sec": 167945.965
+      },
+      "USD_JPY": {
+        "file": "data\\oanda_training_manager\\candles\\USD_JPY_M1.csv",
+        "file_bytes": 10897880,
+        "bytes_read": 131221,
+        "tail_sha256": "7db4536c3c77aae53eca885b9bd19065f06008fbd59381208cda3b683204b6cf",
+        "header_sha256": "6d9ae0b20bcc2c84f99550a54bfadbb894b330867933330e273054d03946506d",
+        "parsed_tail_rows": 704,
+        "latest_minute_start_utc": "2026-09-04T20:59:00+00:00",
+        "latest_bar_close_age_sec": 167945.965
+      },
+      "USD_CHF": {
+        "file": "data\\oanda_training_manager\\candles\\USD_CHF_M1.csv",
+        "file_bytes": 10793683,
+        "bytes_read": 131221,
+        "tail_sha256": "c94536c96c423155d6e9508f9668a3be8637db273f710a70241d6b8f23ac6ffc",
+        "header_sha256": "6d9ae0b20bcc2c84f99550a54bfadbb894b330867933330e273054d03946506d",
+        "parsed_tail_rows": 710,
+        "latest_minute_start_utc": "2026-09-04T20:59:00+00:00",
+        "latest_bar_close_age_sec": 167945.965
+      },
+      "USD_CAD": {
+        "file": "data\\oanda_training_manager\\candles\\USD_CAD_M1.csv",
+        "file_bytes": 10836104,
+        "bytes_read": 131221,
+        "tail_sha256": "b98eba6c52bb030ce32612d1cf3b5793a5eec11af5f957e6a5ea2c68cad75a8d",
+        "header_sha256": "6d9ae0b20bcc2c84f99550a54bfadbb894b330867933330e273054d03946506d",
+        "parsed_tail_rows": 708,
+        "latest_minute_start_utc": "2026-09-04T20:59:00+00:00",
+        "latest_bar_close_age_sec": 167945.965
+      }
+    },
+    "common_contiguous_suffix_bars_capped_512": 7,
+    "current_common_bar_age_sec": 167945.965,
+    "required_common_contiguous_bars": 335,
+    "maximum_common_bar_age_sec": 900,
+    "post_weekend_warmup": "After the first post-gap minute appears, the frozen contiguous suffix resets. At least 335 common completed M1 bars (about 5h35) are required; archive publication, 15-minute fit cadence and build time add delay. H1 outcomes then require another original 1-hour horizon. No immediate opening predictions or trades are promised."
+  },
+  "practice_entry_blockers": {
+    "executor_excluded_by_collection_allowlist": true,
+    "authorization_generated_utc": "2026-09-05T01:41:25.381884+00:00",
+    "authorization_age_sec": 151060.583,
+    "authorization_max_age_sec_from_executor_launcher": 900,
+    "entry_authorized": false,
+    "authorized_entry_count": 0,
+    "confirmed_candidate_count": 0,
+    "authorization_reason": "zero_confirmed_candidates",
+    "lifecycle_generated_utc": "2026-09-05T01:41:08.468000+00:00",
+    "lifecycle_states": {
+      "confirmed_candidate": 0,
+      "continue_collecting": 43872,
+      "futility_rejected": 9485
+    },
+    "verifier_generated_utc": "2026-09-05T02:07:16.586544+00:00",
+    "verifier_saved_status": "match",
+    "fresh_signed_candidate_and_verifier_required": true,
+    "diagnostic_only_not_gate_relaxation": true
+  },
+  "saved_operational_states": {
+    "integrity_status": "degraded",
+    "integrity_audit_finished_utc": "2026-09-06T18:58:02.548953+00:00",
+    "integrity_age_sec": 2463.416,
+    "integrity_failed_checks": [
+      "continuous_narrative_meter_sealed_current_and_inert",
+      "event_technical_preflight_source_transport_current_and_inert",
+      "executable_move_census_current_independently_verified",
+      "independent_verifier_matches",
+      "live_move_news_forward_proof_contract_current",
+      "live_move_persistent_context_current_and_inert",
+      "move_first_live_arm_alignment_current_causal_and_inert",
+      "move_first_live_case_capture_current_and_inert",
+      "move_first_news_mapping_audit_current",
+      "move_first_operational_mapping_alignment_v4_current_subsecond_causal_and_inert",
+      "official_release_fast_response_watch_current_and_inert",
+      "official_source_depth_complete_current_and_zero_weight",
+      "scheduled_event_quote_capture_current_append_only_and_inert",
+      "scheduled_event_quote_capture_v2_current_append_only_and_inert"
+    ],
+    "integrity_interpretation": "The retained whole-project audit is degraded and includes intentionally inactive research systems; it is not an all-clear and does not authorize collection or entries. Parent must verify the selected allowlist after startup.",
+    "clock_status": "mitigated",
+    "clock_reasons": [
+      "broker_clock_offset_unavailable"
+    ],
+    "clock_generated_utc": "2026-09-06T19:03:55.742612+00:00",
+    "clock_discontinuity_active": false,
+    "clock_external_offset_sec": -0.686,
+    "storage_status": "ok",
+    "storage_generated_utc": "2026-09-06T19:02:12.137613+00:00",
+    "storage_free_gib_at_snapshot": 95.271,
+    "storage_minimum_free_gib": 50.0
+  },
+  "source_receipts": {
+    "config\\causal_forecast_study_v1_io_r2_20260906.json": {
+      "bytes": 5177,
+      "sha256": "64bdb74b6a8b881ee4e93b36b422812786f7218a4c10f8d799ec7dd900f24699"
+    },
+    "oanda_causal_forecast_inputs.py": {
+      "bytes": 15041,
+      "sha256": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281"
+    },
+    "oanda_causal_forecast_ledger.py": {
+      "bytes": 22753,
+      "sha256": "4ddd413261fc294922bf2664bb0ae018d8469a3422942567849c1624ba32cd1f"
+    },
+    "oanda_causal_forecast_study.py": {
+      "bytes": 12732,
+      "sha256": "e50a9a8ef5bbfe739d177d1bcf8632362bcad06b68694eb7c599c70a33fbd44e"
+    },
+    "oanda_causal_prediction_baselines.py": {
+      "bytes": 6198,
+      "sha256": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d"
+    },
+    "oanda_fixed_forecast_evaluation.py": {
+      "bytes": 22509,
+      "sha256": "482af854fae94d53aea82c109ffb6a00f265f3ecebdbc3137e200cb07d142708"
+    },
+    "oanda_proof_shadow_predictors.py": {
+      "bytes": 33962,
+      "sha256": "51c3f945eadb3f26166cfddd37d97451ef21e2b69ece6664c57ee06c145ff417"
+    },
+    "oanda_always_on_supervisor.ps1": {
+      "bytes": 200193,
+      "sha256": "3717322906673ec09df08b746d2191e3bce900d8594eeda5c09950262778d58d"
+    },
+    "start_oanda_research_collection.ps1": {
+      "bytes": 1934,
+      "sha256": "c7e2a970b6e8bb69fcdaf5b124b8d935be6326f06a6554408889e111f57f3115"
+    },
+    "oanda_supervisor_watchdog.ps1": {
+      "bytes": 11755,
+      "sha256": "3b6333d6945a3f73fcb3bcc2e7b461b61b087eb6028d7e3a911a798e19e0d11f"
+    },
+    "data\\oanda_training_manager\\causal_forecast_study_v1_io_r2\\heartbeat.json": {
+      "bytes": 773,
+      "sha256": "67a2df1cdd170b130552f46d4af533ae24f3f16a3481c4c8bffc33fd26252b1e"
+    },
+    "data\\oanda_training_manager\\causal_forecast_study_v1_io_r2\\scorecard.json": {
+      "bytes": 5328,
+      "sha256": "ae27501800641b5e22b4dc60426e9ed9c21335524292bdb53d8619a466e223fd"
+    },
+    "data\\oanda_training_manager\\state\\practice_007_governed_canary_authorization_v1.json": {
+      "bytes": 662,
+      "sha256": "532bd5854fc1050a033b07046eb2760b19a720ff23494e58f14d9691e671592d"
+    },
+    "data\\oanda_training_manager\\state\\evidence_lifecycle_v1.json": {
+      "bytes": 15889,
+      "sha256": "31c65440ef8885c053f6f1a3d4bed803b57787cca37fb40af2bd4713bea795d2"
+    },
+    "data\\oanda_training_manager\\state\\independent_evidence_verifier_v1.json": {
+      "bytes": 15363,
+      "sha256": "7db9a2444dd6c8a5bede4370a483bf6b9ef6c9b4e90465ada40391b287653253"
+    },
+    "data\\oanda_training_manager\\state\\project_integrity_audit_v1.json": {
+      "bytes": 170074,
+      "sha256": "a31d2ca762f409d88728e514f0dcee83e199c5d6c8b318ba8e47eb99dd5db0b9"
+    },
+    "data\\oanda_training_manager\\state\\clock_integrity_v1.json": {
+      "bytes": 1614,
+      "sha256": "aa8ebfb17d79fa786344bd1976f74413fa8b83d2411027fca7819a68429fcfb7"
+    },
+    "data\\oanda_training_manager\\state\\storage_headroom_v1.json": {
+      "bytes": 5765,
+      "sha256": "761dcb71e40ca75fcfa73fd32fae15d0260193734e8c8315418f4ec35bc384bd"
+    },
+    "data\\oanda_training_manager\\state\\practice_007_market_quotes_v1.json": {
+      "bytes": 10126,
+      "sha256": "393182e0041ff8b8de90989b51aeddc5427490d388131ee5dcb78df0613ec4c5"
+    },
+    "data\\oanda_training_manager\\state\\all68_m1_forward_update_heartbeat_v1.json": {
+      "bytes": 645,
+      "sha256": "6c381fbc518c4a7449b6c1f64e900dcb8d214285cbc40d49be65005f30077a84"
+    },
+    "oanda_practice_live_dashboard.py": {
+      "bytes": 402476,
+      "sha256": "97c788f7dd81076c607d4ae699c053863026539713eb21e4ec29b8051a7389ca"
+    },
+    "oanda_practice_shadow_strategy_lab.py": {
+      "bytes": 594803,
+      "sha256": "c6671bae42fa05fecd16e179cf86ced322be0d84e29666de015b978b4a007fb6"
+    },
+    "oanda_entry_diagnostics.py": {
+      "bytes": 3073,
+      "sha256": "6cb6146d85b775ab0699a4b4b0dfeac78952cd0b2277c0eac3a3d7d22e70ca97"
+    }
+  },
+  "review_actions": {
+    "production_database_reads": 0,
+    "broker_calls": 0,
+    "credential_reads": 0,
+    "process_mutations": 0,
+    "scheduled_task_mutations": 0,
+    "runtime_starts": 0,
+    "production_source_or_configuration_mutations": 0
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "command": [
+    "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe",
+    "-B",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\tools\\build_forex_feature_dictionary.py",
+    "--root",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad",
+    "--check"
+  ],
+  "exit_code": 1,
+  "stderr": "Traceback (most recent call last):\n  File \"C:\\Users\\zmoor\\Documents\\forex\\trad\\tools\\build_forex_feature_dictionary.py\", line 412, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"C:\\Users\\zmoor\\Documents\\forex\\trad\\tools\\build_forex_feature_dictionary.py\", line 395, in main\n    json_bytes, md_bytes, coverage = assemble(root)\n                                     ^^^^^^^^^^^^^^\n  File \"C:\\Users\\zmoor\\Documents\\forex\\trad\\tools\\build_forex_feature_dictionary.py\", line 374, in assemble\n    coverage = validate_parts(parts, json.loads(spec_data), root)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\zmoor\\Documents\\forex\\trad\\tools\\build_forex_feature_dictionary.py\", line 203, in validate_parts\n    raise ValueError(\"\\n\".join(errors[:35]))\nValueError: catalog: inspected source changed; review definition before rebuilding: oanda_advisor_account_manager_auto.py\n",
+  "stdout": ""
+}

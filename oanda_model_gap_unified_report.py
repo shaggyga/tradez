@@ -6,6 +6,10 @@ from __future__ import annotations
 import argparse
 import json
 import math
+try:
+    from oanda_profit_factor_contract_v2 import normalize_profit_factor, profit_factor_at_least, summary_metric_fields
+except ModuleNotFoundError:
+    from trad.oanda_profit_factor_contract_v2 import normalize_profit_factor, profit_factor_at_least, summary_metric_fields
 import os
 import time
 from datetime import datetime, timezone
@@ -119,10 +123,10 @@ def result_cells(result: dict[str, Any]) -> list[dict[str, Any]]:
                 "mean_net_pips": finite(
                     row.get("mean_net_pips"), finite(row.get("avg_net_pips"))
                 ),
-                "median_net_pips": finite(row.get("median_net_pips")),
+                **summary_metric_fields(row, "median_net_pips"),
                 "sum_net_pips": finite(row.get("sum_net_pips")),
-                "profit_factor": finite(row.get("profit_factor")),
-                "max_drawdown_pips": finite(row.get("max_drawdown_pips")),
+                **normalize_profit_factor(row),
+                **summary_metric_fields(row, "max_drawdown_pips"),
             }
         )
     return sorted(

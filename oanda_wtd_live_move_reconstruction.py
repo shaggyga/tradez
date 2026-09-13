@@ -2,7 +2,7 @@
 """Reconstruct the retained WTD live-move universe with causal FX factors.
 
 This is a read-only/on-demand research audit.  It does not rewrite the
-append-only V4/V5 mover history, does not alter evidence or lifecycle state,
+append-only mover history, does not alter evidence or lifecycle state,
 and has no authorization, broker, promotion, or execution surface.
 """
 
@@ -31,15 +31,19 @@ ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data" / "oanda_training_manager"
 STATE = DATA / "state"
 REPORTS = DATA / "reports"
-DEFAULT_HISTORY = STATE / "live_move_news_cases_v1.sqlite"
+# The V1 file stopped receiving cases after the live capture contract advanced.
+# Bind the current-week report to the append-only history actually written by
+# the supervised V7r3 capture. Historical files remain immutable and can still
+# be selected explicitly with ``--history``.
+DEFAULT_HISTORY = STATE / "live_move_news_cases_v7r3.sqlite"
 DEFAULT_SOURCES = STATE / "source_governance_v1.sqlite"
 DEFAULT_CANDLES = DATA / "candles"
 DEFAULT_OUTPUT_DIRECTORY = REPORTS / "wtd_live_move_reconstruction"
 LEGACY_MANUAL_REPORT = REPORTS / "WEEK_TO_DATE_EVENT_MOVE_AUDIT_20260827.md"
 LEGACY_BASELINE_NAME = "WEEK_TO_DATE_EVENT_MOVE_AUDIT_PRE_CAUSAL_FACTOR_V1_20260827.md"
 
-CONTRACT_ID = "wtd_live_move_reconstruction_v3_causal_all68_m1_le60_20260827"
-FACTOR_CONTRACT_ID = "wtd_live_factor_episode_v3_causal_all68_m1_le60_20260827"
+CONTRACT_ID = "wtd_live_move_reconstruction_v4_current_history_all68_m1_le60_20260904"
+FACTOR_CONTRACT_ID = "wtd_live_factor_episode_v4_current_history_all68_m1_le60_20260904"
 EXPECTED_PAIRS = 68
 MINIMUM_FRESH_PAIRS = 60
 MAXIMUM_PAIR_AGE_SEC = 180
@@ -103,7 +107,7 @@ def load_retained_cases(
     start_epoch: int,
     as_of_epoch: int,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    """Read and logically deduplicate append-only V4/V5 mover records.
+    """Read and logically deduplicate append-only mover records.
 
     A contract transition can insert the same pair/start/direction under a new
     case ID.  The earliest retained observation is the causal case version;
@@ -839,14 +843,14 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
         "",
         f"- Physical append-only mover records: **{universe['physical_record_count']:,}**.",
         f"- Logical raw live-move cases after cross-contract version deduplication: **{universe['logical_raw_case_count']:,}**.",
-        f"- Preserved duplicate V4/V5 history rows excluded from independent counting: **{universe['preserved_duplicate_contract_record_count']:,}**.",
+        f"- Preserved duplicate cross-contract history rows excluded from independent counting: **{universe['preserved_duplicate_contract_record_count']:,}**.",
         f"- Logical cases eligible for the declared >0 to <=60-minute factor analysis: **{universe['factor_eligible_logical_case_count']:,}**.",
         f"- Longer continuous segments retained in raw history but excluded from factor episodes: **{universe['over_60m_logical_case_count_excluded']:,}**.",
         f"- Invalid/nonpositive-duration logical cases excluded: **{universe['invalid_duration_logical_case_count_excluded']:,}**.",
         f"- Per-snapshot causal factor representatives: **{factor['snapshot_factor_representative_count']:,}**.",
         f"- Global fixed-anchor 15-minute factor episodes: **{factor['factor_episode_count']:,}**.",
         "",
-        "The raw source is the append-only `mover_cases` table populated from the top ten clear movers at each live snapshot. It is not the complete all-path major-move census and it is not 68 independent observations per clock. A clear mover had positive executable net room and gross movement at least 1.5 times its recorded cost. Logical deduplication selects the earliest retained observation for the same instrument/start/direction while preserving every physical V4/V5 row. Factor assignment, news mapping, technical labels, thresholds, and the complete >=15-bps table use only positive-duration moves through 60 minutes, matching the frozen manual scope; longer rolling segments remain visible only in raw-universe counts.",
+        "The raw source is the append-only `mover_cases` table populated from the top ten clear movers at each live snapshot. It is not the complete all-path major-move census and it is not 68 independent observations per clock. A clear mover had positive executable net room and gross movement at least 1.5 times its recorded cost. Logical deduplication selects the earliest retained observation for the same instrument/start/direction while preserving every physical cross-contract row. Factor assignment, news mapping, technical labels, thresholds, and the complete >=15-bps table use only positive-duration moves through 60 minutes, matching the frozen manual scope; longer rolling segments remain visible only in raw-universe counts.",
         "",
         "## Frozen-manual-cut reconciliation",
         "",

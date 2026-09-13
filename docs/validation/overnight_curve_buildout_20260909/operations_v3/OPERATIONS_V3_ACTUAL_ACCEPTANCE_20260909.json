@@ -1,0 +1,29 @@
+{
+  "schema_version": "operations_v3_actual_acceptance_v1_20260909",
+  "recorded_utc": "2026-09-09T09:42:34.5319151Z",
+  "status": "accepted_actual_observation",
+  "operations_path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\operations_v3\\actual_observation_001.json",
+  "operations_sha256": "eca5f34d8b7c03c3c47a43939c67bb1e215c0ec11407affbc05ed2ead6da778e",
+  "observation_started_epoch": 1788946816.9237747,
+  "observation_finished_epoch": 1788946825.41109,
+  "main_expected_worker_count": 15,
+  "main_os_present_count": 15,
+  "retired_studies_explicitly_inactive": [
+    "joint_price_news_study_v1",
+    "joint_price_news_study_v2"
+  ],
+  "independent_current_forecast_pairs": 66,
+  "all_four_frozen_study_sources_match": true,
+  "recovery_path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\old_joint_retirement_preflight_v1\\combined_reload_recovery_001\\AFTER.json",
+  "recovery_sha256": "a24f63592efab42e70d2d12d01f86600aec9ffac5823c9767bf5a02ebb77d277",
+  "original_reload_failure_retained": true,
+  "http_and_browser_acceptance": "separate_pending_observation",
+  "can_place_orders": false,
+  "can_promote": false,
+  "can_authorize": false,
+  "limits": [
+    "Process and source health at these original observation clocks does not establish predictive success or current input readiness.",
+    "Explicitly retired rows remain disabled records; their supervisor_check_ok=false is not relabelled as running health.",
+    "Earlier17-worker operations reports and initial wrapper-exit failure are retained unchanged."
+  ]
+}

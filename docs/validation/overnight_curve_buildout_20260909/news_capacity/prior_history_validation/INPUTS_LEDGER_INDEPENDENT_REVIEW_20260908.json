@@ -1,0 +1,27 @@
+{
+  "schema_version": "joint_news_v3_inputs_ledger_independent_review_v1_20260908",
+  "status": "passed",
+  "observed_utc": "2026-09-08T20:01:29.0782446+00:00",
+  "review_kind": "Bounded read-only independent source review including final immutable-byte cache delta",
+  "source_bindings": {
+    "oanda_causal_forecast_inputs_joint_news_v2.py": "ade4fc5eb2aea195d7609964d7b8979ca433a28028e059c65adc1b1b404a277c",
+    "oanda_causal_forecast_ledger_joint_news_v2.py": "17782392f8e3994ff83620109141770b1f1f8182d863444ed4aaa6067bf4ef72"
+  },
+  "remaining_blockers": [],
+  "findings": [
+    "All eligible committed48h history mappings are streamed through complete query-only snapshot without truncating LIMIT; page128 is fetch size, not evidence selection.",
+    "Hash, mapping-contract, visibility, unique identity and original classified-member checks precede inclusion. Row, raw byte, wrapper byte, compact byte, compressed byte and elapsed-work caps fail closed and are retained in diagnostics.",
+    "Current repaired publication is bound to the complete seven-file producer closure and independently replayed before unchanged member guard use; new captures retain original source and actual consumer clocks.",
+    "Single-flight capture cache includes current/history/WAL/storage roots and source bindings. Reuse preserves first observation and rechecks source freshness.",
+    "Final private immutable-byte cache skips redundant re-encoding only after prior full hash/source/replay admission. File-signature changes force full verification; each return decodes a separate object and rechecks current source bindings and inert flags.",
+    "New ledger changes are schema and v2 adapter dispatch plus explicit inert flags. Existing actual activation, attempt/compute/issue, independent publication and consumption, later entry, original H1 target and exact evaluator boundaries remain unchanged."
+  ],
+  "limits": [
+    "Capacity ceilings are hard fail-closed limits, not indefinite history availability or a rolling performance sample.",
+    "Read-only source review does not establish live operation or improved prediction accuracy."
+  ],
+  "independent_tests_run": 0,
+  "runtime_actions": false,
+  "production_writes": false,
+  "can_place_orders": false
+}

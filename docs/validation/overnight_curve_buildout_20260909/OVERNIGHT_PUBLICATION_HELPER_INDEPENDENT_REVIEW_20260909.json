@@ -1,0 +1,87 @@
+{
+  "actual_publication_performed": false,
+  "executed_validation": {
+    "coverage": [
+      "all181 preflight before write",
+      "last canonical scan failure",
+      "missing181st source",
+      "required archived member omitted/hash changed/size changed",
+      "Git-ineligible required member",
+      "four nonregular fixed outputs",
+      "redirected fixed output",
+      "source/canonical/readability failure",
+      "manifest changed during final verification",
+      "success order and final receipt assertions"
+    ],
+    "errors": 0,
+    "failed": 0,
+    "passed": 16,
+    "path_guard_scope": "Original pure path-guard definitions were AST-loaded read-only. Redirect fixture mocked Path.is_symlink; no claim of an additional actual NTFS junction test.",
+    "publishing_tools": "mocked source/canonical/readability interfaces; no real tool publishing call",
+    "pytest_reported_duration_sec": 11.39,
+    "root_and_vault": "temporary isolated fixture directories only"
+  },
+  "findings_closed": [
+    {
+      "finding": "A verified project copy did not independently require exact curated-member inclusion in the source archive.",
+      "resolution": "Copied entries plus the report and validation now require Git inventory/export eligibility before writes and exact persisted manifest membership/SHA/size immediately after source publication and after final verification."
+    },
+    {
+      "finding": "Fixed manifest/pointer/readability destinations were checked only by later tools after publication could have begun.",
+      "resolution": "All fixed roots and outputs, plus all181 canonical record destinations, are checked before source publication. Final hashes retain five persisted publication/navigation files; helper bytes are pinned across the operation."
+    }
+  ],
+  "helper": {
+    "bytes": 11086,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\publish_overnight_vault_v1.py",
+    "sha256": "122486189afba8925010643c4d3e1dda88bef18409d604074de43eae63547fe5"
+  },
+  "history_pruned": false,
+  "initial_reviewed_source_sha256": "6cbc2a79c269eabcc6b2dd5f1a03081683db9f2b2fadb8389f9adb6d2ae520ff",
+  "initial_source_bytes_retained": false,
+  "limits": [
+    "This is not an actual vault publication receipt or proof the future final copy/report inputs are available.",
+    "Existing snapshot archive/credential/readability implementations were source-inspected and hash-bound, not re-executed end-to-end against the real vault.",
+    "No real vault/project/runtime/database writes, broker requests, Git operations or credential reads occurred during these tests.",
+    "The initial helper hash is retained as review history; its prior bytes were not independently saved and are not reconstructed."
+  ],
+  "orders_enabled": false,
+  "remaining_blockers": [],
+  "reviewed_epoch": 1788950883.8498912,
+  "schema_version": "overnight_publication_helper_independent_review_v1_20260909",
+  "source_review": [
+    "Uses only the existing source-snapshot, canonical-record-only and readability build/check interfaces; does not call the broad model-vault synchronizer main routine.",
+    "Expected report/validation/copy-receipt digests, strict complete/scanned/compiled receipt fields, every intended-member SHA/size and all181 canonical payloads are checked before the first publishing interface call.",
+    "Source archive publication precedes canonical-record synchronization, then readability build/check and persisted source/canonical/manifest rechecks.",
+    "Failures after publication begins retain bounded failure type/status and partial_publication_possible=true; no rollback, deletion or completion is invented.",
+    "Final receipt distinguishes source-only export from model weights/runtime inputs. No broker, runtime-control or retention operation was found."
+  ],
+  "status": "passed_bounded_source_and_isolated_orchestration_review",
+  "test_xml": {
+    "bytes": 3356,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\publication_helper_isolated_review_tests.xml",
+    "sha256": "6b7bd0660b81c28a814b6fe266cc9faedd0b6b55f47a94ef65400513794b8389"
+  },
+  "tests": {
+    "bytes": 11574,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\test_publish_overnight_vault_v1_review.py",
+    "sha256": "9c982a49a97943c21c02801f2c8fe236131472192ac7660a15d928c96f2468f0"
+  },
+  "tool_bindings": {
+    "forex_model_vault_sync.py": {
+      "bytes": 113179,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\forex_model_vault_sync.py",
+      "sha256": "0931bd4c2f0c83af838be13cb7577cf24b9af6c518bf332bcc1a2105325a1bb8"
+    },
+    "tools/audit_forex_vault_readability.py": {
+      "bytes": 21802,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\tools\\audit_forex_vault_readability.py",
+      "sha256": "1480d9a930a622c8b4136cbe7817208459c5c813bbee6306ce575d5d9c343062"
+    },
+    "tools/vault_worktree_snapshot.py": {
+      "bytes": 18433,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\tools\\vault_worktree_snapshot.py",
+      "sha256": "5868f3794de8e98b75f459be72d08971184002a4a7da1f1bdd78ef6cbd144515"
+    }
+  }
+}

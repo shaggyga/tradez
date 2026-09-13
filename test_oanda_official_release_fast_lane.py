@@ -1232,6 +1232,90 @@ def test_due_poll_respects_interval_and_burst(monkeypatch):
     ) is True
 
 
+def test_url_valued_external_id_normalizes_http_https_alias():
+    common = {
+        "title": "Sources of Changes in Current Account Balances",
+        "url": "https://www.boj.or.jp/en/statistics/boj/fm/juqp/juqp2609.xlsx",
+        "published_utc": "2026-09-02T23:50:00+00:00",
+    }
+    http_key = fast.stable_item_key({
+        **common,
+        "external_id": "http://www.boj.or.jp/en/statistics/boj/fm/juqp/juqp2609.xlsx",
+    })
+    https_key = fast.stable_item_key({
+        **common,
+        "external_id": "https://www.boj.or.jp/en/statistics/boj/fm/juqp/juqp2609.xlsx",
+    })
+    assert http_key == https_key
+
+
+def test_scheme_only_external_id_revision_cannot_create_second_prospective_capture(
+    monkeypatch, tmp_path: Path
+):
+    monkeypatch.setattr(
+        fast.news,
+        "prospective_clock_attestation",
+        lambda clock: bool(clock.get("attested")),
+    )
+    event = fast.QUOTE_CAPTURE_ACTIVATED_UTC + dt.timedelta(hours=2)
+    snapshot = _all68_quote_payload(event, captured_utc=event + dt.timedelta(seconds=2))
+    source = {
+        "source_id": "boj_updates",
+        "source_contract_id": "boj-test-v1",
+        "source_cohort_id": "boj-test-v1",
+    }
+    common = {
+        "title": "Sources of Changes in Current Account Balances",
+        "url": "https://www.boj.or.jp/en/statistics/boj/fm/juqp/juqp2609.xlsx",
+        "published_utc": fast.iso_utc(event),
+    }
+    database = tmp_path / "fast.sqlite"
+    with fast.open_database(database) as connection:
+        first = fast.append_observations(
+            connection,
+            source=source,
+            rows=[{
+                **common,
+                "external_id": "http://www.boj.or.jp/en/statistics/boj/fm/juqp/juqp2609.xlsx",
+            }],
+            first_seen=event,
+            listing_bootstrap=False,
+            observation_clock={"source": "test", "attested": True},
+            quote_snapshot_loader=lambda: snapshot,
+            quote_captured_utc=event + dt.timedelta(seconds=2),
+        )
+        second = fast.append_observations(
+            connection,
+            source=source,
+            rows=[{
+                **common,
+                "external_id": "https://www.boj.or.jp/en/statistics/boj/fm/juqp/juqp2609.xlsx",
+            }],
+            first_seen=event + dt.timedelta(minutes=1),
+            listing_bootstrap=False,
+            observation_clock={"source": "test", "attested": True},
+            quote_snapshot_loader=lambda: (_ for _ in ()).throw(
+                AssertionError("scheme-only alias attempted quote recapture")
+            ),
+            quote_captured_utc=event + dt.timedelta(minutes=1),
+        )
+        observations = connection.execute(
+            "SELECT prospective_observation,identity_preexisting "
+            "FROM official_release_observation ORDER BY first_seen_utc"
+        ).fetchall()
+        captures = connection.execute(
+            "SELECT COUNT(1),SUM(input_prospective_observation),"
+            "SUM(capture_activation_eligible) "
+            "FROM official_release_quote_capture"
+        ).fetchone()
+    assert first[0] == 1
+    assert second[0] == 1
+    assert observations == [(1, 0), (0, 1)]
+    # The append-only raw lane retains the alias as a diagnostic revision,
+    # but only the first identity can carry prospective/activation credit.
+    assert captures == (2, 1, 1)
+
+
 def test_module_has_no_broker_or_authorization_surface():
     text = Path(fast.__file__).read_text(encoding="utf-8")
     forbidden = [

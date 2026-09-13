@@ -26,6 +26,10 @@ class ShadowRuntimeRetirementTests(unittest.TestCase):
                 "causal_source_factor_response_map_v3",
                 "causal_source_factor_response_map_v4",
                 "causal_source_factor_response_map_v5",
+                "causal_source_factor_response_map_v7",
+                "causal_source_factor_response_map_v8",
+                "source_conditioned_currency_rank_v6",
+                "source_conditioned_currency_rank_v7",
                 "source_conditioned_currency_rank_v1",
                 "source_conditioned_currency_rank_v2",
                 "source_conditioned_currency_rank_v3",
@@ -36,6 +40,9 @@ class ShadowRuntimeRetirementTests(unittest.TestCase):
                 "manager_decision_outcome_ledger",
                 "one_hour_shadow_signal",
                 "executable_opportunity_proof",
+                "official_event_paired_evaluator_v1",
+                "official_event_paired_evaluator_verifier_v1",
+                "move_first_operational_mapping_alignment_v1",
             },
         )
         for row in payload["retired_collectors"]:
@@ -80,6 +87,23 @@ class ShadowRuntimeRetirementTests(unittest.TestCase):
         for row in groups:
             self.assertFalse(row["active_model_eligibility"])
             self.assertTrue(row["historical_contract_retained"])
+
+    def test_publication_successors_ship_disabled_and_old_launches_are_absent(self) -> None:
+        supervisor = SUPERVISOR.read_text(encoding="utf-8")
+        for name in ("causal_source_factor_response_map_v7", "causal_source_factor_response_map_v8",
+                     "source_conditioned_currency_rank_v6", "source_conditioned_currency_rank_v7"):
+            self.assertNotIn(f'-Name "{name}"', supervisor)
+            self.assertIn(f'-Name "{name}_preserved"', supervisor)
+        for name in ("source_factor_response_v9", "source_conditioned_currency_rank_v8"):
+            config = json.loads((ROOT / "config" / (name + ".json")).read_text(encoding="utf-8"))
+            self.assertIs(config["collection_enabled"], False)
+            self.assertIs(config["research_only"], True)
+            for authority in ("can_place_orders", "can_authorize", "can_promote"):
+                self.assertIs(config[authority], False)
+        self.assertIn("$publicationSourceConfig.collection_enabled -eq $true", supervisor)
+        self.assertIn("$publicationRankConfig.collection_enabled -eq $true", supervisor)
+        self.assertIn("source_governance_news_fast_lane_v3.json", supervisor)
+        self.assertNotIn("source_governance_news_fast_lane_v2.json", supervisor)
 
     def test_practice_019_stack_is_retired_and_has_no_spawn_surface(self) -> None:
         payload = json.loads(POLICY.read_text(encoding="utf-8"))

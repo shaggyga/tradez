@@ -1,0 +1,632 @@
+{
+  "schema_version": "pair_dashboard_consistency_runtime_v1_20260907",
+  "status": "passed",
+  "observed_utc": "2026-09-07T17:53:03.325209+00:00",
+  "preflight_only": false,
+  "processes": [
+    {
+      "script": "oanda_local_news_sentiment.py",
+      "pid": 24008,
+      "parent_pid": 14508,
+      "created_utc": "2026-09-06T19:38:09.0770080Z",
+      "research_only": false,
+      "safe_core_only": false
+    },
+    {
+      "script": "oanda_official_release_fast_lane.py",
+      "pid": 4196,
+      "parent_pid": 14508,
+      "created_utc": "2026-09-06T19:38:09.1476750Z",
+      "research_only": false,
+      "safe_core_only": false
+    },
+    {
+      "script": "oanda_local_news_sentiment.py",
+      "pid": 1212,
+      "parent_pid": 24008,
+      "created_utc": "2026-09-06T19:38:09.1684930Z",
+      "research_only": false,
+      "safe_core_only": false
+    },
+    {
+      "script": "oanda_official_release_fast_mapper.py",
+      "pid": 17664,
+      "parent_pid": 14508,
+      "created_utc": "2026-09-06T19:38:09.2300070Z",
+      "research_only": false,
+      "safe_core_only": false
+    },
+    {
+      "script": "oanda_official_release_fast_lane.py",
+      "pid": 7244,
+      "parent_pid": 4196,
+      "created_utc": "2026-09-06T19:38:09.2433750Z",
+      "research_only": false,
+      "safe_core_only": false
+    },
+    {
+      "script": "oanda_official_release_fast_mapper.py",
+      "pid": 36080,
+      "parent_pid": 17664,
+      "created_utc": "2026-09-06T19:38:09.3231190Z",
+      "research_only": false,
+      "safe_core_only": false
+    },
+    {
+      "script": "oanda_source_governance_news_fast_lane.py",
+      "pid": 5236,
+      "parent_pid": 14508,
+      "created_utc": "2026-09-06T19:38:09.8015140Z",
+      "research_only": false,
+      "safe_core_only": false
+    },
+    {
+      "script": "oanda_source_governance_news_fast_lane.py",
+      "pid": 19584,
+      "parent_pid": 5236,
+      "created_utc": "2026-09-06T19:38:09.9134610Z",
+      "research_only": false,
+      "safe_core_only": false
+    },
+    {
+      "script": "oanda_practice_quote_stream.py",
+      "pid": 5452,
+      "parent_pid": 14508,
+      "created_utc": "2026-09-06T19:38:40.4535770Z",
+      "research_only": false,
+      "safe_core_only": false
+    },
+    {
+      "script": "oanda_practice_quote_stream.py",
+      "pid": 44996,
+      "parent_pid": 5452,
+      "created_utc": "2026-09-06T19:38:40.5336090Z",
+      "research_only": false,
+      "safe_core_only": false
+    },
+    {
+      "script": "oanda_clock_integrity_monitor.py",
+      "pid": 20572,
+      "parent_pid": 14508,
+      "created_utc": "2026-09-06T19:39:11.2044260Z",
+      "research_only": false,
+      "safe_core_only": false
+    },
+    {
+      "script": "oanda_clock_integrity_monitor.py",
+      "pid": 32208,
+      "parent_pid": 20572,
+      "created_utc": "2026-09-06T19:39:11.2907850Z",
+      "research_only": false,
+      "safe_core_only": false
+    },
+    {
+      "script": "oanda_project_integrity_audit.py",
+      "pid": 41144,
+      "parent_pid": 14508,
+      "created_utc": "2026-09-06T19:42:45.7390820Z",
+      "research_only": false,
+      "safe_core_only": false
+    },
+    {
+      "script": "oanda_project_integrity_audit.py",
+      "pid": 21076,
+      "parent_pid": 41144,
+      "created_utc": "2026-09-06T19:42:45.8100300Z",
+      "research_only": false,
+      "safe_core_only": false
+    },
+    {
+      "script": "oanda_storage_headroom_guard.py",
+      "pid": 19056,
+      "parent_pid": 14508,
+      "created_utc": "2026-09-06T19:43:16.6094370Z",
+      "research_only": false,
+      "safe_core_only": false
+    },
+    {
+      "script": "oanda_storage_headroom_guard.py",
+      "pid": 33700,
+      "parent_pid": 19056,
+      "created_utc": "2026-09-06T19:43:16.6849940Z",
+      "research_only": false,
+      "safe_core_only": false
+    },
+    {
+      "script": "oanda_account_snapshot_writer.py",
+      "pid": 31364,
+      "parent_pid": 14508,
+      "created_utc": "2026-09-07T15:29:23.8358210Z",
+      "research_only": false,
+      "safe_core_only": false
+    },
+    {
+      "script": "oanda_account_snapshot_writer.py",
+      "pid": 3092,
+      "parent_pid": 31364,
+      "created_utc": "2026-09-07T15:29:23.8872660Z",
+      "research_only": false,
+      "safe_core_only": false
+    },
+    {
+      "script": "oanda_all68_m1_forward_updater.py",
+      "pid": 39516,
+      "parent_pid": 34984,
+      "created_utc": "2026-09-07T16:15:23.5478650Z",
+      "research_only": false,
+      "safe_core_only": false
+    },
+    {
+      "script": "oanda_all68_m1_forward_updater.py",
+      "pid": 15540,
+      "parent_pid": 39516,
+      "created_utc": "2026-09-07T16:15:23.6261600Z",
+      "research_only": false,
+      "safe_core_only": false
+    },
+    {
+      "script": "oanda_causal_forecast_study_gap_v2.py",
+      "pid": 11908,
+      "parent_pid": 34984,
+      "created_utc": "2026-09-07T16:15:23.9101110Z",
+      "research_only": false,
+      "safe_core_only": false
+    },
+    {
+      "script": "oanda_causal_forecast_study_gap_v2.py",
+      "pid": 14020,
+      "parent_pid": 11908,
+      "created_utc": "2026-09-07T16:15:23.9773670Z",
+      "research_only": false,
+      "safe_core_only": false
+    },
+    {
+      "script": "oanda_causal_forecast_study_eurusd_v1.py",
+      "pid": 22600,
+      "parent_pid": 35936,
+      "created_utc": "2026-09-07T16:29:38.9933290Z",
+      "research_only": false,
+      "safe_core_only": false
+    },
+    {
+      "script": "oanda_causal_forecast_study_eurusd_v1.py",
+      "pid": 20056,
+      "parent_pid": 22600,
+      "created_utc": "2026-09-07T16:29:39.0505780Z",
+      "research_only": false,
+      "safe_core_only": false
+    },
+    {
+      "script": "oanda_always_on_supervisor.ps1",
+      "pid": 22400,
+      "parent_pid": 40956,
+      "created_utc": "2026-09-07T17:18:08.9327080Z",
+      "research_only": true,
+      "safe_core_only": true
+    },
+    {
+      "script": "oanda_pair_local_forecast_study_v1.py",
+      "pid": 11892,
+      "parent_pid": 22400,
+      "created_utc": "2026-09-07T17:18:10.9903900Z",
+      "research_only": false,
+      "safe_core_only": false
+    },
+    {
+      "script": "oanda_pair_local_forecast_study_v1.py",
+      "pid": 4068,
+      "parent_pid": 11892,
+      "created_utc": "2026-09-07T17:18:11.0481990Z",
+      "research_only": false,
+      "safe_core_only": false
+    },
+    {
+      "script": "oanda_practice_live_dashboard.py",
+      "pid": 35648,
+      "parent_pid": 22400,
+      "created_utc": "2026-09-07T17:52:53.8600570Z",
+      "research_only": false,
+      "safe_core_only": false
+    },
+    {
+      "script": "oanda_practice_live_dashboard.py",
+      "pid": 14260,
+      "parent_pid": 35648,
+      "created_utc": "2026-09-07T17:52:53.9168580Z",
+      "research_only": false,
+      "safe_core_only": false
+    }
+  ],
+  "process_checks": {
+    "running_worker_count": 14,
+    "preserved_other_worker_count": 13,
+    "preserved_other_process_count": 26,
+    "supervisor_pid": 22400,
+    "dashboard_pids": [
+      35648,
+      14260
+    ]
+  },
+  "registration": {
+    "registry_sha256": "e0aa74fa5d20b7be983050625773834ea68d74ffc15b566ab5e03df9b3380d65",
+    "source_bindings": {
+      "oanda_causal_forecast_inputs.py": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+      "oanda_causal_forecast_inputs_gap_v2.py": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd",
+      "oanda_causal_forecast_inputs_pair_v1.py": "d4a8356b9df29b7f45cbebc4c9b93e9b5c843c2f1c56c93c088f22e9db856807",
+      "oanda_causal_forecast_ledger_pair_v1.py": "acf83ef8a15c85465d493f9e614ca7153b28a9e4b4f4e5db7de9aed60c7e6cbb",
+      "oanda_causal_prediction_baselines.py": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+      "oanda_exact_price_scoring.py": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521",
+      "oanda_fixed_forecast_evaluation_pair_v1.py": "aa3479f9ff94c3c74e159e40e008a2553ec8869d196a0ef53651fc521ac450bc",
+      "oanda_pair_local_forecast_study_v1.py": "9efb8c7b3ac5456adcf436ef0940b256336f8ea774c5befa7f2f23ce01fd7346",
+      "oanda_pair_local_models_v1.py": "ecd259fd66d74930ee23c715d29a5dba788d56ab2f7198cd1f521b912637ff26"
+    },
+    "prior_receipts_unchanged": {
+      "FOREX_PAIR_FORECAST_COVERAGE_VALIDATION_20260907.json": "6953f2d7259be748847ec0dd6a34abd1b2f482dd8be7aa6913bc7d906ff4cfb5",
+      "FOREX_SIGNALS_LIVE_OPTIMIZATION_VALIDATION_20260907.json": "3671297affd5addd4c2e4080c66d4d74382c24678a3430d7e4694814e5993792"
+    },
+    "activations": [
+      {
+        "instrument": "AUD_CAD",
+        "activation_epoch": 1788801443.494913,
+        "contract_sha256": "fc45ecd101585ca9545e6cbc59e5b7ebc988acef70a7a2007f93b2ab96a6d64e"
+      },
+      {
+        "instrument": "AUD_CHF",
+        "activation_epoch": 1788801443.5253375,
+        "contract_sha256": "a611c45db38c5cd686a06583f55e67138a83088adce5ae197bd7971aca678b3b"
+      },
+      {
+        "instrument": "AUD_HKD",
+        "activation_epoch": 1788801443.5542595,
+        "contract_sha256": "51124810c978e662440d302da0345060df5fc86530843e1f65e4a803877fe482"
+      },
+      {
+        "instrument": "AUD_JPY",
+        "activation_epoch": 1788801443.583182,
+        "contract_sha256": "afa875918dc5beca9c774242fea088fb7bf13d527c4153d06bcb39f28ec2f10c"
+      },
+      {
+        "instrument": "AUD_NZD",
+        "activation_epoch": 1788801443.612105,
+        "contract_sha256": "b89a0960dded68e1bfbbdf59a8b9d2b6551389b1b323d91f88a7ab5b57db3b03"
+      },
+      {
+        "instrument": "AUD_SGD",
+        "activation_epoch": 1788801443.6400316,
+        "contract_sha256": "fb1f2549ee73b3f68ff756febb23f5ff6d021db182dce23e563c90b5dbf65662"
+      },
+      {
+        "instrument": "AUD_USD",
+        "activation_epoch": 1788801443.6699517,
+        "contract_sha256": "23d173bf9910164334a08e1771a64fa5f8f8e11f8ef8bd4a39b55d969399d6f1"
+      },
+      {
+        "instrument": "CAD_CHF",
+        "activation_epoch": 1788801443.7008688,
+        "contract_sha256": "4ae253dda3234471634233a4004fc908df27e6fe30197965a82c30a5deac5e4c"
+      },
+      {
+        "instrument": "CAD_HKD",
+        "activation_epoch": 1788801443.7307878,
+        "contract_sha256": "e1a76885643436a5825c00ccd9a1a36f509ddc6af22133fe70b0b35947a19bd8"
+      },
+      {
+        "instrument": "CAD_JPY",
+        "activation_epoch": 1788801443.7617054,
+        "contract_sha256": "ee5de572af01a808111d08da34bd3075004d6e8048481faac9e210f597f2fe3a"
+      },
+      {
+        "instrument": "CAD_SGD",
+        "activation_epoch": 1788801443.7946174,
+        "contract_sha256": "1f5afeba3c9e7a13f5c2c41814ac81a0ba13be9373ec37b97bc7e4b0e6fb9c55"
+      },
+      {
+        "instrument": "CHF_HKD",
+        "activation_epoch": 1788801443.8265321,
+        "contract_sha256": "ed35a682a1ae9335ff71cf1e2f978f703d4ff020499344c5c5fa1d234422af6f"
+      },
+      {
+        "instrument": "CHF_JPY",
+        "activation_epoch": 1788801443.856453,
+        "contract_sha256": "186b24a74341faf0fca14baeaf64df9e7b06e845f84c87df2674c352af2c114e"
+      },
+      {
+        "instrument": "CHF_ZAR",
+        "activation_epoch": 1788801443.8898752,
+        "contract_sha256": "b74e0b47345db52cd7429de6a85a0997523611cf37a95a3f899e29c43a4fb0af"
+      },
+      {
+        "instrument": "EUR_AUD",
+        "activation_epoch": 1788801443.921804,
+        "contract_sha256": "88ab979404193a72d80f8ee6891bf8bf4869612b485d188f879f32e35ac370ac"
+      },
+      {
+        "instrument": "EUR_CAD",
+        "activation_epoch": 1788801443.953719,
+        "contract_sha256": "59092e49f1cd837aead707368258091e0eb10734c0be237829e26c107d278027"
+      },
+      {
+        "instrument": "EUR_CHF",
+        "activation_epoch": 1788801443.9831467,
+        "contract_sha256": "3919cec4cd4af49b2e30ec726272031fc00aa224b8b397b31254398e9b9092f7"
+      },
+      {
+        "instrument": "EUR_CZK",
+        "activation_epoch": 1788801444.0200481,
+        "contract_sha256": "557016f39652b2675d8ec2c28eabcdd47880826efbd502147923909a5308f66e"
+      },
+      {
+        "instrument": "EUR_DKK",
+        "activation_epoch": 1788801444.0519636,
+        "contract_sha256": "3fb81781c178045d83f7c82a5a487656f5b7ba538c5bce9d82afafb3b2b839e4"
+      },
+      {
+        "instrument": "EUR_GBP",
+        "activation_epoch": 1788801444.0828803,
+        "contract_sha256": "2b1ab48b5e967d7cfbcf43862be0902d8809be9b9d1dd4eaf459653efdcea952"
+      },
+      {
+        "instrument": "EUR_HKD",
+        "activation_epoch": 1788801444.1143036,
+        "contract_sha256": "f297e079af06a4cba5df62e2ea95a21e968fea9d26de9e0ff9d8ad9524cd3019"
+      },
+      {
+        "instrument": "EUR_HUF",
+        "activation_epoch": 1788801444.1472156,
+        "contract_sha256": "03aafd68b7c3bedbbecea3f976e8e40817b4e925b37b3a7616e6212ce8dc8b89"
+      },
+      {
+        "instrument": "EUR_JPY",
+        "activation_epoch": 1788801444.1821237,
+        "contract_sha256": "d10f84a56e74064b810a13ae94461415abfb095af6b20e939cee14488832359e"
+      },
+      {
+        "instrument": "EUR_NOK",
+        "activation_epoch": 1788801444.2145457,
+        "contract_sha256": "4cedfab13ecf5784b3a0df75db7e9c7f7abadac6d966f0fe36e0416f2e7f5212"
+      },
+      {
+        "instrument": "EUR_NZD",
+        "activation_epoch": 1788801444.2474592,
+        "contract_sha256": "f33883c90430f6434b215fa611ca93471f913d436253353f18f2846842f3647e"
+      },
+      {
+        "instrument": "EUR_PLN",
+        "activation_epoch": 1788801444.2823641,
+        "contract_sha256": "c71c39a5cdf9cce64f3d1400c8f9dcbbddf0a300b915b3531b8d9fe8a39c71d7"
+      },
+      {
+        "instrument": "EUR_SEK",
+        "activation_epoch": 1788801444.3132808,
+        "contract_sha256": "76324266fd17701e5a88deac295ce91b64da49a170679f5ccff12a7f7ef85cec"
+      },
+      {
+        "instrument": "EUR_SGD",
+        "activation_epoch": 1788801444.3422034,
+        "contract_sha256": "4f1a8e18ead7b257fcc1277f8ef68ae544dac27be8d44231822b3322085d34df"
+      },
+      {
+        "instrument": "EUR_TRY",
+        "activation_epoch": 1788801444.3711264,
+        "contract_sha256": "90900cb83e0fcd01edcdea862fb8653f97e402d9c4b6917f7669d26c261be2e6"
+      },
+      {
+        "instrument": "EUR_USD",
+        "activation_epoch": 1788801444.4030411,
+        "contract_sha256": "eee96dd321e83be0c33af8b1930e7f245cc99baa7e693b01bc6273cfb40aec6e"
+      },
+      {
+        "instrument": "EUR_ZAR",
+        "activation_epoch": 1788801444.4324682,
+        "contract_sha256": "e3b5308ebdd88f30f4b526aa30de243af886cbf84ea866c145d0719069ea6818"
+      },
+      {
+        "instrument": "GBP_AUD",
+        "activation_epoch": 1788801444.4633865,
+        "contract_sha256": "aa555db00c1c6dd0dbc1b832deabc83003ed21065d6b210558a682743781f2c5"
+      },
+      {
+        "instrument": "GBP_CAD",
+        "activation_epoch": 1788801444.4933062,
+        "contract_sha256": "0bebe24573e402439877fa2859044cfd665a4a21e8486173eb54e02fbb577271"
+      },
+      {
+        "instrument": "GBP_CHF",
+        "activation_epoch": 1788801444.5217388,
+        "contract_sha256": "213a3dd50a1b7f2d36bf1a064c718a5099a9647d062c1f9b4569d62005c97e06"
+      },
+      {
+        "instrument": "GBP_HKD",
+        "activation_epoch": 1788801444.5516593,
+        "contract_sha256": "ea203cc2a55b3a50c156e731e29af3f9693257e8e47238c6be114871b98c3823"
+      },
+      {
+        "instrument": "GBP_JPY",
+        "activation_epoch": 1788801444.5845697,
+        "contract_sha256": "60af7d6519ba2c8926ab21cd2d43fd473b73f2bdc353e8ff10d9a1834702701c"
+      },
+      {
+        "instrument": "GBP_NZD",
+        "activation_epoch": 1788801444.6154869,
+        "contract_sha256": "61f282ead4a166a21912e73c54928b858a756a0364c1bccaba584c9b5098c75c"
+      },
+      {
+        "instrument": "GBP_PLN",
+        "activation_epoch": 1788801444.6439178,
+        "contract_sha256": "834dadde254f68ddb4aea5947568a8204329d798f619256e7fcf6f5c18acc638"
+      },
+      {
+        "instrument": "GBP_SGD",
+        "activation_epoch": 1788801444.6738384,
+        "contract_sha256": "180c201b9e8e3780b6bb2ddcfd0f3ea305b5e102a5058de7325622e91c24984c"
+      },
+      {
+        "instrument": "GBP_USD",
+        "activation_epoch": 1788801444.7017636,
+        "contract_sha256": "598a9bcf9ec1bf4a32f297e1bb50e06c3581e6104ed4efe675a5c529b68312d6"
+      },
+      {
+        "instrument": "GBP_ZAR",
+        "activation_epoch": 1788801444.7316828,
+        "contract_sha256": "d73ef2fada8181187cf9e4311b7a46b85027a32b5c33cc0c46a82d4b890957cd"
+      },
+      {
+        "instrument": "HKD_JPY",
+        "activation_epoch": 1788801444.762601,
+        "contract_sha256": "fedb8d37b70a75e17e9c8f14dbd3afc96a85d041c2960de2dfe6703d51a6e85b"
+      },
+      {
+        "instrument": "NZD_CAD",
+        "activation_epoch": 1788801444.7935174,
+        "contract_sha256": "b26f322f102d771a4a4d3b104d0eaf07efcbc4fcfa79a4b4395198af672df19a"
+      },
+      {
+        "instrument": "NZD_CHF",
+        "activation_epoch": 1788801444.8264308,
+        "contract_sha256": "f23e6e9853c59d96f5ff7366c87b8eef20a6be6c1de93c16bb171a4e28b94563"
+      },
+      {
+        "instrument": "NZD_HKD",
+        "activation_epoch": 1788801444.8603394,
+        "contract_sha256": "1cb82fb64d5f4c5239e18402fe18cd58f89fc5cb48bda8927e6fcd9e3435ac7d"
+      },
+      {
+        "instrument": "NZD_JPY",
+        "activation_epoch": 1788801444.8902595,
+        "contract_sha256": "2bd8552c3c2380b698a32ff1c4034e8f7bc210753d2a69770e927bbeab807b51"
+      },
+      {
+        "instrument": "NZD_SGD",
+        "activation_epoch": 1788801444.9201787,
+        "contract_sha256": "cbe6fb642bedbaad577465fa4beb9030fd51c152134b62a3ce8580a7a5e029d2"
+      },
+      {
+        "instrument": "NZD_USD",
+        "activation_epoch": 1788801444.953092,
+        "contract_sha256": "8bda84387276405378c0aad1a6c6df28500efe511b508796bae405f22beba39d"
+      },
+      {
+        "instrument": "SGD_CHF",
+        "activation_epoch": 1788801444.9850056,
+        "contract_sha256": "d69fe9049f722dede32db109689df5b9e7a900cd422ec6c5afdb51981aad85d1"
+      },
+      {
+        "instrument": "SGD_JPY",
+        "activation_epoch": 1788801445.016431,
+        "contract_sha256": "19c7761d18e9135863b8e0c8f7b975a2ca8c14d24c6a2be58f1d78e9bfc67d8f"
+      },
+      {
+        "instrument": "TRY_JPY",
+        "activation_epoch": 1788801445.0463502,
+        "contract_sha256": "d6d9259ec03d25ca1cb2dfc28c613de124e7ac7eac686d7f2287c0db48b2ccd1"
+      },
+      {
+        "instrument": "USD_CAD",
+        "activation_epoch": 1788801445.07627,
+        "contract_sha256": "2c27c0941398776451618b6b627b53134dcee676cdfc85351fd2caf3b201c130"
+      },
+      {
+        "instrument": "USD_CHF",
+        "activation_epoch": 1788801445.108693,
+        "contract_sha256": "00df530b990bf06bc091d9ead61fceff891964827aa86559f77a71ea2dec0668"
+      },
+      {
+        "instrument": "USD_CNH",
+        "activation_epoch": 1788801445.1406078,
+        "contract_sha256": "d4f8ab146c46d23e610f09a948ac05e3763b8494de07f0cc7fee6f1ff4da9e66"
+      },
+      {
+        "instrument": "USD_CZK",
+        "activation_epoch": 1788801445.16953,
+        "contract_sha256": "6ecb7d725dd371c9f17fe924071b152f11cd788020e7199d33a06cefba7e2cf3"
+      },
+      {
+        "instrument": "USD_DKK",
+        "activation_epoch": 1788801445.1994495,
+        "contract_sha256": "77230e813ac3420376008810947127e751c42ef426f75deee8d447caf582ff34"
+      },
+      {
+        "instrument": "USD_HKD",
+        "activation_epoch": 1788801445.2303677,
+        "contract_sha256": "3efcde8be1697f5198e1c9cce8e0bc9d1e8b312213f1c39b5c672a598f2c01a5"
+      },
+      {
+        "instrument": "USD_HUF",
+        "activation_epoch": 1788801445.2632794,
+        "contract_sha256": "0cb6125cc86afb67e712569b55a2da1a42543e1bdf9c56e743e7bcde82b512bf"
+      },
+      {
+        "instrument": "USD_JPY",
+        "activation_epoch": 1788801445.2931995,
+        "contract_sha256": "0bb0bacdd3e7879a200099dc491285516fd09dc7b5fec8570fdde7c2a374f6c2"
+      },
+      {
+        "instrument": "USD_MXN",
+        "activation_epoch": 1788801445.3241174,
+        "contract_sha256": "4f99e9aa278fd676624fc8847b08b3581af7423a0f10767ae4171d64c143aec3"
+      },
+      {
+        "instrument": "USD_NOK",
+        "activation_epoch": 1788801445.35304,
+        "contract_sha256": "067ea0cd08c7a0cc4cfb0dd709b7c409f4bedd34ac637ca0a7208b58e00192c4"
+      },
+      {
+        "instrument": "USD_PLN",
+        "activation_epoch": 1788801445.3829596,
+        "contract_sha256": "672b2911d4ebeebe2a10b06c5a76c82c5289e1ebbb75021838e9f990866bc935"
+      },
+      {
+        "instrument": "USD_SEK",
+        "activation_epoch": 1788801445.413877,
+        "contract_sha256": "9b0dd42a6beca607b52400f555bdf3cf3dd8d2d473fd6780a4529c4e696f47e7"
+      },
+      {
+        "instrument": "USD_SGD",
+        "activation_epoch": 1788801445.4428005,
+        "contract_sha256": "ecf658752773be7f537b59f92967f9cdbee6dcbbaf0ba8ec5f990e59d3c93a4a"
+      },
+      {
+        "instrument": "USD_THB",
+        "activation_epoch": 1788801445.4757123,
+        "contract_sha256": "365b19ddcbb9700297879c0a1034f2b70dae2c61c9dd4a4ec8e4c60c89c1ea17"
+      },
+      {
+        "instrument": "USD_TRY",
+        "activation_epoch": 1788801445.5046341,
+        "contract_sha256": "29957437da60eafb04a4bcf52f18c7da2d9c899c8ca9535d5212d79b232eb134"
+      },
+      {
+        "instrument": "USD_ZAR",
+        "activation_epoch": 1788801445.536549,
+        "contract_sha256": "05005eb4ec6e9a31ad35fa5af4a3ed1df417c05fc6bca933373f89a5f0c87230"
+      },
+      {
+        "instrument": "ZAR_JPY",
+        "activation_epoch": 1788801445.5704587,
+        "contract_sha256": "77f642ac40900b741692ab9b60e3ce26902bc0ed12afe24751fa1fb24aa6a5ff"
+      }
+    ]
+  },
+  "dashboard_source_sha256": "6eb16350ba63a832bc184c3a238898707905b6f949feba8d1fcfe5bb850fe7cc",
+  "api_observations": [
+    {
+      "observed_epoch": 1788803583.3222172,
+      "status": "current",
+      "reason": null,
+      "generated_epoch": 1788803574.3905494,
+      "counts": {
+        "unavailable": 24,
+        "forecast": 20,
+        "warming": 24
+      },
+      "registry_sha256": "e0aa74fa5d20b7be983050625773834ea68d74ffc15b566ab5e03df9b3380d65",
+      "summary_sha256": "79d300a7855461ce301166b7d9b6d87ca950f5fe1706fa29ab1d4bb8758d1bc0"
+    }
+  ],
+  "baseline": "C:\\Users\\zmoor\\Documents\\forex\\pair_dashboard_consistency_20260907\\DASHBOARD_RELOAD_BEFORE_20260907_135227_504.json",
+  "runtime_writes": 0,
+  "process_starts": 0,
+  "process_stops": 0,
+  "can_place_orders": false,
+  "prediction_improvement_demonstrated": false
+}

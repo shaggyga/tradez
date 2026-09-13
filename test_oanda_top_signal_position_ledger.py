@@ -149,6 +149,11 @@ class TopSignalPositionLedgerTests(unittest.TestCase):
         self.assertAlmostEqual(rows[0]["signal_confidence"], 0.54)
         self.assertAlmostEqual(rows[0]["projected_net_pips"], 3.694)
         self.assertAlmostEqual(rows[0]["directional_gross_to_spread"], 1.25)
+        self.assertEqual(
+            rows[0]["measurement_version"],
+            ledger.PREVIOUS_MEASUREMENT_VERSION,
+        )
+        self.assertFalse(rows[0]["strict_lineage_available"])
         self.assertTrue(rows[0]["negative_historical_warmup"])
         self.assertTrue(rows[0]["promotion_rejected"])
         self.assertFalse(rows[0]["execution_validation"]["validated"])
@@ -164,6 +169,10 @@ class TopSignalPositionLedgerTests(unittest.TestCase):
             "execution_validation": {"validated": True},
             "direction_conflict": True,
             "horizon_breakdown": [{
+                "aggregate_signal_id": "aggregate_signal_14400",
+                "aggregate_signal_lineage_contract_id": (
+                    ledger.AGGREGATE_SIGNAL_LINEAGE_CONTRACT_ID
+                ),
                 "horizon_sec": 14400, "direction": "buy",
                 "signal_confidence": 0.57,
                 "projected_net_pips": 3.2,
@@ -176,6 +185,17 @@ class TopSignalPositionLedgerTests(unittest.TestCase):
                 "family_count": 7,
                 "signal_eligible": True,
                 "signal_blocked_by": [],
+                "direction_conflict_contract_id": "conflict-v1",
+                "direction_conflict_contributor_count": 1,
+                "direction_conflict_account_eligible_count": 0,
+                "direction_conflict_execution_component_count": 0,
+                "direction_conflict_shadow_only_count": 1,
+                "direction_conflict_only_shadow_or_account_ineligible": True,
+                "direction_conflict_contributors": [{
+                    "family": "inverse_correlation_veto",
+                    "direction": "sell",
+                    "account_eligible": False,
+                }],
             }],
         }]}
 
@@ -184,10 +204,105 @@ class TopSignalPositionLedgerTests(unittest.TestCase):
         self.assertEqual(len(rows), 1)
         self.assertTrue(rows[0]["signal_eligible"])
         self.assertTrue(rows[0]["direction_conflict"])
+        self.assertEqual(rows[0]["signal_id"], "aggregate_signal_14400")
+        self.assertEqual(rows[0]["source_signal_id"], "eligible-conflict")
+        self.assertEqual(
+            rows[0]["signal_lineage_contract_id"],
+            ledger.AGGREGATE_SIGNAL_LINEAGE_CONTRACT_ID,
+        )
+        self.assertEqual(rows[0]["measurement_version"], ledger.MEASUREMENT_VERSION)
+        self.assertTrue(rows[0]["strict_lineage_available"])
+        self.assertEqual(rows[0]["direction_conflict_contract_id"], "conflict-v1")
+        self.assertTrue(
+            rows[0]["direction_conflict_details"][
+                "only_shadow_or_account_ineligible"
+            ]
+        )
+        self.assertEqual(
+            rows[0]["direction_conflict_details"]["contributors"][0]["family"],
+            "inverse_correlation_veto",
+        )
         self.assertEqual(
             rows[0]["policy_state"],
             "conflicted_aggressive_shadow",
         )
+
+    def test_measurement_cohorts_can_open_same_horizon_without_lineage_collision(self):
+        previous = self._diagnostic_candidate("previous", 60)
+        previous["measurement_version"] = ledger.PREVIOUS_MEASUREMENT_VERSION
+        current = self._diagnostic_candidate("current", 60)
+        current["measurement_version"] = ledger.MEASUREMENT_VERSION
+        quotes = {
+            "EUR_USD": {
+                "bid": 1.1000,
+                "ask": 1.1002,
+                "pip": 0.0001,
+                "quote_epoch": 1_000.0,
+            }
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            connection = open_database(Path(directory) / "ledger.sqlite")
+            first = open_positions(
+                connection,
+                [previous],
+                quotes,
+                "2026-09-01T17:00:00+00:00",
+                1_000.0,
+            )
+            second = open_positions(
+                connection,
+                [current],
+                quotes,
+                "2026-09-01T17:00:00+00:00",
+                1_000.0,
+            )
+            rows = connection.execute(
+                "SELECT cohort_key,measurement_version FROM positions "
+                "ORDER BY measurement_version"
+            ).fetchall()
+            connection.close()
+
+        self.assertEqual(first, 1)
+        self.assertEqual(second, 1)
+        self.assertEqual(len(rows), 2)
+        self.assertTrue(all(version in key for key, version in rows))
+
+    def test_same_measurement_horizon_opens_only_once_per_cycle(self):
+        first = self._diagnostic_candidate("first", 60)
+        first["measurement_version"] = ledger.MEASUREMENT_VERSION
+        second = self._diagnostic_candidate("second", 60)
+        second["measurement_version"] = ledger.MEASUREMENT_VERSION
+        second["instrument"] = "GBP_USD"
+        quotes = {
+            "EUR_USD": {
+                "bid": 1.1000,
+                "ask": 1.1002,
+                "pip": 0.0001,
+                "quote_epoch": 1_000.0,
+            },
+            "GBP_USD": {
+                "bid": 1.3000,
+                "ask": 1.3002,
+                "pip": 0.0001,
+                "quote_epoch": 1_000.0,
+            },
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            connection = open_database(Path(directory) / "ledger.sqlite")
+            opened = open_positions(
+                connection,
+                [first, second],
+                quotes,
+                "2026-09-01T17:00:00+00:00",
+                1_000.0,
+            )
+            rows = connection.execute(
+                "SELECT instrument FROM positions"
+            ).fetchall()
+            connection.close()
+
+        self.assertEqual(opened, 1)
+        self.assertEqual(len(rows), 1)
 
     def test_long_outcome_uses_executable_bid_and_ask(self):
         candidate = {

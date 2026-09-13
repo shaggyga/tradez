@@ -1,0 +1,3412 @@
+{
+  "schema_version": "preserved_completed_prediction_baseline_v1",
+  "status": "passed",
+  "evaluation_started_utc": "2026-09-08T14:05:02.474236+00:00",
+  "evaluation_completed_utc": "2026-09-08T14:07:54.664775+00:00",
+  "backup_manifest_path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\SELECTED_LEDGER_BACKUP_MANIFEST_20260908.json",
+  "backup_manifest_sha256": "5fb8fad62c425601694bd09d0811a10c4fbd21701e6323043281b02624d979f6",
+  "evaluator_source_bindings": {
+    "oanda_causal_forecast_inputs.py": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+    "oanda_causal_forecast_inputs_gap_v2.py": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd",
+    "oanda_causal_forecast_inputs_joint_news_v1.py": "9375f116571ef43c18eae65c14fc53fb2f98d8ab132d4b000a0971986d2890ec",
+    "oanda_causal_forecast_inputs_pair_v2.py": "8e58491a49fca967e6d8d2a797cc77f142053576c92a724a2e7336d855fb4899",
+    "oanda_causal_forecast_ledger_joint_news_v1.py": "df915eddafbc9265eb19c9b6757eb14441ebd9ca3864f6601f5a70ca39d65d7b",
+    "oanda_causal_prediction_baselines.py": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+    "oanda_exact_price_scoring.py": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521",
+    "oanda_fixed_forecast_evaluation_joint_news_v1.py": "c1f9940d57c0d39c1815b22a9114752075042a09da3e196e84829e77b293131d",
+    "oanda_joint_price_news_forecast_study_v2.py": "a27fe6e6ee3bf6ec2fdbf52be43661918cee18a5091f096c65994caa5fc24282",
+    "oanda_joint_price_news_models_v1.py": "eb153acb966dc04ad950a0bbfcc730e78a9a0da1d8a24e91d641f473f5cfbc23",
+    "oanda_local_news_sentiment.py": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4",
+    "oanda_news_causal_aggregation_guard_v1.py": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9",
+    "oanda_news_classification_contract.py": "f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae",
+    "oanda_pair_local_models_v2.py": "294c63bf0ed873395c4850a8722a2622eaa2bc563ceb7ecf9886764c63d8bf24",
+    "oanda_source_governance.py": "c4b7793dcef1b9176079a959019f8b69059fbd6644fddf1e8718f924d3a13950",
+    "oanda_source_governance_news_fast_lane.py": "bdd6a2542b3dbddbdf86f7148af4dcb38d0b8591b3f3fcdb843d9eed29898f03",
+    "oanda_joint_price_news_forecast_study_v1.py": "38272ef9f042c50603cc246fcad86f0adca15792f9926c3b0752aeac141033b5",
+    "oanda_causal_forecast_ledger_pair_v2.py": "7bdfbe1fb7076982e6192db39da5d24ae28d70811496115da31cc42ddf39dc8f",
+    "oanda_fixed_forecast_evaluation_pair_v2.py": "16b78433bf70bf46910effd60068ef7a43c690c3f7ad2c729a567e0620b205c2",
+    "oanda_pair_local_forecast_study_v2.py": "457fd8b1316747a0c7a3da60605111b32794e036dad5d96d627075a2a2ac2476"
+  },
+  "registered_sources_unchanged": true,
+  "helper_sha256": "186e9000e2af2360e23bbdb752fb83bd26df61ca7c387899a880adae2739b7f1",
+  "snapshot_observation_start_utc": "2026-09-08T14:00:00.016807+00:00",
+  "snapshot_observation_end_utc": "2026-09-08T14:03:28.481036+00:00",
+  "database_count": 272,
+  "maximum_parallel_workers": 4,
+  "ledger_results": [
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "AUD_CAD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\AUD_CAD\\ridge_price_news_v1.json",
+      "sha256": "443e1b578c33b96042fc45db0ba8f8a8a0501b29a4f71074cb666fa200bee922"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "AUD_CHF",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\AUD_CHF\\ridge_price_news_v1.json",
+      "sha256": "eb19b416f29cb2f48f5089150375bce9280d61353d700631e795a5ca8e89b445"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "AUD_HKD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\AUD_HKD\\ridge_price_news_v1.json",
+      "sha256": "7843de8cc965c3ac2384f93e3971624fe4732d564688aeae56db445bf02d4025"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "AUD_JPY",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\AUD_JPY\\ridge_price_news_v1.json",
+      "sha256": "82b7fc03b4b47d0c2ea790498a597af491f06f721ab43ceec92ddb88569c94d9"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "AUD_NZD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\AUD_NZD\\ridge_price_news_v1.json",
+      "sha256": "590cb6bdf7f23da4673ce597b0fb7496663886f51dd1846c70b3d1a150ad64a6"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "AUD_SGD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\AUD_SGD\\ridge_price_news_v1.json",
+      "sha256": "385e3d410794f9723cf7bcccdb39e0535535d52fce907a8ef82ae3d0397e4fb8"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "AUD_USD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\AUD_USD\\ridge_price_news_v1.json",
+      "sha256": "f45f0c4c58c43f5f7186c0d6bb6b581fa84875eff52d0f4b45a3a7c88d9979cb"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "CAD_CHF",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\CAD_CHF\\ridge_price_news_v1.json",
+      "sha256": "4f23696acf901daa2ee2cd257848a56b11b8b8c1041ab9b3b9d066bd3c07ac45"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "CAD_HKD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\CAD_HKD\\ridge_price_news_v1.json",
+      "sha256": "62f311ad52a71e308ed0873f74e4aacc0a17b48b10674cbbb68207120f992dd0"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "CAD_JPY",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\CAD_JPY\\ridge_price_news_v1.json",
+      "sha256": "84548d7c3238f91c3e5997931226b690180550e7db766cda1dda017d774a40b4"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "CAD_SGD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\CAD_SGD\\ridge_price_news_v1.json",
+      "sha256": "f5592d0eec08d252529dc782f7a18ee14bcdd89ef9da0938ccb03311366a3b9f"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "CHF_HKD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\CHF_HKD\\ridge_price_news_v1.json",
+      "sha256": "d7b5bf4810e1a9410575b4576ecaee817926c3422003f6565638fbd96deb7c3c"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "CHF_JPY",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\CHF_JPY\\ridge_price_news_v1.json",
+      "sha256": "a64f4f4d4ac9389462f79c329e24dc8092eaad4d30083bb71a588cdda67e7bc1"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "CHF_ZAR",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\CHF_ZAR\\ridge_price_news_v1.json",
+      "sha256": "818d7b88e696e6991819d06d6cde4df9a608ec696721fb0fa3b117dc8d8210c2"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "EUR_AUD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\EUR_AUD\\ridge_price_news_v1.json",
+      "sha256": "ac85385c4215ed9f27bae783dadc8eda14d13e45e7adf2bd3e10e96b4fdbebcd"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "EUR_CAD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\EUR_CAD\\ridge_price_news_v1.json",
+      "sha256": "24622c5cded55d9ba69581550ef0eaab7d5ee5698aa06511a1bf555def5a75b8"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "EUR_CHF",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\EUR_CHF\\ridge_price_news_v1.json",
+      "sha256": "6e075368431b6cb2de7f2053c8e98781a8d06e1048078125512145325bb8eccf"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "EUR_CZK",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\EUR_CZK\\ridge_price_news_v1.json",
+      "sha256": "1a623e423428e70d04bc7f578f75da1f1f8a447c29c10dfd6513b207d7a5472b"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "EUR_DKK",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\EUR_DKK\\ridge_price_news_v1.json",
+      "sha256": "68f3da65f65c72492a6c8eb9529a094200945637d4ddbd2b4d88879c22d5a676"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "EUR_GBP",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\EUR_GBP\\ridge_price_news_v1.json",
+      "sha256": "af2b52ba62943d2d615ad7eabb6b70122061da3388d5f1c71bf1f6a665337165"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "EUR_HKD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\EUR_HKD\\ridge_price_news_v1.json",
+      "sha256": "facb76854e7e46444f07365abf634e464b7fce70a347a73fa9bb8d9f3965f827"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "EUR_HUF",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\EUR_HUF\\ridge_price_news_v1.json",
+      "sha256": "6b385525ae2aec2c0c4d7f13a7434b1c9e71aafe553374300925f223ae35bbab"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "EUR_JPY",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\EUR_JPY\\ridge_price_news_v1.json",
+      "sha256": "3e549b07b6cb46448c8942658cfa06d6dcc8ce0e488d129397d92c420880aa4e"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "EUR_NOK",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\EUR_NOK\\ridge_price_news_v1.json",
+      "sha256": "191e67768ea1db5ce0496588551661b7c2cb1febdf485ff10fef23d1f5001744"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "EUR_NZD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\EUR_NZD\\ridge_price_news_v1.json",
+      "sha256": "ac4d9ef5b379876c2dbe9e6bd6b6f946a7c3adb9b1d362e5a65f6f0978efdc75"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "EUR_PLN",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\EUR_PLN\\ridge_price_news_v1.json",
+      "sha256": "9c462edb0a684c51581d673680c06dea762f18cc0d90b1d18e0b3b4c64c4cde0"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "EUR_SEK",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\EUR_SEK\\ridge_price_news_v1.json",
+      "sha256": "73eed0d0976d8f1dc42225f363c348c358dc809782bc2d0bc14767165706e4a4"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "EUR_SGD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\EUR_SGD\\ridge_price_news_v1.json",
+      "sha256": "25e138bd90580afee6d60d05de68ffce6fb79c43c384131d4f3686bb9ca0bc11"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "EUR_TRY",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\EUR_TRY\\ridge_price_news_v1.json",
+      "sha256": "8fd060c92400f3ec670c46705a913986fe1fc937c9ff34b72017b380ac5d7440"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "EUR_USD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\EUR_USD\\ridge_price_news_v1.json",
+      "sha256": "4d9c9a5f56939160b56fdbf0059067058911bc7b5b18db62047708a6ddf233b9"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "EUR_ZAR",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\EUR_ZAR\\ridge_price_news_v1.json",
+      "sha256": "52d0acaa91e9c8d3ab9db2ec723d5e2317481a09a12975d83020d1c758dace33"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "GBP_AUD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\GBP_AUD\\ridge_price_news_v1.json",
+      "sha256": "4eff0c9b0f0de32c7e775545e81bbef0120882be6b9b0ff5b8cebf4d1db26941"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "GBP_CAD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\GBP_CAD\\ridge_price_news_v1.json",
+      "sha256": "96350ebb25534e9af42c59161e0d91d34018819240937fec0d18c162f960c084"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "GBP_CHF",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\GBP_CHF\\ridge_price_news_v1.json",
+      "sha256": "8bd40603557216830269ac28e3ad8ac30c6a6e249c20c6ec5c184d5dd8fe7547"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "GBP_HKD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\GBP_HKD\\ridge_price_news_v1.json",
+      "sha256": "e7453675fda9cc3c63b2c8f21dbe2b2672a77a424b2e75db96cde6424104be51"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "GBP_JPY",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\GBP_JPY\\ridge_price_news_v1.json",
+      "sha256": "a2338b789d8cb68bd01ee11b79a6be8126f15b1bef68e4cb46b400eb8c4b157f"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "GBP_NZD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\GBP_NZD\\ridge_price_news_v1.json",
+      "sha256": "6cdd3ad39a74f6744d26837e146a81021970de6c43c444d2bec726c848bd116c"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "GBP_PLN",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\GBP_PLN\\ridge_price_news_v1.json",
+      "sha256": "684486b25cec1aa9b91b944be213cfd261cf4147a1d513a8b6b9c52ce0fb2274"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "GBP_SGD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\GBP_SGD\\ridge_price_news_v1.json",
+      "sha256": "68b2d070f48ab45ac1dcec59753b99bbbfe91aa89bfe4c689ea8d4510aa8ffda"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "GBP_USD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\GBP_USD\\ridge_price_news_v1.json",
+      "sha256": "74fca5addfab6b3b4f08399a65bad8c6c47b61d019f7e12ed548355b3d129126"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "GBP_ZAR",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\GBP_ZAR\\ridge_price_news_v1.json",
+      "sha256": "7ba1122f0347e845ae8d6e5db0c23ff6e24531e829f4b87b37c783000bdb18ef"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "HKD_JPY",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\HKD_JPY\\ridge_price_news_v1.json",
+      "sha256": "d6d0c02460abb45dfbf20a2e89bba1fcdcdcffdf3e47dfeabaeb78b9227d77b7"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "NZD_CAD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\NZD_CAD\\ridge_price_news_v1.json",
+      "sha256": "68b4c837860b5bd274c7828dec9b12354eb315a64ad8375dc2808154e4fc35d9"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "NZD_CHF",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\NZD_CHF\\ridge_price_news_v1.json",
+      "sha256": "89ed72287ef9efef0c390112f34043a6e0f1622098698074d2adf4260e9919c5"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "NZD_HKD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\NZD_HKD\\ridge_price_news_v1.json",
+      "sha256": "90511fc98e3a798ef1701eb30b52dedfd4d154c191160c2fc6493227076aa2d0"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "NZD_JPY",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\NZD_JPY\\ridge_price_news_v1.json",
+      "sha256": "f4ed8c813b76dab52fa88b47cd9e53a3cdbbed4ba3976b573da54d3e2fa31c7c"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "NZD_SGD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\NZD_SGD\\ridge_price_news_v1.json",
+      "sha256": "8cbbdadc423668cf0c9d68b157758c03c68dd5f9734e91cba827cf21745b70d9"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "NZD_USD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\NZD_USD\\ridge_price_news_v1.json",
+      "sha256": "c6b3a73f209c2b8ee70cb2894a2e4fb2f382f6c70941a1151ec45a20b434e7b3"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "SGD_CHF",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\SGD_CHF\\ridge_price_news_v1.json",
+      "sha256": "3bf04bb201cf3bcbb0abf6877177e67a08fed1d28a69e36ff1e0e835f97b2093"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "SGD_JPY",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\SGD_JPY\\ridge_price_news_v1.json",
+      "sha256": "a827212bfaf1cf6ed465fb0a7ab8f6f1be8e4a79e95e88591c9f26a9ea4c6679"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "TRY_JPY",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\TRY_JPY\\ridge_price_news_v1.json",
+      "sha256": "e3c49c82c6fb72bb09d08d9282a1216d6dddd28f3b5ffac0608e5ad8daa21036"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "USD_CAD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\USD_CAD\\ridge_price_news_v1.json",
+      "sha256": "ccc0e1fe246339a3ee41be5a2b09e3872a9c827755e1856a71a2e0e73e74b5d8"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "USD_CHF",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\USD_CHF\\ridge_price_news_v1.json",
+      "sha256": "5d5262a57babc5b6b434a99c3b3f74d98691c53cd77c8ab9c5cdadc0312583d1"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "USD_CNH",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\USD_CNH\\ridge_price_news_v1.json",
+      "sha256": "29300650c207693115ada2af02f5bd740c390a75ceeb2b043e049218cb363996"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "USD_CZK",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\USD_CZK\\ridge_price_news_v1.json",
+      "sha256": "21cdd374f14a36ccae3240ff19af88fc9fba02285ef4beaabf705e7bcf2ef97c"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "USD_DKK",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\USD_DKK\\ridge_price_news_v1.json",
+      "sha256": "cab76e6926c3db4f6b076e9dc942b82d87ad0e9b618ff4a48525fa069c7c3951"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "USD_HKD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\USD_HKD\\ridge_price_news_v1.json",
+      "sha256": "4e012878d5398ddcf61e9005a9ddbdcfc7064b40cdf6caa70b1eb8b48fbdee58"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "USD_HUF",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\USD_HUF\\ridge_price_news_v1.json",
+      "sha256": "86d2c82e30718064d8343a321b3407e87342bb7162fa787888df70528806d9dc"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "USD_JPY",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\USD_JPY\\ridge_price_news_v1.json",
+      "sha256": "c491d65b3e3dff32f97dfcd7563183c96522838605d3d6f2ec6fc115742c3bad"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "USD_MXN",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\USD_MXN\\ridge_price_news_v1.json",
+      "sha256": "bfa1bfd31278408c4ed185ee75e4ff86d63c7d8f5fabd23b8824aebc02a7724b"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "USD_NOK",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\USD_NOK\\ridge_price_news_v1.json",
+      "sha256": "db18acb94cf9b06e4aa93c6dcb7885dffeb69242f27e3042056b250fa94204a4"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "USD_PLN",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\USD_PLN\\ridge_price_news_v1.json",
+      "sha256": "25fd942d6a5c62e11e6975d0be3cad2671b4a146affb5a4542dbfac0d9df396e"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "USD_SEK",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\USD_SEK\\ridge_price_news_v1.json",
+      "sha256": "65563fbb291dcf1ac0ce241a846ddc604ed99a39c6ff0dc3dc72e68e1da54562"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "USD_SGD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\USD_SGD\\ridge_price_news_v1.json",
+      "sha256": "3e60eab595ffa4b36580e9ba2cb6f5645bface7b71c9c3971d45399ad2c582bc"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "USD_THB",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\USD_THB\\ridge_price_news_v1.json",
+      "sha256": "2fa2c728ca015dda2647308833d1575c4def157304612009e7fc0f28f84be4a2"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "USD_TRY",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\USD_TRY\\ridge_price_news_v1.json",
+      "sha256": "fa06bacb0ffb2bb2b93bebd68a52cfbac5681a37461b3fbc85901461a81d193e"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "USD_ZAR",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\USD_ZAR\\ridge_price_news_v1.json",
+      "sha256": "bf30da2d42bd08dec8c4cb01975a35b227b25d3af553e14ec3d9dbee4e1e97b8"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "instrument": "ZAR_JPY",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v2\\ZAR_JPY\\ridge_price_news_v1.json",
+      "sha256": "8b0f61b2d7eb3e3f204f326820247e6fd83bafeaf90a19b76c91cbdd28c5f6de"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "AUD_CAD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\AUD_CAD\\ridge_price_news_v1.json",
+      "sha256": "4823147ae0335a1025da1e64d5f2435d88d25b26354c0f37d242571b4686847b"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "AUD_CHF",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\AUD_CHF\\ridge_price_news_v1.json",
+      "sha256": "6b0293f167ce683dbc0a7609a632e15bffc943df5783f1182edff47ac1814beb"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "AUD_HKD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\AUD_HKD\\ridge_price_news_v1.json",
+      "sha256": "8bb27cf20a6fd083a3110013b5dfa4f54b8ef4babe0b995a8a25a7c6343905b1"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "AUD_JPY",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\AUD_JPY\\ridge_price_news_v1.json",
+      "sha256": "df8c8935f805b97756f36acb721873fb7074e882f629fbeeabdb7964b69ec3f6"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "AUD_NZD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\AUD_NZD\\ridge_price_news_v1.json",
+      "sha256": "9a9540c8615da4f28d7eee86403d98ed809d60cb1144d52b7470cae0cd5102be"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "AUD_SGD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\AUD_SGD\\ridge_price_news_v1.json",
+      "sha256": "cd83d144577bd3ca716c784f35c9e548ab017953ba822688d1d7336874be7dcf"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "AUD_USD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\AUD_USD\\ridge_price_news_v1.json",
+      "sha256": "8b5fac7568f6d11fea720f223b9c8224d891a738c27dc66117ea15a46677d437"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "CAD_CHF",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\CAD_CHF\\ridge_price_news_v1.json",
+      "sha256": "4632a08a935822e7d9ffe4ad2fd1ee5cd4e2206fa4b5befa97f47ff62e814dc8"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "CAD_HKD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\CAD_HKD\\ridge_price_news_v1.json",
+      "sha256": "fb9cdb53c9d3eb41619dc859851e4fee1be1bad05a4af007fb13bdada829f31d"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "CAD_JPY",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\CAD_JPY\\ridge_price_news_v1.json",
+      "sha256": "69c44ad90017f02bd11d5ff0ebaabc1a54b465cedce4d25f657f3cc5cad1bd17"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "CAD_SGD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\CAD_SGD\\ridge_price_news_v1.json",
+      "sha256": "c7c44d1e2d1c15fdb89960fadda9548e0ff8599e0f9f2c6b6e9a2bd6131fb44e"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "CHF_HKD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\CHF_HKD\\ridge_price_news_v1.json",
+      "sha256": "c48b42590af361801cb3be7a0dcc31844e885b23b9a5f55f7c4749934d9f8324"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "CHF_JPY",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\CHF_JPY\\ridge_price_news_v1.json",
+      "sha256": "4eb8acb97242df2db1c7300999585ab23df12694ef94b8d17246792dde6797c7"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "CHF_ZAR",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\CHF_ZAR\\ridge_price_news_v1.json",
+      "sha256": "3ab9b7fad0c62be26a9aca469c3348d39490051f25ce639f1a6896788f154243"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "EUR_AUD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\EUR_AUD\\ridge_price_news_v1.json",
+      "sha256": "54089184ad5332d3f142d5e20de52450b84921279708aec1f2157fe241ac1ac1"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "EUR_CAD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\EUR_CAD\\ridge_price_news_v1.json",
+      "sha256": "d6e76d94a3de827e9fc6bfb37d084ea0cb2f22587711eac5a6a9454b8dbe9754"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "EUR_CHF",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\EUR_CHF\\ridge_price_news_v1.json",
+      "sha256": "36008e3f9adc746646d9e09224b5bf603e2550ea78b16fabdbee59a43bac3995"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "EUR_CZK",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\EUR_CZK\\ridge_price_news_v1.json",
+      "sha256": "805c25728bfd0a6abc95f5ad2d4c137b2c6866cdcc8a620611fc6231eadb5c3a"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "EUR_DKK",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\EUR_DKK\\ridge_price_news_v1.json",
+      "sha256": "00f57a76536a8054861b5cd3fc7edef17ec656b4b51bc813c8968fb6600f00a0"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "EUR_GBP",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\EUR_GBP\\ridge_price_news_v1.json",
+      "sha256": "ef93a55c5deb079acbfb362d98d1c416eb4404d74c08fc0f0d3ee59404d50455"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "EUR_HKD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\EUR_HKD\\ridge_price_news_v1.json",
+      "sha256": "3fca6207e6c414206c890222e85f612181688f4cfb3b6be1591d75c783ce4f4c"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "EUR_HUF",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\EUR_HUF\\ridge_price_news_v1.json",
+      "sha256": "f8295b0b9718881c3829a544df340f12f840c83af87c026e35bdc202c1d42f2c"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "EUR_JPY",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\EUR_JPY\\ridge_price_news_v1.json",
+      "sha256": "364df54936d30ed6bff7f24e87fc40a929a8e061917f146ba238989848f898a5"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "EUR_NOK",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\EUR_NOK\\ridge_price_news_v1.json",
+      "sha256": "2096f6d610a287c29da17028d9a9c7a777bba6b5842cf3684d426c50bc336343"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "EUR_NZD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\EUR_NZD\\ridge_price_news_v1.json",
+      "sha256": "bcfa65b9422dd7e1e413ef445f780319796136bc660f1486d3660c4e38243613"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "EUR_PLN",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\EUR_PLN\\ridge_price_news_v1.json",
+      "sha256": "767f268250d5fce6c9d77d61308c35e2bc3d850eaa4d014500fb703aa618b287"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "EUR_SEK",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\EUR_SEK\\ridge_price_news_v1.json",
+      "sha256": "bf51d4ce98f78a66eabc0190c0990b0c8e4f580b8b133c23b6a6f45225e8c7aa"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "EUR_SGD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\EUR_SGD\\ridge_price_news_v1.json",
+      "sha256": "fdd93231f10e7b4d5ff230834106489a3ee0f14619c7993cd528f3042d5cfedc"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "EUR_TRY",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\EUR_TRY\\ridge_price_news_v1.json",
+      "sha256": "9d67a08bbe893637593a44704468a5cc15eebfae274991db8d938e2fe8ee9686"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "EUR_USD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\EUR_USD\\ridge_price_news_v1.json",
+      "sha256": "e175a594497fb736047af1040a88ed2ff2b9b228a4a9ec045592766d49a9ff4e"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "EUR_ZAR",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\EUR_ZAR\\ridge_price_news_v1.json",
+      "sha256": "25104ec94721921d77f26f151cb5abfd39f6a30fba32fe453a2a0a61ec67dab5"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "GBP_AUD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\GBP_AUD\\ridge_price_news_v1.json",
+      "sha256": "75b93cc865476c232a0e52532e917842a633db700b48a6df48f250b2750c2db2"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "GBP_CAD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\GBP_CAD\\ridge_price_news_v1.json",
+      "sha256": "073af0f87a90b73b259e78fdb7e2fb6b5ea2cad58b65150b38e66d29f6052459"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "GBP_CHF",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\GBP_CHF\\ridge_price_news_v1.json",
+      "sha256": "11a3b516f8ffad688b99ed9d8ea4ba5223ac1a15a1815e7f7739bb5b966cacca"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "GBP_HKD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\GBP_HKD\\ridge_price_news_v1.json",
+      "sha256": "39bbea4e2f81e8ff918069554c5d5e52aa9f95da60d7da03d794beea18d0daeb"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "GBP_JPY",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\GBP_JPY\\ridge_price_news_v1.json",
+      "sha256": "15f6d0c8b3fee669f36add9cf53b964a39fb2e01ca247c5b2f92f520bc07d726"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "GBP_NZD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\GBP_NZD\\ridge_price_news_v1.json",
+      "sha256": "1cbd7a91cd7cdd63c57a88972a7471dcbfcf100804a8bdaeb3d3992fdc804f04"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "GBP_PLN",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\GBP_PLN\\ridge_price_news_v1.json",
+      "sha256": "51d762c0de36f9cb5311d66bcea75bd600a009aa51d5156d0c61fc2cc6b30a20"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "GBP_SGD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\GBP_SGD\\ridge_price_news_v1.json",
+      "sha256": "a39152b5db6fc062054b9d6025f03d426ec5343b13e2969a2b9dfe72f20f468e"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "GBP_USD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\GBP_USD\\ridge_price_news_v1.json",
+      "sha256": "55c13415b3044cca308935b8b71ef1f340314ab00e878d804babec38c538e078"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "GBP_ZAR",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\GBP_ZAR\\ridge_price_news_v1.json",
+      "sha256": "33857966b2aa654dd53346e55aaffbafdb96f227e8fea054f5706feffce43201"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "HKD_JPY",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\HKD_JPY\\ridge_price_news_v1.json",
+      "sha256": "a9491b2c748c75784d328289453526b3dcda237a0444b0356287f93062191dd4"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "NZD_CAD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\NZD_CAD\\ridge_price_news_v1.json",
+      "sha256": "7589e437f02441ae45d44a39964808080d9bf15b9991804a1d7242e0d980f882"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "NZD_CHF",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\NZD_CHF\\ridge_price_news_v1.json",
+      "sha256": "eedbbd4054be43a7503495cc329270859c0ba7b590674e3cb335572836d77167"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "NZD_HKD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\NZD_HKD\\ridge_price_news_v1.json",
+      "sha256": "fcea06573fa9a21f9fb3c94758ef6eac6cd86b60d56d4adfe4bdc43d18c8652e"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "NZD_JPY",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\NZD_JPY\\ridge_price_news_v1.json",
+      "sha256": "551a3eafb8307a94d2cd4db0a98486768c8b3248a35064fb6fccc50ea7e1f53b"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "NZD_SGD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\NZD_SGD\\ridge_price_news_v1.json",
+      "sha256": "249f26d4a07d9f813b866ac6d6c2d48cce81c0c59a835e406e0fad52a8d2f6e4"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "NZD_USD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\NZD_USD\\ridge_price_news_v1.json",
+      "sha256": "2df42b9324f032ee9d30a6477352c7ac0fbe70d93e48825d891f4c5ce38bb692"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "SGD_CHF",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\SGD_CHF\\ridge_price_news_v1.json",
+      "sha256": "49a4ae5c03865026592bc4e46d61ae11200e46a6534c322216075b09d1c194b3"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "SGD_JPY",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\SGD_JPY\\ridge_price_news_v1.json",
+      "sha256": "463241a72bcab38c40e662ee5b7b308fc03b636d13ff725043a2b3cd03dbffd6"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "TRY_JPY",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\TRY_JPY\\ridge_price_news_v1.json",
+      "sha256": "6f7f8bdabf9a37237e76961065e4e737451f43095fb6946f663cdd64db3b411c"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "USD_CAD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\USD_CAD\\ridge_price_news_v1.json",
+      "sha256": "24178e0606fab959c1d64cead8e54b6f3dac9683fc9b25d73f74babbe1a55009"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "USD_CHF",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\USD_CHF\\ridge_price_news_v1.json",
+      "sha256": "d38bd77d45a26d2585e7fc5ae62fce57ed62e21294b092225d7364a0a601eb73"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "USD_CNH",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\USD_CNH\\ridge_price_news_v1.json",
+      "sha256": "1ffaafc1e0484fb2152f5e989b090761a1c8ad93ca4a69f2bbbf1c2118a8c826"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "USD_CZK",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\USD_CZK\\ridge_price_news_v1.json",
+      "sha256": "cd6126c58e9f77e842ad72191eaf9a917a4d88e6cad7760214201115a92d987e"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "USD_DKK",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\USD_DKK\\ridge_price_news_v1.json",
+      "sha256": "00ed861589bc960fef748a21309d6b9b2c32a2b6db7cf76b3da36a8f12421a73"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "USD_HKD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\USD_HKD\\ridge_price_news_v1.json",
+      "sha256": "02e61d4f92ce3fe982ab22975b01a5cf7bb8542496d8b028d7493462de360512"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "USD_HUF",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\USD_HUF\\ridge_price_news_v1.json",
+      "sha256": "dd2178f843c09143e147aba23b512676be987ac8adaf3f1572d3c4b12fe4d7e9"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "USD_JPY",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\USD_JPY\\ridge_price_news_v1.json",
+      "sha256": "aeccf4b74a5ae157ef85ab3a31d7b92ef45714f18405a5051f5fae6f0d6827bc"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "USD_MXN",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\USD_MXN\\ridge_price_news_v1.json",
+      "sha256": "0d8036565137b0eef1a86e356a7dfd1ae3be0a0ed58407e12a0d2588604d94f9"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "USD_NOK",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\USD_NOK\\ridge_price_news_v1.json",
+      "sha256": "cf92c673ed88d13c7e0b20ba9ca27ca7668b31d34417009d4463193a2afdd22a"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "USD_PLN",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\USD_PLN\\ridge_price_news_v1.json",
+      "sha256": "f6ae4e3579c6e1923610d4ae804df89d7151bfdf22c3de0e25fba720f3c3e40e"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "USD_SEK",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\USD_SEK\\ridge_price_news_v1.json",
+      "sha256": "83c6ff028806095dae0f66580b2a698259354347b80b1ee464c47447f70499ad"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "USD_SGD",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\USD_SGD\\ridge_price_news_v1.json",
+      "sha256": "5926e56e3663e114284b0df6556944b87809caaff07744ddc0b6b62888f42af2"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "USD_THB",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\USD_THB\\ridge_price_news_v1.json",
+      "sha256": "21f1371779375759f04e2203e120d9198fb56f795f77b6e1107c9e3968fb73d8"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "USD_TRY",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\USD_TRY\\ridge_price_news_v1.json",
+      "sha256": "44e388c96936a5b19c667362e97d7280d8727fdf34989688df9746b11ede4e49"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "USD_ZAR",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\USD_ZAR\\ridge_price_news_v1.json",
+      "sha256": "52f89ebfa96694763f4979d5d8d482e0dd8a588cada354ed35c776a77d9a99ef"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "instrument": "ZAR_JPY",
+      "family": "ridge_price_news_v1",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\joint_price_news_study_v1\\ZAR_JPY\\ridge_price_news_v1.json",
+      "sha256": "71c3c4f03d9b73dd6383b0e845dd2728ebf11dba934d0fb062c8d0ae3d376377"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "AUD_CAD",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\AUD_CAD\\probabilistic_state_space.json",
+      "sha256": "0bb461779a769b09e04d1aa30bcfd1fb543f11a03bded227adae171d4aa4b7bb"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "AUD_CAD",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\AUD_CAD\\ridge_return_repaired.json",
+      "sha256": "d4a34f16b8384a52fa7f62a9319664c5f831423ad550268ad71cd7c20fb123b1"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "AUD_CHF",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\AUD_CHF\\probabilistic_state_space.json",
+      "sha256": "8ae8294bfc60460890b2116ac11d5eddfa32f2899d853571eef525e818c328bd"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "AUD_CHF",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\AUD_CHF\\ridge_return_repaired.json",
+      "sha256": "e405e3b27426c79204a8513ec5950599c307c241df58ed8fe4c03dd8bcffec35"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "AUD_HKD",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\AUD_HKD\\probabilistic_state_space.json",
+      "sha256": "a2bbaebe930962a70ebe6af56110f6cd510d888b0e539141c68f4ca28a98da6f"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "AUD_HKD",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\AUD_HKD\\ridge_return_repaired.json",
+      "sha256": "41ae8f549c057fb13be746ffa393c36e33138b5e3c729e0681bfca511edc73f0"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "AUD_JPY",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\AUD_JPY\\probabilistic_state_space.json",
+      "sha256": "386e4e24dc296f730d1bf840140187db37d30934ea70877791a9e95029497ecd"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "AUD_JPY",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\AUD_JPY\\ridge_return_repaired.json",
+      "sha256": "6abf55745d95f8dcc1501addbd45ea9239bb9bf37d53a6cdb3dd416db2738e1a"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "AUD_NZD",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\AUD_NZD\\probabilistic_state_space.json",
+      "sha256": "04c1e43530c58a42ff95f343e64e325cb2f4b7f74d287adb63485a082d9e515a"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "AUD_NZD",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\AUD_NZD\\ridge_return_repaired.json",
+      "sha256": "d44afa360861a5d6c54b440a67871c23d2ee7980202e92db7607243119151080"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "AUD_SGD",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\AUD_SGD\\probabilistic_state_space.json",
+      "sha256": "a83ff515302c24f0c99ed19ccb4bbdc9b02db0b61d0a59d6126cff2a933ef824"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "AUD_SGD",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\AUD_SGD\\ridge_return_repaired.json",
+      "sha256": "1bc5c1fb794438d6c2619837d8be9e0cd2faf9137d36a75d54609fa10031af9f"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "AUD_USD",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\AUD_USD\\probabilistic_state_space.json",
+      "sha256": "8f14f9668fbf2fed2fcde69e189d92cadc3a90faf61eb697faa1fca9d3a02dea"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "AUD_USD",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\AUD_USD\\ridge_return_repaired.json",
+      "sha256": "8c90dac676926b375d3608c9789260e7636e7f38483d54dbc860c3510f11caee"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "CAD_CHF",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\CAD_CHF\\probabilistic_state_space.json",
+      "sha256": "2bcd29b92d848fd0e0cfd5b266323f23211072ba5b1b8a7ddc66caa42b70515c"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "CAD_CHF",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\CAD_CHF\\ridge_return_repaired.json",
+      "sha256": "e0425f010879aa7d68f8cc91c77c3def3d9095ffbac827f5b16fdc840bcb50c3"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "CAD_HKD",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\CAD_HKD\\probabilistic_state_space.json",
+      "sha256": "50b805fcc80e9c86b0e503fa9451e93586fb1b2aa116c66dc79597ddd43ffcbe"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "CAD_HKD",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\CAD_HKD\\ridge_return_repaired.json",
+      "sha256": "78935c07df258067569c620b9ec9af88a742b22dba7cf776662876a3ff6964b7"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "CAD_JPY",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\CAD_JPY\\probabilistic_state_space.json",
+      "sha256": "4a3a85edec181e25368df8e4d4a575ac5ee6937903e69f8b0a592b3161a9512c"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "CAD_JPY",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\CAD_JPY\\ridge_return_repaired.json",
+      "sha256": "82d7275901e04f5361bef3049412baf074d9c1f744a2f1c1832de827d4b66e3f"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "CAD_SGD",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\CAD_SGD\\probabilistic_state_space.json",
+      "sha256": "ff4ba93b9002db6d76093e79bea23892fd8f26e15916e02cadbd0c51b046ce18"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "CAD_SGD",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\CAD_SGD\\ridge_return_repaired.json",
+      "sha256": "353735d56945b86fca614f2b41b55e3fe4ce66fff33dfc56e99f706e331a6325"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "CHF_HKD",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\CHF_HKD\\probabilistic_state_space.json",
+      "sha256": "a2f3e51e538f4786070497f241b141ce65ea49d5bd5111b120d393ff23bce35b"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "CHF_HKD",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\CHF_HKD\\ridge_return_repaired.json",
+      "sha256": "aa4ec3304be199ef8f286a933fb46a9c740923d3acaae23dab1ef5b321471d8f"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "CHF_JPY",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\CHF_JPY\\probabilistic_state_space.json",
+      "sha256": "9a9c22cf153bed68df2934b29851ba2f85e3ba2eb83a545744ce6a5126e35185"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "CHF_JPY",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\CHF_JPY\\ridge_return_repaired.json",
+      "sha256": "19e3a73033a7c7a8d0a817e488039ac4185f9e0388901e24f80855936e8aa407"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "CHF_ZAR",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\CHF_ZAR\\probabilistic_state_space.json",
+      "sha256": "926999cdacc0be0ade6d52a934ac810725e1f8297526dbddb8f41fbdfe57f09a"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "CHF_ZAR",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\CHF_ZAR\\ridge_return_repaired.json",
+      "sha256": "6b1ef0127ff90a9ba07d4d83f19f4ba6eeb3fa337b663ccb6cc6249841365fb4"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_AUD",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_AUD\\probabilistic_state_space.json",
+      "sha256": "d8d0b2afab5b0a8b950ad8daf5a253c3cd078d710c3e44fc80203b96d5631280"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_AUD",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_AUD\\ridge_return_repaired.json",
+      "sha256": "6c4aa07dff09bee50d2fd487c0f8a55754d06f35183720f876947963e93b670c"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_CAD",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_CAD\\probabilistic_state_space.json",
+      "sha256": "cb91c8ce23400342fb898b4722c3ed22378f20b0867bb4afd76dd18a91ca4490"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_CAD",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_CAD\\ridge_return_repaired.json",
+      "sha256": "03a03d7e74a93798fb4b56f9be7e7751349cdc80e7129fb7bbe9791121388344"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_CHF",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_CHF\\probabilistic_state_space.json",
+      "sha256": "0075d155b61519db41e75bbff2aef17a594868408d3f6fe946250cf099833793"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_CHF",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_CHF\\ridge_return_repaired.json",
+      "sha256": "0f59751c0852e969c33c784f13dcbbf8269579c0780eac50e1c9240bd5b51814"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_CZK",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_CZK\\probabilistic_state_space.json",
+      "sha256": "67d72e082c14fd80703c816f710031e60be972e8c1f46ccf56f87d44dc2cf325"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_CZK",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_CZK\\ridge_return_repaired.json",
+      "sha256": "c4ada4d8f8cde4b519f609c04880a554b850837f050b4c52af17dfd119c11218"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_DKK",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_DKK\\probabilistic_state_space.json",
+      "sha256": "870c61f18592a32949db6e05d088fda07677acaad1db74f395dc489f3fc52f7b"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_DKK",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_DKK\\ridge_return_repaired.json",
+      "sha256": "4c1c259e985d54031ff44747c48b256545809f4af997fc3f3da645b193deb34b"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_GBP",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_GBP\\probabilistic_state_space.json",
+      "sha256": "90e6aeb09de0144862f4888b967ef9be922f0e61b0f413d86556725527b3ad58"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_GBP",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_GBP\\ridge_return_repaired.json",
+      "sha256": "eecd1a998420ec2f7be17048397694b23bcf7dfa73af6e31064c374be15a42b8"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_HKD",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_HKD\\probabilistic_state_space.json",
+      "sha256": "e754e3ab83657dccc4726f1b7ba5befe7002259bcd153188727e177bf73c0637"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_HKD",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_HKD\\ridge_return_repaired.json",
+      "sha256": "b676f4d1bb1edefd6033996da48c43f49ebed1373be88a3473568391491fb752"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_HUF",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_HUF\\probabilistic_state_space.json",
+      "sha256": "75202a295caa4ef1ad0231863a2ee3fb65d8dc1ce1d2ea3327c6db1abf09076c"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_HUF",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_HUF\\ridge_return_repaired.json",
+      "sha256": "9cd40976c43cc1259985ca51fa1697180cf2c7ce8b3d0e412b1100dbfa395091"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_JPY",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_JPY\\probabilistic_state_space.json",
+      "sha256": "29b474e31989de6ed2fbde59390865ea7ed9f1618c7ef86e1768459bb54aa51f"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_JPY",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_JPY\\ridge_return_repaired.json",
+      "sha256": "2647651597c3460df4e5b6bcb997137c1438acb36764197abcaf1f94dc54b35d"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_NOK",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_NOK\\probabilistic_state_space.json",
+      "sha256": "38352f64cf0317b80059334ee9fd9537b9d60cac19f083c8fc7ca64b4a81c2d6"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_NOK",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_NOK\\ridge_return_repaired.json",
+      "sha256": "c369f684d6a56fcb6c23b0eb19c9ff655d080a9020694fc605ba1848816b9d53"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_NZD",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_NZD\\probabilistic_state_space.json",
+      "sha256": "312c686b8c9cf9a868cbcfa19efe59c78c51efc1a4a4270da84fb1f18873007a"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_NZD",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_NZD\\ridge_return_repaired.json",
+      "sha256": "1bb1fac6e6739d2631765ae0eba6ee19858a314b781c2c11c9b24fcf611f342a"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_PLN",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_PLN\\probabilistic_state_space.json",
+      "sha256": "1fd13f8752fa2449258080b753fac27a2b16bad5f9f5b60542ec274d2b6814ee"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_PLN",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_PLN\\ridge_return_repaired.json",
+      "sha256": "651e01f6adbf5e62686124b7bc456c2508806c23387e942fbb93c134d1c65265"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_SEK",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_SEK\\probabilistic_state_space.json",
+      "sha256": "0e7374df63b6bd34e708c76839e16fb1b7fcc35b0cf2bb6fd1fe8bd60bbee2aa"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_SEK",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_SEK\\ridge_return_repaired.json",
+      "sha256": "8a25db3ad588e7d4bc9594d13735c384d6b79fd06eabc4e620655ab0c081ec0b"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_SGD",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_SGD\\probabilistic_state_space.json",
+      "sha256": "82e1198d788bccae9e7c2429d1b67f387b900d96ae3cae4c57816af451bbe3a9"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_SGD",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_SGD\\ridge_return_repaired.json",
+      "sha256": "d01ade51fb8d946cd6329579e9200bbf7cdbdeeaad1e0ff86d7df65c53562407"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_TRY",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_TRY\\probabilistic_state_space.json",
+      "sha256": "fa37fe40ccff8ff3629f6a41bb4c8b82a25270e54ca9e1bd7e9c4960518c5ba4"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_TRY",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_TRY\\ridge_return_repaired.json",
+      "sha256": "a6c7d601b3d3a7bb0f34c3e9d59f699adb7c29f499cd02d6b227ca0026a76981"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_USD",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_USD\\probabilistic_state_space.json",
+      "sha256": "333350db633ddb82a90bac6272a670b5f7471b607fd03754a22cb5862ef5b0e3"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_USD",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_USD\\ridge_return_repaired.json",
+      "sha256": "451ed2d2e4a6e20a071fa5deca231ff212aa5011f9d8f19f72ce4f98e0193b61"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_ZAR",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_ZAR\\probabilistic_state_space.json",
+      "sha256": "fe70b81a61624ed0f0c468eb907efbeae065629a5faee1a0a56d1bef67453272"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "EUR_ZAR",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\EUR_ZAR\\ridge_return_repaired.json",
+      "sha256": "714a34633d62b7f09a8e35b62e9d566b9479f8e2db1067cc209c6f1309673cd6"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "GBP_AUD",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\GBP_AUD\\probabilistic_state_space.json",
+      "sha256": "406cc54a684987514e0f4a4e35da66cdf5dfa1dbe6c383096d7622af1973ba4f"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "GBP_AUD",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\GBP_AUD\\ridge_return_repaired.json",
+      "sha256": "5e5c8b974db8dc15e1ef3f5f12eaf37a40940f55f52e987e104e7fd68e96d464"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "GBP_CAD",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\GBP_CAD\\probabilistic_state_space.json",
+      "sha256": "344f684df347f2ecdac05373cba52bc357eafc6c753a04c6215054f47fbafdb8"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "GBP_CAD",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\GBP_CAD\\ridge_return_repaired.json",
+      "sha256": "89c818dfe9a97b2087e3270158f5984e47f1070b29c7f35b3577d00d9722bdce"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "GBP_CHF",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\GBP_CHF\\probabilistic_state_space.json",
+      "sha256": "93eae50fccbbfda677453dbf956a3fe17cedb171141afe4e007850364f1baab1"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "GBP_CHF",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\GBP_CHF\\ridge_return_repaired.json",
+      "sha256": "0fff3933fb6f70def68ba98fcd9c8ddecf0b3fbab92dc4bd41911f453cb9603f"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "GBP_HKD",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\GBP_HKD\\probabilistic_state_space.json",
+      "sha256": "c8d89420daf1ab83c388267cad323d4c57c7f3fd6d510f61b5b0bbb3a6dcc7bf"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "GBP_HKD",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\GBP_HKD\\ridge_return_repaired.json",
+      "sha256": "06873279d78bc7f820d448fc2a81a71790a4ba6bb240617fa70b879850d366fb"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "GBP_JPY",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\GBP_JPY\\probabilistic_state_space.json",
+      "sha256": "ad76f8b41e77b01cfaadc59529c68b17b6022eaaac20360c2ed822e84a1db108"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "GBP_JPY",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\GBP_JPY\\ridge_return_repaired.json",
+      "sha256": "d719cd90b16c5ba12ee3ab2a1e9914b157b4e769d4d1619c89923bc65cb2ac72"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "GBP_NZD",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\GBP_NZD\\probabilistic_state_space.json",
+      "sha256": "64b5207037106f6e073b052f26b7056269a4ed6a387c6f327fd32623913b98fd"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "GBP_NZD",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\GBP_NZD\\ridge_return_repaired.json",
+      "sha256": "70255270161e8d8a39c25fc5fb64e9c8eb03b0c8db046946b4bb2be65f1c9241"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "GBP_PLN",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\GBP_PLN\\probabilistic_state_space.json",
+      "sha256": "1658012d38efebd8f5dc01af49185f5699921db4b08c0231d60bbc2f9eb54ac3"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "GBP_PLN",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\GBP_PLN\\ridge_return_repaired.json",
+      "sha256": "bf77def891c8af009407ed05837a583cc86819fbe570a0c62df910574b18dab5"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "GBP_SGD",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\GBP_SGD\\probabilistic_state_space.json",
+      "sha256": "c1fa2804fa556b48260c39afce8ee24ae92113c179adeff67d47e773cf38b6f5"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "GBP_SGD",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\GBP_SGD\\ridge_return_repaired.json",
+      "sha256": "3abc96d6bbbf0efef4d4e71b8a32fed618513cf482c670ca8c723b026559e6ff"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "GBP_USD",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\GBP_USD\\probabilistic_state_space.json",
+      "sha256": "6c18b1dd9ada42c15c959702ca2e78f7e7b06c4d1f830ac38b0ebc419c8f6a50"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "GBP_USD",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\GBP_USD\\ridge_return_repaired.json",
+      "sha256": "dbf2bfb3fd372b6df9676bfdfa67bb05a8c3175afd445cfaad5fb56ed9eb4eaf"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "GBP_ZAR",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\GBP_ZAR\\probabilistic_state_space.json",
+      "sha256": "726f1ffe1f702fbac1cc3a6bf5dcc74811a5bd46af7d2ab72590ad499f8cc604"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "GBP_ZAR",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\GBP_ZAR\\ridge_return_repaired.json",
+      "sha256": "28e3651c1ead8727e98971cb1b9b7b0186d1df0b6d12cf675dfdbb59927a6c2f"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "HKD_JPY",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\HKD_JPY\\probabilistic_state_space.json",
+      "sha256": "8d5135a1ec2b5c73802c17502c2e5654cee82dba1609a5aaf998cfcfe2baa073"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "HKD_JPY",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\HKD_JPY\\ridge_return_repaired.json",
+      "sha256": "6be25eb1051b869f4a2eb317f9f7be4b674df8f9581839ef7145da46b41057b3"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "NZD_CAD",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\NZD_CAD\\probabilistic_state_space.json",
+      "sha256": "becc70b88196891132cf2734f455fc2aa5a8f8a73b5aea9408bb2c9fdf5633ed"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "NZD_CAD",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\NZD_CAD\\ridge_return_repaired.json",
+      "sha256": "b85cb1634e583cde362cbbd3a7f5efdb11910f1ec80ff2ed4b1fee184b2dfc5b"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "NZD_CHF",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\NZD_CHF\\probabilistic_state_space.json",
+      "sha256": "165187e6636352487ca8ab2e105fd9c1debd911d83dcd8f4f03b7c02363dce2b"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "NZD_CHF",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\NZD_CHF\\ridge_return_repaired.json",
+      "sha256": "381b963729f022a70a55bca1db588839329afdf2f34ca0e3e5f8549554a6ad9a"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "NZD_HKD",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\NZD_HKD\\probabilistic_state_space.json",
+      "sha256": "cb39f0a635f1d451fbfa9eb56cc40f7beb66b0947136f3118a59fd05d28f71ca"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "NZD_HKD",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\NZD_HKD\\ridge_return_repaired.json",
+      "sha256": "3374f9aa1b64d03d8aa1af0d67037218db71e4e67fc5b5628ce8a16bf5c24093"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "NZD_JPY",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\NZD_JPY\\probabilistic_state_space.json",
+      "sha256": "30da77264b1a191136e4584bc29124d0c5354350ff901b7993bffa5c8d8f0abe"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "NZD_JPY",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\NZD_JPY\\ridge_return_repaired.json",
+      "sha256": "636b0d66561e493a60254906c116b23038a254a7f26ccf7329e6318a6933b8bc"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "NZD_SGD",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\NZD_SGD\\probabilistic_state_space.json",
+      "sha256": "e60e3dc31a3847d49c28728a0084b9914702ad5b687f10623e3c3179aa5026b3"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "NZD_SGD",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\NZD_SGD\\ridge_return_repaired.json",
+      "sha256": "c5afc3aa70b91fff749c71295e07049af65ba23f17fb48d33e695d7e14d5ab2c"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "NZD_USD",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\NZD_USD\\probabilistic_state_space.json",
+      "sha256": "9fe9c0ee41b21fcc123857e6d9c20bce1a62b9b26a10a3170107e37d974624cd"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "NZD_USD",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\NZD_USD\\ridge_return_repaired.json",
+      "sha256": "31970f1ac80ff1c6199f3064e9246fe10ef60957b9ab04372ff7e1afa63ddc68"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "SGD_CHF",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\SGD_CHF\\probabilistic_state_space.json",
+      "sha256": "869f10c6ba45899b7410c12a577e4147e20612b8fbc6ee93a90ca10b24ea9d7e"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "SGD_CHF",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\SGD_CHF\\ridge_return_repaired.json",
+      "sha256": "b9138a60146a5a4b3f4eec5909539fb012e59f866a3ffa8141993338d9b421c7"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "SGD_JPY",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\SGD_JPY\\probabilistic_state_space.json",
+      "sha256": "46479d3619424930fb4e1b82485a9a038006215c1f9915c7b73b7dcf152ee2ef"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "SGD_JPY",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\SGD_JPY\\ridge_return_repaired.json",
+      "sha256": "b702fe219b256cfa10aae9b21cef96ed36cc7f730894ffb959a7d0124dc6a79c"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "TRY_JPY",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\TRY_JPY\\probabilistic_state_space.json",
+      "sha256": "4baeff77ad136745491bfc2b74a1b6282de3fd29865eb522cd614a0867b46e76"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "TRY_JPY",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\TRY_JPY\\ridge_return_repaired.json",
+      "sha256": "499f01515312c94e58b0c76ca5c74def811996efde678863905432254db2d950"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_CAD",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_CAD\\probabilistic_state_space.json",
+      "sha256": "f3212e318358a0aea2ba5be490d69ea2c6cb9322585cdc0d61aacf3cb20e0c43"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_CAD",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_CAD\\ridge_return_repaired.json",
+      "sha256": "0580b8c7261817760d805b0660eb1130c73e2d7881965e05147c914e116a673f"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_CHF",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_CHF\\probabilistic_state_space.json",
+      "sha256": "edb904fdfa37fdfc00f12680ddc409a3f611de758ff11f551824e269fc41e33a"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_CHF",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_CHF\\ridge_return_repaired.json",
+      "sha256": "42ee4427d21ad9fdd7d619b7c13e011949ce4bc76d9da1081eeeae9370200e77"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_CNH",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_CNH\\probabilistic_state_space.json",
+      "sha256": "aea1910326b7bd710d82c7647fa912f581c5124e4533b616518812adc9161000"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_CNH",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_CNH\\ridge_return_repaired.json",
+      "sha256": "9b04f111a737c632d1b5e8f5e0c6d0727fe06b1cad863b364ea38c9ba22c5ec3"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_CZK",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_CZK\\probabilistic_state_space.json",
+      "sha256": "c08f8513e677f427ac05f75b2b5a5e41605ab16f23097b0b3bf786596716573a"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_CZK",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_CZK\\ridge_return_repaired.json",
+      "sha256": "07a20f7f80ccee158ce05726dde73dddc1d489eb9d16b651a77f3f67c5b06aa7"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_DKK",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_DKK\\probabilistic_state_space.json",
+      "sha256": "2d368af5d8e4f725df11b8e0bdcd138fefa16687fdad7133695dd3ac1cd43a44"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_DKK",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_DKK\\ridge_return_repaired.json",
+      "sha256": "1c0339aba9d408a2b0316aadd98cf9eb7fa8493b90f6e640d12ba83ba2a82db1"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_HKD",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_HKD\\probabilistic_state_space.json",
+      "sha256": "7af920068b8047ca07e2cb12a0a66f8f834bb9bdd28e633197d86c1e29a48cfc"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_HKD",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_HKD\\ridge_return_repaired.json",
+      "sha256": "cb3e96ded1a40f837879b85dae88c581ca14d341dbf93d53f3a129f65ffce158"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_HUF",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_HUF\\probabilistic_state_space.json",
+      "sha256": "0b091ae8392eedb756577ee50cf572c8be21f103ac388fee7f21875a64b8c66c"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_HUF",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_HUF\\ridge_return_repaired.json",
+      "sha256": "01d5139bad8703f0f657276970aa9995c2a577acf9df2da152dc062e5dcfded2"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_JPY",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_JPY\\probabilistic_state_space.json",
+      "sha256": "3fdb4de558932ee83dc8f98dd3167f6f7500a04401c6bbc76ca564be115996a9"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_JPY",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_JPY\\ridge_return_repaired.json",
+      "sha256": "97540f75c4d50ac638a968d7efbefab3cac6805a58374b95b79f1940575383e0"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_MXN",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_MXN\\probabilistic_state_space.json",
+      "sha256": "dc8f65ed77c0d255a1909869a7401395113620ec134ead6e09f2b59d56ad149f"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_MXN",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_MXN\\ridge_return_repaired.json",
+      "sha256": "0f4b4f764c5c38a682c88ce4031365713e2e8040c0a31006b0833eaee032ecf4"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_NOK",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_NOK\\probabilistic_state_space.json",
+      "sha256": "6581693c05a5839fd60a796220af4affd22c60896fc6d39f45855e072ae2c483"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_NOK",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_NOK\\ridge_return_repaired.json",
+      "sha256": "e2ad29687f1ee78e69b4375ce803a59f9c42c208f604086d4edaaa977a23cb5f"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_PLN",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_PLN\\probabilistic_state_space.json",
+      "sha256": "c4d4616352dc8ce39c46cf3038f6f533c403310272cd7bb252cb5305fd38c8f0"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_PLN",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_PLN\\ridge_return_repaired.json",
+      "sha256": "4c4b5ecafa686e7f3ac67aa0cb67d72efbbcfc5581b123c45807ed78c3d31b0a"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_SEK",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_SEK\\probabilistic_state_space.json",
+      "sha256": "adaebf8f20c2bdefaf1de603358c4a14ab3180c137e700ff3f640519c3d56347"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_SEK",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_SEK\\ridge_return_repaired.json",
+      "sha256": "7752f6d1945ec7f3f6d624f97f7fa790852164a764f01d55cf5075222518efc5"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_SGD",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_SGD\\probabilistic_state_space.json",
+      "sha256": "68a2b7bda558385ac2dd52a27daf99492089a961225cb3f13d4238ac5442b20e"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_SGD",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_SGD\\ridge_return_repaired.json",
+      "sha256": "9c7b9f71305e89734f5693f822b2a01573c5c998173d7072550961d64991207c"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_THB",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_THB\\probabilistic_state_space.json",
+      "sha256": "943bc84674949704a98e7fe7d53189865e6a11035d677c4acf00a81d6ce5b739"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_THB",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_THB\\ridge_return_repaired.json",
+      "sha256": "c2e3b4d0d322d2e471feb404f43273c8b2b52721121af193d95cbb838fc51f97"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_TRY",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_TRY\\probabilistic_state_space.json",
+      "sha256": "a35ce0fc6c77e1439ab8cc8603d2ca46012987a1aee72505fc14ec2011fef1e2"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_TRY",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_TRY\\ridge_return_repaired.json",
+      "sha256": "e7d0689a845e2af534d7d4759c0f54073b2c3a8b449d5ae7d74acca43ac2e0af"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_ZAR",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_ZAR\\probabilistic_state_space.json",
+      "sha256": "5154f986a9b557334e32c05bebe894ede2f254c6adfdd7ffc5b8fa6907eeb079"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "USD_ZAR",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\USD_ZAR\\ridge_return_repaired.json",
+      "sha256": "8fef422f549e5106cebf898de639ad69900966e50200e0b57719aa2b69b2c13e"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "ZAR_JPY",
+      "family": "probabilistic_state_space",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\ZAR_JPY\\probabilistic_state_space.json",
+      "sha256": "f92ee1808b5a934c65272ed639be71e2b19edf94db48ce39b7996656cd485d08"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "instrument": "ZAR_JPY",
+      "family": "ridge_return_repaired",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\scored_snapshots\\CURRENT\\pair_local_forecast_study_v2\\ZAR_JPY\\ridge_return_repaired.json",
+      "sha256": "7072fd00f8a0bc484a112c7f9441db50e63c223386e5a4a2da42ffa970c14314"
+    }
+  ],
+  "study_coverage": [
+    {
+      "study": "joint_price_news_study_v2",
+      "ledgers": 68,
+      "counts": {
+        "quotes": 956761,
+        "attempts": 2872,
+        "diagnostics": 8,
+        "inputs": 2872,
+        "forecasts": 2864,
+        "publication": 2864,
+        "consumption": 2864,
+        "entries": 2819,
+        "outcomes": 2779,
+        "exclusions": 85
+      },
+      "pairs_ever_published": 63,
+      "pairs_with_unexpired_published_forecast_at_own_snapshot": 0,
+      "unexpired_published_forecasts_at_own_snapshot": 0,
+      "stored_scorecard_scored_rows": 2779,
+      "exact_rescored_original_completed_rows": 2779,
+      "original_exclusion_reasons": {
+        "missing_later_entry_before_deadline": 45,
+        "missing_quote_at_original_target": 40
+      },
+      "target_due_without_recorded_outcome_or_exclusion": 0
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "ledgers": 68,
+      "counts": {
+        "quotes": 981492,
+        "attempts": 1199,
+        "diagnostics": 13,
+        "inputs": 1199,
+        "forecasts": 1186,
+        "publication": 1186,
+        "consumption": 1186,
+        "entries": 1165,
+        "outcomes": 1154,
+        "exclusions": 32
+      },
+      "pairs_ever_published": 63,
+      "pairs_with_unexpired_published_forecast_at_own_snapshot": 0,
+      "unexpired_published_forecasts_at_own_snapshot": 0,
+      "stored_scorecard_scored_rows": 1154,
+      "exact_rescored_original_completed_rows": 1154,
+      "original_exclusion_reasons": {
+        "missing_later_entry_before_deadline": 21,
+        "missing_quote_at_original_target": 11
+      },
+      "target_due_without_recorded_outcome_or_exclusion": 0
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "ledgers": 136,
+      "counts": {
+        "quotes": 2000327,
+        "attempts": 9024,
+        "diagnostics": 0,
+        "inputs": 8926,
+        "forecasts": 9024,
+        "publication": 9024,
+        "consumption": 9024,
+        "entries": 8759,
+        "outcomes": 8101,
+        "exclusions": 434
+      },
+      "pairs_ever_published": 68,
+      "pairs_with_unexpired_published_forecast_at_own_snapshot": 68,
+      "unexpired_published_forecasts_at_own_snapshot": 497,
+      "stored_scorecard_scored_rows": 8095,
+      "exact_rescored_original_completed_rows": 8101,
+      "original_exclusion_reasons": {
+        "missing_quote_at_original_target": 169,
+        "missing_later_entry_before_deadline": 265
+      },
+      "target_due_without_recorded_outcome_or_exclusion": 1
+    }
+  ],
+  "metrics": [
+    {
+      "study": "joint_price_news_study_v1",
+      "family": "ridge_price_news_v1",
+      "scored_arm": "fair_coin",
+      "valid_completed_decisions": 1154,
+      "directional_decisions": 0,
+      "neutral_decisions": 1154,
+      "direction_hits": 0,
+      "direction_hit_rate_when_directional": null,
+      "positive_after_spread": 0,
+      "positive_after_spread_rate_when_directional": null,
+      "mean_brier": "0.25",
+      "brier_denominator": 1154,
+      "mae_bps": null,
+      "magnitude_denominator": 0,
+      "rmse_bps": null,
+      "mean_net_bps_per_valid_decision": "0",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0.5": "0"
+      },
+      "probability_scope": "uncalibrated_registered_predictions"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "family": "ridge_price_news_v1",
+      "scored_arm": "matched_price_only",
+      "valid_completed_decisions": 1154,
+      "directional_decisions": 1154,
+      "neutral_decisions": 0,
+      "direction_hits": 569,
+      "direction_hit_rate_when_directional": "0.49306759098786828422876949740034662045060658578856152512998266897746967071057192",
+      "positive_after_spread": 327,
+      "positive_after_spread_rate_when_directional": "0.28336221837088388214904679376083188908145580589254766031195840554592720970537262",
+      "mean_brier": null,
+      "brier_denominator": 0,
+      "mae_bps": "6.0039257782071410448352636077969035215583361388684889791971136350204606355513218",
+      "magnitude_denominator": 1154,
+      "rmse_bps": "8.6845196236909713099722478929479791763221060273163550733564041673758548591770458",
+      "mean_net_bps_per_valid_decision": "-3.3164523028570036454784696181109722433168218737763714579816241653672314208735438",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0.5": "-3.8164523028570036454784696181109722433168218737763714579816241653672314208735438"
+      },
+      "probability_scope": "no_probability_forecast_provided"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "family": "ridge_price_news_v1",
+      "scored_arm": "neutral_news_ablation",
+      "valid_completed_decisions": 1154,
+      "directional_decisions": 1154,
+      "neutral_decisions": 0,
+      "direction_hits": 553,
+      "direction_hit_rate_when_directional": "0.47920277296360485268630849220103986135181975736568457538994800693240901213171577",
+      "positive_after_spread": 295,
+      "positive_after_spread_rate_when_directional": "0.25563258232235701906412478336221837088388214904679376083188908145580589254766031",
+      "mean_brier": null,
+      "brier_denominator": 0,
+      "mae_bps": "6.0834445773161877801628480621164943034443269972795721888028368768811747720341155",
+      "magnitude_denominator": 1154,
+      "rmse_bps": "8.8972069140697923639653229592672037307002435770377154986986154148259534628844755",
+      "mean_net_bps_per_valid_decision": "-4.1348458659311860451350651733280649375937532444592382301732367920164935826811876",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0.5": "-4.6348458659311860451350651733280649375937532444592382301732367920164935826811874"
+      },
+      "probability_scope": "no_probability_forecast_provided"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "family": "ridge_price_news_v1",
+      "scored_arm": "no_trade",
+      "valid_completed_decisions": 1154,
+      "directional_decisions": 0,
+      "neutral_decisions": 1154,
+      "direction_hits": 0,
+      "direction_hit_rate_when_directional": null,
+      "positive_after_spread": 0,
+      "positive_after_spread_rate_when_directional": null,
+      "mean_brier": null,
+      "brier_denominator": 0,
+      "mae_bps": null,
+      "magnitude_denominator": 0,
+      "rmse_bps": null,
+      "mean_net_bps_per_valid_decision": "0",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0.5": "0"
+      },
+      "probability_scope": "no_probability_forecast_provided"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "family": "ridge_price_news_v1",
+      "scored_arm": "ridge_price_news_v1",
+      "valid_completed_decisions": 1154,
+      "directional_decisions": 1154,
+      "neutral_decisions": 0,
+      "direction_hits": 603,
+      "direction_hit_rate_when_directional": "0.52253032928942807625649913344887348353552859618717504332755632582322357019064125",
+      "positive_after_spread": 329,
+      "positive_after_spread_rate_when_directional": "0.28509532062391681109185441941074523396880415944540727902946273830155979202772964",
+      "mean_brier": "0.25045737979223232289256461123745805034662045060658578856152512998266897746967071",
+      "brier_denominator": 1154,
+      "mae_bps": "5.8555827253339086324154814603464872917891884587326517987091656232468812340123106",
+      "magnitude_denominator": 1154,
+      "rmse_bps": "8.5348951759899352176204874031819514877370812783887815410177733400567939595635178",
+      "mean_net_bps_per_valid_decision": "-3.4259587783037760866006873035898377174657182461938762644371373398356912557079246",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0.5": "-3.9259587783037760866006873035898377174657182461938762644371373398356912557079244"
+      },
+      "probability_scope": "uncalibrated_registered_predictions"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "family": "ridge_price_news_v1",
+      "scored_arm": "rolling_class_rate",
+      "valid_completed_decisions": 1154,
+      "directional_decisions": 18,
+      "neutral_decisions": 1136,
+      "direction_hits": 8,
+      "direction_hit_rate_when_directional": "0.44444444444444444444444444444444444444444444444444444444444444444444444444444444",
+      "positive_after_spread": 7,
+      "positive_after_spread_rate_when_directional": "0.38888888888888888888888888888888888888888888888888888888888888888888888888888889",
+      "mean_brier": "0.25029743473893674872777870994136779767607841422093008734867726046744876771297720",
+      "brier_denominator": 1154,
+      "mae_bps": null,
+      "magnitude_denominator": 0,
+      "rmse_bps": null,
+      "mean_net_bps_per_valid_decision": "-0.057074554184941973810578976637636730344640862714022663593819499869871729301134443",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0.5": "-0.064873514323590154053213292062246782337708453701890947822588997270218349751741029"
+      },
+      "probability_scope": "uncalibrated_registered_predictions"
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "family": "ridge_price_news_v1",
+      "scored_arm": "zero_move",
+      "valid_completed_decisions": 1154,
+      "directional_decisions": 0,
+      "neutral_decisions": 1154,
+      "direction_hits": 0,
+      "direction_hit_rate_when_directional": null,
+      "positive_after_spread": 0,
+      "positive_after_spread_rate_when_directional": null,
+      "mean_brier": null,
+      "brier_denominator": 0,
+      "mae_bps": "5.7040481966333889023586663246306567909079796169658372747152760151965905575047906",
+      "magnitude_denominator": 1154,
+      "rmse_bps": "8.3901494140862040721979041255091263621750380526133952115965036561049109536264348",
+      "mean_net_bps_per_valid_decision": "0",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0.5": "0"
+      },
+      "probability_scope": "no_probability_forecast_provided"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "family": "ridge_price_news_v1",
+      "scored_arm": "fair_coin",
+      "valid_completed_decisions": 2779,
+      "directional_decisions": 0,
+      "neutral_decisions": 2779,
+      "direction_hits": 0,
+      "direction_hit_rate_when_directional": null,
+      "positive_after_spread": 0,
+      "positive_after_spread_rate_when_directional": null,
+      "mean_brier": "0.25",
+      "brier_denominator": 2779,
+      "mae_bps": null,
+      "magnitude_denominator": 0,
+      "rmse_bps": null,
+      "mean_net_bps_per_valid_decision": "0",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0.5": "0"
+      },
+      "probability_scope": "uncalibrated_registered_predictions"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "family": "ridge_price_news_v1",
+      "scored_arm": "matched_price_only",
+      "valid_completed_decisions": 2779,
+      "directional_decisions": 2779,
+      "neutral_decisions": 0,
+      "direction_hits": 1395,
+      "direction_hit_rate_when_directional": "0.50197912918315940985966174883051457358762144656351205469593378913278157610651313",
+      "positive_after_spread": 829,
+      "positive_after_spread_rate_when_directional": "0.29830874415257286793810723281756027347966894566390788053256567110471392587261605",
+      "mean_brier": null,
+      "brier_denominator": 0,
+      "mae_bps": "6.3972358618435994365676757602557415800417367613850411175413114744211273163388107",
+      "magnitude_denominator": 2779,
+      "rmse_bps": "9.1063840718793086854210770581028910555253488237520232546391592649665760379219279",
+      "mean_net_bps_per_valid_decision": "-3.1701986712658936816804819340876352327804349590390675354593687010483599484881849",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0.5": "-3.6701986712658936816804819340876352327804349590390675354593687010483599484881850"
+      },
+      "probability_scope": "no_probability_forecast_provided"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "family": "ridge_price_news_v1",
+      "scored_arm": "neutral_news_ablation",
+      "valid_completed_decisions": 2779,
+      "directional_decisions": 2779,
+      "neutral_decisions": 0,
+      "direction_hits": 1298,
+      "direction_hit_rate_when_directional": "0.46707448722562072688017272400143936667866138898884490824037423533645196113709968",
+      "positive_after_spread": 713,
+      "positive_after_spread_rate_when_directional": "0.25656711047139258726160489384670744872256207268801727240014393666786613889888449",
+      "mean_brier": null,
+      "brier_denominator": 0,
+      "mae_bps": "6.5452551494437919677991264614624549994181839099731082066700927178146232865584343",
+      "magnitude_denominator": 2779,
+      "rmse_bps": "9.3968274536793309518990720389544050666876019883844366639472709263855599094563813",
+      "mean_net_bps_per_valid_decision": "-4.1204907357060146977180855206923163007117028416667007608209191656841448439478294",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0.5": "-4.6204907357060146977180855206923163007117028416667007608209191656841448439478294"
+      },
+      "probability_scope": "no_probability_forecast_provided"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "family": "ridge_price_news_v1",
+      "scored_arm": "no_trade",
+      "valid_completed_decisions": 2779,
+      "directional_decisions": 0,
+      "neutral_decisions": 2779,
+      "direction_hits": 0,
+      "direction_hit_rate_when_directional": null,
+      "positive_after_spread": 0,
+      "positive_after_spread_rate_when_directional": null,
+      "mean_brier": null,
+      "brier_denominator": 0,
+      "mae_bps": null,
+      "magnitude_denominator": 0,
+      "rmse_bps": null,
+      "mean_net_bps_per_valid_decision": "0",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0.5": "0"
+      },
+      "probability_scope": "no_probability_forecast_provided"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "family": "ridge_price_news_v1",
+      "scored_arm": "ridge_price_news_v1",
+      "valid_completed_decisions": 2779,
+      "directional_decisions": 2779,
+      "neutral_decisions": 0,
+      "direction_hits": 1447,
+      "direction_hit_rate_when_directional": "0.52069089600575746671464555595537963296149694134580784454839870456998920474991004",
+      "positive_after_spread": 852,
+      "positive_after_spread_rate_when_directional": "0.30658510255487585462396545519971212666426772220223101835192515293270960777258006",
+      "mean_brier": "0.25180411379637625523147391943661613591219863260165527168046059733717164447643037",
+      "brier_denominator": 2779,
+      "mae_bps": "6.3316510908004112754028393562443434340512979213503540330271794312240641873782774",
+      "magnitude_denominator": 2779,
+      "rmse_bps": "9.0488528774248565662765076458237001657143493887008623023818172829304255230618859",
+      "mean_net_bps_per_valid_decision": "-2.9692647478638603098012264847337703902679615106100001890715266003670251756389344",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0.5": "-3.4692647478638603098012264847337703902679615106100001890715266003670251756389342"
+      },
+      "probability_scope": "uncalibrated_registered_predictions"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "family": "ridge_price_news_v1",
+      "scored_arm": "rolling_class_rate",
+      "valid_completed_decisions": 2779,
+      "directional_decisions": 1276,
+      "neutral_decisions": 1503,
+      "direction_hits": 585,
+      "direction_hit_rate_when_directional": "0.45846394984326018808777429467084639498432601880877742946708463949843260188087774",
+      "positive_after_spread": 389,
+      "positive_after_spread_rate_when_directional": "0.30485893416927899686520376175548589341692789968652037617554858934169278996865204",
+      "mean_brier": "0.26463750813782185587404041506851590063368712069434113705209669050353608098918240",
+      "brier_denominator": 2779,
+      "mae_bps": null,
+      "magnitude_denominator": 0,
+      "rmse_bps": null,
+      "mean_net_bps_per_valid_decision": "-1.6442100512683524812808993270058119547438300193965713225289608656015762197007598",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0.5": "-1.8737890365148440250016621913455024909079178207639696672572804050042390480562835"
+      },
+      "probability_scope": "uncalibrated_registered_predictions"
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "family": "ridge_price_news_v1",
+      "scored_arm": "zero_move",
+      "valid_completed_decisions": 2779,
+      "directional_decisions": 0,
+      "neutral_decisions": 2779,
+      "direction_hits": 0,
+      "direction_hit_rate_when_directional": null,
+      "positive_after_spread": 0,
+      "positive_after_spread_rate_when_directional": null,
+      "mean_brier": null,
+      "brier_denominator": 0,
+      "mae_bps": "6.1581855009970712247104058325869653577569908863876160669956004007120147837051051",
+      "magnitude_denominator": 2779,
+      "rmse_bps": "8.9458695613209296497034485001649395339098309997000287754670247092067407677765644",
+      "mean_net_bps_per_valid_decision": "0",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0.5": "0"
+      },
+      "probability_scope": "no_probability_forecast_provided"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "family": "probabilistic_state_space",
+      "scored_arm": "fair_coin",
+      "valid_completed_decisions": 4101,
+      "directional_decisions": 0,
+      "neutral_decisions": 4101,
+      "direction_hits": 0,
+      "direction_hit_rate_when_directional": null,
+      "positive_after_spread": 0,
+      "positive_after_spread_rate_when_directional": null,
+      "mean_brier": "0.25",
+      "brier_denominator": 4101,
+      "mae_bps": null,
+      "magnitude_denominator": 0,
+      "rmse_bps": null,
+      "mean_net_bps_per_valid_decision": "0",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0.5": "0"
+      },
+      "probability_scope": "uncalibrated_registered_predictions"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "family": "probabilistic_state_space",
+      "scored_arm": "no_trade",
+      "valid_completed_decisions": 4101,
+      "directional_decisions": 0,
+      "neutral_decisions": 4101,
+      "direction_hits": 0,
+      "direction_hit_rate_when_directional": null,
+      "positive_after_spread": 0,
+      "positive_after_spread_rate_when_directional": null,
+      "mean_brier": null,
+      "brier_denominator": 0,
+      "mae_bps": null,
+      "magnitude_denominator": 0,
+      "rmse_bps": null,
+      "mean_net_bps_per_valid_decision": "0",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0.5": "0"
+      },
+      "probability_scope": "no_probability_forecast_provided"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "family": "probabilistic_state_space",
+      "scored_arm": "probabilistic_state_space",
+      "valid_completed_decisions": 4101,
+      "directional_decisions": 4101,
+      "neutral_decisions": 0,
+      "direction_hits": 2022,
+      "direction_hit_rate_when_directional": "0.49305047549378200438917337234820775420629114850036576444769568397951719092904170",
+      "positive_after_spread": 1157,
+      "positive_after_spread_rate_when_directional": "0.28212631065593757620092660326749573274811021702023896610582784686661789807364058",
+      "mean_brier": "0.26146643072039542526202949803688508749085588880760790051207022677395757132406730",
+      "brier_denominator": 4101,
+      "mae_bps": "7.2926295045060057752200223674921793113144052371027730153582219973156800719443428",
+      "magnitude_denominator": 4101,
+      "rmse_bps": "10.444682432135957997425763282336335373847081801540016897627272599029044100305173",
+      "mean_net_bps_per_valid_decision": "-3.7373206616651349197955374531090327898090322042991555217205717820730846390177364",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0.5": "-4.2373206616651349197955374531090327898090322042991555217205717820730846390177349"
+      },
+      "probability_scope": "uncalibrated_registered_predictions"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "family": "probabilistic_state_space",
+      "scored_arm": "rolling_class_rate",
+      "valid_completed_decisions": 4101,
+      "directional_decisions": 2406,
+      "neutral_decisions": 1695,
+      "direction_hits": 1039,
+      "direction_hit_rate_when_directional": "0.43183707398171238570241064006650041562759767248545303408146300914380714879467997",
+      "positive_after_spread": 610,
+      "positive_after_spread_rate_when_directional": "0.25353283458021612635078969243557772236076475477971737323358270989193682460515378",
+      "mean_brier": "0.27246251886786031017470652998838581604754800414177335382424488346824040364796333",
+      "brier_denominator": 4101,
+      "mae_bps": null,
+      "magnitude_denominator": 0,
+      "rmse_bps": null,
+      "mean_net_bps_per_valid_decision": "-2.5825960815594972785440499945142164341944497356159692956047748358133658080740532",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0.5": "-2.8759391686114358301168371196056575461183707304952670278651991225726928014902938"
+      },
+      "probability_scope": "uncalibrated_registered_predictions"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "family": "probabilistic_state_space",
+      "scored_arm": "zero_move",
+      "valid_completed_decisions": 4101,
+      "directional_decisions": 0,
+      "neutral_decisions": 4101,
+      "direction_hits": 0,
+      "direction_hit_rate_when_directional": null,
+      "positive_after_spread": 0,
+      "positive_after_spread_rate_when_directional": null,
+      "mean_brier": null,
+      "brier_denominator": 0,
+      "mae_bps": "5.8682968072638354388874514022469181375991134220254269771416507773326301517066467",
+      "magnitude_denominator": 4101,
+      "rmse_bps": "8.5343737294650160051124855146075671116156335971189224270573125881107372667575789",
+      "mean_net_bps_per_valid_decision": "0",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0.5": "0"
+      },
+      "probability_scope": "no_probability_forecast_provided"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "family": "ridge_return_repaired",
+      "scored_arm": "fair_coin",
+      "valid_completed_decisions": 4000,
+      "directional_decisions": 0,
+      "neutral_decisions": 4000,
+      "direction_hits": 0,
+      "direction_hit_rate_when_directional": null,
+      "positive_after_spread": 0,
+      "positive_after_spread_rate_when_directional": null,
+      "mean_brier": "0.25",
+      "brier_denominator": 4000,
+      "mae_bps": null,
+      "magnitude_denominator": 0,
+      "rmse_bps": null,
+      "mean_net_bps_per_valid_decision": "0",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0.5": "0"
+      },
+      "probability_scope": "uncalibrated_registered_predictions"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "family": "ridge_return_repaired",
+      "scored_arm": "no_trade",
+      "valid_completed_decisions": 4000,
+      "directional_decisions": 0,
+      "neutral_decisions": 4000,
+      "direction_hits": 0,
+      "direction_hit_rate_when_directional": null,
+      "positive_after_spread": 0,
+      "positive_after_spread_rate_when_directional": null,
+      "mean_brier": null,
+      "brier_denominator": 0,
+      "mae_bps": null,
+      "magnitude_denominator": 0,
+      "rmse_bps": null,
+      "mean_net_bps_per_valid_decision": "0",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0.5": "0"
+      },
+      "probability_scope": "no_probability_forecast_provided"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "family": "ridge_return_repaired",
+      "scored_arm": "ridge_return_repaired",
+      "valid_completed_decisions": 4000,
+      "directional_decisions": 4000,
+      "neutral_decisions": 0,
+      "direction_hits": 1836,
+      "direction_hit_rate_when_directional": "0.459",
+      "positive_after_spread": 940,
+      "positive_after_spread_rate_when_directional": "0.235",
+      "mean_brier": "0.254733897799020059703145289188752533275",
+      "brier_denominator": 4000,
+      "mae_bps": "6.1953771770697024245272667390987941657821502614347328922696314985191606516127878",
+      "magnitude_denominator": 4000,
+      "rmse_bps": "8.8860729092373452408287126453387532085217192723409553610874961129768259142823140",
+      "mean_net_bps_per_valid_decision": "-4.686521255261645485913679529683671787921160292972843701167072682448051740774494",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0.5": "-5.1865212552616454859136795296836717879211602929728437011670726824480517407744942"
+      },
+      "probability_scope": "uncalibrated_registered_predictions"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "family": "ridge_return_repaired",
+      "scored_arm": "rolling_class_rate",
+      "valid_completed_decisions": 4000,
+      "directional_decisions": 2289,
+      "neutral_decisions": 1711,
+      "direction_hits": 981,
+      "direction_hit_rate_when_directional": "0.42857142857142857142857142857142857142857142857142857142857142857142857142857143",
+      "positive_after_spread": 541,
+      "positive_after_spread_rate_when_directional": "0.23634775010921799912625600698995194408038444735692442114460463084316295325469637",
+      "mean_brier": "0.27126586276058679065893672672611768604565164627025197690665683849088910963254715",
+      "brier_denominator": 4000,
+      "mae_bps": null,
+      "magnitude_denominator": 0,
+      "rmse_bps": null,
+      "mean_net_bps_per_valid_decision": "-2.7147030929174443499003921186628722704201325353264317348644343854023933586058505",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0.5": "-3.0008280929174443499003921186628722704201325353264317348644343854023933586058512"
+      },
+      "probability_scope": "uncalibrated_registered_predictions"
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "family": "ridge_return_repaired",
+      "scored_arm": "zero_move",
+      "valid_completed_decisions": 4000,
+      "directional_decisions": 0,
+      "neutral_decisions": 4000,
+      "direction_hits": 0,
+      "direction_hit_rate_when_directional": null,
+      "positive_after_spread": 0,
+      "positive_after_spread_rate_when_directional": null,
+      "mean_brier": null,
+      "brier_denominator": 0,
+      "mae_bps": "5.8260338203044484792934740859923798618649406603516952219497238232245936439813228",
+      "magnitude_denominator": 4000,
+      "rmse_bps": "8.4693347503097025348724237603657228780706542415611460421662394211448563425231471",
+      "mean_net_bps_per_valid_decision": "0",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0.5": "0"
+      },
+      "probability_scope": "no_probability_forecast_provided"
+    }
+  ],
+  "matched_joint_internal_comparators": [
+    {
+      "study": "joint_price_news_study_v1",
+      "comparator": "matched_price_only",
+      "exact_same_valid_completed_decisions": 1154,
+      "mean_joint_minus_comparator_absolute_error_bps": "-0.14834305287323241241978214745041622976914768013583718048794801177357940153901237",
+      "mean_joint_minus_comparator_net_bps": "-0.10950647544677244112221768547886547414889637241750480645551317446845983483438068",
+      "warning": "Paired engineering decomposition on pre-issue retained comparator magnitudes; does not isolate a causal news effect; comparators supplied no probability."
+    },
+    {
+      "study": "joint_price_news_study_v1",
+      "comparator": "neutral_news_ablation",
+      "exact_same_valid_completed_decisions": 1154,
+      "mean_joint_minus_comparator_absolute_error_bps": "-0.22786185198227914774736660177000701165513853854692039009367125363429353802180575",
+      "mean_joint_minus_comparator_net_bps": "0.70888708762740995853437786973822722012803499826536196573609945218080232697326284",
+      "warning": "Paired engineering decomposition on pre-issue retained comparator magnitudes; does not isolate a causal news effect; comparators supplied no probability."
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "comparator": "matched_price_only",
+      "exact_same_valid_completed_decisions": 2779,
+      "mean_joint_minus_comparator_absolute_error_bps": "-0.065584771043188161164836404011398145990438840034687084514132043197063128960530331",
+      "mean_joint_minus_comparator_net_bps": "0.20093392340203337187925544935386484251247344842906734638784210068133477284925071",
+      "warning": "Paired engineering decomposition on pre-issue retained comparator magnitudes; does not isolate a causal news effect; comparators supplied no probability."
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "comparator": "neutral_news_ablation",
+      "exact_same_valid_completed_decisions": 2779,
+      "mean_joint_minus_comparator_absolute_error_bps": "-0.21360405864338069239628710521811156536688598862275417364291328659055909918015327",
+      "mean_joint_minus_comparator_net_bps": "1.1512259878421543879168590359585459104437413310567005717493925653171196683088942",
+      "warning": "Paired engineering decomposition on pre-issue retained comparator magnitudes; does not isolate a causal news effect; comparators supplied no probability."
+    }
+  ],
+  "exact_endpoint_independent_price_matches": [
+    {
+      "joint_study": "joint_price_news_study_v2",
+      "independent_price_family": "ridge_return_repaired",
+      "same_instrument_reference_target_count": 63,
+      "exact_same_reference_entry_target_prices_and_market_times_count": 30,
+      "joint_summary": {
+        "valid_completed_decisions": 30,
+        "directional_decisions": 30,
+        "neutral_decisions": 0,
+        "direction_hits": 20,
+        "direction_hit_rate_when_directional": "0.66666666666666666666666666666666666666666666666666666666666666666666666666666667",
+        "positive_after_spread": 12,
+        "positive_after_spread_rate_when_directional": "0.4",
+        "mean_brier": "0.23981323965618731460644156932065456",
+        "brier_denominator": 30,
+        "mae_bps": "8.6213222864791323156556158474453999163849561991657577971874006498800463490649333",
+        "magnitude_denominator": 30,
+        "rmse_bps": "12.022599959950068579084809051676059268233374996540361427199273932768757785866339",
+        "mean_net_bps_per_valid_decision": "1.4396158635866346754157337481817141875820374644491249129701817715519145336431670",
+        "stress_mean_net_bps_per_valid_decision": {
+          "0.5": "0.93961586358663467541573374818171418758203746444912491297018177155191453364316703"
+        },
+        "probability_scope": "uncalibrated_registered_predictions"
+      },
+      "independent_price_summary": {
+        "valid_completed_decisions": 30,
+        "directional_decisions": 30,
+        "neutral_decisions": 0,
+        "direction_hits": 17,
+        "direction_hit_rate_when_directional": "0.56666666666666666666666666666666666666666666666666666666666666666666666666666667",
+        "positive_after_spread": 13,
+        "positive_after_spread_rate_when_directional": "0.43333333333333333333333333333333333333333333333333333333333333333333333333333333",
+        "mean_brier": "0.24992993418661358690770792575836701333333333333333333333333333333333333333333333",
+        "brier_denominator": 30,
+        "mae_bps": "8.8577204267598342830836437119086892527549211964979362088240849447952137497115507",
+        "magnitude_denominator": 30,
+        "rmse_bps": "12.112959122024486546436054096607493313101470820061345801926068382342059331832093",
+        "mean_net_bps_per_valid_decision": "0.65001764236579738323761727627264325996343759344687451391220308967586888210063023",
+        "stress_mean_net_bps_per_valid_decision": {
+          "0.5": "0.15001764236579738323761727627264325996343759344687451391220308967586888210063023"
+        },
+        "probability_scope": "uncalibrated_registered_predictions"
+      },
+      "matched_ids": [
+        {
+          "joint": "c06c9d69e3404db6f9f667bc68892a675ae9832109d02baf1bc95f7c7e5c6756",
+          "price": "141aa0c7cf50f5b08c2c7221ffe100a83afe16b3aea6e9638a39e204b209c5f6",
+          "instrument": "AUD_CHF",
+          "reference_epoch": 1788841900.429298
+        },
+        {
+          "joint": "412e39be0078882ac4cd998a57ec4fd619f4012c511fb10280b4b686dc5f32d1",
+          "price": "6eee3d768a0e3168145b9d9fb14630a17e9776590c443da0c33477980745e24f",
+          "instrument": "AUD_SGD",
+          "reference_epoch": 1788838325.124126
+        },
+        {
+          "joint": "cdfbf40afcb404e9b248196cb596e541f15b3ddae8823c90d32168acb738308c",
+          "price": "3fe270d9b6a446f0139272ee7e4ac30cee24086cfa1d76b26a6e8368dc6df011",
+          "instrument": "AUD_USD",
+          "reference_epoch": 1788838324.672602
+        },
+        {
+          "joint": "5bb9ad56cb83399860d7cb0a913a6cd95ff81baed4111c80a1ad114faf8665fd",
+          "price": "5a9a4d117b9aff15636db03505465feef9918a0f369969ec02ec49755a285cd5",
+          "instrument": "CAD_CHF",
+          "reference_epoch": 1788823008.968363
+        },
+        {
+          "joint": "9f81357ebd3cf89dd7ab251c75016a8a09969497be1d4dd89c09aeb1f909b04b",
+          "price": "c7a926d98f67700650409493a5e7569a3d61e6190e3e3cbb6815ca5bcb933842",
+          "instrument": "CAD_CHF",
+          "reference_epoch": 1788838312.802661
+        },
+        {
+          "joint": "ef55a6cee5343bb981c86503d660541adda7289f48ed1d7df8eb27619033fc2d",
+          "price": "c3bdb6666830a5e2097f226963ca591cef08aab10cf4a37a9815bfaceae0c804",
+          "instrument": "CAD_SGD",
+          "reference_epoch": 1788823022.834652
+        },
+        {
+          "joint": "31004d46eba5996a83df592eb1ed1be0e1914fd7ecb0344e92d0384e48c3820d",
+          "price": "a8f877ef2a362f125f5b43b50a7d70dc0ce8971a8ae0b49e1353a547b5a9c087",
+          "instrument": "CAD_SGD",
+          "reference_epoch": 1788838293.17393
+        },
+        {
+          "joint": "b8d62f5d8e9c2c91b4d9daeefb2bce16e1ece776d1ac6f28dd11977f7d157747",
+          "price": "6c1508c3c6d4c0117d6684d56acd809b939542e17a5e8899482c7ea35bc0583c",
+          "instrument": "CAD_SGD",
+          "reference_epoch": 1788841115.72838
+        },
+        {
+          "joint": "5fa534fc874d7fc412c81bc2deea2549820d9727e6610ec231880892afdd4a99",
+          "price": "36af24fd0cca4014e5443de6667dba3a1be3188f0ef3cade90be0067c5e2b51e",
+          "instrument": "EUR_CZK",
+          "reference_epoch": 1788841949.462024
+        },
+        {
+          "joint": "cd8f95eaa9e5cb77c4daaf365c9290f4a11612fe6942f3cb66aec480e5082892",
+          "price": "b66cd400539db0cd020a472e1a0ef23259d096a80d82c4bf045f8bb363887869",
+          "instrument": "EUR_DKK",
+          "reference_epoch": 1788841115.510041
+        },
+        {
+          "joint": "d230a3eddcc4aeee786d74a9b829affbf838180e4a0f699cc4574cf71cb5a172",
+          "price": "15e20e5a0feb1e55b9505d8620e0f90c289d13608ad6178d34d51cb5697a1a71",
+          "instrument": "NZD_CAD",
+          "reference_epoch": 1788837458.134867
+        },
+        {
+          "joint": "68b6ae2ae6e9b0c132e57d39d20aa5f5baf66e0f575eca8adcc07577967e2938",
+          "price": "60d2d29ea70dd0a4cf38f1e4091a7e4aa6ddeee728fd30a8c7523684020728f2",
+          "instrument": "NZD_CHF",
+          "reference_epoch": 1788850124.413596
+        },
+        {
+          "joint": "43dbb86bcc2d8f032bd4b58ef75537369e0f0b2dab92018b40e1840144b61462",
+          "price": "ae32b4c04b5ad58fb7427759bea5676a02ef17668a7c0b4895f3d840d030417a",
+          "instrument": "NZD_HKD",
+          "reference_epoch": 1788850126.23634
+        },
+        {
+          "joint": "4e0ba5b31cd81b476021e2b24dd59820e1cd5648169f2ee17603aa025ae0aa41",
+          "price": "9a09beb195536ba0c2d0244f8e8cbb7cc6a61177a065120e6768e09a56f80464",
+          "instrument": "NZD_SGD",
+          "reference_epoch": 1788821340.773385
+        },
+        {
+          "joint": "535ebbff515813888bf0474b033e7cb2472983034d1d9975a41a38e4529b6dc2",
+          "price": "2af9670903bb10a735173aa3f1427faffff6a4bb42ad06c63410d033f47ee186",
+          "instrument": "NZD_SGD",
+          "reference_epoch": 1788850122.52141
+        },
+        {
+          "joint": "e73965f5c921925dc006307c0761f37b2516363ceae3c10cbe397589b7ebcb3e",
+          "price": "e9aebcea301e847dcf3bc7c2e585b35cde2e98fddd3d0aa2c67dbd4f6be23a65",
+          "instrument": "NZD_USD",
+          "reference_epoch": 1788837462.139456
+        },
+        {
+          "joint": "07d34f6943e40024629216ebef954991ac0b4f24495a3e5a7ea7ebc298de4246",
+          "price": "744363321cafbbe6bbc98cd2ffc706c698133f21e06bdd9c684ed17965da073d",
+          "instrument": "NZD_USD",
+          "reference_epoch": 1788842893.811113
+        },
+        {
+          "joint": "0fd8bbfc12d961409812ee2b78ef52f4920125c3dd4349e037674863ba852536",
+          "price": "a7d51d3c2b0a3bc0547bc8d83d58282d04c0b0ac6e35d2dc80c45b997a7ee5c6",
+          "instrument": "NZD_USD",
+          "reference_epoch": 1788851101.435233
+        },
+        {
+          "joint": "9c668e47af3db6de6673b90aead22570ddd9db345c0327266a21cd1e73edfe8a",
+          "price": "7bc35a10f0178a86f2706914dd3683ebf27c386e5bd902eee953948db9b3c317",
+          "instrument": "SGD_CHF",
+          "reference_epoch": 1788851102.094684
+        },
+        {
+          "joint": "8e305ae1e5b833be06b51f71137bb9b4bd4275dc31f7ab13b81d38e7d91c0751",
+          "price": "98e32975cdaff52c9743ce765582ffc1a16ce4005e392025d9d166051d605e6c",
+          "instrument": "USD_CHF",
+          "reference_epoch": 1788842904.32423
+        },
+        {
+          "joint": "7e3c68b45854fbccda716e23716567da9f6de7d63b228e575ae13e011bd610e5",
+          "price": "a78555bc44b9bcb274aeb066c24c9cd7695d27d440ce8ac3f4933a93880047a4",
+          "instrument": "USD_CHF",
+          "reference_epoch": 1788846517.859151
+        },
+        {
+          "joint": "123d5827bad9eb63eca0ffd10814bfb6f3bb47848ee18ff5795741defcfe4b13",
+          "price": "d107adccd285e4d0620e252b79b6f14e3de7aa4a48fe2c9eec0a6e56d387e875",
+          "instrument": "USD_CZK",
+          "reference_epoch": 1788842908.147585
+        },
+        {
+          "joint": "a25188fda341a1bd659f4fafcc403ed097bf60e3c61953a6144e1e06a048418f",
+          "price": "2cb3278b1f007c35504d40fedfc318f476f495047a1d248fa9b418558cccbb8c",
+          "instrument": "USD_DKK",
+          "reference_epoch": 1788840121.246642
+        },
+        {
+          "joint": "cec99039e38f67e764cfb8fdf33b16e48c7c7a89373a455a3878e01ca3b52834",
+          "price": "20961edc5f122888c95ab073f72c0beb91612817b95a26de36f57dd0952c0c15",
+          "instrument": "USD_HKD",
+          "reference_epoch": 1788847444.127829
+        },
+        {
+          "joint": "c8f8e5dc7a19f7aef3eb061b05d64cd2763eba5bf506b98920c1a75753d9e818",
+          "price": "1c779d452960d948096949c6d835052059e6bae0496b6ec4d4efa15fd17288d9",
+          "instrument": "USD_HKD",
+          "reference_epoch": 1788850150.53321
+        },
+        {
+          "joint": "69cdcc27375c3c6837260192d53efdb3f7312468f674d8f41efc6156e23cde50",
+          "price": "41b63c764400da9312209182be751e420aa03f36c522fb49178a50b5c9f3b6fc",
+          "instrument": "USD_HUF",
+          "reference_epoch": 1788847431.604013
+        },
+        {
+          "joint": "3af609aecd069c0cda7f0b616b8848a20a9193776f3cebeaabc13f4363ae4be3",
+          "price": "f58de4f704c39d8d5c3dc3eedcfbe6503c294d5e6cb1eca8e8e8d52f412f4305",
+          "instrument": "USD_THB",
+          "reference_epoch": 1788828424.765495
+        },
+        {
+          "joint": "a15f6f2534a9471b22bc4cdb6be3c5fd0640bd6b09ddc481a03d2c6abfb4b92d",
+          "price": "4600fb2ec7432a8d9931e5a8e998f544f9d79a089073f7fc9f25cefa6e300357",
+          "instrument": "ZAR_JPY",
+          "reference_epoch": 1788830180.311987
+        },
+        {
+          "joint": "524e5542362342a4aafb4d6b9558d7fbb3ca961a24956fe2ab6692e3ea6e0d51",
+          "price": "6504d1bcdcda647d13ddb3d8fe4b27e3463638d211e5e80799cf4ef0c96b7433",
+          "instrument": "ZAR_JPY",
+          "reference_epoch": 1788833009.922448
+        },
+        {
+          "joint": "bbc555aa4305c831ee68db2cd1fe3f61a9a2a387b72f86ae6bd1592bae662e36",
+          "price": "08d30d1c97586daa726fd3864c22ae9e48e5fd2b0d816e895529e2f24ba8a27d",
+          "instrument": "ZAR_JPY",
+          "reference_epoch": 1788847424.318286
+        }
+      ],
+      "warning": "Independent family cohorts have different issue/entry clocks and availability. Only exact endpoint matches are reported here; broad cohort averages are not a paired comparison."
+    },
+    {
+      "joint_study": "joint_price_news_study_v2",
+      "independent_price_family": "probabilistic_state_space",
+      "same_instrument_reference_target_count": 61,
+      "exact_same_reference_entry_target_prices_and_market_times_count": 35,
+      "joint_summary": {
+        "valid_completed_decisions": 35,
+        "directional_decisions": 35,
+        "neutral_decisions": 0,
+        "direction_hits": 16,
+        "direction_hit_rate_when_directional": "0.45714285714285714285714285714285714285714285714285714285714285714285714285714286",
+        "positive_after_spread": 7,
+        "positive_after_spread_rate_when_directional": "0.2",
+        "mean_brier": "0.26021076266259084031494684830694463428571428571428571428571428571428571428571429",
+        "brier_denominator": 35,
+        "mae_bps": "5.0233431326069285539949519108964020601301816259723962168983143230937518308419303",
+        "magnitude_denominator": 35,
+        "rmse_bps": "7.8688414954992128917018129961318911195907873724683172036508392937866874496081654",
+        "mean_net_bps_per_valid_decision": "-3.9671299869317121687798435868248875236137646898697405056638398840198052627541177",
+        "stress_mean_net_bps_per_valid_decision": {
+          "0.5": "-4.4671299869317121687798435868248875236137646898697405056638398840198052627541177"
+        },
+        "probability_scope": "uncalibrated_registered_predictions"
+      },
+      "independent_price_summary": {
+        "valid_completed_decisions": 35,
+        "directional_decisions": 35,
+        "neutral_decisions": 0,
+        "direction_hits": 25,
+        "direction_hit_rate_when_directional": "0.71428571428571428571428571428571428571428571428571428571428571428571428571428571",
+        "positive_after_spread": 10,
+        "positive_after_spread_rate_when_directional": "0.28571428571428571428571428571428571428571428571428571428571428571428571428571429",
+        "mean_brier": "0.21500383983271242465856955362165013428571428571428571428571428571428571428571429",
+        "brier_denominator": 35,
+        "mae_bps": "4.9603296599013205535785528494732265594174051234894783504237136245319517722636177",
+        "magnitude_denominator": 35,
+        "rmse_bps": "7.8332242106234510809857374312629295535314985804275534667852727873246908417926435",
+        "mean_net_bps_per_valid_decision": "-2.9343988408894854659844809624897905785127011935345030429490206179335618214149446",
+        "stress_mean_net_bps_per_valid_decision": {
+          "0.5": "-3.4343988408894854659844809624897905785127011935345030429490206179335618214149443"
+        },
+        "probability_scope": "uncalibrated_registered_predictions"
+      },
+      "matched_ids": [
+        {
+          "joint": "3b2fcf0caa71e1f3148546c480d74eda7b6571695b97d75b01e3c88c7e815ab2",
+          "price": "6404e9bf2c20082f9220fe7dafcad814527a0c344a9e6516b5f8fb06b50e64fc",
+          "instrument": "AUD_CAD",
+          "reference_epoch": 1788851691.211415
+        },
+        {
+          "joint": "6c90e74366554b5de604f966c707e8551d93a776c350e5703e4e645c247682e5",
+          "price": "e2458e16086dd10cc4fbf4a626a6064abeb938a0dba0b74ab2c9c0f2248c4ddf",
+          "instrument": "AUD_CHF",
+          "reference_epoch": 1788856197.722039
+        },
+        {
+          "joint": "1fadfa758577367d6d9f0967932abb0d02b216b4e23e43597cd52558eb1ab1a6",
+          "price": "05828bf0e3826a5e2bea33dc8330ec80cf8b1ada3576e53c65ce4770f48cd76f",
+          "instrument": "AUD_SGD",
+          "reference_epoch": 1788821149.818916
+        },
+        {
+          "joint": "8789d0d88d73338f17cf2df3ce9b5597557cb50d629655335351dd98e626d303",
+          "price": "0640a649e18379e308d45323520ad92c7cf6febcc1242927e01df9a73c76deed",
+          "instrument": "CAD_CHF",
+          "reference_epoch": 1788841882.672259
+        },
+        {
+          "joint": "4512efc07b5df9d45755beef2165a5df94d85bddff338f84422e4de02ddae430",
+          "price": "6d492b3a1ad7936a3f30a4da699282eff8d10b347ab2928de01cfdef5fe5c10f",
+          "instrument": "CAD_SGD",
+          "reference_epoch": 1788853477.392089
+        },
+        {
+          "joint": "8eb7ba1f888f35ea2a01bfe6eed066bb5bed86341cdeff1d80bbd1f85266a3c7",
+          "price": "f720b8a19aa2836d8ec40e790b612b418eb11cf56d43097aa9592e18f24f05ea",
+          "instrument": "CHF_HKD",
+          "reference_epoch": 1788835508.879065
+        },
+        {
+          "joint": "0679034238117637d03cfe433302fb4de17470ea8360f78833e4590b0b2be5c2",
+          "price": "8a3298c90779d706086db548e3efd80a7b7584129471b10c696aef8f40a6ee01",
+          "instrument": "CHF_HKD",
+          "reference_epoch": 1788836409.744505
+        },
+        {
+          "joint": "9621f785bd6508bd52b7781441a950f81a8789c149e99601ac940338d054e87f",
+          "price": "4b46def3aa89798e7044f66e32e109214551e0a8f0e8aa8347d8b8007e103d0c",
+          "instrument": "CHF_ZAR",
+          "reference_epoch": 1788834584.163061
+        },
+        {
+          "joint": "6247ff34564fa553809b71a0d63215877617c15b8f7d52cd6b2070933ae2a529",
+          "price": "b1267485acf6da0897187c89150e9a24ec52a089cd598d97ac1834c5e3480320",
+          "instrument": "EUR_CAD",
+          "reference_epoch": 1788853513.565725
+        },
+        {
+          "joint": "d7b23d63537722ef7a64c2369d5e515880f1602673d6ee4a7c0ec9d809a5b611",
+          "price": "f8850bd09f4e62d21a3a299f40284a0a82113298962df68d88933b6b6639de7c",
+          "instrument": "EUR_CHF",
+          "reference_epoch": 1788834604.160373
+        },
+        {
+          "joint": "6e8c65c581f0312233c2ceacddadedb3b041d0f4de89a816cfdeef025fa0075f",
+          "price": "b9f83708c140731a4f0d18a41d36543d82af693204a1097a7574fe88347c43d6",
+          "instrument": "EUR_CHF",
+          "reference_epoch": 1788853517.548639
+        },
+        {
+          "joint": "0f47fe5c274689f2c9b77d9042e285d932b9a8d5bd69b2dfa619b71268174c43",
+          "price": "0d30226adacbaa236914fac69c36c990a4f6e2245be2af7c219c0dfdcb4eacbe",
+          "instrument": "EUR_CZK",
+          "reference_epoch": 1788844511.226443
+        },
+        {
+          "joint": "e1b23542c438cf3c74df9b66b0bde02835d25575fc04e837407340a30bab5ece",
+          "price": "875153eb17d0a4b1a65f61af8afa07afac9b5777d35f4e311e72bf18da8522db",
+          "instrument": "EUR_CZK",
+          "reference_epoch": 1788845414.22158
+        },
+        {
+          "joint": "ae3077804e598f8d1fd938fe30a35e3f1a15131a79d6b6ee1a226cfddf1e050b",
+          "price": "da4152c07a4b82117b169a3f3993e3964ebf605968015b46d74b8383eab4e574",
+          "instrument": "EUR_GBP",
+          "reference_epoch": 1788835504.904286
+        },
+        {
+          "joint": "6c3993cde7b67f55bcec47adfa8614323c375d801df3ce40a02dcc04b644ae8e",
+          "price": "e6101fd3692c06a661ba8f360453c54447a711704b5b0dba5ae878a8e5c43b59",
+          "instrument": "EUR_HKD",
+          "reference_epoch": 1788844512.70955
+        },
+        {
+          "joint": "759919e2b18dcc36a33316908eb60891d2669429177dbed99afddc20cfe5d90a",
+          "price": "1e2c972b398d026ed89fe3e077368db7d5cfeac911245c24170d549fced7733c",
+          "instrument": "EUR_HUF",
+          "reference_epoch": 1788844519.356732
+        },
+        {
+          "joint": "af147b427b8a81f3cc33f59ccccc924aaa122c9d1c3cb6d8ea3e82599a3a7493",
+          "price": "3f8c67a8d340701672bec40ee1f99ed92323da23becaac091ecdae6a058ca01b",
+          "instrument": "EUR_JPY",
+          "reference_epoch": 1788831926.361053
+        },
+        {
+          "joint": "c2890cbf3820a9dc03ccf6bb940746104eee172f5aeaaab38b70936df2cce897",
+          "price": "4e8f98246ad22aeb6953f575ab8d22ecec013e487b4fe4a80ad0effafe11ceb7",
+          "instrument": "EUR_PLN",
+          "reference_epoch": 1788827415.717117
+        },
+        {
+          "joint": "3f4aa53b6544d901b01b85f41c8039277cc98024283298c79ecd4c1ea253f0a2",
+          "price": "d57b3294a46339b88eed8b5bb2ee1826cec2786870282b495fcf54133af85b19",
+          "instrument": "EUR_SEK",
+          "reference_epoch": 1788827415.173157
+        },
+        {
+          "joint": "d09cbfede2b0dfd6cd0681c1038c98dd1c620d8aa0c77ad4a886456f2baba5ab",
+          "price": "1018256a56254b4689f907fe6f6cbc35fe3c2e80f53170c0422a47b72c3a7bc4",
+          "instrument": "EUR_ZAR",
+          "reference_epoch": 1788840033.578514
+        },
+        {
+          "joint": "af89089dffe94b164e60f89a06c53059fa775d64e23d22fb235bed0d72a185af",
+          "price": "e45c64b4a4f60e0ecf873a2242589a7c8a08fbc951214f6e681fe68d20668d55",
+          "instrument": "GBP_AUD",
+          "reference_epoch": 1788840035.447791
+        },
+        {
+          "joint": "6221ee4dfc7813a26ec34751acebda4d2f69b18c17c4ee41db338a56886907a6",
+          "price": "46cf52c981ca5c91959f4c2fd35dc2df3ba3dddffaca79276ea409e82ff854a0",
+          "instrument": "GBP_CAD",
+          "reference_epoch": 1788827421.470302
+        },
+        {
+          "joint": "f951b95e0f15c5b50dc58ce09f8863a861f68888563e1c0d59a0949ad5dc54d5",
+          "price": "7ff95f6c9e002cdc4e5f875e0f3eb120e6bbf4f6f2a878dbb0a5407a9934549d",
+          "instrument": "GBP_CHF",
+          "reference_epoch": 1788840030.926427
+        },
+        {
+          "joint": "9f50faed9e30ecc25f4c149aa156b16b09c5fa0b8c59ba29cbda9872466e2b8b",
+          "price": "bb34e147d9c2b4107dd40474dc7f537e1819d39a3355b98c077c7b21fc7f280b",
+          "instrument": "NZD_CAD",
+          "reference_epoch": 1788833747.75279
+        },
+        {
+          "joint": "9a61e0f19f30032da957cfaeeee5bf06cc5e0b2ebd5d9642a5788f382aaa419c",
+          "price": "8f127af59033c15aae758d5c205047ddf9e93ec421ad2eb7f37928828009d101",
+          "instrument": "USD_CNH",
+          "reference_epoch": 1788838247.021407
+        },
+        {
+          "joint": "64057d9f19f2a899483e71f570819c688e7e57a0a1d8ffc2b09846828febac5a",
+          "price": "c31991e0fc34ec3570c596aee56a266748676a3da14456a6c532b40c66b7be3d",
+          "instrument": "USD_CZK",
+          "reference_epoch": 1788838251.454698
+        },
+        {
+          "joint": "c8f8e5dc7a19f7aef3eb061b05d64cd2763eba5bf506b98920c1a75753d9e818",
+          "price": "bd843a9e37736b908cefe8a639b22a636aa2878502456b29c56df32c9b04d2d7",
+          "instrument": "USD_HKD",
+          "reference_epoch": 1788850150.53321
+        },
+        {
+          "joint": "0c7bed414642e781f18c907e7cec6a6837bb93e38d52f3f7f670327c35089c5a",
+          "price": "d664b6f5bb409306716cc13d45e2cf03f600375aa703b2cdc1e76df869e57fd1",
+          "instrument": "USD_HUF",
+          "reference_epoch": 1788858993.270992
+        },
+        {
+          "joint": "b228ce7513e9bb5c744101ec706b37c9ccf73d0754a131c2bb9a196faa6312d4",
+          "price": "c2c5f54e1800166ee1ccf34051dd78fce7ffd47d717ea49f07c586a81ad18293",
+          "instrument": "USD_MXN",
+          "reference_epoch": 1788822947.436983
+        },
+        {
+          "joint": "3f7a9a9d5afd4267786963e908a428d862b8417decc5b105efe56dd752ca0015",
+          "price": "85a3e3e8c785907bc151bd8862029a8255cd73036b0abbc8a1072f7d7aee0b6f",
+          "instrument": "USD_THB",
+          "reference_epoch": 1788823843.553801
+        },
+        {
+          "joint": "d270fc8b73be3b6eee6817c643321f24a9d51cd26df64b7c2324fc43e35b1f28",
+          "price": "a726da20815335083c85b10ca638646da7a9611680790923388d117c48787381",
+          "instrument": "USD_THB",
+          "reference_epoch": 1788863550.245521
+        },
+        {
+          "joint": "88f49bacfdb5780da84e1d151bf976cbc2a1bacbe23d20fa8336bbdd3cf5c38c",
+          "price": "e3b3ad5d43d645c60ca3b7c45ac3705a75538a3a062a7b8974b32e5560f30635",
+          "instrument": "ZAR_JPY",
+          "reference_epoch": 1788823861.506059
+        },
+        {
+          "joint": "e4388a4af18818f76fb4fddab5ddbd1d5e90e5673f24135d9a8b87ea3e09b70f",
+          "price": "c6f5e808c2b4d716fd4ca6f4b57c12d5f37275ba1b45137a202f5537a6fed731",
+          "instrument": "ZAR_JPY",
+          "reference_epoch": 1788825665.483126
+        },
+        {
+          "joint": "1d75883387143a532d2619a93590927fac956a61ca652be7e94f734e32527631",
+          "price": "c506e577629dae5f89ec1d6e2f2d89e1838748dd95144d27600147357d603a6f",
+          "instrument": "ZAR_JPY",
+          "reference_epoch": 1788852883.799768
+        },
+        {
+          "joint": "20a3567e7e2f1b7d78e6a8251fe187530e5976054f2b7ad0f7032ed0fa13b2a0",
+          "price": "61b4ffd039a6f6fd0bcfdf6703dbb08414461e165fac83fe023fa582e160add9",
+          "instrument": "ZAR_JPY",
+          "reference_epoch": 1788860797.271717
+        }
+      ],
+      "warning": "Independent family cohorts have different issue/entry clocks and availability. Only exact endpoint matches are reported here; broad cohort averages are not a paired comparison."
+    }
+  ],
+  "dependence_counts": [
+    {
+      "study": "joint_price_news_study_v1",
+      "family": "ridge_price_news_v1",
+      "scored_rows": 1154,
+      "pairs": 63,
+      "distinct_pair_reference_target_events": 1154,
+      "distinct_exact_reference_epochs": 1154,
+      "reference_15minute_utc_buckets": 48,
+      "reference_utc_hours": 13,
+      "reference_utc_days": 2,
+      "greedy_nonoverlapping_H1_reference_windows_within_pairs": 485,
+      "independent_sample_size": null,
+      "warning": "Clock counts and nonoverlapping within-pair windows do not establish independence: currencies share market factors, families share inputs, and H1 windows overlap."
+    },
+    {
+      "study": "joint_price_news_study_v2",
+      "family": "ridge_price_news_v1",
+      "scored_rows": 2779,
+      "pairs": 63,
+      "distinct_pair_reference_target_events": 2779,
+      "distinct_exact_reference_epochs": 2779,
+      "reference_15minute_utc_buckets": 47,
+      "reference_utc_hours": 13,
+      "reference_utc_days": 2,
+      "greedy_nonoverlapping_H1_reference_windows_within_pairs": 664,
+      "independent_sample_size": null,
+      "warning": "Clock counts and nonoverlapping within-pair windows do not establish independence: currencies share market factors, families share inputs, and H1 windows overlap."
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "family": "probabilistic_state_space",
+      "scored_rows": 4101,
+      "pairs": 68,
+      "distinct_pair_reference_target_events": 4101,
+      "distinct_exact_reference_epochs": 4101,
+      "reference_15minute_utc_buckets": 65,
+      "reference_utc_hours": 17,
+      "reference_utc_days": 2,
+      "greedy_nonoverlapping_H1_reference_windows_within_pairs": 961,
+      "independent_sample_size": null,
+      "warning": "Clock counts and nonoverlapping within-pair windows do not establish independence: currencies share market factors, families share inputs, and H1 windows overlap."
+    },
+    {
+      "study": "pair_local_forecast_study_v2",
+      "family": "ridge_return_repaired",
+      "scored_rows": 4000,
+      "pairs": 68,
+      "distinct_pair_reference_target_events": 4000,
+      "distinct_exact_reference_epochs": 4000,
+      "reference_15minute_utc_buckets": 64,
+      "reference_utc_hours": 16,
+      "reference_utc_days": 2,
+      "greedy_nonoverlapping_H1_reference_windows_within_pairs": 959,
+      "independent_sample_size": null,
+      "warning": "Clock counts and nonoverlapping within-pair windows do not establish independence: currencies share market factors, families share inputs, and H1 windows overlap."
+    }
+  ],
+  "limitations": [
+    "Original stored completed outcomes only; forecasts without original outcome rows remain in coverage and are never synthesized or counted as successful.",
+    "All retained quotes are supplied to the unchanged registered exact evaluator; stored entry/target IDs must reconcile. No forecast regeneration or model fitting.",
+    "The original complete-export hash and selected completed-only input hash are distinct. Original scorecards remain preserved separately and are not overwritten.",
+    "Family and cohort denominators differ. Joint internal comparators are the only guaranteed paired price/news decomposition.",
+    "Probabilities are uncalibrated; Brier is descriptive, and neutral-news/matched-price comparator probabilities were not provided.",
+    "Net bps use executable bid/ask plus explicit 0/.5/1bps stress, not actual fills, financing, account USD P/L or margin returns.",
+    "Per-database backup transactions have different observation clocks. The collection is not a single globally atomic market snapshot.",
+    "Overlapping horizons, shared currencies and model features prevent treating rows as independent trials. No confidence interval or independent effective sample size is asserted."
+  ]
+}

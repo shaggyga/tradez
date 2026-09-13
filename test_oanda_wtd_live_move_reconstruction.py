@@ -333,3 +333,9 @@ def test_report_contains_every_material_episode():
     assert "X1+" in report
     assert "X2+" not in report
     assert payload["magnitude_thresholds"]["gte_15_bps"] == 2
+
+
+def test_default_history_tracks_current_supervised_capture_contract():
+    assert audit.DEFAULT_HISTORY.name == "live_move_news_cases_v7r3.sqlite"
+    assert "current_history" in audit.CONTRACT_ID
+    assert "current_history" in audit.FACTOR_CONTRACT_ID

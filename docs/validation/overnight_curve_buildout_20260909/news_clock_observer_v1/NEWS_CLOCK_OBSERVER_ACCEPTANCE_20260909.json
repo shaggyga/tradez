@@ -1,0 +1,79 @@
+{
+  "GET": false,
+  "actual_observation": {
+    "all_registered_sources_unchanged": true,
+    "completed_epoch": 1788945415.4013634,
+    "counts": {
+      "clock_state:passed": 600,
+      "collector_heartbeat:passed": 600,
+      "repaired_heartbeat:current": 600
+    },
+    "db_diagnostic_attempted": false,
+    "invalid_epoch_fields": 0,
+    "producer_status_transitions": [
+      {
+        "errors": 5,
+        "last_error_code": null,
+        "read": {
+          "bytes": 599,
+          "read_completed_epoch": 1788944815.3628306,
+          "read_started_epoch": 1788944815.3558493,
+          "sha256": "52237e03df306b023016a80a65ffe832e057f674e72e48b4444427ced63013c6"
+        },
+        "sample": 0,
+        "status": "current"
+      }
+    ],
+    "sample_count": 600,
+    "started_epoch": 1788944815.3478038
+  },
+  "bindings": {
+    "NEWS_CLOCK_OBSERVER_INDEPENDENT_REVIEW_20260909.json": {
+      "bytes": 2558,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v1\\NEWS_CLOCK_OBSERVER_INDEPENDENT_REVIEW_20260909.json",
+      "sha256": "12092bebe4f8e6a524f57a596b34417c74dd570c21c5ea9a4fc535e7fb9d4c33"
+    },
+    "actual_observation_001/NEWS_CLOCK_PASSIVE_OBSERVATION_20260909.json": {
+      "bytes": 1607,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v1\\actual_observation_001\\NEWS_CLOCK_PASSIVE_OBSERVATION_20260909.json",
+      "sha256": "dd91c331f1780a38c527cf54925309ece27254088d2629fbe1a37a7da8fc4dde"
+    },
+    "actual_observation_001/sanitized_samples.jsonl": {
+      "bytes": 1787498,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v1\\actual_observation_001\\sanitized_samples.jsonl",
+      "sha256": "769c24c82145046a28b9a5fd4374a79b8c3e5652f35d81dae9e4f940ed5f44a4"
+    },
+    "news_clock_observer_tests.xml": {
+      "bytes": 1287,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v1\\news_clock_observer_tests.xml",
+      "sha256": "1b992b5a26ddb403be3d9dde48e4be1f43e1dfc98ab0bb53cec746adcd6bcc6d"
+    },
+    "observe_news_clock_boundaries_v1.py": {
+      "bytes": 16406,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v1\\observe_news_clock_boundaries_v1.py",
+      "sha256": "726a3730d00926a802c55c7046dda8182ec7e916f94cb88318282cf972e694ae"
+    },
+    "test_observe_news_clock_boundaries_v1.py": {
+      "bytes": 3306,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v1\\test_observe_news_clock_boundaries_v1.py",
+      "sha256": "b3f7bcbfcdcddb545d9099c575a96c570db53dbefcc6858813bcf428cf838e7d"
+    }
+  },
+  "conclusion": "No clock failure reproduced during this 600-second observation. Five previously recorded producer errors remain unexplained; their exact input versions were not captured.",
+  "limits": [
+    "Polling can miss intermediate generations and does not establish which exact inputs the failed worker read.",
+    "One later independent article snapshot may diagnose a still-present invalid field but cannot reconstruct an earlier overwritten version.",
+    "The frozen producer withholds rather than inventing clocks. A missing/invalid epoch type is not itself evidence of host-clock drift.",
+    "Private exact bytes remain local and must not be included in public/vault exports; this summary contains no article text or event IDs."
+  ],
+  "owner_tests": {
+    "independent_rerun": false,
+    "passed": 7
+  },
+  "private_bytes_exported": false,
+  "proposed_separate_repair": "If recurrence is not captured, a separately versioned producer may retain bounded stage/field-type/input-hash diagnostics at the actual failed read. Do not relax clock validation or assign synthetic timestamps.",
+  "recorded_epoch": 1788946248.4077876,
+  "runtime_changes": false,
+  "schema_version": "news_clock_observer_acceptance_v1_20260909",
+  "status": "completed_no_reproduction"
+}

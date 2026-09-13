@@ -1,0 +1,44 @@
+{
+  "can_place_orders": false,
+  "can_promote": false,
+  "created_utc": "2026-09-09T05:58:09.954275+00:00",
+  "evidence": [
+    {
+      "bytes": 19092,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\entry_news_features\\entry_news_identity_final_tests.xml",
+      "sha256": "5317ba4f161c4e277e5a9034c0695f6a5f260ba7e77ead700abc4c4e01c2cf34"
+    }
+  ],
+  "independent_tests_run": 0,
+  "remaining_blockers": [],
+  "research_only": true,
+  "runtime_changes": false,
+  "schema_version": "entry_news_independent_review_v1_20260909",
+  "scope": "Bounded independent source/test review; no independent tests, input reads, fitting or runtime changes.",
+  "scope_limits": [
+    "Pure checksums and asserted receipts do not authenticate external collection; exact source mapping and original observation evidence remain caller responsibilities.",
+    "This new feature-only diagnostic neither replaces the frozen34-feature adapter nor proves news prediction or calibrated facts."
+  ],
+  "source_bindings": [
+    {
+      "bytes": 20816,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_entry_news_feature_join_v1.py",
+      "sha256": "491e0dbd91932bdf6db302cd56cbe5308cb6027ab82d5c77c753ac13eb2687e2"
+    },
+    {
+      "bytes": 13125,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_entry_news_feature_join_v1.py",
+      "sha256": "d33d0cbf1137d873ff39178e65d45111b472f241e6c826028c6a21ade3818e74"
+    }
+  ],
+  "status": "passed",
+  "verified_properties": [
+    "Current topic population requires caller-attested completeness, exact seven source bindings, hashes and fresh ordered source/consumer/cutoff clocks.",
+    "Original guard replays each topic at the cutoff; individual member known/observed clocks cannot move backward. Optional empty original UTC fields remain absent rather than invented.",
+    "Post-move explanations and aged-out current context are excluded from entry context; conflicting member or topic identities and overlapping forward support cannot become extra votes.",
+    "Broad legacy context can overlap vetted members; additive context_only and overlap count explicitly disclose the separate lane.",
+    "Complete empty current counts are measured zero, while balances/ages of empty populations are undefined; unavailable or omitted populations never become fake neutral evidence.",
+    "Historical factors require independent source/feature availability at cutoff. Response memory additionally requires features before the response interval and mature observed response by cutoff.",
+    "Sampled factor/response rows stay caller-provided partial populations, post-outcome selection remains discovery, and learned orientation/effective independent N are not inferred."
+  ]
+}

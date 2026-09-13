@@ -1,0 +1,96 @@
+{
+  "schema_version": "project_snapshot_v1",
+  "project_id": "forex",
+  "observed_at_utc": "2026-09-05T02:20:00Z",
+  "status": "intentionally_stopped_for_independent_review",
+  "canonical_workspace": "C:\\Users\\zmoor\\Documents\\forex\\trad",
+  "vault_entrypoint": "projects/forex/README.md",
+  "scope": "Local audit and recreation records; not a live deployment or new monitor.",
+  "environment": "OANDA practice only; real-money routing disabled",
+  "supported_decision": "no_trade",
+  "evidence": {
+    "confirmed_candidates": 0,
+    "continuing_hypotheses": 43872,
+    "futility_rejections": 9485,
+    "strict_pre_move_directional_matches_in_frozen_week": 0,
+    "as_of_utc": "2026-09-05T01:41:08Z"
+  },
+  "versions": {
+    "news_classifier": "V164",
+    "watchlist": "V49",
+    "source_response": "V8 frozen to classifier V152",
+    "source_conditioned_rank": "V7"
+  },
+  "open_repairs": [
+    "Fast-lane durable availability timing",
+    "Fast-lane building/committed-state publication",
+    "Fast-lane retry cursor preservation"
+  ],
+  "external_gaps": [
+    "Causal pre-release consensus and event-time policy-rate repricing",
+    "Direct RBNZ policy transport",
+    "Secure GDELT transport",
+    "Direct intraday commodity data"
+  ],
+  "issue_counts": {
+    "total": 91,
+    "open": 3,
+    "complete": 47,
+    "implemented_collecting": 24,
+    "superseded_collecting": 2,
+    "permanently_invalid": 11,
+    "blocked_external": 4
+  },
+  "handoff": {
+    "faults": "projects/forex/FAULT_AUDIT_CURRENT.md",
+    "state": "projects/forex/AUDIT_STATE_CURRENT.md",
+    "source": "projects/forex/source/WORKTREE_SOURCE_LATEST.json",
+    "queue": "projects/forex/PENDING_IMPROVEMENTS_CURRENT.md",
+    "recreation": "projects/forex/RECREATION.md"
+  },
+  "next_step": "Independent read-only review/reorientation. Do not restart or alter proof cohorts from this snapshot.",
+  "latest_review": {
+    "observed_utc": "2026-09-08T20:45:30.284992+00:00",
+    "runtime_state": "repaired_joint_research_live_verified",
+    "report": "docs/FOREX_NEWS_RESEARCH_DEPLOYMENT_20260908.md",
+    "validation": "FOREX_NEWS_RESEARCH_DEPLOYMENT_VALIDATION_20260908.json",
+    "validation_sha256": "ea752004281462e857eca7334014c705942e338b7aaf1c478b145b0b434b991e",
+    "managed_worker_count": 17,
+    "registered_pairs": 68,
+    "active_unelapsed_forecast_pairs": 65,
+    "primary_study": "joint_v3",
+    "can_place_orders": false,
+    "practice_trading_ready": false,
+    "prediction_improvement_demonstrated": false,
+    "monitoring": "This turn observed live in chat; no schedule created. Earlier one-hour watch remains dated evidence.",
+    "all_other_embedded_snapshots_retain_their_original_timestamps": true
+  },
+  "previous_latest_reviews": [
+    {
+      "observed_utc": "2026-09-07T18:41:09.139355+00:00",
+      "runtime_state": "research_collection_partial_operation_status_verified",
+      "supersedes_prior_runtime_status": true,
+      "report": "docs/FOREX_OPERATIONAL_STATUS_REPAIR_20260907.md",
+      "validation": "FOREX_OPERATIONAL_STATUS_REPAIR_VALIDATION_20260907.json",
+      "validation_sha256": "7c07ec243ca3d822a4bb56118482247a84e7545c343a515214f1d340bf8c76eb",
+      "managed_worker_count": 14,
+      "pair_registry": "pair_local_forecast_study_v1_20260907",
+      "registered_pairs": 68,
+      "primary_study": "eurusd_v1",
+      "cross_pair_study": "gap_v2",
+      "can_place_orders": false,
+      "practice_trading_ready": false,
+      "prediction_improvement_demonstrated": false,
+      "supplemental_diagnostics_are_registered_performance": false,
+      "monitoring": {
+        "id": "check-forex-bot-health",
+        "interval_minutes": 15,
+        "status": "ACTIVE",
+        "notify": "meaningful change, failure or action needed; quiet while unchanged",
+        "future_runs_not_claimed": true
+      },
+      "all_other_embedded_snapshots_retain_their_original_timestamps": true,
+      "prior_dashboard_consistency_validation": "FOREX_PAIR_DASHBOARD_CONSISTENCY_VALIDATION_20260907.json"
+    }
+  ]
+}

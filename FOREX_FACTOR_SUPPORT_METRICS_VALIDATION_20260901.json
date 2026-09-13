@@ -1,0 +1,81 @@
+{
+  "schema_version": "forex_factor_support_metrics_validation_v1",
+  "generated_utc": "2026-09-01T10:42:30.832638+00:00",
+  "contract_id": "move_first_factor_support_v1_positive_aligned_primary_and_unambiguous_20260901",
+  "validation_scope": "parallel_support_qualified_move_conditioned_arm_metrics",
+  "result": "validated_live_independently_reconciled_nonexecuting_diagnostic",
+  "live_report": {
+    "report_generated_utc": "2026-09-01T10:42:16.250544Z",
+    "source_case_count": 174,
+    "resolved_factor_episode_count": 107,
+    "support_qualified_factor_episode_count": 77,
+    "unsupported_factor_episode_count": 30,
+    "support_qualified_arm_count": 12,
+    "support_qualified_unique_decision_vector_count": 6,
+    "support_qualified_pre_move_unique_decision_vector_count": 4,
+    "execution_decision": "no_trade"
+  },
+  "illustrative_move_conditioned_metrics": {
+    "forward_shadow::broad_context_direction": {
+      "effective_episode_count": 77,
+      "signaled_episode_count": 69,
+      "correct_direction_count": 40,
+      "wrong_direction_count": 29,
+      "directional_accuracy_pct": 57.971014493,
+      "signed_alignment_room_pips": 269.3
+    },
+    "currency_score::research_semantic_v1": {
+      "effective_episode_count": 77,
+      "signaled_episode_count": 53,
+      "correct_direction_count": 28,
+      "wrong_direction_count": 25,
+      "directional_accuracy_pct": 52.830188679,
+      "signed_alignment_room_pips": -22.1
+    },
+    "interpretation": "These cases were selected because a spread-clearing move occurred. Accuracy and alignment room diagnose mapping only; they are not a forecast backtest, trade P/L, promotion evidence, or authorization."
+  },
+  "integrity_observation": {
+    "generated_utc": "2026-09-01T10:38:11.001067+00:00",
+    "status": "ok",
+    "failure_count": 0,
+    "move_first_live_arm_alignment_current_causal_and_inert": true,
+    "supported_decision": "no_trade"
+  },
+  "invariants": {
+    "legacy_arm_metrics_preserved": true,
+    "support_subset_uses_same_metric_formula": true,
+    "support_subset_requires_positive_unambiguous_frozen_primary": true,
+    "project_integrity_rebuilds_legacy_metrics_from_episode_rows": true,
+    "project_integrity_rebuilds_support_metrics_from_episode_rows": true,
+    "project_integrity_rebuilds_decision_equivalence_groups": true,
+    "immutable_memberships_rewritten": false,
+    "predictive_backtest_eligible": false,
+    "promotion_eligible": false,
+    "execution_eligible": false,
+    "can_place_orders": false,
+    "real_money_routing_changed": false
+  },
+  "test_runs": [
+    {
+      "command": "python -m pytest -q test_oanda_move_first_live_arm_alignment_v1.py",
+      "passed": 14,
+      "failed": 0
+    },
+    {
+      "command": "python -m pytest -q trad/test_oanda_project_integrity_audit.py trad/test_oanda_move_first_live_arm_alignment_v1.py",
+      "passed": 54,
+      "failed": 0
+    },
+    {
+      "command": "python oanda_move_first_live_arm_alignment_v1.py --verify-only",
+      "verified": true,
+      "failures": []
+    }
+  ],
+  "implementation_hashes": {
+    "oanda_move_first_live_arm_alignment_v1.py": "169f195d2dde7bce5db3a84a6c5d954aec206c9329b0c0e15ed272aea4f812f0",
+    "test_oanda_move_first_live_arm_alignment_v1.py": "ff9eee3366f0741af21232ba56fcc917625e4d9b77d1bb026e91119f8dfc435d",
+    "oanda_project_integrity_audit.py": "a44265560f5ad939d11a96bbedfefc6967640fa1f25f0e5532156a6360d476c4",
+    "test_oanda_project_integrity_audit.py": "5d9e80044408129695b0d3e3a12ee8b202d828ce969f21eb9d4061a8c41dcf9e"
+  }
+}

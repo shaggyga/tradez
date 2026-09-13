@@ -1,0 +1,45 @@
+{
+  "schema_version": "joint_news_v3_worker_preparation_validation_v1_20260908",
+  "observed_utc": "2026-09-08T20:00:36.0231603+00:00",
+  "status": "passed",
+  "sources": {
+    "oanda_joint_price_news_forecast_study_v3.py": {
+      "sha256": "5dfc29c29fbb61daef4f9f9d5c50f8c029a4d9ed57438288839176e6b55a7f80",
+      "bytes": 36993
+    },
+    "prepare_joint_price_news_registry_v3.py": {
+      "sha256": "3cd33aa233607f90a6189782dc377fc075da30f50a1b17534274ff7f0dfc1e57",
+      "bytes": 7118
+    },
+    "test_oanda_joint_price_news_forecast_worker_v3.py": {
+      "sha256": "347f0055dadad938197b4b03bed705661f1586c7779f37d6b4a60807edb73827",
+      "bytes": 23567
+    },
+    "test_prepare_joint_price_news_registry_v3.py": {
+      "sha256": "15930af60c317e40ed84345b4645c514f3ee2501f20e445b78e6d5c1ef9e207e",
+      "bytes": 4524
+    }
+  },
+  "test_result": {
+    "passed": 113,
+    "failures": 0,
+    "errors": 0,
+    "duration_sec": 8.75,
+    "xml_path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\news_repair_review\\worker_v3_tests.xml",
+    "xml_sha256": "a28ee19449f3dc54e0960f9536c72a3e54ad7a2bd767847f089d79f29b398b69",
+    "warning": "Pytest cache directory denied; all cases passed. No production source or ledger writes were needed."
+  },
+  "scope": [
+    "New v3 worker and preparation-only registry helper",
+    "Fresh absent-root deployment activation uses actual injected/deployment clocks; never imports prior rows",
+    "Normal launch verifies every prior activation using read-only SQLite before creating lock or opening writers",
+    "Complete source closure and strict false authority flags",
+    "Fair68pair scheduling and retry without successful publication duplication",
+    "Exact later-entry and original H1 target; missing endpoints remain exclusions"
+  ],
+  "runtime_actions_performed": false,
+  "production_registries_prepared": false,
+  "production_ledgers_created": false,
+  "worker_started": false,
+  "can_place_orders": false
+}

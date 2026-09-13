@@ -1,0 +1,137 @@
+{
+  "all_bound_sources_match": true,
+  "canonical_tests": {
+    "bytes": 37926,
+    "errors": 0,
+    "failures": 0,
+    "notes": [
+      "One Windows symlink privilege skip.",
+      "Parent reported a pytest cache-write warning only; no failed assertion."
+    ],
+    "passed": 214,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ledger_endpoint_reliability_probe_v1\\integration_candidate_v2_001\\integration_v2_canonical_tests.xml",
+    "sha256": "213a574c9e26465ae85b38e612fd9b98fe52ec7669ecf69a70e575742fc0e9cb",
+    "skipped": 1,
+    "tests": 215
+  },
+  "configuration": {
+    "bytes": 1468,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\joint_v3_ledger_observer_api_v2_20260909.json",
+    "sha256": "fb8cbd4abc43f311ca423f79c3bff9f70a6ff279202db264035110a37b88d112"
+  },
+  "dated_observation": {
+    "consumer": {
+      "current_forecast_pairs": 66,
+      "observation_age_sec": 1.7709896564483643,
+      "observation_completed_epoch": 1788950074.75376,
+      "observed_epoch": 1788950076.5247498,
+      "registered_pairs": 68,
+      "scope": "Original ledger proof as of its retained read; original target eligibility checked at this response.",
+      "unvisited_pairs": 0,
+      "verified_ledger_pairs": 68
+    },
+    "first_pass_verified_pairs": 68,
+    "generated_utc": "2026-09-09T10:34:38.529963+00:00",
+    "missing_rows": [
+      {
+        "instrument": "TRY_JPY",
+        "observed_epoch": 1788950074.4531255,
+        "reason": "no_verified_published_forecast"
+      },
+      {
+        "instrument": "USD_TRY",
+        "observed_epoch": 1788950074.644156,
+        "reason": "no_verified_published_forecast"
+      }
+    ],
+    "original_producer_reported_errors": 13,
+    "original_producer_transport_status": "generation_mismatch",
+    "retry_attempted_pairs": 0
+  },
+  "implementation_validation": {
+    "bytes": 14628,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ledger_endpoint_reliability_probe_v1\\OBSERVER_API_V2_IMPLEMENTATION_VALIDATION_20260909.json",
+    "sha256": "b863cc2a958c8c4ae7d3b62d34899ac871aa80886cd407ff2e9b2e8907122305"
+  },
+  "independent_reviews": [
+    {
+      "bytes": 4155,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ledger_endpoint_reliability_probe_v1\\OBSERVER_API_V2_INDEPENDENT_SOURCE_REVIEW_20260909.json",
+      "sha256": "a983643099e243b44d87afbebcb0da6b33c53eb2b4eca2eeceba5d64cac5bede"
+    },
+    {
+      "bytes": 1800,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ledger_endpoint_reliability_probe_v1\\integration_candidate_v2_001\\APPLICATION_HELPER_INDEPENDENT_REVIEW_20260909.json",
+      "sha256": "305d4abad9ce11bfb717a014aef1dc2774620eef332fa8fc89a37c731cc6579b"
+    },
+    {
+      "bytes": 6169,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ledger_endpoint_reliability_probe_v1\\integration_candidate_v2_001\\DASHBOARD_V2_BINDING_RELOAD_INDEPENDENT_REVIEW_20260909.json",
+      "sha256": "81844c3a2836656b798f8b7b70e684a444cb9aca6d9b9eb7226137365a686ff0"
+    }
+  ],
+  "live_http_and_served_selector": {
+    "bytes": 67476,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ledger_endpoint_reliability_probe_v1\\actual_live_v2_api_table_001\\LIVE_API_TABLE_ACCEPTANCE_20260909.json",
+    "sha256": "21a84a1fbd60d6ac760ada8ee17700e8ea05a79576e46cfe073476b07a1fc04a"
+  },
+  "model_or_cohort_changed": false,
+  "new_dashboard_pids": [
+    8868,
+    23772
+  ],
+  "orders_enabled": false,
+  "original_forecast_issue_reference_and_target_clocks_unchanged": true,
+  "original_producer_heartbeat_claimed_valid": false,
+  "preserved_process_count": 33,
+  "preserved_supervisor_pid": 37696,
+  "process_count_at_reload": 35,
+  "reload": {
+    "bytes": 14964,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ledger_endpoint_reliability_probe_v1\\integration_candidate_v2_001\\dashboard_v2_reload_001\\AFTER.json",
+    "sha256": "4211f876a6466b6756bd126593c3a1231cd2941bfe9aa4384b9db1ae6582d9ed"
+  },
+  "retained_epoch": 1788950176.6124535,
+  "schema_version": "joint_v3_observer_api_v2_deployment_acceptance_v1_20260909",
+  "scope": "Deployment and one actual HTTP/served-JavaScript observation are verified. Longer V2 retry behavior is a separate dated probe; no reliability-rate or trading-performance claim.",
+  "source_application": {
+    "bytes": 1791,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ledger_endpoint_reliability_probe_v1\\integration_candidate_v2_001\\APPLICATION_V2_20260909.json",
+    "sha256": "c38de98753c232352804ff34b1f23b9374e1f8f030d534186ec88157f1603ae6"
+  },
+  "status": "passed_dated_deployment_and_http_verification",
+  "unchanged_frozen_closures": {
+    "joint_v3": {
+      "registry": {
+        "bytes": 350877,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\joint_price_news_study_v3_20260908.json",
+        "sha256": "ee075e69e80ca56dfdf45abe1f7a1a301612176e67f7622eab1adf2bd9af8771"
+      },
+      "unchanged_source_count": 20
+    },
+    "paper": {
+      "registry": {
+        "bytes": 5214,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\observed_curve_management_v1_20260909.json",
+        "sha256": "60689101fb63a8bcce2465d19f627b9b2ce357d1ee271c65298f255663d991e1"
+      },
+      "unchanged_source_count": 20
+    },
+    "pilot": {
+      "registry": {
+        "bytes": 4292,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\recovered_second_curve_pilot_v1_20260909.json",
+        "sha256": "ae64f2cae6df44dad81b46deb16e95e4d5f67dabb7fc1e65289b96ba6b0fe2b2"
+      },
+      "unchanged_source_count": 14
+    },
+    "risk": {
+      "registry": {
+        "bytes": 2886,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\m1_risk_distributions_v1_20260909.json",
+        "sha256": "855c3bb96105c0cf0943ebbb5d28e6d10b6b9bf718573883f897161d08453674"
+      },
+      "unchanged_source_count": 8
+    }
+  }
+}

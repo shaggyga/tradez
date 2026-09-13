@@ -1,0 +1,124 @@
+{
+  "accepted_epoch": 1788938924.8980272,
+  "accepted_source_copy_directory": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\accepted_serializer_source",
+  "actual_serialization": {
+    "completed_support": {
+      "common_five_arm_episode_denominator": 0,
+      "eligible_episode_count": 0,
+      "eligible_episode_ids": [],
+      "independent_sample_size": null,
+      "ineligible_episode_ids": [
+        "episode_01",
+        "episode_02",
+        "episode_03"
+      ],
+      "predeclared_episode_count": 3
+    },
+    "input_report_count": 2,
+    "new_runtime_reads_during_serialization": false,
+    "original_episode_01_target_epoch": 1788939830.0,
+    "retained_episode_01_file_reference_count": 357,
+    "source_observations_utc": [
+      "2026-09-09T06:51Z",
+      "2026-09-09T07:07:16.943Z/07:07:25.083Z"
+    ],
+    "unique_input_report_count": 2
+  },
+  "behavior": [
+    "Latest verified observation per episode, not best result; retained earlier step and episode identities cannot disappear or change.",
+    "Common five-arm completed denominator requires verified terminal flatness and no missing evidence gaps.",
+    "Independent paper arms and episode sizing resets never become actual account positions or PnL.",
+    "Original raw quote, receipt, plan, settlement and state references preserve later per-leg cost-attribution evidence without inferring prices from leg counts.",
+    "Incomplete current marks, realized cash, future or missed slots and refusals remain distinct; missing values are not measured zero.",
+    "Fixed Decimal arithmetic and source-file hashes seal the compact result; report consistency is not independent report-origin authentication."
+  ],
+  "evidence_files": [
+    {
+      "bytes": 16263,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\summarize_verified_episodes_v1.py",
+      "sha256": "da845b43606d138977a74b2ba3260068405e0a55f77f416f3e8aed7e342cda9c"
+    },
+    {
+      "bytes": 10222,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\test_summarize_verified_episodes_v1.py",
+      "sha256": "66f3623051e70a117bebb5689bbc9f85accabf42ac1c83c4d187aa8252e5436b"
+    },
+    {
+      "bytes": 2545,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\EPISODE_RESULTS_SERIALIZER_20260909.md",
+      "sha256": "968d8e9b9fc110374c8d53402aa284903408c5a438c4c58a464c82daf5726e22"
+    },
+    {
+      "bytes": 2971,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\episode_serializer_initial_tests.xml",
+      "sha256": "8ca0d37ff4a97781284d3eb304e936a85501eca7fc195709d00c42862615d88b"
+    },
+    {
+      "bytes": 3249,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\episode_serializer_source_refs_tests.xml",
+      "sha256": "a9ac6a33cc315777ccdc9838dc338dd11c89a4d766cb77a58aee397200a57355"
+    },
+    {
+      "bytes": 2240,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\EPISODE_SERIALIZER_INDEPENDENT_REVIEW_20260909.json",
+      "sha256": "07341da21ecbb7d507c8d18dc77332eac4d656ed0a08bed33f33e3a1fb725c7b"
+    },
+    {
+      "bytes": 2005,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\EPISODE_SERIALIZER_REFERENCE_INDEPENDENT_REVIEW_20260909.json",
+      "sha256": "c71d68b365fc641daf57abf3c92d4e7bc88c1309acddf4efe6b193f450debb00"
+    },
+    {
+      "bytes": 17958,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\COMPACT_EPISODE_SNAPSHOT_0707_20260909.json",
+      "sha256": "d09632a350beea90ec3c1fc46c70629f283508340b5b35f85ee6c2dfda7d3652"
+    },
+    {
+      "bytes": 101514,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\COMPACT_EPISODE_WITH_SOURCE_REFS_0707_20260909.json",
+      "sha256": "c7aaf72b3ae7c130d04c6f963b3d11ae9fc1e0ec53437c4be1d39c2e01038b8e"
+    },
+    {
+      "bytes": 74945,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\OBSERVED_EPISODE_ACCEPTANCE_SNAPSHOT_20260909.json",
+      "sha256": "b46f951b897b3973a8b589256c3612680fccd0a235c3aee1136e6e1d2194110d"
+    },
+    {
+      "bytes": 199742,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\OBSERVED_EPISODE_MONITOR_0707_20260909.json",
+      "sha256": "f6d03ddeba1d40fa9a0afb2ec356e2ffa31c5bdca8db20c471b7d21ed46e0976"
+    },
+    {
+      "bytes": 4804,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\OFFLINE_EPISODE_VERIFIER_ACCEPTANCE_20260909.json",
+      "sha256": "91ceae51ee6d5adcde9ba028ad1e2741f9853834ee8629882ef9f652276fac09"
+    }
+  ],
+  "frozen_source_edits": false,
+  "independent_review": {
+    "original_full_review_sha256": "07341da21ecbb7d507c8d18dc77332eac4d656ed0a08bed33f33e3a1fb725c7b",
+    "reference_delta_review_sha256": "c71d68b365fc641daf57abf3c92d4e7bc88c1309acddf4efe6b193f450debb00",
+    "reviewers_did_not_rerun_tests": true
+  },
+  "limits": [
+    "No completed matched episode existed in the two historical source reports. No predictive or management efficacy claim follows.",
+    "This acceptance does not read or revalidate newer runtime state, reconstruct source observations, change original targets or alter frozen policy.",
+    "Source records remain local; this is an external read-only results serializer with exclusive new output files."
+  ],
+  "orders_or_broker_calls": false,
+  "runtime_writes": false,
+  "schema_version": "paper_episode_serializer_acceptance_v1_20260909",
+  "source_bindings": {
+    "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\summarize_verified_episodes_v1.py": "da845b43606d138977a74b2ba3260068405e0a55f77f416f3e8aed7e342cda9c",
+    "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\test_summarize_verified_episodes_v1.py": "66f3623051e70a117bebb5689bbc9f85accabf42ac1c83c4d187aa8252e5436b"
+  },
+  "status": "passed",
+  "tests": {
+    "errors": 0,
+    "failed": 0,
+    "passed": 20,
+    "previous_18_case_receipt_preserved": true,
+    "skipped": 0,
+    "xml_elapsed_sec": 0.179
+  }
+}

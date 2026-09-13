@@ -1,0 +1,99 @@
+{
+  "GET": false,
+  "actual_read_completion_ranges": {
+    "clock_state": [
+      1788946434.4446723,
+      1788957899.2301528
+    ],
+    "collector_heartbeat": [
+      1788946434.4416804,
+      1788957899.229156
+    ],
+    "repaired_heartbeat": [
+      1788946434.4536479,
+      1788957899.232224
+    ]
+  },
+  "all_registered_sources_unchanged": true,
+  "bound_inputs": [
+    {
+      "bytes": 2844,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v2\\actual_observation_001\\OBSERVATION_STARTED.json",
+      "sha256": "e3786fedbb5368b452c7b023d38acb6664ededee861cbb01a3e308f1e6b4cf55"
+    },
+    {
+      "bytes": 1940,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v2\\actual_observation_001\\NEWS_CLOCK_PASSIVE_OBSERVATION_20260909.json",
+      "sha256": "06e0b5a5006f63bc88a7abcfb0df304765e6bd6220b15906286a5fb2821ea4c4"
+    },
+    {
+      "bytes": 34105612,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v2\\actual_observation_001\\sanitized_samples.jsonl",
+      "sha256": "1474a50cb5b47e2ebf7531c2fb22c3db5d62b247d729020ef4b4ac8bc8054ef5"
+    }
+  ],
+  "counts": {
+    "clock_state:passed": 11445,
+    "collector_heartbeat:passed": 11445,
+    "repaired_heartbeat:current": 11445
+  },
+  "db_diagnostic_attempted": false,
+  "fixed_end_epoch": 1788957900.0,
+  "invalid_epoch_field_count": 0,
+  "invalid_field_types": {},
+  "later_diagnostic": null,
+  "limits": [
+    "No new sample is admitted at/after the fixed deadline or monotonic budget. An already admitted bounded read/diagnostic may complete later; this is not hard I/O cancellation.",
+    "Polling can miss intermediate generations and does not establish which exact inputs the failed worker read.",
+    "One later independent article snapshot may diagnose a still-present invalid field but cannot reconstruct an earlier overwritten version.",
+    "The frozen producer withholds rather than inventing clocks. A missing/invalid epoch type is not itself evidence of host-clock drift.",
+    "Private exact bytes remain local and must not be included in public/vault exports; this summary contains no article text or event IDs.",
+    "Run spans describe sampled observations, not continuous outage durations; polling and bounded work may miss intervening states.",
+    "Current heartbeat status is not a full current-news semantic replay, input-readiness proof, calibrated prediction, or execution authorization.",
+    "Raw/private bytes and the full sample log remain local; only compact summaries and source/test evidence are selected."
+  ],
+  "longest_observed_noncurrent_runs": {},
+  "maximum_sample_start_gap_sec": 1.1045277118682861,
+  "observation_completed_epoch": 1788957899.8691766,
+  "observation_started_epoch": 1788946434.4386203,
+  "observed_monotonic_duration_sec": 11465.67200000002,
+  "observer_sha256": "dc63f1470b6351e774af01c0732de0cc84ac64e04de0b1f7081870a4f643f86e",
+  "original_monotonic_budget_sec": 11465.561379671097,
+  "private_bytes": 1374288,
+  "private_versions": 936,
+  "producer_error_counter_decreases": 0,
+  "producer_error_first": 5,
+  "producer_error_last": 5,
+  "producer_error_max": 5,
+  "producer_status_transitions": [
+    {
+      "errors": 5,
+      "last_error_code": null,
+      "read": {
+        "bytes": 599,
+        "read_completed_epoch": 1788946434.4536479,
+        "read_started_epoch": 1788946434.4466667,
+        "sha256": "7fe8456c7965807115f749f6a7320d29866967fdce16e5984c25f66a58cc788a"
+      },
+      "sample": 0,
+      "status": "current"
+    }
+  ],
+  "registry_sha256": "ee075e69e80ca56dfdf45abe1f7a1a301612176e67f7622eab1adf2bd9af8771",
+  "rejection_reasons": {},
+  "runtime_writes": false,
+  "sample_count": 11445,
+  "sanitized_samples_sha256": "1474a50cb5b47e2ebf7531c2fb22c3db5d62b247d729020ef4b4ac8bc8054ef5",
+  "schema_version": "news_clock_passive_compact_summary_v1_20260909",
+  "status": "completed_observation",
+  "summary_computed_epoch": 1788958110.5189066,
+  "summary_processing_started_epoch": 1788958110.057823,
+  "summary_source_sha256": "0ed4469ba19692f019e5b072e2698d1b674e5a994dce29926a9d6e36fc2b6d31",
+  "summary_started_epoch": 1788958109.0572343,
+  "termination_boundary": "original_monotonic_budget",
+  "unique_source_versions": {
+    "clock_state": 381,
+    "collector_heartbeat": 363,
+    "repaired_heartbeat": 192
+  }
+}

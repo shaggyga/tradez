@@ -1,0 +1,109 @@
+{
+  "account_eligible": false,
+  "api": {
+    "capture_once": "capture_once(instrument, *, credential_path, metadata, clock=time.time) -> (raw_bytes, receipt); failed capture returns empty bytes and sanitized failure receipt",
+    "map_verified_capture": "map_verified_capture(raw, receipt, metadata, convention) -> sealed mapping with all complete exact-text MBA rows, last13 interpreted feature rows, actual receipt clocks and source-query attestation"
+  },
+  "can_place_orders": false,
+  "can_promote": false,
+  "evidence_bindings": [
+    {
+      "bytes": 8945,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\second_ridge\\s5_mba_capture_context_final_tests.xml",
+      "sha256": "f79b0973d58627d7932e5ddb73bcd1edfac9c3f084d9b752c84b96531e6d746e"
+    },
+    {
+      "bytes": 15557,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\second_ridge\\s5_mba_capture_initial_tests.xml",
+      "sha256": "69ee4b3725c01aca1aa5c4c0aecd8f366dbacecfe3d87fc030017c18a03e1e47"
+    },
+    {
+      "bytes": 7449,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\second_ridge\\s5_mba_capture_final_tests.xml",
+      "sha256": "8f07cf380e4b64ea8b715c7c563198146367c60447be4da0d551430f90a93f65"
+    },
+    {
+      "bytes": 8619,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\second_ridge\\finalize_capture_reviews.py",
+      "sha256": "865ad98e20d91f0f58bfc52b6032cd50f3a86fdeb8b9c76c8d304a92379446be"
+    },
+    {
+      "bytes": 5276,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\second_ridge\\current_s5_capture_001\\OANDA_EUR_USD_S5_MBA_RAW.json",
+      "sha256": "4fa6405630a9346410bd75be87718a9e6cbeaf4727f53ccc9dab266cccdc47c4"
+    }
+  ],
+  "execution_eligible": false,
+  "limitations": [
+    "Tests use disposable mocked HTTP and the already retained20-candle response; this new module has not made a live120-candle request.",
+    "A caller must retain exact raw bytes and receipt and verify current registered source closure before using a mapping.",
+    "Candle coverage means complete returned response within first/last complete labels, not continuous prices or any tradeability observation.",
+    "Midpoint variants remain explicit experiments; historical training-ingestion equivalence is unproven.",
+    "Hash seals bind caller-retained evidence and replay, not remote authentication or backdated availability claims."
+  ],
+  "live_requests_performed": 0,
+  "network_policy": {
+    "account_requests": 0,
+    "automatic_retries": 0,
+    "host": "https://api-fxpractice.oanda.com",
+    "instruments": [
+      "EUR_USD",
+      "GBP_USD",
+      "USD_JPY"
+    ],
+    "maximum_elapsed_seconds": 15,
+    "method": "GET",
+    "params": {
+      "count": 120,
+      "granularity": "S5",
+      "price": "MBA",
+      "smooth": "false"
+    },
+    "path": "/v3/instruments/{instrument}/candles",
+    "redirects": false,
+    "requests_per_call": 1,
+    "response_max_bytes": 262144
+  },
+  "observed_epoch": 1788931166.2368693,
+  "passed_tests": 58,
+  "prior_test_runs": [
+    {
+      "failed": 3,
+      "file": "s5_mba_capture_initial_tests.xml",
+      "passed": 45,
+      "reason": "Credential assertion tested auth substring, inadvertently matching can_authorize=false; test fixed to actual synthetic credential text."
+    },
+    {
+      "failed": 0,
+      "file": "s5_mba_capture_final_tests.xml",
+      "passed": 49,
+      "reason": "Before independent-review Decimal context and explicit execution flag hardening."
+    }
+  ],
+  "proof_eligible": false,
+  "research_only": true,
+  "review_findings_closed": [
+    "BA midpoint and spread now use independent192-digit Decimal context, invariant to caller precision3; bounded pip/OHLC precision and magnitude.",
+    "execution_eligible=false is mandatory and extra successful-receipt fields reject before mapping."
+  ],
+  "runtime_changes": false,
+  "schema_version": "s5_mba_capture_implementation_validation_v1_20260909",
+  "source_bindings": [
+    {
+      "bytes": 18061,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_s5_mba_research_capture_v1.py",
+      "sha256": "38fe20f4e55d970f074c71f7acee5f5adaebc9ac7766a532efcd782b34abbb45"
+    },
+    {
+      "bytes": 14755,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_s5_mba_research_capture_v1.py",
+      "sha256": "2a58e672bd400a27eced622efcc5e0f72092d7e7f17696389e87c66ce8c6a6bf"
+    },
+    {
+      "bytes": 17815,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_live_account_readonly_status.py",
+      "sha256": "2734dda34d532a094eff614d5fe05d01c7aa6a2ebd80ca2bb974f12d8c5d93af"
+    }
+  ],
+  "status": "passed"
+}

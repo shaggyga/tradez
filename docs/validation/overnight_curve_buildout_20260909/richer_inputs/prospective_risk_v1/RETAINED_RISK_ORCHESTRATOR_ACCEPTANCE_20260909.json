@@ -1,0 +1,161 @@
+{
+  "actual_prospective_evaluation_performed_for_this_acceptance": false,
+  "created_utc": "2026-09-09T08:20:38.917935+00:00",
+  "distinct_test_cases": 22,
+  "guarantees": [
+    "Only original fully consumed chains enter unchanged 72-node risk scoring.",
+    "All original planned reference/pair slots are separately classified without missing-as-zero outcomes.",
+    "Original source request windows, durable raw/input/issue/publication/readback clocks and independent receipt hashes are checked.",
+    "Future M1 endpoint/path evidence is selected by earliest actual original read within each complete returned domain, without query merging.",
+    "Failed/empty source captures and partial publication stages remain explicit.",
+    "Only exclusive external evidence writes; no GET, fit, orders or runtime modifications."
+  ],
+  "helper": {
+    "bytes": 26787,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\prospective_risk_v1\\evaluate_retained_risk_distributions_v1.py",
+    "sha256": "8353d83d38ade86c0376b5aa57b95c17df25f37c3d7e1256c8b9b77ebfee6448"
+  },
+  "independent_source_review": {
+    "bytes": 7155,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\prospective_risk_v1\\RETAINED_RISK_ORCHESTRATOR_INDEPENDENT_REVIEW_20260909.json",
+    "sha256": "f7c363b5ed1def944e185fbd0f7611321c5d0a1609a55ba7fdd4a97ade8e32e9"
+  },
+  "preserved_prior_validation": [
+    {
+      "bytes": 1758,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\prospective_risk_v1\\retained_orchestrator_initial_tests.xml",
+      "sha256": "c794579c0d63249f23387f579d461401898362d61a6ec094bdd36f537e9d4977"
+    },
+    {
+      "bytes": 2784,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\prospective_risk_v1\\retained_orchestrator_stage_tests.xml",
+      "sha256": "27fd40e8f346bc6eb9749f3c42d50db6503c9ce4f001b4055ed78dc408d786bf"
+    },
+    {
+      "bytes": 2941,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\prospective_risk_v1\\retained_orchestrator_final_tests.xml",
+      "sha256": "ecc0ac344ddb0b72260fbca8599241df98b83bf8da64e3c32b8f9f1c45061cab"
+    },
+    {
+      "bytes": 3269,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\prospective_risk_v1\\retained_orchestrator_schedule_tests.xml",
+      "sha256": "270ac54ccbbc2da7d3c07649a2ce588e340cc6742c325da066311d07b86b8746"
+    }
+  ],
+  "prior_exact_source_validation": {
+    "source": {
+      "bytes": 26786,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\prospective_risk_v1\\prior_orchestrator_clock_validation\\evaluate_retained_risk_distributions_v1.py",
+      "sha256": "25d38f176d137d51a1e4c45c52ed24f2b91169c0b3c5ab6d76dfb46508a0f606"
+    },
+    "test": {
+      "bytes": 14754,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\prospective_risk_v1\\prior_orchestrator_clock_validation\\test_evaluate_retained_risk_distributions_v1.py",
+      "sha256": "e0d39d464fda41fc9d946df2479d7d7647c1fdc22a59f4753aca9f0bb180e9cd"
+    },
+    "xml": {
+      "bytes": 3751,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\prospective_risk_v1\\prior_orchestrator_clock_validation\\retained_orchestrator_clock_final_tests.xml",
+      "sha256": "187a49cb464ad51238c99640655075bc4583a5822691e5bab1384935dba09c65"
+    }
+  },
+  "protocol": {
+    "bytes": 4245,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\prospective_risk_v1\\RETAINED_RISK_ORCHESTRATOR_PROTOCOL_20260909.md",
+    "sha256": "3e8090fc9b5e8aba35f57ef7c81741ecda30bb021de7dfc29175292568d5796e"
+  },
+  "registered_source_bindings_at_acceptance": {
+    "oanda_forecast_curve_contract_v1.py": {
+      "bytes": 26812,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_forecast_curve_contract_v1.py",
+      "sha256": "c03549586f922f6031790fce68a5afb5b98e4eda6157f20c4720b1adb05d0746"
+    },
+    "oanda_forecast_curve_file_store_v1.py": {
+      "bytes": 12336,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_forecast_curve_file_store_v1.py",
+      "sha256": "0d537f59e8c90e7957b2d9853d6a5561486ec5004f3b1ee02661c335bdf5fc4d"
+    },
+    "oanda_live_account_readonly_status.py": {
+      "bytes": 17815,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_live_account_readonly_status.py",
+      "sha256": "2734dda34d532a094eff614d5fe05d01c7aa6a2ebd80ca2bb974f12d8c5d93af"
+    },
+    "oanda_m1_mba_research_capture_v1.py": {
+      "bytes": 17830,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_m1_mba_research_capture_v1.py",
+      "sha256": "6bb09acc2573443cf1d6c28bd5ecbea72e582096c616d5accc412ea9f50abe27"
+    },
+    "oanda_m1_path_risk_labels_v1.py": {
+      "bytes": 10516,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_m1_path_risk_labels_v1.py",
+      "sha256": "b998f6f3fbe144ae949749e03d0658f7b89676dc7015eaefa7e583e85f6afccd"
+    },
+    "oanda_m1_risk_distribution_contract_v1.py": {
+      "bytes": 15715,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_m1_risk_distribution_contract_v1.py",
+      "sha256": "36b7ee7c2ca79a6ed4f75cfd60e66678b25b0448602dd9366093e328daa84467"
+    },
+    "oanda_m1_risk_distribution_outcomes_v1.py": {
+      "bytes": 22689,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_m1_risk_distribution_outcomes_v1.py",
+      "sha256": "1b16e651e2287214eb33b4fe5c0185c03ef53c91ad28f2557109be896f9b8ff2"
+    },
+    "oanda_m1_risk_distribution_worker_v1.py": {
+      "bytes": 19295,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_m1_risk_distribution_worker_v1.py",
+      "sha256": "b846929e5283304ab22a9ff06db1be3efb751b5451b92e5bafeb6d193e35f010"
+    }
+  },
+  "registry": {
+    "bytes": 2886,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\m1_risk_distributions_v1_20260909.json",
+    "sha256": "855c3bb96105c0cf0943ebbb5d28e6d10b6b9bf718573883f897161d08453674"
+  },
+  "remaining_blockers": [],
+  "schema_version": "retained_m1_risk_orchestrator_acceptance_v1_20260909",
+  "status": "accepted_offline_engineering_helper",
+  "test_count_scope": "22 full-suite cases plus a repeat of the two changed schedule cases; not 24 distinct cases.",
+  "tests": {
+    "bytes": 14935,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\prospective_risk_v1\\test_evaluate_retained_risk_distributions_v1.py",
+    "sha256": "89309a0e24d3795c9ec80f7fd53faf10e3e5cbafbe31fa0045a9b62c1cd9c475"
+  },
+  "validation_runs": [
+    {
+      "artifact": {
+        "bytes": 3751,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\prospective_risk_v1\\retained_orchestrator_clock_final_tests.xml",
+        "sha256": "187a49cb464ad51238c99640655075bc4583a5822691e5bab1384935dba09c65"
+      },
+      "scope": "Full persistence/causal integration suite before isolated inclusive schedule-boundary correction.",
+      "xml_summary": {
+        "errors": "0",
+        "failures": "0",
+        "hostname": "DESKTOP-Q2EDIEU",
+        "name": "pytest",
+        "skipped": "0",
+        "tests": "22",
+        "time": "93.798",
+        "timestamp": "2026-09-09T04:15:37.554942-04:00"
+      }
+    },
+    {
+      "artifact": {
+        "bytes": 579,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\prospective_risk_v1\\retained_orchestrator_inclusive_deadline_tests.xml",
+        "sha256": "17c1a7ecc3baf46a1157718d7d9e6c6ad1891d70fad8e00a9afe2d52233e224f"
+      },
+      "scope": "Changed schedule boundary only: exact +20 deadline remains open, +20.001 becomes missing. Twenty unchanged cases deselected.",
+      "xml_summary": {
+        "errors": "0",
+        "failures": "0",
+        "hostname": "DESKTOP-Q2EDIEU",
+        "name": "pytest",
+        "skipped": "0",
+        "tests": "2",
+        "time": "0.374",
+        "timestamp": "2026-09-09T04:18:22.985170-04:00"
+      }
+    }
+  ]
+}

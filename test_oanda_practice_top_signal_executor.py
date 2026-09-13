@@ -5,8 +5,11 @@ import json
 import os
 import sqlite3
 import time
+import math
 from datetime import datetime, timedelta, timezone
 from types import SimpleNamespace
+
+import pytest
 
 import oanda_practice_top_signal_executor as fast
 import oanda_independent_evidence_verifier as verifier_producer
@@ -632,6 +635,267 @@ def test_final_submission_rechecks_expiry_quote_and_signed_file(tmp_path):
     assert executor.final_submission_blocker(candidate, 10, {}) == "governed_canary_final_hmac_invalid"
 
 
+def _authorized_submission_fixture(tmp_path):
+    entry = {
+        "authorization_id": "canary-final", "one_time_nonce": "nonce-final",
+        "account_id": "101-001-37981792-007", "signal_id": "signal-1",
+        "proof_cohort_id": "proof-1", "governed_hypothesis_id": "hypothesis-1",
+        "allocator_cohort_id": "allocator-1", "confirmed_candidate": True,
+        "allowed_instrument": "EUR_USD", "allowed_direction": "buy",
+        "maximum_units": 10, "maximum_notional": 1000.0,
+        "maximum_total_exposure": 2000.0,
+        "issued_at": datetime.now(timezone.utc).isoformat(),
+        "expires_at": datetime.fromtimestamp(time.time() + 60, timezone.utc).isoformat(),
+    }
+    path = tmp_path / "authorization.json"
+    payload = write_canary_authorization(path, entry_authorized=True, authorized_entries=[entry])
+    lifecycle = tmp_path / "lifecycle.sqlite"
+    write_lifecycle_database(lifecycle)
+    verifier = tmp_path / "verifier.json"
+    write_independent_verifier(verifier)
+    authorizer = fast.GovernedCanaryAuthorizer(
+        path, lifecycle_database=lifecycle, independent_verifier_state=verifier,
+        consumption_database=tmp_path / "consumptions.sqlite", hmac_key="test-secret",
+    )
+    candidate = {
+        "id": "signal-1", "proof_cohort_id": "proof-1",
+        "governed_hypothesis_id": "hypothesis-1", "allocator_cohort_id": "allocator-1",
+        "instrument": "EUR_USD", "direction": "buy",
+        "entry_time": datetime.now(timezone.utc).isoformat(),
+    }
+    candidate["_governed_canary_authorization"] = authorizer.authorize(
+        candidate, account_id="101-001-37981792-007"
+    )
+    executor = object.__new__(fast.GovernedPracticeExecutor)
+    executor.canary_authorizer = authorizer
+    return executor, candidate, payload
+
+
+@pytest.mark.parametrize("replacement", ["revoke", "remove", "units", "notional", "exposure"])
+def test_signed_canary_replacement_cannot_reuse_consumed_decision(tmp_path, replacement):
+    executor, candidate, payload = _authorized_submission_fixture(tmp_path)
+    assert executor.final_submission_blocker(candidate, 10, {}) == ""
+    if replacement == "revoke":
+        payload["entry_authorized"] = False
+    elif replacement == "remove":
+        payload["authorized_entries"] = []
+    else:
+        key = {"units": "maximum_units", "notional": "maximum_notional", "exposure": "maximum_total_exposure"}[replacement]
+        payload["authorized_entries"][0][key] = 1
+    payload["signature_hmac_sha256"] = fast.canary_payload_signature(payload, "test-secret")
+    executor.canary_authorizer.path.write_text(json.dumps(payload), encoding="utf-8")
+    expected = "governed_canary_final_entries_disabled" if replacement == "revoke" else "governed_canary_final_authorization_changed"
+    assert executor.final_submission_blocker(candidate, 10, {}) == expected
+    connection = sqlite3.connect(executor.canary_authorizer.consumption_database)
+    try:
+        assert connection.execute("SELECT COUNT(*) FROM canary_authorization_consumptions").fetchone()[0] == 1
+    finally:
+        connection.close()
+
+
+def test_unchanged_authorization_still_passes_and_internal_binding_is_not_in_summary(tmp_path):
+    executor, candidate, _ = _authorized_submission_fixture(tmp_path)
+    assert executor.final_submission_blocker(candidate, 10, {}) == ""
+    assert executor.final_submission_blocker(candidate, 10, {}) == ""
+    summary = executor.canary_authorizer.summary(account_id="101-001-37981792-007")
+    assert "_authorization_payload_signature" not in summary["last_decision"]
+
+
+@pytest.mark.parametrize("during_proof", ["signed_revocation", "expires", "stale_quote"])
+def test_final_gate_rechecks_authorization_and_clocks_after_proof_reads(tmp_path, monkeypatch, during_proof):
+    executor, candidate, payload = _authorized_submission_fixture(tmp_path)
+    authorizer = executor.canary_authorizer
+    verify = authorizer._independent_verification
+    initial_epoch = time.time()
+    def proof(*args):
+        result = verify(*args)
+        if during_proof == "signed_revocation":
+            payload["entry_authorized"] = False
+            payload["signature_hmac_sha256"] = fast.canary_payload_signature(payload, "test-secret")
+            authorizer.path.write_text(json.dumps(payload), encoding="utf-8")
+        else:
+            delay = 120 if during_proof == "expires" else 20
+            monkeypatch.setattr(fast.time, "time", lambda: initial_epoch + delay)
+        return result
+    monkeypatch.setattr(authorizer, "_independent_verification", proof)
+    expected = {
+        "signed_revocation": "governed_canary_final_entries_disabled",
+        "expires": "governed_canary_expired_before_submission",
+        "stale_quote": "governed_canary_quote_stale_before_submission",
+    }[during_proof]
+    assert executor.final_submission_blocker(candidate, 10, {}) == expected
+
+
+@pytest.mark.parametrize("during_preparation", ["unchanged", "signed_revocation", "expires"])
+def test_submission_rechecks_after_logging_immediately_before_mock_broker(tmp_path, monkeypatch, during_preparation):
+    executor, candidate, payload = _authorized_submission_fixture(tmp_path)
+    candidate.update(lane_id="fixture-lane", family="fixture", profile="fixture",
+                     bid=1.0999, ask=1.1001, pip=0.0001, stop_loss_pips=5, take_profit_r=1.5,
+                     signal_confidence=0.75, promotion_evidence={"fixture": True})
+    executor.account_id = "101-001-37981792-007"
+    executor.account_currency = "USD"
+    executor.conversion_cache = {}
+    executor.instrument_meta = {}
+    executor.args = SimpleNamespace(execution_max_open_positions=4, execution_use_fitted_exits=False,
+                                    execution_max_slippage_pips=1.0)
+    executor.signal_feed = None
+    executor.execution_policy = None
+    executor.exit_fit = None
+    executor.log_path = tmp_path / "unused.jsonl"
+    executor.open_trades = lambda: []
+    executor.reentry_blocker = lambda *args: ("", {})
+    executor.cost_capture_blocker = lambda *args: ("", {})
+    executor.apply_horizon_risk_shape = lambda *args: {}
+    executor.portfolio_margin_blocker = lambda *args: ("", {})
+    writes = []
+    events = []
+    class ReachedMockBroker(Exception):
+        pass
+    def write(*args, **kwargs):
+        writes.append((args, kwargs))
+        raise ReachedMockBroker()
+    executor.client = SimpleNamespace(
+        get=lambda *args, **kwargs: {"account": {"NAV": 10000, "marginAvailable": 10000}},
+        write=write,
+    )
+    initial_epoch = time.time()
+    def logged(path, event, **fields):
+        events.append((event, fields))
+        if event == "execution_selected":
+            if during_preparation == "signed_revocation":
+                payload["entry_authorized"] = False
+                payload["signature_hmac_sha256"] = fast.canary_payload_signature(payload, "test-secret")
+                executor.canary_authorizer.path.write_text(json.dumps(payload), encoding="utf-8")
+            elif during_preparation == "expires":
+                monkeypatch.setattr(fast.time, "time", lambda: initial_epoch + 120)
+    monkeypatch.setattr(fast.lab, "log_line", logged)
+    if during_preparation == "unchanged":
+        with pytest.raises(ReachedMockBroker):
+            fast.lab.PracticeExecutor.submit_selected_locked(executor, candidate)
+        assert len(writes) == 1
+    else:
+        fast.lab.PracticeExecutor.submit_selected_locked(executor, candidate)
+        assert writes == []
+        expected = "governed_canary_final_entries_disabled" if during_preparation == "signed_revocation" else "governed_canary_expired_before_submission"
+        assert events[-1][1]["reason"] == expected
+
+
+def _conversion_quote(**updates):
+    fields = dict(bid=1.2999, ask=1.3001, tradeable=True, time=datetime.now(timezone.utc).isoformat())
+    fields.update(updates)
+    return SimpleNamespace(**fields)
+
+
+def _conversion_executor(response=None, *, fixed=False):
+    executor = object.__new__(fast.GovernedPracticeExecutor)
+    executor.account_currency = "USD"
+    executor.account_id = "fixture-007"
+    executor.conversion_cache = {}
+    executor.instrument_meta = {}
+    executor.args = SimpleNamespace(execution_dynamic_sizing=not fixed, execution_units=1000, execution_max_open_positions=4)
+    calls = []
+    def prices(account_id, pairs):
+        calls.append(pairs[0])
+        if isinstance(response, Exception):
+            raise response
+        if callable(response):
+            return response(pairs[0])
+        return {} if response is None else {pairs[0]: response}
+    executor.client = SimpleNamespace(pricing_snapshot=prices)
+    return executor, calls
+
+
+def _cross_candidate():
+    return {
+        "instrument": "EUR_GBP", "direction": "buy", "bid": 0.8499, "ask": 0.8501,
+        "pip": 0.0001, "signal_confidence": 0.75, "stop_loss_pips": 5.0,
+        "_governed_canary_authorization": {"maximum_units": 1000, "maximum_notional": 850.0, "maximum_total_exposure": 850.0},
+    }
+
+
+@pytest.mark.parametrize("problem", ["missing", "error", "nan", "zero", "crossed", "untradeable", "invalid_time", "future", "stale"])
+def test_conversion_missing_invalid_or_stale_is_unavailable(problem):
+    quote = _conversion_quote()
+    if problem == "missing":
+        quote = None
+    elif problem == "error":
+        quote = fast.lab.OandaApiError("synthetic conversion failure")
+    elif problem == "nan":
+        quote.bid = math.nan
+    elif problem == "zero":
+        quote.bid = 0.0
+    elif problem == "crossed":
+        quote.ask = 1.0
+    elif problem == "untradeable":
+        quote.tradeable = False
+    elif problem == "invalid_time":
+        quote.time = "invalid"
+    else:
+        offset = 60 if problem == "future" else -60
+        quote.time = datetime.fromtimestamp(time.time() + offset, timezone.utc).isoformat()
+    executor, calls = _conversion_executor(quote)
+    assert executor.quote_to_account_rate("EUR_GBP", 0.85) is None
+    assert calls == ["GBP_USD", "USD_GBP"]
+    assert executor.conversion_cache == {}
+
+
+def test_valid_direct_inverse_and_account_currency_conversions():
+    executor, calls = _conversion_executor(_conversion_quote())
+    assert executor.quote_to_account_rate("EUR_GBP", 0.85) == pytest.approx(1.3)
+    assert executor.quote_to_account_rate("AUD_GBP", 0.50) == pytest.approx(1.3)
+    assert calls == ["GBP_USD"]
+    assert executor.quote_to_account_rate("EUR_USD", 1.1) == 1.0
+    assert executor.quote_to_account_rate("USD_GBP", 0.8) == 1.25
+    assert calls == ["GBP_USD"]
+    inverse = _conversion_quote(bid=0.7999, ask=0.8001)
+    executor, calls = _conversion_executor(lambda pair: {} if pair == "GBP_USD" else {pair: inverse})
+    assert executor.quote_to_account_rate("EUR_GBP", 0.85) == 1.25
+    assert calls == ["GBP_USD", "USD_GBP"]
+
+
+@pytest.mark.parametrize("cached", [(math.nan, 0), (1.3, -60), (1.3, 60)])
+def test_invalid_expired_or_future_conversion_cache_is_not_used(cached):
+    executor, _ = _conversion_executor()
+    executor.conversion_cache["GBP"] = (cached[0], time.monotonic() + cached[1])
+    assert executor.quote_to_account_rate("EUR_GBP", 0.85) is None
+
+
+def test_conversion_cache_cannot_refresh_the_age_of_old_source_quote():
+    executor, _ = _conversion_executor(_conversion_quote(time=datetime.fromtimestamp(time.time() - 12, timezone.utc).isoformat()))
+    assert executor.quote_to_account_rate("EUR_GBP", 0.85) == pytest.approx(1.3)
+    assert time.monotonic() - executor.conversion_cache["GBP"][1] >= 11.95
+
+
+@pytest.mark.parametrize("fixed", [False, True])
+def test_governed_sizing_vetoes_unavailable_conversion_in_both_modes(fixed):
+    executor, _ = _conversion_executor(fixed=fixed)
+    units, detail = executor.dynamic_sizing(_cross_candidate(), {"NAV": 10000, "marginAvailable": 10000})
+    assert units == 0
+    assert "conversion_unavailable" in detail["reason"]
+
+
+def test_governed_portfolio_vetoes_unknown_existing_exposure_and_preserves_caps():
+    existing = [{"instrument": "AUD_GBP", "currentUnits": "100", "price": "0.50"}]
+    executor, _ = _conversion_executor()
+    assert executor.portfolio_blocker(_cross_candidate(), existing) == "governed_canary_existing_conversion_unavailable"
+    executor, calls = _conversion_executor(_conversion_quote())
+    candidate = _cross_candidate()
+    assert executor.portfolio_blocker(candidate, existing) == ""
+    assert candidate["_governed_current_total_exposure"] == pytest.approx(65.0)
+    units, sizing = executor.dynamic_sizing(candidate, {"NAV": 10000, "marginAvailable": 10000})
+    assert units > 0
+    assert units * 0.85 * 1.3 <= 850.0
+    assert units * 0.85 * 1.3 + 65.0 <= 850.0
+    assert calls == ["GBP_USD"]
+
+
+@pytest.mark.parametrize("fields", [{"currentUnits": "invalid"}, {"price": "NaN"}, {"price": "0"}])
+def test_governed_portfolio_does_not_treat_invalid_existing_exposure_as_zero(fields):
+    existing = {"instrument": "AUD_GBP", "currentUnits": "100", "price": "0.50", **fields}
+    executor, _ = _conversion_executor(_conversion_quote())
+    assert executor.portfolio_blocker(_cross_candidate(), [existing]) == "governed_canary_existing_exposure_invalid"
+
+
 def test_governed_executor_denial_never_calls_broker_submission(monkeypatch):
     calls = []
     monkeypatch.setattr(
@@ -716,8 +980,10 @@ def test_research_quote_payload_contains_only_usable_quotes(monkeypatch):
     )
 
     assert payload["producer"] == "practice_007_fast_executor"
+    assert payload["schema_version"] == 3
     assert payload["quote_count"] == 1
     assert payload["quotes"]["EUR_USD"]["pip"] == 0.0001
+    assert payload["quotes"]["EUR_USD"]["tradeable"] is True
     assert "USD_JPY" not in payload["quotes"]
 
 
@@ -869,6 +1135,65 @@ def test_research_snapshot_retains_seed_without_making_it_executable(tmp_path):
     assert payload["coverage"]["retained_quotes_execution_eligible"] is False
 
 
+def test_research_snapshot_preserves_oanda_tradeability_status(tmp_path):
+    output = tmp_path / "quotes.json"
+    stream = fast.lab.MultiPriceStream(
+        lambda: ("token", "account"),
+        ["EUR_USD", "USD_TRY"],
+        lambda *args, **kwargs: None,
+        research_snapshot_path=output,
+    )
+    try:
+        generation = stream.publish_research_snapshot(
+            {
+                "schema_version": 1,
+                "generated_utc": "2026-09-01T16:45:00+00:00",
+                "producer": "test",
+                "quote_count": 2,
+                "quotes": {
+                    "EUR_USD": {
+                        "bid": 1.1,
+                        "ask": 1.1002,
+                        "time": "2026-09-01T16:44:59Z",
+                        "pip": 0.0001,
+                        "tradeable": True,
+                    },
+                    "USD_TRY": {
+                        "bid": 41.0,
+                        "ask": 41.1,
+                        "time": "2026-09-01T14:59:55Z",
+                        "pip": 0.0001,
+                        "tradeable": False,
+                    },
+                },
+            }
+        )
+        deadline = time.time() + 3.0
+        while (
+            time.time() < deadline
+            and stream._research_snapshot_publisher.stats()["written_generation"]
+            < generation
+        ):
+            time.sleep(0.01)
+        payload = fast.lab.load_quote_snapshot(output)
+    finally:
+        stream.stop()
+
+    assert payload["schema_version"] == 3
+    assert payload["quotes"]["EUR_USD"]["tradeable"] is True
+    assert payload["quotes"]["USD_TRY"]["tradeable"] is False
+    assert payload["coverage"]["current_tradeable_quote_count"] == 1
+    assert payload["coverage"]["current_non_tradeable_quote_count"] == 1
+    assert payload["coverage"]["current_tradeability_unknown_count"] == 0
+    assert payload["coverage"]["current_non_tradeable_instruments"] == [
+        "USD_TRY"
+    ]
+    assert (
+        payload["coverage"]["tradeability_contract"]
+        == "oanda_client_price_status_boolean_v1"
+    )
+
+
 def test_initial_stream_snapshot_republishes_when_coverage_increases(tmp_path):
     stream = fast.lab.MultiPriceStream(
         lambda: ("token", "account"),
@@ -908,6 +1233,7 @@ def test_price_stream_reconnect_starts_clean_current_generation(tmp_path):
                 ask=150.02,
                 time="2026-08-28T04:00:01Z",
                 source="stream",
+                tradeable=False,
             ),
         }
         stream._metadata = {
@@ -944,6 +1270,7 @@ def test_price_stream_reconnect_starts_clean_current_generation(tmp_path):
         "USD_JPY",
     ]
     assert payload["coverage"]["retained_quotes_execution_eligible"] is False
+    assert payload["quotes"]["USD_JPY"]["tradeable"] is False
 
 
 def test_price_stream_startup_reclassifies_seed_as_retained(tmp_path):

@@ -1,0 +1,83 @@
+{
+  "broker_requests": 0,
+  "can_promote": false,
+  "created_utc": "2026-09-09T07:46:36.080759+00:00",
+  "dependency_sources": [
+    {
+      "bytes": 17830,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_m1_mba_research_capture_v1.py",
+      "sha256": "6bb09acc2573443cf1d6c28bd5ecbea72e582096c616d5accc412ea9f50abe27"
+    },
+    {
+      "bytes": 10516,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_m1_path_risk_labels_v1.py",
+      "sha256": "b998f6f3fbe144ae949749e03d0658f7b89676dc7015eaefa7e583e85f6afccd"
+    },
+    {
+      "bytes": 15715,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_m1_risk_distribution_contract_v1.py",
+      "sha256": "36b7ee7c2ca79a6ed4f75cfd60e66678b25b0448602dd9366093e328daa84467"
+    }
+  ],
+  "limitations": [
+    "Aggregate checks consistency of retained reports, not independent authentication or another raw-source replay. Callers retain the original source/issue evidence and source-bound verifier receipts.",
+    "Synthetic integration explicitly substitutes only the training-artifact hash; it is a contract compatibility test, not an actual market score.",
+    "The mapper original read clock and derived observation remain distinct; no historical availability, direction alpha, calibrated coverage, fill or management-efficacy claim."
+  ],
+  "model_fits": 0,
+  "orders_enabled": false,
+  "owner_test_counts": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 49
+  },
+  "owner_test_xml": {
+    "bytes": 7761,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\prospective_risk_v1\\outcomes_final_tests.xml",
+    "sha256": "53957a05540b593dc08dfd068bdced22aef228db75eb88a3f5218a2805aa9402"
+  },
+  "proof_eligible": false,
+  "remaining_blockers": [],
+  "resolved_findings": [
+    {
+      "finding": "Derived capture clock initially sampled before parser/body work.",
+      "resolution": "Moved to after mapper/parser/body; focused delayed-parser regression inspected."
+    },
+    {
+      "finding": "Later report could redefine original metadata/quantiles under one issued ID.",
+      "resolution": "Aggregate now binds cohort/pair/original reference/issue/consumer/publication identity and72 node quantiles across repeats; recomputes metric consistency and refuses mixed cohorts."
+    }
+  ],
+  "reviewed": [
+    "Retained raw response and request receipt replay through exact official-M/MBA mapper, separately hashed CSV and unchanged strict label parser.",
+    "Original provider read completion orders future sources; derived observation follows deterministic mapping/parser work and capture receipt completion.",
+    "Earliest decisive query selected separately for endpoint/path labels, with exact native target and no joining separate query domains.",
+    "Missing exact target or interior support is retained rather than replaced by a later favorable result.",
+    "Original published reference OHLC is retained; later source reference differences are disclosed without replacing the original denominator.",
+    "Original issue/publication/consumer chain validated before all72 label/horizon/method nodes; futures cannot be evaluated before their own availability.",
+    "Pinball/median-MAE/coverage/width are computed separately from direction probabilities or broker fills.",
+    "Aggregate preserves pair/horizon/label/method groups, same-source paired methods, one retained same-pair origin, missing/pending and independent_N=None."
+  ],
+  "reviewer": "/root/pair_model_inputs",
+  "runtime_mutations": 0,
+  "schema_version": "m1_risk_outcomes_independent_review_v1_20260909",
+  "scope": "Full bounded source review, focused selection/aggregate test review and real-mapper/issue/publication/consumer integration fixture inspection. No independent test rerun or live data reads.",
+  "source": {
+    "bytes": 22689,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_m1_risk_distribution_outcomes_v1.py",
+    "sha256": "1b16e651e2287214eb33b4fe5c0185c03ef53c91ad28f2557109be896f9b8ff2"
+  },
+  "status": "passed",
+  "test": {
+    "bytes": 17233,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_m1_risk_distribution_outcomes_v1.py",
+    "sha256": "b21eda653ee9f4b0d93e66ae904ab2f40a926c9131d25fcf9f3afa1f63f58ec4"
+  },
+  "tests_run_by_reviewer": 0,
+  "writer": {
+    "bytes": 4252,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\prospective_risk_v1\\retain_outcomes_independent_review.py",
+    "sha256": "6a8e5d41eca38a27c5a92ddf22dfd416a90f806709c070b6372c4871005ca06a"
+  }
+}

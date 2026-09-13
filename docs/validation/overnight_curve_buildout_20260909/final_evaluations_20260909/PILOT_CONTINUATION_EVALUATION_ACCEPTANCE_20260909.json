@@ -1,0 +1,477 @@
+{
+  "broker_requests": false,
+  "can_place_orders": false,
+  "can_promote": false,
+  "cutoff_clocks": {
+    "immutable_file_observation_range": {
+      "maximum_epoch": 1788957594.7470975,
+      "maximum_utc": "2026-09-09T12:39:54.747097+00:00",
+      "minimum_epoch": 1788956826.8936846,
+      "minimum_utc": "2026-09-09T12:27:06.893685+00:00"
+    },
+    "original_source_read_completed_range": {
+      "maximum_epoch": 1788956818.1081161,
+      "maximum_utc": "2026-09-09T12:26:58.108116+00:00",
+      "minimum_epoch": 1788931912.973176,
+      "minimum_utc": "2026-09-09T05:31:52.973176+00:00"
+    },
+    "source_cutoff_semantics": "The accepted evaluator enumerates cycle directories once. The maximum original source receipt time bounds the retained source inventory; later curve score clocks and audit completion do not extend it. Individual immutable files are observed separately, not atomically."
+  },
+  "documentation_helper": {
+    "bytes": 11039,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\final_evaluations_20260909\\close_continuation_evaluation_v1.py",
+    "sha256": "04402284cc7c3de4320cb32079780cce1d14ce09030261937121559b882cfc0a"
+  },
+  "documented_epoch": 1788957738.2522397,
+  "evidence_issues": 0,
+  "independent_sample_size": null,
+  "invocation_scope": "Owner tool calls execute the unchanged scripts with Python -B; this documentary helper does not launch them.",
+  "kind": "pilot",
+  "limits": [
+    "Every original cell is retained; descriptors are not pooled independent-trial estimates.",
+    "This wrapper checks accepted presenter source/linkage and complete-cell counts; it does not independently rerun presenter arithmetic.",
+    "Original raw captures, per-origin reports and file inventories remain private local dependencies.",
+    "Prior canceled-plan and early-close records remain unchanged; resumed work is separately dated.",
+    "These evaluation/presentation operations do not change registered sources, registries, runtime, forecasting policy, models, accounts or workers."
+  ],
+  "metrics": {
+    "all_cell_count": 156,
+    "cell_descriptions": [
+      {
+        "cells_with_lower_mae_than_zero": 11,
+        "cells_with_non_neutral_net_metric": 27,
+        "cells_with_positive_mean_net": 4,
+        "cells_with_scored_nodes": 39,
+        "price_convention": "official_midpoint",
+        "registered_cells": 39,
+        "scope": "Cell descriptors only; neither independent trials nor a pooled forecast accuracy.",
+        "view": "retained_training_target"
+      },
+      {
+        "cells_with_lower_mae_than_zero": 12,
+        "cells_with_non_neutral_net_metric": 27,
+        "cells_with_positive_mean_net": 4,
+        "cells_with_scored_nodes": 39,
+        "price_convention": "ba_derived_midpoint",
+        "registered_cells": 39,
+        "scope": "Cell descriptors only; neither independent trials nor a pooled forecast accuracy.",
+        "view": "retained_training_target"
+      },
+      {
+        "cells_with_lower_mae_than_zero": 11,
+        "cells_with_non_neutral_net_metric": 27,
+        "cells_with_positive_mean_net": 4,
+        "cells_with_scored_nodes": 39,
+        "price_convention": "official_midpoint",
+        "registered_cells": 39,
+        "scope": "Cell descriptors only; neither independent trials nor a pooled forecast accuracy.",
+        "view": "nominal_exact"
+      },
+      {
+        "cells_with_lower_mae_than_zero": 11,
+        "cells_with_non_neutral_net_metric": 27,
+        "cells_with_positive_mean_net": 4,
+        "cells_with_scored_nodes": 39,
+        "price_convention": "ba_derived_midpoint",
+        "registered_cells": 39,
+        "scope": "Cell descriptors only; neither independent trials nor a pooled forecast accuracy.",
+        "view": "nominal_exact"
+      }
+    ],
+    "cycle_directories_observed": 415,
+    "h4_original_groups": [
+      {
+        "brier_denominator": 135,
+        "direction_accuracy": null,
+        "direction_correct": 0,
+        "direction_denominator": 0,
+        "executable_non_neutral_denominator": 0,
+        "forecast_cohort": "recovered_second_curve_pilot_v1_20260909/EUR_USD/ba_derived_midpoint",
+        "horizon_sec": 14400,
+        "mae_bps": "7.3447417718801911866725643119994327621255575499373",
+        "mean_original_probability_brier": "0.25",
+        "mean_original_side_net_bps": null,
+        "model_sha256": "85ff37fd77f85fa6ae990990ead19eb7d4e20389d99b774023f32c13bf62658c",
+        "neutral_predictions": 135,
+        "positive_original_side_count": 0,
+        "positive_original_side_rate": null,
+        "price_convention": "ba_derived_midpoint",
+        "probability_event_mismatch_count": 135,
+        "scored_nodes": 135,
+        "unavailable_nodes": 44,
+        "unavailable_reasons": {
+          "no_decisive_source_capture": 27,
+          "provider_reported_no_complete_target_bar": 17
+        },
+        "view": "nominal_exact",
+        "zero_baseline_mae_bps": "7.3447417718801911866725643119994327621255575499373",
+        "zero_outcomes": 0
+      },
+      {
+        "brier_denominator": 161,
+        "direction_accuracy": "0.75776397515527950310559006211180124223602484472050",
+        "direction_correct": 122,
+        "direction_denominator": 161,
+        "executable_non_neutral_denominator": 161,
+        "forecast_cohort": "recovered_second_curve_pilot_v1_20260909/GBP_USD/ba_derived_midpoint",
+        "horizon_sec": 14400,
+        "mae_bps": "10.047049238069523169045810814287878011585894787556",
+        "mean_original_probability_brier": "0.23799945544926068001665122244500935900621118012422",
+        "mean_original_side_net_bps": "6.3653978341322143342694274749105859141243222033795",
+        "model_sha256": "85ff37fd77f85fa6ae990990ead19eb7d4e20389d99b774023f32c13bf62658c",
+        "neutral_predictions": 0,
+        "positive_original_side_count": 115,
+        "positive_original_side_rate": "0.71428571428571428571428571428571428571428571428571",
+        "price_convention": "ba_derived_midpoint",
+        "probability_event_mismatch_count": 161,
+        "scored_nodes": 161,
+        "unavailable_nodes": 36,
+        "unavailable_reasons": {
+          "no_decisive_source_capture": 27,
+          "provider_reported_no_complete_target_bar": 9
+        },
+        "view": "nominal_exact",
+        "zero_baseline_mae_bps": "10.569173478404988399733687863813953083051922913861",
+        "zero_outcomes": 0
+      },
+      {
+        "brier_denominator": 172,
+        "direction_accuracy": null,
+        "direction_correct": 0,
+        "direction_denominator": 0,
+        "executable_non_neutral_denominator": 0,
+        "forecast_cohort": "recovered_second_curve_pilot_v1_20260909/USD_JPY/ba_derived_midpoint",
+        "horizon_sec": 14400,
+        "mae_bps": "14.805929297669416823408133321177776091810646455245",
+        "mean_original_probability_brier": "0.25",
+        "mean_original_side_net_bps": null,
+        "model_sha256": "85ff37fd77f85fa6ae990990ead19eb7d4e20389d99b774023f32c13bf62658c",
+        "neutral_predictions": 172,
+        "positive_original_side_count": 0,
+        "positive_original_side_rate": null,
+        "price_convention": "ba_derived_midpoint",
+        "probability_event_mismatch_count": 172,
+        "scored_nodes": 172,
+        "unavailable_nodes": 29,
+        "unavailable_reasons": {
+          "no_decisive_source_capture": 28,
+          "provider_reported_no_complete_target_bar": 1
+        },
+        "view": "nominal_exact",
+        "zero_baseline_mae_bps": "14.805929297669416823408133321177776091810646455245",
+        "zero_outcomes": 0
+      },
+      {
+        "brier_denominator": 135,
+        "direction_accuracy": null,
+        "direction_correct": 0,
+        "direction_denominator": 0,
+        "executable_non_neutral_denominator": 0,
+        "forecast_cohort": "recovered_second_curve_pilot_v1_20260909/EUR_USD/official_midpoint",
+        "horizon_sec": 14400,
+        "mae_bps": "7.3460136167145866459354584168305607586381600711896",
+        "mean_original_probability_brier": "0.25",
+        "mean_original_side_net_bps": null,
+        "model_sha256": "85ff37fd77f85fa6ae990990ead19eb7d4e20389d99b774023f32c13bf62658c",
+        "neutral_predictions": 135,
+        "positive_original_side_count": 0,
+        "positive_original_side_rate": null,
+        "price_convention": "official_midpoint",
+        "probability_event_mismatch_count": 135,
+        "scored_nodes": 135,
+        "unavailable_nodes": 44,
+        "unavailable_reasons": {
+          "no_decisive_source_capture": 27,
+          "provider_reported_no_complete_target_bar": 17
+        },
+        "view": "nominal_exact",
+        "zero_baseline_mae_bps": "7.3460136167145866459354584168305607586381600711896",
+        "zero_outcomes": 0
+      },
+      {
+        "brier_denominator": 161,
+        "direction_accuracy": "0.75776397515527950310559006211180124223602484472050",
+        "direction_correct": 122,
+        "direction_denominator": 161,
+        "executable_non_neutral_denominator": 161,
+        "forecast_cohort": "recovered_second_curve_pilot_v1_20260909/GBP_USD/official_midpoint",
+        "horizon_sec": 14400,
+        "mae_bps": "10.049906873410764001298650654771309780340153070208",
+        "mean_original_probability_brier": "0.23799225711967232010020794592136780434782608695652",
+        "mean_original_side_net_bps": "6.3544193895960266165606810162278991682476268797317",
+        "model_sha256": "85ff37fd77f85fa6ae990990ead19eb7d4e20389d99b774023f32c13bf62658c",
+        "neutral_predictions": 0,
+        "positive_original_side_count": 115,
+        "positive_original_side_rate": "0.71428571428571428571428571428571428571428571428571",
+        "price_convention": "official_midpoint",
+        "probability_event_mismatch_count": 161,
+        "scored_nodes": 161,
+        "unavailable_nodes": 36,
+        "unavailable_reasons": {
+          "no_decisive_source_capture": 27,
+          "provider_reported_no_complete_target_bar": 9
+        },
+        "view": "nominal_exact",
+        "zero_baseline_mae_bps": "10.572379774202811164800847339519048129883722027472",
+        "zero_outcomes": 0
+      },
+      {
+        "brier_denominator": 172,
+        "direction_accuracy": null,
+        "direction_correct": 0,
+        "direction_denominator": 0,
+        "executable_non_neutral_denominator": 0,
+        "forecast_cohort": "recovered_second_curve_pilot_v1_20260909/USD_JPY/official_midpoint",
+        "horizon_sec": 14400,
+        "mae_bps": "14.808774784096443122443678688528037069643786863161",
+        "mean_original_probability_brier": "0.25",
+        "mean_original_side_net_bps": null,
+        "model_sha256": "85ff37fd77f85fa6ae990990ead19eb7d4e20389d99b774023f32c13bf62658c",
+        "neutral_predictions": 172,
+        "positive_original_side_count": 0,
+        "positive_original_side_rate": null,
+        "price_convention": "official_midpoint",
+        "probability_event_mismatch_count": 172,
+        "scored_nodes": 172,
+        "unavailable_nodes": 29,
+        "unavailable_reasons": {
+          "no_decisive_source_capture": 28,
+          "provider_reported_no_complete_target_bar": 1
+        },
+        "view": "nominal_exact",
+        "zero_baseline_mae_bps": "14.808774784096443122443678688528037069643786863161",
+        "zero_outcomes": 0
+      },
+      {
+        "brier_denominator": 148,
+        "direction_accuracy": null,
+        "direction_correct": 0,
+        "direction_denominator": 0,
+        "executable_non_neutral_denominator": 0,
+        "forecast_cohort": "recovered_second_curve_pilot_v1_20260909/EUR_USD/ba_derived_midpoint",
+        "horizon_sec": 14400,
+        "mae_bps": "7.4927748812653101836418931679705963224228690185122",
+        "mean_original_probability_brier": "0.25",
+        "mean_original_side_net_bps": null,
+        "model_sha256": "85ff37fd77f85fa6ae990990ead19eb7d4e20389d99b774023f32c13bf62658c",
+        "neutral_predictions": 148,
+        "positive_original_side_count": 0,
+        "positive_original_side_rate": null,
+        "price_convention": "ba_derived_midpoint",
+        "probability_event_mismatch_count": 0,
+        "scored_nodes": 148,
+        "unavailable_nodes": 31,
+        "unavailable_reasons": {
+          "no_decisive_source_capture": 27,
+          "provider_reported_no_complete_target_bar": 4
+        },
+        "view": "retained_training_target",
+        "zero_baseline_mae_bps": "7.4927748812653101836418931679705963224228690185122",
+        "zero_outcomes": 0
+      },
+      {
+        "brier_denominator": 167,
+        "direction_accuracy": "0.75449101796407185628742514970059880239520958083832",
+        "direction_correct": 126,
+        "direction_denominator": 167,
+        "executable_non_neutral_denominator": 167,
+        "forecast_cohort": "recovered_second_curve_pilot_v1_20260909/GBP_USD/ba_derived_midpoint",
+        "horizon_sec": 14400,
+        "mae_bps": "10.175900313973540066569616530976903224083068606319",
+        "mean_original_probability_brier": "0.23814827137753442173245955765840651736526946107784",
+        "mean_original_side_net_bps": "6.4748661513731563841295518800078627046820031314886",
+        "model_sha256": "85ff37fd77f85fa6ae990990ead19eb7d4e20389d99b774023f32c13bf62658c",
+        "neutral_predictions": 0,
+        "positive_original_side_count": 119,
+        "positive_original_side_rate": "0.71257485029940119760479041916167664670658682634731",
+        "price_convention": "ba_derived_midpoint",
+        "probability_event_mismatch_count": 0,
+        "scored_nodes": 167,
+        "unavailable_nodes": 30,
+        "unavailable_reasons": {
+          "no_decisive_source_capture": 27,
+          "provider_reported_no_complete_target_bar": 3
+        },
+        "view": "retained_training_target",
+        "zero_baseline_mae_bps": "10.693052599217658489196772404817683983046731598918",
+        "zero_outcomes": 0
+      },
+      {
+        "brier_denominator": 173,
+        "direction_accuracy": null,
+        "direction_correct": 0,
+        "direction_denominator": 0,
+        "executable_non_neutral_denominator": 0,
+        "forecast_cohort": "recovered_second_curve_pilot_v1_20260909/USD_JPY/ba_derived_midpoint",
+        "horizon_sec": 14400,
+        "mae_bps": "14.827127323504996950883203007980371016131289891339",
+        "mean_original_probability_brier": "0.25",
+        "mean_original_side_net_bps": null,
+        "model_sha256": "85ff37fd77f85fa6ae990990ead19eb7d4e20389d99b774023f32c13bf62658c",
+        "neutral_predictions": 173,
+        "positive_original_side_count": 0,
+        "positive_original_side_rate": null,
+        "price_convention": "ba_derived_midpoint",
+        "probability_event_mismatch_count": 0,
+        "scored_nodes": 173,
+        "unavailable_nodes": 28,
+        "unavailable_reasons": {
+          "no_decisive_source_capture": 28
+        },
+        "view": "retained_training_target",
+        "zero_baseline_mae_bps": "14.827127323504996950883203007980371016131289891339",
+        "zero_outcomes": 0
+      },
+      {
+        "brier_denominator": 148,
+        "direction_accuracy": null,
+        "direction_correct": 0,
+        "direction_denominator": 0,
+        "executable_non_neutral_denominator": 0,
+        "forecast_cohort": "recovered_second_curve_pilot_v1_20260909/EUR_USD/official_midpoint",
+        "horizon_sec": 14400,
+        "mae_bps": "7.4936451775413903378414208968684894809205535371709",
+        "mean_original_probability_brier": "0.25",
+        "mean_original_side_net_bps": null,
+        "model_sha256": "85ff37fd77f85fa6ae990990ead19eb7d4e20389d99b774023f32c13bf62658c",
+        "neutral_predictions": 148,
+        "positive_original_side_count": 0,
+        "positive_original_side_rate": null,
+        "price_convention": "official_midpoint",
+        "probability_event_mismatch_count": 0,
+        "scored_nodes": 148,
+        "unavailable_nodes": 31,
+        "unavailable_reasons": {
+          "no_decisive_source_capture": 27,
+          "provider_reported_no_complete_target_bar": 4
+        },
+        "view": "retained_training_target",
+        "zero_baseline_mae_bps": "7.4936451775413903378414208968684894809205535371709",
+        "zero_outcomes": 0
+      },
+      {
+        "brier_denominator": 167,
+        "direction_accuracy": "0.75449101796407185628742514970059880239520958083832",
+        "direction_correct": 126,
+        "direction_denominator": 167,
+        "executable_non_neutral_denominator": 167,
+        "forecast_cohort": "recovered_second_curve_pilot_v1_20260909/GBP_USD/official_midpoint",
+        "horizon_sec": 14400,
+        "mae_bps": "10.178974287353336591717486170267658193978761131997",
+        "mean_original_probability_brier": "0.23813400135994313786713435171911781437125748502994",
+        "mean_original_side_net_bps": "6.4625192754544626236549053166728186569152907006257",
+        "model_sha256": "85ff37fd77f85fa6ae990990ead19eb7d4e20389d99b774023f32c13bf62658c",
+        "neutral_predictions": 0,
+        "positive_original_side_count": 119,
+        "positive_original_side_rate": "0.71257485029940119760479041916167664670658682634731",
+        "price_convention": "official_midpoint",
+        "probability_event_mismatch_count": 0,
+        "scored_nodes": 167,
+        "unavailable_nodes": 30,
+        "unavailable_reasons": {
+          "no_decisive_source_capture": 27,
+          "provider_reported_no_complete_target_bar": 3
+        },
+        "view": "retained_training_target",
+        "zero_baseline_mae_bps": "10.696804894702778774137265536015654012854276312044",
+        "zero_outcomes": 0
+      },
+      {
+        "brier_denominator": 173,
+        "direction_accuracy": null,
+        "direction_correct": 0,
+        "direction_denominator": 0,
+        "executable_non_neutral_denominator": 0,
+        "forecast_cohort": "recovered_second_curve_pilot_v1_20260909/USD_JPY/official_midpoint",
+        "horizon_sec": 14400,
+        "mae_bps": "14.829956362033601132583282795172537999872909256434",
+        "mean_original_probability_brier": "0.25",
+        "mean_original_side_net_bps": null,
+        "model_sha256": "85ff37fd77f85fa6ae990990ead19eb7d4e20389d99b774023f32c13bf62658c",
+        "neutral_predictions": 173,
+        "positive_original_side_count": 0,
+        "positive_original_side_rate": null,
+        "price_convention": "official_midpoint",
+        "probability_event_mismatch_count": 0,
+        "scored_nodes": 173,
+        "unavailable_nodes": 28,
+        "unavailable_reasons": {
+          "no_decisive_source_capture": 28
+        },
+        "view": "retained_training_target",
+        "zero_baseline_mae_bps": "14.829956362033601132583282795172537999872909256434",
+        "zero_outcomes": 0
+      }
+    ],
+    "source_capture_status_counts": {
+      "failed_source_capture": 1,
+      "verified": 1244
+    },
+    "verified_chain_status_counts": {
+      "scored_chain": 1154
+    },
+    "view_dispositions": {
+      "missing_provider_bar": 638,
+      "missing_source_coverage": 122,
+      "pending": 206,
+      "scored": 29034,
+      "withheld": 4
+    }
+  },
+  "model_fits": false,
+  "owner_tool_invocation_arguments": {
+    "evaluator": [
+      "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\prospective_pilot\\scalability_v3\\evaluate_prospective_pilot_v3.py",
+      "--registry",
+      "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\recovered_second_curve_pilot_v1_20260909.json",
+      "--registry-sha256",
+      "ae64f2cae6df44dad81b46deb16e95e4d5f67dabb7fc1e65289b96ba6b0fe2b2",
+      "--output-directory",
+      "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\prospective_pilot\\scalability_v3\\actual_evaluation_003"
+    ],
+    "presenter": [
+      "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\prospective_pilot\\summarize_retained_pilot_v1.py",
+      "--report",
+      "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\prospective_pilot\\scalability_v3\\actual_evaluation_003\\PROSPECTIVE_PILOT_EVALUATION.json",
+      "--expected-sha256",
+      "d275d2cfb671c752c464731e469aabe49175a8871855db088235985993461e0b",
+      "--output-directory",
+      "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\prospective_pilot\\complete_results_final_003"
+    ]
+  },
+  "prepared_source_and_registry_pins": {
+    "bytes": 8812,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\final_evaluations_20260909\\FINAL_EVALUATION_PREPARATION_20260909.json",
+    "sha256": "26eaba05b2e041b3091d91ff65cdcf76f84f53321281258db3626b65aeccb760"
+  },
+  "presenter": {
+    "bytes": 8704,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\prospective_pilot\\summarize_retained_pilot_v1.py",
+    "sha256": "2310ff8dbdabea789e359928ff82f95509befc49703d78608a56cdb260bf8864"
+  },
+  "private_original_report": {
+    "bytes": 472298,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\prospective_pilot\\scalability_v3\\actual_evaluation_003\\PROSPECTIVE_PILOT_EVALUATION.json",
+    "sha256": "d275d2cfb671c752c464731e469aabe49175a8871855db088235985993461e0b"
+  },
+  "rescoring_in_this_helper": false,
+  "research_only": true,
+  "resumption_receipt": {
+    "bytes": 1380,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\final_evaluations_20260909\\FINAL_EVALUATION_RESUMPTION_20260909.json",
+    "sha256": "b81fd6cbc7b3bb0d4b43d456cae2b95ab90cb88e4ebe5b661057d8032c615fc2"
+  },
+  "runtime_writes": false,
+  "sanitized_complete_presentation": {
+    "bytes": 190968,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\prospective_pilot\\complete_results_final_003\\COMPLETE_PILOT_HORIZON_RESULTS_20260909.json",
+    "sha256": "d2f28af56c90d982393df61a4875edc449b915edf62160baf7fefa55ee717ac9"
+  },
+  "schema_version": "continuation_retained_evaluation_acceptance_v1_20260909",
+  "source_closures_unchanged": true,
+  "status": "accepted_existing_evaluator_and_complete_presentation",
+  "verification_completed_epoch": 1788957632.40237,
+  "verification_completed_utc": "2026-09-09T12:40:32.402370+00:00",
+  "verification_started_epoch": 1788956825.9876254,
+  "verification_started_utc": "2026-09-09T12:27:05.987625+00:00"
+}

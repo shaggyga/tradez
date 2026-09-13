@@ -1,0 +1,372 @@
+{
+  "account_eligible": false,
+  "can_authorize": false,
+  "can_place_orders": false,
+  "can_promote": false,
+  "created_utc": "2026-09-09T06:24:32.769468+00:00",
+  "execution_eligible": false,
+  "new_model_fit": false,
+  "new_outcome_evaluation": false,
+  "observed_reuse_and_gaps": [
+    {
+      "component": "Corrected feature-forecast cost-survival family",
+      "implemented": "Binary max(long_endpoint_net_pips, short_endpoint_net_pips)>0 at nominal two hours, with original alignment/cost assumptions.",
+      "lines": [
+        129,
+        225,
+        310,
+        396,
+        428
+      ],
+      "not_established": "Chosen-side direction, intrahorizon survival, first-passage ordering, MFE/MAE prediction, conditional remaining-risk intervals or fresh confirmation.",
+      "reusable": "Direction-neutral endpoint opportunity target; purged temporal folds; train-prior, Brier, calibration and pair-level evaluation patterns.",
+      "source": "D:\\forex\\trad\\fresh_m1_intrahour\\src\\feature_forecast_benchmark.py"
+    },
+    {
+      "component": "Corrected H1 path labels",
+      "implemented": "Both-side endpoint, favorable/adverse extrema and early/terminal weighted curve scores, using entry/exit open prices and M1 path high/low.",
+      "lines": [
+        42,
+        233,
+        242,
+        251,
+        263,
+        285,
+        322,
+        340
+      ],
+      "not_established": "Strict complete real path: old code permits up to 10 minutes alignment delay, requires only 90 path rows for two hours, and can infer missing bid/ask from spread or full-sample/default spread. Reuse arithmetic only with new strict provenance and missingness policy.",
+      "reusable": "Explicit bid/ask orientation and distinct endpoint versus path-extremum labels.",
+      "source": "D:\\forex\\trad\\fresh_m1_intrahour\\src\\htf_corrected_rebuild.py"
+    },
+    {
+      "component": "Second-ridge calibration",
+      "implemented": "Validation magnitude multiplier and residual standard deviation; retained probability is residual-logistic.",
+      "lines": [
+        515,
+        526,
+        563,
+        564
+      ],
+      "not_established": "Calibrated quantile coverage, conditional path risk, or calibrated probability that an incumbent remains profitable.",
+      "reusable": "Separate validation diagnostics and exact original native horizon metadata.",
+      "source": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_second_forecast_fit.py"
+    },
+    {
+      "component": "MA magnitude and entry gates",
+      "implemented": "Absolute movement estimator distinct from signed estimator, validation affine magnitude calibration and magnitude/current-cost gate.",
+      "lines": [
+        1207,
+        1226,
+        1581,
+        2436,
+        2487
+      ],
+      "not_established": "Affine magnitude is not a prediction interval. The newly corrected feature transform has no proven compatibility with old weights; the completed new MA comparison was negative in all nine directional cells.",
+      "reusable": "Keep movement magnitude and direction separate; evaluate costs and calibration on their own denominators.",
+      "source": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_ma_feature_grid_fit.py"
+    },
+    {
+      "component": "Existing curve contract and management bridge",
+      "implemented": "Original terminal interval translated to current-price remaining distance while preserving original target and conditional_recalibration=False.",
+      "lines": [
+        108,
+        120,
+        155
+      ],
+      "not_established": "A translated original interval is not a newly calibrated conditional interval at the later management decision.",
+      "reusable": "Source/issue/consumption/target contract, interval field validation and pure management replay; avoid another bridge.",
+      "source": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_curve_management_adapter_v1.py"
+    }
+  ],
+  "proof_eligible": false,
+  "proposal": {
+    "baseline_then_optional_model": [
+      "Start with train-only empirical per-pair/horizon quantiles and a past-volatility-scaled distribution. Compare with fixed previous-window magnitude/ATR rules; disclose support rather than silently use sparse time-of-day cells.",
+      "Predeclare quantiles 0.10, 0.50 and 0.90 and their exact target variable. Keep endpoint distributions separate from MFE/MAE distributions; the existing terminal interval field cannot silently carry path risk.",
+      "Only after label and baseline verification, compare one compact volatility/range/activity/spread feature family with a bounded quantile learner under a new frozen development protocol. Do not rerun MA alpha selection or import old executable training wrappers.",
+      "An optional binary opportunity model may reuse the existing cost-survival evaluation design, but needs an actual fitted probability/calibration stage; no fake Brier metric on a point estimate or arbitrary 0.5 output."
+    ],
+    "evaluation": [
+      "Chronological train, calibration/selection and diagnostic blocks with complete target-overlap purge; scaler and empirical distributions fit only before the relevant cutoff.",
+      "Report pinball loss, empirical interval coverage, interval width, magnitude error and underestimation/tail-loss rates against matched baseline origins. No nominal 80% claim without observed coverage.",
+      "For binary opportunity, report training-prior baseline, Brier/log loss, calibration bins, positive prevalence and balanced accuracy; do not emphasize raw accuracy under a large positive base rate.",
+      "Keep pair/horizon/side/label and source/cost-missingness denominators; retain all chronological UTC-date diagnostics. Correlated targets and pairs do not produce independent N.",
+      "If reporting descriptive bootstrap intervals, resample whole dates together across pairs and require at least 10 dates; no unadjusted multiple-comparison promotion gate.",
+      "No same-history follow-up is a fresh final test. A positive development result would justify prospective confirmation only."
+    ],
+    "first_milestone": "Version strict path labels and score a fixed risk baseline before adding any learned risk model or management action.",
+    "labels": [
+      {
+        "meaning": "Absolute close-to-close return at exact native target; movement size without choosing a side.",
+        "name": "absolute_endpoint_return_bps"
+      },
+      {
+        "meaning": "Square root of sum of squared real one-minute log returns over the complete future path; finite observed variation, not instantaneous volatility.",
+        "name": "realized_path_volatility"
+      },
+      {
+        "meaning": "Separate nonnegative favorable/adverse excursion magnitudes from observed bid/ask OHLC and a declared hypothetical candle-close entry. No claim the best price was tradeable or reached before the adverse price.",
+        "name": "long_and_short_MFE_MAE"
+      },
+      {
+        "meaning": "Retain the old opportunity definition with explicitly versioned exact-target/actual-bid-ask costs. It is not a directional instruction or an oracle trading return.",
+        "name": "either_side_endpoint_after_spread_positive"
+      }
+    ],
+    "management_use_if_later_validated": [
+      "Use an independently scoped risk companion to assess movement versus observed costs, exposure limits and deadline choices in existing virtual management replay.",
+      "Do not convert an either-side opportunity probability into a long/short choice. Do not treat MFE as achievable return or adverse excursion as a fill price.",
+      "Do not change existing pilot nodes or append synthetic short horizons. Issue new risk evidence with its own version, feature/reference/availability/issue/target clocks and immutable source bindings.",
+      "No order, account, promotion or proof authorization follows from this design or from a favorable retrospective score."
+    ],
+    "scope": {
+      "future_confirmation": "Freeze any eventual candidate and its protocol before a separately collected prospective confirmation period.",
+      "input": "Existing immutable July 9\u2013September 9 M1 captures; no new data acquisition in this task.",
+      "instruments": [
+        "EUR_USD",
+        "GBP_USD",
+        "USD_JPY"
+      ],
+      "native_horizons_minutes": [
+        15,
+        30,
+        60
+      ],
+      "time_classification": "New retrospective development protocol. The same history and final period have already been inspected by the MA comparison; no untouched-test claim."
+    },
+    "status": "design_proposal_not_executed",
+    "suggested_bounded_engineering_limits": {
+      "anchor_stride_minutes": 5,
+      "limits_are_proposed_not_registered": true,
+      "max_instruments": 3,
+      "max_model_comparison_families": 2,
+      "max_native_horizons": 3,
+      "max_rows_per_instrument": 100000,
+      "max_source_bytes_per_instrument": 20971520,
+      "runtime_budget_sec": 600,
+      "single_thread": true
+    },
+    "timing_and_path_policy": [
+      "Reference uses completed origin close at its actual price clock (M1 label+60 seconds); exact target keeps the original horizon.",
+      "Exclude origin-bar high/low because those extremes predate the close-based reference. Use only subsequent complete consecutive bars through target close; include initial liquidation value explicitly when reporting immediate spread loss.",
+      "Any missing minute, missing real bid/ask field or conflicting duplicate invalidates the corresponding path/cost label. Endpoint-only labels may survive separately if endpoints exist, never disguised as complete paths.",
+      "No spread medians, inferred bid/ask, interpolated bars, rescaled row-time horizon, midpoint equivalence claim, or future extreme used as a predictor.",
+      "OHLC cannot establish ordering when both stop and take-profit levels occur in one bar. Such first-passage outcomes are ambiguous and not assigned a favorable order or broker fill.",
+      "All labels mature only after the final required bar was available; historical original ingestion remains unknown in retained CSV and therefore retrospective engineering only."
+    ]
+  },
+  "research_only": true,
+  "retained_report": {
+    "artifact_deserialized": false,
+    "confirmed_accurate_forecast": false,
+    "data_audit": {
+      "calendar_feature_count": 4,
+      "causal_interaction_count": 12,
+      "currency_identity_feature_count": 16,
+      "decision_end": "2026-07-06 17:00:00+00:00",
+      "decision_start": "2024-08-22 03:00:00+00:00",
+      "duplicate_label_key_count": 0,
+      "duplicate_source_key_count": 0,
+      "engineered_feature_count": 47,
+      "feature_family_counts": {
+        "motion_plus_interactions": 164,
+        "safe_plus_interactions": 267
+      },
+      "forward_label_columns_excluded": true,
+      "label_end_max": "2026-07-06 19:04:00+00:00",
+      "label_end_strictly_after_decision": true,
+      "labels_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\fresh_m1_intrahour\\reports\\htf_corrected_arima_features_tier1_2026_20260712\\corrected_h1_labels.parquet",
+      "motion_feature_count": 117,
+      "pair_count": 15,
+      "pair_identity_feature_count": 15,
+      "pairs": [
+        "AUD_JPY",
+        "AUD_USD",
+        "EUR_AUD",
+        "EUR_CAD",
+        "EUR_GBP",
+        "EUR_JPY",
+        "EUR_USD",
+        "GBP_AUD",
+        "GBP_CAD",
+        "GBP_JPY",
+        "GBP_USD",
+        "NZD_USD",
+        "USD_CAD",
+        "USD_CHF",
+        "USD_JPY"
+      ],
+      "row_count": 166708,
+      "safe_feature_count": 220,
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\continuous_research\\technical_spike_research_1h_step1.parquet",
+      "unsafe_global_features_excluded": true
+    },
+    "diagnostic": {
+      "candidate_id": "hist_gradient_boosting_motion",
+      "evidence_status": "previously_inspected_diagnostic_not_fresh_holdout",
+      "fresh_holdout": false,
+      "metrics": {
+        "accuracy": 0.8059148507037313,
+        "average_precision": 0.8803072334736135,
+        "balanced_accuracy": 0.5541613437763547,
+        "baseline_brier_score": 0.16742615488977944,
+        "brier_score": 0.14685515083328873,
+        "brier_skill_score": 0.12286613205704378,
+        "expected_calibration_error": 0.016754798323340286,
+        "log_loss": 0.46359245608447075,
+        "positive_rate": 0.788836760643662,
+        "predicted_positive_rate": 0.9670934362257202,
+        "roc_auc": 0.7020196274424587,
+        "rows": 45614
+      },
+      "test_end": "2026-07-07 00:00:00+00:00",
+      "test_rows": 45614,
+      "test_start": "2026-01-01 00:00:00+00:00",
+      "train_rows": 100000
+    },
+    "fresh_untouched_holdout_available": false,
+    "generated_utc": "2026-07-13T17:41:25.411650+00:00",
+    "selected_candidate": {
+      "aggregate_metrics": {
+        "maximum_accuracy": 0.8572446979148102,
+        "maximum_average_precision": 0.9149552720299106,
+        "maximum_balanced_accuracy": 0.5595396747434855,
+        "maximum_brier_skill_score": 0.10945609252780286,
+        "maximum_expected_calibration_error": 0.013862712478222568,
+        "maximum_log_loss": 0.4691562909021021,
+        "maximum_roc_auc": 0.6960980570448905,
+        "mean_accuracy": 0.8297259884399621,
+        "mean_average_precision": 0.8912511888897363,
+        "mean_balanced_accuracy": 0.5535455379102217,
+        "mean_brier_skill_score": 0.09901605356259574,
+        "mean_expected_calibration_error": 0.011499881219631136,
+        "mean_log_loss": 0.433858496846782,
+        "mean_pair_auc": 0.6255584542512571,
+        "mean_roc_auc": 0.6822014368554759,
+        "minimum_accuracy": 0.8091606418621055,
+        "minimum_average_precision": 0.872001779267624,
+        "minimum_balanced_accuracy": 0.5493379147368037,
+        "minimum_brier_skill_score": 0.08921675912359306,
+        "minimum_expected_calibration_error": 0.007418507776397055,
+        "minimum_log_loss": 0.386863051789231,
+        "minimum_roc_auc": 0.6673994811693493,
+        "pair_auc_above_0p5_count": 15,
+        "pair_auc_above_0p5_fraction": 1.0,
+        "pair_auc_count": 15,
+        "positive_auc_fold_count": 4
+      },
+      "candidate_id": "hist_gradient_boosting_motion",
+      "development_gate": {
+        "checks": {
+          "all_fold_aucs_above_0p50": true,
+          "four_temporal_folds": true,
+          "mean_auc_at_least_0p55": true,
+          "mean_balanced_accuracy_at_least_0p52": true,
+          "minimum_fold_auc_above_0p50": true,
+          "pair_auc_breadth_at_least_60pct": true,
+          "positive_mean_brier_skill": true
+        },
+        "passed": true,
+        "passed_check_count": 7,
+        "total_check_count": 7
+      },
+      "feature_family": "motion_plus_interactions",
+      "fold_count": 4
+    },
+    "target_definition": {
+      "description": "Whether either side has positive endpoint pips after observed spread and static slippage.",
+      "kind": "opportunity",
+      "required_columns": [
+        "long_endpoint_net_pips",
+        "short_endpoint_net_pips"
+      ]
+    }
+  },
+  "review_helper": {
+    "bytes": 17822,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\write_direction_neutral_risk_review.py",
+    "sha256": "8b8cc249ecff027fff50e6b95c65167479c441738a815c3524547bdd714736fa"
+  },
+  "runtime_changes": false,
+  "schema_version": "direction_neutral_curve_risk_reuse_review_v1_20260909",
+  "scope": "Bounded local source/report reads and opaque artifact hash only; no deserialization, fitting, scoring, runtime or source changes.",
+  "source_bindings": [
+    {
+      "bytes": 2726894,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\fresh_m1_intrahour\\reports\\feature_forecast_full_20260713_v4\\FEATURE_FORECAST_REPORT.json",
+      "sha256": "027a5c51fd198ffb0af6d3c9ca05276719efdd8ca4a142436b927161bdeb1431"
+    },
+    {
+      "bytes": 3179,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\fresh_m1_intrahour\\reports\\feature_forecast_full_20260713_v4\\run_manifest.json",
+      "sha256": "e05b3d559629f582d3c8b1bc99dd1d52ea09d89de7900f1a123980e4457743c9"
+    },
+    {
+      "bytes": 1920,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\fresh_m1_intrahour\\reports\\feature_forecast_full_20260713_v4\\offline_research_forecast_bundle_index.json",
+      "sha256": "9ce4a57a23f3dc97f8c55ab9520b990592d2ec99c54db3ff2ff1feafb79cfbc7"
+    },
+    {
+      "bytes": 222444,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\fresh_m1_intrahour\\reports\\feature_forecast_full_20260713_v4\\two_hour_cost_survival_offline_research_forecast_bundle.joblib",
+      "sha256": "70f065144063c9a79fad5cec5bc95574722f36a4a6736199425ad95d702168a5"
+    },
+    {
+      "bytes": 70907,
+      "path": "D:\\forex\\trad\\fresh_m1_intrahour\\src\\feature_forecast_benchmark.py",
+      "sha256": "c7f7eb550231df2cf5d271c2afd41f5f1d1a301980e3ad511217a6ff95ba3a04"
+    },
+    {
+      "bytes": 54819,
+      "path": "D:\\forex\\trad\\fresh_m1_intrahour\\src\\htf_corrected_rebuild.py",
+      "sha256": "9700636140e9bd01b1fd1fca0bd7798536451c0d393fa9bf55f4d1c08979294b"
+    },
+    {
+      "bytes": 52800,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_second_forecast_fit.py",
+      "sha256": "238b8e6d83536aa287dc6282a364ccbe7ba016f2e00221e3b95381edd8d4aba8"
+    },
+    {
+      "bytes": 119362,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_ma_feature_grid_fit.py",
+      "sha256": "e39a979c75f9713a2afcb9143c2a58d1600b8922e0da95c453315386705c6324"
+    },
+    {
+      "bytes": 26812,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_forecast_curve_contract_v1.py",
+      "sha256": "c03549586f922f6031790fce68a5afb5b98e4eda6157f20c4720b1adb05d0746"
+    },
+    {
+      "bytes": 9513,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_curve_management_adapter_v1.py",
+      "sha256": "8fa6cccf1e2525d0186ab7abe0c68fccc4800db7b785a8b9f79f28c320ad1241"
+    },
+    {
+      "bytes": 49616,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_curve_management_replay_v1.py",
+      "sha256": "52fd04c6b087df4be775e490002afd0744caeb245604b8f577ab0fcff41de8f3"
+    },
+    {
+      "bytes": 31816,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_native_curve_outcomes_v1.py",
+      "sha256": "f90b237543aff4d86f5d3c93aeec1f738743fd6c9ba75c60f96ecfc8b605b68b"
+    },
+    {
+      "bytes": 176664,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\ma_history_audit\\MA_HISTORY_CAPTURE_20260909.json",
+      "sha256": "e5520b610bab5c305e37506dc3d0b568588b567491d00713027bbcbc0082f54d"
+    },
+    {
+      "bytes": 5769,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\ma_comparison_v1\\MA_HISTORICAL_COMPARISON_VALIDATION_20260909.json",
+      "sha256": "269e70168c4c70a0ed99f8d55ec067263c06c77fd5919abbafe012deada92817"
+    },
+    {
+      "bytes": 29375,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\ma_comparison_v1\\MA_COMPARISON_COMPACT_ASSESSMENT_20260909.json",
+      "sha256": "9156eed5b7b079b5a9209f543b17e454407526132e6860fb7b00dd536cd51b98"
+    }
+  ],
+  "status": "design_review_completed_no_experiment"
+}

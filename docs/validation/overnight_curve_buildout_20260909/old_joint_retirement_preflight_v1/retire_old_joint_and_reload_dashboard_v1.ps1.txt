@@ -1,0 +1,131 @@
+param(
+    [Parameter(Mandatory=$true)][ValidatePattern('^[0-9a-f]{64}$')][string]$SpecificationSha256,
+    [Parameter(Mandatory=$true)][ValidatePattern('^[a-z0-9_]+$')][string]$EvidenceName
+)
+$ErrorActionPreference='Stop'
+$project='C:\Users\zmoor\Documents\forex\trad'
+$workspace='C:\Users\zmoor\Documents\forex'
+$evidence=Join-Path $workspace 'overnight_curve_buildout_20260909\old_joint_retirement_preflight_v1'
+$python='C:\Users\zmoor\AppData\Local\CodexRuntimes\timeseries312\Scripts\python.exe'
+if([IO.Path]::GetFullPath($PSScriptRoot) -ne $evidence){throw 'Unexpected helper workspace'}
+$output=Join-Path $evidence $EvidenceName
+if(Test-Path -LiteralPath $output){throw 'Evidence destination already exists'}
+$specification=Join-Path $evidence 'COMBINED_RETIREMENT_RELOAD_SPECIFICATION_20260909.json'
+function Hash-File([string]$Path){(Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant()}
+if((Hash-File $specification) -ne $SpecificationSha256){throw 'Specification hash mismatch'}
+$spec=Get-Content -LiteralPath $specification -Raw | ConvertFrom-Json
+function Verify-Sources {
+    if((Hash-File $specification) -ne $SpecificationSha256){throw 'Specification changed'}
+    foreach($binding in $spec.source_bindings.PSObject.Properties){
+        $path=[IO.Path]::GetFullPath($binding.Name)
+        if(-not $path.StartsWith($workspace+'\',[StringComparison]::OrdinalIgnoreCase)){throw 'Source path outside workspace'}
+        if((Hash-File $path) -ne $binding.Value){throw 'Reviewed source or evidence changed'}
+    }
+    foreach($binding in $spec.registries.PSObject.Properties){
+        $path=Join-Path (Join-Path $project 'config') $binding.Name
+        if((Hash-File $path) -ne $binding.Value){throw 'Registry changed'}
+        $registry=Get-Content -LiteralPath $path -Raw | ConvertFrom-Json
+        if($registry.research_only -ne $true -or $registry.can_place_orders -ne $false -or $registry.can_promote -ne $false -or $registry.can_authorize -ne $false){throw 'Study authority mismatch'}
+        foreach($source in $registry.source_bindings.PSObject.Properties){
+            if($source.Name -notmatch '^(?:[a-z0-9_]+/)*[a-z0-9_]+\.py$'){throw 'Unexpected registered path'}
+            if((Hash-File (Join-Path $project $source.Name)) -ne $source.Value){throw 'Frozen study source changed'}
+        }
+    }
+}
+function Project-Processes {
+    @(Get-CimInstance Win32_Process | Where-Object {$_.Name -match '^(python|pythonw|pwsh|powershell)(\.exe)?$'} | ForEach-Object {
+        $match=[regex]::Match([string]$_.CommandLine,'(?i)(?:"([^"]+\.(?:py|ps1))"|([^\s"]+\.(?:py|ps1)))(?:\s|$)')
+        $path=if($match.Groups[1].Success){$match.Groups[1].Value}else{$match.Groups[2].Value}
+        if($path.StartsWith($project+'\',[StringComparison]::OrdinalIgnoreCase)){
+            [pscustomobject]@{Raw=$_;ScriptPath=$path}
+        }
+    })
+}
+function Identity($row){[ordered]@{pid=[int]$row.Raw.ProcessId;parent_pid=[int]$row.Raw.ParentProcessId;name=$row.Raw.Name;created_utc=$row.Raw.CreationDate.ToUniversalTime().ToString('o');script_path=$row.ScriptPath}}
+function Same-Process($row){
+    $now=@(Get-CimInstance Win32_Process -Filter ('ProcessId = '+[int]$row.Raw.ProcessId))
+    if($now.Count -ne 1 -or $now[0].CreationDate -ne $row.Raw.CreationDate -or $now[0].Name -ne $row.Raw.Name -or $now[0].CommandLine -ne $row.Raw.CommandLine){throw 'Process identity changed'}
+}
+function Save-Receipt([string]$name,$value){
+    $path=Join-Path $output $name
+    if(Test-Path -LiteralPath $path){throw 'Receipt already exists'}
+    $value | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $path -Encoding utf8
+}
+Verify-Sources
+$prePath=[IO.Path]::GetFullPath($spec.pre_retirement_obligations.path)
+if(-not $prePath.StartsWith($evidence+'\',[StringComparison]::OrdinalIgnoreCase)){throw 'Unexpected preflight report path'}
+if((Hash-File $prePath) -ne $spec.pre_retirement_obligations.sha256){throw 'Obligation preflight changed'}
+$pre=Get-Content -LiteralPath $prePath -Raw | ConvertFrom-Json
+$age=[DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()/1000.0-$pre.completed_epoch
+if($pre.status -ne 'no_retirement_obligation_blocker_observed' -or $pre.registered_ledgers -ne 136 -or $age -lt 0 -or $age -gt 180){throw 'Obligation preflight unavailable or older than three minutes'}
+$before=@(Project-Processes)
+if($before.Count -ne 41){throw 'Expected 41 canonical processes before retirement; refresh review for natural study completion'}
+$supervisorPath=Join-Path $project 'oanda_always_on_supervisor.ps1'
+$dashboardPath=Join-Path $project 'oanda_practice_live_dashboard.py'
+$retiredPaths=@((Join-Path $project 'oanda_joint_price_news_forecast_study_v1.py'),(Join-Path $project 'oanda_joint_price_news_forecast_study_v2.py'))
+$supervisor=@($before | Where-Object {$_.ScriptPath -eq $supervisorPath})
+if($supervisor.Count -ne 1 -or $supervisor[0].Raw.ProcessId -ne 21472 -or $supervisor[0].Raw.CreationDate.ToUniversalTime().ToString('o') -ne '2026-09-08T20:17:19.5752440Z' -or $supervisor[0].Raw.CommandLine -notmatch '\s-ResearchCollectionOnly(?:\s|$)' -or $supervisor[0].Raw.CommandLine -notmatch '\s-SafeCoreOnly(?:\s|$)'){throw 'Original research supervisor identity mismatch'}
+$workerGroups=@()
+foreach($path in @($dashboardPath)+$retiredPaths){
+    $group=@($before | Where-Object {$_.ScriptPath -eq $path})
+    $ids=@($group | ForEach-Object {[int]$_.Raw.ProcessId})
+    if($group.Count -ne 2 -or @($group | Where-Object {$_.Raw.Name -ne 'python.exe'}).Count -ne 0 -or @($group | Where-Object {$_.Raw.ParentProcessId -in $ids}).Count -ne 1){throw 'Worker process pair mismatch'}
+    $workerGroups+=@($group | Sort-Object @{Expression={if($_.Raw.ParentProcessId -in $ids){0}else{1}}})
+}
+$toStop=@($supervisor)+@($workerGroups)
+$stopIds=@($toStop | ForEach-Object {[int]$_.Raw.ProcessId})
+if(($stopIds | Sort-Object) -join ',' -ne '2056,6528,14540,18896,21472,23008,30612'){throw 'Original stop set mismatch'}
+$preserved=@($before | Where-Object {$_.Raw.ProcessId -notin $stopIds})
+if($preserved.Count -ne 34){throw 'Preservation count mismatch'}
+$listener=@(Get-NetTCPConnection -LocalAddress '127.0.0.1' -LocalPort 8765 -State Listen)
+if($listener.Count -ne 1 -or $listener[0].OwningProcess -ne 14540){throw 'Original dashboard port identity mismatch'}
+$null=New-Item -ItemType Directory -Path $output
+Save-Receipt 'BEFORE.json' ([ordered]@{schema_version='combined_retirement_reload_before_v1_20260909';observed_utc=[DateTime]::UtcNow.ToString('o');specification_sha256=$SpecificationSha256;stop_ids=$stopIds;preserved_count=34;processes=@($before|ForEach-Object {Identity $_});pre_obligations_sha256=$spec.pre_retirement_obligations.sha256;orders_enabled=$false})
+$stopped=@()
+try {
+    foreach($row in $toStop){
+        $remaining=@(Get-CimInstance Win32_Process -Filter ('ProcessId = '+[int]$row.Raw.ProcessId))
+        if($remaining.Count -eq 0){continue}
+        Same-Process $row
+        Stop-Process -Id $row.Raw.ProcessId -Force
+        $stopped+=[int]$row.Raw.ProcessId
+    }
+    foreach($row in $preserved){Same-Process $row}
+    if(@(Project-Processes | Where-Object {$_.Raw.ProcessId -in $stopIds}).Count -ne 0){throw 'Stopped process still observed'}
+    $postDirectory=Join-Path $evidence ($EvidenceName+'_post_obligations')
+    & $python -B (Join-Path $evidence 'audit_old_joint_obligations_v1.py') --output-directory $postDirectory | Set-Content -LiteralPath (Join-Path $output 'POST_AUDIT_STDOUT.txt') -Encoding utf8
+    if($LASTEXITCODE -ne 0){throw 'Post-retirement obligation audit failed'}
+    $postPath=Join-Path $postDirectory 'OLD_JOINT_RETIREMENT_OBLIGATIONS_20260909.json'
+    $post=Get-Content -LiteralPath $postPath -Raw | ConvertFrom-Json
+    if($post.status -ne 'no_retirement_obligation_blocker_observed' -or $post.registered_ledgers -ne 136){throw 'Post-retirement obligations blocked'}
+    $original=@{}
+    foreach($row in $pre.ledgers){$original[$row.study+':'+$row.instrument]=$row}
+    foreach($row in $post.ledgers){
+        $prior=$original[$row.study+':'+$row.instrument]
+        if($null -eq $prior -or $row.immutable_obligation_records_sha256 -ne $prior.immutable_obligation_records_sha256 -or $row.selected_quote_evidence_sha256 -ne $prior.selected_quote_evidence_sha256){throw 'Original obligation or selected quote identity changed'}
+    }
+    Verify-Sources
+    & (Join-Path $project 'start_oanda_research_collection.ps1') -Root $workspace | Set-Content -LiteralPath (Join-Path $output 'RESEARCH_LAUNCH_STDOUT.txt') -Encoding utf8
+    $deadline=[DateTime]::UtcNow.AddSeconds(45)
+    $ready=$false
+    do {
+        $after=@(Project-Processes)
+        $newSupervisor=@($after | Where-Object {$_.ScriptPath -eq $supervisorPath -and $_.Raw.ProcessId -notin $stopIds})
+        $newDashboard=@($after | Where-Object {$_.ScriptPath -eq $dashboardPath -and $_.Raw.ProcessId -notin $stopIds})
+        $newIds=@($newDashboard | ForEach-Object {[int]$_.Raw.ProcessId})
+        $port=@(Get-NetTCPConnection -LocalAddress '127.0.0.1' -LocalPort 8765 -State Listen -ErrorAction SilentlyContinue)
+        if($newSupervisor.Count -eq 1 -and $newDashboard.Count -eq 2 -and $port.Count -eq 1 -and $port[0].OwningProcess -in $newIds){$ready=$true;break}
+        Start-Sleep -Milliseconds 500
+    } while([DateTime]::UtcNow -lt $deadline)
+    if(-not $ready){throw 'Research supervisor/dashboard replacement did not become ready within 45 seconds'}
+    if($newSupervisor[0].Raw.CommandLine -notmatch '\s-ResearchCollectionOnly(?:\s|$)' -or $newSupervisor[0].Raw.CommandLine -notmatch '\s-SafeCoreOnly(?:\s|$)'){throw 'Replacement research mode mismatch'}
+    foreach($row in $preserved){Same-Process $row}
+    Verify-Sources
+    $after=@(Project-Processes)
+    if($after.Count -ne 37 -or @($after | Where-Object {$_.ScriptPath -in $retiredPaths -or $_.Raw.ProcessId -in $stopIds}).Count -ne 0){throw 'Unexpected final process inventory'}
+    Save-Receipt 'AFTER.json' ([ordered]@{schema_version='combined_retirement_reload_after_v1_20260909';status='port_process_and_obligations_verified_http_pending';observed_utc=[DateTime]::UtcNow.ToString('o');specification_sha256=$SpecificationSha256;stopped_ids=$stopped;preserved_count=34;process_count=37;post_obligations_path=$postPath;post_obligations_sha256=(Hash-File $postPath);new_supervisor_pid=[int]$newSupervisor[0].Raw.ProcessId;new_dashboard_pids=$newIds;processes=@($after|ForEach-Object {Identity $_});frozen_sources_unchanged=$true;orders_enabled=$false})
+    [ordered]@{status='port_process_and_obligations_verified_http_pending';evidence=$output;preserved_processes=34;new_supervisor_pid=[int]$newSupervisor[0].Raw.ProcessId;new_dashboard_pids=$newIds} | ConvertTo-Json -Compress
+} catch {
+    Save-Receipt 'FAILURE.json' ([ordered]@{status='failed_requires_review';observed_utc=[DateTime]::UtcNow.ToString('o');stopped_ids=$stopped;reason=$_.Exception.Message;automatic_broker_action=$false})
+    throw
+}

@@ -1,0 +1,690 @@
+{
+  "schema_version": "forex_optimization_validation_v1",
+  "generated_utc": "2026-09-06T04:18:49.685040+00:00",
+  "canonical_project": "C:\\Users\\zmoor\\Documents\\forex\\trad",
+  "status": "reporting_optimization_offline_validated_runtime_stopped",
+  "supported_decision": "no_trade",
+  "runtime_restarted": false,
+  "collection_activated": false,
+  "production_database_connections": 0,
+  "production_database_writes": 0,
+  "broker_requests": 0,
+  "source_change_scope": [
+    "Compact five episode_rows arrays only after unchanged audit checks",
+    "Immutable hash-verified detail publication and exact restoration",
+    "Coherent current snapshot plus detail checkpoint export",
+    "Portable saved-observer locator",
+    "Dated logs, prediction assessment and vault record mappings"
+  ],
+  "combined_validation": {
+    "passed": 131,
+    "skipped": 1,
+    "failures": 0,
+    "errors": 0,
+    "junit_seconds": 6.503,
+    "skip_reason": "Windows symlink-creation privilege unavailable",
+    "guard": "No subprocesses, network, workers or SQLite outside disposable fixtures",
+    "modules": [
+      "test_oanda_integrity_publication.py",
+      "test_forex_integrity_detail_export.py",
+      "test_oanda_four_hour_best_improvement_pass.py",
+      "test_forex_model_vault_sync.py",
+      "test_oanda_issue_register_validator.py",
+      "test_oanda_project_integrity_audit.py"
+    ]
+  },
+  "benchmark": {
+    "schema_version": "integrity_saved_payload_optimization_benchmark_v1",
+    "generated_utc": "2026-09-06T04:09:00.792702+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "input": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\project_integrity_audit_v1.json",
+      "sha256": "a93a6bfcaf4c9c752c8601175537a1837b434ade23bac5a802618b4be53fe6ca",
+      "bytes": 98926690
+    },
+    "scope": "Actual saved payload, offline transform/serialization/decode/temp writes only. No full integrity run, current audit computation, database queries, ownership-guard timing, broker, network or workers. Repeated reads likely use warm OS cache. Five samples are not latency-percentile evidence.",
+    "production_database_connections": 0,
+    "network_calls": 0,
+    "worker_starts": 0,
+    "baseline_full_snapshot_and_history_write": {
+      "samples": 5,
+      "median_ms": 3325.8095,
+      "minimum_ms": 3191.1966,
+      "maximum_ms": 3506.35,
+      "raw_ms": [
+        3506.35,
+        3408.4531,
+        3191.1966,
+        3309.1708,
+        3325.8095
+      ],
+      "p95_estimated": false
+    },
+    "first_compact_publication_with_new_detail_artifacts": {
+      "samples": 5,
+      "median_ms": 1172.7382,
+      "minimum_ms": 1154.1812,
+      "maximum_ms": 1257.3645,
+      "raw_ms": [
+        1154.1812,
+        1201.7488,
+        1257.3645,
+        1160.9934,
+        1172.7382
+      ],
+      "p95_estimated": false
+    },
+    "detail_artifacts": {
+      "count": 5,
+      "total_bytes": 73162637,
+      "per_section_rows": {
+        "move_first_operational_mapping_alignment_v2": 420,
+        "move_first_operational_mapping_alignment_v3": 366,
+        "move_first_operational_mapping_alignment_v4": 1392,
+        "move_first_operational_mapping_alignment": 60,
+        "move_first_live_arm_alignment": 2074
+      },
+      "references": {
+        "move_first_operational_mapping_alignment_v2": {
+          "contract_id": "project_integrity_episode_rows_v1_20260906",
+          "field": "episode_rows",
+          "path": "project_integrity_details_v1/sha256/81/815730932c7e8c5906f3f46c2744a03c2e7cbc3361e7c4a3fc09a623b0cfbc46.json",
+          "sha256": "815730932c7e8c5906f3f46c2744a03c2e7cbc3361e7c4a3fc09a623b0cfbc46",
+          "bytes": 13719602,
+          "item_count": 420
+        },
+        "move_first_operational_mapping_alignment_v3": {
+          "contract_id": "project_integrity_episode_rows_v1_20260906",
+          "field": "episode_rows",
+          "path": "project_integrity_details_v1/sha256/4e/4e420619a9df8ecaf1aa736784a9612ab7d98cb0c0024bded578781fba49e2ae.json",
+          "sha256": "4e420619a9df8ecaf1aa736784a9612ab7d98cb0c0024bded578781fba49e2ae",
+          "bytes": 11615653,
+          "item_count": 366
+        },
+        "move_first_operational_mapping_alignment_v4": {
+          "contract_id": "project_integrity_episode_rows_v1_20260906",
+          "field": "episode_rows",
+          "path": "project_integrity_details_v1/sha256/6d/6dd11a6f01ecd01497e8863dd24043973b51e78d1a68b2eeabc5f5bd5b381996.json",
+          "sha256": "6dd11a6f01ecd01497e8863dd24043973b51e78d1a68b2eeabc5f5bd5b381996",
+          "bytes": 36896739,
+          "item_count": 1392
+        },
+        "move_first_operational_mapping_alignment": {
+          "contract_id": "project_integrity_episode_rows_v1_20260906",
+          "field": "episode_rows",
+          "path": "project_integrity_details_v1/sha256/d8/d8b5a0788d8a40f4d6c10a06151b4f06b4c156bda20c9df9c4e5e18b66a586af.json",
+          "sha256": "d8b5a0788d8a40f4d6c10a06151b4f06b4c156bda20c9df9c4e5e18b66a586af",
+          "bytes": 2292844,
+          "item_count": 60
+        },
+        "move_first_live_arm_alignment": {
+          "contract_id": "project_integrity_episode_rows_v1_20260906",
+          "field": "episode_rows",
+          "path": "project_integrity_details_v1/sha256/e8/e84f8729e4a7123e4036c0f21b277ca5ae3618a2632f2c2aecd48c6430c09c8b.json",
+          "sha256": "e84f8729e4a7123e4036c0f21b277ca5ae3618a2632f2c2aecd48c6430c09c8b",
+          "bytes": 8637799,
+          "item_count": 2074
+        }
+      }
+    },
+    "repeat_compact_publication_changed_clocks_same_rows_including_artifact_hash_verification": {
+      "samples": 5,
+      "median_ms": 1078.9229,
+      "minimum_ms": 1066.9918,
+      "maximum_ms": 1104.1556,
+      "raw_ms": [
+        1104.1556,
+        1097.6676,
+        1071.9444,
+        1078.9229,
+        1066.9918
+      ],
+      "p95_estimated": false
+    },
+    "equivalence": {
+      "exact_original_reconstruction": true,
+      "changed_clocks_exact_reconstruction": true,
+      "unchanged_rows_reused_without_rewrite": true,
+      "all_top_level_checks_verdicts_counts_authority_preserved": true,
+      "all_non_episode_section_fields_preserved": true,
+      "saved_source_hash_unchanged": true
+    },
+    "bytes": {
+      "baseline_current": 98926690,
+      "compact_current": 167893,
+      "baseline_history_row": 73356296,
+      "compact_history_row": 136573,
+      "current_reduction_percent": 99.83028543661977,
+      "history_row_reduction_percent": 99.81382238819691
+    },
+    "full_snapshot_serialization": {
+      "samples": 5,
+      "median_ms": 2551.1719,
+      "minimum_ms": 2463.1244,
+      "maximum_ms": 2671.6334,
+      "raw_ms": [
+        2554.12,
+        2463.1244,
+        2671.6334,
+        2551.1719,
+        2505.8659
+      ],
+      "p95_estimated": false
+    },
+    "compact_snapshot_serialization": {
+      "samples": 5,
+      "median_ms": 3.8148,
+      "minimum_ms": 2.9078,
+      "maximum_ms": 4.8838,
+      "raw_ms": [
+        4.3448,
+        2.9078,
+        3.8148,
+        3.4654,
+        4.8838
+      ],
+      "p95_estimated": false
+    },
+    "full_snapshot_decode": {
+      "samples": 5,
+      "median_ms": 422.2536,
+      "minimum_ms": 416.7829,
+      "maximum_ms": 432.0045,
+      "raw_ms": [
+        432.0045,
+        418.0112,
+        422.2536,
+        424.8047,
+        416.7829
+      ],
+      "p95_estimated": false
+    },
+    "compact_snapshot_decode": {
+      "samples": 5,
+      "median_ms": 0.7588,
+      "minimum_ms": 0.7515,
+      "maximum_ms": 0.8408,
+      "raw_ms": [
+        0.8408,
+        0.7613,
+        0.7588,
+        0.7566,
+        0.7515
+      ],
+      "p95_estimated": false
+    },
+    "full_snapshot_serialization_peak": {
+      "incremental_peak_python_allocated_bytes": 364305136,
+      "scope": "one separate tracemalloc sample; input object already resident; not process RSS or a timing sample"
+    },
+    "compact_repeat_transform_and_serialization_peak": {
+      "incremental_peak_python_allocated_bytes": 196030476,
+      "scope": "one separate tracemalloc sample; input object already resident; not process RSS or a timing sample"
+    },
+    "full_snapshot_decode_peak": {
+      "incremental_peak_python_allocated_bytes": 230935741,
+      "scope": "one separate tracemalloc sample; input object already resident; not process RSS or a timing sample"
+    },
+    "compact_snapshot_decode_peak": {
+      "incremental_peak_python_allocated_bytes": 469655,
+      "scope": "one separate tracemalloc sample; input object already resident; not process RSS or a timing sample"
+    },
+    "source_sha256": {
+      "oanda_integrity_publication.py": "8458e297d2bb09f9089f7fd3c82f4718694a4504ff6c311d2f060371fb034942",
+      "oanda_project_integrity_audit.py": "c654d4d2f9089be99fa14cf5b50b1236bec5b7fe3c8beea610087c88e84acbc6",
+      "test_oanda_integrity_publication.py": "029a752c52b8adaabe19f8183d6805d108bde195c365713fbcc29997d1f5f01b"
+    }
+  },
+  "prediction_headline": {
+    "raw_matured_rows": 8414,
+    "direction_hits": 4156,
+    "direction_accuracy": 0.4939386736391728,
+    "after_cost_wins": 716,
+    "after_cost_win_rate": 0.08509626812455431,
+    "raw_pooled_average_net_pips_diagnostic_only": -6.318875600190159,
+    "raw_pooled_average_gross_pips_diagnostic_only": 0.0029319586403612984
+  },
+  "prediction_assessment_sha256": "205ca0f6a5fbd40af7b45c0994ffcf93424da675e79b4637d030cd84560d489e",
+  "prediction_verdict": "useful predictive edge not established; limited descriptive calibration/magnitude improvements; poor after-cost results",
+  "new_research_limitation": {
+    "issue_id": "FX-20260906-CALIBRATION-REPLAY-ISSUE-CLOCK",
+    "status": "open",
+    "description": "Completed-outcome recalibration lacks original-forecast-issue-time mature-label filtering; saved replay scores are not forward proof.",
+    "existing_guard": "account_eligible remains false; no model or threshold changed",
+    "resolution_gate": "Separate frozen, issue-time-causal calibration and same-decision baselines on new independent evidence"
+  },
+  "independent_reviews": {
+    "publisher_and_exporter": {
+      "generated_utc": "2026-09-06T04:13:45.266714+00:00",
+      "outcome": "no_concrete_defect_found_in_reviewed_compact_publication_and_consumers",
+      "findings": [],
+      "tests": {
+        "tests": "48",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "1",
+        "time": "2.797"
+      },
+      "skipped_reason": "filesystem_symlink_creation_unavailable_on_windows_host",
+      "scope": {
+        "production_database_connections": 0,
+        "source_edits": 0,
+        "runtime_starts": 0,
+        "network_actions": 0,
+        "credential_reads": 0
+      },
+      "sources": [
+        {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_integrity_publication.py",
+          "sha256": "8458e297d2bb09f9089f7fd3c82f4718694a4504ff6c311d2f060371fb034942"
+        },
+        {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_project_integrity_audit.py",
+          "sha256": "c654d4d2f9089be99fa14cf5b50b1236bec5b7fe3c8beea610087c88e84acbc6"
+        },
+        {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\forex_model_vault_sync.py",
+          "sha256": "363c930d11e2751f7e536e36cacd6857cb513376e352ca83a114b769e5593325"
+        },
+        {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_four_hour_best_improvement_pass.py",
+          "sha256": "019608748072c401bef05dc2dd3621f75069abc5e787ea86b4ae51970b126473"
+        },
+        {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_improvement_control_engine.py",
+          "sha256": "e3056a55a7bc8808cdbdbbe0aa593983e1e09650ddc80b76e95c755d1d4e7468"
+        },
+        {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_week_to_date_project_event_move_recap.py",
+          "sha256": "4d6055df82e10dd41c33f128b2175a710b3bdf06a09703550de0f31297dbce5c"
+        },
+        {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_integrity_publication.py",
+          "sha256": "029a752c52b8adaabe19f8183d6805d108bde195c365713fbcc29997d1f5f01b"
+        },
+        {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_forex_integrity_detail_export.py",
+          "sha256": "743383eb3e262c17ee377831918f434016d729b3c179eeec78adb7c7caca9801"
+        },
+        {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_four_hour_best_improvement_pass.py",
+          "sha256": "6c88e3b2069b750825923d781a25a8f9c35e32d65d043890b9a21de88d13843d"
+        },
+        {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_hypothesis_lifecycle.py",
+          "sha256": "8e410eab875e1ef796bec468c036730102f99e0584b9c47f62fff1f8fce13558"
+        },
+        {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_edge_evidence.py",
+          "sha256": "1ae5aa74c512f298b0f3862f29f02f91593abac5b9f6ae1cc77cc2178cf859a6"
+        },
+        {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\prospective_replication_governance_v1.json",
+          "sha256": "54da3aee1edaa2687cf94aace2a968dc51a2d1e99553465566c814646656d4c8"
+        }
+      ],
+      "confidence_sequence_semantics": "clip(episode_net_pips minus per_episode_economic_threshold, -60, +60); not raw_net_mean_interval",
+      "report": "C:\\Users\\zmoor\\Documents\\forex\\optimization_20260905\\review\\COMPACT_INTEGRITY_REVIEW.md",
+      "junit": "C:\\Users\\zmoor\\Documents\\forex\\optimization_20260905\\review\\review_tests.xml"
+    },
+    "consumer_inventory": {
+      "review_date": "2026-09-06",
+      "project": "C:\\Users\\zmoor\\Documents\\forex\\trad",
+      "scope": "source inventory, independent compact-helper review, export and saved-observer integration; disposable offline fixtures only",
+      "project_kept_stopped": true,
+      "production_database_access": false,
+      "production_vault_or_checkpoint_execution": false,
+      "credential_access": false,
+      "network_or_broker_calls": false,
+      "known_direct_alignment_row_consumers_of_integrity_current": [],
+      "consumers_preserved": [
+        "supervisor filename, timestamp and classifier identity",
+        "improvement engine status and full failure list",
+        "four-hour observer status/failures and saved embedded integrity",
+        "week-to-date generated clock/status/failures and upstream raw hash",
+        "audit previous counters and database attestations",
+        "standalone full alignment inputs to existing validators",
+        "current model-checkpoint integrity snapshot"
+      ],
+      "integration_changes": {
+        "export_allowlist": [
+          "trad/data/oanda_training_manager/state/project_integrity_audit_v1.json"
+        ],
+        "shared_dependency_validator": "oanda_integrity_publication.verified_detail_artifact_bytes",
+        "pinned_current_and_detail_bytes_for_zip": true,
+        "generation_change_between_collect_and_zip_handled": true,
+        "arbitrary_json_reference_following": false,
+        "recursive_detail_directory_export": false,
+        "missing_or_corrupt_detail_aborts_export": true,
+        "portable_original_snapshot_relative_paths": true,
+        "saved_observer_restore_requires_caller_project_root": true,
+        "source_regeneration_or_mutation": false,
+        "automatic_detail_garbage_collection": false
+      },
+      "validation": {
+        "new_cases": 12,
+        "combined_passed": 38,
+        "combined_failed": 0,
+        "combined_skipped": 0,
+        "elapsed_seconds": 3.31,
+        "runtime": "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe -B",
+        "runner": "run_consumer_tests.py",
+        "junit": "integrity_consumer_tests.xml",
+        "initial_attempts": [
+          "Guard blocked pytest default log outside evidence directory before collection; fixed explicit log path.",
+          "Long Windows fixture paths caused 11 artifact-creation failures, with 27 passes; shortened disposable fixture roots and reran all checks successfully."
+        ]
+      },
+      "handoff_sha256": {
+        "forex_model_vault_sync.py": "554916a174c874bad924950f416aa97effc9271efd6bd88fc4d7689b3cd29251",
+        "oanda_four_hour_best_improvement_pass.py": "019608748072c401bef05dc2dd3621f75069abc5e787ea86b4ae51970b126473",
+        "test_forex_integrity_detail_export.py": "743383eb3e262c17ee377831918f434016d729b3c179eeec78adb7c7caca9801"
+      },
+      "limitations": [
+        "Current JSON, Markdown and JSONL history remain separate filesystem publications.",
+        "A separately exported historical log needs its own referenced closure and original snapshot-directory context; current-checkpoint export does not sweep historical artifacts.",
+        "Negative consumer inventory covers available project source, not unknown external/manual consumers.",
+        "Root may add canonical record mappings after these handoff hashes; shared helper remains owned by execution agent."
+      ]
+    }
+  },
+  "stopped_state": {
+    "observed_utc": "2026-09-06T04:15:50.6291319Z",
+    "runtime_processes": [],
+    "excluded_read_only_review_shells": [],
+    "forex_tasks": [
+      {
+        "Name": "ForexGptOrigConstantRotationDemoWatchdog",
+        "State": "Disabled"
+      },
+      {
+        "Name": "ForexSafeCoreAtLogon",
+        "State": "Disabled"
+      }
+    ],
+    "supervisor_executed": false,
+    "broker_requests": 0,
+    "inspection": "Process entrypoint/command metadata and task state; no service or broker call"
+  },
+  "unchanged_prior_receipts": [
+    {
+      "path": "FOREX_REPAIR_VALIDATION_20260905.json",
+      "bytes": 16531,
+      "sha256": "a38cf7e7e152aac9108d33b909f1d3ac17a5e1f9228068fc7afa510b9c5e2926"
+    },
+    {
+      "path": "FOREX_PERFORMANCE_AUDIT_20260905.json",
+      "bytes": 38169,
+      "sha256": "31243fe61c45cebae0eced4b448da8cbf9db053548531a5a309cb5e2ec58a4e5"
+    },
+    {
+      "path": "FOREX_INDEPENDENT_AUDIT_20260905.json",
+      "bytes": 11652,
+      "sha256": "f6262a1b586633ba1efb2ea02d20bd771b0a01b3106ed1d8915399b5fff3bd1a"
+    }
+  ],
+  "source_bindings": [
+    {
+      "path": "config/source_conditioned_currency_rank_v8.json",
+      "bytes": 1002,
+      "sha256": "d431d33228a493eca7b1b6a3b76d4d02492e1de5c5dc76401b7704d358136f03"
+    },
+    {
+      "path": "config/source_factor_response_v9.json",
+      "bytes": 769,
+      "sha256": "dae32db7bad86c7fe3dc6bb78dbe659ab81e15837cc7ce04694047fa8cba4f31"
+    },
+    {
+      "path": "docs/AUDIT_STATE_CURRENT.md",
+      "bytes": 7472,
+      "sha256": "c55e48371988f2d85be350dda82ff049dd785ff2136d0273e0bb5f8d258a1bd5"
+    },
+    {
+      "path": "docs/FOREX_OPTIMIZATION_REVIEW_20260906.md",
+      "bytes": 8511,
+      "sha256": "955738641abc96c9773b4e6c1629e7bdccfd9ca353b0d010bc6e12a4df33259f"
+    },
+    {
+      "path": "docs/FOREX_PREDICTION_QUALITY_20260906.md",
+      "bytes": 14439,
+      "sha256": "1b6de446fa63b08708f72e5b40486d722235b2be6ba83b137013cadab61b4a61"
+    },
+    {
+      "path": "docs/validation/assess_saved_predictions_20260906.py",
+      "bytes": 11944,
+      "sha256": "f24e74ac52acf4703bf3eccc76c52ae426a5ac50654fd1a04ed805d829dc606f"
+    },
+    {
+      "path": "docs/validation/optimization_20260906/benchmark_integrity_publication.py",
+      "bytes": 9285,
+      "sha256": "5a002fb461b6b142facf950be4b51e297de7a09fe80d5df38be7151bfbbd948a"
+    },
+    {
+      "path": "docs/validation/optimization_20260906/integration_tests.xml",
+      "bytes": 19824,
+      "sha256": "65a499b52af91c31c256101e3813f227e073120700044f891db311fbfc6e95cb"
+    },
+    {
+      "path": "docs/validation/optimization_20260906/integrity_consumer_review.json",
+      "bytes": 3185,
+      "sha256": "a0ba69531a949da01da1dc50fef4c3228265a983dc29f03f09db37c02bdf97d4"
+    },
+    {
+      "path": "docs/validation/optimization_20260906/integrity_consumer_review.md",
+      "bytes": 8796,
+      "sha256": "da44ebd47cab5511f5c0b5e17949f13c5a68180badc3abda61d9f10cf7a403aa"
+    },
+    {
+      "path": "docs/validation/optimization_20260906/integrity_consumer_tests.xml",
+      "bytes": 5667,
+      "sha256": "c89cc2fbc3d299a78ce0e023c69d6d97f2a8f7bff968a3f6b9380daa1464f850"
+    },
+    {
+      "path": "docs/validation/optimization_20260906/integrity_publication_benchmark.json",
+      "bytes": 7406,
+      "sha256": "bce1732a774afdd1ec95e08b0ce7e0525632eaa2019ab05bc95f7cf5a8fd9cbc"
+    },
+    {
+      "path": "docs/validation/optimization_20260906/INTEGRITY_PUBLICATION_OPTIMIZATION.md",
+      "bytes": 5737,
+      "sha256": "6f26d23ccc4ba4f7f1dbe318f63383bccab7082c5b75d270fe3612d27a27c280"
+    },
+    {
+      "path": "docs/validation/optimization_20260906/integrity_publication_receipt.json",
+      "bytes": 3849,
+      "sha256": "9bb5b7a0b6a3d5b10230a7f49ca97f90e83fba23f90ff1c731ca43423986e55f"
+    },
+    {
+      "path": "docs/validation/optimization_20260906/pytest_publication.xml",
+      "bytes": 5297,
+      "sha256": "4b3b03c45809c37fa95b26718537e513973683aae246e35d43240f61937ebbc4"
+    },
+    {
+      "path": "docs/validation/optimization_20260906/review/COMPACT_INTEGRITY_REVIEW.md",
+      "bytes": 4374,
+      "sha256": "9662b3ef7120c33855adba93b2995485f989a2a9c34ee861f6afca80758e5fbb"
+    },
+    {
+      "path": "docs/validation/optimization_20260906/review/COMPACT_INTEGRITY_REVIEW_RECEIPT.json",
+      "bytes": 3252,
+      "sha256": "25d25443813f9efc09511341d731b1114e3c4b342d9742e67c3ea55b5cdaaa4e"
+    },
+    {
+      "path": "docs/validation/optimization_20260906/review/review_tests.xml",
+      "bytes": 7273,
+      "sha256": "313163f6a83a6f1ce797287e738ca1a0b1a34cc100d73573afce635841c620ff"
+    },
+    {
+      "path": "docs/validation/optimization_20260906/review/run_review.py",
+      "bytes": 2098,
+      "sha256": "924d14a83c2b79109d1e00a5e6c37b12b1b6f386a7fbcf11f82d49df7a81d7e7"
+    },
+    {
+      "path": "docs/validation/optimization_20260906/run_consumer_tests.py",
+      "bytes": 1979,
+      "sha256": "0227a4e5fd83a5b9b4b19150f385183a6b1513ca26f6353150a23b1681af7078"
+    },
+    {
+      "path": "docs/validation/optimization_20260906/run_publication_tests.py",
+      "bytes": 2200,
+      "sha256": "d873048028a7f653a9d5ed6ff3b68be05eeca962f683350fee06f2b786c7127d"
+    },
+    {
+      "path": "docs/validation/optimization_20260906/run_tests.py",
+      "bytes": 2097,
+      "sha256": "717965ed870d2cfd57f3818d8e2adca2c951a789f67b63902884fedb44279800"
+    },
+    {
+      "path": "docs/validation/optimization_20260906/stopped_after_validation.json",
+      "bytes": 490,
+      "sha256": "65d70629c7f1908d5722760a71f9371baaa3e964e210c8be0f8ab65032709e45"
+    },
+    {
+      "path": "docs/validation/optimization_20260906/stopped_before_optimization.json",
+      "bytes": 490,
+      "sha256": "202858f80009b8d85a80864f1ad6cf3ed514eee6656ea2d869e75d6f18891187"
+    },
+    {
+      "path": "FOREX_AUDIT_START_HERE.md",
+      "bytes": 6298,
+      "sha256": "9b50ff2d37e50e8f9327f73a8f6f8175851c2c2b23c319b8ee2bbaa78a02903e"
+    },
+    {
+      "path": "forex_model_vault_sync.py",
+      "bytes": 103456,
+      "sha256": "363c930d11e2751f7e536e36cacd6857cb513376e352ca83a114b769e5593325"
+    },
+    {
+      "path": "FOREX_OPTIMIZATION_BACKLOG_20260906.json",
+      "bytes": 4610,
+      "sha256": "3f8bef5d53100a85993be1d60dddd5321f4673604e04375a63bcbfbfa5153f9d"
+    },
+    {
+      "path": "FOREX_PENDING_IMPROVEMENTS.md",
+      "bytes": 288192,
+      "sha256": "e59a6200b6773d2d99c1983e74e861ba3b6bb0545ef1cf826b9f223221ae5f42"
+    },
+    {
+      "path": "FOREX_PREDICTION_QUALITY_20260906.json",
+      "bytes": 522506,
+      "sha256": "205ca0f6a5fbd40af7b45c0994ffcf93424da675e79b4637d030cd84560d489e"
+    },
+    {
+      "path": "FOREX_PROJECT_LOG.md",
+      "bytes": 407425,
+      "sha256": "52b1fd5d691079ff30fe12cb3f3b22754c8e393472032b723effc3cd08ae4ec5"
+    },
+    {
+      "path": "oanda_four_hour_best_improvement_pass.py",
+      "bytes": 19974,
+      "sha256": "019608748072c401bef05dc2dd3621f75069abc5e787ea86b4ae51970b126473"
+    },
+    {
+      "path": "oanda_integrity_publication.py",
+      "bytes": 9347,
+      "sha256": "8458e297d2bb09f9089f7fd3c82f4718694a4504ff6c311d2f060371fb034942"
+    },
+    {
+      "path": "oanda_issue_register_validator.py",
+      "bytes": 4908,
+      "sha256": "22f8a85aa32e4b4e3255610156a5cd91cbbbfebabcf60c6d205a32b6b0570b31"
+    },
+    {
+      "path": "oanda_project_integrity_audit.py",
+      "bytes": 288477,
+      "sha256": "c654d4d2f9089be99fa14cf5b50b1236bec5b7fe3c8beea610087c88e84acbc6"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2911,
+      "sha256": "e66ee27c6340460f95385e46a312681f80142bb7136ab27cb006a5b79ad87315"
+    },
+    {
+      "path": "test_forex_integrity_detail_export.py",
+      "bytes": 7337,
+      "sha256": "743383eb3e262c17ee377831918f434016d729b3c179eeec78adb7c7caca9801"
+    },
+    {
+      "path": "test_forex_model_vault_sync.py",
+      "bytes": 51980,
+      "sha256": "a331e81ae3195c30232e923f30e60117730dae01ddcb26f73eca5dc62186c8c0"
+    },
+    {
+      "path": "test_oanda_four_hour_best_improvement_pass.py",
+      "bytes": 2415,
+      "sha256": "6c88e3b2069b750825923d781a25a8f9c35e32d65d043890b9a21de88d13843d"
+    },
+    {
+      "path": "test_oanda_integrity_publication.py",
+      "bytes": 13727,
+      "sha256": "029a752c52b8adaabe19f8183d6805d108bde195c365713fbcc29997d1f5f01b"
+    },
+    {
+      "path": "test_oanda_issue_register_validator.py",
+      "bytes": 2353,
+      "sha256": "d6dfbfc8b107d5187b5d047c3b8c2d6f8d03859b1e8e0771b1295c12e34b9ba1"
+    },
+    {
+      "path": "test_oanda_project_integrity_audit.py",
+      "bytes": 120397,
+      "sha256": "e8d24d602238c3f093f2759399a3a57d5ad8b2e3686d57db00ba4580b872bda7"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "docs/validation/optimization_20260906/integration_tests.xml",
+      "bytes": 19824,
+      "sha256": "65a499b52af91c31c256101e3813f227e073120700044f891db311fbfc6e95cb"
+    },
+    {
+      "path": "docs/validation/optimization_20260906/pytest_publication.xml",
+      "bytes": 5297,
+      "sha256": "4b3b03c45809c37fa95b26718537e513973683aae246e35d43240f61937ebbc4"
+    },
+    {
+      "path": "docs/validation/optimization_20260906/integrity_consumer_tests.xml",
+      "bytes": 5667,
+      "sha256": "c89cc2fbc3d299a78ce0e023c69d6d97f2a8f7bff968a3f6b9380daa1464f850"
+    },
+    {
+      "path": "docs/validation/optimization_20260906/stopped_before_optimization.json",
+      "bytes": 490,
+      "sha256": "202858f80009b8d85a80864f1ad6cf3ed514eee6656ea2d869e75d6f18891187"
+    },
+    {
+      "path": "docs/validation/optimization_20260906/stopped_after_validation.json",
+      "bytes": 490,
+      "sha256": "65d70629c7f1908d5722760a71f9371baaa3e964e210c8be0f8ab65032709e45"
+    },
+    {
+      "path": "docs/validation/optimization_20260906/review/COMPACT_INTEGRITY_REVIEW.md",
+      "bytes": 4374,
+      "sha256": "9662b3ef7120c33855adba93b2995485f989a2a9c34ee861f6afca80758e5fbb"
+    },
+    {
+      "path": "docs/validation/optimization_20260906/review/COMPACT_INTEGRITY_REVIEW_RECEIPT.json",
+      "bytes": 3252,
+      "sha256": "25d25443813f9efc09511341d731b1114e3c4b342d9742e67c3ea55b5cdaaa4e"
+    },
+    {
+      "path": "docs/validation/optimization_20260906/review/review_tests.xml",
+      "bytes": 7273,
+      "sha256": "313163f6a83a6f1ce797287e738ca1a0b1a34cc100d73573afce635841c620ff"
+    },
+    {
+      "path": "docs/validation/optimization_20260906/review/run_review.py",
+      "bytes": 2098,
+      "sha256": "924d14a83c2b79109d1e00a5e6c37b12b1b6f386a7fbcf11f82d49df7a81d7e7"
+    }
+  ],
+  "limitations": [
+    "No live integrity cycle, broker performance or production query benchmark.",
+    "Five timing samples with warm filesystem cache are not latency percentiles.",
+    "Full detail is retained; compact-summary size reduction is not total project storage reduction.",
+    "Current JSON, Markdown and JSONL remain separate filesystem writes.",
+    "Current-checkpoint detail closure does not automatically export every historical JSONL dependency.",
+    "New detail files are never automatically deleted; storage-growth and retention work remains pending.",
+    "No useful predictive edge established; prospective evidence cannot be generated while stopped.",
+    "Export verification is separate under vault maintenance and does not alter this dated receipt."
+  ]
+}

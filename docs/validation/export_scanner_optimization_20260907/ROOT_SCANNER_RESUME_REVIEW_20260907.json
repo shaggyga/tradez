@@ -1,0 +1,28 @@
+{
+  "schema": "forex_scanner_resume_root_review_v1",
+  "status": "passed",
+  "observed_utc": "2026-09-07T19:11:29.3333865Z",
+  "blocking_findings": 0,
+  "scope": "Independent root review of the credential-assignment expression and complete source-export resume helper; test outcomes are recorded separately.",
+  "reviewed_bindings": [
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\tools\\credential_audit.py",
+      "sha256": "c7e5fc81644c87d322b9f57c9e2a0d013e44f0c3d50b964dca268ee9aebf5d08"
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\pair_news_review_20260907\\resume_verified_export.py",
+      "sha256": "d33b610577cff916a655c5ac396642a4279ab7caf12e29142fc11f4060f39a9b"
+    }
+  ],
+  "findings": [
+    "The boundary applies only to the greedy identifier-prefix alternative and follows the optional quote. Full-payload matching can begin at the earliest identifier byte, making internal retries redundant; suffix alternatives and reference exemptions remain unchanged.",
+    "Explicit starting positions inside an identifier are outside the equivalence claim; current scanner callers use complete payloads.",
+    "The resume helper verifies the unchanged operational receipt and 87 bindings, 149 already-copied records, backup hashes, previous archive and scanner receipt before publication; it rechecks these after the source archive verifies.",
+    "The resume helper does not repeat canonical copies or recreate the backup. It publishes separately bound maintenance records and a final export verification; no bot source, ledgers, order flags or broker actions are modified."
+  ],
+  "tests_claimed_by_this_review": 0,
+  "limitations": [
+    "Full source-export success remains a separate required execution result.",
+    "Code review does not establish predictive performance or authorize trading."
+  ]
+}

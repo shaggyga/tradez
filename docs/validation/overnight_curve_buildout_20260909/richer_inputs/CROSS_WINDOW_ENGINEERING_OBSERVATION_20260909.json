@@ -1,0 +1,162 @@
+{
+  "broker_action": false,
+  "capture_canonical_bytes": 382733,
+  "capture_latency_ms": 19.375500036403537,
+  "capture_read_completed_epoch": 1788932727.6762695,
+  "capture_read_started_epoch": 1788932727.6643,
+  "common_price_epoch": 1788932460,
+  "common_price_utc": "2026-09-09T05:41:00+00:00",
+  "consumer_epoch": 1788932727.7644482,
+  "coverage": {
+    "1": {
+      "available": 3,
+      "expected": 3
+    },
+    "15": {
+      "available": 3,
+      "expected": 3
+    },
+    "60": {
+      "available": 3,
+      "expected": 3
+    }
+  },
+  "cutoff_age_sec": 267.76444816589355,
+  "feature_status": "available",
+  "features_artifact": {
+    "bytes": 23686,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\CROSS_WINDOW_ACTUAL_FEATURES_20260909.json",
+    "sha256": "a181e75e653bca730c47614cb302efc8335625d7a7fccc146356b03969e54dba"
+  },
+  "lineage": {
+    "normalized_return_and_currency_aggregation": {
+      "lines": [
+        335,
+        448,
+        1027,
+        1078,
+        1101,
+        1165
+      ],
+      "path": "D:/forex/trad/fresh_m1_intrahour/src/unified_forecast.py",
+      "sha256": "4a8ac140dc610162cfbd15177768ae6687b7962dee0104fee790d84427d47262"
+    },
+    "strength_window_product_pattern": {
+      "lines": [
+        143,
+        239
+      ],
+      "path": "D:/forex/trad/fresh_m1_intrahour/src/feature_forecast_benchmark.py",
+      "sha256": "c7f7eb550231df2cf5d271c2afd41f5f1d1a301980e3ad511217a6ff95ba3a04"
+    }
+  },
+  "model_fitted": false,
+  "model_inputs_injected": false,
+  "network_called": false,
+  "news_or_account_payload_present": false,
+  "observed_completed_epoch": 1788932727.8597083,
+  "observed_started_epoch": 1788932727.6643,
+  "private_capture": {
+    "bytes": 383285,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\cross_window_private_001\\retained_source_capture.json",
+    "sha256": "c8363a2098aacfd1ed781ffdeae20c32a1e05b851a5b4e4300f841d9d0d0041c"
+  },
+  "prospective_accuracy_claim": false,
+  "pure_replay_latency_ms": 86.71499998308718,
+  "registered_pilot_sources_before_and_after": {
+    "registry_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\recovered_second_curve_pilot_v1_20260909.json",
+    "registry_sha256": "ae64f2cae6df44dad81b46deb16e95e4d5f67dabb7fc1e65289b96ba6b0fe2b2",
+    "sources": {
+      "oanda_curve_management_adapter_v1.py": {
+        "actual_sha256": "8fa6cccf1e2525d0186ab7abe0c68fccc4800db7b785a8b9f79f28c320ad1241",
+        "expected_sha256": "8fa6cccf1e2525d0186ab7abe0c68fccc4800db7b785a8b9f79f28c320ad1241"
+      },
+      "oanda_forecast_curve_contract_v1.py": {
+        "actual_sha256": "c03549586f922f6031790fce68a5afb5b98e4eda6157f20c4720b1adb05d0746",
+        "expected_sha256": "c03549586f922f6031790fce68a5afb5b98e4eda6157f20c4720b1adb05d0746"
+      },
+      "oanda_forecast_curve_file_store_v1.py": {
+        "actual_sha256": "0d537f59e8c90e7957b2d9853d6a5561486ec5004f3b1ee02661c335bdf5fc4d",
+        "expected_sha256": "0d537f59e8c90e7957b2d9853d6a5561486ec5004f3b1ee02661c335bdf5fc4d"
+      },
+      "oanda_live_account_readonly_status.py": {
+        "actual_sha256": "2734dda34d532a094eff614d5fe05d01c7aa6a2ebd80ca2bb974f12d8c5d93af",
+        "expected_sha256": "2734dda34d532a094eff614d5fe05d01c7aa6a2ebd80ca2bb974f12d8c5d93af"
+      },
+      "oanda_native_curve_outcomes_v1.py": {
+        "actual_sha256": "f90b237543aff4d86f5d3c93aeec1f738743fd6c9ba75c60f96ecfc8b605b68b",
+        "expected_sha256": "f90b237543aff4d86f5d3c93aeec1f738743fd6c9ba75c60f96ecfc8b605b68b"
+      },
+      "oanda_practice_quote_stream.py": {
+        "actual_sha256": "f46f5aef1be8ea7a925b7b48cd8a138a06b260b23bccc4c3382c52cac3f04b9d",
+        "expected_sha256": "f46f5aef1be8ea7a925b7b48cd8a138a06b260b23bccc4c3382c52cac3f04b9d"
+      },
+      "oanda_practice_shadow_strategy_lab.py": {
+        "actual_sha256": "c6671bae42fa05fecd16e179cf86ced322be0d84e29666de015b978b4a007fb6",
+        "expected_sha256": "c6671bae42fa05fecd16e179cf86ced322be0d84e29666de015b978b4a007fb6"
+      },
+      "oanda_recovered_curve_bridge_v1.py": {
+        "actual_sha256": "07499ba8c5112b167b171af38a4bf69d414f901640e0301afa5babb381597c13",
+        "expected_sha256": "07499ba8c5112b167b171af38a4bf69d414f901640e0301afa5babb381597c13"
+      },
+      "oanda_recovered_curve_pilot_v1.py": {
+        "actual_sha256": "fe7fdcd1f3e3c9473d393bc044721bfb48b48bdca09ee18fa8de8b9b8e02200e",
+        "expected_sha256": "fe7fdcd1f3e3c9473d393bc044721bfb48b48bdca09ee18fa8de8b9b8e02200e"
+      },
+      "oanda_recovered_second_curve_v1.py": {
+        "actual_sha256": "dbc2d606afdeb23840dd9038cd1200301c2211abb4228ef9bab193763323f41d",
+        "expected_sha256": "dbc2d606afdeb23840dd9038cd1200301c2211abb4228ef9bab193763323f41d"
+      },
+      "oanda_research_quote_receipt_v1.py": {
+        "actual_sha256": "ba18acd7eeac0eaa7c5cd7f8d4505fa5494c4ad3398345f009d25670169a27ef",
+        "expected_sha256": "ba18acd7eeac0eaa7c5cd7f8d4505fa5494c4ad3398345f009d25670169a27ef"
+      },
+      "oanda_s5_mba_research_capture_v1.py": {
+        "actual_sha256": "38fe20f4e55d970f074c71f7acee5f5adaebc9ac7766a532efcd782b34abbb45",
+        "expected_sha256": "38fe20f4e55d970f074c71f7acee5f5adaebc9ac7766a532efcd782b34abbb45"
+      },
+      "oanda_second_forecast.py": {
+        "actual_sha256": "3ac9f38bbe7140aae7bf391d1778f658b599199601d811d97d3386f32d727063",
+        "expected_sha256": "3ac9f38bbe7140aae7bf391d1778f658b599199601d811d97d3386f32d727063"
+      },
+      "oanda_second_forecast_fit.py": {
+        "actual_sha256": "238b8e6d83536aa287dc6282a364ccbe7ba016f2e00221e3b95381edd8d4aba8",
+        "expected_sha256": "238b8e6d83536aa287dc6282a364ccbe7ba016f2e00221e3b95381edd8d4aba8"
+      }
+    }
+  },
+  "registered_pilot_sources_unchanged": true,
+  "schema_version": "cross_window_engineering_observation_v1_20260909",
+  "selection_policy": "latest_exact_common_price_close_among_all_three_successfully_captured_peers",
+  "source_observation_is_now_not_historical_availability": true,
+  "source_refusals": {},
+  "source_rows": {
+    "EUR_USD": {
+      "latest_price_epoch": 1788932460,
+      "read_completed_epoch": 1788932727.6682906,
+      "retained_bytes_sha256": "39df83fd17f355be74ae4706d18dcfe147c860fcf5301638fd7fffec898db7f9",
+      "rows": 512
+    },
+    "GBP_USD": {
+      "latest_price_epoch": 1788932460,
+      "read_completed_epoch": 1788932727.6722794,
+      "retained_bytes_sha256": "ad85937f31fe6b8f746289df02faaa17ad9f5f894814f9f2eb8a855ddbeffcbc",
+      "rows": 512
+    },
+    "USD_JPY": {
+      "latest_price_epoch": 1788932460,
+      "read_completed_epoch": 1788932727.6762695,
+      "retained_bytes_sha256": "995460bf26c60ff2b2bbc735fb2f3e7a4081ae37879a05990a444dd5d333352a",
+      "rows": 512
+    }
+  },
+  "source_sha256": "dadb75e58a4415d0361c5a9fd51d03488b3ff7f01792d4b0a8c62ee76fa11624",
+  "status": "completed_observation",
+  "test_source_sha256": "4057057003462ddde27dff11014529c8704a72b74512730c4394c30247465fe8",
+  "window_refusals": {
+    "EUR_USD": {},
+    "GBP_USD": {},
+    "USD_JPY": {}
+  },
+  "worker_started": false
+}

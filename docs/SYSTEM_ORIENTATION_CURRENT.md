@@ -1,92 +1,15 @@
-# Forex System Orientation — Current
+# Forex system orientation
 
-Updated: 2026-08-13
+The project already contains broad historical horizon engines beyond the current 34-input H1 study. The September 8 existing-feature/horizon audit in [the research index](RESEARCH_INDEX.md) identifies their source, fitted artifacts, validation defects and incomplete C/vault recovery.
 
-## Source of truth
+Start with [the active pipeline](ACTIVE_PIPELINE.md). It identifies the running collectors, registered studies, current dashboard, account observations and health checks.
 
-- Canonical source and runtime: `C:\Users\zmoor\Documents\forex\trad`
-- Runtime data: `C:\Users\zmoor\Documents\forex\trad\data\oanda_training_manager`
-- Compact shared progress: `C:\Users\zmoor\OneDrive\thevault\projects\SHARED_BRAIN`
-- Practice execution scope: `101-001-37981792-007`
-- Real-money execution: disabled
-- Supported lifecycle decision: `no_trade`
+**Prices + news → combined forecast → costs and risk → positions and measured results.**
 
-Older references to `D:\forex\trad` are historical. They must not be used as
-live truth or as a deployment source.
+The actual source and runtime are at `C:\Users\zmoor\Documents\forex\trad`. The current dashboard is [Signals vs live](http://127.0.0.1:8765/#oanda).
 
-## Control flow
+Research collection is running. Orders and promotion remain disabled. Forecast publication, probability estimates, matured accuracy and account profit are distinct measures.
 
-```text
-official/market/vendor sources
-            |
-            v
- point-in-time ingestion ---> immutable raw/revision records
-            |
-            v
- causal shared features ---> frozen research hypotheses
-            |                         |
-            |                         v
-            +----------------> immutable forecasts
-                                      |
-                                      v
-                              matured outcomes
-                                      |
-                                      v
-                         independent verification
-                                      |
-                                      v
-                    collecting / retired / confirmed
-                                      |
-                                      v
-                    narrow Practice-007 authorization
-                                      |
-                                      v
-                              practice execution
-```
+Use [the research index](RESEARCH_INDEX.md) for model lineages and dated evidence, [pending work](../FOREX_PENDING_IMPROVEMENTS.md) for remaining acceptance, and [the log](../FOREX_PROJECT_LOG.md) for completed changes. The scheduled bot-health automation is paused; the requested hour of live observation was completed in chat.
 
-The arrows are one-way authority boundaries. Research cannot promote. Evidence
-cannot authorize. Reports cannot mutate state. Execution cannot reinterpret a
-lifecycle decision.
-
-## Reorientation
-
-The repository accumulated hundreds of flat root scripts. Physical movement is
-being performed compatibility-first:
-
-1. Assign every live and historical entrypoint to an owning domain.
-2. Extract pure contracts and utilities behind stable imports.
-3. Move read-only ingestion and monitoring first.
-4. Move research and evidence only with replay-equivalence tests.
-5. Move governance and execution last.
-6. Archive an old root path only after no supervisor, importer, test, or runbook
-   references it.
-
-The target domains are under `src/forex_system/`. The controlling contract is
-`config/project_layout_v1.json`. `forex_structure_audit.py` inventories current
-ownership and supervised worker identities without touching broker state.
-
-## Current research position
-
-Breadth is no longer considered evidence. Current and future promotion depends
-on immutable prospective cohorts, effective independent sample size, market
-episode and signed-currency-factor deduplication, sequential inference,
-multiplicity control, economic effect size, cost/concentration stress, and an
-untouched confirmation cohort.
-
-New source populations—official releases, ALFRED vintages, CFTC positioning,
-GDELT, Alpha Vantage, Finnhub, rates, and future causal consensus—remain
-separate. They are tested through placebos and incremental-value ablations and
-are not flattened into a generic sentiment score.
-
-## Operational rules
-
-- Preserve forecast-time and first-known timestamps.
-- Preserve immutable evidence and source revisions.
-- Never count syndicated articles or correlated currency pairs as independent
-  confirmation.
-- Never use an aggregator as a substitute for an official release.
-- Keep provider scores separate from local directional interpretation.
-- Do not reactivate a retired hypothesis without materially new information and
-  a new cohort ID.
-- Keep all new research shadow-only until governed confirmation.
-- Any structural migration must pass focused tests and the structure audit.
+[Previous orientation, preserved verbatim](SYSTEM_ORIENTATION_HISTORY_THROUGH_20260907.md).

@@ -1,0 +1,137 @@
+{
+  "account_eligible": false,
+  "can_authorize": false,
+  "can_place_orders": false,
+  "can_promote": false,
+  "capture_manifest": {
+    "bytes": 176664,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\ma_history_audit\\MA_HISTORY_CAPTURE_20260909.json",
+    "sha256": "e5520b610bab5c305e37506dc3d0b568588b567491d00713027bbcbc0082f54d"
+  },
+  "created_epoch": 1788933895.024363,
+  "created_utc": "2026-09-09T06:04:55.024363+00:00",
+  "dependency_versions": {
+    "numpy": "2.5.1",
+    "pandas": "2.3.3",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "scipy": "1.18.0",
+    "sklearn": "1.9.0"
+  },
+  "execution_eligible": false,
+  "forecast_issued": false,
+  "implementation": {
+    "bytes": 27150,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\ma_comparison_v1\\ma_historical_comparison_v1.py",
+    "sha256": "98a5a7f11c7030b42e8f26045b56e390239ae6921814c99fa379a7d4b44fed6b"
+  },
+  "policy": {
+    "account_eligible": false,
+    "alphas": [
+      0.1,
+      1.0,
+      10.0,
+      100.0,
+      1000.0
+    ],
+    "anchor_grid_basis": "UTC_bar_label_mod300_equal0",
+    "anchor_grid_seconds": 300,
+    "baselines": [
+      "zero_return",
+      "last60m_momentum_scaled_to_horizon"
+    ],
+    "bid_ask_cost": "separate hypothetical bid/ask candle-close diagnostic; no observed tradeability, fills, slippage or USD sizing",
+    "can_authorize": false,
+    "can_place_orders": false,
+    "can_promote": false,
+    "dependence_reporting": {
+      "across_pair_pooling": false,
+      "if_pooled": "one_shared_date_resample_across_all_pairs",
+      "interval": "percentile95_MAE_baseline_minus_model",
+      "minimum_dates_for_interval": 10,
+      "multiple_comparison_adjusted": false,
+      "neutral_cost_baseline": "zero_hypothetical_no_position_when_bid_ask_domain_valid",
+      "resamples": 1000,
+      "seed": 20260909,
+      "selection_or_promotion_from_test": false,
+      "unit": "UTC_calendar_date"
+    },
+    "execution_eligible": false,
+    "families": [
+      "ma_causal643_ridge",
+      "compact_causal24_ridge",
+      "compact24_plus_ma643_ridge"
+    ],
+    "forecast_issued": false,
+    "horizons_minutes": [
+      15,
+      30,
+      60
+    ],
+    "independent_sample_size": null,
+    "instruments": [
+      "EUR_USD",
+      "GBP_USD",
+      "USD_JPY"
+    ],
+    "linear_algebra_threads": 1,
+    "maximum_origins_per_pair": 20000,
+    "maximum_rows_per_pair": 100000,
+    "maximum_run_seconds": 600,
+    "maximum_source_bytes_per_pair": 20971520,
+    "minimum_rows": {
+      "test": 64,
+      "train": 256,
+      "validation": 64
+    },
+    "pip_sizes": {
+      "EUR_USD": "0.0001",
+      "GBP_USD": "0.0001",
+      "USD_JPY": "0.01"
+    },
+    "price_basis": "archived_mid_close_unknown_historical_ingestion",
+    "price_clock": "bar_label_plus60",
+    "probability_model": null,
+    "proof_eligible": false,
+    "purge": "training target price time strictly before validation cutoff; validation target strictly before test cutoff",
+    "refit_after_validation": false,
+    "research_only": true,
+    "ridge": "unpenalized intercept; alpha selected on validation_MAE; tie chooses larger alpha",
+    "scaler": "training_only_StandardScaler_population_std; constants_scale1; no imputation",
+    "session": "new_session_after_any_adjacent_label_gap_not_equal60sec; no fill; reset EMA at real session start",
+    "split": "per_pair_actual_time_range60/20/20; same cutoffs for all horizons/families",
+    "target": "exact_future_mid_close_in_same_strictly_contiguous_session",
+    "target_units": "basis_points_relative_to_reference_mid_close",
+    "version": "ma_compact_historical_engineering_v1_20260909",
+    "warmup_real_rows": 204
+  },
+  "pre_evaluation": true,
+  "prior_context": [
+    {
+      "bytes": 305730,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\FOREX_PENDING_IMPROVEMENTS.md",
+      "sha256": "7f94b6c7af2dab94990e4ac05d0f29794a73216a8a1237a8843ceafd971bce59"
+    },
+    {
+      "bytes": 2068881,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\FOREX_FEATURE_DICTIONARY_CURRENT.md",
+      "sha256": "340349f4c55628234fb354e97ab7d251c1e9182c0ed190cfa65e87a369315374"
+    },
+    {
+      "bytes": 9012,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\revamp_baseline_20260908\\reconciliation\\BACKLOG_RECONCILIATION_20260908.md",
+      "sha256": "42a4eebd34a05721219591c41c458be5d6d2d1f0eb5aaee491fb42353ac4d5e6"
+    }
+  ],
+  "proof_eligible": false,
+  "research_only": true,
+  "source_bindings": {
+    "oanda_ma_causal_features_v2.py": "55c830f8b78450f7f80d82d4e644ca1d30d294f77aa3e392a07e174deb387161",
+    "oanda_ma_feature_grid.py": "e8b277c78aee6431f945bc73ba9d6b1948e7ab0e11b370aa188891ff500b955c",
+    "oanda_pair_local_models_v2.py": "294c63bf0ed873395c4850a8722a2622eaa2bc563ceb7ecf9886764c63d8bf24"
+  },
+  "test_source": {
+    "bytes": 10570,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\ma_comparison_v1\\test_ma_historical_comparison_v1.py",
+    "sha256": "6c29ade9f97cda177ab355539768ed335a9e1445753ca3bfae5eaf4701e90bb9"
+  }
+}

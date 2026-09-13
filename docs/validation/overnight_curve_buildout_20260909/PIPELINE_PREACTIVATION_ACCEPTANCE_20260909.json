@@ -1,0 +1,198 @@
+{
+  "manager_activated": false,
+  "observed_utc": "2026-09-09T05:31:34.496631+00:00",
+  "orders_enabled": false,
+  "pending": "Create immutable pilot registry; one actual bounded cycle; inspect outcomes and then continue collection to registered deadline.",
+  "pilot_source_bindings": {
+    "oanda_curve_management_adapter_v1.py": "8fa6cccf1e2525d0186ab7abe0c68fccc4800db7b785a8b9f79f28c320ad1241",
+    "oanda_forecast_curve_contract_v1.py": "c03549586f922f6031790fce68a5afb5b98e4eda6157f20c4720b1adb05d0746",
+    "oanda_forecast_curve_file_store_v1.py": "0d537f59e8c90e7957b2d9853d6a5561486ec5004f3b1ee02661c335bdf5fc4d",
+    "oanda_live_account_readonly_status.py": "2734dda34d532a094eff614d5fe05d01c7aa6a2ebd80ca2bb974f12d8c5d93af",
+    "oanda_native_curve_outcomes_v1.py": "f90b237543aff4d86f5d3c93aeec1f738743fd6c9ba75c60f96ecfc8b605b68b",
+    "oanda_practice_quote_stream.py": "f46f5aef1be8ea7a925b7b48cd8a138a06b260b23bccc4c3382c52cac3f04b9d",
+    "oanda_practice_shadow_strategy_lab.py": "c6671bae42fa05fecd16e179cf86ced322be0d84e29666de015b978b4a007fb6",
+    "oanda_recovered_curve_bridge_v1.py": "07499ba8c5112b167b171af38a4bf69d414f901640e0301afa5babb381597c13",
+    "oanda_recovered_curve_pilot_v1.py": "fe7fdcd1f3e3c9473d393bc044721bfb48b48bdca09ee18fa8de8b9b8e02200e",
+    "oanda_recovered_second_curve_v1.py": "dbc2d606afdeb23840dd9038cd1200301c2211abb4228ef9bab193763323f41d",
+    "oanda_research_quote_receipt_v1.py": "ba18acd7eeac0eaa7c5cd7f8d4505fa5494c4ad3398345f009d25670169a27ef",
+    "oanda_s5_mba_research_capture_v1.py": "38fe20f4e55d970f074c71f7acee5f5adaebc9ac7766a532efcd782b34abbb45",
+    "oanda_second_forecast.py": "3ac9f38bbe7140aae7bf391d1778f658b599199601d811d97d3386f32d727063",
+    "oanda_second_forecast_fit.py": "238b8e6d83536aa287dc6282a364ccbe7ba016f2e00221e3b95381edd8d4aba8"
+  },
+  "predictive_quality_claim": false,
+  "prior_registered_source_checks": {
+    "oanda_causal_forecast_inputs.py": true,
+    "oanda_causal_forecast_inputs_gap_v2.py": true,
+    "oanda_causal_forecast_inputs_joint_news_v2.py": true,
+    "oanda_causal_forecast_inputs_pair_v2.py": true,
+    "oanda_causal_forecast_ledger_joint_news_v2.py": true,
+    "oanda_causal_prediction_baselines.py": true,
+    "oanda_exact_price_scoring.py": true,
+    "oanda_fixed_forecast_evaluation_joint_news_v1.py": true,
+    "oanda_joint_price_news_forecast_study_v3.py": true,
+    "oanda_joint_price_news_models_v1.py": true,
+    "oanda_local_news_sentiment.py": true,
+    "oanda_local_news_sentiment_repair_v1.py": true,
+    "oanda_news_causal_aggregation_guard_v1.py": true,
+    "oanda_news_classification_contract.py": true,
+    "oanda_news_collector_contract.py": true,
+    "oanda_news_event_tagger.py": true,
+    "oanda_news_topic_identity_reconciliation_v1.py": true,
+    "oanda_pair_local_models_v2.py": true,
+    "oanda_source_governance.py": true,
+    "oanda_source_governance_news_fast_lane.py": true
+  },
+  "research_only": true,
+  "schema_version": "overnight_curve_pipeline_preactivation_20260909",
+  "sources": [
+    {
+      "bytes": 9513,
+      "path": "oanda_curve_management_adapter_v1.py",
+      "sha256": "8fa6cccf1e2525d0186ab7abe0c68fccc4800db7b785a8b9f79f28c320ad1241"
+    },
+    {
+      "bytes": 49616,
+      "path": "oanda_curve_management_replay_v1.py",
+      "sha256": "52fd04c6b087df4be775e490002afd0744caeb245604b8f577ab0fcff41de8f3"
+    },
+    {
+      "bytes": 26812,
+      "path": "oanda_forecast_curve_contract_v1.py",
+      "sha256": "c03549586f922f6031790fce68a5afb5b98e4eda6157f20c4720b1adb05d0746"
+    },
+    {
+      "bytes": 12336,
+      "path": "oanda_forecast_curve_file_store_v1.py",
+      "sha256": "0d537f59e8c90e7957b2d9853d6a5561486ec5004f3b1ee02661c335bdf5fc4d"
+    },
+    {
+      "bytes": 17815,
+      "path": "oanda_live_account_readonly_status.py",
+      "sha256": "2734dda34d532a094eff614d5fe05d01c7aa6a2ebd80ca2bb974f12d8c5d93af"
+    },
+    {
+      "bytes": 31816,
+      "path": "oanda_native_curve_outcomes_v1.py",
+      "sha256": "f90b237543aff4d86f5d3c93aeec1f738743fd6c9ba75c60f96ecfc8b605b68b"
+    },
+    {
+      "bytes": 24433,
+      "path": "oanda_news_capture_storage_v1.py",
+      "sha256": "a8a738c204d0e962313c755319a211a011517febf047c4550d2d4b315cd2002d"
+    },
+    {
+      "bytes": 4240,
+      "path": "oanda_practice_quote_stream.py",
+      "sha256": "f46f5aef1be8ea7a925b7b48cd8a138a06b260b23bccc4c3382c52cac3f04b9d"
+    },
+    {
+      "bytes": 594803,
+      "path": "oanda_practice_shadow_strategy_lab.py",
+      "sha256": "c6671bae42fa05fecd16e179cf86ced322be0d84e29666de015b978b4a007fb6"
+    },
+    {
+      "bytes": 4157,
+      "path": "oanda_recovered_curve_bridge_v1.py",
+      "sha256": "07499ba8c5112b167b171af38a4bf69d414f901640e0301afa5babb381597c13"
+    },
+    {
+      "bytes": 19086,
+      "path": "oanda_recovered_curve_pilot_v1.py",
+      "sha256": "fe7fdcd1f3e3c9473d393bc044721bfb48b48bdca09ee18fa8de8b9b8e02200e"
+    },
+    {
+      "bytes": 21606,
+      "path": "oanda_recovered_second_curve_v1.py",
+      "sha256": "dbc2d606afdeb23840dd9038cd1200301c2211abb4228ef9bab193763323f41d"
+    },
+    {
+      "bytes": 14613,
+      "path": "oanda_research_quote_receipt_v1.py",
+      "sha256": "ba18acd7eeac0eaa7c5cd7f8d4505fa5494c4ad3398345f009d25670169a27ef"
+    },
+    {
+      "bytes": 18061,
+      "path": "oanda_s5_mba_research_capture_v1.py",
+      "sha256": "38fe20f4e55d970f074c71f7acee5f5adaebc9ac7766a532efcd782b34abbb45"
+    },
+    {
+      "bytes": 60604,
+      "path": "oanda_second_forecast.py",
+      "sha256": "3ac9f38bbe7140aae7bf391d1778f658b599199601d811d97d3386f32d727063"
+    },
+    {
+      "bytes": 52800,
+      "path": "oanda_second_forecast_fit.py",
+      "sha256": "238b8e6d83536aa287dc6282a364ccbe7ba016f2e00221e3b95381edd8d4aba8"
+    },
+    {
+      "bytes": 7574,
+      "path": "test_oanda_curve_management_adapter_v1.py",
+      "sha256": "0b6c42311d5d1721fb0cfedaeaca82b704c073847d306a6ec7a720f1e74f8d3b"
+    },
+    {
+      "bytes": 27691,
+      "path": "test_oanda_curve_management_replay_v1.py",
+      "sha256": "ead61584cf5dd17605e2ff3d84c6b2303b94c84dc4f58e32a2f89700619673e1"
+    },
+    {
+      "bytes": 13043,
+      "path": "test_oanda_forecast_curve_contract_v1.py",
+      "sha256": "2f7b34e3b27a92b0e3f85dd0d5d858167c63cad8e54188f724054deb885ec4e2"
+    },
+    {
+      "bytes": 13534,
+      "path": "test_oanda_forecast_curve_file_store_v1.py",
+      "sha256": "a352cd832c5c091aa06f2c9160c261fc348f37f97ebbb4ba966b6ad677479f0f"
+    },
+    {
+      "bytes": 18958,
+      "path": "test_oanda_native_curve_outcomes_v1.py",
+      "sha256": "b04b098a2e761c2085acf7362dfca66335ae4cd643d51fc016d6eec66727531b"
+    },
+    {
+      "bytes": 19499,
+      "path": "test_oanda_news_capture_storage_v1.py",
+      "sha256": "410297b827b72ec27d6068184a1d76aecaaca79abdf6d0cc3e703d0c8bef9f25"
+    },
+    {
+      "bytes": 5703,
+      "path": "test_oanda_recovered_curve_bridge_v1.py",
+      "sha256": "210eb45038c98e87505d6925e0085e7f25416f00293e53e3ad1e67e93dc7684f"
+    },
+    {
+      "bytes": 11443,
+      "path": "test_oanda_recovered_curve_pilot_v1.py",
+      "sha256": "bb7e774ed3d7a8e5e67b2f8a350033ebec99a9ac0c449451e1e26e50cdb82d41"
+    },
+    {
+      "bytes": 16969,
+      "path": "test_oanda_recovered_second_curve_v1.py",
+      "sha256": "d5ffbdc5d0888bde9af446085dea404174efa481fd3bfd48902c33a9dfbe986c"
+    },
+    {
+      "bytes": 9132,
+      "path": "test_oanda_research_quote_receipt_v1.py",
+      "sha256": "e50bd65d2be3dd63cc2a67214c9967e5c924873925faaa0c9266d145991d869c"
+    },
+    {
+      "bytes": 14755,
+      "path": "test_oanda_s5_mba_research_capture_v1.py",
+      "sha256": "2a58e672bd400a27eced622efcc5e0f72092d7e7f17696389e87c66ce8c6a6bf"
+    }
+  ],
+  "status": "engineering_checks_passed_not_activated",
+  "test_result": {
+    "errors": 0,
+    "failures": 0,
+    "passed": 543,
+    "skip": "Windows symlink creation privilege unavailable; actual NTFS junction test passed",
+    "skipped": 1,
+    "tests": 544,
+    "warnings": [
+      "two original NumPy datetime timezone representation warnings"
+    ],
+    "xml_path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\preactivation_combined_tests_20260909.xml",
+    "xml_sha256": "d9e81107f8402773189e02e06ef79f8b1390b448c17c03dd8ee60ea120f44629"
+  }
+}

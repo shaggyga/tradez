@@ -1,0 +1,102 @@
+"""New V2 config and staged byte-preserving bindings only; no active edits."""
+import hashlib
+import json
+from pathlib import Path
+import re
+import sys
+
+BASE=Path(__file__).resolve().parent
+ROOT=BASE.parents[1]/'trad'
+sys.path.insert(0,str(ROOT))
+import oanda_joint_v3_ledger_observer_api_v2 as api
+
+
+def sha(raw):return hashlib.sha256(raw).hexdigest()
+
+
+def need(ok):
+    if not ok:raise ValueError('integration_candidate_binding_failed')
+
+
+def save(path,raw):
+    path.parent.mkdir(parents=True,exist_ok=True)
+    with path.open('xb') as stream:stream.write(raw)
+    need(path.read_bytes()==raw)
+    return dict(path=str(path),sha256=sha(raw),bytes=len(raw))
+
+
+def replace(raw,old,new,count=1):
+    old=old.encode();new=new.encode();need(raw.count(old)==count)
+    return raw.replace(old,new)
+
+
+def run():
+    full_raw=(BASE/'actual_v2_candidate_001/private/full_api_response.json').read_bytes()
+    actual=json.loads((BASE/'actual_v2_candidate_001/ACTUAL_OBSERVER_V2_CANDIDATE_20260909.json').read_bytes())
+    need(sha(full_raw)==actual['full_response']['sha256'])
+    full=json.loads(full_raw);report=full['observer_report'];need(report['schema_version']==api.observer.SCHEMA)
+    old_config=ROOT/'config/joint_v3_ledger_observer_api_v1_20260909.json';old=old_config.read_bytes()
+    need(sha(old)=='983ac47caa3ba2a4ac8021876ce7e0a371ebdae2ef36ccb1d7a2636a046a4073')
+    spec=json.loads(old);spec['schema_version']=api.SPEC_SCHEMA
+    spec['source_bindings']={**api.observer.own_source_bindings(),api.OWN_NAME:api._IMPORTED_SOURCE_SHA256}
+    need(api.observer.digest(spec)==full['observer_api_specification_sha256'])
+    config_raw=(json.dumps(spec,sort_keys=True,indent=2)+'\n').encode()
+    config_record=save(ROOT/'config/joint_v3_ledger_observer_api_v2_20260909.json',config_raw)
+    output=BASE/'integration_candidate_v2_001';output.mkdir(exist_ok=False)
+    before=output/'before_source';stage=output/'staged_project';before.mkdir();stage.mkdir()
+    files=['oanda_practice_live_dashboard.py','oanda_main_signal_dashboard.html',
+        'test_oanda_joint_v3_ledger_observer_handler_v1.py','test_oanda_joint_v3_ledger_table_visibility.py']
+    originals={name:(ROOT/name).read_bytes() for name in files}
+    need(sha(originals[files[0]])=='3882467376ddace472163baa8f37d2c729d4d3fd9ba18c18c66936c2a0cbb17a')
+    need(sha(originals[files[1]])=='da9ae85ac0efd524a59ab7f24cf5de6602b737610e996556abf4b0e783b690c6')
+    before_records=[save(before/(name+'.txt'),raw) for name,raw in originals.items()]
+    source=originals[files[0]]
+    source=replace(source,'config/joint_v3_ledger_observer_api_v1_20260909.json','config/joint_v3_ledger_observer_api_v2_20260909.json')
+    source=replace(source,'983ac47caa3ba2a4ac8021876ce7e0a371ebdae2ef36ccb1d7a2636a046a4073',config_record['sha256'])
+    source=replace(source,'joint_v3_ledger_observer_api_v1_20260909',api.SCHEMA)
+    source=replace(source,'from oanda_joint_v3_ledger_observer_api_v1 import','from oanda_joint_v3_ledger_observer_api_v2 import')
+    html=originals[files[1]]
+    html=replace(html,'145a7a8f09144cbb6919415386d1ae72b10a88cf791287b848a78d41271d2709',full['observer_api_specification_sha256'])
+    html=replace(html,'70c22a2fdcbe867f9791f280f3f767fe3cf6c249fcaa432e11ada2a5a4bfc763',report['observer_spec_sha256'])
+    for old_value,new_value in [
+        ('joint_v3_ledger_observer_api_v1_20260909',api.SCHEMA),
+        ('joint_v3_ledger_status_observer_v1_20260909',api.observer.SCHEMA),
+        ('joint_v3_ledger_observer_summary_v1_20260909',api.observer.SUMMARY_SCHEMA),
+        ('joint_v3_ledger_observer_specification_v1_20260909',api.observer.SPEC_SCHEMA)]:
+        html=replace(html,old_value,new_value)
+    old_line=next(line for line in html.splitlines() if b'const ledgerOwnSources=' in line)
+    new_line='    const ledgerOwnSources=Object.freeze('+json.dumps(api.observer.own_source_bindings(),sort_keys=True,separators=(',',':'))+');'
+    html=replace(html,old_line.decode(),new_line)
+    html=replace(html,'Object.keys(own).length!==2','Object.keys(own).length!==3')
+    handler_test=originals[files[2]]
+    handler_test=replace(handler_test,'config/joint_v3_ledger_observer_api_v1_20260909.json','config/joint_v3_ledger_observer_api_v2_20260909.json')
+    handler_test=replace(handler_test,"'oanda_joint_v3_ledger_observer_api_v1'","'oanda_joint_v3_ledger_observer_api_v2'",3)
+    handler_test=replace(handler_test,'da9ae85ac0efd524a59ab7f24cf5de6602b737610e996556abf4b0e783b690c6',sha(html))
+    table_test=originals[files[3]]
+    for old_value,new_value in [
+        ('joint_v3_ledger_observer_api_v1_20260909',api.SCHEMA),
+        ('joint_v3_ledger_status_observer_v1_20260909',api.observer.SCHEMA),
+        ('joint_v3_ledger_observer_summary_v1_20260909',api.observer.SUMMARY_SCHEMA),
+        ('joint_v3_ledger_observer_specification_v1_20260909',api.observer.SPEC_SCHEMA)]:
+        table_test=replace(table_test,old_value,new_value)
+    table_test+=b'''\n\n@pytest.mark.parametrize('kind',['api','report','summary','spec'])
+def test_v2_table_refuses_misrouted_original_v1_schema(kind):
+    paths={'api':"f.schema_version='joint_v3_ledger_observer_api_v1_20260909'",'report':"f.observer_report.schema_version='joint_v3_ledger_status_observer_v1_20260909'",'summary':"f.observer_report.summary.schema_version='joint_v3_ledger_observer_summary_v1_20260909'",'spec':"f.observer_report.observer_spec.schema_version='joint_v3_ledger_observer_specification_v1_20260909'"}
+    run_js('const f=fixture();'+paths[kind]+";assert.equal(ledgerForecastActivity(f).current,false);")
+'''
+    staged=[save(stage/name,raw) for name,raw in zip(files,(source,html,handler_test,table_test))]
+    save(stage/'config/joint_v3_ledger_observer_api_v2_20260909.json',config_raw)
+    import difflib
+    diff=''.join(''.join(difflib.unified_diff(originals[name].decode().splitlines(True),raw.decode().splitlines(True),fromfile='trad/'+name,tofile='trad/'+name)) for name,raw in zip(files,(source,html,handler_test,table_test)))
+    patch=save(output/'integration_v2.patch.txt',diff.encode())
+    value=dict(schema_version='joint_v3_observer_v2_integration_candidate_v1_20260909',status='staged_not_applied',
+        configuration=config_record,configuration_semantic_sha256=full['observer_api_specification_sha256'],
+        observer_specification_sha256=report['observer_spec_sha256'],before_source=before_records,
+        staged_project_files=staged,patch=patch,active_source_changed=False,runtime_reload=False,
+        preserved_v1_source_dependencies=api.observer.own_source_bindings(),
+        scope='Exact schema/source/config pins and one own-closure size change only; original forecast, row, expiry, fetch/cache and producer activity logic unchanged.')
+    receipt=save(output/'INTEGRATION_V2_CANDIDATE_20260909.json',(json.dumps(value,sort_keys=True,indent=2)+'\n').encode())
+    print(json.dumps(dict(receipt=receipt,config=config_record,staged=staged)))
+
+
+if __name__=='__main__':run()

@@ -1,0 +1,73 @@
+{
+  "actual_scores_run_by_reviewer": false,
+  "closed_finding": {
+    "closure": "retained_protocol captures exact original bytes and identity, checks the read and a finite positive freeze clock no later than run start; the same identity is rechecked before durable PRE_SCORE and final report and used throughout. Six new cases exercise replacement and invalid/future clocks.",
+    "finding": "Previously the run loaded one protocol but later rebound its path without proving the file still contained those loaded bytes, potentially attributing fits to a changed protocol.",
+    "id": "loaded_frozen_protocol_identity_must_match_reported_identity",
+    "prior_source_sha256": "9b3a28f6e75e39d60fc84175d58b81a72eca91a08f695ee1c24c2a398727c351"
+  },
+  "frozen_protocol": {
+    "bytes": 6092,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\path_risk_development_v1\\FROZEN_PATH_RISK_DEVELOPMENT_PROTOCOL_20260909.json",
+    "sha256": "23b499b75a9b091587ec7c329a1c69561540214cb17240adb93cb89f9a378210"
+  },
+  "independent_test_rerun": false,
+  "limits": [
+    "This is source review and owner-test binding before the requested one-shot scoring run; it does not claim any real score result.",
+    "Original historical ingestion availability, broker completeness and midpoint production equivalence remain unproven, as disclosed in the label metadata and report.",
+    "OHLC envelopes cannot establish intrabar barrier order, executable extreme prices or broker fills.",
+    "Overlapping horizons and shared dates remain dependent; the descriptive unadjusted intervals are not used for model selection.",
+    "Expected immutable private capture paths and a trusted local workspace are assumed. This review did not claim an adversarial filesystem sandbox or directory-entry crash durability."
+  ],
+  "owner_test_evidence": {
+    "bytes": 8702,
+    "cases": 50,
+    "comparison_cases": 22,
+    "errors": 0,
+    "failures": 0,
+    "label_cases": 28,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\path_risk_development_v1\\labels_comparison_protocol_final_tests.xml",
+    "sha256": "d49b70627ff198c1ba0e55c170da37afcc0e1875acbd9f83395f903b1caecebb"
+  },
+  "reviewed_sources": [
+    {
+      "bytes": 19975,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\path_risk_development_v1\\path_risk_development_comparison_v1.py",
+      "sha256": "4a8dd61ab37f6d54d0d08a0d660105c51ca4bd4ddf68cf1f9c2d1761825a0fa7"
+    },
+    {
+      "bytes": 6484,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\path_risk_development_v1\\test_path_risk_development_comparison_v1.py",
+      "sha256": "ff902334a12338119506cc841f6873112cb9a9e42faff622a043d472d2737e6e"
+    },
+    {
+      "bytes": 10516,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_m1_path_risk_labels_v1.py",
+      "sha256": "b998f6f3fbe144ae949749e03d0658f7b89676dc7015eaefa7e583e85f6afccd"
+    },
+    {
+      "bytes": 8124,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_m1_path_risk_labels_v1.py",
+      "sha256": "0082901c5ef8e316702134f4443f439bf821299a2bba9e03f58f115a2628a1ec"
+    }
+  ],
+  "reviewed_utc": "2026-09-09T06:45:21.293752+00:00",
+  "reviewer": "pair_dashboard",
+  "schema_version": "path_risk_development_independent_source_review_v1_20260909",
+  "source_or_runtime_edits_by_reviewer": false,
+  "status": "passed_no_remaining_blocker_in_reviewed_scope",
+  "verified": [
+    "Both methods are fixed empirical training quantiles, one on raw target values and one on target divided by past-60-return RMS scale. No validation refit, hyperparameter search or winner selection occurs.",
+    "The declared three-pair 60/20/20 cutoffs use the same full actual price-time range formula as the inspected MA comparison. The origin grid is every five UTC label minutes after 204 real warm rows.",
+    "Origins and exact 15/30/60-minute targets remain within a contiguous real M1 session. Training targets must be strictly before validation and validation targets strictly before test.",
+    "Past volatility uses only 60 preceding real returns through the completed origin. Zero or nonfinite support is withheld rather than floored or filled.",
+    "Both quantile methods fit and score the same label-valid, positive-scale rows. Label missingness, scale missingness and insufficient predeclared counts remain visible by partition.",
+    "Predeclared minimum support is checked for train/validation/test before fitting; this uses availability counts rather than validation/test outcome magnitudes for selecting weights.",
+    "Signed/absolute endpoint, close-path and OHLC-envelope labels remain distinct. Real bid/ask is required for cost-related labels; missing bid/ask never creates inferred costs or tradeability.",
+    "Opportunity probability is only the training prevalence of either side having a positive after-spread endpoint; it is not a fitted directional classifier or a profitable-trading claim.",
+    "PRE_SCORE_TRAINING_BASELINES is created exclusively, flushed and fsynced, then hashed after readback before the first validation/test quantile or prevalence scoring loop.",
+    "Actual retained source hashes, source read clocks, dependency versions and protocol identity are bound; source/capture identity is checked again before accepting the final report.",
+    "Pinball loss, median MAE, interval width/coverage and tail misses use paired rows. Date resampling is whole-UTC-date and descriptive, with a minimum ten dates and no across-pair pooling or independent-row claim.",
+    "The same final time period had already been inspected for MA work. Every result is explicitly retrospective development, not a fresh holdout, calibration proof, model promotion or prospective forecast."
+  ]
+}

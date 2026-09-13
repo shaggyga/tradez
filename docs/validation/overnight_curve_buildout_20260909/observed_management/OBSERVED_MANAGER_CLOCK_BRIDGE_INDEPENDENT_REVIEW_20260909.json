@@ -1,0 +1,80 @@
+{
+  "finding": {
+    "decimal_reader_remaining_sec": "3589.9940004",
+    "effect": "Valid everyday fractional decision clocks could be refused by the old exact Decimal remaining-clock check even though neither original timestamp changed.",
+    "example_decision_epoch": 1788932002.0059996,
+    "example_target_epoch": 1788935592.0,
+    "name": "frozen_adapter_float_subtraction_vs_frozen_reader_decimal_subtraction",
+    "native_adapter_float_remaining_sec": 3589.9940004348755
+  },
+  "frozen_source_edits": false,
+  "independent_test_rerun": false,
+  "integration_status": "Parent controller integration tests are separate evidence and are not claimed passed by this source-review addendum.",
+  "limits": [
+    "The source hash supplied in the experiment contract must still be compared with actual bytes by the caller; pure hashes are content identities rather than external attestations.",
+    "This is a representation compatibility layer, not a new forecast, changed horizon, tolerated corrupt timestamp, revised publication or demonstration of profitable trading.",
+    "The reviewer inspected source and tests but did not rerun the owner suite or alter any source/runtime state."
+  ],
+  "owner_final_tests": {
+    "bytes": 10916,
+    "cases": 70,
+    "errors": 0,
+    "failures": 0,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\observed_manager_clock_bridge_final_tests.xml",
+    "sha256": "354b5da5980be0fadaabf15d4c449bdc78b6008cacacb38aa5c3afdef53c1bc5"
+  },
+  "preserved_owner_prior_test_attempt": {
+    "bytes": 12195,
+    "cases": 70,
+    "errors": 0,
+    "failures": 1,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\observed_manager_clock_bridge_tests.xml",
+    "reason": "One fixture incorrectly assumed START+0.9999999 remains fractional at this epoch magnitude. It rounds to an integer second; the final test checks whether the actual represented values differ and retains the valid integer case.",
+    "sha256": "f386b9c8ac904d211a051f0382196344b3fa0c034a0315fee9120670687c2b0c"
+  },
+  "preserved_prior_review": {
+    "bytes": 6934,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\OBSERVED_MANAGER_INDEPENDENT_SOURCE_REVIEW_20260909.json",
+    "sha256": "2af3ba856a4297a913a07e2fd0d8f8f6c6adf33e2137056b763a9f02fc41e970"
+  },
+  "prior_review_scope": "The prior pure-module review remains retained for its exact source. Integration subsequently exposed this additional numeric-representation incompatibility; this addendum binds the changed unregistered manager.",
+  "reviewed_sources": [
+    {
+      "bytes": 28540,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_observed_curve_management_v1.py",
+      "sha256": "a6c8013af59b45ac958065010f26289e7ddfc6196ac88e32976b545c1496579b"
+    },
+    {
+      "bytes": 24352,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_observed_curve_management_v1.py",
+      "sha256": "64042420bc1808d10e96d859137373d94728ec7b06c3afd273e08806e4b95275"
+    },
+    {
+      "bytes": 9513,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_curve_management_adapter_v1.py",
+      "sha256": "8fa6cccf1e2525d0186ab7abe0c68fccc4800db7b785a8b9f79f28c320ad1241"
+    },
+    {
+      "bytes": 49616,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_curve_management_replay_v1.py",
+      "sha256": "52fd04c6b087df4be775e490002afd0744caeb245604b8f577ab0fcff41de8f3"
+    }
+  ],
+  "reviewed_utc": "2026-09-09T06:33:45.658536+00:00",
+  "reviewer": "pair_dashboard",
+  "runtime_actions": false,
+  "schema_version": "observed_manager_clock_bridge_independent_review_v1_20260909",
+  "status": "passed_no_remaining_bridge_blocker",
+  "verified_bridge": [
+    "Only the new unregistered observed-management module changes; the frozen native adapter and original replay arithmetic retain the exact bound hashes.",
+    "Original candidate must have the native adapter schema, available status, original valid candidate hash, bound initial curve/model/cohort/source identity, original target policy, inert authority and the actual decision cutoff.",
+    "Original remaining_sec must be a finite float exactly equal to the native adapter arithmetic float(target)-float(decision). No epsilon, tolerance, rounding band or admission of a differently encoded original value is introduced.",
+    "The verified original remaining value is converted to Decimal(str(original_target_epoch))-Decimal(str(decision_epoch)) under the management module independent arithmetic context, matching the unchanged reader.",
+    "The derived DTO has a distinct observed_curve_decimal_clock_compatibility_v1_20260909 schema and compatibility_sha256; it does not retain the original candidate_sha256 as if the modified top level were the unchanged native DTO.",
+    "The full original sealed candidate and its hash remain embedded unchanged, including original issue/reference/target/availability clocks, publication/consumption hashes, decision-quote evidence and original probability/target-window disclosures.",
+    "The plan retains original and compatibility candidates separately. The compatibility record identifies the normalizer source hash from the experiment source closure and the fixed native-adapter source hash.",
+    "Every original top-level field except schema, remaining representation and the original top-level seal is copied unchanged; added metadata explains the representation conversion and preserves its origin.",
+    "The original downstream clock, quote, terminal-price, remaining-price, spread and target eligibility checks remain in force after normalization.",
+    "Owner fixtures verify valid fractional and represented-integer cases, unchanged original inputs, the bridge seal, and refusal of nextafter mutations in either direction, decimal-text substitution, integer substitution, wrong schema and broken original seal."
+  ]
+}

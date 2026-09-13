@@ -1,0 +1,516 @@
+{
+  "boundary": {
+    "broker_access": false,
+    "connection": "URI mode=ro; query_only; one read transaction",
+    "database_main_or_wal_stat_changes": false,
+    "production_logical_writes": 0,
+    "shm_caveat": "SQLite may maintain ephemeral reader marks in existing SHM; no byte-identity claim is made for SHM.",
+    "workers_started": 0
+  },
+  "database_after": {
+    "data\\oanda_training_manager\\state\\strategy_shadow_outcomes_v1.sqlite": {
+      "exists": true,
+      "mtime_ns": 1788574073140399900,
+      "size": 59806691328
+    },
+    "data\\oanda_training_manager\\state\\strategy_shadow_outcomes_v1.sqlite-wal": {
+      "exists": true,
+      "mtime_ns": 1788574072456447700,
+      "size": 711948392
+    }
+  },
+  "database_before": {
+    "data\\oanda_training_manager\\state\\strategy_shadow_outcomes_v1.sqlite": {
+      "exists": true,
+      "mtime_ns": 1788574073140399900,
+      "size": 59806691328
+    },
+    "data\\oanda_training_manager\\state\\strategy_shadow_outcomes_v1.sqlite-wal": {
+      "exists": true,
+      "mtime_ns": 1788574072456447700,
+      "size": 711948392
+    }
+  },
+  "fixed_selection": {
+    "cutoff_basis": "all locally retained rows in current stopped checkpoint after cohort activation",
+    "family_basis": "all four active proof cohorts from saved registry, not selected from returns",
+    "horizon_sec": 3600,
+    "instrument": "EUR_USD"
+  },
+  "generated_utc": "2026-09-06T11:42:02.328698+00:00",
+  "groups": {
+    "cross_pair_graph_transfer": {
+      "candidate_rows": 407,
+      "cohort_id": "cross_pair_graph_transfer.20260829.d31c46ca1292ec00",
+      "exact_cohort_rows": 407,
+      "first_entry_time": "2026-08-30T21:15:08.794090+00:00",
+      "last_entry_time": "2026-09-04T20:45:24.808793+00:00",
+      "matured_rows": 386,
+      "query_plan": [
+        {
+          "detail": "SEARCH canonical_forecasts USING INDEX canonical_forecasts_scope (family=? AND instrument=? AND entry_time>?)",
+          "id": 4,
+          "notused": 50,
+          "parent": 0
+        },
+        {
+          "detail": "USE TEMP B-TREE FOR LAST TERM OF ORDER BY",
+          "id": 59,
+          "notused": 0,
+          "parent": 0
+        }
+      ],
+      "sample": {
+        "blocked_reason": "proof_shadow_only",
+        "data_cutoff_utc": "2026-08-30T21:13:00.000000000Z",
+        "direction": "sell",
+        "entry_ask": 1.15816,
+        "entry_bid": 1.15766,
+        "entry_spread_pips": 5.0,
+        "entry_time": "2026-08-30T21:15:08.794090+00:00",
+        "event_id": "proof_4f11c17ea47ad3ec72e8d9d77a2fa7bf275d5b3a4097cb387042cddce6cc4d85",
+        "family": "cross_pair_graph_transfer",
+        "feature_version": "sha256:3c6c9c58faab1ef46fbc73b93f6e64960047a0ef36646ce1fc9d3ef4b360f71f",
+        "forecast_json": "{\"account_eligible\":false,\"blocked_reason\":\"proof_shadow_only\",\"can_place_orders\":false,\"cohort_id\":\"cross_pair_graph_transfer.20260829.d31c46ca1292ec00\",\"cost_model_version\":\"executable_bid_ask_plus_0.25pip_modeled_slippage_v1\",\"data_cutoff_utc\":\"2026-08-30T21:13:00.000000000Z\",\"direction\":\"sell\",\"entry_ask\":1.15816,\"entry_bid\":1.15766,\"entry_spread_pips\":5.0,\"entry_time\":\"2026-08-30T21:15:08.794090+00:00\",\"expected_after_spread_pips\":1.383622,\"expected_signed_pips\":-6.383622,\"family\":\"cross_pair_graph_transfer\",\"feature_version\":\"sha256:3c6c9c58faab1ef46fbc73b93f6e64960047a0ef36646ce1fc9d3ef4b360f71f\",\"forecast_contract_version\":\"proof_forecast_contract_v2_cohort_bound\",\"id\":\"proof_4f11c17ea47ad3ec72e8d9d77a2fa7bf275d5b3a4097cb387042cddce6cc4d85\",\"input_timeframe\":\"M1\",\"instrument\":\"EUR_USD\",\"kind\":\"signal\",\"lane_id\":\"cross_pair_graph_transfer.h1.proof\",\"miss_class\":\"proof_predictor\",\"model_id\":\"cross_pair_graph_transfer.h1\",\"model_version\":\"sha256:1bca3b3b583dcad31d25af7dff44e005c417e81d2e6392d763ade02f04cb0752\",\"pip\":0.0001,\"predicted_magnitude_pips\":6.383622,\"probability_up\":0.24442592,\"profile\":\"canonical_proof\",\"proof_diagnostics\":{\"base_node\":\"EUR\",\"construction\":\"strictly_lagged_base_quote_factor_graph_ridge_v2\",\"currency_nodes\":20,\"quote_node\":\"USD\",\"residual_sigma_pips\":9.223073,\"training_rows\":131},\"provider_quote_time\":\"2026-08-30T21:15:03.664273357Z\",\"remaining_horizons\":[3600],\"research_only\":true,\"stop_loss_pips\":10.00000000000334,\"storage_contract\":\"compact_maturing_forecast_v2\",\"take_profit_r\":1.5,\"track_outcome\":true,\"training_cutoff_utc\":\"2026-08-30T21:13:00.000000000Z\",\"training_dataset_sha256\":\"sha256:a883d92473580e93d51720233a22366f5410216ccd1e0d45427e2b4566105527\",\"training_timeframe\":\"M1\"}",
+        "forecast_rowid": 15755759,
+        "horizons_json": "[3600]",
+        "instrument": "EUR_USD",
+        "integrity_events": [],
+        "kind": "signal",
+        "lane_id": "cross_pair_graph_transfer.h1.proof",
+        "liquidity_bucket": "elevated_3_to_5",
+        "miss_class": "proof_predictor",
+        "model_id": "cross_pair_graph_transfer.h1",
+        "model_version": "sha256:1bca3b3b583dcad31d25af7dff44e005c417e81d2e6392d763ade02f04cb0752",
+        "outcome": {
+          "blocked_reason": "proof_shadow_only",
+          "configured_stop_hit_sec": null,
+          "configured_stop_pips": 10.00000000000334,
+          "configured_target_hit_sec": null,
+          "configured_target_r": 1.5,
+          "diagnostics_json": "{\"account_eligible\":false,\"adverse_hits\":{\"1\":7.182,\"2\":7.182,\"3\":7.182,\"5\":7.182},\"can_place_orders\":false,\"favorable_hits\":{},\"first_worker_observed_utc\":\"2026-08-30T21:16:25.298803+00:00\",\"forecast_recorded_utc\":\"2026-08-30T21:16:22.769074+00:00\",\"maturity_worker\":\"canonical_quote_snapshot_v1\",\"path_complete\":true,\"provider_quote_time\":\"2026-08-30T22:16:24.601169579Z\",\"quote_snapshot_age_sec\":0.397,\"quote_snapshot_generated_utc\":\"2026-08-30T22:16:25.036241+00:00\",\"research_only\":true,\"storage_contract\":\"compact_outcome_diagnostics_v1\"}",
+          "direction": "sell",
+          "entry_ask": 1.15816,
+          "entry_bid": 1.15766,
+          "entry_spread_pips": 5.0,
+          "entry_time": "2026-08-30T21:15:08.794090+00:00",
+          "event_id": "proof_4f11c17ea47ad3ec72e8d9d77a2fa7bf275d5b3a4097cb387042cddce6cc4d85",
+          "exit_ask": 1.15823,
+          "exit_bid": 1.15808,
+          "exit_time": "2026-08-30T22:16:25.036241+00:00",
+          "family": "cross_pair_graph_transfer",
+          "first_positive_sec": null,
+          "horizon_sec": 3600,
+          "input_timeframe": "M1",
+          "instrument": "EUR_USD",
+          "kind": "signal",
+          "lane_id": "cross_pair_graph_transfer.h1.proof",
+          "max_adverse_pips": 6.5,
+          "max_favorable_pips": 0.0,
+          "miss_class": "proof_predictor",
+          "model_id": "cross_pair_graph_transfer.h1",
+          "observed_utc": "2026-08-30T22:16:25.538884+00:00",
+          "outcome_delay_sec": 2.267,
+          "path_samples": 707,
+          "pip": 0.0001,
+          "positive_path_samples": 0,
+          "profile": "canonical_proof",
+          "row_id": 9341747,
+          "theoretical_pips": -5.7,
+          "training_timeframe": "M1"
+        },
+        "payload_sha256": "ea7849e0efeb8a245baa370a6acdb688184b638214f99989e01f4e7e86661f0a",
+        "payload_verified": true,
+        "pip": 0.0001,
+        "predicted_magnitude_pips": 6.383622,
+        "probability_up": 0.24442592,
+        "profile": "canonical_proof",
+        "recorded_utc": "2026-08-30T21:16:22.769074+00:00",
+        "session_bucket": "new_york",
+        "track_outcome": 1
+      }
+    },
+    "modern_tabular_probabilistic_repaired": {
+      "candidate_rows": 407,
+      "cohort_id": "modern_tabular_probabilistic_repaired.20260829.34753ccbd209ba5e",
+      "exact_cohort_rows": 407,
+      "first_entry_time": "2026-08-30T21:15:08.794090+00:00",
+      "last_entry_time": "2026-09-04T20:45:24.808793+00:00",
+      "matured_rows": 386,
+      "query_plan": [
+        {
+          "detail": "SEARCH canonical_forecasts USING INDEX canonical_forecasts_scope (family=? AND instrument=? AND entry_time>?)",
+          "id": 4,
+          "notused": 50,
+          "parent": 0
+        },
+        {
+          "detail": "USE TEMP B-TREE FOR LAST TERM OF ORDER BY",
+          "id": 59,
+          "notused": 0,
+          "parent": 0
+        }
+      ],
+      "sample": {
+        "blocked_reason": "proof_shadow_only",
+        "data_cutoff_utc": "2026-08-30T21:13:00.000000000Z",
+        "direction": "buy",
+        "entry_ask": 1.15816,
+        "entry_bid": 1.15766,
+        "entry_spread_pips": 5.0,
+        "entry_time": "2026-08-30T21:15:08.794090+00:00",
+        "event_id": "proof_46d42d240ff790c09798e3b40d76b73e9c2247ea081c7ee4c1f69d8d5d461f50",
+        "family": "modern_tabular_probabilistic_repaired",
+        "feature_version": "sha256:3c6c9c58faab1ef46fbc73b93f6e64960047a0ef36646ce1fc9d3ef4b360f71f",
+        "forecast_json": "{\"account_eligible\":false,\"blocked_reason\":\"proof_shadow_only\",\"can_place_orders\":false,\"cohort_id\":\"modern_tabular_probabilistic_repaired.20260829.34753ccbd209ba5e\",\"cost_model_version\":\"executable_bid_ask_plus_0.25pip_modeled_slippage_v1\",\"data_cutoff_utc\":\"2026-08-30T21:13:00.000000000Z\",\"direction\":\"buy\",\"entry_ask\":1.15816,\"entry_bid\":1.15766,\"entry_spread_pips\":5.0,\"entry_time\":\"2026-08-30T21:15:08.794090+00:00\",\"expected_after_spread_pips\":-4.814033,\"expected_signed_pips\":0.185967,\"family\":\"modern_tabular_probabilistic_repaired\",\"feature_version\":\"sha256:3c6c9c58faab1ef46fbc73b93f6e64960047a0ef36646ce1fc9d3ef4b360f71f\",\"forecast_contract_version\":\"proof_forecast_contract_v2_cohort_bound\",\"id\":\"proof_46d42d240ff790c09798e3b40d76b73e9c2247ea081c7ee4c1f69d8d5d461f50\",\"input_timeframe\":\"M1\",\"instrument\":\"EUR_USD\",\"kind\":\"signal\",\"lane_id\":\"modern_tabular_probabilistic_repaired.h1.proof\",\"miss_class\":\"proof_predictor\",\"model_id\":\"modern_tabular_probabilistic_repaired.h1\",\"model_version\":\"sha256:1bca3b3b583dcad31d25af7dff44e005c417e81d2e6392d763ade02f04cb0752\",\"pip\":0.0001,\"predicted_magnitude_pips\":0.185967,\"probability_up\":0.45662673,\"profile\":\"canonical_proof\",\"proof_diagnostics\":{\"model\":\"hist_gradient_boosting\",\"pooled_training_rows\":4029},\"provider_quote_time\":\"2026-08-30T21:15:03.664273357Z\",\"remaining_horizons\":[3600],\"research_only\":true,\"stop_loss_pips\":10.00000000000334,\"storage_contract\":\"compact_maturing_forecast_v2\",\"take_profit_r\":1.5,\"track_outcome\":true,\"training_cutoff_utc\":\"2026-08-30T21:13:00.000000000Z\",\"training_dataset_sha256\":\"sha256:a883d92473580e93d51720233a22366f5410216ccd1e0d45427e2b4566105527\",\"training_timeframe\":\"M1\"}",
+        "forecast_rowid": 15755708,
+        "horizons_json": "[3600]",
+        "instrument": "EUR_USD",
+        "integrity_events": [],
+        "kind": "signal",
+        "lane_id": "modern_tabular_probabilistic_repaired.h1.proof",
+        "liquidity_bucket": "elevated_3_to_5",
+        "miss_class": "proof_predictor",
+        "model_id": "modern_tabular_probabilistic_repaired.h1",
+        "model_version": "sha256:1bca3b3b583dcad31d25af7dff44e005c417e81d2e6392d763ade02f04cb0752",
+        "outcome": {
+          "blocked_reason": "proof_shadow_only",
+          "configured_stop_hit_sec": null,
+          "configured_stop_pips": 10.00000000000334,
+          "configured_target_hit_sec": null,
+          "configured_target_r": 1.5,
+          "diagnostics_json": "{\"account_eligible\":false,\"adverse_hits\":{\"1\":7.188,\"2\":7.188,\"3\":7.188,\"5\":7.188},\"can_place_orders\":false,\"favorable_hits\":{},\"first_worker_observed_utc\":\"2026-08-30T21:16:25.298803+00:00\",\"forecast_recorded_utc\":\"2026-08-30T21:16:22.763091+00:00\",\"maturity_worker\":\"canonical_quote_snapshot_v1\",\"path_complete\":true,\"provider_quote_time\":\"2026-08-30T22:16:24.601169579Z\",\"quote_snapshot_age_sec\":0.397,\"quote_snapshot_generated_utc\":\"2026-08-30T22:16:25.036241+00:00\",\"research_only\":true,\"storage_contract\":\"compact_outcome_diagnostics_v1\"}",
+          "direction": "buy",
+          "entry_ask": 1.15816,
+          "entry_bid": 1.15766,
+          "entry_spread_pips": 5.0,
+          "entry_time": "2026-08-30T21:15:08.794090+00:00",
+          "event_id": "proof_46d42d240ff790c09798e3b40d76b73e9c2247ea081c7ee4c1f69d8d5d461f50",
+          "exit_ask": 1.15823,
+          "exit_bid": 1.15808,
+          "exit_time": "2026-08-30T22:16:25.036241+00:00",
+          "family": "modern_tabular_probabilistic_repaired",
+          "first_positive_sec": null,
+          "horizon_sec": 3600,
+          "input_timeframe": "M1",
+          "instrument": "EUR_USD",
+          "kind": "signal",
+          "lane_id": "modern_tabular_probabilistic_repaired.h1.proof",
+          "max_adverse_pips": 5.7,
+          "max_favorable_pips": 0.0,
+          "miss_class": "proof_predictor",
+          "model_id": "modern_tabular_probabilistic_repaired.h1",
+          "observed_utc": "2026-08-30T22:16:25.529908+00:00",
+          "outcome_delay_sec": 2.273,
+          "path_samples": 707,
+          "pip": 0.0001,
+          "positive_path_samples": 0,
+          "profile": "canonical_proof",
+          "row_id": 9341696,
+          "theoretical_pips": -0.8,
+          "training_timeframe": "M1"
+        },
+        "payload_sha256": "57705adef8adaded5f1ff9e97ee36a71e657f90774fc80f2600c8a444eb85876",
+        "payload_verified": true,
+        "pip": 0.0001,
+        "predicted_magnitude_pips": 0.185967,
+        "probability_up": 0.45662673,
+        "profile": "canonical_proof",
+        "recorded_utc": "2026-08-30T21:16:22.763091+00:00",
+        "session_bucket": "new_york",
+        "track_outcome": 1
+      }
+    },
+    "probabilistic_state_space": {
+      "candidate_rows": 407,
+      "cohort_id": "probabilistic_state_space.20260829.8e91b86317fa23ad",
+      "exact_cohort_rows": 407,
+      "first_entry_time": "2026-08-30T21:15:08.794090+00:00",
+      "last_entry_time": "2026-09-04T20:45:24.808793+00:00",
+      "matured_rows": 386,
+      "query_plan": [
+        {
+          "detail": "SEARCH canonical_forecasts USING INDEX canonical_forecasts_scope (family=? AND instrument=? AND entry_time>?)",
+          "id": 4,
+          "notused": 50,
+          "parent": 0
+        },
+        {
+          "detail": "USE TEMP B-TREE FOR LAST TERM OF ORDER BY",
+          "id": 59,
+          "notused": 0,
+          "parent": 0
+        }
+      ],
+      "sample": {
+        "blocked_reason": "proof_shadow_only",
+        "data_cutoff_utc": "2026-08-30T21:13:00.000000000Z",
+        "direction": "sell",
+        "entry_ask": 1.15816,
+        "entry_bid": 1.15766,
+        "entry_spread_pips": 5.0,
+        "entry_time": "2026-08-30T21:15:08.794090+00:00",
+        "event_id": "proof_f925e4ec6da77415d0b5641badc8accc49fb345ef9e5f2711033c565220654f2",
+        "family": "probabilistic_state_space",
+        "feature_version": "sha256:3c6c9c58faab1ef46fbc73b93f6e64960047a0ef36646ce1fc9d3ef4b360f71f",
+        "forecast_json": "{\"account_eligible\":false,\"blocked_reason\":\"proof_shadow_only\",\"can_place_orders\":false,\"cohort_id\":\"probabilistic_state_space.20260829.8e91b86317fa23ad\",\"cost_model_version\":\"executable_bid_ask_plus_0.25pip_modeled_slippage_v1\",\"data_cutoff_utc\":\"2026-08-30T21:13:00.000000000Z\",\"direction\":\"sell\",\"entry_ask\":1.15816,\"entry_bid\":1.15766,\"entry_spread_pips\":5.0,\"entry_time\":\"2026-08-30T21:15:08.794090+00:00\",\"expected_after_spread_pips\":6.388652,\"expected_signed_pips\":-11.388652,\"family\":\"probabilistic_state_space\",\"feature_version\":\"sha256:3c6c9c58faab1ef46fbc73b93f6e64960047a0ef36646ce1fc9d3ef4b360f71f\",\"forecast_contract_version\":\"proof_forecast_contract_v2_cohort_bound\",\"id\":\"proof_f925e4ec6da77415d0b5641badc8accc49fb345ef9e5f2711033c565220654f2\",\"input_timeframe\":\"M1\",\"instrument\":\"EUR_USD\",\"kind\":\"signal\",\"lane_id\":\"probabilistic_state_space.h1.proof\",\"miss_class\":\"proof_predictor\",\"model_id\":\"probabilistic_state_space.h1\",\"model_version\":\"sha256:1bca3b3b583dcad31d25af7dff44e005c417e81d2e6392d763ade02f04cb0752\",\"pip\":0.0001,\"predicted_magnitude_pips\":11.388652,\"probability_up\":0.01558086,\"profile\":\"canonical_proof\",\"proof_diagnostics\":{\"forecast_sigma_pips\":5.284754,\"model\":\"local_level_drift_ewma_state_space_v1\",\"observations\":255,\"state_trend_pips_per_minute\":-0.189811},\"provider_quote_time\":\"2026-08-30T21:15:03.664273357Z\",\"remaining_horizons\":[3600],\"research_only\":true,\"stop_loss_pips\":10.00000000000334,\"storage_contract\":\"compact_maturing_forecast_v2\",\"take_profit_r\":1.5,\"track_outcome\":true,\"training_cutoff_utc\":\"2026-08-30T21:13:00.000000000Z\",\"training_dataset_sha256\":\"sha256:9189faaf90de3f90cb1637fb7243c82e4d68af1ad800a3161fdb96aa1b6158dc\",\"training_timeframe\":\"M1\"}",
+        "forecast_rowid": 15755810,
+        "horizons_json": "[3600]",
+        "instrument": "EUR_USD",
+        "integrity_events": [],
+        "kind": "signal",
+        "lane_id": "probabilistic_state_space.h1.proof",
+        "liquidity_bucket": "elevated_3_to_5",
+        "miss_class": "proof_predictor",
+        "model_id": "probabilistic_state_space.h1",
+        "model_version": "sha256:1bca3b3b583dcad31d25af7dff44e005c417e81d2e6392d763ade02f04cb0752",
+        "outcome": {
+          "blocked_reason": "proof_shadow_only",
+          "configured_stop_hit_sec": null,
+          "configured_stop_pips": 10.00000000000334,
+          "configured_target_hit_sec": null,
+          "configured_target_r": 1.5,
+          "diagnostics_json": "{\"account_eligible\":false,\"adverse_hits\":{\"1\":7.176,\"2\":7.176,\"3\":7.176,\"5\":7.176},\"can_place_orders\":false,\"favorable_hits\":{},\"first_worker_observed_utc\":\"2026-08-30T21:16:25.298803+00:00\",\"forecast_recorded_utc\":\"2026-08-30T21:16:22.775057+00:00\",\"maturity_worker\":\"canonical_quote_snapshot_v1\",\"path_complete\":true,\"provider_quote_time\":\"2026-08-30T22:16:24.601169579Z\",\"quote_snapshot_age_sec\":0.397,\"quote_snapshot_generated_utc\":\"2026-08-30T22:16:25.036241+00:00\",\"research_only\":true,\"storage_contract\":\"compact_outcome_diagnostics_v1\"}",
+          "direction": "sell",
+          "entry_ask": 1.15816,
+          "entry_bid": 1.15766,
+          "entry_spread_pips": 5.0,
+          "entry_time": "2026-08-30T21:15:08.794090+00:00",
+          "event_id": "proof_f925e4ec6da77415d0b5641badc8accc49fb345ef9e5f2711033c565220654f2",
+          "exit_ask": 1.15823,
+          "exit_bid": 1.15808,
+          "exit_time": "2026-08-30T22:16:25.036241+00:00",
+          "family": "probabilistic_state_space",
+          "first_positive_sec": null,
+          "horizon_sec": 3600,
+          "input_timeframe": "M1",
+          "instrument": "EUR_USD",
+          "kind": "signal",
+          "lane_id": "probabilistic_state_space.h1.proof",
+          "max_adverse_pips": 6.5,
+          "max_favorable_pips": 0.0,
+          "miss_class": "proof_predictor",
+          "model_id": "probabilistic_state_space.h1",
+          "observed_utc": "2026-08-30T22:16:25.548857+00:00",
+          "outcome_delay_sec": 2.261,
+          "path_samples": 707,
+          "pip": 0.0001,
+          "positive_path_samples": 0,
+          "profile": "canonical_proof",
+          "row_id": 9341798,
+          "theoretical_pips": -5.7,
+          "training_timeframe": "M1"
+        },
+        "payload_sha256": "4a9160a9b2c6cdc100edd01ac7daf40f3fb216ff6c88a930f37be6ce296fff56",
+        "payload_verified": true,
+        "pip": 0.0001,
+        "predicted_magnitude_pips": 11.388652,
+        "probability_up": 0.01558086,
+        "profile": "canonical_proof",
+        "recorded_utc": "2026-08-30T21:16:22.775057+00:00",
+        "session_bucket": "new_york",
+        "track_outcome": 1
+      }
+    },
+    "ridge_return_repaired": {
+      "candidate_rows": 407,
+      "cohort_id": "ridge_return_repaired.20260829.2c8672a0b00fc5ed",
+      "exact_cohort_rows": 407,
+      "first_entry_time": "2026-08-30T21:15:08.794090+00:00",
+      "last_entry_time": "2026-09-04T20:45:24.808793+00:00",
+      "matured_rows": 385,
+      "query_plan": [
+        {
+          "detail": "SEARCH canonical_forecasts USING INDEX canonical_forecasts_scope (family=? AND instrument=? AND entry_time>?)",
+          "id": 4,
+          "notused": 50,
+          "parent": 0
+        },
+        {
+          "detail": "USE TEMP B-TREE FOR LAST TERM OF ORDER BY",
+          "id": 59,
+          "notused": 0,
+          "parent": 0
+        }
+      ],
+      "sample": {
+        "blocked_reason": "proof_shadow_only",
+        "data_cutoff_utc": "2026-08-30T21:13:00.000000000Z",
+        "direction": "sell",
+        "entry_ask": 1.15816,
+        "entry_bid": 1.15766,
+        "entry_spread_pips": 5.0,
+        "entry_time": "2026-08-30T21:15:08.794090+00:00",
+        "event_id": "proof_ac2c82fb8f30bec8be569c3c6ad06dbad66f841e647499ffe222d1f1ca2fb684",
+        "family": "ridge_return_repaired",
+        "feature_version": "sha256:3c6c9c58faab1ef46fbc73b93f6e64960047a0ef36646ce1fc9d3ef4b360f71f",
+        "forecast_json": "{\"account_eligible\":false,\"blocked_reason\":\"proof_shadow_only\",\"can_place_orders\":false,\"cohort_id\":\"ridge_return_repaired.20260829.2c8672a0b00fc5ed\",\"cost_model_version\":\"executable_bid_ask_plus_0.25pip_modeled_slippage_v1\",\"data_cutoff_utc\":\"2026-08-30T21:13:00.000000000Z\",\"direction\":\"sell\",\"entry_ask\":1.15816,\"entry_bid\":1.15766,\"entry_spread_pips\":5.0,\"entry_time\":\"2026-08-30T21:15:08.794090+00:00\",\"expected_after_spread_pips\":0.32643,\"expected_signed_pips\":-5.32643,\"family\":\"ridge_return_repaired\",\"feature_version\":\"sha256:3c6c9c58faab1ef46fbc73b93f6e64960047a0ef36646ce1fc9d3ef4b360f71f\",\"forecast_contract_version\":\"proof_forecast_contract_v2_cohort_bound\",\"id\":\"proof_ac2c82fb8f30bec8be569c3c6ad06dbad66f841e647499ffe222d1f1ca2fb684\",\"input_timeframe\":\"M1\",\"instrument\":\"EUR_USD\",\"kind\":\"signal\",\"lane_id\":\"ridge_return_repaired.h1.proof\",\"miss_class\":\"proof_predictor\",\"model_id\":\"ridge_return_repaired.h1\",\"model_version\":\"sha256:1bca3b3b583dcad31d25af7dff44e005c417e81d2e6392d763ade02f04cb0752\",\"pip\":0.0001,\"predicted_magnitude_pips\":5.32643,\"probability_up\":0.2521693,\"profile\":\"canonical_proof\",\"proof_diagnostics\":{\"residual_sigma_pips\":7.977533,\"training_rows\":131},\"provider_quote_time\":\"2026-08-30T21:15:03.664273357Z\",\"remaining_horizons\":[3600],\"research_only\":true,\"stop_loss_pips\":10.00000000000334,\"storage_contract\":\"compact_maturing_forecast_v2\",\"take_profit_r\":1.5,\"track_outcome\":true,\"training_cutoff_utc\":\"2026-08-30T21:13:00.000000000Z\",\"training_dataset_sha256\":\"sha256:9189faaf90de3f90cb1637fb7243c82e4d68af1ad800a3161fdb96aa1b6158dc\",\"training_timeframe\":\"M1\"}",
+        "forecast_rowid": 15755657,
+        "horizons_json": "[3600]",
+        "instrument": "EUR_USD",
+        "integrity_events": [],
+        "kind": "signal",
+        "lane_id": "ridge_return_repaired.h1.proof",
+        "liquidity_bucket": "elevated_3_to_5",
+        "miss_class": "proof_predictor",
+        "model_id": "ridge_return_repaired.h1",
+        "model_version": "sha256:1bca3b3b583dcad31d25af7dff44e005c417e81d2e6392d763ade02f04cb0752",
+        "outcome": {
+          "blocked_reason": "proof_shadow_only",
+          "configured_stop_hit_sec": null,
+          "configured_stop_pips": 10.00000000000334,
+          "configured_target_hit_sec": null,
+          "configured_target_r": 1.5,
+          "diagnostics_json": "{\"account_eligible\":false,\"adverse_hits\":{\"1\":7.197,\"2\":7.197,\"3\":7.197,\"5\":7.197},\"can_place_orders\":false,\"favorable_hits\":{},\"first_worker_observed_utc\":\"2026-08-30T21:16:25.298803+00:00\",\"forecast_recorded_utc\":\"2026-08-30T21:16:22.754114+00:00\",\"maturity_worker\":\"canonical_quote_snapshot_v1\",\"path_complete\":true,\"provider_quote_time\":\"2026-08-30T22:16:24.601169579Z\",\"quote_snapshot_age_sec\":0.397,\"quote_snapshot_generated_utc\":\"2026-08-30T22:16:25.036241+00:00\",\"research_only\":true,\"storage_contract\":\"compact_outcome_diagnostics_v1\"}",
+          "direction": "sell",
+          "entry_ask": 1.15816,
+          "entry_bid": 1.15766,
+          "entry_spread_pips": 5.0,
+          "entry_time": "2026-08-30T21:15:08.794090+00:00",
+          "event_id": "proof_ac2c82fb8f30bec8be569c3c6ad06dbad66f841e647499ffe222d1f1ca2fb684",
+          "exit_ask": 1.15823,
+          "exit_bid": 1.15808,
+          "exit_time": "2026-08-30T22:16:25.036241+00:00",
+          "family": "ridge_return_repaired",
+          "first_positive_sec": null,
+          "horizon_sec": 3600,
+          "input_timeframe": "M1",
+          "instrument": "EUR_USD",
+          "kind": "signal",
+          "lane_id": "ridge_return_repaired.h1.proof",
+          "max_adverse_pips": 6.5,
+          "max_favorable_pips": 0.0,
+          "miss_class": "proof_predictor",
+          "model_id": "ridge_return_repaired.h1",
+          "observed_utc": "2026-08-30T22:16:25.499990+00:00",
+          "outcome_delay_sec": 2.282,
+          "path_samples": 707,
+          "pip": 0.0001,
+          "positive_path_samples": 0,
+          "profile": "canonical_proof",
+          "row_id": 9341645,
+          "theoretical_pips": -5.7,
+          "training_timeframe": "M1"
+        },
+        "payload_sha256": "dc4156be0bb50dcc96d3c5fb65b1a98cad24e790e83dd5bca7ff3b605f8c5d28",
+        "payload_verified": true,
+        "pip": 0.0001,
+        "predicted_magnitude_pips": 5.32643,
+        "probability_up": 0.2521693,
+        "profile": "canonical_proof",
+        "recorded_utc": "2026-08-30T21:16:22.754114+00:00",
+        "session_bucket": "new_york",
+        "track_outcome": 1
+      }
+    }
+  },
+  "read_seconds": 1.0939999999245629,
+  "schemas": [
+    {
+      "name": "canonical_forecasts_cutoff",
+      "sql": "CREATE INDEX canonical_forecasts_cutoff\n                ON canonical_forecasts(data_cutoff_utc)",
+      "tbl_name": "canonical_forecasts",
+      "type": "index"
+    },
+    {
+      "name": "canonical_forecasts_scope",
+      "sql": "CREATE INDEX canonical_forecasts_scope\n                ON canonical_forecasts(family, instrument, entry_time)",
+      "tbl_name": "canonical_forecasts",
+      "type": "index"
+    },
+    {
+      "name": "canonical_outcomes_scope",
+      "sql": "CREATE INDEX canonical_outcomes_scope\n                ON canonical_outcomes(horizon_sec, kind, family, instrument)",
+      "tbl_name": "canonical_outcomes",
+      "type": "index"
+    },
+    {
+      "name": "canonical_outcomes_time",
+      "sql": "CREATE INDEX canonical_outcomes_time\n                ON canonical_outcomes(observed_utc)",
+      "tbl_name": "canonical_outcomes",
+      "type": "index"
+    },
+    {
+      "name": "forecast_integrity_time",
+      "sql": "CREATE INDEX forecast_integrity_time\n                ON forecast_integrity_events(observed_utc)",
+      "tbl_name": "forecast_integrity_events",
+      "type": "index"
+    },
+    {
+      "name": "sqlite_autoindex_canonical_forecasts_1",
+      "sql": null,
+      "tbl_name": "canonical_forecasts",
+      "type": "index"
+    },
+    {
+      "name": "sqlite_autoindex_canonical_outcomes_1",
+      "sql": null,
+      "tbl_name": "canonical_outcomes",
+      "type": "index"
+    },
+    {
+      "name": "sqlite_autoindex_forecast_integrity_events_1",
+      "sql": null,
+      "tbl_name": "forecast_integrity_events",
+      "type": "index"
+    },
+    {
+      "name": "canonical_forecasts",
+      "sql": "CREATE TABLE canonical_forecasts (\n                event_id TEXT PRIMARY KEY,\n                recorded_utc TEXT NOT NULL,\n                model_version TEXT NOT NULL,\n                feature_version TEXT NOT NULL,\n                data_cutoff_utc TEXT NOT NULL,\n                lane_id TEXT NOT NULL,\n                family TEXT NOT NULL,\n                profile TEXT NOT NULL,\n                model_id TEXT NOT NULL,\n                kind TEXT NOT NULL,\n                instrument TEXT NOT NULL,\n                direction TEXT NOT NULL,\n                horizons_json TEXT NOT NULL,\n                entry_time TEXT NOT NULL,\n                entry_bid REAL NOT NULL,\n                entry_ask REAL NOT NULL,\n                pip REAL NOT NULL,\n                entry_spread_pips REAL NOT NULL,\n                session_bucket TEXT NOT NULL,\n                liquidity_bucket TEXT NOT NULL,\n                predicted_magnitude_pips REAL,\n                probability_up REAL,\n                blocked_reason TEXT NOT NULL,\n                miss_class TEXT NOT NULL,\n                track_outcome INTEGER NOT NULL,\n                forecast_json TEXT NOT NULL,\n                payload_sha256 TEXT NOT NULL\n            )",
+      "tbl_name": "canonical_forecasts",
+      "type": "table"
+    },
+    {
+      "name": "canonical_outcomes",
+      "sql": "CREATE TABLE canonical_outcomes (\n                row_id INTEGER PRIMARY KEY AUTOINCREMENT,\n                event_id TEXT NOT NULL,\n                horizon_sec INTEGER NOT NULL,\n                observed_utc TEXT NOT NULL,\n                lane_id TEXT NOT NULL,\n                family TEXT NOT NULL,\n                profile TEXT NOT NULL,\n                model_id TEXT NOT NULL,\n                input_timeframe TEXT NOT NULL,\n                training_timeframe TEXT NOT NULL,\n                kind TEXT NOT NULL,\n                instrument TEXT NOT NULL,\n                direction TEXT NOT NULL,\n                blocked_reason TEXT NOT NULL,\n                miss_class TEXT NOT NULL,\n                theoretical_pips REAL NOT NULL,\n                outcome_delay_sec REAL NOT NULL,\n                entry_time TEXT NOT NULL,\n                exit_time TEXT NOT NULL,\n                entry_bid REAL NOT NULL,\n                entry_ask REAL NOT NULL,\n                exit_bid REAL NOT NULL,\n                exit_ask REAL NOT NULL,\n                pip REAL NOT NULL,\n                entry_spread_pips REAL NOT NULL,\n                max_favorable_pips REAL NOT NULL,\n                max_adverse_pips REAL NOT NULL,\n                first_positive_sec REAL,\n                path_samples INTEGER NOT NULL,\n                positive_path_samples INTEGER NOT NULL,\n                configured_stop_pips REAL NOT NULL,\n                configured_target_r REAL NOT NULL,\n                configured_stop_hit_sec REAL,\n                configured_target_hit_sec REAL,\n                diagnostics_json TEXT NOT NULL,\n                UNIQUE(event_id, horizon_sec)\n            )",
+      "tbl_name": "canonical_outcomes",
+      "type": "table"
+    },
+    {
+      "name": "forecast_integrity_events",
+      "sql": "CREATE TABLE forecast_integrity_events (\n                row_id INTEGER PRIMARY KEY AUTOINCREMENT,\n                event_id TEXT NOT NULL,\n                horizon_sec INTEGER NOT NULL,\n                observed_utc TEXT NOT NULL,\n                event_type TEXT NOT NULL,\n                reason TEXT NOT NULL,\n                details_json TEXT NOT NULL,\n                UNIQUE(event_id, horizon_sec, event_type)\n            )",
+      "tbl_name": "forecast_integrity_events",
+      "type": "table"
+    },
+    {
+      "name": "canonical_forecasts_no_delete",
+      "sql": "CREATE TRIGGER canonical_forecasts_no_delete\n            BEFORE DELETE ON canonical_forecasts\n            BEGIN SELECT RAISE(ABORT, 'canonical forecasts are immutable'); END",
+      "tbl_name": "canonical_forecasts",
+      "type": "trigger"
+    },
+    {
+      "name": "canonical_forecasts_no_update",
+      "sql": "CREATE TRIGGER canonical_forecasts_no_update\n            BEFORE UPDATE ON canonical_forecasts\n            BEGIN SELECT RAISE(ABORT, 'canonical forecasts are immutable'); END",
+      "tbl_name": "canonical_forecasts",
+      "type": "trigger"
+    },
+    {
+      "name": "canonical_outcomes_no_delete",
+      "sql": "CREATE TRIGGER canonical_outcomes_no_delete\n            BEFORE DELETE ON canonical_outcomes\n            BEGIN SELECT RAISE(ABORT, 'canonical outcomes are immutable'); END",
+      "tbl_name": "canonical_outcomes",
+      "type": "trigger"
+    },
+    {
+      "name": "canonical_outcomes_no_update",
+      "sql": "CREATE TRIGGER canonical_outcomes_no_update\n            BEFORE UPDATE ON canonical_outcomes\n            BEGIN SELECT RAISE(ABORT, 'canonical outcomes are immutable'); END",
+      "tbl_name": "canonical_outcomes",
+      "type": "trigger"
+    },
+    {
+      "name": "forecast_integrity_no_delete",
+      "sql": "CREATE TRIGGER forecast_integrity_no_delete\n            BEFORE DELETE ON forecast_integrity_events\n            BEGIN SELECT RAISE(ABORT, 'forecast integrity events are immutable'); END",
+      "tbl_name": "forecast_integrity_events",
+      "type": "trigger"
+    },
+    {
+      "name": "forecast_integrity_no_update",
+      "sql": "CREATE TRIGGER forecast_integrity_no_update\n            BEFORE UPDATE ON forecast_integrity_events\n            BEGIN SELECT RAISE(ABORT, 'forecast integrity events are immutable'); END",
+      "tbl_name": "forecast_integrity_events",
+      "type": "trigger"
+    }
+  ],
+  "source_registry": {
+    "path": "data\\oanda_training_manager\\state\\proof_cohort_registry_v1.json",
+    "sha256": "041e60b48ceadb5c411a20e55821a23020777b64d46e78ce95440e443a565760"
+  }
+}

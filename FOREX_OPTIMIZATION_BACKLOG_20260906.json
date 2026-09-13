@@ -1,0 +1,92 @@
+{
+  "schema_version": "forex_optimization_backlog_v1",
+  "generated_utc": "2026-09-06T04:03:28.822457+00:00",
+  "runtime_disposition": "intentionally_stopped",
+  "source_audit": "docs/FOREX_PERFORMANCE_AUDIT_20260905.md",
+  "items": [
+    {
+      "id": "OPT-20260906-INTEGRITY-PUBLICATION",
+      "priority": "P2",
+      "status": "implemented_offline_validated",
+      "improvement": "Publish compact integrity summaries and retain immutable content-addressed episode detail.",
+      "acceptance": [
+        "All checks, failures, authority flags, counts and unomitted fields equal the full payload",
+        "Exact full detail reconstruction; corrupt/missing references fail",
+        "Changing summary timestamps reuses unchanged detail bytes",
+        "Checkpoint exports and relocated history preserve coherent resolvable detail",
+        "Measure first publication and repeat cost, serialization, decode, bytes and memory on the saved payload"
+      ],
+      "runtime_validation": "pending a separately requested restart",
+      "validation": "FOREX_OPTIMIZATION_VALIDATION_20260906.json",
+      "measured_bytes": {
+        "baseline_current": 98926690,
+        "compact_current": 167893,
+        "baseline_history_row": 73356296,
+        "compact_history_row": 136573,
+        "current_reduction_percent": 99.83028543661977,
+        "history_row_reduction_percent": 99.81382238819691
+      },
+      "live_validation": "unverified; runtime intentionally stopped"
+    },
+    {
+      "id": "OPT-20260906-INTEGRITY-QUERY-PROFILE",
+      "priority": "P2",
+      "status": "pending",
+      "improvement": "Profile expensive integrity queries on coherent realistic read-only fixtures before changing queries or indexes.",
+      "acceptance": [
+        "Compare verdicts and snapshot cutoffs with full reconciliation",
+        "Measure execution plans, row counts and query timing"
+      ],
+      "boundary": "No production database tuning or weaker evidence checks in this reporting optimization"
+    },
+    {
+      "id": "OPT-20260906-STORAGE-RETENTION",
+      "priority": "P2",
+      "status": "pending",
+      "improvement": "Measure sustained growth and apply verified retention only to eligible archival/log material.",
+      "acceptance": [
+        "Inventory separately by runtime ledger, source observation, log and archive",
+        "Archive recovery/hash checks precede any approved retirement of redundant copies"
+      ],
+      "boundary": "No deletions, live VACUUM or historical evidence changes in this pass"
+    },
+    {
+      "id": "OPT-20260906-COLLECTOR-YIELD",
+      "priority": "P2",
+      "status": "pending",
+      "improvement": "Profile duplicate/reclassification work and per-source incremental yield before altering poll cadence.",
+      "acceptance": [
+        "Compare canonical outputs and first-known clocks",
+        "Measure useful fresh items per request and official-event delay"
+      ],
+      "boundary": "Configured source count is not a performance or accuracy metric"
+    },
+    {
+      "id": "OPT-20260906-PREDICTION-QUALITY",
+      "priority": "P1",
+      "status": "assessment_complete_research_unconfirmed",
+      "improvement": "Publish an honest prediction scorecard with exact cohorts, denominators, cost effects, baselines and causality limits.",
+      "acceptance": [
+        "Distinguish completed-outcome replay diagnostics from prospective predictions",
+        "Preserve effective sample size and current no-trade gates",
+        "Do not tune frozen models against observed outcomes"
+      ],
+      "next_research_gate": "New untouched prospective after-cost evidence and appropriate baselines; existing successors remain disabled",
+      "assessment": "FOREX_PREDICTION_QUALITY_20260906.json",
+      "result": {
+        "shadow_outcomes": 8414,
+        "direction_hits": 4156,
+        "positive_after_spread": 716,
+        "calibration_replay_is_not_issue_time_proof": true,
+        "confirmed_hypotheses": 0
+      },
+      "next_work": [
+        "Add exact-cohort prediction metrics, frozen same-decision baselines and normalized economics in a separate registered scorecard.",
+        "Require all calibration training labels to have matured before the forecast issue; completed-outcome row ordering is insufficient.",
+        "Keep the existing diagnostic replay and old outcomes separate from a new untouched prospective study."
+      ]
+    }
+  ],
+  "updated_utc": "2026-09-06T04:15:47.472643+00:00",
+  "review": "docs/FOREX_OPTIMIZATION_REVIEW_20260906.md"
+}

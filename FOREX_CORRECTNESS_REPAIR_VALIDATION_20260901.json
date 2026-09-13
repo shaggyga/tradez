@@ -1,0 +1,120 @@
+{
+  "schema_version": "forex_correctness_repair_validation_v1",
+  "generated_utc": "2026-09-01T02:44:45Z",
+  "scope": "31 August source attribution, pair scoring, proof lineage, supervisor recovery, and executable-census replacement",
+  "implementation_hashes": {
+    "config/executable_move_census_v2_20260901c.json": "a32dec1034bccde2c48d453a2a1963b4557f40717de8c2d6803f1f124f2d67c0",
+    "oanda_executable_move_census_v2.py": "fdb4802a95e39f96140be210192fd98eb2a05a33b429dfaf46f27a9ce21d2ff8",
+    "oanda_executable_move_census_v2_verifier.py": "fea2d9518cc311a4d59e4fffcce801c178c963dcf59ac99896102e0fdb6a10d5",
+    "oanda_supervisor_watchdog.ps1": "3b6333d6945a3f73fcb3bcc2e7b461b61b087eb6028d7e3a911a798e19e0d11f",
+    "oanda_local_news_sentiment.py": "6a9d64cb4d8354bf3cfe2fb32fb1d6af7aabb80da8e3d6953f272f38c4856bbd",
+    "oanda_news_classification_contract.py": "6022e0db259283f00866e57ad1836d9a1768c1bc7c5d44d08e28b7667641aef9",
+    "oanda_news_technical_watchlist.py": "cebba83f4c46e4e4e02d98fbfc345624952b62d30c46d67e6db954e78522b4de",
+    "oanda_causal_source_factor_response_map_v7.py": "191d425f7e683fea02c6bb248a032e175b334d4ccf4998533e8b3edafd540256",
+    "oanda_source_conditioned_currency_rank_v6.py": "dd54e21b9c9c51ce762a31e2903083109486dba44aa0b8a252b9be7f1cf1102f",
+    "oanda_issue_register_validator.py": "22f8a85aa32e4b4e3255610156a5cd91cbbbfebabcf60c6d205a32b6b0570b31"
+  },
+  "validation": {
+    "focused_regression": {
+      "result": "passed",
+      "test_count": 668,
+      "completed_utc": "2026-09-01T02:40:40Z",
+      "warning": "pytest cache directory was not writable; test execution and results were unaffected"
+    },
+    "post_race_verifier_regression": {
+      "result": "passed",
+      "test_count": 6,
+      "completed_utc": "2026-09-01T02:43:00Z"
+    },
+    "powershell_parse": "passed",
+    "python_compile": "passed",
+    "git_diff_check": "passed"
+  },
+  "source_attribution_regressions": {
+    "bessent_yen_policy_case": {
+      "classification_version": "local_fx_news_rules_20260901_v152_subject_bound_release_policy_targets",
+      "direct_currencies": ["JPY"],
+      "scored_currencies": [],
+      "directional_publish_eligible": false,
+      "result": "passed"
+    },
+    "japan_manufacturing_pmi_final_case": {
+      "classification_version": "local_fx_news_rules_20260901_v152_subject_bound_release_policy_targets",
+      "event_name": "S&P Global Japan Manufacturing PMI final",
+      "actual": 54.9,
+      "previous": 54.5,
+      "direct_currencies": ["JPY"],
+      "consensus_capture_state": "unavailable_no_pre_release_snapshot",
+      "scored_currencies": [],
+      "directional_publish_eligible": false,
+      "result": "passed"
+    },
+    "same_episode_pair_score": {
+      "contract_id": "same_episode_signed_base_minus_quote_currency_score_v1_20260901",
+      "equal_leg_behavior": "cancel_and_abstain",
+      "unequal_leg_behavior": "signed_base_minus_quote_once_per_pair_episode",
+      "result": "passed"
+    }
+  },
+  "runtime_receipt": {
+    "captured_utc": "2026-09-01T02:44:45Z",
+    "canonical_supervisor_count": 1,
+    "watchdog_contract_id": "external_supervisor_lease_recovery_v1_20260901",
+    "watchdog_fault_injection": {
+      "terminated_supervisor_pid": 33632,
+      "replacement_supervisor_pid": 17820,
+      "incident_id": "49caa57547be42a8936966f12d866747",
+      "action": "supervisor_restarted",
+      "python_children_preserved": true,
+      "circuit_restart_count": 1,
+      "incident_log_sha256": "ee4f4c89eb94c8b4c289f179cd221c8efcc2bb557a2ac9bc02111fd745521b9c"
+    },
+    "executable_census_c": {
+      "cohort_id": "all68_executable_move_census_v2_20260901c",
+      "capture_contract_id": "all68_exact_snapshot_capture_v2_cold_work_separated",
+      "activation_utc": "2026-09-01T02:30:00Z",
+      "frame_count": 15,
+      "latest_frame_utc": "2026-09-01T02:44:00Z",
+      "missing_open_frames": 0,
+      "independent_verifier_verified": true,
+      "independent_verifier_failure_count": 0,
+      "historical_row_import_count": 0
+    },
+    "failed_census_b": {
+      "cohort_id": "all68_executable_move_census_v1_20260830b",
+      "status": "permanently_invalid",
+      "verifier_failure_count": 723,
+      "verifier_receipt_sha256": "3dc08524fca4c0afc352926e49be27506afe43893209be7f9de2248eab94eb4e"
+    },
+    "source_proof": {
+      "cohort_id": "causal_source_factor_response_map_v7_prospective_20260901T023000Z",
+      "contract_id": "causal_source_factor_response_map_v7_v152_subject_bound_release_policy_targets_20260901",
+      "prospective_proof_events": 0,
+      "historical_rows_imported": 0
+    },
+    "source_conditioned_rank": {
+      "contract_id": "source_conditioned_currency_rank_v6_v7_input_explicit_no_trade_20260901",
+      "source_status": "ready",
+      "source_forecast_rows": 0,
+      "decisions": 0,
+      "supported_execution_decision": "no_trade"
+    },
+    "practice_007": {
+      "account_id": "101-001-37981792-007",
+      "nav": 41.6042,
+      "open_positions": 0,
+      "pending_orders": 0
+    },
+    "oanda_quotes": {
+      "instrument_count": 68,
+      "producer": "practice_007_fast_executor_price_stream"
+    }
+  },
+  "safety": {
+    "manual_orders_submitted": 0,
+    "manual_positions_closed": 0,
+    "execution_gates_loosened": false,
+    "real_money_enabled": false,
+    "supported_decision": "no_trade"
+  }
+}

@@ -23,6 +23,7 @@ import os
 import re
 import sqlite3
 import statistics
+import threading
 import time
 from pathlib import Path
 from typing import Any, Mapping, Sequence
@@ -40,6 +41,7 @@ BASELINES = ROOT / "config" / "official_policy_statement_baselines_v2_20260816.j
 NEWS_SOURCES = ROOT / "config" / "news_sources_v1.json"
 DATABASE = STATE / "policy_statement_breakout_research_v1.sqlite"
 OUTPUT = STATE / "policy_statement_breakout_research_v1.json"
+HEARTBEAT = STATE / "policy_statement_breakout_research_heartbeat_v1.json"
 REPORT = (
     DATA
     / "reports"
@@ -1003,15 +1005,97 @@ def run_once(
     return payload
 
 
+def write_worker_heartbeat(
+    path: Path,
+    *,
+    phase: str,
+    cycle_started_utc: str,
+    output_generated_utc: str = "",
+    error: str = "",
+) -> None:
+    """Publish liveness separately from the slow research projection."""
+
+    atomic_json(
+        path,
+        {
+            "schema_version": "policy_statement_breakout_research_heartbeat_v1",
+            "contract_id": CONTRACT_ID,
+            "generated_utc": iso(dt.datetime.now(UTC)),
+            "cycle_started_utc": cycle_started_utc,
+            "phase": phase,
+            "output_generated_utc": output_generated_utc,
+            "error": error,
+            "research_only": True,
+            "execution_eligible": False,
+            "can_place_orders": False,
+            "can_promote": False,
+            "can_authorize": False,
+        },
+    )
+
+
+def heartbeat_until_stopped(
+    path: Path,
+    stop: threading.Event,
+    *,
+    cycle_started_utc: str,
+    interval_sec: float,
+) -> None:
+    while not stop.wait(max(1.0, interval_sec)):
+        write_worker_heartbeat(
+            path,
+            phase="building_research_projection",
+            cycle_started_utc=cycle_started_utc,
+        )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--interval-sec", type=float, default=30.0)
     parser.add_argument("--duration-sec", type=float, default=0.0)
+    parser.add_argument("--heartbeat", type=Path, default=HEARTBEAT)
+    parser.add_argument("--heartbeat-sec", type=float, default=15.0)
     parser.add_argument("--once", action="store_true")
     args = parser.parse_args()
     started = time.monotonic()
     while True:
-        run_once()
+        cycle_started_utc = iso(dt.datetime.now(UTC))
+        stop = threading.Event()
+        write_worker_heartbeat(
+            args.heartbeat,
+            phase="building_research_projection",
+            cycle_started_utc=cycle_started_utc,
+        )
+        heartbeat_thread = threading.Thread(
+            target=heartbeat_until_stopped,
+            args=(args.heartbeat, stop),
+            kwargs={
+                "cycle_started_utc": cycle_started_utc,
+                "interval_sec": args.heartbeat_sec,
+            },
+            daemon=True,
+        )
+        heartbeat_thread.start()
+        try:
+            result = run_once()
+        except Exception as exc:
+            stop.set()
+            heartbeat_thread.join(timeout=max(2.0, args.heartbeat_sec + 1.0))
+            write_worker_heartbeat(
+                args.heartbeat,
+                phase="failed",
+                cycle_started_utc=cycle_started_utc,
+                error=f"{type(exc).__name__}: {exc}",
+            )
+            raise
+        stop.set()
+        heartbeat_thread.join(timeout=max(2.0, args.heartbeat_sec + 1.0))
+        write_worker_heartbeat(
+            args.heartbeat,
+            phase="sleeping",
+            cycle_started_utc=cycle_started_utc,
+            output_generated_utc=str(result.get("generated_utc") or ""),
+        )
         if args.once or args.duration_sec <= 0:
             return 0
         if time.monotonic() - started >= args.duration_sec:

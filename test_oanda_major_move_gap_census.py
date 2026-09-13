@@ -35,7 +35,50 @@ def test_supervisor_census_uses_resolved_available_python_runtime() -> None:
     assert '-Needle "oanda_major_move_gap_census.py" `\n            -Executable $Python `' in block
 
 
+def test_supervisor_census_uses_liveness_heartbeat_not_completed_report() -> None:
+    supervisor = (
+        Path(__file__).resolve().parent / "oanda_always_on_supervisor.ps1"
+    ).read_text(encoding="utf-8")
+    start = supervisor.index('-Name "major_move_gap_census"')
+    block = supervisor[start : start + 1800]
+    assert '"--heartbeat", (Join-Path $State "major_move_gap_census_heartbeat_v1.json")' in block
+    assert 'LiteralPath = (Join-Path $State "major_move_gap_census_heartbeat_v1.json")' in block
+    assert 'ExpectedJsonField = "worker"' in block
+    assert 'ExpectedJsonValue = "oanda_major_move_gap_census"' in block
+    freshness = block.split("-Freshness @{", 1)[1].split("}", 1)[0]
+    assert "MAJOR_MOVE_GAP_CENSUS_CURRENT.json" not in freshness
+
+
 class MajorMoveGapCensusTests(unittest.TestCase):
+    def test_cycle_cadence_is_start_to_start_not_runtime_plus_interval(self):
+        self.assertEqual(
+            census.cycle_sleep_seconds(
+                21_600.0,
+                1_000.0,
+                100_000.0,
+                now_monotonic=4_600.0,
+            ),
+            18_000.0,
+        )
+        self.assertEqual(
+            census.cycle_sleep_seconds(
+                21_600.0,
+                1_000.0,
+                10_000.0,
+                now_monotonic=4_600.0,
+            ),
+            5_400.0,
+        )
+        self.assertEqual(
+            census.cycle_sleep_seconds(
+                21_600.0,
+                1_000.0,
+                100_000.0,
+                now_monotonic=23_000.0,
+            ),
+            0.0,
+        )
+
     def test_relevant_source_events_reuses_read_only_index_sequences_exactly(self):
         early = {
             "source_event_id": "early",
@@ -151,6 +194,64 @@ class MajorMoveGapCensusTests(unittest.TestCase):
             self.assertEqual(set(index), {"USD"})
             self.assertEqual(index["USD"]["events"][0]["source_event_id"], "inside")
             self.assertEqual(highwater, "2026-08-20T00:00:00+00:00")
+
+    def test_recent_news_remap_reports_source_load_and_row_progress(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "sources.sqlite"
+            db = sqlite3.connect(path)
+            db.execute(
+                """CREATE TABLE source_events (
+                    source_event_id TEXT PRIMARY KEY, source_id TEXT,
+                    source_population TEXT, event_type TEXT,
+                    story_cluster_id TEXT, effective_from_utc TEXT,
+                    valid_until_utc TEXT, superseded_at_utc TEXT,
+                    base_currency TEXT, quote_currency TEXT, payload_json TEXT
+                )"""
+            )
+            db.execute(
+                "INSERT INTO source_events VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+                (
+                    "event",
+                    "official_eur",
+                    "official",
+                    "release",
+                    "story",
+                    "2026-08-19T11:55:00+00:00",
+                    None,
+                    None,
+                    "EUR",
+                    None,
+                    json.dumps({"currencies": ["EUR"]}),
+                ),
+            )
+            db.commit()
+            db.close()
+            row = census.base_row(
+                inventory="prospective_h5_h15_path",
+                move_id="move",
+                instrument="EUR_USD",
+                start_epoch=census.parse_epoch("2026-08-19T12:00:00+00:00"),
+                end_epoch=census.parse_epoch("2026-08-19T12:15:00+00:00"),
+                selected_side=1,
+            )
+            row["source_evidence_class"] = "prospective_forecast_path"
+            progress = []
+
+            result = census.remap_recent_news(
+                [row],
+                path,
+                60,
+                progress_callback=lambda **value: progress.append(value),
+            )
+
+            self.assertEqual(result["rows_remapped"], 1)
+            self.assertEqual(row["pre_entry_source_count"], 1)
+            self.assertEqual(
+                [value["phase"] for value in progress],
+                ["loading_causal_source_window", "remapping_recent_news", "remapping_recent_news"],
+            )
+            self.assertEqual(progress[-1]["rows_remapped"], 1)
+            self.assertEqual(progress[-1]["rows_to_remap"], 1)
 
     def test_pre_entry_directional_count_excludes_recap_and_research_evidence(self):
         recap = {
@@ -539,8 +640,12 @@ class MajorMoveGapCensusTests(unittest.TestCase):
                 instrument="EUR_USD", start_epoch=census.parse_epoch("2025-01-01T00:00:00Z"),
                 end_epoch=census.parse_epoch("2025-01-01T00:01:00Z"), selected_side=0,
             )
+            progress = []
             result = census.recover_legacy_executable_paths(
-                [covered, unavailable], root, tolerance_sec=1
+                [covered, unavailable],
+                root,
+                tolerance_sec=1,
+                progress_callback=lambda **value: progress.append(value),
             )
             self.assertEqual(result["recovered_rows"], 1)
             self.assertEqual(result["unavailable_rows"], 1)
@@ -549,6 +654,17 @@ class MajorMoveGapCensusTests(unittest.TestCase):
             self.assertAlmostEqual(covered["endpoint_after_cost_pips"], 18.0)
             self.assertEqual(covered["legacy_replay_status"], "recovered_executable_bam")
             self.assertEqual(unavailable["legacy_replay_status"], "executable_archive_unavailable")
+            instrument_progress = [
+                value
+                for value in progress
+                if value.get("phase") == "recovering_legacy_executable_paths"
+            ]
+            self.assertGreaterEqual(len(instrument_progress), 2)
+            self.assertEqual(instrument_progress[0]["completed_instruments"], 0)
+            self.assertEqual(instrument_progress[-1]["completed_instruments"], 1)
+            self.assertEqual(
+                progress[-1]["phase"], "legacy_executable_replay_complete"
+            )
 
 
 if __name__ == "__main__":

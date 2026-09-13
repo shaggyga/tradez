@@ -1,0 +1,61 @@
+--- trad/oanda_practice_live_dashboard.py
++++ trad/oanda_practice_live_dashboard.py
+@@ -1302,6 +1302,40 @@
+         'strategy_or_execution_activation_changed':False}
+ 
+ 
++
++# Parent fills this reviewed immutable configuration hash at deployment.
++JOINT_LEDGER_OBSERVER_SPEC = Path(__file__).resolve().parent / 'config/joint_v3_ledger_observer_api_v1_20260909.json'
++JOINT_LEDGER_OBSERVER_SPEC_SHA256 = '983ac47caa3ba2a4ac8021876ce7e0a371ebdae2ef36ccb1d7a2636a046a4073'
++_JOINT_LEDGER_OBSERVER_API = None
++_JOINT_LEDGER_OBSERVER_API_LOCK = threading.Lock()
++
++
++def current_joint_ledger_observation(*, compact=False):
++    """Independent original-ledger evidence; original producer status is separate."""
++    global _JOINT_LEDGER_OBSERVER_API
++    unavailable = {
++        'schema_version': 'joint_v3_ledger_observer_api_v1_20260909',
++        'status': 'unavailable', 'reason': 'observer_api_not_configured',
++        'observer_report': None, 'consumer': None, 'current_inputs_observed': False,
++        'old_heartbeat_validated_for_forecasts': False, 'research_only': True,
++        **{key: False for key in ('can_place_orders', 'can_promote', 'can_authorize',
++                                  'account_eligible', 'proof_eligible', 'historical_rows_imported')},
++    }
++    if not re.fullmatch('[0-9a-f]{64}', JOINT_LEDGER_OBSERVER_SPEC_SHA256):
++        return unavailable
++    try:
++        from oanda_joint_v3_ledger_observer_api_v1 import LedgerObservationAPI
++        with _JOINT_LEDGER_OBSERVER_API_LOCK:
++            if _JOINT_LEDGER_OBSERVER_API is None:
++                _JOINT_LEDGER_OBSERVER_API = LedgerObservationAPI.from_specification(
++                    JOINT_LEDGER_OBSERVER_SPEC,
++                    expected_file_sha256=JOINT_LEDGER_OBSERVER_SPEC_SHA256)
++            instance = _JOINT_LEDGER_OBSERVER_API
++        return instance.get(compact=compact)
++    except (OSError, ValueError, TypeError, KeyError, OverflowError, RecursionError):
++        return {**unavailable, 'reason': 'observer_api_configuration_unavailable'}
++
++
+ def select_primary_pair_forecasts(data_root: Path, legacy: dict[str, Any], v2: dict[str, Any], *, now_epoch: float | None = None) -> dict[str, Any]:
+     """Select v2 only through the explicit registry-bound activation pointer."""
+     path=data_root.parent.parent/"config/pair_forecast_primary_current.json"
+@@ -9319,11 +9353,13 @@
+ 
+     def do_GET(self) -> None:
+         parsed = urlparse(self.path)
+-        if parsed.path == "/api/main":
+-            self.send_json(self.current_main_state())
++        if parsed.path == "/api/joint-v3-ledger-observation":
++            self.send_json(current_joint_ledger_observation())
+             return
+-        if parsed.path == "/api/state":
+-            self.send_json(self.current_main_state())
++        if parsed.path in {"/api/main", "/api/state"}:
++            payload = dict(self.current_main_state())
++            payload['joint_v3_ledger_observation'] = current_joint_ledger_observation(compact=True)
++            self.send_json(payload)
+             return
+         if parsed.path == "/api/full-state":
+             self.send_json(self.current_state())

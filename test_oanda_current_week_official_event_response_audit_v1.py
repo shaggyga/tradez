@@ -236,10 +236,30 @@ def test_supporting_dataset_is_not_an_event_change_but_release_bulletin_is():
 
 
 def test_contract_is_inert():
-    assert audit.CONTRACT_ID.startswith("current_week_official_event_response_audit_v2")
+    assert audit.CONTRACT_ID.startswith("current_week_official_event_response_audit_v3")
     source = (audit.ROOT / "oanda_current_week_official_event_response_audit_v1.py").read_text(encoding="utf-8")
     assert "can_place_orders\": False" in source
     assert "execution_decision\": \"no_trade\"" in source
+
+
+def test_structured_material_dedup_ignores_repeated_inferred_clock():
+    base = {
+        "structured_event": True,
+        "source_id": "swiss_fso_releases",
+        "source_url": "https://www.admin.ch/de/newnsb/NSUt8um5SBxJ",
+        "headline": "Consumer prices rose 0.4 percent in August",
+        "source_currencies": ["CHF"],
+        "event_series_id": "swiss_cpi_headline_yoy",
+        "reference_period": "2026M08",
+        "actual_value": 0.4,
+        "published_time_inferred": True,
+    }
+    earlier = {**base, "scheduled_utc": "2026-09-03T06:33:52Z"}
+    repeated = {**base, "scheduled_utc": "2026-09-04T14:13:29Z"}
+    revised = {**base, "actual_value": 0.5}
+
+    assert audit._dedup_key(earlier, "CHF") == audit._dedup_key(repeated, "CHF")
+    assert audit._dedup_key(earlier, "CHF") != audit._dedup_key(revised, "CHF")
 
 
 def test_frozen_cutoff_rejects_calendar_discovered_after_cutoff(tmp_path, monkeypatch):

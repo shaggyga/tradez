@@ -1,0 +1,119 @@
+import ast
+from copy import deepcopy
+import hashlib
+import json
+from pathlib import Path
+
+import pytest
+
+import probe_ledger_endpoint_v1 as prior
+import probe_ledger_endpoint_v2 as p
+
+
+def actual_fixture():
+    path=Path(__file__).resolve().parent/'actual_v2_candidate_001/private/full_api_response.json'
+    raw=path.read_bytes()
+    assert hashlib.sha256(raw).hexdigest()=='c8b2946990f0214bf79cf9f731ba8cbd22390eeb806734d06e6bcb96243a056a'
+    value=json.loads(raw)
+    return value,dict(status=200,complete_response=True,read_completed_epoch=value['consumer']['observed_epoch']+1,
+        elapsed_monotonic_sec=.1)
+
+
+def scheduling_fixture():
+    pairs=[f'A{chr(65+i//26)}{chr(65+i%26)}_USD' for i in range(68)]
+    records=[];wall=1000.;mono=100.
+    for i,pair in enumerate(pairs):
+        start=wall;tick=mono;delta=.25 if i==0 else .001;wall+=delta;mono+=delta
+        reason='observer_pair_time_budget' if i==0 else None
+        records.append(dict(original_pair=pair,attempt_index=1,wall_started_epoch=start,wall_completed_epoch=wall,
+            monotonic_started=tick,monotonic_completed=mono,assigned_deadline=tick+.25,
+            bounded_original_clock_trace=[start,wall],clock_trace_calls=2,clock_trace_integrity=True,
+            actual_budget_expired=i==0,original_public_reason=reason,final_public_reason=reason,
+            result_status='failed' if reason else 'verified',retry_eligible=i==0,sqlite_primary_code=None))
+    retry=dict(records[-1],original_pair=pairs[0],attempt_index=2,wall_started_epoch=wall,wall_completed_epoch=wall+.01,
+        monotonic_started=mono,monotonic_completed=mono+.01,assigned_deadline=mono+.5,
+        bounded_original_clock_trace=[wall,wall+.01]);records.append(retry)
+    schedule=dict(attempt_records=records,attempted_pairs=68,verified_ledger_pairs=68,failures={},
+        first_pass_failures={pairs[0]:'observer_pair_time_budget'},first_pass_verified_pairs=67,
+        retry_attempted_pairs=1,retry_recovered_ledger_pairs=1,retry_recovered_instruments=[pairs[0]],
+        retry_recovered_forecast_pairs=1,total_pair_attempts=69,
+        retry_records=[dict(original_pair=pairs[0],status='attempted',attempt_index=2)])
+    return dict(started_epoch=1000,completed_epoch=wall+.02,attempted_pairs=68,unvisited_pairs=0,
+        verified_ledger_pairs=68,failures={},scheduling=schedule,
+        summary=dict(rows=[dict(instrument=pair,families={p.FAMILY:dict(status='forecast')}) for pair in pairs]))
+
+
+def test_original_http_reader_and_decode_are_unchanged_ast():
+    def blocks(module):
+        return {n.name:ast.dump(n,include_attributes=False) for n in ast.parse(Path(module.__file__).read_bytes()).body
+            if isinstance(n,(ast.FunctionDef,ast.ClassDef))}
+    a,b=blocks(prior),blocks(p)
+    for key in ('Reader','decode','safe_reason','epoch','canonical','save'):assert a[key]==b[key]
+    assert p.MAX_REQUESTS==p.LEDGER_REQUESTS+2==79 and p.PRIOR_HTTP_REQUESTS==0
+    assert p.TIMEOUT==12 and p.INTERVAL==15 and p.DURATION==1200
+    assert p.MAX_RESPONSE==2*1024*1024 and p.MAX_TOTAL==160*1024*1024
+
+
+def test_actual_retained_v2_response_exact_original_clocks_no_http():
+    value,receipt=actual_fixture();before=deepcopy(value)
+    result=p.summarize_response(p.canonical(value),receipt,value['observer_api_specification_sha256'])
+    assert result['verified_pairs']==68 and result['scheduling']['first_pass_verified_pairs']==68
+    assert result['scheduling']['recovered_ledger_pairs']==0
+    assert result['original_consumer_epoch']==value['consumer']['observed_epoch']
+    assert result['report_completed_epoch']==value['observer_report']['completed_epoch'] and value==before
+
+
+def test_first_failure_and_fresh_retry_clocks_are_retained_separately():
+    report=scheduling_fixture();before=deepcopy(report);result=p.scheduling_projection(report)
+    assert result['first_pass_verified_pairs']==67 and result['final_verified_pairs']==68
+    assert result['recovered_forecast_pairs']==result['recovered_ledger_pairs']==1
+    assert len(result['first_pass_failures'])==1 and not result['final_failures']
+    assert result['attempt_records'][0]['wall_completed_epoch']<result['attempt_records'][-1]['wall_started_epoch']
+    assert before==report
+
+
+@pytest.mark.parametrize('case',['duplicate','third_attempt','wall_rollback','mono_rollback','trace_mismatch',
+    'unknown_sqlite','false_expiry','false_recovery','lost_first_failure','false_final_count','extended_budget',
+    'erased_retry_record','wrong_queue','integrity_retry'])
+def test_resealed_schedule_counterfeit_or_chronology_is_refused(case):
+    report=scheduling_fixture();s=report['scheduling'];first=s['attempt_records'][0];retry=s['attempt_records'][-1]
+    if case=='duplicate':s['attempt_records'].append(deepcopy(retry))
+    elif case=='third_attempt':retry['attempt_index']=3
+    elif case=='wall_rollback':retry['wall_started_epoch']=999
+    elif case=='mono_rollback':retry['monotonic_started']=99
+    elif case=='trace_mismatch':first['bounded_original_clock_trace'][-1]-=.1
+    elif case=='unknown_sqlite':first.update(final_public_reason='observer_sqlite_time_budget_or_unavailable',sqlite_primary_code=11)
+    elif case=='false_expiry':first['actual_budget_expired']=False
+    elif case=='false_recovery':s['retry_recovered_forecast_pairs']=2
+    elif case=='lost_first_failure':s['first_pass_failures']={}
+    elif case=='false_final_count':s['verified_ledger_pairs']=67
+    elif case=='extended_budget':retry['assigned_deadline']=retry['monotonic_started']+.6
+    elif case=='erased_retry_record':s['retry_records']=[]
+    elif case=='wrong_queue':s['retry_records'][0]['original_pair']='ZZZ_USD'
+    else:first.update(final_public_reason='observer_registered_contract_mismatch',retry_eligible=False)
+    with pytest.raises(ValueError):p.scheduling_projection(report)
+
+
+def test_recovered_empty_ledger_is_not_a_recovered_forecast():
+    report=scheduling_fixture();report['summary']['rows'][0]['families'][p.FAMILY]['status']='unavailable'
+    report['scheduling']['retry_recovered_forecast_pairs']=0
+    result=p.scheduling_projection(report)
+    assert result['recovered_ledger_pairs']==1 and result['recovered_forecast_pairs']==0
+
+
+def test_cached_report_copies_do_not_inflate_recovery_counts():
+    value,receipt=actual_fixture();projection=p.summarize_response(p.canonical(value),receipt,value['observer_api_specification_sha256'])
+    sample=dict(read=receipt,projection=projection)
+    result=p.aggregate([sample,sample])
+    assert result['request_samples']==2 and result['distinct_reports']==1
+    assert result['distinct_report_scheduling']['report_count']==1
+
+
+def test_old_schema_and_changed_retry_policy_cannot_be_accepted():
+    value,receipt=actual_fixture();value['schema_version']='joint_v3_ledger_observer_api_v1_20260909'
+    value['payload_sha256']=p.seal(value)
+    with pytest.raises(ValueError,match='api_schema'):p.summarize_response(p.canonical(value),receipt,value['observer_api_specification_sha256'])
+    value,receipt=actual_fixture();report=value['observer_report'];report['observer_spec']['retry_policy']['retry_pair_budget_sec']=2
+    report['observer_spec_sha256']=p.sha(p.canonical(report['observer_spec']));report['payload_sha256']=p.seal(report)
+    value['observer_report_sha256']=p.sha(p.canonical(report));value['payload_sha256']=p.seal(value)
+    with pytest.raises(ValueError,match='retry_policy'):p.summarize_response(p.canonical(value),receipt,value['observer_api_specification_sha256'])

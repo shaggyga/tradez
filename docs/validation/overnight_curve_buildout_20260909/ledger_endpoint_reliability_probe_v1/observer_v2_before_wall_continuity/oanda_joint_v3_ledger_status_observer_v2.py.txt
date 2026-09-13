@@ -1,0 +1,479 @@
+"""Independent read-only status for original joint-v3 ledger publications.
+
+No worker/ledger writer is imported or instantiated. No model is run. This
+observer has its own specification/schema and never accepts an invalid producer
+heartbeat. Its new observation clocks do not replace original forecast clocks.
+Optional artifact publication/routing belongs to a separately reviewed caller.
+"""
+import ast
+from contextlib import closing
+from datetime import datetime, timezone
+import hashlib
+import importlib
+import importlib.metadata
+import json
+import math
+from pathlib import Path
+import platform
+import re
+import sqlite3
+import stat
+import time
+from types import SimpleNamespace
+
+import oanda_immutable_summary_publication_v1 as boundary
+
+ROOT = Path(__file__).resolve().parent
+SCHEMA = 'joint_v3_ledger_status_observer_v2_20260909'
+SUMMARY_SCHEMA = 'joint_v3_ledger_observer_summary_v2_20260909'
+SPEC_SCHEMA = 'joint_v3_ledger_observer_specification_v2_20260909'
+ORIGIN_REGISTRY_SHA256 = 'ee075e69e80ca56dfdf45abe1f7a1a301612176e67f7622eab1adf2bd9af8771'
+ORIGIN_REGISTRY_ID = 'joint_price_news_study_v3_20260908'
+FAMILY = 'ridge_price_news_v1'
+OWN_FILES = ('oanda_joint_v3_ledger_status_observer_v2.py', 'oanda_joint_v3_ledger_status_observer_v1.py', 'oanda_immutable_summary_publication_v1.py')
+SOURCE_NAMES = frozenset({
+ 'oanda_joint_price_news_forecast_study_v3.py','oanda_causal_forecast_ledger_joint_news_v2.py',
+ 'oanda_fixed_forecast_evaluation_joint_news_v1.py','oanda_joint_price_news_models_v1.py',
+ 'oanda_causal_forecast_inputs_joint_news_v2.py','oanda_causal_forecast_inputs.py',
+ 'oanda_causal_forecast_inputs_gap_v2.py','oanda_exact_price_scoring.py',
+ 'oanda_causal_prediction_baselines.py','oanda_pair_local_models_v2.py',
+ 'oanda_causal_forecast_inputs_pair_v2.py','oanda_news_causal_aggregation_guard_v1.py',
+ 'oanda_news_classification_contract.py','oanda_local_news_sentiment.py',
+ 'oanda_source_governance.py','oanda_source_governance_news_fast_lane.py',
+ 'oanda_local_news_sentiment_repair_v1.py','oanda_news_topic_identity_reconciliation_v1.py',
+ 'oanda_news_event_tagger.py','oanda_news_collector_contract.py'})
+MAX_SOURCE_BYTES = 1024*1024
+MAX_RECORD_BYTES = 256*1024
+AUTHORITY = dict(research_only=True, **{flag:False for flag in boundary.INERT_FLAGS})
+_IMPORTED_OWN_HASHES = {name:hashlib.sha256((ROOT/name).read_bytes()).hexdigest() for name in OWN_FILES}
+
+
+class ObserverError(ValueError):
+    pass
+
+
+def require(ok, code):
+    if not ok:raise ObserverError(code)
+
+
+def encoded(value):
+    return json.dumps(value,sort_keys=True,separators=(',', ':'),allow_nan=False).encode()
+
+
+def digest(value):
+    return hashlib.sha256(encoded(value)).hexdigest()
+
+
+def number(value):
+    require(type(value) in (int,float) and 0 < value < 10**12 and math.isfinite(value),'observer_clock_invalid')
+    return value
+
+
+def code(exc):
+    message=str(exc)
+    return message if re.fullmatch('[a-z][a-z0-9_]{1,120}',message) else 'observer_invalid_or_unavailable_evidence'
+
+
+def safe_path(path, *, file=False):
+    path=Path(path).absolute()
+    require('..' not in path.parts,'observer_path_escape')
+    for component in reversed([path,*path.parents]):
+        info=component.lstat()
+        require(not stat.S_ISLNK(info.st_mode) and not getattr(info,'st_file_attributes',0)&1024,'observer_reparse_path')
+    require(path.resolve()==path,'observer_path_identity')
+    require(not file or path.is_file(),'observer_file_required')
+    return path
+
+
+def read_file(path, *, limit=MAX_SOURCE_BYTES, clock=time.time):
+    path=safe_path(path,file=True); started=number(clock())
+    before=path.stat();identity=(before.st_dev,before.st_ino,before.st_size,before.st_mtime_ns)
+    with path.open('rb') as stream:raw=stream.read(limit+1)
+    completed=number(clock());after=path.stat()
+    require(identity==(after.st_dev,after.st_ino,after.st_size,after.st_mtime_ns),'observer_file_changed_during_read')
+    require(len(raw)<=limit,'observer_file_byte_limit')
+    require(started<=completed,'observer_clock_regression')
+    return raw,dict(sha256=hashlib.sha256(raw).hexdigest(),bytes=len(raw),read_started_epoch=started,read_completed_epoch=completed)
+
+
+def own_source_bindings():
+    """Convenience for a caller's separately retained, reviewed specification."""
+    return dict(_IMPORTED_OWN_HASHES)
+
+
+def _closure(registry,expected_own,clock):
+    require(type(expected_own) is dict and set(expected_own)==set(OWN_FILES),'observer_own_source_closure')
+    require(expected_own==_IMPORTED_OWN_HASHES,'observer_loaded_source_binding')
+    require(set(registry.get('source_bindings',{}))==SOURCE_NAMES,'observer_origin_source_closure')
+    values={};records={}
+    for name,expected in {**registry['source_bindings'],**expected_own}.items():
+        raw,record=read_file(ROOT/name,clock=clock)
+        require(record['sha256']==expected,'observer_source_binding_mismatch')
+        values[name]=raw;records[name]=record
+    actual={'python':platform.python_version(),**{name:importlib.metadata.version(name) for name in ('numpy','scikit-learn')}}
+    require(registry.get('dependency_versions')==actual,'observer_dependency_mismatch')
+    return values,records
+
+
+def _frozen_rules(sources):
+    """Compile exact bound function bodies, with no writer-class construction."""
+    scoring=importlib.import_module('oanda_exact_price_scoring')
+    evaluation=importlib.import_module('oanda_fixed_forecast_evaluation_joint_news_v1')
+    for module in (scoring,evaluation):
+        require(Path(module.__file__).resolve()==ROOT/(module.__name__+'.py'),'observer_semantic_module_path')
+    names={'encoded','digest','number','utc','canonical_price','validate_contract'}
+    ledger_tree=ast.parse(sources['oanda_causal_forecast_ledger_joint_news_v2.py'])
+    nodes=[node for node in ledger_tree.body if isinstance(node,ast.FunctionDef) and node.name in names]
+    nodes += [node for node in ledger_tree.body if isinstance(node,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='SCHEMA' for t in node.targets)]
+    worker_tree=ast.parse(sources['oanda_joint_price_news_forecast_study_v3.py'])
+    nodes += [node for node in worker_tree.body if isinstance(node,ast.FunctionDef) and node.name=='verified_publication']
+    require(len([n for n in nodes if isinstance(n,ast.FunctionDef)])==7,'observer_frozen_function_inventory')
+    globals_=dict(json=json,hashlib=hashlib,math=math,datetime=datetime,timezone=timezone,
+        decimal_value=scoring.decimal_value,quote_midpoint=scoring.quote_midpoint,forecast_errors=evaluation.forecast_errors)
+    tree=ast.fix_missing_locations(ast.Module(body=nodes,type_ignores=[]))
+    exec(compile(tree,'frozen_joint_v3_readonly_publication_rules','exec'),globals_)
+    return globals_
+
+
+def _activation(raw,registry,study,now):
+    value=json.loads(raw)
+    require(value.get('schema_version')=='joint_price_news_v3_activation_receipt_20260908'
+        and value.get('status')=='activated_empty','observer_activation_identity')
+    require(value.get('registry_sha256')==ORIGIN_REGISTRY_SHA256
+        and value.get('registry_file_sha256')==ORIGIN_REGISTRY_SHA256
+        and value.get('source_bindings')==registry['source_bindings'],'observer_activation_binding')
+    require(all(value.get(k) is v for k,v in AUTHORITY.items()) and value.get('worker_started') is False,
+        'observer_activation_authority')
+    require(Path(value['study_root']).absolute()==study,'observer_activation_root')
+    start=number(value['activation_started_epoch']);end=number(value['activation_completed_epoch'])
+    require(start<=end<=now,'observer_activation_clock')
+    rows=value.get('ledgers');require(type(rows) is list and len(rows)==len(registry['pairs']),'observer_activation_inventory')
+    indexed={}
+    for row in rows:
+        pair=row.get('instrument');family=row.get('family')
+        require(pair in registry['pairs'] and family==FAMILY and pair not in indexed,'observer_activation_pair')
+        expected=study/'pairs'/pair/FAMILY/'study.sqlite'
+        require(Path(row['path']).absolute()==expected and row['contract_sha256']==registry['pairs'][pair]['families'][FAMILY]['contract_sha256'],
+            'observer_activation_ledger_binding')
+        require(start<=number(row['activated_epoch'])<=end,'observer_activation_pair_clock')
+        indexed[pair]=row
+    return indexed
+
+
+class _ReadOnlyProxy:
+    def __init__(self,db,contract,activated,clock):
+        self.db=db;self.contract=contract;self.activated_epoch=activated;self.clock=clock
+        self.join_read_started_epoch=None;self.join_read_completed_epoch=None
+    def _read(self,query,params=()):
+        require(type(query) is str and query.lstrip().upper().startswith('SELECT '),'observer_select_only')
+        self.join_read_started_epoch=number(self.clock())
+        cursor=self.db.execute(query,params);rows=cursor.fetchmany(2)
+        self.join_read_completed_epoch=number(self.clock())
+        require(self.join_read_started_epoch<=self.join_read_completed_epoch,'observer_clock_regression')
+        require(len(rows)<=1,'observer_join_row_bound')
+        for row in rows:
+            for item in row:
+                require(not isinstance(item,(bytes,str)) or len(item)<=MAX_RECORD_BYTES,'observer_record_byte_limit')
+        return rows
+
+
+def _deny_mutation(action,arg1,arg2,database,trigger):
+    allowed={sqlite3.SQLITE_SELECT,sqlite3.SQLITE_READ,sqlite3.SQLITE_FUNCTION,sqlite3.SQLITE_TRANSACTION}
+    return sqlite3.SQLITE_OK if action in allowed else sqlite3.SQLITE_DENY
+
+
+def _original_row_identities(db,forecast,contract,rules):
+    """Check original ledger-generated row IDs/scalars, without replaying a fit."""
+    row=db.execute('''SELECT f.bucket,f.reference,f.target,f.payload,a.id AS attempt_id,
+        a.bucket AS attempt_bucket,a.sequence,a.epoch AS attempt_epoch,a.reference_id,
+        q.id AS quote_id,q.market,q.available,q.payload AS quote_payload
+        FROM forecasts f JOIN attempts a ON a.id=f.attempt_id JOIN quotes q ON q.id=a.reference_id
+        WHERE f.id=?''',(forecast['decision_id'],)).fetchone()
+    require(row is not None,'observer_original_identity_join')
+    payload=json.loads(row['payload']);quote=json.loads(row['quote_payload'])
+    bucket=row['bucket'];sequence=row['sequence'];at=number(row['attempt_epoch'])
+    require(type(bucket) is int and bucket>=0 and type(sequence) is int and sequence>0
+        and row['attempt_bucket']==bucket and int(at//contract['cadence_sec'])==bucket,'observer_original_attempt_bucket')
+    require(forecast['decision_id']==digest({'contract':digest(contract),'bucket':bucket})
+        and row['attempt_id']==digest({'contract':digest(contract),'bucket':bucket,'sequence':sequence})
+        and payload['attempt_id']==row['attempt_id'] and payload['attempt_epoch']==at,'observer_original_row_identity')
+    dec=rules['decimal_value'];canonical=rules['canonical_price']
+    bid,ask,pip=dec(quote['bid']),dec(quote['ask']),dec(quote['pip_size'])
+    require(quote.get('tradeable') is True and 0<bid<=ask and pip==dec(contract['pip_size']),
+        'observer_original_reference_prices_or_tradeability')
+    identity=dict(instrument=contract['instrument'],pip_size=canonical(pip),market_epoch=quote['market_epoch'],
+        bid=canonical(bid),ask=canonical(ask),tradeable=True)
+    require(row['quote_id']==row['reference_id']==quote['quote_id']==digest(identity),
+        'observer_original_reference_identity')
+    require(row['market']==quote['market_epoch']==row['reference']==forecast['reference_epoch']
+        and row['available']==quote['available_epoch']==forecast['reference_available_epoch']
+        and row['target']==payload['target_epoch']==forecast['target_epoch'],'observer_original_reference_scalars')
+    market=number(row['market']);available=number(row['available']);source_read=number(quote['source_read_epoch'])
+    require(market<=source_read<=available<=at<=payload['forecasts'][0]['computation_started_epoch']
+        and 0<=at-market<=contract['quote_max_age_sec'] and 0<=at-available<=contract['quote_max_age_sec'],
+        'observer_original_attempt_reference_clocks')
+    return digest(dict(forecast_sha256=forecast['forecast_sha256'],attempt_id=row['attempt_id'],
+        attempt_epoch=at,bucket=bucket,sequence=sequence,quote_payload_sha256=digest(quote),
+        quote_id=row['quote_id'],market_epoch=market,available_epoch=available))
+
+
+def _pair(path,spec,activation,rules,clock,monotonic,deadline):
+    started=number(clock());require(Path(path).exists(),'observer_missing_ledger');path=safe_path(path,file=True)
+    contract=spec['contract'];rules['validate_contract'](contract)
+    require(digest(contract)==spec['contract_sha256'],'observer_contract_hash')
+    remaining=deadline-monotonic();require(remaining>0,'observer_pair_time_budget')
+    with closing(sqlite3.connect(path.as_uri()+'?mode=ro',uri=True,timeout=min(.05,remaining))) as db:
+        db.setlimit(sqlite3.SQLITE_LIMIT_LENGTH,MAX_RECORD_BYTES)
+        db.setlimit(sqlite3.SQLITE_LIMIT_SQL_LENGTH,16384)
+        db.row_factory=sqlite3.Row
+        db.execute('PRAGMA query_only=ON')
+        require(db.execute('PRAGMA query_only').fetchone()[0]==1,'observer_query_only_unavailable')
+        db.set_authorizer(_deny_mutation)
+        db.set_progress_handler(lambda:1 if monotonic()>deadline else 0,1000)
+        db.execute('BEGIN')
+        saved=db.execute('SELECT sha,payload FROM contract WHERE id=1').fetchone()
+        require(saved is not None and saved['sha']==spec['contract_sha256']
+            and saved['payload']==encoded(contract).decode(),'observer_registered_contract_mismatch')
+        active=db.execute('SELECT epoch,contract_sha FROM activation WHERE id=1').fetchone()
+        require(active is not None and active['contract_sha']==spec['contract_sha256']
+            and active['epoch']==activation['activated_epoch'],'observer_registered_activation_mismatch')
+        require(number(active['epoch'])<=started,'observer_future_activation')
+        proxy=_ReadOnlyProxy(db,contract,active['epoch'],clock)
+        latest=db.execute('SELECT id,bucket,target FROM forecasts ORDER BY bucket DESC LIMIT 1').fetchone()
+        forecast=rules['verified_publication'](proxy)
+        if forecast:
+            require(max(forecast[key] for key in ('reference_available_epoch','issued_epoch','publication_epoch','consumption_epoch'))
+                <=proxy.join_read_completed_epoch,'observer_forecast_future_at_source_read')
+        identity_sha=_original_row_identities(db,forecast,contract,rules) if forecast else None
+        attempt=db.execute('''SELECT a.id,a.epoch,a.bucket,
+            CASE WHEN length(d.payload)<=? THEN d.payload ELSE NULL END AS payload,
+            length(d.payload) AS payload_bytes FROM attempts a LEFT JOIN diagnostics d ON d.attempt_id=a.id
+            ORDER BY a.bucket DESC,a.sequence DESC LIMIT 1''',(MAX_RECORD_BYTES,)).fetchone()
+        reads_completed=number(clock())
+        last_attempt=None
+        if attempt:
+            require(number(attempt['epoch'])<=reads_completed,'observer_future_attempt')
+            require(type(attempt['id']) is str and re.fullmatch('[a-f0-9]{64}',attempt['id'])
+                and type(attempt['bucket']) is int and attempt['bucket']>=0,'observer_attempt_shape')
+            last_attempt=dict(attempt_id=attempt['id'],epoch=attempt['epoch'],bucket=attempt['bucket'],scope='dated_durable_attempt_not_current_input_progress')
+            if attempt['payload_bytes'] is not None and attempt['payload_bytes']>MAX_RECORD_BYTES:
+                last_attempt.update(reason='diagnostic_exceeds_observer_bound',diagnostic_bytes=attempt['payload_bytes'])
+            if attempt['payload'] is not None:
+                require(len(attempt['payload'])<=MAX_RECORD_BYTES,'observer_diagnostic_byte_limit')
+                diagnostic=json.loads(attempt['payload'])
+                require(type(diagnostic) is dict,'observer_diagnostic_shape')
+                reason=diagnostic.get('reason','')
+                last_attempt['reason']=reason if type(reason) is str and re.fullmatch('[a-z][a-z0-9_]{1,120}',reason) else 'diagnostic_retained'
+                last_attempt['diagnostic_sha256']=hashlib.sha256(attempt['payload'].encode()).hexdigest()
+        db.execute('ROLLBACK')
+    completed=number(clock());require(started<=reads_completed<=completed and monotonic()<=deadline,'observer_pair_time_budget')
+    if forecast:require(forecast['publication_verified_epoch']<=completed,'observer_verification_clock_order')
+    visible=forecast if forecast and completed<forecast['target_epoch'] else None
+    reason='verified_original_forecast' if visible else ('original_h1_target_elapsed' if forecast else 'no_verified_published_forecast')
+    pending=bool(latest and (not forecast or latest['id']!=forecast['decision_id']))
+    return dict(status='forecast' if visible else 'unavailable',reason=reason,observed_epoch=completed,
+        activated_epoch=active['epoch'],contract_sha256=spec['contract_sha256'],cohort_id=contract['cohorts'][FAMILY],
+        origin_study='joint_v3',origin_registry_sha256=ORIGIN_REGISTRY_SHA256,
+        current_readiness=dict(status='unavailable',observed_epoch=None,reason='current_inputs_not_observed',diagnostics={}),
+        last_attempt=last_attempt,latest_forecast=visible,counts={},latest_forecast_pending_verified_publication=pending,
+        ledger_observation=dict(read_started_epoch=started,read_completed_epoch=reads_completed,verification_completed_epoch=completed,
+            forecast_join_read_started_epoch=proxy.join_read_started_epoch,forecast_join_read_completed_epoch=proxy.join_read_completed_epoch,
+            contract_and_activation_verified=True,query_only=True,original_published_forecast=bool(forecast),
+            original_row_identity_binding_sha256=identity_sha,
+            latest_original_target_epoch=forecast['target_epoch'] if forecast else None))
+
+
+def _upstream(study,registry_sha,clock):
+    records={}
+    try:
+        summary_raw,records['summary']=read_file(study/'summary.json',clock=clock)
+        hb_raw,records['heartbeat']=read_file(study/'heartbeat.json',limit=64*1024,clock=clock)
+        now=number(clock());summary=json.loads(summary_raw);hb=json.loads(hb_raw)
+        require(summary.get('schema_version')=='joint_price_news_forecast_summary_v3_20260908'
+            and hb.get('schema_version')=='joint_price_news_forecast_heartbeat_v3_20260908','origin_envelope_identity')
+        require(summary.get('registry_sha256')==registry_sha==hb.get('registry_sha256'),'origin_envelope_registry')
+        require(all(summary.get(k) is v and hb.get(k) is v for k,v in AUTHORITY.items()),'origin_envelope_authority')
+        require(digest({k:v for k,v in summary.items() if k!='payload_sha256'})==summary.get('payload_sha256'),'origin_summary_payload_seal')
+        age=now-number(summary['generated_epoch']);hb_age=now-number(hb['generated_epoch'])
+        require(summary['generated_epoch']<=records['summary']['read_completed_epoch']
+            and hb['generated_epoch']<=records['heartbeat']['read_completed_epoch'],'origin_envelope_future_at_own_read')
+        require(0<=age<=90 and 0<=hb_age<=90,'origin_envelope_stale_or_future')
+        status='coherent_envelope_only' if hb.get('summary_sha256')==digest(summary) else 'generation_mismatch'
+        return dict(status=status,observed_epoch=now,raw_reads=records,summary_generated_epoch=summary['generated_epoch'],
+            heartbeat_generated_epoch=hb['generated_epoch'],heartbeat_named_summary_sha256=hb.get('summary_sha256'),
+            actual_summary_sha256=digest(summary),producer_reported_errors=hb.get('errors'),
+            producer_heartbeat_publication_errors=hb.get('heartbeat_publication_errors'),
+            forecast_acceptance_from_this_envelope=False)
+    except (ValueError,TypeError,KeyError,OSError,OverflowError,RecursionError) as exc:
+        return dict(status='unavailable',reason=code(exc),raw_reads=records,forecast_acceptance_from_this_envelope=False)
+
+
+FIRST_PASS_PAIR_BUDGET_SEC = .25
+RETRY_PAIR_BUDGET_SEC = .5
+MAX_CLOCK_TRACE = 64
+MAX_REPORT_BYTES = 2*1024*1024
+
+
+class _MonotonicClock:
+    """Sticky integrity rejection; passing through every valid original value."""
+    def __init__(self, source):
+        self.source=source;self.last=None;self.valid=True
+
+    def __call__(self):
+        value=self.source()
+        self.valid=self.valid and type(value) in (int,float) and 0<=value<10**12 and math.isfinite(value)
+        if self.valid and self.last is not None:self.valid=value>=self.last
+        require(self.valid,'observer_monotonic_clock_integrity')
+        self.last=value
+        return value
+
+
+class _AttemptClock:
+    """Retain bounded wall-clock evidence, without replacing original samples."""
+    def __init__(self, source):
+        self.source=source;self.values=[];self.count=0;self.valid=True;self.last=None
+
+    def __call__(self):
+        value=self.source();self.count+=1
+        valid=type(value) in (int,float) and 0<value<10**12 and math.isfinite(value)
+        self.valid=self.valid and valid and self.count<=MAX_CLOCK_TRACE
+        if valid:
+            if self.last is not None:self.valid=self.valid and value>=self.last
+            self.last=value
+        if len(self.values)<MAX_CLOCK_TRACE:self.values.append(value if valid else None)
+        return value
+
+
+def _attempt_pair(pair,path,spec,activation,rules,clock,monotonic,deadline,index):
+    trace=_AttemptClock(clock)
+    began=number(trace());tick=monotonic();reason=None;sqlite_code=None;slot=None
+    try:
+        slot=_pair(path,spec,activation,rules,trace,monotonic,deadline)
+    except sqlite3.Error as exc:
+        reason='observer_sqlite_time_budget_or_unavailable'
+        numeric=getattr(exc,'sqlite_errorcode',None)
+        if type(numeric) is int and 0<=numeric<=65535:sqlite_code=numeric&255
+    except (ValueError,TypeError,KeyError,OSError,OverflowError,RecursionError) as exc:
+        reason=code(exc)
+    completed=number(trace());end=monotonic();original_reason=reason
+    if not trace.valid:reason='observer_attempt_clock_integrity';slot=None
+    expired=end>=deadline
+    retryable=bool(reason and trace.valid and (
+        reason=='observer_pair_time_budget' and expired or
+        reason=='observer_sqlite_time_budget_or_unavailable' and (
+            sqlite_code in (sqlite3.SQLITE_BUSY,sqlite3.SQLITE_LOCKED) or
+            sqlite_code==sqlite3.SQLITE_INTERRUPT and expired)))
+    receipt=dict(attempt_index=index,original_pair=pair,wall_started_epoch=began,wall_completed_epoch=completed,
+        monotonic_started=tick,monotonic_completed=end,assigned_deadline=deadline,actual_budget_expired=expired,
+        original_public_reason=original_reason,final_public_reason=reason,sqlite_primary_code=sqlite_code,bounded_original_clock_trace=trace.values,
+        clock_trace_calls=trace.count,clock_trace_integrity=trace.valid,retry_eligible=retryable,
+        result_status='verified' if reason is None else 'failed')
+    return slot,reason,receipt
+
+
+def _failed_slot(reason,spec,activation,clock):
+    return dict(status='unavailable',reason=reason,observed_epoch=number(clock()),
+        activated_epoch=activation['activated_epoch'],contract_sha256=spec['contract_sha256'],
+        cohort_id=spec['contract']['cohorts'][FAMILY],origin_study='joint_v3',
+        origin_registry_sha256=ORIGIN_REGISTRY_SHA256,current_readiness=dict(status='unavailable',
+            observed_epoch=None,reason='current_inputs_not_observed',diagnostics={}),
+        last_attempt=None,latest_forecast=None,counts={},ledger_observation=dict(contract_and_activation_verified=False))
+
+
+def _observe_pairs(registry,study,activated,rules,clock,monotonic,deadline):
+    rows=[];attempted=verified=0;failures={};first_failures={};attempts=[];queued=[];retry_records=[]
+    for pair,item in sorted(registry['pairs'].items()):
+        require(set(item['families'])=={FAMILY},'observer_original_family_inventory')
+        spec=item['families'][FAMILY];reason=None;slot=None;now=monotonic()
+        if now>=deadline:reason='observer_budget_exhausted'
+        else:
+            attempted+=1
+            slot,reason,record=_attempt_pair(pair,study/'pairs'/pair/FAMILY/'study.sqlite',spec,
+                activated[pair],rules,clock,monotonic,min(deadline,now+FIRST_PASS_PAIR_BUDGET_SEC),1)
+            attempts.append(record)
+            if reason:
+                first_failures[pair]=reason
+                if record['retry_eligible']:queued.append((pair,len(rows),spec))
+            else:verified+=1
+        if reason:
+            failures[pair]=reason;slot=_failed_slot(reason,spec,activated[pair],clock)
+        rows.append(dict(instrument=pair,pip_size=item['pip_size'],families={FAMILY:slot}))
+    first_verified=verified;retried=recovered=0;recovered_pairs=[]
+    for pair,row_index,spec in queued:
+        now=monotonic()
+        if now>=deadline:
+            retry_records.append(dict(original_pair=pair,status='not_attempted',reason='observer_budget_exhausted',
+                observed_epoch=number(clock()),monotonic_observed=now))
+            continue
+        retried+=1
+        slot,reason,record=_attempt_pair(pair,study/'pairs'/pair/FAMILY/'study.sqlite',spec,
+            activated[pair],rules,clock,monotonic,min(deadline,now+RETRY_PAIR_BUDGET_SEC),2)
+        attempts.append(record);retry_records.append(dict(original_pair=pair,status='attempted',attempt_index=2))
+        if reason:
+            failures[pair]=reason;slot=_failed_slot(reason,spec,activated[pair],clock)
+        else:
+            verified+=1;recovered+=1;recovered_pairs.append(pair);failures.pop(pair,None)
+        rows[row_index]['families'][FAMILY]=slot
+    return rows,dict(attempted_pairs=attempted,verified_ledger_pairs=verified,failures=failures,
+        first_pass_failures=first_failures,first_pass_verified_pairs=first_verified,retry_attempted_pairs=retried,
+        retry_recovered_ledger_pairs=recovered,retry_recovered_instruments=recovered_pairs,
+        attempt_records=attempts,retry_records=retry_records,total_pair_attempts=len(attempts))
+
+
+def observe_joint_v3(registry_path,study_root,*,expected_observer_source_bindings,
+        expected_activation_sha256,clock=time.time,monotonic=time.monotonic,time_budget_sec=8.0):
+    """Two bounded passes; retry only proven transient failures, never old rows."""
+    monotonic=_MonotonicClock(monotonic)
+    started=number(clock());tick=monotonic()
+    require(type(time_budget_sec) in (int,float) and time_budget_sec==8,'observer_total_time_budget')
+    require(type(expected_activation_sha256) is str and re.fullmatch('[a-f0-9]{64}',expected_activation_sha256),'observer_activation_expected_hash')
+    study=safe_path(study_root);registry_raw,registry_read=read_file(registry_path,clock=clock)
+    require(registry_read['sha256']==ORIGIN_REGISTRY_SHA256,'observer_original_registry_hash')
+    registry=json.loads(registry_raw)
+    require(registry.get('registry_id')==ORIGIN_REGISTRY_ID and len(registry.get('pairs',{}))==68,'observer_original_registry_inventory')
+    sources,source_reads=_closure(registry,expected_observer_source_bindings,clock)
+    activation_raw,activation_read=read_file(study/'activation_receipt.json',clock=clock)
+    require(activation_read['sha256']==expected_activation_sha256,'observer_activation_receipt_hash')
+    activated=_activation(activation_raw,registry,study,number(clock()))
+    rules=_frozen_rules(sources)
+    spec=dict(schema_version=SPEC_SCHEMA,origin_registry_sha256=ORIGIN_REGISTRY_SHA256,
+        origin_activation_sha256=expected_activation_sha256,origin_study_root=str(study),
+        original_source_bindings=registry['source_bindings'],observer_source_bindings=dict(expected_observer_source_bindings),
+        dependency_versions=registry['dependency_versions'],time_budget_sec=time_budget_sec,
+        retry_policy=dict(first_pass_pair_budget_sec=FIRST_PASS_PAIR_BUDGET_SEC,retry_pair_budget_sec=RETRY_PAIR_BUDGET_SEC,
+            maximum_attempts_per_pair=2,maximum_clock_trace_calls=MAX_CLOCK_TRACE,first_pass_before_retries=True),
+        semantics='original_joint_v3_readonly_publication_observation_not_new_forecasts',**AUTHORITY)
+    rows,scheduling=_observe_pairs(registry,study,activated,rules,clock,monotonic,tick+time_budget_sec)
+    attempted=scheduling['attempted_pairs'];verified=scheduling['verified_ledger_pairs'];failures=scheduling['failures']
+    upstream=_upstream(study,ORIGIN_REGISTRY_SHA256,clock)
+    after_sources,after_reads=_closure(registry,expected_observer_source_bindings,clock)
+    after_registry,after_registry_read=read_file(registry_path,clock=clock)
+    after_activation,after_activation_read=read_file(study/'activation_receipt.json',clock=clock)
+    require(after_registry==registry_raw and after_activation==activation_raw and after_sources==sources,'observer_source_identity_changed')
+    completed=number(clock());require(started<=completed,'observer_clock_regression')
+    # Visibility is refreshed at actual aggregate completion; original targets
+    # and per-pair observations are not rewritten when a boundary elapses.
+    for row in rows:
+        slot=row['families'][FAMILY];forecast=slot['latest_forecast']
+        if forecast and forecast['target_epoch']<=completed:
+            slot.update(status='unavailable',reason='original_h1_target_elapsed_during_observation',latest_forecast=None)
+    scheduling['retry_recovered_forecast_pairs']=sum(row['instrument'] in scheduling['retry_recovered_instruments']
+        and row['families'][FAMILY]['status']=='forecast' for row in rows)
+    summary=dict(schema_version=SUMMARY_SCHEMA,registry_sha256=digest(spec),generated_epoch=completed,rows=rows,**AUTHORITY)
+    summary['payload_sha256']=digest(summary)
+    frozen=boundary.freeze_summary(summary,expected_schema=SUMMARY_SCHEMA,expected_registry_sha256=digest(spec))
+    report=dict(schema_version=SCHEMA,status='complete_observation' if attempted==68 else 'partial_observation',
+        observer_spec=spec,observer_spec_sha256=digest(spec),summary=json.loads(frozen.raw),
+        summary_sha256=frozen.summary_sha256,started_epoch=started,completed_epoch=completed,
+        elapsed_monotonic_sec=monotonic()-tick,registered_pairs=68,attempted_pairs=attempted,
+        time_budget_scope='Ledger scheduling/queries, plus bounded mandatory before/after source and envelope reads; actual total elapsed retained.',
+        verified_ledger_pairs=verified,unvisited_pairs=68-attempted,failures=failures,
+        current_forecast_pairs=sum(row['families'][FAMILY]['status']=='forecast' for row in rows),
+        scheduling=scheduling,current_input_readiness_observed=False,original_producer_envelope=upstream,
+        reads=dict(registry=registry_read,activation=activation_read,sources=source_reads,
+            registry_after=after_registry_read,activation_after=after_activation_read,sources_after=after_reads),
+        original_predictions_recomputed=False,original_ledger_rows_written=False,old_heartbeat_validated_for_forecasts=False,
+        **AUTHORITY)
+    report['payload_sha256']=digest(report)
+    require(len(encoded(report))<=MAX_REPORT_BYTES,'observer_report_byte_bound')
+    return report

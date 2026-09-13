@@ -123,6 +123,7 @@ def _source_status(
         "verified_first_party": bool(source.get("verified"))
         and bool(source.get("direct", True)),
         "runtime_status": runtime_status,
+        "runtime_blocker": str(source.get("runtime_blocker") or ""),
         "operational": operational,
         "healthy": healthy,
         "last_success_utc": state.get("last_success_utc"),
@@ -363,6 +364,27 @@ def build_report(
             )
             schedule_healthy = any(row["healthy"] for row in policy_calendar_status)
 
+        operational_blockers: list[str] = []
+        if not release_operational:
+            for row in release_status:
+                detail = str(
+                    row.get("runtime_blocker")
+                    or row.get("last_error")
+                    or row.get("runtime_status")
+                    or "unknown"
+                ).replace("\n", " ").strip()
+                operational_blockers.append(
+                    f"policy_release_not_operational:{row.get('source_id')}:{detail}"
+                )
+            if not release_status:
+                operational_blockers.append("policy_release_not_operational:no_bound_source")
+        elif not release_healthy:
+            operational_blockers.append("policy_release_operational_but_unhealthy")
+        if not schedule_operational:
+            operational_blockers.append("policy_schedule_not_operational")
+        elif not schedule_healthy:
+            operational_blockers.append("policy_schedule_operational_but_unhealthy")
+
         configured_complete = not blockers
         runtime_state = (
             "healthy"
@@ -385,6 +407,7 @@ def build_report(
             "schedule_healthy": schedule_healthy,
             "runtime_state": runtime_state,
             "blockers": blockers,
+            "operational_blockers": operational_blockers,
             "statistical_release_configured_complete": not statistical_blockers,
             "statistical_release_operational": sum(
                 bool(row["operational"]) for row in statistical_status
@@ -429,6 +452,18 @@ def build_report(
             and bool(quote_row.get("release_operational")),
             "both_legs_healthy": bool(base_row.get("release_healthy"))
             and bool(quote_row.get("release_healthy")),
+            "operational_blockers": [
+                reason
+                for reason in (
+                    None
+                    if base_row.get("release_operational")
+                    else f"base_policy_release_not_operational:{base}",
+                    None
+                    if quote_row.get("release_operational")
+                    else f"quote_policy_release_not_operational:{quote}",
+                )
+                if reason
+            ],
             "mapping_rule": "validated_base_strength_minus_validated_quote_strength",
         }
 
@@ -461,6 +496,11 @@ def build_report(
         len(row["statistical_release_blockers"]) for row in currency_rows.values()
     )
     policy = mapping.get("policy") if isinstance(mapping.get("policy"), Mapping) else {}
+    operational_blockers = [
+        f"{currency}:{blocker}"
+        for currency, row in currency_rows.items()
+        for blocker in row.get("operational_blockers") or ()
+    ]
     return {
         "schema_version": "official_central_bank_coverage_v2",
         "contract_id": mapping.get("contract_id"),
@@ -480,6 +520,7 @@ def build_report(
             and policy.get("can_authorize") is False,
         },
         "global_blockers": global_blockers,
+        "operational_blockers": operational_blockers,
         "currency_summary": {
             "expected": 21,
             "configured_complete": configured_count,
@@ -531,6 +572,7 @@ def render_markdown(report: Mapping[str, Any]) -> str:
         f"- Currencies: `{json.dumps(report.get('currency_summary'), sort_keys=True)}`",
         f"- Pairs: `{json.dumps(report.get('pair_summary'), sort_keys=True)}`",
         f"- Statistical fast lane: `{json.dumps(report.get('statistical_release_summary'), sort_keys=True)}`",
+        f"- Operational blockers: `{json.dumps(report.get('operational_blockers'), sort_keys=True)}`",
         "",
         "## Currency authorities",
         "",
@@ -552,6 +594,11 @@ def render_markdown(report: Mapping[str, Any]) -> str:
         )
         if row.get("blockers"):
             lines.append(f"|  | blockers | `{', '.join(row['blockers'])}` |  |  |  |  |")
+        if row.get("operational_blockers"):
+            lines.append(
+                "|  | operational blockers | "
+                f"`{', '.join(row['operational_blockers'])}` |  |  |  |  |"
+            )
         if row.get("statistical_release_blockers"):
             lines.append(
                 "|  | statistical blockers | "
@@ -615,6 +662,7 @@ def main() -> int:
         "currency_summary": report["currency_summary"],
         "pair_summary": report["pair_summary"],
         "global_blockers": report["global_blockers"],
+        "operational_blockers": report["operational_blockers"],
     }, sort_keys=True))
     return 0 if report["minimum_operational_complete"] else 2
 

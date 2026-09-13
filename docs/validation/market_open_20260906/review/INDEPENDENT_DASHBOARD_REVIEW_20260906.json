@@ -1,0 +1,18 @@
+{
+  "schema_version": "forex_independent_dashboard_review_v1",
+  "reviewer": "calibration_repair",
+  "method": "Read-only bounded review of collection-status backend, HTML and tests; no runtime database or process changes.",
+  "findings": [
+    {
+      "id": "collection_transport_age",
+      "description": "Stored transport event age must be increased by time elapsed since heartbeat publication before judging its freshness.",
+      "counterexample": "An 80-second-old heartbeat reporting an 80-second-old event must not pass a 90-second freshness window."
+    },
+    {
+      "id": "collection_label_scope",
+      "description": "The study is inert but its banner can coexist with active strategy data. Scope disabled-trading text explicitly to the registered research study."
+    }
+  ],
+  "activation_changes_found": false,
+  "disposition": "Sent to owning agent for repair and new regression tests before final restart and readiness verification."
+}

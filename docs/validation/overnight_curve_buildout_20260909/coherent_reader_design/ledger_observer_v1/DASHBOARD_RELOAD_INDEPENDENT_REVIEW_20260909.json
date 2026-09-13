@@ -1,0 +1,32 @@
+{
+  "closed_findings": [
+    {
+      "finding": "Timeout text previously asserted that no other worker changed before preservation checks had completed.",
+      "resolution": "Text now says preservation verification remains pending.",
+      "status": "closed"
+    }
+  ],
+  "created_utc": "2026-09-09T09:00:34.150296+00:00",
+  "limits": [
+    "This review does not claim the reload ran, that replacement Python loaded the reviewed source, or that the API served accepted observations. Those require separate actual evidence.",
+    "Preservation assertions detect identity changes after the operation; they do not freeze or control unrelated workers.",
+    "A failure after stopping dashboard processes retains the before evidence and requires actual follow-up; this script has no alternate broad-restart fallback."
+  ],
+  "remaining_blockers": [],
+  "review_scope": "Read-only PowerShell source review. No execution, process termination, reload, HTTP request or independent test run by this reviewer.",
+  "reviewer": "pair_ledger_evaluation",
+  "schema_version": "dashboard_reload_choreography_independent_review_v1_20260909",
+  "source": {
+    "bytes": 7877,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\coherent_reader_design\\ledger_observer_v1\\reload_reviewed_dashboard.ps1",
+    "sha256": "3e8857454a58e66f15f40ec2509a63a7d3ae2749c13d1169d09a3652336afe95"
+  },
+  "status": "passed_bounded_source_review",
+  "verified_boundaries": [
+    "Before mutation, exact two dashboard script identities, Python names, parent-child relationship and localhost8765 listener owner must match. Supervisor PID21472 is required and retained unchanged.",
+    "Only those two dashboard PIDs are stopped, each checked again by PID, creation time, executable name and full original command line; a vanished old PID is not replaced by a guessed process.",
+    "All39 other observed project process identities are checked for preservation. The script never directly launches a replacement or stops the supervisor.",
+    "Expected reviewed dashboard hash, pinned API specification and all four original study registry/source closures are checked before and after. Nested registry sources remain contained in the named project.",
+    "Exclusive fresh evidence directory and sanitized process identities preserve pre/post observations without command arguments. Replacement verification is explicitly port/process only, with HTTP acceptance pending."
+  ]
+}

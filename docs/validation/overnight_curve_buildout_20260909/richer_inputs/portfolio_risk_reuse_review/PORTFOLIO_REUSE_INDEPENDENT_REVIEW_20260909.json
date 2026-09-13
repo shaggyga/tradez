@@ -1,0 +1,32 @@
+{
+  "artifacts": [
+    {
+      "bytes": 25682,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\portfolio_risk_reuse_review\\PORTFOLIO_RISK_REUSE_REVIEW_20260909.json",
+      "sha256": "6289d25ddeef6b39364828632d0a6b3f10c16696cfb635119c0ae03deb098c88"
+    },
+    {
+      "bytes": 8270,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\portfolio_risk_reuse_review\\PORTFOLIO_RISK_REUSE_REVIEW_20260909.md",
+      "sha256": "f950c99dc598d4ad0508054c11fe97a439da097f2cc5019fb9365574f3c3a6c4"
+    }
+  ],
+  "conclusion": "No material blocker. Report separates currency topology/count limits, economic valuation, statistical covariance and current GBP-only separate arms.",
+  "created_utc": "2026-09-09T07:18:42.271519+00:00",
+  "implementation_constraint": "Keep marked sensitivity legs separate from entry/financed cash legs. Opposite current-valued legs are not actual account cash or NAV.",
+  "independent_risk_metric_recomputations": 0,
+  "independent_test_runs": 0,
+  "orders_enabled": false,
+  "recorder": "/root/pair_model_inputs",
+  "remaining_blockers": [],
+  "reread_scope": [
+    "Strict signed pair mapping and overlap comparison",
+    "Actual legacy portfolio_blocker",
+    "Graph before-cutoff correlation and adjacency"
+  ],
+  "review_delivery": "Independent sibling-agent source review delivered in this active task; recorder preserves it without adding review claims.",
+  "reviewer": "/root/pair_ledger_evaluation",
+  "runtime_changes": false,
+  "schema_version": "portfolio_reuse_independent_review_v1_20260909",
+  "status": "passed"
+}

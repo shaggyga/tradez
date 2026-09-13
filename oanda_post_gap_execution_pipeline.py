@@ -7,6 +7,10 @@ import argparse
 import hashlib
 import json
 import math
+try:
+    from oanda_profit_factor_contract_v2 import normalize_profit_factor, profit_factor_at_least, summary_metric_fields
+except ModuleNotFoundError:
+    from trad.oanda_profit_factor_contract_v2 import normalize_profit_factor, profit_factor_at_least, summary_metric_fields
 import os
 import sqlite3
 import time
@@ -423,9 +427,9 @@ def build_model_cell_leaderboard(
                     "direction_edge_one_sided_p_value": round(p_value, 10),
                     "win_rate": finite(cell.get("win_rate")),
                     "mean_net_pips": finite(cell.get("mean_net_pips")),
-                    "median_net_pips": finite(cell.get("median_net_pips")),
+                    **summary_metric_fields(cell, "median_net_pips"),
                     "sum_net_pips": finite(cell.get("sum_net_pips")),
-                    "profit_factor": finite(cell.get("profit_factor")),
+                    **normalize_profit_factor(cell),
                     "mean_round_trip_cost_pips": round(
                         finite(economics_cell.get("mean_round_trip_cost_pips")),
                         6,
@@ -448,7 +452,7 @@ def build_model_cell_leaderboard(
             blockers.append("minimum_trades")
         if row["mean_net_pips"] <= 0.0:
             blockers.append("executable_net_edge")
-        if row["profit_factor"] < 1.05:
+        if not profit_factor_at_least(row, 1.05):
             blockers.append("profit_factor")
         if q_value > 0.10:
             blockers.append("multiple_testing_direction_edge")

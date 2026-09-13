@@ -1,0 +1,53 @@
+{
+  "can_place_orders": false,
+  "can_promote": false,
+  "created_utc": "2026-09-09T06:39:08.068448+00:00",
+  "independent_tests_run": 0,
+  "parent_test_xml": {
+    "bytes": 3664,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\replay\\observed_management_worker_final_tests.xml",
+    "sha256": "8fb1435901e28a26bc8a45610c62f9939403dd081933003a9bf7a815e5ae3312"
+  },
+  "preserved_boundaries": [
+    "No account or order action, no GET, no change to frozen pilot curve bindings or source outputs.",
+    "An unresolved episode remains separately reported and is never represented as a flat continuous account before the next independently named episode.",
+    "Actual-data preflight and test execution belong to parent; this review did not rerun either."
+  ],
+  "prior_review": {
+    "bytes": 4098,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\replay\\OBSERVED_MANAGEMENT_WORKER_INDEPENDENT_REVIEW_20260909.json",
+    "sha256": "80ab8677db3d0b836e11c7b0abb471075de5607825d49ae67a7c9e8c5d7b55d1"
+  },
+  "remaining_blockers": [],
+  "research_only": true,
+  "runtime_changes": false,
+  "schema_version": "observed_management_worker_review_addendum_v1_20260909",
+  "scope": "Read-only review of two preactivation deltas; prior broader review remains scoped to its earlier bound source.",
+  "source_bindings": [
+    {
+      "bytes": 19023,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_observed_curve_management_worker_v1.py",
+      "sha256": "2128386f825cdeffae715c3f89832200823652521809ea29ac57485c7c4f6762"
+    },
+    {
+      "bytes": 13055,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_observed_curve_management_worker_v1.py",
+      "sha256": "39bf3033ed5de319ca3bc0b117188c752dc6736673fb78807ca5fc19ce9d03a0"
+    },
+    {
+      "bytes": 28540,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_observed_curve_management_v1.py",
+      "sha256": "a6c8013af59b45ac958065010f26289e7ddfc6196ac88e32976b545c1496579b"
+    },
+    {
+      "bytes": 7212,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_observed_management_io_v1.py",
+      "sha256": "ade841191d6aeec92d6869dea374edf32494ed8bbe0339792d58787b6d9d2724"
+    }
+  ],
+  "status": "passed",
+  "verified_deltas": [
+    "Explicit unit_increment=1 is added only to a copied GBPUSD virtual USD scenario; original pilot metadata and registered artifact remain unchanged. It supplies the already-declared whole-base-unit sizing constraint.",
+    "Initialization retains exclusive write/readback clocks and hashes for config, anchor, initial states and fixed schedule. Initialization-completed publication binds them before any plan. Actual final initialization observation must precede first schedule or the episode is withheld without an action."
+  ]
+}

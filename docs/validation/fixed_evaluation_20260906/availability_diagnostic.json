@@ -1,0 +1,406 @@
+{
+  "archived_diagnostic_feasible": true,
+  "archived_diagnostic_limit": "Original immutable probabilities and quotes can support a labeled archival diagnostic, but not exact fixed-horizon causal prediction or tradable execution proof.",
+  "boundary": {
+    "broker_access": false,
+    "connection": "URI mode=ro; query_only; one read transaction",
+    "database_main_or_wal_stat_changes": false,
+    "production_logical_writes": 0,
+    "shm_caveat": "SQLite may maintain ephemeral reader marks in existing SHM; no byte-identity claim is made for SHM.",
+    "workers_started": 0
+  },
+  "clock_semantics": {
+    "data_cutoff_utc": "Per-pair feature_origin_utc, or snapshot generated fallback; feature timestamp, not proof of dataset first availability.",
+    "entry_bid_ask": "Captured before model calculation in shared feature snapshot. Original provider quote time retained, no exact executable quote first received after forecast publication.",
+    "entry_time": "Feature snapshot generated time copied to forecast before model build; original reference time, not publication or execution.",
+    "exit_time": "Mixed producers: canonical_quote_snapshot_v1 retains local snapshot generated time at recorded_utc+3600; legacy recovered outcome records retain provider quote.time, with no local quote receipt and an entry-relative age target.",
+    "outcome_observed_utc": "Timestamp as completed result is queued for storage; not forecast-time availability.",
+    "recorded_utc": "utc_now sampled while appending to pending Python list before flush; recording before persistence, not a postcommit visibility certificate.",
+    "training_cutoff_utc": "Same per-pair feature origin; no per-label first-availability or maturity ledger linked by retained hash."
+  },
+  "database_file_bindings": [
+    {
+      "hash_seconds": 303.7029999999795,
+      "path": "data/oanda_training_manager/state/strategy_shadow_outcomes_v1.sqlite",
+      "second_sha256": "6fcc504f960b520555028e8a89dfb6a7dac80aa611538c8ca74fd3053e646baf",
+      "sha256": "6fcc504f960b520555028e8a89dfb6a7dac80aa611538c8ca74fd3053e646baf",
+      "stat_after": {
+        "exists": true,
+        "mtime_ns": 1788574073140399900,
+        "size": 59806691328
+      },
+      "stat_before": {
+        "exists": true,
+        "mtime_ns": 1788574073140399900,
+        "size": 59806691328
+      }
+    },
+    {
+      "hash_seconds": 3.390999999945052,
+      "path": "data/oanda_training_manager/state/strategy_shadow_outcomes_v1.sqlite-wal",
+      "second_sha256": "e78f152c7c193ec5e67de2a0f72ed62b54fee3e93b57642adb64c2ca211bbcff",
+      "sha256": "e78f152c7c193ec5e67de2a0f72ed62b54fee3e93b57642adb64c2ca211bbcff",
+      "stat_after": {
+        "exists": true,
+        "mtime_ns": 1788574072456447700,
+        "size": 711948392
+      },
+      "stat_before": {
+        "exists": true,
+        "mtime_ns": 1788574072456447700,
+        "size": 711948392
+      }
+    }
+  ],
+  "extract_binding": {
+    "bytes": 8236825,
+    "forecasts": 1628,
+    "path": "selected_candidate_rows.json",
+    "sha256": "dc3e20355b420d23406162678743f903feff4cc1689f28353f9da870d1358e12"
+  },
+  "family_clock_diagnostics": {
+    "cross_pair_graph_transfer": {
+      "canonical_local_exit_minus_original_target_sec": {
+        "max": 10700.718154907227,
+        "median": 83.96051287651062,
+        "min": 7.4776270389556885,
+        "n": 371,
+        "p95": 1196.3410980701447
+      },
+      "exit_clock_minus_original_reference_plus_hour_sec_mixed_producers": {
+        "max": 10700.718154907227,
+        "median": 81.5843540430069,
+        "min": -0.6176350116729736,
+        "n": 386,
+        "p95": 1193.3741238117218
+      },
+      "exit_clock_minus_recorded_plus_hour_sec_mixed_producers": {
+        "max": 14.978214025497437,
+        "median": 1.424818515777588,
+        "min": -519.7729980945587,
+        "n": 386,
+        "p95": 5.166507959365845
+      },
+      "feature_versions": [
+        "sha256:3c6c9c58faab1ef46fbc73b93f6e64960047a0ef36646ce1fc9d3ef4b360f71f"
+      ],
+      "forecast_universe": 407,
+      "matched_matured": 386,
+      "missing_explicit_clock_field_counts": {
+        "committed_utc": 407,
+        "features_available_utc": 407,
+        "issued_utc": 407,
+        "max_training_label_available_utc": 407,
+        "max_training_label_maturity_utc": 407,
+        "published_utc": 407
+      },
+      "model_versions": [
+        "sha256:1bca3b3b583dcad31d25af7dff44e005c417e81d2e6392d763ade02f04cb0752"
+      ],
+      "original_entry_before_recorded_count": 407,
+      "outcome_producer_counts": {
+        "canonical_quote_snapshot_v1": 371,
+        "legacy_recovered_provider_quote_clock": 15
+      },
+      "payload_hash_verified": 407,
+      "recorded_minus_entry_provider_quote_sec": {
+        "max": 10697.942325115204,
+        "median": 86.30748891830444,
+        "min": 9.351619958877563,
+        "n": 407,
+        "p95": 1169.522020816803
+      },
+      "recorded_minus_original_reference_sec": {
+        "max": 10695.906450033188,
+        "median": 84.67653298377991,
+        "min": 4.99862813949585,
+        "n": 407,
+        "p95": 1168.8206977844238
+      }
+    },
+    "modern_tabular_probabilistic_repaired": {
+      "canonical_local_exit_minus_original_target_sec": {
+        "max": 10700.718154907227,
+        "median": 83.96051287651062,
+        "min": 7.4776270389556885,
+        "n": 371,
+        "p95": 1196.3410980701447
+      },
+      "exit_clock_minus_original_reference_plus_hour_sec_mixed_producers": {
+        "max": 10700.718154907227,
+        "median": 81.5843540430069,
+        "min": -0.6176350116729736,
+        "n": 386,
+        "p95": 1193.3741238117218
+      },
+      "exit_clock_minus_recorded_plus_hour_sec_mixed_producers": {
+        "max": 14.983201026916504,
+        "median": 1.4357891082763672,
+        "min": -519.7296080589294,
+        "n": 386,
+        "p95": 5.210388898849487
+      },
+      "feature_versions": [
+        "sha256:3c6c9c58faab1ef46fbc73b93f6e64960047a0ef36646ce1fc9d3ef4b360f71f"
+      ],
+      "forecast_universe": 407,
+      "matched_matured": 386,
+      "missing_explicit_clock_field_counts": {
+        "committed_utc": 407,
+        "features_available_utc": 407,
+        "issued_utc": 407,
+        "max_training_label_available_utc": 407,
+        "max_training_label_maturity_utc": 407,
+        "published_utc": 407
+      },
+      "model_versions": [
+        "sha256:1bca3b3b583dcad31d25af7dff44e005c417e81d2e6392d763ade02f04cb0752"
+      ],
+      "original_entry_before_recorded_count": 407,
+      "outcome_producer_counts": {
+        "canonical_quote_snapshot_v1": 371,
+        "legacy_recovered_provider_quote_clock": 15
+      },
+      "payload_hash_verified": 407,
+      "recorded_minus_entry_provider_quote_sec": {
+        "max": 10697.936341047287,
+        "median": 86.29153084754944,
+        "min": 9.321699142456055,
+        "n": 407,
+        "p95": 1169.5120468139648
+      },
+      "recorded_minus_original_reference_sec": {
+        "max": 10695.900465965271,
+        "median": 84.66699409484863,
+        "min": 4.995635986328125,
+        "n": 407,
+        "p95": 1168.8107237815857
+      }
+    },
+    "probabilistic_state_space": {
+      "canonical_local_exit_minus_original_target_sec": {
+        "max": 10700.718154907227,
+        "median": 83.96051287651062,
+        "min": 7.4776270389556885,
+        "n": 371,
+        "p95": 1196.3410980701447
+      },
+      "exit_clock_minus_original_reference_plus_hour_sec_mixed_producers": {
+        "max": 10700.718154907227,
+        "median": 81.5843540430069,
+        "min": -0.6176350116729736,
+        "n": 386,
+        "p95": 1193.3741238117218
+      },
+      "exit_clock_minus_recorded_plus_hour_sec_mixed_producers": {
+        "max": 14.941313028335571,
+        "median": 1.3936558961868286,
+        "min": -519.8029170036316,
+        "n": 386,
+        "p95": 5.160523891448975
+      },
+      "feature_versions": [
+        "sha256:3c6c9c58faab1ef46fbc73b93f6e64960047a0ef36646ce1fc9d3ef4b360f71f"
+      ],
+      "forecast_universe": 407,
+      "matched_matured": 386,
+      "missing_explicit_clock_field_counts": {
+        "committed_utc": 407,
+        "features_available_utc": 407,
+        "issued_utc": 407,
+        "max_training_label_available_utc": 407,
+        "max_training_label_maturity_utc": 407,
+        "published_utc": 407
+      },
+      "model_versions": [
+        "sha256:1bca3b3b583dcad31d25af7dff44e005c417e81d2e6392d763ade02f04cb0752"
+      ],
+      "original_entry_before_recorded_count": 407,
+      "outcome_producer_counts": {
+        "canonical_quote_snapshot_v1": 371,
+        "legacy_recovered_provider_quote_clock": 15
+      },
+      "payload_hash_verified": 407,
+      "recorded_minus_entry_provider_quote_sec": {
+        "max": 10697.967289924622,
+        "median": 86.31546688079834,
+        "min": 9.356606006622314,
+        "n": 407,
+        "p95": 1169.530996799469
+      },
+      "recorded_minus_original_reference_sec": {
+        "max": 10695.931414842606,
+        "median": 84.67653298377991,
+        "min": 5.001619100570679,
+        "n": 407,
+        "p95": 1168.8296737670898
+      }
+    },
+    "ridge_return_repaired": {
+      "canonical_local_exit_minus_original_target_sec": {
+        "max": 10700.718154907227,
+        "median": 83.52430891990662,
+        "min": 7.4776270389556885,
+        "n": 370,
+        "p95": 1196.3410980701447
+      },
+      "exit_clock_minus_original_reference_plus_hour_sec_mixed_producers": {
+        "max": 10700.718154907227,
+        "median": 81.36643505096436,
+        "min": -0.6176350116729736,
+        "n": 385,
+        "p95": 1193.3741238117218
+      },
+      "exit_clock_minus_recorded_plus_hour_sec_mixed_producers": {
+        "max": 14.903010845184326,
+        "median": 1.4231150150299072,
+        "min": -519.6657810211182,
+        "n": 385,
+        "p95": 5.229338884353638
+      },
+      "feature_versions": [
+        "sha256:3c6c9c58faab1ef46fbc73b93f6e64960047a0ef36646ce1fc9d3ef4b360f71f"
+      ],
+      "forecast_universe": 407,
+      "matched_matured": 385,
+      "missing_explicit_clock_field_counts": {
+        "committed_utc": 407,
+        "features_available_utc": 407,
+        "issued_utc": 407,
+        "max_training_label_available_utc": 407,
+        "max_training_label_maturity_utc": 407,
+        "published_utc": 407
+      },
+      "model_versions": [
+        "sha256:1bca3b3b583dcad31d25af7dff44e005c417e81d2e6392d763ade02f04cb0752"
+      ],
+      "original_entry_before_recorded_count": 407,
+      "outcome_producer_counts": {
+        "canonical_quote_snapshot_v1": 370,
+        "legacy_recovered_provider_quote_clock": 15
+      },
+      "payload_hash_verified": 407,
+      "recorded_minus_entry_provider_quote_sec": {
+        "max": 10697.926367998123,
+        "median": 86.1879210472107,
+        "min": 9.31472110748291,
+        "n": 407,
+        "p95": 1169.431753873825
+      },
+      "recorded_minus_original_reference_sec": {
+        "max": 10695.890492916107,
+        "median": 84.4546389579773,
+        "min": 4.991647005081177,
+        "n": 407,
+        "p95": 1168.730430841446
+      }
+    }
+  },
+  "finished_utc": "2026-09-06T11:50:14.669824+00:00",
+  "fixed_horizon_sec": 3600,
+  "fixed_pair": "EUR_USD",
+  "generated_utc": "2026-09-06T11:48:50.692869+00:00",
+  "local_artifacts": [
+    {
+      "bytes": 4387,
+      "path": "inventory.py",
+      "sha256": "6f994e2ca003a1074d2154b4a5e9fec0f52cf9c6d155c4abf21d87ce995b4e34"
+    },
+    {
+      "bytes": 33862,
+      "path": "inventory.json",
+      "sha256": "43219d5f4ec752b9e423723a375de931ef0e8e992035e47fe931e26a1a48d5bc"
+    },
+    {
+      "bytes": 8236825,
+      "path": "selected_candidate_rows.json",
+      "sha256": "dc3e20355b420d23406162678743f903feff4cc1689f28353f9da870d1358e12"
+    },
+    {
+      "bytes": 14279,
+      "path": "fixed_cohort_contracts.json",
+      "sha256": "bcdbbd4a019fa656b057e910a634343254caa92837cf62b240a52bdd4753d583"
+    },
+    {
+      "bytes": 11182,
+      "path": "normalize_and_score_archive.py",
+      "sha256": "695cce1b8a7012992aa91e85072c158515db7aa0dc1f1eadcc39ce950a6be1ed"
+    },
+    {
+      "bytes": 6731827,
+      "path": "normalized_forecasts.json",
+      "sha256": "3b030ba8a4a5483017b5021802ba83d981b7e930274ed7a43ab5775cbcda581e"
+    },
+    {
+      "bytes": 1097201,
+      "path": "archival_scorecard.json",
+      "sha256": "5f995ed0f76ace5adbb2f9de7a7a92f134b13860c169af502cadffc0e4ca180f"
+    },
+    {
+      "bytes": 7117,
+      "path": "finish_inventory.py",
+      "sha256": "1be72349cf5581ce229d75457034e18b41fddf58c4c15c925b89fb06c9864e07"
+    },
+    {
+      "bytes": 8614,
+      "path": "complete_availability_metadata.py",
+      "sha256": "e539d1c0e7971a08d657138b319d9bb6f47cb0d76b155719abf6885a17a621c6"
+    }
+  ],
+  "maximum_original_reference": "2026-09-05T02:09:17+00:00",
+  "minimum_original_reference": "2026-08-29T12:36:36.550804+00:00",
+  "outcome_producer_counts": {
+    "canonical_quote_snapshot_v1": 1483,
+    "legacy_recovered_provider_quote_clock": 60
+  },
+  "schema": "fixed_proof_forecast_availability_inventory_v1",
+  "selection_before_scores": true,
+  "simple_baseline_availability": {
+    "always_up_and_always_down": "Available without fitting as transparent class-balance diagnostics.",
+    "constant_probability_0_5": "Available without fitting; score only on identical archival outcome set or future strict set.",
+    "last_hour_price_momentum": "Requires input quote clocks/receipt proof and fixed lookback tolerance; snapshots for full original feature datasets are not retained in forecast payload.",
+    "no_trade": "Available without fitting; executable net0 and0coverage.",
+    "rolling_class_rate": "Needs prior outcomes with proven label availability before each decision; current source lacks complete strict availability certificates.",
+    "zero_signed_move": "Available without fitting; magnitude comparator only, direction neutral."
+  },
+  "source_code_and_registry": [
+    {
+      "path": "oanda_proof_shadow_predictors.py",
+      "sha256": "51c3f945eadb3f26166cfddd37d97451ef21e2b69ece6664c57ee06c145ff417"
+    },
+    {
+      "path": "oanda_shadow_outcome_store.py",
+      "sha256": "811104b1a27af4e9857376dc15123eb061e7753b9c7c00ec87221990197f3414"
+    },
+    {
+      "path": "oanda_canonical_outcome_worker.py",
+      "sha256": "085caeb9c77158ea82bf487e0402249a7b9eb74216afb1d71b4efc05f99a0e9c"
+    },
+    {
+      "path": "data/oanda_training_manager/state/proof_cohort_registry_v1.json",
+      "sha256": "041e60b48ceadb5c411a20e55821a23020777b64d46e78ce95440e443a565760"
+    },
+    {
+      "path": "oanda_practice_shadow_strategy_lab.py",
+      "sha256": "199fe3e2e1333b0de2e254882396a1f6cb47ed7b11814c5736809b90cf932abd"
+    }
+  ],
+  "strict_blockers": [
+    "No retained postcommit forecast visibility certificate.",
+    "No linked historical feature first-availability / maximum training-label maturity and availability proof.",
+    "Entry quote predates computed forecast recording; no postpublication execution quote.",
+    "1483 canonical outcomes target recorded_utc+3600 rather than original reference+3600;60 legacy recovered outcomes lack a local quote receipt clock."
+  ],
+  "strict_clock_eligibility_counts": {
+    "entry_quote_reference_precedes_forecast_recording_rows": 1628,
+    "forecast_universe_rows": 1628,
+    "missing_outcome_rows": 85,
+    "null_committed_clock_rows": 1628,
+    "null_feature_first_availability_clock_rows": 1628,
+    "null_issued_clock_rows": 1628,
+    "null_published_clock_rows": 1628,
+    "null_training_label_first_availability_clock_rows": 1628,
+    "strict_eligible_rows": 0
+  },
+  "strict_evaluation_feasible": false
+}

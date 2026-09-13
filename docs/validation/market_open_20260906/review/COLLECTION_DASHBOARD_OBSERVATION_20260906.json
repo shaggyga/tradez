@@ -1,0 +1,46 @@
+{
+  "schema_version": "registered_research_collection_status_v1_20260906",
+  "status": "running",
+  "running": true,
+  "label": "Data collection running; trading disabled",
+  "scope": "registered_four_family_research_study",
+  "registered_study_trading_enabled": false,
+  "observations": {
+    "study": {
+      "status": "current",
+      "current": true,
+      "observed_at": 1788724211.8333392,
+      "age_sec": 1.176,
+      "max_age_sec": 90,
+      "registered_contract_matches": true,
+      "observed_phase": "waiting_for_tradeable_quote",
+      "phase": "waiting_for_tradeable_quote",
+      "last_reason": "market_closed_or_quote_not_tradeable"
+    },
+    "quote_stream": {
+      "status": "current",
+      "current": true,
+      "observed_at": "2026-09-06T19:50:12.948328+00:00",
+      "age_sec": 0.061,
+      "max_age_sec": 90,
+      "scope": "stream_transport_heartbeat_not_tradeable_price_freshness"
+    },
+    "account": {
+      "status": "current",
+      "current": true,
+      "observed_at": "2026-09-06T19:50:11.769510+00:00",
+      "age_sec": 1.24,
+      "max_age_sec": 90
+    }
+  },
+  "unavailable_observations": [],
+  "study_phase": "waiting_for_tradeable_quote",
+  "study_reason": "market_closed_or_quote_not_tradeable",
+  "warmup": {
+    "required_common_m1_bars": 335,
+    "last_reported_common_bars": null,
+    "progress_scope": "not_reported",
+    "explanation": "After a weekend gap, the registered study needs 335 completed common minute bars (about 5h35), plus archive and model cadence delay. H1 outcomes need another hour. This is a requirement, not an estimated completion time."
+  },
+  "strategy_or_execution_activation_changed": false
+}

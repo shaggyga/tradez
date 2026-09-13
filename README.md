@@ -1,398 +1,61 @@
-# Forex Research And OANDA Execution Package
+# Forex research project
 
-> **Current canonical orientation (2026-08-27):** the active editable source
-> and runtime are `C:\Users\zmoor\Documents\forex\trad`. References below to
-> `D:\forex` or to automatic signal-level execution are historical and are not
-> current operating authority. Start with
-> [`docs/SYSTEM_ORIENTATION_CURRENT.md`](docs/SYSTEM_ORIENTATION_CURRENT.md)
-> and [`config/project_layout_v1.json`](config/project_layout_v1.json).
-> Practice account 007 is flat and fail-closed: a new entry requires a genuine
-> lifecycle `confirmed_candidate` plus an exact, fresh canary authorization.
-> Real-money routing is disabled.
+**September 12 — revamp scope clarified:** [Full model-audit requirement and first work packages](docs/FOREX_REVAMP_SCOPE_20260912.md). The user confirms ample demo environments; account inventory is not a revamp prerequisite. The original every-model audit remains unfinished. Complete coverage must include later families, material variants and orphaned source/artifacts, with explicit dispositions and selective recomputation. This is a scope correction, not a claim that the audit or revamp has been completed.
 
-> **Start here:** the canonical source, live runtime, and data root are all under
-> `C:\Users\zmoor\Documents\forex\trad`. The dashboard is
-> `http://127.0.0.1:8765/` when its hidden process is running. Current unfinished
-> work is recorded only in
-> [`FOREX_PENDING_IMPROVEMENTS.md`](FOREX_PENDING_IMPROVEMENTS.md), and immutable
-> decisions are recorded in [`FOREX_PROJECT_LOG.md`](FOREX_PROJECT_LOG.md).
-> Older account and canary material below is historical context, not operating
-> authority.
 
-> **2026-07-21 signal-engine refresh:** read
-> [`docs/SIGNAL_ENGINE_REFRESH_20260721.md`](docs/SIGNAL_ENGINE_REFRESH_20260721.md)
-> and
-> [`data/oanda_training_manager/reports/modern_model_gap/signal_engine_refresh_latest.json`](data/oanda_training_manager/reports/modern_model_gap/signal_engine_refresh_latest.json).
-> The engine now exposes raw, filtered, and execution consensus layers and an
-> audited cross-process route for every implemented model adapter.
+**September 12, 11:25–11:26 a.m. Eastern — current status and roadmap:** [Full strengths, weak points, runtime and priorities](docs/FOREX_STATUS_ROADMAP_20260912.md). No local Python/project PowerShell services or dashboard listener were observed. The new meter last recorded 135 blocked attempts and zero publications; clock verification remained stale. The original trial has a retained completed_flat receipt at Friday cutoff; current broker state was not queried. All 27 gap items and the older 29-action crosswalk are preserved. Earlier running statements below retain their original dates.
 
-> **2026-07-27 live-quality upgrade:** read
-> [`docs/EIGHT_HOUR_IMPROVEMENT_20260727.md`](docs/EIGHT_HOUR_IMPROVEMENT_20260727.md).
-> The S1 research collector now records a 69-field causal quote/liquidity,
-> activity, spread-dynamics, and leave-one-pair-out cross-pair feature set. A
-> reusable chronological gate audit prevents in-sample threshold sweeps from
-> authorizing account execution. The first prospective liquid-pair benchmarks
-> did not clear spread and remain shadow-only.
 
-> **2026-07-27 intensive MA-grid validation:** read
-> [`docs/MA_FEATURE_GRID_INTENSIVE_V1.md`](docs/MA_FEATURE_GRID_INTENSIVE_V1.md).
-> Six globally purged Ridge/XGBoost controls fitted 144 cells across all-pair,
-> no-context, and liquid-pair panels. No direction-and-cost or movement-gate
-> cell replicated across validation and holdout, so every MA challenger remains
-> shadow-only.
+**September 12 — continuous currency-news capture implemented and started:** [Verified build and current blocker](docs/FOREX_CONTINUOUS_METER_20260912.md). 133 tests passed in both original and restored copies. Exact row deduplication, source-ID/lineage binding, bounded memory/time/storage and process recovery are implemented. The new service is running, but its first two attempts were withheld because upstream clock verification is stale. Automatic approval review blocked starting that dependency; no fresh captures or prediction gains are claimed.
 
-> **2026-07-27 all-pair news consolidation:** read
-> [`docs/ALL_PAIR_NEWS_EVENT_TAGGING.md`](docs/ALL_PAIR_NEWS_EVENT_TAGGING.md).
-> The canonical event pipeline merges curated historical events, verified GPT
-> news watches, and timestamped monitor context; generates explicit context for
-> all 68 pairs; classifies all 7,048 significant moves; and feeds pair-aware
-> evidence plus live movement links into the v5.24 GPT practice manager.
 
-## Fresh ChatGPT Handoff Prompt
+**September 11 late evening / September 12 UTC — signed-cost research completed:** [Implementation, results and remaining gaps](docs/FOREX_DIRECTION_DECISION_20260912.md). 130 integrated tests passed; eight saved model bundles and two news captures recreated. Probability calibration improved, but dependable after-cost direction remains unestablished. A four-horizon cost consumer and fresh currency-meter capture path are implemented in the isolated research package; continuous meter collection and broker-manager integration remain open. Earlier operational statements retain their own dates.
 
-Paste this into a fresh ChatGPT/Codex chat when transferring ownership. The new
-chat must inspect current files and runtime state because the project is live and
-changes continuously.
 
-```text
-You are taking over a local Forex research, paper-execution, backtesting, and
-monitoring project. Work as a cautious senior quant/software engineer. Read the
-repository and live state before changing anything; do not assume this prompt is
-newer than the files.
+**September 11 evening — direction research completed:** [Build, measured results and recreation](docs/FOREX_DIRECTION_RESEARCH_20260911.md) records the new same-row technical/peer/news comparison at 5/15/30/60 minutes. 65 tests passed and 96 saved models were recreated. Results remain discovery; the active learner and trading configuration are unchanged.
 
-LOCATIONS AND SOURCE OF TRUTH
-- Active Forex project root: C:\Users\zmoor\Documents\forex
-- Canonical editable source and runtime: C:\Users\zmoor\Documents\forex\trad
-- Runtime data: C:\Users\zmoor\Documents\forex\trad\data\oanda_training_manager
-- D:\forex\trad is a stale legacy copy and is not live truth.
-- Crypto public-data shadow store: D:\crypto_shadow\data
-- OneDrive vault: C:\Users\zmoor\OneDrive\thevault
-- Portable source/runtime ZIPs: C:\Users\zmoor\OneDrive\thevault\projects\forex
-- Dashboard: http://127.0.0.1:8765/
-- Read trad\README.md, trad\docs\OANDA_LAB_OPERATOR_GUIDE.md,
-  docs\CHAT_HANDOFF_20260718.md,
-  docs\GPT_ACCOUNT_002_WIRING_AUDIT_20260718.md,
-  docs\MODEL_GAP_ROADMAP_20260718.md,
-  trad\docs\POST_VALIDATION_DELTA_20260715.md,
-  trad\config\accounts_registry.json, and
-  trad\oanda_always_on_supervisor.ps1 first.
+**September 11 — weekend setup prepared:** [Setup and verification](docs/FOREX_WEEKEND_SETUP_20260911.md) records staged forecast/order/runtime fixes, restored existing artifacts, native-curve publication/management components, and separate successor study configurations. 603 integrated tests passed; the extracted release passed 93 curve checks. Production source, the running trial and its deadline remain unchanged. This setup work supersedes the earlier documentation-only pause; remaining integrations stay explicit in the [change register](docs/FOREX_CHANGE_REGISTER_20260911.md).
 
-SAFETY AND EXECUTION
-- Treat every configured OANDA account in this project as practice-only. Never
-  enable or route real money, and never submit or close a discretionary/manual
-  trade.
-- Practice account -007 is fail-closed for new entries. An entry requires an
-  immutable lifecycle `confirmed_candidate` plus an exact, fresh, unexpired,
-  one-time canary authorization for the signal, proof cohort, and allocator
-  cohort. Research reports and shadow collectors cannot self-authorize.
-- Include entry and exit spread, slippage/fees where applicable, exact horizon,
-  pair, timeframe, split, sample count, and drawdown in comparisons.
-- Never compare incompatible report metrics or treat raw accuracy and implausible
-  compounded returns as deployment evidence.
-- Preserve active SQLite/Parquet data and user changes. Do not archive credentials,
-  virtual environments, active WAL files, or large rolling market data.
-- Use `C:\Users\zmoor\Documents\forex\trad` as the canonical runtime and data
-  root. Keep current source, model metadata, results, and summaries in the
-  OneDrive vault; raw rolling market data remains outside compact vault packages.
-- Chats do not share context. Use one writer chat for canonical code changes.
-  A second chat can inspect or analyze in parallel, but it must not deploy or
-  restart workers. The guarded deploy lock and the supervisor global mutex are
-  the project-level concurrency controls. Read
-  `trad\docs\DEPLOYMENT_CONCURRENCY.md`.
 
-CURRENT ARCHITECTURE
-- oanda_always_on_supervisor.ps1 keeps C-based collectors, dashboard, labs,
-  account snapshots, crypto tracker, and selected practice managers alive.
-- The canonical live forecast matrix contains 224 physical inputs and 3,584
-  input/horizon cells before pair expansion. The strategy lab evaluates 208
-  physical lanes: 52 strategy families x 4 profiles. The continuous equation
-  layer adds 13 input-timeframe lanes from S5 through H4, and the S1 ridge layer
-  adds three timing lanes. Every compatible input can emit across 16 exact
-  outcome horizons from 30 seconds through 24 hours; S1 also retains a separate 15-second
-  timing result. Every generated setup contributes to a correlation-grouped,
-  reliability-weighted final consensus. Accepted, near-miss, hard-reject,
-  shadow-only, opposing-side, and timing inputs remain separately identified;
-  only accepted account-eligible structural support can authorize execution.
-  Input timeframe, model family, variant, pair, outcome horizon, setup class,
-  and execution eligibility are separate matrix dimensions. Partial model curves
-  vote only at horizons they explicitly predict. See
-  `..\docs\ALL_SIGNAL_MATRIX_FINALITY_20260718.md`.
-- `oanda_signal_contribution_feed.py` is the canonical producer boundary. It
-  registers all 30 modern model-gap adapters, accepts fresh finite forecast
-  curves from independent model/GPT processes, rejects stale or malformed
-  outputs with an audit reason, and never turns historical benchmark rows into
-  live predictions. All valid signals enter the raw research matrix. Quality
-  filters attenuate the filtered matrix, while only policy-authorized,
-  cost-clearing structural signals enter the execution matrix.
-- `oanda_model_gap_live_signal_worker.py` has a nonblocking singleton lock and
-  explicit startup phases. Fresh model inference publishes before historical
-  outcome maturity, preventing the backlog from consuming the live signal's
-  freshness window.
-- oanda_lane_promotion.py and oanda_lane_promotion_fit.py maintain research
-  evidence only. No report, score, legacy qualification, or producer output can
-  assign a model or open a position on account -007. The current lifecycle has
-  zero confirmed candidates, so the supported account decision is `no_trade`.
-- Candidate ordering is normalized by confidence-adjusted executable return per
-  margin-hour, spread cost, current depth/liquidity when available, and an
-  instrument liquidity prior. Raw pips and confidence remain visible, while
-  `normalized_rank_score` is the primary cross-pair ordering field.
-- oanda_signal_combination_audit.py stores compressed once-per-candle feature
-  snapshots and strategy-family votes. oanda_signal_combination_fit.py mines
-  fuzzy 2-3 condition rules, selects them on the oldest 70%, and reports only
-  rules that retain direction and positive cost-aware edge on the newest 30%.
-- oanda_strategy_exit_fit.py tracks executable-price path barriers for every
-  accepted signal and near miss. The practice executor can consume a fitted
-  stop/target only after a separate chronological holdout and time-block gate.
-- oanda_practice_micro_pattern_lab.py logs causal quote-level pattern and online
-  equation forecasts at fixed intrasecond and next-minute-boundary horizons.
-- oanda_second_forecast_runner.py and oanda_second_forecast.py implement the S1
-  layer of that same matrix. They convert the OANDA stream to a causal one-second
-  grid, evaluate compact in-memory ridge snapshots every second across 15 seconds
-  through H1, submit candidates before SQLite work, and record sampled forward
-  outcomes. Separate hot and research-tracker processes are only an operational
-  latency boundary; they are not a separate model product or evidence namespace.
-  The current S5
-  historical sweep is not profitable after spread, so `-007` execution remains
-  controlled by the persistent live promotion gate. See
-  trad\docs\SECOND_FORECAST_RUNBOOK.md.
-- A dedicated five-second research process stores prospective quote snapshots
-  and executable outcomes without publishing to the shared account ledger. Its
-  69-field feature payload includes top and total bid/ask liquidity, depth
-  geometry, quote-flow and activity acceleration, tick imbalance, spread
-  dynamics, price efficiency, and causal leave-one-pair-out cross-pair
-  strengths. `oanda_second_microstructure_panel.py` converts only matured rows
-  to Parquet; `oanda_shared_panel_model_benchmark.py` evaluates them with
-  chronological folds; `oanda_live_signal_gate_audit.py` selects thresholds on
-  an oldest 70% fit segment and reports a never-tuned newest 30% holdout.
-- `oanda_two_stage_microstructure_benchmark.py` separates spread-clearing
-  movement opportunity from LONG/SHORT direction. It can select a trailing
-  direction-training window on calibration data, but its combined chosen-side
-  economics must still pass the untouched holdout. The first enriched run
-  improved holdout direction AUC to 0.610 and remained negative after spread,
-  so the artifact is shadow-only.
-- oanda_depth_parquet_collector.py samples all tradeable OANDA instruments at
-  one-second cadence and stores broker price/liquidity/activity features as
-  immutable compressed parts in hourly partitions.
-- `oanda_timeframe_matrix_calibration.py` causally calibrates raw equation
-  probabilities with expanding walk-forward bins and reports pair/timeframe/
-  horizon Brier score, accuracy, executable net pips, confidence bounds, and
-  independent blocks. A passing surface remains shadow-only.
-- `oanda_ma_feature_grid.py` and `oanda_ma_feature_grid_fit.py` implement the
-  strict moving-average-only forecast family. The current artifact covers 610
-  causally resolvable input-timeframe/outcome-horizon cells from observed S5
-  through D1 and 24 hours, with separate direction, signed-pip, magnitude, and
-  executable-cost metrics. It contributes shadow forecasts only. See
-  `trad\docs\MA_FEATURE_GRID.md`.
-- `oanda_shadow_outcome_compactor.py` maintains hourly rollups and archives
-  detailed outcomes older than 30 days to Zstd Parquet before deleting those
-  rows from active SQLite. See
-  `trad\docs\ROBUSTNESS_UPGRADE_20260716.md`.
-- oanda_account_snapshot_writer.py polls all registered practice accounts and the
-  three configured live accounts through read-only GET endpoints for balance,
-  NAV, P/L, trades, and orders. Live orders are never modified by this writer.
-- crypto_shadow_live_tracker.py consumes unauthenticated Coinbase public ticker
-  and trade channels for eight USD products and produces shadow-only forecasts at
-  5/30/60/300 seconds. It has no order route.
-- oanda_practice_live_dashboard.py unifies full account tables, normalized
-  aggregates, strategy layers, model search, calibration, signals, definitions,
-  pattern/equation outcomes, reports, horizons, and timeframes.
+**September 11 — change tracking and model reuse:** [Needed changes](docs/FOREX_CHANGE_REGISTER_20260911.md) tracks 26 current gaps and links all 29 historical action IDs; [model reuse and performance](docs/FOREX_MODEL_REUSE_REGISTER_20260911.md) records what was already tried, measured results, evidence limitations, and the comparison required before repeating research. All 140 cold-library family records were located; this is not an independent rescore or successful recreation of every family. The completed two-hour watch and existing-picture inventory remain separately sealed. This update changes documentation only; further buildout remains paused. Earlier operational statements below retain their original observation dates.
 
-MODEL AND DATA LAYERS
-- Live strategy families include momentum, reversal, breakout, trend, currency
-  strength, relative value, supervised rank, higher-timeframe alignment,
-  regression, regime, volume/activity, spread/liquidity, and pattern-count lanes.
-- Micro models include discrete U/D pattern counts and online continuous linear
-  equations. Inspect each equation's actual fit method, feature vector, smoothing,
-  target, and variable/fixed horizon; names alone are insufficient.
-- Historical layers include S5/S30/M1/M5 replay, exact-horizon explorers,
-  ensembles, HGB reversal, ARIMA/SARIMA challengers, GPT account managers, and
-  older vault-indexed reports.
-- The strict MA feature grid contains 27 input timeframes, 26 requested outcome
-  horizons, and 610 fitted cells. Its first full-span chronological run found
-  useful movement-magnitude information but no validation/holdout execution
-  gate that replicated, so every cell remains shadow-only.
-- The legacy HGB live-outcome tracker is retired. It consumed a stale D-drive
-  input, had no pending work, and did not establish a promotable result; its code
-  and historical evidence remain preserved for audit only.
-- The broad SARIMA run covered 15 pairs and an M1-derived 120-minute target (270
-  fits / 135 unique models). It did not cover every input timeframe and horizon.
-- OANDA cannot backfill true S1 ticks. Preserve collected S1 and use S5 candles
-  for broader historical backfill.
 
-ACCOUNTS
-- Registry contains practice accounts -001 through -020.
-- Practice -007 is the governed account in current scope. It remains flat and
-  fail-closed unless an exact confirmed cohort receives a narrow canary
-  authorization. Other account-manager descriptions in dated reports are
-  historical and do not grant current entry authority.
-- Compare accounts with equal-weight normalized return and a 100-start index;
-  raw sums are misleading because starting sizes and histories differ.
+**September 10 — practice trading resumed:** [Current resume record](docs/FOREX_PRACTICE_RESUME_20260910.md). Research and the original Practice007 worker are running again; fresh broker reads confirm a new position with its protective stop. Windows sign-in recovery is installed and its task action was verified; 29 native checks and independent source review passed. Existing risk limits, loss history and Friday September 11, 4:45 p.m. Eastern cutoff remain intact. Earlier stopped/flat status below is dated history.
 
-VALIDATION STATE
-- Vault build unified_query_20260713_v3 passed catalog integrity at
-  2026-07-14T00:04:05Z: 46,368 runs, 668,084 metrics, and 643 models reconciled.
-- It explicitly excluded trade readiness, raw candles, serialized models,
-  credentials, and live account state.
-- Later documentation edits changed all 140 Forex model-page hashes and added an
-  unmanifested rules file. Rebuild and revalidate before calling the vault
-  byte-for-byte current.
-- Read docs\POST_VALIDATION_DELTA_20260715.md for known changes and pending work.
-- The modern gap registry contains 30 implemented adapter identities in seven
-  families. Twenty-eight have bounded-market evidence; TimesFM-ICF and Mamba are
-  runtime-blocked on this host. None is production-eligible. The signal route is
-  implemented for all 30, but a model contributes live values only while its
-  producer publishes fresh forecasts. Read
-  `trad\docs\SIGNAL_ENGINE_REFRESH_20260721.md` and
-  `..\docs\MODEL_GAP_ROADMAP_20260718.md`.
 
-OPERATING PROCEDURE
-1. Confirm Forex process command lines point to
-   C:\Users\zmoor\Documents\forex\trad. Ignore unrelated
-   BIGTRIAD processes unless asked to work on them.
-2. Check dashboard, snapshot ages, stream gaps, disk growth, account freshness,
-   unprotected trades, and supervisor events.
-3. Run focused tests before deployment, preserve causal evidence, update the
-   project log, and verify process health afterward.
-4. Keep new robust equations, k-means regimes, cross-pair signals, correlation
-   matrices, and ruleset ensembles shadow-only until cost-aware outcomes mature.
-   Treat the fuzzy combination rule's support, chronological holdout probability,
-   lower probability edge, and expected net pips as separate required evidence.
-   Treat the inverse-correlation lane as shadow-only until its independent
-   cost-aware holdout also qualifies.
-5. Report exact limitations and pending validation. Never claim profitability.
+**September 9 evening:** [Trade review](docs/FOREX_PRACTICE_TRADE_REVIEW_20260909.md): six losses total $0.3175 (0.7631%); account flat at $41.2867. Original H1 direction was correct on2/5 available outcomes, one missing. A PC reboot around5:37p.m.Eastern stopped trading/research; only the dashboard resumed. Earlier enabled status is dated history.
 
-Prospective microstructure panel and gate-audit commands are documented in
-`trad\docs\EIGHT_HOUR_IMPROVEMENT_20260727.md`. Do not run long reads directly
-against the active microstructure SQLite database; briefly pause only that
-collector or work from a stable copy.
 
-The user wants an exhaustive searchable system: all model families, variants,
-timeframes, horizons, signals, misses, what-ifs, equations, pattern counts,
-historical runs, accounts, metric definitions, and live balances should be visible
-in the dashboard. Continue from current code and data, preserve causal evaluation,
-and document every material change.
-```
+Canonical project: `C:\Users\zmoor\Documents\forex\trad`.
 
-This folder is a working research and execution package for OANDA FX model
-development. It contains three main surfaces:
+**September 9 afternoon — practice trading enabled:** [finite Practice007 trial](docs/FOREX_PRACTICE_TRIAL_20260909.md) connects the verified current price/news forecasts to the actual OANDA practice broker. First USD/JPY position and attached stop were broker-verified; 286 focused tests passed. The dedicated worker is set to close its owned positions and stop by Friday September 11, 4:45 p.m. Eastern. Original study contracts remain research-only; dated “orders disabled” statements below describe those earlier runs. No profitable-model acceptance or real-money trading is implied.
 
-1. Research pipelines that build feature matrices, train candidate models, and
-   produce candidate trade rows.
-2. Live-like replay/backtest tools that simulate OANDA-style account handling,
-   margin, spreads, stops, rotations, and position exits.
-3. Demo/live execution bots that consume the selected model stream and manage
-   OANDA accounts.
+**September 9 continuation through 09:00 Eastern:** [the continuation record](docs/FOREX_CONTINUATION_TO_0900_20260909.md) adds the completed 2,907-outcome joint reassessment, later original-curve/risk results, passive news-clock observation and final operations at their own cutoffs. Its separate validation identifies added evidence; the published early-close report below remains dated history. Orders and promotion remain disabled.
 
-The current canary deployment is documented in
-[`docs/LIVE_CANARY_RUNBOOK.md`](docs/LIVE_CANARY_RUNBOOK.md). The model and
-backtest registry is documented in
-[`docs/BACKTEST_AND_MODEL_REGISTRY.md`](docs/BACKTEST_AND_MODEL_REGISTRY.md).
+**September 9 buildout:** [current consolidated report](docs/FOREX_OVERNIGHT_CURVE_BUILDOUT_20260909.md) records recovered curves, exact paper costs, inactive manager/channel/bridge repairs, risk research and ledger visibility. The user requested closeout around 12:08 UTC; later evaluations were canceled before starting. The report uses completed dated results and the 12:09 operations read. Source/record publication has its own completion receipt. Main forecasts and active paper management have not passed after-cost acceptance; orders and promotion remain disabled.
 
-## Current Source Of Truth
+The current dictionary has a [Sep9 metadata validation](docs/validation/overnight_curve_buildout_20260909/feature_dictionary_source_refresh_v1/FEATURE_DICTIONARY_METADATA_REFRESH_VALIDATION_20260909.json). The Sep8 validation retains its original historical hashes; it does not validate the refreshed JSON/MD implicitly. Exact referenced ATR function math is unchanged.
 
-Use these files first when checking what is wired:
+**Vault-independent orientation:** [the system guide](docs/VAULT_SYSTEM_GUIDE.md) explains the full flow, evidence boundaries and offline reconstruction. Its links target the vault aliases; [the local research index](docs/RESEARCH_INDEX.md) uses source-layout links. Vault `KNOWLEDGE_INDEX.md` and `VAULT_READABILITY_REPORT.json` are generated after record/source export by `tools/audit_forex_vault_readability.py`.
 
-| Purpose | Path |
-|---|---|
-| Canary demo config, account ending 004 | `config/canary_primary_forecast_rotation_bot.json` |
-| Disabled tech003 demo config | `config/tech003_primary_forecast_rotation_bot.json` |
-| Primary live config | `config/primary_forecast_rotation_bot.json` |
-| Main execution bot | `oanda_primary_forecast_rotation_bot.py` |
-| Strict OANDA-style replay engine | `oanda_broker_style_portfolio_replay.py` |
-| Parameter sweep runner | `oanda_fresh_live_like_parameter_sweep.py` |
-| Feature-space registry | `config/model_feature_space.json` |
-| Account/env alias registry | `config/accounts_registry.json` |
+**How features are generated:** [the explanatory feature dictionary](docs/FOREX_FEATURE_DICTIONARY_CURRENT.md) separates the 251-entry design catalogue, six historical model schemas and the current 34-input price/news calculation. It includes formulas or explicitly unverified definitions, sources, units, lookbacks, missingness, timing and implementation status. Start with [the worked example](docs/feature_dictionary/active_joint_walkthrough.md); do not infer 251 active predictors from an inventory count.
 
-## Selected Canary Model
+[Open the live dashboard](http://127.0.0.1:8765/#oanda) · [Active pipeline](docs/ACTIVE_PIPELINE.md) · [Audit and research index](docs/RESEARCH_INDEX.md)
 
-The canary account is configured to use:
+**Existing model inventory corrected September 8 UTC:** the project already has 227/220-feature models, a 795-input eight-horizon curve, a 643-feature MA grid and second-ridge curves. The current 34-input H1 study is a separate narrow path. Read [the completed implementation and validation audit](docs/FOREX_EXISTING_FEATURE_HORIZON_AUDIT_20260908.md) before proposing another curve. Some older source/models remain on D and in AppData; the vault source archive omits the ignored intrahour source package.
 
-- Stream: `fresh_fullhist_m30_h1_h4_continuation_oanda_20260707`
-- Model family: `HistGradientBoostingClassifier`
-- Feature set: `technical_full`
-- Target: `reversal_curve_profit_120`
-- Execution policy: `follow_momentum`
-- Inputs: M30, H1, and H4 full-history candidate streams
-- Overlay: M1 hold filter from
-  `data/oanda_training_manager/reports/m1_primary_overlay_fresh_fullhist_maxnew8_jump_narrow_20260707`
+The [blurb dataset audit addendum](docs/FOREX_BLURB_DATASET_AUDIT_20260908.md) adds the retained 7,048-row movement/news dataset, 2,935-factor reconstruction and earlier news/technical comparisons. These are separate from the constant macro columns found in specific older model matrices.
 
-The selected operational config is the best practical strict path-quality setup:
+**Revamp baseline completed September 8:** [baseline and recovery](docs/FOREX_REVAMP_BASELINE_RECOVERY_20260908.md) records an isolated source copy, 272 coherent study backups and recovered second-ridge inference. The fresh observation found a news topic-identity collision blocking combined forecasts and an intermittent price-display generation mismatch. Completed forecasts still lost after spread; these are dated findings, not current telemetry.
 
-- `atr_stop_multiplier`: `1.5`
-- `take_profit_edge_capture`: `0.6`
-- `take_profit_min_r_multiple`: `0.5`
-- `trailing_stop_r_multiple`: `1.0`
-- `max_new_positions_per_cycle`: `12`
+The project is organized around **prices and vetted news → combined forecast → costs and risk → positions and results**.
 
-It was selected over max-new 16 because max-new 16 only narrowly beat it in the
-strict path-quality sweep while using slightly more throughput/exposure.
+The active combined study learns from technical price history and news available at the relevant time. The separately registered [repaired-news v3 study](docs/FOREX_NEWS_RESEARCH_DEPLOYMENT_20260908.md) covers 68 pairs; current coverage and original one-hour outcomes are shown in the dashboard. Prior joint cohorts retain their completed evidence; the two obsolete joint workers were retired after their original obligations resolved. Price-only comparison studies remain separate. Orders and promotion remain disabled.
 
-## Repository Map
+Read [the combined-model and news repair](docs/FOREX_JOINT_PRICE_NEWS_20260907.md), [the latest measured price-model results](docs/FOREX_PRICE_V2_FIRST_OUTCOMES_20260907.md), and [source-bound validation](FOREX_JOINT_PRICE_NEWS_VALIDATION_20260907.json). Forecast availability is not demonstrated accuracy or profitability.
 
-| Area | Description |
-|---|---|
-| `config/` | JSON configs for account routing, model streams, feature spaces, and runtime aliases. See `config/README.md`. |
-| `data/oanda_training_manager/` | Research datasets, experiment specs, candidate rows, sweep reports, and model artifacts. |
-| `data/technical_scout_manager/` | Runtime state for account managers: decisions, forecasts, state, actions, logs, and model caches. |
-| `archive/` | Older launch wrappers and historical operational files. |
-| `mt5/` | MetaTrader experiments unrelated to the current OANDA canary. |
-| `oanda_primary_forecast_rotation_bot.py` | Main model-stream forecast and rotation executor. |
-| `oanda_broker_style_portfolio_replay.py` | OANDA-style replay engine with path-quality, MAE/MFE, and margin handling. |
-| `oanda_fresh_live_like_parameter_sweep.py` | Grid runner for live-like parameter sweeps over stops, pacing, exits, friction, and risk. |
-| `oanda_m1_primary_overlay_research.py` | M1 overlay research used to filter active candidates. |
+Read current work in [pending improvements](FOREX_PENDING_IMPROVEMENTS.md) and the [project log](FOREX_PROJECT_LOG.md). Runtime ledgers, raw captures and private credentials are local. The Forex vault holds audit records and a verified source snapshot, with its README pointing back to this project.
 
-## Main Workflows
+The scheduled bot-health automation is paused. The requested one-hour live watch was completed in chat; its evidence is indexed in the research page.
 
-### Run Canary Demo
-
-```powershell
-.\data\oanda_training_manager\.research_py313\Scripts\python.exe `
-  .\oanda_primary_forecast_rotation_bot.py `
-  --mode demo `
-  --source oanda `
-  --config .\config\canary_primary_forecast_rotation_bot.json `
-  --execute
-```
-
-### Run One Advice-Only Cycle
-
-```powershell
-.\data\oanda_training_manager\.research_py313\Scripts\python.exe `
-  .\oanda_primary_forecast_rotation_bot.py `
-  --mode demo `
-  --source oanda `
-  --config .\config\canary_primary_forecast_rotation_bot.json `
-  --once
-```
-
-### Run Strict Path-Quality Sweep
-
-```powershell
-.\data\oanda_training_manager\.research_py313\Scripts\python.exe `
-  .\oanda_fresh_live_like_parameter_sweep.py `
-  --output-root .\data\oanda_training_manager\reports\path_quality_run `
-  --preset intensive `
-  --config .\config\canary_primary_forecast_rotation_bot.json `
-  --candidate-rows-csv .\data\oanda_training_manager\reports\path_quality_inputs_20260708\candidate_rows_m1_oos_hold_ge_050.csv `
-  --start-equity 1000 `
-  --path-strict `
-  --rank-by path_quality
-```
-
-## Important Backtest Caveat
-
-The replay can show very high trade win rates while model endpoint accuracy is
-much lower. That is expected for this style of trader: it tries to harvest
-favorable movement inside the forecast window. For the selected wide-new12 run,
-trade win rate was about 92.9%, but executed forecast endpoint accuracy was about
-61.8%. See `docs/BACKTEST_AND_MODEL_REGISTRY.md` for the detailed interpretation.
-
-## Packaging Notes
-
-This package is self-contained only if the large data artifacts under `data/`
-are included. If a handoff excludes parquet/model/report artifacts, regenerate
-them with `regenerate_handoff_artifacts.py` or the relevant research scripts
-listed in `docs/BACKTEST_AND_MODEL_REGISTRY.md`.
-
-Do not commit or share credential files. The local `creds` file and environment
-variables are machine-specific.
+Earlier README observations are preserved in [the dated history](docs/README_HISTORY_THROUGH_20260907T2150Z.md). Use their dates when comparing results; old runtime descriptions are not current health claims.

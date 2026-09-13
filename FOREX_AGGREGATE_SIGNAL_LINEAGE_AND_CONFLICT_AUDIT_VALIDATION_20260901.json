@@ -1,0 +1,108 @@
+{
+  "schema_version": "forex_aggregate_signal_lineage_and_conflict_audit_validation_v1",
+  "generated_utc": "2026-09-01T17:37:00Z",
+  "issue_id": "FX-20260901-AGGREGATE-SIGNAL-LINEAGE-CONFLICT-BASIS",
+  "status": "validated",
+  "scope": {
+    "account": "101-001-37981792-007",
+    "environment": "practice",
+    "research_only_ledger": true,
+    "can_place_orders": false,
+    "real_money_enabled": false
+  },
+  "root_cause": {
+    "gbp_usd_case": {
+      "candidate_observed_utc": "2026-09-01T17:02:14Z",
+      "candidate": "GBP_USD sell breakout_retest.fast",
+      "preferred_horizon_sec": 43200,
+      "signal_confidence": 0.592042,
+      "projected_net_pips": 1.281,
+      "blocker": "direction_conflict_shadow_only",
+      "strategy_cycle_observed_utc": "2026-09-01T17:01:00Z",
+      "accepted_sell_signals": 28,
+      "accepted_buy_signals": 2,
+      "opposing_buy_families": [
+        "inverse_correlation_veto.fast",
+        "inverse_correlation_veto.loose"
+      ],
+      "opposing_rows_account_eligible": false,
+      "interpretation": "The existing any-opposing-contributor veto was triggered by two research-only inverse-veto diagnostics. The veto was not loosened; its exact basis is now measured prospectively."
+    },
+    "snapshot_serialization_defect": "The live ranking compactor omitted aggregate lineage and conflict-basis fields before the later serializer received each row.",
+    "ledger_lineage_defect": "Per-horizon what-if rows fell back to the representative raw forecast ID, allowing one source ID to be attributed to different reconstructed horizon directions and families.",
+    "same_cycle_deduplication_defect": "The in-memory open-horizon set stored a scalar after insert although lookups used a horizon-and-measurement-version tuple."
+  },
+  "repair": {
+    "aggregate_lineage_contract_id": "all_signal_horizon_lineage_v1",
+    "direction_conflict_contract_id": "any_opposing_preferred_horizon_contributor_v1",
+    "current_measurement_version": "raw_all_signal_consensus_v5_strict_horizon_lineage",
+    "transitional_measurement_version": "raw_all_signal_consensus_v4_horizon_lineage",
+    "actions": [
+      "Bound each reconstructed horizon to a deterministic SHA-256 aggregate signal ID derived from instrument, horizon, direction, and sorted contributor lineage.",
+      "Preserved raw source forecast ID separately from aggregate signal ID.",
+      "Published opposing contributor counts, execution eligibility, research-only status, family, model, lane, timeframe, and direction.",
+      "Passed the new fields through both ranking and snapshot compactors.",
+      "Started V5 only when the exact aggregate lineage contract is present; otherwise raw rows remain V4 transitional or legacy.",
+      "Keyed open-horizon deduplication by horizon and measurement version both before and after insertion."
+    ],
+    "unchanged_invariants": [
+      "No practice order was submitted or closed.",
+      "No signal threshold, direction-conflict gate, proof gate, lifecycle state, authorization rule, position limit, or re-entry guard was loosened.",
+      "No historical row was deleted, rewritten, or relabeled as V5.",
+      "V4 remains preserved and excluded from current proof summaries because it contains mixed legacy and strict lineage.",
+      "Real-money routing remains disabled."
+    ]
+  },
+  "tests": {
+    "command": "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe -m pytest -q trad\\test_oanda_practice_shadow_strategy_lab.py trad\\test_oanda_top_signal_position_ledger.py",
+    "passed": 140,
+    "subtests_passed": 220,
+    "failed": 0,
+    "warnings": [
+      "Pytest cache directory was not writable; test execution and results were unaffected."
+    ]
+  },
+  "live_validation": {
+    "observed_utc": "2026-09-01T17:36:30.140556Z",
+    "strategy_snapshot": {
+      "updated_at": "2026-09-01T13:35:09.077968-04:00",
+      "schema_version": 3,
+      "top_signal_rows": 64,
+      "strict_lineage_rows": 64,
+      "exact_conflict_contract_rows": 64,
+      "direction_conflict_rows": 64,
+      "conflicts_only_shadow_or_account_ineligible": 54
+    },
+    "ledger": {
+      "sqlite_quick_check": "ok",
+      "v5_rows_at_observation": 18,
+      "v5_distinct_horizons": 15,
+      "v5_exact_lineage_rows": 18,
+      "v5_exact_conflict_contract_rows": 18,
+      "v5_open_duplicate_horizon_count": 0,
+      "v5_first_opened_at": "2026-09-01T17:34:18.120580+00:00",
+      "v4_rows_at_observation": 35,
+      "v4_legacy_lineage_rows": 30,
+      "v4_disposition": "preserved_mixed_transitional_excluded_from_current_proof"
+    },
+    "practice_007": {
+      "observed_at": "2026-09-01T13:36:28.669532-04:00",
+      "balance": 41.6042,
+      "nav": 41.6042,
+      "open_trades": 0,
+      "pending_orders": 0,
+      "unrealized_pl": 0.0,
+      "cumulative_pl": -8.343
+    },
+    "storage": {
+      "c_free_bytes": 159735414784
+    }
+  },
+  "source_hashes": {
+    "oanda_practice_shadow_strategy_lab.py": "d8bab83effad5ce09b6e12cfc77d7d00d23bb4bba660fadc6af1f8ec35f098e4",
+    "oanda_top_signal_position_ledger.py": "a7011253a1fa713b2a684ee525c667e8ac4429aa345b514f5d74eacc8f8b7053",
+    "test_oanda_practice_shadow_strategy_lab.py": "0f7552269518d07e5c76f9c97599798d147b78066d1bd75a02dcbfb571a7c306",
+    "test_oanda_top_signal_position_ledger.py": "4784a55961abd3b211254ec84e510d02bc85ebf1c9af865a7abdc6c2d2cbab4a"
+  },
+  "supported_decision": "no_trade"
+}

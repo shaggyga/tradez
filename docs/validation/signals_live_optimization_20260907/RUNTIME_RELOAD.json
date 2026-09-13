@@ -1,0 +1,40 @@
+{
+  "observed_utc": "2026-09-07T16:15:22.1936542Z",
+  "prior_supervisor": 14508,
+  "stopped_workers": [
+    {
+      "parent": 14508,
+      "script": "oanda_causal_forecast_study.py",
+      "pid": 5920
+    },
+    {
+      "parent": 5920,
+      "script": "oanda_causal_forecast_study.py",
+      "pid": 11352
+    },
+    {
+      "parent": 14508,
+      "script": "oanda_all68_m1_forward_updater.py",
+      "pid": 24516
+    },
+    {
+      "parent": 24516,
+      "script": "oanda_all68_m1_forward_updater.py",
+      "pid": 8684
+    },
+    {
+      "parent": 14508,
+      "script": "oanda_practice_live_dashboard.py",
+      "pid": 11100
+    },
+    {
+      "parent": 11100,
+      "script": "oanda_practice_live_dashboard.py",
+      "pid": 39316
+    }
+  ],
+  "archive_phase_at_stop": "sleeping",
+  "launch_result": "Research collection supervisor launched, PID 34984",
+  "untargeted_workers_preserved": true,
+  "orders_enabled": false
+}

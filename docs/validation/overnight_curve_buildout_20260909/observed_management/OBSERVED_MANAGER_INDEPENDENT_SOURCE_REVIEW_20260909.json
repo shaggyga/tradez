@@ -1,0 +1,90 @@
+{
+  "broker_requests_by_reviewer": false,
+  "closed_findings": [
+    {
+      "closure": "Each observation is now checked for dict shape, exact immutable bytes and dict receipt before aggregate size checking or individual mapping. Five malformed-shape cases cover the boundary.",
+      "finding": "A non-dict observation, non-bytes raw payload or non-dict receipt could escape with an incidental attribute/type error before the intended bounded refusal path.",
+      "id": "malformed_observation_shape_before_aggregate_or_refusal",
+      "original_reviewed_source_sha256": "39d0b106f5302f2fdec713f78afb9686c15ee2736ef7bacc3d90218de31d2fe8"
+    }
+  ],
+  "independent_tests_rerun": false,
+  "owner_test_evidence": {
+    "bytes": 9308,
+    "cases": 60,
+    "errors": 0,
+    "failures": 0,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\observed_manager_final_tests.xml",
+    "sha256": "223fc3b586d56a2efc4c053d44e1ef1eafc1afd3d2a3a8e5fbfc5071b108c9da"
+  },
+  "reviewed_dependencies": [
+    {
+      "bytes": 49616,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_curve_management_replay_v1.py",
+      "sha256": "52fd04c6b087df4be775e490002afd0744caeb245604b8f577ab0fcff41de8f3"
+    },
+    {
+      "bytes": 31234,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\src\\forex_system\\research\\sequential_portfolio_replay_v1.py",
+      "sha256": "e1201fdd3387825c9295f13045aeb00e2f87cce9ff819e789faf922ea2e514a6"
+    },
+    {
+      "bytes": 14613,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_research_quote_receipt_v1.py",
+      "sha256": "ba18acd7eeac0eaa7c5cd7f8d4505fa5494c4ad3398345f009d25670169a27ef"
+    },
+    {
+      "bytes": 8015,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_curve_momentum_observation_v1.py",
+      "sha256": "68620596eaed34d1d3a5859a04aac40c4c7e9ae23b974b7fe38c55c0cfc8ea65"
+    },
+    {
+      "bytes": 26812,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_forecast_curve_contract_v1.py",
+      "sha256": "c03549586f922f6031790fce68a5afb5b98e4eda6157f20c4720b1adb05d0746"
+    }
+  ],
+  "reviewed_utc": "2026-09-09T06:29:02.321088+00:00",
+  "reviewer": "pair_dashboard",
+  "runtime_activation_by_reviewer": false,
+  "schema_version": "observed_management_independent_source_review_v1_20260909",
+  "scope_limits": [
+    "This review covers the pure calculation module and its owner tests. It does not authorize runtime activation or review the subsequently integrated runner.",
+    "The caller must validate actual registered source/model/cohort bytes, create honest source-observation clocks, persist plans before collecting execution observations, and maintain a single non-branching persisted state chain.",
+    "Content hashes and caller-attested publication clocks identify records; they are not cryptographic proof of an external broker event.",
+    "Virtual bid/ask actions with assumed slippage are research observations, not fills, executable orders or independently calibrated forecast performance.",
+    "If no eligible closing quote is observed by the explicit terminal window, terminal_all_flat can remain false. This is retained as an unresolved virtual position, not successful completion of trading.",
+    "The unchanged reused arithmetic and selector modules retain their separate source-bound tests; this review did not rerun them.",
+    "Owner reports 60 focused passing tests in the bound XML. Reviewer reread source and relevant tests without an independent test rerun."
+  ],
+  "source_edits_by_reviewer": false,
+  "sources": [
+    {
+      "bytes": 26273,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_observed_curve_management_v1.py",
+      "sha256": "246dfbcfe6fb5593fa5669cfd71cbd0ec837cfce2bdf315b5fdef56e7b67f2b6"
+    },
+    {
+      "bytes": 21125,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_observed_curve_management_v1.py",
+      "sha256": "2b2615e2a8ffa3f3a9b4dadf317f0d5c0f5586d768556420bba2971dbee572d6"
+    }
+  ],
+  "status": "passed_no_remaining_blocker_in_reviewed_scope",
+  "verified_semantics": [
+    "One fixed GBP_USD official-midpoint initial native H1 curve is bound by curve/model/cohort/source identities and original issue/reference/target/terminal price. Later replacement or revision is refused.",
+    "The five virtual arms have separate sealed position/cash states and reuse the same observed quote election; they do not constitute five independent market trials.",
+    "All choices finish before an actual plan-created clock is sampled; a later caller-attested durable publication receipt is required before an eligible quote read can start.",
+    "The elected quote is the earliest verified current, explicit tradeable GBP_USD observation in the fixed post-publication and one-second post-computation window, not the most profitable supplied observation.",
+    "Original quote market times and actual read-completion availability remain separate. A still-current tick may predate the plan; no claim of a new broker tick or actual broker fill is made.",
+    "Explicit retained, stale, future, non-tradeable and pre-publication observations cannot create a virtual fill. Observation count and aggregate byte bounds precede parsing.",
+    "The fixed USD 2500 sizing, five-basis-point entry spread cap, 0.1-basis-point slippage per leg, one-hour maximum holding and original native target are retained. Failed rotation leaves the entire original state intact.",
+    "The USD hold/exit/rotation selector uses the remaining initial forecast terminal price with current quote valuation. The no-rotation curve arm remains distinct; zero remaining forecast is a value, not missing data.",
+    "The legacy selector arm is explicitly a reference using the new predeclared S5 momentum heuristic, not a claim of equivalence to old deployed candidate production.",
+    "The momentum candidate is recomputed from retained raw MBA source and verified receipt/consumer clocks; its score mapping remains explicitly uncalibrated.",
+    "A terminal plan may record an explicit missing decision-quote refusal, but an exit still needs a later valid observed quote. Without one, the open position remains unresolved and no closing price or profit is invented.",
+    "Actual settlement-computation completion is sampled after arm calculations and becomes the next state availability. The source cutoff remains separate; an earlier scheduled decision cannot consume a later-known state.",
+    "Pending settlement retains the original state and records actual computation completion. Reapplying a completed plan to its advanced state is refused.",
+    "Pure output serialization copies input mappings; planning and settlement do not mutate caller states or perform filesystem, account, order, runtime or network actions."
+  ]
+}

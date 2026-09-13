@@ -1,0 +1,1469 @@
+{
+  "actions": {
+    "broker_calls": 0,
+    "database_connections": 0,
+    "process_actions": 0,
+    "registrations_changed": 0,
+    "source_edits": 0
+  },
+  "coexistence_paths": {
+    "new_history": "Separate governed new-version history with its own actual activation/visibility receipts; new adapter may read retained old history separately without changing its clocks.",
+    "new_news": "data/oanda_training_manager/local_news_sentiment_repair_v1/ (new current snapshot, heartbeat, classifier mapping outputs)",
+    "new_study": "data/oanda_training_manager/joint_price_news_study_v3/pairs/PAIR/ridge_price_news_v1/study.sqlite",
+    "old": "Current canonical producer/output/mapping history and all v1/v2 registry/ledger bytes preserved."
+  },
+  "findings": [
+    "Worker source set is fixed16 and every source hash is checked against registry; per-pair contracts contain same bindings.",
+    "Input current snapshot requires exact v165 identity, guard identity, three producer hashes and independently replayed guard output; capture closure hashes its own source dependencies.",
+    "Frozen ledger validate_capture dispatcher imports adapterv1 by fixed name; a new adapter alone cannot transparently replace its validation.",
+    "History query selects all recent joined mapping rows, then rejects original classifier outsidev164/v165; mixing v166 into old selected history can block old forecasts despite separate current JSON files.",
+    "Read-only diagnosis or byte-preserving archival observer can coexist without a newforecast cohort. A repaired producer changing accepted forecast evidence requires new source-bound cohort even if intended change is operational only.",
+    "If classifier behavior is unchanged, an implementation-version/source-hash transition may preserve member classification semantics; never label changed semanticsv165 merely to pass old reader.",
+    "Existing exact evaluator permits a distinct suffix under joint_price_news_v1_20260907.PAIR.ridge_price_news_v1; no scoring fork is needed solely for producer/adapter version changes."
+  ],
+  "fixed_current_classifier_version": "local_fx_news_rules_20260907_v165_causal_member_admission",
+  "fixed_guard_version": "causal_news_member_admission_v1_20260907",
+  "inspected_bindings": [
+    {
+      "bytes": 31813,
+      "exists": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_joint_price_news_forecast_study_v2.py",
+      "sha256": "a27fe6e6ee3bf6ec2fdbf52be43661918cee18a5091f096c65994caa5fc24282"
+    },
+    {
+      "bytes": 31037,
+      "exists": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_causal_forecast_inputs_joint_news_v1.py",
+      "sha256": "9375f116571ef43c18eae65c14fc53fb2f98d8ab132d4b000a0971986d2890ec"
+    },
+    {
+      "bytes": 31528,
+      "exists": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_causal_forecast_ledger_joint_news_v1.py",
+      "sha256": "df915eddafbc9265eb19c9b6757eb14441ebd9ca3864f6601f5a70ca39d65d7b"
+    },
+    {
+      "bytes": 38809,
+      "exists": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_fixed_forecast_evaluation_joint_news_v1.py",
+      "sha256": "c1f9940d57c0d39c1815b22a9114752075042a09da3e196e84829e77b293131d"
+    },
+    {
+      "bytes": 829561,
+      "exists": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_local_news_sentiment.py",
+      "sha256": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4"
+    },
+    {
+      "bytes": 40549,
+      "exists": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_official_release_fast_mapper.py",
+      "sha256": "827d2b035e137ac0fb6bd13f9981c2134440fed037671860c0ce1d0bfa4961ec"
+    },
+    {
+      "bytes": 29466,
+      "exists": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_source_governance_news_fast_lane.py",
+      "sha256": "bdd6a2542b3dbddbdf86f7148af4dcb38d0b8591b3f3fcdb843d9eed29898f03"
+    },
+    {
+      "bytes": 22224,
+      "exists": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_news_causal_aggregation_guard_v1.py",
+      "sha256": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9"
+    },
+    {
+      "bytes": 215735,
+      "exists": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_always_on_supervisor.ps1",
+      "sha256": "dc07dc530bb59047017834951e2a57da14e4cc957602421abfee59ba79d7dd21"
+    },
+    {
+      "bytes": 1934,
+      "exists": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\start_oanda_research_collection.ps1",
+      "sha256": "c7e2a970b6e8bb69fcdaf5b124b8d935be6326f06a6554408889e111f57f3115"
+    },
+    {
+      "bytes": 4486,
+      "exists": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\joint_price_news_20260907\\scheduler_v2\\prepare_registry.py",
+      "sha256": "e4077ab42bdee08f074419d0ff4dd21d85cd8af15a604b9e262e86c1de934958"
+    },
+    {
+      "bytes": 1971,
+      "exists": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\joint_price_news_20260907\\scheduler_v2\\start_registered_joint_research.ps1",
+      "sha256": "6bcffe9d790bd8bce03998fe710c6574c51bc873db6a4adfdf87757177b7299b"
+    }
+  ],
+  "isolated_producer_observation": {
+    "bytes": 829561,
+    "exists": true,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\workspace\\trad\\oanda_local_news_sentiment.py",
+    "sha256": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4"
+  },
+  "launch_review": [
+    "Supervisor research-only allowlist/gate, exact heartbeat schema/classifier and unique workername/needle must be added only for finalized newregistration.",
+    "Newworker can be prepared and preflighted offline; activation creates newempty ledgers atactualclock withzero previouspublication/outcome evidence.",
+    "Existing launcher script is a dated receipt-bound execution example with PID22348; never replay its stale process identifiers.",
+    "Coordinate later dashboard/runtime-health/storage inventory separately; no existing primary source fallback should mask unavailable newstudy.",
+    "All research flags true/collection explicitly enabled only on approvednewregistry; order/promotion/authorization/account/proof flags remain strictfalse."
+  ],
+  "minimal_plan_proposed_names": [
+    {
+      "path": "oanda_local_news_sentiment_repair_v1.py",
+      "required_for_changed_producer": true,
+      "role": "New repaired producer or explicit wrapper. Bind its own bytes and any imported frozen producer/helper dependencies. Keep original canonical producer file unchanged."
+    },
+    {
+      "path": "oanda_causal_forecast_inputs_joint_news_v2.py",
+      "required_for_changed_producer": true,
+      "role": "New capture/validation closure accepts exact repaired producer source identity, explicit classifier versions, separate current/history paths and original clocks. No old capture migration."
+    },
+    {
+      "path": "oanda_causal_forecast_ledger_joint_news_v2.py",
+      "required_for_changed_producer": true,
+      "role": "Versioned ledger dispatches validate_capture to new adapter; preserve publication/consumption/entry/target semantics. Reuse unchanged scorer if protocol semantics unchanged."
+    },
+    {
+      "path": "oanda_joint_price_news_forecast_study_v3.py",
+      "required_for_changed_producer": true,
+      "role": "Versioned worker imports new adapter/ledger; unique registry/current/heartbeat/study paths and complete source closure. Keep fair scheduling."
+    },
+    {
+      "path": "config/joint_price_news_study_v3_20260908.json",
+      "required_for_changed_producer": true,
+      "role": "New inert registration after final source freeze, unique actual-clock cohort suffix and new per-pair ledgers. Never alter v1/v2 registrations."
+    },
+    {
+      "path": "oanda_official_release_fast_mapper_v4.py",
+      "required_for_changed_producer": "conditional",
+      "role": "Needed only if repaired classifier participates in official mapping. Current mapper imports frozen canonical producer; new mapping must have separate ledger/output identity."
+    },
+    {
+      "path": "oanda_source_governance_news_fast_lane_v4.py",
+      "required_for_changed_producer": "conditional_on_new_governed_member_ingestion",
+      "role": "Versioned receipt bridge or equivalently explicit new ingestion contract for repaired news into isolated governance history; preserve true first observation/postcommit visibility. No newer classifier records inserted into old reader-selected mapping tables."
+    }
+  ],
+  "observed_utc": "2026-09-08T14:26:58.609263+00:00",
+  "proposed_cohort_example": "joint_price_news_v1_20260907.EUR_USD.ridge_price_news_v1.news_repair_20260908_v1.ACTUAL_REGISTRATION_TOKEN",
+  "registered_contracts": [
+    {
+      "cohort_id": "joint_price_news_v1_20260907.AUD_CAD.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "03e99465dd534e79e787982bce5c9dc747343ec3f525097bcf9de47cf7a89ea3",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "AUD_CAD",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.AUD_CHF.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "f87017d381da7cbaa2331729e02bb1848b4d67a49db1a096fa3bd6fe894e6512",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "AUD_CHF",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.AUD_HKD.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "3a5a831eda28183e2cdea2d6ceda71c3e498b54ac08d7805464f5cb1fc33ab9f",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "AUD_HKD",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.AUD_JPY.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "26b6f3bde4b0e85bc8375179c1f7165b40cf2f452f742294e8b80e0495ce76e8",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "AUD_JPY",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.AUD_NZD.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "43dbd5af41652809f2ae640eb7e19d5aa702640abac6e044cac2dda1d097d514",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "AUD_NZD",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.AUD_SGD.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "3382ce31d967d79b581c1d20529093f57171643dcc6251555faef65b3aaea5c8",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "AUD_SGD",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.AUD_USD.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "1d544cb929e88efb783f8eb5bb407d2ea23e971f3b8e713f4863a41760dafcc6",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "AUD_USD",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.CAD_CHF.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "8cc736427d72d59b17fc1632e6c78b62588d8a58d4454cde5d34a2a2ddcddb0b",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "CAD_CHF",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.CAD_HKD.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "d8926be520cc90b99f2bb503379cb263a2403f71c0c9395dc006cb9916adf95d",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "CAD_HKD",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.CAD_JPY.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "04464e9ac701f041dc4926db104e7b4ef2f76598866d2687f8c39597c4984f8e",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "CAD_JPY",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.CAD_SGD.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "ed9a42ed514882dfa3136541c82762fb55d41400b11ef64d38fbbd0256057ef4",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "CAD_SGD",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.CHF_HKD.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "1772015315fc2a1b8f4b4adf3c3080d6f3e9083c9e9451f688d7b60a3e4a9144",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "CHF_HKD",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.CHF_JPY.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "98be754a17ca7c23727f5d04bff6084bf0a263ba7751a170f2bad30b62092247",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "CHF_JPY",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.CHF_ZAR.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "fbdd51a87dc8c371118906705d24402bc40eb5fb763a5531e45f428d7402595d",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "CHF_ZAR",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.EUR_AUD.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "aa6db521bc87403e4f97bbb5e758926daa4647785d931b08d4a0fca555e4a976",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "EUR_AUD",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.EUR_CAD.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "075df1f31b5ded4620c2a7672ba6f2bbddcdc9b14d684d8da36652e0532c5e87",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "EUR_CAD",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.EUR_CHF.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "cb961895a93f8421a13fcbc1a5e7193cc0c76b645bbf925fd509df0a59bdf840",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "EUR_CHF",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.EUR_CZK.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "5392eb32a631e2d060d54d4b1ea59891052df91f4f6e4c39bcfe5c1a44f2c471",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "EUR_CZK",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.EUR_DKK.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "a16a6574aaa283f79ad0dfb084f6364d1bdd36bb6952ea3f75eca17a0cce69d7",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "EUR_DKK",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.EUR_GBP.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "5f732e6efe929c2ae300b9ba0f0810caab6072785d078056b883c352a15d85f2",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "EUR_GBP",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.EUR_HKD.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "605cea38a303e5771ffb535edeb5b99dd690df2b0c75ad94582b1a854fe41fb2",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "EUR_HKD",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.EUR_HUF.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "367276c5eba18e074194b3c82d6715f1ab342ed315276487f32fbae81c6ffa00",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "EUR_HUF",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.EUR_JPY.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "a20ebeb5219a96f675fed7cee994be1ec1a02e2630fde2fcf1310f9821f94cc2",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "EUR_JPY",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.EUR_NOK.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "3e00ae5c1b30ac091944d60db9dbc4d800101dbc41d17a2ec0e83b6487499702",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "EUR_NOK",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.EUR_NZD.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "9d0f93315ba4ec7d343cfb7eecea82af7fc5049573c49ab5620c10a0b4efc4a8",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "EUR_NZD",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.EUR_PLN.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "35dc64724377e9ab119bd57bc20ec3f745dd89d92d94ba449a32f96d87b5990f",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "EUR_PLN",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.EUR_SEK.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "db8be69770090a2fc5b7c2b6d2963300ee5d098b01fdbe33d015a6d998d69c0f",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "EUR_SEK",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.EUR_SGD.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "8bfa79f8b27fb36d238a084de689ce48bed7c9c429a91450d2ea9b3dc1b8a4b0",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "EUR_SGD",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.EUR_TRY.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "748064be0eab7b6fb36e3dc09472a2a600366bfca722433e928d52951ba6d4a7",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "EUR_TRY",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.EUR_USD.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "f6de21a127135e08a94187de0801a06b308444ad277a3274163dd4e0013744c4",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "EUR_USD",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.EUR_ZAR.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "aa72285143b2651e48992d8dccecc6126e08712d22a0d2fd2bf7258e43cf599f",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "EUR_ZAR",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.GBP_AUD.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "d492a71fec0d3755de83f68b9d34b9f65eb6e766de495646075ce16dfd697331",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "GBP_AUD",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.GBP_CAD.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "b30396c9713a51b1dbcf73f5d8b39a576486033acec9bd3163deddc5afe1de0b",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "GBP_CAD",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.GBP_CHF.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "d850de42bdeba6be61abf3cdfa1689dec12b0b0f829ea50baf2ffdc7206be135",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "GBP_CHF",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.GBP_HKD.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "d655472e642acc385096e690f3764275dd31e35d39f6a7d5e4b952b84ed76823",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "GBP_HKD",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.GBP_JPY.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "53f8364e03165acde55a102ba45b6a15334f0e360b07966ecde5534abacd3217",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "GBP_JPY",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.GBP_NZD.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "1d906df21048934046fa57b45f72ae5526e1fa33ed5fdc44f514c27ee94837cc",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "GBP_NZD",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.GBP_PLN.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "4512086df1b2740b143cdd0d59ff8d614786dacf19ca185514c3020c29b1c870",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "GBP_PLN",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.GBP_SGD.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "7a58557a1106a2b7d3f7befccde533055c7d6e679a22449efbfabea15e31bbbe",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "GBP_SGD",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.GBP_USD.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "9148be1e02d18dccbb3ea78bd4b973cb63d11ece9da2d51a58036038d886eb7a",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "GBP_USD",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.GBP_ZAR.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "c65c7cd9dc0453951b741f983f2a43bb4b976a33e40aa209026e74c2cc0bc9ce",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "GBP_ZAR",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.HKD_JPY.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "4b90a577fb55cf6d86fb1093cdeedf6c5958d80bff8d72596a26c76dc887b1bb",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "HKD_JPY",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.NZD_CAD.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "17f89418e8de18d992744a5386ff26d0baffe10311ce143e873c6658cdef3492",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "NZD_CAD",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.NZD_CHF.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "3547ec3f1fee99acc91b616f1e79353359053339e77857624c0294e9752a505e",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "NZD_CHF",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.NZD_HKD.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "9bf6f2436fce0505d2d278857895089eb626f67d1ac019fac75f3456251c9307",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "NZD_HKD",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.NZD_JPY.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "a2ffba304d7bd8b4bceb64f4507ac715763e4c06b32e6cafdb382e03f1444e76",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "NZD_JPY",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.NZD_SGD.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "354aaf8baf44f0d9260e4026debd00c784ce4cd2fd65a515271cab55f021c687",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "NZD_SGD",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.NZD_USD.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "f4e14ed33eb07e50c4bf16c9ba5a32dbb8c2135fa0c8bb2ffc9a0282319cd825",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "NZD_USD",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.SGD_CHF.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "edeae66b2b1f7905d44bab751e69cb315909e2288c62c4c6b300a4a0e453be30",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "SGD_CHF",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.SGD_JPY.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "7f28a96158b73b37a4bfe1c52efcbfcc0d3b4af3104fc0d91a7eb7701f776cec",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "SGD_JPY",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.TRY_JPY.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "b66329df910e0e8e4d54877c261433d1b9d2caa4e2c4de10a679855027c1c370",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "TRY_JPY",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.USD_CAD.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "a05635f8c3febfb487b8c3295ff7b496f13cfe7c25599590549d876cba709292",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "USD_CAD",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.USD_CHF.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "a48cf85d66edb74bdfac618969106d76f70b3c4b216c25771bedf0adcbe000f0",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "USD_CHF",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.USD_CNH.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "a02065ce285bdd58f5e9acc0e693f245492cfed358447fd52f7e97c41610b3fe",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "USD_CNH",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.USD_CZK.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "f75a6e2797e3df80e5b5e03eb4fd045779a0a0116a94f06d12b83de061e3eb6c",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "USD_CZK",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.USD_DKK.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "15761a494b0b0d31037982ce763b47d429d89673810ed0a4f450fa5751850689",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "USD_DKK",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.USD_HKD.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "cf2b976efc60870c860f1bc2f0c5142b174fcdec3c37ecc4a5073460143572b8",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "USD_HKD",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.USD_HUF.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "c7ce454f9ca5655a9acae5bab04d2c35f90016ace64e58eae9c3c0ea060290d2",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "USD_HUF",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.USD_JPY.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "03c5ef577706aa53ef35ae78f29de486883f3db9a0038f30dd7e80773d1a60d3",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "USD_JPY",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.USD_MXN.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "c7b0e9ff4eab7827ae3fe6d2e1e31623107c7972f5c55c0a238b98d7ee3f59bb",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "USD_MXN",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.USD_NOK.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "e7e25df7c8fc990e30c9a9c82e8220465d282647673cb470e919868c4ccd572f",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "USD_NOK",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.USD_PLN.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "717a05471f717ef174c74804a24527ce4e7ce0b7fe04c88f0687acf858399ead",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "USD_PLN",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.USD_SEK.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "2ac50657c2e0d1bfe5e3a251197bde9680da595399a1dd428f3b814e1b37b0ec",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "USD_SEK",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.USD_SGD.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "ed62613d02b624c854296e0e16c6ff84ec7ac71d2a9f6d5ff435e443b4c4d27b",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "USD_SGD",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.USD_THB.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "d090161158fefe57ded87463f72c9a5d620bb38438a8df5ce382b46833b6d444",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "USD_THB",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.USD_TRY.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "b516feafe7c3bd7d94e565f05c59efd1d7d05bac9688368ea55d16d161068062",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "USD_TRY",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.USD_ZAR.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "7f472297daf5615e590763b7bbda318a49f8ee2720445177f90b690c33df6e89",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "USD_ZAR",
+      "source_bindings_match_registry": true
+    },
+    {
+      "cohort_id": "joint_price_news_v1_20260907.ZAR_JPY.ridge_price_news_v1.prospective_scheduler_v2",
+      "contract_hash_matches": true,
+      "contract_sha256": "81976b72dc7a64c86a87a064cba34c3d646040f4e1b5874b7da97d020bb3ef6f",
+      "family": "ridge_price_news_v1",
+      "inert_flags": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "historical_rows_imported": false,
+        "proof_eligible": false,
+        "research_only": true
+      },
+      "instrument": "ZAR_JPY",
+      "source_bindings_match_registry": true
+    }
+  ],
+  "registered_source_checks": [
+    {
+      "bytes": 15041,
+      "exists": true,
+      "matches": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_causal_forecast_inputs.py",
+      "registered_sha256": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+      "sha256": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281"
+    },
+    {
+      "bytes": 9636,
+      "exists": true,
+      "matches": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_causal_forecast_inputs_gap_v2.py",
+      "registered_sha256": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd",
+      "sha256": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd"
+    },
+    {
+      "bytes": 31037,
+      "exists": true,
+      "matches": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_causal_forecast_inputs_joint_news_v1.py",
+      "registered_sha256": "9375f116571ef43c18eae65c14fc53fb2f98d8ab132d4b000a0971986d2890ec",
+      "sha256": "9375f116571ef43c18eae65c14fc53fb2f98d8ab132d4b000a0971986d2890ec"
+    },
+    {
+      "bytes": 11489,
+      "exists": true,
+      "matches": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_causal_forecast_inputs_pair_v2.py",
+      "registered_sha256": "8e58491a49fca967e6d8d2a797cc77f142053576c92a724a2e7336d855fb4899",
+      "sha256": "8e58491a49fca967e6d8d2a797cc77f142053576c92a724a2e7336d855fb4899"
+    },
+    {
+      "bytes": 31528,
+      "exists": true,
+      "matches": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_causal_forecast_ledger_joint_news_v1.py",
+      "registered_sha256": "df915eddafbc9265eb19c9b6757eb14441ebd9ca3864f6601f5a70ca39d65d7b",
+      "sha256": "df915eddafbc9265eb19c9b6757eb14441ebd9ca3864f6601f5a70ca39d65d7b"
+    },
+    {
+      "bytes": 6198,
+      "exists": true,
+      "matches": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_causal_prediction_baselines.py",
+      "registered_sha256": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+      "sha256": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d"
+    },
+    {
+      "bytes": 9947,
+      "exists": true,
+      "matches": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_exact_price_scoring.py",
+      "registered_sha256": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521",
+      "sha256": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521"
+    },
+    {
+      "bytes": 38809,
+      "exists": true,
+      "matches": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_fixed_forecast_evaluation_joint_news_v1.py",
+      "registered_sha256": "c1f9940d57c0d39c1815b22a9114752075042a09da3e196e84829e77b293131d",
+      "sha256": "c1f9940d57c0d39c1815b22a9114752075042a09da3e196e84829e77b293131d"
+    },
+    {
+      "bytes": 31813,
+      "exists": true,
+      "matches": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_joint_price_news_forecast_study_v2.py",
+      "registered_sha256": "a27fe6e6ee3bf6ec2fdbf52be43661918cee18a5091f096c65994caa5fc24282",
+      "sha256": "a27fe6e6ee3bf6ec2fdbf52be43661918cee18a5091f096c65994caa5fc24282"
+    },
+    {
+      "bytes": 9587,
+      "exists": true,
+      "matches": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_joint_price_news_models_v1.py",
+      "registered_sha256": "eb153acb966dc04ad950a0bbfcc730e78a9a0da1d8a24e91d641f473f5cfbc23",
+      "sha256": "eb153acb966dc04ad950a0bbfcc730e78a9a0da1d8a24e91d641f473f5cfbc23"
+    },
+    {
+      "bytes": 829561,
+      "exists": true,
+      "matches": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_local_news_sentiment.py",
+      "registered_sha256": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4",
+      "sha256": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4"
+    },
+    {
+      "bytes": 22224,
+      "exists": true,
+      "matches": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_news_causal_aggregation_guard_v1.py",
+      "registered_sha256": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9",
+      "sha256": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9"
+    },
+    {
+      "bytes": 7251,
+      "exists": true,
+      "matches": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_news_classification_contract.py",
+      "registered_sha256": "f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae",
+      "sha256": "f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae"
+    },
+    {
+      "bytes": 11902,
+      "exists": true,
+      "matches": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_pair_local_models_v2.py",
+      "registered_sha256": "294c63bf0ed873395c4850a8722a2622eaa2bc563ceb7ecf9886764c63d8bf24",
+      "sha256": "294c63bf0ed873395c4850a8722a2622eaa2bc563ceb7ecf9886764c63d8bf24"
+    },
+    {
+      "bytes": 114335,
+      "exists": true,
+      "matches": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_source_governance.py",
+      "registered_sha256": "c4b7793dcef1b9176079a959019f8b69059fbd6644fddf1e8718f924d3a13950",
+      "sha256": "c4b7793dcef1b9176079a959019f8b69059fbd6644fddf1e8718f924d3a13950"
+    },
+    {
+      "bytes": 29466,
+      "exists": true,
+      "matches": true,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_source_governance_news_fast_lane.py",
+      "registered_sha256": "bdd6a2542b3dbddbdf86f7148af4dcb38d0b8591b3f3fcdb843d9eed29898f03",
+      "sha256": "bdd6a2542b3dbddbdf86f7148af4dcb38d0b8591b3f3fcdb843d9eed29898f03"
+    }
+  ],
+  "registered_source_count": 16,
+  "registry": {
+    "bytes": 308371,
+    "exists": true,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\joint_price_news_study_v2_20260907.json",
+    "sha256": "20fea86e661efd758536b81fa5c474a440feee2e6af48b28a1016b1538d3691e"
+  },
+  "registry_id": "joint_price_news_study_v2_20260907",
+  "registry_inert_flags": {
+    "account_eligible": false,
+    "can_authorize": false,
+    "can_place_orders": false,
+    "can_promote": false,
+    "collection_enabled": true,
+    "historical_rows_imported": false,
+    "proof_eligible": false,
+    "research_only": true
+  },
+  "schema": "joint_news_source_transition_review_v1",
+  "schema_version": "joint_price_news_registry_v2_20260907",
+  "status": "completed_readonly",
+  "unchanged_reusable_sources": [
+    "oanda_joint_price_news_models_v1.py",
+    "oanda_fixed_forecast_evaluation_joint_news_v1.py",
+    "oanda_pair_local_models_v2.py",
+    "oanda_causal_forecast_inputs_pair_v2.py",
+    "oanda_exact_price_scoring.py",
+    "oanda_causal_prediction_baselines.py"
+  ]
+}

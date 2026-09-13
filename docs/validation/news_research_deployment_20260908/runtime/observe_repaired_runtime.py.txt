@@ -1,0 +1,119 @@
+"""Read-only bounded local runtime observation; no broker calls or project writes."""
+from pathlib import Path
+from datetime import datetime,timezone
+from collections import Counter
+import argparse,hashlib,json,math,os,re,subprocess,sys,time,urllib.request
+
+OUT=Path(__file__).parent;PROJECT=Path('C:/Users/zmoor/Documents/forex/trad');DATA=PROJECT/'data/oanda_training_manager'
+sys.path.insert(0,str(PROJECT))
+from oanda_project_runtime_health import read_supervisor_observation
+
+def sha(raw):return hashlib.sha256(raw).hexdigest()
+def epoch(value):
+    try:
+        if isinstance(value,(int,float)) and not isinstance(value,bool):return float(value)
+        return datetime.fromisoformat(str(value).replace('Z','+00:00')).timestamp()
+    except (ValueError,TypeError):return None
+def age(value,now):
+    stamp=epoch(value);return now-stamp if stamp is not None else None
+def compact(value,keys):return {k:value.get(k) for k in keys if k in value}
+def bounded_json(path,limit=2*1024*1024):
+    with path.open('rb') as f:
+        before=os.fstat(f.fileno());raw=f.read(limit+1);after=os.fstat(f.fileno())
+    observed=time.time()
+    if len(raw)>limit:raise ValueError('read_size_limit')
+    if (before.st_ino,before.st_size,before.st_mtime_ns)!=(after.st_ino,after.st_size,after.st_mtime_ns):raise ValueError('changed_during_read')
+    value=json.loads(raw)
+    return value,{'path':str(path),'bytes':len(raw),'sha256':sha(raw),'observed_epoch':observed}
+def source_bindings(value):
+    bindings=value.get('source_bindings') or {};result=[]
+    for name,expected in bindings.items():
+        if not re.fullmatch(r'[A-Za-z0-9_]+\.py',name):result.append({'source':name,'error':'unexpected_source_path'});continue
+        path=PROJECT/name
+        try:actual=sha(path.read_bytes());result.append({'source':name,'expected_sha256':expected,'actual_sha256':actual,'matches':actual==expected})
+        except OSError as e:result.append({'source':name,'error':type(e).__name__})
+    return {'count':len(bindings),'all_match':bool(result) and all(r.get('matches') for r in result),'files':result}
+def coverage(source):
+    now=time.time();rows=source.get('rows') or [];row_results=[]
+    for row in rows[:68]:
+        families={}
+        for name,slot in (row.get('families') or {}).items():
+            ready=slot.get('current_readiness') or {};attempt=slot.get('last_attempt') or {};counts=slot.get('counts') or {}
+            families[name]={**compact(slot,['status','reason','reason_label','observed_epoch']),
+                'readiness':compact(ready,['status','reason','reason_label','observed_epoch','price_bar_close_epoch','news_evidence_epoch','news_expires_epoch','diagnostics']),
+                'last_attempt':compact(attempt,['epoch','reason','attempt_id','bucket']),'counts':counts}
+        arms=[compact(a,['family','issued_epoch','reference_epoch','target_epoch','publication_epoch','decision_id','forecast_sha256']) for a in row.get('active_forecasts') or []]
+        row_results.append({**compact(row,['instrument','status','reason','reason_label','observed_epoch']),'families':families,'active_forecasts':arms})
+    return {**compact(source,['study_version','status','reason','generated_epoch','observed_epoch','registry_sha256','summary_sha256','counts','family_counts','ledger_counts','worker_observation','publication_read_failures','retained_generation','research_only','can_place_orders','can_promote','can_authorize','account_eligible','proof_eligible','historical_rows_imported','primary_selection']),
+        'consumer_observed_epoch':now,'source_age_sec':age(source.get('generated_epoch'),now),'row_count':len(rows),
+        'actual_unelapsed_forecast_pairs':sum(any(a.get('target_epoch',0)>now for a in r.get('active_forecasts') or []) for r in rows),
+        'reason_counts':dict(Counter(r.get('reason') or r.get('status') or 'unknown' for r in rows)),'rows':row_results}
+
+def capture(label):
+    record={'schema':'repaired_research_runtime_observation_v1_20260908','label':label,'started_utc':datetime.now(timezone.utc).isoformat(),
+        'scope':'Two bounded observations, not a sustained monitor. Local HTTP API, retained heartbeat bytes, pure read-only supervisor helper and OS process metadata only; no direct broker API, starts/stops, model execution, project or vault writes.'}
+    record['observation_code_sha256']=sha(Path(__file__).read_bytes())
+    record['source_sha256']={name:sha((PROJECT/name).read_bytes()) for name in ['oanda_project_runtime_health.py','oanda_practice_live_dashboard.py','oanda_main_signal_dashboard.html','oanda_always_on_supervisor.ps1']}
+    supervisor=read_supervisor_observation(DATA/'logs');record['supervisor']=supervisor
+    try:
+        started=time.time()
+        with urllib.request.urlopen('http://127.0.0.1:8765/api/main',timeout=25) as response:
+            raw=response.read(24*1024*1024+1);status=response.status
+        observed=time.time();assert len(raw)<=24*1024*1024
+        data=json.loads(raw);collection=data.get('collection_status') or {};news=data.get('news_sentiment') or {};account=data.get('account') or {}
+        market=data.get('market_overview') or {};market_age=age(market.get('generated_epoch'),observed)
+        record['api']={'url':'http://127.0.0.1:8765/api/main','http_status':status,'request_started_epoch':started,'observed_epoch':observed,'elapsed_sec':observed-started,'raw_payload_ingest_sha256':sha(raw),
+          'collection':compact(collection,['selected_study','running','phase','supported_decision','research_only','can_place_orders','can_promote','forecasting','model_attempts','observations']),
+          'selected_joint_study':coverage(data.get('joint_price_news_forecasts') or {}),'price_v2':coverage(data.get('pair_local_forecasts') or {}),
+          'joint_v1_comparison':coverage(data.get('joint_price_news_scheduler_comparison_v1') or {}),
+          'news':{**compact(news,['pair_bias_status','as_of_utc','generated_utc','active_topic_count','classification_version']),
+            'evidence_age_sec':age(news.get('as_of_utc'),observed),'publication_age_sec':age(news.get('generated_utc'),observed),
+            'pair_status_counts':dict(Counter(r.get('status') for r in (news.get('pair_bias') or {}).values())),
+            'pair_label_counts':dict(Counter(r.get('display_label') for r in (news.get('pair_bias') or {}).values()))},
+          'market':{'generated_epoch':market.get('generated_epoch'),'source_age_sec':market_age,'rows':len(market.get('rows') or []),
+            'current_tradeable_price_count':sum(r.get('status')=='current' and market_age is not None and 0<=market_age<=90 and r.get('quote_age_sec') is not None and 0<=r['quote_age_sec']+market_age<=60 for r in market.get('rows') or [])},
+          'account_positions_only':{**compact(account,['positions_current','orders_current','verified_at_utc']),
+            'observation_age_sec':age(account.get('verified_at_utc'),observed),'position_count':len(account['positions']) if isinstance(account.get('positions'),list) else None,
+            'positions':[compact(p,['instrument','direction','units']) for p in account.get('positions') or []]}}
+    except Exception as e:record['api']={'status':'unavailable','error':type(e).__name__+':'+str(e),'observed_epoch':time.time()}
+    paths={'repaired_news':DATA/'local_news_sentiment_repair_v1/current_news_v1.json','repaired_news_producer':DATA/'local_news_sentiment_repair_v1/heartbeat.json','joint_price_news_study_v3':DATA/'joint_price_news_study_v3/heartbeat.json','guarded_news':DATA/'local_news_sentiment/joint_news_current_v1.json','news_collector':DATA/'local_news_sentiment/collector_heartbeat_v1.json',
+      'quote_stream':DATA/'state/practice_007_quote_stream_heartbeat_v1.json'}
+    for name in ('pair_local_forecast_study_v1','pair_local_forecast_study_v2','joint_price_news_study_v1','joint_price_news_study_v2'):
+        paths[name]=DATA/name/'heartbeat.json'
+    record['heartbeats']={}
+    for name,path in paths.items():
+        try:
+            v,meta=bounded_json(path,8*1024*1024 if name in ('guarded_news','repaired_news') else 2*1024*1024)
+            keys=['schema_version','status','phase','generated_epoch','generated_utc','as_of_utc','heartbeat_utc','last_progress_utc','progress_sequence','phase_age_sec','progress_age_sec','cycle_started_utc','cycle_in_progress','postprocess_step','counts','errors','last_error','heartbeat_publication_errors','active_pair','pair_count','family_count','pairs_with_forecast','classification_version','guard_version','news_state','topic_count','context_topic_count','directional_topic_count','research_only','can_place_orders','can_promote','can_authorize','execution_eligible','account_eligible','proof_eligible','historical_rows_imported','source_status','publication_epoch','snapshot_sha256','last_error','supported_decision','registry_sha256','summary_sha256']
+            item={**meta,'value':compact(v,keys),'generated_age_sec':age(v.get('generated_epoch',v.get('generated_utc',v.get('heartbeat_utc'))),meta['observed_epoch'])}
+            if name=='guarded_news':item['source_bindings']=source_bindings(v)
+            record['heartbeats'][name]=item
+        except Exception as e:record['heartbeats'][name]={'path':str(path),'error':type(e).__name__+':'+str(e),'observed_epoch':time.time()}
+    record['registered_controls']={}
+    for version in ('pair_local_forecast_study_v1','pair_local_forecast_study_v2','joint_price_news_study_v1','joint_price_news_study_v2'):
+        path=PROJECT/'config'/f'{version}_20260907.json'
+        try:
+            v,meta=bounded_json(path);record['registered_controls'][version]={**meta,'value':compact(v,['schema_version','registry_id','collection_enabled','research_only','can_place_orders','can_promote','can_authorize','execution_eligible','account_eligible','proof_eligible','historical_rows_imported','primary_selection']),
+             'pair_count':len(v.get('pairs') or {}),'source_bindings':source_bindings(v)}
+        except Exception as e:record['registered_controls'][version]={'error':type(e).__name__+':'+str(e)}
+    pid_workers={pid:name for name,row in supervisor.get('workers',{}).items() for pid in row.get('pids',[])}
+    command="""$rows = @(Get-CimInstance Win32_Process | Where-Object { $_.Name -match '^(python|pythonw|pwsh|powershell)(\\.exe)?$' } | ForEach-Object { $m=[regex]::Match([string]$_.CommandLine,'(?i)(?:\"([^\"]+\\.(?:py|ps1))\"|([^\\s\"]+\\.(?:py|ps1)))(?:\\s|$)'); $scriptPath=if($m.Groups[1].Success){$m.Groups[1].Value}else{$m.Groups[2].Value}; if($scriptPath -like 'C:\\Users\\zmoor\\Documents\\forex\\trad\\*'){ [pscustomobject]@{pid=$_.ProcessId;parent_pid=$_.ParentProcessId;process_name=$_.Name;executable=$_.ExecutablePath;created_utc=$_.CreationDate.ToUniversalTime().ToString('o');script_path=$scriptPath} } }); ConvertTo-Json -InputObject $rows -Depth 4 -Compress"""
+    try:
+        cp=subprocess.run(['powershell','-NoProfile','-Command',command],capture_output=True,text=True,encoding='utf-8',timeout=20,check=True)
+        processes=json.loads(cp.stdout or '[]');now=time.time()
+        for row in processes:row['supervisor_worker']=pid_workers.get(row['pid'])
+        live_pids={p['pid'] for p in processes}
+        record['os_processes']={'observed_epoch':now,'processes':processes,'reported_worker_pids_not_confirmed_in_os':sorted(set(pid_workers)-live_pids),
+            'scope':'Canonical-project script paths, executable identity, PID, parent PID and creation UTC only. Raw command lines, account identifiers and credential arguments are not retained.'}
+    except Exception as e:record['os_processes']={'error':type(e).__name__+':'+str(e),'observed_epoch':time.time()}
+    record['finished_utc']=datetime.now(timezone.utc).isoformat()
+    record['privacy']='No account identifiers, secrets, raw account snapshots or complete HTTP payload are retained. The full-API SHA is ingestion provenance only and cannot be replayed from this compact record.'
+    destination=OUT/f'RUNTIME_{label.upper()}_20260908.json'
+    with destination.open('x',encoding='utf-8') as f:f.write(json.dumps(record,indent=2,allow_nan=False)+'\n')
+    print(json.dumps({'path':str(destination),'sha256':sha(destination.read_bytes()),'supervisor':{k:supervisor.get(k) for k in ['status','reasons','running_worker_count','expected_worker_count']},
+      'joint_counts':record['api'].get('selected_joint_study',{}).get('counts'),'joint_reasons':record['api'].get('selected_joint_study',{}).get('reason_counts'),
+      'repaired_news_producer':record['heartbeats'].get('repaired_news_producer',{}).get('value'),'os_processes':len(record['os_processes'].get('processes',[])),
+      'unconfirmed_pids':record['os_processes'].get('reported_worker_pids_not_confirmed_in_os')},indent=2))
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser();parser.add_argument('--label',required=True);capture(parser.parse_args().label)

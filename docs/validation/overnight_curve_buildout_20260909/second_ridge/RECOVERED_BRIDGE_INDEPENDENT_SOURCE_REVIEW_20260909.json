@@ -1,0 +1,36 @@
+{
+  "can_place_orders": false,
+  "can_promote": false,
+  "independent_tests_run": 0,
+  "integration_boundary": "Registered caller must verify raw source mapping and full current module source bindings; a supplied row digest is not itself authenticated remote data.",
+  "observed_epoch": 1788931166.2707772,
+  "remaining_blockers": [],
+  "runtime_changes": false,
+  "schema_version": "recovered_curve_bridge_independent_source_review_v1_20260909",
+  "scope": "Independent bounded source review; no test rerun",
+  "source_bindings": [
+    {
+      "bytes": 4157,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_recovered_curve_bridge_v1.py",
+      "sha256": "07499ba8c5112b167b171af38a4bf69d414f901640e0301afa5babb381597c13"
+    },
+    {
+      "bytes": 21606,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_recovered_second_curve_v1.py",
+      "sha256": "dbc2d606afdeb23840dd9038cd1200301c2211abb4228ef9bab193763323f41d"
+    },
+    {
+      "bytes": 26812,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_forecast_curve_contract_v1.py",
+      "sha256": "c03549586f922f6031790fce68a5afb5b98e4eda6157f20c4720b1adb05d0746"
+    }
+  ],
+  "status": "passed",
+  "verified_properties": [
+    "Complete result is re-inferred at the original recorded computation clocks and compared exactly, using the verified model snapshot.",
+    "Fixed original transform/model source closure and supported7second target-selection rule are checked before mapping.",
+    "Input scope, actual availability/capture clocks, reference label/price basis, irregular temporal supports and unknown ingestion equivalence are preserved.",
+    "Original target metadata is retained while the generic contract explicitly uses first_complete_bar_at_or_after_nominal with maximum_delay_sec7.",
+    "Engineering replay remains engineering scope; no publication or issue is performed."
+  ]
+}

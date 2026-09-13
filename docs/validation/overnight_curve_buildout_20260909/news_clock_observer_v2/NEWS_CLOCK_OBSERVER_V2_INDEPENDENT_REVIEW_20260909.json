@@ -1,0 +1,56 @@
+{
+  "bindings": [
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v2\\observe_news_clock_boundaries_v2.py",
+      "sha256": "dc63f1470b6351e774af01c0732de0cc84ac64e04de0b1f7081870a4f643f86e"
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v2\\test_observe_news_clock_boundaries_v2.py",
+      "sha256": "2471bddb9bd2402941357a751d0b30a33cc2a7aa806af557a7944c4826dd7a01"
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v2\\news_clock_observer_v2_final_tests.xml",
+      "sha256": "7bc2a2c9a144848386ed13641fe63e3a1168963ed307b99d17a4a64647ea1078"
+    }
+  ],
+  "changed_v1_functions": [
+    "run"
+  ],
+  "findings": [
+    "Fixed12:45 UTC deadline and independent non-extending monotonic budget prevent a later wall clock from prolonging sample admission. Exactly-at-deadline stops.",
+    "Four-hour initial bound, at most14,401 samples and unchanged file/private/one-diagnostic limits. No catch-up sample burst.",
+    "Original exact-byte reads, source closure, pure epoch validators, private evidence and later RO diagnostic semantics unchanged from reviewed V1.",
+    "One earlier admitted bounded read may complete beyond deadline; report explicitly discloses that this is not hard I/O cancellation.",
+    "No attribution of subsequently read input to an earlier failed worker; no repair/restart or weaker validation."
+  ],
+  "new_functions": [
+    "make_window",
+    "pause_seconds",
+    "window_open"
+  ],
+  "owner_validation_reported": {
+    "independent_rerun": false,
+    "passed": 26
+  },
+  "remaining_blockers": [],
+  "review_mode": "Read-only source and owner-test inspection; no independent rerun, runtime read, GET or launch.",
+  "reviewed_epoch": 1788946370.0880458,
+  "schema_version": "news_clock_observer_v2_independent_review_20260909",
+  "status": "passed",
+  "unchanged_v1_helpers": [
+    "PrivateStore",
+    "clock_field",
+    "diagnose_articles",
+    "digest",
+    "encoded",
+    "inspect",
+    "need",
+    "new_failure",
+    "read",
+    "reason",
+    "safe",
+    "save",
+    "validation",
+    "verify_sources"
+  ]
+}

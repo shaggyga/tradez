@@ -29,10 +29,22 @@ from pathlib import Path
 from typing import Any, Callable
 from zoneinfo import ZoneInfo
 
+try:
+    from oanda_supervised_m5_contract_v2 import (
+        CONTRACT as SUPERVISED_DATA_CONTRACT, input_fingerprint as supervised_input_fingerprint,
+        supervised_candle_data as supervised_candle_data_v2,
+    )
+except ModuleNotFoundError:
+    from trad.oanda_supervised_m5_contract_v2 import (
+        CONTRACT as SUPERVISED_DATA_CONTRACT, input_fingerprint as supervised_input_fingerprint,
+        supervised_candle_data as supervised_candle_data_v2,
+    )
+
 import numpy as np
 import requests
 
 try:
+    from oanda_entry_diagnostics import selection_fields, blocked_fields
     from oanda_intrahour_forecast_contract import (
         contract_payload as intrahour_contract_payload,
         filter_context_views,
@@ -90,6 +102,7 @@ try:
     from oanda_worker_heartbeat import WorkerHeartbeat
     from oanda_quote_transport import QuoteSnapshotPublisher, load_quote_snapshot
 except ModuleNotFoundError:  # Package imports used by the test suite.
+    from trad.oanda_entry_diagnostics import selection_fields, blocked_fields
     from trad.oanda_intrahour_forecast_contract import (
         contract_payload as intrahour_contract_payload,
         filter_context_views,
@@ -308,6 +321,8 @@ FULL_HORIZONS_SEC = (
     86400,
 )
 META_FAMILIES = {"inverse_correlation_veto", "signal_combination_rules"}
+AGGREGATE_SIGNAL_LINEAGE_CONTRACT_ID = "all_signal_horizon_lineage_v1"
+DIRECTION_CONFLICT_CONTRACT_ID = "any_opposing_preferred_horizon_contributor_v1"
 RESEARCH_SHADOW_FAMILIES = {
     "ahl_multihorizon_trend",
     "kalman_local_trend",
@@ -351,6 +366,7 @@ LOG_NEXT_ROTATION_ATTEMPT: dict[Path, float] = {}
 LOG_EVENT_COUNTS: dict[Path, dict[str, int]] = {}
 SUPERVISED_MODEL_CACHE: dict[str, Any] = {}
 OUTCOME_QUOTE_MAX_AGE_SEC = 30.0
+CONVERSION_QUOTE_MAX_AGE_SEC = 15.0
 OUTCOME_QUOTE_GRACE_SEC = 30.0
 # A strategy-lab pass can take 70-90 seconds. Refresh the read-only pricing
 # overlay comfortably inside the unchanged 30-second outcome/forecast gate.
@@ -3105,6 +3121,7 @@ class PracticeExecutor:
                         continue
                     horizon_contributors[horizon].append(
                         {
+                            "forecast_id": str(component.get("id") or ""),
                             "family": family,
                             "model_id": model_id,
                             "lane_id": component.get("lane_id"),
@@ -3153,6 +3170,10 @@ class PracticeExecutor:
                             "forecast_generated_epoch": component.get(
                                 "forecast_generated_epoch"
                             ),
+                            "signal_candle_time": component.get(
+                                "signal_candle_time"
+                            ),
+                            "entry_time": component.get("entry_time"),
                             "forecast_age_sec_at_publish": component.get(
                                 "forecast_age_sec_at_publish"
                             ),
@@ -3272,6 +3293,123 @@ class PracticeExecutor:
             ]
             if not horizon_breakdown:
                 continue
+            for point in horizon_breakdown:
+                point_direction = str(point.get("direction") or "")
+                opposing = [
+                    row
+                    for row in point.get("contributors") or []
+                    if str(row.get("direction") or "") != point_direction
+                ]
+                compact_opposing = [
+                    {
+                        "forecast_id": str(row.get("forecast_id") or ""),
+                        "family": str(row.get("family") or ""),
+                        "model_id": str(row.get("model_id") or ""),
+                        "lane_id": str(row.get("lane_id") or ""),
+                        "input_timeframe": str(row.get("input_timeframe") or ""),
+                        "direction": str(row.get("direction") or ""),
+                        "strategy_archetype": str(
+                            row.get("strategy_archetype") or "unclassified"
+                        ),
+                        "signal_role": str(row.get("signal_role") or "structural"),
+                        "account_eligible": bool(row.get("account_eligible", True)),
+                        "research_only": bool(row.get("research_only")),
+                        "signal_eligible": bool(row.get("signal_eligible")),
+                        "matrix_execution_passed": bool(
+                            row.get("matrix_execution_passed")
+                        ),
+                        "matrix_weight": safe_float(row.get("matrix_weight")),
+                        "execution_matrix_weight": safe_float(
+                            row.get("execution_matrix_weight")
+                        ),
+                        "filter_reasons": list(
+                            row.get("matrix_filter_reasons") or []
+                        ),
+                    }
+                    for row in opposing
+                ]
+                lineage_components = sorted(
+                    [
+                        {
+                            "forecast_id": str(row.get("forecast_id") or ""),
+                            "family": str(row.get("family") or ""),
+                            "model_id": str(row.get("model_id") or ""),
+                            "lane_id": str(row.get("lane_id") or ""),
+                            "input_timeframe": str(
+                                row.get("input_timeframe") or ""
+                            ),
+                            "direction": str(row.get("direction") or ""),
+                            "signal_role": str(
+                                row.get("signal_role") or "structural"
+                            ),
+                            "account_eligible": bool(
+                                row.get("account_eligible", True)
+                            ),
+                            "forecast_generated_epoch": row.get(
+                                "forecast_generated_epoch"
+                            ),
+                            "signal_candle_time": row.get("signal_candle_time"),
+                            "entry_time": row.get("entry_time"),
+                        }
+                        for row in point.get("contributors") or []
+                    ],
+                    key=lambda row: json.dumps(
+                        row,
+                        sort_keys=True,
+                        separators=(",", ":"),
+                        default=str,
+                    ),
+                )
+                lineage_payload = {
+                    "contract_id": AGGREGATE_SIGNAL_LINEAGE_CONTRACT_ID,
+                    "instrument": instrument,
+                    "horizon_sec": int(point.get("horizon_sec") or 0),
+                    "direction": point_direction,
+                    "contributors": lineage_components,
+                }
+                lineage_digest = hashlib.sha256(
+                    json.dumps(
+                        lineage_payload,
+                        sort_keys=True,
+                        separators=(",", ":"),
+                        default=str,
+                    ).encode("utf-8")
+                ).hexdigest()
+                point.update(
+                    {
+                        "aggregate_signal_id": f"aggregate_signal_{lineage_digest[:40]}",
+                        "aggregate_signal_lineage_contract_id": (
+                            AGGREGATE_SIGNAL_LINEAGE_CONTRACT_ID
+                        ),
+                        "direction_conflict": bool(opposing),
+                        "direction_conflict_contract_id": (
+                            DIRECTION_CONFLICT_CONTRACT_ID
+                        ),
+                        "direction_conflict_contributor_count": len(opposing),
+                        "direction_conflict_account_eligible_count": sum(
+                            bool(row.get("account_eligible", True))
+                            for row in opposing
+                        ),
+                        "direction_conflict_execution_component_count": sum(
+                            bool(row.get("matrix_execution_passed"))
+                            for row in opposing
+                        ),
+                        "direction_conflict_shadow_only_count": sum(
+                            bool(row.get("research_only"))
+                            or not bool(row.get("account_eligible", True))
+                            for row in opposing
+                        ),
+                        "direction_conflict_only_shadow_or_account_ineligible": bool(
+                            opposing
+                            and all(
+                                bool(row.get("research_only"))
+                                or not bool(row.get("account_eligible", True))
+                                for row in opposing
+                            )
+                        ),
+                        "direction_conflict_contributors": compact_opposing,
+                    }
+                )
             preferred = max(
                 horizon_breakdown,
                 key=lambda row: (
@@ -3335,6 +3473,10 @@ class PracticeExecutor:
                         preferred.get("paper_consensus_evidence") or {}
                     ),
                     "matrix_aggregation_method": preferred.get("aggregation_method"),
+                    "aggregate_signal_id": preferred.get("aggregate_signal_id"),
+                    "aggregate_signal_lineage_contract_id": preferred.get(
+                        "aggregate_signal_lineage_contract_id"
+                    ),
                 }
             )
             representative.update(
@@ -3381,9 +3523,35 @@ class PracticeExecutor:
                         str(row.get("signal_role") or "") == "entry_exit_timing"
                         for row in components
                     ),
-                    "direction_conflict": any(
-                        row.get("direction") != direction
-                        for row in preferred.get("contributors") or []
+                    "direction_conflict": bool(
+                        preferred.get("direction_conflict")
+                    ),
+                    "direction_conflict_contract_id": preferred.get(
+                        "direction_conflict_contract_id"
+                    ),
+                    "direction_conflict_contributor_count": int(
+                        preferred.get("direction_conflict_contributor_count") or 0
+                    ),
+                    "direction_conflict_account_eligible_count": int(
+                        preferred.get("direction_conflict_account_eligible_count")
+                        or 0
+                    ),
+                    "direction_conflict_execution_component_count": int(
+                        preferred.get(
+                            "direction_conflict_execution_component_count"
+                        )
+                        or 0
+                    ),
+                    "direction_conflict_shadow_only_count": int(
+                        preferred.get("direction_conflict_shadow_only_count") or 0
+                    ),
+                    "direction_conflict_only_shadow_or_account_ineligible": bool(
+                        preferred.get(
+                            "direction_conflict_only_shadow_or_account_ineligible"
+                        )
+                    ),
+                    "direction_conflict_contributors": list(
+                        preferred.get("direction_conflict_contributors") or []
                     ),
                     "opposing_direction": "sell" if direction == "buy" else "buy",
                     "opposing_signal_confidence": round(
@@ -3396,37 +3564,54 @@ class PracticeExecutor:
         consolidated.sort(key=cls._signal_rank_key, reverse=True)
         return consolidated
 
-    def quote_to_account_rate(self, instrument: str, mid: float) -> float:
-        quote_currency = instrument.split("_")[-1]
+    def quote_to_account_rate(self, instrument: str, mid: float) -> float | None:
+        """Return a verified conversion, or no rate when exposure is unknown.
+
+        Cross-currency cache age includes the source quote's age; a recent
+        fetch cannot make an old broker quote current again.
+        """
+        pair = instrument.split("_")
+        if len(pair) != 2 or not all(pair) or not self.account_currency:
+            return None
+        base_currency, quote_currency = pair
         if quote_currency == self.account_currency:
             return 1.0
+        if base_currency == self.account_currency:
+            price = safe_float(mid, 0.0)
+            return 1.0 / price if price > 0.0 else None
         cached = self.conversion_cache.get(quote_currency)
-        if cached and time.monotonic() - cached[1] <= 60.0:
-            return cached[0]
-        base_currency = instrument.split("_")[0]
-        if base_currency == self.account_currency and mid > 0.0:
-            rate = 1.0 / mid
-            self.conversion_cache[quote_currency] = (rate, time.monotonic())
-            return rate
+        if cached:
+            cached_rate = safe_float(cached[0], 0.0)
+            age = time.monotonic() - safe_float(cached[1], -math.inf)
+            if cached_rate > 0.0 and 0.0 <= age <= CONVERSION_QUOTE_MAX_AGE_SEC:
+                return cached_rate
+            self.conversion_cache.pop(quote_currency, None)
         direct = f"{quote_currency}_{self.account_currency}"
         inverse = f"{self.account_currency}_{quote_currency}"
-        try:
-            quotes = self.client.pricing_snapshot(self.account_id, [direct])
-            if direct in quotes and quotes[direct].mid > 0.0:
-                rate = safe_float(quotes[direct].mid)
-                self.conversion_cache[quote_currency] = (rate, time.monotonic())
+        for conversion_pair, inverted in ((direct, False), (inverse, True)):
+            try:
+                quotes = self.client.pricing_snapshot(self.account_id, [conversion_pair])
+                quote = quotes.get(conversion_pair)
+                bid = safe_float(getattr(quote, "bid", None), 0.0)
+                ask = safe_float(getattr(quote, "ask", None), 0.0)
+                timestamp = parse_rfc3339(str(getattr(quote, "time", "") or ""))
+                if (
+                    not bool(getattr(quote, "tradeable", False))
+                    or bid <= 0.0 or ask < bid or timestamp is None
+                ):
+                    continue
+                age = (datetime.now(timezone.utc) - timestamp).total_seconds()
+                if not 0.0 <= age <= CONVERSION_QUOTE_MAX_AGE_SEC:
+                    continue
+                quote_mid = (bid + ask) / 2.0
+                rate = 1.0 / quote_mid if inverted else quote_mid
+                if not math.isfinite(rate) or rate <= 0.0:
+                    continue
+                self.conversion_cache[quote_currency] = (rate, time.monotonic() - age)
                 return rate
-        except (OandaApiError, ValueError):
-            pass
-        try:
-            quotes = self.client.pricing_snapshot(self.account_id, [inverse])
-            if inverse in quotes and quotes[inverse].mid > 0.0:
-                rate = 1.0 / safe_float(quotes[inverse].mid)
-                self.conversion_cache[quote_currency] = (rate, time.monotonic())
-                return rate
-        except (OandaApiError, ValueError):
-            pass
-        return 1.0
+            except (OandaApiError, ValueError, TypeError):
+                continue
+        return None
 
     def dynamic_sizing(self, candidate: dict[str, Any], summary: dict[str, Any]) -> tuple[int, dict[str, float]]:
         if not bool(getattr(self.args, "execution_dynamic_sizing", True)):
@@ -3459,7 +3644,9 @@ class PracticeExecutor:
         instrument = str(candidate.get("instrument") or "")
         mid = (safe_float(candidate.get("bid")) + safe_float(candidate.get("ask"))) / 2.0
         pip = max(1e-12, safe_float(candidate.get("pip"), 0.0001))
-        conversion = max(1e-9, self.quote_to_account_rate(instrument, mid))
+        conversion = self.quote_to_account_rate(instrument, mid)
+        if conversion is None or not math.isfinite(conversion) or conversion <= 0.0:
+            return 0, {"mode": "blocked", "reason": "account_conversion_unavailable", "units": 0}
         meta = self.instrument_meta.get(instrument) or {}
         margin_rate = max(1e-6, safe_float(meta.get("margin_rate"), safe_float(summary.get("marginRate"), 0.02)))
         stop_pips = max(0.1, safe_float(candidate.get("stop_loss_pips"), 5.0))
@@ -4647,6 +4834,14 @@ class PracticeExecutor:
                 "component_models", "component_timeframes", "component_horizons_sec",
                 "entry_exit_component_count", "direction_conflict", "opposing_direction",
                 "opposing_signal_confidence", "signal_group_id",
+                "aggregate_signal_id", "aggregate_signal_lineage_contract_id",
+                "direction_conflict_contract_id",
+                "direction_conflict_contributor_count",
+                "direction_conflict_account_eligible_count",
+                "direction_conflict_execution_component_count",
+                "direction_conflict_shadow_only_count",
+                "direction_conflict_only_shadow_or_account_ineligible",
+                "direction_conflict_contributors",
                 "paper_consensus_eligible", "paper_consensus_evidence",
                 "sma_filter", "sma_filter_point", "sma_filter_weight",
                 "market_session_target",
@@ -4683,6 +4878,14 @@ class PracticeExecutor:
                 "model_gap_component_count", "aggregation_version",
                 "paper_consensus_component_count", "paper_consensus_eligible",
                 "paper_consensus_evidence",
+                "aggregate_signal_id", "aggregate_signal_lineage_contract_id",
+                "direction_conflict", "direction_conflict_contract_id",
+                "direction_conflict_contributor_count",
+                "direction_conflict_account_eligible_count",
+                "direction_conflict_execution_component_count",
+                "direction_conflict_shadow_only_count",
+                "direction_conflict_only_shadow_or_account_ineligible",
+                "direction_conflict_contributors",
                 "sma_filter", "sma_filter_point", "sma_filter_weight",
             )
             snapshot_limit = max(
@@ -5011,18 +5214,6 @@ class PracticeExecutor:
             self.args.execution_max_slippage_pips,
             client_id,
         )
-        final_blocker = self.final_submission_blocker(selected, units, body)
-        if final_blocker:
-            log_line(
-                self.log_path,
-                "execution_skipped",
-                reason=final_blocker,
-                selected_id=selected.get("id"),
-                instrument=selected.get("instrument"),
-                direction=selected.get("direction"),
-                units=units,
-            )
-            return
         rank = selected.get("promotion_evidence") or self.performance.stats(str(selected["lane_id"]))
         forecast_to_submit_ms = (
             round((time.monotonic() - safe_float(selected.get("forecast_created_monotonic"))) * 1000.0, 3)
@@ -5086,6 +5277,20 @@ class PracticeExecutor:
             if quote_time is None
             else max(0.0, (datetime.now(timezone.utc) - quote_time).total_seconds())
         )
+        # Check current authorization after all preparation and logging, with
+        # no intervening disk or broker reads before the order write.
+        final_blocker = self.final_submission_blocker(selected, units, body)
+        if final_blocker:
+            log_line(
+                self.log_path,
+                "execution_skipped",
+                reason=final_blocker,
+                selected_id=selected.get("id"),
+                instrument=selected.get("instrument"),
+                direction=selected.get("direction"),
+                units=units,
+            )
+            return
         # Keep a short attempt backoff even when the broker rejects or cancels
         # the order; the persistent post-exit re-entry policy is separate.
         self.last_entry_monotonic = time.monotonic()
@@ -5347,19 +5552,25 @@ class PracticeExecutor:
             except (OSError, sqlite3.Error):
                 pass
         after_coverage = time.perf_counter()
+        top_instruments = sorted(
+            {
+                str(row.get("instrument") or "")
+                for row in top
+                if row.get("instrument")
+            }
+        )
         market_quotes: dict[str, dict[str, Any]] = {}
+        market_quote_rejections: dict[str, str] = {}
+        market_quote_provider_status = "unavailable"
         if self.price_snapshot_provider is not None:
             try:
                 prices = self.price_snapshot_provider()
-                for instrument in sorted(
-                    {
-                        str(row.get("instrument") or "")
-                        for row in top
-                        if row.get("instrument")
-                    }
-                ):
+                market_quote_provider_status = "ok"
+                for instrument in top_instruments:
                     quote = prices.get(instrument)
-                    if quote is None or outcome_quote_rejection_reason(quote):
+                    rejection_reason = outcome_quote_rejection_reason(quote)
+                    if rejection_reason:
+                        market_quote_rejections[instrument] = rejection_reason
                         continue
                     market_quotes[instrument] = {
                         "bid": safe_float(quote.bid),
@@ -5368,18 +5579,45 @@ class PracticeExecutor:
                         "source": str(
                             getattr(quote, "source", "") or "strategy_price_stream"
                         ),
+                        "tradeable": bool(
+                            getattr(quote, "tradeable", True)
+                        ),
                     }
             except Exception as exc:
+                market_quote_provider_status = "error"
                 log_line(
                     self.log_path,
                     "execution_signal_snapshot_quote_error",
                     error=f"{type(exc).__name__}: {exc}"[:300],
                 )
+        if market_quote_provider_status != "ok":
+            market_quote_rejections = {
+                instrument: f"quote_provider_{market_quote_provider_status}"
+                for instrument in top_instruments
+            }
+        market_quote_rejection_counts = dict(
+            sorted(Counter(market_quote_rejections.values()).items())
+        )
         after_quotes = time.perf_counter()
         feed_expected = int(self.feed_coverage_cache.get("expected_contributors") or 0)
         feed_fresh = int(self.feed_coverage_cache.get("fresh_contributors") or 0)
         compact_top = self.compact_signal_rows(top)
         after_compaction = time.perf_counter()
+        selected_direction_conflict = bool(
+            selected is not None and selected.get("direction_conflict")
+        )
+        selected_stage = (
+            "none"
+            if selected is None
+            else "signal_gate_pre_final_execution_gates"
+        )
+        selected_final_gate_status = (
+            "not_selected"
+            if selected is None
+            else "blocked_direction_conflict"
+            if selected_direction_conflict
+            else "not_yet_evaluated"
+        )
         payload = {
             "schema_version": 3,
             "updated_at": utc_now(),
@@ -5409,9 +5647,30 @@ class PracticeExecutor:
                 "contributor_coverage_ratio": (
                     feed_fresh / feed_expected if feed_expected > 0 else None
                 ),
+                "market_quote_scope": "ranked_signal_instruments",
+                "market_quote_provider_status": market_quote_provider_status,
+                "market_quote_expected_instrument_count": len(top_instruments),
                 "market_quote_count": len(market_quotes),
+                "market_quote_coverage_ratio": (
+                    len(market_quotes) / len(top_instruments)
+                    if top_instruments
+                    else None
+                ),
+                "market_quote_rejected_count": len(market_quote_rejections),
+                "market_quote_rejection_reasons": market_quote_rejection_counts,
+                "market_quote_rejected_instruments": market_quote_rejections,
             },
             "market_quotes": market_quotes,
+            # ``selected`` is chosen before portfolio, re-entry, cost-capture,
+            # timing, cooldown, quote-age, lifecycle, and authorization gates.
+            # Keep the legacy object for consumers, but make its stage explicit
+            # so a signal-level selection cannot be mistaken for a routable or
+            # authorized Practice-007 order candidate.
+            "selected_stage": selected_stage,
+            "selected_final_gate_status": selected_final_gate_status,
+            "selected_routable_after_direction_conflict_gate": bool(
+                selected is not None and not selected_direction_conflict
+            ),
             "selected": (
                 None
                 if selected is None
@@ -5423,6 +5682,12 @@ class PracticeExecutor:
                     "preferred_horizon_sec": selected.get("preferred_horizon_sec"),
                     "signal_confidence": selected.get("signal_confidence"),
                     "projected_net_pips": selected.get("projected_net_pips"),
+                    "selection_stage": selected_stage,
+                    "direction_conflict": selected_direction_conflict,
+                    "routable_after_direction_conflict_gate": bool(
+                        not selected_direction_conflict
+                    ),
+                    "final_execution_status": selected_final_gate_status,
                 }
             ),
             "top_signals": compact_top,
@@ -5523,6 +5788,16 @@ class PracticeExecutor:
             "gross_to_spread",
             "all_contributor_gross_to_spread",
             "directional_gross_to_spread",
+            "aggregate_signal_id",
+            "aggregate_signal_lineage_contract_id",
+            "direction_conflict",
+            "direction_conflict_contract_id",
+            "direction_conflict_contributor_count",
+            "direction_conflict_account_eligible_count",
+            "direction_conflict_execution_component_count",
+            "direction_conflict_shadow_only_count",
+            "direction_conflict_only_shadow_or_account_ineligible",
+            "direction_conflict_contributors",
         }
         output: list[dict[str, Any]] = []
         for index, row in enumerate(rows):
@@ -5555,6 +5830,15 @@ class PracticeExecutor:
             "direction",
             "direction_state",
             "direction_conflict",
+            "direction_conflict_contract_id",
+            "direction_conflict_contributor_count",
+            "direction_conflict_account_eligible_count",
+            "direction_conflict_execution_component_count",
+            "direction_conflict_shadow_only_count",
+            "direction_conflict_only_shadow_or_account_ineligible",
+            "direction_conflict_contributors",
+            "aggregate_signal_id",
+            "aggregate_signal_lineage_contract_id",
             "family",
             "profile",
             "lane_id",
@@ -5829,6 +6113,9 @@ class PracticeExecutor:
                 feed_cache=self.last_feed_cache_stats,
                 selected_id=None if selected is None else selected["id"],
                 selected_horizon_sec=None if selected is None else selected.get("execution_horizon_sec"),
+                **selection_fields(candidates, feed_candidate_count,
+                                   self.last_qualified_candidates, selected,
+                                   self.disabled_reason),
             )
             self.last_selection_log_monotonic = now
         if not bool(getattr(self.args, "execute_top_signals", False)):
@@ -5868,6 +6155,7 @@ class PracticeExecutor:
                 reason="no_nonconflicting_signal_capacity",
                 open_trade_count=len(trades),
                 candidate_blocks=selection_blocks[:12],
+                **blocked_fields(selection_blocks),
             )
             return
         second_curve_entry_veto_enabled = bool(
@@ -6067,6 +6355,7 @@ class MultiPriceStream:
                     "source": str(
                         getattr(quote, "source", "") or "strategy_price_stream"
                     ),
+                    "tradeable": bool(getattr(quote, "tradeable", True)),
                 }
                 for instrument, quote in prior_quotes.items()
             }
@@ -6097,6 +6386,21 @@ class MultiPriceStream:
             for name, row in (payload.get("quotes") or {}).items()
             if str(name) in self.instruments and isinstance(row, dict)
         }
+        current_tradeable = sorted(
+            name
+            for name, row in current_quotes.items()
+            if row.get("tradeable") is True
+        )
+        current_non_tradeable = sorted(
+            name
+            for name, row in current_quotes.items()
+            if row.get("tradeable") is False
+        )
+        current_tradeability_unknown = sorted(
+            name
+            for name, row in current_quotes.items()
+            if not isinstance(row.get("tradeable"), bool)
+        )
         with self._research_cache_lock:
             self._research_retained_quotes.update(current_quotes)
             retained_only = sorted(
@@ -6107,7 +6411,7 @@ class MultiPriceStream:
                 for name, row in self._research_retained_quotes.items()
             }
         snapshot["schema_version"] = max(
-            2, int(safe_float(snapshot.get("schema_version"), 1.0))
+            3, int(safe_float(snapshot.get("schema_version"), 1.0))
         )
         with self._lock:
             connection_generation = self._connection_generation
@@ -6125,6 +6429,16 @@ class MultiPriceStream:
             "retained_last_known_count": len(retained_only),
             "retained_last_known_instruments": retained_only,
             "connection_generation": snapshot["connection_generation"],
+            "current_tradeable_quote_count": len(current_tradeable),
+            "current_non_tradeable_quote_count": len(current_non_tradeable),
+            "current_tradeability_unknown_count": len(
+                current_tradeability_unknown
+            ),
+            "current_non_tradeable_instruments": current_non_tradeable,
+            "current_tradeability_unknown_instruments": (
+                current_tradeability_unknown
+            ),
+            "tradeability_contract": "oanda_client_price_status_boolean_v1",
             "retained_quotes_execution_eligible": False,
             "execution_requires_independent_freshness_check": True,
         }
@@ -6411,6 +6725,13 @@ class MultiPriceStream:
                                                 "source": str(
                                                     getattr(value, "source", "")
                                                     or "strategy_price_stream"
+                                                ),
+                                                "tradeable": bool(
+                                                    getattr(
+                                                        value,
+                                                        "tradeable",
+                                                        True,
+                                                    )
                                                 ),
                                             }
                                             for name, value in research_quotes.items()
@@ -7846,7 +8167,7 @@ def augment_cross_sectional_features(feature_cache: dict[str, dict[str, Any]]) -
         )
 
 
-def _supervised_candle_data(candles: list[dict[str, Any]], pip: float) -> dict[str, Any] | None:
+def _supervised_contiguous_candle_data(candles: list[dict[str, Any]], pip: float) -> dict[str, Any] | None:
     if len(candles) < 60 or pip <= 0.0:
         return None
     mid = np.asarray([safe_float((row.get("mid") or {}).get("c")) for row in candles], dtype=float)
@@ -7923,6 +8244,10 @@ def _supervised_candle_data(candles: list[dict[str, Any]], pip: float) -> dict[s
     }
 
 
+def _supervised_candle_data(candles: list[dict[str, Any]], pip: float) -> dict[str, Any] | None:
+    return supervised_candle_data_v2(candles, pip, _supervised_contiguous_candle_data)
+
+
 def _fit_ridge(x: np.ndarray, y: np.ndarray, alpha: float = 8.0) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     mean = np.mean(x, axis=0)
     scale = np.std(x, axis=0)
@@ -7951,6 +8276,7 @@ def augment_supervised_return_features(
 ) -> None:
     defaults = {
         "supervised_ready": False,
+        "supervised_data_contract": SUPERVISED_DATA_CONTRACT,
         "supervised_direction": None,
         "supervised_expected_net_pips": None,
         "supervised_long_net_pips": None,
@@ -7961,6 +8287,11 @@ def augment_supervised_return_features(
         "supervised_validation_hit_rate": 0.0,
         "supervised_validation_avg_norm": 0.0,
         "supervised_model_candle_time": "",
+        "supervised_model_decision_time": "",
+        "supervised_model_asof_time": "",
+        "supervised_data_quality": {},
+        "supervised_purged_training_rows": 0,
+        "supervised_withheld_reason": "insufficient_mature_training",
         "supervised_top_instrument": "",
         "supervised_top_expected_net_pips": 0.0,
     }
@@ -7968,16 +8299,18 @@ def augment_supervised_return_features(
         features.update(defaults)
 
     cache_key = tuple(
-        (
-            instrument,
-            str(((candle_sets.get(instrument) or {}).get("M5") or [{}])[-1].get("time") or ""),
-            len((candle_sets.get(instrument) or {}).get("M5") or []),
-        )
+        (instrument, supervised_input_fingerprint(
+            (candle_sets.get(instrument) or {}).get("M5") or [],
+            feature_cache[instrument].get("pip"),
+        ))
         for instrument in sorted(feature_cache)
     )
 
     def apply_cached(payload: dict[str, Any]) -> None:
         meta = payload.get("meta") or {}
+        for instrument, reason in (payload.get("rejections") or {}).items():
+            if instrument in feature_cache:
+                feature_cache[instrument]["supervised_withheld_reason"] = reason
         for instrument, score in (payload.get("scores") or {}).items():
             if instrument in feature_cache:
                 feature_cache[instrument].update(meta)
@@ -7990,21 +8323,33 @@ def augment_supervised_return_features(
     x_rows: list[list[float]] = []
     y_rows: list[list[float]] = []
     times: list[str] = []
+    target_times: list[str] = []
     current: dict[str, dict[str, Any]] = {}
+    rejections: dict[str, str] = {}
     for instrument, features in feature_cache.items():
         data = _supervised_candle_data(
             ((candle_sets.get(instrument) or {}).get("M5") or []),
-            safe_float(features.get("pip")),
+            features.get("pip"),
         )
         if data is None:
+            rejections[instrument] = "invalid_or_insufficient_completed_m5_history"
+            features["supervised_withheld_reason"] = rejections[instrument]
             continue
         x_rows.extend(data["x"])
         y_rows.extend(data["y"])
         times.extend(data["times"])
+        target_times.extend(data["target_times"])
         current[instrument] = data
     if len(x_rows) < 500 or not current:
         return
 
+    shared_asof = max(item["model_decision_time"] for item in current.values())
+    for instrument in list(current):
+        if current[instrument]["model_decision_time"] != shared_asof:
+            rejections[instrument] = "stale_m5_context_for_shared_fit"
+            feature_cache[instrument]["supervised_withheld_reason"] = rejections[instrument]
+            del current[instrument]
+    assert all(target <= shared_asof for target in target_times)
     x = np.asarray(x_rows, dtype=float)
     y = np.asarray(y_rows, dtype=float)
     time_array = np.asarray(times, dtype="U40")
@@ -8012,8 +8357,9 @@ def augment_supervised_return_features(
     if len(unique_times) < 20:
         return
     cutoff = unique_times[max(1, int(len(unique_times) * 0.80))]
-    train_mask = time_array < cutoff
-    validation_mask = ~train_mask
+    target_time_array = np.asarray(target_times, dtype="U40")
+    train_mask = (time_array < cutoff) & (target_time_array < cutoff)
+    validation_mask = time_array >= cutoff
     if int(np.sum(train_mask)) < 400 or int(np.sum(validation_mask)) < 100:
         return
 
@@ -8040,18 +8386,24 @@ def augment_supervised_return_features(
         direction = "buy" if long_pips >= short_pips else "sell"
         scores[instrument] = {
             "supervised_ready": True,
+            "supervised_withheld_reason": "",
             "supervised_direction": direction,
             "supervised_expected_net_pips": max(long_pips, short_pips),
             "supervised_long_net_pips": long_pips,
             "supervised_short_net_pips": short_pips,
             "supervised_model_candle_time": current[instrument]["model_candle_time"],
+            "supervised_model_decision_time": current[instrument]["model_decision_time"],
+            "supervised_data_quality": current[instrument]["data_quality"],
         }
     ranked = sorted(scores, key=lambda instrument: safe_float(scores[instrument]["supervised_expected_net_pips"]))
     denominator = max(1, len(ranked))
     for rank, instrument in enumerate(ranked, start=1):
         scores[instrument]["supervised_rank_percentile"] = rank / denominator
     meta = {
+        "supervised_data_contract": SUPERVISED_DATA_CONTRACT,
+        "supervised_model_asof_time": shared_asof,
         "supervised_model_rows": len(x),
+        "supervised_purged_training_rows": int(np.sum((time_array < cutoff) & ~train_mask)),
         "supervised_validation_rows": int(np.sum(validation_mask)),
         "supervised_validation_hit_rate": validation_hit_rate,
         "supervised_validation_avg_norm": validation_avg_norm,
@@ -8059,7 +8411,7 @@ def augment_supervised_return_features(
         "supervised_top_expected_net_pips": safe_float(scores[ranked[-1]]["supervised_expected_net_pips"]),
     }
     SUPERVISED_MODEL_CACHE.clear()
-    SUPERVISED_MODEL_CACHE.update({"key": cache_key, "scores": scores, "meta": meta})
+    SUPERVISED_MODEL_CACHE.update({"key": cache_key, "scores": scores, "meta": meta, "rejections": rejections})
     apply_cached(SUPERVISED_MODEL_CACHE)
 
 
@@ -10260,6 +10612,27 @@ def merge_price_maps(*price_maps: dict[str, Any]) -> dict[str, Any]:
     return merged
 
 
+def execution_price_snapshot(
+    stream: MultiPriceStream | None,
+    cached_prices: dict[str, Any],
+    snapshot_provider: Callable[[], dict[str, Any]] | None = None,
+) -> dict[str, Any]:
+    """Return the freshest execution diagnostic prices available.
+
+    The strategy lab is deliberately allowed to run without its own streaming
+    connection and fall back to OANDA REST snapshots.  In that mode the
+    executor previously received no price provider at all, leaving candidate
+    repricing and the research signal snapshot's quote coverage at zero even
+    while the lab held fresh executable quotes.  Merge a live stream overlay
+    when present, otherwise expose a copy of the current REST/cache view.  All
+    downstream tradeability and quote-age checks remain authoritative.
+    """
+
+    snapshot_prices = snapshot_provider() if snapshot_provider is not None else {}
+    stream_prices = stream.snapshot() if stream is not None else {}
+    return merge_price_maps(cached_prices, snapshot_prices, stream_prices)
+
+
 def merge_price_overlay(
     current: dict[str, Any],
     overlay: dict[str, Any],
@@ -12221,7 +12594,12 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         "--research-market-quote-snapshot",
         type=Path,
-        default=DEFAULT_LOG_DIR.parent / "state" / "practice_007_market_quotes_v1.json",
+        default=None,
+        help=(
+            "Optional strategy-lab-owned research quote snapshot. The canonical "
+            "Practice-007 quote snapshot is owned exclusively by the fast executor "
+            "and must never be used here."
+        ),
     )
     parser.add_argument(
         "--research-market-quote-snapshot-sec",
@@ -12811,7 +13189,14 @@ def main(argv: list[str] | None = None) -> int:
         )
     if executor is not None:
         executor.set_price_snapshot_provider(
-            None if stream is None else stream.snapshot
+            lambda: execution_price_snapshot(
+                stream,
+                prices,
+                snapshot_provider=lambda: client.pricing_snapshot(
+                    account_id,
+                    instruments,
+                ),
+            )
         )
     candle_pool = ThreadPoolExecutor(max_workers=args.candle_workers, thread_name_prefix="lab-candle")
     refresh_coordinator = ThreadPoolExecutor(max_workers=1, thread_name_prefix="lab-refresh")
@@ -13035,6 +13420,9 @@ def main(argv: list[str] | None = None) -> int:
                                 getattr(quote, "source", "")
                                 or "strategy_price_stream"
                             ),
+                            "tradeable": bool(
+                                getattr(quote, "tradeable", True)
+                            ),
                         }
                     # The dedicated price-stream thread writes the same
                     # snapshot.  Never replace its valid quotes with an empty
@@ -13043,7 +13431,7 @@ def main(argv: list[str] | None = None) -> int:
                         atomic_json(
                             args.research_market_quote_snapshot,
                             {
-                                "schema_version": 1,
+                                "schema_version": 3,
                                 "generated_utc": utc_now(),
                                 "account_suffix": account_id[-4:],
                                 "producer": "strategy_lab_price_stream",

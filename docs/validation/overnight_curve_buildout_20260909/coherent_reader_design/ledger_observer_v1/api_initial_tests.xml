@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="14" skipped="0" tests="22" time="12.200" timestamp="2026-09-09T04:26:00.008528-04:00" hostname="DESKTOP-Q2EDIEU"><testcase classname="test_oanda_joint_v3_ledger_observer_api_v1" name="test_real_ledger_evidence_survives_producer_mismatch_without_false_worker_health" time="0.611"><failure message="AssertionError: assert 'unavailable' == 'partial_ledger_observation'&#10;  &#10;  - partial_ledger_observation&#10;  + unavailable">world = {'study': WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-4793/test_real_ledger_evidence_surv0/j...{'account_data_read': False, 'inputs_table_read': False, 'instrument': 'EUR_USD', 'news_bodies_read': False, ...}, ...}
+
+    def test_real_ledger_evidence_survives_producer_mismatch_without_false_worker_health(world):
+        instance, _, clock = make_api(world)
+        value = instance.get()
+&gt;       assert value['status'] == 'partial_ledger_observation'
+E       AssertionError: assert 'unavailable' == 'partial_ledger_observation'
+E         
+E         - partial_ledger_observation
+E         + unavailable
+
+test_oanda_joint_v3_ledger_observer_api_v1.py:45: AssertionError</failure></testcase><testcase classname="test_oanda_joint_v3_ledger_observer_api_v1" name="test_cache_hits_preserve_original_bytes_and_clocks_with_independent_return_objects" time="0.572"><failure message="KeyError: 'observer_report_sha256'">world = {'study': WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-4793/test_cache_hits_preserve_origi0/j...{'account_data_read': False, 'inputs_table_read': False, 'instrument': 'EUR_USD', 'news_bodies_read': False, ...}, ...}
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x000002166E25FD70&gt;
+
+    def test_cache_hits_preserve_original_bytes_and_clocks_with_independent_return_objects(world, monkeypatch):
+        instance, _, clock = make_api(world)
+        original = api.observer.observe_joint_v3
+        calls = []
+        def counted(*args, **kwargs):
+            calls.append(1)
+            return original(*args, **kwargs)
+        monkeypatch.setattr(api.observer, 'observe_joint_v3', counted)
+        first = instance.get()
+&gt;       original_hash = first['observer_report_sha256']
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'observer_report_sha256'
+
+test_oanda_joint_v3_ledger_observer_api_v1.py:68: KeyError</failure></testcase><testcase classname="test_oanda_joint_v3_ledger_observer_api_v1" name="test_original_target_expiring_inside_cache_only_changes_consumer_projection" time="1.016"><failure message="TypeError: 'NoneType' object is not subscriptable">world = {'study': WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-4793/test_original_target_expiring_0/j...{'account_data_read': False, 'inputs_table_read': False, 'instrument': 'EUR_USD', 'news_bodies_read': False, ...}, ...}
+
+    def test_original_target_expiring_inside_cache_only_changes_consumer_projection(world):
+        target = world['fixture']['tables']['forecasts'][0]['target']
+        instance, _, clock = make_api(world, clock=Clock(target - 5))
+        first = instance.get()
+        clock.advance(6)
+        second = instance.get()
+&gt;       assert first['consumer']['current_forecast_pairs'] == 1
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not subscriptable
+
+test_oanda_joint_v3_ledger_observer_api_v1.py:90: TypeError</failure></testcase><testcase classname="test_oanda_joint_v3_ledger_observer_api_v1" name="test_current_identity_failure_clears_prior_cache[activation]" time="0.612"><failure message="TypeError: 'NoneType' object is not subscriptable">world = {'study': WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-4793/test_current_identity_failure_0/j...{'account_data_read': False, 'inputs_table_read': False, 'instrument': 'EUR_USD', 'news_bodies_read': False, ...}, ...}
+which = 'activation'
+
+    @pytest.mark.parametrize('which', ['activation', 'selection'])
+    def test_current_identity_failure_clears_prior_cache(world, which):
+        instance, spec, _ = make_api(world)
+&gt;       assert instance.get()['consumer']['current_forecast_pairs'] == 1
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not subscriptable
+
+test_oanda_joint_v3_ledger_observer_api_v1.py:100: TypeError</failure></testcase><testcase classname="test_oanda_joint_v3_ledger_observer_api_v1" name="test_current_identity_failure_clears_prior_cache[selection]" time="0.767"><failure message="TypeError: 'NoneType' object is not subscriptable">world = {'study': WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-4793/test_current_identity_failure_1/j...{'account_data_read': False, 'inputs_table_read': False, 'instrument': 'EUR_USD', 'news_bodies_read': False, ...}, ...}
+which = 'selection'
+
+    @pytest.mark.parametrize('which', ['activation', 'selection'])
+    def test_current_identity_failure_clears_prior_cache(world, which):
+        instance, spec, _ = make_api(world)
+&gt;       assert instance.get()['consumer']['current_forecast_pairs'] == 1
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not subscriptable
+
+test_oanda_joint_v3_ledger_observer_api_v1.py:100: TypeError</failure></testcase><testcase classname="test_oanda_joint_v3_ledger_observer_api_v1" name="test_original_source_change_is_not_hidden_by_current_cache" time="0.610"><failure message="TypeError: 'NoneType' object is not subscriptable">world = {'study': WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-4793/test_original_source_change_is0/j...{'account_data_read': False, 'inputs_table_read': False, 'instrument': 'EUR_USD', 'news_bodies_read': False, ...}, ...}
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x000002166DF6F350&gt;
+
+    def test_original_source_change_is_not_hidden_by_current_cache(world, monkeypatch):
+        instance, _, _ = make_api(world)
+&gt;       assert instance.get()['consumer']['current_forecast_pairs'] == 1
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not subscriptable
+
+test_oanda_joint_v3_ledger_observer_api_v1.py:111: TypeError</failure></testcase><testcase classname="test_oanda_joint_v3_ledger_observer_api_v1" name="test_refresh_detects_changed_original_receipt_and_removes_only_invalid_pair" time="0.556"><failure message="TypeError: 'NoneType' object is not subscriptable">world = {'study': WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-4793/test_refresh_detects_changed_o0/j...{'account_data_read': False, 'inputs_table_read': False, 'instrument': 'EUR_USD', 'news_bodies_read': False, ...}, ...}
+
+    def test_refresh_detects_changed_original_receipt_and_removes_only_invalid_pair(world):
+        instance, _, clock = make_api(world)
+&gt;       assert instance.get()['consumer']['current_forecast_pairs'] == 1
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not subscriptable
+
+test_oanda_joint_v3_ledger_observer_api_v1.py:126: TypeError</failure></testcase><testcase classname="test_oanda_joint_v3_ledger_observer_api_v1" name="test_malformed_or_aged_cached_report_is_never_current[stale]" time="0.555"><failure message="TypeError: 'NoneType' object is not subscriptable">world = {'study': WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-4793/test_malformed_or_aged_cached_0/j...{'account_data_read': False, 'inputs_table_read': False, 'instrument': 'EUR_USD', 'news_bodies_read': False, ...}, ...}
+change = 'stale'
+
+    @pytest.mark.parametrize('change', ['stale', 'future', 'seal', 'source_bound'])
+    def test_malformed_or_aged_cached_report_is_never_current(world, change):
+        instance, _, clock = make_api(world)
+&gt;       assert instance.get()['consumer']['current_forecast_pairs'] == 1
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not subscriptable
+
+test_oanda_joint_v3_ledger_observer_api_v1.py:138: TypeError</failure></testcase><testcase classname="test_oanda_joint_v3_ledger_observer_api_v1" name="test_malformed_or_aged_cached_report_is_never_current[future]" time="0.557"><failure message="TypeError: 'NoneType' object is not subscriptable">world = {'study': WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-4793/test_malformed_or_aged_cached_1/j...{'account_data_read': False, 'inputs_table_read': False, 'instrument': 'EUR_USD', 'news_bodies_read': False, ...}, ...}
+change = 'future'
+
+    @pytest.mark.parametrize('change', ['stale', 'future', 'seal', 'source_bound'])
+    def test_malformed_or_aged_cached_report_is_never_current(world, change):
+        instance, _, clock = make_api(world)
+&gt;       assert instance.get()['consumer']['current_forecast_pairs'] == 1
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not subscriptable
+
+test_oanda_joint_v3_ledger_observer_api_v1.py:138: TypeError</failure></testcase><testcase classname="test_oanda_joint_v3_ledger_observer_api_v1" name="test_malformed_or_aged_cached_report_is_never_current[seal]" time="0.564"><failure message="TypeError: 'NoneType' object is not subscriptable">world = {'study': WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-4793/test_malformed_or_aged_cached_2/j...{'account_data_read': False, 'inputs_table_read': False, 'instrument': 'EUR_USD', 'news_bodies_read': False, ...}, ...}
+change = 'seal'
+
+    @pytest.mark.parametrize('change', ['stale', 'future', 'seal', 'source_bound'])
+    def test_malformed_or_aged_cached_report_is_never_current(world, change):
+        instance, _, clock = make_api(world)
+&gt;       assert instance.get()['consumer']['current_forecast_pairs'] == 1
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not subscriptable
+
+test_oanda_joint_v3_ledger_observer_api_v1.py:138: TypeError</failure></testcase><testcase classname="test_oanda_joint_v3_ledger_observer_api_v1" name="test_malformed_or_aged_cached_report_is_never_current[source_bound]" time="0.594"><failure message="TypeError: 'NoneType' object is not subscriptable">world = {'study': WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-4793/test_malformed_or_aged_cached_3/j...{'account_data_read': False, 'inputs_table_read': False, 'instrument': 'EUR_USD', 'news_bodies_read': False, ...}, ...}
+change = 'source_bound'
+
+    @pytest.mark.parametrize('change', ['stale', 'future', 'seal', 'source_bound'])
+    def test_malformed_or_aged_cached_report_is_never_current(world, change):
+        instance, _, clock = make_api(world)
+&gt;       assert instance.get()['consumer']['current_forecast_pairs'] == 1
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not subscriptable
+
+test_oanda_joint_v3_ledger_observer_api_v1.py:138: TypeError</failure></testcase><testcase classname="test_oanda_joint_v3_ledger_observer_api_v1" name="test_cold_concurrent_requests_start_one_scan_and_report_progress" time="0.627"><failure message="TypeError: 'NoneType' object is not subscriptable">world = {'study': WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-4793/test_cold_concurrent_requests_0/j...{'account_data_read': False, 'inputs_table_read': False, 'instrument': 'EUR_USD', 'news_bodies_read': False, ...}, ...}
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x000002166E1BDDC0&gt;
+
+    def test_cold_concurrent_requests_start_one_scan_and_report_progress(world, monkeypatch):
+        instance, _, _ = make_api(world)
+        entered, release = threading.Event(), threading.Event()
+        original = api.observer.observe_joint_v3
+        calls, results = [], []
+        def delayed(*args, **kwargs):
+            calls.append(1); entered.set()
+            assert release.wait(5)
+            return original(*args, **kwargs)
+        monkeypatch.setattr(api.observer, 'observe_joint_v3', delayed)
+        thread = threading.Thread(target=lambda: results.append(instance.get()))
+        thread.start()
+        try:
+            assert entered.wait(5)
+            second = instance.get()
+            assert second['status'] == 'unavailable' and second['reason'] == 'observation_in_progress'
+            assert second['refresh_in_progress'] is True and len(calls) == 1
+        finally:
+            release.set(); thread.join(10)
+&gt;       assert not thread.is_alive() and results[0]['consumer']['current_forecast_pairs'] == 1
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not subscriptable
+
+test_oanda_joint_v3_ledger_observer_api_v1.py:176: TypeError</failure></testcase><testcase classname="test_oanda_joint_v3_ledger_observer_api_v1" name="test_refresh_in_progress_can_use_only_still_valid_previous_observation" time="1.120"><failure message="KeyError: 'observer_report_sha256'">world = {'study': WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-4793/test_refresh_in_progress_can_u0/j...{'account_data_read': False, 'inputs_table_read': False, 'instrument': 'EUR_USD', 'news_bodies_read': False, ...}, ...}
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x000002166DF6ED50&gt;
+
+    def test_refresh_in_progress_can_use_only_still_valid_previous_observation(world, monkeypatch):
+        instance, _, clock = make_api(world)
+        first = instance.get()
+        clock.advance(15)
+        entered, release = threading.Event(), threading.Event()
+        original = api.observer.observe_joint_v3
+        results = []
+        def delayed(*args, **kwargs):
+            entered.set(); assert release.wait(5)
+            return original(*args, **kwargs)
+        monkeypatch.setattr(api.observer, 'observe_joint_v3', delayed)
+        thread = threading.Thread(target=lambda: results.append(instance.get()))
+        thread.start()
+        try:
+            assert entered.wait(5)
+            second = instance.get()
+            assert second['refresh_in_progress'] is True
+&gt;           assert second['observer_report_sha256'] == first['observer_report_sha256']
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           KeyError: 'observer_report_sha256'
+
+test_oanda_joint_v3_ledger_observer_api_v1.py:196: KeyError</failure></testcase><testcase classname="test_oanda_joint_v3_ledger_observer_api_v1" name="test_bad_selection_during_another_refresh_cannot_be_overwritten_by_that_refresh" time="0.495" /><testcase classname="test_oanda_joint_v3_ledger_observer_api_v1" name="test_configuration_requires_exact_authority_identity_and_bounds[order_flag]" time="0.155" /><testcase classname="test_oanda_joint_v3_ledger_observer_api_v1" name="test_configuration_requires_exact_authority_identity_and_bounds[schema]" time="0.139" /><testcase classname="test_oanda_joint_v3_ledger_observer_api_v1" name="test_configuration_requires_exact_authority_identity_and_bounds[source_hash]" time="0.141" /><testcase classname="test_oanda_joint_v3_ledger_observer_api_v1" name="test_configuration_requires_exact_authority_identity_and_bounds[refresh]" time="0.139" /><testcase classname="test_oanda_joint_v3_ledger_observer_api_v1" name="test_configuration_requires_exact_authority_identity_and_bounds[relative_path]" time="0.149" /><testcase classname="test_oanda_joint_v3_ledger_observer_api_v1" name="test_from_specification_requires_pinned_file_bytes" time="0.603"><failure message="TypeError: 'NoneType' object is not subscriptable">world = {'study': WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-4793/test_from_specification_requir0/j...{'account_data_read': False, 'inputs_table_read': False, 'instrument': 'EUR_USD', 'news_bodies_read': False, ...}, ...}
+
+    def test_from_specification_requires_pinned_file_bytes(world):
+        _, spec, clock = make_api(world)
+        path = world['study'].parent / 'api_spec.json'
+        sha = save(path, spec)
+        good = api.LedgerObservationAPI.from_specification(path, expected_file_sha256=sha,
+            clock=lambda: clock.wall, monotonic=lambda: clock.tick)
+&gt;       assert good.get(compact=True)['consumer']['current_forecast_pairs'] == 1
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not subscriptable
+
+test_oanda_joint_v3_ledger_observer_api_v1.py:246: TypeError</failure></testcase><testcase classname="test_oanda_joint_v3_ledger_observer_api_v1" name="test_failure_messages_never_export_raw_exception_text" time="0.203" /><testcase classname="test_oanda_joint_v3_ledger_observer_api_v1" name="test_no_background_or_runtime_write_api_and_no_source_fallback" time="0.002" /></testsuite></testsuites>

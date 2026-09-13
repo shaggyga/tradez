@@ -1,0 +1,202 @@
+{
+  "supervisor": {
+    "pid": 45324,
+    "parent_pid": 38432,
+    "name": "powershell.exe",
+    "created_utc": "2026-09-07T21:19:21.9976220Z",
+    "command": "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File \"C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_always_on_supervisor.ps1\" -Root \"C:\\Users\\zmoor\\Documents\\forex\" -AccountKey OANDA_ACCOUNT_ID_DUM4 -RunLabel research-collection-audit-20260906 -IntervalSec 30 -ChildDurationSec 604800 -SafeCoreOnly -ResearchCollectionOnly"
+  },
+  "source_bindings": {
+    "oanda_news_causal_aggregation_guard_v1.py": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9",
+    "oanda_always_on_supervisor.ps1": "7773307e8dc9116823bf1e043b8e01df79059ef260657ef6573a82e786dc6e3c",
+    "start_oanda_research_collection.ps1": "c7e2a970b6e8bb69fcdaf5b124b8d935be6326f06a6554408889e111f57f3115",
+    "oanda_news_classification_contract.py": "f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae",
+    "oanda_local_news_sentiment.py": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4"
+  },
+  "python": [
+    {
+      "pid": 5452,
+      "parent_pid": 14508,
+      "name": "python.exe",
+      "created_utc": "2026-09-06T19:38:40.4535770Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_practice_quote_stream.py --creds C:\\Users\\zmoor\\Documents\\forex\\trad\\creds --account-key OANDA_ACCOUNT_ID_DUM4 --heartbeat-state C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_quote_stream_heartbeat_v1.json --research-market-quote-snapshot C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_market_quotes_v1.json --research-market-quote-snapshot-sec 2 --duration-sec 604800 "
+    },
+    {
+      "pid": 44996,
+      "parent_pid": 5452,
+      "name": "python.exe",
+      "created_utc": "2026-09-06T19:38:40.5336090Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_practice_quote_stream.py --creds C:\\Users\\zmoor\\Documents\\forex\\trad\\creds --account-key OANDA_ACCOUNT_ID_DUM4 --heartbeat-state C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_quote_stream_heartbeat_v1.json --research-market-quote-snapshot C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_market_quotes_v1.json --research-market-quote-snapshot-sec 2 --duration-sec 604800 "
+    },
+    {
+      "pid": 20572,
+      "parent_pid": 14508,
+      "name": "python.exe",
+      "created_utc": "2026-09-06T19:39:11.2044260Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_clock_integrity_monitor.py --source C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_quote_stream_heartbeat_v1.json --output C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\clock_integrity_v1.json --history C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\logs\\clock_integrity_samples_v1.jsonl --interval-sec 30 --duration-sec 604800 "
+    },
+    {
+      "pid": 32208,
+      "parent_pid": 20572,
+      "name": "python.exe",
+      "created_utc": "2026-09-06T19:39:11.2907850Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_clock_integrity_monitor.py --source C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_quote_stream_heartbeat_v1.json --output C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\clock_integrity_v1.json --history C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\logs\\clock_integrity_samples_v1.jsonl --interval-sec 30 --duration-sec 604800 "
+    },
+    {
+      "pid": 31364,
+      "parent_pid": 14508,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T15:29:23.8358210Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_account_snapshot_writer.py --creds C:\\Users\\zmoor\\Documents\\forex\\trad\\creds --account-key OANDA_ACCOUNT_ID_DUM4 --output C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\account_007_dashboard_v1.json --mirror-output C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\account_dashboard_v1.json --interval-sec 1 --duration-sec 604800 "
+    },
+    {
+      "pid": 3092,
+      "parent_pid": 31364,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T15:29:23.8872660Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_account_snapshot_writer.py --creds C:\\Users\\zmoor\\Documents\\forex\\trad\\creds --account-key OANDA_ACCOUNT_ID_DUM4 --output C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\account_007_dashboard_v1.json --mirror-output C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\account_dashboard_v1.json --interval-sec 1 --duration-sec 604800 "
+    },
+    {
+      "pid": 39516,
+      "parent_pid": 34984,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T16:15:23.5478650Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_all68_m1_forward_updater.py --bootstrap-all-priced --max-requests-per-pair 1 --backfill-requests-per-pair 0 --batch-size 5000 --pause-seconds 0.10 --report C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\all68_m1_forward_update_v1.json --heartbeat C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\all68_m1_forward_update_heartbeat_v1.json --interval-sec 300 --duration-sec 604800 "
+    },
+    {
+      "pid": 15540,
+      "parent_pid": 39516,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T16:15:23.6261600Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_all68_m1_forward_updater.py --bootstrap-all-priced --max-requests-per-pair 1 --backfill-requests-per-pair 0 --batch-size 5000 --pause-seconds 0.10 --report C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\all68_m1_forward_update_v1.json --heartbeat C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\all68_m1_forward_update_heartbeat_v1.json --interval-sec 300 --duration-sec 604800 "
+    },
+    {
+      "pid": 11892,
+      "parent_pid": 22400,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T17:18:10.9903900Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_pair_local_forecast_study_v1.py --config C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\pair_local_forecast_study_v1_20260907.json --duration-sec 604800 "
+    },
+    {
+      "pid": 4068,
+      "parent_pid": 11892,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T17:18:11.0481990Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_pair_local_forecast_study_v1.py --config C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\pair_local_forecast_study_v1_20260907.json --duration-sec 604800 "
+    },
+    {
+      "pid": 9728,
+      "parent_pid": 36364,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T21:12:45.4003780Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_pair_local_forecast_study_v2.py --config C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\pair_local_forecast_study_v2_20260907.json --duration-sec 604800"
+    },
+    {
+      "pid": 24900,
+      "parent_pid": 9728,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T21:12:45.5311610Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_pair_local_forecast_study_v2.py --config C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\pair_local_forecast_study_v2_20260907.json --duration-sec 604800"
+    },
+    {
+      "pid": 41384,
+      "parent_pid": 45324,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T21:28:14.0519240Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_practice_live_dashboard.py --port 8765 --max-runs 20 --max-lines 20000 "
+    },
+    {
+      "pid": 9460,
+      "parent_pid": 41384,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T21:28:14.1121280Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_practice_live_dashboard.py --port 8765 --max-runs 20 --max-lines 20000 "
+    },
+    {
+      "pid": 25960,
+      "parent_pid": 45324,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T21:45:22.1944240Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_storage_headroom_guard.py --output C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\storage_headroom_v1.json --history C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\logs\\storage_headroom_v1.jsonl --report C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\reports\\storage\\STORAGE_HEADROOM_CURRENT.md --interval-sec 300 --duration-sec 604800 "
+    },
+    {
+      "pid": 41288,
+      "parent_pid": 25960,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T21:45:22.2763170Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_storage_headroom_guard.py --output C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\storage_headroom_v1.json --history C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\logs\\storage_headroom_v1.jsonl --report C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\reports\\storage\\STORAGE_HEADROOM_CURRENT.md --interval-sec 300 --duration-sec 604800 "
+    },
+    {
+      "pid": 37408,
+      "parent_pid": 45324,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T22:08:44.8712450Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_official_release_fast_lane.py --interval-sec 15 --duration-sec 604800 "
+    },
+    {
+      "pid": 44324,
+      "parent_pid": 37408,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T22:08:44.9417190Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_official_release_fast_lane.py --interval-sec 15 --duration-sec 604800 "
+    },
+    {
+      "pid": 11652,
+      "parent_pid": 45324,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T22:08:45.8741090Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_source_governance_news_fast_lane.py --news-database C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\local_news_sentiment_v1.sqlite --database C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\source_governance_v1.sqlite --state C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\source_governance_news_fast_lane_v3.json --interval-sec 30 --duration-sec 604800 "
+    },
+    {
+      "pid": 44784,
+      "parent_pid": 11652,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T22:08:45.9560780Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_source_governance_news_fast_lane.py --news-database C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\local_news_sentiment_v1.sqlite --database C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\source_governance_v1.sqlite --state C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\source_governance_news_fast_lane_v3.json --interval-sec 30 --duration-sec 604800 "
+    },
+    {
+      "pid": 34824,
+      "parent_pid": 45324,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T22:10:52.9517560Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_project_integrity_audit.py --output C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\project_integrity_audit_v1.json --history C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\logs\\project_integrity_audit_v1.jsonl --report C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\reports\\project_integrity\\PROJECT_INTEGRITY_CURRENT.md --interval-sec 300 --duration-sec 604800 "
+    },
+    {
+      "pid": 34156,
+      "parent_pid": 34824,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T22:10:53.0151900Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_project_integrity_audit.py --output C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\project_integrity_audit_v1.json --history C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\logs\\project_integrity_audit_v1.jsonl --report C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\reports\\project_integrity\\PROJECT_INTEGRITY_CURRENT.md --interval-sec 300 --duration-sec 604800 "
+    },
+    {
+      "pid": 43100,
+      "parent_pid": 45324,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T22:15:07.9708410Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_local_news_sentiment.py --interval-sec 60 --duration-sec 604800 "
+    },
+    {
+      "pid": 16296,
+      "parent_pid": 43100,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T22:15:08.0560470Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_local_news_sentiment.py --interval-sec 60 --duration-sec 604800 "
+    },
+    {
+      "pid": 11336,
+      "parent_pid": 45324,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T22:15:10.4070990Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_official_release_fast_mapper.py --interval-sec 5 --duration-sec 604800 --quiet "
+    },
+    {
+      "pid": 14072,
+      "parent_pid": 11336,
+      "name": "python.exe",
+      "created_utc": "2026-09-07T22:15:10.4612450Z",
+      "command": "\"C:\\Users\\zmoor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_official_release_fast_mapper.py --interval-sec 5 --duration-sec 604800 --quiet "
+    }
+  ],
+  "reason": "Old running supervisor rejected v165 heartbeat against exact v164 gate and restarted first collector cycle.",
+  "observed_utc": "2026-09-07T22:16:44.6081437Z"
+}

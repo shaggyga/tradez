@@ -1,0 +1,2492 @@
+{
+  "schema_version": "feature_dictionary_active_joint_34_v1",
+  "title": "Source-traced active joint price/news numerical feature dictionary",
+  "as_of": "2026-09-07",
+  "scope": "Additive documentation of the registered scheduler-v2 joint model source bytes. Source/configuration inspection only: no runtime module import, model execution, DB read, network access, live state verification, performance inference or order authority.",
+  "registry": {
+    "path": "config/joint_price_news_study_v2_20260907.json",
+    "registry_id": "joint_price_news_study_v2_20260907",
+    "family": "ridge_price_news_v1",
+    "model_version": "joint_price_news_ridge_v1_20260907",
+    "feature_count": 34,
+    "price_feature_count": 24,
+    "news_feature_count": 8,
+    "interaction_feature_count": 2,
+    "intercept_is_not_a_feature": true,
+    "research_only": true,
+    "can_place_orders": false,
+    "can_authorize": false,
+    "can_promote": false,
+    "account_eligible": false,
+    "proof_eligible": false,
+    "source_refs": [
+      {
+        "path": "config/joint_price_news_study_v2_20260907.json",
+        "line": 1,
+        "evidence_kind": "configuration"
+      },
+      {
+        "path": "oanda_joint_price_news_models_v1.py",
+        "line": 12,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_joint_price_news_models_v1.py",
+        "line": 119,
+        "evidence_kind": "implementation"
+      }
+    ]
+  },
+  "naming_and_order": {
+    "index_base": 0,
+    "feature_id_policy": "Stable documentation IDs. The eight news IDs exactly equal NEWS_FEATURES. The 24 price and two interaction IDs are documentation-assigned names for unnamed positional entries, not claimed existing code symbols.",
+    "exact_source_order": "For windows 1,5,15,30,60 minutes, append (rate,span/minutes,1-density,float(not available)); then append RMS elapsed change, max gap, len(current)/61, session age; then NEWS_FEATURES tuple; then technical[0]*news[0], technical[0]*news[4].",
+    "static_reconstruction_method": "Read PARAMETERS['feature_windows_minutes'], the _features loop/extend calls, NEWS_FEATURES and _joint_features. This dictionary does not import or execute them. Their sequence is the expected ordering for independent AST-only validation.",
+    "source_refs": [
+      {
+        "path": "oanda_pair_local_models_v2.py",
+        "line": 20,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_pair_local_models_v2.py",
+        "line": 106,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_pair_local_models_v2.py",
+        "line": 117,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_pair_local_models_v2.py",
+        "line": 120,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_joint_price_news_models_v1.py",
+        "line": 15,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_joint_price_news_models_v1.py",
+        "line": 80,
+        "evidence_kind": "implementation"
+      }
+    ]
+  },
+  "shared_definitions": {
+    "price": "P(u) is the positive finite close field from the selected instrument's captured M1 CSV. The parser verifies instrument/granularity/complete flags if those columns exist, monotonically increasing exact minute starts, captured-byte hashes and u+60<=actual observation. It does not establish whether close is bid, ask or midpoint; that meaning is an upstream data contract, not inferred here.",
+    "time": "t is a UTC M1 start epoch. S(t) is the first retained row in the current session, reset only when an adjacent observed gap is greater than 1800 seconds. W(t) contains actual epochs from max(S(t),t-3600) through t inclusive. T_w is the suffix of W(t) with epochs >=t-60w. No prior-left-edge interpolation is used.",
+    "pip": "pip is the registered pair pip size, validated as one of 0.0001, 0.001 or 0.01 by the numeric source. Returns in pips divide price-unit differences by pip; positive means the base/quote rate rose.",
+    "window_notation": "n_w=|T_w|, d_w=(last(T_w)-first(T_w))/60, available=(n_w>=2), density=(n_w-1)/w. The anchor always exists, so T_w is nonempty. A complete w-minute window has w+1 closes and w intervals.",
+    "news": "e is the news frame evaluation epoch. C is the selected pair's context member list, V its vetted guarded-claim list. A member/group is pair-relevant if either currency key exists in its score map. An absent base or quote key is treated as score 0 only after pair relevance is established.",
+    "zero_not_absence": "No single numerical zero establishes that news or price data is absent. A price rate can be truly flat or unavailable; a news score can cancel; a news count of zero is conditional on the narrow scored-member projection. Empty context is encoded (0,0,0,1) and empty vetted evidence as (0,0,0,0). Invalid/stale/unverifiable snapshots are rejected, not silently converted to neutral.",
+    "source_refs": [
+      {
+        "path": "oanda_causal_forecast_inputs.py",
+        "line": 115,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_causal_forecast_inputs_pair_v2.py",
+        "line": 37,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_pair_local_models_v2.py",
+        "line": 28,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_pair_local_models_v2.py",
+        "line": 60,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_pair_local_models_v2.py",
+        "line": 106,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+        "line": 309,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_news_causal_aggregation_guard_v1.py",
+        "line": 320,
+        "evidence_kind": "implementation"
+      }
+    ]
+  },
+  "causal_clocks": {
+    "price": "The CSV key is the UTC M1 start. P(t) is complete no earlier than t+60; stable-read consumer observation is retained separately and may be later. Current capture and computation require the latest close to be between 0 and 900 seconds old. Training uses actual past closes captured now and is explicitly retrospective, not proof that price files or forecasts were available then.",
+    "news": "Original member knowledge known_m=max(published_utc,first_seen_utc,causal_known_utc,detail_available_utc,numeric_causal_known_utc,publication_clock_known_utc) over present fields. It excludes later mapping/consumption when computing age and original expiry. Frame admission also requires a separate availability<=e.",
+    "historical_news": "Retained original classified members come from source_events joined to committed fast-lane mappings and independently read visibility records. Their payload/hash, visibility contract, trusted observation flag and supported original classifier version (v164 or v165) are checked. Availability=max(mapping_visible_epoch,member.observed_available_utc); the latter is at least mapping visibility. Historical frames use e=t+60, mapping<=e and known_m in [e-3600,e]. They do not reclassify mutable article tables into earlier history.",
+    "current_news": "Producer writes guarded joint_news_current_v1.json with as_of_utc evidence time, generated_utc after computation and source hashes. Consumer rereads/verifies it and stores a later first_observed_epoch=news_available_epoch; member observed_available_utc is raised to at least that observation. Evidence<=generated<=observation; evidence age must remain <=300 seconds. Current frame e is this actual consumer observation, not the price bar start.",
+    "original_expiry": "The guard sets each admitted member expiry to known_m + estimated_reaction_horizon_minutes*60. Availability includes observed_available_utc, but that later clock never moves original expiry. Within a claim expiry is the earliest representative expiry; across pair-relevant vetted groups the feature uses the earliest again. Capture expiry is min(news_evidence_epoch+300, earliest vetted pair expiry), or evidence+300 with no vetted group.",
+    "price_and_news": "Current price and news have distinct clocks: price can be as old as 900 seconds, news evidence at most 300 seconds, with earlier original veto expiry retained. Their interaction is a same-decision joint feature, not a claim of simultaneous arrival.",
+    "fit_and_target": "For training anchor t, exact P(t+3600) must exist, t+3600<=price cutoff and both endpoints must share a session. Its close matures at t+3660; news frame matures at t+60. Anchors are UTC epoch multiples of 900 seconds. Historical label y=(P(t+3600)-P(t))/pip is a training target, not one of the 34 inputs.",
+    "source_refs": [
+      {
+        "path": "oanda_causal_forecast_inputs.py",
+        "line": 139,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_causal_forecast_inputs_pair_v2.py",
+        "line": 74,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+        "line": 110,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+        "line": 127,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+        "line": 188,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+        "line": 239,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+        "line": 272,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+        "line": 322,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+        "line": 383,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_news_causal_aggregation_guard_v1.py",
+        "line": 125,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_news_causal_aggregation_guard_v1.py",
+        "line": 251,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_joint_price_news_models_v1.py",
+        "line": 39,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_joint_price_news_models_v1.py",
+        "line": 111,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_source_governance_news_fast_lane.py",
+        "line": 332,
+        "evidence_kind": "implementation"
+      }
+    ]
+  },
+  "model_transform": {
+    "training_standardization": "Construct every raw feature, including both products, before normalization. For each training column j, mean_j=mean_i(x_ij), scale_j=population std_i(x_ij). Set scale_j=1 if scale_j<1e-9. Fit on z_ij=(x_ij-mean_j)/scale_j and transform the current query with those same training-only values. No query value enters the fitted mean or scale. Thus the model consumes standardized dimensionless numbers even when raw features have pips/minute or hours units.",
+    "intercept_and_ridge": "Prepend an intercept of 1 (35 design columns, not a 35th feature). beta solves (D^T D+diag(0,50,...,50)) beta=D^T y. The intercept is unpenalized. Coefficients are fitted jointly, not preset price/news conversion multipliers.",
+    "training_readiness": "Current W(t) must have >=8 actual returns and >=900 seconds span. Training requires >=48 mature exact-H1 anchors, >=12 context-nonempty rows and >=8 distinct four-field context patterns. If a vetted training dimension has std<1e-9 and its current value differs from the historical constant by >1e-9, fitting is blocked as unseen vetted input.",
+    "training_bounds": "Price capture reads a stable local CSV tail bounded to 4 MiB and 4096 rows. News reconstruction has a 48-hour committed-visibility range, 5000-row limit and explicit byte limits; violations fail closed. Model accepts at most 256 news anchor frames. Retained rows and correlated/overlapping labels are not independent sample counts.",
+    "return_shrinkage": "For N training rows, effective=N/4 is an overlap-adjusted count heuristic, shrink=effective/(effective+20). sigma=max(0.1,residual_population_std,std(y))*sqrt(1+query_leverage+1/max(effective,1)). Final expected pips=clip(raw_query_prediction*shrink,-2*sigma,2*sigma). Neither this heuristic nor numerical readiness demonstrates calibrated prediction.",
+    "neutral_news_ablation": "Use the same fitted joint coefficients, means, scales, shrinkage and joint sigma, unchanged current price features, and raw news=(0,0,0,1,0,0,0,0). Recompute products (both zero), then normalize. Joint expected minus this neutral-news expected is a model sensitivity/ablation difference, not causal news impact.",
+    "matched_price_only": "Fit a separate 24-feature Ridge model on exactly the same training anchors/targets as the joint fit. This is a comparator, not a component to add to the joint news-ablation difference.",
+    "not_inputs": "Target pips, probabilities, fitted coefficients, expected returns, spread/costs, quote-entry outcomes, source health, model scores and dashboard pair labels are not additional columns in this 34-input vector. All order/promotion/proof flags remain false.",
+    "source_refs": [
+      {
+        "path": "oanda_joint_price_news_models_v1.py",
+        "line": 18,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_joint_price_news_models_v1.py",
+        "line": 32,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_joint_price_news_models_v1.py",
+        "line": 39,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_joint_price_news_models_v1.py",
+        "line": 52,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_joint_price_news_models_v1.py",
+        "line": 80,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_joint_price_news_models_v1.py",
+        "line": 84,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_joint_price_news_models_v1.py",
+        "line": 99,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+        "line": 36,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+        "line": 127,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_causal_forecast_inputs_pair_v2.py",
+        "line": 22,
+        "evidence_kind": "implementation"
+      }
+    ]
+  },
+  "upstream_news_mapping": {
+    "producer": "classify_article produces original member currency_scores. The producer later publishes guarded current topic evidence through build_current_news_snapshot(published_relevant, as_of=completed), attaches three producer source hashes and a generated clock, then writes joint_news_current_v1.json. The joint adapter independently validates/replays this artifact rather than reading the dashboard's pair_sentiment_latest.json.",
+    "classifier_boundary": "Source title/allowed summary, extracted/issuer-bound currencies, structured release metadata, policy/risk/commodity/intervention/reported-move rules and guards determine currency_scores. These are bounded rule-generated currency hypotheses, not pips. The inspected score assembly adds monetary impulse to subject currencies, 0.65*activity direction, haven/risk-currency risk adjustments, oil-exporter/JPY oil adjustments and intervention scores; then guards can remove or zero directions. This is a traced boundary, not a complete taxonomy of every upstream parsing branch.",
+    "classifier_score_rules": "The inspected core score finalization retains abs(score)>=0.05 and rounds clamped [-1,1] scores to six decimals. Subsequent guards include absence of causal pre-release consensus for structured numeric releases, narrative/non-catalyst/expectations context, issuer/subject currency restriction and conflicting semantic directions. The returned currency_scores is the value actually consumed; standalone research_currency_scores is not substituted.",
+    "context": "The joint frame selects members with nonempty valid currency_scores, known_m<=e, known_m>=e-3600 and availability<=e. It deduplicates by normalized headline before selecting the pair. C contains selected members with either pair currency key. It does NOT require each context member to pass directional timeliness, corroboration or other directional guard checks. No source-quality weighting or time decay is applied in the four context aggregates. This is scored-member context, not all news text.",
+    "vetted": "The same selected members are greedily grouped when each new member satisfies same_claim with every existing member. guard_topic evaluates each group at e. Every representative must have its own current clocks, forward_signal_timely true, publication-arrival lag within its 0..30-minute limit, unexpired original 1..1440-minute horizon, valid nonzero score map and valid quality/confidence. Context/prior-move/bootstrap/research-only and related flags exclude directional admission. Duplicate IDs invalidate support; repeated publishers or exact syndicated headlines collapse. Coherence and either >=1 source_verified member or >=2 independent representatives are required.",
+    "within_claim_scores": "For each currency c, use w_i=max(0.1,source_quality_i) only among representatives containing c, then v_j[c]=round(sum_i(w_i*c_i[c])/sum_i(w_i),6). Every claim is equally weighted in the later pair-level average regardless of its publisher count. Claim direction is discarded if all its currency scores cancel to zero. A claim with nonzero currency scores can still have zero pair difference when its two legs are equal.",
+    "same_claim": "Exact normalized headlines match but cannot independently corroborate. Otherwise negation sets and numeric token sets must agree; nonempty semantic-claim lists must share a canonical claim, or the fallback requires >=5 non-stopwords per headline and Jaccard word overlap >=0.8. This is a conservative implemented matching rule, not semantic truth verification.",
+    "not_consumed": "The 34-vector does not directly consume headline text/tokens/embeddings, generic_sentiment_score, risk_off_score/risk_on_score, monetary_impulse, research_currency_scores, category one-hots, source_quality/confidence as extra scalar columns, all raw releases, dashboard directional labels, price reaction outcomes or peer-pair features. Some affect the original currency_scores or guarded eligibility upstream; many remain outside this projection.",
+    "limitations": "Original v164/v165 classifications can differ in the historical archive; historical snapshots preserve their original classifications. Context headline deduplication is global to the frame and not a count of independent publishers. Existing source/classifier availability does not prove predictive usefulness, source completeness, or semantic correctness.",
+    "source_refs": [
+      {
+        "path": "oanda_local_news_sentiment.py",
+        "line": 13391,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_local_news_sentiment.py",
+        "line": 14604,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_local_news_sentiment.py",
+        "line": 14783,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_local_news_sentiment.py",
+        "line": 14797,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_local_news_sentiment.py",
+        "line": 14861,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_local_news_sentiment.py",
+        "line": 14954,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_local_news_sentiment.py",
+        "line": 15338,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_local_news_sentiment.py",
+        "line": 15365,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_local_news_sentiment.py",
+        "line": 16161,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_local_news_sentiment.py",
+        "line": 19986,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+        "line": 113,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+        "line": 127,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+        "line": 272,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+        "line": 309,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_news_causal_aggregation_guard_v1.py",
+        "line": 74,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_news_causal_aggregation_guard_v1.py",
+        "line": 97,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_news_causal_aggregation_guard_v1.py",
+        "line": 117,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_news_causal_aggregation_guard_v1.py",
+        "line": 202,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_news_causal_aggregation_guard_v1.py",
+        "line": 234,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_news_causal_aggregation_guard_v1.py",
+        "line": 243,
+        "evidence_kind": "implementation"
+      },
+      {
+        "path": "oanda_news_causal_aggregation_guard_v1.py",
+        "line": 320,
+        "evidence_kind": "implementation"
+      }
+    ]
+  },
+  "source_hashes": {
+    "docs/FOREX_JOINT_PRICE_NEWS_20260907.md": "3a7229fa8efaa8edf46090dca5c630137e54a5e3ae862a2798a047f5aac9d75a",
+    "config/joint_price_news_study_v2_20260907.json": "20fea86e661efd758536b81fa5c474a440feee2e6af48b28a1016b1538d3691e",
+    "oanda_joint_price_news_models_v1.py": "eb153acb966dc04ad950a0bbfcc730e78a9a0da1d8a24e91d641f473f5cfbc23",
+    "oanda_pair_local_models_v2.py": "294c63bf0ed873395c4850a8722a2622eaa2bc563ceb7ecf9886764c63d8bf24",
+    "oanda_causal_forecast_inputs_joint_news_v1.py": "9375f116571ef43c18eae65c14fc53fb2f98d8ab132d4b000a0971986d2890ec",
+    "oanda_causal_forecast_inputs_pair_v2.py": "8e58491a49fca967e6d8d2a797cc77f142053576c92a724a2e7336d855fb4899",
+    "oanda_causal_forecast_inputs_gap_v2.py": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd",
+    "oanda_causal_forecast_inputs.py": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+    "oanda_news_causal_aggregation_guard_v1.py": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9",
+    "oanda_local_news_sentiment.py": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4",
+    "oanda_source_governance.py": "c4b7793dcef1b9176079a959019f8b69059fbd6644fddf1e8718f924d3a13950",
+    "oanda_source_governance_news_fast_lane.py": "bdd6a2542b3dbddbdf86f7148af4dcb38d0b8591b3f3fcdb843d9eed29898f03"
+  },
+  "source_files": [
+    {
+      "path": "docs/FOREX_JOINT_PRICE_NEWS_20260907.md",
+      "sha256": "3a7229fa8efaa8edf46090dca5c630137e54a5e3ae862a2798a047f5aac9d75a",
+      "inspection": "bounded source/configuration text and SHA-256; no execution",
+      "binding_scope": "narrative orientation"
+    },
+    {
+      "path": "config/joint_price_news_study_v2_20260907.json",
+      "sha256": "20fea86e661efd758536b81fa5c474a440feee2e6af48b28a1016b1538d3691e",
+      "inspection": "bounded source/configuration text and SHA-256; no execution",
+      "binding_scope": "canonical registry bytes"
+    },
+    {
+      "path": "oanda_joint_price_news_models_v1.py",
+      "sha256": "eb153acb966dc04ad950a0bbfcc730e78a9a0da1d8a24e91d641f473f5cfbc23",
+      "inspection": "bounded source/configuration text and SHA-256; no execution",
+      "binding_scope": "inspected bytes match corresponding canonical registry source binding"
+    },
+    {
+      "path": "oanda_pair_local_models_v2.py",
+      "sha256": "294c63bf0ed873395c4850a8722a2622eaa2bc563ceb7ecf9886764c63d8bf24",
+      "inspection": "bounded source/configuration text and SHA-256; no execution",
+      "binding_scope": "inspected bytes match corresponding canonical registry source binding"
+    },
+    {
+      "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+      "sha256": "9375f116571ef43c18eae65c14fc53fb2f98d8ab132d4b000a0971986d2890ec",
+      "inspection": "bounded source/configuration text and SHA-256; no execution",
+      "binding_scope": "inspected bytes match corresponding canonical registry source binding"
+    },
+    {
+      "path": "oanda_causal_forecast_inputs_pair_v2.py",
+      "sha256": "8e58491a49fca967e6d8d2a797cc77f142053576c92a724a2e7336d855fb4899",
+      "inspection": "bounded source/configuration text and SHA-256; no execution",
+      "binding_scope": "inspected bytes match corresponding canonical registry source binding"
+    },
+    {
+      "path": "oanda_causal_forecast_inputs_gap_v2.py",
+      "sha256": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd",
+      "inspection": "bounded source/configuration text and SHA-256; no execution",
+      "binding_scope": "inspected bytes match corresponding canonical registry source binding"
+    },
+    {
+      "path": "oanda_causal_forecast_inputs.py",
+      "sha256": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+      "inspection": "bounded source/configuration text and SHA-256; no execution",
+      "binding_scope": "inspected bytes match corresponding canonical registry source binding"
+    },
+    {
+      "path": "oanda_news_causal_aggregation_guard_v1.py",
+      "sha256": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9",
+      "inspection": "bounded source/configuration text and SHA-256; no execution",
+      "binding_scope": "inspected bytes match corresponding canonical registry source binding"
+    },
+    {
+      "path": "oanda_local_news_sentiment.py",
+      "sha256": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4",
+      "inspection": "bounded source/configuration text and SHA-256; no execution",
+      "binding_scope": "inspected bytes match corresponding canonical registry source binding"
+    },
+    {
+      "path": "oanda_source_governance.py",
+      "sha256": "c4b7793dcef1b9176079a959019f8b69059fbd6644fddf1e8718f924d3a13950",
+      "inspection": "bounded source/configuration text and SHA-256; no execution",
+      "binding_scope": "inspected bytes match corresponding canonical registry source binding"
+    },
+    {
+      "path": "oanda_source_governance_news_fast_lane.py",
+      "sha256": "bdd6a2542b3dbddbdf86f7148af4dcb38d0b8591b3f3fcdb843d9eed29898f03",
+      "inspection": "bounded source/configuration text and SHA-256; no execution",
+      "binding_scope": "inspected bytes match corresponding canonical registry source binding"
+    }
+  ],
+  "features": [
+    {
+      "block": "price",
+      "intended_inputs": [
+        "P(u): selected pair's captured CSV close at actual UTC M1 start u",
+        "t: anchor UTC M1 start",
+        "pip: registered pair pip size",
+        "S(t): session start after a gap greater than 1800 seconds"
+      ],
+      "intended_lookback": "Observed closes with start u in [max(S(t), t-3600, t-1*60), t]; no earlier-neighbor interpolation at the left edge.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Price timestamp t is the UTC M1 start; its close is not available before t+60. Windows use only observed closes from the same >30-minute-gap session, preserve elapsed time and gaps, and are retrospective training inputs rather than prior prospective evidence.",
+      "source_refs": [
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 18,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 60,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 106,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 109,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 117,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 107,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Price feature names are documentation-assigned; source constructs an ordered anonymous numerical vector.",
+        "Absence of an observed minute is not diagnosed as market closure versus transport/data missingness."
+      ],
+      "feature_id": "price_rate_1m",
+      "name": "Observed 1-minute window price rate",
+      "vector_index": 0,
+      "implementation_name": "price._features()[0] (documentation-assigned name)",
+      "plain_language": "Rate of observed price movement within the nominal 1-minute window, expressed in pips per elapsed minute. It is not a 1-minute forecast.",
+      "role": "Momentum: signed observed endpoint change divided by actual elapsed minutes.",
+      "intended_units": "pips/minute",
+      "raw_units": "pips/minute",
+      "computation": "Let T_w be the retained times in this window, n_w=|T_w|, d_w=(last(T_w)-first(T_w))/60. If n_w>=2, (P(last(T_w))-P(first(T_w)))/(pip*d_w); otherwise 0.",
+      "missingness": "0 is either a true zero endpoint change or a sentinel when n_w<2; span_fraction, missing_fraction and unavailable_flag accompany it.",
+      "causal_clock": "causal_clocks.price",
+      "model_transform": "model_transform.training_standardization"
+    },
+    {
+      "block": "price",
+      "intended_inputs": [
+        "P(u): selected pair's captured CSV close at actual UTC M1 start u",
+        "t: anchor UTC M1 start",
+        "pip: registered pair pip size",
+        "S(t): session start after a gap greater than 1800 seconds"
+      ],
+      "intended_lookback": "Observed closes with start u in [max(S(t), t-3600, t-1*60), t]; no earlier-neighbor interpolation at the left edge.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Price timestamp t is the UTC M1 start; its close is not available before t+60. Windows use only observed closes from the same >30-minute-gap session, preserve elapsed time and gaps, and are retrospective training inputs rather than prior prospective evidence.",
+      "source_refs": [
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 18,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 60,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 106,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 109,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 117,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 107,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Price feature names are documentation-assigned; source constructs an ordered anonymous numerical vector.",
+        "Absence of an observed minute is not diagnosed as market closure versus transport/data missingness."
+      ],
+      "feature_id": "price_span_fraction_1m",
+      "name": "Observed 1-minute window span fraction",
+      "vector_index": 1,
+      "implementation_name": "price._features()[1] (documentation-assigned name)",
+      "plain_language": "Fraction of the nominal 1-minute interval spanned by the first and last retained observations.",
+      "role": "Coverage: tells the model how much elapsed window span the endpoint rate actually covers.",
+      "intended_units": "dimensionless fraction",
+      "raw_units": "dimensionless fraction",
+      "computation": "d_w/1, where d_w=(last(T_w)-first(T_w))/60.",
+      "missingness": "With only the anchor close, d_w=0 and this is 0. A value of 1 does not imply every interior minute was observed.",
+      "causal_clock": "causal_clocks.price",
+      "model_transform": "model_transform.training_standardization"
+    },
+    {
+      "block": "price",
+      "intended_inputs": [
+        "P(u): selected pair's captured CSV close at actual UTC M1 start u",
+        "t: anchor UTC M1 start",
+        "pip: registered pair pip size",
+        "S(t): session start after a gap greater than 1800 seconds"
+      ],
+      "intended_lookback": "Observed closes with start u in [max(S(t), t-3600, t-1*60), t]; no earlier-neighbor interpolation at the left edge.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Price timestamp t is the UTC M1 start; its close is not available before t+60. Windows use only observed closes from the same >30-minute-gap session, preserve elapsed time and gaps, and are retrospective training inputs rather than prior prospective evidence.",
+      "source_refs": [
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 18,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 60,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 106,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 109,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 117,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 107,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Price feature names are documentation-assigned; source constructs an ordered anonymous numerical vector.",
+        "Absence of an observed minute is not diagnosed as market closure versus transport/data missingness."
+      ],
+      "feature_id": "price_missing_fraction_1m",
+      "name": "Observed 1-minute window missing-return fraction",
+      "vector_index": 2,
+      "implementation_name": "price._features()[2] (documentation-assigned name)",
+      "plain_language": "One minus the number of observed adjacent price intervals divided by the nominal number of one-minute intervals.",
+      "role": "Coverage: distinguishes dense from sparse updates in a nominal window.",
+      "intended_units": "dimensionless fraction",
+      "raw_units": "dimensionless fraction",
+      "computation": "1-(n_w-1)/1, where n_w=|T_w|.",
+      "missingness": "With only the anchor close this is 1; no synthetic rows are inserted. This count-based fraction is not the same as an interior-gap-only metric.",
+      "causal_clock": "causal_clocks.price",
+      "model_transform": "model_transform.training_standardization"
+    },
+    {
+      "block": "price",
+      "intended_inputs": [
+        "P(u): selected pair's captured CSV close at actual UTC M1 start u",
+        "t: anchor UTC M1 start",
+        "pip: registered pair pip size",
+        "S(t): session start after a gap greater than 1800 seconds"
+      ],
+      "intended_lookback": "Observed closes with start u in [max(S(t), t-3600, t-1*60), t]; no earlier-neighbor interpolation at the left edge.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Price timestamp t is the UTC M1 start; its close is not available before t+60. Windows use only observed closes from the same >30-minute-gap session, preserve elapsed time and gaps, and are retrospective training inputs rather than prior prospective evidence.",
+      "source_refs": [
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 18,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 60,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 106,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 109,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 117,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 107,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Price feature names are documentation-assigned; source constructs an ordered anonymous numerical vector.",
+        "Absence of an observed minute is not diagnosed as market closure versus transport/data missingness."
+      ],
+      "feature_id": "price_unavailable_flag_1m",
+      "name": "Observed 1-minute window unavailable flag",
+      "vector_index": 3,
+      "implementation_name": "price._features()[3] (documentation-assigned name)",
+      "plain_language": "One if fewer than two observations occur in the nominal 1-minute window; zero otherwise.",
+      "role": "Missingness: explicitly marks when an endpoint rate cannot be calculated.",
+      "intended_units": "binary 0/1",
+      "raw_units": "binary 0/1",
+      "computation": "float(n_w<2).",
+      "missingness": "A flag of 0 permits sparse/partial coverage; it does not certify a complete window.",
+      "causal_clock": "causal_clocks.price",
+      "model_transform": "model_transform.training_standardization"
+    },
+    {
+      "block": "price",
+      "intended_inputs": [
+        "P(u): selected pair's captured CSV close at actual UTC M1 start u",
+        "t: anchor UTC M1 start",
+        "pip: registered pair pip size",
+        "S(t): session start after a gap greater than 1800 seconds"
+      ],
+      "intended_lookback": "Observed closes with start u in [max(S(t), t-3600, t-5*60), t]; no earlier-neighbor interpolation at the left edge.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Price timestamp t is the UTC M1 start; its close is not available before t+60. Windows use only observed closes from the same >30-minute-gap session, preserve elapsed time and gaps, and are retrospective training inputs rather than prior prospective evidence.",
+      "source_refs": [
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 18,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 60,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 106,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 109,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 117,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 107,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Price feature names are documentation-assigned; source constructs an ordered anonymous numerical vector.",
+        "Absence of an observed minute is not diagnosed as market closure versus transport/data missingness."
+      ],
+      "feature_id": "price_rate_5m",
+      "name": "Observed 5-minute window price rate",
+      "vector_index": 4,
+      "implementation_name": "price._features()[4] (documentation-assigned name)",
+      "plain_language": "Rate of observed price movement within the nominal 5-minute window, expressed in pips per elapsed minute. It is not a 5-minute forecast.",
+      "role": "Momentum: signed observed endpoint change divided by actual elapsed minutes.",
+      "intended_units": "pips/minute",
+      "raw_units": "pips/minute",
+      "computation": "Let T_w be the retained times in this window, n_w=|T_w|, d_w=(last(T_w)-first(T_w))/60. If n_w>=2, (P(last(T_w))-P(first(T_w)))/(pip*d_w); otherwise 0.",
+      "missingness": "0 is either a true zero endpoint change or a sentinel when n_w<2; span_fraction, missing_fraction and unavailable_flag accompany it.",
+      "causal_clock": "causal_clocks.price",
+      "model_transform": "model_transform.training_standardization"
+    },
+    {
+      "block": "price",
+      "intended_inputs": [
+        "P(u): selected pair's captured CSV close at actual UTC M1 start u",
+        "t: anchor UTC M1 start",
+        "pip: registered pair pip size",
+        "S(t): session start after a gap greater than 1800 seconds"
+      ],
+      "intended_lookback": "Observed closes with start u in [max(S(t), t-3600, t-5*60), t]; no earlier-neighbor interpolation at the left edge.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Price timestamp t is the UTC M1 start; its close is not available before t+60. Windows use only observed closes from the same >30-minute-gap session, preserve elapsed time and gaps, and are retrospective training inputs rather than prior prospective evidence.",
+      "source_refs": [
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 18,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 60,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 106,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 109,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 117,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 107,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Price feature names are documentation-assigned; source constructs an ordered anonymous numerical vector.",
+        "Absence of an observed minute is not diagnosed as market closure versus transport/data missingness."
+      ],
+      "feature_id": "price_span_fraction_5m",
+      "name": "Observed 5-minute window span fraction",
+      "vector_index": 5,
+      "implementation_name": "price._features()[5] (documentation-assigned name)",
+      "plain_language": "Fraction of the nominal 5-minute interval spanned by the first and last retained observations.",
+      "role": "Coverage: tells the model how much elapsed window span the endpoint rate actually covers.",
+      "intended_units": "dimensionless fraction",
+      "raw_units": "dimensionless fraction",
+      "computation": "d_w/5, where d_w=(last(T_w)-first(T_w))/60.",
+      "missingness": "With only the anchor close, d_w=0 and this is 0. A value of 1 does not imply every interior minute was observed.",
+      "causal_clock": "causal_clocks.price",
+      "model_transform": "model_transform.training_standardization"
+    },
+    {
+      "block": "price",
+      "intended_inputs": [
+        "P(u): selected pair's captured CSV close at actual UTC M1 start u",
+        "t: anchor UTC M1 start",
+        "pip: registered pair pip size",
+        "S(t): session start after a gap greater than 1800 seconds"
+      ],
+      "intended_lookback": "Observed closes with start u in [max(S(t), t-3600, t-5*60), t]; no earlier-neighbor interpolation at the left edge.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Price timestamp t is the UTC M1 start; its close is not available before t+60. Windows use only observed closes from the same >30-minute-gap session, preserve elapsed time and gaps, and are retrospective training inputs rather than prior prospective evidence.",
+      "source_refs": [
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 18,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 60,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 106,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 109,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 117,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 107,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Price feature names are documentation-assigned; source constructs an ordered anonymous numerical vector.",
+        "Absence of an observed minute is not diagnosed as market closure versus transport/data missingness."
+      ],
+      "feature_id": "price_missing_fraction_5m",
+      "name": "Observed 5-minute window missing-return fraction",
+      "vector_index": 6,
+      "implementation_name": "price._features()[6] (documentation-assigned name)",
+      "plain_language": "One minus the number of observed adjacent price intervals divided by the nominal number of one-minute intervals.",
+      "role": "Coverage: distinguishes dense from sparse updates in a nominal window.",
+      "intended_units": "dimensionless fraction",
+      "raw_units": "dimensionless fraction",
+      "computation": "1-(n_w-1)/5, where n_w=|T_w|.",
+      "missingness": "With only the anchor close this is 1; no synthetic rows are inserted. This count-based fraction is not the same as an interior-gap-only metric.",
+      "causal_clock": "causal_clocks.price",
+      "model_transform": "model_transform.training_standardization"
+    },
+    {
+      "block": "price",
+      "intended_inputs": [
+        "P(u): selected pair's captured CSV close at actual UTC M1 start u",
+        "t: anchor UTC M1 start",
+        "pip: registered pair pip size",
+        "S(t): session start after a gap greater than 1800 seconds"
+      ],
+      "intended_lookback": "Observed closes with start u in [max(S(t), t-3600, t-5*60), t]; no earlier-neighbor interpolation at the left edge.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Price timestamp t is the UTC M1 start; its close is not available before t+60. Windows use only observed closes from the same >30-minute-gap session, preserve elapsed time and gaps, and are retrospective training inputs rather than prior prospective evidence.",
+      "source_refs": [
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 18,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 60,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 106,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 109,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 117,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 107,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Price feature names are documentation-assigned; source constructs an ordered anonymous numerical vector.",
+        "Absence of an observed minute is not diagnosed as market closure versus transport/data missingness."
+      ],
+      "feature_id": "price_unavailable_flag_5m",
+      "name": "Observed 5-minute window unavailable flag",
+      "vector_index": 7,
+      "implementation_name": "price._features()[7] (documentation-assigned name)",
+      "plain_language": "One if fewer than two observations occur in the nominal 5-minute window; zero otherwise.",
+      "role": "Missingness: explicitly marks when an endpoint rate cannot be calculated.",
+      "intended_units": "binary 0/1",
+      "raw_units": "binary 0/1",
+      "computation": "float(n_w<2).",
+      "missingness": "A flag of 0 permits sparse/partial coverage; it does not certify a complete window.",
+      "causal_clock": "causal_clocks.price",
+      "model_transform": "model_transform.training_standardization"
+    },
+    {
+      "block": "price",
+      "intended_inputs": [
+        "P(u): selected pair's captured CSV close at actual UTC M1 start u",
+        "t: anchor UTC M1 start",
+        "pip: registered pair pip size",
+        "S(t): session start after a gap greater than 1800 seconds"
+      ],
+      "intended_lookback": "Observed closes with start u in [max(S(t), t-3600, t-15*60), t]; no earlier-neighbor interpolation at the left edge.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Price timestamp t is the UTC M1 start; its close is not available before t+60. Windows use only observed closes from the same >30-minute-gap session, preserve elapsed time and gaps, and are retrospective training inputs rather than prior prospective evidence.",
+      "source_refs": [
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 18,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 60,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 106,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 109,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 117,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 107,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Price feature names are documentation-assigned; source constructs an ordered anonymous numerical vector.",
+        "Absence of an observed minute is not diagnosed as market closure versus transport/data missingness."
+      ],
+      "feature_id": "price_rate_15m",
+      "name": "Observed 15-minute window price rate",
+      "vector_index": 8,
+      "implementation_name": "price._features()[8] (documentation-assigned name)",
+      "plain_language": "Rate of observed price movement within the nominal 15-minute window, expressed in pips per elapsed minute. It is not a 15-minute forecast.",
+      "role": "Momentum: signed observed endpoint change divided by actual elapsed minutes.",
+      "intended_units": "pips/minute",
+      "raw_units": "pips/minute",
+      "computation": "Let T_w be the retained times in this window, n_w=|T_w|, d_w=(last(T_w)-first(T_w))/60. If n_w>=2, (P(last(T_w))-P(first(T_w)))/(pip*d_w); otherwise 0.",
+      "missingness": "0 is either a true zero endpoint change or a sentinel when n_w<2; span_fraction, missing_fraction and unavailable_flag accompany it.",
+      "causal_clock": "causal_clocks.price",
+      "model_transform": "model_transform.training_standardization"
+    },
+    {
+      "block": "price",
+      "intended_inputs": [
+        "P(u): selected pair's captured CSV close at actual UTC M1 start u",
+        "t: anchor UTC M1 start",
+        "pip: registered pair pip size",
+        "S(t): session start after a gap greater than 1800 seconds"
+      ],
+      "intended_lookback": "Observed closes with start u in [max(S(t), t-3600, t-15*60), t]; no earlier-neighbor interpolation at the left edge.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Price timestamp t is the UTC M1 start; its close is not available before t+60. Windows use only observed closes from the same >30-minute-gap session, preserve elapsed time and gaps, and are retrospective training inputs rather than prior prospective evidence.",
+      "source_refs": [
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 18,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 60,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 106,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 109,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 117,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 107,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Price feature names are documentation-assigned; source constructs an ordered anonymous numerical vector.",
+        "Absence of an observed minute is not diagnosed as market closure versus transport/data missingness."
+      ],
+      "feature_id": "price_span_fraction_15m",
+      "name": "Observed 15-minute window span fraction",
+      "vector_index": 9,
+      "implementation_name": "price._features()[9] (documentation-assigned name)",
+      "plain_language": "Fraction of the nominal 15-minute interval spanned by the first and last retained observations.",
+      "role": "Coverage: tells the model how much elapsed window span the endpoint rate actually covers.",
+      "intended_units": "dimensionless fraction",
+      "raw_units": "dimensionless fraction",
+      "computation": "d_w/15, where d_w=(last(T_w)-first(T_w))/60.",
+      "missingness": "With only the anchor close, d_w=0 and this is 0. A value of 1 does not imply every interior minute was observed.",
+      "causal_clock": "causal_clocks.price",
+      "model_transform": "model_transform.training_standardization"
+    },
+    {
+      "block": "price",
+      "intended_inputs": [
+        "P(u): selected pair's captured CSV close at actual UTC M1 start u",
+        "t: anchor UTC M1 start",
+        "pip: registered pair pip size",
+        "S(t): session start after a gap greater than 1800 seconds"
+      ],
+      "intended_lookback": "Observed closes with start u in [max(S(t), t-3600, t-15*60), t]; no earlier-neighbor interpolation at the left edge.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Price timestamp t is the UTC M1 start; its close is not available before t+60. Windows use only observed closes from the same >30-minute-gap session, preserve elapsed time and gaps, and are retrospective training inputs rather than prior prospective evidence.",
+      "source_refs": [
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 18,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 60,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 106,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 109,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 117,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 107,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Price feature names are documentation-assigned; source constructs an ordered anonymous numerical vector.",
+        "Absence of an observed minute is not diagnosed as market closure versus transport/data missingness."
+      ],
+      "feature_id": "price_missing_fraction_15m",
+      "name": "Observed 15-minute window missing-return fraction",
+      "vector_index": 10,
+      "implementation_name": "price._features()[10] (documentation-assigned name)",
+      "plain_language": "One minus the number of observed adjacent price intervals divided by the nominal number of one-minute intervals.",
+      "role": "Coverage: distinguishes dense from sparse updates in a nominal window.",
+      "intended_units": "dimensionless fraction",
+      "raw_units": "dimensionless fraction",
+      "computation": "1-(n_w-1)/15, where n_w=|T_w|.",
+      "missingness": "With only the anchor close this is 1; no synthetic rows are inserted. This count-based fraction is not the same as an interior-gap-only metric.",
+      "causal_clock": "causal_clocks.price",
+      "model_transform": "model_transform.training_standardization"
+    },
+    {
+      "block": "price",
+      "intended_inputs": [
+        "P(u): selected pair's captured CSV close at actual UTC M1 start u",
+        "t: anchor UTC M1 start",
+        "pip: registered pair pip size",
+        "S(t): session start after a gap greater than 1800 seconds"
+      ],
+      "intended_lookback": "Observed closes with start u in [max(S(t), t-3600, t-15*60), t]; no earlier-neighbor interpolation at the left edge.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Price timestamp t is the UTC M1 start; its close is not available before t+60. Windows use only observed closes from the same >30-minute-gap session, preserve elapsed time and gaps, and are retrospective training inputs rather than prior prospective evidence.",
+      "source_refs": [
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 18,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 60,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 106,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 109,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 117,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 107,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Price feature names are documentation-assigned; source constructs an ordered anonymous numerical vector.",
+        "Absence of an observed minute is not diagnosed as market closure versus transport/data missingness."
+      ],
+      "feature_id": "price_unavailable_flag_15m",
+      "name": "Observed 15-minute window unavailable flag",
+      "vector_index": 11,
+      "implementation_name": "price._features()[11] (documentation-assigned name)",
+      "plain_language": "One if fewer than two observations occur in the nominal 15-minute window; zero otherwise.",
+      "role": "Missingness: explicitly marks when an endpoint rate cannot be calculated.",
+      "intended_units": "binary 0/1",
+      "raw_units": "binary 0/1",
+      "computation": "float(n_w<2).",
+      "missingness": "A flag of 0 permits sparse/partial coverage; it does not certify a complete window.",
+      "causal_clock": "causal_clocks.price",
+      "model_transform": "model_transform.training_standardization"
+    },
+    {
+      "block": "price",
+      "intended_inputs": [
+        "P(u): selected pair's captured CSV close at actual UTC M1 start u",
+        "t: anchor UTC M1 start",
+        "pip: registered pair pip size",
+        "S(t): session start after a gap greater than 1800 seconds"
+      ],
+      "intended_lookback": "Observed closes with start u in [max(S(t), t-3600, t-30*60), t]; no earlier-neighbor interpolation at the left edge.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Price timestamp t is the UTC M1 start; its close is not available before t+60. Windows use only observed closes from the same >30-minute-gap session, preserve elapsed time and gaps, and are retrospective training inputs rather than prior prospective evidence.",
+      "source_refs": [
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 18,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 60,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 106,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 109,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 117,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 107,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Price feature names are documentation-assigned; source constructs an ordered anonymous numerical vector.",
+        "Absence of an observed minute is not diagnosed as market closure versus transport/data missingness."
+      ],
+      "feature_id": "price_rate_30m",
+      "name": "Observed 30-minute window price rate",
+      "vector_index": 12,
+      "implementation_name": "price._features()[12] (documentation-assigned name)",
+      "plain_language": "Rate of observed price movement within the nominal 30-minute window, expressed in pips per elapsed minute. It is not a 30-minute forecast.",
+      "role": "Momentum: signed observed endpoint change divided by actual elapsed minutes.",
+      "intended_units": "pips/minute",
+      "raw_units": "pips/minute",
+      "computation": "Let T_w be the retained times in this window, n_w=|T_w|, d_w=(last(T_w)-first(T_w))/60. If n_w>=2, (P(last(T_w))-P(first(T_w)))/(pip*d_w); otherwise 0.",
+      "missingness": "0 is either a true zero endpoint change or a sentinel when n_w<2; span_fraction, missing_fraction and unavailable_flag accompany it.",
+      "causal_clock": "causal_clocks.price",
+      "model_transform": "model_transform.training_standardization"
+    },
+    {
+      "block": "price",
+      "intended_inputs": [
+        "P(u): selected pair's captured CSV close at actual UTC M1 start u",
+        "t: anchor UTC M1 start",
+        "pip: registered pair pip size",
+        "S(t): session start after a gap greater than 1800 seconds"
+      ],
+      "intended_lookback": "Observed closes with start u in [max(S(t), t-3600, t-30*60), t]; no earlier-neighbor interpolation at the left edge.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Price timestamp t is the UTC M1 start; its close is not available before t+60. Windows use only observed closes from the same >30-minute-gap session, preserve elapsed time and gaps, and are retrospective training inputs rather than prior prospective evidence.",
+      "source_refs": [
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 18,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 60,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 106,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 109,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 117,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 107,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Price feature names are documentation-assigned; source constructs an ordered anonymous numerical vector.",
+        "Absence of an observed minute is not diagnosed as market closure versus transport/data missingness."
+      ],
+      "feature_id": "price_span_fraction_30m",
+      "name": "Observed 30-minute window span fraction",
+      "vector_index": 13,
+      "implementation_name": "price._features()[13] (documentation-assigned name)",
+      "plain_language": "Fraction of the nominal 30-minute interval spanned by the first and last retained observations.",
+      "role": "Coverage: tells the model how much elapsed window span the endpoint rate actually covers.",
+      "intended_units": "dimensionless fraction",
+      "raw_units": "dimensionless fraction",
+      "computation": "d_w/30, where d_w=(last(T_w)-first(T_w))/60.",
+      "missingness": "With only the anchor close, d_w=0 and this is 0. A value of 1 does not imply every interior minute was observed.",
+      "causal_clock": "causal_clocks.price",
+      "model_transform": "model_transform.training_standardization"
+    },
+    {
+      "block": "price",
+      "intended_inputs": [
+        "P(u): selected pair's captured CSV close at actual UTC M1 start u",
+        "t: anchor UTC M1 start",
+        "pip: registered pair pip size",
+        "S(t): session start after a gap greater than 1800 seconds"
+      ],
+      "intended_lookback": "Observed closes with start u in [max(S(t), t-3600, t-30*60), t]; no earlier-neighbor interpolation at the left edge.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Price timestamp t is the UTC M1 start; its close is not available before t+60. Windows use only observed closes from the same >30-minute-gap session, preserve elapsed time and gaps, and are retrospective training inputs rather than prior prospective evidence.",
+      "source_refs": [
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 18,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 60,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 106,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 109,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 117,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 107,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Price feature names are documentation-assigned; source constructs an ordered anonymous numerical vector.",
+        "Absence of an observed minute is not diagnosed as market closure versus transport/data missingness."
+      ],
+      "feature_id": "price_missing_fraction_30m",
+      "name": "Observed 30-minute window missing-return fraction",
+      "vector_index": 14,
+      "implementation_name": "price._features()[14] (documentation-assigned name)",
+      "plain_language": "One minus the number of observed adjacent price intervals divided by the nominal number of one-minute intervals.",
+      "role": "Coverage: distinguishes dense from sparse updates in a nominal window.",
+      "intended_units": "dimensionless fraction",
+      "raw_units": "dimensionless fraction",
+      "computation": "1-(n_w-1)/30, where n_w=|T_w|.",
+      "missingness": "With only the anchor close this is 1; no synthetic rows are inserted. This count-based fraction is not the same as an interior-gap-only metric.",
+      "causal_clock": "causal_clocks.price",
+      "model_transform": "model_transform.training_standardization"
+    },
+    {
+      "block": "price",
+      "intended_inputs": [
+        "P(u): selected pair's captured CSV close at actual UTC M1 start u",
+        "t: anchor UTC M1 start",
+        "pip: registered pair pip size",
+        "S(t): session start after a gap greater than 1800 seconds"
+      ],
+      "intended_lookback": "Observed closes with start u in [max(S(t), t-3600, t-30*60), t]; no earlier-neighbor interpolation at the left edge.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Price timestamp t is the UTC M1 start; its close is not available before t+60. Windows use only observed closes from the same >30-minute-gap session, preserve elapsed time and gaps, and are retrospective training inputs rather than prior prospective evidence.",
+      "source_refs": [
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 18,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 60,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 106,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 109,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 117,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 107,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Price feature names are documentation-assigned; source constructs an ordered anonymous numerical vector.",
+        "Absence of an observed minute is not diagnosed as market closure versus transport/data missingness."
+      ],
+      "feature_id": "price_unavailable_flag_30m",
+      "name": "Observed 30-minute window unavailable flag",
+      "vector_index": 15,
+      "implementation_name": "price._features()[15] (documentation-assigned name)",
+      "plain_language": "One if fewer than two observations occur in the nominal 30-minute window; zero otherwise.",
+      "role": "Missingness: explicitly marks when an endpoint rate cannot be calculated.",
+      "intended_units": "binary 0/1",
+      "raw_units": "binary 0/1",
+      "computation": "float(n_w<2).",
+      "missingness": "A flag of 0 permits sparse/partial coverage; it does not certify a complete window.",
+      "causal_clock": "causal_clocks.price",
+      "model_transform": "model_transform.training_standardization"
+    },
+    {
+      "block": "price",
+      "intended_inputs": [
+        "P(u): selected pair's captured CSV close at actual UTC M1 start u",
+        "t: anchor UTC M1 start",
+        "pip: registered pair pip size",
+        "S(t): session start after a gap greater than 1800 seconds"
+      ],
+      "intended_lookback": "Observed closes with start u in [max(S(t), t-3600, t-60*60), t]; no earlier-neighbor interpolation at the left edge.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Price timestamp t is the UTC M1 start; its close is not available before t+60. Windows use only observed closes from the same >30-minute-gap session, preserve elapsed time and gaps, and are retrospective training inputs rather than prior prospective evidence.",
+      "source_refs": [
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 18,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 60,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 106,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 109,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 117,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 107,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Price feature names are documentation-assigned; source constructs an ordered anonymous numerical vector.",
+        "Absence of an observed minute is not diagnosed as market closure versus transport/data missingness."
+      ],
+      "feature_id": "price_rate_60m",
+      "name": "Observed 60-minute window price rate",
+      "vector_index": 16,
+      "implementation_name": "price._features()[16] (documentation-assigned name)",
+      "plain_language": "Rate of observed price movement within the nominal 60-minute window, expressed in pips per elapsed minute. It is not a 60-minute forecast.",
+      "role": "Momentum: signed observed endpoint change divided by actual elapsed minutes.",
+      "intended_units": "pips/minute",
+      "raw_units": "pips/minute",
+      "computation": "Let T_w be the retained times in this window, n_w=|T_w|, d_w=(last(T_w)-first(T_w))/60. If n_w>=2, (P(last(T_w))-P(first(T_w)))/(pip*d_w); otherwise 0.",
+      "missingness": "0 is either a true zero endpoint change or a sentinel when n_w<2; span_fraction, missing_fraction and unavailable_flag accompany it.",
+      "causal_clock": "causal_clocks.price",
+      "model_transform": "model_transform.training_standardization"
+    },
+    {
+      "block": "price",
+      "intended_inputs": [
+        "P(u): selected pair's captured CSV close at actual UTC M1 start u",
+        "t: anchor UTC M1 start",
+        "pip: registered pair pip size",
+        "S(t): session start after a gap greater than 1800 seconds"
+      ],
+      "intended_lookback": "Observed closes with start u in [max(S(t), t-3600, t-60*60), t]; no earlier-neighbor interpolation at the left edge.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Price timestamp t is the UTC M1 start; its close is not available before t+60. Windows use only observed closes from the same >30-minute-gap session, preserve elapsed time and gaps, and are retrospective training inputs rather than prior prospective evidence.",
+      "source_refs": [
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 18,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 60,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 106,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 109,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 117,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 107,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Price feature names are documentation-assigned; source constructs an ordered anonymous numerical vector.",
+        "Absence of an observed minute is not diagnosed as market closure versus transport/data missingness."
+      ],
+      "feature_id": "price_span_fraction_60m",
+      "name": "Observed 60-minute window span fraction",
+      "vector_index": 17,
+      "implementation_name": "price._features()[17] (documentation-assigned name)",
+      "plain_language": "Fraction of the nominal 60-minute interval spanned by the first and last retained observations.",
+      "role": "Coverage: tells the model how much elapsed window span the endpoint rate actually covers.",
+      "intended_units": "dimensionless fraction",
+      "raw_units": "dimensionless fraction",
+      "computation": "d_w/60, where d_w=(last(T_w)-first(T_w))/60.",
+      "missingness": "With only the anchor close, d_w=0 and this is 0. A value of 1 does not imply every interior minute was observed.",
+      "causal_clock": "causal_clocks.price",
+      "model_transform": "model_transform.training_standardization"
+    },
+    {
+      "block": "price",
+      "intended_inputs": [
+        "P(u): selected pair's captured CSV close at actual UTC M1 start u",
+        "t: anchor UTC M1 start",
+        "pip: registered pair pip size",
+        "S(t): session start after a gap greater than 1800 seconds"
+      ],
+      "intended_lookback": "Observed closes with start u in [max(S(t), t-3600, t-60*60), t]; no earlier-neighbor interpolation at the left edge.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Price timestamp t is the UTC M1 start; its close is not available before t+60. Windows use only observed closes from the same >30-minute-gap session, preserve elapsed time and gaps, and are retrospective training inputs rather than prior prospective evidence.",
+      "source_refs": [
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 18,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 60,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 106,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 109,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 117,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 107,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Price feature names are documentation-assigned; source constructs an ordered anonymous numerical vector.",
+        "Absence of an observed minute is not diagnosed as market closure versus transport/data missingness."
+      ],
+      "feature_id": "price_missing_fraction_60m",
+      "name": "Observed 60-minute window missing-return fraction",
+      "vector_index": 18,
+      "implementation_name": "price._features()[18] (documentation-assigned name)",
+      "plain_language": "One minus the number of observed adjacent price intervals divided by the nominal number of one-minute intervals.",
+      "role": "Coverage: distinguishes dense from sparse updates in a nominal window.",
+      "intended_units": "dimensionless fraction",
+      "raw_units": "dimensionless fraction",
+      "computation": "1-(n_w-1)/60, where n_w=|T_w|.",
+      "missingness": "With only the anchor close this is 1; no synthetic rows are inserted. This count-based fraction is not the same as an interior-gap-only metric.",
+      "causal_clock": "causal_clocks.price",
+      "model_transform": "model_transform.training_standardization"
+    },
+    {
+      "block": "price",
+      "intended_inputs": [
+        "P(u): selected pair's captured CSV close at actual UTC M1 start u",
+        "t: anchor UTC M1 start",
+        "pip: registered pair pip size",
+        "S(t): session start after a gap greater than 1800 seconds"
+      ],
+      "intended_lookback": "Observed closes with start u in [max(S(t), t-3600, t-60*60), t]; no earlier-neighbor interpolation at the left edge.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Price timestamp t is the UTC M1 start; its close is not available before t+60. Windows use only observed closes from the same >30-minute-gap session, preserve elapsed time and gaps, and are retrospective training inputs rather than prior prospective evidence.",
+      "source_refs": [
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 18,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 60,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 106,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 109,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 117,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 107,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Price feature names are documentation-assigned; source constructs an ordered anonymous numerical vector.",
+        "Absence of an observed minute is not diagnosed as market closure versus transport/data missingness."
+      ],
+      "feature_id": "price_unavailable_flag_60m",
+      "name": "Observed 60-minute window unavailable flag",
+      "vector_index": 19,
+      "implementation_name": "price._features()[19] (documentation-assigned name)",
+      "plain_language": "One if fewer than two observations occur in the nominal 60-minute window; zero otherwise.",
+      "role": "Missingness: explicitly marks when an endpoint rate cannot be calculated.",
+      "intended_units": "binary 0/1",
+      "raw_units": "binary 0/1",
+      "computation": "float(n_w<2).",
+      "missingness": "A flag of 0 permits sparse/partial coverage; it does not certify a complete window.",
+      "causal_clock": "causal_clocks.price",
+      "model_transform": "model_transform.training_standardization"
+    },
+    {
+      "feature_id": "price_rms_elapsed_change",
+      "name": "One-hour elapsed-time RMS price change",
+      "vector_index": 20,
+      "implementation_name": "price._features()[20] (documentation-assigned name)",
+      "block": "price",
+      "plain_language": "Root mean of squared adjacent observed pip changes divided by each interval's elapsed minutes.",
+      "role": "Recent movement scale; not a demeaned volatility estimate.",
+      "intended_inputs": [
+        "P(u): selected pair's captured CSV close",
+        "Actual UTC minute-start epochs u",
+        "Anchor t, session start S(t), registered pip size"
+      ],
+      "intended_units": "pips/sqrt(minute)",
+      "raw_units": "pips/sqrt(minute)",
+      "intended_lookback": "W(t): actual observations in [max(S(t),t-3600),t].",
+      "computation": "For adjacent u_(i-1),u_i in W(t), delta_i=(P(u_i)-P(u_(i-1)))/pip and dt_i=(u_i-u_(i-1))/60. sqrt(mean_i(delta_i^2/dt_i)). The mean is over observed intervals, not elapsed-time weighted; drift is not subtracted.",
+      "missingness": "No local zero imputation: readiness requires at least 8 actual returns and at least 15 elapsed minutes. A true flat observed window gives 0.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Price timestamp t is the UTC M1 start; its close is not available before t+60. Windows use only observed closes from the same >30-minute-gap session, preserve elapsed time and gaps, and are retrospective training inputs rather than prior prospective evidence.",
+      "causal_clock": "causal_clocks.price",
+      "model_transform": "model_transform.training_standardization",
+      "source_refs": [
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 60,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 67,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 118,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 107,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Do not label this as standard deviation or assume it is an unbiased volatility estimator.",
+        "Documentation-assigned name; source vector is positional."
+      ]
+    },
+    {
+      "feature_id": "price_max_gap_minutes",
+      "name": "One-hour maximum observed gap",
+      "vector_index": 21,
+      "implementation_name": "price._features()[21] (documentation-assigned name)",
+      "block": "price",
+      "plain_language": "Longest gap between adjacent observed closes in the current one-hour/session window.",
+      "role": "Sampling quality/elapsed-time structure.",
+      "intended_inputs": [
+        "P(u): selected pair's captured CSV close",
+        "Actual UTC minute-start epochs u",
+        "Anchor t, session start S(t), registered pip size"
+      ],
+      "intended_units": "minutes",
+      "raw_units": "minutes",
+      "intended_lookback": "W(t): actual observations in [max(S(t),t-3600),t].",
+      "computation": "max_i((u_i-u_(i-1))/60) over adjacent times in W(t).",
+      "missingness": "No local fill; readiness ensures adjacent intervals exist. Larger gaps remain explicit rather than compressed.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Price timestamp t is the UTC M1 start; its close is not available before t+60. Windows use only observed closes from the same >30-minute-gap session, preserve elapsed time and gaps, and are retrospective training inputs rather than prior prospective evidence.",
+      "causal_clock": "causal_clocks.price",
+      "model_transform": "model_transform.training_standardization",
+      "source_refs": [
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 60,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 67,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 121,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 107,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Does not explain why a gap occurred; a gap greater than 30 minutes splits the session and is outside this current window.",
+        "Documentation-assigned name; source vector is positional."
+      ]
+    },
+    {
+      "feature_id": "price_observation_fraction",
+      "name": "One-hour observed-close fraction",
+      "vector_index": 22,
+      "implementation_name": "price._features()[22] (documentation-assigned name)",
+      "block": "price",
+      "plain_language": "Number of actual closes in the one-hour/session window relative to 61 closes in a full inclusive minute grid.",
+      "role": "Sampling coverage.",
+      "intended_inputs": [
+        "P(u): selected pair's captured CSV close",
+        "Actual UTC minute-start epochs u",
+        "Anchor t, session start S(t), registered pip size"
+      ],
+      "intended_units": "dimensionless fraction",
+      "raw_units": "dimensionless fraction",
+      "intended_lookback": "W(t): actual observations in [max(S(t),t-3600),t].",
+      "computation": "len(W(t))/61.",
+      "missingness": "A partial/session-truncated window yields a fraction below 1. No synthetic closes are supplied.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Price timestamp t is the UTC M1 start; its close is not available before t+60. Windows use only observed closes from the same >30-minute-gap session, preserve elapsed time and gaps, and are retrospective training inputs rather than prior prospective evidence.",
+      "causal_clock": "causal_clocks.price",
+      "model_transform": "model_transform.training_standardization",
+      "source_refs": [
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 60,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 67,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 121,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 107,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Counts closes (including both endpoints), not returns; it is not len(W)/60.",
+        "Documentation-assigned name; source vector is positional."
+      ]
+    },
+    {
+      "feature_id": "price_session_age_hours",
+      "name": "Observed session age",
+      "vector_index": 23,
+      "implementation_name": "price._features()[23] (documentation-assigned name)",
+      "block": "price",
+      "plain_language": "Elapsed hours from the start of the retained observation session to the anchor.",
+      "role": "Session position/context.",
+      "intended_inputs": [
+        "P(u): selected pair's captured CSV close",
+        "Actual UTC minute-start epochs u",
+        "Anchor t, session start S(t), registered pip size"
+      ],
+      "intended_units": "hours",
+      "raw_units": "hours",
+      "intended_lookback": "Back to S(t) in the bounded retained price tail, not restricted to the current hour.",
+      "computation": "(t-S(t))/3600.",
+      "missingness": "Session starts at the first retained row or the first row following a >1800-second gap. No imputation.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Price timestamp t is the UTC M1 start; its close is not available before t+60. Windows use only observed closes from the same >30-minute-gap session, preserve elapsed time and gaps, and are retrospective training inputs rather than prior prospective evidence.",
+      "causal_clock": "causal_clocks.price",
+      "model_transform": "model_transform.training_standardization",
+      "source_refs": [
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 60,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 67,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 121,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 107,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "This is retained-data session age, not an exchange/session calendar. A truncated 4096-row tail can limit the apparent start.",
+        "Documentation-assigned name; source vector is positional."
+      ]
+    },
+    {
+      "feature_id": "context_balance",
+      "name": "Pair context score balance",
+      "vector_index": 24,
+      "implementation_name": "context_balance",
+      "block": "news_context",
+      "plain_language": "Average base-currency score minus quote-currency score across timestamp-admissible, headline-deduplicated members relevant to the pair.",
+      "role": "Signed context intensity.",
+      "intended_inputs": [
+        "C: pair-relevant original scored members from upstream_news_mapping.context",
+        "Original member currency_scores map c_m, base and quote currency keys",
+        "Frame epoch e and original knowledge clock known_m"
+      ],
+      "intended_units": "dimensionless classifier-score difference",
+      "raw_units": "dimensionless classifier-score difference",
+      "intended_lookback": "Only members whose original knowledge clock is in [e-3600,e] and whose observed/mapping availability is <=e. Historical e=t+60; live e=news.first_observed_epoch. Vetted groups additionally require unexpired original reaction windows.",
+      "computation": "mean_m(c_m[base]-c_m[quote]) over C, using 0 for an absent currency key; 0 if C is empty.",
+      "missingness": "0 can mean no eligible pair context, equal base/quote scores within members, or cancellation across members. Consult context_volume_log and context_signed_fraction.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Source/classifier scores are hypotheses, not measured returns or guaranteed direction. Historical frames use original-member knowledge and committed/observed availability by anchor t+60; live frames use the actual news consumer clock. Unavailable/stale evidence blocks capture rather than becoming a neutral vector.",
+      "causal_clock": "causal_clocks.news",
+      "model_transform": "model_transform.training_standardization",
+      "source_refs": [
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 15,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 272,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 309,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 316,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 110,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 285,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Context includes only nonempty original currency_scores, not all textual news and not research_currency_scores.",
+        "A zero feature is not an end-to-end source-health assertion."
+      ]
+    },
+    {
+      "feature_id": "context_volume_log",
+      "name": "Pair context member count (log)",
+      "vector_index": 25,
+      "implementation_name": "context_volume_log",
+      "block": "news_context",
+      "plain_language": "Natural log of one plus the number of retained context members relevant to either currency.",
+      "role": "Context quantity, independent of direction.",
+      "intended_inputs": [
+        "C: pair-relevant original scored members from upstream_news_mapping.context",
+        "Original member currency_scores map c_m, base and quote currency keys",
+        "Frame epoch e and original knowledge clock known_m"
+      ],
+      "intended_units": "log(1+member count), dimensionless",
+      "raw_units": "log(1+member count), dimensionless",
+      "intended_lookback": "Only members whose original knowledge clock is in [e-3600,e] and whose observed/mapping availability is <=e. Historical e=t+60; live e=news.first_observed_epoch. Vetted groups additionally require unexpired original reaction windows.",
+      "computation": "ln(1+|C|).",
+      "missingness": "0 means C is empty after this specific eligibility/deduplication/projection, not that no news exists.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Source/classifier scores are hypotheses, not measured returns or guaranteed direction. Historical frames use original-member knowledge and committed/observed availability by anchor t+60; live frames use the actual news consumer clock. Unavailable/stale evidence blocks capture rather than becoming a neutral vector.",
+      "causal_clock": "causal_clocks.news",
+      "model_transform": "model_transform.training_standardization",
+      "source_refs": [
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 15,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 272,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 309,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 316,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 110,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 285,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Context includes only nonempty original currency_scores, not all textual news and not research_currency_scores.",
+        "A zero feature is not an end-to-end source-health assertion."
+      ]
+    },
+    {
+      "feature_id": "context_signed_fraction",
+      "name": "Pair context signed fraction",
+      "vector_index": 26,
+      "implementation_name": "context_signed_fraction",
+      "block": "news_context",
+      "plain_language": "Positive pair-score member count minus negative count, divided by all pair-relevant context members; zero-score members stay in the denominator.",
+      "role": "Balance of signs without score magnitude.",
+      "intended_inputs": [
+        "C: pair-relevant original scored members from upstream_news_mapping.context",
+        "Original member currency_scores map c_m, base and quote currency keys",
+        "Frame epoch e and original knowledge clock known_m"
+      ],
+      "intended_units": "dimensionless fraction",
+      "raw_units": "dimensionless fraction",
+      "intended_lookback": "Only members whose original knowledge clock is in [e-3600,e] and whose observed/mapping availability is <=e. Historical e=t+60; live e=news.first_observed_epoch. Vetted groups additionally require unexpired original reaction windows.",
+      "computation": "(count(d_m>0)-count(d_m<0))/|C|; 0 if C is empty, with d_m=c_m[base]-c_m[quote].",
+      "missingness": "0 can mean no context, all pair differences zero, or equally numerous positive and negative members.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Source/classifier scores are hypotheses, not measured returns or guaranteed direction. Historical frames use original-member knowledge and committed/observed availability by anchor t+60; live frames use the actual news consumer clock. Unavailable/stale evidence blocks capture rather than becoming a neutral vector.",
+      "causal_clock": "causal_clocks.news",
+      "model_transform": "model_transform.training_standardization",
+      "source_refs": [
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 15,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 272,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 309,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 316,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 110,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 285,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Context includes only nonempty original currency_scores, not all textual news and not research_currency_scores.",
+        "A zero feature is not an end-to-end source-health assertion."
+      ]
+    },
+    {
+      "feature_id": "context_mean_age_hours",
+      "name": "Pair context mean original-knowledge age",
+      "vector_index": 27,
+      "implementation_name": "context_mean_age_hours",
+      "block": "news_context",
+      "plain_language": "Mean hours since each selected context member's original knowledge clock, capped to [0,1].",
+      "role": "Context age.",
+      "intended_inputs": [
+        "C: pair-relevant original scored members from upstream_news_mapping.context",
+        "Original member currency_scores map c_m, base and quote currency keys",
+        "Frame epoch e and original knowledge clock known_m"
+      ],
+      "intended_units": "hours, clipped to [0,1]",
+      "raw_units": "hours, clipped to [0,1]",
+      "intended_lookback": "Only members whose original knowledge clock is in [e-3600,e] and whose observed/mapping availability is <=e. Historical e=t+60; live e=news.first_observed_epoch. Vetted groups additionally require unexpired original reaction windows.",
+      "computation": "mean_m(min(1,max(0,(e-known_m)/3600))) over C; 1 if C is empty.",
+      "missingness": "1 is the documented empty-context sentinel and can also occur when all retained context is exactly one hour old. 0 can mean newly known content.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Source/classifier scores are hypotheses, not measured returns or guaranteed direction. Historical frames use original-member knowledge and committed/observed availability by anchor t+60; live frames use the actual news consumer clock. Unavailable/stale evidence blocks capture rather than becoming a neutral vector.",
+      "causal_clock": "causal_clocks.news",
+      "model_transform": "model_transform.training_standardization",
+      "source_refs": [
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 15,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 272,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 309,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 317,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 110,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 285,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Context includes only nonempty original currency_scores, not all textual news and not research_currency_scores.",
+        "A zero feature is not an end-to-end source-health assertion."
+      ]
+    },
+    {
+      "feature_id": "vetted_balance",
+      "name": "Pair vetted score balance",
+      "vector_index": 28,
+      "implementation_name": "vetted_balance",
+      "block": "news_vetted",
+      "plain_language": "Average base-minus-quote difference across separately guarded, still-current same-claim groups relevant to the pair.",
+      "role": "Signed vetted claim-level intensity.",
+      "intended_inputs": [
+        "V: pair-relevant guarded claim groups from upstream_news_mapping.vetted",
+        "Currency score map v_j, base and quote currency keys",
+        "Current frame epoch e; original group expiry for remaining-hours feature"
+      ],
+      "intended_units": "dimensionless classifier-score difference",
+      "raw_units": "dimensionless classifier-score difference",
+      "intended_lookback": "Only members whose original knowledge clock is in [e-3600,e] and whose observed/mapping availability is <=e. Historical e=t+60; live e=news.first_observed_epoch. Vetted groups additionally require unexpired original reaction windows.",
+      "computation": "mean_j(v_j[base]-v_j[quote]) over V, using 0 for an absent currency key; 0 if V is empty. Each v_j is already a rounded source-quality-weighted within-claim currency score; groups are averaged equally here.",
+      "missingness": "0 can mean no admitted vetted group, pair-leg cancellation, or cancellation across admitted groups. It does not imply no context.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Source/classifier scores are hypotheses, not measured returns or guaranteed direction. Historical frames use original-member knowledge and committed/observed availability by anchor t+60; live frames use the actual news consumer clock. Unavailable/stale evidence blocks capture rather than becoming a neutral vector.",
+      "causal_clock": "causal_clocks.news",
+      "model_transform": "model_transform.training_standardization",
+      "source_refs": [
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 15,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 272,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 309,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 318,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_news_causal_aggregation_guard_v1.py",
+          "line": 117,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_news_causal_aggregation_guard_v1.py",
+          "line": 234,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_news_causal_aggregation_guard_v1.py",
+          "line": 243,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Vetted means admitted under these source/clock/claim rules, not empirically established FX predictive power.",
+        "A zero feature is not an end-to-end source-health assertion."
+      ]
+    },
+    {
+      "feature_id": "vetted_volume_log",
+      "name": "Pair vetted claim count (log)",
+      "vector_index": 29,
+      "implementation_name": "vetted_volume_log",
+      "block": "news_vetted",
+      "plain_language": "Natural log of one plus the number of eligible guarded claim groups relevant to either currency.",
+      "role": "Vetted evidence quantity.",
+      "intended_inputs": [
+        "V: pair-relevant guarded claim groups from upstream_news_mapping.vetted",
+        "Currency score map v_j, base and quote currency keys",
+        "Current frame epoch e; original group expiry for remaining-hours feature"
+      ],
+      "intended_units": "log(1+claim count), dimensionless",
+      "raw_units": "log(1+claim count), dimensionless",
+      "intended_lookback": "Only members whose original knowledge clock is in [e-3600,e] and whose observed/mapping availability is <=e. Historical e=t+60; live e=news.first_observed_epoch. Vetted groups additionally require unexpired original reaction windows.",
+      "computation": "ln(1+|V|).",
+      "missingness": "0 means no admitted pair-relevant vetted group; ordinary context can still be nonzero.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Source/classifier scores are hypotheses, not measured returns or guaranteed direction. Historical frames use original-member knowledge and committed/observed availability by anchor t+60; live frames use the actual news consumer clock. Unavailable/stale evidence blocks capture rather than becoming a neutral vector.",
+      "causal_clock": "causal_clocks.news",
+      "model_transform": "model_transform.training_standardization",
+      "source_refs": [
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 15,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 272,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 309,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 318,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_news_causal_aggregation_guard_v1.py",
+          "line": 117,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_news_causal_aggregation_guard_v1.py",
+          "line": 234,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_news_causal_aggregation_guard_v1.py",
+          "line": 243,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Vetted means admitted under these source/clock/claim rules, not empirically established FX predictive power.",
+        "A zero feature is not an end-to-end source-health assertion."
+      ]
+    },
+    {
+      "feature_id": "vetted_conflict_fraction",
+      "name": "Pair vetted minority-sign fraction",
+      "vector_index": 30,
+      "implementation_name": "vetted_conflict_fraction",
+      "block": "news_vetted",
+      "plain_language": "The smaller of positive and negative vetted-group counts divided by all pair-relevant vetted groups.",
+      "role": "Disagreement among vetted pair directions.",
+      "intended_inputs": [
+        "V: pair-relevant guarded claim groups from upstream_news_mapping.vetted",
+        "Currency score map v_j, base and quote currency keys",
+        "Current frame epoch e; original group expiry for remaining-hours feature"
+      ],
+      "intended_units": "dimensionless fraction, actual range [0,0.5]",
+      "raw_units": "dimensionless fraction, actual range [0,0.5]",
+      "intended_lookback": "Only members whose original knowledge clock is in [e-3600,e] and whose observed/mapping availability is <=e. Historical e=t+60; live e=news.first_observed_epoch. Vetted groups additionally require unexpired original reaction windows.",
+      "computation": "min(count(d_j>0),count(d_j<0))/|V|; 0 if V is empty. Zero pair-difference groups remain in |V|.",
+      "missingness": "0 also occurs for unanimous signs or zero pair differences, not only absence. Validator allows [0,1], but this formula cannot exceed 0.5.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Source/classifier scores are hypotheses, not measured returns or guaranteed direction. Historical frames use original-member knowledge and committed/observed availability by anchor t+60; live frames use the actual news consumer clock. Unavailable/stale evidence blocks capture rather than becoming a neutral vector.",
+      "causal_clock": "causal_clocks.news",
+      "model_transform": "model_transform.training_standardization",
+      "source_refs": [
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 15,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 272,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 309,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 318,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_news_causal_aggregation_guard_v1.py",
+          "line": 117,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_news_causal_aggregation_guard_v1.py",
+          "line": 234,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_news_causal_aggregation_guard_v1.py",
+          "line": 243,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Vetted means admitted under these source/clock/claim rules, not empirically established FX predictive power.",
+        "A zero feature is not an end-to-end source-health assertion."
+      ]
+    },
+    {
+      "feature_id": "vetted_remaining_hours",
+      "name": "Pair vetted minimum time remaining",
+      "vector_index": 31,
+      "implementation_name": "vetted_remaining_hours",
+      "block": "news_vetted",
+      "plain_language": "Hours until the earliest original reaction expiry among pair-relevant vetted groups, capped to [0,1]. It is a minimum, not an average.",
+      "role": "Expiry context/eligibility.",
+      "intended_inputs": [
+        "V: pair-relevant guarded claim groups from upstream_news_mapping.vetted",
+        "Currency score map v_j, base and quote currency keys",
+        "Current frame epoch e; original group expiry for remaining-hours feature"
+      ],
+      "intended_units": "hours, clipped to [0,1]",
+      "raw_units": "hours, clipped to [0,1]",
+      "intended_lookback": "Only members whose original knowledge clock is in [e-3600,e] and whose observed/mapping availability is <=e. Historical e=t+60; live e=news.first_observed_epoch. Vetted groups additionally require unexpired original reaction windows.",
+      "computation": "min(1,max(0,min_j(expires_j-e)/3600)); empty V uses 0 seconds and yields 0.",
+      "missingness": "0 means no vetted group or an exactly expiring group. 1 means at least an hour remains, not exactly an hour.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Source/classifier scores are hypotheses, not measured returns or guaranteed direction. Historical frames use original-member knowledge and committed/observed availability by anchor t+60; live frames use the actual news consumer clock. Unavailable/stale evidence blocks capture rather than becoming a neutral vector.",
+      "causal_clock": "causal_clocks.news",
+      "model_transform": "model_transform.training_standardization",
+      "source_refs": [
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 15,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 272,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 309,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+          "line": 319,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_news_causal_aggregation_guard_v1.py",
+          "line": 117,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_news_causal_aggregation_guard_v1.py",
+          "line": 234,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_news_causal_aggregation_guard_v1.py",
+          "line": 243,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Vetted means admitted under these source/clock/claim rules, not empirically established FX predictive power.",
+        "A zero feature is not an end-to-end source-health assertion."
+      ]
+    },
+    {
+      "feature_id": "price_rate_x_context_balance",
+      "name": "One-minute price rate × context balance",
+      "vector_index": 32,
+      "implementation_name": "technical[0]*news[0] (documentation-assigned name)",
+      "block": "interaction",
+      "plain_language": "Product of the observed one-minute price-rate feature and context_balance; it lets a fitted coefficient describe their joint association with the target.",
+      "role": "Learned price/news interaction; not a fixed news-to-pips rule.",
+      "intended_inputs": [
+        "price_rate_1m",
+        "context_balance"
+      ],
+      "intended_units": "pips/minute × dimensionless classifier-score difference",
+      "raw_units": "pips/minute × dimensionless classifier-score difference",
+      "intended_lookback": "The one-minute observed price subwindow and the news frame's original-knowledge last hour. Live price and news clocks are separately observed, not forced to the same timestamp.",
+      "computation": "raw price_rate_1m * raw context_balance; formed before training mean/standard-deviation normalization.",
+      "missingness": "Zero if either factor is zero, including the one-minute rate's unavailable sentinel or a news cancellation/empty-state zero. Accompanying original features retain additional missingness/context.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Price timestamp t is the UTC M1 start; its close is not available before t+60. Windows use only observed closes from the same >30-minute-gap session, preserve elapsed time and gaps, and are retrospective training inputs rather than prior prospective evidence. Source/classifier scores are hypotheses, not measured returns or guaranteed direction. Historical frames use original-member knowledge and committed/observed availability by anchor t+60; live frames use the actual news consumer clock. Unavailable/stale evidence blocks capture rather than becoming a neutral vector.",
+      "causal_clock": "causal_clocks.price_and_news",
+      "model_transform": "model_transform.training_standardization",
+      "source_refs": [
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 114,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 117,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 80,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 84,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Documentation-assigned name; code retains no named interaction registry.",
+        "An interaction coefficient or neutral-news difference is not a causal effect estimate."
+      ]
+    },
+    {
+      "feature_id": "price_rate_x_vetted_balance",
+      "name": "One-minute price rate × vetted balance",
+      "vector_index": 33,
+      "implementation_name": "technical[0]*news[4] (documentation-assigned name)",
+      "block": "interaction",
+      "plain_language": "Product of the observed one-minute price-rate feature and vetted_balance; it lets a fitted coefficient describe their joint association with the target.",
+      "role": "Learned price/news interaction; not a fixed news-to-pips rule.",
+      "intended_inputs": [
+        "price_rate_1m",
+        "vetted_balance"
+      ],
+      "intended_units": "pips/minute × dimensionless classifier-score difference",
+      "raw_units": "pips/minute × dimensionless classifier-score difference",
+      "intended_lookback": "The one-minute observed price subwindow and the news frame's original-knowledge last hour. Live price and news clocks are separately observed, not forced to the same timestamp.",
+      "computation": "raw price_rate_1m * raw vetted_balance; formed before training mean/standard-deviation normalization.",
+      "missingness": "Zero if either factor is zero, including the one-minute rate's unavailable sentinel or a news cancellation/empty-state zero. Accompanying original features retain additional missingness/context.",
+      "implementation_status": "implemented_active_registered_joint_input",
+      "causal_warning": "Price timestamp t is the UTC M1 start; its close is not available before t+60. Windows use only observed closes from the same >30-minute-gap session, preserve elapsed time and gaps, and are retrospective training inputs rather than prior prospective evidence. Source/classifier scores are hypotheses, not measured returns or guaranteed direction. Historical frames use original-member knowledge and committed/observed availability by anchor t+60; live frames use the actual news consumer clock. Unavailable/stale evidence blocks capture rather than becoming a neutral vector.",
+      "causal_clock": "causal_clocks.price_and_news",
+      "model_transform": "model_transform.training_standardization",
+      "source_refs": [
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 114,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_pair_local_models_v2.py",
+          "line": 117,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 80,
+          "evidence_kind": "implementation"
+        },
+        {
+          "path": "oanda_joint_price_news_models_v1.py",
+          "line": 84,
+          "evidence_kind": "implementation"
+        }
+      ],
+      "gaps": [
+        "Documentation-assigned name; code retains no named interaction registry.",
+        "An interaction coefficient or neutral-news difference is not a causal effect estimate."
+      ]
+    }
+  ],
+  "gaps": [
+    "No live DB/model/runtime inspection was performed; active means wired in the inspected canonical registry and source, not independently observed running in this documentation task.",
+    "No exhaustive upstream classifier-branch inventory or raw-source completeness claim is made. The exact 34-dimensional consumer boundary and transformations are documented.",
+    "Source paths are repository-root-relative; active registered numerical modules are root files, not names found under src/forex_system.",
+    "No profitability, calibration, causal impact, trading eligibility or production-quality conclusion follows from this dictionary."
+  ],
+  "source_refs": [
+    {
+      "path": "docs/FOREX_JOINT_PRICE_NEWS_20260907.md",
+      "line": 1,
+      "evidence_kind": "documentation"
+    },
+    {
+      "path": "config/joint_price_news_study_v2_20260907.json",
+      "line": 1,
+      "evidence_kind": "configuration"
+    },
+    {
+      "path": "oanda_joint_price_news_models_v1.py",
+      "line": 80,
+      "evidence_kind": "implementation"
+    },
+    {
+      "path": "oanda_pair_local_models_v2.py",
+      "line": 106,
+      "evidence_kind": "implementation"
+    },
+    {
+      "path": "oanda_causal_forecast_inputs_joint_news_v1.py",
+      "line": 309,
+      "evidence_kind": "implementation"
+    }
+  ]
+}
+

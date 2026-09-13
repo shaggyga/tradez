@@ -1,0 +1,127 @@
+{
+  "status": "passed",
+  "scope": "actual_live_local_dashboard_read_only_filters",
+  "observed_epoch": 1788801596.363,
+  "api_observed_epoch": 1788801593.97,
+  "registry_sha256": "e0aa74fa5d20b7be983050625773834ea68d74ffc15b566ab5e03df9b3380d65",
+  "summary_sha256": "370e52fe7007f03136e37a86e9b058afb1d898c480156e5e07bbec9994b244eb",
+  "counts": {
+    "warming": 31,
+    "unavailable": 17,
+    "forecast": 20
+  },
+  "registered_pairs": 68,
+  "current_market_pairs": 51,
+  "study_orders_enabled": false,
+  "examples": [
+    {
+      "instrument": "EUR_USD",
+      "status": "forecast",
+      "reason": "forecast",
+      "reason_label": "Two H1 model estimates",
+      "observed_epoch": 1788801584.175136,
+      "last_attempt_epoch": 1788801499.653104,
+      "forecast": {
+        "publication_epoch": 1788801499.9099336,
+        "target_epoch": 1788805097.134369,
+        "forecasts": [
+          {
+            "cohort_id": "causal_pair_local_v1_20260907.EUR_USD.probabilistic_state_space.3f060a258163fba0",
+            "family": "probabilistic_state_space",
+            "instrument": "EUR_USD",
+            "issued_epoch": 1788801499.8899872,
+            "predicted_return_bps": -2.3454402157456076,
+            "probability_up": 0.16173171245614537,
+            "reference_epoch": 1788801497.134369,
+            "reference_mid": "1.162615",
+            "side": -1,
+            "target_epoch": 1788805097.134369
+          },
+          {
+            "cohort_id": "causal_pair_local_v1_20260907.EUR_USD.ridge_return_repaired.3f060a258163fba0",
+            "family": "ridge_return_repaired",
+            "instrument": "EUR_USD",
+            "issued_epoch": 1788801499.8899872,
+            "predicted_return_bps": 3.0144902286082482,
+            "probability_up": 0.7991481305438113,
+            "reference_epoch": 1788801497.134369,
+            "reference_mid": "1.162615",
+            "side": 1,
+            "target_epoch": 1788805097.134369
+          }
+        ]
+      }
+    },
+    {
+      "instrument": "USD_HUF",
+      "status": "forecast",
+      "reason": "forecast",
+      "reason_label": "Two H1 model estimates",
+      "observed_epoch": 1788801584.1988232,
+      "last_attempt_epoch": 1788801506.3601701,
+      "forecast": {
+        "publication_epoch": 1788801506.6100085,
+        "target_epoch": 1788805103.376703,
+        "forecasts": [
+          {
+            "cohort_id": "causal_pair_local_v1_20260907.USD_HUF.probabilistic_state_space.e6375681567eb860",
+            "family": "probabilistic_state_space",
+            "instrument": "USD_HUF",
+            "issued_epoch": 1788801506.589067,
+            "predicted_return_bps": -0.6266233811581654,
+            "probability_up": 0.44083423119120757,
+            "reference_epoch": 1788801503.376703,
+            "reference_mid": "312.822",
+            "side": -1,
+            "target_epoch": 1788805103.376703
+          },
+          {
+            "cohort_id": "causal_pair_local_v1_20260907.USD_HUF.ridge_return_repaired.e6375681567eb860",
+            "family": "ridge_return_repaired",
+            "instrument": "USD_HUF",
+            "issued_epoch": 1788801506.589067,
+            "predicted_return_bps": 3.28341238447308,
+            "probability_up": 0.6054671697352587,
+            "reference_epoch": 1788801503.376703,
+            "reference_mid": "312.822",
+            "side": 1,
+            "target_epoch": 1788805103.376703
+          }
+        ]
+      }
+    }
+  ],
+  "layouts": [
+    {
+      "width": 1440,
+      "all_pairs": 68,
+      "selected_pairs": [
+        "EUR_USD",
+        "USD_HUF"
+      ],
+      "windows": [
+        "5m",
+        "60m"
+      ],
+      "original_reference_target_detail": true,
+      "positions_status_visible": true,
+      "page_overflow": false
+    },
+    {
+      "width": 360,
+      "all_pairs": 68,
+      "selected_pairs": [
+        "EUR_USD",
+        "USD_HUF"
+      ],
+      "windows": [
+        "5m",
+        "60m"
+      ],
+      "original_reference_target_detail": true,
+      "positions_status_visible": true,
+      "page_overflow": false
+    }
+  ],
+  "page_errors": []
+}

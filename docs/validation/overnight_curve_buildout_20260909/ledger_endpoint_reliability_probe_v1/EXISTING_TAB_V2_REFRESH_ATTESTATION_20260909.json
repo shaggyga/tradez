@@ -1,0 +1,40 @@
+{
+  "account_details_retained": false,
+  "actions_reported": [
+    "Refreshed the two existing tabs at the same URL; no new tab created.",
+    "Inspected refreshed accessibility state in both tabs and the rendered screenshot for tab1."
+  ],
+  "broker_actions": false,
+  "html_source_binding": {
+    "bytes": 175625,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_main_signal_dashboard.html",
+    "sha256": "abb4150a22ace6321a0537ff4869fe02b8573568487c926b11ec93c1c7d666ef"
+  },
+  "local_tab_ids": [
+    1,
+    2
+  ],
+  "observation_basis": "Parent agent /root reported its actual CUA refresh and screenshot inspection; retaining agent did not independently operate or inspect these tabs.",
+  "probe_context": "The two existing tabs may add normal concurrent polling load during the subsequent V2 endpoint probe. The V1 and V2 windows are not a controlled workload benchmark.",
+  "raw_accessibility_tree_exported": false,
+  "related_direct_http_receipt": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ledger_endpoint_reliability_probe_v1\\actual_live_v2_api_table_001\\LIVE_API_TABLE_ACCEPTANCE_20260909.json",
+    "sha256": "21a84a1fbd60d6ac760ada8ee17700e8ea05a79576e46cfe073476b07a1fc04a"
+  },
+  "reported_after_state": {
+    "combined_forecast_pairs": 66,
+    "price_only_pairs": 2,
+    "study_orders_disabled": true,
+    "unavailable_pairs": 0
+  },
+  "reported_before_state": "Old already-loaded pages withheld combined status after the V2 schema transition.",
+  "reported_observation_approx_utc": "2026-09-09T10:40:00Z",
+  "reported_visual_limitation": "Narrow table has horizontal overflow; cosmetic work remains deferred.",
+  "retained_epoch": 1788950560.6246808,
+  "schema_version": "observer_v2_existing_tab_refresh_attestation_v1_20260909",
+  "screenshot_copied": false,
+  "source_changes": false,
+  "status": "parent_reported_live_ui_refresh",
+  "time_precision": "approximate minute supplied by parent; not an invented exact tool timestamp",
+  "url": "http://127.0.0.1:8765/#oanda"
+}

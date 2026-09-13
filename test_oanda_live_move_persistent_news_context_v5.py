@@ -156,6 +156,27 @@ def test_valid_exact_v7r3_snapshot_and_history_are_consumed(
     assert result["upstream_factor_history_fingerprint_method"] == (
         "canonical_registry_merges_memberships_conflicts_v1"
     )
+
+
+def test_later_append_only_history_suffix_does_not_rewrite_snapshot(
+    monkeypatch, tmp_path: Path
+) -> None:
+    first = _row()
+    later = _row("EUR_HUF", "2026-08-27T09:05:00+00:00", "root-huf-b")
+    upstream = tmp_path / "v7r3.sqlite"
+    _record_upstream(upstream, [first])
+    snapshot = _snapshot([first])
+    snapshot["retained_case_count"] = 1
+    _record_upstream(upstream, [later])
+
+    result = _run(tmp_path, monkeypatch, snapshot, upstream)
+
+    assert result["input_integrity_ok"] is True
+    status = result["upstream_factor_history_status"]
+    assert status["retained_case_count"] == 1
+    assert status["current_retained_case_count"] == 2
+    assert status["append_only_suffix"]["mover_cases"] == 1
+    assert status["append_only_suffix"]["memberships"] == 1
     assert result["mover_count"] == 1
     assert result["supported_decision"] == "diagnostic_only"
     assert result["research_only"] is True

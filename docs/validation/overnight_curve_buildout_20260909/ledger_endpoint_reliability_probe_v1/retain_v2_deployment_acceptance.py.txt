@@ -1,0 +1,73 @@
+"""Close immutable implementation/application/HTTP receipts; no new live reads."""
+import hashlib
+import json
+from pathlib import Path
+import time
+import xml.etree.ElementTree as ET
+
+BASE=Path(__file__).resolve().parent
+ROOT=BASE.parents[1]/'trad'
+INTEGRATION=BASE/'integration_candidate_v2_001'
+
+
+def sha(raw):return hashlib.sha256(raw).hexdigest()
+
+
+def record(path):
+    raw=path.read_bytes();return dict(path=str(path),sha256=sha(raw),bytes=len(raw))
+
+
+def require(ok):
+    if not ok:raise ValueError('deployment_acceptance_binding_failed')
+
+
+def run():
+    spec_raw=(INTEGRATION/'DASHBOARD_V2_RELOAD_SPECIFICATION_20260909.json').read_bytes()
+    require(sha(spec_raw)=='d77856f1a441612dd560507627d6cef05fd204cbcdc1ea5aac86bb6fafeda393')
+    spec=json.loads(spec_raw)
+    for path,want in spec['source_bindings'].items():require(record(Path(path))['sha256']==want)
+    application=INTEGRATION/'APPLICATION_V2_20260909.json'
+    require(record(application)['sha256']=='c38de98753c232352804ff34b1f23b9374e1f8f030d534186ec88157f1603ae6')
+    require(json.loads(application.read_bytes())['status']=='applied_exact_reviewed_sources')
+    xml=INTEGRATION/'integration_v2_canonical_tests.xml';tree=ET.fromstring(xml.read_bytes())
+    suites=list(tree) if tree.tag=='testsuites' else [tree]
+    counts={key:sum(int(s.attrib.get(key,0)) for s in suites) for key in ('tests','failures','errors','skipped')}
+    require(counts==dict(tests=215,failures=0,errors=0,skipped=1))
+    reload=INTEGRATION/'dashboard_v2_reload_001/AFTER.json';after=json.loads(reload.read_bytes())
+    require(after['process_count']==35 and after['preserved_process_count']==33 and after['supervisor_pid']==37696)
+    require(sorted(after['new_dashboard_pids'])==[8868,23772])
+    live=BASE/'actual_live_v2_api_table_001/LIVE_API_TABLE_ACCEPTANCE_20260909.json'
+    require(record(live)['sha256']=='21a84a1fbd60d6ac760ada8ee17700e8ea05a79576e46cfe073476b07a1fc04a')
+    observation=json.loads(live.read_bytes());require(observation['status']=='passed')
+    require(observation['reviewed_reload_snapshot']['sha256']==record(reload)['sha256'])
+    review_files=[BASE/'OBSERVER_API_V2_INDEPENDENT_SOURCE_REVIEW_20260909.json',
+        INTEGRATION/'APPLICATION_HELPER_INDEPENDENT_REVIEW_20260909.json',
+        INTEGRATION/'DASHBOARD_V2_BINDING_RELOAD_INDEPENDENT_REVIEW_20260909.json']
+    for path in review_files:require(json.loads(path.read_bytes())['status'].startswith('passed'))
+    census=json.loads(Path(spec['runtime_census']['path']).read_bytes());closure_records={}
+    for name,closure in census['frozen_closures'].items():
+        registry=record(Path(closure['registry']['path']));require(registry['sha256']==closure['registry']['sha256'])
+        for source in closure['sources']:require(record(Path(source['path']))['sha256']==source['expected_sha256'])
+        closure_records[name]=dict(registry=registry,unchanged_source_count=len(closure['sources']))
+    value=dict(schema_version='joint_v3_observer_api_v2_deployment_acceptance_v1_20260909',status='passed_dated_deployment_and_http_verification',
+        retained_epoch=time.time(),implementation_validation=record(BASE/'OBSERVER_API_V2_IMPLEMENTATION_VALIDATION_20260909.json'),
+        independent_reviews=[record(path) for path in review_files],configuration=record(ROOT/'config/joint_v3_ledger_observer_api_v2_20260909.json'),
+        source_application=record(application),canonical_tests={**record(xml),**counts,'passed':214,
+            'notes':['One Windows symlink privilege skip.','Parent reported a pytest cache-write warning only; no failed assertion.']},
+        reload=record(reload),live_http_and_served_selector=record(live),all_bound_sources_match=True,
+        unchanged_frozen_closures=closure_records,dated_observation=dict(generated_utc=observation['generated_utc'],
+            consumer=observation['consumer'],missing_rows=observation['missing_rows'],
+            original_producer_transport_status=observation['table_projection']['producer_transport_status'],
+            original_producer_reported_errors=observation['table_projection']['producer_reported_errors'],
+            first_pass_verified_pairs=observation['scheduling_diagnostics']['first_pass_verified_pairs'],
+            retry_attempted_pairs=observation['scheduling_diagnostics']['retry_attempted_pairs']),
+        preserved_process_count=33,process_count_at_reload=35,preserved_supervisor_pid=37696,new_dashboard_pids=[8868,23772],
+        original_forecast_issue_reference_and_target_clocks_unchanged=True,original_producer_heartbeat_claimed_valid=False,
+        orders_enabled=False,model_or_cohort_changed=False,
+        scope='Deployment and one actual HTTP/served-JavaScript observation are verified. Longer V2 retry behavior is a separate dated probe; no reliability-rate or trading-performance claim.')
+    path=BASE/'OBSERVER_API_V2_DEPLOYMENT_ACCEPTANCE_20260909.json';raw=(json.dumps(value,sort_keys=True,indent=2)+'\n').encode()
+    with path.open('xb') as stream:stream.write(raw)
+    print(json.dumps(dict(path=str(path),sha256=sha(raw),status=value['status'])))
+
+
+if __name__=='__main__':run()

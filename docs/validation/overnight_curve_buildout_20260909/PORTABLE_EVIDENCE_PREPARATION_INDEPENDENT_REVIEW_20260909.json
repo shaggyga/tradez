@@ -1,0 +1,62 @@
+{
+  "findings_closed": [
+    "Direct and nested canonical dependency records now use the same exact path/hash/size validation.",
+    "Dangling receipt symlink is rejected before project copy; destination ancestors are checked by lstat including dangling/name-surrogate paths."
+  ],
+  "generated_utc": "2026-09-09T09:57:52.684378+00:00",
+  "limitations": [
+    "Real symlink creation is unavailable on this Windows host; two OS link fixtures skip while deterministic lstat/dangling predicates are tested.",
+    "Filesystem copies are exclusive per member and read back, not an all-or-nothing directory transaction. A crash can leave partial evidence members; rerun rejects mismatching existing bytes rather than deleting or overwriting them.",
+    "Preflight validates current destinations; this review assumes the trusted workspace is not maliciously replaced concurrently during copy.",
+    "The actual combined selection preflight/copy, export-wide credential scan and source ZIP/vault publication remain separate root actions."
+  ],
+  "meaningful_checks": [
+    "Traversal, Windows reserved names/ADS, duplicate case aliases and wrong destination prefix refuse before writes.",
+    "Changed source/selection/canonical dependency, malformed size/hash, known private value, existing credential pattern, source compilation failure and conflicting existing destination refuse before writes.",
+    "Existing exact destination is preserved without mtime replacement; identical entries deduplicate and existing receipt is never overwritten.",
+    "Valid Python is compiled without executing its code; the test source itself passes the unchanged export scanner.",
+    "Two exact original-scorer allowlisted paths are read, hash-checked, pattern-scanned and compiled without executing them; wrong pins and same basenames at other paths reject.",
+    "Disposable apply/dry-run fixtures write only temporary test roots, never canonical project or vault."
+  ],
+  "prior_test_evidence": {
+    "initial_result": "32 passed,1 test-only assumed-pattern failure,2 skipped; corrected constructed token header now exercises an actual unchanged scanner rule.",
+    "manifest": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\portable_evidence_test_history\\initial_manifest.json"
+  },
+  "privacy": {
+    "actual_credentials_read": false,
+    "production_sources_modified_by_reviewer": false,
+    "real_private_values_printed": false,
+    "scanner_exemptions_added": false,
+    "test_fixture_material_constructed_from_fragments": true
+  },
+  "reviewer": "pair_dashboard",
+  "schema_version": "portable_evidence_preparation_independent_review_v1_20260909",
+  "source": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\prepare_portable_evidence_v1.py",
+    "sha256": "3ac1f1921a7a1e22018afa50ace20075fd158920c915a20857f87bc4372e65a2"
+  },
+  "source_copies": [
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\portable_evidence_preparation_accepted_source\\prepare_portable_evidence_v1.py.txt",
+      "sha256": "3ac1f1921a7a1e22018afa50ace20075fd158920c915a20857f87bc4372e65a2"
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\portable_evidence_preparation_accepted_source\\test_prepare_portable_evidence_v1.py.txt",
+      "sha256": "e0990867622b37ceffb7189c2212aef114a94d8c6c8231e588c86aad7e025786"
+    }
+  ],
+  "status": "passed",
+  "test_source": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\test_prepare_portable_evidence_v1.py",
+    "sha256": "e0990867622b37ceffb7189c2212aef114a94d8c6c8231e588c86aad7e025786"
+  },
+  "tests": {
+    "duration_sec": 1.804,
+    "errors": 0,
+    "failures": 0,
+    "passed": 40,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\portable_evidence_preparation_final_tests.xml",
+    "sha256": "a00872b35333394f8f214ab55e610bb49d43e23c1f6ad42d2e3a28e85e2b768d",
+    "skipped": 2
+  }
+}

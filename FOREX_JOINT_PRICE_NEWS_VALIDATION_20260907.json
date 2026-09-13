@@ -1,0 +1,294 @@
+{
+  "schema_version": "forex_joint_price_news_validation_v1_20260907",
+  "recorded_utc": "2026-09-07T23:01:10.967299+00:00",
+  "engineering_validation_status": "passed",
+  "predictive_improvement_status": "not_established_pending_prospective_joint_outcomes",
+  "report": {
+    "path": "docs/FOREX_JOINT_PRICE_NEWS_20260907.md",
+    "sha256": "3a7229fa8efaa8edf46090dca5c630137e54a5e3ae862a2798a047f5aac9d75a",
+    "bytes": 8398
+  },
+  "active_registry": {
+    "path": "config/joint_price_news_study_v2_20260907.json",
+    "sha256": "20fea86e661efd758536b81fa5c474a440feee2e6af48b28a1016b1538d3691e",
+    "bytes": 308371
+  },
+  "active_pair_count_registered": 68,
+  "registered_source_bindings_verified_at_receipt_creation": {
+    "oanda_causal_forecast_inputs.py": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+    "oanda_causal_forecast_inputs_gap_v2.py": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd",
+    "oanda_causal_forecast_inputs_joint_news_v1.py": "9375f116571ef43c18eae65c14fc53fb2f98d8ab132d4b000a0971986d2890ec",
+    "oanda_causal_forecast_inputs_pair_v2.py": "8e58491a49fca967e6d8d2a797cc77f142053576c92a724a2e7336d855fb4899",
+    "oanda_causal_forecast_ledger_joint_news_v1.py": "df915eddafbc9265eb19c9b6757eb14441ebd9ca3864f6601f5a70ca39d65d7b",
+    "oanda_causal_prediction_baselines.py": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+    "oanda_exact_price_scoring.py": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521",
+    "oanda_fixed_forecast_evaluation_joint_news_v1.py": "c1f9940d57c0d39c1815b22a9114752075042a09da3e196e84829e77b293131d",
+    "oanda_joint_price_news_forecast_study_v2.py": "a27fe6e6ee3bf6ec2fdbf52be43661918cee18a5091f096c65994caa5fc24282",
+    "oanda_joint_price_news_models_v1.py": "eb153acb966dc04ad950a0bbfcc730e78a9a0da1d8a24e91d641f473f5cfbc23",
+    "oanda_local_news_sentiment.py": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4",
+    "oanda_news_causal_aggregation_guard_v1.py": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9",
+    "oanda_news_classification_contract.py": "f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae",
+    "oanda_pair_local_models_v2.py": "294c63bf0ed873395c4850a8722a2622eaa2bc563ceb7ecf9886764c63d8bf24",
+    "oanda_source_governance.py": "c4b7793dcef1b9176079a959019f8b69059fbd6644fddf1e8718f924d3a13950",
+    "oanda_source_governance_news_fast_lane.py": "bdd6a2542b3dbddbdf86f7148af4dcb38d0b8591b3f3fcdb843d9eed29898f03"
+  },
+  "dashboard_and_operations_sources_verified_at_receipt_creation": {
+    "oanda_project_runtime_health.py": "7642c3dcd5b669b93aed5b7288bda57771c07ee75fb8ff30383f7d5d6d267045",
+    "oanda_storage_headroom_guard.py": "4ff0d1fdccf9332baca250e32fa40b04cbeeb73cf2588c17bff1944c32d7f66f",
+    "oanda_always_on_supervisor.ps1": "dc07dc530bb59047017834951e2a57da14e4cc957602421abfee59ba79d7dd21",
+    "oanda_practice_live_dashboard.py": "a5dd6945cc448a6ab86fa5fab8d55aea6040bf197e5a50117fb1bbc218d2f9fe",
+    "oanda_main_signal_dashboard.html": "9e279285b2a4e00ad8f52c450f5af6533cb72df445cd55bb50f940c0413a618c"
+  },
+  "earlier_registered_source_preservation": {
+    "pair_v1_eurusd_v1_joint_v1": {
+      "pair_v1": true,
+      "eurusd_v1": true,
+      "joint_v1": true
+    },
+    "pair_v2_registry": {
+      "path": "config/pair_local_forecast_study_v2_20260907.json",
+      "sha256": "f7dc675925a765c0bb369282895f2839326476a05eadb7f5df6e0f27a10ed505",
+      "bytes": 476898
+    },
+    "pair_v2_all_nine_source_bindings_unchanged": true,
+    "joint_v1_runtime_role": "Still running separately to retain original H1 outcomes and scheduler comparison."
+  },
+  "separate_component_test_suites": [
+    {
+      "path": "docs/validation/joint_price_news_20260907/model_inputs/joint_model_inputs_tests.xml",
+      "sha256": "187c7793bded44342ef26badad73400dc0ea33378768c7562604a7f0e640faf2",
+      "bytes": 10189,
+      "passed": 63,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "docs/validation/joint_price_news_20260907/ledger_evaluation/final_tests.xml",
+      "sha256": "2514f3ee37d9fc3ea21123ad62712c8b8a2123624fd52198b376540cda53d83f",
+      "bytes": 76767,
+      "passed": 440,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "docs/validation/joint_price_news_20260907/scheduler_v2/worker_final_tests.xml",
+      "sha256": "19e0a00be16672dcd73f183ba2fb0c1c9a7da9f831ac6f0c734c49c8669c4799",
+      "bytes": 9558,
+      "passed": 60,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "docs/validation/joint_price_news_20260907/scheduler_v2_operational/operational_gate_tests.xml",
+      "sha256": "57e9496e03164713c7817d983aff826be7cfb3ad99751de0aa66522440bab7a8",
+      "bytes": 24389,
+      "passed": 157,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "docs/validation/joint_price_news_20260907/dashboard/joint_dashboard_tests.xml",
+      "sha256": "a311e82b6671a96cc10e773b46966c6ad9ae1192a003fb5725c2dd246a50e18e",
+      "bytes": 44305,
+      "passed": 227,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "docs/validation/joint_price_news_20260907/pair_forecast_repair_v2_20260907/news_audit/news_guard_collector_final.xml",
+      "sha256": "b904b62075f157a78ffab9c8dac7479d905da8662e2e17f8e514c1509e74e7d7",
+      "bytes": 86730,
+      "passed": 573,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "test_count_scope": "Suites can overlap and are not summed into an independent-test total. Earlier failures remain in retained evidence.",
+  "curated_evidence_manifest": {
+    "path": "docs/validation/joint_price_news_20260907/CURATED_EVIDENCE_COPY_MANIFEST_20260907.json",
+    "sha256": "36700071566ebe3a8908e53fb99438c862d32481ff5afdf5ee2da5c5bf66793d",
+    "bytes": 60624
+  },
+  "final_runtime_copy_manifest": {
+    "path": "docs/validation/joint_price_news_20260907/final_runtime/FINAL_RUNTIME_COPY_MANIFEST_20260907.json",
+    "sha256": "80cf9e79acb53d77b5d832f328ecdfd21c147c86ddb16c16fc4fc5ca35b801b4",
+    "bytes": 6129
+  },
+  "activation_receipt": {
+    "path": "docs/validation/joint_price_news_20260907/final_runtime/scheduler_v2/ACTIVATION_RECEIPT_20260907.json",
+    "sha256": "95cc32f04077eef2ad6b8d6c845c76d18a6916bc2cb4f738507fd06d48cfbb0e",
+    "bytes": 50486
+  },
+  "canonical_ledger_audit": {
+    "path": "docs/validation/joint_price_news_20260907/final_runtime/scheduler_v2/canonical_runtime/JOINT_V2_CANONICAL_RUNTIME_AUDIT_20260907.json",
+    "sha256": "0a250cf69c3bca6da202681d4c9582a43627cf9f3f0510ed12c825b281365e50",
+    "bytes": 225130
+  },
+  "runtime_verification": {
+    "evidence": {
+      "path": "docs/validation/joint_price_news_20260907/final_runtime/scheduler_v2/canonical_runtime/WORKER15_STORAGE_RUNTIME_VERIFICATION_20260907.json",
+      "sha256": "d279e40f5b6097746a5c01b897507ee8dd955e4d607ae226c788a34a1afb8440",
+      "bytes": 52710
+    },
+    "observed_utc": "2026-09-07T22:48:10.004467+00:00",
+    "checks": {
+      "new_research_supervisor_identity": true,
+      "all28_preexisting_python_identities_preserved": true,
+      "exact15_expected_reported_workers": true,
+      "all_reported_python_pids_independently_present": true,
+      "supervisor_status_current": true,
+      "352_existing_registered_storage_paths": true,
+      "storage_registered_inventory_complete": true,
+      "storage_orders_off": true
+    },
+    "expected_research_workers": 15,
+    "registered_core_readable_databases": 352
+  },
+  "live_dashboard_verification": {
+    "path": "docs/validation/joint_price_news_20260907/final_runtime/dashboard/LIVE_JOINT_DASHBOARD_VERIFICATION_20260907.json",
+    "sha256": "f6ecc4864620b96882eeba0a5d97d655421388d71f61cf38812dad35fe20d5d3",
+    "bytes": 8577
+  },
+  "fresh_news_and_forecast_observation": {
+    "evidence": {
+      "path": "docs/validation/joint_price_news_20260907/final_runtime/dashboard/FRESH_NEWS_JOINT_GROWTH_CASE_20260907.json",
+      "sha256": "3cfb2080771e477a34466dcb491177f7e0dc5dead2deee9c5bcabc062b7042f6",
+      "bytes": 7322
+    },
+    "observed_utc": "2026-09-07T22:51:41.159326+00:00",
+    "pairs_with_published_forecasts": 61,
+    "news_evidence_as_of_utc": "2026-09-07T22:47:17.922925+00:00",
+    "news_source_age_sec": 263.2114670276642,
+    "replayed_current_context_topics": 12,
+    "vetted_directional_topics": 0,
+    "primary_collection": {
+      "can_place_orders": false,
+      "can_promote": false,
+      "expected_model_count": 68,
+      "forecasting": {
+        "active_family_forecasts": 61,
+        "blocked": false,
+        "family_forecast_counts": {
+          "ridge_price_news_v1": 61
+        },
+        "label": "Partially operational \u00b7 61/68 combined H1 forecasts",
+        "observation_current": true,
+        "pairs_with_forecast": 61,
+        "scope": "combined_price_news_coverage",
+        "state": "published"
+      },
+      "label": "Partially operational \u00b7 61/68 combined H1 forecasts",
+      "model_attempts": {
+        "counts": {
+          "attempts": 61,
+          "consumption": 61,
+          "exclusions": 4,
+          "forecasts": 61,
+          "outcomes": 0,
+          "publication": 61
+        },
+        "latest_attempt": null,
+        "latest_published_forecast": null,
+        "observed_epoch": 1788821499.6513042,
+        "scope": "joint_price_news_v2_ledgers_only",
+        "status": "available"
+      },
+      "observations": {
+        "account": {
+          "age_sec": 1.94,
+          "current": true,
+          "max_age_sec": 90,
+          "observed_at": "2026-09-07T22:51:37.510992+00:00",
+          "status": "current"
+        },
+        "quote_stream": {
+          "age_sec": 1.365,
+          "current": true,
+          "current_stream_event_age_sec": 1.553,
+          "max_age_sec": 90,
+          "observed_at": "2026-09-07T22:51:38.085455+00:00",
+          "scope": "stream_transport_heartbeat_not_tradeable_price_freshness",
+          "status": "current"
+        },
+        "study": {
+          "age_sec": 1.354414463043213,
+          "current": true,
+          "max_age_sec": 90,
+          "observed_at": 1788821498.4006128,
+          "reported_cumulative_errors": 0,
+          "reported_cumulative_heartbeat_publication_errors": 0,
+          "status": "current"
+        }
+      },
+      "registered_pair_count": 68,
+      "registered_study_trading_enabled": false,
+      "research_only": true,
+      "running": true,
+      "running_scope": "current_registered_worker_observation_not_trading_readiness_or_forecast_success",
+      "schema_version": "joint_price_news_collection_status_v2_20260907",
+      "scope": "registered_joint_price_news_research",
+      "selected_study": "joint_price_news_v2",
+      "status": "running",
+      "strategy_or_execution_activation_changed": false,
+      "unavailable_observations": [],
+      "warmup": {
+        "explanation": "Each pair needs its own observed price and guarded news inputs,48 mature H1 labels and sufficient varied news context. Current readiness and last attempts are separate.",
+        "last_reported_common_bars": null,
+        "required_common_m1_bars": null,
+        "scope": "current_pair_price_and_news_inputs"
+      }
+    },
+    "interpretation": "News context enters the learned joint model even with no vetted directional topic. Original issued forecasts retain their H1 targets when current news later becomes stale."
+  },
+  "price_only_performance_sanity_check": {
+    "evidence": {
+      "path": "docs/validation/joint_price_news_20260907/price_v2_first_outcomes/PRICE_V2_FIRST_OUTCOMES_ASSESSMENT_20260907.json",
+      "sha256": "a575403f245f2edbc75863166a61f653b94240724380c4e425654420869a5b4d",
+      "bytes": 275076
+    },
+    "publication_chains_checked": 758,
+    "retained_outcomes_and_scores": 188,
+    "actual_integrity_mismatches": 0,
+    "state_space": {
+      "direction_correct": 16,
+      "denominator": 95,
+      "positive_after_spread": 0,
+      "mean_net_bps": -13.821
+    },
+    "ridge": {
+      "direction_correct": 58,
+      "denominator": 93,
+      "positive_after_spread": 1,
+      "mean_net_bps": -10.308
+    },
+    "scope": "Separate price-only families and denominators in a narrow correlated initial period. Not joint accuracy, causal news impact, or account P/L."
+  },
+  "reorganization": [
+    "Combined signals versus actual live prices are primary; positions remain account observations.",
+    "Same-joint-model neutral-news prediction plus learned news adjustment equals the joint forecast.",
+    "Separately fitted price-only comparison and older model families remain named details.",
+    "README and current pipeline/research guides lead to evidence; prior guides retained verbatim in history."
+  ],
+  "known_limits_and_pending_acceptance": [
+    "No canonical joint H1 outcome was received at the retained 22:51:41 UTC observation; profitability and accuracy improvement are unproven.",
+    "Training covers roughly one trading day; overlapping outcomes and correlated pairs require broader sessions and calibration.",
+    "First price-only outcomes show spread costs overwhelming small expected moves.",
+    "News cycles can exceed the 300-second maximum age; new joint forecasts then withhold instead of renewing old timestamps.",
+    "News reconstruction is bounded to 48 hours and 5000 rows, with explicit decoded/compressed byte limits; bound failures remain visible.",
+    "Shared compressed snapshots still imply roughly 2 GB/day at one capture per minute; no evidence deletion introduced.",
+    "Broader immutable training history, currency co-movement models, and prior joint scheduler retirement remain separately logged pending work.",
+    "Curated vault evidence excludes databases and full raw replay archives, which remain in the actual local project/workspace."
+  ],
+  "orders_enabled": false,
+  "promotion_enabled": false,
+  "proof_eligible": false,
+  "scheduled_health_automation": "paused",
+  "requested_in_chat_one_hour_watch": "completed earlier; preserved separate watch report",
+  "receipt_creation_runtime_mutations": false
+}

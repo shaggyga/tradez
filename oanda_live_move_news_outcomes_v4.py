@@ -14,6 +14,7 @@ import argparse
 import json
 import sqlite3
 import statistics
+import tempfile
 import time
 from collections import defaultdict
 from pathlib import Path
@@ -366,14 +367,24 @@ def run(
         raise UpstreamIntegrityError(
             f"V7R3 case database blocked: {upstream.get('reason')}"
         )
-    payload = base.run(
-        database=database,
-        candle_root=candle_root,
-        output=output,
-        report=report,
-        case_contract_id=CASE_CONTRACT_ID,
-        outcome_contract_id=CONTRACT_ID,
-    )
+    # ``base.run`` publishes the payload it builds.  Do not point that helper at
+    # the canonical V4R3 paths: the base payload does not yet contain the V4R3
+    # upstream-integrity and transitive-root fields, and a concurrent reader can
+    # otherwise observe that incomplete-but-valid JSON between the two atomic
+    # replacements.  Stage both base artifacts outside the canonical state tree
+    # and publish the governed V4R3 payload exactly once below.
+    with tempfile.TemporaryDirectory(
+        prefix="oanda_live_move_news_outcomes_v4_stage_"
+    ) as stage_directory:
+        stage_root = Path(stage_directory)
+        payload = base.run(
+            database=database,
+            candle_root=candle_root,
+            output=stage_root / output.name,
+            report=stage_root / report.name,
+            case_contract_id=CASE_CONTRACT_ID,
+            outcome_contract_id=CONTRACT_ID,
+        )
     connection = _read_only(database)
     try:
         cells = summarize_canonical(connection)

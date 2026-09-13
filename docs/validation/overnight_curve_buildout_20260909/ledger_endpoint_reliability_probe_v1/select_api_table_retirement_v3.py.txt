@@ -1,0 +1,123 @@
+"""Select exact current V2 evidence after deployment; preserve earlier manifests."""
+from copy import deepcopy
+from datetime import datetime,timezone
+import hashlib
+import json
+from pathlib import Path
+import sys
+
+BASE=Path(__file__).resolve().parent.parent
+HERE=Path(__file__).resolve().parent
+ROOT=BASE.parent/'trad'
+
+
+def sha(raw):return hashlib.sha256(raw).hexdigest()
+
+
+def record(path):
+    raw=path.read_bytes();return dict(path=str(path.resolve()),sha256=sha(raw),bytes=len(raw))
+
+
+def require(ok):
+    if not ok:raise ValueError('selection_source_binding_failed')
+
+
+def permitted_evidence_path(path):
+    """Compact receipts/docs/tests only; never private transport/data payloads."""
+    path=Path(path)
+    forbidden=lambda part:part.lower() in {'private','raw','raw_responses','db','databases','datasets'} or part.lower().startswith(('private_','raw_'))
+    return not any(forbidden(part) for part in path.parts) and path.suffix.lower() in {'.json','.md','.xml','.py','.ps1','.patch','.txt'}
+
+
+def run(extra):
+    prior_path=BASE/'CURATED_API_TABLE_RETIREMENT_EVIDENCE_SELECTION_V2_20260909.json'
+    raw=prior_path.read_bytes();require(sha(raw)=='50874c8c3248748b0f4aa20497cd35b96f5fa4524e91652cc6146c38d32f86ff')
+    prior=json.loads(raw);value=deepcopy(prior)
+    for item in prior['entries']:
+        actual=record(Path(item['original_source']['path']))
+        require(actual==item['original_source'])
+    integration=HERE/'integration_candidate_v2_001'
+    applied=integration/'APPLICATION_V2_20260909.json'
+    reload=integration/'dashboard_v2_reload_001/AFTER.json'
+    live=HERE/'actual_live_v2_api_table_001/LIVE_API_TABLE_ACCEPTANCE_20260909.json'
+    require(json.loads(applied.read_bytes())['status']=='applied_exact_reviewed_sources')
+    require(json.loads(reload.read_bytes())['status']=='dashboard_only_reload_source_identity_and_port_verified_http_pending')
+    require(json.loads(live.read_bytes())['status']=='passed')
+    candidate=json.loads((integration/'INTEGRATION_V2_CANDIDATE_20260909.json').read_bytes())
+    staged={Path(x['path']).name:x for x in candidate['staged_project_files']}
+    entries=value['entries'];members={e['intended_member'].lower() for e in entries};paths={e['original_source']['path'] for e in entries}
+    def add(path,group='observer_v2_reliability_and_deployment'):
+        path=path.resolve();relative=path.relative_to(BASE).as_posix()
+        require(permitted_evidence_path(path))
+        item=record(path)
+        if item['path'] in paths:return
+        target='docs/validation/overnight_curve_buildout_20260909/'+relative
+        if path.suffix in {'.py','.ps1','.patch'}:target+='.txt'
+        require(target.lower() not in members)
+        entries.append(dict(group=group,kind='source_or_test' if path.suffix in {'.py','.ps1'} or path.name.endswith('.py.txt') else 'summary_or_receipt',
+            original_source=item,intended_member=target,artifact_status='accepted_or_explicitly_dated_evidence',copy_performed=False))
+        members.add(target.lower());paths.add(item['path'])
+    transitions=[];dependencies=[]
+    for dep in prior['canonical_source_dependencies']:
+        path=Path(dep['path']);actual=record(path)
+        if actual['sha256']!=dep['sha256']:
+            require(path.name in staged and actual['sha256']==staged[path.name]['sha256'])
+            retained=integration/'before_source'/(path.name+'.txt')
+            require(record(retained)['sha256']==dep['sha256']);add(retained,'exact_v1_before_v2_deployment')
+            transitions.append(dict(path=str(path),old_sha256=dep['sha256'],new_sha256=actual['sha256'],retained_old_source=record(retained)))
+        dependencies.append({**dep,**actual})
+    require(len(transitions)==4)
+    for name in ['oanda_joint_v3_ledger_status_observer_v2.py','oanda_joint_v3_ledger_observer_api_v2.py',
+        'test_oanda_joint_v3_ledger_status_observer_v2.py','test_oanda_joint_v3_ledger_observer_api_v2.py',
+        'test_oanda_joint_v3_ledger_observer_retry_v2.py','config/joint_v3_ledger_observer_api_v2_20260909.json']:
+        item=record(ROOT/name);dependencies.append({**item,'source_snapshot_member':name,'status':'new_canonical_source_snapshot_dependency','copy_performed':False})
+    value['canonical_source_dependencies']=dependencies
+    for path in sorted(HERE.iterdir()):
+        if path.is_file() and path.suffix in {'.json','.md','.py','.xml'}:add(path)
+    for folder in ['observer_v2_first_candidate_source','observer_v2_before_wall_continuity','observer_api_v2_accepted_source']:
+        for path in sorted((HERE/folder).iterdir()):
+            require(path.is_file() and path.name.endswith('.py.txt'));add(path)
+    for name in ['actual_probe_002/LEDGER_ENDPOINT_RELIABILITY_PROBE_20260909.json','actual_probe_002/PROBE_STARTED.json',
+        'actual_v2_candidate_001/ACTUAL_OBSERVER_V2_CANDIDATE_20260909.json','actual_v2_candidate_001/COMPACT_API_RESPONSE_20260909.json']:
+        add(HERE/name)
+    for path in sorted(integration.iterdir()):
+        if path.is_file() and path.suffix in {'.json','.xml','.py','.ps1','.txt'}:add(path)
+    for path in sorted((integration/'before_source').iterdir()):add(path,'exact_v1_before_v2_deployment')
+    for name in ['BEFORE.json','AFTER.json']:
+        add(integration/'dashboard_v2_reload_001'/name)
+    add(live)
+    for item in extra:
+        path=Path(item).resolve();path.relative_to(BASE);add(path)
+    value.update(schema_version='curated_api_table_retirement_evidence_selection_v3_20260909',
+        status='selection_only_current_v2_with_preserved_v1_history_not_copied',created_utc=datetime.now(timezone.utc).isoformat(),
+        previous_selection=record(prior_path),canonical_transition=transitions,
+        scope='Original alias/observerV1/API/table/retirement history plus completed V2 bounded-retry implementation, reviewed binding/reload and actual HTTP evidence.',
+        counts=dict(evidence_files=len(entries),evidence_bytes=sum(e['original_source']['bytes'] for e in entries),canonical_source_dependencies=len(dependencies)),
+        mapping_delta=dict(previous_patch_txt_mapping_preserved=True,current_canonical_dependency_updates=4,new_canonical_dependencies=6,
+            original_v1_observer_api_and_configuration_unchanged=True,old_exact_four_source_bytes_retained=True))
+    value['dated_observation_caveats']=prior['dated_observation_caveats']+[
+        'Original V1 timeout probe and V2 candidate/live observations retain their own clocks and populations; one no-retry candidate scan is not a measured recovery-rate gain.',
+        'Raw main/account/news responses and full private ledger-response payloads remain excluded; compact receipts hash-bind private originals.',
+        'The active V2 observer is new observation infrastructure; original joint-v3 forecasts, cohorts and target clocks are unchanged.']
+    value['privacy_and_export_checks']['v3_scope']='Selection only; root final credential scan, compile/source export and vault synchronization remain separate.'
+    destination=BASE/'CURATED_API_TABLE_RETIREMENT_EVIDENCE_SELECTION_V3_20260909.json'
+    payload=(json.dumps(value,sort_keys=True,indent=2)+'\n').encode()
+    with destination.open('xb') as stream:stream.write(payload)
+    md=BASE/'CURATED_API_TABLE_RETIREMENT_EVIDENCE_SELECTION_V3_20260909.md'
+    text=f'''# API, table and retirement evidence selection V3
+
+Selected {len(entries)} exact evidence files ({sum(e['original_source']['bytes'] for e in entries):,} bytes), plus {len(dependencies)} current canonical source dependencies. No copy or vault write is performed by this selector.
+
+The previous V1/V2 selections and receipts remain unchanged. Four current handler/HTML/test dependency hashes advance to the reviewed V2 binding; exact V1 bytes are retained as dated evidence. The V1 observer, API and configuration remain separate canonical dependencies. Six new V2 observer/API/test/config dependencies are added.
+
+The selection retains the original producer-alias diagnosis, endpoint timeout probe, first candidate test failures, pre-clock-fix candidate, final tests/reviews, current ledger observation, reviewed dashboard-only reload and served endpoint/JavaScript verification. It excludes raw account/news responses, private full ledger responses, databases and raw source inventories.
+
+The original patch-to-.patch.txt mapping is preserved. Root's final source/credential scan, compile and export/vault publication remain separate. Live observations are dated; no trading-performance or measured recovery-rate claim follows from a single clean scan.
+
+Manifest SHA256: `{sha(payload)}`.
+'''
+    with md.open('x',encoding='utf-8',newline='\n') as stream:stream.write(text)
+    print(json.dumps(dict(manifest=record(destination),note=record(md),counts=value['counts'])))
+
+
+if __name__=='__main__':run(sys.argv[1:])

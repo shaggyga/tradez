@@ -1,0 +1,1169 @@
+{
+  "c_project_full_matrix_report_present": false,
+  "c_project_modern_model_gap_reports_present": false,
+  "completion_summary_source": {
+    "bytes": 240095,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\model_space\\model_gap_completion_latest.json",
+    "present": true,
+    "sha256": "1ce1cbf2a658f35b7033451490a47046fe931633b17cca37b3ee1a2a517c0ed7"
+  },
+  "configured_runtime_files_now": {
+    "core_timeseries": {
+      "models": [
+        "catboost",
+        "ngboost",
+        "tft",
+        "deepar",
+        "patchtst",
+        "nbeats",
+        "nhits",
+        "lstm",
+        "gru",
+        "tcn",
+        "temporal_cross_pair_gnn",
+        "chronos_2",
+        "timesfm_2_5",
+        "contextual_bandit",
+        "ppo",
+        "sac",
+        "dqn",
+        "self_supervised_pretraining",
+        "contrastive_learning",
+        "multi_task_learning",
+        "transfer_learning",
+        "knowledge_distillation"
+      ],
+      "package_imports_retested": false,
+      "python": "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312_cuda\\Scripts\\python.exe",
+      "python_present": true
+    },
+    "foundation_moirai": {
+      "models": [
+        "moirai",
+        "moirai_moe",
+        "lag_llama"
+      ],
+      "package_imports_retested": false,
+      "python": "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\foundation_moirai312\\Scripts\\python.exe",
+      "python_present": true
+    },
+    "foundation_toto": {
+      "models": [
+        "toto_2"
+      ],
+      "package_imports_retested": false,
+      "python": "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\foundation_toto312\\Scripts\\python.exe",
+      "python_present": true
+    },
+    "foundation_ttm": {
+      "models": [
+        "tiny_time_mixer"
+      ],
+      "package_imports_retested": false,
+      "python": "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\foundation_ttm312\\Scripts\\python.exe",
+      "python_present": true
+    }
+  },
+  "current_c_project_model_directory_file_count": 0,
+  "current_study_heartbeat_observation": {
+    "account_eligible": false,
+    "activated_epoch": 1788708624.9526446,
+    "active_bucket": null,
+    "can_place_orders": false,
+    "can_promote": false,
+    "contract_id": "causal_four_family_future_collection_v1_io_r2_20260906",
+    "contract_sha256": "bc99e68db720e0a43b3ec68a7820b3605013d0c2138515f23e648f5b34fadc2a",
+    "counts": {
+      "attempts": 0,
+      "consumption": 0,
+      "diagnostics": 0,
+      "entries": 0,
+      "exclusions": 0,
+      "forecasts": 0,
+      "inputs": 0,
+      "outcomes": 0,
+      "publication": 0,
+      "quotes": 0
+    },
+    "errors": 0,
+    "generated_epoch": 1788709265.9407904,
+    "heartbeat_publication_errors": 0,
+    "last_heartbeat_publication_error": "",
+    "last_reason": "market_closed_or_quote_not_tradeable",
+    "phase": "waiting_for_tradeable_quote",
+    "proof_eligible": false,
+    "research_only": true,
+    "schema_version": "causal_forecast_study_heartbeat_v1",
+    "supported_decision": "no_trade"
+  },
+  "foundation_weights_now": [
+    {
+      "checkpoint_content_hashes_reverified": false,
+      "destination": "D:\\forex\\runtime\\model_gap\\weights\\chronos_2",
+      "destination_present": true,
+      "manifest": {
+        "bytes": 894,
+        "path": "D:\\forex\\runtime\\model_gap\\weights\\chronos_2\\WEIGHT_MANIFEST.json",
+        "present": true,
+        "sha256": "ce2ed3883994a101a900201071fe9b42a00191b67769533ecbce026ea7f2450f"
+      },
+      "manifest_keys": [
+        "account_wired",
+        "destination",
+        "execution_policy",
+        "file_count",
+        "files",
+        "finished_utc",
+        "model",
+        "repo_id",
+        "requested_revision",
+        "resolved_revision",
+        "schema_version",
+        "started_utc",
+        "status",
+        "total_bytes"
+      ],
+      "model": "chronos_2",
+      "recorded_file_count": 5,
+      "recorded_revision": "29ec3766d36d6f73f0696f85560a422f50e8498c",
+      "recorded_status": "snapshot_available",
+      "recorded_total_bytes": 477941651
+    },
+    {
+      "checkpoint_content_hashes_reverified": false,
+      "destination": "D:\\forex\\runtime\\model_gap\\weights\\timesfm_2_5",
+      "destination_present": true,
+      "manifest": {
+        "bytes": 912,
+        "path": "D:\\forex\\runtime\\model_gap\\weights\\timesfm_2_5\\WEIGHT_MANIFEST.json",
+        "present": true,
+        "sha256": "245d54a5d0434221549eae936234eef08c5599ec1a770e2ba36c1440990c5f12"
+      },
+      "manifest_keys": [
+        "account_wired",
+        "destination",
+        "execution_policy",
+        "file_count",
+        "files",
+        "finished_utc",
+        "model",
+        "repo_id",
+        "requested_revision",
+        "resolved_revision",
+        "schema_version",
+        "started_utc",
+        "status",
+        "total_bytes"
+      ],
+      "model": "timesfm_2_5",
+      "recorded_file_count": 5,
+      "recorded_revision": "1d952420fba87f3c6dee4f240de0f1a0fbc790e3",
+      "recorded_status": "snapshot_available",
+      "recorded_total_bytes": 925186432
+    },
+    {
+      "checkpoint_content_hashes_reverified": false,
+      "destination": "D:\\forex\\runtime\\model_gap\\weights\\moirai",
+      "destination_present": true,
+      "manifest": {
+        "bytes": 898,
+        "path": "D:\\forex\\runtime\\model_gap\\weights\\moirai\\WEIGHT_MANIFEST.json",
+        "present": true,
+        "sha256": "d2ed81af2b2680a70450915fd4bddc3a105e4a1e30d1c484cf1d39624d6a7a39"
+      },
+      "manifest_keys": [
+        "account_wired",
+        "destination",
+        "execution_policy",
+        "file_count",
+        "files",
+        "finished_utc",
+        "model",
+        "repo_id",
+        "requested_revision",
+        "resolved_revision",
+        "schema_version",
+        "started_utc",
+        "status",
+        "total_bytes"
+      ],
+      "model": "moirai",
+      "recorded_file_count": 5,
+      "recorded_revision": "0c24ab99db2c1a70ea2a0fc03bf113329772ac64",
+      "recorded_status": "snapshot_available",
+      "recorded_total_bytes": 55324410
+    },
+    {
+      "checkpoint_content_hashes_reverified": false,
+      "destination": "D:\\forex\\runtime\\model_gap\\weights\\moirai_moe",
+      "destination_present": true,
+      "manifest": {
+        "bytes": 912,
+        "path": "D:\\forex\\runtime\\model_gap\\weights\\moirai_moe\\WEIGHT_MANIFEST.json",
+        "present": true,
+        "sha256": "b94259f7d744ac39c3b0a5a6df132f71ee2e9ff8f401d8cf031ded5994215a90"
+      },
+      "manifest_keys": [
+        "account_wired",
+        "destination",
+        "execution_policy",
+        "file_count",
+        "files",
+        "finished_utc",
+        "model",
+        "repo_id",
+        "requested_revision",
+        "resolved_revision",
+        "schema_version",
+        "started_utc",
+        "status",
+        "total_bytes"
+      ],
+      "model": "moirai_moe",
+      "recorded_file_count": 5,
+      "recorded_revision": "deabb2c17d2b5c5a1c13d522473beb29ff354c3f",
+      "recorded_status": "snapshot_available",
+      "recorded_total_bytes": 468773002
+    },
+    {
+      "checkpoint_content_hashes_reverified": false,
+      "destination": "D:\\forex\\runtime\\model_gap\\weights\\tiny_time_mixer",
+      "destination_present": true,
+      "manifest": {
+        "bytes": 1075,
+        "path": "D:\\forex\\runtime\\model_gap\\weights\\tiny_time_mixer\\WEIGHT_MANIFEST.json",
+        "present": true,
+        "sha256": "7fda8005e1d779e78ccb545eb08ee22f107ea83e891eceb6dd00e3fe29723182"
+      },
+      "manifest_keys": [
+        "account_wired",
+        "destination",
+        "execution_policy",
+        "file_count",
+        "files",
+        "finished_utc",
+        "model",
+        "repo_id",
+        "requested_revision",
+        "resolved_revision",
+        "schema_version",
+        "started_utc",
+        "status",
+        "total_bytes"
+      ],
+      "model": "tiny_time_mixer",
+      "recorded_file_count": 7,
+      "recorded_revision": "0009f51f52c87473e60ff3a03cd8633ee85d61e8",
+      "recorded_status": "snapshot_available",
+      "recorded_total_bytes": 4233982
+    },
+    {
+      "checkpoint_content_hashes_reverified": false,
+      "destination": "D:\\forex\\runtime\\model_gap\\weights\\toto_2",
+      "destination_present": true,
+      "manifest": {
+        "bytes": 1125,
+        "path": "D:\\forex\\runtime\\model_gap\\weights\\toto_2\\WEIGHT_MANIFEST.json",
+        "present": true,
+        "sha256": "43602d2bc5622a2f95ee83db7f2ce843456692c56044a3b471be8520123b4fec"
+      },
+      "manifest_keys": [
+        "account_wired",
+        "destination",
+        "execution_policy",
+        "file_count",
+        "files",
+        "finished_utc",
+        "model",
+        "repo_id",
+        "requested_revision",
+        "resolved_revision",
+        "schema_version",
+        "started_utc",
+        "status",
+        "total_bytes"
+      ],
+      "model": "toto_2",
+      "recorded_file_count": 8,
+      "recorded_revision": "685e4ae3e2be8d8998025e53dd98e7fdcb296a89",
+      "recorded_status": "snapshot_available",
+      "recorded_total_bytes": 88814932
+    },
+    {
+      "checkpoint_content_hashes_reverified": false,
+      "destination": "D:\\forex\\runtime\\model_gap\\weights\\lag_llama",
+      "destination_present": true,
+      "manifest": {
+        "bytes": 992,
+        "path": "D:\\forex\\runtime\\model_gap\\weights\\lag_llama\\WEIGHT_MANIFEST.json",
+        "present": true,
+        "sha256": "0a7cb2708a0ccb381e034ec0e9484273a5221d0d6d9d32caa7976c65a9366dbc"
+      },
+      "manifest_keys": [
+        "account_wired",
+        "destination",
+        "execution_policy",
+        "file_count",
+        "files",
+        "finished_utc",
+        "model",
+        "repo_id",
+        "requested_revision",
+        "resolved_revision",
+        "schema_version",
+        "started_utc",
+        "status",
+        "total_bytes"
+      ],
+      "model": "lag_llama",
+      "recorded_file_count": 6,
+      "recorded_revision": "72dcfc29da106acfe38250a60f4ae29d1e56a3d9",
+      "recorded_status": "snapshot_available",
+      "recorded_total_bytes": 39441403
+    }
+  ],
+  "generated_utc": "2026-09-06T15:41:07.272230+00:00",
+  "historical_completion_summary": {
+    "account_wired": 0,
+    "all_runnable_models_market_backtested": true,
+    "bounded_market_qualified": 28,
+    "evidence_complete": true,
+    "families": 7,
+    "incomplete_reasons": [],
+    "inventory_complete": true,
+    "market_backtest_complete": 28,
+    "market_backtest_required": 28,
+    "market_performance_passed": 0,
+    "matrix_complete": true,
+    "missing_market_backtests": [],
+    "missing_required_reports": [],
+    "models": 30,
+    "production_eligible": 0,
+    "required_reports_present": true,
+    "runtime_available": 28,
+    "runtime_blocked_models": [
+      "timesfm_icf",
+      "mamba"
+    ],
+    "synthetic_or_better": 28
+  },
+  "historical_models": [
+    {
+      "account_wired": false,
+      "evidence_level": "bounded_market_qualified",
+      "family": "modern_tabular_probabilistic",
+      "market_backtest_complete": true,
+      "market_performance_passed": false,
+      "model": "catboost",
+      "production_eligible": false,
+      "runtime_blocked": false,
+      "runtime_reason": null,
+      "runtime_status": "runtime_available",
+      "weight_status": "not_required"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "bounded_market_qualified",
+      "family": "modern_tabular_probabilistic",
+      "market_backtest_complete": true,
+      "market_performance_passed": false,
+      "model": "ngboost",
+      "production_eligible": false,
+      "runtime_blocked": false,
+      "runtime_reason": null,
+      "runtime_status": "runtime_available",
+      "weight_status": "not_required"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "bounded_market_qualified",
+      "family": "major_neural_forecasters",
+      "market_backtest_complete": true,
+      "market_performance_passed": false,
+      "model": "tft",
+      "production_eligible": false,
+      "runtime_blocked": false,
+      "runtime_reason": null,
+      "runtime_status": "runtime_available",
+      "weight_status": "not_required"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "bounded_market_qualified",
+      "family": "major_neural_forecasters",
+      "market_backtest_complete": true,
+      "market_performance_passed": false,
+      "model": "deepar",
+      "production_eligible": false,
+      "runtime_blocked": false,
+      "runtime_reason": null,
+      "runtime_status": "runtime_available",
+      "weight_status": "not_required"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "bounded_market_qualified",
+      "family": "major_neural_forecasters",
+      "market_backtest_complete": true,
+      "market_performance_passed": false,
+      "model": "patchtst",
+      "production_eligible": false,
+      "runtime_blocked": false,
+      "runtime_reason": null,
+      "runtime_status": "runtime_available",
+      "weight_status": "not_required"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "bounded_market_qualified",
+      "family": "major_neural_forecasters",
+      "market_backtest_complete": true,
+      "market_performance_passed": false,
+      "model": "nbeats",
+      "production_eligible": false,
+      "runtime_blocked": false,
+      "runtime_reason": null,
+      "runtime_status": "runtime_available",
+      "weight_status": "not_required"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "bounded_market_qualified",
+      "family": "major_neural_forecasters",
+      "market_backtest_complete": true,
+      "market_performance_passed": false,
+      "model": "nhits",
+      "production_eligible": false,
+      "runtime_blocked": false,
+      "runtime_reason": null,
+      "runtime_status": "runtime_available",
+      "weight_status": "not_required"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "bounded_market_qualified",
+      "family": "major_neural_forecasters",
+      "market_backtest_complete": true,
+      "market_performance_passed": false,
+      "model": "lstm",
+      "production_eligible": false,
+      "runtime_blocked": false,
+      "runtime_reason": null,
+      "runtime_status": "runtime_available",
+      "weight_status": "not_required"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "bounded_market_qualified",
+      "family": "major_neural_forecasters",
+      "market_backtest_complete": true,
+      "market_performance_passed": false,
+      "model": "gru",
+      "production_eligible": false,
+      "runtime_blocked": false,
+      "runtime_reason": null,
+      "runtime_status": "runtime_available",
+      "weight_status": "not_required"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "bounded_market_qualified",
+      "family": "major_neural_forecasters",
+      "market_backtest_complete": true,
+      "market_performance_passed": false,
+      "model": "tcn",
+      "production_eligible": false,
+      "runtime_blocked": false,
+      "runtime_reason": null,
+      "runtime_status": "runtime_available",
+      "weight_status": "not_required"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "bounded_market_qualified",
+      "family": "time_series_foundation_models",
+      "market_backtest_complete": true,
+      "market_performance_passed": false,
+      "model": "chronos_2",
+      "production_eligible": false,
+      "runtime_blocked": false,
+      "runtime_reason": null,
+      "runtime_status": "runtime_available",
+      "weight_status": "snapshot_available"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "bounded_market_qualified",
+      "family": "time_series_foundation_models",
+      "market_backtest_complete": true,
+      "market_performance_passed": false,
+      "model": "timesfm_2_5",
+      "production_eligible": false,
+      "runtime_blocked": false,
+      "runtime_reason": null,
+      "runtime_status": "runtime_available",
+      "weight_status": "snapshot_available"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "adapter_implemented",
+      "family": "time_series_foundation_models",
+      "market_backtest_complete": false,
+      "market_performance_passed": false,
+      "model": "timesfm_icf",
+      "production_eligible": false,
+      "runtime_blocked": true,
+      "runtime_reason": "No audited public TimesFM-ICF runtime is available from the official source.",
+      "runtime_status": "blocked",
+      "weight_status": "not_downloaded"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "bounded_market_qualified",
+      "family": "time_series_foundation_models",
+      "market_backtest_complete": true,
+      "market_performance_passed": false,
+      "model": "moirai",
+      "production_eligible": false,
+      "runtime_blocked": false,
+      "runtime_reason": null,
+      "runtime_status": "runtime_available",
+      "weight_status": "snapshot_available"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "bounded_market_qualified",
+      "family": "time_series_foundation_models",
+      "market_backtest_complete": true,
+      "market_performance_passed": false,
+      "model": "moirai_moe",
+      "production_eligible": false,
+      "runtime_blocked": false,
+      "runtime_reason": null,
+      "runtime_status": "runtime_available",
+      "weight_status": "snapshot_available"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "bounded_market_qualified",
+      "family": "time_series_foundation_models",
+      "market_backtest_complete": true,
+      "market_performance_passed": false,
+      "model": "tiny_time_mixer",
+      "production_eligible": false,
+      "runtime_blocked": false,
+      "runtime_reason": null,
+      "runtime_status": "runtime_available",
+      "weight_status": "snapshot_available"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "bounded_market_qualified",
+      "family": "time_series_foundation_models",
+      "market_backtest_complete": true,
+      "market_performance_passed": false,
+      "model": "toto_2",
+      "production_eligible": false,
+      "runtime_blocked": false,
+      "runtime_reason": null,
+      "runtime_status": "runtime_available",
+      "weight_status": "snapshot_available"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "bounded_market_qualified",
+      "family": "time_series_foundation_models",
+      "market_backtest_complete": true,
+      "market_performance_passed": false,
+      "model": "lag_llama",
+      "production_eligible": false,
+      "runtime_blocked": false,
+      "runtime_reason": null,
+      "runtime_status": "runtime_available",
+      "weight_status": "snapshot_available"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "bounded_market_qualified",
+      "family": "cross_pair_graph_forecasting",
+      "market_backtest_complete": true,
+      "market_performance_passed": false,
+      "model": "temporal_cross_pair_gnn",
+      "production_eligible": false,
+      "runtime_blocked": false,
+      "runtime_reason": null,
+      "runtime_status": "runtime_available",
+      "weight_status": "not_required"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "bounded_market_qualified",
+      "family": "neural_state_space",
+      "market_backtest_complete": true,
+      "market_performance_passed": false,
+      "model": "s4",
+      "production_eligible": false,
+      "runtime_blocked": false,
+      "runtime_reason": null,
+      "runtime_status": "source_pinned",
+      "weight_status": "not_required"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "adapter_implemented",
+      "family": "neural_state_space",
+      "market_backtest_complete": false,
+      "market_performance_passed": false,
+      "model": "mamba",
+      "production_eligible": false,
+      "runtime_blocked": true,
+      "runtime_reason": "The official Mamba runtime requires Linux, an NVIDIA GPU, and a CUDA toolkit; this host is native Windows without WSL.",
+      "runtime_status": "blocked",
+      "weight_status": "not_required"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "bounded_market_qualified",
+      "family": "decision_learning",
+      "market_backtest_complete": true,
+      "market_performance_passed": false,
+      "model": "contextual_bandit",
+      "production_eligible": false,
+      "runtime_blocked": false,
+      "runtime_reason": null,
+      "runtime_status": "runtime_available",
+      "weight_status": "not_required"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "bounded_market_qualified",
+      "family": "decision_learning",
+      "market_backtest_complete": true,
+      "market_performance_passed": false,
+      "model": "ppo",
+      "production_eligible": false,
+      "runtime_blocked": false,
+      "runtime_reason": null,
+      "runtime_status": "runtime_available",
+      "weight_status": "not_required"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "bounded_market_qualified",
+      "family": "decision_learning",
+      "market_backtest_complete": true,
+      "market_performance_passed": false,
+      "model": "sac",
+      "production_eligible": false,
+      "runtime_blocked": false,
+      "runtime_reason": null,
+      "runtime_status": "runtime_available",
+      "weight_status": "not_required"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "bounded_market_qualified",
+      "family": "decision_learning",
+      "market_backtest_complete": true,
+      "market_performance_passed": false,
+      "model": "dqn",
+      "production_eligible": false,
+      "runtime_blocked": false,
+      "runtime_reason": null,
+      "runtime_status": "runtime_available",
+      "weight_status": "not_required"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "bounded_market_qualified",
+      "family": "representation_and_transfer_learning",
+      "market_backtest_complete": true,
+      "market_performance_passed": false,
+      "model": "self_supervised_pretraining",
+      "production_eligible": false,
+      "runtime_blocked": false,
+      "runtime_reason": null,
+      "runtime_status": "runtime_available",
+      "weight_status": "not_required"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "bounded_market_qualified",
+      "family": "representation_and_transfer_learning",
+      "market_backtest_complete": true,
+      "market_performance_passed": false,
+      "model": "contrastive_learning",
+      "production_eligible": false,
+      "runtime_blocked": false,
+      "runtime_reason": null,
+      "runtime_status": "runtime_available",
+      "weight_status": "not_required"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "bounded_market_qualified",
+      "family": "representation_and_transfer_learning",
+      "market_backtest_complete": true,
+      "market_performance_passed": false,
+      "model": "multi_task_learning",
+      "production_eligible": false,
+      "runtime_blocked": false,
+      "runtime_reason": null,
+      "runtime_status": "runtime_available",
+      "weight_status": "not_required"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "bounded_market_qualified",
+      "family": "representation_and_transfer_learning",
+      "market_backtest_complete": true,
+      "market_performance_passed": false,
+      "model": "transfer_learning",
+      "production_eligible": false,
+      "runtime_blocked": false,
+      "runtime_reason": null,
+      "runtime_status": "runtime_available",
+      "weight_status": "not_required"
+    },
+    {
+      "account_wired": false,
+      "evidence_level": "bounded_market_qualified",
+      "family": "representation_and_transfer_learning",
+      "market_backtest_complete": true,
+      "market_performance_passed": false,
+      "model": "knowledge_distillation",
+      "production_eligible": false,
+      "runtime_blocked": false,
+      "runtime_reason": null,
+      "runtime_status": "runtime_available",
+      "weight_status": "not_required"
+    }
+  ],
+  "historical_reports_now": [
+    {
+      "artifact_file_evidence": [
+        {
+          "path": "C:\\Users\\zmoor\\AppData\\Local\\Temp\\fx_continuous_runtime_20260721\\trad\\data\\oanda_training_manager\\models\\modern_model_gap\\logistic_baseline_shared_panel_latest.joblib",
+          "present": false,
+          "recorded_sha256": "03924dd0d53c8f73768b822b20ed6aeb61f725697e292683585ec61461eb161f"
+        },
+        {
+          "path": "C:\\Users\\zmoor\\AppData\\Local\\Temp\\fx_continuous_runtime_20260721\\trad\\data\\oanda_training_manager\\models\\modern_model_gap\\hist_gradient_boosting_shared_panel_latest.joblib",
+          "present": false,
+          "recorded_sha256": "646159ae8094eeb070ba6c2e8ccd4a981de8450c84cbbb6e8af073a5563c8220"
+        },
+        {
+          "path": "C:\\Users\\zmoor\\AppData\\Local\\Temp\\fx_continuous_runtime_20260721\\trad\\data\\oanda_training_manager\\models\\modern_model_gap\\catboost_shared_panel_latest.joblib",
+          "present": false,
+          "recorded_sha256": "50c18276f587674fd204dbfe47965575a7fabb5a9bf880a5fd5af886ef8abaad"
+        },
+        {
+          "path": "C:\\Users\\zmoor\\AppData\\Local\\Temp\\fx_continuous_runtime_20260721\\trad\\data\\oanda_training_manager\\models\\modern_model_gap\\ngboost_shared_panel_latest.joblib",
+          "present": false,
+          "recorded_sha256": "fd3aaca8c7ff0d789679941cf0c17fd3557b4a59145afdb1b79eaa018b23152f"
+        },
+        {
+          "bytes": 19631,
+          "matches_recorded_sha256": true,
+          "path": "D:\\forex\\trad\\data\\oanda_training_manager\\models\\modern_model_gap\\full_matrix_candidate_20260722\\logistic_baseline_shared_panel_latest.joblib",
+          "present": true,
+          "recorded_sha256": "03924dd0d53c8f73768b822b20ed6aeb61f725697e292683585ec61461eb161f",
+          "sha256": "03924dd0d53c8f73768b822b20ed6aeb61f725697e292683585ec61461eb161f"
+        },
+        {
+          "bytes": 889055,
+          "matches_recorded_sha256": true,
+          "path": "D:\\forex\\trad\\data\\oanda_training_manager\\models\\modern_model_gap\\full_matrix_candidate_20260722\\hist_gradient_boosting_shared_panel_latest.joblib",
+          "present": true,
+          "recorded_sha256": "646159ae8094eeb070ba6c2e8ccd4a981de8450c84cbbb6e8af073a5563c8220",
+          "sha256": "646159ae8094eeb070ba6c2e8ccd4a981de8450c84cbbb6e8af073a5563c8220"
+        },
+        {
+          "bytes": 301871,
+          "matches_recorded_sha256": true,
+          "path": "D:\\forex\\trad\\data\\oanda_training_manager\\models\\modern_model_gap\\full_matrix_candidate_20260722\\catboost_shared_panel_latest.joblib",
+          "present": true,
+          "recorded_sha256": "50c18276f587674fd204dbfe47965575a7fabb5a9bf880a5fd5af886ef8abaad",
+          "sha256": "50c18276f587674fd204dbfe47965575a7fabb5a9bf880a5fd5af886ef8abaad"
+        },
+        {
+          "bytes": 475951,
+          "matches_recorded_sha256": true,
+          "path": "D:\\forex\\trad\\data\\oanda_training_manager\\models\\modern_model_gap\\full_matrix_candidate_20260722\\ngboost_shared_panel_latest.joblib",
+          "present": true,
+          "recorded_sha256": "fd3aaca8c7ff0d789679941cf0c17fd3557b4a59145afdb1b79eaa018b23152f",
+          "sha256": "fd3aaca8c7ff0d789679941cf0c17fd3557b4a59145afdb1b79eaa018b23152f"
+        }
+      ],
+      "bytes": 653658,
+      "generated_utc": "2026-07-22T09:31:19.188284+00:00",
+      "model_ids": [
+        "logistic_baseline",
+        "hist_gradient_boosting",
+        "catboost",
+        "ngboost"
+      ],
+      "path": "D:\\forex\\trad\\data\\oanda_training_manager\\reports\\modern_model_gap\\shared_panel_model_benchmark_latest.json",
+      "present": true,
+      "sha256": "6dd5c47b43b326e219a0824a813f9fd963d32f26cd36ee66c72f418bf57292a4",
+      "summary": null
+    },
+    {
+      "artifact_file_evidence": [
+        {
+          "path": "C:\\Users\\zmoor\\AppData\\Local\\Temp\\fx_continuous_runtime_20260721\\trad\\data\\oanda_training_manager\\models\\modern_model_gap\\tft_shared_panel_latest.pt",
+          "present": false,
+          "recorded_sha256": "6d3aee9b8322e797e492a94179d50cf6e105830133e35ab9a6d2ed5ac31ae67e"
+        },
+        {
+          "path": "C:\\Users\\zmoor\\AppData\\Local\\Temp\\fx_continuous_runtime_20260721\\trad\\data\\oanda_training_manager\\models\\modern_model_gap\\deepar_shared_panel_latest.pt",
+          "present": false,
+          "recorded_sha256": "a4d1ae9b4ed903c61a0f0523a8444b3f1eefec8ac6517d0839a9eda4183fa778"
+        }
+      ],
+      "bytes": 220122,
+      "generated_utc": "2026-07-22T11:36:04.820300+00:00",
+      "model_ids": [
+        "tft",
+        "deepar"
+      ],
+      "path": "D:\\forex\\trad\\data\\oanda_training_manager\\reports\\modern_model_gap\\shared_panel_neural_benchmark_latest.json",
+      "present": true,
+      "sha256": "6fe50f9e8b36bf2033aeb88d612c054939f5368cbda53b03bbff157cec084ad4",
+      "summary": null
+    },
+    {
+      "artifact_file_evidence": [
+        {
+          "path": "C:\\Users\\zmoor\\AppData\\Local\\Temp\\fx_continuous_runtime_20260721\\trad\\data\\oanda_training_manager\\models\\modern_model_gap\\tft_shared_panel_long_h1_h4_latest.pt",
+          "present": false,
+          "recorded_sha256": "dc3fda0bb5458b48efe65b88363ad010ff927583ca359ff86231acc18ff540ce"
+        },
+        {
+          "path": "C:\\Users\\zmoor\\AppData\\Local\\Temp\\fx_continuous_runtime_20260721\\trad\\data\\oanda_training_manager\\models\\modern_model_gap\\deepar_shared_panel_long_h1_h4_latest.pt",
+          "present": false,
+          "recorded_sha256": "b31064295223a2bf44661a822f958a7435ee3bb1c33a16c168c44040bd866d20"
+        }
+      ],
+      "bytes": 43266,
+      "generated_utc": "2026-07-22T12:11:21.629899+00:00",
+      "model_ids": [
+        "tft",
+        "deepar"
+      ],
+      "path": "D:\\forex\\trad\\data\\oanda_training_manager\\reports\\modern_model_gap\\shared_panel_neural_long_horizon_benchmark_latest.json",
+      "present": true,
+      "sha256": "a8a64c6552bea61f21ff09d51594fb2ed15b4b34f3171b66e3dc2435b6ff271b",
+      "summary": null
+    },
+    {
+      "artifact_file_evidence": [],
+      "bytes": 2545816,
+      "generated_utc": "2026-07-22T10:20:47.990847+00:00",
+      "model_ids": [
+        "patchtst",
+        "nbeats",
+        "nhits",
+        "lstm",
+        "gru",
+        "tcn",
+        "temporal_cross_pair_gnn",
+        "s4",
+        "contextual_bandit",
+        "ppo",
+        "sac",
+        "dqn",
+        "self_supervised_pretraining",
+        "contrastive_learning",
+        "multi_task_learning",
+        "transfer_learning",
+        "knowledge_distillation"
+      ],
+      "path": "D:\\forex\\trad\\data\\oanda_training_manager\\reports\\modern_model_gap\\remaining_market_validation_latest.json",
+      "present": true,
+      "sha256": "6880d573856768c0c1bd3891c9fb87e5b7737b2826321a3f6aaae9b58e509ff4",
+      "summary": {
+        "account_wired": 0,
+        "all_requested_backtested": true,
+        "backtest_failed_or_error": 0,
+        "backtest_valid": 17,
+        "performance_passed": 0,
+        "production_eligible": 0,
+        "requested": 17
+      }
+    },
+    {
+      "artifact_file_evidence": [],
+      "bytes": 62799,
+      "generated_utc": "2026-07-21T18:48:18.678535+00:00",
+      "model_ids": [
+        "chronos_2",
+        "lag_llama",
+        "moirai",
+        "moirai_moe",
+        "timesfm_2_5",
+        "tiny_time_mixer",
+        "toto_2"
+      ],
+      "path": "D:\\forex\\trad\\data\\oanda_training_manager\\reports\\modern_model_gap\\foundation_market_benchmark_latest.json",
+      "present": true,
+      "sha256": "a533517ba588bfafc57ea8a6fb9dfb6331a187f1b984dcd36947389711d9958a",
+      "summary": {
+        "account_wired": 0,
+        "failed_or_blocked": 0,
+        "production_eligible": 0,
+        "requested": 7,
+        "scored": 7
+      }
+    },
+    {
+      "artifact_file_evidence": [],
+      "bytes": 4184547,
+      "generated_utc": "2026-07-26T22:01:52.215770+00:00",
+      "model_ids": [
+        "catboost",
+        "ngboost",
+        "tft",
+        "deepar",
+        "patchtst",
+        "nbeats",
+        "nhits",
+        "lstm",
+        "gru",
+        "tcn",
+        "chronos_2",
+        "timesfm_2_5",
+        "timesfm_icf",
+        "moirai",
+        "moirai_moe",
+        "tiny_time_mixer",
+        "toto_2",
+        "lag_llama",
+        "temporal_cross_pair_gnn",
+        "s4",
+        "mamba",
+        "contextual_bandit",
+        "ppo",
+        "sac",
+        "dqn",
+        "self_supervised_pretraining",
+        "contrastive_learning",
+        "multi_task_learning",
+        "transfer_learning",
+        "knowledge_distillation"
+      ],
+      "path": "D:\\forex\\trad\\data\\oanda_training_manager\\reports\\modern_model_gap\\unified_model_gap_market_latest.json",
+      "present": true,
+      "sha256": "4ecd7459fe30020a2d591e055700c35e8186e55fc0e964284baeefb62f592a7f",
+      "summary": {
+        "account_wired": 0,
+        "all_requested_backtested": true,
+        "all_runnable_long_horizons_covered": true,
+        "canonical_matrix_artifact_complete": true,
+        "families": 7,
+        "integration_complete": true,
+        "inventory_complete": true,
+        "long_horizon_coverage_complete": 28,
+        "market_backtested": 28,
+        "missing_long_horizon_coverage": [],
+        "missing_market_backtests": [],
+        "models": 30,
+        "production_eligible": 0,
+        "runtime_available": 28,
+        "runtime_blocked": 2,
+        "runtime_blocked_models": [
+          "timesfm_icf",
+          "mamba"
+        ]
+      }
+    }
+  ],
+  "historical_source_evidence_now": {
+    "foundation": {
+      "bytes": 62799,
+      "matches_recorded_sha256": true,
+      "path": "D:\\forex\\trad\\data\\oanda_training_manager\\reports\\modern_model_gap\\foundation_market_benchmark_latest.json",
+      "present": true,
+      "recorded_sha256": "a533517ba588bfafc57ea8a6fb9dfb6331a187f1b984dcd36947389711d9958a",
+      "sha256": "a533517ba588bfafc57ea8a6fb9dfb6331a187f1b984dcd36947389711d9958a"
+    },
+    "matrix": {
+      "bytes": 130004,
+      "matches_recorded_sha256": true,
+      "path": "D:\\forex\\trad\\data\\oanda_training_manager\\training_sets\\model_gap_full_matrix\\full_matrix_latest.json",
+      "present": true,
+      "recorded_sha256": "cd443d82024802cd10fe3243bd7359af785a88ee10d6204e559bb7edff5acd3d",
+      "sha256": "cd443d82024802cd10fe3243bd7359af785a88ee10d6204e559bb7edff5acd3d"
+    },
+    "neural": {
+      "bytes": 220122,
+      "matches_recorded_sha256": true,
+      "path": "D:\\forex\\trad\\data\\oanda_training_manager\\reports\\modern_model_gap\\shared_panel_neural_benchmark_latest.json",
+      "present": true,
+      "recorded_sha256": "6fe50f9e8b36bf2033aeb88d612c054939f5368cbda53b03bbff157cec084ad4",
+      "sha256": "6fe50f9e8b36bf2033aeb88d612c054939f5368cbda53b03bbff157cec084ad4"
+    },
+    "qualification": {
+      "bytes": 49800,
+      "matches_recorded_sha256": true,
+      "path": "D:\\forex\\trad\\data\\oanda_training_manager\\model_space\\model_gap_qualification_latest.json",
+      "present": true,
+      "recorded_sha256": "9ff1d66e7d14a3709e5bcb6f7ee38dcd192c377da1fc5d678ba8b7c4cc1a6e3e",
+      "sha256": "9ff1d66e7d14a3709e5bcb6f7ee38dcd192c377da1fc5d678ba8b7c4cc1a6e3e"
+    },
+    "remaining_market": {
+      "bytes": 2545816,
+      "matches_recorded_sha256": true,
+      "path": "D:\\forex\\trad\\data\\oanda_training_manager\\reports\\modern_model_gap\\remaining_market_validation_latest.json",
+      "present": true,
+      "recorded_sha256": "6880d573856768c0c1bd3891c9fb87e5b7737b2826321a3f6aaae9b58e509ff4",
+      "sha256": "6880d573856768c0c1bd3891c9fb87e5b7737b2826321a3f6aaae9b58e509ff4"
+    },
+    "runtime": {
+      "bytes": 13071,
+      "matches_recorded_sha256": true,
+      "path": "D:\\forex\\trad\\data\\oanda_training_manager\\model_space\\model_gap_runtime_profiles_latest.json",
+      "present": true,
+      "recorded_sha256": "6cf6f26fadb34ff95ce87120cfb6e70584d31abdff5a8c4e3d8c4ecdef92c698",
+      "sha256": "6cf6f26fadb34ff95ce87120cfb6e70584d31abdff5a8c4e3d8c4ecdef92c698"
+    },
+    "tabular": {
+      "bytes": 653658,
+      "matches_recorded_sha256": true,
+      "path": "D:\\forex\\trad\\data\\oanda_training_manager\\reports\\modern_model_gap\\shared_panel_model_benchmark_latest.json",
+      "present": true,
+      "recorded_sha256": "6dd5c47b43b326e219a0824a813f9fd963d32f26cd36ee66c72f418bf57292a4",
+      "sha256": "6dd5c47b43b326e219a0824a813f9fd963d32f26cd36ee66c72f418bf57292a4"
+    },
+    "weights": {
+      "bytes": 8107,
+      "matches_recorded_sha256": true,
+      "path": "D:\\forex\\trad\\data\\oanda_training_manager\\model_space\\foundation_weight_sync_latest.json",
+      "present": true,
+      "recorded_sha256": "8a6ae522e5606fe916589608ba09e45c8d1c18b3688a9c12bbc54d960bccdddd",
+      "sha256": "8a6ae522e5606fe916589608ba09e45c8d1c18b3688a9c12bbc54d960bccdddd"
+    }
+  },
+  "limitations": [
+    "Historical summary completion is not current runtime qualification or trading evidence.",
+    "Large checkpoint content hashes, current package imports and training reproducibility were not retested.",
+    "The model list is not a count of independent forecasts; four current research families share price inputs.",
+    "No new performance experiment or claim of profitable alpha is made."
+  ],
+  "runtime_blockers_as_recorded": {
+    "mamba": "The official Mamba runtime requires Linux, an NVIDIA GPU, and a CUDA toolkit; this host is native Windows without WSL.",
+    "timesfm_icf": "No audited public TimesFM-ICF runtime is available from the official source."
+  },
+  "schema_version": 1,
+  "scope": "Bounded read-only source and saved metadata inventory; no model imports, checkpoint deserialization, network, fitting or live database access.",
+  "source_bindings": [
+    {
+      "bytes": 11083,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\modern_model_gap_roadmap.json",
+      "present": true,
+      "sha256": "b09af2761387ab0c1e36496b3143996c3e095d77066c6b26b57ed5b266ae19e4"
+    },
+    {
+      "bytes": 16862,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\MODEL_FEATURE_SPACE.md",
+      "present": true,
+      "sha256": "37708f91e9c5847d2aaf88d093e0d0e21be001730dcb6ca611e5b353e6bc3a75"
+    },
+    {
+      "bytes": 12677,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\BACKTEST_AND_MODEL_REGISTRY.md",
+      "present": true,
+      "sha256": "863bfe538a697cd7d4ec177e0e16120df202362f92ab2145a605cc3b422ab355"
+    },
+    {
+      "bytes": 14689,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_model_gap_registry.py",
+      "present": true,
+      "sha256": "c742235ae276e4e41833e4dd21e10509598822ff6c617ca973c265732128a198"
+    },
+    {
+      "bytes": 15434,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_model_gap_completion.py",
+      "present": true,
+      "sha256": "7286994b3b7f8de1e3ade73ea14a6d2bf34e9c8c989cd995640049912e1b68c8"
+    },
+    {
+      "bytes": 16982,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_model_gap_full_matrix.py",
+      "present": true,
+      "sha256": "8923d7ac4f3f3613ff925ba3bb0e5aff8c6a054a1869c499ac855dcf9432fd80"
+    },
+    {
+      "bytes": 15382,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_model_gap_unified_report.py",
+      "present": true,
+      "sha256": "869e8a6b682e423d9531cd588af7802319da5eab0b55197efa265b881535c6fa"
+    },
+    {
+      "bytes": 33962,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_proof_shadow_predictors.py",
+      "present": true,
+      "sha256": "51c3f945eadb3f26166cfddd37d97451ef21e2b69ece6664c57ee06c145ff417"
+    },
+    {
+      "bytes": 5978,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_cross_pair_graph_adapter.py",
+      "present": true,
+      "sha256": "94ed841c9bff1318d3d24466594641d02f9812067ee4edab31fb7b8403e746ba"
+    },
+    {
+      "bytes": 77617,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_model_gap_market_validation.py",
+      "present": true,
+      "sha256": "fb1d98252d01951c85876d751ae49dbe65341441da72aea76f2491513965b5fa"
+    },
+    {
+      "bytes": 15289,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_currency_lead_lag_shadow.py",
+      "present": true,
+      "sha256": "f06bfcdd5a3d3f47156238c96dba14cab619354fc48ea9ca6aa42f9a90b0fe2a"
+    },
+    {
+      "bytes": 36454,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_model_space_agenda.py",
+      "present": true,
+      "sha256": "c48e128ad837d19eae05b12c1a23dab474e850af222f79018df775935ab862ed"
+    },
+    {
+      "bytes": 20205,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_strategy_lab_ensemble_replay.py",
+      "present": true,
+      "sha256": "7c41b165b903caec52e3fb356749bdad5e23df29dd2f51e91a3df2cdeb68652f"
+    },
+    {
+      "bytes": 41596,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_ensemble_candidate_backtester.py",
+      "present": true,
+      "sha256": "28343633fb1ac696743b4b7d92aa9283a82ea43d14befc37614ef2572ed00499"
+    },
+    {
+      "bytes": 30200,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\src\\forex_system\\features\\currency_state_engine.py",
+      "present": true,
+      "sha256": "af52e1c18d66ff38082e0f383deb9183628b6f06c8fc73c446a49a038fe6e049"
+    },
+    {
+      "bytes": 27728,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\shadow_runtime_retirements_v1.json",
+      "present": true,
+      "sha256": "8d86f3167cc261fd0197f1431d2b2a45f75c783deef08809cfc34ec606bfd77b"
+    },
+    {
+      "bytes": 5177,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\causal_forecast_study_v1_io_r2_20260906.json",
+      "present": true,
+      "sha256": "64bdb74b6a8b881ee4e93b36b422812786f7218a4c10f8d799ec7dd900f24699"
+    },
+    {
+      "bytes": 6894,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\reports\\unique_predictor_watch_20260804\\currency_lead_lag_network_v1.json",
+      "present": true,
+      "sha256": "b31dbd7bc828308b7ac4f97de5291dd6eb329f9ae486c965ecc26e68a8403015"
+    }
+  ]
+}

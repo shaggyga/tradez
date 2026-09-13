@@ -1,0 +1,131 @@
+"""Portable AST-only checks for deployed handler wiring; no server or DB reads."""
+import ast
+import hashlib
+from pathlib import Path
+import re
+import sys
+import threading
+from types import SimpleNamespace
+from urllib.parse import urlparse
+
+import pytest
+
+ROOT = Path(__file__).resolve().parent
+SOURCE = ROOT / 'oanda_practice_live_dashboard.py'
+CONFIG = ROOT / 'config/joint_v3_ledger_observer_api_v1_20260909.json'
+ORIGINAL_FUNCTION_AST_SHA256 = {
+    'summarize_joint_price_news_forecasts': '444161ad05a01d996a8f3428c17f35a2c946139a31b38ca213d30e6eef93417c',
+    '_summarize_registered_family_forecasts': '580df635a633d2419b3bb704657a623351b0e2ad797127f268ecab3c608f17da',
+    'project_joint_collection_status': 'd7aa07a06d8829182190a29d087c438b652904520a8e4d23a12a0edcac47e702',
+    'build_main_state': 'c24749ceef438a1eea9578525e85e5fc38268aae3e6a8a12f87e0eaa12d953f5',
+}
+ORIGINAL_EMBEDDED_HTML_AST_SHA256 = 'f817aa5f93a990bf0c94174936b367267f5b1c0f0ebf7a3a83f5368063fd9a92'
+ORIGINAL_MAIN_HTML_SHA256 = 'b0fe487b5f2fc35e83f38dc4200b3f13955efa76c2597281735eaf501307327f'
+
+
+def tree():
+    # ast.parse(bytes) follows Python's source encoding; no Windows locale decode.
+    return ast.parse(SOURCE.read_bytes())
+
+
+def ast_sha(node):
+    return hashlib.sha256(ast.dump(node, include_attributes=False).encode('utf-8')).hexdigest()
+
+
+def helper_scope():
+    wanted = {'JOINT_LEDGER_OBSERVER_SPEC', 'JOINT_LEDGER_OBSERVER_SPEC_SHA256',
+              '_JOINT_LEDGER_OBSERVER_API', '_JOINT_LEDGER_OBSERVER_API_LOCK'}
+    nodes = [node for node in tree().body if
+        (isinstance(node, ast.Assign) and any(isinstance(target, ast.Name) and target.id in wanted for target in node.targets))
+        or (isinstance(node, ast.FunctionDef) and node.name == 'current_joint_ledger_observation')]
+    assert len(nodes) == 5
+    scope = {'Path': Path, 're': re, 'threading': threading, '__file__': str(SOURCE)}
+    exec(compile(ast.Module(body=nodes, type_ignores=[]), str(SOURCE), 'exec'), scope)
+    return scope
+
+
+@pytest.mark.parametrize('path,compact', [('/api/main', True), ('/api/state', True),
+                                          ('/api/joint-v3-ledger-observation', False)])
+def test_namespace_is_separate_and_cached_main_state_never_mutated(path, compact):
+    node = next(function for cls in tree().body if isinstance(cls, ast.ClassDef)
+                for function in cls.body if isinstance(function, ast.FunctionDef) and function.name == 'do_GET')
+    calls, sent = [], []
+    original = {'joint_price_news_forecasts': {'status': 'unavailable', 'reason': 'pair_summary_generation_mismatch'},
+                'joint_collection_status': {'status': 'unavailable'}}
+    def observed(*, compact=False):
+        calls.append(compact)
+        return {'schema_version': 'independent-test-observer', 'consumer': {'current_forecast_pairs': 66}}
+    scope = {'urlparse': urlparse, 'current_joint_ledger_observation': observed}
+    exec(compile(ast.Module(body=[node], type_ignores=[]), str(SOURCE), 'exec'), scope)
+    request = SimpleNamespace(path=path, current_main_state=lambda: original, send_json=sent.append)
+    scope['do_GET'](request)
+    assert calls == [compact] and len(sent) == 1
+    assert 'joint_v3_ledger_observation' not in original
+    if compact:
+        assert sent[0]['joint_v3_ledger_observation']['consumer']['current_forecast_pairs'] == 66
+        assert sent[0]['joint_collection_status']['status'] == 'unavailable'
+        assert sent[0]['joint_price_news_forecasts']['reason'] == 'pair_summary_generation_mismatch'
+    else:
+        assert sent[0]['schema_version'] == 'independent-test-observer'
+
+
+def test_unset_deployment_pin_withholds_without_import_or_fabricated_status(monkeypatch):
+    scope = helper_scope()
+    scope['JOINT_LEDGER_OBSERVER_SPEC_SHA256'] = 'UNSET'
+    calls = []
+    fake = SimpleNamespace(LedgerObservationAPI=SimpleNamespace(from_specification=lambda *a, **k: calls.append(1)))
+    monkeypatch.setitem(sys.modules, 'oanda_joint_v3_ledger_observer_api_v1', fake)
+    value = scope['current_joint_ledger_observation']()
+    assert calls == []
+    assert value['status'] == 'unavailable' and value['reason'] == 'observer_api_not_configured'
+    assert value['consumer'] is None and value['can_place_orders'] is False
+
+
+def test_valid_deployment_pin_matches_project_configuration_and_preserves_cache(monkeypatch):
+    scope = helper_scope()
+    expected = hashlib.sha256(CONFIG.read_bytes()).hexdigest()
+    assert scope['JOINT_LEDGER_OBSERVER_SPEC'] == CONFIG
+    assert scope['JOINT_LEDGER_OBSERVER_SPEC_SHA256'] == expected
+    assert re.fullmatch('[0-9a-f]{64}', expected)
+    loads, requests = [], []
+    def get(*, compact=False):
+        requests.append(compact)
+        return {'schema_version': 'independent-test-observer', 'compact': compact}
+    instance = SimpleNamespace(get=get)
+    def load(path, *, expected_file_sha256):
+        loads.append((path, expected_file_sha256))
+        return instance
+    fake = SimpleNamespace(LedgerObservationAPI=SimpleNamespace(from_specification=load))
+    monkeypatch.setitem(sys.modules, 'oanda_joint_v3_ledger_observer_api_v1', fake)
+    assert scope['current_joint_ledger_observation']()['compact'] is False
+    assert scope['current_joint_ledger_observation'](compact=True)['compact'] is True
+    assert loads == [(CONFIG, expected)] and requests == [False, True]
+    assert scope['_JOINT_LEDGER_OBSERVER_API'] is instance
+
+
+def test_configuration_failure_stays_named_unavailable_and_does_not_leak_text(monkeypatch):
+    scope = helper_scope()
+    def fail(*args, **kwargs):
+        raise ValueError('private local content must never be returned')
+    fake = SimpleNamespace(LedgerObservationAPI=SimpleNamespace(from_specification=fail))
+    monkeypatch.setitem(sys.modules, 'oanda_joint_v3_ledger_observer_api_v1', fake)
+    result = scope['current_joint_ledger_observation']()
+    assert result['status'] == 'unavailable' and result['reason'] == 'observer_api_configuration_unavailable'
+    assert result['consumer'] is None and 'private local' not in str(result)
+    assert scope['_JOINT_LEDGER_OBSERVER_API'] is None
+
+
+@pytest.mark.parametrize('name,expected', ORIGINAL_FUNCTION_AST_SHA256.items())
+def test_original_producer_projector_and_main_state_functions_are_unchanged(name, expected):
+    node = next(n for n in tree().body if isinstance(n, ast.FunctionDef) and n.name == name)
+    assert ast_sha(node) == expected
+
+
+def test_original_embedded_html_is_unchanged():
+    node = next(n for n in tree().body if isinstance(n, ast.Assign)
+                and any(isinstance(target, ast.Name) and target.id == 'HTML' for target in n.targets))
+    assert ast_sha(node) == ORIGINAL_EMBEDDED_HTML_AST_SHA256
+
+
+def test_original_main_html_file_is_unchanged():
+    assert hashlib.sha256((ROOT / 'oanda_main_signal_dashboard.html').read_bytes()).hexdigest() == ORIGINAL_MAIN_HTML_SHA256

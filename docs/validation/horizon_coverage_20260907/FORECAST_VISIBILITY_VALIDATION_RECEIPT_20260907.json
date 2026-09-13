@@ -1,0 +1,48 @@
+{
+  "schema": "forecast_visibility_validation_receipt_v1_20260907",
+  "created_utc": "2026-09-07T23:38:16.082587+00:00",
+  "validation_status": "passed",
+  "scope": "UI-only availability projection and bounded source/API horizon audit; no backend, model, registration, gate or runtime reload changes by this subtask.",
+  "source_sha256": {
+    "oanda_main_signal_dashboard.html": "3ffead742b158de5685b01fef2b25c3e68a556f365356828da9d90f0b91aced4",
+    "test_oanda_joint_price_news_dashboard_v1.py": "01417e4cc9d0a9354e2fcaede84c7b9cc4f0c0d189d50f621410de509e791ca2"
+  },
+  "unchanged_backend_sha256": "a5dd6945cc448a6ab86fa5fab8d55aea6040bf197e5a50117fb1bbc218d2f9fe",
+  "before_source_sha256": {
+    "oanda_main_signal_dashboard.html": "9e279285b2a4e00ad8f52c450f5af6533cb72df445cd55bb50f940c0413a618c",
+    "test_oanda_joint_price_news_dashboard_v1.py": "fc23276ce6d99122887fdcc6519f0009e3ac2a089168337d380f440b8555cb77"
+  },
+  "test_result": {
+    "tests": 240,
+    "failures": 0,
+    "errors": 0,
+    "reported_duration_sec": 21.54,
+    "files": [
+      "test_oanda_joint_price_news_dashboard_v1.py",
+      "test_oanda_pair_forecast_dashboard_v2.py",
+      "test_oanda_news_pair_dashboard.py",
+      "test_oanda_collection_dashboard_status.py"
+    ]
+  },
+  "live_observed_utc": "2026-09-07T23:34:10.777Z",
+  "live_coverage": {
+    "combined": 61,
+    "price_only": 4,
+    "unavailable": 3,
+    "total": 68
+  },
+  "artifact_sha256": {
+    "forecast_visibility_tests.xml": "2d0532259b54f034befd3aa0a1a6ce3843b01b2767999fd2e2f32940b4b0d54f",
+    "LIVE_FORECAST_VISIBILITY_VERIFICATION_20260907.json": "82115286412e3780d834350c2829e73f1534a7acd65d6daa18ad4192a8d56a4e",
+    "LIVE_FORECAST_VISIBILITY_DESKTOP_20260907.png": "8fc8d0e3ae79c35b6ad22a45151bbee7c722392bdde942a8a47a9d78005a581a",
+    "LIVE_FORECAST_VISIBILITY_PRICE_ONLY_20260907.png": "08c77222bc05218bbe41a6f39cc1ff6eaa8a2fe0c7718d6378a9a1b84e72151a",
+    "LIVE_FORECAST_VISIBILITY_MOBILE_20260907.png": "5fc43ed2b11a5400671a4792fb49a8a2154df7cb8ed349eb84d8c1624af6804a",
+    "HORIZON_SOURCE_API_INVENTORY_20260907.json": "446d18ab296c1d31ada4ea8c765998e49bac898660cb066dbe165831385952f2",
+    "HORIZON_AND_FORECAST_VISIBILITY_REVIEW_20260907.md": "b20a268f5acf1ec7aa4275ee69a39c134f792f4b3e839e6aabfa94d4661d3c08"
+  },
+  "limits": [
+    "Dated UI availability is not measured prediction success or trading readiness.",
+    "Repeated joint reader generation-mismatch API responses are preserved separately; no cause inferred or binding guard weakened.",
+    "Independent source review is recorded separately; this receipt attests the owner-run focused tests and live observation only."
+  ]
+}

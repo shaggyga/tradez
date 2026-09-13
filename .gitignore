@@ -72,3 +72,19 @@ config/vault_runtime_lock*.json
 *.ppk
 *.crt
 *.cer
+
+# Generated research-profile test runtimes
+/tools/research_profiles/*/owned_installed*/
+
+# Local QA browser profiles and generated validation data payloads
+/docs/validation/**/edge-profile/
+/docs/validation/fixed_evaluation_20260906/normalized_forecasts.json
+/docs/validation/fixed_evaluation_20260906/selected_candidate_rows.json
+/docs/validation/fixed_evaluation_20260906/strict_input_final.json
+/docs/validation/prediction_sanity_20260906/broad_signal/selected_rows.txt
+/docs/validation/prediction_sanity_20260906/comovement/captured_week_candles.json
+/docs/validation/prediction_sanity_20260906/independent_four_family/independently_paired_endpoints.json
+/docs/validation/pair_dashboard_consistency_20260907/DASHBOARD_API_CONSISTENCY_PROBE_RETAINED2_20260907.json
+
+# Unreviewed validation screenshots remain local
+/docs/validation/**/*.png

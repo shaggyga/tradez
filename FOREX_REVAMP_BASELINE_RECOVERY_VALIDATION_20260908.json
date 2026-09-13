@@ -1,0 +1,80 @@
+{
+  "schema": "forex_revamp_baseline_recovery_validation_v1",
+  "status": "passed_first_phase",
+  "recorded_utc": "2026-09-08T14:15:03.822441+00:00",
+  "report": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\FOREX_REVAMP_BASELINE_RECOVERY_20260908.md",
+    "sha256": "144882c17eb36c4c5c8efdbe15b13c2a8593fef4c6412055f0ae7845332320e5"
+  },
+  "evidence_manifest": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\revamp_baseline_20260908\\EVIDENCE_MANIFEST_20260908.json",
+    "sha256": "a67dd6cf160c452101ace841ab71d2e0dff4dba71b74405fae7b632ef64de9dc",
+    "file_count": 32
+  },
+  "unchanged_source_manifest": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\revamp_baseline_20260908\\UNCHANGED_BASELINE_SOURCE_MEMBERS_20260908.json",
+    "sha256": "a1304a828a0bbf0f8b19cab67480532380ba21a6dcc578b7ec56ed2aa4eb64a6",
+    "files": 2195
+  },
+  "source_recovery": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\SOURCE_ARTIFACT_RECOVERY_20260908.json",
+    "sha256": "0f7b097b4494d3454d21ec24a8e1b72cd04aeb96c21f59994ed4766665c3f0ac"
+  },
+  "database_recovery": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\SELECTED_LEDGER_BACKUP_MANIFEST_20260908.json",
+    "sha256": "5fb8fad62c425601694bd09d0811a10c4fbd21701e6323043281b02624d979f6",
+    "databases": 272,
+    "bytes": 6319161344
+  },
+  "performance": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\performance\\PRESERVED_PREDICTION_BASELINE_COMPACT_20260908.json",
+    "sha256": "225caa2484c57812ef25655be5f95f586018468dffd5dae105de1c26995c8bbb"
+  },
+  "inference_smoke": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_baseline_20260908\\reconciliation\\SECOND_RIDGE_ENGINEERING_SMOKE_20260908.json",
+    "sha256": "93174fab0c8f0edba3c86b3995f8bae3384785a254d30f568eb1d126e5bc2aa1"
+  },
+  "diagnostic_mode": "offline engineering replay; historical input predates fit; no efficacy claim",
+  "runtime_restart_or_broker_actions": false,
+  "original_models_or_registrations_changed": false,
+  "original_ledger_writes": false,
+  "original_completed_outcomes_rescored_on_copies_only": true,
+  "live_implementation_edits": false,
+  "intentional_navigation_mapping_changes": [
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\FOREX_AUDIT_START_HERE.md",
+      "sha256": "67716341d0d199ab7aae3f538fe6db973651a63f5bb09b492714822453d06b11"
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\FOREX_PENDING_IMPROVEMENTS.md",
+      "sha256": "761af92d39ee915bafa3e771b309a8967c386d39beeed3ad0b1932b480c87ab6"
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\FOREX_PROJECT_LOG.md",
+      "sha256": "83a3de194a9f267dde3c1ffd6955fe54e59991c2258f4c899844d984017ca3bc"
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\README.md",
+      "sha256": "9128310a85fcf851757a856a4f281a1a318bd68b63cb3b6bc9b3f2c06af5a9aa"
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\RESEARCH_INDEX.md",
+      "sha256": "d14efc948323f801f16b75ccaa844d6183098e8a843b19cc8d698947cbf3d741"
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\RESEARCH_INDEX_VAULT.md",
+      "sha256": "05d9b554bd49755cdf527936e7066284de119847504dba46a79a83559ac6f130"
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\forex_model_vault_sync.py",
+      "sha256": "ea73436ad0483a0ac8ccc629c9c83f5dd82a96a16d69deb1306e9015bf3a4ba6"
+    }
+  ],
+  "open_findings": [
+    "news producer topic identity collision blocks combined forecasts",
+    "intermittent price-v2 API generation mismatch; recovered observation retained",
+    "after-spread loss and baseline underperformance",
+    "MA opaque-artifact/dependency inference and unified v4/v5 reconstruction",
+    "new combined event/currency feature gains require later matched evidence"
+  ]
+}

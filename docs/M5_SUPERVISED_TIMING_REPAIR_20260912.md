@@ -1,0 +1,19 @@
+# Existing M5 supervised arm: timing and input repair
+
+The existing eight-feature ridge model predicts the next M5 bar's long/short payoff after entry and exit spread. Its training helper previously treated the next array row as the next five minutes, even across a weekend or a missing bar. It also reused cached fits when old prices changed but the final timestamp and row count stayed the same. These are correctness problems, independent of whether the model has predictive value.
+
+The repaired helper requires explicit completed bars, aware aligned UTC clocks and valid prices. It keeps separate contiguous segments and resets recursive indicators at a gap. Older valid segments remain available for training. The model's existing 60-bar per-series readiness requirement is preserved. This requirement belongs to this M5 arm; it is not a new universal warm-up for other forecast families.
+
+An M5 candle stored at T becomes a feature observation at T+5 minutes, and its next-bar target matures at T+10 minutes. Those two clocks are now separate fields. Labels reaching the first validation origin are purged from the earlier fit. Inputs with revised consumed prices, completion flags or pip units invalidate the fit cache. Withheld output resets its previous diagnostics instead of retaining old readiness details.
+
+The pooled fit records a shared completed-bar origin. A pair whose current M5 context is older is withheld from current scoring with an explicit reason; its already mature historical samples remain usable. This avoids stamping a forecast with an old per-pair origin while its shared fit consumes later labels. The bar-close origin does not claim original ingestion latency or actual broker fill availability.
+
+The historical replay builder now requires all five exact M1 members of an M5 bucket. Its S5 caller requires all 12 exact valid S5 members per M1, before aggregation. Explicit completion flags survive CSV loading. Invalid interior S5 prices cannot be hidden by first/last aggregation. Missing members exclude their affected buckets; no candles are filled in. Input-quality receipts record exclusions and disclose when bid/ask extrema were derived from retained open/close endpoints.
+
+Historical replay also reuses the project's existing audited pip map. The former JPY-only shortcut gives the wrong units for EUR/HUF, USD/HUF, USD/THB and HKD/JPY. This repair changes future replay units; old reported scores and artifacts remain preserved. Wider fallback propagation and historical impact counts are separate ongoing audit work.
+
+Validation: **184 tests and 220 subtests passed** against both the staged and integrated canonical sources. The independent review's failing fixtures were preserved and used to check the correction, including pandas timestamp storage units, S5 membership, completion flags, stale metadata, mixed pair clocks and malformed pip values. Ten pandas/NumPy timedelta deprecation warnings remain; these were not test failures.
+
+This change neither refitted a real-data model nor changed service or order state. Original results are not automatically valid under the corrected contract, and no new accuracy or profitability claim follows from the tests.
+
+Evidence: [canonical integration receipt](../../revamp_8h_20260912/models/handwritten_semantics/m5_timing_review/CANONICAL_INTEGRATION_001.json), [canonical test report](../../revamp_8h_20260912/models/handwritten_semantics/m5_timing_review/CANONICAL_TESTS_001.xml), [independent review](../../revamp_8h_20260912/models/handwritten_semantics/m5_timing_review/independent_review_feed_001/REVIEW.md), and [contract helper](../oanda_supervised_m5_contract_v2.py). The work folder preserves original source bytes, all three staged candidates, their hashes, original failing receipts and guarded integration scripts.

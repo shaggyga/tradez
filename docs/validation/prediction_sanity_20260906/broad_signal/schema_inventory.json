@@ -1,0 +1,572 @@
+{
+  "observed_utc": "2026-09-06T15:38:13.198791+00:00",
+  "database": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\top_signal_position_ledger_v1.sqlite",
+  "uri_mode": "ro",
+  "query_only": true,
+  "files": {
+    "top_signal_position_ledger_v1.sqlite": {
+      "bytes": 200957952,
+      "mtime_ns": 1788554613713280900
+    },
+    "top_signal_position_ledger_v1.sqlite-wal": {
+      "bytes": 7976352,
+      "mtime_ns": 1788573987895897600
+    },
+    "top_signal_position_ledger_v1.sqlite-shm": {
+      "bytes": 32768,
+      "mtime_ns": 1788573987885851500
+    }
+  },
+  "schema": [
+    {
+      "type": "table",
+      "name": "positions",
+      "tbl_name": "positions",
+      "sql": "CREATE TABLE positions(\n            id INTEGER PRIMARY KEY AUTOINCREMENT,\n            cohort_key TEXT NOT NULL UNIQUE,\n            signal_id TEXT NOT NULL,\n            observed_at TEXT NOT NULL,\n            opened_epoch REAL NOT NULL,\n            opened_at TEXT NOT NULL,\n            target_epoch REAL NOT NULL,\n            target_at TEXT NOT NULL,\n            closed_epoch REAL,\n            closed_at TEXT,\n            instrument TEXT NOT NULL,\n            direction TEXT NOT NULL,\n            side TEXT NOT NULL,\n            horizon_sec INTEGER NOT NULL,\n            horizon_label TEXT NOT NULL,\n            family TEXT,\n            lane_id TEXT,\n            input_timeframe TEXT,\n            policy_state TEXT NOT NULL,\n            signal_eligible INTEGER NOT NULL,\n            validated INTEGER NOT NULL,\n            direction_conflict INTEGER NOT NULL,\n            blocked_by_json TEXT NOT NULL,\n            confidence REAL NOT NULL,\n            projected_net_pips REAL NOT NULL,\n            projected_net_pips_per_hour REAL NOT NULL,\n            gross_to_spread REAL NOT NULL,\n            entry_bid REAL NOT NULL,\n            entry_ask REAL NOT NULL,\n            entry_mid REAL NOT NULL,\n            entry_spread_pips REAL NOT NULL,\n            exit_bid REAL,\n            exit_ask REAL,\n            exit_mid REAL,\n            gross_pips REAL,\n            net_pips REAL,\n            win INTEGER,\n            best_net_pips REAL,\n            worst_net_pips REAL,\n            time_to_positive_sec REAL,\n            status TEXT NOT NULL\n        , measurement_version TEXT NOT NULL DEFAULT 'legacy_filtered_direction_v1', direction_source TEXT NOT NULL DEFAULT 'legacy_filtered_direction', outcome_quote_epoch REAL, outcome_quote_at TEXT, target_quote_distance_sec REAL, maturity_valid INTEGER, maturity_reason TEXT, source_signal_id TEXT NOT NULL DEFAULT '', signal_lineage_contract_id TEXT NOT NULL DEFAULT 'legacy_source_signal_id', direction_conflict_contract_id TEXT NOT NULL DEFAULT 'legacy_direction_conflict', direction_conflict_details_json TEXT NOT NULL DEFAULT '{}')"
+    },
+    {
+      "type": "index",
+      "name": "sqlite_autoindex_positions_1",
+      "tbl_name": "positions",
+      "sql": null
+    },
+    {
+      "type": "table",
+      "name": "sqlite_sequence",
+      "tbl_name": "sqlite_sequence",
+      "sql": "CREATE TABLE sqlite_sequence(name,seq)"
+    },
+    {
+      "type": "index",
+      "name": "position_status_horizon",
+      "tbl_name": "positions",
+      "sql": "CREATE INDEX position_status_horizon\n        ON positions(status, horizon_sec)"
+    },
+    {
+      "type": "index",
+      "name": "position_closed_epoch",
+      "tbl_name": "positions",
+      "sql": "CREATE INDEX position_closed_epoch\n        ON positions(closed_epoch DESC)"
+    },
+    {
+      "type": "index",
+      "name": "position_status_measurement_maturity",
+      "tbl_name": "positions",
+      "sql": "CREATE INDEX position_status_measurement_maturity\n        ON positions(status, measurement_version, maturity_valid)"
+    },
+    {
+      "type": "index",
+      "name": "position_status_maturity",
+      "tbl_name": "positions",
+      "sql": "CREATE INDEX position_status_maturity\n        ON positions(status, maturity_valid)"
+    },
+    {
+      "type": "index",
+      "name": "position_factor_episode_order",
+      "tbl_name": "positions",
+      "sql": "CREATE INDEX position_factor_episode_order\n        ON positions(\n            status, measurement_version, maturity_valid,\n            policy_state, opened_epoch\n        )"
+    },
+    {
+      "type": "index",
+      "name": "position_recent_status_epoch",
+      "tbl_name": "positions",
+      "sql": "CREATE INDEX position_recent_status_epoch\n        ON positions(\n            (CASE status WHEN 'open' THEN 0 ELSE 1 END),\n            COALESCE(closed_epoch, target_epoch) DESC\n        )"
+    },
+    {
+      "type": "index",
+      "name": "position_policy_repair",
+      "tbl_name": "positions",
+      "sql": "CREATE INDEX position_policy_repair\n        ON positions(policy_state, direction_conflict, measurement_version)"
+    },
+    {
+      "type": "table",
+      "name": "ledger_revision",
+      "tbl_name": "ledger_revision",
+      "sql": "CREATE TABLE ledger_revision(\n            singleton INTEGER PRIMARY KEY CHECK(singleton=1),\n            position_revision INTEGER NOT NULL\n        , metadata_revision INTEGER NOT NULL DEFAULT 0, mature_revision INTEGER NOT NULL DEFAULT 0)"
+    }
+  ],
+  "positions_columns": [
+    [
+      0,
+      "id",
+      "INTEGER",
+      0,
+      null,
+      1
+    ],
+    [
+      1,
+      "cohort_key",
+      "TEXT",
+      1,
+      null,
+      0
+    ],
+    [
+      2,
+      "signal_id",
+      "TEXT",
+      1,
+      null,
+      0
+    ],
+    [
+      3,
+      "observed_at",
+      "TEXT",
+      1,
+      null,
+      0
+    ],
+    [
+      4,
+      "opened_epoch",
+      "REAL",
+      1,
+      null,
+      0
+    ],
+    [
+      5,
+      "opened_at",
+      "TEXT",
+      1,
+      null,
+      0
+    ],
+    [
+      6,
+      "target_epoch",
+      "REAL",
+      1,
+      null,
+      0
+    ],
+    [
+      7,
+      "target_at",
+      "TEXT",
+      1,
+      null,
+      0
+    ],
+    [
+      8,
+      "closed_epoch",
+      "REAL",
+      0,
+      null,
+      0
+    ],
+    [
+      9,
+      "closed_at",
+      "TEXT",
+      0,
+      null,
+      0
+    ],
+    [
+      10,
+      "instrument",
+      "TEXT",
+      1,
+      null,
+      0
+    ],
+    [
+      11,
+      "direction",
+      "TEXT",
+      1,
+      null,
+      0
+    ],
+    [
+      12,
+      "side",
+      "TEXT",
+      1,
+      null,
+      0
+    ],
+    [
+      13,
+      "horizon_sec",
+      "INTEGER",
+      1,
+      null,
+      0
+    ],
+    [
+      14,
+      "horizon_label",
+      "TEXT",
+      1,
+      null,
+      0
+    ],
+    [
+      15,
+      "family",
+      "TEXT",
+      0,
+      null,
+      0
+    ],
+    [
+      16,
+      "lane_id",
+      "TEXT",
+      0,
+      null,
+      0
+    ],
+    [
+      17,
+      "input_timeframe",
+      "TEXT",
+      0,
+      null,
+      0
+    ],
+    [
+      18,
+      "policy_state",
+      "TEXT",
+      1,
+      null,
+      0
+    ],
+    [
+      19,
+      "signal_eligible",
+      "INTEGER",
+      1,
+      null,
+      0
+    ],
+    [
+      20,
+      "validated",
+      "INTEGER",
+      1,
+      null,
+      0
+    ],
+    [
+      21,
+      "direction_conflict",
+      "INTEGER",
+      1,
+      null,
+      0
+    ],
+    [
+      22,
+      "blocked_by_json",
+      "TEXT",
+      1,
+      null,
+      0
+    ],
+    [
+      23,
+      "confidence",
+      "REAL",
+      1,
+      null,
+      0
+    ],
+    [
+      24,
+      "projected_net_pips",
+      "REAL",
+      1,
+      null,
+      0
+    ],
+    [
+      25,
+      "projected_net_pips_per_hour",
+      "REAL",
+      1,
+      null,
+      0
+    ],
+    [
+      26,
+      "gross_to_spread",
+      "REAL",
+      1,
+      null,
+      0
+    ],
+    [
+      27,
+      "entry_bid",
+      "REAL",
+      1,
+      null,
+      0
+    ],
+    [
+      28,
+      "entry_ask",
+      "REAL",
+      1,
+      null,
+      0
+    ],
+    [
+      29,
+      "entry_mid",
+      "REAL",
+      1,
+      null,
+      0
+    ],
+    [
+      30,
+      "entry_spread_pips",
+      "REAL",
+      1,
+      null,
+      0
+    ],
+    [
+      31,
+      "exit_bid",
+      "REAL",
+      0,
+      null,
+      0
+    ],
+    [
+      32,
+      "exit_ask",
+      "REAL",
+      0,
+      null,
+      0
+    ],
+    [
+      33,
+      "exit_mid",
+      "REAL",
+      0,
+      null,
+      0
+    ],
+    [
+      34,
+      "gross_pips",
+      "REAL",
+      0,
+      null,
+      0
+    ],
+    [
+      35,
+      "net_pips",
+      "REAL",
+      0,
+      null,
+      0
+    ],
+    [
+      36,
+      "win",
+      "INTEGER",
+      0,
+      null,
+      0
+    ],
+    [
+      37,
+      "best_net_pips",
+      "REAL",
+      0,
+      null,
+      0
+    ],
+    [
+      38,
+      "worst_net_pips",
+      "REAL",
+      0,
+      null,
+      0
+    ],
+    [
+      39,
+      "time_to_positive_sec",
+      "REAL",
+      0,
+      null,
+      0
+    ],
+    [
+      40,
+      "status",
+      "TEXT",
+      1,
+      null,
+      0
+    ],
+    [
+      41,
+      "measurement_version",
+      "TEXT",
+      1,
+      "'legacy_filtered_direction_v1'",
+      0
+    ],
+    [
+      42,
+      "direction_source",
+      "TEXT",
+      1,
+      "'legacy_filtered_direction'",
+      0
+    ],
+    [
+      43,
+      "outcome_quote_epoch",
+      "REAL",
+      0,
+      null,
+      0
+    ],
+    [
+      44,
+      "outcome_quote_at",
+      "TEXT",
+      0,
+      null,
+      0
+    ],
+    [
+      45,
+      "target_quote_distance_sec",
+      "REAL",
+      0,
+      null,
+      0
+    ],
+    [
+      46,
+      "maturity_valid",
+      "INTEGER",
+      0,
+      null,
+      0
+    ],
+    [
+      47,
+      "maturity_reason",
+      "TEXT",
+      0,
+      null,
+      0
+    ],
+    [
+      48,
+      "source_signal_id",
+      "TEXT",
+      1,
+      "''",
+      0
+    ],
+    [
+      49,
+      "signal_lineage_contract_id",
+      "TEXT",
+      1,
+      "'legacy_source_signal_id'",
+      0
+    ],
+    [
+      50,
+      "direction_conflict_contract_id",
+      "TEXT",
+      1,
+      "'legacy_direction_conflict'",
+      0
+    ],
+    [
+      51,
+      "direction_conflict_details_json",
+      "TEXT",
+      1,
+      "'{}'",
+      0
+    ]
+  ],
+  "index_list": [
+    [
+      0,
+      "position_policy_repair",
+      0,
+      "c",
+      0
+    ],
+    [
+      1,
+      "position_recent_status_epoch",
+      0,
+      "c",
+      0
+    ],
+    [
+      2,
+      "position_factor_episode_order",
+      0,
+      "c",
+      0
+    ],
+    [
+      3,
+      "position_status_maturity",
+      0,
+      "c",
+      0
+    ],
+    [
+      4,
+      "position_status_measurement_maturity",
+      0,
+      "c",
+      0
+    ],
+    [
+      5,
+      "position_closed_epoch",
+      0,
+      "c",
+      0
+    ],
+    [
+      6,
+      "position_status_horizon",
+      0,
+      "c",
+      0
+    ],
+    [
+      7,
+      "sqlite_autoindex_positions_1",
+      1,
+      "u",
+      0
+    ]
+  ],
+  "query_plan": [
+    [
+      4,
+      0,
+      59,
+      "SEARCH positions USING INDEX position_factor_episode_order (status=? AND measurement_version=? AND maturity_valid=?)"
+    ]
+  ]
+}

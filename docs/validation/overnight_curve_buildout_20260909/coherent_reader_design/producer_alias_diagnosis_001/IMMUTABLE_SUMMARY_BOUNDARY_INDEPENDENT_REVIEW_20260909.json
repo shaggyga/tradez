@@ -1,0 +1,48 @@
+{
+  "limitations": [
+    "This pure module receives caller-attested readback bytes/clocks. It cannot authenticate an I/O event or guarantee atomic replacement without the separately reviewed producer integration.",
+    "Freshness, complete registered inventory, exact pip/forecast/ledger/entry/target validity and execution authority remain downstream checks.",
+    "No claim is made here that a running producer has adopted the new boundary or that an observed outage was fixed.",
+    "Any deployment requires a separate registration/source binding; existing frozen sources and cohorts were not modified."
+  ],
+  "owner_tests": {
+    "errors": 0,
+    "failed": 0,
+    "independently_rerun": false,
+    "passed": 40,
+    "skipped": 0,
+    "xml_elapsed_sec": 1.353
+  },
+  "remaining_blockers": [],
+  "review_scope": "Bounded independent read-only source/test inspection; no independent test rerun, raw live envelope read, producer modification or runtime integration.",
+  "reviewed_boundaries": [
+    "Canonical immutable bytes/scalars detach the sealed snapshot from caller mutable dictionaries.",
+    "All public use boundaries revalidate snapshot schema, authority, payload seal and byte/scalar identity.",
+    "Written/readback bytes must match the admitted snapshot exactly; completion must not precede original generation.",
+    "Only caller-acknowledged PublishedSummary supplies heartbeat hash and snapshot-dependent counts, preserving original row and target clocks.",
+    "Caller replaces the prior PublishedSummary only after successful write and readback; failures cannot acknowledge a new generation through this API.",
+    "Returned heartbeat count dictionaries are freshly derived and cannot mutate retained snapshot bytes.",
+    "Clock, shape, recursion, string, node, pair, family and canonical-byte limits reject malformed input.",
+    "Envelope counts explicitly remain original snapshot statuses rather than live ledger or target eligibility."
+  ],
+  "reviewed_epoch": 1788940231.1035197,
+  "schema_version": "immutable_summary_publication_independent_review_v1_20260909",
+  "source_evidence": [
+    {
+      "bytes": 9408,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_immutable_summary_publication_v1.py",
+      "sha256": "53abafc379216797945543464fe218511f53b17a2d0d9d9cecb700146eff4bf7"
+    },
+    {
+      "bytes": 12633,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_immutable_summary_publication_v1.py",
+      "sha256": "236bdc1aafb026fb0c5869b29134a7a23c7f26ad3f9ff0b7e066863d300e6026"
+    },
+    {
+      "bytes": 7229,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\coherent_reader_design\\producer_alias_diagnosis_001\\immutable_boundary_initial_tests.xml",
+      "sha256": "bfcc03d78a97cd386676de667766956bb9ea5e4cb08c47eb600ca4a1121f266a"
+    }
+  ],
+  "status": "passed"
+}

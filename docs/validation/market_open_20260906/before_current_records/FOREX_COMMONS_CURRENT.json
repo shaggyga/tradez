@@ -1,0 +1,70 @@
+{
+  "schema_version": "project_snapshot_v1",
+  "project_id": "forex",
+  "observed_at_utc": "2026-09-05T02:20:00Z",
+  "status": "intentionally_stopped_for_independent_review",
+  "canonical_workspace": "C:\\Users\\zmoor\\Documents\\forex\\trad",
+  "vault_entrypoint": "projects/forex/README.md",
+  "scope": "Local audit and recreation records; not a live deployment or new monitor.",
+  "environment": "OANDA practice only; real-money routing disabled",
+  "supported_decision": "no_trade",
+  "evidence": {
+    "confirmed_candidates": 0,
+    "continuing_hypotheses": 43872,
+    "futility_rejections": 9485,
+    "strict_pre_move_directional_matches_in_frozen_week": 0,
+    "as_of_utc": "2026-09-05T01:41:08Z"
+  },
+  "versions": {
+    "news_classifier": "V164",
+    "watchlist": "V49",
+    "source_response": "V8 frozen to classifier V152",
+    "source_conditioned_rank": "V7"
+  },
+  "open_repairs": [
+    "Fast-lane durable availability timing",
+    "Fast-lane building/committed-state publication",
+    "Fast-lane retry cursor preservation"
+  ],
+  "external_gaps": [
+    "Causal pre-release consensus and event-time policy-rate repricing",
+    "Direct RBNZ policy transport",
+    "Secure GDELT transport",
+    "Direct intraday commodity data"
+  ],
+  "issue_counts": {
+    "total": 91,
+    "open": 3,
+    "complete": 47,
+    "implemented_collecting": 24,
+    "superseded_collecting": 2,
+    "permanently_invalid": 11,
+    "blocked_external": 4
+  },
+  "handoff": {
+    "faults": "projects/forex/FAULT_AUDIT_CURRENT.md",
+    "state": "projects/forex/AUDIT_STATE_CURRENT.md",
+    "source": "projects/forex/source/WORKTREE_SOURCE_LATEST.json",
+    "queue": "projects/forex/PENDING_IMPROVEMENTS_CURRENT.md",
+    "recreation": "projects/forex/RECREATION.md"
+  },
+  "next_step": "Independent read-only review/reorientation. Do not restart or alter proof cohorts from this snapshot.",
+  "latest_review": {
+    "observed_utc": "2026-09-06T19:29:28.295035+00:00",
+    "runtime_state": "stopped_user_requested",
+    "supersedes_prior_runtime_and_backlog_status": true,
+    "runtime_verification": "FOREX_ENTRY_IMPROVEMENTS_VALIDATION_20260906.json",
+    "entry_improvements": "docs/FOREX_ENTRY_IMPROVEMENTS_20260906.md",
+    "followup": "FOREX_ENTRY_RESEARCH_FOLLOWUP_20260906.json",
+    "issue_count": 104,
+    "issue_status_counts": {
+      "blocked_external": 4,
+      "complete": 57,
+      "implemented_collecting": 30,
+      "open": 0,
+      "permanently_invalid": 11,
+      "superseded_collecting": 2
+    },
+    "all_other_embedded_snapshots_retain_their_original_timestamps": true
+  }
+}

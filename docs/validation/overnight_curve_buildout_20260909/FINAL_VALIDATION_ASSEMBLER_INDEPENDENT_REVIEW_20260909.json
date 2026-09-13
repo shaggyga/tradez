@@ -1,0 +1,84 @@
+{
+  "broker_requests": 0,
+  "closed_findings": [
+    {
+      "closure": "Rejects .. path components before reading any canonical dependency; fixture proves the outside file is not read.",
+      "finding": "Canonical dependency traversal could pass lexical root containment."
+    },
+    {
+      "closure": "Reads at most maximum+1 bytes and verifies the bound and expected SHA; fixture intercepts the requested read size.",
+      "finding": "File growth after stat could cause an unlimited read allocation."
+    },
+    {
+      "closure": "Requires finite positive started and completed clocks with started<=completed, preserving sampled values; reversed, nonfinite, zero and negative cases reject.",
+      "finding": "A reversed verification interval could be accepted after wall-clock rollback."
+    },
+    {
+      "closure": "Bounded post-sync readback must match exact serialized bytes and SHA before success output; corruption and sync failures retain unaccepted evidence without success.",
+      "finding": "Persisted output identity was inferred from successful write/fsync."
+    }
+  ],
+  "coverage": [
+    "Four isolated synthetic registry/source closures and complete embedded copy inventory with canonical dependencies.",
+    "Copy status and exact scan/compile/source flags; report/copy/spec/member/dependency/registry/source hashes and copied sizes.",
+    "Exact selected-evidence name/hash identity, path traversal, separators, case collision, and mocked Windows reparse rejection.",
+    "Recursive exact-false authority values, including full assembly against an altered synthetic registry.",
+    "Source mutations after their first read are caught by final rechecks for each input category.",
+    "Exclusive output creation preserves existing and concurrently created files; sync/readback failure emits no success and leaves the orphan for inspection."
+  ],
+  "credentials_read": false,
+  "final_test_xml": {
+    "bytes": 8551,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\final_assembler_final_review_tests.xml",
+    "sha256": "abf0f135532507446004d3029b2193b2181b24d1b771113cc60037059a9a4cbf"
+  },
+  "initial_dated_evidence": {
+    "helper_source_bytes_retained": false,
+    "scope": "Dated intermediate test evidence only. No exact initial helper-source hash is claimed or reconstructed; final acceptance binds only the actual final source above.",
+    "test_count": 50,
+    "test_source_snapshot": {
+      "bytes": 12855,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\final_assembler_review_history\\test_assemble_final_validation_initial_50.py.txt",
+      "sha256": "25f33c1a59892f3aa1e4bea1124e5e3fa22cf5ca6790fb7e3186ec340414fe0e"
+    },
+    "test_xml": {
+      "bytes": 7377,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\final_assembler_initial_review_tests.xml",
+      "sha256": "e24308a8fede4678500de334bd1622ae7f88a0c04dbf3f3f0bc9dd6a42902df8"
+    }
+  },
+  "limits": [
+    "The actual assembler was exercised only with synthetic temporary roots, toy registries and fixtures; no real project/vault output, credentials, broker, model, process or rescoring action occurred.",
+    "Expected copy/spec/report hashes and the four production registry pins remain caller-reviewed trust inputs; this verifier does not replace the curator credential scan or source-export verification.",
+    "Path checks assume a trusted local root. They are not an atomic filesystem transaction against an adversarial directory-renaming actor between OS operations.",
+    "Two-pass rechecks catch retained changes during verification; the result is a dated verification interval, not a simultaneous live operational snapshot.",
+    "completed_epoch records verification completion before output persistence; successful return additionally requires exact post-fsync readback. No directory-crash-durability or vault-publication claim is made."
+  ],
+  "real_assembler_execution": false,
+  "real_project_or_vault_writes": false,
+  "reviewed_utc": "2026-09-09T11:14:56.131735+00:00",
+  "reviewer": "pair_dashboard",
+  "schema_version": "final_validation_assembler_independent_review_v1_20260909",
+  "source": {
+    "bytes": 10351,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\assemble_final_validation_v1.py",
+    "sha256": "578cd4c2a8695da67d05c563b2fc721d04d69e54a04389e953d7ffbdd6a60dbf"
+  },
+  "source_owner_edits": "Root changed the new external helper; reviewer changed only the isolated test/evidence files.",
+  "status": "passed_source_review_and_isolated_tests",
+  "test_result": {
+    "command": "python -B -m pytest -q -p no:cacheprovider test_assemble_final_validation_v1.py --junitxml=final_assembler_final_review_tests.xml",
+    "errors": 0,
+    "failures": 0,
+    "reported_duration_sec": 3.4,
+    "skipped": 0,
+    "source_and_test_hashes_unchanged_before_after": true,
+    "tests": 58
+  },
+  "test_source": {
+    "bytes": 14685,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\test_assemble_final_validation_v1.py",
+    "sha256": "b62a3e2cafdf5c05c44564118f2d7bf2cf3e47b5a8881965ce01b183007c4edd"
+  },
+  "tests_used_disposable_temporary_writes": true
+}

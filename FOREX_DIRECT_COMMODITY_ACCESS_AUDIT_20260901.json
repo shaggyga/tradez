@@ -1,0 +1,110 @@
+{
+  "schema_version": 2,
+  "generated_utc": "2026-09-01T16:37:00Z",
+  "original_generated_utc": "2026-09-01T12:35:02.316780Z",
+  "revision_reason": "Add the already-configured Alpha Vantage commodity entitlement to the access census rather than repeatedly treating it as an untested intraday alternative.",
+  "purpose": "Determine whether the currently permitted free and already-configured sources can provide timestamp-safe intraday underlying commodity confirmation for FX research.",
+  "scope": {
+    "canonical_workspace": "C:/Users/zmoor/Documents/forex/trad",
+    "practice_account_suffix": "007",
+    "real_money_routing_enabled": false,
+    "changes_execution_state": false,
+    "credentials_or_credentialed_urls_persisted": false
+  },
+  "oanda_practice_007": {
+    "request": "GET /v3/accounts/{practice_007}/instruments",
+    "http_ok": true,
+    "instrument_count": 68,
+    "currency_instrument_count": 68,
+    "noncurrency_instrument_count": 0,
+    "requested_direct_symbols": [
+      "WTICO_USD",
+      "BCO_USD",
+      "NATGAS_USD"
+    ],
+    "requested_direct_symbol_count": 0,
+    "classification": "venue_consistent_direct_commodity_unavailable_on_this_account"
+  },
+  "finnhub_existing_free_credential": {
+    "credential_present": true,
+    "credential_value_persisted": false,
+    "oanda_symbol_catalog": {
+      "http_ok": true,
+      "symbol_count": 120,
+      "commodity_or_metal_metadata_match_count": 24,
+      "metadata_only": true
+    },
+    "direct_underlying_quote_probes": [
+      {
+        "symbol": "OANDA:WTICO_USD",
+        "http_status": 403,
+        "usable": false
+      },
+      {
+        "symbol": "OANDA:BCO_USD",
+        "http_status": 403,
+        "usable": false
+      },
+      {
+        "symbol": "OANDA:NATGAS_USD",
+        "http_status": 403,
+        "usable": false
+      }
+    ],
+    "exchange_traded_proxy_probes": [
+      {
+        "symbol": "USO",
+        "quote_present": true,
+        "timestamp_present": true,
+        "observed_age_seconds": 59563,
+        "classification": "exchange_hours_etf_proxy_not_continuous_underlying"
+      },
+      {
+        "symbol": "BNO",
+        "quote_present": true,
+        "timestamp_present": true,
+        "observed_age_seconds": 59563,
+        "classification": "exchange_hours_etf_proxy_not_continuous_underlying"
+      },
+      {
+        "symbol": "XLE",
+        "quote_present": true,
+        "timestamp_present": true,
+        "observed_age_seconds": 59563,
+        "classification": "exchange_hours_equity_sector_proxy_not_continuous_underlying"
+      }
+    ]
+  },
+  "alpha_vantage_existing_free_credential": {
+    "credential_present": true,
+    "credential_value_persisted": false,
+    "official_documentation": "https://www.alphavantage.co/documentation/#commodities",
+    "documented_temporal_resolution": [
+      "daily",
+      "weekly",
+      "monthly"
+    ],
+    "wti_daily_probe": {
+      "http_ok": true,
+      "usable_as_daily_reference": true,
+      "series_name": "Crude Oil Prices WTI",
+      "interval": "daily",
+      "unit": "dollars per barrel",
+      "observation_count": 10604,
+      "latest_observation_date": "2026-08-25",
+      "value_present": true,
+      "credential_value_persisted": false
+    },
+    "intraday_underlying_available": false,
+    "classification": "daily_reference_series_not_event_time_intraday_confirmation"
+  },
+  "decision": {
+    "state": "blocked_external",
+    "direct_intraday_underlying_available": false,
+    "proxy_promoted_to_underlying": false,
+    "execution_eligible": false,
+    "research_direction_eligible": false,
+    "reason": "The execution venue exposes only the 68 FX instruments, the existing Finnhub entitlement rejects direct OANDA commodity quotes, accessible ETFs are exchange-hours proxies rather than continuous underlyings, and the configured Alpha Vantage WTI entitlement supplies daily rather than intraday observations.",
+    "next_gate": "Connect a permitted timestamp-safe intraday Brent, WTI, gas or relevant commodity source under a new immutable source cohort. If ETF proxies are later tested, label them explicitly, enforce exchange-hours freshness, and compare them prospectively without treating them as underlying prices."
+  }
+}

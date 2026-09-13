@@ -1,0 +1,209 @@
+import copy
+from decimal import Decimal, localcontext
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+import sys
+
+import pytest
+
+HERE = Path(__file__).resolve().parent
+spec = importlib.util.spec_from_file_location('probability_bins', HERE / 'summarize_joint_probability_bins_v1.py')
+m = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(m)
+
+
+def row(p='0.5', move='0', identity='decision1', side=1, pair='EUR_USD'):
+    with localcontext() as ctx:
+        ctx.prec = 4096
+        target = str(Decimal('1') + Decimal(move))
+        brier = str((Decimal(p) - int(Decimal(move) > 0)) ** 2)
+    return dict(instrument=pair, family=m.FAMILY, study=m.STUDY, decision_id=identity,
+                reference_epoch=1000., target_epoch=4600., actual_midpoint_move=move,
+                outcome_class='up' if Decimal(move) > 0 else 'down' if Decimal(move) < 0 else 'flat',
+                reference=dict(instrument=pair, bid='1', ask='1'),
+                target=dict(instrument=pair, bid=target, ask=target),
+                scores={m.FAMILY: dict(probability_up=p, brier=brier, side=side),
+                        'fair_coin': dict(probability_up='0.5', brier='0.25')})
+
+
+@pytest.mark.parametrize('text,index', [('0', 0), ('0.099999999999999999', 0), ('0.1', 1),
+    ('0.2', 2), ('0.3', 3), ('0.4', 4), ('0.5', 5), ('0.6', 6), ('0.7', 7),
+    ('0.8', 8), ('0.9', 9), ('0.999999999999999999', 9), ('1', 9)])
+def test_exact_decile_boundaries(text, index):
+    assert m.bin_index(text) == index
+
+
+@pytest.mark.parametrize('text', ['-0.000000000001', '1.000000000001', 'NaN', 'Infinity', True, .5, '1e99999'])
+def test_invalid_probability_refuses(text):
+    with pytest.raises((ValueError, TypeError)):
+        m.bin_index(text)
+
+
+@pytest.mark.parametrize('move,klass,y', [('0', 'flat', 0), ('-0', 'flat', 0), ('0.0000000000000000000001', 'up', 1), ('-0.0000000000000000000001', 'down', 0)])
+@pytest.mark.parametrize('p', ['0', '0.1', '0.5', '0.9', '1'])
+def test_original_scorer_exact_event_and_brier(move, klass, y, p):
+    # Import only this already audited pure numerical scorer, never an assessor.
+    path = HERE.parents[2] / 'trad' / 'oanda_exact_price_scoring.py'
+    assert hashlib.sha256(path.read_bytes()).hexdigest() == m.SOURCE_PINS[path.name]
+    spec = importlib.util.spec_from_file_location('original_pure_score', path)
+    scorer = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(scorer)
+    original = row(p, move, side=0)
+    actual = m.record(original, 'EUR_USD')
+    reference = scorer.score_prediction(original['reference'], original['target'], direction=0, probability_up=p)
+    assert actual['outcome'] == klass and actual['y'] == y
+    assert actual['brier'] == reference['brier_up_vs_not_up']
+    assert actual['y'] == reference['up_label']
+
+
+def test_all_bins_empty_and_zero_prospective_rows():
+    result = m.aggregate([])
+    assert result['count'] == 0 and result['mean_brier'] is None
+    assert len(result['bins']) == 10
+    assert all(b['count'] == 0 and b['mean_probability_up'] is None and b['observed_up_fraction'] is None
+               and b['mean_brier'] is None and b['fair_coin_mean_brier'] is None for b in result['bins'])
+
+
+def test_boundary_single_membership_full_denominator_and_abstention():
+    records = [m.record(row(str(Decimal(i) / 10), '0', str(i), side=0), 'EUR_USD') for i in range(11)]
+    result = m.aggregate(records)
+    assert result['count'] == result['flat_count'] == result['abstained_forecast_count'] == 11
+    assert result['up_count'] == 0
+    assert [b['count'] for b in result['bins']] == [1] * 9 + [2]
+    assert result['probability_exact_zero_count'] == result['probability_exact_half_count'] == result['probability_exact_one_count'] == 1
+    assert Decimal(result['fair_coin_mean_brier']) == Decimal('.25')
+
+
+def test_original_probabilities_and_inputs_are_immutable_under_low_context():
+    original = row('.1234567890123456', '.0000000000001')
+    before = copy.deepcopy(original)
+    expected = m.aggregate([m.record(original, 'EUR_USD')])
+    with localcontext() as ctx:
+        ctx.prec = 3
+        actual = m.aggregate([m.record(original, 'EUR_USD')])
+    assert actual == expected and original == before
+
+
+@pytest.mark.parametrize('mutate', [
+    lambda r: r.update(actual_midpoint_move='0'),
+    lambda r: r.update(outcome_class='down'),
+    lambda r: r['scores'][m.FAMILY].update(brier='0.25'),
+    lambda r: r['scores']['fair_coin'].update(brier='0.1'),
+    lambda r: r.update(target_epoch=4601.),
+    lambda r: r.update(reference_epoch=float('nan')),
+    lambda r: r.update(instrument='GBP_USD'),
+    lambda r: r['target'].update(instrument='GBP_USD'),
+    lambda r: r['scores'][m.FAMILY].update(side=True),
+])
+def test_resealed_semantic_corruption_refuses(mutate):
+    r = row('.7', '.01')
+    mutate(r)
+    with pytest.raises(ValueError):
+        m.record(r, 'EUR_USD')
+
+
+def test_duplicate_completed_decision_never_double_binned():
+    r = m.record(row(), 'EUR_USD')
+    with pytest.raises(ValueError, match='duplicate_completed'):
+        m.aggregate([r, copy.deepcopy(r)])
+
+
+def test_duplicate_json_keys_and_nonfinite_refuse():
+    for raw in [b'{"p":0,"p":1}', b'{"p":NaN}']:
+        with pytest.raises(ValueError):
+            m.decode(raw)
+
+
+def assessment_fixture(tmp_path, monkeypatch, *, empty=False):
+    root = tmp_path / 'assessment'
+    (root / 'results').mkdir(parents=True)
+    sources = {}
+    for i in range(24):
+        path = tmp_path / ('source_%02d.py' % i)
+        path.write_text('# synthetic source ' + str(i))
+        sources[str(path)] = m.sha(path.read_bytes())
+    monkeypatch.setattr(m, 'SOURCE_PINS', {'source_00.py': sources[str(tmp_path / 'source_00.py')]})
+    pairs = ['AAA_' + chr(65 + i // 26) + chr(65 + i % 26) + 'Z' for i in range(68)]
+    results = []
+    files = []
+    for i, pair in enumerate(pairs):
+        rows = [] if empty or i else [row('.7', '.01', pair=pair)]
+        result = dict(status='passed', instrument=pair, family=m.FAMILY, study=m.STUDY,
+                      verification_errors=[], original_completed_not_scored=[], scored_rows=rows,
+                      counts={'outcomes': len(rows)}, snapshot_observed_epoch=5000.)
+        path = root / 'results' / (pair + '.json')
+        raw = m.canonical(result)
+        path.write_bytes(raw)
+        results.append(dict(instrument=pair, status='passed', path=str(path), sha256=m.sha(raw)))
+        files.append(dict(relative_path='results/' + path.name, sha256=m.sha(raw), bytes=len(raw)))
+    n = 0 if empty else 1
+    report = dict(status='passed', registry_sha256=m.REGISTRY_SHA, registered_sources_unchanged=True,
+                  source_bindings={Path(p).name: h for p, h in list(sources.items())[:20]}, ledgers=68,
+                  ledger_results=results, unscored_original_completed=0, reconciliation_errors=0,
+                  counts={'outcomes': n}, original_exclusions={}, due_without_outcome_or_exclusion=0,
+                  metrics={m.FAMILY: dict(valid_completed_decisions=n, brier_denominator=n, mean_brier='0.09' if n else None),
+                           'fair_coin': dict(brier_denominator=n, mean_brier='0.25' if n else None)})
+    for k in ('snapshot_start_utc', 'snapshot_end_utc', 'reference_start_utc', 'reference_end_utc', 'target_start_utc', 'target_end_utc'):
+        report[k] = 'synthetic' if n else None
+    raw = m.canonical(report)
+    (root / 'V3_COMPLETED_PERFORMANCE_20260909.json').write_bytes(raw)
+    files.append(dict(relative_path='V3_COMPLETED_PERFORMANCE_20260909.json', sha256=m.sha(raw), bytes=len(raw)))
+    wrapper = dict(status='passed', GET_requests=False, model_fits=False, runtime_writes=False,
+                   original_arithmetic_unchanged=True, original_assessor_unchanged=True,
+                   started_epoch=4900., completed_epoch=5000., source_bindings=sources, output_files=files)
+    wr = m.canonical(wrapper)
+    (root / 'WRAPPER_COMPLETED.json').write_bytes(wr)
+    return root, m.sha(wr), m.sha(raw)
+
+
+@pytest.mark.parametrize('empty', [False, True])
+def test_complete_bound_assessment_all68_pairs_and_zero_outcomes(tmp_path, monkeypatch, empty):
+    root, w, r = assessment_fixture(tmp_path, monkeypatch, empty=empty)
+    result = m.summarize_assessment(root, w, r)
+    assert result['overall']['count'] == int(not empty)
+    assert len(result['by_pair']) == 68 and len(result['result_evidence']) == 68
+    assert all(len(v['bins']) == 10 for v in result['by_pair'].values())
+    assert result['fitted_calibration'] is result['proof_eligible'] is False
+
+
+@pytest.mark.parametrize('target', ['result', 'wrapper', 'report', 'source'])
+def test_exact_source_and_retained_byte_tamper_refuses(tmp_path, monkeypatch, target):
+    root, w, r = assessment_fixture(tmp_path, monkeypatch)
+    path = {'result': next((root / 'results').glob('*.json')), 'wrapper': root / 'WRAPPER_COMPLETED.json',
+            'report': root / 'V3_COMPLETED_PERFORMANCE_20260909.json', 'source': tmp_path / 'source_02.py'}[target]
+    path.write_bytes(path.read_bytes() + b' ')
+    with pytest.raises(ValueError, match='source_hash_or_byte_bound'):
+        m.summarize_assessment(root, w, r)
+
+
+def test_frozen_scoring_pin_mismatch_refuses_even_self_resealed_wrapper(tmp_path, monkeypatch):
+    root, w, r = assessment_fixture(tmp_path, monkeypatch)
+    monkeypatch.setattr(m, 'SOURCE_PINS', {'source_00.py': '0' * 64})
+    with pytest.raises(ValueError, match='frozen_source_pin'):
+        m.summarize_assessment(root, w, r)
+
+
+def test_exclusive_write_does_not_replace_original(tmp_path):
+    path = tmp_path / 'immutable.json'
+    m.write_new(path, b'old')
+    with pytest.raises(FileExistsError):
+        m.write_new(path, b'new')
+    assert path.read_bytes() == b'old'
+
+
+@pytest.mark.parametrize('completion', [5999.9999, float('nan'), float('inf'), True, 0])
+def test_actual_analysis_completion_clock_refuses_rollback_or_invalid(tmp_path, monkeypatch, completion):
+    root, w, r = assessment_fixture(tmp_path, monkeypatch)
+    ticks = iter([6000., completion])
+    monkeypatch.setattr(m.time, 'time', lambda: next(ticks))
+    with pytest.raises(ValueError, match='clock'):
+        m.summarize_assessment(root, w, r)
+
+
+def test_actual_analysis_equal_completion_clock_is_valid(tmp_path, monkeypatch):
+    root, w, r = assessment_fixture(tmp_path, monkeypatch)
+    monkeypatch.setattr(m.time, 'time', lambda: 6000.)
+    result = m.summarize_assessment(root, w, r)
+    assert result['started_epoch'] == result['completed_epoch'] == 6000.

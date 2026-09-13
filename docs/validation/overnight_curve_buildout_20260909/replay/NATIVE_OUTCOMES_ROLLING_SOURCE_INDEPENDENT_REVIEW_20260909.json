@@ -1,0 +1,43 @@
+{
+  "can_place_orders": false,
+  "can_promote": false,
+  "created_utc": "2026-09-09T05:47:30.298528+00:00",
+  "independent_tests_run": 0,
+  "integration_boundary": "Caller validates raw response mapping before constructing derived capture; seal alone does not authenticate provider completeness.",
+  "remaining_blockers": [],
+  "research_only": true,
+  "runtime_changes": false,
+  "schema_version": "native_outcomes_rolling_source_independent_review_v1_20260909",
+  "scope": "Bounded independent source review of pre-freeze rolling-source wrapper; no independent test rerun.",
+  "source_bindings": [
+    {
+      "bytes": 31816,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_native_curve_outcomes_v1.py",
+      "sha256": "f90b237543aff4d86f5d3c93aeec1f738743fd6c9ba75c60f96ecfc8b605b68b"
+    },
+    {
+      "bytes": 18958,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_native_curve_outcomes_v1.py",
+      "sha256": "b04b098a2e761c2085acf7362dfca66335ae4cd643d51fc016d6eec66727531b"
+    },
+    {
+      "bytes": 8750,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\replay\\native_outcomes_wrapper_54_tests.xml",
+      "sha256": "a2288ea1ddd0266e673d11d8447673fc085dafebd33e0b585d7e0bf375df1b3a"
+    },
+    {
+      "bytes": 2469,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\replay\\NATIVE_CURVE_ROLLING_SOURCE_API_20260909.md",
+      "sha256": "dd5625513278f67457a9adc3cf4c04b2dc3ae317d6fada2536bdee3d7faf535a"
+    }
+  ],
+  "status": "passed",
+  "verified_properties": [
+    "Election orders original attested source read-completion clocks, then raw/receipt hashes, independent of future price values and later derived sealing order.",
+    "Each node/view selects its earliest decisive complete domain independently; source intervals never merge into a fictitious complete domain.",
+    "A decisive provider omission remains missing instead of being replaced by a later favorable capture.",
+    "Duplicate original raw/receipt observations collapse only when their mapped semantics agree; conflicts withhold.",
+    "Selected source proof retains raw/receipt/attestation/capture hashes, original read clocks, actual derived observation, and original coverage.",
+    "Original single-source scorer and separate target/convention/horizon denominators remain intact."
+  ]
+}

@@ -1,0 +1,685 @@
+{
+  "schema_version": "bounded_publication_generation_diagnosis_v1_20260907",
+  "started_epoch": 1788824043.9856012,
+  "finished_epoch": 1788824053.8310676,
+  "source_bindings": {
+    "oanda_practice_live_dashboard.py": "a5dd6945cc448a6ab86fa5fab8d55aea6040bf197e5a50117fb1bbc218d2f9fe",
+    "oanda_joint_price_news_forecast_study_v2.py": "a27fe6e6ee3bf6ec2fdbf52be43661918cee18a5091f096c65994caa5fc24282"
+  },
+  "samples": [
+    {
+      "index": 0,
+      "producer": {
+        "summary_file": {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\joint_price_news_study_v2\\summary.json",
+          "copy_path": "C:\\Users\\zmoor\\Documents\\forex\\joint_horizon_review_20260907\\publication_generation_20260907T233403Z\\0_summary.json",
+          "raw_sha256": "490f1d958799da695bafd8450148fcbf193dcf11f01201e44301ff38c35c5fb6",
+          "started_epoch": 1788824043.9856012,
+          "finished_epoch": 1788824043.9865968,
+          "handle_before": {
+            "size": 210579,
+            "mtime_ns": 1788824033652547900,
+            "device": 8269922341625680609,
+            "inode": 34339947160531475
+          },
+          "handle_after": {
+            "size": 210579,
+            "mtime_ns": 1788824033652547900,
+            "device": 8269922341625680609,
+            "inode": 34339947160531475
+          },
+          "path_after": {
+            "size": 210579,
+            "mtime_ns": 1788824033652547900,
+            "device": 8269922341625680609,
+            "inode": 34339947160531475
+          },
+          "identity_and_size_stable": true
+        },
+        "heartbeat_file": {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\joint_price_news_study_v2\\heartbeat.json",
+          "copy_path": "C:\\Users\\zmoor\\Documents\\forex\\joint_horizon_review_20260907\\publication_generation_20260907T233403Z\\0_heartbeat.json",
+          "raw_sha256": "f108fad524aa48b51f6a931fba8e73766a00aa2a85a1b48f75af84e5ce51ff4f",
+          "started_epoch": 1788824043.9895895,
+          "finished_epoch": 1788824043.9965708,
+          "handle_before": {
+            "size": 724,
+            "mtime_ns": 1788824043102960200,
+            "device": 8269922341625680609,
+            "inode": 22799473115394780
+          },
+          "handle_after": {
+            "size": 724,
+            "mtime_ns": 1788824043102960200,
+            "device": 8269922341625680609,
+            "inode": 22799473115394780
+          },
+          "path_after": {
+            "size": 724,
+            "mtime_ns": 1788824043102960200,
+            "device": 8269922341625680609,
+            "inode": 22799473115394780
+          },
+          "identity_and_size_stable": true
+        },
+        "summary_generated_epoch": 1788824033.61066,
+        "heartbeat_generated_epoch": 1788824043.0909927,
+        "summary_canonical_sha256": "490f1d958799da695bafd8450148fcbf193dcf11f01201e44301ff38c35c5fb6",
+        "heartbeat_bound_summary_sha256": "490f1d958799da695bafd8450148fcbf193dcf11f01201e44301ff38c35c5fb6",
+        "captured_pair_hashes_match": true,
+        "summary_payload_seal_valid": true,
+        "heartbeat_errors": 0,
+        "counts": {
+          "building": 0,
+          "forecast": 61,
+          "ready": 0,
+          "unavailable": 7,
+          "warming": 0
+        }
+      },
+      "fresh_reader": {
+        "call_started_epoch": 1788824043.9965708,
+        "call_finished_epoch": 1788824044.0514581,
+        "result": {
+          "study_version": "joint_v2",
+          "status": "current",
+          "reason": null,
+          "reason_label": null,
+          "generated_epoch": 1788824033.61066,
+          "observed_epoch": 1788824044.0364978,
+          "counts": {
+            "forecast": 61,
+            "unavailable": 7
+          },
+          "research_only": true,
+          "can_place_orders": false,
+          "can_promote": false,
+          "publication_read_attempts": 1,
+          "publication_read_failures": [],
+          "retained_generation": null,
+          "probability_scope": "uncalibrated_model_estimate_not_verified_accuracy",
+          "family_counts": {
+            "ridge_price_news_v1": {
+              "forecast": 61,
+              "unavailable": 7
+            }
+          },
+          "registry_sha256": "20fea86e661efd758536b81fa5c474a440feee2e6af48b28a1016b1538d3691e",
+          "worker_observation": {
+            "generated_epoch": 1788824043.0909927,
+            "age_sec": 0.9455051422119141,
+            "errors": 0,
+            "heartbeat_publication_errors": 0
+          },
+          "ledger_counts": {
+            "attempts": 217,
+            "forecasts": 217,
+            "publication": 217,
+            "consumption": 217,
+            "outcomes": 0,
+            "exclusions": 6
+          },
+          "ledger_counts_scope": "verified_family_snapshots_only",
+          "summary_sha256": "490f1d958799da695bafd8450148fcbf193dcf11f01201e44301ff38c35c5fb6",
+          "summary_age_sec": 10.425837755203247
+        }
+      },
+      "api": {
+        "request_started_epoch": 1788824044.0514581,
+        "response_finished_epoch": 1788824044.3197412,
+        "raw_response_sha256": "908d8ed17d1aaf8512f5df151e5c43b1af8d55ae99e0882aa666df17237cd675",
+        "top_time": "2026-09-07T23:34:01.121752+00:00",
+        "joint": {
+          "study_version": "joint_v2",
+          "status": "current",
+          "reason": null,
+          "reason_label": null,
+          "generated_epoch": 1788824033.61066,
+          "observed_epoch": 1788824040.5288289,
+          "counts": {
+            "forecast": 61,
+            "unavailable": 7
+          },
+          "research_only": true,
+          "can_place_orders": false,
+          "can_promote": false,
+          "publication_read_attempts": 1,
+          "publication_read_failures": [],
+          "retained_generation": null,
+          "probability_scope": "uncalibrated_model_estimate_not_verified_accuracy",
+          "family_counts": {
+            "ridge_price_news_v1": {
+              "forecast": 61,
+              "unavailable": 7
+            }
+          },
+          "registry_sha256": "20fea86e661efd758536b81fa5c474a440feee2e6af48b28a1016b1538d3691e",
+          "worker_observation": {
+            "generated_epoch": 1788824036.246669,
+            "age_sec": 4.282159805297852,
+            "errors": 0,
+            "heartbeat_publication_errors": 0
+          },
+          "ledger_counts": {
+            "attempts": 217,
+            "forecasts": 217,
+            "publication": 217,
+            "consumption": 217,
+            "outcomes": 0,
+            "exclusions": 6
+          },
+          "ledger_counts_scope": "verified_family_snapshots_only",
+          "summary_sha256": "490f1d958799da695bafd8450148fcbf193dcf11f01201e44301ff38c35c5fb6",
+          "summary_age_sec": 6.918168783187866
+        }
+      }
+    },
+    {
+      "index": 1,
+      "producer": {
+        "summary_file": {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\joint_price_news_study_v2\\summary.json",
+          "copy_path": "C:\\Users\\zmoor\\Documents\\forex\\joint_horizon_review_20260907\\publication_generation_20260907T233403Z\\1_summary.json",
+          "raw_sha256": "490f1d958799da695bafd8450148fcbf193dcf11f01201e44301ff38c35c5fb6",
+          "started_epoch": 1788824046.4251602,
+          "finished_epoch": 1788824046.4251602,
+          "handle_before": {
+            "size": 210579,
+            "mtime_ns": 1788824033652547900,
+            "device": 8269922341625680609,
+            "inode": 34339947160531475
+          },
+          "handle_after": {
+            "size": 210579,
+            "mtime_ns": 1788824033652547900,
+            "device": 8269922341625680609,
+            "inode": 34339947160531475
+          },
+          "path_after": {
+            "size": 210579,
+            "mtime_ns": 1788824033652547900,
+            "device": 8269922341625680609,
+            "inode": 34339947160531475
+          },
+          "identity_and_size_stable": true
+        },
+        "heartbeat_file": {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\joint_price_news_study_v2\\heartbeat.json",
+          "copy_path": "C:\\Users\\zmoor\\Documents\\forex\\joint_horizon_review_20260907\\publication_generation_20260907T233403Z\\1_heartbeat.json",
+          "raw_sha256": "f108fad524aa48b51f6a931fba8e73766a00aa2a85a1b48f75af84e5ce51ff4f",
+          "started_epoch": 1788824046.4371293,
+          "finished_epoch": 1788824046.4381263,
+          "handle_before": {
+            "size": 724,
+            "mtime_ns": 1788824043102960200,
+            "device": 8269922341625680609,
+            "inode": 22799473115394780
+          },
+          "handle_after": {
+            "size": 724,
+            "mtime_ns": 1788824043102960200,
+            "device": 8269922341625680609,
+            "inode": 22799473115394780
+          },
+          "path_after": {
+            "size": 724,
+            "mtime_ns": 1788824043102960200,
+            "device": 8269922341625680609,
+            "inode": 22799473115394780
+          },
+          "identity_and_size_stable": true
+        },
+        "summary_generated_epoch": 1788824033.61066,
+        "heartbeat_generated_epoch": 1788824043.0909927,
+        "summary_canonical_sha256": "490f1d958799da695bafd8450148fcbf193dcf11f01201e44301ff38c35c5fb6",
+        "heartbeat_bound_summary_sha256": "490f1d958799da695bafd8450148fcbf193dcf11f01201e44301ff38c35c5fb6",
+        "captured_pair_hashes_match": true,
+        "summary_payload_seal_valid": true,
+        "heartbeat_errors": 0,
+        "counts": {
+          "building": 0,
+          "forecast": 61,
+          "ready": 0,
+          "unavailable": 7,
+          "warming": 0
+        }
+      },
+      "fresh_reader": {
+        "call_started_epoch": 1788824046.4391236,
+        "call_finished_epoch": 1788824046.5009575,
+        "result": {
+          "study_version": "joint_v2",
+          "status": "current",
+          "reason": null,
+          "reason_label": null,
+          "generated_epoch": 1788824033.61066,
+          "observed_epoch": 1788824046.4820082,
+          "counts": {
+            "forecast": 61,
+            "unavailable": 7
+          },
+          "research_only": true,
+          "can_place_orders": false,
+          "can_promote": false,
+          "publication_read_attempts": 1,
+          "publication_read_failures": [],
+          "retained_generation": null,
+          "probability_scope": "uncalibrated_model_estimate_not_verified_accuracy",
+          "family_counts": {
+            "ridge_price_news_v1": {
+              "forecast": 61,
+              "unavailable": 7
+            }
+          },
+          "registry_sha256": "20fea86e661efd758536b81fa5c474a440feee2e6af48b28a1016b1538d3691e",
+          "worker_observation": {
+            "generated_epoch": 1788824043.0909927,
+            "age_sec": 3.3910155296325684,
+            "errors": 0,
+            "heartbeat_publication_errors": 0
+          },
+          "ledger_counts": {
+            "attempts": 217,
+            "forecasts": 217,
+            "publication": 217,
+            "consumption": 217,
+            "outcomes": 0,
+            "exclusions": 6
+          },
+          "ledger_counts_scope": "verified_family_snapshots_only",
+          "summary_sha256": "490f1d958799da695bafd8450148fcbf193dcf11f01201e44301ff38c35c5fb6",
+          "summary_age_sec": 12.871348142623901
+        }
+      },
+      "api": {
+        "request_started_epoch": 1788824046.5009575,
+        "response_finished_epoch": 1788824047.5940542,
+        "raw_response_sha256": "80a60dd02d55d001de3b9cc5632995fded463dd1b90b334c7bd39e2df28c9915",
+        "top_time": "2026-09-07T23:34:07.254941+00:00",
+        "joint": {
+          "study_version": "joint_v2",
+          "status": "current",
+          "reason": null,
+          "reason_label": null,
+          "generated_epoch": 1788824033.61066,
+          "observed_epoch": 1788824046.7163818,
+          "counts": {
+            "forecast": 61,
+            "unavailable": 7
+          },
+          "research_only": true,
+          "can_place_orders": false,
+          "can_promote": false,
+          "publication_read_attempts": 1,
+          "publication_read_failures": [],
+          "retained_generation": null,
+          "probability_scope": "uncalibrated_model_estimate_not_verified_accuracy",
+          "family_counts": {
+            "ridge_price_news_v1": {
+              "forecast": 61,
+              "unavailable": 7
+            }
+          },
+          "registry_sha256": "20fea86e661efd758536b81fa5c474a440feee2e6af48b28a1016b1538d3691e",
+          "worker_observation": {
+            "generated_epoch": 1788824043.0909927,
+            "age_sec": 3.6253890991210938,
+            "errors": 0,
+            "heartbeat_publication_errors": 0
+          },
+          "ledger_counts": {
+            "attempts": 217,
+            "forecasts": 217,
+            "publication": 217,
+            "consumption": 217,
+            "outcomes": 0,
+            "exclusions": 6
+          },
+          "ledger_counts_scope": "verified_family_snapshots_only",
+          "summary_sha256": "490f1d958799da695bafd8450148fcbf193dcf11f01201e44301ff38c35c5fb6",
+          "summary_age_sec": 13.105721712112427
+        }
+      }
+    },
+    {
+      "index": 2,
+      "producer": {
+        "summary_file": {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\joint_price_news_study_v2\\summary.json",
+          "copy_path": "C:\\Users\\zmoor\\Documents\\forex\\joint_horizon_review_20260907\\publication_generation_20260907T233403Z\\2_summary.json",
+          "raw_sha256": "490f1d958799da695bafd8450148fcbf193dcf11f01201e44301ff38c35c5fb6",
+          "started_epoch": 1788824049.7518415,
+          "finished_epoch": 1788824049.753836,
+          "handle_before": {
+            "size": 210579,
+            "mtime_ns": 1788824033652547900,
+            "device": 8269922341625680609,
+            "inode": 34339947160531475
+          },
+          "handle_after": {
+            "size": 210579,
+            "mtime_ns": 1788824033652547900,
+            "device": 8269922341625680609,
+            "inode": 34339947160531475
+          },
+          "path_after": {
+            "size": 210579,
+            "mtime_ns": 1788824033652547900,
+            "device": 8269922341625680609,
+            "inode": 34339947160531475
+          },
+          "identity_and_size_stable": true
+        },
+        "heartbeat_file": {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\joint_price_news_study_v2\\heartbeat.json",
+          "copy_path": "C:\\Users\\zmoor\\Documents\\forex\\joint_horizon_review_20260907\\publication_generation_20260907T233403Z\\2_heartbeat.json",
+          "raw_sha256": "f108fad524aa48b51f6a931fba8e73766a00aa2a85a1b48f75af84e5ce51ff4f",
+          "started_epoch": 1788824049.7618155,
+          "finished_epoch": 1788824049.7658043,
+          "handle_before": {
+            "size": 724,
+            "mtime_ns": 1788824043102960200,
+            "device": 8269922341625680609,
+            "inode": 22799473115394780
+          },
+          "handle_after": {
+            "size": 724,
+            "mtime_ns": 1788824043102960200,
+            "device": 8269922341625680609,
+            "inode": 22799473115394780
+          },
+          "path_after": {
+            "size": 724,
+            "mtime_ns": 1788824043102960200,
+            "device": 8269922341625680609,
+            "inode": 22799473115394780
+          },
+          "identity_and_size_stable": true
+        },
+        "summary_generated_epoch": 1788824033.61066,
+        "heartbeat_generated_epoch": 1788824043.0909927,
+        "summary_canonical_sha256": "490f1d958799da695bafd8450148fcbf193dcf11f01201e44301ff38c35c5fb6",
+        "heartbeat_bound_summary_sha256": "490f1d958799da695bafd8450148fcbf193dcf11f01201e44301ff38c35c5fb6",
+        "captured_pair_hashes_match": true,
+        "summary_payload_seal_valid": true,
+        "heartbeat_errors": 0,
+        "counts": {
+          "building": 0,
+          "forecast": 61,
+          "ready": 0,
+          "unavailable": 7,
+          "warming": 0
+        }
+      },
+      "fresh_reader": {
+        "call_started_epoch": 1788824049.7668033,
+        "call_finished_epoch": 1788824049.8645601,
+        "result": {
+          "study_version": "joint_v2",
+          "status": "current",
+          "reason": null,
+          "reason_label": null,
+          "generated_epoch": 1788824033.61066,
+          "observed_epoch": 1788824049.8406239,
+          "counts": {
+            "forecast": 61,
+            "unavailable": 7
+          },
+          "research_only": true,
+          "can_place_orders": false,
+          "can_promote": false,
+          "publication_read_attempts": 1,
+          "publication_read_failures": [],
+          "retained_generation": null,
+          "probability_scope": "uncalibrated_model_estimate_not_verified_accuracy",
+          "family_counts": {
+            "ridge_price_news_v1": {
+              "forecast": 61,
+              "unavailable": 7
+            }
+          },
+          "registry_sha256": "20fea86e661efd758536b81fa5c474a440feee2e6af48b28a1016b1538d3691e",
+          "worker_observation": {
+            "generated_epoch": 1788824043.0909927,
+            "age_sec": 6.74963116645813,
+            "errors": 0,
+            "heartbeat_publication_errors": 0
+          },
+          "ledger_counts": {
+            "attempts": 217,
+            "forecasts": 217,
+            "publication": 217,
+            "consumption": 217,
+            "outcomes": 0,
+            "exclusions": 6
+          },
+          "ledger_counts_scope": "verified_family_snapshots_only",
+          "summary_sha256": "490f1d958799da695bafd8450148fcbf193dcf11f01201e44301ff38c35c5fb6",
+          "summary_age_sec": 16.229963779449463
+        }
+      },
+      "api": {
+        "request_started_epoch": 1788824049.8645601,
+        "response_finished_epoch": 1788824051.0714066,
+        "raw_response_sha256": "80a60dd02d55d001de3b9cc5632995fded463dd1b90b334c7bd39e2df28c9915",
+        "top_time": "2026-09-07T23:34:07.254941+00:00",
+        "joint": {
+          "study_version": "joint_v2",
+          "status": "current",
+          "reason": null,
+          "reason_label": null,
+          "generated_epoch": 1788824033.61066,
+          "observed_epoch": 1788824046.7163818,
+          "counts": {
+            "forecast": 61,
+            "unavailable": 7
+          },
+          "research_only": true,
+          "can_place_orders": false,
+          "can_promote": false,
+          "publication_read_attempts": 1,
+          "publication_read_failures": [],
+          "retained_generation": null,
+          "probability_scope": "uncalibrated_model_estimate_not_verified_accuracy",
+          "family_counts": {
+            "ridge_price_news_v1": {
+              "forecast": 61,
+              "unavailable": 7
+            }
+          },
+          "registry_sha256": "20fea86e661efd758536b81fa5c474a440feee2e6af48b28a1016b1538d3691e",
+          "worker_observation": {
+            "generated_epoch": 1788824043.0909927,
+            "age_sec": 3.6253890991210938,
+            "errors": 0,
+            "heartbeat_publication_errors": 0
+          },
+          "ledger_counts": {
+            "attempts": 217,
+            "forecasts": 217,
+            "publication": 217,
+            "consumption": 217,
+            "outcomes": 0,
+            "exclusions": 6
+          },
+          "ledger_counts_scope": "verified_family_snapshots_only",
+          "summary_sha256": "490f1d958799da695bafd8450148fcbf193dcf11f01201e44301ff38c35c5fb6",
+          "summary_age_sec": 13.105721712112427
+        }
+      }
+    },
+    {
+      "index": 3,
+      "producer": {
+        "summary_file": {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\joint_price_news_study_v2\\summary.json",
+          "copy_path": "C:\\Users\\zmoor\\Documents\\forex\\joint_horizon_review_20260907\\publication_generation_20260907T233403Z\\3_summary.json",
+          "raw_sha256": "949c71d05aa3eee494b6b37c9a901c5da81b481442f30e24ebd2cd528a652b38",
+          "started_epoch": 1788824053.23566,
+          "finished_epoch": 1788824053.23566,
+          "handle_before": {
+            "size": 211809,
+            "mtime_ns": 1788824051025530400,
+            "device": 8269922341625680609,
+            "inode": 57139420274094839
+          },
+          "handle_after": {
+            "size": 211809,
+            "mtime_ns": 1788824051025530400,
+            "device": 8269922341625680609,
+            "inode": 57139420274094839
+          },
+          "path_after": {
+            "size": 211809,
+            "mtime_ns": 1788824051025530400,
+            "device": 8269922341625680609,
+            "inode": 57139420274094839
+          },
+          "identity_and_size_stable": true
+        },
+        "heartbeat_file": {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\joint_price_news_study_v2\\heartbeat.json",
+          "copy_path": "C:\\Users\\zmoor\\Documents\\forex\\joint_horizon_review_20260907\\publication_generation_20260907T233403Z\\3_heartbeat.json",
+          "raw_sha256": "198218842eb649ea0da61e94b63affc989f42160334767d900389442aee902ea",
+          "started_epoch": 1788824053.2406464,
+          "finished_epoch": 1788824053.2416441,
+          "handle_before": {
+            "size": 724,
+            "mtime_ns": 1788824051055450100,
+            "device": 8269922341625680609,
+            "inode": 34621422137242131
+          },
+          "handle_after": {
+            "size": 724,
+            "mtime_ns": 1788824051055450100,
+            "device": 8269922341625680609,
+            "inode": 34621422137242131
+          },
+          "path_after": {
+            "size": 724,
+            "mtime_ns": 1788824051055450100,
+            "device": 8269922341625680609,
+            "inode": 34621422137242131
+          },
+          "identity_and_size_stable": true
+        },
+        "summary_generated_epoch": 1788824050.975663,
+        "heartbeat_generated_epoch": 1788824051.0355034,
+        "summary_canonical_sha256": "949c71d05aa3eee494b6b37c9a901c5da81b481442f30e24ebd2cd528a652b38",
+        "heartbeat_bound_summary_sha256": "949c71d05aa3eee494b6b37c9a901c5da81b481442f30e24ebd2cd528a652b38",
+        "captured_pair_hashes_match": true,
+        "summary_payload_seal_valid": true,
+        "heartbeat_errors": 0,
+        "counts": {
+          "building": 0,
+          "forecast": 61,
+          "ready": 0,
+          "unavailable": 7,
+          "warming": 0
+        }
+      },
+      "fresh_reader": {
+        "call_started_epoch": 1788824053.2426417,
+        "call_finished_epoch": 1788824053.306471,
+        "result": {
+          "study_version": "joint_v2",
+          "status": "current",
+          "reason": null,
+          "reason_label": null,
+          "generated_epoch": 1788824050.975663,
+          "observed_epoch": 1788824053.2855291,
+          "counts": {
+            "forecast": 61,
+            "unavailable": 7
+          },
+          "research_only": true,
+          "can_place_orders": false,
+          "can_promote": false,
+          "publication_read_attempts": 1,
+          "publication_read_failures": [],
+          "retained_generation": null,
+          "probability_scope": "uncalibrated_model_estimate_not_verified_accuracy",
+          "family_counts": {
+            "ridge_price_news_v1": {
+              "forecast": 61,
+              "unavailable": 7
+            }
+          },
+          "registry_sha256": "20fea86e661efd758536b81fa5c474a440feee2e6af48b28a1016b1538d3691e",
+          "worker_observation": {
+            "generated_epoch": 1788824051.0355034,
+            "age_sec": 2.250025749206543,
+            "errors": 0,
+            "heartbeat_publication_errors": 0
+          },
+          "ledger_counts": {
+            "attempts": 220,
+            "forecasts": 220,
+            "publication": 220,
+            "consumption": 220,
+            "outcomes": 0,
+            "exclusions": 6
+          },
+          "ledger_counts_scope": "verified_family_snapshots_only",
+          "summary_sha256": "949c71d05aa3eee494b6b37c9a901c5da81b481442f30e24ebd2cd528a652b38",
+          "summary_age_sec": 2.309866189956665
+        }
+      },
+      "api": {
+        "request_started_epoch": 1788824053.306471,
+        "response_finished_epoch": 1788824053.7153788,
+        "raw_response_sha256": "cb014b94cf5b53c2aeeae01a1bc6eb1bea98509009e00b17633cfc09c38aa846",
+        "top_time": "2026-09-07T23:34:13.063122+00:00",
+        "joint": {
+          "study_version": "joint_v2",
+          "status": "current",
+          "reason": null,
+          "reason_label": null,
+          "generated_epoch": 1788824050.975663,
+          "observed_epoch": 1788824052.6212828,
+          "counts": {
+            "forecast": 61,
+            "unavailable": 7
+          },
+          "research_only": true,
+          "can_place_orders": false,
+          "can_promote": false,
+          "publication_read_attempts": 1,
+          "publication_read_failures": [],
+          "retained_generation": null,
+          "probability_scope": "uncalibrated_model_estimate_not_verified_accuracy",
+          "family_counts": {
+            "ridge_price_news_v1": {
+              "forecast": 61,
+              "unavailable": 7
+            }
+          },
+          "registry_sha256": "20fea86e661efd758536b81fa5c474a440feee2e6af48b28a1016b1538d3691e",
+          "worker_observation": {
+            "generated_epoch": 1788824051.0355034,
+            "age_sec": 1.5857794284820557,
+            "errors": 0,
+            "heartbeat_publication_errors": 0
+          },
+          "ledger_counts": {
+            "attempts": 220,
+            "forecasts": 220,
+            "publication": 220,
+            "consumption": 220,
+            "outcomes": 0,
+            "exclusions": 6
+          },
+          "ledger_counts_scope": "verified_family_snapshots_only",
+          "summary_sha256": "949c71d05aa3eee494b6b37c9a901c5da81b481442f30e24ebd2cd528a652b38",
+          "summary_age_sec": 1.6456198692321777
+        }
+      }
+    }
+  ],
+  "runtime_or_broker_mutations": false,
+  "scope": "Four bounded observations, not an uptime monitor. Exact summary/heartbeat bytes and file stats retained. API excludes account data and keeps response hash plus forecast observation.",
+  "limits": [
+    "Producer files, fresh reader and HTTP response have separate clocks; later disk bytes cannot retrospectively establish the exact prior failed API generation.",
+    "An API response may legitimately retain an earlier observed read; this record does not relabel that old observation as current."
+  ]
+}

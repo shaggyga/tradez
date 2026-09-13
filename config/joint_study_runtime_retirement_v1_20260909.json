@@ -1,0 +1,125 @@
+{
+  "active_successor": "joint_price_news_study_v3",
+  "before_sources": {
+    "oanda_always_on_supervisor.ps1": "3215ac15c8db8e281a2245d5af120b1b9c9806a90a8676bb995798377668f893",
+    "oanda_project_runtime_health.py": "d9498a2b42ff9cde525fb9e4cc9f14e5729e8bca5f512003b69f000fbefe3eda",
+    "test_oanda_project_runtime_health.py": "db28be8d4434f4b9bd99ba06f9355373d606d4d7e8e9c723882acdc5ff69ff49"
+  },
+  "can_authorize": false,
+  "can_place_orders": false,
+  "can_promote": false,
+  "disabled_names": [
+    "joint_price_news_study_v1",
+    "joint_price_news_study_v2"
+  ],
+  "limits": [
+    "136 individually coherent SQLite read-only snapshots; not globally atomic.",
+    "Original outcomes/exclusions checked as persisted obligations; no new accuracy claim or proof of historical quote absence.",
+    "Unrelated growing quote/attempt/input/diagnostic rows are excluded from equality; referenced quote evidence remains separately bound."
+  ],
+  "obligation_audit": {
+    "completed_epoch": 1788945912.9557455,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\old_joint_retirement_preflight_v1\\actual_observation_002\\OLD_JOINT_RETIREMENT_OBLIGATIONS_20260909.json",
+    "sha256": "016623097e2fb75eb55003dc1d1e9a3788f006440ce1e033523f544e987c83bc",
+    "started_epoch": 1788945902.210446,
+    "studies": {
+      "v1": {
+        "blocked_ledgers": 0,
+        "disposition_counts": {
+          "terminal_exclusions": 32,
+          "terminal_outcomes": 1154
+        },
+        "ledgers": 68,
+        "maximum_original_target_epoch": 1788867010.616431,
+        "row_counts": {
+          "consumption": 1186,
+          "entries": 1165,
+          "exclusions": 32,
+          "forecasts": 1186,
+          "outcomes": 1154,
+          "publication": 1186
+        }
+      },
+      "v2": {
+        "blocked_ledgers": 0,
+        "disposition_counts": {
+          "terminal_exclusions": 85,
+          "terminal_outcomes": 2779
+        },
+        "ledgers": 68,
+        "maximum_original_target_epoch": 1788867168.863278,
+        "row_counts": {
+          "consumption": 2864,
+          "entries": 2819,
+          "exclusions": 85,
+          "forecasts": 2864,
+          "outcomes": 2779,
+          "publication": 2864
+        }
+      }
+    }
+  },
+  "original_forecasts_terminal": 4050,
+  "original_registries": {
+    "v1": {
+      "registry_sha256": "4f4b23454a17de805c6e3f775f458ddec0cb0c820b2c6e30a9593495d3e88d94",
+      "source_bindings": {
+        "oanda_causal_forecast_inputs.py": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+        "oanda_causal_forecast_inputs_gap_v2.py": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd",
+        "oanda_causal_forecast_inputs_joint_news_v1.py": "9375f116571ef43c18eae65c14fc53fb2f98d8ab132d4b000a0971986d2890ec",
+        "oanda_causal_forecast_inputs_pair_v2.py": "8e58491a49fca967e6d8d2a797cc77f142053576c92a724a2e7336d855fb4899",
+        "oanda_causal_forecast_ledger_joint_news_v1.py": "df915eddafbc9265eb19c9b6757eb14441ebd9ca3864f6601f5a70ca39d65d7b",
+        "oanda_causal_prediction_baselines.py": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+        "oanda_exact_price_scoring.py": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521",
+        "oanda_fixed_forecast_evaluation_joint_news_v1.py": "c1f9940d57c0d39c1815b22a9114752075042a09da3e196e84829e77b293131d",
+        "oanda_joint_price_news_forecast_study_v1.py": "38272ef9f042c50603cc246fcad86f0adca15792f9926c3b0752aeac141033b5",
+        "oanda_joint_price_news_models_v1.py": "eb153acb966dc04ad950a0bbfcc730e78a9a0da1d8a24e91d641f473f5cfbc23",
+        "oanda_local_news_sentiment.py": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4",
+        "oanda_news_causal_aggregation_guard_v1.py": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9",
+        "oanda_news_classification_contract.py": "f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae",
+        "oanda_pair_local_models_v2.py": "294c63bf0ed873395c4850a8722a2622eaa2bc563ceb7ecf9886764c63d8bf24",
+        "oanda_source_governance.py": "c4b7793dcef1b9176079a959019f8b69059fbd6644fddf1e8718f924d3a13950",
+        "oanda_source_governance_news_fast_lane.py": "bdd6a2542b3dbddbdf86f7148af4dcb38d0b8591b3f3fcdb843d9eed29898f03"
+      }
+    },
+    "v2": {
+      "registry_sha256": "20fea86e661efd758536b81fa5c474a440feee2e6af48b28a1016b1538d3691e",
+      "source_bindings": {
+        "oanda_causal_forecast_inputs.py": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+        "oanda_causal_forecast_inputs_gap_v2.py": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd",
+        "oanda_causal_forecast_inputs_joint_news_v1.py": "9375f116571ef43c18eae65c14fc53fb2f98d8ab132d4b000a0971986d2890ec",
+        "oanda_causal_forecast_inputs_pair_v2.py": "8e58491a49fca967e6d8d2a797cc77f142053576c92a724a2e7336d855fb4899",
+        "oanda_causal_forecast_ledger_joint_news_v1.py": "df915eddafbc9265eb19c9b6757eb14441ebd9ca3864f6601f5a70ca39d65d7b",
+        "oanda_causal_prediction_baselines.py": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+        "oanda_exact_price_scoring.py": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521",
+        "oanda_fixed_forecast_evaluation_joint_news_v1.py": "c1f9940d57c0d39c1815b22a9114752075042a09da3e196e84829e77b293131d",
+        "oanda_joint_price_news_forecast_study_v2.py": "a27fe6e6ee3bf6ec2fdbf52be43661918cee18a5091f096c65994caa5fc24282",
+        "oanda_joint_price_news_models_v1.py": "eb153acb966dc04ad950a0bbfcc730e78a9a0da1d8a24e91d641f473f5cfbc23",
+        "oanda_local_news_sentiment.py": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4",
+        "oanda_news_causal_aggregation_guard_v1.py": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9",
+        "oanda_news_classification_contract.py": "f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae",
+        "oanda_pair_local_models_v2.py": "294c63bf0ed873395c4850a8722a2622eaa2bc563ceb7ecf9886764c63d8bf24",
+        "oanda_source_governance.py": "c4b7793dcef1b9176079a959019f8b69059fbd6644fddf1e8718f924d3a13950",
+        "oanda_source_governance_news_fast_lane.py": "bdd6a2542b3dbddbdf86f7148af4dcb38d0b8591b3f3fcdb843d9eed29898f03"
+      }
+    }
+  },
+  "prepared_epoch": 1788946014.5260391,
+  "preserve_registered_sources_and_records": true,
+  "prior_retirement_history": {
+    "modified": false,
+    "path": "config/shadow_runtime_retirements_v1.json",
+    "sha256": "8d86f3167cc261fd0197f1431d2b2a45f75c783deef08809cfc34ec606bfd77b"
+  },
+  "registered_ledgers": 136,
+  "required_deployment_checks": [
+    "Source/registry closure, exact identities and fresh terminal-obligation comparison immediately before controlled stop.",
+    "Exact immutable obligation and selected-quote identity comparison after controlled stop.",
+    "Preserve all other workers and original ledgers; do not checkpoint, replay, refit, backfill or import records."
+  ],
+  "research_only": true,
+  "runtime_action": "Disable only these two supervised names; original source/config/ledger preservation mandatory. This manifest does not execute a stop.",
+  "runtime_actions_executed": false,
+  "schema_version": "joint_study_runtime_retirement_v1_20260909",
+  "status": "prepared_not_executed"
+}

@@ -1,0 +1,915 @@
+{
+  "account_actions_enabled": false,
+  "all_original_pins_and_served_html_unchanged": true,
+  "analysis_completed_epoch": 1788948906.2110357,
+  "analysis_started_epoch": 1788948906.185039,
+  "interpretation": [
+    "Recurring observation failures reduce visible coverage; no failed forecast identity was accepted or replaced by an old row.",
+    "The 0.25-second pair deadline is repeatedly hit even when report elapsed is below the original eight-second ledger-scheduling budget. A separately versioned, bounded fresh retry is justified for evaluation; a gain has not been demonstrated.",
+    "The public V1 reason also covers clock chronology. No retained failed-stage timings or SQLite primary codes identify elapsed query work, lock contention, CPU scheduling, or a wall-clock anomaly as the actual cause.",
+    "Producer generation mismatch is a separate envelope status. It did not determine original ledger publication acceptance.",
+    "Later report spacing is observation spacing, not measured failure duration or recovery latency. Last failures may lack a later sampled report.",
+    "One earlier probe-only closed-socket transport error followed a completed HTML GET; no ledger poll was made by that initial attempt. Its exact failed evidence is preserved, and total requests including it are 80.",
+    "Sparse console progress prints one in four polls. All counts here use all sanitized samples and unique original report hashes.",
+    "No account/news/broker requests, forecast issue, source edits, runtime writes, or policy changes were performed."
+  ],
+  "observed_later_recovery": {
+    "no_later_report_in_window": 1,
+    "records": [
+      {
+        "failed_report_completed_epoch": 1788947510.8723862,
+        "failed_report_sha256": "ede6d880c4f1554f1534366ab6704ec29dba3184263c659b77483c61e82a496c",
+        "first_later_observed_verified_report_completed_epoch": 1788947528.2530856,
+        "first_later_observed_verified_report_sha256": "1ebee1abed734e6f1a311e0bfffde0c23a767a10602b72cb76d0629ebc403aaf",
+        "instrument": "NZD_HKD",
+        "observed_report_spacing_sec": 17.380699396133423,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788947528.2530856,
+        "failed_report_sha256": "1ebee1abed734e6f1a311e0bfffde0c23a767a10602b72cb76d0629ebc403aaf",
+        "first_later_observed_verified_report_completed_epoch": 1788947546.887592,
+        "first_later_observed_verified_report_sha256": "5bdb1c959b1848223be1b9b8d564de895e22852c716d4067a5dbb9a1ff9cbc01",
+        "instrument": "AUD_JPY",
+        "observed_report_spacing_sec": 18.634506464004517,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788947528.2530856,
+        "failed_report_sha256": "1ebee1abed734e6f1a311e0bfffde0c23a767a10602b72cb76d0629ebc403aaf",
+        "first_later_observed_verified_report_completed_epoch": 1788947546.887592,
+        "first_later_observed_verified_report_sha256": "5bdb1c959b1848223be1b9b8d564de895e22852c716d4067a5dbb9a1ff9cbc01",
+        "instrument": "EUR_NOK",
+        "observed_report_spacing_sec": 18.634506464004517,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788947563.5247667,
+        "failed_report_sha256": "6b133c92d489c2cc08bcccd5058b74bcf45cc4784466ef3f8f86a04242290c62",
+        "first_later_observed_verified_report_completed_epoch": 1788947580.22383,
+        "first_later_observed_verified_report_sha256": "85cf2823c0ad06c1d4c291e4697c133b88379df24a33ef97759114b9b5709521",
+        "instrument": "EUR_NOK",
+        "observed_report_spacing_sec": 16.699063301086426,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788947580.22383,
+        "failed_report_sha256": "85cf2823c0ad06c1d4c291e4697c133b88379df24a33ef97759114b9b5709521",
+        "first_later_observed_verified_report_completed_epoch": 1788947596.6980915,
+        "first_later_observed_verified_report_sha256": "bfeaf224b07da9f045749c7909367264bb5ff675ad23f3221b4f4730baae5a06",
+        "instrument": "USD_HKD",
+        "observed_report_spacing_sec": 16.47426152229309,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788947632.860275,
+        "failed_report_sha256": "5a6c99189737d79a312971d2b039590cd59619058b28f29890a3aa2662f4482e",
+        "first_later_observed_verified_report_completed_epoch": 1788947649.420702,
+        "first_later_observed_verified_report_sha256": "292fdb203e51d0660e7adc997b906854278137a82aadec29394e1b570accd6f9",
+        "instrument": "EUR_CHF",
+        "observed_report_spacing_sec": 16.560426950454712,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788947632.860275,
+        "failed_report_sha256": "5a6c99189737d79a312971d2b039590cd59619058b28f29890a3aa2662f4482e",
+        "first_later_observed_verified_report_completed_epoch": 1788947649.420702,
+        "first_later_observed_verified_report_sha256": "292fdb203e51d0660e7adc997b906854278137a82aadec29394e1b570accd6f9",
+        "instrument": "EUR_CZK",
+        "observed_report_spacing_sec": 16.560426950454712,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788947699.696129,
+        "failed_report_sha256": "2e4c7093de17f8dc9e448b5737cfbed08528156698ca2bd9ea8328b616b9bfaa",
+        "first_later_observed_verified_report_completed_epoch": 1788947716.9884968,
+        "first_later_observed_verified_report_sha256": "09d378ba504f3b639cfb847b494626e2e697353da4a2a0f203cf4c8f4ba362cf",
+        "instrument": "AUD_HKD",
+        "observed_report_spacing_sec": 17.292367696762085,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788947769.3317215,
+        "failed_report_sha256": "5b125dee7080fb09abce91175054ad10d515c4705d8c21d3b2b818eaf1775587",
+        "first_later_observed_verified_report_completed_epoch": 1788947785.6494913,
+        "first_later_observed_verified_report_sha256": "bfec7e3b36df48a63eb9e37bab26fef5bf30530ae8942e5beae91f99ca750846",
+        "instrument": "AUD_CHF",
+        "observed_report_spacing_sec": 16.317769765853882,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788947769.3317215,
+        "failed_report_sha256": "5b125dee7080fb09abce91175054ad10d515c4705d8c21d3b2b818eaf1775587",
+        "first_later_observed_verified_report_completed_epoch": 1788947785.6494913,
+        "first_later_observed_verified_report_sha256": "bfec7e3b36df48a63eb9e37bab26fef5bf30530ae8942e5beae91f99ca750846",
+        "instrument": "AUD_HKD",
+        "observed_report_spacing_sec": 16.317769765853882,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788947785.6494913,
+        "failed_report_sha256": "bfec7e3b36df48a63eb9e37bab26fef5bf30530ae8942e5beae91f99ca750846",
+        "first_later_observed_verified_report_completed_epoch": 1788947802.3637638,
+        "first_later_observed_verified_report_sha256": "dbe900e4fbc4fd0f700f6b2bffceaac90fe784afafe83915af760eb9ac612720",
+        "instrument": "CAD_SGD",
+        "observed_report_spacing_sec": 16.714272499084473,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788947819.2661607,
+        "failed_report_sha256": "222d67b8befe22e2ebc9da079379b49dd46c9408467f0d64e893f8124c151666",
+        "first_later_observed_verified_report_completed_epoch": 1788947835.6299882,
+        "first_later_observed_verified_report_sha256": "0ad225eb4e749b838a6c70566ac53bec8179bbb4bb8656a70dc1b680f2a3494a",
+        "instrument": "AUD_JPY",
+        "observed_report_spacing_sec": 16.36382746696472,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788947871.3913302,
+        "failed_report_sha256": "11d009b109ad7ab471494b4a6c6b50dd4b55db8efc53ead26c3f95435bad6142",
+        "first_later_observed_verified_report_completed_epoch": 1788947889.1331213,
+        "first_later_observed_verified_report_sha256": "9b85070f15833df9473313e42767ac1464423d906ad59ec3b6e59ec40a15c9e9",
+        "instrument": "AUD_CAD",
+        "observed_report_spacing_sec": 17.741791009902954,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788947889.1331213,
+        "failed_report_sha256": "9b85070f15833df9473313e42767ac1464423d906ad59ec3b6e59ec40a15c9e9",
+        "first_later_observed_verified_report_completed_epoch": 1788947906.1770248,
+        "first_later_observed_verified_report_sha256": "018fc3d3ae0fc3d73604c4e243853229a4f3a2f71ed48b560f60e1c8ace469b1",
+        "instrument": "AUD_CHF",
+        "observed_report_spacing_sec": 17.043903589248657,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788947956.735505,
+        "failed_report_sha256": "8c03f22bf1299f02e3cc9029ac38fded68843df744c95d1244a459e728c2d97e",
+        "first_later_observed_verified_report_completed_epoch": 1788947974.0193913,
+        "first_later_observed_verified_report_sha256": "e45100ecf789c32af4de8f279c097e469b0a8c5d9cc52f3c5eda65dadf27bd32",
+        "instrument": "AUD_HKD",
+        "observed_report_spacing_sec": 17.283886194229126,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788948060.013439,
+        "failed_report_sha256": "cf1e0ecf257a64b6471de1d76b9489fc9e02e18f139763166f7e345b0fbfea2b",
+        "first_later_observed_verified_report_completed_epoch": 1788948076.6734436,
+        "first_later_observed_verified_report_sha256": "107ee28cae68a2112ffa838a9b24bc6d09343d6da4e91d878e76993b88f40a88",
+        "instrument": "AUD_HKD",
+        "observed_report_spacing_sec": 16.66000461578369,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788948060.013439,
+        "failed_report_sha256": "cf1e0ecf257a64b6471de1d76b9489fc9e02e18f139763166f7e345b0fbfea2b",
+        "first_later_observed_verified_report_completed_epoch": 1788948076.6734436,
+        "first_later_observed_verified_report_sha256": "107ee28cae68a2112ffa838a9b24bc6d09343d6da4e91d878e76993b88f40a88",
+        "instrument": "CAD_SGD",
+        "observed_report_spacing_sec": 16.66000461578369,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788948060.013439,
+        "failed_report_sha256": "cf1e0ecf257a64b6471de1d76b9489fc9e02e18f139763166f7e345b0fbfea2b",
+        "first_later_observed_verified_report_completed_epoch": 1788948076.6734436,
+        "first_later_observed_verified_report_sha256": "107ee28cae68a2112ffa838a9b24bc6d09343d6da4e91d878e76993b88f40a88",
+        "instrument": "EUR_SEK",
+        "observed_report_spacing_sec": 16.66000461578369,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788948096.2548268,
+        "failed_report_sha256": "e3a77bcda391ed9d3c4185835b492d41caf0f8ecba6b688cc70f4fc7b35dd46e",
+        "first_later_observed_verified_report_completed_epoch": 1788948113.7250354,
+        "first_later_observed_verified_report_sha256": "006a632c4ba250bc50156b8c9eda8ebfdd16a90d0020009233edcf2057e7856f",
+        "instrument": "EUR_USD",
+        "observed_report_spacing_sec": 17.470208644866943,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788948096.2548268,
+        "failed_report_sha256": "e3a77bcda391ed9d3c4185835b492d41caf0f8ecba6b688cc70f4fc7b35dd46e",
+        "first_later_observed_verified_report_completed_epoch": 1788948113.7250354,
+        "first_later_observed_verified_report_sha256": "006a632c4ba250bc50156b8c9eda8ebfdd16a90d0020009233edcf2057e7856f",
+        "instrument": "GBP_PLN",
+        "observed_report_spacing_sec": 17.470208644866943,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788948113.7250354,
+        "failed_report_sha256": "006a632c4ba250bc50156b8c9eda8ebfdd16a90d0020009233edcf2057e7856f",
+        "first_later_observed_verified_report_completed_epoch": 1788948130.6710846,
+        "first_later_observed_verified_report_sha256": "4d999ce96b40522c2124fea8cd8003a0be0abf2602c1f2fdd5cda67e80b6faa2",
+        "instrument": "AUD_HKD",
+        "observed_report_spacing_sec": 16.946049213409424,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788948166.0491514,
+        "failed_report_sha256": "8ab57f029bd9a966450d1a065380edec5f44c2e6e9358f90b17bd7f970da7f48",
+        "first_later_observed_verified_report_completed_epoch": 1788948181.8962395,
+        "first_later_observed_verified_report_sha256": "8f256b010c508f1df9165e8c2f6b6de7be25c5cd7d2d1effc5a221f211dd2e2d",
+        "instrument": "AUD_CHF",
+        "observed_report_spacing_sec": 15.847088098526001,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788948232.6861541,
+        "failed_report_sha256": "d72c9f270e27db07eb74d89af3b68a155b210caf61c11aaf706096078f9ff982",
+        "first_later_observed_verified_report_completed_epoch": 1788948251.1783333,
+        "first_later_observed_verified_report_sha256": "f7f6543594c338ddf676c699c8113e9d111fb0372ba8574c830916f1b2bb856e",
+        "instrument": "CAD_CHF",
+        "observed_report_spacing_sec": 18.49217915534973,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788948232.6861541,
+        "failed_report_sha256": "d72c9f270e27db07eb74d89af3b68a155b210caf61c11aaf706096078f9ff982",
+        "first_later_observed_verified_report_completed_epoch": 1788948251.1783333,
+        "first_later_observed_verified_report_sha256": "f7f6543594c338ddf676c699c8113e9d111fb0372ba8574c830916f1b2bb856e",
+        "instrument": "USD_JPY",
+        "observed_report_spacing_sec": 18.49217915534973,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788948251.1783333,
+        "failed_report_sha256": "f7f6543594c338ddf676c699c8113e9d111fb0372ba8574c830916f1b2bb856e",
+        "first_later_observed_verified_report_completed_epoch": 1788948268.5878484,
+        "first_later_observed_verified_report_sha256": "808fcc3afe2a7210de33f3ab2688d0f7ee2626330295b88ff1c0b336a66105f6",
+        "instrument": "EUR_NZD",
+        "observed_report_spacing_sec": 17.409515142440796,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788948251.1783333,
+        "failed_report_sha256": "f7f6543594c338ddf676c699c8113e9d111fb0372ba8574c830916f1b2bb856e",
+        "first_later_observed_verified_report_completed_epoch": 1788948268.5878484,
+        "first_later_observed_verified_report_sha256": "808fcc3afe2a7210de33f3ab2688d0f7ee2626330295b88ff1c0b336a66105f6",
+        "instrument": "GBP_CHF",
+        "observed_report_spacing_sec": 17.409515142440796,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788948251.1783333,
+        "failed_report_sha256": "f7f6543594c338ddf676c699c8113e9d111fb0372ba8574c830916f1b2bb856e",
+        "first_later_observed_verified_report_completed_epoch": 1788948268.5878484,
+        "first_later_observed_verified_report_sha256": "808fcc3afe2a7210de33f3ab2688d0f7ee2626330295b88ff1c0b336a66105f6",
+        "instrument": "GBP_ZAR",
+        "observed_report_spacing_sec": 17.409515142440796,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788948286.7677486,
+        "failed_report_sha256": "1f835f4a8fe08e318f67dad710205cb647b5c0f10363acde7e2118c38cc1336b",
+        "first_later_observed_verified_report_completed_epoch": 1788948303.8475595,
+        "first_later_observed_verified_report_sha256": "9fd33d8535e8bfdc45fcf4d555eb9f011ddc72468cfe65295f65990035a7997f",
+        "instrument": "USD_CAD",
+        "observed_report_spacing_sec": 17.079810857772827,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788948303.8475595,
+        "failed_report_sha256": "9fd33d8535e8bfdc45fcf4d555eb9f011ddc72468cfe65295f65990035a7997f",
+        "first_later_observed_verified_report_completed_epoch": 1788948320.645835,
+        "first_later_observed_verified_report_sha256": "2a03c8ecc5c4b98e22efd8a5687e9752b05edc21514e38f13097dd2176b85ba5",
+        "instrument": "SGD_CHF",
+        "observed_report_spacing_sec": 16.798275470733643,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788948388.659217,
+        "failed_report_sha256": "0066f2f8975b6a9c7b2d8c18a06e90e43f2bb5f2d5624dcaf4d1d6ccfab4ceeb",
+        "first_later_observed_verified_report_completed_epoch": 1788948406.4805129,
+        "first_later_observed_verified_report_sha256": "75f586f413b30b8e6b08deeba902bf96cf01071991efeefc12894075a53dbd08",
+        "instrument": "USD_MXN",
+        "observed_report_spacing_sec": 17.821295976638794,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788948443.4040742,
+        "failed_report_sha256": "024eb799737b941faf042c4cf69cd0bf8ce88c21abb18bdf17ffc7d30fdeab45",
+        "first_later_observed_verified_report_completed_epoch": 1788948461.5148468,
+        "first_later_observed_verified_report_sha256": "d44c1fa6d96687bde65e32e6ced40f305dace7f5ca10321b7e1eedcc4a8a4194",
+        "instrument": "AUD_CHF",
+        "observed_report_spacing_sec": 18.110772609710693,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788948443.4040742,
+        "failed_report_sha256": "024eb799737b941faf042c4cf69cd0bf8ce88c21abb18bdf17ffc7d30fdeab45",
+        "first_later_observed_verified_report_completed_epoch": 1788948461.5148468,
+        "first_later_observed_verified_report_sha256": "d44c1fa6d96687bde65e32e6ced40f305dace7f5ca10321b7e1eedcc4a8a4194",
+        "instrument": "EUR_GBP",
+        "observed_report_spacing_sec": 18.110772609710693,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788948443.4040742,
+        "failed_report_sha256": "024eb799737b941faf042c4cf69cd0bf8ce88c21abb18bdf17ffc7d30fdeab45",
+        "first_later_observed_verified_report_completed_epoch": 1788948461.5148468,
+        "first_later_observed_verified_report_sha256": "d44c1fa6d96687bde65e32e6ced40f305dace7f5ca10321b7e1eedcc4a8a4194",
+        "instrument": "EUR_NOK",
+        "observed_report_spacing_sec": 18.110772609710693,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788948479.4209237,
+        "failed_report_sha256": "16da7ea2e8f7a824560d83f001f6a12a00ff9624ef8bba78e617eac8a1439199",
+        "first_later_observed_verified_report_completed_epoch": 1788948496.5391605,
+        "first_later_observed_verified_report_sha256": "9ed333ce52f0c5abcab6fa4f7c73836c19166c7a7af3476ba85d1f7395a33f4c",
+        "instrument": "GBP_PLN",
+        "observed_report_spacing_sec": 17.118236780166626,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788948479.4209237,
+        "failed_report_sha256": "16da7ea2e8f7a824560d83f001f6a12a00ff9624ef8bba78e617eac8a1439199",
+        "first_later_observed_verified_report_completed_epoch": 1788948496.5391605,
+        "first_later_observed_verified_report_sha256": "9ed333ce52f0c5abcab6fa4f7c73836c19166c7a7af3476ba85d1f7395a33f4c",
+        "instrument": "USD_CAD",
+        "observed_report_spacing_sec": 17.118236780166626,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788948565.047598,
+        "failed_report_sha256": "c4040a05208837204aaf0c715e9be7797b54f1bbfa0431628262a22ba79af27d",
+        "first_later_observed_verified_report_completed_epoch": 1788948581.171863,
+        "first_later_observed_verified_report_sha256": "1113376964e16e53ab3e4d4113dfa86eeba8fc30864d9facafcce8b2eb9f4365",
+        "instrument": "EUR_DKK",
+        "observed_report_spacing_sec": 16.12426519393921,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788948565.047598,
+        "failed_report_sha256": "c4040a05208837204aaf0c715e9be7797b54f1bbfa0431628262a22ba79af27d",
+        "first_later_observed_verified_report_completed_epoch": 1788948581.171863,
+        "first_later_observed_verified_report_sha256": "1113376964e16e53ab3e4d4113dfa86eeba8fc30864d9facafcce8b2eb9f4365",
+        "instrument": "EUR_HUF",
+        "observed_report_spacing_sec": 16.12426519393921,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788948599.3543105,
+        "failed_report_sha256": "0de0320339c634980efc4ada53062e0a43511280d7eee46bb74c36a43ca1ed8f",
+        "first_later_observed_verified_report_completed_epoch": 1788948617.4768076,
+        "first_later_observed_verified_report_sha256": "656e98dcb15282f70ec64d945d137beff8b3703caaa778c12d85d71a4e9eb703",
+        "instrument": "USD_CHF",
+        "observed_report_spacing_sec": 18.122497081756592,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788948599.3543105,
+        "failed_report_sha256": "0de0320339c634980efc4ada53062e0a43511280d7eee46bb74c36a43ca1ed8f",
+        "first_later_observed_verified_report_completed_epoch": 1788948617.4768076,
+        "first_later_observed_verified_report_sha256": "656e98dcb15282f70ec64d945d137beff8b3703caaa778c12d85d71a4e9eb703",
+        "instrument": "USD_THB",
+        "observed_report_spacing_sec": 18.122497081756592,
+        "reason": "observer_pair_time_budget"
+      },
+      {
+        "failed_report_completed_epoch": 1788948617.4768076,
+        "failed_report_sha256": "656e98dcb15282f70ec64d945d137beff8b3703caaa778c12d85d71a4e9eb703",
+        "first_later_observed_verified_report_completed_epoch": null,
+        "first_later_observed_verified_report_sha256": null,
+        "instrument": "AUD_CHF",
+        "observed_report_spacing_sec": null,
+        "reason": "observer_pair_time_budget"
+      }
+    ],
+    "verified_later_in_window": 39
+  },
+  "orders_enabled": false,
+  "original_report_elapsed_sec": {
+    "failure_report_max": 2.827999999979511,
+    "failure_report_min": 1.0939999998081475,
+    "max": 2.827999999979511,
+    "median": 1.1099999999860302,
+    "min": 0.5470000000204891
+  },
+  "original_source_bindings": {
+    "config/joint_v3_ledger_observer_api_v1_20260909.json": {
+      "bytes": 1349,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\joint_v3_ledger_observer_api_v1_20260909.json",
+      "sha256": "983ac47caa3ba2a4ac8021876ce7e0a371ebdae2ef36ccb1d7a2636a046a4073"
+    },
+    "oanda_joint_v3_ledger_observer_api_v1.py": {
+      "bytes": 15665,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_joint_v3_ledger_observer_api_v1.py",
+      "sha256": "26814b7f7a2a5c9dd7457bf1c1231ebb98f8a496139169f69c20187d436543ed"
+    },
+    "oanda_joint_v3_ledger_status_observer_v1.py": {
+      "bytes": 25843,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_joint_v3_ledger_status_observer_v1.py",
+      "sha256": "d2dc17dfee52603ae1ccf61433f4a1a73cd1650fdf44c5f1daaa60cf133d8699"
+    },
+    "oanda_main_signal_dashboard.html": {
+      "bytes": 175512,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_main_signal_dashboard.html",
+      "sha256": "da9ae85ac0efd524a59ab7f24cf5de6602b737610e996556abf4b0e783b690c6"
+    }
+  },
+  "probe_window": {
+    "completed_epoch": 1788948680.3319352,
+    "observed_monotonic_sec": 1200.0150000001304,
+    "started_epoch": 1788947480.355913
+  },
+  "promotion_enabled": false,
+  "request_denominator": {
+    "combined_http_requests_including_initial_transport_failure": 80,
+    "http_or_projection_failures": 0,
+    "retained_response_bytes_final_run": 23370755,
+    "valid_ledger_polls": 77
+  },
+  "request_level_counts": {
+    "current_forecast_counts": {
+      "63": 4,
+      "64": 9,
+      "65": 17,
+      "66": 47
+    },
+    "distinct_reports": 66,
+    "latency_sec": {
+      "max": 3.547000000020489,
+      "median": 0.39099999982863665,
+      "min": 0.25
+    },
+    "original_producer_status_counts": {
+      "coherent_envelope_only": 55,
+      "generation_mismatch": 22
+    },
+    "per_pair_failures": [
+      {
+        "distinct_report_count": 1,
+        "instrument": "AUD_CAD",
+        "original_reports": [
+          {
+            "report_completed_epoch": 1788947871.3913302,
+            "report_sha256": "11d009b109ad7ab471494b4a6c6b50dd4b55db8efc53ead26c3f95435bad6142"
+          }
+        ],
+        "reason": "observer_pair_time_budget",
+        "recurrence": "isolated_in_probe"
+      },
+      {
+        "distinct_report_count": 5,
+        "instrument": "AUD_CHF",
+        "original_reports": [
+          {
+            "report_completed_epoch": 1788947769.3317215,
+            "report_sha256": "5b125dee7080fb09abce91175054ad10d515c4705d8c21d3b2b818eaf1775587"
+          },
+          {
+            "report_completed_epoch": 1788947889.1331213,
+            "report_sha256": "9b85070f15833df9473313e42767ac1464423d906ad59ec3b6e59ec40a15c9e9"
+          },
+          {
+            "report_completed_epoch": 1788948166.0491514,
+            "report_sha256": "8ab57f029bd9a966450d1a065380edec5f44c2e6e9358f90b17bd7f970da7f48"
+          },
+          {
+            "report_completed_epoch": 1788948443.4040742,
+            "report_sha256": "024eb799737b941faf042c4cf69cd0bf8ce88c21abb18bdf17ffc7d30fdeab45"
+          },
+          {
+            "report_completed_epoch": 1788948617.4768076,
+            "report_sha256": "656e98dcb15282f70ec64d945d137beff8b3703caaa778c12d85d71a4e9eb703"
+          }
+        ],
+        "reason": "observer_pair_time_budget",
+        "recurrence": "recurring"
+      },
+      {
+        "distinct_report_count": 5,
+        "instrument": "AUD_HKD",
+        "original_reports": [
+          {
+            "report_completed_epoch": 1788947699.696129,
+            "report_sha256": "2e4c7093de17f8dc9e448b5737cfbed08528156698ca2bd9ea8328b616b9bfaa"
+          },
+          {
+            "report_completed_epoch": 1788947769.3317215,
+            "report_sha256": "5b125dee7080fb09abce91175054ad10d515c4705d8c21d3b2b818eaf1775587"
+          },
+          {
+            "report_completed_epoch": 1788947956.735505,
+            "report_sha256": "8c03f22bf1299f02e3cc9029ac38fded68843df744c95d1244a459e728c2d97e"
+          },
+          {
+            "report_completed_epoch": 1788948060.013439,
+            "report_sha256": "cf1e0ecf257a64b6471de1d76b9489fc9e02e18f139763166f7e345b0fbfea2b"
+          },
+          {
+            "report_completed_epoch": 1788948113.7250354,
+            "report_sha256": "006a632c4ba250bc50156b8c9eda8ebfdd16a90d0020009233edcf2057e7856f"
+          }
+        ],
+        "reason": "observer_pair_time_budget",
+        "recurrence": "recurring"
+      },
+      {
+        "distinct_report_count": 2,
+        "instrument": "AUD_JPY",
+        "original_reports": [
+          {
+            "report_completed_epoch": 1788947528.2530856,
+            "report_sha256": "1ebee1abed734e6f1a311e0bfffde0c23a767a10602b72cb76d0629ebc403aaf"
+          },
+          {
+            "report_completed_epoch": 1788947819.2661607,
+            "report_sha256": "222d67b8befe22e2ebc9da079379b49dd46c9408467f0d64e893f8124c151666"
+          }
+        ],
+        "reason": "observer_pair_time_budget",
+        "recurrence": "recurring"
+      },
+      {
+        "distinct_report_count": 1,
+        "instrument": "CAD_CHF",
+        "original_reports": [
+          {
+            "report_completed_epoch": 1788948232.6861541,
+            "report_sha256": "d72c9f270e27db07eb74d89af3b68a155b210caf61c11aaf706096078f9ff982"
+          }
+        ],
+        "reason": "observer_pair_time_budget",
+        "recurrence": "isolated_in_probe"
+      },
+      {
+        "distinct_report_count": 2,
+        "instrument": "CAD_SGD",
+        "original_reports": [
+          {
+            "report_completed_epoch": 1788947785.6494913,
+            "report_sha256": "bfec7e3b36df48a63eb9e37bab26fef5bf30530ae8942e5beae91f99ca750846"
+          },
+          {
+            "report_completed_epoch": 1788948060.013439,
+            "report_sha256": "cf1e0ecf257a64b6471de1d76b9489fc9e02e18f139763166f7e345b0fbfea2b"
+          }
+        ],
+        "reason": "observer_pair_time_budget",
+        "recurrence": "recurring"
+      },
+      {
+        "distinct_report_count": 1,
+        "instrument": "EUR_CHF",
+        "original_reports": [
+          {
+            "report_completed_epoch": 1788947632.860275,
+            "report_sha256": "5a6c99189737d79a312971d2b039590cd59619058b28f29890a3aa2662f4482e"
+          }
+        ],
+        "reason": "observer_pair_time_budget",
+        "recurrence": "isolated_in_probe"
+      },
+      {
+        "distinct_report_count": 1,
+        "instrument": "EUR_CZK",
+        "original_reports": [
+          {
+            "report_completed_epoch": 1788947632.860275,
+            "report_sha256": "5a6c99189737d79a312971d2b039590cd59619058b28f29890a3aa2662f4482e"
+          }
+        ],
+        "reason": "observer_pair_time_budget",
+        "recurrence": "isolated_in_probe"
+      },
+      {
+        "distinct_report_count": 1,
+        "instrument": "EUR_DKK",
+        "original_reports": [
+          {
+            "report_completed_epoch": 1788948565.047598,
+            "report_sha256": "c4040a05208837204aaf0c715e9be7797b54f1bbfa0431628262a22ba79af27d"
+          }
+        ],
+        "reason": "observer_pair_time_budget",
+        "recurrence": "isolated_in_probe"
+      },
+      {
+        "distinct_report_count": 1,
+        "instrument": "EUR_GBP",
+        "original_reports": [
+          {
+            "report_completed_epoch": 1788948443.4040742,
+            "report_sha256": "024eb799737b941faf042c4cf69cd0bf8ce88c21abb18bdf17ffc7d30fdeab45"
+          }
+        ],
+        "reason": "observer_pair_time_budget",
+        "recurrence": "isolated_in_probe"
+      },
+      {
+        "distinct_report_count": 1,
+        "instrument": "EUR_HUF",
+        "original_reports": [
+          {
+            "report_completed_epoch": 1788948565.047598,
+            "report_sha256": "c4040a05208837204aaf0c715e9be7797b54f1bbfa0431628262a22ba79af27d"
+          }
+        ],
+        "reason": "observer_pair_time_budget",
+        "recurrence": "isolated_in_probe"
+      },
+      {
+        "distinct_report_count": 3,
+        "instrument": "EUR_NOK",
+        "original_reports": [
+          {
+            "report_completed_epoch": 1788947528.2530856,
+            "report_sha256": "1ebee1abed734e6f1a311e0bfffde0c23a767a10602b72cb76d0629ebc403aaf"
+          },
+          {
+            "report_completed_epoch": 1788947563.5247667,
+            "report_sha256": "6b133c92d489c2cc08bcccd5058b74bcf45cc4784466ef3f8f86a04242290c62"
+          },
+          {
+            "report_completed_epoch": 1788948443.4040742,
+            "report_sha256": "024eb799737b941faf042c4cf69cd0bf8ce88c21abb18bdf17ffc7d30fdeab45"
+          }
+        ],
+        "reason": "observer_pair_time_budget",
+        "recurrence": "recurring"
+      },
+      {
+        "distinct_report_count": 1,
+        "instrument": "EUR_NZD",
+        "original_reports": [
+          {
+            "report_completed_epoch": 1788948251.1783333,
+            "report_sha256": "f7f6543594c338ddf676c699c8113e9d111fb0372ba8574c830916f1b2bb856e"
+          }
+        ],
+        "reason": "observer_pair_time_budget",
+        "recurrence": "isolated_in_probe"
+      },
+      {
+        "distinct_report_count": 1,
+        "instrument": "EUR_SEK",
+        "original_reports": [
+          {
+            "report_completed_epoch": 1788948060.013439,
+            "report_sha256": "cf1e0ecf257a64b6471de1d76b9489fc9e02e18f139763166f7e345b0fbfea2b"
+          }
+        ],
+        "reason": "observer_pair_time_budget",
+        "recurrence": "isolated_in_probe"
+      },
+      {
+        "distinct_report_count": 1,
+        "instrument": "EUR_USD",
+        "original_reports": [
+          {
+            "report_completed_epoch": 1788948096.2548268,
+            "report_sha256": "e3a77bcda391ed9d3c4185835b492d41caf0f8ecba6b688cc70f4fc7b35dd46e"
+          }
+        ],
+        "reason": "observer_pair_time_budget",
+        "recurrence": "isolated_in_probe"
+      },
+      {
+        "distinct_report_count": 1,
+        "instrument": "GBP_CHF",
+        "original_reports": [
+          {
+            "report_completed_epoch": 1788948251.1783333,
+            "report_sha256": "f7f6543594c338ddf676c699c8113e9d111fb0372ba8574c830916f1b2bb856e"
+          }
+        ],
+        "reason": "observer_pair_time_budget",
+        "recurrence": "isolated_in_probe"
+      },
+      {
+        "distinct_report_count": 2,
+        "instrument": "GBP_PLN",
+        "original_reports": [
+          {
+            "report_completed_epoch": 1788948096.2548268,
+            "report_sha256": "e3a77bcda391ed9d3c4185835b492d41caf0f8ecba6b688cc70f4fc7b35dd46e"
+          },
+          {
+            "report_completed_epoch": 1788948479.4209237,
+            "report_sha256": "16da7ea2e8f7a824560d83f001f6a12a00ff9624ef8bba78e617eac8a1439199"
+          }
+        ],
+        "reason": "observer_pair_time_budget",
+        "recurrence": "recurring"
+      },
+      {
+        "distinct_report_count": 1,
+        "instrument": "GBP_ZAR",
+        "original_reports": [
+          {
+            "report_completed_epoch": 1788948251.1783333,
+            "report_sha256": "f7f6543594c338ddf676c699c8113e9d111fb0372ba8574c830916f1b2bb856e"
+          }
+        ],
+        "reason": "observer_pair_time_budget",
+        "recurrence": "isolated_in_probe"
+      },
+      {
+        "distinct_report_count": 1,
+        "instrument": "NZD_HKD",
+        "original_reports": [
+          {
+            "report_completed_epoch": 1788947510.8723862,
+            "report_sha256": "ede6d880c4f1554f1534366ab6704ec29dba3184263c659b77483c61e82a496c"
+          }
+        ],
+        "reason": "observer_pair_time_budget",
+        "recurrence": "isolated_in_probe"
+      },
+      {
+        "distinct_report_count": 1,
+        "instrument": "SGD_CHF",
+        "original_reports": [
+          {
+            "report_completed_epoch": 1788948303.8475595,
+            "report_sha256": "9fd33d8535e8bfdc45fcf4d555eb9f011ddc72468cfe65295f65990035a7997f"
+          }
+        ],
+        "reason": "observer_pair_time_budget",
+        "recurrence": "isolated_in_probe"
+      },
+      {
+        "distinct_report_count": 2,
+        "instrument": "USD_CAD",
+        "original_reports": [
+          {
+            "report_completed_epoch": 1788948286.7677486,
+            "report_sha256": "1f835f4a8fe08e318f67dad710205cb647b5c0f10363acde7e2118c38cc1336b"
+          },
+          {
+            "report_completed_epoch": 1788948479.4209237,
+            "report_sha256": "16da7ea2e8f7a824560d83f001f6a12a00ff9624ef8bba78e617eac8a1439199"
+          }
+        ],
+        "reason": "observer_pair_time_budget",
+        "recurrence": "recurring"
+      },
+      {
+        "distinct_report_count": 1,
+        "instrument": "USD_CHF",
+        "original_reports": [
+          {
+            "report_completed_epoch": 1788948599.3543105,
+            "report_sha256": "0de0320339c634980efc4ada53062e0a43511280d7eee46bb74c36a43ca1ed8f"
+          }
+        ],
+        "reason": "observer_pair_time_budget",
+        "recurrence": "isolated_in_probe"
+      },
+      {
+        "distinct_report_count": 1,
+        "instrument": "USD_HKD",
+        "original_reports": [
+          {
+            "report_completed_epoch": 1788947580.22383,
+            "report_sha256": "85cf2823c0ad06c1d4c291e4697c133b88379df24a33ef97759114b9b5709521"
+          }
+        ],
+        "reason": "observer_pair_time_budget",
+        "recurrence": "isolated_in_probe"
+      },
+      {
+        "distinct_report_count": 1,
+        "instrument": "USD_JPY",
+        "original_reports": [
+          {
+            "report_completed_epoch": 1788948232.6861541,
+            "report_sha256": "d72c9f270e27db07eb74d89af3b68a155b210caf61c11aaf706096078f9ff982"
+          }
+        ],
+        "reason": "observer_pair_time_budget",
+        "recurrence": "isolated_in_probe"
+      },
+      {
+        "distinct_report_count": 1,
+        "instrument": "USD_MXN",
+        "original_reports": [
+          {
+            "report_completed_epoch": 1788948388.659217,
+            "report_sha256": "0066f2f8975b6a9c7b2d8c18a06e90e43f2bb5f2d5624dcaf4d1d6ccfab4ceeb"
+          }
+        ],
+        "reason": "observer_pair_time_budget",
+        "recurrence": "isolated_in_probe"
+      },
+      {
+        "distinct_report_count": 1,
+        "instrument": "USD_THB",
+        "original_reports": [
+          {
+            "report_completed_epoch": 1788948599.3543105,
+            "report_sha256": "0de0320339c634980efc4ada53062e0a43511280d7eee46bb74c36a43ca1ed8f"
+          }
+        ],
+        "reason": "observer_pair_time_budget",
+        "recurrence": "isolated_in_probe"
+      }
+    ],
+    "request_samples": 77,
+    "status_counts": {
+      "current_ledger_observation": 47,
+      "partial_ledger_observation": 30
+    },
+    "unvisited_counts": {
+      "0": 77
+    },
+    "validated_api_samples": 77,
+    "verified_pairs_counts": {
+      "65": 4,
+      "66": 9,
+      "67": 17,
+      "68": 47
+    }
+  },
+  "schema_version": "completed_ledger_endpoint_probe_assessment_v1_20260909",
+  "source_evidence": [
+    {
+      "bytes": 13111,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ledger_endpoint_reliability_probe_v1\\actual_probe_002\\LEDGER_ENDPOINT_RELIABILITY_PROBE_20260909.json",
+      "sha256": "8b3ce5c1de262e84fac40a8897e10070ddd0d92a18ce00ce4028f87fe00b7c53"
+    },
+    {
+      "bytes": 1125139,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ledger_endpoint_reliability_probe_v1\\actual_probe_002\\SANITIZED_SAMPLES.jsonl",
+      "sha256": "de06bd076f7bfbab1305bc220c461751b80c53a92cff83fbf785831650802a32"
+    },
+    {
+      "bytes": 10036,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ledger_endpoint_reliability_probe_v1\\summarize_completed_probe_v1.py",
+      "sha256": "b086cf3f7c0da3080d66af6e39179330a23aad9f639592935ebaeba4f599a0a5"
+    },
+    {
+      "bytes": 16515,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ledger_endpoint_reliability_probe_v1\\probe_ledger_endpoint_v1.py",
+      "sha256": "6be533ec2bd60bcc00ee7ac7da831e46461eb6dd7dd2cec7a6fc5a748b0b77e9"
+    },
+    {
+      "bytes": 5137,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ledger_endpoint_reliability_probe_v1\\test_probe_ledger_endpoint_v1.py",
+      "sha256": "2fe5d2f74b6a4f13eedc7f25e7101523dba8b59248412714f2dad4880041d535"
+    },
+    {
+      "bytes": 1767,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ledger_endpoint_reliability_probe_v1\\ledger_probe_transport_final_tests.xml",
+      "sha256": "367dd0637fcc00847e2edbe1728ed3d5184af0aefc46694cde26abc83b78138d"
+    },
+    {
+      "bytes": 2114,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ledger_endpoint_reliability_probe_v1\\LEDGER_ENDPOINT_PROBE_INDEPENDENT_REVIEW_20260909.json",
+      "sha256": "e30f7a57c7f063db2c1eda62640bc174521c9e9d40bb1b84765085c7668b0c18"
+    }
+  ],
+  "status": "observed_recurring_pair_budget_failures",
+  "unchanged_nonforecast_pairs": [
+    "TRY_JPY",
+    "USD_TRY"
+  ],
+  "unique_report_denominator": {
+    "affected_pairs": 26,
+    "distinct_original_reports": 66,
+    "failure_occurrences": 40,
+    "isolated_pairs": {
+      "AUD_CAD": 1,
+      "CAD_CHF": 1,
+      "EUR_CHF": 1,
+      "EUR_CZK": 1,
+      "EUR_DKK": 1,
+      "EUR_GBP": 1,
+      "EUR_HUF": 1,
+      "EUR_NZD": 1,
+      "EUR_SEK": 1,
+      "EUR_USD": 1,
+      "GBP_CHF": 1,
+      "GBP_ZAR": 1,
+      "NZD_HKD": 1,
+      "SGD_CHF": 1,
+      "USD_CHF": 1,
+      "USD_HKD": 1,
+      "USD_JPY": 1,
+      "USD_MXN": 1,
+      "USD_THB": 1
+    },
+    "original_producer_reported_errors": {
+      "13": 66
+    },
+    "original_producer_status": {
+      "coherent_envelope_only": 46,
+      "generation_mismatch": 20
+    },
+    "recurring_pairs": {
+      "AUD_CHF": 5,
+      "AUD_HKD": 5,
+      "AUD_JPY": 2,
+      "CAD_SGD": 2,
+      "EUR_NOK": 3,
+      "GBP_PLN": 2,
+      "USD_CAD": 2
+    },
+    "reports_with_pair_failure": 26,
+    "unvisited_pairs_all_reports": 0,
+    "verified_all_68": 40
+  }
+}

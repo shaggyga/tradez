@@ -1,0 +1,111 @@
+{
+  "source_sha256": "4d0f7d7ebff48b705cd3aa2be827aaad90fb31f333b44856d8cfe34b7d03c664",
+  "member_evidence_sha256": "0681cf2f1372887ff87b38b3b92e011a16c47963e047e52ffda9a80af60826d9",
+  "as_of_utc": "2026-09-07T21:25:26.984384+00:00",
+  "cases": [
+    {
+      "case": "first_article_only",
+      "topics": [
+        {
+          "topic_id": "local_news_a0f3439245301f8d074b62e5",
+          "headline": "Blockade Pushes Iran Output Onto Domestic Market - Energy Intelligence",
+          "first_seen_utc": "2026-09-07T16:34:45.892010+00:00",
+          "causal_known_utc": "2026-09-07T16:34:45.892010+00:00",
+          "published_utc": "2026-09-07T16:32:39+00:00",
+          "availability_lag_minutes": 2.114867,
+          "forward_signal_timely": true,
+          "directional_publish_eligible": false,
+          "directional_source_grade": "secondary_requires_corroboration",
+          "directional_candidate_source_count": 1,
+          "source_names": [
+            "Energy Intelligence"
+          ],
+          "currency_scores": {},
+          "research_currency_scores": {
+            "AUD": -0.4875,
+            "CAD": -0.4875,
+            "CHF": 0.4125,
+            "JPY": 0.4125,
+            "MXN": -0.4875,
+            "NOK": -0.4875,
+            "NZD": -0.4875,
+            "USD": 0.4125,
+            "ZAR": -0.4875
+          },
+          "context_reason": "secondary_uncorroborated_directional_context"
+        }
+      ]
+    },
+    {
+      "case": "late_second_article_only",
+      "topics": [
+        {
+          "topic_id": "local_news_5a5d1326edd0599151dd806c",
+          "headline": "Trump’s blockade pushes Iran toward military escalation - CNN",
+          "first_seen_utc": "2026-09-07T18:15:25.043440+00:00",
+          "causal_known_utc": "2026-09-07T18:15:25.043440+00:00",
+          "published_utc": "2026-09-07T17:19:23+00:00",
+          "availability_lag_minutes": 56.034057,
+          "forward_signal_timely": false,
+          "directional_publish_eligible": false,
+          "directional_source_grade": "secondary_requires_corroboration",
+          "directional_candidate_source_count": 1,
+          "source_names": [
+            "CNN"
+          ],
+          "currency_scores": {},
+          "research_currency_scores": {
+            "AUD": -0.4875,
+            "CAD": -0.4875,
+            "CHF": 0.4125,
+            "JPY": 0.4125,
+            "MXN": -0.4875,
+            "NOK": -0.4875,
+            "NZD": -0.4875,
+            "USD": 0.4125,
+            "ZAR": -0.4875
+          },
+          "context_reason": "source_late_for_reaction_horizon"
+        }
+      ]
+    },
+    {
+      "case": "both_articles",
+      "topics": [
+        {
+          "topic_id": "local_news_a0f3439245301f8d074b62e5",
+          "headline": "Blockade Pushes Iran Output Onto Domestic Market - Energy Intelligence",
+          "first_seen_utc": "2026-09-07T16:34:45.892010+00:00",
+          "causal_known_utc": "2026-09-07T16:34:45.892010+00:00",
+          "published_utc": "2026-09-07T16:32:39+00:00",
+          "availability_lag_minutes": 2.114867,
+          "forward_signal_timely": true,
+          "directional_publish_eligible": true,
+          "directional_source_grade": "corroborated_secondary",
+          "directional_candidate_source_count": 2,
+          "source_names": [
+            "CNN",
+            "Energy Intelligence"
+          ],
+          "currency_scores": {
+            "AUD": -0.4875,
+            "CAD": -0.4875,
+            "CHF": 0.4125,
+            "JPY": 0.4125,
+            "MXN": -0.4875,
+            "NOK": -0.4875,
+            "NZD": -0.4875,
+            "USD": 0.4125,
+            "ZAR": -0.4875
+          },
+          "research_currency_scores": {},
+          "context_reason": ""
+        }
+      ]
+    }
+  ],
+  "runtime_writes": false,
+  "publication_writes": false,
+  "classification_reruns": 0,
+  "pure_clustering_runs": 3
+}

@@ -268,7 +268,13 @@ def validate_input_snapshot(source: Mapping[str, Any]) -> list[str]:
 def validate_root_union_history(
     source: Mapping[str, Any], path: Path
 ) -> tuple[list[str], dict[str, Any]]:
-    """Independently verify V7R3's append-only root-union ledger."""
+    """Independently verify V7R3's append-only root-union ledger prefix.
+
+    The JSON snapshot and SQLite ledger publish independently.  Validate the
+    exact append-only prefix declared by the snapshot; later committed rows
+    remain visible as a nonnegative suffix but cannot rewrite that snapshot's
+    knowledge time.
+    """
 
     reasons: list[str] = []
     status: dict[str, Any] = {
@@ -291,6 +297,8 @@ def validate_root_union_history(
             f"file:{path.resolve().as_posix()}?mode=ro", uri=True
         )
         try:
+            connection.execute("PRAGMA query_only=ON")
+            connection.execute("BEGIN")
             quick = str(connection.execute("PRAGMA quick_check").fetchone()[0])
             status["quick_check"] = quick
             if quick != "ok":
@@ -329,26 +337,63 @@ def validate_root_union_history(
             status["append_only_triggers_ok"] = not missing_triggers
             if missing_triggers:
                 reasons.append("upstream_append_only_triggers_missing")
+            expected_conflicts = max(
+                0, int(source.get("factor_episode_membership_conflict_total") or 0)
+            )
+            expected_merges = max(0, int(source.get("root_merge_total") or 0))
+            expected_cases = max(0, int(source.get("retained_case_count") or 0))
+            current_conflicts = int(
+                connection.execute(
+                    "SELECT COUNT(*) FROM factor_episode_membership_conflicts"
+                ).fetchone()[0]
+            )
+            current_merges = int(
+                connection.execute(
+                    "SELECT COUNT(*) FROM factor_episode_root_merges "
+                    "WHERE factor_episode_contract_id=?",
+                    (EXPECTED_FACTOR_EPISODE_CONTRACT_ID,),
+                ).fetchone()[0]
+            )
+            current_memberships = int(
+                connection.execute(
+                    "SELECT COUNT(*) FROM factor_episode_membership "
+                    "WHERE factor_episode_contract_id=?",
+                    (EXPECTED_FACTOR_EPISODE_CONTRACT_ID,),
+                ).fetchone()[0]
+            )
+            current_mover_cases = int(
+                connection.execute("SELECT COUNT(*) FROM mover_cases").fetchone()[0]
+            )
             conflict_rows = connection.execute(
                 "SELECT conflict_id,case_id,persisted_factor_episode_id,"
                 "observed_factor_episode_id,detected_utc "
-                "FROM factor_episode_membership_conflicts ORDER BY conflict_id"
+                "FROM factor_episode_membership_conflicts "
+                "ORDER BY rowid LIMIT ?",
+                (expected_conflicts,),
             ).fetchall()
             conflict_total = len(conflict_rows)
             merge_rows = connection.execute(
                 "SELECT from_root_id,into_root_id,factor_primary_token "
                 "FROM factor_episode_root_merges "
-                "WHERE factor_episode_contract_id=? ORDER BY detected_utc,merge_id",
-                (EXPECTED_FACTOR_EPISODE_CONTRACT_ID,),
+                "WHERE factor_episode_contract_id=? "
+                "ORDER BY rowid LIMIT ?",
+                (EXPECTED_FACTOR_EPISODE_CONTRACT_ID, expected_merges),
             ).fetchall()
             memberships = connection.execute(
                 "SELECT case_id,factor_episode_id,factor_primary_token "
                 "FROM factor_episode_membership "
-                "WHERE factor_episode_contract_id=? ORDER BY case_id",
-                (EXPECTED_FACTOR_EPISODE_CONTRACT_ID,),
+                "WHERE factor_episode_contract_id=? "
+                "ORDER BY rowid LIMIT ?",
+                (EXPECTED_FACTOR_EPISODE_CONTRACT_ID, expected_cases),
             ).fetchall()
             mover_case_count = int(
-                connection.execute("SELECT COUNT(*) FROM mover_cases").fetchone()[0]
+                connection.execute(
+                    "SELECT COUNT(*) FROM ("
+                    " SELECT case_id FROM mover_cases"
+                    " ORDER BY rowid LIMIT ?"
+                    ")",
+                    (expected_cases,),
+                ).fetchone()[0]
             )
         finally:
             connection.close()
@@ -359,6 +404,20 @@ def validate_root_union_history(
     status["membership_conflict_total"] = conflict_total
     status["root_merge_total"] = len(merge_rows)
     status["retained_case_count"] = mover_case_count
+    status["current_membership_conflict_total"] = current_conflicts
+    status["current_root_merge_total"] = current_merges
+    status["current_membership_count"] = current_memberships
+    status["current_retained_case_count"] = current_mover_cases
+    status["append_only_suffix"] = {
+        "membership_conflicts": current_conflicts - conflict_total,
+        "root_merges": current_merges - len(merge_rows),
+        "memberships": current_memberships - len(memberships),
+        "mover_cases": current_mover_cases - mover_case_count,
+    }
+    if any(
+        value < 0 for value in status["append_only_suffix"].values()
+    ):
+        reasons.append("upstream_history_shorter_than_declared_snapshot")
     semantic_payload = {
         "registry": list(registry) if registry is not None else None,
         "append_only_triggers": sorted(

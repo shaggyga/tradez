@@ -1,0 +1,59 @@
+{
+  "broker_actions": false,
+  "created_epoch": 1788944694.128267,
+  "crossing_reason": "countertrend_from_original_terminal_crossing",
+  "existing_selector_integration": "Future separately versioned selector receives entry pool and continuation pool separately. Do not filter the sole v1 candidates list or bypass source bindings.",
+  "fresh_updates": "Not certified by this function. Changed curve/hash/read time alone insufficient; independently validated updated input plus computation/issue/publication/consumption chain and exact native target required in a future reader.",
+  "function": "admit_candidate_for_target",
+  "incumbent": "separate exact instrument/target/side descriptor; preserve signed remaining move and existing-side continuation even if entry withheld",
+  "model_fits": false,
+  "module": "oanda_curve_direction_admission_v1.py",
+  "neutral_reason": "neutral_original_forecast_is_not_new_directional_evidence",
+  "new_entry_necessary_condition": "original_side != 0 and rebased_side == original_side",
+  "no_new_thresholds": true,
+  "original_side": "sign(original node predicted_signed_pips), verified against original terminal minus reference price",
+  "policy_tuning": false,
+  "rebased_side": "sign(original terminal minus actual decision midpoint)",
+  "risk_attachment": "Design only: exact instrument/reference price epoch+convention+price and original target/window, explicit side and entry-basis alignment; original full-horizon diagnostics only, never residual-horizon distributions or quantile sums.",
+  "runtime_activation": false,
+  "schema_version": "curve_direction_admission_design_v1_20260909",
+  "scope": "Necessary semantic condition only; not confidence, cost, trade eligibility, conditional remaining forecast, execution authorization, or evidence of profitability.",
+  "source_evidence": [
+    {
+      "bytes": 9513,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_curve_management_adapter_v1.py",
+      "sha256": "8fa6cccf1e2525d0186ab7abe0c68fccc4800db7b785a8b9f79f28c320ad1241"
+    },
+    {
+      "bytes": 49616,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_curve_management_replay_v1.py",
+      "sha256": "52fd04c6b087df4be775e490002afd0744caeb245604b8f577ab0fcff41de8f3"
+    },
+    {
+      "bytes": 28540,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_observed_curve_management_v1.py",
+      "sha256": "a6c8013af59b45ac958065010f26289e7ddfc6196ac88e32976b545c1496579b"
+    },
+    {
+      "bytes": 19023,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_observed_curve_management_worker_v1.py",
+      "sha256": "2128386f825cdeffae715c3f89832200823652521809ea29ac57485c7c4f6762"
+    },
+    {
+      "bytes": 26812,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_forecast_curve_contract_v1.py",
+      "sha256": "c03549586f922f6031790fce68a5afb5b98e4eda6157f20c4720b1adb05d0746"
+    },
+    {
+      "bytes": 15715,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_m1_risk_distribution_contract_v1.py",
+      "sha256": "36b7ee7c2ca79a6ed4f75cfd60e66678b25b0448602dd9366093e328daa84467"
+    },
+    {
+      "bytes": 10516,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_m1_path_risk_labels_v1.py",
+      "sha256": "b998f6f3fbe144ae949749e03d0658f7b89676dc7015eaefa7e583e85f6afccd"
+    }
+  ],
+  "status": "parent_approved_pure_envelope_implementation_only"
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "forex_jpy_continuation_case_audit_v1",
+  "generated_utc": "2026-09-02T20:28:00Z",
+  "case_id": "live_move_news_case_v7r3_d7971f5ce950814f29e61c33e287dd9a",
+  "case_contract_id": "live_move_news_snapshot_v7r3_transitive_factor_root_union_20260827",
+  "instrument": "USD_JPY",
+  "factor": "JPY+",
+  "move_start_utc": "2026-09-02T19:12:00Z",
+  "first_recorded_utc": "2026-09-02T19:18:44.918759Z",
+  "first_recorded_move_end_utc": "2026-09-02T19:17:00Z",
+  "first_recorded_executable_net_pips": 2.6,
+  "entry_bid": 158.922,
+  "entry_ask": 158.937,
+  "entry_quote_fresh": true,
+  "arms_at_forecast_time": {
+    "technical_continuation": "short",
+    "broad_context_direction": "long",
+    "strict_forward_direction": "neutral",
+    "continuous_narrative_direction": "neutral"
+  },
+  "causal_narrative_state": {
+    "usd": "no_current_evidence",
+    "jpy": "no_current_evidence",
+    "pair_direction": "neutral"
+  },
+  "matured_60m_outcomes": {
+    "technical_continuation_after_cost_pips": 25.4,
+    "technical_continuation_mfe_pips": 30.1,
+    "technical_continuation_mae_pips": -3.7,
+    "broad_context_after_cost_pips": -28.4
+  },
+  "immutable_census_check": {
+    "database": "data/oanda_training_manager/state/executable_move_census_v3_20260902h.sqlite",
+    "window_start_utc": "2026-09-02T19:50:00Z",
+    "window_end_utc": "2026-09-02T20:01:00Z",
+    "expected_minute_frames": 12,
+    "observed_minute_frames": 12,
+    "usd_jpy_valid_quote_frames": 12,
+    "start_bid": 158.885,
+    "start_ask": 158.898,
+    "end_bid": 158.759,
+    "end_ask": 158.775
+  },
+  "derived_worker_interval": {
+    "last_pre_restart_publication_utc": "2026-09-02T19:54:18.245501Z",
+    "first_post_restart_publication_utc": "2026-09-02T20:04:14.491485Z",
+    "case_onset_preceded_interval": true,
+    "case_was_already_immutable": true,
+    "outcomes_continued_to_mature": true
+  },
+  "finding": "captured_research_onset_not_account_miss",
+  "interpretation": "The move-first research layer detected the JPY-strength continuation before its sharpest segment. The news layer had no timely directional evidence and the broad context was wrong. This is one positive technical-continuation observation, not proof of edge and not a retrospective win.",
+  "account_effect": {
+    "practice_order_permitted": false,
+    "practice_order_sent": false,
+    "reason": "research-only case; no confirmed lifecycle candidate and no canary authorization"
+  },
+  "safety": {
+    "historical_rows_modified": false,
+    "promotion_changed": false,
+    "authorization_changed": false,
+    "execution_changed": false,
+    "real_money_enabled": false
+  }
+}

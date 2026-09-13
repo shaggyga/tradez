@@ -1,0 +1,626 @@
+{
+  "account_eligible": false,
+  "can_authorize": false,
+  "can_place_orders": false,
+  "can_promote": false,
+  "classification_versions": {
+    "local_fx_news_rules_20260907_v165_causal_member_admission": 68
+  },
+  "completed_epoch": 1788950053.9342935,
+  "consumer_observed_epoch": 1788950053.4824202,
+  "database_reads": 0,
+  "distinct_original_member_ids": 68,
+  "execution_eligible": false,
+  "feature_cutoff_epoch": 1788950053.4824202,
+  "forecast_issued": false,
+  "helper_sha256": "da28c9591c6a1177ea914b893926cc0b215d80e65020f552dfd6194c30f22c60",
+  "historical_factors": {
+    "database_reads": 0,
+    "status": "not_sampled",
+    "universe_count": null
+  },
+  "interpretation": [
+    "Current population counts are shared source members; pair support is separately filtered by currency.",
+    "Context is not independently vetted direction, and missing/empty directional support is not a forecast probability.",
+    "Post-move explanations remain discovery only; original clocks and one-hour context policy remain unchanged.",
+    "Factor and response-memory databases were not sampled. Empty function inputs do not describe their universe size.",
+    "This new feature diagnostic does not replace the frozen34-input joint model or publish a forecast."
+  ],
+  "join_source_read": {
+    "after_stat": {
+      "bytes": 20816,
+      "device": 8269922341625680609,
+      "inode": 3659174699167536,
+      "mtime_ns": 1788933175880274600
+    },
+    "before_stat": {
+      "bytes": 20816,
+      "device": 8269922341625680609,
+      "inode": 3659174699167536,
+      "mtime_ns": 1788933175880274600
+    },
+    "bytes": 20816,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_entry_news_feature_join_v1.py",
+    "read_completed_epoch": 1788950050.4996028,
+    "read_started_epoch": 1788950050.4986053,
+    "sha256": "491e0dbd91932bdf6db302cd56cbe5308cb6027ab82d5c77c753ac13eb2687e2",
+    "stable": true
+  },
+  "limits": {
+    "complete_file_reads": 1,
+    "current_file_bytes": 16777216,
+    "pairs": [
+      "EUR_USD",
+      "GBP_USD",
+      "USD_JPY"
+    ]
+  },
+  "matured_response_memory": {
+    "database_reads": 0,
+    "status": "not_sampled",
+    "universe_count": null
+  },
+  "model_fits": false,
+  "network_requests": 0,
+  "original_member_occurrences": 68,
+  "pairs": {
+    "EUR_USD": {
+      "computation_completed_epoch": 1788950053.6424277,
+      "computation_started_epoch": 1788950053.4994419,
+      "context_age": {
+        "count": 5,
+        "maximum_sec": 3300.836468219757,
+        "median_sec": 1999.8021531105042,
+        "minimum_sec": 312.33819031715393
+      },
+      "context_members": 5,
+      "context_only_members": 5,
+      "current_status": "available",
+      "diagnostic_sha256": "92f5539fa66d3b9e412ca9bf799af2dd7124fa5198b195e9d7d0c0c5dbb29a38",
+      "discovery_age": {
+        "count": 27,
+        "maximum_sec": 37615.98966217041,
+        "median_sec": 7709.508968114853,
+        "minimum_sec": 1999.8021531105042
+      },
+      "factor_lane_status": "not_sampled",
+      "feature_status": {
+        "context_balance": "measured",
+        "context_mean_age_hours": "measured",
+        "context_signed_fraction": "measured",
+        "context_volume_log": "measured",
+        "vetted_balance": "undefined_empty_population",
+        "vetted_conflict_fraction": "undefined_empty_population",
+        "vetted_remaining_hours": "undefined_empty_population",
+        "vetted_volume_log": "observed_empty_count"
+      },
+      "forward_context_overlap_member_count": 0,
+      "memory_lane_status": "not_sampled",
+      "original_diagnostic_observed_epoch": 1788950053.5004387,
+      "pair_context_support": 4,
+      "pair_vetted_support": 0,
+      "post_move_discovery_members": 27,
+      "reason": null,
+      "rejections": {
+        "member_independent_corroboration_missing": 2,
+        "member_no_eligible_contributors": 1,
+        "official_structured_numeric_release_observation": 1,
+        "outside_context_window": 36,
+        "reported_market_move_context": 16,
+        "secondary_uncorroborated_directional_context": 7,
+        "secondary_uncorroborated_macro_context": 5,
+        "source_late_for_reaction_horizon": 2
+      },
+      "vetted_topics": 0
+    },
+    "GBP_USD": {
+      "computation_completed_epoch": 1788950053.781397,
+      "computation_started_epoch": 1788950053.6424277,
+      "context_age": {
+        "count": 5,
+        "maximum_sec": 3300.836468219757,
+        "median_sec": 1999.8021531105042,
+        "minimum_sec": 312.33819031715393
+      },
+      "context_members": 5,
+      "context_only_members": 5,
+      "current_status": "available",
+      "diagnostic_sha256": "bb35751774c361db3a8fd2eaace5ba0f7184a1b0c09f7d6aa950b47c6bb44e5b",
+      "discovery_age": {
+        "count": 27,
+        "maximum_sec": 37615.98966217041,
+        "median_sec": 7709.508968114853,
+        "minimum_sec": 1999.8021531105042
+      },
+      "factor_lane_status": "not_sampled",
+      "feature_status": {
+        "context_balance": "measured",
+        "context_mean_age_hours": "measured",
+        "context_signed_fraction": "measured",
+        "context_volume_log": "measured",
+        "vetted_balance": "undefined_empty_population",
+        "vetted_conflict_fraction": "undefined_empty_population",
+        "vetted_remaining_hours": "undefined_empty_population",
+        "vetted_volume_log": "observed_empty_count"
+      },
+      "forward_context_overlap_member_count": 0,
+      "memory_lane_status": "not_sampled",
+      "original_diagnostic_observed_epoch": 1788950053.6424277,
+      "pair_context_support": 4,
+      "pair_vetted_support": 0,
+      "post_move_discovery_members": 27,
+      "reason": null,
+      "rejections": {
+        "member_independent_corroboration_missing": 2,
+        "member_no_eligible_contributors": 1,
+        "official_structured_numeric_release_observation": 1,
+        "outside_context_window": 36,
+        "reported_market_move_context": 16,
+        "secondary_uncorroborated_directional_context": 7,
+        "secondary_uncorroborated_macro_context": 5,
+        "source_late_for_reaction_horizon": 2
+      },
+      "vetted_topics": 0
+    },
+    "USD_JPY": {
+      "computation_completed_epoch": 1788950053.9053714,
+      "computation_started_epoch": 1788950053.781397,
+      "context_age": {
+        "count": 5,
+        "maximum_sec": 3300.836468219757,
+        "median_sec": 1999.8021531105042,
+        "minimum_sec": 312.33819031715393
+      },
+      "context_members": 5,
+      "context_only_members": 5,
+      "current_status": "available",
+      "diagnostic_sha256": "342055c36fcce807a82621d45207f07a8f5d0a1eba83a6d0280a195288795299",
+      "discovery_age": {
+        "count": 27,
+        "maximum_sec": 37615.98966217041,
+        "median_sec": 7709.508968114853,
+        "minimum_sec": 1999.8021531105042
+      },
+      "factor_lane_status": "not_sampled",
+      "feature_status": {
+        "context_balance": "measured",
+        "context_mean_age_hours": "measured",
+        "context_signed_fraction": "measured",
+        "context_volume_log": "measured",
+        "vetted_balance": "undefined_empty_population",
+        "vetted_conflict_fraction": "undefined_empty_population",
+        "vetted_remaining_hours": "undefined_empty_population",
+        "vetted_volume_log": "observed_empty_count"
+      },
+      "forward_context_overlap_member_count": 0,
+      "memory_lane_status": "not_sampled",
+      "original_diagnostic_observed_epoch": 1788950053.781397,
+      "pair_context_support": 5,
+      "pair_vetted_support": 0,
+      "post_move_discovery_members": 27,
+      "reason": null,
+      "rejections": {
+        "member_independent_corroboration_missing": 2,
+        "member_no_eligible_contributors": 1,
+        "official_structured_numeric_release_observation": 1,
+        "outside_context_window": 36,
+        "reported_market_move_context": 16,
+        "secondary_uncorroborated_directional_context": 7,
+        "secondary_uncorroborated_macro_context": 5,
+        "source_late_for_reaction_horizon": 2
+      },
+      "vetted_topics": 0
+    }
+  },
+  "prior_attempt": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\entry_news_features\\current_refresh_001\\ENTRY_NEWS_CURRENT_REFRESH_20260909.json",
+    "reason": "Current read and all three joins succeeded, but summary used nonexistent producer counts wrapper; failed receipt and exact private source/joins/helper are retained.",
+    "sha256": "900b30a63f100dce661a02b0cc74491869f166fc48e7d05b779e0c5ad72f1970"
+  },
+  "private_evidence": [
+    {
+      "bytes": 3614510,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\entry_news_features\\current_refresh_002\\private\\CURRENT_NEWS_RAW_20260909.json",
+      "sha256": "633cd4e9bcf3bd6298158f463aa8f44c6b94d45a17573b0386e8bd0fa66f75e8"
+    },
+    {
+      "bytes": 147031,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\entry_news_features\\current_refresh_002\\private\\CURRENT_NEWS_JOINS_20260909.json",
+      "sha256": "a8925d4186beb34e1f8098317dc100f90182f7ae2b0f9631c89f805a9d645626"
+    }
+  ],
+  "proof_eligible": false,
+  "registry_after_read": {
+    "after_stat": {
+      "bytes": 350877,
+      "device": 8269922341625680609,
+      "inode": 57983845204232873,
+      "mtime_ns": 1788898002352823200
+    },
+    "before_stat": {
+      "bytes": 350877,
+      "device": 8269922341625680609,
+      "inode": 57983845204232873,
+      "mtime_ns": 1788898002352823200
+    },
+    "bytes": 350877,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\joint_price_news_study_v3_20260908.json",
+    "read_completed_epoch": 1788950053.920331,
+    "read_started_epoch": 1788950053.919334,
+    "sha256": "ee075e69e80ca56dfdf45abe1f7a1a301612176e67f7622eab1adf2bd9af8771",
+    "stable": true
+  },
+  "registry_read": {
+    "after_stat": {
+      "bytes": 350877,
+      "device": 8269922341625680609,
+      "inode": 57983845204232873,
+      "mtime_ns": 1788898002352823200
+    },
+    "before_stat": {
+      "bytes": 350877,
+      "device": 8269922341625680609,
+      "inode": 57983845204232873,
+      "mtime_ns": 1788898002352823200
+    },
+    "bytes": 350877,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\joint_price_news_study_v3_20260908.json",
+    "read_completed_epoch": 1788950050.4915607,
+    "read_started_epoch": 1788950050.4905639,
+    "sha256": "ee075e69e80ca56dfdf45abe1f7a1a301612176e67f7622eab1adf2bd9af8771",
+    "stable": true
+  },
+  "research_only": true,
+  "runtime_writes": false,
+  "schema_version": "entry_news_current_only_refresh_v1_20260909",
+  "scope": "One complete published repaired current-news file; three pair feature diagnostics only.",
+  "source_age_at_feature_cutoff_sec": 26.278876304626465,
+  "source_as_of_epoch": 1788950027.203544,
+  "source_bindings": {
+    "oanda_local_news_sentiment.py": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4",
+    "oanda_local_news_sentiment_repair_v1.py": "c2fbad7c290ce1edaa977e99988ab563a2afc6571dc456271e45bde3ca7b2b6b",
+    "oanda_news_causal_aggregation_guard_v1.py": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9",
+    "oanda_news_classification_contract.py": "f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae",
+    "oanda_news_collector_contract.py": "41c30599a953d0fd967bc68c5f178d46fc21dd2382ac9fdca78bc3c64ac9f68f",
+    "oanda_news_event_tagger.py": "3657872fa84a6f081903307df7209350fed4f713d866735b9387ce375a5e4f3f",
+    "oanda_news_topic_identity_reconciliation_v1.py": "d34b0c72693497e9be6eadc86bd17f0a2c1c1b79ecf010928faf88a5033a7884"
+  },
+  "source_generated_epoch": 1788950029.034608,
+  "source_news_state": "context_only",
+  "source_original_counts": {
+    "context_topic_count": 34,
+    "directional_topic_count": 0,
+    "topic_count": 34
+  },
+  "source_read": {
+    "after_stat": {
+      "bytes": 3614510,
+      "device": 8269922341625680609,
+      "inode": 5066549582773992,
+      "mtime_ns": 1788950029177611900
+    },
+    "before_stat": {
+      "bytes": 3614510,
+      "device": 8269922341625680609,
+      "inode": 5066549582773992,
+      "mtime_ns": 1788950029177611900
+    },
+    "bytes": 3614510,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment_repair_v1\\current_news_v1.json",
+    "read_completed_epoch": 1788950051.0844643,
+    "read_started_epoch": 1788950051.0814734,
+    "sha256": "633cd4e9bcf3bd6298158f463aa8f44c6b94d45a17573b0386e8bd0fa66f75e8",
+    "stable": true
+  },
+  "source_reads_after": {
+    "oanda_entry_news_feature_join_v1.py": {
+      "after_stat": {
+        "bytes": 20816,
+        "device": 8269922341625680609,
+        "inode": 3659174699167536,
+        "mtime_ns": 1788933175880274600
+      },
+      "before_stat": {
+        "bytes": 20816,
+        "device": 8269922341625680609,
+        "inode": 3659174699167536,
+        "mtime_ns": 1788933175880274600
+      },
+      "bytes": 20816,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_entry_news_feature_join_v1.py",
+      "read_completed_epoch": 1788950053.919334,
+      "read_started_epoch": 1788950053.918336,
+      "sha256": "491e0dbd91932bdf6db302cd56cbe5308cb6027ab82d5c77c753ac13eb2687e2",
+      "stable": true
+    },
+    "oanda_local_news_sentiment.py": {
+      "after_stat": {
+        "bytes": 829561,
+        "device": 8269922341625680609,
+        "inode": 12103423999715570,
+        "mtime_ns": 1788818587491452100
+      },
+      "before_stat": {
+        "bytes": 829561,
+        "device": 8269922341625680609,
+        "inode": 12103423999715570,
+        "mtime_ns": 1788818587491452100
+      },
+      "bytes": 829561,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_local_news_sentiment.py",
+      "read_completed_epoch": 1788950053.9093606,
+      "read_started_epoch": 1788950053.9083638,
+      "sha256": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4",
+      "stable": true
+    },
+    "oanda_local_news_sentiment_repair_v1.py": {
+      "after_stat": {
+        "bytes": 22513,
+        "device": 8269922341625680609,
+        "inode": 20266198325004967,
+        "mtime_ns": 1788897802216499700
+      },
+      "before_stat": {
+        "bytes": 22513,
+        "device": 8269922341625680609,
+        "inode": 20266198325004967,
+        "mtime_ns": 1788897802216499700
+      },
+      "bytes": 22513,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_local_news_sentiment_repair_v1.py",
+      "read_completed_epoch": 1788950053.9063687,
+      "read_started_epoch": 1788950053.9063687,
+      "sha256": "c2fbad7c290ce1edaa977e99988ab563a2afc6571dc456271e45bde3ca7b2b6b",
+      "stable": true
+    },
+    "oanda_news_causal_aggregation_guard_v1.py": {
+      "after_stat": {
+        "bytes": 22224,
+        "device": 8269922341625680609,
+        "inode": 171981210771175890,
+        "mtime_ns": 1788818333389886900
+      },
+      "before_stat": {
+        "bytes": 22224,
+        "device": 8269922341625680609,
+        "inode": 171981210771175890,
+        "mtime_ns": 1788818333389886900
+      },
+      "bytes": 22224,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_news_causal_aggregation_guard_v1.py",
+      "read_completed_epoch": 1788950053.9153452,
+      "read_started_epoch": 1788950053.9143472,
+      "sha256": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9",
+      "stable": true
+    },
+    "oanda_news_classification_contract.py": {
+      "after_stat": {
+        "bytes": 7251,
+        "device": 8269922341625680609,
+        "inode": 63613344737315683,
+        "mtime_ns": 1788817352981788800
+      },
+      "before_stat": {
+        "bytes": 7251,
+        "device": 8269922341625680609,
+        "inode": 63613344737315683,
+        "mtime_ns": 1788817352981788800
+      },
+      "bytes": 7251,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_news_classification_contract.py",
+      "read_completed_epoch": 1788950053.9163418,
+      "read_started_epoch": 1788950053.9153452,
+      "sha256": "f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae",
+      "stable": true
+    },
+    "oanda_news_collector_contract.py": {
+      "after_stat": {
+        "bytes": 331,
+        "device": 8269922341625680609,
+        "inode": 54606145482865436,
+        "mtime_ns": 1787855405039186200
+      },
+      "before_stat": {
+        "bytes": 331,
+        "device": 8269922341625680609,
+        "inode": 54606145482865436,
+        "mtime_ns": 1787855405039186200
+      },
+      "bytes": 331,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_news_collector_contract.py",
+      "read_completed_epoch": 1788950053.918336,
+      "read_started_epoch": 1788950053.918336,
+      "sha256": "41c30599a953d0fd967bc68c5f178d46fc21dd2382ac9fdca78bc3c64ac9f68f",
+      "stable": true
+    },
+    "oanda_news_event_tagger.py": {
+      "after_stat": {
+        "bytes": 86104,
+        "device": 8269922341625680609,
+        "inode": 1688849861421343,
+        "mtime_ns": 1786950855454947400
+      },
+      "before_stat": {
+        "bytes": 86104,
+        "device": 8269922341625680609,
+        "inode": 1688849861421343,
+        "mtime_ns": 1786950855454947400
+      },
+      "bytes": 86104,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_news_event_tagger.py",
+      "read_completed_epoch": 1788950053.9173396,
+      "read_started_epoch": 1788950053.9163418,
+      "sha256": "3657872fa84a6f081903307df7209350fed4f713d866735b9387ce375a5e4f3f",
+      "stable": true
+    },
+    "oanda_news_topic_identity_reconciliation_v1.py": {
+      "after_stat": {
+        "bytes": 14139,
+        "device": 8269922341625680609,
+        "inode": 54887620460495681,
+        "mtime_ns": 1788897280632543300
+      },
+      "before_stat": {
+        "bytes": 14139,
+        "device": 8269922341625680609,
+        "inode": 54887620460495681,
+        "mtime_ns": 1788897280632543300
+      },
+      "bytes": 14139,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_news_topic_identity_reconciliation_v1.py",
+      "read_completed_epoch": 1788950053.9074552,
+      "read_started_epoch": 1788950053.907405,
+      "sha256": "d34b0c72693497e9be6eadc86bd17f0a2c1c1b79ecf010928faf88a5033a7884",
+      "stable": true
+    }
+  },
+  "source_reads_before": {
+    "oanda_local_news_sentiment.py": {
+      "after_stat": {
+        "bytes": 829561,
+        "device": 8269922341625680609,
+        "inode": 12103423999715570,
+        "mtime_ns": 1788818587491452100
+      },
+      "before_stat": {
+        "bytes": 829561,
+        "device": 8269922341625680609,
+        "inode": 12103423999715570,
+        "mtime_ns": 1788818587491452100
+      },
+      "bytes": 829561,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_local_news_sentiment.py",
+      "read_completed_epoch": 1788950050.5025945,
+      "read_started_epoch": 1788950050.5015972,
+      "sha256": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4",
+      "stable": true
+    },
+    "oanda_local_news_sentiment_repair_v1.py": {
+      "after_stat": {
+        "bytes": 22513,
+        "device": 8269922341625680609,
+        "inode": 20266198325004967,
+        "mtime_ns": 1788897802216499700
+      },
+      "before_stat": {
+        "bytes": 22513,
+        "device": 8269922341625680609,
+        "inode": 20266198325004967,
+        "mtime_ns": 1788897802216499700
+      },
+      "bytes": 22513,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_local_news_sentiment_repair_v1.py",
+      "read_completed_epoch": 1788950050.5005999,
+      "read_started_epoch": 1788950050.4996028,
+      "sha256": "c2fbad7c290ce1edaa977e99988ab563a2afc6571dc456271e45bde3ca7b2b6b",
+      "stable": true
+    },
+    "oanda_news_causal_aggregation_guard_v1.py": {
+      "after_stat": {
+        "bytes": 22224,
+        "device": 8269922341625680609,
+        "inode": 171981210771175890,
+        "mtime_ns": 1788818333389886900
+      },
+      "before_stat": {
+        "bytes": 22224,
+        "device": 8269922341625680609,
+        "inode": 171981210771175890,
+        "mtime_ns": 1788818333389886900
+      },
+      "bytes": 22224,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_news_causal_aggregation_guard_v1.py",
+      "read_completed_epoch": 1788950050.5085793,
+      "read_started_epoch": 1788950050.5075817,
+      "sha256": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9",
+      "stable": true
+    },
+    "oanda_news_classification_contract.py": {
+      "after_stat": {
+        "bytes": 7251,
+        "device": 8269922341625680609,
+        "inode": 63613344737315683,
+        "mtime_ns": 1788817352981788800
+      },
+      "before_stat": {
+        "bytes": 7251,
+        "device": 8269922341625680609,
+        "inode": 63613344737315683,
+        "mtime_ns": 1788817352981788800
+      },
+      "bytes": 7251,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_news_classification_contract.py",
+      "read_completed_epoch": 1788950050.5095768,
+      "read_started_epoch": 1788950050.5085793,
+      "sha256": "f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae",
+      "stable": true
+    },
+    "oanda_news_collector_contract.py": {
+      "after_stat": {
+        "bytes": 331,
+        "device": 8269922341625680609,
+        "inode": 54606145482865436,
+        "mtime_ns": 1787855405039186200
+      },
+      "before_stat": {
+        "bytes": 331,
+        "device": 8269922341625680609,
+        "inode": 54606145482865436,
+        "mtime_ns": 1787855405039186200
+      },
+      "bytes": 331,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_news_collector_contract.py",
+      "read_completed_epoch": 1788950050.5115716,
+      "read_started_epoch": 1788950050.5105753,
+      "sha256": "41c30599a953d0fd967bc68c5f178d46fc21dd2382ac9fdca78bc3c64ac9f68f",
+      "stable": true
+    },
+    "oanda_news_event_tagger.py": {
+      "after_stat": {
+        "bytes": 86104,
+        "device": 8269922341625680609,
+        "inode": 1688849861421343,
+        "mtime_ns": 1786950855454947400
+      },
+      "before_stat": {
+        "bytes": 86104,
+        "device": 8269922341625680609,
+        "inode": 1688849861421343,
+        "mtime_ns": 1786950855454947400
+      },
+      "bytes": 86104,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_news_event_tagger.py",
+      "read_completed_epoch": 1788950050.5105753,
+      "read_started_epoch": 1788950050.5095768,
+      "sha256": "3657872fa84a6f081903307df7209350fed4f713d866735b9387ce375a5e4f3f",
+      "stable": true
+    },
+    "oanda_news_topic_identity_reconciliation_v1.py": {
+      "after_stat": {
+        "bytes": 14139,
+        "device": 8269922341625680609,
+        "inode": 54887620460495681,
+        "mtime_ns": 1788897280632543300
+      },
+      "before_stat": {
+        "bytes": 14139,
+        "device": 8269922341625680609,
+        "inode": 54887620460495681,
+        "mtime_ns": 1788897280632543300
+      },
+      "bytes": 14139,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_news_topic_identity_reconciliation_v1.py",
+      "read_completed_epoch": 1788950050.5015972,
+      "read_started_epoch": 1788950050.5005999,
+      "sha256": "d34b0c72693497e9be6eadc86bd17f0a2c1c1b79ecf010928faf88a5033a7884",
+      "stable": true
+    }
+  },
+  "source_replay": "verified",
+  "source_topics": 34,
+  "sources_unchanged": true,
+  "started_epoch": 1788950050.4895658,
+  "status": "completed",
+  "validation_completed_epoch": 1788950053.4824202,
+  "validation_started_epoch": 1788950051.1335638
+}

@@ -1,0 +1,58 @@
+{
+  "bindings": {
+    "attribute_verified_episode_costs_v1.py": {
+      "bytes": 14221,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\attribute_verified_episode_costs_v1.py",
+      "sha256": "df5fdef432c05a7b618f45deccd5598e3de833e8cb2c6b90fe3c6ae33f033f19"
+    },
+    "cost_attribution_final_tests.xml": {
+      "bytes": 3454,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\cost_attribution_final_tests.xml",
+      "sha256": "e8c61ff616d7a0c673728dcb499df07a8a8096bb455b65075946d7d2e1c11ebb"
+    },
+    "cost_attribution_initial_tests.xml": {
+      "bytes": 5293,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\cost_attribution_initial_tests.xml",
+      "sha256": "770acf51287e12a13d9cc220ab2ae7e477578d76ef422d4dac2e0b99dcea6c9a"
+    },
+    "summarize_verified_episodes_v1.py": {
+      "bytes": 16263,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\summarize_verified_episodes_v1.py",
+      "sha256": "da845b43606d138977a74b2ba3260068405e0a55f77f416f3e8aed7e342cda9c"
+    },
+    "test_attribute_verified_episode_costs_v1.py": {
+      "bytes": 8680,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\test_attribute_verified_episode_costs_v1.py",
+      "sha256": "7317bd3e60eb6f6dc0c85ed98ecfe6e244e695dc8f9ab546c8cab0d8b17bc1aa"
+    }
+  },
+  "created_utc": "2026-09-09T08:17:37.064852+00:00",
+  "limits": [
+    "This trusts the accepted verifier report and retained file hashes as the verification basis; it is not a replacement raw-quote source replay.",
+    "Declared 0.1 bps slippage is a frozen research assumption. Financing, commissions and market impact remain unmodeled.",
+    "Owner test execution and separate actual episode result are not attributed to this reviewer."
+  ],
+  "owner_xml_summary": {
+    "errors": "0",
+    "failures": "0",
+    "hostname": "DESKTOP-Q2EDIEU",
+    "name": "pytest",
+    "skipped": "0",
+    "tests": "21",
+    "time": "0.678",
+    "timestamp": "2026-09-09T04:16:41.684112-04:00"
+  },
+  "remaining_blockers": [],
+  "review_scope": "Read-only helper and focused test-source review; no independent tests, actual episode evaluation, runtime change or broker action.",
+  "reviewer": "pair_ledger_evaluation",
+  "schema_version": "verified_episode_cost_attribution_independent_review_v1_20260909",
+  "status": "passed_bounded_source_review",
+  "verified_boundaries": [
+    "Exact selected GBP_USD bid/ask midpoint and half-spreads, integer original base units, and side-correct 0.1 bps per-leg hypothetical slippage.",
+    "Each closed original virtual trade reconciles signed gross midpoint movement minus both retained half-spreads and slippage to its retained realized quote-currency/USD P&L. Decimal96 arithmetic is isolated from ambient precision.",
+    "Original entry, quote IDs and market/availability/action clocks are retained and checked; five counterfactual arms have separate positions and cash chains.",
+    "Only actual recorded virtual_action legs count. Hypothetical liquidation marks do not create trades or costs; open-entry costs are separately disclosed outside realized totals.",
+    "Full accepted verifier-report file digest, exact registered source closure, original settlement-file hashes and state/step arithmetic are checked before attributing retained trades.",
+    "Incomplete episode disposition and original fixed terminal eligibility remain explicit; no independent trial count, actual account aggregation or broker-fill claim."
+  ]
+}

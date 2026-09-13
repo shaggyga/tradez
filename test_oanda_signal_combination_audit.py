@@ -1,4 +1,5 @@
 import json
+import copy
 import sqlite3
 import tempfile
 import unittest
@@ -7,6 +8,7 @@ from pathlib import Path
 
 from trad.oanda_signal_combination_audit import (
     SignalCombinationModel,
+    FUZZY_VALIDATION_CONTRACT,
     build_signal_vector,
     chronological_partitions,
     feature_domain,
@@ -56,6 +58,9 @@ class ExitFitTests(unittest.TestCase):
                     ],
                 },
             ]
+            for rule in rules:
+                rule["validation_contract"] = FUZZY_VALIDATION_CONTRACT
+                rule["selection_calibration"] = rule.pop("holdout")
             payload = write_rule_state(root / "rules.json", database, rules, {})
         self.assertEqual(payload["rules"][0]["rule_id"], "raw-first")
         self.assertEqual(
@@ -413,6 +418,15 @@ class ExitFitTests(unittest.TestCase):
             )
 
 
+def with_mature_outcomes(rows, horizon_sec):
+    for row in rows:
+        row['outcome_time'] = (datetime.fromisoformat(row['origin_time'].replace('Z', '+00:00')) + timedelta(seconds=horizon_sec)).isoformat()
+        row.setdefault('signed_move_pips', 1.0)
+        row.setdefault('long_net_pips', 0.8)
+        row.setdefault('short_net_pips', -1.2)
+    return rows
+
+
 class CombinationAuditTests(unittest.TestCase):
     def test_chronological_partitions_align_timestamps_and_purge_horizon(self):
         base = datetime(2026, 1, 1, tzinfo=timezone.utc)
@@ -427,7 +441,7 @@ class CombinationAuditTests(unittest.TestCase):
                     }
                 )
         ordered, train, selection, holdout, metadata = chronological_partitions(
-            rows,
+            with_mature_outcomes(rows, 120),
             120,
             2,
         )
@@ -501,7 +515,7 @@ class CombinationAuditTests(unittest.TestCase):
                 }
             )
         rules = mine_fuzzy_rules(
-            rows,
+            with_mature_outcomes(rows, 300),
             300,
             minimum_train_support=50,
             minimum_holdout_support=20,
@@ -510,9 +524,9 @@ class CombinationAuditTests(unittest.TestCase):
         self.assertTrue(rules)
         self.assertTrue(any(len(rule["conditions"]) >= 2 for rule in rules))
         self.assertTrue(all(rule["selection"]["lower_probability_edge"] > 0.0 for rule in rules))
-        self.assertTrue(all(rule["holdout"]["lower_probability_edge"] > 0.0 for rule in rules))
+        self.assertTrue(all(rule["final_holdout_role"] == "report_only_after_rule_set_frozen" for rule in rules))
 
-    def test_rule_miner_requires_replication_in_final_chronological_block(self):
+    def test_rule_miner_freezes_selection_before_adverse_final_period(self):
         rows = []
         for index in range(2000):
             active = index % 4 == 0
@@ -537,24 +551,24 @@ class CombinationAuditTests(unittest.TestCase):
                     "short_net_pips": -signed - 0.1,
                 }
             )
-        legacy = mine_fuzzy_rules(
-            rows,
-            300,
-            minimum_train_support=40,
-            minimum_holdout_support=20,
-            max_rules=20,
-            chronological_validation_blocks=1,
-        )
-        replicated = mine_fuzzy_rules(
-            rows,
-            300,
-            minimum_train_support=40,
-            minimum_holdout_support=20,
-            max_rules=20,
-            chronological_validation_blocks=2,
-        )
-        self.assertTrue(legacy)
-        self.assertFalse(replicated)
+        with_mature_outcomes(rows, 300)
+        kwargs = dict(minimum_train_support=40, minimum_holdout_support=20, max_rules=20,
+                      as_of_utc='2026-01-05T00:00:00Z')
+        with self.assertRaisesRegex(ValueError, 'separate_selection_and_final_holdout'):
+            mine_fuzzy_rules(rows, 300, chronological_validation_blocks=1, **kwargs)
+        original = mine_fuzzy_rules(rows, 300, **kwargs)
+        changed = copy.deepcopy(rows)
+        # Only the final 15% changes; identities, selection and calibration must not.
+        for row in changed[1700:]:
+            row['signed_move_pips'] *= -1
+            row['long_net_pips'], row['short_net_pips'] = row['short_net_pips'], row['long_net_pips']
+        rescored = mine_fuzzy_rules(changed, 300, **kwargs)
+        def frozen(items):
+            return [{k:v for k,v in row.items() if k not in ('final_holdout', 'final_holdout_independence_audit')} for row in items]
+        self.assertTrue(original)
+        self.assertEqual(frozen(original), frozen(rescored))
+        self.assertNotEqual([r['final_holdout'] for r in original], [r['final_holdout'] for r in rescored])
+        self.assertTrue(all(not r['account_eligible'] for r in original))
 
     def test_rule_miner_beam_search_reaches_four_feature_interaction(self):
         rows = []
@@ -585,7 +599,7 @@ class CombinationAuditTests(unittest.TestCase):
                     }
                 )
         rules = mine_fuzzy_rules(
-            rows,
+            with_mature_outcomes(rows, 300),
             300,
             minimum_train_support=40,
             minimum_holdout_support=20,
@@ -596,7 +610,7 @@ class CombinationAuditTests(unittest.TestCase):
             maximum_base_features=4,
         )
         self.assertTrue(any(rule["condition_count"] == 4 for rule in rules))
-        self.assertTrue(all(rule["account_eligible"] for rule in rules))
+        self.assertTrue(all(not rule["account_eligible"] for rule in rules))
         self.assertTrue(
             all(rule["experimental_depth"] for rule in rules if rule["condition_count"] > 3)
         )
@@ -624,21 +638,11 @@ class CombinationAuditTests(unittest.TestCase):
                     "short_net_pips": -signed - 0.1,
                 }
             )
-        rules = mine_fuzzy_rules(
-            rows,
-            7200,
-            minimum_train_support=40,
-            minimum_holdout_support=20,
-            max_rules=20,
-        )
-        self.assertTrue(rules)
-        self.assertTrue(all(not rule["account_eligible"] for rule in rules))
-        self.assertTrue(
-            all(
-                rule["independence_audit"]["independent_time_bucket_count"] == 1
-                for rule in rules
-            )
-        )
+        # All 2h labels overlap all origin blocks. A valid train/selection split
+        # cannot be manufactured by falling back to row-index partitions.
+        with self.assertRaisesRegex(ValueError, 'empty_partition_after_actual_maturity_purge'):
+            mine_fuzzy_rules(with_mature_outcomes(rows, 7200), 7200,
+                minimum_train_support=40, minimum_holdout_support=20, max_rules=20)
 
     def test_model_exposes_rule_probability_and_membership(self):
         with tempfile.TemporaryDirectory() as folder:

@@ -1,0 +1,68 @@
+{
+  "actual_publish_run": false,
+  "actual_validate_run": false,
+  "closed_findings": [
+    {
+      "closure": "Parent added finite positive start and finite completion >= start before success receipt; seven mock cases cover boundary refusal.",
+      "finding": "Non-finite or inverted wrapper execution clocks could be retained."
+    }
+  ],
+  "completed_epoch": 1788957506.711665,
+  "limits": [
+    "This tests wrapper routing and receipts, not a fresh execution of accepted underlying export/validation workflows.",
+    "Original pinned helper __file__ remains unchanged; wrapper receipt separately discloses fixed overrides.",
+    "Existing early-close bytes are preserved by fixed new destinations and were checked with temporary stub artifacts."
+  ],
+  "remaining_blockers": [],
+  "review_scope": [
+    "Source-only review of fixed continuation report/validation overrides and unchanged pinned implementation entry points.",
+    "17 independent mock-only cases cover exact phase forwarding, original implementation __file__, unchanged early-close stub bytes, initial/during-call source changes, argv restoration on failure, exclusive invocation retry refusal, exact receipt source bindings, invalid/rollback start/completion clocks.",
+    "Underlying assembler/publisher main functions were replaced with disposable mock functions; no actual validation, copying, publication, broker, process or vault calls."
+  ],
+  "runtime_changes": false,
+  "schema_version": "continuation_handoff_independent_review_v1_20260909",
+  "source_edits_by_reviewer": false,
+  "source_evidence": [
+    {
+      "bytes": 3920,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\run_continuation_handoff_v1.py",
+      "sha256": "198310b61c52218c4305a2de7edbca93f575ac27ae6f5ee0aabf4597c645fc81"
+    },
+    {
+      "bytes": 3610,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\run_continuation_handoff_v1_before_clock_guard.py.txt",
+      "sha256": "18607a662e4537589c979eac3eef6a8cad4e14e32e3ec77ef8f4cca1a019e1e5"
+    },
+    {
+      "bytes": 10351,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\assemble_final_validation_v1.py",
+      "sha256": "578cd4c2a8695da67d05c563b2fc721d04d69e54a04389e953d7ffbdd6a60dbf"
+    },
+    {
+      "bytes": 11086,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\publish_overnight_vault_v1.py",
+      "sha256": "122486189afba8925010643c4d3e1dda88bef18409d604074de43eae63547fe5"
+    },
+    {
+      "bytes": 5851,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\continuation_handoff_independent_review_v1\\test_continuation_handoff_mock_v1.py",
+      "sha256": "615ca39fbc080c59c074218eb1956b2ff0f7b0d82b3195a2477fad0cead66d7e"
+    },
+    {
+      "bytes": 3890,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\continuation_handoff_independent_review_v1\\continuation_handoff_mock_final_tests.xml",
+      "sha256": "05374f232d612504a36d5f73fd932810cb6c7f167be8544d2fd3c24eb42a7893"
+    }
+  ],
+  "status": "passed",
+  "tests": {
+    "cases": 17,
+    "execution": "mocked disposable temporary filesystem only",
+    "passed": 17,
+    "xml": {
+      "bytes": 3890,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\continuation_handoff_independent_review_v1\\continuation_handoff_mock_final_tests.xml",
+      "sha256": "05374f232d612504a36d5f73fd932810cb6c7f167be8544d2fd3c24eb42a7893"
+    }
+  }
+}

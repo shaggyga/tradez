@@ -182,6 +182,48 @@ def test_official_culture_or_cooperation_program_is_not_fx_catalyst():
     assert article["exclusion_reason"] == "official_non_market_program"
 
 
+def test_official_defense_clinical_guidance_is_not_global_risk_off():
+    article = news.classify_article(
+        {
+            "source_id": "us_dow_releases_direct_v1",
+            "source_name": "Press Operations",
+            "source_kind": "rss",
+            "source_verified": True,
+            "source_direct": True,
+            "source_quality": 1.0,
+            "source_role": "primary_systemic_geopolitical_release",
+            "source_currencies": [],
+            "title": (
+                "Statement by Chief Pentagon Spokesman, Sean Parnell, on the "
+                "Clinical Guidance for Health and Human Performance Optimization"
+            ),
+            "summary": (
+                "The War Department remains focused on building and maintaining "
+                "a ready, lethal fighting force prepared to dominate the battlefield "
+                "and achieve peace through strength."
+            ),
+            "url": "https://www.war.gov/News/Releases/Release/Article/4589310/example/",
+            "published_utc": "2026-09-02T18:36:26Z",
+        },
+        first_seen=dt.datetime(2026, 9, 2, 19, 1, 19, tzinfo=UTC),
+    )
+    assert article["category"] == "market_news"
+    assert article["risk_off_score"] == 0
+    assert article["currency_scores"] == {}
+    assert article["research_currency_scores"] == {}
+    assert article["relevant"] is False
+    assert article["exclusion_reason"] == "official_non_market_program"
+    assert article["official_defense_nonmarket_health_guard"] is True
+    assert (
+        article["official_defense_nonmarket_health_guard_contract_id"]
+        == "official_defense_nonmarket_health_guard_v1_20260902"
+    )
+    assert (
+        article["official_defense_nonmarket_health_guard_activation_eligible"]
+        is False
+    )
+
+
 def test_hormuz_ship_attack_paraphrases_share_story_cluster_and_clock():
     first = news.classify_article(
         {
@@ -626,124 +668,40 @@ def test_news_cycle_fails_closed_before_database_open_on_untrusted_clock(
     assert not (output / "local_news_sentiment_v1.sqlite").exists()
 
 
-def test_news_cycle_quarantines_fetch_when_clock_fails_after_response(
-    tmp_path, monkeypatch
-):
-    config = tmp_path / "sources.json"
-    config.write_text(
-        json.dumps(
-            {
-                "policy": {"request_timeout_sec": 2},
-                "sources": [
-                    {
-                        "source_id": "official",
-                        "name": "Official",
-                        "kind": "rss",
-                        "url": "https://example.com/feed.xml",
-                        "enabled": True,
-                        "runtime_supported": True,
-                        "verified": True,
-                        "direct": True,
-                        "currencies": ["USD"],
-                    }
-                ],
-            }
-        ),
-        encoding="utf-8",
-    )
-    output = tmp_path / "news"
+def test_news_cycle_quarantines_fetch_when_clock_fails_after_response(tmp_path, monkeypatch):
+    config = tmp_path / 'sources.json'
+    config.write_text(json.dumps({'policy': {'request_timeout_sec': 2}, 'sources': [{'source_id': 'official', 'name': 'Official', 'kind': 'rss', 'url': 'https://example.com/feed.xml', 'enabled': True, 'runtime_supported': True, 'verified': True, 'direct': True, 'currencies': ['USD']}]}), encoding='utf-8')
+    output = tmp_path / 'news'
     current = dt.datetime(2026, 8, 17, 10, 0, tzinfo=UTC)
-    monkeypatch.setattr(news, "utc_now", lambda: current)
-    calls = {"value": 0}
+    monkeypatch.setattr(news, 'utc_now', lambda: current)
+    calls = {'value': 0}
 
     def clock(value):
-        calls["value"] += 1
-        trusted = calls["value"] <= 2
-        return value, {
-            "contract_id": news.OBSERVATION_TIME_CONTRACT_ID,
-            "source": "test" if trusted else "unavailable",
-            "trusted_for_prospective_evidence": trusted,
-        }
-
-    monkeypatch.setattr(news, "normalized_observation_time", clock)
+        calls['value'] += 1
+        trusted = calls['value'] <= 2
+        return (value, {'contract_id': news.OBSERVATION_TIME_CONTRACT_ID, 'source': 'test' if trusted else 'unavailable', 'trusted_for_prospective_evidence': trusted})
+    monkeypatch.setattr(news, 'normalized_observation_time', clock)
     seen_fetch_states = []
 
     def fetch(source, state, **kwargs):
         seen_fetch_states.append(dict(state))
-        return (
-            [
-                {
-                    "source_id": "official",
-                    "source_name": "Official",
-                    "source_kind": "rss",
-                    "source_quality": 1.0,
-                    "source_verified": True,
-                    "source_direct": True,
-                    "source_currencies": ["USD"],
-                    "title": "Official release",
-                    "summary": "New information",
-                    "url": "https://example.com/release",
-                    "published_utc": "2026-08-17T09:59:00Z",
-                }
-            ],
-            {
-                **state,
-                "last_status": 200,
-                "last_error": "",
-                "etag": "EVENT_ETAG",
-                "last_modified": "EVENT_LAST_MODIFIED",
-            },
-        )
-
-    monkeypatch.setattr(news, "fetch_source", fetch)
-
-    result = news.run_cycle(
-        config_path=config,
-        output_root=output,
-        ledger_path=tmp_path / "ledger.csv",
-        event_root=tmp_path / "events",
-        refresh_event_catalog=False,
-    )
-
-    assert result["status"] == "blocked_clock_integrity_at_completion"
-    assert result["inserted_items"] == 0
-    persisted = json.loads(
-        (output / "collector_state_v1.json").read_text(encoding="utf-8")
-    )
-    assert "etag" not in (persisted.get("sources") or {}).get("official", {})
-    assert "last_modified" not in (
-        (persisted.get("sources") or {}).get("official", {})
-    )
-    with sqlite3.connect(output / "local_news_sentiment_v1.sqlite") as connection:
-        assert connection.execute("SELECT COUNT(*) FROM articles").fetchone()[0] == 0
-
-    # The completion-block path closed the cached connection.  A trusted next
-    # cycle must open a fresh handle, retry without quarantined validators,
-    # and commit the event rather than crashing or receiving an artificial 304.
-    monkeypatch.setattr(
-        news,
-        "normalized_observation_time",
-        lambda value: (
-            value,
-            {
-                "contract_id": news.OBSERVATION_TIME_CONTRACT_ID,
-                "source": "test",
-                "trusted_for_prospective_evidence": True,
-            },
-        ),
-    )
-    recovered = news.run_cycle(
-        config_path=config,
-        output_root=output,
-        ledger_path=tmp_path / "ledger.csv",
-        event_root=tmp_path / "events",
-        refresh_event_catalog=False,
-    )
-    assert recovered["status"] == "ok"
+        return ([{'source_id': 'official', 'source_name': 'Official', 'source_kind': 'rss', 'source_quality': 1.0, 'source_verified': True, 'source_direct': True, 'source_currencies': ['USD'], 'title': 'Official release', 'summary': 'New information', 'url': 'https://example.com/release', 'published_utc': '2026-08-17T09:59:00Z', 'source_contract_id': source['source_contract_id'], 'source_cohort_id': source['source_cohort_id']}], {**state, 'last_status': 200, 'last_error': '', 'etag': 'EVENT_ETAG', 'last_modified': 'EVENT_LAST_MODIFIED'})
+    monkeypatch.setattr(news, 'fetch_source', fetch)
+    result = news.run_cycle(config_path=config, output_root=output, ledger_path=tmp_path / 'ledger.csv', event_root=tmp_path / 'events', refresh_event_catalog=False)
+    assert result['status'] == 'blocked_clock_integrity_at_completion'
+    assert result['inserted_items'] == 0
+    persisted = json.loads((output / 'collector_state_v1.json').read_text(encoding='utf-8'))
+    assert 'etag' not in (persisted.get('sources') or {}).get('official', {})
+    assert 'last_modified' not in (persisted.get('sources') or {}).get('official', {})
+    with sqlite3.connect(output / 'local_news_sentiment_v1.sqlite') as connection:
+        assert connection.execute('SELECT COUNT(*) FROM articles').fetchone()[0] == 0
+    monkeypatch.setattr(news, 'normalized_observation_time', lambda value: (value, {'contract_id': news.OBSERVATION_TIME_CONTRACT_ID, 'source': 'test', 'trusted_for_prospective_evidence': True}))
+    recovered = news.run_cycle(config_path=config, output_root=output, ledger_path=tmp_path / 'ledger.csv', event_root=tmp_path / 'events', refresh_event_catalog=False)
+    assert recovered['status'] == 'ok'
     assert len(seen_fetch_states) == 2
-    assert "etag" not in seen_fetch_states[1]
-    with sqlite3.connect(output / "local_news_sentiment_v1.sqlite") as connection:
-        assert connection.execute("SELECT COUNT(*) FROM articles").fetchone()[0] == 1
+    assert 'etag' not in seen_fetch_states[1]
+    with sqlite3.connect(output / 'local_news_sentiment_v1.sqlite') as connection:
+        assert connection.execute('SELECT COUNT(*) FROM articles').fetchone()[0] == 1
 
 
 def test_news_cycle_rejects_truthy_attestation_from_wrong_clock_contract(
@@ -781,113 +739,87 @@ def test_news_cycle_rejects_truthy_attestation_from_wrong_clock_contract(
 
 
 def test_duplicate_article_cannot_be_relabelled_to_new_clock_contract(tmp_path):
-    connection = news.process_database(tmp_path / "news.sqlite")
+    connection = news.process_database(tmp_path / 'news.sqlite')
     first_seen = dt.datetime(2026, 8, 17, 10, 0, tzinfo=UTC)
-    raw = {
-        "source_id": "official",
-        "source_name": "Official",
-        "source_kind": "rss",
-        "source_quality": 1.0,
-        "source_verified": True,
-        "source_direct": True,
-        "source_currencies": ["USD"],
-        "title": "Official release",
-        "summary": "Unchanged facts",
-        "url": "https://example.com/release",
-        "published_utc": "2026-08-17T09:59:00Z",
-        "collector_contract_id": "collector-old",
-        "collector_cohort_id": "collector-old",
-        "observation_time_contract_id": "clock-old",
-        "observation_clock_trusted": False,
-        "observation_clock_source": "unavailable",
-    }
+    raw = {'source_id': 'official', 'source_name': 'Official', 'source_kind': 'rss', 'source_quality': 1.0, 'source_verified': True, 'source_direct': True, 'source_currencies': ['USD'], 'title': 'Official release', 'summary': 'Unchanged facts', 'url': 'https://example.com/release', 'published_utc': '2026-08-17T09:59:00Z', 'collector_contract_id': 'collector-old', 'collector_cohort_id': 'collector-old', 'observation_time_contract_id': 'clock-old', 'observation_clock_trusted': False, 'observation_clock_source': 'unavailable'}
     first = news.classify_article(raw, first_seen=first_seen)
-    assert news.upsert_articles(connection, [first], first_seen) == (1, 0)
+    assert fixture_retained_legacy_insert(connection, [first], first_seen) == (1, 0)
     newer = dict(raw)
-    newer.update(
-        {
-            "collector_contract_id": news.COLLECTOR_CONTRACT_ID,
-            "collector_cohort_id": news.COLLECTOR_COHORT_ID,
-            "observation_time_contract_id": news.OBSERVATION_TIME_CONTRACT_ID,
-            "observation_clock_trusted": True,
-            "observation_clock_source": "clock_integrity_synchronized_host",
-        }
-    )
-    second = news.classify_article(
-        newer, first_seen=first_seen + dt.timedelta(minutes=1)
-    )
-    news.upsert_articles(connection, [second], first_seen + dt.timedelta(minutes=1))
-    payload = json.loads(
-        connection.execute("SELECT payload_json FROM articles").fetchone()[0]
-    )
+    newer.update({'collector_contract_id': news.COLLECTOR_CONTRACT_ID, 'collector_cohort_id': news.COLLECTOR_COHORT_ID, 'observation_time_contract_id': news.OBSERVATION_TIME_CONTRACT_ID, 'observation_clock_trusted': True, 'observation_clock_source': 'clock_integrity_synchronized_host'})
+    second = fixture_observed_classify(newer, first_seen=first_seen + dt.timedelta(minutes=1))
+    fixture_observed_upsert(connection, [second], first_seen + dt.timedelta(minutes=1))
+    payload = json.loads(connection.execute('SELECT payload_json FROM articles').fetchone()[0])
     connection.close()
-    assert payload["observation_time_contract_id"] == "clock-old"
-    assert payload["observation_clock_trusted"] is False
+    assert payload['observation_time_contract_id'] == 'clock-old'
+    assert payload['observation_clock_trusted'] is False
 
 
 def test_pre_provenance_duplicate_remains_legacy_untrusted(tmp_path):
-    connection = news.process_database(tmp_path / "news.sqlite")
+    connection = news.process_database(tmp_path / 'news.sqlite')
     first_seen = dt.datetime(2026, 8, 10, 10, 0, tzinfo=UTC)
-    raw = {
-        "source_id": "official",
-        "source_name": "Official",
-        "source_kind": "rss",
-        "source_quality": 1.0,
-        "source_verified": True,
-        "source_direct": True,
-        "source_currencies": ["USD"],
-        "title": "Legacy official release",
-        "summary": "Unchanged facts",
-        "url": "https://example.com/legacy-release",
-        "published_utc": "2026-08-10T09:59:00Z",
-    }
+    raw = {'source_id': 'official', 'source_name': 'Official', 'source_kind': 'rss', 'source_quality': 1.0, 'source_verified': True, 'source_direct': True, 'source_currencies': ['USD'], 'title': 'Legacy official release', 'summary': 'Unchanged facts', 'url': 'https://example.com/legacy-release', 'published_utc': '2026-08-10T09:59:00Z'}
     first = news.classify_article(raw, first_seen=first_seen)
-    assert news.upsert_articles(connection, [first], first_seen) == (1, 0)
-
-    payload = json.loads(
-        connection.execute("SELECT payload_json FROM articles").fetchone()[0]
-    )
-    for field in (
-        "collector_contract_id",
-        "collector_cohort_id",
-        "observation_time_contract_id",
-        "observation_clock_trusted",
-        "observation_clock_source",
-    ):
+    assert fixture_retained_legacy_insert(connection, [first], first_seen) == (1, 0)
+    payload = json.loads(connection.execute('SELECT payload_json FROM articles').fetchone()[0])
+    for field in ('collector_contract_id', 'collector_cohort_id', 'observation_time_contract_id', 'observation_clock_trusted', 'observation_clock_source'):
         payload.pop(field, None)
-    connection.execute(
-        "UPDATE articles SET payload_json=?", (json.dumps(payload, sort_keys=True),)
-    )
+    connection.execute('UPDATE articles SET payload_json=?', (json.dumps(payload, sort_keys=True),))
     connection.commit()
-
     current = dict(raw)
-    current.update(
-        {
-            "collector_contract_id": news.COLLECTOR_CONTRACT_ID,
-            "collector_cohort_id": news.COLLECTOR_COHORT_ID,
-            "observation_time_contract_id": news.OBSERVATION_TIME_CONTRACT_ID,
-            "observation_clock_trusted": True,
-            "observation_clock_source": "clock_integrity_synchronized_host",
-        }
-    )
-    second = news.classify_article(
-        current, first_seen=first_seen + dt.timedelta(days=7)
-    )
-    news.upsert_articles(connection, [second], first_seen + dt.timedelta(days=7))
-    stored = json.loads(
-        connection.execute(
-            "SELECT payload_json FROM articles WHERE source_url=?",
-            (raw["url"],),
-        ).fetchone()[0]
-    )
+    current.update({'collector_contract_id': news.COLLECTOR_CONTRACT_ID, 'collector_cohort_id': news.COLLECTOR_COHORT_ID, 'observation_time_contract_id': news.OBSERVATION_TIME_CONTRACT_ID, 'observation_clock_trusted': True, 'observation_clock_source': 'clock_integrity_synchronized_host'})
+    second = fixture_observed_classify(current, first_seen=first_seen + dt.timedelta(days=7))
+    fixture_observed_upsert(connection, [second], first_seen + dt.timedelta(days=7))
+    stored = json.loads(connection.execute('SELECT payload_json FROM articles WHERE source_url=?', (raw['url'],)).fetchone()[0])
     connection.close()
-
-    assert stored["collector_contract_id"] == ""
-    assert stored["collector_cohort_id"] == ""
-    assert stored["observation_time_contract_id"] == ""
-    assert stored["observation_clock_trusted"] is False
-    assert stored["observation_clock_source"] == "legacy_unattested"
+    assert stored['collector_contract_id'] == ''
+    assert stored['collector_cohort_id'] == ''
+    assert stored['observation_time_contract_id'] == ''
+    assert stored['observation_clock_trusted'] is False
+    assert stored['observation_clock_source'] == 'legacy_unattested'
     assert news.prospective_collector_provenance(stored) is False
+
+
+def test_repeat_poll_cannot_cross_prospective_activation_boundary(tmp_path):
+    connection = news.process_database(tmp_path / 'news.sqlite')
+    first_seen = dt.datetime(2026, 9, 2, 19, 1, 19, tzinfo=UTC)
+    repeated_seen = dt.datetime(2026, 9, 2, 21, 1, 19, tzinfo=UTC)
+    raw = {'source_id': 'us_dow_releases_direct_v1', 'source_name': 'Press Operations', 'source_kind': 'rss', 'source_quality': 1.0, 'source_verified': True, 'source_direct': True, 'source_role': 'primary_systemic_geopolitical_release', 'source_currencies': [], 'title': 'Statement by Chief Pentagon Spokesman, Sean Parnell, on the Clinical Guidance for Health and Human Performance Optimization', 'summary': 'The War Department remains focused on a ready, lethal fighting force prepared to dominate the battlefield.', 'url': 'https://www.war.gov/News/Releases/Release/Article/4589310/example/', 'published_utc': '2026-09-02T18:36:26Z'}
+    original = fixture_observed_classify(raw, first_seen=first_seen)
+    assert original['official_defense_nonmarket_health_guard_activation_eligible'] is False
+    assert fixture_observed_upsert(connection, [original], first_seen) == (1, 0)
+    repeated = fixture_observed_classify(raw, first_seen=repeated_seen)
+    assert repeated['official_defense_nonmarket_health_guard_activation_eligible'] is True
+    assert fixture_observed_upsert(connection, [repeated], repeated_seen) == (0, 1)
+    stored = json.loads(connection.execute('SELECT payload_json FROM articles WHERE headline=?', (raw['title'],)).fetchone()[0])
+    connection.close()
+    assert stored['first_seen_utc'] == news.iso_utc(first_seen)
+    assert stored['official_defense_nonmarket_health_guard'] is True
+    assert stored['official_defense_nonmarket_health_guard_activation_eligible'] is False
+    assert stored['risk_off_score'] == 0
+    assert stored['currency_scores'] == {}
+
+
+def test_repeat_poll_cannot_retroactivate_policy_rate_structure(tmp_path):
+    connection = news.process_database(tmp_path / 'news.sqlite')
+    first_seen = dt.datetime(2026, 9, 2, 2, 13, 58, tzinfo=UTC)
+    repeated_seen = dt.datetime(2026, 9, 2, 3, 13, 58, tzinfo=UTC)
+    raw = {'source_id': 'rbnz_official_search', 'source_name': 'rbnz.govt.nz', 'source_kind': 'rss', 'source_quality': 0.8, 'source_verified': True, 'source_direct': False, 'retrieval_via': 'google_news_official_site_search', 'source_currencies': ['NZD'], 'title': 'OCR increased by 25 basis points to 2.75% - rbnz.govt.nz', 'summary': '', 'url': 'https://news.google.com/rss/articles/live-rbnz-repeat-fixture', 'published_utc': '2026-09-02T02:03:36Z'}
+    original = fixture_observed_classify(raw, first_seen=first_seen)
+    assert original['official_search_policy_rate_activation_eligible'] is False
+    assert original['structured_event'] is False
+    assert fixture_observed_upsert(connection, [original], first_seen) == (1, 0)
+    repeated = fixture_observed_classify(raw, first_seen=repeated_seen)
+    assert repeated['official_search_policy_rate_activation_eligible'] is True
+    assert repeated['structured_event'] is True
+    assert fixture_observed_upsert(connection, [repeated], repeated_seen) == (0, 1)
+    stored = json.loads(connection.execute('SELECT payload_json FROM articles WHERE headline=?', (raw['title'],)).fetchone()[0])
+    connection.close()
+    assert stored['first_seen_utc'] == news.iso_utc(first_seen)
+    assert stored['official_search_policy_rate_activation_eligible'] is False
+    assert stored['official_search_policy_rate_cohort_id'] == ''
+    assert stored['structured_event'] is False
+    assert stored['actual_value'] is None
+    assert stored['currency_scores'] == {}
 
 
 def test_current_topic_payload_does_not_inherit_legacy_first_known_clock(tmp_path):
@@ -1293,6 +1225,40 @@ def test_gdelt_noise_filter_keeps_only_audit_worthy_context_rows():
     assert news.retain_classified_discovery_article(rss_noise) is True
 
 
+def test_gdelt_parser_preserves_derived_source_lineage():
+    source = news.source_config_lineage(
+        {
+            "source_id": "gdelt_fx_macro_discovery",
+            "name": "GDELT FX macro discovery",
+            "kind": "gdelt",
+            "quality": 0.65,
+            "source_role": "aggregator_discovery",
+        }
+    )
+    payload = json.dumps(
+        {
+            "articles": [
+                {
+                    "title": "Central bank statement draws market attention",
+                    "url": "https://example.com/policy?utm_source=gdelt",
+                    "seendate": "20260901180500",
+                    "domain": "example.com",
+                    "language": "English",
+                    "sourcecountry": "United States",
+                }
+            ]
+        }
+    ).encode()
+
+    rows = news.parse_gdelt(payload, source)
+
+    assert len(rows) == 1
+    assert rows[0]["source_contract_id"] == source["source_contract_id"]
+    assert rows[0]["source_cohort_id"] == source["source_cohort_id"]
+    assert rows[0]["source_verified"] is False
+    assert rows[0]["source_direct"] is False
+
+
 def test_tariff_lawsuit_is_retained_as_non_directional_policy_context():
     article = news.classify_article(
         {
@@ -1581,6 +1547,36 @@ def test_recurring_statistical_rss_preserves_each_release_version_and_values():
 
 
 def test_mutable_official_latest_numbers_are_content_versioned_at_first_seen(tmp_path):
+    source = {'source_id': 'bls_principal_releases', 'name': 'BLS latest numbers', 'kind': 'rss', 'quality': 1.0, 'verified': True, 'direct': True, 'source_role': 'primary_statistical_release', 'recurring_release_feed': True, 'mutable_content_versioned': True, 'currencies': ['USD']}
+
+    def parsed(summary):
+        return news.parse_rss(f'<rss><channel><item>\n            <title>Major Economic Indicators Latest Numbers</title>\n            <description>{summary}</description>\n            <link>https://www.bls.gov/bls</link>\n            <pubDate>Fri, 31 Jul 2026 12:30:26 GMT</pubDate>\n            <guid>bls-latest</guid>\n            </item></channel></rss>'.encode(), source)[0]
+    first_seen = dt.datetime(2026, 8, 12, 12, 32, tzinfo=UTC)
+    first_raw = parsed('Consumer Price Index: +0.1% in Jul 2026')
+    second_raw = parsed('Consumer Price Index: +0.1% in Jul 2026; Producer Price Index: unchanged in Jul 2026')
+    first = fixture_observed_classify(first_raw, first_seen=first_seen)
+    second = fixture_observed_classify(second_raw, first_seen=first_seen + dt.timedelta(days=1))
+    assert first_raw['publisher_container_timestamp_utc'] == '2026-07-31T12:30:26+00:00'
+    assert first['published_time_inferred'] is True
+    assert first['causal_known_utc'] == '2026-08-12T12:33:00+00:00'
+    assert second['causal_known_utc'] == '2026-08-13T12:33:00+00:00'
+    assert first['event_lineage_id'] == second['event_lineage_id']
+    assert first['event_id'] != second['event_id']
+    assert first['causal_integrity_state'] == 'content_versioned_at_collection'
+    assert first['historical_replay_eligible'] is True
+    connection = news.open_database(tmp_path / 'news.sqlite')
+    try:
+        indexes = {str(row[1]) for row in connection.execute('PRAGMA index_list(articles)').fetchall()}
+        assert 'idx_articles_source_headline' in indexes
+        assert 'idx_articles_native_currency_contract' in indexes
+        assert fixture_observed_upsert(connection, [first], first_seen) == (1, 0)
+        assert fixture_observed_upsert(connection, [second], first_seen + dt.timedelta(days=1)) == (1, 0)
+        assert connection.execute('SELECT COUNT(*) FROM articles').fetchone()[0] == 2
+    finally:
+        connection.close()
+
+
+def test_mutable_official_latest_numbers_without_guid_still_versions_content():
     source = {
         "source_id": "bls_principal_releases",
         "name": "BLS latest numbers",
@@ -1592,6 +1588,7 @@ def test_mutable_official_latest_numbers_are_content_versioned_at_first_seen(tmp
         "recurring_release_feed": True,
         "mutable_content_versioned": True,
         "currencies": ["USD"],
+        "url": "https://www.bls.gov/feed/bls_latest.rss",
     }
 
     def parsed(summary):
@@ -1601,50 +1598,17 @@ def test_mutable_official_latest_numbers_are_content_versioned_at_first_seen(tmp
             <description>{summary}</description>
             <link>https://www.bls.gov/bls</link>
             <pubDate>Fri, 31 Jul 2026 12:30:26 GMT</pubDate>
-            <guid>bls-latest</guid>
             </item></channel></rss>""".encode(),
             source,
         )[0]
 
-    first_seen = dt.datetime(2026, 8, 12, 12, 32, tzinfo=UTC)
-    first_raw = parsed("Consumer Price Index: +0.1% in Jul 2026")
-    second_raw = parsed(
-        "Consumer Price Index: +0.1% in Jul 2026; "
-        "Producer Price Index: unchanged in Jul 2026"
-    )
-    first = news.classify_article(first_raw, first_seen=first_seen)
-    second = news.classify_article(
-        second_raw,
-        first_seen=first_seen + dt.timedelta(days=1),
-    )
-
-    assert first_raw["publisher_container_timestamp_utc"] == (
-        "2026-07-31T12:30:26+00:00"
-    )
-    assert first["published_time_inferred"] is True
-    assert first["causal_known_utc"] == "2026-08-12T12:33:00+00:00"
-    assert second["causal_known_utc"] == "2026-08-13T12:33:00+00:00"
-    assert first["event_lineage_id"] == second["event_lineage_id"]
-    assert first["event_id"] != second["event_id"]
-    assert first["causal_integrity_state"] == "content_versioned_at_collection"
-    assert first["historical_replay_eligible"] is True
-
-    connection = news.open_database(tmp_path / "news.sqlite")
-    try:
-        indexes = {
-            str(row[1])
-            for row in connection.execute("PRAGMA index_list(articles)").fetchall()
-        }
-        assert "idx_articles_source_headline" in indexes
-        assert news.upsert_articles(connection, [first], first_seen) == (1, 0)
-        assert news.upsert_articles(
-            connection,
-            [second],
-            first_seen + dt.timedelta(days=1),
-        ) == (1, 0)
-        assert connection.execute("SELECT COUNT(*) FROM articles").fetchone()[0] == 2
-    finally:
-        connection.close()
+    first = parsed("Payroll Employment: -23,000 in Jul 2026")
+    second = parsed("Payroll Employment: +162,000 in Aug 2026")
+    assert first["external_id"].startswith("recurring_container:")
+    assert first["external_id"] == second["external_id"]
+    assert first["material_content_sha256"] != second["material_content_sha256"]
+    assert first["published_utc"] == ""
+    assert first["structured_event"] is True
 
 
 def test_legacy_mutable_content_is_quarantined_from_historical_replay():
@@ -2131,6 +2095,252 @@ def test_recent_existing_official_item_can_be_enriched_without_backdating(
     assert article["detail_enrichment_research_only"] is True
 
 
+def test_boc_placeholder_to_release_is_a_new_immutable_observation(monkeypatch, tmp_path):
+    url = 'https://www.bankofcanada.ca/2026/10/fad-press-release-2026-10-28/'
+    canonical = news.canonical_url(url)
+    placeholder = b'<html><main>Rate announcement to come at 9:45 (ET). A press release will provide a brief explanation of the decision.</main></html>'
+    release = b'<html><main>The Bank of Canada maintained its target for the overnight rate at 2.25 percent. The Bank judges that upside risks to inflation have increased while tariff uncertainty weighs on growth.</main></html>'
+    response_body = {'value': placeholder}
+
+    class Response:
+        headers = {'Content-Type': 'text/html; charset=utf-8'}
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_args):
+            return False
+
+        def geturl(self):
+            return url
+
+        def read(self, _maximum):
+            return response_body['value']
+    monkeypatch.setattr(news.urllib.request, 'urlopen', lambda *_args, **_kwargs: Response())
+    source = {'source_id': 'boc_press', 'source_name': 'Bank of Canada press releases', 'detail_enrichment': 'official_document_text', 'trusted_domains': ['bankofcanada.ca'], 'detail_mutable_placeholder_versioning': True, 'detail_mutable_placeholder_contract_id': 'boc_placeholder_to_release_content_v1_20260902', 'detail_mutable_placeholder_activated_utc': '2026-09-02T19:20:00Z', 'detail_mutable_refetch_max_age_minutes': 240, 'detail_placeholder_text_patterns': ['rate announcement to come at', 'press release will provide a brief explanation']}
+
+    def raw_article(title='Rate announcement to come at 9:45 (ET)'):
+        return {'source_id': 'boc_press', 'source_name': 'Bank of Canada press releases', 'source_kind': 'rss', 'source_quality': 1.0, 'source_verified': True, 'source_direct': True, 'source_role': 'primary_policy_release', 'source_currencies': ['CAD'], 'title': title, 'summary': '', 'url': url, 'external_id': url, 'published_utc': '2026-10-28T13:02:00Z'}
+    first_seen = dt.datetime(2026, 10, 28, 13, 2, 10, tzinfo=UTC)
+    initial = raw_article()
+    enriched, detail_times, error = news.enrich_recent_official_release_details([initial], source, {}, timeout_sec=10, maximum_bytes=1000000, now=first_seen)
+    assert enriched == 1 and error == ''
+    assert initial['detail_placeholder_observed'] is True
+    assert initial.get('immutable_source_version_boundary') is not True
+    initial_material_hash = initial['material_content_sha256']
+    state = {'detail_first_seen_utc_by_url': detail_times, 'detail_content_sha256_by_url': {canonical: initial_material_hash}, 'detail_content_is_placeholder_by_url': {canonical: True}, 'detail_content_version_count_by_url': {canonical: 1}}
+    repeated = raw_article()
+    repeated_at = first_seen + dt.timedelta(minutes=1)
+    enriched, _, error = news.enrich_recent_official_release_details([repeated], source, state, timeout_sec=10, maximum_bytes=1000000, now=repeated_at)
+    assert enriched == 1 and error == ''
+    assert repeated['material_content_sha256'] == initial_material_hash
+    assert repeated.get('immutable_source_version_boundary') is not True
+    assert repeated['detail_available_utc'] == news.iso_utc(first_seen)
+    response_body['value'] = release
+    released = raw_article('Bank of Canada maintains policy rate at 2.25%')
+    release_seen = dt.datetime(2026, 10, 28, 13, 45, 2, tzinfo=UTC)
+    enriched, _, error = news.enrich_recent_official_release_details([released], source, state, timeout_sec=10, maximum_bytes=1000000, now=release_seen)
+    assert enriched == 1 and error == '', (enriched, error, released)
+    assert released['detail_placeholder_observed'] is False
+    assert released['detail_content_transition'] is True
+    assert released['detail_placeholder_transition'] is True
+    assert released['immutable_source_version_boundary'] is True
+    assert released['structured_event'] is True
+    assert released['supersedes_material_content_sha256'] == initial_material_hash
+    assert released['detail_available_utc'] == news.iso_utc(release_seen)
+    assert released['detail_content_version_number'] == 2
+    initial_classified = fixture_observed_classify(initial, first_seen=first_seen)
+    repeated_classified = fixture_observed_classify(repeated, first_seen=repeated_at)
+    released_classified = fixture_observed_classify(released, first_seen=release_seen)
+    assert initial_classified['event_id'] == repeated_classified['event_id']
+    assert released_classified['event_id'] != initial_classified['event_id']
+    assert released_classified['causal_known_utc'] == news.iso_utc(release_seen)
+    assert released_classified['immutable_source_version_boundary'] is True
+    assert released_classified['directional_publish_eligible'] is False
+    connection = news.process_database(tmp_path / 'boc-placeholder.sqlite')
+    try:
+        assert fixture_observed_upsert(connection, [initial_classified], first_seen) == (1, 0)
+        assert fixture_observed_upsert(connection, [repeated_classified], repeated_at) == (0, 1)
+        assert fixture_observed_upsert(connection, [released_classified], release_seen) == (1, 0)
+        assert connection.execute('SELECT COUNT(*) FROM articles').fetchone()[0] == 2
+    finally:
+        connection.close()
+
+
+def test_known_official_detail_is_not_refetched_without_mutable_opt_in(monkeypatch):
+    url = "https://www.example-central-bank.test/policy/decision"
+    monkeypatch.setattr(
+        news.urllib.request,
+        "urlopen",
+        lambda *_args, **_kwargs: pytest.fail("immutable detail was refetched"),
+    )
+    article = {
+        "title": "Policy decision",
+        "url": url,
+        "published_utc": "2026-10-28T13:00:00Z",
+    }
+    enriched, detail_times, error = news.enrich_recent_official_release_details(
+        [article],
+        {
+            "source_id": "ordinary_policy_source",
+            "detail_enrichment": "official_document_text",
+            "trusted_domains": ["example-central-bank.test"],
+        },
+        {"detail_first_seen_utc_by_url": {url: "2026-10-28T13:00:05Z"}},
+        timeout_sec=10,
+        maximum_bytes=1_000_000,
+        now=dt.datetime(2026, 10, 28, 13, 1, tzinfo=UTC),
+    )
+    assert enriched == 0 and error == ""
+    assert detail_times[url] == "2026-10-28T13:00:05Z"
+
+
+def test_boc_source_contract_enables_bounded_placeholder_handoff():
+    config = json.loads(news.DEFAULT_CONFIG.read_text(encoding="utf-8"))
+    source = next(
+        row for row in config["sources"] if row["source_id"] == "boc_press"
+    )
+    assert source["direct"] is True
+    assert source["source_role"] == "primary_policy_release"
+    assert source["source_contract_id"] == source["source_cohort_id"]
+    assert source["source_contract_id"] == (
+        "boc_press_placeholder_handoff_v2_20260902"
+    )
+    assert source["detail_mutable_placeholder_versioning"] is True
+    assert source["detail_mutable_refetch_max_age_minutes"] == 240
+    assert source["burst_poll_interval_sec"] == 15
+    assert {row["local_date"] for row in source["burst_poll_windows"]} == {
+        "2026-10-28",
+        "2026-12-09",
+    }
+
+
+def test_boc_fetch_source_bypasses_304_and_persists_release_version(monkeypatch):
+    feed_url = "https://www.bankofcanada.ca/content_type/press-releases/feed/"
+    detail_url = (
+        "https://www.bankofcanada.ca/2026/10/"
+        "fad-press-release-2026-10-28/"
+    )
+    canonical_detail = news.canonical_url(detail_url)
+    placeholder_text = (
+        "Rate announcement to come at 9:45 (ET). A press release will provide "
+        "a brief explanation of the decision."
+    )
+    placeholder_hash = hashlib.sha256(placeholder_text.encode("utf-8")).hexdigest()
+    feed_payload = f"""<rss><channel><item>
+      <title>Bank of Canada maintains policy rate at 2.25%</title>
+      <description>Policy-rate decision and explanation.</description>
+      <link>{detail_url}</link>
+      <guid>{detail_url}</guid>
+      <pubDate>Wed, 28 Oct 2026 13:45:00 GMT</pubDate>
+    </item></channel></rss>""".encode()
+    detail_payload = (
+        b"<html><main>The Bank of Canada maintained its target for the overnight "
+        b"rate at 2.25 percent. The Bank judges that upside risks to inflation "
+        b"have increased while tariff uncertainty weighs on growth.</main></html>"
+    )
+    observed_feed_headers = {}
+
+    class Response:
+        status = 200
+
+        def __init__(self, url, payload, content_type):
+            self._url = url
+            self._payload = payload
+            self.headers = {
+                "Content-Type": content_type,
+                "Last-Modified": "Wed, 28 Oct 2026 13:45:01 GMT",
+            }
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_args):
+            return False
+
+        def geturl(self):
+            return self._url
+
+        def read(self, _maximum):
+            return self._payload
+
+    def fake_open(request, **_kwargs):
+        if request.full_url == feed_url:
+            observed_feed_headers.update(dict(request.header_items()))
+            return Response(feed_url, feed_payload, "application/rss+xml")
+        assert news.canonical_url(request.full_url) == canonical_detail
+        return Response(detail_url, detail_payload, "text/html; charset=utf-8")
+
+    monkeypatch.setattr(news.urllib.request, "urlopen", fake_open)
+    source = {
+        "source_id": "boc_press",
+        "name": "Bank of Canada press releases",
+        "kind": "rss",
+        "url": feed_url,
+        "currencies": ["CAD"],
+        "verified": True,
+        "direct": True,
+        "source_role": "primary_policy_release",
+        "quality": 1.0,
+        "detail_enrichment": "official_document_text",
+        "detail_max_age_minutes": 1440,
+        "trusted_domains": ["bankofcanada.ca"],
+        "detail_mutable_placeholder_versioning": True,
+        "detail_mutable_placeholder_contract_id": (
+            "boc_placeholder_to_release_content_v1_20260902"
+        ),
+        "detail_mutable_placeholder_activated_utc": "2026-09-02T19:20:00Z",
+        "detail_mutable_refetch_max_age_minutes": 240,
+        "detail_placeholder_text_patterns": [
+            "rate announcement to come at",
+            "press release will provide a brief explanation",
+        ],
+        "source_contract_id": "boc_press_placeholder_handoff_v2_20260902",
+        "source_cohort_id": "boc_press_placeholder_handoff_v2_20260902",
+    }
+    state = {
+        "last_success_utc": "2026-10-28T13:43:00Z",
+        "last_attempt_utc": "2026-10-28T13:43:00Z",
+        "source_contract_id": source["source_contract_id"],
+        "source_cohort_id": source["source_cohort_id"],
+        "source_contract_derived": True,
+        "source_lineage_version": "derived_source_config_lineage_v1",
+        "source_config_sha256": "obsolete-derived-config-hash",
+        "etag": '"placeholder-feed"',
+        "last_modified": "Wed, 28 Oct 2026 13:02:00 GMT",
+        "detail_first_seen_utc_by_url": {
+            canonical_detail: "2026-10-28T13:02:10Z"
+        },
+        "detail_content_sha256_by_url": {
+            canonical_detail: placeholder_hash
+        },
+        "detail_content_is_placeholder_by_url": {canonical_detail: True},
+        "detail_content_version_count_by_url": {canonical_detail: 1},
+    }
+    rows, updated = news.fetch_source(
+        source,
+        state,
+        timeout_sec=10,
+        maximum_bytes=1_000_000,
+        now=dt.datetime(2026, 10, 28, 13, 45, 2, tzinfo=UTC),
+    )
+    assert len(rows) == 1
+    assert not any(key.lower().startswith("if-none-match") for key in observed_feed_headers)
+    assert not any(key.lower().startswith("if-modified-since") for key in observed_feed_headers)
+    assert rows[0]["immutable_source_version_boundary"] is True
+    assert rows[0]["detail_placeholder_transition"] is True
+    assert rows[0]["supersedes_material_content_sha256"] == placeholder_hash
+    assert "_detail_state_content_sha256" not in rows[0]
+    assert updated["detail_content_is_placeholder_by_url"][canonical_detail] is False
+    assert updated["detail_content_version_count_by_url"][canonical_detail] == 2
+    assert updated["detail_content_sha256_by_url"][canonical_detail] == (
+        rows[0]["material_content_sha256"]
+    )
+    assert "source_contract_derived" not in updated
+    assert "source_lineage_version" not in updated
+    assert "source_config_sha256" not in updated
+
+
 @pytest.mark.parametrize(
     ("label", "expected"),
     [
@@ -2480,6 +2690,114 @@ def test_old_statcan_listing_row_never_becomes_structured_backfill():
         first_seen=dt.datetime(2026, 8, 14, 12, 32, tzinfo=UTC),
     )
     assert fields == {}
+
+
+def test_statcan_major_indicators_redundant_lfs_path_and_calendar_are_causal():
+    config = json.loads(news.DEFAULT_CONFIG.read_text(encoding="utf-8"))
+    sources = {row["source_id"]: row for row in config["sources"]}
+    source = sources["statcan_major_indicators_direct_v1"]
+    calendar = sources["statcan_labour_force_calendar_2026_v1"]
+    assert source["kind"] == "statcan_major_indicators"
+    assert source["burst_poll_interval_sec"] == 15
+    assert source["conditional_get"] is False
+    assert source["http_transport"] == "curl"
+    assert source["curl_ip_version"] == "4"
+    assert source["curl_retry_count"] == 3
+    assert source["curl_fail_http_errors"] is True
+    assert source["numeric_parser_activated_utc"] == "2026-09-04T17:15:00Z"
+    assert source["source_contract_id"] == (
+        "statcan_major_indicators_direct_v2_curl_retry_20260904"
+    )
+    assert any(
+        row["local_date"] == "2026-10-09"
+        and row["reference_period"] == "2026-09"
+        and row["local_time"] == "08:30"
+        for row in calendar["explicit_schedule"]
+    )
+    payload = json.dumps(
+        {
+            "results": {
+                "indicators": [
+                    {
+                        "registry_number": 3587,
+                        "indicator_number": 1,
+                        "geo_code": 0,
+                        "title": {"en": "Employment level"},
+                        "value": {"en": "21,173,000"},
+                        "refper": {"en": "August 2026"},
+                        "daily_url": {
+                            "en": "/daily-quotidien/260904/dq260904a-eng.htm"
+                        },
+                        "daily_title": {"en": "Labour Force Survey"},
+                        "source": "14100287",
+                        "release_date": "2026-09-04",
+                        "growth_rate": {
+                            "growth": {"en": "-0.2%"},
+                            "arrow_direction": 2,
+                            "details": {"en": "(monthly change)"},
+                        },
+                    },
+                    {
+                        "registry_number": 3587,
+                        "indicator_number": 2,
+                        "geo_code": 0,
+                        "title": {"en": "Unemployment rate"},
+                        "value": {"en": "6.4%"},
+                        "refper": {"en": "August 2026"},
+                        "daily_url": {
+                            "en": "/daily-quotidien/260904/dq260904a-eng.htm"
+                        },
+                        "daily_title": {"en": "Labour Force Survey"},
+                        "source": "14100287",
+                        "release_date": "2026-09-04",
+                        "growth_rate": {
+                            "growth": {"en": "0.0 pts"},
+                            "arrow_direction": 0,
+                            "details": {"en": "(monthly change)"},
+                        },
+                    },
+                    {
+                        "registry_number": 3587,
+                        "indicator_number": 1,
+                        "geo_code": 6,
+                        "title": {"en": "Employment level"},
+                        "value": {"en": "8,307,000"},
+                        "refper": {"en": "August 2026"},
+                        "daily_url": {
+                            "en": "/daily-quotidien/260904/dq260904a-eng.htm"
+                        },
+                        "daily_title": {"en": "Labour Force Survey"},
+                        "release_date": "2026-09-04",
+                        "growth_rate": {"growth": {"en": "-0.2%"}},
+                    },
+                ]
+            }
+        }
+    ).encode("utf-8")
+    rows = news.parse_statcan_major_indicators(payload, source)
+    assert len(rows) == 1
+    row = rows[0]
+    assert row["published_utc"] == "2026-09-04T12:30:00+00:00"
+    assert row["reference_period"] == "August 2026"
+    assert row["actual_value"] == -0.2
+    assert row["source_native_components"]["employment_level"][
+        "actual_value"
+    ] == 21173000.0
+    assert row["source_native_components"]["unemployment_rate"][
+        "actual_value"
+    ] == 6.4
+    assert row["source_native_components"]["unemployment_rate"][
+        "previous_value"
+    ] == 6.4
+    assert row["consensus_value"] is None
+    assert row["directional_research_only"] is True
+    assert row["url"] == (
+        "https://www150.statcan.gc.ca/n1/daily-quotidien/260904/"
+        "dq260904a-eng.htm"
+    )
+    known = news.annotate_singleton_release_history(rows, {})
+    assert known == [row["external_id"]]
+    assert row["source_listing_bootstrap"] is True
 
 
 def test_secondary_nz_unemployment_surprise_is_research_only_and_not_backdated():
@@ -3533,6 +3851,9 @@ def test_pair_scores_use_first_seen_and_have_zero_execution_weight():
         "source_name": "Federal Reserve",
         "source_url": "https://example.com/fed",
         "source_verified": True,
+        "forward_signal_timely": True,
+        "forward_timeliness_limit_minutes": 30,
+        "estimated_reaction_horizon_minutes": 180,
     }
     before = news.build_pair_scores(
         [article],
@@ -3857,347 +4178,161 @@ def test_separate_same_day_claims_do_not_share_topic_id():
 
 
 def test_database_deduplicates_and_preserves_first_seen(tmp_path):
-    database = tmp_path / "news.sqlite"
+    database = tmp_path / 'news.sqlite'
     connection = news.open_database(database)
     try:
         first_seen = dt.datetime(2026, 7, 27, 20, 1, tzinfo=UTC)
-        article = news.classify_article(
-            {
-                "source_id": "fed",
-                "source_name": "Fed",
-                "source_kind": "rss",
-                "source_quality": 1.0,
-                "source_verified": True,
-                "source_currencies": ["USD"],
-                "title": "Fed rate hike",
-                "summary": "Monetary policy tightening",
-                "url": "https://example.com/one",
-                "published_utc": "2026-07-27T20:00:00Z",
-            },
-            first_seen=first_seen,
-        )
-        inserted, duplicates = news.upsert_articles(connection, [article], first_seen)
+        article = fixture_observed_classify({'source_id': 'fed', 'source_name': 'Fed', 'source_kind': 'rss', 'source_quality': 1.0, 'source_verified': True, 'source_currencies': ['USD'], 'title': 'Fed rate hike', 'summary': 'Monetary policy tightening', 'url': 'https://example.com/one', 'published_utc': '2026-07-27T20:00:00Z'}, first_seen=first_seen)
+        inserted, duplicates = fixture_observed_upsert(connection, [article], first_seen)
         assert (inserted, duplicates) == (1, 0)
-        inserted, duplicates = news.upsert_articles(
-            connection,
-            [article],
-            first_seen + dt.timedelta(minutes=5),
-        )
+        inserted, duplicates = fixture_observed_upsert(connection, [article], first_seen + dt.timedelta(minutes=5))
         assert (inserted, duplicates) == (0, 1)
-        unchanged = connection.execute(
-            "SELECT duplicate_count FROM articles"
-        ).fetchone()[0]
+        unchanged = connection.execute('SELECT duplicate_count FROM articles').fetchone()[0]
         assert unchanged == 0
-        poll_time_only = {
-            **article,
-            "availability_lag_minutes": article["availability_lag_minutes"] + 5.0,
-            "causal_known_utc": "2026-07-27T20:06:00+00:00",
-        }
-        inserted, duplicates = news.upsert_articles(
-            connection,
-            [poll_time_only],
-            first_seen + dt.timedelta(minutes=5, seconds=30),
-        )
+        poll_time_only = {**article, 'availability_lag_minutes': article['availability_lag_minutes'] + 5.0, 'causal_known_utc': '2026-07-27T20:06:00+00:00'}
+        inserted, duplicates = fixture_observed_upsert(connection, [poll_time_only], first_seen + dt.timedelta(minutes=5, seconds=30))
         assert (inserted, duplicates) == (0, 1)
-        unchanged = connection.execute(
-            "SELECT duplicate_count FROM articles"
-        ).fetchone()[0]
+        unchanged = connection.execute('SELECT duplicate_count FROM articles').fetchone()[0]
         assert unchanged == 0
-        revised = {**article, "summary": "Monetary policy tightening revised"}
-        inserted, duplicates = news.upsert_articles(
-            connection,
-            [revised],
-            first_seen + dt.timedelta(minutes=6),
-        )
+        revised = {**article, 'summary': 'Monetary policy tightening revised', 'first_seen_utc': news.iso_utc(first_seen + dt.timedelta(minutes=6)), 'last_seen_utc': news.iso_utc(first_seen + dt.timedelta(minutes=6))}
+        inserted, duplicates = fixture_observed_upsert(connection, [revised], first_seen + dt.timedelta(minutes=6))
         assert (inserted, duplicates) == (0, 1)
-        row = connection.execute(
-            """
-            SELECT first_seen_utc, duplicate_count, monetary_impulse,
-                   currency_scores_json
-            FROM articles
-            """
-        ).fetchone()
-        assert row == (
-            "2026-07-27T20:01:00+00:00",
-            1,
-            1.0,
-            '{"USD": 1.0}',
-        )
-        loaded = news.load_relevant_articles(
-            connection,
-            since=dt.datetime(2026, 7, 27, 0, 0, tzinfo=UTC),
-        )
-        assert loaded[0]["duplicate_observation_count"] == 1
-        assert loaded[0]["corroboration_count"] == 0
-
-        timestamp_revised = news.classify_article(
-            {
-                "source_id": "fed",
-                "source_name": "Fed",
-                "source_kind": "rss",
-                "source_quality": 1.0,
-                "source_verified": True,
-                "source_currencies": ["USD"],
-                "title": "Fed rate hike",
-                "summary": "Monetary policy tightening revised",
-                "url": "https://example.com/one",
-                "published_utc": "2026-07-27T21:00:00Z",
-            },
-            first_seen=first_seen + dt.timedelta(hours=1),
-        )
-        assert timestamp_revised["event_id"] != article["event_id"]
-        inserted, duplicates = news.upsert_articles(
-            connection,
-            [timestamp_revised],
-            first_seen + dt.timedelta(hours=1),
-        )
+        row = connection.execute('\n            SELECT first_seen_utc, duplicate_count, monetary_impulse,\n                   currency_scores_json\n            FROM articles\n            ').fetchone()
+        assert row == ('2026-07-27T20:01:00+00:00', 1, 1.0, '{"USD": 1.0}')
+        loaded = news.load_relevant_articles(connection, since=dt.datetime(2026, 7, 27, 0, 0, tzinfo=UTC))
+        assert loaded[0]['duplicate_observation_count'] == 1
+        assert loaded[0]['corroboration_count'] == 0
+        timestamp_revised = fixture_observed_classify({'source_id': 'fed', 'source_name': 'Fed', 'source_kind': 'rss', 'source_quality': 1.0, 'source_verified': True, 'source_currencies': ['USD'], 'title': 'Fed rate hike', 'summary': 'Monetary policy tightening revised', 'url': 'https://example.com/one', 'published_utc': '2026-07-27T21:00:00Z'}, first_seen=first_seen + dt.timedelta(hours=1))
+        assert timestamp_revised['event_id'] != article['event_id']
+        inserted, duplicates = fixture_observed_upsert(connection, [timestamp_revised], first_seen + dt.timedelta(hours=1))
         assert (inserted, duplicates) == (0, 1)
-        assert connection.execute("SELECT COUNT(*) FROM articles").fetchone()[0] == 1
-        stored = json.loads(
-            connection.execute("SELECT payload_json FROM articles").fetchone()[0]
-        )
-        assert stored["event_id"] == article["event_id"]
-        stored_published, stored_payload_json = connection.execute(
-            "SELECT published_utc, payload_json FROM articles"
-        ).fetchone()
+        assert connection.execute('SELECT COUNT(*) FROM articles').fetchone()[0] == 1
+        stored = json.loads(connection.execute('SELECT payload_json FROM articles').fetchone()[0])
+        assert stored['event_id'] == article['event_id']
+        stored_published, stored_payload_json = connection.execute('SELECT published_utc, payload_json FROM articles').fetchone()
         stored_payload = json.loads(stored_payload_json)
-        assert stored_published == "2026-07-27T20:00:00+00:00"
-        assert stored_payload["published_utc"] == stored_published
+        assert stored_published == '2026-07-27T20:00:00+00:00'
+        assert stored_payload['published_utc'] == stored_published
     finally:
         connection.close()
 
 
 def test_structured_numeric_duplicate_preserves_first_causal_clock(tmp_path):
-    database = tmp_path / "news.sqlite"
+    database = tmp_path / 'news.sqlite'
     connection = news.open_database(database)
     try:
-        raw = {
-            "source_id": "eurostat_economy_finance",
-            "source_name": "Eurostat",
-            "source_kind": "rss",
-            "source_role": "primary_statistical_release",
-            "source_quality": 1.0,
-            "source_verified": True,
-            "source_direct": True,
-            "source_currencies": ["EUR"],
-            "numeric_parser_activated_utc": "2026-08-16T06:35:00Z",
-            "title": "GDP up by 0.4% in the euro area and by 0.5% in the EU",
-            "summary": (
-                "In the second quarter of 2026, seasonally adjusted GDP increased "
-                "by 0.4% in the euro area and by 0.5% in the EU, compared with the "
-                "previous quarter."
-            ),
-            "published_utc": "2026-08-16T06:30:00Z",
-            "url": "https://ec.europa.eu/eurostat/product?code=proof",
-        }
+        raw = {'source_id': 'eurostat_economy_finance', 'source_name': 'Eurostat', 'source_kind': 'rss', 'source_role': 'primary_statistical_release', 'source_quality': 1.0, 'source_verified': True, 'source_direct': True, 'source_currencies': ['EUR'], 'numeric_parser_activated_utc': '2026-08-16T06:35:00Z', 'title': 'GDP up by 0.4% in the euro area and by 0.5% in the EU', 'summary': 'In the second quarter of 2026, seasonally adjusted GDP increased by 0.4% in the euro area and by 0.5% in the EU, compared with the previous quarter.', 'published_utc': '2026-08-16T06:30:00Z', 'url': 'https://ec.europa.eu/eurostat/product?code=proof'}
         first_seen = dt.datetime(2026, 8, 16, 6, 35, tzinfo=UTC)
         repeated_seen = first_seen + dt.timedelta(minutes=10)
         first = news.classify_article(raw, first_seen=first_seen)
-        repeated = news.classify_article(raw, first_seen=repeated_seen)
-        first["collector_contract_id"] = "collector-v1"
-        repeated["collector_contract_id"] = "collector-v2"
-        first["causal_known_utc"] = news.iso_utc(first_seen)
-        repeated["causal_known_utc"] = news.iso_utc(repeated_seen)
-        assert first["event_id"] == repeated["event_id"]
-        assert first["numeric_causal_known_utc"] == news.iso_utc(first_seen)
-        assert repeated["numeric_causal_known_utc"] == news.iso_utc(repeated_seen)
-        assert news.upsert_articles(connection, [first], first_seen) == (1, 0)
-        assert news.upsert_articles(connection, [repeated], repeated_seen) == (0, 1)
-        payload = json.loads(
-            connection.execute("SELECT payload_json FROM articles").fetchone()[0]
-        )
-        assert payload["first_seen_utc"] == news.iso_utc(first_seen)
-        assert payload["numeric_causal_known_utc"] == news.iso_utc(first_seen)
+        repeated = fixture_observed_classify(raw, first_seen=repeated_seen)
+        first['collector_contract_id'] = 'collector-v1'
+        repeated['collector_contract_id'] = news.COLLECTOR_CONTRACT_ID
+        first['causal_known_utc'] = news.iso_utc(first_seen)
+        repeated['causal_known_utc'] = news.iso_utc(repeated_seen)
+        assert first['event_id'] == repeated['event_id']
+        assert first['numeric_causal_known_utc'] == news.iso_utc(first_seen)
+        assert repeated['numeric_causal_known_utc'] == news.iso_utc(repeated_seen)
+        assert fixture_retained_legacy_insert(connection, [first], first_seen) == (1, 0)
+        assert fixture_observed_upsert(connection, [repeated], repeated_seen) == (0, 1)
+        payload = json.loads(connection.execute('SELECT payload_json FROM articles').fetchone()[0])
+        assert payload['first_seen_utc'] == news.iso_utc(first_seen)
+        # The original row was legacy/unattested. Its first newly attested
+        # material/classification is available at 06:45; the story stays 06:35.
+        assert payload['numeric_causal_known_utc'] == news.iso_utc(repeated_seen)
+        assert payload['source_version_available_utc'] == news.iso_utc(repeated_seen)
+        assert payload['classification_available_utc'] == news.iso_utc(repeated_seen)
+        assert payload['source_evidence_available_utc'] == news.iso_utc(first_seen)
+        original_text, original_sha = connection.execute(
+            'SELECT original_row_json,original_row_sha256 FROM article_source_origins_v1'
+        ).fetchone()
+        assert hashlib.sha256(original_text.encode()).hexdigest() == original_sha
+        original_payload = json.loads(json.loads(original_text)['payload_json'])
+        assert original_payload['numeric_causal_known_utc'] == news.iso_utc(first_seen)
+        assert original_payload['first_seen_utc'] == news.iso_utc(first_seen)
+        assert original_payload['collector_contract_id'] == payload['collector_contract_id'] == 'collector-v1'
+        assert news.prospective_collector_provenance(original_payload) is False
+        assert news.prospective_collector_provenance(payload) is False
     finally:
         connection.close()
 
 
 def test_reclassification_repairs_payload_clock_from_authoritative_column(tmp_path):
-    database = tmp_path / "news.sqlite"
+    database = tmp_path / 'news.sqlite'
     connection = news.open_database(database)
     try:
         first_seen = dt.datetime(2026, 8, 13, 3, 17, tzinfo=UTC)
-        article = news.classify_article(
-            {
-                "source_id": "rbnz_official_search",
-                "source_name": "RBNZ official search",
-                "source_kind": "rss",
-                "source_quality": 0.8,
-                "source_verified": False,
-                "source_currencies": ["NZD"],
-                "title": "Survey of Expectations – August 2026",
-                "summary": "Two-year inflation expectations fall to 2.34%.",
-                "url": "https://example.com/rbnz-survey",
-                "published_utc": "2026-08-13T03:05:04Z",
-            },
-            first_seen=first_seen,
-        )
-        assert news.upsert_articles(connection, [article], first_seen) == (1, 0)
-        payload = json.loads(
-            connection.execute("SELECT payload_json FROM articles").fetchone()[0]
-        )
-        payload["classification_version"] = "legacy"
-        payload["published_utc"] = "2026-08-13T03:25:34+00:00"
-        payload["numeric_causal_known_utc"] = "2026-08-13T03:17:00+00:00"
-        payload["numeric_direction_policy"] = "abstain_and_learn_response"
-        payload["source_native_components"] = {
-            "headline_cpi_yoy": {"actual": 2.5, "previous": 2.7}
-        }
-        payload["source_native_update_date"] = "2026-08-13"
-        payload["consensus_capture_state"] = "not_captured_pre_release"
-        payload["vendor_currencies"] = ["NZD", "USD"]
-        connection.execute(
-            "UPDATE articles SET payload_json = ?",
-            (json.dumps(payload, sort_keys=True),),
-        )
+        article = news.classify_article({'source_id': 'rbnz_official_search', 'source_name': 'RBNZ official search', 'source_kind': 'rss', 'source_quality': 0.8, 'source_verified': False, 'source_currencies': ['NZD'], 'title': 'Survey of Expectations – August 2026', 'summary': 'Two-year inflation expectations fall to 2.34%.', 'url': 'https://example.com/rbnz-survey', 'published_utc': '2026-08-13T03:05:04Z'}, first_seen=first_seen)
+        assert fixture_retained_legacy_insert(connection, [article], first_seen) == (1, 0)
+        payload = json.loads(connection.execute('SELECT payload_json FROM articles').fetchone()[0])
+        payload['classification_version'] = 'legacy'
+        payload['published_utc'] = '2026-08-13T03:25:34+00:00'
+        payload['numeric_causal_known_utc'] = '2026-08-13T03:17:00+00:00'
+        payload['numeric_direction_policy'] = 'abstain_and_learn_response'
+        payload['source_native_components'] = {'headline_cpi_yoy': {'actual': 2.5, 'previous': 2.7}}
+        payload['source_native_update_date'] = '2026-08-13'
+        payload['consensus_capture_state'] = 'not_captured_pre_release'
+        payload['vendor_currencies'] = ['NZD', 'USD']
+        connection.execute('UPDATE articles SET payload_json = ?', (json.dumps(payload, sort_keys=True),))
         connection.commit()
-
         progress_events = []
-        changed = news.reclassify_stored_articles(
-            connection,
-            sources={
-                "rbnz_official_search": {
-                    "currencies": ["NZD"],
-                    "direct": False,
-                    "retrieval_via": "google_news_official_site_search",
-                    "source_contract_id": "rbnz_search_contract_v2",
-                    "source_cohort_id": "rbnz_search_cohort_v2",
-                }
-            },
-            since=dt.datetime(2026, 8, 13, 0, 0, tzinfo=UTC),
-            progress_callback=lambda phase, details: progress_events.append(
-                (phase, dict(details))
-            ),
-        )
+        changed = news.reclassify_stored_articles(connection, sources={'rbnz_official_search': {'currencies': ['NZD'], 'direct': False, 'retrieval_via': 'google_news_official_site_search', 'source_contract_id': 'rbnz_search_contract_v2', 'source_cohort_id': 'rbnz_search_cohort_v2'}}, since=dt.datetime(2026, 8, 13, 0, 0, tzinfo=UTC), progress_callback=lambda phase, details: progress_events.append((phase, dict(details))), classification_clock_provider=fixture_clock(first_seen))
         assert changed == 1
-        assert progress_events[0] == (
-            "postprocessing_evidence",
-            {
-                "postprocess_step": "reclassifying_retained_articles",
-                "candidate_rows": 1,
-                "processed_rows": 0,
-                "reclassified_rows": 0,
-            },
-        )
-        assert progress_events[-1] == (
-            "postprocessing_evidence",
-            {
-                "postprocess_step": "reclassification_complete",
-                "candidate_rows": 1,
-                "processed_rows": 1,
-                "reclassified_rows": 1,
-            },
-        )
-        stored_published, repaired_json = connection.execute(
-            "SELECT published_utc, payload_json FROM articles"
-        ).fetchone()
+        assert progress_events[0] == ('postprocessing_evidence', {'postprocess_step': 'reclassifying_retained_articles', 'candidate_rows': 1, 'processed_rows': 0, 'reclassified_rows': 0})
+        assert progress_events[-1] == ('postprocessing_evidence', {'postprocess_step': 'reclassification_complete', 'candidate_rows': 1, 'processed_rows': 1, 'reclassified_rows': 1})
+        stored_published, repaired_json = connection.execute('SELECT published_utc, payload_json FROM articles').fetchone()
         repaired = json.loads(repaired_json)
-        assert stored_published == "2026-08-13T03:05:04+00:00"
-        assert repaired["published_utc"] == stored_published
-        assert repaired["classification_version"] == news.CLASSIFICATION_VERSION
-        assert repaired["numeric_causal_known_utc"] == "2026-08-13T03:17:00+00:00"
-        assert repaired["numeric_direction_policy"] == "abstain_and_learn_response"
-        assert repaired["source_native_components"] == {
-            "headline_cpi_yoy": {"actual": 2.5, "previous": 2.7}
-        }
-        assert repaired["source_native_update_date"] == "2026-08-13"
-        assert repaired["consensus_capture_state"] == "not_captured_pre_release"
-        assert repaired["vendor_currencies"] == ["NZD", "USD"]
-        assert repaired["source_direct"] is False
-        assert repaired["source_contract_id"] == "rbnz_search_contract_v2"
-        assert repaired["source_cohort_id"] == "rbnz_search_cohort_v2"
+        assert stored_published == '2026-08-13T03:05:04+00:00'
+        assert repaired['published_utc'] == stored_published
+        assert repaired['classification_version'] == news.CLASSIFICATION_VERSION
+        assert repaired['numeric_causal_known_utc'] == '2026-08-13T03:17:00+00:00'
+        assert repaired['numeric_direction_policy'] == 'abstain_and_learn_response'
+        assert repaired['source_native_components'] == {'headline_cpi_yoy': {'actual': 2.5, 'previous': 2.7}}
+        assert repaired['source_native_update_date'] == '2026-08-13'
+        assert repaired['consensus_capture_state'] == 'not_captured_pre_release'
+        assert repaired['vendor_currencies'] == ['NZD', 'USD']
+        assert repaired['source_direct'] is False
+        assert repaired['source_contract_id'] == 'rbnz_search_contract_v2'
+        assert repaired['source_cohort_id'] == 'rbnz_search_cohort_v2'
     finally:
         connection.close()
 
 
 def test_html_listing_poll_time_is_not_a_material_revision(tmp_path):
-    database = tmp_path / "news.sqlite"
+    database = tmp_path / 'news.sqlite'
     connection = news.open_database(database)
     try:
         first_seen = dt.datetime(2026, 8, 3, 20, 0, tzinfo=UTC)
-        raw = {
-            "source_id": "treasury",
-            "source_name": "Treasury",
-            "source_kind": "html_links",
-            "source_quality": 1.0,
-            "source_verified": True,
-            "source_currencies": ["USD"],
-            "title": "Treasury borrowing estimate",
-            "summary": "",
-            "url": "https://example.gov/release/one",
-            "published_utc": "",
-        }
-        first = news.classify_article(raw, first_seen=first_seen)
-        second = news.classify_article(
-            raw,
-            first_seen=first_seen + dt.timedelta(hours=1),
-        )
-        assert first["published_time_inferred"] is True
-        assert second["event_id"] != first["event_id"]
-        assert news.upsert_articles(connection, [first], first_seen) == (1, 0)
-        assert news.upsert_articles(
-            connection,
-            [second],
-            first_seen + dt.timedelta(hours=1),
-        ) == (0, 1)
-        row = connection.execute(
-            "SELECT COUNT(*), duplicate_count, first_seen_utc FROM articles"
-        ).fetchone()
-        assert row == (1, 0, "2026-08-03T20:00:00+00:00")
+        raw = {'source_id': 'treasury', 'source_name': 'Treasury', 'source_kind': 'html_links', 'source_quality': 1.0, 'source_verified': True, 'source_currencies': ['USD'], 'title': 'Treasury borrowing estimate', 'summary': '', 'url': 'https://example.gov/release/one', 'published_utc': ''}
+        first = fixture_observed_classify(raw, first_seen=first_seen)
+        second = fixture_observed_classify(raw, first_seen=first_seen + dt.timedelta(hours=1))
+        assert first['published_time_inferred'] is True
+        assert second['event_id'] != first['event_id']
+        assert fixture_observed_upsert(connection, [first], first_seen) == (1, 0)
+        assert fixture_observed_upsert(connection, [second], first_seen + dt.timedelta(hours=1)) == (0, 1)
+        row = connection.execute('SELECT COUNT(*), duplicate_count, first_seen_utc FROM articles').fetchone()
+        assert row == (1, 0, '2026-08-03T20:00:00+00:00')
     finally:
         connection.close()
 
 
 def test_database_never_downgrades_observed_official_release_details(tmp_path):
-    connection = news.open_database(tmp_path / "news.sqlite")
+    connection = news.open_database(tmp_path / 'news.sqlite')
     try:
         first_seen = dt.datetime(2026, 8, 4, 12, 31, tzinfo=UTC)
-        raw = {
-            "source_id": "bea_releases",
-            "source_name": "BEA",
-            "source_kind": "rss",
-            "source_quality": 1.0,
-            "source_verified": True,
-            "source_direct": True,
-            "source_role": "primary_statistical_release",
-            "source_currencies": ["USD"],
-            "title": "U.S. International Trade in Goods and Services, June 2026",
-            "url": "https://www.bea.gov/news/2026/trade-june-2026",
-            "published_utc": "2026-08-04T12:30:00+00:00",
-        }
-        enriched = news.classify_article(
-            {
-                **raw,
-                "summary": "The goods and services deficit was $73.3 billion.",
-                "detail_enriched": True,
-                "detail_enrichment_kind": "bea_release_blurb",
-                "detail_available_utc": "2026-08-04T12:35:00+00:00",
-            },
-            first_seen=first_seen,
-        )
-        plain = news.classify_article(
-            {**raw, "summary": "Full Text ]]>"},
-            first_seen=first_seen + dt.timedelta(minutes=31),
-        )
-        assert enriched["event_id"] == plain["event_id"]
-        assert news.upsert_articles(connection, [enriched], first_seen) == (1, 0)
-        assert news.upsert_articles(
-            connection,
-            [plain],
-            first_seen + dt.timedelta(minutes=31),
-        ) == (0, 1)
-        row = connection.execute(
-            "SELECT summary, payload_json FROM articles"
-        ).fetchone()
+        raw = {'source_id': 'bea_releases', 'source_name': 'BEA', 'source_kind': 'rss', 'source_quality': 1.0, 'source_verified': True, 'source_direct': True, 'source_role': 'primary_statistical_release', 'source_currencies': ['USD'], 'title': 'U.S. International Trade in Goods and Services, June 2026', 'url': 'https://www.bea.gov/news/2026/trade-june-2026', 'published_utc': '2026-08-04T12:30:00+00:00'}
+        enriched = fixture_observed_classify({**raw, 'summary': 'The goods and services deficit was $73.3 billion.', 'detail_enriched': True, 'detail_enrichment_kind': 'bea_release_blurb', 'detail_available_utc': '2026-08-04T12:35:00+00:00'}, first_seen=first_seen)
+        plain = fixture_observed_classify({**raw, 'summary': 'Full Text ]]>'}, first_seen=first_seen + dt.timedelta(minutes=31))
+        assert enriched['event_id'] == plain['event_id']
+        assert fixture_observed_upsert(connection, [enriched], dt.datetime(2026, 8, 4, 12, 35, tzinfo=UTC)) == (1, 0)
+        assert fixture_observed_upsert(connection, [plain], first_seen + dt.timedelta(minutes=31)) == (0, 1)
+        row = connection.execute('SELECT summary, payload_json FROM articles').fetchone()
         payload = json.loads(row[1])
-        assert row[0] == "The goods and services deficit was $73.3 billion."
-        assert payload["detail_enriched"] is True
-        assert payload["detail_available_utc"] == "2026-08-04T12:35:00+00:00"
-        loaded = news.load_context_articles(
-            connection,
-            since=dt.datetime(2026, 8, 4, tzinfo=UTC),
-        )
-        assert loaded[0]["causal_known_utc"] == "2026-08-04T12:35:00+00:00"
+        assert row[0] == 'The goods and services deficit was $73.3 billion.'
+        assert payload['detail_enriched'] is True
+        assert payload['detail_available_utc'] == '2026-08-04T12:35:00+00:00'
+        loaded = news.load_context_articles(connection, since=dt.datetime(2026, 8, 4, tzinfo=UTC))
+        assert loaded[0]['causal_known_utc'] == '2026-08-04T12:35:00+00:00'
     finally:
         connection.close()
 
@@ -5305,6 +5440,34 @@ def test_primary_swiss_german_cpi_release_is_inflation_context_not_direction():
     assert article["numeric_causal_known_utc"] == "2026-08-16T06:40:00+00:00"
 
 
+def test_swiss_inferred_release_clock_is_stable_and_upsert_reuses_material(tmp_path):
+    raw = {'source_id': 'swiss_fso_releases', 'source_name': 'Bundesamt fuer Statistik', 'source_kind': 'rss', 'source_role': 'primary_statistical_release', 'source_quality': 1.0, 'source_verified': True, 'source_direct': True, 'source_currencies': ['CHF'], 'numeric_parser_activated_utc': '2026-08-16T06:40:00Z', 'title': 'Die Konsumentenpreise sind im August um 0,4% gestiegen', 'summary': 'Der Landesindex der Konsumentenpreise stieg im August 2026 im Vergleich zum Vormonat um 0,4%.', 'url': 'https://www.admin.ch/de/newnsb/NSUt8um5SBxJ', 'published_utc': '', 'published_time_inferred': True}
+    first_seen = dt.datetime(2026, 9, 3, 6, 33, tzinfo=UTC)
+    repeated_seen = first_seen + dt.timedelta(minutes=10)
+    first = news.classify_article(raw, first_seen=first_seen)
+    repeated = fixture_observed_classify(raw, first_seen=repeated_seen)
+    assert first['scheduled_utc'] == repeated['scheduled_utc'] == ''
+    assert first['source_reported_update_utc'] == ''
+    assert first['event_id'] == repeated['event_id']
+    assert news.structured_material_identity(first) == news.structured_material_identity(repeated)
+    legacy = dict(first)
+    legacy['event_id'] = 'legacy-poll-clock-event-id'
+    legacy['material_update_id'] = legacy['event_id']
+    connection = news.open_database(tmp_path / 'news.sqlite')
+    try:
+        assert fixture_retained_legacy_insert(connection, [legacy], first_seen) == (1, 0)
+        assert fixture_observed_upsert(connection, [repeated], repeated_seen) == (0, 1)
+        assert connection.execute('SELECT COUNT(*) FROM articles').fetchone()[0] == 1
+        stored = connection.execute('SELECT event_id,first_seen_utc FROM articles').fetchone()
+        assert stored == ('legacy-poll-clock-event-id', news.iso_utc(first_seen))
+    finally:
+        connection.close()
+    changed = dict(repeated)
+    changed['actual'] = '0.5'
+    changed['actual_value'] = 0.5
+    assert news.structured_material_identity(changed) != news.structured_material_identity(first)
+
+
 def test_primary_swiss_producer_price_release_extracts_one_allowlisted_change():
     article = news.classify_article(
         {
@@ -6319,6 +6482,54 @@ def test_bls_ppi_current_release_first_snapshot_is_noncausal_bootstrap():
     assert changed_rows[1]["external_id"] != rows[1]["external_id"]
 
 
+def test_bls_employment_current_release_preserves_clock_factors_and_bootstrap():
+    config = json.loads(news.DEFAULT_CONFIG.read_text(encoding="utf-8"))
+    sources = {row["source_id"]: row for row in config["sources"]}
+    source = sources["bls_employment_situation_current_release_v1"]
+    calendar = sources["bls_employment_situation_calendar_2026_v1"]
+    assert source["burst_poll_interval_sec"] == 15
+    assert source["numeric_parser_activated_utc"] == "2026-09-04T14:57:04Z"
+    assert any(
+        row["local_date"] == "2026-10-02"
+        and row["reference_period"] == "2026-09"
+        for row in calendar["explicit_schedule"]
+    )
+    payload = b'''<html><body>
+      <h1>THE EMPLOYMENT SITUATION - AUGUST 2026</h1>
+      <p>Transmission of material in this news release is EMBARGOED UNTIL
+      8:30 a.m. (ET) Friday, September 4, 2026</p>
+      <p>Total nonfarm payroll employment increased by 162,000 in August, and
+      the unemployment rate was unchanged at 4.1 percent.</p>
+      <p>In August, average hourly earnings for all employees on private
+      nonfarm payrolls rose by 10 cents, or 0.3 percent, to $37.75. Over the
+      year, average hourly earnings have increased by 3.1 percent.</p>
+      <p>The change in total nonfarm payroll employment for June was revised up
+      by 11,000, from +20,000 to +31,000, and the change for July was revised
+      up by 44,000, from -23,000 to +21,000. With these revisions, employment
+      in June and July combined is 55,000 higher than previously reported.</p>
+    </body></html>'''
+    rows = news.parse_bls_employment_current_release(payload, source)
+    assert len(rows) == 4
+    by_series = {row["event_series_id"]: row for row in rows}
+    payroll = by_series["CES0000000001_NET_CHANGE"]
+    assert payroll["published_utc"] == "2026-09-04T12:30:00+00:00"
+    assert payroll["reference_period"] == "2026-08"
+    assert payroll["actual_value"] == 162000.0
+    assert payroll["previous_value"] == 21000.0
+    assert payroll["source_native_components"][
+        "prior_two_month_revision_jobs"
+    ]["actual"] == 55000.0
+    assert by_series["LNS14000000_LEVEL"]["actual_value"] == 4.1
+    assert by_series["CES0500000003_PCT_CHANGE"]["actual_value"] == 0.3
+    assert by_series["CES_PRIOR_TWO_MONTH_REVISION"]["actual_value"] == 55000.0
+    assert all(row["consensus_value"] is None for row in rows)
+    assert all(row["directional_research_only"] is True for row in rows)
+
+    known = news.annotate_singleton_release_history(rows, {})
+    assert len(known) == 4
+    assert all(row["source_listing_bootstrap"] is True for row in rows)
+
+
 def test_unverified_us_ism_headline_is_usd_context_without_forced_direction():
     article = news.classify_article(
         {
@@ -6346,48 +6557,22 @@ def test_unverified_us_ism_headline_is_usd_context_without_forced_direction():
 
 
 def test_loaded_articles_collapse_legacy_exact_url_copies(tmp_path):
-    database = tmp_path / "news.sqlite"
+    database = tmp_path / 'news.sqlite'
     connection = news.open_database(database)
     try:
         first_seen = dt.datetime(2026, 8, 4, 1, 31, tzinfo=UTC)
-        common = {
-            "source_name": "Publisher",
-            "source_kind": "rss",
-            "source_quality": 1.0,
-            "source_verified": True,
-            "source_currencies": ["AUD"],
-            "title": "RBA raises interest rate",
-            "summary": "Official monetary policy tightening",
-            "url": "https://example.com/exact-story",
-            "published_utc": "2026-08-04T01:30:00Z",
-        }
-        first = news.classify_article(
-            {**common, "source_id": "legacy_query_one"},
-            first_seen=first_seen,
-        )
-        second = news.classify_article(
-            {**common, "source_id": "legacy_query_two"},
-            first_seen=first_seen + dt.timedelta(minutes=1),
-        )
-        assert first["event_id"] != second["event_id"]
-        assert news.upsert_articles(connection, [first], first_seen) == (1, 0)
-        assert news.upsert_articles(
-            connection,
-            [second],
-            first_seen + dt.timedelta(minutes=1),
-        ) == (1, 0)
-        loaded = news.load_relevant_articles(
-            connection,
-            since=dt.datetime(2026, 8, 4, 0, 0, tzinfo=UTC),
-        )
+        common = {'source_name': 'Publisher', 'source_kind': 'rss', 'source_quality': 1.0, 'source_verified': True, 'source_currencies': ['AUD'], 'title': 'RBA raises interest rate', 'summary': 'Official monetary policy tightening', 'url': 'https://example.com/exact-story', 'published_utc': '2026-08-04T01:30:00Z'}
+        first = news.classify_article({**common, 'source_id': 'legacy_query_one'}, first_seen=first_seen)
+        second = news.classify_article({**common, 'source_id': 'legacy_query_two'}, first_seen=first_seen + dt.timedelta(minutes=1))
+        assert first['event_id'] != second['event_id']
+        assert fixture_retained_legacy_insert(connection, [first], first_seen) == (1, 0)
+        assert fixture_retained_legacy_insert(connection, [second], first_seen + dt.timedelta(minutes=1)) == (1, 0)
+        loaded = news.load_relevant_articles(connection, since=dt.datetime(2026, 8, 4, 0, 0, tzinfo=UTC))
         assert len(loaded) == 1
-        assert loaded[0]["cross_query_duplicate_count"] == 1
-        assert loaded[0]["duplicate_observation_count"] == 1
-        assert loaded[0]["discovery_source_ids"] == [
-            "legacy_query_one",
-            "legacy_query_two",
-        ]
-        assert loaded[0]["first_seen_utc"] == "2026-08-04T01:31:00+00:00"
+        assert loaded[0]['cross_query_duplicate_count'] == 1
+        assert loaded[0]['duplicate_observation_count'] == 1
+        assert loaded[0]['discovery_source_ids'] == ['legacy_query_one', 'legacy_query_two']
+        assert loaded[0]['first_seen_utc'] == '2026-08-04T01:31:00+00:00'
     finally:
         connection.close()
 
@@ -6428,531 +6613,208 @@ def test_exact_url_collapse_keeps_enriched_body_at_its_later_causal_time():
 
 
 def test_incremental_topic_reload_preserves_original_duplicate_clock(tmp_path):
-    connection = news.open_database(tmp_path / "news.sqlite")
+    connection = news.open_database(tmp_path / 'news.sqlite')
     try:
         original_seen = dt.datetime(2026, 8, 14, 15, 21, tzinfo=UTC)
         repeated_seen = original_seen + dt.timedelta(minutes=16)
-        raw = {
-            "source_id": "google_news_systemic_catalyst",
-            "source_name": "Example publisher",
-            "source_kind": "rss",
-            "source_quality": 0.55,
-            "source_verified": False,
-            "title": "Drone attack targets oil tanker exiting Strait of Hormuz",
-            "summary": "",
-            "url": "https://example.com/tanker",
-            "published_utc": "2026-08-14T15:16:25Z",
-        }
-        original = news.classify_article(raw, first_seen=original_seen)
-        repeated = news.classify_article(raw, first_seen=repeated_seen)
-        assert news.upsert_articles(connection, [original], original_seen) == (1, 0)
-        assert news.upsert_articles(connection, [repeated], repeated_seen) == (0, 1)
-        rows = news.load_canonical_articles_by_event_ids(
-            connection, [repeated["event_id"]]
-        )
+        raw = {'source_id': 'google_news_systemic_catalyst', 'source_name': 'Example publisher', 'source_kind': 'rss', 'source_quality': 0.55, 'source_verified': False, 'title': 'Drone attack targets oil tanker exiting Strait of Hormuz', 'summary': '', 'url': 'https://example.com/tanker', 'published_utc': '2026-08-14T15:16:25Z'}
+        original = fixture_observed_classify(raw, first_seen=original_seen)
+        repeated = fixture_observed_classify(raw, first_seen=repeated_seen)
+        assert fixture_observed_upsert(connection, [original], original_seen) == (1, 0)
+        assert fixture_observed_upsert(connection, [repeated], repeated_seen) == (0, 1)
+        rows = news.load_canonical_articles_by_event_ids(connection, [repeated['event_id']])
         assert len(rows) == 1
-        assert rows[0]["first_seen_utc"] == news.iso_utc(original_seen)
-        assert rows[0]["causal_known_utc"] == news.iso_utc(original_seen)
+        assert rows[0]['first_seen_utc'] == news.iso_utc(original_seen)
+        assert rows[0]['causal_known_utc'] == news.iso_utc(original_seen)
         topics = news.cluster_articles(rows, as_of=repeated_seen)
-        assert topics[0]["causal_known_utc"] == news.iso_utc(original_seen)
+        assert topics[0]['causal_known_utc'] == news.iso_utc(original_seen)
     finally:
         connection.close()
 
 
 def test_incremental_topic_clusters_new_url_against_retained_story(tmp_path):
-    connection = news.open_database(tmp_path / "news.sqlite")
+    connection = news.open_database(tmp_path / 'news.sqlite')
     try:
         first_seen = dt.datetime(2026, 8, 14, 8, 58, tzinfo=UTC)
         repeated_seen = dt.datetime(2026, 8, 14, 15, 21, tzinfo=UTC)
-        first = news.classify_article(
-            {
-                "source_id": "google_news_systemic_catalyst",
-                "source_name": "Publisher A",
-                "source_kind": "rss",
-                "source_quality": 0.55,
-                "source_verified": False,
-                "title": "Drone attack damages oil tanker in Strait of Hormuz",
-                "summary": "",
-                "url": "https://a.example/tanker",
-                "published_utc": "2026-08-14T08:53:00Z",
-            },
-            first_seen=first_seen,
-        )
-        assert news.upsert_articles(connection, [first], first_seen) == (1, 0)
+        first = fixture_observed_classify({'source_id': 'google_news_systemic_catalyst', 'source_name': 'Publisher A', 'source_kind': 'rss', 'source_quality': 0.55, 'source_verified': False, 'title': 'Drone attack damages oil tanker in Strait of Hormuz', 'summary': '', 'url': 'https://a.example/tanker', 'published_utc': '2026-08-14T08:53:00Z'}, first_seen=first_seen)
+        assert fixture_observed_upsert(connection, [first], first_seen) == (1, 0)
         initial_topics = news.cluster_articles([first], as_of=first_seen)
         assert news.upsert_topic_events(connection, initial_topics) == (1, 0)
-        repeated = news.classify_article(
-            {
-                "source_id": "google_news_systemic_catalyst",
-                "source_name": "Publisher B",
-                "source_kind": "rss",
-                "source_quality": 0.55,
-                "source_verified": False,
-                "title": "Drone attack targets oil tanker exiting the Strait of Hormuz",
-                "summary": "",
-                "url": "https://b.example/tanker-rewrite",
-                "published_utc": "2026-08-14T15:16:00Z",
-            },
-            first_seen=repeated_seen,
-        )
-        assert news.upsert_articles(connection, [repeated], repeated_seen) == (1, 0)
-        topics = news.cluster_incremental_topics_with_history(
-            connection, [repeated], as_of=repeated_seen
-        )
+        repeated = fixture_observed_classify({'source_id': 'google_news_systemic_catalyst', 'source_name': 'Publisher B', 'source_kind': 'rss', 'source_quality': 0.55, 'source_verified': False, 'title': 'Drone attack targets oil tanker exiting the Strait of Hormuz', 'summary': '', 'url': 'https://b.example/tanker-rewrite', 'published_utc': '2026-08-14T15:16:00Z'}, first_seen=repeated_seen)
+        assert fixture_observed_upsert(connection, [repeated], repeated_seen) == (1, 0)
+        topics = news.cluster_incremental_topics_with_history(connection, [repeated], as_of=repeated_seen)
         assert len(topics) == 1
-        assert topics[0]["causal_known_utc"] == news.iso_utc(first_seen)
-        assert set(topics[0]["article_event_ids"]) == {
-            first["event_id"], repeated["event_id"]
-        }
+        assert topics[0]['causal_known_utc'] == news.iso_utc(first_seen)
+        assert set(topics[0]['article_event_ids']) == {first['event_id'], repeated['event_id']}
     finally:
         connection.close()
 
 
 def test_retained_legacy_rows_are_reclassified_without_changing_first_seen(tmp_path):
-    database = tmp_path / "news.sqlite"
+    database = tmp_path / 'news.sqlite'
     connection = news.open_database(database)
     try:
         first_seen = dt.datetime(2026, 7, 29, 12, 1, tzinfo=UTC)
-        article = news.classify_article(
-            {
-                "source_id": "google_news_fx_macro",
-                "source_name": "Readers.id",
-                "source_kind": "rss",
-                "source_quality": 0.55,
-                "source_verified": False,
-                "source_currencies": [],
-                "title": "Federal Reserve weighs interest rate hike",
-                "summary": "Inflation remains a concern.",
-                "url": "https://example.com/speculation",
-                "published_utc": "2026-07-29T12:00:00Z",
-            },
-            first_seen=first_seen,
-        )
-        article["classification_version"] = "legacy"
-        article["currency_scores"] = {"USD": 0.9}
-        article["directional_bias"] = {"USD": "BULLISH"}
-        article["monetary_impulse"] = 0.9
-        news.upsert_articles(connection, [article], first_seen)
-
-        changed = news.reclassify_stored_articles(
-            connection,
-            sources={"google_news_fx_macro": {"currencies": []}},
-            since=dt.datetime(2026, 7, 29, 0, 0, tzinfo=UTC),
-        )
+        article = news.classify_article({'source_id': 'google_news_fx_macro', 'source_name': 'Readers.id', 'source_kind': 'rss', 'source_quality': 0.55, 'source_verified': False, 'source_currencies': [], 'title': 'Federal Reserve weighs interest rate hike', 'summary': 'Inflation remains a concern.', 'url': 'https://example.com/speculation', 'published_utc': '2026-07-29T12:00:00Z'}, first_seen=first_seen)
+        article['classification_version'] = 'legacy'
+        article['currency_scores'] = {'USD': 0.9}
+        article['directional_bias'] = {'USD': 'BULLISH'}
+        article['monetary_impulse'] = 0.9
+        fixture_retained_legacy_insert(connection, [article], first_seen)
+        changed = news.reclassify_stored_articles(connection, sources={'google_news_fx_macro': {'currencies': []}}, since=dt.datetime(2026, 7, 29, 0, 0, tzinfo=UTC), classification_clock_provider=fixture_clock(first_seen))
         assert changed == 1
-        row = connection.execute(
-            """
-            SELECT first_seen_utc, monetary_impulse, currency_scores_json,
-                   payload_json
-            FROM articles
-            """
-        ).fetchone()
-        assert row[0] == "2026-07-29T12:01:00+00:00"
+        row = connection.execute('\n            SELECT first_seen_utc, monetary_impulse, currency_scores_json,\n                   payload_json\n            FROM articles\n            ').fetchone()
+        assert row[0] == '2026-07-29T12:01:00+00:00'
         assert row[1] == 0.0
-        assert row[2] == "{}"
-        assert json.loads(row[3])["classification_version"] == (
-            news.CLASSIFICATION_VERSION
-        )
+        assert row[2] == '{}'
+        assert json.loads(row[3])['classification_version'] == news.CLASSIFICATION_VERSION
     finally:
         connection.close()
 
 
 def test_reclassification_prioritizes_newest_release(tmp_path, monkeypatch):
-    database = tmp_path / "news.sqlite"
+    database = tmp_path / 'news.sqlite'
     connection = news.open_database(database)
     try:
         observed_at = dt.datetime(2026, 8, 14, 12, 31, tzinfo=UTC)
-        for title, published in (
-            ("older release", "2026-08-13T12:30:00Z"),
-            ("fresh release", "2026-08-14T12:30:00Z"),
-        ):
-            article = news.classify_article(
-                {
-                    "source_id": "test_official",
-                    "source_name": "Test Official",
-                    "source_kind": "rss",
-                    "source_quality": 1.0,
-                    "source_verified": True,
-                    "source_currencies": ["USD"],
-                    "title": title,
-                    "summary": "Official release.",
-                    "url": f"https://example.com/{title.replace(' ', '-')}",
-                    "published_utc": published,
-                },
-                first_seen=observed_at,
-            )
-            article["classification_version"] = "legacy"
-            news.upsert_articles(connection, [article], observed_at)
-
+        for title, published in (('older release', '2026-08-13T12:30:00Z'), ('fresh release', '2026-08-14T12:30:00Z')):
+            article = news.classify_article({'source_id': 'test_official', 'source_name': 'Test Official', 'source_kind': 'rss', 'source_quality': 1.0, 'source_verified': True, 'source_currencies': ['USD'], 'title': title, 'summary': 'Official release.', 'url': f"https://example.com/{title.replace(' ', '-')}", 'published_utc': published}, first_seen=observed_at)
+            article['classification_version'] = 'legacy'
+            fixture_retained_legacy_insert(connection, [article], observed_at)
         call_order = []
         original = news.classify_article
 
         def recording_classifier(raw, *, first_seen):
-            call_order.append(raw["title"])
+            call_order.append(raw['title'])
             return original(raw, first_seen=first_seen)
-
-        monkeypatch.setattr(news, "classify_article", recording_classifier)
-        changed = news.reclassify_stored_articles(
-            connection,
-            sources={"test_official": {"currencies": ["USD"], "direct": True}},
-            since=dt.datetime(2026, 8, 13, 0, 0, tzinfo=UTC),
-        )
+        monkeypatch.setattr(news, 'classify_article', recording_classifier)
+        changed = news.reclassify_stored_articles(connection, sources={'test_official': {'currencies': ['USD'], 'direct': True}}, since=dt.datetime(2026, 8, 13, 0, 0, tzinfo=UTC), classification_clock_provider=fixture_clock(observed_at))
         assert changed == 2
-        assert call_order == ["fresh release", "older release"]
+        assert call_order == ['fresh release', 'older release']
     finally:
         connection.close()
 
 
-def test_reclassification_prioritizes_verified_official_before_newer_discovery(
-    tmp_path, monkeypatch
-):
-    connection = news.open_database(tmp_path / "news.sqlite")
+def test_reclassification_prioritizes_verified_official_before_newer_discovery(tmp_path, monkeypatch):
+    connection = news.open_database(tmp_path / 'news.sqlite')
     try:
         observed_at = dt.datetime(2026, 8, 14, 12, 31, tzinfo=UTC)
-        for source_id, verified, title, published in (
-            (
-                "test_discovery",
-                False,
-                "newer discovery",
-                "2026-08-14T12:30:00Z",
-            ),
-            (
-                "test_official",
-                True,
-                "older official release",
-                "2026-08-13T12:30:00Z",
-            ),
-        ):
-            article = news.classify_article(
-                {
-                    "source_id": source_id,
-                    "source_name": title,
-                    "source_kind": "rss",
-                    "source_quality": 1.0 if verified else 0.5,
-                    "source_verified": verified,
-                    "source_currencies": ["USD"],
-                    "title": title,
-                    "summary": "Release text.",
-                    "url": f"https://example.com/{source_id}",
-                    "published_utc": published,
-                },
-                first_seen=observed_at,
-            )
-            article["classification_version"] = "legacy"
-            news.upsert_articles(connection, [article], observed_at)
-
+        for source_id, verified, title, published in (('test_discovery', False, 'newer discovery', '2026-08-14T12:30:00Z'), ('test_official', True, 'older official release', '2026-08-13T12:30:00Z')):
+            article = news.classify_article({'source_id': source_id, 'source_name': title, 'source_kind': 'rss', 'source_quality': 1.0 if verified else 0.5, 'source_verified': verified, 'source_currencies': ['USD'], 'title': title, 'summary': 'Release text.', 'url': f'https://example.com/{source_id}', 'published_utc': published}, first_seen=observed_at)
+            article['classification_version'] = 'legacy'
+            fixture_retained_legacy_insert(connection, [article], observed_at)
         call_order = []
         original = news.classify_article
 
         def recording_classifier(raw, *, first_seen):
-            call_order.append(raw["title"])
+            call_order.append(raw['title'])
             return original(raw, first_seen=first_seen)
-
-        monkeypatch.setattr(news, "classify_article", recording_classifier)
-        changed = news.reclassify_stored_articles(
-            connection,
-            sources={
-                "test_official": {"currencies": ["USD"], "direct": True},
-                "test_discovery": {"currencies": ["USD"], "direct": False},
-            },
-            since=dt.datetime(2026, 8, 13, 0, tzinfo=UTC),
-            maximum_rows=1,
-        )
+        monkeypatch.setattr(news, 'classify_article', recording_classifier)
+        changed = news.reclassify_stored_articles(connection, sources={'test_official': {'currencies': ['USD'], 'direct': True}, 'test_discovery': {'currencies': ['USD'], 'direct': False}}, since=dt.datetime(2026, 8, 13, 0, tzinfo=UTC), maximum_rows=1, classification_clock_provider=fixture_clock(observed_at))
         assert changed == 1
-        assert call_order == ["older official release"]
+        assert call_order == ['older official release']
     finally:
         connection.close()
 
 
 def test_reclassification_is_bounded_and_resumes_oldest_stale_rows(tmp_path):
-    connection = news.open_database(tmp_path / "news.sqlite")
+    connection = news.open_database(tmp_path / 'news.sqlite')
     try:
-        first_seen = dt.datetime(2026,8,14,13,tzinfo=UTC)
+        first_seen = dt.datetime(2026, 8, 14, 13, tzinfo=UTC)
         for index in range(3):
-            article = news.classify_article(
-                {
-                    "source_id":"test_official","source_name":"Test Official",
-                    "source_kind":"rss","source_quality":1.0,"source_verified":True,
-                    "source_currencies":["USD"],"title":f"Release {index}",
-                    "summary":"Official release.","url":f"https://example.test/{index}",
-                    "published_utc":f"2026-08-14T1{index}:00:00Z",
-                },
-                first_seen=first_seen,
-            )
-            article["classification_version"]="legacy"
-            news.upsert_articles(connection,[article],first_seen)
-        changed = news.reclassify_stored_articles(
-            connection,
-            sources={"test_official":{"currencies":["USD"],"direct":True}},
-            since=dt.datetime(2026,8,14,0,tzinfo=UTC),
-            maximum_rows=2,
-        )
+            article = news.classify_article({'source_id': 'test_official', 'source_name': 'Test Official', 'source_kind': 'rss', 'source_quality': 1.0, 'source_verified': True, 'source_currencies': ['USD'], 'title': f'Release {index}', 'summary': 'Official release.', 'url': f'https://example.test/{index}', 'published_utc': f'2026-08-14T1{index}:00:00Z'}, first_seen=first_seen)
+            article['classification_version'] = 'legacy'
+            fixture_retained_legacy_insert(connection, [article], first_seen)
+        changed = news.reclassify_stored_articles(connection, sources={'test_official': {'currencies': ['USD'], 'direct': True}}, since=dt.datetime(2026, 8, 14, 0, tzinfo=UTC), maximum_rows=2, classification_clock_provider=fixture_clock(first_seen))
         assert changed == 2
-        remaining = connection.execute(
-            "SELECT count(*) FROM articles WHERE json_extract(payload_json,'$.classification_version')<>?",
-            (news.CLASSIFICATION_VERSION,),
-        ).fetchone()[0]
+        remaining = connection.execute("SELECT count(*) FROM articles WHERE json_extract(payload_json,'$.classification_version')<>?", (news.CLASSIFICATION_VERSION,)).fetchone()[0]
         assert remaining == 1
-        assert news.reclassify_stored_articles(
-            connection,
-            sources={"test_official":{"currencies":["USD"],"direct":True}},
-            since=dt.datetime(2026,8,14,0,tzinfo=UTC),
-            maximum_rows=2,
-        ) == 1
+        assert news.reclassify_stored_articles(connection, sources={'test_official': {'currencies': ['USD'], 'direct': True}}, since=dt.datetime(2026, 8, 14, 0, tzinfo=UTC), maximum_rows=2, classification_clock_provider=fixture_clock(first_seen)) == 1
     finally:
         connection.close()
 
 
 def test_recent_reclassification_republishes_topic_before_network_poll(tmp_path):
     observed = dt.datetime(2026, 8, 14, 13, 4, 7, tzinfo=UTC)
-    connection = news.open_database(tmp_path / "news.sqlite")
-    raw = {
-        "source_id": "google_news_fx_macro",
-        "source_name": "TradingKey",
-        "source_kind": "rss",
-        "source_quality": 0.7,
-        "source_verified": False,
-        "source_direct": False,
-        "source_currencies": ["USD"],
-        "title": (
-            "US July Retail Sales Unexpectedly Fall 0.6% as Spending Cools, "
-            "Hitting Fed Rate-Hike Expectations Again"
-        ),
-        "url": "https://example.test/retail-sales-refresh",
-        "published_utc": "2026-08-14T13:03:00Z",
-    }
+    connection = news.open_database(tmp_path / 'news.sqlite')
+    raw = {'source_id': 'google_news_fx_macro', 'source_name': 'TradingKey', 'source_kind': 'rss', 'source_quality': 0.7, 'source_verified': False, 'source_direct': False, 'source_currencies': ['USD'], 'title': 'US July Retail Sales Unexpectedly Fall 0.6% as Spending Cools, Hitting Fed Rate-Hike Expectations Again', 'url': 'https://example.test/retail-sales-refresh', 'published_utc': '2026-08-14T13:03:00Z'}
     stale = news.classify_article(raw, first_seen=observed)
-    stale["classification_version"] = "obsolete_rules"
-    stale["currency_scores"] = {"USD": 0.9}
-    stale["directional_bias"] = {"USD": "BULLISH"}
-    stale["category"] = "market_news"
-    stale["directional_publish_eligible"] = True
-    news.upsert_articles(connection, [stale], observed)
-    news.upsert_topic_events(
-        connection,
-        news.cluster_articles([stale], as_of=observed),
-    )
-    result = news.refresh_recent_topic_contract(
-        connection,
-        sources={
-            "google_news_fx_macro": {
-                "currencies": ["USD"],
-                "direct": False,
-                "retrieval_via": "search_discovery",
-            }
-        },
-        since=observed - dt.timedelta(hours=1),
-        as_of=observed,
-    )
-    assert result["reclassified"] == 1
-    rows = connection.execute("SELECT payload_json FROM topic_events").fetchall()
+    stale['classification_version'] = 'obsolete_rules'
+    stale['currency_scores'] = {'USD': 0.9}
+    stale['directional_bias'] = {'USD': 'BULLISH'}
+    stale['category'] = 'market_news'
+    stale['directional_publish_eligible'] = True
+    fixture_retained_legacy_insert(connection, [stale], observed)
+    news.upsert_topic_events(connection, news.cluster_articles([stale], as_of=observed))
+    result = news.refresh_recent_topic_contract(connection, sources={'google_news_fx_macro': {'currencies': ['USD'], 'direct': False, 'retrieval_via': 'search_discovery'}}, since=observed - dt.timedelta(hours=1), as_of=observed, classification_clock_provider=fixture_clock(observed))
+    assert result['reclassified'] == 1
+    rows = connection.execute('SELECT payload_json FROM topic_events').fetchall()
     payloads = [json.loads(row[0]) for row in rows]
-    current = [
-        row
-        for row in payloads
-        if row.get("classification_version") == news.CLASSIFICATION_VERSION
-    ]
+    current = [row for row in payloads if row.get('classification_version') == news.CLASSIFICATION_VERSION]
     assert current
-    assert all(
-        row.get("classification_version") == news.CLASSIFICATION_VERSION
-        for row in payloads
-    )
-    assert any(row.get("activity_release_direction") == -1 for row in current)
-    assert all(row.get("currency_scores", {}).get("USD", 0) <= 0 for row in current)
-
-    # A crash/restart may leave the article on the current contract but its
-    # derived topic on the prior one.  That mismatch must also be repaired
-    # even though no article itself requires reclassification.
-    topic_id, topic_payload_json = connection.execute(
-        "SELECT topic_id,payload_json FROM topic_events LIMIT 1"
-    ).fetchone()
+    assert all((row.get('classification_version') == news.CLASSIFICATION_VERSION for row in payloads))
+    assert any((row.get('activity_release_direction') == -1 for row in current))
+    assert all((row.get('currency_scores', {}).get('USD', 0) <= 0 for row in current))
+    topic_id, topic_payload_json = connection.execute('SELECT topic_id,payload_json FROM topic_events LIMIT 1').fetchone()
     topic_payload = json.loads(topic_payload_json)
-    topic_payload["classification_version"] = "obsolete_topic_rules"
-    topic_payload["currency_scores"] = {"USD": 0.9}
-    connection.execute(
-        "UPDATE topic_events SET payload_json=? WHERE topic_id=?",
-        (json.dumps(topic_payload), topic_id),
-    )
+    topic_payload['classification_version'] = 'obsolete_topic_rules'
+    topic_payload['currency_scores'] = {'USD': 0.9}
+    connection.execute('UPDATE topic_events SET payload_json=? WHERE topic_id=?', (json.dumps(topic_payload), topic_id))
     connection.commit()
-    repaired = news.refresh_recent_topic_contract(
-        connection,
-        sources={
-            "google_news_fx_macro": {
-                "currencies": ["USD"],
-                "direct": False,
-                "retrieval_via": "search_discovery",
-            }
-        },
-        since=observed - dt.timedelta(hours=1),
-        as_of=observed,
-    )
-    assert repaired["reclassified"] == 0
-    assert repaired["stale_topics"] == 1
-    repaired_payload = json.loads(
-        connection.execute(
-            "SELECT payload_json FROM topic_events WHERE topic_id=?", (topic_id,)
-        ).fetchone()[0]
-    )
-    assert repaired_payload["classification_version"] == news.CLASSIFICATION_VERSION
+    repaired = news.refresh_recent_topic_contract(connection, sources={'google_news_fx_macro': {'currencies': ['USD'], 'direct': False, 'retrieval_via': 'search_discovery'}}, since=observed - dt.timedelta(hours=1), as_of=observed, classification_clock_provider=fixture_clock(observed))
+    assert repaired['reclassified'] == 0
+    assert repaired['stale_topics'] == 1
+    repaired_payload = json.loads(connection.execute('SELECT payload_json FROM topic_events WHERE topic_id=?', (topic_id,)).fetchone()[0])
+    assert repaired_payload['classification_version'] == news.CLASSIFICATION_VERSION
     connection.close()
 
 
-def test_run_cycle_commits_each_source_at_its_actual_completion_time(
-    tmp_path, monkeypatch
-):
-    output_root = tmp_path / "news"
-    config_path = tmp_path / "sources.json"
-    config_path.write_text(
-        json.dumps(
-            {
-                "policy": {"retention_days": 45, "request_timeout_sec": 2},
-                "sources": [
-                    {
-                        "source_id": "source_one",
-                        "name": "Source One",
-                        "kind": "rss",
-                        "url": "https://example.com/one.xml",
-                        "enabled": True,
-                        "runtime_supported": True,
-                        "verified": True,
-                        "direct": True,
-                        "currencies": ["USD"],
-                    },
-                    {
-                        "source_id": "source_two",
-                        "name": "Source Two",
-                        "kind": "rss",
-                        "url": "https://example.com/two.xml",
-                        "enabled": True,
-                        "runtime_supported": True,
-                        "verified": True,
-                        "direct": True,
-                        "currencies": ["JPY"],
-                    },
-                ],
-            }
-        ),
-        encoding="utf-8",
-    )
-    clock = [
-        dt.datetime(2026, 8, 14, 12, minute, tzinfo=UTC)
-        for minute in range(6)
-    ]
-    clock_index = {"value": 0}
+def test_run_cycle_commits_each_source_at_its_actual_completion_time(tmp_path, monkeypatch):
+    output_root = tmp_path / 'news'
+    config_path = tmp_path / 'sources.json'
+    config_path.write_text(json.dumps({'policy': {'retention_days': 45, 'request_timeout_sec': 2}, 'sources': [{'source_id': 'source_one', 'name': 'Source One', 'kind': 'rss', 'url': 'https://example.com/one.xml', 'enabled': True, 'runtime_supported': True, 'verified': True, 'direct': True, 'currencies': ['USD']}, {'source_id': 'source_two', 'name': 'Source Two', 'kind': 'rss', 'url': 'https://example.com/two.xml', 'enabled': True, 'runtime_supported': True, 'verified': True, 'direct': True, 'currencies': ['JPY']}]}), encoding='utf-8')
+    clock = [dt.datetime(2026, 8, 14, 12, minute, tzinfo=UTC) for minute in range(6)]
+    clock_index = {'value': 0}
 
     def test_clock():
-        index = min(clock_index["value"], len(clock) - 1)
-        clock_index["value"] += 1
+        index = min(clock_index['value'], len(clock) - 1)
+        clock_index['value'] += 1
         return clock[index]
-
-    monkeypatch.setattr(news, "utc_now", test_clock)
-    monkeypatch.setattr(
-        news,
-        "normalized_observation_time",
-        lambda value: (
-            value,
-            {
-                "source": "test",
-                "normalized_utc": news.iso_utc(value),
-                "status": "aligned",
-                "contract_id": news.OBSERVATION_TIME_CONTRACT_ID,
-                "trusted_for_prospective_evidence": True,
-            },
-        ),
-    )
+    monkeypatch.setattr(news, 'utc_now', test_clock)
+    monkeypatch.setattr(news, 'normalized_observation_time', lambda value: (value, {'source': 'test', 'normalized_utc': news.iso_utc(value), 'status': 'aligned', 'contract_id': news.OBSERVATION_TIME_CONTRACT_ID, 'trusted_for_prospective_evidence': True}))
     observed_during_second_fetch = {}
 
     def fake_fetch(source, source_state, *, timeout_sec, maximum_bytes, now):
-        if source["source_id"] == "source_two":
-            database = output_root / "local_news_sentiment_v1.sqlite"
+        if source['source_id'] == 'source_two':
+            database = output_root / 'local_news_sentiment_v1.sqlite'
             with sqlite3.connect(database) as reader:
-                observed_during_second_fetch["row"] = reader.execute(
-                    "SELECT source_id, first_seen_utc FROM articles"
-                ).fetchone()
-                observed_during_second_fetch["topic_count"] = reader.execute(
-                    "SELECT COUNT(*) FROM topic_events"
-                ).fetchone()[0]
-        raw = {
-            "source_id": source["source_id"],
-            "source_name": source["name"],
-            "source_kind": "rss",
-            "source_quality": 1.0,
-            "source_verified": True,
-            "source_direct": True,
-            "source_currencies": source["currencies"],
-            "title": f"{source['name']} central bank raises interest rate",
-            "summary": "The central bank announced an interest rate hike.",
-            "url": source["url"],
-            "published_utc": "2026-08-14T12:00:00Z",
-        }
-        return [raw], {
-            **source_state,
-            "last_attempt_utc": news.iso_utc(now),
-            "last_success_utc": news.iso_utc(now),
-            "last_status": 200,
-            "last_error": "",
-            "parsed_items": 1,
-        }
-
-    monkeypatch.setattr(news, "fetch_source", fake_fetch)
-    monkeypatch.setattr(news.event_tagger, "discover_instruments", lambda: ["USD_JPY"])
-    result = news.run_cycle(
-        config_path=config_path,
-        output_root=output_root,
-        ledger_path=tmp_path / "ledger.csv",
-        event_root=tmp_path / "events",
-        refresh_event_catalog=False,
-    )
-    assert observed_during_second_fetch["row"] == (
-        "source_one",
-        "2026-08-14T12:02:00+00:00",
-    )
-    assert observed_during_second_fetch["topic_count"] == 1
-    assert result["inserted_items"] == 2
-    assert result["generated_utc"] == "2026-08-14T12:05:00+00:00"
+                observed_during_second_fetch['row'] = reader.execute('SELECT source_id, first_seen_utc FROM articles').fetchone()
+                observed_during_second_fetch['topic_count'] = reader.execute('SELECT COUNT(*) FROM topic_events').fetchone()[0]
+        raw = {'source_id': source['source_id'], 'source_name': source['name'], 'source_kind': 'rss', 'source_quality': 1.0, 'source_verified': True, 'source_direct': True, 'source_currencies': source['currencies'], 'title': f"{source['name']} central bank raises interest rate", 'summary': 'The central bank announced an interest rate hike.', 'url': source['url'], 'published_utc': '2026-08-14T12:00:00Z', 'source_contract_id': source['source_contract_id'], 'source_cohort_id': source['source_cohort_id']}
+        return ([raw], {**source_state, 'last_attempt_utc': news.iso_utc(now), 'last_success_utc': news.iso_utc(now), 'last_status': 200, 'last_error': '', 'parsed_items': 1})
+    monkeypatch.setattr(news, 'fetch_source', fake_fetch)
+    monkeypatch.setattr(news.event_tagger, 'discover_instruments', lambda: ['USD_JPY'])
+    result = news.run_cycle(config_path=config_path, output_root=output_root, ledger_path=tmp_path / 'ledger.csv', event_root=tmp_path / 'events', refresh_event_catalog=False)
+    assert observed_during_second_fetch['row'] == ('source_one', '2026-08-14T12:02:00+00:00')
+    assert observed_during_second_fetch['topic_count'] == 1
+    assert result['inserted_items'] == 2
+    assert result['generated_utc'] == '2026-08-14T12:05:00+00:00'
 
 
 def test_reclassification_preserves_html_listing_bootstrap_guard(tmp_path):
-    database = tmp_path / "news.sqlite"
+    database = tmp_path / 'news.sqlite'
     connection = news.open_database(database)
     try:
         first_seen = dt.datetime(2026, 8, 3, 18, 30, tzinfo=UTC)
-        article = news.classify_article(
-            {
-                "source_id": "japan_mof_international_policy",
-                "source_name": "Japan Ministry of Finance",
-                "source_kind": "html_links",
-                "source_role": "primary_policy_release",
-                "source_quality": 1.0,
-                "source_verified": True,
-                "source_currencies": ["JPY"],
-                "source_listing_bootstrap": True,
-                "title": "Japan intervenes in foreign exchange market to support yen",
-                "summary": "",
-                "url": "https://www.mof.go.jp/english/example",
-                "published_utc": "",
-            },
-            first_seen=first_seen,
-        )
-        article["classification_version"] = "legacy"
-        assert news.upsert_articles(connection, [article], first_seen) == (1, 0)
-
-        changed = news.reclassify_stored_articles(
-            connection,
-            sources={
-                "japan_mof_international_policy": {
-                    "currencies": ["JPY"],
-                    "direct": True,
-                }
-            },
-            since=dt.datetime(2026, 8, 3, 0, 0, tzinfo=UTC),
-        )
+        article = news.classify_article({'source_id': 'japan_mof_international_policy', 'source_name': 'Japan Ministry of Finance', 'source_kind': 'html_links', 'source_role': 'primary_policy_release', 'source_quality': 1.0, 'source_verified': True, 'source_currencies': ['JPY'], 'source_listing_bootstrap': True, 'title': 'Japan intervenes in foreign exchange market to support yen', 'summary': '', 'url': 'https://www.mof.go.jp/english/example', 'published_utc': ''}, first_seen=first_seen)
+        article['classification_version'] = 'legacy'
+        assert fixture_retained_legacy_insert(connection, [article], first_seen) == (1, 0)
+        changed = news.reclassify_stored_articles(connection, sources={'japan_mof_international_policy': {'currencies': ['JPY'], 'direct': True}}, since=dt.datetime(2026, 8, 3, 0, 0, tzinfo=UTC), classification_clock_provider=fixture_clock(first_seen))
         assert changed == 1
-        stored = json.loads(
-            connection.execute("SELECT payload_json FROM articles").fetchone()[0]
-        )
-        assert stored["source_listing_bootstrap"] is True
-        assert stored["forward_signal_timely"] is False
+        stored = json.loads(connection.execute('SELECT payload_json FROM articles').fetchone()[0])
+        assert stored['source_listing_bootstrap'] is True
+        assert stored['forward_signal_timely'] is False
     finally:
         connection.close()
 
@@ -7376,6 +7238,108 @@ def test_oman_foreign_ministry_direct_source_is_bootstrap_safe():
     assert source["trusted_domains"] == ["fm.gov.om"]
 
 
+def test_us_dow_release_source_is_direct_bootstrap_safe_and_currency_unbound():
+    config = json.loads(
+        (news.ROOT / "config" / "news_sources_v1.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    source = next(
+        row
+        for row in config["sources"]
+        if row.get("source_id") == "us_dow_releases_direct_v1"
+    )
+    assert source["kind"] == "rss"
+    assert source["verified"] is True
+    assert source["direct"] is True
+    assert source["retrieval_via"] == "direct_official_publisher_rss"
+    assert source["source_role"] == "primary_systemic_geopolitical_release"
+    assert source["currencies"] == []
+    assert source["bootstrap_existing_items"] is True
+    assert source["directional_research_only"] is True
+    assert source["source_contract_id"] == source["source_cohort_id"]
+    assert source["parent_source_cohort_id"] == (
+        "us_dow_releases_direct_v1_prospective_bootstrap_20260901"
+    )
+    assert "detail_enrichment" not in source
+    assert source["trusted_domains"] == [
+        "war.gov",
+        "defense.gov",
+        "media.defense.gov",
+    ]
+
+
+def test_us_dow_first_rss_snapshot_is_retrospective_research_context(monkeypatch):
+    payload = (
+        b'<?xml version="1.0"?><rss><channel><item>'
+        b'<title>U.S. forces complete operation against hostile targets</title>'
+        b'<link>https://www.war.gov/News/Releases/Release/Article/123/example/</link>'
+        b'<description>Official operational update.</description>'
+        b'<pubDate>Tue, 01 Sep 2026 13:20:00 GMT</pubDate>'
+        b'</item></channel></rss>'
+    )
+
+    class Response:
+        status = 200
+        headers = {}
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            return False
+
+        def read(self, _maximum):
+            return payload
+
+    monkeypatch.setattr(
+        news.urllib.request,
+        "urlopen",
+        lambda *_args, **_kwargs: Response(),
+    )
+    articles, state = news.fetch_source(
+        {
+            "source_id": "us_dow_releases_direct_v1",
+            "name": "U.S. Department of War official releases",
+            "kind": "rss",
+            "url": (
+                "https://www.war.gov/DesktopModules/ArticleCS/RSS.ashx?"
+                "ContentType=9&Site=945&max=10"
+            ),
+            "currencies": [],
+            "verified": True,
+            "direct": True,
+            "retrieval_via": "direct_official_publisher_rss",
+            "source_role": "primary_systemic_geopolitical_release",
+            "bootstrap_existing_items": True,
+            "source_contract_id": "us-dow-v1",
+            "source_cohort_id": "us-dow-v1",
+            "directional_research_only": True,
+            "trusted_domains": ["war.gov", "defense.gov", "media.defense.gov"],
+        },
+        {
+            "source_contract_id": "us-dow-v0-with-detail-fetch",
+            "source_cohort_id": "us-dow-v0-with-detail-fetch",
+            "detail_enriched_items": 0,
+            "detail_first_seen_utc_by_url": {},
+            "last_detail_error": "HTTP Error 403: Forbidden",
+        },
+        timeout_sec=2.0,
+        maximum_bytes=10_000,
+        now=dt.datetime(2026, 9, 2, 0, 16, tzinfo=UTC),
+    )
+    assert len(articles) == 1
+    assert articles[0]["source_listing_bootstrap"] is True
+    assert articles[0]["directional_research_only"] is True
+    assert articles[0]["source_currencies"] == []
+    assert state["bootstrap_item_count"] == 1
+    assert state["source_contract_id"] == "us-dow-v1"
+    assert state["previous_source_contract_id"] == (
+        "us-dow-v0-with-detail-fetch"
+    )
+    assert "last_detail_error" not in state
+
+
 def test_oman_routine_diplomacy_ignores_related_story_war_boilerplate():
     article = news.classify_article(
         {
@@ -7516,13 +7480,22 @@ def test_treasury_current_buyback_lead_remains_duration_policy():
     assert article["directional_publish_eligible"] is False
 
 
-def test_current_classification_contract_versions_pair_technical_recap_guard():
+def test_current_classification_contract_versions_authority_binding_guard():
     assert (
         news.CLASSIFICATION_VERSION
         == (
-            "local_fx_news_rules_20260828_v151_"
-            "pair_breakout_recap_boundary"
+            "local_fx_news_rules_20260907_v165_"
+            "causal_member_admission"
         )
+    )
+    assert news.JAPAN_EXTERNAL_POLICY_PRESSURE_ACTIVATED_UTC_V1 == (
+        "2026-09-04T18:00:00+00:00"
+    )
+    assert news.ISSUER_BOUND_POLICY_COMMUNICATION_SOURCE_ACTIVATED_UTC_V2 == (
+        "2026-09-01T16:00:00+00:00"
+    )
+    assert news.OFFICIAL_SEARCH_POLICY_RATE_ACTIVATED_UTC_V1 == (
+        "2026-09-02T02:45:00+00:00"
     )
 
 
@@ -7827,6 +7800,96 @@ def test_official_verbal_currency_stability_support_is_research_only():
         )
         assert article["context_only"] is True
         assert article["execution_eligible"] is False
+
+
+def test_external_policy_target_binds_bessent_japan_call_to_jpy_only():
+    article = news.classify_article(
+        {
+            "source_id": "google_news_fx_policy_ticker",
+            "source_name": "South China Morning Post",
+            "source_kind": "rss",
+            "source_quality": 0.55,
+            "source_verified": False,
+            "source_direct": False,
+            "source_currencies": [],
+            "title": (
+                "US Treasury's Bessent calls on Japan to boost yen through "
+                "interest rate hikes - South China Morning Post"
+            ),
+            "summary": "",
+            "url": "https://news.google.com/rss/articles/bessent-japan-rates",
+            "published_utc": "2026-09-01T00:30:00Z",
+        },
+        first_seen=dt.datetime(2026, 9, 1, 1, 31, tzinfo=UTC),
+    )
+
+    assert article["direct_currencies"] == ["JPY"]
+    assert article["currencies"] == ["JPY"]
+    assert article["policy_subject_currencies"] == ["JPY"]
+    assert article["mentioned_currency_entities"] == ["JPY", "USD"]
+    assert set(article["currency_scores"]) == {"JPY"}
+    assert article["currency_scores"]["JPY"] > 0
+    assert "USD" not in article["currency_scores"]
+    assert article["directional_publish_eligible"] is False
+    topic = news.cluster_articles([article])[0]
+    assert topic["currency_scores"] == {}
+    assert set(topic["research_currency_scores"]) == {"JPY"}
+    assert topic["research_currency_scores"]["JPY"] > 0
+    assert "USD" not in topic["research_currency_scores"]
+
+
+def test_secondary_japan_final_pmi_is_subject_bound_and_directionally_abstains():
+    article = news.classify_article(
+        {
+            "source_id": "finnhub_fx_market_news",
+            "source_name": "Forexlive",
+            "source_kind": "finnhub_news",
+            "source_verified": False,
+            "source_direct": False,
+            "source_role": "aggregator_discovery",
+            "title": (
+                "Japan manufacturing PMI hits 54.9 as new orders surge most "
+                "since 2018"
+            ),
+            "summary": (
+                "The S&P Global Japan Manufacturing PMI rose to 54.9 in "
+                "August from 54.5 in July, below the flash estimate of 55.1. "
+                "The appended market recap also mentions Bessent, BOJ, oil, "
+                "China, Canada, Mexico and Norway."
+            ),
+            "published_utc": "2026-09-01T00:40:51+00:00",
+        },
+        first_seen=dt.datetime(2026, 9, 1, 2, 31, tzinfo=UTC),
+    )
+
+    assert article["category"] == "business_activity_release"
+    assert article["structured_event"] is True
+    assert article["event_series_id"] == (
+        "sp_global_japan_manufacturing_pmi_final"
+    )
+    assert article["release_stage"] == "final"
+    assert article["actual_value"] == 54.9
+    assert article["previous_value"] == 54.5
+    assert article["source_native_components"]["flash_estimate"][
+        "actual_value"
+    ] == 55.1
+    assert article["source_currencies"] == ["JPY"]
+    assert article["direct_currencies"] == ["JPY"]
+    assert article["currencies"] == ["JPY"]
+    assert set(article["mentioned_currency_entities"]) >= {
+        "CAD", "CNH", "JPY", "MXN", "NOK"
+    }
+    assert article["currency_scores"] == {}
+    assert article["research_currency_scores"] == {}
+    assert article["numeric_verification_state"] == (
+        "secondary_claim_not_authoritative_source"
+    )
+    assert article["numeric_direction_policy"] == (
+        "abstain_pending_authoritative_value_and_causal_consensus"
+    )
+    assert article["directional_research_only"] is True
+    assert article["directional_publish_eligible"] is False
+    assert article["execution_eligible"] is False
 
 
 def test_possessive_fed_rate_policy_comment_is_neutral_usd_policy_context():
@@ -8455,9 +8518,7 @@ def test_finnhub_pair_technical_new_lows_recap_is_never_fresh_policy_direction()
         first_seen=dt.datetime(2026, 8, 28, 16, 31, 51, tzinfo=UTC),
     )
 
-    assert article["classification_version"].endswith(
-        "v151_pair_breakout_recap_boundary"
-    )
+    assert article["classification_version"] == news.CLASSIFICATION_VERSION
     assert article["currencies"] == ["EUR", "USD"]
     assert article["reports_prior_market_move"] is True
     assert article["event_temporality"] == "retrospective_market_report"
@@ -8491,9 +8552,7 @@ def test_finnhub_pair_technical_ma_breakout_is_retrospective_two_leg_move():
         first_seen=dt.datetime(2026, 8, 28, 17, 2, 58, tzinfo=UTC),
     )
 
-    assert article["classification_version"].endswith(
-        "v151_pair_breakout_recap_boundary"
-    )
+    assert article["classification_version"] == news.CLASSIFICATION_VERSION
     assert article["currencies"] == ["JPY", "USD"]
     assert article["reports_prior_market_move"] is True
     assert article["event_temporality"] == "retrospective_market_report"
@@ -8598,7 +8657,6 @@ def test_opposite_blockade_effect_claims_do_not_corroborate():
         "despite Iran's blockade"
     )
     assert news.headlines_support_same_claim(restrictive, mitigated) is False
-
     common = {
         "category": "risk_off_geopolitical_or_financial",
         "topic_signature": "risk_off_geopolitical_or_financial|ALL|oil|risk_off",
@@ -8633,6 +8691,16 @@ def test_opposite_blockade_effect_claims_do_not_corroborate():
     )
     assert len(clustered) == 2
     assert all(not row["directional_publish_eligible"] for row in clustered)
+
+
+def test_generic_two_week_low_wording_does_not_merge_unrelated_market_recaps():
+    cad = (
+        "Canadian dollar rebounds from two-week low, helped by month-end "
+        "hedging flows - theglobeandmail.com"
+    )
+    gold = "Gold falls to two-week low as US-Iran tensions escalate - t.co"
+
+    assert news.headlines_support_same_claim(cad, gold) is False
 
 
 def test_crude_supply_and_price_surge_headline_is_retrospective_context():
@@ -9086,7 +9154,7 @@ def test_all_68_pairs_are_emitted_with_explicit_evidence_quality():
     article = {
         "event_id": "usd-policy",
         "topic_id": "usd-policy-topic",
-        "topic_clustered": True,
+        "topic_clustered": False,
         "topic_tags": ["#usd_hawkish_guidance"],
         "headline": "Fed signals higher rates",
         "published_utc": "2026-07-30T12:00:00+00:00",
@@ -9103,8 +9171,11 @@ def test_all_68_pairs_are_emitted_with_explicit_evidence_quality():
         "source_name": "Federal Reserve",
         "source_verified": True,
         "source_direct": True,
+        "forward_signal_timely": True,
+        "forward_timeliness_limit_minutes": 30,
+        "estimated_reaction_horizon_minutes": 180,
     }
-    instruments = news.event_tagger.discover_instruments()
+    instruments = news.event_tagger.discover_instruments(_FIXTURE_PAIR_UNIVERSE_68)
     output = news.build_pair_scores(
         [article],
         instruments,
@@ -9501,6 +9572,9 @@ def _secondary_macro_article(
         "direct_currencies": ["AUD"],
         "inferred_currencies": [],
         "currencies": ["AUD"],
+        "forward_signal_timely": True,
+        "forward_timeliness_limit_minutes": 30,
+        "estimated_reaction_horizon_minutes": 180,
     }
 
 
@@ -9517,29 +9591,34 @@ def test_single_secondary_macro_topic_is_context_only():
 
 
 def test_two_distinct_secondary_macro_sources_are_directional():
+    first = _secondary_macro_article("secondary-one")
     second = _secondary_macro_article("secondary-two")
     second["headline"] = (
         "Australia inflation report shows price growth slowing sharply"
     )
+    first["semantic_claims"] = second["semantic_claims"] = [
+        {"subject": "Australia inflation release", "action": "slows sharply"}
+    ]
     clustered = news.cluster_articles(
-        [_secondary_macro_article("secondary-one"), second]
+        [first, second], as_of=dt.datetime(2026, 7, 30, 12, 3, tzinfo=UTC)
     )
     assert clustered[0]["distinct_source_count"] == 2
     assert clustered[0]["currency_scores"] == {"AUD": -0.5}
     assert clustered[0]["directional_publish_eligible"] is True
     assert clustered[0]["directional_source_grade"] == (
-        "corroborated_secondary"
+        "member_guard_corroborated_secondary"
     )
 
 
 def test_verified_macro_source_is_directional_without_corroboration():
     clustered = news.cluster_articles(
-        [_secondary_macro_article("official", verified=True)]
+        [_secondary_macro_article("official", verified=True)],
+        as_of=dt.datetime(2026, 7, 30, 12, 3, tzinfo=UTC),
     )
     assert clustered[0]["currency_scores"] == {"AUD": -0.5}
     assert clustered[0]["directional_publish_eligible"] is True
     assert clustered[0]["directional_source_grade"] == (
-        "verified_primary_or_publisher"
+        "member_guard_verified"
     )
 
 
@@ -9962,6 +10041,91 @@ def test_rbnz_official_search_uses_five_minute_versioned_contract():
     assert source["kind"] == "rss"
 
 
+def test_rbnz_official_search_rate_headline_is_structured_but_directionless():
+    article = news.classify_article(
+        {
+            "source_id": "rbnz_official_search",
+            "source_name": "rbnz.govt.nz",
+            "source_kind": "rss",
+            "source_quality": 0.8,
+            "source_verified": True,
+            "source_direct": False,
+            "retrieval_via": "google_news_official_site_search",
+            "source_currencies": ["NZD"],
+            "title": "OCR increased by 25 basis points to 2.75% - rbnz.govt.nz",
+            "summary": "",
+            "url": "https://news.google.com/rss/articles/frozen-rbnz-fixture",
+            "published_utc": "2026-09-02T02:46:00Z",
+        },
+        first_seen=dt.datetime(2026, 9, 2, 2, 46, 5, tzinfo=UTC),
+    )
+    assert article["official_search_policy_rate_headline_detected"] is True
+    assert article["official_search_policy_rate_activation_eligible"] is True
+    assert article["official_search_policy_rate_action"] == "hike"
+    assert article["official_search_policy_rate_change_bp"] == 25.0
+    assert article["official_search_policy_rate_level"] == 2.75
+    assert article["official_search_policy_rate_previous_level"] == 2.5
+    assert article["official_search_policy_rate_contract_id"] == (
+        news.OFFICIAL_SEARCH_POLICY_RATE_CONTRACT_ID_V1
+    )
+    assert article["official_search_policy_rate_cohort_id"] == (
+        news.OFFICIAL_SEARCH_POLICY_RATE_COHORT_ID_V1
+    )
+    assert article["structured_event"] is True
+    assert article["event_series_id"] == "nzd_official_policy_rate"
+    assert article["category"] == "monetary_policy"
+    assert article["actual_value"] == 2.75
+    assert article["previous_value"] == 2.5
+    assert article["consensus_value"] is None
+    assert article["structured_component_change"]["components"] == [
+        {
+            "component": "policy_rate",
+            "dimension": "policy_rate",
+            "actual": 2.75,
+            "previous": 2.5,
+            "consensus": None,
+            "delta_previous": 0.25,
+            "surprise_consensus": None,
+            "rate_channel_sign": 1,
+            "directional_basis": "actual_minus_previous_context_only",
+        }
+    ]
+    assert article["currency_scores"] == {}
+    assert article["monetary_impulse"] == 0.0
+    assert article["context_only"] is True
+    assert article["directional_publish_eligible"] is False
+    assert article["execution_eligible"] is False
+    assert article["can_place_orders"] is False
+
+
+def test_rbnz_live_fixture_predates_policy_rate_parser_and_cannot_gain_proof():
+    article = news.classify_article(
+        {
+            "source_id": "rbnz_official_search",
+            "source_name": "rbnz.govt.nz",
+            "source_kind": "rss",
+            "source_quality": 0.8,
+            "source_verified": True,
+            "source_direct": False,
+            "retrieval_via": "google_news_official_site_search",
+            "source_currencies": ["NZD"],
+            "title": "OCR increased by 25 basis points to 2.75% - rbnz.govt.nz",
+            "summary": "",
+            "url": "https://news.google.com/rss/articles/live-rbnz-fixture",
+            "published_utc": "2026-09-02T02:03:36Z",
+        },
+        first_seen=dt.datetime(2026, 9, 2, 2, 13, 58, tzinfo=UTC),
+    )
+    assert article["official_search_policy_rate_headline_detected"] is True
+    assert article["official_search_policy_rate_activation_eligible"] is False
+    assert article["official_search_policy_rate_cohort_id"] == ""
+    assert article["structured_event"] is False
+    assert article["actual_value"] is None
+    assert article["currency_scores"] == {}
+    assert article["directional_publish_eligible"] is False
+    assert article["execution_eligible"] is False
+
+
 def test_regional_fed_speech_sources_are_direct_versioned_contracts():
     config = json.loads(
         (news.ROOT / "config" / "news_sources_v1.json").read_text(
@@ -10066,7 +10230,7 @@ def test_major_policy_context_archives_are_versioned_and_causally_quarantined():
         assert source["source_cohort_id"] == contract_id
 
 
-def test_ukmto_official_search_is_versioned_and_explicitly_indirect():
+def test_ukmto_official_search_is_versioned_enriched_and_research_only():
     config = json.loads(
         (news.ROOT / "config" / "news_sources_v1.json").read_text(
             encoding="utf-8"
@@ -10079,16 +10243,285 @@ def test_ukmto_official_search_is_versioned_and_explicitly_indirect():
     assert source["poll_interval_sec"] == 120
     assert source["verified"] is False
     assert source["direct"] is False
-    assert source["retrieval_via"] == (
-        "google_news_official_site_search_fallback"
+    assert source["retrieval_via"] == "google_news_official_site_search"
+    assert source["source_role"] == (
+        "official_publisher_search_enriched_research_only"
     )
     assert source["bootstrap_existing_items"] is True
     assert source["source_contract_id"] == (
-        "ukmto_official_search_v2_20260815"
+        "ukmto_official_search_v4_publisher_pdf_resolution_provenance_20260901"
     )
     assert source["source_cohort_id"] == source["source_contract_id"]
+    assert source["parent_source_cohort_id"] == (
+        "ukmto_official_search_v3_publisher_pdf_resolution_20260901"
+    )
     assert source["require_trusted_publisher"] is True
     assert source["publisher_trusted_domains"] == ["ukmto.org"]
+    assert source["trusted_domains"] == ["ukmto.org"]
+    assert source["directional_research_only"] is True
+    assert source["detail_enrichment"] == "official_document_text"
+    assert source["detail_enrich_recent_existing_items"] is True
+    assert source["detail_max_items_per_cycle"] == 1
+    assert source["google_news_publisher_resolution_contract_id"] == (
+        news.GOOGLE_NEWS_OFFICIAL_PUBLISHER_RESOLUTION_CONTRACT_ID
+    )
+
+
+def _google_news_resolution_fixture(
+    article_id: str,
+    publisher_url: str,
+) -> tuple[bytes, bytes]:
+    page = (
+        f'<html><div data-n-a-id="{article_id}" data-n-a-ts="1788249287" '
+        'data-n-a-sg="Ae5Wzi-yyFW-LHxbBayWPQtpd6uX"></div></html>'
+    ).encode()
+    nested = json.dumps(["garturlres", publisher_url])
+    response = (
+        ")]}'\n" + json.dumps([["wrb.fr", "Fbv4je", nested]])
+    ).encode()
+    return page, response
+
+
+def test_google_news_official_publisher_resolution_is_bounded(monkeypatch):
+    article_id = "A" * 48
+    listing_url = f"https://news.google.com/rss/articles/{article_id}?oc=5"
+    publisher_url = "https://www.ukmto.org/-/media/ukmto/products/warning.pdf?rev=1"
+    page, batch = _google_news_resolution_fixture(article_id, publisher_url)
+    calls = []
+
+    class Response:
+        def __init__(self, payload):
+            self.payload = payload
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_args):
+            return False
+
+        def read(self, maximum):
+            assert maximum <= 1_000_001
+            return self.payload
+
+    def fake_open(request, **_kwargs):
+        calls.append(request)
+        if request.full_url == news.GOOGLE_NEWS_BATCH_EXECUTE_URL:
+            assert request.data is not None
+            return Response(batch)
+        assert request.full_url == listing_url
+        assert request.data is None
+        return Response(page)
+
+    monkeypatch.setattr(news.urllib.request, "urlopen", fake_open)
+    resolved = news.resolve_google_news_official_publisher_url(
+        listing_url,
+        timeout_sec=2,
+        maximum_bytes=200_000,
+    )
+    assert resolved == publisher_url
+    assert len(calls) == 2
+
+
+def test_google_news_official_publisher_resolution_rejects_malformed_response(
+    monkeypatch,
+):
+    article_id = "B" * 48
+    listing_url = f"https://news.google.com/rss/articles/{article_id}?oc=5"
+    page, _batch = _google_news_resolution_fixture(
+        article_id,
+        "https://www.ukmto.org/warning.pdf",
+    )
+
+    class Response:
+        def __init__(self, payload):
+            self.payload = payload
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_args):
+            return False
+
+        def read(self, _maximum):
+            return self.payload
+
+    responses = iter((Response(page), Response(b"not-json")))
+    monkeypatch.setattr(
+        news.urllib.request,
+        "urlopen",
+        lambda *_args, **_kwargs: next(responses),
+    )
+    with pytest.raises(ValueError, match="missing JSON"):
+        news.resolve_google_news_official_publisher_url(
+            listing_url,
+            timeout_sec=2,
+        )
+
+
+def test_google_news_official_detail_is_trusted_timestamped_and_research_only(
+    monkeypatch,
+):
+    article_id = "C" * 48
+    listing_url = f"https://news.google.com/rss/articles/{article_id}?oc=5"
+    publisher_url = "https://www.ukmto.org/recent-incidents/warning-124-26"
+    page, batch = _google_news_resolution_fixture(article_id, publisher_url)
+    publisher_body = (
+        b"<html><main>UKMTO received a report that a merchant vessel was "
+        b"struck by projectiles while transiting near the Strait of Hormuz. "
+        b"Authorities are investigating and vessels should exercise caution."
+        b"</main></html>"
+    )
+
+    class Response:
+        def __init__(self, payload, url, content_type="text/html"):
+            self.payload = payload
+            self.url = url
+            self.headers = {"Content-Type": content_type}
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_args):
+            return False
+
+        def read(self, _maximum):
+            return self.payload
+
+        def geturl(self):
+            return self.url
+
+    def fake_open(request, **_kwargs):
+        if request.full_url == news.GOOGLE_NEWS_BATCH_EXECUTE_URL:
+            return Response(batch, request.full_url)
+        if request.full_url == listing_url:
+            return Response(page, listing_url)
+        assert request.full_url == publisher_url
+        return Response(publisher_body, publisher_url)
+
+    monkeypatch.setattr(news.urllib.request, "urlopen", fake_open)
+    now = dt.datetime(2026, 9, 1, 8, 10, tzinfo=UTC)
+    article = {
+        "title": "UKMTO WARNING - UKMTO",
+        "summary": "",
+        "url": listing_url,
+        "published_utc": "2026-09-01T07:58:30Z",
+        "source_listing_bootstrap": True,
+    }
+    enriched, first_seen, error = news.enrich_recent_official_release_details(
+        [article],
+        {
+            "source_id": "ukmto_official_search",
+            "retrieval_via": "google_news_official_site_search",
+            "detail_enrichment": "official_document_text",
+            "detail_enrich_recent_existing_items": True,
+            "detail_max_age_minutes": 1440,
+            "trusted_domains": ["ukmto.org"],
+            "archive_official_pdfs": False,
+            "google_news_publisher_resolution_contract_id": (
+                news.GOOGLE_NEWS_OFFICIAL_PUBLISHER_RESOLUTION_CONTRACT_ID
+            ),
+        },
+        {},
+        timeout_sec=2,
+        maximum_bytes=1_000_000,
+        now=now,
+    )
+    assert enriched == 1
+    assert error == ""
+    assert first_seen[listing_url] == "2026-09-01T08:10:00+00:00"
+    assert article["detail_source_url"] == publisher_url
+    assert article["detail_listing_url"] == listing_url
+    assert article["detail_publisher_resolution_contract_id"] == (
+        news.GOOGLE_NEWS_OFFICIAL_PUBLISHER_RESOLUTION_CONTRACT_ID
+    )
+    assert article["detail_publisher_resolution_known_utc"] == (
+        "2026-09-01T08:10:00+00:00"
+    )
+    assert article["detail_publisher_resolution_research_only"] is True
+    assert article["detail_enrichment_research_only"] is True
+    assert article["detail_existing_item_observed_late"] is True
+    assert "Strait of Hormuz" in article["summary"]
+    article.update(
+        {
+            "source_id": "ukmto_official_search",
+            "source_name": "UKMTO",
+            "source_kind": "rss",
+            "source_verified": True,
+            "source_direct": False,
+            "source_quality": 0.8,
+            "source_url": article["url"],
+            "source_listing_bootstrap": True,
+        }
+    )
+    classified = news.classify_article(article, first_seen=now)
+    assert classified["detail_listing_url"] == listing_url
+    assert classified["detail_publisher_resolution_contract_id"] == (
+        news.GOOGLE_NEWS_OFFICIAL_PUBLISHER_RESOLUTION_CONTRACT_ID
+    )
+    assert classified["detail_publisher_resolution_known_utc"] == (
+        "2026-09-01T08:10:00+00:00"
+    )
+    assert classified["detail_publisher_resolution_research_only"] is True
+    assert classified["directional_publish_eligible"] is False
+
+
+def test_google_news_official_detail_rejects_untrusted_resolved_host(monkeypatch):
+    article_id = "D" * 48
+    listing_url = f"https://news.google.com/rss/articles/{article_id}?oc=5"
+    page, batch = _google_news_resolution_fixture(
+        article_id,
+        "https://untrusted.example/warning",
+    )
+
+    class Response:
+        def __init__(self, payload, url):
+            self.payload = payload
+            self.url = url
+            self.headers = {"Content-Type": "text/html"}
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_args):
+            return False
+
+        def read(self, _maximum):
+            return self.payload
+
+        def geturl(self):
+            return self.url
+
+    def fake_open(request, **_kwargs):
+        if request.full_url == news.GOOGLE_NEWS_BATCH_EXECUTE_URL:
+            return Response(batch, request.full_url)
+        assert request.full_url == listing_url
+        return Response(page, listing_url)
+
+    monkeypatch.setattr(news.urllib.request, "urlopen", fake_open)
+    article = {
+        "title": "UKMTO WARNING - UKMTO",
+        "summary": "",
+        "url": listing_url,
+        "published_utc": "2026-09-01T07:58:30Z",
+    }
+    enriched, _first_seen, error = news.enrich_recent_official_release_details(
+        [article],
+        {
+            "source_id": "ukmto_official_search",
+            "retrieval_via": "google_news_official_site_search",
+            "detail_enrichment": "official_document_text",
+            "trusted_domains": ["ukmto.org"],
+            "google_news_publisher_resolution_contract_id": (
+                news.GOOGLE_NEWS_OFFICIAL_PUBLISHER_RESOLUTION_CONTRACT_ID
+            ),
+        },
+        {},
+        timeout_sec=2,
+        maximum_bytes=1_000_000,
+        now=dt.datetime(2026, 9, 1, 8, 0, tzinfo=UTC),
+    )
+    assert enriched == 0
+    assert "outside configured official domains" in error
 
 
 def test_dol_ui_claims_official_search_is_versioned_indirect_and_inert():
@@ -10479,13 +10912,13 @@ def test_alpha_vantage_http_200_quota_payload_is_not_healthy_empty_news():
 
 
 def test_finnhub_fx_news_normalizes_vendor_fields_without_direction_vote():
-    source = {
+    source = news.source_config_lineage({
         "source_id": "finnhub_fx_market_news",
         "name": "Finnhub FX market news",
         "kind": "finnhub_news",
         "quality": 0.70,
         "source_role": "aggregator_discovery",
-    }
+    })
     payload = json.dumps(
         [
             {
@@ -10505,12 +10938,38 @@ def test_finnhub_fx_news_normalizes_vendor_fields_without_direction_vote():
     assert rows[0]["external_id"] == "987654"
     assert rows[0]["vendor_category"] == "forex"
     assert rows[0]["url"] == "https://example.com/fx-story"
+    assert rows[0]["source_contract_id"] == source["source_contract_id"]
+    assert rows[0]["source_cohort_id"] == source["source_cohort_id"]
     article = news.classify_article(
         rows[0],
         first_seen=dt.datetime(2026, 8, 2, 18, 31, tzinfo=UTC),
     )
     assert article["source_role"] == "aggregator_discovery"
     assert article["execution_eligible"] is False
+
+
+def test_reclassify_migrates_missing_discovery_source_lineage_once(tmp_path):
+    configured_source = news.source_config_lineage({'source_id': 'finnhub_fx_market_news', 'name': 'Finnhub FX market news', 'kind': 'finnhub_news', 'quality': 0.7, 'source_role': 'aggregator_discovery', 'currencies': [], 'direct': False})
+    legacy_source = dict(configured_source)
+    legacy_source.pop('source_contract_id')
+    legacy_source.pop('source_cohort_id')
+    observed = dt.datetime(2026, 8, 2, 18, 31, tzinfo=UTC)
+    payload = json.dumps([{'category': 'forex', 'datetime': int(observed.timestamp()), 'headline': 'Dollar steady before central-bank decisions', 'id': 987655, 'source': 'Example News', 'summary': 'Investors await official releases.', 'url': 'https://example.com/fx-story-lineage'}]).encode()
+    retained = news.classify_article(news.parse_finnhub_news(payload, legacy_source)[0], first_seen=observed)
+    assert not retained.get('source_contract_id')
+    assert not retained.get('source_cohort_id')
+    connection = news.open_database(tmp_path / 'news.sqlite')
+    try:
+        assert fixture_retained_legacy_insert(connection, [retained], observed) == (1, 0)
+        assert news.reclassify_stored_articles(connection, sources={configured_source['source_id']: configured_source}, since=observed - dt.timedelta(minutes=1), classification_clock_provider=fixture_clock(observed)) == 1
+        migrated = json.loads(connection.execute('SELECT payload_json FROM articles WHERE event_id=?', (retained['event_id'],)).fetchone()[0])
+        assert migrated['source_contract_id'] == configured_source['source_contract_id']
+        assert migrated['source_cohort_id'] == configured_source['source_cohort_id']
+        assert migrated['first_seen_utc'] == retained['first_seen_utc']
+        assert migrated['published_utc'] == retained['published_utc']
+        assert news.reclassify_stored_articles(connection, sources={configured_source['source_id']: configured_source}, since=observed - dt.timedelta(minutes=1), classification_clock_provider=fixture_clock(observed)) == 0
+    finally:
+        connection.close()
 
 
 def test_credentialed_source_is_inactive_until_key_exists(monkeypatch):
@@ -11089,125 +11548,34 @@ def test_abs_diagnostic_url_clock_is_versioned_and_never_forward():
     assert classified["directional_publish_eligible"] is False
 
 
-def test_abs_clock_repair_inserts_new_version_without_rewriting_old_evidence(
-    tmp_path,
-):
-    url = (
-        "https://www.abs.gov.au/media-centre/media-releases/"
-        "household-spending-rises-third-month-row"
-    )
-    legacy = news.classify_article(
-        {
-            "source_id": "abs_latest_releases",
-            "source_name": "Australian Bureau of Statistics",
-            "source_kind": "html_links",
-            "source_role": "primary_statistical_release",
-            "source_quality": 0.98,
-            "source_verified": True,
-            "source_direct": True,
-            "source_currencies": ["AUD"],
-            "source_contract_id": "abs_v8",
-            "source_cohort_id": "abs_v8",
-            "title": "Media Release - Household spending rises for third month in a row",
-            "summary": "",
-            "url": url,
-            "published_utc": "",
-        },
-        first_seen=dt.datetime(2026, 8, 27, 3, 58, 40, tzinfo=UTC),
-    )
-    # Reproduce the defective evidence exactly enough to prove the repair does
-    # not mutate it. The new classifier itself correctly fails this row closed.
-    legacy["classification_version"] = "legacy_retrieval_clock_v144"
-    legacy["forward_signal_timely"] = True
-    diagnostic_raw = news.parse_html_links(
-        (
-            '<a href="/media-centre/media-releases/'
-            'household-spending-rises-third-month-row">'
-            "Media Release - Household spending rises for third month in a row"
-            "</a>"
-        ).encode(),
-        {
-            "source_id": "abs_latest_releases",
-            "name": "Australian Bureau of Statistics",
-            "url": "https://www.abs.gov.au/release-calendar/latest-releases",
-            "link_patterns": [r"/media-centre/media-releases/"],
-            "trusted_domains": ["abs.gov.au"],
-            "currencies": ["AUD"],
-            "verified": True,
-            "direct": True,
-            "source_role": "primary_statistical_release",
-            "source_contract_id": "abs_v9",
-            "source_cohort_id": "abs_v9",
-            "release_clock_contract_id": (
-                news.ABS_OFFICIAL_PAGE_RELEASE_CLOCK_CONTRACT_ID
-            ),
-            "release_clock_contract_activated_utc": "2026-08-27T05:00:00Z",
-            "diagnostic_release_utc_by_url": {
-                url: "2026-08-27T01:30:00Z"
-            },
-        },
-    )[0]
-    diagnostic = news.classify_article(
-        diagnostic_raw,
-        first_seen=dt.datetime(2026, 8, 27, 5, 1, tzinfo=UTC),
-    )
-
-    connection = news.open_database(tmp_path / "news.sqlite")
+def test_abs_clock_repair_inserts_new_version_without_rewriting_old_evidence(tmp_path):
+    url = 'https://www.abs.gov.au/media-centre/media-releases/household-spending-rises-third-month-row'
+    legacy = news.classify_article({'source_id': 'abs_latest_releases', 'source_name': 'Australian Bureau of Statistics', 'source_kind': 'html_links', 'source_role': 'primary_statistical_release', 'source_quality': 0.98, 'source_verified': True, 'source_direct': True, 'source_currencies': ['AUD'], 'source_contract_id': 'abs_v8', 'source_cohort_id': 'abs_v8', 'title': 'Media Release - Household spending rises for third month in a row', 'summary': '', 'url': url, 'published_utc': ''}, first_seen=dt.datetime(2026, 8, 27, 3, 58, 40, tzinfo=UTC))
+    legacy['classification_version'] = 'legacy_retrieval_clock_v144'
+    legacy['forward_signal_timely'] = True
+    diagnostic_raw = news.parse_html_links('<a href="/media-centre/media-releases/household-spending-rises-third-month-row">Media Release - Household spending rises for third month in a row</a>'.encode(), {'source_id': 'abs_latest_releases', 'name': 'Australian Bureau of Statistics', 'url': 'https://www.abs.gov.au/release-calendar/latest-releases', 'link_patterns': ['/media-centre/media-releases/'], 'trusted_domains': ['abs.gov.au'], 'currencies': ['AUD'], 'verified': True, 'direct': True, 'source_role': 'primary_statistical_release', 'source_contract_id': 'abs_v9', 'source_cohort_id': 'abs_v9', 'release_clock_contract_id': news.ABS_OFFICIAL_PAGE_RELEASE_CLOCK_CONTRACT_ID, 'release_clock_contract_activated_utc': '2026-08-27T05:00:00Z', 'diagnostic_release_utc_by_url': {url: '2026-08-27T01:30:00Z'}})[0]
+    diagnostic = fixture_observed_classify(diagnostic_raw, first_seen=dt.datetime(2026, 8, 27, 5, 1, tzinfo=UTC))
+    connection = news.open_database(tmp_path / 'news.sqlite')
     try:
-        assert news.upsert_articles(
-            connection,
-            [legacy],
-            dt.datetime(2026, 8, 27, 3, 58, 40, tzinfo=UTC),
-        ) == (1, 0)
-        assert news.upsert_articles(
-            connection,
-            [diagnostic],
-            dt.datetime(2026, 8, 27, 5, 1, tzinfo=UTC),
-        ) == (1, 0)
-        current_source = {
-            "source_id": "abs_latest_releases",
-            "currencies": ["AUD"],
-            "direct": True,
-            "source_contract_id": "abs_v9",
-            "source_cohort_id": "abs_v9",
-            "diagnostic_release_utc_by_url": {
-                url: "2026-08-27T01:30:00Z"
-            },
-        }
-        assert news.reclassify_stored_articles(
-            connection,
-            sources={"abs_latest_releases": current_source},
-            since=dt.datetime(2026, 8, 27, 0, 0, tzinfo=UTC),
-        ) == 0
-        rows = connection.execute(
-            "SELECT published_utc,payload_json FROM articles ORDER BY published_utc"
-        ).fetchall()
+        assert fixture_retained_legacy_insert(connection, [legacy], dt.datetime(2026, 8, 27, 3, 58, 40, tzinfo=UTC)) == (1, 0)
+        assert fixture_observed_upsert(connection, [diagnostic], dt.datetime(2026, 8, 27, 5, 1, tzinfo=UTC)) == (1, 0)
+        current_source = {'source_id': 'abs_latest_releases', 'currencies': ['AUD'], 'direct': True, 'source_contract_id': 'abs_v9', 'source_cohort_id': 'abs_v9', 'diagnostic_release_utc_by_url': {url: '2026-08-27T01:30:00Z'}}
+        assert news.reclassify_stored_articles(connection, sources={'abs_latest_releases': current_source}, since=dt.datetime(2026, 8, 27, 0, 0, tzinfo=UTC), classification_clock_provider=fixture_clock(dt.datetime(2026, 8, 27, 5, 1, tzinfo=UTC))) == 0
+        rows = connection.execute('SELECT published_utc,payload_json FROM articles ORDER BY published_utc').fetchall()
         assert len(rows) == 2
-        payloads = [
-            {**json.loads(row[1]), "stored_published_utc": row[0]}
-            for row in rows
-        ]
-        old = next(
-            row for row in payloads
-            if row["classification_version"] == "legacy_retrieval_clock_v144"
-        )
-        repaired = next(
-            row for row in payloads
-            if row["classification_version"] == news.CLASSIFICATION_VERSION
-        )
-        assert old["stored_published_utc"] == "2026-08-27T03:58:40+00:00"
-        assert old["forward_signal_timely"] is True
-        assert old["source_contract_id"] == "abs_v8"
-        assert repaired["stored_published_utc"] == "2026-08-27T01:30:00+00:00"
-        assert repaired["forward_signal_timely"] is False
-        assert repaired["source_contract_id"] == "abs_v9"
-        current_view = news.load_context_articles(
-            connection,
-            since=dt.datetime(2026, 8, 27, 0, 0, tzinfo=UTC),
-        )
+        payloads = [{**json.loads(row[1]), 'stored_published_utc': row[0]} for row in rows]
+        old = next((row for row in payloads if row['classification_version'] == 'legacy_retrieval_clock_v144'))
+        repaired = next((row for row in payloads if row['classification_version'] == news.CLASSIFICATION_VERSION))
+        assert old['stored_published_utc'] == '2026-08-27T03:58:40+00:00'
+        assert old['forward_signal_timely'] is True
+        assert old['source_contract_id'] == 'abs_v8'
+        assert repaired['stored_published_utc'] == '2026-08-27T01:30:00+00:00'
+        assert repaired['forward_signal_timely'] is False
+        assert repaired['source_contract_id'] == 'abs_v9'
+        current_view = news.load_context_articles(connection, since=dt.datetime(2026, 8, 27, 0, 0, tzinfo=UTC))
         assert len(current_view) == 1
-        assert current_view[0]["classification_version"] == news.CLASSIFICATION_VERSION
-        assert current_view[0]["forward_signal_timely"] is False
+        assert current_view[0]['classification_version'] == news.CLASSIFICATION_VERSION
+        assert current_view[0]['forward_signal_timely'] is False
     finally:
         connection.close()
 
@@ -11426,60 +11794,23 @@ def test_official_ceremonial_remarks_do_not_create_geopolitical_fx_signal():
 
 
 def test_plain_rss_poll_cannot_erase_enriched_policy_semantics(tmp_path):
-    connection = news.open_database(tmp_path / "news.sqlite")
+    connection = news.open_database(tmp_path / 'news.sqlite')
     try:
         first_seen = dt.datetime(2026, 8, 9, 23, 50, 18, tzinfo=UTC)
-        raw = {
-            "source_id": "boj_updates",
-            "source_name": "Bank of Japan",
-            "source_kind": "rss",
-            "source_quality": 1.0,
-            "source_verified": True,
-            "source_direct": True,
-            "source_role": "primary_policy_release",
-            "source_currencies": ["JPY"],
-            "title": "Summary of Opinions at the Monetary Policy Meeting",
-            "url": "https://www.boj.or.jp/en/mopo/opinion.pdf",
-            "published_utc": "2026-08-09T23:50:00Z",
-        }
-        enriched = news.classify_article(
-            {
-                **raw,
-                "summary": (
-                    "The Bank should continue to raise the policy interest rate; "
-                    "the pace of policy interest rate hikes may be faster than "
-                    "market expectations."
-                ),
-                "detail_enriched": True,
-                "detail_enrichment_kind": "official_pdf_text",
-                "detail_enrichment_research_only": True,
-                "detail_available_utc": "2026-08-10T00:01:00Z",
-                "detail_content_sha256": "abc123",
-            },
-            first_seen=first_seen,
-        )
-        plain = news.classify_article(
-            raw,
-            first_seen=first_seen + dt.timedelta(minutes=5),
-        )
-        assert enriched["monetary_impulse"] > 0
-        assert plain["monetary_impulse"] == 0
-        assert news.upsert_articles(connection, [enriched], first_seen) == (1, 0)
-        assert news.upsert_articles(
-            connection,
-            [plain],
-            first_seen + dt.timedelta(minutes=5),
-        ) == (0, 1)
-        row = connection.execute(
-            "SELECT summary, monetary_impulse, currency_scores_json, payload_json "
-            "FROM articles"
-        ).fetchone()
+        raw = {'source_id': 'boj_updates', 'source_name': 'Bank of Japan', 'source_kind': 'rss', 'source_quality': 1.0, 'source_verified': True, 'source_direct': True, 'source_role': 'primary_policy_release', 'source_currencies': ['JPY'], 'title': 'Summary of Opinions at the Monetary Policy Meeting', 'url': 'https://www.boj.or.jp/en/mopo/opinion.pdf', 'published_utc': '2026-08-09T23:50:00Z'}
+        enriched = fixture_observed_classify({**raw, 'summary': 'The Bank should continue to raise the policy interest rate; the pace of policy interest rate hikes may be faster than market expectations.', 'detail_enriched': True, 'detail_enrichment_kind': 'official_pdf_text', 'detail_enrichment_research_only': True, 'detail_available_utc': '2026-08-10T00:01:00Z', 'detail_content_sha256': 'abc123'}, first_seen=first_seen)
+        plain = fixture_observed_classify(raw, first_seen=first_seen + dt.timedelta(minutes=15))
+        assert enriched['monetary_impulse'] > 0
+        assert plain['monetary_impulse'] == 0
+        assert fixture_observed_upsert(connection, [enriched], dt.datetime(2026, 8, 10, 0, 1, tzinfo=UTC)) == (1, 0)
+        assert fixture_observed_upsert(connection, [plain], first_seen + dt.timedelta(minutes=15)) == (0, 1)
+        row = connection.execute('SELECT summary, monetary_impulse, currency_scores_json, payload_json FROM articles').fetchone()
         payload = json.loads(row[3])
-        assert "continue to raise" in row[0]
+        assert 'continue to raise' in row[0]
         assert row[1] > 0
-        assert json.loads(row[2])["JPY"] > 0
-        assert payload["detail_enriched"] is True
-        assert payload["detail_content_sha256"] == "abc123"
+        assert json.loads(row[2])['JPY'] > 0
+        assert payload['detail_enriched'] is True
+        assert payload['detail_content_sha256'] == 'abc123'
     finally:
         connection.close()
 
@@ -11602,6 +11933,55 @@ def test_japanese_mof_intervention_semantics_are_explicit_and_shadowable():
     assert article["category"] == "fx_intervention"
     assert article["currency_scores"]["JPY"] > 0
     assert article["directional_publish_eligible"] is False
+
+
+def test_japanese_mof_external_tightening_pressure_is_research_only():
+    raw = {
+        "source_id": "japan_mof_press_conferences_ja",
+        "source_name": "Japan Ministry of Finance",
+        "source_kind": "html_links",
+        "source_quality": 1.0,
+        "source_verified": True,
+        "source_direct": True,
+        "source_role": "primary_policy_commentary",
+        "source_currencies": ["JPY"],
+        "directional_research_only": True,
+        "title": "財務大臣閣議後記者会見の概要",
+        "summary": (
+            "ベッセント長官は日本側に Stop the reflation、"
+            "リフレ政策をやめるべきだと述べた。大臣は正式な要求では"
+            "ないと説明したが、円の過小評価、金利差と協調介入について"
+            "継続的な会話があると述べた。"
+        ),
+        "url": "https://www.mof.go.jp/public_relations/conference/example.html",
+        "published_utc": "2026-09-04T12:13:25Z",
+    }
+    historical = news.classify_article(
+        raw,
+        first_seen=dt.datetime(2026, 9, 4, 12, 13, 25, tzinfo=UTC),
+    )
+    assert historical["issuer_bound_policy_communication"] is True
+    assert historical["issuer_bound_policy_communication_source_identity"] is True
+    assert historical["official_policy_release"] is False
+    assert historical["japan_external_policy_pressure_research"] is True
+    assert historical["japan_external_policy_pressure_activation_eligible"] is False
+    assert historical["currency_scores"] == {}
+    assert historical["research_currency_scores"] == {"JPY": 0.45}
+    assert historical["directional_publish_eligible"] is False
+    assert historical["context_reason"] == (
+        "japan_external_policy_pressure_research_only"
+    )
+
+    prospective = news.classify_article(
+        {**raw, "published_utc": "2026-09-04T18:01:00Z"},
+        first_seen=dt.datetime(2026, 9, 4, 18, 1, tzinfo=UTC),
+    )
+    assert prospective["japan_external_policy_pressure_activation_eligible"] is True
+    assert prospective["japan_external_policy_pressure_cohort_id"].startswith(
+        "japan_external_policy_pressure_research_v1_prospective_"
+    )
+    assert prospective["research_currency_scores"] == {"JPY": 0.45}
+    assert prospective["currency_scores"] == {}
 
 
 def test_persistent_policy_state_uses_latest_first_party_document():
@@ -11912,6 +12292,49 @@ def test_poland_gus_numeric_parser_extracts_allowlisted_releases() -> None:
     assert gdp["event_series_id"] == "poland_gus_real_gdp_qoq"
     assert gdp["actual_value"] == 0.9
     assert cpi["numeric_causal_known_utc"] == "2026-08-16T14:42:00+00:00"
+
+
+def test_hungary_ksh_ppi_parser_extracts_headline_prior_and_components() -> None:
+    fields = news.official_numeric_release_fields(
+        {
+            "source_id": "hungary_ksh_industrial_ppi_first_release_direct_v1",
+            "source_verified": True,
+            "source_direct": True,
+            "source_currencies": ["HUF"],
+            "title": "Industrial producer prices",
+            "summary": (
+                "Industrial producer prices First release Industrial producer "
+                "prices, July 2026 Published on: 31 August 2026 Industrial "
+                "producer prices were 1.0% higher on average in July 2026 "
+                "compared to the corresponding period of the previous year. "
+                "Domestic output prices rose by 2.5% and non-domestic output "
+                "prices by 0.3% compared to July 2025. Compared to the previous "
+                "month, domestic output prices went up by 1.1% and non-domestic "
+                "output prices by 1.6%, thus, industrial producer prices as a "
+                "whole became 1.4% higher. Industrial price indices 2026 June "
+                "101.8 98.6 99.6 July 102.5 100.3 101.0"
+            ),
+            "detail_enriched": True,
+            "detail_enrichment_kind": "official_html_text",
+            "detail_available_utc": "2026-09-01T03:56:00Z",
+            "numeric_parser_activated_utc": "2026-09-01T03:55:00Z",
+            "numeric_extraction_contract_id": (
+                "hungary_ksh_industrial_ppi_components_v1_20260901"
+            ),
+        },
+        first_seen=news.parse_datetime("2026-09-01T03:56:00Z"),
+    )
+    assert fields["source_currencies"] == ["HUF"]
+    assert fields["event_series_id"] == "hungary_ksh_industrial_ppi_yoy"
+    assert fields["scheduled_utc"] == "2026-08-31T06:30:00+00:00"
+    assert fields["reference_period"] == "2026M07"
+    assert fields["actual_value"] == 1.0
+    assert fields["previous_value"] == -0.4
+    assert fields["source_native_components"]["headline_ppi_mom"][
+        "actual_value"
+    ] == 1.4
+    assert fields["numeric_causal_known_utc"] == "2026-09-01T03:56:00+00:00"
+    assert fields["numeric_direction_policy"].startswith("abstain")
 
 
 def test_singstat_table_parser_uses_latest_observation_without_backdating() -> None:
@@ -12414,6 +12837,71 @@ def test_ksh_prices_snapshot_parser_selects_current_value_and_period() -> None:
     assert rows[0]["numeric_direction_policy"] == "abstain_and_learn_response"
 
 
+def test_ksh_ppi_snapshot_binds_exact_clock_prior_and_components() -> None:
+    topic_payload = b"""
+    <html><body>
+      <h2>Industrial producer prices, July 2026</h2>
+      <p>Industrial producer prices were 1.0% higher on average in July 2026
+      compared to the corresponding period of the previous year. Domestic
+      output prices rose by 2.5% and non-domestic output prices by 0.3%
+      compared to July 2025. Compared to the previous month, domestic output
+      prices went up by 1.1% and non-domestic output prices by 1.6%, thus,
+      industrial producer prices as a whole became 1.4% higher.</p>
+      <table><tr><th>First releases</th><th>Latest release</th><th>Next release</th></tr>
+      <tr><td>Industrial producer prices, July 2026</td>
+      <td>31/08/2026</td><td>30/09/2026</td></tr></table>
+    </body></html>
+    """
+    history_payload = (
+        "1.2.1.19. Producer price indices of industry, monthly;;\r\n"
+        "Period, year;Period, month;Total industry B+C+D+E\r\n"
+        "2021 = 100.0%;;\r\n"
+        "Corresponding period of the previous year = 100.0%;;\r\n"
+        "2026;June;99,6\r\n"
+        ";July;101,0\r\n"
+        "Year-to-date (data);;\r\n"
+    ).encode("cp1252")
+    rows = news.parse_ksh_ppi_release_snapshot(
+        topic_payload,
+        history_payload,
+        {
+            "source_id": "hungary_ksh_industrial_ppi_first_release_direct_v1",
+            "name": "KSH industrial producer prices",
+            "url": "https://www.ksh.hu/prices?lang=en",
+            "history_table_url": (
+                "https://www.ksh.hu/stadat_files/ara/en/ara0055.csv"
+            ),
+            "encoding": "iso-8859-2",
+            "history_encoding": "cp1252",
+            "table_id": "ksh_prices_ppi_release_plus_ara0055",
+            "event_series_id": "hungary_ksh_industrial_ppi_yoy",
+            "event_name": "Hungary industrial producer price annual change",
+            "event_country": "Hungary",
+            "unit": "year_percent_change",
+            "verified": True,
+            "direct": True,
+            "currencies": ["HUF"],
+            "numeric_parser_activated_utc": "2026-09-01T04:09:30Z",
+            "numeric_extraction_contract_id": (
+                "hungary_ksh_industrial_ppi_topic_stadat_v2_20260901"
+            ),
+        },
+    )
+    assert len(rows) == 1
+    row = rows[0]
+    assert row["source_currencies"] == ["HUF"]
+    assert row["published_utc"] == "2026-08-31T06:30:00+00:00"
+    assert row["scheduled_utc"] == "2026-08-31T06:30:00+00:00"
+    assert row["actual_value"] == 1.0
+    assert row["previous_value"] == -0.4
+    assert row["source_native_components"]["headline_ppi_mom"]["actual"] == 1.4
+    assert row["source_native_components"]["domestic_output_ppi_yoy"]["actual"] == 2.5
+    assert row["source_native_components"]["non_domestic_output_ppi_yoy"]["actual"] == 0.3
+    assert row["numeric_direction_policy"] == (
+        "abstain_until_causal_consensus_and_rate_repricing"
+    )
+
+
 def test_ksh_exact_calendar_combines_official_date_and_fixed_release_time() -> None:
     payload = b"""
     <table id="gyorstajekoztatok">
@@ -12850,51 +13338,25 @@ def test_ksh_v3_real_pipeline_roundtrip_reaches_immutable_clock(tmp_path) -> Non
     assert snapshot["event_versions"][0]["direct_currencies"] == ["HUF"]
 
 
-def test_ksh_v3_retained_pre_v105_row_reclassifies_source_currency_provenance(
-    tmp_path,
-) -> None:
-    config = json.loads(news.DEFAULT_CONFIG.read_text(encoding="utf-8"))
-    source = next(
-        dict(row) for row in config["sources"]
-        if row["source_id"] == news.KSH_V3_SOURCE_ID
-    )
-    source.update(
-        release_time_rule_observed_sha256=source["release_time_rule_sha256"],
-        release_rule_bytes_verified=True,
-    )
-    parsed = news.parse_ksh_release_calendar_exact(
-        (
-            b"<table><tr><td>Consumer prices, July 2026</td>"
-            b"<td>07/08/2026</td><td>08/09/2026</td></tr></table>"
-        ),
-        source,
-    )[0]
+def test_ksh_v3_retained_pre_v105_row_reclassifies_source_currency_provenance(tmp_path) -> None:
+    config = json.loads(news.DEFAULT_CONFIG.read_text(encoding='utf-8'))
+    source = next((dict(row) for row in config['sources'] if row['source_id'] == news.KSH_V3_SOURCE_ID))
+    source.update(release_time_rule_observed_sha256=source['release_time_rule_sha256'], release_rule_bytes_verified=True)
+    parsed = news.parse_ksh_release_calendar_exact(b'<table><tr><td>Consumer prices, July 2026</td><td>07/08/2026</td><td>08/09/2026</td></tr></table>', source)[0]
     observed = dt.datetime(2026, 8, 17, 7, 13, 18, tzinfo=UTC)
     retained = news.classify_article(parsed, first_seen=observed)
-    retained["classification_version"] = "local_fx_news_rules_20260816_v104"
-    retained["source_currencies"] = []
-
-    connection = news.open_database(tmp_path / "news.sqlite")
+    retained['classification_version'] = 'local_fx_news_rules_20260816_v104'
+    retained['source_currencies'] = []
+    connection = news.open_database(tmp_path / 'news.sqlite')
     try:
-        assert news.upsert_articles(connection, [retained], observed) == (1, 0)
-        changed = news.reclassify_stored_articles(
-            connection,
-            sources={source["source_id"]: source},
-            since=observed - dt.timedelta(minutes=1),
-        )
+        assert fixture_retained_legacy_insert(connection, [retained], observed) == (1, 0)
+        changed = news.reclassify_stored_articles(connection, sources={source['source_id']: source}, since=observed - dt.timedelta(minutes=1), classification_clock_provider=fixture_clock(observed))
         assert changed == 1
-        payload = json.loads(
-            connection.execute(
-                "SELECT payload_json FROM articles WHERE source_id=?",
-                (source["source_id"],),
-            ).fetchone()[0]
-        )
-        assert payload["classification_version"] == news.CLASSIFICATION_VERSION
-        assert payload["source_currencies"] == ["HUF"]
-        assert payload["release_rule_bytes_verified"] is True
-        assert payload["release_time_rule_observed_sha256"] == (
-            news.KSH_V3_POLICY_SHA256
-        )
+        payload = json.loads(connection.execute('SELECT payload_json FROM articles WHERE source_id=?', (source['source_id'],)).fetchone()[0])
+        assert payload['classification_version'] == news.CLASSIFICATION_VERSION
+        assert payload['source_currencies'] == ['HUF']
+        assert payload['release_rule_bytes_verified'] is True
+        assert payload['release_time_rule_observed_sha256'] == news.KSH_V3_POLICY_SHA256
     finally:
         connection.close()
 
@@ -13377,6 +13839,152 @@ def test_conditional_hike_and_calendar_preview_abstain():
         assert article["directional_publish_eligible"] is False
 
 
+def test_future_data_dependent_policy_guidance_has_no_directional_impulse():
+    headline = (
+        "US Fed's Waller says August inflation data will determine stance "
+        "on September rate hike"
+    )
+    for verified in (False, True):
+        article = news.classify_article(
+            {
+                "source_id": "fed_speeches" if verified else "google_news_fx_macro",
+                "source_name": "Federal Reserve" if verified else "ANI News",
+                "source_verified": verified,
+                "source_direct": verified,
+                "source_quality": 0.98 if verified else 0.55,
+                "source_currencies": ["USD"],
+                "title": headline,
+                "summary": "",
+                "url": "https://example.test/waller-data-dependent",
+                "published_utc": "2026-09-04T11:18:00Z",
+            },
+            first_seen=dt.datetime(2026, 9, 4, 11, 19, tzinfo=UTC),
+        )
+        assert article["policy_data_dependent_guidance"] is True
+        assert article["policy_assertion_status"] == (
+            "official_conditional" if verified else "unverified_speculation"
+        )
+        assert article["policy_assertion_weight"] == 0
+        assert article["monetary_impulse"] == 0
+        assert article["currency_scores"] == {}
+        assert article["directional_publish_eligible"] is False
+
+    asserted = news.classify_article(
+        {
+            "source_id": "google_news_fx_macro",
+            "source_name": "Independent Publisher",
+            "source_verified": False,
+            "source_direct": False,
+            "source_quality": 0.65,
+            "source_currencies": ["USD"],
+            "title": "Fed's Waller backs a September rate hike",
+            "summary": "",
+            "url": "https://example.test/waller-backs-hike",
+            "published_utc": "2026-09-04T11:20:00Z",
+        },
+        first_seen=dt.datetime(2026, 9, 4, 11, 21, tzinfo=UTC),
+    )
+    assert asserted["policy_data_dependent_guidance"] is False
+    assert asserted["policy_assertion_status"] == "asserted"
+    assert asserted["monetary_impulse"] > 0
+    assert asserted["currency_scores"]["USD"] > 0
+
+
+def test_rate_pricing_roundup_and_technical_analysis_are_context_not_catalysts():
+    pricing = news.classify_article(
+        {
+            "source_id": "finnhub_fx_market_news",
+            "source_name": "Forexlive",
+            "source_verified": False,
+            "source_direct": True,
+            "source_quality": 0.7,
+            "source_currencies": [],
+            "title": "How have interest rate expectations changed after this week's events?",
+            "summary": (
+                "Rate hikes by year-end: ECB 46 bps, BoJ 42 bps, Fed 33 bps. "
+                "The most notable shifts in market pricing happened in the RBNZ, "
+                "BoC and Fed."
+            ),
+            "url": "https://example.test/rate-pricing-roundup",
+            "published_utc": "2026-09-04T10:54:42Z",
+        },
+        first_seen=dt.datetime(2026, 9, 4, 11, 6, tzinfo=UTC),
+    )
+    assert pricing["currency_scores"] == {}
+    assert pricing["directional_publish_eligible"] is False
+    assert pricing["directional_research_only"] is True
+    assert pricing["context_reason"] == "secondary_market_policy_expectation_context"
+
+    technical = news.classify_article(
+        {
+            "source_id": "finnhub_fx_market_news",
+            "source_name": "Forexlive",
+            "source_verified": False,
+            "source_direct": True,
+            "source_quality": 0.7,
+            "source_currencies": [],
+            "title": (
+                "USD Technical Analysis: What levels are in play for EURUSD, "
+                "USDJPY and GBPUSD ahead of the jobs data?"
+            ),
+            "summary": (
+                "The pairs are trading near support and resistance ahead of payrolls. "
+                "The US-Iran conflict and blockade continue to restrict energy flows."
+            ),
+            "url": "https://example.test/technical-preview",
+            "published_utc": "2026-09-04T12:13:50Z",
+        },
+        first_seen=dt.datetime(2026, 9, 4, 12, 14, tzinfo=UTC),
+    )
+    assert technical["currency_scores"] == {}
+    assert technical["risk_off_score"] == 0
+    assert technical["directional_publish_eligible"] is False
+
+
+def test_syndicated_wrappers_do_not_create_independent_corroboration():
+    common = {
+        "source_id": "google_news_fx_macro",
+        "source_verified": False,
+        "source_direct": False,
+        "source_quality": 0.55,
+        "source_currencies": ["USD"],
+        "summary": "",
+        "published_utc": "2026-09-04T11:18:00Z",
+    }
+    variants = (
+        ("ANI News", "Fed's Waller backs a September rate hike - ANI News"),
+        ("Devdiscourse", "Fed's Waller backs a September rate hike - Devdiscourse"),
+        ("LatestLY", "Business News | Fed's Waller backs a September rate hike - LatestLY"),
+    )
+    articles = [
+        news.classify_article(
+            {
+                **common,
+                "source_name": source_name,
+                "title": title,
+                "url": f"https://example.test/syndicated/{index}",
+            },
+            first_seen=dt.datetime(2026, 9, 4, 11, 19 + index, tzinfo=UTC),
+        )
+        for index, (source_name, title) in enumerate(variants)
+    ]
+    representatives, publisher_count = news.independent_source_representatives(
+        articles
+    )
+    assert publisher_count == 3
+    assert len(representatives) == 1
+    clustered = news.cluster_articles(
+        articles,
+        as_of=dt.datetime(2026, 9, 4, 12, 0, tzinfo=UTC),
+    )
+    assert len(clustered) == 1
+    assert clustered[0]["publisher_source_count"] == 3
+    assert clustered[0]["distinct_source_count"] == 1
+    assert clustered[0]["directional_candidate_source_count"] == 0
+    assert clustered[0]["forward_source_count"] == 0
+    assert clustered[0]["directional_publish_eligible"] is False
+
+
 def test_inflation_expected_to_ease_is_dovish_but_not_single_source_publishable():
     article = news.classify_article(
         {
@@ -13563,6 +14171,301 @@ def test_ceasefire_expiry_is_not_misread_as_fresh_deescalation():
         assert article["risk_on_score"] == 0
         assert article["category"] != "risk_on_deescalation"
         assert article["directional_publish_eligible"] is False
+
+
+def test_unilateral_ceasefire_call_is_context_not_risk_on():
+    raw = {
+        "source_id": "google_news_global_risk",
+        "source_verified": False,
+        "source_direct": False,
+        "source_quality": 0.55,
+        "title": (
+            "Russia-Ukraine War: President Volodymyr Zelenskyy Calls For "
+            "Temporary Ceasefire As Trump Envoys Head To Moscow - Free Press Journal"
+        ),
+        "summary": "",
+        "url": "https://example.test/ceasefire-proposal",
+        "published_utc": "2026-09-04T18:05:00Z",
+    }
+    historical = news.classify_article(
+        raw,
+        first_seen=dt.datetime(2026, 9, 4, 18, 6, 50, tzinfo=UTC),
+    )
+    assert historical["deescalation_proposal_only"] is True
+    assert historical["deescalation_actualized"] is False
+    assert historical["risk_on_score"] == 0
+    assert historical["currency_scores"] == {}
+    assert historical["category"] != "risk_on_deescalation"
+    assert historical["context_only"] is True
+    assert historical["context_reason"] == (
+        "deescalation_proposal_without_agreement"
+    )
+    assert historical["directional_publish_eligible"] is False
+    assert historical[
+        "deescalation_proposal_guard_activation_eligible"
+    ] is False
+
+    prospective = news.classify_article(
+        {**raw, "url": "https://example.test/ceasefire-proposal-prospective"},
+        first_seen=dt.datetime(2026, 9, 4, 18, 31, tzinfo=UTC),
+    )
+    assert prospective["deescalation_proposal_only"] is True
+    assert prospective[
+        "deescalation_proposal_guard_activation_eligible"
+    ] is True
+    assert prospective["deescalation_proposal_guard_contract_id"] == (
+        news.DEESCALATION_PROPOSAL_GUARD_CONTRACT_ID_V1
+    )
+    assert prospective["risk_on_score"] == 0
+    assert prospective["directional_publish_eligible"] is False
+
+
+def test_agreed_ceasefire_remains_a_deescalation_observation():
+    article = news.classify_article(
+        {
+            "source_id": "google_news_global_risk",
+            "source_verified": False,
+            "source_direct": False,
+            "source_quality": 0.55,
+            "title": "Leaders agree to ceasefire after peace talks",
+            "summary": "",
+            "url": "https://example.test/agreed-ceasefire",
+            "published_utc": "2026-09-04T18:30:00Z",
+        },
+        first_seen=dt.datetime(2026, 9, 4, 18, 31, tzinfo=UTC),
+    )
+    assert article["deescalation_proposal_only"] is False
+    assert article["deescalation_actualized"] is True
+    assert article["risk_on_score"] > 0
+    assert article["category"] == "risk_on_deescalation"
+
+
+def test_oil_rig_count_is_not_misread_as_oil_price_direction():
+    raw = {
+        "source_id": "google_news_commodity",
+        "source_verified": False,
+        "source_direct": False,
+        "source_quality": 0.55,
+        "title": "US natural gas drilling rigs fall by 2 as oil rigs rise",
+        "summary": "",
+        "url": "https://example.test/rig-count",
+        "published_utc": "2026-09-04T17:30:00Z",
+    }
+    historical = news.classify_article(
+        raw,
+        first_seen=dt.datetime(2026, 9, 4, 17, 33, 31, tzinfo=UTC),
+    )
+    assert historical["commodity_operational_metric_context"] is True
+    assert historical["secondary_analysis_context"] is False
+    assert historical["currency_scores"] == {}
+    assert historical["research_currency_scores"] == {}
+    assert historical["risk_on_score"] == 0
+    assert historical["risk_off_score"] == 0
+    assert historical["category"] != "commodity_shock"
+    assert historical["context_only"] is True
+    assert historical["context_reason"] == (
+        "commodity_operational_metric_requires_price_repricing"
+    )
+    assert historical["directional_publish_eligible"] is False
+    assert historical[
+        "secondary_market_state_guard_activation_eligible"
+    ] is False
+
+    prospective = news.classify_article(
+        {**raw, "url": "https://example.test/rig-count-prospective"},
+        first_seen=dt.datetime(2026, 9, 4, 19, 1, tzinfo=UTC),
+    )
+    assert prospective[
+        "secondary_market_state_guard_activation_eligible"
+    ] is True
+    assert prospective["secondary_market_state_guard_contract_id"] == (
+        news.SECONDARY_MARKET_STATE_GUARD_CONTRACT_ID_V1
+    )
+    assert prospective["currency_scores"] == {}
+    assert prospective["directional_publish_eligible"] is False
+
+
+def test_explicit_oil_price_rise_still_maps_to_exporter_direction():
+    article = news.classify_article(
+        {
+            "source_id": "google_news_commodity",
+            "source_verified": False,
+            "source_direct": False,
+            "source_quality": 0.55,
+            "title": "Oil prices rise after a new supply disruption",
+            "summary": "",
+            "url": "https://example.test/oil-price-rise",
+            "published_utc": "2026-09-04T19:00:00Z",
+        },
+        first_seen=dt.datetime(2026, 9, 4, 19, 1, tzinfo=UTC),
+    )
+    assert article["commodity_operational_metric_context"] is False
+    assert article["category"] == "commodity_shock"
+    assert article["currency_scores"]["CAD"] > 0
+    assert article["currency_scores"]["NOK"] > 0
+
+
+def test_publisher_labelled_analysis_is_context_not_fresh_risk_event():
+    article = news.classify_article(
+        {
+            "source_id": "google_news_global_risk",
+            "source_verified": False,
+            "source_direct": False,
+            "source_quality": 0.55,
+            "title": (
+                "China Still Buying Iranian Oil, But Volumes Fall Under "
+                "U.S. Blockade � Analysis - Eurasia Review"
+            ),
+            "summary": "",
+            "url": "https://example.test/blockade-analysis",
+            "published_utc": "2026-09-04T18:20:00Z",
+        },
+        first_seen=dt.datetime(2026, 9, 4, 18, 24, 59, tzinfo=UTC),
+    )
+    assert article["secondary_analysis_context"] is True
+    assert article["currency_scores"] == {}
+    assert article["research_currency_scores"] == {}
+    assert article["risk_on_score"] == 0
+    assert article["risk_off_score"] == 0
+    assert article["category"] != "risk_off_geopolitical_or_financial"
+    assert article["context_only"] is True
+    assert article["context_reason"] == "secondary_analysis_not_fresh_catalyst"
+    assert article["directional_publish_eligible"] is False
+
+
+def test_policy_action_depending_on_future_data_abstains():
+    article = news.classify_article(
+        {
+            "source_id": "google_news_fx_macro",
+            "source_verified": False,
+            "source_direct": False,
+            "source_quality": 0.55,
+            "title": (
+                "A Fed Rate Hike Depends on Hot Inflation. Don't Count on "
+                "Either. Economy Column - Barron's"
+            ),
+            "summary": "",
+            "url": "https://example.test/rate-hike-depends-on-inflation",
+            "published_utc": "2026-09-04T19:20:00Z",
+        },
+        first_seen=dt.datetime(2026, 9, 4, 19, 24, 22, tzinfo=UTC),
+    )
+    assert article["policy_data_dependent_guidance"] is True
+    assert article["policy_assertion_status"] == "unverified_speculation"
+    assert article["policy_assertion_weight"] == 0
+    assert article["monetary_impulse"] == 0
+    assert article["currency_scores"] == {}
+    assert article["directional_publish_eligible"] is False
+
+
+def test_secondary_weekly_market_move_recap_is_not_a_forward_factor():
+    article = news.classify_article(
+        {
+            "source_id": "google_news_global_risk",
+            "source_verified": False,
+            "source_direct": False,
+            "source_quality": 0.55,
+            "title": (
+                "Diesel Fears Mount As Oil Heads Towards 6% Weekly Rise - "
+                "shipandbunker.com"
+            ),
+            "summary": "",
+            "url": "https://example.test/oil-weekly-rise-recap",
+            "published_utc": "2026-09-04T19:20:00Z",
+        },
+        first_seen=dt.datetime(2026, 9, 4, 19, 24, 23, tzinfo=UTC),
+    )
+    assert article["reports_prior_market_move"] is True
+    assert article["forward_signal_timely"] is False
+    assert article["directional_publish_eligible"] is False
+
+
+def test_opposing_same_currency_policy_claims_abstain():
+    article = news.classify_article(
+        {
+            "source_id": "google_news_fx_macro",
+            "source_verified": False,
+            "source_direct": False,
+            "source_quality": 0.55,
+            "title": (
+                "Strong U.S. job gains signal Fed hike as Trump levels new "
+                "rate-cut demand - The Globe and Mail"
+            ),
+            "summary": "",
+            "url": "https://example.test/opposing-us-policy-claims",
+            "published_utc": "2026-09-04T19:40:00Z",
+        },
+        first_seen=dt.datetime(2026, 9, 4, 19, 42, 43, tzinfo=UTC),
+    )
+    assert article["opposing_policy_claim_conflict"] is True
+    assert article["semantic_claim_conflict"] is True
+    assert article["currency_scores"] == {}
+    assert article["context_only"] is True
+    assert article["context_reason"] == "multi_claim_semantic_conflict"
+    assert article["directional_publish_eligible"] is False
+
+
+def test_secondary_conflict_duration_recap_is_not_a_new_escalation():
+    raw = {
+        "source_id": "google_news_global_risk",
+        "source_verified": False,
+        "source_direct": False,
+        "source_quality": 0.55,
+        "title": (
+            "Trump calls Iran conflict 'small potatoes' as war enters "
+            "seventh month - Moneycontrol.com"
+        ),
+        "summary": "",
+        "url": "https://example.test/conflict-duration-recap",
+        "published_utc": "2026-09-04T19:48:03Z",
+    }
+    historical = news.classify_article(
+        raw,
+        first_seen=dt.datetime(2026, 9, 4, 20, 8, 37, tzinfo=UTC),
+    )
+    assert historical["secondary_conflict_duration_recap"] is True
+    assert historical["reports_prior_market_move"] is True
+    assert historical["risk_off_score"] == 0
+    assert historical["risk_on_score"] == 0
+    assert historical["currency_scores"] == {}
+    assert historical["context_only"] is True
+    assert historical["context_reason"] == (
+        "secondary_conflict_duration_recap_not_fresh_catalyst"
+    )
+    assert historical["directional_publish_eligible"] is False
+    assert historical[
+        "conflict_duration_recap_guard_activation_eligible"
+    ] is False
+
+    prospective = news.classify_article(
+        {**raw, "url": "https://example.test/conflict-duration-recap-next"},
+        first_seen=dt.datetime(2026, 9, 4, 20, 26, tzinfo=UTC),
+    )
+    assert prospective[
+        "conflict_duration_recap_guard_activation_eligible"
+    ] is True
+    assert prospective["conflict_duration_recap_guard_contract_id"] == (
+        news.CONFLICT_DURATION_RECAP_GUARD_CONTRACT_ID_V1
+    )
+
+
+def test_new_conflict_action_is_not_suppressed_by_duration_guard():
+    article = news.classify_article(
+        {
+            "source_id": "google_news_global_risk",
+            "source_verified": False,
+            "source_direct": False,
+            "source_quality": 0.55,
+            "title": "New missile strikes hit shipping corridor overnight",
+            "summary": "",
+            "url": "https://example.test/new-strike",
+            "published_utc": "2026-09-04T20:26:00Z",
+        },
+        first_seen=dt.datetime(2026, 9, 4, 20, 27, tzinfo=UTC),
+    )
+    assert article["secondary_conflict_duration_recap"] is False
+    assert article["reports_prior_market_move"] is False
+    assert article["risk_off_score"] > 0
 
 
 def test_threat_and_tentative_deal_headline_abstains_from_risk_on():
@@ -14099,3 +15002,194 @@ def test_boj_updates_config_enables_bounded_same_host_pdf_context():
         "derived_source_config_lineage_v1:boj_updates:"
     )
     assert source["source_cohort_id"] == source["source_contract_id"]
+
+
+# Explicit synthetic source/clock fixture migration; no historical attestation.
+from pathlib import Path
+"""Synthetic-only setup boundaries; no production guard/default is changed.
+
+New-observation fixtures attest their own fictional original capture, before
+classification. Legacy fixtures are directly seeded, never relabelled trusted.
+Dates preserve original boundary scenarios; these are not historical observations.
+The provider is invoked after computation, with a fixed simulated clock tick.
+"""
+
+TRACE=[]
+
+def synthetic_provenance():
+    return {'collector_contract_id':news.COLLECTOR_CONTRACT_ID,
+        'collector_cohort_id':news.COLLECTOR_COHORT_ID,
+        'observation_time_contract_id':news.OBSERVATION_TIME_CONTRACT_ID,
+        'observation_clock_trusted':True,
+        'observation_clock_source':'synthetic_fixture_original_observation_not_historical_evidence'}
+
+def fixture_clock(at):
+    assert isinstance(at,dt.datetime) and at.tzinfo is not None
+    def after_computation():
+        TRACE.append({'action':'post_computation_clock_requested','simulated_utc':at.isoformat()})
+        return at,synthetic_provenance()
+    return after_computation
+
+def fixture_observed_classify(raw, *, first_seen):
+    raw=dict(raw)
+    lineage=news.source_config_lineage({'source_id':raw['source_id'],'name':raw.get('source_name','Synthetic source'),
+        'kind':raw.get('source_kind','rss'),'currencies':raw.get('source_currencies',[]),
+        'fixture_scope':'explicit_synthetic_observation_v1'})
+    for key in ('source_contract_id','source_cohort_id'):
+        if not raw.get(key):
+            raw[key]=lineage[key]
+    for key,value in synthetic_provenance().items():
+        if key in raw and raw[key] not in ('',None,value):
+            # The original fixture's known current-host source label remains
+            # compatible; never turn old/untrusted provenance into current.
+            if key!='observation_clock_source':
+                assert raw[key]==value, 'legacy provenance must be seeded directly'
+        raw[key]=value
+    TRACE.append({'action':'synthetic_original_observation_declared_before_classification',
+        'source_id':raw['source_id'],'simulated_utc':first_seen.isoformat()})
+    return news.classify_article(raw,first_seen=first_seen)
+
+def fixture_observed_upsert(connection, articles, now):
+    receipt={}
+    result=news.upsert_articles(connection,articles,now,
+        classification_clock_provider=fixture_clock(now),observation_receipt=receipt)
+    TRACE.append({'action':'unaltered_current_upsert','result':list(result),'receipt':receipt,
+        'simulated_utc':now.isoformat()})
+    return result
+
+def fixture_retained_legacy_insert(connection, articles, now):
+    """Direct old-row setup only. Does not fabricate a new observation receipt."""
+    columns=('event_id','source_id','source_name','source_kind','source_quality','source_verified',
+        'published_utc','first_seen_utc','last_seen_utc','headline','summary','source_url','domain','relevant',
+        'category','scope','currencies_json','currency_scores_json','directional_bias_json','generic_sentiment_score',
+        'monetary_impulse','risk_off_score','risk_on_score','directional_confidence','severity','movement_potential',
+        'post_window_minutes','duplicate_count','payload_json')
+    inserted=0
+    for article in articles:
+        payload=dict(article);payload.setdefault('first_seen_utc',news.iso_utc(now));payload['last_seen_utc']=news.iso_utc(now)
+        values=dict(payload,duplicate_count=0,payload_json=json.dumps(news.article_storage_payload(payload),sort_keys=True))
+        for name in ('currencies','currency_scores','directional_bias'):values[name+'_json']=json.dumps(payload[name],sort_keys=True)
+        for name in ('source_verified','relevant'):values[name]=int(bool(payload[name]))
+        cursor=connection.execute('INSERT INTO articles ('+','.join(columns)+') VALUES ('+','.join('?' for _ in columns)+')',
+            tuple(values[name] for name in columns))
+        inserted+=cursor.rowcount
+        TRACE.append({'action':'direct_retained_legacy_fixture_insert','event_id':payload['event_id'],
+            'source_observation_attestation_added':False,'original_collector_contract_id':payload.get('collector_contract_id')})
+    connection.commit()
+    return inserted,0
+
+_FIXTURE_PAIR_UNIVERSE_68 = ('AUD_CAD', 'AUD_CHF', 'AUD_HKD', 'AUD_JPY', 'AUD_NZD', 'AUD_SGD', 'AUD_USD', 'CAD_CHF', 'CAD_HKD', 'CAD_JPY', 'CAD_SGD', 'CHF_HKD', 'CHF_JPY', 'CHF_ZAR', 'EUR_AUD', 'EUR_CAD', 'EUR_CHF', 'EUR_CZK', 'EUR_DKK', 'EUR_GBP', 'EUR_HKD', 'EUR_HUF', 'EUR_JPY', 'EUR_NOK', 'EUR_NZD', 'EUR_PLN', 'EUR_SEK', 'EUR_SGD', 'EUR_TRY', 'EUR_USD', 'EUR_ZAR', 'GBP_AUD', 'GBP_CAD', 'GBP_CHF', 'GBP_HKD', 'GBP_JPY', 'GBP_NZD', 'GBP_PLN', 'GBP_SGD', 'GBP_USD', 'GBP_ZAR', 'HKD_JPY', 'NZD_CAD', 'NZD_CHF', 'NZD_HKD', 'NZD_JPY', 'NZD_SGD', 'NZD_USD', 'SGD_CHF', 'SGD_JPY', 'TRY_JPY', 'USD_CAD', 'USD_CHF', 'USD_CNH', 'USD_CZK', 'USD_DKK', 'USD_HKD', 'USD_HUF', 'USD_JPY', 'USD_MXN', 'USD_NOK', 'USD_PLN', 'USD_SEK', 'USD_SGD', 'USD_THB', 'USD_TRY', 'USD_ZAR', 'ZAR_JPY')
+
+@pytest.fixture(autouse=True)
+def _isolated_cycle_report_files(request, tmp_path, monkeypatch):
+    """The two whole-cycle fixtures own every report/config file they use."""
+    names = {
+        'test_news_cycle_quarantines_fetch_when_clock_fails_after_response',
+        'test_run_cycle_commits_each_source_at_its_actual_completion_time',
+    }
+    if request.node.name not in names:
+        return
+    import oanda_official_central_bank_coverage as coverage
+    # Call the real normalizer with an explicit synthetic universe; discovery
+    # must not inspect the user's live quote state in a clock-handling test.
+    discover = news.event_tagger.discover_instruments
+    monkeypatch.setattr(news.event_tagger, 'discover_instruments',
+                        lambda: discover(supplied=_FIXTURE_PAIR_UNIVERSE_68))
+    for attribute, filename in (
+        ('DEFAULT_MAP', 'official_central_bank_source_map_v1.json'),
+        ('DEFAULT_LINKS', 'linked_currency_policy_drivers_v1.json'),
+    ):
+        original = Path(news.__file__).resolve().parent / 'config' / filename
+        raw = original.read_bytes()
+        isolated = tmp_path / filename
+        isolated.write_bytes(raw)
+        assert hashlib.sha256(isolated.read_bytes()).digest() == hashlib.sha256(raw).digest()
+        monkeypatch.setattr(coverage, attribute, isolated)
+    monkeypatch.setattr(coverage, 'DEFAULT_JSON', tmp_path / 'central_bank_coverage.json')
+    monkeypatch.setattr(coverage, 'DEFAULT_MD', tmp_path / 'central_bank_coverage.md')
+
+
+"""Versioned clock-meaning checks; the incompatible old assertion is retained."""
+
+UTC=dt.timezone.utc
+
+def numeric_raw():
+    return {'source_id':'eurostat_economy_finance','source_name':'Eurostat','source_kind':'rss',
+        'source_role':'primary_statistical_release','source_quality':1.0,'source_verified':True,'source_direct':True,
+        'source_currencies':['EUR'],'numeric_parser_activated_utc':'2026-08-16T06:35:00Z',
+        'title':'GDP up by 0.4% in the euro area and by 0.5% in the EU',
+        'summary':'In the second quarter of 2026, seasonally adjusted GDP increased by 0.4% in the euro area and by 0.5% in the EU, compared with the previous quarter.',
+        'published_utc':'2026-08-16T06:30:00Z','url':'https://ec.europa.eu/eurostat/product?code=proof'}
+
+def test_versioned_legacy_numeric_meaning_preserves_origin_and_gates_current_availability(tmp_path):
+    # Execute the versioned current assertion and verify the immutable origin independently.
+    test_structured_numeric_duplicate_preserves_first_causal_clock(tmp_path)
+    connection=sqlite3.connect('file:'+str((tmp_path/'news.sqlite').as_posix())+'?mode=ro',uri=True)
+    try:
+        first_seen,payload_text=connection.execute('SELECT first_seen_utc,payload_json FROM articles').fetchone()
+        active=json.loads(payload_text)
+        old_row_text,old_row_sha=connection.execute('SELECT original_row_json,original_row_sha256 FROM article_source_origins_v1').fetchone()
+        assert hashlib.sha256(old_row_text.encode()).hexdigest()==old_row_sha
+        origin=json.loads(json.loads(old_row_text)['payload_json'])
+        assert first_seen==origin['first_seen_utc']==active['first_seen_utc']=='2026-08-16T06:35:00+00:00'
+        assert origin['numeric_causal_known_utc']=='2026-08-16T06:35:00+00:00'
+        assert active['source_evidence_available_utc']=='2026-08-16T06:35:00+00:00'
+        assert origin['collector_contract_id']==active['collector_contract_id']=='collector-v1'
+        assert news.prospective_collector_provenance(origin) is False
+        assert news.prospective_collector_provenance(active) is False
+        assert active['source_version_available_utc']==active['classification_available_utc']==active['numeric_causal_known_utc']=='2026-08-16T06:45:00+00:00'
+        assert active['actual_value']==origin['actual_value']
+    finally:
+        connection.close()
+
+def test_unchanged_current_numeric_poll_does_not_advance_evidence_or_classification(tmp_path):
+    first_seen=dt.datetime(2026,8,16,6,35,tzinfo=UTC);repeat=first_seen+dt.timedelta(minutes=10)
+    first=fixture_observed_classify(numeric_raw(),first_seen=first_seen)
+    second=fixture_observed_classify(numeric_raw(),first_seen=repeat)
+    connection=news.open_database(tmp_path/'current.sqlite')
+    try:
+        assert fixture_observed_upsert(connection,[first],first_seen)==(1,0)
+        before=json.loads(connection.execute('SELECT payload_json FROM articles').fetchone()[0])
+        assert fixture_observed_upsert(connection,[second],repeat)==(0,1)
+        after=json.loads(connection.execute('SELECT payload_json FROM articles').fetchone()[0])
+        for key in ('first_seen_utc','numeric_causal_known_utc','source_evidence_available_utc','source_version_available_utc','classification_available_utc'):
+            assert before[key]==after[key]=='2026-08-16T06:35:00+00:00'
+        assert before['source_observation_version_id']==after['source_observation_version_id']
+        assert before['classification_observation_version_id']==after['classification_observation_version_id']
+        assert connection.execute('SELECT COUNT(*) FROM article_source_observations_v1').fetchone()[0]==2
+    finally:
+        connection.close()
+
+@pytest.mark.parametrize('source,first_seen,detail_at,raw',[
+    ('bea_releases',dt.datetime(2026,8,4,12,31,tzinfo=UTC),'2026-08-04T12:35:00+00:00',
+        {'source_name':'BEA','source_role':'primary_statistical_release','source_currencies':['USD'],
+         'title':'U.S. International Trade in Goods and Services, June 2026','url':'https://www.bea.gov/news/2026/trade-june-2026',
+         'published_utc':'2026-08-04T12:30:00+00:00','summary':'The goods and services deficit was $73.3 billion.',
+         'detail_enrichment_kind':'bea_release_blurb'}),
+    ('boj_updates',dt.datetime(2026,8,9,23,50,18,tzinfo=UTC),'2026-08-10T00:01:00Z',
+        {'source_name':'Bank of Japan','source_role':'primary_policy_release','source_currencies':['JPY'],
+         'title':'Summary of Opinions at the Monetary Policy Meeting','url':'https://www.boj.or.jp/en/mopo/opinion.pdf',
+         'published_utc':'2026-08-09T23:50:00Z','summary':'The Bank should continue to raise the policy interest rate; the pace of policy interest rate hikes may be faster than market expectations.',
+         'detail_enrichment_kind':'official_pdf_text','detail_enrichment_research_only':True,'detail_content_sha256':'abc123'})])
+def test_original_future_detail_clock_is_retained_and_refused(tmp_path,source,first_seen,detail_at,raw):
+    article=fixture_observed_classify({**raw,'source_id':source,'source_kind':'rss','source_quality':1.0,
+        'source_verified':True,'source_direct':True,'detail_enriched':True,'detail_available_utc':detail_at},first_seen=first_seen)
+    connection=news.open_database(tmp_path/'future.sqlite');receipt={};calls=[]
+    def forbidden_before_source_admission():
+        calls.append(True);return fixture_clock(first_seen)()
+    try:
+        assert news.upsert_articles(connection,[article],first_seen,
+            classification_clock_provider=forbidden_before_source_admission,observation_receipt=receipt)==(0,0)
+        assert receipt=={'source_observations_refused':1,'classification_observations_refused':0}
+        assert calls==[] and connection.execute('SELECT COUNT(*) FROM articles').fetchone()[0]==0
+        status,reasons,observed=connection.execute('SELECT clock_status,clock_reasons_json,source_observed_json FROM article_source_observations_v1').fetchone()
+        assert status=='unproven_observation'
+        assert json.loads(reasons)==['future_observation_detail_available_utc']
+        assert json.loads(observed)==news.iso_utc(first_seen)
+        retained=connection.execute('SELECT content_json FROM article_source_versions_v1').fetchone()[0]
+        # Detail time is retained in the observation envelope, never replaced
+        # with an earlier source/host receipt to make it pass.
+        envelope=json.loads(connection.execute('SELECT envelope_json FROM article_source_observations_v1').fetchone()[0])
+        assert news.parse_datetime(envelope['detail_available_utc'])==news.parse_datetime(detail_at)
+    finally:
+        connection.close()

@@ -1,0 +1,63 @@
+{
+  "adversarial_trial": {
+    "failed": 1,
+    "passed": 46,
+    "reason": "Proposed exact BA-mid constraint rejected preserved real input; constraint and asserted BA labels reverted completely.",
+    "sha256": "48f2f46dfe9016d15836235d135f3d795b5e65d5aaf4ca0020762edcfc9de659",
+    "test_xml": "ba_binding_tests.xml"
+  },
+  "broker_requests_performed": 0,
+  "current_parser_lines": [
+    85,
+    117,
+    152
+  ],
+  "current_parser_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_s5_microstructure_pipeline.py",
+  "current_parser_sha256": "0653842ecc0884d9bbceee467ef6e985f47aaaca0b8c1f5a28912562039465f1",
+  "finding": "Current parser derives midpoint OHLC from BA averages, but retained file midpoint fields differ. This disproves exact equivalence for these rows; it does not independently prove which historical parser produced the retained file.",
+  "forecast_issued": false,
+  "input_path": "D:\\ForexRecovery\\revamp_20260908T1353Z\\inputs\\second_ridge\\EUR_USD_S5.parquet",
+  "input_sha256": "9c39400b9090d6c23133f9b7a6a47a540945479ac10fd36d0f05d97dc7384484",
+  "next_step": "Preserve raw official MBA once, keeping M and BA alternatives separate before registering any new research input convention. No prediction success is inferred.",
+  "observed_utc": "2026-09-09T04:49:56.598993+00:00",
+  "research_only": true,
+  "restored_source_sha256": "30c21fc8740e7142ec83bea76236d9767651551e628a512965ff80dc64c5dcef",
+  "restored_test_sha256": "37a86fe9b8b516a5db23cd07102ed45f8dca581d217f77ee5c42eb056de11596",
+  "selected_actual_rows": [
+    {
+      "ask_close": 1.14071,
+      "ask_high": 1.14072,
+      "ask_low": 1.14071,
+      "ba_derived_mid_close": 1.1406299999999998,
+      "ba_derived_mid_high": 1.1406450000000001,
+      "ba_derived_mid_low": 1.1406299999999998,
+      "bid_close": 1.14055,
+      "bid_high": 1.14057,
+      "bid_low": 1.14055,
+      "dt": "2026-07-22T03:47:50+00:00",
+      "mid_close": 1.14063,
+      "mid_high": 1.14064,
+      "mid_low": 1.14063,
+      "stored_minus_ba_close": 2.220446049250313e-16,
+      "stored_minus_ba_high": -5.000000000032756e-06
+    },
+    {
+      "ask_close": 1.14072,
+      "ask_high": 1.14072,
+      "ask_low": 1.14072,
+      "ba_derived_mid_close": 1.140635,
+      "ba_derived_mid_high": 1.140635,
+      "ba_derived_mid_low": 1.140635,
+      "bid_close": 1.14055,
+      "bid_high": 1.14055,
+      "bid_low": 1.14055,
+      "dt": "2026-07-22T03:49:20+00:00",
+      "mid_close": 1.14064,
+      "mid_high": 1.14064,
+      "mid_low": 1.14064,
+      "stored_minus_ba_close": 5.000000000032756e-06,
+      "stored_minus_ba_high": 5.000000000032756e-06
+    }
+  ],
+  "status": "historical_ingestion_convention_not_fully_reconstructed"
+}

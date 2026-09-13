@@ -5,6 +5,8 @@ import json
 import zipfile
 from pathlib import Path
 
+import pytest
+
 import forex_model_vault_sync as vault_sync
 
 
@@ -13,6 +15,20 @@ def _write(root: Path, relative: str, text: str = "{}") -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(text, encoding="utf-8")
     return path
+
+
+def _fixture_records(monkeypatch, root: Path) -> None:
+    """These historical fixtures intentionally configure only their own records."""
+    monkeypatch.setattr(vault_sync, "CANONICAL_PROJECT_RECORDS", tuple(
+        record for record in vault_sync.CANONICAL_PROJECT_RECORDS
+        if (root / record[0]).is_file()
+    ))
+
+
+def _runtime_fixture_record(monkeypatch) -> None:
+    monkeypatch.setattr(vault_sync, "CANONICAL_PROJECT_RECORDS", (
+        (Path("trad/runtime.py"), "RUNTIME_TEST_CURRENT.py"),
+    ))
 
 
 def test_checkpoint_collects_current_audit_and_model_metadata(tmp_path) -> None:
@@ -566,9 +582,74 @@ def test_bootstrap_files_are_synced_with_hashes(tmp_path) -> None:
     assert (vault / "forex_vault_bootstrap.ps1").is_file()
 
 
-def test_canonical_project_records_sync_sources_features_and_progress(tmp_path) -> None:
+def test_canonical_project_records_sync_sources_features_and_progress(tmp_path, monkeypatch) -> None:
     _write(tmp_path, "trad/FOREX_PENDING_IMPROVEMENTS.md", "pending-v1\n")
     _write(tmp_path, "trad/FOREX_PROJECT_LOG.md", "log-v1\n")
+    _write(
+        tmp_path,
+        "trad/FOREX_OFFICIAL_GEOPOLITICAL_AND_SCHEDULED_EVENT_CAPTURE_"
+        "VALIDATION_20260901.json",
+        '{"status": "validated_prospective"}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/FOREX_VAULT_CANONICAL_SNAPSHOT_VALIDATION_20260901.json",
+        '{"status": "validated"}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/FOREX_EXECUTABLE_MOVE_CENSUS_COHORT_D_"
+        "VALIDATION_20260901.json",
+        '{"cohort_id": "all68_executable_move_census_v2_20260901d"}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/FOREX_EXECUTABLE_MOVE_CENSUS_COHORT_E_"
+        "VALIDATION_20260901.json",
+        '{"cohort_id": "all68_executable_move_census_v2_20260901e"}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/FOREX_EXECUTABLE_MOVE_CENSUS_COHORT_F_"
+        "VALIDATION_20260901.json",
+        '{"cohort_id": "all68_executable_move_census_v3_20260901f"}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/FOREX_EXECUTABLE_MOVE_CENSUS_COHORT_G_"
+        "VALIDATION_20260902.json",
+        '{"cohort_id": "all68_executable_move_census_v3_20260902g"}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/FOREX_OPERATIONAL_MAPPING_SUBSECOND_CAUSALITY_"
+        "VALIDATION_20260902.json",
+        '{"status": "validated_subsecond_causal"}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/FOREX_INTEGRITY_PUBLICATION_FRESHNESS_"
+        "VALIDATION_20260901.json",
+        '{"status": "ok"}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/FOREX_MAJOR_MOVE_CENSUS_LIVENESS_"
+        "VALIDATION_20260901.json",
+        '{"status": "validated_live"}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/FOREX_LIFECYCLE_PUBLICATION_CONSISTENCY_"
+        "VALIDATION_20260901.json",
+        '{"status": "validated_live"}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/FOREX_SOURCE_READINESS_AND_INTEGRITY_FRESHNESS_"
+        "VALIDATION_20260901.json",
+        '{"status": "validated_live"}\n',
+    )
     _write(
         tmp_path,
         "trad/config/forex_source_gap_register_v1.json",
@@ -580,28 +661,410 @@ def test_canonical_project_records_sync_sources_features_and_progress(tmp_path) 
         "trad/config/official_currency_source_depth_v1.json",
         '{"currency_count": 21}\n',
     )
+    _write(
+        tmp_path,
+        "trad/config/news_sources_v1.json",
+        '{"sources": []}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/config/scheduled_event_quote_capture_v2.json",
+        '{"contract_id": "scheduled-event-v2"}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/FOREX_LIFECYCLE_VERIFIER_CADENCE_VALIDATION_20260902.json",
+        '{"status": "validated"}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/FOREX_PROJECT_INTEGRITY_HISTORY_ROTATION_VALIDATION_20260902.json",
+        '{"status": "validated"}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/FOREX_LIFECYCLE_GENEALOGY_LOCK_RETRY_VALIDATION_20260902.json",
+        '{"status": "validated"}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/FOREX_LIFECYCLE_SEMANTIC_REPUBLICATION_VALIDATION_20260902.json",
+        '{"status": "validated"}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/FOREX_SIGNAL_TRIAL_BARRIER_SUMMARY_PERFORMANCE_"
+        "VALIDATION_20260902.json",
+        '{"status": "validated"}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/FOREX_SUPERVISOR_PROCESS_SNAPSHOT_PERFORMANCE_"
+        "VALIDATION_20260902.json",
+        '{"status": "validated"}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/config/move_first_calendar_episode_labels_v1_20260901.json",
+        '{"research_only": true}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/config/move_first_live_case_capture_v4_20260901.json",
+        '{"cohort_id": "v4"}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/data/oanda_training_manager/reports/"
+        "move_first_live_case_capture_v4/"
+        "MOVE_FIRST_LIVE_CASE_CAPTURE_CURRENT.json",
+        '{"case_count": 1}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/config/move_first_live_arm_alignment_v1_20260901.json",
+        '{"audit_id": "alignment-v1"}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/data/oanda_training_manager/reports/"
+        "move_first_live_arm_alignment_v1/"
+        "MOVE_FIRST_LIVE_ARM_ALIGNMENT_CURRENT.json",
+        '{"resolved_factor_episode_count": 1}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/config/move_first_operational_mapping_alignment_v1_20260901.json",
+        '{"cohort_id": "operational-mapping-v1"}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/data/oanda_training_manager/reports/"
+        "move_first_operational_mapping_alignment_v1/"
+        "MOVE_FIRST_OPERATIONAL_MAPPING_ALIGNMENT_CURRENT.json",
+        '{"resolved_factor_episode_count": 0}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/config/move_first_operational_mapping_alignment_v2_20260901.json",
+        '{"cohort_id": "operational-mapping-v2"}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/data/oanda_training_manager/reports/"
+        "move_first_operational_mapping_alignment_v2/"
+        "MOVE_FIRST_OPERATIONAL_MAPPING_ALIGNMENT_CURRENT.json",
+        '{"resolved_factor_episode_count": 0, "story_deduplication_rule": "v2"}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/config/move_first_operational_mapping_alignment_v3_20260901.json",
+        '{"cohort_id": "operational-mapping-v3"}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/data/oanda_training_manager/reports/"
+        "move_first_operational_mapping_alignment_v3/"
+        "MOVE_FIRST_OPERATIONAL_MAPPING_ALIGNMENT_CURRENT.json",
+        '{"resolved_factor_episode_count": 0, "story_deduplication_rule": "v3"}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/config/move_first_operational_mapping_alignment_v4_20260902.json",
+        '{"cohort_id": "operational-mapping-v4"}\n',
+    )
+    _write(
+        tmp_path,
+        "trad/data/oanda_training_manager/reports/"
+        "move_first_operational_mapping_alignment_v4/"
+        "MOVE_FIRST_OPERATIONAL_MAPPING_ALIGNMENT_CURRENT.json",
+        '{"resolved_factor_episode_count": 0, "story_deduplication_rule": "v4"}\n',
+    )
     vault = tmp_path / "vault"
     vault.mkdir()
 
+    _fixture_records(monkeypatch, tmp_path)
     first = vault_sync.sync_canonical_project_records(tmp_path, vault)
     assert first["changed"] is True
-    assert len(first["records"]) == 5
+    assert len(first["records"]) == 37
     assert (vault / "PENDING_IMPROVEMENTS_CURRENT.md").read_text() == "pending-v1\n"
     assert (vault / "PROJECT_LOG_CURRENT.md").read_text() == "log-v1\n"
+    assert (
+        vault / "EXECUTABLE_MOVE_CENSUS_COHORT_D_VALIDATION_CURRENT.json"
+    ).is_file()
+    assert (
+        vault / "EXECUTABLE_MOVE_CENSUS_COHORT_E_VALIDATION_CURRENT.json"
+    ).is_file()
+    assert (
+        vault / "EXECUTABLE_MOVE_CENSUS_COHORT_F_VALIDATION_CURRENT.json"
+    ).is_file()
+    assert (
+        vault / "EXECUTABLE_MOVE_CENSUS_COHORT_G_VALIDATION_CURRENT.json"
+    ).is_file()
+    assert (
+        vault / "OPERATIONAL_MAPPING_ALIGNMENT_VALIDATION_CURRENT.json"
+    ).is_file()
+    assert (
+        vault / "INTEGRITY_PUBLICATION_FRESHNESS_VALIDATION_CURRENT.json"
+    ).is_file()
+    assert (
+        vault / "MAJOR_MOVE_CENSUS_LIVENESS_VALIDATION_CURRENT.json"
+    ).is_file()
+    assert (
+        vault / "LIFECYCLE_PUBLICATION_CONSISTENCY_VALIDATION_CURRENT.json"
+    ).is_file()
+    assert (
+        vault
+        / "SOURCE_READINESS_AND_INTEGRITY_FRESHNESS_VALIDATION_CURRENT.json"
+    ).is_file()
     assert (vault / "SOURCE_GAP_REGISTER_CURRENT.json").is_file()
     assert (vault / "MODEL_FEATURE_SPACE_CURRENT.md").is_file()
     assert (vault / "OFFICIAL_CURRENCY_SOURCE_DEPTH_CURRENT.json").is_file()
+    assert (vault / "NEWS_SOURCES_CURRENT.json").is_file()
+    assert (
+        vault
+        / "OFFICIAL_GEOPOLITICAL_AND_SCHEDULED_EVENT_CAPTURE_VALIDATION_CURRENT.json"
+    ).is_file()
+    assert (vault / "VAULT_CANONICAL_SNAPSHOT_VALIDATION_CURRENT.json").is_file()
+    assert (vault / "SCHEDULED_EVENT_QUOTE_CAPTURE_CONTRACT_CURRENT.json").is_file()
+    assert (vault / "LIFECYCLE_VERIFIER_CADENCE_VALIDATION_CURRENT.json").is_file()
+    assert (
+        vault / "PROJECT_INTEGRITY_HISTORY_ROTATION_VALIDATION_CURRENT.json"
+    ).is_file()
+    assert (
+        vault / "LIFECYCLE_GENEALOGY_LOCK_RETRY_VALIDATION_CURRENT.json"
+    ).is_file()
+    assert (
+        vault / "LIFECYCLE_SEMANTIC_REPUBLICATION_VALIDATION_CURRENT.json"
+    ).is_file()
+    assert (
+        vault
+        / "SIGNAL_TRIAL_BARRIER_SUMMARY_PERFORMANCE_VALIDATION_CURRENT.json"
+    ).is_file()
+    assert (vault / "MOVE_FIRST_CALENDAR_EPISODE_LABELS_CURRENT.json").is_file()
+    assert (vault / "MOVE_FIRST_LIVE_CASE_CAPTURE_CONTRACT_CURRENT.json").is_file()
+    assert (vault / "MOVE_FIRST_LIVE_CASE_CAPTURE_STATUS_CURRENT.json").is_file()
+    assert (vault / "MOVE_FIRST_LIVE_ARM_ALIGNMENT_CONTRACT_CURRENT.json").is_file()
+    assert (vault / "MOVE_FIRST_LIVE_ARM_ALIGNMENT_STATUS_CURRENT.json").is_file()
+    assert (
+        vault / "MOVE_FIRST_OPERATIONAL_MAPPING_ALIGNMENT_CONTRACT_CURRENT.json"
+    ).is_file()
+    assert (
+        vault / "MOVE_FIRST_OPERATIONAL_MAPPING_ALIGNMENT_STATUS_CURRENT.json"
+    ).is_file()
+    assert (
+        vault / "MOVE_FIRST_OPERATIONAL_MAPPING_ALIGNMENT_V1_BASELINE.json"
+    ).is_file()
+    assert (
+        vault / "MOVE_FIRST_OPERATIONAL_MAPPING_ALIGNMENT_V1_STATUS_BASELINE.json"
+    ).is_file()
+    assert (
+        vault / "MOVE_FIRST_OPERATIONAL_MAPPING_ALIGNMENT_V2_BASELINE.json"
+    ).is_file()
+    assert (
+        vault / "MOVE_FIRST_OPERATIONAL_MAPPING_ALIGNMENT_V2_STATUS_BASELINE.json"
+    ).is_file()
+    assert (
+        vault / "MOVE_FIRST_OPERATIONAL_MAPPING_ALIGNMENT_V3_INVALIDATED_BASELINE.json"
+    ).is_file()
+    assert (
+        vault / "MOVE_FIRST_OPERATIONAL_MAPPING_ALIGNMENT_V3_STATUS_INVALIDATED_BASELINE.json"
+    ).is_file()
     manifest = json.loads(
         (vault / "SHARED_PROJECT_STATE_CURRENT.json").read_text(encoding="utf-8")
     )
-    assert manifest["record_count"] == 5
+    assert manifest["record_count"] == 37
     assert manifest["contains_credentials"] is False
 
     second = vault_sync.sync_canonical_project_records(tmp_path, vault)
     assert second["changed"] is False
 
 
-def test_sync_once_rebuilds_pointer_from_current_checkpoint(tmp_path) -> None:
+def test_canonical_record_manifest_hashes_exact_published_snapshot(
+    tmp_path,
+    monkeypatch,
+) -> None:
+    source = tmp_path / "trad" / "FOREX_PENDING_IMPROVEMENTS.md"
+    _write(tmp_path, "trad/FOREX_PENDING_IMPROVEMENTS.md", "snapshot-v1\n")
+    vault = tmp_path / "vault"
+    vault.mkdir()
+    original_write = vault_sync.write_bytes_atomic
+    mutated = False
+
+    def mutate_source_then_publish(destination: Path, payload: bytes) -> None:
+        nonlocal mutated
+        if not mutated:
+            source.write_text("snapshot-v2\n", encoding="utf-8")
+            mutated = True
+        original_write(destination, payload)
+
+    monkeypatch.setattr(vault_sync, "write_bytes_atomic", mutate_source_then_publish)
+    _fixture_records(monkeypatch, tmp_path)
+    result = vault_sync.sync_canonical_project_records(tmp_path, vault)
+    row = result["records"][0]
+    published = vault / "PENDING_IMPROVEMENTS_CURRENT.md"
+
+    assert source.read_text(encoding="utf-8") == "snapshot-v2\n"
+    assert published.read_text(encoding="utf-8") == "snapshot-v1\n"
+    assert row["size"] == published.stat().st_size
+    assert row["sha256"] == vault_sync.sha256_file(published)
+
+
+def test_current_source_rank_vault_record_tracks_v7_and_preserves_v6_baseline() -> None:
+    records = dict(vault_sync.CANONICAL_PROJECT_RECORDS)
+
+    assert records[
+        Path(
+            "trad/FOREX_EXECUTABLE_MOVE_CENSUS_COHORT_D_"
+            "VALIDATION_20260901.json"
+        )
+    ] == "EXECUTABLE_MOVE_CENSUS_COHORT_D_VALIDATION_CURRENT.json"
+    assert records[
+        Path(
+            "trad/FOREX_EXECUTABLE_MOVE_CENSUS_COHORT_E_"
+            "VALIDATION_20260901.json"
+        )
+    ] == "EXECUTABLE_MOVE_CENSUS_COHORT_E_VALIDATION_CURRENT.json"
+    assert records[
+        Path(
+            "trad/FOREX_EXECUTABLE_MOVE_CENSUS_COHORT_G_"
+            "VALIDATION_20260902.json"
+        )
+    ] == "EXECUTABLE_MOVE_CENSUS_COHORT_G_VALIDATION_CURRENT.json"
+
+    assert records[Path("trad/config/source_conditioned_currency_rank_v7.json")] == (
+        "SOURCE_CONDITIONED_CURRENCY_RANK_CURRENT.json"
+    )
+    assert records[Path("trad/config/source_conditioned_currency_rank_v6.json")] == (
+        "SOURCE_CONDITIONED_CURRENCY_RANK_V6_BASELINE.json"
+    )
+    assert records[
+        Path("trad/FOREX_BOJ_MARKET_STRUCTURE_OVERLAY_VALIDATION_20260901.json")
+    ] == "BOJ_MARKET_STRUCTURE_OVERLAY_VALIDATION_CURRENT.json"
+    assert records[
+        Path("trad/FOREX_OUTCOME_PUBLICATION_ATOMICITY_VALIDATION_20260901.json")
+    ] == "OUTCOME_PUBLICATION_ATOMICITY_VALIDATION_CURRENT.json"
+    assert records[
+        Path("trad/FOREX_NEWS_GOVERNANCE_FAST_LANE_VALIDATION_20260901.json")
+    ] == "NEWS_GOVERNANCE_FAST_LANE_VALIDATION_CURRENT.json"
+    assert records[
+        Path(
+            "trad/FOREX_INTEGRITY_RUNTIME_CONTRACT_RELOAD_"
+            "VALIDATION_20260902.json"
+        )
+    ] == "INTEGRITY_RUNTIME_CONTRACT_RELOAD_VALIDATION_CURRENT.json"
+    assert records[
+        Path(
+            "trad/FOREX_SCHEDULED_FACTOR_AND_INTEGRITY_LIVENESS_"
+            "VALIDATION_20260902.json"
+        )
+    ] == "SCHEDULED_FACTOR_AND_INTEGRITY_LIVENESS_VALIDATION_CURRENT.json"
+    assert records[
+        Path(
+            "trad/FOREX_LIFECYCLE_VERIFIER_CADENCE_"
+            "VALIDATION_20260902.json"
+        )
+    ] == "LIFECYCLE_VERIFIER_CADENCE_VALIDATION_CURRENT.json"
+    assert records[
+        Path(
+            "trad/FOREX_PROJECT_INTEGRITY_HISTORY_ROTATION_"
+            "VALIDATION_20260902.json"
+        )
+    ] == "PROJECT_INTEGRITY_HISTORY_ROTATION_VALIDATION_CURRENT.json"
+    assert records[
+        Path(
+            "trad/FOREX_LIFECYCLE_GENEALOGY_LOCK_RETRY_"
+            "VALIDATION_20260902.json"
+        )
+    ] == "LIFECYCLE_GENEALOGY_LOCK_RETRY_VALIDATION_CURRENT.json"
+    assert records[
+        Path(
+            "trad/FOREX_LIFECYCLE_SEMANTIC_REPUBLICATION_"
+            "VALIDATION_20260902.json"
+        )
+    ] == "LIFECYCLE_SEMANTIC_REPUBLICATION_VALIDATION_CURRENT.json"
+    assert records[
+        Path(
+            "trad/FOREX_SIGNAL_TRIAL_BARRIER_SUMMARY_PERFORMANCE_"
+            "VALIDATION_20260902.json"
+        )
+    ] == "SIGNAL_TRIAL_BARRIER_SUMMARY_PERFORMANCE_VALIDATION_CURRENT.json"
+    assert records[
+        Path(
+            "trad/FOREX_SUPERVISOR_PROCESS_SNAPSHOT_PERFORMANCE_"
+            "VALIDATION_20260902.json"
+        )
+    ] == "SUPERVISOR_PROCESS_SNAPSHOT_PERFORMANCE_VALIDATION_CURRENT.json"
+    assert records[
+        Path("trad/config/scheduled_event_factor_reaction_v1_20260902b.json")
+    ] == "SCHEDULED_EVENT_FACTOR_REACTION_CONTRACT_CURRENT.json"
+    assert records[
+        Path("trad/FOREX_OPERATIONAL_MAPPING_ALIGNMENT_VALIDATION_20260901.json")
+    ] == "OPERATIONAL_MAPPING_ALIGNMENT_V1_VALIDATION_BASELINE.json"
+    assert records[
+        Path(
+            "trad/FOREX_OPERATIONAL_MAPPING_SYNDICATION_DEDUP_"
+            "VALIDATION_20260901.json"
+        )
+    ] == "OPERATIONAL_MAPPING_ALIGNMENT_V2_VALIDATION_BASELINE.json"
+    assert records[
+        Path("trad/FOREX_NARRATIVE_FAMILY_DECAY_VALIDATION_20260901.json")
+    ] == "OPERATIONAL_MAPPING_ALIGNMENT_V3_INVALIDATED_BASELINE.json"
+    assert records[
+        Path(
+            "trad/FOREX_OPERATIONAL_MAPPING_SUBSECOND_CAUSALITY_"
+            "VALIDATION_20260902.json"
+        )
+    ] == "OPERATIONAL_MAPPING_ALIGNMENT_VALIDATION_CURRENT.json"
+    assert records[
+        Path(
+            "trad/FOREX_AGGREGATE_SIGNAL_LINEAGE_AND_CONFLICT_AUDIT_"
+            "VALIDATION_20260901.json"
+        )
+    ] == "AGGREGATE_SIGNAL_LINEAGE_AND_CONFLICT_AUDIT_VALIDATION_CURRENT.json"
+    assert records[
+        Path(
+            "trad/FOREX_SECONDARY_CRYPTO_SOURCE_FACTOR_GATE_"
+            "VALIDATION_20260901.json"
+        )
+    ] == "SECONDARY_CRYPTO_SOURCE_FACTOR_GATE_VALIDATION_CURRENT.json"
+    assert records[
+        Path("trad/FOREX_DIRECT_COMMODITY_ACCESS_AUDIT_20260901.json")
+    ] == "DIRECT_COMMODITY_ACCESS_AUDIT_CURRENT.json"
+    assert records[
+        Path(
+            "trad/FOREX_DISCOVERY_SOURCE_LINEAGE_"
+            "VALIDATION_20260901.json"
+        )
+    ] == "DISCOVERY_SOURCE_LINEAGE_VALIDATION_CURRENT.json"
+    assert records[
+        Path(
+            "trad/FOREX_MAJOR_MOVE_CENSUS_LIVENESS_"
+            "VALIDATION_20260901.json"
+        )
+    ] == "MAJOR_MOVE_CENSUS_LIVENESS_VALIDATION_CURRENT.json"
+    assert records[
+        Path(
+            "trad/FOREX_LIFECYCLE_PUBLICATION_CONSISTENCY_"
+            "VALIDATION_20260901.json"
+        )
+    ] == "LIFECYCLE_PUBLICATION_CONSISTENCY_VALIDATION_CURRENT.json"
+    assert records[
+        Path(
+            "trad/FOREX_SOURCE_READINESS_AND_INTEGRITY_FRESHNESS_"
+            "VALIDATION_20260901.json"
+        )
+    ] == "SOURCE_READINESS_AND_INTEGRITY_FRESHNESS_VALIDATION_CURRENT.json"
+    assert Path("trad/oanda_causal_source_factor_response_map_v8.py") in (
+        vault_sync.NEWS_EVENT_TAGGING_SOURCE_FILES
+    )
+    assert Path("trad/oanda_source_conditioned_currency_rank_v7.py") in (
+        vault_sync.NEWS_EVENT_TAGGING_SOURCE_FILES
+    )
+
+
+def test_sync_once_rebuilds_pointer_from_current_checkpoint(tmp_path, monkeypatch) -> None:
+    _runtime_fixture_record(monkeypatch)
     root = tmp_path / "source"
     vault = tmp_path / "vault"
     _write(root, "README.md", "# Current project\n")
@@ -766,6 +1229,7 @@ def test_sync_once_builds_one_identical_archive_for_all_destinations(
     tmp_path,
     monkeypatch,
 ) -> None:
+    _runtime_fixture_record(monkeypatch)
     root = tmp_path / "source"
     vault_a = tmp_path / "vault_a"
     vault_b = tmp_path / "vault_b"
@@ -806,6 +1270,7 @@ def test_main_defaults_to_onedrive_only_destination(tmp_path, monkeypatch) -> No
         retention = 2
         destination = None
         news_event_only = False
+        canonical_only = False
 
     def fake_sync_once(root, destinations, retention):
         captured.update(
@@ -828,6 +1293,36 @@ def test_main_defaults_to_onedrive_only_destination(tmp_path, monkeypatch) -> No
     assert vault_sync.main() == 0
     assert captured["destinations"] == [vault_sync.DEFAULT_VAULT_PROJECT]
     assert all(path.drive.upper() != "D:" for path in captured["destinations"])
+
+
+def test_main_canonical_only_never_builds_checkpoint_archive(
+    tmp_path,
+    monkeypatch,
+) -> None:
+    root = tmp_path / "source"
+    vault = tmp_path / "vault"
+    _write(root, "trad/FOREX_PENDING_IMPROVEMENTS.md", "nothing open\n")
+    source_root = root
+
+    class Args:
+        root = source_root
+        interval_sec = 0
+        retention = 12
+        destination = [vault]
+        news_event_only = False
+        canonical_only = True
+
+    def reject_full_sync(*args, **kwargs):
+        raise AssertionError("canonical-only mode must not build a checkpoint")
+
+    monkeypatch.setattr(vault_sync, "parse_args", lambda: Args())
+    monkeypatch.setattr(vault_sync, "sync_once", reject_full_sync)
+    _fixture_records(monkeypatch, root)
+
+    assert vault_sync.main() == 0
+    assert (vault / "PENDING_IMPROVEMENTS_CURRENT.md").is_file()
+    assert (vault / "SHARED_PROJECT_STATE_CURRENT.json").is_file()
+    assert not list(vault.glob("*.zip"))
 
 
 def test_archive_validation_failure_precedes_retention_deletion(
@@ -857,7 +1352,8 @@ def test_archive_validation_failure_precedes_retention_deletion(
     assert not list(vault.glob(f"{vault_sync.MODEL_RETENTION_RECEIPT_PREFIX}*.json"))
 
 
-def test_retention_writes_hash_bound_tombstone_before_exact_delete(tmp_path) -> None:
+def test_retention_writes_hash_bound_tombstone_before_exact_delete(tmp_path, monkeypatch) -> None:
+    _runtime_fixture_record(monkeypatch)
     root = tmp_path / "source"
     vault = tmp_path / "vault"
     _write(root, "trad/runtime.py", "print('runtime')\n")
@@ -897,7 +1393,8 @@ def test_retention_writes_hash_bound_tombstone_before_exact_delete(tmp_path) -> 
     assert result["destinations"][0]["retention"]["status"] == "deleted"
 
 
-def test_unchanged_sync_reuses_bound_reconstruction_and_never_prunes(tmp_path) -> None:
+def test_unchanged_sync_reuses_bound_reconstruction_and_never_prunes(tmp_path, monkeypatch) -> None:
+    _runtime_fixture_record(monkeypatch)
     root = tmp_path / "source"
     vault = tmp_path / "vault"
     _write(root, "trad/runtime.py", "print('runtime')\n")
@@ -923,3 +1420,62 @@ def test_unchanged_sync_reuses_bound_reconstruction_and_never_prunes(tmp_path) -
     )
     assert receipt["reconstructability_verified"] is True
     assert receipt["reused_reconstruction_receipt_sha256"]
+
+
+@pytest.mark.parametrize("failure", ["missing", "pattern_secret", "known_private", "redirect"])
+def test_canonical_preflight_failure_preserves_all_old_records_and_manifest(tmp_path, monkeypatch, failure) -> None:
+    from tools import vault_worktree_snapshot as safety
+    root = tmp_path / "source"
+    vault = tmp_path / "vault"
+    vault.mkdir()
+    _write(root, "trad/first.md", "new first\n")
+    second = _write(root, "trad/second.md", "new second\n")
+    monkeypatch.setattr(vault_sync, "CANONICAL_PROJECT_RECORDS", (
+        (Path("trad/first.md"), "FIRST_CURRENT.md"),
+        (Path("trad/second.md"), "SECOND_CURRENT.md"),
+    ))
+    old = {name: _write(vault, name, "old bytes").read_bytes() for name in (
+        "FIRST_CURRENT.md", "SECOND_CURRENT.md", "SHARED_PROJECT_STATE_CURRENT.json")}
+    secret_value = ""
+    if failure == "missing":
+        second.unlink()
+    elif failure == "pattern_secret":
+        secret_value = "sk-" + "Xy45Ab67" * 4
+        second.write_text(secret_value)
+    elif failure == "known_private":
+        secret_value = "1234567890abcdef" * 2 + "-" + "abcdef1234567890" * 2
+        _write(root, "trad/creds", secret_value)
+        second.write_text("copied value " + secret_value)
+    else:
+        original = safety.regular_file
+        def redirected(directory, name):
+            if name == "trad/second.md":
+                raise RuntimeError("symlink/reparse point is prohibited")
+            return original(directory, name)
+        monkeypatch.setattr(safety, "regular_file", redirected)
+    with pytest.raises(RuntimeError) as error:
+        vault_sync.sync_canonical_project_records(root, vault)
+    assert not secret_value or secret_value not in str(error.value)
+    assert all((vault / name).read_bytes() == payload for name, payload in old.items())
+
+
+def test_canonical_preflight_rejects_redirected_manifest_before_writes(tmp_path, monkeypatch) -> None:
+    from tools import vault_worktree_snapshot as safety
+    root = tmp_path / "source"
+    vault = tmp_path / "vault"
+    _write(root, "trad/first.md", "new first\n")
+    _write(vault, "FIRST_CURRENT.md", "old first\n")
+    _write(vault, "SHARED_PROJECT_STATE_CURRENT.json", "old manifest\n")
+    monkeypatch.setattr(vault_sync, "CANONICAL_PROJECT_RECORDS", (
+        (Path("trad/first.md"), "FIRST_CURRENT.md"),
+    ))
+    original = safety.regular_file
+    def redirected(directory, name):
+        if name == "SHARED_PROJECT_STATE_CURRENT.json":
+            raise RuntimeError("symlink/reparse point is prohibited")
+        return original(directory, name)
+    monkeypatch.setattr(safety, "regular_file", redirected)
+    with pytest.raises(RuntimeError, match="symlink"):
+        vault_sync.sync_canonical_project_records(root, vault)
+    assert (vault / "FIRST_CURRENT.md").read_text() == "old first\n"
+    assert (vault / "SHARED_PROJECT_STATE_CURRENT.json").read_text() == "old manifest\n"

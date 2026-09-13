@@ -1,0 +1,42 @@
+{
+  "checks": {
+    "direction_hits": 1381,
+    "negative_mean_pairs": 63,
+    "outcomes": 2907,
+    "pairs": 68,
+    "positive_after_spread": 642,
+    "positive_mean_pairs": 3,
+    "unscored_pairs": 2
+  },
+  "completed_epoch": 1788957584.130226,
+  "limits": [
+    "No scorer rerun, full pair raw replay, DB, broker or runtime read.",
+    "Pair signs are descriptive for this dependent cumulative cohort; they do not select a portfolio or establish pair-specific skill."
+  ],
+  "remaining_blockers": [],
+  "schema_version": "pair_dispersion_independent_review_v1_20260909",
+  "scope": [
+    "Read-only source review of full 68-pair aggregation, exact source bounds, original scorer-value reuse and global reconciliation.",
+    "Independently checked compact alphabetical unique inventory, outcomes/hits/positive counts, sign classifications, original dependence and exact global mean against the retained sanitized report."
+  ],
+  "source_edits": false,
+  "source_evidence": [
+    {
+      "bytes": 5753,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\summarize_pair_dispersion_v1.py",
+      "sha256": "40816e45a26cff2de75eb65b5c35c78a353f3e0426374bf15852f2b5db7c87cb"
+    },
+    {
+      "bytes": 43957,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\pair_dispersion_001\\ALL_PAIR_SCORE_DISPERSION_20260909.json",
+      "sha256": "93de3121cba9de79420d178dfa167b9e183a3598b1e8b7361cf0760aacf5ae46"
+    },
+    {
+      "bytes": 35703,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_002\\V3_COMPLETED_PERFORMANCE_20260909.json",
+      "sha256": "119164bcf43eadbb841b821a9479a51c5305b43a8121477a3016c47d2750c77e"
+    }
+  ],
+  "status": "passed",
+  "tests_rerun": false
+}

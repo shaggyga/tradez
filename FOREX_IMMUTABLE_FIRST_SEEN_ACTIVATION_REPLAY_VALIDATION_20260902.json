@@ -1,0 +1,147 @@
+{
+  "schema_version": "forex_immutable_first_seen_activation_replay_validation_v1",
+  "generated_utc": "2026-09-02T21:57:00Z",
+  "issue_id": "FX-20260902-IMMUTABLE-FIRST-SEEN-ACTIVATION-REPLAY",
+  "scope": "activation-sensitive news semantics are governed by the immutable first-seen clock rather than a later repeat-poll clock",
+  "incident": {
+    "root_cause": "Classification occurs before the existing-row lookup. A stable source URL first observed before a prospective rule activated could therefore be classified on a later poll with an activation-eligible flag, after which storage preserved the old first_seen_utc without replaying the new semantics on that original clock.",
+    "observed_false_claim": {
+      "headline": "Statement by Chief Pentagon Spokesman, Sean Parnell, on the Clinical Guidance for Health and Human Performance Optimization",
+      "source_id": "us_dow_releases_direct_v1",
+      "immutable_first_seen_utc": "2026-09-02T19:01:19.004250+00:00",
+      "guard_activated_utc": "2026-09-02T20:45:00+00:00",
+      "pre_repair_problem": "A later repeat poll could set the prospective defense guard's activation-eligible claim even though the immutable first-seen observation preceded activation. Earlier V154 semantics had also mistaken non-market battlefield boilerplate for a global risk-off event.",
+      "proof_consequence": "No historical observation may acquire prospective standing from a later poll. V154, V155 and V156 representations are diagnostic only and are not governed proof."
+    },
+    "second_affected_contract": "The same storage path could have allowed a repeated RBNZ official-search URL to inherit structured policy-rate fields after the structured observation contract activated."
+  },
+  "implementation": {
+    "classification_version": "local_fx_news_rules_20260902_v157_immutable_first_seen_activation_replay",
+    "positive_activation_claim_detection": "Every true *_activation_eligible flag is paired with its explicit *_activated_utc boundary and compared with the immutable stored first_seen_utc.",
+    "replay_rule": "If a positive activation claim predates the immutable first-seen clock, the entire article is reclassified using that original clock before the current representation is stored.",
+    "stable_url_rule": "Stable-link lookup also applies to an activation-sensitive structured observation only when its prospective claim would be retroactive; legitimate post-activation versioned releases retain their separate event identities.",
+    "structured_field_rule": "Later-poll RBNZ structured numeric fields are removed before pre-activation replay, so actual, previous, parser-contract and structured-event status cannot bootstrap their own eligibility.",
+    "causal_evidence_policy": "Raw observations, immutable first-seen clocks and historical classifier lineage remain preserved. Replayed historical rows receive no prospective proof, promotion, authorization or execution credit.",
+    "execution_changes": false,
+    "threshold_changes": false,
+    "historical_backfill_as_proof": false,
+    "real_money_routing": false
+  },
+  "live_database_validation": {
+    "pentagon_row": {
+      "classification_version": "local_fx_news_rules_20260902_v157_immutable_first_seen_activation_replay",
+      "nonmarket_health_guard": true,
+      "activation_eligible": false,
+      "structured_event": false,
+      "risk_off_score": 0.0,
+      "currency_scores": {},
+      "directional_bias": {},
+      "directional_publish_eligible": false,
+      "execution_eligible": false,
+      "can_place_orders": false
+    },
+    "rbnz_pre_activation_row": {
+      "headline": "OCR increased by 25 basis points to 2.75% - rbnz.govt.nz",
+      "immutable_first_seen_utc": "2026-09-02T02:13:58.769722+00:00",
+      "contract_activated_utc": "2026-09-02T02:45:00+00:00",
+      "classification_version": "local_fx_news_rules_20260902_v157_immutable_first_seen_activation_replay",
+      "activation_eligible": false,
+      "structured_event": false,
+      "actual": null,
+      "previous": null,
+      "numeric_extraction_contract_id": "",
+      "directional_publish_eligible": false,
+      "execution_eligible": false,
+      "can_place_orders": false
+    },
+    "rbnz_legitimate_post_activation_row": {
+      "immutable_first_seen_utc": "2026-09-02T04:44:00.806448+00:00",
+      "activation_eligible": true,
+      "structured_event": true,
+      "actual": "2.75%",
+      "previous": "2.5%",
+      "numeric_extraction_contract_id": "official_search_policy_rate_observation_v1_20260902",
+      "directional_publish_eligible": false,
+      "execution_eligible": false,
+      "can_place_orders": false
+    },
+    "database_activation_claim_scan": {
+      "candidate_payload_rows": 99549,
+      "positive_activation_claims": 9,
+      "positive_claims_predating_activation": 0
+    },
+    "active_context_surface": {
+      "observed_utc": "2026-09-02T21:56:20Z",
+      "article_count": 242,
+      "all_rows_use_v157": true
+    }
+  },
+  "validation": {
+    "python_compile_passed": true,
+    "powershell_parse_passed": true,
+    "focused_tests_passed": 609,
+    "repeat_pentagon_url_cannot_cross_activation_boundary": true,
+    "repeat_rbnz_url_cannot_retroactivate_structured_proof": true,
+    "independent_verifier": {
+      "generated_utc": "2026-09-02T17:49:55.490642-04:00",
+      "status": "match",
+      "verification_duration_sec": 3822.875,
+      "failed_checks": 0,
+      "warnings": 0,
+      "hypothesis_count": 52919,
+      "continue_collecting": 43473,
+      "futility_rejected": 9446,
+      "confirmed_candidate": 0
+    },
+    "project_integrity": {
+      "generated_utc": "2026-09-02T17:54:41.234734-04:00",
+      "status": "ok",
+      "failure_count": 0,
+      "classification_version": "local_fx_news_rules_20260902_v157_immutable_first_seen_activation_replay",
+      "supported_decision": "no_trade",
+      "can_place_orders": false,
+      "can_promote": false,
+      "real_money_routing": false
+    },
+    "supervisor_count": 1,
+    "replacement_supervisor_started_utc": "2026-09-02T21:18:20Z",
+    "replacement_worker_nonempty_stderr_count": 0
+  },
+  "practice_007": {
+    "nav": 41.6042,
+    "cumulative_pl": -8.343,
+    "open_trades": 0,
+    "pending_orders": 0,
+    "fills_during_repair": 0,
+    "qualified_candidates": 0,
+    "entry_authorized": false,
+    "supported_decision": "no_trade"
+  },
+  "files": [
+    {
+      "path": "oanda_news_classification_contract.py",
+      "sha256": "05196846f138c31f0129abf34de0984e2b83dfe1caaf33661deac4b5df60ab99"
+    },
+    {
+      "path": "oanda_local_news_sentiment.py",
+      "sha256": "51038e62eb4366d5f70256287f07f9da8a029d42d986155d551fa6ee9ed08225"
+    },
+    {
+      "path": "oanda_always_on_supervisor.ps1",
+      "sha256": "3e6603ed5da0c61d79da4f60b5fe4a772b302d89af13f698c1b9c210914d4864"
+    },
+    {
+      "path": "test_oanda_local_news_sentiment.py",
+      "sha256": "a2c1b82fd78d1cec34e88dd543393c7921501c58ee27df950bf80b02a5436aac"
+    },
+    {
+      "path": "test_oanda_causal_source_factor_response_map_v4.py",
+      "sha256": "e2af61e5de31c733d2bb5c618897e1cfc5f97fd24f247bf12da1f5ca3ed33072"
+    },
+    {
+      "path": "test_oanda_supervisor_integrity_freshness.py",
+      "sha256": "e5f1edd561e8fb3e4f814fb986327915913578cc48721883bc4fd54a8638a3a5"
+    }
+  ],
+  "supported_decision": "no_trade"
+}

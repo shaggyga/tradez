@@ -1,0 +1,91 @@
+{
+  "schema_version": "news_research_final_operational_independent_review_20260908",
+  "status": "passed",
+  "observed_utc": "2026-09-08T20:30:08.7146110+00:00",
+  "source_and_evidence_bindings": {
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_always_on_supervisor.ps1": {
+      "sha256": "3215ac15c8db8e281a2245d5af120b1b9c9806a90a8676bb995798377668f893",
+      "bytes": 218873
+    },
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_project_runtime_health.py": {
+      "sha256": "d9498a2b42ff9cde525fb9e4cc9f14e5729e8bca5f512003b69f000fbefe3eda",
+      "bytes": 12738
+    },
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_project_runtime_health.py": {
+      "sha256": "db28be8d4434f4b9bd99ba06f9355373d606d4d7e8e9c723882acdc5ff69ff49",
+      "bytes": 9856
+    },
+    "C:\\Users\\zmoor\\Documents\\forex\\news_identity_integration_20260908\\finalize_deployment_records.py": {
+      "sha256": "4c243d5e8702b463e0d94ca6875d86bfebcba267c16455c728e570eaf665e93f",
+      "bytes": 21450
+    },
+    "C:\\Users\\zmoor\\Documents\\forex\\news_identity_integration_20260908\\LIVE_CAPTURE_CADENCE_AFTER60_20260908.json": {
+      "sha256": "a416cafa067bcdda9e5c4a79257fdcb8171939bf00362193bafd44ba5da9b9fa",
+      "bytes": 15570
+    },
+    "C:\\Users\\zmoor\\Documents\\forex\\news_identity_integration_20260908\\SUPERVISOR_CADENCE_GATES_FINAL_20260908.xml": {
+      "sha256": "296dbabb6c25f421753bb1502025471cf6f81cf14d5606e308e93235f6ebbcd8",
+      "bytes": 14924
+    },
+    "C:\\Users\\zmoor\\Documents\\forex\\news_identity_integration_20260908\\RUNTIME_SCOPE_FINAL_20260908.xml": {
+      "sha256": "f87e4f532f6aeb822e42de12548932a04ed00485848c912f67e0768ff8009155",
+      "bytes": 4401
+    },
+    "C:\\Users\\zmoor\\Documents\\forex\\news_identity_integration_20260908\\V3_RUNTIME_FINAL_INSPECTION_20260908.json": {
+      "sha256": "398f1772c4530ca0ead98af5e79c2b9d08f3b820d2f06998cbe56843306af3c1",
+      "bytes": 151936
+    }
+  },
+  "review_kind": "Bounded read-only independent source and factual review; documentary finalizer not executed by reviewer",
+  "remaining_blockers": [],
+  "findings": [
+    "Supervisor changes only repaired producer cadence15 to60 seconds. Heartbeat freshness90 seconds and frozen input age300 seconds/member expiry remain unchanged; study sources and ledgers remain separate.",
+    "Runtime health maps the retained watchlist classification check to news_technical_watchlist. The original Boolean artifact failure remains false; only explicit disabled evidence permits inactive scope. Active or absent worker observations remain active/unknown.",
+    "Finalizer requires intended evidence files before creating output directory, binds current17-worker/68-ledger observations, exact selected registry/source identity, active producer freshness/inert flags, matching live PID identities and prior registry source observations.",
+    "Finalizer retains eight verified pre-edit record backups and fixed implementation evidence manifest, copies exact local evidence bytes to a new directory, and records source/report/evidence hashes before updating dated current navigation metadata.",
+    "Copy scope is the explicit compact input list and preserved record folder; supplied input paths must be beneath the integration directory. No database, raw-news capture, model fitting or runtime process action is present.",
+    "Report distinguishes research quote entries from real positions, unelapsed forecast availability from outcomes, old performance baseline from the new study, and nonindependent overlapping test batches.",
+    "Final report discloses median pair-completion spacing20.5 to31.0 seconds and differing before/after rate denominators. Lower observed short-window capture churn is not presented as faster forecasting, controlled50percent improvement or predictive edge."
+  ],
+  "closed_findings": [
+    "Missing required evidence no longer silently skipped.",
+    "Current producer/selection, cadence status, source and observed PID continuity checked before documentary publication.",
+    "Duplicate wording distinguishes compatible exact collapse from conflicting or within-topic duplicate rejection.",
+    "Watchlist artifact remains failed while its scope returns active/unknown."
+  ],
+  "limitations": [
+    "The first cadence window is208.892seconds. Before storage rate uses between-capture span; after includes reload/startup. Neither rate is a long-run guarantee.",
+    "The final inspector verifies retained input hashes and bound news clocks, not external shared-news numerical replay; outcomes are counted without rescoring.",
+    "This review did not execute the documentary finalizer or rerun root-owned tests."
+  ],
+  "final_runtime": {
+    "status": "passed",
+    "verified_ledgers": 68,
+    "started_epoch": 1788899325.9648664,
+    "completed_epoch": 1788899329.1793866,
+    "counts": {
+      "attempts": 72,
+      "consumption": 68,
+      "diagnostics": 4,
+      "entries": 62,
+      "exclusions": 5,
+      "forecasts": 68,
+      "inputs": 67,
+      "outcomes": 0,
+      "publication": 68,
+      "quotes": 10785
+    },
+    "stages": {
+      "awaiting_entry": 1,
+      "awaiting_target": 62,
+      "excluded": 5
+    },
+    "exclusion_reasons": {
+      "missing_later_entry_before_deadline": 5
+    }
+  },
+  "independent_test_reruns": 0,
+  "production_writes": false,
+  "process_actions": false,
+  "can_place_orders": false
+}

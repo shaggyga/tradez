@@ -1,0 +1,153 @@
+{
+  "classification_versions": {
+    "local_fx_news_rules_20260907_v165_causal_member_admission": 59
+  },
+  "current_raw_sha256": "4bad537b18600d66a12e66ea698c1bbc67eb0c90051298a81cf922ca5ed0c35d",
+  "diagnostic_observed_epoch": 1788933323.6418922,
+  "distinct_original_member_ids": 59,
+  "evidence_files": [
+    {
+      "bytes": 393024,
+      "path": "ENTRY_NEWS_FINAL_JOINS_20260909.json",
+      "sha256": "97c89fcff6891d9c64063ed08872d9cf48591ddda1a8b42ec0c61be29d6402b8"
+    }
+  ],
+  "guarded_topics": 22,
+  "helper_sha256": "11dbbb7ea8832ff806d4da3082405734b4635289e4468597911cb4a7ca4de9ad",
+  "join_source_sha256": "491e0dbd91932bdf6db302cd56cbe5308cb6027ab82d5c77c753ac13eb2687e2",
+  "member_prior_move_flag_count": 11,
+  "no_database_reads": true,
+  "no_fitting": true,
+  "no_runtime_writes": true,
+  "original_capture_receipt_sha256": "06561ef2bada51271f3042308f5716322f156971d0d2daf2f5d3f222bfae7abd",
+  "original_feature_cutoff_epoch": 1788932778.8123975,
+  "original_member_occurrences": 59,
+  "pairs": {
+    "EUR_USD": {
+      "context_members": 4,
+      "context_only_members": 4,
+      "current_reason": null,
+      "current_status": "available",
+      "eligible_factor_sample_count": 0,
+      "eligible_memory_sample_count": 0,
+      "factor_rejections": {
+        "source_visibility_unavailable": 128
+      },
+      "forward_context_overlap_member_count": 0,
+      "memory_rejections": {
+        "source_visibility_unavailable": 128
+      },
+      "missing_factor_clock_fields": {
+        "feature_available_epoch": 128,
+        "observed_available_epoch": 128,
+        "source_visible_epoch": 128
+      },
+      "missing_memory_clock_fields": {
+        "feature_available_epoch": 128,
+        "observed_available_epoch": 128,
+        "original_first_seen_epoch": 128,
+        "response_available_epoch": 128,
+        "source_visible_epoch": 128
+      },
+      "pair_context_support": 4,
+      "pair_vetted_support": 0,
+      "post_move_discovery_members": 11,
+      "rejections": {
+        "member_independent_corroboration_missing": 3,
+        "member_no_eligible_contributors": 2,
+        "official_neutral_policy_evidence": 1,
+        "outside_context_window": 44,
+        "reported_market_move_context": 7,
+        "secondary_uncorroborated_directional_context": 5,
+        "secondary_uncorroborated_macro_context": 4
+      },
+      "vetted_topics": 0
+    },
+    "GBP_USD": {
+      "context_members": 4,
+      "context_only_members": 4,
+      "current_reason": null,
+      "current_status": "available",
+      "eligible_factor_sample_count": 0,
+      "eligible_memory_sample_count": 0,
+      "factor_rejections": {
+        "source_visibility_unavailable": 128
+      },
+      "forward_context_overlap_member_count": 0,
+      "memory_rejections": {
+        "source_visibility_unavailable": 128
+      },
+      "missing_factor_clock_fields": {
+        "feature_available_epoch": 128,
+        "observed_available_epoch": 128,
+        "source_visible_epoch": 128
+      },
+      "missing_memory_clock_fields": {
+        "feature_available_epoch": 128,
+        "observed_available_epoch": 128,
+        "original_first_seen_epoch": 128,
+        "response_available_epoch": 128,
+        "source_visible_epoch": 128
+      },
+      "pair_context_support": 3,
+      "pair_vetted_support": 0,
+      "post_move_discovery_members": 11,
+      "rejections": {
+        "member_independent_corroboration_missing": 3,
+        "member_no_eligible_contributors": 2,
+        "official_neutral_policy_evidence": 1,
+        "outside_context_window": 44,
+        "reported_market_move_context": 7,
+        "secondary_uncorroborated_directional_context": 5,
+        "secondary_uncorroborated_macro_context": 4
+      },
+      "vetted_topics": 0
+    },
+    "USD_JPY": {
+      "context_members": 4,
+      "context_only_members": 4,
+      "current_reason": null,
+      "current_status": "available",
+      "eligible_factor_sample_count": 0,
+      "eligible_memory_sample_count": 0,
+      "factor_rejections": {
+        "source_visibility_unavailable": 128
+      },
+      "forward_context_overlap_member_count": 0,
+      "memory_rejections": {
+        "source_visibility_unavailable": 128
+      },
+      "missing_factor_clock_fields": {
+        "feature_available_epoch": 128,
+        "observed_available_epoch": 128,
+        "source_visible_epoch": 128
+      },
+      "missing_memory_clock_fields": {
+        "feature_available_epoch": 128,
+        "observed_available_epoch": 128,
+        "original_first_seen_epoch": 128,
+        "response_available_epoch": 128,
+        "source_visible_epoch": 128
+      },
+      "pair_context_support": 3,
+      "pair_vetted_support": 0,
+      "post_move_discovery_members": 11,
+      "rejections": {
+        "member_independent_corroboration_missing": 3,
+        "member_no_eligible_contributors": 2,
+        "official_neutral_policy_evidence": 1,
+        "outside_context_window": 44,
+        "reported_market_move_context": 7,
+        "secondary_uncorroborated_directional_context": 5,
+        "secondary_uncorroborated_macro_context": 4
+      },
+      "vetted_topics": 0
+    }
+  },
+  "scope": "Same frozen source rows and original observation/cutoff; newly evaluated after draft optional-clock parser repair. No new historical availability assigned.",
+  "source_snapshot_as_of_epoch": 1788932738.968902,
+  "source_snapshot_consumer_observed_epoch": 1788932778.6077948,
+  "source_snapshot_generated_epoch": 1788932740.490374,
+  "source_snapshot_read_completed_epoch": 1788932776.46481,
+  "status": "completed"
+}

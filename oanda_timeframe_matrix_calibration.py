@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
-"""Incremental causal calibration for the live timeframe equation matrix."""
+"""Legacy row-order calibration diagnostics for the timeframe equation matrix.
+
+The retained outcomes lack original forecast-issue and committed label-availability
+certificates. Scoring before each row's own update does not make this replay a
+causal out-of-sample evaluation. Numeric diagnostics and bins remain available;
+new publications cannot certify readiness. The separate availability-aware V2
+evaluator does not import or relabel these historical rows.
+"""
 
 from __future__ import annotations
 
@@ -171,7 +178,7 @@ class SurfaceStats:
                 self.calibrated_net_sq_sum / oos - average_net * average_net,
             )
             lower_confidence = average_net - 1.64 * math.sqrt(variance / oos)
-        validation_ready = bool(
+        diagnostic_thresholds_met = bool(
             self.total >= 120
             and oos >= 80
             and independent_blocks >= 8
@@ -231,15 +238,20 @@ class SurfaceStats:
             "lower_confidence_net_pips": (
                 None if lower_confidence is None else round(lower_confidence, 6)
             ),
-            "validation_ready": validation_ready,
-            "status": "validated_shadow" if validation_ready else "collecting",
+            "diagnostic_thresholds_met": diagnostic_thresholds_met,
+            "validation_ready": False,
+            "proof_eligible": False,
+            "evaluation_kind": "legacy_row_order_replay",
+            "issue_time_availability_verified": False,
+            "blocked_by": ["original_issue_and_committed_label_availability_missing"],
+            "status": "diagnostic_replay",
             "account_eligible": False,
             "bins": bins,
         }
 
 
 class TimeframeMatrixCalibrator:
-    """Process each outcome exactly once and retain causal calibration state."""
+    """Process each outcome once, retaining uncertified legacy replay diagnostics."""
 
     def __init__(
         self,
@@ -513,7 +525,7 @@ class TimeframeMatrixCalibrator:
         top = sorted(
             states,
             key=lambda row: (
-                bool(row["validation_ready"]),
+                bool(row["diagnostic_thresholds_met"]),
                 finite(row.get("lower_confidence_net_pips"), -999.0),
                 finite(row.get("calibrated_average_net_pips"), -999.0),
                 int(row["n"]),
@@ -532,6 +544,9 @@ class TimeframeMatrixCalibrator:
             "ready_surface_count": sum(
                 int(bool(row["validation_ready"])) for row in states
             ),
+            "diagnostic_thresholds_met_surface_count": sum(
+                int(bool(row["diagnostic_thresholds_met"])) for row in states
+            ),
             "thresholds": {
                 "warmup_rows": WARMUP_ROWS,
                 "minimum_total_rows": 120,
@@ -548,7 +563,10 @@ class TimeframeMatrixCalibrator:
             "pair_surfaces": pair_surfaces,
             "top_surfaces": top,
             "account_eligible": False,
-            "status": "shadow_calibrated",
+            "proof_eligible": False,
+            "evaluation_kind": "legacy_row_order_replay",
+            "issue_time_availability_verified": False,
+            "status": "diagnostic_replay",
         }
 
     def close(self) -> None:

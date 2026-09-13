@@ -1,0 +1,49 @@
+{
+  "actual_price_data_read": false,
+  "comparison_reviewed": false,
+  "generated_epoch": 1788936638.8723676,
+  "helper": {
+    "bytes": 2944,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\path_risk_development_v1\\retain_label_review.py",
+    "sha256": "15460353721956e6da967e071ed467a08ab389951f855b20d17727ae5adb2a2d"
+  },
+  "independent_test_reruns": 0,
+  "limitations": [
+    "Retained CSV maturity is not proof of original availability or provider completeness.",
+    "OHLC does not establish barrier ordering, tradeability or broker fills.",
+    "RMS return scale includes drift; it is not a fitted conditional-volatility model.",
+    "The comparison module and its additional XML cases were not reviewed or executed by this reviewer."
+  ],
+  "owner_label_cases": 28,
+  "owner_test_xml": {
+    "bytes": 8702,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\path_risk_development_v1\\labels_comparison_protocol_final_tests.xml",
+    "sha256": "d49b70627ff198c1ba0e55c170da37afcc0e1875acbd9f83395f903b1caecebb"
+  },
+  "remaining_blockers": [],
+  "reviewed_boundaries": [
+    "Origin high/low excluded from future excursions; initial executable-side spread remains an explicit immediate cost.",
+    "Exact nominal endpoint and full consecutive future minute support are separate requirements.",
+    "Endpoint return/cost availability does not require complete intermediate paths; missing BA is not inferred.",
+    "Long/short executable-side orientation uses shared original-mid bps denominator.",
+    "Past60 RMS scale uses only origin and earlier closes; zero/nonfinite/missing support is withheld.",
+    "Future realized OHLC ranges and adverse/favorable envelopes are labels, not pre-entry predictors or observed fill paths.",
+    "Large price-drop logarithm uses stable log difference to avoid log1p rounding to minus one."
+  ],
+  "reviewer": "pair_ledger_evaluation",
+  "runtime_writes": false,
+  "schema_version": "m1_path_risk_label_independent_review_v1_20260909",
+  "scope": "bounded_read_only_label_source_review_no_fitting_or_performance_evaluation",
+  "source": {
+    "bytes": 10516,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_m1_path_risk_labels_v1.py",
+    "sha256": "b998f6f3fbe144ae949749e03d0658f7b89676dc7015eaefa7e583e85f6afccd"
+  },
+  "source_edits": false,
+  "status": "passed",
+  "test_source": {
+    "bytes": 8124,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_m1_path_risk_labels_v1.py",
+    "sha256": "0082901c5ef8e316702134f4443f439bf821299a2bba9e03f58f115a2628a1ec"
+  }
+}

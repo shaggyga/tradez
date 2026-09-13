@@ -1,0 +1,355 @@
+{
+  "schema": "revamp_runtime_baseline_summary_v1_20260908",
+  "generated_utc": "2026-09-08T14:09:22.155913+00:00",
+  "result": "research_processes_alive_joint_forecasting_blocked",
+  "observation_scope": "Two baseline observations plus one bounded price-API recovery observation; no sustained availability or predictive-performance claim.",
+  "observation_span_sec": 495.310493,
+  "observations": [
+    {
+      "started_utc": "2026-09-08T13:58:33.134764+00:00",
+      "finished_utc": "2026-09-08T13:58:34.989018+00:00",
+      "supervisor_status": "current",
+      "running_workers": 15,
+      "expected_workers": 15,
+      "api_http_status": 200,
+      "joint_status": "current",
+      "joint_coverage": 0,
+      "joint_reasons": {
+        "ValueError:current_guarded_news_unavailable": 66,
+        "ValueError:no_fresh_quote": 2
+      },
+      "joint_counts": {
+        "attempts": 2872,
+        "forecasts": 2864,
+        "publication": 2864,
+        "consumption": 2864,
+        "outcomes": 2779,
+        "exclusions": 85
+      },
+      "price_status": "current",
+      "price_reason": null,
+      "price_coverage": 68,
+      "price_counts": {
+        "attempts": 9004,
+        "forecasts": 9004,
+        "publication": 9004,
+        "consumption": 9004,
+        "outcomes": 8036,
+        "exclusions": 434
+      },
+      "market": {
+        "generated_epoch": 1788875908.676214,
+        "source_age_sec": 5.128593921661377,
+        "rows": 68,
+        "current_tradeable_price_count": 66
+      },
+      "news": {
+        "pair_bias_status": "current",
+        "as_of_utc": "2026-09-08T13:54:44.979224+00:00",
+        "generated_utc": "2026-09-08T13:55:19.697860+00:00",
+        "active_topic_count": 31,
+        "evidence_age_sec": 228.82558393478394,
+        "publication_age_sec": 194.10694789886475,
+        "pair_status_counts": {
+          "current": 68
+        },
+        "pair_label_counts": {
+          "Context only": 68
+        }
+      },
+      "positions": {
+        "positions_current": true,
+        "orders_current": true,
+        "verified_at_utc": "2026-09-08T13:58:27.905675+00:00",
+        "observation_age_sec": 5.899132966995239,
+        "position_count": 0,
+        "positions": []
+      },
+      "news_collector": {
+        "schema_version": "local_fx_news_sentiment_v3",
+        "status": "running_cycle",
+        "phase": "collecting_sources",
+        "generated_utc": "2026-09-08T13:58:24.929646+00:00",
+        "heartbeat_utc": "2026-09-08T13:58:24.929646+00:00",
+        "last_progress_utc": "2026-09-08T13:58:24.064674+00:00",
+        "progress_sequence": 165,
+        "phase_age_sec": 120.047,
+        "progress_age_sec": 0.875,
+        "cycle_started_utc": "2026-09-08T13:56:24.748414+00:00",
+        "cycle_in_progress": true,
+        "classification_version": "local_fx_news_rules_20260907_v165_causal_member_admission"
+      },
+      "guarded_news": {
+        "schema_version": "joint_news_current_v1_20260907",
+        "status": "unavailable",
+        "generated_utc": "2026-09-08T13:55:19.992291+00:00",
+        "as_of_utc": "2026-09-08T13:54:44.979224+00:00",
+        "errors": [
+          "conflicting_current_topic_identity"
+        ],
+        "classification_version": "local_fx_news_rules_20260907_v165_causal_member_admission",
+        "guard_version": "causal_news_member_admission_v1_20260907",
+        "news_state": "unavailable",
+        "topic_count": 0,
+        "context_topic_count": 0,
+        "directional_topic_count": 0,
+        "research_only": true,
+        "can_place_orders": false,
+        "can_promote": false,
+        "execution_eligible": false
+      }
+    },
+    {
+      "started_utc": "2026-09-08T14:04:29.085644+00:00",
+      "finished_utc": "2026-09-08T14:04:30.470716+00:00",
+      "supervisor_status": "current",
+      "running_workers": 15,
+      "expected_workers": 15,
+      "api_http_status": 200,
+      "joint_status": "current",
+      "joint_coverage": 0,
+      "joint_reasons": {
+        "ValueError:current_guarded_news_unavailable": 65,
+        "ValueError:no_fresh_quote": 3
+      },
+      "joint_counts": {
+        "attempts": 2872,
+        "forecasts": 2864,
+        "publication": 2864,
+        "consumption": 2864,
+        "outcomes": 2779,
+        "exclusions": 85
+      },
+      "price_status": "unavailable",
+      "price_reason": "pair_summary_generation_mismatch",
+      "price_coverage": 0,
+      "price_counts": null,
+      "market": {
+        "generated_epoch": 1788876267.7286708,
+        "source_age_sec": 1.9663710594177246,
+        "rows": 68,
+        "current_tradeable_price_count": 65
+      },
+      "news": {
+        "pair_bias_status": "current",
+        "as_of_utc": "2026-09-08T14:01:14.709588+00:00",
+        "generated_utc": "2026-09-08T14:01:59.251113+00:00",
+        "active_topic_count": 32,
+        "evidence_age_sec": 194.98545384407043,
+        "publication_age_sec": 150.44392895698547,
+        "pair_status_counts": {
+          "current": 68
+        },
+        "pair_label_counts": {
+          "Context only": 68
+        }
+      },
+      "positions": {
+        "positions_current": true,
+        "orders_current": true,
+        "verified_at_utc": "2026-09-08T14:04:27.433060+00:00",
+        "observation_age_sec": 2.261981964111328,
+        "position_count": 0,
+        "positions": []
+      },
+      "news_collector": {
+        "schema_version": "local_fx_news_sentiment_v3",
+        "status": "running_cycle",
+        "phase": "collecting_sources",
+        "generated_utc": "2026-09-08T14:04:05.372643+00:00",
+        "heartbeat_utc": "2026-09-08T14:04:05.372643+00:00",
+        "last_progress_utc": "2026-09-08T14:03:49.041403+00:00",
+        "progress_sequence": 102,
+        "phase_age_sec": 59.172,
+        "progress_age_sec": 16.328,
+        "cycle_started_utc": "2026-09-08T14:03:05.322586+00:00",
+        "cycle_in_progress": true,
+        "classification_version": "local_fx_news_rules_20260907_v165_causal_member_admission"
+      },
+      "guarded_news": {
+        "schema_version": "joint_news_current_v1_20260907",
+        "status": "unavailable",
+        "generated_utc": "2026-09-08T14:01:59.635225+00:00",
+        "as_of_utc": "2026-09-08T14:01:14.709588+00:00",
+        "errors": [
+          "conflicting_current_topic_identity"
+        ],
+        "classification_version": "local_fx_news_rules_20260907_v165_causal_member_admission",
+        "guard_version": "causal_news_member_admission_v1_20260907",
+        "news_state": "unavailable",
+        "topic_count": 0,
+        "context_topic_count": 0,
+        "directional_topic_count": 0,
+        "research_only": true,
+        "can_place_orders": false,
+        "can_promote": false,
+        "execution_eligible": false
+      }
+    },
+    {
+      "started_utc": "2026-09-08T14:06:46.458332+00:00",
+      "finished_utc": "2026-09-08T14:06:48.445257+00:00",
+      "supervisor_status": "current",
+      "running_workers": 15,
+      "expected_workers": 15,
+      "api_http_status": 200,
+      "joint_status": "current",
+      "joint_coverage": 0,
+      "joint_reasons": {
+        "ValueError:current_guarded_news_unavailable": 65,
+        "ValueError:no_fresh_quote": 3
+      },
+      "joint_counts": {
+        "attempts": 2872,
+        "forecasts": 2864,
+        "publication": 2864,
+        "consumption": 2864,
+        "outcomes": 2779,
+        "exclusions": 85
+      },
+      "price_status": "current",
+      "price_reason": null,
+      "price_coverage": 68,
+      "price_counts": {
+        "attempts": 9122,
+        "forecasts": 9121,
+        "publication": 9121,
+        "consumption": 9121,
+        "outcomes": 8158,
+        "exclusions": 435
+      },
+      "market": {
+        "generated_epoch": 1788876403.8766124,
+        "source_age_sec": 3.4181735515594482,
+        "rows": 68,
+        "current_tradeable_price_count": 66
+      },
+      "news": {
+        "pair_bias_status": "stale",
+        "as_of_utc": "2026-09-08T14:01:14.709588+00:00",
+        "generated_utc": "2026-09-08T14:01:59.251113+00:00",
+        "active_topic_count": 32,
+        "evidence_age_sec": 332.5851979255676,
+        "publication_age_sec": 288.04367303848267,
+        "pair_status_counts": {
+          "stale": 68
+        },
+        "pair_label_counts": {
+          "News evidence is stale": 68
+        }
+      },
+      "positions": {
+        "positions_current": true,
+        "orders_current": true,
+        "verified_at_utc": "2026-09-08T14:06:42.994313+00:00",
+        "observation_age_sec": 4.300472974777222,
+        "position_count": 0,
+        "positions": []
+      },
+      "news_collector": {
+        "schema_version": "local_fx_news_sentiment_v3",
+        "status": "running_cycle",
+        "phase": "postprocessing_evidence",
+        "generated_utc": "2026-09-08T14:06:35.793453+00:00",
+        "heartbeat_utc": "2026-09-08T14:06:35.793453+00:00",
+        "last_progress_utc": "2026-09-08T14:05:52.964467+00:00",
+        "progress_sequence": 198,
+        "phase_age_sec": 42.828,
+        "progress_age_sec": 42.828,
+        "cycle_started_utc": "2026-09-08T14:03:05.322586+00:00",
+        "cycle_in_progress": true,
+        "classification_version": "local_fx_news_rules_20260907_v165_causal_member_admission"
+      },
+      "guarded_news": {
+        "schema_version": "joint_news_current_v1_20260907",
+        "status": "unavailable",
+        "generated_utc": "2026-09-08T14:01:59.635225+00:00",
+        "as_of_utc": "2026-09-08T14:01:14.709588+00:00",
+        "errors": [
+          "conflicting_current_topic_identity"
+        ],
+        "classification_version": "local_fx_news_rules_20260907_v165_causal_member_admission",
+        "guard_version": "causal_news_member_admission_v1_20260907",
+        "news_state": "unavailable",
+        "topic_count": 0,
+        "context_topic_count": 0,
+        "directional_topic_count": 0,
+        "research_only": true,
+        "can_place_orders": false,
+        "can_promote": false,
+        "execution_eligible": false
+      }
+    }
+  ],
+  "source_files_unchanged": true,
+  "registrations_unchanged": true,
+  "all_registered_source_bindings_match": true,
+  "all_supervised_pids_confirmed_in_os": true,
+  "joint_counts_unchanged": true,
+  "price_ledger_delta_initial_to_recovery": {
+    "attempts": 118,
+    "forecasts": 117,
+    "publication": 117,
+    "consumption": 117,
+    "outcomes": 122,
+    "exclusions": 1
+  },
+  "last_successful_joint_publication": {
+    "instrument": "ZAR_JPY",
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\joint_price_news_study_v2\\pairs\\ZAR_JPY\\ridge_price_news_v1\\study.sqlite",
+    "publication_count": 47,
+    "observed_epoch": 1788876341.7700546,
+    "decision_id": "66ceb5991d2a3aa020bbe48a0cfd5d5f112b6be7c0aa4b64950caad95b013472",
+    "publication_epoch": 1788863580.8800457,
+    "publication_utc": "2026-09-08T10:33:00.880046+00:00",
+    "forecast_sha256": "3b6285b03fa06f47e675fdb1a9b17e5acb374a4c1c90db3092c3a41f49c9cd6a",
+    "reference_epoch": 1788863532.912997,
+    "target_epoch": 1788867132.912997,
+    "target_utc": "2026-09-08T11:32:12.912997+00:00",
+    "consumption_epoch": 1788863580.8895326,
+    "publication_and_forecast_sha_match": true,
+    "consumption_sha_matches": true
+  },
+  "latest_joint_publication_age_sec_at_read": 12760.890008926392,
+  "conflict": {
+    "topic_id": "local_news_092d7646c9cb5706ed1f1960",
+    "source_indices": [
+      479,
+      485
+    ],
+    "headlines": [
+      "Wall St futures slip as oil surge puts markets on edge - TradingView",
+      "Wall St futures slip as oil surge puts markets on edge - SRN News"
+    ],
+    "member_counts": [
+      10,
+      7
+    ],
+    "member_sets_disjoint": true,
+    "individual_snapshot_status": [
+      "current",
+      "current"
+    ],
+    "individual_snapshot_news_state": [
+      "context_only",
+      "context_only"
+    ],
+    "pair_errors": [
+      "conflicting_current_topic_identity"
+    ],
+    "input_as_of_utc": "2026-09-08T14:01:14.709588+00:00",
+    "diagnosis": "The producer assigns the same topic/story identity to different retained grouped variants with different original clocks and member sets. The two public headlines describe the same syndicated story; this reproduction does not demonstrate opposing or incompatible directional news. The current-snapshot contract requires one immutable current object per identity and correctly rejects the collision. The exact historical grouping sequence that produced both variants was not replayed."
+  },
+  "first_remediation_scope": "In an isolated copy, reproduce this exact two-topic collision, resolve topic identity/canonical grouping upstream, and verify unique snapshot identities while preserving original member availability/expiry and independent-source deduplication. Do not accept arbitrary duplicate winners or relabel invalid data neutral. A producer/guard source change requires appropriately new source-bound joint-study input registration; do not patch the frozen running study in place.",
+  "separate_issues": [
+    "Price-v2 API temporarily rejected mismatched summary/heartbeat generations in the follow-up; the recovery read accepted 68 pairs. The exact producer-pair failure phase was not captured, so its cause is not established here.",
+    "News evidence crossed its 300-second freshness threshold between collector publications; fresh heartbeat does not establish fresh eligible news."
+  ],
+  "non_actions": [
+    "No trading or broker API calls",
+    "No starts, stops or runtime reloads",
+    "No project/vault source or database writes",
+    "No credential reads or account IDs retained",
+    "No model execution, fitting or scoring audit"
+  ]
+}

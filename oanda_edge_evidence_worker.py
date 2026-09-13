@@ -16,6 +16,7 @@ import os
 import sqlite3
 import threading
 import time
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -63,6 +64,7 @@ except ModuleNotFoundError:
 
 STATE = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state"
 DEFAULT_INPUT_CHECKPOINT = STATE / "edge_evidence_input_checkpoint_v1.json"
+DEFAULT_MINIMUM_REBUILD_INTERVAL_SEC = 21600.0
 
 
 def atomic_json(path: Path, value: dict[str, Any]) -> None:
@@ -270,12 +272,13 @@ def input_fingerprint(
 ) -> dict[str, Any]:
     """Fingerprint inputs that require rebuilding the multi-gigabyte evidence report.
 
-    The raw news topic ledger is consumed by the dedicated macro-surprise
-    worker.  Its governed, semantically reduced state is already fingerprinted
-    below.  Treating every unrelated topic insert as a heavy edge-evidence
-    input caused a full 8.4-million-forecast rebuild on ordinary news polling.
-    Keep the raw-news highwater as a diagnostic, but do not let it invalidate
-    the price/outcome evidence report by itself.
+    News and macro-coverage state feed only the report's point-in-time
+    diagnostic coverage block.  They do not participate in cell statistics,
+    lifecycle gates, allocator evidence, or authorization.  Treating routine
+    topic/release/reaction growth as a heavy input caused repeated full scans
+    of the multi-million-row price/outcome ledger.  Keep both logical
+    highwaters as diagnostics, but do not let them invalidate the governed
+    price/outcome evidence report.
     """
     content_paths = [
         registry, DEFAULT_GOVERNANCE_CONFIG,
@@ -284,7 +287,6 @@ def input_fingerprint(
     semantic_payload = {
         "database_snapshots": [
             sqlite_logical_snapshot(source_database, "source"),
-            sqlite_logical_snapshot(DEFAULT_MACRO_SURPRISE_DATABASE, "macro"),
             sqlite_logical_snapshot(
                 DEFAULT_CANDIDATE_COHORT_DATABASE, "candidate_cohorts"
             ),
@@ -299,7 +301,6 @@ def input_fingerprint(
                 DEFAULT_CANDIDATE_COHORT_STATE,
             )
         },
-        "macro_state_sha256": macro_state_sha256(DEFAULT_MACRO_SURPRISE_STATE),
     }
     canonical = json.dumps(
         semantic_payload, sort_keys=True, separators=(",", ":")
@@ -307,8 +308,12 @@ def input_fingerprint(
     return {
         **semantic_payload,
         "diagnostic_database_snapshots": [
-            sqlite_logical_snapshot(news_database, "news")
+            sqlite_logical_snapshot(news_database, "news"),
+            sqlite_logical_snapshot(DEFAULT_MACRO_SURPRISE_DATABASE, "macro"),
         ],
+        "diagnostic_macro_state_sha256": macro_state_sha256(
+            DEFAULT_MACRO_SURPRISE_STATE
+        ),
         "fingerprint_sha256": hashlib.sha256(canonical.encode("utf-8")).hexdigest(),
     }
 
@@ -316,19 +321,19 @@ def input_fingerprint(
 def checkpoint_matches_semantic_inputs(
     checkpoint: dict[str, Any], current: dict[str, Any]
 ) -> bool:
-    """Recognize a pre-split checkpoint when only raw-news diagnostics differ."""
+    """Recognize a prior checkpoint when only news/macro diagnostics differ."""
 
     if not checkpoint or not current:
         return False
     prior_databases = [
         row
         for row in checkpoint.get("database_snapshots") or []
-        if isinstance(row, dict) and row.get("role") != "news"
+        if isinstance(row, dict) and row.get("role") not in {"news", "macro"}
     ]
     current_databases = [
         row
         for row in current.get("database_snapshots") or []
-        if isinstance(row, dict) and row.get("role") != "news"
+        if isinstance(row, dict) and row.get("role") not in {"news", "macro"}
     ]
     current_content = current.get("content_sha256") or {}
     prior_content = checkpoint.get("content_sha256") or {}
@@ -337,9 +342,65 @@ def checkpoint_matches_semantic_inputs(
         and all(prior_content.get(path) == digest for path, digest in current_content.items())
         and checkpoint.get("cohort_definition_sha256")
         == current.get("cohort_definition_sha256")
-        and checkpoint.get("macro_state_sha256")
-        == current.get("macro_state_sha256")
     )
+
+
+def _utc_age_seconds(value: Any) -> float | None:
+    if not value:
+        return None
+    try:
+        parsed = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+    except (TypeError, ValueError):
+        return None
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    return max(0.0, (datetime.now(timezone.utc) - parsed).total_seconds())
+
+
+def _snapshot_by_role(payload: dict[str, Any], role: str) -> dict[str, Any]:
+    for row in payload.get("database_snapshots") or []:
+        if isinstance(row, dict) and row.get("role") == role:
+            return row
+    return {}
+
+
+def checkpoint_can_defer_append_only_growth(
+    checkpoint: dict[str, Any],
+    current: dict[str, Any],
+    *,
+    minimum_rebuild_interval_sec: float,
+) -> bool:
+    """Defer only ordinary source-ledger growth inside a bounded snapshot cadence.
+
+    A code, governance, cohort, schema, path, or availability change must still
+    rebuild immediately. Only source highwaters may differ. This prevents a
+    continuously appended outcome ledger from keeping the read-only worker in
+    a permanent multi-hour rescan loop while preserving prompt invalidation of
+    every material research-contract change.
+    """
+    age = _utc_age_seconds(checkpoint.get("completed_utc"))
+    if age is None or age >= max(0.0, float(minimum_rebuild_interval_sec)):
+        return False
+    if checkpoint.get("content_sha256") != current.get("content_sha256"):
+        return False
+    if checkpoint.get("cohort_definition_sha256") != current.get(
+        "cohort_definition_sha256"
+    ):
+        return False
+    if _snapshot_by_role(checkpoint, "candidate_cohorts") != _snapshot_by_role(
+        current, "candidate_cohorts"
+    ):
+        return False
+    previous_source = _snapshot_by_role(checkpoint, "source")
+    current_source = _snapshot_by_role(current, "source")
+    if not previous_source or not current_source:
+        return False
+    for key in ("path", "exists", "role", "schema_sha256"):
+        if previous_source.get(key) != current_source.get(key):
+            return False
+    # Empty/no-change highwaters belong to the exact-fingerprint path. This
+    # branch is specifically for a healthy append-only lag.
+    return previous_source.get("highwaters") != current_source.get("highwaters")
 
 
 def process_rss_bytes() -> int | None:
@@ -486,6 +547,15 @@ def main() -> int:
     parser.add_argument("--input-checkpoint", type=Path, default=DEFAULT_INPUT_CHECKPOINT)
     parser.add_argument("--heartbeat-sec", type=float, default=15.0)
     parser.add_argument("--interval-sec", type=float, default=900.0)
+    parser.add_argument(
+        "--minimum-rebuild-interval-sec",
+        type=float,
+        default=DEFAULT_MINIMUM_REBUILD_INTERVAL_SEC,
+        help=(
+            "Minimum age of a verified completed snapshot before ordinary "
+            "append-only source growth triggers another full rebuild."
+        ),
+    )
     parser.add_argument("--duration-sec", type=float, default=0.0)
     args = parser.parse_args()
     stop_at = time.monotonic() + args.duration_sec if args.duration_sec > 0 else None
@@ -514,21 +584,47 @@ def main() -> int:
                 registry=args.registry,
             )
             checkpoint = read_json(args.input_checkpoint)
-            if (
-                (
-                    checkpoint.get("fingerprint_sha256")
-                    == fingerprint["fingerprint_sha256"]
-                    or checkpoint_matches_semantic_inputs(checkpoint, fingerprint)
-                )
-                and args.output_json.is_file()
+            heartbeat.update(
+                "input_snapshot_captured",
+                {
+                    "input_fingerprint_sha256": fingerprint["fingerprint_sha256"],
+                    "completed_report_fingerprint_sha256": checkpoint.get(
+                        "fingerprint_sha256"
+                    ),
+                    "completed_report_age_sec": _utc_age_seconds(
+                        checkpoint.get("completed_utc")
+                    ),
+                },
+            )
+            outputs_match = bool(
+                args.output_json.is_file()
                 and args.output_markdown.is_file()
                 and checkpoint_outputs_match(
                     checkpoint, args.output_json, args.output_markdown
                 )
-            ):
+            )
+            exact_or_migratable = bool(
+                checkpoint.get("fingerprint_sha256")
+                == fingerprint["fingerprint_sha256"]
+                or checkpoint_matches_semantic_inputs(checkpoint, fingerprint)
+            )
+            bounded_append_only_lag = bool(
+                not exact_or_migratable
+                and outputs_match
+                and checkpoint_can_defer_append_only_growth(
+                    checkpoint,
+                    fingerprint,
+                    minimum_rebuild_interval_sec=args.minimum_rebuild_interval_sec,
+                )
+            )
+            if outputs_match and (exact_or_migratable or bounded_append_only_lag):
                 skipped_unchanged += 1
                 compact = dict(checkpoint.get("last_completed_report") or {})
-                if checkpoint.get("fingerprint_sha256") != fingerprint["fingerprint_sha256"]:
+                if (
+                    exact_or_migratable
+                    and checkpoint.get("fingerprint_sha256")
+                    != fingerprint["fingerprint_sha256"]
+                ):
                     atomic_json(
                         args.input_checkpoint,
                         {
@@ -541,7 +637,7 @@ def main() -> int:
                             "research_only": True,
                             "can_place_orders": False,
                             "can_promote": False,
-                            "checkpoint_migration": "raw_news_diagnostic_split_v1",
+                            "checkpoint_migration": "news_macro_diagnostic_split_v2",
                         },
                     )
                 compact["skipped_unchanged_cycles"] = skipped_unchanged
@@ -549,12 +645,26 @@ def main() -> int:
                     cycles=cycles, errors=errors, last_error="", compact=compact
                 )
                 heartbeat.update(
-                    "idle_unchanged_inputs",
+                    (
+                        "idle_bounded_snapshot_lag"
+                        if bounded_append_only_lag
+                        else "idle_unchanged_inputs"
+                    ),
                     {
                         "sleep_sec": max(60.0, args.interval_sec),
                         "input_fingerprint_sha256": fingerprint[
                             "fingerprint_sha256"
                         ],
+                        "completed_report_fingerprint_sha256": checkpoint.get(
+                            "fingerprint_sha256"
+                        ),
+                        "completed_report_age_sec": _utc_age_seconds(
+                            checkpoint.get("completed_utc")
+                        ),
+                        "minimum_rebuild_interval_sec": max(
+                            0.0, float(args.minimum_rebuild_interval_sec)
+                        ),
+                        "append_only_snapshot_lag": bounded_append_only_lag,
                     },
                 )
                 if stop_at is not None and time.monotonic() >= stop_at:

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="10" time="5.614" timestamp="2026-09-08T15:51:52.115780-04:00" hostname="DESKTOP-Q2EDIEU"><testcase classname="test_oanda_causal_forecast_inputs_joint_news_v2" name="test_complete_history_over_former_row_limit_retains_last_event" time="2.656" /><testcase classname="test_oanda_causal_forecast_inputs_joint_news_v2" name="test_history_capacity_limits_withhold_complete_capture[MAX_HISTORY_ROWS-3-row_bound]" time="0.084" /><testcase classname="test_oanda_causal_forecast_inputs_joint_news_v2" name="test_history_capacity_limits_withhold_complete_capture[MAX_HISTORY_RAW_BYTES-50-byte_bound]" time="0.084" /><testcase classname="test_oanda_causal_forecast_inputs_joint_news_v2" name="test_history_capacity_limits_withhold_complete_capture[MAX_HISTORY_ROW_BYTES-20-byte_bound]" time="0.086" /><testcase classname="test_oanda_causal_forecast_inputs_joint_news_v2" name="test_history_capacity_limits_withhold_complete_capture[MAX_NEWS_BYTES-50-compact_byte_bound]" time="0.087" /><testcase classname="test_oanda_causal_forecast_inputs_joint_news_v2" name="test_history_real_loop_deadline_is_checked" time="0.086" /><testcase classname="test_oanda_causal_forecast_inputs_joint_news_v2" name="test_paged_history_uses_single_pinned_transaction" time="0.273" /><testcase classname="test_oanda_causal_forecast_inputs_joint_news_v2" name="test_new_schema_refuses_old_capture_and_old_current_path" time="1.047" /><testcase classname="test_oanda_causal_forecast_inputs_joint_news_v2" name="test_cached_capture_separates_storage_and_history_roots" time="0.095"><failure message="ModuleNotFoundError: No module named 'test_oanda_local_news_sentiment_repair_v1'">tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-4704/test_cached_capture_separates_0')
+
+    def test_cached_capture_separates_storage_and_history_roots(tmp_path):
+&gt;       _,_,database=make_sources(tmp_path)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+test_oanda_causal_forecast_inputs_joint_news_v2.py:150: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-4704/test_cached_capture_separates_0')
+instrument = 'EUR_USD', pip_size = 0.0001, now = 1788811201.0
+
+    def make_sources(tmp_path, *, instrument='EUR_USD', pip_size=.0001, now=NOW):
+        candles,_,database=make_legacy_sources(tmp_path,instrument=instrument,pip_size=pip_size,now=now)
+&gt;       from test_oanda_local_news_sentiment_repair_v1 import make_repaired_fixture
+E       ModuleNotFoundError: No module named 'test_oanda_local_news_sentiment_repair_v1'
+
+test_oanda_causal_forecast_inputs_joint_news_v2.py:36: ModuleNotFoundError</failure></testcase><testcase classname="test_oanda_causal_forecast_inputs_joint_news_v2" name="test_resealed_repaired_projection_tamper_rejected[history_diagnostics]" time="0.089"><failure message="ModuleNotFoundError: No module named 'test_oanda_local_news_sentiment_repair_v1'">tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-4704/test_resealed_repaired_project0')
+field = 'history_diagnostics'
+
+    @pytest.mark.parametrize('field',['news_frames','current_news_features','news_expires_epoch','history_diagnostics','proof_eligible','can_authorize'])
+    def test_resealed_repaired_projection_tamper_rejected(tmp_path,field):
+&gt;       capture,_,_=make_joint_capture(tmp_path)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+test_oanda_causal_forecast_inputs_joint_news_v2.py:163: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+test_oanda_causal_forecast_inputs_joint_news_v2.py:46: in make_joint_capture
+    candles,_,_=make_sources(tmp_path,instrument=instrument,pip_size=pip_size,now=now)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-4704/test_resealed_repaired_project0')
+instrument = 'EUR_USD', pip_size = 0.0001, now = 1788811201.0
+
+    def make_sources(tmp_path, *, instrument='EUR_USD', pip_size=.0001, now=NOW):
+        candles,_,database=make_legacy_sources(tmp_path,instrument=instrument,pip_size=pip_size,now=now)
+&gt;       from test_oanda_local_news_sentiment_repair_v1 import make_repaired_fixture
+E       ModuleNotFoundError: No module named 'test_oanda_local_news_sentiment_repair_v1'
+
+test_oanda_causal_forecast_inputs_joint_news_v2.py:36: ModuleNotFoundError</failure></testcase></testsuite></testsuites>

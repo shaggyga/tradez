@@ -1,0 +1,579 @@
+{
+  "base_table_counts": {
+    "news_fast_lane_batches_v3": 1052,
+    "news_fast_lane_mappings_v3": 6281,
+    "news_fast_lane_visibility_v3": 1052,
+    "source_events": 893678
+  },
+  "classification_counts": [
+    {
+      "classification_version": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+      "mapped_rows": 2844,
+      "unique_events": 2844
+    },
+    {
+      "classification_version": "local_fx_news_rules_20260907_v165_causal_member_admission",
+      "mapped_rows": 2657,
+      "unique_events": 2657
+    }
+  ],
+  "duplicate_examples": [],
+  "observed_end_utc": "2026-09-08T19:42:40.303112+00:00",
+  "observed_start_utc": "2026-09-08T19:42:37.999156+00:00",
+  "payloads_exported": false,
+  "query_only": true,
+  "read_transaction_pinned": true,
+  "schema": "governed_history_scaling_observation_v1_20260908",
+  "schemas": {
+    "news_fast_lane_batches_v3": [
+      {
+        "cid": 0,
+        "dflt_value": null,
+        "name": "batch_seq",
+        "notnull": 0,
+        "pk": 1,
+        "type": "INTEGER"
+      },
+      {
+        "cid": 1,
+        "dflt_value": null,
+        "name": "contract_id",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 2,
+        "dflt_value": null,
+        "name": "cohort_id",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 3,
+        "dflt_value": null,
+        "name": "input_identity",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 4,
+        "dflt_value": null,
+        "name": "previous_rowid",
+        "notnull": 1,
+        "pk": 0,
+        "type": "INTEGER"
+      },
+      {
+        "cid": 5,
+        "dflt_value": null,
+        "name": "input_rowid",
+        "notnull": 1,
+        "pk": 0,
+        "type": "INTEGER"
+      },
+      {
+        "cid": 6,
+        "dflt_value": null,
+        "name": "input_anchor_event_id",
+        "notnull": 0,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 7,
+        "dflt_value": null,
+        "name": "scan_started_utc",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 8,
+        "dflt_value": null,
+        "name": "statistics_json",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      }
+    ],
+    "news_fast_lane_mappings_v3": [
+      {
+        "cid": 0,
+        "dflt_value": null,
+        "name": "source_event_id",
+        "notnull": 0,
+        "pk": 1,
+        "type": "TEXT"
+      },
+      {
+        "cid": 1,
+        "dflt_value": null,
+        "name": "batch_seq",
+        "notnull": 1,
+        "pk": 0,
+        "type": "INTEGER"
+      },
+      {
+        "cid": 2,
+        "dflt_value": null,
+        "name": "source_id",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 3,
+        "dflt_value": null,
+        "name": "provider_event_id",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 4,
+        "dflt_value": null,
+        "name": "raw_payload_sha256",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 5,
+        "dflt_value": null,
+        "name": "input_rowid",
+        "notnull": 1,
+        "pk": 0,
+        "type": "INTEGER"
+      },
+      {
+        "cid": 6,
+        "dflt_value": null,
+        "name": "input_first_seen_utc",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 7,
+        "dflt_value": null,
+        "name": "input_last_seen_utc",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 8,
+        "dflt_value": null,
+        "name": "observed_existing",
+        "notnull": 1,
+        "pk": 0,
+        "type": "INTEGER"
+      },
+      {
+        "cid": 9,
+        "dflt_value": null,
+        "name": "research_only",
+        "notnull": 1,
+        "pk": 0,
+        "type": "INTEGER"
+      },
+      {
+        "cid": 10,
+        "dflt_value": null,
+        "name": "execution_eligible",
+        "notnull": 1,
+        "pk": 0,
+        "type": "INTEGER"
+      },
+      {
+        "cid": 11,
+        "dflt_value": null,
+        "name": "can_authorize",
+        "notnull": 1,
+        "pk": 0,
+        "type": "INTEGER"
+      }
+    ],
+    "news_fast_lane_visibility_v3": [
+      {
+        "cid": 0,
+        "dflt_value": null,
+        "name": "batch_seq",
+        "notnull": 0,
+        "pk": 1,
+        "type": "INTEGER"
+      },
+      {
+        "cid": 1,
+        "dflt_value": null,
+        "name": "mapping_visible_utc",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 2,
+        "dflt_value": null,
+        "name": "availability_basis",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 3,
+        "dflt_value": null,
+        "name": "consumer_first_observation_required",
+        "notnull": 1,
+        "pk": 0,
+        "type": "INTEGER"
+      }
+    ],
+    "source_events": [
+      {
+        "cid": 0,
+        "dflt_value": null,
+        "name": "source_event_id",
+        "notnull": 0,
+        "pk": 1,
+        "type": "TEXT"
+      },
+      {
+        "cid": 1,
+        "dflt_value": null,
+        "name": "provider_event_id",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 2,
+        "dflt_value": null,
+        "name": "source_id",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 3,
+        "dflt_value": null,
+        "name": "source_family",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 4,
+        "dflt_value": null,
+        "name": "source_population",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 5,
+        "dflt_value": null,
+        "name": "provider",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 6,
+        "dflt_value": null,
+        "name": "instrument",
+        "notnull": 0,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 7,
+        "dflt_value": null,
+        "name": "base_currency",
+        "notnull": 0,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 8,
+        "dflt_value": null,
+        "name": "quote_currency",
+        "notnull": 0,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 9,
+        "dflt_value": null,
+        "name": "country",
+        "notnull": 0,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 10,
+        "dflt_value": null,
+        "name": "event_type",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 11,
+        "dflt_value": null,
+        "name": "article_id",
+        "notnull": 0,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 12,
+        "dflt_value": null,
+        "name": "story_cluster_id",
+        "notnull": 0,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 13,
+        "dflt_value": null,
+        "name": "event_id",
+        "notnull": 0,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 14,
+        "dflt_value": null,
+        "name": "market_episode_id",
+        "notnull": 0,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 15,
+        "dflt_value": null,
+        "name": "published_at_utc",
+        "notnull": 0,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 16,
+        "dflt_value": null,
+        "name": "first_seen_at_utc",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 17,
+        "dflt_value": null,
+        "name": "retrieved_at_utc",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 18,
+        "dflt_value": null,
+        "name": "effective_from_utc",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 19,
+        "dflt_value": null,
+        "name": "valid_until_utc",
+        "notnull": 0,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 20,
+        "dflt_value": null,
+        "name": "revised_at_utc",
+        "notnull": 0,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 21,
+        "dflt_value": null,
+        "name": "superseded_at_utc",
+        "notnull": 0,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 22,
+        "dflt_value": null,
+        "name": "decision_cutoff_utc",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 23,
+        "dflt_value": null,
+        "name": "source_clock_uncertainty_ms",
+        "notnull": 0,
+        "pk": 0,
+        "type": "INTEGER"
+      },
+      {
+        "cid": 24,
+        "dflt_value": null,
+        "name": "raw_value",
+        "notnull": 0,
+        "pk": 0,
+        "type": "REAL"
+      },
+      {
+        "cid": 25,
+        "dflt_value": null,
+        "name": "normalized_value",
+        "notnull": 0,
+        "pk": 0,
+        "type": "REAL"
+      },
+      {
+        "cid": 26,
+        "dflt_value": null,
+        "name": "coverage_count",
+        "notnull": 1,
+        "pk": 0,
+        "type": "INTEGER"
+      },
+      {
+        "cid": 27,
+        "dflt_value": null,
+        "name": "source_dispersion",
+        "notnull": 0,
+        "pk": 0,
+        "type": "REAL"
+      },
+      {
+        "cid": 28,
+        "dflt_value": null,
+        "name": "quality_state",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 29,
+        "dflt_value": null,
+        "name": "latency_ms",
+        "notnull": 0,
+        "pk": 0,
+        "type": "INTEGER"
+      },
+      {
+        "cid": 30,
+        "dflt_value": null,
+        "name": "parser_version",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 31,
+        "dflt_value": null,
+        "name": "vendor_model_name",
+        "notnull": 0,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 32,
+        "dflt_value": null,
+        "name": "vendor_model_version",
+        "notnull": 0,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 33,
+        "dflt_value": null,
+        "name": "raw_payload_sha256",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 34,
+        "dflt_value": null,
+        "name": "license_class",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 35,
+        "dflt_value": null,
+        "name": "retention_policy",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 36,
+        "dflt_value": null,
+        "name": "source_contract_id",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 37,
+        "dflt_value": null,
+        "name": "source_cohort_id",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 38,
+        "dflt_value": null,
+        "name": "event_version",
+        "notnull": 1,
+        "pk": 0,
+        "type": "INTEGER"
+      },
+      {
+        "cid": 39,
+        "dflt_value": null,
+        "name": "supersedes_source_event_id",
+        "notnull": 0,
+        "pk": 0,
+        "type": "TEXT"
+      },
+      {
+        "cid": 40,
+        "dflt_value": null,
+        "name": "payload_json",
+        "notnull": 1,
+        "pk": 0,
+        "type": "TEXT"
+      }
+    ]
+  },
+  "source": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\source_governance_v1.sqlite",
+  "summary": {
+    "different_contract_rows": 0,
+    "first_mapping": "2026-09-06T19:45:40.793600+00:00",
+    "invalid_visibility_rows": 0,
+    "latest_mapping": "2026-09-08T19:39:12.058861+00:00",
+    "mapped_hash_mismatches": 0,
+    "mapped_rows": 5501,
+    "max_payload_bytes": 171823,
+    "payload_bytes": 55778610,
+    "unique_events": 5501
+  },
+  "window_cutoff_utc": "2026-09-06T19:42:37.999156+00:00",
+  "window_sec": 172800
+}

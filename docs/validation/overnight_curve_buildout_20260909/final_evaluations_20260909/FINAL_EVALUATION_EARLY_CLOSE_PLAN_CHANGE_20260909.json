@@ -1,0 +1,166 @@
+{
+  "broker_requests": false,
+  "canceled_evaluations": [
+    {
+      "evaluator_query_count": 0,
+      "evaluator_started": false,
+      "kind": "pilot",
+      "output_directory": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\prospective_pilot\\scalability_v3\\actual_evaluation_003",
+      "output_exists": false,
+      "planned_not_before_utc": "2026-09-09T12:30:00Z"
+    },
+    {
+      "evaluator_query_count": 0,
+      "evaluator_started": false,
+      "kind": "risk",
+      "output_directory": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\prospective_risk_v1\\actual_evaluation_005",
+      "output_exists": false,
+      "planned_not_before_utc": "2026-09-09T12:45:00Z"
+    }
+  ],
+  "created_epoch": 1788955772.0079901,
+  "last_completed_evidence": [
+    {
+      "all_cell_count": 156,
+      "cell_descriptions": [
+        {
+          "cells_with_lower_mae_than_zero": 11,
+          "cells_with_non_neutral_net_metric": 27,
+          "cells_with_positive_mean_net": 4,
+          "cells_with_scored_nodes": 39,
+          "price_convention": "official_midpoint",
+          "registered_cells": 39,
+          "scope": "Cell descriptors only; neither independent trials nor a pooled forecast accuracy.",
+          "view": "retained_training_target"
+        },
+        {
+          "cells_with_lower_mae_than_zero": 12,
+          "cells_with_non_neutral_net_metric": 27,
+          "cells_with_positive_mean_net": 4,
+          "cells_with_scored_nodes": 39,
+          "price_convention": "ba_derived_midpoint",
+          "registered_cells": 39,
+          "scope": "Cell descriptors only; neither independent trials nor a pooled forecast accuracy.",
+          "view": "retained_training_target"
+        },
+        {
+          "cells_with_lower_mae_than_zero": 11,
+          "cells_with_non_neutral_net_metric": 27,
+          "cells_with_positive_mean_net": 4,
+          "cells_with_scored_nodes": 39,
+          "price_convention": "official_midpoint",
+          "registered_cells": 39,
+          "scope": "Cell descriptors only; neither independent trials nor a pooled forecast accuracy.",
+          "view": "nominal_exact"
+        },
+        {
+          "cells_with_lower_mae_than_zero": 11,
+          "cells_with_non_neutral_net_metric": 27,
+          "cells_with_positive_mean_net": 4,
+          "cells_with_scored_nodes": 39,
+          "price_convention": "ba_derived_midpoint",
+          "registered_cells": 39,
+          "scope": "Cell descriptors only; neither independent trials nor a pooled forecast accuracy.",
+          "view": "nominal_exact"
+        }
+      ],
+      "issue_count": 0,
+      "kind": "pilot",
+      "private_original_report": {
+        "bytes": 472453,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\prospective_pilot\\scalability_v3\\actual_evaluation_002\\PROSPECTIVE_PILOT_EVALUATION.json",
+        "sha256": "24c5b477a2f9781c792d3375e91d09b639c9cc4c3141dbac4513c34d6790de31"
+      },
+      "sanitized_all_cell_presentation": {
+        "bytes": 191097,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\prospective_pilot\\complete_results_v3_002\\COMPLETE_PILOT_HORIZON_RESULTS_20260909.json",
+        "sha256": "57633ce23b089e54eccb8ff80af75164984d8ab7c7631d97be63e4e6130aa69a"
+      },
+      "source_capture_status_counts": {
+        "failed_source_capture": 1,
+        "verified": 1058
+      },
+      "status": "completed",
+      "verification_completed_utc": "2026-09-09T11:38:38.262729+00:00",
+      "verification_started_utc": "2026-09-09T11:25:40.493952+00:00",
+      "verified_chains": {
+        "scored_chain": 1154
+      },
+      "view_dispositions": {
+        "missing_provider_bar": 620,
+        "missing_source_coverage": 250,
+        "pending": 1166,
+        "scored": 27964,
+        "withheld": 4
+      }
+    },
+    {
+      "all_group_count": 216,
+      "all_paired_cell_count": 108,
+      "issue_count": 0,
+      "kind": "risk",
+      "node_dispositions_by_horizon": {
+        "15": {
+          "node_status_counts": {
+            "pending": 216,
+            "scored": 1416
+          },
+          "scope": "Method/label node counts; not independent origins, trades or trials."
+        },
+        "30": {
+          "node_status_counts": {
+            "pending": 384,
+            "scored": 1248
+          },
+          "scope": "Method/label node counts; not independent origins, trades or trials."
+        },
+        "60": {
+          "node_status_counts": {
+            "pending": 744,
+            "scored": 888
+          },
+          "scope": "Method/label node counts; not independent origins, trades or trials."
+        }
+      },
+      "private_original_report": {
+        "bytes": 1610590,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\prospective_risk_v1\\actual_retained_evaluation_004\\RETAINED_RISK_DISTRIBUTION_EVALUATION.json",
+        "sha256": "e19cab2cb07ee8b8840bf6bf9167a2d3ce262ad693949578986c2e1217b5a5fd"
+      },
+      "sanitized_all_cell_presentation": {
+        "bytes": 303526,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\richer_inputs\\prospective_risk_v1\\complete_results_004\\COMPLETE_RETAINED_RISK_RESULTS_20260909.json",
+        "sha256": "b35b404261d758893b0041f00522d34f57a079c1dcb480044aea555234694217"
+      },
+      "scheduled_issue_status_counts": {
+        "retained_withheld_or_partial": 7,
+        "scheduled_not_started": 51,
+        "verified_original_chain": 68
+      },
+      "source_capture_count": 372,
+      "status": "passed",
+      "verification_completed_utc": "2026-09-09T10:19:53.069463+00:00",
+      "verification_started_utc": "2026-09-09T10:17:59.004283+00:00",
+      "verified_chains": 68
+    }
+  ],
+  "latest_completed_reports_are_final_reported_cutoffs": true,
+  "limits": [
+    "Existing bounded research workers retain their registered stops; their subsequent observations are outside these completed reports.",
+    "Completed evaluation clocks are not globally atomic source snapshot times.",
+    "Pending or missing outcomes remain as originally reported; later maturity is not inferred.",
+    "No raw input inventories or prices are included in this closeout note."
+  ],
+  "preparation_scope": "Read-only source/registry hashes, metadata directory inventories and existing report reads were performed; no new evaluation, source query, broker request or raw input capture was performed.",
+  "reason": "User requested immediate close; parent canceled planned 12:30 UTC pilot and 12:45 UTC risk evaluation.",
+  "research_workers_changed": false,
+  "research_workers_stopped": false,
+  "runtime_writes": false,
+  "schema_version": "final_evaluation_early_close_plan_change_v1_20260909",
+  "status": "planned_runs_canceled_before_start",
+  "superseded_preparation": {
+    "bytes": 8812,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\final_evaluations_20260909\\FINAL_EVALUATION_PREPARATION_20260909.json",
+    "sha256": "26eaba05b2e041b3091d91ff65cdcf76f84f53321281258db3626b65aeccb760"
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "schema_version": "offline_research_receipt_helpers_validation_v1_20260909",
+  "generated_utc": "2026-09-09T05:15:07.877450+00:00",
+  "status": "passed_offline_candidates",
+  "source_hashes_before": {
+    "oanda_forecast_curve_contract_v1.py": "c03549586f922f6031790fce68a5afb5b98e4eda6157f20c4720b1adb05d0746",
+    "oanda_forecast_curve_file_store_v1.py": "fb4a49171a9a0736118599e392b99acc69cf5d707a54bca51ef796379650b211",
+    "test_oanda_forecast_curve_file_store_v1.py": "1efc6c825f1074bc6df316c024edcb131f8b12686d48d5895fe801a48331b486",
+    "oanda_research_quote_receipt_v1.py": "ba18acd7eeac0eaa7c5cd7f8d4505fa5494c4ad3398345f009d25670169a27ef",
+    "test_oanda_research_quote_receipt_v1.py": "e50bd65d2be3dd63cc2a67214c9967e5c924873925faaa0c9266d145991d869c"
+  },
+  "source_hashes_after": {
+    "oanda_forecast_curve_contract_v1.py": "c03549586f922f6031790fce68a5afb5b98e4eda6157f20c4720b1adb05d0746",
+    "oanda_forecast_curve_file_store_v1.py": "fb4a49171a9a0736118599e392b99acc69cf5d707a54bca51ef796379650b211",
+    "test_oanda_forecast_curve_file_store_v1.py": "1efc6c825f1074bc6df316c024edcb131f8b12686d48d5895fe801a48331b486",
+    "oanda_research_quote_receipt_v1.py": "ba18acd7eeac0eaa7c5cd7f8d4505fa5494c4ad3398345f009d25670169a27ef",
+    "test_oanda_research_quote_receipt_v1.py": "e50bd65d2be3dd63cc2a67214c9967e5c924873925faaa0c9266d145991d869c"
+  },
+  "source_stable": true,
+  "tests": {
+    "cases": 78,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "xml_path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\receipt_helpers_bound_tests.xml",
+    "xml_sha256": "97cd19742f686f302de8964bc74e247f8a95c16816d4b2b216229b9b7c5224fa"
+  },
+  "prior_tests": [
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\curve_file_store_initial_tests.xml",
+      "sha256": "f2d6dd57bd4da9c38232e7c53482aeeb4da8eb2cf1280b2e39497b562f597b99"
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\curve_file_store_candidate_tests.xml",
+      "sha256": "5b8f307af24ad5d82d9e7c2d696f41668ede646834920aebac6c2600aacb4b0a"
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\quote_receipt_initial_tests.xml",
+      "sha256": "6951e5902fc93f62104ff4c045a6f87c8cf74cebca2744e38dc8c699ae117dd4"
+    }
+  ],
+  "initial_fixture_failure": "Initial file-store run had36 passing and1 actual-junction fixture failure due PowerShell script execution policy. Per-process fixture invocation corrected; actual junction test then passed. Production helper unchanged by that fixture correction.",
+  "independent_review": {
+    "file_store": "Parent read-only review reported no blocker within documented trusted-root boundary; no independent rerun claimed.",
+    "quote_receipt": "Pending separate source review."
+  },
+  "live_source_observation": {
+    "capture_receipt": {
+      "schema_version": "local_research_quote_capture_v1_20260909",
+      "reader_version": "research_quote_receipt_v1_20260909",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_market_quotes_v1.json",
+      "raw_sha256": "0ea50f237f465e5e1e2e75a405201be5cbf41f3705671681932a2e593c54eadb",
+      "raw_bytes": 9408,
+      "read_started_epoch": 1788930907.783398,
+      "read_completed_epoch": 1788930907.794446,
+      "scope": "local_observation_not_broker_fill",
+      "research_only": true,
+      "can_place_orders": false,
+      "can_promote": false,
+      "can_authorize": false,
+      "account_eligible": false,
+      "execution_eligible": false,
+      "proof_eligible": false,
+      "receipt_sha256": "4c29bcb5d5d79da0195614e0610120d77328b52f46d4853898ffc6a8be46e679"
+    },
+    "source_header": {
+      "schema_version": 3,
+      "producer": "practice_007_dedicated_quote_stream",
+      "generated_utc": "2026-09-09T05:15:06.990273+00:00",
+      "generated_epoch": 1788930906.990273,
+      "connection_generation": 6,
+      "quote_count": 68,
+      "coverage": {
+        "connection_generation": 6,
+        "current_non_tradeable_instruments": [
+          "EUR_TRY",
+          "TRY_JPY",
+          "USD_TRY"
+        ],
+        "current_non_tradeable_quote_count": 3,
+        "current_quote_count": 68,
+        "current_tradeability_unknown_count": 0,
+        "current_tradeability_unknown_instruments": [],
+        "current_tradeable_quote_count": 65,
+        "execution_requires_independent_freshness_check": true,
+        "last_known_quote_count": 68,
+        "retained_last_known_count": 0,
+        "retained_last_known_instruments": [],
+        "retained_quotes_execution_eligible": false,
+        "tradeability_contract": "oanda_client_price_status_boolean_v1"
+      },
+      "raw_sha256": "0ea50f237f465e5e1e2e75a405201be5cbf41f3705671681932a2e593c54eadb",
+      "capture_receipt_sha256": "4c29bcb5d5d79da0195614e0610120d77328b52f46d4853898ffc6a8be46e679",
+      "read_started_epoch": 1788930907.783398,
+      "read_completed_epoch": 1788930907.794446
+    },
+    "source_header_sha256": "706acffaa1c6174c9c832730d525b6714851087ffb284992fd2b3332f8745d4e",
+    "mapping_sha256": "ded3e04fd24a74cacd738da48392d386317aaa466da796817bd52c4c799d010e",
+    "decision_epoch": 1788930907.794446,
+    "accepted_pairs": [
+      "EUR_USD",
+      "GBP_USD",
+      "USD_JPY"
+    ],
+    "refusals": {},
+    "private_original_bytes_path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\quote_receipt_private_001\\raw_source.json",
+    "private_original_bytes_sha256": "0ea50f237f465e5e1e2e75a405201be5cbf41f3705671681932a2e593c54eadb",
+    "private_normalized_map_path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\quote_receipt_private_001\\normalized_selected_quotes.json",
+    "private_normalized_map_sha256": "efbe0430c4334065fce3a5c9609613dc5462feb3ce25b07a6d1d586e54008ede",
+    "scope": "One bounded local file observation only. No network GET, fills, runtime restart, source mutation or broker/account action."
+  },
+  "registered_source_hashes_unchanged": true,
+  "limitations": [
+    "Caller owns registered model/cohort/policy/source closure and actual decision gates.",
+    "Consumption records factual observed bytes; target eligibility is separately checked by the adapter.",
+    "No delete/overwrite or orphan repair. In-progress and partial immutable publications fail closed.",
+    "File fsync and readback do not establish Windows directory power-loss durability.",
+    "Trusted root required; path checks do not sandbox against concurrent administrator directory replacement.",
+    "Quote decimal precision is only the precision retained in upstream JSON; original raw bytes and source timestamp remain evidence.",
+    "No registered study or runtime adopted either helper in this task."
+  ]
+}

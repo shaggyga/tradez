@@ -1,0 +1,30 @@
+{
+  "actual_predictive_improvement_claim": false,
+  "generated_utc": "2026-09-09T05:28:26.335009+00:00",
+  "independent_review": "Peer read-only wrapper review reported no blocker; source-bound supplemental receipt requested separately. No independent test rerun attributed.",
+  "orders_or_promotion_enabled": false,
+  "previous_acceptance_preserved": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\replay\\NATIVE_CURVE_OUTCOMES_ACCEPTANCE_20260909.json",
+    "sha256": "5b099fd75eaefc3f703db062bab7276cc017caba4aa3b5b87b555ace3ce15e20"
+  },
+  "schema_version": "native_curve_outcomes_acceptance_v2_20260909",
+  "scope": "Source-bound synthetic outcome mechanics only; no live scoring, GET, DB or runtime mutation.",
+  "selection": "Earliest decisive original attested source read, never derived reconstruction time or outcome values; no merged completeness domain.",
+  "source_sha256": {
+    "oanda_forecast_curve_contract_v1.py": "c03549586f922f6031790fce68a5afb5b98e4eda6157f20c4720b1adb05d0746",
+    "oanda_native_curve_outcomes_v1.py": "f90b237543aff4d86f5d3c93aeec1f738743fd6c9ba75c60f96ecfc8b605b68b",
+    "test_oanda_native_curve_outcomes_v1.py": "b04b098a2e761c2085acf7362dfca66335ae4cd643d51fc016d6eec66727531b"
+  },
+  "status": "passed_pure_outcome_boundary_acceptance",
+  "tests": {
+    "errors": 0,
+    "failed": 0,
+    "passed": 54,
+    "sha256": "a2288ea1ddd0266e673d11d8447673fc085dafebd33e0b585d7e0bf375df1b3a",
+    "xml": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\replay\\native_outcomes_wrapper_54_tests.xml"
+  },
+  "wrapper_evidence": {
+    "NATIVE_CURVE_ROLLING_SOURCE_API_20260909.md": "dd5625513278f67457a9adc3cf4c04b2dc3ae317d6fada2536bdee3d7faf535a",
+    "NATIVE_CURVE_ROLLING_SOURCE_SYNTHETIC_FIXTURE_20260909.json": "bdcf5ed69152597ffa2b3ef05773e227e65ab8d5d992089094c514dcac1732ba"
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "actual_runtime_verification_run_by_reviewer": false,
+  "broker_requests_by_reviewer": false,
+  "closed_findings": [
+    {
+      "closure": "The verifier reconstructs the entire episode config from the registered episode nominal start, original anchor and retained creation clock; internally valid but differently scheduled configurations cannot pass.",
+      "id": "episode_registry_schedule_binding"
+    },
+    {
+      "closure": "Quote directory entries, including ignored names, are counted against the 160-entry bound while enumerating, before sorting.",
+      "id": "bounded_inventory_before_sort"
+    },
+    {
+      "closure": "A terminal observation with earlier missing evidence is explicitly terminal_with_unverified_gaps. completed_matched_endpoint_eligible is false and matched terminal USD delta is withheld. Explicitly recorded missed slots remain distinguishable and permitted by the registered schedule policy.",
+      "id": "terminal_with_unverified_prior_gap"
+    },
+    {
+      "closure": "The terminal matched USD subtraction uses an explicit 96-digit local context. Full long/short endpoint fixtures also run under ambient two-digit precision.",
+      "id": "matched_delta_decimal_context"
+    },
+    {
+      "closure": "A retained completed episode result without its config or initialization publication is rejected; genuine withheld, failed and partial cases remain separate without invented performance.",
+      "id": "claimed_complete_without_initialization"
+    }
+  ],
+  "helper": {
+    "bytes": 24211,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\verify_observed_episodes.py",
+    "sha256": "870165e26cc0deeb40c638dbf0ea1afa9f678d8e4645552fabc1cb8e65a1959d"
+  },
+  "independent_tests_rerun": false,
+  "owner_test_evidence": {
+    "bytes": 3710,
+    "cases": 17,
+    "errors": 0,
+    "failures": 0,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\offline_verifier_review_final_tests.xml",
+    "sha256": "81e3b1e26b45a4358cacaa9cc7cd452348fb2d0c41b7fc039001d0e6a4fa493e"
+  },
+  "registered_sources_edited_by_reviewer": false,
+  "reviewed_runtime_dependencies": [
+    {
+      "bytes": 28540,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_observed_curve_management_v1.py",
+      "sha256": "a6c8013af59b45ac958065010f26289e7ddfc6196ac88e32976b545c1496579b"
+    },
+    {
+      "bytes": 19023,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_observed_curve_management_worker_v1.py",
+      "sha256": "2128386f825cdeffae715c3f89832200823652521809ea29ac57485c7c4f6762"
+    },
+    {
+      "bytes": 7212,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_observed_management_io_v1.py",
+      "sha256": "ade841191d6aeec92d6869dea374edf32494ed8bbe0339792d58787b6d9d2724"
+    },
+    {
+      "bytes": 26812,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_forecast_curve_contract_v1.py",
+      "sha256": "c03549586f922f6031790fce68a5afb5b98e4eda6157f20c4720b1adb05d0746"
+    },
+    {
+      "bytes": 9513,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_curve_management_adapter_v1.py",
+      "sha256": "8fa6cccf1e2525d0186ab7abe0c68fccc4800db7b785a8b9f79f28c320ad1241"
+    },
+    {
+      "bytes": 14613,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_research_quote_receipt_v1.py",
+      "sha256": "ba18acd7eeac0eaa7c5cd7f8d4505fa5494c4ad3398345f009d25670169a27ef"
+    },
+    {
+      "bytes": 49616,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_curve_management_replay_v1.py",
+      "sha256": "52fd04c6b087df4be775e490002afd0744caeb245604b8f577ab0fcff41de8f3"
+    }
+  ],
+  "reviewed_utc": "2026-09-09T06:52:16.903194+00:00",
+  "reviewer": "pair_dashboard",
+  "schema_version": "observed_episode_verifier_independent_source_review_v1_20260909",
+  "scope_limits": [
+    "This review binds source/tests only. Actual first-step or later endpoint verification outputs are separate artifacts produced by the owner, not observations performed during this review.",
+    "The bounded report observes immutable files non-atomically while the paper process may append new files. A later step may exist after this observation; missing or partial evidence is not guessed.",
+    "Replaying retained old computation clocks validates consistency of the saved evidence; it does not prove those computations first occurred during this review.",
+    "The verifier checks selected published curve records and original semantics, not a fresh model fit or an independent proof that the original raw inputs were historical broker-complete data.",
+    "Source hashes and saved publication receipts are integrity evidence within the trusted local workspace, not cryptographic external attestations of broker fills.",
+    "USD 2500 notional, slippage and observed-quote actions remain virtual research assumptions. Five arms share market observations and are not independent samples.",
+    "A passed verifier means the checked retained evidence reconciles. It does not establish profitability, calibration, operational readiness or completed outcomes for pending episodes."
+  ],
+  "status": "passed_no_remaining_blocker_in_reviewed_scope",
+  "test_source": {
+    "bytes": 11356,
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\observed_management\\test_verify_observed_episodes.py",
+    "sha256": "a37d8cdeda0478f454b1e6ae06ca901c4b9bf0d946e7acb2e426c7e8a8f5aae0"
+  },
+  "verified_semantics": [
+    "CLI uses the existing fixed registry loader and exact registered source closure, rechecks source bytes at the end and refuses a changed registry. The verifier does not activate workers or place orders.",
+    "All runtime content reads use fixed or hash-derived paths through the previously reviewed I/O guard. File publication references must match schema, inert flags, exact path, retained raw bytes and actual publication clocks.",
+    "The original selected anchor is independently tied to the actual pilot curve.json and publication.json byte hashes, then validated against the original publication/consumption contract and registered GBP_USD official-midpoint cohort.",
+    "Initial H1 issue age and original target remaining are checked at retained consumption availability; initialization records must be durable before the first scheduled decision, or the episode remains explicitly withheld/partial.",
+    "The same initial curve is reused for every step. The frozen adapter reconstructs the original candidate and the frozen manager reconstructs the complete plan using retained original clocks, including the named fractional-clock compatibility bridge.",
+    "Quote observations and raw/receipt references are fully re-read and checked. The frozen manager independently elects the first eligible observation and rebuilds the exact settlement and next state.",
+    "Plan computation, publication, source cutoff, settlement computation, settlement publication and completed-step clocks are ordered, and each next decision must follow the previously completed step.",
+    "A separate Decimal calculation verifies GBP_USD integer units as floor(2500/decision ask), observed bid/ask legs, 0.1 basis point slippage per leg, long/short realized dollar PnL, cash/position updates and hypothetical liquidation amounts without calling manager execution helpers.",
+    "Failed virtual actions cannot partially alter a position. Missing terminal quotes retain unresolved positions and unavailable marks; no broker fill or invented close is inferred.",
+    "Uninitialized, partial, missed, in-progress, terminal-unresolved and terminal-with-evidence-gap states remain visible. Matched terminal outcomes require an observed terminal step, all arms flat and no missing evidence slots.",
+    "The external JSON report is created exclusively, flushed and fsynced. No model fit, broker request, account read or runtime write occurs in the verifier."
+  ]
+}

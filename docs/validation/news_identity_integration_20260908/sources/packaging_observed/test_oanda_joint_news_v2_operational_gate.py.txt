@@ -1,0 +1,58 @@
+"""Isolated inert v2 gate checks; no runtime process/database operations."""
+import json
+from pathlib import Path
+import subprocess
+import pytest
+
+SOURCE=Path(__file__).with_name('oanda_always_on_supervisor.ps1')
+FLAGS=('can_place_orders','can_promote','can_authorize','account_eligible','proof_eligible','historical_rows_imported')
+VALID={'schema_version':'joint_price_news_registry_v2_20260907','collection_enabled':True,'research_only':True,**dict.fromkeys(FLAGS,False)}
+
+def gate(tmp_path,registry):
+    source=SOURCE.read_text(encoding='utf-8-sig')
+    block='$JointPriceNewsV2Config = '+source.split('$JointPriceNewsV2Config = ',1)[1].split('# Separately registered repaired news',1)[0]
+    assert not any(token in block for token in ('Start-Process','Stop-Process','New-Item','Mutex','OANDA_CREDS'))
+    config=tmp_path/'config';config.mkdir()
+    if registry is not None:(config/'joint_price_news_study_v2_20260907.json').write_text(registry if isinstance(registry,str) else json.dumps(registry))
+    script=tmp_path/'gate.ps1'
+    script.write_text("param([string]$Trad)\n$ErrorActionPreference='Stop'\n$DisabledNames=@()\n"+block+"\n@{enabled=$JointPriceNewsV2Enabled;disabled=@($DisabledNames)}|ConvertTo-Json -Compress")
+    result=subprocess.run(['powershell.exe','-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass','-File',str(script),'-Trad',str(tmp_path)],capture_output=True,text=True,timeout=15)
+    assert result.returncode==0,result.stderr
+    return json.loads(result.stdout)
+
+def test_valid_independent_v2_does_not_disable_v1(tmp_path):
+    assert gate(tmp_path,VALID)=={'enabled':True,'disabled':[]}
+
+@pytest.mark.parametrize('flag',FLAGS)
+@pytest.mark.parametrize('bad',[True,'false',None,0])
+def test_v2_authority_flags_require_exact_false(tmp_path,flag,bad):
+    assert gate(tmp_path,{**VALID,flag:bad})=={'enabled':False,'disabled':['joint_price_news_study_v2']}
+
+@pytest.mark.parametrize('registry',[None,'{broken',[],dict(VALID,schema_version='joint_price_news_registry_v1_20260907'),dict(VALID,collection_enabled='true'),dict(VALID,research_only=False)])
+def test_absent_invalid_or_wrong_version_never_enables_v2(tmp_path,registry):
+    assert gate(tmp_path,registry)=={'enabled':False,'disabled':['joint_price_news_study_v2']}
+
+def test_closed_allowlist_contains_both_joint_studies_and_only_expected_names():
+    import re
+    from oanda_project_runtime_health import EXPECTED_RESEARCH_WORKERS
+    source=SOURCE.read_text(encoding='utf-8-sig')
+    names=re.findall(r'"([a-z0-9_]+)"',source.split('$ResearchCollectionNames = @(',1)[1].split('\n)',1)[0])
+    assert len(names)==len(set(names))
+    assert set(names)==EXPECTED_RESEARCH_WORKERS|{'causal_forecast_study_v1','eurusd_local_forecast_study'}
+    assert len(EXPECTED_RESEARCH_WORKERS)==17
+    assert {'joint_price_news_study_v1','joint_price_news_study_v2'}<=EXPECTED_RESEARCH_WORKERS
+
+def test_v2_worker_launch_has_exact_identity_and_inert_research_runtime():
+    source=SOURCE.read_text(encoding='utf-8-sig')
+    block=source.split('-Name "joint_price_news_study_v2"',1)[1].split('$managed += Start-ManagedProcess',1)[0]
+    for expected in ('oanda_joint_price_news_forecast_study_v2.py','$CoreTimeseriesPython','"BelowNormal"','$JointPriceNewsV2Config','joint_price_news_study_v2\\heartbeat.json','joint_price_news_forecast_heartbeat_v2_20260907'):
+        assert expected in block
+    assert '--activate' not in block
+    assert source.count('-Name "joint_price_news_study_v1"')==1
+    assert source.count('-Name "joint_price_news_study_v2"')==1
+
+def test_complete_supervisor_powershell_syntax_without_execution(tmp_path):
+    script=tmp_path/'parse.ps1'
+    script.write_text("param([string]$Source)\n$tokens=$null;$errors=$null\n[void][System.Management.Automation.Language.Parser]::ParseFile($Source,[ref]$tokens,[ref]$errors)\nif($errors.Count){$errors|Out-String|Write-Output;exit 1}\n")
+    result=subprocess.run(['powershell.exe','-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass','-File',str(script),'-Source',str(SOURCE)],capture_output=True,text=True,timeout=15)
+    assert result.returncode==0,result.stdout+result.stderr

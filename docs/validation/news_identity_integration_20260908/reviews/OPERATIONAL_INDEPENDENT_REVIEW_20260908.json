@@ -1,0 +1,30 @@
+{
+  "schema_version": "joint_news_v3_operational_independent_review_v1_20260908",
+  "status": "passed",
+  "observed_utc": "2026-09-08T20:00:58.8469761+00:00",
+  "review_kind": "Bounded read-only independent source review; no independent test rerun or runtime activation",
+  "source_bindings": {
+    "oanda_always_on_supervisor.ps1": "594efb0e5dd870b80cbb3db8c37a1ed977a5aa71b51d05ec8ef07cb947f9376e",
+    "start_oanda_research_collection.ps1": "c7e2a970b6e8bb69fcdaf5b124b8d935be6326f06a6554408889e111f57f3115",
+    "oanda_project_runtime_health.py": "b3f9b118680fb2ab496f148684c89a81eeccd1c39a32523aa21971e85828eb45",
+    "oanda_storage_headroom_guard.py": "a1b8cb1567069aeffa088f6dd9273dea315735e10f5d168224e366df42b02eb4",
+    "oanda_practice_live_dashboard.py": "cc0f6698a30c59cb291dada08d73283f0484996e6873b8ce27894e0168614f6f",
+    "oanda_main_signal_dashboard.html": "0af15b1bb49a58801ebf33114fb7f653e88e7207e396f7f9b54ddf353d1b99a5",
+    "test_oanda_joint_news_v3_operational_gate.py": "f43f9bb110ba00c6b252b8d6e6335d34825b0af9b4415b276f86c8ec90e0a899",
+    "test_oanda_joint_price_news_dashboard_v3.py": "3f6f0ffc8433f60d347fbe3ea4e4b38d9868cd4e9026a5296b6970d5bad77b82"
+  },
+  "remaining_blockers": [],
+  "findings": [
+    "Separate v3 registry strict Boolean gate controls exactly two additional named research workers; old v1/v2 registrations and launch paths remain distinct.",
+    "New producer and v3 worker use timeseries312 BelowNormal and dedicated bounded-freshness heartbeat schemas. Research allowlist still excludes execution, authorization and promotion.",
+    "Runtime health requires17 current research workers and retains the distinction between supervisor-reported health, unchecked outputs and independently verified operation.",
+    "Storage includes separate new68 v3 ledger paths alongside retained studies:420 total fixed and registered database paths when all configured registries exist; missing registered paths remain reportable.",
+    "Explicit v3 dashboard selection is bounded stable-read, exact registry-hash bound and rejects invalid selection without falling back to old joint evidence. With no pointer the prior v2 selection remains.",
+    "Selected v3 uses new ledger schema and exact20source closure; original publication/consumer clocks, H1 targets, current-readiness clocks and uncalibrated/comparator labels remain intact.",
+    "Existing price-only fallback remains explicitly identified as excluding news; no v3 publication is invented from an older study."
+  ],
+  "production_writes": false,
+  "process_actions": false,
+  "independent_tests_run": 0,
+  "can_place_orders": false
+}

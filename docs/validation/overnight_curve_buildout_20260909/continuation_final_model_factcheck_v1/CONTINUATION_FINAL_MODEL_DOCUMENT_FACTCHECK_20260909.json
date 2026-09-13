@@ -1,0 +1,65 @@
+{
+  "canonical_document_bindings": [
+    {
+      "bytes": 9097,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\FOREX_CONTINUATION_TO_0900_20260909.md",
+      "sha256": "aaff6283b581833c84ceacab274ea134d5e76ae61ef29d64a6c39097470d754e"
+    },
+    {
+      "bytes": 5464,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\README.md",
+      "sha256": "f7fcdfbe18d76fbc214230e88851bd7a289e5825168279d3bf698cd365047167"
+    },
+    {
+      "bytes": 313658,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\FOREX_PENDING_IMPROVEMENTS.md",
+      "sha256": "ff6a4a48c6c8c0f4c2bc1c183b4c1b046c7359ed076ca54c0ec2b39e4baf746d"
+    },
+    {
+      "bytes": 445624,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\FOREX_PROJECT_LOG.md",
+      "sha256": "8bcae46fde8a2b494acf83f41111ec4e3b71ab8dcf1a6d97149a1bf08acb5d87"
+    }
+  ],
+  "completed_epoch": 1788958329.465265,
+  "evidence_bindings": [
+    {
+      "bytes": 51858,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\continuation_results_002\\JOINT_CONTINUATION_COMPLETE_RESULTS_20260909.json",
+      "sha256": "9e5860c41cce9c37daa94a55ee8b87927a823c52b0429cf11fc30efb43376c07"
+    },
+    {
+      "bytes": 473379,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\calibration_v1\\actual_calibration_003\\JOINT_PROBABILITY_BINS_20260909.json",
+      "sha256": "01242a311feadb300ecfd1d60aae32891a6e82ed65693610b00cdd1660d9d4ab"
+    },
+    {
+      "bytes": 43957,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\pair_dispersion_001\\ALL_PAIR_SCORE_DISPERSION_20260909.json",
+      "sha256": "93de3121cba9de79420d178dfa167b9e183a3598b1e8b7361cf0760aacf5ae46"
+    },
+    {
+      "bytes": 4437,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\news_clock_observer_v2\\completed_summary_002\\NEWS_CLOCK_V2_COMPLETED_SUMMARY_20260909.json",
+      "sha256": "e947cb427c2d642896a0e6ccc2ae5d7057a43346eb2bda356a2049622f9f12fd"
+    }
+  ],
+  "limits": [
+    "No new evaluator/scorer/model run, DB, broker or runtime work.",
+    "Final pilot/risk/ops details are peer-owned and were not independently recalculated in this bounded model factcheck.",
+    "No canonical document copy dependencies: assembler independently binds final document bytes."
+  ],
+  "remaining_blockers": [],
+  "schema_version": "continuation_final_model_document_factcheck_v1_20260909",
+  "scope": [
+    "Read entire final continuation report and README, current pending section and newest continuation log entry. Historical backlog/log entries retained as dated history, not re-audited.",
+    "Owned main/calibration/dispersion facts match retained exact source outputs:2907 outcomes,2182 unchanged+725 new,1381hits,642positive,195exclusions,170not-yet-due; original12:26:42.221\u201312:28:55.119 transaction cutoff.",
+    "47.51% direction,22.08%positive,-4.6798 net,4.9419 MAE versus4.7308zero; matched price/neutral-news same-row diagnostics explicitly qualified.",
+    "Fixed bins/Brier.2530481972 versus.25,14flats and1489-row.5\u2013.6bin match; no fitted calibration or independent N claim.",
+    "All68 alphabetical pair rows retain63negative/3positive/2unscored, three positive JPY pair means below.08bps.",
+    "News11445sample/zero invalid/5-to-5counter and actual monotonic stopping semantics match final compact/source review.",
+    "Prior canceled plan/early-close history is distinct from new authorized completed evaluations and publication receipts."
+  ],
+  "source_or_document_edits": false,
+  "status": "passed"
+}

@@ -530,6 +530,109 @@ def test_signed_currency_factors_and_correlated_jpy_clustering():
     assert any(cluster["instruments"] == ["EUR_JPY", "USD_JPY"] for cluster in result["clusters"])
 
 
+def _pair_score_factor(episode, currency, score, observed):
+    return {
+        "episode_id": episode,
+        "currency": currency,
+        "score": score,
+        "confidence": 0.7,
+        "horizon_min": 60,
+        "first_known_utc": watch.iso(observed - dt.timedelta(minutes=1)),
+        "category": "market_news",
+        "structured_event": False,
+        "official_release_research": False,
+        "uncorroborated_research": False,
+        "topic_ids": [f"{episode}-{currency}"],
+        "headlines": [f"{episode} {currency}"],
+        "terms": [currency.lower()],
+        "article_count": 1,
+        "publisher_count": 1,
+        "episode_topic_count": 1,
+        "source_ids": ["test_source"],
+        "source_contract_ids": ["test_contract"],
+        "source_cohort_ids": ["test_cohort"],
+    }
+
+
+def _fresh_pair_quote(observed, *, pip=0.0001):
+    return {
+        "bid": 1.0,
+        "ask": 1.0 + pip,
+        "mid": 1.0 + pip / 2.0,
+        "pip": pip,
+        "spread_pips": 1.0,
+        "fresh": True,
+        "time": watch.iso(observed),
+    }
+
+
+def test_equal_same_episode_pair_leg_scores_cancel_before_watchlist(tmp_path):
+    observed = dt.datetime(2026, 9, 1, 2, 31, tzinfo=UTC)
+    factors = [
+        _pair_score_factor("systemic", "USD", 0.9, observed),
+        _pair_score_factor("systemic", "JPY", 0.9, observed),
+    ]
+    rows = watch.build_watchlist(
+        factors,
+        {},
+        {"USD_JPY": _fresh_pair_quote(observed, pip=0.01)},
+        {},
+        observed,
+        tmp_path / "macro.sqlite",
+        tmp_path / "rates.json",
+    )
+    assert rows == []
+    differential = watch.pair_news_score_differential(
+        {"USD": 0.9, "JPY": 0.9}, "USD_JPY"
+    )
+    assert differential["differential"] == 0.0
+    assert differential["direction"] == "neutral"
+
+
+def test_unequal_pair_scores_emit_once_using_base_minus_quote(tmp_path):
+    observed = dt.datetime(2026, 9, 1, 2, 31, tzinfo=UTC)
+    factors = [
+        _pair_score_factor("relative", "USD", 0.9, observed),
+        _pair_score_factor("relative", "JPY", 0.2, observed),
+    ]
+    rows = watch.build_watchlist(
+        factors,
+        {},
+        {"USD_JPY": _fresh_pair_quote(observed, pip=0.01)},
+        {},
+        observed,
+        tmp_path / "macro.sqlite",
+        tmp_path / "rates.json",
+    )
+    news = [row for row in rows if row.get("arm") == "news_only"]
+    assert len(news) == 1
+    assert news[0]["direction"] == "long"
+    assert news[0]["news_score"] == 0.7
+    assert news[0]["source_currency_score"] == 0.9
+    assert news[0]["pair_score_contract_id"] == watch.PAIR_SCORE_CONTRACT_ID
+    assert news[0]["pair_news_score_differential"]["owner_currency"] == "USD"
+
+
+def test_jpy_policy_target_cannot_create_unrelated_usd_hkd_arm(tmp_path):
+    observed = dt.datetime(2026, 9, 1, 2, 31, tzinfo=UTC)
+    factors = [_pair_score_factor("bessent-japan", "JPY", 0.9, observed)]
+    rows = watch.build_watchlist(
+        factors,
+        {},
+        {
+            "USD_JPY": _fresh_pair_quote(observed, pip=0.01),
+            "USD_HKD": _fresh_pair_quote(observed),
+        },
+        {},
+        observed,
+        tmp_path / "macro.sqlite",
+        tmp_path / "rates.json",
+    )
+    news = [row for row in rows if row.get("arm") == "news_only"]
+    assert {row["instrument"] for row in news} == {"USD_JPY"}
+    assert news[0]["direction"] == "short"
+
+
 def test_factor_diagnostics_do_not_change_frozen_runtime_policy(tmp_path):
     observed = dt.datetime(2026, 8, 10, 14, 0, tzinfo=UTC)
     payload = watch.run(
@@ -822,32 +925,78 @@ def test_technical_only_episode_is_stable_across_poll_cycles(tmp_path):
 
 def test_sampling_revision_uses_new_parented_cohort():
     assert watch.COHORT_ID == (
-        "news_technical_watchlist_v40_comparison_arms_20260824"
+        "news_technical_watchlist_v49_conflict_duration_recap_guard_20260904"
     )
     assert watch.PARENT_COHORT_ID == (
-        "news_technical_watchlist_v39_energy_exporter_ambiguity_20260818"
+        "news_technical_watchlist_v48_opposing_policy_claim_guard_20260904"
+    )
+    assert all(
+        "_v24_conflict_duration_recap_guard_20260904" in cohort
+        for cohort in watch.UNCORROBORATED_NEWS_COHORTS.values()
+    )
+    assert watch.UNCORROBORATED_NEWS_PARENT_COHORTS[5].endswith(
+        "_v23_opposing_policy_claim_guard_20260904"
     )
     assert watch.RECONFIRMATION_PARENT_COHORT_ID == (
-        "news_technical_reconfirmation_h15_v31_persistent_sma_20260818"
+        "news_technical_reconfirmation_h15_v39_opposing_policy_claim_guard_20260904"
     )
     assert watch.OFFICIAL_RELEASE_FAST_CONFIRMATION_PARENT_COHORT_ID == (
-        "news_technical_watchlist_v38_event_novelty_release_bundle_20260818"
+        "official_release_fast_multileg_h15_v8_opposing_policy_claim_guard_20260904"
     )
     assert watch.COHORT_ID != watch.PARENT_COHORT_ID
 
 
 def test_h30_extension_starts_new_magnitude_cohorts():
     assert watch.NEWS_MAGNITUDE_COHORTS["news_magnitude_ranked_h30"] == (
-        "news_magnitude_ranked_h30_v27_energy_exporter_ambiguity_20260818"
+        "news_magnitude_ranked_h30_v35_conflict_duration_recap_guard_20260904"
     )
     assert watch.NEWS_MAGNITUDE_COHORTS[
         "news_magnitude_direction_confirmed_h30"
-    ] == "news_magnitude_direction_confirmed_h30_v27_energy_exporter_ambiguity_20260818"
+    ] == "news_magnitude_direction_confirmed_h30_v35_conflict_duration_recap_guard_20260904"
     assert all(
-        "_v33_energy_exporter_ambiguity_20260818" in value
+        "_v41_conflict_duration_recap_guard_20260904" in value
         for arm, value in watch.NEWS_MAGNITUDE_COHORTS.items()
         if not arm.endswith("h30")
     )
+
+
+def test_post_input_read_clock_rebases_quote_age_and_fails_future_rows_closed():
+    decision = dt.datetime(2026, 9, 4, 17, 30, 2, tzinfo=UTC)
+    quotes = {
+        "USD_JPY": {
+            "bid": 155.0,
+            "ask": 155.02,
+            "mid": 155.01,
+            "pip": 0.01,
+            "spread_pips": 2.0,
+            "time": watch.iso(decision - dt.timedelta(seconds=1)),
+            "age_sec": -1.0,
+            "fresh": True,
+        },
+        "EUR_JPY": {
+            "bid": 181.0,
+            "ask": 181.03,
+            "mid": 181.015,
+            "pip": 0.01,
+            "spread_pips": 3.0,
+            "time": watch.iso(decision + dt.timedelta(milliseconds=1)),
+            "age_sec": -2.0,
+            "fresh": True,
+        },
+    }
+
+    rebased, state, diagnostics = watch.rebase_quotes_to_post_read_clock(
+        quotes, decision
+    )
+
+    assert state == "fresh"
+    assert rebased["USD_JPY"]["age_sec"] == 1.0
+    assert rebased["USD_JPY"]["fresh"] is True
+    assert rebased["EUR_JPY"]["age_sec"] < 0.0
+    assert rebased["EUR_JPY"]["fresh"] is False
+    assert diagnostics["negative_quote_age_count"] == 1
+    assert diagnostics["negative_quote_age_instruments"] == ["EUR_JPY"]
+    assert diagnostics["all_negative_quote_ages_fail_closed"] is True
 
 
 def test_factor_loader_fails_closed_on_stale_classifier_payload(tmp_path):
@@ -896,6 +1045,88 @@ def test_factor_loader_fails_closed_on_stale_classifier_payload(tmp_path):
     factors = watch.load_currency_factors(database, observed)
     assert len(factors) == 1
     assert factors[0]["currency"] == "USD"
+
+
+def test_factor_loader_fails_closed_without_crashing_on_database_lock(
+    tmp_path, monkeypatch
+):
+    database = tmp_path / "news.sqlite"
+    database.touch()
+    diagnostics = {}
+
+    def locked(*args, **kwargs):
+        raise sqlite3.OperationalError("database is locked")
+
+    monkeypatch.setattr(watch.sqlite3, "connect", locked)
+    observed = dt.datetime(2026, 9, 4, 17, 42, tzinfo=UTC)
+    assert watch.load_currency_factors(database, observed, diagnostics) == []
+    assert diagnostics == {
+        "news_database_read_state": "temporarily_unavailable",
+        "news_database_read_error_type": "OperationalError",
+    }
+
+
+def test_secondary_crypto_primary_story_stays_out_of_currency_factor_research(tmp_path):
+    database = tmp_path / "news.sqlite"
+    connection = sqlite3.connect(database)
+    connection.execute(
+        """
+        CREATE TABLE topic_events (
+            topic_id TEXT PRIMARY KEY, topic_signature TEXT,
+            first_known_utc TEXT, published_utc TEXT, category TEXT,
+            direct_currencies_json TEXT, article_count INTEGER,
+            distinct_source_count INTEGER, payload_json TEXT
+        )
+        """
+    )
+    observed = dt.datetime(2026, 9, 1, 16, 7, tzinfo=UTC)
+    payload = {
+        **topic_provenance(),
+        "prospective_provenance_known_utc": watch.iso(observed),
+        "classification_version": watch.NEWS_CLASSIFICATION_VERSION,
+        "directional_publish_eligible": False,
+        "directional_source_grade": "secondary_requires_corroboration",
+        "forward_signal_timely": True,
+        "reports_prior_market_move": False,
+        "context_only": True,
+        "context_reason": "secondary_uncorroborated_macro_context",
+        "research_currency_scores": {"USD": 0.9},
+        "estimated_reaction_horizon_minutes": 180,
+        "headline": "XRP, Fed Rate Hike and Treasury Yields: ETF Outlook - Coinpaper",
+        "source_ids": ["google_news_market_ticker"],
+        "structured_event": False,
+        "issuer_bound_policy_communication": False,
+    }
+    connection.execute(
+        "INSERT INTO topic_events VALUES (?,?,?,?,?,?,?,?,?)",
+        (
+            "crypto-topic", "monetary_policy|USD|general|hawkish_guidance",
+            watch.iso(observed), watch.iso(observed), "monetary_policy",
+            '["USD"]', 1, 1, json.dumps(payload),
+        ),
+    )
+    connection.commit()
+    connection.close()
+    diagnostics = {}
+    assert watch.load_currency_factors(database, observed, diagnostics) == []
+    assert diagnostics["secondary_crypto_primary_suppressed"] == 1
+    assert diagnostics["secondary_crypto_primary_examples"] == [
+        {
+            "topic_id": "crypto-topic",
+            "headline": payload["headline"],
+            "source_ids": ["google_news_market_ticker"],
+            "reason": "secondary_crypto_primary_context_only",
+        }
+    ]
+
+
+def test_crypto_word_does_not_block_verified_issuer_policy_source():
+    payload = {
+        "headline": "Federal Reserve policy statement discusses crypto markets",
+        "directional_source_grade": "verified_primary_or_publisher",
+        "issuer_bound_policy_communication": True,
+    }
+    assert watch.secondary_crypto_primary_context(payload) is False
 
 
 def test_official_duration_liquidity_policy_enters_only_fast_confirmation_arm(tmp_path):
@@ -947,7 +1178,69 @@ def test_official_duration_liquidity_policy_enters_only_fast_confirmation_arm(tm
     assert factors[0]["uncorroborated_research"] is False
 
 
-def test_uncorroborated_secondary_topic_is_isolated_shadow_response(tmp_path):
+def test_japan_external_policy_pressure_requires_prospective_activation(tmp_path):
+    database = tmp_path / "news.sqlite"
+    connection = sqlite3.connect(database)
+    connection.execute(
+        """
+        CREATE TABLE topic_events (
+            topic_id TEXT PRIMARY KEY, topic_signature TEXT,
+            first_known_utc TEXT, published_utc TEXT, category TEXT,
+            direct_currencies_json TEXT, article_count INTEGER,
+            distinct_source_count INTEGER, payload_json TEXT
+        )
+        """
+    )
+    observed = dt.datetime(2026, 9, 4, 18, 5, tzinfo=UTC)
+    known = observed - dt.timedelta(minutes=4)
+    payload = {
+        **topic_provenance(),
+        "prospective_provenance_known_utc": watch.iso(known),
+        "classification_version": watch.NEWS_CLASSIFICATION_VERSION,
+        "directional_publish_eligible": False,
+        "directional_source_grade": "verified_primary_or_publisher",
+        "forward_signal_timely": True,
+        "reports_prior_market_move": False,
+        "context_only": True,
+        "research_currency_scores": {"JPY": 0.45},
+        "research_directional_basis": (
+            "japan_external_policy_pressure_requires_rate_and_price_confirmation"
+        ),
+        "japan_external_policy_pressure_activation_eligible": False,
+        "estimated_reaction_horizon_minutes": 360,
+        "headline": "財務大臣閣議後記者会見の概要",
+        "source_ids": ["japan_mof_press_conferences_ja"],
+    }
+    connection.execute(
+        "INSERT INTO topic_events VALUES (?,?,?,?,?,?,?,?,?)",
+        (
+            "jpy-policy-pressure", "japan-policy-pressure", watch.iso(known),
+            watch.iso(known), "monetary_policy", '["JPY"]', 1, 1,
+            json.dumps(payload),
+        ),
+    )
+    connection.commit()
+    connection.close()
+
+    assert watch.load_currency_factors(database, observed) == []
+    connection = sqlite3.connect(database)
+    payload["japan_external_policy_pressure_activation_eligible"] = True
+    connection.execute(
+        "UPDATE topic_events SET payload_json=? WHERE topic_id=?",
+        (json.dumps(payload), "jpy-policy-pressure"),
+    )
+    connection.commit()
+    connection.close()
+
+    factors = watch.load_currency_factors(database, observed)
+    assert len(factors) == 1
+    assert factors[0]["currency"] == "JPY"
+    assert factors[0]["score"] == 0.45
+    assert factors[0]["official_release_research"] is True
+    assert factors[0]["uncorroborated_research"] is False
+
+
+def test_equal_leg_uncorroborated_secondary_topic_cancels_pair_response(tmp_path):
     database = tmp_path / "news.sqlite"
     connection = sqlite3.connect(database)
     connection.execute(
@@ -1003,9 +1296,7 @@ def test_uncorroborated_secondary_topic_is_isolated_shadow_response(tmp_path):
         )
     }
     rows = watch.build_watchlist(factors, {}, quotes, history, observed)
-    assert {row["horizon_min"] for row in rows} == {5, 15, 30}
-    assert all(row["arm"].startswith("uncorroborated_news_response_h") for row in rows)
-    assert all(row["execution_eligible"] is False for row in rows)
+    assert rows == []
 
 
 def test_legacy_untrusted_topic_cannot_seed_v36_factor(tmp_path):
@@ -1090,7 +1381,7 @@ def test_uncorroborated_v1_rows_are_retained_but_invalidated(tmp_path):
         "horizon_min": 5, "arm": "uncorroborated_news_response_h5",
         "direction": "short", "news_score": 0.4, "technical_confidence": None,
         "verification_state": "missing_consensus_and_rates", "terms": [],
-        "cohort_id": watch.UNCORROBORATED_NEWS_PARENT_COHORTS[5],
+        "cohort_id": watch.UNCORROBORATED_NEWS_INVALID_SAMPLING_COHORTS[5],
         "entry_quote": {"bid": 150.0, "ask": 150.01, "mid": 150.005,
                         "pip": 0.01, "spread_pips": 1.0},
     }
@@ -1099,6 +1390,26 @@ def test_uncorroborated_v1_rows_are_retained_but_invalidated(tmp_path):
     assert connection.execute(
         "SELECT status FROM watchlist_entries"
     ).fetchone()[0] == "invalid_sampling_transition"
+
+
+def test_uncorroborated_v16_parent_evidence_is_preserved(tmp_path):
+    connection = watch.open_database(tmp_path / "watch.sqlite")
+    observed = dt.datetime(2026, 9, 1, 17, 0, tzinfo=UTC)
+    entry = {
+        "episode_id": "prior-valid", "currency": "USD",
+        "instrument": "AUD_USD", "horizon_min": 5,
+        "arm": "uncorroborated_news_response_h5", "direction": "short",
+        "news_score": 0.4, "technical_confidence": None,
+        "verification_state": "missing_consensus_and_rates", "terms": [],
+        "cohort_id": watch.UNCORROBORATED_NEWS_PARENT_COHORTS[5],
+        "entry_quote": {"bid": 0.7, "ask": 0.7001, "mid": 0.70005,
+                        "pip": 0.0001, "spread_pips": 1.0},
+    }
+    assert watch.persist_entries(connection, [entry], observed) == 1
+    assert watch.invalidate_uncorroborated_sampling_transition(connection) == 0
+    assert connection.execute(
+        "SELECT status FROM watchlist_entries"
+    ).fetchone()[0] == "pending"
 
 
 def test_maturity_rejects_quote_far_from_declared_horizon(tmp_path):

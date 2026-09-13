@@ -1,0 +1,667 @@
+{
+  "schema_version": "joint_v3_original_outcome_assessment_v1",
+  "status": "passed",
+  "started_utc": "2026-09-09T08:33:45.103738+00:00",
+  "completed_utc": "2026-09-09T08:35:30.200272+00:00",
+  "snapshot_start_utc": "2026-09-09T08:33:45.127736+00:00",
+  "snapshot_end_utc": "2026-09-09T08:35:29.451936+00:00",
+  "activation_start_utc": "2026-09-08T20:06:42.506419+00:00",
+  "activation_end_utc": "2026-09-08T20:06:44.958867+00:00",
+  "registry_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\joint_price_news_study_v3_20260908.json",
+  "registry_sha256": "ee075e69e80ca56dfdf45abe1f7a1a301612176e67f7622eab1adf2bd9af8771",
+  "source_bindings": {
+    "oanda_causal_forecast_inputs.py": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+    "oanda_causal_forecast_inputs_gap_v2.py": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd",
+    "oanda_causal_forecast_inputs_joint_news_v2.py": "ade4fc5eb2aea195d7609964d7b8979ca433a28028e059c65adc1b1b404a277c",
+    "oanda_causal_forecast_inputs_pair_v2.py": "8e58491a49fca967e6d8d2a797cc77f142053576c92a724a2e7336d855fb4899",
+    "oanda_causal_forecast_ledger_joint_news_v2.py": "17782392f8e3994ff83620109141770b1f1f8182d863444ed4aaa6067bf4ef72",
+    "oanda_causal_prediction_baselines.py": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+    "oanda_exact_price_scoring.py": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521",
+    "oanda_fixed_forecast_evaluation_joint_news_v1.py": "c1f9940d57c0d39c1815b22a9114752075042a09da3e196e84829e77b293131d",
+    "oanda_joint_price_news_forecast_study_v3.py": "5dfc29c29fbb61daef4f9f9d5c50f8c029a4d9ed57438288839176e6b55a7f80",
+    "oanda_joint_price_news_models_v1.py": "eb153acb966dc04ad950a0bbfcc730e78a9a0da1d8a24e91d641f473f5cfbc23",
+    "oanda_local_news_sentiment.py": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4",
+    "oanda_local_news_sentiment_repair_v1.py": "c2fbad7c290ce1edaa977e99988ab563a2afc6571dc456271e45bde3ca7b2b6b",
+    "oanda_news_causal_aggregation_guard_v1.py": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9",
+    "oanda_news_classification_contract.py": "f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae",
+    "oanda_news_collector_contract.py": "41c30599a953d0fd967bc68c5f178d46fc21dd2382ac9fdca78bc3c64ac9f68f",
+    "oanda_news_event_tagger.py": "3657872fa84a6f081903307df7209350fed4f713d866735b9387ce375a5e4f3f",
+    "oanda_news_topic_identity_reconciliation_v1.py": "d34b0c72693497e9be6eadc86bd17f0a2c1c1b79ecf010928faf88a5033a7884",
+    "oanda_pair_local_models_v2.py": "294c63bf0ed873395c4850a8722a2622eaa2bc563ceb7ecf9886764c63d8bf24",
+    "oanda_source_governance.py": "c4b7793dcef1b9176079a959019f8b69059fbd6644fddf1e8718f924d3a13950",
+    "oanda_source_governance_news_fast_lane.py": "bdd6a2542b3dbddbdf86f7148af4dcb38d0b8591b3f3fcdb843d9eed29898f03"
+  },
+  "registered_sources_unchanged": true,
+  "helper_sha256": "bad4ea610f01a19e82ae1e38709775ab306c609e2cdb799e35a5da75c44ea5a2",
+  "prior_pure_helper_sha256": "186e9000e2af2360e23bbdb752fb83bd26df61ca7c387899a880adae2739b7f1",
+  "ledgers": 68,
+  "counts": {
+    "quotes": 495575,
+    "attempts": 2534,
+    "diagnostics": 42,
+    "inputs": 2428,
+    "forecasts": 2491,
+    "publication": 2491,
+    "consumption": 2491,
+    "entries": 2397,
+    "outcomes": 2182,
+    "exclusions": 175
+  },
+  "pairs_ever_published": 66,
+  "pairs_with_unexpired": 66,
+  "unexpired_published": 134,
+  "original_exclusions": {
+    "missing_later_entry_before_deadline": 94,
+    "missing_quote_at_original_target": 81
+  },
+  "due_without_outcome_or_exclusion": 0,
+  "unscored_original_completed": 0,
+  "reconciliation_errors": 0,
+  "stored_scorecard_scored_rows": 2182,
+  "stored_cards_behind_completed": 0,
+  "metrics": {
+    "ridge_price_news_v1": {
+      "valid_completed_decisions": 2182,
+      "directional_decisions": 2182,
+      "neutral_decisions": 0,
+      "direction_hits": 1059,
+      "direction_hit_rate_when_directional": "0.48533455545371219065077910174152153987167736021998166819431714023831347387717690",
+      "positive_after_spread": 410,
+      "positive_after_spread_rate_when_directional": "0.18790100824931255728689275893675527039413382218148487626031164069660861594867094",
+      "mean_brier": "0.25211899825983496228369828072403286741521539871677360219981668194317140238313474",
+      "brier_denominator": 2182,
+      "mae_bps": "4.0316899846768010056370894262676144811890664370404299101920679594620905294229093",
+      "magnitude_denominator": 2182,
+      "rmse_bps": "5.9577791665718664035541647996863707829738484984446976061973794285785744908346256",
+      "mean_net_bps_per_valid_decision": "-4.7681196937265135635577789025633626153840371463392838725566193200007169732671077",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0": "-4.7681196937265135635577789025633626153840371463392838725566193200007169732671077",
+        "0.5": "-5.2681196937265135635577789025633626153840371463392838725566193200007169732671059",
+        "1": "-5.7681196937265135635577789025633626153840371463392838725566193200007169732671082"
+      },
+      "probability_scope": "uncalibrated_registered_predictions"
+    },
+    "fair_coin": {
+      "valid_completed_decisions": 2182,
+      "directional_decisions": 0,
+      "neutral_decisions": 2182,
+      "direction_hits": 0,
+      "direction_hit_rate_when_directional": null,
+      "positive_after_spread": 0,
+      "positive_after_spread_rate_when_directional": null,
+      "mean_brier": "0.25",
+      "brier_denominator": 2182,
+      "mae_bps": null,
+      "magnitude_denominator": 0,
+      "rmse_bps": null,
+      "mean_net_bps_per_valid_decision": "0",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0": "0",
+        "0.5": "0",
+        "1": "0"
+      },
+      "probability_scope": "fixed_0.5_probability_baseline"
+    },
+    "zero_move": {
+      "valid_completed_decisions": 2182,
+      "directional_decisions": 0,
+      "neutral_decisions": 2182,
+      "direction_hits": 0,
+      "direction_hit_rate_when_directional": null,
+      "positive_after_spread": 0,
+      "positive_after_spread_rate_when_directional": null,
+      "mean_brier": null,
+      "brier_denominator": 0,
+      "mae_bps": "3.7961172821982305366454525833593168043838689264063264353604554238496539188389015",
+      "magnitude_denominator": 2182,
+      "rmse_bps": "5.6811652059361660363539894358212863136279321734120165627629129684861611152436317",
+      "mean_net_bps_per_valid_decision": "0",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0": "0",
+        "0.5": "0",
+        "1": "0"
+      },
+      "probability_scope": "no_probability_forecast_provided"
+    },
+    "no_trade": {
+      "valid_completed_decisions": 2182,
+      "directional_decisions": 0,
+      "neutral_decisions": 2182,
+      "direction_hits": 0,
+      "direction_hit_rate_when_directional": null,
+      "positive_after_spread": 0,
+      "positive_after_spread_rate_when_directional": null,
+      "mean_brier": null,
+      "brier_denominator": 0,
+      "mae_bps": null,
+      "magnitude_denominator": 0,
+      "rmse_bps": null,
+      "mean_net_bps_per_valid_decision": "0",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0": "0",
+        "0.5": "0",
+        "1": "0"
+      },
+      "probability_scope": "no_probability_forecast_provided"
+    },
+    "rolling_class_rate": {
+      "valid_completed_decisions": 2182,
+      "directional_decisions": 711,
+      "neutral_decisions": 1471,
+      "direction_hits": 391,
+      "direction_hit_rate_when_directional": "0.54992967651195499296765119549929676511954992967651195499296765119549929676511955",
+      "positive_after_spread": 213,
+      "positive_after_spread_rate_when_directional": "0.29957805907172995780590717299578059071729957805907172995780590717299578059071730",
+      "mean_brier": "0.25228698828048427526733395059817083564903806006379458058972590111763319131239427",
+      "brier_denominator": 2182,
+      "mae_bps": null,
+      "magnitude_denominator": 0,
+      "rmse_bps": null,
+      "mean_net_bps_per_valid_decision": "-0.83905428237441420245086358978029066798220918429067808132548208072963905677182250",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0": "-0.83905428237441420245086358978029066798220918429067808132548208072963905677182250",
+        "0.5": "-1.0019782053808303344398645063705748109702935105968192362292401008946253079175603",
+        "1": "-1.1649021283872464664288654229608589539583778369029603911329981210596115590632980"
+      },
+      "probability_scope": "causally_available_prior_labels_only"
+    },
+    "matched_price_only": {
+      "valid_completed_decisions": 2182,
+      "directional_decisions": 2182,
+      "neutral_decisions": 0,
+      "direction_hits": 1099,
+      "direction_hit_rate_when_directional": "0.50366636113657195233730522456461961503208065994500458295142071494042163153070577",
+      "positive_after_spread": 421,
+      "positive_after_spread_rate_when_directional": "0.19294225481209899175068744271310724106324472960586617781851512373968835930339138",
+      "mean_brier": null,
+      "brier_denominator": 0,
+      "mae_bps": "3.8959956076448909966141960076536963294544251657389226320969864844165645075210364",
+      "magnitude_denominator": 2182,
+      "rmse_bps": "5.8561375378826271070514741528126464868364191366230286986090228163128118458605935",
+      "mean_net_bps_per_valid_decision": "-4.8305136300199801338359490987525131046084398028329561217224659352918396836365522",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0": "-4.8305136300199801338359490987525131046084398028329561217224659352918396836365522",
+        "0.5": "-5.3305136300199801338359490987525131046084398028329561217224659352918396836365522",
+        "1": "-5.8305136300199801338359490987525131046084398028329561217224659352918396836365555"
+      },
+      "probability_scope": "no_probability_forecast_provided"
+    },
+    "neutral_news_ablation": {
+      "valid_completed_decisions": 2182,
+      "directional_decisions": 2182,
+      "neutral_decisions": 0,
+      "direction_hits": 1153,
+      "direction_hit_rate_when_directional": "0.52841429880843263061411549037580201649862511457378551787351054078826764436296975",
+      "positive_after_spread": 445,
+      "positive_after_spread_rate_when_directional": "0.20394133822181484876260311640696608615948670944087992667277726856095325389550871",
+      "mean_brier": null,
+      "brier_denominator": 0,
+      "mae_bps": "3.9000834032798572719173371271353649805845269025673294983728282281866214455997980",
+      "magnitude_denominator": 2182,
+      "rmse_bps": "5.9206740212916482287810515021345703356767810689557580845868745483501577544402614",
+      "mean_net_bps_per_valid_decision": "-4.5697677011701702855651131727550346029247654997700181406086499914957816919061586",
+      "stress_mean_net_bps_per_valid_decision": {
+        "0": "-4.5697677011701702855651131727550346029247654997700181406086499914957816919061586",
+        "0.5": "-5.0697677011701702855651131727550346029247654997700181406086499914957816919061595",
+        "1": "-5.5697677011701702855651131727550346029247654997700181406086499914957816919061590"
+      },
+      "probability_scope": "no_probability_forecast_provided"
+    }
+  },
+  "paired_deltas": {
+    "matched_price_only": {
+      "same_completed_denominator": 2182,
+      "mean_joint_minus_comparator_net_bps": "0.062393936293466570278170196189150489224402656493672249165846615291122710369445555",
+      "mean_joint_minus_comparator_absolute_error_bps": "0.13569437703191000902289341861391815173464127130150727809508147504552602190187306"
+    },
+    "neutral_news_ablation": {
+      "same_completed_denominator": 2182,
+      "mean_joint_minus_comparator_net_bps": "-0.19835199255634327799266572980832801245927164656926573194796932850493528136094891",
+      "mean_joint_minus_comparator_absolute_error_bps": "0.13160658139694373371975229913224950060453953447310041181923973127546908382311136"
+    }
+  },
+  "dependence": {
+    "scored_rows": 2182,
+    "pairs": 66,
+    "distinct_pair_reference_target_events": 2182,
+    "distinct_exact_reference_epochs": 2182,
+    "reference_15minute_utc_buckets": 47,
+    "reference_utc_hours": 12,
+    "reference_utc_days": 2,
+    "greedy_nonoverlapping_H1_reference_windows_within_pairs": 641,
+    "independent_sample_size": null,
+    "warning": "Clock counts and nonoverlapping within-pair windows do not establish independence: currencies share market factors, families share inputs, and H1 windows overlap."
+  },
+  "reference_start_utc": "2026-09-08T20:07:13.325490+00:00",
+  "reference_end_utc": "2026-09-09T07:34:30.434279+00:00",
+  "target_start_utc": "2026-09-08T21:07:13.325490+00:00",
+  "target_end_utc": "2026-09-09T08:34:30.434279+00:00",
+  "ledger_results": [
+    {
+      "instrument": "AUD_CAD",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\AUD_CAD.json",
+      "sha256": "783ca4e8d7a9b5152934f20b20a00ec6c2478918342dd0fb3aa336864f416f7e"
+    },
+    {
+      "instrument": "AUD_CHF",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\AUD_CHF.json",
+      "sha256": "eec8a4a67a151dbd7f25463d3644307b03504b156b432b8036122de2f14190a3"
+    },
+    {
+      "instrument": "AUD_HKD",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\AUD_HKD.json",
+      "sha256": "399557d0776f83454b8c4284ff80ac7af3c5439ad875d77f74eee1fa407b3f0f"
+    },
+    {
+      "instrument": "AUD_JPY",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\AUD_JPY.json",
+      "sha256": "5c577a2bc7e0dc878f40de42084571dd09e955951e3d46a6cb2d53c6014fbbbe"
+    },
+    {
+      "instrument": "AUD_NZD",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\AUD_NZD.json",
+      "sha256": "d03023516b8b8d259570a92eb3b2172f1ed61f2930c3566191df87d11c5da15a"
+    },
+    {
+      "instrument": "AUD_SGD",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\AUD_SGD.json",
+      "sha256": "17e54e305c2651f6f7387243af1688d1c61ea647a99488262e34c4b04e998fb2"
+    },
+    {
+      "instrument": "AUD_USD",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\AUD_USD.json",
+      "sha256": "2f0f9a9e389f4e93034d3f7f3ff7a3072b363e3592f677b5b66766ada4fd9d42"
+    },
+    {
+      "instrument": "CAD_CHF",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\CAD_CHF.json",
+      "sha256": "82e99183cc619929b6fb8fa722b7a335cee61b8fff37b3ee586116ddda295597"
+    },
+    {
+      "instrument": "CAD_HKD",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\CAD_HKD.json",
+      "sha256": "03d8aba8f90883a0ac2b471fb6d9b7592c78d6a324d8723ef116784d907601c5"
+    },
+    {
+      "instrument": "CAD_JPY",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\CAD_JPY.json",
+      "sha256": "e3b6379a58e459ac8cd905cad0ee36dbbbd00e3c06e908d3cb507904067bff31"
+    },
+    {
+      "instrument": "CAD_SGD",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\CAD_SGD.json",
+      "sha256": "2c803b0c938cf138d67c1add983a07dceaefe6fde362793273aadf8eae027419"
+    },
+    {
+      "instrument": "CHF_HKD",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\CHF_HKD.json",
+      "sha256": "ed32906f61926c31605a3c8a098582c89dc727cebf38049455ba075154a38989"
+    },
+    {
+      "instrument": "CHF_JPY",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\CHF_JPY.json",
+      "sha256": "9a6b6f5a05ef8de67a521ce343b8bf7e0cca98296c21195d132358b12a5e1fe2"
+    },
+    {
+      "instrument": "CHF_ZAR",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\CHF_ZAR.json",
+      "sha256": "45fed7c794587f745354120e83ad03af7a22e96753269d412877f9d0e97170f4"
+    },
+    {
+      "instrument": "EUR_AUD",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\EUR_AUD.json",
+      "sha256": "d5fe6c87bac681616761afeff435ae21653c371d508bb314104e2c2f32e01c54"
+    },
+    {
+      "instrument": "EUR_CAD",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\EUR_CAD.json",
+      "sha256": "4550fb3632b479150df344ec0901484bc14e3cab3bdaae50e87140dbbb45898c"
+    },
+    {
+      "instrument": "EUR_CHF",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\EUR_CHF.json",
+      "sha256": "6a63c1101ea651bf59a256af8b5038aeb236ad551aa90165d10cb791058b1112"
+    },
+    {
+      "instrument": "EUR_CZK",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\EUR_CZK.json",
+      "sha256": "9da1c3b95f2dbbb61f30639d1f3dda5d95c822cf919778937ef2eadfa2a6003f"
+    },
+    {
+      "instrument": "EUR_DKK",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\EUR_DKK.json",
+      "sha256": "4896b027a505260a131e79872991727ef35823c813025ca40fb8c4ea00a06c9f"
+    },
+    {
+      "instrument": "EUR_GBP",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\EUR_GBP.json",
+      "sha256": "65d645959aca6f93c4b1426fba1838cb6229226abb4028dd9bbc888bbed1df22"
+    },
+    {
+      "instrument": "EUR_HKD",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\EUR_HKD.json",
+      "sha256": "a941930c4036caa6c18c43c344e18ed3ce85717fa00ca798dd0d738e8edabf0c"
+    },
+    {
+      "instrument": "EUR_HUF",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\EUR_HUF.json",
+      "sha256": "fdb7c937e0abb5af521d5957cd77de0e8dadb7bd6c50473f59e3268c46e9ee5e"
+    },
+    {
+      "instrument": "EUR_JPY",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\EUR_JPY.json",
+      "sha256": "e5119a7fe51cf13ed18508a6720f62b6a96ef466757a931594b11b6412e2d4a3"
+    },
+    {
+      "instrument": "EUR_NOK",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\EUR_NOK.json",
+      "sha256": "10c5f689973600571e0c8446bebaf49901835ef1d7cce229524ab7a46457e665"
+    },
+    {
+      "instrument": "EUR_NZD",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\EUR_NZD.json",
+      "sha256": "2743677dd5f7a6ef90b295baf8d381879d507255ca77b95741af996ef7e5d0d9"
+    },
+    {
+      "instrument": "EUR_PLN",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\EUR_PLN.json",
+      "sha256": "a624d522d9c36bc1402d0ca57ad748a8477de5e37bd4de4ee7995a6496895e1b"
+    },
+    {
+      "instrument": "EUR_SEK",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\EUR_SEK.json",
+      "sha256": "739956fe97ba6cdd33943e4cdf62a08f8e9ef9d38024b88879240641004a85d6"
+    },
+    {
+      "instrument": "EUR_SGD",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\EUR_SGD.json",
+      "sha256": "de490cd12dd2900116811754ae7147eccf0d24f72489419b6855ed31be70fcc1"
+    },
+    {
+      "instrument": "EUR_TRY",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\EUR_TRY.json",
+      "sha256": "c84b1f72e19e05dc36d6bc3cca8e8d8014ffb261eeee40033482b295f4386342"
+    },
+    {
+      "instrument": "EUR_USD",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\EUR_USD.json",
+      "sha256": "a44bb1568133d826b9040545b87956950608c6a455224c1776be8f0d811de2cb"
+    },
+    {
+      "instrument": "EUR_ZAR",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\EUR_ZAR.json",
+      "sha256": "fea41cf91a9d6724758589bfb27cc76c5bd46d28207c8c84e71eb578f9b18e86"
+    },
+    {
+      "instrument": "GBP_AUD",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\GBP_AUD.json",
+      "sha256": "40b07b585f1079fa68e7b5c2ea79e7bd79246a0dc302b34fbd5f608bd9721737"
+    },
+    {
+      "instrument": "GBP_CAD",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\GBP_CAD.json",
+      "sha256": "8e54b7037a18bc3cfd3a48a8e59a4766c6dd6f2ca019d8f5eee25ebdf24b9022"
+    },
+    {
+      "instrument": "GBP_CHF",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\GBP_CHF.json",
+      "sha256": "728dbd26e487d617dcc2b2417132a256aa2e55cf399342aee6a4012197d7000f"
+    },
+    {
+      "instrument": "GBP_HKD",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\GBP_HKD.json",
+      "sha256": "ee6115fc043a59ab3a4970931b7a79161aa7d0f30f956e07223c88417c37d2d8"
+    },
+    {
+      "instrument": "GBP_JPY",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\GBP_JPY.json",
+      "sha256": "b0f519eff2f103073a0f0b6da6a7ba0d535848590234211d7b8ac03365c36785"
+    },
+    {
+      "instrument": "GBP_NZD",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\GBP_NZD.json",
+      "sha256": "b49cfaf5facba155ad527f646a754034459de00373ce95af1f9545e699ea0cde"
+    },
+    {
+      "instrument": "GBP_PLN",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\GBP_PLN.json",
+      "sha256": "292923293b67679c815c45682bb27adeed446fb7698db9442b72d06abde009dc"
+    },
+    {
+      "instrument": "GBP_SGD",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\GBP_SGD.json",
+      "sha256": "6009b3d317c5ebb36f29c0d7d725e474daf2679fbd5e5042729885abd3311ad9"
+    },
+    {
+      "instrument": "GBP_USD",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\GBP_USD.json",
+      "sha256": "a292cb7f9407d8932ff6ebf1364e4dbdf436b013bf8fb59e7de144713d0c1f25"
+    },
+    {
+      "instrument": "GBP_ZAR",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\GBP_ZAR.json",
+      "sha256": "06a2478618dead33d73abb62b0fa7079d83ad01637223a502435d6ac8dfd5e5e"
+    },
+    {
+      "instrument": "HKD_JPY",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\HKD_JPY.json",
+      "sha256": "b4d3cbd5024f4999c93172e5810e1141af9059c6acef8984b428da4bbbf6a2d1"
+    },
+    {
+      "instrument": "NZD_CAD",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\NZD_CAD.json",
+      "sha256": "12b36ce8db94078825624df6e9a1a90af77cd617dc189d39ccb029a378c0abc8"
+    },
+    {
+      "instrument": "NZD_CHF",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\NZD_CHF.json",
+      "sha256": "d01f05af45b2d0f7b5eff151658130c171f046da60834ed06609632920874ff8"
+    },
+    {
+      "instrument": "NZD_HKD",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\NZD_HKD.json",
+      "sha256": "46bd3d812913d0c680a459f5f836f405ced172c94e423fdc3817b4a6a0ec7528"
+    },
+    {
+      "instrument": "NZD_JPY",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\NZD_JPY.json",
+      "sha256": "6bd6785d549dfe075bb3c808b1f8fbce9bffe45929f6a118981c716e4b814a43"
+    },
+    {
+      "instrument": "NZD_SGD",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\NZD_SGD.json",
+      "sha256": "adbf29a2dda30c2870a58f0f9b7228046cc3232c44002e611aa780972e260f4a"
+    },
+    {
+      "instrument": "NZD_USD",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\NZD_USD.json",
+      "sha256": "4f7ac85e0f0843e2d645de7cbcbd0b224573b04680ad046cb59974a6ae1e648e"
+    },
+    {
+      "instrument": "SGD_CHF",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\SGD_CHF.json",
+      "sha256": "1ec1a90d410a3ba221d5f6ec6c0a002e6176060f88c8095191f12588127fdd63"
+    },
+    {
+      "instrument": "SGD_JPY",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\SGD_JPY.json",
+      "sha256": "1cef0168908acff4dfed9a2b68f1a7c8c0295284b1cb2cb25896f6bce606ede2"
+    },
+    {
+      "instrument": "TRY_JPY",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\TRY_JPY.json",
+      "sha256": "d07a25621cbedfae80048b3212fc0b870cd718615019a8096028f77406c9cdb6"
+    },
+    {
+      "instrument": "USD_CAD",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\USD_CAD.json",
+      "sha256": "a4c79e9dc0e0ce8dda572267a83dfb489208703f59908b3a6af78e6c37602b65"
+    },
+    {
+      "instrument": "USD_CHF",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\USD_CHF.json",
+      "sha256": "1bc1e530b314834b5172b618f70ce3d01494d44ebcabe4afa0a5716c96db881f"
+    },
+    {
+      "instrument": "USD_CNH",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\USD_CNH.json",
+      "sha256": "8c36e88c3642e0798faf50526457761a87a32471b55d0cc81342bb8c5df8d86d"
+    },
+    {
+      "instrument": "USD_CZK",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\USD_CZK.json",
+      "sha256": "ab0de1831b49e6782526e50025ab262cfa0e0e5a4c39771f2b7c02b4a0e0d5d5"
+    },
+    {
+      "instrument": "USD_DKK",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\USD_DKK.json",
+      "sha256": "e2a7e6ec3406b0d562f7c4eb4bd9fc4302b4eb5ea8ece7bfde58dc044d6d1df4"
+    },
+    {
+      "instrument": "USD_HKD",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\USD_HKD.json",
+      "sha256": "719670d65eeb750a89fe364a2106b24cb3efa15c154116e6c2050f369482f7ad"
+    },
+    {
+      "instrument": "USD_HUF",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\USD_HUF.json",
+      "sha256": "f60b87d0713be9f023e8f30b718d2b56c22d3ecdbc805b6cd8ee2e8002e4a7c4"
+    },
+    {
+      "instrument": "USD_JPY",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\USD_JPY.json",
+      "sha256": "4129d903797dd4ce2cf8f1e8c94ad277f653bad1bdd0db267bf84bf591ba2ce5"
+    },
+    {
+      "instrument": "USD_MXN",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\USD_MXN.json",
+      "sha256": "889ee68dcdd7a0fedfb165629e1be107151eaae3d0b450b6c0ddafd947f47319"
+    },
+    {
+      "instrument": "USD_NOK",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\USD_NOK.json",
+      "sha256": "464482865f44f518f9631a870f8934d32e2dc22368d7e2dd598e17283f596ec8"
+    },
+    {
+      "instrument": "USD_PLN",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\USD_PLN.json",
+      "sha256": "82933ac7e591ac62485d295f53a152ac09908888fca7c9afc5011e4885b1ab6f"
+    },
+    {
+      "instrument": "USD_SEK",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\USD_SEK.json",
+      "sha256": "323c086f45f4af0f4bd1c187818b2d46ab4d0a7c6c63ab543d82821443373d22"
+    },
+    {
+      "instrument": "USD_SGD",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\USD_SGD.json",
+      "sha256": "b72e99de488560879e17bb11f1aead0631f36a3dcd6422b36f623a8b78c10988"
+    },
+    {
+      "instrument": "USD_THB",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\USD_THB.json",
+      "sha256": "8a1deb6b2e97855410fc232ba3d816a0236e1677fa8a381269a4e89b2ee76095"
+    },
+    {
+      "instrument": "USD_TRY",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\USD_TRY.json",
+      "sha256": "57ad0f084569cd459b290fe4814c90c4f806d5bfce16dd3a4fa60fbf4e3644e2"
+    },
+    {
+      "instrument": "USD_ZAR",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\USD_ZAR.json",
+      "sha256": "45d59f86b25e898834da24ddebc1c57626b1d1aa6277c57b82e4c0e97100bb21"
+    },
+    {
+      "instrument": "ZAR_JPY",
+      "status": "passed",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\joint_v3_reassessment_v1\\actual_assessment_001\\results\\ZAR_JPY.json",
+      "sha256": "02779a3613185e225312142952edd42c39d930af8ae4b3bffa9ddd192c599c72"
+    }
+  ],
+  "limits": {
+    "max_parallel_processes": 4,
+    "per_db_bytes": 536870912,
+    "quotes_per_db": 100000,
+    "forecasts_per_db": 256,
+    "query_seconds": 20
+  },
+  "limitations": [
+    "Only original retained completed outcomes are scored. No future outcomes, missing quote repair, training, forecast regeneration, ledger writes or broker calls.",
+    "Per-database query-only transactions have distinct actual clocks; this is not a globally atomic snapshot. Full coherent logical exports are retained compressed outside the project.",
+    "All retained quotes are passed to the unchanged exact registered scorer; scored entry and target IDs reconcile with original stored receipts.",
+    "Matched price-only and neutral-news estimates were retained before issue and scored on the identical joint decisions and executable endpoints. They are not independent price-family forecasts.",
+    "Brier is descriptive for uncalibrated probabilities. Matched comparator probabilities do not exist; no probability results are manufactured.",
+    "Net bps describe executable bid/ask endpoints and explicit stress, not actual trades, financing, USD account P/L or leverage return.",
+    "H1 windows overlap, instruments share currencies and inputs, and the observation spans less than a day. Counts are not independent trials and no confident improvement or edge is established.",
+    "Original separately generated scorecards remain unchanged; any generation-timing set differences are disclosed in individual results.",
+    "Historical pre-repair and current cohort aggregates use different periods/denominators and are not a controlled before/after experiment."
+  ]
+}

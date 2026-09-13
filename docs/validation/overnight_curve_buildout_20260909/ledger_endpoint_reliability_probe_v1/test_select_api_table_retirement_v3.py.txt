@@ -1,0 +1,39 @@
+"""Pure path guards only; no selection/export/runtime actions."""
+import pytest
+import select_api_table_retirement_v3 as selected
+
+
+@pytest.mark.parametrize('path',[
+    'actual_probe_v2_001/private_responses/001.bin',
+    'actual_probe_v2_001/private_responses/001.json',
+    'actual_probe_v2_001/PRIVATE_ANYTHING/response.json',
+    'private/full_api_response.json',
+    'private_raw/main.json',
+    'raw_responses/main.json',
+    'raw/quote.json',
+    'raw_snapshots/news.json',
+    'datasets/matrix.json',
+    'db/report.json',
+    'evidence/RAW_RESPONSE.json',
+    'evidence/study.sqlite',
+    'evidence/study.db',
+    'evidence/labels.parquet',
+    'evidence/candles.csv',
+    'evidence/raw.jsonl',
+    'evidence/capture.gz',
+    'evidence/capture.bin',
+])
+def test_private_transport_and_dataset_extras_are_rejected(path):
+    assert not selected.permitted_evidence_path(path)
+
+
+@pytest.mark.parametrize('path',[
+    'actual_probe_v2_001/LEDGER_ENDPOINT_RELIABILITY_PROBE_20260909.json',
+    'integration_candidate_v2_001/reload_dashboard_v2.ps1',
+    'integration_candidate_v2_001/integration_v2.patch.txt',
+    'observer_api_v2_accepted_source/oanda_joint_v3_ledger_status_observer_v2.py.txt',
+    'integration_candidate_v2_001/integration_v2_canonical_tests.xml',
+    'OBSERVER_V2_RETRY_IMPLEMENTATION_20260909.md',
+])
+def test_explicit_compact_evidence_and_source_paths_remain_allowed(path):
+    assert selected.permitted_evidence_path(path)

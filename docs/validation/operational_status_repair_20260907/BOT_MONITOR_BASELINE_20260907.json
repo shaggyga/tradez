@@ -1,0 +1,3628 @@
+{
+  "schema_version": "forex_bot_monitor_baseline_v1",
+  "observed_utc": "2026-09-07T18:33:11.145084+00:00",
+  "observation_started_epoch": 1788805990.6551862,
+  "observation_finished_epoch": 1788805991.1450844,
+  "api_sha256": "494df24c5942816d484bac644682e175f3d5984a69d95fb6428020507d41841d",
+  "pair_coverage": {
+    "status": "current",
+    "reason": null,
+    "generated_epoch": 1788805977.536647,
+    "counts": {
+      "unavailable": 17,
+      "warming": 35,
+      "forecast": 16
+    },
+    "registry_sha256": "e0aa74fa5d20b7be983050625773834ea68d74ffc15b566ab5e03df9b3380d65"
+  },
+  "pair_worker": {
+    "account_eligible": false,
+    "active_pair": null,
+    "can_place_orders": false,
+    "can_promote": false,
+    "counts": {
+      "building": 0,
+      "forecast": 16,
+      "unavailable": 17,
+      "warming": 35
+    },
+    "errors": 0,
+    "generated_epoch": 1788805988.8608074,
+    "heartbeat_publication_errors": 0,
+    "last_error": "",
+    "pair_count": 68,
+    "phase": "research_collection",
+    "proof_eligible": false,
+    "registry_sha256": "e0aa74fa5d20b7be983050625773834ea68d74ffc15b566ab5e03df9b3380d65",
+    "research_only": true,
+    "schema_version": "pair_local_forecast_heartbeat_v1_20260907",
+    "summary_sha256": "2c45eba3ed672f88dfb8bdb4490fae0ee33cb6f159609e03002a228010391323",
+    "supported_decision": "no_trade"
+  },
+  "eurusd_companion_worker": {
+    "account_eligible": false,
+    "activated_epoch": 1788798577.1677358,
+    "active_bucket": null,
+    "can_place_orders": false,
+    "can_promote": false,
+    "contract_id": "causal_eurusd_two_family_collection_v1_20260907",
+    "contract_sha256": "515c81be37a8828da1fd89edcbee33083ac1f6cae1b2e13bdb5338961058afe0",
+    "counts": {
+      "attempts": 10,
+      "consumption": 6,
+      "diagnostics": 4,
+      "entries": 6,
+      "exclusions": 0,
+      "forecasts": 6,
+      "inputs": 6,
+      "outcomes": 6,
+      "publication": 6,
+      "quotes": 807
+    },
+    "errors": 8,
+    "generated_epoch": 1788805989.2464025,
+    "heartbeat_publication_errors": 0,
+    "last_heartbeat_publication_error": "",
+    "last_reason": "",
+    "phase": "collecting",
+    "proof_eligible": false,
+    "research_only": true,
+    "schema_version": "causal_forecast_study_heartbeat_v1",
+    "supported_decision": "no_trade"
+  },
+  "archive_worker": {
+    "details": {
+      "error_count": 0,
+      "gap_recovery_unresolved_minutes": 2149,
+      "instrument": "ZAR_JPY",
+      "last_error": "",
+      "pair_count": 68,
+      "pairs_completed": 68,
+      "sleep_seconds": 175.625,
+      "total_rows_appended": 265,
+      "total_rows_recovered": 0
+    },
+    "phase": "sleeping",
+    "phase_age_sec": 40.343,
+    "phase_updated_at": "2026-09-07T18:32:29.057581+00:00",
+    "pid": 15540,
+    "progress_age_sec": 40.343,
+    "progress_sequence": 1960,
+    "progress_updated_at": "2026-09-07T18:32:29.057581+00:00",
+    "role": "read_only_market_data_archive",
+    "schema_version": 1,
+    "started_at": "2026-09-07T16:15:24.586792+00:00",
+    "status": "running",
+    "updated_at": "2026-09-07T18:33:09.403297+00:00",
+    "uptime_sec": 8264.843,
+    "worker": "all68_m1_forward_archive"
+  },
+  "collection_status": {
+    "schema_version": "registered_research_collection_status_v1_20260906",
+    "status": "running",
+    "running": true,
+    "label": "Research collection running; study trading disabled",
+    "scope": "registered_two_family_eurusd_research_study",
+    "selected_study": "eurusd_v1",
+    "expected_model_count": 2,
+    "current_study_pointer_valid": true,
+    "running_scope": "recent_research_observations_not_forecast_success_or_error_free_operation",
+    "registered_study_trading_enabled": false,
+    "observations": {
+      "study": {
+        "status": "current",
+        "current": true,
+        "observed_at": 1788805987.2364361,
+        "age_sec": 0.802,
+        "max_age_sec": 90,
+        "registered_contract_matches": true,
+        "observed_phase": "collecting",
+        "phase": "collecting",
+        "last_reason": "",
+        "reported_cumulative_errors": 8,
+        "reported_cumulative_heartbeat_publication_errors": 0
+      },
+      "quote_stream": {
+        "status": "current",
+        "current": true,
+        "observed_at": "2026-09-07T18:33:06.759608+00:00",
+        "age_sec": 1.278,
+        "max_age_sec": 90,
+        "current_stream_event_age_sec": 1.575,
+        "scope": "stream_transport_heartbeat_not_tradeable_price_freshness"
+      },
+      "account": {
+        "status": "current",
+        "current": true,
+        "observed_at": "2026-09-07T18:33:07.356224+00:00",
+        "age_sec": 0.682,
+        "max_age_sec": 90
+      }
+    },
+    "unavailable_observations": [],
+    "study_phase": "collecting",
+    "study_reason": "",
+    "model_attempts": {
+      "status": "available",
+      "reason": null,
+      "counts": {
+        "attempts": 10,
+        "diagnostics": 4,
+        "forecasts": 6,
+        "publication": 6,
+        "outcomes": 6
+      },
+      "counts_capped": [],
+      "latest_attempt": {
+        "bucket": 1987562,
+        "epoch": 1788805801.7383926,
+        "status": "abstain",
+        "publication_epoch": null,
+        "rejection": {
+          "bucket": 1987562,
+          "epoch": 1788805803.7539766,
+          "status": "abstain",
+          "reasons": [
+            "EUR_USD:ValueError:current_common_warmup:30<61"
+          ],
+          "reason": "EUR_USD:ValueError:current_common_warmup:30<61"
+        }
+      },
+      "last_rejection": {
+        "bucket": 1987562,
+        "epoch": 1788805803.7539766,
+        "status": "abstain",
+        "reasons": [
+          "EUR_USD:ValueError:current_common_warmup:30<61"
+        ],
+        "reason": "EUR_USD:ValueError:current_common_warmup:30<61"
+      },
+      "observed_epoch": 1788805976.2173514,
+      "scope": "registered_contract_retained_attempts_not_process_liveness",
+      "cache_max_age_sec": 15.0,
+      "cache_age_sec": 11.829,
+      "source_file_size": 1159168,
+      "source_file_mtime_ns": 1788805709166209700,
+      "latest_published_forecast": {
+        "decision_id": "720a124707e201628002250d233b77009c468a4833c8ea6be7b37a1b6471ee96",
+        "publication_epoch": 1788802202.060529,
+        "target_epoch": 1788805793.836923,
+        "status": "target_elapsed",
+        "instrument": "EUR_USD",
+        "horizon_sec": 3600,
+        "forecasts": [
+          {
+            "family": "probabilistic_state_space",
+            "instrument": "EUR_USD",
+            "side": -1,
+            "probability_up": 0.011599739100919881,
+            "reference_epoch": 1788802193.836923,
+            "reference_mid": "1.162545",
+            "issued_epoch": 1788802202.0379906,
+            "target_epoch": 1788805793.836923,
+            "predicted_return_bps": -4.74218772535248
+          },
+          {
+            "family": "ridge_return_repaired",
+            "instrument": "EUR_USD",
+            "side": 1,
+            "probability_up": 0.8048188395671494,
+            "reference_epoch": 1788802193.836923,
+            "reference_mid": "1.162545",
+            "issued_epoch": 1788802202.0379906,
+            "target_epoch": 1788805793.836923,
+            "predicted_return_bps": 3.0147505569430377
+          }
+        ],
+        "comparison_scope": "original_reference_to_current_price_not_scored_accuracy"
+      },
+      "forecast_payload_status": "verified_retained_publication"
+    },
+    "forecasting": {
+      "state": "blocked_warmup",
+      "label": "Forecasts blocked by missing EUR/USD minutes",
+      "blocked": true,
+      "latest_attempt_epoch": 1788805801.7383926,
+      "latest_attempt_status": "abstain",
+      "latest_rejection_reason": "EUR_USD:ValueError:current_common_warmup:30<61",
+      "last_rejection_reason": "EUR_USD:ValueError:current_common_warmup:30<61",
+      "last_rejection_epoch": 1788805803.7539766,
+      "observation_current": true,
+      "scope": "last_retained_attempt_not_current_feed_health"
+    },
+    "warmup": {
+      "required_common_m1_bars": 61,
+      "bar_label": "EUR/USD minute bars",
+      "last_reported_common_bars": 30,
+      "reported_epoch": 1788805803.7539766,
+      "progress_scope": "last_retained_rejection",
+      "explanation": "The selected study needs 61 fresh EUR/USD minute bars and valid historical training segments. This is the last reported attempt, not an estimated completion time; readiness does not authorize orders."
+    },
+    "strategy_or_execution_activation_changed": false
+  },
+  "news": {
+    "status": "stale",
+    "generated_utc": "2026-09-07T18:29:42.780071+00:00",
+    "as_of_utc": "2026-09-07T18:28:05.344745+00:00",
+    "pair_bias_status": "stale",
+    "pair_bias_reason": "news_evidence_stale",
+    "active_topic_count": 19,
+    "screened_article_count": null,
+    "evidence_age_sec": 302.938
+  },
+  "eurusd_news": {
+    "instrument": "EUR_USD",
+    "status": "stale",
+    "reason": "news_evidence_stale",
+    "display_label": "News evidence is stale",
+    "direction": "SHORT",
+    "events": [
+      {
+        "headline": "Blockade Pushes Iran Output Onto Domestic Market - Energy Intelligence",
+        "source_name": "Energy Intelligence",
+        "reaction_phase": "initial_reaction",
+        "category": "risk_off_geopolitical_or_financial"
+      },
+      {
+        "headline": "Iran to Announce New Gulf Restricted Zone, Impact on Oil & Sanctions - Global Banking & Finance Review",
+        "source_name": "Global Banking & Finance Review",
+        "reaction_phase": "continuation_context",
+        "category": "risk_off_geopolitical_or_financial"
+      }
+    ],
+    "evidence_quality": "GLOBAL_TOPIC_PROXY",
+    "relevant_event_count": 18,
+    "context_directional_event_count": 13,
+    "current_directional_event_count": 1,
+    "as_of_utc": "2026-09-07T18:28:05.344745+00:00",
+    "evidence_age_sec": 302.938
+  },
+  "supplemental_diagnostics": {
+    "eurusd_supplemental_diagnostic": {
+      "schema_version": "eurusd_supplemental_diagnostic_report_v1_20260907",
+      "status": "available",
+      "generated_utc": "2026-09-07T18:32:56.369447+00:00",
+      "report_age_sec": 11.708,
+      "freshness": "current",
+      "supplemental": true,
+      "registered_scorecard": false,
+      "research_only": true,
+      "execution_eligible": false,
+      "account_eligible": false,
+      "proof_eligible": false,
+      "can_place_orders": false,
+      "can_promote": false,
+      "scope_label": "Supplemental EUR/USD engineering diagnostic; duplicate reference groups excluded; not the registered scorecard.",
+      "original_scorer": {
+        "status": "failed",
+        "error": "duplicate_market_reference_epoch"
+      },
+      "original_scorecard": {
+        "exists": true,
+        "generated_utc": "2026-09-07T16:29:39.297569+00:00",
+        "age_sec": 7397.072,
+        "stale": true,
+        "sha256": "fcfab321f5644f14efd8ff4b742e9a2daf0b3a72f57872bf2929f01b2c321529",
+        "status": "no_clock_valid_paired_decisions",
+        "collection_counts": {
+          "attempts": 1,
+          "consumption": 0,
+          "diagnostics": 0,
+          "entries": 0,
+          "exclusions": 0,
+          "forecasts": 0,
+          "inputs": 0,
+          "outcomes": 0,
+          "publication": 0,
+          "quotes": 1
+        }
+      },
+      "collection_counts": {
+        "quotes": 806,
+        "attempts": 10,
+        "diagnostics": 4,
+        "inputs": 6,
+        "forecasts": 6,
+        "publication": 6,
+        "consumption": 6,
+        "entries": 6,
+        "outcomes": 6,
+        "exclusions": 0
+      },
+      "original_input_sha256": "8c4cb3275f67ddb9f09082e20973a10fc2af34dac7f1f112f4760289abc79fe1",
+      "filtered_input_sha256": "a439b3a5846f3cb07ac7c2bd28f24c4fe434a676fa6e65073ae944d9b6a25749",
+      "original_decision_count": 6,
+      "retained_decision_count": 4,
+      "excluded_decision_count": 2,
+      "error": null,
+      "capacity_state": "within_limits",
+      "paired_scored_decisions": 4,
+      "paired_summaries": {
+        "probabilistic_state_space": {
+          "decisions": 4,
+          "directional_decisions": 4,
+          "abstentions": 0,
+          "mean_brier": "0.2769661765689593263215676165996818918125",
+          "direction_hit_rate_when_directional": "0.75",
+          "positive_after_spread_rate_when_directional": "0.75",
+          "mean_net_bps_per_decision": "-0.81679435479947531524378227719066275170620635653682103939926308414769044373615658",
+          "mae_bps": "4.3665634092393513968527601583559806002086318631533059999918421296515766923822442",
+          "rmse_bps": "4.8356325112201984804939045100362445468370981772304078490967216871319224670158433",
+          "stress_mean_net_bps_per_decision": {
+            "0": "-0.81679435479947531524378227719066275170620635653682103939926308414769044373615658",
+            "0.5": "-1.3167943547994753152437822771906627517062063565368210393992630841476904437361566",
+            "1": "-1.8167943547994753152437822771906627517062063565368210393992630841476904437361566"
+          }
+        },
+        "ridge_return_repaired": {
+          "decisions": 4,
+          "directional_decisions": 4,
+          "abstentions": 0,
+          "mean_brier": "0.5246781800036370831370632467875525",
+          "direction_hit_rate_when_directional": "0",
+          "positive_after_spread_rate_when_directional": "0",
+          "mean_net_bps_per_decision": "-3.7194655133794327606488527741232942100436107114755985891228196648952086044912805",
+          "mae_bps": "4.5527243604905576628958312254617751195490905182970923401224298376824987182577625",
+          "rmse_bps": "4.5638168833809631982749091983540969062087247757629091428370905980177836962908090",
+          "stress_mean_net_bps_per_decision": {
+            "0": "-3.7194655133794327606488527741232942100436107114755985891228196648952086044912805",
+            "0.5": "-4.2194655133794327606488527741232942100436107114755985891228196648952086044912805",
+            "1": "-4.7194655133794327606488527741232942100436107114755985891228196648952086044912805"
+          }
+        },
+        "fair_coin": {
+          "decisions": 4,
+          "directional_decisions": 0,
+          "abstentions": 4,
+          "mean_brier": "0.25",
+          "direction_hit_rate_when_directional": null,
+          "positive_after_spread_rate_when_directional": null,
+          "mean_net_bps_per_decision": "0",
+          "mae_bps": null,
+          "rmse_bps": null,
+          "stress_mean_net_bps_per_decision": {
+            "0": "0",
+            "0.5": "0",
+            "1": "0"
+          }
+        },
+        "zero_move": {
+          "decisions": 4,
+          "directional_decisions": 0,
+          "abstentions": 4,
+          "mean_brier": null,
+          "direction_hit_rate_when_directional": null,
+          "positive_after_spread_rate_when_directional": null,
+          "mean_net_bps_per_decision": "0",
+          "mae_bps": "2.3971972148014962128958312254617751195490905182970923401224298376824987182577625",
+          "rmse_bps": "2.5576114150184683640358747910599512660729061024466874288212116410055134457298718",
+          "stress_mean_net_bps_per_decision": {
+            "0": "0",
+            "0.5": "0",
+            "1": "0"
+          }
+        },
+        "no_trade": {
+          "decisions": 4,
+          "directional_decisions": 0,
+          "abstentions": 4,
+          "mean_brier": null,
+          "direction_hit_rate_when_directional": null,
+          "positive_after_spread_rate_when_directional": null,
+          "mean_net_bps_per_decision": "0",
+          "mae_bps": null,
+          "rmse_bps": null,
+          "stress_mean_net_bps_per_decision": {
+            "0": "0",
+            "0.5": "0",
+            "1": "0"
+          }
+        },
+        "rolling_class_rate": {
+          "decisions": 4,
+          "directional_decisions": 0,
+          "abstentions": 4,
+          "mean_brier": "0.25",
+          "direction_hit_rate_when_directional": null,
+          "positive_after_spread_rate_when_directional": null,
+          "mean_net_bps_per_decision": "0",
+          "mae_bps": null,
+          "rmse_bps": null,
+          "stress_mean_net_bps_per_decision": {
+            "0": "0",
+            "0.5": "0",
+            "1": "0"
+          }
+        }
+      }
+    }
+  },
+  "pairs": {
+    "AUD_CAD": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "AUD_CHF": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "AUD_HKD": {
+      "counts": {
+        "attempts": 5,
+        "diagnostics": 5,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "AUD_JPY": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 4,
+        "forecasts": 2,
+        "publication": 2,
+        "consumption": 2,
+        "entries": 2,
+        "outcomes": 2,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null,
+      "scorecard": {
+        "sha256": "658355b61f6e591389e431443540f5fc8b2385ab27eb08aafe78a66ef3baaed3",
+        "generated_utc": "2026-09-07T18:18:41.521184+00:00",
+        "status": "clock_valid_engineering_diagnostic",
+        "coverage": {
+          "complete_clock_valid_decisions": 2,
+          "complete_two_family_decisions": 2,
+          "paired_scored_decisions": 1,
+          "total_decisions": 2,
+          "total_forecasts": 4
+        },
+        "paired_summaries": {
+          "fair_coin": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "no_trade": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "probabilistic_state_space": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "0",
+            "directional_decisions": 1,
+            "mae_bps": "3.3108409014258710052318849685404755279904499474926624361609506969563695439490903",
+            "mean_brier": "0.5552171811367320993906337587291136",
+            "mean_net_bps_per_decision": "-1.8848195734025032199001045626096673293452944581816876315446993937163705555281309",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "3.3108409014258710052318849685404755279904499474926624361609506969563695439490903",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-1.8848195734025032199001045626096673293452944581816876315446993937163705555281309",
+              "0.5": "-2.3848195734025032199001045626096673293452944581816876315446993937163705555281309",
+              "1": "-2.8848195734025032199001045626096673293452944581816876315446993937163705555281309"
+            }
+          },
+          "ridge_return_repaired": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "0",
+            "directional_decisions": 1,
+            "mae_bps": "5.9042597044909887052318849685404755279904499474926624361609506969563695439490903",
+            "mean_brier": "0.36781426010252794395352327832929",
+            "mean_net_bps_per_decision": "-1.8848195734025032199001045626096673293452944581816876315446993937163705555281309",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "5.9042597044909887052318849685404755279904499474926624361609506969563695439490903",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-1.8848195734025032199001045626096673293452944581816876315446993937163705555281309",
+              "0.5": "-2.3848195734025032199001045626096673293452944581816876315446993937163705555281309",
+              "1": "-2.8848195734025032199001045626096673293452944581816876315446993937163705555281309"
+            }
+          },
+          "rolling_class_rate": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "zero_move": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": "0.31414646405715670523188496854047552799044994749266243616095069695636954394909032",
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": "0.31414646405715670523188496854047552799044994749266243616095069695636954394909032",
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          }
+        },
+        "decision_exclusion_counts": {
+          "missing_original_target_quote": 1
+        },
+        "outcome_counts": {
+          "up": 1
+        }
+      }
+    },
+    "AUD_NZD": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 1,
+        "forecasts": 5,
+        "publication": 5,
+        "consumption": 5,
+        "entries": 5,
+        "outcomes": 2,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": 1788806696.873144,
+      "scorecard": {
+        "sha256": "eb4d19ac456370f69a3ed96df6fcc81567265fe845f7699f2e9c992d1170c0b5",
+        "generated_utc": "2026-09-07T18:18:24.431758+00:00",
+        "status": "clock_valid_engineering_diagnostic",
+        "coverage": {
+          "complete_clock_valid_decisions": 5,
+          "complete_two_family_decisions": 5,
+          "paired_scored_decisions": 1,
+          "total_decisions": 5,
+          "total_forecasts": 10
+        },
+        "paired_summaries": {
+          "fair_coin": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "no_trade": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "probabilistic_state_space": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "0",
+            "directional_decisions": 1,
+            "mae_bps": "1.3405178160873368672008338219008533646016546153345058953814083773044101361474822",
+            "mean_brier": "0.4590742640553840448494156687347716",
+            "mean_net_bps_per_decision": "-3.0943113528654951712457046072667459244662312916307020829601159552464863280295751",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "1.3405178160873368672008338219008533646016546153345058953814083773044101361474822",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-3.0943113528654951712457046072667459244662312916307020829601159552464863280295751",
+              "0.5": "-3.5943113528654951712457046072667459244662312916307020829601159552464863280295751",
+              "1": "-4.0943113528654951712457046072667459244662312916307020829601159552464863280295751"
+            }
+          },
+          "ridge_return_repaired": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "1",
+            "directional_decisions": 1,
+            "mae_bps": "4.8645433027456165327991661780991466353983453846654941046185916226955898638525178",
+            "mean_brier": "0.01548682249697855067713385629529",
+            "mean_net_bps_per_decision": "-2.3614481377131410517401429897562008370926501962444831685748253342670553556015178",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "4.8645433027456165327991661780991466353983453846654941046185916226955898638525178",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-2.3614481377131410517401429897562008370926501962444831685748253342670553556015178",
+              "0.5": "-2.8614481377131410517401429897562008370926501962444831685748253342670553556015178",
+              "1": "-3.3614481377131410517401429897562008370926501962444831685748253342670553556015178"
+            }
+          },
+          "rolling_class_rate": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "zero_move": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": "0.20356980001302846720083382190085336460165461533450589538140837730441013614748225",
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": "0.20356980001302846720083382190085336460165461533450589538140837730441013614748225",
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          }
+        },
+        "decision_exclusion_counts": {
+          "missing_original_target_quote": 4
+        },
+        "outcome_counts": {
+          "up": 1
+        }
+      }
+    },
+    "AUD_SGD": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "AUD_USD": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "CAD_CHF": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "CAD_HKD": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "CAD_JPY": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "CAD_SGD": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "CHF_HKD": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "CHF_JPY": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 1,
+        "forecasts": 5,
+        "publication": 5,
+        "consumption": 5,
+        "entries": 5,
+        "outcomes": 1,
+        "exclusions": 1
+      },
+      "exclusion_reasons": {
+        "missing_quote_at_original_target": 1
+      },
+      "next_unsettled_target_epoch": 1788806703.302912,
+      "scorecard": {
+        "sha256": "7c7e33268eb5dbd710426724373fc3d702ac95da4472ca375fea4087ad610b08",
+        "generated_utc": "2026-09-07T18:30:17.527391+00:00",
+        "status": "clock_valid_engineering_diagnostic",
+        "coverage": {
+          "complete_clock_valid_decisions": 5,
+          "complete_two_family_decisions": 5,
+          "paired_scored_decisions": 1,
+          "total_decisions": 5,
+          "total_forecasts": 10
+        },
+        "paired_summaries": {
+          "fair_coin": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "no_trade": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "probabilistic_state_space": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "1",
+            "directional_decisions": 1,
+            "mae_bps": "0.56791970032521335338243352726948560161721251084827620563350000131096993421552870",
+            "mean_brier": "0.10756180565742962457485880562564",
+            "mean_net_bps_per_decision": "-1.0487621984153203181944509992081845401964331597631894955978206721516929643787919",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "0.56791970032521335338243352726948560161721251084827620563350000131096993421552870",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-1.0487621984153203181944509992081845401964331597631894955978206721516929643787919",
+              "0.5": "-1.5487621984153203181944509992081845401964331597631894955978206721516929643787919",
+              "1": "-2.0487621984153203181944509992081845401964331597631894955978206721516929643787919"
+            }
+          },
+          "ridge_return_repaired": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "1",
+            "directional_decisions": 1,
+            "mae_bps": "7.9938824034332733533824335272694856016172125108482762056335000013109699342155287",
+            "mean_brier": "0.09398225785333403768828674798801",
+            "mean_net_bps_per_decision": "-1.0487621984153203181944509992081845401964331597631894955978206721516929643787919",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "7.9938824034332733533824335272694856016172125108482762056335000013109699342155287",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-1.0487621984153203181944509992081845401964331597631894955978206721516929643787919",
+              "0.5": "-1.5487621984153203181944509992081845401964331597631894955978206721516929643787919",
+              "1": "-2.0487621984153203181944509992081845401964331597631894955978206721516929643787919"
+            }
+          },
+          "rolling_class_rate": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "zero_move": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": "0.76036256184500664661756647273051439838278748915172379436649999868903006578447130",
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": "0.76036256184500664661756647273051439838278748915172379436649999868903006578447130",
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          }
+        },
+        "decision_exclusion_counts": {
+          "missing_original_target_quote": 4
+        },
+        "outcome_counts": {
+          "down": 1
+        }
+      }
+    },
+    "CHF_ZAR": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "EUR_AUD": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 0,
+        "forecasts": 6,
+        "publication": 6,
+        "consumption": 6,
+        "entries": 6,
+        "outcomes": 2,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": 1788806700.876924,
+      "scorecard": {
+        "sha256": "5a2415e7487b57dd80ef7462fd010e9f36dd1e31c8b797b65662f11299c2ad2a",
+        "generated_utc": "2026-09-07T18:18:15.588821+00:00",
+        "status": "clock_valid_engineering_diagnostic",
+        "coverage": {
+          "complete_clock_valid_decisions": 5,
+          "complete_two_family_decisions": 5,
+          "paired_scored_decisions": 1,
+          "total_decisions": 5,
+          "total_forecasts": 10
+        },
+        "paired_summaries": {
+          "fair_coin": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "no_trade": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "probabilistic_state_space": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "0",
+            "directional_decisions": 1,
+            "mae_bps": "2.3410387928547122543661105988208008494704781065750132729762204152345823902534440",
+            "mean_brier": "0.7903068792463614975958031410153764",
+            "mean_net_bps_per_decision": "-2.4217284931881124178785658399672135219383763241887209547819823400106804436109835",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "2.3410387928547122543661105988208008494704781065750132729762204152345823902534440",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-2.4217284931881124178785658399672135219383763241887209547819823400106804436109835",
+              "0.5": "-2.9217284931881124178785658399672135219383763241887209547819823400106804436109835",
+              "1": "-3.4217284931881124178785658399672135219383763241887209547819823400106804436109835"
+            }
+          },
+          "ridge_return_repaired": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "0",
+            "directional_decisions": 1,
+            "mae_bps": "3.2017917089271887543661105988208008494704781065750132729762204152345823902534440",
+            "mean_brier": "0.6600675648345710162861499508941604",
+            "mean_net_bps_per_decision": "-2.4217284931881124178785658399672135219383763241887209547819823400106804436109835",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "3.2017917089271887543661105988208008494704781065750132729762204152345823902534440",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-2.4217284931881124178785658399672135219383763241887209547819823400106804436109835",
+              "0.5": "-2.9217284931881124178785658399672135219383763241887209547819823400106804436109835",
+              "1": "-3.4217284931881124178785658399672135219383763241887209547819823400106804436109835"
+            }
+          },
+          "rolling_class_rate": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "zero_move": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": "0.27943107832453125436611059882080084947047810657501327297622041523458239025344399",
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": "0.27943107832453125436611059882080084947047810657501327297622041523458239025344399",
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          }
+        },
+        "decision_exclusion_counts": {
+          "missing_original_target_quote": 4
+        },
+        "outcome_counts": {
+          "up": 1
+        }
+      }
+    },
+    "EUR_CAD": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 0,
+        "forecasts": 6,
+        "publication": 6,
+        "consumption": 6,
+        "entries": 6,
+        "outcomes": 2,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": 1788806702.988682,
+      "scorecard": {
+        "sha256": "fc7d10ab0acd4c7aac5564f575e6db554625d603db33cc16373aa97d5ca1fe7a",
+        "generated_utc": "2026-09-07T18:18:17.788193+00:00",
+        "status": "clock_valid_engineering_diagnostic",
+        "coverage": {
+          "complete_clock_valid_decisions": 5,
+          "complete_two_family_decisions": 5,
+          "paired_scored_decisions": 1,
+          "total_decisions": 5,
+          "total_forecasts": 10
+        },
+        "paired_summaries": {
+          "fair_coin": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "no_trade": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "probabilistic_state_space": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "0",
+            "directional_decisions": 1,
+            "mae_bps": "2.0753215567187167335718578443736551857283872193211081736682640958332944096206962",
+            "mean_brier": "0.65814983531149414940164683536644",
+            "mean_net_bps_per_decision": "-2.3665322517865761571875632502452163353002537794454218499431720873748618225412197",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "2.0753215567187167335718578443736551857283872193211081736682640958332944096206962",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-2.3665322517865761571875632502452163353002537794454218499431720873748618225412197",
+              "0.5": "-2.8665322517865761571875632502452163353002537794454218499431720873748618225412197",
+              "1": "-3.3665322517865761571875632502452163353002537794454218499431720873748618225412197"
+            }
+          },
+          "ridge_return_repaired": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "1",
+            "directional_decisions": 1,
+            "mae_bps": "0.19427153165537173642814215562634481427161278067889182633173590416670559037930379",
+            "mean_brier": "0.17895455383799120113946723924224",
+            "mean_net_bps_per_decision": "-2.1174235937037786669572934344299304052686481184511669183702066044932974201684597",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "0.19427153165537173642814215562634481427161278067889182633173590416670559037930379",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-2.1174235937037786669572934344299304052686481184511669183702066044932974201684597",
+              "0.5": "-2.6174235937037786669572934344299304052686481184511669183702066044932974201684597",
+              "1": "-3.1174235937037786669572934344299304052686481184511669183702066044932974201684597"
+            }
+          },
+          "rolling_class_rate": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "zero_move": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": "0.24911176087762073357185784437365518572838721932110817366826409583329440962069621",
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": "0.24911176087762073357185784437365518572838721932110817366826409583329440962069621",
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          }
+        },
+        "decision_exclusion_counts": {
+          "missing_original_target_quote": 4
+        },
+        "outcome_counts": {
+          "up": 1
+        }
+      }
+    },
+    "EUR_CHF": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "EUR_CZK": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "EUR_DKK": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "EUR_GBP": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "EUR_HKD": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "EUR_HUF": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 2,
+        "forecasts": 4,
+        "publication": 4,
+        "consumption": 4,
+        "entries": 4,
+        "outcomes": 2,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": 1788806709.121132,
+      "scorecard": {
+        "sha256": "c5d18bcd46c79f5a472dbed9aa222072ff6c9adc10969a58870f7d325818f7a8",
+        "generated_utc": "2026-09-07T18:18:24.638710+00:00",
+        "status": "clock_valid_engineering_diagnostic",
+        "coverage": {
+          "complete_clock_valid_decisions": 4,
+          "complete_two_family_decisions": 4,
+          "paired_scored_decisions": 1,
+          "total_decisions": 4,
+          "total_forecasts": 8
+        },
+        "paired_summaries": {
+          "fair_coin": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "no_trade": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "probabilistic_state_space": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "1",
+            "directional_decisions": 1,
+            "mae_bps": "0.93793048503058067802463229582950129155273645588031107243555639871930757926312070",
+            "mean_brier": "0.0065161419626405883264605038166404",
+            "mean_net_bps_per_decision": "-2.8869352432930308008495838001690919213928775183354756225813325268244399689310779",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "0.93793048503058067802463229582950129155273645588031107243555639871930757926312070",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-2.8869352432930308008495838001690919213928775183354756225813325268244399689310779",
+              "0.5": "-3.3869352432930308008495838001690919213928775183354756225813325268244399689310779",
+              "1": "-3.8869352432930308008495838001690919213928775183354756225813325268244399689310779"
+            }
+          },
+          "ridge_return_repaired": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "0",
+            "directional_decisions": 1,
+            "mae_bps": "10.137186077830755821975367704170498708447263544119688927564443601280692420736879",
+            "mean_brier": "0.48270872012404634029182023687236",
+            "mean_net_bps_per_decision": "-10.970353924513517043228418440642549301292934569674807365809063601932871881938096",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "10.137186077830755821975367704170498708447263544119688927564443601280692420736879",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-10.970353924513517043228418440642549301292934569674807365809063601932871881938096",
+              "0.5": "-11.470353924513517043228418440642549301292934569674807365809063601932871881938096",
+              "1": "-11.970353924513517043228418440642549301292934569674807365809063601932871881938096"
+            }
+          },
+          "rolling_class_rate": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "zero_move": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": "4.0966760560282313219753677041704987084472635441196889275644436012806924207368793",
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": "4.0966760560282313219753677041704987084472635441196889275644436012806924207368793",
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          }
+        },
+        "decision_exclusion_counts": {
+          "missing_original_target_quote": 3
+        },
+        "outcome_counts": {
+          "down": 1
+        }
+      }
+    },
+    "EUR_JPY": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 0,
+        "forecasts": 6,
+        "publication": 6,
+        "consumption": 6,
+        "entries": 6,
+        "outcomes": 2,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": 1788806705.896822,
+      "scorecard": {
+        "sha256": "3b9f09afddbcab811b1afdec3d1a9a392bff0858379f2491ad4e83a364296bc4",
+        "generated_utc": "2026-09-07T18:18:17.989996+00:00",
+        "status": "clock_valid_engineering_diagnostic",
+        "coverage": {
+          "complete_clock_valid_decisions": 5,
+          "complete_two_family_decisions": 5,
+          "paired_scored_decisions": 1,
+          "total_decisions": 5,
+          "total_forecasts": 10
+        },
+        "paired_summaries": {
+          "fair_coin": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "no_trade": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "probabilistic_state_space": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "0",
+            "directional_decisions": 1,
+            "mae_bps": "6.7249606760559765484814874678824427736192933858732910115428131914680162078709613",
+            "mean_brier": "0.8465856977495795858750936781070569",
+            "mean_net_bps_per_decision": "-2.0064540940023743040112361429264132961024629224003879144581737923654421723209658",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "6.7249606760559765484814874678824427736192933858732910115428131914680162078709613",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-2.0064540940023743040112361429264132961024629224003879144581737923654421723209658",
+              "0.5": "-2.5064540940023743040112361429264132961024629224003879144581737923654421723209658",
+              "1": "-3.0064540940023743040112361429264132961024629224003879144581737923654421723209658"
+            }
+          },
+          "ridge_return_repaired": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "0",
+            "directional_decisions": 1,
+            "mae_bps": "9.8041815046020615484814874678824427736192933858732910115428131914680162078709613",
+            "mean_brier": "0.46845768647266370336147600735641",
+            "mean_net_bps_per_decision": "-2.0064540940023743040112361429264132961024629224003879144581737923654421723209658",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "9.8041815046020615484814874678824427736192933858732910115428131914680162078709613",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-2.0064540940023743040112361429264132961024629224003879144581737923654421723209658",
+              "0.5": "-2.5064540940023743040112361429264132961024629224003879144581737923654421723209658",
+              "1": "-3.0064540940023743040112361429264132961024629224003879144581737923654421723209658"
+            }
+          },
+          "rolling_class_rate": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "zero_move": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": "0.64095775809696854848148746788244277361929338587329101154281319146801620787096127",
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": "0.64095775809696854848148746788244277361929338587329101154281319146801620787096127",
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          }
+        },
+        "decision_exclusion_counts": {
+          "missing_original_target_quote": 4
+        },
+        "outcome_counts": {
+          "up": 1
+        }
+      }
+    },
+    "EUR_NOK": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 4,
+        "forecasts": 2,
+        "publication": 2,
+        "consumption": 2,
+        "entries": 2,
+        "outcomes": 2,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null,
+      "scorecard": {
+        "sha256": "8d8e5c4cf68d080b144ddbd91c8944102ea669eeaf938158d03687fc50b455d7",
+        "generated_utc": "2026-09-07T18:18:13.336733+00:00",
+        "status": "clock_valid_engineering_diagnostic",
+        "coverage": {
+          "complete_clock_valid_decisions": 2,
+          "complete_two_family_decisions": 2,
+          "paired_scored_decisions": 1,
+          "total_decisions": 2,
+          "total_forecasts": 4
+        },
+        "paired_summaries": {
+          "fair_coin": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "no_trade": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "probabilistic_state_space": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "1",
+            "directional_decisions": 1,
+            "mae_bps": "0.64086179924488402613462129959829147458436226973899384053113299061999691029128159",
+            "mean_brier": "0.13855757940845633600537784980625",
+            "mean_net_bps_per_decision": "-3.6185442039968212480915658693343687936747847314135564583359428604035233486564763",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "0.64086179924488402613462129959829147458436226973899384053113299061999691029128159",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-3.6185442039968212480915658693343687936747847314135564583359428604035233486564763",
+              "0.5": "-4.1185442039968212480915658693343687936747847314135564583359428604035233486564763",
+              "1": "-4.6185442039968212480915658693343687936747847314135564583359428604035233486564763"
+            }
+          },
+          "ridge_return_repaired": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "1",
+            "directional_decisions": 1,
+            "mae_bps": "0.85060270747304252613462129959829147458436226973899384053113299061999691029128159",
+            "mean_brier": "0.18872724496982075792630347905424",
+            "mean_net_bps_per_decision": "-3.6185442039968212480915658693343687936747847314135564583359428604035233486564763",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "0.85060270747304252613462129959829147458436226973899384053113299061999691029128159",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-3.6185442039968212480915658693343687936747847314135564583359428604035233486564763",
+              "0.5": "-4.1185442039968212480915658693343687936747847314135564583359428604035233486564763",
+              "1": "-4.6185442039968212480915658693343687936747847314135564583359428604035233486564763"
+            }
+          },
+          "rolling_class_rate": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "zero_move": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": "0.10670165243746007386537870040170852541563773026100615946886700938000308970871841",
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": "0.10670165243746007386537870040170852541563773026100615946886700938000308970871841",
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          }
+        },
+        "decision_exclusion_counts": {
+          "missing_original_target_quote": 1
+        },
+        "outcome_counts": {
+          "down": 1
+        }
+      }
+    },
+    "EUR_NZD": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "EUR_PLN": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "EUR_SEK": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 4,
+        "forecasts": 2,
+        "publication": 2,
+        "consumption": 2,
+        "entries": 1,
+        "outcomes": 1,
+        "exclusions": 1
+      },
+      "exclusion_reasons": {
+        "missing_later_entry_before_deadline": 1
+      },
+      "next_unsettled_target_epoch": null,
+      "scorecard": {
+        "sha256": "4eaee6638054ba262114ab66323bf84d11aae09c2176e759d21c6cea3479b4f6",
+        "generated_utc": "2026-09-07T18:30:04.733324+00:00",
+        "status": "clock_valid_engineering_diagnostic",
+        "coverage": {
+          "complete_clock_valid_decisions": 2,
+          "complete_two_family_decisions": 2,
+          "paired_scored_decisions": 1,
+          "total_decisions": 2,
+          "total_forecasts": 4
+        },
+        "paired_summaries": {
+          "fair_coin": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "no_trade": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "probabilistic_state_space": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "1",
+            "directional_decisions": 1,
+            "mae_bps": "0.83667165662477872224977556234972094395650618066759999246642852210161532328438605",
+            "mean_brier": "0.11685490478945955054794535022096",
+            "mean_net_bps_per_decision": "-1.0134447345268065100819814010469870646784016989997390155595156631022709233737127",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "0.83667165662477872224977556234972094395650618066759999246642852210161532328438605",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-1.0134447345268065100819814010469870646784016989997390155595156631022709233737127",
+              "0.5": "-1.5134447345268065100819814010469870646784016989997390155595156631022709233737127",
+              "1": "-2.0134447345268065100819814010469870646784016989997390155595156631022709233737127"
+            }
+          },
+          "ridge_return_repaired": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "1",
+            "directional_decisions": 1,
+            "mae_bps": "1.3091306561502498222497755623497209439565061806675999924664285221016153232843860",
+            "mean_brier": "0.19465527147580003118626638660321",
+            "mean_net_bps_per_decision": "-1.0134447345268065100819814010469870646784016989997390155595156631022709233737127",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "1.3091306561502498222497755623497209439565061806675999924664285221016153232843860",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-1.0134447345268065100819814010469870646784016989997390155595156631022709233737127",
+              "0.5": "-1.5134447345268065100819814010469870646784016989997390155595156631022709233737127",
+              "1": "-2.0134447345268065100819814010469870646784016989997390155595156631022709233737127"
+            }
+          },
+          "rolling_class_rate": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "zero_move": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": "2.1031220375799657222497755623497209439565061806675999924664285221016153232843860",
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": "2.1031220375799657222497755623497209439565061806675999924664285221016153232843860",
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          }
+        },
+        "decision_exclusion_counts": {
+          "missing_postpublication_entry_quote": 1
+        },
+        "outcome_counts": {
+          "up": 1
+        }
+      }
+    },
+    "EUR_SGD": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "EUR_TRY": {
+      "counts": {
+        "attempts": 0,
+        "diagnostics": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "EUR_USD": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 4,
+        "forecasts": 2,
+        "publication": 2,
+        "consumption": 2,
+        "entries": 2,
+        "outcomes": 2,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null,
+      "scorecard": {
+        "sha256": "2f2eb874d44023cd8834229474d07e96792eb53beb30730f08046897c9d15c96",
+        "generated_utc": "2026-09-07T18:18:24.829214+00:00",
+        "status": "clock_valid_engineering_diagnostic",
+        "coverage": {
+          "complete_clock_valid_decisions": 2,
+          "complete_two_family_decisions": 2,
+          "paired_scored_decisions": 1,
+          "total_decisions": 2,
+          "total_forecasts": 4
+        },
+        "paired_summaries": {
+          "fair_coin": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "no_trade": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "probabilistic_state_space": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "1",
+            "directional_decisions": 1,
+            "mae_bps": "1.0122387690070053972071580015740378371171884071683231336254908116616420741173991",
+            "mean_brier": "0.0261571468139972874300154785724369",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "1.0122387690070053972071580015740378371171884071683231336254908116616420741173991",
+            "stress_mean_net_bps_per_decision": {
+              "0": "0.0",
+              "0.5": "-0.5",
+              "1": "-1.0"
+            }
+          },
+          "ridge_return_repaired": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "0",
+            "directional_decisions": 1,
+            "mae_bps": "4.3476916753468504027928419984259621628828115928316768663745091883383579258826009",
+            "mean_brier": "0.63863773455166846723146873000769",
+            "mean_net_bps_per_decision": "-2.6664028934772044055856839968519243257656231856633537327490183766767158517652017",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "4.3476916753468504027928419984259621628828115928316768663745091883383579258826009",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-2.6664028934772044055856839968519243257656231856633537327490183766767158517652017",
+              "0.5": "-3.1664028934772044055856839968519243257656231856633537327490183766767158517652017",
+              "1": "-3.6664028934772044055856839968519243257656231856633537327490183766767158517652017"
+            }
+          },
+          "rolling_class_rate": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "zero_move": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": "1.3332014467386022027928419984259621628828115928316768663745091883383579258826009",
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": "1.3332014467386022027928419984259621628828115928316768663745091883383579258826009",
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          }
+        },
+        "decision_exclusion_counts": {
+          "missing_original_target_quote": 1
+        },
+        "outcome_counts": {
+          "down": 1
+        }
+      }
+    },
+    "EUR_ZAR": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "GBP_AUD": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 0,
+        "forecasts": 6,
+        "publication": 6,
+        "consumption": 6,
+        "entries": 6,
+        "outcomes": 2,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": 1788806694.13661,
+      "scorecard": {
+        "sha256": "bee20f6555cd823d3393098eb6e57ef514fde0f5546985d2cfa861d7b41527e0",
+        "generated_utc": "2026-09-07T18:18:22.259993+00:00",
+        "status": "clock_valid_engineering_diagnostic",
+        "coverage": {
+          "complete_clock_valid_decisions": 5,
+          "complete_two_family_decisions": 5,
+          "paired_scored_decisions": 1,
+          "total_decisions": 5,
+          "total_forecasts": 10
+        },
+        "paired_summaries": {
+          "fair_coin": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "no_trade": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "probabilistic_state_space": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "1",
+            "directional_decisions": 1,
+            "mae_bps": "1.1797696777951053851164427008096885444262618401624707494016620203301652958641386",
+            "mean_brier": "0.0632519138133183687830746032200625",
+            "mean_net_bps_per_decision": "-2.7185211245082675024786516135222438993187705887996929670259378897879553522883551",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "1.1797696777951053851164427008096885444262618401624707494016620203301652958641386",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-2.7185211245082675024786516135222438993187705887996929670259378897879553522883551",
+              "0.5": "-3.2185211245082675024786516135222438993187705887996929670259378897879553522883551",
+              "1": "-3.7185211245082675024786516135222438993187705887996929670259378897879553522883551"
+            }
+          },
+          "ridge_return_repaired": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "1",
+            "directional_decisions": 1,
+            "mae_bps": "2.0895418944259905851164427008096885444262618401624707494016620203301652958641386",
+            "mean_brier": "0.0494098559813098305493040723132416",
+            "mean_net_bps_per_decision": "-2.7185211245082675024786516135222438993187705887996929670259378897879553522883551",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "2.0895418944259905851164427008096885444262618401624707494016620203301652958641386",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-2.7185211245082675024786516135222438993187705887996929670259378897879553522883551",
+              "0.5": "-3.2185211245082675024786516135222438993187705887996929670259378897879553522883551",
+              "1": "-3.7185211245082675024786516135222438993187705887996929670259378897879553522883551"
+            }
+          },
+          "rolling_class_rate": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "zero_move": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": "0.026652025820482614883557299190311455573738159837529250598337979669834704135861367",
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": "0.026652025820482614883557299190311455573738159837529250598337979669834704135861367",
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          }
+        },
+        "decision_exclusion_counts": {
+          "missing_original_target_quote": 4
+        },
+        "outcome_counts": {
+          "down": 1
+        }
+      }
+    },
+    "GBP_CAD": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "GBP_CHF": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 4,
+        "forecasts": 2,
+        "publication": 2,
+        "consumption": 2,
+        "entries": 2,
+        "outcomes": 2,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null,
+      "scorecard": {
+        "sha256": "937ac490c15f81480b47ee776a9aa70edf1f1200e2d2f0042dd8a3f5cbe4fae1",
+        "generated_utc": "2026-09-07T18:18:19.959447+00:00",
+        "status": "clock_valid_engineering_diagnostic",
+        "coverage": {
+          "complete_clock_valid_decisions": 2,
+          "complete_two_family_decisions": 2,
+          "paired_scored_decisions": 1,
+          "total_decisions": 2,
+          "total_forecasts": 4
+        },
+        "paired_summaries": {
+          "fair_coin": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "no_trade": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "probabilistic_state_space": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "1",
+            "directional_decisions": 1,
+            "mae_bps": "0.48343801326281552869877825122950445723879303265600335775614296011752146500360411",
+            "mean_brier": "0.17475935297728014762604276334569",
+            "mean_net_bps_per_decision": "-2.3723277097000830314698395029061014443826017135505533910599742693686870990994279",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "0.48343801326281552869877825122950445723879303265600335775614296011752146500360411",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-2.3723277097000830314698395029061014443826017135505533910599742693686870990994279",
+              "0.5": "-2.8723277097000830314698395029061014443826017135505533910599742693686870990994279",
+              "1": "-3.3723277097000830314698395029061014443826017135505533910599742693686870990994279"
+            }
+          },
+          "ridge_return_repaired": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "1",
+            "directional_decisions": 1,
+            "mae_bps": "2.0160693913667825713012217487704955427612069673439966422438570398824785349963959",
+            "mean_brier": "0.03260247313092008992054494466576",
+            "mean_net_bps_per_decision": "-2.3723277097000830314698395029061014443826017135505533910599742693686870990994279",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "2.0160693913667825713012217487704955427612069673439966422438570398824785349963959",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-2.3723277097000830314698395029061014443826017135505533910599742693686870990994279",
+              "0.5": "-2.8723277097000830314698395029061014443826017135505533910599742693686870990994279",
+              "1": "-3.3723277097000830314698395029061014443826017135505533910599742693686870990994279"
+            }
+          },
+          "rolling_class_rate": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "zero_move": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": "1.0036771079500351286987782512295044572387930326560033577561429601175214650036041",
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": "1.0036771079500351286987782512295044572387930326560033577561429601175214650036041",
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          }
+        },
+        "decision_exclusion_counts": {
+          "missing_original_target_quote": 1
+        },
+        "outcome_counts": {
+          "up": 1
+        }
+      }
+    },
+    "GBP_HKD": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "GBP_JPY": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 0,
+        "forecasts": 6,
+        "publication": 6,
+        "consumption": 6,
+        "entries": 6,
+        "outcomes": 2,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": 1788806698.002088,
+      "scorecard": {
+        "sha256": "6565cb865d6d5c493974b1d206545c5d38f932aa6c624ec5636920d599e93f96",
+        "generated_utc": "2026-09-07T18:18:22.480417+00:00",
+        "status": "clock_valid_engineering_diagnostic",
+        "coverage": {
+          "complete_clock_valid_decisions": 5,
+          "complete_two_family_decisions": 5,
+          "paired_scored_decisions": 1,
+          "total_decisions": 5,
+          "total_forecasts": 10
+        },
+        "paired_summaries": {
+          "fair_coin": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "no_trade": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "probabilistic_state_space": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "0",
+            "directional_decisions": 1,
+            "mae_bps": "4.4424259378616545658752466957717839842114706058250104658812271993301836014592429",
+            "mean_brier": "0.6734387873985466540872720971475121",
+            "mean_net_bps_per_decision": "-1.9616051671550744572693020752347347646671849769750613001614735960767896656898511",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "4.4424259378616545658752466957717839842114706058250104658812271993301836014592429",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-1.9616051671550744572693020752347347646671849769750613001614735960767896656898511",
+              "0.5": "-2.4616051671550744572693020752347347646671849769750613001614735960767896656898511",
+              "1": "-2.9616051671550744572693020752347347646671849769750613001614735960767896656898511"
+            }
+          },
+          "ridge_return_repaired": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "0",
+            "directional_decisions": 1,
+            "mae_bps": "7.6200180503657570658752466957717839842114706058250104658812271993301836014592429",
+            "mean_brier": "0.42002604728049105265669866150084",
+            "mean_net_bps_per_decision": "-1.9616051671550744572693020752347347646671849769750613001614735960767896656898511",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "7.6200180503657570658752466957717839842114706058250104658812271993301836014592429",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-1.9616051671550744572693020752347347646671849769750613001614735960767896656898511",
+              "0.5": "-2.4616051671550744572693020752347347646671849769750613001614735960767896656898511",
+              "1": "-2.9616051671550744572693020752347347646671849769750613001614735960767896656898511"
+            }
+          },
+          "rolling_class_rate": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "zero_move": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": "0.33490819927037856587524669577178398421147060582501046588122719933018360145924287",
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": "0.33490819927037856587524669577178398421147060582501046588122719933018360145924287",
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          }
+        },
+        "decision_exclusion_counts": {
+          "missing_original_target_quote": 4
+        },
+        "outcome_counts": {
+          "up": 1
+        }
+      }
+    },
+    "GBP_NZD": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "GBP_PLN": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 3,
+        "forecasts": 3,
+        "publication": 3,
+        "consumption": 3,
+        "entries": 3,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": 1788807606.881793
+    },
+    "GBP_SGD": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "GBP_USD": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 2,
+        "forecasts": 4,
+        "publication": 4,
+        "consumption": 4,
+        "entries": 4,
+        "outcomes": 2,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": 1788806697.007025,
+      "scorecard": {
+        "sha256": "3a814aaa7d2f5a8da24de1a14c9a0b5142b7925593405d91b472d72c70b3780a",
+        "generated_utc": "2026-09-07T18:18:18.193559+00:00",
+        "status": "clock_valid_engineering_diagnostic",
+        "coverage": {
+          "complete_clock_valid_decisions": 4,
+          "complete_two_family_decisions": 4,
+          "paired_scored_decisions": 1,
+          "total_decisions": 4,
+          "total_forecasts": 8
+        },
+        "paired_summaries": {
+          "fair_coin": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "no_trade": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "probabilistic_state_space": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "1",
+            "directional_decisions": 1,
+            "mae_bps": "0.15699101315957226071996839847456187955241017007970524932348369900285373588360597",
+            "mean_brier": "0.06465196411919248441113438914116",
+            "mean_net_bps_per_decision": "-0.073836157566360246612766271643223686639347288367113375419943146158673902610108170",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "0.15699101315957226071996839847456187955241017007970524932348369900285373588360597",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-0.073836157566360246612766271643223686639347288367113375419943146158673902610108170",
+              "0.5": "-0.57383615756636024661276627164322368663934728836711337541994314615867390261010817",
+              "1": "-1.0738361575663602466127662716432236866393472883671133754199431461586739026101082"
+            }
+          },
+          "ridge_return_repaired": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "0",
+            "directional_decisions": 1,
+            "mae_bps": "5.4577070452319917392800316015254381204475898299202947506765163009971462641163940",
+            "mean_brier": "0.75390452823636714388671696795721",
+            "mean_net_bps_per_decision": "-2.5842655148226086314468195075128290323771550928489681396980101155535865913537859",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "5.4577070452319917392800316015254381204475898299202947506765163009971462641163940",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-2.5842655148226086314468195075128290323771550928489681396980101155535865913537859",
+              "0.5": "-3.0842655148226086314468195075128290323771550928489681396980101155535865913537859",
+              "1": "-3.5842655148226086314468195075128290323771550928489681396980101155535865913537859"
+            }
+          },
+          "rolling_class_rate": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "zero_move": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": "1.3659537864608137392800316015254381204475898299202947506765163009971462641163940",
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": "1.3659537864608137392800316015254381204475898299202947506765163009971462641163940",
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          }
+        },
+        "decision_exclusion_counts": {
+          "missing_original_target_quote": 3
+        },
+        "outcome_counts": {
+          "down": 1
+        }
+      }
+    },
+    "GBP_ZAR": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "HKD_JPY": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 5,
+        "forecasts": 1,
+        "publication": 1,
+        "consumption": 1,
+        "entries": 1,
+        "outcomes": 0,
+        "exclusions": 1
+      },
+      "exclusion_reasons": {
+        "missing_quote_at_original_target": 1
+      },
+      "next_unsettled_target_epoch": null
+    },
+    "NZD_CAD": {
+      "counts": {
+        "attempts": 5,
+        "diagnostics": 5,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "NZD_CHF": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "NZD_HKD": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "NZD_JPY": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "NZD_SGD": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "NZD_USD": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "SGD_CHF": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "SGD_JPY": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "TRY_JPY": {
+      "counts": {
+        "attempts": 0,
+        "diagnostics": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "USD_CAD": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "USD_CHF": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "USD_CNH": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "USD_CZK": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 0,
+        "forecasts": 6,
+        "publication": 6,
+        "consumption": 6,
+        "entries": 6,
+        "outcomes": 2,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": 1788806696.774997,
+      "scorecard": {
+        "sha256": "7ed7efe365a3a9ed238a442ddd2ce6c614b1250f13c885b1d35ab3701c49c0e2",
+        "generated_utc": "2026-09-07T18:18:25.034665+00:00",
+        "status": "clock_valid_engineering_diagnostic",
+        "coverage": {
+          "complete_clock_valid_decisions": 5,
+          "complete_two_family_decisions": 5,
+          "paired_scored_decisions": 1,
+          "total_decisions": 5,
+          "total_forecasts": 10
+        },
+        "paired_summaries": {
+          "fair_coin": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "no_trade": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "probabilistic_state_space": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "1",
+            "directional_decisions": 1,
+            "mae_bps": "2.0332379111195949591165955483796563256833121900588167454734171375850536270326375",
+            "mean_brier": "0.00886852411846556215854058663225",
+            "mean_net_bps_per_decision": "-1.8740584658188554308051964277562474622124942036332707846298374134148949205807659",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "2.0332379111195949591165955483796563256833121900588167454734171375850536270326375",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-1.8740584658188554308051964277562474622124942036332707846298374134148949205807659",
+              "0.5": "-2.3740584658188554308051964277562474622124942036332707846298374134148949205807659",
+              "1": "-2.8740584658188554308051964277562474622124942036332707846298374134148949205807659"
+            }
+          },
+          "ridge_return_repaired": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "0",
+            "directional_decisions": 1,
+            "mae_bps": "1.3553705669490460908834044516203436743166878099411832545265828624149463729673625",
+            "mean_brier": "0.26803289717274989644615288013476",
+            "mean_net_bps_per_decision": "-4.1325391810364504371601767381291610705198590131400330122606671167610503376909197",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "1.3553705669490460908834044516203436743166878099411832545265828624149463729673625",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-4.1325391810364504371601767381291610705198590131400330122606671167610503376909197",
+              "0.5": "-4.6325391810364504371601767381291610705198590131400330122606671167610503376909197",
+              "1": "-5.1325391810364504371601767381291610705198590131400330122606671167610503376909197"
+            }
+          },
+          "rolling_class_rate": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "zero_move": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": "1.1532695190866105408834044516203436743166878099411832545265828624149463729673625",
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": "1.1532695190866105408834044516203436743166878099411832545265828624149463729673625",
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          }
+        },
+        "decision_exclusion_counts": {
+          "missing_original_target_quote": 4
+        },
+        "outcome_counts": {
+          "up": 1
+        }
+      }
+    },
+    "USD_DKK": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "USD_HKD": {
+      "counts": {
+        "attempts": 5,
+        "diagnostics": 5,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "USD_HUF": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 0,
+        "forecasts": 6,
+        "publication": 6,
+        "consumption": 6,
+        "entries": 6,
+        "outcomes": 2,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": 1788806704.595638,
+      "scorecard": {
+        "sha256": "08a69788925ac3f9c26f928dfe5253ef37f6493e6164febeda9f7a7d83f331a0",
+        "generated_utc": "2026-09-07T18:18:30.769563+00:00",
+        "status": "clock_valid_engineering_diagnostic",
+        "coverage": {
+          "complete_clock_valid_decisions": 5,
+          "complete_two_family_decisions": 5,
+          "paired_scored_decisions": 1,
+          "total_decisions": 5,
+          "total_forecasts": 10
+        },
+        "paired_summaries": {
+          "fair_coin": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "no_trade": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "probabilistic_state_space": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "1",
+            "directional_decisions": 1,
+            "mae_bps": "2.1385274074692329287620435902845707782700705193368752837076676192850886446605418",
+            "mean_brier": "0.1943348193899430452012176748253049",
+            "mean_net_bps_per_decision": "-4.6351942306216914303250389995652507480244482520522722041787075160473620949799248",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "2.1385274074692329287620435902845707782700705193368752837076676192850886446605418",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-4.6351942306216914303250389995652507480244482520522722041787075160473620949799248",
+              "0.5": "-5.1351942306216914303250389995652507480244482520522722041787075160473620949799248",
+              "1": "-5.6351942306216914303250389995652507480244482520522722041787075160473620949799248"
+            }
+          },
+          "ridge_return_repaired": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "0",
+            "directional_decisions": 1,
+            "mae_bps": "6.0485631731004783287620435902845707782700705193368752837076676192850886446605418",
+            "mean_brier": "0.36659049362722456868384595592569",
+            "mean_net_bps_per_decision": "-10.293327877656445796997672812827660281819809221798838963762371173567245479886454",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "6.0485631731004783287620435902845707782700705193368752837076676192850886446605418",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-10.293327877656445796997672812827660281819809221798838963762371173567245479886454",
+              "0.5": "-10.793327877656445796997672812827660281819809221798838963762371173567245479886454",
+              "1": "-11.293327877656445796997672812827660281819809221798838963762371173567245479886454"
+            }
+          },
+          "rolling_class_rate": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "zero_move": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": "2.7651507886273983287620435902845707782700705193368752837076676192850886446605418",
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": "2.7651507886273983287620435902845707782700705193368752837076676192850886446605418",
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          }
+        },
+        "decision_exclusion_counts": {
+          "missing_original_target_quote": 4
+        },
+        "outcome_counts": {
+          "down": 1
+        }
+      }
+    },
+    "USD_JPY": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 4,
+        "forecasts": 2,
+        "publication": 2,
+        "consumption": 2,
+        "entries": 2,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": 1788807597.403711
+    },
+    "USD_MXN": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 3,
+        "forecasts": 3,
+        "publication": 3,
+        "consumption": 3,
+        "entries": 3,
+        "outcomes": 2,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": 1788806696.945313,
+      "scorecard": {
+        "sha256": "be7d1f7c2f1fbfac2e4639a785f4db80ede908e303776e0c2a0a928ad6127c43",
+        "generated_utc": "2026-09-07T18:18:25.243109+00:00",
+        "status": "clock_valid_engineering_diagnostic",
+        "coverage": {
+          "complete_clock_valid_decisions": 3,
+          "complete_two_family_decisions": 3,
+          "paired_scored_decisions": 1,
+          "total_decisions": 3,
+          "total_forecasts": 6
+        },
+        "paired_summaries": {
+          "fair_coin": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "no_trade": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "probabilistic_state_space": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "0",
+            "directional_decisions": 1,
+            "mae_bps": "5.1234779464583423949944098434017690593324599790572204589393028624260245789659466",
+            "mean_brier": "0.52903361863061137637142699147001",
+            "mean_net_bps_per_decision": "-5.5238010840828865553044736880972425303144431151874990769048990503197601429689692",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "5.1234779464583423949944098434017690593324599790572204589393028624260245789659466",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-5.5238010840828865553044736880972425303144431151874990769048990503197601429689692",
+              "0.5": "-6.0238010840828865553044736880972425303144431151874990769048990503197601429689692",
+              "1": "-6.5238010840828865553044736880972425303144431151874990769048990503197601429689692"
+            }
+          },
+          "ridge_return_repaired": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "1",
+            "directional_decisions": 1,
+            "mae_bps": "2.1450240988118765949944098434017690593324599790572204589393028624260245789659466",
+            "mean_brier": "0.15681310405542042572118292143129",
+            "mean_net_bps_per_decision": "0.67939799429896465653477483864297635399589407299097582229311592597515766464324221",
+            "positive_after_spread_rate_when_directional": "1",
+            "rmse_bps": "2.1450240988118765949944098434017690593324599790572204589393028624260245789659466",
+            "stress_mean_net_bps_per_decision": {
+              "0": "0.67939799429896465653477483864297635399589407299097582229311592597515766464324221",
+              "0.5": "0.17939799429896465653477483864297635399589407299097582229311592597515766464324221",
+              "1": "-0.32060200570103534346522516135702364600410592700902417770688407402484233535675779"
+            }
+          },
+          "rolling_class_rate": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "zero_move": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": "2.9095398939273323949944098434017690593324599790572204589393028624260245789659466",
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": "2.9095398939273323949944098434017690593324599790572204589393028624260245789659466",
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          }
+        },
+        "decision_exclusion_counts": {
+          "missing_original_target_quote": 2
+        },
+        "outcome_counts": {
+          "up": 1
+        }
+      }
+    },
+    "USD_NOK": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "USD_PLN": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "USD_SEK": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 0,
+        "forecasts": 6,
+        "publication": 6,
+        "consumption": 6,
+        "entries": 6,
+        "outcomes": 2,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": 1788806703.397337,
+      "scorecard": {
+        "sha256": "404016c2f523844aecb0472aca9c6eb57ba67fe3ac5dce53c8ff2b5d2739b959",
+        "generated_utc": "2026-09-07T18:18:28.710483+00:00",
+        "status": "clock_valid_engineering_diagnostic",
+        "coverage": {
+          "complete_clock_valid_decisions": 5,
+          "complete_two_family_decisions": 5,
+          "paired_scored_decisions": 1,
+          "total_decisions": 5,
+          "total_forecasts": 10
+        },
+        "paired_summaries": {
+          "fair_coin": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "no_trade": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "probabilistic_state_space": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "1",
+            "directional_decisions": 1,
+            "mae_bps": "1.8412802968830690897329086008331291350159274687576574369027199215878461161480029",
+            "mean_brier": "0.16330660991863003045952021342464",
+            "mean_net_bps_per_decision": "-0.70904052740102758741140251865793226056196675329821149740496380504513616445569409",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "1.8412802968830690897329086008331291350159274687576574369027199215878461161480029",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-0.70904052740102758741140251865793226056196675329821149740496380504513616445569409",
+              "0.5": "-1.2090405274010275874114025186579322605619667532982114974049638050451361644556941",
+              "1": "-1.7090405274010275874114025186579322605619667532982114974049638050451361644556941"
+            }
+          },
+          "ridge_return_repaired": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "1",
+            "directional_decisions": 1,
+            "mae_bps": "2.9177295650400358497329086008331291350159274687576574369027199215878461161480029",
+            "mean_brier": "0.24869172443491343235224329158724",
+            "mean_net_bps_per_decision": "-0.70904052740102758741140251865793226056196675329821149740496380504513616445569409",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "2.9177295650400358497329086008331291350159274687576574369027199215878461161480029",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-0.70904052740102758741140251865793226056196675329821149740496380504513616445569409",
+              "0.5": "-1.2090405274010275874114025186579322605619667532982114974049638050451361644556941",
+              "1": "-1.7090405274010275874114025186579322605619667532982114974049638050451361644556941"
+            }
+          },
+          "rolling_class_rate": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "zero_move": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": "2.9404557706444498897329086008331291350159274687576574369027199215878461161480029",
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": "2.9404557706444498897329086008331291350159274687576574369027199215878461161480029",
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          }
+        },
+        "decision_exclusion_counts": {
+          "missing_original_target_quote": 4
+        },
+        "outcome_counts": {
+          "up": 1
+        }
+      }
+    },
+    "USD_SGD": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "USD_THB": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "USD_TRY": {
+      "counts": {
+        "attempts": 0,
+        "diagnostics": 0,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    },
+    "USD_ZAR": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 3,
+        "forecasts": 3,
+        "publication": 3,
+        "consumption": 3,
+        "entries": 3,
+        "outcomes": 2,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": 1788806700.054504,
+      "scorecard": {
+        "sha256": "1f7b2b2adbede8590c66271bf32b4985bd71be84e5140de3ebd778796c70bd14",
+        "generated_utc": "2026-09-07T18:18:28.885521+00:00",
+        "status": "clock_valid_engineering_diagnostic",
+        "coverage": {
+          "complete_clock_valid_decisions": 3,
+          "complete_two_family_decisions": 3,
+          "paired_scored_decisions": 1,
+          "total_decisions": 3,
+          "total_forecasts": 6
+        },
+        "paired_summaries": {
+          "fair_coin": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "no_trade": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "probabilistic_state_space": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "1",
+            "directional_decisions": 1,
+            "mae_bps": "1.2996717500560819398872833038393812083414855825519155024838054136769008909444711",
+            "mean_brier": "0.009387201128406095260717732369",
+            "mean_net_bps_per_decision": "-2.2441076546574610328521108051595723068364020515769700796064372759408530734585825",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "1.2996717500560819398872833038393812083414855825519155024838054136769008909444711",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-2.2441076546574610328521108051595723068364020515769700796064372759408530734585825",
+              "0.5": "-2.7441076546574610328521108051595723068364020515769700796064372759408530734585825",
+              "1": "-3.2441076546574610328521108051595723068364020515769700796064372759408530734585825"
+            }
+          },
+          "ridge_return_repaired": {
+            "abstentions": 0,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": "0",
+            "directional_decisions": 1,
+            "mae_bps": "6.8775881425694513601127166961606187916585144174480844975161945863230991090555289",
+            "mean_brier": "0.6493725015647134366712183427123889",
+            "mean_net_bps_per_decision": "-7.2449046566796583205448368333703183944941225007735607862503086429399685574888498",
+            "positive_after_spread_rate_when_directional": "0",
+            "rmse_bps": "6.8775881425694513601127166961606187916585144174480844975161945863230991090555289",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-7.2449046566796583205448368333703183944941225007735607862503086429399685574888498",
+              "0.5": "-7.7449046566796583205448368333703183944941225007735607862503086429399685574888498",
+              "1": "-8.2449046566796583205448368333703183944941225007735607862503086429399685574888498"
+            }
+          },
+          "rolling_class_rate": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": null,
+            "mean_brier": "0.25",
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "zero_move": {
+            "abstentions": 1,
+            "decisions": 1,
+            "direction_hit_rate_when_directional": null,
+            "directional_decisions": 0,
+            "mae_bps": "2.3878537008294353601127166961606187916585144174480844975161945863230991090555289",
+            "mean_brier": null,
+            "mean_net_bps_per_decision": "0",
+            "positive_after_spread_rate_when_directional": null,
+            "rmse_bps": "2.3878537008294353601127166961606187916585144174480844975161945863230991090555289",
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          }
+        },
+        "decision_exclusion_counts": {
+          "missing_original_target_quote": 2
+        },
+        "outcome_counts": {
+          "up": 1
+        }
+      }
+    },
+    "ZAR_JPY": {
+      "counts": {
+        "attempts": 6,
+        "diagnostics": 6,
+        "forecasts": 0,
+        "publication": 0,
+        "consumption": 0,
+        "entries": 0,
+        "outcomes": 0,
+        "exclusions": 0
+      },
+      "exclusion_reasons": {},
+      "next_unsettled_target_epoch": null
+    }
+  },
+  "totals": {
+    "attempts": 387,
+    "diagnostics": 299,
+    "forecasts": 88,
+    "publication": 88,
+    "consumption": 88,
+    "entries": 87,
+    "outcomes": 36,
+    "exclusions": 3
+  },
+  "scorecard_pairs": 19,
+  "automation": {
+    "id": "check-forex-bot-health",
+    "status": "ACTIVE",
+    "interval_minutes": 15
+  },
+  "research_only": true,
+  "can_place_orders": false,
+  "limitations": [
+    "Separate API, heartbeat and ledger snapshots retain their own clocks; this is not a single atomic observation.",
+    "A recorded outcome is not necessarily a valid scored decision; use each scorecard coverage and exclusions.",
+    "Scorecard missing-target counts include forecasts whose original H1 target has not arrived; do not treat them all as late outcomes.",
+    "Overlapping per-pair forecasts are not independent trials; no demonstrated prediction improvement claimed."
+  ]
+}

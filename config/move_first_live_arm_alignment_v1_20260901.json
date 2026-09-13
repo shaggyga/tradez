@@ -1,0 +1,38 @@
+{
+  "schema_version": "move_first_live_arm_alignment_config_v1",
+  "audit_id": "move_first_live_arm_alignment_v1_20260901",
+  "source_cohort_id": "move_first_live_case_capture_v4_prospective_20260901T070500Z",
+  "source_ledger_schema_version": "move_first_live_case_capture_ledger_v1",
+  "source_database_contract_id": "live_move_news_snapshot_v7r3_transitive_factor_root_union_20260827",
+  "factor_episode_contract_id": "live_factor_episode_overlap_adjacency_v3_gap60_fixed_onset5m_append_only_transitive_root_union_20260827",
+  "deduplication_rule": "resolve_append_only_factor_root_merges_then_select_earliest_first_recorded_case_per_root",
+  "minimum_absolute_pair_score": 0.05,
+  "pair_score_formula": "base_currency_score_minus_quote_currency_score",
+  "forward_shadow_arms": [
+    "strict_forward_direction",
+    "broad_context_direction",
+    "continuous_narrative_direction",
+    "technical_continuation",
+    "broad_context_plus_continuation"
+  ],
+  "label_derived_forward_shadow_arms": [
+    "technical_continuation",
+    "broad_context_plus_continuation"
+  ],
+  "narrative_score_arms": [
+    "linguistic_tone_v1",
+    "narrative_acceleration_v1",
+    "published_semantic_v1",
+    "recovered_blurb_analog_v1",
+    "research_semantic_v1",
+    "secondary_directional_discovery_v1",
+    "source_balanced_v1"
+  ],
+  "selection_conditioned_on_realized_executable_move": true,
+  "predictive_backtest_eligible": false,
+  "promotion_eligible": false,
+  "research_only": true,
+  "execution_eligible": false,
+  "can_authorize": false,
+  "can_place_orders": false
+}

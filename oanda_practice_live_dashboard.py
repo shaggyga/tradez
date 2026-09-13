@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
 import math
 import os
@@ -15,6 +16,7 @@ import threading
 import time
 from collections import Counter, defaultdict, deque
 from datetime import datetime, timedelta, timezone
+from decimal import Decimal, InvalidOperation
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
@@ -22,8 +24,10 @@ from urllib.parse import parse_qs, urlparse
 from zoneinfo import ZoneInfo
 
 try:
+    from oanda_entry_diagnostics import dashboard_fields
     from oanda_practice_eurusd_micro_scalper import DEFAULT_LOG_DIR, safe_float
 except ModuleNotFoundError:  # Package imports used by the test suite.
+    from trad.oanda_entry_diagnostics import dashboard_fields
     from trad.oanda_practice_eurusd_micro_scalper import DEFAULT_LOG_DIR, safe_float
 
 
@@ -32,6 +36,10 @@ RUN_GLOBS = (
     "practice_*_micro_scalper_*.jsonl",
 )
 LAB_GLOB = "practice_strategy_lab_*.jsonl"
+EXECUTOR_007_GLOB = "practice_top_signal_executor_oanda_account_id_dum4_*.jsonl"
+EXECUTOR_DIAGNOSTIC_TAIL_BYTES = 1024 * 1024
+EXECUTOR_DIAGNOSTIC_MAX_FILES = 2
+EXECUTOR_DIAGNOSTIC_FRESH_SEC = 180.0
 MICRO_SNAPSHOT = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "micro_pattern_dashboard_v1.json"
 ACCOUNT_SNAPSHOT = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "account_dashboard_v1.json"
 ACCOUNT_007_SNAPSHOT = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "account_007_dashboard_v1.json"
@@ -40,7 +48,7 @@ SIGNAL_SNAPSHOT = Path(__file__).resolve().parent / "data" / "oanda_training_man
 RESEARCH_SIGNAL_SNAPSHOT = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "practice_007_signal_snapshot_research_v1.json"
 LAST_SIGNAL_SNAPSHOT = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "practice_007_last_signal_v1.json"
 LATEST_MOVES_SNAPSHOT = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "practice_007_latest_moves_v1.json"
-EXECUTABLE_MOVE_CENSUS = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "executable_move_census_latest_v1_20260830b.json"
+EXECUTABLE_MOVE_CENSUS = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "executable_move_census_latest_v3_20260902g.json"
 ADAPTIVE_LEVEL_BANDS = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "causal_level_band_prospective_v1.json"
 LIVE_MOVE_NEWS_SNAPSHOT = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "live_move_news_snapshot_v7r3.json"
 LIVE_MOVE_NEWS_OUTCOMES = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "state" / "live_move_news_outcomes_v4r3.json"
@@ -142,6 +150,28 @@ CRYPTO_EXTRA_TREES_FORWARD = (
 
 _ACTIVE_CANDIDATE_CACHE_LOCK = threading.Lock()
 _ACTIVE_CANDIDATE_CACHE: dict[tuple[str, int], tuple[float, list[dict[str, Any]]]] = {}
+_COLLECTION_LEDGER_CACHE_LOCK = threading.Lock()
+_COLLECTION_LEDGER_CACHE: dict[str, dict[str, Any]] = {}
+_PAIR_SUMMARY_CACHE_LOCK = threading.Lock()
+# At most four project/registry keys, two immutable generations each (v1<=512KiB; v2<=1MiB).
+# New concurrent reads retain the two newest verified producer timestamps.
+_PAIR_SUMMARY_CACHE: dict[tuple[str,str], tuple[tuple[float,str,bytes],...]] = {}
+COLLECTION_LEDGER_CACHE_SEC = 15.0
+COLLECTION_LEDGER_ROW_LIMIT = 10000
+_FOUR_FORECAST_FAMILIES = frozenset({"cross_pair_graph_transfer", "modern_tabular_probabilistic_repaired",
+                                     "probabilistic_state_space", "ridge_return_repaired"})
+_STUDY_FORECAST_FAMILIES = {
+    "causal_forecast_study_v1_io_r2": _FOUR_FORECAST_FAMILIES,
+    "causal_forecast_study_gap_v2": _FOUR_FORECAST_FAMILIES,
+    "causal_forecast_study_eurusd_v1": frozenset({"ridge_return_repaired", "probabilistic_state_space"}),
+}
+_PAIR_FORECAST_SOURCE_BINDINGS = frozenset({
+    "oanda_pair_local_forecast_study_v1.py", "oanda_causal_forecast_ledger_pair_v1.py",
+    "oanda_fixed_forecast_evaluation_pair_v1.py", "oanda_pair_local_models_v1.py",
+    "oanda_causal_forecast_inputs_pair_v1.py", "oanda_causal_forecast_inputs.py",
+    "oanda_causal_forecast_inputs_gap_v2.py", "oanda_exact_price_scoring.py",
+    "oanda_causal_prediction_baselines.py",
+})
 
 HGB_CALIBRATION_REPORTS = {
     "M1": "m1_hgb_reversal_120_oanda_candidate_20260707",
@@ -240,6 +270,1476 @@ def heartbeat_status(path: Path) -> dict[str, Any]:
             and age is not None
             and age < 30.0
         ),
+    }
+
+
+def summarize_study_attempts(data_root: Path, contract_sha: str, activated_epoch: float,
+                             *, now_epoch: float | None = None,
+                             study_directory: str = "causal_forecast_study_v1_io_r2") -> dict[str, Any]:
+    """Read only the registered study's small, indexed attempt/diagnostic tables.
+
+    The latest rejection is durable even after a healthy quote clears the worker
+    heartbeat reason. Never open the canonical database or inspect quote/input
+    payloads. Counts cap at 10,000 rows; queries have a 250ms progress deadline.
+    A 15-second cache is scoped to path, contract, activation and file identity.
+    Cached results carry their original observation time, not a new receipt.
+    """
+    now = time.time() if now_epoch is None else float(now_epoch)
+    if study_directory not in _STUDY_FORECAST_FAMILIES:
+        raise ValueError("unsupported_dashboard_study_directory")
+    expected_families = _STUDY_FORECAST_FAMILIES[study_directory]
+    path = data_root / study_directory / "study.sqlite"
+    unknown = {"status": "unavailable", "reason": "study_ledger_missing", "counts": {},
+               "latest_attempt": None, "last_rejection": None, "observed_epoch": None}
+    try:
+        stat = path.stat()
+    except OSError:
+        return unknown
+    if stat.st_size > 512 * 1024 * 1024:
+        return {**unknown, "reason": "study_ledger_exceeds_dashboard_size_limit"}
+    identity = (str(path.resolve()), contract_sha, activated_epoch, stat.st_ino)
+    monotonic = time.monotonic()
+    cache_key = str(path.resolve())
+    with _COLLECTION_LEDGER_CACHE_LOCK:
+        cached = _COLLECTION_LEDGER_CACHE.get(cache_key)
+        if (cached and cached["identity"] == identity and
+                (cached["result"].get("observed_epoch") is None or cached["result"]["observed_epoch"] <= now) and
+                0 <= monotonic - cached["monotonic"] < COLLECTION_LEDGER_CACHE_SEC):
+            return {**cached["result"], "cache_age_sec": round(monotonic-cached["monotonic"], 3)}
+        connection = None
+        result = unknown
+        try:
+            connection = sqlite3.connect(path.resolve().as_uri()+"?mode=ro", uri=True, timeout=.1)
+            connection.execute("PRAGMA query_only=ON")
+            connection.execute("BEGIN")
+            started = time.monotonic()
+            connection.set_progress_handler(lambda: int(time.monotonic()-started > .25), 100)
+            contract = connection.execute("SELECT sha,substr(payload,1,262145),length(payload) FROM contract WHERE id=1").fetchone()
+            activation = connection.execute("SELECT epoch,contract_sha FROM activation WHERE id=1").fetchone()
+            if (not contract or contract[0] != contract_sha or contract[2] > 262144 or
+                    hashlib.sha256(contract[1].encode()).hexdigest() != contract_sha or
+                    activation != (activated_epoch, contract_sha)):
+                raise ValueError("study_ledger_contract_or_activation_mismatch")
+            latest = connection.execute("""SELECT a.bucket,a.epoch,d.epoch,substr(d.payload,1,8193),length(d.payload),
+                    f.id,p.epoch FROM attempts a LEFT JOIN diagnostics d ON d.bucket=a.bucket
+                    LEFT JOIN forecasts f ON f.bucket=a.bucket LEFT JOIN publication p ON p.id=f.id
+                    ORDER BY a.bucket DESC LIMIT 1""").fetchone()
+            rejected = connection.execute("SELECT bucket,epoch,substr(payload,1,8193),length(payload) FROM diagnostics ORDER BY bucket DESC LIMIT 1").fetchone()
+
+            def diagnostic(row):
+                if row is None:
+                    return None
+                bucket, epoch, raw, length = row
+                if type(bucket) is not int or type(epoch) not in (int,float) or not math.isfinite(epoch) or not activated_epoch <= epoch <= now:
+                    raise ValueError("invalid_study_diagnostic_clock")
+                if length > 8192:
+                    raise ValueError("study_diagnostic_payload_too_large")
+                payload = json.loads(raw)
+                if not isinstance(payload,dict) or payload.get("status") not in {"abstain", "failed_closed"}:
+                    raise ValueError("invalid_study_diagnostic_payload")
+                reasons = payload.get("reasons", [payload.get("reason")])
+                if not isinstance(reasons,list) or len(reasons)>32 or any(not isinstance(v,str) for v in reasons):
+                    raise ValueError("invalid_study_diagnostic_reasons")
+                return {"bucket":bucket, "epoch":epoch, "status":payload["status"],
+                        "reasons":reasons, "reason":" | ".join(reasons)[:4096]}
+
+            last_rejection = diagnostic(rejected)
+            attempt = None
+            if latest:
+                bucket, epoch, rejected_epoch, raw, length, forecast_id, published_epoch = latest
+                if type(epoch) not in (int,float) or not math.isfinite(epoch) or not activated_epoch <= epoch <= now:
+                    raise ValueError("invalid_study_attempt_clock")
+                rejection = diagnostic((bucket,rejected_epoch,raw,length)) if rejected_epoch is not None else None
+                if rejection and rejection["epoch"] < epoch:
+                    raise ValueError("study_rejection_precedes_attempt")
+                if published_epoch is not None and not epoch <= published_epoch <= now:
+                    raise ValueError("invalid_study_publication_clock")
+                attempt = {"bucket":bucket,"epoch":epoch,"status": "published" if published_epoch is not None
+                           else rejection["status"] if rejection else "awaiting_publication" if forecast_id else "pending",
+                           "publication_epoch":published_epoch,"rejection":rejection}
+            counts, capped = {}, []
+            for table in ("attempts","diagnostics","forecasts","publication","outcomes"):
+                count = connection.execute(f"SELECT COUNT(*) FROM (SELECT 1 FROM {table} LIMIT ?)",
+                                           (COLLECTION_LEDGER_ROW_LIMIT+1,)).fetchone()[0]
+                counts[table] = min(count,COLLECTION_LEDGER_ROW_LIMIT)
+                if count > COLLECTION_LEDGER_ROW_LIMIT:
+                    capped.append(table)
+            published = connection.execute("""SELECT f.id,f.target,f.sha,substr(f.payload,1,32769),length(f.payload),
+                    p.epoch,p.forecast_sha FROM forecasts f JOIN publication p ON p.id=f.id
+                    ORDER BY f.bucket DESC LIMIT 1""").fetchone()
+            forecast_set = None
+            forecast_payload_status = "not_published"
+            if published:
+                try:
+                    forecast_id,target,sha,raw,length,published_epoch,publication_sha = published
+                    if length > 32768 or sha != publication_sha or hashlib.sha256(raw.encode()).hexdigest() != sha:
+                        raise ValueError("published_forecast_hash_or_size")
+                    payload = json.loads(raw)
+                    registered_contract = json.loads(contract[1])
+                    configured = registered_contract.get("cohorts",{})
+                    arms = payload.get("forecasts")
+                    if (not isinstance(arms,list) or len(arms) != len(expected_families)
+                            or not isinstance(configured,dict) or set(configured) != expected_families
+                            or payload.get("decision_id") != forecast_id or payload.get("target_epoch") != target
+                            or {arm.get("family") for arm in arms if isinstance(arm,dict)} != expected_families):
+                        raise ValueError("published_forecast_identity")
+                    # Activation binds when this consumer first observed the
+                    # reference, not when the broker's tick occurred. A fresh
+                    # tick may precede activation by a fraction of a second.
+                    reference_id = payload.get("reference_quote_id")
+                    if not isinstance(reference_id,str) or len(reference_id)>256:
+                        raise ValueError("published_reference_quote_required")
+                    retained_reference = connection.execute(
+                        "SELECT market,available FROM quotes WHERE id=?", (reference_id,)).fetchone()
+                    if (not retained_reference or registered_contract.get("quote_max_age_sec") != 60
+                            or any(type(value) not in (int,float) or not math.isfinite(value) for value in retained_reference)):
+                        raise ValueError("published_reference_observation_required")
+                    reference_market, reference_available = retained_reference
+                    if not (reference_market <= reference_available and activated_epoch < reference_available
+                            and reference_available-reference_market <= 60):
+                        raise ValueError("published_reference_availability_or_freshness")
+                    compact = []
+                    for arm in arms:
+                        def number(key):
+                            value = arm.get(key)
+                            if key in {"reference_mid","probability_up","predicted_return_bps"}:
+                                if type(value) not in (str,int,float) or len(str(value)) > 256:
+                                    raise ValueError("invalid_forecast_value")
+                                try:
+                                    decimal = Decimal(str(value))
+                                except InvalidOperation as exc:
+                                    raise ValueError("invalid_forecast_value") from exc
+                                if not decimal.is_finite():
+                                    raise ValueError("invalid_forecast_value")
+                                return decimal
+                            if type(value) not in (int,float) or not math.isfinite(value):
+                                raise ValueError("invalid_forecast_value")
+                            return value
+                        reference,issue,arm_target = number("reference_epoch"),number("issued_epoch"),number("target_epoch")
+                        if (arm.get("instrument") != "EUR_USD" or arm.get("cohort_id") != configured[arm["family"]]
+                                or arm_target != target or reference != reference_market
+                                or not reference_available <= issue <= published_epoch <= now
+                                or not published_epoch < target or target-reference != 3600
+                                or type(arm.get("side")) is not int or arm["side"] not in (-1,0,1)
+                                or not 0 <= number("probability_up") <= 1 or number("reference_mid") <= 0):
+                            raise ValueError("published_forecast_clock_or_value")
+                        compact.append({key:arm[key] for key in ("family","instrument","side","probability_up",
+                            "reference_epoch","reference_mid","issued_epoch","target_epoch","predicted_return_bps")})
+                        number("predicted_return_bps")
+                    forecast_set = {"decision_id":forecast_id,"publication_epoch":published_epoch,"target_epoch":target,
+                        "status":"in_progress" if now < target else "target_elapsed",
+                        "instrument":"EUR_USD","horizon_sec":3600,"forecasts":compact,
+                        "comparison_scope":"original_reference_to_current_price_not_scored_accuracy"}
+                    forecast_payload_status = "verified_retained_publication"
+                except (ValueError,TypeError,KeyError,OverflowError):
+                    forecast_payload_status = "invalid_retained_publication"
+            result = {"status":"available", "reason":None, "counts":counts, "counts_capped":capped,
+                      "latest_attempt":attempt, "last_rejection":last_rejection, "observed_epoch":now,
+                      "scope":"registered_contract_retained_attempts_not_process_liveness",
+                      "cache_max_age_sec":COLLECTION_LEDGER_CACHE_SEC, "cache_age_sec":0,
+                      "source_file_size":stat.st_size, "source_file_mtime_ns":stat.st_mtime_ns}
+            result.update(latest_published_forecast=forecast_set,forecast_payload_status=forecast_payload_status)
+        except (sqlite3.Error, OSError, ValueError, TypeError, OverflowError) as exc:
+            result = {**unknown,"reason":str(exc)[:240],"observed_epoch":now}
+        finally:
+            if connection is not None:
+                connection.rollback()
+                connection.close()
+        if len(_COLLECTION_LEDGER_CACHE) > 8:
+            _COLLECTION_LEDGER_CACHE.clear()
+        _COLLECTION_LEDGER_CACHE[cache_key] = {"identity":identity,"monotonic":monotonic,"result":result}
+        return dict(result)
+
+
+def summarize_pair_local_forecasts(data_root: Path, *, now_epoch: float | None = None) -> dict[str, Any]:
+    """Consume one bounded, worker-verified publication, without opening 68 ledgers.
+
+    The registry binds each pair and cohort. The heartbeat binds the sealed summary;
+    every pair retains its own observation clock and original future H1 target.
+    This is a display projection, never execution authority or verified accuracy.
+    """
+    now = time.time() if now_epoch is None else float(now_epoch)
+    base = {"status":"unavailable", "reason":"pair_summary_unavailable",
+            "reason_label":"Pair model coverage unavailable", "generated_epoch":None,
+            "observed_epoch":now, "rows":[], "counts":{}, "research_only":True,
+            "can_place_orders":False, "can_promote":False,
+            "publication_read_attempts":0, "publication_read_failures":[],
+            "retained_generation":None,
+            "probability_scope":"uncalibrated_model_estimate_not_verified_accuracy"}
+
+    def canonical(value):
+        return json.dumps(value, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()
+
+    def digest(value):
+        return hashlib.sha256(canonical(value)).hexdigest()
+
+    def small_bytes(path, limit):
+        before = path.stat()
+        if before.st_size > limit:
+            raise ValueError("pair_summary_size_limit")
+        with path.open("rb") as handle:
+            opened = os.fstat(handle.fileno())
+            raw = handle.read(limit+1)
+            closed = os.fstat(handle.fileno())
+        after = path.stat()
+        identity = lambda stat:(stat.st_ino,stat.st_size,stat.st_mtime_ns)
+        if len(raw)>limit or len({identity(value) for value in (before,opened,closed,after)})!=1:
+            raise ValueError("pair_summary_source_changed")
+        return raw
+
+    def small_json(path, limit):
+        value = json.loads(small_bytes(path,limit))
+        if not isinstance(value,dict):
+            raise ValueError("pair_summary_invalid_json_object")
+        return value
+
+    def clock(value):
+        if type(value) not in (int,float) or not math.isfinite(value):
+            raise ValueError("pair_summary_invalid_clock")
+        return value
+
+    def inert(value):
+        return value.get("research_only") is True and all(value.get(key) is False for key in ("can_place_orders","can_promote"))
+
+    def hash_value(value):
+        return isinstance(value,str) and re.fullmatch(r"[0-9a-f]{64}",value) is not None
+
+    def number(value):
+        if type(value) not in (str,int,float) or len(str(value))>256:
+            raise ValueError("pair_summary_invalid_number")
+        result = Decimal(str(value))
+        if not result.is_finite():
+            raise ValueError("pair_summary_nonfinite_number")
+        return result
+
+    def label(row):
+        reason = row["reason"]
+        if row["status"] == "warming":
+            return f"Needs 61 own minute bars · last attempt {row['current_common_bars']}/61"
+        if row["status"] == "building":
+            return "Building the next forecast"
+        if any(token in reason for token in ("quote", "tradeable", "market_closed")):
+            return "No fresh quote"
+        if any(token in reason for token in ("mature_ridge_training_rows", "insufficient_training", "too_few_mature")):
+            return "Too few mature training windows"
+        return {"pair_observation_stale":"Pair observation is not current",
+                "target_elapsed":"H1 target elapsed; next forecast pending",
+                "forecast":"Two H1 model estimates", "awaiting_first_attempt":"Waiting for the first model attempt",
+                "awaiting_publication":"Forecast publication pending"}.get(reason,"Forecast withheld: "+reason.replace("_"," ")[:160])
+
+    try:
+        project_root = data_root.parent.parent
+        registry = small_json(project_root/"config/pair_local_forecast_study_v1_20260907.json",1024*1024)
+        pairs = registry.get("pairs")
+        bindings = registry.get("source_bindings")
+        if (registry.get("schema_version") != "pair_local_forecast_registry_v1_20260907"
+                or registry.get("registry_id") != "pair_local_forecast_study_v1_20260907"
+                or registry.get("collection_enabled") is not True or not inert(registry)
+                or not isinstance(pairs,dict) or not 1 <= len(pairs) <= 68
+                or not isinstance(bindings,dict) or set(bindings) != _PAIR_FORECAST_SOURCE_BINDINGS
+                or any(not isinstance(name,str) or not re.fullmatch(r"oanda_[a-z0-9_]+\.py",name)
+                       or not hash_value(sha) for name,sha in bindings.items())):
+            raise ValueError("pair_registry_identity_or_safety")
+        if any(registry.get(key) is not False for key in ("can_authorize","account_eligible","proof_eligible","historical_rows_imported")):
+            raise ValueError("pair_registry_safety_flags")
+        for name,sha in bindings.items():
+            if hashlib.sha256(small_bytes(project_root/name,1024*1024)).hexdigest() != sha:
+                raise ValueError("pair_registry_source_binding_mismatch")
+        for instrument,entry in pairs.items():
+            if not isinstance(instrument,str) or not re.fullmatch(r"[A-Z]{3}_[A-Z]{3}",instrument) or not isinstance(entry,dict):
+                raise ValueError("pair_registry_instrument")
+            contract = entry.get("contract",{})
+            if (not isinstance(contract,dict) or contract.get("instrument") != instrument
+                    or not inert(contract) or any(contract.get(key) is not False for key in ("can_authorize","account_eligible","proof_eligible","historical_rows_imported"))
+                    or not hash_value(entry.get("contract_sha256"))
+                    or digest(contract) != entry["contract_sha256"]
+                    or not isinstance(contract.get("cohorts"),dict)
+                    or set(contract["cohorts"]) != _STUDY_FORECAST_FAMILIES["causal_forecast_study_eurusd_v1"]
+                    or any(not isinstance(value,str) or not value or len(value)>256 for value in contract["cohorts"].values())
+                    or len(set(contract["cohorts"].values())) != 2
+                    or contract.get("source_bindings") != bindings
+                    or number(entry.get("pip_size")) <= 0
+                    or number(contract.get("pip_size")) != number(entry["pip_size"])):
+                raise ValueError("pair_registry_contract_binding")
+        registry_sha = digest(registry)
+        base["registry_sha256"] = registry_sha
+        base["rows"] = [{"instrument":pair,"status":"unavailable","reason":"pair_summary_unavailable",
+                         "reason_label":"Pair model coverage unavailable", "observed_epoch":None,
+                         "latest_published_forecast":None} for pair in sorted(pairs)]
+        study_root = data_root/"pair_local_forecast_study_v1"
+        cache_key = (str((study_root/"summary.json").resolve()),registry_sha)
+        # Each file is atomic independently. Retry only a crossed generation or
+        # a source replaced during its bounded read; never wait out future clocks,
+        # stale data, invalid identities, or a broken payload seal.
+        for read_attempt in range(3):
+            base["publication_read_attempts"] = read_attempt+1
+            try:
+                summary_raw = small_bytes(study_root/"summary.json",512*1024)
+                summary = json.loads(summary_raw)
+                if not isinstance(summary,dict):
+                    raise ValueError("pair_summary_invalid_json_object")
+                heartbeat = small_json(study_root/"heartbeat.json",65536)
+                summary_sha = digest(summary)
+                payload_sha = digest({key:value for key,value in summary.items() if key!="payload_sha256"})
+                # Availability belongs to the time these retained bytes and hashes
+                # were observed, not the request's earlier start time. A supplied
+                # fixture clock is intentionally fixed across every retry.
+                observed_now = clock(time.time()) if now_epoch is None else now
+                if observed_now < now:
+                    raise ValueError("pair_summary_consumer_clock_regression")
+                now = observed_now
+                base["observed_epoch"] = now
+                if (summary.get("schema_version") != "pair_local_forecast_summary_v1_20260907"
+                        or heartbeat.get("schema_version") != "pair_local_forecast_heartbeat_v1_20260907"
+                        or summary.get("registry_sha256") != registry_sha or heartbeat.get("registry_sha256") != registry_sha
+                        or not inert(summary) or not inert(heartbeat)
+                        or heartbeat.get("account_eligible") is not False or heartbeat.get("proof_eligible") is not False
+                        or summary.get("payload_sha256") != payload_sha):
+                    raise ValueError("pair_summary_hash_identity_or_clock")
+                # Check genuine future timestamps before a retry can elapse them.
+                if clock(summary.get("generated_epoch"))>now or clock(heartbeat.get("generated_epoch"))>now:
+                    raise ValueError("pair_summary_hash_identity_or_clock")
+                if heartbeat.get("summary_sha256") != summary_sha:
+                    raise ValueError("pair_summary_generation_mismatch")
+                break
+            except ValueError as exc:
+                if str(exc) not in {"pair_summary_source_changed","pair_summary_generation_mismatch"}:
+                    raise
+                observed_now = clock(time.time()) if now_epoch is None else now
+                if observed_now < now:
+                    raise ValueError("pair_summary_consumer_clock_regression") from exc
+                now = observed_now
+                base["observed_epoch"] = now
+                base["publication_read_failures"].append({"attempt":read_attempt+1,"reason":str(exc),"observed_epoch":now})
+                if str(exc)=="pair_summary_generation_mismatch":
+                    # The producer's independent timers can leave its fresh
+                    # heartbeat intentionally bound to the preceding summary.
+                    # Use only those already-verified exact bytes; never relabel,
+                    # reseal, advance source clocks or guess the missing binding.
+                    with _PAIR_SUMMARY_CACHE_LOCK:
+                        generations = _PAIR_SUMMARY_CACHE.get(cache_key,())
+                    retained = next((entry for entry in generations if entry[1]==heartbeat.get("summary_sha256")),None)
+                    heartbeat_epoch = clock(heartbeat.get("generated_epoch"))
+                    if (retained is not None and 0<=now-retained[0]<=90
+                            and retained[0]<=heartbeat_epoch<=now and now-heartbeat_epoch<=90):
+                        cached_summary = json.loads(retained[2])
+                        if digest(cached_summary)==retained[1]:
+                            base["retained_generation"] = {
+                                "reason":"current_heartbeat_binds_verified_retained_summary",
+                                "unmatched_summary_sha256":summary_sha,
+                                "unmatched_summary_generated_epoch":summary["generated_epoch"],
+                                "summary_sha256":retained[1],"generated_epoch":retained[0],
+                                "heartbeat_summary_sha256":heartbeat["summary_sha256"],
+                                "heartbeat_generated_epoch":heartbeat_epoch,
+                                "observed_epoch":now,"age_sec":now-retained[0],
+                            }
+                            summary,summary_raw,summary_sha = cached_summary,retained[2],retained[1]
+                            break
+                if read_attempt==2:
+                    raise
+                time.sleep(.01)
+        generated = clock(summary.get("generated_epoch"))
+        heartbeat_epoch = clock(heartbeat.get("generated_epoch"))
+        if not generated <= heartbeat_epoch <= now:
+            raise ValueError("pair_summary_hash_identity_or_clock")
+        base["generated_epoch"] = generated
+        if now-generated>90 or now-heartbeat_epoch>90:
+            raise ValueError("pair_summary_stale")
+        raw_rows = summary.get("rows")
+        if (not isinstance(raw_rows,list) or len(raw_rows)!=len(pairs)
+                or any(not isinstance(row,dict) for row in raw_rows)
+                or {row.get("instrument") for row in raw_rows} != set(pairs)):
+            raise ValueError("pair_summary_coverage_identity")
+        rows = []
+        all_rows_verified = True
+        for raw in raw_rows:
+            instrument = raw["instrument"]
+            contract = pairs[instrument]["contract"]
+            row = {"instrument":instrument,"status":"unavailable","reason":"invalid_pair_publication",
+                   "reason_label":"Pair publication could not be verified", "observed_epoch":None,
+                   "latest_published_forecast":None}
+            try:
+                observed,activated = clock(raw.get("observed_epoch")),clock(raw.get("activated_epoch"))
+                if (raw.get("contract_sha256") != pairs[instrument]["contract_sha256"]
+                        or not 0 < activated <= observed <= generated
+                        or raw.get("status") not in {"forecast","warming","unavailable","building"}
+                        or not isinstance(raw.get("reason"),str) or len(raw["reason"])>4096
+                        or raw.get("required_current_common_bars") != 61
+                        or (raw.get("current_common_bars") is not None and
+                            (type(raw["current_common_bars"]) is not int or not 0<=raw["current_common_bars"]<=1024))
+                        or (raw.get("status")=="warming" and
+                            (type(raw.get("current_common_bars")) is not int or raw["current_common_bars"]>=61))):
+                    raise ValueError("pair_summary_row_identity_or_clock")
+                row.update(status=raw["status"],reason=raw["reason"],observed_epoch=observed,
+                           current_common_bars=raw.get("current_common_bars"),required_current_common_bars=61,
+                           last_attempt_epoch=raw.get("last_attempt_epoch"))
+                if row["last_attempt_epoch"] is not None and not activated<=clock(row["last_attempt_epoch"])<=observed:
+                    raise ValueError("pair_summary_attempt_clock")
+                if now-observed>90:
+                    row.update(status="unavailable",reason="pair_observation_stale")
+                else:
+                    forecast = raw.get("latest_published_forecast")
+                    if forecast is not None:
+                        arms = forecast.get("forecasts")
+                        published,target = clock(forecast.get("publication_epoch")),clock(forecast.get("target_epoch"))
+                        available = clock(forecast.get("reference_available_epoch"))
+                        if (forecast.get("publication_verified") is not True or not hash_value(forecast.get("forecast_sha256"))
+                                or not isinstance(forecast.get("decision_id"),str) or not 1<=len(forecast["decision_id"])<=256
+                                or forecast.get("instrument") != instrument or forecast.get("horizon_sec") != 3600
+                                or not isinstance(arms,list) or len(arms)!=2
+                                or {arm.get("family") for arm in arms if isinstance(arm,dict)} != set(contract["cohorts"])
+                                or not activated < available <= published <= observed or not published < target):
+                            raise ValueError("pair_summary_publication_binding")
+                        references = set()
+                        for arm in arms:
+                            reference,issue,arm_target=clock(arm.get("reference_epoch")),clock(arm.get("issued_epoch")),clock(arm.get("target_epoch"))
+                            if (arm.get("instrument") != instrument or arm.get("cohort_id") != contract["cohorts"][arm["family"]]
+                                    or type(arm.get("side")) is not int or arm["side"] not in (-1,0,1)
+                                    or not reference <= available <= issue <= published
+                                    or available-reference>60 or target-reference!=3600 or arm_target!=target
+                                    or number(arm.get("reference_mid"))<=0 or not 0<=number(arm.get("probability_up"))<=1):
+                                raise ValueError("pair_summary_forecast_clock_or_value")
+                            number(arm.get("predicted_return_bps"))
+                            references.add((reference,number(arm["reference_mid"])))
+                        if len(references)!=1:
+                            raise ValueError("pair_summary_reference_mismatch")
+                        if now<target:
+                            row.update(status="forecast",reason="forecast",latest_published_forecast={**forecast,"status":"in_progress"})
+                        elif row["status"] == "forecast":
+                            row.update(status="unavailable",reason="target_elapsed")
+                    elif row["status"] == "forecast":
+                        raise ValueError("pair_summary_missing_publication")
+                row["reason_label"] = label(row)
+            except (ValueError,TypeError,KeyError,OverflowError,InvalidOperation,AttributeError):
+                all_rows_verified = False
+                row.update(status="unavailable",reason="invalid_pair_publication",reason_label="Pair publication could not be verified",latest_published_forecast=None)
+            rows.append(row)
+        counts = dict(Counter(row["status"] for row in rows))
+        if all_rows_verified:
+            with _PAIR_SUMMARY_CACHE_LOCK:
+                generations = _PAIR_SUMMARY_CACHE.get(cache_key,())
+                # Never replace a newer generation when an older concurrent
+                # request finishes later; equal timestamps cannot redefine bytes.
+                if not any(entry[0]==generated or entry[1]==summary_sha for entry in generations):
+                    generations = tuple(sorted((*generations,(generated,summary_sha,summary_raw)),key=lambda entry:entry[0],reverse=True)[:2])
+                    _PAIR_SUMMARY_CACHE[cache_key] = generations
+                    while len(_PAIR_SUMMARY_CACHE)>4:
+                        _PAIR_SUMMARY_CACHE.pop(next(iter(_PAIR_SUMMARY_CACHE)))
+        return {**base,"status":"current","reason":None,"reason_label":None,"rows":rows,"counts":counts,
+                "summary_sha256":digest(summary),"summary_age_sec":now-generated}
+    except (OSError,ValueError,TypeError,KeyError,OverflowError,InvalidOperation,RecursionError) as exc:
+        reason = str(exc)[:240]
+        label_text = "Forecast status is not current" if reason=="pair_summary_stale" else "Pair model coverage unavailable"
+        return {**base,"reason":reason,"reason_label":label_text,
+                "rows":[{**row,"reason":reason,"reason_label":label_text} for row in base["rows"]],
+                "counts":{"unavailable":len(base["rows"])}}
+
+
+_PAIR_V2_FORECAST_SOURCE_BINDINGS = frozenset({
+    "oanda_pair_local_forecast_study_v2.py", "oanda_causal_forecast_ledger_pair_v2.py",
+    "oanda_fixed_forecast_evaluation_pair_v2.py", "oanda_pair_local_models_v2.py",
+    "oanda_causal_forecast_inputs_pair_v2.py", "oanda_causal_forecast_inputs.py",
+    "oanda_causal_forecast_inputs_gap_v2.py", "oanda_exact_price_scoring.py", "oanda_causal_prediction_baselines.py",
+})
+_JOINT_NEWS_FORECAST_SOURCE_BINDINGS = frozenset({
+    'oanda_joint_price_news_forecast_study_v2.py','oanda_causal_forecast_ledger_joint_news_v1.py',
+    'oanda_fixed_forecast_evaluation_joint_news_v1.py','oanda_joint_price_news_models_v1.py',
+    'oanda_causal_forecast_inputs_joint_news_v1.py','oanda_causal_forecast_inputs.py',
+    'oanda_causal_forecast_inputs_gap_v2.py','oanda_exact_price_scoring.py',
+    'oanda_causal_prediction_baselines.py','oanda_pair_local_models_v2.py',
+    'oanda_causal_forecast_inputs_pair_v2.py','oanda_news_causal_aggregation_guard_v1.py',
+    'oanda_news_classification_contract.py','oanda_local_news_sentiment.py',
+    'oanda_source_governance.py','oanda_source_governance_news_fast_lane.py',
+})
+_JOINT_NEWS_V3_FORECAST_SOURCE_BINDINGS = (
+    _JOINT_NEWS_FORECAST_SOURCE_BINDINGS - {
+        'oanda_joint_price_news_forecast_study_v2.py',
+        'oanda_causal_forecast_ledger_joint_news_v1.py',
+        'oanda_causal_forecast_inputs_joint_news_v1.py',
+    }
+) | frozenset({
+    'oanda_joint_price_news_forecast_study_v3.py',
+    'oanda_causal_forecast_ledger_joint_news_v2.py',
+    'oanda_causal_forecast_inputs_joint_news_v2.py',
+    'oanda_local_news_sentiment_repair_v1.py',
+    'oanda_news_topic_identity_reconciliation_v1.py',
+    'oanda_news_event_tagger.py', 'oanda_news_collector_contract.py',
+})
+
+
+def summarize_pair_local_forecasts_v2(data_root: Path, *, now_epoch: float | None = None) -> dict[str, Any]:
+    return _summarize_registered_family_forecasts(data_root,now_epoch=now_epoch)
+
+
+def summarize_joint_price_news_forecasts(data_root: Path, *, now_epoch: float | None = None) -> dict[str, Any]:
+    """Keep v2 primary until an explicit, registry-bound v3 selection exists."""
+    project = data_root.parent.parent
+    pointer = project / 'config/joint_forecast_primary_current.json'
+    now = time.time() if now_epoch is None else now_epoch
+
+    def stable_json(path, limit):
+        before = path.stat()
+        with path.open('rb') as handle:
+            opened = os.fstat(handle.fileno())
+            raw = handle.read(limit + 1)
+            closed = os.fstat(handle.fileno())
+        after = path.stat()
+        identity = lambda value: (value.st_ino, value.st_size, value.st_mtime_ns)
+        if len(raw) > limit or len({identity(value) for value in (before, opened, closed, after)}) != 1:
+            raise ValueError('joint_primary_source_changed_or_oversized')
+        value = json.loads(raw)
+        if not isinstance(value, dict):
+            raise ValueError('joint_primary_object_required')
+        return value
+
+    try:
+        try:
+            selection = stable_json(pointer, 16384)
+        except FileNotFoundError:
+            return _summarize_registered_family_forecasts(data_root, now_epoch=now_epoch, joint=2)
+        activated = selection.get('activated_epoch')
+        if (selection.get('schema_version') != 'joint_forecast_primary_selection_v1_20260908'
+                or selection.get('selected') != 'v3'
+                or type(activated) not in (int, float) or not math.isfinite(activated)
+                or not 0 < activated <= now
+                or selection.get('research_only') is not True
+                or any(selection.get(key) is not False for key in ('can_place_orders', 'can_promote', 'can_authorize'))):
+            raise ValueError('joint_primary_identity_clock_or_safety')
+        registry = stable_json(project / 'config/joint_price_news_study_v3_20260908.json', 1024 * 1024)
+        registry_sha = hashlib.sha256(json.dumps(registry, sort_keys=True, separators=(',', ':'), allow_nan=False).encode()).hexdigest()
+        if selection.get('registry_sha256') != registry_sha:
+            raise ValueError('joint_primary_registry_binding_mismatch')
+        selected = _summarize_registered_family_forecasts(data_root, now_epoch=now_epoch, joint=3)
+        return {**selected, 'primary_selection': {
+            'selected': 'v3', 'activated_epoch': activated, 'registry_sha256': registry_sha}}
+    except (OSError, ValueError, TypeError, OverflowError, RecursionError) as exc:
+        return {'study_version': 'joint_v3', 'status': 'unavailable', 'reason': 'invalid_joint_primary_selection',
+                'reason_label': 'Combined study selection could not be verified', 'rows': [], 'counts': {},
+                'research_only': True, 'can_place_orders': False, 'can_promote': False,
+                'primary_selection': {'selected': None, 'reason': str(exc)[:240]}}
+
+
+def summarize_joint_price_news_scheduler_comparison_v1(data_root: Path, *, now_epoch: float | None = None) -> dict[str, Any]:
+    return {**_summarize_registered_family_forecasts(data_root,now_epoch=now_epoch,joint=1),
+            'scope':'separate_v1_scheduler_comparison_not_primary_joint_v2'}
+
+
+def _summarize_registered_family_forecasts(data_root: Path, *, now_epoch: float | None = None, joint: int = 0) -> dict[str, Any]:
+    """Consume independently verified family publications without opening ledgers.
+
+    The registry binds each pair and cohort. The heartbeat binds the sealed summary;
+    every pair retains its own observation clock and original future H1 target.
+    This is a display projection, never execution authority or verified accuracy.
+    """
+    now = time.time() if now_epoch is None else float(now_epoch)
+    joint_revision='20260908' if joint==3 else '20260907'
+    registry_id=f'joint_price_news_study_v{joint}_{joint_revision}' if joint else 'pair_local_forecast_study_v2_20260907'
+    registry_schema=f'joint_price_news_registry_v{joint}_{joint_revision}' if joint else 'pair_local_forecast_registry_v2_20260907'
+    study_directory=f'joint_price_news_study_v{joint}' if joint else 'pair_local_forecast_study_v2'
+    summary_schema=f'joint_price_news_forecast_summary_v{joint}_{joint_revision}' if joint else 'pair_local_forecast_summary_v2_20260907'
+    heartbeat_schema=f'joint_price_news_forecast_heartbeat_v{joint}_{joint_revision}' if joint else 'pair_local_forecast_heartbeat_v2_20260907'
+    ledger_schema='causal_joint_price_news_ledger_v2_20260908' if joint==3 else 'causal_joint_price_news_ledger_v1_20260907' if joint else 'causal_pair_family_ledger_v2_20260907'
+    numerical_source='oanda_joint_price_news_models_v1.py' if joint else 'oanda_pair_local_models_v2.py'
+    source_files=_JOINT_NEWS_FORECAST_SOURCE_BINDINGS if joint else _PAIR_V2_FORECAST_SOURCE_BINDINGS
+    if joint==1:source_files=(source_files-{'oanda_joint_price_news_forecast_study_v2.py'})|{'oanda_joint_price_news_forecast_study_v1.py'}
+    if joint==3:source_files=_JOINT_NEWS_V3_FORECAST_SOURCE_BINDINGS
+    registered_families={'ridge_price_news_v1'} if joint else _STUDY_FORECAST_FAMILIES['causal_forecast_study_eurusd_v1']
+    base = {"study_version":f"joint_v{joint}" if joint else 2, "status":"unavailable", "reason":"pair_summary_unavailable",
+            "reason_label":"Pair model coverage unavailable", "generated_epoch":None,
+            "observed_epoch":now, "rows":[], "counts":{}, "research_only":True,
+            "can_place_orders":False, "can_promote":False,
+            "publication_read_attempts":0, "publication_read_failures":[],
+            "retained_generation":None,
+            "probability_scope":"uncalibrated_model_estimate_not_verified_accuracy", "family_counts":{}}
+
+    def canonical(value):
+        return json.dumps(value, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()
+
+    def digest(value):
+        return hashlib.sha256(canonical(value)).hexdigest()
+
+    def small_bytes(path, limit):
+        before = path.stat()
+        if before.st_size > limit:
+            raise ValueError("pair_summary_size_limit")
+        with path.open("rb") as handle:
+            opened = os.fstat(handle.fileno())
+            raw = handle.read(limit+1)
+            closed = os.fstat(handle.fileno())
+        after = path.stat()
+        identity = lambda stat:(stat.st_ino,stat.st_size,stat.st_mtime_ns)
+        if len(raw)>limit or len({identity(value) for value in (before,opened,closed,after)})!=1:
+            raise ValueError("pair_summary_source_changed")
+        return raw
+
+    def small_json(path, limit):
+        value = json.loads(small_bytes(path,limit))
+        if not isinstance(value,dict):
+            raise ValueError("pair_summary_invalid_json_object")
+        return value
+
+    def clock(value):
+        if type(value) not in (int,float) or not math.isfinite(value):
+            raise ValueError("pair_summary_invalid_clock")
+        return value
+
+    def inert(value):
+        return value.get("research_only") is True and all(value.get(key) is False for key in ("can_place_orders","can_promote","can_authorize","account_eligible","proof_eligible","historical_rows_imported"))
+
+    def hash_value(value):
+        return isinstance(value,str) and re.fullmatch(r"[0-9a-f]{64}",value) is not None
+
+    def number(value):
+        if type(value) not in (str,int,float) or len(str(value))>256:
+            raise ValueError("pair_summary_invalid_number")
+        result = Decimal(str(value))
+        if not result.is_finite():
+            raise ValueError("pair_summary_nonfinite_number")
+        return result
+
+    def text_value(value):
+        if not isinstance(value,str) or len(value)>4096:
+            raise ValueError("invalid_family_reason")
+        return value
+
+    def readiness_view(raw, observed):
+        if not isinstance(raw,dict) or raw.get("status") not in {"ready","blocked","unavailable"}:
+            raise ValueError("invalid_readiness_shape")
+        reason=text_value(raw.get("reason"))
+        diagnostics=raw.get("diagnostics")
+        if not isinstance(diagnostics,dict) or len(canonical(diagnostics))>16384:
+            raise ValueError("invalid_readiness_diagnostics")
+        stamp=raw.get("observed_epoch")
+        if stamp is None:
+            if raw["status"]!="unavailable" or diagnostics:
+                raise ValueError("missing_readiness_observation")
+            return {"observed_epoch":None,"status":"unavailable","reason":reason,"reason_label":"Readiness input not yet observed","diagnostics":{}}
+        if not 0<clock(stamp)<=observed:
+            raise ValueError("future_readiness_observation")
+        result={"observed_epoch":stamp,"status":raw["status"],"reason":reason,"diagnostics":diagnostics}
+        if joint:
+            if diagnostics:
+                keys=('current_real_prices','current_real_returns','current_span_sec','mature_exact_h1_training_rows',
+                      'required_joint_training_rows','nonzero_news_context_training_rows','distinct_news_context_patterns','vetted_news_training_rows')
+                if any(type(diagnostics.get(k)) is not int or not 0<=diagnostics[k]<=100000 for k in keys):raise ValueError('invalid_joint_readiness_counts')
+                if (diagnostics['current_real_prices']!=diagnostics['current_real_returns']+1 or diagnostics['current_real_prices']>4096
+                        or diagnostics['current_span_sec']>3600 or diagnostics['required_joint_training_rows']!=48
+                        or any(diagnostics[k]>diagnostics['mature_exact_h1_training_rows'] for k in ('nonzero_news_context_training_rows','distinct_news_context_patterns','vetted_news_training_rows'))
+                        or type(diagnostics.get('ready')) is not bool or diagnostics.get('status') not in {'ready','blocked'}
+                        or not isinstance(diagnostics.get('reasons'),list) or len(diagnostics['reasons'])>16
+                        or any(not isinstance(item,str) or len(item)>4096 for item in diagnostics['reasons'])):raise ValueError('invalid_joint_readiness_relationship')
+                result['reason_label']=(f"{diagnostics['mature_exact_h1_training_rows']}/48 mature H1 labels · "
+                    f"{diagnostics['nonzero_news_context_training_rows']}/12 rows with news context · "
+                    f"{diagnostics['distinct_news_context_patterns']}/8 distinct context patterns")
+            elif raw['status']!='unavailable':raise ValueError('missing_joint_readiness_counts')
+            else:result['reason_label']='Input unavailable: '+reason.replace('_',' ')[:180]
+            for key in ('price_bar_close_epoch','news_evidence_epoch','news_expires_epoch'):
+                value=raw.get(key)
+                if value is not None and (clock(value)<=0 or key!='news_expires_epoch' and value>stamp):raise ValueError('future_joint_readiness_source')
+                result[key]=value
+            price_epoch,news_epoch,news_expiry=(result[k] for k in ('price_bar_close_epoch','news_evidence_epoch','news_expires_epoch'))
+            if price_epoch is None or news_epoch is None or news_expiry is None or now-price_epoch>900 or now-news_epoch>300 or now>news_expiry:
+                result.update(status='unavailable',reason='stale_or_missing_joint_input')
+                result['reason_label']='Current price or news input unavailable; '+result['reason_label']
+            return result
+        if diagnostics:
+            fields=("current_real_prices","current_real_returns","current_span_sec","retained_real_rows","mature_exact_h1_training_rows","required_ridge_training_rows","maximum_current_gap_sec")
+            if any(type(diagnostics.get(k)) is not int or not 0<=diagnostics[k]<=100000 for k in fields):
+                raise ValueError("invalid_readiness_counts")
+            if (diagnostics["current_real_prices"]!=diagnostics["current_real_returns"]+1
+                    or not diagnostics["current_real_prices"]<=diagnostics["retained_real_rows"]<=4096
+                    or diagnostics["required_ridge_training_rows"]!=24 or diagnostics["current_span_sec"]>3600
+                    or diagnostics["maximum_current_gap_sec"]>1800
+                    or type(diagnostics.get("ready")) is not bool or diagnostics.get("status") not in {"ready","blocked"}
+                    or not isinstance(diagnostics.get("reasons"),list) or len(diagnostics["reasons"])>16
+                    or any(not isinstance(reason,str) or len(reason)>4096 for reason in diagnostics["reasons"])
+                    or not clock(diagnostics.get("session_start_epoch"))<=clock(diagnostics.get("current_window_start_epoch"))<=stamp):
+                raise ValueError("invalid_readiness_count_relationship")
+            maturity=diagnostics["current_window_start_epoch"]+diagnostics["current_span_sec"]+60
+            if maturity>stamp:
+                raise ValueError("readiness_input_not_available")
+            if now-maturity>900:
+                result.update(status="unavailable",reason="stale_pair_input")
+            result["reason_label"]=(f"{diagnostics['current_real_returns']}/8 real returns over {diagnostics['current_span_sec']/60:g} min (needs 15 min); "
+                                    f"Ridge {diagnostics['mature_exact_h1_training_rows']}/24 mature H1 labels")
+        else:
+            if raw["status"]!="unavailable":
+                raise ValueError("missing_readiness_counts")
+            result["reason_label"]="Readiness unavailable: "+reason.replace("_"," ")[:180]
+        return result
+
+    def family_label(row):
+        if row["status"]=="forecast":return "H1 estimate active"
+        if row["status"]=="building":return "Building forecast"
+        reason=row["reason"]
+        if any(token in reason for token in ("quote","tradeable","market_closed")):return "Needs a fresh quote"
+        if reason=="target_elapsed":return "H1 target elapsed; next forecast pending"
+        readiness=row.get("current_readiness") or {}
+        if readiness.get("status")=="unavailable":return "Current input unavailable"
+        if row["status"]=="ready":return "Ready; forecast pending"
+        if row["status"]=="warming":return "Waiting for model inputs"
+        return "Forecast withheld: "+reason.replace("_"," ")[:160]
+
+    try:
+        project_root = data_root.parent.parent
+        registry = small_json(project_root/'config'/(registry_id+'.json'),1024*1024)
+        pairs = registry.get("pairs")
+        bindings = registry.get("source_bindings")
+        if (registry.get("schema_version") != registry_schema
+                or registry.get("registry_id") != registry_id
+                or registry.get("collection_enabled") is not True or not inert(registry)
+                or not isinstance(pairs,dict) or not 1 <= len(pairs) <= 68
+                or not isinstance(bindings,dict) or set(bindings) != source_files
+                or any(not isinstance(name,str) or not re.fullmatch(r"oanda_[a-z0-9_]+\.py",name)
+                       or not hash_value(sha) for name,sha in bindings.items())):
+            raise ValueError("pair_registry_identity_or_safety")
+        if any(registry.get(key) is not False for key in ("can_authorize","account_eligible","proof_eligible","historical_rows_imported")):
+            raise ValueError("pair_registry_safety_flags")
+        for name,sha in bindings.items():
+            if hashlib.sha256(small_bytes(project_root/name,1024*1024)).hexdigest() != sha:
+                raise ValueError("pair_registry_source_binding_mismatch")
+        cohorts=[]
+        for instrument,entry in pairs.items():
+            if not isinstance(instrument,str) or not re.fullmatch(r"[A-Z]{3}_[A-Z]{3}",instrument) or not isinstance(entry,dict):
+                raise ValueError("pair_registry_instrument")
+            families=entry.get("families")
+            if not isinstance(families,dict) or set(families)!=registered_families or number(entry.get("pip_size")) not in (Decimal('.0001'),Decimal('.001'),Decimal('.01')):
+                raise ValueError("pair_registry_family_slots")
+            for family,registered in families.items():
+                contract=registered.get("contract") if isinstance(registered,dict) else None
+                if (not isinstance(contract,dict) or contract.get("schema_version")!=ledger_schema
+                        or contract.get("instrument")!=instrument or contract.get("family")!=family or not inert(contract)
+                        or digest(contract)!=registered.get("contract_sha256") or not hash_value(registered.get("contract_sha256"))
+                        or contract.get("source_bindings")!=bindings or number(contract.get("pip_size"))!=number(entry["pip_size"])
+                        or contract.get("numeric_model_source_sha256")!=bindings[numerical_source]
+                        or contract.get("dependency_versions")!=registry.get("dependency_versions")
+                        or contract.get("horizon_sec")!=3600 or contract.get("input_timeframe")!="M1"
+                        or not isinstance(contract.get("cohorts"),dict) or set(contract["cohorts"])!={family}
+                        or not isinstance(contract["cohorts"][family],str) or not 1<=len(contract["cohorts"][family])<=256):
+                    raise ValueError("pair_registry_contract_binding")
+                cohorts.append(contract["cohorts"][family])
+        if len(cohorts)!=len(set(cohorts)):
+            raise ValueError("pair_registry_cohort_reuse")
+        registry_sha = digest(registry)
+        base["registry_sha256"] = registry_sha
+        base["rows"] = [{"instrument":pair,"status":"unavailable","reason":"pair_summary_unavailable",
+                         "reason_label":"Pair model coverage unavailable", "observed_epoch":None,
+                         "active_forecasts":[], "families":{}} for pair in sorted(pairs)]
+        study_root = data_root/study_directory
+        cache_key = (str((study_root/"summary.json").resolve()),registry_sha)
+        # Each file is atomic independently. Retry only a crossed generation or
+        # a source replaced during its bounded read; never wait out future clocks,
+        # stale data, invalid identities, or a broken payload seal.
+        for read_attempt in range(3):
+            base["publication_read_attempts"] = read_attempt+1
+            try:
+                summary_raw = small_bytes(study_root/"summary.json",1024*1024)
+                summary = json.loads(summary_raw)
+                if not isinstance(summary,dict):
+                    raise ValueError("pair_summary_invalid_json_object")
+                heartbeat = small_json(study_root/"heartbeat.json",65536)
+                summary_sha = digest(summary)
+                payload_sha = digest({key:value for key,value in summary.items() if key!="payload_sha256"})
+                # Availability belongs to the time these retained bytes and hashes
+                # were observed, not the request's earlier start time. A supplied
+                # fixture clock is intentionally fixed across every retry.
+                observed_now = clock(time.time()) if now_epoch is None else now
+                if observed_now < now:
+                    raise ValueError("pair_summary_consumer_clock_regression")
+                now = observed_now
+                base["observed_epoch"] = now
+                if (summary.get("schema_version") != summary_schema
+                        or heartbeat.get("schema_version") != heartbeat_schema
+                        or summary.get("registry_sha256") != registry_sha or heartbeat.get("registry_sha256") != registry_sha
+                        or not inert(summary) or not inert(heartbeat)
+                        or heartbeat.get("account_eligible") is not False or heartbeat.get("proof_eligible") is not False
+                        or summary.get("payload_sha256") != payload_sha):
+                    raise ValueError("pair_summary_hash_identity_or_clock")
+                # Check genuine future timestamps before a retry can elapse them.
+                if clock(summary.get("generated_epoch"))>now or clock(heartbeat.get("generated_epoch"))>now:
+                    raise ValueError("pair_summary_hash_identity_or_clock")
+                if heartbeat.get("summary_sha256") != summary_sha:
+                    raise ValueError("pair_summary_generation_mismatch")
+                break
+            except ValueError as exc:
+                if str(exc) not in {"pair_summary_source_changed","pair_summary_generation_mismatch"}:
+                    raise
+                observed_now = clock(time.time()) if now_epoch is None else now
+                if observed_now < now:
+                    raise ValueError("pair_summary_consumer_clock_regression") from exc
+                now = observed_now
+                base["observed_epoch"] = now
+                base["publication_read_failures"].append({"attempt":read_attempt+1,"reason":str(exc),"observed_epoch":now})
+                if str(exc)=="pair_summary_generation_mismatch":
+                    # The producer's independent timers can leave its fresh
+                    # heartbeat intentionally bound to the preceding summary.
+                    # Use only those already-verified exact bytes; never relabel,
+                    # reseal, advance source clocks or guess the missing binding.
+                    with _PAIR_SUMMARY_CACHE_LOCK:
+                        generations = _PAIR_SUMMARY_CACHE.get(cache_key,())
+                    retained = next((entry for entry in generations if entry[1]==heartbeat.get("summary_sha256")),None)
+                    heartbeat_epoch = clock(heartbeat.get("generated_epoch"))
+                    if (retained is not None and 0<=now-retained[0]<=90
+                            and retained[0]<=heartbeat_epoch<=now and now-heartbeat_epoch<=90):
+                        cached_summary = json.loads(retained[2])
+                        if digest(cached_summary)==retained[1]:
+                            base["retained_generation"] = {
+                                "reason":"current_heartbeat_binds_verified_retained_summary",
+                                "unmatched_summary_sha256":summary_sha,
+                                "unmatched_summary_generated_epoch":summary["generated_epoch"],
+                                "summary_sha256":retained[1],"generated_epoch":retained[0],
+                                "heartbeat_summary_sha256":heartbeat["summary_sha256"],
+                                "heartbeat_generated_epoch":heartbeat_epoch,
+                                "observed_epoch":now,"age_sec":now-retained[0],
+                            }
+                            summary,summary_raw,summary_sha = cached_summary,retained[2],retained[1]
+                            break
+                if read_attempt==2:
+                    raise
+                time.sleep(.01)
+        generated = clock(summary.get("generated_epoch"))
+        heartbeat_epoch = clock(heartbeat.get("generated_epoch"))
+        if not generated <= heartbeat_epoch <= now:
+            raise ValueError("pair_summary_hash_identity_or_clock")
+        base["generated_epoch"] = generated
+        if now-generated>90 or now-heartbeat_epoch>90:
+            raise ValueError("pair_summary_stale")
+        raw_rows = summary.get("rows")
+        if (not isinstance(raw_rows,list) or len(raw_rows)!=len(pairs)
+                or any(not isinstance(row,dict) for row in raw_rows)
+                or {row.get("instrument") for row in raw_rows} != set(pairs)):
+            raise ValueError("pair_summary_coverage_identity")
+        rows=[]
+        all_rows_verified=True
+        for raw in raw_rows:
+            instrument=raw["instrument"]
+            entry=pairs[instrument]
+            row={"instrument":instrument,"pip_size":entry["pip_size"],"status":"unavailable","reason":"invalid_pair_publication",
+                 "reason_label":"Pair publication could not be verified","observed_epoch":None,"families":{},"active_forecasts":[]}
+            try:
+                if number(raw.get("pip_size"))!=number(entry["pip_size"]) or not isinstance(raw.get("families"),dict) or set(raw["families"])-set(entry["families"]):
+                    raise ValueError("pair_summary_pair_metadata")
+                for family,registered in entry["families"].items():
+                    contract=registered["contract"]
+                    slot={"family":family,"status":"unavailable","reason":"invalid_family_publication","reason_label":"Family publication could not be verified",
+                          "observed_epoch":None,"current_readiness":None,"last_attempt":None,"latest_published_forecast":None}
+                    try:
+                        source=raw["families"].get(family)
+                        if not isinstance(source,dict):raise ValueError("missing_registered_family_slot")
+                        observed,activated=clock(source.get("observed_epoch")),clock(source.get("activated_epoch"))
+                        if (not 0<activated<=observed<=generated or source.get("contract_sha256")!=registered["contract_sha256"]
+                                or source.get("cohort_id")!=contract["cohorts"][family]
+                                or source.get("status") not in {"forecast","warming","building","unavailable","ready"}):
+                            raise ValueError("family_identity_or_observation_clock")
+                        slot.update(status=source["status"],reason=text_value(source.get("reason")),observed_epoch=observed)
+                        slot["current_readiness"]=readiness_view(source.get("current_readiness"),observed)
+                        attempt=source.get("last_attempt")
+                        if attempt is not None:
+                            if (not isinstance(attempt,dict) or not activated<=clock(attempt.get("epoch"))<=observed
+                                    or type(attempt.get("bucket")) is not int or attempt["bucket"]<0
+                                    or not isinstance(attempt.get("attempt_id"),str) or not 1<=len(attempt["attempt_id"])<=256):
+                                raise ValueError("invalid_family_last_attempt")
+                            reason=text_value(attempt.get("reason"))
+                            slot["last_attempt"]={"epoch":attempt["epoch"],"attempt_id":attempt["attempt_id"],"bucket":attempt["bucket"],"reason":reason,"reason_label":reason.replace("_"," ")[:200]}
+                        if now-observed>90:
+                            slot.update(status="unavailable",reason="family_observation_stale",reason_label="Family observation is not current")
+                        else:
+                            forecast=source.get("latest_forecast")
+                            if forecast is not None:
+                                if not isinstance(forecast,dict):raise ValueError("invalid_family_forecast")
+                                published,consumed,verified=(clock(forecast.get(k)) for k in ("publication_epoch","consumption_epoch","publication_verified_epoch"))
+                                reference,available,issue,target=(clock(forecast.get(k)) for k in ("reference_epoch","reference_available_epoch","issued_epoch","target_epoch"))
+                                forecast_sha=forecast.get("forecast_sha256")
+                                publication_sha=digest({"epoch":published,"forecast_sha":forecast_sha})
+                                if (forecast.get("publication_verified") is not True or forecast.get("consumption_verified") is not True
+                                        or not hash_value(forecast_sha) or forecast.get("publication_receipt_sha256")!=publication_sha
+                                        or forecast.get("consumer_receipt_sha256")!=digest({"epoch":consumed,"forecast_sha":forecast_sha,"publication_sha":publication_sha})
+                                        or forecast.get("instrument")!=instrument or forecast.get("family")!=family or forecast.get("horizon_sec")!=3600
+                                        or not isinstance(forecast.get("decision_id"),str) or not 1<=len(forecast["decision_id"])<=256
+                                        or not activated<available<=issue<=published<=consumed<=verified<=observed
+                                        or not 0<=available-reference<=60 or issue-available>120 or target-reference!=3600 or not consumed<target
+                                        or now-verified>90):
+                                    raise ValueError("family_publication_or_consumer_binding")
+                                arms=forecast.get("forecasts")
+                                if not isinstance(arms,list) or len(arms)!=1 or not isinstance(arms[0],dict):raise ValueError("single_family_arm_required")
+                                arm=arms[0]
+                                if (arm.get("instrument")!=instrument or arm.get("family")!=family or arm.get("cohort_id")!=contract["cohorts"][family]
+                                        or number(arm.get("pip_size"))!=number(entry["pip_size"]) or arm.get("horizon_sec")!=3600
+                                        or clock(arm.get("reference_epoch"))!=reference or clock(arm.get("issued_epoch"))!=issue or clock(arm.get("target_epoch"))!=target
+                                        or number(arm.get("reference_mid"))<=0 or not Decimal('.25')<=number(arm.get("probability_up"))<=Decimal('.75')
+                                        or type(arm.get("side")) is not int or arm["side"] not in (-1,0,1)):
+                                    raise ValueError("family_forecast_identity_clock_or_value")
+                                number(arm.get("predicted_return_bps"))
+                                joint_fields={}
+                                if joint:
+                                    news_evidence,news_generated,news_observed,news_available,news_expires=(clock(arm.get(k)) for k in ('news_evidence_epoch','news_generated_epoch','news_first_observed_epoch','news_available_epoch','news_expires_epoch'))
+                                    if (not hash_value(arm.get('news_capture_sha256')) or not 0<news_evidence<=news_generated<=news_observed==news_available<=issue
+                                            or issue-news_evidence>300 or issue>news_expires or news_expires>news_evidence+300):raise ValueError('joint_forecast_news_issue_clock')
+                                    contribution=arm.get('input_contributions')
+                                    if not isinstance(contribution,dict) or len(canonical(contribution))>8192:raise ValueError('joint_contribution_shape')
+                                    for key in ('matched_price_only_expected_pips','neutral_news_ablation_expected_pips','news_ablation_difference_pips'):number(contribution.get(key))
+                                    if (contribution.get('news_ablation_scope')!='same_fitted_model_with_documented_neutral_news_features_not_causal_impact'
+                                            or contribution.get('training_scope')!='retrospective_original_member_archive_not_prior_prospective_performance'
+                                            or contribution.get('probability_scope')!='uncalibrated_model_estimate_not_verified_accuracy'
+                                            or any(type(contribution.get(k)) is not int or not 0<=contribution[k]<=4096 for k in ('training_rows','nonzero_news_context_training_rows','vetted_news_training_rows'))
+                                            or not 48<=contribution['training_rows'] or not 12<=contribution['nonzero_news_context_training_rows']<=contribution['training_rows']
+                                            or contribution['vetted_news_training_rows']>contribution['training_rows']):raise ValueError('joint_contribution_scope_or_counts')
+                                    names=['context_balance','context_volume_log','context_signed_fraction','context_mean_age_hours','vetted_balance','vetted_volume_log','vetted_conflict_fraction','vetted_remaining_hours']
+                                    values=contribution.get('current_news_features')
+                                    if contribution.get('news_feature_names')!=names or not isinstance(values,list) or len(values)!=8:raise ValueError('joint_contribution_feature_names')
+                                    values=[number(v) for v in values]
+                                    if any(abs(values[i])>2 for i in (0,4)) or not -1<=values[2]<=1 or any(not 0<=values[i]<=1 for i in (3,6,7)) or any(not 0<=values[i]<=Decimal(str(math.log1p(5000))) for i in (1,5)):raise ValueError('joint_contribution_feature_range')
+                                    predicted_pips=number(arm['predicted_return_bps'])*number(arm['reference_mid'])/10000/number(arm['pip_size'])
+                                    if abs(predicted_pips-number(contribution['neutral_news_ablation_expected_pips'])-number(contribution['news_ablation_difference_pips']))>Decimal('0.00001'):raise ValueError('joint_ablation_return_mismatch')
+                                    joint_fields={key:arm[key] for key in ('news_capture_sha256','news_evidence_epoch','news_generated_epoch','news_first_observed_epoch','news_available_epoch','news_expires_epoch','input_contributions')}
+                                if now<target:
+                                    compact={key:arm[key] for key in ("family","cohort_id","instrument","pip_size","horizon_sec","reference_epoch","reference_mid","issued_epoch","target_epoch","side","probability_up","predicted_return_bps")}
+                                    compact.update(decision_id=forecast["decision_id"],publication_epoch=published,reference_available_epoch=available,
+                                                   consumption_epoch=consumed,publication_verified_epoch=verified,forecast_sha256=forecast_sha,
+                                                   publication_receipt_sha256=publication_sha,consumer_receipt_sha256=forecast["consumer_receipt_sha256"])
+                                    compact.update(joint_fields)
+                                    slot.update(status="forecast",reason="forecast",latest_published_forecast=compact)
+                                    row["active_forecasts"].append(compact)
+                                elif slot["status"]=="forecast":slot.update(status="unavailable",reason="target_elapsed")
+                            elif slot["status"]=="forecast":raise ValueError("missing_family_publication")
+                            if slot["latest_published_forecast"] is None and slot["status"] in {"ready","warming","building"} and slot["current_readiness"]["status"]=="unavailable":
+                                slot.update(status="unavailable",reason=slot["current_readiness"]["reason"])
+                            slot["reason_label"]=family_label(slot)
+                        counts=source.get("counts")
+                        count_keys={"quotes","attempts","diagnostics","inputs","forecasts","publication","consumption","entries","outcomes","exclusions"}
+                        if not isinstance(counts,dict) or set(counts)!=count_keys or any(type(value) is not int or not 0<=value<=10**12 for value in counts.values()):
+                            raise ValueError("invalid_family_ledger_counts")
+                        slot["counts"]=counts
+                    except (ValueError,TypeError,KeyError,OverflowError,InvalidOperation,AttributeError) as exc:
+                        all_rows_verified=False
+                        slot.update(status="unavailable",reason=str(exc)[:240],reason_label="Family publication could not be verified",latest_published_forecast=None)
+                        row["active_forecasts"]=[arm for arm in row["active_forecasts"] if arm["family"]!=family]
+                    row["families"][family]=slot
+                observed_values=[slot["observed_epoch"] for slot in row["families"].values() if slot["observed_epoch"] is not None]
+                row["observed_epoch"]=max(observed_values) if observed_values else None
+                if row["active_forecasts"]:row.update(status="forecast",reason="forecast",reason_label=f"{len(row['active_forecasts'])} independent H1 estimates")
+                else:
+                    statuses={slot["status"] for slot in row["families"].values()}
+                    status=next((value for value in ("building","ready","warming") if value in statuses),"unavailable")
+                    row.update(status=status,reason=" | ".join(slot["reason"] for slot in row["families"].values()),
+                               reason_label="; ".join(slot["reason_label"] for slot in row["families"].values()))
+            except (ValueError,TypeError,KeyError,OverflowError,InvalidOperation,AttributeError):
+                all_rows_verified=False
+                row.update(status="unavailable",reason="invalid_pair_metadata",active_forecasts=[],families={})
+            rows.append(row)
+        counts=dict(Counter(row["status"] for row in rows))
+        base["family_counts"]={family:dict(Counter(row["families"].get(family,{}).get("status","unavailable") for row in rows)) for family in registered_families}
+        worker_errors=heartbeat.get("errors")
+        heartbeat_errors=heartbeat.get("heartbeat_publication_errors")
+        base["worker_observation"]={"generated_epoch":heartbeat_epoch,"age_sec":now-heartbeat_epoch,
+            "errors":worker_errors if type(worker_errors) is int and 0<=worker_errors<=10**12 else None,
+            "heartbeat_publication_errors":heartbeat_errors if type(heartbeat_errors) is int and 0<=heartbeat_errors<=10**12 else None}
+        base["ledger_counts"]={key:sum(slot.get("counts",{}).get(key,0) for row in rows for slot in row["families"].values()) for key in ("attempts","forecasts","publication","consumption","outcomes","exclusions")}
+        base["ledger_counts_scope"]="verified_family_snapshots_only"
+        if all_rows_verified:
+            with _PAIR_SUMMARY_CACHE_LOCK:
+                generations = _PAIR_SUMMARY_CACHE.get(cache_key,())
+                # Never replace a newer generation when an older concurrent
+                # request finishes later; equal timestamps cannot redefine bytes.
+                if not any(entry[0]==generated or entry[1]==summary_sha for entry in generations):
+                    generations = tuple(sorted((*generations,(generated,summary_sha,summary_raw)),key=lambda entry:entry[0],reverse=True)[:2])
+                    _PAIR_SUMMARY_CACHE[cache_key] = generations
+                    while len(_PAIR_SUMMARY_CACHE)>4:
+                        _PAIR_SUMMARY_CACHE.pop(next(iter(_PAIR_SUMMARY_CACHE)))
+        return {**base,"status":"current","reason":None,"reason_label":None,"rows":rows,"counts":counts,
+                "summary_sha256":digest(summary),"summary_age_sec":now-generated}
+    except (OSError,ValueError,TypeError,KeyError,OverflowError,InvalidOperation,RecursionError) as exc:
+        reason = str(exc)[:240]
+        label_text = "Forecast status is not current" if reason=="pair_summary_stale" else "Pair model coverage unavailable"
+        return {**base,"reason":reason,"reason_label":label_text,
+                "rows":[{**row,"reason":reason,"reason_label":label_text} for row in base["rows"]],
+                "counts":{"unavailable":len(base["rows"])}}
+
+
+def project_joint_collection_status(price_only: dict[str, Any], joint: dict[str, Any], *, now_epoch: float | None = None) -> dict[str, Any]:
+    """Primary joint status stays unavailable when its own evidence is unavailable."""
+    now=time.time() if now_epoch is None else now_epoch
+    recent=lambda value:type(value) in (int,float) and math.isfinite(value) and 0<=now-value<=90
+    rows=joint.get('rows');rows=rows if isinstance(rows,list) and len(rows)<=68 else []
+    worker=joint.get('worker_observation') or {}
+    version=3 if joint.get('study_version')=='joint_v3' else 2
+    selection=joint.get('primary_selection') or {}
+    activation=selection.get('activated_epoch')
+    selected=(version==2 or (selection.get('selected')=='v3'
+        and selection.get('registry_sha256')==joint.get('registry_sha256')
+        and type(activation) in (int,float) and math.isfinite(activation) and 0<activation<=now))
+    current=bool(selected and joint.get('study_version') in {'joint_v2','joint_v3'} and joint.get('status')=='current' and rows
+        and isinstance(joint.get('registry_sha256'),str) and re.fullmatch('[0-9a-f]{64}',joint['registry_sha256'])
+        and joint.get('research_only') is True and joint.get('can_place_orders') is False and joint.get('can_promote') is False
+        and all(recent(value) for value in (joint.get('generated_epoch'),joint.get('observed_epoch'),worker.get('generated_epoch')))
+        and joint['generated_epoch']<=worker['generated_epoch']<=joint['observed_epoch']<=now)
+    active=0
+    if current:
+        for row in rows:
+            slot=row.get('families',{}).get('ridge_price_news_v1',{})
+            for arm in row.get('active_forecasts',[]):
+                if (arm.get('family')=='ridge_price_news_v1' and recent(slot.get('observed_epoch'))
+                        and type(arm.get('target_epoch')) in (int,float) and now<arm['target_epoch']):active+=1;break
+    label=f'Partially operational · {active}/{len(rows)} combined H1 forecasts' if current else 'Combined forecast collection status unavailable'
+    study={'status':'current' if current else 'unavailable','current':current,'observed_at':worker.get('generated_epoch'),
+        'age_sec':now-worker['generated_epoch'] if type(worker.get('generated_epoch')) in (int,float) else None,'max_age_sec':90,
+        'reported_cumulative_errors':worker.get('errors') if current else None,
+        'reported_cumulative_heartbeat_publication_errors':worker.get('heartbeat_publication_errors') if current else None}
+    observations={'study':study,**{key:dict((price_only.get('observations') or {}).get(key) or {'status':'unavailable','current':False}) for key in ('quote_stream','account')}}
+    return {'schema_version':f'joint_price_news_collection_status_v{version}_'+('20260908' if version==3 else '20260907'),'selected_study':f'joint_price_news_v{version}',
+        'status':'running' if current else 'unavailable','running':current,'label':label,'scope':'registered_joint_price_news_research',
+        'expected_model_count':len(rows) if rows else None,'registered_pair_count':len(rows),'registered_study_trading_enabled':False,
+        'research_only':True,'can_place_orders':False,'can_promote':False,'observations':observations,
+        'unavailable_observations':[key+':'+value['status'] for key,value in observations.items() if not value.get('current')],
+        'running_scope':'current_registered_worker_observation_not_trading_readiness_or_forecast_success',
+        'model_attempts':{'status':'available' if current else 'unavailable','counts':joint.get('ledger_counts',{}) if current else {},
+            'scope':f'joint_price_news_v{version}_ledgers_only','observed_epoch':joint.get('observed_epoch'),'latest_attempt':None,'latest_published_forecast':None},
+        'forecasting':{'state':'published' if current and active else 'withheld' if current else 'unavailable','label':label,
+            'blocked':not(current and active),'pairs_with_forecast':active,'active_family_forecasts':active,'observation_current':current,
+            'scope':'combined_price_news_coverage','family_forecast_counts':{'ridge_price_news_v1':active}},
+        'warmup':{'scope':'current_pair_price_and_news_inputs','required_common_m1_bars':None,'last_reported_common_bars':None,
+            'explanation':'Each pair needs its own observed price and guarded news inputs,48 mature H1 labels and sufficient varied news context. Current readiness and last attempts are separate.'},
+        'strategy_or_execution_activation_changed':False}
+
+
+
+# Parent fills this reviewed immutable configuration hash at deployment.
+JOINT_LEDGER_OBSERVER_SPEC = Path(__file__).resolve().parent / 'config/joint_v3_ledger_observer_api_v2_20260909.json'
+JOINT_LEDGER_OBSERVER_SPEC_SHA256 = 'fb8cbd4abc43f311ca423f79c3bff9f70a6ff279202db264035110a37b88d112'
+_JOINT_LEDGER_OBSERVER_API = None
+_JOINT_LEDGER_OBSERVER_API_LOCK = threading.Lock()
+
+
+def current_joint_ledger_observation(*, compact=False):
+    """Independent original-ledger evidence; original producer status is separate."""
+    global _JOINT_LEDGER_OBSERVER_API
+    unavailable = {
+        'schema_version': 'joint_v3_ledger_observer_api_v2_20260909',
+        'status': 'unavailable', 'reason': 'observer_api_not_configured',
+        'observer_report': None, 'consumer': None, 'current_inputs_observed': False,
+        'old_heartbeat_validated_for_forecasts': False, 'research_only': True,
+        **{key: False for key in ('can_place_orders', 'can_promote', 'can_authorize',
+                                  'account_eligible', 'proof_eligible', 'historical_rows_imported')},
+    }
+    if not re.fullmatch('[0-9a-f]{64}', JOINT_LEDGER_OBSERVER_SPEC_SHA256):
+        return unavailable
+    try:
+        from oanda_joint_v3_ledger_observer_api_v2 import LedgerObservationAPI
+        with _JOINT_LEDGER_OBSERVER_API_LOCK:
+            if _JOINT_LEDGER_OBSERVER_API is None:
+                _JOINT_LEDGER_OBSERVER_API = LedgerObservationAPI.from_specification(
+                    JOINT_LEDGER_OBSERVER_SPEC,
+                    expected_file_sha256=JOINT_LEDGER_OBSERVER_SPEC_SHA256)
+            instance = _JOINT_LEDGER_OBSERVER_API
+        return instance.get(compact=compact)
+    except (OSError, ValueError, TypeError, KeyError, OverflowError, RecursionError):
+        return {**unavailable, 'reason': 'observer_api_configuration_unavailable'}
+
+
+def select_primary_pair_forecasts(data_root: Path, legacy: dict[str, Any], v2: dict[str, Any], *, now_epoch: float | None = None) -> dict[str, Any]:
+    """Select v2 only through the explicit registry-bound activation pointer."""
+    path=data_root.parent.parent/"config/pair_forecast_primary_current.json"
+    try:
+        with path.open("rb") as handle:
+            before=os.fstat(handle.fileno())
+            raw=handle.read(16385)
+            after=os.fstat(handle.fileno())
+        observed=time.time() if now_epoch is None else now_epoch
+        if len(raw)>16384 or (before.st_ino,before.st_size,before.st_mtime_ns)!=(after.st_ino,after.st_size,after.st_mtime_ns):
+            raise ValueError("primary_selection_changed_or_oversized")
+        selector=json.loads(raw)
+        activated=selector.get("activated_epoch") if isinstance(selector,dict) else None
+        if (not isinstance(selector,dict) or selector.get("schema_version")!="pair_forecast_primary_selection_v1_20260907"
+                or selector.get("selected")!="v2" or not isinstance(selector.get("registry_sha256"),str)
+                or re.fullmatch(r"[0-9a-f]{64}",selector["registry_sha256"]) is None
+                or selector["registry_sha256"]!=v2.get("registry_sha256")
+                or type(activated) not in (int,float) or not math.isfinite(activated) or not 0<activated<=observed):
+            raise ValueError("primary_selection_identity_hash_or_clock")
+        return {**v2,"primary_selection":{"selected":"v2","activated_epoch":activated,"registry_sha256":selector["registry_sha256"]}}
+    except FileNotFoundError:
+        return {**legacy,"study_version":1,"primary_selection":{"selected":"v1","reason":"v2_not_activated"}}
+    except (OSError,ValueError,TypeError,OverflowError,RecursionError) as exc:
+        # A malformed explicit pointer must never silently display an older study.
+        return {"study_version":2,"status":"unavailable","reason":"invalid_primary_selection",
+                "reason_label":"Primary study selection could not be verified","rows":[],"counts":{},
+                "research_only":True,"can_place_orders":False,"can_promote":False,
+                "primary_selection":{"selected":None,"reason":str(exc)[:240]}}
+
+
+def project_primary_collection_status(legacy: dict[str, Any], primary: dict[str, Any], *, now_epoch: float | None = None) -> dict[str, Any]:
+    """Keep public collection status aligned with the explicitly selected study."""
+    if primary.get("study_version")!=2:
+        return legacy
+    now=time.time() if now_epoch is None else now_epoch
+    def recent(value):
+        return type(value) in (int,float) and math.isfinite(value) and 0<=now-value<=90
+    rows=primary.get("rows")
+    rows=rows if isinstance(rows,list) and len(rows)<=68 else []
+    pointer=primary.get("primary_selection") or {}
+    worker=primary.get("worker_observation") or {}
+    activated=pointer.get("activated_epoch")
+    pointer_valid=(pointer.get("selected")=="v2" and pointer.get("registry_sha256")==primary.get("registry_sha256")
+                   and isinstance(primary.get("registry_sha256"),str) and re.fullmatch(r"[0-9a-f]{64}",primary["registry_sha256"]) is not None
+                   and type(activated) in (int,float) and math.isfinite(activated) and 0<activated<=now)
+    current=bool(pointer_valid and primary.get("status")=="current" and rows
+                 and primary.get("research_only") is True and primary.get("can_place_orders") is False and primary.get("can_promote") is False
+                 and recent(primary.get("generated_epoch")) and recent(primary.get("observed_epoch")) and recent(worker.get("generated_epoch"))
+                 and primary["generated_epoch"]<=worker["generated_epoch"]<=primary["observed_epoch"]<=now)
+    family_counts={family:0 for family in _STUDY_FORECAST_FAMILIES["causal_forecast_study_eurusd_v1"]}
+    pair_count=0
+    if current:
+        for row in rows:
+            active=[]
+            for arm in row.get("active_forecasts",[]):
+                family=arm.get("family")
+                if (family in family_counts and recent(row.get("families",{}).get(family,{}).get("observed_epoch"))
+                        and type(arm.get("target_epoch")) in (int,float) and now<arm["target_epoch"]):
+                    active.append(family)
+            pair_count+=bool(active)
+            for family in set(active):family_counts[family]+=1
+    counts=primary.get("counts",{}) if current else {}
+    pending=counts.get("building",0)+counts.get("ready",0)
+    forecast_state="unavailable" if not current else "published" if pair_count else "building" if pending else "withheld"
+    label=(f"Partially operational · {pair_count}/{len(rows)} pairs publishing H1 forecasts" if current else "Primary pair-family collection status unavailable")
+    study={"status":"current" if current else "unavailable","current":current,"observed_at":worker.get("generated_epoch"),
+           "age_sec":now-worker["generated_epoch"] if type(worker.get("generated_epoch")) in (int,float) else None,
+           "max_age_sec":90,"registered_contract_matches":pointer_valid,"phase":"research_collection" if current else None,
+           "reported_cumulative_errors":worker.get("errors") if current else None,
+           "reported_cumulative_heartbeat_publication_errors":worker.get("heartbeat_publication_errors") if current else None}
+    old_observations=legacy.get("observations") or {}
+    observations={"study":study,**{key:dict(old_observations.get(key) or {"status":"unavailable","current":False}) for key in ("quote_stream","account")}}
+    return {"schema_version":"registered_pair_family_collection_status_v2_20260907","selected_study":"pair_family_v2",
+            "status":"running" if current else "unavailable","running":current,"label":label,
+            "scope":"registered_independent_pair_family_research_study","expected_model_count":2*len(rows) if rows else None,
+            "registered_pair_count":len(rows),"current_study_pointer_valid":pointer_valid,"registered_study_trading_enabled":False,
+            "research_only":True,"can_place_orders":False,"can_promote":False,
+            "running_scope":"current_registered_worker_observation_not_trading_readiness_or_forecast_success",
+            "observations":observations,"unavailable_observations":[key+":"+value["status"] for key,value in observations.items() if not value.get("current")],
+            "study_phase":study["phase"],"study_reason":primary.get("reason") if not current else None,
+            "model_attempts":{"status":"available" if current else "unavailable","counts":primary.get("ledger_counts",{}) if current else {},
+                              "scope":"independent_v2_family_ledgers_only","observed_epoch":primary.get("observed_epoch"),
+                              "latest_attempt":None,"latest_published_forecast":None},
+            "forecasting":{"state":forecast_state,"label":label,"blocked":forecast_state in {"unavailable","withheld"},
+                           "observation_current":current,"scope":"current_independent_family_coverage","pairs_with_forecast":pair_count,
+                           "family_forecast_counts":family_counts,"active_family_forecasts":sum(family_counts.values()),
+                           "latest_attempt_epoch":None,"last_rejection_reason":None,"last_rejection_epoch":None},
+            "warmup":{"scope":"per_family_current_readiness_and_separate_last_attempts","required_common_m1_bars":None,
+                      "last_reported_common_bars":None,"reported_epoch":None,"progress_scope":"per_family_only",
+                      "explanation":"Each family uses its own observed input readiness. State space needs real returns spanning 15 minutes; Ridge also needs 24 mature exact H1 labels. Individual observations and last attempts remain separate in pair coverage."},
+            "strategy_or_execution_activation_changed":False}
+
+
+def summarize_news_pair_bias(snapshot: dict[str, Any], *, now_epoch: float | None = None) -> dict[str, Any]:
+    """Project all declared pair records without turning absent evidence neutral.
+
+    Counts and headlines retain the producer's distinction between current
+    directional evidence and older/context-only articles. Nothing is rescored.
+    Freshness uses the evidence cutoff as well as the publication timestamp.
+    """
+    now = time.time() if now_epoch is None else float(now_epoch)
+    result = {"pair_bias_status":"unavailable", "pair_bias_reason":"news_snapshot_unavailable",
+              "pair_bias":{}, "as_of_utc":None, "evidence_age_sec":None,
+              "pair_bias_observed_epoch":now, "active_topic_count":None}
+
+    def epoch(value):
+        if not isinstance(value,str):
+            raise ValueError("news_clock_required")
+        parsed = datetime.fromisoformat(value.replace("Z","+00:00"))
+        if parsed.tzinfo is None:
+            raise ValueError("news_timezone_required")
+        return parsed.timestamp()
+
+    def count(value):
+        if type(value) is not int or not 0<=value<=100000:
+            raise ValueError("news_count_invalid")
+        return value
+
+    try:
+        pairs=snapshot.get("pairs")
+        coverage=snapshot.get("coverage")
+        policy=snapshot.get("policy")
+        if (snapshot.get("schema_version")!="local_fx_news_sentiment_v3"
+                or not isinstance(pairs,dict) or len(pairs)!=68
+                or snapshot.get("instrument_count")!=68 or not isinstance(coverage,dict)
+                or coverage.get("all_pairs_emitted") is not True or coverage.get("pair_count")!=68
+                or not isinstance(policy,dict) or policy.get("research_only") is not True
+                or policy.get("execution_eligible") is not False or policy.get("matrix_weight")!=0
+                or any(not isinstance(pair,str) or re.fullmatch(r"[A-Z]{3}_[A-Z]{3}",pair) is None for pair in pairs)):
+            raise ValueError("news_schema_or_coverage_invalid")
+        published,as_of=epoch(snapshot.get("generated_utc")),epoch(snapshot.get("as_of_utc"))
+        if not as_of<=published<=now:
+            raise ValueError("news_future_or_reversed_clock")
+        article_count=count(snapshot.get("active_article_count"))
+        current=now-published<=300 and now-as_of<=300
+        result.update(pair_bias_status="current" if current else "stale",pair_bias_reason=None if current else "news_evidence_stale",
+                      as_of_utc=snapshot["as_of_utc"],evidence_age_sec=round(now-as_of,3),active_topic_count=article_count)
+        qualities={"TWO_SIDED_DIRECT","ONE_SIDED_DIRECT","GLOBAL_TOPIC_PROXY","INFERRED_ONLY","NO_CURRENT_EVIDENCE"}
+        for instrument,raw in pairs.items():
+            row={"instrument":instrument,"status":"unavailable","reason":"news_pair_record_invalid",
+                 "display_label":"Unavailable","direction":None,"events":[]}
+            try:
+                if (not isinstance(raw,dict) or raw.get("instrument")!=instrument
+                        or raw.get("direction") not in {"LONG","SHORT","NEUTRAL"}
+                        or raw.get("evidence_quality") not in qualities
+                        or raw.get("research_only") is not True or raw.get("execution_eligible") is not False
+                        or raw.get("matrix_weight")!=0):
+                    raise ValueError("news_pair_identity_or_direction_invalid")
+                row_epoch=epoch(raw.get("as_of_utc"))
+                if row_epoch!=as_of:
+                    raise ValueError("news_pair_evidence_clock_mismatch")
+                related=count(raw.get("active_event_count"))
+                directional=count(raw.get("directional_event_count"))
+                context=count(raw.get("context_directional_event_count"))
+                score,confidence=raw.get("score"),raw.get("confidence")
+                if (type(score) not in (int,float) or not math.isfinite(score) or not -1<=score<=1
+                        or type(confidence) not in (int,float) or not math.isfinite(confidence) or not 0<=confidence<=1):
+                    raise ValueError("news_score_or_confidence_invalid")
+                # Direction precedes six-decimal serialization in the producer.
+                if ((raw["direction"]=="LONG" and score<0.12-0.0000005)
+                        or (raw["direction"]=="SHORT" and score>-0.12+0.0000005)
+                        or (raw["direction"]=="NEUTRAL" and abs(score)>0.12+0.0000005)):
+                    raise ValueError("news_direction_score_mismatch")
+                if raw["evidence_quality"]=="NO_CURRENT_EVIDENCE" and directional:
+                    raise ValueError("news_quality_directional_count_mismatch")
+                if related>article_count or directional>related or context>related:
+                    raise ValueError("news_pair_count_mismatch")
+                if raw["direction"]!="NEUTRAL" and directional==0:
+                    raise ValueError("news_direction_without_current_evidence")
+                events=raw.get("events")
+                if not isinstance(events,list) or len(events)>8 or len(events)>related:
+                    raise ValueError("news_pair_event_shape_invalid")
+                compact=[]
+                for event in events[:2]:
+                    if not isinstance(event,dict):
+                        raise ValueError("news_pair_event_shape_invalid")
+                    compact.append({key:str(event.get(key) or "")[:limit] for key,limit in
+                                    (("headline",600),("source_name",160),("reaction_phase",80),("category",120))})
+                label=("Long" if raw["direction"]=="LONG" else "Short" if raw["direction"]=="SHORT"
+                       else "Mixed or weak current evidence" if directional else "Context only" if related else "No current news signal")
+                row.update(status="current" if current else "stale",reason=None if current else "news_evidence_stale",
+                           display_label=label if current else "News evidence is stale",direction=raw["direction"],
+                           evidence_quality=raw["evidence_quality"],relevant_event_count=related,
+                           context_directional_event_count=context,current_directional_event_count=directional,
+                           as_of_utc=raw["as_of_utc"],evidence_age_sec=round(now-row_epoch,3),events=compact)
+            except (ValueError,TypeError,OverflowError,OSError):
+                pass
+            result["pair_bias"][instrument]=row
+        return result
+    except (ValueError,TypeError,OverflowError,OSError,AttributeError) as exc:
+        return {**result,"pair_bias_status":"unavailable","pair_bias_reason":str(exc)[:240],"pair_bias":{}}
+
+
+def summarize_eurusd_supplemental_diagnostic(data_root: Path) -> dict[str, Any]:
+    """Keep the separate read-only engineering report compact in the main API."""
+    try:
+        try:
+            from oanda_study_diagnostic_report_v1 import get_eurusd_diagnostic_report
+        except ModuleNotFoundError:
+            from trad.oanda_study_diagnostic_report_v1 import get_eurusd_diagnostic_report
+        source = get_eurusd_diagnostic_report(data_root)
+        fields = ("schema_version", "status", "generated_utc", "report_age_sec", "freshness",
+                  "supplemental", "registered_scorecard", "research_only", "execution_eligible",
+                  "account_eligible", "proof_eligible", "can_place_orders", "can_promote",
+                  "scope_label", "original_scorer", "original_scorecard", "collection_counts",
+                  "original_input_sha256", "filtered_input_sha256", "original_decision_count",
+                  "retained_decision_count", "excluded_decision_count", "error", "capacity_state")
+        result = {key: source.get(key) for key in fields}
+        report = source.get("report") or {}
+        result["paired_scored_decisions"] = (report.get("coverage") or {}).get("paired_scored_decisions")
+        result["paired_summaries"] = report.get("paired_summaries") or {}
+        return result
+    except Exception:
+        return {"status": "unavailable", "error": "diagnostic_adapter_unavailable",
+                "supplemental": True, "registered_scorecard": False,
+                "execution_eligible": False, "proof_eligible": False, "can_place_orders": False}
+
+
+def summarize_collection_status(data_root: Path, *, now_epoch: float | None = None) -> dict[str, Any]:
+    """Separate fresh research observations from strategy or execution activity.
+
+    Small local publications and a cached read-only attempt summary are read. The registered study's inert
+    flags describe that study, not every process or account on the computer.
+    No mtime is substituted for a missing observation clock.
+    """
+    now = time.time() if now_epoch is None else float(now_epoch)
+
+    def small_json(path: Path) -> dict[str, Any]:
+        try:
+            with path.open("rb") as handle:
+                raw = handle.read(262145)
+            if len(raw) > 262144:
+                return {}
+            value = json.loads(raw)
+            return value if isinstance(value, dict) else {}
+        except (OSError, ValueError, UnicodeError, RecursionError):
+            return {}
+
+    def timestamp(value: Any) -> float | None:
+        if type(value) in (float, int):
+            try:
+                return float(value) if math.isfinite(value) else None
+            except OverflowError:
+                return None
+        if isinstance(value, str):
+            try:
+                parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+                return parsed.timestamp() if parsed.tzinfo is not None else None
+            except (ValueError, OverflowError, OSError):
+                pass
+        return None
+
+    def observation(payload: dict, clock: Any, *, valid: bool, healthy: bool, max_age: float = 90) -> dict:
+        epoch_value = timestamp(clock)
+        age = None if epoch_value is None else now - epoch_value
+        state = ("missing" if not payload else "invalid_clock" if age is None
+                 else "future_timestamp" if age < 0 else "stale" if age > max_age
+                 else "identity_or_safety_mismatch" if not valid
+                 else "unhealthy" if not healthy else "current")
+        return {"status": state, "current": state == "current", "observed_at": clock,
+                "age_sec": None if age is None else round(age, 3), "max_age_sec": max_age}
+
+    project_root = data_root.parent.parent
+    pointer_path = project_root / "config/causal_forecast_study_current.json"
+    pointer_present = pointer_path.exists()
+    pointer = small_json(pointer_path) if pointer_present else {}
+    selections = {
+        "io_r2": ("causal_forecast_study_v1_io_r2_20260906.json", "causal_forecast_study_v1_io_r2",
+                  "causal_four_family_future_collection_v1_io_r2_20260906"),
+        "gap_v2": ("causal_forecast_study_gap_v2_20260907.json", "causal_forecast_study_gap_v2",
+                   "causal_four_family_future_collection_gap_v2_20260907"),
+        "eurusd_v1": ("causal_forecast_study_eurusd_v1_20260907.json", "causal_forecast_study_eurusd_v1",
+                      "causal_eurusd_two_family_collection_v1_20260907"),
+    }
+    selected = pointer.get("selected_study") if pointer_present else "io_r2"
+    pointer_valid = (not pointer_present or (pointer.get("schema_version") == "causal_study_current_pointer_v1"
+                     and isinstance(selected,str) and selected in selections and isinstance(pointer.get("contract_sha256"),str)
+                     and bool(re.fullmatch(r"[0-9a-f]{64}",pointer["contract_sha256"]))))
+    selected_files = selections.get(selected) if pointer_valid and isinstance(selected,str) else None
+    contract = small_json(project_root / "config" / selected_files[0]) if selected_files else {}
+    study = small_json(data_root / selected_files[1] / "heartbeat.json") if selected_files else {}
+    quote = small_json(data_root / "state/practice_007_quote_stream_heartbeat_v1.json")
+    account_payload = small_json(data_root / "state/account_007_dashboard_v1.json")
+    accounts = account_payload.get("accounts")
+    account = next((row for row in accounts if isinstance(row, dict)
+                    and str(row.get("account_id") or "").endswith("-007")), {}) if isinstance(accounts, list) else {}
+    contract_valid = (
+        selected_files is not None and contract.get("contract_id") == selected_files[2]
+        and contract.get("collection_enabled") is True and contract.get("research_only") is True
+        and all(contract.get(flag) is False for flag in
+                ("can_place_orders", "can_authorize", "can_promote", "account_eligible", "proof_eligible", "historical_rows_imported"))
+    )
+    try:
+        contract_sha = hashlib.sha256(json.dumps(contract, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()).hexdigest()
+    except ValueError:
+        contract_sha = None
+    input_policy = contract.get("input_policy") if isinstance(contract.get("input_policy"),dict) else {}
+    required_bars = 335 if selected == "io_r2" else input_policy.get("minimum_current_common_bars")
+    contract_valid = bool(contract_valid and type(required_bars) is int and 1 <= required_bars <= 10000
+                          and (not pointer_present or pointer.get("contract_sha256") == contract_sha))
+    activated = timestamp(study.get("activated_epoch"))
+    generated = timestamp(study.get("generated_epoch"))
+    registered = bool(contract_valid
+        and study.get("contract_id") == contract.get("contract_id")
+        and study.get("contract_sha256") == contract_sha
+        and activated is not None and generated is not None and 0 < activated <= generated
+        and study.get("schema_version") == "causal_forecast_study_heartbeat_v1"
+        and study.get("research_only") is True and study.get("supported_decision") == "no_trade"
+        and all(study.get(flag) is False for flag in
+                ("can_place_orders", "can_promote", "account_eligible", "proof_eligible")))
+    study_observation = observation(study, study.get("generated_epoch"), valid=registered,
+        healthy=isinstance(study.get("phase"), str) and study["phase"] in
+                {"waiting_for_tradeable_quote", "collecting", "building_models_while_capturing_quotes"})
+    study_observation.update(registered_contract_matches=registered, observed_phase=study.get("phase"),
+        phase=study.get("phase") if study_observation["current"] else None,
+        last_reason=study.get("last_reason") if study_observation["current"] else None)
+    for field in ("errors", "heartbeat_publication_errors"):
+        value = study.get(field)
+        study_observation["reported_cumulative_" + field] = (
+            value if study_observation["current"] and type(value) is int and value >= 0 else None
+        )
+    details = quote.get("details") if isinstance(quote.get("details"), dict) else {}
+    stream = details.get("stream") if isinstance(details.get("stream"), dict) else {}
+    event_age = stream.get("last_event_age_sec")
+    event_age_number = timestamp(event_age) if type(event_age) in (int, float) else None
+    quote_heartbeat_epoch = timestamp(quote.get("updated_at"))
+    current_event_age = (
+        now - quote_heartbeat_epoch + event_age_number
+        if quote_heartbeat_epoch is not None and event_age_number is not None else None
+    )
+    quote_observation = observation(quote, quote.get("updated_at"),
+        valid=(quote.get("role") == "practice_007_quote_stream" and details.get("account_suffix") == "-007"
+               and details.get("can_place_orders") is False and details.get("real_money_routing") is False),
+        healthy=(quote.get("status") == "running" and stream.get("connected") is True
+                 and event_age_number is not None and event_age_number >= 0
+                 and current_event_age is not None and 0 <= current_event_age <= 90))
+    quote_observation["current_stream_event_age_sec"] = (
+        round(current_event_age, 3) if current_event_age is not None else None
+    )
+    quote_observation["scope"] = "stream_transport_heartbeat_not_tradeable_price_freshness"
+    account_observation = observation(account, account.get("verified_at_utc"),
+        valid=account.get("env") == "practice",
+        healthy=account.get("ok") is True and all(account.get(flag) is True for flag in
+                 ("account_values_current", "positions_current", "orders_current")))
+    observations = {"study": study_observation, "quote_stream": quote_observation, "account": account_observation}
+    running = all(row["current"] for row in observations.values())
+    reason = study_observation["last_reason"] or ""
+    def common_progress(value):
+        match = re.search(r"(?:contiguous|current)_common_warmup:(\d{1,5})<(\d{1,5})(?!\d)", str(value))
+        return (int(match.group(1)) if match and registered and int(match.group(2)) == required_bars
+                and 0 <= int(match.group(1)) < required_bars else None)
+    progress = common_progress(reason)
+    attempts = (summarize_study_attempts(data_root, contract_sha, activated, now_epoch=now,
+                                      study_directory=selected_files[1]) if registered else
+                {"status":"unavailable","reason":"registered_study_identity_unavailable","counts":{},
+                 "latest_attempt":None,"last_rejection":None})
+    latest = attempts.get("latest_attempt") or {}
+    rejection = latest.get("rejection") or {}
+    last_rejection = attempts.get("last_rejection") or {}
+    retained_progress = common_progress(last_rejection.get("reason", ""))
+    if retained_progress is not None:
+        progress = retained_progress
+    if latest.get("status") in {"abstain", "failed_closed"}:
+        forecast_state = "blocked_warmup" if common_progress(rejection.get("reason","")) is not None else "blocked"
+    elif latest.get("status") == "published":
+        forecast_state = "published"
+    elif latest.get("status") in {"pending", "awaiting_publication"}:
+        forecast_state = "building" if study_observation["phase"] == "building_models_while_capturing_quotes" else "pending"
+    else:
+        forecast_state = "waiting_for_market" if study_observation["phase"] == "waiting_for_tradeable_quote" else "unknown"
+    forecast_labels = {"blocked_warmup":"Forecasts blocked by missing EUR/USD minutes" if selected == "eurusd_v1" else "Forecasts blocked by missing shared minutes", "blocked":"Latest forecast attempt withheld",
+                       "published":"Forecast sets published", "building":"Building the next forecast set",
+                       "pending":"Latest forecast attempt has no retained result", "waiting_for_market":"Waiting for tradeable prices",
+                       "unknown":"Forecast status unavailable"}
+    return {
+        "schema_version": "registered_research_collection_status_v1_20260906",
+        "status": "running" if running else "unknown", "running": True if running else None,
+        "label": "Research collection running; study trading disabled" if running else "Research collection status unknown",
+        "scope": "registered_two_family_eurusd_research_study" if selected == "eurusd_v1" else "registered_four_family_research_study",
+        "selected_study": selected if pointer_valid else None,
+        "expected_model_count": len(_STUDY_FORECAST_FAMILIES[selected_files[1]]) if selected_files else None,
+        "current_study_pointer_valid": pointer_valid,
+        "running_scope": "recent_research_observations_not_forecast_success_or_error_free_operation",
+        "registered_study_trading_enabled": False if registered else None,
+        "observations": observations,
+        "unavailable_observations": [name + ":" + row["status"] for name, row in observations.items() if not row["current"]],
+        "study_phase": study_observation["phase"], "study_reason": study_observation["last_reason"],
+        "model_attempts": attempts,
+        "forecasting": {"state":forecast_state,"label":forecast_labels[forecast_state],
+                        "blocked":forecast_state in {"blocked_warmup","blocked"},
+                        "latest_attempt_epoch":latest.get("epoch"),"latest_attempt_status":latest.get("status"),
+                        "latest_rejection_reason":rejection.get("reason"),
+                        "last_rejection_reason":last_rejection.get("reason"),
+                        "last_rejection_epoch":last_rejection.get("epoch"),
+                        "observation_current":study_observation["current"],
+                        "scope":"last_retained_attempt_not_current_feed_health"},
+        "warmup": {"required_common_m1_bars": required_bars if registered else None,
+                   "bar_label": "EUR/USD minute bars" if selected == "eurusd_v1" else "common minute bars",
+                   "last_reported_common_bars": progress,
+                   "reported_epoch":last_rejection.get("epoch") if retained_progress is not None else generated if progress is not None else None,
+                   "progress_scope": "last_retained_rejection" if retained_progress is not None else "last_reported_attempt" if progress is not None else "not_reported",
+                   "explanation": ("The registered study needs 335 consecutive completed common minute bars (about 5h35). Gaps reset this count; it is the last reported attempt, not an estimated completion time. H1 outcomes then need another hour." if selected == "io_r2" else
+                       f"The selected study needs {required_bars if registered else 'verified'} fresh {'EUR/USD' if selected == 'eurusd_v1' else 'shared'} minute bars and valid historical training segments. This is the last reported attempt, not an estimated completion time; readiness does not authorize orders.")},
+        "strategy_or_execution_activation_changed": False,
     }
 
 
@@ -379,6 +1879,181 @@ def parse_time(value: str) -> datetime | None:
         return datetime.fromisoformat(cleaned).astimezone(timezone.utc)
     except ValueError:
         return None
+
+
+def summarize_executor_entry_diagnostics(
+    log_dir: Path, *, now_epoch: float | None = None,
+) -> dict[str, Any]:
+    """Read bounded practice-007 receipts, never infer orders or runtime health.
+
+    Selection summaries are sampled and skips are throttled. A recent receipt
+    is only an observation; there is no shared cycle ID linking these events.
+    Rotated files retain their original run-name prefix. Read at most the last
+    1 MiB of each of the two most recently modified matching files.
+    """
+    now = time.time() if now_epoch is None else float(now_epoch)
+    pattern = re.compile(
+        r"^(practice_top_signal_executor_oanda_account_id_dum4_"
+        r"\d{8}_\d{6}_\d{6})(?:\.part_[^.]+)?\.jsonl$"
+    )
+    files: list[tuple[float, Path, str]] = []
+    for path in log_dir.glob(EXECUTOR_007_GLOB):
+        match = pattern.fullmatch(path.name)
+        if match is None:
+            continue
+        try:
+            if path.is_file():
+                files.append((path.stat().st_mtime, path, match.group(1)))
+        except OSError:
+            continue
+    selected_files = sorted(files, key=lambda item: (item[0], item[1].name), reverse=True)[
+        :EXECUTOR_DIAGNOSTIC_MAX_FILES
+    ]
+    latest_session = max((item[2] for item in selected_files), default=None)
+    sources: list[dict[str, Any]] = []
+    events: list[dict[str, Any]] = []
+    relevant = {
+        "fast_executor_start", "execution_selection_summary", "execution_skipped",
+        "execution_selected", "practice_order_filled", "practice_order_not_filled",
+        "practice_order_error",
+    }
+    for _, path, session in selected_files:
+        source: dict[str, Any] = {"file": path.name, "session": session, "bytes_read": 0}
+        sources.append(source)
+        try:
+            with path.open("rb") as handle:
+                handle.seek(0, 2)
+                size = handle.tell()
+                offset = max(0, size - EXECUTOR_DIAGNOSTIC_TAIL_BYTES)
+                handle.seek(offset)
+                raw = handle.read(min(size, EXECUTOR_DIAGNOSTIC_TAIL_BYTES))
+        except OSError:
+            source["read_error"] = True
+            continue
+        source.update(bytes_read=len(raw), file_bytes=size, tail_truncated=offset > 0)
+        lines = raw.split(b"\n")
+        # Neither the partial first line nor an uncommitted trailing line is evidence.
+        if offset:
+            lines = lines[1:]
+        lines = lines[:-1]
+        invalid = 0
+        for line in lines:
+            if not line.strip():
+                continue
+            try:
+                row = json.loads(line)
+            except (ValueError, UnicodeDecodeError):
+                invalid += 1
+                continue
+            if not isinstance(row, dict) or row.get("event") not in relevant:
+                continue
+            if row.get("account_suffix") not in (None, "-007"):
+                continue
+            try:
+                stamp = datetime.fromisoformat(str(row.get("time") or "").replace("Z", "+00:00"))
+                if stamp.tzinfo is None:
+                    raise ValueError("receipt requires an explicit timezone")
+                epoch = stamp.timestamp()
+            except (ValueError, OverflowError, OSError):
+                invalid += 1
+                continue
+            events.append({"row": row, "epoch": epoch, "session": session, "source_file": path.name})
+        source["invalid_lines"] = invalid
+
+    def latest(event_name: str) -> dict[str, Any] | None:
+        return max((item for item in events if item["row"]["event"] == event_name),
+                   key=lambda item: item["epoch"], default=None)
+
+    def nonnegative_count(value: Any) -> int | None:
+        return value if type(value) is int and value >= 0 else None
+
+    def receipt(item: dict[str, Any] | None) -> dict[str, Any] | None:
+        if item is None:
+            return None
+        row = item["row"]
+        age = now - item["epoch"]
+        return {"time": row["time"], "age_sec": round(age, 3),
+                "fresh": 0 <= age <= EXECUTOR_DIAGNOSTIC_FRESH_SEC,
+                "source_file": item["source_file"], "session": item["session"]}
+
+    selection_event, skip_event = latest("execution_selection_summary"), latest("execution_skipped")
+    selection = receipt(selection_event)
+    if selection is not None:
+        row = selection_event["row"]
+        selection.update({
+            "local_accepted_candidates": nonnegative_count(row.get("local_accepted_candidates", row.get("accepted_candidates"))),
+            "shared_feed_candidate_observations": nonnegative_count(row.get("shared_feed_candidate_observations", row.get("signal_feed_candidates"))),
+            "qualified_candidates": nonnegative_count(row.get("qualified_candidates")),
+            "nonconflicting_qualified_candidates": nonnegative_count(row.get("nonconflicting_qualified_candidates")),
+            "selected_id": row.get("selected_id"),
+            "pre_final_selection_state": row.get("pre_final_selection_state"),
+            "accepted_candidates_scope": "local_candidates_only_excludes_shared_feed",
+        })
+    skip = receipt(skip_event)
+    if skip is not None:
+        row = skip_event["row"]
+        counts = row.get("candidate_block_reason_counts")
+        if isinstance(counts, dict) and all(
+            isinstance(key, str) and nonnegative_count(value) is not None
+            for key, value in counts.items()
+        ):
+            counts_scope = "all_candidate_blocks_in_this_skip"
+        elif isinstance(row.get("candidate_blocks"), list):
+            counts = dict(Counter(str(block.get("reason") or "unknown")
+                                  for block in row["candidate_blocks"] if isinstance(block, dict)))
+            counts_scope = "shown_only_not_total"
+        else:
+            counts, counts_scope = None, "unknown"
+        skip.update({
+            "reason": row.get("reason"), "entry_stage": row.get("entry_stage"),
+            "candidate_block_reason_counts": counts,
+            "candidate_block_counts_scope": counts_scope,
+            "candidate_blocks_total": nonnegative_count(row.get("candidate_blocks_total")),
+            "candidate_block_details_truncated": row.get("candidate_block_details_truncated"),
+            "authorization_stage_reached": row.get("authorization_stage_reached"),
+        })
+    start_epoch = max((item["epoch"] for item in events
+                       if item["session"] == latest_session and item["row"]["event"] == "fast_executor_start"),
+                      default=float("-inf"))
+
+    def in_current_session(item: dict[str, Any] | None) -> bool:
+        return bool(item and item["session"] == latest_session and item["epoch"] >= start_epoch)
+
+    current_selection = selection if selection and selection["fresh"] and in_current_session(selection_event) else None
+    skip_state = "missing"
+    if skip is not None:
+        if not in_current_session(skip_event):
+            skip_state = "previous_session"
+        elif skip["age_sec"] < 0:
+            skip_state = "future_timestamp"
+        elif not skip["fresh"]:
+            skip_state = "stale"
+        elif any(item["session"] == latest_session and item["epoch"] > skip_event["epoch"]
+                 and item["row"]["event"] in relevant - {"execution_skipped"} for item in events):
+            skip_state = "superseded_by_newer_observation"
+        else:
+            skip_state = "latest_observed_skip"
+    current_skip = skip if skip_state == "latest_observed_skip" else None
+    current_events = [item for item in events if in_current_session(item)]
+    latest_event = max(current_events, key=lambda item: item["epoch"], default=None)
+    last_receipt = receipt(latest_event)
+    status = ("missing" if not selected_files else "unknown" if last_receipt is None
+              else "future_timestamp" if last_receipt["age_sec"] < 0
+              else "stale" if not last_receipt["fresh"] else "recent_observation")
+    return {
+        "schema_version": "practice_007_executor_entry_diagnostics_v1",
+        "account_suffix": "-007", "source_scope": "practice_007_fast_executor_log_tails",
+        "status": status, "fresh_window_sec": EXECUTOR_DIAGNOSTIC_FRESH_SEC,
+        "read_limit_bytes_per_file": EXECUTOR_DIAGNOSTIC_TAIL_BYTES,
+        "read_limit_files": EXECUTOR_DIAGNOSTIC_MAX_FILES, "sources": sources,
+        "latest_session": latest_session, "latest_receipt": last_receipt,
+        "latest_selection": selection, "latest_skip": skip,
+        "current_selection": current_selection, "current_skip": current_skip,
+        "current_skip_state": skip_state,
+        "observation_scope": "sampled_selections_and_throttled_skips_not_unique_signals_or_cycle_totals",
+        "selection_skip_same_cycle": None, "executor_running": None,
+        "authorization_current": None, "order_attempt_count": None, "fill_count": None,
+    }
 
 
 def compact_outcomes(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -659,6 +2334,9 @@ def summarize_lab(path: Path, max_lines: int) -> dict[str, Any]:
         (row for row in reversed(rows) if row.get("event") == "execution_selection_summary"),
         {},
     )
+    latest_entry_skip = next(
+        (row for row in reversed(rows) if row.get("event") == "execution_skipped"), {},
+    )
     comparison_outcomes = [
         row
         for row in outcome_rows
@@ -832,6 +2510,7 @@ def summarize_lab(path: Path, max_lines: int) -> dict[str, Any]:
                 )
             ),
             "latest_accepted_candidates": int(safe_float(latest_selection.get("accepted_candidates"))),
+            **dashboard_fields(latest_selection, latest_entry_skip),
             "qualified_lane_count": len(latest_selection.get("top_lanes") or []),
             "selection_mode": latest_selection.get("selection_mode") or "legacy_lane_gate",
             "top_signals": latest_selection.get("top_lanes") or [],
@@ -4283,6 +5962,7 @@ def summarize_primary_signal_system(
     lane_promotion: dict[str, Any] | None = None,
     second_forecast: dict[str, Any] | None = None,
     signal_feed: dict[str, Any] | None = None,
+    entry_diagnostics: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     account = next(
         (
@@ -4318,6 +5998,7 @@ def summarize_primary_signal_system(
         )
     return {
         "account_suffix": "-007",
+        "entry_diagnostics": entry_diagnostics,
         "account": {
             "id": account.get("account_id"),
             "ok": bool(account.get("ok")),
@@ -5428,6 +7109,22 @@ def summarize_adaptive_level_bands(
 
 def build_main_state(log_dir: Path) -> dict[str, Any]:
     data_root = log_dir.parent
+    try:
+        from oanda_market_overview import build_market_overview
+    except ModuleNotFoundError:
+        from trad.oanda_market_overview import build_market_overview
+    market_overview = build_market_overview(data_root)
+    legacy_collection_status = summarize_collection_status(data_root)
+    legacy_pair_local_forecasts = summarize_pair_local_forecasts(data_root)
+    pair_local_forecasts_v2 = summarize_pair_local_forecasts_v2(data_root)
+    joint_price_news_forecasts = summarize_joint_price_news_forecasts(data_root)
+    joint_price_news_scheduler_comparison_v1 = summarize_joint_price_news_scheduler_comparison_v1(data_root)
+    pair_local_forecasts = select_primary_pair_forecasts(data_root,legacy_pair_local_forecasts,pair_local_forecasts_v2)
+    price_only_collection_status = project_primary_collection_status(legacy_collection_status,pair_local_forecasts)
+    joint_collection_status = project_joint_collection_status(price_only_collection_status,joint_price_news_forecasts)
+    collection_status = joint_collection_status
+    eurusd_supplemental_diagnostic = summarize_eurusd_supplemental_diagnostic(data_root)
+    entry_diagnostics = summarize_executor_entry_diagnostics(log_dir)
     lab_logs = discover_lab_logs(log_dir)
     strategy_worker_age = (
         round(max(0.0, time.time() - lab_logs[0].stat().st_mtime), 2)
@@ -5459,8 +7156,11 @@ def build_main_state(log_dir: Path) -> dict[str, Any]:
     signal_snapshot = load_json_dict(SIGNAL_SNAPSHOT)
     research_signal_snapshot = load_json_dict(RESEARCH_SIGNAL_SNAPSHOT)
     news_snapshot = load_json_dict(LOCAL_NEWS_SENTIMENT)
+    news_pair_bias = summarize_news_pair_bias(news_snapshot)
     news_collector = load_json_dict(LOCAL_NEWS_COLLECTOR)
     news_pairs = news_snapshot.get("pairs") or {}
+    if not isinstance(news_pairs,dict):
+        news_pairs = {}
     display_snapshot = signal_snapshot
     display_snapshot_kind = "execution_snapshot"
     if not list(signal_snapshot.get("top_signals") or []) and list(
@@ -5495,17 +7195,21 @@ def build_main_state(log_dir: Path) -> dict[str, Any]:
         signal["signal_fresh_sec"] = signal_freshness_sec(signal)
         signal["signal_is_live"] = bool(
             signal.get("signal_age_sec") is not None
-            and finite_float(signal.get("signal_age_sec"))
+            and 0 <= finite_float(signal.get("signal_age_sec"))
             <= signal["signal_fresh_sec"]
         )
         instrument = str(signal.get("instrument") or "")
         pair_news = news_pairs.get(instrument) if isinstance(news_pairs, dict) else {}
-        if not isinstance(pair_news, dict):
+        pair_news_current = news_pair_bias["pair_bias"].get(instrument,{}).get("status") == "current"
+        if not pair_news_current or not isinstance(pair_news, dict):
             pair_news = {}
         signal["news_context"] = {
-            "direction": str(pair_news.get("direction") or "NEUTRAL").lower(),
-            "score": finite_float(pair_news.get("score")),
-            "confidence": finite_float(pair_news.get("confidence")),
+            "status": "current" if pair_news_current else "unavailable",
+            "as_of_utc": pair_news.get("as_of_utc"),
+            "generated_utc": news_snapshot.get("generated_utc") if pair_news_current else None,
+            "direction": str(pair_news["direction"]).lower() if pair_news_current else None,
+            "score": finite_float(pair_news.get("score")) if pair_news_current else None,
+            "confidence": finite_float(pair_news.get("confidence")) if pair_news_current else None,
             "active_event_count": int(safe_float(pair_news.get("active_event_count"))),
             "estimated_reaction_horizon_sec": int(
                 safe_float(pair_news.get("estimated_reaction_horizon_sec"))
@@ -5555,13 +7259,15 @@ def build_main_state(log_dir: Path) -> dict[str, Any]:
     post_gap_execution = summarize_post_gap_execution(data_root)
     news_direction_counts = Counter(
         str(row.get("direction") or "NEUTRAL").lower()
-        for row in news_pairs.values()
-        if isinstance(row, dict)
+        for row in news_pair_bias["pair_bias"].values()
+        if row.get("status") == "current"
     )
     news_ranked = sorted(
         (
             {
                 "instrument": instrument,
+                "status": "current",
+                "as_of_utc": row["as_of_utc"],
                 "direction": str(row.get("direction") or "NEUTRAL").lower(),
                 "score": finite_float(row.get("score")),
                 "confidence": finite_float(row.get("confidence")),
@@ -5569,17 +7275,18 @@ def build_main_state(log_dir: Path) -> dict[str, Any]:
                 "events": list(row.get("events") or [])[:2],
             }
             for instrument, row in news_pairs.items()
-            if isinstance(row, dict)
+            if news_pair_bias["pair_bias"].get(instrument,{}).get("status") == "current"
             and str(row.get("direction") or "NEUTRAL").upper() != "NEUTRAL"
         ),
         key=lambda row: abs(safe_float(row.get("score"))),
         reverse=True,
     )
-    news_age = (
-        round(max(0.0, time.time() - LOCAL_NEWS_SENTIMENT.stat().st_mtime), 2)
-        if LOCAL_NEWS_SENTIMENT.is_file()
-        else None
-    )
+    try:
+        news_generated = datetime.fromisoformat(str(news_snapshot.get("generated_utc") or "").replace("Z", "+00:00"))
+        news_age = round(time.time()-news_generated.timestamp(), 3) if news_generated.tzinfo is not None else None
+    except (ValueError, OverflowError, OSError):
+        news_age = None
+    news_fresh = news_pair_bias["pair_bias_status"] == "current" and news_age is not None and 0 <= news_age <= 300
     live_movers = summarize_live_movers()
     live_move_news = summarize_live_move_news()
     continuous_narrative = summarize_continuous_narrative()
@@ -5587,6 +7294,18 @@ def build_main_state(log_dir: Path) -> dict[str, Any]:
     return {
         "time": utc_now(),
         "account": account_summary,
+        "entry_diagnostics": entry_diagnostics,
+        "collection_status": collection_status,
+        "legacy_collection_status": legacy_collection_status,
+        "price_only_collection_status": price_only_collection_status,
+        "joint_collection_status": joint_collection_status,
+        "joint_price_news_scheduler_comparison_v1": joint_price_news_scheduler_comparison_v1,
+        "market_overview": market_overview,
+        "pair_local_forecasts": pair_local_forecasts,
+        "pair_local_forecasts_v2": pair_local_forecasts_v2,
+        "joint_price_news_forecasts": joint_price_news_forecasts,
+        "legacy_pair_local_forecasts": legacy_pair_local_forecasts,
+        "eurusd_supplemental_diagnostic": eurusd_supplemental_diagnostic,
         "top_signal": top_signals[0] if top_signals else None,
         "top_signals": top_signals,
         "horizon_signal_matrix": horizon_signal_matrix,
@@ -5600,9 +7319,12 @@ def build_main_state(log_dir: Path) -> dict[str, Any]:
         "promotion_thresholds": promotion.get("thresholds") or {},
         "post_gap_execution": post_gap_execution,
         "news_sentiment": {
+            **news_pair_bias,
             "schema_version": news_snapshot.get("schema_version"),
             "generated_utc": news_snapshot.get("generated_utc"),
             "snapshot_age_sec": news_age,
+            "fresh": news_fresh,
+            "status": news_pair_bias["pair_bias_status"],
             "collector_status": news_collector.get("status") or "missing",
             "active_article_count": int(safe_float(news_snapshot.get("active_article_count"))),
             "active_scored_pair_count": sum(
@@ -5634,6 +7356,24 @@ def build_main_state(log_dir: Path) -> dict[str, Any]:
             "raw_candidate_count": int(safe_float(signal_snapshot.get("raw_candidate_count"))),
             "feed_candidate_count": int(safe_float(signal_snapshot.get("feed_candidate_count"))),
             "selected": signal_snapshot.get("selected"),
+            "selected_stage": signal_snapshot.get("selected_stage") or (
+                "legacy_pre_final_execution_gates"
+                if signal_snapshot.get("selected")
+                else "none"
+            ),
+            "selected_final_gate_status": signal_snapshot.get(
+                "selected_final_gate_status"
+            ) or (
+                "legacy_not_reported"
+                if signal_snapshot.get("selected")
+                else "not_selected"
+            ),
+            "selected_routable_after_direction_conflict_gate": bool(
+                signal_snapshot.get(
+                    "selected_routable_after_direction_conflict_gate",
+                    False,
+                )
+            ),
             "snapshot_age_sec": signal_age,
             "snapshot_fresh_sec": SIGNAL_SNAPSHOT_FRESH_SEC,
             "displaying_last_signal": bool(
@@ -5655,6 +7395,7 @@ def build_main_state(log_dir: Path) -> dict[str, Any]:
 
 
 def build_state(log_dir: Path, max_runs: int, max_lines: int) -> dict[str, Any]:
+    entry_diagnostics = summarize_executor_entry_diagnostics(log_dir)
     logs = discover_logs(log_dir, max_runs)
     runs = [summarize_log(path, max_lines) for path in logs]
     lab_logs = discover_lab_logs(log_dir)
@@ -5779,6 +7520,7 @@ def build_state(log_dir: Path, max_runs: int, max_lines: int) -> dict[str, Any]:
         lane_promotion,
         second_forecast,
         signal_feed,
+        entry_diagnostics,
     )
     account_aggregate = (account_snapshot or {}).get("aggregate") or {}
     return {
@@ -5817,6 +7559,7 @@ def build_state(log_dir: Path, max_runs: int, max_lines: int) -> dict[str, Any]:
         "unified_forecast_matrix": primary_signal_system.get("matrix") or {},
         "account_snapshot": account_snapshot,
         "primary_signal_system": primary_signal_system,
+        "entry_diagnostics": entry_diagnostics,
         "combination_audit": combination_audit,
         "strategy_exit_fit": strategy_exit_fit,
         "lane_promotion": lane_promotion,
@@ -6381,6 +8124,19 @@ HTML = r"""<!doctype html>
       if (!primary) return '';
       const account = primary.account || {};
       const lab = primary.lab || {};
+      const entryDiagnostics = primary.entry_diagnostics || {};
+      const entrySelection = entryDiagnostics.current_selection;
+      const entrySkip = entryDiagnostics.current_skip;
+      const entryCount = value => value == null ? 'unknown' : fmt.format(value);
+      const entryState = entrySkip ? 'Latest observed skip' : entrySelection ? 'Latest sampled selection' : 'Current state unknown';
+      const entryCounts = entrySelection
+        ? `${entryCount(entrySelection.shared_feed_candidate_observations)} shared feed / ${entryCount(entrySelection.qualified_candidates)} qualified / ${entryCount(entrySelection.local_accepted_candidates)} local accepted`
+        : `${entryDiagnostics.status || 'missing'} receipts`;
+      const entryReasons = entrySkip
+        ? Object.entries(entrySkip.candidate_block_reason_counts || {}).map(([reason, count]) => `${reason}: ${count}`).join(', ') || entrySkip.reason || 'reason unknown'
+        : 'No current skip established';
+      const entryScope = entrySkip?.candidate_block_counts_scope === 'shown_only_not_total' ? 'shown details only' : 'sampled observations';
+      const entryTime = entrySkip?.time || entrySelection?.time || entryDiagnostics.latest_receipt?.time || 'unknown';
       const contributionFeed = lab.contribution_feed || {};
       const combo = primary.combination || {};
       const exits = primary.exit_fit || {};
@@ -6468,6 +8224,7 @@ HTML = r"""<!doctype html>
           <div><span class="label">Signal contributors</span><strong>${fmt.format(contributionFeed.fresh || 0)} fresh / ${fmt.format(contributionFeed.registered || 0)} registered</strong><div class="detail">${fmt.format(contributionFeed.model_gap_registered || 0)} gap adapters / ${fmt.format(contributionFeed.model_gap_fresh || 0)} live now / ${fmt.format(lab.active_feed_candidates || 0)} feed candidates</div></div>
           <div><span class="label">Recent evidence</span><strong>${fmt.format(lab.outcomes || 0)} outcomes</strong><div class="detail">${fmt.format(lab.signals || 0)} accepted / ${fmt.format(lab.near_misses || 0)} near / ${fmt.format(lab.hard_rejects || 0)} hard</div></div>
           <div><span class="label">Practice execution</span><strong>${fmt.format(lab.qualified_candidates || 0)} eligible signals</strong><div class="detail">confidence-ranked feed / ${fmt.format(lab.selected || 0)} selected / ${fmt.format(lab.fills || 0)} fills / ${fmt.format(lab.errors || 0)} errors</div></div>
+          <div><span class="label">Executor entry diagnostics</span><strong>${esc(entryState)}</strong><div class="detail">${esc(entryCounts)}<br>${esc(entryReasons)}<br>${esc(entryScope)} / observed ${esc(entryTime)} / runtime and authorization unknown</div></div>
           <div><span class="label">Combination audit</span><strong>${fmt.format(combo.validated_rules || 0)} rules</strong><div class="detail">${fmt.format(combo.snapshots || 0)} snapshots / ${fmt.format(combo.outcomes || 0)} outcomes</div></div>
           <div><span class="label">Exit fit</span><strong>${fmt.format(eligible.lanes || 0)} lanes eligible</strong><div class="detail">${fmt.format(exits.signal_rows || 0)} signal paths / ${esc(exitSummary)}</div></div>
           <div><span class="label">Net-return promotion</span><strong>${fmt.format(promotionSummary.eligible_count || 0)} lane-horizons</strong><div class="detail">${esc(promotionSummary.status || 'not started')} / ${esc(promotionDetail)}</div></div>
@@ -7596,11 +9353,13 @@ class DashboardHandler(BaseHTTPRequestHandler):
 
     def do_GET(self) -> None:
         parsed = urlparse(self.path)
-        if parsed.path == "/api/main":
-            self.send_json(self.current_main_state())
+        if parsed.path == "/api/joint-v3-ledger-observation":
+            self.send_json(current_joint_ledger_observation())
             return
-        if parsed.path == "/api/state":
-            self.send_json(self.current_main_state())
+        if parsed.path in {"/api/main", "/api/state"}:
+            payload = dict(self.current_main_state())
+            payload['joint_v3_ledger_observation'] = current_joint_ledger_observation(compact=True)
+            self.send_json(payload)
             return
         if parsed.path == "/api/full-state":
             self.send_json(self.current_state())

@@ -1,0 +1,103 @@
+{
+  "account_eligible": false,
+  "broker_or_network_access": false,
+  "can_place_orders": false,
+  "database_connections": 0,
+  "fixed_defaults": {
+    "alpha": 10.0,
+    "features": "trailing_compounded_log_returns_in_basis_points",
+    "horizon_sec": 3600,
+    "intercept": "fitted_unpenalized",
+    "lag_minutes": [
+      1,
+      5,
+      15,
+      60
+    ],
+    "max_training_rows": 4096,
+    "min_training_rows": 120,
+    "regression": "ridge_direct_target_return_no_recursive_VAR",
+    "regularization": "sum_squared_error_plus_alpha_times_squared_standardized_coefficients",
+    "scaling": "training_rows_only_population_mean_and_std_per_arm",
+    "selection": "caller_fixed_parameters_no_internal_search",
+    "training_stride_minutes": 1,
+    "training_subset": "most_recent_valid_rows"
+  },
+  "generated_utc": "2026-09-06T19:18:47.191172+00:00",
+  "historical_availability_reconstructed": false,
+  "historical_real_data_accuracy_established": false,
+  "limits": [
+    "Training/model/feature clocks supplied by caller are checked, not independently attested.",
+    "Historical candles do not retain the original actual availability required for a causal historical accuracy claim.",
+    "Synthetic lead-lag tests verify implementation only; no market profitability or future alpha is established.",
+    "Direct-horizon ridge multivariate lag regression is not a recursive VAR system, VECM, cointegration or HMM.",
+    "Overlapping training rows do not establish independent samples.",
+    "No calibrated probability, spread-adjusted outcome, portfolio P/L, significance or promotion is computed."
+  ],
+  "new_historical_model_selection_or_tuning": false,
+  "project_start_commands_issued": false,
+  "proof_eligible": false,
+  "registered_source_hashes_unchanged": {
+    "oanda_causal_forecast_inputs.py": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+    "oanda_causal_forecast_ledger.py": "4ddd413261fc294922bf2664bb0ae018d8469a3422942567849c1624ba32cd1f",
+    "oanda_causal_forecast_study.py": "e50a9a8ef5bbfe739d177d1bcf8632362bcad06b68694eb7c599c70a33fbd44e",
+    "oanda_causal_prediction_baselines.py": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+    "oanda_fixed_forecast_evaluation.py": "482af854fae94d53aea82c109ffb6a00f265f3ecebdbc3137e200cb07d142708",
+    "oanda_proof_shadow_predictors.py": "51c3f945eadb3f26166cfddd37d97451ef21e2b69ece6664c57ee06c145ff417"
+  },
+  "runtime": {
+    "executable": "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe",
+    "numpy_path": "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Lib\\site-packages\\numpy\\__init__.py",
+    "numpy_version": "2.5.1",
+    "pytest_path": "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Lib\\site-packages\\pytest\\__init__.py",
+    "pytest_version": "9.1.1",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]"
+  },
+  "runtime_integration": false,
+  "schema_version": "joint_return_baselines_offline_validation_v1",
+  "source_files": [
+    {
+      "bytes": 16718,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_joint_return_baselines.py",
+      "sha256": "a08d54e301fe02adecb1fac1937f654650aec08f88619b197e0ae3c7fd84ee8f"
+    },
+    {
+      "bytes": 15559,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_joint_return_baselines.py",
+      "sha256": "fd030011649f4f0cb67110ed09a5bb04f58c2a7fe7fbf8ea34ac45d2dea985d5"
+    }
+  ],
+  "status": "implemented_offline_not_activated",
+  "synthetic_timing": {
+    "common_minute_bars": 600,
+    "median_fit_seconds": 0.04351500002667308,
+    "pair_rows": 4200,
+    "scope": "synthetic pure function and result construction only; not project-cycle speed",
+    "selected_training_rows": 480,
+    "three_fit_seconds": [
+      0.04501310002524406,
+      0.04351500002667308,
+      0.04244660004042089
+    ]
+  },
+  "test_result": {
+    "errors": 0,
+    "failures": 0,
+    "harness": {
+      "bytes": 2124,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\entry_improvements_20260906\\joint_baselines\\run_tests.py",
+      "sha256": "f8a1d6fa11f0c2c0402b2593da30678deb9daa023aa639ca9827a74a0756b09d"
+    },
+    "invocation": "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe -B C:\\Users\\zmoor\\Documents\\forex\\entry_improvements_20260906\\joint_baselines\\run_tests.py test_oanda_joint_return_baselines.py",
+    "junit": {
+      "bytes": 10546,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\entry_improvements_20260906\\joint_baselines\\integration_tests.xml",
+      "sha256": "bc8a8ae528bd2c6ee33b4c7c59d2121899894302b1cad3db6b133774924ee994"
+    },
+    "junit_suite_elapsed_seconds": 2.23,
+    "passed": 68,
+    "pytest_reported_elapsed_seconds": 2.26,
+    "skipped": 0,
+    "tests": 68
+  }
+}

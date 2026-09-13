@@ -1,0 +1,166 @@
+{
+  "schema_version": "pair_runtime_recovery_v1_20260907",
+  "status": "passed",
+  "observed_utc": "2026-09-07T17:23:11.771397+00:00",
+  "initial_reload_status": "aborted_after_controlled_supervisor_and_dashboard_stops",
+  "initial_reload_error": "Process identity changed before controlled stop",
+  "initial_reload_interpretation": "The dashboard process pair had already exited when the script rechecked the remaining dashboard PID. The script aborted before launching the replacement supervisor.",
+  "recovery_action_reported_by_root": "Root confirmed no supervisor, dashboard or new pair worker remained, then invoked the unchanged hidden start_oanda_research_collection.ps1 launcher successfully.",
+  "recovered_supervisor": {
+    "script": "oanda_always_on_supervisor.ps1",
+    "pid": 22400,
+    "parent_pid": 40956,
+    "created_utc": "2026-09-07T17:18:08.9327080Z",
+    "research_only": true,
+    "safe_core_only": true
+  },
+  "allowed_worker_count": 14,
+  "prior_running_worker_count": 13,
+  "verified_running_worker_count": 14,
+  "new_worker": {
+    "pids": [
+      11892,
+      4068
+    ],
+    "running": true,
+    "name": "pair_local_forecast_study_v1",
+    "freshness": {
+      "observed_json_value": "pair_local_forecast_heartbeat_v1_20260907",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\pair_local_forecast_study_v1\\heartbeat.json",
+      "expected_json_field": "schema_version",
+      "phase": "research_collection",
+      "expected_json_value": "pair_local_forecast_heartbeat_v1_20260907",
+      "age_sec": 4.1,
+      "reason": "fresh",
+      "fresh": true
+    },
+    "started": false
+  },
+  "dashboard_before": [
+    23728,
+    41592
+  ],
+  "dashboard_after": [
+    19184,
+    10080
+  ],
+  "preserved_existing_workers": [
+    {
+      "name": "account_snapshot",
+      "pids": [
+        31364,
+        3092
+      ]
+    },
+    {
+      "name": "local_news_sentiment",
+      "pids": [
+        24008,
+        1212
+      ]
+    },
+    {
+      "name": "official_release_fast_lane",
+      "pids": [
+        4196,
+        7244
+      ]
+    },
+    {
+      "name": "official_release_fast_mapper",
+      "pids": [
+        17664,
+        36080
+      ]
+    },
+    {
+      "name": "all68_m1_forward_archive",
+      "pids": [
+        39516,
+        15540
+      ]
+    },
+    {
+      "name": "practice_007_quote_stream",
+      "pids": [
+        5452,
+        44996
+      ]
+    },
+    {
+      "name": "clock_integrity_monitor",
+      "pids": [
+        20572,
+        32208
+      ]
+    },
+    {
+      "name": "causal_forecast_study_v1",
+      "pids": [
+        11908,
+        14020
+      ]
+    },
+    {
+      "name": "eurusd_local_forecast_study",
+      "pids": [
+        22600,
+        20056
+      ]
+    },
+    {
+      "name": "source_governance_news_fast_lane",
+      "pids": [
+        5236,
+        19584
+      ]
+    },
+    {
+      "name": "project_integrity_audit",
+      "pids": [
+        41144,
+        21076
+      ]
+    },
+    {
+      "name": "storage_headroom_guard",
+      "pids": [
+        19056,
+        33700
+      ]
+    }
+  ],
+  "preserved_worker_count": 12,
+  "preserved_process_count": 24,
+  "prior_heartbeat_utc": "2026-09-07T17:17:13.9068295Z",
+  "recovered_heartbeat_utc": "2026-09-07T17:22:51.0171712Z",
+  "proof": "Matching pre-reload and post-reload supervisor PID sets for all 12 untouched workers, corroborated by current process IDs and creation clocks predating activation.",
+  "process_snapshot": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\pair_coverage_20260907\\PAIR_RELOAD_RECOVERY_PROCESS_SNAPSHOT.json",
+    "sha256": "11da0d3c392d86770566c5563abd5aad5c3a3c9b0628387c4d41a2dd5a4c72cc"
+  },
+  "retained_heartbeat_events": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\pair_coverage_20260907\\PAIR_RELOAD_RECOVERY_HEARTBEATS.json",
+    "sha256": "36f7420615c48eef3ca7f1fb8b76becdd32017252955e9312d15bcf8fdf4d908"
+  },
+  "initial_preflight": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\pair_coverage_20260907\\PAIR_RELOAD_PREFLIGHT_20260907_131732_762.json",
+    "sha256": "0c8d97f07338496c7fa84bc53578f1085ef0654a1659f24db262dfbeae5b551a"
+  },
+  "initial_gate": {
+    "path": "C:\\Users\\zmoor\\Documents\\forex\\pair_coverage_20260907\\PAIR_GATE_RELOAD_20260907_131732_762.json",
+    "sha256": "1b426c492d1975db36aeb89b12ca836631adafa8f0e4ccac5ab6dee644783d20"
+  },
+  "registered_sources_unchanged_by_recovery": true,
+  "supervisor_sha256": "44222699b72d21e697c90eb4214fbdca2eb0e0da49176f7bd43960e923848887",
+  "launcher_sha256": "c7e2a970b6e8bb69fcdaf5b124b8d935be6326f06a6554408889e111f57f3115",
+  "reload_helper_followup": "Stop-VerifiedProcess now accepts an already-exited dashboard PID only; changed identities still fail closed. The helper was not rerun after recovery.",
+  "reload_helper_sha256": "a2365ac2105e578f08da2707724b7073b0e34e2a2c08c6f47f319aed74f65eed",
+  "recovery_inspection_process_starts": 0,
+  "recovery_inspection_process_stops": 0,
+  "can_place_orders": false,
+  "can_promote": false,
+  "limitations": [
+    "This verifies recovery and preserved process identity; it is not a forecast performance or account-return result."
+  ]
+}

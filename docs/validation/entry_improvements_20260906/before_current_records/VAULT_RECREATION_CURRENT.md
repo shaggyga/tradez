@@ -1,0 +1,82 @@
+# Recreate and inspect the current Forex source
+
+The runtime is intentionally stopped after September 4, 2026 market close.
+These steps verify and inspect source offline.
+
+## Current source record in the vault
+
+Read `source/WORKTREE_SOURCE_LATEST.json` in the Forex vault. It identifies a
+versioned `forex_worktree_source_<id>.zip` and `.manifest.json` containing
+current source, configuration, tests, docs and validation receipts. Every file
+is hashed. The base Git commit and uncommitted state are explicit.
+
+`source/SOURCE_BASELINE_LATEST.json` remains an older committed baseline.
+Archived mixed-checkpoint pointers/import scripts are historical and must not
+be used as today's recreation entry point.
+
+## Offline verification and extraction
+
+With Python 3.12+ and a local source copy:
+
+```powershell
+python -B tools/vault_worktree_snapshot.py --verify "C:\path\to\forex_worktree_source_<id>.manifest.json"
+```
+
+The verifier checks archive and member hashes, safe paths and ZIP CRC, extracts
+to a temporary directory, then compiles Python syntax. It never imports the
+trading modules, starts workers or contacts a broker. Syntax checks are not a
+full integration test.
+
+For inspection, verify the ZIP SHA-256 against the manifest and extract with
+`Expand-Archive -LiteralPath <zip> -DestinationPath <new-empty-directory>`.
+Entries are relative to the `trad` source root. Avoid extracting over live
+source. Read the extracted README before installing or running anything.
+
+## Dependencies and focused tests
+
+`config/requirements-research-audit-20260905.txt` inventories the installed
+Python 3.12 core research environment at this reset. It includes optional
+packages and is not a universal platform compatibility guarantee. Narrower
+profiles are in `requirements-forex-news.txt` and `config/runtime_requirements/`.
+Use an isolated environment; keep private credentials outside source.
+
+```powershell
+python -m pytest -q -p no:cacheprovider test_vault_worktree_snapshot.py test_forex_vault_record_cleanup.py test_forex_model_vault_sync.py test_oanda_issue_register_validator.py
+```
+
+The fixture tests above work with recreated source. The following separate
+check requires the canonical local evidence tree or a coherent restored backup:
+
+```powershell
+python oanda_issue_register_validator.py
+```
+
+Do not use this second command as a source-only restore acceptance test. The
+historical issue register references runtime databases, snapshots and validation
+artifacts deliberately excluded from the source ZIP. A source-only extraction
+therefore reports missing evidence; that is an unavailable-history result, not
+archive corruption or permission to mark the historical issues verified. Use
+the ZIP/member-hash verifier above to validate source-only recovery, and retain
+the missing-evidence checks when auditing the complete canonical project.
+
+## Historical evidence and later restart
+
+Code and formulas recreate software, not the original observation history.
+Canonical runtime data remain under `data/oanda_training_manager`. Preserve
+the original ledgers or a coherent database backup to reproduce exact causal
+evidence and account attribution. With source alone, initialize new datasets
+and new cohorts; later vendor downloads do not recover original first-seen
+times or forecasts made before outcomes.
+
+The vault `maintenance/` receipt identifies the intact local legacy archive.
+Verify its file hashes before recovering old artifacts. The archive is
+historical, not a supported executable image.
+
+Shutdown disabled `ForexSafeCoreAtLogon`; re-enable it only when starting the
+runtime again is wanted. Start scripts remain in source but neither a verifier
+nor an offline demo should call them. The shared BIGTRIAD dashboard logon task
+is managed separately and has not been changed.
+
+Before a later practice restart, check live local account state, time,
+supervision, frozen contracts and lifecycle status. A restored report cannot
+authorize a trade. Real-money routing remains disabled.

@@ -1,0 +1,62 @@
+{
+  "schema_version": "dashboard_gap_v2_independent_review_v1",
+  "generated_utc": "2026-09-07T16:17:49.573359+00:00",
+  "source_sha256": {
+    "oanda_practice_live_dashboard.py": "48fb099f1a193b956cd6e888d6a60cd719c2f876eaad28eefb388be0ea056770",
+    "oanda_main_signal_dashboard.html": "1ccb3d192e5a4b2e8c8dfe9527440114330665586eda6a47ac8daef5719792c3",
+    "test_oanda_collection_dashboard_status.py": "3d729571a5081364ffb5994deae558b59639f4cfbc14a236cbc2412703d4fc1c",
+    "oanda_causal_forecast_ledger_gap_v2.py": "7da94bd35291bf684e367bd91085cd5fb477f188d1347bc2d5dd7b1a113edf43",
+    "oanda_causal_forecast_study_gap_v2.py": "3d9fd2a7ef93944ecbc941deeef5d5090f4a4f4818930a2a577e8650761a5106",
+    "oanda_causal_forecast_inputs_gap_v2.py": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd",
+    "oanda_gap_aware_four_family_models.py": "0ed224abcd0e7b53a26921acc29af208f074701fe02ce5cf4e0f1ee6f84c7e09",
+    "oanda_causal_forecast_inputs.py": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+    "oanda_fixed_forecast_evaluation_exact.py": "173339dce8df3807eae38ed858c5df02979f2bc6e11df61d3c032de773fdcef0",
+    "oanda_exact_price_scoring.py": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521",
+    "oanda_causal_prediction_baselines.py": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d"
+  },
+  "dashboard_fixture_test_count": 79,
+  "prior_fixture_tests_preserved": 57,
+  "dashboard_test_receipt": "C:\\Users\\zmoor\\Documents\\forex\\warmup_repair_20260907\\dashboard_tests_20260907T161638013276Z\\receipt.json",
+  "dashboard_test_receipt_sha256": "cbe26d93652c09f4ae21034153c1ab59d7b59718b606df1894752b14adc89b7d",
+  "javascript_syntax_check": {
+    "exit_code": 0,
+    "stderr": "",
+    "script_sha256": "1226fd6291853d71f6d579754f066a6df958ef61f9330048cd8c2eb7c4780cba"
+  },
+  "gap_review_method": "Read-only original-to-gap_v2 source diff and bounded acceptance/clock/scorecard code review; parent owns separate gap_v2 test run.",
+  "findings": [
+    {
+      "id": "exact_quote_parse",
+      "original": "Numeric JSON bid/ask parsed through binary float before decimal conversion.",
+      "resolution": "Confirmed loads_exact_prices(raw) and jsonable(raw_provider_quote), with precise-numeric-JSON regression added by parent."
+    },
+    {
+      "id": "exact_scorecard_json",
+      "original": "Nonempty exact scorecard contained Decimal objects unsupported by atomic_json encoder.",
+      "resolution": "Confirmed jsonable(evaluate(...)) before publication, with nonempty scored-ledger serialization regression added by parent."
+    }
+  ],
+  "remaining_material_findings": [],
+  "verified_preserved": [
+    "Fixed EUR_USD M1 inputs and original reference plus H1 target.",
+    "All four families and source/dependency/capture binding.",
+    "Actual captured, computed, issued, postcommit publication and independent consumer observation clocks.",
+    "Later executable bid/ask entry and bounded target quote availability.",
+    "Immutable distinct registration and no orders, promotion, authorization, eligibility or historical imports.",
+    "Dashboard enum selector paths match io_r2 and gap_v2; invalid pointer does not fall back."
+  ],
+  "dashboard_delivery": [
+    "One signals-versus-live table with gross observed 5/15/60-minute changes, descriptive technical/news bias, original-clock H1 model arms when available, and current/unknown positions.",
+    "Saved model rejection survives a cleared heartbeat reason, with retained bar count and date distinct from later published attempts.",
+    "Required current common bars comes from selected contract; no readiness or model performance claim inferred from healthy feed."
+  ],
+  "limits": [
+    "No production ledger queried during this final review; no runtime activation or dashboard reload by reviewer.",
+    "Gap_v2 is still allowed to abstain; latest parent-supplied probe was 4 of 61 current shared bars, not a forecast-ready claim.",
+    "Successful engineering tests do not establish improved predictive accuracy or positive after-cost performance.",
+    "No independent visual browser inspection of the reloaded dashboard in this review."
+  ],
+  "production_mutations": false,
+  "runtime_started": false,
+  "test_guard_note": "One import-time urllib3 IPv6 socket.bind probe was denied and caught; no production DB connection or network binding occurred."
+}

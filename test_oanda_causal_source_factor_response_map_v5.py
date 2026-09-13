@@ -133,14 +133,14 @@ def test_v5_context_restores_v1_globals():
     ) == before
 
 
-def test_hidden_supervisor_preserves_v5_and_starts_v6():
+def test_hidden_supervisor_preserves_v5_and_starts_v8():
     supervisor = (subject.ROOT / "oanda_always_on_supervisor.ps1").read_text(
         encoding="utf-8"
     )
     assert '-Name "causal_source_factor_response_map_v5_preserved"' in supervisor
     assert '-Needle "oanda_causal_source_factor_response_map_v5.py"' in supervisor
-    assert '-Name "causal_source_factor_response_map_v6"' in supervisor
-    assert "causal_source_factor_response_map_latest_v6.json" in supervisor
+    assert '-Name "causal_source_factor_response_map_v8"' in supervisor
+    assert "causal_source_factor_response_map_latest_v8.json" in supervisor
     assert '-Name "causal_source_factor_response_map_v4_preserved"' in supervisor
     assert '-Needle "oanda_causal_source_factor_response_map_v4.py"' in supervisor
     assert "v6_v151_pair_breakout_recap_cutover" in supervisor

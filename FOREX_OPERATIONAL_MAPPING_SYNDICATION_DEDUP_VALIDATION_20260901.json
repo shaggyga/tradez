@@ -1,0 +1,109 @@
+{
+  "schema_version": "forex_operational_mapping_syndication_dedup_validation_v1",
+  "generated_utc": "2026-09-01T15:02:55Z",
+  "change_id": "FX-20260901-OPERATIONAL-MAPPING-SYNDICATION-DEDUP",
+  "status": "validated_deployed_collecting",
+  "problem": "The V1 receipt-backed broad arm treated publisher-suffixed copies of the same syndicated headline as independent stories because upstream source-local story IDs and full normalized headlines differed.",
+  "resolution": "Freeze V1 as the diagnostic baseline and open a separate prospective V2 cohort that retains every raw receipt but deduplicates only exact normalized headline content after conservatively removing one final publisher suffix. V2 performs no fuzzy semantic merge and remains movement-conditioned, research-only and nonexecuting.",
+  "baseline": {
+    "contract_id": "move_first_operational_mapping_alignment_v1_receipt_backed_prospective_20260901T140000Z",
+    "cohort_id": "move_first_operational_mapping_alignment_v1_prospective_20260901T140000Z",
+    "preserved": true,
+    "merged_into_v2": false,
+    "sampled_report_generated_utc": "2026-09-01T15:02:36.644069Z",
+    "source_case_count": 61,
+    "resolved_factor_episode_count": 32,
+    "receipt_backed_event_count": 997,
+    "reported_independent_story_count": 997,
+    "known_limitation": "Publisher-suffixed syndicated variants remain nominally independent in the frozen V1 diagnostic."
+  },
+  "contract": {
+    "contract_id": "move_first_operational_mapping_alignment_v2_receipt_backed_syndication_dedup_prospective_20260901T150000Z",
+    "cohort_id": "move_first_operational_mapping_alignment_v2_prospective_20260901T150000Z",
+    "activated_utc": "2026-09-01T15:00:00Z",
+    "historical_rows_imported": 0,
+    "story_deduplication_rule": "publisher_suffix_stripped_normalized_headline_v2",
+    "raw_receipts_retained": true,
+    "exact_content_deduplication": true,
+    "fuzzy_semantic_deduplication": false,
+    "source_case_contract_id": "live_move_news_snapshot_v7r3_transitive_factor_root_union_20260827",
+    "operational_clock_rule": "max_source_effective_detail_available_and_mapping_receipt_available_utc",
+    "selection_conditioned_on_realized_executable_move": true,
+    "predictive_backtest_eligible": false,
+    "promotion_eligible": false,
+    "execution_eligible": false,
+    "can_authorize": false,
+    "can_place_orders": false,
+    "execution_decision": "no_trade"
+  },
+  "validation": {
+    "focused_test_command": "python -m pytest -q -p no:cacheprovider trad/test_oanda_move_first_operational_mapping_alignment_v1.py trad/test_oanda_project_integrity_audit.py trad/test_forex_model_vault_sync.py trad/test_oanda_supervisor_watchdog.py trad/test_oanda_source_governance_news_fast_lane.py trad/test_oanda_issue_register_validator.py",
+    "focused_tests_passed": 80,
+    "focused_tests_failed": 0,
+    "ledger_verify_only": {
+      "v1_verified": true,
+      "v1_source_case_count": 56,
+      "v1_resolved_factor_episode_count": 30,
+      "v2_verified": true,
+      "v2_source_case_count": 0,
+      "v2_resolved_factor_episode_count": 0,
+      "checked_utc_range": [
+        "2026-09-01T14:57:31.206128Z",
+        "2026-09-01T14:57:32.503259Z"
+      ]
+    },
+    "deduplication_cases": [
+      "different event IDs with the same core headline and different final publisher suffixes count as two raw receipts but one independent story",
+      "the top-level duplicate count must equal the sum of row-level duplicate counts",
+      "independent plus duplicate story counts must equal retained raw receipts",
+      "no fuzzy headline or semantic similarity is used"
+    ],
+    "compatibility_repairs": [
+      "The first shared-code V2 deployment incorrectly required the new manifest field in the immutable V1 manifest; conditional binding restored exact V1 compatibility and both ledgers verify.",
+      "The integrity verifier initially classified the intentionally empty preactivation V2 state as degraded because its future ledger cutoff had not elapsed; an explicit zero-row fail-closed preactivation rule and contamination negative test repaired the false incident.",
+      "A temporary manually started integrity worker overlapped the supervisor-owned replacement; the verified temporary wrapper and child were stopped, leaving one supervisor-owned wrapper/child pair."
+    ],
+    "sqlite_integrity": "ok",
+    "project_integrity_generated_utc": "2026-09-01T10:56:53.828326-04:00",
+    "project_integrity_status": "ok",
+    "project_integrity_failure_count": 0,
+    "v1_project_integrity_check_passed": true,
+    "v2_project_integrity_check_passed": true
+  },
+  "initial_post_activation_snapshot": {
+    "sampled_utc": "2026-09-01T15:02:55.034352Z",
+    "report_generated_utc": "2026-09-01T15:02:28.283440Z",
+    "ledger_cutoff_utc": "2026-09-01T15:00:00Z",
+    "source_case_count": 0,
+    "resolved_factor_episode_count": 0,
+    "receipt_backed_event_count": 0,
+    "receipt_backed_independent_story_count": 0,
+    "operational_syndicated_duplicate_count": 0,
+    "execution_decision": "no_trade",
+    "interpretation": "The cohort crossed its immutable activation boundary without importing any preactivation case. Zero rows are the correct first prospective state; the synthetic regressions validate the new deduplication rule, but no live predictive claim exists yet."
+  },
+  "runtime": {
+    "watchdog_pid": 20824,
+    "supervisor_pid": 19648,
+    "v1_worker_wrapper_pid": 14800,
+    "v2_worker_wrapper_pid": 5960,
+    "integrity_worker_wrapper_pid": 10444,
+    "supervisor_process_count": 1,
+    "lease_owned": true,
+    "watchdog_action": "none",
+    "restart_circuit_open": false,
+    "codex_automation_created": false,
+    "account": "Practice-007",
+    "real_money_enabled": false
+  },
+  "sha256": {
+    "oanda_move_first_operational_mapping_alignment_v1.py": "0c82d15dfb8304d046c5652a9dc200650e750f2c566fed267f9c6f7b4160c299",
+    "test_oanda_move_first_operational_mapping_alignment_v1.py": "678779d41a776e9f438e6f777a513c77729680ff00edfa7fe1ac775d3b8f61f8",
+    "config/move_first_operational_mapping_alignment_v2_20260901.json": "a7296a5f6a1907c4e6029d362cc765bb03b8682ead7badf11bf13fc460cfac39",
+    "oanda_project_integrity_audit.py": "a342dd6b7d9e39abb4e789499d551b5b9e86e686b713176a72a0e0e35e412435",
+    "test_oanda_project_integrity_audit.py": "50329186d8734c042bd37d0315faa51ecc5ba5492f122e28118cc67830195c69",
+    "oanda_always_on_supervisor.ps1": "dc6043b66d57a8ef619c83c48b253b1bf350c95373fbeb9ca15f65bfc31c4582",
+    "forex_model_vault_sync.py": "a8b6dd272df109cbe5cf7f194af7279b0fcd279e7b729dea9668d422862926da",
+    "test_forex_model_vault_sync.py": "cbb4cea196f5bb95915925addfee7c67aa060defabd3bac1787ace818aab63ac"
+  }
+}

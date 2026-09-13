@@ -43,6 +43,10 @@ COVERAGE = (
     / "CURRENCY_EVENT_TECHNICAL_COVERAGE_CURRENT.json"
 )
 DEPENDENCIES = ROOT / "config" / "currency_policy_dependency_registry_v1.json"
+OFFICIAL_CENTRAL_BANK_SOURCES = (
+    ROOT / "config" / "official_central_bank_source_map_v1.json"
+)
+SOURCE_COVERAGE = DATA / "local_news_sentiment" / "source_coverage_latest.json"
 OUTPUT = STATE / "event_technical_preflight_v1.json"
 REPORT = (
     DATA
@@ -66,7 +70,7 @@ RBNZ_SCHEDULE_HISTORY = (
 UTC = dt.timezone.utc
 SCHEMA_VERSION = "event_technical_preflight_v1"
 CONTRACT_ID = (
-    "neutral_event_clock_to_technical_preflight_v5_authoritative_direct_currency_20260828"
+    "neutral_event_clock_to_technical_preflight_v6_source_transport_readiness_20260901"
 )
 MOVEMENT_HORIZONS = (60, 300, 900, 3600)
 
@@ -133,6 +137,99 @@ def scheduled_rows(
             str(row.get("event_id") or ""),
         ),
     )
+
+
+def _currency_rows(payload: Mapping[str, Any] | None) -> dict[str, Mapping[str, Any]]:
+    """Normalize list- or mapping-shaped currency inventories."""
+
+    payload = payload or {}
+    values = payload.get("currencies") or {}
+    if isinstance(values, Mapping):
+        return {
+            str(currency).upper(): row
+            for currency, row in values.items()
+            if isinstance(row, Mapping)
+        }
+    return {
+        str(row.get("currency") or "").upper(): row
+        for row in values
+        if isinstance(row, Mapping) and str(row.get("currency") or "").strip()
+    }
+
+
+def policy_release_transport_readiness(
+    currency: str,
+    official_sources: Mapping[str, Any] | None,
+    source_coverage: Mapping[str, Any] | None,
+) -> dict[str, Any]:
+    """Describe primary/fallback policy-release transport without inventing readiness.
+
+    Central-bank calendars prove when a release is due, not that its decision body
+    can be observed at release time. Publisher-filtered discovery is retained as a
+    separately labelled fallback and must never be represented as a direct source.
+    """
+
+    currency = str(currency or "").upper()
+    official_by_currency = _currency_rows(official_sources)
+    coverage_by_currency = _currency_rows(source_coverage)
+    official = official_by_currency.get(currency) or {}
+    coverage = coverage_by_currency.get(currency) or {}
+    authority_id = str(official.get("authority_id") or "").lower()
+    release_source_ids = sorted(
+        {str(value) for value in official.get("release_source_ids") or [] if value}
+    )
+    calendar_source_ids = sorted(
+        {str(value) for value in official.get("calendar_source_ids") or [] if value}
+    )
+    observed_sources = {
+        str(row.get("source_id") or ""): row
+        for row in coverage.get("sources") or []
+        if isinstance(row, Mapping) and str(row.get("source_id") or "")
+    }
+
+    def operational(source_id: str) -> bool:
+        row = observed_sources.get(source_id) or {}
+        return bool(row.get("operational")) and bool(row.get("healthy"))
+
+    direct_ready_ids = [source_id for source_id in release_source_ids if operational(source_id)]
+    calendar_ready_ids = [source_id for source_id in calendar_source_ids if operational(source_id)]
+    fallback_ids = sorted(
+        source_id
+        for source_id, row in observed_sources.items()
+        if (
+            str(row.get("source_role") or "") == "news_aggregator"
+            and bool(row.get("operational"))
+            and bool(row.get("healthy"))
+            and authority_id
+            and authority_id in source_id.lower()
+        )
+    )
+    blockers = sorted(
+        {
+            f"{source_id}:{str((observed_sources.get(source_id) or {}).get('runtime_status') or 'not_observed')}"
+            for source_id in release_source_ids
+            if source_id not in direct_ready_ids
+        }
+    )
+    if direct_ready_ids:
+        state = "direct_release_ready"
+    elif fallback_ids:
+        state = "fallback_only_direct_release_unavailable"
+    elif release_source_ids:
+        state = "direct_release_unavailable_no_operational_fallback"
+    else:
+        state = "no_registered_direct_release_source"
+    return {
+        "policy_release_transport_state": state,
+        "policy_direct_release_transport_available": bool(direct_ready_ids),
+        "policy_fallback_transport_available": bool(fallback_ids),
+        "policy_calendar_transport_available": bool(calendar_ready_ids),
+        "policy_release_source_ids": release_source_ids,
+        "policy_direct_release_ready_source_ids": direct_ready_ids,
+        "policy_fallback_source_ids": fallback_ids,
+        "policy_calendar_ready_source_ids": calendar_ready_ids,
+        "policy_source_blockers": blockers,
+    }
 
 
 def event_direct_currencies(
@@ -666,6 +763,8 @@ def build(
     dependencies: Mapping[str, Any] | None = None,
     historical_magnitude: Mapping[str, Any] | None = None,
     specialized_histories: Sequence[Mapping[str, Any]] = (),
+    official_sources: Mapping[str, Any] | None = None,
+    source_coverage: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     universe = pair_universe(quotes)
     technical = technical_index(signals)
@@ -735,6 +834,25 @@ def build(
                     policy_event=policy_event,
                 )
             )
+            source_readiness = (
+                policy_release_transport_readiness(
+                    driver_currency,
+                    official_sources,
+                    source_coverage,
+                )
+                if policy_event
+                else {
+                    "policy_release_transport_state": "not_policy_event",
+                    "policy_direct_release_transport_available": False,
+                    "policy_fallback_transport_available": False,
+                    "policy_calendar_transport_available": False,
+                    "policy_release_source_ids": [],
+                    "policy_direct_release_ready_source_ids": [],
+                    "policy_fallback_source_ids": [],
+                    "policy_calendar_ready_source_ids": [],
+                    "policy_source_blockers": [],
+                }
+            )
             rows.append(
                 {
                     "event_id": str(event.get("event_id") or ""),
@@ -800,6 +918,7 @@ def build(
                     "movement_risk_event_class": magnitude_event_class,
                     "movement_risk_driver_currency": driver_currency,
                     "movement_risk_priors": movement_priors,
+                    **source_readiness,
                     "research_only": True,
                     "execution_eligible": False,
                 }
@@ -820,6 +939,29 @@ def build(
         "derived_policy_dependency_rows": sum(
             1 for row in rows if row["policy_dependency"]
         ),
+        "policy_direct_release_ready_rows": sum(
+            1
+            for row in rows
+            if row["policy_event"]
+            and row["policy_direct_release_transport_available"]
+        ),
+        "policy_fallback_only_rows": sum(
+            1
+            for row in rows
+            if row["policy_event"]
+            and row["policy_release_transport_state"]
+            == "fallback_only_direct_release_unavailable"
+        ),
+        "policy_release_transport_blocked_rows": sum(
+            1
+            for row in rows
+            if row["policy_event"]
+            and row["policy_release_transport_state"]
+            in {
+                "direct_release_unavailable_no_operational_fallback",
+                "no_registered_direct_release_source",
+            }
+        ),
         "events": rows,
         "historical_magnitude_prior": magnitude_metadata,
         "policy": {
@@ -832,6 +974,8 @@ def build(
             "dependency_clock_assigns_no_direction": True,
             "historical_magnitude_prior_assigns_no_direction": True,
             "historical_magnitude_prior_cannot_self_authorize": True,
+            "calendar_readiness_is_not_release_transport_readiness": True,
+            "publisher_search_fallback_is_not_direct_release_transport": True,
         },
         "research_only": True,
         "execution_eligible": False,
@@ -849,10 +993,14 @@ def render(payload: Mapping[str, Any]) -> str:
         f"- Pair/currency universe: **{payload['priced_pair_count']} / {payload['priced_currency_count']}**",
         f"- Scheduled event/policy currency rows: **{payload['scheduled_currency_event_rows']} / {payload['scheduled_policy_currency_rows']}**",
         f"- Derived policy-dependency rows: **{payload['derived_policy_dependency_rows']}**",
+        f"- Policy direct-ready / fallback-only / blocked rows: "
+        f"**{payload['policy_direct_release_ready_rows']} / "
+        f"{payload['policy_fallback_only_rows']} / "
+        f"{payload['policy_release_transport_blocked_rows']}**",
         f"- Quote/technical snapshots fresh: **{payload['quote_snapshot_fresh']} / {payload['technical_snapshot_fresh']}**",
         "",
-        "| Scheduled UTC | Currency | Event | Policy | Dependency | Precision | Pair legs | Technical legs | H1 risk prior | Consensus | Rates | Readiness |",
-        "|---|---|---|---|---|---|---:|---:|---|---|---|---|",
+        "| Scheduled UTC | Currency | Event | Policy | Dependency | Precision | Pair legs | Technical legs | H1 risk prior | Consensus | Rates | Source transport | Market readiness |",
+        "|---|---|---|---|---|---|---:|---:|---|---|---|---|---|",
     ]
     for row in payload["events"]:
         lines.append(
@@ -863,6 +1011,7 @@ def render(payload: Mapping[str, Any]) -> str:
             f"{((row.get('movement_risk_priors') or {}).get('3600') or {}).get('event_minus_control_mean_absolute_bps')} | "
             f"{'yes' if row['causal_consensus_available'] else 'no'} | "
             f"{'yes' if row['daily_rate_context_available'] else 'no'} | "
+            f"{row['policy_release_transport_state']} | "
             f"{row['readiness_state']} |"
         )
     lines.extend(
@@ -889,6 +1038,8 @@ def run(
     rbnz_schedule_history_path: Path = RBNZ_SCHEDULE_HISTORY,
     context_articles_path: Path = CONTEXT_ARTICLES,
     reference_database_path: Path = REFERENCE_DATABASE,
+    official_sources_path: Path = OFFICIAL_CENTRAL_BANK_SOURCES,
+    source_coverage_path: Path = SOURCE_COVERAGE,
 ) -> dict[str, Any]:
     observed = (observed or dt.datetime.now(UTC)).astimezone(UTC)
     events = read_json(events_path, [])
@@ -911,6 +1062,8 @@ def run(
         read_json(dependencies_path, {}),
         read_json(historical_path, {}),
         [read_json(rbnz_schedule_history_path, {})],
+        read_json(official_sources_path, {}),
+        read_json(source_coverage_path, {}),
     )
     atomic_json(output_path, payload)
     atomic_text(report_path, render(payload))
@@ -935,6 +1088,14 @@ def main() -> int:
     parser.add_argument(
         "--reference-database", type=Path, default=REFERENCE_DATABASE
     )
+    parser.add_argument(
+        "--official-central-bank-sources",
+        type=Path,
+        default=OFFICIAL_CENTRAL_BANK_SOURCES,
+    )
+    parser.add_argument(
+        "--source-coverage", type=Path, default=SOURCE_COVERAGE
+    )
     parser.add_argument("--interval-sec", type=float, default=0.0)
     parser.add_argument("--duration-sec", type=float, default=0.0)
     args = parser.parse_args()
@@ -953,6 +1114,8 @@ def main() -> int:
             rbnz_schedule_history_path=args.rbnz_schedule_history,
             context_articles_path=args.context_articles,
             reference_database_path=args.reference_database,
+            official_sources_path=args.official_central_bank_sources,
+            source_coverage_path=args.source_coverage,
         )
         if args.interval_sec <= 0 or (
             args.duration_sec > 0
@@ -963,6 +1126,8 @@ def main() -> int:
     print(json.dumps({key: payload[key] for key in (
         "generated_utc", "priced_pair_count", "priced_currency_count",
         "scheduled_currency_event_rows", "scheduled_policy_currency_rows",
+        "policy_direct_release_ready_rows", "policy_fallback_only_rows",
+        "policy_release_transport_blocked_rows",
         "quote_snapshot_fresh", "technical_snapshot_fresh",
     )}, indent=2))
     return 0

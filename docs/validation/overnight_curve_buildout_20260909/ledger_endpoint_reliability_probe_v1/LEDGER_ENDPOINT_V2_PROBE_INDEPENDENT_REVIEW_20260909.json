@@ -1,0 +1,42 @@
+{
+  "bound_evidence": [
+    {
+      "bytes": 25094,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ledger_endpoint_reliability_probe_v1\\probe_ledger_endpoint_v2.py",
+      "sha256": "6f0a509a43df10240be3352aee09bf1083c471dfa7b5d36a2b562b650eebe360"
+    },
+    {
+      "bytes": 7478,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ledger_endpoint_reliability_probe_v1\\test_probe_ledger_endpoint_v2.py",
+      "sha256": "42ce166539ddc0ee33d8019deaf5f1994d104ae35d6698757910aab5ff3c5dd1"
+    },
+    {
+      "bytes": 4669,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ledger_endpoint_reliability_probe_v1\\ledger_probe_v2_initial_tests.xml",
+      "sha256": "8d38aea6b92f2484aa286ed54b6d973ea086ea705916d506a7b2d1ff5549f961"
+    }
+  ],
+  "findings": [],
+  "limits": [
+    "No independent tests, HTTP request, source edit, database read or candidate execution by reviewer.",
+    "Probe observes source-attested API/ledger reports; it does not repeat independent ledger verification or establish predictive/trading accuracy.",
+    "Request timing limits are synchronous socket acceptance bounds, not universal OS cancellation guarantees."
+  ],
+  "owner_tests": {
+    "independently_rerun": false,
+    "passed": 32,
+    "scope": "12 unchanged transport cases plus20 new V2 projection/scheduling cases"
+  },
+  "review_scope": [
+    "Preserves existing bounded local-only Reader, decoding, raw-byte retention, actual clocks and77 endpoint+2HTML request cadence; no broker/runtime writes.",
+    "V2 schema and exact current source/config pins are checked; report, summary and consumer provenance remains independently retained.",
+    "Scheduling projection checks bounded two-attempt identity, first-pass order, chronology, deadline caps, transparent clock traces and transient classification before counting recovery.",
+    "First failures are retained separately from final outcomes; recovered empty ledgers are distinct from recovered forecasts; unique original report hashes prevent repeated cache responses inflating denominators.",
+    "Public output retains bounded reasons/counts/clocks; complete responses remain private.",
+    "Later V2 observation window is explicitly uncontrolled versus V1; two already-open refreshed browser tabs can add concurrent polling load."
+  ],
+  "reviewed_epoch": 1788950659.1887155,
+  "runtime_actions": false,
+  "schema_version": "ledger_endpoint_v2_probe_independent_review_v1_20260909",
+  "status": "passed_bounded_source_review"
+}

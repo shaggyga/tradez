@@ -33,7 +33,9 @@ LIVE_CASE_DIRECTORY = REPORTS / "live_case_audits"
 MAJOR_MOVE_CASE_DIRECTORY = REPORTS / "major_move_case_audits"
 UTC = dt.timezone.utc
 NEW_YORK = ZoneInfo("America/New_York")
-CONTRACT_ID = "week_to_date_project_event_move_recap_v3_bounded_snapshot_20260827"
+CONTRACT_ID = (
+    "week_to_date_project_event_move_recap_v5_cutoff_safe_snapshot_clocks_20260904"
+)
 DEFAULT_MATERIAL_THRESHOLD_BPS = 15.0
 PRACTICE_ACCOUNT_ID = "101-001-37981792-007"
 EXPECTED_CURRENCY_COUNT = 21
@@ -116,7 +118,14 @@ def file_record(path: Path, payload: bytes | None = None) -> dict[str, Any]:
 
 
 def payload_clock(payload: Mapping[str, Any]) -> dt.datetime | None:
-    for key in ("as_of_utc", "time", "generated_utc", "recorded_utc"):
+    # A mutable snapshot can describe an old market/source ``as_of_utc`` while
+    # having been regenerated after the requested research cutoff.  The latter
+    # is the relevant knowledge clock: accepting the stale as-of timestamp first
+    # can admit a post-cutoff replacement (and, during collector startup, a
+    # transient partial-coverage state) into a frozen report.  Prefer the
+    # publication clocks and use ``as_of_utc`` only for legacy payloads that do
+    # not expose when the snapshot itself was written.
+    for key in ("generated_utc", "recorded_utc", "time", "as_of_utc"):
         value = payload.get(key)
         if not value:
             continue

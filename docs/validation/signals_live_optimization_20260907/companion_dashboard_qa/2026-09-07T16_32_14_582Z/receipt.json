@@ -1,0 +1,307 @@
+{
+  "schema_version": "companion_dashboard_live_qa_v1",
+  "started_utc": "2026-09-07T16:32:14.583Z",
+  "checks": [
+    {
+      "name": "local_http_200",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "selected_companion",
+      "passed": true,
+      "detail": "eurusd_v1"
+    },
+    {
+      "name": "two_live_published_models",
+      "passed": false,
+      "detail": "No retained publication yet"
+    },
+    {
+      "name": "eurusd_first_when_published",
+      "passed": null,
+      "detail": "USD / THB\t32.87150\n4.10p spread · 12s\n\t-0.078%\n-2.55p · 15m\n\tDown\n15m momentum -7.75 bps\n\tNo directional news\n22 articles screened · 11s old\n\tNo active model forecast\tFlat"
+    },
+    {
+      "name": "matching_window_5m",
+      "passed": true,
+      "detail": {
+        "window": "5m",
+        "selected": "5m",
+        "header": "Technical bias (5m)",
+        "pair": "USD / THB",
+        "observed": "-0.056%\n-1.85p · 5m",
+        "technical": "Down\n5m momentum -5.62 bps"
+      }
+    },
+    {
+      "name": "matching_window_15m",
+      "passed": true,
+      "detail": {
+        "window": "15m",
+        "selected": "15m",
+        "header": "Technical bias (15m)",
+        "pair": "USD / THB",
+        "observed": "-0.078%\n-2.55p · 15m",
+        "technical": "Down\n15m momentum -7.75 bps"
+      }
+    },
+    {
+      "name": "matching_window_60m",
+      "passed": true,
+      "detail": {
+        "window": "60m",
+        "selected": "60m",
+        "header": "Technical bias (60m)",
+        "pair": "USD / MXN",
+        "observed": "+0.063%\n+105.95p · 60m",
+        "technical": "Up\n60m momentum +6.26 bps"
+      }
+    },
+    {
+      "name": "fresh_zero_direction_news_reports_screening",
+      "passed": true,
+      "detail": "No directional news\n22 articles screened · 13s old"
+    },
+    {
+      "name": "stale_news_is_unavailable",
+      "passed": true,
+      "detail": "Unavailable\nNews snapshot not current"
+    },
+    {
+      "name": "current_empty_positions_are_flat",
+      "passed": true,
+      "detail": {
+        "account_text": "Positions\nPractice account -007 · 1s since broker verification\nACCOUNT VALUE$41.60\nOPEN P/L$0.00\nPENDING ORDERS0\nNo open positions.\nAccount details",
+        "table_cells": [
+          "Flat",
+          "Flat",
+          "Flat",
+          "Flat",
+          "Flat",
+          "Flat",
+          "Flat",
+          "Flat",
+          "Flat",
+          "Flat",
+          "Flat",
+          "Flat"
+        ]
+      }
+    },
+    {
+      "name": "mobile_table_scroll_not_page_overflow",
+      "passed": true,
+      "detail": {
+        "width": 390,
+        "scrollWidth": 390,
+        "bodyScrollWidth": 390,
+        "table": {
+          "clientWidth": 364,
+          "scrollWidth": 900,
+          "overflowX": "auto"
+        }
+      }
+    },
+    {
+      "name": "no_javascript_page_errors",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "browser_requested_only_local_get",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "page_errors": [],
+  "blocked_requests": [],
+  "requests": [
+    {
+      "url": "http://127.0.0.1:8765/",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8765/api/main",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8765/api/research",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8765/api/pair-family-matrix?sort=lower_confidence_net_pips&direction=desc&offset=0&limit=100",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8765/api/crypto",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8765/api/main",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8765/api/main",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8765/api/main",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8765/api/crypto",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8765/api/main",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8765/api/main",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8765/api/main",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8765/api/crypto",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8765/api/main",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8765/api/main",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8765/api/main",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8765/api/crypto",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8765/api/main",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8765/api/main",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8765/api/crypto",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8765/api/main",
+      "method": "GET"
+    }
+  ],
+  "production_mutations": false,
+  "http_status": 200,
+  "loaded": {
+    "observed_utc": "2026-09-07T16:32:36.620Z",
+    "selected_study": "eurusd_v1",
+    "forecasting": {
+      "state": "published",
+      "label": "Forecast sets published",
+      "blocked": false,
+      "latest_attempt_epoch": 1788798601.482517,
+      "latest_attempt_status": "published",
+      "latest_rejection_reason": null,
+      "last_rejection_reason": null,
+      "last_rejection_epoch": null,
+      "observation_current": true,
+      "scope": "last_retained_attempt_not_current_feed_health"
+    },
+    "latest_publication": null,
+    "collector_status": "running",
+    "news": {
+      "fresh": true,
+      "status": "current",
+      "generated_utc": "2026-09-07T16:32:23.994909+00:00",
+      "active_article_count": 22,
+      "active_scored_pair_count": 0
+    },
+    "account": {
+      "positions_current": true,
+      "positions": [],
+      "verified_at_utc": "2026-09-07T16:32:33.849859+00:00"
+    },
+    "first_row": "USD / THB\t32.87150\n4.10p spread · 12s\n\t-0.078%\n-2.55p · 15m\n\tDown\n15m momentum -7.75 bps\n\tNo directional news\n22 articles screened · 11s old\n\tNo active model forecast\tFlat"
+  },
+  "windows": [
+    {
+      "window": "5m",
+      "selected": "5m",
+      "header": "Technical bias (5m)",
+      "pair": "USD / THB",
+      "observed": "-0.056%\n-1.85p · 5m",
+      "technical": "Down\n5m momentum -5.62 bps"
+    },
+    {
+      "window": "15m",
+      "selected": "15m",
+      "header": "Technical bias (15m)",
+      "pair": "USD / THB",
+      "observed": "-0.078%\n-2.55p · 15m",
+      "technical": "Down\n15m momentum -7.75 bps"
+    },
+    {
+      "window": "60m",
+      "selected": "60m",
+      "header": "Technical bias (60m)",
+      "pair": "USD / MXN",
+      "observed": "+0.063%\n+105.95p · 60m",
+      "technical": "Up\n60m momentum +6.26 bps"
+    }
+  ],
+  "news_render": {
+    "current": "No directional news\n22 articles screened · 13s old",
+    "simulated_stale_news_only": "Unavailable\nNews snapshot not current",
+    "method": "Same current live data with only news timestamp made 301 seconds old in browser memory; original restored immediately."
+  },
+  "positions": {
+    "account_text": "Positions\nPractice account -007 · 1s since broker verification\nACCOUNT VALUE$41.60\nOPEN P/L$0.00\nPENDING ORDERS0\nNo open positions.\nAccount details",
+    "table_cells": [
+      "Flat",
+      "Flat",
+      "Flat",
+      "Flat",
+      "Flat",
+      "Flat",
+      "Flat",
+      "Flat",
+      "Flat",
+      "Flat",
+      "Flat",
+      "Flat"
+    ]
+  },
+  "desktop": {
+    "width": 1440,
+    "scrollWidth": 1440,
+    "bodyScrollWidth": 1440,
+    "first_row": "USD / THB\t32.87150\n4.10p spread · 14s\n\t-0.056%\n-1.85p · 5m\n\tDown\n5m momentum -5.62 bps\n\tNo directional news\n22 articles screened · 13s old\n\tNo active model forecast\tFlat"
+  },
+  "mobile": {
+    "width": 390,
+    "scrollWidth": 390,
+    "bodyScrollWidth": 390,
+    "table": {
+      "clientWidth": 364,
+      "scrollWidth": 900,
+      "overflowX": "auto"
+    }
+  },
+  "finished_utc": "2026-09-07T16:32:37.234Z",
+  "artifacts": {
+    "desktop_5m.png": "5ffd5aa6d3c5b76926001e738bbecc33155e9856dd11ae1eb64b30f4b5a1b421",
+    "mobile_390.png": "b502a673d464913790235bfa55a269d57cd5948a9b830df99fa74310f83db58a"
+  }
+}

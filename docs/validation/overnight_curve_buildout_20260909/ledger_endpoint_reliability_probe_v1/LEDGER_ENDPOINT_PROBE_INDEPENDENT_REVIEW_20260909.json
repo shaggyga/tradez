@@ -1,0 +1,34 @@
+{
+  "bindings": [
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ledger_endpoint_reliability_probe_v1\\probe_ledger_endpoint_v1.py",
+      "sha256": "6be533ec2bd60bcc00ee7ac7da831e46461eb6dd7dd2cec7a6fc5a748b0b77e9"
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ledger_endpoint_reliability_probe_v1\\test_probe_ledger_endpoint_v1.py",
+      "sha256": "2fe5d2f74b6a4f13eedc7f25e7101523dba8b59248412714f2dad4880041d535"
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\overnight_curve_buildout_20260909\\ledger_endpoint_reliability_probe_v1\\ledger_probe_transport_final_tests.xml",
+      "sha256": "367dd0637fcc00847e2edbe1728ed3d5184af0aefc46694cde26abc83b78138d"
+    }
+  ],
+  "checked": [
+    "Only hardcoded127.0.0.1:8765 root and ledger-observation GET endpoints; no credentials/account/broker path.",
+    "77ledger+2HTML requests plus one retained earlier request totals at most80. Byte and accepted request-duration bounds remain finite.",
+    "Source/spec and servedHTML exact hashes before/after; nested API/report/summary seals, source/consumer/read clock distinctions and original target checks.",
+    "Repeated cached report failures grouped by original reportSHA rather than counted as independent observations.",
+    "Exact responses private; curated projection limited to validated identities/clocks/counts/reasons."
+  ],
+  "remaining_blockers": [],
+  "review_mode": "Read-only source inspection; no HTTP request, runtime read, test rerun or source edit by reviewer.",
+  "reviewed_epoch": 1788947760.0605013,
+  "schema_version": "ledger_endpoint_probe_independent_review_v1_20260909",
+  "scope_limits": [
+    "Probe validates and describes original API reports, not a new full ledger/economic replay.",
+    "Socket timeout is not a hard operating-system cancellation guarantee; disclosed.",
+    "No contemporaneous CPU/lock causality can be established by HTTP response timing.",
+    "Running actual probe and its eventual result are separate owner evidence."
+  ],
+  "status": "passed"
+}

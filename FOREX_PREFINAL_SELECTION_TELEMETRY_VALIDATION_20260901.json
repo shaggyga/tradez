@@ -1,0 +1,66 @@
+{
+  "schema_version": "forex_prefinal_selection_telemetry_validation_v1",
+  "generated_utc": "2026-09-01T09:50:00Z",
+  "contract_id": "signal_gate_pre_final_execution_gates_v1_20260901",
+  "validation_scope": "telemetry_only_no_execution_behavior_change",
+  "result": "pass",
+  "live_observation": {
+    "snapshot_updated_at": "2026-09-01T05:49:40.760236-04:00",
+    "executor_updated_at": "2026-09-01T05:49:36.958644-04:00",
+    "signal_id": "exec_signal_65551c68f6a64aac7b200df370c3ce665e4c6a5b",
+    "instrument": "AUD_USD",
+    "direction": "buy",
+    "family": "donchian_breakout",
+    "lane_id": "donchian_breakout.fast",
+    "preferred_horizon_sec": 43200,
+    "signal_confidence": 0.589158,
+    "snapshot_qualified_signal_count": 1,
+    "snapshot_nonconflicting_qualified_signal_count": 0,
+    "selected_stage": "signal_gate_pre_final_execution_gates",
+    "selected_final_gate_status": "blocked_direction_conflict",
+    "selected_routable_after_direction_conflict_gate": false,
+    "executor_direction_conflict": true,
+    "executor_execution_permitted_after_conflict_gate": false,
+    "executor_final_block_reason": "direction_conflict_shadow_only",
+    "executor_skip_reason": "no_nonconflicting_signal_capacity",
+    "entry_authorized": false,
+    "fills": 0,
+    "real_money_routing": false
+  },
+  "test_runs": [
+    {
+      "scope": "complete_strategy_executor_suite",
+      "passed": 117,
+      "subtests_passed": 220,
+      "failed": 0
+    },
+    {
+      "scope": "targeted_selection_telemetry_plus_dashboard",
+      "passed": 59,
+      "failed": 0
+    },
+    {
+      "scope": "issue_register_and_vault_sync",
+      "passed": 17,
+      "failed": 0
+    }
+  ],
+  "implementation_hashes": {
+    "oanda_practice_shadow_strategy_lab.py": "e8aa53cceff6a12f29087aad2566ad104fe2ec3b77511891b2816140f457df91",
+    "oanda_practice_live_dashboard.py": "cc755cec49ce1be638b1b864a3a43b5213f672381a6166e3e1f02690676d0177",
+    "monitor_shadow_strategy_lab.ps1": "4755470ddb5d8e1a98506aa4a38ab6693c752c07c9391eb7e9a8908576708cfb",
+    "test_oanda_practice_shadow_strategy_lab.py": "a3cf04b4390addf549a0a56d0a1ca94c8cf2ffed4df676cced66ce5fc258a35f"
+  },
+  "invariants": {
+    "portfolio_logic_changed": false,
+    "reentry_logic_changed": false,
+    "cost_gate_changed": false,
+    "timing_gate_changed": false,
+    "lifecycle_gate_changed": false,
+    "authorization_gate_changed": false,
+    "order_submission_logic_changed": false,
+    "manual_order_submitted": false,
+    "manual_close_submitted": false,
+    "real_money_enabled": false
+  }
+}

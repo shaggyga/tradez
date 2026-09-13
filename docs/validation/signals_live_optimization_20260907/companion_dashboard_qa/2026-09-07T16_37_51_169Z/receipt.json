@@ -1,0 +1,286 @@
+{
+  "schema_version": "companion_dashboard_live_qa_v1",
+  "started_utc": "2026-09-07T16:37:51.170Z",
+  "checks": [
+    {
+      "name": "local_http_200",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "selected_companion",
+      "passed": true,
+      "detail": "eurusd_v1"
+    },
+    {
+      "name": "two_live_published_models",
+      "passed": true,
+      "detail": "in_progress"
+    },
+    {
+      "name": "eurusd_first_when_published",
+      "passed": true,
+      "detail": "EUR / USD\t1.16281\n1.50p spread · 7s\n\t+0.012%\n+1.35p · 15m\n\tUp\n15m momentum +1.16 bps\n\tNo directional news\n23 articles screened · 30s old\n\t\nState space: Buy\nExpected +0.28 bps · p(up) 54.9%\nRidge: Buy\nExpected +0.83 bps · p(up) 58.9%\n2 model predictions · H1 · in progress\n\tFlat"
+    },
+    {
+      "name": "visible_two_directions_expected_probability",
+      "passed": true,
+      "detail": "EUR / USD\t1.16281\n1.50p spread · 7s\n\t+0.012%\n+1.35p · 15m\n\tUp\n15m momentum +1.16 bps\n\tNo directional news\n23 articles screened · 30s old\n\t\nState space: Buy\nExpected +0.28 bps · p(up) 54.9%\nRidge: Buy\nExpected +0.83 bps · p(up) 58.9%\n2 model predictions · H1 · in progress\n\tFlat"
+    },
+    {
+      "name": "h1_original_clocks_and_unscored_live_move",
+      "passed": true,
+      "detail": "EUR / USD\t1.16281\n1.50p spread · 7s\n\t+0.012%\n+1.35p · 15m\n\tUp\n15m momentum +1.16 bps\n\tNo directional news\n23 articles screened · 30s old\n\t\nState space: Buy\nExpected +0.28 bps · p(up) 54.9%\nRidge: Buy\nExpected +0.83 bps · p(up) 58.9%\n2 model predictions · H1 · in progress\nprobabilistic_state_space: buy, expected +0.28 bps; p(up) 54.9%\nIssued 12:30 PM EDT\nridge_return_repaired: buy, expected +0.83 bps; p(up) 58.9%\nIssued 12:30 PM EDT\nReference 12:29 PM EDT at 1.16279 · target 01:29 PM EDT\nLive move since that reference: +0.22 bps · in progress, unscored\n\tFlat"
+    },
+    {
+      "name": "matching_window_5m",
+      "passed": true,
+      "detail": {
+        "window": "5m",
+        "selected": "5m",
+        "header": "Technical bias (5m)",
+        "pair": "EUR / USD",
+        "observed": "+0.005%\n+0.55p · 5m",
+        "technical": "Up\n5m momentum +0.47 bps"
+      }
+    },
+    {
+      "name": "matching_window_15m",
+      "passed": true,
+      "detail": {
+        "window": "15m",
+        "selected": "15m",
+        "header": "Technical bias (15m)",
+        "pair": "EUR / USD",
+        "observed": "+0.012%\n+1.35p · 15m",
+        "technical": "Up\n15m momentum +1.16 bps"
+      }
+    },
+    {
+      "name": "matching_window_60m",
+      "passed": true,
+      "detail": {
+        "window": "60m",
+        "selected": "60m",
+        "header": "Technical bias (60m)",
+        "pair": "EUR / USD",
+        "observed": "-0.012%\n-1.45p · 60m",
+        "technical": "Down\n60m momentum -1.25 bps"
+      }
+    },
+    {
+      "name": "fresh_zero_direction_news_reports_screening",
+      "passed": true,
+      "detail": "No directional news\n23 articles screened · 31s old"
+    },
+    {
+      "name": "stale_news_is_unavailable",
+      "passed": true,
+      "detail": "Unavailable\nNews snapshot not current"
+    },
+    {
+      "name": "current_empty_positions_are_flat",
+      "passed": true,
+      "detail": {
+        "account_text": "Positions\nPractice account -007 · 6s since broker verification\nACCOUNT VALUE$41.60\nOPEN P/L$0.00\nPENDING ORDERS0\nNo open positions.\nAccount details",
+        "table_cells": [
+          "Flat",
+          "Flat",
+          "Flat",
+          "Flat",
+          "Flat",
+          "Flat",
+          "Flat",
+          "Flat",
+          "Flat",
+          "Flat",
+          "Flat",
+          "Flat"
+        ]
+      }
+    },
+    {
+      "name": "mobile_table_scroll_not_page_overflow",
+      "passed": true,
+      "detail": {
+        "width": 390,
+        "scrollWidth": 390,
+        "bodyScrollWidth": 390,
+        "table": {
+          "clientWidth": 364,
+          "scrollWidth": 900,
+          "overflowX": "auto"
+        }
+      }
+    },
+    {
+      "name": "no_javascript_page_errors",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "browser_requested_only_local_get",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "page_errors": [],
+  "blocked_requests": [],
+  "requests": [
+    {
+      "url": "http://127.0.0.1:8765/",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8765/api/main",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8765/api/research",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8765/api/pair-family-matrix?sort=lower_confidence_net_pips&direction=desc&offset=0&limit=100",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8765/api/crypto",
+      "method": "GET"
+    }
+  ],
+  "production_mutations": false,
+  "http_status": 200,
+  "loaded": {
+    "observed_utc": "2026-09-07T16:37:52.540Z",
+    "selected_study": "eurusd_v1",
+    "forecasting": {
+      "state": "published",
+      "label": "Forecast sets published",
+      "blocked": false,
+      "latest_attempt_epoch": 1788798601.482517,
+      "latest_attempt_status": "published",
+      "latest_rejection_reason": null,
+      "last_rejection_reason": null,
+      "last_rejection_epoch": null,
+      "observation_current": true,
+      "scope": "last_retained_attempt_not_current_feed_health"
+    },
+    "latest_publication": {
+      "decision_id": "c5c9d291ed8395972585439641fe66e21a2e2168f643909b871e5d952a71987a",
+      "publication_epoch": 1788798603.5640063,
+      "target_epoch": 1788802177.012127,
+      "status": "in_progress",
+      "instrument": "EUR_USD",
+      "horizon_sec": 3600,
+      "forecasts": [
+        {
+          "family": "probabilistic_state_space",
+          "instrument": "EUR_USD",
+          "side": 1,
+          "probability_up": 0.5494881590099185,
+          "reference_epoch": 1788798577.012127,
+          "reference_mid": "1.16279",
+          "issued_epoch": 1788798603.5380754,
+          "target_epoch": 1788802177.012127,
+          "predicted_return_bps": 0.2766311998408384
+        },
+        {
+          "family": "ridge_return_repaired",
+          "instrument": "EUR_USD",
+          "side": 1,
+          "probability_up": 0.5891316546516777,
+          "reference_epoch": 1788798577.012127,
+          "reference_mid": "1.16279",
+          "issued_epoch": 1788798603.5380754,
+          "target_epoch": 1788802177.012127,
+          "predicted_return_bps": 0.8302503645592194
+        }
+      ],
+      "comparison_scope": "original_reference_to_current_price_not_scored_accuracy"
+    },
+    "collector_status": "running",
+    "news": {
+      "fresh": true,
+      "status": "current",
+      "generated_utc": "2026-09-07T16:37:22.278636+00:00",
+      "active_article_count": 23,
+      "active_scored_pair_count": 0
+    },
+    "account": {
+      "positions_current": true,
+      "positions": [],
+      "verified_at_utc": "2026-09-07T16:37:45.859068+00:00"
+    },
+    "first_row": "EUR / USD\t1.16281\n1.50p spread · 7s\n\t+0.012%\n+1.35p · 15m\n\tUp\n15m momentum +1.16 bps\n\tNo directional news\n23 articles screened · 30s old\n\t\nState space: Buy\nExpected +0.28 bps · p(up) 54.9%\nRidge: Buy\nExpected +0.83 bps · p(up) 58.9%\n2 model predictions · H1 · in progress\n\tFlat",
+    "eurusd_row": "EUR / USD\t1.16281\n1.50p spread · 7s\n\t+0.012%\n+1.35p · 15m\n\tUp\n15m momentum +1.16 bps\n\tNo directional news\n23 articles screened · 30s old\n\t\nState space: Buy\nExpected +0.28 bps · p(up) 54.9%\nRidge: Buy\nExpected +0.83 bps · p(up) 58.9%\n2 model predictions · H1 · in progress\n\tFlat"
+  },
+  "windows": [
+    {
+      "window": "5m",
+      "selected": "5m",
+      "header": "Technical bias (5m)",
+      "pair": "EUR / USD",
+      "observed": "+0.005%\n+0.55p · 5m",
+      "technical": "Up\n5m momentum +0.47 bps"
+    },
+    {
+      "window": "15m",
+      "selected": "15m",
+      "header": "Technical bias (15m)",
+      "pair": "EUR / USD",
+      "observed": "+0.012%\n+1.35p · 15m",
+      "technical": "Up\n15m momentum +1.16 bps"
+    },
+    {
+      "window": "60m",
+      "selected": "60m",
+      "header": "Technical bias (60m)",
+      "pair": "EUR / USD",
+      "observed": "-0.012%\n-1.45p · 60m",
+      "technical": "Down\n60m momentum -1.25 bps"
+    }
+  ],
+  "news_render": {
+    "current": "No directional news\n23 articles screened · 31s old",
+    "simulated_stale_news_only": "Unavailable\nNews snapshot not current",
+    "method": "Same current live data with only news timestamp made 301 seconds old in browser memory; original restored immediately."
+  },
+  "positions": {
+    "account_text": "Positions\nPractice account -007 · 6s since broker verification\nACCOUNT VALUE$41.60\nOPEN P/L$0.00\nPENDING ORDERS0\nNo open positions.\nAccount details",
+    "table_cells": [
+      "Flat",
+      "Flat",
+      "Flat",
+      "Flat",
+      "Flat",
+      "Flat",
+      "Flat",
+      "Flat",
+      "Flat",
+      "Flat",
+      "Flat",
+      "Flat"
+    ]
+  },
+  "desktop": {
+    "width": 1440,
+    "scrollWidth": 1440,
+    "bodyScrollWidth": 1440,
+    "first_row": "EUR / USD\t1.16281\n1.50p spread · 8s\n\t+0.005%\n+0.55p · 5m\n\tUp\n5m momentum +0.47 bps\n\tNo directional news\n23 articles screened · 31s old\n\t\nState space: Buy\nExpected +0.28 bps · p(up) 54.9%\nRidge: Buy\nExpected +0.83 bps · p(up) 58.9%\n2 model predictions · H1 · in progress\n\tFlat"
+  },
+  "mobile": {
+    "width": 390,
+    "scrollWidth": 390,
+    "bodyScrollWidth": 390,
+    "table": {
+      "clientWidth": 364,
+      "scrollWidth": 900,
+      "overflowX": "auto"
+    }
+  },
+  "finished_utc": "2026-09-07T16:37:53.223Z",
+  "artifacts": {
+    "desktop_5m.png": "1ca954c5605fe0df5163012ea145fe78916e04606c199e447748a374f1984008",
+    "mobile_390.png": "d34ce3e010ae8e7b434a438cbc2abb97974c9cbefb92c2d00b4b613c710e2c7b"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": "pair_dashboard_generation_lag_diagnostic_v1",
+  "source_probe_sha256": "0bf5ad030503d66141617209cfc8ed281da0dc019d935c0e96af722b8a1e6789",
+  "source_probe_status": "observed_failure_or_incomplete_coverage",
+  "failure_count": 38,
+  "events": [
+    {
+      "summary_generated_epoch": 1788802936.258706,
+      "summary_sha256": "6d026cf16fe2eff5ddc00b6557183708214aee9be8d4ee9a06f8e509aabacd21",
+      "first_observed_epoch": 1788802948.5373275,
+      "mismatched_heartbeat_epochs": [],
+      "matched_heartbeat_epochs": [
+        1788802944.2152483,
+        1788802949.4919505
+      ],
+      "first_observed_matching_heartbeat_delay_sec": 7.956542253494263,
+      "mismatch_observed_before_first_match": false
+    },
+    {
+      "summary_generated_epoch": 1788802951.3934536,
+      "summary_sha256": "06f9beff6eb3224e53ca130b59110ecc7e6f183e2c0fd7126e0bb3b3e4645b3b",
+      "first_observed_epoch": 1788802951.5541773,
+      "mismatched_heartbeat_epochs": [
+        1788802949.4919505
+      ],
+      "matched_heartbeat_epochs": [
+        1788802954.6171284,
+        1788802959.6590698,
+        1788802964.848689
+      ],
+      "first_observed_matching_heartbeat_delay_sec": 3.223674774169922,
+      "mismatch_observed_before_first_match": true
+    },
+    {
+      "summary_generated_epoch": 1788802966.560771,
+      "summary_sha256": "881d13d01a586974b9fe753f2dfce12f7ac98136d9c552ce8f93db5caf5f5825",
+      "first_observed_epoch": 1788802966.5837097,
+      "mismatched_heartbeat_epochs": [
+        1788802964.848689
+      ],
+      "matched_heartbeat_epochs": [
+        1788802970.0181491,
+        1788802975.2000546,
+        1788802980.3885937
+      ],
+      "first_observed_matching_heartbeat_delay_sec": 3.4573781490325928,
+      "mismatch_observed_before_first_match": true
+    },
+    {
+      "summary_generated_epoch": 1788802981.6328454,
+      "summary_sha256": "2d67bb954f082b38e80a5a60b77bf6f1ae9196cd7917a5edb9fa0cbb62bec8e7",
+      "first_observed_epoch": 1788802981.8906631,
+      "mismatched_heartbeat_epochs": [
+        1788802980.3885937
+      ],
+      "matched_heartbeat_epochs": [],
+      "first_observed_matching_heartbeat_delay_sec": null,
+      "mismatch_observed_before_first_match": false
+    }
+  ],
+  "inference": "The independently scheduled summary and heartbeat updates leave seconds-long windows where the new summary has no matching heartbeat yet. A 20ms retry allowance is shorter than observed completed matching-heartbeat delays.",
+  "can_place_orders": false,
+  "limitations": [
+    "A summary already present at observation start may have had an earlier matching heartbeat outside this window; its first observed match is not its initial publication match."
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "schema_version": "forex_factor_support_diagnostic_validation_v1",
+  "generated_utc": "2026-09-01T10:13:00.740627+00:00",
+  "contract_id": "move_first_factor_support_v1_positive_aligned_primary_and_unambiguous_20260901",
+  "validation_scope": "research_only_move_first_factor_deduplication_support_quality",
+  "result": "validated_live_fail_closed_diagnostic",
+  "discovery_measurement": {
+    "source_database": "data/oanda_training_manager/state/live_move_news_cases_v7r3.sqlite",
+    "causal_factor_case_count": 2603,
+    "no_move_aligned_positive_factor_count": 110,
+    "no_move_aligned_positive_factor_pct": 4.226,
+    "no_move_aligned_positive_factor_but_nonambiguous_count": 46,
+    "interpretation": "the upstream margin test could prefer the less-negative of two contradictory factor scores"
+  },
+  "live_support_qualified_report": {
+    "report_generated_utc": "2026-09-01T10:12:22.525602Z",
+    "source_case_count": 151,
+    "resolved_factor_episode_count": 92,
+    "source_case_status_counts": {
+      "supported": 117,
+      "ambiguous_primary_margin": 28,
+      "no_move_aligned_positive_factor": 6
+    },
+    "selected_episode_status_counts": {
+      "supported": 68,
+      "ambiguous_primary_margin": 22,
+      "no_move_aligned_positive_factor": 2
+    },
+    "support_qualified_selected_episode_count": 68,
+    "unsupported_selected_episode_count": 24
+  },
+  "live_integrity_observation": {
+    "generated_utc": "2026-09-01T10:09:25.928879+00:00",
+    "status": "ok",
+    "failure_count": 0,
+    "move_first_live_arm_alignment_current_causal_and_inert": true,
+    "supported_decision": "no_trade"
+  },
+  "invariants": {
+    "primary_must_be_best_scored_token": true,
+    "best_signed_move_aligned_score_must_exceed_zero": true,
+    "upstream_ambiguous_primary_is_not_support_qualified": true,
+    "existing_membership_bytes_preserved": true,
+    "legacy_arm_metrics_changed": false,
+    "promotion_eligible": false,
+    "execution_eligible": false,
+    "can_place_orders": false,
+    "real_money_routing_changed": false
+  },
+  "test_runs": [
+    {
+      "command": "python -m pytest -q test_oanda_move_first_live_arm_alignment_v1.py",
+      "passed": 13,
+      "failed": 0
+    },
+    {
+      "command": "python -m pytest -q trad/test_oanda_move_first_live_arm_alignment_v1.py trad/test_oanda_project_integrity_audit.py",
+      "passed": 52,
+      "failed": 0
+    },
+    {
+      "command": "python oanda_move_first_live_arm_alignment_v1.py --verify-only",
+      "verified": true,
+      "failures": []
+    }
+  ],
+  "implementation_hashes": {
+    "oanda_move_first_live_arm_alignment_v1.py": "b8b9f02637c0a57a6a34a69949d8147c44a895138b85348d3a1122aa68cdf4c9",
+    "test_oanda_move_first_live_arm_alignment_v1.py": "a5044b91d3fccd17959743a8ab5cdf3e02191bb396317ca7cfa58a5bec601dba",
+    "oanda_project_integrity_audit.py": "816f10b1fc7a7befa401e2f3f8da83e6d1b0d84f199a0e113125cf7b5f983e0c",
+    "test_oanda_project_integrity_audit.py": "304b730d36bcaa193f05383ba8f671953c8c23d26ef18c73b86d2028b946a9f3"
+  }
+}

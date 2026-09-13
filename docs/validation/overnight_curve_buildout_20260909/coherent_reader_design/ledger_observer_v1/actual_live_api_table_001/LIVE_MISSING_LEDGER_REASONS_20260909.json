@@ -1,0 +1,57 @@
+{
+  "active_forecast_pairs": 65,
+  "full_response_raw_sha256": "e318f341d65e85d7059bfce194803d9d794cbb6145d227ea11adef3a299e16bf",
+  "interpretation": "AUD_HKD was withheld because its read-only ledger verification reached the per-pair time budget. This is neither a proven expired original target nor a missing-input diagnosis. TRY_JPY and USD_TRY had no verified original publication. The observer does not measure current input readiness. The table withholds the budget row with generic Original ledger forecast withheld; the full endpoint preserves its exact reason.",
+  "live_source_changes": false,
+  "missing_rows": [
+    {
+      "current_input_readiness": {
+        "diagnostics": {},
+        "observed_epoch": null,
+        "reason": "current_inputs_not_observed",
+        "status": "unavailable"
+      },
+      "instrument": "AUD_HKD",
+      "last_attempt": null,
+      "latest_original_target_epoch": null,
+      "original_ledger_observed_epoch": 1788946912.7738101,
+      "reason": "observer_pair_time_budget",
+      "status": "unavailable"
+    },
+    {
+      "current_input_readiness": {
+        "diagnostics": {},
+        "observed_epoch": null,
+        "reason": "current_inputs_not_observed",
+        "status": "unavailable"
+      },
+      "instrument": "TRY_JPY",
+      "last_attempt": null,
+      "latest_original_target_epoch": null,
+      "original_ledger_observed_epoch": 1788946913.1218686,
+      "reason": "no_verified_published_forecast",
+      "status": "unavailable"
+    },
+    {
+      "current_input_readiness": {
+        "diagnostics": {},
+        "observed_epoch": null,
+        "reason": "current_inputs_not_observed",
+        "status": "unavailable"
+      },
+      "instrument": "USD_TRY",
+      "last_attempt": null,
+      "latest_original_target_epoch": null,
+      "original_ledger_observed_epoch": 1788946913.351765,
+      "reason": "no_verified_published_forecast",
+      "status": "unavailable"
+    }
+  ],
+  "new_HTTP_requests": 0,
+  "observer_report_sha256": "b822b22805651c54fe889d108c186d47daaeb2c384efe7a2bc67c4b527be4f7a",
+  "original_report_completed_epoch": 1788946913.4671738,
+  "response_observed_epoch": 1788946927.8675795,
+  "schema_version": "live_ledger_missing_rows_same_bytes_v1_20260909",
+  "status": "retained_observation",
+  "verified_ledger_pairs": 67
+}

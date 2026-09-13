@@ -1,0 +1,57 @@
+{
+  "schema_version": "independent_gap_input_numerical_review_v1",
+  "created_utc": "2026-09-07T16:13:24.864582+00:00",
+  "scope": "Independent static review and fixture-only capture/numerical verification. No runtime data, broker, credentials, worker lifecycle or original registered source changes.",
+  "source_sha256": {
+    "oanda_gap_aware_four_family_models.py": "0ed224abcd0e7b53a26921acc29af208f074701fe02ce5cf4e0f1ee6f84c7e09",
+    "oanda_causal_forecast_inputs_gap_v2.py": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd",
+    "test_oanda_causal_forecast_inputs_gap_v2.py": "2418c3de2f6a0c7a54176491cad8d8be58a4f49fc74fd16512ffaee27e7381de",
+    "test_oanda_gap_aware_four_family_models.py": "d482d2cf4813e81e596373cc1464e6ce6a64562a165583e996fa364f858b5874"
+  },
+  "tests": {
+    "total": 91,
+    "failures": 0,
+    "errors": 0,
+    "elapsed_seconds": 18.93,
+    "xml": "C:\\Users\\zmoor\\Documents\\forex\\warmup_repair_20260907\\input_review\\input_numerical_tests_final.xml",
+    "xml_sha256": "1548929b74b0dc6358d5b372e2f55b13424e1c4a801e9c58bd26f5cee0ab888e"
+  },
+  "resolved_findings": [
+    {
+      "finding": "Cached imported numerical module could replace code whose on-disk bytes were SHA-verified.",
+      "resolution": "Parent changed v2 loader to compile/exec exactly verified bytes into a fresh ModuleType; cached module substitution test passes."
+    },
+    {
+      "finding": "Resealed capture validation did not repeat fixed output/availability identity or monotonic per-pair observed clocks.",
+      "resolution": "Parent added fixed identity, inert flags, monotonic clocks and bounded source validation; adverse tests pass."
+    },
+    {
+      "finding": "Shared frozen datetime parser truncates sub-microsecond fractions, potentially accepting minute+1ns as an exact minute.",
+      "resolution": "New v2-only wrapper checks source byte hashes and all raw timestamp columns before calling frozen parser; every nonzero fraction is rejected, while zero nanoseconds and equivalent +02:00 minute offsets pass."
+    }
+  ],
+  "temporal_findings": [
+    "Every supervised training sample requires actual timestamps for the entire t-60m through t+60m interval, including exact H1 target. Missing feature, target or intermediate minutes exclude the affected row.",
+    "Training targets use price at t+3600 minus price at t, not next sixty available rows. Candle close/label maturity is start+60; allowed training target start is at most latest captured reference start, hence target maturity is at most reference+60.",
+    "Graph peer factors require every shared minute in the 61-close feature window; base/quote sign orientation is preserved. Only EURUSD target path must exist, since peers are features, not future labels.",
+    "State model resets at latest EURUSD gap and uses at most256 consecutive prices. The weekend jump is never treated as a one-minute return.",
+    "Input capture observes each stable byte snapshot now; source observations precede final capture, and computation completion cannot precede capture. Previously retained Friday labels are not claimed available historically.",
+    "Each derived input field is recomputed from retained byte evidence during validation; resealing altered derived fields does not bypass validation."
+  ],
+  "fixture_evidence": {
+    "captured_friday_rows_per_pair": 512,
+    "captured_current_sunday_closes_per_pair": 61,
+    "total_real_rows_per_pair": 573,
+    "all_four_families_returned": true,
+    "no_weekend_crossing_supervised_labels": true,
+    "independent_timestamp_selection_oracle_and_original_contiguous_numerical_comparison": "Included in passing joint suite."
+  },
+  "limitations": [
+    "This verifies implementation and causal timestamp handling, not predictive accuracy, economic edge, calibration or trading readiness.",
+    "At least61 consecutive shared current closes and unchanged family training minima are still required; missing recent bars may still cause explicit abstention.",
+    "Only last1024 real rows per pair are retained, so adequate older training segments are not guaranteed.",
+    "Graph factors preserve the legacy per-pair pip units; they are not normalized currency returns. This is documented research model behavior, not proof of useful cross-currency inference.",
+    "Pooled normalization uses currently observed volatility for historical fit rows. No future outcome is used, but this remains a modeling choice requiring prospective evaluation."
+  ],
+  "remaining_material_findings_within_review_scope": []
+}

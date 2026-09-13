@@ -19,6 +19,8 @@ from trad.oanda_independent_evidence_verifier import (
     _edge_report_freshness,
     _independently_confirmed,
     _integrity_evidence,
+    _lifecycle_database_integrity_snapshot,
+    _lifecycle_publication_freshness,
     _mark_guard_failed,
     _publish_owned_final,
     _proof_registry_replay,
@@ -27,6 +29,82 @@ from trad.oanda_independent_evidence_verifier import (
     verifier_guard_path,
     verify,
 )
+
+
+def _lifecycle_freshness_fixture(tmp_path: Path, generated_utc: str) -> tuple[Path, Path, Path]:
+    database = tmp_path / "lifecycle.sqlite"
+    connection = sqlite3.connect(database)
+    connection.executescript(
+        """
+        CREATE TABLE hypotheses(
+          hypothesis_id TEXT PRIMARY KEY,cohort_id TEXT,definition_sha256 TEXT
+        );
+        CREATE TABLE lifecycle_events(
+          hypothesis_id TEXT,next_state TEXT,observed_utc TEXT,
+          source_run_id TEXT,evidence_json TEXT
+        );
+        CREATE TABLE futility_retirements(hypothesis_id TEXT PRIMARY KEY);
+        CREATE TABLE reconsideration_decisions(decision_id TEXT PRIMARY KEY);
+        CREATE TRIGGER hypotheses_no_update BEFORE UPDATE ON hypotheses
+          BEGIN SELECT RAISE(ABORT,'immutable'); END;
+        CREATE TRIGGER hypotheses_no_delete BEFORE DELETE ON hypotheses
+          BEGIN SELECT RAISE(ABORT,'immutable'); END;
+        CREATE TRIGGER lifecycle_events_no_update BEFORE UPDATE ON lifecycle_events
+          BEGIN SELECT RAISE(ABORT,'immutable'); END;
+        CREATE TRIGGER lifecycle_events_no_delete BEFORE DELETE ON lifecycle_events
+          BEGIN SELECT RAISE(ABORT,'immutable'); END;
+        CREATE TRIGGER futility_retirements_no_update BEFORE UPDATE ON futility_retirements
+          BEGIN SELECT RAISE(ABORT,'immutable'); END;
+        CREATE TRIGGER futility_retirements_no_delete BEFORE DELETE ON futility_retirements
+          BEGIN SELECT RAISE(ABORT,'immutable'); END;
+        INSERT INTO hypotheses VALUES('h1','cohort','definition');
+        INSERT INTO lifecycle_events VALUES(
+          'h1','continue_collecting','2026-09-02T00:00:00+00:00','run','{}'
+        );
+        """
+    )
+    integrity = _lifecycle_database_integrity_snapshot(connection)
+    connection.commit()
+    connection.close()
+    state = tmp_path / "lifecycle.json"
+    state.write_text(
+        json.dumps(
+            {
+                "generated_utc": generated_utc,
+                "research_only": True,
+                "can_place_orders": False,
+                "can_promote": False,
+                "real_money_routing": False,
+                "lifecycle": {"hypothesis_count": 1, "states": integrity["current_states"]},
+                "integrity": integrity,
+            }
+        ),
+        encoding="utf-8",
+    )
+    worker = tmp_path / "worker.json"
+    return database, state, worker
+
+
+def _write_healthy_lifecycle_worker(path: Path, now: str) -> None:
+    path.write_text(
+        json.dumps(
+            {
+                "generated_utc": now,
+                "last_progress_utc": now,
+                "progress_age_sec": 1.0,
+                "status": "running",
+                "phase": "running_lifecycle",
+                "errors": 0,
+                "last_error": "",
+                "research_only": True,
+                "can_place_orders": False,
+                "can_submit_orders": False,
+                "can_promote": False,
+                "real_money_routing": False,
+            }
+        ),
+        encoding="utf-8",
+    )
 
 
 def _minimal_final_payload(ownership: dict, status: str) -> dict:
@@ -161,6 +239,113 @@ def test_publication_freshness_is_read_at_gate_time(tmp_path) -> None:
     assert 0.0 <= float(ages["edge_age_sec"]) < 30.0
 
 
+def test_old_lifecycle_publication_is_current_only_during_exact_safe_rebuild(
+    tmp_path,
+) -> None:
+    stale = (datetime.now(timezone.utc) - timedelta(hours=1)).isoformat()
+    now = datetime.now(timezone.utc).isoformat()
+    database, state, worker = _lifecycle_freshness_fixture(tmp_path, stale)
+    _write_healthy_lifecycle_worker(worker, now)
+
+    result = _lifecycle_publication_freshness(
+        lifecycle_state=state,
+        lifecycle_database=database,
+        worker_state=worker,
+        maximum_age_sec=1800.0,
+        maximum_snapshot_lag_sec=7200.0,
+    )
+    assert result["fresh"] is True
+    assert result["reason"] == "exact_fail_closed_lifecycle_snapshot_while_rebuilding"
+    assert result["handshake"]["database_integrity_match"] is True
+    assert result["handshake"]["zero_confirmed_candidates"] is True
+
+
+def test_old_lifecycle_publication_rejects_db_change_and_confirmation(tmp_path) -> None:
+    stale = (datetime.now(timezone.utc) - timedelta(hours=1)).isoformat()
+    now = datetime.now(timezone.utc).isoformat()
+    database, state, worker = _lifecycle_freshness_fixture(tmp_path, stale)
+    _write_healthy_lifecycle_worker(worker, now)
+    connection = sqlite3.connect(database)
+    connection.execute(
+        "INSERT INTO lifecycle_events VALUES(?,?,?,?,?)",
+        (
+            "h1",
+            "confirmed_candidate",
+            now,
+            "new-run",
+            json.dumps(
+                {
+                    "hierarchical_fdr_survivor": True,
+                    "untouched_confirmation_passed": True,
+                    "cost_stress_passed": True,
+                    "concentration_stress_passed": True,
+                    "time_uniform_lower_bound_pips": 1.0,
+                    "minimum_economic_edge_pips": 0.5,
+                }
+            ),
+        ),
+    )
+    connection.commit()
+    connection.close()
+
+    result = _lifecycle_publication_freshness(
+        lifecycle_state=state,
+        lifecycle_database=database,
+        worker_state=worker,
+        maximum_age_sec=1800.0,
+        maximum_snapshot_lag_sec=7200.0,
+    )
+    assert result["fresh"] is False
+    assert result["handshake"]["database_integrity_match"] is False
+    assert result["handshake"]["zero_confirmed_candidates"] is False
+
+
+def test_old_lifecycle_publication_rejects_stale_or_capable_worker(tmp_path) -> None:
+    stale = (datetime.now(timezone.utc) - timedelta(hours=1)).isoformat()
+    now = datetime.now(timezone.utc).isoformat()
+    database, state, worker = _lifecycle_freshness_fixture(tmp_path, stale)
+    worker.write_text("{}", encoding="utf-8")
+
+    result = _lifecycle_publication_freshness(
+        lifecycle_state=state,
+        lifecycle_database=database,
+        worker_state=worker,
+        maximum_age_sec=1800.0,
+        maximum_snapshot_lag_sec=7200.0,
+    )
+    assert result["fresh"] is False
+    assert result["handshake"]["worker_fresh"] is False
+
+    _write_healthy_lifecycle_worker(worker, now)
+    payload = json.loads(worker.read_text(encoding="utf-8"))
+    payload["can_place_orders"] = True
+    worker.write_text(json.dumps(payload), encoding="utf-8")
+    result = _lifecycle_publication_freshness(
+        lifecycle_state=state,
+        lifecycle_database=database,
+        worker_state=worker,
+        maximum_age_sec=1800.0,
+        maximum_snapshot_lag_sec=7200.0,
+    )
+    assert result["fresh"] is False
+    assert result["handshake"]["worker_fail_closed"] is False
+
+
+def test_fresh_exact_lifecycle_publication_does_not_need_worker_grace(tmp_path) -> None:
+    now = datetime.now(timezone.utc).isoformat()
+    database, state, worker = _lifecycle_freshness_fixture(tmp_path, now)
+    worker.write_text("{}", encoding="utf-8")
+    result = _lifecycle_publication_freshness(
+        lifecycle_state=state,
+        lifecycle_database=database,
+        worker_state=worker,
+        maximum_age_sec=1800.0,
+        maximum_snapshot_lag_sec=7200.0,
+    )
+    assert result["fresh"] is True
+    assert result["reason"] == "fresh_exact_lifecycle_publication"
+
+
 def test_old_edge_report_is_current_only_with_exact_unchanged_handshake(tmp_path) -> None:
     stale = (datetime.now(timezone.utc) - timedelta(hours=2)).isoformat()
     fresh = datetime.now(timezone.utc).isoformat()
@@ -173,6 +358,9 @@ def test_old_edge_report_is_current_only_with_exact_unchanged_handshake(tmp_path
             {
                 "generated_utc": stale,
                 "run_id": "edge_one",
+                "research_only": True,
+                "can_place_orders": False,
+                "can_promote": False,
                 "integrity": {"source_highwater_row_id": 42},
             }
         ),
@@ -233,6 +421,73 @@ def test_old_edge_report_is_current_only_with_exact_unchanged_handshake(tmp_path
     )
     assert result["fresh"] is False
     assert result["handshake"]["output_integrity_match"] is False
+
+
+def test_old_edge_report_is_bounded_safe_while_healthy_worker_rebuilds(tmp_path) -> None:
+    stale = (datetime.now(timezone.utc) - timedelta(hours=6)).isoformat()
+    fresh = datetime.now(timezone.utc).isoformat()
+    report = tmp_path / "edge.json"
+    markdown = tmp_path / "edge.md"
+    worker = tmp_path / "worker.json"
+    checkpoint = tmp_path / "checkpoint.json"
+    report.write_text(json.dumps({
+        "generated_utc": stale,
+        "run_id": "edge_snapshot",
+        "research_only": True,
+        "can_place_orders": False,
+        "can_promote": False,
+        "integrity": {"source_highwater_row_id": 100},
+    }), encoding="utf-8")
+    markdown.write_text("frozen report", encoding="utf-8")
+    worker.write_text(json.dumps({
+        "updated_at": fresh,
+        "status": "running",
+        "phase": "loading_rows",
+        "progress_age_sec": 2.0,
+        "errors": 0,
+        "last_error": "",
+        "details": {"input_fingerprint_sha256": "newer"},
+    }), encoding="utf-8")
+    checkpoint.write_text(json.dumps({
+        "fingerprint_sha256": "snapshot",
+        "last_completed_report": {
+            "run_id": "edge_snapshot", "source_highwater_row_id": 100,
+        },
+        "output_integrity": {
+            str(report.resolve()): {
+                "size_bytes": report.stat().st_size,
+                "sha256": hashlib.sha256(report.read_bytes()).hexdigest(),
+            },
+            str(markdown.resolve()): {
+                "size_bytes": markdown.stat().st_size,
+                "sha256": hashlib.sha256(markdown.read_bytes()).hexdigest(),
+            },
+        },
+    }), encoding="utf-8")
+    result = _edge_report_freshness(
+        edge_state=report,
+        worker_state=worker,
+        input_checkpoint=checkpoint,
+        maximum_age_sec=1800.0,
+        maximum_snapshot_lag_sec=86400.0,
+    )
+    assert result["fresh"] is True
+    assert result["reason"] == "verified_bounded_snapshot_while_catching_up"
+
+    # A heartbeat that is alive but no longer making calculation progress
+    # cannot keep an old snapshot accepted.
+    payload = json.loads(worker.read_text(encoding="utf-8"))
+    payload["progress_age_sec"] = 7200.0
+    worker.write_text(json.dumps(payload), encoding="utf-8")
+    result = _edge_report_freshness(
+        edge_state=report,
+        worker_state=worker,
+        input_checkpoint=checkpoint,
+        maximum_age_sec=1800.0,
+        maximum_snapshot_lag_sec=86400.0,
+    )
+    assert result["fresh"] is False
+    assert result["handshake"]["worker_progress_recent"] is False
 
 
 def test_proof_registry_replay_rejects_published_reactivation(tmp_path) -> None:

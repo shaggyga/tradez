@@ -1,0 +1,70 @@
+{
+  "schema": "dashboard_independent_review_v1_20260907",
+  "status": "passed",
+  "observed_utc": "2026-09-07T18:32:01.771753+00:00",
+  "reviewer": "pair_ledger_evaluation",
+  "reviewer_source_edits": false,
+  "reviewer_runtime_mutations": false,
+  "scope": [
+    "partial service health and explicit study identities",
+    "current forward news versus contextual news",
+    "missing versus neutral evidence",
+    "headline/source/error HTML escaping",
+    "server and client evidence/publication clock checks",
+    "supplemental scoring remains separate from registered scoring",
+    "prior pair-summary coherent-read/cache fix preservation"
+  ],
+  "findings_closed": [
+    {
+      "finding": "Global active clustered topic count was mislabeled as articles screened.",
+      "resolution": "Main view now shows active news topics across the feed once; pair rows retain their own related/context/directional counts."
+    },
+    {
+      "finding": "Legacy ranked news and top-signal context bypassed evidence-as_of or pair validation.",
+      "resolution": "All those attachments use validated current pair records; both legacy renderers also recheck evidence/publication clocks. Missing or stale context is unavailable."
+    },
+    {
+      "finding": "A contradictory LONG/SHORT record with missing/nonfinite/zero/wrong-sign score or inconsistent evidence quality could appear current.",
+      "resolution": "Finite bounded score/confidence, direction threshold rounding interval, directional contributor and evidence-quality checks now fail closed. A focused malformed LONG record probe returned unavailable."
+    },
+    {
+      "finding": "Supplemental hit rate could obscure negative mean performance in the tiny observed sample.",
+      "resolution": "Compact supplemental metrics include mean net bps beside scored denominators, direction hit rate and positive-after-spread rate."
+    }
+  ],
+  "remaining_blockers": [],
+  "pair_summary_race_fix_ast_identical_to_baseline": true,
+  "testing_scope": "Owner/root execute final source-bound regression suites. Reviewer avoided redundant full testing; independently read final functions and ran a malformed-record projection probe.",
+  "limitations": [
+    "This review is not a live runtime or UI-reload verification; root retains those separate checks.",
+    "News display changes preserve collector classification and execution authority.",
+    "Supplemental diagnostic capacity remains bounded and its current status does not repair registered scorecards."
+  ],
+  "source_bindings": [
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_practice_live_dashboard.py",
+      "sha256": "e032972735ec8f204ade000a389b824a515db34722fda1a237adbe7c8b3cd3ad",
+      "bytes": 459703
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_main_signal_dashboard.html",
+      "sha256": "8544b5c242deb7ee68c18e4d4e73488e498250de885e18aabce32f0897156c65",
+      "bytes": 144159
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_news_pair_dashboard.py",
+      "sha256": "f0ea51174418288e05eada7ee7b3c2560a42617cc058ea233843bf9d4c4fe60b",
+      "bytes": 19551
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_study_diagnostic_report_v1.py",
+      "sha256": "52f148bebeacd24565775ba593ef349556651dfa75b60691ef8ac9ed6ef6164e",
+      "bytes": 16288
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\pair_news_review_20260907\\before_source\\oanda_practice_live_dashboard.py",
+      "sha256": "6eb16350ba63a832bc184c3a238898707905b6f949feba8d1fcfe5bb850fe7cc",
+      "bytes": 450449
+    }
+  ]
+}

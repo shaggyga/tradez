@@ -1,0 +1,64 @@
+{
+  "schema_version": "forex_point_in_time_integrity_validation_v1",
+  "generated_utc": "2026-09-01T10:42:39.406623+00:00",
+  "validation_scope": "snapshot_consistent_official_release_and_continuous_narrative_integrity",
+  "result": "validated_live_false_races_removed_without_weakening_contracts",
+  "repairs": {
+    "official_release_fast_lane": {
+      "prior_failure_mode": "A current database row arriving after snapshot generation made an otherwise healthy snapshot fail its count check.",
+      "count_basis": "database_rows_first_seen_at_or_before_snapshot_generated_utc",
+      "snapshot_observations": 1939,
+      "snapshot_prospective_observations": 32,
+      "current_database_observations": 1939,
+      "current_database_prospective_observations": 32,
+      "database_integrity": "ok",
+      "live_ok": true
+    },
+    "continuous_narrative_meter": {
+      "prior_failure_mode": "An older meter snapshot was compared with a later seal boundary and later database seal, creating a transient one-bucket false lag.",
+      "count_basis": "database_seals_at_or_before_snapshot_generated_utc",
+      "snapshot_generated_utc": "2026-09-01T10:37:34.293007+00:00",
+      "sealed_clock_utc": "2026-09-01T10:35:00+00:00",
+      "expected_sealed_clock_utc": "2026-09-01T10:35:00+00:00",
+      "bucket_seal_count": 1322,
+      "premature_seal_count_as_of_cutoff": 0,
+      "database_integrity": "ok",
+      "live_ok": true
+    }
+  },
+  "authoritative_live_audit": {
+    "generated_utc": "2026-09-01T10:38:11.001067+00:00",
+    "status": "ok",
+    "failure_count": 0,
+    "false_check_count": 0,
+    "supported_decision": "no_trade"
+  },
+  "invariants": {
+    "snapshot_freshness_still_required": true,
+    "database_integrity_still_required": true,
+    "contract_and_coverage_checks_unchanged": true,
+    "premature_seals_still_rejected": true,
+    "incomplete_currency_seals_still_rejected": true,
+    "research_only_and_nonexecution_flags_still_required": true,
+    "evidence_rows_rewritten": false,
+    "execution_logic_changed": false,
+    "authorization_logic_changed": false,
+    "real_money_routing_changed": false
+  },
+  "test_runs": [
+    {
+      "command": "python -m pytest -q trad/test_oanda_project_integrity_audit.py",
+      "passed": 40,
+      "failed": 0
+    },
+    {
+      "command": "python -m pytest -q trad/test_oanda_project_integrity_audit.py trad/test_oanda_move_first_live_arm_alignment_v1.py",
+      "passed": 54,
+      "failed": 0
+    }
+  ],
+  "implementation_hashes": {
+    "oanda_project_integrity_audit.py": "a44265560f5ad939d11a96bbedfefc6967640fa1f25f0e5532156a6360d476c4",
+    "test_oanda_project_integrity_audit.py": "5d9e80044408129695b0d3e3a12ee8b202d828ce969f21eb9d4061a8c41dcf9e"
+  }
+}

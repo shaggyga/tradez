@@ -1,0 +1,36 @@
+from copy import deepcopy
+import pytest
+import recheck_old_joint_retirement_v1 as r
+
+
+def report():
+    return {'status':'no_retirement_obligation_blocker_observed','all_registered_sources_unchanged':True,'source_bindings':{'fixed':'binding'},
+        'ledgers':[{'study':study,'instrument':str(i),'status':'no_retirement_obligation_blocker_observed','issues':[],
+            'row_counts':{'forecasts':1,'outcomes':1},'original_target_max_epoch':10,
+            'immutable_obligation_records_sha256':'a'*64,'selected_quote_evidence_sha256':'b'*64} for study in ('v1','v2') for i in range(68)]}
+
+
+def test_equal_records_pass_without_claiming_global_atomicity():
+    result=r.compare(report(),report());assert result['unchanged_original_obligation_records_and_selected_quotes'] is True
+
+
+@pytest.mark.parametrize('field,value',[('row_counts',{'forecasts':2}),('original_target_max_epoch',11),
+    ('immutable_obligation_records_sha256','c'*64),('selected_quote_evidence_sha256','c'*64)])
+def test_changed_original_record_or_selected_quote_blocks(field,value):
+    before=report();after=deepcopy(before);after['ledgers'][0][field]=value
+    assert r.compare(before,after)['status']=='blocked_records_changed'
+
+
+def test_missing_or_duplicate_ledger_rejected():
+    value=report();value['ledgers'][-1]=deepcopy(value['ledgers'][0])
+    with pytest.raises(ValueError,match='duplicate_ledger'):r.inventory(value)
+
+
+def test_source_difference_rejected():
+    value=report();value['source_bindings']={'different':'binding'}
+    with pytest.raises(ValueError,match='registered_source_difference'):r.compare(report(),value)
+
+
+def test_previous_audit_without_selected_quote_digest_is_not_sufficient():
+    value=report();del value['ledgers'][0]['selected_quote_evidence_sha256']
+    with pytest.raises(ValueError,match='missing_identity'):r.inventory(value)
