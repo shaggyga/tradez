@@ -63,7 +63,8 @@ DEFAULT_REPORT = (
     / "latest_moves"
     / "LATEST.md"
 )
-SCHEMA_VERSION = "practice_007_latest_moves_v1"
+SCHEMA_VERSION = "practice_007_latest_moves_v2_elapsed_m1_20260913"
+MAX_CURRENT_QUOTE_AGE_SEC = 30
 DIRECTIONAL_MOVE_LOOKBACK_MINUTES = 24 * 60
 MOVER_CHART_LOOKBACK_MINUTES = 180
 MOVER_CHART_MAX_POINTS = 90
@@ -86,8 +87,8 @@ def parse_time(value: Any) -> dt.datetime | None:
         parsed = dt.datetime.fromisoformat(text.replace("Z", "+00:00"))
     except ValueError:
         return None
-    if parsed.tzinfo is None:
-        parsed = parsed.replace(tzinfo=UTC)
+    if parsed.tzinfo is None or parsed.utcoffset() is None:
+        return None
     return parsed.astimezone(UTC)
 
 
@@ -139,8 +140,8 @@ def quote_contract(
         prices[instrument] = {
             "bid": bid,
             "ask": ask,
-            "time": str(quote.get("time") or payload.get("generated_utc") or ""),
-            "tradeable": True,
+            "time": str(quote.get("time") or ""),
+            "tradeable": quote.get("tradeable"),
             "status": "live_quote_stream",
         }
     return instruments, pip_by_instrument, prices
@@ -217,7 +218,21 @@ def fetch_candles(
     return output, sorted(failures, key=lambda row: row["instrument"])
 
 
+def _sampled_bucket_observation(candle: Mapping[str, Any], start: dt.datetime) -> tuple[dt.datetime, dt.datetime] | None:
+    """Validate retained ticker event metadata; this is not arrival authentication."""
+    first, last = candle.get("source_first_event_epoch"), candle.get("source_last_event_epoch")
+    if any(type(v) not in (int, float) or not math.isfinite(v) for v in (first, last)):
+        return None
+    if not start.timestamp() <= first <= last < start.timestamp()+60:
+        return None
+    try:
+        return dt.datetime.fromtimestamp(first, tz=UTC), dt.datetime.fromtimestamp(last, tz=UTC)
+    except (OverflowError, OSError, ValueError):
+        return None
+
+
 def load_recent_history(path: Path) -> dict[str, list[dict[str, Any]]]:
+    """Keep sampled-minute identity and recorded quote clocks distinct from M1 candles."""
     try:
         payload = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, ValueError):
@@ -227,23 +242,34 @@ def load_recent_history(path: Path) -> dict[str, list[dict[str, Any]]]:
         if not isinstance(row, Mapping):
             continue
         instrument = str(row.get("instrument") or "")
-        epoch = int(safe_float(row.get("minute_epoch")))
-        bid = safe_float(row.get("close_bid"))
-        ask = safe_float(row.get("close_ask"))
-        if not instrument or epoch <= 0 or min(bid, ask) <= 0:
+        if not instrument:
             continue
-        grouped.setdefault(instrument, []).append(
-            {
-                "time": dt.datetime.fromtimestamp(epoch, tz=UTC).isoformat(),
-                "complete": True,
-                "bid": {"c": bid},
-                "ask": {"c": ask},
-                "mid": {"c": (bid + ask) / 2.0},
-            }
-        )
+        epoch = row.get("minute_epoch")
+        valid_minute = type(epoch) in (int, float) and math.isfinite(epoch) and epoch > 0 and epoch % 60 == 0
+        try:
+            start = dt.datetime.fromtimestamp(epoch, tz=UTC) if valid_minute else None
+        except (OverflowError, OSError, ValueError):
+            start = None
+        bid, ask = safe_float(row.get("close_bid")), safe_float(row.get("close_ask"))
+        item = {
+            "time": start.isoformat() if start else "", "complete": True,
+            "price_source": "sampled_quote_minute_bucket",
+            "completion_basis": "minute_bucket_ended_not_exhaustive_tick_coverage",
+            "source_minute_epoch": epoch,
+            "source_first_event_epoch": row.get("first_epoch"),
+            "source_last_event_epoch": row.get("last_epoch"),
+            "sample_clock_authentication": "retained_ticker_metadata_only",
+            "bid": {"c": bid}, "ask": {"c": ask}, "mid": {"c": (bid+ask)/2},
+        }
+        observed = _sampled_bucket_observation(item, start) if start else None
+        item["sample_clock_state"] = "recorded" if observed else "missing_or_invalid_sample_clock"
+        item["first_sample_utc"] = observed[0].isoformat() if observed else None
+        item["last_sample_utc"] = observed[1].isoformat() if observed else None
+        grouped.setdefault(instrument, []).append(item)
     for rows in grouped.values():
         rows.sort(key=lambda row: str(row.get("time") or ""))
     return grouped
+
 
 
 def cached_open_payloads(
@@ -281,22 +307,130 @@ def cached_open_payloads(
     return output
 
 
+def _completed_m1_midpoint(candle: Mapping[str, Any]) -> tuple[float | None, str | None]:
+    """One price-consistency rule for windows, charts, and directional inputs."""
+    mid_value = candle.get("mid")
+    mid = safe_float(mid_value.get("c"), -1) if isinstance(mid_value, Mapping) else -1
+    bid_value, ask_value = candle.get("bid"), candle.get("ask")
+    if bid_value is not None or ask_value is not None:
+        bid = safe_float(bid_value.get("c"), -1) if isinstance(bid_value, Mapping) else -1
+        ask = safe_float(ask_value.get("c"), -1) if isinstance(ask_value, Mapping) else -1
+        if bid <= 0 or ask < bid:
+            return None, "invalid_m1_bid_ask"
+        if mid <= 0:
+            mid = (bid+ask)/2
+        elif not math.isclose(mid, (bid+ask)/2, rel_tol=1e-9, abs_tol=1e-12):
+            return None, "inconsistent_m1_midpoint"
+    if mid <= 0:
+        return None, "invalid_m1_midpoint"
+    return mid, None
+
+
+def completed_m1_window(
+    candles: Sequence[Mapping[str, Any]],
+    *,
+    quote_time: dt.datetime,
+    minutes: int,
+) -> dict[str, Any]:
+    """Exact completed midpoint-close endpoints; no old-nearest substitution."""
+    result: dict[str, Any] = {"schema_version": "completed_m1_move_window_v2_20260913",
+        "state": "unavailable", "missing_reason": None, "minutes": minutes,
+        "price_basis": None, "reference_mid": None, "end_mid": None,
+        "historical_arrival_authenticated": False}
+    if type(minutes) is not int or not 1 <= minutes <= 1440:
+        result["missing_reason"] = "invalid_elapsed_window";return result
+    if not isinstance(quote_time, dt.datetime) or quote_time.tzinfo is None or quote_time.utcoffset() is None:
+        result["missing_reason"] = "timezone_aware_quote_required";return result
+    quote_time = quote_time.astimezone(UTC)
+    end = quote_time.replace(second=0, microsecond=0)
+    start = end-dt.timedelta(minutes=minutes)
+    result.update(reference_completed_utc=start.isoformat(), end_completed_utc=end.isoformat(),
+        reference_bar_open_utc=(start-dt.timedelta(minutes=1)).isoformat(),
+        end_bar_open_utc=(end-dt.timedelta(minutes=1)).isoformat(),
+        quote_time_utc=quote_time.isoformat(), end_age_at_quote_seconds=(quote_time-end).total_seconds(),
+        elapsed_seconds=minutes*60, requested_bucket_span_seconds=minutes*60,
+        endpoint_time_basis="completed_minute_bucket_boundary",
+        reference_bucket_end_utc=start.isoformat(), end_bucket_end_utc=end.isoformat())
+    points = {};invalid = None;incomplete = 0
+    for candle in candles:
+        stamp = parse_time(candle.get("time"))
+        if stamp is None:
+            invalid = "invalid_m1_timestamp";continue
+        completed = stamp+dt.timedelta(minutes=1)
+        if completed < start or completed > end:
+            continue
+        if stamp.second or stamp.microsecond:
+            invalid = "off_grid_m1_timestamp";continue
+        if candle.get("complete") is not True:
+            incomplete += 1;continue
+        if completed in points:
+            invalid = "duplicate_m1_endpoint";continue
+        mid, price_error = _completed_m1_midpoint(candle)
+        if price_error:
+            invalid = price_error;continue
+        source = candle.get("price_source", "completed_m1_candle")
+        if source == "sampled_quote_minute_bucket":
+            observations = _sampled_bucket_observation(candle, stamp)
+            if observations is None:
+                invalid = "missing_or_invalid_sample_observation_clock";continue
+            first_observed, price_observed = observations
+        elif source == "completed_m1_candle":
+            first_observed = price_observed = completed
+        else:
+            invalid = "unsupported_m1_price_source";continue
+        points[completed] = {"mid": mid, "source": source,
+            "first_observed": first_observed, "price_observed": price_observed}
+    result.update(observed_endpoint_count=len(points), expected_endpoint_count=minutes+1,
+        incomplete_bar_count=incomplete, interior_m1_complete=len(points)==minutes+1)
+    if invalid:
+        result["missing_reason"] = invalid;return result
+    if end not in points:
+        result["missing_reason"] = "exact_completed_end_missing";return result
+    if start not in points:
+        result["missing_reason"] = "exact_completed_reference_missing";return result
+    reference, endpoint = points[start], points[end]
+    sources = {point["source"] for point in points.values()}
+    if len(sources) != 1:
+        result["missing_reason"] = "mixed_m1_price_source_basis";return result
+    sampled = endpoint["source"] == "sampled_quote_minute_bucket"
+    result.update(state="available", reference_mid=reference["mid"], end_mid=endpoint["mid"],
+        price_basis="sampled_quote_minute_last_observation" if sampled else "completed_m1_midpoint_close",
+        price_source=endpoint["source"],
+        price_observation_time_basis="retained_ticker_event_metadata_not_arrival" if sampled else "candle_close_time_not_arrival",
+        reference_price_observed_utc=reference["price_observed"].isoformat(),
+        end_price_observed_utc=endpoint["price_observed"].isoformat(),
+        reference_first_sample_utc=reference["first_observed"].isoformat() if sampled else None,
+        end_first_sample_utc=endpoint["first_observed"].isoformat() if sampled else None,
+        actual_price_observation_span_seconds=(endpoint["price_observed"]-reference["price_observed"]).total_seconds(),
+        end_observation_age_at_quote_seconds=(quote_time-endpoint["price_observed"]).total_seconds())
+    return result
+
+
 def prior_mid(
     candles: Sequence[Mapping[str, Any]],
     *,
     quote_time: dt.datetime,
     minutes: int,
 ) -> float | None:
-    cutoff = quote_time - dt.timedelta(minutes=minutes)
-    selected: float | None = None
-    for candle in candles:
-        observed = parse_time(candle.get("time"))
-        if observed is None or observed > cutoff:
-            continue
-        close = safe_float((candle.get("mid") or {}).get("c"))
-        if close > 0:
-            selected = close
-    return selected
+    """Compatibility scalar; richer completed_m1_window retains both clocks."""
+    window = completed_m1_window(candles, quote_time=quote_time, minutes=minutes)
+    return window["reference_mid"] if window["state"] == "available" else None
+
+
+def current_quote_status(price: Mapping[str, Any], *, now: dt.datetime | None) -> dict[str, Any]:
+    quote_time = parse_time(price.get("time"))
+    reason = None
+    age = None
+    if quote_time is None:reason = "invalid_or_missing_quote_time"
+    elif not isinstance(now, dt.datetime) or now.tzinfo is None or now.utcoffset() is None:reason = "current_observation_time_not_supplied"
+    else:
+        age = (now.astimezone(UTC)-quote_time).total_seconds()
+        if age < 0:reason = "future_quote_time"
+        elif age > MAX_CURRENT_QUOTE_AGE_SEC:reason = "stale_quote"
+    if reason is None and price.get("tradeable") is not True:
+        reason = "nontradeable_quote" if price.get("tradeable") is False else "quote_tradeability_unknown"
+    return {"current_quote_eligible": reason is None, "quote_missing_reason": reason,
+        "quote_age_seconds": age, "maximum_quote_age_seconds": MAX_CURRENT_QUOTE_AGE_SEC}
 
 
 def normalized_chart_points(
@@ -541,66 +675,99 @@ def movement_row(
     market_open: dt.datetime,
     price: Mapping[str, Any],
     candle_payload: Mapping[str, Any],
+    now: dt.datetime | None = None,
 ) -> dict[str, Any] | None:
-    opening = candle_payload.get("open")
-    if not isinstance(opening, Mapping):
+    if not isinstance(market_open, dt.datetime) or market_open.tzinfo is None or market_open.utcoffset() is None:
         return None
-    open_time = parse_time(opening.get("time"))
+    if now is not None and (not isinstance(now, dt.datetime) or now.tzinfo is None or now.utcoffset() is None):
+        return None
     quote_time = parse_time(price.get("time"))
-    if open_time is None or quote_time is None or pip <= 0:
+    bid, ask = safe_float(price.get("bid")), safe_float(price.get("ask"))
+    if quote_time is None or type(pip) not in (int, float) or not math.isfinite(pip) or pip <= 0 or bid <= 0 or ask <= bid:
         return None
+    current_mid = (bid+ask)/2
+    opening = candle_payload.get("open")
+    opening = opening if isinstance(opening, Mapping) else {}
+    open_time = parse_time(opening.get("time"))
     open_bid = safe_float((opening.get("bid") or {}).get("o"))
     open_ask = safe_float((opening.get("ask") or {}).get("o"))
-    bid = safe_float(price.get("bid"))
-    ask = safe_float(price.get("ask"))
-    if min(open_bid, open_ask, bid, ask) <= 0 or open_ask <= open_bid or ask <= bid:
-        return None
-    open_mid = (open_bid + open_ask) / 2.0
-    current_mid = (bid + ask) / 2.0
-    signed_pips = (current_mid - open_mid) / pip
-    long_net = (bid - open_ask) / pip
-    short_net = (open_bid - ask) / pip
-    best_side = "long" if long_net >= short_net else "short"
-    best_net = max(long_net, short_net)
+    valid_open = (open_time is not None and opening.get("complete") is True and
+        market_open <= open_time and open_time+dt.timedelta(minutes=1) <= quote_time and open_bid > 0 and open_ask > open_bid)
+    open_mid = (open_bid+open_ask)/2 if valid_open else None
+    signed_pips = (current_mid-open_mid)/pip if valid_open else None
+    long_net = (bid-open_ask)/pip if valid_open else None
+    short_net = (open_bid-ask)/pip if valid_open else None
+    best_net = max(long_net, short_net) if valid_open else None
     recent = candle_payload.get("recent") or []
+    health = current_quote_status(price, now=now)
     row: dict[str, Any] = {
-        "instrument": instrument,
-        "market_open_utc": market_open.isoformat(),
-        "first_candle_utc": open_time.isoformat(),
-        "open_delay_minutes": round((open_time - market_open).total_seconds() / 60.0, 3),
-        "exact_market_open": abs((open_time - market_open).total_seconds()) <= 15 * 60,
-        "quote_time_utc": quote_time.isoformat(),
-        "tradeable": bool(price.get("tradeable", True)),
-        "open_bid": open_bid,
-        "open_ask": open_ask,
-        "open_mid": open_mid,
-        "bid": bid,
-        "ask": ask,
-        "mid": current_mid,
-        "current_spread_pips": round((ask - bid) / pip, 3),
-        "opening_spread_pips": round((open_ask - open_bid) / pip, 3),
-        "since_open_direction": "up" if signed_pips >= 0 else "down",
-        "since_open_move_pips": round(signed_pips, 3),
-        "since_open_abs_pips": round(abs(signed_pips), 3),
-        "since_open_move_bps": round((current_mid / open_mid - 1.0) * 10_000.0, 3),
-        "best_executable_side": best_side,
-        "best_executable_net_pips": round(best_net, 3),
-        "long_net_pips": round(long_net, 3),
-        "short_net_pips": round(short_net, 3),
-        "movement_cleared_round_trip_spread": best_net > 0,
-        "chart_points": normalized_chart_points(recent),
+        "instrument": instrument, "market_open_utc": market_open.isoformat(),
+        "first_candle_utc": open_time.isoformat() if open_time else "",
+        "open_delay_minutes": round((open_time-market_open).total_seconds()/60, 3) if open_time else None,
+        "exact_market_open": valid_open and open_time == market_open,
+        "opening_reference_valid": valid_open,
+        "opening_missing_reason": None if valid_open else "missing_or_invalid_opening_candle",
+        "quote_time_utc": quote_time.isoformat(), "tradeable": price.get("tradeable") is True, **health,
+        "open_bid": open_bid if valid_open else None, "open_ask": open_ask if valid_open else None, "open_mid": open_mid,
+        "bid": bid, "ask": ask, "mid": current_mid,
+        "current_spread_pips": round((ask-bid)/pip, 3),
+        "opening_spread_pips": round((open_ask-open_bid)/pip, 3) if valid_open else None,
+        "since_open_direction": ("up" if signed_pips >= 0 else "down") if valid_open else None,
+        "since_open_move_pips": round(signed_pips, 3) if valid_open else None,
+        "since_open_abs_pips": round(abs(signed_pips), 3) if valid_open else None,
+        "since_open_move_bps": round((current_mid/open_mid-1)*10_000, 3) if valid_open else None,
+        "since_open_move_pct": round((current_mid/open_mid-1)*100, 6) if valid_open else None,
+        "best_executable_side": ("long" if long_net >= short_net else "short") if valid_open else None,
+        "best_executable_net_pips": round(best_net, 3) if valid_open else None,
+        "best_executable_net_bps": round(best_net*pip/open_mid*10_000, 3) if valid_open else None,
+        "long_net_pips": round(long_net, 3) if valid_open else None,
+        "short_net_pips": round(short_net, 3) if valid_open else None,
+        "movement_cleared_round_trip_spread": best_net > 0 if valid_open else False,
+        "recent_move_basis": "source_labeled_completed_minute_endpoints_live_quote_separate",
+        "chart_points": normalized_chart_points(completed_m1_observations(recent, asof=min(quote_time, now) if now is not None else quote_time)),
+        "move_windows": {},
     }
     for minutes in (5, 15, 60):
-        reference = prior_mid(recent, quote_time=quote_time, minutes=minutes)
-        row[f"move_{minutes}m_pips"] = (
-            round((current_mid - reference) / pip, 3) if reference else None
-        )
-        row[f"move_{minutes}m_bps"] = (
-            round((current_mid / reference - 1.0) * 10_000.0, 3)
-            if reference
-            else None
-        )
+        window = completed_m1_window(recent, quote_time=quote_time, minutes=minutes)
+        reference, endpoint = window["reference_mid"], window["end_mid"]
+        usable = window["state"] == "available"
+        row["move_windows"][f"{minutes}m"] = window
+        row[f"move_{minutes}m_pips"] = round((endpoint-reference)/pip, 3) if usable else None
+        row[f"move_{minutes}m_bps"] = round((endpoint/reference-1)*10_000, 3) if usable else None
+        row[f"move_{minutes}m_pct"] = round((endpoint/reference-1)*100, 6) if usable else None
     return row
+
+
+def completed_m1_observations(candles: Sequence[Mapping[str, Any]], *, asof: dt.datetime) -> list[dict[str, Any]]:
+    """Adapt completed M1 closes to the existing generic observation-point views."""
+    points = {};duplicates = set();seen = set()
+    for candle in candles:
+        start = parse_time(candle.get("time"))
+        if start is None or start.second or start.microsecond or candle.get("complete") is not True:
+            continue
+        end = start+dt.timedelta(minutes=1)
+        if end > asof:
+            continue
+        if end in seen:duplicates.add(end)
+        seen.add(end)
+        mid, price_error = _completed_m1_midpoint(candle)
+        if price_error:
+            continue
+        source = candle.get("price_source", "completed_m1_candle")
+        if source == "sampled_quote_minute_bucket":
+            observations = _sampled_bucket_observation(candle, start)
+            if observations is None:
+                continue
+            price_time = observations[1]
+        elif source == "completed_m1_candle":
+            price_time = end
+        else:
+            continue
+        points[end] = {**dict(candle), "mid": {"c": mid}, "time": price_time.isoformat(),
+            "source_bar_open_utc": start.isoformat(), "source_bucket_end_utc": end.isoformat()}
+    # A duplicate has no ordering authority; do not select one variant.
+    return [points[end] for end in sorted(points) if end not in duplicates]
+
 
 
 def _rank(
@@ -610,12 +777,16 @@ def _rank(
     absolute: bool,
     positive_only: bool = False,
     limit: int = 20,
+    require_current_quote: bool = True,
+    require_exact_open: bool = False,
 ) -> list[dict[str, Any]]:
     eligible = [
         dict(row)
         for row in rows
         if row.get(field) is not None
-        and bool(row.get("exact_market_open", True))
+        and type(row.get(field)) in (int, float) and math.isfinite(row[field])
+        and (not require_current_quote or row.get("current_quote_eligible") is True)
+        and (not require_exact_open or (row.get("exact_market_open") is True and row.get("opening_reference_valid") is True))
         and (not positive_only or safe_float(row.get(field)) > 0)
     ]
     eligible.sort(
@@ -637,6 +808,10 @@ def build_payload(
     pip_by_instrument: Mapping[str, float],
     failures: Sequence[Mapping[str, str]],
 ) -> dict[str, Any]:
+    if not isinstance(now, dt.datetime) or now.tzinfo is None or now.utcoffset() is None:
+        raise ValueError("timezone_aware_current_observation_required")
+    if not isinstance(market_open, dt.datetime) or market_open.tzinfo is None or market_open.utcoffset() is None:
+        raise ValueError("timezone_aware_market_open_required")
     rows = []
     directional_legs: list[dict[str, Any]] = []
     directional_diagnostics: list[dict[str, Any]] = []
@@ -653,17 +828,21 @@ def build_payload(
             market_open=market_open,
             price=price,
             candle_payload=candle_payload,
+            now=now,
         )
         if row is None:
             integrity_failures.append({"instrument": instrument, "error": "invalid_movement_row"})
             continue
         rows.append(row)
         legs, diagnostics = directional_move_legs(
-            candle_payload.get("recent") or [],
+            completed_m1_observations(candle_payload.get("recent") or [], asof=min(now, parse_time(price.get("time")))) ,
             instrument=instrument,
             pip=safe_float(pip_by_instrument.get(instrument), 0.0001),
         )
-        directional_legs.extend(leg for leg in legs if leg.get("clear_move"))
+        for leg in legs:
+            leg.update({key: row[key] for key in ("current_quote_eligible", "quote_age_seconds", "quote_missing_reason")})
+            if leg.get("clear_move"):
+                directional_legs.append(leg)
         directional_diagnostics.append(diagnostics)
     rows.sort(key=lambda row: row["instrument"])
     exact_rows = [row for row in rows if row["exact_market_open"]]
@@ -671,7 +850,7 @@ def build_payload(
     for row in directional_legs:
         end = parse_time(row.get("end_utc"))
         end_age_sec = (
-            max(0.0, (now.astimezone(UTC) - end).total_seconds())
+            (now.astimezone(UTC) - end).total_seconds()
             if end is not None
             else None
         )
@@ -680,7 +859,8 @@ def build_payload(
         )
         row["live_velocity_fresh"] = bool(
             end_age_sec is not None
-            and end_age_sec <= LIVE_VELOCITY_MAX_END_AGE_SEC
+            and 0 <= end_age_sec <= LIVE_VELOCITY_MAX_END_AGE_SEC
+            and row.get("current_quote_eligible") is True
         )
     active_velocity_legs = [
         row
@@ -691,19 +871,20 @@ def build_payload(
         and row.get("absolute_velocity_bps_per_hour") is not None
     ]
     rankings = {
-        "directional_legs": _rank(directional_legs, "move_bps", absolute=False, limit=40),
+        "directional_legs": _rank(directional_legs, "move_bps", absolute=False, limit=40, require_current_quote=False),
         "live_velocity": _rank(
             active_velocity_legs,
             "absolute_velocity_bps_per_hour",
             absolute=False,
             limit=20,
         ),
-        "since_open_normalized": _rank(rows, "since_open_move_bps", absolute=True),
+        "since_open_normalized": _rank(rows, "since_open_move_bps", absolute=True, require_exact_open=True),
         "since_open_executable": _rank(
             rows,
-            "best_executable_net_pips",
+            "best_executable_net_bps",
             absolute=False,
             positive_only=True,
+            require_exact_open=True,
         ),
         "latest_5m": _rank(rows, "move_5m_bps", absolute=True),
         "latest_15m": _rank(rows, "move_15m_bps", absolute=True),
@@ -712,6 +893,11 @@ def build_payload(
     return {
         "schema_version": SCHEMA_VERSION,
         "generated_utc": now.astimezone(UTC).isoformat(),
+        "maximum_current_quote_age_seconds": MAX_CURRENT_QUOTE_AGE_SEC,
+        "recent_window_semantics": "requested_minute_bucket_span_separate_from_recorded_price_observation_span",
+        "recent_windows_independent_of_weekly_open": True,
+        "configured_instrument_count": len(pip_by_instrument),
+        "current_quote_eligible_count": sum(row["current_quote_eligible"] for row in rows),
         "account_scope": "practice_007_read_only",
         "research_only": True,
         "can_place_orders": False,
@@ -809,8 +995,8 @@ def markdown_report(payload: Mapping[str, Any]) -> str:
         )
         for row in (payload.get("rankings") or {}).get(key) or []:
             lines.append(
-                "| {rank} | {instrument} | {since_open_move_pips:.1f} | {since_open_move_bps:.2f} | "
-                "{best_executable_side} | {best_executable_net_pips:.1f} | {current_spread_pips:.1f} | "
+                "| {rank} | {instrument} | {since_open_move_pips} | {since_open_move_bps} | "
+                "{best_executable_side} | {best_executable_net_pips} | {current_spread_pips:.1f} | "
                 "{move_5m_pips} | {move_15m_pips} | {move_60m_pips} |".format(
                     **{
                         **row,

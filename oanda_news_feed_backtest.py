@@ -770,6 +770,7 @@ def load_candles(
     path: Path,
     *,
     since: dt.datetime,
+    include_close: bool = False,
 ) -> list[dict[str, Any]]:
     header, lines = recent_csv_lines(path, since=since)
     if not header or not lines:
@@ -797,6 +798,14 @@ def load_candles(
                 "ask_low": news.safe_float(raw.get("ask_low"), ask_open),
             }
         )
+        if include_close:
+            # Diagnostic opt-in: retain actual closes/extrema or missingness, never substitute opens.
+            for field in ("bid_close", "ask_close", "bid_high", "ask_high", "bid_low", "ask_low"):
+                try:
+                    value = float(raw.get(field) or "nan")
+                except (TypeError, ValueError):
+                    value = float("nan")
+                rows[-1][field] = value if math.isfinite(value) else None
     rows.sort(key=lambda row: row["timestamp"])
     return rows
 

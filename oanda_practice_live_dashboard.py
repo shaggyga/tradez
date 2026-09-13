@@ -75,6 +75,9 @@ CANONICAL_SIGNAL_HORIZONS = (
 )
 NEW_YORK_TZ = ZoneInfo("America/New_York")
 MAIN_HTML_PATH = Path(__file__).resolve().parent / "oanda_main_signal_dashboard.html"
+FEATURE_OBSERVATION_ARCHIVE_ROOT = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "feature_observations_v1"
+FEATURE_MOVE_WINDOWS = (300, 900, 3600)
+FEATURE_MOVE_MAX_BYTES = 2 * 1024 * 1024
 DEFAULT_CRYPTO_PROJECT_ROOT = (
     Path(__file__).resolve().parents[2] / "BIGTRIAD" / "crypto_runtime"
 )
@@ -3522,6 +3525,65 @@ def summarize_model_inventory(
         "matrix_models": list(second.get("model_surfaces") or []),
         "matrix_model_count": len(second.get("model_surfaces") or []),
     }
+
+
+def feature_move_window(query: dict[str, list[str]]) -> int:
+    """Accept only the three named elapsed windows; no caller-supplied paths."""
+    if set(query) - {"window", "instrument"}:
+        raise ValueError("Only window and optional instrument are supported")
+    values = query.get("window", ["300"])
+    if not isinstance(values, list) or len(values) != 1 or type(values[0]) is not str or values[0] not in {"300", "900", "3600"}:
+        raise ValueError("window must be exactly 300, 900 or 3600")
+    return int(values[0])
+
+
+def feature_move_instrument(query: dict[str, list[str]]) -> str | None:
+    values = query.get("instrument")
+    if values is None:
+        return None
+    if (not isinstance(values, list) or len(values) != 1 or type(values[0]) is not str
+            or not re.fullmatch(r"[A-Z]{3}_[A-Z]{3}", values[0]) or values[0][:3] == values[0][4:]):
+        raise ValueError("instrument must be one exact pair such as EUR_USD")
+    return values[0]
+
+
+def build_feature_move_response(window_sec: int, *, instrument: str | None = None, reader=None, now_epoch: float | None = None) -> dict[str, Any]:
+    """Read the versioned research archive without consulting model eligibility."""
+    if type(window_sec) is not int or window_sec not in FEATURE_MOVE_WINDOWS:
+        raise ValueError("unsupported_feature_move_window")
+    if instrument is not None:
+        feature_move_instrument({"instrument": [instrument]})
+    observed = time.time() if now_epoch is None else now_epoch
+    as_of = datetime.fromtimestamp(observed, timezone.utc).isoformat()
+    unavailable = {
+        "schema_version": "feature_move_mapping_v1", "status": "unavailable",
+        "generated_utc": as_of, "window_sec": window_sec, "instrument_filter": instrument, "summary": {},
+        "feature_changes": [], "pairs": [], "limitations": [
+            "Feature observations are descriptive research, not forecasts or trading instructions."
+        ], "can_place_orders": False,
+    }
+    try:
+        if reader is None:
+            try:
+                from oanda_feature_move_mapping_v1 import read_feature_move_map
+            except ModuleNotFoundError:
+                from trad.oanda_feature_move_mapping_v1 import read_feature_move_map
+            reader = read_feature_move_map
+        result = reader(FEATURE_OBSERVATION_ARCHIVE_ROOT, as_of_utc=as_of, window_sec=window_sec, instrument=instrument)
+        if (not isinstance(result, dict) or result.get("schema_version") != "feature_move_mapping_v1"
+                or result.get("can_place_orders") is not False
+                or type(result.get("window_sec")) is not int or result["window_sec"] != window_sec
+                or result.get("instrument_filter") != instrument
+                or not isinstance(result.get("feature_changes"), list)
+                or not isinstance(result.get("pairs"), list)
+                or len(result["feature_changes"]) > 50 or len(result["pairs"]) > 68):
+            return {**unavailable, "reason": "invalid_feature_move_publication"}
+        raw = json.dumps(result, allow_nan=False, separators=(",", ":")).encode("utf-8")
+        if len(raw) > FEATURE_MOVE_MAX_BYTES:
+            return {**unavailable, "reason": "feature_move_publication_too_large"}
+        return json.loads(raw)
+    except Exception:
+        return {**unavailable, "reason": "feature_observations_unavailable"}
 
 
 def load_json_dict(path: Path) -> dict[str, Any]:
@@ -9280,6 +9342,24 @@ class DashboardHandler(BaseHTTPRequestHandler):
     crypto_state_cache: dict[str, Any] | None = None
     crypto_state_cache_at: float = 0.0
     crypto_state_cache_lock = threading.Lock()
+    feature_move_cache: dict[tuple[int, str | None], tuple[float, float, bytes]] = {}
+    feature_move_cache_lock = threading.Lock()
+
+    @classmethod
+    def current_feature_moves(cls, window_sec: int, instrument: str | None = None) -> dict[str, Any]:
+        with cls.feature_move_cache_lock:
+            observed, monotonic = time.time(), time.monotonic()
+            key = (window_sec, instrument)
+            cached = cls.feature_move_cache.get(key)
+            if cached and 0 <= monotonic - cached[0] < 5.0 and 0 <= observed - cached[1] < 5.0:
+                return json.loads(cached[2])
+            result = build_feature_move_response(window_sec, instrument=instrument, now_epoch=observed)
+            raw = json.dumps(result, allow_nan=False, separators=(",", ":")).encode("utf-8")
+            cls.feature_move_cache.pop(key, None)
+            while len(cls.feature_move_cache) >= 8:
+                cls.feature_move_cache.pop(next(iter(cls.feature_move_cache)))
+            cls.feature_move_cache[key] = (time.monotonic(), observed, raw)
+            return json.loads(raw)
 
     @classmethod
     def current_state(cls) -> dict[str, Any]:
@@ -9353,6 +9433,16 @@ class DashboardHandler(BaseHTTPRequestHandler):
 
     def do_GET(self) -> None:
         parsed = urlparse(self.path)
+        if parsed.path == "/api/feature-moves":
+            try:
+                query = parse_qs(parsed.query, keep_blank_values=True)
+                window_sec = feature_move_window(query)
+                instrument = feature_move_instrument(query)
+            except ValueError as exc:
+                self.send_json({"status": "invalid_request", "reason": str(exc), "can_place_orders": False}, status=400)
+                return
+            self.send_json(self.current_feature_moves(window_sec, instrument))
+            return
         if parsed.path == "/api/joint-v3-ledger-observation":
             self.send_json(current_joint_ledger_observation())
             return

@@ -170,6 +170,7 @@ def test_open_candle_retries_transient_transport_failure() -> None:
 def _path_row(minute: int, mid: float, *, spread: float = 0.0002) -> dict:
     return {
         "time": f"2026-08-18T12:{minute:02d}:00Z",
+        "complete": True,
         "bid": {"c": str(mid - spread / 2.0)},
         "ask": {"c": str(mid + spread / 2.0)},
         "mid": {"c": str(mid)},
@@ -267,5 +268,5 @@ def test_live_velocity_excludes_active_leg_with_stale_candle_endpoint() -> None:
 
     assert payload["directional_legs"][-1]["state"] == "active"
     assert payload["directional_legs"][-1]["live_velocity_fresh"] is False
-    assert payload["directional_legs"][-1]["end_age_sec"] == 1440.0
+    assert payload["directional_legs"][-1]["end_age_sec"] == 1380.0  # M1 close is available at bar end, not bar start.
     assert payload["rankings"]["live_velocity"] == []

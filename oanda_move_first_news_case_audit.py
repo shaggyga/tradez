@@ -495,110 +495,162 @@ def causal_m1_technical_state(
     decision_time: dt.datetime,
     pip_size: float,
 ) -> dict[str, Any]:
-    """Reconstruct a compact technical state from completed pre-decision M1 bars.
+    """Versioned retrospective state; exact elapsed windows, no arrival claim.
 
-    OANDA M1 timestamps denote the bar open.  A bar is therefore admitted only
-    when its full one-minute interval ended no later than ``decision_time``.
-    This is a research diagnostic, not a replacement for a timestamped model
-    forecast and never participates in eligibility or execution decisions.
+    Return/MA prices remain midpoint opens as in the original diagnostic. Each
+    M1 bar is usable only after its end. True range is the simple14-bar mean
+    using the actual preceding completed close, never a substituted open.
     """
-
-    if pip_size <= 0:
-        return {"state": "invalid_pip_size", "research_only": True}
-    completed = [
-        row
-        for row in candles
-        if row.get("timestamp") is not None
-        and row["timestamp"] + dt.timedelta(minutes=1) <= decision_time
-    ]
-    if len(completed) < 61:
-        return {
-            "state": "insufficient_completed_m1_history",
-            "completed_bar_count": len(completed),
-            "decision_utc": decision_time.isoformat(),
-            "research_only": True,
-        }
-    rows = completed[-121:]
-    mids = [0.5 * (float(row["bid_open"]) + float(row["ask_open"])) for row in rows]
-    last = rows[-1]
-    last_mid = mids[-1]
-
-    def return_pips(minutes: int) -> float | None:
-        if len(mids) <= minutes:
-            return None
-        return round((last_mid - mids[-1 - minutes]) / pip_size, 6)
-
-    def sma(length: int) -> float:
-        return sum(mids[-length:]) / float(length)
-
-    def ema(length: int) -> float:
-        alpha = 2.0 / (length + 1.0)
-        value = mids[0]
-        for price in mids[1:]:
-            value = alpha * price + (1.0 - alpha) * value
-        return value
-
-    ranges: list[float] = []
-    highs: list[float] = []
-    lows: list[float] = []
-    for row in rows[-60:]:
-        high = 0.5 * (float(row["bid_high"]) + float(row["ask_high"]))
-        low = 0.5 * (float(row["bid_low"]) + float(row["ask_low"]))
-        highs.append(high)
-        lows.append(low)
-        ranges.append(max(0.0, high - low) / pip_size)
-    prior_20_high = max(highs[-21:-1])
-    prior_20_low = min(lows[-21:-1])
-    range_low = min(lows)
-    range_high = max(highs)
-    range_position = (
-        (last_mid - range_low) / (range_high - range_low)
-        if range_high > range_low
-        else 0.5
-    )
-    r5 = return_pips(5)
-    r15 = return_pips(15)
-    r60 = return_pips(60)
-    breakout = (
-        "up"
-        if last_mid > prior_20_high
-        else "down"
-        if last_mid < prior_20_low
-        else "inside"
-    )
-    exhaustion = (
-        "upper_extreme"
-        if range_position >= 0.9 and r15 is not None and r15 > 0
-        else "lower_extreme"
-        if range_position <= 0.1 and r15 is not None and r15 < 0
-        else "none"
-    )
-    spread = (float(last["ask_open"]) - float(last["bid_open"])) / pip_size
-    observed = last["timestamp"] + dt.timedelta(minutes=1)
-    return {
-        "state": "available",
-        "source": "all68_completed_m1_archive",
-        "decision_utc": decision_time.isoformat(),
-        "last_bar_open_utc": last["timestamp"].isoformat(),
-        "observed_utc": observed.isoformat(),
-        "observation_age_seconds": round((decision_time - observed).total_seconds(), 6),
-        "completed_bar_count": len(completed),
-        "return_5m_pips": r5,
-        "return_15m_pips": r15,
-        "return_60m_pips": r60,
-        "velocity_5m_pips_per_min": round(float(r5 or 0.0) / 5.0, 6),
-        "range_position_60m": round(range_position, 6),
-        "sma5_minus_sma20_pips": round((sma(5) - sma(20)) / pip_size, 6),
-        "sma20_minus_sma60_pips": round((sma(20) - sma(60)) / pip_size, 6),
-        "ema5_minus_ema20_pips": round((ema(5) - ema(20)) / pip_size, 6),
-        "atr14_pips": round(sum(ranges[-14:]) / 14.0, 6),
-        "breakout_20m": breakout,
-        "exhaustion_60m": exhaustion,
-        "spread_pips": round(spread, 6),
-        "research_only": True,
-        "execution_eligible": False,
-        "is_model_forecast": False,
+    result: dict[str, Any] = {
+        "schema_version": "causal_m1_technical_state_v2_elapsed_true_range_20260913",
+        "research_only": True, "execution_eligible": False, "is_model_forecast": False,
+        "source": "all68_completed_m1_archive", "reconstructed": True,
+        "historical_arrival_authenticated": False,
+        "price_basis": "midpoint_open_of_completed_m1",
+        "atr_method": "simple_mean_14_true_ranges_using_previous_completed_midpoint_close",
+        "legacy_range_field": "mean_high_low_range_14_pips",
+        "windows": {}, "feature_missing_reasons": {},
     }
+    fields = ("return_5m_pips", "return_15m_pips", "return_60m_pips",
+        "velocity_5m_pips_per_min", "range_position_60m", "sma5_minus_sma20_pips",
+        "sma20_minus_sma60_pips", "ema5_minus_ema20_pips", "atr14_pips",
+        "mean_high_low_range_14_pips", "breakout_20m", "exhaustion_60m", "spread_pips")
+    result.update({name: None for name in fields})
+
+    def fail(reason: str) -> dict[str, Any]:
+        result["state"] = reason
+        result["feature_missing_reasons"].update({name: reason for name in fields})
+        return result
+
+    if not isinstance(decision_time, dt.datetime) or decision_time.tzinfo is None or decision_time.utcoffset() is None:
+        return fail("timezone_aware_decision_required")
+    decision_time = decision_time.astimezone(dt.timezone.utc)
+    result["decision_utc"] = decision_time.isoformat()
+    if type(pip_size) not in (int, float) or not math.isfinite(pip_size) or pip_size <= 0:
+        return fail("invalid_pip_size")
+    completed = []
+    for row in candles:
+        stamp = row.get("timestamp")
+        if not isinstance(stamp, dt.datetime) or stamp.tzinfo is None or stamp.utcoffset() is None:
+            return fail("invalid_m1_timestamp")
+        stamp = stamp.astimezone(dt.timezone.utc)
+        if stamp + dt.timedelta(minutes=1) > decision_time:
+            continue  # Future/incomplete bar payloads do not enter this prefix.
+        if row.get("complete", True) is not True:
+            continue
+        if stamp.second or stamp.microsecond:
+            return fail("off_grid_m1_timestamp")
+        completed.append((stamp, row))
+    completed.sort(key=lambda item: item[0])
+    result["completed_bar_count"] = len(completed)
+    if not completed:
+        return fail("insufficient_completed_m1_history")
+    if len({stamp for stamp, _ in completed}) != len(completed):
+        return fail("duplicate_completed_m1_timestamp")
+    end = completed[-1][0]
+    observed = end + dt.timedelta(minutes=1)
+    age = (decision_time - observed).total_seconds()
+    result.update(last_bar_open_utc=end.isoformat(), observed_utc=observed.isoformat(),
+        observation_age_seconds=round(age, 6), maximum_observation_age_seconds=60,
+        observation_age_boundary="strictly_less_than_60_seconds")
+    if age >= 60:
+        return fail("stale_completed_m1_endpoint")
+    selected = [(stamp, row) for stamp, row in completed if stamp >= end-dt.timedelta(minutes=120)]
+    prices = {}
+    for stamp, row in selected:
+        try:
+            values = [float(row[key]) for key in ("bid_open", "ask_open", "bid_high", "ask_high", "bid_low", "ask_low")]
+        except (KeyError, TypeError, ValueError, OverflowError):
+            return fail("invalid_completed_m1_price")
+        if any(not math.isfinite(v) or v <= 0 for v in values):
+            return fail("invalid_completed_m1_price")
+        bo, ao, bh, ah, bl, al = values
+        if ao < bo or ah < bh or al < bl or not bl <= bo <= bh or not al <= ao <= ah:
+            return fail("invalid_completed_m1_ohlc_or_spread")
+        prices[stamp] = {"mid": (bo+ao)/2, "high": (bh+ah)/2, "low": (bl+al)/2,
+            "spread": (ao-bo)/pip_size, "row": row}
+    last = prices[end]
+    result["spread_pips"] = round(last["spread"], 6)
+
+    def tail(count: int):
+        starts = [end-dt.timedelta(minutes=i) for i in range(count-1, -1, -1)]
+        return [prices[stamp] for stamp in starts] if all(stamp in prices for stamp in starts) else None
+
+    for minutes in (5, 15, 60):
+        start = end-dt.timedelta(minutes=minutes)
+        reference = prices.get(start)
+        field = f"return_{minutes}m_pips"
+        reason = None if reference is not None else "exact_start_endpoint_missing"
+        result["windows"][f"{minutes}m"] = {"start_price_utc": start.isoformat(),
+            "end_price_utc": end.isoformat(), "end_available_utc": observed.isoformat(),
+            "elapsed_seconds": minutes*60, "state": "available" if reason is None else "unavailable",
+            "missing_reason": reason, "interior_m1_complete": tail(minutes+1) is not None}
+        if reference is None:
+            result["feature_missing_reasons"][field] = reason
+        else:
+            result[field] = round((last["mid"]-reference["mid"])/pip_size, 6)
+    if result["return_5m_pips"] is not None:
+        result["velocity_5m_pips_per_min"] = round(result["return_5m_pips"]/5, 6)
+    else:
+        result["feature_missing_reasons"]["velocity_5m_pips_per_min"] = "exact_5m_return_unavailable"
+    for short, long in ((5, 20), (20, 60)):
+        name = f"sma{short}_minus_sma{long}_pips"
+        rows = tail(long)
+        if rows is None:
+            result["feature_missing_reasons"][name] = "incomplete_contiguous_m1_window"
+        else:
+            result[name] = round((sum(p["mid"] for p in rows[-short:])/short-sum(p["mid"] for p in rows)/long)/pip_size, 6)
+    contiguous = 0
+    while contiguous < 121 and end-dt.timedelta(minutes=contiguous) in prices:
+        contiguous += 1
+    result["ema_warmup_contiguous_bar_count"] = contiguous
+    if contiguous >= 61:
+        mids = [p["mid"] for p in tail(contiguous)]
+        def ema(length):
+            value = mids[0];alpha = 2/(length+1)
+            for price in mids[1:]:value = alpha*price+(1-alpha)*value
+            return value
+        result["ema5_minus_ema20_pips"] = round((ema(5)-ema(20))/pip_size, 6)
+    else:
+        result["feature_missing_reasons"]["ema5_minus_ema20_pips"] = "fewer_than_61_contiguous_m1_bars"
+    rows = tail(60)
+    if rows is not None:
+        low, high = min(p["low"] for p in rows), max(p["high"] for p in rows)
+        position = (last["mid"]-low)/(high-low) if high > low else .5
+        result["range_position_60m"] = round(position, 6)
+        r15 = result["return_15m_pips"]
+        result["exhaustion_60m"] = "upper_extreme" if position >= .9 and r15 is not None and r15 > 0 else "lower_extreme" if position <= .1 and r15 is not None and r15 < 0 else "none"
+    else:
+        for name in ("range_position_60m", "exhaustion_60m"):
+            result["feature_missing_reasons"][name] = "incomplete_contiguous_60m_window"
+    rows = tail(21)
+    if rows is not None:
+        result["breakout_20m"] = "up" if last["mid"] > max(p["high"] for p in rows[:-1]) else "down" if last["mid"] < min(p["low"] for p in rows[:-1]) else "inside"
+    else:
+        result["feature_missing_reasons"]["breakout_20m"] = "incomplete_contiguous_20m_history"
+    rows = tail(14)
+    if rows is not None:
+        result["mean_high_low_range_14_pips"] = round(sum(p["high"]-p["low"] for p in rows)/14/pip_size, 6)
+    else:
+        result["feature_missing_reasons"]["mean_high_low_range_14_pips"] = "incomplete_contiguous_14m_window"
+    rows = tail(15)
+    true_ranges = []
+    if rows is not None:
+        for previous, current in zip(rows, rows[1:]):
+            try:
+                bid, ask = float(previous["row"]["bid_close"]), float(previous["row"]["ask_close"])
+            except (KeyError, TypeError, ValueError, OverflowError):break
+            if not math.isfinite(bid) or not math.isfinite(ask) or bid <= 0 or ask < bid:break
+            if not float(previous["row"]["bid_low"]) <= bid <= float(previous["row"]["bid_high"]):break
+            if not float(previous["row"]["ask_low"]) <= ask <= float(previous["row"]["ask_high"]):break
+            close = (bid+ask)/2
+            true_ranges.append(max(current["high"]-current["low"], abs(current["high"]-close), abs(current["low"]-close))/pip_size)
+    if len(true_ranges) == 14:
+        result["atr14_pips"] = round(sum(true_ranges)/14, 6)
+    else:
+        result["feature_missing_reasons"]["atr14_pips"] = "incomplete_contiguous_15m_window" if rows is None else "missing_or_invalid_previous_close"
+    result["state"] = "available" if not result["feature_missing_reasons"] else "partial"
+    return result
 
 
 def technical_incremental_table(
@@ -1001,6 +1053,7 @@ def run(
             candle_cache[instrument] = (
                 news_backtest.load_candles(
                     candle_path,
+                    include_close=True,
                     since=dt.datetime.fromtimestamp(
                         int(minimum_source_epoch or entry) + 21 * 60 * 60,
                         tz=dt.timezone.utc,
@@ -1169,7 +1222,8 @@ def run(
             }
         )
     payload = {
-        "schema_version": 2,
+        "schema_version": 3,
+        "technical_calculation_version": "causal_m1_technical_state_v2_elapsed_true_range_20260913",
         "research_id": "move_first_news_case_audit_v2",
         "generated_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
         "research_only": True,

@@ -49,6 +49,8 @@ class MoveFirstNewsAuditTests(unittest.TestCase):
                     "timestamp": start + dt.timedelta(minutes=minute),
                     "bid_open": price - 0.00005,
                     "ask_open": price + 0.00005,
+                    "bid_close": price - 0.00005,
+                    "ask_close": price + 0.00005,
                     "bid_high": price + 0.00005,
                     "ask_high": price + 0.00015,
                     "bid_low": price - 0.00015,

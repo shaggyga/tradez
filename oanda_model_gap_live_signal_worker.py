@@ -16,6 +16,17 @@ from pathlib import Path
 from typing import Any
 
 try:
+    from oanda_feature_observations_v1 import (
+        DEFAULT_ARCHIVE_ROOT as DEFAULT_OBSERVATION_ARCHIVE_ROOT,
+        archive_observation_snapshot,
+    )
+except ModuleNotFoundError:
+    from trad.oanda_feature_observations_v1 import (
+        DEFAULT_ARCHIVE_ROOT as DEFAULT_OBSERVATION_ARCHIVE_ROOT,
+        archive_observation_snapshot,
+    )
+
+try:
     from oanda_model_gap_live_signal_producer import (
         DEFAULT_MODEL_ROOT,
         DEFAULT_PROMOTION_STATE,
@@ -144,8 +155,10 @@ def sync_promotion_registry(
 def archive_feature_snapshot(
     snapshot: dict[str, Any],
     root: Path,
+    *,
+    observation_archive_root: Path | None = None,
 ) -> Path | None:
-    """Persist one deduplicated, compressed row per instrument and snapshot."""
+    """Keep legacy model rows unchanged and mirror the neutral full envelope."""
 
     import pyarrow as pa
     import pyarrow.parquet as pq
@@ -154,6 +167,10 @@ def archive_feature_snapshot(
     instruments = snapshot.get("instruments") or {}
     if generated <= 0.0 or not isinstance(instruments, dict):
         return None
+    archive_observation_snapshot(
+        snapshot,
+        observation_archive_root or Path(root) / "feature_observations_v1",
+    )
     timestamp = datetime.fromtimestamp(generated, timezone.utc)
     snapshot_id = str(snapshot.get("snapshot_id") or generated)
     digest = hashlib.sha256(snapshot_id.encode("utf-8")).hexdigest()[:20]
@@ -961,6 +978,7 @@ def _run_locked(args: argparse.Namespace) -> int:
                         archive_path = archive_feature_snapshot(
                             snapshot,
                             args.feature_archive_root,
+                            observation_archive_root=DEFAULT_OBSERVATION_ARCHIVE_ROOT,
                         )
                         if archive_path is not None:
                             archived_snapshots += 1

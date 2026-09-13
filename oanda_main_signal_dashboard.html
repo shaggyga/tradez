@@ -32,7 +32,7 @@
 </head>
 <body>
   <header><div class="brand"><h1>Forex overview</h1><nav class="dashboard-tabs" aria-label="Dashboard views"><button class="dashboard-tab active" type="button" data-tab="oanda">OANDA FX</button><button class="dashboard-tab" type="button" data-tab="crypto">Crypto Shadow</button></nav></div><div class="status"><span id="dot" class="dot"></span><span id="status">Connecting</span></div></header>
-  <main><div id="oanda-page" class="tab-page active"><section id="market-overview"><div class="empty">Loading current market prices.</div></section><section id="collection-status" aria-live="polite"></section><section id="account"></section><details id="oanda-evidence-proof" class="dashboard-deep" data-state-key="forex-history-v3"><summary><div><h2>Historical observations &amp; research</h2><div class="subvalue">Saved move census, prior forecasts and audit evidence — dated separately from the live overview</div></div><span class="muted">collapsed by default</span></summary><div class="dashboard-deep-body"><section id="available-signals"></section><section id="live-movers"></section><section id="top"></section><section id="signal-matrix"></section><section id="live-move-news"><div class="empty">Loading observed-move attribution.</div></section><section id="top-position-ledger"></section><section id="canonical-trials"></section><section id="accuracy"></section><section id="ledger"></section></div></details><details id="oanda-deep-research" class="dashboard-deep" data-state-key="forex-diagnostics-v3"><summary><div><h2>Research &amp; diagnostics</h2><div class="subvalue">Narratives, counterfactuals, pair context, validation matrices, and family evidence</div></div><span class="muted">collapsed by default</span></summary><div class="dashboard-deep-body"><section id="narrative-meter" class="aggressive-panel"><div class="empty">Loading continuous currency narrative meter.</div></section><section id="adaptive-level-bands"><div class="empty">Loading adaptive support/resistance bands.</div></section><section id="signals"></section><section id="pair-family-matrix"></section><section id="families"></section></div></details></div><div id="crypto-page" class="tab-page"><section id="crypto-account" class="crypto-hero"><div class="empty">Loading crypto shadow account.</div></section><section id="crypto-predictor"><div class="empty">Loading predictor research.</div></section><section id="crypto-trend" class="trend-card"><div class="empty">Loading multi-speed trend proxy.</div></section><div class="crypto-grid"><section id="crypto-activity"><div class="empty">Loading candidates and positions.</div></section><section id="crypto-backtest"><div class="empty">Loading news backtest.</div></section></div><section id="crypto-news"><div class="empty">Loading crypto news feed.</div></section><section id="crypto-trades"><div class="empty">Loading shadow trades.</div></section></div></main>
+  <main><div id="oanda-page" class="tab-page active"><section id="market-overview"><div class="empty">Loading current market prices.</div></section><!-- FEATURE_MOVE_PANEL_V1_START --><section id="feature-moves"><details id="feature-move-panel" class="panel"><summary><h2>Feature changes and pair moves</h2><span class="muted">Observed research · expand to load</span></summary><div class="trend-note">Compare observed feature changes with pair moves in the same elapsed window. This is descriptive research, not a forecast, causal explanation or trading instruction.</div><div class="controls"><div class="segmented" role="group" aria-label="Feature change window"><button type="button" class="feature-move-window" data-window="300" aria-pressed="false">5m</button><button type="button" class="feature-move-window active" data-window="900" aria-pressed="true">15m</button><button type="button" class="feature-move-window" data-window="3600" aria-pressed="false">60m</button></div><label>Pair <select id="feature-move-pair"><option value="">All pairs</option></select></label><label>Sort features <select id="feature-move-sort"><option value="unusual">Most unusual change</option><option value="pair">Largest pair move</option><option value="name">Feature name</option></select></label></div><div id="feature-move-results" aria-live="polite"><div class="empty">Waiting to load feature observations.</div></div></details></section><!-- FEATURE_MOVE_PANEL_V1_END --><section id="collection-status" aria-live="polite"></section><section id="account"></section><details id="oanda-evidence-proof" class="dashboard-deep" data-state-key="forex-history-v3"><summary><div><h2>Historical observations &amp; research</h2><div class="subvalue">Saved move census, prior forecasts and audit evidence — dated separately from the live overview</div></div><span class="muted">collapsed by default</span></summary><div class="dashboard-deep-body"><section id="available-signals"></section><section id="live-movers"></section><section id="top"></section><section id="signal-matrix"></section><section id="live-move-news"><div class="empty">Loading observed-move attribution.</div></section><section id="top-position-ledger"></section><section id="canonical-trials"></section><section id="accuracy"></section><section id="ledger"></section></div></details><details id="oanda-deep-research" class="dashboard-deep" data-state-key="forex-diagnostics-v3"><summary><div><h2>Research &amp; diagnostics</h2><div class="subvalue">Narratives, counterfactuals, pair context, validation matrices, and family evidence</div></div><span class="muted">collapsed by default</span></summary><div class="dashboard-deep-body"><section id="narrative-meter" class="aggressive-panel"><div class="empty">Loading continuous currency narrative meter.</div></section><section id="adaptive-level-bands"><div class="empty">Loading adaptive support/resistance bands.</div></section><section id="signals"></section><section id="pair-family-matrix"></section><section id="families"></section></div></details></div><div id="crypto-page" class="tab-page"><section id="crypto-account" class="crypto-hero"><div class="empty">Loading crypto shadow account.</div></section><section id="crypto-predictor"><div class="empty">Loading predictor research.</div></section><section id="crypto-trend" class="trend-card"><div class="empty">Loading multi-speed trend proxy.</div></section><div class="crypto-grid"><section id="crypto-activity"><div class="empty">Loading candidates and positions.</div></section><section id="crypto-backtest"><div class="empty">Loading news backtest.</div></section></div><section id="crypto-news"><div class="empty">Loading crypto news feed.</div></section><section id="crypto-trades"><div class="empty">Loading shadow trades.</div></section></div></main>
   <script>
     const $=id=>document.getElementById(id),esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const num=(value,digits=2)=>value!==null&&value!==undefined&&value!==''&&Number.isFinite(Number(value))?Number(value).toFixed(digits):'-';
@@ -463,5 +463,113 @@
     }
     setDashboardTab(activeDashboardTab);refresh();refreshResearch();refreshPairFamilyMatrix();refreshCrypto();
   </script>
-</body>
+<!-- FEATURE_MOVE_SCRIPT_V1_START -->
+<script>
+  // A separate read-only request: main-state/model availability cannot gate this panel.
+  const fmElement=id=>document.getElementById(id);
+  const fmEscape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const fmNumber=value=>typeof value==='number'&&Number.isFinite(value);
+  const fmValue=value=>value==null?'—':fmNumber(value)?String(Number(value.toPrecision(7))):fmEscape(value);
+  const fmSigned=(value,digits=4)=>fmNumber(value)?`${value>0?'+':''}${value.toFixed(digits)}`:'—';
+  const fmLabel=value=>String(value??'unknown').replace(/_/g,' ');
+  let fmWindow=900,fmPair='',fmSort='unusual',fmPayload=null,fmGeneration=0,fmController=null;
+
+  function fmRows(payload,pair,sort){
+    const rows=payload.feature_changes.filter(row=>!pair||row.instrument===pair).slice();
+    const magnitude=value=>fmNumber(value)?Math.abs(value):-Infinity;
+    const percentile=value=>fmNumber(value)?value:-Infinity;
+    rows.sort((a,b)=>{
+      const delta=sort==='pair'?magnitude(b.pair_move_pct)-magnitude(a.pair_move_pct):sort==='unusual'?percentile(b.unusual_percentile)-percentile(a.unusual_percentile):0;
+      return (Number.isNaN(delta)?0:delta)||String(a.feature_name??'').localeCompare(String(b.feature_name??''))||String(a.instrument??'').localeCompare(String(b.instrument??''));
+    });
+    return rows;
+  }
+
+  function fmRender(payload,pair='',sort='unusual'){
+    const archive=payload.archive||{},summary=payload.summary||{};
+    const rows=fmRows(payload,pair,sort),pairs=payload.pairs.filter(row=>!pair||row.instrument===pair);
+    const messages=[];
+    if(payload.reason)messages.push(fmLabel(payload.reason));
+    if(archive.bounded_sample===true)messages.push('Bounded archive sample: this view does not cover every retained observation.');
+    if(Array.isArray(archive.errors)&&archive.errors.length)messages.push(`Archive read errors (${archive.errors.length}): ${archive.errors.slice(0,8).join('; ')}${archive.errors.length>8?'; further errors omitted from display':''}`);
+    if(summary.display_truncated===true)messages.push(`Displaying ${summary.visible_feature_comparisons??payload.feature_changes.length} of ${summary.total_feature_comparisons??'unknown'} feature comparisons${payload.instrument_filter?` for ${payload.instrument_filter}`:' across all pairs'}. Select a pair to rank its features before the display limit.`);
+    if(summary.rejected_frames&&Object.keys(summary.rejected_frames).length)messages.push(`Rejected frames: ${Object.entries(summary.rejected_frames).map(([key,value])=>`${fmLabel(key)} (${value})`).join('; ')}`);
+    if(summary.unavailable_reasons&&Object.keys(summary.unavailable_reasons).length)messages.push(`Unavailable comparisons: ${Object.entries(summary.unavailable_reasons).map(([key,value])=>`${fmLabel(key)} (${value})`).join('; ')}`);
+    const featureRows=rows.map(row=>{
+      const quiet=row.status==='unchanged_state'||(row.status==='available'&&row.change===0);
+      const status=quiet?'Quiet — unchanged':fmLabel(row.status);
+      const clocks=`${row.before_observed_utc??'unknown'} → ${row.after_observed_utc??'unknown'}`;
+      const rank=fmNumber(row.unusual_percentile)?`${row.unusual_percentile.toFixed(1)}th percentile`:'Not ranked';
+      return `<tr><td><button type="button" class="sort feature-move-select" data-pair="${fmEscape(row.instrument)}">${fmEscape(row.instrument)}</button></td><td title="${fmEscape(row.feature_id)}"><strong>${fmEscape(row.feature_name)}</strong><div class="subvalue">${fmEscape(row.group)} · ${fmEscape(row.input_timeframe||'unknown timeframe')}</div></td><td>${fmValue(row.before)} → ${fmValue(row.after)}<div class="subvalue">${fmSigned(row.change)} ${fmEscape(row.units||'unknown units')}${fmNumber(row.change_pct)?` · ${fmSigned(row.change_pct)}%`:''}</div></td><td>${fmEscape(rank)}<div class="subvalue">${fmValue(row.history_count)} prior comparisons${row.ranking_reason?` · ${fmEscape(fmLabel(row.ranking_reason))}`:''}</div></td><td>${fmSigned(row.pair_move_pct)}${fmNumber(row.pair_move_pct)?'%':''}<div class="subvalue">${fmEscape(fmLabel(row.pair_move_status||'unknown'))}${row.pair_move_reason?` · ${fmEscape(fmLabel(row.pair_move_reason))}`:''}</div></td><td>${fmEscape(status)}${row.reason?`<div class="subvalue">${fmEscape(fmLabel(row.reason))}</div>`:''}</td><td title="${fmEscape(clocks)}">${fmValue(row.actual_window_sec)} seconds<div class="subvalue">${fmEscape(clocks)}</div></td></tr>`;
+    }).join('');
+    const pairRows=pairs.map(row=>`<tr><td><button type="button" class="sort feature-move-select" data-pair="${fmEscape(row.instrument)}">${fmEscape(row.instrument)}</button></td><td>${fmSigned(row.move_pct)}${fmNumber(row.move_pct)?'%':''}</td><td>${row.status==='available'&&row.move_pct===0?'Quiet — unchanged':fmEscape(fmLabel(row.status))}${row.reason?`<div class="subvalue">${fmEscape(fmLabel(row.reason))}</div>`:''}</td><td>${fmValue(row.feature_count)}</td><td>${fmValue(row.actual_window_sec)} seconds<div class="subvalue">${fmEscape(row.start_utc??'unknown')} → ${fmEscape(row.end_utc??'unknown')}</div></td></tr>`).join('');
+    return `<div class="section-head"><strong class="${payload.status==='available'?'':'warn'}">${fmEscape(fmLabel(payload.status))}</strong><span class="muted">${fmValue(payload.window_sec)} second window · generated ${fmEscape(payload.generated_utc??'unknown')}</span></div>${payload.latest_observed_utc?`<div class="subvalue">Latest observation: ${fmEscape(payload.latest_observed_utc)}</div>`:''}${messages.map(text=>`<div class="trend-note warn">${fmEscape(text)}</div>`).join('')}${featureRows?`<div class="table-wrap"><table><thead><tr><th>Pair</th><th>Feature</th><th>Before → after / change</th><th>Descriptive history rank</th><th>Pair move</th><th>Observation status</th><th>Actual elapsed / observation clocks</th></tr></thead><tbody>${featureRows}</tbody></table></div>`:'<div class="empty">No comparable feature rows in the displayed subset. Missing observations are not zero changes.</div>'}${pairRows?`<details class="panel" style="margin-top:14px"><summary><h2>Pair moves to features</h2><span class="muted">Select a pair to filter the feature table</span></summary><div class="table-wrap"><table><thead><tr><th>Pair</th><th>Move</th><th>Status</th><th>Available feature comparisons</th><th>Actual elapsed / quote clocks</th></tr></thead><tbody>${pairRows}</tbody></table></div></details>`:'<div class="trend-note">Pair movement is unavailable for this observation window.</div>'}${(Array.isArray(payload.limitations)?payload.limitations:[]).map(text=>`<div class="trend-note">${fmEscape(text)}</div>`).join('')}`;
+  }
+
+  function fmPaint(){
+    if(!fmPayload)return;
+    const names=[...new Set([...fmPayload.pairs,...fmPayload.feature_changes].map(row=>row.instrument))].sort();
+    if(fmPair&&!names.includes(fmPair))names.push(fmPair);
+    fmElement('feature-move-pair').innerHTML='<option value="">All pairs</option>'+names.map(pair=>`<option value="${fmEscape(pair)}"${pair===fmPair?' selected':''}>${fmEscape(pair)}</option>`).join('');
+    fmElement('feature-move-results').innerHTML=fmRender(fmPayload,fmPair,fmSort);
+  }
+
+  function fmValidate(payload,windowSec,pair=''){
+    if(!payload||payload.schema_version!=='feature_move_mapping_v1'||payload.can_place_orders!==false||payload.window_sec!==windowSec||(payload.instrument_filter??null)!==(pair||null)||!Array.isArray(payload.feature_changes)||!Array.isArray(payload.pairs)||payload.feature_changes.length>50||payload.pairs.length>68)throw new Error('invalid publication');
+    if([...payload.feature_changes,...payload.pairs].some(row=>!row||typeof row!=='object'||typeof row.instrument!=='string'))throw new Error('invalid row');
+    if(pair&&payload.feature_changes.some(row=>row.instrument!==pair))throw new Error('wrong pair');
+    return payload;
+  }
+
+  async function fmRefresh(){
+    if(!fmElement('feature-move-panel').open)return;
+    const generation=++fmGeneration,windowSec=fmWindow,pair=fmPair;
+    if(fmController)fmController.abort();
+    const controller=new AbortController();fmController=controller;
+    const timeout=setTimeout(()=>controller.abort(),10000);
+    try{
+      const response=await fetch(`/api/feature-moves?window=${windowSec}${pair?`&instrument=${encodeURIComponent(pair)}`:''}`,{cache:'no-store',signal:controller.signal});
+      if(!response.ok||Number(response.headers.get('Content-Length'))>2097152)throw new Error('unavailable');
+      const text=await response.text();
+      if(text.length>2097152)throw new Error('oversize');
+      const payload=fmValidate(JSON.parse(text),windowSec,pair);
+      if(generation!==fmGeneration)return;
+      fmPayload=payload;fmPaint();
+    }catch(error){
+      if(generation!==fmGeneration)return;
+      fmPayload=null;
+      fmElement('feature-move-results').innerHTML='<div class="empty warn">Feature observations unavailable. The request failed or returned an invalid publication; previous rows are withheld. Retrying while this panel is open.</div>';
+    }finally{
+      clearTimeout(timeout);
+      if(generation===fmGeneration)fmController=null;
+    }
+  }
+
+  fmElement('feature-move-panel').addEventListener('toggle',()=>{
+    if(fmElement('feature-move-panel').open)fmRefresh();
+    else{++fmGeneration;if(fmController)fmController.abort();fmController=null;}
+  });
+  fmElement('feature-moves').addEventListener('click',event=>{
+    const windowButton=event.target.closest('.feature-move-window');
+    if(windowButton){
+      const value=Number(windowButton.dataset.window);if(![300,900,3600].includes(value))return;
+      fmWindow=value;fmPayload=null;
+      fmElement('feature-move-results').innerHTML='<div class="empty">Loading this observation window.</div>';
+      fmElement('feature-moves').querySelectorAll('.feature-move-window').forEach(button=>{const active=Number(button.dataset.window)===value;button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active));});
+      fmRefresh();return;
+    }
+    const pairButton=event.target.closest('.feature-move-select');
+    if(pairButton){fmChoosePair(pairButton.dataset.pair);}
+  });
+  function fmChoosePair(pair){
+    fmPair=pair;fmPayload=null;
+    fmElement('feature-move-pair').value=pair;
+    fmElement('feature-move-results').innerHTML='<div class="empty">Loading selected pair observations.</div>';
+    return fmRefresh();
+  }
+  fmElement('feature-move-pair').addEventListener('change',event=>{fmChoosePair(event.target.value);});
+  fmElement('feature-move-sort').addEventListener('change',event=>{fmSort=event.target.value;fmPaint();});
+  setInterval(()=>{if(!fmController)fmRefresh();},15000);
+</script>
+<!-- FEATURE_MOVE_SCRIPT_V1_END --></body>
 </html>

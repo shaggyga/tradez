@@ -99,8 +99,9 @@ class ModelGapLiveSignalWorkerTests(unittest.TestCase):
             },
         }
         with tempfile.TemporaryDirectory() as temporary:
-            first = archive_feature_snapshot(snapshot, Path(temporary))
-            second = archive_feature_snapshot(snapshot, Path(temporary))
+            observation_root = Path(temporary) / "observations_v1"
+            first = archive_feature_snapshot(snapshot, Path(temporary), observation_archive_root=observation_root)
+            second = archive_feature_snapshot(snapshot, Path(temporary), observation_archive_root=observation_root)
             self.assertEqual(first, second)
             self.assertTrue(first.is_file())
             import pyarrow.parquet as pq

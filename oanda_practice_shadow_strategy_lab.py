@@ -44,6 +44,25 @@ import numpy as np
 import requests
 
 try:
+    from oanda_feature_observations_v1 import (
+        DEFAULT_ARCHIVE_ROOT as DEFAULT_OBSERVATION_ARCHIVE_ROOT,
+        PRODUCER_CONTRACT as OBSERVATION_PRODUCER_CONTRACT,
+        archive_observation_snapshot,
+        capture_feature_group,
+        normalize_json as normalize_observation_json,
+        observation_source_sha256,
+    )
+except ModuleNotFoundError:
+    from trad.oanda_feature_observations_v1 import (
+        DEFAULT_ARCHIVE_ROOT as DEFAULT_OBSERVATION_ARCHIVE_ROOT,
+        PRODUCER_CONTRACT as OBSERVATION_PRODUCER_CONTRACT,
+        archive_observation_snapshot,
+        capture_feature_group,
+        normalize_json as normalize_observation_json,
+        observation_source_sha256,
+    )
+
+try:
     from oanda_entry_diagnostics import selection_fields, blocked_fields
     from oanda_intrahour_forecast_contract import (
         contract_payload as intrahour_contract_payload,
@@ -7911,6 +7930,9 @@ def write_live_model_feature_snapshot(
     prices: dict[str, Any],
     metadata: dict[str, dict[str, Any]] | None,
     timeframe_feature_cache: dict[str, dict[str, dict[str, Any]]] | None = None,
+    *,
+    observation_archive_root: Path | None = None,
+    observation_clocks: dict[str, Any] | None = None,
 ) -> int:
     if path is None:
         return 0
@@ -8022,9 +8044,7 @@ def write_live_model_feature_snapshot(
             "series": series,
             "microstructure": dict((metadata or {}).get(instrument) or {}),
         }
-    atomic_json(
-        path,
-        {
+    payload = {
             "schema_version": 1,
             "snapshot_id": cycle_id,
             "generated_epoch": generated_epoch,
@@ -8057,8 +8077,55 @@ def write_live_model_feature_snapshot(
                 "structural_features_exclude_execution_microstructure": True,
                 "intrahour_forecast": intrahour_contract_payload(),
             },
-        },
-    )
+        }
+    clocks = observation_clocks or {}
+    observation_pairs: dict[str, Any] = {}
+    exclusion_by_pair = {row["instrument"]: row["reason"] for row in quote_exclusions}
+    for instrument, features in sorted(feature_cache.items()):
+        quote = prices.get(instrument)
+        earlier_quote_utc = str((clocks.get("quote_observed_utc_by_instrument") or {}).get(instrument) or "")
+        component_clocks = {
+            "quote_feature_source_utc": earlier_quote_utc,
+            "quote_feature_capture_utc": str(clocks.get("quote_feature_capture_utc") or ""),
+            "timeframe_capture_utc": str(clocks.get("timeframe_observed_utc") or ""),
+            "primary_capture_utc": str(clocks.get("primary_observed_utc") or ""),
+            "primary_calculated_utc": str((clocks.get("primary_calculated_utc_by_instrument") or {}).get(instrument) or ""),
+            "timeframe_view_retrieved_utc": str((clocks.get("timeframe_view_retrieved_utc_by_instrument") or {}).get(instrument) or ""),
+            "order_book_source_utc": str(((metadata or {}).get(instrument) or {}).get("order_book_time_utc") or ""),
+            "position_book_source_utc": str(((metadata or {}).get(instrument) or {}).get("position_book_time_utc") or ""),
+        }
+        def captured_clock(key: str) -> dict[str, Any]:
+            observed = str(clocks.get(key) or "")
+            return {"observed_utc": observed, "clock_basis": "producer_capture" if observed else "unknown", "component_clocks": component_clocks}
+        groups = {
+            "primary": capture_feature_group(features, input_timeframe="M1", clock=captured_clock("primary_observed_utc")),
+            "microstructure": capture_feature_group(
+                dict((metadata or {}).get(instrument) or {}), input_timeframe="QUOTE",
+                clock={"observed_utc": earlier_quote_utc, "bar_complete_utc": earlier_quote_utc, "clock_basis": "source_quote_before_enrichment" if earlier_quote_utc else "unknown", "component_clocks": component_clocks},
+            ),
+        }
+        groups.update({
+            f"timeframe:{timeframe}": capture_feature_group(values, input_timeframe=timeframe, clock=captured_clock("timeframe_observed_utc"))
+            for timeframe, values in sorted(((timeframe_feature_cache or {}).get(instrument) or {}).items())
+        })
+        observation_pairs[instrument] = {
+            "quote": {"bid": None if quote is None else normalize_observation_json(quote.bid), "ask": None if quote is None else normalize_observation_json(quote.ask), "time": "" if quote is None else str(quote.time or ""), "source": "" if quote is None else str(getattr(quote, "source", "") or ""), "tradeable": None if quote is None else bool(getattr(quote, "tradeable", True))},
+            "groups": groups,
+            "coverage": {"quote_accepted": instrument in rows, "quote_exclusion_reason": exclusion_by_pair.get(instrument), "primary_scalar_count": len(groups["primary"]["values"]), "timeframe_group_count": len(groups) - 2},
+        }
+    payload["observation_source"] = {
+        "producer_id": "oanda_practice_shadow_strategy_lab.write_live_model_feature_snapshot",
+        "producer_contract_id": OBSERVATION_PRODUCER_CONTRACT,
+        "producer_source_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        "observation_implementation_sha256": observation_source_sha256(),
+        "structural_contract": intrahour_contract_payload(),
+    }
+    payload["observation_inputs"] = {"schema_version": "feature_observation_inputs_v1", "instruments": observation_pairs}
+    payload["coverage"]["expected_feature_instruments"] = sorted(feature_cache)
+    # This observation history does not depend on model-worker liveness or its
+    # permissive forecast freshness limit. Failure is visible to the producer.
+    archive_observation_snapshot(payload, observation_archive_root or path.parent / "feature_observations_v1")
+    atomic_json(path, payload)
     return len(rows)
 
 
@@ -10916,6 +10983,10 @@ def evaluate_cycle(
 
     feature_cache: dict[str, dict[str, Any]] = {}
     timeframe_feature_cache: dict[str, dict[str, dict[str, Any]]] = {}
+    feature_observation_clocks: dict[str, Any] = {
+        "primary_calculated_utc_by_instrument": {},
+        "timeframe_view_retrieved_utc_by_instrument": {},
+    }
     accepted_candidates: list[dict[str, Any]] = []
     feature_errors: Counter[str] = Counter()
     for instrument in instruments:
@@ -10928,6 +10999,7 @@ def evaluate_cycle(
             feature_errors[reason] += 1
         else:
             feature_cache[instrument] = features
+            feature_observation_clocks["primary_calculated_utc_by_instrument"][instrument] = datetime.now(timezone.utc).isoformat()
     primary_feature_elapsed_sec = (
         time.monotonic() - cycle_started_monotonic
     )
@@ -11046,6 +11118,7 @@ def evaluate_cycle(
             cache=timeframe_feature_memo,
             primary_features=feature_cache.get(instrument),
         )
+        feature_observation_clocks["timeframe_view_retrieved_utc_by_instrument"][instrument] = datetime.now(timezone.utc).isoformat()
     timeframe_feature_elapsed_sec = (
         time.monotonic() - cycle_started_monotonic
     )
@@ -11065,6 +11138,11 @@ def evaluate_cycle(
         stage="snapshot_quote_refresh_complete",
         elapsed_sec=round(time.monotonic() - snapshot_refresh_started, 3),
     )
+    feature_observation_clocks["quote_feature_capture_utc"] = datetime.now(timezone.utc).isoformat()
+    feature_observation_clocks["quote_observed_utc_by_instrument"] = {
+        instrument: str(getattr(quote, "time", "") or "")
+        for instrument, quote in prices.items()
+    }
     augment_market_microstructure_features(feature_cache, prices, price_metadata)
     augment_cross_sectional_features(feature_cache)
     available_timeframes = sorted(
@@ -11082,6 +11160,7 @@ def evaluate_cycle(
         }
         augment_market_microstructure_features(scoped, prices, price_metadata)
         augment_cross_sectional_features(scoped)
+    feature_observation_clocks["timeframe_observed_utc"] = datetime.now(timezone.utc).isoformat()
     augment_supervised_return_features(feature_cache, candles)
     pattern_cycle = augment_pattern_count_features(
         feature_cache,
@@ -11090,6 +11169,7 @@ def evaluate_cycle(
         lanes,
         pattern_forecaster,
     )
+    feature_observation_clocks["primary_observed_utc"] = datetime.now(timezone.utc).isoformat()
 
     # Pattern enrichment can itself exceed the strict quote-freshness window.
     # Refresh again at the consumption boundary so the persisted snapshot and
@@ -11118,6 +11198,8 @@ def evaluate_cycle(
         prices,
         price_metadata,
         timeframe_feature_cache,
+        observation_archive_root=DEFAULT_OBSERVATION_ARCHIVE_ROOT,
+        observation_clocks=feature_observation_clocks,
     )
     snapshot_write_sec = time.monotonic() - snapshot_write_started
     log_line(

@@ -637,6 +637,7 @@ class TimeframeFeatureViewTests(unittest.TestCase):
                 {"EUR_USD": quote},
                 {"EUR_USD": {"depth_imbalance": 0.4}},
                 {"EUR_USD": views},
+                observation_archive_root=Path(temporary) / "observations_v1",
             )
             payload = json.loads(path.read_text(encoding="utf-8"))
 
@@ -682,6 +683,7 @@ class TimeframeFeatureViewTests(unittest.TestCase):
                 "excluded_instrument_count": 0,
                 "quote_exclusions": [],
                 "fail_closed_on_invalid_quote": True,
+                "expected_feature_instruments": ["EUR_USD"],
             },
         )
 
@@ -711,6 +713,7 @@ class TimeframeFeatureViewTests(unittest.TestCase):
                 {"EUR_USD": {}, "USD_TRY": {}},
                 quotes,
                 {},
+                observation_archive_root=Path(temporary) / "observations_v1",
             )
             payload = json.loads(path.read_text(encoding="utf-8"))
 

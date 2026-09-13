@@ -1,5 +1,7 @@
 # Feature changes mapped to currency and pair movement
 
+**Implementation follow-up:** [September 13 repairs and validation](FOREX_FEATURE_MOVE_REPAIRS_20260913.md) supersede the implementation-pending status below for snapshot capture, component clocks, the observation join and elapsed-window diagnostics. This original review remains dated evidence; older missing history and live activation are not retroactively repaired.
+
 September 13, 2026. Source and saved-record review; no live market snapshot, new model fit, broker action or service activation.
 
 ## User objective clarified

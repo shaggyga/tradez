@@ -21,6 +21,8 @@ ORIGINAL_FUNCTION_AST_SHA256 = {
 }
 ORIGINAL_EMBEDDED_HTML_AST_SHA256 = 'f817aa5f93a990bf0c94174936b367267f5b1c0f0ebf7a3a83f5368063fd9a92'
 ORIGINAL_MAIN_HTML_SHA256 = 'abb4150a22ace6321a0537ff4869fe02b8573568487c926b11ec93c1c7d666ef'
+# 2026-09-13: feature-panel tests recover every original HTML byte.
+FEATURE_PANEL_MAIN_HTML_SHA256 = '302144fb14c6494aa3b04325c74d3f32a84abaf5c8b7a261ebd507537bf2d66c'
 
 
 def tree():
@@ -127,5 +129,5 @@ def test_original_embedded_html_is_unchanged():
     assert ast_sha(node) == ORIGINAL_EMBEDDED_HTML_AST_SHA256
 
 
-def test_original_main_html_file_is_unchanged():
-    assert hashlib.sha256((ROOT / 'oanda_main_signal_dashboard.html').read_bytes()).hexdigest() == ORIGINAL_MAIN_HTML_SHA256
+def test_main_html_feature_panel_presentation_successor():
+    assert hashlib.sha256((ROOT / 'oanda_main_signal_dashboard.html').read_bytes()).hexdigest() == FEATURE_PANEL_MAIN_HTML_SHA256
