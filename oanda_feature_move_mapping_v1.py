@@ -545,7 +545,7 @@ def read_feature_move_map(archive_root, *, as_of_utc, window_sec=300, instrument
 
 
 def read_feature_move_maps(archive_root, *, as_of_utc, window_secs=WINDOWS, instrument=None,
-                          include_all_comparisons=False):
+                          include_all_comparisons=False, reference_only=False):
     """Read only the new append-only archive, with explicit IO/shape bounds.
 
     This routine never starts a producer or opens a database. Sampling caused by
@@ -559,6 +559,8 @@ def read_feature_move_maps(archive_root, *, as_of_utc, window_secs=WINDOWS, inst
         raise ValueError("valid_as_of_and_window_required")
     if type(include_all_comparisons) is not bool:
         raise ValueError("boolean_full_comparison_option_required")
+    if type(reference_only) is not bool:
+        raise ValueError("boolean_reference_only_option_required")
     if instrument is not None and (not isinstance(instrument, str) or not PAIR.fullmatch(instrument)
                                    or instrument[:3] == instrument[4:]):
         raise ValueError("valid_pair_filter_required")
@@ -612,7 +614,18 @@ def read_feature_move_maps(archive_root, *, as_of_utc, window_secs=WINDOWS, inst
         targets = [mtimes[-1] - window_sec * offset
                    for offset in range(8) for window_sec in window_secs]
         priority = list(dict.fromkeys(max(0, bisect.bisect_right(mtimes, target)-1) for target in targets))
-    order = priority + [index for index in reversed(range(len(files))) if index not in priority]
+    # Forward evaluation needs only the current endpoint plus its explicit
+    # prior reference endpoints.  Decoding every dense intervening archive can
+    # make a fresh minute observation expire before it is published.  Keep the
+    # smaller selection opt-in and visible in the archive receipt; the default
+    # reader remains the full descriptive history used by the dashboard.
+    if reference_only:
+        order = priority
+        if len(order) < len(files):
+            stats["bounded_sample"] = True
+            stats["selection_stop"] = "required_reference_candidates_only"
+    else:
+        order = priority + [index for index in reversed(range(len(files))) if index not in priority]
     for position,index in enumerate(order):
         if (stats["files_read"] >= MAX_FILES or (position >= len(priority)
                 and stats["bytes_read"] >= REFERENCE_SCAN_TARGET_BYTES)):

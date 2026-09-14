@@ -5,7 +5,7 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 
-from oanda_feature_move_mapping_v1 import build_feature_move_map, read_feature_move_map
+from oanda_feature_move_mapping_v1 import build_feature_move_map, read_feature_move_map, read_feature_move_maps
 
 START = datetime(2026, 9, 7, 12, tzinfo=timezone.utc)
 
@@ -363,6 +363,24 @@ def test_multiple_windows_share_one_archive_read_and_retain_independent_results(
     assert by_name(results[3600], "rsi14")["reason"] == "baseline_snapshot_missing"
     assert all(len(result["all_feature_changes"]) >= 6 for result in results.values())
     assert results[300]["archive"]["errors"] is not results[900]["archive"]["errors"]
+
+
+def test_reference_only_reader_keeps_required_endpoints_and_reports_sampling(tmp_path):
+    import os
+    from oanda_feature_observations_v1 import archive_observation_snapshot
+    for index in range(81):
+        path = archive_observation_snapshot(original_snapshot(index), tmp_path)
+        stamp = (START + timedelta(minutes=index)).timestamp()
+        os.utime(path, (stamp, stamp))
+    now = (START + timedelta(minutes=80)).isoformat()
+    results = read_feature_move_maps(
+        tmp_path, as_of_utc=now, window_secs=(300,),
+        include_all_comparisons=True, reference_only=True)
+    result = results[300]
+    assert result["archive"]["bounded_sample"] is True
+    assert result["archive"]["selection_stop"] == "required_reference_candidates_only"
+    assert result["archive"]["files_read"] < result["archive"]["files_considered"]
+    assert by_name(result, "rsi14")["actual_window_sec"] == 300
 
 
 def test_shared_window_preparation_matches_public_build_and_has_no_alias_leak(tmp_path, monkeypatch):

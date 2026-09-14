@@ -140,7 +140,8 @@ class ForwardWorker:
             try:
                 original = self.verified_clock()
                 maps = self.mapping_reader(self.archive_root, as_of_utc=datetime.fromtimestamp(now, timezone.utc).isoformat(),
-                                           window_secs=(300, 900, 3600), include_all_comparisons=True)
+                                           window_secs=(300, 900, 3600), include_all_comparisons=True,
+                                           reference_only=True)
                 self.complete_clock(original)
                 # Mapping work may take time. Acquire an actually fresh reference
                 # before publication instead of carrying a pre-read stale quote.
