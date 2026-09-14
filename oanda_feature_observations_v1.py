@@ -15,6 +15,7 @@ from typing import Any, Mapping
 
 FRAME_SCHEMA = "feature_observation_frame_v1"
 ARCHIVE_SCHEMA = "feature_observation_archive_v1"
+FORWARD_FRAME_SCHEMA = "feature_observation_forward_frame_v1"
 PRODUCER_CONTRACT = "live_feature_observation_capture_v1_20260913"
 DEFAULT_ARCHIVE_ROOT = Path(__file__).resolve().parent / "data" / "oanda_training_manager" / "feature_observations_v1"
 MAX_ARCHIVE_BYTES = 128 * 1024 * 1024
@@ -305,6 +306,52 @@ def archive_observation_snapshot(snapshot: Mapping[str, Any], root: Path, *, bef
     finally:
         temporary.unlink(missing_ok=True)
     _publish_identity(identity_path, identity_record)
+    return path
+
+
+def archive_forward_frame(frame: Mapping[str, Any], root: Path, *, archive_receipt: Mapping[str, Any]) -> Path:
+    """Publish a compact, receipt-bound frame for forward research readers.
+
+    The full archive remains the source of record.  This sidecar is accepted
+    only when its identity and frame digest match the immutable receipt written
+    alongside that archive, so readers do not have to reconstruct eight large
+    original snapshots merely to obtain a current five-minute comparison.
+    """
+    value = normalize_json(frame)
+    generated = parse_utc(value.get("generated_utc"))
+    if generated is None or value.get("schema_version") != FRAME_SCHEMA:
+        raise ValueError("forward_frame_schema_or_clock_required")
+    identity = {"snapshot_id": value.get("snapshot_id"), "source_schema_id": value.get("source_schema_id")}
+    digest = payload_sha256(value)
+    if (not all(isinstance(v, str) and v for v in identity.values())
+            or archive_receipt.get("snapshot_id") != identity["snapshot_id"]
+            or archive_receipt.get("source_schema_id") != identity["source_schema_id"]
+            or archive_receipt.get("payload_sha256") != value.get("source_payload_sha256")
+            or archive_receipt.get("frame_sha256") != digest):
+        raise ValueError("forward_frame_receipt_mismatch")
+    envelope = {"schema_version": FORWARD_FRAME_SCHEMA, "source_identity": identity,
+                "payload_sha256": value["source_payload_sha256"], "frame_sha256": digest,
+                "frame": value}
+    encoded = canonical_bytes(envelope)
+    if len(encoded) > MAX_ARCHIVE_BYTES:
+        raise ValueError("forward_frame_byte_bound")
+    directory = Path(root) / f"date={generated:%Y%m%d}" / f"hour={generated:%H}"
+    directory.mkdir(parents=True, exist_ok=True)
+    path = directory / f"forward_{payload_sha256(identity)[:32]}.json.gz"
+    temporary = path.with_name(f".{uuid.uuid4().hex}.tmp")
+    try:
+        with temporary.open("xb") as output:
+            with gzip.GzipFile(filename="", mode="wb", fileobj=output, mtime=0) as stream:
+                stream.write(encoded)
+        try:
+            os.link(temporary, path)
+        except FileExistsError:
+            with gzip.open(path, "rb") as stream:
+                existing = stream.read(MAX_ARCHIVE_BYTES + 1)
+            if existing != encoded:
+                raise ValueError("forward_frame_identity_collision")
+    finally:
+        temporary.unlink(missing_ok=True)
     return path
 
 

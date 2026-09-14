@@ -545,7 +545,8 @@ def read_feature_move_map(archive_root, *, as_of_utc, window_sec=300, instrument
 
 
 def read_feature_move_maps(archive_root, *, as_of_utc, window_secs=WINDOWS, instrument=None,
-                          include_all_comparisons=False, reference_only=False):
+                          include_all_comparisons=False, reference_only=False,
+                          forward_frame_only=False):
     """Read only the new append-only archive, with explicit IO/shape bounds.
 
     This routine never starts a producer or opens a database. Sampling caused by
@@ -561,6 +562,8 @@ def read_feature_move_maps(archive_root, *, as_of_utc, window_secs=WINDOWS, inst
         raise ValueError("boolean_full_comparison_option_required")
     if type(reference_only) is not bool:
         raise ValueError("boolean_reference_only_option_required")
+    if type(forward_frame_only) is not bool:
+        raise ValueError("boolean_forward_frame_option_required")
     if instrument is not None and (not isinstance(instrument, str) or not PAIR.fullmatch(instrument)
                                    or instrument[:3] == instrument[4:]):
         raise ValueError("valid_pair_filter_required")
@@ -583,7 +586,7 @@ def read_feature_move_maps(archive_root, *, as_of_utc, window_secs=WINDOWS, inst
             continue
         if not hour.is_dir():
             continue
-        for path in hour.glob("obs_*.json.gz"):
+        for path in hour.glob("forward_*.json.gz" if forward_frame_only else "obs_*.json.gz"):
             if path.is_symlink() or path.is_junction():
                 stats["errors"].append("archive_file_symlink_refused")
                 continue
@@ -657,22 +660,34 @@ def read_feature_move_maps(archive_root, *, as_of_utc, window_secs=WINDOWS, inst
             envelope = json.loads(raw)
             if not isinstance(envelope, dict):
                 raise ValueError("archive_object_required")
-            if envelope.get("schema_version") != "feature_observation_archive_v1":
-                raise ValueError("unsupported_archive_schema")
-            original = envelope["original_snapshot"]
-            if not isinstance(original, dict):
-                raise ValueError("snapshot_object_required")
-            if hashlib.sha256(_canonical(original)).hexdigest() != envelope["payload_sha256"]:
-                raise ValueError("snapshot_hash_mismatch")
-            # Recreate the normalized frame from the retained source payload;
-            # editing only the derived frame cannot invent feature observations.
-            try:
-                from oanda_feature_observations_v1 import build_observation_frame
-            except ModuleNotFoundError:
-                from trad.oanda_feature_observations_v1 import build_observation_frame
-            frame = build_observation_frame(original)
+            if forward_frame_only:
+                if envelope.get("schema_version") != "feature_observation_forward_frame_v1":
+                    raise ValueError("unsupported_forward_frame_schema")
+                frame = envelope.get("frame")
+                identity = envelope.get("source_identity")
+                if (not isinstance(frame, dict) or not isinstance(identity, dict)
+                        or frame.get("snapshot_id") != identity.get("snapshot_id")
+                        or frame.get("source_schema_id") != identity.get("source_schema_id")
+                        or frame.get("source_payload_sha256") != envelope.get("payload_sha256")):
+                    raise ValueError("forward_frame_identity_mismatch")
+            else:
+                if envelope.get("schema_version") != "feature_observation_archive_v1":
+                    raise ValueError("unsupported_archive_schema")
+                original = envelope["original_snapshot"]
+                if not isinstance(original, dict):
+                    raise ValueError("snapshot_object_required")
+                if hashlib.sha256(_canonical(original)).hexdigest() != envelope["payload_sha256"]:
+                    raise ValueError("snapshot_hash_mismatch")
+                # Recreate the normalized frame from the retained source payload;
+                # editing only the derived frame cannot invent feature observations.
+                try:
+                    from oanda_feature_observations_v1 import build_observation_frame
+                except ModuleNotFoundError:
+                    from trad.oanda_feature_observations_v1 import build_observation_frame
+                frame = build_observation_frame(original)
             recreated_bytes = _canonical(frame)
-            if recreated_bytes != _canonical(envelope["frame"]):
+            if (recreated_bytes != _canonical(envelope["frame"])
+                    or (forward_frame_only and hashlib.sha256(recreated_bytes).hexdigest() != envelope.get("frame_sha256"))):
                 raise ValueError("frame_recreation_mismatch")
             frame_digest = hashlib.sha256(recreated_bytes).hexdigest()
             del recreated_bytes
@@ -691,7 +706,9 @@ def read_feature_move_maps(archive_root, *, as_of_utc, window_secs=WINDOWS, inst
             stats["retained_projection_bytes"] += retained_bytes
             stats["retained_feature_values"] += values_count
             stats["files_read"] += 1
-            del raw, envelope, original, frame, projected
+            del raw, envelope, frame, projected
+            if not forward_frame_only:
+                del original
         except (OSError, EOFError, ValueError, KeyError, TypeError, AttributeError) as exc:
             stats["errors"].append(type(exc).__name__ + ":" + str(exc)[:100])
     results = {}

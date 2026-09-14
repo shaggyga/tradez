@@ -78,11 +78,12 @@ def read_quotes(path, *, clock):
 
 class ForwardWorker:
     def __init__(self, owner, *, clock_check, archive_root=DEFAULT_ARCHIVE, quote_path=DEFAULT_QUOTES,
-                 mapping_reader=mapper.read_feature_move_maps, quote_reader=read_quotes):
+                 forward_frame_root=None, mapping_reader=mapper.read_feature_move_maps, quote_reader=read_quotes):
         if not callable(clock_check):
             raise ValueError("verified_clock_check_required")
         self.owner, self.clock_check = owner, clock_check
         self.archive_root, self.quote_path = ledger.safe_path(archive_root), ledger.safe_path(quote_path)
+        self.forward_frame_root = ledger.safe_path(forward_frame_root) if forward_frame_root else None
         self.mapping_reader, self.quote_reader = mapping_reader, quote_reader
         self.last_decision_bucket = None
         self.last_report = None
@@ -151,7 +152,8 @@ class ForwardWorker:
                 # represented as a current signal or silently omitted.
                 maps = self.mapping_reader(self.archive_root, as_of_utc=as_of_utc,
                                            window_secs=(300,), include_all_comparisons=True,
-                                           reference_only=True)
+                                           reference_only=True,
+                                           forward_frame_only=bool(self.forward_frame_root))
                 for deferred_window in (900, 3600):
                     maps[deferred_window] = mapper.build_feature_move_map(
                         [], as_of_utc=as_of_utc, window_sec=deferred_window,
@@ -220,6 +222,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--archive-root", type=Path, default=DEFAULT_ARCHIVE)
     parser.add_argument("--quote-path", type=Path, default=DEFAULT_QUOTES)
+    parser.add_argument("--forward-frame-root", type=Path)
     parser.add_argument("--directory", type=Path, default=DEFAULT_DIRECTORY)
     parser.add_argument("--clock-state", type=Path, required=True)
     parser.add_argument("--once", action="store_true")
@@ -250,7 +253,8 @@ def main(argv=None):
         return 2
     owner = ledger.ForwardLedger(directory/"feature_forward_v1.sqlite", max_bytes=args.max_ledger_mib*1024*1024,
                                  minimum_free_bytes=args.minimum_free_mib*1024*1024)
-    worker = ForwardWorker(owner, clock_check=clock_check, archive_root=args.archive_root, quote_path=args.quote_path)
+    worker = ForwardWorker(owner, clock_check=clock_check, archive_root=(args.forward_frame_root or args.archive_root),
+                           quote_path=args.quote_path, forward_frame_root=args.forward_frame_root)
     start = time.monotonic()
     try:
         while True:

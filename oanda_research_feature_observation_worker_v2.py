@@ -17,7 +17,7 @@ import time
 import oanda_research_feature_observation_worker_v1 as base
 import oanda_feature_candle_inputs_v2 as candles
 import oanda_feature_event_inputs_v1 as events
-from oanda_feature_observations_v1 import archive_observation_snapshot, build_observation_frame, canonical_bytes, payload_sha256
+from oanda_feature_observations_v1 import archive_observation_snapshot, archive_forward_frame, build_observation_frame, canonical_bytes, payload_sha256
 from oanda_feature_research_clock_v1 import validate_clock_state
 
 ROOT = Path(__file__).resolve().parent
@@ -210,7 +210,11 @@ def run_cycle(args, *, clock=base.utc_now, monotonic=time.monotonic):
         "publication_scope":"archive_visible_before_this_receipt","producer_source":result["observation_source"],**base.FLAGS}
     receipt_path = path.with_suffix(".publication.json")
     base.immutable_json(receipt_path, receipt)
+    forward_path = None
+    if args.forward_frame_root:
+        forward_path = archive_forward_frame(frame, args.forward_frame_root, archive_receipt=receipt)
     return {"status":"published","archive":str(path),"publication_receipt":str(receipt_path),
+            "forward_frame":str(forward_path) if forward_path else None,
             "last_publication_completed_utc":published,"coverage":result["coverage"],"event_status":{k:receipts[k] for k in ("news","models") if k in receipts},
             "source_bytes":source_bytes,"clock_verification":clock_verdict,
             "stage_elapsed_sec":{"sources":round(read_finished-started,3),"build":round(built-read_finished,3),
@@ -230,6 +234,7 @@ def parse_args(argv=None):
     parser.add_argument("--max-cycle-sec",type=float,default=45)
     parser.add_argument("--max-daily-archive-mib",type=int,default=4096)
     parser.add_argument("--minimum-free-mib",type=int,default=4096)
+    parser.add_argument("--forward-frame-root", type=Path)
     parser.add_argument("--once",action="store_true")
     args = parser.parse_args(argv)
     if not 60 <= args.interval_sec <= 3600 or not 1 <= args.duration_sec <= 604800 or not 5 <= args.max_cycle_sec <= 50 or not 128 <= args.max_daily_archive_mib <= 4096 or not 128 <= args.minimum_free_mib <= 65536 or len(args.model_study)>3:
