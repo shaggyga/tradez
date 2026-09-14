@@ -32,6 +32,7 @@ FAMILIES=frozenset({'ridge_return_repaired','probabilistic_state_space'})
 REGISTRY_SCHEMA='pair_local_forecast_registry_v3_20260913'
 SUMMARY_SCHEMA='pair_local_forecast_summary_v3_20260913'
 HEARTBEAT_SCHEMA='pair_local_forecast_heartbeat_v3_20260913'
+SCHEDULING_VERSION='pair_capture_fit_fair_v3_20260913'
 REQUIRED_SOURCE_BINDINGS=frozenset({
  'oanda_pair_local_forecast_study_v3.py','oanda_causal_forecast_ledger_pair_v2.py',
  'oanda_fixed_forecast_evaluation_pair_v2.py','oanda_pair_local_models_v2.py',
@@ -336,6 +337,7 @@ class PairRunner:
     def __init__(self,registry,study,candle_root,quote_path,*,clock=time.time,activate=False):
         self.registry=registry;self.study=plain_c_path(study);self.candle_root=plain_c_path(candle_root);self.quote_path=plain_c_path(quote_path)
         self.clock=clock;self.states={};self.current={};self.queue=sorted(registry['pairs']);self.cursor=0
+        self.capture_cursor=0;self.fit_cursor=0;self.family_cursors={};self.prefer_fit=True
         self.future=None;self.active=None;self.score_future=None;self.score_key=None
         self.pool=ThreadPoolExecutor(max_workers=1,thread_name_prefix='pair-v3-fit')
         self.score_pool=ThreadPoolExecutor(max_workers=1,thread_name_prefix='pair-v3-score')
@@ -412,8 +414,18 @@ class PairRunner:
     def schedule_work(self):
         if self.future is not None:return
         now=number(self.clock());bucket=int(now//900)
+        # Candle capture and fitting have independent fair cursors. A source
+        # changing on every visit must not indefinitely displace a usable,
+        # already observed capture. Alternate dispatched work, with fallback
+        # when either class has no eligible work.
+        phases=(self.schedule_fit,self.schedule_capture) if getattr(self,'prefer_fit',True) else (self.schedule_capture,self.schedule_fit)
+        for phase in phases:
+            if phase(now,bucket):return
+
+    def schedule_capture(self,now,bucket):
         for _ in range(len(self.queue)):
-            pair=self.queue[self.cursor];self.cursor=(self.cursor+1)%len(self.queue);state=self.states[pair]
+            index=getattr(self,'capture_cursor',0)
+            pair=self.queue[index];self.capture_cursor=(index+1)%len(self.queue);state=self.states[pair]
             if now-state['last_scan']>=30:
                 state['last_scan']=now
                 try:
@@ -423,25 +435,54 @@ class PairRunner:
                 if signature!=state['source_signature']:
                     self.active=('capture',pair,signature)
                     self.future=self.pool.submit(capture_once,self.candle_root,pair,self.registry['pairs'][pair]['pip_size'])
-                    return
+                    self.prefer_fit=True
+                    return True
+        return False
+
+    def schedule_fit(self,now,bucket):
+        start=getattr(self,'fit_cursor',0)
+        for pair in self.queue[start:]+self.queue[:start]:
+            state=self.states[pair]
             capture=state.get('capture')
-            for family,slot in state['families'].items():
+            families=sorted(state['families']);cursors=getattr(self,'family_cursors',{})
+            cursor=cursors.get(pair,0)%len(families)
+            for offset in range(len(families)):
+                family=families[(cursor+offset)%len(families)];slot=state['families'][family]
                 quote=self.current.get(pair,{}).get(family)
                 if not quote or slot['last_success_bucket']>=bucket or now-slot['last_try']<30:continue
                 if input_readiness(capture,family,now)['status']!='ready':continue
+                if number(capture['first_observed_epoch'])>now:continue
                 if not 0<=now-quote['market_epoch']<=60:continue
                 basis=(capture['source_capture_sha256'],quote['quote_id'],bucket)
                 if slot['failed_basis']==basis:continue
-                slot['last_try']=now
+                slot['last_try']=now;attempt_id=None
                 try:
                     attempt_id=slot['ledger'].begin_attempt(bucket,quote)
                     if attempt_id is None:slot['last_success_bucket']=bucket;continue
                     slot['last_attempt']={'epoch':number(self.clock()),'reason':'building','attempt_id':attempt_id,'bucket':bucket}
+                    dispatch=number(self.clock())
+                    if (input_readiness(capture,family,dispatch)['status']!='ready'
+                            or number(capture['first_observed_epoch'])>dispatch
+                            or not 0<=dispatch-quote['market_epoch']<=60):
+                        raise ValueError('scheduler_inputs_unavailable_before_dispatch')
                     slot['building']=True
                     self.active=('fit',pair,(family,attempt_id,capture,basis))
                     self.future=self.pool.submit(fit_capture,capture,family)
-                    return
-                except Exception as exc:slot['reason']=self.error(pair,exc)
+                    self.prefer_fit=False
+                    cursors[pair]=(cursor+offset+1)%len(families);self.family_cursors=cursors
+                    self.fit_cursor=(self.queue.index(pair)+1)%len(self.queue)
+                    return True
+                except Exception as exc:
+                    reason=self.error(pair,exc);slot['reason']=reason;slot['building']=False
+                    if attempt_id is not None:
+                        slot['failed_basis']=basis
+                        if slot.get('last_attempt',{}).get('attempt_id')!=attempt_id:
+                            slot['last_attempt']={'epoch':None,'attempt_id':attempt_id,'bucket':bucket}
+                        slot['last_attempt']['reason']=reason
+                        try:slot['ledger'].record_abstention(attempt_id,{'reason':reason},capture=capture)
+                        except Exception as diagnostic_exc:self.error(pair,diagnostic_exc)
+                    self.future=None;self.active=None
+        return False
 
     def score(self):
         if self.score_future is not None and self.score_future.done():
@@ -473,6 +514,7 @@ class PairRunner:
             slots=[slot for row in self.summary['rows'] for slot in row['families'].values()]
             counts={status:sum(slot['status']==status for slot in slots) for status in ('forecast','warming','building','unavailable','ready')}
             heartbeat={'schema_version':HEARTBEAT_SCHEMA,'generated_epoch':number(self.clock()),
+                'scheduling_version':SCHEDULING_VERSION,
                 'registry_sha256':digest(self.registry),'summary_sha256':digest(self.summary),'research_only':True,
                 **{flag:False for flag in INERT_FLAGS},'phase':'research_collection','supported_decision':'no_trade',
                 'pair_count':len(self.states),'family_count':len(slots),'counts':counts,

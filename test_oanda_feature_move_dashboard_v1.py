@@ -1,5 +1,6 @@
 """AST and isolated JavaScript fixtures only: no dashboard import/server/archive."""
 import ast
+from functools import partial
 from datetime import datetime, timezone
 import hashlib
 import json
@@ -25,7 +26,7 @@ def source_tree():
     return ast.parse(SOURCE.read_bytes())
 
 
-def scope():
+def scope(*, use_current_selection=False):
     names = {'FEATURE_OBSERVATION_ARCHIVE_ROOT', 'FEATURE_MOVE_WINDOWS', 'FEATURE_MOVE_MAX_BYTES'}
     nodes = [node for node in source_tree().body if
              isinstance(node, ast.FunctionDef) and node.name in {'feature_move_window', 'feature_move_instrument', 'build_feature_move_response'}
@@ -34,6 +35,8 @@ def scope():
     clock = SimpleNamespace(time=lambda: NOW, monotonic=lambda: 10.)
     result = dict(Path=Path, __file__=str(SOURCE), time=clock, datetime=datetime, timezone=timezone, json=json, Any=Any, re=re)
     exec(compile(ast.Module(body=nodes, type_ignores=[]), str(SOURCE), 'exec'), result)
+    if not use_current_selection:
+        result['build_feature_move_response'] = partial(result['build_feature_move_response'], selection_reader=lambda *args: None)
     return result
 
 
@@ -196,13 +199,21 @@ def test_cache_is_window_scoped_byte_owned_and_invalidates_on_expiry_or_clock_ro
     assert len(cache.feature_move_cache) == 8 and (300, None) not in cache.feature_move_cache
 
 
-def test_only_two_marked_html_insertions_and_all_legacy_bytes_protected():
+def test_feature_insertions_preserved_across_explicit_current_selection_successor():
     raw = HTML.read_bytes()
+    # The operational selection successor intentionally changes the surrounding
+    # current-model view. Its own selection/expiry tests own those new branches;
+    # this feature API regression still protects both original feature blocks.
+    successor = b"basis:'native_producer_summary'" in raw
+    feature_hashes = {'PANEL':'e6f283e31bae19a24f2c5368084f46cee82dd5f59d9c8fcc8591be333d40d2b3',
+                      'SCRIPT':'a5414445fc33efce80fe8e8f014bf958dd05ebde17effe314112b173d6edf0f2'}
     for part in ('PANEL', 'SCRIPT'):
         expression = rb'<!-- FEATURE_MOVE_' + part.encode() + rb'_V1_START -->.*?<!-- FEATURE_MOVE_' + part.encode() + rb'_V1_END -->'
         assert len(re.findall(expression, raw, re.S)) == 1
+        assert hashlib.sha256(re.search(expression, raw, re.S).group()).hexdigest() == feature_hashes[part]
         raw = re.sub(expression, b'', raw, count=1, flags=re.S)
-    assert hashlib.sha256(raw).hexdigest() == PREDECESSOR_HTML_SHA256
+    if not successor:
+        assert hashlib.sha256(raw).hexdigest() == PREDECESSOR_HTML_SHA256
 
 
 def node_check(body):

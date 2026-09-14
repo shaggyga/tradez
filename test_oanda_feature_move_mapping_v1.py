@@ -395,11 +395,138 @@ def test_archive_read_budget_counts_failed_expansion(tmp_path, monkeypatch):
     import oanda_feature_move_mapping_v1 as mapping
     from oanda_feature_observations_v1 import archive_observation_snapshot
     archive_observation_snapshot(original_snapshot(20), tmp_path)
-    monkeypatch.setattr(mapping, "MAX_READ_BYTES", 100)
+    monkeypatch.setattr(mapping, "MAX_ARCHIVE_SCAN_BYTES", 100)
     result = read_feature_move_map(tmp_path, as_of_utc=(START+timedelta(minutes=20)).isoformat())
     assert result["archive"]["bounded_sample"]
     assert result["archive"]["bytes_read"] == 101
     assert result["archive"]["files_read"] == 0
+
+
+def test_streamed_lossless_history_reaches_all_three_reference_windows(tmp_path, monkeypatch):
+    import os
+    import oanda_feature_move_mapping_v1 as mapping
+    from oanda_feature_observations_v1 import archive_observation_snapshot, build_observation_frame
+    # Expanded original/normalized envelopes exceed the retained-state cap.
+    # Every window still gets its full historical baseline without changing
+    # feature units, missingness, clocks or descriptive-reference arithmetic.
+    originals=[]
+    for index in range(0,481,5):
+        raw=original_snapshot(index);raw['unranked_retained_original']='x'*16384
+        path=archive_observation_snapshot(raw,tmp_path)
+        stamp=(START+timedelta(minutes=index)).timestamp();os.utime(path,(stamp,stamp))
+        originals.append(raw)
+    monkeypatch.setattr(mapping,'MAX_READ_BYTES',512*1024)
+    monkeypatch.setattr(mapping,'MAX_ARCHIVE_SCAN_BYTES',16*1024*1024)
+    monkeypatch.setattr(mapping,'REFERENCE_SCAN_TARGET_BYTES',128*1024)
+    now=(START+timedelta(minutes=480)).isoformat()
+    shared=mapping.read_feature_move_maps(tmp_path,as_of_utc=now,include_all_comparisons=True)
+    frames=[build_observation_frame(raw) for raw in originals]
+    for window,result in shared.items():
+        assert 16<=result['archive']['files_read']<97
+        assert result['archive']['bytes_read']>mapping.REFERENCE_SCAN_TARGET_BYTES
+        assert result['archive']['retained_projection_bytes']<=mapping.MAX_READ_BYTES
+        assert result['archive']['reader_version']==mapping.READER_VERSION
+        assert not result['archive']['errors']
+        assert by_name(result,'rsi14')['history_count']>=5
+        identities={s['snapshot_id'] for s in result['source_snapshots']}
+        selected=[f for f in frames if f['snapshot_id'] in identities]
+        direct=mapping.build_feature_move_map(selected,as_of_utc=now,window_sec=window,include_all_comparisons=True)
+        assert result['all_feature_changes']==direct['all_feature_changes']
+        assert result['pairs']==direct['pairs']
+
+
+def test_projection_memory_limit_remains_explicit(tmp_path,monkeypatch):
+    import oanda_feature_move_mapping_v1 as mapping
+    from oanda_feature_observations_v1 import archive_observation_snapshot
+    archive_observation_snapshot(original_snapshot(20),tmp_path)
+    monkeypatch.setattr(mapping,'MAX_READ_BYTES',10)
+    result=read_feature_move_map(tmp_path,as_of_utc=(START+timedelta(minutes=20)).isoformat())
+    assert result['archive']['errors']==['retained_projection_or_value_bound']
+    assert result['archive']['bounded_sample']
+    assert result['archive']['files_read']==0
+
+
+def test_dense_eight_hour_archive_keeps_exact_endpoints_before_file_count_sampling(tmp_path,monkeypatch):
+    import os
+    import oanda_feature_move_mapping_v1 as mapping
+    from oanda_feature_observations_v1 import archive_observation_snapshot
+    for index in range(481):
+        path=archive_observation_snapshot(original_snapshot(index),tmp_path)
+        stamp=(START+timedelta(minutes=index)).timestamp();os.utime(path,(stamp,stamp))
+    monkeypatch.setattr(mapping,'REFERENCE_SCAN_TARGET_BYTES',1)
+    results=mapping.read_feature_move_maps(tmp_path,as_of_utc=(START+timedelta(minutes=480)).isoformat())
+    for result in results.values():
+        assert result['archive']['files_considered']==481
+        assert result['archive']['files_read']<32
+        assert result['archive']['bounded_sample']
+        assert by_name(result,'rsi14')['actual_window_sec']==result['window_sec']
+        assert by_name(result,'rsi14')['history_count']>=5
+
+
+def test_lossless_projection_never_collapses_conflicting_aliases_or_stale_clocks():
+    import oanda_feature_move_mapping_v1 as mapping
+    frames=series()
+    for value in frames:
+        groups=value['instruments']['EUR_USD']['groups']
+        groups['alias']=deepcopy(groups['timeframe:M1'])
+    frames[-1]['instruments']['EUR_USD']['groups']['alias']['values']['rsi14']=99
+    frames[-1]['instruments']['EUR_USD']['groups']['timeframe:M1']['bar_complete_utc']=START.isoformat()
+    now=(START+timedelta(minutes=20)).timestamp()
+    projections=[];digests={}
+    import hashlib
+    for value in frames:
+        projected,_=mapping._project_verified_frame(value);projections.append(projected)
+        digests[id(projected)]=hashlib.sha256(mapping._canonical(value)).hexdigest()
+    prepared=mapping._prepare_frames(projections,now,recreated_digests=digests)
+    compact=mapping._build_feature_move_map(projections,as_of_utc=(START+timedelta(minutes=20)).isoformat(),prepared=prepared)
+    assert compact==build(frames)
+    assert by_name(compact,'rsi14')['reason']=='feature_conflicting_alias'
+
+
+@pytest.mark.parametrize('case,reason',[
+    ('valid',None),('unverified','event_publication_receipt_unknown'),
+    ('missing_expiry','event_publication_receipt_unknown'),
+    ('future_publication','event_publication_clock_invalid'),
+    ('wrong_completion','event_publication_clock_invalid'),
+    ('expired','event_evidence_expired'),('invalid_expiry','event_publication_clock_invalid')])
+def test_event_features_keep_original_receipt_and_expiry(case,reason):
+    import oanda_feature_move_mapping_v1 as mapping
+    now=(START+timedelta(minutes=20)).timestamp()
+    publication=now-1800;expires=now+60
+    iso=lambda n:datetime.fromtimestamp(n,timezone.utc).isoformat()
+    item={'feature_name':'supervised_probability_up','group':'model','input_timeframe':'EVENT',
+          'value_state':'observed','observed_utc':iso(now),'clock_basis':'verified_model_publication',
+          'bar_complete_utc':iso(publication),'component_clocks':{'source_publication_utc':iso(publication),
+              'valid_until_utc':iso(expires),'publication_receipt_verified':True}}
+    if case=='unverified':item['component_clocks']['publication_receipt_verified']=1
+    if case=='missing_expiry':item['component_clocks'].pop('valid_until_utc')
+    if case=='future_publication':item['component_clocks']['source_publication_utc']=iso(now+1)
+    if case=='wrong_completion':item['bar_complete_utc']=iso(publication-1)
+    if case=='expired':item['component_clocks']['valid_until_utc']=iso(now)
+    if case=='invalid_expiry':item['component_clocks']['valid_until_utc']=iso(publication)
+    assert mapping._entry_reason(item,now,75)==reason
+    if case=='valid':
+        # A fresh re-read cannot extend the original publication expiry.
+        item['observed_utc']=iso(expires)
+        assert mapping._entry_reason(item,expires,75)=='event_evidence_expired'
+
+
+def test_higher_timeframe_calendar_opt_in_preserves_original_bar_clock():
+    import oanda_feature_move_mapping_v1 as mapping
+    completed=datetime(2026,9,11,20,tzinfo=timezone.utc).timestamp()
+    observed=datetime(2026,9,13,23,tzinfo=timezone.utc).timestamp()
+    iso=lambda n:datetime.fromtimestamp(n,timezone.utc).isoformat()
+    item={'feature_name':'rsi14','group':'timeframe:H4','input_timeframe':'H4','value_state':'observed',
+          'observed_utc':iso(observed),'bar_complete_utc':iso(completed),'clock_basis':'complete_native_candles',
+          'component_clocks':{}}
+    assert mapping._entry_reason(item,observed,75)=='feature_bar_stale'
+    item['component_clocks']['candle_calendar_contract']='fx_weekend_ny_friday_1700_sunday_1700_v1'
+    assert mapping._entry_reason(item,observed,75) is None
+    assert item['bar_complete_utc']==iso(completed)
+    item['input_timeframe']='M1'
+    assert mapping._entry_reason(item,observed,75)=='feature_calendar_unknown_or_unsupported'
+    item['input_timeframe']='H4';item['component_clocks']['candle_calendar_contract']='unknown'
+    assert mapping._entry_reason(item,observed,75)=='feature_calendar_unknown_or_unsupported'
 
 
 def test_shared_currency_mapping_preserves_base_quote_orientation():

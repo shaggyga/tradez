@@ -11,7 +11,8 @@ param(
     [switch]$EnableSubMinuteResearch,
     [switch]$EnableLegacyFlatPracticeBots,
     [switch]$SafeCoreOnly,
-    [switch]$ResearchCollectionOnly
+    [switch]$ResearchCollectionOnly,
+    [string]$OperationalProfilePath = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -596,7 +597,8 @@ function Test-FreshOutput {
         [int]$MaxProgressAgeSec = 0,
         [string[]]$ProgressPhases = @(),
         [string]$ExpectedJsonField = "",
-        [string]$ExpectedJsonValue = ""
+        [string]$ExpectedJsonValue = "",
+        [switch]$InspectOperationalStatus
     )
     $item = $null
     if ($LiteralPath -and (Test-Path -LiteralPath $LiteralPath)) {
@@ -617,7 +619,7 @@ function Test-FreshOutput {
     if ($result.fresh -and $LiteralPath -and (
         ($MaxPhaseAgeSec -gt 0 -and $WatchedPhases.Count -gt 0) -or
         ($MaxProgressAgeSec -gt 0 -and $ProgressPhases.Count -gt 0) -or
-        ($ExpectedJsonField -and $ExpectedJsonValue)
+        ($ExpectedJsonField -and $ExpectedJsonValue) -or $InspectOperationalStatus
     )) {
         try {
             # Atomic publisher replacement can be briefly unreadable on
@@ -627,6 +629,21 @@ function Test-FreshOutput {
             $heartbeat = Read-JsonFileWithRetry -LiteralPath $item.FullName
             $phase = [string]$heartbeat.phase
             $result.phase = $phase
+            if ($InspectOperationalStatus) {
+                # Liveness and a reported failed cycle are different facts.
+                # Keep this process available to retry its inputs, while the
+                # health reader reports the failure instead of a green light.
+                $result.reported_status = [string]$heartbeat.status
+                $result.reported_phase = $phase
+                $result.reported_error = [string]$heartbeat.last_error
+                if (-not $result.reported_error -and $heartbeat.last_failure) {
+                    $result.reported_error = [string]$heartbeat.last_failure.reason
+                }
+                $result.reported_failure = ($heartbeat.status -in @("failed", "error", "unavailable", "stopped", "partial_unavailable") -or
+                    $phase -in @("failed", "cycle_failed", "stopped") -or
+                    ($heartbeat.errors -is [System.Array] -and $heartbeat.errors.Count -gt 0) -or
+                    ($heartbeat.shared_history_prepared -ceq $false -and -not [string]::IsNullOrWhiteSpace($result.reported_error)))
+            }
             if ($MaxPhaseAgeSec -gt 0 -and $WatchedPhases.Count -gt 0) {
                 $phaseAgeSec = [double]$heartbeat.phase_age_sec
                 $result.phase_age_sec = [math]::Round($phaseAgeSec, 1)
@@ -682,6 +699,7 @@ function Start-ManagedProcess {
         [string]$Name,
         [string]$Needle,
         [string[]]$Arguments,
+        [string[]]$InterpreterArguments = @(),
         [hashtable]$Freshness = @{},
         [int]$StartupDelaySec = 0,
         [string]$Executable = "",
@@ -816,7 +834,7 @@ function Start-ManagedProcess {
     }
     try {
         $proc = Start-Process -FilePath $ProcessExecutable `
-            -ArgumentList $Arguments `
+            -ArgumentList ($InterpreterArguments + $Arguments) `
             -WorkingDirectory $Root `
             -WindowStyle Hidden `
             -RedirectStandardOutput $stdout `
@@ -865,6 +883,83 @@ function Start-ManagedProcess {
     return @{ name = $Name; running = $true; started = $true; pids = @($proc.Id); freshness = $fresh }
 }
 
+$OperationalProfile = $null
+$OperationalProfileSha256 = $null
+function Get-OperationalSourceHash {
+    param([string]$LiteralPath)
+    $hasher = [Security.Cryptography.SHA256]::Create()
+    $stream = [IO.File]::OpenRead($LiteralPath)
+    try { return ([BitConverter]::ToString($hasher.ComputeHash($stream))).Replace("-", "").ToLowerInvariant() }
+    finally { $stream.Dispose(); $hasher.Dispose() }
+}
+$OperationalScripts = @{
+    revision_news_collector_v2 = "oanda_local_news_sentiment.py"
+    local_news_sentiment_repair_v2 = "oanda_local_news_sentiment_repair_v2.py"
+    revision_news_transport_v4 = "revision_transport_v4.py"
+    joint_price_news_study_v7 = "oanda_joint_price_news_forecast_study_v7.py"
+    pair_local_forecast_study_v3 = "oanda_pair_local_forecast_study_v3.py"
+    retained_price_settlement_v1 = "oanda_retained_price_settlement_v1.py"
+    native_feature_candles_v1 = "oanda_native_feature_candle_updater_v1.py"
+    research_feature_observations_v2 = "oanda_research_feature_observation_worker_v2.py"
+    research_feature_forward_v2 = "oanda_feature_forward_worker_v1.py"
+    official_pair_horizon_v2 = "oanda_official_event_pair_horizon_capture_v2.py"
+}
+if ($OperationalProfilePath) {
+    if (-not $ResearchCollectionOnly -or -not $SafeCoreOnly) {
+        throw "Operational repairs require the explicit safe research-collection profile."
+    }
+    $OperationalProfilePath = [IO.Path]::GetFullPath($OperationalProfilePath)
+    if ((Get-Item -LiteralPath $OperationalProfilePath).Length -gt 131072) {
+        throw "Operational profile exceeds bounded size."
+    }
+    $OperationalProfile = Get-Content -LiteralPath $OperationalProfilePath -Raw | ConvertFrom-Json
+    if ($OperationalProfile.schema_version -ne "forex_operational_runtime_v1_20260913" -or
+        $OperationalProfile.research_only -isnot [bool] -or $OperationalProfile.can_place_orders -isnot [bool] -or
+        $OperationalProfile.research_only -cne $true -or $OperationalProfile.can_place_orders -cne $false) {
+        throw "Invalid operational research profile."
+    }
+    $opNames = @($OperationalProfile.services | ForEach-Object { $_.name })
+    if ($opNames.Count -ne $OperationalScripts.Count -or @($opNames | Select-Object -Unique).Count -ne $opNames.Count) {
+        throw "Exact operational service set required."
+    }
+    foreach ($service in $OperationalProfile.services) {
+        if (-not $OperationalScripts.ContainsKey([string]$service.name) -or
+            $service.script -cne $OperationalScripts[[string]$service.name] -or
+            $service.source_sha256 -notmatch '^[a-f0-9]{64}$') {
+            throw "Unregistered operational worker."
+        }
+        $expectedNeedle = if ($service.name -eq "revision_news_collector_v2") {
+            "oanda_local_news_sentiment.py*" + (Join-Path $DataRoot "market_open_20260913_v1\local_news_sentiment")
+        } elseif ($service.name -eq "research_feature_forward_v2") {
+            "oanda_feature_forward_worker_v1.py*" + (Join-Path $DataRoot "operational_repair_20260913_v1\feature_forward_v3")
+        } else { [string]$service.script }
+        if ($service.needle -cne $expectedNeedle -or
+            [string]::IsNullOrWhiteSpace([string]$service.heartbeat_schema)) {
+            throw "Operational worker identity is not exact."
+        }
+        $opSource = Join-Path $Trad $service.script
+        if ((Get-OperationalSourceHash -LiteralPath $opSource) -cne $service.source_sha256) {
+            throw "Operational worker source changed: $($service.name)"
+        }
+        if ($service.max_age_sec -lt 15 -or $service.max_age_sec -gt 900 -or
+            $service.startup_grace_sec -lt 15 -or $service.startup_grace_sec -gt 1800 -or
+            $service.arguments -isnot [System.Array] -or $service.arguments.Count -gt 40) {
+            throw "Invalid bounded operational worker parameters."
+        }
+        $opHeartbeat = [IO.Path]::GetFullPath([string]$service.heartbeat)
+        if (-not $opHeartbeat.StartsWith(([IO.Path]::GetFullPath($DataRoot) + '\'), [StringComparison]::OrdinalIgnoreCase)) {
+            throw "Operational heartbeat must remain in project data."
+        }
+    }
+    $OperationalProfileSha256 = Get-OperationalSourceHash -LiteralPath $OperationalProfilePath
+    $replaced = @("pair_local_forecast_study_v1", "pair_local_forecast_study_v2",
+        "local_news_sentiment_repair_v1", "joint_price_news_study_v3",
+        "research_feature_observations_v1", "research_feature_forward_v1")
+    $DisabledNames += $replaced
+    $retainedCollectionNames = @($ResearchCollectionNames | Where-Object { $_ -notin $replaced })
+    $ResearchCollectionNames = $retainedCollectionNames + $opNames
+}
+
 $SupervisorStartedUtc = (Get-Date).ToUniversalTime()
 Write-SupervisorEvent "supervisor_started" @{
     root = $Root
@@ -878,6 +973,9 @@ Write-SupervisorEvent "supervisor_started" @{
     research_collection_only = [bool]$ResearchCollectionOnly
     research_collection_names = $(if ($ResearchCollectionOnly) { $ResearchCollectionNames } else { @() })
     dedicated_quote_snapshot = $DedicatedQuoteSnapshot
+    operational_profile_path = $OperationalProfilePath
+    operational_profile_sha256 = $OperationalProfileSha256
+    operational_profile_schema = $(if ($OperationalProfile) { $OperationalProfile.schema_version } else { $null })
 }
 
 while ($true) {
@@ -912,7 +1010,7 @@ while ($true) {
             )
         $managed += Start-ManagedProcess `
             -Name "local_news_sentiment" `
-            -Needle "oanda_local_news_sentiment.py" `
+            -Needle "oanda_local_news_sentiment.py --interval-sec" `
             -PriorityClass "BelowNormal" `
             -Arguments @(
                 (Join-Path $Trad "oanda_local_news_sentiment.py"),
@@ -949,11 +1047,11 @@ while ($true) {
             -Name "official_release_fast_lane" `
             -Needle "oanda_official_release_fast_lane.py" `
             -PriorityClass "BelowNormal" `
-            -Arguments @(
+            -Arguments (@(
                 (Join-Path $Trad "oanda_official_release_fast_lane.py"),
                 "--interval-sec", "15",
                 "--duration-sec", "$ChildDurationSec"
-            ) `
+            ) + $(if ($OperationalProfile) { @("--pair-capture-v4") } else { @() })) `
             -Freshness @{
                 LiteralPath = (Join-Path $DataRoot "local_news_sentiment\official_release_fast_lane_heartbeat_v4.json")
                 MaxAgeSec = 120
@@ -3380,7 +3478,7 @@ while ($true) {
             }
         $managed += Start-ManagedProcess `
             -Name "research_feature_forward_v1" `
-            -Needle "oanda_feature_forward_worker_v1.py" `
+            -Needle "oanda_feature_forward_worker_v1.py*feature_forward_v2" `
             -Executable $ModelGapPython `
             -StartupDelaySec 75 `
             -PriorityClass "BelowNormal" `
@@ -4230,6 +4328,30 @@ while ($true) {
                 MaxPhaseAgeSec = 900
                 WatchedPhases = @("initializing", "building_features")
             }
+        if ($OperationalProfile) {
+            if ((Get-OperationalSourceHash -LiteralPath $OperationalProfilePath) -cne $OperationalProfileSha256) {
+                throw "Operational profile changed while supervisor was running."
+            }
+            foreach ($service in $OperationalProfile.services) {
+                $opArguments = @((Join-Path $Trad $service.script)) + @($service.arguments | ForEach-Object { [string]$_ })
+                $opInterpreterArguments = @("-B")
+                if ($service.name -eq "revision_news_transport_v4") {
+                    $unusedBytecode = Join-Path $DataRoot ("operational_repair_20260913_v1\unused_bytecode_" + [Guid]::NewGuid().ToString("N"))
+                    $opInterpreterArguments += @("-X", "pycache_prefix=$unusedBytecode")
+                }
+                $opFreshness = @{
+                    LiteralPath = [string]$service.heartbeat
+                    MaxAgeSec = [int]$service.max_age_sec
+                    StartupGraceSec = [int]$service.startup_grace_sec
+                    ExpectedJsonField = "schema_version"
+                    ExpectedJsonValue = [string]$service.heartbeat_schema
+                    InspectOperationalStatus = $true
+                }
+                $managed += Start-ManagedProcess -Name $service.name -Needle $service.needle `
+                    -Executable $CoreTimeseriesPython -PriorityClass "BelowNormal" `
+                    -Arguments $opArguments -InterpreterArguments $opInterpreterArguments -Freshness $opFreshness
+            }
+        }
         Write-SupervisorEvent "heartbeat" @{
             managed = $managed
             storage = @(

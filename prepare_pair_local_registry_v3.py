@@ -74,7 +74,7 @@ def make_registry(*,scope='prospective',selected_pairs=None,metadata_path=METADA
         'created_epoch':prepared,'preparation_clock_is_activation':False,
         'pair_metadata_source':{'path':str(metadata_path),'sha256':metadata_sha256},
         'activation_policy':'Preparation creates no database. Deployment must explicitly activate a wholly new study root with the then-current ledger clocks. The evaluator export uses actual ledger activation, never this preparation clock.',
-        'purpose':'Separately registered opening price-only controls reusing the existing v2 scheduler and numerical formulas. Old study contracts, forecasts, outcomes and exclusions are retained unchanged.'}
+        'purpose':'Separately registered price-only controls using fair capture/fit scheduling and unchanged v2 numerical formulas. Old study contracts, forecasts, outcomes and exclusions are retained unchanged.'}
 
 
 def prepare_registry(output,**kwargs):

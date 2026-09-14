@@ -19,6 +19,21 @@ EXPECTED_RESEARCH_WORKERS = frozenset({
     'source_governance_news_fast_lane','project_integrity_audit','storage_headroom_guard',
     'local_news_sentiment_repair_v1','joint_price_news_study_v3',
 })
+OPERATIONAL_PROFILE_SCHEMA = 'forex_operational_runtime_v1_20260913'
+REPLACED_OPERATIONAL_WORKERS = frozenset({
+    'pair_local_forecast_study_v1','pair_local_forecast_study_v2',
+    'local_news_sentiment_repair_v1','joint_price_news_study_v3',
+    'research_feature_observations_v1','research_feature_forward_v1',
+})
+OPERATIONAL_PROFILE_WORKERS = frozenset({
+    'revision_news_collector_v2',
+    'local_news_sentiment_repair_v2','revision_news_transport_v4',
+    'joint_price_news_study_v7','pair_local_forecast_study_v3',
+    'retained_price_settlement_v1','native_feature_candles_v1',
+    'research_feature_observations_v2','research_feature_forward_v2',
+    'official_pair_horizon_v2',
+})
+EXPECTED_OPERATIONAL_WORKERS = (EXPECTED_RESEARCH_WORKERS - REPLACED_OPERATIONAL_WORKERS) | OPERATIONAL_PROFILE_WORKERS
 INACTIVE_REASONS = frozenset({'disabled','research_collection_only','safe_core_only'})
 CHECK_WORKERS = {
     'continuous_narrative_meter_sealed_current_and_inert':('continuous_narrative_meter',),
@@ -111,10 +126,28 @@ def read_supervisor_observation(logs, *, clock=time.time):
             raise ValueError('stale_future_or_reversed_supervisor_clock')
         if start.get('research_collection_only') is not True:
             raise ValueError('research_only_supervision_not_established')
+        profile_schema = start.get('operational_profile_schema')
+        expected = EXPECTED_RESEARCH_WORKERS
+        if profile_schema is not None:
+            if profile_schema != OPERATIONAL_PROFILE_SCHEMA:
+                raise ValueError('unknown_operational_profile_schema')
+            profile_path,profile_hash = start.get('operational_profile_path'),start.get('operational_profile_sha256')
+            if (not isinstance(profile_path,str) or not profile_path.strip()
+                    or not isinstance(profile_hash,str) or not re.fullmatch(r'[a-f0-9]{64}',profile_hash)):
+                raise ValueError('operational_profile_binding_missing')
+            expected = EXPECTED_OPERATIONAL_WORKERS
+            result['operational_profile'] = {'schema':profile_schema,'path':profile_path,'sha256':profile_hash,
+                'scope':'Supervisor-reported validated profile binding; this reader does not independently reopen the profile or worker sources.'}
+        elif start.get('operational_profile_path') or start.get('operational_profile_sha256'):
+            raise ValueError('operational_profile_binding_without_schema')
+        result['expected_workers'] = sorted(expected)
         announced = start.get('research_collection_names')
         if (not isinstance(announced,list) or len(announced)!=len(set(announced))
-                or not EXPECTED_RESEARCH_WORKERS <= set(announced)):
+                or any(not isinstance(name,str) for name in announced)
+                or not expected <= set(announced)):
             raise ValueError('expected_research_workers_not_in_supervisor_allowlist')
+        if profile_schema is not None and REPLACED_OPERATIONAL_WORKERS.intersection(announced):
+            raise ValueError('retired_workers_still_in_operational_allowlist')
         managed = heartbeat.get('managed')
         if not isinstance(managed,list) or len(managed)>256:
             raise ValueError('bounded_supervisor_worker_list_required')
@@ -140,26 +173,35 @@ def read_supervisor_observation(logs, *, clock=time.time):
                 age = freshness.get('age_sec')
                 if type(age) not in (float,int) or not math.isfinite(age) or age<0:
                     healthy = False
+            if profile_schema is not None and name in OPERATIONAL_PROFILE_WORKERS:
+                # Fresh output establishes liveness; operational success also
+                # requires the supervisor's explicit worker status inspection.
+                if freshness.get('reported_failure') is not False:
+                    healthy = False
             # An unchecked dashboard process is reported separately, never as a
             # verified HTTP response. Supervisor output age is its own observed age.
             workers[name]={'running':running,'pids':pids,'freshness':freshness,
-                           'supervisor_check_ok':healthy,'explicitly_inactive':explicitly_inactive}
+                           'supervisor_check_ok':healthy,'explicitly_inactive':explicitly_inactive,
+                           'reported_failure':freshness.get('reported_failure'),
+                           'reported_status':freshness.get('reported_status'),
+                           'reported_phase':freshness.get('reported_phase'),
+                           'reported_error':freshness.get('reported_error')}
         result.update(workers=workers,generated_epoch=generated,supervisor_age_sec=observed-generated,
             source={'path':str(path),'observed_size_bytes':size,'head_sha256':hashlib.sha256(head).hexdigest(),
                     'tail_sha256':hashlib.sha256(tail).hexdigest(),'tail_start_offset_before_partial_line_drop':offset})
         issues = []
-        for name in sorted(EXPECTED_RESEARCH_WORKERS):
+        for name in sorted(expected):
             if not workers.get(name,{}).get('supervisor_check_ok'):
                 issues.append('required_worker_unhealthy_or_missing:'+name)
         for name,row in workers.items():
-            if row['running'] and name not in EXPECTED_RESEARCH_WORKERS:
+            if row['running'] and name not in expected:
                 issues.append('unexpected_active_worker:'+name)
         later_errors = [row for row in tail_rows if row.get('event')=='supervisor_error' and _epoch(row['time'])>generated]
         if later_errors:
             issues.append('supervisor_error_after_latest_heartbeat')
         result.update(status='degraded' if issues else 'current',reasons=issues,
             running_worker_count=sum(r['running'] for r in workers.values()),
-            expected_worker_count=len(EXPECTED_RESEARCH_WORKERS),
+            expected_worker_count=len(expected),
             output_unchecked_workers=[name for name,row in workers.items() if row['running'] and row['freshness'].get('reason')=='not_checked'],
             later_supervisor_errors=[{'time':row['time'],'error':str(row.get('error',''))[:500]} for row in later_errors])
     except (OSError,ValueError,TypeError,KeyError,IndexError,AttributeError) as exc:
@@ -170,6 +212,7 @@ def read_supervisor_observation(logs, *, clock=time.time):
 def scope_integrity_checks(checks, runtime):
     """Explain inactive scope without changing any artifact check or failure."""
     workers = runtime.get('workers',{}) if runtime.get('status') in ('current','degraded') else {}
+    expected = frozenset(runtime.get('expected_workers') or EXPECTED_RESEARCH_WORKERS)
     scopes = {}
     for check,passed in checks.items():
         names = CHECK_WORKERS.get(check,())
@@ -177,7 +220,7 @@ def scope_integrity_checks(checks, runtime):
             scope = 'shared_or_unmapped_artifact_check'
         elif any(name not in workers for name in names):
             scope = 'unknown_runtime_scope'
-        elif all(workers[name].get('explicitly_inactive') for name in names) and not set(names)&EXPECTED_RESEARCH_WORKERS:
+        elif all(workers[name].get('explicitly_inactive') for name in names) and not set(names)&expected:
             scope = 'inactive_legacy_component'
         elif all(workers[name].get('running') for name in names):
             scope = 'active_component'

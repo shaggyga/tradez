@@ -191,3 +191,81 @@ def test_audit_database_reader_rejects_mutation(tmp_path):
     finally:
         reader.close()
     assert path.read_bytes()==raw
+
+
+def operational_fixture():
+    start,hb=fixture()
+    start.update(operational_profile_schema=health.OPERATIONAL_PROFILE_SCHEMA,
+                 operational_profile_path='C:/forex/trad/config/operational_runtime_v1_20260913.json',
+                 operational_profile_sha256='a'*64,
+                 research_collection_names=sorted(health.EXPECTED_OPERATIONAL_WORKERS))
+    hb['managed']=[row for row in hb['managed'] if row['name'] not in health.REPLACED_OPERATIONAL_WORKERS]
+    hb['managed'] += [dict(name=name,running=True,pids=[10000+i],
+                          freshness=dict(fresh=True,reason='fresh',age_sec=1,reported_failure=False,
+                                         reported_status='running',reported_phase='waiting',reported_error=None))
+                      for i,name in enumerate(sorted(health.OPERATIONAL_PROFILE_WORKERS))]
+    hb['managed'] += [dict(name=name,running=False,pids=[],
+                          freshness=dict(fresh=True,reason='disabled'))
+                      for name in sorted(health.REPLACED_OPERATIONAL_WORKERS)]
+    return start,hb
+
+
+def test_operational_profile_requires_all_twenty_one_workers_and_exact_binding(tmp_path):
+    start,hb=operational_fixture()
+    result=observe(tmp_path,start,hb)
+    assert result['status']=='current'
+    assert result['expected_worker_count']==21
+    assert set(result['expected_workers'])==health.EXPECTED_OPERATIONAL_WORKERS
+    assert result['operational_profile']['sha256']=='a'*64
+
+
+@pytest.mark.parametrize('name',sorted(health.OPERATIONAL_PROFILE_WORKERS))
+def test_every_new_operational_worker_is_required_even_if_reported_disabled(tmp_path,name):
+    start,hb=operational_fixture()
+    row=next(row for row in hb['managed'] if row['name']==name)
+    row.update(running=False,pids=[],freshness=dict(fresh=True,reason='disabled'))
+    result=observe(tmp_path,start,hb)
+    assert result['status']=='degraded'
+    assert 'required_worker_unhealthy_or_missing:'+name in result['reasons']
+
+
+@pytest.mark.parametrize('name',sorted(health.REPLACED_OPERATIONAL_WORKERS))
+def test_retired_producer_cannot_remain_in_operational_allowlist(tmp_path,name):
+    start,hb=operational_fixture()
+    start['research_collection_names'].append(name)
+    result=observe(tmp_path,start,hb)
+    assert result['status']=='unavailable'
+    assert 'retired_workers_still_in_operational_allowlist' in result['reasons'][0]
+
+
+@pytest.mark.parametrize('field,value',[
+    ('operational_profile_schema','unknown'),('operational_profile_schema',None),
+    ('operational_profile_sha256',''),('operational_profile_sha256','xyz'),
+    ('operational_profile_path',''),
+])
+def test_invalid_operational_binding_is_not_reported_as_legacy_success(tmp_path,field,value):
+    start,hb=operational_fixture(); start[field]=value
+    assert observe(tmp_path,start,hb)['status']=='unavailable'
+
+
+def test_old_retired_producer_actually_running_is_unexpected(tmp_path):
+    start,hb=operational_fixture()
+    row=next(row for row in hb['managed'] if row['name']=='research_feature_observations_v1')
+    row.update(running=True,pids=[99999],freshness=dict(fresh=True,reason='fresh',age_sec=1))
+    result=observe(tmp_path,start,hb)
+    assert result['status']=='degraded'
+    assert 'unexpected_active_worker:research_feature_observations_v1' in result['reasons']
+
+
+@pytest.mark.parametrize('failure',[True,None,'false'])
+def test_fresh_operational_error_heartbeat_is_not_healthy(tmp_path,failure):
+    start,hb=operational_fixture()
+    name='revision_news_transport_v4'
+    row=next(row for row in hb['managed'] if row['name']==name)
+    row['freshness'].update(reported_failure=failure,reported_status='failed',
+                            reported_phase='cycle_failed',reported_error='sourceguard fixture failure')
+    result=observe(tmp_path,start,hb)
+    assert result['status']=='degraded'
+    assert result['workers'][name]['freshness']['fresh'] is True
+    assert result['workers'][name]['reported_error']=='sourceguard fixture failure'
+    assert 'required_worker_unhealthy_or_missing:'+name in result['reasons']

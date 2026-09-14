@@ -1,0 +1,100 @@
+{
+  "checked_utc": "2026-09-13T23:52:39.415694+00:00",
+  "joint": {
+    "errors": 2,
+    "heartbeat_age_sec": 3.6434881687164307,
+    "last_error": "shared_news:HealthFailure:existing_ancestors_required",
+    "phase": "research_collection",
+    "schema_version": "joint_price_news_forecast_heartbeat_v7_20260913"
+  },
+  "mode": "read_only",
+  "native": {
+    "completed_requests": 71,
+    "error_count": 0,
+    "heartbeat_age_sec": -0.925167,
+    "schema_version": "native_feature_candle_cache_v1_20260913",
+    "status": "updating"
+  },
+  "observation": {
+    "archive_verification": {
+      "actual_config": {
+        "M1_candle_root": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\candles",
+        "model_study_roots": [
+          "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260913_v1\\pair_local_forecast_study_v3",
+          "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260913_v2\\joint_price_news_study_v7"
+        ],
+        "native_candle_root": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\native_feature_candles_v1",
+        "news_snapshot": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment_repair_v2\\current_news_v2.json"
+      },
+      "archive_hash_matches_receipt": true,
+      "compressed_bytes": 1731873,
+      "frame_hash_matches_receipt": true,
+      "instruments": 68,
+      "original_payload_hash_matches": true,
+      "published_utc": "2026-09-13T23:51:54.553801+00:00",
+      "snapshot_generated_utc": "2026-09-13T23:51:50.509380+00:00",
+      "source_schema_id": "fcff4c3246a71c293d10bbf8",
+      "uncompressed_bytes": 19597369
+    },
+    "current_result": {},
+    "heartbeat_age_sec": 10.327095,
+    "last_success_readiness": {
+      "H4_required_completed_H1_rows_at_least": 240,
+      "M5_required_native_rows": 40,
+      "basis": "actual source bar ends; M1 elapsed freshness; higher TF explicit NY weekend-only active-session freshness; final mapper checks authoritative",
+      "continuous_native_M1_freshness_verified": false,
+      "fresh_quote_pairs_at_source_read": 57,
+      "model_output_pairs": 4,
+      "native_M1_required_contiguous_rows": 204,
+      "news_ready_pairs": 68,
+      "rich_M1_fresh_pairs": 0,
+      "rich_M1_materialized_pairs": 1,
+      "rich_M1_stale_or_missing_pairs": 68,
+      "scheduled_calendar": "fx_weekend_ny_friday_1700_sunday_1700_v1",
+      "structural_fresh_pairs_by_timeframe": {
+        "H1": 33,
+        "H2": 0,
+        "H3": 33,
+        "H4": 33,
+        "M1": 20,
+        "M10": 0,
+        "M15": 0,
+        "M30": 30,
+        "M5": 0
+      }
+    },
+    "models": {
+      "unavailable:ValueError:no_committed_consumed_forecast": 200,
+      "verified_publication_observed:": 4
+    },
+    "news": {
+      "context_members": 13,
+      "directional_claims": 0,
+      "observed_utc": "2026-09-13T23:51:41.606512+00:00",
+      "projection_source_sha256": "d40cf670520e09ad18527324608e60c4ace40afa6a27ca37b2fc9d80f846a4fd",
+      "snapshot_payload_sha256": "3cdb9d86889abef1cb2f65644bbcf2e3460405c1bd896e7f37dbecca0ed3311d",
+      "source_bytes": 561446,
+      "source_name": "current_news_v2.json",
+      "source_read_completed_utc": "2026-09-13T23:51:40.233216+00:00",
+      "source_sha256": "3cdb9d86889abef1cb2f65644bbcf2e3460405c1bd896e7f37dbecca0ed3311d",
+      "status": "verified_publication_observed"
+    },
+    "phase": "reading_sources",
+    "schema_version": "research_existing_feature_observations_v2_20260913_native_calendar_events"
+  },
+  "price": {
+    "errors": 0,
+    "heartbeat_age_sec": 4.346602439880371,
+    "last_error": "",
+    "phase": "research_collection",
+    "schema_version": "pair_local_forecast_heartbeat_v3_20260913"
+  },
+  "repair": {
+    "errors": 0,
+    "heartbeat_age_sec": 7.564579,
+    "last_error": "",
+    "phase": "research_collection",
+    "schema_version": "repaired_joint_news_heartbeat_v2_20260912_source_derived_clocks",
+    "status": "current"
+  }
+}

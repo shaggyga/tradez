@@ -11,7 +11,8 @@ import hashlib
 import json
 import math
 import re
-from collections import Counter
+import zlib
+from collections import Counter, OrderedDict
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Mapping, Sequence
@@ -23,7 +24,48 @@ MAX_FEATURE_VALUES = 2_000_000
 MAX_FILES = 256
 MAX_FILE_BYTES = 128 * 1024 * 1024
 MAX_READ_BYTES = 256 * 1024 * 1024
+MAX_ARCHIVE_SCAN_BYTES = 1024 * 1024 * 1024
+REFERENCE_SCAN_TARGET_BYTES = 256 * 1024 * 1024
+READER_VERSION = "feature_history_streamed_projection_v2_20260913"
 PAIR = re.compile(r"^[A-Z]{3}_[A-Z]{3}$")
+
+
+class _CompressedInstruments(Mapping):
+    """Call-owned lossless pair projections, decoded only on access.
+
+    Bytes are created only after original-payload hash and exact normalized
+    frame recreation succeed. They are never persisted or accepted as a new
+    source of evidence. Keep at most two decoded pairs per frame.
+    """
+    def __init__(self, instruments):
+        self.pairs = {name: zlib.compress(_canonical(value), 1)
+                      for name, value in instruments.items()}
+        self.cache = OrderedDict()
+        self.retained_bytes = sum(len(name.encode()) + len(raw) for name, raw in self.pairs.items())
+
+    def __getitem__(self, name):
+        if name not in self.cache:
+            value = json.loads(zlib.decompress(self.pairs[name]))
+            if len(self.cache) >= 2:
+                self.cache.popitem(last=False)
+            self.cache[name] = value
+        self.cache.move_to_end(name)
+        return self.cache[name]
+
+    def __iter__(self):
+        return iter(self.pairs)
+
+    def __len__(self):
+        return len(self.pairs)
+
+
+def _project_verified_frame(frame):
+    """Preserve every value/state/alias/clock; compact storage, not semantics."""
+    projected = {key: value for key, value in frame.items() if key != "instruments"}
+    instruments = _CompressedInstruments(frame.get("instruments") or {})
+    size = len(_canonical(projected)) + instruments.retained_bytes
+    projected["instruments"] = instruments
+    return projected, size
 
 
 def _epoch(value: Any) -> float | None:
@@ -85,7 +127,7 @@ def _quote(row: Mapping[str, Any], cutoff: float, tolerance: float, *, frame_cut
             "bid": bid, "ask": ask, "tradeable": quote.get("tradeable")}, None
 
 
-def _entries(frame: Mapping[str, Any], instrument: str):
+def _entries(frame: Mapping[str, Any], instrument: str, *, wanted=None):
     pair = (frame.get("instruments") or {}).get(instrument) or {}
     result = {}
     for group_name, group in sorted((pair.get("groups") or {}).items()):
@@ -94,6 +136,8 @@ def _entries(frame: Mapping[str, Any], instrument: str):
         for name, value in (group.get("values") or {}).items():
             identity = (group.get("feature_ids") or {}).get(name)
             if not isinstance(identity, str) or not identity:
+                continue
+            if wanted is not None and identity not in wanted:
                 continue
             item = {"feature_id": identity, "feature_name": name, "group": group_name,
                     "input_timeframe": group.get("input_timeframe"), "value": value,
@@ -146,6 +190,18 @@ def _entry_reason(item, cutoff: float, tolerance: float, *, frame_cutoff=None,
         return "feature_after_snapshot"
     if cutoff - observed > tolerance:
         return "feature_observation_stale"
+    if item["input_timeframe"] == "EVENT":
+        components=item["component_clocks"]
+        publication=parse_epoch(components.get("source_publication_utc"))
+        expires=parse_epoch(components.get("valid_until_utc"))
+        completed=parse_epoch(item["bar_complete_utc"])
+        if components.get("publication_receipt_verified") is not True or publication is None or expires is None:
+            return "event_publication_receipt_unknown"
+        if publication != completed or not publication <= observed or expires <= publication:
+            return "event_publication_clock_invalid"
+        if cutoff >= expires:
+            return "event_evidence_expired"
+        return None
     book_value = str(item["feature_name"]).startswith(("order_book_", "position_book_"))
     quote_sensitive = (not book_value and (item["group"] == "microstructure" or
                        str(item["feature_name"]).startswith(("depth_", "microprice", "live_spread", "quote_receive", "bid_", "ask_")))
@@ -167,7 +223,15 @@ def _entry_reason(item, cutoff: float, tolerance: float, *, frame_cutoff=None,
             return "bar_completion_unknown"
         if completed > observed:
             return "bar_incomplete_at_observation"
-        if observed - completed > interval + tolerance:
+        age=observed-completed
+        calendar=item["component_clocks"].get("candle_calendar_contract")
+        if calendar is not None:
+            if interval < 300 or calendar != "fx_weekend_ny_friday_1700_sunday_1700_v1":
+                return "feature_calendar_unknown_or_unsupported"
+            from oanda_feature_candle_inputs_v2 import open_elapsed_seconds
+            try:age=open_elapsed_seconds(completed,observed)
+            except (ValueError,TypeError,OverflowError):return "feature_bar_stale"
+        if age > interval + tolerance:
             return "feature_bar_stale"
     return None
 
@@ -312,10 +376,10 @@ def _build_feature_move_map(frames, *, as_of_utc, window_sec=300,
         return _entry_reason(item, cutoff, tolerance, frame_cutoff=frame_cutoff,
                              parse_epoch=epoch_once, parse_seconds=seconds_once)
 
-    def entries(index, pair):
-        key = (index, pair)
+    def entries(index, pair, *, wanted=None):
+        key = (index, pair, "history" if wanted is not None else "endpoint")
         if key not in entry_cache:
-            entry_cache[key] = _entries(indexed[index][2], pair)
+            entry_cache[key] = _entries(indexed[index][2], pair, wanted=wanted)
         return entry_cache[key]
 
     used_indexes = {len(indexed)-1}
@@ -349,6 +413,15 @@ def _build_feature_move_map(frames, *, as_of_utc, window_sec=300,
         after_entries = entries(len(indexed)-1, pair)
         before_entries = entries(base_index, pair) if base else {}
         history = {}
+        # Reference histories only affect currently valid numeric endpoint
+        # comparisons. Preserve full endpoints/denominators, but avoid
+        # expanding tens of thousands of absent-feature rows for every past
+        # snapshot. Every alias for a wanted identity is still inspected.
+        history_ids={identity for identity in after_entries.keys() & before_entries.keys()
+                     if not entry_reason(after_entries[identity],end_time,endpoint_tolerance_sec)
+                     and not entry_reason(before_entries[identity],target,endpoint_tolerance_sec,
+                                          frame_cutoff=clocks[base_index])
+                     and _numeric(after_entries[identity]["value"]) and _numeric(before_entries[identity]["value"])}
         # Only comparison windows fully preceding the current window enter
         # the descriptive reference distribution. No future/current deltas.
         for index in range(max(0, base_index)+1):
@@ -359,7 +432,7 @@ def _build_feature_move_map(frames, *, as_of_utc, window_sec=300,
             if (indexed[index][2].get("source_schema_id") != latest.get("source_schema_id")
                     or indexed[previous][2].get("source_schema_id") != latest.get("source_schema_id")):
                 continue
-            e1, e0 = entries(index, pair), entries(previous, pair)
+            e1, e0 = entries(index, pair,wanted=history_ids), entries(previous, pair,wanted=history_ids)
             used_indexes.update((index, previous))
             for identity in after_entries.keys() & e1.keys() & e0.keys():
                 v1, v0 = e1[identity], e0[identity]
@@ -430,6 +503,9 @@ def _build_feature_move_map(frames, *, as_of_utc, window_sec=300,
                     row["ranking_reason"] = "categorical_value"
                     counts["state_changes" if row["status"] == "state_transition" else "unchanged"] += 1
             all_changes.append(row)
+        # Only one pair's expanded feature entries are needed at a time.
+        # Retaining every pair/window here defeated the archive memory bound.
+        entry_cache.clear()
     all_changes.sort(key=lambda row: (row["status"] == "unavailable", row["unusual_percentile"] is None,
                                      -(row["unusual_percentile"] or 0),
                                      row["change"] == 0, row["instrument"], row["feature_id"]))
@@ -487,7 +563,9 @@ def read_feature_move_maps(archive_root, *, as_of_utc, window_secs=WINDOWS, inst
                                    or instrument[:3] == instrument[4:]):
         raise ValueError("valid_pair_filter_required")
     root = Path(archive_root)
-    stats = {"files_considered": 0, "files_read": 0, "bytes_read": 0,
+    stats = {"reader_version": READER_VERSION,
+             "files_considered": 0, "files_read": 0, "bytes_read": 0,
+             "retained_projection_bytes": 0, "retained_feature_values": 0,
              "errors": [], "bounded_sample": False}
     files = []
     if root.is_symlink() or root.is_junction():
@@ -517,11 +595,9 @@ def read_feature_move_maps(archive_root, *, as_of_utc, window_secs=WINDOWS, inst
     stats["files_considered"] = len(files)
     files.sort(key=lambda value: (value[0], value[1].name))
     if len(files) > MAX_FILES:
-        # Keep recent snapshots plus a uniform older sample so long windows
-        # are not displaced entirely by high-frequency current observations.
-        old = files[:-32]
-        indices = {round(i * (len(old)-1) / (MAX_FILES-33)) for i in range(MAX_FILES-32)}
-        files = [old[i] for i in sorted(indices)] + files[-32:]
+        # Select exact reference candidates from the bounded metadata list
+        # before applying the read-count bound. Uniform downsampling here can
+        # move an otherwise available endpoint outside its 75-second guard.
         stats["bounded_sample"] = True
     frames, recreated_digests = [], {}
     # Prioritize baseline/reference-window candidates before dense current
@@ -537,12 +613,23 @@ def read_feature_move_maps(archive_root, *, as_of_utc, window_secs=WINDOWS, inst
                    for offset in range(8) for window_sec in window_secs]
         priority = list(dict.fromkeys(max(0, bisect.bisect_right(mtimes, target)-1) for target in targets))
     order = priority + [index for index in reversed(range(len(files))) if index not in priority]
-    for index in order:
+    for position,index in enumerate(order):
+        if (stats["files_read"] >= MAX_FILES or (position >= len(priority)
+                and stats["bytes_read"] >= REFERENCE_SCAN_TARGET_BYTES)):
+            # All interleaved reference candidates were inspected. Do not
+            # spend a further minute decoding dense samples that displace
+            # publication freshness; report the explicit sampled coverage.
+            stats["bounded_sample"] = True
+            stats["selection_stop"] = "reference_candidates_complete_or_file_count_bound"
+            break
         _, path, size = files[index]
         if size > MAX_FILE_BYTES:
             stats["errors"].append("compressed_file_bound")
             continue
-        remaining = MAX_READ_BYTES - stats["bytes_read"]
+        # Expanded scan work and resident state are separately bounded. Fully
+        # verify and release each large original envelope before reading the
+        # next one; retain only compressed lossless pair projections.
+        remaining = MAX_ARCHIVE_SCAN_BYTES - stats["bytes_read"]
         if remaining <= 0:
             stats["bounded_sample"] = True
             break
@@ -574,10 +661,24 @@ def read_feature_move_maps(archive_root, *, as_of_utc, window_secs=WINDOWS, inst
             recreated_bytes = _canonical(frame)
             if recreated_bytes != _canonical(envelope["frame"]):
                 raise ValueError("frame_recreation_mismatch")
-            recreated_digests[id(frame)] = hashlib.sha256(recreated_bytes).hexdigest()
+            frame_digest = hashlib.sha256(recreated_bytes).hexdigest()
             del recreated_bytes
-            frames.append(frame)
+            values_count = sum(len(group.get("values") or {})
+                for pair in (frame.get("instruments") or {}).values()
+                for group in (pair.get("groups") or {}).values())
+            projected, retained_bytes = _project_verified_frame(frame)
+            if (stats["retained_projection_bytes"] + retained_bytes > MAX_READ_BYTES
+                    or stats["retained_feature_values"] + values_count > MAX_FEATURE_VALUES
+                    or len(frames) >= MAX_FRAMES):
+                stats["errors"].append("retained_projection_or_value_bound")
+                stats["bounded_sample"] = True
+                break
+            recreated_digests[id(projected)] = frame_digest
+            frames.append(projected)
+            stats["retained_projection_bytes"] += retained_bytes
+            stats["retained_feature_values"] += values_count
             stats["files_read"] += 1
+            del raw, envelope, original, frame, projected
         except (OSError, EOFError, ValueError, KeyError, TypeError, AttributeError) as exc:
             stats["errors"].append(type(exc).__name__ + ":" + str(exc)[:100])
     results = {}

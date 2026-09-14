@@ -3547,7 +3547,7 @@ def feature_move_instrument(query: dict[str, list[str]]) -> str | None:
     return values[0]
 
 
-def build_feature_move_response(window_sec: int, *, instrument: str | None = None, reader=None, now_epoch: float | None = None) -> dict[str, Any]:
+def build_feature_move_response(window_sec: int, *, instrument: str | None = None, reader=None, now_epoch: float | None = None, selection_reader=None) -> dict[str, Any]:
     """Read the versioned research archive without consulting model eligibility."""
     if type(window_sec) is not int or window_sec not in FEATURE_MOVE_WINDOWS:
         raise ValueError("unsupported_feature_move_window")
@@ -3563,13 +3563,21 @@ def build_feature_move_response(window_sec: int, *, instrument: str | None = Non
         ], "can_place_orders": False,
     }
     try:
+        try:
+            from oanda_operational_dashboard_selection_v1 import read_selection, relative
+        except ModuleNotFoundError:
+            from trad.oanda_operational_dashboard_selection_v1 import read_selection, relative
+        project_root = Path(__file__).resolve().parent
+        selection = (selection_reader or read_selection)(project_root, observed)
+        archive_root = (relative(project_root, selection['features']['archive_path'], data=True)
+                        if selection is not None else FEATURE_OBSERVATION_ARCHIVE_ROOT)
         if reader is None:
             try:
                 from oanda_feature_move_mapping_v1 import read_feature_move_map
             except ModuleNotFoundError:
                 from trad.oanda_feature_move_mapping_v1 import read_feature_move_map
             reader = read_feature_move_map
-        result = reader(FEATURE_OBSERVATION_ARCHIVE_ROOT, as_of_utc=as_of, window_sec=window_sec, instrument=instrument)
+        result = reader(archive_root, as_of_utc=as_of, window_sec=window_sec, instrument=instrument)
         if (not isinstance(result, dict) or result.get("schema_version") != "feature_move_mapping_v1"
                 or result.get("can_place_orders") is not False
                 or type(result.get("window_sec")) is not int or result["window_sec"] != window_sec
@@ -7172,6 +7180,11 @@ def summarize_adaptive_level_bands(
 def build_main_state(log_dir: Path) -> dict[str, Any]:
     data_root = log_dir.parent
     try:
+        from oanda_operational_dashboard_selection_v1 import read_dashboard_sources, project_collection_status
+    except ModuleNotFoundError:
+        from trad.oanda_operational_dashboard_selection_v1 import read_dashboard_sources, project_collection_status
+    operational_dashboard = read_dashboard_sources(Path(__file__).resolve().parent)
+    try:
         from oanda_market_overview import build_market_overview
     except ModuleNotFoundError:
         from trad.oanda_market_overview import build_market_overview
@@ -7182,9 +7195,14 @@ def build_main_state(log_dir: Path) -> dict[str, Any]:
     joint_price_news_forecasts = summarize_joint_price_news_forecasts(data_root)
     joint_price_news_scheduler_comparison_v1 = summarize_joint_price_news_scheduler_comparison_v1(data_root)
     pair_local_forecasts = select_primary_pair_forecasts(data_root,legacy_pair_local_forecasts,pair_local_forecasts_v2)
+    if operational_dashboard is not None:
+        pair_local_forecasts = operational_dashboard['price']
+        joint_price_news_forecasts = operational_dashboard['joint']
     price_only_collection_status = project_primary_collection_status(legacy_collection_status,pair_local_forecasts)
     joint_collection_status = project_joint_collection_status(price_only_collection_status,joint_price_news_forecasts)
     collection_status = joint_collection_status
+    if operational_dashboard is not None:
+        collection_status = project_collection_status(legacy_collection_status,joint_price_news_forecasts)
     eurusd_supplemental_diagnostic = summarize_eurusd_supplemental_diagnostic(data_root)
     entry_diagnostics = summarize_executor_entry_diagnostics(log_dir)
     lab_logs = discover_lab_logs(log_dir)
@@ -7358,6 +7376,7 @@ def build_main_state(log_dir: Path) -> dict[str, Any]:
         "account": account_summary,
         "entry_diagnostics": entry_diagnostics,
         "collection_status": collection_status,
+        "operational_dashboard": operational_dashboard,
         "legacy_collection_status": legacy_collection_status,
         "price_only_collection_status": price_only_collection_status,
         "joint_collection_status": joint_collection_status,
@@ -9448,7 +9467,8 @@ class DashboardHandler(BaseHTTPRequestHandler):
             return
         if parsed.path in {"/api/main", "/api/state"}:
             payload = dict(self.current_main_state())
-            payload['joint_v3_ledger_observation'] = current_joint_ledger_observation(compact=True)
+            if not (payload.get('operational_dashboard') or {}).get('selected'):
+                payload['joint_v3_ledger_observation'] = current_joint_ledger_observation(compact=True)
             self.send_json(payload)
             return
         if parsed.path == "/api/full-state":

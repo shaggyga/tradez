@@ -152,6 +152,49 @@ def test_successful_family_does_not_reissue_same_bucket(tmp_path):
     runner.schedule_work();assert runner.future is None
 
 
+def test_frequent_candle_changes_cannot_starve_any_ready_pair_or_family(tmp_path):
+    runner=scheduler_fixture(tmp_path)
+    runner.queue=['EUR_USD','USD_JPY']
+    runner.registry['pairs']['USD_JPY']={'pip_size':.01}
+    runner.states['USD_JPY']=deepcopy(runner.states['EUR_USD'])
+    runner.current['USD_JPY']=deepcopy(runner.current['EUR_USD'])
+    for pair in runner.queue:
+        (tmp_path/f'{pair}_M1.csv').write_text('a')
+        for ready in runner.states[pair]['capture']['family_readiness'].values():ready['ready']=True
+    fits=[];kinds=[]
+    for step in range(8):
+        runner.clock.advance(31)
+        for pair,state in runner.states.items():
+            # Sources change before every scheduler visit and both families
+            # retain a causally observed, still usable capture.
+            (tmp_path/f'{pair}_M1.csv').write_text('a'*(step+2))
+            for quote in runner.current[pair].values():quote['market_epoch']=runner.clock.value
+        runner.schedule_work()
+        if runner.active is None:continue
+        kind,pair,detail=runner.active;kinds.append(kind)
+        if kind=='fit':
+            family=detail[0];fits.append((pair,family))
+            runner.states[pair]['families'][family]['last_success_bucket']=int(runner.clock.value//900)
+        runner.future=None;runner.active=None
+    assert len(fits)==4 and len(set(fits))==4
+    assert kinds[:7]==['fit','capture','fit','capture','fit','capture','fit']
+    # All families have durable successes for this cadence: further candle
+    # changes can trigger captures, but cannot generate duplicate issuance.
+    for _ in range(4):
+        runner.schedule_work()
+        assert runner.active is None or runner.active[0]=='capture'
+        runner.future=None;runner.active=None
+
+
+def test_retained_ledger_cadence_claim_prevents_duplicate_after_restart(tmp_path):
+    runner=scheduler_fixture(tmp_path);slot=runner.states['EUR_USD']['families']['probabilistic_state_space']
+    slot['ledger'].begin_attempt=lambda bucket,quote:None
+    runner.schedule_work()
+    assert runner.future is None
+    assert slot['last_success_bucket']==int(runner.clock.value//900)
+    assert not runner.pool.calls
+
+
 def test_pending_forecast_survives_current_input_gap(opened):
     ledger,clock,contract=opened;issued(ledger,clock);publication=worker.verified_publication(ledger)
     family=contract['family'];other=next(f for f in worker.FAMILIES if f!=family)

@@ -6,11 +6,14 @@ param(
     [int]$StartupGraceSec = 180,
     [int]$RestartWindowMinutes = 30,
     [int]$MaximumRestartsPerWindow = 3,
+    [string]$OperationalProfilePath = "",
+    [string]$RecoveryUntilUtc = "2026-09-20T23:59:00Z",
     [switch]$Once,
     [switch]$NoRecovery
 )
 
 $ErrorActionPreference = "Stop"
+. (Join-Path $PSScriptRoot 'oanda_operational_recovery_contract.ps1')
 
 if (-not $Root) {
     $Root = Split-Path -Parent $PSScriptRoot
@@ -29,6 +32,12 @@ $State = Join-Path $Trad "data\oanda_training_manager\state"
 $Logs = Join-Path $Trad "data\oanda_training_manager\logs"
 $Supervisor = Join-Path $Trad "oanda_always_on_supervisor.ps1"
 $Launcher = Join-Path $Trad "start_oanda_safe_core.ps1"
+$OperationalBinding = $null
+if ($OperationalProfilePath) {
+    $OperationalBinding = Read-OperationalRecoveryProfile -Trad $Trad -ProfilePath $OperationalProfilePath -RecoveryUntilUtc $RecoveryUntilUtc
+    $OperationalProfilePath = $OperationalBinding.path
+    $Launcher = Join-Path $Trad "start_oanda_operational_research.ps1"
+}
 $Heartbeat = Join-Path $State "oanda_supervisor_watchdog_v1.json"
 $Lease = Join-Path $State "oanda_supervisor_watchdog_lease_v1.json"
 $IncidentLog = Join-Path $Logs "oanda_supervisor_watchdog_incidents_v1.jsonl"
@@ -171,6 +180,14 @@ function Start-SafeCoreSupervisor {
         "-File", $Launcher,
         "-Root", $Root
     )
+    if ($OperationalProfilePath) {
+        # Validation is repeated immediately before the child launcher. The
+        # launcher and supervisor also validate, and never select a broader lane.
+        $current = Read-OperationalRecoveryProfile -Trad $Trad -ProfilePath $OperationalProfilePath -RecoveryUntilUtc $RecoveryUntilUtc
+        if ($current.sha256 -cne $OperationalBinding.sha256) { throw 'Operational recovery profile changed.' }
+        $arguments += @('-OperationalProfilePath',$OperationalProfilePath,'-RecoveryUntilUtc',$RecoveryUntilUtc)
+        $arguments = @($arguments | ForEach-Object { ConvertTo-OperationalProcessArgument $_ })
+    }
     Start-Process `
         -FilePath "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe" `
         -ArgumentList $arguments `
@@ -186,7 +203,20 @@ try {
     $firstObservedByPid = @{}
     while ($true) {
         $now = (Get-Date).ToUniversalTime()
+        $profileError = ""
+        if ($OperationalProfilePath) {
+            try {
+                $currentBinding = Read-OperationalRecoveryProfile -Trad $Trad -ProfilePath $OperationalProfilePath -RecoveryUntilUtc $RecoveryUntilUtc
+                if ($currentBinding.sha256 -cne $OperationalBinding.sha256) { throw 'Operational recovery profile changed.' }
+            } catch { $profileError = $_.Exception.Message }
+        }
         $supervisors = @(Get-Supervisors)
+        $profileConflicts = @()
+        if ($OperationalProfilePath) {
+            $profileConflicts = @($supervisors | Where-Object {
+                -not (Test-OperationalSupervisorCommand -CommandLine ([string]$_.CommandLine) -ProfilePath $OperationalProfilePath)
+            })
+        }
         foreach ($row in $supervisors) {
             if (-not $firstObservedByPid.ContainsKey([int]$row.ProcessId)) {
                 $firstObservedByPid[[int]$row.ProcessId] = $now
@@ -204,7 +234,11 @@ try {
         } else { [double]::PositiveInfinity }
         $accountAgeSec = Get-FileAgeSec $AccountState
         $reason = ""
-        if ($supervisors.Count -eq 0) {
+        if ($profileError) {
+            $reason = "operational_profile_validation_failed"
+        } elseif ($profileConflicts.Count -gt 0) {
+            $reason = "conflicting_supervisor_profile"
+        } elseif ($supervisors.Count -eq 0) {
             $reason = "supervisor_process_missing"
         } elseif ($supervisors.Count -gt 1) {
             $reason = "duplicate_supervisor_processes"
@@ -228,7 +262,15 @@ try {
         $action = "none"
         $circuitOpen = $restartCount -ge $MaximumRestartsPerWindow
         if ($reason -and -not $NoRecovery) {
-            if ($circuitOpen) {
+            if ($profileError -or $profileConflicts.Count -gt 0) {
+                $action = "operational_recovery_refused"
+                Write-Incident $reason $action @{
+                    error = $profileError
+                    profile_path = $OperationalProfilePath
+                    conflicting_pids = @($profileConflicts | ForEach-Object { [int]$_.ProcessId })
+                    existing_processes_preserved = $true
+                } | Out-Null
+            } elseif ($circuitOpen) {
                 $action = "restart_circuit_open"
                 Write-Incident $reason $action @{
                     restart_count = $restartCount
@@ -299,6 +341,12 @@ try {
             can_place_orders = $false
             can_change_authorization = $false
             real_money_enabled = $false
+            research_collection_only = [bool]$OperationalProfilePath
+            operational_profile_path = $OperationalProfilePath
+            operational_profile_sha256 = $(if ($OperationalBinding) { $OperationalBinding.sha256 } else { $null })
+            operational_profile_validation_error = $profileError
+            recovery_until_utc = $(if ($OperationalBinding) { $OperationalBinding.expires_utc } else { $null })
+            recovery_expiry_scope = $(if ($OperationalBinding) { 'Future recovery attempts only; healthy supervisor and children are not stopped at expiry.' } else { 'Legacy no-profile recovery behavior.' })
         }
         Write-AtomicJson -LiteralPath $Heartbeat -Value $payload
         Write-AtomicJson -LiteralPath $Lease -Value @{
@@ -308,7 +356,7 @@ try {
             mutex_name = $MutexName
             canonical_root = $Trad
         }
-        if ($Once) { break }
+        if ($Once -or ($OperationalBinding -and [DateTimeOffset]::UtcNow -ge [DateTimeOffset]::Parse($OperationalBinding.expires_utc))) { break }
         Start-Sleep -Seconds ([Math]::Max(5, $IntervalSec))
     }
 } finally {

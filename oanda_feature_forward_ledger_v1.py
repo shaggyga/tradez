@@ -80,6 +80,7 @@ class ForwardLedger:
                    for module in (p, p.exact)}
         sources[Path(__file__).name] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
         for name in ("oanda_feature_move_mapping_v1.py", "oanda_feature_observations_v1.py",
+                     "oanda_feature_candle_inputs_v2.py",
                      "oanda_feature_research_clock_v1.py", "oanda_feature_forward_worker_v1.py"):
             source = safe_path(Path(__file__).absolute().parent/name)
             sources[name] = hashlib.sha256(source.read_bytes()).hexdigest()

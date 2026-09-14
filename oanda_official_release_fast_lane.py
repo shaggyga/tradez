@@ -739,6 +739,7 @@ def append_observations(
     observation_clock: Mapping[str, Any],
     quote_snapshot_loader: Callable[[], Mapping[str, Any]] | None = None,
     quote_captured_utc: dt.datetime | None = None,
+    pair_capture_binding: Mapping[str, Any] | None = None,
 ) -> tuple[int, int, list[dict[str, Any]]]:
     inserted = 0
     duplicates = 0
@@ -749,6 +750,7 @@ def append_observations(
     quote_snapshot_error = ""
     quote_snapshot_loaded = False
     capture_clock: dt.datetime | None = quote_captured_utc
+    pair_capture_clock: dt.datetime | None = None
     normalized_first_seen = first_seen
     if normalized_first_seen.tzinfo is None:
         normalized_first_seen = normalized_first_seen.replace(
@@ -872,6 +874,9 @@ def append_observations(
                         # local quote transport is temporarily unavailable.
                         # Persist the failed attempt; never retry this event.
                         quote_snapshot_error = type(exc).__name__
+                # The successor owns this clock after the read. Preserve the
+                # old raw-capture timestamp and ledger's historical contract.
+                pair_capture_clock = quote_captured_utc or utc_now()
             capture = build_raw_quote_capture(
                 observation_id=observation_id,
                 first_seen=normalized_first_seen,
@@ -884,6 +889,26 @@ def append_observations(
                 raise sqlite3.IntegrityError(
                     "new official observation did not create one immutable quote capture"
                 )
+            pair_capture = None
+            if pair_capture_binding is not None:
+                import oanda_official_event_pair_quote_capture_v4 as pair_v4
+                pair_capture = pair_v4.build_capture(
+                    {
+                        "observation_id": observation_id,
+                        "source_id": str(source.get("source_id") or ""),
+                        "source_contract_id": str(source.get("source_contract_id") or ""),
+                        "first_seen_utc": iso_utc(normalized_first_seen),
+                        "raw_payload_json": payload_json,
+                        "collector_contract_id": CONTRACT_ID,
+                        "collector_cohort_id": COLLECTOR_COHORT_ID,
+                    },
+                    quote_payload,
+                    pair_capture_clock or quote_captured_utc or utc_now(),
+                    pair_capture_binding,
+                    prospective=prospective,
+                    snapshot_error=quote_snapshot_error,
+                )
+                pair_v4.insert_capture(connection, pair_capture)
             inserted += 1
             emitted.append(
                 {
@@ -913,6 +938,11 @@ def append_observations(
                     "quote_capture_proof_quote_count": int(
                         capture.get("proof_quote_count") or 0
                     ),
+                    "pair_capture_v4": None if pair_capture is None else {
+                        "capture_id": pair_capture["capture_id"],
+                        "eligible_quote_count": pair_capture["eligible_quote_count"],
+                        "timing_quality": pair_capture["timing_quality"],
+                    },
                 }
             )
         else:
@@ -1011,6 +1041,7 @@ def run_cycle(
     quote_path: Path = QUOTE_PATH,
     now: dt.datetime | None = None,
     force: bool = False,
+    pair_capture_v4: bool = False,
 ) -> dict[str, Any]:
     cycle_started = now or utc_now()
     config = read_json(config_path, {})
@@ -1023,12 +1054,21 @@ def run_cycle(
     state = read_json(state_path, {})
     source_states = state.get("sources") if isinstance(state.get("sources"), Mapping) else {}
     connection = open_database(database_path)
+    pair_binding = None
+    if pair_capture_v4:
+        import oanda_official_event_pair_quote_capture_v4 as pair_v4
+        try:
+            pair_binding = pair_v4.initialize(connection, cycle_started)
+        except Exception:
+            connection.close()
+            raise
     attempted = 0
     completed = 0
     inserted = 0
     duplicates = 0
     latest: list[dict[str, Any]] = []
     errors: list[dict[str, str]] = []
+    skipped_sources: list[dict[str, str]] = []
     progress_sequence = 0
     publish_heartbeat(
         heartbeat_path,
@@ -1066,6 +1106,11 @@ def run_cycle(
             )
             if news.source_runtime_status(source) != "enabled":
                 prior["operational_status"] = news.source_runtime_status(source)
+                skipped_sources.append({
+                    "source_id": source_id,
+                    "status": str(prior["operational_status"]),
+                    "reason": str(source.get("runtime_blocker") or prior["operational_status"]),
+                })
                 source_states[source_id] = prior
                 completed += 1
                 continue
@@ -1124,12 +1169,14 @@ def run_cycle(
                     quote_captured_utc=(
                         observed_complete if now is not None else None
                     ),
+                    pair_capture_binding=pair_binding,
                 )
                 inserted += added
                 duplicates += repeated
                 latest.extend(emitted)
             completed += 1
         counts = database_counts(connection)
+        pair_counts = None if pair_binding is None else pair_v4.counts(connection)
     finally:
         connection.close()
     generated = utc_now() if now is None else cycle_started
@@ -1171,6 +1218,13 @@ def run_cycle(
         "counts": counts,
         "latest_inserted": latest[-50:],
         "errors": errors,
+        "supported_release_source_count": len(sources) - len(skipped_sources),
+        "skipped_release_source_count": len(skipped_sources),
+        "skipped_sources": skipped_sources,
+        "coverage_status": "complete_configured_support" if not skipped_sources else "partial_source_support",
+        "pair_capture_v4": None if pair_binding is None else {
+            "binding": pair_binding, "counts": pair_counts,
+        },
         "policy": {
             "research_only": True,
             "execution_eligible": False,
@@ -1193,6 +1247,9 @@ def run_cycle(
             "completed_sources": completed,
             "inserted_observations": inserted,
             "errors": len(errors),
+            "skipped_sources": len(skipped_sources),
+            "supported_sources": len(sources) - len(skipped_sources),
+            "coverage_status": "complete_configured_support" if not skipped_sources else "partial_source_support",
         },
     )
     return result
@@ -1211,6 +1268,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--duration-sec", type=float, default=0.0)
     parser.add_argument("--once", action="store_true")
     parser.add_argument("--force", action="store_true")
+    parser.add_argument("--pair-capture-v4", action="store_true",
+                        help="Append a separate prospective dedicated-stream per-pair capture cohort")
     return parser.parse_args()
 
 
@@ -1228,6 +1287,7 @@ def main() -> int:
             heartbeat_path=args.heartbeat,
             quote_path=args.quote_snapshot,
             force=bool(args.force and first),
+            pair_capture_v4=args.pair_capture_v4,
         )
         print(json.dumps(result, sort_keys=True), flush=True)
         first = False

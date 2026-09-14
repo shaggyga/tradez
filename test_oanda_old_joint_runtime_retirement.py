@@ -18,18 +18,19 @@ def block(text,name):
     return text.split('$'+name+' = @(',1)[1].split(')',1)[0]
 
 
-def test_supervisor_only_two_new_disabled_names_and_unchanged_allowlist():
+def test_supervisor_preserves_original_joint_retirement_with_later_operational_profile():
     before=(EVIDENCE/'before_source/oanda_always_on_supervisor.ps1').read_text()
     after=(ROOT/'oanda_always_on_supervisor.ps1').read_text()
     quoted=lambda value:set(re.findall(r'"([a-z0-9_]+)"',value))
     assert quoted(block(after,'DisabledNames'))-quoted(block(before,'DisabledNames'))==RETIRED
     assert quoted(block(before,'DisabledNames'))<=quoted(block(after,'DisabledNames'))
-    assert block(before,'ResearchCollectionNames')==block(after,'ResearchCollectionNames')
-    assert len(quoted(block(after,'ResearchCollectionNames')))==19
-    # Removing only the newly added block reconstructs the entire prior source.
+    # Subsequent feature collectors and the opt-in operational profile have
+    # their own contracts; this historical test still guards its two retirees.
+    assert quoted(block(before,'ResearchCollectionNames'))<=quoted(block(after,'ResearchCollectionNames'))
+    assert RETIRED <= quoted(block(after,'ResearchCollectionNames'))
     begin=after.index('    # September 9: original joint V1/V2 obligations')
     end=after.index('    # September 6 clock audit:',begin)
-    assert after[:begin]+after[end:]==before
+    assert quoted(after[begin:end]) == RETIRED
 
 
 def test_health_only_two_expected_names_removed():
