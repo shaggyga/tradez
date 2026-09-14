@@ -134,14 +134,30 @@ class ForwardWorker:
             report["errors"].append("quotes:"+str(exc)[:240])
         now = self.owner.now()
         bucket = int(now//ledger.p.PROTOCOL["decision_cadence_sec"])
-        if bucket != self.last_decision_bucket and self.owner.due():
+        due = self.owner.due()
+        report["decision"] = {"bucket": bucket, "previous_bucket": self.last_decision_bucket,
+                              "due": due, "attempted": False}
+        if bucket != self.last_decision_bucket and due:
             # Do not repeatedly decode archives after a capacity/input refusal.
             self.last_decision_bucket = bucket
+            report["decision"]["attempted"] = True
             try:
                 original = self.verified_clock()
-                maps = self.mapping_reader(self.archive_root, as_of_utc=datetime.fromtimestamp(now, timezone.utc).isoformat(),
-                                           window_secs=(300, 900, 3600), include_all_comparisons=True,
+                as_of_utc = datetime.fromtimestamp(now, timezone.utc).isoformat()
+                # The M5 endpoint is the only near-real-time feature join.
+                # Build it first inside the source-age contract.  The longer
+                # windows remain explicit, empty comparable populations until
+                # their own bounded evaluator is scheduled; they are never
+                # represented as a current signal or silently omitted.
+                maps = self.mapping_reader(self.archive_root, as_of_utc=as_of_utc,
+                                           window_secs=(300,), include_all_comparisons=True,
                                            reference_only=True)
+                for deferred_window in (900, 3600):
+                    maps[deferred_window] = mapper.build_feature_move_map(
+                        [], as_of_utc=as_of_utc, window_sec=deferred_window,
+                        include_all_comparisons=True)
+                report["decision"]["mapping_status"] = {
+                    window: mapping.get("status") for window, mapping in maps.items()}
                 self.complete_clock(original)
                 # Mapping work may take time. Acquire an actually fresh reference
                 # before publication instead of carrying a pre-read stale quote.
