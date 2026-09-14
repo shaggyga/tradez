@@ -1,0 +1,97 @@
+{
+  "broker_calls": 0,
+  "cpu_sec": 77.765625,
+  "database_sha256_after": {
+    "consumer.sqlite": "d8eddac18cb86514d1e6b9a558997ada82d448b113af5d2074458367fa9c795c",
+    "publisher.sqlite": "f159a06554268926c180973bebc633951f2ebcde5f7e576aaa6ad6d1d1f552e7"
+  },
+  "database_sha256_before": {
+    "consumer.sqlite": "d8eddac18cb86514d1e6b9a558997ada82d448b113af5d2074458367fa9c795c",
+    "publisher.sqlite": "f159a06554268926c180973bebc633951f2ebcde5f7e576aaa6ad6d1d1f552e7"
+  },
+  "durable_counts": {
+    "acknowledgments": 2880,
+    "attempts": 2880,
+    "consumer_acknowledgments": 2880,
+    "consumer_observations": 2880,
+    "evidence_objects": 2880,
+    "published": 2880
+  },
+  "elapsed_sec": 94.48500000004424,
+  "fixture_pid": 3256,
+  "fresh_process": true,
+  "full_12k_plus_2880_combined_claim": false,
+  "original_availability_unchanged": true,
+  "original_cadence_error": "consumer_owned_preparation_time_bound",
+  "original_cadence_status": "failed",
+  "peak_rss_bytes": 325742592,
+  "phases": [
+    {
+      "capture": {
+        "capture_attempts": {
+          "attempt_count": 1,
+          "capture_seconds_total": 0.26600000000325963,
+          "retry_failures": [],
+          "successful_transaction_seconds": 0.26600000000325963
+        },
+        "cold": true,
+        "packed_retained_bytes": 27076246,
+        "real_transaction_closed_before_semantic_validation": true,
+        "row_count": 11521,
+        "transaction_seconds": 0.26600000000325963,
+        "validation_seconds": 66.18699999997625
+      },
+      "elapsed_sec": 66.625,
+      "manifest": {
+        "evidence_count": 2880,
+        "expanded_evidence_bytes_verified": 81599022,
+        "manifest_bytes": 1061810,
+        "manifest_sha256": "527dfe059a57b15b701db2ffaf1143b73111941a2f4b3715741b35c37a21d9db",
+        "retained_compressed_evidence_bytes": 9938283,
+        "retained_compressed_member_bytes": 1367889
+      },
+      "phase": "cold_publisher"
+    },
+    {
+      "elapsed_sec": 27.65600000001723,
+      "metadata": {
+        "compressed_member_bytes": 1367889,
+        "consumer_receipt_max_epoch": 1789379966.0,
+        "evidence_encoding": "exact_projection_cas_v2_20260914",
+        "expanded_evidence_bytes_checked": 81599022,
+        "expanded_scan_bytes_checked": 204917985,
+        "manifest_bytes": 30211320,
+        "manifest_sha256": "4f7f55ed8b80734f3ee8d0c8e1a9352f5e354344b29f3d83fdecdfce08ae6312",
+        "member_bytes": 2276973,
+        "observation_count": 2880,
+        "publication_count": 2880,
+        "readback_bytes": 30211320,
+        "readback_digest_scope": "compact_manifest_not_expanded_legacy_readback",
+        "readback_sha256": "4f7f55ed8b80734f3ee8d0c8e1a9352f5e354344b29f3d83fdecdfce08ae6312",
+        "schema_version": "prepared_projection_consumer_cas_v4_20260914",
+        "semantic_complete_validations": 1,
+        "validation_scope": "complete_supplied_history_validated_not_database_capture_authenticated"
+      },
+      "phase": "consumer_read_and_prepare_after_cold_publisher"
+    },
+    {
+      "elapsed_sec": 0.0,
+      "first_seen_clock_unchanged": true,
+      "first_sequence": 1,
+      "latest_sequence": 2880,
+      "phase": "original_first_and_latest_asof_parity"
+    }
+  ],
+  "pid": 14992,
+  "receipt_or_source_writes": false,
+  "scope": "read-only separate-process restart of completed 2880 synthetic publication/ack cadence; one revised event",
+  "source_hashes": {
+    "compact_projection_store_v1.py": "c13b3a0f73949be8155e1e626462607207cad99eabaf7b90db964487111c67b0",
+    "projection_revision_admission_v1.py": "28e4738317c3166deb656f9935e356dc8314110d056e0a471fe8eb96b766da3d",
+    "projection_revision_consumer_v1.py": "5c885ae837394398a2dba3dd0b8050305ac17cb95cc5e05578042ab2551ec485"
+  },
+  "source_limits_overridden": false,
+  "started_utc": "2026-09-14T05:42:32.543162+00:00",
+  "status": "passed",
+  "unchanged_database_bytes": true
+}

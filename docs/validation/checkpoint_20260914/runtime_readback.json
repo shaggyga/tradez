@@ -1,0 +1,767 @@
+{
+  "scope": "Local read-only diagnostic snapshot; not broker requery, not a full health certification",
+  "profile": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\operational_runtime_v8_20260914.json",
+  "profile_sha256": "1df9fb95cbc713c8729268e04e5d34d24bce064d4ad2266cab3161ad1bd221f6",
+  "records": [
+    {
+      "component": "revision_news_collector_v2",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\market_open_20260913_v1\\local_news_sentiment\\collector_heartbeat_v1.json",
+      "sha256": "9002994d55565ab5209b16d7af0b093b936169e42474cb2c471fe795923d4a32",
+      "observed_utc": "2026-09-14T14:55:14.120911+00:00",
+      "selected_fields": {
+        "cycle_started_utc": "2026-09-14T14:53:23.456614+00:00",
+        "generated_utc": "2026-09-14T14:54:21.625550+00:00",
+        "phase": "cycle_complete",
+        "schema_version": "local_fx_news_sentiment_v3",
+        "status": "cycle_complete"
+      }
+    },
+    {
+      "component": "local_news_sentiment_repair_v2",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment_repair_v2\\heartbeat_v2.json",
+      "sha256": "c39acbbbcbf7a2aab82c3f9f543d7ed71ddd786f77aaa7ec3de1b8e5e95b1c63",
+      "observed_utc": "2026-09-14T14:55:14.120911+00:00",
+      "selected_fields": {
+        "can_place_orders": false,
+        "errors": 0,
+        "generated_epoch": 1789397698.7268543,
+        "generated_utc": "2026-09-14T14:54:58.726854+00:00",
+        "last_error": "",
+        "phase": "research_collection",
+        "research_only": true,
+        "schema_version": "repaired_joint_news_heartbeat_v2_20260912_source_derived_clocks",
+        "status": "current"
+      }
+    },
+    {
+      "component": "revision_news_transport_v4",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260913_v4\\revision_news_v1\\transport_state\\status.json",
+      "sha256": "08371c3f94f511ab78d37120b96ce8726bbdc2e35991048c04ae3c8db34043df",
+      "observed_utc": "2026-09-14T14:55:14.120911+00:00",
+      "selected_fields": {
+        "attempt_count": 183,
+        "can_place_orders": false,
+        "failure_generation": 225,
+        "last_failure": {
+          "failure_sha256": "b67399a03000dd52f4a595beb98531ad4b4a014e99128e1f0b15a8ec44f5091d",
+          "observed_epoch": 1789397685.8566923,
+          "phase": "cold_bootstrap",
+          "reason": "ValueError:consumer_owned_preparation_time_bound"
+        },
+        "last_success_epoch": 1789369664.769207,
+        "phase": "cold_bootstrap",
+        "research_only": true,
+        "schema_version": "revision_transport_compact_status_v1_20260914",
+        "status": "starting",
+        "successful_cycles": 182
+      }
+    },
+    {
+      "component": "joint_price_news_study_v7",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260913_v4\\joint_price_news_study_v7\\heartbeat.json",
+      "sha256": "1a45842b7e7aa758262c040b9354c28b5e7c8e3c12673570602f43268b2bf435",
+      "observed_utc": "2026-09-14T14:55:14.129963+00:00",
+      "selected_fields": {
+        "can_place_orders": false,
+        "counts": {
+          "building": 0,
+          "forecast": 0,
+          "ready": 0,
+          "unavailable": 68,
+          "warming": 0
+        },
+        "errors": 557,
+        "family_count": 68,
+        "generated_epoch": 1789397710.2769167,
+        "last_error": "shared_news:HealthFailure:transport_not_ready:starting",
+        "news_bootstrap_phase": "complete_fresh_capture_still_required",
+        "pair_count": 68,
+        "pairs_with_forecast": 0,
+        "phase": "research_collection",
+        "research_only": true,
+        "schema_version": "joint_price_news_forecast_heartbeat_v7_20260913"
+      }
+    },
+    {
+      "component": "pair_local_forecast_study_v3",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260913_v1\\pair_local_forecast_study_v3\\heartbeat.json",
+      "sha256": "5c365a55e25b5b4eaa6c016ff996b0be341e1adea90b07d3ea738684f3ac78bf",
+      "observed_utc": "2026-09-14T14:55:14.136945+00:00",
+      "selected_fields": {
+        "can_place_orders": false,
+        "counts": {
+          "building": 0,
+          "forecast": 136,
+          "ready": 0,
+          "unavailable": 0,
+          "warming": 0
+        },
+        "errors": 0,
+        "family_count": 136,
+        "generated_epoch": 1789397707.5404572,
+        "last_error": "",
+        "pair_count": 68,
+        "pairs_with_forecast": 68,
+        "phase": "research_collection",
+        "research_only": true,
+        "schema_version": "pair_local_forecast_heartbeat_v3_20260913"
+      }
+    },
+    {
+      "component": "retained_price_settlement_v1",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\retained_price_settlement_v1.json",
+      "sha256": "5438a01180a4f6e9c1614e2bdab851719aa393835909b43212743efefc719b35",
+      "observed_utc": "2026-09-14T14:55:14.144924+00:00",
+      "selected_fields": {
+        "can_place_orders": false,
+        "generated_epoch": 1789397713.084581,
+        "generated_utc": "2026-09-14T14:55:13.084581+00:00",
+        "research_only": true,
+        "schema_version": "retained_price_settlement_v1_20260913",
+        "status": "settled"
+      }
+    },
+    {
+      "component": "native_feature_candles_v1",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\native_feature_candles_heartbeat_v1.json",
+      "sha256": "91cddd880da323dfc41495561728c600b01b25637bdc1d762b740b6062176fe7",
+      "observed_utc": "2026-09-14T14:55:14.151974+00:00",
+      "selected_fields": {
+        "can_place_orders": false,
+        "completed_requests": 27,
+        "cycle_started_utc": "2026-09-14T14:55:00.551237+00:00",
+        "error_count": 0,
+        "generated_utc": "2026-09-14T14:55:13.308848+00:00",
+        "inflight_gets": 4,
+        "research_only": true,
+        "schema_version": "native_feature_candle_cache_v1_20260913",
+        "status": "updating"
+      }
+    },
+    {
+      "component": "research_feature_observations_v2",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260914_features_v2\\feature_observations_heartbeat_v2.json",
+      "sha256": "4bf2d5e87db43be79a44cad20ba64242fa382902690c4372057d40199e791f67",
+      "observed_utc": "2026-09-14T14:55:14.152971+00:00",
+      "selected_fields": {
+        "can_place_orders": false,
+        "cycle_started_utc": "2026-09-14T14:54:32.860320+00:00",
+        "last_failure": null,
+        "phase": "reading_sources",
+        "research_only": true,
+        "schema_version": "research_existing_feature_observations_v2_20260914_publication_headroom",
+        "updated_at": "2026-09-14T14:54:32.860320+00:00",
+        "last_success": {
+          "status": "published",
+          "publication_completed_utc": "2026-09-14T14:54:15.506315+00:00",
+          "stage_elapsed_sec": {
+            "build": 10.015,
+            "frame_and_archive": 11.985,
+            "publication_receipt": 1.281,
+            "sources": 20.594
+          },
+          "accepted_instruments": 57,
+          "budget": {
+            "all_pairs_retained": true,
+            "calculation_order": [
+              "USD_HUF",
+              "USD_JPY",
+              "USD_MXN",
+              "USD_NOK",
+              "USD_PLN",
+              "USD_SEK",
+              "USD_SGD",
+              "USD_THB",
+              "USD_TRY",
+              "USD_ZAR",
+              "ZAR_JPY",
+              "AUD_CAD",
+              "AUD_CHF",
+              "AUD_HKD",
+              "AUD_JPY",
+              "AUD_NZD",
+              "AUD_SGD",
+              "AUD_USD",
+              "CAD_CHF",
+              "CAD_HKD",
+              "CAD_JPY",
+              "CAD_SGD",
+              "CHF_HKD",
+              "CHF_JPY",
+              "CHF_ZAR",
+              "EUR_AUD",
+              "EUR_CAD",
+              "EUR_CHF",
+              "EUR_CZK",
+              "EUR_DKK",
+              "EUR_GBP",
+              "EUR_HKD",
+              "EUR_HUF",
+              "EUR_JPY",
+              "EUR_NOK",
+              "EUR_NZD",
+              "EUR_PLN",
+              "EUR_SEK",
+              "EUR_SGD",
+              "EUR_TRY",
+              "EUR_USD",
+              "EUR_ZAR",
+              "GBP_AUD",
+              "GBP_CAD",
+              "GBP_CHF",
+              "GBP_HKD",
+              "GBP_JPY",
+              "GBP_NZD",
+              "GBP_PLN",
+              "GBP_SGD",
+              "GBP_USD",
+              "GBP_ZAR",
+              "HKD_JPY",
+              "NZD_CAD",
+              "NZD_CHF",
+              "NZD_HKD",
+              "NZD_JPY",
+              "NZD_SGD",
+              "NZD_USD",
+              "SGD_CHF",
+              "SGD_JPY",
+              "TRY_JPY",
+              "USD_CAD",
+              "USD_CHF",
+              "USD_CNH",
+              "USD_CZK",
+              "USD_DKK",
+              "USD_HKD"
+            ],
+            "calculator_allowance_seconds": 9.40600000001723,
+            "publication_reserve_seconds": 15.0,
+            "scheduling_contract": "minute_rotated_exact_universe_v1",
+            "total_limit_seconds": 45.0,
+            "unavailable_invalid_pip_or_budget_pairs": []
+          },
+          "readiness": {
+            "model_output_pairs": 68,
+            "news_ready_pairs": 68,
+            "rich_M1_fresh_pairs": 58,
+            "rich_M1_materialized_pairs": 58,
+            "rich_M1_stale_or_missing_pairs": 10,
+            "structural_fresh_pairs_by_timeframe": {
+              "H1": 63,
+              "H2": 63,
+              "H3": 63,
+              "H4": 63,
+              "M1": 61,
+              "M10": 63,
+              "M15": 62,
+              "M30": 33,
+              "M5": 65
+            }
+          }
+        }
+      }
+    },
+    {
+      "component": "research_feature_forward_v2",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260914_features_v1\\feature_forward_v1\\feature_forward_status_v1.json",
+      "sha256": "612730a796fbd3c81b2d8e7234054542d930a60fd6048209d2bd9ea7038d4fe6",
+      "observed_utc": "2026-09-14T14:55:14.153969+00:00",
+      "selected_fields": {
+        "can_place_orders": false,
+        "errors": [
+          "one_or_more_quotes_refused"
+        ],
+        "evaluation": {
+          "can_place_orders": false,
+          "can_promote": false,
+          "counts": {
+            "batches": 61,
+            "jobs": 6936,
+            "outcomes": 6528,
+            "publications": 59,
+            "quote_receipts": 250,
+            "quotes": 12216,
+            "refusals": 25349
+          },
+          "feature_event_counts": {
+            "300:300": {
+              "all_feature_events": 716660,
+              "excluded": 716660,
+              "excluded_scored": 612618,
+              "excluded_unknown": 104042,
+              "excluded_with_scored_pair": 612618,
+              "scored": 612618,
+              "unknown": 104042
+            },
+            "300:3600": {
+              "all_feature_events": 716660,
+              "excluded": 716660,
+              "excluded_scored": 609733,
+              "excluded_unknown": 106927,
+              "excluded_with_scored_pair": 609733,
+              "scored": 609733,
+              "unknown": 106927
+            },
+            "300:900": {
+              "all_feature_events": 716660,
+              "excluded": 716660,
+              "excluded_scored": 612416,
+              "excluded_unknown": 104244,
+              "excluded_with_scored_pair": 612416,
+              "scored": 612416,
+              "unknown": 104244
+            },
+            "3600:300": {
+              "all_feature_events": 587738,
+              "excluded": 587738,
+              "excluded_scored": 455224,
+              "excluded_unknown": 132514,
+              "excluded_with_scored_pair": 455224,
+              "scored": 455224,
+              "unknown": 132514
+            },
+            "3600:3600": {
+              "all_feature_events": 587738,
+              "excluded": 587738,
+              "excluded_scored": 451056,
+              "excluded_unknown": 136682,
+              "excluded_with_scored_pair": 451056,
+              "scored": 451056,
+              "unknown": 136682
+            },
+            "3600:900": {
+              "all_feature_events": 587738,
+              "excluded": 587738,
+              "excluded_scored": 455080,
+              "excluded_unknown": 132658,
+              "excluded_with_scored_pair": 455080,
+              "scored": 455080,
+              "unknown": 132658
+            },
+            "900:300": {
+              "all_feature_events": 715538,
+              "excluded": 715538,
+              "excluded_scored": 489466,
+              "excluded_unknown": 106768,
+              "excluded_unpublished": 119304,
+              "excluded_with_scored_pair": 489466,
+              "scored": 489466,
+              "unknown": 106768,
+              "unpublished": 119304
+            },
+            "900:3600": {
+              "all_feature_events": 715538,
+              "excluded": 715538,
+              "excluded_scored": 485931,
+              "excluded_unknown": 110303,
+              "excluded_unpublished": 119304,
+              "excluded_with_scored_pair": 485931,
+              "scored": 485931,
+              "unknown": 110303,
+              "unpublished": 119304
+            },
+            "900:900": {
+              "all_feature_events": 715538,
+              "excluded": 715538,
+              "excluded_scored": 488483,
+              "excluded_unknown": 107751,
+              "excluded_unpublished": 119304,
+              "excluded_with_scored_pair": 488483,
+              "scored": 488483,
+              "unknown": 107751,
+              "unpublished": 119304
+            }
+          },
+          "generated_epoch": 1789397272.1430006,
+          "last_refusal": {
+            "observed_epoch": 1789397271.4359565,
+            "reason": "quote:ZAR_JPY:future_or_stale_quote",
+            "status": "admission_refused"
+          },
+          "limitations": [
+            "Exploratory magnitude thresholds; no inferred feature direction or calibrated forecast.",
+            "Overlapping features, windows and horizons share outcomes; counts are not independent trials.",
+            "Hypothetical bid/ask probes exclude financing, slippage, guaranteed fills and account returns.",
+            "Unavailable and unknown observations remain in separate full-denominator counts.",
+            "Finite ledger capacity; no automatic deletion or 48-hour capacity guarantee."
+          ],
+          "pair_probe_counts": {
+            "300:300": {
+              "all_pair_jobs": 816,
+              "pending": 0,
+              "probes": {
+                "fixed_long": {
+                  "count": 691,
+                  "direction_correct": 319,
+                  "mean_net_bps": "-3.6012884552925478741445989678890977945930821722465054570046758092405649969532444",
+                  "net_bps_sum": "-2488.4903226071505810339178868113665760638197810223352707902309841852304128946919",
+                  "positive_after_spread": 8,
+                  "stress_net_bps_sum": {
+                    "1": "-3179.4903226071505810339178868113665760638197810223352707902309841852304128946919",
+                    "2": "-3870.4903226071505810339178868113665760638197810223352707902309841852304128946921"
+                  }
+                },
+                "fixed_short": {
+                  "count": 691,
+                  "direction_correct": 361,
+                  "mean_net_bps": "-3.4303928924808245913055505025213324588497938967585833884361931016188921188170861",
+                  "net_bps_sum": "-2370.4014887042497925921353972422407290652075826601811214094094332186544541026065",
+                  "positive_after_spread": 26,
+                  "stress_net_bps_sum": {
+                    "1": "-3061.4014887042497925921353972422407290652075826601811214094094332186544541026065",
+                    "2": "-3752.4014887042497925921353972422407290652075826601811214094094332186544541026068"
+                  }
+                }
+              },
+              "scored": 691,
+              "unknown": 125
+            },
+            "300:3600": {
+              "all_pair_jobs": 816,
+              "pending": 0,
+              "probes": {
+                "fixed_long": {
+                  "count": 688,
+                  "direction_correct": 301,
+                  "mean_net_bps": "-4.6240329210354618775601042130242906431102151788159210229753182178847530533361651",
+                  "net_bps_sum": "-3181.3346496723977717613516985607119624598280430253536638070189339047101006952816",
+                  "positive_after_spread": 80,
+                  "stress_net_bps_sum": {
+                    "1": "-3869.3346496723977717613516985607119624598280430253536638070189339047101006952816",
+                    "2": "-4557.3346496723977717613516985607119624598280430253536638070189339047101006952811"
+                  }
+                },
+                "fixed_short": {
+                  "count": 688,
+                  "direction_correct": 383,
+                  "mean_net_bps": "-2.4605310919210316232072552382739813387392859637847118534495455199525155448159826",
+                  "net_bps_sum": "-1692.8453912416697567665916039324991610526287430838817551732873177273306948333960",
+                  "positive_after_spread": 220,
+                  "stress_net_bps_sum": {
+                    "1": "-2380.8453912416697567665916039324991610526287430838817551732873177273306948333962",
+                    "2": "-3068.8453912416697567665916039324991610526287430838817551732873177273306948333966"
+                  }
+                }
+              },
+              "scored": 688,
+              "unknown": 128
+            },
+            "300:900": {
+              "all_pair_jobs": 816,
+              "pending": 0,
+              "probes": {
+                "fixed_long": {
+                  "count": 691,
+                  "direction_correct": 320,
+                  "mean_net_bps": "-3.8020014528818084468652870946173644627054845061779690126687579214370649400022130",
+                  "net_bps_sum": "-2627.1830039413296367839133823805988437294897937689765877541117237130118735415292",
+                  "positive_after_spread": 37,
+                  "stress_net_bps_sum": {
+                    "1": "-3318.1830039413296367839133823805988437294897937689765877541117237130118735415296",
+                    "2": "-4009.1830039413296367839133823805988437294897937689765877541117237130118735415298"
+                  }
+                },
+                "fixed_short": {
+                  "count": 691,
+                  "direction_correct": 364,
+                  "mean_net_bps": "-3.2114063247747395315557024980608684339527583802721204194356312434564306394171991",
+                  "net_bps_sum": "-2219.0817704193450163049904261600600878613560407680352098300211892283935718372846",
+                  "positive_after_spread": 110,
+                  "stress_net_bps_sum": {
+                    "1": "-2910.0817704193450163049904261600600878613560407680352098300211892283935718372845",
+                    "2": "-3601.0817704193450163049904261600600878613560407680352098300211892283935718372842"
+                  }
+                }
+              },
+              "scored": 691,
+              "unknown": 125
+            },
+            "3600:300": {
+              "all_pair_jobs": 680,
+              "pending": 0,
+              "probes": {
+                "fixed_long": {
+                  "count": 520,
+                  "direction_correct": 256,
+                  "mean_net_bps": "-3.5002802161009887324277981009581587121457407339165661061310989826623709297325137",
+                  "net_bps_sum": "-1820.1457123725141408624550124982425303157851816366143751881714709844328834609071",
+                  "positive_after_spread": 10,
+                  "stress_net_bps_sum": {
+                    "1": "-2340.1457123725141408624550124982425303157851816366143751881714709844328834609069",
+                    "2": "-2860.1457123725141408624550124982425303157851816366143751881714709844328834609069"
+                  }
+                },
+                "fixed_short": {
+                  "count": 520,
+                  "direction_correct": 254,
+                  "mean_net_bps": "-3.4810292901547748702507324782868584642068437155087092664565058912267495395677340",
+                  "net_bps_sum": "-1810.1352308804829325303808887091664013875587320645288185573830634379097605752217",
+                  "positive_after_spread": 13,
+                  "stress_net_bps_sum": {
+                    "1": "-2330.1352308804829325303808887091664013875587320645288185573830634379097605752216",
+                    "2": "-2850.1352308804829325303808887091664013875587320645288185573830634379097605752218"
+                  }
+                }
+              },
+              "scored": 520,
+              "unknown": 160
+            },
+            "3600:3600": {
+              "all_pair_jobs": 680,
+              "pending": 0,
+              "probes": {
+                "fixed_long": {
+                  "count": 515,
+                  "direction_correct": 230,
+                  "mean_net_bps": "-4.5593409633318392540006035922684145887824816757704652540910577813408871376461245",
+                  "net_bps_sum": "-2348.0605961158972158103108500182335132229780630217896058568947573905568758877541",
+                  "positive_after_spread": 66,
+                  "stress_net_bps_sum": {
+                    "1": "-2863.0605961158972158103108500182335132229780630217896058568947573905568758877542",
+                    "2": "-3378.0605961158972158103108500182335132229780630217896058568947573905568758877542"
+                  }
+                },
+                "fixed_short": {
+                  "count": 515,
+                  "direction_correct": 283,
+                  "mean_net_bps": "-2.5264774155937758099826870354168284531233326623881971846028279918027457570914598",
+                  "net_bps_sum": "-1301.1358690307945421410838232396666533585163211299215500704564157784140649021018",
+                  "positive_after_spread": 162,
+                  "stress_net_bps_sum": {
+                    "1": "-1816.1358690307945421410838232396666533585163211299215500704564157784140649021022",
+                    "2": "-2331.1358690307945421410838232396666533585163211299215500704564157784140649021018"
+                  }
+                }
+              },
+              "scored": 515,
+              "unknown": 165
+            },
+            "3600:900": {
+              "all_pair_jobs": 680,
+              "pending": 0,
+              "probes": {
+                "fixed_long": {
+                  "count": 520,
+                  "direction_correct": 250,
+                  "mean_net_bps": "-3.6740810790858457168707369336929253407876289656620858402551554244021023559673017",
+                  "net_bps_sum": "-1910.5221611246397727727832055203211772095670621442846369326808206890932251029969",
+                  "positive_after_spread": 33,
+                  "stress_net_bps_sum": {
+                    "1": "-2430.5221611246397727727832055203211772095670621442846369326808206890932251029969",
+                    "2": "-2950.5221611246397727727832055203211772095670621442846369326808206890932251029967"
+                  }
+                },
+                "fixed_short": {
+                  "count": 520,
+                  "direction_correct": 265,
+                  "mean_net_bps": "-3.3691337940618991662651805861896561604816817044325131543121549293120985125497160",
+                  "net_bps_sum": "-1751.9495729121875664578939048186212034504744863049068402423205632422912265258523",
+                  "positive_after_spread": 75,
+                  "stress_net_bps_sum": {
+                    "1": "-2271.9495729121875664578939048186212034504744863049068402423205632422912265258522",
+                    "2": "-2791.9495729121875664578939048186212034504744863049068402423205632422912265258520"
+                  }
+                }
+              },
+              "scored": 520,
+              "unknown": 160
+            },
+            "900:300": {
+              "all_pair_jobs": 816,
+              "pending": 136,
+              "probes": {
+                "fixed_long": {
+                  "count": 553,
+                  "direction_correct": 263,
+                  "mean_net_bps": "-3.5186041908441354064591955238958202464106954527877665421005996356564631935434340",
+                  "net_bps_sum": "-1945.7881175368068797719351247143885962651145853916348977816315985180241460295190",
+                  "positive_after_spread": 9,
+                  "stress_net_bps_sum": {
+                    "1": "-2498.7881175368068797719351247143885962651145853916348977816315985180241460295189",
+                    "2": "-3051.7881175368068797719351247143885962651145853916348977816315985180241460295192"
+                  }
+                },
+                "fixed_short": {
+                  "count": 553,
+                  "direction_correct": 280,
+                  "mean_net_bps": "-3.4456436619549717342254625143873391260754814997695206201899613821431189552958539",
+                  "net_bps_sum": "-1905.4409450610993690266807704561985367197412693725449029650486443251447822786072",
+                  "positive_after_spread": 17,
+                  "stress_net_bps_sum": {
+                    "1": "-2458.4409450610993690266807704561985367197412693725449029650486443251447822786070",
+                    "2": "-3011.4409450610993690266807704561985367197412693725449029650486443251447822786071"
+                  }
+                }
+              },
+              "scored": 553,
+              "unknown": 127
+            },
+            "900:3600": {
+              "all_pair_jobs": 816,
+              "pending": 136,
+              "probes": {
+                "fixed_long": {
+                  "count": 549,
+                  "direction_correct": 248,
+                  "mean_net_bps": "-4.5255482577307953104498898655912447836609599770462275577319562395481437987032561",
+                  "net_bps_sum": "-2484.5259934942066254369895362095933862298670273983789291948439755119309454880876",
+                  "positive_after_spread": 69,
+                  "stress_net_bps_sum": {
+                    "1": "-3033.5259934942066254369895362095933862298670273983789291948439755119309454880875",
+                    "2": "-3582.5259934942066254369895362095933862298670273983789291948439755119309454880876"
+                  }
+                },
+                "fixed_short": {
+                  "count": 549,
+                  "direction_correct": 300,
+                  "mean_net_bps": "-2.5306381096225665180884823487478817423705558819677439813171021654388001614284162",
+                  "net_bps_sum": "-1389.3203221827890184305768094625870765614351792002914457430890888259012886242005",
+                  "positive_after_spread": 172,
+                  "stress_net_bps_sum": {
+                    "1": "-1938.3203221827890184305768094625870765614351792002914457430890888259012886242005",
+                    "2": "-2487.3203221827890184305768094625870765614351792002914457430890888259012886242003"
+                  }
+                }
+              },
+              "scored": 549,
+              "unknown": 131
+            },
+            "900:900": {
+              "all_pair_jobs": 816,
+              "pending": 136,
+              "probes": {
+                "fixed_long": {
+                  "count": 552,
+                  "direction_correct": 268,
+                  "mean_net_bps": "-3.6264396167385283942981862233430974746212585344649477228499332836299575746991699",
+                  "net_bps_sum": "-2001.7946684396676736525987952853898059909347110246511430131631725637365812339418",
+                  "positive_after_spread": 35,
+                  "stress_net_bps_sum": {
+                    "1": "-2553.7946684396676736525987952853898059909347110246511430131631725637365812339416",
+                    "2": "-3105.7946684396676736525987952853898059909347110246511430131631725637365812339416"
+                  }
+                },
+                "fixed_short": {
+                  "count": 552,
+                  "direction_correct": 279,
+                  "mean_net_bps": "-3.3179844346215843758758843372719913884791174833738922259984342501447200953887027",
+                  "net_bps_sum": "-1831.5274079111145754834881541741392464404728508223885087511357060798854926545639",
+                  "positive_after_spread": 80,
+                  "stress_net_bps_sum": {
+                    "1": "-2383.5274079111145754834881541741392464404728508223885087511357060798854926545639",
+                    "2": "-2935.5274079111145754834881541741392464404728508223885087511357060798854926545638"
+                  }
+                }
+              },
+              "scored": 552,
+              "unknown": 128
+            }
+          },
+          "protocol": {
+            "can_place_orders": false,
+            "can_promote": false,
+            "comparison_windows_sec": [
+              300,
+              900,
+              3600
+            ],
+            "cost_stress_bps": [
+              "1",
+              "2"
+            ],
+            "decision_cadence_sec": 300,
+            "directions": "fixed_long_and_short_probes_no_feature_sign_prediction",
+            "entry_max_delay_sec": 60,
+            "horizons_sec": [
+              300,
+              900,
+              3600
+            ],
+            "magnitude_alert_percentile": 95,
+            "minimum_history_count": 5,
+            "other_valid_quote_reads": "count_observed_not_needed_without_persisting_quote_or_rewriting_past_evidence",
+            "outcome_move": "absolute_frozen_prepublication_reference_midpoint_to_target_midpoint",
+            "price_move_threshold_bps": "5",
+            "probability": null,
+            "quote_market_max_age_sec": 30,
+            "quote_observation_cadence_sec": 5,
+            "quote_persistence": "forced_prepublication_references_and_first_eligible_unresolved_entry_or_target_only",
+            "requires_nonzero_absolute_change": true,
+            "schema_version": "feature_forward_exploratory_v1_20260913",
+            "source_max_age_sec": 75,
+            "target_clock": "immutable_event_publication_plus_horizon",
+            "target_max_delay_sec": 60,
+            "thresholds_are_exploratory": true
+          },
+          "protocol_sha256": "13156e96743b2a44c7773ce39e31dddd440a3544fb6fff6bdf1e84ecb50343bd",
+          "resource_limits": {
+            "max_ledger_and_sidecar_bytes": 4294967296,
+            "minimum_free_bytes": 4294967296
+          },
+          "schema_version": "feature_forward_owned_ledger_v1"
+        },
+        "generated_utc": "2026-09-14T14:54:57.583227+00:00",
+        "last_refusal": {
+          "observed_epoch": 1789397697.481169,
+          "reason": "quote:USD_HKD:future_or_stale_quote",
+          "status": "admission_refused"
+        },
+        "schema_version": "feature_forward_worker_status_v1",
+        "settlement": {},
+        "status": "partial_unavailable"
+      }
+    },
+    {
+      "component": "official_pair_horizon_v2",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260913_v1\\official_event_pair_horizon_v2\\heartbeat.json",
+      "sha256": "7afcf060f33843852536815b91272d144b4844b2e7c3dcffa2988e35cb8000dd",
+      "observed_utc": "2026-09-14T14:55:14.162945+00:00",
+      "selected_fields": {
+        "can_place_orders": false,
+        "counts": {
+          "attempts": 45,
+          "input_events": 9,
+          "invalid_pair_outcomes": 140,
+          "outcomes": 1600,
+          "valid_outcomes": 1460,
+          "valid_pair_outcomes": 1460
+        },
+        "errors": [],
+        "research_only": true,
+        "schema_version": "official_event_pair_horizon_capture_v2_heartbeat",
+        "status": "ok",
+        "updated_utc": "2026-09-14T14:55:13.101535+00:00"
+      }
+    },
+    {
+      "component": "clock",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\clock_integrity_v1.json",
+      "sha256": "1039c49f4871d4ac1231c82158c6cb03cffdddbd809bfdbcef71abe8401abf27",
+      "observed_utc": "2026-09-14T14:55:14.162945+00:00",
+      "selected_fields": {
+        "can_place_orders": false,
+        "clock_discontinuity_detected_at_utc": "2026-09-14T14:36:30.035000+00:00",
+        "clock_discontinuity_offset_jump_sec": 0.008,
+        "clock_discontinuity_quarantine_until_utc": "2026-09-14T14:46:30.035000+00:00",
+        "generated_utc": "2026-09-14T14:55:04.627087+00:00",
+        "reasons": [],
+        "research_only": true,
+        "schema_version": 1,
+        "status": "ok",
+        "timestamp_normalization_trusted": true
+      }
+    },
+    {
+      "component": "integrity",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\project_integrity_audit_v1.json",
+      "sha256": "9d53e443cb377a7c368db584b2fffe482b91914edec71da4a578662964bfedf9",
+      "observed_utc": "2026-09-14T14:55:14.166004+00:00",
+      "selected_fields": {
+        "can_place_orders": false,
+        "generated_utc": "2026-09-14T14:53:41.928522+00:00",
+        "research_only": true,
+        "schema_version": 1,
+        "status": "degraded"
+      }
+    }
+  ]
+}

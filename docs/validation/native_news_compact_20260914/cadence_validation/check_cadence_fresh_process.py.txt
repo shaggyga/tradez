@@ -1,0 +1,146 @@
+"""Separate-process read-only restart proof for the completed owned cadence store.
+
+No scan, observation, acknowledgment, receipt, source record or model is written.
+This is distinct from run_publisher_cadence's final in-process cache-cold read.
+"""
+import argparse
+from datetime import datetime, timezone
+import hashlib
+import json
+import os
+from pathlib import Path
+import sqlite3
+import sys
+import threading
+import time
+import traceback
+
+HERE = Path(__file__).resolve().parent
+FOREX = HERE.parents[1]
+
+
+def digest(path):
+    h = hashlib.sha256()
+    with path.open('rb') as stream:
+        while chunk := stream.read(1024 * 1024):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--fixture', required=True, type=Path)
+    parser.add_argument('--output', required=True, type=Path)
+    args = parser.parse_args()
+    fixture, output = args.fixture.resolve(), args.output.resolve()
+    assert fixture.is_relative_to(HERE) and output.is_relative_to(HERE) and not output.exists()
+    prior = json.loads((fixture / 'report.json').read_bytes())
+    assert prior['status'] in ('passed', 'failed') and prior['completed_publications'] == prior['requested_publications'] == 2880
+    # An ordinary read can fail after all publications/acks committed. Read the
+    # original profile and choose as-of cutoffs after the retained observations;
+    # do not alter the failed fixture's report or manufacture a new receipt.
+    with sqlite3.connect((fixture / 'publisher.sqlite').as_uri() + '?mode=ro', uri=True) as database:
+        profile = json.loads(database.execute('SELECT body FROM profile').fetchone()[0])
+        counts = {name: database.execute('SELECT count(*) FROM ' + name).fetchone()[0]
+                  for name in ('attempts', 'acknowledgments', 'published', 'evidence_objects')}
+    with sqlite3.connect((fixture / 'consumer.sqlite').as_uri() + '?mode=ro', uri=True) as database:
+        counts.update({'consumer_' + name: database.execute('SELECT count(*) FROM ' + name).fetchone()[0]
+                       for name in ('observations', 'acknowledgments')})
+        first = json.loads(database.execute('SELECT body FROM observations ORDER BY observation_sequence LIMIT 1').fetchone()[0])
+        last = json.loads(database.execute('SELECT body FROM observations ORDER BY observation_sequence DESC LIMIT 1').fetchone()[0])
+    assert set(counts.values()) == {2880}
+    config = {'publication_path': str(fixture / 'publisher.sqlite'),
+              'observation_path': str(fixture / 'consumer.sqlite'),
+              'cohort_id': profile['cohort_id'], 'expected_policy': profile['policy'],
+              'input_identity': profile['input_identity'], 'consumer_id': 'synthetic_cadence_2880',
+              'first_decision': first['consumer_observed_epoch'] + 30,
+              'final_decision': last['consumer_observed_epoch'] + 30}
+    kit = fixture / 'source_kit'
+    assert {name: digest(kit / name) for name in prior['source_hashes']} == prior['source_hashes']
+    paths = [Path(config[key]).resolve() for key in ('publication_path', 'observation_path')]
+    assert all(path.is_relative_to(fixture) and path.is_file() for path in paths)
+    before = {path.name: digest(path) for path in paths}
+    output.mkdir()
+    sys.path[:0] = [str(kit), str(FOREX / 'trad')]
+    import projection_revision_admission_v1 as publisher
+    import projection_revision_consumer_v1 as consumer
+    import compact_projection_store_v1 as compact
+    import psutil
+    assert Path(publisher.__file__).parent.resolve() == kit
+    assert Path(consumer.__file__).parent.resolve() == kit
+    assert Path(compact.__file__).parent.resolve() == kit
+    process = psutil.Process()
+    process.nice(psutil.BELOW_NORMAL_PRIORITY_CLASS)
+    started, initial_cpu = time.monotonic(), sum(process.cpu_times()[:2])
+    peak = [process.memory_info().rss]
+    stop = threading.Event()
+    report = {'status': 'running', 'started_utc': datetime.now(timezone.utc).isoformat(),
+              'pid': os.getpid(), 'fixture_pid': prior['pid'],
+              'fresh_process': os.getpid() != prior['pid'],
+              'source_hashes': prior['source_hashes'], 'database_sha256_before': before,
+              'original_cadence_status': prior['status'], 'original_cadence_error': prior.get('error'),
+              'durable_counts': counts,
+              'scope': 'read-only separate-process restart of completed 2880 synthetic publication/ack cadence; one revised event',
+              'phases': [], 'source_limits_overridden': False, 'broker_calls': 0,
+              'receipt_or_source_writes': False, 'full_12k_plus_2880_combined_claim': False}
+
+    def monitor():
+        while not stop.wait(.1):
+            peak[0] = max(peak[0], process.memory_info().rss)
+
+    def save():
+        report.update(elapsed_sec=time.monotonic() - started,
+                      cpu_sec=sum(process.cpu_times()[:2]) - initial_cpu,
+                      peak_rss_bytes=peak[0])
+        (output / 'report.json').write_text(json.dumps(report, indent=2, sort_keys=True), encoding='utf-8')
+
+    def phase(name, start, **values):
+        row = {'phase': name, 'elapsed_sec': time.monotonic() - start, **values}
+        report['phases'].append(row)
+        save()
+        print(json.dumps(row), flush=True)
+
+    sampler = threading.Thread(target=monitor, daemon=True)
+    sampler.start()
+    try:
+        assert report['fresh_process']
+        options = {key: config[key] for key in ('cohort_id', 'expected_policy', 'input_identity')}
+        begun = time.monotonic()
+        publication = publisher.read_published(config['publication_path'], **options)
+        phase('cold_publisher', begun, capture=publisher.capture_metrics(config['publication_path']),
+              manifest=compact.manifest(publication))
+        begun = time.monotonic()
+        context = consumer.read_and_prepare(config['publication_path'], config['observation_path'],
+                                            consumer_id=config['consumer_id'], **options)
+        metadata = consumer.prepared_context_metadata(context)
+        phase('consumer_read_and_prepare_after_cold_publisher', begun,
+              metadata={key: value for key, value in metadata.items() if not isinstance(value, (list, dict))})
+        begun = time.monotonic()
+        final = config['final_decision']
+        headers = list(consumer.iter_selected_headers(context, final))
+        assert len(headers) == 1 and headers[0]['projection_seq'] == 2880
+        member = consumer.resolve_selected_member(context, headers[0], final)
+        assert member['payload']['summary'] == 'Explicit synthetic revision number 2879.'
+        first_decision = config['first_decision']
+        first = list(consumer.iter_selected_headers(context, first_decision))
+        assert len(first) == 1 and first[0]['projection_seq'] == 1
+        original = consumer.resolve_selected_member(context, first[0], first_decision)
+        assert original['payload']['summary'] == 'Explicit synthetic revision number 0.'
+        assert original['payload']['first_seen_utc'] == member['payload']['first_seen_utc']
+        phase('original_first_and_latest_asof_parity', begun, first_sequence=1, latest_sequence=2880,
+              first_seen_clock_unchanged=True)
+        after = {path.name: digest(path) for path in paths}
+        assert after == before
+        report.update(status='passed', database_sha256_after=after,
+                      unchanged_database_bytes=True, original_availability_unchanged=True)
+    except BaseException as exc:
+        report.update(status='failed', error_type=type(exc).__name__, error=str(exc), traceback=traceback.format_exc())
+        raise
+    finally:
+        stop.set()
+        sampler.join(timeout=1)
+        save()
+
+
+if __name__ == '__main__':
+    main()

@@ -1,90 +1,140 @@
-"""Read-only audit of the archived unified feature space.
-
-The source parquet is never modified.  A manifest is written separately so a
-future fit can explicitly select one representative from each exact duplicate
-group and exclude constants/near duplicates.
-"""
+"""Audit registered historical inputs; exclude outcomes and preserve source data."""
 from __future__ import annotations
-import hashlib, json, os, sys
+import argparse
+import csv
+import hashlib
+import json
 from datetime import datetime, timezone
 from pathlib import Path
-
 import numpy as np
-import pandas as pd
+import pyarrow as pa
 import pyarrow.parquet as pq
 
-SOURCE = Path(r"C:\Users\zmoor\AppData\Local\ForexResearchData\unified_intrahour_v1\unified_training_matrix.parquet")
-REGISTRY = Path(r"C:\Users\zmoor\Documents\forex\feature_horizon_audit_20260908\retained\unified\unified_feature_registry.csv")
-OUT = Path(r"C:\Users\zmoor\Documents\forex\trad\data\oanda_training_manager\price_only_phase1_20260914\feature_space_dedup_audit.json")
+PROJECT = Path(__file__).resolve().parents[1]
+SOURCE = Path.home() / "AppData/Local/ForexResearchData/unified_intrahour_v1/unified_training_matrix.parquet"
+REGISTRY = PROJECT.parent / "feature_horizon_audit_20260908/retained/unified/unified_feature_registry.csv"
+OUT = PROJECT / "data/oanda_training_manager/price_only_phase1_20260914/feature_space_dedup_audit.json"
 
 def sha256_file(path: Path) -> str:
     h = hashlib.sha256()
-    with path.open('rb') as f:
-        for b in iter(lambda: f.read(1024 * 1024), b''):
-            h.update(b)
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            h.update(chunk)
     return h.hexdigest()
 
-def main() -> int:
-    if not SOURCE.exists():
-        raise SystemExit(f"missing source: {SOURCE}")
-    pf = pq.ParquetFile(SOURCE)
-    names = list(pf.schema_arrow.names)
-    numeric = [n for n in names if n not in {'instrument','base_currency','quote_currency','timestamp','time'}
-               and (str(pf.schema_arrow.field(n).type).startswith(('double','float','int','decimal')))]
-    # fingerprints are calculated in bounded column batches to avoid creating a
-    # second full matrix in memory.
-    fingerprints: dict[str, str] = {}
-    constants: list[str] = []
-    mins: dict[str, float] = {}
-    maxs: dict[str, float] = {}
-    for start in range(0, len(numeric), 64):
-        cols = numeric[start:start+64]
-        df = pf.read(columns=cols).to_pandas()
-        for c in cols:
-            s = df[c]
-            # pandas hashing canonicalizes NaN and is independent of the index.
-            fingerprints[c] = hashlib.sha256(pd.util.hash_pandas_object(s, index=False).values.tobytes()).hexdigest()
-            nunique = int(s.nunique(dropna=False))
-            if nunique <= 1:
-                constants.append(c)
-            finite = s[np.isfinite(s)]
-            if len(finite):
-                mins[c], maxs[c] = float(finite.min()), float(finite.max())
+def registered_inputs(path: Path) -> list[str]:
+    with path.open(encoding="utf-8-sig", newline="") as stream:
+        reader = csv.DictReader(stream)
+        if not {"feature_name", "model_input", "causal"}.issubset(reader.fieldnames or []):
+            raise ValueError("registry_missing_required_columns")
+        rows = list(reader)
+    all_names = [r["feature_name"] for r in rows]
+    if any(not n for n in all_names) or len(all_names) != len(set(all_names)):
+        raise ValueError("registry_empty_or_duplicate_feature_name")
+    inputs = []
+    for row in rows:
+        flag = row["model_input"].lower()
+        if flag not in {"true", "false"}:
+            raise ValueError("registry_invalid_model_input_flag")
+        if flag == "false":
+            continue
+        name = row["feature_name"]
+        if name.startswith(("target_", "diag_")):
+            raise ValueError("registry_contains_outcome_as_input")
+        if row["causal"].lower() != "true":
+            raise ValueError("registry_contains_noncausal_input")
+        inputs.append(name)
+    if not inputs:
+        raise ValueError("registry_has_no_inputs")
+    return inputs
+
+def canonical_values(values: np.ndarray) -> np.ndarray:
+    # Signed zero and different NaN payloads mean the same numeric feature value.
+    result = np.asarray(values, dtype="<f8").copy()
+    result[result == 0] = 0.0
+    result[np.isnan(result)] = np.nan
+    return result
+
+def audit(source: Path, registry: Path) -> dict:
+    before = source.stat()
+    registry_hash = sha256_file(registry)
+    names = registered_inputs(registry)
+    pf = pq.ParquetFile(source)
+    schema_names = pf.schema_arrow.names
+    if len(schema_names) != len(set(schema_names)):
+        raise ValueError("duplicate_parquet_column_names")
+    for name in names:
+        if name not in schema_names:
+            raise ValueError(f"registered_input_missing:{name}")
+        # Retained registry inputs are floats. Reject an unreviewed numeric cast.
+        if not pa.types.is_floating(pf.schema_arrow.field(name).type):
+            raise ValueError(f"registered_input_not_floating:{name}")
     groups: dict[str, list[str]] = {}
-    for c, fp in fingerprints.items():
-        groups.setdefault(fp, []).append(c)
-    exact = [g for g in groups.values() if len(g) > 1]
-    # Registry names are checked separately: this catches aliases before values
-    # are materialized and avoids mistaking related horizons for duplicates.
-    registry_dupes: dict[str, list[str]] = {}
-    if REGISTRY.exists():
-        reg = pd.read_csv(REGISTRY)
-        name_col = next((c for c in ('feature_name','name','feature') if c in reg.columns), None)
-        if name_col:
-            for n, count in reg[name_col].value_counts().items():
-                if int(count) > 1:
-                    registry_dupes[str(n)] = [str(n)] * int(count)
-    selected = [c for c in numeric if c not in constants]
-    for g in exact:
-        selected.append(sorted(g)[0]) if sorted(g)[0] not in selected else None
-        for c in g[1:]:
-            if c in selected: selected.remove(c)
-    result = {
-        'schema_version': 'feature_space_dedup_audit_v1',
-        'generated_utc': datetime.now(timezone.utc).isoformat(),
-        'source': {'path': str(SOURCE), 'sha256': sha256_file(SOURCE), 'rows': pf.metadata.num_rows, 'columns': len(names), 'numeric_columns_audited': len(numeric)},
-        'exact_duplicate_value_groups': [sorted(g) for g in sorted(exact, key=lambda x: (x[0], len(x)))],
-        'exact_duplicate_column_count': sum(len(g)-1 for g in exact),
-        'constant_columns': sorted(constants),
-        'registry_duplicate_names': registry_dupes,
-        'representative_numeric_columns': selected,
-        'dropped_for_research_only': sorted(set(constants) | {c for g in exact for c in g[1:]}),
-        'policy': 'Do not overwrite source. Future fitting may use representative_numeric_columns after independent time-blocked validation; exact equality is not evidence of predictive value.'
+    constants, nonfinite = [], {}
+    for start in range(0, len(names), 32):
+        table = pf.read(columns=names[start:start + 32], use_threads=False)
+        for name in table.column_names:
+            values = canonical_values(table[name].to_numpy())
+            h = hashlib.sha256(values.tobytes()).hexdigest()
+            groups.setdefault(h, []).append(name)
+            if len(values) == 0 or np.all((values == values[0]) | (np.isnan(values) & np.isnan(values[0]))):
+                constants.append(name)
+            count = int(np.count_nonzero(~np.isfinite(values)))
+            if count:
+                nonfinite[name] = count
+    duplicates = [g for g in groups.values() if len(g) > 1]
+    # Verify equality before excluding any candidate from a hash group.
+    for group in duplicates:
+        table = pf.read(columns=group, use_threads=False)
+        first = canonical_values(table[group[0]].to_numpy())
+        for name in group[1:]:
+            if not np.array_equal(first, canonical_values(table[name].to_numpy()), equal_nan=True):
+                raise ValueError("duplicate_hash_without_equal_values")
+    aliases = {name: group[0] for group in duplicates for name in group[1:]}
+    dropped = set(constants) | set(aliases)
+    selected = [name for name in names if name not in dropped]
+    source_hash = sha256_file(source)
+    after = source.stat()
+    if (before.st_size, before.st_mtime_ns) != (after.st_size, after.st_mtime_ns):
+        raise ValueError("source_changed_during_audit")
+    if sha256_file(registry) != registry_hash:
+        raise ValueError("registry_changed_during_audit")
+    return {
+        "schema_version": "feature_space_dedup_audit_v2_registered_inputs",
+        "generated_utc": datetime.now(timezone.utc).isoformat(),
+        "source": {"path": str(source), "sha256": source_hash, "rows": pf.metadata.num_rows,
+                   "columns": len(schema_names), "registered_numeric_inputs": len(names)},
+        "registry": {"path": str(registry), "sha256": registry_hash},
+        "excluded_non_input_columns": [n for n in schema_names if n not in set(names)],
+        "exact_duplicate_value_groups": duplicates,
+        "exact_duplicate_column_count": len(aliases),
+        "duplicate_representatives": aliases,
+        "constant_columns": constants,
+        "registry_duplicate_names": [],
+        "nonfinite_counts": nonfinite,
+        "representative_numeric_columns": selected,
+        "selected_numeric_input_count": len(selected),
+        "dropped_for_research_only": [n for n in names if n in dropped],
+        "models_fitted": 0,
+        "near_correlation_selection_performed": False,
+        "policy": "Retrospective exact-equality audit only. Ordered registry inputs exclude outcomes and diagnostics. No temporal validation, new model, live schema migration, or feature-window repair is implied.",
     }
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(result, indent=2), encoding='utf-8')
-    print(json.dumps({k: result[k] for k in ('source','exact_duplicate_value_groups','exact_duplicate_column_count','constant_columns','registry_duplicate_names')}, indent=2))
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--source", type=Path, default=SOURCE)
+    parser.add_argument("--registry", type=Path, default=REGISTRY)
+    parser.add_argument("--output", type=Path, default=OUT)
+    args = parser.parse_args()
+    if args.output.resolve() in {args.source.resolve(), args.registry.resolve()}:
+        raise ValueError("output_must_not_overwrite_source")
+    result = audit(args.source, args.registry)
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8", newline="\n")
+    print(json.dumps({"source": result["source"], "selected": result["selected_numeric_input_count"],
+                      "duplicate_groups": result["exact_duplicate_value_groups"],
+                      "constants": result["constant_columns"], "output": str(args.output)}))
     return 0
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     raise SystemExit(main())

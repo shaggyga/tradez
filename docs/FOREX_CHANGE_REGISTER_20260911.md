@@ -1,3 +1,5 @@
+**September 14 current queue:** [All 37 reconciled work items](../FOREX_PENDING_IMPROVEMENTS.md) and [checkpoint](FOREX_CHECKPOINT_20260914.md) supersede the dated status rows below. Original FXG-001–027 definitions and legacy crosswalk remain evidence; completed experiments are not reopened by an older staged/zero-fit prefix.
+
 **Current operational checkpoint - 2026-09-13T13:43:38.829786+00:00:** [Current state, evidence and recreation](FOREX_OPERATIONAL_CHECKPOINT_20260913.md). Earlier status below is historical; its original bytes are preserved.
 
 **Current stop checkpoint — 2026-09-13T11:14:00.478497+00:00:** [Status, results and next work](FOREX_STOP_CHECKPOINT_20260913.md). Work stopped on request; earlier status below is historical and preserved.

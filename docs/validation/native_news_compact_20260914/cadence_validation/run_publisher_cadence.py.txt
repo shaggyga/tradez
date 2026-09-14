@@ -1,0 +1,119 @@
+"""Owned 2,880-publication/observation cadence test, one synthetic revised story.
+
+This is a metadata/cadence test, separate from the diverse 12k content-volume
+scenario. It neither edits nor imports historical availability into real stores.
+"""
+import argparse
+import datetime as dt
+import hashlib
+import json
+import os
+from pathlib import Path
+import sys
+import time
+import traceback
+
+HERE=Path(__file__).resolve().parent
+FOREX=HERE.parents[1]
+
+
+def run():
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--out',required=True)
+    parser.add_argument('--count',type=int,default=2880)
+    parser.add_argument('--max-seconds',type=int,default=7200)
+    args=parser.parse_args();out=Path(args.out).resolve()
+    assert out.is_relative_to(HERE) and not out.exists() and 1<=args.count<=2880 and 1<=args.max_seconds<=14400
+    out.mkdir();kit=out/'source_kit';kit.mkdir();hashes={}
+    for name in ('compact_projection_store_v1.py','projection_revision_admission_v1.py','projection_revision_consumer_v1.py'):
+        body=(HERE/name).read_bytes();(kit/name).write_bytes(body)
+        assert (HERE/name).read_bytes()==body,'source_changed_during_snapshot'
+        hashes[name]=hashlib.sha256(body).hexdigest()
+    sys.path[:0]=[str(kit),str(FOREX/'trad'),str(FOREX/'revamp_8h_20260912/runtime/news_revision_transport_component_001/candidate_004')]
+    import projection_revision_admission_v1 as pub
+    import projection_revision_consumer_v1 as consumer
+    import compact_projection_store_v1 as compact
+    import test_projection_revision_reader_v1 as fixture
+    import psutil
+    process=psutil.Process()
+    process.nice(psutil.BELOW_NORMAL_PRIORITY_CLASS)
+    source=out/'synthetic_source.sqlite';store=out/'publisher.sqlite';obs=out/'consumer.sqlite'
+    config=json.loads((FOREX/'trad/config/revision_news_io_base_operational_v3_20260913.json').read_text(encoding='utf-8'))
+    configured_sources=dict(config['policy']['sources']);fixture_sources,provenance=fixture.expected()
+    assert provenance==config['policy']['provenance'],'explicit_synthetic_source_contract_required'
+    configured_sources.update(fixture_sources)
+    start=time.monotonic();report={'started_utc':dt.datetime.now(dt.timezone.utc).isoformat(),
+        'status':'running','pid':os.getpid(),'source_hashes':hashes,'configured_policy_sources':len(configured_sources),
+        'scope':'one synthetic canonical event revised every minute; separate from diverse-content volume test',
+        'requested_publications':args.count,'max_wall_seconds':args.max_seconds,'phases':[],
+        'source_ledger_writers':'actual unchanged collector/source/classification writers',
+        'broker_calls':0,'live_source_writes':False,'live_database_imports':False,'completed_publications':0}
+    peak=process.memory_info().rss;connection=None;checkpoint=None;first_seen=None
+    def save():
+        nonlocal peak
+        peak=max(peak,process.memory_info().rss)
+        report.update(elapsed_seconds=time.monotonic()-start,peak_rss_bytes=peak,
+                      owned_disk_bytes=sum(p.stat().st_size for p in out.rglob('*') if p.is_file()))
+        (out/'report.json').write_text(json.dumps(report,indent=2,sort_keys=True),encoding='utf-8')
+    def clocks(minute):
+        values=iter(fixture.stamp(minute)+i for i in (0,1,2,3))
+        return lambda:(next(values),fixture.clock_state(minute))
+    def snapshot(minute):
+        return pub.reader.read_projection_snapshot(source,checkpoint=checkpoint,expected_sources=configured_sources,
+            expected_provenance=provenance,clock_provider=clocks(minute))
+    try:
+        connection=fixture.fixture.news.open_database(source)
+        for minute in range(args.count):
+            assert time.monotonic()-start<args.max_seconds,'cadence_total_wall_time_bound'
+            began=time.monotonic()
+            article=fixture.article(minute,summary=f'Explicit synthetic revision number {minute}.')
+            fixture.fixture.put(connection,article,minute);connection.commit()
+            batch=snapshot(minute+.1)
+            assert batch['row_count']==1 and batch['through_seq']==minute+1
+            options={'cohort_id':'synthetic_cadence_2880','expected_policy':batch['policy'],'input_identity':batch['input_identity']}
+            pstart=time.monotonic()
+            published=pub.publish_snapshot(store,batch,cohort_id=options['cohort_id'],clock_provider=clocks(minute+.2))
+            publish_time=time.monotonic()-pstart;checkpoint=published['checkpoint']
+            empty=snapshot(minute+.3);assert empty['row_count']==0 and not empty['more_pending']
+            ostart=time.monotonic()
+            observed=consumer.observe_published(store,obs,consumer_id='synthetic_cadence_2880',
+                completed_scan=empty,clock_provider=clocks(minute+.4),**options)
+            observe_time=time.monotonic()-ostart
+            report['completed_publications']=minute+1
+            report['last_publish_seconds']=publish_time;report['last_observe_seconds']=observe_time
+            report['max_publish_seconds']=max(report.get('max_publish_seconds',0),publish_time)
+            report['max_observe_seconds']=max(report.get('max_observe_seconds',0),observe_time)
+            if minute%60==0 or minute+1==args.count:
+                report['phases'].append({'minute':minute,'elapsed_seconds':time.monotonic()-start,
+                    'cycle_seconds':time.monotonic()-began,'publish_seconds':publish_time,'observe_seconds':observe_time})
+                save();print(json.dumps(report['phases'][-1]),flush=True)
+        connection.close();connection=None
+        final_decision=fixture.stamp(args.count-1+.6)
+        began=time.monotonic();context=consumer.read_and_prepare(store,obs,consumer_id='synthetic_cadence_2880',**options)
+        report['warm_prepare_seconds']=time.monotonic()-began
+        headers=list(consumer.iter_selected_headers(context,final_decision))
+        assert len(headers)==1 and headers[0]['projection_seq']==args.count
+        member=consumer.resolve_selected_member(context,headers[0],final_decision)
+        assert member['payload']['summary']==f'Explicit synthetic revision number {args.count-1}.'
+        assert member['payload']['first_seen_utc']==fixture.fixture.at(0).isoformat()
+        assert len(list(consumer.iter_selected_headers(context,fixture.stamp(.6))))==1
+        report['metadata']={k:v for k,v in consumer.prepared_context_metadata(context).items() if not isinstance(v,(dict,list))}
+        manifest=consumer.export_manifest(context)
+        report['stream_manifest_bytes']=len(pub.reader.encoded(manifest))
+        report['publisher_manifest']=compact.manifest(pub.read_published(store,**options))
+        (out/'replay_configuration.json').write_text(json.dumps({'publication_path':str(store),'observation_path':str(obs),
+            'consumer_id':'synthetic_cadence_2880',**options,'final_decision':final_decision},indent=2),encoding='utf-8')
+        pub._CAPTURE_CACHE.clear()
+        began=time.monotonic();cold=consumer.read_and_prepare(store,obs,consumer_id='synthetic_cadence_2880',**options)
+        report['cold_read_and_prepare_seconds']=time.monotonic()-began
+        assert consumer.resolve_selected_member(cold,next(consumer.iter_selected_headers(cold,final_decision)),final_decision)==member
+        report['status']='passed'
+    except BaseException as error:
+        report.update(status='failed',error_type=type(error).__name__,error=str(error),traceback=traceback.format_exc())
+        raise
+    finally:
+        if connection is not None:connection.close()
+        save()
+
+
+if __name__=='__main__':run()
