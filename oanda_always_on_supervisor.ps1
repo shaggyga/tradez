@@ -751,6 +751,29 @@ function Start-ManagedProcess {
         }
     }
     $existing = @(Get-MatchingPython -Needle $Needle)
+    # A stale supervisor generation can leave the same worker command line
+    # running under a second interpreter.  Those processes race to publish
+    # the same heartbeat/archive and make a fresh file an unreliable health
+    # signal.  Retain one newest instance and remove only exact duplicates;
+    # the normal freshness/start path below still handles a missing or stale
+    # survivor.
+    if ($existing.Count -gt 1) {
+        $keeper = @(
+            $existing |
+                Sort-Object @{ Expression = { $_.CreationDate }; Descending = $true },
+                            @{ Expression = { $_.ProcessId }; Descending = $true } |
+                Select-Object -First 1
+        )
+        $duplicates = @(
+            $existing | Where-Object {
+                $_.ProcessId -ne $keeper[0].ProcessId
+            }
+        )
+        if ($duplicates.Count -gt 0) {
+            Stop-MatchingPython -Name $Name -Needle $Needle -Processes $duplicates -Reason "duplicate_worker_generation"
+        }
+        $existing = @(Get-MatchingPython -Needle $Needle)
+    }
     $fresh = @{ fresh = $true; age_sec = $null; path = ""; reason = "not_checked" }
     if ($Freshness.Count -gt 0) {
         $fresh = Test-FreshOutput @Freshness
