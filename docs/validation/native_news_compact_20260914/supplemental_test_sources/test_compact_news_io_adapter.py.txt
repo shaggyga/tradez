@@ -1,0 +1,272 @@
+"""Candidate archive/timing counterexamples; no service, broker or source writes."""
+from copy import deepcopy
+import hashlib
+import json
+import importlib.util
+from pathlib import Path
+import sys
+import threading
+
+import pytest
+
+HERE=Path(__file__).parent
+sys.path[0:0]=[str(HERE),str(HERE.parents[1]/'trad')]
+import test_compact_projection_candidate as fixtures
+import revision_joint_features_v1 as adapter
+import revision_news_io_v10 as io
+import revision_news_io_base_v1 as base
+import revision_transport_v4 as transport
+
+
+@pytest.fixture
+def case(tmp_path):
+    source=tmp_path/'source.sqlite';store=tmp_path/'publisher.sqlite';path=tmp_path/'consumer.sqlite'
+    con=fixtures.fixture.fixture.news.open_database(source)
+    fixtures.fixture.fixture.put(con,fixtures.fixture.article(structured_event=False,
+        source_evidence_contract='retained_story_body_age_v1_20260912',
+        source_evidence_content_sha256='a'*64,
+        source_evidence_available_utc=fixtures.fixture.fixture.at(0).isoformat()),0)
+    con.commit()
+    yield source,store,path,con
+    con.close()
+
+
+@pytest.mark.parametrize('module',[io,base])
+def test_compact_archive_roundtrip_preserves_exact_lexical_strings(tmp_path,module):
+    root=tmp_path/'archive';root.mkdir();archive=module.Archive(root)
+    original={'schema_version':'test_only','objects':[
+        [str(i),'{ "amount" : 1.000, "headline": "\\u65e5\\u672c" }',str(i)*9000]
+        for i in range(110)],'metadata':{'retained_clock':12.25,'available':False}}
+    key=module._store_bundle(archive,original)
+    assert module._load_bundle(archive,key)==original
+    count=len(archive.files);assert module._store_bundle(archive,original)==key
+    assert len(archive.files)==count
+    original['objects'].append(['later','same exact string','new'])
+    new=module._store_bundle(archive,original)
+    assert module._load_bundle(archive,new)==original and new!=key
+    assert module._load_bundle(archive,key)['objects']==original['objects'][:-1]
+
+
+def test_archive_byte_corruption_never_reconstructs(tmp_path):
+    root=tmp_path/'archive';root.mkdir();archive=io.Archive(root)
+    key=io._store_bundle(archive,{'original':'exact'})
+    path=root/(key+'.json');path.write_bytes(path.read_bytes().replace(b'compact_root',b'compact_roox'))
+    with pytest.raises(ValueError,match='capture_object_hash_mismatch'):
+        io._load_bundle(archive,key)
+
+
+def test_duplicate_mapping_keys_and_legacy_recipe_are_rejected(tmp_path):
+    root=tmp_path/'archive';root.mkdir();archive=io.Archive(root)
+    leaf=archive.put({'kind':'value','value':1})
+    rows=archive.put({'kind':'value','value':[['a',leaf],['a',leaf]]})
+    body=archive.put({'kind':'mapping','rows':rows})
+    rootkey=archive.put({'schema_version':io.RECIPE,'compact_root':body,
+        'digest_scope':'compact_manifest_not_expanded_legacy_readback'})
+    with pytest.raises(ValueError,match='compact_recipe_mapping_order'):
+        io._load_bundle(archive,rootkey)
+    old=archive.put({'schema_version':'revision_news_packed_rows32_readback_recipe_v2_20260913'})
+    with pytest.raises(ValueError,match='capture_compact_recipe_required'):
+        io._load_bundle(archive,old)
+
+
+def test_original_receipt_clock_is_not_replay_or_current_read_time():
+    io._original_receipts_by_read({'consumer_receipt_max_epoch':20.,'observation_count':2},21.)
+    io._original_receipts_by_read({'consumer_receipt_max_epoch':None,'observation_count':0},21.)
+    for value in ({'consumer_receipt_max_epoch':22.,'observation_count':2},
+                  {'consumer_receipt_max_epoch':None,'observation_count':2}):
+        with pytest.raises(ValueError,match='io_original_consumer_receipt_after_actual_read'):
+            io._original_receipts_by_read(value,21.)
+
+
+def test_replay_and_prior_failed_generation_cannot_be_current():
+    session=io._make_session({'failure_serial':2,'usable':True})
+    replay=io._make_capture((None,b'{}',b'{}',None,None,'immutable_replay'))
+    stale=io._make_capture((None,b'{}',b'{}',session,1,'actual_capture'))
+    valid=io._make_capture((None,b'{}',b'{}',session,2,'actual_capture'))
+    for capture in (replay,stale):
+        with pytest.raises(ValueError,match='io_capture_invalidated_or_replay_only'):
+            io._eligible(session,capture)
+    assert io._eligible(session,valid)[0]['usable'] is True
+    io._session(session)['usable']=False
+    with pytest.raises(ValueError,match='io_capture_invalidated_or_replay_only'):
+        io._eligible(session,valid)
+
+
+def test_transport_preparation_reads_actual_stores_without_mutating_receipts(case):
+    snapshot,context=fixtures.ready(case)
+    _,store,observations,_=case
+    before={path:hashlib.sha256(path.read_bytes()).hexdigest() for path in (store,observations)}
+    original={'publication_path':str(store),'observation_path':str(observations),
+        'cohort_id':'compact_new_only','consumer_id':'compact_test',
+        'policy':snapshot['policy'],'input_identity':snapshot['input_identity']}
+    result=transport._prepare_existing_inputs(base,original)
+    assert result['publication_count']==result['observation_count']==1
+    assert result['current_health_proven'] is False and result['original_availability_unchanged'] is True
+    assert before=={path:hashlib.sha256(path.read_bytes()).hexdigest() for path in before}
+    assert fixtures.consumer.prepared_context_metadata(context)['consumer_receipt_max_epoch']==fixtures.fixture.stamp(3)+2
+
+
+def bind_fixture_generation(monkeypatch):
+    """Synthetic fixture pins actual candidate dependencies; does not bypass validators."""
+    for key,module in [('consumer',adapter.consumer),('publisher',adapter.consumer.publisher),
+                       ('compact_store',adapter.consumer.compact)]:
+        monkeypatch.setitem(adapter.BOUND_GENERATION,key,hashlib.sha256(Path(module.__file__).read_bytes()).hexdigest())
+
+
+def test_adapter_uses_public_timing_and_compact_manifest_without_raw_evidence(case,monkeypatch):
+    bind_fixture_generation(monkeypatch)
+    _,consumed=fixtures.ready(case)
+    context=adapter.prepare_revision_context(consumed)
+    decision=fixtures.fixture.stamp(3.1)
+    result=adapter.pair_features_as_of(context,'EUR_USD',decision)
+    assert result['coverage_usable'] and len(result['features'])==8
+    meta=adapter.revision_context_metadata(context)
+    assert meta['readback_digest_scope']=='compact_manifest_not_expanded_legacy_readback'
+    assert meta['manifest_sha256']==meta['context_sha256']
+    assert result['transport_timing']['consumer_observed_epoch']==fixtures.fixture.stamp(3)+1
+    assert meta['consumer_receipt_max_epoch']==fixtures.fixture.stamp(3)+2
+    recipe=adapter.consumer.export_recipe(consumed)
+    replay=adapter.prepare_revision_context(recipe)
+    assert adapter.pair_features_as_of(replay,'EUR_USD',decision)==result
+    # The selected member hash refers to exact retained evidence; no evidence
+    # body is copied into an adapter selection or multiplied across origins.
+    selected=adapter.consumer.latest_consumed_from_context(consumed,decision)
+    assert 'evidence' not in selected['members'][0]
+
+
+def test_missing_original_observation_does_not_become_neutral_news(case,monkeypatch):
+    bind_fixture_generation(monkeypatch)
+    _,consumed=fixtures.ready(case)
+    context=adapter.prepare_revision_context(consumed)
+    result=adapter.pair_features_as_of(context,'EUR_USD',fixtures.fixture.stamp(2.9))
+    assert result['coverage_usable'] is False and result['features'] is None
+    assert result['transport_timing']['consumer_observed_epoch'] is None
+    assert result['transport_timing']['observed_publication_prefix'] is None
+
+
+def test_streamed_archive_replay_never_requires_aggregate_base64_recipe(case,tmp_path):
+    _,consumed=fixtures.ready(case)
+    manifest=adapter.consumer.export_manifest(consumed)
+    root=tmp_path/'archive';root.mkdir();archive=io.Archive(root)
+    key=io._store_capture_archive(archive,manifest,adapter.consumer.iter_recipe_objects(consumed))
+    rebuilt,objects=io._load_capture_archive(archive,key)
+    assert rebuilt==manifest
+    restored=adapter.consumer.restore_manifest(rebuilt,objects)
+    at=fixtures.fixture.stamp(3.1)
+    assert adapter.consumer.latest_consumed_from_context(restored,at)==adapter.consumer.latest_consumed_from_context(consumed,at)
+    assert adapter.consumer.prepared_context_metadata(restored)['manifest_sha256']==io.digest(manifest)
+
+
+def test_streamed_archive_rejects_missing_extra_and_mutated_objects(case,tmp_path):
+    _,consumed=fixtures.ready(case);manifest=adapter.consumer.export_manifest(consumed)
+    objects=list(adapter.consumer.iter_recipe_objects(consumed))
+    root=tmp_path/'archive';root.mkdir();archive=io.Archive(root)
+    for values,reason in ((objects[:-1],'compact_archive_missing_object'),
+                          (objects+objects[:1],'compact_archive_extra_object')):
+        with pytest.raises(ValueError,match=reason):io._store_capture_archive(archive,manifest,iter(values))
+    wrong=deepcopy(objects);wrong[0]['object_sha']='0'*64
+    with pytest.raises(ValueError,match='compact_archive_object_binding'):
+        io._store_capture_archive(archive,manifest,iter(wrong))
+
+
+def test_latest_future_embargo_suppresses_prior_payload_without_resolving_future(case,monkeypatch):
+    bind_fixture_generation(monkeypatch)
+    initial,consumed=fixtures.ready(case);source,store,observations,con=case
+    early=adapter.pair_features_as_of(adapter.prepare_revision_context(consumed),'EUR_USD',fixtures.fixture.stamp(3.1))
+    assert early['context_member_count']==1
+    article=fixtures.fixture.article(4,summary='Corrected release pending embargo',structured_event=False,
+        source_evidence_contract='retained_story_body_age_v1_20260912',
+        source_evidence_content_sha256='b'*64,
+        source_evidence_available_utc=fixtures.fixture.fixture.at(20).isoformat(),
+        published_utc=fixtures.fixture.fixture.at(20).isoformat(),
+        detail_available_utc=fixtures.fixture.fixture.at(20).isoformat())
+    fixtures.fixture.fixture.put(con,article,4);con.commit()
+    snapshot=fixtures.fixture.read(source,5,fixtures.read(store,initial)['head']['checkpoint'])
+    fixtures.publish(store,snapshot,6);fixtures.observe(source,store,observations,snapshot,7)
+    latest=fixtures.context(store,observations,snapshot)
+    # The collector fixture normalizes supplied future detail clocks. Inject a
+    # future clock at the pure, trusted selection boundary instead; upstream
+    # exact immutable-revision membership has independent consumer tests.
+    headers=list(adapter.consumer.iter_selected_headers(latest,fixtures.fixture.stamp(7.1)))
+    headers[0]['payload']['detail_available_utc']=fixtures.fixture.fixture.at(20).isoformat()
+    monkeypatch.setattr(adapter.consumer,'iter_selected_headers',lambda *args:iter(deepcopy(headers)))
+    def no_payload(*args):raise AssertionError('embargo header must not resolve full payload')
+    monkeypatch.setattr(adapter.consumer,'resolve_selected_member',no_payload)
+    result=adapter.pair_features_as_of(adapter.prepare_revision_context(latest),'EUR_USD',fixtures.fixture.stamp(7.1))
+    assert result['selected_canonical_count']==1 and result['context_member_count']==0
+    assert result['excluded_latest_reason_counts']=={'latest_source_or_derived_clock_after_origin':1}
+    assert result['features']==list(adapter.NEUTRAL_NEWS)
+
+
+def test_hash_prefix_catalog_append_changes_only_local_nodes(tmp_path):
+    root=tmp_path/'archive';root.mkdir();archive=io.Archive(root)
+    def row(i):
+        key=hashlib.sha256(str(i).encode()).hexdigest()
+        return ['publication',key,100,key,50,key,0]
+    rows=sorted((row(i) for i in range(1000)),key=lambda value:value[1])
+    key=io._store_object_catalog(archive,rows);before=len(archive.files)
+    assert io._load_object_catalog(archive,key,'publication')==rows
+    later=sorted([*rows,*(row(i) for i in range(1000,1005))],key=lambda value:value[1])
+    new=io._store_object_catalog(archive,later)
+    assert len(archive.files)-before<40
+    assert io._load_object_catalog(archive,new,'publication')==later
+    assert io._load_object_catalog(archive,key,'publication')==rows
+
+
+def test_health_archive_shares_original_file_bytes_without_changing_read_clocks(tmp_path):
+    root=tmp_path/'archive';root.mkdir();archive=io.Archive(root)
+    health={'files':{'latest':{'raw_utf8':'x'*34000,'value':{'body':'x'*34000}},
+                     'clock':{'value':{'generated_epoch':1}}},
+            'transport':{'original_status':'ready'},'observed_epoch':2}
+    keys=[]
+    for i in range(20):
+        value={**health,'observed_epoch':2+i}
+        keys.append(io._store_health(archive,value))
+        assert io._load_health(archive,keys[-1])==value
+    assert io._load_health(archive,keys[0])['observed_epoch']==2
+    assert archive.total<100000
+    proof={'operation':'fixture_issue_health','health':health,'original_quote_epoch':1.5}
+    key=io._store_issue_health(archive,proof)
+    assert io._load_issue_health(archive,key)==proof
+
+
+def test_bootstrap_is_separate_preparation_and_returns_no_current_handle(case,tmp_path,monkeypatch):
+    bind_fixture_generation(monkeypatch);snapshot,_=fixtures.ready(case)
+    _,store,observations,_=case;root=tmp_path/'archive';root.mkdir()
+    config={'publication_path':str(store),'observation_path':str(observations),
+            'archive_root':str(root),'cohort_id':'compact_new_only','consumer_id':'compact_test',
+            'policy':snapshot['policy'],'input_identity':snapshot['input_identity']}
+    graph={'synthetic_fixture_binding':True}
+    session=io._make_session({'config':io.encode(config),'graph':graph,'failure_serial':0,'usable':True,
+                             'last_failure':None,'lock':threading.RLock()})
+    monkeypatch.setattr(io,'source_graph',lambda:dict(graph))
+    times=iter([fixtures.fixture.stamp(4),fixtures.fixture.stamp(4)+1])
+    result=io.bootstrap_inputs(session,clock=lambda:next(times))
+    assert result['status']=='cache_prepared_fresh_capture_required'
+    assert result['fresh_health_proven'] is False and result['capture_handle_returned'] is False
+    assert result['original_availability_unchanged'] is True and io._session(session)['usable'] is False
+    assert io._session(session)['failure_serial']==1
+    assert io.MAX_SECONDS==30 and io.MAX_BOOTSTRAP_SECONDS==330
+    times=iter([fixtures.fixture.stamp(4),fixtures.fixture.stamp(4)+331])
+    with pytest.raises(ValueError,match='io_bootstrap_duration_bound'):
+        io.bootstrap_inputs(session,clock=lambda:next(times))
+    assert io._session(session)['usable'] is False
+    assert io._session(session)['last_failure']['operation']=='bootstrap_inputs'
+
+
+def test_original_feature_math_matches_streamed_header_adapter(case,monkeypatch):
+    """Compare unchanged full-member frame formula with the new bounded path."""
+    bind_fixture_generation(monkeypatch);_,consumed=fixtures.ready(case)
+    context=adapter.prepare_revision_context(consumed)
+    path=HERE.parents[1]/'trad/revision_joint_features_v1.py'
+    spec=importlib.util.spec_from_file_location('original_frame_math_readonly_fixture',path)
+    original=importlib.util.module_from_spec(spec);spec.loader.exec_module(original)
+    # Reuse an already validated fixture context. This comparison checks only
+    # frame arithmetic; it does not grant the legacy adapter new source proofs.
+    original._state=adapter._state
+    for pair in ('EUR_USD','USD_JPY','GBP_USD'):
+        at=fixtures.fixture.stamp(3.1)
+        before=original.pair_features_as_of(context,pair,at)
+        after=adapter.pair_features_as_of(context,pair,at)
+        assert before['frame']==after['frame']
+        assert before['features']==after['features'] and before['expires_epoch']==after['expires_epoch']

@@ -2,6 +2,8 @@
 
 This review examines the original histories for all 68 configured FX pairs, independently of the dashboard. The requested interval is September 13, 2026, 5–10 p.m. EDT. The first retained opening M1 bar is 5:04 p.m.; final closes are at 10 p.m. There are observations for 65 pairs. EUR/TRY, USD/TRY and TRY/JPY have no bars in this interval. Missing minutes are retained as missing; only four observed pairs have a complete uninterrupted interval.
 
+**Independent broker cross-check, September 14 around 03:49 UTC:** all 68 retrospective instrument-candle GETs returned HTTP 200. The broker returned exactly the same timestamp sets and all 12 bid/ask/mid OHLC fields as the original cached snapshots: zero additional bars, missing broker bars or changed prices. The three TRY responses were empty. All endpoint, range and hourly rankings below are unchanged. These later reads verify the market-history report; they do not establish that newly requested evidence was available at an earlier decision. Raw responses, original hashes and actual later receipt times are retained in [the cross-check folder](../../operational_repairs_20260913/first_five_hours_20260913/broker_crosscheck_20260914T034625Z).
+
 ## Observed movement
 
 NZD weakness is the strongest common pattern. AUD also weakens, followed by a later rise in USD/JPY. These are retrospective observations, not predictions made by the bot.

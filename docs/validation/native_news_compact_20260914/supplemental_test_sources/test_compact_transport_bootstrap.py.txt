@@ -1,0 +1,171 @@
+"""Startup liveness is not an observation, current capture or trading authority."""
+from concurrent.futures import Future
+from copy import deepcopy
+from pathlib import Path
+from types import SimpleNamespace
+import sys
+import threading
+
+import pytest
+
+sys.path.insert(0,str(Path(__file__).parent))
+import revision_transport_v4 as transport
+
+
+class State:
+    def __init__(self):
+        self.owner=SimpleNamespace(own=lambda value,*args:deepcopy(value))
+        self.original={'publication_path':'owned'}
+        self.cycle_lock=threading.Lock()
+        self.bootstrap_complete=False;self.bootstrap_abandoned=False
+        self.current={'status':'starting','attempt_count':0,'successful_cycles':0}
+        self.reports=[];self.failures=[];self.writer_threads=[]
+        self.config={'duration_sec':600}
+
+    def report(self,status,phase,now,*,trusted,update=None):
+        self.writer_threads.append(threading.get_ident())
+        self.current={**self.current,'status':status,'phase':phase,
+            'report_epoch':now,'report_clock_trusted':trusted,**(update or {})}
+        self.reports.append(deepcopy(self.current));return deepcopy(self.current)
+
+    def failure(self,reason,phase,now,*,trusted):
+        self.writer_threads.append(threading.get_ident())
+        self.failures.append((reason,phase,now,trusted))
+
+
+def prepared_result():
+    return {'status':'cache_prepared_fresh_cycle_required','publication_count':12000,
+        'observation_count':193,'current_health_proven':False,
+        'original_availability_unchanged':True,**transport.INERT}
+
+
+@pytest.fixture
+def state(monkeypatch):
+    value=State()
+    monkeypatch.setattr(transport,'_state',lambda runner:value)
+    monkeypatch.setattr(transport,'_check_sources',lambda state:None)
+    return value
+
+
+def test_long_startup_keeps_untrusted_liveness_and_never_runs_scan(state,monkeypatch):
+    future=Future();now=[0.]
+    monkeypatch.setattr(transport,'_start_bootstrap',lambda *args:future)
+    monkeypatch.setattr(transport,'_run_cycle',lambda *args,**kwargs:pytest.fail('startup cannot run a cycle'))
+    def wait(seconds):
+        now[0]+=seconds
+        if now[0]>=200:future.set_result(prepared_result())
+    result=transport.prepare_runner(object(),monotonic=lambda:now[0],wait=wait)
+    assert state.bootstrap_complete and result['status']=='starting'
+    assert result['phase']=='cold_bootstrap_ready_fresh_cycle_required'
+    assert len(state.reports)>=40 and all(row['report_clock_trusted'] is False for row in state.reports)
+    assert all(row['attempt_count']==row['successful_cycles']==0 for row in state.reports)
+    assert set(state.writer_threads)=={threading.get_ident()}
+    assert transport.MAX_CYCLE_SECONDS==150 and transport.MAX_BOOTSTRAP_SECONDS==330
+
+
+def test_ordinary_cycle_occurs_only_after_discarded_preparation(state,monkeypatch):
+    future=Future();future.set_result(prepared_result());calls=[]
+    monkeypatch.setattr(transport,'_start_bootstrap',lambda *args:future)
+    def cycle(*args,**kwargs):
+        assert state.bootstrap_complete and state.current['status']=='starting'
+        assert state.current['report_clock_trusted'] is False
+        calls.append('fresh_cycle');return state.report('ready','complete',1.,trusted=True)
+    monkeypatch.setattr(transport,'_run_cycle',cycle)
+    assert transport.run_cycle(object())['status']=='ready' and calls==['fresh_cycle']
+
+
+def test_startup_heartbeat_cannot_reuse_previous_run_success_as_current(state,monkeypatch):
+    state.current.update(attempt_count=31,successful_cycles=30,
+        last_success={'run_id':'previous','caught_up':True,'consumer_ack_epoch':10.})
+    future=Future();future.set_result(prepared_result())
+    monkeypatch.setattr(transport,'_start_bootstrap',lambda *args:future)
+    status=transport.prepare_runner(object())
+    health={'schema_version':transport.HEALTH,'status_matches_durable_failure_head':True,
+        'read_started_epoch':10.,'read_completed_epoch':11.,'effective_status':status['status'],'status':status}
+    with pytest.raises(ValueError,match='transport_not_ready:starting'):
+        transport.require_current_transport_health(health,12.)
+    assert status['last_success']['run_id']=='previous'
+    assert status['attempt_count']==31 and status['successful_cycles']==30
+
+
+def test_timeout_is_terminal_for_this_process_even_if_reader_later_finishes(state,monkeypatch):
+    future=Future();now=[0.]
+    monkeypatch.setattr(transport,'_start_bootstrap',lambda *args:future)
+    def wait(seconds):now[0]+=seconds
+    result=transport.prepare_runner(object(),monotonic=lambda:now[0],wait=wait)
+    assert result['status']=='failed' and now[0]==331
+    assert state.bootstrap_abandoned and not state.bootstrap_complete
+    assert 'transport_bootstrap_duration_bound' in state.failures[0][0]
+    future.set_result(prepared_result())
+    assert transport.prepare_runner(object())['status']=='failed'
+    assert 'transport_bootstrap_process_restart_required' in state.failures[-1][0]
+    assert not state.bootstrap_complete
+
+
+def test_stop_never_allows_a_later_read_result_to_authorize_cycle(state,monkeypatch):
+    future=Future();now=[0.]
+    monkeypatch.setattr(transport,'_start_bootstrap',lambda *args:future)
+    def wait(seconds):now[0]+=seconds
+    result=transport.prepare_runner(object(),stop_requested=lambda:now[0]>=6,
+        monotonic=lambda:now[0],wait=wait)
+    assert result['status']=='stopped' and state.bootstrap_abandoned
+    assert not state.bootstrap_complete and not state.failures
+
+
+@pytest.mark.parametrize('result',[{'status':'ready'},
+    {**prepared_result(),'current_health_proven':True},
+    {**prepared_result(),'can_place_orders':True}])
+def test_preparation_result_cannot_claim_current_authority(state,monkeypatch,result):
+    future=Future();future.set_result(result)
+    monkeypatch.setattr(transport,'_start_bootstrap',lambda *args:future)
+    assert transport.prepare_runner(object())['status']=='failed'
+    assert not state.bootstrap_complete
+
+
+def test_source_change_after_preparation_is_failure(state,monkeypatch):
+    future=Future();future.set_result(prepared_result());calls=[]
+    monkeypatch.setattr(transport,'_start_bootstrap',lambda *args:future)
+    def check(state):
+        calls.append(1)
+        if len(calls)>1:raise ValueError('source changed')
+    monkeypatch.setattr(transport,'_check_sources',check)
+    assert transport.prepare_runner(object())['status']=='failed'
+    assert not state.bootstrap_complete and 'source changed' in state.failures[0][0]
+
+
+def test_read_failure_returns_no_cycle_and_is_durably_reported(state,monkeypatch):
+    future=Future();future.set_exception(ValueError('original proof invalid'))
+    monkeypatch.setattr(transport,'_start_bootstrap',lambda *args:future)
+    monkeypatch.setattr(transport,'run_cycle',lambda *args,**kwargs:pytest.fail('failed bootstrap cannot cycle'))
+    result=transport.run_loop(object())
+    assert result['cycle_count']==0 and result['last_status']['status']=='failed'
+    assert 'original proof invalid' in state.failures[0][0]
+
+
+def test_background_reader_never_owns_status_writer(state,monkeypatch):
+    reader_threads=[]
+    def read(owner,original):
+        reader_threads.append(threading.get_ident())
+        assert owner is state.owner and original==state.original
+        return prepared_result()
+    monkeypatch.setattr(transport,'_prepare_existing_inputs',read)
+    result=transport.prepare_runner(object())
+    assert result['status']=='starting' and state.bootstrap_complete
+    assert reader_threads and reader_threads[0]!=threading.get_ident()
+    assert set(state.writer_threads)=={threading.get_ident()}
+
+
+@pytest.mark.parametrize('published,observed',[(False,False),(True,False),(True,True)])
+def test_only_existing_stores_are_read_no_empty_receipts_created(published,observed):
+    calls=[]
+    def path(value,**kwargs):return SimpleNamespace(exists=lambda:published if value=='publisher' else observed)
+    def publication(*args,**kwargs):calls.append('publisher_read');return {'head':{'sequence':1}}
+    def observation(*args,**kwargs):calls.append('consumer_read');return object()
+    owner=SimpleNamespace(publisher=SimpleNamespace(path_for=path,read_published=publication),
+        consumer=SimpleNamespace(read_and_prepare=observation,
+            prepared_context_metadata=lambda context:{'observation_count':0}))
+    original={'publication_path':'publisher','observation_path':'consumer','cohort_id':'c','consumer_id':'n',
+        'policy':{},'input_identity':{}}
+    result=transport._prepare_existing_inputs(owner,original)
+    assert calls==(['publisher_read'] if published else [])+(['consumer_read'] if observed else [])
+    assert result['current_health_proven'] is False and result['observation_count']==0

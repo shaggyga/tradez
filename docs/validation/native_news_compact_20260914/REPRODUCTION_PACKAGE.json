@@ -1,0 +1,117 @@
+{
+  "ast_only_baseline_worker_fixture": "fixtures/baseline_worker_stage006.py",
+  "augmentation_receipt": "AUGMENTATION_20260914.json",
+  "augmentation_receipt_sha256": "1dd0a7f44d59a6e2b78f77e7640fe6b4a51ae483d5a895dbefe691d4bc8c16dd",
+  "augmented_utc": "2026-09-14T04:05:41.744060+00:00",
+  "created_utc": "2026-09-14T03:42:01.404202+00:00",
+  "fixture_sha256": {
+    "baseline_worker_stage006.py": "499e9ca47d933648001b843dfb6a006c15cb56038012209527226b838c300ada",
+    "conftest.py": "b2b0a18b577a033c76d8b7155cbf37d6810be633a3edc4e4133dfbe0221e7b7b",
+    "native_fixture_contract_v1.py": "c1bb00d3e5c66e6bd14ccd4ea82a78486a07bc67920698c97692d77ba8f3534e",
+    "sitecustomize.py": "a4ce7c5193f69786033c95412ab289e55e4f78985e5102abb31dbc301dfd2306",
+    "test_archive_layout_reuse_v7.py": "b9ae55f8b5816f3ec3ddeccacf4cde6cdf8ece9698f0d5b8ea044f298654ec9c",
+    "test_async_bootstrap.py": "6642735100bf73e134b15e1d067b3a6900a3153c6a308a84a5caa4d7ab2825f6",
+    "test_compact_canonical_encoding_v6.py": "bdd641cc36dab4a3b9d569ac3d1f7403a779f86e8b5c038b7de0f35522106b15",
+    "test_core_operational_v2.py": "d6d2e0c2845a42048fd282a101c7b3523df525cd2c29b4ddfd767f3ee440318a",
+    "test_full_operational_v2.py": "dd2eeb7bee69ef59a81a11b5e1edd9c380b369294905ef8a67fe09d533c5dd3d",
+    "test_news_completion_handoff.py": "0bd09fce94bca83f2552651293fbc73b1e9cf5b0e66706559d6b429f60405900",
+    "test_packed_archive_v5.py": "4390dc9fffd2b333ee5139d3f478f781096df662818224176011bd2033b79813"
+  },
+  "historical_receipts": [
+    {
+      "bytes": 12641,
+      "package_path": "historical_receipts/candidate_v4_contract_tests.xml",
+      "sha256": "5f978ca8c042377b6436339b58f5e04943b383282f5bfaf90d552314b63f0b2d",
+      "source_relative_to_ops": "compact_news_candidate_v4/candidate_v4_contract_tests.xml"
+    },
+    {
+      "bytes": 450,
+      "package_path": "historical_receipts/empty_observation_test.xml",
+      "sha256": "750e42221f21bd3cf4129573b707393cbc2d83855bc0c4b6d144a04882301318",
+      "source_relative_to_ops": "compact_news_candidate_v4/empty_observation_test.xml"
+    },
+    {
+      "bytes": 6122,
+      "package_path": "historical_receipts/INHERITED_IO_ADAPTER_TRANSPORT_TESTS.xml",
+      "sha256": "6aec71ec0b13ec2b5647a8d977863369af0f145657435386aa4e029c2da0e02f",
+      "source_relative_to_ops": "compact_news_candidate_v6/INHERITED_IO_ADAPTER_TRANSPORT_TESTS.xml"
+    },
+    {
+      "bytes": 4967,
+      "package_path": "historical_receipts/PACKED_CANONICAL_TESTS.xml",
+      "sha256": "8cc25149db358c1cf3e6b3d642cb30ec2670c9c08165b31262a3f2642910af6c",
+      "source_relative_to_ops": "compact_news_candidate_v6/PACKED_CANONICAL_TESTS.xml"
+    },
+    {
+      "bytes": 2105,
+      "package_path": "historical_receipts/ROOT_INTEGRATION_TESTS.xml",
+      "sha256": "c1a57f3a77afd4e58c420b956b7a8851825d0d2104bfd2c168be335be699f10b",
+      "source_relative_to_ops": "compact_native_stage_007/ROOT_INTEGRATION_TESTS.xml"
+    },
+    {
+      "bytes": 14506,
+      "package_path": "historical_receipts/SOURCE_STAGE.json",
+      "sha256": "d5c0526cd9b6de033b9be323b638818fe6756ce00fea3d6037e388f97865de6e",
+      "source_relative_to_ops": "compact_native_stage_007/SOURCE_STAGE.json"
+    }
+  ],
+  "integration_run_against_installed_successor": {
+    "cases": 48,
+    "registry_sha256": "28937ce3a6d213794397902c71c1b18eb1ca9d37648923e6a49b0a7c2246e078",
+    "result_path": "augmentation_validation/installed_current/RESULT.json",
+    "status": "passed",
+    "xml_path": "augmentation_validation/installed_current/INTEGRATION.xml"
+  },
+  "ordinary_live_capture_capacity": "Separate final stage008 synthetic whole12k26.860s and growing capture24.734s passed; actual current-health deployment acceptance remains separate.",
+  "runner_sha256": "3a20ea6822534ca2909afffc17fcf859342b131b454ee75f0daa80a698de5411",
+  "runtime_implementations_copied_into_package": false,
+  "schema_version": "native_news_portable_reproduction_v1_20260914",
+  "supplemental_test_sources": [
+    {
+      "bytes": 26719,
+      "package_path": "supplemental_test_sources/test_compact_projection_candidate.py.txt",
+      "sha256": "ea7a3d1ef1313ae14d28de3d33f6ee08da8425b5fd5782e06728f5cde8e54845",
+      "source_relative_to_ops": "compact_news_candidate_v4/test_compact_projection_candidate.py"
+    },
+    {
+      "bytes": 11457,
+      "package_path": "supplemental_test_sources/test_independent_compact_acceptance.py.txt",
+      "sha256": "16ce74292413acf384718335abaacda0f01bdad0c0b95a09d54a62057bed08a0",
+      "source_relative_to_ops": "compact_news_candidate_v4/test_independent_compact_acceptance.py"
+    },
+    {
+      "bytes": 15736,
+      "package_path": "supplemental_test_sources/test_compact_news_io_adapter.py.txt",
+      "sha256": "c05a852704217bb9939fdc75c6d86572d3b472ddbef989363d9e1b610eb80102",
+      "source_relative_to_ops": "compact_news_candidate_v6/test_compact_news_io_adapter.py"
+    },
+    {
+      "bytes": 8744,
+      "package_path": "supplemental_test_sources/test_compact_transport_bootstrap.py.txt",
+      "sha256": "8cef9181ff0b4835056bce98aa72c994839cf5182c9690b8d02f46132f5403b5",
+      "source_relative_to_ops": "compact_news_candidate_v6/test_compact_transport_bootstrap.py"
+    },
+    {
+      "bytes": 9114,
+      "package_path": "supplemental_test_sources/test_packed_archive_v5.py.txt",
+      "sha256": "fd1627b546fc10508832f56b09998e5b005655841ee6211e89371074e16f4ff3",
+      "source_relative_to_ops": "compact_news_candidate_v6/test_packed_archive_v5.py"
+    },
+    {
+      "bytes": 2180,
+      "package_path": "supplemental_test_sources/test_compact_canonical_encoding_v6.py.txt",
+      "sha256": "9aaed8219785639e64aad7f68473573417ad9ae5028c12676a92403b55574008",
+      "source_relative_to_ops": "compact_news_candidate_v6/test_compact_canonical_encoding_v6.py"
+    }
+  ],
+  "test_count_by_file": {
+    "test_archive_layout_reuse_v7.py": 11,
+    "test_async_bootstrap.py": 4,
+    "test_compact_canonical_encoding_v6.py": 11,
+    "test_core_operational_v2.py": 1,
+    "test_full_operational_v2.py": 2,
+    "test_news_completion_handoff.py": 7,
+    "test_packed_archive_v5.py": 12
+  },
+  "test_count_expected": 48
+}

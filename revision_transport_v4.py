@@ -5,6 +5,7 @@ This runner records orchestration health separately from collector health. The c
 does not consume that health; the separate transport-aware I/O10 does.
 """
 from pathlib import Path, PureWindowsPath
+from concurrent.futures import Future
 import argparse
 import hashlib
 import importlib
@@ -20,21 +21,23 @@ import time
 import uuid
 import weakref
 
-CONFIG = 'revision_transport_config_v1_20260913'
-PROFILE = 'revision_transport_profile_v1_20260913'
-STATUS = 'revision_transport_status_v1_20260913'
-FAILURE = 'revision_transport_failure_v1_20260913'
+CONFIG = 'revision_transport_compact_config_v1_20260914'
+PROFILE = 'revision_transport_compact_profile_v1_20260914'
+STATUS = 'revision_transport_compact_status_v1_20260914'
+FAILURE = 'revision_transport_compact_failure_v1_20260914'
 CONFIG_KEYS = {'schema_version','news_io_config_path','news_io_config_sha256','state_root','interval_sec','duration_sec'}
 MAX_STATUS = 128*1024
 MAX_FAILURE = 16*1024
 MAX_FILES = 8192
 MAX_STATE_BYTES = 64*1024**2
 MAX_CYCLE_SECONDS = 150
+MAX_BOOTSTRAP_SECONDS = 330
+BOOTSTRAP_HEARTBEAT_SECONDS = 5
 MAX_DURATION = 172800
 INTERVAL = 60
-HEALTH = 'revision_transport_durable_health_read_v1_20260913'
+HEALTH = 'revision_transport_compact_health_read_v1_20260914'
 STATUSES = ('starting','running','ready','backlogged','failed','stopped')
-IO_SHA = '36bf4ec867b5a1816ff1793733747de1b95ced221ec1a7d6acd2bc14b964d8de'
+IO_SHA = 'b33240f730d261875f7a23c3223e192cd6a7a7b130bcdd666749bfadf13ac327'
 INERT = {'research_only':True,'can_place_orders':False,'can_promote':False,'can_authorize':False,
          'account_eligible':False,'proof_eligible':False,'joint_model_consumption_proven':False}
 
@@ -164,6 +167,7 @@ class _State:
         self.profile=_profile_value(owner,config,original,proof,io_proof,self.graph)
         self.profile_sha=owner.digest(self.profile)
         self.current=None;self.generation=0;self.failure_sha=None;self.profile_owned=False
+        self.bootstrap_complete=False;self.bootstrap_abandoned=False
         try:
             self._inventory();self._lock();self._recover()
         except Exception as exc:
@@ -314,6 +318,97 @@ def _check_sources(state):
          io_proof['sha256']==state.io_proof['sha256'] and _graph(state.owner)==state.graph,'transport_sources_or_configuration_changed')
 
 
+def _prepare_existing_inputs(owner, original):
+    """Read-only cold validation; no capture, receipt, current health or authority.
+
+    Only owned immutable configuration is passed to the background thread. It
+    never owns the runner, its status files, the clock provider or a writer API.
+    Every opaque startup handle is discarded before an ordinary fresh cycle.
+    """
+    store=owner.publisher.path_for(original['publication_path'],missing=True)
+    observations=owner.publisher.path_for(original['observation_path'],missing=True)
+    publication_count=observation_count=0
+    if store.exists():
+        head=owner.publisher.read_published(store,cohort_id=original['cohort_id'],
+            expected_policy=original['policy'],input_identity=original['input_identity'])
+        publication_count=head['head']['sequence']
+        del head
+    if observations.exists():
+        need(store.exists(),'transport_observations_without_publication_store')
+        context=owner.consumer.read_and_prepare(store,observations,
+            cohort_id=original['cohort_id'],consumer_id=original['consumer_id'],
+            expected_policy=original['policy'],input_identity=original['input_identity'])
+        observation_count=owner.consumer.prepared_context_metadata(context)['observation_count']
+        del context
+    return {'status':'cache_prepared_fresh_cycle_required','publication_count':publication_count,
+        'observation_count':observation_count,'current_health_proven':False,
+        'original_availability_unchanged':True,**INERT}
+
+
+def _start_bootstrap(owner, original):
+    future=Future()
+    def work():
+        try:future.set_result(_prepare_existing_inputs(owner,original))
+        except BaseException as exc:future.set_exception(exc)
+    # A timed-out/stopped process must not wait on non-authorizing read-only
+    # work during shutdown. Its runner can never issue another cycle afterward.
+    threading.Thread(target=work,name='revision-transport-cold-read',daemon=True).start()
+    return future
+
+
+def prepare_runner(runner, *, stop_requested=None, monotonic=time.monotonic, wait=time.sleep):
+    """Keep startup liveness current without claiming a completed fresh scan.
+
+    One main-thread writer holds the cycle lock. Cold publisher validation has
+    its separate 300-second bound; this whole preparation has a 330-second
+    bound. The ordinary 150-second cycle starts only after preparation succeeds.
+    """
+    state=_state(runner);stop=stop_requested or (lambda:False)
+    need(state.cycle_lock.acquire(blocking=False),'transport_cycle_already_running')
+    future=None;started=monotonic()
+    try:
+        need(not state.bootstrap_abandoned,'transport_bootstrap_process_restart_required')
+        if state.bootstrap_complete:return state.owner.own(state.current,MAX_STATUS)
+        if stop():raise StopRequested('transport_stop_requested')
+        _check_sources(state)
+        state.report('starting','cold_bootstrap',time.time(),trusted=False)
+        future=_start_bootstrap(state.owner,state.owner.own(state.original))
+        heartbeat=monotonic()+BOOTSTRAP_HEARTBEAT_SECONDS
+        while True:
+            if stop():raise StopRequested('transport_stop_requested')
+            now=monotonic()
+            need(now-started<=MAX_BOOTSTRAP_SECONDS,'transport_bootstrap_duration_bound')
+            if future.done():break
+            if now>=heartbeat:
+                state.report('starting','cold_bootstrap',time.time(),trusted=False)
+                heartbeat=now+BOOTSTRAP_HEARTBEAT_SECONDS
+            wait(min(1.,max(0.,heartbeat-now)))
+        result=future.result()
+        need(type(result) is dict and result.get('status')=='cache_prepared_fresh_cycle_required' and
+             result.get('current_health_proven') is False and result.get('original_availability_unchanged') is True and
+             all(result.get(key) is value for key,value in INERT.items()),'transport_bootstrap_non_authorizing_result_required')
+        _check_sources(state)
+        need(monotonic()-started<=MAX_BOOTSTRAP_SECONDS,'transport_bootstrap_duration_bound')
+        if stop():raise StopRequested('transport_stop_requested')
+        status=state.report('starting','cold_bootstrap_ready_fresh_cycle_required',time.time(),trusted=False)
+        state.bootstrap_complete=True
+        return status
+    except StopRequested:
+        state.bootstrap_abandoned=future is not None and not future.done()
+        return state.report('stopped','cold_bootstrap',time.time(),trusted=False)
+    except Exception as exc:
+        state.bootstrap_complete=False
+        state.bootstrap_abandoned=future is not None and not future.done()
+        try:
+            state.failure(type(exc).__name__+':'+str(exc)[:500],'cold_bootstrap',time.time(),trusted=False)
+            status=state.report('failed','cold_bootstrap',time.time(),trusted=False)
+        except Exception as persist:
+            raise StatusPersistenceError('transport_bootstrap_failure_persistence_unavailable') from persist
+        if isinstance(exc,StatusPersistenceError):raise
+        return status
+    finally:state.cycle_lock.release()
+
+
 def _run_cycle(runner, *, clock_provider=None, stop_requested=None, fault_hook=None):
     """One capture/publish/observe cycle; hooks are trusted owned-test seams only."""
     state=_state(runner);owner=state.owner;provider=clock_provider or (lambda:_fixed_clock(state))
@@ -341,6 +436,8 @@ def _run_cycle(runner, *, clock_provider=None, stop_requested=None, fault_hook=N
         checkpoint=None
         if store.exists():
             head=owner.publisher.read_published(store,cohort_id=original['cohort_id'],expected_policy=policy,input_identity=identity)
+            # This is a fully validated opaque compact publication. The head
+            # retains its original committed cursor; no expanded history clone.
             checkpoint=head['head']['checkpoint']
         boundary('source_scan')
         snapshot=owner.reader.read_projection_snapshot(identity['path'],checkpoint=checkpoint,
@@ -392,8 +489,14 @@ def _run_cycle(runner, *, clock_provider=None, stop_requested=None, fault_hook=N
 
 def run_cycle(runner, *, clock_provider=None, stop_requested=None, fault_hook=None):
     state=_state(runner)
+    if not state.bootstrap_complete:
+        prepared=prepare_runner(runner,stop_requested=stop_requested)
+        if not state.bootstrap_complete:return prepared
     need(state.cycle_lock.acquire(blocking=False),'transport_cycle_already_running')
-    try:return _run_cycle(runner,clock_provider=clock_provider,stop_requested=stop_requested,fault_hook=fault_hook)
+    try:
+        result=_run_cycle(runner,clock_provider=clock_provider,stop_requested=stop_requested,fault_hook=fault_hook)
+        if result['status']=='failed':state.bootstrap_complete=False
+        return result
     finally:state.cycle_lock.release()
 
 
@@ -415,6 +518,9 @@ def run_loop(runner, *, stop_requested=None, clock_provider=None, monotonic=time
         now=monotonic()
         if now<next_attempt:
             wait(min(1.0,next_attempt-now,max(0.,deadline-now)));continue
+        if not state.bootstrap_complete:
+            prepared=prepare_runner(runner,stop_requested=stopping,monotonic=monotonic,wait=wait)
+            if not state.bootstrap_complete:break
         began=monotonic();result=run_cycle(runner,clock_provider=clock_provider,stop_requested=stopping)
         if result['status']=='stopped':break
         cycles+=1;next_attempt=max(began+INTERVAL,monotonic())

@@ -23,9 +23,9 @@ MAX_ORIGINS = 256
 MAX_COMPACT_BYTES = 16 * 1024**2
 MAX_PROJECTION_BYTES = 8 * 1024**2
 MAX_POINT_BYTES = 8192
-BOUND_IO = 'b904e0b9a62d09942e98eb92b9e784413849e60bbd5d5ad301d6fdbb8554f314'
-BOUND_ADAPTER = '47841a62fb5bfc7a927cc10c1d7d9bacc8d060b8e7abcadb0420c85d8a904aba'
-BOUND_POINT = '045a6b5684f4ea88d8ab01a14dab038e7ddd0e26c3a5b251c98a61b3a2915e60'
+BOUND_IO = '1d0bd16da3f4a9d2b77b0f6a630e8709dc10f1eb1157412d90b2f08eb09bf09b'
+BOUND_ADAPTER = '077a32c270a9f776cfc7e2c7604af1bcd671e1a530e5b6638d46f1a9c2f52c7d'
+BOUND_POINT = 'df245070b35b079c40c046b025159e3a43a5f69bd59685d17c61e9c6eb349019'
 INERT = {'research_only': True, 'can_place_orders': False, 'can_promote': False,
          'can_authorize': False, 'account_eligible': False, 'proof_eligible': False}
 

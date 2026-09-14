@@ -17,8 +17,8 @@ import projection_revision_consumer_v1 as consumer
 import oanda_causal_forecast_inputs_joint_news_v3 as original
 import oanda_news_causal_aggregation_guard_v2 as guard
 
-SCHEMA='joint_revision_news_features_v1_20260913'
-CONTEXT_SCHEMA='joint_revision_news_context_v2_20260913'
+SCHEMA='joint_compact_revision_news_features_v1_20260914'
+CONTEXT_SCHEMA='joint_compact_revision_news_context_v1_20260914'
 MAX_CONTEXT_BYTES=96*1024*1024
 MAX_ORIGINS=256
 MAX_CONTEXT_MEMBERS=5000
@@ -28,7 +28,8 @@ NEWS_FEATURES=('context_balance','context_volume_log','context_signed_fraction',
                'vetted_balance','vetted_volume_log','vetted_conflict_fraction','vetted_remaining_hours')
 NEUTRAL_NEWS=(0.,0.,0.,1.,0.,0.,0.,0.)
 BOUND_POLICY_SOURCES={'oanda_local_news_sentiment.py': '44e66d85f82b52d6dc82e2e277bad31d2ee8c16304bec9c6a083a8b17eeb6c50', 'oanda_local_news_sentiment_repair_v2.py': '542e287e44330d2e83ef2ec1a9b363bc716cf5581cf8b05bce87de84c7fa4124', 'oanda_news_causal_aggregation_guard_v1.py': '2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9', 'oanda_news_causal_aggregation_guard_v2.py': 'c62a26721694f6e98e65e25ddb476d175a01fef0320f353fe92234e46d273aaf', 'oanda_news_classification_contract.py': 'f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae', 'oanda_news_classification_observation_v1.py': 'fd50ede0e2f5c769963e1e564a7283e0a1b105010498020bb69d894a82ffe293', 'oanda_news_collector_contract.py': '41c30599a953d0fd967bc68c5f178d46fc21dd2382ac9fdca78bc3c64ac9f68f', 'oanda_news_event_tagger.py': '3657872fa84a6f081903307df7209350fed4f713d866735b9387ce375a5e4f3f', 'oanda_news_source_observation_ledger_v1.py': '0e570e853645e67707cc22b8923a70c7860d939483bcbf5fd70c1dd45c2ad284', 'oanda_news_topic_identity_reconciliation_v2.py': 'cd239119826a33f406d4241bf43e09ee2446016eb7238cb775a11d7c88825d23', 'projection_revision_reader_v1.py': 'e8c2b927aa6f9524ddbf8e71bd7844ca7eae44a24f54095f76057f54803650f9'}
-BOUND_GENERATION={'consumer': '3fc28130a764e06e16552e719a59d58dc7e6cc7799a6ca5719c272dfe4c6091c', 'publisher': '27e2cfafc2b0925a8f107ef890e2121a425518467d5636ab01af66205fb61563', 'original_input': 'd40cf670520e09ad18527324608e60c4ace40afa6a27ca37b2fc9d80f846a4fd', 'numeric_model': 'eb153acb966dc04ad950a0bbfcc730e78a9a0da1d8a24e91d641f473f5cfbc23', 'guard': 'c62a26721694f6e98e65e25ddb476d175a01fef0320f353fe92234e46d273aaf'}
+BOUND_GENERATION = {'consumer': '5c885ae837394398a2dba3dd0b8050305ac17cb95cc5e05578042ab2551ec485', 'publisher': '28e4738317c3166deb656f9935e356dc8314110d056e0a471fe8eb96b766da3d', 'original_input': 'd40cf670520e09ad18527324608e60c4ace40afa6a27ca37b2fc9d80f846a4fd', 'numeric_model': 'eb153acb966dc04ad950a0bbfcc730e78a9a0da1d8a24e91d641f473f5cfbc23', 'guard': 'c62a26721694f6e98e65e25ddb476d175a01fef0320f353fe92234e46d273aaf', 'compact_store': 'c13b3a0f73949be8155e1e626462607207cad99eabaf7b90db964487111c67b0'}
+# Filled with the exact reviewed helper generation by the isolated-kit seal.
 AUTHENTICATION='supplied_transport_bytes_validated_not_database_read_authenticated_by_pure_adapter'
 INERT={'research_only':True,'can_place_orders':False,'can_promote':False,'can_authorize':False,
        'account_eligible':False,'proof_eligible':False,'joint_model_consumption_proven':False}
@@ -79,10 +80,12 @@ def _generation(metadata):
          metadata['validation_scope']=='complete_supplied_history_validated_not_database_capture_authenticated',
          'complete_bound_consumer_validation_required')
     need(metadata['source_bindings']=={'consumer':BOUND_GENERATION['consumer'],
-         'publisher':BOUND_GENERATION['publisher'],'reader':BOUND_POLICY_SOURCES['projection_revision_reader_v1.py']},
+         'publisher':BOUND_GENERATION['publisher'],'reader':BOUND_POLICY_SOURCES['projection_revision_reader_v1.py'],
+         'compact_store':BOUND_GENERATION['compact_store']},
          'exact_bound_consumer_publisher_reader_generation_required')
     need(profile.get('consumer_sha256')==BOUND_GENERATION['consumer'] and
-         profile.get('publisher_sha256')==publication.get('publisher_sha256')==BOUND_GENERATION['publisher'],
+         profile.get('publisher_sha256')==publication.get('publisher_sha256')==BOUND_GENERATION['publisher']
+         and publication.get('compact_store_sha256')==BOUND_GENERATION['compact_store'],
          'exact_bound_consumer_publisher_generation_required')
     need(type(profile.get('max_scan_age_sec')) is int and profile['max_scan_age_sec']==300 and
          profile.get('scan_age_basis')=='source_read_started_epoch','unchanged_scan_freshness_policy_required')
@@ -96,36 +99,31 @@ def _generation(metadata):
 
 def _selection(context,decision):
     prepared,_,_,consumer_id,_,_=_state(context)
-    # Fixed reviewed implementation; no caller-selected validator or mutable cache.
-    result=consumer.latest_consumed_from_context(prepared,decision)
-    need(type(result) is dict and result.get('decision_epoch')==decision and result.get('consumer_id')==consumer_id and result.get('schema_version')==consumer.SCHEMA and
-         result.get('consumer_observation_required') is True,'typed_consumer_selection_required')
-    need(type(result.get('coverage_usable')) is bool,'typed_scan_coverage_required')
-    if result['coverage_usable']:
-        need(result.get('original_source_story_classification_clocks_unchanged') is True,
-             'source_clock_preservation_contract_required')
-        need(result.get('status')=='observed_current_complete' and type(result.get('members')) is list and
-             type(result.get('canonical_event_count')) is int and result['canonical_event_count']==len(result['members']),
-             'complete_current_consumer_selection_required')
-    else:
-        need(result.get('status')=='coverage_unavailable' and result.get('members') is None and
-             result.get('canonical_event_count') is None,'unknown_coverage_cannot_encode_neutral')
-    return result
+    row=consumer.selected_timing(prepared,decision)
+    need(type(row) is dict and type(row.get('coverage_usable')) is bool,'typed_scan_coverage_required')
+    usable=row['coverage_usable']
+    return {'schema_version':consumer.SCHEMA,'decision_epoch':decision,'consumer_id':consumer_id,
+            'coverage_usable':usable,'status':'observed_current_complete' if usable else 'coverage_unavailable',
+            'coverage':row['coverage'],'observed_publication_prefix':row['observed_publication_prefix'],
+            'consumer_observation_required':True,'original_source_story_classification_clocks_unchanged':True,
+            'selection_representation':'verified_latest_projection_headers_v1_20260914',
+            'canonical_event_count':None,'selected_headers_sha256':None}
 
 
 def _selected_timing(context,decision,selected):
-    """Fixed private index projection; not a receipt ID or new DB observation."""
+    """Public consumer timing projection; never a new database observation."""
     prepared,digest,_,consumer_id,generation,_=_state(context)
-    # Source-bound consumer factory already authenticated and froze this tuple.
-    _,_,indexed_consumer,epochs,rows,_,_=consumer._prepared(prepared)
-    need(indexed_consumer==consumer_id,'selected_timing_consumer_identity')
-    at=bisect.bisect_right(epochs,decision)-1
-    observed=prefix=coverage=coverage_digest=None
-    if at>=0:
-        observed,prefix,coverage_body=rows[at]
+    row=consumer.selected_timing(prepared,decision)
+    need(type(row) is dict and set(row)=={'index_row_ordinal','consumer_observed_epoch',
+         'observed_publication_prefix','coverage','coverage_usable'},'selected_timing_exact_public_shape')
+    at=row['index_row_ordinal'];observed=row['consumer_observed_epoch']
+    prefix=row['observed_publication_prefix'];coverage=row['coverage'];coverage_digest=None
+    need(type(row['coverage_usable']) is bool and row['coverage_usable']==selected['coverage_usable'],
+         'selected_timing_coverage_status_mismatch')
+    if at is not None:
+        need(type(at) is int and at>=0,'selected_timing_ordinal_type')
         observed=epoch(observed)
-        coverage=json.loads(coverage_body)
-        need(observed<=decision and epochs[at]==observed,'selected_observation_after_decision')
+        need(type(coverage) is dict and observed<=decision,'selected_observation_after_decision')
         need(epoch(coverage['read_started_epoch'])<=epoch(coverage['read_completed_epoch'])<=observed,
              'selected_scan_observation_clock_order')
         need(type(prefix) is int and prefix>=0,'selected_publication_prefix_type')
@@ -134,25 +132,27 @@ def _selected_timing(context,decision,selected):
             need(prefix==selected['observed_publication_prefix'],'selected_timing_prefix_mismatch')
         coverage_digest=sha(coverage)
     else:
-        need(selected['coverage'] is None and selected['coverage_usable'] is False,
+        need(observed is None and prefix==0 and coverage is None
+             and selected['coverage'] is None and selected['coverage_usable'] is False,
              'selected_timing_before_observation_mismatch')
-    return {'schema_version':'joint_revision_selected_observation_timing_v1_20260913',
+        prefix=None
+    return {'schema_version':'joint_compact_revision_selected_timing_v1_20260914',
             'context_sha256':digest,'source_generation_sha256':generation,'consumer_id':consumer_id,
             'decision_epoch':decision,'transport_selection_sha256':sha(selected),
-            'index_row_ordinal':at if at>=0 else None,'consumer_observed_epoch':observed,
+            'index_row_ordinal':at,'consumer_observed_epoch':observed,
             'observed_publication_prefix':prefix,'coverage':coverage,'coverage_sha256':coverage_digest,
             'coverage_usable':selected['coverage_usable'],
             'timing_scope':'selected_original_consumer_observation_not_ack_or_new_database_read'}
 
 
 def prepare_revision_context(consumer_bundle):
-    """Validate the complete supplied stream once using the pinned consumer.
+    """Use a validated owned read or validate an immutable compact replay recipe.
 
     That consumer freezes bytes and owns its immutable selection index. This
     pure boundary validates evidence; actual DB capture remains the I/O caller's
     responsibility. Failed current scans must be propagated by that caller.
     """
-    need(type(consumer_bundle) is dict,'transport_bundle_required')
+    need(type(consumer_bundle) in (dict,consumer.PreparedConsumer),'compact_transport_recipe_or_owned_capture_required')
     prepared=consumer.prepare_consumed_context(consumer_bundle)
     metadata=consumer.prepared_context_metadata(prepared)
     need(type(metadata['readback_bytes']) is int and 0<=metadata['readback_bytes']<=MAX_CONTEXT_BYTES,
@@ -160,11 +160,16 @@ def prepare_revision_context(consumer_bundle):
     generation=_generation(metadata)
     profile=metadata['consumer_profile'];need(type(profile['consumer_id']) is str and profile['consumer_id'],'consumer_identity_required')
     digest=metadata['readback_sha256'];need(type(digest) is str and re.fullmatch('[0-9a-f]{64}',digest),'consumer_readback_digest_required')
+    need(metadata['manifest_sha256']==digest and metadata['manifest_bytes']==metadata['readback_bytes']
+         and metadata['evidence_encoding']==consumer.compact.SCHEMA,'compact_context_manifest_required')
     for key in ('observation_count','publication_count','expanded_scan_bytes_checked','member_bytes'):
         need(type(metadata[key]) is int and metadata[key]>=0,'typed_prepared_context_counts_required')
     summary={'schema_version':CONTEXT_SCHEMA,'context_sha256':digest,
              'source_generation_sha256':generation,'authentication_scope':AUTHENTICATION,
-             **{key:metadata[key] for key in ('readback_bytes','observation_count','publication_count','expanded_scan_bytes_checked','member_bytes')}}
+             'readback_digest_scope':'compact_manifest_not_expanded_legacy_readback',
+             **{key:metadata[key] for key in ('readback_bytes','observation_count','publication_count',
+                'expanded_scan_bytes_checked','member_bytes','manifest_bytes','manifest_sha256',
+                'consumer_receipt_max_epoch','expanded_evidence_bytes_checked','evidence_encoding')}}
     return _make_context((prepared,digest,sha(metadata['publication_profile']['policy']),
                           profile['consumer_id'],generation,encoded(summary)))
 
@@ -186,53 +191,76 @@ def _grouped(members):
     return groups
 
 
+class _RowsDigest:
+    """Canonical ordered row digest without retaining the row collection."""
+    def __init__(self):self.hash=hashlib.sha256(b'[');self.count=0
+    def add(self,value):
+        if self.count:self.hash.update(b',')
+        self.hash.update(encoded(value));self.count+=1
+    def finish(self):
+        value=self.hash.copy();value.update(b']');return value.hexdigest()
+
+
 def frame_as_of(context,decision_epoch):
-    decision=epoch(decision_epoch);state=_state(context)
+    decision=epoch(decision_epoch);state=_state(context);prepared=state[0]
     selected=_selection(context,decision)
-    timing=_selected_timing(context,decision,selected)
-    basis={'schema_version':SCHEMA,'decision_epoch':decision,'context_sha256':context.bundle_sha256,
-           'consumer_id':context.consumer_id,'source_policy_sha256':context.source_policy_sha256,
-           'source_generation_sha256':state[4],
-           'transport_selection_sha256':sha(selected),'authentication_scope':AUTHENTICATION,
-           'transport_timing':timing,'transport_timing_sha256':sha(timing),
-           'selection_before_relevance_score_and_headline_filters':True,
-           'global_headline_deduplication_used':False,'coverage_is_feature':False,**INERT}
+    def basis():
+        timing=_selected_timing(context,decision,selected)
+        return {'schema_version':SCHEMA,'decision_epoch':decision,'context_sha256':context.bundle_sha256,
+                'consumer_id':context.consumer_id,'source_policy_sha256':context.source_policy_sha256,
+                'source_generation_sha256':state[4],
+                'transport_selection_sha256':sha(selected),'authentication_scope':AUTHENTICATION,
+                'transport_timing':timing,'transport_timing_sha256':sha(timing),
+                'selection_before_relevance_score_and_headline_filters':True,
+                'global_headline_deduplication_used':False,'coverage_is_feature':False,**INERT}
     if not selected['coverage_usable']:
-        return {**basis,'status':'unavailable','coverage_usable':False,'frame':None,
+        return {**basis(),'status':'unavailable','coverage_usable':False,'frame':None,
                 'reason':'actual_consumer_observation_and_current_complete_scan_coverage_required'}
-    latest=selected['members'];need(len(latest)<=MAX_CONTEXT_MEMBERS,'complete_canonical_context_count_bound')
-    seen=set();included=[];provenance=[];excluded=[]
-    for entry in sorted(latest,key=lambda v:v['canonical_event_id']):
-        ident=entry['canonical_event_id'];need(type(ident) is str and ident and ident not in seen,'duplicate_canonical_selection')
-        seen.add(ident)
+    included=[];provenance=_RowsDigest();exclusions=_RowsDigest();headers=_RowsDigest();excluded_counts={};previous=None
+    def exclude(ident,reason):
+        exclusions.add({'canonical_event_id':ident,'reason':reason})
+        excluded_counts[reason]=excluded_counts.get(reason,0)+1
+    # The consumer selects the latest original revision before yielding headers.
+    # Full payload resolution is unnecessary for old, future or irrelevant news.
+    for entry in consumer.iter_selected_headers(prepared,decision):
+        ident=entry['canonical_event_id']
+        need(type(ident) is str and ident and (previous is None or previous<ident),'duplicate_or_unordered_canonical_selection')
+        previous=ident;headers.add(entry)
+        need(headers.count<=consumer.compact.MAX_OBJECTS,'complete_canonical_context_count_bound')
         payload=entry['payload'];need(type(payload) is dict and payload.get('event_id')==ident,'selected_payload_identity')
         available=epoch(entry['effective_transport_available_epoch']);observed=epoch(entry['consumer_observed_epoch'])
         need(observed<=available<=decision,'selected_consumer_availability_after_origin')
         need(type(payload.get('relevant')) is bool and type(payload.get('structured_event')) is bool,'typed_relevance_and_structure_required')
         record={'canonical_event_id':ident,'projection_id':entry['projection_id'],'projection_seq':entry['projection_seq'],
-                'payload_sha256':sha(payload),'consumer_observed_epoch':observed,
-                'effective_transport_available_epoch':available,'structured_event':payload['structured_event']}
-        provenance.append(record)
+                'payload_sha256':entry['canonical_payload_sha256'],'consumer_observed_epoch':observed,
+                'effective_transport_available_epoch':available,'structured_event':payload['structured_event'],
+                'evidence_sha256':entry['evidence_sha256'],'member_sha256':entry['member_sha256']}
+        provenance.add(record)
         if not payload['relevant']:
-            excluded.append({'canonical_event_id':ident,'reason':'latest_irrelevant'});continue
+            exclude(ident,'latest_irrelevant');continue
         scores=payload.get('currency_scores')
         need(type(scores) is dict and len(scores)<=32,'selected_score_map_invalid')
         need(all(type(c) is str and re.fullmatch('[A-Z]{3}',c) and type(v) in (int,float) and
                  math.isfinite(v) and -1<=v<=1 for c,v in scores.items()),'selected_score_value_invalid')
         if not scores:
-            excluded.append({'canonical_event_id':ident,'reason':'latest_empty_score_map'});continue
-        member={key:copy.deepcopy(payload.get(key)) for key in guard.MEMBER_KEYS}
-        known,derived=original._member_clocks(member)
-        available=max(available,derived)
+            exclude(ident,'latest_empty_score_map');continue
+        known,derived=original._member_clocks(payload);available=max(available,derived)
         if known>decision or available>decision:
-            excluded.append({'canonical_event_id':ident,'reason':'latest_source_or_derived_clock_after_origin'});continue
+            exclude(ident,'latest_source_or_derived_clock_after_origin');continue
         if known<decision-3600:
-            excluded.append({'canonical_event_id':ident,'reason':'latest_original_story_outside_context_window'});continue
-        # Derived view only: exact raw payload remains sealed and unchanged.
+            exclude(ident,'latest_original_story_outside_context_window');continue
+        full=consumer.resolve_selected_member(prepared,entry,decision)
+        need(full['canonical_event_id']==ident and sha(full['payload'])==entry['canonical_payload_sha256'],
+             'resolved_original_selected_payload_required')
+        member={key:copy.deepcopy(full['payload'].get(key)) for key in guard.MEMBER_KEYS}
+        need(original._member_clocks(member)==(known,derived),'selected_header_clock_projection_mismatch')
+        # Derived view only; no source/classifier/publication/consumer clock is
+        # rewritten in the immutable original evidence or the compact manifest.
         prior=original._epoch(member['observed_available_utc']) if member.get('observed_available_utc') else 0.
         member['observed_available_utc']=original._iso(max(prior,available))
         included.append({'canonical_event_id':ident,'member':member,'known_epoch':known,
                          'available_epoch':available,'structured_event':payload['structured_event']})
+    selected['canonical_event_count']=headers.count;selected['selected_headers_sha256']=headers.finish()
     directional=[];groups=[]
     for group in _grouped(included):
         need(len(group)<=guard.MAX_MEMBERS,'complete_claim_group_member_bound')
@@ -248,9 +276,13 @@ def frame_as_of(context,decision_epoch):
     frame={'members':[{'scores':v['member']['currency_scores'],'known_epoch':v['known_epoch']} for v in included],
            'directional':directional,'available_max_epoch':max((v['available_epoch'] for v in included),default=0.),
            'guard_version':guard.GUARD_VERSION}
-    result={**basis,'status':'available','coverage_usable':True,'frame':frame,
-            'selected_canonical_count':len(latest),'context_member_count':len(included),
-            'selected_projection_provenance':provenance,'excluded_latest':excluded,'claim_groups':groups,
+    result={**basis(),'status':'available','coverage_usable':True,'frame':frame,
+            'selected_canonical_count':headers.count,'context_member_count':len(included),
+            'selected_projection_provenance_sha256':provenance.finish(),
+            'selected_projection_provenance_count':provenance.count,
+            'excluded_latest_sha256':exclusions.finish(),'excluded_latest_count':exclusions.count,
+            'excluded_latest_reason_counts':excluded_counts,'claim_groups':groups,
+            'provenance_scope':'all_latest_headers_hashed_in_canonical_order_original_payloads_recreatable_from_manifest',
             'frame_sha256':sha(frame),'full_history_window_proven':False}
     need(len(encoded(result))<=MAX_FRAME_BYTES,'complete_frame_byte_bound')
     return result

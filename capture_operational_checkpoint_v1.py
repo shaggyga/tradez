@@ -25,7 +25,7 @@ def take(value, names):
     return {name: value[name] for name in names.split() if name in value}
 
 
-def capture(practice_recovery_manifest=ROOT / "config/practice_native_recovery_v2_20260913.json"):
+def capture(practice_recovery_manifest=ROOT / "config/practice_native_recovery_v3_20260914.json"):
     observed = time.time()
     supervision = health.read_supervisor_observation(DATA / "logs")
     profile_path = Path(supervision["operational_profile"]["path"])
@@ -96,7 +96,7 @@ def capture(practice_recovery_manifest=ROOT / "config/practice_native_recovery_v
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--practice-recovery-manifest", type=Path,
-                        default=ROOT / "config/practice_native_recovery_v2_20260913.json")
+                        default=ROOT / "config/practice_native_recovery_v3_20260914.json")
     result = capture(parser.parse_args().practice_recovery_manifest)
     name = "CHECKPOINT_" + datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S_%fZ") + ".json"
     output = ROOT.parent / "operational_repairs_20260913" / name

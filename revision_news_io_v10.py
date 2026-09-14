@@ -5,6 +5,7 @@ replay_capture and cannot authorize current use. Clock callbacks are trusted
 in-process clocks; the separately read aligned-clock proof remains mandatory.
 """
 import copy
+import base64
 import hashlib
 import json
 import os
@@ -13,6 +14,7 @@ import re
 import stat
 import sys
 import threading
+import tempfile
 import time
 import uuid
 import weakref
@@ -25,29 +27,36 @@ reader=publisher.reader
 repair=reader.repair
 collector=repair.collector
 
-SCHEMA='revision_news_fixed_io_capture_v2_20260913'
-CONFIG='revision_news_fixed_io_transport_config_v2_20260913'
-DESCRIPTOR='revision_news_fixed_io_descriptor_v2_20260913'
-HEALTH='revision_news_current_collector_transport_observation_v2_20260913'
-TRANSPORT_SOURCES={'oanda_causal_forecast_inputs.py': 'f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281', 'oanda_causal_forecast_inputs_gap_v2.py': '539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd', 'oanda_causal_forecast_inputs_joint_news_v3.py': 'd40cf670520e09ad18527324608e60c4ace40afa6a27ca37b2fc9d80f846a4fd', 'oanda_causal_forecast_inputs_pair_v2.py': '8e58491a49fca967e6d8d2a797cc77f142053576c92a724a2e7336d855fb4899', 'oanda_isolated_news_history_v1.py': '9bc87f2072189344fdd6196e16bdad0a09bd7ea5b3c3a8bd42e20a82fedd91ab', 'oanda_joint_price_news_models_v1.py': 'eb153acb966dc04ad950a0bbfcc730e78a9a0da1d8a24e91d641f473f5cfbc23', 'oanda_local_news_sentiment.py': '44e66d85f82b52d6dc82e2e277bad31d2ee8c16304bec9c6a083a8b17eeb6c50', 'oanda_local_news_sentiment_repair_v2.py': '542e287e44330d2e83ef2ec1a9b363bc716cf5581cf8b05bce87de84c7fa4124', 'oanda_news_causal_aggregation_guard_v1.py': '2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9', 'oanda_news_causal_aggregation_guard_v2.py': 'c62a26721694f6e98e65e25ddb476d175a01fef0320f353fe92234e46d273aaf', 'oanda_news_classification_contract.py': 'f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae', 'oanda_news_classification_observation_v1.py': 'fd50ede0e2f5c769963e1e564a7283e0a1b105010498020bb69d894a82ffe293', 'oanda_news_collector_contract.py': '41c30599a953d0fd967bc68c5f178d46fc21dd2382ac9fdca78bc3c64ac9f68f', 'oanda_news_event_tagger.py': '3657872fa84a6f081903307df7209350fed4f713d866735b9387ce375a5e4f3f', 'oanda_news_source_observation_ledger_v1.py': '0e570e853645e67707cc22b8923a70c7860d939483bcbf5fd70c1dd45c2ad284', 'oanda_news_topic_identity_reconciliation_v2.py': 'cd239119826a33f406d4241bf43e09ee2446016eb7238cb775a11d7c88825d23', 'oanda_pair_local_models_v2.py': '294c63bf0ed873395c4850a8722a2622eaa2bc563ceb7ecf9886764c63d8bf24', 'oanda_source_governance.py': 'c4b7793dcef1b9176079a959019f8b69059fbd6644fddf1e8718f924d3a13950', 'oanda_source_governance_news_fast_lane.py': 'bdd6a2542b3dbddbdf86f7148af4dcb38d0b8591b3f3fcdb843d9eed29898f03', 'projection_revision_admission_v1.py': '27e2cfafc2b0925a8f107ef890e2121a425518467d5636ab01af66205fb61563', 'projection_revision_consumer_v1.py': '3fc28130a764e06e16552e719a59d58dc7e6cc7799a6ca5719c272dfe4c6091c', 'projection_revision_reader_v1.py': 'e8c2b927aa6f9524ddbf8e71bd7844ca7eae44a24f54095f76057f54803650f9', 'revision_joint_features_v1.py': '47841a62fb5bfc7a927cc10c1d7d9bacc8d060b8e7abcadb0420c85d8a904aba', 'revision_news_io_base_v1.py': '36bf4ec867b5a1816ff1793733747de1b95ced221ec1a7d6acd2bc14b964d8de', 'revision_transport_v4.py': 'f8d4b88c4e45505682db5a3d384969059e327c14345d15f6fec7eda07b1bcea3'}
-RECIPE='revision_news_packed_rows32_readback_recipe_v2_20260913'
+SCHEMA='revision_news_compact_io_capture_v1_20260914'
+CONFIG='revision_news_compact_io_transport_config_v1_20260914'
+DESCRIPTOR='revision_news_compact_io_descriptor_v1_20260914'
+HEALTH='revision_news_compact_collector_transport_observation_v1_20260914'
+TRANSPORT_SOURCES = {'oanda_causal_forecast_inputs.py': 'f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281', 'oanda_causal_forecast_inputs_gap_v2.py': '539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd', 'oanda_causal_forecast_inputs_joint_news_v3.py': 'd40cf670520e09ad18527324608e60c4ace40afa6a27ca37b2fc9d80f846a4fd', 'oanda_causal_forecast_inputs_pair_v2.py': '8e58491a49fca967e6d8d2a797cc77f142053576c92a724a2e7336d855fb4899', 'oanda_isolated_news_history_v1.py': '9bc87f2072189344fdd6196e16bdad0a09bd7ea5b3c3a8bd42e20a82fedd91ab', 'oanda_joint_price_news_models_v1.py': 'eb153acb966dc04ad950a0bbfcc730e78a9a0da1d8a24e91d641f473f5cfbc23', 'oanda_local_news_sentiment.py': '44e66d85f82b52d6dc82e2e277bad31d2ee8c16304bec9c6a083a8b17eeb6c50', 'oanda_local_news_sentiment_repair_v2.py': '542e287e44330d2e83ef2ec1a9b363bc716cf5581cf8b05bce87de84c7fa4124', 'oanda_news_causal_aggregation_guard_v1.py': '2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9', 'oanda_news_causal_aggregation_guard_v2.py': 'c62a26721694f6e98e65e25ddb476d175a01fef0320f353fe92234e46d273aaf', 'oanda_news_classification_contract.py': 'f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae', 'oanda_news_classification_observation_v1.py': 'fd50ede0e2f5c769963e1e564a7283e0a1b105010498020bb69d894a82ffe293', 'oanda_news_collector_contract.py': '41c30599a953d0fd967bc68c5f178d46fc21dd2382ac9fdca78bc3c64ac9f68f', 'oanda_news_event_tagger.py': '3657872fa84a6f081903307df7209350fed4f713d866735b9387ce375a5e4f3f', 'oanda_news_source_observation_ledger_v1.py': '0e570e853645e67707cc22b8923a70c7860d939483bcbf5fd70c1dd45c2ad284', 'oanda_news_topic_identity_reconciliation_v2.py': 'cd239119826a33f406d4241bf43e09ee2446016eb7238cb775a11d7c88825d23', 'oanda_pair_local_models_v2.py': '294c63bf0ed873395c4850a8722a2622eaa2bc563ceb7ecf9886764c63d8bf24', 'oanda_source_governance.py': 'c4b7793dcef1b9176079a959019f8b69059fbd6644fddf1e8718f924d3a13950', 'oanda_source_governance_news_fast_lane.py': 'bdd6a2542b3dbddbdf86f7148af4dcb38d0b8591b3f3fcdb843d9eed29898f03', 'projection_revision_admission_v1.py': '28e4738317c3166deb656f9935e356dc8314110d056e0a471fe8eb96b766da3d', 'projection_revision_consumer_v1.py': '5c885ae837394398a2dba3dd0b8050305ac17cb95cc5e05578042ab2551ec485', 'projection_revision_reader_v1.py': 'e8c2b927aa6f9524ddbf8e71bd7844ca7eae44a24f54095f76057f54803650f9', 'revision_joint_features_v1.py': '077a32c270a9f776cfc7e2c7604af1bcd671e1a530e5b6638d46f1a9c2f52c7d', 'revision_news_io_base_v1.py': 'b33240f730d261875f7a23c3223e192cd6a7a7b130bcdd666749bfadf13ac327', 'revision_transport_v4.py': '8d3cd45bde394919504ef9c2ac8824424ef2037ce262c6838d6391f5826ad3af', 'compact_projection_store_v1.py': 'c13b3a0f73949be8155e1e626462607207cad99eabaf7b90db964487111c67b0'}
+RECIPE='revision_news_compact_cas_recipe_v1_20260914'
 MAX_STATE=128*1024
 MAX_LATEST=2*1024*1024
 MAX_OBJECT=18*1024*1024
 MAX_READBACK=96*1024*1024
-MAX_FILES=32768
+MAX_FILES=131072
 MAX_ARCHIVE=1024*1024*1024
 MAX_SECONDS=30
+MAX_BOOTSTRAP_SECONDS=330
 BLOCK=32
+CATALOG_LEAF=256
+PACK_BYTES=8*1024*1024
+MAX_SPOOL=384*1024*1024
+STREAMED_RECIPE='revision_news_packed_cas_archive_v2_20260914'
 CONFIG_KEYS={'schema_version','cohort_id','consumer_id','publication_path','observation_path',
     'clock_path','heartbeat_path','latest_path','archive_root','policy','input_identity','transport_config_path','transport_config_sha256'}
 INERT=dict(adapter.INERT,execution_eligible=False)
 _BOUND_MODULES=(
-    (adapter,'47841a62fb5bfc7a927cc10c1d7d9bacc8d060b8e7abcadb0420c85d8a904aba'),
-    (consumer,'3fc28130a764e06e16552e719a59d58dc7e6cc7799a6ca5719c272dfe4c6091c'),
-    (publisher,'27e2cfafc2b0925a8f107ef890e2121a425518467d5636ab01af66205fb61563'),
+    (consumer.compact,'c13b3a0f73949be8155e1e626462607207cad99eabaf7b90db964487111c67b0'),
+    (adapter,'077a32c270a9f776cfc7e2c7604af1bcd671e1a530e5b6638d46f1a9c2f52c7d'),
+    (consumer,'5c885ae837394398a2dba3dd0b8050305ac17cb95cc5e05578042ab2551ec485'),
+    (publisher,'28e4738317c3166deb656f9935e356dc8314110d056e0a471fe8eb96b766da3d'),
     (reader,'e8c2b927aa6f9524ddbf8e71bd7844ca7eae44a24f54095f76057f54803650f9'),
-    (adapter.original,'d40cf670520e09ad18527324608e60c4ace40afa6a27ca37b2fc9d80f846a4fd'))
+    (adapter.original,'d40cf670520e09ad18527324608e60c4ace40afa6a27ca37b2fc9d80f846a4fd'),
+)
 need=publisher.need
 
 
@@ -62,6 +71,57 @@ def digest(value,maximum=MAX_OBJECT):return hashlib.sha256(encode(value,maximum)
 
 
 def own(value,maximum=MAX_OBJECT):return json.loads(encode(value,maximum))
+
+
+def _compact_encoded_size(value):
+    """Exact bound for the closed ASCII compact-object schema, before encoding."""
+    need(type(value) is dict and set(value)=={'kind','object_sha','expanded_bytes','packed_sha','zlib_base64'},
+         'compact_fast_object_shape')
+    kind=value['kind'];key=value['object_sha'];packed=value['packed_sha'];body=value['zlib_base64'];size=value['expanded_bytes']
+    need(type(kind) is str and kind in ('publication','scan') and type(key) is str
+         and re.fullmatch('[0-9a-f]{64}',key) and type(packed) is str and re.fullmatch('[0-9a-f]{64}',packed)
+         and type(size) is int and 0<=size<=MAX_OBJECT and type(body) is str
+         and len(body)<=MAX_OBJECT and re.fullmatch('[A-Za-z0-9+/]*={0,2}',body) is not None,
+         'compact_fast_object_fields')
+    return len('{"expanded_bytes":,"kind":"","object_sha":"","packed_sha":"","zlib_base64":""}')+len(str(size))+len(kind)+128+len(body)
+
+
+def _fast_canonical(value,size):
+    need(type(size) is int and 0<=size<=MAX_OBJECT,'io_encoded_byte_bound')
+    raw=json.dumps(value,sort_keys=True,separators=(',',':'),ensure_ascii=True,allow_nan=False).encode('ascii')
+    need(len(raw)==size,'compact_fast_exact_size_mismatch');return raw
+
+
+def _canonical_under_authenticated_bound(value,upper,maximum):
+    # Only callers that reconstruct from canonical, hash-verified typed nodes
+    # may supply this bound. Repeated references are charged repeatedly.
+    need(type(upper) is int and 0<=upper<=maximum,'io_reconstruction_encoded_work_bound')
+    raw=json.dumps(value,sort_keys=True,separators=(',',':'),ensure_ascii=True,allow_nan=False).encode('ascii')
+    need(len(raw)<=upper,'compact_reconstruction_upper_bound_mismatch');return raw
+
+
+def _archive_encode(value):
+    """C encoding only for fixed, strictly prebounded shapes; generic path unchanged."""
+    if type(value) is dict and value.get('encoding')=='exact_compressed_objects32_v2':
+        need(set(value)=={'encoding','objects'} and type(value['objects']) is list
+             and 0<len(value['objects'])<=BLOCK,'compact_fast_block_shape')
+        sizes=[_compact_encoded_size(item) for item in value['objects']]
+        size=len('{"encoding":"exact_compressed_objects32_v2","objects":[]}')+sum(sizes)+len(sizes)-1
+        return _fast_canonical(value,size)
+    if type(value) is dict and value.get('encoding')=='compact_objects_leaf_v2':
+        need(set(value)=={'encoding','rows'} and type(value['rows']) is list
+             and len(value['rows'])<=CATALOG_LEAF,'compact_fast_catalog_shape')
+        sizes=[]
+        for row in value['rows']:
+            need(type(row) is list and len(row)==7 and type(row[0]) is str and row[0] in ('publication','scan')
+                 and all(type(row[i]) is str and re.fullmatch('[0-9a-f]{64}',row[i]) for i in (1,3,5))
+                 and type(row[2]) is int and 0<=row[2]<=MAX_OBJECT
+                 and type(row[4]) is int and 0<row[4]<=MAX_OBJECT
+                 and type(row[6]) is int and 0<=row[6]<BLOCK,'compact_fast_catalog_row')
+            sizes.append(len(row[0])+208+sum(len(str(row[i])) for i in (2,4,6)))
+        size=len('{"encoding":"compact_objects_leaf_v2","rows":[]}')+sum(sizes)+max(0,len(sizes)-1)
+        return _fast_canonical(value,size)
+    return encode(value)
 
 
 def path_for(value,*,directory=False,missing=False):
@@ -192,7 +252,7 @@ def create_session(config):
     need(all(not Path(p).is_relative_to(root) for p in paths),'archive_must_differ_from_input_paths')
     publisher.policy_current(config['policy'])
     need(encode(config['policy']['source_bindings'])==encode(adapter.BOUND_POLICY_SOURCES),'exact_adapter_source_policy_required')
-    return _make_session({'config':encode(config),'graph':source_graph(),'failure_serial':0,'usable':False,
+    return _make_session({'config':encode(config),'graph':source_graph(),'failure_serial':0,'usable':False,'archive_layout':(),
         'last_failure':None,'transport_failure_generation':None,'lock':threading.RLock()})
 
 
@@ -336,8 +396,12 @@ class Archive:
         end=path_for(self.root,directory=True).stat()
         need((root_identity.st_dev,root_identity.st_ino)==(end.st_dev,end.st_ino),'capture_archive_root_replaced')
     def put(self,value):
-        raw=encode(value);key=hashlib.sha256(raw).hexdigest();name=key+'.json';path=self.root/name
+        return self._put(value,defer_readback=False)
+    def _put(self,value,*,defer_readback):
+        raw=_archive_encode(value);key=hashlib.sha256(raw).hexdigest();name=key+'.json';path=self.root/name
         if name in self.files:
+            if defer_readback:
+                need(self.files[name]==len(raw),'immutable_capture_object_size_collision');return key
             old,_=read_exact(path,MAX_OBJECT);need(old==raw,'immutable_capture_object_collision');return key
         need(len(self.files)<MAX_FILES and self.total+len(raw)<=MAX_ARCHIVE,'capture_archive_capacity_exhausted')
         path_for(path,missing=True)
@@ -346,16 +410,18 @@ class Archive:
         try:
             with path.open('xb') as stream:stream.write(raw);stream.flush();os.fsync(stream.fileno())
         except FileExistsError:
-            old,_=read_exact(path,MAX_OBJECT);need(old==raw,'immutable_capture_object_collision')
-        old,_=read_exact(path,MAX_OBJECT);need(old==raw,'capture_object_readback_failed')
+            if not defer_readback:
+                old,_=read_exact(path,MAX_OBJECT);need(old==raw,'immutable_capture_object_collision')
+        if not defer_readback:
+            old,_=read_exact(path,MAX_OBJECT);need(old==raw,'capture_object_readback_failed')
         self.files[name]=len(raw);self.total+=len(raw);return key
     def get(self,key,*,budget=None):
         need(type(key) is str and re.fullmatch('[0-9a-f]{64}',key),'capture_object_hash_required')
-        raw,_=read_exact(self.root/(key+'.json'),MAX_OBJECT)
-        need(hashlib.sha256(raw).hexdigest()==key,'capture_object_hash_mismatch')
+        raw,proof=read_exact(self.root/(key+'.json'),MAX_OBJECT)
+        need(proof['sha256']==key,'capture_object_hash_mismatch')
         if budget is not None:budget.reserve(len(raw))
         value=json.loads(raw)
-        need(encode(value)==raw,'canonical_capture_object_required');return value
+        need(_archive_encode(value)==raw,'canonical_capture_object_required');return value
     def sequence(self,rows):
         need(type(rows) is list and len(rows)<=4096,'capture_sequence_bound')
         # Each immutable object contains at most32 rows. Full blocks remain
@@ -377,48 +443,400 @@ class Archive:
 
 
 def _store_bundle(archive,bundle):
-    publication=bundle['publication_integrity']
-    root={key:value for key,value in bundle.items() if key not in ('publication_integrity','observations','scan_objects')}
-    header={key:value for key,value in publication.items() if key not in ('batches','publication_heads')}
-    return archive.put({'schema_version':RECIPE,'root':archive.put(root),'publication':archive.put(header),
-        'batches':archive.sequence(publication['batches']),'heads':archive.sequence(publication['publication_heads']),
-        'observations':archive.sequence(bundle['observations']),
-        'scan_objects':archive.sequence([[key,value] for key,value in sorted(bundle['scan_objects'].items())])})
+    """Archive compact JSON only; exact expanded evidence stays compressed.
+
+    Small subtrees share ordinary immutable CAS leaves. Large maps retain each
+    value separately, so appending evidence changes only small reference pages.
+    List pages contain32 original values where bounded, never the raw history.
+    """
+    visits=0
+    def put(value,depth=0):
+        nonlocal visits
+        visits+=1;need(visits<=MAX_FILES and depth<=32,'compact_recipe_tree_bound')
+        try:encode(value,256*1024)
+        except ValueError as exc:
+            if str(exc)!='io_encoded_byte_bound':raise
+        else:return archive.put({'kind':'value','value':value})
+        if type(value) is dict:
+            need(all(type(key) is str for key in value),'compact_recipe_string_keys')
+            rows=[[key,put(item,depth+1)] for key,item in sorted(value.items())]
+            return archive.put({'kind':'mapping','rows':put(rows,depth+1)})
+        need(type(value) is list,'compact_recipe_leaf_bound')
+        if len(value)>BLOCK:
+            return archive.put({'kind':'pages','count':len(value),
+                'pages':[put(value[i:i+BLOCK],depth+1) for i in range(0,len(value),BLOCK)]})
+        return archive.put({'kind':'items','items':[put(item,depth+1) for item in value]})
+    need(type(bundle) is dict,'compact_export_recipe_required')
+    return archive.put({'schema_version':RECIPE,'compact_root':put(bundle),
+        'digest_scope':'compact_manifest_not_expanded_legacy_readback'})
 
 
-def _load_bundle(archive,key):
+def _load_bundle(archive,key,*,with_bound=False):
     budget=_DecodeBudget()
     recipe=archive.get(key,budget=budget)
-    need(type(recipe) is dict and set(recipe)=={'schema_version','root','publication','batches','heads','observations','scan_objects'} and recipe['schema_version']==RECIPE,'capture_bundle_recipe_required')
-    root=archive.get(recipe['root'],budget=budget);pub=archive.get(recipe['publication'],budget=budget)
-    need(type(root) is dict and not set(root)&{'publication_integrity','observations','scan_objects'} and type(pub) is dict and not set(pub)&{'batches','publication_heads'},'capture_header_fields_invalid')
-    pairs=archive.unsequence(recipe['scan_objects'],budget=budget);objects={}
-    for pair in pairs:
-        need(type(pair) is list and len(pair)==2 and type(pair[0]) is str and pair[0] not in objects,'capture_scan_objects_invalid');objects[pair[0]]=pair[1]
-    result={**root,'publication_integrity':{**pub,'batches':archive.unsequence(recipe['batches'],budget=budget),'publication_heads':archive.unsequence(recipe['heads'],budget=budget)},
-        'observations':archive.unsequence(recipe['observations'],budget=budget),'scan_objects':objects}
-    encode(result,MAX_READBACK);return result
+    need(type(recipe) is dict and set(recipe)=={'schema_version','compact_root','digest_scope'}
+         and recipe['schema_version']==RECIPE and recipe['digest_scope']=='compact_manifest_not_expanded_legacy_readback',
+         'capture_compact_recipe_required')
+    visits=0
+    def get(key,depth=0):
+        nonlocal visits
+        visits+=1;need(visits<=MAX_FILES and depth<=32,'compact_recipe_tree_bound')
+        node=archive.get(key,budget=budget)
+        need(type(node) is dict and type(node.get('kind')) is str,'compact_recipe_node_required')
+        kind=node['kind']
+        if kind=='value':
+            need(set(node)=={'kind','value'},'compact_recipe_value_fields')
+            encode(node['value'],256*1024);return node['value']
+        if kind=='mapping':
+            need(set(node)=={'kind','rows'},'compact_recipe_mapping_fields')
+            rows=get(node['rows'],depth+1);need(type(rows) is list,'compact_recipe_mapping_rows')
+            result={};previous=None
+            for row in rows:
+                need(type(row) is list and len(row)==2 and type(row[0]) is str
+                     and (previous is None or previous<row[0]),'compact_recipe_mapping_order')
+                previous=row[0];result[row[0]]=get(row[1],depth+1)
+            return result
+        if kind=='items':
+            need(set(node)=={'kind','items'} and type(node['items']) is list and len(node['items'])<=BLOCK,
+                 'compact_recipe_item_fields')
+            return [get(item,depth+1) for item in node['items']]
+        need(kind=='pages' and set(node)=={'kind','count','pages'} and type(node['count']) is int
+             and 0<node['count']<=MAX_FILES and type(node['pages']) is list
+             and len(node['pages'])==(node['count']+BLOCK-1)//BLOCK,'compact_recipe_page_fields')
+        result=[]
+        for index,page in enumerate(node['pages']):
+            rows=get(page,depth+1)
+            need(type(rows) is list and len(rows)==min(BLOCK,node['count']-index*BLOCK),'compact_recipe_page_count')
+            result.extend(rows)
+        return result
+    result=get(recipe['compact_root']);need(type(result) is dict,'compact_export_recipe_required')
+    _canonical_under_authenticated_bound(result,budget.used,MAX_READBACK)
+    return (result,budget.used) if with_bound else result
+
+
+def _object_expectations(manifest):
+    """Small original content identities; no compressed or expanded article body."""
+    need(type(manifest) is dict and type(manifest.get('publication')) is dict,
+         'compact_manifest_required')
+    result=[];seen=set()
+    for kind,rows in (('publication',manifest['publication'].get('evidence_objects')),
+                      ('scan',manifest.get('scan_objects'))):
+        need(type(rows) is list and len(rows)<=MAX_FILES,'compact_manifest_object_count')
+        for row in rows:
+            need(type(row) is list and len(row)==4,'compact_manifest_object_fields')
+            key,size,packed_sha,packed_bytes=row
+            need(type(key) is str and re.fullmatch('[0-9a-f]{64}',key) and
+                 type(packed_sha) is str and re.fullmatch('[0-9a-f]{64}',packed_sha) and
+                 type(size) is int and 0<=size<=MAX_OBJECT and
+                 type(packed_bytes) is int and 0<packed_bytes<=MAX_OBJECT and
+                 (kind,key) not in seen,'compact_manifest_object_identity')
+            seen.add((kind,key));result.append((kind,key,size,packed_sha,packed_bytes))
+    need(len(result)<=MAX_FILES,'compact_manifest_total_object_count')
+    return result
+
+
+def _verify_compact_object(value,expected):
+    kind,key,size,packed_sha,packed_bytes=expected
+    need(type(value) is dict and set(value)=={'kind','object_sha','expanded_bytes','packed_sha','zlib_base64'}
+         and value['kind']==kind and value['object_sha']==key and value['expanded_bytes']==size
+         and type(value['expanded_bytes']) is int and value['packed_sha']==packed_sha
+         and type(value['zlib_base64']) is str,'compact_archive_object_binding')
+    need(len(value['zlib_base64'])==4*((packed_bytes+2)//3),'compact_archive_base64_size')
+    packed=base64.b64decode(value['zlib_base64'],validate=True)
+    need(len(packed)==packed_bytes and hashlib.sha256(packed).hexdigest()==packed_sha
+         and base64.b64encode(packed).decode()==value['zlib_base64'],'compact_archive_compressed_byte_binding')
+    # The semantic consumer validates bounded decompression and original raw
+    # hashes. This archive verifies the exact compressed bytes already read.
+    return value
+
+
+def _store_object_catalog(archive,rows,depth=0):
+    """Hash-prefix leaves make small appends local without altering row order."""
+    need(type(rows) is list and len(rows)<=MAX_FILES and 0<=depth<=64,'compact_catalog_bound')
+    if len(rows)<=CATALOG_LEAF:
+        return archive.put({'encoding':'compact_objects_leaf_v2','rows':rows})
+    need(depth<64,'compact_catalog_hash_collision')
+    groups={}
+    for row in rows:groups.setdefault(row[1][depth],[]).append(row)
+    return archive.put({'encoding':'compact_objects_branch_v2','depth':depth,'count':len(rows),
+        'children':[[prefix,_store_object_catalog(archive,group,depth+1)] for prefix,group in sorted(groups.items())]})
+
+
+def _load_object_catalog(archive,key,kind,*,prefix='',budget=None):
+    node=archive.get(key,budget=budget)
+    need(type(node) is dict,'compact_catalog_node_required')
+    if node.get('encoding')=='compact_objects_leaf_v2':
+        need(set(node)=={'encoding','rows'} and type(node['rows']) is list and len(node['rows'])<=CATALOG_LEAF,
+             'compact_catalog_leaf_fields')
+        previous=None
+        for row in node['rows']:
+            need(type(row) is list and len(row)==7 and row[0]==kind and type(row[1]) is str
+                 and re.fullmatch('[0-9a-f]{64}',row[1]) and row[1].startswith(prefix)
+                 and (previous is None or previous<row[1]) and type(row[5]) is str
+                 and re.fullmatch('[0-9a-f]{64}',row[5]) and type(row[6]) is int
+                 and 0<=row[6]<BLOCK,'compact_catalog_row_order')
+            previous=row[1]
+        return node['rows']
+    need(set(node)=={'encoding','depth','count','children'} and node['encoding']=='compact_objects_branch_v2'
+         and type(node['depth']) is int and node['depth']==len(prefix)<64
+         and type(node['count']) is int and CATALOG_LEAF<node['count']<=MAX_FILES
+         and type(node['children']) is list and 1<=len(node['children'])<=16,'compact_catalog_branch_fields')
+    result=[];previous=None
+    for child in node['children']:
+        need(type(child) is list and len(child)==2 and type(child[0]) is str and re.fullmatch('[0-9a-f]',child[0])
+             and (previous is None or previous<child[0]),'compact_catalog_child_order')
+        previous=child[0]
+        result.extend(_load_object_catalog(archive,child[1],kind,prefix=prefix+child[0],budget=budget))
+    need(len(result)==node['count'],'compact_catalog_count_mismatch')
+    return result
+
+
+class _ObjectSpool:
+    """Bounded temporary compressed bytes; never a durable proof or authority.
+
+    A single seekable file avoids retaining a second whole compressed universe
+    in RAM. Every durable archive object is independently authenticated later.
+    TemporaryFile owns deletion on close, including partial failures.
+    """
+    def __init__(self,archive):
+        self.directory=path_for(archive.root.parent,directory=True)
+        self.stream=None;self.index={};self.total=0
+    def __enter__(self):
+        self.stream=tempfile.TemporaryFile(mode='w+b',dir=self.directory,prefix='compact_pack_spool_')
+        return self
+    def __exit__(self,*_):
+        self.stream.close();self.stream=None;self.index.clear()
+    def put(self,key,value):
+        need(key not in self.index and len(self.index)<MAX_FILES,'compact_spool_duplicate_or_count')
+        raw=_fast_canonical(value,_compact_encoded_size(value))
+        need(self.total+len(raw)<=MAX_SPOOL,'compact_spool_byte_bound')
+        position=self.stream.tell();self.stream.write(raw)
+        self.index[key]=(position,len(raw),hashlib.sha256(raw).digest());self.total+=len(raw)
+    def get(self,key):
+        need(key in self.index,'compact_spool_object_missing')
+        position,size,expected=self.index[key];self.stream.seek(position);raw=self.stream.read(size)
+        need(len(raw)==size and hashlib.sha256(raw).digest()==expected,'compact_spool_byte_mismatch')
+        return json.loads(raw)
+
+
+class _CaptureArchiveWriter:
+    """Provisioning only; the caller must independently verify the entire graph.
+
+    This wrapper is used solely by _store_capture_archive. It cannot create a
+    current handle, and general Archive.put retains immediate readback.
+    """
+    def __init__(self,archive):self.archive=archive
+    def put(self,value):return self.archive._put(value,defer_readback=True)
+
+
+def _stable_object_order(manifest,expected):
+    """Original receipt ordering makes complete32-object blocks append-stable."""
+    allowed={(row[0],row[1]) for row in expected};seen=set();result=[]
+    def add(kind,key):
+        need(type(key) is str and (kind,key) in allowed,'compact_pack_receipt_object_unknown')
+        if (kind,key) not in seen:seen.add((kind,key));result.append((kind,key))
+    proofs=manifest['publication'].get('record_proofs')
+    need(type(proofs) is list and len(proofs)<=MAX_FILES,'compact_pack_publication_list')
+    for proof in proofs:
+        need(type(proof) is dict and type(proof.get('attempt')) is dict
+             and type(proof['attempt'].get('body')) is str,'compact_pack_original_attempt_required')
+        body=json.loads(proof['attempt']['body']);pack=body.get('snapshot_pack')
+        need(type(pack) is dict and type(pack.get('evidence_sha256')) is list,'compact_pack_original_refs_required')
+        for key in pack['evidence_sha256']:add('publication',key)
+    observations=manifest.get('consumer',{}).get('observations')
+    need(type(observations) is list and len(observations)<=MAX_FILES,'compact_pack_observation_list')
+    for item in observations:
+        need(type(item) is dict and type(item.get('observation')) is dict,'compact_pack_original_observation_required')
+        scan=item['observation'].get('completed_scan')
+        need(type(scan) is dict and type(scan.get('evidence_refs')) is list,'compact_pack_original_scan_required')
+        for ref in scan['evidence_refs']:
+            need(type(ref) is dict and len(ref)==1,'compact_pack_scan_reference')
+            if 'stored_evidence_sha256' in ref:add('scan',ref['stored_evidence_sha256'])
+            else:need(set(ref)=={'publication_evidence_sha256'},'compact_pack_scan_reference')
+    need(seen==allowed,'compact_pack_original_reference_set_incomplete')
+    return result
+
+
+def _expected_object_size(item):
+    # _object_expectations has already authenticated the closed ASCII types.
+    kind,key,size,packed_sha,packed_bytes=item
+    return len('{"expanded_bytes":,"kind":"","object_sha":"","packed_sha":"","zlib_base64":""}')+len(str(size))+len(kind)+128+4*((packed_bytes+2)//3)
+
+
+def _complete_layout_groups(layout):
+    """Non-authorizing, bounded immutable metadata from an earlier full read.
+
+    The final independent archive read still authenticates every reused byte.
+    Only exact complete32-object groups can avoid repeat spool/provision work.
+    """
+    need(type(layout) is tuple and len(layout)<=MAX_FILES,'compact_layout_tuple_bound')
+    references={'publication':[],'scan':[]};blocks={}
+    for row in layout:
+        need(type(row) is tuple and len(row)==7 and type(row[0]) is str and row[0] in references
+             and type(row[5]) is str and re.fullmatch('[0-9a-f]{64}',row[5])
+             and type(row[6]) is int and 0<=row[6]<BLOCK,'compact_layout_row_fields')
+        references[row[0]].append(list(row[1:5]));slots=blocks.setdefault(row[5],{})
+        need(row[6] not in slots,'compact_layout_duplicate_slot');slots[row[6]]=row
+    _object_expectations({'publication':{'evidence_objects':references['publication']},'scan_objects':references['scan']})
+    reusable={}
+    for key,slots in blocks.items():
+        need(set(slots)==set(range(len(slots))) and len(slots)<=BLOCK,'compact_layout_exact_slots')
+        if len(slots)==BLOCK:
+            group=tuple(tuple(slots[i][:5]) for i in range(BLOCK))
+            need(group not in reusable,'compact_layout_duplicate_group');reusable[group]=key
+    return reusable
+
+
+def _store_capture_archive(archive,manifest,objects,*,prior_layout=()):
+    expected=_object_expectations(manifest);iterator=iter(objects);references={'publication':[],'scan':[]}
+    writer=_CaptureArchiveWriter(archive)
+    by_key={(item[0],item[1]):item for item in expected};order=_stable_object_order(manifest,expected)
+    for kind in references:
+        keys=[item[1] for item in expected if item[0]==kind]
+        need(all(keys[i-1]<keys[i] for i in range(1,len(keys))),'compact_manifest_object_order')
+    groups=[];group=[];group_bytes=0
+    for identity_key in order:
+        item=by_key[identity_key];size=_expected_object_size(item)
+        need(size<=MAX_OBJECT,'io_encoded_byte_bound')
+        if group and (item[0]!=group[-1][0] or len(group)>=BLOCK or group_bytes+size>PACK_BYTES):
+            groups.append(tuple(group));group=[];group_bytes=0
+        group.append(item);group_bytes+=size
+    if group:groups.append(tuple(group))
+    reusable=_complete_layout_groups(prior_layout)
+    changed={(item[0],item[1]) for group in groups if group not in reusable for item in group}
+    with _ObjectSpool(archive) as spool:
+        for item in expected:
+            try:value=next(iterator)
+            except StopIteration:raise ValueError('compact_archive_missing_object') from None
+            # A layout hint never substitutes for the fresh object's proof.
+            _verify_compact_object(value,item)
+            if (item[0],item[1]) in changed:spool.put((item[0],item[1]),value)
+        try:next(iterator)
+        except StopIteration:pass
+        else:raise ValueError('compact_archive_extra_object')
+        for group in groups:
+            key=reusable.get(group)
+            if key is None:
+                values=[spool.get((item[0],item[1])) for item in group]
+                key=writer.put({'encoding':'exact_compressed_objects32_v2','objects':values})
+            for slot,item in enumerate(group):references[item[0]].append([*item,key,slot])
+    for rows in references.values():rows.sort(key=lambda row:row[1])
+    core={key:value for key,value in manifest.items() if key not in ('publication','scan_objects')}
+    core['publication']={key:value for key,value in manifest['publication'].items() if key!='evidence_objects'}
+    raw_manifest=encode(manifest,MAX_READBACK)
+    return writer.put({'schema_version':STREAMED_RECIPE,
+        'manifest_core_root':_store_bundle(writer,core),
+        'manifest_sha256':hashlib.sha256(raw_manifest).hexdigest(),'manifest_bytes':len(raw_manifest),
+        'object_catalogs':{kind:_store_object_catalog(writer,rows) for kind,rows in references.items()},
+        'object_count':len(expected)})
+
+
+def _load_capture_archive(archive,key,*,with_layout=False):
+    recipe=archive.get(key)
+    need(type(recipe) is dict and set(recipe)=={'schema_version','manifest_core_root','manifest_sha256',
+         'manifest_bytes','object_catalogs','object_count'} and
+         recipe['schema_version']==STREAMED_RECIPE,
+         'streamed_capture_recipe_required')
+    core,core_bound=_load_bundle(archive,recipe['manifest_core_root'],with_bound=True)
+    need(type(core) is dict and 'scan_objects' not in core and type(core.get('publication')) is dict
+         and 'evidence_objects' not in core['publication'] and type(recipe['object_catalogs']) is dict
+         and set(recipe['object_catalogs'])=={'publication','scan'},'compact_manifest_core_required')
+    budget=_DecodeBudget()
+    references={kind:_load_object_catalog(archive,recipe['object_catalogs'][kind],kind,budget=budget)
+                for kind in ('publication','scan')}
+    manifest={**core,'publication':{**core['publication'],'evidence_objects':[row[1:5] for row in references['publication']]},
+              'scan_objects':[row[1:5] for row in references['scan']]}
+    expected=_object_expectations(manifest)
+    raw_manifest=_canonical_under_authenticated_bound(manifest,core_bound+budget.used+256,MAX_READBACK)
+    need(type(recipe['manifest_bytes']) is int and recipe['manifest_bytes']==len(raw_manifest)
+         and recipe['manifest_sha256']==hashlib.sha256(raw_manifest).hexdigest(),'compact_manifest_readback_binding')
+    need(type(recipe['object_count']) is int and recipe['object_count']==len(expected),'compact_archive_reference_count')
+    def objects():
+        # Verify each immutable block once, then return the exact original
+        # SHA-sorted object order through one bounded temporary file. A small
+        # RAM block cache alone would reread randomly ordered blocks per object.
+        blocks={}
+        for kind in ('publication','scan'):
+            for row in references[kind]:
+                slots=blocks.setdefault(row[5],{})
+                need(row[6] not in slots,'compact_pack_duplicate_slot');slots[row[6]]=row
+        with _ObjectSpool(archive) as spool:
+            for key,slots in blocks.items():
+                block=archive.get(key)
+                need(type(block) is dict and set(block)=={'encoding','objects'}
+                     and block['encoding']=='exact_compressed_objects32_v2'
+                     and type(block['objects']) is list and 0<len(block['objects'])<=BLOCK,
+                     'compact_pack_block_fields')
+                need(set(slots)==set(range(len(block['objects']))),'compact_pack_exact_slot_set')
+                for slot,value in enumerate(block['objects']):
+                    row=slots[slot];_verify_compact_object(value,tuple(row[:5]))
+                    spool.put((row[0],row[1]),value)
+            for item in expected:
+                # The object was verified before spooling; get authenticates
+                # exactly those original canonical bytes for this typed key.
+                yield spool.get((item[0],item[1]))
+    result=(manifest,objects())
+    return (*result,tuple(tuple(row) for kind in ('publication','scan') for row in references[kind])) if with_layout else result
+
+
+def _store_health(archive,value):
+    """Retain exact read clocks while sharing unchanged collector file proofs."""
+    need(type(value) is dict and type(value.get('files')) is dict,'compact_health_files_required')
+    return archive.put({'schema_version':'revision_news_compact_health_recipe_v1_20260914',
+        'core':{key:item for key,item in value.items() if key not in ('files','transport')},
+        'files':{key:archive.put(item) for key,item in value['files'].items()},
+        'transport':archive.put(value['transport']) if 'transport' in value else None,
+        'original_health_sha256':digest(value)})
+
+
+def _load_health(archive,key):
+    recipe=archive.get(key)
+    need(type(recipe) is dict and set(recipe)=={'schema_version','core','files','transport','original_health_sha256'}
+         and recipe['schema_version']=='revision_news_compact_health_recipe_v1_20260914'
+         and type(recipe['core']) is dict and not set(recipe['core'])&{'files','transport'}
+         and type(recipe['files']) is dict and len(recipe['files'])<=16,'compact_health_recipe_required')
+    value={**recipe['core'],'files':{name:archive.get(ref) for name,ref in recipe['files'].items()}}
+    if recipe['transport'] is not None:value['transport']=archive.get(recipe['transport'])
+    need(digest(value)==recipe['original_health_sha256'],'compact_health_reconstruction_mismatch')
+    return value
+
+
+def _store_issue_health(archive,value):
+    return archive.put({'schema_version':'revision_news_compact_issue_health_v1_20260914',
+        'core':{key:item for key,item in value.items() if key!='health'},
+        'health':_store_health(archive,value['health']),'original_proof_sha256':digest(value)})
+
+
+def _load_issue_health(archive,key):
+    recipe=archive.get(key)
+    need(type(recipe) is dict and set(recipe)=={'schema_version','core','health','original_proof_sha256'}
+         and recipe['schema_version']=='revision_news_compact_issue_health_v1_20260914'
+         and type(recipe['core']) is dict and 'health' not in recipe['core'],'compact_issue_health_recipe_required')
+    value={**recipe['core'],'health':_load_health(archive,recipe['health'])}
+    need(digest(value)==recipe['original_proof_sha256'],'compact_issue_health_reconstruction_mismatch')
+    return value
 
 
 def _validate_capture_value(value,config,archive):
     fields={'schema_version','config_sha256','source_graph','bundle_recipe_sha256','readback_sha256','readback_bytes',
         'context_metadata','store_identities','health_before_sha256','health_after_sha256','read_started_epoch',
         'read_completed_epoch','first_observed_epoch','actual_database_capture_performed','historical_collector_health_proven',
-        'semantic_complete_validations','capture_scope','transport_failure_generation',*INERT}
+        'semantic_complete_validations','capture_scope','transport_failure_generation','readback_digest_scope',*INERT}
     need(type(value) is dict and set(value)==fields and value['schema_version']==SCHEMA and value['config_sha256']==digest(config),
          'io_exact_capture_value_required')
     need(all(value[k] is v for k,v in INERT.items()) and value['actual_database_capture_performed'] is True and
-         value['historical_collector_health_proven'] is False and type(value['semantic_complete_validations']) is int and value['semantic_complete_validations']==2,
+         value['historical_collector_health_proven'] is False and type(value['semantic_complete_validations']) is int and value['semantic_complete_validations']==1,
          'io_capture_claim_types_required')
     need(type(value['readback_bytes']) is int and 0<=value['readback_bytes']<=MAX_READBACK,'io_capture_readback_size_type')
-    need(value['capture_scope']=='fixed_actual_committed_store_reads_then_immutable_byte_readback','io_capture_scope_required')
+    need(value['capture_scope']=='fixed_actual_compact_store_read_then_immutable_recipe_readback'
+         and value['readback_digest_scope']=='compact_manifest_not_expanded_legacy_readback','io_capture_scope_required')
     begun,read,observed=(adapter.epoch(value[k]) for k in ('read_started_epoch','read_completed_epoch','first_observed_epoch'))
     need(begun<=read<=observed and observed-begun<=MAX_SECONDS,'io_capture_clock_binding')
     need(type(value['store_identities']) is dict and set(value['store_identities'])=={'publication_path','observation_path'} and
          all(type(v) is list and len(v)==2 and all(type(x) is int for x in v) for v in value['store_identities'].values()),'io_store_identity_type')
     for key in ('bundle_recipe_sha256','readback_sha256','health_before_sha256','health_after_sha256'):
         need(type(value[key]) is str and re.fullmatch('[0-9a-f]{64}',value[key]),'io_capture_hash_required')
-    before=archive.get(value['health_before_sha256']);after=archive.get(value['health_after_sha256'])
+    before=_load_health(archive,value['health_before_sha256']);after=_load_health(archive,value['health_after_sha256'])
     _validate_health_files(before,config,observed);_validate_health_files(after,config,observed)
     need(type(value['transport_failure_generation']) is int and value['transport_failure_generation']==before['transport']['failure_generation']==after['transport']['failure_generation'],'io_capture_transport_generation_binding')
     need(begun<=before['read_started_epoch']<=before['observed_epoch']<=read<=after['read_started_epoch']<=after['observed_epoch']<=observed,
@@ -426,7 +844,7 @@ def _validate_capture_value(value,config,archive):
 
 
 def _failure(state,config,operation,exc):
-    state['failure_serial']+=1;state['usable']=False
+    state['failure_serial']+=1;state['usable']=False;state['archive_layout']=()
     value={'schema_version':SCHEMA,'status':'failed','operation':operation,'failure_serial':state['failure_serial'],
         'error':type(exc).__name__+':'+str(exc)[:500],'health_evidence':getattr(exc,'evidence',None),**INERT}
     try:value['retained_failure_sha256']=Archive(config['archive_root']).put(value)
@@ -434,7 +852,7 @@ def _failure(state,config,operation,exc):
     state['last_failure']=own(value)
 
 
-def _original_receipts_by_read(bundle,read_completed_epoch):
+def _original_receipts_by_read(metadata,read_completed_epoch):
     """Original committed observation/ack clocks cannot follow our actual read.
 
     The fixed consumer has already validated these retained receipt fields.
@@ -442,10 +860,55 @@ def _original_receipts_by_read(bundle,read_completed_epoch):
     a restriction on an article's future release/embargo timestamps.
     """
     cutoff=adapter.epoch(read_completed_epoch)
-    for item in bundle['observations']:
-        observed=adapter.epoch(item['observation']['consumer_observed_epoch'])
-        acknowledged=adapter.epoch(item['acknowledgment']['receipt_observed_epoch'])
-        need(observed<=acknowledged<=cutoff,'io_original_consumer_receipt_after_actual_read')
+    acknowledged=metadata['consumer_receipt_max_epoch']
+    need((acknowledged is None and metadata['observation_count']==0) or
+         (type(acknowledged) in (int,float) and 0<acknowledged<=cutoff),
+         'io_original_consumer_receipt_after_actual_read')
+
+
+def bootstrap_inputs(session,*,clock=time.time):
+    """Separate bounded cold preparation; a subsequent fresh capture is required.
+
+    No Capture handle or prepared context escapes this function. Original
+    admissions and consumer receipts retain their times; warming a validated
+    immutable prefix is neither a new historical observation nor readiness.
+    """
+    state=_session(session);config=json.loads(state['config'])
+    with state['lock']:
+        state['usable']=False;state['failure_serial']+=1
+        try:
+            begun=_tick(clock);wall=time.monotonic();graph=source_graph()
+            need(graph==state['graph'],'io_bootstrap_source_graph_changed')
+            identities={key:identity(config[key]) for key in ('publication_path','observation_path')}
+            consumed=consumer.read_and_prepare(config['publication_path'],config['observation_path'],
+                cohort_id=config['cohort_id'],consumer_id=config['consumer_id'],
+                expected_policy=config['policy'],input_identity=config['input_identity'])
+            prepared=adapter.prepare_revision_context(consumed);metadata=adapter.revision_context_metadata(prepared)
+            # Initial durable archive materialization is startup work. It
+            # grants neither collector health nor a usable current handle.
+            bundle=consumer.export_manifest(consumed);archive=Archive(config['archive_root'])
+            recipe=_store_capture_archive(archive,bundle,consumer.iter_recipe_objects(consumed))
+            rebuilt,objects,layout=_load_capture_archive(archive,recipe,with_layout=True)
+            for _ in objects:pass
+            need(rebuilt==bundle,'io_bootstrap_archive_manifest_mismatch')
+            completed=_tick(clock,begun);_original_receipts_by_read(metadata,completed)
+            need(graph==source_graph() and identities=={key:identity(config[key]) for key in identities},
+                 'io_bootstrap_source_or_store_changed')
+            elapsed=time.monotonic()-wall
+            need(elapsed<=MAX_BOOTSTRAP_SECONDS and completed-begun<=MAX_BOOTSTRAP_SECONDS,
+                 'io_bootstrap_duration_bound')
+            state['archive_layout']=layout
+            return {'schema_version':'revision_news_compact_bootstrap_v1_20260914',
+                'status':'cache_prepared_fresh_capture_required','elapsed_sec':elapsed,
+                'read_started_epoch':begun,'read_completed_epoch':completed,
+                'manifest_sha256':metadata['manifest_sha256'],'manifest_bytes':metadata['manifest_bytes'],
+                'publication_count':metadata['publication_count'],'observation_count':metadata['observation_count'],
+                'archive_prepared_and_byte_verified':True,'archive_recipe_sha256':recipe,
+                'archive_bytes':archive.total,'archive_files':len(archive.files),
+                'fresh_health_proven':False,'capture_handle_returned':False,'original_availability_unchanged':True,
+                'scope':'actual_fixed_store_cache_preparation_not_current_capture_or_forecast_authority',**INERT}
+        except Exception as exc:
+            _failure(state,config,'bootstrap_inputs',exc);raise
 
 
 def capture_shared(session,*,clock=time.time):
@@ -457,21 +920,27 @@ def capture_shared(session,*,clock=time.time):
             before=_health(config,clock,state)
             identities={key:identity(config[key]) for key in ('publication_path','observation_path')}
             # Fixed actual I/O call. No external bundle or validator argument.
-            bundle=consumer.read_observations(config['publication_path'],config['observation_path'],
+            consumed=consumer.read_observations(config['publication_path'],config['observation_path'],
                 cohort_id=config['cohort_id'],consumer_id=config['consumer_id'],expected_policy=config['policy'],input_identity=config['input_identity'])
             read_completed=_tick(clock,before['observed_epoch'])
-            _original_receipts_by_read(bundle,read_completed)
-            prepared=adapter.prepare_revision_context(bundle);meta=adapter.revision_context_metadata(prepared)
-            need(meta['context_sha256']==digest(bundle,MAX_READBACK),'io_exact_readback_hash_required')
+            prepared=adapter.prepare_revision_context(consumed);meta=adapter.revision_context_metadata(prepared)
+            _original_receipts_by_read(meta,read_completed)
+            bundle=consumer.export_manifest(consumed)
+            original_raw=_canonical_under_authenticated_bound(bundle,meta['manifest_bytes'],MAX_READBACK)
+            need(len(original_raw)==meta['manifest_bytes'] and meta['context_sha256']==hashlib.sha256(original_raw).hexdigest(),
+                 'io_exact_readback_hash_required')
             after=_health(config,clock,state)
             need(after['read_started_epoch']>=read_completed,'io_post_health_clock_order')
             need(identities=={key:identity(config[key]) for key in identities},'io_store_replaced_during_capture')
             need(source_graph()==graph,'io_source_changed_during_capture')
-            archive=Archive(config['archive_root']);recipe=_store_bundle(archive,bundle)
-            # Durable reconstruction is a byte check, not a third semantic
-            # validation. Both semantic validations already occurred above.
-            rebuilt=_load_bundle(archive,recipe)
-            need(digest(rebuilt,MAX_READBACK)==meta['context_sha256'],'io_durable_bundle_readback_mismatch')
+            archive=Archive(config['archive_root']);recipe=_store_capture_archive(archive,bundle,consumer.iter_recipe_objects(consumed),prior_layout=state.get('archive_layout',()))
+            # Compact recipe reconstruction is a byte check. The one complete
+            # semantic validation happened at the fixed actual consumer read.
+            rebuilt,objects,layout=_load_capture_archive(archive,recipe,with_layout=True)
+            for _ in objects:pass  # Independent exact compressed-object readback, one object at a time.
+            rebuilt_raw=_canonical_under_authenticated_bound(rebuilt,meta['manifest_bytes'],MAX_READBACK)
+            need(len(rebuilt_raw)==meta['manifest_bytes'] and hashlib.sha256(rebuilt_raw).hexdigest()==meta['context_sha256'],
+                 'io_durable_bundle_readback_mismatch')
             completed=_tick(clock,after['observed_epoch'])
             repair.validate_clock_state(before['files']['clock']['value'],completed)
             repair.validate_clock_state(after['files']['clock']['value'],completed)
@@ -479,10 +948,11 @@ def capture_shared(session,*,clock=time.time):
             need(completed-begun<=MAX_SECONDS and time.monotonic()-wall<=MAX_SECONDS,'io_capture_duration_bound')
             value={'schema_version':SCHEMA,'config_sha256':digest(config),'source_graph':graph,'bundle_recipe_sha256':recipe,
                 'readback_sha256':meta['context_sha256'],'readback_bytes':meta['readback_bytes'],'context_metadata':meta,
-                'store_identities':identities,'health_before_sha256':archive.put(before),'health_after_sha256':archive.put(after),
+                'store_identities':identities,'health_before_sha256':_store_health(archive,before),'health_after_sha256':_store_health(archive,after),
                 'read_started_epoch':begun,'read_completed_epoch':read_completed,'first_observed_epoch':completed,
                 'actual_database_capture_performed':True,'historical_collector_health_proven':False,
-                'semantic_complete_validations':2,'capture_scope':'fixed_actual_committed_store_reads_then_immutable_byte_readback',
+                'semantic_complete_validations':1,'capture_scope':'fixed_actual_compact_store_read_then_immutable_recipe_readback',
+                'readback_digest_scope':'compact_manifest_not_expanded_legacy_readback',
                 'transport_failure_generation':state['transport_failure_generation'],**INERT}
             _validate_capture_value(value,config,archive)
             key=archive.put(value);need(archive.get(key)==value,'io_capture_descriptor_readback_failed')
@@ -491,7 +961,7 @@ def capture_shared(session,*,clock=time.time):
             _validate_health_files(before,config,returned);_validate_health_files(after,config,returned)
             need(returned-begun<=MAX_SECONDS and time.monotonic()-wall<=MAX_SECONDS,'io_capture_final_duration_bound')
             descriptor={'schema_version':DESCRIPTOR,'capture_sha256':key,'capture_path':str(archive.root/(key+'.json'))}
-            state['usable']=True
+            state['archive_layout']=layout;state['usable']=True
             return _make_capture((prepared,encode(value),encode(descriptor),session,state['failure_serial'],'actual_capture'))
         except Exception as exc:
             _failure(state,config,'capture_shared',exc);raise
@@ -511,10 +981,10 @@ def replay_capture(session,descriptor):
     value=archive.get(key)
     _validate_capture_value(value,config,archive)
     need(value['schema_version']==SCHEMA and value['config_sha256']==digest(config) and value['source_graph']==source_graph()==state['graph'],'io_replay_source_or_config_mismatch')
-    bundle=_load_bundle(archive,value['bundle_recipe_sha256'])
+    bundle,objects=_load_capture_archive(archive,value['bundle_recipe_sha256'])
     need(digest(bundle,MAX_READBACK)==value['readback_sha256'] and len(encode(bundle,MAX_READBACK))==value['readback_bytes'],'io_replay_readback_binding')
-    _original_receipts_by_read(bundle,value['read_completed_epoch'])
-    prepared=adapter.prepare_revision_context(bundle)
+    prepared=adapter.prepare_revision_context(consumer.restore_manifest(bundle,objects))
+    _original_receipts_by_read(adapter.revision_context_metadata(prepared),value['read_completed_epoch'])
     need(adapter.revision_context_metadata(prepared)==value['context_metadata'],'io_replay_context_binding')
     return _make_capture((prepared,encode(value),encode(descriptor),None,None,'immutable_replay'))
 
@@ -551,7 +1021,7 @@ def reobserve_before_issue(session,capture,*,clock=time.time):
             proof={'schema_version':SCHEMA,'operation':'current_health_before_issue','capture_sha256':json.loads(parts[2])['capture_sha256'],
                 'health':evidence,'source_graph':state['graph'],'news_features_replaced':False,'news_clock_refreshed':False,
                 'orders_or_forecast_issue_authorized':False,**INERT}
-            archive=Archive(config['archive_root']);key=archive.put(proof);need(archive.get(key)==proof,'io_issue_health_readback_failed')
+            archive=Archive(config['archive_root']);key=_store_issue_health(archive,proof);need(_load_issue_health(archive,key)==proof,'io_issue_health_readback_failed')
             readback_observed=_tick(clock,evidence['observed_epoch'])
             _validate_health_files(evidence,config,readback_observed)
             need(readback_observed-evidence['read_started_epoch']<=MAX_SECONDS and time.monotonic()-wall<=MAX_SECONDS,'io_issue_health_duration_bound')

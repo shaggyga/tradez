@@ -1,5 +1,7 @@
 # Forex operational repairs — September 13 evening / September 14 UTC
 
+**September 14, 04:10 UTC update:** [compact native V4/profile V8 has been installed](FOREX_NATIVE_NEWS_HANDOVER_20260914.md). Final 12,000-story ordinary captures pass within 30 seconds and original evidence recreates exactly. The actual archive bootstrap has succeeded; live transport is still processing its backlog, so this is not yet current native forecast acceptance. The separately bound practice successor is enabled and flat, with the old zero-intent trial completed and its original cutoff preserved. V7 feature/archive/forward continuity, M1 and retained-settlement repairs remain selected. The continuation and initial-integration sections below retain their original observation times.
+
 ## September 14 operational continuation
 
 **03:17 UTC:** research profile `config/operational_runtime_v7_20260914_features.json` is installed with SHA-256 `5b4c8047c089274f627da870ddc844b94673cb589004912addc67af6a4b76ff8`. It was launched explicitly through the strict operational launcher, then adopted by the existing recovery task. Restart circuits, eligibility tests and the practice deadline are unchanged. The initial checkpoint below remains dated history.

@@ -1,0 +1,48 @@
+import base64
+from copy import deepcopy
+import hashlib
+import json
+from pathlib import Path
+import sys
+
+import pytest
+# Runner places all exact registered source owners beside these fixtures.
+import revision_news_io_base_v1 as io
+
+
+def item(size):
+    body=base64.b64encode(bytes(range(256))*(size//256)+bytes(range(size%256))).decode()
+    return {'kind':'publication','object_sha':'a'*64,'expanded_bytes':size,'packed_sha':'b'*64,'zlib_base64':body}
+
+
+@pytest.mark.parametrize('length',[0,1,257,10000])
+def test_fixed_object_and_block_fast_encoding_is_exact_original_canonical_bytes(length):
+    value=item(length)
+    assert io._fast_canonical(value,io._compact_encoded_size(value))==io.encode(value)
+    block={'encoding':'exact_compressed_objects32_v2','objects':[value]*32}
+    assert io._archive_encode(block)==io.encode(block)
+
+
+def test_catalog_boundary_and_general_unicode_float_encoding_keep_exact_bytes():
+    value={'encoding':'compact_objects_leaf_v2','rows':[
+        ['publication',hashlib.sha256(str(i).encode()).hexdigest(),io.MAX_OBJECT,'b'*64,io.MAX_OBJECT,'c'*64,i%32]
+        for i in range(io.CATALOG_LEAF)]}
+    assert io._archive_encode(value)==io.encode(value)
+    for value in ({'untrusted':'日\\n','float':1e15},['arbitrary',True,None],{'encoding':'unknown','extra':'x'}):
+        assert io._archive_encode(value)==io.encode(value)
+
+
+def test_oversized_fixed_shape_rejected_before_c_encoder(monkeypatch):
+    value=item(10000);block={'encoding':'exact_compressed_objects32_v2','objects':[value]*32}
+    calls=[]
+    monkeypatch.setattr(io,'MAX_OBJECT',20000)
+    monkeypatch.setattr(io.json,'dumps',lambda *_a,**_k:calls.append(True))
+    with pytest.raises(ValueError,match='io_encoded_byte_bound'):io._archive_encode(block)
+    assert calls==[]
+
+
+@pytest.mark.parametrize('field,value',[('expanded_bytes',True),('kind','publication"'),
+    ('object_sha','A'*64),('zlib_base64','bad"\\string'),('zlib_base64','日')])
+def test_no_fast_path_for_ambiguous_or_escaped_compact_fields(field,value):
+    original=item(10);original[field]=value
+    with pytest.raises(ValueError,match='compact_fast_object_fields'):io._compact_encoded_size(original)

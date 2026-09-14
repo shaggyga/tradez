@@ -28,7 +28,7 @@ def canonical_price(value):
 
 FAMILIES = ('ridge_price_news_v1',)
 SCHEMA = 'causal_joint_price_news_ledger_v5_20260913_native_exact_m1'
-BOUND_INPUT_SOURCE_SHA256 = '6972c9760ce04c95106cc12d7ae2faab1d136a55e39deca2d4c516bc464bf5ed'
+BOUND_INPUT_SOURCE_SHA256 = '450a9b78ef4c6adfee4c6294426ee470886f355a75396a0c8497e4af3df2f235'
 NEWS_CLOCK_FIELDS = ('news_evidence_epoch','news_generated_epoch','news_first_observed_epoch',
                      'news_available_epoch','news_expires_epoch')
 TRAINING_CLOCK_FIELDS = ('training_news_available_max_epoch',

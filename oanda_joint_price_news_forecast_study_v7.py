@@ -32,7 +32,7 @@ from oanda_fixed_forecast_evaluation_joint_news_v3 import evaluate, forecast_err
 from oanda_fixed_forecast_evaluation_joint_news_v1 import jsonable, loads_exact_prices
 from oanda_exact_price_scoring import decimal_value, quote_midpoint
 
-SCHEDULING_VERSION='shared_revision_history_and_native_generation_retry_v2_20260913'
+SCHEDULING_VERSION='shared_revision_history_completion_cadence_and_fit_handoff_v4_20260914'
 
 ROOT=Path(__file__).resolve().parent
 DEFAULT_CONFIG=ROOT/'config/joint_price_news_study_v7_20260913_revision.json'
@@ -43,6 +43,7 @@ SUMMARY_SCHEMA='joint_price_news_forecast_summary_v7_20260913'
 HEARTBEAT_SCHEMA='joint_price_news_forecast_heartbeat_v7_20260913'
 COHORT_SCOPE='fixed_revision_news_publication_v7_20260913'
 REQUIRED_SOURCE_BINDINGS=frozenset({
+ 'compact_projection_store_v1.py',
  'joint_native_anchor_v1.py',
  'native_m1_ledger_v1.py',
  'native_m1_outcome_v1.py',
@@ -625,6 +626,9 @@ class PairRunner:
         self.native_clock_path=plain_c_path(json.loads(self.news_io._session(session)['config'])['clock_path']);self.native_cursor=0
         self.news_schedule=schedule.SharedNewsSchedule();self.news_capture=None;self.history_share=None;self.news_future=None
         self.news_pool=ThreadPoolExecutor(max_workers=1,thread_name_prefix='joint-revision-news-capture')
+        self.news_bootstrap_future=None;self.news_bootstrap_complete=False
+        self.news_bootstrap_next_monotonic=0.;self.news_bootstrap_report=None
+        self.news_refresh_next_monotonic=0.
         self.clock=clock;self.states={};self.current={};self.queue=sorted(registry['pairs'])
         self.future=None;self.active=None;self.score_future=None;self.score_key=None
         self.pool=ThreadPoolExecutor(max_workers=1,thread_name_prefix='joint-price-news-fit')
@@ -684,7 +688,32 @@ class PairRunner:
 
     def finish_news(self):
         self.observe_news_failure()
+        bootstrap=getattr(self,'news_bootstrap_future',None)
+        if bootstrap is not None:
+            if not bootstrap.done():return
+            try:
+                report=bootstrap.result()
+                if (type(report) is not dict or report.get('status')!='cache_prepared_fresh_capture_required'
+                    or report.get('fresh_health_proven') is not False
+                    or report.get('capture_handle_returned') is not False
+                    or report.get('original_availability_unchanged') is not True):
+                    raise ValueError('explicit_non_authorizing_bootstrap_required')
+                self.news_bootstrap_report=report;self.news_bootstrap_complete=True
+                self.record_scheduler_event('news_bootstrap_completed_fresh_capture_required',None,
+                    elapsed_sec=report.get('elapsed_sec'),manifest_sha256=report.get('manifest_sha256'))
+            except Exception as exc:
+                self.news_bootstrap_complete=False;self.news_bootstrap_report=None
+                self.news_bootstrap_next_monotonic=self.monotonic()+60
+                self.error('news_bootstrap',exc)
+            self.news_bootstrap_future=None
+            # Bootstrap invalidates old handles. A separate, ordinary
+            # capture will establish current health and issue authority.
+            self.news_capture=None;self.history_share=None
+            self.observe_news_failure()
         if self.news_future is None or not self.news_future.done():return
+        # A slow successful or failed read gets a complete quiet interval.
+        # This is scheduling only; retained clocks/authority never move.
+        self.news_refresh_next_monotonic=self.monotonic()+schedule.NEWS_CAPTURE_INTERVAL_SECONDS
         try:
             handle,shared,sha,serial=self.news_future.result()
             hint=self.news_hint(handle)
@@ -703,12 +732,26 @@ class PairRunner:
         self.news_future=None
 
     def schedule_news(self):
+        # A current pair capture/fit owns its useful-work window. Never
+        # queue a competing lock-holding news task behind that work.
+        if getattr(self,'future',None) is not None:return
+        if not getattr(self,'news_bootstrap_complete',False):
+            now=self.monotonic()
+            if getattr(self,'news_bootstrap_future',None) is not None or now<getattr(self,'news_bootstrap_next_monotonic',0.):return
+            self.news_bootstrap_next_monotonic=now+60
+            self.news_bootstrap_future=self.news_pool.submit(self.news_io.bootstrap_inputs,self.news_session,clock=self.clock)
+            self.record_scheduler_event('news_bootstrap_dispatched',None)
+            return
         if self.news_future is not None:return
-        state,dispatch=schedule.dispatch_shared_capture(self.news_schedule,self.monotonic())
+        now=self.monotonic()
+        if now<getattr(self,'news_refresh_next_monotonic',0.):return
+        state,dispatch=schedule.dispatch_shared_capture(self.news_schedule,now)
         if not dispatch:return
         self.news_schedule=state
+        self.news_refresh_next_monotonic=now+schedule.NEWS_CAPTURE_INTERVAL_SECONDS
         try:self.news_future=self.news_pool.submit(capture_shared_owned,self.news_session,tuple(self.queue),clock=self.clock)
         except Exception:
+            self.news_refresh_next_monotonic=self.monotonic()+schedule.NEWS_CAPTURE_INTERVAL_SECONDS
             self.news_schedule,_=schedule.failed_shared_capture(self.news_schedule,current_failure_serial=self.news_schedule.failure_serial)
             raise
         self.record_scheduler_event('shared_news_capture_dispatched',None)
@@ -809,6 +852,9 @@ class PairRunner:
 
     def schedule_work(self):
         if self.future is not None:return
+        # Avoid a dispatch race before the news executor acquires its
+        # session lock. Existing eligible handles are not renewed here.
+        if self.news_future is not None or getattr(self,'news_bootstrap_future',None) is not None:return
         now=number(self.clock());bucket=int(now//900)
         phases=(self.schedule_fit,self.schedule_capture) if getattr(self,'prefer_fit',True) else (self.schedule_capture,self.schedule_fit)
         for phase in phases:
@@ -967,6 +1013,12 @@ class PairRunner:
                 'active_pair':self.active[1] if self.active else None,
                 'scheduling_version':SCHEDULING_VERSION,
                 'news_capture_interval_seconds':60,'news_capture_in_flight':self.news_future is not None,
+                'news_refresh_cadence_basis':'completion_or_failure_plus_interval',
+                'news_refresh_wait_seconds':max(0.,getattr(self,'news_refresh_next_monotonic',0.)-self.monotonic()),
+                'news_refresh_waits_for_pair_work':self.future is not None,
+                'news_bootstrap_phase':('complete_fresh_capture_still_required' if getattr(self,'news_bootstrap_complete',False)
+                    else 'running' if getattr(self,'news_bootstrap_future',None) is not None else 'pending_or_retry'),
+                'news_bootstrap_report':getattr(self,'news_bootstrap_report',None),
                 'shared_history_prepared':self.history_share is not None,'shared_history_origin_limit':193,
                 'observed_news_failure_serial':self.news_schedule.failure_serial,
                 'retry_basis':'input_capture_sha256,cadence_bucket,news_failure_serial',
@@ -980,7 +1032,15 @@ class PairRunner:
 
     def tick(self):
         # Drain and hand off completed work before ancillary quote/settlement I/O.
-        self.finish_news();self.schedule_news();self.finish_work();self.schedule_work()
+        self.finish_news();self.finish_work()
+        # A completed pair capture gets the existing guarded fair-fit
+        # opportunity before an overdue refresh can monopolize the lock.
+        # If no fit qualifies, news is free to proceed; no forced signal.
+        if (getattr(self,'future',None) is None and self.news_future is None
+                and getattr(self,'news_bootstrap_future',None) is None
+                and getattr(self,'fresh_capture_pair',None) is not None):
+            handoff_now=number(self.clock());self.schedule_fit(handoff_now,int(handoff_now//900))
+        self.schedule_news();self.schedule_work()
         now=number(self.clock())
         if now-self.last_poll>=2:
             self.poll_quotes();self.last_poll=now

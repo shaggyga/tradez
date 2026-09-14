@@ -1,0 +1,497 @@
+"""Owned synthetic SQLite receipts, original semantic comparisons and corruption."""
+import copy
+import hashlib
+import json
+from pathlib import Path
+import sqlite3
+import shutil
+import sys
+import time
+import threading
+import zlib
+import pytest
+
+ROOT = Path(__file__).parent
+PROJECT = ROOT.parents[1] / 'trad'
+FIXTURES = ROOT.parents[1] / 'revamp_8h_20260912/runtime/news_revision_admission_001'
+sys.path[0:0] = [str(ROOT), str(PROJECT), str(FIXTURES)]
+sys.path.append(str(FIXTURES.parent/'news_revision_transport_component_001/candidate_004'))
+import projection_revision_admission_v1 as publisher
+import projection_revision_consumer_v1 as consumer
+import compact_projection_store_v1 as compact
+import test_projection_revision_reader_v1 as fixture
+
+
+def clocks(minute, steps=(0,1,2)):
+    times = iter(fixture.stamp(minute) + step for step in steps)
+    return lambda: (next(times), fixture.clock_state(minute))
+
+
+def publish(store, snapshot, minute=2, hook=None):
+    return publisher.publish_snapshot(store, snapshot, cohort_id='compact_new_only', clock_provider=clocks(minute), fault_hook=hook)
+
+
+def read(store, snapshot):
+    return publisher.read_published(store, cohort_id='compact_new_only', expected_policy=snapshot['policy'], input_identity=snapshot['input_identity'])
+
+
+def observe(source, store, path, snapshot, minute=3, scan=None, hook=None):
+    if scan is None: scan=fixture.read(source,minute-.1,read(store,snapshot)['head']['checkpoint'])
+    return consumer.observe_published(store,path,cohort_id='compact_new_only',consumer_id='compact_test',
+        expected_policy=snapshot['policy'],input_identity=snapshot['input_identity'],completed_scan=scan,
+        clock_provider=clocks(minute),fault_hook=hook)
+
+
+def context(store, path, snapshot):
+    return consumer.read_and_prepare(store,path,cohort_id='compact_new_only',consumer_id='compact_test',
+        expected_policy=snapshot['policy'],input_identity=snapshot['input_identity'])
+
+
+@pytest.fixture
+def case(tmp_path):
+    source=tmp_path/'source.sqlite'; store=tmp_path/'publisher.sqlite'; path=tmp_path/'consumer.sqlite'
+    con=fixture.fixture.news.open_database(source)
+    fixture.fixture.put(con,fixture.article(),0);con.commit()
+    yield source,store,path,con
+    con.close()
+
+
+def ready(case):
+    source,store,path,_=case; snapshot=fixture.read(source,1)
+    publish(store,snapshot);observe(source,store,path,snapshot)
+    return snapshot, context(store,path,snapshot)
+
+
+def test_owned_end_to_end_preserves_original_bytes_and_clocks(case):
+    snapshot,ctx=ready(case);source,store,path,con=case
+    restored=read(store,snapshot)['batches'][0]['snapshot']
+    assert publisher.raw(restored)==publisher.raw(snapshot)
+    selected=consumer.latest_consumed_from_context(ctx,fixture.stamp(3.1))
+    member=selected['members'][0]
+    assert member['consumer_observed_epoch']==fixture.stamp(3)+1
+    assert member['admitted_available_epoch']==fixture.stamp(2)+2
+    assert consumer.resolve_evidence(ctx,member['evidence_sha256'])==snapshot['entries'][0]
+    p=snapshot['entries'][0]['projection']
+    assert member['payload_original_json_sha256']==hashlib.sha256(p['payload_json'].encode()).hexdigest()
+    assert member['payload']==json.loads(p['payload_json'])
+    assert 'evidence' not in member
+    assert consumer.prepare_consumed_context(ctx) is ctx
+    timing=consumer.selected_timing(ctx,fixture.stamp(3.1))
+    assert timing['consumer_observed_epoch']==fixture.stamp(3)+1
+    assert timing['coverage_usable'] and timing['observed_publication_prefix']==1
+
+
+def test_exact_compact_recipe_replay_and_mutation_isolation(case):
+    snapshot,ctx=ready(case)
+    recipe=consumer.export_recipe(ctx)
+    rebuilt=consumer.prepare_consumed_context(recipe)
+    expected=consumer.latest_consumed_from_context(ctx,fixture.stamp(3.1))
+    assert consumer.latest_consumed_from_context(rebuilt,fixture.stamp(3.1))==expected
+    metadata=consumer.prepared_context_metadata(ctx)
+    manifest=consumer.export_manifest(ctx)
+    assert metadata['readback_sha256']==publisher.reader.sha(manifest)==metadata['manifest_sha256']
+    assert metadata['readback_bytes']==len(publisher.reader.encoded(manifest))
+    recipe['consumer']['observations'].clear()
+    expected['members'][0]['payload'].clear()
+    assert consumer.latest_consumed_from_context(ctx,fixture.stamp(3.1))==consumer.latest_consumed_from_context(rebuilt,fixture.stamp(3.1))
+    assert consumer.latest_consumed_from_context(ctx,fixture.stamp(2.9))['members'] is None
+
+
+@pytest.mark.parametrize('phase',['receipt_committed','receipt_read_back','ack_committed','ack_read_back','before_publication'])
+def test_publisher_crash_never_readmits_orphan(case,phase):
+    source,store,path,con=case;snapshot=fixture.read(source,1)
+    def fail(at):
+        if at==phase:raise RuntimeError('fault')
+    with pytest.raises(RuntimeError):publish(store,snapshot,hook=fail)
+    assert read(store,snapshot)['head']['sequence']==0
+    with pytest.raises(sqlite3.IntegrityError):publish(store,snapshot)
+    fresh=fixture.read(source,3);publish(store,fresh,4)
+    assert read(store,snapshot)['head']['sequence']==1
+    with sqlite3.connect(store) as db:
+        assert db.execute('SELECT COUNT(*) FROM evidence_objects').fetchone()[0]==1
+        assert db.execute('SELECT COUNT(*) FROM attempts').fetchone()[0]==2
+
+
+@pytest.mark.parametrize('phase',['consumer_receipt_committed','consumer_receipt_read_back'])
+def test_consumer_orphan_does_not_backfill(case,phase):
+    source,store,path,con=case;snapshot=fixture.read(source,1);publish(store,snapshot)
+    def fail(at):
+        if at==phase:raise RuntimeError('fault')
+    with pytest.raises(RuntimeError):observe(source,store,path,snapshot,3,hook=fail)
+    ctx=context(store,path,snapshot)
+    assert consumer.latest_consumed_from_context(ctx,fixture.stamp(3.1))['members'] is None
+    observe(source,store,path,snapshot,4)
+    ctx=context(store,path,snapshot)
+    assert consumer.latest_consumed_from_context(ctx,fixture.stamp(3.5))['members'] is None
+    assert consumer.latest_consumed_from_context(ctx,fixture.stamp(4.1))['members'][0]['consumer_observed_epoch']==fixture.stamp(4)+1
+
+
+def test_neutral_revision_selected_before_filters_and_old_clock_stays(case):
+    snapshot,ctx=ready(case);source,store,path,con=case
+    old=consumer.latest_consumed_from_context(ctx,fixture.stamp(3.1))['members'][0]
+    observe(source,store,path,snapshot,4)
+    assert consumer.latest_consumed_from_context(context(store,path,snapshot),fixture.stamp(4.1))['members'][0]['consumer_observed_epoch']==old['consumer_observed_epoch']
+    fixture.fixture.put(con,fixture.article(5,summary='Retracted',currency_scores={},directional_bias={},relevant=False),5);con.commit()
+    newer=fixture.read(source,5.1,snapshot['next_checkpoint']);publish(store,newer,5.2)
+    observe(source,store,path,snapshot,5.4)
+    ctx=context(store,path,snapshot)
+    current=consumer.latest_consumed_from_context(ctx,fixture.stamp(5.5))['members']
+    assert len(current)==1 and current[0]['payload']['currency_scores']=={}
+    assert current[0]['payload']['first_seen_utc']==old['payload']['first_seen_utc']
+    assert consumer.latest_consumed_from_context(ctx,fixture.stamp(4.1))['members'][0]==old
+    assert consumer.latest_consumed_from_context(ctx,fixture.stamp(11))['members'] is None
+
+
+@pytest.mark.parametrize('mutation',['trailing','concatenated','truncated','oversized','digest'])
+def test_frame_bombs_and_corruption_rejected(mutation):
+    original=b'{"payload_json":"{  \\"literal\\": 1 }"}'
+    size,key,packed=compact.frame(original)
+    if mutation=='trailing':packed+=b'x'
+    if mutation=='concatenated':packed+=zlib.compress(b'x')
+    if mutation=='truncated':packed=packed[:-1]
+    if mutation=='oversized':size-=1
+    if mutation=='digest':key='0'*64
+    with pytest.raises((ValueError,zlib.error)):compact.expand((size,key,packed))
+
+
+@pytest.mark.parametrize('mutation',['missing','wrong_ref','reordered','receipt','clock'])
+def test_recipe_original_bindings_fail_closed(case,mutation):
+    snapshot,ctx=ready(case);recipe=consumer.export_recipe(ctx)
+    if mutation=='missing':recipe['publication']['evidence_objects'].clear()
+    else:
+        record=recipe['publication']['record_proofs'][0]
+        if mutation in ('wrong_ref','reordered'):
+            body=json.loads(record['attempt']['body'])
+            body['snapshot_pack']['evidence_sha256']=['0'*64]
+            record['attempt']['body']=publisher.raw(body).decode()
+        elif mutation=='receipt':record['attempt']['receipt_sha']='0'*64
+        else:
+            body=json.loads(record['ack']['body']);body['receipt_observed_epoch']-=1000
+            record['ack']['body']=publisher.raw(body).decode()
+    with pytest.raises((ValueError,sqlite3.IntegrityError)):consumer.prepare_consumed_context(recipe)
+
+
+def test_stream_matches_pure_reader_and_rejects_bad_prefix(case):
+    snapshot,ctx=ready(case);source,store,path,con=case
+    batch=read(store,snapshot)['batches'][0]
+    records=compact.StreamValidator(time.monotonic()+30).add(batch)
+    expected=publisher.reader.latest_admitted_as_of([batch],fixture.stamp(3))['members'][0]
+    got=compact.value_expand(records[0][2])
+    assert got['member_sha256']==publisher.reader.sha({k:v for k,v in consumer.latest_consumed_from_context(ctx,fixture.stamp(3.1))['members'][0].items() if k not in ('consumer_observed_epoch','effective_transport_available_epoch')})
+    assert got['payload_canonical_sha256']==publisher.reader.sha(expected['payload'])
+    validator=compact.StreamValidator(time.monotonic()+30);validator.add(batch)
+    with pytest.raises(ValueError,match='complete_admission_prefix'):validator.add(batch)
+
+
+def test_context_factory_not_caller_forgeable(case):
+    snapshot,ctx=ready(case)
+    for cls in (compact.Published,compact.Batches,compact.EvidenceStore,consumer.PreparedConsumer):
+        with pytest.raises(ValueError):cls()
+    with pytest.raises(ValueError):consumer.latest_consumed_from_context(object.__new__(consumer.PreparedConsumer),fixture.stamp(4))
+
+
+def test_streamed_manifest_and_header_selection_matches_full(case):
+    snapshot,ctx=ready(case)
+    manifest=consumer.export_manifest(ctx)
+    restored=consumer.restore_manifest(manifest,consumer.iter_recipe_objects(ctx))
+    decision=fixture.stamp(3.1)
+    expected=consumer.latest_consumed_from_context(ctx,decision)
+    headers=list(consumer.iter_selected_headers(restored,decision))
+    assert len(headers)==1
+    assert consumer.resolve_selected_member(restored,headers[0],decision)==expected['members'][0]
+    assert consumer.latest_consumed_from_context(restored,decision)==expected
+    headers[0]['payload']['relevant']=False
+    with pytest.raises(ValueError,match='exact_latest_selected_header_required'):
+        consumer.resolve_selected_member(restored,headers[0],decision)
+
+
+def test_old_header_cannot_resurrect_retracted_version(case):
+    snapshot,ctx=ready(case);source,store,path,con=case
+    header=next(consumer.iter_selected_headers(ctx,fixture.stamp(3.1)))
+    fixture.fixture.put(con,fixture.article(4,summary='Retracted',currency_scores={},directional_bias={},relevant=False),4);con.commit()
+    newer=fixture.read(source,4.1,snapshot['next_checkpoint']);publish(store,newer,4.2)
+    observe(source,store,path,snapshot,4.4);latest=context(store,path,snapshot)
+    with pytest.raises(ValueError,match='exact_latest_selected_header_required'):
+        consumer.resolve_selected_member(latest,header,fixture.stamp(4.5))
+
+
+@pytest.mark.parametrize('mutation',['missing','extra','reorder','size','digest'])
+def test_manifest_stream_requires_exact_object_set(case,mutation):
+    snapshot,ctx=ready(case);manifest=consumer.export_manifest(ctx);objects=list(consumer.iter_recipe_objects(ctx))
+    if mutation=='missing':objects.clear()
+    elif mutation=='extra':objects+=copy.deepcopy(objects)
+    elif mutation=='reorder':objects[0]['kind']='scan'
+    elif mutation=='size':objects[0]['expanded_bytes']+=1
+    else:objects[0]['packed_sha']='0'*64
+    with pytest.raises(ValueError):consumer.restore_manifest(manifest,iter(objects))
+
+
+def test_cached_prefix_still_rereads_original_cas_bytes(case):
+    snapshot,ctx=ready(case);source,store,path,con=case
+    read(store,snapshot)
+    with sqlite3.connect(store) as db:
+        db.execute('DROP TRIGGER evidence_objects_no_update')
+        row=db.execute('SELECT object_sha,payload FROM evidence_objects').fetchone()
+        db.execute('UPDATE evidence_objects SET payload=? WHERE object_sha=?',(row[1]+b'bad',row[0]))
+        db.execute("CREATE TRIGGER evidence_objects_no_update BEFORE UPDATE ON evidence_objects BEGIN SELECT RAISE(ABORT,'immutable_projection_admission'); END")
+    with pytest.raises(ValueError,match='verified_prefix_cas_changed'):read(store,snapshot)
+
+
+def test_warm_consumer_read_does_not_reexpand_the_old_prefix(case,monkeypatch):
+    snapshot,ctx=ready(case);source,store,path,con=case
+    def refuse(*args,**kwargs):raise AssertionError('old_prefix_expanded')
+    monkeypatch.setattr(compact.Batches,'__getitem__',refuse)
+    monkeypatch.setattr(publisher.reader,'validate_projection',refuse)
+    new=context(store,path,snapshot)
+    header=next(consumer.iter_selected_headers(new,fixture.stamp(3.1)))
+    assert consumer.resolve_selected_member(new,header,fixture.stamp(3.1))['projection_seq']==1
+
+
+def test_warm_append_semantically_validates_only_new_projections(case,monkeypatch):
+    snapshot,ctx=ready(case);source,store,path,con=case
+    fixture.fixture.put(con,fixture.article(4,summary='revision'),4);con.commit()
+    newer=fixture.read(source,4.1,snapshot['next_checkpoint'])
+    expected={item['projection']['projection_seq'] for item in newer['entries']}
+    seen=[];original=publisher.reader.validate_projection
+    def counted(evidence,*args,**kwargs):
+        seen.append(evidence['projection']['projection_seq']);return original(evidence,*args,**kwargs)
+    monkeypatch.setattr(publisher.reader,'validate_projection',counted)
+    publish(store,newer,4.2)
+    assert seen and set(seen)==expected
+
+
+def test_compressed_capacity_exhaustion_rolls_back_before_attempt(case,monkeypatch):
+    source,store,path,con=case;snapshot=fixture.read(source,1)
+    monkeypatch.setattr(compact,'MAX_COMPRESSED',1)
+    with pytest.raises(ValueError,match='cas_store_work_bound'):publish(store,snapshot)
+    with sqlite3.connect(store) as db:
+        for table in ('evidence_objects','attempts','acknowledgments','published'):
+            assert db.execute('SELECT COUNT(*) FROM '+table).fetchone()[0]==0
+
+
+def test_slow_cold_validation_releases_actual_reader_lock_before_writer(case,monkeypatch):
+    """A writer can commit while a cold reader validates its older owned view."""
+    snapshot,ctx=ready(case);source,store,path,con=case
+    fixture.fixture.put(con,fixture.article(4,summary='next'),4);con.commit()
+    newer=fixture.read(source,4.1,snapshot['next_checkpoint'])
+    entered=threading.Event();release=threading.Event();failures=[]
+    original=compact.StreamValidator.add
+    def paused(self,envelope):
+        if threading.current_thread().name=='owned_slow_reader':
+            entered.set();assert release.wait(10)
+        return original(self,envelope)
+    monkeypatch.setattr(compact.StreamValidator,'add',paused)
+    pub=publisher;pub._CAPTURE_CACHE.clear()
+    def cold():
+        try:read(store,snapshot)
+        except BaseException as error:failures.append(error)
+    thread=threading.Thread(target=cold,name='owned_slow_reader');thread.start()
+    try:
+        assert entered.wait(5)
+        result=publish(store,newer,4.2)
+        assert result['batch_sequence']==2
+    finally:release.set();thread.join(10)
+    assert not thread.is_alive() and not failures
+    with sqlite3.connect(store) as db:
+        assert db.execute('SELECT COUNT(*) FROM attempts').fetchone()[0]==2
+        assert db.execute('SELECT COUNT(*) FROM published').fetchone()[0]==2
+    # The slow earlier snapshot may replace an in-process cache entry, but the
+    # next actual capture must validate and expose the current complete head.
+    assert read(store,snapshot)['head']['sequence']==2
+    metrics=publisher.capture_metrics(store)
+    assert metrics['real_transaction_closed_before_semantic_validation'] is True
+    assert metrics['transaction_seconds']<=publisher.MAX_CAPTURE_SECONDS
+
+
+def test_packed_capture_deadline_refuses_without_advancing_writer(case,monkeypatch):
+    snapshot,ctx=ready(case);source,store,path,con=case
+    monkeypatch.setattr(publisher,'MAX_CAPTURE_SECONDS',-1)
+    with pytest.raises((ValueError,sqlite3.OperationalError)):read(store,snapshot)
+    with sqlite3.connect(store) as db:
+        assert db.execute('SELECT COUNT(*) FROM published').fetchone()[0]==1
+
+
+def test_real_store_replacement_during_unlocked_validation_is_refused(case,monkeypatch):
+    snapshot,ctx=ready(case);source,store,path,con=case
+    original=publisher._read_owned_capture
+    def replace_after_read(*args,**kwargs):
+        value=original(*args,**kwargs)
+        saved=store.with_name('replaced_old.sqlite');store.replace(saved);shutil.copyfile(saved,store)
+        return value
+    monkeypatch.setattr(publisher,'_read_owned_capture',replace_after_read)
+    with pytest.raises(ValueError,match='store_identity_changed'):read(store,snapshot)
+
+
+def test_complete_head_index_is_decoded_once_per_phase_not_per_receipt(case,monkeypatch):
+    snapshot,ctx=ready(case);source,store,path,con=case;checkpoint=snapshot['next_checkpoint']
+    for minute in (4,6,8,10,12):
+        fixture.fixture.put(con,fixture.article(minute,summary=f'revision {minute}'),minute);con.commit()
+        newer=fixture.read(source,minute+.1,checkpoint);publish(store,newer,minute+.2)
+        checkpoint=newer['next_checkpoint'];observe(source,store,path,snapshot,minute+.4)
+    calls=[];original=compact.Published.__getitem__
+    def counted(self,key):
+        if key=='publication_heads':calls.append(key)
+        return original(self,key)
+    monkeypatch.setattr(compact.Published,'__getitem__',counted)
+    latest=context(store,path,snapshot)
+    assert len(calls)==2  # Once at actual prefix validation, once at consumer index.
+    assert next(consumer.iter_selected_headers(latest,fixture.stamp(12.5)))['projection_seq']==6
+
+
+def test_slow_consumer_preparation_does_not_block_new_acknowledgment(case,monkeypatch):
+    snapshot,ctx=ready(case);source,store,path,con=case
+    entered=threading.Event();release=threading.Event();failures=[]
+    original=consumer._prepare_owned
+    def paused(value):
+        if threading.current_thread().name=='owned_slow_consumer':
+            entered.set();assert release.wait(10)
+        return original(value)
+    monkeypatch.setattr(consumer,'_prepare_owned',paused)
+    def slow():
+        try:context(store,path,snapshot)
+        except BaseException as error:failures.append(error)
+    thread=threading.Thread(target=slow,name='owned_slow_consumer');thread.start()
+    try:
+        assert entered.wait(5)
+        result=observe(source,store,path,snapshot,4)
+        assert result['observation']['observation_sequence']==2
+    finally:release.set();thread.join(10)
+    assert not thread.is_alive() and not failures
+    current=context(store,path,snapshot)
+    assert consumer.prepared_context_metadata(current)['observation_count']==2
+    assert next(consumer.iter_selected_headers(current,fixture.stamp(4.1)))['consumer_observed_epoch']==fixture.stamp(3)+1
+    assert consumer.capture_metrics(path)['transaction_seconds']<=publisher.MAX_CAPTURE_SECONDS
+
+
+def test_expired_first_capture_closes_before_fresh_retry(case,monkeypatch):
+    snapshot,ctx=ready(case);source,store,path,con=case
+    original=publisher._capture_packed;connections=[];validated=[]
+    original_validate=publisher._read_owned_capture
+    monkeypatch.setattr(publisher,'MAX_CAPTURE_SECONDS',.05)
+    def slow_first(connection,profile,deadline):
+        connections.append(connection)
+        if len(connections)==1:
+            original(connection,profile,deadline)
+            time.sleep(.06)
+            raise ValueError('packed_capture_time_bound')
+        with pytest.raises(sqlite3.ProgrammingError,match='closed'):
+            connections[0].execute('SELECT 1')
+        return original(connection,profile,deadline)
+    def validate(*args):validated.append(1);return original_validate(*args)
+    monkeypatch.setattr(publisher,'_capture_packed',slow_first)
+    monkeypatch.setattr(publisher,'_read_owned_capture',validate)
+    result=read(store,snapshot)
+    assert result['head']['sequence']==1 and len(connections)==2 and len(validated)==1
+    assert publisher.capture_metrics(store)['capture_attempts']['attempt_count']==2
+
+
+def test_exhausted_short_capture_returns_no_handle_but_retains_inert_cache(case,monkeypatch):
+    snapshot,ctx=ready(case);source,store,path,con=case
+    before=dict(publisher._CAPTURE_CACHE);original=publisher._capture_packed;calls=[]
+    monkeypatch.setattr(publisher,'MAX_CAPTURE_SECONDS',.02)
+    def timeout(*args):
+        calls.append(1);time.sleep(max(0,args[-1]-time.monotonic())+.03)
+        raise sqlite3.OperationalError('interrupted')
+    monkeypatch.setattr(publisher,'_capture_packed',timeout)
+    with pytest.raises(publisher.CaptureReadTimeout,match='retries_exhausted'):read(store,snapshot)
+    assert len(calls)==3
+    assert dict(publisher._CAPTURE_CACHE)==before
+    assert all(publisher._CAPTURE_CACHE[key] is value for key,value in before.items())
+    monkeypatch.setattr(publisher,'_capture_packed',original)
+    monkeypatch.setattr(publisher,'MAX_CAPTURE_SECONDS',1)
+    assert read(store,snapshot)['head']['sequence']==1
+    assert publisher.capture_metrics(store)['cold'] is False
+
+
+def test_integrity_failure_is_never_retried_or_kept_as_current(case,monkeypatch):
+    snapshot,ctx=ready(case);source,store,path,con=case;calls=[]
+    def invalid(*args):calls.append(1);raise ValueError('exact_profile_required')
+    monkeypatch.setattr(publisher,'_capture_packed',invalid)
+    with pytest.raises(ValueError,match='exact_profile_required'):read(store,snapshot)
+    assert len(calls)==1
+    assert not any(key[0]==str(store).casefold() for key in publisher._CAPTURE_CACHE)
+
+
+def test_retry_never_extends_original_outer_deadline(monkeypatch):
+    calls=[];monkeypatch.setattr(publisher,'MAX_CAPTURE_SECONDS',.01)
+    def timeout(deadline):
+        calls.append(deadline);time.sleep(.02)
+        raise ValueError('packed_capture_time_bound')
+    with pytest.raises(publisher.CaptureReadTimeout):
+        publisher._capture_with_retry(timeout,time.monotonic()+.005)
+    assert len(calls)==1
+
+
+def test_consumer_fresh_retry_preserves_original_first_observation(case,monkeypatch):
+    snapshot,old=ready(case);source,store,path,con=case
+    original=consumer._capture_observation_rows;calls=[]
+    monkeypatch.setattr(publisher,'MAX_CAPTURE_SECONDS',.05)
+    def slow_first(*args):
+        calls.append(1)
+        captured=original(*args)
+        if len(calls)==1:
+            time.sleep(.06);raise ValueError('consumer_packed_capture_time_bound')
+        return captured
+    monkeypatch.setattr(consumer,'_capture_observation_rows',slow_first)
+    newer=context(store,path,snapshot)
+    assert len(calls)==2
+    assert consumer.capture_metrics(path)['capture_attempts']['attempt_count']==2
+    assert consumer.prepared_context_metadata(newer)['observation_count']==1
+    assert next(consumer.iter_selected_headers(newer,fixture.stamp(3.1)))['consumer_observed_epoch']==fixture.stamp(3)+1
+
+
+def test_committed_publication_readback_timeout_recovers_without_readmission(case,monkeypatch):
+    snapshot,old=ready(case);source,store,path,con=case
+    fixture.fixture.put(con,fixture.article(4,summary='a second original revision'),4);con.commit()
+    newer=fixture.read(source,4.1,snapshot['next_checkpoint'])
+    original=publisher._capture_packed
+    def timeout(*args):
+        time.sleep(max(0,args[-1]-time.monotonic())+.03)
+        raise ValueError('packed_capture_time_bound')
+    def hook(point):
+        if point=='publication_committed':
+            monkeypatch.setattr(publisher,'MAX_CAPTURE_SECONDS',.02)
+            monkeypatch.setattr(publisher,'_capture_packed',timeout)
+    with pytest.raises(publisher.CaptureReadTimeout):publish(store,newer,4.2,hook)
+    with sqlite3.connect(store) as db:
+        assert db.execute('SELECT COUNT(*) FROM published').fetchone()[0]==2
+        assert db.execute('SELECT COUNT(*) FROM attempts').fetchone()[0]==2
+    monkeypatch.setattr(publisher,'_capture_packed',original)
+    monkeypatch.setattr(publisher,'MAX_CAPTURE_SECONDS',1)
+    assert read(store,snapshot)['head']['sequence']==2
+    # Recovery reads the durable head, then records a new actual fixture-clock
+    # observation. It does not replay the previous append or backdate visibility.
+    observe(source,store,path,snapshot,5)
+    recovered=context(store,path,snapshot)
+    assert next(consumer.iter_selected_headers(recovered,fixture.stamp(4.5)))['projection_seq']==1
+    latest=next(consumer.iter_selected_headers(recovered,fixture.stamp(5.1)))
+    assert latest['projection_seq']==2 and latest['consumer_observed_epoch']==fixture.stamp(5)+1
+    with sqlite3.connect(store) as db:assert db.execute('SELECT COUNT(*) FROM attempts').fetchone()[0]==2
+
+
+def test_cold_validation_allowance_does_not_expand_fresh_read_budget(case,monkeypatch):
+    snapshot,ctx=ready(case);source,store,path,con=case
+    original=publisher._read_owned_capture;allowances=[]
+    def measured(tables,profile,deadline,base):
+        allowances.append((base is None,deadline-time.monotonic()))
+        return original(tables,profile,deadline,base)
+    monkeypatch.setattr(publisher,'_read_owned_capture',measured)
+    publisher._CAPTURE_CACHE.clear()
+    cold=read(store,snapshot);warm=read(store,snapshot)
+    assert cold['head']==warm['head']
+    assert allowances[0][0] and 290<allowances[0][1]<=300
+    assert not allowances[1][0] and 20<allowances[1][1]<=30
+    assert publisher.capture_metrics(store)['transaction_seconds']<=publisher.MAX_CAPTURE_SECONDS
+
+
+def test_initialized_empty_observation_store_has_no_clock_or_coverage(case):
+    source,store,path,con=case;snapshot=fixture.read(source,1)
+    publish(store,snapshot)
+    publication=read(store,snapshot)
+    profile=consumer.profile_for(path,'compact_test',publication)
+    consumer.initialize(path,profile,time.monotonic()+publisher.MAX_SECONDS)
+    empty=context(store,path,snapshot)
+    metadata=consumer.prepared_context_metadata(empty)
+    assert metadata['observation_count']==0 and metadata['consumer_receipt_max_epoch'] is None
+    assert consumer.selected_timing(empty,fixture.stamp(3))['coverage_usable'] is False
+    assert list(consumer.iter_selected_headers(empty,fixture.stamp(3)))==[]

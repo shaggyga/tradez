@@ -1,0 +1,225 @@
+"""Independent candidate-only counterexamples; synthetic original clocks are explicit.
+
+No live source/store modifications. Canonical candidate modules load first; the
+old reader and collector fixture are reused only as the independent contract.
+"""
+import base64
+import copy
+import hashlib
+import json
+from pathlib import Path
+import sqlite3
+import sys
+import time
+import zlib
+
+HERE = Path(__file__).resolve().parent
+FOREX = HERE.parents[1]
+sys.path.insert(0, str(HERE))
+sys.path.append(str(FOREX / 'trad'))
+sys.path.append(str(FOREX / 'revamp_8h_20260912/runtime/news_revision_transport_component_001'))
+import pytest
+import compact_projection_store_v1 as compact
+import projection_revision_admission_v1 as pub
+import projection_revision_consumer_v1 as consumer
+import test_projection_revision_reader_v1 as fixture
+
+COHORT = 'independent_candidate_synthetic_only'
+
+
+def clock(minute):
+    steps = iter((0, 1, 2))
+    return lambda: (fixture.stamp(minute) + next(steps), fixture.clock_state(minute))
+
+
+def publish(store, snapshot, minute):
+    return pub.publish_snapshot(store, snapshot, cohort_id=COHORT, clock_provider=clock(minute))
+
+
+def read(store, snapshot):
+    return pub.read_published(store, cohort_id=COHORT, expected_policy=snapshot['policy'],
+                              input_identity=snapshot['input_identity'])
+
+
+def observe(source, store, observations, snapshot, minute, scan=None, hook=None):
+    if scan is None:
+        scan = fixture.read(source, minute-.1, read(store, snapshot)['head']['checkpoint'])
+    return consumer.observe_published(store, observations, cohort_id=COHORT, consumer_id='independent_test',
+        expected_policy=snapshot['policy'], input_identity=snapshot['input_identity'],
+        completed_scan=scan, clock_provider=clock(minute), fault_hook=hook)
+
+
+def context(store, observations, snapshot):
+    return consumer.read_observations(store, observations, cohort_id=COHORT, consumer_id='independent_test',
+        expected_policy=snapshot['policy'], input_identity=snapshot['input_identity'])
+
+
+@pytest.fixture
+def case(tmp_path):
+    source = tmp_path/'collector.sqlite'
+    db = fixture.fixture.news.open_database(source)
+    for n in range(3):
+        fixture.fixture.put(db, fixture.article(event_id=f'event_{n}', headline=f'Distinct official release {n}',
+            source_url=f'https://fixture.invalid/release/{n}'), 0)
+    db.commit()
+    yield source, tmp_path/'publisher.sqlite', tmp_path/'consumer.sqlite', db
+    db.close()
+
+
+def test_owned_mapping_factory_and_exact_lexical_json_strings():
+    original = {'payload_json':'{"z": "\\u00e9", "a": 0.0}', 'clock':1789344000.125}
+    f = compact.value_frame(original)
+    evidence = compact.owned_evidence({f[1]:f})
+    assert evidence[f[1]] == original
+    assert compact.expand(f) == pub.reader.encoded(original)
+    fresh = evidence[f[1]]; fresh['payload_json'] = 'tampered'
+    assert evidence[f[1]] == original
+
+
+@pytest.mark.parametrize('mutation', ['trailing', 'truncated', 'wrong_size', 'wrong_hash', 'over_expanded'])
+def test_exact_compressed_frame_rejects_ambiguous_or_corrupt_bytes(mutation):
+    size, key, packed = compact.frame(b'original causal evidence')
+    if mutation == 'trailing': packed += b'junk'
+    elif mutation == 'truncated': packed = packed[:-1]
+    elif mutation == 'wrong_size': size -= 1
+    elif mutation == 'wrong_hash': key = '0'*64
+    else: size = compact.MAX_OBJECT+1
+    with pytest.raises(ValueError): compact.expand((size,key,packed))
+
+
+def test_real_collector_evidence_bytes_and_all_original_clocks_roundtrip(case):
+    source, store, observations, _ = case
+    snapshot = fixture.read(source, 1)
+    publish(store, snapshot, 2)
+    capture = read(store, snapshot)
+    restored = pub.restore_publication(pub.export_publication(capture))
+    assert restored['batches'][0]['snapshot'] == snapshot
+    for a,b in zip(snapshot['entries'], restored['batches'][0]['snapshot']['entries']):
+        assert pub.reader.encoded(a) == pub.reader.encoded(b)
+        assert pub.reader.validate_projection(b,snapshot['policy'],snapshot['read_started_epoch'])
+    observe(source,store,observations,snapshot,2.2)
+    live = context(store,observations,snapshot)
+    replay = consumer.prepare_consumed_context(consumer.export_recipe(live))
+    early = consumer.latest_consumed_from_context(replay,fixture.stamp(2)+5)
+    assert early['coverage_usable'] is False and early['members'] is None
+    expected = consumer.latest_consumed_from_context(live,fixture.stamp(2.3))
+    assert consumer.latest_consumed_from_context(replay,fixture.stamp(2.3)) == expected
+    assert len(expected['members']) == 3
+    for member in expected['members']:
+        evidence = consumer.resolve_evidence(replay,member['evidence_sha256'])
+        assert hashlib.sha256(evidence['projection']['payload_json'].encode()).hexdigest() == member['payload_original_json_sha256']
+        assert member['payload'] == json.loads(evidence['projection']['payload_json'])
+        assert member['consumer_observed_epoch'] == fixture.stamp(2.2)+1
+
+
+def test_public_frame_export_cannot_mutate_owned_validated_capture(case):
+    source,store,_,_=case
+    snapshot=fixture.read(source,1);publish(store,snapshot,2)
+    captured=read(store,snapshot)
+    frames=compact.evidence_frames(captured)
+    # Public diagnostics/export access must return a copy or immutable view.
+    # Mutating a returned collection cannot change an already validated handle.
+    try:frames.clear()
+    except (AttributeError,TypeError):pass
+    assert captured['batches'][0]['snapshot']==snapshot
+
+
+@pytest.mark.parametrize('table', ['evidence_objects','acknowledgments'])
+def test_verified_prefix_cache_rereads_original_bytes_even_with_schema_restored(case,table):
+    source,store,_,_=case
+    snapshot=fixture.read(source,1);publish(store,snapshot,2)
+    read(store,snapshot)  # Warm the exact-hash cache in the candidate successor.
+    # Deliberate corruption is confined to this disposable test database.
+    with sqlite3.connect(store) as db:
+        name,sql=db.execute("SELECT name,sql FROM sqlite_master WHERE type='trigger' AND tbl_name=? AND name LIKE '%_no_update'",(table,)).fetchone()
+        db.execute('DROP TRIGGER '+name)
+        if table=='evidence_objects':
+            rowid,payload=db.execute('SELECT rowid,payload FROM evidence_objects LIMIT 1').fetchone()
+            damaged=bytearray(payload);damaged[len(damaged)//2]^=1
+            db.execute('UPDATE evidence_objects SET payload=? WHERE rowid=?',(bytes(damaged),rowid))
+        else:
+            rowid,body=db.execute('SELECT rowid,body FROM acknowledgments LIMIT 1').fetchone()
+            value=json.loads(body);value['receipt_observed_epoch']+=.25
+            db.execute('UPDATE acknowledgments SET body=? WHERE rowid=?',(pub.raw(value).decode(),rowid))
+        db.execute(sql)
+    with pytest.raises(ValueError):read(store,snapshot)
+
+
+@pytest.mark.parametrize('kind',['missing_object','corrupt_object','reordered_refs','missing_ref'])
+def test_exported_publisher_rejects_missing_tampered_or_reordered_evidence(case,kind):
+    source,store,_,_ = case
+    snapshot=fixture.read(source,1);publish(store,snapshot,2)
+    recipe=pub.export_publication(read(store,snapshot))
+    if kind=='missing_object': recipe['evidence_objects'].pop()
+    elif kind=='corrupt_object':
+        blob=recipe['evidence_objects'][0]
+        raw=bytearray(base64.b64decode(blob[3]));raw[len(raw)//2]^=1
+        blob[3]=base64.b64encode(raw).decode()
+    else:
+        proof=recipe['record_proofs'][0]['attempt'];body=json.loads(proof['body'])
+        refs=body['snapshot_pack']['evidence_sha256']
+        if kind=='reordered_refs': refs.reverse()
+        else: refs.pop()
+        proof['body']=pub.raw(body).decode()
+    with pytest.raises((ValueError,KeyError,zlib.error)):
+        pub.restore_publication(recipe)
+
+
+def test_missing_interior_publication_is_not_a_complete_prefix(case):
+    source,store,_,db=case
+    first=fixture.read(source,1,max_rows=1);r=publish(store,first,2)
+    second=fixture.read(source,3,r['checkpoint'],max_rows=1);r=publish(store,second,4)
+    third=fixture.read(source,5,r['checkpoint'],max_rows=1);publish(store,third,6)
+    recipe=pub.export_publication(read(store,first));recipe['record_proofs'].pop(1)
+    with pytest.raises(ValueError):pub.restore_publication(recipe)
+
+
+def test_retraction_replaces_latest_without_changing_prior_selection(case):
+    source,store,observations,db=case
+    first=fixture.read(source,1);r=publish(store,first,2)
+    observe(source,store,observations,first,2.2)
+    before=consumer.latest_consumed_from_context(context(store,observations,first),fixture.stamp(2.3))
+    fixture.fixture.put(db,fixture.article(3,event_id='event_0',headline='Distinct official release 0',
+        source_url='https://fixture.invalid/release/0',summary='Corrected official release',relevant=False,
+        currency_scores={},directional_bias={}),3);db.commit()
+    second=fixture.read(source,3.1,r['checkpoint']);publish(store,second,3.2)
+    observe(source,store,observations,first,3.4)
+    ctx=context(store,observations,first)
+    assert consumer.latest_consumed_from_context(ctx,fixture.stamp(2.3)) == before
+    latest=consumer.latest_consumed_from_context(ctx,fixture.stamp(3.5))
+    original=pub.reader.latest_admitted_as_of(list(read(store,first)['batches']),fixture.stamp(3.5))
+    actual={m['canonical_event_id']:m['payload'] for m in latest['members']}
+    assert actual=={m['canonical_event_id']:m['payload'] for m in original['members']}
+    assert len(actual)==3
+    assert sum(p['relevant'] is False and p['currency_scores']=={} for p in actual.values())==1
+
+
+def test_distinct_story_backlog_invalidates_previously_complete_scan(case):
+    source,store,observations,db=case
+    first=fixture.read(source,1);publish(store,first,2);observe(source,store,observations,first,2.2)
+    for n in range(3,8):
+        fixture.fixture.put(db,fixture.article(3,event_id=f'event_{n}',headline=f'Distinct official release {n}',
+            source_url=f'https://fixture.invalid/release/{n}'),3)
+    db.commit()
+    scan=fixture.read(source,3.5,first['next_checkpoint'],max_rows=2)
+    assert scan['more_pending'] is True
+    observe(source,store,observations,first,3.7,scan=scan)
+    latest=consumer.latest_consumed_from_context(context(store,observations,first),fixture.stamp(3.8))
+    assert latest['members'] is None and latest['coverage_usable'] is False
+    assert latest['coverage']['source_high_watermark']==8
+
+
+def test_failed_consumer_receipt_cannot_backfill_and_empty_scans_do_not_refresh_story(case):
+    source,store,observations,_=case
+    snapshot=fixture.read(source,1);publish(store,snapshot,2)
+    def fault(phase):
+        if phase=='consumer_receipt_read_back':raise RuntimeError('injected crash before acknowledgment')
+    with pytest.raises(RuntimeError):observe(source,store,observations,snapshot,2.2,hook=fault)
+    observe(source,store,observations,snapshot,2.5)
+    ctx=context(store,observations,snapshot)
+    assert consumer.latest_consumed_from_context(ctx,fixture.stamp(2.3))['members'] is None
+    initial=consumer.latest_consumed_from_context(ctx,fixture.stamp(2.6))['members']
+    assert consumer.latest_consumed_from_context(ctx,fixture.stamp(8))['members'] is None
+    observe(source,store,observations,snapshot,8)
+    final=consumer.latest_consumed_from_context(context(store,observations,snapshot),fixture.stamp(8.1))['members']
+    assert final==initial

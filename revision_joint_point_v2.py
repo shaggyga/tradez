@@ -9,7 +9,7 @@ import revision_news_io_v10 as news_io
 need=news_io.need
 MAX_NEWS_AGE_SEC=300
 MAX_POINT_BYTES=8192
-BOUND_IO_SHA='b904e0b9a62d09942e98eb92b9e784413849e60bbd5d5ad301d6fdbb8554f314'
+BOUND_IO_SHA='1d0bd16da3f4a9d2b77b0f6a630e8709dc10f1eb1157412d90b2f08eb09bf09b'
 ORIGINAL_INPUT_SOURCE_SHA256='9af95dea1b1a313ebe446f9e4bf73a210cbb10a2660fd5e09831605b0fe5cb5a'
 
 def source_bindings():
