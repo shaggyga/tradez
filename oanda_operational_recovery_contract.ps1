@@ -46,6 +46,53 @@ function Resolve-OperationalRecoveryPath([string]$LiteralPath) {
     return $absolute
 }
 
+function Get-OperationalForwardNeedle {
+    param([object]$Arguments,[string]$DataRoot)
+    if ($Arguments -isnot [System.Array] -or $Arguments.Count -gt 40) {
+        throw 'Bounded forward argument array required.'
+    }
+    $indexes = @()
+    for ($index=0; $index -lt $Arguments.Count; $index++) {
+        if ($Arguments[$index] -isnot [string]) { throw 'String forward arguments required.' }
+        if ($Arguments[$index] -imatch '^--directory(?:=|$)') {
+            if ($Arguments[$index] -cne '--directory') { throw 'Exact forward directory option required.' }
+            $indexes += $index
+        }
+    }
+    if ($indexes.Count -ne 1 -or $indexes[0] -ge $Arguments.Count-1) {
+        throw 'Exactly one forward directory argument required.'
+    }
+    $directory = [string]$Arguments[$indexes[0]+1]
+    if ([string]::IsNullOrWhiteSpace($directory) -or $directory -notmatch '^[a-zA-Z]:\\' -or
+        $directory -match '[\x00-\x1F"*?\[\]]' -or $directory.Contains("'") -or $directory.Contains('`') -or
+        $directory.Substring(2).Contains(':')) {
+        throw 'Literal absolute forward directory required.'
+    }
+    $absolute = [IO.Path]::GetFullPath($directory)
+    $data = [IO.Path]::GetFullPath($DataRoot).TrimEnd('\')
+    if ($directory -cne $absolute -or
+        -not $absolute.StartsWith(($data+'\'),[StringComparison]::OrdinalIgnoreCase)) {
+        throw 'Normalized forward directory must remain within canonical project data.'
+    }
+    $current = $absolute
+    while ($current) {
+        if (Test-Path -LiteralPath $current) {
+            $item = Get-Item -LiteralPath $current -Force
+            if (($item.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0) {
+                throw 'Forward directory contains a reparse point.'
+            }
+            if ($current -ceq $absolute -and -not $item.PSIsContainer) {
+                throw 'Forward directory must be a directory.'
+            }
+        }
+        $parent = [IO.Path]::GetDirectoryName($current)
+        if ($parent -eq $current) { break }
+        $current = $parent
+    }
+    return 'oanda_feature_forward_worker_v1.py*'+$absolute
+}
+
+
 function Read-OperationalRecoveryProfile {
     param([string]$Trad,[string]$ProfilePath,[string]$RecoveryUntilUtc,[DateTimeOffset]$Now = [DateTimeOffset]::UtcNow)
     $project = Resolve-OperationalRecoveryPath $Trad
@@ -86,7 +133,7 @@ function Read-OperationalRecoveryProfile {
         $expectedNeedle = if ($service.name -eq 'revision_news_collector_v2') {
             'oanda_local_news_sentiment.py*' + (Join-Path $data 'market_open_20260913_v1\local_news_sentiment')
         } elseif ($service.name -eq 'research_feature_forward_v2') {
-            'oanda_feature_forward_worker_v1.py*' + (Join-Path $data 'operational_repair_20260913_v1\feature_forward_v3')
+            Get-OperationalForwardNeedle -Arguments $service.arguments -DataRoot $data
         } else { [string]$service.script }
         if ($service.needle -cne $expectedNeedle) { throw 'Operational worker identity is not exact.' }
         if (($service.max_age_sec -isnot [int] -and $service.max_age_sec -isnot [long]) -or

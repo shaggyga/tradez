@@ -26,3 +26,14 @@ def test_all_registered_ledgers_are_required(tmp_path):
         tmp_path / "pairs/EUR_USD/ridge/study.sqlite", tmp_path / "pairs/EUR_USD/state/study.sqlite"]
     with pytest.raises(ValueError):
         drain.settlement_class(SimpleNamespace(), 3)
+
+
+def test_completed_cohort_stops_quote_ingestion_while_other_original_targets_settle():
+    calls = []
+    first = SimpleNamespace(tick=lambda: calls.append("v1"))
+    second = SimpleNamespace(tick=lambda: calls.append("v2"))
+    owners = [(1, first, 10), (2, second, 20)]
+    drain.tick_unresolved(owners, {2})
+    assert calls == ["v1"]
+    drain.tick_unresolved(owners, {1, 2})
+    assert calls == ["v1"]

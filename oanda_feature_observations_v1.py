@@ -185,7 +185,9 @@ def _separate_model_outputs(groups: dict[str, Any]) -> None:
 def _deduplicate_feature_ids(groups: dict[str, Any]) -> None:
     seen = {}
     for group_id, group in sorted(groups.items()):
-        for name, identity in group["feature_ids"].items():
+        # Canonical archive JSON sorts keys. Resolve aliases in that same order
+        # so the original in-memory snapshot and its replay build exact frames.
+        for name, identity in sorted(group["feature_ids"].items()):
             clock = group["feature_clocks"].get(name, group)
             value = group["values"][name]
             evidence = (type(value).__name__, value, group["value_states"].get(name), clock.get("bar_complete_utc"))

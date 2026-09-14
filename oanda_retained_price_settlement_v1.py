@@ -54,6 +54,13 @@ def counts(runner, version):
     return result
 
 
+def tick_unresolved(owners, settled_versions):
+    """Settled cohorts need no new quote rows; retained counts still get checked."""
+    for version, runner, baseline in owners:
+        if version not in settled_versions:
+            runner.tick()
+
+
 def run(*, duration_sec=604800, heartbeat=None, versions=(1, 2), once=False):
     import msvcrt
     heartbeat = Path(heartbeat or DATA / "state/retained_price_settlement_v1.json")
@@ -62,6 +69,7 @@ def run(*, duration_sec=604800, heartbeat=None, versions=(1, 2), once=False):
     import oanda_pair_local_forecast_study_v2 as writer
     start = time.monotonic()
     owners = []
+    settled_versions = set()
     with ExitStack() as stack:
         for version in versions:
             owner = importlib.import_module(f"oanda_pair_local_forecast_study_v{version}")
@@ -79,18 +87,23 @@ def run(*, duration_sec=604800, heartbeat=None, versions=(1, 2), once=False):
             stack.callback(runner.close)
             original = counts(runner, version)
             owners.append((version, runner, original["forecasts"]))
+            if original["unresolved"] == 0:
+                settled_versions.add(version)
         last_counts = 0
         records = []
         while True:
             began = time.monotonic()
-            for version, runner, baseline in owners:
-                runner.tick()
+            tick_unresolved(owners, settled_versions)
             if began - last_counts >= 15 or not records:
                 records = []
                 for version, runner, baseline in owners:
                     current = counts(runner, version)
                     if current["forecasts"] != baseline:
                         raise RuntimeError("retained_forecast_count_changed_during_settlement_only_run")
+                    if current["unresolved"] == 0:
+                        settled_versions.add(version)
+                    elif version in settled_versions:
+                        raise RuntimeError("settled_retained_cohort_became_unresolved")
                     records.append({"version": version, **current, "errors": runner.errors,
                                     "last_error": runner.last_error})
                 last_counts = began
@@ -98,7 +111,8 @@ def run(*, duration_sec=604800, heartbeat=None, versions=(1, 2), once=False):
             writer.atomic_json(heartbeat, {"schema_version": SCHEMA, "generated_epoch": now,
                 "generated_utc": writer.utc(now), "status": "settling" if any(r["unresolved"] for r in records) else "settled",
                 "pid": os.getpid(), "research_only": True, "can_place_orders": False,
-                "new_forecasts_enabled": False, "studies": records})
+                "new_forecasts_enabled": False, "quote_capture_retired_for_settled_versions": sorted(settled_versions),
+                "studies": records})
             if once or began - start >= duration_sec:
                 return records
             time.sleep(max(.05, 2 - (time.monotonic() - began)))

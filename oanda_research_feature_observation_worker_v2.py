@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import json
 import math
 from pathlib import Path
 import time
@@ -21,9 +22,11 @@ from oanda_feature_research_clock_v1 import validate_clock_state
 
 ROOT = Path(__file__).resolve().parent
 WORKER = "oanda_research_feature_observation_worker_v2"
-SCHEMA = "research_existing_feature_observations_v2_20260913_native_calendar_events"
+SCHEMA = "research_existing_feature_observations_v2_20260914_publication_headroom"
 MAX_SOURCE_BYTES = 128*1024*1024
 MAX_ENVELOPE_BYTES = 64*1024*1024
+PUBLICATION_RESERVE_SECONDS = 15.0
+SCHEDULING_CONTRACT = "minute_rotated_exact_universe_v1"
 SOURCE_FILES = (Path(__file__).name, Path(base.__file__).name, Path(candles.__file__).name, Path(events.__file__).name)
 
 
@@ -94,8 +97,24 @@ def build_research_observation(quotes, candle_sets, *, news_groups=None, model_g
     return result
 
 
-def run_cycle(args, *, clock=base.utc_now):
-    started = time.monotonic()
+def publication_reserve(max_cycle_sec):
+    # Real68-pair25MiB probe:8.3s after build, plus post-loop frame work.
+    # Keep the original total45s guard; never extend it to hide slow work.
+    return min(PUBLICATION_RESERVE_SECONDS, float(max_cycle_sec)*.4)
+
+
+def rotated_pairs(pairs, observed_utc):
+    ordered = sorted(pairs)
+    if not ordered:
+        return []
+    start = int(base.parse_utc(observed_utc).timestamp())//60 % len(ordered)
+    return ordered[start:] + ordered[:start]
+
+
+def run_cycle(args, *, clock=base.utc_now, monotonic=time.monotonic):
+    started = monotonic()
+    reserved = publication_reserve(args.max_cycle_sec)
+    work_deadline = started + args.max_cycle_sec - reserved
     initial_clock = base.require_verified_clock(args.clock_state, clock=clock)
     budget = base.check_storage(args.archive_root, now=base.parse_utc(clock()),
                                 max_daily_bytes=args.max_daily_archive_mib*1024*1024,
@@ -104,11 +123,12 @@ def run_cycle(args, *, clock=base.utc_now):
     pairs = sorted(quotes.get("quotes") or {})
     if not 1 <= len(pairs) <= base.MAX_PAIRS or any(not base.PAIR.fullmatch(pair) for pair in pairs):
         raise ValueError("bounded_quote_universe_required")
+    order = rotated_pairs(pairs, quote_receipt["source_read_completed_utc"])
     receipts, candle_sets, source_bytes = {"quotes":quote_receipt,"candles":{}}, {}, quote_receipt["source_bytes"]
-    for pair in pairs:
+    for pair in order:
         candle_sets[pair], receipts["candles"][pair] = {}, {}
         for timeframe in candles.SECONDS:
-            if time.monotonic()-started > args.max_cycle_sec or source_bytes+candles.MAX_BYTES+4096 > MAX_SOURCE_BYTES:
+            if monotonic() >= work_deadline or source_bytes+candles.MAX_BYTES+4096 > MAX_SOURCE_BYTES:
                 receipts["candles"][pair][timeframe] = {"status":"unavailable","reason":"cycle_input_bound"}
                 continue
             try:
@@ -120,14 +140,16 @@ def run_cycle(args, *, clock=base.utc_now):
             except (OSError, ValueError, KeyError, UnicodeError) as exc:
                 receipts["candles"][pair][timeframe] = {"status":"unavailable","reason":type(exc).__name__+":"+str(exc)[:160]}
     books, news_groups, model_groups, event_evidence = None, {}, {}, {}
-    if args.book_snapshot:
+    if args.book_snapshot and monotonic() < work_deadline:
         try:
             books, receipt = base.read_json_source(args.book_snapshot, clock=clock)
             receipts["books"] = receipt
             source_bytes += receipt["source_bytes"]
         except (OSError, ValueError) as exc:
             receipts["books"] = {"status":"unavailable","reason":type(exc).__name__}
-    if args.news_snapshot:
+    elif args.book_snapshot:
+        receipts["books"] = {"status":"unavailable","reason":"cycle_input_bound"}
+    if args.news_snapshot and monotonic() < work_deadline:
         try:
             news, receipt = base.read_json_source(args.news_snapshot, max_bytes=16*1024*1024, clock=clock)
             news_groups, status = events.news_observations(news, pairs, read_completed_utc=receipt["source_read_completed_utc"], clock=clock)
@@ -136,30 +158,50 @@ def run_cycle(args, *, clock=base.utc_now):
             source_bytes += receipt["source_bytes"]
         except (OSError, ValueError, TypeError, KeyError) as exc:
             receipts["news"] = {"status":"unavailable","reason":type(exc).__name__+":"+str(exc)[:220]}
-    if args.model_study:
-        remaining = max(0., min(5., args.max_cycle_sec-(time.monotonic()-started)-5.))
+    elif args.news_snapshot:
+        receipts["news"] = {"status":"unavailable","reason":"cycle_input_bound"}
+    if args.model_study and monotonic() < work_deadline:
+        remaining = max(0., min(5., work_deadline-monotonic()))
         model_groups, receipts["models"], event_evidence["model_publications"] = events.model_observations(args.model_study, pairs, clock=clock, max_seconds=remaining)
+    elif args.model_study:
+        receipts["models"] = [{"status":"unavailable","reason":"cycle_input_bound","study_root":str(path)} for path in args.model_study]
     read_complete = clock()
+    read_finished = monotonic()
+    calculator_budget = max(0., work_deadline-read_finished)
     result = build_research_observation(quotes, candle_sets, source_read_completed_utc=read_complete,
-        source_receipts=receipts, book_payload=books, clock=clock, max_cycle_seconds=max(0.,args.max_cycle_sec-(time.monotonic()-started)),
+        source_receipts=receipts, book_payload=books, clock=clock,
+        max_cycle_seconds=calculator_budget, monotonic=monotonic, calculation_order=order,
         news_groups=news_groups, model_groups=model_groups, event_evidence=event_evidence,
         input_configuration={"native_candle_root":str(Path(args.native_candle_root).absolute()),
             "M1_candle_root":str(Path(args.candle_root).absolute()),
             "news_snapshot":str(Path(args.news_snapshot).absolute()) if args.news_snapshot else None,
             "model_study_roots":[str(Path(p).absolute()) for p in args.model_study]})
+    built = monotonic()
+    result["observation_source"]["scheduling_contract"] = SCHEDULING_CONTRACT
+    deferred = [pair for pair,row in result["observation_inputs"]["instruments"].items()
+                if row["coverage"].get("rich_ma_reason") == "invalid_pip_or_cycle_time_bound"]
+    result["coverage"]["cycle_budget"] = {
+        "total_limit_seconds":args.max_cycle_sec,
+        "publication_reserve_seconds":reserved,
+        "calculator_allowance_seconds":calculator_budget,
+        "calculation_order":order,
+        "unavailable_invalid_pip_or_budget_pairs":deferred,
+        "all_pairs_retained":len(result["observation_inputs"]["instruments"]) == len(pairs),
+        "scheduling_contract":SCHEDULING_CONTRACT}
     frame = build_observation_frame(result)
     if source_bytes > MAX_SOURCE_BYTES or len(canonical_bytes({"original_snapshot":result,"frame":frame})) > MAX_ENVELOPE_BYTES:
         raise ValueError("research_v2_source_or_envelope_byte_bound")
     clock_verdict = None
     def before_publish():
         nonlocal clock_verdict
-        if time.monotonic()-started > args.max_cycle_sec:
+        if monotonic()-started > args.max_cycle_sec:
             raise ValueError("cycle_time_bound_before_publication")
         proof = validate_clock_state(initial_clock["evidence"]["clock_state"], now_epoch=base.parse_utc(clock()).timestamp())
         if not proof["valid"]:
             raise ValueError("initial_research_clock_expired_before_publication:"+proof["reason"])
         clock_verdict = base.require_verified_clock(args.clock_state, clock=clock)
     path = archive_observation_snapshot(result, args.archive_root, before_publish=before_publish)
+    archive_finished = monotonic()
     published = clock()
     receipt = {"schema_version":"feature_observation_publication_receipt_v1","snapshot_id":frame["snapshot_id"],
         "source_schema_id":frame["source_schema_id"],"payload_sha256":frame["source_payload_sha256"],"frame_sha256":payload_sha256(frame),
@@ -170,7 +212,10 @@ def run_cycle(args, *, clock=base.utc_now):
     base.immutable_json(receipt_path, receipt)
     return {"status":"published","archive":str(path),"publication_receipt":str(receipt_path),
             "last_publication_completed_utc":published,"coverage":result["coverage"],"event_status":{k:receipts[k] for k in ("news","models") if k in receipts},
-            "source_bytes":source_bytes,"clock_verification":clock_verdict,"elapsed_sec":round(time.monotonic()-started,3),**budget}
+            "source_bytes":source_bytes,"clock_verification":clock_verdict,
+            "stage_elapsed_sec":{"sources":round(read_finished-started,3),"build":round(built-read_finished,3),
+                "frame_and_archive":round(archive_finished-built,3),"publication_receipt":round(monotonic()-archive_finished,3)},
+            "elapsed_sec":round(monotonic()-started,3),**budget}
 
 
 def parse_args(argv=None):
@@ -194,19 +239,47 @@ def parse_args(argv=None):
     return args
 
 
+def retained_failure(path):
+    """A restart must not erase the last failed cycle's original timestamp."""
+    try:
+        with base.checked_path(path).open("rb") as handle:
+            raw = handle.read(1024*1024+1)
+        if len(raw)>1024*1024:
+            return None
+        value = json.loads(raw)
+        failure = value.get("last_failure")
+        if value.get("schema_version")!=SCHEMA or value.get("worker")!=WORKER or not isinstance(failure,dict):
+            return None
+        begun,ended = base.parse_utc(failure.get("cycle_started_utc")),base.parse_utc(failure.get("failed_utc"))
+        if begun is None or ended is None or begun>ended or not isinstance(failure.get("reason"),str):
+            return None
+        return {"cycle_started_utc":failure["cycle_started_utc"],"failed_utc":failure["failed_utc"],
+                "error_type":str(failure.get("error_type") or "")[:80],"reason":failure["reason"][:240]}
+    except (OSError,ValueError,TypeError,KeyError,AttributeError):
+        return None
+
+
 def main(argv=None):
     args = parse_args(argv)
     deadline, last_success = time.monotonic()+args.duration_sec, None
+    last_failure = retained_failure(args.heartbeat)
     while time.monotonic() < deadline:
         begun = time.monotonic()
-        heartbeat = {"schema_version":SCHEMA,"worker":WORKER,"updated_at":base.utc_now(),"phase":"reading_sources","last_success":last_success,**base.FLAGS}
+        cycle_started = base.utc_now()
+        heartbeat = {"schema_version":SCHEMA,"worker":WORKER,"updated_at":cycle_started,
+            "phase":"reading_sources","cycle_started_utc":cycle_started,
+            "last_success":last_success,"last_failure":last_failure,**base.FLAGS}
         base.atomic_json(args.heartbeat, heartbeat)
         try:
             result = run_cycle(args)
             last_success = result
-            heartbeat.update(phase="cycle_complete",result=result,last_success=last_success)
+            last_failure = None
+            heartbeat.update(phase="cycle_complete",result=result,last_success=last_success,last_failure=None)
         except (OSError,ValueError,TypeError,KeyError) as exc:
+            last_failure = {"cycle_started_utc":cycle_started,"failed_utc":base.utc_now(),
+                "error_type":type(exc).__name__,"reason":str(exc)[:240]}
             heartbeat.update(phase="cycle_failed",result={"status":"unavailable","error_type":type(exc).__name__,"reason":str(exc)[:240]})
+            heartbeat["last_failure"] = last_failure
         heartbeat["updated_at"] = base.utc_now()
         base.atomic_json(args.heartbeat,heartbeat)
         if args.once:

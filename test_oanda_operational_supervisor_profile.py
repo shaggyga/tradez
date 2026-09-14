@@ -33,11 +33,14 @@ def check(tmp_path, change=None):
             needle=(script+'*'+str(data/'market_open_20260913_v1/local_news_sentiment'))
                 if name=='revision_news_collector_v2' else (script+'*'+str(data/'operational_repair_20260913_v1/feature_forward_v3'))
                 if name=='research_feature_forward_v2' else script))
+        if name == 'research_feature_forward_v2':
+            services[-1]['arguments'] += ['--directory', str(data/'operational_repair_20260913_v1/feature_forward_v3')]
     profile=dict(schema_version='forex_operational_runtime_v1_20260913',research_only=True,can_place_orders=False,services=services)
+    (tmp_path/'oanda_all68_m1_cadence_v2.py').write_bytes((ROOT/'oanda_all68_m1_cadence_v2.py').read_bytes())
     if change:change(profile)
     path=tmp_path/'profile.json';path.write_text(json.dumps(profile))
     source=(ROOT/'oanda_always_on_supervisor.ps1').read_text(encoding='utf-8-sig')
-    block=source[source.index('$OperationalProfile = $null'):source.index('$SupervisorStartedUtc =')]
+    block=source[source.index('function Get-OperationalForwardNeedle'):source.index('$SupervisorStartedUtc =')]
     assert 'Start-Process' not in block and 'Stop-Process' not in block
     harness=tmp_path/'gate.ps1'
     harness.write_text('param([string]$Trad,[string]$OperationalProfilePath)\n$ErrorActionPreference="Stop"\n'

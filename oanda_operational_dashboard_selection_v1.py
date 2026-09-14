@@ -15,7 +15,7 @@ SCHEMA = 'operational_dashboard_selection_v1_20260913'
 POINTER = 'config/operational_dashboard_current.json'
 SOURCE_FILES = frozenset({'oanda_operational_dashboard_selection_v1.py',
     'oanda_practice_live_dashboard.py','oanda_main_signal_dashboard.html',
-    'oanda_feature_move_mapping_v1.py'})
+    'oanda_feature_move_mapping_v1.py','oanda_feature_observations_v1.py'})
 FLAGS = ('can_place_orders','can_promote','can_authorize','account_eligible','proof_eligible')
 KINDS = {
     'price':('pair_local_forecast_registry_v3_20260913','pair_local_forecast_summary_v3_20260913',

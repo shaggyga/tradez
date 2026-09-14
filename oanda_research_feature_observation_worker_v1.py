@@ -188,7 +188,7 @@ def read_candle_tail(path, pair, timeframe, *, clock=utc_now):
     return retained, receipt
 
 
-def build_research_observation(quote_payload, candles_by_pair, *, source_read_completed_utc, generated_utc=None, source_receipts=None, book_payload=None, clock=utc_now, max_cycle_seconds=20.0, monotonic=time.monotonic):
+def build_research_observation(quote_payload, candles_by_pair, *, source_read_completed_utc, generated_utc=None, source_receipts=None, book_payload=None, clock=utc_now, max_cycle_seconds=20.0, monotonic=time.monotonic, calculation_order=None):
     started = monotonic()
     read_at = parse_utc(source_read_completed_utc)
     source_at = parse_utc(quote_payload.get("generated_utc"))
@@ -211,7 +211,11 @@ def build_research_observation(quote_payload, candles_by_pair, *, source_read_co
     primary, views, coverage, observed, accepted, exclusions = {}, {}, {}, {}, {}, []
     book_rows = (book_payload or {}).get("instruments") or {}
     metadata = {pair: dict(book_rows.get(pair) or {}) for pair in quotes}
-    for pair, quote in sorted(quotes.items()):
+    ordered = sorted(quotes) if calculation_order is None else list(calculation_order)
+    if len(ordered) != len(quotes) or any(not isinstance(pair, str) for pair in ordered) or set(ordered) != set(quotes):
+        raise ValueError("calculation_order_exact_quote_universe_required")
+    for pair in ordered:
+        quote = quotes[pair]
         reason = None
         stamp = parse_utc(quote.get("time")) if isinstance(quote, dict) else None
         try:
@@ -232,13 +236,19 @@ def build_research_observation(quote_payload, candles_by_pair, *, source_read_co
             exclusions.append({"instrument": pair, "reason": reason, "quote_time": str((quote or {}).get("time") or "")})
         else:
             accepted[pair] = dict(quote)
-        if pip is None or monotonic() - started > max_cycle_seconds:
+        if pip is None or monotonic() - started >= max_cycle_seconds:
             primary[pair] = {name: None for name in calculator.ma_names()}
             views[pair] = {}
             coverage[pair] = {"structural_status": "unavailable", "rich_ma_status": "unavailable", "rich_ma_reason": "invalid_pip_or_cycle_time_bound"}
         else:
             primary[pair], views[pair], coverage[pair] = calculator.calculate_pair(pair, candles_by_pair.get(pair) or {}, pip)
         observed[pair] = clock()
+    # Scheduling may rotate work, but cross-sectional floating-point reductions
+    # and the serialized universe retain their original alphabetical order.
+    primary = {pair: primary[pair] for pair in sorted(primary)}
+    views = {pair: views[pair] for pair in sorted(views)}
+    accepted = {pair: accepted[pair] for pair in sorted(accepted)}
+    exclusions.sort(key=lambda row: row["instrument"])
     # Existing microstructure formulas see only admissible original quotes.
     # Missing/unknown metadata remains None/default with captured state labels.
     eligible_cross = {}

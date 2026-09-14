@@ -639,8 +639,25 @@ function Test-FreshOutput {
                 if (-not $result.reported_error -and $heartbeat.last_failure) {
                     $result.reported_error = [string]$heartbeat.last_failure.reason
                 }
+                # Starting a retry does not clear the last failed completion.
+                # Only a later successful completion retires that failure.
+                $unrecoveredFailure = $false
+                if ($null -ne $heartbeat.last_failure.observed_epoch) {
+                    $failureEpoch = [double]$heartbeat.last_failure.observed_epoch
+                    $successEpoch = if ($null -ne $heartbeat.last_success_epoch) {
+                        [double]$heartbeat.last_success_epoch
+                    } else { 0.0 }
+                    if ([double]::IsNaN($failureEpoch) -or [double]::IsInfinity($failureEpoch) -or
+                        [double]::IsNaN($successEpoch) -or [double]::IsInfinity($successEpoch) -or
+                        $failureEpoch -le 0 -or $successEpoch -lt 0) {
+                        throw "invalid_operational_completion_clock"
+                    }
+                    $unrecoveredFailure = ($failureEpoch -ge $successEpoch)
+                }
+                $result.unrecovered_cycle_failure = $unrecoveredFailure
                 $result.reported_failure = ($heartbeat.status -in @("failed", "error", "unavailable", "stopped", "partial_unavailable") -or
                     $phase -in @("failed", "cycle_failed", "stopped") -or
+                    $unrecoveredFailure -or
                     ($heartbeat.errors -is [System.Array] -and $heartbeat.errors.Count -gt 0) -or
                     ($heartbeat.shared_history_prepared -ceq $false -and -not [string]::IsNullOrWhiteSpace($result.reported_error)))
             }
@@ -683,7 +700,7 @@ function Test-FreshOutput {
                 }
             }
         } catch {
-            if ($ExpectedJsonField -and $ExpectedJsonValue) {
+            if (($ExpectedJsonField -and $ExpectedJsonValue) -or $InspectOperationalStatus) {
                 # A version-gated worker must fail closed when its heartbeat
                 # cannot prove the code contract loaded by the live process.
                 $result.fresh = $false
@@ -883,6 +900,53 @@ function Start-ManagedProcess {
     return @{ name = $Name; running = $true; started = $true; pids = @($proc.Id); freshness = $fresh }
 }
 
+function Get-OperationalForwardNeedle {
+    param([object]$Arguments,[string]$DataRoot)
+    if ($Arguments -isnot [System.Array] -or $Arguments.Count -gt 40) {
+        throw 'Bounded forward argument array required.'
+    }
+    $indexes = @()
+    for ($index=0; $index -lt $Arguments.Count; $index++) {
+        if ($Arguments[$index] -isnot [string]) { throw 'String forward arguments required.' }
+        if ($Arguments[$index] -imatch '^--directory(?:=|$)') {
+            if ($Arguments[$index] -cne '--directory') { throw 'Exact forward directory option required.' }
+            $indexes += $index
+        }
+    }
+    if ($indexes.Count -ne 1 -or $indexes[0] -ge $Arguments.Count-1) {
+        throw 'Exactly one forward directory argument required.'
+    }
+    $directory = [string]$Arguments[$indexes[0]+1]
+    if ([string]::IsNullOrWhiteSpace($directory) -or $directory -notmatch '^[a-zA-Z]:\\' -or
+        $directory -match '[\x00-\x1F"*?\[\]]' -or $directory.Contains("'") -or $directory.Contains('`') -or
+        $directory.Substring(2).Contains(':')) {
+        throw 'Literal absolute forward directory required.'
+    }
+    $absolute = [IO.Path]::GetFullPath($directory)
+    $data = [IO.Path]::GetFullPath($DataRoot).TrimEnd('\')
+    if ($directory -cne $absolute -or
+        -not $absolute.StartsWith(($data+'\'),[StringComparison]::OrdinalIgnoreCase)) {
+        throw 'Normalized forward directory must remain within canonical project data.'
+    }
+    $current = $absolute
+    while ($current) {
+        if (Test-Path -LiteralPath $current) {
+            $item = Get-Item -LiteralPath $current -Force
+            if (($item.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0) {
+                throw 'Forward directory contains a reparse point.'
+            }
+            if ($current -ceq $absolute -and -not $item.PSIsContainer) {
+                throw 'Forward directory must be a directory.'
+            }
+        }
+        $parent = [IO.Path]::GetDirectoryName($current)
+        if ($parent -eq $current) { break }
+        $current = $parent
+    }
+    return 'oanda_feature_forward_worker_v1.py*'+$absolute
+}
+
+
 $OperationalProfile = $null
 $OperationalProfileSha256 = $null
 function Get-OperationalSourceHash {
@@ -931,7 +995,7 @@ if ($OperationalProfilePath) {
         $expectedNeedle = if ($service.name -eq "revision_news_collector_v2") {
             "oanda_local_news_sentiment.py*" + (Join-Path $DataRoot "market_open_20260913_v1\local_news_sentiment")
         } elseif ($service.name -eq "research_feature_forward_v2") {
-            "oanda_feature_forward_worker_v1.py*" + (Join-Path $DataRoot "operational_repair_20260913_v1\feature_forward_v3")
+            Get-OperationalForwardNeedle -Arguments $service.arguments -DataRoot $DataRoot
         } else { [string]$service.script }
         if ($service.needle -cne $expectedNeedle -or
             [string]::IsNullOrWhiteSpace([string]$service.heartbeat_schema)) {
@@ -950,6 +1014,10 @@ if ($OperationalProfilePath) {
         if (-not $opHeartbeat.StartsWith(([IO.Path]::GetFullPath($DataRoot) + '\'), [StringComparison]::OrdinalIgnoreCase)) {
             throw "Operational heartbeat must remain in project data."
         }
+    }
+    # The additional core cadence owner has an exact reviewed entrypoint.
+    if ((Get-OperationalSourceHash -LiteralPath (Join-Path $Trad "oanda_all68_m1_cadence_v2.py")) -cne "455df16d61e0f42c3cee74839370c62098fa9f2e0e3b73a117c1348bb674e625") {
+        throw "Operational M1 cadence source changed."
     }
     $OperationalProfileSha256 = Get-OperationalSourceHash -LiteralPath $OperationalProfilePath
     $replaced = @("pair_local_forecast_study_v1", "pair_local_forecast_study_v2",
@@ -2176,33 +2244,21 @@ while ($true) {
             }
         $managed += Start-ManagedProcess `
             -Name "all68_m1_forward_archive" `
-            -Needle "oanda_all68_m1_forward_updater.py" `
+            -Needle "oanda_all68_m1_cadence_v2.py" `
             -PriorityClass "BelowNormal" `
+            -InterpreterArguments @("-B") `
             -Arguments @(
-                (Join-Path $Trad "oanda_all68_m1_forward_updater.py"),
-                "--bootstrap-all-priced",
-                "--max-requests-per-pair", "1",
-                "--backfill-requests-per-pair", "0",
-                "--batch-size", "5000",
-                "--pause-seconds", "0.10",
-                # Current-bar freshness is the live research dependency.  A
-                # bounded gap scan is retained, but only every tenth pass so
-                # it cannot turn every refresh into an extra 68 REST calls.
-                "--gap-recovery-every-cycles", "10",
-                "--report", (Join-Path $State "all68_m1_forward_update_v1.json"),
-                "--heartbeat", (Join-Path $State "all68_m1_forward_update_heartbeat_v1.json"),
-                # A current-only all-68 pass is measured in under two minutes.
-                # Re-run at two minutes; completed M1 bars remain an observed
-                # source and are never fabricated across broker omissions.
-                "--interval-sec", "120",
+                (Join-Path $Trad "oanda_all68_m1_cadence_v2.py"),
                 "--duration-sec", "$ChildDurationSec"
             ) `
             -Freshness @{
-                LiteralPath = (Join-Path $State "all68_m1_forward_update_heartbeat_v1.json")
+                LiteralPath = (Join-Path $State "all68_m1_cadence_heartbeat_v2.json")
                 MaxAgeSec = 30
                 StartupGraceSec = 120
                 MaxProgressAgeSec = 180
-                ProgressPhases = @("updating_pairs")
+                ProgressPhases = @("refreshing_forward", "background_gap_or_waiting")
+                ExpectedJsonField = "worker"
+                ExpectedJsonValue = "all68_m1_forward_archive"
             }
         # Isolated research-only support/resistance observer.  It consumes the
         # completed all-68 BAM M1 archive and fresh read-only quote snapshot,
