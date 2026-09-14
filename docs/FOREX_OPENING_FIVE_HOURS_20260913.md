@@ -8,6 +8,10 @@ This review examines the original histories for all 68 configured FX pairs, inde
 
 NZD weakness is the strongest common pattern. AUD also weakens, followed by a later rise in USD/JPY. These are retrospective observations, not predictions made by the bot.
 
+### Sustained intraperiod moves
+
+To separate persistence from an opening-to-close result, I scanned complete 15-minute windows and counted the share of one-minute close-to-close changes agreeing with the window's net direction. The strongest major-pair examples reached 14 of 15 agreeing minutes (93.3%): NZD/USD fell 10.5 bps from 5:12–5:27 p.m. EDT; AUD/USD fell 9.5 bps from 5:02–5:17 p.m.; USD/JPY rose 13.6 bps from 6:13–6:28 p.m.; and AUD/CHF fell 8.7 bps from 5:00–5:15 p.m. A fully one-directional 15-minute move also occurred in USD/PLN, +7.0 bps from 8:11–8:26 p.m. These windows include at most one contrary minute and are descriptive selections made after observing the period; they are not an entry rule or proof of executable profit. The larger NZD/USD 7:30–8:30 p.m. decline had pullbacks, so its 18.2-pip net fall should not be described as monotonic.
+
 | Pair | Opening-to-10 p.m. mid change |
 | --- | ---: |
 | NZD/HKD | −0.386% |
