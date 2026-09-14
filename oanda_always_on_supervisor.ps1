@@ -436,7 +436,7 @@ function Get-MatchingPython {
     } else {
         ""
     }
-    @($script:MatchingPythonProcessSnapshot |
+    $matches = @($script:MatchingPythonProcessSnapshot |
         Where-Object {
             $commandLine = [string]$_.CommandLine
             $needleMatched = if ($simpleScriptNeedle) {
@@ -459,6 +459,19 @@ function Get-MatchingPython {
             $runtimeProcess = Get-Process -Id $_.ProcessId -ErrorAction SilentlyContinue
             return $null -ne $runtimeProcess -and -not $runtimeProcess.HasExited
         })
+    # The bundled virtual environment's python.exe is a launcher which stays
+    # alive while its child interpreter executes the same command line.  They
+    # are one worker, not two competing workers.  Supervise the leaf process;
+    # separate launches remain separate leaves and are still deduplicated.
+    $matchingIds = [Collections.Generic.HashSet[int]]::new()
+    foreach ($proc in $matches) { [void]$matchingIds.Add([int]$proc.ProcessId) }
+    $wrapperIds = [Collections.Generic.HashSet[int]]::new()
+    foreach ($proc in $matches) {
+        if ($matchingIds.Contains([int]$proc.ParentProcessId)) {
+            [void]$wrapperIds.Add([int]$proc.ParentProcessId)
+        }
+    }
+    return @($matches | Where-Object { -not $wrapperIds.Contains([int]$_.ProcessId) })
 }
 
 function Stop-MatchingPython {
