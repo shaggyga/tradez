@@ -230,12 +230,13 @@ def test_every_new_operational_worker_is_required_even_if_reported_disabled(tmp_
 
 
 @pytest.mark.parametrize('name',sorted(health.REPLACED_OPERATIONAL_WORKERS))
-def test_retired_producer_cannot_remain_in_operational_allowlist(tmp_path,name):
+def test_retired_producer_cannot_be_running_under_operational_profile(tmp_path,name):
     start,hb=operational_fixture()
-    start['research_collection_names'].append(name)
+    row=next(row for row in hb['managed'] if row['name']==name)
+    row.update(running=True,pids=[99999],freshness=dict(fresh=True,reason='fresh',age_sec=1))
     result=observe(tmp_path,start,hb)
-    assert result['status']=='unavailable'
-    assert 'retired_workers_still_in_operational_allowlist' in result['reasons'][0]
+    assert result['status']=='degraded'
+    assert 'retired_operational_worker_running:'+name in result['reasons']
 
 
 @pytest.mark.parametrize('field,value',[

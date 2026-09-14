@@ -146,12 +146,10 @@ def read_supervisor_observation(logs, *, clock=time.time):
                 or any(not isinstance(name,str) for name in announced)
                 or not expected <= set(announced)):
             raise ValueError('expected_research_workers_not_in_supervisor_allowlist')
-        if profile_schema is not None and REPLACED_OPERATIONAL_WORKERS.intersection(announced):
-            raise ValueError('retired_workers_still_in_operational_allowlist')
         managed = heartbeat.get('managed')
         if not isinstance(managed,list) or len(managed)>256:
             raise ValueError('bounded_supervisor_worker_list_required')
-        workers = {}
+        workers, issues = {}, []
         seen_active_pids = set()
         for row in managed:
             name,pids,freshness = row.get('name'),row.get('pids'),row.get('freshness')
@@ -186,10 +184,18 @@ def read_supervisor_observation(logs, *, clock=time.time):
                            'reported_status':freshness.get('reported_status'),
                            'reported_phase':freshness.get('reported_phase'),
                            'reported_error':freshness.get('reported_error')}
+        # The supervisor retains disabled names in its full declared list so
+        # it can clean up stale processes.  A declaration alone therefore is
+        # not evidence that a retired worker is live.  Treat an actually
+        # running retired worker as unhealthy, while allowing the selected
+        # profile to be read and its real service failures to be reported.
+        if profile_schema is not None:
+            for name in sorted(REPLACED_OPERATIONAL_WORKERS):
+                if workers.get(name, {}).get('running'):
+                    issues.append('retired_operational_worker_running:'+name)
         result.update(workers=workers,generated_epoch=generated,supervisor_age_sec=observed-generated,
             source={'path':str(path),'observed_size_bytes':size,'head_sha256':hashlib.sha256(head).hexdigest(),
                     'tail_sha256':hashlib.sha256(tail).hexdigest(),'tail_start_offset_before_partial_line_drop':offset})
-        issues = []
         for name in sorted(expected):
             if not workers.get(name,{}).get('supervisor_check_ok'):
                 issues.append('required_worker_unhealthy_or_missing:'+name)
