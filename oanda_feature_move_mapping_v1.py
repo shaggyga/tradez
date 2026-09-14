@@ -546,7 +546,7 @@ def read_feature_move_map(archive_root, *, as_of_utc, window_sec=300, instrument
 
 def read_feature_move_maps(archive_root, *, as_of_utc, window_secs=WINDOWS, instrument=None,
                           include_all_comparisons=False, reference_only=False,
-                          forward_frame_only=False):
+                          forward_frame_only=False, forward_frame_limit=12):
     """Read only the new append-only archive, with explicit IO/shape bounds.
 
     This routine never starts a producer or opens a database. Sampling caused by
@@ -564,6 +564,8 @@ def read_feature_move_maps(archive_root, *, as_of_utc, window_secs=WINDOWS, inst
         raise ValueError("boolean_reference_only_option_required")
     if type(forward_frame_only) is not bool:
         raise ValueError("boolean_forward_frame_option_required")
+    if type(forward_frame_limit) is not int or not 2 <= forward_frame_limit <= MAX_FILES:
+        raise ValueError("bounded_forward_frame_limit_required")
     if instrument is not None and (not isinstance(instrument, str) or not PAIR.fullmatch(instrument)
                                    or instrument[:3] == instrument[4:]):
         raise ValueError("valid_pair_filter_required")
@@ -599,6 +601,10 @@ def read_feature_move_maps(archive_root, *, as_of_utc, window_secs=WINDOWS, inst
             break
     stats["files_considered"] = len(files)
     files.sort(key=lambda value: (value[0], value[1].name))
+    if forward_frame_only and len(files) > forward_frame_limit:
+        files = files[-forward_frame_limit:]
+        stats["bounded_sample"] = True
+        stats["selection_stop"] = "bounded_recent_forward_frames"
     if len(files) > MAX_FILES:
         # Select exact reference candidates from the bounded metadata list
         # before applying the read-count bound. Uniform downsampling here can
