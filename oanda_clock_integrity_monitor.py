@@ -111,6 +111,27 @@ def finite_clock_number(value: Any) -> float | None:
     return number if math.isfinite(number) else None
 
 
+def independent_https_host_clock_trusted(state: Mapping[str, Any]) -> bool:
+    """Whether the independent HTTPS sample attests the host clock itself.
+
+    A streaming price timestamp can lag during an otherwise healthy host
+    session.  That says something useful about that stream, but it must not
+    turn a contemporaneous, credential-free HTTPS Date sample into a false
+    host-clock discontinuity.
+    """
+    external = state.get("external_https_clock")
+    if not isinstance(external, Mapping) or external.get("status") != "ok":
+        return False
+    offset = finite_clock_number(external.get("offset_sec"))
+    round_trip = finite_clock_number(external.get("round_trip_ms"))
+    return (
+        offset is not None
+        and round_trip is not None
+        and abs(offset) <= 2.0
+        and 0.0 <= round_trip <= 2000.0
+    )
+
+
 def apply_continuity_guard(
     current: dict[str, Any],
     previous: Mapping[str, Any] | None,
@@ -130,7 +151,13 @@ def apply_continuity_guard(
     state = dict(current)
     prior = previous if isinstance(previous, Mapping) else {}
     observed = (observed_utc or datetime.now(timezone.utc)).astimezone(timezone.utc)
-    current_lead = finite_clock_number(state.get("broker_clock_lead_sec"))
+    # Prefer the independent host attestation for continuity when it is
+    # present.  A jump only in the stream timestamp is a feed-quality fact,
+    # not evidence that the host time moved.
+    current_lead = (
+        None if independent_https_host_clock_trusted(state)
+        else finite_clock_number(state.get("broker_clock_lead_sec"))
+    )
     previous_lead = finite_clock_number(prior.get("broker_clock_lead_sec"))
     offset_jump = (
         None
@@ -377,11 +404,11 @@ def build_state(
     clock_sources_consistent = (
         source_disagreement_sec is None or source_disagreement_sec <= 2.0
     )
-    external_trusted = (
+    independent_host_clock = (
         external_available
         and abs(external_offset) <= 2.0
-        and clock_sources_consistent
     )
+    external_trusted = independent_host_clock and clock_sources_consistent
     service_synchronized = (
         offset_trusted
         and math.isfinite(lead)
@@ -389,8 +416,8 @@ def build_state(
         and system_service.get("state") == "running"
         and clock_sources_consistent
     )
-    synchronized = service_synchronized or external_trusted
-    timestamp_trusted = (offset_trusted or external_trusted) and clock_sources_consistent
+    synchronized = service_synchronized or independent_host_clock
+    timestamp_trusted = (offset_trusted and clock_sources_consistent) or independent_host_clock
     status = "ok" if service_synchronized else "mitigated" if timestamp_trusted else "degraded"
     reasons = []
     if not source_fresh:
@@ -403,7 +430,7 @@ def build_state(
         reasons.append("windows_time_service_not_running")
     if external.get("status") != "ok":
         reasons.append("external_https_clock_unavailable")
-    elif not external_trusted:
+    elif not independent_host_clock:
         reasons.append("external_clock_offset_exceeds_2s")
     if not clock_sources_consistent:
         reasons.append("clock_sources_disagree")
@@ -425,6 +452,7 @@ def build_state(
         "windows_time_service": system_service,
         "external_https_clock": external,
         "clock_sources_consistent": clock_sources_consistent,
+        "independent_https_host_clock_trusted": independent_host_clock,
         "clock_source_disagreement_sec": (
             round(source_disagreement_sec, 3)
             if source_disagreement_sec is not None else None

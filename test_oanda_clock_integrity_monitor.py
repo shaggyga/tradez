@@ -257,6 +257,34 @@ class ClockIntegrityMonitorTests(unittest.TestCase):
             self.assertEqual(state["status"], "mitigated")
             self.assertTrue(state["timestamp_normalization_trusted"])
 
+    def test_independent_https_clock_accepts_host_when_stream_timestamp_lags(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "heartbeat.json"
+            source.write_text(json.dumps({"details": {"stream": {
+                "broker_clock_lead_sec": -20.0,
+                "broker_clock_sample_count": 128,
+            }}}), encoding="utf-8")
+            state = build_state(
+                source,
+                service={"state": "running", "query_ok": True, "error": ""},
+                external_clock={"status": "ok", "offset_sec": 0.4, "round_trip_ms": 100.0},
+            )
+            self.assertEqual(state["status"], "mitigated")
+            self.assertTrue(state["timestamp_normalization_trusted"])
+            self.assertTrue(state["host_clock_synchronized"])
+            self.assertTrue(state["independent_https_host_clock_trusted"])
+            self.assertFalse(state["clock_sources_consistent"])
+            self.assertIn("clock_sources_disagree", state["reasons"])
+
+    def test_stream_only_offset_jump_does_not_quarantine_independently_attested_host(self):
+        observed = datetime(2026, 9, 14, 15, 0, tzinfo=timezone.utc)
+        external = {"status": "ok", "offset_sec": 0.2, "round_trip_ms": 100.0}
+        prior = {"broker_clock_lead_sec": 0.1, "external_https_clock": external}
+        current = {"broker_clock_lead_sec": -20.0, "external_https_clock": external}
+        guarded = apply_continuity_guard(current, prior, observed_utc=observed)
+        self.assertFalse(guarded["clock_discontinuity_detected"])
+        self.assertFalse(guarded["clock_discontinuity_active"])
+
     def test_large_https_offset_remains_degraded(self):
         with tempfile.TemporaryDirectory() as directory:
             source = Path(directory) / "heartbeat.json"
