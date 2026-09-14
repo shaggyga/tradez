@@ -623,7 +623,16 @@ def read_feature_move_maps(archive_root, *, as_of_utc, window_secs=WINDOWS, inst
     # smaller selection opt-in and visible in the archive receipt; the default
     # reader remains the full descriptive history used by the dashboard.
     if reference_only:
-        order = priority
+        # Receipt-bound forward frames omit the expensive original-source
+        # reconstruction.  A bounded dense recent read is therefore fast
+        # enough to retain the overlapping prior comparisons required for the
+        # minimum-history rule, while the full-envelope forward path remains
+        # reference-only to protect source freshness.
+        if forward_frame_only:
+            order = priority + [index for index in reversed(range(len(files))) if index not in priority]
+            stats["selection_stop"] = "bounded_dense_forward_history"
+        else:
+            order = priority
         if len(order) < len(files):
             stats["bounded_sample"] = True
             stats["selection_stop"] = "required_reference_candidates_only"
