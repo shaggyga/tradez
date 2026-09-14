@@ -127,7 +127,12 @@ def run_cycle(args, *, clock=base.utc_now, monotonic=time.monotonic):
     receipts, candle_sets, source_bytes = {"quotes":quote_receipt,"candles":{}}, {}, quote_receipt["source_bytes"]
     for pair in order:
         candle_sets[pair], receipts["candles"][pair] = {}, {}
-        for timeframe in candles.SECONDS:
+        # The per-minute operational contract first guarantees the complete
+        # M1 technical family for every quoted pair.  Higher-timeframe views
+        # belong to a separately scheduled enrichment lane; they must not
+        # crowd out the base 68-pair feature set.
+        timeframes = ("M1",) if args.live_primary_only else candles.SECONDS
+        for timeframe in timeframes:
             if monotonic() >= work_deadline or source_bytes+candles.MAX_BYTES+4096 > MAX_SOURCE_BYTES:
                 receipts["candles"][pair][timeframe] = {"status":"unavailable","reason":"cycle_input_bound"}
                 continue
@@ -235,6 +240,7 @@ def parse_args(argv=None):
     parser.add_argument("--max-daily-archive-mib",type=int,default=4096)
     parser.add_argument("--minimum-free-mib",type=int,default=4096)
     parser.add_argument("--forward-frame-root", type=Path)
+    parser.add_argument("--live-primary-only", action="store_true")
     parser.add_argument("--once",action="store_true")
     args = parser.parse_args(argv)
     if not 60 <= args.interval_sec <= 3600 or not 1 <= args.duration_sec <= 604800 or not 5 <= args.max_cycle_sec <= 50 or not 128 <= args.max_daily_archive_mib <= 4096 or not 128 <= args.minimum_free_mib <= 65536 or len(args.model_study)>3:
