@@ -169,6 +169,18 @@ def apply_continuity_guard(
     )
     prior_until = parse_utc(prior.get("clock_discontinuity_quarantine_until_utc"))
     prior_detected_at = parse_utc(prior.get("clock_discontinuity_detected_at_utc"))
+    # A carried quarantine created solely by a stale stream timestamp is not
+    # a host-time ambiguity once two consecutive independent HTTPS samples
+    # attest the host.  Do not retain that false quarantine for its full
+    # duration; genuine host discontinuities lack this pair of attestations.
+    reclassified_stream_lag = (
+        not detected
+        and independent_https_host_clock_trusted(state)
+        and independent_https_host_clock_trusted(prior)
+    )
+    if reclassified_stream_lag:
+        prior_until = None
+        prior_detected_at = None
     if detected:
         detected_at = observed
         quarantine_until = observed + timedelta(seconds=max(0.0, quarantine_sec))
@@ -203,6 +215,8 @@ def apply_continuity_guard(
         state["required_external_action"] = (
             "wait for the bounded clock-discontinuity quarantine to expire"
         )
+    elif reclassified_stream_lag:
+        state["stream_timestamp_lag_reclassified"] = True
     return state
 
 

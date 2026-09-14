@@ -285,6 +285,22 @@ class ClockIntegrityMonitorTests(unittest.TestCase):
         self.assertFalse(guarded["clock_discontinuity_detected"])
         self.assertFalse(guarded["clock_discontinuity_active"])
 
+    def test_independent_attestation_reclassifies_prior_stream_only_quarantine(self):
+        observed = datetime(2026, 9, 14, 15, 1, tzinfo=timezone.utc)
+        external = {"status": "ok", "offset_sec": 0.2, "round_trip_ms": 100.0}
+        prior = {
+            "broker_clock_lead_sec": -20.0,
+            "external_https_clock": external,
+            "clock_discontinuity_quarantine_until_utc": (observed + timedelta(minutes=9)).isoformat(),
+            "clock_discontinuity_detected_at_utc": observed.isoformat(),
+        }
+        current = {"broker_clock_lead_sec": -0.2, "external_https_clock": external,
+                   "status": "mitigated", "timestamp_normalization_trusted": True,
+                   "host_clock_synchronized": True, "reasons": []}
+        guarded = apply_continuity_guard(current, prior, observed_utc=observed + timedelta(seconds=30))
+        self.assertFalse(guarded["clock_discontinuity_active"])
+        self.assertTrue(guarded["stream_timestamp_lag_reclassified"])
+
     def test_large_https_offset_remains_degraded(self):
         with tempfile.TemporaryDirectory() as directory:
             source = Path(directory) / "heartbeat.json"
