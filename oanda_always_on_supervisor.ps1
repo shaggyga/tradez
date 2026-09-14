@@ -723,6 +723,27 @@ function Start-ManagedProcess {
         [ValidateSet("AboveNormal", "Normal", "BelowNormal", "Idle")]
         [string]$PriorityClass = "Normal"
     )
+    # An operational profile is an exact, reviewed worker set.  The historic
+    # supervisor body below still contains older maintenance/research entries;
+    # allowing those entries to run in the same pass gives two owners the same
+    # scripts and heartbeats.  Do not start or stop anything from that legacy
+    # list here: the profile loop later in this pass owns each approved worker.
+    # Existing matching profile workers must remain alive until that owner has
+    # made its normal freshness decision.
+    if ($OperationalProfile -and $Name -notin $opNames) {
+        return @{
+            name = $Name
+            running = $false
+            started = $false
+            pids = @()
+            freshness = @{
+                fresh = $true
+                age_sec = $null
+                path = ""
+                reason = "operational_profile_exclusive"
+            }
+        }
+    }
     $disabledReason = if ($ResearchCollectionOnly -and $Name -notin $ResearchCollectionNames) {
         "research_collection_only"
     } elseif ($Name -in $DisabledNames) {
