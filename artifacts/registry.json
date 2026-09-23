@@ -1,17 +1,116 @@
 {
-  "schema_version": "forex_shared_artifact_registry.v1",
-  "vault_is_shared_brain": true,
-  "scope": "Pinned retrieval catalog only; live ownership and queue remain in the Vault.",
   "artifacts": {
+    "matched_campaign_saved": {
+      "archive_bytes": 6903992,
+      "archive_expanded_bytes": 62273248,
+      "archive_member_count": 37,
+      "archive_sha256": "aca5a30b6598c56084919d7feb0481e70cc7246af72d74766d78cdf936c506b9",
+      "archive_vault_relative_path": "OPERATIONAL_READINESS_20260923_180528/saved_artifacts/matched_campaign_saved.zip",
+      "build_receipt_reference": {
+        "bytes": 4998,
+        "sha256": "9d241ae5a1b76a00aa3b41546372d0b362002afd42bdc21862852102fb869fba",
+        "vault_relative_path": "OPERATIONAL_READINESS_20260923_180528/saved_artifacts/matched_campaign_saved_BUILD_RECEIPT.json"
+      },
+      "independent_review": false,
+      "kind": "existing_fitted_artifacts_and_results",
+      "model_count": 14,
+      "model_payloads": [
+        "fit_1440_1721606400.joblib",
+        "fit_1440_1721779200.joblib",
+        "fit_15_1721606400.joblib",
+        "fit_15_1721779200.joblib",
+        "fit_240_1721606400.joblib",
+        "fit_240_1721779200.joblib",
+        "fit_2880_1721606400.joblib",
+        "fit_2880_1721779200.joblib",
+        "fit_60_1721606400.joblib",
+        "fit_60_1721779200.joblib",
+        "fit_7200_1721606400.joblib",
+        "fit_7200_1721779200.joblib",
+        "fit_720_1721606400.joblib",
+        "fit_720_1721779200.joblib"
+      ],
+      "original_completion_manifest_sha256": "08d5cf713c6ceac645acff41741514c91ec79759998c3118c8aea9abd1d3d084",
+      "original_environment": {
+        "joblib": "1.5.3",
+        "numpy": "2.5.1",
+        "pandas": "2.3.3",
+        "python": "3.12.10",
+        "scikit-learn": "1.9.0",
+        "scipy": "1.18.0",
+        "threadpoolctl": "3.6.0"
+      },
+      "original_run_identity_fingerprint": "b3c3ea235bb15727633b665f86ea535b48bfe14cc35d00e60b12e7d848ea750d",
+      "original_run_identity_sha256": "af33d3fc7f76bb7b469131ccf22780e9b42fdda2c50a88d7e29194e17343d0dd",
+      "payload_count": 34,
+      "recipe_reference": {
+        "bytes": 14917,
+        "sha256": "e4492cb0e7947d7f7e51391c7dbf1b6400bf7287746e64e446c3b87fa6e1e302",
+        "vault_relative_path": "MATCHED_CAMPAIGN_20260922_034749/source_snapshot/MATCHED_CAMPAIGN_OPERATOR_RECIPE.json"
+      },
+      "required_source_references": [
+        {
+          "bytes": 5697,
+          "hash_verified": true,
+          "sha256": "3a1776f0862f6bb4bc3ba73f4c0febec573350d712aa50e9dbcc0e253b11aecd",
+          "vault_relative_path": "MATCHED_CAMPAIGN_20260922_034749/source_snapshot/contracts.py"
+        },
+        {
+          "bytes": 10701,
+          "hash_verified": true,
+          "sha256": "e3b72f23d216845bbc5aee9385b59ac37ff3114aae728b0d372e3fa319d182ec",
+          "vault_relative_path": "MATCHED_CAMPAIGN_20260922_034749/source_snapshot/fitted_consumer_v2.py"
+        },
+        {
+          "bytes": 8031,
+          "hash_verified": true,
+          "sha256": "34237407d147c0c9230d120acaf55a1e69420be2ba2e58ef4544dc2e657f8d06",
+          "vault_relative_path": "MATCHED_CAMPAIGN_20260922_034749/source_snapshot/matched_campaign_models_v2.py"
+        },
+        {
+          "bytes": 4279,
+          "hash_verified": true,
+          "sha256": "93a330b3953dd6eba42ea414f8854860dc3398e57ea5a16517f3f462e5f5e756",
+          "vault_relative_path": "MATCHED_CAMPAIGN_20260922_034749/source_snapshot/matched_campaign_operator_v2.py"
+        },
+        {
+          "bytes": 6865,
+          "hash_verified": true,
+          "sha256": "0cb00c9027fb1238f1464d27be143f1e0e2c5e6095142f07e4f062e84bd50262",
+          "vault_relative_path": "MATCHED_CAMPAIGN_20260922_034749/source_snapshot/matched_campaign_runner_v2.py"
+        },
+        {
+          "bytes": 22553,
+          "hash_verified": true,
+          "sha256": "51e3eb20cee191a24b74c708bd5c54b25b8ea4a1042248e6a4a96bfebd81d797",
+          "vault_relative_path": "MATCHED_CAMPAIGN_20260922_034749/source_snapshot/publication.py"
+        },
+        {
+          "bytes": 10329,
+          "hash_verified": true,
+          "sha256": "8cebabbab7c6dcb32271a8fd3cbc656e912ae6a26e19a9ff1d35ad547342665c",
+          "vault_relative_path": "MATCHED_CAMPAIGN_20260922_034749/source_snapshot/retained_signed_cost_models_v1.py"
+        }
+      ],
+      "retrieval": "byte_copy_only_no_fit_or_load",
+      "run_id": "matched-development-campaign",
+      "runtime_requalified": false,
+      "saved_artifacts_manifest_sha256": "c90f23a5f9c7f0423d239d92d44c5c4f04eb6abfb6fa3b835e3d74ca3146bcee",
+      "scope": "Exact original completed run and payloads; predecessor graph remains hash-bound external references."
+    },
     "matched_remaining_saved": {
-      "archive_sha256": "70c3d4fb54fb86e79b4bcd65c9cd923768592887e5278c93bc27a7ab5244a10b",
       "archive_bytes": 1528960,
       "archive_expanded_bytes": 17761040,
       "archive_member_count": 26,
-      "saved_artifacts_manifest_sha256": "4216ff34493884fd9e4f34492f4b6fbf3450e893b9178f49a77f17f39bfb84d9",
-      "original_run_identity_fingerprint": "fc0a1423ca93b62e94f215b49a6a55aaf280524aadc1501b231efef4031a2763",
-      "original_run_identity_sha256": "59073047302bc2bfbb76dad4a4b3f7d529060f9495cb21a91987d4f822ff2b0e",
-      "original_completion_manifest_sha256": "afddfc6471d9d28800fb4e915eb1f2ec0ceb708c2cf57ebcbf287f2a6318865a",
+      "archive_sha256": "70c3d4fb54fb86e79b4bcd65c9cd923768592887e5278c93bc27a7ab5244a10b",
+      "archive_vault_relative_path": "VAULT_FIRST_REUSE_20260923_141547/saved_artifacts/matched_remaining_existing_saved_artifacts.zip",
+      "build_receipt_reference": {
+        "bytes": 6714,
+        "sha256": "c5071c80258af2b941fc11010006683b0862684318c41cc19ef4c9ff361bb45c",
+        "vault_relative_path": "VAULT_FIRST_REUSE_20260923_141547/saved_artifacts/BUILD_RECEIPT.json"
+      },
+      "independent_review": false,
+      "kind": "existing_fitted_artifacts_and_results",
       "model_count": 8,
       "model_count_definition": "serialized .joblib payload files; associated original fit JSON records are also preserved",
       "model_payloads": [
@@ -24,6 +123,19 @@
         "fit_360.joblib",
         "fit_720.joblib"
       ],
+      "original_completion_manifest_sha256": "afddfc6471d9d28800fb4e915eb1f2ec0ceb708c2cf57ebcbf287f2a6318865a",
+      "original_environment": {
+        "joblib": "1.5.3",
+        "numpy": "2.5.1",
+        "pandas": "2.3.3",
+        "pyarrow": "25.0.0",
+        "python": "3.12.10",
+        "scikit-learn": "1.9.0",
+        "scipy": "1.18.0",
+        "threadpoolctl": "3.6.0"
+      },
+      "original_run_identity_fingerprint": "fc0a1423ca93b62e94f215b49a6a55aaf280524aadc1501b231efef4031a2763",
+      "original_run_identity_sha256": "59073047302bc2bfbb76dad4a4b3f7d529060f9495cb21a91987d4f822ff2b0e",
       "payload_count": 23,
       "recipe_reference": {
         "bytes": 38615,
@@ -110,28 +222,200 @@
           "vault_relative_path": "MATCHED_REMAINING_20260922_041223/source_snapshot/retained_signed_cost_models_v1.py"
         }
       ],
-      "run_id": "matched-remaining-native-inputs",
-      "kind": "existing_fitted_artifacts_and_results",
       "retrieval": "byte_copy_only_no_fit_or_load",
-      "archive_vault_relative_path": "VAULT_FIRST_REUSE_20260923_141547/saved_artifacts/matched_remaining_existing_saved_artifacts.zip",
+      "run_id": "matched-remaining-native-inputs",
+      "runtime_requalified": false,
+      "saved_artifacts_manifest_sha256": "4216ff34493884fd9e4f34492f4b6fbf3450e893b9178f49a77f17f39bfb84d9",
+      "scope": "One exact completed run; excludes the full predecessor input/model graph."
+    },
+    "rich_family_saved": {
+      "archive_bytes": 18692125,
+      "archive_expanded_bytes": 121377493,
+      "archive_member_count": 219,
+      "archive_sha256": "44825b28079acafa7e6685431418dded13fb0605d9aabec9e31e795eec4c0f1b",
+      "archive_vault_relative_path": "OPERATIONAL_READINESS_20260923_180528/saved_artifacts/rich_family_saved.zip",
       "build_receipt_reference": {
-        "vault_relative_path": "VAULT_FIRST_REUSE_20260923_141547/saved_artifacts/BUILD_RECEIPT.json",
-        "sha256": "c5071c80258af2b941fc11010006683b0862684318c41cc19ef4c9ff361bb45c",
-        "bytes": 6714
+        "bytes": 10441,
+        "sha256": "99c820a58298183ba3272986adabce018d210a5c34183ccc67dd766af6dd9e9c",
+        "vault_relative_path": "OPERATIONAL_READINESS_20260923_180528/saved_artifacts/rich_family_saved_BUILD_RECEIPT.json"
       },
+      "independent_review": false,
+      "kind": "existing_fitted_artifacts_and_results",
+      "model_count": 84,
+      "model_payloads": [
+        "fit_compact38_cost2_1440_1721606400_recovered_hgb.joblib",
+        "fit_compact38_cost2_1440_1721606400_ridge.joblib",
+        "fit_compact38_cost2_1440_1721779200_recovered_hgb.joblib",
+        "fit_compact38_cost2_1440_1721779200_ridge.joblib",
+        "fit_compact38_cost2_15_1721606400_recovered_hgb.joblib",
+        "fit_compact38_cost2_15_1721606400_ridge.joblib",
+        "fit_compact38_cost2_15_1721779200_recovered_hgb.joblib",
+        "fit_compact38_cost2_15_1721779200_ridge.joblib",
+        "fit_compact38_cost2_240_1721606400_recovered_hgb.joblib",
+        "fit_compact38_cost2_240_1721606400_ridge.joblib",
+        "fit_compact38_cost2_240_1721779200_recovered_hgb.joblib",
+        "fit_compact38_cost2_240_1721779200_ridge.joblib",
+        "fit_compact38_cost2_2880_1721606400_recovered_hgb.joblib",
+        "fit_compact38_cost2_2880_1721606400_ridge.joblib",
+        "fit_compact38_cost2_2880_1721779200_recovered_hgb.joblib",
+        "fit_compact38_cost2_2880_1721779200_ridge.joblib",
+        "fit_compact38_cost2_60_1721606400_recovered_hgb.joblib",
+        "fit_compact38_cost2_60_1721606400_ridge.joblib",
+        "fit_compact38_cost2_60_1721779200_recovered_hgb.joblib",
+        "fit_compact38_cost2_60_1721779200_ridge.joblib",
+        "fit_compact38_cost2_7200_1721606400_recovered_hgb.joblib",
+        "fit_compact38_cost2_7200_1721606400_ridge.joblib",
+        "fit_compact38_cost2_7200_1721779200_recovered_hgb.joblib",
+        "fit_compact38_cost2_7200_1721779200_ridge.joblib",
+        "fit_compact38_cost2_720_1721606400_recovered_hgb.joblib",
+        "fit_compact38_cost2_720_1721606400_ridge.joblib",
+        "fit_compact38_cost2_720_1721779200_recovered_hgb.joblib",
+        "fit_compact38_cost2_720_1721779200_ridge.joblib",
+        "fit_compact50_cost2_1440_1721606400_recovered_hgb.joblib",
+        "fit_compact50_cost2_1440_1721606400_ridge.joblib",
+        "fit_compact50_cost2_1440_1721779200_recovered_hgb.joblib",
+        "fit_compact50_cost2_1440_1721779200_ridge.joblib",
+        "fit_compact50_cost2_15_1721606400_recovered_hgb.joblib",
+        "fit_compact50_cost2_15_1721606400_ridge.joblib",
+        "fit_compact50_cost2_15_1721779200_recovered_hgb.joblib",
+        "fit_compact50_cost2_15_1721779200_ridge.joblib",
+        "fit_compact50_cost2_240_1721606400_recovered_hgb.joblib",
+        "fit_compact50_cost2_240_1721606400_ridge.joblib",
+        "fit_compact50_cost2_240_1721779200_recovered_hgb.joblib",
+        "fit_compact50_cost2_240_1721779200_ridge.joblib",
+        "fit_compact50_cost2_2880_1721606400_recovered_hgb.joblib",
+        "fit_compact50_cost2_2880_1721606400_ridge.joblib",
+        "fit_compact50_cost2_2880_1721779200_recovered_hgb.joblib",
+        "fit_compact50_cost2_2880_1721779200_ridge.joblib",
+        "fit_compact50_cost2_60_1721606400_recovered_hgb.joblib",
+        "fit_compact50_cost2_60_1721606400_ridge.joblib",
+        "fit_compact50_cost2_60_1721779200_recovered_hgb.joblib",
+        "fit_compact50_cost2_60_1721779200_ridge.joblib",
+        "fit_compact50_cost2_7200_1721606400_recovered_hgb.joblib",
+        "fit_compact50_cost2_7200_1721606400_ridge.joblib",
+        "fit_compact50_cost2_7200_1721779200_recovered_hgb.joblib",
+        "fit_compact50_cost2_7200_1721779200_ridge.joblib",
+        "fit_compact50_cost2_720_1721606400_recovered_hgb.joblib",
+        "fit_compact50_cost2_720_1721606400_ridge.joblib",
+        "fit_compact50_cost2_720_1721779200_recovered_hgb.joblib",
+        "fit_compact50_cost2_720_1721779200_ridge.joblib",
+        "fit_full228_cost2_1440_1721606400_recovered_hgb.joblib",
+        "fit_full228_cost2_1440_1721606400_ridge.joblib",
+        "fit_full228_cost2_1440_1721779200_recovered_hgb.joblib",
+        "fit_full228_cost2_1440_1721779200_ridge.joblib",
+        "fit_full228_cost2_15_1721606400_recovered_hgb.joblib",
+        "fit_full228_cost2_15_1721606400_ridge.joblib",
+        "fit_full228_cost2_15_1721779200_recovered_hgb.joblib",
+        "fit_full228_cost2_15_1721779200_ridge.joblib",
+        "fit_full228_cost2_240_1721606400_recovered_hgb.joblib",
+        "fit_full228_cost2_240_1721606400_ridge.joblib",
+        "fit_full228_cost2_240_1721779200_recovered_hgb.joblib",
+        "fit_full228_cost2_240_1721779200_ridge.joblib",
+        "fit_full228_cost2_2880_1721606400_recovered_hgb.joblib",
+        "fit_full228_cost2_2880_1721606400_ridge.joblib",
+        "fit_full228_cost2_2880_1721779200_recovered_hgb.joblib",
+        "fit_full228_cost2_2880_1721779200_ridge.joblib",
+        "fit_full228_cost2_60_1721606400_recovered_hgb.joblib",
+        "fit_full228_cost2_60_1721606400_ridge.joblib",
+        "fit_full228_cost2_60_1721779200_recovered_hgb.joblib",
+        "fit_full228_cost2_60_1721779200_ridge.joblib",
+        "fit_full228_cost2_7200_1721606400_recovered_hgb.joblib",
+        "fit_full228_cost2_7200_1721606400_ridge.joblib",
+        "fit_full228_cost2_7200_1721779200_recovered_hgb.joblib",
+        "fit_full228_cost2_7200_1721779200_ridge.joblib",
+        "fit_full228_cost2_720_1721606400_recovered_hgb.joblib",
+        "fit_full228_cost2_720_1721606400_ridge.joblib",
+        "fit_full228_cost2_720_1721779200_recovered_hgb.joblib",
+        "fit_full228_cost2_720_1721779200_ridge.joblib"
+      ],
+      "original_completion_manifest_sha256": "2f2e59e06212854825ba34bbcb4dbf2168bd593dfffd50dd7a6789f35fa9f28d",
       "original_environment": {
         "joblib": "1.5.3",
         "numpy": "2.5.1",
         "pandas": "2.3.3",
-        "pyarrow": "25.0.0",
         "python": "3.12.10",
         "scikit-learn": "1.9.0",
         "scipy": "1.18.0",
         "threadpoolctl": "3.6.0"
       },
+      "original_run_identity_fingerprint": "4516f210457f2ef721ed8e6bc4a4db11a0b5b2381eb519d070e65bca26093af1",
+      "original_run_identity_sha256": "a34649c7ee13162517e492bf3c89542b2f80b2254dd408a9978b8d02f78c511c",
+      "payload_count": 216,
+      "recipe_reference": {
+        "bytes": 98964,
+        "sha256": "f215142c124e7c386cdd0bc404b6852a73082cd4872b622335149d48caf57e13",
+        "vault_relative_path": "RICH_FAMILY_COMPARISON_20260922_073907/source_snapshot/RICH_FAMILY_OPERATOR_RECIPE.json"
+      },
+      "required_source_references": [
+        {
+          "bytes": 5697,
+          "hash_verified": true,
+          "sha256": "3a1776f0862f6bb4bc3ba73f4c0febec573350d712aa50e9dbcc0e253b11aecd",
+          "vault_relative_path": "RICH_FAMILY_COMPARISON_20260922_073907/source_snapshot/contracts.py"
+        },
+        {
+          "bytes": 10701,
+          "hash_verified": true,
+          "sha256": "e3b72f23d216845bbc5aee9385b59ac37ff3114aae728b0d372e3fa319d182ec",
+          "vault_relative_path": "RICH_FAMILY_COMPARISON_20260922_073907/source_snapshot/fitted_consumer_v2.py"
+        },
+        {
+          "bytes": 9682,
+          "hash_verified": true,
+          "sha256": "9b7521812ea348d826dc1e3d0035eb378b097733c6c6f3cb1d7595ec70fda329",
+          "vault_relative_path": "RICH_FAMILY_COMPARISON_20260922_073907/source_snapshot/matched_campaign_models_v2.py"
+        },
+        {
+          "bytes": 22553,
+          "hash_verified": true,
+          "sha256": "51e3eb20cee191a24b74c708bd5c54b25b8ea4a1042248e6a4a96bfebd81d797",
+          "vault_relative_path": "RICH_FAMILY_COMPARISON_20260922_073907/source_snapshot/publication.py"
+        },
+        {
+          "bytes": 10329,
+          "hash_verified": true,
+          "sha256": "8cebabbab7c6dcb32271a8fd3cbc656e912ae6a26e19a9ff1d35ad547342665c",
+          "vault_relative_path": "RICH_FAMILY_COMPARISON_20260922_073907/source_snapshot/retained_signed_cost_models_v1.py"
+        },
+        {
+          "bytes": 1735,
+          "hash_verified": true,
+          "sha256": "641e885bedabfeb476fcc87a5447ba12656684efb719c0d0f63f22f0349770bf",
+          "vault_relative_path": "RICH_FAMILY_COMPARISON_20260922_073907/source_snapshot/rich_campaign_consumer_v2.py"
+        },
+        {
+          "bytes": 8642,
+          "hash_verified": true,
+          "sha256": "6bbcc503a5f06abf7f25649404e2aab4117786363396dd71144f73f4d0996707",
+          "vault_relative_path": "RICH_FAMILY_COMPARISON_20260922_073907/source_snapshot/rich_family_models_v2.py"
+        },
+        {
+          "bytes": 6193,
+          "hash_verified": true,
+          "sha256": "5267136006e2d718b378777f6cac0c0efad66614dd42a01950dc46621af6cc5d",
+          "vault_relative_path": "RICH_FAMILY_COMPARISON_20260922_073907/source_snapshot/rich_family_operator_v2.py"
+        },
+        {
+          "bytes": 8243,
+          "hash_verified": true,
+          "sha256": "5a7737a1b5addef0edb237dbcd48b103a46949a993470d2b911c62ce151997ae",
+          "vault_relative_path": "RICH_FAMILY_COMPARISON_20260922_073907/source_snapshot/rich_family_runner_v2.py"
+        },
+        {
+          "bytes": 8378,
+          "hash_verified": true,
+          "sha256": "cf071bf8b1bba72a8dfc4cb4c074ead9ff8c68171ea623dc420e4c0af551a56a",
+          "vault_relative_path": "RICH_FAMILY_COMPARISON_20260922_073907/source_snapshot/rolling_registry_adapter_v2.py"
+        }
+      ],
+      "retrieval": "byte_copy_only_no_fit_or_load",
+      "run_id": "matched-rich-family-comparison",
       "runtime_requalified": false,
-      "independent_review": false,
-      "scope": "One exact completed run; excludes the full predecessor input/model graph."
+      "saved_artifacts_manifest_sha256": "becfba6fc05efa52efb0a9805edbf45a894db517f522d627f7b97fc9045fe3b8",
+      "scope": "Exact original completed run and payloads; predecessor graph remains hash-bound external references."
     }
-  }
+  },
+  "schema_version": "forex_shared_artifact_registry.v1",
+  "scope": "Pinned retrieval catalog only; live ownership and queue remain in the Vault.",
+  "vault_is_shared_brain": true
 }

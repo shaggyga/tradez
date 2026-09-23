@@ -8,10 +8,10 @@ synced `thevault/projects/forex` folder. Resolve the live pointers before work.
 ## Start on another machine
 
 ```powershell
-git clone https://github.com/shaggyga/tradez.git forex
+git -c core.longpaths=true clone --branch forex https://github.com/shaggyga/tradez.git forex
 cd forex
 python -I -B tools/forex_workspace.py status --vault 'C:/path/to/thevault/projects/forex'
-python -I -B tools/forex_workspace.py doctor
+python -I -B tools/forex_preflight.py --workspace . --vault 'C:/path/to/thevault/projects/forex'
 ```
 
 Git credentials are machine-local. Python 3.10+ is sufficient for status and byte
@@ -34,10 +34,12 @@ and its source hashes were preserved, including historical path limitations.
 4. Record code commit, input/model identities and evidence; publish a compact handoff
    to the Vault and link it from `trad/FOREX_PROJECT_LOG.md`.
 
-The retrieval registry currently pins one existing eight-model run and its outputs.
-It verifies/copies bytes without importing or fitting models. The Vault contains
-additional historical model catalogs and recoveries. The registry is not exhaustive;
-the synced coordination board is not an atomic distributed lock.
+The [artifact catalog](artifacts/reuse_catalog.json) records verified saved weights,
+JSON model parameters, original identities and explicit availability gaps. The
+[retrieval guide](docs/ARTIFACT_REUSE.md) distinguishes byte retrieval from replay.
+The catalogs are bounded, not exhaustive; the synced coordination board is advisory.
+Complete required operational/review work before research; see the Vault
+`OPERATIONAL_READINESS_LATEST.json` and [preflight](docs/OPERATIONAL_PREFLIGHT.md).
 
 ## Layout and history
 

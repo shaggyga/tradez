@@ -1,3 +1,23 @@
+## Operational cleanup checkpoint — 2026-09-23
+
+Current navigation is `FOREX_HANDOFF.md` at the workspace root and Vault
+`CURRENT_STATUS.md`. Preserve historical entries below as dated evidence; resolve
+the current state through the Vault design/review/operational pointers and queue.
+
+Operational step: `mabel-operational-readiness-20260923`; packet: `OPERATIONAL_READINESS_20260923_180528/REVIEW.md`
+in the shared Forex Vault. Exact code/evidence identities are in that packet and
+`SHARED_GIT_REMOTE_LATEST.json`; the final publication/readback status is in its
+operation receipt. Local evidence: `operational_readiness_20260923/`.
+
+Scope: concise navigation with verbatim history, reconciled ownership board,
+verified duplicate-checkout removal, saved-artifact preservation/catalog and
+read-only startup gates. Full design and scientific order are unchanged.
+Next scientific item: `macro_currency_meter_numeric_evidence_join_v2`, after
+operational publication/review is complete and the user resumes that work.
+No models loaded/fitted; GPT/advisor comparisons remain deferred.
+
+---
+
 **Current checkpoint/log map — September 21:** Read [the local handoff](../FOREX_HANDOFF.md)
 and [checkpoint logging](docs/FOREX_CHECKPOINT_LOGGING_20260921.md). The Vault's current design
 pointer determines engineering order; its review queue tracks completed steps awaiting review.

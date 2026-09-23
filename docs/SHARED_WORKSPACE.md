@@ -12,7 +12,7 @@ These PowerShell examples use an existing Python interpreter:
 
 ```powershell
 python -I -B tools/forex_workspace.py status --vault 'C:/path/to/thevault/projects/forex'
-python -I -B tools/forex_workspace.py doctor
+python -I -B tools/forex_preflight.py --vault 'C:/path/to/thevault/projects/forex'
 python -I -B tools/forex_workspace.py retrieve --vault 'C:/path/to/thevault/projects/forex' --artifact matched_remaining_saved --destination 'C:/local-artifacts/matched-remaining-native-inputs'
 ```
 
@@ -48,7 +48,13 @@ make the required files available offline first using your normal OneDrive workf
 The helper does not change pin/hydration settings or request downloads. This distinction
 follows Microsoft's [reparse-tag definitions](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4).
 
-The registry has one deliberately bounded entry: `matched_remaining_saved`, the original
+The registry now supports three preserved runs: `matched_remaining_saved`,
+`matched_campaign_saved` and `rich_family_saved` (106 joblib payloads across these
+archives). [ARTIFACT_REUSE.md](ARTIFACT_REUSE.md) covers all five discovery groups,
+including the directional archive and JSON parameter records that require manual
+verified byte-copy handling. Counts are not counts of independent experiments.
+
+As one concrete example, `matched_remaining_saved` preserves the original
 `matched-remaining-native-inputs` run with fingerprint
 `fc0a1423ca93b62e94f215b49a6a55aaf280524aadc1501b231efef4031a2763`.
 Its archive contains 26 files: 23 original payloads (including eight fitted `.joblib`
@@ -64,7 +70,9 @@ It verifies their reference records against the pinned manifest, not their live 
 The archive excludes the full predecessor input/model graph. Ordinary engineering source
 changes do not qualify a new consumer for these saved models.
 
-`doctor` reads installed package metadata without importing numerical/model libraries.
+`doctor` is the older limited package-metadata report. The startup command above uses
+[operational preflight](OPERATIONAL_PREFLIGHT.md) for exact source/document/review,
+revision, ownership and environment checks, without importing numerical/model libraries.
 Even matching version strings do not prove model-loading or prediction compatibility.
 Retrieval executes no model deserialization, prediction, fitting, checkpoint reconstruction,
 API call or broker/service operation. Runtime qualification, independent review and trading

@@ -1,3 +1,23 @@
+## Operational cleanup checkpoint — 2026-09-23
+
+Current navigation is `FOREX_HANDOFF.md` at the workspace root and Vault
+`CURRENT_STATUS.md`. Preserve historical entries below as dated evidence; resolve
+the current state through the Vault design/review/operational pointers and queue.
+
+Operational step: `mabel-operational-readiness-20260923`; packet: `OPERATIONAL_READINESS_20260923_180528/REVIEW.md`
+in the shared Forex Vault. Exact code/evidence identities are in that packet and
+`SHARED_GIT_REMOTE_LATEST.json`; the final publication/readback status is in its
+operation receipt. Local evidence: `operational_readiness_20260923/`.
+
+Scope: concise navigation with verbatim history, reconciled ownership board,
+verified duplicate-checkout removal, saved-artifact preservation/catalog and
+read-only startup gates. Full design and scientific order are unchanged.
+Next scientific item: `macro_currency_meter_numeric_evidence_join_v2`, after
+operational publication/review is complete and the user resumes that work.
+No models loaded/fitted; GPT/advisor comparisons remain deferred.
+
+---
+
 **Shared Git setup is available.** Read the repository root README.md and docs/SHARED_WORKSPACE.md; provide this machine's Vault path. Resolve `SHARED_GIT_REMOTE_LATEST.json` in the Vault for the final commit/publication status. Older setup statements below are historical. Scientific next remains `macro_currency_meter_numeric_evidence_join_v2`.
 
 **Shared operating rule: Vault first; reuse existing work before building or fitting.** Read [VAULT_FIRST_REUSE.md](C:/Users/zmoor/OneDrive/thevault/projects/forex/VAULT_FIRST_REUSE.md). Git should carry the complete runnable source; the Vault directs ownership, model/run reuse and handoffs. Missing local artifacts must not trigger an automatic refit. This documentation update does not change the scientific queue.
