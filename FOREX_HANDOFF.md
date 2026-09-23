@@ -32,6 +32,11 @@ baseline/after identities in the local step evidence directory. Follow the Vault
 [legacy pending record](trad/FOREX_PENDING_IMPROVEMENTS.md) preserves context;
 the live Vault queue sets order. [Directory map](docs/DIRECTORY_MAP.md) explains the layout.
 
+For detailed research continuation and a two-hour launch prompt, use
+[research handoff](docs/RESEARCH_HANDOFF.md), then the Vault
+`FOREX_RESEARCH_PATH.md`. That path defines the next implementation acceptance gate
+and progression toward indicator/layer comparisons and position rotation.
+
 Read the full engineering design once, then relevant requirements and verified handoff.
 Preserve original data, models, user edits and sealed packets. Passing tests, independent
 review, forecast evidence, policy evidence and trading authorization are separate.

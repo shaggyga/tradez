@@ -5200,3 +5200,20 @@ Implementation and validation detail: [FOREX_SIGNALS_LIVE_OPTIMIZATION_20260907.
 Current source publication anchor: `2083eb77ebbce103e1a5382969de7810a6e7f962`. Source commit push verified by the producing Git receipt. Remote receipt status: `source_commit_pushed_and_verified_private_forex_default`. This source commit precedes the handoff-document appendices. The later documentation commit is a separate identity, reported in `SHARED_GIT_REMOTE_LATEST.json`; absence of that operational receipt means final document publication is pending. Scientific next remains `macro_currency_meter_numeric_evidence_join_v2`. No numerical source, completed model, active service or trading authorization changed. The Vault remains the shared brain; retrieve existing hash-bound artifacts rather than refitting. Source audit, passing tests, this ready-for-review handoff and runtime qualification are separate statuses.
 
 See [shared Git instructions](C:/Users/zmoor/OneDrive/thevault/projects/forex/SHARED_GIT.md), [setup](C:/Users/zmoor/Documents/forex/docs/SHARED_WORKSPACE.md), and [this exact review packet](C:/Users/zmoor/OneDrive/thevault/projects/forex/SHARED_GIT_20260923_173051/REVIEW.md).
+
+
+## 2026-09-23: detailed research path and Terra timed handoff
+
+Step `mabel-research-path-handoff-20260923` is a documentation-only preparation checkpoint.
+Vault packet: `projects/forex/RESEARCH_PATH_20260923_200755/REVIEW.md`; current manifest resolves
+through `CHECKPOINT_REVIEW_LATEST.json`. Read Vault `FOREX_RESEARCH_PATH.md`
+and project `docs/RESEARCH_HANDOFF.md` for the explicit next package, reuse map,
+acceptance checklist, candidate contract and timed loop. First scientific item
+remains `macro_currency_meter_numeric_evidence_join_v2`.
+
+The user intends GPT-5.6 Terra medium for a later couple-hour run. No timed
+session, fit, model load or runtime change started in this preparation step.
+All current scientific source/queue identities remain unchanged.
+Verification and independent review are recorded in the packet; final shared
+Git revision/bundle and publication readback resolve via
+`SHARED_GIT_REMOTE_LATEST.json`. Preserve earlier entries as history.
