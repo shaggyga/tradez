@@ -1,0 +1,25 @@
+{
+  "can_place_orders": false,
+  "can_promote": false,
+  "gap_evidence_policy": "Existing named broker receipts only; at most8 recent interior gap minutes per pair; 15minute cached refresh; no new provider request or fabricated bar.",
+  "interval_seconds": 60,
+  "maximum_candidate_minutes": 8,
+  "maximum_tail_rows": 8192,
+  "model_training_performed": false,
+  "observation_config": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\rolling_technical_dataset_v1_20260915.json",
+  "observation_config_sha256": "961c5eadff4ab0a611ce95080f4b8655643e8f371e7e2796d6afe84fb742aa3c",
+  "observation_contract_policy": "Unchanged V1 numerical/store contract; exact source hashes retained. Additional runtime provenance is separate.",
+  "recovery_policy": "Single-writer lock; bounded7day child invocation; operational supervisor renews it; stop on storage bound; no automatic evidence deletion.",
+  "research_only": true,
+  "schema": "rolling_technical_operations_v2_20260916",
+  "source_bindings": {
+    "oanda_rolling_technical_alignment_v2.py": "8f48137d43a8a65dc01a18412464b5111d0ed35fcc75a9625fbd302734476f38",
+    "oanda_rolling_technical_continuity_v2.py": "e0a1fcff4bfec76021c360444702fdbb953a6e1ddfd062db343c0c8fb9730f64",
+    "oanda_rolling_technical_features_v1.py": "074a7b4fc138ef25a1e99b503ea693e0c31bc2e51a2e8f3753aab7556a6fb657",
+    "oanda_rolling_technical_inputs_v1.py": "0609b9562e4a528a5e44269af0135be5520418ff772305a5ee302ed3ee38f8cf",
+    "oanda_rolling_technical_panel_v1.py": "2426d0cf85dc1f1026d9ab49b0ade8925f8ba3a23730da0440a6b4c9293fb24e",
+    "oanda_rolling_technical_store_v1.py": "f2a0129174b4246887474da5c1c93c9c26e5aa88c6b6bc12aa86f37d531017f8",
+    "oanda_rolling_technical_worker_v1.py": "5cf0b2741c29d8a98356ffd8d12262b3263297f88ab22799c4c25eca2a5fa05e",
+    "oanda_rolling_technical_worker_v2.py": "30a3c3c33ac80ace8205b338310d0793ec0aa7c0360ccac3a877bedf4124f548"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "schema_version": "forex_remaining_development.v1",
+  "origin_epoch": 1721606460,
+  "target_epoch": 1721779260,
+  "cadence_seconds": 21600,
+  "fit_cutoff": 1721606400,
+  "training_start": 1719792000,
+  "evaluation_asof": 1722643200,
+  "ridge_lambda": 20,
+  "minimum_rows": 100,
+  "fit_latency_seconds": 60,
+  "prediction_latency_seconds": 2,
+  "new_minutes": [
+    360,
+    720,
+    1080,
+    1800,
+    2160,
+    2520
+  ],
+  "reuse_minutes": [
+    1440,
+    2880
+  ],
+  "scope": "previously_inspected_gross_midpoint_development",
+  "broker_access": false
+}

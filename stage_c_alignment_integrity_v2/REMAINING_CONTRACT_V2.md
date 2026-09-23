@@ -1,0 +1,9 @@
+# Exact remaining-horizon development recipe
+
+Reuses the reviewed pooled ridge, TrainingView, issue function, RunPublisher, frozen operator and guarded checkpoint implementation. Two existing first-cutoff fits (24h and 48h) are preserved byte-for-byte by model identity. Six new fits are direct 6h,12h,18h,30h,36h,42h gross midpoint labels; no interpolation or static rebasing. Grid is determined by the previously fixed six-hour cadence and original two-elapsed-day target, not selected on performance. All68 are retained. The cohort runs July22 to24,2024; only one cutoff is used, so frozen/adaptive are identical here and do not demonstrate adaptation benefit.
+
+Prepared labels reuse exact endpoint_outcomes and source features on verified C-drive archive members. Features equal the previously sealed observation file byte-for-byte. M1 availability is assumed bar-close, not recorded arrival. Source feature limitations and missing observations remain explicit. Outputs are fresh-feature conditional model estimates, not validated predictive quality. No scoring, calibrated probability, native policy packet, executable economics or full calendar campaign is claimed.
+
+Operator actions are status/run/resume/verify with externally trusted recipe SHA. Any source/input/config/environment drift returns review_required before runtime imports. Per-fit payloads survive actual process death; scientific outputs exclude measured fit timing. Restore repeats the real frozen operator and compares all four scientific outputs. Raw data archive, credentials and live account state are excluded.
+
+Next: review this bounded recipe, then qualify the remaining forecasts for native packet and execution/conversion/financing/arrival contracts. Do not feed gross forecasts into native_policy_input_v2 by relabeling its synthetic tier. Broader horizon/campaign and independent review remain open. GPT/advisor comparisons stay deferred.

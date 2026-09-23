@@ -1,0 +1,29 @@
+{
+  "schema_version": "forex_remaining_operator.v1",
+  "recipe": "remaining_gross_midpoint_development_slice",
+  "sources": {
+    "remaining_operator_v2.py": "3330245f4840e2c53e2edf92b86e7752b41ada1758606e31f423faf1d825c24f",
+    "remaining_runner_v2.py": "44cfe84697a2985176ea8654cfb20fe4c0d26d9c31dc322ccf7da78e21dc3b9f",
+    "remaining_horizon_v2.py": "1a485e54fd203b6bf898a06a17ffac4045692a593e4d6cfc82beb9519d27381c",
+    "historical_inputs_v2.py": "e01cba25bad448b59cde23e2772b70eb67afc9b469c6ed9f358c54c8000df508",
+    "fitted_consumer_v2.py": "e3b72f23d216845bbc5aee9385b59ac37ff3114aae728b0d372e3fa319d182ec",
+    "publication.py": "51e3eb20cee191a24b74c708bd5c54b25b8ea4a1042248e6a4a96bfebd81d797",
+    "contracts.py": "3a1776f0862f6bb4bc3ba73f4c0febec573350d712aa50e9dbcc0e253b11aecd"
+  },
+  "inputs": {
+    "PREFLIGHT_CONTRACT.json": "2bc358dabd0da39bae24d299c86a68fdfd7385582b6092f90f85304fedac99cb",
+    "PREFLIGHT_REPORT.json": "964a44a76ab754d8f379cb7b8156c72fe4d74e47c6c4ce30d97e712730ad4821",
+    "historical_observations.jsonl": "e9671b48d95f354bf430994f1892df630b25d73e997eb04e7bc59efba6a6a275",
+    "historical_outcomes.jsonl": "a578e917c7e375fbef1c7b624ed012b747cd1bff969ae2f1ce10dbcc13fa7781",
+    "reused_models.json": "5abc150775dbabc1595f58aea70e985af4620aca3d4f8eb1225d56a155af34e2"
+  },
+  "contract_sha256": "fba41d9619db43dbf082b097eb2e5e47a417935ffa2cd866636f132da63cf786",
+  "environment": {
+    "python": "3.12.10",
+    "numpy": "2.5.1"
+  },
+  "run_id": "remaining-development",
+  "broker_access": false,
+  "engineering_ready": false,
+  "demo_authorization_status": "not_granted"
+}

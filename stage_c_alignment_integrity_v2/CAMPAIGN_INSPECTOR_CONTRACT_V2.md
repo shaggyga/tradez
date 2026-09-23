@@ -1,0 +1,11 @@
+# Original campaign inspection and report contract
+
+This offline reader authenticates eleven completed input runs before displaying original records. Forecast inspection hides realized outcomes by default; explicit reveal requires an as-of clock and mature labels. Policy inspection preserves original decisions and only reveals ledger events at or before the requested clock. Missing coverage remains missing. No model fitting, ranking, promotion, broker access or account action occurs.
+
+The aggregate report intentionally reveals development scores and candle-policy outcomes. It includes all 68 instrument coverage counts, 56 score groups and four method/scenario policy groups. Episode movement is observed-frame MFE/MAE, never a continuous-path or barrier label. The zero 24-hour contiguous-path support and unknown marks remain explicit. Engineering readiness, general forecast evidence, policy evidence and demo authorization are separate gates; none is inferred from this report.
+
+Use `Run-Forex-Campaign.cmd -Action status` (or verify/run/resume). It reads the configured Python runtime from the adjacent parent `FOREX_INSPECTOR_LOCAL.json`, then invokes the pinned Python launcher. It does not change Windows execution policy. The optional PowerShell script requires a host that permits scripts; it is not the certified entry point on this host. `-Action inspect -Query query.json` accepts an explicit forecast or decision query. A recipe mismatch returns exit 2 and requires engineering review, not automatic repinning.
+
+Portable restoration requires this compact checkpoint plus BOTH ZIPs in EXTERNAL_CHECKPOINTS.json. Verify all three hashes, recreate DEPENDENCIES.json, then call campaign_inspector_checkpoint_v2.restore with a fresh destination and run_tests=True. It reconstructs raw slices through technical features, model fitting, remaining-horizon packets, eight policy runs and the final report, checking original scientific payload hashes. Timing payloads are bounded but not byte-identical. Machine paths are regenerated outside source identity. No original absolute data path is needed by the restored code.
+
+Passing implementation and relocation tests is not independent review or full design acceptance. Next: populated_rolling_feature_registry_reconciliation_v2.

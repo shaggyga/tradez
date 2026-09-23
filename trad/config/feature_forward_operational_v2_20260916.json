@@ -1,0 +1,29 @@
+{
+  "archive_root": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260914_features_v2\\feature_observations_v2",
+  "can_place_orders": false,
+  "can_promote": false,
+  "clock_state": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\clock_integrity_v1.json",
+  "cohort_id": "feature_forward_cached_m5_v2_20260916",
+  "directory": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260916_forward_v2\\feature_forward_cached_m5_v2_20260916",
+  "duration_sec": 172800,
+  "forward_frame_root": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260914_features_v6\\forward_frames_primary_m1_v1",
+  "maximum_ledger_bytes": 4294967296,
+  "minimum_free_bytes": 4294967296,
+  "notes": "Separate prospective research cohort. Frozen old ledgers and worker retain all original classifications and target settlement ownership. M5 comparison only; M15/H1 comparisons explicitly deferred. V1 thresholds and clocks unchanged. New read-only verified frame cache retains 32 original-clock frames; mapping waits for source age at most 40 seconds and still uses final 75-second gate. Partial quote refusals remain reported but are nonfatal when other quotes are usable. No orders or model promotion.",
+  "protocol_sha256": "13156e96743b2a44c7773ce39e31dddd440a3544fb6fff6bdf1e84ecb50343bd",
+  "quote_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_market_quotes_v1.json",
+  "research_only": true,
+  "schema_version": "feature_forward_operational_v2_20260916",
+  "source_bindings": {
+    "oanda_exact_price_scoring.py": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521",
+    "oanda_feature_candle_inputs_v2.py": "e7fda5a880a3727fe6ae0bb9a642cdd4f0b661b3cf53c68a4baf6f21dd372e55",
+    "oanda_feature_forward_ledger_v1.py": "784f942a1d7aebda34e5932f414d75ba80c80ca26dd5109a190588348d60e0ec",
+    "oanda_feature_forward_protocol_v1.py": "548ca6d4160f2c09c06c69581c869d50a14280d6a67013740f05bcd92ee01cc7",
+    "oanda_feature_forward_reader_v2.py": "af0d6bd4fdd353d63bea7b799914fe203eca878c87a67b52cda9225132025106",
+    "oanda_feature_forward_worker_v1.py": "74c20cfa830104f74aae0b89a50160541a65bdb3abea9cbdc3f98c0b3431ca38",
+    "oanda_feature_forward_worker_v2.py": "955055624f06ab6186684af16432c66a2779b812a51199322c6e44dff7b8de50",
+    "oanda_feature_move_mapping_v1.py": "32d2bbe72d9cba2635f024a15042158bbb477d1ca4788aa0433149f09f4feb39",
+    "oanda_feature_observations_v1.py": "dcc8a205aafb92ae87b7a096fd2b526ee61e001d875599f96b774efa5ef6e133",
+    "oanda_feature_research_clock_v1.py": "a1393304665e78ccc8c8b47eae55fd06989044d9fa99cd57c8fbf4490f1b0912"
+  }
+}

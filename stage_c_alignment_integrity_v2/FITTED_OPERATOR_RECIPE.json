@@ -1,0 +1,31 @@
+{
+  "schema_version": "forex_approved_operator_recipe.v5",
+  "recipe": "synthetic_fitted_consumer",
+  "sources": {
+    "forex_operator_v2.py": "16f661e500fa417b8d0c4f1d6a055efea4248b25dc619bf96ecedb6214e3c7e2",
+    "fitted_consumer_v2.py": "e3b72f23d216845bbc5aee9385b59ac37ff3114aae728b0d372e3fa319d182ec",
+    "fitted_fixture_v2.py": "0649bc65b3bed3ca3b066d7e2f317fdfc0316c7e39789ae9ec3fa424d60b1272",
+    "fitted_runner_v2.py": "788732f3c76f780de1face95998825b2e34d7f77732d3d6686832f2a82504ef0",
+    "FITTED_FIXTURE_UNIVERSE.json": "4ee1dbdb294c42038235d7052aaf794cb0c8306346775ff4d3049726c3fa66e8",
+    "publication.py": "51e3eb20cee191a24b74c708bd5c54b25b8ea4a1042248e6a4a96bfebd81d797",
+    "contracts.py": "3a1776f0862f6bb4bc3ba73f4c0febec573350d712aa50e9dbcc0e253b11aecd"
+  },
+  "predecessors": {},
+  "absent_import_paths": {},
+  "environment": {
+    "python": "3.12.10",
+    "packages": {
+      "numpy": "2.5.1",
+      "pyarrow": "25.0.0",
+      "tzdata": "2026.3",
+      "pytest": "9.1.1"
+    }
+  },
+  "run_ids": {
+    "qualified": "operator-fitted-consumer"
+  },
+  "engineering_ready": false,
+  "forecast_evidence_status": "no_new_evidence",
+  "policy_evidence_status": "synthetic_only",
+  "demo_authorization_status": "not_granted"
+}

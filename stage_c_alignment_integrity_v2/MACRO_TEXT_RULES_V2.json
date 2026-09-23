@@ -1,0 +1,66 @@
+{
+  "predecessor_sha256": "361a4e9b1d998b0786c7e65efd3d5ee5bf951eca6310202d6d7f770a0239dd78",
+  "predecessor": "oanda_policy_statement_breakout_research.py",
+  "rules": [
+    {
+      "axis": "guidance",
+      "pattern": "\\bmay (?:thus )?still (?:become )?necessary to raise\\b",
+      "weight": 0.35,
+      "label": "conditional_hike_may_still_be_needed"
+    },
+    {
+      "axis": "guidance",
+      "pattern": "\\bwill likely be necessary to raise\\b|\\blikely be necessary to raise\\b",
+      "weight": 0.85,
+      "label": "hike_likely_needed"
+    },
+    {
+      "axis": "guidance",
+      "pattern": "\\b(?:policy )?rate will be raised\\b|\\bwill raise the (?:policy )?rate\\b",
+      "weight": 1.0,
+      "label": "hike_committed"
+    },
+    {
+      "axis": "guidance",
+      "pattern": "\\bmay (?:thus )?still (?:become )?necessary to (?:cut|lower|reduce)\\b",
+      "weight": -0.35,
+      "label": "conditional_cut_may_still_be_needed"
+    },
+    {
+      "axis": "guidance",
+      "pattern": "\\bwill likely be necessary to (?:cut|lower|reduce)\\b|\\blikely be necessary to (?:cut|lower|reduce)\\b",
+      "weight": -0.85,
+      "label": "cut_likely_needed"
+    },
+    {
+      "axis": "guidance",
+      "pattern": "\\b(?:policy )?rate will be (?:cut|lowered|reduced)\\b|\\bwill (?:cut|lower|reduce) the (?:policy )?rate\\b",
+      "weight": -1.0,
+      "label": "cut_committed"
+    },
+    {
+      "axis": "inflation",
+      "pattern": "\\binflation (?:has )?(?:slowed and been |been )?lower than (?:projected|expected|anticipated)\\b",
+      "weight": -0.65,
+      "label": "inflation_lower_than_projected"
+    },
+    {
+      "axis": "inflation",
+      "pattern": "\\binflation pressures? (?:are |is )?(?:slightly )?(?:stronger|higher) than (?:projected|expected|anticipated)\\b",
+      "weight": 0.65,
+      "label": "inflation_pressure_stronger_than_projected"
+    },
+    {
+      "axis": "activity",
+      "pattern": "\\bcapacity utili[sz]ation\\b.{0,80}\\bdrifting down\\b|\\beconomy (?:is )?(?:cooling|weakening)\\b",
+      "weight": -0.2,
+      "label": "activity_drifting_down"
+    },
+    {
+      "axis": "activity",
+      "pattern": "\\bcapacity utili[sz]ation\\b.{0,80}\\b(?:rising|increasing)\\b|\\beconomy (?:is )?(?:strengthening|overheating)\\b",
+      "weight": 0.2,
+      "label": "activity_strengthening"
+    }
+  ]
+}

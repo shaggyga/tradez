@@ -1,69 +1,61 @@
-# Forex research project
+# Forex shared source
 
-**September 14 checkpoint:** [Current status, corrections, cleaning and recovery limits](docs/FOREX_CHECKPOINT_20260914.md). [The consolidated 37-item pending queue](FOREX_PENDING_IMPROVEMENTS.md) supersedes the older dated statuses below. Collection and price-local research run, but native joint forecasts and usable feature-forward admissions remain blocked. Dedup input selection is corrected to 795 registered / 790 retained inputs; no new model fit. Current practice runner is enabled with no native candidates. This is a checkpoint, not a service shutdown.
+The Vault is the shared brain. This repository holds the available project source,
+model definitions, configurations, tests and artifact references. Each person uses a
+local clone; the current design, queue, ownership and reviewed results live in their
+synced `thevault/projects/forex` folder. Resolve the live pointers before work.
 
-**September 14, 04:10 UTC — compact news installed:** profile V8 now selects the fresh native V4 cohort with the unchanged numerical model. Full 12,000-story capture and exact reconstruction passed; the live archive bootstrap has also succeeded. Transport is processing its retained backlog, so current native forecasts are still withheld. The source-bound practice successor is enabled and flat with zero claims, preserving the original September 16 00:02:33 UTC cutoff. [Handover, actual evidence and remaining acceptance](docs/FOREX_NATIVE_NEWS_HANDOVER_20260914.md). [Independent first-five-hours review of all 68 pairs and news](docs/FOREX_OPENING_FIVE_HOURS_20260913.md). The entries below describe their recorded checkpoints.
+## Start on another machine
 
-**September 14, 03:17 UTC — operational continuation:** M1 scheduling, deterministic feature serialization, bounded feature publication and strict successor-directory recovery validation have been repaired. Profile V7 selects the new observation archive while retaining the existing forward ledger and its original pending targets. Native news capacity remains under load testing; practice entries are durably halted after a maintenance-time supervisor preflight failure, with zero recorded intents. [Current continuation and remaining acceptance](docs/FOREX_OPERATIONAL_REPAIRS_20260913.md#september-14-operational-continuation) and [independent first-five-hours price/news review](docs/FOREX_OPENING_FIVE_HOURS_20260913.md). Earlier enabled/profile statements below describe their recorded times.
+```powershell
+git clone https://github.com/shaggyga/tradez.git forex
+cd forex
+python -I -B tools/forex_workspace.py status --vault 'C:/path/to/thevault/projects/forex'
+python -I -B tools/forex_workspace.py doctor
+```
 
-**September 13 evening / September 14 UTC — operational repairs and a new practice trial:** [Eight repair groups, exact current roots, validation and remaining blockers](docs/FOREX_OPERATIONAL_REPAIRS_20260913.md). Native V7 durable news admission is blocked by its aggregate 128-MiB JSON bound; a separate compressed and incremental successor is under load testing. Price scheduling, native feature inputs and observation/forward joins have separately registered successors. Profile V3, current dashboard source selection and both recovery task actions are deployed; an actual research-supervisor recovery exercise passed at 00:21 UTC. Practice007 was enabled at 00:03:32 UTC after a flat USD 40.7708 GET preflight with zero eligible native forecasts; the sealed trial ends September 16 at 00:02:33 UTC. Admission capacity, news/training readiness, per-pair rich-M1 coverage and RBNZ delivery remain open. No dependable profitable model is established. Earlier entries below retain their dates.
+Git credentials are machine-local. Python 3.10+ is sufficient for status and byte
+retrieval. Numerical engineering uses Python 3.12.10 and the bounded observed profile
+in `requirements-engineering.lock.txt`; individual recipes retain their own exact
+environment gates. Use a local virtual environment for dependencies. This publication
+does not install packages, launch services or authorize broker access.
 
-**September 12 — revamp scope clarified:** [Full model-audit requirement and first work packages](docs/FOREX_REVAMP_SCOPE_20260912.md). The user confirms ample demo environments; account inventory is not a revamp prerequisite. The original every-model audit remains unfinished. Complete coverage must include later families, material variants and orphaned source/artifacts, with explicit dispositions and selective recomputation. This is a scope correction, not a claim that the audit or revamp has been completed.
+Read [shared setup and artifact retrieval](docs/SHARED_WORKSPACE.md), then
+[the handoff](FOREX_HANDOFF.md). Historical absolute paths in evidence describe the
+original machine; supply your own Vault path to the helper. Current scientific source
+and its source hashes were preserved, including historical path limitations.
 
+## Reuse before running
 
-**September 12, 11:25–11:26 a.m. Eastern — current status and roadmap:** [Full strengths, weak points, runtime and priorities](docs/FOREX_STATUS_ROADMAP_20260912.md). No local Python/project PowerShell services or dashboard listener were observed. The new meter last recorded 135 blocked attempts and zero publications; clock verification remained stale. The original trial has a retained completed_flat receipt at Friday cutoff; current broker state was not queried. All 27 gap items and the older 29-action crosswalk are preserved. Earlier running statements below retain their original dates.
+1. Read the Vault's `DESIGN_ALIGNMENT_LATEST.json`, `CHECKPOINT_REVIEW_LATEST.json`,
+   `REVIEW_QUEUE.json`, `VAULT_FIRST_REUSE.md` and `CHAT_COORDINATION_BOARD.md`.
+2. Search exact existing model/run identities and claim eligible work on the board.
+3. Retrieve matching completed artifacts. Do not retrain because a local file is absent.
+4. Record code commit, input/model identities and evidence; publish a compact handoff
+   to the Vault and link it from `trad/FOREX_PROJECT_LOG.md`.
 
+The retrieval registry currently pins one existing eight-model run and its outputs.
+It verifies/copies bytes without importing or fitting models. The Vault contains
+additional historical model catalogs and recoveries. The registry is not exhaustive;
+the synced coordination board is not an atomic distributed lock.
 
-**September 12 — continuous currency-news capture implemented and started:** [Verified build and current blocker](docs/FOREX_CONTINUOUS_METER_20260912.md). 133 tests passed in both original and restored copies. Exact row deduplication, source-ID/lineage binding, bounded memory/time/storage and process recovery are implemented. The new service is running, but its first two attempts were withheld because upstream clock verification is stale. Automatic approval review blocked starting that dependency; no fresh captures or prediction gains are claimed.
+## Layout and history
 
+- `trad/`: existing system, tools, configuration and tests; its Git history is retained.
+- `stage_c_alignment_integrity_v2/`: current engineering sources, contracts and recipes.
+- `stage_b_20260921/`, `stage_c_all68_20260921/`: retained prerequisite sources.
+- `design_alignment_20260921/`: governing design and audits.
+- `direction_*`, `currency_meter_continuous_20260912/`: retained source dependencies.
+- `tools/`, `artifacts/`, `docs/`, `tests/`: portable sharing/retrieval helper and checks.
+- Other dated folders preserve historical Forex utility source for reuse and inspection;
+  their old launch/publish scripts are historical evidence, not current instructions.
 
-**September 11 late evening / September 12 UTC — signed-cost research completed:** [Implementation, results and remaining gaps](docs/FOREX_DIRECTION_DECISION_20260912.md). 130 integrated tests passed; eight saved model bundles and two news captures recreated. Probability calibration improved, but dependable after-cost direction remains unestablished. A four-horizon cost consumer and fresh currency-meter capture path are implemented in the isolated research package; continuous meter collection and broker-manager integration remain open. Earlier operational statements retain their own dates.
+Older commits predate the root migration and have `trad` files at their repository root.
+Current runtime folder paths are preserved. Raw data, active evidence, fitted weights,
+credentials and local environments are excluded from new source additions. Historical
+tracked evidence remains in history. See [source coverage](docs/SOURCE_COVERAGE.md).
 
-
-**September 11 evening — direction research completed:** [Build, measured results and recreation](docs/FOREX_DIRECTION_RESEARCH_20260911.md) records the new same-row technical/peer/news comparison at 5/15/30/60 minutes. 65 tests passed and 96 saved models were recreated. Results remain discovery; the active learner and trading configuration are unchanged.
-
-**September 11 — weekend setup prepared:** [Setup and verification](docs/FOREX_WEEKEND_SETUP_20260911.md) records staged forecast/order/runtime fixes, restored existing artifacts, native-curve publication/management components, and separate successor study configurations. 603 integrated tests passed; the extracted release passed 93 curve checks. Production source, the running trial and its deadline remain unchanged. This setup work supersedes the earlier documentation-only pause; remaining integrations stay explicit in the [change register](docs/FOREX_CHANGE_REGISTER_20260911.md).
-
-
-**September 11 — change tracking and model reuse:** [Needed changes](docs/FOREX_CHANGE_REGISTER_20260911.md) tracks 26 current gaps and links all 29 historical action IDs; [model reuse and performance](docs/FOREX_MODEL_REUSE_REGISTER_20260911.md) records what was already tried, measured results, evidence limitations, and the comparison required before repeating research. All 140 cold-library family records were located; this is not an independent rescore or successful recreation of every family. The completed two-hour watch and existing-picture inventory remain separately sealed. This update changes documentation only; further buildout remains paused. Earlier operational statements below retain their original observation dates.
-
-
-**September 10 — practice trading resumed:** [Current resume record](docs/FOREX_PRACTICE_RESUME_20260910.md). Research and the original Practice007 worker are running again; fresh broker reads confirm a new position with its protective stop. Windows sign-in recovery is installed and its task action was verified; 29 native checks and independent source review passed. Existing risk limits, loss history and Friday September 11, 4:45 p.m. Eastern cutoff remain intact. Earlier stopped/flat status below is dated history.
-
-
-**September 9 evening:** [Trade review](docs/FOREX_PRACTICE_TRADE_REVIEW_20260909.md): six losses total $0.3175 (0.7631%); account flat at $41.2867. Original H1 direction was correct on2/5 available outcomes, one missing. A PC reboot around5:37p.m.Eastern stopped trading/research; only the dashboard resumed. Earlier enabled status is dated history.
-
-
-Canonical project: `C:\Users\zmoor\Documents\forex\trad`.
-
-**September 9 afternoon — practice trading enabled:** [finite Practice007 trial](docs/FOREX_PRACTICE_TRIAL_20260909.md) connects the verified current price/news forecasts to the actual OANDA practice broker. First USD/JPY position and attached stop were broker-verified; 286 focused tests passed. The dedicated worker is set to close its owned positions and stop by Friday September 11, 4:45 p.m. Eastern. Original study contracts remain research-only; dated “orders disabled” statements below describe those earlier runs. No profitable-model acceptance or real-money trading is implied.
-
-**September 9 continuation through 09:00 Eastern:** [the continuation record](docs/FOREX_CONTINUATION_TO_0900_20260909.md) adds the completed 2,907-outcome joint reassessment, later original-curve/risk results, passive news-clock observation and final operations at their own cutoffs. Its separate validation identifies added evidence; the published early-close report below remains dated history. Orders and promotion remain disabled.
-
-**September 9 buildout:** [current consolidated report](docs/FOREX_OVERNIGHT_CURVE_BUILDOUT_20260909.md) records recovered curves, exact paper costs, inactive manager/channel/bridge repairs, risk research and ledger visibility. The user requested closeout around 12:08 UTC; later evaluations were canceled before starting. The report uses completed dated results and the 12:09 operations read. Source/record publication has its own completion receipt. Main forecasts and active paper management have not passed after-cost acceptance; orders and promotion remain disabled.
-
-The current dictionary has a [Sep9 metadata validation](docs/validation/overnight_curve_buildout_20260909/feature_dictionary_source_refresh_v1/FEATURE_DICTIONARY_METADATA_REFRESH_VALIDATION_20260909.json). The Sep8 validation retains its original historical hashes; it does not validate the refreshed JSON/MD implicitly. Exact referenced ATR function math is unchanged.
-
-**Vault-independent orientation:** [the system guide](docs/VAULT_SYSTEM_GUIDE.md) explains the full flow, evidence boundaries and offline reconstruction. Its links target the vault aliases; [the local research index](docs/RESEARCH_INDEX.md) uses source-layout links. Vault `KNOWLEDGE_INDEX.md` and `VAULT_READABILITY_REPORT.json` are generated after record/source export by `tools/audit_forex_vault_readability.py`.
-
-**How features are generated:** [the explanatory feature dictionary](docs/FOREX_FEATURE_DICTIONARY_CURRENT.md) separates the 251-entry design catalogue, six historical model schemas and the current 34-input price/news calculation. It includes formulas or explicitly unverified definitions, sources, units, lookbacks, missingness, timing and implementation status. Start with [the worked example](docs/feature_dictionary/active_joint_walkthrough.md); do not infer 251 active predictors from an inventory count.
-
-[Open the live dashboard](http://127.0.0.1:8765/#oanda) · [Active pipeline](docs/ACTIVE_PIPELINE.md) · [Audit and research index](docs/RESEARCH_INDEX.md)
-
-**Existing model inventory corrected September 8 UTC:** the project already has 227/220-feature models, a 795-input eight-horizon curve, a 643-feature MA grid and second-ridge curves. The current 34-input H1 study is a separate narrow path. Read [the completed implementation and validation audit](docs/FOREX_EXISTING_FEATURE_HORIZON_AUDIT_20260908.md) before proposing another curve. Some older source/models remain on D and in AppData; the vault source archive omits the ignored intrahour source package.
-
-The [blurb dataset audit addendum](docs/FOREX_BLURB_DATASET_AUDIT_20260908.md) adds the retained 7,048-row movement/news dataset, 2,935-factor reconstruction and earlier news/technical comparisons. These are separate from the constant macro columns found in specific older model matrices.
-
-**Revamp baseline completed September 8:** [baseline and recovery](docs/FOREX_REVAMP_BASELINE_RECOVERY_20260908.md) records an isolated source copy, 272 coherent study backups and recovered second-ridge inference. The fresh observation found a news topic-identity collision blocking combined forecasts and an intermittent price-display generation mismatch. Completed forecasts still lost after spread; these are dated findings, not current telemetry.
-
-The project is organized around **prices and vetted news → combined forecast → costs and risk → positions and results**.
-
-The active combined study learns from technical price history and news available at the relevant time. The separately registered [repaired-news v3 study](docs/FOREX_NEWS_RESEARCH_DEPLOYMENT_20260908.md) covers 68 pairs; current coverage and original one-hour outcomes are shown in the dashboard. Prior joint cohorts retain their completed evidence; the two obsolete joint workers were retired after their original obligations resolved. Price-only comparison studies remain separate. Orders and promotion remain disabled.
-
-Read [the combined-model and news repair](docs/FOREX_JOINT_PRICE_NEWS_20260907.md), [the latest measured price-model results](docs/FOREX_PRICE_V2_FIRST_OUTCOMES_20260907.md), and [source-bound validation](FOREX_JOINT_PRICE_NEWS_VALIDATION_20260907.json). Forecast availability is not demonstrated accuracy or profitability.
-
-Read current work in [pending improvements](FOREX_PENDING_IMPROVEMENTS.md) and the [project log](FOREX_PROJECT_LOG.md). Runtime ledgers, raw captures and private credentials are local. The Forex vault holds audit records and a verified source snapshot, with its README pointing back to this project.
-
-The scheduled bot-health automation is paused. The requested one-hour live watch was completed in chat; its evidence is indexed in the research page.
-
-Earlier README observations are preserved in [the dated history](docs/README_HISTORY_THROUGH_20260907T2150Z.md). Use their dates when comparing results; old runtime descriptions are not current health claims.
+The origin URL can move without changing model identity:
+`git remote set-url origin <new-repository-url>`.
+Use branches, review changes and ordinary non-force pushes. Pull/fetch before starting
+work, but do not overwrite local changes or another owner's in-progress scope.

@@ -1,0 +1,49 @@
+{
+  "schema_version": "forex_approved_operator_recipe.v5",
+  "recipe": "synthetic_accounting_reference_optimized",
+  "sources": {
+    "forex_operator_v2.py": "16f661e500fa417b8d0c4f1d6a055efea4248b25dc619bf96ecedb6214e3c7e2",
+    "accounting_events_v2.py": "b6d5d5350ff4c9b74d7ae535b9783dc2f3f417476eba5e7a18626f3c7f24a57a",
+    "accounting_fastpath_v2.py": "dd16edb548a7d6d3d76163e673919f74a55847eb85597fbdf1ba742241ba01f8",
+    "accounting_event_fixtures_v2.py": "8158aaaee53a03b64e606623035c2790d6f6fcbdfac06937ce08db28f7f9e4d9",
+    "accounting_event_audit_v2.py": "788d2185dcdb60515951765f1d1d3e9a3ed6a927dffc7c3cde1d87ebf1c2485c",
+    "accounting_event_runner_v2.py": "33e1da70d7a2227d7ba9b70dd9279b9cf124813b1c71c66e5e7694d4a625168f",
+    "reference_accounting_adapter_v2.py": "6c2244414486f911857affc3c721b787a652b1d9139cd4aa41d2094bf6e5be40",
+    "publication.py": "51e3eb20cee191a24b74c708bd5c54b25b8ea4a1042248e6a4a96bfebd81d797",
+    "contracts.py": "3a1776f0862f6bb4bc3ba73f4c0febec573350d712aa50e9dbcc0e253b11aecd"
+  },
+  "predecessors": {
+    "oanda_curve_management_replay_v1.py": "52fd04c6b087df4be775e490002afd0744caeb245604b8f577ab0fcff41de8f3",
+    "src/forex_system/research/sequential_portfolio_replay_v1.py": "e1201fdd3387825c9295f13045aeb00e2f87cce9ff819e789faf922ea2e514a6",
+    "src/forex_system/__init__.py": "e885437bab2a9de53fd7884bdc1d16c16e6bea31b3c78f548afbc44d24050c77"
+  },
+  "absent_import_paths": {
+    "src/__init__.py": null,
+    "src/__init__.pyc": null,
+    "src.py": null,
+    "src.pyc": null,
+    "src/forex_system.py": null,
+    "src/forex_system.pyc": null,
+    "src/forex_system/research/__init__.py": null,
+    "src/forex_system/research/__init__.pyc": null,
+    "src/forex_system/research.py": null,
+    "src/forex_system/research.pyc": null
+  },
+  "environment": {
+    "python": "3.12.10",
+    "packages": {
+      "numpy": "2.5.1",
+      "pyarrow": "25.0.0",
+      "tzdata": "2026.3",
+      "pytest": "9.1.1"
+    }
+  },
+  "run_ids": {
+    "reference": "operator-accounting-reference",
+    "optimized": "operator-accounting-optimized"
+  },
+  "engineering_ready": false,
+  "forecast_evidence_status": "no_new_evidence",
+  "policy_evidence_status": "synthetic_only",
+  "demo_authorization_status": "not_granted"
+}

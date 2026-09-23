@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "engine_name": "fresh_m1_intrahour_opportunity",
+  "candles_dir": "data/oanda_training_manager/candles",
+  "reports_dir": "fresh_m1_intrahour/reports",
+  "account_currency": "USD",
+  "initial_equity": 1000.0,
+  "margin_rate_default": 0.0333,
+  "target_margin_used_pct": 25.0,
+  "hard_max_margin_used_pct": 40.0,
+  "max_open_positions": 3,
+  "max_new_positions_per_cycle": 1,
+  "horizons_minutes": [1, 2, 3, 5, 8, 13, 21, 30],
+  "policy_templates": [
+    {"name": "tp2_sl3", "tp_pips": 2.0, "sl_pips": 3.0},
+    {"name": "tp3_sl5", "tp_pips": 3.0, "sl_pips": 5.0},
+    {"name": "tp5_sl8", "tp_pips": 5.0, "sl_pips": 8.0},
+    {"name": "tp8_sl12", "tp_pips": 8.0, "sl_pips": 12.0}
+  ],
+  "costs": {
+    "fallback_spread_pips_tier1": 1.8,
+    "fallback_spread_pips_tier2": 3.5,
+    "fallback_spread_pips_tier3": 8.0,
+    "slippage_pips_tier1": 0.2,
+    "slippage_pips_tier2": 0.4,
+    "slippage_pips_tier3": 1.0,
+    "switching_cost_pips": 0.4
+  },
+  "execution": {
+    "entry_delay_bars": 1,
+    "entry_price": "open",
+    "same_bar_ambiguity": "adverse_first",
+    "spread_multiplier": 1.0,
+    "live_execution_enabled": false,
+    "demo_execution_enabled": false
+  },
+  "two_pending_oco_breakout": {
+    "order_mode": "research",
+    "supported_order_modes": ["research", "paper", "demo"],
+    "live_supported": false,
+    "broker_placement_enabled": false,
+    "require_client_managed_oco_executor": true
+  },
+  "dynamic_policy_templates": [
+    {"name": "atr_0p25_0p40", "basis": "atr_15m_pips", "tp_mult": 0.25, "sl_mult": 0.40, "min_tp_pips": 1.0, "min_sl_pips": 1.5},
+    {"name": "atr_0p35_0p55", "basis": "atr_15m_pips", "tp_mult": 0.35, "sl_mult": 0.55, "min_tp_pips": 1.0, "min_sl_pips": 1.8},
+    {"name": "atr_0p50_0p80", "basis": "atr_15m_pips", "tp_mult": 0.50, "sl_mult": 0.80, "min_tp_pips": 1.5, "min_sl_pips": 2.5},
+    {"name": "spread_2p5_4p0", "basis": "spread_pips_used", "tp_mult": 2.5, "sl_mult": 4.0, "min_tp_pips": 1.0, "min_sl_pips": 1.5},
+    {"name": "spread_3p5_6p0", "basis": "spread_pips_used", "tp_mult": 3.5, "sl_mult": 6.0, "min_tp_pips": 1.0, "min_sl_pips": 2.0},
+    {"name": "range_0p30_0p50", "basis": "range_15m_pips", "tp_mult": 0.30, "sl_mult": 0.50, "min_tp_pips": 1.0, "min_sl_pips": 1.8}
+  ],
+  "tier1_pairs": [
+    "EUR_USD", "GBP_USD", "USD_JPY", "USD_CHF", "USD_CAD",
+    "AUD_USD", "NZD_USD", "EUR_JPY", "GBP_JPY", "AUD_JPY",
+    "EUR_GBP", "EUR_AUD", "EUR_CAD", "GBP_AUD", "GBP_CAD"
+  ],
+  "tier2_pairs": [
+    "AUD_CAD", "AUD_CHF", "AUD_NZD", "CAD_CHF", "CAD_JPY",
+    "CHF_JPY", "EUR_CHF", "EUR_NZD", "GBP_CHF", "GBP_NZD",
+    "NZD_CAD", "NZD_CHF", "NZD_JPY"
+  ],
+  "tier3_research_only_keywords": [
+    "MXN", "NOK", "SEK", "PLN", "CZK", "HUF", "TRY", "HKD", "SGD", "ZAR", "CNH", "DKK", "THB"
+  ],
+  "model": {
+    "random_state": 42,
+    "test_fraction": 0.25,
+    "min_train_rows": 1000,
+    "positive_ev_usd_threshold": 0.0,
+    "target_policy": "tp3_sl5",
+    "monthly_walk_forward_min_train_rows": 5000,
+    "monthly_walk_forward_min_test_rows": 500
+  },
+  "allocator": {
+    "exit_policy": "predicted_policy_ev",
+    "min_ev_usd": 0.01,
+    "uncertainty_buffer_usd": 0.01,
+    "replace_ev_margin_usd": 0.03,
+    "anti_churn_minutes": 3,
+    "position_notional_fraction": 0.10,
+    "max_units": 25000
+  },
+  "surface": {
+    "max_feature_lookback_minutes": 240,
+    "purge_embargo_minutes": 270,
+    "selection_fraction": 0.20,
+    "final_test_fraction": 0.20,
+    "write_all_candidates": false,
+    "top_candidates_per_timestamp": 5,
+    "max_train_rows_per_candidate": 30000,
+    "feature_families": [
+      "A_m1_price_action",
+      "B_m1_spread_cost_liquidity",
+      "C_m1_spread_currency_strength",
+      "D_m1_spread_strength_cross_sectional",
+      "E_full_session_htf_context"
+    ],
+    "model_names": [
+      "simple_baseline",
+      "calibrated_classifier_ev_regressor",
+      "tree_gradient_boosting",
+      "direct_ev_regressor"
+    ]
+  },
+  "unified_intrahour_forecast": {
+    "contract_version": "intrahour_mtf_forecast_v3_opportunity",
+    "decision_timeframe": "M1",
+    "context_timeframes": ["M1", "M30", "H1", "H4"],
+    "horizons_minutes": [1, 2, 3, 5, 10, 15, 30, 60],
+    "barrier_pips": [1, 3, 5],
+    "opportunity_horizons_minutes": [5, 15, 30, 60],
+    "return_lags_per_timeframe": 60,
+    "materialization_stride_minutes": 5,
+    "purge_minutes": 60,
+    "validation_fraction": 0.20,
+    "final_fraction": 0.20,
+    "max_matrix_rows": 225000,
+    "max_train_rows": 100000,
+    "random_state": 42,
+    "model_candidates": [
+      "ridge_m1",
+      "ridge_mtf_no_activity",
+      "ridge_mtf_full",
+      "extra_trees_mtf_full",
+      "hist_gradient_boosting_mtf_full"
+    ],
+    "selection_metric": "mean_horizon_mae_relative_to_no_change",
+    "forecast_target": "midpoint_path_plus_barrier_mfe_continuation_and_spread_normalized_opportunity",
+    "tradability_diagnostic": "next_bar_entry_executable_bid_ask_after_spread_and_slippage",
+    "tick_volume_semantics": "oanda_price_update_count",
+    "tick_volume_normalization": "pair_session_timeframe_historical_only",
+    "order_book_training_eligible": false,
+    "execution_depth_training_eligible": false,
+    "account_eligible": false,
+    "deployment_mode": "shadow_only",
+    "live_execution_enabled": false,
+    "oanda_execution_enabled": false
+  }
+}
