@@ -35,6 +35,14 @@
 # Historical fixture dependencies are explicitly tracked; new runtime files stay local.
 /revamp_8h_20260912/**
 
+# Retired-stage results and generated validation evidence remain local. Existing
+# tracked sources/receipts stay versioned; explicitly admit new historical fixtures.
+/stage_b_20260921/*
+/stage_c_all68_20260921/*
+/trad/docs/validation/**
+/trad/config/*.bak*
+/trad/config/*.before_*
+
 # Local credentials, environments, active evidence, databases, datasets and weights.
 **/.env
 **/.env.*

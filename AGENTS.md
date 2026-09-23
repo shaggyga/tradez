@@ -20,3 +20,10 @@ broker/service/account actions and D-drive investigation remain outside the curr
 offline work. Reuse preserved models/evidence before creating replacements.
 
 Shared reuse rule: read the Vault VAULT_FIRST_REUSE.md before any new implementation, fit or run. The Vault is the common brain for all local replicas. Discover and verify existing model/run identities before claiming work; missing local outputs require retrieval, not an automatic new fit. Preserve full runnable source in Git and exact artifact references in the Vault.
+
+
+## Shared Git handoff 2026-09-23 17:30 UTC
+
+Current source publication anchor: `2083eb77ebbce103e1a5382969de7810a6e7f962`. Source commit push verified by the producing Git receipt. Remote receipt status: `source_commit_pushed_and_verified_private_forex_default`. This source commit precedes the handoff-document appendices. The later documentation commit is a separate identity, reported in `SHARED_GIT_REMOTE_LATEST.json`; absence of that operational receipt means final document publication is pending. Scientific next remains `macro_currency_meter_numeric_evidence_join_v2`. No numerical source, completed model, active service or trading authorization changed. The Vault remains the shared brain; retrieve existing hash-bound artifacts rather than refitting. Source audit, passing tests, this ready-for-review handoff and runtime qualification are separate statuses.
+
+See [shared Git instructions](C:/Users/zmoor/OneDrive/thevault/projects/forex/SHARED_GIT.md), [setup](C:/Users/zmoor/Documents/forex/docs/SHARED_WORKSPACE.md), and [this exact review packet](C:/Users/zmoor/OneDrive/thevault/projects/forex/SHARED_GIT_20260923_173051/REVIEW.md).
