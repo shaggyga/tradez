@@ -5217,3 +5217,11 @@ All current scientific source/queue identities remain unchanged.
 Verification and independent review are recorded in the packet; final shared
 Git revision/bundle and publication readback resolve via
 `SHARED_GIT_REMOTE_LATEST.json`. Preserve earlier entries as history.
+
+## Current verified queue
+
+`macro_currency_meter_numeric_evidence_join_v2` is implemented and checkpointed
+as `MACRO_NUMERIC_EVIDENCE_JOIN_20260923_214050`, but independent review is
+pending. Resume with `review_macro_currency_meter_numeric_evidence_join_v2`;
+do not advance to forecast layers, model fitting, GPT/advisor comparisons, or
+any broker/service activity from this checkpoint.

@@ -7039,3 +7039,17 @@ All current scientific source/queue identities remain unchanged.
 Verification and independent review are recorded in the packet; final shared
 Git revision/bundle and publication readback resolve via
 `SHARED_GIT_REMOTE_LATEST.json`. Preserve earlier entries as history.
+
+## 2026-09-23 — numeric evidence join checkpoint
+
+The hash-bound macro currency meter numeric-evidence consumer is implemented at
+Git commit `39fe37b1a648e28d55f5e4b0d44f481ce7daacef` and published in Vault
+packet `MACRO_NUMERIC_EVIDENCE_JOIN_20260923_214050/REVIEW.md`. Its retained
+run identity is `7204c1e44e3f9e52296859209440ba697b238f4e310ff17c6fec4bf2c83b3963`;
+the portable checkpoint SHA-256 is
+`cfe9d949f47e7a421fe4f7ea14c07f07712e0f1cd4399326488ea10a82472269`.
+
+The packet records 27 passing local tests in its pinned environment and a
+portable restore with five identical payloads. It is **ready for independent
+review**, not accepted and not forecast/policy/demo authorization. The exact
+queue item is `review_macro_currency_meter_numeric_evidence_join_v2`.
