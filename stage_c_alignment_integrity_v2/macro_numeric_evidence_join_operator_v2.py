@@ -20,6 +20,9 @@ BASE_INPUTS = (
     "scoped_text_cache.json", "universe.json", "version_bindings.json",
     "numeric_source_asof.json", "repaired_component_source_asof.json", "unit_source_asof.json",
     "provenance_source_asof.json",
+    "numeric_material_cache.json", "component_evidence_cache.json", "unit_source_bindings.json",
+    "unit_unresolved_evidence.json", "provenance_bindings.json",
+    "numeric_parent_manifest.json", "component_parent_manifest.json", "unit_parent_manifest.json", "provenance_parent_manifest.json",
 )
 REQUIRED = ("meter_currency_states.json", "meter_document_evidence.json", "meter_pair_views.json", "meter_report.json", "meter_view.html")
 MAX_INPUT_BYTES = 8 * 1024 * 1024

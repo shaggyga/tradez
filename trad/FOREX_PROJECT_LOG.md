@@ -7065,3 +7065,16 @@ than only embedded in the payload. Commit `37b443c58ab55b703cce02d425c794f9b976a
 passed 28 tests and a new retained-input run plus portable restore. The current
 Vault packet is `MACRO_NUMERIC_EVIDENCE_JOIN_20260924_002217`; independent
 acceptance review remains the exact next item.
+
+## 2026-09-24 — independent numeric join review and repairs
+
+Independent review found cross-cutoff document duplication, missing readiness/content
+checks, loss of the existing meter controls, and unresolved evidence-cache references.
+Successor packet `NUMERIC_JOIN_REVIEW_REPAIRS_20260924_004443` records the findings
+and their resolution at exact source hashes. The repaired retained run is
+`ce4a0b8ffbcbb5dd394cd92ab6981a268c55bc6caf9cd2ffaeca4fa1e6cdf254`;
+checkpoint SHA256 `a05a7810ee6077362b74964af40012e1d9571f6d919c5f0bc129391cdcc9d95c`.
+Local regression: 36 passed. Actual browser, independent invariant checks and
+fresh portable replay are recorded by the separate reviewer in that packet.
+The exact next item resumes existing partial `whole_curve_warm_start_capacity_followup_v2`;
+new forecast experiments stay behind its required completion. No model fits or live actions.

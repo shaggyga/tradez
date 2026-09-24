@@ -5225,3 +5225,11 @@ as `MACRO_NUMERIC_EVIDENCE_JOIN_20260924_002217`, but independent review is
 pending. Resume with `review_macro_currency_meter_numeric_evidence_join_v2`;
 do not advance to forecast layers, model fitting, GPT/advisor comparisons, or
 any broker/service activity from this checkpoint.
+
+### 2026-09-24 successor review
+
+The entry above is historical. Resolve current numeric-join repairs through
+`NUMERIC_JOIN_REVIEW_REPAIRS_20260924_004443/REVIEW.json` and the live pointers.
+After its independent acceptance, resume the existing partial
+`whole_curve_warm_start_capacity_followup_v2` using the retained warm_curve_step/RESUME.md.
+Preserve both prototype runs and saved model inputs; do not refit.
