@@ -43,7 +43,27 @@ def inspect(package,digest):
             if info.file_size!=row['bytes'] or stat.S_ISLNK(info.external_attr>>16) or hashlib.sha256(z.read(name)).hexdigest()!=row['sha256']:raise ValueError('checkpoint_member_changed')
         return manifest
 
+def restore(package,digest,destination,source):
+    manifest=inspect(package,digest); destination=Path(destination); source=Path(source)
+    if destination.exists() and any(destination.iterdir()):raise ValueError('checkpoint_empty_destination_required')
+    destination.mkdir(parents=True,exist_ok=True)
+    with zipfile.ZipFile(package) as z:
+        for row in manifest['members']:
+            target=destination/safe(row['path']);target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(z.read(row['path']))
+    paths={'native':str(destination/'native'),'extension':str(destination/'extension'),'trad':str(source.parent/'trad')}
+    (destination/'PATHS.json').write_bytes(enc(paths)); contract=source/'CURRENCY_PROJECTION_POLICY_CONTRACT_V2.json'
+    command=[sys.executable,'-X','utf8','-I','-B',str(source/'currency_projection_policy_operator_v2.py'),'run','--contract',str(contract),'--contract-sha256',sha(contract),'--paths',str(destination/'PATHS.json'),'--runs-dir',str(destination/'runs')]
+    subprocess.run(command,capture_output=True,text=True,timeout=7200)
+    expected=read_expected(destination/'EXPECTED.json'); actual=run_manifest(destination/'runs')
+    if actual!=expected:raise ValueError('checkpoint_replay_payload_mismatch')
+    review=[sys.executable,'-X','utf8','-I','-B',str(source/'currency_projection_policy_review_v2.py'),'--contract',str(contract),'--runs-dir',str(destination/'runs')]
+    result=subprocess.run(review,capture_output=True,text=True,timeout=600)
+    if result.returncode:raise ValueError('checkpoint_replay_review_failed:'+result.stdout+result.stderr)
+    return {'status':'VERIFIED','runs':len(actual),'checkpoint_sha256':digest,'review':json.loads(result.stdout)}
+
+def read_expected(path):return json.loads(Path(path).read_bytes())
+
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('action',choices=['export','inspect']);p.add_argument('--package',type=Path,required=True);p.add_argument('--sha256')
-    for n in ('runs-dir','native','extension','source'):p.add_argument('--'+n,type=Path)
-    a=p.parse_args();print(json.dumps(inspect(a.package,a.sha256) if a.action=='inspect' else export(a.package,a.runs_dir,a.native,a.extension,a.source),sort_keys=True))
+    p=argparse.ArgumentParser();p.add_argument('action',choices=['export','inspect','restore']);p.add_argument('--package',type=Path,required=True);p.add_argument('--sha256')
+    for n in ('runs-dir','native','extension','source','destination'):p.add_argument('--'+n,type=Path)
+    a=p.parse_args();print(json.dumps(inspect(a.package,a.sha256) if a.action=='inspect' else restore(a.package,a.sha256,a.destination,a.source) if a.action=='restore' else export(a.package,a.runs_dir,a.native,a.extension,a.source),sort_keys=True))
