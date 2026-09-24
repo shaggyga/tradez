@@ -5350,3 +5350,21 @@ accepted; independent review pending/nonblocking. No portfolio PnL or live readi
 claim. Exact next: `later_remaining_layer_policy_comparison_v2`, with shifted dates
 and identical original cost/risk/accounting rules. Shared commit resolves via
 `SHARED_GIT_REMOTE_LATEST.json`.
+
+
+## 2026-09-24 — later_remaining_layer_policy_comparison_v2
+
+All14preserved variants through2cost scenarios,6isolated arms and2accounting engines:
+56runs/168closed outcomes,140economic engine payload equalities,1456outputs identical
+after real crash recovery and relocated replay.18local+18relocated tests and67parent
+regressions pass (11optional fixture skips). No fits/loads/API calls. Frozen magnitude
+beats matched raw2/16active paths; expanding0/16. Negative results preserved; inspected
+cohort, hypothetical candle execution, no confirmation or trading authorization.
+Same-task review accepted; independent review pending/nonblocking.
+
+Vault packet: [LATER_LAYER_POLICY_20260924_070000](../../../OneDrive/thevault/projects/forex/LATER_LAYER_POLICY_20260924_070000/REVIEW.md).
+Local evidence: `until8am_20260923_215844/later_policy_step` (WORK_LOG/PENDING_CHANGES,
+exact recipe/run identities in VERIFICATION/main.stdout; capsule and restore proof).
+Next: `layer_policy_failure_attribution_v2`; see the packet's NEXT_CANDIDATE.json.
+
+Recipe SHA256: `6ce6aa1b6e1c8c6ae176fd6aca80164cc1b9c14a7fc5fb0e96b49f472c1de60b`. Checkpoint SHA256: `7e924533628feaa96040d516bcf92dc35e6a70d3b657ee3d8ab688baf8015197`.

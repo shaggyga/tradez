@@ -35,6 +35,9 @@ def identity_for(contract,frames,trad_root=DEFAULT_TRAD,engine="reference"):
             'matched_remaining_native_v2.py','matched_campaign_models_v2.py','retained_signed_cost_models_v1.py')
     if any(f.get('model_profile') == 'matched26_fixed_half_remaining_policy.v1' for f in frames):
         sources=(*sources,'fixed_blend_remaining_policy_v2.py')
+    if any(f.get('model_profile') == 'later_remaining_layer_policy.v1' for f in frames):
+        sources=(*sources,'later_policy_scenario_v2.py','later_policy_input_v2.py','later_policy_fixture_v2.py',
+            'later_surface_native_v2.py','LATER_LAYER_POLICY_CONTRACT_V2.json','LATER_POLICY_AUTHORITY_V2.json')
     return effective_run_identity(contract={"schema_version":"forex_policy_run.v2","contract":contract,"engine":engine,
         "python":".".join(map(str,sys.version_info[:3])),"frame_count":len(frames),"required_payloads":sorted(required(len(frames)))},
         dependency_hashes={**{n:sha256_file(ROOT/n) for n in sources},
@@ -114,6 +117,8 @@ def run(contract,frames,*,run_id,runs_dir,trad_root=DEFAULT_TRAD,engine="referen
                 if len(methods)!=1 or len(profiles)!=1:raise ValueError('matched_policy_run_profile_mismatch')
                 report.update(model_profile=next(iter(profiles)),method=next(iter(methods)),
                     forecast_evidence_status='matched26_fitted_fresh_remaining_development_forecasts')
+                if report['model_profile']=='later_remaining_layer_policy.v1':
+                    report['forecast_evidence_status']='preserved_later_causal_remaining_development_surface'
             report['valuation_coverage']={arm:{
                 'event_marks_unavailable':sum(row['arms'][arm]['equity_usd'] is None for row in replay.rows),
                 'decision_values_unavailable':sum(d['arm']==arm and d['values'].get('valuation_status')=='unavailable' for d in replay.decisions),

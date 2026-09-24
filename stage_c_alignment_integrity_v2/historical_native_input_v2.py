@@ -26,7 +26,9 @@ SCENARIOS={name:{'scenario_id':name,'input_tier':TIER,'slippage_bps_per_leg':sli
 
 def validate_scenario(scenario):
     if scenario!=SCENARIOS.get(scenario.get('scenario_id')):
-        raise ValueError('frozen_retrospective_scenario_required')
+        from later_policy_scenario_v2 import scenarios
+        if scenario!=scenarios().get(scenario.get('scenario_id')):
+            raise ValueError('frozen_retrospective_scenario_required')
 
 
 def panel(points,epoch):
@@ -141,7 +143,7 @@ def prepared_candidate(packet,quotes,epoch,target,scenario,metadata,trad_root=DE
         terminal=Decimal(node['expected_terminal_price']);change=terminal-q['mid'];pips=change/Decimal(metadata['pip_size'])
     bound={k:deepcopy(q[k]) for k in ('instrument','quote_id','market_epoch','available_epoch','tradeable')}
     bound.update(bid=str(q['bid']),ask=str(q['ask']))
-    future_rates=rates[pair] if epoch<ROLLOVER<target else {'long':'0','short':'0'}
+    future_rates=rates[pair] if epoch<scenario['rollover_epoch']<target else {'long':'0','short':'0'}
     body={'status':'available','scope':'engineering_replay','input_tier':TIER,'instrument':pair,
         'side':1 if change>0 else -1 if change<0 else 0,'curve_id':'retrospective-'+packet['packet_sha256'],
         'curve_sha256':packet['packet_sha256'],'node_id':node['node_id'],'node_sha256':node['node_sha256'],
@@ -176,6 +178,9 @@ def adapted_candidates(frame,config,trad_root=DEFAULT_TRAD):
 def validate_historical_frame(frame,config,trad_root=DEFAULT_TRAD):
     if frame.get('input_tier')!=TIER:raise ValueError('historical_frame_tier_required')
     validate_scenario(frame['scenario'])
+    if frame.get('model_profile')=='later_remaining_layer_policy.v1':
+        from later_policy_input_v2 import validate_frame_authority
+        validate_frame_authority(frame,config)
     if str(config['slippage_bps_per_leg'])!=frame['scenario']['slippage_bps_per_leg']:
         raise ValueError('historical_slippage_contract_mismatch')
     if config['execution_delay_sec']!=58:raise ValueError('historical_execution_delay_contract_mismatch')
@@ -184,7 +189,10 @@ def validate_historical_frame(frame,config,trad_root=DEFAULT_TRAD):
     if frame['quotes']!=panel(points,frame['epoch']):raise ValueError('historical_quote_point_binding_mismatch')
     if frame['kind']=='decision':
         if frame.get('candidate_kind')!='curve':raise ValueError('historical_native_candidate_kind_required')
-        if frame.get('model_profile') is not None:
+        if frame.get('model_profile')=='later_remaining_layer_policy.v1':
+            from later_policy_input_v2 import adapted_candidates as later_candidates
+            candidates,refusals=later_candidates(frame,config,trad_root)
+        elif frame.get('model_profile') is not None:
             from matched_policy_input_v2 import adapted_candidates as matched_candidates
             candidates,refusals=matched_candidates(frame,config,trad_root)
         else:candidates,refusals=adapted_candidates(frame,config,trad_root)
@@ -194,5 +202,5 @@ def validate_historical_frame(frame,config,trad_root=DEFAULT_TRAD):
             if fill!={'units':'remaining','evidence_id':f"scenario-full-fill:{frame['scenario']['scenario_id']}:{arm}:{frame['epoch']}"}:
                 raise ValueError('historical_declared_fill_binding_mismatch')
     elif frame['kind']=='financing':
-        if frame['epoch']!=ROLLOVER or frame['rates']!=financing_event_rates(frame['quotes'],frame['epoch'],frame['scenario'],trad_root):
+        if frame['epoch']!=frame['scenario']['rollover_epoch'] or frame['rates']!=financing_event_rates(frame['quotes'],frame['epoch'],frame['scenario'],trad_root):
             raise ValueError('historical_rollover_scenario_mismatch')
