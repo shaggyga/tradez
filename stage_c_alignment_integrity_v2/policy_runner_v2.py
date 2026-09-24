@@ -41,6 +41,9 @@ def identity_for(contract,frames,trad_root=DEFAULT_TRAD,engine="reference"):
     if any(f.get('model_profile') == 'chronological_layer_policy.v1' for f in frames):
         sources=(*sources,'chronological_policy_scenario_v2.py','chronological_policy_input_v2.py','chronological_policy_fixture_v2.py',
             'later_surface_native_v2.py','CHRONOLOGICAL_POLICY_CONTRACT_V2.json','CHRONOLOGICAL_POLICY_AUTHORITY_V2.json')
+    if any(f.get('model_profile') == 'currency_projection_policy.v1' for f in frames):
+        sources=(*sources,'currency_projection_policy_input_v2.py','currency_projection_policy_fixture_v2.py',
+            'currency_projection_policy_operator_v2.py','CURRENCY_PROJECTION_POLICY_CONTRACT_V2.json')
     return effective_run_identity(contract={"schema_version":"forex_policy_run.v2","contract":contract,"engine":engine,
         "python":".".join(map(str,sys.version_info[:3])),"frame_count":len(frames),"required_payloads":sorted(required(len(frames)))},
         dependency_hashes={**{n:sha256_file(ROOT/n) for n in sources},

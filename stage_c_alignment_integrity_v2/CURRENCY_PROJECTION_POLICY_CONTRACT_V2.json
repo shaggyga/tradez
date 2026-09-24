@@ -1,0 +1,20 @@
+{
+  "schema_version": "forex_currency_projection_policy.v1",
+  "experiment_id": "currency_projection_policy_comparison_v2",
+  "status": "frozen_before_policy_replay",
+  "hypothesis": "Under the same declared costs, risk controls, accounting and dated candle scenarios, direct, full currency-projection and half-residual forecasts may produce different descriptive policy paths.",
+  "methods": ["ridge__direct", "ridge__currency_projection", "ridge__half_residual", "recovered_hgb__direct", "recovered_hgb__currency_projection", "recovered_hgb__half_residual"],
+  "scenarios": {"later_monday_candle_zero_slippage_financing": {"cohort": "later_monday", "slippage_bps_per_leg": "0", "single_rollover_cost_bps_of_base_usd": "0"}, "later_monday_candle_one_bp_slippage_rollover": {"cohort": "later_monday", "slippage_bps_per_leg": "1", "single_rollover_cost_bps_of_base_usd": "1"}, "later_tuesday_candle_zero_slippage_financing": {"cohort": "later_tuesday", "slippage_bps_per_leg": "0", "single_rollover_cost_bps_of_base_usd": "0"}, "later_tuesday_candle_one_bp_slippage_rollover": {"cohort": "later_tuesday", "slippage_bps_per_leg": "1", "single_rollover_cost_bps_of_base_usd": "1"}},
+  "cohorts": {"later_monday": {"origins": [1722276060, 1722297660, 1722319260, 1722340860, 1722362460, 1722384060, 1722405660, 1722427260], "target_epoch": 1722448860, "rollover_epoch": 1722362461, "rollover_price_epoch": 1722362460}, "later_tuesday": {"origins": [1722362460, 1722384060, 1722405660, 1722427260, 1722448860, 1722470460, 1722492060, 1722513660], "target_epoch": 1722535260, "rollover_epoch": 1722448861, "rollover_price_epoch": 1722448860}},
+  "engines": ["reference", "optimized"],
+  "expected_run_count": 48,
+  "expected_policy_arms": ["fixed_hold", "recovered", "naive", "continuation", "hysteresis", "cash"],
+  "parent_native_identity": "7e9c869d90898082e6ba31de4cdcbb4bc4269d1fee9717d85a507c63bbec2f28",
+  "parent_extension_identity": "77f2606d71fe60b974bb5a7cce15fb6d257b418b2c66f2405c973bbb2da01c90",
+  "input_tier": "historical_fitted_candle_policy_scenario.v1",
+  "model_profile": "currency_projection_policy.v1",
+  "resources": {"main_wall_seconds": 7200, "max_rss_bytes": 2147483648, "minimum_disk_free_bytes": 8589934592, "max_main_bytes": 9663676416, "max_restore_bytes": 9663676416, "reserve_bytes": 8589934592, "workers": 1},
+  "stop_rules": "Stop on source, parent identity, coverage, timing, accounting parity or resource failure. Preserve partial output. Do not tune, select a winner, refit a base/layer model, substitute coverage, call GPT/advisors, paid APIs, brokers or live services.",
+  "uncertainty": "Two overlapping inspected development cohorts and dependent instruments. This is descriptive offline scenario evidence, not confirmation, profitability, live execution or trading authorization.",
+  "readiness": {"engineering_ready": false, "demo_authorization_status": "not_granted", "forecast_evidence_status": "qualified_currency_projection_native_development_forecasts", "policy_evidence_status": "offline_descriptive_policy_comparison_only"}
+}
