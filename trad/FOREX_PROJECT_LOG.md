@@ -7323,3 +7323,10 @@ Both overlapping cohorts:11048forecasts/15232coverage slots/336accounts;675selec
 Vault: [CHRONOLOGICAL_ATTRIBUTION_20260924_UNTIL8AM](../../../OneDrive/thevault/projects/forex/CHRONOLOGICAL_ATTRIBUTION_20260924_UNTIL8AM/REVIEW.md). Local evidence: `until8am_20260923_215844/chronological_attribution_step`.
 Recipe SHA256: `6650b12f41ffbab42fed2a211b6be649ef965af4bffc8cfd5ffdcb2bff2020c9`. Run identity: `fdd9561da2492a0823710151a33ca6bb9a606f205809f78274a70b1109191609`. Checkpoint SHA256: `2fa082e82eaca619d7b268d2e51579cd48b4c7bd44f9f8f5e4e8dba104daf7fc`.
 Next: `currency_factor_forecast_projection_v2`.
+
+
+## 2026-09-24 — currency_factor_forecast_projection_v2
+
+Existing pure currency solver reused on forward forecast edges:192frames,78336coverage slots,51744forecasts. Both fixed variants improve matched MAE/MSE in16of16dependent learner/horizon cells; each has1daily MAE exception. No confirmation or trading-profit claim.19local+19relocated tests;195outputs reproduce;256Decimal solver checks/17248projected values. No base-model loads/fits, learned layer fits or policy replay.
+Vault: [CURRENCY_PROJECTION_20260924_UNTIL8AM](../../../OneDrive/thevault/projects/forex/CURRENCY_PROJECTION_20260924_UNTIL8AM/REVIEW.md). Local: `until8am_20260923_215844/currency_projection_step`. Recipe `ef1b24f002891bc84408e24cf084254e27f6165c0af048c51b382bd43ca53e8d`; run `5c8cb84166076bcdba4724dc277c32e2520de4f548869adca3491807ef10b0d3`; capsule `9de8bfcc8a0f350391d7ccc937f0d3b08d248d9f146be43fb045b45e6db1091f`.
+Next: `currency_projection_native_policy_inputs_v2`. Same-task accepted; independent review pending/nonblocking.
