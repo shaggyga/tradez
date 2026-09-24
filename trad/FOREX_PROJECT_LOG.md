@@ -7110,3 +7110,18 @@ The packet is `FORECAST_BLEND_20260923_221900/REVIEW.md`. It is ready for indepe
 review only: metrics are descriptive, no winner/confirmation/economic claim is made,
 and no forecast/policy/demo authorization exists. Exact next item:
 `review_retained_equal_weight_forecast_blend_diagnostic_v2`.
+
+## 2026-09-24 — blend review corrections and timed continuation
+
+User clarified that pending independent review must not stop the timed session.
+Original deadline remains 08:00 Eastern. Same-task review found and repaired assessment
+clock, orphan/coverage, degenerate uncertainty, precompletion validation, and executable
+resource-limit gaps.17 tests passed; early and final crashes resumed with58 identical
+scientific outputs; fresh relocation reproduced58 outputs and passed17 tests. Corrupt
+input on completed verify and active-writer takeover were refused. No base fits or loads.
+The successor is `FORECAST_BLEND_REPAIRS_20260924_031500/REVIEW.json`; checkpoint SHA256
+`054fa026b3366d0150264f37372809554160a81f3e5afbb078d3a8287d6e4287`, run
+`c63cc3f43c0877a67927652e9d582ed06bf00622c9f4676cabab195265f0f3fb`.
+Same-task acceptance is explicitly independent_review=false; separate review remains
+pending without halting eligible offline research. Next: freeze and execute
+`causal_convex_forecast_blend_diagnostic_v2` from the published candidate card.

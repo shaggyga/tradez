@@ -38,6 +38,10 @@ def pair_forecasts(rows, group, minutes, procedure):
         validate_forecast(forecast)
         if forecast["target_id"] != expected_target or row["method"] not in METHODS:
             raise ValueError("blend_source_target_or_method_mismatch")
+        if forecast["model_id"] != fingerprint({"fit_id": row["selected_fit_id"], "method": row["method"]}):
+            raise ValueError("blend_model_fit_identity_mismatch")
+        if row["selected_fit_cutoff"] > forecast["model_ready_epoch"] or forecast["coverage_reason"] != "eligible":
+            raise ValueError("blend_invalid_fit_clock_or_eligibility")
         key = _key(row)
         if row["method"] in by_key[key]:
             raise ValueError("duplicate_blend_base_forecast")
@@ -46,12 +50,12 @@ def pair_forecasts(rows, group, minutes, procedure):
     for key, values in by_key.items():
         if set(values) == set(METHODS):
             ridge, hgb = values["ridge"]["forecast"], values["recovered_hgb"]["forecast"]
-            for field in ("instrument", "target_id", "decision_epoch", "available_epoch", "model_ready_epoch"):
+            for field in ("instrument", "target_id", "decision_epoch", "available_epoch", "model_ready_epoch", "training_view_fingerprint"):
                 if ridge[field] != hgb[field]:
                     raise ValueError("blend_base_identity_mismatch:" + field)
             paired[key] = values
-        elif set(values) not in ({"ridge"}, {"recovered_hgb"}):
-            raise ValueError("invalid_blend_base_method_set")
+        else:
+            raise ValueError("eligible_blend_base_forecasts_missing")
     return paired
 
 
@@ -89,6 +93,8 @@ def build_chunk(rows, coverage, outcomes, contract):
         if method not in METHODS or method in coverage_by[key]:
             raise ValueError("blend_coverage_identity_mismatch")
         coverage_by[key][method] = item
+    if set(pairs_by_coverage) - set(coverage_by):
+        raise ValueError("blend_forecast_without_coverage")
     output, output_coverage = [], []
     for key in sorted(coverage_by):
         base_coverage = coverage_by[key]
@@ -103,6 +109,8 @@ def build_chunk(rows, coverage, outcomes, contract):
                 "group": group, "procedure": procedure, "selected_fit_id": None, "selected_fit_cutoff": key[5],
                 "base_coverage_reason": status, "base_methods": list(METHODS)}
         if status != "eligible":
+            if paired is not None:
+                raise ValueError("blend_forecast_under_ineligible_coverage")
             output_coverage.append({**base, "reason": "base_" + status, "blend_available": False})
             continue
         if paired is None:
@@ -118,17 +126,20 @@ def build_chunk(rows, coverage, outcomes, contract):
                   "base_model_ready_epochs": {"ridge": ridge["forecast"]["model_ready_epoch"], "recovered_hgb": hgb["forecast"]["model_ready_epoch"]},
                   "base_source_references": {"ridge": ridge.get("source_reference"), "recovered_hgb": hgb.get("source_reference")},
                   "source_records": {"ridge": fingerprint(ridge), "recovered_hgb": fingerprint(hgb)}}
-        blend = .5 * (rp + hp)
+        blend = _finite(.5 * rp + .5 * hp, "nonfinite_blend_prediction")
         output.append({**common, "blend_forecast_id": fingerprint({"bases": common["source_records"], "weight": "1/2", "available_epoch": available}),
                        "blend_prediction_bps": blend, "zero_prediction_bps": 0.0,
                        "weight_rule": "fixed_equal_half", "outcomes_revealed": False})
-        output_coverage.append({**base, "reason": "eligible", "blend_available": True, "available_epoch": available})
+        output_coverage.append({**base, "selected_fit_id": ridge["selected_fit_id"],
+                                "reason": "eligible", "blend_available": True, "available_epoch": available})
     return output, output_coverage
 
 
 def mature_rows(rows, outcomes, assessment_asof):
     selected = []
     for row in rows:
+        if row["available_epoch"] > assessment_asof:
+            continue
         outcome = outcomes.get((row["record_id"], row["target_id"]))
         if outcome is None:
             raise ValueError("missing_registered_blend_outcome")
@@ -188,6 +199,12 @@ def block_sensitivity(rows, contract):
         if len(origins) < length:
             result.append({"block_length": length, "status": "insufficient_distinct_origins", "interval": None})
             continue
+        if any(b - a != 21600 for a, b in zip(origins, origins[1:])):
+            result.append({"block_length": length, "status": "irregular_origin_grid", "interval": None})
+            continue
+        if len(origins) == length:
+            result.append({"block_length": length, "status": "single_circular_block_no_resampling_variation", "interval": None})
+            continue
         rng = random.Random(20260922 + length)
         deltas = {base: [] for base in METHODS}
         by_origin = {o: [r for r in mature if r["decision_epoch"] == o] for o in origins}
@@ -212,6 +229,7 @@ def block_sensitivity(rows, contract):
         intervals = {"blend_vs_" + base + "_mae_delta_bps_interval_10_90": [sorted(values)[199], sorted(values)[1799]]
                      for base, values in deltas.items()}
         result.append({"block_length": length, "status": "descriptive_only", "replicates": 2000,
-                       "seed": 20260922, **intervals,
+                       "seed": 20260922 + length, "base_seed": 20260922,
+                       "sampling": "circular_contiguous_origin_panels_row_weighted", **intervals,
                        "no_effective_n_or_p_value": True})
     return result

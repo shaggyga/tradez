@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-SOURCES = ("forecast_blend_operator_v2.py", "forecast_blend_runner_v2.py", "forecast_blend_v2.py", "campaign_inspector_v2.py", "contracts.py", "publication.py", "FORECAST_BLEND_EXPERIMENT_CONTRACT.json")
+SOURCES = ("forecast_blend_operator_v2.py", "forecast_blend_runner_v2.py", "forecast_blend_v2.py", "campaign_inspector_v2.py", "joint_readiness_schedule_v2.py", "contracts.py", "publication.py", "FORECAST_BLEND_EXPERIMENT_CONTRACT.json")
 PARENT_RECIPE = "RESIDUAL_CALIBRATION_OPERATOR_RECIPE.json"
 PARENT_RECIPE_SHA256 = "a894436db0ab12f820f2ab4e242a41da2d3f9cae2b3dad7763955e34e622046d"
 
@@ -34,6 +34,9 @@ def recipe_for(paths):
                      "procedures": contract["population"]["procedures"], "main_wall_seconds": contract["resources"]["main_wall_seconds"],
                      "worker_count": contract["resources"]["workers"], "fit_count_cap": contract["resources"]["fit_count_cap"],
                      "model_load_count_cap": contract["resources"]["model_load_count_cap"], "blend_weight": "1/2"}
+    configuration.update(max_rss_bytes=contract["resources"]["max_rss_bytes"],
+                         max_scratch_bytes=contract["resources"]["max_scratch_bytes"],
+                         resource_checks="sampled_phase_boundaries_and_final_precommit_not_continuous_OS_quota")
     if configuration["group"] != "legacy26" or configuration["horizons_minutes"] != [15, 60, 240, 720, 1440, 2880, 7200] or configuration["procedures"] != ["frozen", "adaptive"]:
         raise ValueError("blend_frozen_scope_required")
     dependencies = {}
@@ -43,14 +46,15 @@ def recipe_for(paths):
         if manifest["run_identity"] != expected["identity"]:
             raise ValueError("blend_predecessor_identity_mismatch:" + alias)
         actual = {item["path"]: item["sha256"] for item in manifest["payloads"]}
-        excluded = sorted(set(actual) - set(expected["payloads"]))
-        if set(expected["payloads"]) - set(actual):
-            raise ValueError("blend_predecessor_payload_missing:" + alias)
+        excluded = []
+        if actual != expected["payloads"] or len(actual) != len(manifest["payloads"]):
+            raise ValueError("blend_predecessor_payload_inventory_mismatch:" + alias)
         dependencies[alias] = {"identity": expected["identity"], "payloads": expected["payloads"],
                                "excluded_timing_payloads": excluded}
-    return {"schema_version": "forex_forecast_blend_recipe.v1", "run_id": "retained-equal-weight-forecast-blend-v5",
+    return {"schema_version": "forex_forecast_blend_recipe.v2", "run_id": "retained-equal-weight-forecast-blend-reviewed-v2",
             "sources": {name: sha(ROOT / name) for name in SOURCES}, "dependencies": dependencies,
-            "environment": {"python": platform.python_version(), "numpy": importlib.metadata.version("numpy")},
+            "environment": {"python": platform.python_version(), "numpy": importlib.metadata.version("numpy"),
+                            "psutil": importlib.metadata.version("psutil")},
             "configuration": configuration, "input_tier": contract["reused_predecessors"]["input_tier"], "fit_allowed": False,
             "model_load_allowed": False, "broker_access": False, "confirmation": False,
             "parent_recipe": {"path": PARENT_RECIPE, "sha256": PARENT_RECIPE_SHA256}}
@@ -75,6 +79,9 @@ def operate(action, recipe_path, digest, paths, runs, crash_after=None):
         sys.path.insert(0, str(ROOT))
         from forecast_blend_runner_v2 import identity_for, required, run, validate_completed
         from publication import verify_completed_run
+        from campaign_inspector_v2 import CampaignReader
+        # Status/verify must reject changed dependency bytes just like a new run.
+        CampaignReader(paths, recipe["dependencies"])
         identity = identity_for(recipe)
         root = runs / recipe["run_id"]
         if action in {"run", "resume"}:

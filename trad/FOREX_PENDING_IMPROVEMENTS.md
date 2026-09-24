@@ -5247,3 +5247,14 @@ Recipe SHA256 `d60a6f02d8c757a0e845f0851d7952d7f672b2483511d6fb62183b69c1f57327`
 Local raw evidence: `timed_research_20260924_004443/warm_repaired`; independent review: sibling `warm_review`. Provisional attempts are preserved separately; an overbroad predecessor-suite invocation was cancelled rather than claimed passed. Independent publication and final startup readback are recorded separately in the final Git receipt.
 
 Exact next item: `freeze_retained_equal_weight_forecast_blend_diagnostic_v2`. Freeze the retained Ridge/HGB equal-weight saved-tape diagnostic contract before computation; its candidate card is a proposal, not a result. GPT/advisor comparisons, paid calls, broker/service/account actions and D-drive work stay deferred.
+
+## 2026-09-24 — blend successor and review policy clarification
+
+See `FORECAST_BLEND_REPAIRS_20260924_031500/REVIEW.json` for the same step and exact
+identities recorded in FOREX_PROJECT_LOG.md. The original blend and incomplete handoff
+remain historical. Corrected run c63cc3f4 and checkpoint054fa026 have17 passing local
+and17 relocated tests plus58-output recovery/restore parity. Same-task review accepted
+bounded engineering only; independent review remains pending. User clarified it must
+not halt timed work. Resolve actual findings, retain honest review status, and continue
+eligible research. Next: causal_convex_forecast_blend_diagnostic_v2; preserve all pending
+IDs and deferred GPT/advisor, paid/API, broker/service/account and D-drive scope.

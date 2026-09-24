@@ -6,7 +6,7 @@ import forecast_blend_operator_v2 as op
 from portable_checkpoint_v2 import _plain_destination,safe_member,MANIFEST,encoded
 from publication import sha256_file
 SCHEMA='forex_forecast_blend_checkpoint.v1'
-RECIPE='FORECAST_BLEND_OPERATOR_RECIPE_20260923_v6.json'
+RECIPE='FORECAST_BLEND_OPERATOR_RECIPE_REVIEWED_V2.json'
 ALLOWLIST=tuple(sorted(set(op.SOURCES)|{'forecast_blend_checkpoint_v2.py','freeze_forecast_blend_recipe_v2.py','portable_checkpoint_v2.py',RECIPE,'RESIDUAL_CALIBRATION_OPERATOR_RECIPE.json','FORECAST_BLEND_CONTRACT_V2.md','test_forecast_blend_v2.py'}))
 LINEAGE={'joint':{'run_identity':'bd7b33a2a66090418de21f3ea7317d8aa07edf1ae6b0ccc391a6c64c7be304bf'},'technical':{'run_identity':'3c51adb6cb8467ed15b1bf604c03c917bc0cab7d91180a3674336ccf6765f9d6'}}
 def read(p):return json.loads(p.read_text(encoding='utf-8'))
@@ -42,7 +42,7 @@ def invoke(source,paths,runs,action):
     if p.returncode:raise ValueError('blend_checkpoint_operator_failed:'+p.stdout+p.stderr)
     receipt=json.loads(p.stdout)
     if receipt['status']!='completed_verified':raise ValueError('blend_checkpoint_incomplete')
-    return receipt,{x['path']:x['sha256'] for x in read(Path(receipt['run_path'])/'COMPLETION_MANIFEST.json')['payloads']}
+    return receipt,{x['path']:x['sha256'] for x in read(Path(receipt['run_path'])/'COMPLETION_MANIFEST.json')['payloads'] if x['path']!='resource_receipts.json'}
 def export(package,paths,runs):
     receipt,expected=invoke(ROOT,paths,runs,'verify');r=read(ROOT/RECIPE);values={'source/'+n:(ROOT/n).read_bytes() for n in ALLOWLIST};inputs=read(paths);input_count=0
     for alias,value in inputs.items():
@@ -62,7 +62,7 @@ def restore(package,digest,destination,run_tests=False):
         with p.open('xb') as f:f.write(b)
     paths={k:str(destination/'capsule'/k) for k in ('joint','technical')};pf=destination/'PATHS.json';pf.write_text(json.dumps(paths,indent=2)+'\n',encoding='utf-8')
     receipt,actual=invoke(destination/'source',pf,destination/'runs','run')
-    if actual!=read(destination/'EXPECTED_REPLAY.json'):raise ValueError('calibration_relocated_payload_mismatch')
+    if actual!=read(destination/'EXPECTED_REPLAY.json'):raise ValueError('blend_relocated_payload_mismatch')
     if run_tests:
         p=subprocess.run([sys.executable,'-I','-B','-m','pytest','-q','-p','no:cacheprovider','--noconftest',str(destination/'source/test_forecast_blend_v2.py')],capture_output=True,text=True,timeout=900)
         (destination/'tests.stdout').write_text(p.stdout+p.stderr,encoding='utf-8')

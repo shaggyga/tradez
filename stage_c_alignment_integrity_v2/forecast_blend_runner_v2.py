@@ -3,10 +3,13 @@ import json
 import math
 import os
 import time
+import uuid
+import psutil
 from collections import Counter
 
 from campaign_inspector_v2 import CampaignReader
 from forecast_blend_v2 import block_sensitivity, build_chunk, outcome_map, summarize
+from joint_readiness_schedule_v2 import visible_forecast
 from publication import RunPublisher, effective_run_identity, verify_completed_run
 
 GROUP = "legacy26"
@@ -28,7 +31,36 @@ def required():
         for procedure in PROCEDURES:
             suffix = name(minutes, procedure)
             files.extend(["blend_" + suffix, "coverage_" + suffix, "metrics_" + suffix, "blocks_" + suffix])
-    return sorted(files + ["source_references.json", "run_report.json"])
+    return sorted(files + ["source_references.json", "run_report.json", "resource_receipts.json"])
+
+
+def scientific_names():
+    return [n for n in required() if n != "resource_receipts.json"]
+
+
+def check_resources(root, started, config, phase):
+    elapsed = time.monotonic() - started
+    process = psutil.Process()
+    rss = sum(p.memory_info().rss for p in [process, *process.children(recursive=True)] if p.is_running())
+    disk = sum(p.stat().st_size for p in root.rglob("*") if p.is_file())
+    if not math.isfinite(elapsed) or not 0 <= elapsed <= config["main_wall_seconds"]:
+        raise ValueError("blend_main_wall_limit")
+    if rss > config["max_rss_bytes"]:
+        raise ValueError("blend_rss_limit")
+    if disk + 1024 * 1024 > config["max_scratch_bytes"]:
+        raise ValueError("blend_scratch_limit")
+    return {"phase": phase, "elapsed_seconds": elapsed, "aggregate_rss_bytes": rss,
+            "run_disk_bytes": disk, "process_id": os.getpid()}
+
+
+def validate_resources(value):
+    observations = value["observations"]
+    if not observations or observations[-1]["phase"] != "final_precommit":
+        raise ValueError("blend_final_resource_receipt_required")
+    for row in observations:
+        if not (0 <= row["elapsed_seconds"] <= 300 and 0 <= row["aggregate_rss_bytes"] <= 1024**3
+                and 0 <= row["run_disk_bytes"] <= 1024**3):
+            raise ValueError("blend_resource_receipt_out_of_bounds")
 
 
 def identity_for(recipe):
@@ -50,6 +82,7 @@ def validate_completed(root):
         raise ValueError("blend_complete_scope_required")
     if report["new_forecasts_issued"] != 0 or report["engineering_ready"] is not False:
         raise ValueError("blend_promotion_forbidden")
+    validate_resources(json.loads((root / "resource_receipts.json").read_bytes()))
 
 
 def run(paths, recipe, runs, *, resume=False, crash_after=None):
@@ -60,9 +93,17 @@ def run(paths, recipe, runs, *, resume=False, crash_after=None):
         return
     publisher.acquire(recover=resume)
     started = time.monotonic()
+    attempt = uuid.uuid4().hex
+    def guard(phase):
+        row = {**check_resources(publisher.root, started, recipe["configuration"], phase), "attempt_id": attempt}
+        with (publisher.root / "RESOURCE_ATTEMPTS.jsonl").open("ab") as handle:
+            handle.write(encoded(row)); handle.flush(); os.fsync(handle.fileno())
+        return row
     try:
+        guard("before_inputs")
         reader = CampaignReader(paths, recipe["dependencies"])
         outcomes = outcome_map(reader, recipe["configuration"]["universe"])
+        guard("after_inputs")
         payloads, counts, index = [], Counter(), 0
         for minutes in HORIZONS:
             for procedure in PROCEDURES:
@@ -85,7 +126,13 @@ def run(paths, recipe, runs, *, resume=False, crash_after=None):
                 counts["blend_rows"] += len(rows)
                 counts["mature_rows"] += metrics["mature_rows"]
                 counts["unavailable_rows"] += sum(not item["blend_available"] for item in coverage)
+                for source in source_rows:
+                    status = visible_forecast(source, source["forecast"]["available_epoch"], maximum_conditioning_age_seconds=2)["status"]
+                    counts["base_native_2s_" + status] += 1
+                counts["blend_native_2s_available"] += sum(r["available_epoch"] - r["decision_epoch"] <= 2 for r in rows)
+                counts["blend_native_2s_stale_conditioning"] += sum(r["available_epoch"] - r["decision_epoch"] > 2 for r in rows)
                 index += 1
+                guard("after_chunk_" + str(index))
                 if crash_after == index:
                     os._exit(91)
         references = {"dependencies": recipe["dependencies"], "source_payloads": {
@@ -105,10 +152,15 @@ def run(paths, recipe, runs, *, resume=False, crash_after=None):
                          publisher.write_or_validate_payload("run_report.json", encoded(report))])
         if crash_after == 0:
             os._exit(91)
-        if time.monotonic() - started > recipe["configuration"]["main_wall_seconds"]:
-            raise ValueError("blend_main_wall_limit")
-        publisher.complete(payloads, set(required()))
+        guard("final_precommit")
+        receipts = {"scope": "sampled_phase_boundaries_not_continuous_peak_or_OS_quota",
+                    "observations": [json.loads(line) for line in (publisher.root / "RESOURCE_ATTEMPTS.jsonl").read_text().splitlines()]}
+        validate_resources(receipts)
+        old = publisher.read_verified_payload("resource_receipts.json")
+        payloads.append(publisher.write_or_validate_payload("resource_receipts.json", old or encoded(receipts)))
         validate_completed(publisher.root)
+        check_resources(publisher.root, started, recipe["configuration"], "before_manifest")
+        publisher.complete(payloads, set(required()))
     except BaseException:
         if publisher._owner_token is not None:
             publisher.release()
