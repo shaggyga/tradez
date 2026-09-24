@@ -5296,3 +5296,21 @@ authorization. Saved models were loaded for authenticated inference; no fits or 
 calls. Raw evidence: until8am_20260923_215844/policy_blend_step. Same-task review
 accepted bounded scope; independent review pending and nonblocking. Shared revision
 resolves through SHARED_GIT_REMOTE_LATEST.json. Next: absolute_movement_forecast_comparison_v2.
+
+
+## 2026-09-24 — direct absolute endpoint movement
+
+Completed `absolute_movement_forecast_comparison_v2`; Vault `ABSOLUTE_MOVEMENT_20260924_044500/REVIEW.json`.
+Reviewed recipe `d303ca66df8ae2fad6c63cdbcf4ae92685f4d008ee64d74affb2047e897a205b`; run `0ce610b494456ae0af3cb0ae844f6c26dc1d00ddd50db68c4b4188b10edb6d8d`;
+checkpoint `a4ef4a445ceebc543dabe0a96f554ed6ec77ae4c0b8881657f55374df8e91d2a`.28new estimators reuse original technical
+training population and feature statistics; original signed models remain unchanged.
+20local and20relocated tests;196separate Decimal metric checks;72scientific payloads
+reproduce after actual early/final crashes and portable restore. Saved14fit pairs
+restore with0refits. Initial source/recipe/capsule preserved; AM-CONFIG-1 and AM-ENV-1
+resolved without changing scientific results or refitting. All68coverage and98scores
+retained; direct magnitude outperforms its signed proxy in12/14MAEgroups for each
+learner, a descriptive development finding, not independent confirmation or profit.
+Raw evidence: until8am_20260923_215844/absolute_step (current run under reviewed).
+Same-task engineering accepted; independent review pending and nonblocking. Current
+Git revision resolves through SHARED_GIT_REMOTE_LATEST.json. Next:
+`magnitude_conditioned_signed_forecast_layer_v2`; freeze NEXT_CANDIDATE before computation.
