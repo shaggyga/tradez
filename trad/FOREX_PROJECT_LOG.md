@@ -7330,3 +7330,11 @@ Next: `currency_factor_forecast_projection_v2`.
 Existing pure currency solver reused on forward forecast edges:192frames,78336coverage slots,51744forecasts. Both fixed variants improve matched MAE/MSE in16of16dependent learner/horizon cells; each has1daily MAE exception. No confirmation or trading-profit claim.19local+19relocated tests;195outputs reproduce;256Decimal solver checks/17248projected values. No base-model loads/fits, learned layer fits or policy replay.
 Vault: [CURRENCY_PROJECTION_20260924_UNTIL8AM](../../../OneDrive/thevault/projects/forex/CURRENCY_PROJECTION_20260924_UNTIL8AM/REVIEW.md). Local: `until8am_20260923_215844/currency_projection_step`. Recipe `ef1b24f002891bc84408e24cf084254e27f6165c0af048c51b382bd43ca53e8d`; run `5c8cb84166076bcdba4724dc277c32e2520de4f548869adca3491807ef10b0d3`; capsule `9de8bfcc8a0f350391d7ccc937f0d3b08d248d9f146be43fb045b45e6db1091f`.
 Next: `currency_projection_native_policy_inputs_v2`. Same-task accepted; independent review pending/nonblocking.
+
+## 2026-09-24 — currency_projection_native_policy_inputs_v2
+
+Fresh native qualification completed for direct/full currency-projection/half-residual forecasts across both preselected cohorts. All6528coverage slots retained:6468eligible packets admitted by the actual consumer and60base-unavailable slots preserved. Finalr3 run used16saved-model loads,0base fits,0learned-layer fits and0policy replays. Fresh base-plus-projection<=0.172s; complete native preparation<=0.656s. Crash/resume and separate portable reconstruction reproduce35payloads with23local+23relocated tests. No policy/profit/confirmation claim.
+
+Local evidence: `timed_20260924_080908/currency_projection_native_step`. Recipe `7f79dc586e7821b5a45662f48cf3b57179641bd4c0d415ac947fe57e231c6a5c`; run `7e9c869d90898082e6ba31de4cdcbb4bc4269d1fee9717d85a507c63bbec2f28`; checkpoint `8eeb852a909f3a899251301ba806982822dcbb7cf6421dec17f86ca4ffeb1f3d`.
+
+Next: freeze the unchanged projection policy comparison. Same-task review pending; independent review pending/nonblocking.
