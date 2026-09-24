@@ -7294,3 +7294,14 @@ run81918c8540bdbd243eb4e357fcee68835049d74b5b87552d55ddc6e1a3f6c0ef;
 capsule0907ab4694fc4a03ea5f94d78a5f0b4f962f4aae69fea5c0524d3510a595b741.
 Next remains `later_chronological_native_policy_inputs_v2`, after corrected preflight.
 Same-task review accepted; independent review pending nonblocking.
+
+
+## 2026-09-24 — later_chronological_native_policy_inputs_v2
+
+Both later cohorts:15,232coverage slots/11048native packets; original saved forecast values and layer parameters unchanged. CN-TIMING-1 resolved with boundary-authenticated batch application, unchanged1s/2s limits and31identical initial partial outputs.38local+38relocated tests;35outputs reproduce after reviewed crash/resume and relocation. Zero base fits/policy replays.
+
+Vault packet: [CHRONOLOGICAL_NATIVE_20260924_090000](../../../OneDrive/thevault/projects/forex/CHRONOLOGICAL_NATIVE_20260924_090000/REVIEW.md).
+Local evidence: `until8am_20260923_215844/chronological_native_step`.
+Next: `later_chronological_policy_comparison_v2`; unchanged2cohorts/14methods/2costs/6policies, dated rollover and reference/optimized parity. Same-task review accepted; independent review pending/nonblocking.
+
+Recipe SHA256: `cbbb4293b5837939594f0e58b7a9b3023364460374e0e455648fbb7c5ec1c449`. Run: `d502abf688f33c3b72ce06ff512ac8a88a0ddbd2b5fb8a3c4e61f38e110dee15`. Checkpoint SHA256: `2163c0a72fdbbf6b3c3cd8b8ee8de34c2f33b2d65b44fd4f7e23fc7b2ed52ef5`.

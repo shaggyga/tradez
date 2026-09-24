@@ -136,6 +136,11 @@ def apply_snapshot(row, snapshot, mode):
         raise ValueError('unknown_magnitude_layer_mode')
     if snapshot['status'] != 'fitted':
         return []
+    return _apply_parameters(row, snapshot, mode)
+
+
+def _apply_parameters(row, snapshot, mode):
+    """Unchanged per-row arithmetic after the public admission checks."""
     result = []
     for base in BASES:
         values = {'zero': 0.0, 'raw_signed': feature_vector(row, base, 'signed_only')[0]}
@@ -148,6 +153,32 @@ def apply_snapshot(row, snapshot, mode):
         result.append({**row, 'base_method': base, 'mode': mode, 'layer_id': snapshot['layer_id'],
                        'layer_cutoff_epoch': snapshot['cutoff_epoch'], 'predictions': values,
                        'outcomes_revealed': False, 'production_available_epoch': None, 'native_policy_admitted': False})
+    return result
+
+
+def apply_snapshot_batch(rows, snapshot, mode):
+    """Authenticate one immutable snapshot at both batch boundaries.
+
+    Keep every original row/scope/clock/membership check. Only the repeated
+    serialization of the identical, potentially large membership list is removed.
+    """
+    before = fingerprint({k: v for k, v in snapshot.items() if k != 'layer_id'})
+    if snapshot['layer_id'] != before:
+        raise ValueError('magnitude_layer_snapshot_identity_mismatch')
+    if mode not in ('frozen_prefix', 'expanding_prefix'):
+        raise ValueError('unknown_magnitude_layer_mode')
+    members = {x['record_id'] for x in snapshot['training_membership']}
+    seen, result = set(), []
+    for row in rows:
+        if row['record_id'] in seen:
+            raise ValueError('duplicate_magnitude_application_row')
+        seen.add(row['record_id']); validate_row(row, snapshot['scope'])
+        if snapshot['cutoff_epoch'] > row['decision_epoch'] or row['record_id'] in members:
+            raise ValueError('future_or_current_magnitude_training_example')
+        if snapshot['status'] == 'fitted':
+            result.extend(_apply_parameters(row, snapshot, mode))
+    if snapshot['layer_id'] != before or fingerprint({k: v for k, v in snapshot.items() if k != 'layer_id'}) != before:
+        raise ValueError('magnitude_snapshot_changed_during_batch')
     return result
 
 
