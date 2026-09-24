@@ -1,0 +1,399 @@
+{
+  "api_calls_allowed": false,
+  "assessment": "Native and matched coverage, all field/clock/hash bindings, source-prediction parity, forecast errors by exact horizon and later target, no winner/confirmation claim. Endpoint-missing pairs remain in coverage.",
+  "base_procedure": "frozen_original_first_cutoff",
+  "broker_access": false,
+  "calibration": "Reuse exact magnitude_layer_v2 fit/application functions and fixed original settings. Fit per later target and cutoff only; no transferring another horizon coefficient or weakening support. No tuning after weak prior result.",
+  "cohort_choice": "Reject Saturday common endpoint0/68; Friday endpoint1722016860 has66/68. Select origin1721844060 before any new scores; keep all68 and both unavailable endpoints.",
+  "common_target_epoch": 1722016860,
+  "confirmation": false,
+  "design_requirements": [
+    "9.2",
+    "9.4",
+    "16.1",
+    "16.2",
+    "17",
+    "18",
+    "21",
+    "27.3",
+    "27.5"
+  ],
+  "economic_scope": "No portfolio PnL in this package. Zero-cost consumer exercise establishes interface binding only. Later policy comparison must freeze shifted rollover and same cost/risk/sizing assumptions; never reuse the old dated rollover silently.",
+  "existing_absolute_fit_pairs_reused": 3,
+  "experiment_id": "later_remaining_forecast_surface_v2",
+  "fit_cutoff": 1721606400,
+  "frozen_utc": "2026-09-24T05:20:08.091999+00:00",
+  "horizons_minutes": [
+    360,
+    720,
+    1080,
+    1440,
+    1800,
+    2160,
+    2520,
+    2880
+  ],
+  "hypothesis": "An exact later remaining-target surface can expose raw and mature-prefix calibrated signed forecasts plus separate movement-size estimates to the existing native consumer without backdating unavailable layers.",
+  "later_native_clock": {
+    "base_conditioning": "exact original observation at origin",
+    "computed_epoch": "origin+2; complete selected-target preparation must fit within two seconds",
+    "conditioning_age_seconds": 2,
+    "consumer_scope": "Existing prepared-curve validation and zero-cost historical candidate projection; consumer elapsed measured separately, no live decision-deadline claim",
+    "fit_cutoff": "original frozen base cutoff and layer cutoff no later than origin",
+    "layer_model_ready": "origin+1 only if measured current base inference and layer fit fit in one second",
+    "raw_model_ready": "reserved cache finish"
+  },
+  "layer_contract": {
+    "assessment_asof": 1722556800,
+    "availability": "Offline modeled-clock diagnostic; original base availability retained, layer cutoff no later than decision. Actual production availability null; native policy admission false. No retrospective historical issuance claim.",
+    "base_methods": [
+      "ridge",
+      "recovered_hgb"
+    ],
+    "checkpoint": "Preserve fitted layer coefficients and memberships; deterministic replay is separately reported as layer recomputation, never base refitting. Original absolute saved weights are only hashed with their completed run, never deserialized.",
+    "comparators": [
+      "zero",
+      "raw_signed",
+      "signed_only",
+      "magnitude_interaction"
+    ],
+    "confirmation": "All current dates were previously inspected development; a separate untouched/prospective procedure is required.",
+    "design_requirements": [
+      "16.2",
+      "16.3",
+      "20",
+      "21",
+      "27.5",
+      "TST05",
+      "TST08",
+      "TST09",
+      "TST10"
+    ],
+    "economic_contract": "Not evaluated; forecast magnitude is not direction or executable net utility. A future policy bridge must preserve common target, cost, risk and native timing contracts.",
+    "experiment_id": "magnitude_conditioned_signed_forecast_layer_v2",
+    "features": {
+      "magnitude_interaction": [
+        "signed_prediction_bps",
+        "direct_absolute_prediction_bps",
+        "signed_prediction_bps_times_direct_absolute_prediction_bps"
+      ],
+      "signed_only": [
+        "signed_prediction_bps"
+      ]
+    },
+    "frozen_cutoff": 1721865600,
+    "frozen_utc": "2026-09-24T04:49:10.290151+00:00",
+    "group": "legacy26",
+    "horizons_minutes": [
+      15,
+      60,
+      240,
+      720,
+      1440,
+      2880,
+      7200
+    ],
+    "hypothesis": "Causal direct movement-size predictions and their interaction with a signed forecast add predictive information beyond signed-only recalibration.",
+    "layer_fit": {
+      "feature_normalization": "weighted training-prefix mean/std; zero std becomes1",
+      "intercept_penalized": false,
+      "penalty_basis": "Unchanged20 from original Ridge; no tuning",
+      "ridge_lambda": 20.0,
+      "solver": "weighted normalized Ridge linear solve using existing Ridge algebra; all coefficients finite",
+      "weight": "N/(distinct_origins*rows_at_origin); equal total weight per origin; sum weights=N"
+    },
+    "metrics": "Paired row-weighted MAE/MSE/bias/nearest-rank95th absolute error, augmented-minus-raw and augmented-minus-signed-only differences; all scopes and per-origin/day strata.",
+    "minimum_distinct_origins": 8,
+    "minimum_distinct_pairs": 20,
+    "minimum_distinct_utc_days": 3,
+    "modes": [
+      "frozen_prefix",
+      "expanding_prefix"
+    ],
+    "origin_epochs": [
+      1721606460,
+      1721628060,
+      1721649660,
+      1721671260,
+      1721692860,
+      1721714460,
+      1721736060,
+      1721757660,
+      1721779260,
+      1721800860,
+      1721822460,
+      1721844060,
+      1721865660,
+      1721887260,
+      1721908860,
+      1721930460,
+      1721952060,
+      1721973660,
+      1721995260,
+      1722016860
+    ],
+    "predecessors": {
+      "absolute_recipe_sha256": "d303ca66df8ae2fad6c63cdbcf4ae92685f4d008ee64d74affb2047e897a205b",
+      "absolute_run_identity": "0ce610b494456ae0af3cb0ae844f6c26dc1d00ddd50db68c4b4188b10edb6d8d",
+      "convex_contract_sha256": "198037b34deeb26e3c694007ab2e07aa4c53109304d828d7340ad800cf20df9e"
+    },
+    "procedures": [
+      "frozen",
+      "adaptive"
+    ],
+    "readiness": {
+      "demo_authorization_status": "not_granted",
+      "engineering_ready": false,
+      "forecast_evidence_status": "modeled_clock_prequential_magnitude_interaction_development_diagnostic",
+      "policy_evidence_status": "not_evaluated"
+    },
+    "resource_basis": "14scopes*(20expanding+1frozen)=294snapshots,4small regressions each; predecessor absolute replay24.438s,385MBsampledRSS,38.5MBoutput; input capsule about300MB. At most1360rows and3predictors per regression.",
+    "resources": {
+      "api_calls": 0,
+      "base_model_fits": 0,
+      "base_model_loads": 0,
+      "checkpoint_wall_seconds": 900,
+      "main_wall_seconds": 600,
+      "max_rss_bytes": 2147483648,
+      "max_scratch_bytes": 1073741824,
+      "regression_fit_attempt_cap": 1176,
+      "snapshot_attempt_cap": 294,
+      "workers": 1
+    },
+    "result_rule": "Report positive, negative, mixed and unsupported scopes unchanged. No winner selection, retuning, probability interpretation or economic materiality claim from endpoint errors.",
+    "reuse_audit": "Read original prequential_residual_calibration_v2 and causal_convex_blend_v2; those estimate marginal residual correction or scalar blend, not a matched signed-only versus magnitude-interaction regression. Reuse original clocks/support guards and Ridge algebra; all base artifacts remain untouched.",
+    "schema_version": "forex_magnitude_conditioned_layer.v1",
+    "status": "frozen_before_new_layer_fits_or_scores",
+    "support_basis": "Unchanged qualified residual/convex support and update schedule. Pool all68 within one horizon/base procedure, sharing the identical mature cohort across ablations.",
+    "target": "original signed midpoint endpoint basis-point return, exact elapsed horizon",
+    "training_predicate": "Only earlier origin, base fit cutoff before origin, original signed and magnitude forecast availability by layer cutoff and before target maturity, exact original outcome available by cutoff; never current-origin or in-sample base values.",
+    "uncertainty": {
+      "block_lengths": [
+        4,
+        8,
+        20
+      ],
+      "claim": "no effective-N, p-value or independent-confirmation claim",
+      "draws": 2000,
+      "kind": "descriptive_circular_origin_panel_sensitivity",
+      "refusals": "irregular or insufficient origin grid or one full circular block; no interval if degenerate",
+      "seed": 20260922
+    },
+    "unsupported": "No output or substitute layer where minimum distinct support fails; preserve all68 coverage. Base methods may remain available separately."
+  },
+  "layer_recipe_sha256": "4074d1ca2b6d3a36c8a64e2a7c61c824dadfab9114c767b545c45d5e4141a6aa",
+  "market_epochs": "all eight policy origins, each origin+60 for next completed M1 fill, origin_start+86400+60 for declared prospective rollover context, target-60 and target; exact minute bars only",
+  "matched_coverage": "Within each learner/update mode, raw matched, signed-only and magnitude interaction require identical causal layer support. Raw unrestricted is retained separately. All unavailable pair/variant slots have reasons.",
+  "model_reuse": "No signed refits. Reuse exact absolute720/1440/2880weights; train only five missing absolute targets with original matched rows/stats and unchanged Ridge/HGB settings. Save weights for no-refit restore.",
+  "new_absolute_fit_pairs": 5,
+  "new_absolute_horizons": [
+    360,
+    1080,
+    1800,
+    2160,
+    2520
+  ],
+  "next_item": "later_remaining_layer_policy_comparison_v2",
+  "original_experiment": {
+    "broker_access": false,
+    "decision_epochs": [
+      1721606460,
+      1721628060,
+      1721649660,
+      1721671260,
+      1721692860,
+      1721714460,
+      1721736060,
+      1721757660,
+      1721779260,
+      1721800860,
+      1721822460,
+      1721844060,
+      1721865660,
+      1721887260,
+      1721908860,
+      1721930460,
+      1721952060,
+      1721973660,
+      1721995260,
+      1722016860
+    ],
+    "evaluation_asof": 1722556800,
+    "features": [
+      "tech_rate_bps_per_min_1m",
+      "tech_span_fraction_1m",
+      "tech_missing_fraction_1m",
+      "tech_unavailable_1m",
+      "tech_rate_bps_per_min_5m",
+      "tech_span_fraction_5m",
+      "tech_missing_fraction_5m",
+      "tech_unavailable_5m",
+      "tech_rate_bps_per_min_15m",
+      "tech_span_fraction_15m",
+      "tech_missing_fraction_15m",
+      "tech_unavailable_15m",
+      "tech_rate_bps_per_min_30m",
+      "tech_span_fraction_30m",
+      "tech_missing_fraction_30m",
+      "tech_unavailable_30m",
+      "tech_rate_bps_per_min_60m",
+      "tech_span_fraction_60m",
+      "tech_missing_fraction_60m",
+      "tech_unavailable_60m",
+      "tech_rms_bps",
+      "tech_max_gap_minutes",
+      "tech_observed_fraction_60m",
+      "tech_session_age_hours",
+      "known_entry_long_cost_bps",
+      "known_entry_short_cost_bps"
+    ],
+    "fit_cutoffs": [
+      1721606400,
+      1721779200
+    ],
+    "fit_latency_seconds": 30,
+    "hgb_parameters": {
+      "early_stopping": false,
+      "l2_regularization": 10.0,
+      "learning_rate": 0.05,
+      "max_depth": 3,
+      "max_iter": 100,
+      "max_leaf_nodes": 15,
+      "min_samples_leaf": 100,
+      "random_state": 37
+    },
+    "horizon_minutes": [
+      15,
+      60,
+      240,
+      720,
+      1440,
+      2880,
+      7200
+    ],
+    "methods": [
+      "zero",
+      "history_mean",
+      "ridge",
+      "recovered_hgb"
+    ],
+    "minimum_training_rows": 100,
+    "policy_evaluated": false,
+    "prediction_latency_seconds": 2,
+    "procedures": [
+      "frozen",
+      "adaptive"
+    ],
+    "ridge_lambda": 20.0,
+    "schema_version": "forex_matched_development_campaign.v1",
+    "scope": "previously_inspected_development_endpoint_forecast_comparison",
+    "selection": "report_all_no_winner_promotion_or_parameter_search",
+    "training_measure": "equal_weight_per_eligible_pair_origin_row_for_both_models",
+    "training_start": 1720396860
+  },
+  "original_signed_fits_reused": 8,
+  "policy_origins": [
+    1721844060,
+    1721865660,
+    1721887260,
+    1721908860,
+    1721930460,
+    1721952060,
+    1721973660,
+    1721995260
+  ],
+  "predecessors": {
+    "absolute_identity": "0ce610b494456ae0af3cb0ae844f6c26dc1d00ddd50db68c4b4188b10edb6d8d",
+    "existing_remaining_recipe_sha256": "258f08e78ef3d60076a51cf6e1e5dd20e56d49d8bb92d215e20f5d46dd8cb470",
+    "remaining_identity": "fc0a1423ca93b62e94f215b49a6a55aaf280524aadc1501b231efef4031a2763",
+    "slices_manifest_sha256": "e4efa61f4c8a9b4d70f4b20f5f96e1bd0a4ef8ed86049924b21e78b98700c774",
+    "technical_identity": "3c51adb6cb8467ed15b1bf604c03c917bc0cab7d91180a3674336ccf6765f9d6"
+  },
+  "prequential_origins": [
+    1721606460,
+    1721628060,
+    1721649660,
+    1721671260,
+    1721692860,
+    1721714460,
+    1721736060,
+    1721757660,
+    1721779260,
+    1721800860,
+    1721822460,
+    1721844060,
+    1721865660,
+    1721887260,
+    1721908860,
+    1721930460,
+    1721952060,
+    1721973660,
+    1721995260,
+    1722016860
+  ],
+  "prequential_schedule": {
+    "cache_prewarm_seconds": 120,
+    "cache_start": "after last fit task; no before-ready loads",
+    "fit_task_order": "signed then absolute; ascending eight horizons;16tasks of30seconds from original cutoff; shift tasks past every16second prediction window, no overlap",
+    "horizon_order": "Later selected remaining horizon first, then other horizons ascending; otherwise all ascending",
+    "prediction_window_seconds": 16,
+    "scope": "counterfactual single-worker reservations with actual measured component batches; not historical issuance",
+    "seconds_per_horizon": 2,
+    "worker_count": 1
+  },
+  "quotes": "Reuse original verified raw slices and quote qualifier; preserve exact co-stamped M1 close missingness/duplicates, source member hashes and shortest-roundtrip prices. Include later decision/fill/rollover/terminal points for following policy replay.",
+  "readiness": {
+    "demo_authorization_status": "not_granted",
+    "engineering_ready": false,
+    "forecast_evidence_status": "later_common_target_inspected_development_surface",
+    "policy_evidence_status": "native_consumer_only_no_portfolio_replay"
+  },
+  "resource_basis": {
+    "largest_input_member_bytes": 9404792,
+    "notes": "Five new fit pairs and at most16small layer snapshots; complete inputs about109MB. Explicit checkpoint schema must allow original9.4MB extra-label member without changing old fixture limits.",
+    "previous_absolute_main_seconds": 40.313,
+    "previous_layer_main_seconds": 45.407,
+    "raw_slice_bytes": 26228421,
+    "retained_input_bytes": {
+      "absolute": 38497219,
+      "remaining": 17684425,
+      "technical": 26704519
+    }
+  },
+  "resources": {
+    "binary_model_load_cap": 16,
+    "checkpoint_wall_seconds": 1200,
+    "fit_pair_seconds": 30,
+    "layer_fit_seconds": 1,
+    "layer_regression_cap": 64,
+    "layer_snapshot_cap": 16,
+    "main_wall_seconds": 900,
+    "max_rss_bytes": 2147483648,
+    "max_scratch_bytes": 2147483648,
+    "native_build_seconds": 2,
+    "new_absolute_fit_pair_cap": 5,
+    "new_estimator_cap": 10,
+    "prediction_window_seconds": 16,
+    "prewarm_seconds": 120,
+    "signed_refit_cap": 0,
+    "workers": 1
+  },
+  "result_rule": "Stop affected computation on identity/chronology/resource failure; preserve partial fits and investigate. Keep missing native/layer coverage explicit. No retuning to obtain a positive policy result.",
+  "reused_absolute_horizons": [
+    720,
+    1440,
+    2880
+  ],
+  "schema_version": "forex_later_remaining_surface.v1",
+  "target_convention": "Exact elapsed endpoint at origin+horizon; later frame horizon=(common_target-origin)/60, never substituted or interpolated. Calendar sessions remain unqualified.",
+  "universe": "all68 from original technical recipe",
+  "variants": [
+    "raw_unrestricted",
+    "raw_matched_frozen",
+    "signed_only_frozen",
+    "magnitude_interaction_frozen",
+    "raw_matched_expanding",
+    "signed_only_expanding",
+    "magnitude_interaction_expanding"
+  ]
+}

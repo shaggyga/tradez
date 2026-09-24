@@ -7199,3 +7199,21 @@ evidence, preserved without retuning. Raw evidence: until8am_20260923_215844/mag
 nonblocking. Next `later_remaining_forecast_surface_v2`: old policy cohort predates
 layer support, so use a later cohort and exact remaining horizons before policy replay.
 Current shared commit resolves via SHARED_GIT_REMOTE_LATEST.json.
+
+
+## 2026-09-24 — later common-target forecast surface
+
+Completed `later_remaining_forecast_surface_v2`; Vault `LATER_REMAINING_SURFACE_20260924_060000/REVIEW.json`.
+Recipe `1dd2cc4b32c52e6ae64e3b1b4912f9be4ecd362633e505ed78af0026b9bd684f`; run `86ca1af70edaf67ef743cf842df109c13d644ccc2598765e2f3fcfe4f05351b0`; checkpoint
+`607fbcd6cad94f053b9fa41edd7c3420a48a5a4d4defb983104fcab5c05b0910`. Reused8signed/3absolute fit pairs; only5missing absolute
+pairs/10estimators fitted.0signed refits;0base refits on successor/recovery/restore.
+All7,616coverage slots retained;4,332native packets and4,328consumer admissions.
+11local+11relocated tests;32scientific outputs match crash/recovery and portable
+replay. Separate Decimal verification checks20,480base predictions,32layer fits,
+2,168calibrated values,4,332native prices and192metrics. LS-TIMING-1/LS-CLOSURE-1
+resolved; original28partial payloads unchanged. Raw evidence:
+`until8am_20260923_215844/later_surface_step` (current `reviewed`). Same-task review
+accepted; independent review pending/nonblocking. No portfolio PnL or live readiness
+claim. Exact next: `later_remaining_layer_policy_comparison_v2`, with shifted dates
+and identical original cost/risk/accounting rules. Shared commit resolves via
+`SHARED_GIT_REMOTE_LATEST.json`.
