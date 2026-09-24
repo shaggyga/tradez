@@ -1,0 +1,1636 @@
+{
+  "api_calls": 0,
+  "base_model_fits": 0,
+  "base_model_loads": 0,
+  "contract": {
+    "acceptance": "All parent subsets authenticated; every selected forecast joins exactly; all168account ledgers reconcile; all7616coverage slots preserved; meaningful tamper/maturity tests; actual crash recovery and identical portable outputs.",
+    "account_metrics": [
+      "realized_usd_by_instrument",
+      "fill_fees_usd_per_account",
+      "financing_usd_per_account",
+      "closed_terminal_net_usd",
+      "filled_episode_pair_and_currency_participation_counts",
+      "episode_count_HHI",
+      "recorded_decision_USD_sizing_for_selected_candidates",
+      "unavailable_liquidation_decisions",
+      "all_decision_reasons"
+    ],
+    "api_calls": 0,
+    "assessment_asof": 1722556800,
+    "base_model_fits": 0,
+    "base_model_loads": 0,
+    "chronology": "No new fit or split. All original dates are inspected development. Original prequential base/layer identities retained; no new confirmation claim.",
+    "concentration_scope": "Filled-episode counts and declared decision USD sizing, not simultaneous/time-weighted currency exposure; no incompatible currency units summed.",
+    "design_requirements": [
+      "16.2",
+      "16.3",
+      "17",
+      "18",
+      "20",
+      "21",
+      "27.3",
+      "27.5"
+    ],
+    "experiment_id": "layer_policy_failure_attribution_v2",
+    "forecast_metrics": [
+      "eligible_and_all68_coverage",
+      "distinct_origins_and_pairs",
+      "signed_error_bps",
+      "absolute_error_bps",
+      "squared_error_bps2",
+      "direction_match_nonzero",
+      "selected_unique_forecast_vs_all_available"
+    ],
+    "frozen_utc": "2026-09-24T07:02:50.627673+00:00",
+    "futility_stop": "Stop affected computation on identity,maturity,coverage,reconciliation or resource failure; no silent fallback or invented outcomes.",
+    "hypothesis": "Preserved layer policy underperformance can be separated descriptively into selected forecast error, position concentration, realized trading costs, management decisions and unavailable valuation; no causal counterfactual claim.",
+    "layer_fits": 0,
+    "matching": "Same causal support across raw_matched/signed_only/magnitude_interaction within each learner/mode. Raw unrestricted availability comparison remains separate. Costs are existing separately replayed paths.",
+    "maturity": "Exact original (record_id,target_id), unique key, exact label end equals target, availability>=label_end and <=assessment_asof. Null label remains unavailable; no historical outcome in decision-time signals.",
+    "methods": [
+      "ridge__raw_unrestricted",
+      "ridge__raw_matched_frozen",
+      "ridge__signed_only_frozen",
+      "ridge__magnitude_interaction_frozen",
+      "ridge__raw_matched_expanding",
+      "ridge__signed_only_expanding",
+      "ridge__magnitude_interaction_expanding",
+      "recovered_hgb__raw_unrestricted",
+      "recovered_hgb__raw_matched_frozen",
+      "recovered_hgb__signed_only_frozen",
+      "recovered_hgb__magnitude_interaction_frozen",
+      "recovered_hgb__raw_matched_expanding",
+      "recovered_hgb__signed_only_expanding",
+      "recovered_hgb__magnitude_interaction_expanding"
+    ],
+    "negative_or_inconclusive": "A diagnosis can remain unresolved or disagree across paths. Preserve all outputs; do not tune or promote a method.",
+    "origins": [
+      1721844060,
+      1721865660,
+      1721887260,
+      1721908860,
+      1721930460,
+      1721952060,
+      1721973660,
+      1721995260
+    ],
+    "parent_policy_checkpoint_sha256": "7e924533628feaa96040d516bcf92dc35e6a70d3b657ee3d8ab688baf8015197",
+    "parent_policy_recipe_sha256": "6ce6aa1b6e1c8c6ae176fd6aca80164cc1b9c14a7fc5fb0e96b49f472c1de60b",
+    "parent_vault_manifest_sha256": "4c001a6d8d12a9aef63c8a97870eb2c0506031e63506d549636ac1002cb57711",
+    "policies": {
+      "cash": "cash",
+      "continuation": "continuation",
+      "fixed_hold": "fixed_hold",
+      "hysteresis": "hysteresis",
+      "naive": "naive",
+      "recovered": "recovered"
+    },
+    "readiness": {
+      "demo_authorization_status": "not_granted",
+      "engineering_ready": false,
+      "forecast_evidence_status": "inspected_development_attribution_only",
+      "policy_evidence_status": "preserved_declared_candle_paths_not_new_counterfactuals"
+    },
+    "resources": {
+      "basis": {
+        "input_hash_seconds": 1.375,
+        "largest_member_bytes": 15156382,
+        "measured_selected_input_bytes": 473578444,
+        "reason": "473.6MB preserved JSON input,15.2MB largest member; process one policy path at a time.15min analysis bound below prior16min full56ledger replay;2GiB output allows compact capsule+relocation, no large policy snapshots."
+      },
+      "checkpoint_wall_seconds": 1800,
+      "main_wall_seconds": 900,
+      "max_input_bytes": 805306368,
+      "max_member_bytes": 16777216,
+      "max_rss_bytes": 2147483648,
+      "max_scratch_bytes": 2147483648,
+      "max_zip_bytes": 268435456,
+      "minimum_disk_free_bytes": 8589934592,
+      "workers": 1
+    },
+    "reuse": "Authenticated compact subsets of prior verified full runs; original identities/manifests retained, not rewritten as complete copies. No replay, model loading, fitting or API calls.",
+    "scenarios": [
+      "later_candle_one_bp_slippage_rollover",
+      "later_candle_zero_slippage_financing"
+    ],
+    "schema_version": "forex_layer_policy_attribution_contract.v1",
+    "selection": "Every recorded ENTER/REPLACE candidate across all six policies; bind actual intent and filled episodes separately. WAIT/HOLD/EXIT reasons preserved. Forecast ID is the exact join key; instrument/origin/target/method/model/fit/observation identities checked independently.",
+    "target_epoch": 1722016860,
+    "target_family": "original_signed_endpoint_midpoint_basis_points_elapsed_minutes",
+    "tolerances": {
+      "account_usd": "1e-40",
+      "source_float_metric_absolute": "1e-8",
+      "source_float_metric_relative": "1e-10"
+    },
+    "uncertainty": "Descriptive dependent cohort; no CI,pvalue,effective sample size,causal attribution or unrun counterfactual PnL.",
+    "universe": [
+      "AUD_CAD",
+      "AUD_CHF",
+      "AUD_HKD",
+      "AUD_JPY",
+      "AUD_NZD",
+      "AUD_SGD",
+      "AUD_USD",
+      "CAD_CHF",
+      "CAD_HKD",
+      "CAD_JPY",
+      "CAD_SGD",
+      "CHF_HKD",
+      "CHF_JPY",
+      "CHF_ZAR",
+      "EUR_AUD",
+      "EUR_CAD",
+      "EUR_CHF",
+      "EUR_CZK",
+      "EUR_DKK",
+      "EUR_GBP",
+      "EUR_HKD",
+      "EUR_HUF",
+      "EUR_JPY",
+      "EUR_NOK",
+      "EUR_NZD",
+      "EUR_PLN",
+      "EUR_SEK",
+      "EUR_SGD",
+      "EUR_TRY",
+      "EUR_USD",
+      "EUR_ZAR",
+      "GBP_AUD",
+      "GBP_CAD",
+      "GBP_CHF",
+      "GBP_HKD",
+      "GBP_JPY",
+      "GBP_NZD",
+      "GBP_PLN",
+      "GBP_SGD",
+      "GBP_USD",
+      "GBP_ZAR",
+      "HKD_JPY",
+      "NZD_CAD",
+      "NZD_CHF",
+      "NZD_HKD",
+      "NZD_JPY",
+      "NZD_SGD",
+      "NZD_USD",
+      "SGD_CHF",
+      "SGD_JPY",
+      "TRY_JPY",
+      "USD_CAD",
+      "USD_CHF",
+      "USD_CNH",
+      "USD_CZK",
+      "USD_DKK",
+      "USD_HKD",
+      "USD_HUF",
+      "USD_JPY",
+      "USD_MXN",
+      "USD_NOK",
+      "USD_PLN",
+      "USD_SEK",
+      "USD_SGD",
+      "USD_THB",
+      "USD_TRY",
+      "USD_ZAR",
+      "ZAR_JPY"
+    ]
+  },
+  "environment": {
+    "numpy": "2.5.1",
+    "psutil": "7.2.2",
+    "python": "3.12.10"
+  },
+  "inputs": {
+    "policy_recovered_hgb__magnitude_interaction_expanding-later_candle_one_bp_slippage_rollover-reference": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17280,
+          "sha256": "4de3832b705f8dde4f5e1277d2943727ef04c7ee59c9b0a17973fb700538e1cf"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13091,
+          "sha256": "adca211502c552b2ee4e0e3a722acfbc971dae9eb3084de9027cb11dc1917610"
+        },
+        "accounting_audit.json": {
+          "bytes": 384,
+          "sha256": "c0cae8bb0d0c9dea49c943c598149d022b8514daf276ae2b4160a955f121a442"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 358405,
+          "sha256": "2a2eccb3ce6cbbf77260abd1ec62317b96658a97a6986c6b2d778633e200b299"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 8503998,
+          "sha256": "96b5ee3f8d5a943b442046f33dd2ef771d02e4d9e821337110f37f85da06adbc"
+        },
+        "policy_state.json": {
+          "bytes": 75389,
+          "sha256": "55504a29239ab6c28548ce41bb6c8ad6d9908b26ede5e1fe7783055c704b5f2d"
+        },
+        "run_inputs.json": {
+          "bytes": 5304884,
+          "sha256": "94ab7e6a3ed151c8cbc7f0dbefc1cf3f663ab4dbd0dde3b7c4b641bfb4bed1eb"
+        },
+        "run_report.json": {
+          "bytes": 7968,
+          "sha256": "5e8e598d91e4c17d472e380d5955dd3f2f340eb56854f753f43b87e6e727cc55"
+        }
+      },
+      "original_run_identity": "bd0076d3ceee46e17317bbbc068a74a7fe00ab21e556ec25ba5bba9c6b722db7",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "policy_recovered_hgb__magnitude_interaction_expanding-later_candle_zero_slippage_financing-reference": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17280,
+          "sha256": "634f927f1aa4ca61e90a711935e46eede8590178276e8cdeeb2394d381424e48"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13091,
+          "sha256": "a8dd102e38bdeb1962fc0c7bc0f0fd537094ec18510a3af82df66690c7bfef43"
+        },
+        "accounting_audit.json": {
+          "bytes": 384,
+          "sha256": "c0cae8bb0d0c9dea49c943c598149d022b8514daf276ae2b4160a955f121a442"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 357274,
+          "sha256": "bd27b6b29f4a14d4db46ac3b4d07918af8d4b23ba584099020eb011fbde33c41"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 8489076,
+          "sha256": "b0f3ccf9dafc7b860a0ad2aa0bac63e78113a34ea287fc043300b2f7bf7875d5"
+        },
+        "policy_state.json": {
+          "bytes": 74575,
+          "sha256": "afe2e5547017fcb7eeb17ff85e67ff0c8afceed3aec4e695b63b9d9e3a5580bd"
+        },
+        "run_inputs.json": {
+          "bytes": 5296747,
+          "sha256": "d864cdf7936305088f45c014c9584ccecd64c48f66f6c55f15dfe607065737c6"
+        },
+        "run_report.json": {
+          "bytes": 7969,
+          "sha256": "dd4350a94099447d5a9316fae6e28af694a73f2a30e7eb8d4d41d9cafa74b01d"
+        }
+      },
+      "original_run_identity": "22363d3d55917e1887a3e4738219c3ccf27282bf1d858e0938416fe986007ca2",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "policy_recovered_hgb__magnitude_interaction_frozen-later_candle_one_bp_slippage_rollover-reference": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17271,
+          "sha256": "4819043b17db0c6779d6bb256af03d7e3604b7d2637ad72d49f20ea5fe6a2c8a"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13091,
+          "sha256": "a5192d393a634ba8830220f39b36b3bdd8cd03ab6816e313d96192c465396912"
+        },
+        "accounting_audit.json": {
+          "bytes": 384,
+          "sha256": "588791d81801d4b1a46689e69b3f9f03a41454d960b1a4ecc31d5563c1bc3cd7"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 306347,
+          "sha256": "5538dc7c45c9456e56f869ade30d1460fd9a23618a1e8b3a1635ba21a2372c4d"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5908166,
+          "sha256": "3e2582e98181eae60476d1eec2c7222000c013d531f05b27fe549bcdaedee5f4"
+        },
+        "policy_state.json": {
+          "bytes": 75065,
+          "sha256": "5491288278b77aba93a80a33a07141c50ac8033d786015564e1d33182cceb20c"
+        },
+        "run_inputs.json": {
+          "bytes": 3924761,
+          "sha256": "ac2ed37b787cba7944404e2bd0f5ba1955fab5b741c0b6d698d1916b69002a02"
+        },
+        "run_report.json": {
+          "bytes": 8009,
+          "sha256": "d0c5661bf736705dad8c396a2966d33e665c368bf2d58a0299317d3e415b29d9"
+        }
+      },
+      "original_run_identity": "ac9457449902c151ffb45e3ec3708257b092577759f8a0bb24cf1e8782df4ac3",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "policy_recovered_hgb__magnitude_interaction_frozen-later_candle_zero_slippage_financing-reference": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17271,
+          "sha256": "e4a19717e45f1d5255c5c298cfabc5ae0eab9b59313442ed8d07b9bbe2781ec8"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13091,
+          "sha256": "d816c12d7d7da75e72a55b4420bf0a3e0b881084c6414945b94d5fcf1ea1f6fb"
+        },
+        "accounting_audit.json": {
+          "bytes": 384,
+          "sha256": "588791d81801d4b1a46689e69b3f9f03a41454d960b1a4ecc31d5563c1bc3cd7"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 305475,
+          "sha256": "52fe10100ed79f528b09e1282fa8e216e873d374119bc6722c9feb65cef637cf"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5906452,
+          "sha256": "8e15057da406068847a27c8f53fdc9f6788d0ad9637423ef7a16f842db6f5eb2"
+        },
+        "policy_state.json": {
+          "bytes": 75073,
+          "sha256": "7b155451ec6c75b8af46cec029fc087bc698faa6e66a5cbbf243fd0c694c2258"
+        },
+        "run_inputs.json": {
+          "bytes": 3918316,
+          "sha256": "b87240e705543758abba201f2a8e66acaf012709684147862219626c972e0609"
+        },
+        "run_report.json": {
+          "bytes": 7963,
+          "sha256": "15c2c28099113d37dd3f85e2ef6efeeda08d78b8a57ec069e4cf8fef1e2a4c64"
+        }
+      },
+      "original_run_identity": "c4ee64b0f57cf99faf945b0cdd6443fa74ac9c6dda1dda6a494df146f593b82b",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "policy_recovered_hgb__raw_matched_expanding-later_candle_one_bp_slippage_rollover-reference": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17281,
+          "sha256": "6013caa6d2e6980d66c0161ce5c56b6990645043da2c23c43023c0c5dfd3f97c"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13091,
+          "sha256": "c88af9896e1c21c6ec72bd87ac8137addc094e1ab62bfa82fa702ee5d4b084e6"
+        },
+        "accounting_audit.json": {
+          "bytes": 384,
+          "sha256": "f5c93613738fda311d70a7ffba8c469620c1b80dae71921aa4deec8c4d63c20f"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 557422,
+          "sha256": "19562379fad981db9bb6fbbbc4bc192cd185f8e8271965a6323950fac6d60c43"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 9759801,
+          "sha256": "4d249584d5e1e3d748d38cb4500b4cdcfd827009dbd68175d59e6bd8b663f0c3"
+        },
+        "policy_state.json": {
+          "bytes": 131289,
+          "sha256": "4ed491969be74bdff7c37322c577fe4d023165e4e30e1555a24cd1256dfe7732"
+        },
+        "run_inputs.json": {
+          "bytes": 5285374,
+          "sha256": "628bd85cbda44f2f7375969f48567ee0e530bba5c1601c5aebc1a18052d12918"
+        },
+        "run_report.json": {
+          "bytes": 8292,
+          "sha256": "445799da80af6391a3067d8ab6906068e70fee7bd88d5713aaab5bdcf1e710bb"
+        }
+      },
+      "original_run_identity": "a588acef6079de0b0033e606ed4b341fbc9ab82649bfe0d6e07cfed177617e3d",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "policy_recovered_hgb__raw_matched_expanding-later_candle_zero_slippage_financing-reference": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17281,
+          "sha256": "2d5b5fe6f96f9b6c857b6033cd29ca94a375e182ceaa0f300a4d4a2f5dfa3669"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13091,
+          "sha256": "39ab72b6534d958594c10980f42f5ee690756f06ca885f7784df8cb68b8743bf"
+        },
+        "accounting_audit.json": {
+          "bytes": 384,
+          "sha256": "f5c93613738fda311d70a7ffba8c469620c1b80dae71921aa4deec8c4d63c20f"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 535849,
+          "sha256": "67834af53f98fec5e2d9d917a2390c892fb67f69966df15996cebddf5b8f10e5"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 9746557,
+          "sha256": "0fef10dbc27001399aaac3399c9be80fa12d5855b2ae05fb79b937c0412a32d7"
+        },
+        "policy_state.json": {
+          "bytes": 131231,
+          "sha256": "278f8f94766bc8cdcfa70830310aa958dd6fdef93391d5b2253d96ccf4b7a320"
+        },
+        "run_inputs.json": {
+          "bytes": 5277237,
+          "sha256": "9514c1137bb62bfbdb072856189574d122d5df57cc6441efac1ab05b34014c0f"
+        },
+        "run_report.json": {
+          "bytes": 8105,
+          "sha256": "dc44aabdcdef37d5ee4fa1f511803fa504f598702545cba5cf493564f0532714"
+        }
+      },
+      "original_run_identity": "f9d7ebb14db2a270442e1166120aec5523685c888525596b619bdd7ea4ab80f4",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "policy_recovered_hgb__raw_matched_frozen-later_candle_one_bp_slippage_rollover-reference": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17271,
+          "sha256": "55d9623952a341addf388a94a39ddaf76cffee1ff72a0812cc8c2e3714055c77"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13091,
+          "sha256": "6c9750896180ec179f67d4c18efd00e8b0f8c3b3c6367f9cb8026b5f01cbaa27"
+        },
+        "accounting_audit.json": {
+          "bytes": 384,
+          "sha256": "c3119e96acd9ef18c11c8d90ff5f6bed1e43c640a021c78fdf66389fb8dad423"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 360999,
+          "sha256": "622aa1d3a5e460dae1b477f8b2cbe4377e1826875ffc57d5f2c2231e76c45554"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5894507,
+          "sha256": "994c60b200d2de84ac57721ac6ca17d67ecec5ec2f899e03ae64ca9c4ea44173"
+        },
+        "policy_state.json": {
+          "bytes": 84625,
+          "sha256": "377875de22893e100560f24004d1dab34695cb6445b26eadc13217048a4352ac"
+        },
+        "run_inputs.json": {
+          "bytes": 3910867,
+          "sha256": "47b279ac916751017fb49ede0263bec24b3e0fbe69b9d9233d80ba140ecd2ea2"
+        },
+        "run_report.json": {
+          "bytes": 8034,
+          "sha256": "beda371ebeab3dbeb69b3611a7343e5d0210ce41d7b64fe479e9f0c770257837"
+        }
+      },
+      "original_run_identity": "7f930339709fe0cf1d7feb7d4c01d23a9418b8db280db778ad9fd6b20c69236f",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "policy_recovered_hgb__raw_matched_frozen-later_candle_zero_slippage_financing-reference": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17271,
+          "sha256": "df493fe955289ea24b2bcd7adb507521843dfac5029304039d31285cf1aac684"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13091,
+          "sha256": "0692a0cea58375915d194e3870ec0c406047776761e4fe2235a046c21e34ebfa"
+        },
+        "accounting_audit.json": {
+          "bytes": 384,
+          "sha256": "c3119e96acd9ef18c11c8d90ff5f6bed1e43c640a021c78fdf66389fb8dad423"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 359957,
+          "sha256": "1db5695628b8f37f1c7f188cbca932ff948fc9d6b036ace5d1bab3323e529a3f"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5893016,
+          "sha256": "e84ef9714c7138cacede9193d6fd5fcbfaf80faf296ee4d836767a90bea1918b"
+        },
+        "policy_state.json": {
+          "bytes": 84633,
+          "sha256": "d5994a2dd863a4fb95f6599d36be8f6224a071985807c2e086f46bbdc90cdb78"
+        },
+        "run_inputs.json": {
+          "bytes": 3904422,
+          "sha256": "50f76691f96cdd74a512e1e2a57f165553b51b9260785ab6c8f551cfe95ea42b"
+        },
+        "run_report.json": {
+          "bytes": 7952,
+          "sha256": "57cdf105dfcd38514eb152ba8701ee74ab5bfdcd0486e71b6429dd232f412fbc"
+        }
+      },
+      "original_run_identity": "9dd8de07e0d4bac473e97fe583607f08d7cfa3c823a101deaabead0689ac4126",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "policy_recovered_hgb__raw_unrestricted-later_candle_one_bp_slippage_rollover-reference": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17298,
+          "sha256": "3be20cffdce27e2394072792240250fa7b64c6cc7b37f09fe4d7374394aeb3f6"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13091,
+          "sha256": "d14727229d05b8f058917708bd716cc2620b0394568b64ae39d48f2a9dc7616e"
+        },
+        "accounting_audit.json": {
+          "bytes": 384,
+          "sha256": "88678570f40dfec9d4c93b2e4008a60c94a94285dcbe2a25a6d29f43d6b90561"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 688164,
+          "sha256": "6d862c20d2a78fac76947d3732a7bc8fd9ee48582e8edc94fc04791a9e389a80"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15156382,
+          "sha256": "6859eb9dde0fb91b7f5421691ff84c677e58f382bffb289f9a9c5213e6f22dcd"
+        },
+        "policy_state.json": {
+          "bytes": 181062,
+          "sha256": "3ff71e94623abaac3dd7eb7cc352adc45fc7cd4c6622ae3fd4907f3113fd9adc"
+        },
+        "run_inputs.json": {
+          "bytes": 7082533,
+          "sha256": "28bf37feb9115dad323763a4b99381b347e97168ea3990b07b891c52535b7604"
+        },
+        "run_report.json": {
+          "bytes": 8109,
+          "sha256": "aa83e10d5b2e9c9686cc23a0d3f2b3515cddd565b744b96fe52593bcc954fc6f"
+        }
+      },
+      "original_run_identity": "64f38c1f60c34e7048ee2ad7bac31629c5d9f11fcb0db44ab67afd364d3c97ba",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "policy_recovered_hgb__raw_unrestricted-later_candle_zero_slippage_financing-reference": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17298,
+          "sha256": "77ea7a18bff76f31bf720a83b78b8f520fac042b03eaae1fa91570d62abd8d23"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13091,
+          "sha256": "a2beeb9ef1a7379239482167f1f6f19e99f431e3bac4692225952e59343d80db"
+        },
+        "accounting_audit.json": {
+          "bytes": 384,
+          "sha256": "88678570f40dfec9d4c93b2e4008a60c94a94285dcbe2a25a6d29f43d6b90561"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 668552,
+          "sha256": "3e1a694e724d433701f6f353faaee1e0592b6ae86efa532d6cb811216e4910b7"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15111557,
+          "sha256": "d9f4a30e2c3bb06ff0cd8d63b80facbf149154b1c7423fc0462c750c65e48058"
+        },
+        "policy_state.json": {
+          "bytes": 189748,
+          "sha256": "1dc3fb6e2960918c9747a145e93bdf941e93f33f31b29fa8e6f5b5dd1c47a4d0"
+        },
+        "run_inputs.json": {
+          "bytes": 7069524,
+          "sha256": "8fa15f786f03bee1adac2153624a668e81e71778985a70d519d2907055a700a2"
+        },
+        "run_report.json": {
+          "bytes": 8058,
+          "sha256": "8068c5ec2ce3fd3c6541eb0880aebc4eacfcf658933d3a88616f24f8000acd32"
+        }
+      },
+      "original_run_identity": "2230f3a6bd6eae609285ae8d1460555fa020f7eb1e1530e817a7af0b8b31f4ba",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "policy_recovered_hgb__signed_only_expanding-later_candle_one_bp_slippage_rollover-reference": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17280,
+          "sha256": "353112eae551b4db8ab944a5e99dffa5acad6d6040b2c2086ccf67cdfe353750"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13091,
+          "sha256": "6d797d762d8db343bce5a130ba0018ad4fbcfcc142b694e2876d942de86bae51"
+        },
+        "accounting_audit.json": {
+          "bytes": 384,
+          "sha256": "c3119e96acd9ef18c11c8d90ff5f6bed1e43c640a021c78fdf66389fb8dad423"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 428150,
+          "sha256": "8f986f388e3d16c8fd90dfdf583c17960e2870f57febc6fbcfeeae4cc6efc1cf"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 9761842,
+          "sha256": "9af3c15456bc24f980b01fa2fa4875b804e328edf1d6c352aff9fe9aa4107806"
+        },
+        "policy_state.json": {
+          "bytes": 92825,
+          "sha256": "85585653be1897b61d191c11d67c0b44aed8151e241c340b7001133a77fb05e9"
+        },
+        "run_inputs.json": {
+          "bytes": 5285658,
+          "sha256": "2a89256fa080c3d66f8b995918450ff64aa2ecec1927629fbb78435d882f859f"
+        },
+        "run_report.json": {
+          "bytes": 8066,
+          "sha256": "d0bb7c0c3704f26a870fcce4604163508005c22c05f9f77def0e76e5588f8089"
+        }
+      },
+      "original_run_identity": "fbbce9cdd3320f4b6ab26353836a2b6e59c52aaaa24be91d948a2ea7a72eef5e",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "policy_recovered_hgb__signed_only_expanding-later_candle_zero_slippage_financing-reference": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17280,
+          "sha256": "944bacd7bb796f156b947c913156c8dcae8a594c5afeb7fb7eda303c1a2ec19b"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13091,
+          "sha256": "3ab4ab458cb091562c814f45ed342850c86550dc6a46718417e94a8648b62ee9"
+        },
+        "accounting_audit.json": {
+          "bytes": 384,
+          "sha256": "c3119e96acd9ef18c11c8d90ff5f6bed1e43c640a021c78fdf66389fb8dad423"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 409713,
+          "sha256": "9fc4ede5c5b1d0da17e076a5e4e7ff296e43084bda5fbfb27fbbfd457498d281"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 9748438,
+          "sha256": "9e3d01acebf29850a9a8a0e6d450e5e759a5963399d9fb95830ae0ac5214f441"
+        },
+        "policy_state.json": {
+          "bytes": 92749,
+          "sha256": "921d748021839799ed1246df10d46a0c1ad0693ef3237febbd3c5d07a9695d71"
+        },
+        "run_inputs.json": {
+          "bytes": 5277521,
+          "sha256": "2bc78ef12bece81ffd4950d78ebdacd3d3d083692fa6712cc2fe02ab1c00ba82"
+        },
+        "run_report.json": {
+          "bytes": 7930,
+          "sha256": "9f9a93b2f35cd50caab2fb6615e21e969d11510312520a253629a66fd84b8c47"
+        }
+      },
+      "original_run_identity": "c5a415c38f52e1c831c81a5235ab680fdb705b0e4d8574672fd27a71045ab03c",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "policy_recovered_hgb__signed_only_frozen-later_candle_one_bp_slippage_rollover-reference": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17271,
+          "sha256": "b88228f0db8c4ba04820ba2d1bdaa2375a62ee76437dc03f3056388973873a4d"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13091,
+          "sha256": "f439e81fa730df66ee822159841407576895772bbf07fb16463334fed9de931d"
+        },
+        "accounting_audit.json": {
+          "bytes": 384,
+          "sha256": "c524fc4c2a498def5f7232a05f590241e2e24054b21a447fbc69a1a8891c31ce"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 217378,
+          "sha256": "da0689e71bf55ac8b6b1b92030243498edb6e97e9e037c5e485f46fe1478f4f4"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5874757,
+          "sha256": "f50982542701862029bd6f92a3389e67942bb43d6fbe779602c63df7a1d38bc6"
+        },
+        "policy_state.json": {
+          "bytes": 55908,
+          "sha256": "2253845f80d8af4637da6b414e6aff5805eec59ba42ff706d8569947c3781f68"
+        },
+        "run_inputs.json": {
+          "bytes": 3910870,
+          "sha256": "2ed275c1c895971257c6a3ccb49c3047127e77af992bb7d9e8ec1b0b7e59a9a3"
+        },
+        "run_report.json": {
+          "bytes": 7772,
+          "sha256": "dd0839d69f48cc194af8c73ca5887661d20421d7c3887b7b196d8e1a72b329ef"
+        }
+      },
+      "original_run_identity": "777fbdbb0e5f88d6b27bbfb3b224ade1fb8332344d8ae3440611acde2b48a6b1",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "policy_recovered_hgb__signed_only_frozen-later_candle_zero_slippage_financing-reference": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17271,
+          "sha256": "507ae97c49930a58543985f4b7348e2d4e41e1af521dd7ff82e3470b3f09ab3f"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13091,
+          "sha256": "0696fcff4c436869b98493a872e421b879322c3c7025b878df533ef55bd29c5e"
+        },
+        "accounting_audit.json": {
+          "bytes": 384,
+          "sha256": "588791d81801d4b1a46689e69b3f9f03a41454d960b1a4ecc31d5563c1bc3cd7"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 296831,
+          "sha256": "15adc53ed14febe15ef13bcd7c4cd657a16558dbe989209aa64b82e917232160"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5891701,
+          "sha256": "3ffc7f3ca13a6e399850c05f5f8bb96e39ae8732f2509759f751a02b9f29afd4"
+        },
+        "policy_state.json": {
+          "bytes": 73809,
+          "sha256": "2586e4968a06ae87918205a52f6ff693b3d020cd58109522ae7789b453efa59f"
+        },
+        "run_inputs.json": {
+          "bytes": 3904425,
+          "sha256": "005bb8461cebf15b016fe78867e01560156a245c7aad9de7f1c661dc8a9324e6"
+        },
+        "run_report.json": {
+          "bytes": 7923,
+          "sha256": "18e974337e7248601aae3f1f060ee82499f69adc0f56bb2a5305950edc584eba"
+        }
+      },
+      "original_run_identity": "215656436da3fe22c3626fbbe75e932fc41304efbdb24313ba81c25eb6f84bb1",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "policy_ridge__magnitude_interaction_expanding-later_candle_one_bp_slippage_rollover-reference": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17280,
+          "sha256": "6771a8af0e4ce43f25ec794eddd4dd4931ec7fba79bd3c1d7aa210e2ba86a5aa"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13091,
+          "sha256": "eaf7daa19f3e641068bb63a88da411da9dc77248159f898029f300de704a54db"
+        },
+        "accounting_audit.json": {
+          "bytes": 384,
+          "sha256": "c3119e96acd9ef18c11c8d90ff5f6bed1e43c640a021c78fdf66389fb8dad423"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 440918,
+          "sha256": "52fe8270574836f8405204d5026360dea3d6b0b2297d8027744557888a1792ca"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 9764230,
+          "sha256": "1b94377613976b420245afb744633a62f1086fffa4c7c831726338f628720237"
+        },
+        "policy_state.json": {
+          "bytes": 94244,
+          "sha256": "1ece3ef97863dd01b66ac7a87e90b21599f91d3a190f383cb774d7ad80ce943f"
+        },
+        "run_inputs.json": {
+          "bytes": 5289592,
+          "sha256": "e1e4c9b0908d5caf7cadd7afe10c3d66c7d68f7e26454c720bf7a1bd7abf7360"
+        },
+        "run_report.json": {
+          "bytes": 8116,
+          "sha256": "02da2ebb469dc06615e365887d448609e3739a440f0e7fb6fa8fb3d2b6777fbd"
+        }
+      },
+      "original_run_identity": "9b477fadd31e888c05ce17b2d91cdbce119945ee399bfbd71cde63f3d5c2fd38",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "policy_ridge__magnitude_interaction_expanding-later_candle_zero_slippage_financing-reference": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17280,
+          "sha256": "ff3f2c0b03a420022ed5ba295303f65242ba64c1d6b6fc4d7cab83aec2de4b8a"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13091,
+          "sha256": "3a1bff99687d1df5e8bc5fa9bb6181e46d08dab11ac8ec8ae92443029517d850"
+        },
+        "accounting_audit.json": {
+          "bytes": 384,
+          "sha256": "c3119e96acd9ef18c11c8d90ff5f6bed1e43c640a021c78fdf66389fb8dad423"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 422848,
+          "sha256": "8c42c52d1f7c786d1f11eb276112053225595d1b100ff896a0f2f29bf5867779"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 9750418,
+          "sha256": "5791920dde099eab9692e44399502392033f948f2399216479f26875899f254e"
+        },
+        "policy_state.json": {
+          "bytes": 94180,
+          "sha256": "a75421f8a6baf6bb1c664a731ab063e2b653230c970bbb4e7adedbdc7479a8d7"
+        },
+        "run_inputs.json": {
+          "bytes": 5281455,
+          "sha256": "7014956a0603025c765cd5382903a5fb3464b43dc8742b5845649a68fdd684a8"
+        },
+        "run_report.json": {
+          "bytes": 7925,
+          "sha256": "e5c50da98efe29268405a668e0c030887c290d1c67b59ee5036294614a86a926"
+        }
+      },
+      "original_run_identity": "a46db6c5eef96d1f951fe73b6ad37117715915785f583ccac97b3f6df02ba309",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "policy_ridge__magnitude_interaction_frozen-later_candle_one_bp_slippage_rollover-reference": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17271,
+          "sha256": "b9a9b6427ac5e7224efe674a1f0283c3c51787da7f284b502981b4e5dcd630c7"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13091,
+          "sha256": "36a3dce1537c880c9b4ef3d04e0ee699e00ee6c3fb7a51030903ad8ea79ba501"
+        },
+        "accounting_audit.json": {
+          "bytes": 384,
+          "sha256": "c0cae8bb0d0c9dea49c943c598149d022b8514daf276ae2b4160a955f121a442"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 309549,
+          "sha256": "ae3d7310f9a63afe734313cf9d775a1c2bef9e88e6dc9d91f25cd4562bf768ac"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5902184,
+          "sha256": "a5a9fbf3d99ea506a2a5b7549d220f7bd479b4a93b94072c36a881aa57b2ac69"
+        },
+        "policy_state.json": {
+          "bytes": 57592,
+          "sha256": "c837fcaafeec49f613aece0bdb2288c5790c9e47c00fb35033d1346c9c884e33"
+        },
+        "run_inputs.json": {
+          "bytes": 3913639,
+          "sha256": "f7598152ed2ba693d66faa1611182151a9b83c1361bd66bee425c02d1523094a"
+        },
+        "run_report.json": {
+          "bytes": 7955,
+          "sha256": "5f5322056808873eb04977fa011861253ff3fdc4b6700fd446a6424c40d6c4ff"
+        }
+      },
+      "original_run_identity": "9646b7d35f44a0acd7ddf2d55e83063546f21b368820a2dbfde1db972eade09f",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "policy_ridge__magnitude_interaction_frozen-later_candle_zero_slippage_financing-reference": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17271,
+          "sha256": "e267e299e5cfb73368200f3f956270358a54587adb7670b01b853f2bae194fa4"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13091,
+          "sha256": "72e9448430f93a3123dd1290adf3390d9a67b0ae2462afa1245e187d11f82c00"
+        },
+        "accounting_audit.json": {
+          "bytes": 384,
+          "sha256": "c0cae8bb0d0c9dea49c943c598149d022b8514daf276ae2b4160a955f121a442"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 308709,
+          "sha256": "9a58feb77d8aacd6a600b670691e2fc36329e0adf665eb15508a12818c95df99"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5900000,
+          "sha256": "1df928c4090078313b6ede8cce24a49da2b287f366a90278ba9787c0490dbe7a"
+        },
+        "policy_state.json": {
+          "bytes": 57594,
+          "sha256": "d8485a721d3ccb6556937df8c2f01638df1d021d0d3b69785234a1be5e25fb40"
+        },
+        "run_inputs.json": {
+          "bytes": 3907194,
+          "sha256": "3ccda148fb73d58016e528d387d4a0a13b2c1bc1eb6b4dbdad6c87910b4b50e7"
+        },
+        "run_report.json": {
+          "bytes": 7954,
+          "sha256": "0f8fc067e90974ef715bc830e8f9ba4d32d893b14f55f6960ad992a4cd4317b8"
+        }
+      },
+      "original_run_identity": "a0e997a77e8635e0a047d930ab4f6dbebd88c2505d3377a163ad39c6dc15f172",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "policy_ridge__raw_matched_expanding-later_candle_one_bp_slippage_rollover-reference": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17281,
+          "sha256": "a15cb3e093c23b9684c006ba17f02b9838c7f17777214939baceddae4d7f3ed8"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13091,
+          "sha256": "9034881a6f4c3ac1586041e739397935a79f7de9e05b1094992bf51074234835"
+        },
+        "accounting_audit.json": {
+          "bytes": 384,
+          "sha256": "f5c93613738fda311d70a7ffba8c469620c1b80dae71921aa4deec8c4d63c20f"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 550099,
+          "sha256": "43f8918f83b409ee44a96458514a6dfb77b09896a8e15b2e557027ebd236ef87"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 9744359,
+          "sha256": "9077036d7932ee7a8d4aad593009dfac439c5cb08b43086b955123a3244505c7"
+        },
+        "policy_state.json": {
+          "bytes": 128337,
+          "sha256": "559e9493c208dca6caba2ad101bb168e84fa9da9a6519fe5e6aff2399f03a004"
+        },
+        "run_inputs.json": {
+          "bytes": 5270184,
+          "sha256": "f6316c3a1cefdbf73b137fc75470569306c0a660d6978632071f55ca8d4c1f6d"
+        },
+        "run_report.json": {
+          "bytes": 8271,
+          "sha256": "704e610bd1e24a75286df82fdf31260589d1889da88d25cdad0f03701d9184bf"
+        }
+      },
+      "original_run_identity": "a5a38a947b67462988a71bf89a382503c061c8cb0e6b38d51a569278a08eb99a",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "policy_ridge__raw_matched_expanding-later_candle_zero_slippage_financing-reference": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17281,
+          "sha256": "5aeac56796eba749709f2118d8d71374c9fa27557c954068da919b834bb37c49"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13091,
+          "sha256": "d9cc715b4f87b512b2dff81cf10dc5599a14066345a35c8d74b93bd9b024ca59"
+        },
+        "accounting_audit.json": {
+          "bytes": 384,
+          "sha256": "f5c93613738fda311d70a7ffba8c469620c1b80dae71921aa4deec8c4d63c20f"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 528249,
+          "sha256": "066f61728cc68f843bdfb2736d349ace9e4785099dfe29a3e92b929f15d56ab8"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 9731001,
+          "sha256": "5995b962e72fcc205af1307d10c54b31cb5d5313b79c1d37473f2abec80ecb65"
+        },
+        "policy_state.json": {
+          "bytes": 128293,
+          "sha256": "d0fb6189629efeb115c7ab7b893ab332bbd1ef374e3399b8c1dafbe689360713"
+        },
+        "run_inputs.json": {
+          "bytes": 5262047,
+          "sha256": "1fabbbc4dad871d2a9e5532ac2c3cb26d9bc4f2b6108da38e7d291d272939009"
+        },
+        "run_report.json": {
+          "bytes": 8082,
+          "sha256": "5f8695710e06889c34a68b5e4b23e7aec3759f28f985107c20e9639b6b36f0b3"
+        }
+      },
+      "original_run_identity": "4b1cf7e69b1e632b465f5332b4923839df423301409f9912212b177d74be84b8",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "policy_ridge__raw_matched_frozen-later_candle_one_bp_slippage_rollover-reference": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17271,
+          "sha256": "cfc81d89346d1026eaec65590fd7fa31b73078182598e4ab7960fc7cfc1a24a9"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13091,
+          "sha256": "722d77495a6780ab2112d70c1cd3439e95059ebe15f5fdfed1733e4541e0b757"
+        },
+        "accounting_audit.json": {
+          "bytes": 384,
+          "sha256": "c3119e96acd9ef18c11c8d90ff5f6bed1e43c640a021c78fdf66389fb8dad423"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 366820,
+          "sha256": "6a28ee32fe88efeeccdf55976f2ed2008e1762931febdbd3b75d70e0d669a7da"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5887299,
+          "sha256": "8a73f3957097ef86652fd8dcb620367c9083cb8f410c8c93fb02739c332490ce"
+        },
+        "policy_state.json": {
+          "bytes": 83738,
+          "sha256": "aa5d852af1122b7954d6a2b7be55e4ceca0c657129445d8083a3df06d1129ffa"
+        },
+        "run_inputs.json": {
+          "bytes": 3899797,
+          "sha256": "b0e83f9aa65694e6f5a7044c90452c1cafa3da19f1e3dadb036eb626e5cc4ad6"
+        },
+        "run_report.json": {
+          "bytes": 8099,
+          "sha256": "dee994391909d8bd4e50ec06c64b92310a5e5619c351a3bfe32b8d3cf756e8e5"
+        }
+      },
+      "original_run_identity": "b900baac6e8a2d4c3f7c7c7fb6df9200afceaccad92585cb0fe605b54861ce2c",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "policy_ridge__raw_matched_frozen-later_candle_zero_slippage_financing-reference": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17271,
+          "sha256": "e764f5a0974934e5b4ffe29e99dd0b11578dd5628dee2f03773abeae9851c0dd"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13091,
+          "sha256": "d999bad5cdf6f5d730cfb88d027beffec6a7aa66abd2e82814aea3421ada2fef"
+        },
+        "accounting_audit.json": {
+          "bytes": 384,
+          "sha256": "c3119e96acd9ef18c11c8d90ff5f6bed1e43c640a021c78fdf66389fb8dad423"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 366047,
+          "sha256": "cc0fafd79a8e15c3046b4dafc89c2e2eb0f0579f2f95cc7437c39f8afda507d3"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5885805,
+          "sha256": "3fe2bb0ba53bdd14afab79f16be54da140a30d2e740c0f45738f3d0d62e86770"
+        },
+        "policy_state.json": {
+          "bytes": 83754,
+          "sha256": "9eaaf114cab0a5c04f25faf800ca9be706877632423db31d94b707d50f5e80d1"
+        },
+        "run_inputs.json": {
+          "bytes": 3893352,
+          "sha256": "34d0be9fb50bd60384c64dc31a560134da5ebf8d44ada62fb721e1c833e2ca16"
+        },
+        "run_report.json": {
+          "bytes": 8102,
+          "sha256": "f05777669273c98a380fda121052316bd7eab1dea1ccab2203ade214d5a4d039"
+        }
+      },
+      "original_run_identity": "62ed7cc5ed6f6d681a7f9625d9e59052e35f54b91f94727de1036dadc675f324",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "policy_ridge__raw_unrestricted-later_candle_one_bp_slippage_rollover-reference": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17298,
+          "sha256": "56532ffe3b8b128bd6baa9cb2bbbec452bf431df2359cf2526910907a173a8df"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13091,
+          "sha256": "957c59a116fa6a426431a4e8855216e681a8f3c8e0ef01dacdf4544955e225fb"
+        },
+        "accounting_audit.json": {
+          "bytes": 384,
+          "sha256": "2c55b27eae363f809312852b2fd713f5ef8e7ec716e8966ef5475a6d5c4e6258"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 586417,
+          "sha256": "4fb767a2a68aa0efd98f9eddeae8634bb51b2eed2ffae1701c7920a3e53ffded"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15128209,
+          "sha256": "4e0c4b4a70cc96c2060eac4321963ade1bb0279080944c1dca3d59923da88aef"
+        },
+        "policy_state.json": {
+          "bytes": 160310,
+          "sha256": "e7b86bae09345df98b03aea71d9cbf3ea68183cb18145454786ca91317575e84"
+        },
+        "run_inputs.json": {
+          "bytes": 7061290,
+          "sha256": "06af83bd337fc3ed6e876022455f35b5b40366c80e339034a7a9d58f7ba42b90"
+        },
+        "run_report.json": {
+          "bytes": 7993,
+          "sha256": "f5c4818c339cf084702ba47f4c16c2ee91396267824adc300dadf000ba43ee33"
+        }
+      },
+      "original_run_identity": "e3a2934f34db0e667bd2e990863796ec773ef711fa15824177a38784598e3af8",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "policy_ridge__raw_unrestricted-later_candle_zero_slippage_financing-reference": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17298,
+          "sha256": "ee2a6954a027f1abdbfe30fbb2da3e1070bffced17d35cbdde4c1697906effc4"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13091,
+          "sha256": "dafb367e94d47ebb18dca656f5c2c6429ef6727457955157f58c9993c344898c"
+        },
+        "accounting_audit.json": {
+          "bytes": 384,
+          "sha256": "2c55b27eae363f809312852b2fd713f5ef8e7ec716e8966ef5475a6d5c4e6258"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 578098,
+          "sha256": "8464eeeec843760a1bbb7d86efc37d6faf9d4fbe939e1be36ac6cf50bf871c1d"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15083209,
+          "sha256": "445b5b9759e1b19ab854b67d6d98aeadb1614f0939f0b671f202983015549a00"
+        },
+        "policy_state.json": {
+          "bytes": 160220,
+          "sha256": "6444e77fd1e56df948ba2e23f5594257b36402e7443605ebe3fbe0c13effc5bf"
+        },
+        "run_inputs.json": {
+          "bytes": 7048281,
+          "sha256": "5fc4fa3d9533de15cb7f0e15c997d7f301f10aa2e4de33e816da6650eef6d71a"
+        },
+        "run_report.json": {
+          "bytes": 7941,
+          "sha256": "b9255076bcd2f4d872466b5d10c7f47d1158e4f4032d488a65cd94c1fee5939e"
+        }
+      },
+      "original_run_identity": "30c1ae894670da4b5496db3aa2211b479cdf12ce94295ccbbe92620ac6797f7c",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "policy_ridge__signed_only_expanding-later_candle_one_bp_slippage_rollover-reference": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17280,
+          "sha256": "b5cd00f1f596914abb2b0aba4081973a7b6f9cc8dc26792dcbe1c6cc1d0899d1"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13091,
+          "sha256": "0c96547348f244f551a162f51696fd9a8ab165681dcecac0efda323fc7861d7e"
+        },
+        "accounting_audit.json": {
+          "bytes": 384,
+          "sha256": "588791d81801d4b1a46689e69b3f9f03a41454d960b1a4ecc31d5563c1bc3cd7"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 401973,
+          "sha256": "f215f2ffad3e9b90310349e972b701f752fedef9857f2e7c802cbef8bcceaa06"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 9745118,
+          "sha256": "34fe03235ea0d4aff49c9e8db28fe111aa30bab8ecea2754ed16e0e949924031"
+        },
+        "policy_state.json": {
+          "bytes": 74765,
+          "sha256": "2043a07a6e4f4a59a618920744275e3b0d3d7e3ba61f010a5acb37c5f3dc62e4"
+        },
+        "run_inputs.json": {
+          "bytes": 5270452,
+          "sha256": "7157f695bbf29cd0d862ba9c5086fd888df566070358933f73e58dd425a9eb5e"
+        },
+        "run_report.json": {
+          "bytes": 8062,
+          "sha256": "5836070068d733091f7259e67550f553714607cbc47a864ebc0203f4b135a07e"
+        }
+      },
+      "original_run_identity": "a87d041dd78ba0e0242d1da5d2fd2f6e369218ea6f9b7a0fc6d95f382e1e6213",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "policy_ridge__signed_only_expanding-later_candle_zero_slippage_financing-reference": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17280,
+          "sha256": "41bb52016b2687718cf919b5061b8bcc2f4a4c8a3457612fd66f7d1e09234a21"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13091,
+          "sha256": "cbbdcf543f802ea9d5e632ac5923d0ec3f1e4d96c7ca9bf8e012e799d4d4d43c"
+        },
+        "accounting_audit.json": {
+          "bytes": 384,
+          "sha256": "588791d81801d4b1a46689e69b3f9f03a41454d960b1a4ecc31d5563c1bc3cd7"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 374608,
+          "sha256": "0679b56abffc63e91d0cf507fc5e8b915e99800284b338d4003ca7890a44ecef"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 9730056,
+          "sha256": "c515480e86aeaa57223b2af0615e5a71b3611bdeeefa6448d55166d8cc9afba1"
+        },
+        "policy_state.json": {
+          "bytes": 83325,
+          "sha256": "dd07888eec132ace59f69423d597f73c7bcd584f96c306ac8a95741fd20c2e75"
+        },
+        "run_inputs.json": {
+          "bytes": 5262315,
+          "sha256": "cd5c77d827c8b2114ee3c88819d74bcb87748e88e462003a38490a3bb80fa269"
+        },
+        "run_report.json": {
+          "bytes": 7871,
+          "sha256": "b22045b060f2fc9e14f0010d010ad7a2199d228ffb786b610430d64cf975ce3a"
+        }
+      },
+      "original_run_identity": "8ba2183727a326b6a97e8d1f179c1978200eef6e0594f251745a3102aa225724",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "policy_ridge__signed_only_frozen-later_candle_one_bp_slippage_rollover-reference": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17271,
+          "sha256": "d8f792c97b5184714c7759ee2abffd562bee6fb4249fbe403eb8dfc0d20e5028"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13091,
+          "sha256": "cdecab9b2c408eedd5be1bb7547e7fa1a0e92ac6da1e06ea2badece114fe79f8"
+        },
+        "accounting_audit.json": {
+          "bytes": 384,
+          "sha256": "c524fc4c2a498def5f7232a05f590241e2e24054b21a447fbc69a1a8891c31ce"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 256255,
+          "sha256": "38753e7c8a40d372c2112636c1a082162f10911531f0a283a89f04a533a7767b"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5880379,
+          "sha256": "7945427e5e845bf66a459076dd825da6cf9e3deb3074d7094353093faeae066c"
+        },
+        "policy_state.json": {
+          "bytes": 49044,
+          "sha256": "d5102828046e49d28d13cabc16a1acb940ba43ddf68d95c6467958f79f5b36ba"
+        },
+        "run_inputs.json": {
+          "bytes": 3899778,
+          "sha256": "45c0d8d76be272da9b90b54f93616e81f74a9562fbd50ee2b61ffca1f0f93a0e"
+        },
+        "run_report.json": {
+          "bytes": 7945,
+          "sha256": "6867bfe0a71f3d3cfae595845bd34dc36421645ad109acd15c8382709f11476e"
+        }
+      },
+      "original_run_identity": "1ecdab4951ab7f680409b13b7bfedcdc23edadeeccee342c2a0645326714e536",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "policy_ridge__signed_only_frozen-later_candle_zero_slippage_financing-reference": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17271,
+          "sha256": "31f394cbb7ed14c8e70501b100051339271565b57ff2784783afaa12a66f77cf"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13091,
+          "sha256": "ad314ab319fd93be3d3ff2e29ceda7ded9c575d1ae826a92386d9757b8f90fae"
+        },
+        "accounting_audit.json": {
+          "bytes": 384,
+          "sha256": "c0cae8bb0d0c9dea49c943c598149d022b8514daf276ae2b4160a955f121a442"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 308731,
+          "sha256": "bae636b6cd9ac781a4d70f283b662300ec8275ca07b849bed88e61ba423e6f1f"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5887871,
+          "sha256": "805766145cbd74dfc5471aabfbc5a7e6ef2c15d1ae585eece7221c1284b7c8a1"
+        },
+        "policy_state.json": {
+          "bytes": 57922,
+          "sha256": "32e25fb4e7e3e0d7217b3a69aa91a550399e691d6d8b44f18e12ea63c7f1eea2"
+        },
+        "run_inputs.json": {
+          "bytes": 3893333,
+          "sha256": "e02700845561133150e39b0e770e3ef2489dc197e9de88773033a9a84594361c"
+        },
+        "run_report.json": {
+          "bytes": 7976,
+          "sha256": "db7a4f460b25ea460133d3266fc1bb7dd8ee299e82d701a0d27df59732c88bee"
+        }
+      },
+      "original_run_identity": "eaf59ca63780de0a539c1004938d2a9f8a9e75524df2bf3d52082cfeb64db138",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "remaining": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 35086,
+          "sha256": "afddfc6471d9d28800fb4e915eb1f2ec0ceb708c2cf57ebcbf287f2a6318865a"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 31845,
+          "sha256": "59073047302bc2bfbb76dad4a4b3f7d529060f9495cb21a91987d4f822ff2b0e"
+        },
+        "remaining_outcomes.json": {
+          "bytes": 9404792,
+          "sha256": "21778f12eb42762ea935c834218cac5c57639f89248cd47205978d843bcf106c"
+        }
+      },
+      "original_run_identity": "fc0a1423ca93b62e94f215b49a6a55aaf280524aadc1501b231efef4031a2763",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "surface": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 319223,
+          "sha256": "b59939b61f442be3b25cafc604e7a467cada240030a79cf81e9bd2f76245c6e2"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 313404,
+          "sha256": "ebf3a63d60d9ae42f131ab258ea9d127d7eb0caa1ba6aee22355472f6c43e836"
+        },
+        "assessment.json": {
+          "bytes": 19044,
+          "sha256": "c0c73b14cd5afcf254096b48042675d0c95396afadb041f48b367111fab634f7"
+        },
+        "frame_1721844060.json": {
+          "bytes": 1267182,
+          "sha256": "550aae2fc50739b7a96ba4de1009f3fdfef9e8fd0923eb2bc0dcb8159aa1808a"
+        },
+        "frame_1721865660.json": {
+          "bytes": 1418123,
+          "sha256": "8ab503a67e68c36ff7cb792f22ea35b144a0bfc98fe962ff008f896650a0b67a"
+        },
+        "frame_1721887260.json": {
+          "bytes": 1493267,
+          "sha256": "ff82e7c7a794a27f07666051b96950132f01dfabeef986a1ea1273b5c0a88f4c"
+        },
+        "frame_1721908860.json": {
+          "bytes": 4461983,
+          "sha256": "5dd3e0621d514e3bdad537ab92152930c1fd0cda2f4eee0d16b16a4f0faff1ca"
+        },
+        "frame_1721930460.json": {
+          "bytes": 4523641,
+          "sha256": "907d13e8c6efa2aa11720df3c666121918136118e3bb17d4523004da30918e01"
+        },
+        "frame_1721952060.json": {
+          "bytes": 7602890,
+          "sha256": "df81c88220010e976082ebb4b07906a1bb10f97d5834708627d313cf835a53d8"
+        },
+        "frame_1721973660.json": {
+          "bytes": 7659089,
+          "sha256": "54b4bfbc41fd7e384531b6c9400625238d5818bd2ae394e4ebea027a2e4d8ccb"
+        },
+        "frame_1721995260.json": {
+          "bytes": 7723252,
+          "sha256": "75d5e71a9196fe0b13b98208487a2c4cdf0216a7e1e44840f9ba335a91b32ea6"
+        },
+        "market.json": {
+          "bytes": 946830,
+          "sha256": "3062d15c9d53abde9a4ec877ddcba55b823c6f76ee7a39624c9da6c57886701b"
+        }
+      },
+      "original_run_identity": "86ca1af70edaf67ef743cf842df109c13d644ccc2598765e2f3fcfe4f05351b0",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    },
+    "technical": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 14046,
+          "sha256": "b747dcd99f8613b00ad4403f90dfd91470cfe910bfb65464f3d2de1ddcec0bd0"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 4099,
+          "sha256": "a28b7c7d6828651dbf072b654f8f7917f6b20da028721875d6acbb27c254f388"
+        },
+        "pair_AUD_CAD.json": {
+          "bytes": 393098,
+          "sha256": "34f60c7a9c3de0a59c97e0006893d1512bc68f90373d63b20c06f867b80a4ca0"
+        },
+        "pair_AUD_CHF.json": {
+          "bytes": 393275,
+          "sha256": "1985258a203a6887fe60bdce7a81c8067be894bc80ae89ef10b698a6b67c086e"
+        },
+        "pair_AUD_HKD.json": {
+          "bytes": 393434,
+          "sha256": "0b100467ed5edb2754b92d867ea87b1650bb7f4fa73b78f583f5b5d92524fa44"
+        },
+        "pair_AUD_JPY.json": {
+          "bytes": 393315,
+          "sha256": "748a0a8b72335940c4c79d068419820eb94fc7f6923ee8a1d39e999f52d0a14d"
+        },
+        "pair_AUD_NZD.json": {
+          "bytes": 392687,
+          "sha256": "f716ff113b03fd825322fde8358bd868864f22118c30340ec77ef728f8f2756d"
+        },
+        "pair_AUD_SGD.json": {
+          "bytes": 393326,
+          "sha256": "f9be225fa608662769e877e711f12051dd5d82cf1ee45b0d85c5ddf571271bc0"
+        },
+        "pair_AUD_USD.json": {
+          "bytes": 393033,
+          "sha256": "49601edb32924ec5419b74c15f4f95bf0a43c5d62df1d2f881de521a46de6d94"
+        },
+        "pair_CAD_CHF.json": {
+          "bytes": 392995,
+          "sha256": "1d9c89144da39bdb82f8f36192e4b78a1fc312a2a19b92e77fbe34db77b2aee4"
+        },
+        "pair_CAD_HKD.json": {
+          "bytes": 393599,
+          "sha256": "38d37a04980987b9728da43e9f41e265d9f74f06ae2438dc9ff49dea3db6ceec"
+        },
+        "pair_CAD_JPY.json": {
+          "bytes": 393268,
+          "sha256": "505f5fffe1d6e12f6fbbc6389cebecc5f92bb30c3f3969fdbe94f2ff613bfa3b"
+        },
+        "pair_CAD_SGD.json": {
+          "bytes": 392965,
+          "sha256": "4c426e5a65da5c3ba9a7a562f8487a5ca786a33cd46b3444001a1060314d3652"
+        },
+        "pair_CHF_HKD.json": {
+          "bytes": 393485,
+          "sha256": "d53bcf45a398535eb89f7b93a593592a99f80438e855b9a526c9bf1aa4569cf6"
+        },
+        "pair_CHF_JPY.json": {
+          "bytes": 393535,
+          "sha256": "8f0836cd9bd8801049cd98fbc991f567c63f701900e02b47a13eda42e26c0b13"
+        },
+        "pair_CHF_ZAR.json": {
+          "bytes": 393032,
+          "sha256": "bfff56d7a248aaaa41ec25b313a4e9380ec549a917a0043cb69957d3ca0b163e"
+        },
+        "pair_EUR_AUD.json": {
+          "bytes": 393200,
+          "sha256": "c2f1239770a06027c208e0a23ca327022c8dc5f6dc06f1946f3bd544f30cc316"
+        },
+        "pair_EUR_CAD.json": {
+          "bytes": 393430,
+          "sha256": "135f03c1d84a07921428b407ec853fd545a69d469deb7efc4a28f22a6011af33"
+        },
+        "pair_EUR_CHF.json": {
+          "bytes": 393307,
+          "sha256": "e4af1a8dca9db5f286ef3d2ec8511b3cdfce44c7efc2495260c2d19ba4cbfebb"
+        },
+        "pair_EUR_CZK.json": {
+          "bytes": 392440,
+          "sha256": "2bcfe067d03183b14d2a6bbf9e7eb2c85068729b127dda2e8f742ea5a41c6f91"
+        },
+        "pair_EUR_DKK.json": {
+          "bytes": 383892,
+          "sha256": "78fa3106822639b4998742be0f590d0a7a53896ef6a1af5bcbc7c6a9462fc090"
+        },
+        "pair_EUR_GBP.json": {
+          "bytes": 392835,
+          "sha256": "173cf1261400c1be3f94c082825ec723efc6334f813a3484ef1389dfbb58fc01"
+        },
+        "pair_EUR_HKD.json": {
+          "bytes": 393635,
+          "sha256": "02cd86d912eb55b8201c2c4e6586f762d44ed6807850b9450814e5710d65919e"
+        },
+        "pair_EUR_HUF.json": {
+          "bytes": 392787,
+          "sha256": "e2dfed54675abc4b2179a617112ac41085e4c63dfba29d5e6cec221d72b32e48"
+        },
+        "pair_EUR_JPY.json": {
+          "bytes": 393340,
+          "sha256": "16738ce90bc1ea5b5be721b38484c69697a6ebbdb92e412269ec5132a69dc24f"
+        },
+        "pair_EUR_NOK.json": {
+          "bytes": 393217,
+          "sha256": "fec7a93a313282f9859922672626f65c2a36653b518cd5b2d7fa36ab869f6e6d"
+        },
+        "pair_EUR_NZD.json": {
+          "bytes": 392708,
+          "sha256": "e09188e76f425125a5cf162c91c7e5b79dcdc9353d040a2051b33f4d8fd4ef7a"
+        },
+        "pair_EUR_PLN.json": {
+          "bytes": 391863,
+          "sha256": "03c85da393f9b9087de0253ab9e8407064ac2c260296b118c3045444f856aed5"
+        },
+        "pair_EUR_SEK.json": {
+          "bytes": 393116,
+          "sha256": "8965dcf4070d653ea21e76d230ae688e539326b8a482cbee71387b90f39da0af"
+        },
+        "pair_EUR_SGD.json": {
+          "bytes": 393472,
+          "sha256": "f72ec95f35309fc3d58c030b48d9875edcf3efb8a774b4cf9470e913b0658480"
+        },
+        "pair_EUR_TRY.json": {
+          "bytes": 392893,
+          "sha256": "b30f4bc2dc7bc81b662e5a81513caf3aa3a876b02d63a0e337891dbba44e1049"
+        },
+        "pair_EUR_USD.json": {
+          "bytes": 393206,
+          "sha256": "996db39406fb00f3c81d241972d59951dab491a26e27541ac07a74561b20e713"
+        },
+        "pair_EUR_ZAR.json": {
+          "bytes": 393085,
+          "sha256": "0a38108e8935dbd28f81665414fc12cb60783e049868e64ec3be096390d80d68"
+        },
+        "pair_GBP_AUD.json": {
+          "bytes": 393451,
+          "sha256": "8bd4afc88b6377cd29c8ced6df7116473d1379b28e9e1ab8eba457a3b7249cbf"
+        },
+        "pair_GBP_CAD.json": {
+          "bytes": 393448,
+          "sha256": "8d824d5e8ff0c4bcd21410acdd01bdb747407098daa01937abaffb69aa02b7f9"
+        },
+        "pair_GBP_CHF.json": {
+          "bytes": 393338,
+          "sha256": "b3fdfc8005ebdfc472be6ad071778f389089b9f77889ef412d41e1b65bbb7517"
+        },
+        "pair_GBP_HKD.json": {
+          "bytes": 393674,
+          "sha256": "f187e3585e5ea1b8b8144b5a637155b349e3b3e03def7e9fad95a5c7bdc13756"
+        },
+        "pair_GBP_JPY.json": {
+          "bytes": 393629,
+          "sha256": "ceadb70670464064315047c5947c2d6745e3c234f8fc852223dde335b27dba14"
+        },
+        "pair_GBP_NZD.json": {
+          "bytes": 392711,
+          "sha256": "7b76210ba25e16bf0c6eb127e259597eca59fc1f847f5f389dcf3452caa37d46"
+        },
+        "pair_GBP_PLN.json": {
+          "bytes": 392721,
+          "sha256": "048a48410f33cdb425a53b3c16f489539aa13f2ef67e24bd921718aa3439627a"
+        },
+        "pair_GBP_SGD.json": {
+          "bytes": 393439,
+          "sha256": "1e80fae9169792d1a251bc79f3a8b4a845e2e1885edca481ba5f5958b4e59c62"
+        },
+        "pair_GBP_USD.json": {
+          "bytes": 393547,
+          "sha256": "667dcd3f02a99f7093adc8f8621ff2e534fcc9447f9fcfbfd8f6ddd611209eb5"
+        },
+        "pair_GBP_ZAR.json": {
+          "bytes": 393056,
+          "sha256": "97496401f804995d913f564f7c7ee0f97c646dccd1edd3f567ae410caaa9f847"
+        },
+        "pair_HKD_JPY.json": {
+          "bytes": 393472,
+          "sha256": "e016e49ba902a6e96f5280eb1af8df9f9fcd124fe7d3bc0dd104ac7d74e15733"
+        },
+        "pair_NZD_CAD.json": {
+          "bytes": 392834,
+          "sha256": "6b228bdb1390d3ac6a604f67d5f24403f8102077f29047d38fb4266dfa23319c"
+        },
+        "pair_NZD_CHF.json": {
+          "bytes": 392706,
+          "sha256": "7e62e1ffbb91734734b1085a93696e77e3e477ac707ee7426b1606a574b74e1c"
+        },
+        "pair_NZD_HKD.json": {
+          "bytes": 392993,
+          "sha256": "bc054ee7e5335343a3d7ae44239f2e70a6ae256273e72c6ba50d4207735ec87c"
+        },
+        "pair_NZD_JPY.json": {
+          "bytes": 393076,
+          "sha256": "916c2159cfc43c205eff988ebb974d3fe08ae9fb1335c60317deb0ca7a16a36a"
+        },
+        "pair_NZD_SGD.json": {
+          "bytes": 392784,
+          "sha256": "49bb45b9662fb1509bef1a7778efc74f20d402d57eb633442b2caef2495d95bc"
+        },
+        "pair_NZD_USD.json": {
+          "bytes": 392650,
+          "sha256": "85ff6a66e3c9c98923cc6485d224ce34070561efd2338cf574e4dba95ccdb508"
+        },
+        "pair_SGD_CHF.json": {
+          "bytes": 393039,
+          "sha256": "92d9a3bc4ba9ee5057032d4bcbf922feb64f20bf83aab0ca925edc06800e328b"
+        },
+        "pair_SGD_JPY.json": {
+          "bytes": 393131,
+          "sha256": "9c1fd2cedce15be68b49b8931e94a0c9face0fcf7132ae7ae4225133839d71ca"
+        },
+        "pair_TRY_JPY.json": {
+          "bytes": 386162,
+          "sha256": "f65750c4650c56493c4ebe0e0191de8bf0cdeedbec46651da556fb87e909cec9"
+        },
+        "pair_USD_CAD.json": {
+          "bytes": 393183,
+          "sha256": "0a60f77976237bb86abc03bb941a332a0ea1013983e0b7594494eb5f191692f5"
+        },
+        "pair_USD_CHF.json": {
+          "bytes": 393010,
+          "sha256": "f5d92263a6ac7f160a38cf502e78373474a2cd1d3523104893d56e70e8d3c6ad"
+        },
+        "pair_USD_CNH.json": {
+          "bytes": 393580,
+          "sha256": "a6014405c93d1728d0187fbe9f1599dfe680f1d71006b465b8dec8a4406e3cd7"
+        },
+        "pair_USD_CZK.json": {
+          "bytes": 393372,
+          "sha256": "4e56ccbb150b2784fb2691bb665c9dd7b2523eee75704b225611191c1e34cb89"
+        },
+        "pair_USD_DKK.json": {
+          "bytes": 393293,
+          "sha256": "d6cda26f7aa413821ce9e10b4baf56d8506033ef9d54d83c0f5f4f7091d87d21"
+        },
+        "pair_USD_HKD.json": {
+          "bytes": 388228,
+          "sha256": "f901f8bb96b57ddfcd773ba66daea568066c3db3642e2b1e1b5545970a6380dc"
+        },
+        "pair_USD_HUF.json": {
+          "bytes": 393492,
+          "sha256": "4aca72397f08d5c8781fa131bcfd4098b022a33906bbddc21f2fd7f99211d4ad"
+        },
+        "pair_USD_JPY.json": {
+          "bytes": 393236,
+          "sha256": "43eb71d837f9921f8e7a8a22e5ba58ab2a7e4ad018b508966db4440c3ed1992c"
+        },
+        "pair_USD_MXN.json": {
+          "bytes": 392973,
+          "sha256": "ef4165832bcf42a7737733c6beb6174584654c46baa6c034e63d0ac733d16d18"
+        },
+        "pair_USD_NOK.json": {
+          "bytes": 393162,
+          "sha256": "29173114779954078c30560bd406ae5b2b1184ae5e7b9b7ccd8ca7a5d64390c6"
+        },
+        "pair_USD_PLN.json": {
+          "bytes": 393221,
+          "sha256": "7787080fc410592c085e61a58e11367694cc3e77a897d917d8221ce16b4e4ec5"
+        },
+        "pair_USD_SEK.json": {
+          "bytes": 393066,
+          "sha256": "a00524e913345b92953c4585d063279769a0a70e64f937a88688c2ed1ec7a038"
+        },
+        "pair_USD_SGD.json": {
+          "bytes": 393347,
+          "sha256": "c4372064a3797b8e3c6c596df4076d645da075f5cd6e459cb070914ac95afcd0"
+        },
+        "pair_USD_THB.json": {
+          "bytes": 388278,
+          "sha256": "ff7824d84e8e4ac167802d81ebf6b18a061908fdb0810bb6caefb8f707824f9d"
+        },
+        "pair_USD_TRY.json": {
+          "bytes": 391543,
+          "sha256": "8e18bfefc625483daa2e69b1930d01ea705ed128bb41365a0ec62cc4ad9eddff"
+        },
+        "pair_USD_ZAR.json": {
+          "bytes": 393107,
+          "sha256": "186d87fadc5dc68433130fcda8c1ac76f8d878cfdee20e8d6d15b09793d5fd06"
+        },
+        "pair_ZAR_JPY.json": {
+          "bytes": 388301,
+          "sha256": "b0009d3d47a3f90998ed7db4d6673512fc6c54adf83dbd6eef18222696344772"
+        }
+      },
+      "original_run_identity": "3c51adb6cb8467ed15b1bf604c03c917bc0cab7d91180a3674336ccf6765f9d6",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent; not_complete_run_copy"
+    }
+  },
+  "layer_fits": 0,
+  "run_id": "layer-policy-failure-attribution-v2",
+  "schema_version": "forex_layer_policy_attribution_recipe.v1",
+  "sources": {
+    "LAYER_POLICY_ATTRIBUTION_CONTRACT_V2.json": "b7e90eb518d7a066260c7db07deb47ab6063d10fff1baa5506466fb7787fdb0a",
+    "contracts.py": "3a1776f0862f6bb4bc3ba73f4c0febec573350d712aa50e9dbcc0e253b11aecd",
+    "layer_policy_attribution_operator_v2.py": "77c9eb569b9d60b04bec5b30f8e4f66eaad880a6e60567957b729df98cdf52e5",
+    "layer_policy_attribution_v2.py": "3051d78cf07249b6a78e6aadc46fe150478b62236043a0e3c4fcd763dc6d8b4d",
+    "publication.py": "51e3eb20cee191a24b74c708bd5c54b25b8ea4a1042248e6a4a96bfebd81d797"
+  }
+}

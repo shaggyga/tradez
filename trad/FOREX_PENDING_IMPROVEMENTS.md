@@ -5368,3 +5368,22 @@ exact recipe/run identities in VERIFICATION/main.stdout; capsule and restore pro
 Next: `layer_policy_failure_attribution_v2`; see the packet's NEXT_CANDIDATE.json.
 
 Recipe SHA256: `6ce6aa1b6e1c8c6ae176fd6aca80164cc1b9c14a7fc5fb0e96b49f472c1de60b`. Checkpoint SHA256: `7e924533628feaa96040d516bcf92dc35e6a70d3b657ee3d8ab688baf8015197`.
+
+
+## 2026-09-24 — layer_policy_failure_attribution_v2
+
+All7616coverage slots/4332forecasts and168accounts retained;295selections versus209
+filled episodes,8rejected financing attempts explicitly qualified.20local+20relocated
+tests;31outputs reproduce after real crash/recovery and relocation. No model loads,
+fits, layer fits or policy replays. Native-node join and rejected-financing/unfilled
+selection reporting corrected in preserved successors; underlying forecasts and
+all28economic paths unchanged. Descriptive inspected development only.
+
+Vault packet: [LAYER_POLICY_ATTRIBUTION_20260924_073000](../../../OneDrive/thevault/projects/forex/LAYER_POLICY_ATTRIBUTION_20260924_073000/REVIEW.md).
+Local evidence: `until8am_20260923_215844/attribution_step` (WORK_LOG/PENDING_CHANGES,
+VERIFICATION, diagnostic audit, original attempts, capsule and portable proof).
+Next: `later_development_input_extension_v2`; authenticate preserved dates and reuse
+existing26feature/endpoint functions before another model or policy comparison.
+Same-task review accepted; independent review pending/nonblocking.
+
+Recipe SHA256: `61175898d918b351902f6f9e8c7677add55475eb166ce38c845a16e6a17e132a`. Run: `35a9c832a2e5b681eb98041035a459e1c8c7f59ab3a94d412677ae12474f56a7`. Checkpoint SHA256: `2c2cc37aab62719a23eb607605118e2f266f5eb6fb4dcde4fc7bb51f6105d756`.
