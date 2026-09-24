@@ -7053,3 +7053,8 @@ The packet records 27 passing local tests in its pinned environment and a
 portable restore with five identical payloads. It is **ready for independent
 review**, not accepted and not forecast/policy/demo authorization. The exact
 queue item is `review_macro_currency_meter_numeric_evidence_join_v2`.
+
+Correction: the exact pinned runtime is available at
+`C:\Users\zmoor\AppData\Local\CodexRuntimes\timeseries312\Scripts\python.exe`
+(Python 3.12.10, NumPy 2.5.1). On 2026-09-23 it reran the numeric-join and
+predecessor meter suites successfully: 27 passed in 10.14 seconds.
