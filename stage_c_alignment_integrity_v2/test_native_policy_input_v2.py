@@ -84,9 +84,14 @@ def test_native_actual_process_resume_matches_every_payload(tmp_path,boundary):
     for row in json.loads((tmp_path/'clean/COMPLETION_MANIFEST.json').read_text())['payloads']:
         assert (tmp_path/'clean'/row['path']).read_bytes()==(tmp_path/'partial'/row['path']).read_bytes()
 
-def test_actual_frozen_native_operator_and_tamper_refusal(tmp_path):
-    from native_policy_operator_v2 import operate,sha
-    recipe=ROOT/'NATIVE_POLICY_OPERATOR_RECIPE.json';digest=sha(recipe)
+def test_current_native_operator_recipe_and_tamper_refusal(tmp_path):
+    from native_policy_operator_v2 import operate,sha,recipe_for
+    # Historical approved recipes retain their original source bytes. A current
+    # runtime integration test freezes a separate synthetic-only test recipe;
+    # it must never overwrite or relabel the historical approval.
+    recipe=tmp_path/'CURRENT_SYNTHETIC_TEST_RECIPE.json'
+    recipe.write_text(json.dumps(recipe_for(DEFAULT_TRAD)),encoding='utf-8')
+    digest=sha(recipe)
     r=operate('run',recipe,digest,tmp_path,DEFAULT_TRAD);assert r['status']=='completed_verified',r
     assert operate('verify',recipe,digest,tmp_path,DEFAULT_TRAD)['status']=='completed_verified'
     (tmp_path/'native-policy-reference/policy_decisions.jsonl').write_text('{}')

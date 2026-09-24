@@ -28,7 +28,9 @@ def validate_scenario(scenario):
     if scenario!=SCENARIOS.get(scenario.get('scenario_id')):
         from later_policy_scenario_v2 import scenarios
         if scenario!=scenarios().get(scenario.get('scenario_id')):
-            raise ValueError('frozen_retrospective_scenario_required')
+            from chronological_policy_scenario_v2 import scenarios as chronological_scenarios
+            if scenario!=chronological_scenarios().get(scenario.get('scenario_id')):
+                raise ValueError('frozen_retrospective_scenario_required')
 
 
 def panel(points,epoch):
@@ -181,6 +183,9 @@ def validate_historical_frame(frame,config,trad_root=DEFAULT_TRAD):
     if frame.get('model_profile')=='later_remaining_layer_policy.v1':
         from later_policy_input_v2 import validate_frame_authority
         validate_frame_authority(frame,config)
+    if frame.get('model_profile')=='chronological_layer_policy.v1':
+        from chronological_policy_input_v2 import validate_frame_authority as chronological_authority
+        chronological_authority(frame,config)
     if str(config['slippage_bps_per_leg'])!=frame['scenario']['slippage_bps_per_leg']:
         raise ValueError('historical_slippage_contract_mismatch')
     if config['execution_delay_sec']!=58:raise ValueError('historical_execution_delay_contract_mismatch')
@@ -192,6 +197,9 @@ def validate_historical_frame(frame,config,trad_root=DEFAULT_TRAD):
         if frame.get('model_profile')=='later_remaining_layer_policy.v1':
             from later_policy_input_v2 import adapted_candidates as later_candidates
             candidates,refusals=later_candidates(frame,config,trad_root)
+        elif frame.get('model_profile')=='chronological_layer_policy.v1':
+            from chronological_policy_input_v2 import adapted_candidates as chronological_candidates
+            candidates,refusals=chronological_candidates(frame,config,trad_root)
         elif frame.get('model_profile') is not None:
             from matched_policy_input_v2 import adapted_candidates as matched_candidates
             candidates,refusals=matched_candidates(frame,config,trad_root)

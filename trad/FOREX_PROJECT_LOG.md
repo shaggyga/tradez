@@ -7305,3 +7305,13 @@ Local evidence: `until8am_20260923_215844/chronological_native_step`.
 Next: `later_chronological_policy_comparison_v2`; unchanged2cohorts/14methods/2costs/6policies, dated rollover and reference/optimized parity. Same-task review accepted; independent review pending/nonblocking.
 
 Recipe SHA256: `cbbb4293b5837939594f0e58b7a9b3023364460374e0e455648fbb7c5ec1c449`. Run: `d502abf688f33c3b72ce06ff512ac8a88a0ddbd2b5fb8a3c4e61f38e110dee15`. Checkpoint SHA256: `2163c0a72fdbbf6b3c3cd8b8ee8de34c2f33b2d65b44fd4f7e23fc7b2ed52ef5`.
+
+
+## 2026-09-24 — later_chronological_policy_comparison_v2
+
+Both preselected chronological cohorts:112engine paths/336reference accounts;280economic payload equalities and2912relocated payloads. 131 affected tests and28 relocated new tests pass;16before-state refusals,4operator refusals,actual crash7/resume. Zero model loads/fits/layer fits. Report distinguishes selected proposals, actual opening fills, financing rejection and terminal gaps.
+
+Vault packet: [CHRONOLOGICAL_POLICY_20260924_UNTIL8AM](../../../OneDrive/thevault/projects/forex/CHRONOLOGICAL_POLICY_20260924_UNTIL8AM/REVIEW.md).
+Local evidence: `until8am_20260923_215844/chronological_policy_step`.
+Recipe SHA256: `07514564b23e7d7fae398c088dca683feae637d671b1f5121aa194fe1669ab0a`. Checkpoint SHA256: `bb2e12baff009c3db331ede60403163f223dd01085b36dd6e2564dd9d1735b5a`. Exact112run identities: packet evidence/VERIFICATION.json;56reference identities: report/RESULT_SUMMARY.json.
+Next: `chronological_policy_attribution_v2`. Same-task review accepted; independent review pending/nonblocking.
