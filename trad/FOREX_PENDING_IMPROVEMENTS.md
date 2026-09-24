@@ -5314,3 +5314,21 @@ Raw evidence: until8am_20260923_215844/absolute_step (current run under reviewed
 Same-task engineering accepted; independent review pending and nonblocking. Current
 Git revision resolves through SHARED_GIT_REMOTE_LATEST.json. Next:
 `magnitude_conditioned_signed_forecast_layer_v2`; freeze NEXT_CANDIDATE before computation.
+
+
+## 2026-09-24 — magnitude-conditioned signed forecast layer
+
+Completed `magnitude_conditioned_signed_forecast_layer_v2`; Vault `MAGNITUDE_LAYER_20260924_051000/REVIEW.json`.
+Recipe `4074d1ca2b6d3a36c8a64e2a7c61c824dadfab9114c767b545c45d5e4141a6aa`; run `101bfb29a1c6fbd3e6268cc85eef05e7b92f1a14e276b6477f38e22f1e542d98`; checkpoint
+`6cc9a8f2cc6a879cd9f200579a50bb9c34a5246c29f200765548b4859f1a569c`.294snapshots/118supported/472small regressions;0base
+model fits or loads.22local and22relocated tests;294prefix memberships,472regressions,
+47,000predictions and432metrics checked with independent Decimal arithmetic.58scientific
+payloads match after real early/final crashes and portable replay. ML-INTERVAL-1 fixed
+degenerate resampling refusal without changing actual results or refitting completed
+layers. All68coverage remains;36/56scopes supported. Added magnitude improves MAE
+versus signed-only recalibration in9/36and MSE in6/36: weak incremental development
+evidence, preserved without retuning. Raw evidence: until8am_20260923_215844/magnitude_layer_step
+(current under reviewed). Same-task review accepted; independent review pending and
+nonblocking. Next `later_remaining_forecast_surface_v2`: old policy cohort predates
+layer support, so use a later cohort and exact remaining horizons before policy replay.
+Current shared commit resolves via SHARED_GIT_REMOTE_LATEST.json.

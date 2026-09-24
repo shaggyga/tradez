@@ -1,0 +1,138 @@
+{
+  "assessment_asof": 1722556800,
+  "availability": "Offline modeled-clock diagnostic; original base availability retained, layer cutoff no later than decision. Actual production availability null; native policy admission false. No retrospective historical issuance claim.",
+  "base_methods": [
+    "ridge",
+    "recovered_hgb"
+  ],
+  "checkpoint": "Preserve fitted layer coefficients and memberships; deterministic replay is separately reported as layer recomputation, never base refitting. Original absolute saved weights are only hashed with their completed run, never deserialized.",
+  "comparators": [
+    "zero",
+    "raw_signed",
+    "signed_only",
+    "magnitude_interaction"
+  ],
+  "confirmation": "All current dates were previously inspected development; a separate untouched/prospective procedure is required.",
+  "design_requirements": [
+    "16.2",
+    "16.3",
+    "20",
+    "21",
+    "27.5",
+    "TST05",
+    "TST08",
+    "TST09",
+    "TST10"
+  ],
+  "economic_contract": "Not evaluated; forecast magnitude is not direction or executable net utility. A future policy bridge must preserve common target, cost, risk and native timing contracts.",
+  "experiment_id": "magnitude_conditioned_signed_forecast_layer_v2",
+  "features": {
+    "magnitude_interaction": [
+      "signed_prediction_bps",
+      "direct_absolute_prediction_bps",
+      "signed_prediction_bps_times_direct_absolute_prediction_bps"
+    ],
+    "signed_only": [
+      "signed_prediction_bps"
+    ]
+  },
+  "frozen_cutoff": 1721865600,
+  "frozen_utc": "2026-09-24T04:49:10.290151+00:00",
+  "group": "legacy26",
+  "horizons_minutes": [
+    15,
+    60,
+    240,
+    720,
+    1440,
+    2880,
+    7200
+  ],
+  "hypothesis": "Causal direct movement-size predictions and their interaction with a signed forecast add predictive information beyond signed-only recalibration.",
+  "layer_fit": {
+    "feature_normalization": "weighted training-prefix mean/std; zero std becomes1",
+    "intercept_penalized": false,
+    "penalty_basis": "Unchanged20 from original Ridge; no tuning",
+    "ridge_lambda": 20.0,
+    "solver": "weighted normalized Ridge linear solve using existing Ridge algebra; all coefficients finite",
+    "weight": "N/(distinct_origins*rows_at_origin); equal total weight per origin; sum weights=N"
+  },
+  "metrics": "Paired row-weighted MAE/MSE/bias/nearest-rank95th absolute error, augmented-minus-raw and augmented-minus-signed-only differences; all scopes and per-origin/day strata.",
+  "minimum_distinct_origins": 8,
+  "minimum_distinct_pairs": 20,
+  "minimum_distinct_utc_days": 3,
+  "modes": [
+    "frozen_prefix",
+    "expanding_prefix"
+  ],
+  "origin_epochs": [
+    1721606460,
+    1721628060,
+    1721649660,
+    1721671260,
+    1721692860,
+    1721714460,
+    1721736060,
+    1721757660,
+    1721779260,
+    1721800860,
+    1721822460,
+    1721844060,
+    1721865660,
+    1721887260,
+    1721908860,
+    1721930460,
+    1721952060,
+    1721973660,
+    1721995260,
+    1722016860
+  ],
+  "predecessors": {
+    "absolute_recipe_sha256": "d303ca66df8ae2fad6c63cdbcf4ae92685f4d008ee64d74affb2047e897a205b",
+    "absolute_run_identity": "0ce610b494456ae0af3cb0ae844f6c26dc1d00ddd50db68c4b4188b10edb6d8d",
+    "convex_contract_sha256": "198037b34deeb26e3c694007ab2e07aa4c53109304d828d7340ad800cf20df9e"
+  },
+  "procedures": [
+    "frozen",
+    "adaptive"
+  ],
+  "readiness": {
+    "demo_authorization_status": "not_granted",
+    "engineering_ready": false,
+    "forecast_evidence_status": "modeled_clock_prequential_magnitude_interaction_development_diagnostic",
+    "policy_evidence_status": "not_evaluated"
+  },
+  "resource_basis": "14scopes*(20expanding+1frozen)=294snapshots,4small regressions each; predecessor absolute replay24.438s,385MBsampledRSS,38.5MBoutput; input capsule about300MB. At most1360rows and3predictors per regression.",
+  "resources": {
+    "api_calls": 0,
+    "base_model_fits": 0,
+    "base_model_loads": 0,
+    "checkpoint_wall_seconds": 900,
+    "main_wall_seconds": 600,
+    "max_rss_bytes": 2147483648,
+    "max_scratch_bytes": 1073741824,
+    "regression_fit_attempt_cap": 1176,
+    "snapshot_attempt_cap": 294,
+    "workers": 1
+  },
+  "result_rule": "Report positive, negative, mixed and unsupported scopes unchanged. No winner selection, retuning, probability interpretation or economic materiality claim from endpoint errors.",
+  "reuse_audit": "Read original prequential_residual_calibration_v2 and causal_convex_blend_v2; those estimate marginal residual correction or scalar blend, not a matched signed-only versus magnitude-interaction regression. Reuse original clocks/support guards and Ridge algebra; all base artifacts remain untouched.",
+  "schema_version": "forex_magnitude_conditioned_layer.v1",
+  "status": "frozen_before_new_layer_fits_or_scores",
+  "support_basis": "Unchanged qualified residual/convex support and update schedule. Pool all68 within one horizon/base procedure, sharing the identical mature cohort across ablations.",
+  "target": "original signed midpoint endpoint basis-point return, exact elapsed horizon",
+  "training_predicate": "Only earlier origin, base fit cutoff before origin, original signed and magnitude forecast availability by layer cutoff and before target maturity, exact original outcome available by cutoff; never current-origin or in-sample base values.",
+  "uncertainty": {
+    "block_lengths": [
+      4,
+      8,
+      20
+    ],
+    "claim": "no effective-N, p-value or independent-confirmation claim",
+    "draws": 2000,
+    "kind": "descriptive_circular_origin_panel_sensitivity",
+    "refusals": "irregular or insufficient origin grid or one full circular block; no interval if degenerate",
+    "seed": 20260922
+  },
+  "unsupported": "No output or substitute layer where minimum distinct support fails; preserve all68 coverage. Base methods may remain available separately."
+}
