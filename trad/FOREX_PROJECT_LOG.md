@@ -7369,3 +7369,7 @@ Vault: [CURRENCY_PROJECTION_POLICY_ATTRIBUTION_20260924_114246](../../../OneDriv
 ## 2026-09-24 — currency projection policy checkpoint R2
 
 Compact checkpoint `CURRENCY_PROJECTION_POLICY_CHECKPOINT_R2.zip` contains 123 authenticated parent/source members and expected manifests for all48 policy outputs. Fresh R2 restoration completed all48 replays and every output payload inventory matched exactly; engine-neutral parity review also passed. Capsule SHA256 `37c17453a506d59c0a4c920e24f66b804999a0d5a6e62afd4f7625e134ef1d90`; implementation Git `2d8f46e471aa4607f7760e4c1f70b5fb6faa3074`. The complete restore is retained locally for this session; future cleanup requires the storage-retention procedure.
+
+## 2026-09-24 — projection confirmation guard
+
+Retained markets and frames end at the inspected Tuesday target `1722535260`; no third qualified cohort is present. Git `12c3819` adds a strict confirmation protocol that rejects reused/unmatured origins and requires eight newer all68/matured origins with the full six variants. No confirmation computation, refit, API, broker or live action was launched.
