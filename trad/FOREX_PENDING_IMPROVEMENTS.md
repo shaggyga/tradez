@@ -5258,3 +5258,23 @@ bounded engineering only; independent review remains pending. User clarified it 
 not halt timed work. Resolve actual findings, retain honest review status, and continue
 eligible research. Next: causal_convex_forecast_blend_diagnostic_v2; preserve all pending
 IDs and deferred GPT/advisor, paid/API, broker/service/account and D-drive scope.
+
+
+## 2026-09-24 — causal convex forecast layer
+
+Completed `causal_convex_forecast_blend_diagnostic_v2`. Vault packet:
+`CAUSAL_CONVEX_20260924_034000/REVIEW.json`. Recipe
+`c2e63fbb947ff86dd1368b085160a342398f0f6cc49c326a8adac19918b17df9`; run
+`810c5a82998cad955698380ac97a776cdbe396ec9d80189870b09d8fee6ab1dc`; portable checkpoint
+`ade9576ffd9fad558136906773cbe36f07a8c3f6ded51224645218e2e59202f1`.
+16 targeted tests and16 relocated tests passed; early/final crash recovery and
+relocation match58 scientific outputs. Separate Decimal arithmetic checked294
+training sets,118 fitted weights and90 MAE comparisons. Wrong pins, corrupt input
+and active writer takeover refuse. All68 coverage retained:11750 learned forecasts,
+9638 mature assessments; no base fits/loads or API calls. Boundary weights86/118
+and limited development support prevent a confirmation or promotion claim.
+Same-task review accepted bounded engineering, independent_review=false and pending.
+Raw evidence: until8am_20260923_215844/convex_step. Shared revision resolves through
+SHARED_GIT_REMOTE_LATEST.json. Next: `fixed_blend_remaining_policy_comparison_v2`,
+using separate original common-target forecasts and unchanged policy/cost settings.
+GPT/advisor comparisons and external/account actions remain deferred.
