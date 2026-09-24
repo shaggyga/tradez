@@ -1,0 +1,2529 @@
+{
+  "api_calls": 0,
+  "base_model_fits": 0,
+  "base_model_loads": 0,
+  "contract": {
+    "acceptance": "All56reference paths/336accounts reconcile;15232coverage slots/11048predictions; exact675selections/437filled/238unfilled/12delayed; all matched supports;35meaningful unit cases plus actual crash/recovery, pin refusals and identical portable60payloads.",
+    "account_metrics": [
+      "realized_usd_by_instrument",
+      "fill_fees_usd_per_account",
+      "financing_usd_per_account",
+      "closed_terminal_net_usd",
+      "filled_episode_pair_and_currency_participation_counts",
+      "episode_count_HHI",
+      "recorded_decision_USD_sizing_for_selected_candidates",
+      "unavailable_liquidation_decisions",
+      "all_decision_reasons"
+    ],
+    "api_calls": 0,
+    "assessment_asof": 1722556800,
+    "base_model_fits": 0,
+    "base_model_loads": 0,
+    "chronology": "No new fit or split. All original dates are inspected development. Original prequential base/layer identities retained; no new confirmation claim.",
+    "cohorts": {
+      "later_monday": {
+        "cohort": "later_monday",
+        "origin_epoch": 1722276060,
+        "origins": [
+          1722276060,
+          1722297660,
+          1722319260,
+          1722340860,
+          1722362460,
+          1722384060,
+          1722405660,
+          1722427260
+        ],
+        "rollover_epoch": 1722362461,
+        "rollover_price_epoch": 1722362460,
+        "target_epoch": 1722448860
+      },
+      "later_tuesday": {
+        "cohort": "later_tuesday",
+        "origin_epoch": 1722362460,
+        "origins": [
+          1722362460,
+          1722384060,
+          1722405660,
+          1722427260,
+          1722448860,
+          1722470460,
+          1722492060,
+          1722513660
+        ],
+        "rollover_epoch": 1722448861,
+        "rollover_price_epoch": 1722448860,
+        "target_epoch": 1722535260
+      }
+    },
+    "concentration_scope": "Filled-episode counts and declared decision USD sizing, not simultaneous/time-weighted currency exposure; no incompatible currency units summed.",
+    "design_requirements": [
+      "16.2",
+      "16.3",
+      "17",
+      "18",
+      "20",
+      "21",
+      "27.3",
+      "27.5"
+    ],
+    "experiment_id": "chronological_policy_attribution_v2",
+    "fill_link": "Reuse exact original order ID, decision epoch, instrument/side/units/target and actual entry/execution epoch. Earliest58seconds; pending order retry can fill later. Forecast error stays original decision-to-target, distinct from realized fill-to-exit.",
+    "forecast_metrics": [
+      "eligible_and_all68_coverage",
+      "distinct_origins_and_pairs",
+      "signed_error_bps",
+      "absolute_error_bps",
+      "squared_error_bps2",
+      "direction_match_nonzero",
+      "selected_unique_forecast_vs_all_available"
+    ],
+    "frozen_utc": "2026-09-24T11:09:45.356574+00:00",
+    "futility_stop": "Stop affected computation on identity,maturity,coverage,reconciliation or resource failure; no silent fallback or invented outcomes.",
+    "hypothesis": "Preserved layer policy underperformance can be separated descriptively into selected forecast error, position concentration, realized trading costs, management decisions and unavailable valuation; no causal counterfactual claim.",
+    "layer_fits": 0,
+    "matching": "Same causal support across raw_matched/signed_only/magnitude_interaction within each learner/mode. Raw unrestricted availability comparison remains separate. Costs are existing separately replayed paths.",
+    "maturity": "Exact original (record_id,target_id), unique key, exact label end equals target, availability>=label_end and <=assessment_asof. Null label remains unavailable; no historical outcome in decision-time signals.",
+    "methods": [
+      "ridge__raw_unrestricted",
+      "ridge__raw_matched_frozen",
+      "ridge__signed_only_frozen",
+      "ridge__magnitude_interaction_frozen",
+      "ridge__raw_matched_expanding",
+      "ridge__signed_only_expanding",
+      "ridge__magnitude_interaction_expanding",
+      "recovered_hgb__raw_unrestricted",
+      "recovered_hgb__raw_matched_frozen",
+      "recovered_hgb__signed_only_frozen",
+      "recovered_hgb__magnitude_interaction_frozen",
+      "recovered_hgb__raw_matched_expanding",
+      "recovered_hgb__signed_only_expanding",
+      "recovered_hgb__magnitude_interaction_expanding"
+    ],
+    "negative_or_inconclusive": "A diagnosis can remain unresolved or disagree across paths. Preserve all outputs; do not tune or promote a method.",
+    "parent_execution_totals": {
+      "delayed_open_fills": 12,
+      "filled_selected_decisions": 437,
+      "selected_decisions": 675,
+      "selected_without_open_episode": 238
+    },
+    "parent_policy_checkpoint_sha256": "bb2e12baff009c3db331ede60403163f223dd01085b36dd6e2564dd9d1735b5a",
+    "parent_policy_recipe_sha256": "07514564b23e7d7fae398c088dca683feae637d671b1f5121aa194fe1669ab0a",
+    "parent_vault_manifest_sha256": "f7b70571e85097d8193444151980188bb39d25f2bdb7ffc9ddf3767e2ce74278",
+    "policies": {
+      "cash": "cash",
+      "continuation": "continuation",
+      "fixed_hold": "fixed_hold",
+      "hysteresis": "hysteresis",
+      "naive": "naive",
+      "recovered": "recovered"
+    },
+    "policy_replays": 0,
+    "ranking": "Within each original decision candidate set, rank the selected side-adjusted matured endpoint midpoint return; strict-better count plus1, ties share rank, unavailable labels have no rank. Retrospective endpoint diagnostic, never fill return or counterfactual profit.",
+    "readiness": {
+      "demo_authorization_status": "not_granted",
+      "engineering_ready": false,
+      "forecast_evidence_status": "two_overlapping_chronological_development_cohorts_attribution_only",
+      "policy_evidence_status": "preserved_declared_candle_paths_not_new_counterfactuals"
+    },
+    "resources": {
+      "basis": {
+        "largest_policy_member_bytes": 15636312,
+        "measured_selected_input_bytes": 1145907746,
+        "reason": "Reuse1.146GB immutable JSON input, one path at a time. Streaming capsule hash/write/extract;640member/1280MiB expanded bound.900second main/1800second checkpoint,2GiB RSS/output and8GiB free guards retained.",
+        "selected_files": 482
+      },
+      "checkpoint_wall_seconds": 1800,
+      "main_wall_seconds": 900,
+      "max_input_bytes": 1342177280,
+      "max_member_bytes": 16777216,
+      "max_rss_bytes": 2147483648,
+      "max_scratch_bytes": 2147483648,
+      "max_zip_bytes": 268435456,
+      "minimum_disk_free_bytes": 8589934592,
+      "workers": 1
+    },
+    "reuse": "Authenticated compact subsets of prior verified full runs; original identities/manifests retained, not rewritten as complete copies. No replay, model loading, fitting or API calls.",
+    "scenarios": [
+      "later_monday_candle_one_bp_slippage_rollover",
+      "later_monday_candle_zero_slippage_financing",
+      "later_tuesday_candle_one_bp_slippage_rollover",
+      "later_tuesday_candle_zero_slippage_financing"
+    ],
+    "schema_version": "forex_chronological_attribution_contract.v1",
+    "selection": "Every recorded ENTER/REPLACE candidate across all six policies; bind actual intent and filled episodes separately. WAIT/HOLD/EXIT reasons preserved. Forecast ID is the exact join key; instrument/origin/target/method/model/fit/observation identities checked independently.",
+    "target_family": "original_signed_endpoint_midpoint_basis_points_elapsed_minutes",
+    "tolerances": {
+      "account_usd": "1e-40",
+      "source_float_metric_absolute": "1e-8",
+      "source_float_metric_relative": "1e-10"
+    },
+    "uncertainty": "Two overlapping inspected development cohorts; all variants/policies/costs dependent. No CI,pvalue,effective sample size,causal attribution or unrun counterfactual PnL.",
+    "universe": [
+      "AUD_CAD",
+      "AUD_CHF",
+      "AUD_HKD",
+      "AUD_JPY",
+      "AUD_NZD",
+      "AUD_SGD",
+      "AUD_USD",
+      "CAD_CHF",
+      "CAD_HKD",
+      "CAD_JPY",
+      "CAD_SGD",
+      "CHF_HKD",
+      "CHF_JPY",
+      "CHF_ZAR",
+      "EUR_AUD",
+      "EUR_CAD",
+      "EUR_CHF",
+      "EUR_CZK",
+      "EUR_DKK",
+      "EUR_GBP",
+      "EUR_HKD",
+      "EUR_HUF",
+      "EUR_JPY",
+      "EUR_NOK",
+      "EUR_NZD",
+      "EUR_PLN",
+      "EUR_SEK",
+      "EUR_SGD",
+      "EUR_TRY",
+      "EUR_USD",
+      "EUR_ZAR",
+      "GBP_AUD",
+      "GBP_CAD",
+      "GBP_CHF",
+      "GBP_HKD",
+      "GBP_JPY",
+      "GBP_NZD",
+      "GBP_PLN",
+      "GBP_SGD",
+      "GBP_USD",
+      "GBP_ZAR",
+      "HKD_JPY",
+      "NZD_CAD",
+      "NZD_CHF",
+      "NZD_HKD",
+      "NZD_JPY",
+      "NZD_SGD",
+      "NZD_USD",
+      "SGD_CHF",
+      "SGD_JPY",
+      "TRY_JPY",
+      "USD_CAD",
+      "USD_CHF",
+      "USD_CNH",
+      "USD_CZK",
+      "USD_DKK",
+      "USD_HKD",
+      "USD_HUF",
+      "USD_JPY",
+      "USD_MXN",
+      "USD_NOK",
+      "USD_PLN",
+      "USD_SEK",
+      "USD_SGD",
+      "USD_THB",
+      "USD_TRY",
+      "USD_ZAR",
+      "ZAR_JPY"
+    ]
+  },
+  "environment": {
+    "numpy": "2.5.1",
+    "psutil": "7.2.2",
+    "python": "3.12.10"
+  },
+  "inputs": {
+    "extension": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 43263,
+          "sha256": "8d3d8aeb6ae549e299c26bf0be43463eeb8eb8ea3a16044fea1ce200a11b8ab5"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 32841,
+          "sha256": "94ba156889507e7221671867134232cb761edaa1d4cce2e44166a36e553b7f66"
+        },
+        "market_later_monday.json": {
+          "bytes": 2155792,
+          "sha256": "15f6edca90c0f35338fad5fe8c2e717771ea32cedec80ff9b7077e0358931b9d"
+        },
+        "market_later_tuesday.json": {
+          "bytes": 2156982,
+          "sha256": "f8c39f84fbea7c373beb62dc988e76a30216da7d37a303df4f68c0f053fd9e38"
+        },
+        "pair_AUD_CAD.json": {
+          "bytes": 698333,
+          "sha256": "8fd0a4b49fb7f88d91f3fb9ba0594ff047f39ab5951ed442094a37e2ca4d6b17"
+        },
+        "pair_AUD_CHF.json": {
+          "bytes": 698365,
+          "sha256": "23711b0468cebf1320c89a97ccb69f18a244a7346b97fcd2ba6618f038bdd1af"
+        },
+        "pair_AUD_HKD.json": {
+          "bytes": 698606,
+          "sha256": "f84e8b03f680d3d38654ddd7d0c2938299a6503304f8e66cb7be85bcbfc4a89e"
+        },
+        "pair_AUD_JPY.json": {
+          "bytes": 698373,
+          "sha256": "0a16db9e2a5013115e6fd355d684326e7828818b8f5c69e33288ea8eadf800cb"
+        },
+        "pair_AUD_NZD.json": {
+          "bytes": 697662,
+          "sha256": "4b8a98675e338398b80ec3cb3cbce1edf6d1c52d406a82f95f3bdaef1b3edc15"
+        },
+        "pair_AUD_SGD.json": {
+          "bytes": 698443,
+          "sha256": "e608e46c320dc4112d0023ae9b55887169ae70c6fe1129a60a93db84b782e600"
+        },
+        "pair_AUD_USD.json": {
+          "bytes": 698221,
+          "sha256": "3ce83aecc0bab64e6749281c175aef89377fb3ddb13ee4f425da78f41d3c694a"
+        },
+        "pair_CAD_CHF.json": {
+          "bytes": 698214,
+          "sha256": "fab1926bdbac359eb03162cc73b59aae60b601d6d83426f7c32489ed56845e31"
+        },
+        "pair_CAD_HKD.json": {
+          "bytes": 698761,
+          "sha256": "7cf35f070985b3c5707d0d4ae37075a8211a0c42a456e276126fda741842fbd4"
+        },
+        "pair_CAD_JPY.json": {
+          "bytes": 698327,
+          "sha256": "c7cb8cbd2d6a6fbec524abe56e2c3c2785af1bca4f572d2052c5bc1fd01193dc"
+        },
+        "pair_CAD_SGD.json": {
+          "bytes": 698057,
+          "sha256": "466850b9b55630b7d3d1e84744bce01b74f3338dad87cd19dab2d84fd2009f0e"
+        },
+        "pair_CHF_HKD.json": {
+          "bytes": 698549,
+          "sha256": "9195e55b82541d9cc385d886c1464b532cf0ed4abb5f571364fc45fd1ce779ce"
+        },
+        "pair_CHF_JPY.json": {
+          "bytes": 698621,
+          "sha256": "48dfcb24052d78b61d4bc065386089c6f9040b38677adf1f0386cbf5bc096dca"
+        },
+        "pair_CHF_ZAR.json": {
+          "bytes": 698158,
+          "sha256": "bc386024424338a650cad84c6e85c246262bb9cfed14ce87ecb432612f4d91b0"
+        },
+        "pair_EUR_AUD.json": {
+          "bytes": 698244,
+          "sha256": "bfc29e549c77c0ffaf911ad9880b0bc384a31e099e9cf7031cb10e0d8efaf3b0"
+        },
+        "pair_EUR_CAD.json": {
+          "bytes": 698558,
+          "sha256": "0813ec82b73c99550b6343957ed18b73fe17c5d31cdac560d904497ae2c95a74"
+        },
+        "pair_EUR_CHF.json": {
+          "bytes": 698433,
+          "sha256": "8c703fed9638ecfc35287c9ee088f522245acbac2488188692189798948613fa"
+        },
+        "pair_EUR_CZK.json": {
+          "bytes": 696817,
+          "sha256": "6dabc5930ae96d3125e595108f4cf2d1a23eabb8a901d6c30718ce8f19cf9eb5"
+        },
+        "pair_EUR_DKK.json": {
+          "bytes": 683320,
+          "sha256": "d2dff17cd43702bbfba7cd4caf4acabab1aea027f3d4e353f602b5ed127e4a29"
+        },
+        "pair_EUR_GBP.json": {
+          "bytes": 697903,
+          "sha256": "a08ab1f2127c94ee623b3e82c558b550b1b404de875be4091c5bf08b133a7179"
+        },
+        "pair_EUR_HKD.json": {
+          "bytes": 698830,
+          "sha256": "9fc4bf37866b45e601bae1228f47d3622bcb414c47a0657c12dcd5b841a31519"
+        },
+        "pair_EUR_HUF.json": {
+          "bytes": 697873,
+          "sha256": "593b4dc0e05347910e40bf8d513276ef1143f2d67ca6693c6326c00240e81735"
+        },
+        "pair_EUR_JPY.json": {
+          "bytes": 698477,
+          "sha256": "5907b8458e954319b851b01d547b97a6345d0e79e3a99a413ad33941c84c5b6d"
+        },
+        "pair_EUR_NOK.json": {
+          "bytes": 698243,
+          "sha256": "21fcc4b0c31054410ee4cb5e8cfa067716c336251765f63e9a50a0425aa349f2"
+        },
+        "pair_EUR_NZD.json": {
+          "bytes": 697649,
+          "sha256": "1e7570df95f873d2a0cd2e34863d57813d86d25fa265979c8fcc51d5e1f044c0"
+        },
+        "pair_EUR_PLN.json": {
+          "bytes": 696792,
+          "sha256": "72fc45ade246a76059486c82ea336b5e420295214129ea76c31cfd39c3192729"
+        },
+        "pair_EUR_SEK.json": {
+          "bytes": 698219,
+          "sha256": "9004067ae310986e185713ab84bb4e0b7f6d6c523c2ec5d6eaffdbbd7e95c9f2"
+        },
+        "pair_EUR_SGD.json": {
+          "bytes": 698675,
+          "sha256": "cbbe57eed3117bce781c93afba1fd1bc8b6a4f0bb48f54b53bf03ae2a656fc21"
+        },
+        "pair_EUR_TRY.json": {
+          "bytes": 697930,
+          "sha256": "96741b0770181b483079c4da459bb25074f75dd931ffc56f7dee2f9014e54821"
+        },
+        "pair_EUR_USD.json": {
+          "bytes": 698268,
+          "sha256": "d1a1b3389bd27c0349e79827c439dadd9c915add3659f44b3c8aadf4cf820203"
+        },
+        "pair_EUR_ZAR.json": {
+          "bytes": 698168,
+          "sha256": "e4bbf7131755bb39238fd84272e306f34903ed58e38e3e71149abced791383ca"
+        },
+        "pair_GBP_AUD.json": {
+          "bytes": 698513,
+          "sha256": "29fa84abaf0c6da18c1d13bc4538ddd9baa55de20baa4105204fda02a6cf876e"
+        },
+        "pair_GBP_CAD.json": {
+          "bytes": 698667,
+          "sha256": "754f4fe36e5dcf3b61d0cca54b4ae566db7a7de6c4b5647f559c4f621f056294"
+        },
+        "pair_GBP_CHF.json": {
+          "bytes": 698570,
+          "sha256": "0eb09d99758928bc12584fe1d172b77db3313f7782a93c87189a1c5a04211efa"
+        },
+        "pair_GBP_HKD.json": {
+          "bytes": 698765,
+          "sha256": "30b843af4ca4cd826d5350b9fa1179dc64b6e18c7817367e157fb9c4ec7f9736"
+        },
+        "pair_GBP_JPY.json": {
+          "bytes": 698757,
+          "sha256": "88cce96e79033d8b9ceb28d706977f593a5a88a0ea651833bc7cae5900440b4b"
+        },
+        "pair_GBP_NZD.json": {
+          "bytes": 697665,
+          "sha256": "7b25bbf525d2ff40c00b641dda994be3a83a52aafc8f743b94881e5330b7d511"
+        },
+        "pair_GBP_PLN.json": {
+          "bytes": 697666,
+          "sha256": "5c0a291d3719bdb76543e72b3e968221db7089609a313581ad1f4ab49591aa2e"
+        },
+        "pair_GBP_SGD.json": {
+          "bytes": 698485,
+          "sha256": "2a968851f22ba6554996437b831bd5aa0e3edebb305c5576a8b30d0a4d81508c"
+        },
+        "pair_GBP_USD.json": {
+          "bytes": 698748,
+          "sha256": "457d5a58d7d8d917cbd18ae17c85d0a596917b49fa1668246e322aada3dff097"
+        },
+        "pair_GBP_ZAR.json": {
+          "bytes": 698200,
+          "sha256": "b510dad95835841e194aa677084c5fbbe3a4b9199b986a8f7e5897108a59623d"
+        },
+        "pair_HKD_JPY.json": {
+          "bytes": 698633,
+          "sha256": "1c2df2417ebfcb32591e769a9af7cb8d5e35c61544f65da0507a28b57943d739"
+        },
+        "pair_NZD_CAD.json": {
+          "bytes": 697780,
+          "sha256": "a1da55b9a74cb151e1183186b7f37cb4170cd9d1d78e4604348def5f9541baec"
+        },
+        "pair_NZD_CHF.json": {
+          "bytes": 697750,
+          "sha256": "401ef6e89578fa9de929a5781e0830f7d0bcc7ac96b07d3d799cf9ef27b5709d"
+        },
+        "pair_NZD_HKD.json": {
+          "bytes": 698030,
+          "sha256": "e185e39c2bc364fb45c13d2e3a91ed892661154899a8601681960e34a146c1aa"
+        },
+        "pair_NZD_JPY.json": {
+          "bytes": 698052,
+          "sha256": "0d7749660f4b3abdeb7afc46994434a8facd53d71aff728202751570de5c8dbb"
+        },
+        "pair_NZD_SGD.json": {
+          "bytes": 697777,
+          "sha256": "291b6c00a2c9cc0e9045cb53e07b49cff2df191a1db2f465893617d747bc5fba"
+        },
+        "pair_NZD_USD.json": {
+          "bytes": 697567,
+          "sha256": "fefe49c24c7cd586750c7df5997d4308f39cd026c910a51eeaccfa60e3404610"
+        },
+        "pair_SGD_CHF.json": {
+          "bytes": 698153,
+          "sha256": "c80b3f9e8ecead197e5fd6d05bc9a36be8a8abaec1a6db40c0948a3c7d8a99d6"
+        },
+        "pair_SGD_JPY.json": {
+          "bytes": 698233,
+          "sha256": "e9584e19cf65d40acee79bb132543caa650b56c722d7c3090ae38cfae9d89b36"
+        },
+        "pair_TRY_JPY.json": {
+          "bytes": 688301,
+          "sha256": "ac33498450b62e6da18fc9edb88b278c94e94e0e1f9eabee527c096e48453079"
+        },
+        "pair_USD_CAD.json": {
+          "bytes": 698264,
+          "sha256": "e5f6568067a07d28c198a05b90679846f0d6ebccb4a1fce4e2ce98e58fc9330f"
+        },
+        "pair_USD_CHF.json": {
+          "bytes": 698146,
+          "sha256": "f4472fb2e9ee9b1eb89ea8b56ed15af40a84c744211f77920a3e4fafa6c9fea7"
+        },
+        "pair_USD_CNH.json": {
+          "bytes": 698880,
+          "sha256": "947eb6a7e98bcedcf2d3c4bbc19135152b80097522f6c8a74b400c8a82468d1e"
+        },
+        "pair_USD_CZK.json": {
+          "bytes": 698471,
+          "sha256": "7fb77f5d5549702fc6826de0bbbccfdc708d8709cf8b0febca59b0b445f3383f"
+        },
+        "pair_USD_DKK.json": {
+          "bytes": 698368,
+          "sha256": "802e1de9bd3935f7a6e8f8910f936de4acac5357d15e79af2c96925711b2cb4f"
+        },
+        "pair_USD_HKD.json": {
+          "bytes": 691937,
+          "sha256": "b3029b62b7d274869bccf4a6c411681a23aa14f31c78891bd281a280a06c57e7"
+        },
+        "pair_USD_HUF.json": {
+          "bytes": 698598,
+          "sha256": "7299a2a5aa263151566187f18fc39ebd8749f3c01d024163922c6c7a03d6f725"
+        },
+        "pair_USD_JPY.json": {
+          "bytes": 698342,
+          "sha256": "9e6aaa9254fde2250964afca8923550e8260f6aed3591ed8ce332caf01097c67"
+        },
+        "pair_USD_MXN.json": {
+          "bytes": 697930,
+          "sha256": "1fc7a7c4c3125b52480561d97ffd1f84b9dbd406f636e3347b4693ebb41f59ec"
+        },
+        "pair_USD_NOK.json": {
+          "bytes": 698296,
+          "sha256": "83c8621bf8040e857742a492eff4fbf08503a71267448eee4a0a62b7aa0a6831"
+        },
+        "pair_USD_PLN.json": {
+          "bytes": 698297,
+          "sha256": "a9d3cb19ee5ed380a883dfe06b63f6cde9a8281c735a71ce2c798595235c8cd8"
+        },
+        "pair_USD_SEK.json": {
+          "bytes": 698185,
+          "sha256": "ea9ad84078e435aeb38a90a74983ea7a1c072db3cecc84f11f70fdb89e94209d"
+        },
+        "pair_USD_SGD.json": {
+          "bytes": 698348,
+          "sha256": "9f26b24f8a6de0bc1a6cdf7897e6422367d3699f65b728fcdb95c5acb68eedcd"
+        },
+        "pair_USD_THB.json": {
+          "bytes": 692047,
+          "sha256": "10994b6edad6c67ef7bf3eb7f10de08109aecc7755ccca4ff62e23876ff3f87a"
+        },
+        "pair_USD_TRY.json": {
+          "bytes": 696055,
+          "sha256": "6c4c73da5ff70674be59dd1b624890e4db6c3452b922f22dbbf43ce10f2f7673"
+        },
+        "pair_USD_ZAR.json": {
+          "bytes": 698193,
+          "sha256": "e1984bcf6ff960085932dd86538dd055c01658df07c3d1875a225352a6b8cf22"
+        },
+        "pair_ZAR_JPY.json": {
+          "bytes": 692064,
+          "sha256": "41d7f04570489058bcd12417d6251b903e7d4101b1b19210578a8b381e6ce764"
+        }
+      },
+      "original_run_identity": "77f2606d71fe60b974bb5a7cce15fb6d257b418b2c66f2405c973bbb2da01c90"
+    },
+    "native": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 73400,
+          "sha256": "74933df20e727521ebcf06e96fd4c91c5ec17541e9013689d6b142febd98238e"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 67098,
+          "sha256": "ba7bc29cafa3925f4a398352c9339edc11c12d058adf0480be8006f25887991f"
+        },
+        "frame_later_monday_1722276060.json": {
+          "bytes": 4374260,
+          "sha256": "5c5ca5831ef9c8c9a558a05a7f6f35b78852e7624198c0357c709fe9a74c759a"
+        },
+        "frame_later_monday_1722297660.json": {
+          "bytes": 4496776,
+          "sha256": "15b54618199950fe44619e40973ade20285a8953295a2f59db458ae68320ebe5"
+        },
+        "frame_later_monday_1722319260.json": {
+          "bytes": 4435634,
+          "sha256": "0f60c026ba452170ae37d4157ef462ca1f6faebb0fd7bbc9232a706efc953c8f"
+        },
+        "frame_later_monday_1722340860.json": {
+          "bytes": 4435915,
+          "sha256": "c0044a9ac5e7daadc5a8ebabf7b4789be1aff8969446e60767edbfacea28d460"
+        },
+        "frame_later_monday_1722362460.json": {
+          "bytes": 4495424,
+          "sha256": "8f70cf2a304a749109bc2c3e4375b6f014e93b7c93155dfc42a5101d1dd16b89"
+        },
+        "frame_later_monday_1722384060.json": {
+          "bytes": 7510446,
+          "sha256": "a89b46b4f2da6bebb5f0dead0190fc51dc2433261ce4fab3d6ad8fd582ac61ea"
+        },
+        "frame_later_monday_1722405660.json": {
+          "bytes": 7615049,
+          "sha256": "6df97f2ecca6dcbeb400d874711cfbfafd763969c787566af45ac47fc4bb0dcf"
+        },
+        "frame_later_monday_1722427260.json": {
+          "bytes": 7508905,
+          "sha256": "932616ae95b059e80965177ea1205cdee845a0ee655cbfef79dec2fbd68ec841"
+        },
+        "frame_later_tuesday_1722362460.json": {
+          "bytes": 4498101,
+          "sha256": "1b0524a8301d36903b0e7358d7d941c6ef094df633e529a7b57b9c16ca0c7c21"
+        },
+        "frame_later_tuesday_1722384060.json": {
+          "bytes": 4437287,
+          "sha256": "a24cdb1b30f3bb1a1bfbb2bdbe263175697f05e58dfdfe5718ba3b9df1a20224"
+        },
+        "frame_later_tuesday_1722405660.json": {
+          "bytes": 4498393,
+          "sha256": "1a66223229850d8588353f6037338e5d31f0410353b7b84dcf8f196bedfcc189"
+        },
+        "frame_later_tuesday_1722427260.json": {
+          "bytes": 4437473,
+          "sha256": "8f00078eb81499fc3130a356c8a0268177e8570d7cc82c6d817ef69c1abe8439"
+        },
+        "frame_later_tuesday_1722448860.json": {
+          "bytes": 4496970,
+          "sha256": "448087284f4d4d053e5460a318ba7c5cf2b3b986dc52f0e0f934d45c33db81ad"
+        },
+        "frame_later_tuesday_1722470460.json": {
+          "bytes": 7513655,
+          "sha256": "4aca3142d93536ec921afa7c32a13d143db61c21e3f93b6ac538bc2262e3c9a3"
+        },
+        "frame_later_tuesday_1722492060.json": {
+          "bytes": 7510946,
+          "sha256": "63b94bb88e64f170bd09c8ede5287c0a084f169b7313c84e3bbc1ae91e51fac5"
+        },
+        "frame_later_tuesday_1722513660.json": {
+          "bytes": 7618330,
+          "sha256": "c6b7799c4597eb349fb4d79c16456c0354dcd784ebdc5aaaec53adb894a78e3f"
+        }
+      },
+      "original_run_identity": "d502abf688f33c3b72ce06ff512ac8a88a0ddbd2b5fb8a3c4e61f38e110dee15"
+    },
+    "policy_recovered_hgb__magnitude_interaction_expanding-later_monday_candle_one_bp_slippage_rollover-reference": {
+      "cohort": "later_monday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17332,
+          "sha256": "596fb8998e9e51373b310a14098c1b579665936b658c9ce9e6f24518f8209613"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "29aed66c9b6946e0f4003c46fed14b113547753f84ec31a6051f2249af20af32"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 561212,
+          "sha256": "51a000cb10ead5050a12c933518524af296db1d71167f8fbbd10caa2e5532829"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15583725,
+          "sha256": "0a47fbab9d291679f16463e196e6507af98c0c4aef7818d622286484ad676bb9"
+        },
+        "policy_state.json": {
+          "bytes": 155934,
+          "sha256": "85b7f21e13efb7270934887cdc15e5627efa06a289693fefb2f5693d386d161b"
+        },
+        "run_inputs.json": {
+          "bytes": 7614489,
+          "sha256": "2dbe9312294e6018adb12170b01dc5f89e7e9dbaf35efe45545448fd0ecd145c"
+        },
+        "run_report.json": {
+          "bytes": 7903,
+          "sha256": "598adddba1c83f53a889861408a91c88c0c33ce7954c739e68170a8875d86208"
+        }
+      },
+      "original_run_identity": "58e46d675d3f31f09b45171aeca70baebcb1d4ee87031204c2907cb1b5c39fae"
+    },
+    "policy_recovered_hgb__magnitude_interaction_expanding-later_monday_candle_zero_slippage_financing-reference": {
+      "cohort": "later_monday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17332,
+          "sha256": "8e727c14cc0d95faf8f35962cf914f4bb978d6dd9fe0b3937865f54950a03f06"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "c98ee04bdc7258239cc4d5112f8a6ed622f0d60141635393679b67c72c904e21"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 548017,
+          "sha256": "10394f5c5054edd620178a4ea840a3921b61c3481ba4fbe8e2f0ad72c401716f"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15537496,
+          "sha256": "7405b71a968cfb0c20903a36084e8faad0dc0541893044abae3ba8439c29296c"
+        },
+        "policy_state.json": {
+          "bytes": 155774,
+          "sha256": "7039b7277d83912d06918f2f522a64aa881b66a924d04377c6b4e4de321dc595"
+        },
+        "run_inputs.json": {
+          "bytes": 7601288,
+          "sha256": "ee908c46476a258bbf1390794d891e1535c879a6db138229ae0388d6d3db0907"
+        },
+        "run_report.json": {
+          "bytes": 7812,
+          "sha256": "8a346bff9f3bd542dc1ae05639b41b4869d20ec6f9b71084e371054ab8d492fb"
+        }
+      },
+      "original_run_identity": "6cd4198f07cdc182b02ba2a8940d625d22c79e150dea668421a9363570a0d688"
+    },
+    "policy_recovered_hgb__magnitude_interaction_expanding-later_tuesday_candle_one_bp_slippage_rollover-reference": {
+      "cohort": "later_tuesday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17332,
+          "sha256": "72b79b41a90b88839969812f584725e72483216c118fa027cf24b1bb73009d6c"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "ed9ceab43eb2599b4c539eb6f924659165dc5323f6a0d9ad0acc4787baee9e60"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 483348,
+          "sha256": "73f2464b0712986012e3b810fb04b3bf5939c902d55f31ef789c4bbc15cdf12f"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15636312,
+          "sha256": "85bc5f157bc4ac1cac3fab7a3939715f723098a31d9ce081ba5cabfd8ef9c4f6"
+        },
+        "policy_state.json": {
+          "bytes": 156226,
+          "sha256": "07791edcaf337d6e65761786173003091ba101a655d25704ae2da6ed866ec78f"
+        },
+        "run_inputs.json": {
+          "bytes": 7638992,
+          "sha256": "d9b74f6c208f0c9588c87510745fdac0649fa3a6f7e5ad6b0af856f9b73c8bea"
+        },
+        "run_report.json": {
+          "bytes": 7534,
+          "sha256": "2eda7a0ea42fd7c9b0d33de65647f0ebfe67556bed8a39b38f400aec8057c932"
+        }
+      },
+      "original_run_identity": "3b9b629304a552a1a4a530ad7ae6a3f0b9f051c883c02b9486a3c363f79c2c28"
+    },
+    "policy_recovered_hgb__magnitude_interaction_expanding-later_tuesday_candle_zero_slippage_financing-reference": {
+      "cohort": "later_tuesday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17332,
+          "sha256": "4302eca6789f23766344be003fb81f30b21b741dc50cf24b92590e759b868433"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "96425e13c896f089de32fa4e87e8f5aa8429b3730c9e36a0e5da63e1c3ec3f48"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 476493,
+          "sha256": "b2f34cd69e677e6ca5146c81ea25c2fe36fe6e16cdb54c4fc326922c5d3445fb"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15587482,
+          "sha256": "67bea8c1aa11613016ee7540eb1156984c08482165fe01c0f3af2bbb469371be"
+        },
+        "policy_state.json": {
+          "bytes": 155376,
+          "sha256": "1be0fc13faba3424a2579b81ce32c9480bbd2411d2b88aa70da2e38b8168c605"
+        },
+        "run_inputs.json": {
+          "bytes": 7625669,
+          "sha256": "4aebbcd1b6475b8847932a6775e83e389f86bfc3ac161f30fb56931bc55b73f4"
+        },
+        "run_report.json": {
+          "bytes": 7471,
+          "sha256": "d0d51a184942cd6c06593ed9c8e8b746c016802943226ac022a789cbb93da4c5"
+        }
+      },
+      "original_run_identity": "505c37b4ec739927bdebcdeaa585c71a153ee7c92a36da1aeff888bd9b3f7a46"
+    },
+    "policy_recovered_hgb__magnitude_interaction_frozen-later_monday_candle_one_bp_slippage_rollover-reference": {
+      "cohort": "later_monday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17305,
+          "sha256": "82946984fdd14ebd104dd972e1d46cd365fe92920858d35c7099472620eff668"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "bf210a3c30bdca37201f54e7268ff998172b788e243112966374f959e7175f23"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 360617,
+          "sha256": "1a83169ef288a128960bb0633db0de371a7c1af16b2c997039b766616df82f50"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5856496,
+          "sha256": "e1ac6503b3ac3089d62a8b0c6cee640fb479e89cdea585871ad7777c770642b1"
+        },
+        "policy_state.json": {
+          "bytes": 76691,
+          "sha256": "7107761f408729274cb7e0b99280ad845ab33a74fd7652613f5cd7a8b34335eb"
+        },
+        "run_inputs.json": {
+          "bytes": 4033753,
+          "sha256": "919422d4466770764df760dc5eb078c2c5ff92a97b5f1702e239d2479f98595f"
+        },
+        "run_report.json": {
+          "bytes": 8014,
+          "sha256": "33b3978d6c2a9ddde3489923e5b223aac49137e255ef508536576cb825325dfb"
+        }
+      },
+      "original_run_identity": "6d04065c065afbe3dbbd9ada3db888f63b68775d648893f1055052a63eb12dfb"
+    },
+    "policy_recovered_hgb__magnitude_interaction_frozen-later_monday_candle_zero_slippage_financing-reference": {
+      "cohort": "later_monday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17305,
+          "sha256": "745f801f23cf98d839f3f49486c724636d948408f2588e6dd314eb1a7459a2d0"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "337b6033ca363ad258aa7b597a49cd723f03a13c1dbbad058183f8c67b26de87"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 359605,
+          "sha256": "98362120ed97a268035038e3177b344f3fa678221f27111f7ea767b4bb12af98"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5854510,
+          "sha256": "7a1f501fc7b8bc784a819541a33b918678a8ead24ac2d35ef43124f06efd3f10"
+        },
+        "policy_state.json": {
+          "bytes": 76691,
+          "sha256": "cec71d475c188b122f9f4b4354e1ce001186180115a92f8ee695b0c3ce425b90"
+        },
+        "run_inputs.json": {
+          "bytes": 4027224,
+          "sha256": "7c562b9918226c4f56f21efe990837e0c3b951a851b13d9b1040961609f5cc89"
+        },
+        "run_report.json": {
+          "bytes": 8014,
+          "sha256": "83eb6ee0d2cd3892eef61584a40ac530033b566b572a2aa83d1af271738e0950"
+        }
+      },
+      "original_run_identity": "cd6e8f578175d43c03474831e44c7dea07ebad8c81e4a26e8ee6b21d9234798c"
+    },
+    "policy_recovered_hgb__magnitude_interaction_frozen-later_tuesday_candle_one_bp_slippage_rollover-reference": {
+      "cohort": "later_tuesday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17305,
+          "sha256": "aa5bb33c84031b2cc1e2a9769483c5dabca886afd4b29bd13d5745200f5d4d0a"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "a1a6b19283056d54105f89060dc94ab0cc3bf7df516535188ff98e260e02f8e9"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 360358,
+          "sha256": "45d1de2ae9ae33b7c01937978e930a91a54c44521fc7a28589690b72c1a5c6cb"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5856164,
+          "sha256": "b36ab619dc55a82c03021186e562b29636dbf27f0cef983b7cc2f345e8bb1a9e"
+        },
+        "policy_state.json": {
+          "bytes": 76851,
+          "sha256": "5ea75b2eb79eb04257e61f5afdaa1251cc8439d97387a7b58fd76e3c78b0b52f"
+        },
+        "run_inputs.json": {
+          "bytes": 4036413,
+          "sha256": "c259966d12ae81f7ad421c925f42abee354eb16b6e08fa57caa69c17e0fb289e"
+        },
+        "run_report.json": {
+          "bytes": 8063,
+          "sha256": "4f6f086cdbfe9433ec21ef83decf6dc4b26c9df606b107540d8d56058ce740b8"
+        }
+      },
+      "original_run_identity": "bc1fb1a4f8e96bbaa31897f6ff8c5b3312784e7ed2df2be3ca0ee9bd9db1c50a"
+    },
+    "policy_recovered_hgb__magnitude_interaction_frozen-later_tuesday_candle_zero_slippage_financing-reference": {
+      "cohort": "later_tuesday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17305,
+          "sha256": "54cd1f1b5b47dd3acd20bc1cd6cad6fa0f576e22fae95c4dc3f38275b5219f7d"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "fe644f1ce25b935fda0d461c8599b6b76dd72b81e7c473e016782117127c7a5c"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 359358,
+          "sha256": "c58caec68fc81dbdf6e904b25cbdbece4a8d8bc5ac31fe63dca2c0286e46ff2f"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5853488,
+          "sha256": "a8c7993debce499a9bf99b9fb98a0c5362d09827d6e4ebfce83eac3170be076b"
+        },
+        "policy_state.json": {
+          "bytes": 76849,
+          "sha256": "5bf19296ac22444c9e5802446f05c475fd72a50638ee37838d41c88982831a1a"
+        },
+        "run_inputs.json": {
+          "bytes": 4029880,
+          "sha256": "847f99c8fc7a5a027b2cfc538be96e63408b6e60bf14501d0c66d39ca6b95d49"
+        },
+        "run_report.json": {
+          "bytes": 8063,
+          "sha256": "5f63f883ba9cfcef7fde531fd8b00b51511e432d936ec18c8b7ff3a6b3d1fcc6"
+        }
+      },
+      "original_run_identity": "f3ec8229f2433b28d5c33421a3f9f7608dcd10695ebfd811589c642a041727bd"
+    },
+    "policy_recovered_hgb__raw_matched_expanding-later_monday_candle_one_bp_slippage_rollover-reference": {
+      "cohort": "later_monday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17332,
+          "sha256": "678ac3c40e4fa041662720897d7a0db9bbe4952cb148899d65ee8c2daf346c39"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "ce21db5dafc73859e09de899fdb0cebc44539af9a6cdf812f04745f0e8f49076"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 562163,
+          "sha256": "4a794fdc25bf8ed441a7b31d35993cbc62ce6f16c624c477c466022c36e98a21"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15555588,
+          "sha256": "dc436732122a1699ea5f4cd4ed9d7be41feb5eac1e0aa26e181fa7bad88b1dc7"
+        },
+        "policy_state.json": {
+          "bytes": 155596,
+          "sha256": "7d467bdd02b285c77f91596bf3704df6dd067b3641a68eec4f0a7d796c75deff"
+        },
+        "run_inputs.json": {
+          "bytes": 7587280,
+          "sha256": "ddd84ff1742f60b7a3b0642cfc6f4f13895e54cf2dba77f04df672fc4d64c256"
+        },
+        "run_report.json": {
+          "bytes": 7996,
+          "sha256": "cb6f5a219de683a0cf1b360e2950c95e2d92e051969b627ce37a24ffdf9e1ba2"
+        }
+      },
+      "original_run_identity": "d157a94c653e28c531ee5d21dd17b97a597779e90a57031a0e76bcabc51b6e99"
+    },
+    "policy_recovered_hgb__raw_matched_expanding-later_monday_candle_zero_slippage_financing-reference": {
+      "cohort": "later_monday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17332,
+          "sha256": "b661d07ea6d0fc99ab23686eb0314ebde05061c6c626a5d2c2e30521fc5a5665"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "12d07c60c3a78a53d5f1000db29f120617f8df7a85eec04a18727159894e3b95"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 548716,
+          "sha256": "1fc79120a00adcaa20bfe70d76bb2efe3ed506852635eecaa0dc4301bb196453"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15509672,
+          "sha256": "e40066f36a02725dcab499a93d3538251c7babaaf21b6af0a365a7ac4095786b"
+        },
+        "policy_state.json": {
+          "bytes": 155396,
+          "sha256": "1455e6516981649ec8ea21cead2db3a98c8c9dd80073993819f9dbf30d740a07"
+        },
+        "run_inputs.json": {
+          "bytes": 7574079,
+          "sha256": "b333879fa45bcd40545d1c741af53f62979541762539a0dda88887012928cc8e"
+        },
+        "run_report.json": {
+          "bytes": 7901,
+          "sha256": "ae826ee1e67f7380a57372bb6d7d313206c9b18330dcc6aeebdc41ff6775bdf4"
+        }
+      },
+      "original_run_identity": "fd365ff331ae48338edf99c9a74b2d957adb20ccf47b2c2b9165e0165c693f16"
+    },
+    "policy_recovered_hgb__raw_matched_expanding-later_tuesday_candle_one_bp_slippage_rollover-reference": {
+      "cohort": "later_tuesday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17332,
+          "sha256": "e1ca0542b0360718151cc477a8a8ddd950814eaed3387b4e28515beb2a7c186d"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "ed9b95d867403bc19743191c837662ce0aa3bb1bdd03ad45e4c89a4afc9e58ff"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 487089,
+          "sha256": "0487f74bd246126a487431c6fb39b6586cb7a3e7ce4dfd9b8908d1e2bf61391d"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15604603,
+          "sha256": "92ada9764077b5158eabc4b0957705f94cbe5670c63ade8303819b5c6472cb21"
+        },
+        "policy_state.json": {
+          "bytes": 156182,
+          "sha256": "a1d27a90491d71ce98ee2a9b1be07224dcecae30e93b4ec04e9c1dcee715ef0d"
+        },
+        "run_inputs.json": {
+          "bytes": 7611104,
+          "sha256": "6fe2fe54e9745e1bcd9455717519cbd3e5d3e4af562ccdbfa97630b4eb42ffc7"
+        },
+        "run_report.json": {
+          "bytes": 7526,
+          "sha256": "c23483e6223bf90ef35491d7e92ac53d1bb90979c63983a483012e310ad8d4e7"
+        }
+      },
+      "original_run_identity": "f74bcc8ab748a9d7f05be60ac4044c80a1f4f02a0e597333d0546701597c3106"
+    },
+    "policy_recovered_hgb__raw_matched_expanding-later_tuesday_candle_zero_slippage_financing-reference": {
+      "cohort": "later_tuesday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17332,
+          "sha256": "a867db4ef1a9f4e428587ecec40152a480c8ca09ba6ccfc163cbc92e07f71877"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "501e1d42d0ba96958ca7a52b3ecb401e28ba1da260b2667ec4b887651511750c"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 476968,
+          "sha256": "01e7846f021cf33d14471e315eae6c5d0eb42cfc9e4fa4a9d914a88f106a8efc"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15556699,
+          "sha256": "aac261ea1f4d4c2d8cdf3dd8b3db3d15750b6bff49bc02a7db24a9c8caae0ab5"
+        },
+        "policy_state.json": {
+          "bytes": 164208,
+          "sha256": "92ab584eefa6c5f17b9be6e66358a5e79cedd2ea537bb8af1f63f599c13b399e"
+        },
+        "run_inputs.json": {
+          "bytes": 7597781,
+          "sha256": "10f3caa5436a69045d2c88198fb31e957156ae5c0709fb5e3891d5e657a7ca59"
+        },
+        "run_report.json": {
+          "bytes": 7462,
+          "sha256": "74c99d5f697137879c55892347d18a7e9d09504c96523c54fc21bd3017d69aef"
+        }
+      },
+      "original_run_identity": "ac6bc0308dd7be95f990beb2505a3ec52ac67e87ea9c0a674c53bc70993441c3"
+    },
+    "policy_recovered_hgb__raw_matched_frozen-later_monday_candle_one_bp_slippage_rollover-reference": {
+      "cohort": "later_monday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17305,
+          "sha256": "b51f40e912afdfd4984d232b003b62788ecae33e7ff964ac7a25239feb22ce2f"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "c7d479386a810f17e730eb51a192682bb836712bd2a223c431120b4182a8d116"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 347700,
+          "sha256": "17e07473fc22cfadd082c58ba5aa822ed1d575a37ffc6e976153d6f0d9c6b86c"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5836522,
+          "sha256": "1bd4789446dd45fd446fac358628657a41a03ae3152f15efe47d30cc5e81e4a0"
+        },
+        "policy_state.json": {
+          "bytes": 83112,
+          "sha256": "07f7b5479b8cbd74892df4f2b38508784350218f081003a7382e6f8f4c31c57d"
+        },
+        "run_inputs.json": {
+          "bytes": 4020086,
+          "sha256": "83a6b7aebf0c78743f6c2de0011ac85d2d7f876cab24f4db95e9b13e2e3ad99b"
+        },
+        "run_report.json": {
+          "bytes": 7935,
+          "sha256": "8e41f97aa510db49cc1a4c2d44935cd5b54c9cc8fa5a1a08a39bfca93bd15b82"
+        }
+      },
+      "original_run_identity": "37e9312749f468e5ebcc363f94c49f9007bfb059fde704ea6f737bd00a19150d"
+    },
+    "policy_recovered_hgb__raw_matched_frozen-later_monday_candle_zero_slippage_financing-reference": {
+      "cohort": "later_monday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17305,
+          "sha256": "8acf10497539d49d99f580ae4504876c37f0ab6d7557f3f38785dbbaf01963f2"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "bdc88988b9972a4be4b66f2fc63f289322eaf287d8d8ddbe10828fd7ae4e9083"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 346602,
+          "sha256": "3b8ddce202ae0025198ff2230f37bac4ea3f71b2217cc98ff0677358f6d6fc7d"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5834264,
+          "sha256": "981470261a480971b618cea2a9154098ed42eac798d3727f16122d5ecd2cc8ed"
+        },
+        "policy_state.json": {
+          "bytes": 83112,
+          "sha256": "d96f7926957e6b505d100bdb78a45970a02fca75a0a428299fd61f78629e0702"
+        },
+        "run_inputs.json": {
+          "bytes": 4013557,
+          "sha256": "9303a01e3e9f30148927e2f79d4f306a9401e96c8f68067efd7593068617abef"
+        },
+        "run_report.json": {
+          "bytes": 7934,
+          "sha256": "66e1eeffd71296ca97515e3cec8852293f7e253b2c7ba38b270552f7a1b2c1b3"
+        }
+      },
+      "original_run_identity": "257cfd148e3f948c83067516ed71b8f714e83d01ea7381e070ecbe3b04c04e22"
+    },
+    "policy_recovered_hgb__raw_matched_frozen-later_tuesday_candle_one_bp_slippage_rollover-reference": {
+      "cohort": "later_tuesday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17305,
+          "sha256": "ae0629a778afa0bc208fdf8b67ee8882ae08329bc3f11b2a9087c8b115eeb6ce"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "f40180fcf48525f115064c391623ba29a96bf2f652f66d2fc12fde03d206bb5c"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 266770,
+          "sha256": "b990d8b06f426921d583451b3e53d2b9bf9a6cc68eccde1117e3a53079478632"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5834869,
+          "sha256": "67418dad3d17c01ca921caa741ae297a83959da86c408ff08d5695f7e7d703f2"
+        },
+        "policy_state.json": {
+          "bytes": 65307,
+          "sha256": "50761739c89c24a745fd7e37a17e78e3f898ebd2efe4d120e96c3ee890c748f0"
+        },
+        "run_inputs.json": {
+          "bytes": 4022563,
+          "sha256": "87901d88277800cc86ca9b919b4f1e5734e9cd9829910039edbfae5c5c1ba466"
+        },
+        "run_report.json": {
+          "bytes": 7841,
+          "sha256": "f9aee0351833d90d19615b55bc92e1f0f919333c7faa8c1aa655926449188e7e"
+        }
+      },
+      "original_run_identity": "944e373a6f609672ec6183dfab93520f6afd35a60f2cc4ea24f83b27ccd0be5f"
+    },
+    "policy_recovered_hgb__raw_matched_frozen-later_tuesday_candle_zero_slippage_financing-reference": {
+      "cohort": "later_tuesday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17305,
+          "sha256": "6bd22d479c727a5c1b90b2fa892351fcf09ad166f7f4d8c7e7324d904e75f4f4"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "5e9febd4fc0353f27ff839e15459597c4cea80a79cd2f2609029d65ea3c44d59"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 310508,
+          "sha256": "5356fc4bf3ae0779fb66d338e00279f613b25fefa543f6eb3d0970ea373ae89d"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5833569,
+          "sha256": "3077439c1d1a16c0878725f09ac39b9e3ee888bc35413fb9193d99e9fece0814"
+        },
+        "policy_state.json": {
+          "bytes": 74461,
+          "sha256": "d27742824c26166ecc3ef5705cec4cbd7bb565f2448647d9a3665e7fbdf749a3"
+        },
+        "run_inputs.json": {
+          "bytes": 4016030,
+          "sha256": "7ef0c24be305d2737c1769141638013d5d40a4a7effe7682527b6d29bdef5142"
+        },
+        "run_report.json": {
+          "bytes": 7823,
+          "sha256": "66d74eab1b0340585f72a0d68c954fd47021c5fb84dee4b02525e617b3f1ea58"
+        }
+      },
+      "original_run_identity": "21c3c5feebf2523385ff1ea0b1d9519ba951938c39affbbe18c5c4ed299ef31d"
+    },
+    "policy_recovered_hgb__raw_unrestricted-later_monday_candle_one_bp_slippage_rollover-reference": {
+      "cohort": "later_monday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17332,
+          "sha256": "d4a32ef9e70ce437acf787b08418375351eadb528bd007ce11aab4334df4f581"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "3f4144794eed01e5b30131e755e7b6c193b699f65d4b7db8295abb43a0e9c722"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 562163,
+          "sha256": "4a794fdc25bf8ed441a7b31d35993cbc62ce6f16c624c477c466022c36e98a21"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15242848,
+          "sha256": "7fd8578c2aca0c29e38b026a5d93cdf3670e24bf59838ebc0705989d2c538b75"
+        },
+        "policy_state.json": {
+          "bytes": 152366,
+          "sha256": "3f67cd2cafe76b2aa99a68fdce77c933928c5ea941faf058d9b4900b9e6ced4c"
+        },
+        "run_inputs.json": {
+          "bytes": 7328005,
+          "sha256": "8424929980e5498467b76551a739121aded7a62d511d306a64472c135f9474f2"
+        },
+        "run_report.json": {
+          "bytes": 7991,
+          "sha256": "b5652c5c44f463f7518b6c894092b3dbdd813dd82c0a5c1f0d5c0bed4d091a7b"
+        }
+      },
+      "original_run_identity": "8d811b22ab9e42d83a8528fbfbd218662d0051321954d641d51f2cfb768b9277"
+    },
+    "policy_recovered_hgb__raw_unrestricted-later_monday_candle_zero_slippage_financing-reference": {
+      "cohort": "later_monday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17332,
+          "sha256": "281173b122c7587db5668ea04631ac8a2b6be6a59e5e7bf4942fd4075643f2d0"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "a48e9bd32ac501f0372acd5a5fc686e1a39809cf5bde076cffc645c0efb58286"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 548716,
+          "sha256": "1fc79120a00adcaa20bfe70d76bb2efe3ed506852635eecaa0dc4301bb196453"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15196932,
+          "sha256": "932fdf9f801cb5b9f9f70f42c6f1624449fb7ae8595e9a1ad90e5a6bfd2251a1"
+        },
+        "policy_state.json": {
+          "bytes": 152166,
+          "sha256": "563b247da734d3a6f300abd1e7b9ca1333347f1a9f113c49de5a6215503e5f76"
+        },
+        "run_inputs.json": {
+          "bytes": 7314804,
+          "sha256": "f3d8615f37e8acf0e5bc6cc2fb0af3e73feb58517f7a002372f299080c451e94"
+        },
+        "run_report.json": {
+          "bytes": 7896,
+          "sha256": "f56d91a564f624f050ee6bbc7b41a7d45742895545b01ec16870e603f5d2f89a"
+        }
+      },
+      "original_run_identity": "a5c9491614f50b33f48b41e8815d0a6615299780a71c34c4220969bb3f4c72d0"
+    },
+    "policy_recovered_hgb__raw_unrestricted-later_tuesday_candle_one_bp_slippage_rollover-reference": {
+      "cohort": "later_tuesday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17332,
+          "sha256": "53a758a2e6081ea1f20bb758887be6750984492415a0690f59b620bdc39d6168"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "7f8c553db719256b37a18e6b90cbd0b3ac100b6c807c95531743bb8e8def39aa"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 487089,
+          "sha256": "0487f74bd246126a487431c6fb39b6586cb7a3e7ce4dfd9b8908d1e2bf61391d"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15290723,
+          "sha256": "bff3ba3464314d6d66e1597b6a1a80a6982ced0469f4cf9eed6436275da51a63"
+        },
+        "policy_state.json": {
+          "bytes": 152952,
+          "sha256": "19725cd77cf34cd6a7a41647eb6e85c1ad951110bd63d641f895bb0db0a285d3"
+        },
+        "run_inputs.json": {
+          "bytes": 7351001,
+          "sha256": "3d3e07fbd12b90d71af83f33020f2b582e5c29d933a9fbc2802f777b0b49af82"
+        },
+        "run_report.json": {
+          "bytes": 7521,
+          "sha256": "5092798fc741a9e3cfdc5d70b0e4bcf6252b9ed07c72528d30038f87ee5e4680"
+        }
+      },
+      "original_run_identity": "18a3abe9c75487c032eb28465c239f513595e3536764c79aee8d6502630c612d"
+    },
+    "policy_recovered_hgb__raw_unrestricted-later_tuesday_candle_zero_slippage_financing-reference": {
+      "cohort": "later_tuesday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17332,
+          "sha256": "1de019fc775ef19024bc3666bdfcbd46c643714fa4f20701c2990eb2da27d7a6"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "11bfb5aeecc2813a1b0a958831c5f374874e5fb65def320396da2dd18f882b88"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 476968,
+          "sha256": "01e7846f021cf33d14471e315eae6c5d0eb42cfc9e4fa4a9d914a88f106a8efc"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15242819,
+          "sha256": "feb16ff0e320734a538ee4efc5425dd8e3881ecda17d213aae0e4c2855880809"
+        },
+        "policy_state.json": {
+          "bytes": 160788,
+          "sha256": "dbc8da624fed2b239ef61bac1d980ad3cd8c88702e5c8712a65c8c78099dc178"
+        },
+        "run_inputs.json": {
+          "bytes": 7337678,
+          "sha256": "f96f259f8731fed9da21c5f5b9d54e010f8d9da4bd7b535770041d2c220ff4cd"
+        },
+        "run_report.json": {
+          "bytes": 7457,
+          "sha256": "5a74297d567090639e645e5ccf505c2edf2a4770e9e7cecbd21e5a1ceb528dcd"
+        }
+      },
+      "original_run_identity": "6bbb274918f0038d734b1e7c29db80a130b9e4337c391429a5febf39d05e15cf"
+    },
+    "policy_recovered_hgb__signed_only_expanding-later_monday_candle_one_bp_slippage_rollover-reference": {
+      "cohort": "later_monday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17332,
+          "sha256": "c5e6f6b793dc40dca556d33d4518e5921928d19cf12ac3d234ad9ac74b4ec8b2"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "d10aa94cf9e0984918fce641b3c2f394431d2179e266f0c505fa0ac4e6e82631"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 516064,
+          "sha256": "ed4e1893d88c654bdade0447bd783b3330a1ec114efbabc53d4a73941690d94f"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15546126,
+          "sha256": "a24bdff479490394f6c4e8dbd80c184fe969c92dbe795ade52f8a721dba1b040"
+        },
+        "policy_state.json": {
+          "bytes": 128501,
+          "sha256": "06025da30ece78c267f335a0de2a3d5d4ca79bda9bbbffda5a7b50759df08511"
+        },
+        "run_inputs.json": {
+          "bytes": 7587350,
+          "sha256": "7b0f5616da8c4be855bdf98923a824a47ad72f9981d520f7d6c8db0bda4a1e3a"
+        },
+        "run_report.json": {
+          "bytes": 7945,
+          "sha256": "5e70677521b9769bb43dc11ff05def1a1748bb32c538a4cf44bb23fe1f439c11"
+        }
+      },
+      "original_run_identity": "9637402234b447aa0aa7705f35843f8a5beb25ba3b032d43acf4f7c253984eb0"
+    },
+    "policy_recovered_hgb__signed_only_expanding-later_monday_candle_zero_slippage_financing-reference": {
+      "cohort": "later_monday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17332,
+          "sha256": "67704ff7a98347779b2043cfd609b529eb110383081477908cdbaf5c0bcb3dae"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "c8e96ae131d39cea9b7eee014a705c068af80c60af528760cb55eed1f4b8c1aa"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 509058,
+          "sha256": "eb122a9f906a3103280b7d825681852a5cff20991053db18f365d0ba224ed8c7"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15504104,
+          "sha256": "05f61ff3638ecbbd8bfac28a8620298b9cdae0a35ad5c4c3a42cf9eaac3fc7b0"
+        },
+        "policy_state.json": {
+          "bytes": 128175,
+          "sha256": "b81b7406dce4c342aa6e62bf71e84d55f11ada3b2bf37575d0a9aebadfc5c9cc"
+        },
+        "run_inputs.json": {
+          "bytes": 7574149,
+          "sha256": "04ff79f976262d8d17d783945929c675d51052ca78f0cce7d2b5cab7187a70a6"
+        },
+        "run_report.json": {
+          "bytes": 7852,
+          "sha256": "b0407fc707e64c2e327ef79540becb5462f1efc30d7091ba0a579442a95a8381"
+        }
+      },
+      "original_run_identity": "fc8a021d902486c4ad70e15ce060e7da82628b3b167b3bd0cc38fbdee93f43d5"
+    },
+    "policy_recovered_hgb__signed_only_expanding-later_tuesday_candle_one_bp_slippage_rollover-reference": {
+      "cohort": "later_tuesday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17332,
+          "sha256": "6bcf765ee1e1dd731fe7a3af51346547cb2e1d80750a15d7f79eedf193d695a3"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "9364abc4f34528410ef89f20e79d7225f60e40d4909094d27dfac284ca4a3242"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 449488,
+          "sha256": "80fe554963c6c4abfc795256c53d0c32f9138987452af095bf718a62b0b5212a"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15601094,
+          "sha256": "130afc8d1e13ac6c83e7a91cc57783439401dde10f46ff20ee661d3cfb38fc3b"
+        },
+        "policy_state.json": {
+          "bytes": 137878,
+          "sha256": "c77fed4266d07c4e88d28f9a85804404ab29835a138827c32e81f24ad4b988ea"
+        },
+        "run_inputs.json": {
+          "bytes": 7611577,
+          "sha256": "2379bff0223dec8c6f9897c2a3826cadc274e314fc5987e917ab3a91ef33afdf"
+        },
+        "run_report.json": {
+          "bytes": 7524,
+          "sha256": "ec5485e407a982b2864fe4fcf56615f13f376d9d0c8d911528e689877e7243e8"
+        }
+      },
+      "original_run_identity": "0c44bc1aa5fbd9af57208afc52447a707dda91ab9a37432b9c5b91e331570c97"
+    },
+    "policy_recovered_hgb__signed_only_expanding-later_tuesday_candle_zero_slippage_financing-reference": {
+      "cohort": "later_tuesday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17332,
+          "sha256": "a6f9358b27cbe1bc339c263488de920a86ed8e92c569acd2b097bfd054dc7fc0"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "9c84ad18572b2834e72f241186dcd08d9f88de168c066f571e1266565b6e9bfc"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 476478,
+          "sha256": "d344be0c961bcd63823e78ef6c47322db6bb9b11e70e6a9292b523265ed9adcf"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15553734,
+          "sha256": "48117d2a62c55d2010575ff328ebb76cc09165fd564b691f4fa2c3c529d45e7d"
+        },
+        "policy_state.json": {
+          "bytes": 155166,
+          "sha256": "8dbe8ce7b285f36f3ccf57489a6fad6d8e63a7192d78fd54d88f4853fe99acbb"
+        },
+        "run_inputs.json": {
+          "bytes": 7598254,
+          "sha256": "148a7076ae74ab90e43721a97bb04fd75a287a22731ac751113f8328c9e6eae8"
+        },
+        "run_report.json": {
+          "bytes": 7461,
+          "sha256": "7df8c9eb70e544edf0050c3988daccd14536abd593bcb241e67a102e6bdceb30"
+        }
+      },
+      "original_run_identity": "ec5416779ea56f7d6f85f945fe93a175c171211b6f4ffd53754f32323787b344"
+    },
+    "policy_recovered_hgb__signed_only_frozen-later_monday_candle_one_bp_slippage_rollover-reference": {
+      "cohort": "later_monday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17305,
+          "sha256": "777641ce1ccd33814376350cde64b58592e0493589a34b9753e28e0191c356bc"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "04d2195ae1d4ff323c4583becc7f72392c7357f8456a2ec9c2a9cea48b8251d0"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 197374,
+          "sha256": "f78971b00d2a9584e30d13e747fea21afc737bf8e61510ab77d45d2e56420b92"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5818855,
+          "sha256": "b01f874095cc4f22f28525d188cfcf73c301dbb733fecbe31d46636d9b451fe9"
+        },
+        "policy_state.json": {
+          "bytes": 55344,
+          "sha256": "11098258c783a7ec9bd80431625ae4fccbe214234baa41f465ebdfde84b7fb79"
+        },
+        "run_inputs.json": {
+          "bytes": 4020002,
+          "sha256": "7fd415c6596f2eb63fcec487b07ab803fac0d8815041ba58cd6e5a5b55ea30f6"
+        },
+        "run_report.json": {
+          "bytes": 6752,
+          "sha256": "fb105e57ad32d68314cc20d3d10bd35860bc4d30fcc0f062b197ea110f9686ae"
+        }
+      },
+      "original_run_identity": "f1e57f9c5d4af92bcde1730efce8791841edbe7f114ed964a164fd8574b5f1cd"
+    },
+    "policy_recovered_hgb__signed_only_frozen-later_monday_candle_zero_slippage_financing-reference": {
+      "cohort": "later_monday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17305,
+          "sha256": "0e6d0f10881fb072f3226a196d09810e8efe3b598296483b05d0d3d1ace98e66"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "4e12c4fc21ec34aed8344312f4d36ab216de59ddaee54c5f9b88c25a916b7f7e"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 275898,
+          "sha256": "0b17a458afb557df33c956fd3db2c102d96e490e6cb627eab02438361d709ae7"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5834982,
+          "sha256": "6d9d84d42643e88483cfe61c38e06fbb9c2650fb539b93a6c48ef9a099b2acf7"
+        },
+        "policy_state.json": {
+          "bytes": 73067,
+          "sha256": "595e940782aca7ee6a8dca9565439dc30501675937bfeead72e571dcfe659dec"
+        },
+        "run_inputs.json": {
+          "bytes": 4013473,
+          "sha256": "3300707f59ad2e34d24d3ae257300eab4567425eb1011b2f89cedfdf8ede7cd6"
+        },
+        "run_report.json": {
+          "bytes": 7212,
+          "sha256": "cdadbc952fde4a8ae388a426e2aaae243c493071044950a6164a56922848bf88"
+        }
+      },
+      "original_run_identity": "ef6425dba3fe6d30fd44621b87c7284232935783125bd31015947bde9aaf953e"
+    },
+    "policy_recovered_hgb__signed_only_frozen-later_tuesday_candle_one_bp_slippage_rollover-reference": {
+      "cohort": "later_tuesday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17305,
+          "sha256": "4d781840e6b55c6f852312d96bfb6ccb1b01afe731e62dbba3f68552af11a0b2"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "da59f369b8a1a75557e0f3b485c0928677770eeeab2a9c86e12a732f358ed066"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 325775,
+          "sha256": "3b8f645703db66cdeb9bf710425f52111d5ae25c0154bd9f1fb5b17df7afdbc4"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5840092,
+          "sha256": "61a7c9fab3475061d097746095af36a11632d4ee775897bc28e9711aeb31f0e1"
+        },
+        "policy_state.json": {
+          "bytes": 75209,
+          "sha256": "7387a3aa4c349a92044bd2cd69dda37deef766e04c1c7154d96a11b380330952"
+        },
+        "run_inputs.json": {
+          "bytes": 4022718,
+          "sha256": "45e614860cc79ef50a57e375a3a38fc4f049a5005c8180d4618d747887e431f3"
+        },
+        "run_report.json": {
+          "bytes": 7911,
+          "sha256": "ecbad4715374ddb1434903a696ffdcdc922ecc07bd4435af87630881b7697fee"
+        }
+      },
+      "original_run_identity": "be9e7de62f411cf3956a1321e086743c927718d25863a80b8a2e1a2409ab8764"
+    },
+    "policy_recovered_hgb__signed_only_frozen-later_tuesday_candle_zero_slippage_financing-reference": {
+      "cohort": "later_tuesday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17305,
+          "sha256": "44660c6f848b07f4e8049661010f6175adc6a1b63a30c1381c2c8c155fa74b88"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "45ed40c64e592409d8e79fc19834d99bcad45667fd3357269c5f9e2fa0e95868"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 325015,
+          "sha256": "cbdc5414bcf5135b4a690f84de3eb2b3c37d10258e384950573995d4338c2d2c"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5837968,
+          "sha256": "1a9c3afa329b149906b1464a621e2beb46f56a9c23dd1252912ea99823d1df41"
+        },
+        "policy_state.json": {
+          "bytes": 75209,
+          "sha256": "21d5f88120d3b686e2a12752f5e697fbb66faef810b24cedefeb52058042a0c3"
+        },
+        "run_inputs.json": {
+          "bytes": 4016185,
+          "sha256": "8ca929b549d2a7abe06f057e70182ed18f2e339c4f66538f947de854f4efae4b"
+        },
+        "run_report.json": {
+          "bytes": 7857,
+          "sha256": "b30f993e08cf44b59858e6ef74f0a08fe4b2078a2d1ace57ab28496595f1045f"
+        }
+      },
+      "original_run_identity": "2d31c2889b6a8967dab3e3c3bf4c590608c4d478d9dc54af82e1b0751f7ff476"
+    },
+    "policy_ridge__magnitude_interaction_expanding-later_monday_candle_one_bp_slippage_rollover-reference": {
+      "cohort": "later_monday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17332,
+          "sha256": "cba79ee9123858dd383befdb2dd1ba5f7ef5be3093362af6cfb0a4596b011cc7"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "2390b2331504e551a6ae8d67d56aa85478b5c336fed278d92c2bb2098bee3553"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 553349,
+          "sha256": "b81a3b8a9df6cacd916b6772b10aadd1fcd935f262ebfec924459697fd09735f"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15549956,
+          "sha256": "527e00e72599509d9bf427eb3377aa96caca5131f9c9a3eaf5234bc7811613ff"
+        },
+        "policy_state.json": {
+          "bytes": 147626,
+          "sha256": "ad06deb97ace8d661df02098b5613298bbdcce808237dd6b5acbf63920455ea6"
+        },
+        "run_inputs.json": {
+          "bytes": 7592842,
+          "sha256": "72a421e4f209eec5714645b72165bf62e773d2dad5c91cb8ef1131ab2931b00c"
+        },
+        "run_report.json": {
+          "bytes": 8117,
+          "sha256": "9f179200b970c533d021e4502a6dc09e2f74f9a29c61bfee855f7d607b66f7cf"
+        }
+      },
+      "original_run_identity": "48e9f8786a9a096ac4e0589f725dfb8a13b8a3e40c0a63872d7bf88c715cf893"
+    },
+    "policy_ridge__magnitude_interaction_expanding-later_monday_candle_zero_slippage_financing-reference": {
+      "cohort": "later_monday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17332,
+          "sha256": "a8865468295d5f4acd53a2369c4d00f2dc6e1260bb753b6387989ea75f32a1ca"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "df5e67864e9b6148e7ce21cfd05bee419369f8ac2415563393c26a6e835c5afd"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 537541,
+          "sha256": "e924b302808c43bcaf5a5b3aef2fc724f523c3c40dfe5aa5dee7e5beae89927a"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15503978,
+          "sha256": "0dd3d28c2289e57ca74b6966985a428438d35709725972c6c0496f181432d1f2"
+        },
+        "policy_state.json": {
+          "bytes": 147450,
+          "sha256": "a7ed96f0804726f79efdaff4bfbd53b74c3c8725512b49b0bc77c0193142f78d"
+        },
+        "run_inputs.json": {
+          "bytes": 7579641,
+          "sha256": "975cb9089148f9fc4b04728b5599d39dc6c242fd803a0c4bee8d5fe0edd03e9d"
+        },
+        "run_report.json": {
+          "bytes": 7967,
+          "sha256": "4e328eceb14ede4f3ac3cef34bbe9982a85f325943d1c7478c4ff5630a09dc0b"
+        }
+      },
+      "original_run_identity": "4e167426cad14de5bc31bd37abf721ec123d2a40471c59f6698b3c86e5271e13"
+    },
+    "policy_ridge__magnitude_interaction_expanding-later_tuesday_candle_one_bp_slippage_rollover-reference": {
+      "cohort": "later_tuesday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17332,
+          "sha256": "8669b91816c0c611efa50c224229a2516eb89e89f1f8d3d237eb48b9558fc676"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "22cb33a548e512da165952af0a13135401cb1ec577408cd62ae48e4206ed4355"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 487502,
+          "sha256": "63690c5655a88359bec57bef34a1d725414cfb86f5b3d06521b794f0b1c5691e"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15596426,
+          "sha256": "1e68f523698cf2b3eb7a21fb93491a8707e4a5aa676d7159b0e331656b99e156"
+        },
+        "policy_state.json": {
+          "bytes": 130054,
+          "sha256": "7d65833ecd7f882a5581e3c53363c54c4e8d154975073d1de4ad612152a91bce"
+        },
+        "run_inputs.json": {
+          "bytes": 7617407,
+          "sha256": "ebb648a4284af1789eb50b7806a26650e06cc40cf81f164553ce2947dcee2afe"
+        },
+        "run_report.json": {
+          "bytes": 8054,
+          "sha256": "80ab1d1f0061eed0b467d2b43d55150ee987eb775fddbb32ddbc6b075e6a0152"
+        }
+      },
+      "original_run_identity": "f8ba07346327c4628fa392f9b745e6e8a0db0d1078dff76f1ac266a5c36175ea"
+    },
+    "policy_ridge__magnitude_interaction_expanding-later_tuesday_candle_zero_slippage_financing-reference": {
+      "cohort": "later_tuesday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17332,
+          "sha256": "7d88bbfc92e096bd52fe7f4183f866544962cb5a14fd92aaab4713a7f21d56b4"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "1e9acf9771de46cfedd87f4b0fd1721f45423d90f211e9b12a6505822c5ff471"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 520127,
+          "sha256": "80bf4bfd163e226877196e83bf6df6602a1b25ec36b4cf6832f7605acd0cc3c5"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15549711,
+          "sha256": "1e18df3e13a601d19108bd2d4a3e2d75551690ad2b5fed77a33f491825457e09"
+        },
+        "policy_state.json": {
+          "bytes": 138373,
+          "sha256": "30d59419d4ab1e8b7e2110e17a26caf86839a79e34600f090265266e7a2cce18"
+        },
+        "run_inputs.json": {
+          "bytes": 7604084,
+          "sha256": "548066f60d9cb92ac856077ef6da0087471b834015ce8a10de25bfaf9de52d71"
+        },
+        "run_report.json": {
+          "bytes": 7962,
+          "sha256": "f042c9f931d9b920533de5c2fb1388c71caa1631e4c0e346cdb8a9af3157b863"
+        }
+      },
+      "original_run_identity": "22e7c59fb353203a92279b9c4c6df4389fac76a461fee6de8b0600bc2ff9ab10"
+    },
+    "policy_ridge__magnitude_interaction_frozen-later_monday_candle_one_bp_slippage_rollover-reference": {
+      "cohort": "later_monday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17305,
+          "sha256": "9fc91e4c290a8c17fbefcd4ac5d402966b1f8632dac3bfd9c0e64775cdf3fc96"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "227db098dc75feea1b5632098eb2cd656ecc09741ac4391574fc2332beeaf199"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 290624,
+          "sha256": "8242dda327459faa38276b61a249f78eca41bad619cb0fe9716231b2670d27fe"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5842490,
+          "sha256": "086f064f9edcd4fb4972cc60c7254c61ae166ed13aac94429e2077355afe0c8b"
+        },
+        "policy_state.json": {
+          "bytes": 56954,
+          "sha256": "090ac9fccc44562da18784bcf51791a9441c6e376b781560d73b7db52b124c4e"
+        },
+        "run_inputs.json": {
+          "bytes": 4022816,
+          "sha256": "548b8b056940d6020be95e4c482c2820eafb3e4e35a4cf8719dbb8d378ae63d1"
+        },
+        "run_report.json": {
+          "bytes": 7889,
+          "sha256": "0b0a53bec8047897c3ef421acefc03dbd36f428ef17f33c10bcd69452efd5b0e"
+        }
+      },
+      "original_run_identity": "9bfb62460f2d775603a3345d48a11e1b2f45e43085381f58ed012d88b59b56ad"
+    },
+    "policy_ridge__magnitude_interaction_frozen-later_monday_candle_zero_slippage_financing-reference": {
+      "cohort": "later_monday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17305,
+          "sha256": "30b7ce11b038abacb8b76361e8ad65d1b458f9ccd216c0a09643617b87a3971b"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "17f0dee19fb6231edc48aea545e2c3c08f0ae18d4a4c43e2603596548f272e27"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 289746,
+          "sha256": "d02dd0c848a7390ae7760a7f80f9552d93ae47aab80d0b98230f505b3a56f023"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5840553,
+          "sha256": "b661cca273bafe70876ec18cbceaf25616ac6a7c818ad811d50b80ccfdec456f"
+        },
+        "policy_state.json": {
+          "bytes": 56956,
+          "sha256": "6b67628aaef3ddc49fefc56aaedd0c46637a7310639101cf85749ed1357a9df3"
+        },
+        "run_inputs.json": {
+          "bytes": 4016287,
+          "sha256": "c4bc11aa878df54dbd92fa342cf0423b0f8d6c639c2adbe73714cf0fc0f7df61"
+        },
+        "run_report.json": {
+          "bytes": 7889,
+          "sha256": "25d3c17ef1b53f92d3e724e08c8fcf418481f024ee73ef2fb27704e987ac6604"
+        }
+      },
+      "original_run_identity": "615f25c0d4201c35ac6be50c90f4c570cabc87f96b71db9b648f2d3601dea48d"
+    },
+    "policy_ridge__magnitude_interaction_frozen-later_tuesday_candle_one_bp_slippage_rollover-reference": {
+      "cohort": "later_tuesday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17305,
+          "sha256": "6324933c7c7be472e75eb1aad64748c81feb6b2d6f1ec3868443f9b58f3b14f1"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "ed5d5ab5df9a381117cc62a6c6bf67c936ec0428e9a912dd6339ecaddbc52263"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 269173,
+          "sha256": "6b0a169cef7d05d37f2fed36e306f2dac57b06b59eb5b384c199841ea66a09e4"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5837326,
+          "sha256": "e7b4b7ce4daf4a8c6028e2c0033eeddab455f278edb338bbec3e5d3384d631a9"
+        },
+        "policy_state.json": {
+          "bytes": 55104,
+          "sha256": "430e9445c8c7e92e2705c5a2d3c3caafeeebb05045171cbc3cdc4103445f7834"
+        },
+        "run_inputs.json": {
+          "bytes": 4025296,
+          "sha256": "610f964fc3822ff9894c801187cf801a60c0d8b39ee7fdfd86f55e701138ab12"
+        },
+        "run_report.json": {
+          "bytes": 7770,
+          "sha256": "b5afb040af17b1fccbd56c865d9548d359e50d68e6b23205b6acc56666a900c5"
+        }
+      },
+      "original_run_identity": "0ec78bb288a3857883591ede5e181d67cafb3a24c33f050726a836afb083c096"
+    },
+    "policy_ridge__magnitude_interaction_frozen-later_tuesday_candle_zero_slippage_financing-reference": {
+      "cohort": "later_tuesday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17305,
+          "sha256": "903782838fd92ff38b94abfb75b355d20f1316bcee83ae789864890fa90d50cd"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "acee7c9ca1f2da0e2bceaa25dadac6703ad55846a8ca8302b8dbf603e4d94461"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 268295,
+          "sha256": "b2f5d9d471a9561926f720d57417a5db91f45f8c8168992c152b96d3a7996a96"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5834897,
+          "sha256": "e5b2a5d15423806c660176fedfe3fc0c737daabaf33a798ce5118654ba896c84"
+        },
+        "policy_state.json": {
+          "bytes": 55106,
+          "sha256": "0dd0043d3f926ec8f1c9a8531429e950548d957f8ae3b93d4da27324d677f698"
+        },
+        "run_inputs.json": {
+          "bytes": 4018763,
+          "sha256": "507436dd63068d2a3296d51ae27026b3a44a8e08edbfeebbb8241dea7050b8c2"
+        },
+        "run_report.json": {
+          "bytes": 7770,
+          "sha256": "c93f929f35d98a052dc5d378c1f89ea1510b345cba0c02bc2928f40bed01f3b9"
+        }
+      },
+      "original_run_identity": "abab146dacaff85706a1806e14445383895e52cd6a55c55ea6cd21f81b8425c7"
+    },
+    "policy_ridge__raw_matched_expanding-later_monday_candle_one_bp_slippage_rollover-reference": {
+      "cohort": "later_monday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17332,
+          "sha256": "30ac17d0430cd09aefbccc752f2a793fde7bfa55baf92d119a911b6ff9f57189"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "6502f40fb2fd4b1e160ee497bcdee9773a0237f9669ffda05cf37b456cbb4986"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 529682,
+          "sha256": "5a3f33d820fe24949e137b8350a19e2ffc5c26f74899886f32cc298a90b20efd"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15518796,
+          "sha256": "3bf40d7d8da79e078e4a153435824e730b74b5596428064b2949c8773db4ae3a"
+        },
+        "policy_state.json": {
+          "bytes": 153190,
+          "sha256": "e012e2c241e30f6fb6e178097a5d87ba7d101cc9144a5e0958e0368b6658264a"
+        },
+        "run_inputs.json": {
+          "bytes": 7565457,
+          "sha256": "950d89c99f197b3de1366ad6070bdbb50813b0f4b1d89792a00e65e1d289591a"
+        },
+        "run_report.json": {
+          "bytes": 7965,
+          "sha256": "a39784ff6009e591e983306df815784ba7bc140af8f1013c929be31c4bf8c733"
+        }
+      },
+      "original_run_identity": "e77fe090b8314b0e3d5ccbf28ff8d044c315f2feee2d127cbd6f161e452493f8"
+    },
+    "policy_ridge__raw_matched_expanding-later_monday_candle_zero_slippage_financing-reference": {
+      "cohort": "later_monday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17332,
+          "sha256": "ec0ffaec4593b71218b9e67336697913fd42eea4f203ee75e36dd75c8e111f05"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "e9c57533bc384295156f2fc5f7a7d56582ce502e7d19d0a051ea2457142b08f5"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 516182,
+          "sha256": "a6070cb9667800358b9b2b994db07cf1905fee12c53f7f87a37dcf93dca589d3"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15473152,
+          "sha256": "e77836cc3f363d7dc9c0fdb92a205d9f67fe0349d0fa5f53c8345117e2321cd6"
+        },
+        "policy_state.json": {
+          "bytes": 153008,
+          "sha256": "2e7dcc6597e7cbb25987cbdee90b265969aef3a78c819b96bc87cd2272f555e0"
+        },
+        "run_inputs.json": {
+          "bytes": 7552256,
+          "sha256": "86fb77aafcf4436d487a729a89e64f1cecd0c0ba79128512decc5720e4a1c7a0"
+        },
+        "run_report.json": {
+          "bytes": 7856,
+          "sha256": "306c62d3ba6dbbc88350b0471703dc339586633fd10d6d985a77c74cdba60788"
+        }
+      },
+      "original_run_identity": "022470850a2b4f39092485e7db33d662588e3b4705b4d9d9c8bf4b333718b166"
+    },
+    "policy_ridge__raw_matched_expanding-later_tuesday_candle_one_bp_slippage_rollover-reference": {
+      "cohort": "later_tuesday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17332,
+          "sha256": "04380641cfacffe2591188de3b3c874673202a7e67af9f306990d3ebb71c30f9"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "7beb55f570d0d4a0cde583d19659bb6222ec9e2d154ea2ce64c4a11fbd7d4a83"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 610208,
+          "sha256": "36b7f654d08f8e9d686a82cde5faee0392c2b2a42cc13dd523badf2dfb3d2875"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15558403,
+          "sha256": "8ae03232e8de0d11cb2e080a3d110a19bb16beec192f057029683d629f99aee4"
+        },
+        "policy_state.json": {
+          "bytes": 155845,
+          "sha256": "56b47a2994482f9ffbc9f88c7467d3068bbb98be9004722609aab272cf02f6cc"
+        },
+        "run_inputs.json": {
+          "bytes": 7589312,
+          "sha256": "f0290aa8d5667ebcefb922c9cc86a95166ebbd969bc64110819b220247c58056"
+        },
+        "run_report.json": {
+          "bytes": 8087,
+          "sha256": "60a89c934207fe3315d6b3dbdae16a1eec3b5e72855c24c19a28204e19561626"
+        }
+      },
+      "original_run_identity": "8f580a8721dc1a722107a2c7cb607eca95d7ab46c07f9ab8c903f156aa49c6ca"
+    },
+    "policy_ridge__raw_matched_expanding-later_tuesday_candle_zero_slippage_financing-reference": {
+      "cohort": "later_tuesday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17332,
+          "sha256": "6b8bdcf608772717d535628ad0c927ab097429a246cee56d386c9c1373f667ee"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "dd8ac6d624f7c92a9ee0af2c80fa359e461bc7d6ea0ff3246c95cd877bd7e9b8"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 597641,
+          "sha256": "04eef592e898181e3015679d0ec276cb0743e314d73f151a2232e724be1f5004"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15511656,
+          "sha256": "b2abe784792da006690166c238b24170a817fc081dec18d7284b39f686e88afd"
+        },
+        "policy_state.json": {
+          "bytes": 155779,
+          "sha256": "852dc100691cd581e1c50cd270258b9917bb3573e5e273ddf31e115f95d9feb3"
+        },
+        "run_inputs.json": {
+          "bytes": 7575989,
+          "sha256": "f97337235eb697211495c6460f21a84765f8718362f2daf32507ff42a323e31e"
+        },
+        "run_report.json": {
+          "bytes": 7991,
+          "sha256": "497d760a2eca0019f0df6c15c8287ce312d51ae6f18a0d27c4a14eafe6c3ea8f"
+        }
+      },
+      "original_run_identity": "5c4be9d1c2702c7526643b46b0a69c4e3e955f56f5ed29f496346e16e14623ec"
+    },
+    "policy_ridge__raw_matched_frozen-later_monday_candle_one_bp_slippage_rollover-reference": {
+      "cohort": "later_monday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17305,
+          "sha256": "5a066671a7e326a07be3f02a9674b384ca39853ceddfe7301ab24efd76e034cb"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "1a1f2529db6a236a52af3fd91bcfd7ba3848f5f4ca52f4b35ffcedc146b8c496"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 222837,
+          "sha256": "790be95c9544136d70105178e367806ea1a4b0044aa2851a988759b27feb1c5c"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5824613,
+          "sha256": "b4c23dc2af995b9bdcf3719fc1f7f67a0cfd49e55233eb0b10d011321f54d64b"
+        },
+        "policy_state.json": {
+          "bytes": 46158,
+          "sha256": "430dd06dec90e1e60d3dcd96be28c1c8cebcbeafce9c6e482eb0054f59f5618e"
+        },
+        "run_inputs.json": {
+          "bytes": 4008854,
+          "sha256": "cd7f07ac4110fe00f217374ac94178f5be8be8dfb9e1ff00aa9374b3025cd0d2"
+        },
+        "run_report.json": {
+          "bytes": 7761,
+          "sha256": "8a88ec8a7a1d894a58df3d6066a30e891c31f76dec53e93d029dbcc817bfec62"
+        }
+      },
+      "original_run_identity": "58dbbfa5d2232f64c1da33b94b1f99d7fdc734d8f3d945eba4f02dff4dad5bad"
+    },
+    "policy_ridge__raw_matched_frozen-later_monday_candle_zero_slippage_financing-reference": {
+      "cohort": "later_monday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17305,
+          "sha256": "6197652a51362917e0446575c29c624640e59e31b5bcb19bca249777edf1c938"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "975334c012c7fbceebd210011d2d6f1f3a00ded0fad50b9aada52daf1dfd8735"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 222307,
+          "sha256": "a68420c34a0eef923706c4ba97ca5719d33bff3a8f8921b88add77e3946978cd"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5822946,
+          "sha256": "59035e14c3b75d7e97efe3c252cda739afa642b39d594dd11163cbd0ca18c195"
+        },
+        "policy_state.json": {
+          "bytes": 46492,
+          "sha256": "2a97e7410b9ec96f661eb41caa5d21d73815146ee929d5e181a675f867c7bc81"
+        },
+        "run_inputs.json": {
+          "bytes": 4002325,
+          "sha256": "f8b70977da7d687e7ba567918bca885a322e5e47e349c07be3aeefe7076927db"
+        },
+        "run_report.json": {
+          "bytes": 7790,
+          "sha256": "7153540cfc9ff0470227f523196d468b1f97ce71140eefff85e233b734d82ee7"
+        }
+      },
+      "original_run_identity": "4d7a51c0cb8df94069e07bc2d8786cd3eb2f9660f43e2ac761041328fe83dc66"
+    },
+    "policy_ridge__raw_matched_frozen-later_tuesday_candle_one_bp_slippage_rollover-reference": {
+      "cohort": "later_tuesday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17305,
+          "sha256": "17e01820460a4f5685a7807fd7b30b641fedd1d4eeab8fb19ca3dce92b4ce433"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "a67aba7bf09efe1837ba307821d43f412b7defe784278d7073f6a61b89052885"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 337514,
+          "sha256": "52c74eb0dbbc6c70bdddcde4111d478f71f35d2abde917e184feb1ce5e706355"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5828308,
+          "sha256": "f35dc82ca3a932c3be0e5e19a16880dfb0528d5dc05f629c21e5ed1fa552237e"
+        },
+        "policy_state.json": {
+          "bytes": 75167,
+          "sha256": "6d60670a2b98759cd4607e9bf636c9712601039c0fb03b706c89a2f069af2d5f"
+        },
+        "run_inputs.json": {
+          "bytes": 4011570,
+          "sha256": "dbdcd59e1a1d36aac468dcd0252e5893296d6762af94fa7fee2efe4beb26da9e"
+        },
+        "run_report.json": {
+          "bytes": 8050,
+          "sha256": "8b3f7986bc824ec394880512e6f651e23982699481931ab964345c3b63681983"
+        }
+      },
+      "original_run_identity": "f1347f4a9fced203aca55f9244dcc32e29e729560d10a9b77ea6b1e609e1e14d"
+    },
+    "policy_ridge__raw_matched_frozen-later_tuesday_candle_zero_slippage_financing-reference": {
+      "cohort": "later_tuesday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17305,
+          "sha256": "4f2e89f5912be8207c162ff3b0d1936b469c5b17c53311ae7dec371c16cd959b"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "f13ee11c91620a206b3b9b1ec6beec494a65cd04e2d8129c681bd707f0ffddf3"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 336610,
+          "sha256": "78844173529a7b45bc93c90c20ae3b443dacb027303abdc27387740c75368fb9"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5826190,
+          "sha256": "a68955fc950ab0a7b5b05eeff3a71e4dbf54720673d584970fbe6db4d9fc7237"
+        },
+        "policy_state.json": {
+          "bytes": 75167,
+          "sha256": "456fd2ffbba7af10e2c155340d835ca0b4f329e5938e8b6dd2ad156662821de7"
+        },
+        "run_inputs.json": {
+          "bytes": 4005037,
+          "sha256": "3a6da855e7d2c6538d150a4d883c72d8a9b891347737aa3e05bb9f587d9d085c"
+        },
+        "run_report.json": {
+          "bytes": 8051,
+          "sha256": "91c79a8cbc2514d73b767a93cb75b8a95e2c2a5f6f51d6caa2640d2f2c529899"
+        }
+      },
+      "original_run_identity": "09ae0266e450ee34e738390e3b95bf026ebde1392f7dcc579e52db838d4e368e"
+    },
+    "policy_ridge__raw_unrestricted-later_monday_candle_one_bp_slippage_rollover-reference": {
+      "cohort": "later_monday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17332,
+          "sha256": "6f060a0dfbae263ca545e73a52993bb3d03612bcc2e037518c4e906c9b598c7d"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "a36fc3df86841a007e234e94e91c58de0082637ab4a9f23a2f3bf6df677a7fa8"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 529682,
+          "sha256": "5a3f33d820fe24949e137b8350a19e2ffc5c26f74899886f32cc298a90b20efd"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15206151,
+          "sha256": "afb5befb314580c68635346bef6495fbc084fe32ff35d013296b5280b5831a4b"
+        },
+        "policy_state.json": {
+          "bytes": 149960,
+          "sha256": "edb3f5fc0e42e630b234ecc12ca61261b74fc6f3e639a67175dde2c6dfdbd886"
+        },
+        "run_inputs.json": {
+          "bytes": 7306182,
+          "sha256": "f8d64178ef35a7ef5649e3b05376e7be666c2855472aaa5ae53a71b5932d2a71"
+        },
+        "run_report.json": {
+          "bytes": 7960,
+          "sha256": "ebbe176eb2ac2d15ac9e93a9e7860fea649612fdd052062e61949beb76569876"
+        }
+      },
+      "original_run_identity": "19197662da7ae78f1b92a810bec177845b4bc1ee69962fa272a927d3da687d30"
+    },
+    "policy_ridge__raw_unrestricted-later_monday_candle_zero_slippage_financing-reference": {
+      "cohort": "later_monday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17332,
+          "sha256": "8b6d4b31b0030a65d7557090617b182ef4ced6925a1cb465a355ba21c80c67b0"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "782187a532d1398ab61942e94ffed106b1f9ddd08abbaca7864e4836ed1852b4"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 516182,
+          "sha256": "a6070cb9667800358b9b2b994db07cf1905fee12c53f7f87a37dcf93dca589d3"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15160507,
+          "sha256": "c513683ad79e39ac0d2bc9e16f45437e9e1653f68dfa1e53a39c4e5b98d091a4"
+        },
+        "policy_state.json": {
+          "bytes": 149778,
+          "sha256": "36c271764f48c63ebc539e3c1e04192f2b6341e1d6d339d50c92a753ff8b4925"
+        },
+        "run_inputs.json": {
+          "bytes": 7292981,
+          "sha256": "4819aacaf2db0b0fc067be7a68f37e2be9c490a4e683ac6772e604d19b40a3f7"
+        },
+        "run_report.json": {
+          "bytes": 7851,
+          "sha256": "f4d43929d51737f81f48f322fb6f1633a36c31c2579020438185ac289f2655ee"
+        }
+      },
+      "original_run_identity": "e5ce0e93adb97fa1bedc3ed0c872942ce36029d238311f5f0e42a1786b0a494f"
+    },
+    "policy_ridge__raw_unrestricted-later_tuesday_candle_one_bp_slippage_rollover-reference": {
+      "cohort": "later_tuesday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17332,
+          "sha256": "9b5c278385c4107132ed764a9ac7dd245c5ff869910fdcbc7fcaa79333bfbe95"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "3b350592f7f667aca169bec791a294baa92a1127eaaaa9f71a334cddd64e251a"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 610208,
+          "sha256": "36b7f654d08f8e9d686a82cde5faee0392c2b2a42cc13dd523badf2dfb3d2875"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15245093,
+          "sha256": "e351f5bf3effee9b1379e6f2fcd2e97838ba7e1ddfa95829e6676089d2ed79f1"
+        },
+        "policy_state.json": {
+          "bytes": 152615,
+          "sha256": "40047e8af16804e26fcda654faefef75d88a425aebad922e40e4cbd4edde2e16"
+        },
+        "run_inputs.json": {
+          "bytes": 7329209,
+          "sha256": "a7ac9a9b2bf87118a9f099899057f446102000010845fc961ed28777727005a9"
+        },
+        "run_report.json": {
+          "bytes": 8082,
+          "sha256": "f68ccbc68c7b00f1059bbe416cb650397d09577025871d2764c41943c507d0d6"
+        }
+      },
+      "original_run_identity": "87adde92b2d452418e640b6da00de3c8c0634c3c0999afcf02f5acd7d63d3d6b"
+    },
+    "policy_ridge__raw_unrestricted-later_tuesday_candle_zero_slippage_financing-reference": {
+      "cohort": "later_tuesday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17332,
+          "sha256": "c11e589f9f3187b6853ce0af03321a4383738959f31e0fca6bcd8d08fb9edec7"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "be0cbd0560ae4740d809fbf5a74ee72c062eda071c289dd59dd170781fc9e1d1"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 597641,
+          "sha256": "04eef592e898181e3015679d0ec276cb0743e314d73f151a2232e724be1f5004"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15198346,
+          "sha256": "24de2a3a79527966be1531772f2ac5ef17866d4b74d7ed20fccc01c717ed55f0"
+        },
+        "policy_state.json": {
+          "bytes": 152549,
+          "sha256": "3af02f07d4757c06c1e680821a8aca6916b4c485309ee1174f8f78e003740566"
+        },
+        "run_inputs.json": {
+          "bytes": 7315886,
+          "sha256": "9b96961bef7815463cf1f0023a576f50e4c2287eb65736aa3c3ddac1de567f54"
+        },
+        "run_report.json": {
+          "bytes": 7986,
+          "sha256": "4ca4cc8086a1cb7c517f36ce2a10a839e8af1eb26c09248e40a086fffaefe3f1"
+        }
+      },
+      "original_run_identity": "7cc9b75e44347ef397cdfbc63dbfc8a9114f3c9f403d78508fba30393cad49ae"
+    },
+    "policy_ridge__signed_only_expanding-later_monday_candle_one_bp_slippage_rollover-reference": {
+      "cohort": "later_monday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17331,
+          "sha256": "afd7a8d0988915f6d0778e52710d9b9eaeaac0735bacbf87c74332e284ec07f8"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "1431fd31ea0dbed7c5f9d9207c74c95e5efe9f8451c9f88ea650a2ebe0faa1f0"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 423847,
+          "sha256": "36cc8ea2857a7351696685e9b708b5fe2d26fb85dc38af02fc2e8884be78785a"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15508823,
+          "sha256": "e276931fca3c0bd46f81fff71a06cd8b3f6769c368206e2e6de2acf44c85929f"
+        },
+        "policy_state.json": {
+          "bytes": 90879,
+          "sha256": "11cd8f4d00bd8fd8c8dc10a73a1020036909f414d9217eb28a4db64824632b40"
+        },
+        "run_inputs.json": {
+          "bytes": 7565666,
+          "sha256": "47435798aa2a0d3e61a62db7b35069c6dd1b504a95d0f7fc0da049edba555893"
+        },
+        "run_report.json": {
+          "bytes": 7977,
+          "sha256": "b0e55d798213bfea0cadd8ebcf3959ad9234e824a8ef45c563eb772567e696a4"
+        }
+      },
+      "original_run_identity": "38651ed4448d859f90818fad968aad97f208ed68f2dcffbf65f016c31dd8f9ee"
+    },
+    "policy_ridge__signed_only_expanding-later_monday_candle_zero_slippage_financing-reference": {
+      "cohort": "later_monday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17331,
+          "sha256": "0b9ebc3084a890ff2c3e1f2d4b0191b03d1029e81943b802012e233d781cb934"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "3e42d0e95565d763a1d56797423c2a66e31757e0de85d2eb336500f7b221b5c1"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 407571,
+          "sha256": "015d4f71c8f017b6d38ca0f89a72b76ea77b6909638777648c8c030af39b7d53"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15467189,
+          "sha256": "222cbb8694a7dd0a2db66cada6aa337c3b71797a1dae94c293b3bcef89fad2e7"
+        },
+        "policy_state.json": {
+          "bytes": 99908,
+          "sha256": "25b0aa92565dcd75e09a51969bf64c9eacfc63803077863764a7b121a0c007b5"
+        },
+        "run_inputs.json": {
+          "bytes": 7552465,
+          "sha256": "fb16f1c4206dbc289f28ad84171f8dd66abecc00d42c67d9a86cac7d2c40ab67"
+        },
+        "run_report.json": {
+          "bytes": 7820,
+          "sha256": "30e8b9c4b6e7d1af69093567c36420ee584bb5d4199ecb493d82364254aeb090"
+        }
+      },
+      "original_run_identity": "bcbacee247222e19f07cd5175746b6bc1bfc38eb70687c79d7442e1ca4cd7568"
+    },
+    "policy_ridge__signed_only_expanding-later_tuesday_candle_one_bp_slippage_rollover-reference": {
+      "cohort": "later_tuesday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17331,
+          "sha256": "378abeb6eccea538b94b59e5b13c1a8cde36bf836eaf2a56018cbfff7295c233"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "411c623354e41f25a38c2834517ae9d7c4836116f1668e4ae9b4f5037b1c2249"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 431883,
+          "sha256": "1cd4284147c39f92454a34a08a512870dc8a4468843c114920f8bebde2d12342"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15568591,
+          "sha256": "9e48113ac30283f94ca7d095f276bc434c69888a3bcfb42c53dbce5292609511"
+        },
+        "policy_state.json": {
+          "bytes": 91082,
+          "sha256": "fff67fea7986725f174bf52d04505e983e7acfe43813cca1f4e5ce32e2703990"
+        },
+        "run_inputs.json": {
+          "bytes": 7590145,
+          "sha256": "59c4cd3915072527f1bc55a8853051f53d05bdf2c3540c8d12c6c6e96426d868"
+        },
+        "run_report.json": {
+          "bytes": 8018,
+          "sha256": "b627b32f48c9048c4886ea1ac93e4fc2f229c6bc8c1c510833d51fc1556885b4"
+        }
+      },
+      "original_run_identity": "5bf7b5b6497d3b374afcf95f73dbed1efa40332a79dd580bc193738b4c7d0d17"
+    },
+    "policy_ridge__signed_only_expanding-later_tuesday_candle_zero_slippage_financing-reference": {
+      "cohort": "later_tuesday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17331,
+          "sha256": "ecb1c314587d443f2f06adf08763118acdaacf7b49f854eda2b2fc9ba24bf151"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "dea4a856c10a392aa375bbd0204f0e65e66da57bce606670c6ceb2a64a6f42b1"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 416100,
+          "sha256": "c9d2641143034923de5b5b9f17a534c734fcf6af4ca1ec4b1b88a79592fcfe13"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 15521217,
+          "sha256": "3488778a0e19251441f55def7d513ab760e49a662fdfa210925eebe4c968c6db"
+        },
+        "policy_state.json": {
+          "bytes": 90938,
+          "sha256": "51229a10ff9fa003902a3da4e690e12035492a8b911fd50b6e3701bec3c9139c"
+        },
+        "run_inputs.json": {
+          "bytes": 7576822,
+          "sha256": "1148e3cc04ef324e428ab27ef3a7ca3c64376ba2c138bc830acf29670b6bd45e"
+        },
+        "run_report.json": {
+          "bytes": 7862,
+          "sha256": "fb517b9daa75f9dc05099feef94fbc03d31ff1e67215456ef1d3e89c3fec872d"
+        }
+      },
+      "original_run_identity": "e45fc5c6d2bcdf006a38e8d01afbc76d7e20642926e9851a8cfc5775dc61f19d"
+    },
+    "policy_ridge__signed_only_frozen-later_monday_candle_one_bp_slippage_rollover-reference": {
+      "cohort": "later_monday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17305,
+          "sha256": "e8730e804a081807269f906cad22cac8dfcda34e43fb6cbb25b0ca042861e538"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "9bbae2dbd442e4f82ab4453c926b3f292be8306066a9c5e9311dcd95a200310a"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 286254,
+          "sha256": "9d7855b4a5eb2820f42ac8dffe64deb2e1e6dfbc45f4d9a397f0d85baa44a15b"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5829679,
+          "sha256": "b4569e43a14b606fb6922297f699226840fe32afcb4178b48f5214284a717129"
+        },
+        "policy_state.json": {
+          "bytes": 56632,
+          "sha256": "4ad691eca82b4c172fce113e2f80453cecc0628ca51b31674fe6f7d3396403fc"
+        },
+        "run_inputs.json": {
+          "bytes": 4009059,
+          "sha256": "a908a443ec97af672446952ea4991f4546f8fecc89564da1de8899c743920afb"
+        },
+        "run_report.json": {
+          "bytes": 7835,
+          "sha256": "9460a675c91ce9a077e357fcda3509a69630c9729c70b06cc163c1234cd1e9dd"
+        }
+      },
+      "original_run_identity": "d007db6c888734d1b0723046723275cd98db6a0791ea307c98e063d53544b002"
+    },
+    "policy_ridge__signed_only_frozen-later_monday_candle_zero_slippage_financing-reference": {
+      "cohort": "later_monday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17305,
+          "sha256": "f4c1293378add9d961de4c3c1d59104cc3e33445a4dfb0e3e2b3aeca9ae24de0"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "287807dcca194099b52e550d209dbab283e87dab414c51d712af8f6fb1adcd24"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 285376,
+          "sha256": "6168f788096b814ccadee271d84c5a858168a99629c8386e6ff7033abac0eba1"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5827599,
+          "sha256": "9b4fe0dde05ee2bd0907c7bb6af582eaf8c504deb6077c8b17d18f8f6bb8dbe7"
+        },
+        "policy_state.json": {
+          "bytes": 56624,
+          "sha256": "6d6273f4afee522b5b65e44e8565bcddf573ebb93907bdabf3f3e97451299640"
+        },
+        "run_inputs.json": {
+          "bytes": 4002530,
+          "sha256": "9d3e46a29e196da5d91b9aa1dded72eeef66700cf3f636b916cffd1d4597be26"
+        },
+        "run_report.json": {
+          "bytes": 7835,
+          "sha256": "2d10275c51dd5fbbe06f4f42f713f751d139f8136236011da172a65338388977"
+        }
+      },
+      "original_run_identity": "90247fdf0f407ed5021c470e4d4c9fbf2fbb1bc390726d3879f2198c9ea07232"
+    },
+    "policy_ridge__signed_only_frozen-later_tuesday_candle_one_bp_slippage_rollover-reference": {
+      "cohort": "later_tuesday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17305,
+          "sha256": "82a41e51065fd7d3ea5089fb7afca945183c5c3a0a0f36666ac1a2a9fb4f2bc4"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "7d55c19f76b800861439dad2078456a0b8f04afe433a09ba516e96fe964ebd8a"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 260765,
+          "sha256": "7ac1cee60d9f98416e1d0ff850a68caca07ab554f476b137f3e538ecdd4cf87e"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5826053,
+          "sha256": "f2b9aff707c4bf75cfddfcc7e399e92c6f4e3b5efecb8d6e8abee99969de487f"
+        },
+        "policy_state.json": {
+          "bytes": 63835,
+          "sha256": "97461c2bb45d44d642a64d769388bf9d3e11da4b2778955ca275f2de79021114"
+        },
+        "run_inputs.json": {
+          "bytes": 4011740,
+          "sha256": "981dabd239aa7d61bce0974d7c46f755d237b5cd2d4aee418ebd15ab17a3d178"
+        },
+        "run_report.json": {
+          "bytes": 7763,
+          "sha256": "617f1ad26ff3b4247c7c9660c37595c184c6a1aba8852b3a3e7b329938a2a387"
+        }
+      },
+      "original_run_identity": "0bacf1e55654f5cc308b0f9897d09118d2b8d15ce631fe8f0bffc57280beb1a3"
+    },
+    "policy_ridge__signed_only_frozen-later_tuesday_candle_zero_slippage_financing-reference": {
+      "cohort": "later_tuesday",
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 17305,
+          "sha256": "1318bd93e2e7541bfb2304c36f0a80d0fb7b7b8c2ae181c6420ff2289a6dd38d"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 13125,
+          "sha256": "8a6dbf395df115eccacab6c2a5366524bd602f4a8f4dd9179b9b1241d1abfb03"
+        },
+        "event_ledger.jsonl": {
+          "bytes": 260022,
+          "sha256": "726b09be43338f4de8f35d49d1fd52cd71349c1d5f59e7c474cce50386876c79"
+        },
+        "policy_decisions.jsonl": {
+          "bytes": 5823922,
+          "sha256": "4900af0260345eca5f3da6bec0dca3be4dae9d2627137e40ac884ed125c519d1"
+        },
+        "policy_state.json": {
+          "bytes": 63840,
+          "sha256": "4b9cd1d142a4af78049728bfbad875e59eeb2d66cee81c597f0244805edba20e"
+        },
+        "run_inputs.json": {
+          "bytes": 4005207,
+          "sha256": "008ce41d8618d00d86384bd86fb75b98b362b81c38154f4f3b923a16f410cd86"
+        },
+        "run_report.json": {
+          "bytes": 7761,
+          "sha256": "9fcc350161cfc99297660dbeace65eef7a44588042354a01986d5a6b27b87336"
+        }
+      },
+      "original_run_identity": "b4a07d3bca054c355808247ad17a086a9ed3feba501450d66e59beb8fd6171e5"
+    }
+  },
+  "layer_fits": 0,
+  "policy_replays": 0,
+  "run_id": "chronological-policy-attribution-v2",
+  "schema_version": "forex_chronological_attribution_recipe.v1",
+  "sources": {
+    "CHRONOLOGICAL_ATTRIBUTION_CONTRACT_V2.json": "a784d87b36fd6597e74f5a84415e357a8bf994feace30a15c9c9d852ee9572e4",
+    "CHRONOLOGICAL_POLICY_CONTRACT_V2.json": "ca7a95d9f626f540ee157725c0fc042b7960006a91b7bedb99a120702ed8d127",
+    "chronological_attribution_operator_v2.py": "ffe356332ff7edd1040ae027e83f5d0f05d971de8155b9b83c1a663e58f94f21",
+    "chronological_attribution_v2.py": "b72d1ffa3025d893b9e8b924cbe72cd1d6090f2ce81b3bae71b0ccf9b8b9ebc8",
+    "chronological_policy_report_v2.py": "ce677cb5b95a86486df84799b1432d9ae6e8df5e71ecaf136af6d4fabc9f5564",
+    "chronological_policy_scenario_v2.py": "57e9b3130615626f51dc1b1dd09f0684f6694f0575b6d1f77601171268d48287",
+    "contracts.py": "3a1776f0862f6bb4bc3ba73f4c0febec573350d712aa50e9dbcc0e253b11aecd",
+    "layer_policy_attribution_v2.py": "d2076e88fdfaed47c75f89bb3525049ac32515336a44f2ce6183fd82315771fc",
+    "publication.py": "51e3eb20cee191a24b74c708bd5c54b25b8ea4a1042248e6a4a96bfebd81d797"
+  }
+}

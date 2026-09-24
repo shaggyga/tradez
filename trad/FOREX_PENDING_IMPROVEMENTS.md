@@ -5448,3 +5448,11 @@ Vault packet: [CHRONOLOGICAL_POLICY_20260924_UNTIL8AM](../../../OneDrive/thevaul
 Local evidence: `until8am_20260923_215844/chronological_policy_step`.
 Recipe SHA256: `07514564b23e7d7fae398c088dca683feae637d671b1f5121aa194fe1669ab0a`. Checkpoint SHA256: `bb2e12baff009c3db331ede60403163f223dd01085b36dd6e2564dd9d1735b5a`. Exact112run identities: packet evidence/VERIFICATION.json;56reference identities: report/RESULT_SUMMARY.json.
 Next: `chronological_policy_attribution_v2`. Same-task review accepted; independent review pending/nonblocking.
+
+
+## 2026-09-24 — chronological_policy_attribution_v2
+
+Both overlapping cohorts:11048forecasts/15232coverage slots/336accounts;675selections,437filled,238unfilled,12delayed openings.36local+36relocated tests;60outputs reproduce; actual crash/resume and source/input/capsule refusal checks. Zero models/layer fits/policy replays. Same-task review accepted; independent review pending/nonblocking.
+Vault: [CHRONOLOGICAL_ATTRIBUTION_20260924_UNTIL8AM](../../../OneDrive/thevault/projects/forex/CHRONOLOGICAL_ATTRIBUTION_20260924_UNTIL8AM/REVIEW.md). Local evidence: `until8am_20260923_215844/chronological_attribution_step`.
+Recipe SHA256: `6650b12f41ffbab42fed2a211b6be649ef965af4bffc8cfd5ffdcb2bff2020c9`. Run identity: `fdd9561da2492a0823710151a33ca6bb9a606f205809f78274a70b1109191609`. Checkpoint SHA256: `2fa082e82eaca619d7b268d2e51579cd48b4c7bd44f9f8f5e4e8dba104daf7fc`.
+Next: `currency_factor_forecast_projection_v2`.
