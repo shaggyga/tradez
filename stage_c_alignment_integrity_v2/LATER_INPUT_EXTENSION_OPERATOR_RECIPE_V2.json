@@ -1,0 +1,1000 @@
+{
+  "absent_import_paths": [
+    "src.py",
+    "src.pyc",
+    "src/__init__.py",
+    "src/__init__.pyc",
+    "src/forex_system.py",
+    "src/forex_system.pyc",
+    "src/forex_system/research.py",
+    "src/forex_system/research.pyc",
+    "src/forex_system/research/__init__.py",
+    "src/forex_system/research/__init__.pyc"
+  ],
+  "api_calls": 0,
+  "base_model_fits": 0,
+  "base_model_loads": 0,
+  "contract": {
+    "acceptance": "6800observations/81600endpoints; original5168observations and62016endpoint labels unchanged; original market replay unchanged; all proposed current/fill/rollover/terminal panels qualified with gaps explicit; crash/restore and all outputs identical.",
+    "api_calls": 0,
+    "base_model_fits": 0,
+    "base_model_loads": 0,
+    "chronology": "Features use origin bar close only and original60second availability assumption. Labels remain separate with exact target maturity. Every original overlapping observation/outcome must match; no new pre-cutoff training rows.",
+    "cohorts": [
+      {
+        "name": "original_overlap",
+        "origin": 1721844060,
+        "policy_origins": [
+          1721844060,
+          1721865660,
+          1721887260,
+          1721908860,
+          1721930460,
+          1721952060,
+          1721973660,
+          1721995260
+        ],
+        "target": 1722016860
+      },
+      {
+        "name": "later_monday",
+        "origin": 1722276060,
+        "policy_origins": [
+          1722276060,
+          1722297660,
+          1722319260,
+          1722340860,
+          1722362460,
+          1722384060,
+          1722405660,
+          1722427260
+        ],
+        "target": 1722448860
+      },
+      {
+        "name": "later_tuesday",
+        "origin": 1722362460,
+        "policy_origins": [
+          1722362460,
+          1722384060,
+          1722405660,
+          1722427260,
+          1722448860,
+          1722470460,
+          1722492060,
+          1722513660
+        ],
+        "target": 1722535260
+      }
+    ],
+    "consumer": "Existing candle point qualification/validation and quote-panel/Decimal currency-conversion functions; conversion availability is not a financing charge or policy simulation.",
+    "coverage": "All68pairs and all100origins per pair, including weekends/missing closes. Elapsed targets stay distinct from blocked unqualified session targets. Two later48hour cohorts were selected from fixed cadence and observed input availability before new scores.",
+    "design_requirements": [
+      "9.2",
+      "9.4",
+      "10",
+      "16.2",
+      "16.3",
+      "20",
+      "21",
+      "27.4",
+      "27.5"
+    ],
+    "evaluation": "Exact prefix parity, source/schema/maturity/causality tests, full coverage and field bindings, no statistical skill/PnL assessment.",
+    "expected_rows": {
+      "added_observations": 1632,
+      "calendar_blocked": 20400,
+      "endpoint_outcomes": 81600,
+      "observations": 6800
+    },
+    "experiment_id": "later_development_input_extension_v2",
+    "frozen_utc": "2026-09-24T07:38:57.181595+00:00",
+    "futility_stop": "Identity, causal prefix, original parity or resource violations stop affected work and preserve partial evidence.",
+    "hypothesis": "Existing preserved slices can extend chronological development coverage without changing original feature/label values or inventing missing quotes/rates.",
+    "layer_fits": 0,
+    "negative_or_inconclusive": "Missing later inputs or conversion paths remain unavailable. Do not repair quotes or replace models; unsupported calendar targets remain blocked.",
+    "original_rows": {
+      "additional_remaining_outcomes": 25840,
+      "observations": 5168,
+      "technical_endpoint_outcomes": 36176
+    },
+    "original_technical_contract": {
+      "broker_access": false,
+      "cadence_seconds": 21600,
+      "calendar_targets": [
+        "daily_close",
+        "2_sessions",
+        "5_sessions"
+      ],
+      "clock": "bar_start_plus60_assumed_close_availability_not_observed_arrival",
+      "data_end": 1722556800,
+      "data_start": 1719792000,
+      "endpoint_minutes": [
+        15,
+        60,
+        240,
+        720,
+        1440,
+        2880,
+        7200
+      ],
+      "execution_qualified": false,
+      "features": [
+        "tech_rate_bps_per_min_1m",
+        "tech_span_fraction_1m",
+        "tech_missing_fraction_1m",
+        "tech_unavailable_1m",
+        "tech_rate_bps_per_min_5m",
+        "tech_span_fraction_5m",
+        "tech_missing_fraction_5m",
+        "tech_unavailable_5m",
+        "tech_rate_bps_per_min_15m",
+        "tech_span_fraction_15m",
+        "tech_missing_fraction_15m",
+        "tech_unavailable_15m",
+        "tech_rate_bps_per_min_30m",
+        "tech_span_fraction_30m",
+        "tech_missing_fraction_30m",
+        "tech_unavailable_30m",
+        "tech_rate_bps_per_min_60m",
+        "tech_span_fraction_60m",
+        "tech_missing_fraction_60m",
+        "tech_unavailable_60m",
+        "tech_rms_bps",
+        "tech_max_gap_minutes",
+        "tech_observed_fraction_60m",
+        "tech_session_age_hours",
+        "known_entry_long_cost_bps",
+        "known_entry_short_cost_bps"
+      ],
+      "fit_cutoffs": [
+        1721606400,
+        1721779200
+      ],
+      "origin_end": 1722038400,
+      "origin_start": 1720396860,
+      "schema_version": "forex_causal_technical_inputs.v2",
+      "scope": "previously_inspected_development_input_preparation",
+      "target_minutes": [
+        15,
+        60,
+        240,
+        720,
+        1440
+      ]
+    },
+    "policy_replays": 0,
+    "readiness": {
+      "demo_authorization_status": "not_granted",
+      "engineering_ready": false,
+      "forecast_evidence_status": "later_causal_input_preparation_only",
+      "policy_evidence_status": "quote_conversion_availability_only_no_policy_replay"
+    },
+    "remaining_horizons_minutes": [
+      360,
+      720,
+      1080,
+      1440,
+      1800,
+      2160,
+      2520,
+      2880
+    ],
+    "resources": {
+      "basis": {
+        "all68_intake_seconds": 7.780999999959022,
+        "reason": "26.2MB preserved raw slices; unchanged rolling feature/endpoint functions over bounded one-month history and100origins/pair. One worker,15min conservative preparation cap,2GiB sampled memory/output; no model fits. Stop rather than widen limits if exceeded.",
+        "verified_slice_bytes": 26228421
+      },
+      "checkpoint_wall_seconds": 1800,
+      "main_wall_seconds": 900,
+      "max_input_bytes": 268435456,
+      "max_member_bytes": 16777216,
+      "max_rss_bytes": 2147483648,
+      "max_scratch_bytes": 2147483648,
+      "minimum_disk_free_bytes": 8589934592,
+      "workers": 1
+    },
+    "reuse": "Original26feature and exact endpoint functions; exact saved inputs for prefix comparison. No model training/loading and no forecast/policy score.",
+    "schema_version": "forex_later_input_extension.v1",
+    "slice_manifest_sha256": "e4efa61f4c8a9b4d70f4b20f5f96e1bd0a4ef8ed86049924b21e78b98700c774",
+    "technical_contract": {
+      "broker_access": false,
+      "cadence_seconds": 21600,
+      "calendar_targets": [
+        "daily_close",
+        "2_sessions",
+        "5_sessions"
+      ],
+      "clock": "bar_start_plus60_assumed_close_availability_not_observed_arrival",
+      "data_end": 1722556800,
+      "data_start": 1719792000,
+      "endpoint_minutes": [
+        15,
+        60,
+        240,
+        360,
+        720,
+        1080,
+        1440,
+        1800,
+        2160,
+        2520,
+        2880,
+        7200
+      ],
+      "execution_qualified": false,
+      "features": [
+        "tech_rate_bps_per_min_1m",
+        "tech_span_fraction_1m",
+        "tech_missing_fraction_1m",
+        "tech_unavailable_1m",
+        "tech_rate_bps_per_min_5m",
+        "tech_span_fraction_5m",
+        "tech_missing_fraction_5m",
+        "tech_unavailable_5m",
+        "tech_rate_bps_per_min_15m",
+        "tech_span_fraction_15m",
+        "tech_missing_fraction_15m",
+        "tech_unavailable_15m",
+        "tech_rate_bps_per_min_30m",
+        "tech_span_fraction_30m",
+        "tech_missing_fraction_30m",
+        "tech_unavailable_30m",
+        "tech_rate_bps_per_min_60m",
+        "tech_span_fraction_60m",
+        "tech_missing_fraction_60m",
+        "tech_unavailable_60m",
+        "tech_rms_bps",
+        "tech_max_gap_minutes",
+        "tech_observed_fraction_60m",
+        "tech_session_age_hours",
+        "known_entry_long_cost_bps",
+        "known_entry_short_cost_bps"
+      ],
+      "fit_cutoffs": [
+        1721606400,
+        1721779200
+      ],
+      "origin_end": 1722556800,
+      "origin_start": 1720396860,
+      "schema_version": "forex_causal_technical_inputs.v2",
+      "scope": "later_inspected_development_input_extension; original_features_and_clocks_unchanged",
+      "target_minutes": [
+        15,
+        60,
+        240,
+        720,
+        1440
+      ]
+    },
+    "universe": [
+      "AUD_CAD",
+      "AUD_CHF",
+      "AUD_HKD",
+      "AUD_JPY",
+      "AUD_NZD",
+      "AUD_SGD",
+      "AUD_USD",
+      "CAD_CHF",
+      "CAD_HKD",
+      "CAD_JPY",
+      "CAD_SGD",
+      "CHF_HKD",
+      "CHF_JPY",
+      "CHF_ZAR",
+      "EUR_AUD",
+      "EUR_CAD",
+      "EUR_CHF",
+      "EUR_CZK",
+      "EUR_DKK",
+      "EUR_GBP",
+      "EUR_HKD",
+      "EUR_HUF",
+      "EUR_JPY",
+      "EUR_NOK",
+      "EUR_NZD",
+      "EUR_PLN",
+      "EUR_SEK",
+      "EUR_SGD",
+      "EUR_TRY",
+      "EUR_USD",
+      "EUR_ZAR",
+      "GBP_AUD",
+      "GBP_CAD",
+      "GBP_CHF",
+      "GBP_HKD",
+      "GBP_JPY",
+      "GBP_NZD",
+      "GBP_PLN",
+      "GBP_SGD",
+      "GBP_USD",
+      "GBP_ZAR",
+      "HKD_JPY",
+      "NZD_CAD",
+      "NZD_CHF",
+      "NZD_HKD",
+      "NZD_JPY",
+      "NZD_SGD",
+      "NZD_USD",
+      "SGD_CHF",
+      "SGD_JPY",
+      "TRY_JPY",
+      "USD_CAD",
+      "USD_CHF",
+      "USD_CNH",
+      "USD_CZK",
+      "USD_DKK",
+      "USD_HKD",
+      "USD_HUF",
+      "USD_JPY",
+      "USD_MXN",
+      "USD_NOK",
+      "USD_PLN",
+      "USD_SEK",
+      "USD_SGD",
+      "USD_THB",
+      "USD_TRY",
+      "USD_ZAR",
+      "ZAR_JPY"
+    ]
+  },
+  "environment": {
+    "joblib": "1.5.3",
+    "numpy": "2.5.1",
+    "pandas": "2.3.3",
+    "psutil": "7.2.2",
+    "pyarrow": "25.0.0",
+    "python": "3.12.10",
+    "scikit-learn": "1.9.0",
+    "scipy": "1.18.0",
+    "threadpoolctl": "3.6.0",
+    "tzdata": "2026.3"
+  },
+  "inputs": {
+    "remaining": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 35086,
+          "sha256": "afddfc6471d9d28800fb4e915eb1f2ec0ceb708c2cf57ebcbf287f2a6318865a"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 31845,
+          "sha256": "59073047302bc2bfbb76dad4a4b3f7d529060f9495cb21a91987d4f822ff2b0e"
+        },
+        "remaining_outcomes.json": {
+          "bytes": 9404792,
+          "sha256": "21778f12eb42762ea935c834218cac5c57639f89248cd47205978d843bcf106c"
+        }
+      },
+      "original_run_identity": "fc0a1423ca93b62e94f215b49a6a55aaf280524aadc1501b231efef4031a2763",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent"
+    },
+    "slices": {
+      "files": {
+        "AUD_CAD.parquet": {
+          "bytes": 309816,
+          "sha256": "a43718ead7238b7e24230254149f645a07298ee5c33b87cd9c4f41f935c6504e"
+        },
+        "AUD_CHF.parquet": {
+          "bytes": 322347,
+          "sha256": "3a6954f52f0244c2eab2781e913d71757b4e20d665aec2876c676af392a1e876"
+        },
+        "AUD_HKD.parquet": {
+          "bytes": 528131,
+          "sha256": "e3f199a65fe0c345d2fd0d79a869876c427d81b9efa09e25fbd54082a1918b6d"
+        },
+        "AUD_JPY.parquet": {
+          "bytes": 339203,
+          "sha256": "6bdc2cf47664c4fce4e09abc3d12f2444a3e8a5bb7e147c211b0a1309b07bca4"
+        },
+        "AUD_NZD.parquet": {
+          "bytes": 290739,
+          "sha256": "9a34e457b2d9a4c67181b17cba8842c9b71787b47ac5fb9efaf8fc4ed93a4c1d"
+        },
+        "AUD_SGD.parquet": {
+          "bytes": 325173,
+          "sha256": "9af6455475d436499c06096fc10a4d4fcabc93859ea73f98bf0cf43b3344bdb3"
+        },
+        "AUD_USD.parquet": {
+          "bytes": 312695,
+          "sha256": "bc3ac1edbe5c6c16f9de17a18396103fe045ea159bb3d5dff23a12b3e5cc9adc"
+        },
+        "CAD_CHF.parquet": {
+          "bytes": 301228,
+          "sha256": "06d1950195bcb3e68296dc96aa3af158a6cd2204c8d18646a5acf524f90ed821"
+        },
+        "CAD_HKD.parquet": {
+          "bytes": 453493,
+          "sha256": "af53e3b98688118a291d997317e02dfeb5348964cae36c13eeb1759588b95d81"
+        },
+        "CAD_JPY.parquet": {
+          "bytes": 328860,
+          "sha256": "a2cbce92f6cb6fd248996e30c233ead3930f46f2d9e9fc0eaa59401f856ffa6a"
+        },
+        "CAD_SGD.parquet": {
+          "bytes": 302052,
+          "sha256": "38ff68140fcb4ec9747b844d4013031c3fe3faf7179fe15bfefa34ac08bba56f"
+        },
+        "CHF_HKD.parquet": {
+          "bytes": 559011,
+          "sha256": "e32d8eecea09c2164c265f4333555134519374d4815410778a5b52229e3506f8"
+        },
+        "CHF_JPY.parquet": {
+          "bytes": 318968,
+          "sha256": "bbb508580ee1d03cfe52bfeded34da01986bc5a59eed1370ae74cd56c7fc731a"
+        },
+        "CHF_ZAR.parquet": {
+          "bytes": 642809,
+          "sha256": "da3615e410c49075d131b560d637520eea34c37a1fe09393736a1199a40423d3"
+        },
+        "EUR_AUD.parquet": {
+          "bytes": 381157,
+          "sha256": "29fe0723ede55a40b85e85d6478d62d87c4912d3711ecb54a0494f5cc2cb341b"
+        },
+        "EUR_CAD.parquet": {
+          "bytes": 325291,
+          "sha256": "1c1ffad94c1f0a93af397d31c22dbba36f104e2c42ae10e458b6b0c384b6bacc"
+        },
+        "EUR_CHF.parquet": {
+          "bytes": 315823,
+          "sha256": "10998eb57b2ef65c4620851dcf9d9879e027cfa4b2951d81fcfcd79d799a4002"
+        },
+        "EUR_CZK.parquet": {
+          "bytes": 300068,
+          "sha256": "a0e81e990c0255a121367a1be08600bf56309db6359cec5c5c9c737f50b27296"
+        },
+        "EUR_DKK.parquet": {
+          "bytes": 137324,
+          "sha256": "3cf7fcc1b4902133e88cede856a68190b711132345119ca73e7a66f98dbf9e57"
+        },
+        "EUR_GBP.parquet": {
+          "bytes": 268592,
+          "sha256": "dbac2ca2b14091f83a26eae37a7b117796895ad14493cae66358f9b4506d0c0d"
+        },
+        "EUR_HKD.parquet": {
+          "bytes": 499618,
+          "sha256": "d78f793db450e8389a9d258e6f4dda8fe501878158aafaba10009b3bca793bf7"
+        },
+        "EUR_HUF.parquet": {
+          "bytes": 304555,
+          "sha256": "2adb1b715cea411a130ed4b8ab695bd20a2045df4722f7db957b90b61f423f02"
+        },
+        "EUR_JPY.parquet": {
+          "bytes": 350285,
+          "sha256": "6fb471299d539e1387e11c43cf58555c13a8a2ef557721e9dbee582f55aa6f0d"
+        },
+        "EUR_NOK.parquet": {
+          "bytes": 567301,
+          "sha256": "907778564a01a645d535ccf4f0e2b50f15b7242dd39e7aa48691707ca2065bdf"
+        },
+        "EUR_NZD.parquet": {
+          "bytes": 405204,
+          "sha256": "00165f4feb0f91afedd2398206752e2835422097e75d1b11d59f12805d8b94f2"
+        },
+        "EUR_PLN.parquet": {
+          "bytes": 344335,
+          "sha256": "0bd6f76d9ea7262b71a5ed97f0620ce7f2ee6188e47140e45916fc5c36d92b30"
+        },
+        "EUR_SEK.parquet": {
+          "bytes": 572898,
+          "sha256": "b2ee6d0d1eef736a9d3f0b6bacada44ed9018860f835f2e8a4dc11e3acf93318"
+        },
+        "EUR_SGD.parquet": {
+          "bytes": 298838,
+          "sha256": "506e46f57ced3a6a00510ec6dff684fa1197b6aaa4de8d38d77fb960250839f5"
+        },
+        "EUR_TRY.parquet": {
+          "bytes": 631458,
+          "sha256": "9f5fe4a876045559ae9cdebe76c21e183974d8fe1e0b6db5af4556d4f44e38f1"
+        },
+        "EUR_USD.parquet": {
+          "bytes": 303070,
+          "sha256": "e5feebb26dad36ba3ec26069cfb38a9f1866aa763d3f568a0ea679a09b3563da"
+        },
+        "EUR_ZAR.parquet": {
+          "bytes": 603902,
+          "sha256": "080f5442bd5366e8d9b796b2df098353570097b88be3b31102f62b0afb2e6c9c"
+        },
+        "GBP_AUD.parquet": {
+          "bytes": 410888,
+          "sha256": "c6dc58d906a761115f43aea2ac3ab0cdf6b1a4779b4df5de111315088871c20b"
+        },
+        "GBP_CAD.parquet": {
+          "bytes": 360496,
+          "sha256": "788075d425b91a9c65e82317d403645a0e6052f9cc2868fb5f6ae01a242b1a4c"
+        },
+        "GBP_CHF.parquet": {
+          "bytes": 346596,
+          "sha256": "de9baffedcdf2078d69272c8fda26cfac321745e49edc2974f643af612ff6920"
+        },
+        "GBP_HKD.parquet": {
+          "bytes": 568519,
+          "sha256": "585f30c54d2fe7916f8ceb786eaaedb4acdd78e6582ca8e33585092905d7dae7"
+        },
+        "GBP_JPY.parquet": {
+          "bytes": 361233,
+          "sha256": "26527946832a6d20e42e6136cad46f92ca0c15fcafac4bd557507060d4ef16eb"
+        },
+        "GBP_NZD.parquet": {
+          "bytes": 439143,
+          "sha256": "176b648721a00980a451dd84c3bbbdd74dbd94b67b0e08d51ecffce449007e4a"
+        },
+        "GBP_PLN.parquet": {
+          "bytes": 371870,
+          "sha256": "ae06a992364bd6c4fd52c14bdd6cf6737c8d1c966da2df82f65e8276941351b2"
+        },
+        "GBP_SGD.parquet": {
+          "bytes": 337205,
+          "sha256": "13cf5b5389040e96a46cc957a7f87caee3e0a11420678ea970726d3a143fed21"
+        },
+        "GBP_USD.parquet": {
+          "bytes": 339095,
+          "sha256": "a91ce5592c2405ae3dd3d8773a993eb99bfce9a4d8bab5428e8690debb76fb72"
+        },
+        "GBP_ZAR.parquet": {
+          "bytes": 574878,
+          "sha256": "760cb819f702be334d6c248cd65343d7da533cb6267e57ad192c70d2e8e0cdc4"
+        },
+        "HKD_JPY.parquet": {
+          "bytes": 667568,
+          "sha256": "5fce1c61cfec70ab93f31eb1316da37d1ae1a0f1404e9d1af1a5c66563c1c434"
+        },
+        "NZD_CAD.parquet": {
+          "bytes": 301381,
+          "sha256": "56d567e2f19d781ca1d0e6e712f713acd558711c149c4fa91b81affd2d3acd9b"
+        },
+        "NZD_CHF.parquet": {
+          "bytes": 309539,
+          "sha256": "e7efc001797bb7c730cf9756d310469cf923bdf939faca6a61e76df5c7b3a185"
+        },
+        "NZD_HKD.parquet": {
+          "bytes": 532531,
+          "sha256": "92f630116ae30653d468c3faf9962212ffef46a4cbd005b4614364dcf22fab85"
+        },
+        "NZD_JPY.parquet": {
+          "bytes": 325167,
+          "sha256": "6141fb489f98d1deaafd7841db98ad5aab27198830df7b1593d37fdca0d375ff"
+        },
+        "NZD_SGD.parquet": {
+          "bytes": 318605,
+          "sha256": "16e5de82dc6c08eeaca7bbad4bfcd204441767ebd124bb6893347463ec0f6750"
+        },
+        "NZD_USD.parquet": {
+          "bytes": 309455,
+          "sha256": "07ab982fcabfc7fd912613216be30e1ef3ea504ff975adec5e29a9b071f1c55a"
+        },
+        "SGD_CHF.parquet": {
+          "bytes": 269861,
+          "sha256": "03defca7cb6d695088ec0990cc2d82055d41fe06332e57e745aa77bf69324b8d"
+        },
+        "SGD_JPY.parquet": {
+          "bytes": 315838,
+          "sha256": "099c8980997bf103f896b8177e0b01a5c61e12b7d167e3cb741c6eac85a3e249"
+        },
+        "SLICES_MANIFEST.json": {
+          "bytes": 25107,
+          "sha256": "e4efa61f4c8a9b4d70f4b20f5f96e1bd0a4ef8ed86049924b21e78b98700c774"
+        },
+        "TRY_JPY.parquet": {
+          "bytes": 141181,
+          "sha256": "b6fbc0198ed817564c63feb50c344b99a9a68b6fca1c341ee44a60bcef7c175f"
+        },
+        "USD_CAD.parquet": {
+          "bytes": 312801,
+          "sha256": "f42c482db2731cbdef38fd14836c92ed485f62dd373554ad9b2092bd80e68531"
+        },
+        "USD_CHF.parquet": {
+          "bytes": 315597,
+          "sha256": "60201aafe2300ab6531f2c1467f524d7c834b0e95d8b33e4e62951a2f05ce612"
+        },
+        "USD_CNH.parquet": {
+          "bytes": 429528,
+          "sha256": "4c919ef03511426df9724a54be378f5eb05e89395d928cc7eeacb70b9a5bbe20"
+        },
+        "USD_CZK.parquet": {
+          "bytes": 333970,
+          "sha256": "15fe6e9a23b7bd64ccbbedd94f8906b6892c1912ad2750da42a2d121b0fd55c2"
+        },
+        "USD_DKK.parquet": {
+          "bytes": 435841,
+          "sha256": "6634964dc723ebb27a22bb137523739d6b1b6bbea71dc6c78551dc02f82e02ac"
+        },
+        "USD_HKD.parquet": {
+          "bytes": 214419,
+          "sha256": "a662ac2c1890cc2f42ace63721d7a31ad2fe72f7e1ef45e8e3bb37a377e4c215"
+        },
+        "USD_HUF.parquet": {
+          "bytes": 349351,
+          "sha256": "2bf9a3e9c346255a34266d8415751719dc3e5f0270fa40242f222d3b5890965f"
+        },
+        "USD_JPY.parquet": {
+          "bytes": 340656,
+          "sha256": "53ced997e593358cadc6061376061cc090e9b1333fae7f9532d49e2960d2dcf7"
+        },
+        "USD_MXN.parquet": {
+          "bytes": 603372,
+          "sha256": "13ece8ae3405b722cdfb9b71f7a0e2416c15caac4690f8c57054136a81f42591"
+        },
+        "USD_NOK.parquet": {
+          "bytes": 600635,
+          "sha256": "d7ae4eecf06a627a4bfbc7971261d5de08d6adc5d62bf8f089e87889479a9cc0"
+        },
+        "USD_PLN.parquet": {
+          "bytes": 435168,
+          "sha256": "eb8a37ba26fcd696584e2f36ccaf0669581e70a82aed9c85135748e0076e7cb2"
+        },
+        "USD_SEK.parquet": {
+          "bytes": 565081,
+          "sha256": "b714ec291ce8047ca2b3f30f873fae273d4b0518975bdcb134da7d1175c71ab2"
+        },
+        "USD_SGD.parquet": {
+          "bytes": 294330,
+          "sha256": "a213e90d8a523fb682af7dd6aa0187940078770b49baa9c7150ad24e5e1a332c"
+        },
+        "USD_THB.parquet": {
+          "bytes": 206293,
+          "sha256": "19a114259a86f58a37f013fa9cbc3c88a3f4577b2e9523f5f70941e426e1a7e3"
+        },
+        "USD_TRY.parquet": {
+          "bytes": 489917,
+          "sha256": "f9bc578addcebd939d0304c40ae5102be5d599a8ee1c1e577ea17a38442209b0"
+        },
+        "USD_ZAR.parquet": {
+          "bytes": 567654,
+          "sha256": "2421f4cec6e03b5d608ec5a82f51cc01657bda80c330f828574ed503c23a9aab"
+        },
+        "ZAR_JPY.parquet": {
+          "bytes": 188515,
+          "sha256": "8b6704cce5953d729b0c14a19bee94e4f89036aae1cc1649976deceabcf18944"
+        }
+      },
+      "scope": "complete_original_verified_raw_slice_inventory"
+    },
+    "surface": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 319223,
+          "sha256": "b59939b61f442be3b25cafc604e7a467cada240030a79cf81e9bd2f76245c6e2"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 313404,
+          "sha256": "ebf3a63d60d9ae42f131ab258ea9d127d7eb0caa1ba6aee22355472f6c43e836"
+        },
+        "market.json": {
+          "bytes": 946830,
+          "sha256": "3062d15c9d53abde9a4ec877ddcba55b823c6f76ee7a39624c9da6c57886701b"
+        }
+      },
+      "original_run_identity": "86ca1af70edaf67ef743cf842df109c13d644ccc2598765e2f3fcfe4f05351b0",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent"
+    },
+    "technical": {
+      "files": {
+        "COMPLETION_MANIFEST.json": {
+          "bytes": 14046,
+          "sha256": "b747dcd99f8613b00ad4403f90dfd91470cfe910bfb65464f3d2de1ddcec0bd0"
+        },
+        "RUN_IDENTITY.json": {
+          "bytes": 4099,
+          "sha256": "a28b7c7d6828651dbf072b654f8f7917f6b20da028721875d6acbb27c254f388"
+        },
+        "pair_AUD_CAD.json": {
+          "bytes": 393098,
+          "sha256": "34f60c7a9c3de0a59c97e0006893d1512bc68f90373d63b20c06f867b80a4ca0"
+        },
+        "pair_AUD_CHF.json": {
+          "bytes": 393275,
+          "sha256": "1985258a203a6887fe60bdce7a81c8067be894bc80ae89ef10b698a6b67c086e"
+        },
+        "pair_AUD_HKD.json": {
+          "bytes": 393434,
+          "sha256": "0b100467ed5edb2754b92d867ea87b1650bb7f4fa73b78f583f5b5d92524fa44"
+        },
+        "pair_AUD_JPY.json": {
+          "bytes": 393315,
+          "sha256": "748a0a8b72335940c4c79d068419820eb94fc7f6923ee8a1d39e999f52d0a14d"
+        },
+        "pair_AUD_NZD.json": {
+          "bytes": 392687,
+          "sha256": "f716ff113b03fd825322fde8358bd868864f22118c30340ec77ef728f8f2756d"
+        },
+        "pair_AUD_SGD.json": {
+          "bytes": 393326,
+          "sha256": "f9be225fa608662769e877e711f12051dd5d82cf1ee45b0d85c5ddf571271bc0"
+        },
+        "pair_AUD_USD.json": {
+          "bytes": 393033,
+          "sha256": "49601edb32924ec5419b74c15f4f95bf0a43c5d62df1d2f881de521a46de6d94"
+        },
+        "pair_CAD_CHF.json": {
+          "bytes": 392995,
+          "sha256": "1d9c89144da39bdb82f8f36192e4b78a1fc312a2a19b92e77fbe34db77b2aee4"
+        },
+        "pair_CAD_HKD.json": {
+          "bytes": 393599,
+          "sha256": "38d37a04980987b9728da43e9f41e265d9f74f06ae2438dc9ff49dea3db6ceec"
+        },
+        "pair_CAD_JPY.json": {
+          "bytes": 393268,
+          "sha256": "505f5fffe1d6e12f6fbbc6389cebecc5f92bb30c3f3969fdbe94f2ff613bfa3b"
+        },
+        "pair_CAD_SGD.json": {
+          "bytes": 392965,
+          "sha256": "4c426e5a65da5c3ba9a7a562f8487a5ca786a33cd46b3444001a1060314d3652"
+        },
+        "pair_CHF_HKD.json": {
+          "bytes": 393485,
+          "sha256": "d53bcf45a398535eb89f7b93a593592a99f80438e855b9a526c9bf1aa4569cf6"
+        },
+        "pair_CHF_JPY.json": {
+          "bytes": 393535,
+          "sha256": "8f0836cd9bd8801049cd98fbc991f567c63f701900e02b47a13eda42e26c0b13"
+        },
+        "pair_CHF_ZAR.json": {
+          "bytes": 393032,
+          "sha256": "bfff56d7a248aaaa41ec25b313a4e9380ec549a917a0043cb69957d3ca0b163e"
+        },
+        "pair_EUR_AUD.json": {
+          "bytes": 393200,
+          "sha256": "c2f1239770a06027c208e0a23ca327022c8dc5f6dc06f1946f3bd544f30cc316"
+        },
+        "pair_EUR_CAD.json": {
+          "bytes": 393430,
+          "sha256": "135f03c1d84a07921428b407ec853fd545a69d469deb7efc4a28f22a6011af33"
+        },
+        "pair_EUR_CHF.json": {
+          "bytes": 393307,
+          "sha256": "e4af1a8dca9db5f286ef3d2ec8511b3cdfce44c7efc2495260c2d19ba4cbfebb"
+        },
+        "pair_EUR_CZK.json": {
+          "bytes": 392440,
+          "sha256": "2bcfe067d03183b14d2a6bbf9e7eb2c85068729b127dda2e8f742ea5a41c6f91"
+        },
+        "pair_EUR_DKK.json": {
+          "bytes": 383892,
+          "sha256": "78fa3106822639b4998742be0f590d0a7a53896ef6a1af5bcbc7c6a9462fc090"
+        },
+        "pair_EUR_GBP.json": {
+          "bytes": 392835,
+          "sha256": "173cf1261400c1be3f94c082825ec723efc6334f813a3484ef1389dfbb58fc01"
+        },
+        "pair_EUR_HKD.json": {
+          "bytes": 393635,
+          "sha256": "02cd86d912eb55b8201c2c4e6586f762d44ed6807850b9450814e5710d65919e"
+        },
+        "pair_EUR_HUF.json": {
+          "bytes": 392787,
+          "sha256": "e2dfed54675abc4b2179a617112ac41085e4c63dfba29d5e6cec221d72b32e48"
+        },
+        "pair_EUR_JPY.json": {
+          "bytes": 393340,
+          "sha256": "16738ce90bc1ea5b5be721b38484c69697a6ebbdb92e412269ec5132a69dc24f"
+        },
+        "pair_EUR_NOK.json": {
+          "bytes": 393217,
+          "sha256": "fec7a93a313282f9859922672626f65c2a36653b518cd5b2d7fa36ab869f6e6d"
+        },
+        "pair_EUR_NZD.json": {
+          "bytes": 392708,
+          "sha256": "e09188e76f425125a5cf162c91c7e5b79dcdc9353d040a2051b33f4d8fd4ef7a"
+        },
+        "pair_EUR_PLN.json": {
+          "bytes": 391863,
+          "sha256": "03c85da393f9b9087de0253ab9e8407064ac2c260296b118c3045444f856aed5"
+        },
+        "pair_EUR_SEK.json": {
+          "bytes": 393116,
+          "sha256": "8965dcf4070d653ea21e76d230ae688e539326b8a482cbee71387b90f39da0af"
+        },
+        "pair_EUR_SGD.json": {
+          "bytes": 393472,
+          "sha256": "f72ec95f35309fc3d58c030b48d9875edcf3efb8a774b4cf9470e913b0658480"
+        },
+        "pair_EUR_TRY.json": {
+          "bytes": 392893,
+          "sha256": "b30f4bc2dc7bc81b662e5a81513caf3aa3a876b02d63a0e337891dbba44e1049"
+        },
+        "pair_EUR_USD.json": {
+          "bytes": 393206,
+          "sha256": "996db39406fb00f3c81d241972d59951dab491a26e27541ac07a74561b20e713"
+        },
+        "pair_EUR_ZAR.json": {
+          "bytes": 393085,
+          "sha256": "0a38108e8935dbd28f81665414fc12cb60783e049868e64ec3be096390d80d68"
+        },
+        "pair_GBP_AUD.json": {
+          "bytes": 393451,
+          "sha256": "8bd4afc88b6377cd29c8ced6df7116473d1379b28e9e1ab8eba457a3b7249cbf"
+        },
+        "pair_GBP_CAD.json": {
+          "bytes": 393448,
+          "sha256": "8d824d5e8ff0c4bcd21410acdd01bdb747407098daa01937abaffb69aa02b7f9"
+        },
+        "pair_GBP_CHF.json": {
+          "bytes": 393338,
+          "sha256": "b3fdfc8005ebdfc472be6ad071778f389089b9f77889ef412d41e1b65bbb7517"
+        },
+        "pair_GBP_HKD.json": {
+          "bytes": 393674,
+          "sha256": "f187e3585e5ea1b8b8144b5a637155b349e3b3e03def7e9fad95a5c7bdc13756"
+        },
+        "pair_GBP_JPY.json": {
+          "bytes": 393629,
+          "sha256": "ceadb70670464064315047c5947c2d6745e3c234f8fc852223dde335b27dba14"
+        },
+        "pair_GBP_NZD.json": {
+          "bytes": 392711,
+          "sha256": "7b76210ba25e16bf0c6eb127e259597eca59fc1f847f5f389dcf3452caa37d46"
+        },
+        "pair_GBP_PLN.json": {
+          "bytes": 392721,
+          "sha256": "048a48410f33cdb425a53b3c16f489539aa13f2ef67e24bd921718aa3439627a"
+        },
+        "pair_GBP_SGD.json": {
+          "bytes": 393439,
+          "sha256": "1e80fae9169792d1a251bc79f3a8b4a845e2e1885edca481ba5f5958b4e59c62"
+        },
+        "pair_GBP_USD.json": {
+          "bytes": 393547,
+          "sha256": "667dcd3f02a99f7093adc8f8621ff2e534fcc9447f9fcfbfd8f6ddd611209eb5"
+        },
+        "pair_GBP_ZAR.json": {
+          "bytes": 393056,
+          "sha256": "97496401f804995d913f564f7c7ee0f97c646dccd1edd3f567ae410caaa9f847"
+        },
+        "pair_HKD_JPY.json": {
+          "bytes": 393472,
+          "sha256": "e016e49ba902a6e96f5280eb1af8df9f9fcd124fe7d3bc0dd104ac7d74e15733"
+        },
+        "pair_NZD_CAD.json": {
+          "bytes": 392834,
+          "sha256": "6b228bdb1390d3ac6a604f67d5f24403f8102077f29047d38fb4266dfa23319c"
+        },
+        "pair_NZD_CHF.json": {
+          "bytes": 392706,
+          "sha256": "7e62e1ffbb91734734b1085a93696e77e3e477ac707ee7426b1606a574b74e1c"
+        },
+        "pair_NZD_HKD.json": {
+          "bytes": 392993,
+          "sha256": "bc054ee7e5335343a3d7ae44239f2e70a6ae256273e72c6ba50d4207735ec87c"
+        },
+        "pair_NZD_JPY.json": {
+          "bytes": 393076,
+          "sha256": "916c2159cfc43c205eff988ebb974d3fe08ae9fb1335c60317deb0ca7a16a36a"
+        },
+        "pair_NZD_SGD.json": {
+          "bytes": 392784,
+          "sha256": "49bb45b9662fb1509bef1a7778efc74f20d402d57eb633442b2caef2495d95bc"
+        },
+        "pair_NZD_USD.json": {
+          "bytes": 392650,
+          "sha256": "85ff6a66e3c9c98923cc6485d224ce34070561efd2338cf574e4dba95ccdb508"
+        },
+        "pair_SGD_CHF.json": {
+          "bytes": 393039,
+          "sha256": "92d9a3bc4ba9ee5057032d4bcbf922feb64f20bf83aab0ca925edc06800e328b"
+        },
+        "pair_SGD_JPY.json": {
+          "bytes": 393131,
+          "sha256": "9c1fd2cedce15be68b49b8931e94a0c9face0fcf7132ae7ae4225133839d71ca"
+        },
+        "pair_TRY_JPY.json": {
+          "bytes": 386162,
+          "sha256": "f65750c4650c56493c4ebe0e0191de8bf0cdeedbec46651da556fb87e909cec9"
+        },
+        "pair_USD_CAD.json": {
+          "bytes": 393183,
+          "sha256": "0a60f77976237bb86abc03bb941a332a0ea1013983e0b7594494eb5f191692f5"
+        },
+        "pair_USD_CHF.json": {
+          "bytes": 393010,
+          "sha256": "f5d92263a6ac7f160a38cf502e78373474a2cd1d3523104893d56e70e8d3c6ad"
+        },
+        "pair_USD_CNH.json": {
+          "bytes": 393580,
+          "sha256": "a6014405c93d1728d0187fbe9f1599dfe680f1d71006b465b8dec8a4406e3cd7"
+        },
+        "pair_USD_CZK.json": {
+          "bytes": 393372,
+          "sha256": "4e56ccbb150b2784fb2691bb665c9dd7b2523eee75704b225611191c1e34cb89"
+        },
+        "pair_USD_DKK.json": {
+          "bytes": 393293,
+          "sha256": "d6cda26f7aa413821ce9e10b4baf56d8506033ef9d54d83c0f5f4f7091d87d21"
+        },
+        "pair_USD_HKD.json": {
+          "bytes": 388228,
+          "sha256": "f901f8bb96b57ddfcd773ba66daea568066c3db3642e2b1e1b5545970a6380dc"
+        },
+        "pair_USD_HUF.json": {
+          "bytes": 393492,
+          "sha256": "4aca72397f08d5c8781fa131bcfd4098b022a33906bbddc21f2fd7f99211d4ad"
+        },
+        "pair_USD_JPY.json": {
+          "bytes": 393236,
+          "sha256": "43eb71d837f9921f8e7a8a22e5ba58ab2a7e4ad018b508966db4440c3ed1992c"
+        },
+        "pair_USD_MXN.json": {
+          "bytes": 392973,
+          "sha256": "ef4165832bcf42a7737733c6beb6174584654c46baa6c034e63d0ac733d16d18"
+        },
+        "pair_USD_NOK.json": {
+          "bytes": 393162,
+          "sha256": "29173114779954078c30560bd406ae5b2b1184ae5e7b9b7ccd8ca7a5d64390c6"
+        },
+        "pair_USD_PLN.json": {
+          "bytes": 393221,
+          "sha256": "7787080fc410592c085e61a58e11367694cc3e77a897d917d8221ce16b4e4ec5"
+        },
+        "pair_USD_SEK.json": {
+          "bytes": 393066,
+          "sha256": "a00524e913345b92953c4585d063279769a0a70e64f937a88688c2ed1ec7a038"
+        },
+        "pair_USD_SGD.json": {
+          "bytes": 393347,
+          "sha256": "c4372064a3797b8e3c6c596df4076d645da075f5cd6e459cb070914ac95afcd0"
+        },
+        "pair_USD_THB.json": {
+          "bytes": 388278,
+          "sha256": "ff7824d84e8e4ac167802d81ebf6b18a061908fdb0810bb6caefb8f707824f9d"
+        },
+        "pair_USD_TRY.json": {
+          "bytes": 391543,
+          "sha256": "8e18bfefc625483daa2e69b1930d01ea705ed128bb41365a0ec62cc4ad9eddff"
+        },
+        "pair_USD_ZAR.json": {
+          "bytes": 393107,
+          "sha256": "186d87fadc5dc68433130fcda8c1ac76f8d878cfdee20e8d6d15b09793d5fd06"
+        },
+        "pair_ZAR_JPY.json": {
+          "bytes": 388301,
+          "sha256": "b0009d3d47a3f90998ed7db4d6673512fc6c54adf83dbd6eef18222696344772"
+        }
+      },
+      "original_run_identity": "3c51adb6cb8467ed15b1bf604c03c917bc0cab7d91180a3674336ccf6765f9d6",
+      "scope": "authenticated_selected_payloads_of_prior_verified_complete_parent"
+    }
+  },
+  "policy_replays": 0,
+  "predecessors": {
+    "oanda_curve_management_adapter_v1.py": "8fa6cccf1e2525d0186ab7abe0c68fccc4800db7b785a8b9f79f28c320ad1241",
+    "oanda_curve_management_replay_v1.py": "52fd04c6b087df4be775e490002afd0744caeb245604b8f577ab0fcff41de8f3",
+    "oanda_forecast_curve_contract_v1.py": "c03549586f922f6031790fce68a5afb5b98e4eda6157f20c4720b1adb05d0746",
+    "src/forex_system/__init__.py": "e885437bab2a9de53fd7884bdc1d16c16e6bea31b3c78f548afbc44d24050c77",
+    "src/forex_system/research/sequential_portfolio_replay_v1.py": "e1201fdd3387825c9295f13045aeb00e2f87cce9ff819e789faf922ea2e514a6"
+  },
+  "run_id": "later-development-input-extension-v2",
+  "schema_version": "forex_later_input_extension_recipe.v1",
+  "sources": {
+    "LATER_INPUT_EXTENSION_CONTRACT_V2.json": "5835f12c8bf244fda21d0b6e560cfaf872ced1c46456bf2911d057f370ebc487",
+    "accounting_event_fixtures_v2.py": "8158aaaee53a03b64e606623035c2790d6f6fcbdfac06937ce08db28f7f9e4d9",
+    "accounting_events_v2.py": "b6d5d5350ff4c9b74d7ae535b9783dc2f3f417476eba5e7a18626f3c7f24a57a",
+    "accounting_fastpath_v2.py": "dd16edb548a7d6d3d76163e673919f74a55847eb85597fbdf1ba742241ba01f8",
+    "all68_neutral_runner_v2.py": "5ab2a58259aebf6dd76e12bd5834f733cd6f589a9791634a872c6eff5927557a",
+    "causal_technical_adapter_v2.py": "01c5b08bb7623363fd00cd3546e8bb3da93e0f3d06ede4b06eeeabc87973be8b",
+    "contracts.py": "3a1776f0862f6bb4bc3ba73f4c0febec573350d712aa50e9dbcc0e253b11aecd",
+    "fitted_consumer_v2.py": "e3b72f23d216845bbc5aee9385b59ac37ff3114aae728b0d372e3fa319d182ec",
+    "fixed_blend_remaining_policy_v2.py": "598d6884eca4ed4c93808d933e9a861b51bf578cb2556f3c4db343d802284b2b",
+    "historical_market_inputs_v2.py": "e2e1d48a3be608ed04752025b65bdf36ce33bebebc61b088a5d0cf634973fc9d",
+    "historical_native_input_v2.py": "7ba4d504dc75a7baac42c3af9e8ebeb6ffba2530d3f27d8d4eb93d8bc4b4b603",
+    "later_input_extension_operator_v2.py": "3787bb9d1147b954bcfae1f25491ee96d9e376bfa45ccfc9b2ce473e4c5152be",
+    "later_input_extension_v2.py": "647c637e259fa01bd49d7fa15cf527a16c7b45220df4874c8e4002d008c5e9c6",
+    "later_policy_input_v2.py": "103ccf80c91f9a478b26220ecf2fd57e89f3517984932d4d2e0b99a95d9036fd",
+    "later_policy_scenario_v2.py": "9604df2786aaa944edb146e5775dd395a8fda734b8d12ee3cc80617d3be10c88",
+    "later_surface_native_v2.py": "dcd839fd184103f1adc5ef666db89dab38abf4937b86795d0d936795d92939c9",
+    "matched_campaign_models_v2.py": "9b7521812ea348d826dc1e3d0035eb378b097733c6c6f3cb1d7595ec70fda329",
+    "matched_policy_fixture_v2.py": "f571c1ff410fb374a84e535c38de8d01026eba850a43151096918621338305c4",
+    "matched_policy_input_v2.py": "a38f6a31a295b1f9ac28939f53486d7f7a6481f9778f9d195641a42d3caae0e7",
+    "matched_remaining_native_v2.py": "18776d8d16cbd7b283449f0c3f3e4bc850fcbc005671465f5880bcb4ed796582",
+    "native_policy_input_v2.py": "3e104370294b8674b41d943e2a78187bc9b4fefc762661c7463ab131e6a35f5c",
+    "policy_continuation_v2.py": "589d2aec725bcb17c7b8711a165fecb617c1263e2e0b96682203e79c5164111e",
+    "publication.py": "51e3eb20cee191a24b74c708bd5c54b25b8ea4a1042248e6a4a96bfebd81d797",
+    "quote_input_qualification_v2.py": "56784e49c7f2e587f9d9c8fa1ab83d2ae633a7444ec7dafe88a0013d801a42a3",
+    "reference_accounting_adapter_v2.py": "6c2244414486f911857affc3c721b787a652b1d9139cd4aa41d2094bf6e5be40",
+    "remaining_horizon_v2.py": "1a485e54fd203b6bf898a06a17ffac4045692a593e4d6cfc82beb9519d27381c",
+    "retained_direction_features_v1.py": "c0bbdcd265089856532345eb490571d90228b7d967fa0409ec546fe0f239f046",
+    "retained_endpoint_targets_v1.py": "79ea5bcb4206d9ae2cf8a9d79fe8efb21a3d5a74bcad553fe5f56126ff3ae67d",
+    "retained_signed_cost_models_v1.py": "8cebabbab7c6dcb32271a8fd3cbc656e912ae6a26e19a9ff1d35ad547342665c"
+  }
+}

@@ -5387,3 +5387,14 @@ existing26feature/endpoint functions before another model or policy comparison.
 Same-task review accepted; independent review pending/nonblocking.
 
 Recipe SHA256: `61175898d918b351902f6f9e8c7677add55475eb166ce38c845a16e6a17e132a`. Run: `35a9c832a2e5b681eb98041035a459e1c8c7f59ab3a94d412677ae12474f56a7`. Checkpoint SHA256: `2c2cc37aab62719a23eb607605118e2f266f5eb6fb4dcde4fc7bb51f6105d756`.
+
+
+## 2026-09-24 — later_development_input_extension_v2
+
+6,800 observation slots (1,632 added),81,600 endpoint slots and3,876 market-consumer rows; all original5,168 observations and62,016 labels unchanged.11 local+11 relocated tests;73 outputs reproduce after real crash/recovery and relocation. Zero model loads/fits/layer fits/policy replays. Missing quotes/conversions/calendar support remain explicit. Input preparation only.
+
+Vault packet: [LATER_INPUT_EXTENSION_20260924_080500](../../../OneDrive/thevault/projects/forex/LATER_INPUT_EXTENSION_20260924_080500/REVIEW.md).
+Local evidence: `until8am_20260923_215844/input_extension_step`.
+Next: `later_chronological_forecast_layer_comparison_v2`; reuse saved models, original chronology and fixed layer hyperparameters. Same-task review accepted; independent review pending/nonblocking.
+
+Recipe SHA256: `390ddc1630fbee5f0dfce48c305c7588b82951803db4324678b270d83f172d82`. Run: `77f2606d71fe60b974bb5a7cce15fb6d257b418b2c66f2405c973bbb2da01c90`. Checkpoint SHA256: `77e9bdda039f6dc49beec468dfdac4d4cc9725c5b439126eb1a20c19ff2896aa`.
