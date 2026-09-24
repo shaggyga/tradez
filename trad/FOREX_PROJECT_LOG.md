@@ -7058,3 +7058,10 @@ Correction: the exact pinned runtime is available at
 `C:\Users\zmoor\AppData\Local\CodexRuntimes\timeseries312\Scripts\python.exe`
 (Python 3.12.10, NumPy 2.5.1). On 2026-09-23 it reran the numeric-join and
 predecessor meter suites successfully: 27 passed in 10.14 seconds.
+
+Same-author review then found and repaired a presentation gap: retained text
+and concepts are now displayed beside the hash-bound numeric evidence, rather
+than only embedded in the payload. Commit `37b443c58ab55b703cce02d425c794f9b976ae7f`
+passed 28 tests and a new retained-input run plus portable restore. The current
+Vault packet is `MACRO_NUMERIC_EVIDENCE_JOIN_20260924_002217`; independent
+acceptance review remains the exact next item.

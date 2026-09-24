@@ -5221,7 +5221,7 @@ Git revision/bundle and publication readback resolve via
 ## Current verified queue
 
 `macro_currency_meter_numeric_evidence_join_v2` is implemented and checkpointed
-as `MACRO_NUMERIC_EVIDENCE_JOIN_20260923_214050`, but independent review is
+as `MACRO_NUMERIC_EVIDENCE_JOIN_20260924_002217`, but independent review is
 pending. Resume with `review_macro_currency_meter_numeric_evidence_join_v2`;
 do not advance to forecast layers, model fitting, GPT/advisor comparisons, or
 any broker/service activity from this checkpoint.
