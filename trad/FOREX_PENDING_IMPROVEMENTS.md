@@ -5466,3 +5466,5 @@ Next: `currency_projection_native_policy_inputs_v2`. Same-task accepted; indepen
 
 
 Currency projection native qualification is complete: both cohorts/16frames,6528coverage slots and6468consumer admissions;60base-unavailable slots retained. Fresh saved-base inference plus fixed projection fit the1s slot and complete native preparation fits2s; no base refits/layer fits/policy replay. Final checkpoint restores35payloads and23tests separately. Next is a separately frozen unchanged policy/cost/risk comparison; do not select a variant, retune rotation, or imply profit from forecast errors. Independent review pending/nonblocking.
+
+Current verified queue: `currency_projection_policy_comparison_v2`. Native qualification packet: `CURRENCY_PROJECTION_NATIVE_20260924_080908/REVIEW.md`; first freeze its contract and complete disk-budget preflight before any policy computation.

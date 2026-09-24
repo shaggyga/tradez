@@ -7338,3 +7338,7 @@ Fresh native qualification completed for direct/full currency-projection/half-re
 Local evidence: `timed_20260924_080908/currency_projection_native_step`. Recipe `7f79dc586e7821b5a45662f48cf3b57179641bd4c0d415ac947fe57e231c6a5c`; run `7e9c869d90898082e6ba31de4cdcbb4bc4269d1fee9717d85a507c63bbec2f28`; checkpoint `8eeb852a909f3a899251301ba806982822dcbb7cf6421dec17f86ca4ffeb1f3d`.
 
 Next: freeze the unchanged projection policy comparison. Same-task review pending; independent review pending/nonblocking.
+
+## 2026-09-24 — currency_projection_native_policy_inputs_v2 checkpoint
+
+Vault packet: [CURRENCY_PROJECTION_NATIVE_20260924_080908](../../../OneDrive/thevault/projects/forex/CURRENCY_PROJECTION_NATIVE_20260924_080908/REVIEW.md). Final r3 native run `7e9c869d90898082e6ba31de4cdcbb4bc4269d1fee9717d85a507c63bbec2f28`; recipe `7f79dc586e7821b5a45662f48cf3b57179641bd4c0d415ac947fe57e231c6a5c`; R5 checkpoint `8eeb852a909f3a899251301ba806982822dcbb7cf6421dec17f86ca4ffeb1f3d`. Same-task review accepted; independent review pending/nonblocking. Next: `currency_projection_policy_comparison_v2`, beginning with frozen contract and disk-budget preflight.
