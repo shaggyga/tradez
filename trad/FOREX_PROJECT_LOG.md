@@ -7359,3 +7359,9 @@ Vault successor: [STORAGE_CLEANUP_20260924](../../../OneDrive/thevault/projects/
 Completed 48 offline policy replays covering ridge/recovered-HGB and direct/full-currency-projection/half-residual variants across both dated cohorts, two declared cost cases and both accounting engines. All 48 accounting audits verify; five engine-neutral state/economic payloads are byte-identical for every reference/optimized pair. Zero model fits/loads, layer fits, API calls, broker/service/account/live actions. This is descriptive overlapping-development evidence only; all variants remain retained and no winner or trading claim is made.
 
 Local evidence: `timed_20260924_110416/currency_projection_policy_step/runs` (11,262,219,308 bytes). Source Git: `d1ac7b9bf02f7762b8da93b5fd6867104bb0ab37`. Vault: [CURRENCY_PROJECTION_POLICY_20260924_110416](../../../OneDrive/thevault/projects/forex/CURRENCY_PROJECTION_POLICY_20260924_110416/REVIEW.md). The measured output exceeds the early 9GiB estimate; freeze a new restore budget before checkpoint reproduction. Next: `currency_projection_policy_attribution_v2`.
+
+## 2026-09-24 — currency_projection_policy_attribution_v2
+
+Zero-replay attribution over the completed policy matrix produced 144 arm-level rows from 24 reference paths. It retains all methods, cost scenarios and policy arms, and separates 436 selections,266 actual openings and170 selected-but-unopened outcomes plus financing/terminal state. No winner, aggregate profitability, confirmation or trading claim. Three focused tests passed; no model, replay, API or live work.
+
+Vault: [CURRENCY_PROJECTION_POLICY_ATTRIBUTION_20260924_114246](../../../OneDrive/thevault/projects/forex/CURRENCY_PROJECTION_POLICY_ATTRIBUTION_20260924_114246/REVIEW.md). Source Git `f062ebf8299b882aa84572648646b05aaada2edf`. Next: freeze a compact policy checkpoint recipe with the measured storage budget.
