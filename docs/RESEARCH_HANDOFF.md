@@ -25,6 +25,10 @@ then continue while time and useful work remain. GPT/advisor comparisons
 and paid calls remain deferred. Begin now.
 ```
 
+Read [forecasting continuation](FORECASTING_CONTINUATION.md) before a run. Blocked
+confirmation or another single experiment does not stop independent forecasting
+work; follow the Vault sibling queue and retain the original deadline.
+
 The timer begins when that request is invoked, not when this file is read for review.
 This does not select the model automatically or certify its performance. Git supplies
 shared source; the Vault supplies knowledge and exact artifact identities; computation

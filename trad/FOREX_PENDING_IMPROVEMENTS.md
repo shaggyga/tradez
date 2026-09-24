@@ -5475,3 +5475,18 @@ Current verified queue: `currency_projection_policy_comparison_v2`. Native quali
 Retired 5,233 byte-identical duplicate restore payloads (34.24 GiB logical); original models, outputs, checkpoints and unique files preserved. C: free space rose from 14.37 to 40.18 GiB at verification. Both copies were SHA-256 verified before each removal; all retained originals remain present. Actual copy-back smoke test passed, unsafe recovery paths refused. No database, model, policy or live work.
 
 Vault successor: [STORAGE_CLEANUP_20260924](../../../OneDrive/thevault/projects/forex/STORAGE_CLEANUP_20260924/REVIEW.md). Local receipt: cleanup_20260924/SUMMARY.json; exact per-file recovery journals and helper: docs/STORAGE_RETENTION.md and tools/forex_restore_retired.py. The successor repairs the prior native handoff format while preserving its evidence. Next: currency_projection_policy_comparison_v2 with recipe-specific disk budget; no inherited blanket 35.9 GB estimate.
+
+
+## 2026-09-24 — forecasting continuation policy
+
+User clarified that a timed forecasting run must continue across independent eligible
+work when one experiment blocks. The current selection policy is Vault
+FOREX_FORECASTING_CONTINUATION.md; four explicit development candidates supplement
+the retained blocked confirmation step. Versioned experiment records preserve
+reproducibility while development and declared adaptive updates remain permitted.
+No research computation was started by this documentation task.
+
+Vault packet: [FORECASTING_CONTINUATION_20260924_191848](../../../OneDrive/thevault/projects/forex/FORECASTING_CONTINUATION_20260924_191848/REVIEW.md).
+Step: forecasting_timed_continuation_policy_v2. Local evidence:
+continuation_policy_20260924_191848. Exact source/checkpoint identity resolves through
+SHARED_GIT_REMOTE_LATEST.json. GPT/advisor comparisons remain deferred.

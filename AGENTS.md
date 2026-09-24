@@ -29,3 +29,8 @@ and original run identities before creating new work; retain unknown/unavailable
 Read only the current handoff/queue and relevant history, not every old log by default.
 The Git root is the whole workspace; trad/ is a component, not a separate repository.
 Prior AGENTS bytes are preserved in docs/history/AGENTS_before_operations_20260923.md.
+
+Timed forecasting requests follow docs/FORECASTING_CONTINUATION.md and the Vault
+FOREX_FORECASTING_CONTINUATION.md. One blocked experiment or pending independent
+review does not stop eligible sibling work. Record per-run identities without
+freezing development; preserve the original deadline and document any early stop.

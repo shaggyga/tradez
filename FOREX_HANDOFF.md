@@ -32,6 +32,10 @@ baseline/after identities in the local step evidence directory. Follow the Vault
 [legacy pending record](trad/FOREX_PENDING_IMPROVEMENTS.md) preserves context;
 the live Vault queue sets order. [Directory map](docs/DIRECTORY_MAP.md) explains the layout.
 
+Timed forecasting selection follows [forecasting continuation](docs/FORECASTING_CONTINUATION.md)
+and the Vault FOREX_FORECASTING_CONTINUATION.md. A blocked experiment is local to its
+dependents; continue supported siblings during the user's requested duration.
+
 For detailed research continuation and a two-hour launch prompt, use
 [research handoff](docs/RESEARCH_HANDOFF.md), then the Vault
 `FOREX_RESEARCH_PATH.md`. That path defines the next implementation acceptance gate

@@ -7383,3 +7383,18 @@ No confirmation computation was launched: retained inputs end at epoch `17225352
 ## 2026-09-24 — confirmation protocol hardening
 
 The protected confirmation guard now requires eight distinct, ascending origins after the inspected boundary, all six retained policy arms, and the SHA-256 of a frozen input manifest in addition to all-68 quotes, mature labels and the six forecast methods. This prevents a candidate from counting repeated origins or silently changing policy/input identity. Two focused refusal/acceptance tests pass. No confirmation computation or model/policy replay occurred.
+
+
+## 2026-09-24 — forecasting continuation policy
+
+User clarified that a timed forecasting run must continue across independent eligible
+work when one experiment blocks. The current selection policy is Vault
+FOREX_FORECASTING_CONTINUATION.md; four explicit development candidates supplement
+the retained blocked confirmation step. Versioned experiment records preserve
+reproducibility while development and declared adaptive updates remain permitted.
+No research computation was started by this documentation task.
+
+Vault packet: [FORECASTING_CONTINUATION_20260924_191848](../../../OneDrive/thevault/projects/forex/FORECASTING_CONTINUATION_20260924_191848/REVIEW.md).
+Step: forecasting_timed_continuation_policy_v2. Local evidence:
+continuation_policy_20260924_191848. Exact source/checkpoint identity resolves through
+SHARED_GIT_REMOTE_LATEST.json. GPT/advisor comparisons remain deferred.
