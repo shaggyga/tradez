@@ -7346,3 +7346,10 @@ Vault packet: [CURRENCY_PROJECTION_NATIVE_20260924_080908](../../../OneDrive/the
 ## 2026-09-24 — currency projection policy disk preflight
 
 Policy comparison did not start. C: had 8.72 GiB free after reversible compression of completed evidence; an analogous verified policy evidence set is 35.9 GB, so a main run, independent restore, and required 8 GiB reserve cannot fit. Preflight: [CURRENCY_PROJECTION_POLICY_PREFLIGHT_20260924_080908](../../../OneDrive/thevault/projects/forex/CURRENCY_PROJECTION_POLICY_PREFLIGHT_20260924_080908/REVIEW.md). No policy, model, API, broker, or live work occurred.
+
+
+## 2026-09-24 — verified storage cleanup
+
+Retired 5,233 byte-identical duplicate restore payloads (34.24 GiB logical); original models, outputs, checkpoints and unique files preserved. C: free space rose from 14.37 to 40.18 GiB at verification. Both copies were SHA-256 verified before each removal; all retained originals remain present. Actual copy-back smoke test passed, unsafe recovery paths refused. No database, model, policy or live work.
+
+Vault successor: [STORAGE_CLEANUP_20260924](../../../OneDrive/thevault/projects/forex/STORAGE_CLEANUP_20260924/REVIEW.md). Local receipt: cleanup_20260924/SUMMARY.json; exact per-file recovery journals and helper: docs/STORAGE_RETENTION.md and tools/forex_restore_retired.py. The successor repairs the prior native handoff format while preserving its evidence. Next: currency_projection_policy_comparison_v2 with recipe-specific disk budget; no inherited blanket 35.9 GB estimate.

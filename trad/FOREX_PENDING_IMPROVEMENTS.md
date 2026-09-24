@@ -5468,3 +5468,10 @@ Next: `currency_projection_native_policy_inputs_v2`. Same-task accepted; indepen
 Currency projection native qualification is complete: both cohorts/16frames,6528coverage slots and6468consumer admissions;60base-unavailable slots retained. Fresh saved-base inference plus fixed projection fit the1s slot and complete native preparation fits2s; no base refits/layer fits/policy replay. Final checkpoint restores35payloads and23tests separately. Next is a separately frozen unchanged policy/cost/risk comparison; do not select a variant, retune rotation, or imply profit from forecast errors. Independent review pending/nonblocking.
 
 Current verified queue: `currency_projection_policy_comparison_v2`. Native qualification packet: `CURRENCY_PROJECTION_NATIVE_20260924_080908/REVIEW.md`; first freeze its contract and complete disk-budget preflight before any policy computation.
+
+
+## 2026-09-24 — verified storage cleanup
+
+Retired 5,233 byte-identical duplicate restore payloads (34.24 GiB logical); original models, outputs, checkpoints and unique files preserved. C: free space rose from 14.37 to 40.18 GiB at verification. Both copies were SHA-256 verified before each removal; all retained originals remain present. Actual copy-back smoke test passed, unsafe recovery paths refused. No database, model, policy or live work.
+
+Vault successor: [STORAGE_CLEANUP_20260924](../../../OneDrive/thevault/projects/forex/STORAGE_CLEANUP_20260924/REVIEW.md). Local receipt: cleanup_20260924/SUMMARY.json; exact per-file recovery journals and helper: docs/STORAGE_RETENTION.md and tools/forex_restore_retired.py. The successor repairs the prior native handoff format while preserving its evidence. Next: currency_projection_policy_comparison_v2 with recipe-specific disk budget; no inherited blanket 35.9 GB estimate.
