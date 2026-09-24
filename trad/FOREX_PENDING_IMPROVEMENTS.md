@@ -5398,3 +5398,14 @@ Local evidence: `until8am_20260923_215844/input_extension_step`.
 Next: `later_chronological_forecast_layer_comparison_v2`; reuse saved models, original chronology and fixed layer hyperparameters. Same-task review accepted; independent review pending/nonblocking.
 
 Recipe SHA256: `390ddc1630fbee5f0dfce48c305c7588b82951803db4324678b270d83f172d82`. Run: `77f2606d71fe60b974bb5a7cce15fb6d257b418b2c66f2405c973bbb2da01c90`. Checkpoint SHA256: `77e9bdda039f6dc49beec468dfdac4d4cc9725c5b439126eb1a20c19ff2896aa`.
+
+
+## 2026-09-24 — later_chronological_forecast_layer_comparison_v2
+
+24neworigins/all68pairs/8horizons:182,784coverage slots,88,396forecasts; original20origin predictions and7frozen snapshots preserved. Zero base refits;768new layer regressions.10local+10relocated tests and221exact outputs; Decimal checks cover all768regressions. Expanding magnitude beats raw on16/16aggregate groups but signed-only on7/16: incremental evidence remains mixed, dependent development only.
+
+Vault packet: [CHRONOLOGICAL_LAYER_20260924_082000](../../../OneDrive/thevault/projects/forex/CHRONOLOGICAL_LAYER_20260924_082000/REVIEW.md).
+Local evidence: `until8am_20260923_215844/chronological_layer_step`.
+Next: `later_chronological_native_policy_inputs_v2`; fresh native timing/identity qualification before any later policy replay. Same-task review accepted; independent review pending/nonblocking.
+
+Recipe SHA256: `746c584a5e77616d55add84a792a0df5061547fdf592cc0f1557af4e50cdb995`. Run: `81918c8540bdbd243eb4e357fcee68835049d74b5b87552d55ddc6e1a3f6c0ef`. Checkpoint SHA256: `0907ab4694fc4a03ea5f94d78a5f0b4f962f4aae69fea5c0524d3510a595b741`.
