@@ -7373,3 +7373,9 @@ Compact checkpoint `CURRENCY_PROJECTION_POLICY_CHECKPOINT_R2.zip` contains 123 a
 ## 2026-09-24 — projection confirmation guard
 
 Retained markets and frames end at the inspected Tuesday target `1722535260`; no third qualified cohort is present. Git `12c3819` adds a strict confirmation protocol that rejects reused/unmatured origins and requires eight newer all68/matured origins with the full six variants. No confirmation computation, refit, API, broker or live action was launched.
+
+## 2026-09-24 — Vault queue reconciliation
+
+The accepted projection-policy comparison, attribution, R2 portable checkpoint restore and confirmation guard are now the shared current handoff. Earlier storage-cleanup pointers were historical and named the already-complete policy comparison as next. The Vault queue now contains the active `currency_projection_confirmation_protocol_v2` record and all mutable pointers resolve through the reconciliation packet.
+
+No confirmation computation was launched: retained inputs end at epoch `1722535260`; a third untouched cohort with at least eight newer all-68 origins and mature labels is required. The confirmation guard refuses reuse of the two inspected development cohorts. Vault: [VAULT_QUEUE_RECONCILIATION_20260924_173607](../../../OneDrive/thevault/projects/forex/VAULT_QUEUE_RECONCILIATION_20260924_173607/REVIEW.md). Current source Git resolves through `SHARED_GIT_REMOTE_LATEST.json`; independent review remains pending/nonblocking. GPT/advisor, paid/API, broker/service/account/live and D-drive work remain deferred.
