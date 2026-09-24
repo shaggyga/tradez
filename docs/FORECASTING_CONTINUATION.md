@@ -15,3 +15,10 @@ At package boundaries replenish supported candidates from the full design. Befor
 stopping early, log the branch scan and actual blocker/platform limit. Preserve the
 original start/deadline through context changes and leave exact resume instructions.
 This document prepares future runs; it does not start one or guarantee platform uptime.
+# Timed execution correction — 2026-09-24
+
+Follow [TIMED_RUN_CONTROL.md](TIMED_RUN_CONTROL.md) before a timed launch or final
+response. The original four-hour session was stopped by the user and was not
+fulfilled. No resumed research is authorized by this documentation repair.
+The residual-layer package is partial with changes requested; consult the current
+Vault review rather than its superseded complete/accepted packet.

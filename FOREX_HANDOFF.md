@@ -36,6 +36,11 @@ Timed forecasting selection follows [forecasting continuation](docs/FORECASTING_
 and the Vault FOREX_FORECASTING_CONTINUATION.md. A blocked experiment is local to its
 dependents; continue supported siblings during the user's requested duration.
 
+Timed launches and final-response checks use [run control](docs/TIMED_RUN_CONTROL.md).
+The September 24 session is stopped by the user. Its residual checkpoint acceptance
+was retracted; the current Vault review contains seven required corrections. Do not
+restart the old session or count its idle gap as work.
+
 For detailed research continuation and a two-hour launch prompt, use
 [research handoff](docs/RESEARCH_HANDOFF.md), then the Vault
 `FOREX_RESEARCH_PATH.md`. That path defines the next implementation acceptance gate

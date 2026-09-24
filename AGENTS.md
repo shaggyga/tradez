@@ -34,3 +34,10 @@ Timed forecasting requests follow docs/FORECASTING_CONTINUATION.md and the Vault
 FOREX_FORECASTING_CONTINUATION.md. One blocked experiment or pending independent
 review does not stop eligible sibling work. Record per-run identities without
 freezing development; preserve the original deadline and document any early stop.
+
+Before launching or ending a timed turn, follow docs/TIMED_RUN_CONTROL.md and invoke
+tools/forex_timed_session.py. A saved deadline is not execution. Do not send a normal
+final while authorized work and time remain; verify a continuation backend before
+yielding. User stop is terminal until new authorization. Tests do not replace the
+candidate's full acceptance gates, and failed review never becomes accepted by
+copying prior pointer metadata.

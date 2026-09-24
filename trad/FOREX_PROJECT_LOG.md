@@ -7398,3 +7398,17 @@ Vault packet: [FORECASTING_CONTINUATION_20260924_191848](../../../OneDrive/theva
 Step: forecasting_timed_continuation_policy_v2. Local evidence:
 continuation_policy_20260924_191848. Exact source/checkpoint identity resolves through
 SHARED_GIT_REMOTE_LATEST.json. GPT/advisor comparisons remain deferred.
+
+## 2026-09-24 — timed control repair; research stopped
+
+User: "Don’t resume ensure it doesn’t repeat". No research resumed.
+Current correction/review: `thevault/projects/forex/TIMED_RUN_CONTROL_REPAIR_20260924_231734/REVIEW.md`.
+Local evidence: `timed_20260924_194649/continuation_repair`. Same step `mabel-timed-controls-repair-20260924`.
+Control guard: 22 tests and two independent probes passed; independent acceptance
+applies only to helper/tests. Immutable deadline, early-finish gate, backend
+receipt requirement and terminal stop documented in docs/TIMED_RUN_CONTROL.md.
+Old four-hour fulfillment/active/extended-deadline claims are withdrawn.
+Residual complete/accepted claim retracted: R1-R7 require repair, next `currency_projection_residual_layer_comparison_v2`
+on a new research instruction. Preserve old attempt; numerical code unchanged.
+Exact code, evidence and restore identities: packet MANIFEST.json, independent
+review and GIT_RESTORE_RECEIPT.json; final commit in SHARED_GIT_REMOTE_LATEST.json.
