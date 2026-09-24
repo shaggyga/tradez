@@ -7365,3 +7365,7 @@ Local evidence: `timed_20260924_110416/currency_projection_policy_step/runs` (11
 Zero-replay attribution over the completed policy matrix produced 144 arm-level rows from 24 reference paths. It retains all methods, cost scenarios and policy arms, and separates 436 selections,266 actual openings and170 selected-but-unopened outcomes plus financing/terminal state. No winner, aggregate profitability, confirmation or trading claim. Three focused tests passed; no model, replay, API or live work.
 
 Vault: [CURRENCY_PROJECTION_POLICY_ATTRIBUTION_20260924_114246](../../../OneDrive/thevault/projects/forex/CURRENCY_PROJECTION_POLICY_ATTRIBUTION_20260924_114246/REVIEW.md). Source Git `f062ebf8299b882aa84572648646b05aaada2edf`. Next: freeze a compact policy checkpoint recipe with the measured storage budget.
+
+## 2026-09-24 — currency projection policy checkpoint R2
+
+Compact checkpoint `CURRENCY_PROJECTION_POLICY_CHECKPOINT_R2.zip` contains 123 authenticated parent/source members and expected manifests for all48 policy outputs. Fresh R2 restoration completed all48 replays and every output payload inventory matched exactly; engine-neutral parity review also passed. Capsule SHA256 `37c17453a506d59c0a4c920e24f66b804999a0d5a6e62afd4f7625e134ef1d90`; implementation Git `2d8f46e471aa4607f7760e4c1f70b5fb6faa3074`. The complete restore is retained locally for this session; future cleanup requires the storage-retention procedure.
