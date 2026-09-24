@@ -68,6 +68,13 @@ def test_empty_or_missing_event_is_explicit_and_ui_payload_is_data_only():
     assert payload["forecast_admission"] is False and "html" not in payload
 
 
+def test_joined_view_keeps_text_concepts_beside_numeric_evidence():
+    row = document(); row["retained_text"] = "Release text"; row["concepts"] = ["inflation"]
+    html = join.render_joined_html([row])
+    assert "retained_text" in html and "concepts" in html and "numeric_evidence" in html
+    assert "innerHTML" not in html
+
+
 def test_build_requires_all_four_sidecars():
     with pytest.raises(ValueError,match="numeric_join_sidecars_missing"):
         join.build_joined_meter({})

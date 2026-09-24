@@ -187,4 +187,4 @@ def render_joined_html(documents):
 <script id=\"joined-data\" type=\"application/json\">"""+data+"""</script><script>
 'use strict';const rows=JSON.parse(document.getElementById('joined-data').textContent),s=document.getElementById('document'),d=document.getElementById('detail');
 rows.forEach((r,i)=>{const o=document.createElement('option');o.value=i;o.textContent=r.source_id+' · '+r.event_id;s.append(o)});
-function show(){d.textContent=JSON.stringify(rows[Number(s.value)].numeric_evidence,null,2)}s.onchange=show;show();</script>"""
+function show(){const r=rows[Number(s.value)];d.textContent=JSON.stringify({event_id:r.event_id,source_id:r.source_id,concepts:r.concepts,retained_text:r.retained_text,numeric_evidence:r.numeric_evidence},null,2)}s.onchange=show;show();</script>"""
