@@ -1,0 +1,64 @@
+{
+  "schema_version": "forex_forecast_blend_experiment_contract.v1",
+  "experiment_id": "retained_equal_weight_forecast_blend_diagnostic_v2",
+  "status": "frozen_before_implementation_and_scoring",
+  "design_requirement_ids": ["R03", "R04", "R09", "R10", "R14", "R15", "WP7", "16.1", "16.2", "16.3", "20.1", "20.2", "27.5"],
+  "hypothesis": "A fixed half-weight combination of existing Ridge and recovered HGB endpoint predictions may have lower matched development error than either unchanged base prediction.",
+  "material_difference": "The blend is a deterministic two-model diagnostic, not a new base learner, selected weight, calibrated forecast, ranker, policy, or economic result.",
+  "reused_predecessors": {
+    "calibration_recipe_sha256": "a894436db0ab12f820f2ab4e242a41da2d3f9cae2b3dad7763955e34e622046d",
+    "paths_sha256": "040798c3997916eb4704d0ad8935e94a62438a495218f8f8583862de474b9d8e",
+    "joint_run_identity": "bd7b33a2a66090418de21f3ea7317d8aa07edf1ae6b0ccc391a6c64c7be304bf",
+    "technical_run_identity": "3c51adb6cb8467ed15b1bf604c03c917bc0cab7d91180a3674336ccf6765f9d6",
+    "input_tier": "preserved_original_forecast_and_label_records"
+  },
+  "population": {
+    "group": "legacy26",
+    "universe": "all_original_68_instruments_with_explicit_coverage",
+    "target_family": "technical_endpoint_midpoint_elapsed_signed_return_bps",
+    "horizons_minutes": [15, 60, 240, 720, 1440, 2880, 7200],
+    "procedures": ["frozen", "adaptive"],
+    "origins": "all_20_original_joint_readiness_origins",
+    "assessment_asof_epoch": 1722556800,
+    "maturity": "base_prediction_available_and_original_target_label_available_at_or_before_assessment_asof",
+    "unsupported_targets": "retain explicit missing-label or coverage reason; do not substitute session targets"
+  },
+  "causal_rules": {
+    "join_key": ["record_id", "instrument", "target_id", "decision_epoch", "procedure", "selected_fit_id", "selected_fit_cutoff"],
+    "blend": "0.5 * ridge_prediction + 0.5 * recovered_hgb_prediction only when both source rows and their model/readiness identities match exactly",
+    "available_epoch": "max_of_exact_base_available_epochs",
+    "outcome_rules": "outcome is assessment-only and cannot enter original blend payload; reject an outcome available after assessment_asof or before its label_end_epoch",
+    "forbidden": ["new_fit", "model_deserialization", "learned_weight", "horizon_or_model_selection", "coverage_backfill", "future_label_access", "forecast_or_policy_promotion"]
+  },
+  "comparators": ["ridge", "recovered_hgb", "fixed_equal_half_blend", "zero_return_diagnostic"],
+  "metrics": {
+    "primary": "row-weighted paired MAE delta of blend against each unchanged base on identical mature paired support",
+    "secondary": ["paired MSE delta", "mean signed error", "base-error covariance", "by-origin metrics", "by-UTC-day metrics", "native coverage", "matched support", "base missingness"],
+    "uncertainty": "descriptive contiguous origin moving-block sensitivity for block lengths 4, 8, 20 with 2000 replicates and seed 20260922; insufficient support returns explicit no_interval",
+    "dependence_limit": "shared currencies, overlapping horizons and short inspected development period prohibit effective-N, p-values, winner labels and confirmation"
+  },
+  "outcomes": {
+    "positive": "Record observed negative paired MAE deltas without calling a winner or improvement confirmation.",
+    "negative": "Record all declared comparator results without retuning.",
+    "inconclusive": "Retain missing support, insufficient blocks, mixed comparators and all unavailable labels.",
+    "economic": "Not assessed; endpoint error alone has no cost/risk/financing/fill interpretation."
+  },
+  "resources": {
+    "workers": 1,
+    "main_wall_seconds": 300,
+    "max_rss_bytes": 1073741824,
+    "max_scratch_bytes": 1073741824,
+    "checkpoint_wall_seconds": 600,
+    "checkpoint_max_rss_bytes": 2147483648,
+    "fit_count_cap": 0,
+    "model_load_count_cap": 0,
+    "api_calls": 0,
+    "download_calls": 0
+  },
+  "readiness": {
+    "engineering_ready": false,
+    "forecast_evidence_status": "unevaluated_frozen_development_diagnostic",
+    "policy_evidence_status": "not_evaluated",
+    "demo_authorization_status": "not_granted"
+  }
+}
