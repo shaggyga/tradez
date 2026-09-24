@@ -21,10 +21,10 @@ def run_manifest(root):
 
 def export(package,runs,native,extension,source):
     c=json.loads((ROOT/'CURRENCY_PROJECTION_POLICY_CONTRACT_V2.json').read_text()); expected=run_manifest(runs); records=[]
-    names=['RUN_IDENTITY.json','COMPLETION_MANIFEST.json']+[f'frame_{cohort}_{origin}.json' for cohort,v in c['cohorts'].items() for origin in v['origins']]
+    names=['RUN_IDENTITY.json','COMPLETION_MANIFEST.json']+[x['path'] for x in json.loads((Path(native)/'COMPLETION_MANIFEST.json').read_text())['payloads']]
     values={}
     for name in names:values['native/'+name]=(Path(native)/name).read_bytes()
-    for name in ('RUN_IDENTITY.json','COMPLETION_MANIFEST.json','market_later_monday.json','market_later_tuesday.json'):values['extension/'+name]=(Path(extension)/name).read_bytes()
+    for name in ['RUN_IDENTITY.json','COMPLETION_MANIFEST.json']+[x['path'] for x in json.loads((Path(extension)/'COMPLETION_MANIFEST.json').read_text())['payloads']]:values['extension/'+name]=(Path(extension)/name).read_bytes()
     source_files=['CURRENCY_PROJECTION_POLICY_CONTRACT_V2.json','currency_projection_policy_operator_v2.py','currency_projection_policy_fixture_v2.py','currency_projection_policy_input_v2.py','policy_runner_v2.py','historical_native_input_v2.py','currency_projection_policy_review_v2.py','currency_projection_policy_checkpoint_v2.py']
     for name in source_files:values['source/'+name]=(Path(source)/name).read_bytes()
     values['EXPECTED.json']=enc(expected); values['SCOPE.json']=enc({'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=source,text=True).strip(),'parent_native_identity':c['parent_native_identity'],'parent_extension_identity':c['parent_extension_identity'],'output_scope':'48 replay outputs, verified against manifest hashes','restore':'requires a clean Git checkout at source_commit and same locked Python environment'})
