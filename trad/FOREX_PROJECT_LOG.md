@@ -7092,3 +7092,21 @@ Recipe SHA256 `d60a6f02d8c757a0e845f0851d7952d7f672b2483511d6fb62183b69c1f57327`
 Local raw evidence: `timed_research_20260924_004443/warm_repaired`; independent review: sibling `warm_review`. Provisional attempts are preserved separately; an overbroad predecessor-suite invocation was cancelled rather than claimed passed. Independent publication and final startup readback are recorded separately in the final Git receipt.
 
 Exact next item: `freeze_retained_equal_weight_forecast_blend_diagnostic_v2`. Freeze the retained Ridge/HGB equal-weight saved-tape diagnostic contract before computation; its candidate card is a proposal, not a result. GPT/advisor comparisons, paid calls, broker/service/account actions and D-drive work stay deferred.
+
+## 2026-09-24 — retained equal-weight forecast blend implementation
+
+Implemented and pushed commit `0e2ee80304c3fc360168e261d8b3a8d1c006cf5a` on branch `forex`.
+The frozen saved-record blend joins exact retained Ridge and recovered-HGB forecasts
+with a fixed one-half weight and keeps coverage refusals explicit. The completed run
+identity is `c818e8a353ad183c14ca02bc22e202b5b73df67bf53069a285426e8bf2447c2f`;
+it has 14 chunks, 19,040 coverage rows, 18,192 blend rows, 848 unavailable rows,
+14,970 mature assessment rows, and zero fits, model loads, API calls, or new forecasts.
+
+Focused tests passed (4); forced interruption after the first chunk resumed to exact
+58-payload hash parity with the clean run. The portable checkpoint SHA-256 is
+`86009055e1f3d455ade432d09c790f876b81610e1bb2ba7489c5a294fa9efbba` and
+restored in a fresh directory with all 58 payloads identical and relocated tests passing.
+The packet is `FORECAST_BLEND_20260923_221900/REVIEW.md`. It is ready for independent
+review only: metrics are descriptive, no winner/confirmation/economic claim is made,
+and no forecast/policy/demo authorization exists. Exact next item:
+`review_retained_equal_weight_forecast_blend_diagnostic_v2`.
