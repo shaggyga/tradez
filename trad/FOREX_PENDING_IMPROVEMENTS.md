@@ -5233,3 +5233,17 @@ The entry above is historical. Resolve current numeric-join repairs through
 After its independent acceptance, resume the existing partial
 `whole_curve_warm_start_capacity_followup_v2` using the retained warm_curve_step/RESUME.md.
 Preserve both prototype runs and saved model inputs; do not refit.
+
+
+## 2026-09-24T01:31:16.645175+00:00 — retained warm-curve partial completed
+
+Step `whole-curve-warm-start-followup` / `whole_curve_warm_start_capacity_followup_v2` is independently accepted within its engineering scope. Reused the original466-file saved-input capsule; no fitting or new forecast issuance. New pinned operator supports status/run/resume/verify, reconstructs legal caches chronologically after actual process death, preserves all20 original timing receipts, and refuses source/input/cache/resource drift. Four independent findings were repaired in the successor; predecessors remain unchanged.
+
+Verification:14 unit tests;16 independent refusal/resource checks; actual early and precompletion crashes recovered; completed invocation idempotent; fresh portable restore reproduces44 scientific payloads and passes14 tests. Both engines preserve143,904 forecast values and152,320 coverage rows. Warm observed maximum0.86s across20 origins; fixed prewarm and same-host measurements do not qualify live timing or improved forecast skill. Full design remains unfinished.
+
+Vault packet: `thevault/projects/forex/WARM_OPERATOR_20260924_004443/REVIEW.md`.
+Recipe SHA256 `d60a6f02d8c757a0e845f0851d7952d7f672b2483511d6fb62183b69c1f57327`; run `a0542caf18cb747d9338b4527ec06c366d945cc29d247b56bc02a3dbcdecbbf1`; checkpoint SHA256 `2efe076154ef6803344328b6aac785adc72453154e3e5490636e00838b144a86`. Exact final Git commit/bundle resolves through `SHARED_GIT_REMOTE_LATEST.json`. Restore/rollback commands and local-to-packet evidence map are in `WARM_OPERATOR_20260924_004443/RESTORE_AND_ROLLBACK.md`.
+
+Local raw evidence: `timed_research_20260924_004443/warm_repaired`; independent review: sibling `warm_review`. Provisional attempts are preserved separately; an overbroad predecessor-suite invocation was cancelled rather than claimed passed. Independent publication and final startup readback are recorded separately in the final Git receipt.
+
+Exact next item: `freeze_retained_equal_weight_forecast_blend_diagnostic_v2`. Freeze the retained Ridge/HGB equal-weight saved-tape diagnostic contract before computation; its candidate card is a proposal, not a result. GPT/advisor comparisons, paid calls, broker/service/account actions and D-drive work stay deferred.
