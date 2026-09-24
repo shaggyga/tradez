@@ -33,6 +33,8 @@ def identity_for(contract,frames,trad_root=DEFAULT_TRAD,engine="reference"):
     if any(f.get('model_profile') is not None for f in frames):
         sources=(*sources,'matched_policy_input_v2.py','matched_policy_fixture_v2.py',
             'matched_remaining_native_v2.py','matched_campaign_models_v2.py','retained_signed_cost_models_v1.py')
+    if any(f.get('model_profile') == 'matched26_fixed_half_remaining_policy.v1' for f in frames):
+        sources=(*sources,'fixed_blend_remaining_policy_v2.py')
     return effective_run_identity(contract={"schema_version":"forex_policy_run.v2","contract":contract,"engine":engine,
         "python":".".join(map(str,sys.version_info[:3])),"frame_count":len(frames),"required_payloads":sorted(required(len(frames)))},
         dependency_hashes={**{n:sha256_file(ROOT/n) for n in sources},

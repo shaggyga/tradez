@@ -162,8 +162,16 @@ def test_completed_run_checks_corruption_and_changed_config(tmp_path):
 
 
 def test_operator_frozen_policy_recipe_runs_verifies_and_refuses_corruption(tmp_path):
-    from forex_operator_v2 import operate,sha
-    p=ROOT/'POLICY_OPERATOR_RECIPE.json'; h=sha(p)
+    from forex_operator_v2 import operate,sha,approved_recipe
+    historical=ROOT/'POLICY_OPERATOR_RECIPE.json'
+    refused=operate('status',historical,sha(historical),tmp_path,DEFAULT_TRAD)
+    assert refused['status']=='review_required'
+    assert refused['detail']=='source_dependency_environment_or_recipe_drift'
+    # This is a synthetic protocol fixture, not a reapproval of the historical
+    # research recipe. Preserve that recipe and pin the current test source.
+    p=tmp_path/'CURRENT_POLICY_TEST_RECIPE.json'
+    p.write_text(json.dumps(approved_recipe(DEFAULT_TRAD,'synthetic_policy_continuation')))
+    h=sha(p)
     assert operate('status',p,h,tmp_path,DEFAULT_TRAD)['status']=='ready'
     result=operate('run',p,h,tmp_path,DEFAULT_TRAD)
     assert result['status']=='completed_verified',result

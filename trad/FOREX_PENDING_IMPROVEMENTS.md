@@ -5278,3 +5278,21 @@ Raw evidence: until8am_20260923_215844/convex_step. Shared revision resolves thr
 SHARED_GIT_REMOTE_LATEST.json. Next: `fixed_blend_remaining_policy_comparison_v2`,
 using separate original common-target forecasts and unchanged policy/cost settings.
 GPT/advisor comparisons and external/account actions remain deferred.
+
+
+## 2026-09-24 — fixed remaining-target blend and policy comparison
+
+Completed `fixed_blend_remaining_policy_comparison_v2`; Vault `FIXED_REMAINING_BLEND_20260924_040000/REVIEW.json`.
+Recipe `d0172a20a26525d08cf7156cad22fe3774273ac9139aad538fdbabc9c18ed2bc`; checkpoint `205f959b5900533466b752ae547fd282eead364424cc4dcab4896209529a0dbb`.
+All12run identities are in the packet review and main operator receipt.12runs/312
+payloads and the36row report reproduce in a fresh directory;15local and15relocated
+tests pass.47parent regressions verified across invocations (one historical-recipe
+test corrected); real early/final crashes recover26payloads.40original economic
+payloads and30engine parity pairs match.538blend packets pass separate Decimal checks.
+RP-DISK-1 preserves the undersized1GiB refusal and measured4GiB successor; science
+unchanged. Old recipes remain bound to sealed source, not silently reapproved.
+All68 coverage and all policy results retained; no universal improvement or trading
+authorization. Saved models were loaded for authenticated inference; no fits or API
+calls. Raw evidence: until8am_20260923_215844/policy_blend_step. Same-task review
+accepted bounded scope; independent review pending and nonblocking. Shared revision
+resolves through SHARED_GIT_REMOTE_LATEST.json. Next: absolute_movement_forecast_comparison_v2.

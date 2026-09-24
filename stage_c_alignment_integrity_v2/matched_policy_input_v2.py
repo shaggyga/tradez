@@ -8,6 +8,9 @@ from reference_accounting_adapter_v2 import DEFAULT_TRAD
 PROFILE='matched26_remaining_native_policy.v1'
 
 def adapted_candidates(frame,config,trad_root=DEFAULT_TRAD):
+    if frame.get('model_profile') == 'matched26_fixed_half_remaining_policy.v1':
+        from fixed_blend_remaining_policy_v2 import adapted_candidates as fixed_blend_candidates
+        return fixed_blend_candidates(frame,config,trad_root)
     from historical_native_input_v2 import prepared_candidate
     if frame.get('model_profile')!=PROFILE or frame.get('method') not in METHODS:
         raise ValueError('matched_policy_profile_required')
