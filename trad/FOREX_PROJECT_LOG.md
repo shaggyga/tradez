@@ -7759,3 +7759,8 @@ Three delegated reviewers verified REV-01..05 against source `f91d1f4470c16901a4
 ## REV-01 design authority repair 2026-09-25T13:55:19.136999+00:00
 
 The full engineering design is restored as governing design in `C:\Users\zmoor\OneDrive\thevault\projects\forex\DESIGN_AUTHORITY_REPAIR_20260925_135023/specification/FOREX_CODEX_ENGINEERING_DESIGN.md`, SHA-256 `61d9713034f6f058d9f59ff11c0dd05b2a7e36583dffb2cd6d6300c64b8dc374`. All 556 source snapshot files match predecessor manifest `91c450c32cdff479f36eafb1db4270b78914e233fa82fcbb4b5943a31a6de7f1`. Vault packet `C:\Users\zmoor\OneDrive\thevault\projects\forex\DESIGN_AUTHORITY_REPAIR_20260925_135023/REVIEW.md`; Git scientific source unchanged. Same-task review accepted within scope; independent review of this implementation remains separate. Exact next `residual_r4_full_relocated_replay_verification_v2`.
+
+
+## REV-02 portable residual replay 2026-09-25T14:04:27.012307+00:00
+
+Vault packet `C:\Users\zmoor\OneDrive\thevault\projects\forex\RESIDUAL_R4_RELOCATED_REPLAY_20260925_140153\REVIEW.md`. Restored 279 authenticated capsule members and 195 preserved projection payloads; guarded replay returned exact SHA-256 `a1c518b93224cfeeb7a1f66ed5905ffb5d7138f0021f8c3bee50383b72bb295c` with zero original-root access attempts. Fourteen focused tests passed. Same-task review accepts the replication gate; independent review remains distinct. No base-model fit or projection regeneration. Next `curve_authenticated_population_guard_v2`.
