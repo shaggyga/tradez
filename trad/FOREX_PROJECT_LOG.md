@@ -7738,3 +7738,6 @@ Published `MACRO_EVENT_TEXT_VALUE_ASSESSMENT_20260925_082500` for `macro_event_t
 
 
 **2026-09-25T08:51:03.107167Z UTC — Currency concentration support census:** Focused tests passed 13/13. Offline support exists for concentration veto/admission, pending-order exposure, late OCO gross-risk visibility and currency-incidence diagnostics; time-weighted all-68 portfolio exposure remains unestablished. Vault packet: `CURRENCY_CONCENTRATION_SUPPORT_CENSUS_20260925_085200/REVIEW.json`. Next: `interaction_null_control_support_census_v2`.
+
+
+**2026-09-25T08:52:43.571178Z UTC — Interaction/null-control support census:** Existing completed artifacts cover interaction diagnostics, noise controls, blocked-time/leak controls and dependence diagnostics. No duplicate run performed; independent confirmation and trading readiness remain unclaimed. Vault packet: `INTERACTION_NULL_SUPPORT_CENSUS_20260925_085800/REVIEW.json`. Next: `remaining_design_branch_eligibility_refresh_v2`.
