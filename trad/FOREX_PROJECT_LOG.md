@@ -7439,3 +7439,16 @@ Vault: [CURVE_SHAPE_SCOPE_REPAIR_20260925_005100](../../../OneDrive/thevault/pro
 Source Git 3b59dd71978db58258e6436f831176ddb810273e; focused validation: 17 passed.
 Independent scientific review remains pending and is nonblocking for eligible forecasting
 siblings. Mutable queue/pointers remain unchanged until acceptance.
+
+## 2026-09-25 — residual-curve-shape stacking support result
+
+Implemented the first contract-frozen cross-horizon shape layer over authenticated
+prequential residual forecasts. The retained residual result contains no complete panels
+across all eight required horizons, so the diagnostic issued zero synthetic forecasts and
+preserved every 24-origin × 68-pair × 2-base cell as an explicit no-support record. This
+is a completed negative support result, not an error hidden by imputation.
+
+Vault: [RESIDUAL_CURVE_SHAPE_STACK_20260925_010500](../../../OneDrive/thevault/projects/forex/RESIDUAL_CURVE_SHAPE_STACK_20260925_010500/REVIEW.md).
+Source Git dd118093fadba27c3d5d8f6b4fc474bbf8aa95b9; focused validation: 19 passed.
+Independent scientific review remains pending and nonblocking. The next layering branch
+must use a complete retained multi-horizon source or diagnose the residual-grid gap.
