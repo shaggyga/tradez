@@ -7779,3 +7779,9 @@ Selected a material nine-feature spread/activity mask after authenticating 210 r
 
 REV-04 Vault handoff: C:\Users\zmoor\OneDrive\thevault\projects\forex\RICH_SPREAD_INCREMENT_20260925_142015\REVIEW.md. Full source snapshot and saved 74-payload run checkpoint restored and verified in a fresh directory; packet manifest SHA-256 7c26504ab9005f5c2a6a562b2c7808d0aa9f339b11dfc675e7d3a8215195cb76. Same-task review; independent review remains separate. Next retained_policy_exposure_or_cost_support_qualification_v2.
 
+
+
+## REV-05 selected reference policy exposure 2026-09-25T14:34:15.3811701Z
+
+Prespecified ridge__half_residual later-Tuesday zero-slippage financing reference path from the retained matrix. Authenticated policy, native and extension run manifests; eight selected decision-frame packet lists exactly match verified native parents, reconstructed candidate identities match, and all 19 input frames retain 68 market records with 66-68 qualified quotes. The 91 event rows span 172,798 seconds. A bounded event-sampled concentration report holds each post-event exposure only until the next recorded event, with explicit limitations for intrainterval market changes. Continuation arm was exposed for 107,940 seconds and its peak combined gross was about 2,000.40 USD; cash/recovered arms held no exposure in this sampled path. Fresh tests: two passed. No fit, policy replay, broker action, or inference from reference/optimized duplicates. Local evidence: evidence/four_hour_20260925_135023/policy_exposure_qualification. Vault publication pending. Exact next bounded_distinct_method_support_qualification_v2.
+
