@@ -7465,3 +7465,15 @@ Vault: [FORECAST_TAPE_20260925_013200](../../../OneDrive/thevault/projects/forex
 Source Git 4e1f42819bb4d8b255b863d003c649ba5f5da915; tape SHA-256
 cbb7c5bfd56c67390482e4363ea6226afa89e09b62f4b7aea2bc0c77e30466c6.
 The next comparison can reuse this tape rather than reconstructing its forecast sources.
+
+## 2026-09-25 — forecast-tape reseal and support correction
+
+The initial immutable-tape file was retained but superseded before any comparison:
+its parent provenance was appended after the tape fingerprint had been calculated.
+The corrected V2 tape includes provenance before sealing and uses curve result V3,
+which preserves `horizon_minutes` on learned curve forecasts. It self-validates and
+has exact source support of 3,786 projection/residual rows and 946 rows each for
+projection/curve and residual/curve, across all 68 pairs and seven origins. Focused
+forecast-tape, curve-shape, and residual-layer validation: 19 passed.
+
+Vault: [FORECAST_TAPE_RESEAL_20260925_014200](../../../OneDrive/thevault/projects/forex/FORECAST_TAPE_RESEAL_20260925_014200/REVIEW.md). This is a provenance repair, not an accepted performance comparison; no outcomes, new fit, API, broker/service/account, policy, or live-bot action occurred.
