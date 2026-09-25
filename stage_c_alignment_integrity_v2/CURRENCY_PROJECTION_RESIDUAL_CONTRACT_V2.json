@@ -1,0 +1,35 @@
+{
+  "schema_version": "forex_currency_projection_residual_contract.v2",
+  "experiment_id": "currency_projection_residual_layer_comparison_v2",
+  "parent_experiment_id": "currency_factor_forecast_projection_v2",
+  "parent_projection_recipe_sha256": "ef1b24f002891bc84408e24cf084254e27f6165c0af048c51b382bd43ca53e8d",
+  "parent_projection_run_identity": "5c8cb84166076bcdba4724dc277c32e2520de4f548869adca3491807ef10b0d3",
+  "forecasting_scope": {
+    "origins": 24,
+    "base_methods": ["ridge", "recovered_hgb"],
+    "horizons_minutes": [360, 720, 1080, 1440, 1800, 2160, 2520, 2880],
+    "expected_scope_count": 384,
+    "universe_size": 68,
+    "controls": ["direct", "currency_projection", "half_residual"]
+  },
+  "residual_layer": {
+    "minimum_distinct_origins": 8,
+    "minimum_distinct_utc_days": 3,
+    "minimum_distinct_pairs": 20,
+    "minimum_residual_weight": 0.0,
+    "maximum_residual_weight": 1.0,
+    "base_model_fits": 0,
+    "selection_policy": "one bounded scalar residual family; no tuning, retry search, or winner selection"
+  },
+  "acceptance": {
+    "require_authenticated_parent_recipe_and_completed_manifest": true,
+    "require_exact_output_inventory": true,
+    "require_pre_target_forecast_clock": true,
+    "require_exact_record_target_label_binding": true,
+    "require_full_scope_coverage_ledger": true,
+    "require_paired_per_origin_and_utc_day_metrics": true,
+    "native_policy_status": "not_admitted_offline_diagnostic",
+    "trading_authorization": "not_granted"
+  },
+  "scope": "Offline retrospective development diagnostic only. GPT/advisor comparisons, paid calls, broker/service/account actions, D-drive work and live-bot changes are excluded."
+}

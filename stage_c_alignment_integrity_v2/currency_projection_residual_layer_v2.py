@@ -25,7 +25,7 @@ def _validate(row):
         raise ValueError("residual_layer_record_identity")
     if row["target_epoch"] != row["origin_epoch"] + row["horizon_minutes"] * 60:
         raise ValueError("residual_layer_target_clock")
-    if row["available_epoch"] >= row["target_epoch"]:
+    if not row["origin_epoch"] <= row["available_epoch"] < row["target_epoch"]:
         raise ValueError("residual_layer_forecast_not_pre_target")
     if row["variant"] not in CONTROLS:
         raise ValueError("residual_layer_unknown_control")
@@ -36,7 +36,9 @@ def _validate(row):
 
 def _outcome(row, outcomes):
     value = outcomes.get((row["record_id"], row["target_id"]))
-    if value is None or value["label_end_epoch"] != row["target_epoch"]:
+    if (value is None or value["record_id"] != row["record_id"]
+            or value["target_id"] != row["target_id"]
+            or value["label_end_epoch"] != row["target_epoch"]):
         raise ValueError("residual_layer_exact_label_required")
     if value["available_epoch"] < value["label_end_epoch"]:
         raise ValueError("residual_layer_label_before_endpoint")
@@ -60,7 +62,7 @@ def group_controls(rows):
     return grouped
 
 
-def fit_snapshot(rows, outcomes, cutoff_epoch, contract):
+def fit_snapshot(rows, outcomes, cutoff_epoch, contract, expected_scopes=None):
     if not isinstance(cutoff_epoch, int):
         raise ValueError("residual_layer_integer_cutoff_required")
     grouped = group_controls(rows)
@@ -77,19 +79,38 @@ def fit_snapshot(rows, outcomes, cutoff_epoch, contract):
         members.append((key, controls, outcome))
     members.sort(key=lambda item: (item[1]["direct"]["origin_epoch"], item[1]["direct"]["instrument"], item[0][0]))
     by_scope = defaultdict(list)
+    # The caller supplies the frozen experiment grid.  Emit a diagnostic
+    # snapshot for every scope, including ones that have no eligible training
+    # labels, rather than making missing scopes disappear from the report.
+    for scope in expected_scopes or ():
+        if not (isinstance(scope, tuple) and len(scope) == 2):
+            raise ValueError("residual_layer_invalid_expected_scope")
+        by_scope[scope]
     for key, controls, outcome in members:
         by_scope[key[:2]].append((controls, outcome))
     snapshots = {}
     for (base, horizon), part in sorted(by_scope.items()):
         origins = Counter(controls["direct"]["origin_epoch"] for controls, _ in part)
         days = {origin // 86400 for origin in origins}
+        membership = [{"record_id": controls["direct"]["record_id"],
+                       "origin_epoch": controls["direct"]["origin_epoch"],
+                       "instrument": controls["direct"]["instrument"],
+                       "direct_forecast_id": controls["direct"]["forecast_id"],
+                       "projection_forecast_id": controls["currency_projection"]["forecast_id"],
+                       "half_residual_forecast_id": controls["half_residual"]["forecast_id"],
+                       "label_sha256": fingerprint(outcome)}
+                      for controls, outcome in part]
         support = {
             "rows": len(part), "distinct_origins": len(origins), "distinct_utc_days": len(days),
             "distinct_pairs": len({controls["direct"]["instrument"] for controls, _ in part}),
-            "membership_sha256": fingerprint([{"record_id": controls["direct"]["record_id"], "direct_forecast_id": controls["direct"]["forecast_id"], "projection_forecast_id": controls["currency_projection"]["forecast_id"], "label_sha256": fingerprint(outcome)} for controls, outcome in part]),
+            "membership_sha256": fingerprint(membership), "training_membership": membership,
         }
         status, weight = "insufficient_distinct_support", None
-        if support["distinct_origins"] >= contract["minimum_distinct_origins"] and support["distinct_utc_days"] >= contract["minimum_distinct_utc_days"]:
+        if not part:
+            status = "no_mature_training_support"
+        if part and (support["distinct_origins"] >= contract["minimum_distinct_origins"]
+                and support["distinct_utc_days"] >= contract["minimum_distinct_utc_days"]
+                and support["distinct_pairs"] >= contract["minimum_distinct_pairs"]):
             terms = []
             for controls, outcome in part:
                 projection = _log_bps(controls["currency_projection"]["prediction_bps"])
@@ -105,7 +126,8 @@ def fit_snapshot(rows, outcomes, cutoff_epoch, contract):
                 status = "fitted"
         snapshot = {"schema_version": "forex_currency_projection_residual_snapshot.v1", "base_method": base, "horizon_minutes": horizon,
                     "cutoff_epoch": cutoff_epoch, "status": status, "residual_weight": weight, "support": support,
-                    "contract_sha256": fingerprint(contract), "base_models_refitted": False, "outcomes_revealed": False}
+                    "contract": contract, "contract_sha256": fingerprint(contract),
+                    "base_models_refitted": False, "outcomes_revealed": False}
         snapshot["layer_id"] = fingerprint(snapshot)
         snapshots[base, horizon] = snapshot
     return snapshots
@@ -121,14 +143,31 @@ def apply(rows, snapshots):
         if snapshot["layer_id"] != fingerprint({k: v for k, v in snapshot.items() if k != "layer_id"}):
             raise ValueError("residual_layer_snapshot_identity")
         direct, projected = controls["direct"], controls["currency_projection"]
+        half = controls["half_residual"]
+        if any(item["base_method"] != base or item["horizon_minutes"] != horizon
+               or item["record_id"] != record_id for item in controls.values()):
+            raise ValueError("residual_layer_application_scope_mismatch")
+        for name in ("currency_projection", "half_residual"):
+            if any(controls[name][field] != direct[field] for field in (
+                    "record_id", "target_id", "origin_epoch", "target_epoch",
+                    "horizon_minutes", "base_method", "instrument")):
+                raise ValueError("residual_layer_application_control_mismatch")
+        if snapshot["base_method"] != base or snapshot["horizon_minutes"] != horizon:
+            raise ValueError("residual_layer_snapshot_scope_mismatch")
+        if snapshot["contract_sha256"] != fingerprint(snapshot.get("contract", {})):
+            raise ValueError("residual_layer_snapshot_contract_binding")
         if snapshot["cutoff_epoch"] > direct["origin_epoch"]:
             raise ValueError("residual_layer_future_snapshot")
         if snapshot["status"] != "fitted":
             continue
         value = _simple_bps(_log_bps(projected["prediction_bps"]) + snapshot["residual_weight"] * (_log_bps(direct["prediction_bps"]) - _log_bps(projected["prediction_bps"])))
+        definition = {"family": "currency_projection_residual_scalar", "contract_sha256": snapshot["contract_sha256"],
+                      "base_method": base, "horizon_minutes": horizon, "layer_id": snapshot["layer_id"]}
         row = {**direct, "variant": "learned_residual", "method": base + "__learned_residual", "prediction_bps": value,
                "available_epoch": max(item["available_epoch"] for item in controls.values()), "layer_id": snapshot["layer_id"],
-               "residual_weight": snapshot["residual_weight"], "outcomes_revealed": False, "native_policy_admitted": False}
+               "residual_weight": snapshot["residual_weight"], "outcomes_revealed": False, "native_policy_admitted": False,
+               "parent_direct_forecast_id": direct["forecast_id"], "parent_projection_forecast_id": projected["forecast_id"],
+               "parent_half_residual_forecast_id": half["forecast_id"], "layer_definition_sha256": fingerprint(definition)}
         row["forecast_id"] = fingerprint({k: v for k, v in row.items() if k != "forecast_id"})
         result.append(row)
     return result

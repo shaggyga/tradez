@@ -7412,3 +7412,17 @@ Residual complete/accepted claim retracted: R1-R7 require repair, next `currency
 on a new research instruction. Preserve old attempt; numerical code unchanged.
 Exact code, evidence and restore identities: packet MANIFEST.json, independent
 review and GIT_RESTORE_RECEIPT.json; final commit in SHARED_GIT_REMOTE_LATEST.json.
+
+## 2026-09-25 — residual-layer repair successor
+
+Repaired the residual diagnostic’s R1-R7 issues against the authenticated 195-payload
+currency-projection parent. The successor freezes 8 origins, 3 UTC days and 20 pairs;
+verifies the parent recipe, run identity and full manifest before reading; retains all
+384 scope snapshots; reports issuance and maturity separately; and adds paired
+aggregate, origin and UTC-day diagnostics. The actual diagnostic issued 3,786 learned
+rows with 56 fitted, 128 insufficient-support and 200 no-mature-support scopes. No
+base fit, API call, policy replay, broker action or live-bot change occurred.
+
+Vault packet: [CURRENCY_PROJECTION_RESIDUAL_REPAIR_20260925_000700](../../../OneDrive/thevault/projects/forex/CURRENCY_PROJECTION_RESIDUAL_REPAIR_20260925_000700/evidence/REVIEW.md).
+Focused validation: 14 passed. It is implementation-complete but not accepted: its
+independent scientific review and only then the current queue/pointer update remain next.
