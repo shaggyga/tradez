@@ -6,17 +6,24 @@ from contracts import fingerprint
 from magnitude_layer_v2 import weighted_ridge
 
 
+def _origin(row):
+    return row.get("decision_epoch", row.get("origin_epoch"))
+
+
 def join_curve(rows, horizons):
     """Join an exact instrument/origin/base panel only after every horizon is ready."""
     expected = tuple(sorted(horizons))
     grouped = {}
     for row in rows:
-        key = row["instrument"], row["decision_epoch"], row["base_method"]
+        origin = _origin(row)
+        if not isinstance(origin, int):
+            raise ValueError("curve_shape_origin_required")
+        key = row["instrument"], origin, row["base_method"]
         part = grouped.setdefault(key, {})
         horizon = row["horizon_minutes"]
         if horizon not in expected or horizon in part:
             raise ValueError("curve_shape_duplicate_or_unexpected_horizon")
-        if row["available_epoch"] < row["decision_epoch"]:
+        if row["available_epoch"] < origin:
             raise ValueError("curve_shape_pre_origin_forecast")
         part[horizon] = row
     result = []
@@ -25,7 +32,7 @@ def join_curve(rows, horizons):
             continue
         first = part[expected[0]]
         if any(row["record_id"] != first["record_id"] or row["instrument"] != first["instrument"]
-               or row["decision_epoch"] != first["decision_epoch"] for row in part.values()):
+               or row.get("decision_epoch", row.get("origin_epoch")) != key[1] for row in part.values()):
             raise ValueError("curve_shape_cross_horizon_identity_mismatch")
         result.append({"instrument": key[0], "decision_epoch": key[1], "base_method": key[2],
                        "record_id": first["record_id"], "target_id": first["target_id"],
@@ -49,16 +56,16 @@ def fit_snapshot(rows, outcomes, cutoff, contract):
     eligible = []
     for row in rows:
         outcome = outcomes.get((row["record_id"], row["target_id"]))
-        if outcome is None or row["decision_epoch"] >= cutoff or row["available_epoch"] > cutoff:
+        if outcome is None or _origin(row) >= cutoff or row["available_epoch"] > cutoff:
             continue
         if outcome["available_epoch"] > cutoff or outcome["value"] is None:
             continue
         eligible.append((row, outcome))
-    origins = Counter(row["decision_epoch"] for row, _ in eligible)
+    origins = Counter(_origin(row) for row, _ in eligible)
     support = {"rows": len(eligible), "distinct_origins": len(origins),
                "distinct_utc_days": len({x // 86400 for x in origins}),
                "distinct_pairs": len({row["instrument"] for row, _ in eligible})}
-    membership = [{"record_id": row["record_id"], "origin_epoch": row["decision_epoch"],
+    membership = [{"record_id": row["record_id"], "origin_epoch": _origin(row),
                    "forecast_ids": row["forecast_ids"], "label_sha256": fingerprint(outcome)}
                   for row, outcome in eligible]
     support["membership_sha256"] = fingerprint(membership)
@@ -81,7 +88,7 @@ def fit_snapshot(rows, outcomes, cutoff, contract):
 def apply(row, snapshot):
     if snapshot["layer_id"] != fingerprint({k: v for k, v in snapshot.items() if k != "layer_id"}):
         raise ValueError("curve_shape_snapshot_identity")
-    if snapshot["cutoff_epoch"] > row["decision_epoch"] or snapshot["status"] != "fitted":
+    if snapshot["cutoff_epoch"] > _origin(row) or snapshot["status"] != "fitted":
         return None
     model = snapshot["parameters"]
     raw = features(row)
