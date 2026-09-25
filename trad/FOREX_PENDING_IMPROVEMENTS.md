@@ -5686,3 +5686,6 @@ Published `RICH_INCREMENTAL_DIRECT_EVAL_20260925_081700` for `rich_feature_famil
 ## 2026-09-25 macro/event/text incremental value assessment
 
 Published `MACRO_EVENT_TEXT_VALUE_ASSESSMENT_20260925_082500` for `macro_event_text_incremental_value_assessment_v2`. Event-existence macro features already have matched-control negative development evidence: MAE worsened +0.49675 bps at 1h and +2.53014 bps at 24h versus technical+clock. Broader text/numeric/reaction incremental compute is blocked before fit because numeric surprise is unavailable, retained text state has zero comparable text-change values, and release identity/calendar/matched price/no-move/semantic admission remain incomplete. Exact next: `design_branch_eligibility_review_v2`.
+
+
+**2026-09-25T08:26:28.998834Z UTC — Design branch eligibility review:** QREV-01 branch census complete without an exhaustion claim. Vault packet: `DESIGN_BRANCH_ELIGIBILITY_REVIEW_20260925_083000/REVIEW.json`. Exact next: `forecast_outcome_inspector_reconciliation_contract_v2`.
