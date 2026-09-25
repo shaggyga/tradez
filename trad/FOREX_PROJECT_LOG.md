@@ -7529,6 +7529,16 @@ present but the all-release identity/calendar and matched price/no-move populati
 not. That prevents a causal macro incremental comparison. Vault:
 [MACRO_INCREMENTAL_SUPPORT_20260925_022000](../../../OneDrive/thevault/projects/forex/MACRO_INCREMENTAL_SUPPORT_20260925_022000/REVIEW.md).
 
+## 2026-09-25 — queue reconciliation and retained macro closure
+
+The root queue had remained on a stopped timed residual item despite later
+verified support work. The retained macro matched-population successor was
+rechecked under its pinned source and inputs: 71 payloads, all 68 pairs, and
+the sealed 24 local plus 24 restored tests. It remains bounded outcome support,
+not a causal macro forecast result. The current next new forecast action is to
+freeze a material input/cohort contract before any fit. Vault:
+[QUEUE_RECONCILIATION_20260925_023000](../../../OneDrive/thevault/projects/forex/QUEUE_RECONCILIATION_20260925_023000/REVIEW.md).
+
 ## 2026-09-25 — EUR/USD bid/ask recording active
 
 User requested an accessible fastest-stream dataset through Friday 16:59 New York, replacing the visualization. Step `eurusd-recording-20260925`, recording `eurusd-a0972120db87`, source `b0dd42c9f6b0dc67fd6b9c5d141e25ed99b0320f`. Actual first receipt 2026-09-25T01:52:25.338085+00:00; cutoff 2026-09-25T20:59:00Z. Local data `trad/data/eurusd_feed_20260925`, evidence `evidence/eurusd-live-visualization-20260925`. Ten offline tests and real CSV/pandas checks passed; independent review limitations remain documented. Recording is active, not complete. [Exact review packet](../../../OneDrive/thevault/projects/forex/EURUSD_RECORDING_20260925_015224/REVIEW.md), manifest SHA256 `492593a50464f3f353531853972601efe0d7e7faebec4661506b67de2dfaf913`. Read-only OANDA practice feed; no scientific work or trading. Follow-up heartbeat `eurusd-dataset-through-friday-close`.
