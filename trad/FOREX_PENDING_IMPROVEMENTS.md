@@ -5695,3 +5695,6 @@ Published `MACRO_EVENT_TEXT_VALUE_ASSESSMENT_20260925_082500` for `macro_event_t
 
 
 **2026-09-25T08:41:52.824610Z UTC — Forecast/outcome preserved artifact probe:** New inspector contract accepted the preserved macro event forecast artifact with 32,640 coverage rows, 23,930 forecasts/outcome placeholders, 8,710 blocked rows and zero reconciliation errors. Vault packet will be `FORECAST_OUTCOME_INSPECTOR_PROBE_20260925_084200/REVIEW.json`.
+
+
+**2026-09-25T08:44:08.541778Z UTC — Corrected-input successor support census:** No new corrected-input model run is eligible from current evidence. Nested rich increments are already evaluated; historical corrected 220/227/795/native-pip candidates require exact lineage retrieval/qualification, with D-drive investigation deferred. Vault packet will be `CORRECTED_INPUT_SUPPORT_CENSUS_20260925_084300/REVIEW.json`. Next: `behavior_changing_cost_stress_support_census_v2`.
