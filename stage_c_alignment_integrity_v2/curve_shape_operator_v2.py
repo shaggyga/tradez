@@ -8,6 +8,32 @@ from curve_shape_layer_v2 import apply, fit_snapshot, join_curve
 from currency_projection_residual_operator_v2 import _read_json, load_inputs
 
 
+def _paired_scores(learned, direct, outcomes, asof):
+    controls = {(row["record_id"], row["base_method"]): row for row in direct
+                if row["horizon_minutes"] == 360}
+    groups = defaultdict(list)
+    for row in learned:
+        outcome = outcomes.get((row["record_id"], row["target_id"]))
+        control = controls.get((row["record_id"], row["base_method"]))
+        if outcome is None or control is None or outcome["value"] is None:
+            continue
+        if max(row["available_epoch"], control["available_epoch"], outcome["available_epoch"]) > asof:
+            continue
+        for kind, value in (("overall", None), ("origin", row["decision_epoch"]), ("utc_day", row["decision_epoch"] // 86400)):
+            groups[row["base_method"], kind, value].append((row, control, outcome))
+    result = []
+    for (base, kind, value), part in sorted(groups.items()):
+        learned_errors = [row["prediction_bps"] - outcome["value"] for row, _, outcome in part]
+        control_errors = [control["prediction_bps"] - outcome["value"] for _, control, outcome in part]
+        n = len(part)
+        result.append({"base_method": base, "stratum": kind, "stratum_value": value, "mature_rows": n,
+                       "support_sha256": __import__("hashlib").sha256(json.dumps(sorted(row["record_id"] for row, _, _ in part)).encode()).hexdigest(),
+                       "mae_delta_bps": sum(map(abs, learned_errors)) / n - sum(map(abs, control_errors)) / n,
+                       "mse_delta_bps2": sum(x*x for x in learned_errors) / n - sum(x*x for x in control_errors) / n,
+                       "bias_delta_bps": sum(learned_errors) / n - sum(control_errors) / n})
+    return result
+
+
 def run(parent_recipe, parent_recipe_sha256, parent_paths, projection_run, asof, contract):
     rows, outcomes, sources, parent, recipe = load_inputs(
         parent_recipe, parent_recipe_sha256, parent_paths, projection_run)
@@ -31,9 +57,15 @@ def run(parent_recipe, parent_recipe_sha256, parent_paths, projection_run, asof,
                                  "available_epoch": row["available_epoch"]})
                 if value is not None:
                     learned.append(value)
+    for item in coverage:
+        outcome = outcomes.get((item["record_id"], "technical_endpoint_midpoint_elapsed_360m"))
+        item["label_status"] = ("unavailable" if outcome is None or outcome["value"] is None else
+                                "mature" if outcome["available_epoch"] <= asof else "unresolved")
+        item["native_policy_status"] = "not_admitted_offline_diagnostic"
     return {"schema_version": "forex_curve_shape_run.v1", "contract": contract, "parent": parent,
             "source_frames": sources, "asof": asof, "curve_rows": len(curves), "learned_rows": learned,
             "snapshots": snapshots, "coverage": coverage,
+            "paired_scores": _paired_scores(learned, base_rows, outcomes, asof),
             "scope": "offline retrospective development diagnostic; no native issuance, confirmation, or trading claim"}
 
 
