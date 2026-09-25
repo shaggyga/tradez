@@ -7542,3 +7542,14 @@ freeze a material input/cohort contract before any fit. Vault:
 ## 2026-09-25 — EUR/USD bid/ask recording active
 
 User requested an accessible fastest-stream dataset through Friday 16:59 New York, replacing the visualization. Step `eurusd-recording-20260925`, recording `eurusd-a0972120db87`, source `b0dd42c9f6b0dc67fd6b9c5d141e25ed99b0320f`. Actual first receipt 2026-09-25T01:52:25.338085+00:00; cutoff 2026-09-25T20:59:00Z. Local data `trad/data/eurusd_feed_20260925`, evidence `evidence/eurusd-live-visualization-20260925`. Ten offline tests and real CSV/pandas checks passed; independent review limitations remain documented. Recording is active, not complete. [Exact review packet](../../../OneDrive/thevault/projects/forex/EURUSD_RECORDING_20260925_015224/REVIEW.md), manifest SHA256 `492593a50464f3f353531853972601efe0d7e7faebec4661506b67de2dfaf913`. Read-only OANDA practice feed; no scientific work or trading. Follow-up heartbeat `eurusd-dataset-through-friday-close`.
+
+
+## 2026-09-25 — restore the existing pending procedure
+
+The preceding queue-exhaustion and hour-complete claims are superseded. The new
+placeholder had no queue entry; the existing four-candidate order is restored.
+The residual repair calculation is preserved, but its own packet still marks R4
+publication and restore/replay validation partial. That is the exact next work;
+independent review remains pending without stopping eligible siblings. No new fit
+or scientific acceptance occurred. Same-task navigation review and hash/readback
+checks only. [Correction packet](../../../OneDrive/thevault/projects/forex/PENDING_PROCEDURE_REPAIR_20260925_023153/REVIEW.md).
