@@ -7703,3 +7703,8 @@ Changes requested: QREV-01..06. Prior exhaustion and residual R4 closure unsuppo
 ### 2026-09-25T07:07:48.013920Z - Handoff/preflight identity repair
 - Published `HANDOFF_PREFLIGHT_REPAIR_20260925_070800` to repair QREV-06 startup identity blockers: checkpoint pointer schema, current-document manifest coverage, engineering source snapshot and queue active prerequisite. No scientific acceptance or model run is claimed.
 - Exact next item after clean preflight is `currency_projection_residual_layer_comparison_v2` R4 portable restore/replay, preserving existing residual output.
+
+### 2026-09-25T07:23:54.278810Z - Residual R4 portable restore/replay verified
+- Published `RESIDUAL_R4_PORTABLE_REPLAY_20260925_072300`: isolated restored-source replay produced `a1c518b93224cfeeb7a1f66ed5905ffb5d7138f0021f8c3bee50383b72bb295c` (59349278 bytes), matching the preserved residual result exactly.
+- Restored-source focused tests passed: 14. No base fits, policy replays, API calls, broker/service actions or live-bot changes.
+- Exact next queue item: `forecast_curve_shape_layer_comparison_v2` coverage repair.
