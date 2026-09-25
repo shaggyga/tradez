@@ -7477,3 +7477,13 @@ projection/curve and residual/curve, across all 68 pairs and seven origins. Focu
 forecast-tape, curve-shape, and residual-layer validation: 19 passed.
 
 Vault: [FORECAST_TAPE_RESEAL_20260925_014200](../../../OneDrive/thevault/projects/forex/FORECAST_TAPE_RESEAL_20260925_014200/REVIEW.md). This is a provenance repair, not an accepted performance comparison; no outcomes, new fit, API, broker/service/account, policy, or live-bot action occurred.
+
+## 2026-09-25 — residual comparison reuse reconciliation
+
+The current residual-comparison card was checked against the repaired result and is
+already satisfied by `CURRENCY_PROJECTION_RESIDUAL_REPAIR_20260925_000700`: 3,786
+learned forecasts and 126 paired score rows cover direct, currency-projection and
+half-residual controls by aggregate, origin and UTC day. Existing tests include
+future-outcome perturbation, chronology/maturity and identity/control refusal cases.
+No duplicate run was launched. The next distinct forecasting sibling is the
+curve-shape comparison. Vault: [RESIDUAL_COMPARISON_REUSE_20260925_014700](../../../OneDrive/thevault/projects/forex/RESIDUAL_COMPARISON_REUSE_20260925_014700/REVIEW.md).
