@@ -7452,3 +7452,16 @@ Vault: [RESIDUAL_CURVE_SHAPE_STACK_20260925_010500](../../../OneDrive/thevault/p
 Source Git dd118093fadba27c3d5d8f6b4fc474bbf8aa95b9; focused validation: 19 passed.
 Independent scientific review remains pending and nonblocking. The next layering branch
 must use a complete retained multi-horizon source or diagnose the residual-grid gap.
+
+## 2026-09-25 — immutable forecast tape
+
+Built the reusable offline forecast tape required by design section 16.1 from the
+authenticated projection parent and the current residual and curve-shape outputs. It
+contains 56,476 records across all 68 instruments and 16 origins, retaining source,
+forecast/model identity, target, origin and availability epoch while deliberately keeping
+outcomes separate. No model fit, API, service, policy, broker or live-bot action occurred.
+
+Vault: [FORECAST_TAPE_20260925_013200](../../../OneDrive/thevault/projects/forex/FORECAST_TAPE_20260925_013200/REVIEW.md).
+Source Git 4e1f42819bb4d8b255b863d003c649ba5f5da915; tape SHA-256
+cbb7c5bfd56c67390482e4363ea6226afa89e09b62f4b7aea2bc0c77e30466c6.
+The next comparison can reuse this tape rather than reconstructing its forecast sources.
