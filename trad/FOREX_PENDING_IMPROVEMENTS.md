@@ -5678,3 +5678,7 @@ Changes requested: QREV-01..06. Prior exhaustion and residual R4 closure unsuppo
 ## 2026-09-25 curve all-68 coverage repair
 
 Published `CURVE_COVERAGE_REPAIR_20260925_073500` for `forecast_curve_shape_layer_comparison_v2` to resolve QREV-03. The repaired preserved-frame run kept the prior negative curve-shape scientific outcome and added a full all-68 slot ledger: 3264 expected origin/instrument/base slots, 2156 complete, 1108 incomplete, with missing constituent forecasts explained by `{'base_unavailable': 26592}`. Focused tests passed: 9 passed; pytest cache warning only. Result SHA `f6c711151dc3404a9ace8bce90f45dfe4d61458f06910fd008f8f2b8664d9ad2`. Exact next queue item: `rich_feature_family_incremental_comparison_v2`.
+
+## 2026-09-25 rich incremental direct evaluation
+
+Published `RICH_INCREMENTAL_DIRECT_EVAL_20260925_081700` for `rich_feature_family_incremental_comparison_v2`, resolving QREV-04 within scope. Restored the sealed rich-family checkpoint with 215 identical scientific payloads and relocated tests passed, then evaluated direct nested increments without a new fit. Peer12 compact50-vs-compact38: MAE improved 6/28, MSE 10/28, absolute bias 15/28. Full178 full228-vs-compact50: MAE improved 8/28, MSE 7/28, absolute bias 8/28. Exact next: `macro_event_text_incremental_value_assessment_v2`.
