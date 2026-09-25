@@ -5754,3 +5754,9 @@ Prespecified ridge__half_residual later-Tuesday zero-slippage financing referenc
 
 REV-05 Vault handoff: C:\Users\zmoor\OneDrive\thevault\projects\forex\POLICY_EXPOSURE_REFERENCE_20260925_143200\REVIEW.md. Selected inputs and event ledger copied into the packet; packet-only concentration recomputation matched. Manifest SHA-256 b4e4c526a01ce0e2c7cbb1a1df9cc150d47207d0d85d123213ce167d5411b991. Same-task review; independent review remains separate. Next bounded_distinct_method_support_qualification_v2.
 
+
+
+## REV-05 distinct method qualification 2026-09-25T14:38:45.6990137Z
+
+Separate new-fit ExtraTreesRegressor hypothesis qualified on the matched 68-pair continuous endpoint population. Retained input identity 3c51adb6cb8467ed15b1bf604c03c917bc0cab7d91180a3674336ccf6765f9d6, baseline b3c3ea235bb15727633b665f86ea535b48bfe14cc35d00e60b12e7d848ea750d; all 14 target/cutoff populations hash-match mature baseline training, with 795-3,144 rows each. Prior Extra Trees source is a different seven-major 5/15/30/60 M1 study, not a current 68-pair artifact. Fixed 100-tree settings, seven targets, frozen/adaptive schedules, four preserved controls and a 600-second/2-GiB/512-MiB cap are prespecified in evidence/four_hour_20260925_135023/distinct_method_qualification/QUALIFICATION.json. Recovered-only card stays blocked narrowly; no new fit started by qualification. Vault handoff pending. Exact next extra_trees_matched_development_comparison_v1.
+
