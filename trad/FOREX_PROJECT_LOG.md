@@ -7694,3 +7694,12 @@ Published `RICH_FEATURE_REUSE_CURRENT_20260925_034000` for `rich_feature_family_
 - 2026-09-25T03:56:47Z — Closed `currency_projection_policy_attribution_v2` by current reuse packet `CURRENCY_POLICY_ATTRIBUTION_CURRENT_CLOSURE_20260925_063500` from `CURRENCY_PROJECTION_POLICY_ATTRIBUTION_20260924_114246/REVIEW.json`. Next: `currency_projection_confirmation_protocol_v2`.
 
 - 2026-09-25T03:56:47Z — Recorded blocker for `currency_projection_confirmation_protocol_v2` in `CURRENCY_CONFIRMATION_BLOCKER_CURRENT_20260925_064000`: no untouched qualified all-68 mature cohort exists after epoch 1722535260. Continue eligible sibling work.
+
+
+## 2026-09-25T06:10:10.078609+00:00 queue review
+
+Changes requested: QREV-01..06. Prior exhaustion and residual R4 closure unsupported; curve full-population coverage incomplete; rich/material questions remain. Evidence: `C:\Users\zmoor\OneDrive\thevault\projects\forex\QUEUE_INDEPENDENT_REVIEW_20260925_061000\REVIEW_RESULT.md`. Exact next: Repair handoff/preflight identities required for residual R4 restore, then finish R4 portable restore/replay; repair curve coverage, reassess rich/material support and replenish design candidates. No research launched.
+
+### 2026-09-25T07:07:48.013920Z - Handoff/preflight identity repair
+- Published `HANDOFF_PREFLIGHT_REPAIR_20260925_070800` to repair QREV-06 startup identity blockers: checkpoint pointer schema, current-document manifest coverage, engineering source snapshot and queue active prerequisite. No scientific acceptance or model run is claimed.
+- Exact next item after clean preflight is `currency_projection_residual_layer_comparison_v2` R4 portable restore/replay, preserving existing residual output.
