@@ -7504,3 +7504,11 @@ comparison and paired dependence report: three retained feature groups, 84 rich-
 fits, 113,232 forecasts, 336 paired comparisons, chronology/maturity guards and
 future-data perturbation checks. No duplicate fit was run. Vault:
 [RICH_FEATURE_REUSE_20260925_020000](../../../OneDrive/thevault/projects/forex/RICH_FEATURE_REUSE_20260925_020000/REVIEW.md).
+
+## 2026-09-25 — distinct-method support result
+
+The retained campaign contains ridge and recovered HGB only; HGB is already a stated
+baseline and cannot be relabeled as a third method. No other preserved method has the
+required exact target/input/fit provenance. A third method needs its own frozen,
+resource-bounded contract before fitting. Vault:
+[DISTINCT_METHOD_SUPPORT_20260925_020500](../../../OneDrive/thevault/projects/forex/DISTINCT_METHOD_SUPPORT_20260925_020500/REVIEW.md).
