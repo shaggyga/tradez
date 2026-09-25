@@ -5580,3 +5580,21 @@ Published `RICH_FEATURE_REUSE_CURRENT_20260925_034000` for `rich_feature_family_
 - Packet: `MACRO_SUPERSESSION_CURRENT_CLOSURE_20260925_035500/REVIEW.md`
 - Result: existing supersession audit reused; representation loss/storage audit remains next.
 - Next: `macro_collector_representation_storage_audit_v2`.
+
+## 2026-09-25T03:36:59.649575Z - macro storage audit current closure
+
+- Packet: `MACRO_STORAGE_AUDIT_CURRENT_CLOSURE_20260925_040000/REVIEW.md`
+- Result: existing storage audit reused; detail selector repair remains next.
+- Next: `macro_detail_representation_selector_repair_v2`.
+
+## 2026-09-25T03:38:07.832820Z - macro detail selector repair current closure
+
+- Packet: `MACRO_DETAIL_SELECTOR_CURRENT_CLOSURE_20260925_040500/REVIEW.md`
+- Result: existing detail representation packet reused; candidate coverage improved but no forecast admission.
+- Next: `macro_numeric_units_vintage_evidence_audit_v2`.
+
+## 2026-09-25T03:39:19.321337Z - macro numeric units/vintage audit current closure
+
+- Packet: `MACRO_NUMERIC_AUDIT_CURRENT_CLOSURE_20260925_041000/REVIEW.md`
+- Result: existing numeric audit reused; metadata/vintage gaps remain and no forecast admission.
+- Next: `macro_numeric_observation_asof_state_v2`.
