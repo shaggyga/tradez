@@ -5707,3 +5707,6 @@ Published `MACRO_EVENT_TEXT_VALUE_ASSESSMENT_20260925_082500` for `macro_event_t
 
 
 **2026-09-25T08:52:43.571178Z UTC — Interaction/null-control support census:** Existing completed artifacts cover interaction diagnostics, noise controls, blocked-time/leak controls and dependence diagnostics. No duplicate run performed; independent confirmation and trading readiness remain unclaimed. Vault packet: `INTERACTION_NULL_SUPPORT_CENSUS_20260925_085800/REVIEW.json`. Next: `remaining_design_branch_eligibility_refresh_v2`.
+
+
+**2026-09-25T08:53:46.786601Z UTC — Remaining design eligibility refresh:** Branch-by-branch review found no further useful authorized offline queue package under current boundaries. The design is not complete; blockers and resume conditions are in `REMAINING_DESIGN_ELIGIBILITY_REFRESH_20260925_090300/ELIGIBILITY_REVIEW.json`. Exact next: `await_external_inputs_or_independent_review`.
