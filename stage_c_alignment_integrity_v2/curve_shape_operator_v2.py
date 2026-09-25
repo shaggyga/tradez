@@ -8,9 +8,9 @@ from curve_shape_layer_v2 import apply, fit_snapshot, join_curve
 from currency_projection_residual_operator_v2 import _read_json, load_inputs
 
 
-def _paired_scores(learned, direct, outcomes, asof):
+def _paired_scores(learned, direct, outcomes, asof, anchor_horizon):
     controls = {(row["record_id"], row["base_method"]): row for row in direct
-                if row["horizon_minutes"] == 360}
+                if row["horizon_minutes"] == anchor_horizon}
     groups = defaultdict(list)
     for row in learned:
         outcome = outcomes.get((row["record_id"], row["target_id"]))
@@ -38,12 +38,14 @@ def run(parent_recipe, parent_recipe_sha256, parent_paths, projection_run, asof,
     rows, outcomes, sources, parent, recipe = load_inputs(
         parent_recipe, parent_recipe_sha256, parent_paths, projection_run)
     horizons = contract["feature_definition"]["horizons_minutes"]
+    anchor_horizon = contract["feature_definition"]["anchor_horizon_minutes"]
     base_rows = [row for row in rows if row["variant"] == "direct"]
-    curves = join_curve(base_rows, horizons)
+    curves = join_curve(base_rows, horizons, anchor_horizon)
     by_origin = defaultdict(list)
     for row in curves:
         by_origin[row["decision_epoch"]].append(row)
     learned, snapshots, coverage = [], [], []
+    expected_instruments = recipe["contract"]["universe"]
     for origin in recipe["contract"]["origins"]:
         for base in recipe["contract"]["bases"]:
             history = [row for row in curves if row["base_method"] == base]
@@ -54,18 +56,27 @@ def run(parent_recipe, parent_recipe_sha256, parent_paths, projection_run, asof,
                 value = apply(row, snapshot)
                 coverage.append({"origin_epoch": origin, "base_method": base, "record_id": row["record_id"],
                                  "issued": value is not None, "status": snapshot["status"],
-                                 "available_epoch": row["available_epoch"]})
+                                 "available_epoch": row["available_epoch"], "instrument": row["instrument"],
+                                 "target_id": row["target_id"]})
                 if value is not None:
                     learned.append(value)
+            current_by_instrument = {row["instrument"]: row for row in current}
+            for instrument in expected_instruments:
+                if instrument in current_by_instrument:
+                    continue
+                coverage.append({"origin_epoch": origin, "base_method": base,
+                                 "instrument": instrument, "record_id": f"{instrument}:{origin}",
+                                 "issued": False, "status": "no_complete_parent_curve",
+                                 "available_epoch": None, "target_id": None})
     for item in coverage:
-        outcome = outcomes.get((item["record_id"], "technical_endpoint_midpoint_elapsed_360m"))
+        outcome = outcomes.get((item["record_id"], item.get("target_id")))
         item["label_status"] = ("unavailable" if outcome is None or outcome["value"] is None else
                                 "mature" if outcome["available_epoch"] <= asof else "unresolved")
         item["native_policy_status"] = "not_admitted_offline_diagnostic"
     return {"schema_version": "forex_curve_shape_run.v1", "contract": contract, "parent": parent,
             "source_frames": sources, "asof": asof, "curve_rows": len(curves), "learned_rows": learned,
             "snapshots": snapshots, "coverage": coverage,
-            "paired_scores": _paired_scores(learned, base_rows, outcomes, asof),
+            "paired_scores": _paired_scores(learned, base_rows, outcomes, asof, anchor_horizon),
             "scope": "offline retrospective development diagnostic; no native issuance, confirmation, or trading claim"}
 
 

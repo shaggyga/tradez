@@ -1,5 +1,5 @@
 from contracts import fingerprint
-from curve_shape_layer_v2 import apply, fit_snapshot, join_curve
+from curve_shape_layer_v2 import apply, features, fit_snapshot, join_curve
 
 
 def row(pair, origin, horizon, value):
@@ -25,3 +25,10 @@ def test_causal_complete_curve_fit_and_apply():
 
 def test_incomplete_curve_is_not_imputed():
     assert join_curve([row("A", 1, 60, 1)], [60, 120]) == []
+
+
+def test_explicit_anchor_controls_target_and_features():
+    curve = join_curve([row("A", 1, 60, 2), row("A", 1, 120, 8)], [60, 120], 120)[0]
+    assert curve["target_id"] == "target_120"
+    assert curve["anchor_horizon_minutes"] == 120
+    assert features(curve) == [8, -6]

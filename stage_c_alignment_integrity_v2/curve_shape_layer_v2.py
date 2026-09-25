@@ -10,9 +10,12 @@ def _origin(row):
     return row.get("decision_epoch", row.get("origin_epoch"))
 
 
-def join_curve(rows, horizons):
+def join_curve(rows, horizons, anchor_horizon=None):
     """Join an exact instrument/origin/base panel only after every horizon is ready."""
     expected = tuple(sorted(horizons))
+    anchor_horizon = expected[0] if anchor_horizon is None else anchor_horizon
+    if anchor_horizon not in expected:
+        raise ValueError("curve_shape_anchor_not_in_horizons")
     grouped = {}
     for row in rows:
         origin = _origin(row)
@@ -30,12 +33,13 @@ def join_curve(rows, horizons):
     for key, part in sorted(grouped.items()):
         if set(part) != set(expected):
             continue
-        first = part[expected[0]]
+        first = part[anchor_horizon]
         if any(row["record_id"] != first["record_id"] or row["instrument"] != first["instrument"]
                or row.get("decision_epoch", row.get("origin_epoch")) != key[1] for row in part.values()):
             raise ValueError("curve_shape_cross_horizon_identity_mismatch")
         result.append({"instrument": key[0], "decision_epoch": key[1], "base_method": key[2],
                        "record_id": first["record_id"], "target_id": first["target_id"],
+                       "anchor_horizon_minutes": anchor_horizon,
                        "target_ids": {str(h): part[h]["target_id"] for h in expected},
                        "available_epoch": max(row["available_epoch"] for row in part.values()),
                        "horizons_minutes": list(expected),
@@ -48,8 +52,10 @@ def features(row):
     values = [row["values"][str(h)] for h in row["horizons_minutes"]]
     if not all(isinstance(v, (int, float)) and math.isfinite(v) for v in values):
         raise ValueError("curve_shape_nonfinite_feature")
-    anchor = values[0]
-    return [anchor, *[value-anchor for value in values[1:]]]
+    anchor_horizon = row.get("anchor_horizon_minutes", row["horizons_minutes"][0])
+    anchor = row["values"][str(anchor_horizon)]
+    return [anchor, *[row["values"][str(h)] - anchor
+                      for h in row["horizons_minutes"] if h != anchor_horizon]]
 
 
 def fit_snapshot(rows, outcomes, cutoff, contract):
