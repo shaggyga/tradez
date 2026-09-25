@@ -5698,3 +5698,6 @@ Published `MACRO_EVENT_TEXT_VALUE_ASSESSMENT_20260925_082500` for `macro_event_t
 
 
 **2026-09-25T08:44:08.541778Z UTC — Corrected-input successor support census:** No new corrected-input model run is eligible from current evidence. Nested rich increments are already evaluated; historical corrected 220/227/795/native-pip candidates require exact lineage retrieval/qualification, with D-drive investigation deferred. Vault packet will be `CORRECTED_INPUT_SUPPORT_CENSUS_20260925_084300/REVIEW.json`. Next: `behavior_changing_cost_stress_support_census_v2`.
+
+
+**2026-09-25T08:46:49.705082Z UTC — Behavior-changing cost stress replay:** Ran the prespecified synthetic accounting stress package: 7/7 scenarios completed; fill/admission path changed for fees_10000x, capital_100, latency_120s, entry_quote_outage, entry_spread_wide. Financing 5x changed financing amounts without changing fill path. Vault packet: `COST_STRESS_REPLAY_20260925_084700/REVIEW.json`. Next: `currency_concentration_support_census_v2`.
