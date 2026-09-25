@@ -5730,3 +5730,9 @@ The full engineering design is restored as governing design in `C:\Users\zmoor\O
 ## REV-02 portable residual replay 2026-09-25T14:04:27.012307+00:00
 
 Vault packet `C:\Users\zmoor\OneDrive\thevault\projects\forex\RESIDUAL_R4_RELOCATED_REPLAY_20260925_140153\REVIEW.md`. Restored 279 authenticated capsule members and 195 preserved projection payloads; guarded replay returned exact SHA-256 `a1c518b93224cfeeb7a1f66ed5905ffb5d7138f0021f8c3bee50383b72bb295c` with zero original-root access attempts. Fourteen focused tests passed. Same-task review accepts the replication gate; independent review remains distinct. No base-model fit or projection regeneration. Next `curve_authenticated_population_guard_v2`.
+
+
+## REV-03 curve expected-population guard 2026-09-25T14:07:23.8754146Z
+
+The consumer now authenticates an independently pinned upstream manifest and recipe, requires the full expected frame/coverage population, and refuses shortened origins, whole missing instruments/bases, duplicate descriptors and changed member bytes. Fresh tests: 11 passed. The 192-frame saved result and 3,264-slot coverage ledger remain byte-identical; its negative scientific conclusion is preserved. Local evidence: evidence/four_hour_20260925_135023/curve_population_guard/VALIDATION.json. Same-task review and Vault packet publication pending. Exact next: rich_feature_family_incremental_comparison_v2.
+

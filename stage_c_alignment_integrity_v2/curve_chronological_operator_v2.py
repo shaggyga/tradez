@@ -38,9 +38,20 @@ def _checked_file(path, descriptor, max_bytes=None):
     return json.loads(raw)
 
 
-def _bulk_members(bulk_reference):
+def _bulk_members(bulk_reference, trusted_manifest, trusted_manifest_sha256):
     data = _read_json(bulk_reference)
-    return {item["path"]: item for item in data["members"]}
+    if _sha256(trusted_manifest) != trusted_manifest_sha256 or data.get("manifest_sha256") != trusted_manifest_sha256:
+        raise ValueError("curve_chronological_untrusted_manifest_anchor")
+    manifest = _read_json(trusted_manifest)
+    sealed = {item["path"]: item for item in manifest.get("files", manifest.get("members", []))}
+    described = data["members"]
+    members = {item["path"]: item for item in described}
+    if len(members) != len(described):
+        raise ValueError("curve_chronological_duplicate_frame_descriptor")
+    expected = {path: item for path, item in sealed.items() if path.startswith("run/frame_") and path.endswith(".json")}
+    if members != expected:
+        raise ValueError("curve_chronological_bulk_population_mismatch")
+    return members
 
 
 def _load_outcomes(extension_root, recipe):
@@ -58,14 +69,14 @@ def _load_outcomes(extension_root, recipe):
     return outcomes
 
 
-def _load_frame_predictions(frames_root, bulk_reference, contract, variants=DEFAULT_VARIANTS):
-    members = _bulk_members(bulk_reference)
+def _load_frame_predictions(frames_root, bulk_reference, contract, expected_population,
+                            trusted_manifest, trusted_manifest_sha256, variants=DEFAULT_VARIANTS):
+    members = _bulk_members(bulk_reference, trusted_manifest, trusted_manifest_sha256)
     horizons = contract["feature_definition"]["horizons_minutes"]
-    origins = sorted({
-        int(item["path"].rsplit("_", 1)[1].split(".", 1)[0])
-        for item in members.values()
-        if item["path"].startswith(f"run/frame_{horizons[0]}_")
-    })
+    origins = sorted(expected_population["origins"])
+    expected_descriptors = {f"run/frame_{horizon}_{origin}.json" for horizon in horizons for origin in origins}
+    if set(members) != expected_descriptors:
+        raise ValueError("curve_chronological_expected_frame_population_mismatch")
     frames_root = Path(frames_root)
     rows, coverage, checked = [], [], []
     for horizon in horizons:
@@ -83,6 +94,20 @@ def _load_frame_predictions(frames_root, bulk_reference, contract, variants=DEFA
                 if row["forecast_id"] != fingerprint({k: v for k, v in row.items() if k != "forecast_id"}):
                     raise ValueError("curve_chronological_forecast_identity")
                 rows.append(row)
+    expected_keys = {
+        (origin, pair, base, variant, horizon)
+        for origin in origins
+        for pair in expected_population["instruments"]
+        for base in expected_population["base_methods"]
+        for variant in variants
+        for horizon in horizons
+    }
+    observed_keys = [
+        (item["origin_epoch"], item["instrument"], item["base_method"], item["variant"], item["horizon_minutes"])
+        for item in coverage if item["variant"] in variants
+    ]
+    if len(observed_keys) != len(set(observed_keys)) or set(observed_keys) != expected_keys:
+        raise ValueError("curve_chronological_expected_coverage_population_mismatch")
     return rows, coverage, checked, origins
 
 
@@ -213,10 +238,27 @@ def _score(learned, controls, outcomes, asof):
     return result
 
 
-def run(frames_root, bulk_reference, extension_root, recipe, contract, asof, source_variant="raw_matched_expanding"):
+def run(frames_root, bulk_reference, extension_root, recipe, contract, asof,
+        trusted_manifest, trusted_manifest_sha256, source_variant="raw_matched_expanding"):
+    if _sha256(trusted_manifest) != trusted_manifest_sha256:
+        raise ValueError("curve_chronological_untrusted_manifest_anchor")
+    manifest = _read_json(trusted_manifest)
+    sealed = {item["path"]: item for item in manifest.get("files", manifest.get("members", []))}
+    recipe_descriptor = sealed.get("source_snapshot/CHRONOLOGICAL_LAYER_OPERATOR_RECIPE_V2.json")
+    if not recipe_descriptor or Path(recipe).stat().st_size != recipe_descriptor["bytes"] or _sha256(recipe) != recipe_descriptor["sha256"]:
+        raise ValueError("curve_chronological_untrusted_recipe")
     recipe = _read_json(recipe)
     contract = _read_json(contract)
-    rows, coverage, checked_frames, origins = _load_frame_predictions(frames_root, bulk_reference, contract)
+    parent = recipe["contract"]
+    expected_population = {
+        "origins": parent["new_origins"],
+        "instruments": parent["universe"],
+        "base_methods": parent["parent_surface_contract"]["layer_contract"]["base_methods"],
+    }
+    if sorted(parent["horizons_minutes"]) != sorted(contract["feature_definition"]["horizons_minutes"]):
+        raise ValueError("curve_chronological_horizon_contract_mismatch")
+    rows, coverage, checked_frames, origins = _load_frame_predictions(
+        frames_root, bulk_reference, contract, expected_population, trusted_manifest, trusted_manifest_sha256)
     outcomes = _load_outcomes(extension_root, recipe)
     curves = _variant_curve_rows(rows, contract, source_variant)
     all68_coverage = _panel_coverage_ledger(rows, coverage, origins, contract)
@@ -276,13 +318,16 @@ def main():
     parser.add_argument("--bulk-reference", type=Path, required=True)
     parser.add_argument("--extension-root", type=Path, required=True)
     parser.add_argument("--recipe", type=Path, required=True)
+    parser.add_argument("--trusted-manifest", type=Path, required=True)
+    parser.add_argument("--trusted-manifest-sha256", required=True)
     parser.add_argument("--contract", type=Path, required=True)
     parser.add_argument("--asof", type=int, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--source-variant", default="raw_matched_expanding")
     args = parser.parse_args()
     result = run(args.frames_root, args.bulk_reference, args.extension_root, args.recipe,
-                 args.contract, args.asof, args.source_variant)
+                 args.contract, args.asof, args.trusted_manifest,
+                 args.trusted_manifest_sha256, args.source_variant)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
