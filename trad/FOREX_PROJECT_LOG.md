@@ -7744,3 +7744,8 @@ Published `MACRO_EVENT_TEXT_VALUE_ASSESSMENT_20260925_082500` for `macro_event_t
 
 
 **2026-09-25T08:53:46.786601Z UTC — Remaining design eligibility refresh:** Branch-by-branch review found no further useful authorized offline queue package under current boundaries. The design is not complete; blockers and resume conditions are in `REMAINING_DESIGN_ELIGIBILITY_REFRESH_20260925_090300/ELIGIBILITY_REVIEW.json`. Exact next: `await_external_inputs_or_independent_review`.
+
+
+## Checkpoint review 2026-09-25T12:49:39.428366+00:00
+
+Fresh review of source `8bbf9a90b12c11e159801f3f04f6bcb00bf5c3d3`: changes requested REV-01..05. Packet: `C:\Users\zmoor\OneDrive\thevault\projects\forex\CHECKPOINT_REVIEW_20260925_124551/REVIEW_RESULT.md`. Local evidence: `C:\Users\zmoor\Documents\forex\evidence\checkpoint_review_20260925_124551`. Preserved numerical evidence; no scientific implementation or experiment. Review is a fresh same-task pass, not separate-task independent certification. Exact next: `repair_design_authority_and_review_handoff_v2`. Global exhaustion rejected; complete scoped corrections before affected descendants.
