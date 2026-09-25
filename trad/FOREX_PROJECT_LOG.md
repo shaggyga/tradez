@@ -7561,3 +7561,32 @@ Published `CURRENCY_PROJECTION_RESIDUAL_R4_CLOSURE_20260925_031000` for `currenc
 ## 2026-09-25 curve-shape chronological comparison
 
 Published `CURVE_CHRONOLOGICAL_COMPARISON_20260925_032500` for `forecast_curve_shape_layer_comparison_v2`. The earlier zero-overlap support blocker was resolved by using preserved chronological frames: 192 frame files verified, 2,156 complete matched three-variant panels found, and the bounded curve-shape diagnostic ran without base refits/API/policy replay. Result SHA `d89ca467267699dfb10c0e870453e29169bd9551ead04649768f00bf5ca6606c`; learned rows 946; paired score rows 54. Aggregate result is negative: overall MAE improvements were {'magnitude_interaction_expanding': 0, 'raw_matched_expanding': 0, 'signed_only_expanding': 0} out of {'magnitude_interaction_expanding': 2, 'raw_matched_expanding': 2, 'signed_only_expanding': 2} groups versus raw-matched, signed-only and magnitude-interaction controls. Same-task review only; independent scientific review pending/nonblocking. Exact next queue item: `rich_feature_family_incremental_comparison_v2`.
+
+## 2026-09-25 rich-feature reuse closure
+
+Published `RICH_FEATURE_REUSE_CURRENT_20260925_034000` for `rich_feature_family_incremental_comparison_v2`. Reused preserved rich-family and dependence packets; no duplicate fit. Existing evidence: 84 rich models, 113,232 forecasts, 84 score groups, 336 paired comparisons, 5,616 origin panels and 1,008 block sensitivities. Same-task reuse closure only; independent scientific review pending/nonblocking. Exact next queue item: `distinct_forecast_method_comparison_v2`.
+
+## 2026-09-25T03:20:25.870910Z - distinct-method support review blocked exact-provenance gate
+
+- Packet: `DISTINCT_METHOD_SUPPORT_REVIEW_20260925_032200/REVIEW.md`
+- Result: current matched chronological baselines remain ridge/HGB; retained directional archive is preserved but not exact current target/support.
+- Next: `material_input_cohort_contract_v2`.
+
+## 2026-09-25T03:25:31.721155Z - material input/cohort contract frozen
+
+- Packet: `MATERIAL_INPUT_COHORT_CONTRACT_20260925_032500/REVIEW.md`
+- Contract: `MATERIAL_INPUT_COHORT_CONTRACT_20260925_032500/MATERIAL_INPUT_COHORT_CONTRACT_V2.json`
+- Validation: `3 passed`; contract receipt validates all declared hashes.
+- Next: `macro_event_text_incremental_support_inventory_v1`.
+
+## 2026-09-25T03:29:04.863974Z - macro/event/text support inventory
+
+- Packet: `MACRO_EVENT_TEXT_SUPPORT_INVENTORY_20260925_033000/REVIEW.md`
+- Result: existing macro event forecast and macro text coverage packets found; no duplicate compute.
+- Next: `macro_text_long_body_coverage_audit_v2`.
+
+## 2026-09-25T03:30:05.828379Z - macro text coverage current closure
+
+- Packet: `MACRO_TEXT_COVERAGE_CURRENT_CLOSURE_20260925_033500/REVIEW.md`
+- Result: existing macro text coverage packet reused; semantic admission remains blocked; no duplicate run.
+- Next: `repair_recovered_policy_action_scoping_v2`.
