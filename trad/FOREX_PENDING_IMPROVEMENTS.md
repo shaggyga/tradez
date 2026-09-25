@@ -5715,3 +5715,8 @@ Published `MACRO_EVENT_TEXT_VALUE_ASSESSMENT_20260925_082500` for `macro_event_t
 ## Checkpoint review 2026-09-25T12:49:39.428366+00:00
 
 Fresh review of source `8bbf9a90b12c11e159801f3f04f6bcb00bf5c3d3`: changes requested REV-01..05. Packet: `C:\Users\zmoor\OneDrive\thevault\projects\forex\CHECKPOINT_REVIEW_20260925_124551/REVIEW_RESULT.md`. Local evidence: `C:\Users\zmoor\Documents\forex\evidence\checkpoint_review_20260925_124551`. Preserved numerical evidence; no scientific implementation or experiment. Review is a fresh same-task pass, not separate-task independent certification. Exact next: `repair_design_authority_and_review_handoff_v2`. Global exhaustion rejected; complete scoped corrections before affected descendants.
+
+
+## Independent checkpoint review 2026-09-25T13:05:31.918406+00:00
+
+Three delegated reviewers verified REV-01..05 against source `f91d1f4470c16901a4ecd62114a7deeafb002c0e`. Verdict: changes requested, with residual portability and curve coverage findings narrowed to their demonstrated limits. Full findings: `C:\Users\zmoor\OneDrive\thevault\projects\forex\INDEPENDENT_CHECKPOINT_REVIEW_20260925_130011/REVIEW_RESULT.md`; local evidence `C:\Users\zmoor\Documents\forex\evidence\independent_review_20260925`. No scientific source or experiment changes. Independent review is now performed for these findings; it remains separate from accepting their repairs or full scientific qualification. Exact next: `repair_design_authority_and_review_handoff_v2`. Preserve valid output hashes, complete 3,264-slot curve evidence and direct rich scores. Policy qualification can reuse 48 authenticated retrospective runs without treating duplicate engines as independent observations.
