@@ -7553,3 +7553,11 @@ publication and restore/replay validation partial. That is the exact next work;
 independent review remains pending without stopping eligible siblings. No new fit
 or scientific acceptance occurred. Same-task navigation review and hash/readback
 checks only. [Correction packet](../../../OneDrive/thevault/projects/forex/PENDING_PROCEDURE_REPAIR_20260925_023153/REVIEW.md).
+
+## 2026-09-25 residual R4 closure
+
+Published `CURRENCY_PROJECTION_RESIDUAL_R4_CLOSURE_20260925_031000` for `currency_projection_residual_layer_comparison_v2`: compact publication and restore/replay evidence are complete against preserved result SHA `a1c518b93224cfeeb7a1f66ed5905ffb5d7138f0021f8c3bee50383b72bb295c`. Same-task review only; independent scientific review remains pending/nonblocking. Actual checks: 14 focused residual tests passed and result integrity readback passed. Exact next queue item: `forecast_curve_shape_layer_comparison_v2`.
+
+## 2026-09-25 curve-shape chronological comparison
+
+Published `CURVE_CHRONOLOGICAL_COMPARISON_20260925_032500` for `forecast_curve_shape_layer_comparison_v2`. The earlier zero-overlap support blocker was resolved by using preserved chronological frames: 192 frame files verified, 2,156 complete matched three-variant panels found, and the bounded curve-shape diagnostic ran without base refits/API/policy replay. Result SHA `d89ca467267699dfb10c0e870453e29169bd9551ead04649768f00bf5ca6606c`; learned rows 946; paired score rows 54. Aggregate result is negative: overall MAE improvements were {'magnitude_interaction_expanding': 0, 'raw_matched_expanding': 0, 'signed_only_expanding': 0} out of {'magnitude_interaction_expanding': 2, 'raw_matched_expanding': 2, 'signed_only_expanding': 2} groups versus raw-matched, signed-only and magnitude-interaction controls. Same-task review only; independent scientific review pending/nonblocking. Exact next queue item: `rich_feature_family_incremental_comparison_v2`.
