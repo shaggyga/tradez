@@ -7487,3 +7487,12 @@ half-residual controls by aggregate, origin and UTC day. Existing tests include
 future-outcome perturbation, chronology/maturity and identity/control refusal cases.
 No duplicate run was launched. The next distinct forecasting sibling is the
 curve-shape comparison. Vault: [RESIDUAL_COMPARISON_REUSE_20260925_014700](../../../OneDrive/thevault/projects/forex/RESIDUAL_COMPARISON_REUSE_20260925_014700/REVIEW.md).
+
+## 2026-09-25 — curve-comparison support result
+
+The retained curve forecasts and signed/magnitude control outputs have no exact
+overlap: curve V3 begins at origin `1722405660`, while the chronological controls end
+at `1721995260`. The candidate requires same-record, same-target controls, so no
+cross-period score or substitute control was used. This is a documented support gap;
+the next independent candidate is the rich-feature-family comparison. Vault:
+[CURVE_COMPARISON_SUPPORT_20260925_015400](../../../OneDrive/thevault/projects/forex/CURVE_COMPARISON_SUPPORT_20260925_015400/REVIEW.md).
