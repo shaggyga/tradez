@@ -5674,3 +5674,7 @@ Changes requested: QREV-01..06. Prior exhaustion and residual R4 closure unsuppo
 - Published `RESIDUAL_R4_PORTABLE_REPLAY_20260925_072300`: isolated restored-source replay produced `a1c518b93224cfeeb7a1f66ed5905ffb5d7138f0021f8c3bee50383b72bb295c` (59349278 bytes), matching the preserved residual result exactly.
 - Restored-source focused tests passed: 14. No base fits, policy replays, API calls, broker/service actions or live-bot changes.
 - Exact next queue item: `forecast_curve_shape_layer_comparison_v2` coverage repair.
+
+## 2026-09-25 curve all-68 coverage repair
+
+Published `CURVE_COVERAGE_REPAIR_20260925_073500` for `forecast_curve_shape_layer_comparison_v2` to resolve QREV-03. The repaired preserved-frame run kept the prior negative curve-shape scientific outcome and added a full all-68 slot ledger: 3264 expected origin/instrument/base slots, 2156 complete, 1108 incomplete, with missing constituent forecasts explained by `{'base_unavailable': 26592}`. Focused tests passed: 9 passed; pytest cache warning only. Result SHA `f6c711151dc3404a9ace8bce90f45dfe4d61458f06910fd008f8f2b8664d9ad2`. Exact next queue item: `rich_feature_family_incremental_comparison_v2`.

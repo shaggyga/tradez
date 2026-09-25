@@ -97,6 +97,81 @@ def _variant_curve_rows(rows, contract, variant):
     return curves
 
 
+def _panel_coverage_ledger(rows, coverage, origins, contract, variants=DEFAULT_VARIANTS):
+    horizons = contract["feature_definition"]["horizons_minutes"]
+    predicted = {
+        (row["decision_epoch"], row["instrument"], row["base_method"], row["variant"], row["horizon_minutes"])
+        for row in rows
+        if row["variant"] in variants
+    }
+    coverage_reasons = {}
+    instruments, base_methods = set(), set()
+    for item in coverage:
+        if item["variant"] not in variants:
+            continue
+        key = (item["origin_epoch"], item["instrument"], item["base_method"], item["variant"], item["horizon_minutes"])
+        coverage_reasons[key] = item["reason"]
+        instruments.add(item["instrument"])
+        base_methods.add(item["base_method"])
+    for row in rows:
+        if row["variant"] not in variants:
+            continue
+        instruments.add(row["instrument"])
+        base_methods.add(row["base_method"])
+
+    slots, status_counts, reason_counts = [], Counter(), Counter()
+    complete_by_origin = Counter()
+    incomplete_by_origin = Counter()
+    for origin in origins:
+        for instrument in sorted(instruments):
+            for base in sorted(base_methods):
+                missing_reasons = Counter()
+                observed = 0
+                for variant in variants:
+                    for horizon in horizons:
+                        key = (origin, instrument, base, variant, horizon)
+                        if key in predicted:
+                            observed += 1
+                        else:
+                            reason = coverage_reasons.get(key, "missing_coverage_record")
+                            missing_reasons[reason] += 1
+                            reason_counts[reason] += 1
+                if missing_reasons:
+                    status = "incomplete_horizon_panel"
+                    incomplete_by_origin[origin] += 1
+                else:
+                    status = "complete_all_declared_variants_and_horizons"
+                    complete_by_origin[origin] += 1
+                status_counts[status] += 1
+                slots.append({
+                    "origin_epoch": origin,
+                    "instrument": instrument,
+                    "base_method": base,
+                    "status": status,
+                    "observed_forecasts": observed,
+                    "expected_forecasts": len(horizons) * len(variants),
+                    "missing_reason_counts": dict(sorted(missing_reasons.items())),
+                })
+
+    expected_slots = len(origins) * len(instruments) * len(base_methods)
+    if len(slots) != expected_slots:
+        raise ValueError("curve_chronological_all68_slot_ledger_mismatch")
+    return {
+        "schema": "forex_curve_all68_slot_coverage.v1",
+        "origins": len(origins),
+        "instruments": len(instruments),
+        "base_methods": sorted(base_methods),
+        "variants": list(variants),
+        "horizons_minutes": horizons,
+        "expected_slots": expected_slots,
+        "status_counts": dict(sorted(status_counts.items())),
+        "missing_reason_counts": dict(sorted(reason_counts.items())),
+        "complete_by_origin": dict(sorted((str(k), v) for k, v in complete_by_origin.items())),
+        "incomplete_by_origin": dict(sorted((str(k), v) for k, v in incomplete_by_origin.items())),
+        "slots": slots,
+    }
+
+
 def _anchor_controls(rows, anchor_horizon):
     controls = {}
     for row in rows:
@@ -144,6 +219,7 @@ def run(frames_root, bulk_reference, extension_root, recipe, contract, asof, sou
     rows, coverage, checked_frames, origins = _load_frame_predictions(frames_root, bulk_reference, contract)
     outcomes = _load_outcomes(extension_root, recipe)
     curves = _variant_curve_rows(rows, contract, source_variant)
+    all68_coverage = _panel_coverage_ledger(rows, coverage, origins, contract)
     controls = _anchor_controls(rows, contract["feature_definition"]["anchor_horizon_minutes"])
     by_origin = defaultdict(list)
     for row in curves:
@@ -183,6 +259,7 @@ def run(frames_root, bulk_reference, extension_root, recipe, contract, asof, sou
         "learned_rows": learned,
         "snapshots": snapshots,
         "coverage": issued_coverage,
+        "all68_coverage": all68_coverage,
         "input_coverage_rows": len(coverage),
         "paired_scores": paired_scores,
         "asof": asof,
