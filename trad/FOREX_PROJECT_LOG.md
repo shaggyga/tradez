@@ -7512,3 +7512,11 @@ baseline and cannot be relabeled as a third method. No other preserved method ha
 required exact target/input/fit provenance. A third method needs its own frozen,
 resource-bounded contract before fitting. Vault:
 [DISTINCT_METHOD_SUPPORT_20260925_020500](../../../OneDrive/thevault/projects/forex/DISTINCT_METHOD_SUPPORT_20260925_020500/REVIEW.md).
+
+## 2026-09-25 — forecasting eligibility review
+
+The current independent forecasting queue was exhausted without duplicate computation:
+residual and rich-family candidates were already complete; curve controls have zero
+same-record overlap; no third preserved model exists; and reduced residual-curve panels
+fail the inherited eight-origin minimum. The full evidence and exact next requirement
+are in [FORECASTING_ELIGIBILITY_REVIEW_20260925_021500](../../../OneDrive/thevault/projects/forex/FORECASTING_ELIGIBILITY_REVIEW_20260925_021500/REVIEW.md). A new material input/cohort hypothesis needs a separately frozen bounded contract before fitting.
