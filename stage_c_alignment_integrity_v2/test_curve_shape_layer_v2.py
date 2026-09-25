@@ -1,5 +1,6 @@
 from contracts import fingerprint
 from curve_shape_layer_v2 import apply, features, fit_snapshot, join_curve
+from curve_shape_operator_v2 import _paired_scores
 
 
 def row(pair, origin, horizon, value):
@@ -32,3 +33,12 @@ def test_explicit_anchor_controls_target_and_features():
     assert curve["target_id"] == "target_120"
     assert curve["anchor_horizon_minutes"] == 120
     assert features(curve) == [8, -6]
+
+
+def test_paired_scores_use_declared_anchor_control():
+    learned = [{"record_id": "A:1", "base_method": "ridge", "target_id": "target_120",
+                "prediction_bps": 2.0, "available_epoch": 2, "decision_epoch": 1}]
+    direct = [row("A", 1, 60, 999), row("A", 1, 120, 1)]
+    outcomes = {("A:1", "target_120"): {"value": 0.0, "available_epoch": 2}}
+    score = _paired_scores(learned, direct, outcomes, 3, 120)
+    assert score[0]["mae_delta_bps"] == 1.0
