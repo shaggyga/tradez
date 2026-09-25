@@ -35,8 +35,8 @@ def transform_state(model,names):
         'raw_width':len(names),'transformed_width':int(scale.n_features_in_),'training_rows':int(scale.n_samples_seen_)}
     state['sha256']=fingerprint(state);return state
 
-def fit_pair(observations,outcomes,views,group,names,minutes,cutoff,baseline_meta,c):
-    if group not in GROUPS:raise ValueError('registered_rich_group_required')
+def fit_pair(observations,outcomes,views,group,names,minutes,cutoff,baseline_meta,c,registered_groups=GROUPS):
+    if group not in registered_groups:raise ValueError('registered_rich_group_required')
     target={'target_id':f'technical_endpoint_midpoint_elapsed_{minutes}m','horizon_seconds':minutes*60}
     tv=TrainingView(c['training_start'],cutoff,cutoff,cutoff,c['evaluation_asof'])
     rows=population(observations,outcomes,target,tv)

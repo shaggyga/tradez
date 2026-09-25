@@ -5736,3 +5736,9 @@ Vault packet `C:\Users\zmoor\OneDrive\thevault\projects\forex\RESIDUAL_R4_RELOCA
 
 The consumer now authenticates an independently pinned upstream manifest and recipe, requires the full expected frame/coverage population, and refuses shortened origins, whole missing instruments/bases, duplicate descriptors and changed member bytes. Fresh tests: 11 passed. The 192-frame saved result and 3,264-slot coverage ledger remain byte-identical; its negative scientific conclusion is preserved. Local evidence: evidence/four_hour_20260925_135023/curve_population_guard/VALIDATION.json. Same-task review and Vault packet publication pending. Exact next: rich_feature_family_incremental_comparison_v2.
 
+
+
+## REV-04 spread/activity family increment 2026-09-25T14:25:36.0246676Z
+
+Selected a material nine-feature spread/activity mask after authenticating 210 rich and 33 baseline payloads and verifying 4,026 eligible records. New matched offline run b3bd3630ab40de9a3a2a819ac0f03f2bd4cdb7c16114858b670734db044e9ede fitted 28 new estimators, reused original base models and compact50 controls, issued 37,744 forecasts, and reported 28 overall plus origin/day paired slices. MAE improved in 9/28 and MSE in 13/28 slices: mixed inspected-development evidence, no model selected. All 74 output payloads verified; 38,080 coverage rows include 336 explicit missing-feature slots. Fresh tests: two focused plus one future-perturbation test; saved-model prediction latency check max 1.625 s under 2 s. Local evidence evidence/four_hour_20260925_135023/rich_family_incremental; Vault handoff publication pending. Next retained_policy_exposure_or_cost_support_qualification_v2.
+
