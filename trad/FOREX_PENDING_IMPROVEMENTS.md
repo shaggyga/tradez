@@ -5648,3 +5648,15 @@ Published `RICH_FEATURE_REUSE_CURRENT_20260925_034000` for `rich_feature_family_
 - [x] `2026-09-25T03:54:50Z` `later_chronological_policy_comparison_v2` closed by Vault packet `CHRONOLOGICAL_POLICY_CURRENT_CLOSURE_20260925_060500`; accepted packet reused; next `chronological_policy_attribution_v2`.
 
 - [x] `2026-09-25T03:54:50Z` `chronological_policy_attribution_v2` closed by Vault packet `CHRONOLOGICAL_ATTRIBUTION_CURRENT_CLOSURE_20260925_061000`; accepted packet reused; next `currency_factor_forecast_projection_v2`.
+
+- [x] `2026-09-25T03:56:47Z` `currency_factor_forecast_projection_v2` closed by Vault packet `CURRENCY_FACTOR_PROJECTION_CURRENT_CLOSURE_20260925_061500`; accepted packet reused; next `currency_projection_native_policy_inputs_v2`.
+
+- [x] `2026-09-25T03:56:47Z` `currency_projection_native_policy_inputs_v2` closed by Vault packet `CURRENCY_NATIVE_INPUTS_CURRENT_CLOSURE_20260925_062000`; accepted packet reused; next `currency_projection_policy_comparison_v2`.
+
+- [x] `2026-09-25T03:56:47Z` `currency_projection_policy_comparison_v2` closed by Vault packet `CURRENCY_POLICY_COMPARISON_CURRENT_CLOSURE_20260925_062500`; accepted packet reused; next `currency_projection_policy_attribution_v2`.
+
+- [x] `2026-09-25T03:56:47Z` `currency_projection_policy_checkpoint_v2` closed by Vault packet `CURRENCY_POLICY_CHECKPOINT_CURRENT_CLOSURE_20260925_063000`; accepted packet reused; next `currency_projection_confirmation_protocol_v2`.
+
+- [x] `2026-09-25T03:56:47Z` `currency_projection_policy_attribution_v2` closed by Vault packet `CURRENCY_POLICY_ATTRIBUTION_CURRENT_CLOSURE_20260925_063500`; accepted packet reused; next `currency_projection_confirmation_protocol_v2`.
+
+- [!] `2026-09-25T03:56:47Z` `currency_projection_confirmation_protocol_v2` blocked in `CURRENCY_CONFIRMATION_BLOCKER_CURRENT_20260925_064000`: missing untouched qualified all-68 mature cohort after epoch 1722535260; continue eligible siblings.
