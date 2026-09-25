@@ -7496,3 +7496,11 @@ at `1721995260`. The candidate requires same-record, same-target controls, so no
 cross-period score or substitute control was used. This is a documented support gap;
 the next independent candidate is the rich-feature-family comparison. Vault:
 [CURVE_COMPARISON_SUPPORT_20260925_015400](../../../OneDrive/thevault/projects/forex/CURVE_COMPARISON_SUPPORT_20260925_015400/REVIEW.md).
+
+## 2026-09-25 — rich-feature reuse reconciliation
+
+The rich-feature candidate is already covered by the preserved matched rich-family
+comparison and paired dependence report: three retained feature groups, 84 rich-model
+fits, 113,232 forecasts, 336 paired comparisons, chronology/maturity guards and
+future-data perturbation checks. No duplicate fit was run. Vault:
+[RICH_FEATURE_REUSE_20260925_020000](../../../OneDrive/thevault/projects/forex/RICH_FEATURE_REUSE_20260925_020000/REVIEW.md).
