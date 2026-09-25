@@ -5598,3 +5598,27 @@ Published `RICH_FEATURE_REUSE_CURRENT_20260925_034000` for `rich_feature_family_
 - Packet: `MACRO_NUMERIC_AUDIT_CURRENT_CLOSURE_20260925_041000/REVIEW.md`
 - Result: existing numeric audit reused; metadata/vintage gaps remain and no forecast admission.
 - Next: `macro_numeric_observation_asof_state_v2`.
+
+## 2026-09-25T03:40:58.625358Z - macro numeric observation state current closure
+
+- Packet: `MACRO_NUMERIC_STATE_CURRENT_CLOSURE_20260925_041500/REVIEW.md`
+- Result: existing numeric state packet reused; numeric-fact/forecast gates remain closed.
+- Next: `macro_component_extraction_span_audit_v2`.
+
+- [x] `2026-09-25T03:43:59Z` `macro_component_extraction_span_audit_v2` closed by Vault packet `MACRO_COMPONENT_AUDIT_CURRENT_CLOSURE_20260925_042000`; no duplicate fit; next `macro_component_extraction_guard_repair_v2`.
+
+- [x] `2026-09-25T03:45:09Z` `macro_component_extraction_guard_repair_v2` closed by Vault packet `MACRO_COMPONENT_REPAIR_CURRENT_CLOSURE_20260925_042500`; no duplicate fit; next `macro_repaired_component_asof_integration_v2`.
+
+- [x] `2026-09-25T03:45:09Z` `macro_repaired_component_asof_integration_v2` closed by Vault packet `MACRO_COMPONENT_STATE_CURRENT_CLOSURE_20260925_043000`; no duplicate fit; next `macro_numeric_qualification_gap_disposition_v2`.
+
+- [x] `2026-09-25T03:45:09Z` `macro_numeric_qualification_gap_disposition_v2` closed by Vault packet `MACRO_NUMERIC_DISPOSITION_CURRENT_CLOSURE_20260925_043500`; no duplicate fit; next `macro_numeric_source_native_unit_binding_v2`.
+
+- [x] `2026-09-25T03:45:09Z` `macro_numeric_source_native_unit_binding_v2` closed by Vault packet `MACRO_UNIT_BINDING_CURRENT_CLOSURE_20260925_044000`; no duplicate fit; next `macro_numeric_reference_and_extraction_provenance_binding_v2`.
+
+- [x] `2026-09-25T03:46:33Z` `macro_numeric_reference_and_extraction_provenance_binding_v2` closed by Vault packet `MACRO_PROVENANCE_CURRENT_CLOSURE_20260925_044500`; no duplicate fit; next `macro_currency_meter_evidence_view_v2`.
+
+- [x] `2026-09-25T03:46:33Z` `macro_currency_meter_evidence_view_v2` closed by Vault packet `MACRO_METER_CURRENT_CLOSURE_20260925_045000`; no duplicate fit; next `macro_currency_meter_numeric_evidence_join_v2`.
+
+- [x] `2026-09-25T03:48:59Z` `macro_currency_meter_numeric_evidence_join_v2` closed by Vault packet `NUMERIC_JOIN_CURRENT_CLOSURE_20260925_045500`; accepted review reused and fresh focused rerun passed; next `whole_curve_warm_start_capacity_followup_v2`.
+
+- [x] `2026-09-25T03:51:26Z` `whole_curve_warm_start_capacity_followup_v2` closed by Vault packet `WARM_OPERATOR_CURRENT_CLOSURE_20260925_050000`; accepted no-fit warm operator reused and fresh focused rerun passed; next `freeze_retained_equal_weight_forecast_blend_diagnostic_v2`.

@@ -7632,3 +7632,27 @@ Published `RICH_FEATURE_REUSE_CURRENT_20260925_034000` for `rich_feature_family_
 - Packet: `MACRO_NUMERIC_AUDIT_CURRENT_CLOSURE_20260925_041000/REVIEW.md`
 - Result: existing numeric audit reused; metadata/vintage gaps remain and no forecast admission.
 - Next: `macro_numeric_observation_asof_state_v2`.
+
+## 2026-09-25T03:40:58.625358Z - macro numeric observation state current closure
+
+- Packet: `MACRO_NUMERIC_STATE_CURRENT_CLOSURE_20260925_041500/REVIEW.md`
+- Result: existing numeric state packet reused; numeric-fact/forecast gates remain closed.
+- Next: `macro_component_extraction_span_audit_v2`.
+
+- 2026-09-25T03:43:59Z — Closed `macro_component_extraction_span_audit_v2` by current reuse packet `MACRO_COMPONENT_AUDIT_CURRENT_CLOSURE_20260925_042000`; source `MACRO_COMPONENT_AUDIT_20260922_202047` records 13 local/13 relocated tests and checkpoint `69d1f36ec704dbe6e698fa9e0d07c1ebfbb3b4aa2f7950497e79c9b284c6a6e3`. Next: `macro_component_extraction_guard_repair_v2`.
+
+- 2026-09-25T03:45:09Z — Closed `macro_component_extraction_guard_repair_v2` by current reuse packet `MACRO_COMPONENT_REPAIR_CURRENT_CLOSURE_20260925_042500`; source `MACRO_COMPONENT_REPAIR_20260922_202623` records 17 local/17 relocated tests and checkpoint `ef3cfffbb35aec7aa89c8524dfa3395c5c4038763cdb2e28895083d9b111537a`. Next: `macro_repaired_component_asof_integration_v2`.
+
+- 2026-09-25T03:45:09Z — Closed `macro_repaired_component_asof_integration_v2` by current reuse packet `MACRO_COMPONENT_STATE_CURRENT_CLOSURE_20260925_043000`; source `MACRO_COMPONENT_STATE_20260922_203059` records 14 local/14 relocated tests and checkpoint `75659bb5347f7d02465ae98dc78c155c7fd384757fe5baf1c980cad733736726`. Next: `macro_numeric_qualification_gap_disposition_v2`.
+
+- 2026-09-25T03:45:09Z — Closed `macro_numeric_qualification_gap_disposition_v2` by current reuse packet `MACRO_NUMERIC_DISPOSITION_CURRENT_CLOSURE_20260925_043500`; source `MACRO_NUMERIC_DISPOSITION_20260922_203511` records 6 local/6 relocated tests and checkpoint `cd362752bba81cc0276ebd2fb0842978074011163569a8aa15fab01c2a4c5b10`. Next: `macro_numeric_source_native_unit_binding_v2`.
+
+- 2026-09-25T03:45:09Z — Closed `macro_numeric_source_native_unit_binding_v2` by current reuse packet `MACRO_UNIT_BINDING_CURRENT_CLOSURE_20260925_044000`; source `MACRO_UNIT_BINDING_20260922_205445` records 35 local/35 relocated tests and checkpoint `c694e8b67c4e72251fefcad5e135ac4a5e17e314ddbfa790726464a421aa0b8d`. Next: `macro_numeric_reference_and_extraction_provenance_binding_v2`.
+
+- 2026-09-25T03:46:33Z — Closed `macro_numeric_reference_and_extraction_provenance_binding_v2` by current reuse packet `MACRO_PROVENANCE_CURRENT_CLOSURE_20260925_044500`; source `MACRO_PROVENANCE_20260923_041831` records 19 local/19 relocated tests and checkpoint `9d0d8286439b973cea007f6ddb0b8929e951b0de19c849d1ef2d24649e31c9d5`. Next: `macro_currency_meter_evidence_view_v2`.
+
+- 2026-09-25T03:46:33Z — Closed `macro_currency_meter_evidence_view_v2` by current reuse packet `MACRO_METER_CURRENT_CLOSURE_20260925_045000`; source `MACRO_METER_20260923_042731` records 17 local/17 relocated tests and checkpoint `55ae8ad38a4458b74633d106a2d34726f07376429103c58efe5684521e5d5204`. Next: `macro_currency_meter_numeric_evidence_join_v2`.
+
+- 2026-09-25T03:48:59Z — Closed `macro_currency_meter_numeric_evidence_join_v2` by current packet `NUMERIC_JOIN_CURRENT_CLOSURE_20260925_045500` using accepted review `NUMERIC_JOIN_REVIEW_REPAIRS_20260924_004443` plus fresh focused rerun (`16 passed, 3 skipped`) under bundled Python. Next: `whole_curve_warm_start_capacity_followup_v2`.
+
+- 2026-09-25T03:51:26Z — Closed `whole_curve_warm_start_capacity_followup_v2` by current packet `WARM_OPERATOR_CURRENT_CLOSURE_20260925_050000` using accepted review `WARM_OPERATOR_20260924_004443` plus fresh focused rerun (`14 passed`) under bundled Python. Next: `freeze_retained_equal_weight_forecast_blend_diagnostic_v2`.
