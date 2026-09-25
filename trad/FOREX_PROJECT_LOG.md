@@ -7726,3 +7726,6 @@ Published `MACRO_EVENT_TEXT_VALUE_ASSESSMENT_20260925_082500` for `macro_event_t
 
 
 **2026-09-25T08:36:48.059626Z UTC — Forecast/outcome inspector contract:** Added a read-only reconciliation contract for forecast-only rows, explicit coverage/WAIT rows and outcome placeholders; focused verification passed 50 tests. Vault packet will be `FORECAST_OUTCOME_INSPECTOR_CONTRACT_20260925_084500/REVIEW.json`.
+
+
+**2026-09-25T08:41:52.824610Z UTC — Forecast/outcome preserved artifact probe:** New inspector contract accepted the preserved macro event forecast artifact with 32,640 coverage rows, 23,930 forecasts/outcome placeholders, 8,710 blocked rows and zero reconciliation errors. Vault packet will be `FORECAST_OUTCOME_INSPECTOR_PROBE_20260925_084200/REVIEW.json`.
