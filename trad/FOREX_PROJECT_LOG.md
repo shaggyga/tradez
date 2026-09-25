@@ -7794,3 +7794,6 @@ REV-05 Vault handoff: C:\Users\zmoor\OneDrive\thevault\projects\forex\POLICY_EXP
 
 Separate new-fit ExtraTreesRegressor hypothesis qualified on the matched 68-pair continuous endpoint population. Retained input identity 3c51adb6cb8467ed15b1bf604c03c917bc0cab7d91180a3674336ccf6765f9d6, baseline b3c3ea235bb15727633b665f86ea535b48bfe14cc35d00e60b12e7d848ea750d; all 14 target/cutoff populations hash-match mature baseline training, with 795-3,144 rows each. Prior Extra Trees source is a different seven-major 5/15/30/60 M1 study, not a current 68-pair artifact. Fixed 100-tree settings, seven targets, frozen/adaptive schedules, four preserved controls and a 600-second/2-GiB/512-MiB cap are prespecified in evidence/four_hour_20260925_135023/distinct_method_qualification/QUALIFICATION.json. Recovered-only card stays blocked narrowly; no new fit started by qualification. Vault handoff pending. Exact next extra_trees_matched_development_comparison_v1.
 
+
+REV-05 distinct-method Vault handoff: C:\Users\zmoor\OneDrive\thevault\projects\forex\DISTINCT_METHOD_QUALIFICATION_20260925_144000\REVIEW.md; packet manifest 5a4589735bdcacf90975ad8845c1e60c0b175fd8450e200d26918294fdefb862. Qualified new fit only, not a completed experiment. Same-task review; independent review separate. Exact next extra_trees_matched_development_comparison_v1.
+
