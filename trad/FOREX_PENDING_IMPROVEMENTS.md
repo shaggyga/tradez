@@ -5504,3 +5504,7 @@ Residual complete/accepted claim retracted: R1-R7 require repair, next `currency
 on a new research instruction. Preserve old attempt; numerical code unchanged.
 Exact code, evidence and restore identities: packet MANIFEST.json, independent
 review and GIT_RESTORE_RECEIPT.json; final commit in SHARED_GIT_REMOTE_LATEST.json.
+
+## 2026-09-25 — pending EUR/USD dataset completion
+
+Step `eurusd-recording-20260925`, source `b0dd42c9f6b0dc67fd6b9c5d141e25ed99b0320f`, recording `eurusd-a0972120db87`. Capture active through 2026-09-25T20:59:00Z; final export, actual interval/gap/count report and terminal guard/heartbeat closure pending. [Same review packet](../../../OneDrive/thevault/projects/forex/EURUSD_RECORDING_20260925_015224/REVIEW.md), manifest `492593a50464f3f353531853972601efe0d7e7faebec4661506b67de2dfaf913`. No scientific queue change; independent recorder limitations R1-R4 are retained there.
