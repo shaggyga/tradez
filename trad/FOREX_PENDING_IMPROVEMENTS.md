@@ -5622,3 +5622,29 @@ Published `RICH_FEATURE_REUSE_CURRENT_20260925_034000` for `rich_feature_family_
 - [x] `2026-09-25T03:48:59Z` `macro_currency_meter_numeric_evidence_join_v2` closed by Vault packet `NUMERIC_JOIN_CURRENT_CLOSURE_20260925_045500`; accepted review reused and fresh focused rerun passed; next `whole_curve_warm_start_capacity_followup_v2`.
 
 - [x] `2026-09-25T03:51:26Z` `whole_curve_warm_start_capacity_followup_v2` closed by Vault packet `WARM_OPERATOR_CURRENT_CLOSURE_20260925_050000`; accepted no-fit warm operator reused and fresh focused rerun passed; next `freeze_retained_equal_weight_forecast_blend_diagnostic_v2`.
+
+- [x] `2026-09-25T03:53:17Z` `freeze_retained_equal_weight_forecast_blend_diagnostic_v2` closed by Vault packet `FORECAST_BLEND_CURRENT_CLOSURE_20260925_051000`; accepted packet reused; next `causal_convex_forecast_blend_diagnostic_v2`.
+
+- [x] `2026-09-25T03:53:17Z` `causal_convex_forecast_blend_diagnostic_v2` closed by Vault packet `CAUSAL_CONVEX_CURRENT_CLOSURE_20260925_051500`; accepted packet reused; next `fixed_blend_remaining_policy_comparison_v2`.
+
+- [x] `2026-09-25T03:53:17Z` `fixed_blend_remaining_policy_comparison_v2` closed by Vault packet `FIXED_REMAINING_BLEND_CURRENT_CLOSURE_20260925_052000`; accepted packet reused; next `absolute_movement_forecast_comparison_v2`.
+
+- [x] `2026-09-25T03:53:17Z` `absolute_movement_forecast_comparison_v2` closed by Vault packet `ABSOLUTE_MOVEMENT_CURRENT_CLOSURE_20260925_052500`; accepted packet reused; next `magnitude_conditioned_signed_forecast_layer_v2`.
+
+- [x] `2026-09-25T03:54:50Z` `magnitude_conditioned_signed_forecast_layer_v2` closed by Vault packet `MAGNITUDE_LAYER_CURRENT_CLOSURE_20260925_053000`; accepted packet reused; next `later_remaining_forecast_surface_v2`.
+
+- [x] `2026-09-25T03:54:50Z` `later_remaining_forecast_surface_v2` closed by Vault packet `LATER_REMAINING_SURFACE_CURRENT_CLOSURE_20260925_053500`; accepted packet reused; next `later_remaining_layer_policy_comparison_v2`.
+
+- [x] `2026-09-25T03:54:50Z` `later_remaining_layer_policy_comparison_v2` closed by Vault packet `LATER_LAYER_POLICY_CURRENT_CLOSURE_20260925_054000`; accepted packet reused; next `layer_policy_failure_attribution_v2`.
+
+- [x] `2026-09-25T03:54:50Z` `layer_policy_failure_attribution_v2` closed by Vault packet `LAYER_POLICY_ATTRIBUTION_CURRENT_CLOSURE_20260925_054500`; accepted packet reused; next `later_development_input_extension_v2`.
+
+- [x] `2026-09-25T03:54:50Z` `later_development_input_extension_v2` closed by Vault packet `LATER_INPUT_EXTENSION_CURRENT_CLOSURE_20260925_055000`; accepted packet reused; next `later_chronological_forecast_layer_comparison_v2`.
+
+- [x] `2026-09-25T03:54:50Z` `later_chronological_forecast_layer_comparison_v2` closed by Vault packet `CHRONOLOGICAL_LAYER_CURRENT_CLOSURE_20260925_055500`; accepted packet reused; next `later_chronological_native_policy_inputs_v2`.
+
+- [x] `2026-09-25T03:54:50Z` `later_chronological_native_policy_inputs_v2` closed by Vault packet `CHRONOLOGICAL_NATIVE_CURRENT_CLOSURE_20260925_060000`; accepted packet reused; next `later_chronological_policy_comparison_v2`.
+
+- [x] `2026-09-25T03:54:50Z` `later_chronological_policy_comparison_v2` closed by Vault packet `CHRONOLOGICAL_POLICY_CURRENT_CLOSURE_20260925_060500`; accepted packet reused; next `chronological_policy_attribution_v2`.
+
+- [x] `2026-09-25T03:54:50Z` `chronological_policy_attribution_v2` closed by Vault packet `CHRONOLOGICAL_ATTRIBUTION_CURRENT_CLOSURE_20260925_061000`; accepted packet reused; next `currency_factor_forecast_projection_v2`.

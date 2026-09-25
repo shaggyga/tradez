@@ -7656,3 +7656,29 @@ Published `RICH_FEATURE_REUSE_CURRENT_20260925_034000` for `rich_feature_family_
 - 2026-09-25T03:48:59Z — Closed `macro_currency_meter_numeric_evidence_join_v2` by current packet `NUMERIC_JOIN_CURRENT_CLOSURE_20260925_045500` using accepted review `NUMERIC_JOIN_REVIEW_REPAIRS_20260924_004443` plus fresh focused rerun (`16 passed, 3 skipped`) under bundled Python. Next: `whole_curve_warm_start_capacity_followup_v2`.
 
 - 2026-09-25T03:51:26Z — Closed `whole_curve_warm_start_capacity_followup_v2` by current packet `WARM_OPERATOR_CURRENT_CLOSURE_20260925_050000` using accepted review `WARM_OPERATOR_20260924_004443` plus fresh focused rerun (`14 passed`) under bundled Python. Next: `freeze_retained_equal_weight_forecast_blend_diagnostic_v2`.
+
+- 2026-09-25T03:53:17Z — Closed `freeze_retained_equal_weight_forecast_blend_diagnostic_v2` by current reuse packet `FORECAST_BLEND_CURRENT_CLOSURE_20260925_051000`; source `FORECAST_BLEND_REPAIRS_20260924_031500` was accepted within scope. Next: `causal_convex_forecast_blend_diagnostic_v2`.
+
+- 2026-09-25T03:53:17Z — Closed `causal_convex_forecast_blend_diagnostic_v2` by current reuse packet `CAUSAL_CONVEX_CURRENT_CLOSURE_20260925_051500`; source `CAUSAL_CONVEX_20260924_034000` was accepted within scope. Next: `fixed_blend_remaining_policy_comparison_v2`.
+
+- 2026-09-25T03:53:17Z — Closed `fixed_blend_remaining_policy_comparison_v2` by current reuse packet `FIXED_REMAINING_BLEND_CURRENT_CLOSURE_20260925_052000`; source `FIXED_REMAINING_BLEND_20260924_040000` was accepted within scope. Next: `absolute_movement_forecast_comparison_v2`.
+
+- 2026-09-25T03:53:17Z — Closed `absolute_movement_forecast_comparison_v2` by current reuse packet `ABSOLUTE_MOVEMENT_CURRENT_CLOSURE_20260925_052500`; source `ABSOLUTE_MOVEMENT_20260924_044500` was accepted within scope. Next: `magnitude_conditioned_signed_forecast_layer_v2`.
+
+- 2026-09-25T03:54:50Z — Closed `magnitude_conditioned_signed_forecast_layer_v2` by current reuse packet `MAGNITUDE_LAYER_CURRENT_CLOSURE_20260925_053000`; source `MAGNITUDE_LAYER_20260924_051000` accepted within scope. Next: `later_remaining_forecast_surface_v2`.
+
+- 2026-09-25T03:54:50Z — Closed `later_remaining_forecast_surface_v2` by current reuse packet `LATER_REMAINING_SURFACE_CURRENT_CLOSURE_20260925_053500`; source `LATER_REMAINING_SURFACE_20260924_060000` accepted within scope. Next: `later_remaining_layer_policy_comparison_v2`.
+
+- 2026-09-25T03:54:50Z — Closed `later_remaining_layer_policy_comparison_v2` by current reuse packet `LATER_LAYER_POLICY_CURRENT_CLOSURE_20260925_054000`; source `LATER_LAYER_POLICY_20260924_070000` accepted within scope. Next: `layer_policy_failure_attribution_v2`.
+
+- 2026-09-25T03:54:50Z — Closed `layer_policy_failure_attribution_v2` by current reuse packet `LAYER_POLICY_ATTRIBUTION_CURRENT_CLOSURE_20260925_054500`; source `LAYER_POLICY_ATTRIBUTION_20260924_073000` accepted within scope. Next: `later_development_input_extension_v2`.
+
+- 2026-09-25T03:54:50Z — Closed `later_development_input_extension_v2` by current reuse packet `LATER_INPUT_EXTENSION_CURRENT_CLOSURE_20260925_055000`; source `LATER_INPUT_EXTENSION_20260924_080500` accepted within scope. Next: `later_chronological_forecast_layer_comparison_v2`.
+
+- 2026-09-25T03:54:50Z — Closed `later_chronological_forecast_layer_comparison_v2` by current reuse packet `CHRONOLOGICAL_LAYER_CURRENT_CLOSURE_20260925_055500`; source `CHRONOLOGICAL_LAYER_COMPACT_20260924_082500` accepted within scope. Next: `later_chronological_native_policy_inputs_v2`.
+
+- 2026-09-25T03:54:50Z — Closed `later_chronological_native_policy_inputs_v2` by current reuse packet `CHRONOLOGICAL_NATIVE_CURRENT_CLOSURE_20260925_060000`; source `CHRONOLOGICAL_NATIVE_20260924_090000` accepted within scope. Next: `later_chronological_policy_comparison_v2`.
+
+- 2026-09-25T03:54:50Z — Closed `later_chronological_policy_comparison_v2` by current reuse packet `CHRONOLOGICAL_POLICY_CURRENT_CLOSURE_20260925_060500`; source `CHRONOLOGICAL_POLICY_20260924_UNTIL8AM` accepted within scope. Next: `chronological_policy_attribution_v2`.
+
+- 2026-09-25T03:54:50Z — Closed `chronological_policy_attribution_v2` by current reuse packet `CHRONOLOGICAL_ATTRIBUTION_CURRENT_CLOSURE_20260925_061000`; source `CHRONOLOGICAL_ATTRIBUTION_20260924_UNTIL8AM` accepted within scope. Next: `currency_factor_forecast_projection_v2`.
