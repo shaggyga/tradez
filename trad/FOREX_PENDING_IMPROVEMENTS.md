@@ -5701,3 +5701,6 @@ Published `MACRO_EVENT_TEXT_VALUE_ASSESSMENT_20260925_082500` for `macro_event_t
 
 
 **2026-09-25T08:46:49.705082Z UTC — Behavior-changing cost stress replay:** Ran the prespecified synthetic accounting stress package: 7/7 scenarios completed; fill/admission path changed for fees_10000x, capital_100, latency_120s, entry_quote_outage, entry_spread_wide. Financing 5x changed financing amounts without changing fill path. Vault packet: `COST_STRESS_REPLAY_20260925_084700/REVIEW.json`. Next: `currency_concentration_support_census_v2`.
+
+
+**2026-09-25T08:51:03.107167Z UTC — Currency concentration support census:** Focused tests passed 13/13. Offline support exists for concentration veto/admission, pending-order exposure, late OCO gross-risk visibility and currency-incidence diagnostics; time-weighted all-68 portfolio exposure remains unestablished. Vault packet: `CURRENCY_CONCENTRATION_SUPPORT_CENSUS_20260925_085200/REVIEW.json`. Next: `interaction_null_control_support_census_v2`.
