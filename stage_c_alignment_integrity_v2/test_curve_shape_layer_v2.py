@@ -21,7 +21,9 @@ def test_causal_complete_curve_fit_and_apply():
     contract = {"minimum_distinct_origins": 8, "minimum_distinct_utc_days": 3, "minimum_distinct_pairs": 3, "ridge_lambda": 1.0}
     snapshot = fit_snapshot(curves, outcomes, 777600, contract)
     assert snapshot["status"] == "fitted"
-    assert apply(curves[-1], snapshot)["outcomes_revealed"] is False
+    applied = apply(curves[-1], snapshot)
+    assert applied["outcomes_revealed"] is False
+    assert applied["horizon_minutes"] == 60
 
 
 def test_incomplete_curve_is_not_imputed():

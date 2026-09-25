@@ -103,6 +103,7 @@ def apply(row, snapshot):
     if not math.isfinite(value):
         raise ValueError("curve_shape_nonfinite_prediction")
     result = {**row, "variant": "curve_shape", "prediction_bps": value, "layer_id": snapshot["layer_id"],
+              "horizon_minutes": row["anchor_horizon_minutes"],
               "layer_definition_sha256": fingerprint({"family": "curve_shape", "layer_id": snapshot["layer_id"]}),
               "outcomes_revealed": False, "native_policy_admitted": False}
     result["forecast_id"] = fingerprint({k: v for k, v in result.items() if k != "forecast_id"})

@@ -56,3 +56,24 @@ def assemble(sources):
               "scope": "offline immutable forecast identity tape; outcomes are not inserted"}
     result["tape_sha256"] = fingerprint(result)
     return result
+
+
+def matched_source_coverage(tape, source_names):
+    """Exact record/target/base/horizon intersection without using outcomes."""
+    if tape.get("tape_sha256") != fingerprint({k: v for k, v in tape.items() if k != "tape_sha256"}):
+        raise ValueError("forecast_tape_identity")
+    requested = tuple(sorted(source_names))
+    if len(requested) < 2:
+        raise ValueError("forecast_tape_two_sources_required")
+    groups = {source: set() for source in requested}
+    for entry in tape["records"]:
+        if entry["source"] not in groups:
+            continue
+        row = entry["row"]
+        key = (entry["record_id"], entry["target_id"], row.get("base_method"), row.get("horizon_minutes"))
+        groups[entry["source"]].add(key)
+    common = set.intersection(*groups.values())
+    return {"sources": list(requested), "source_rows": {key: len(value) for key, value in groups.items()},
+            "matched_rows": len(common), "matched_origins": len({key[0].rsplit(":", 1)[1] for key in common}),
+            "matched_instruments": len({key[0].rsplit(":", 1)[0] for key in common}),
+            "support_sha256": fingerprint(sorted(common))}

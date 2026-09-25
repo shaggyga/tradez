@@ -1,7 +1,7 @@
 import pytest
 
 from contracts import fingerprint
-from forecast_tape_v2 import assemble
+from forecast_tape_v2 import assemble, matched_source_coverage
 
 
 def row(pair="A", origin=1):
@@ -23,3 +23,10 @@ def test_forecast_tape_refuses_tampered_row():
     value["prediction_bps"] = 2.0
     with pytest.raises(ValueError, match="forecast_identity"):
         assemble({"parent": [value]})
+
+
+def test_matched_source_coverage_requires_exact_intersection():
+    tape = assemble({"a": [row("A", 1), row("B", 1)], "b": [row("A", 1)]})
+    report = matched_source_coverage(tape, ["a", "b"])
+    assert report["matched_rows"] == 1
+    assert report["matched_instruments"] == 1
