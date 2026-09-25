@@ -7723,3 +7723,6 @@ Published `MACRO_EVENT_TEXT_VALUE_ASSESSMENT_20260925_082500` for `macro_event_t
 
 
 **2026-09-25T08:26:28.998834Z UTC — Design branch eligibility review:** QREV-01 branch census complete without an exhaustion claim. Vault packet: `DESIGN_BRANCH_ELIGIBILITY_REVIEW_20260925_083000/REVIEW.json`. Exact next: `forecast_outcome_inspector_reconciliation_contract_v2`.
+
+
+**2026-09-25T08:36:48.059626Z UTC — Forecast/outcome inspector contract:** Added a read-only reconciliation contract for forecast-only rows, explicit coverage/WAIT rows and outcome placeholders; focused verification passed 50 tests. Vault packet will be `FORECAST_OUTCOME_INSPECTOR_CONTRACT_20260925_084500/REVIEW.json`.
