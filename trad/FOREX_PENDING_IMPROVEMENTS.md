@@ -5682,3 +5682,7 @@ Published `CURVE_COVERAGE_REPAIR_20260925_073500` for `forecast_curve_shape_laye
 ## 2026-09-25 rich incremental direct evaluation
 
 Published `RICH_INCREMENTAL_DIRECT_EVAL_20260925_081700` for `rich_feature_family_incremental_comparison_v2`, resolving QREV-04 within scope. Restored the sealed rich-family checkpoint with 215 identical scientific payloads and relocated tests passed, then evaluated direct nested increments without a new fit. Peer12 compact50-vs-compact38: MAE improved 6/28, MSE 10/28, absolute bias 15/28. Full178 full228-vs-compact50: MAE improved 8/28, MSE 7/28, absolute bias 8/28. Exact next: `macro_event_text_incremental_value_assessment_v2`.
+
+## 2026-09-25 macro/event/text incremental value assessment
+
+Published `MACRO_EVENT_TEXT_VALUE_ASSESSMENT_20260925_082500` for `macro_event_text_incremental_value_assessment_v2`. Event-existence macro features already have matched-control negative development evidence: MAE worsened +0.49675 bps at 1h and +2.53014 bps at 24h versus technical+clock. Broader text/numeric/reaction incremental compute is blocked before fit because numeric surprise is unavailable, retained text state has zero comparable text-change values, and release identity/calendar/matched price/no-move/semantic admission remain incomplete. Exact next: `design_branch_eligibility_review_v2`.
