@@ -1,0 +1,18 @@
+{
+  "schema_version": "forex_residual_curve_shape_contract.v2",
+  "experiment_id": "forecast_residual_curve_shape_stacking_v2",
+  "inputs": {
+    "forecast_variant": "learned_residual",
+    "horizons_minutes": [360, 720, 1080, 1440, 1800, 2160, 2520, 2880],
+    "anchor_horizon_minutes": 360
+  },
+  "layer_fit": {
+    "minimum_distinct_origins": 8,
+    "minimum_distinct_utc_days": 3,
+    "minimum_distinct_pairs": 20,
+    "ridge_lambda": 20.0,
+    "base_model_fits": 0,
+    "feature_sweep": false
+  },
+  "acceptance": {"all68_coverage": true, "paired_metrics": ["overall", "origin", "utc_day"], "native_policy_admitted": false}
+}
