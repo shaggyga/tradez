@@ -4,6 +4,18 @@ The Vault is the shared brain; Git supplies the common source. Read the reposito
 [README](README.md), then use this machine's `thevault/projects/forex` path.
 This page contains navigation, not a second copy of the current queue.
 
+## Current checkpoint — 2026-09-25
+
+The four-hour correction session ended at its fixed deadline; no worker remains
+active under that claim. The shared state is the Vault packet
+`FOUR_HOUR_DEADLINE_HANDOFF_20260925_180439/HANDOFF.md` and Git commit
+`6eb514ab1856190b39d83ab020d5f77700ca8770`. Six scoped repair/qualification
+packets are complete. The exact next queue item is
+`extra_trees_matched_development_comparison_v1`, with a **source-only partial
+draft** at `stage_c_alignment_integrity_v2/extra_trees_matched_v1.py`.
+No Extra Trees fit, forecast, score, review, or scientific result is claimed.
+Start it only after fresh authorization, current preflight, and focused tests.
+
 | Question | Authoritative Vault record |
 |---|---|
 | What must be finished before research? | `OPERATIONAL_READINESS_LATEST.json` and its `OPS_STATUS.json` |
@@ -37,9 +49,9 @@ and the Vault FOREX_FORECASTING_CONTINUATION.md. A blocked experiment is local t
 dependents; continue supported siblings during the user's requested duration.
 
 Timed launches and final-response checks use [run control](docs/TIMED_RUN_CONTROL.md).
-The September 24 session is stopped by the user. Its residual checkpoint acceptance
-was retracted; the current Vault review contains seven required corrections. Do not
-restart the old session or count its idle gap as work.
+The September 24 stopped session and its correction history are historical records;
+do not restart it or count its idle gap as work. The current shared pointers above,
+not historical handoff prose, determine the next action.
 
 For detailed research continuation and a two-hour launch prompt, use
 [research handoff](docs/RESEARCH_HANDOFF.md), then the Vault
