@@ -7520,3 +7520,11 @@ residual and rich-family candidates were already complete; curve controls have z
 same-record overlap; no third preserved model exists; and reduced residual-curve panels
 fail the inherited eight-origin minimum. The full evidence and exact next requirement
 are in [FORECASTING_ELIGIBILITY_REVIEW_20260925_021500](../../../OneDrive/thevault/projects/forex/FORECASTING_ELIGIBILITY_REVIEW_20260925_021500/REVIEW.md). A new material input/cohort hypothesis needs a separately frozen bounded contract before fitting.
+
+## 2026-09-25 — macro incremental support review
+
+Macro event existence is a completed negative development result; numeric surprise is
+unavailable and retained text change has zero comparable values. Receipt capture is
+present but the all-release identity/calendar and matched price/no-move population are
+not. That prevents a causal macro incremental comparison. Vault:
+[MACRO_INCREMENTAL_SUPPORT_20260925_022000](../../../OneDrive/thevault/projects/forex/MACRO_INCREMENTAL_SUPPORT_20260925_022000/REVIEW.md).
