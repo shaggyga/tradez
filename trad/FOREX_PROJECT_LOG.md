@@ -7426,3 +7426,16 @@ base fit, API call, policy replay, broker action or live-bot change occurred.
 Vault packet: [CURRENCY_PROJECTION_RESIDUAL_REPAIR_20260925_000700](../../../OneDrive/thevault/projects/forex/CURRENCY_PROJECTION_RESIDUAL_REPAIR_20260925_000700/evidence/REVIEW.md).
 Focused validation: 14 passed. It is implementation-complete but not accepted: its
 independent scientific review and only then the current queue/pointer update remain next.
+
+## 2026-09-25 — curve-shape scope repair successor
+
+The retained cross-horizon curve layer now derives its anchor target and direct control
+from its frozen contract and reports the complete 24-origin × 68-pair × 2-base ledger.
+The authenticated 195-payload parent diagnostic contains 2,156 complete curve panels,
+946 issued learned rows, 1,108 explicit missing-parent panels, and 18 paired strata.
+No base fit, API call, policy replay, broker/service/account or live-bot action occurred.
+
+Vault: [CURVE_SHAPE_SCOPE_REPAIR_20260925_005100](../../../OneDrive/thevault/projects/forex/CURVE_SHAPE_SCOPE_REPAIR_20260925_005100/REVIEW.md).
+Source Git 3b59dd71978db58258e6436f831176ddb810273e; focused validation: 17 passed.
+Independent scientific review remains pending and is nonblocking for eligible forecasting
+siblings. Mutable queue/pointers remain unchanged until acceptance.
