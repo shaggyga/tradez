@@ -5556,3 +5556,27 @@ Published `RICH_FEATURE_REUSE_CURRENT_20260925_034000` for `rich_feature_family_
 - Packet: `MACRO_TEXT_COVERAGE_CURRENT_CLOSURE_20260925_033500/REVIEW.md`
 - Result: existing macro text coverage packet reused; semantic admission remains blocked; no duplicate run.
 - Next: `repair_recovered_policy_action_scoping_v2`.
+
+## 2026-09-25T03:31:50.477104Z - macro policy/action scoping current closure
+
+- Packet: `MACRO_POLICY_SCOPE_CURRENT_CLOSURE_20260925_034000/REVIEW.md`
+- Result: existing macro policy scope packet reused; guarded candidates are not admitted policy facts.
+- Next: `macro_scoped_semantic_source_asof_integration_v2`.
+
+## 2026-09-25T03:33:02.107590Z - macro scoped semantic source-asof current closure
+
+- Packet: `MACRO_SCOPED_ASOF_CURRENT_CLOSURE_20260925_034500/REVIEW.md`
+- Result: existing scoped-asof packet reused; action/forecast gates remain closed.
+- Next: `macro_semantic_source_issuer_qualification_audit_v2`.
+
+## 2026-09-25T03:34:12.240350Z - macro issuer qualification current closure
+
+- Packet: `MACRO_ISSUER_AUDIT_CURRENT_CLOSURE_20260925_035000/REVIEW.md`
+- Result: existing issuer audit packet reused; no independent issuer attestations; supersession remains next.
+- Next: `macro_candidate_version_supersession_audit_v2`.
+
+## 2026-09-25T03:35:21.957280Z - macro candidate-version supersession current closure
+
+- Packet: `MACRO_SUPERSESSION_CURRENT_CLOSURE_20260925_035500/REVIEW.md`
+- Result: existing supersession audit reused; representation loss/storage audit remains next.
+- Next: `macro_collector_representation_storage_audit_v2`.
