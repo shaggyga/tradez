@@ -1,3 +1,7 @@
+# Current capture and mapping update - September 30
+
+[Fast headlines and current-root forecast/technical tracking](NEWS_CAPTURE_MAPPING_20260930.md) are deployed. The dashboard reports observed counts and outcome proxies. This does not qualify the new text as a trained feature or bypass joint warmup. Dated final native and HTTP receipts are in the matching Vault packet.
+
 # Coverage correction — 2026-09-30T17:27:58Z
 
 Research collection reports running independently of stale account monitoring.

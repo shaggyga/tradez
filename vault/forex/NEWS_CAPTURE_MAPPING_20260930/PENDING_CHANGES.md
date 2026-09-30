@@ -1,0 +1,12 @@
+# Completion and remaining dependencies
+
+- TIME-02 IMPLEMENTED/DEPLOYED: separate bounded12-feed RSS headline path; unchanged configured cadences, independent in-flight fetches, retry-after/backoff, immutable first observation, no crypto records. Real12-feed smoke2.906sec; native12-feed success/304 receipt. Provider/discovery latency remains; no matched end-to-end latency gain claimed.
+- MAP-01 IMPLEMENTED/DEPLOYED: current-root source-qualified saved forecast observation, original as-of technical vectors, typed news/pair links, separate immutable local evidence and bounded outcome settlement. Final native sample168 unique forecasts,385 mappings,62 feature snapshots. No retroactive forecast construction.
+- MAP-REVIEW-01 RESOLVED: fractional-second targets would never equal M1 bar times. Final source uses first post-target M1 close, explicit delay<60sec and proxy labeling.33 focused tests passed, including restored-source replay. Actual live outcomes await their original targets; no score invented.
+- MODEL-COVERAGE VERIFIED:65/68 price pairs forecast; jointV11 had3-4 mature H1 rows against48 plus unmet news variation requirements. This is not proof of model quality or an authorization to weaken requirements.
+- MODEL-01 WAITING/FURTHER WORK: typed context is still not a trained model input. Prospective feature/cohort qualification and matched incremental comparison remain necessary. New conjunction records cannot substitute for that experiment. Existing joint training must accumulate real support.
+- OPS-01 DIAGNOSED/OPEN: global scientific preflight refuses manifest navigation for path_forward; subsequent missing-state errors cascade. Current document/source/coordination handoff needs a separately reviewed repair before fitting. All556 original engineering-root source files match; only preserved Extra Trees draft was added. No historical seal altered or scientific gate marked passed.
+- RESEARCH-01 OPEN: extra_trees_matched_development_comparison_v1 remains source-only partial; no fit, result or acceptance performed in this operational packet.
+- REVIEW: substantive same-task review complete; independent_review=false. No separate independent reviewer was used.
+
+Next operational action: joint_v11_mature_forecast_verification_v1. Read current native/context output, inspect mapping.sqlite pending targets and original joint readiness; validate actual settlements when available. Keep chronology, coverage, crypto exclusion, source pins and news variation requirements. Research order remains the existing Vault queue.

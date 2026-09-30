@@ -1,0 +1,53 @@
+{
+  "schema_version": "current_news_forecast_mapping_v1_20260930",
+  "status": "current",
+  "generated_epoch": 1790794020.2661972,
+  "new_mappings": 100,
+  "counts": {
+    "forecasts": 130,
+    "mappings": 100,
+    "features": 19
+  },
+  "settled_forecasts": 0,
+  "forecast_mae_bps": null,
+  "score_window": "latest10000 settled-or-terminal forecast records; unique forecast hashes, overlapping targets remain dependent",
+  "no_change_mae_bps": null,
+  "settled_event_mappings": 0,
+  "selection_sha256": "16fc2194c0cf1e36b22905957127c9898d2abb66972d24e1d8b3c16d636ed80f",
+  "producer_coverage": {
+    "price": {
+      "status": "current",
+      "forecast_pair_count": 65,
+      "state_counts": {
+        "forecast": 130,
+        "unavailable": 6
+      },
+      "reason_counts": {
+        "forecast": 130,
+        "ValueError:market_closed_or_no_stream_quote": 6
+      }
+    },
+    "joint": {
+      "status": "current",
+      "forecast_pair_count": 0,
+      "state_counts": {
+        "warming": 54,
+        "unavailable": 14
+      },
+      "reason_counts": {
+        "mature_joint_h1_training_rows:4<48|nonzero_news_context_training_rows:4<12|distinct_news_context_patterns:4<8": 37,
+        "mature_joint_h1_training_rows:3<48|nonzero_news_context_training_rows:3<12|distinct_news_context_patterns:3<8": 1,
+        "ValueError:no_fresh_quote": 3,
+        "mature_joint_h1_training_rows:5<48|nonzero_news_context_training_rows:5<12|distinct_news_context_patterns:5<8": 11,
+        "mature_joint_h1_training_rows:5<48|nonzero_news_context_training_rows:4<12|distinct_news_context_patterns:5<8": 2,
+        "ValueError:market_closed_or_no_stream_quote": 3,
+        "mature_joint_h1_training_rows:5<48|nonzero_news_context_training_rows:3<12|distinct_news_context_patterns:4<8": 3,
+        "observed_news_failure_generation:3": 8
+      }
+    }
+  },
+  "scope": "new prospective monitor observations; descriptive overlap, not independent model qualification or news incremental value",
+  "research_only": true,
+  "can_place_orders": false,
+  "can_promote": false
+}

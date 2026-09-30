@@ -61,8 +61,7 @@ worker; never kill every Python process.
 - Crypto has no active dashboard route, polling or Forex startup role. GPT/advisor
   comparisons and order/account operations are outside this recovery.
 
-The September30 interpretation adapter and change-triggered worker remain separate
-offline successors; restoring an old qualified producer does not deploy those changes.
+The change-triggered technical worker remains a separate offline successor. Typed headline context and current news/forecast mapping are deployed in the optional context role; see [capture and mapping](NEWS_CAPTURE_MAPPING_20260930.md). They do not migrate original model cohorts.
 
 ## Troubleshooting
 

@@ -32,6 +32,8 @@ is now live in its supervised publisher and dashboard consumer; see
 [news context](docs/CURRENCY_NEWS_CONTEXT_20260930.md). Original model inputs and
 cohorts remain unchanged pending prospective feature qualification.
 
+Current capture/mapping completion: [fast headline feeds and prospective tracking](docs/NEWS_CAPTURE_MAPPING_20260930.md). The native context worker records current technical snapshots and saved forecasts with actual observation clocks. Typed context still needs separate forecasting qualification; pending targets and joint-model warmup remain explicit.
+
 ## Retained design-queue checkpoint — 2026-09-25
 
 The four-hour correction session ended at its fixed deadline; no worker remains

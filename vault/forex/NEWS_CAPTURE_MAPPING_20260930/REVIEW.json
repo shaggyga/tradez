@@ -1,0 +1,31 @@
+{
+  "schema": "forex.scoped_operational_review.v1",
+  "step_id": "news_capture_latency_and_current_move_mapping_v1",
+  "generated_utc": "2026-09-30T19:03:10.175933+00:00",
+  "source_commit": "09bc3171a481bd42ceb670bb1be51e8238f81fa3",
+  "baseline_commit": "eb5fd5e97dcacbe8b92e83264120af3341b19cf4",
+  "implementation_status": "deployed_verified_capture_and_current_mapping",
+  "review_status": "same_task_scoped_review_complete",
+  "independent_review": false,
+  "engineering_readiness": "12-feed headline lane and native current-root mapping verified",
+  "verification_readiness": "124 staged tests;33 final focused and33 Git-restored focused tests overlap; real feed/store/native/HTTP/render checks passed",
+  "scientific_readiness": "No new fitted forecast or incremental sentiment value; targets and prospective support pending",
+  "trading_readiness": "not_authorized_no_orders",
+  "next_action": "joint_v11_mature_forecast_verification_v1",
+  "pending": [
+    "MODEL-01",
+    "OPS-01",
+    "RESEARCH-01",
+    "independent_review",
+    "live_outcome_maturity"
+  ],
+  "preserved_science_next": "extra_trees_matched_development_comparison_v1",
+  "review_findings": [
+    "Legacy parser title/url adapter corrected and real-feed smoke verified",
+    "Fractional live target defect fixed; delayed-close proxy labeled explicitly",
+    "Original source/model/data roots retained; separate context stores only",
+    "Source arrival and request duration are distinct; headline-only transport not certified old-cohort capture",
+    "Event observations and forecast proxy scores do not establish news incremental value"
+  ],
+  "restore": "SOURCE_RESTORE.json identifies exact Git-restored source closure and33 passing offline tests. Actual full live historical model/data relocation is not claimed. REVIEW.md documents exact scoped rollback; baseline local before-images are hashed separately."
+}

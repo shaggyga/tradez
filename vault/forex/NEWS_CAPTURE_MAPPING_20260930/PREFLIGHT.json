@@ -1,0 +1,116 @@
+{
+  "branch": "forex",
+  "checks": [
+    {
+      "check": "roots",
+      "detail": {
+        "vault": "C:\\Users\\zmoor\\OneDrive\\thevault\\projects\\forex",
+        "workspace": "C:\\Users\\zmoor\\Documents\\forex"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "repository",
+      "detail": {
+        "branch": "forex",
+        "clean": true,
+        "head": "eb5fd5e97dcacbe8b92e83264120af3341b19cf4"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "vault_packages",
+      "reason": "Pointer target lacks manifest coverage: path_forward",
+      "status": "blocked"
+    },
+    {
+      "check": "current_documents",
+      "reason": "'review_manifest'",
+      "status": "blocked"
+    },
+    {
+      "check": "engineering_source",
+      "reason": "'design_manifest'",
+      "status": "blocked"
+    },
+    {
+      "check": "revision",
+      "detail": {
+        "branch": "forex",
+        "expected_commit": "eb5fd5e97dcacbe8b92e83264120af3341b19cf4",
+        "identity_source": "explicit",
+        "live_remote_freshness": "not_checked_offline"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "coordination",
+      "reason": "'board'",
+      "status": "blocked"
+    },
+    {
+      "check": "operational_gate",
+      "reason": "'queue'",
+      "status": "blocked"
+    },
+    {
+      "check": "environment",
+      "detail": {
+        "expected": {
+          "joblib": "1.5.3",
+          "numpy": "2.5.1",
+          "pandas": "2.3.3",
+          "pyarrow": "25.0.0",
+          "pytest": "9.1.1",
+          "python": "3.12.10",
+          "requests": "2.34.2",
+          "scikit-learn": "1.9.0",
+          "scipy": "1.18.0",
+          "threadpoolctl": "3.6.0",
+          "tzdata": "2026.3"
+        },
+        "installed": {
+          "joblib": "1.5.3",
+          "numpy": "2.5.1",
+          "pandas": "2.3.3",
+          "pyarrow": "25.0.0",
+          "pytest": "9.1.1",
+          "python": "3.12.10",
+          "requests": "2.34.2",
+          "scikit-learn": "1.9.0",
+          "scipy": "1.18.0",
+          "threadpoolctl": "3.6.0",
+          "tzdata": "2026.3"
+        },
+        "model_runtime_qualified": false,
+        "profile": "engineering"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "snapshot_stability",
+      "detail": {
+        "files_read": 574
+      },
+      "status": "pass"
+    }
+  ],
+  "code_commit": "eb5fd5e97dcacbe8b92e83264120af3341b19cf4",
+  "filesystem_mutations": 0,
+  "limitations": [
+    "Local immutable/current-document identity checks only; no live GitHub or OneDrive freshness proof.",
+    "Passing is a setup observation, not a research, model run, broker or service authorization.",
+    "The board is advisory, not an atomic distributed lock; establish shared freshness and claim work before edits/runs.",
+    "Selected recipe input bytes and full historical artifact graphs are checked only by their original operator; this tool never launches it.",
+    "Historical missing approvals unrelated to the selected next work are not interpreted as startup blockers."
+  ],
+  "model_runtime_qualified": false,
+  "models_fitted": 0,
+  "models_loaded": 0,
+  "network_calls": 0,
+  "research_authorization": false,
+  "schema": "forex_offline_preflight.v1",
+  "status": "blocked",
+  "unresolved_claims": [],
+  "utc": "2026-09-30T18:34:03.991605+00:00"
+}
