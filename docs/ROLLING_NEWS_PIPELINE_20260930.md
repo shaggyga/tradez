@@ -94,3 +94,10 @@ has a September 5 record with zero decisions and zero matured outcomes. Its V8
 configuration disables collection. No matching currency-ranking worker was found
 in the September30 process inspection. Neither ranker was restarted by this repair.
 Those paths are distinct from the offline currency-projection research studies.
+
+Final native verification at2026-09-30T16:54:37Z passed all11 deployment checks:
+17 managed roles running, exact current controller/profile, fresh rolling records,
+zero joint worker errors, valid technical reader and current V11 dashboard.
+The dashboard admitted65 price-forecast pairs and zero joint forecasts.137 checks
+passed in the exact restored source tree. Actual ten-record capture replay passed.
+See the immutable Vault packet for counts and remaining prospective warmup.

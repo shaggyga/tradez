@@ -1,3 +1,33 @@
+# Current rolling repair — 2026-09-30T16:54:37.937984+00:00
+
+The replay blocker is resolved. Native supervisor/watchdog ownership and all17
+selected roles were verified against the exact current profile. JointV11 now
+stores parsed sentiment in a rolling index and archives audit records separately.
+Two new native-worker captures advanced the retained index after the foreground
+verification. The joint worker reported zero errors and no joint forecasts yet.
+
+The HTTP dashboard selected current V11 and65 price-forecast pairs, with fresh
+quote observations. Joint forecasts require48 mature quarter-hour H1 training
+origins,12 nonzero context rows and8 patterns. Those are prospective warmup gates;
+old history was not imported and unavailable sentiment was not zero-filled.
+The final native receipt had57 warming pairs,7 awaiting their current input read,
+3 without tradeable quotes and1 without a fresh quote. Coverage varies with time.
+
+Technical availabilityV2 now verifies the exact reviewed capacity runtime:
+57 complete,8 partial and3 not-tradeable pairs; no source/receipt-binding errors.
+The numerical features were not changed.137 tests passed from an isolated Git
+source restore; all8749 tracked files matched. Actual ten-record archive replay
+passed and correctly could not authorize a fresh forecast. Same-task review only.
+
+Read [rolling pipeline](ROLLING_NEWS_PIPELINE_20260930.md), Vault
+`ROLLING_NEWS_PIPELINE_20260930/RESUME.md` and `NATIVE_FINAL.json`. Next operational
+item: `joint_v11_mature_forecast_verification_v1`. Existing global research
+preflight/independent review and offline interpretation work remain separate.
+The currency rankers are inactive: Practice006 retired, source-conditionedV7
+has zero decisions/forecasts/outcomes, V8 collection disabled.
+
+The capacity and older diagnoses below are retained as dated history.
+
 # Current capacity correction — 2026-09-30T13:56:05.677183+00:00
 
 The storage blocker has been corrected and deployed. Original news receipts and

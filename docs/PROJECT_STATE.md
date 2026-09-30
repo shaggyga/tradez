@@ -38,7 +38,7 @@ Those assessment predictions span August24–September7. The recent news batch s
 
 1. Current user-requested analysis: reconcile existing saved forecasts, mean-reversion controls and forecast-error records with news on matching timestamps. Inspect original identities, date coverage, target/horizon, technical features, model cutoff, news version/availability and costs before another batch. Report unsupported joins explicitly.
 2. Design queue: the unchanged Vault next item is `extra_trees_matched_development_comparison_v1`, a source-only partial. Its bounded qualification does not mean Extra Trees is absent historically (the older census contains1,060 Extra Trees records).
-3. Operations: September30 interpretation/timing successors remain offline; global preflight still reports stale source/revision and Vault pointer-schema/coverage issues. A clean Git tree or pushed commit does not pass scientific/deployment gates.
+3. Operations: [rolling parsed-news repair](ROLLING_NEWS_PIPELINE_20260930.md) restored native capture flow and exact technical-reader bindings. JointV11 still needs prospective mature training support; collection is not forecast performance. September30 interpretation/timing successors remain offline; global preflight still reports stale source/revision and Vault pointer-schema/coverage issues. A clean Git tree or pushed commit does not pass scientific/deployment gates.
 4. Data capture: another chat owns EUR/USD capture. [Week capture](EURUSD_WEEK_20260927.md) and [news activation receipt](NEWS_LIVE_20260930.md) are dated records, not proof of current process health. The separate September30 pipeline recovery restarts the original Forex quote/news
    producers; it does not transfer ownership of the EUR/USD recorder.
 

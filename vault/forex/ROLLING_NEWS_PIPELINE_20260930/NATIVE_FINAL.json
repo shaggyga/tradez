@@ -1,0 +1,531 @@
+{
+  "captured_utc": "2026-09-30T16:54:37.937984+00:00",
+  "accepted": true,
+  "checks": {
+    "profile_owner_current": true,
+    "exact17_managed": true,
+    "all_managed_running": true,
+    "supervisor_no_error": true,
+    "joint_no_error": true,
+    "joint_actual_news_history": true,
+    "rolling_advanced_after_foreground": true,
+    "technical_reader_valid": true,
+    "dashboard_native_v11_current": true,
+    "process_owner_exists": true,
+    "native_joint_command_exists": true
+  },
+  "runtime_profile_sha256": "ad8f89858bcdf6fa2a1963ce4d78ef8857d404982a0a5b4d18ea31717e0512c5",
+  "registry_file_sha256": "a9f9d3dfa8cd7328bd3405b60ff0cae2b3c15d0dffa635b5932777ce798ce0b2",
+  "registry_semantic_sha256": "45cd216cd60217c1ac4dbc0a8e1e198f5bbf79ae16e1616bf67248d0cc21e552",
+  "supervisor_pid": 24244,
+  "watchdog_pid": 11968,
+  "watchdog_action": "none",
+  "watchdog_circuit_preserved": false,
+  "managed_roles": [
+    {
+      "name": "all68_m1_cadence_v3",
+      "running": true,
+      "pids": [
+        5624
+      ]
+    },
+    {
+      "name": "practice_quote_stream_v1",
+      "running": true,
+      "pids": [
+        17216
+      ]
+    },
+    {
+      "name": "clock_integrity_monitor_v1",
+      "running": true,
+      "pids": [
+        12032
+      ]
+    },
+    {
+      "name": "default_news_collector_v1",
+      "running": true,
+      "pids": [
+        18236
+      ]
+    },
+    {
+      "name": "revision_news_collector_v2",
+      "running": true,
+      "pids": [
+        17816
+      ]
+    },
+    {
+      "name": "local_news_sentiment_repair_v2",
+      "running": true,
+      "pids": [
+        1580
+      ]
+    },
+    {
+      "name": "joint_price_news_study_v11",
+      "running": true,
+      "pids": [
+        3412
+      ]
+    },
+    {
+      "name": "pair_local_forecast_study_v3",
+      "running": true,
+      "pids": [
+        19512
+      ]
+    },
+    {
+      "name": "retained_price_settlement_v1",
+      "running": true,
+      "pids": [
+        4748
+      ]
+    },
+    {
+      "name": "native_feature_candles_v1",
+      "running": true,
+      "pids": [
+        16916
+      ]
+    },
+    {
+      "name": "research_feature_observations_v2",
+      "running": true,
+      "pids": [
+        24472
+      ]
+    },
+    {
+      "name": "research_feature_forward_v2",
+      "running": true,
+      "pids": [
+        8176
+      ]
+    },
+    {
+      "name": "official_pair_horizon_v2",
+      "running": true,
+      "pids": [
+        18336
+      ]
+    },
+    {
+      "name": "research_feature_forward_cached_v2",
+      "running": true,
+      "pids": [
+        4756
+      ]
+    },
+    {
+      "name": "rolling_technical_operations_v2",
+      "running": true,
+      "pids": [
+        23836
+      ]
+    },
+    {
+      "name": "all68_technical_availability_v2",
+      "running": true,
+      "pids": [
+        22712
+      ]
+    },
+    {
+      "name": "all68_derived_technical_publisher_v1",
+      "running": true,
+      "pids": [
+        19984
+      ]
+    }
+  ],
+  "runtime": {
+    "captured_utc": "2026-09-30T16:54:25.069573+00:00",
+    "profile_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\operational_runtime_current_20260930.json",
+    "services": [
+      {
+        "name": "all68_m1_cadence_v3",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\all68_m1_cadence_heartbeat_v3.json",
+        "fresh": true,
+        "age_sec": 1.34,
+        "schema_matches": true,
+        "schema_version": 1,
+        "status": "running",
+        "phase": "refreshing_forward",
+        "updated_at": "2026-09-30T16:54:23.728117+00:00"
+      },
+      {
+        "name": "practice_quote_stream_v1",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_quote_stream_heartbeat_v1.json",
+        "fresh": true,
+        "age_sec": 0.15,
+        "schema_matches": true,
+        "schema_version": 1,
+        "status": "running",
+        "phase": "streaming",
+        "updated_at": "2026-09-30T16:54:24.923963+00:00"
+      },
+      {
+        "name": "clock_integrity_monitor_v1",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\clock_integrity_v1.json",
+        "fresh": true,
+        "age_sec": 22.73,
+        "schema_matches": true,
+        "schema_version": 1,
+        "status": "ok",
+        "generated_utc": "2026-09-30T16:54:02.334625+00:00"
+      },
+      {
+        "name": "default_news_collector_v1",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\collector_heartbeat_v1.json",
+        "fresh": true,
+        "age_sec": 12.71,
+        "schema_matches": true,
+        "schema_version": "local_fx_news_sentiment_v3",
+        "status": "running_cycle",
+        "phase": "postprocessing_evidence",
+        "generated_utc": "2026-09-30T16:54:12.358742+00:00"
+      },
+      {
+        "name": "revision_news_collector_v2",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\market_open_20260913_v1\\local_news_sentiment\\collector_heartbeat_v1.json",
+        "fresh": true,
+        "age_sec": 20.68,
+        "schema_matches": true,
+        "schema_version": "local_fx_news_sentiment_v3",
+        "status": "running_cycle",
+        "phase": "collecting_sources",
+        "generated_utc": "2026-09-30T16:54:04.389893+00:00"
+      },
+      {
+        "name": "local_news_sentiment_repair_v2",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment_repair_v2\\heartbeat_v2.json",
+        "fresh": true,
+        "age_sec": 14.73,
+        "schema_matches": true,
+        "schema_version": "repaired_joint_news_heartbeat_v2_20260912_source_derived_clocks",
+        "status": "current",
+        "phase": "research_collection",
+        "errors": 8,
+        "last_error": "",
+        "generated_utc": "2026-09-30T16:54:10.343662+00:00"
+      },
+      {
+        "name": "joint_price_news_study_v11",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_rolling_news_20260930\\joint_price_news_study_v11\\heartbeat.json",
+        "fresh": true,
+        "age_sec": 4.78,
+        "schema_matches": true,
+        "schema_version": "joint_price_news_forecast_heartbeat_v11_20260930",
+        "phase": "research_collection",
+        "errors": 0,
+        "last_error": "",
+        "scheduling_version": "shared_revision_history_completion_cadence_and_fit_handoff_v4_20260914",
+        "counts": {
+          "building": 0,
+          "forecast": 0,
+          "ready": 0,
+          "unavailable": 11,
+          "warming": 57
+        }
+      },
+      {
+        "name": "pair_local_forecast_study_v3",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260913_v1\\pair_local_forecast_study_v3\\heartbeat.json",
+        "fresh": true,
+        "age_sec": 4.9,
+        "schema_matches": true,
+        "schema_version": "pair_local_forecast_heartbeat_v3_20260913",
+        "phase": "research_collection",
+        "errors": 4,
+        "last_error": "NZD_SGD:ValueError:cached_input_expired_before_issue",
+        "scheduling_version": "pair_capture_fit_fair_v3_20260913",
+        "counts": {
+          "building": 0,
+          "forecast": 118,
+          "ready": 11,
+          "unavailable": 7,
+          "warming": 0
+        }
+      },
+      {
+        "name": "retained_price_settlement_v1",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\retained_price_settlement_v1.json",
+        "fresh": true,
+        "age_sec": 0.57,
+        "schema_matches": true,
+        "schema_version": "retained_price_settlement_v1_20260913",
+        "status": "settled",
+        "generated_utc": "2026-09-30T16:54:24.499573+00:00",
+        "new_forecasts_enabled": false,
+        "studies": [
+          {
+            "errors": 0,
+            "exclusions": 486,
+            "forecasts": 16004,
+            "last_error": "",
+            "outcomes": 15518,
+            "unresolved": 0,
+            "version": 1
+          },
+          {
+            "errors": 0,
+            "exclusions": 2879,
+            "forecasts": 36555,
+            "last_error": "",
+            "outcomes": 33676,
+            "unresolved": 0,
+            "version": 2
+          }
+        ]
+      },
+      {
+        "name": "native_feature_candles_v1",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\native_feature_candles_heartbeat_v1.json",
+        "fresh": true,
+        "age_sec": 0.66,
+        "schema_matches": true,
+        "schema_version": "native_feature_candle_cache_v1_20260913",
+        "status": "updating",
+        "generated_utc": "2026-09-30T16:54:24.406822+00:00"
+      },
+      {
+        "name": "research_feature_observations_v2",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260914_features_v6\\feature_observations_heartbeat_primary_m1_v1.json",
+        "fresh": true,
+        "age_sec": 29.91,
+        "schema_matches": true,
+        "schema_version": "research_existing_feature_observations_v2_20260914_publication_headroom",
+        "phase": "reading_sources",
+        "updated_at": "2026-09-30T16:53:55.157649+00:00",
+        "last_failure": null
+      },
+      {
+        "name": "research_feature_forward_v2",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260914_features_v6\\feature_forward_primary_m1_v7\\feature_forward_status_v1.json",
+        "fresh": true,
+        "age_sec": 0.52,
+        "schema_matches": true,
+        "schema_version": "feature_forward_worker_status_v1",
+        "status": "observing",
+        "errors": [],
+        "generated_utc": "2026-09-30T16:54:24.548949+00:00"
+      },
+      {
+        "name": "official_pair_horizon_v2",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260913_v1\\official_event_pair_horizon_v2\\heartbeat.json",
+        "fresh": true,
+        "age_sec": 1.69,
+        "schema_matches": true,
+        "schema_version": "official_event_pair_horizon_capture_v2_heartbeat",
+        "status": "ok",
+        "errors": [],
+        "counts": {
+          "attempts": 490,
+          "input_events": 98,
+          "invalid_pair_outcomes": 1301,
+          "outcomes": 16010,
+          "valid_outcomes": 14709,
+          "valid_pair_outcomes": 14709
+        }
+      },
+      {
+        "name": "research_feature_forward_cached_v2",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260916_forward_v2\\feature_forward_cached_m5_v2_20260916\\feature_forward_status_v1.json",
+        "fresh": true,
+        "age_sec": 0.77,
+        "schema_matches": true,
+        "schema_version": "feature_forward_worker_status_v1",
+        "status": "waiting_for_fresh_history",
+        "errors": [],
+        "generated_utc": "2026-09-30T16:54:24.297607+00:00"
+      },
+      {
+        "name": "rolling_technical_operations_v2",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\rolling_technical_dataset_20260915_v3\\status.json",
+        "fresh": true,
+        "age_sec": 161.21,
+        "schema_matches": true,
+        "status": "partial",
+        "generated_utc": "2026-09-30T16:51:43.858441+00:00",
+        "counts": {
+          "bars": 684483,
+          "observations": 642552,
+          "outcomes": 2562897,
+          "panels": 4587,
+          "receipts": 160942,
+          "revisions": 0
+        }
+      },
+      {
+        "name": "all68_technical_availability_v2",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\all68_technical_availability_v2.json",
+        "fresh": true,
+        "age_sec": 23.64,
+        "schema_matches": true,
+        "schema_version": "all68_technical_availability_v2_20260930",
+        "status": "readable",
+        "generated_utc": "2026-09-30T16:54:01.424677+00:00",
+        "counts": {
+          "complete": 57,
+          "not_tradeable": 3,
+          "partial": 8
+        }
+      },
+      {
+        "name": "all68_derived_technical_publisher_v1",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\all68_derived_technical_features_v1.json",
+        "fresh": true,
+        "age_sec": 49.85,
+        "schema_matches": true,
+        "schema_version": "derived_technical_publisher_v1_20260916",
+        "generated_utc": "2026-09-30T16:53:35.219017+00:00"
+      }
+    ],
+    "controllers": [
+      {
+        "name": "supervisor",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\operational_supervisor_v2.json",
+        "fresh": true,
+        "profile_matches": true,
+        "age_sec": 39.29,
+        "error": "",
+        "recovery_allowed": true
+      },
+      {
+        "name": "watchdog",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\oanda_supervisor_watchdog_v2.json",
+        "fresh": true,
+        "profile_matches": true,
+        "age_sec": 7.88,
+        "operational_health": "role_liveness_current",
+        "action": "none",
+        "restart_circuit_open": false
+      }
+    ],
+    "recovery_until_utc": "2026-10-07T08:14:50Z",
+    "research_only": true,
+    "can_place_orders": false,
+    "scope": "Heartbeat freshness and reported errors; not forecast success or trading readiness."
+  },
+  "processes": [
+    {
+      "ProcessId": 11968,
+      "ParentProcessId": 24136,
+      "Name": "powershell.exe",
+      "CommandLine": "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_supervisor_watchdog_v6.ps1 -Root C:\\Users\\zmoor\\Documents\\forex -OperationalProfilePath C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\operational_runtime_current_20260930.json -RecoveryUntilUtc 2026-10-07T08:14:50Z "
+    },
+    {
+      "ProcessId": 24244,
+      "ParentProcessId": 11976,
+      "Name": "powershell.exe",
+      "CommandLine": "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_operational_supervisor_v6.ps1 -Root C:\\Users\\zmoor\\Documents\\forex -SafeCoreOnly -ResearchCollectionOnly -OperationalProfilePath C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\operational_runtime_current_20260930.json -RecoveryUntilUtc 2026-10-07T08:14:50Z -IntervalSec 30 -ChildDurationSec 604800 "
+    },
+    {
+      "ProcessId": 24800,
+      "ParentProcessId": 24244,
+      "Name": "python.exe",
+      "CommandLine": "\"C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe\" -B C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_operational_log_relay_v2.py --log-directory C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\logs\\operational_children_v2\\joint_price_news_study_v11 --priority-class Normal -- C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe -B C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_joint_price_news_forecast_study_v11.py --config C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\joint_price_news_rolling_v1_20260930.json --study C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_rolling_news_20260930\\joint_price_news_study_v11 --candle-root C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\candles --quote-path C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_market_quotes_v1.json --duration-sec 604800 --news-io-config C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\rolling_news_io_v1_20260930.json "
+    },
+    {
+      "ProcessId": 11404,
+      "ParentProcessId": 24800,
+      "Name": "python.exe",
+      "CommandLine": "\"C:\\Users\\zmoor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" -B C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_operational_log_relay_v2.py --log-directory C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\logs\\operational_children_v2\\joint_price_news_study_v11 --priority-class Normal -- C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe -B C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_joint_price_news_forecast_study_v11.py --config C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\joint_price_news_rolling_v1_20260930.json --study C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_rolling_news_20260930\\joint_price_news_study_v11 --candle-root C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\candles --quote-path C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_market_quotes_v1.json --duration-sec 604800 --news-io-config C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\rolling_news_io_v1_20260930.json "
+    },
+    {
+      "ProcessId": 1720,
+      "ParentProcessId": 11404,
+      "Name": "python.exe",
+      "CommandLine": "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe -B C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_joint_price_news_forecast_study_v11.py --config C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\joint_price_news_rolling_v1_20260930.json --study C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_rolling_news_20260930\\joint_price_news_study_v11 --candle-root C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\candles --quote-path C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_market_quotes_v1.json --duration-sec 604800 --news-io-config C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\rolling_news_io_v1_20260930.json"
+    },
+    {
+      "ProcessId": 3412,
+      "ParentProcessId": 1720,
+      "Name": "python.exe",
+      "CommandLine": "\"C:\\Users\\zmoor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" -B C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_joint_price_news_forecast_study_v11.py --config C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\joint_price_news_rolling_v1_20260930.json --study C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_rolling_news_20260930\\joint_price_news_study_v11 --candle-root C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\candles --quote-path C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_market_quotes_v1.json --duration-sec 604800 --news-io-config C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\rolling_news_io_v1_20260930.json"
+    },
+    {
+      "ProcessId": 11516,
+      "ParentProcessId": 24244,
+      "Name": "python.exe",
+      "CommandLine": "\"C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe\" -B C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_operational_log_relay_v2.py --log-directory C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\logs\\operational_children_v2\\all68_technical_availability_v2 --priority-class BelowNormal -- C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe -B C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_all68_technical_availability_v2.py --observation-config C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\rolling_technical_dataset_runtime_20260930.json --output C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\all68_technical_availability_v2.json --interval-sec 60 --duration-sec 604800 --maximum-bar-age-sec 600 --maximum-quote-age-sec 180 --operations-config C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\rolling_technical_operations_runtime_20260930.json "
+    },
+    {
+      "ProcessId": 24676,
+      "ParentProcessId": 11516,
+      "Name": "python.exe",
+      "CommandLine": "\"C:\\Users\\zmoor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" -B C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_operational_log_relay_v2.py --log-directory C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\logs\\operational_children_v2\\all68_technical_availability_v2 --priority-class BelowNormal -- C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe -B C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_all68_technical_availability_v2.py --observation-config C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\rolling_technical_dataset_runtime_20260930.json --output C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\all68_technical_availability_v2.json --interval-sec 60 --duration-sec 604800 --maximum-bar-age-sec 600 --maximum-quote-age-sec 180 --operations-config C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\rolling_technical_operations_runtime_20260930.json "
+    },
+    {
+      "ProcessId": 19016,
+      "ParentProcessId": 24676,
+      "Name": "python.exe",
+      "CommandLine": "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe -B C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_all68_technical_availability_v2.py --observation-config C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\rolling_technical_dataset_runtime_20260930.json --output C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\all68_technical_availability_v2.json --interval-sec 60 --duration-sec 604800 --maximum-bar-age-sec 600 --maximum-quote-age-sec 180 --operations-config C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\rolling_technical_operations_runtime_20260930.json"
+    },
+    {
+      "ProcessId": 22712,
+      "ParentProcessId": 19016,
+      "Name": "python.exe",
+      "CommandLine": "\"C:\\Users\\zmoor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" -B C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_all68_technical_availability_v2.py --observation-config C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\rolling_technical_dataset_runtime_20260930.json --output C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\all68_technical_availability_v2.json --interval-sec 60 --duration-sec 604800 --maximum-bar-age-sec 600 --maximum-quote-age-sec 180 --operations-config C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\rolling_technical_operations_runtime_20260930.json"
+    },
+    {
+      "ProcessId": 7520,
+      "ParentProcessId": 14072,
+      "Name": "powershell.exe",
+      "CommandLine": "powershell -NoProfile -Command \"@(Get-CimInstance Win32_Process | Where-Object {$_.Name -match '^(python|powershell)\\.exe$' -and $_.CommandLine -and ($_.CommandLine -match 'oanda_joint_price_news_forecast_study_v11.py|oanda_all68_technical_availability_v2.py|oanda_operational_supervisor_v6.ps1|oanda_supervisor_watchdog_v6.ps1')} | Select-Object ProcessId,ParentProcessId,Name,CommandLine) | ConvertTo-Json -Depth 3\""
+    }
+  ],
+  "rolling_index": {
+    "count": 12,
+    "first_epoch": 1790785670.7180805,
+    "last_epoch": 1790787246.201493,
+    "latest_age_sec": 31.03782343864441
+  },
+  "joint": {
+    "counts": {
+      "building": 0,
+      "forecast": 0,
+      "ready": 0,
+      "unavailable": 11,
+      "warming": 57
+    },
+    "errors": 0,
+    "last_error": "",
+    "readiness_reasons": {
+      "mature_joint_h1_training_rows:0<48|nonzero_news_context_training_rows:0<12|distinct_news_context_patterns:0<8": 57,
+      "ValueError:market_closed_or_no_stream_quote": 3,
+      "awaiting_pair_input_read": 7,
+      "ValueError:no_fresh_quote": 1
+    },
+    "forecast_pair_count": 0,
+    "shared_history_prepared": true
+  },
+  "technical": {
+    "status": "readable",
+    "counts": {
+      "complete": 57,
+      "not_tradeable": 3,
+      "partial": 8
+    },
+    "feature_status_counts": {
+      "complete": 57,
+      "partial": 8,
+      "stale": 3
+    },
+    "source_errors": {},
+    "original_receipt_errors": {}
+  },
+  "dashboard": {
+    "status": "current",
+    "price_forecast_pair_count": 65,
+    "joint_version": "joint_v11",
+    "joint_current": "current",
+    "quote_current": true
+  },
+  "orders_enabled": false,
+  "independent_review": false
+}
