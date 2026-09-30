@@ -299,6 +299,16 @@ class PreflightTests(unittest.TestCase):
         self.assertEqual(report["status"], "pass", report)
         self.assertEqual(len(report["unresolved_claims"]), 2)
 
+    def test_sealed_unclaimed_next_scope_does_not_take_other_ownership(self):
+        self.scope_review()
+        self.board([("capture", "IN_PROGRESS")])
+        m = json.loads((self.vault / "docs/MANIFEST.json").read_text())
+        m["coordination_reconciliations"][0]["claim_id"] = None
+        self.seal("docs", {"REVIEW.md": b"Accepted scope.\n"}, "CHECKPOINT_REVIEW_LATEST.json",
+                  m, {"review": "docs/REVIEW.md"})
+        self.assertEqual(self.inspect()["status"], "pass")
+        self.assert_block(self.inspect(claim_id="new-owner"), "coordination")
+
     def test_scope_review_cannot_cover_changed_or_additional_owner(self):
         self.scope_review()
         self.board([("capture", "HANDOFF"), ("me", "IN_PROGRESS")])

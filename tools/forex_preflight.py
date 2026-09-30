@@ -223,7 +223,7 @@ def preflight(root, vault, *, expected_revision=None, claim_id=None, work_item=N
         reconciled = []
         for review in state["review_manifest"].get("coordination_reconciliations", []):
             workspace.require(review.get("work_item") == (work_item or state["queue"].get("exact_next_item"))
-                              and review.get("claim_id") == claim_id and claim_id is not None,
+                              and "claim_id" in review and review["claim_id"] == claim_id,
                               "Coordination reconciliation belongs to a different work item/owner")
             workspace.require(review.get("decision") == "nonoverlapping" and
                               isinstance(review.get("reason"), str) and review["reason"].strip(),

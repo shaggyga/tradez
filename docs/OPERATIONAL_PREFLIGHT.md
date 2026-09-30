@@ -41,6 +41,9 @@ The command checks:
   each binds the exact parsed other claim, selected work item, own claim and a
   substantive manual non-overlap decision. Changed/additional claims fail closed.
   This preserves unrelated capture ownership; it does not release or take over it.
+  A `null` own claim binds a read-only, unclaimed startup check for that exact next
+  item. It cannot authorize an active/new owner; claiming work requires fresh board
+  reconciliation and current-document pins before a later execution preflight.
 - Exact Python/package metadata in `requirements-engineering.lock.txt`. Use
   `--profile stdlib` only for document and byte-retrieval work; it explicitly leaves
   the numerical environment unchecked. No packages are imported to inspect versions.
