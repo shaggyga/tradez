@@ -5858,3 +5858,6 @@ Step `data_and_model_connection_20260930`; Vault `DATA_AND_RETAINED_MODELS_20260
 
 
 2026-09-30T22:24:32.655327+00:00 — retained_tracking_and_data_continuation_20260930: prospective per-horizon retained outcome/news tracking, detailed input refusals and bounded publication retry implemented; 88 tests passed. No new fit or trading. Docs: docs/RETAINED_TRACKING_20260930.md; evidence: evidence/retained_tracking_20260930; shared packet RETAINED_TRACKING_20260930 (publication pending until native verification). Two comparable historical Extra Trees improvements identified at 4h/120h; exact legacy26 live transform qualification remains next.
+
+
+2026-09-30T22:43:31Z retained_tracking_and_data_continuation_20260930: final 90 tests; actual dashboard HTTP 200/current news/486 forecasts; 294 settled, 99 current registry. Source/model identities and 18 byte-restored payloads verified. Same-task review. Vault RETAINED_TRACKING_20260930/REVIEW.json; final Git receipt in RETAINED_TRACKING_PUBLICATION_20260930. Next legacy26 live-input qualification under data_freshness_and_remaining_horizon_reconciliation_v1; no new fits.

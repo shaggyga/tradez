@@ -73,10 +73,10 @@ identical target/support hashes and row counts for these comparisons:
 | Elapsed target | Connected HGB MAE, bps | Extra Trees MAE, bps | Matched rows |
 |---|---:|---:|---:|
 | 4 hours | 16.5399 | 16.2565 | 1,262 |
-| 12 hours | 27.2903 | 27.3009 | 1,201 |
+| 12 hours | 27.2883 | 27.3009 | 1,201 |
 | 24 hours | 43.0001 | 43.6401 | 1,070 |
 | 48 hours | 65.6018 | 70.1534 | 803 |
-| 120 hours | 57.9036 | 55.1905 | 803 |
+| 120 hours | 57.9036 | 55.1885 | 803 |
 
 These are reused inspected development results, not a new experiment or universal
 model ranking. The 4-hour and 120-hour Extra Trees candidates need their original
@@ -105,3 +105,13 @@ paid calls and other-chat EUR/USD capture remain outside this scope.
 
 Local evidence: `evidence/retained_tracking_20260930`. Shared packet:
 `RETAINED_TRACKING_20260930`. Read its final receipt for Git and capsule hashes.
+
+## Native acceptance
+
+At 2026-09-30T22:43:31Z the actual dashboard returned HTTP 200 in 5.548 seconds,
+with current news, 486 retained forecasts across nine horizons, and 294 settled
+observations across two registry versions (99 under the current version). Long
+horizons remain pending. The new retained-news link count was zero; the earlier
+original-H1 news mapping is separate. Inputs remain explicitly partial or refused
+where unsupported. The first post-restart request timed out; a subsequent actual
+request passed. No browser was available, so visual QA was not performed.
