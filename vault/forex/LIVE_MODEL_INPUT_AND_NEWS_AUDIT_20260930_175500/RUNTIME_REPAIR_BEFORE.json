@@ -1,0 +1,79 @@
+{
+  "utc": "2026-09-30T17:41:57.349238+00:00",
+  "changes": [
+    {
+      "role": "pair_local_forecast_study_v3",
+      "priority_before": "BelowNormal",
+      "priority_after": "Normal"
+    },
+    {
+      "role": "rolling_technical_operations_v2",
+      "priority_before": "BelowNormal",
+      "priority_after": "Normal",
+      "supervision_output_age_before": 180,
+      "supervision_output_age_after": 600
+    }
+  ],
+  "before_profile_sha256": "ad8f89858bcdf6fa2a1963ce4d78ef8857d404982a0a5b4d18ea31717e0512c5",
+  "technical_before": {
+    "pid": 10600,
+    "generated_epoch": 1790789843.7104232,
+    "elapsed_seconds": 306.703,
+    "current_pairs": 45,
+    "fully_populated_pairs": 56,
+    "inserted_this_cycle": 337,
+    "publication_generation": "127d32fc1720f95951bdbe80470dfa875d7b36626f0f264bc5c5aa7ddfb7d075"
+  },
+  "processes": [
+    {
+      "pid": 4728,
+      "script": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_pair_local_forecast_study_v3.py",
+      "created_epoch": 1790756148.1497755,
+      "priority": 16384
+    },
+    {
+      "pid": 5216,
+      "script": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_pair_local_forecast_study_v3.py",
+      "created_epoch": 1790756148.3698733,
+      "priority": 16384
+    },
+    {
+      "pid": 5984,
+      "script": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_pair_local_forecast_study_v3.py",
+      "created_epoch": 1790756148.8762429,
+      "priority": 16384
+    },
+    {
+      "pid": 7448,
+      "script": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_rolling_technical_worker_v2.py",
+      "created_epoch": 1790789348.031198,
+      "priority": 16384
+    },
+    {
+      "pid": 10600,
+      "script": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_rolling_technical_worker_v2.py",
+      "created_epoch": 1790789348.4805331,
+      "priority": 16384
+    },
+    {
+      "pid": 19512,
+      "script": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_pair_local_forecast_study_v3.py",
+      "created_epoch": 1790756149.0853665,
+      "priority": 16384
+    },
+    {
+      "pid": 22812,
+      "script": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_rolling_technical_worker_v2.py",
+      "created_epoch": 1790789345.9863377,
+      "priority": 16384
+    },
+    {
+      "pid": 23280,
+      "script": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_rolling_technical_worker_v2.py",
+      "created_epoch": 1790789346.936345,
+      "priority": 16384
+    }
+  ],
+  "scientific_contracts_changed": false,
+  "reason": "Cycle completion, supervision liveness and model-input freshness are distinct. Original180s liveness threshold is shorter than observed healthy309s cycles."
+}

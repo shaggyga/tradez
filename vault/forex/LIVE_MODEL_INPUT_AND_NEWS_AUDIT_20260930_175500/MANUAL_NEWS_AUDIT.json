@@ -1,0 +1,679 @@
+{
+  "schema": "manual_news_sentiment_comparison_v1",
+  "generated_utc": "2026-09-30T17:54:15.654877+00:00",
+  "today_start_utc": "2026-09-30T04:00:00+00:00",
+  "database_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\local_news_sentiment_v1.sqlite",
+  "scope": "Purposive text audit, not a representative accuracy estimate or predictive evaluation. Web references in companion report were manually selected before outcomes. No raw archive writes.",
+  "article_records_today": 2458,
+  "records_not_independent_events": true,
+  "published_to_first_capture": {
+    "n": 2455,
+    "p50_seconds": 794.327,
+    "p90_seconds": 35108.52,
+    "p95_seconds": 431372.295
+  },
+  "published_today_captured_after_09utc": {
+    "n": 1672,
+    "p50_seconds": 743.45,
+    "p90_seconds": 3147.827,
+    "p95_seconds": 3457.9
+  },
+  "first_capture_to_first_classification": {
+    "n": 2458,
+    "p50_seconds": 0.994,
+    "p90_seconds": 3.614,
+    "p95_seconds": 4.775
+  },
+  "cases": [
+    {
+      "event_id": "local_news_3f708fc012bb7fb2af36c5bb",
+      "headline": "Fed's Michael Barr Warns of More Rate Hikes on Inflation - Hoodline",
+      "published_utc": "2026-09-30T12:47:34+00:00",
+      "first_seen_utc": "2026-09-30T12:54:16.875102+00:00",
+      "last_seen_utc": "2026-09-30T13:23:10.350288+00:00",
+      "category": "monetary_policy",
+      "currency_scores_json": "{\"USD\": 0.9}",
+      "name": "barr",
+      "payload_sha256": "2e7d8c35666d03301274cd89cf1fb0fe5f09cc58d09231bae33b5de49251862a",
+      "stored_clocks": {
+        "classification_available_utc": "2026-09-30T13:23:12.417692+00:00",
+        "causal_known_utc": "2026-09-30T13:23:12.417692+00:00",
+        "source_version_first_known_utc": "2026-09-30T13:23:10.350288+00:00"
+      },
+      "manual_interpretation": "Guidance advocating more tightening; not an announced rate action.",
+      "old_additive_interpretation": {
+        "version": "fx_headline_interpretation_v2",
+        "input_sha256": "387082d245072ea937ba7aecffb8aaf38671619bd9476c4ecec21f4abaa9366c",
+        "input_scope": "headline_only",
+        "claims": [
+          {
+            "kind": "inflation_context",
+            "evidence": "Fed's Michael Barr Warns of More Rate Hikes on Inflation - Hoodline",
+            "currency": null,
+            "direction": null,
+            "status": "surprise_unknown",
+            "mechanism": "inflation_to_policy_requires_consensus_and_repricing",
+            "instrument": null
+          }
+        ],
+        "interpretation_status": "claims_extracted",
+        "surprise": "unknown",
+        "forecast_eligible": false,
+        "causal_effect_established": false,
+        "research_only": true
+      },
+      "classification_observations": [
+        {
+          "known_utc": "2026-09-30T12:54:18.074467+00:00",
+          "source_version_id": "e4a0bb3f3d8e42a7187e03ca58c2f8588af7e4dc99893d19965307a662b3e81c",
+          "changed_classification_fields": [],
+          "headline": "Fed's Michael Barr Warns of More Rate Hikes on Inflation - Hoodline",
+          "currency_scores": {
+            "USD": 0.9
+          }
+        },
+        {
+          "known_utc": "2026-09-30T13:23:12.417692+00:00",
+          "source_version_id": "022cd55bc1a0a8045b402ec719dc5e99649fb888996647bd20af0146ae099166",
+          "changed_classification_fields": [
+            "forward_signal_timely"
+          ],
+          "headline": "Fed's Michael Barr Warns of More Rate Hikes on Inflation - Hoodline",
+          "currency_scores": {
+            "USD": 0.9
+          }
+        }
+      ],
+      "publication_to_capture_seconds": 402.87510204315186,
+      "capture_to_first_classification_seconds": 1.1993649005889893,
+      "eurusd_at_current_version_availability": {
+        "technical": {
+          "status": "unavailable",
+          "reason": "no_fresh_published_technical_snapshot",
+          "news_available_epoch": 1790774592.417692,
+          "decision_epoch": 1790774592.417692,
+          "forecast_claimed": false
+        },
+        "outcomes": {
+          "entry_bar_close_epoch": 1790774640,
+          "entry_wait_seconds": 47.58230805397034,
+          "horizons": {
+            "5": {
+              "status": "available",
+              "return_bps": 2.6407985774895417,
+              "long_net_bps": 1.3203992887437939,
+              "short_net_bps": -4.049224485485528
+            },
+            "15": {
+              "status": "available",
+              "return_bps": -3.6971180084865316,
+              "long_net_bps": -5.105543916480563,
+              "short_net_bps": 2.2886921004905454
+            },
+            "30": {
+              "status": "available",
+              "return_bps": -1.584479146494507,
+              "long_net_bps": -2.816851815990017,
+              "short_net_bps": 0.17605323849852095
+            },
+            "60": {
+              "status": "available",
+              "return_bps": -2.2886921004905454,
+              "long_net_bps": -3.5210647699860558,
+              "short_net_bps": 0.8802661924965139
+            }
+          },
+          "scope": "retrospective_bidask_close_proxy_not_fills;slippage_and_financing_unmodeled"
+        }
+      }
+    },
+    {
+      "event_id": "local_news_d591df43ae0cecf830a7aa53",
+      "headline": "Fed's Williams sees no urgency for next rate hike - kitco.com",
+      "published_utc": "2026-09-30T12:03:18+00:00",
+      "first_seen_utc": "2026-09-30T12:11:43.355194+00:00",
+      "last_seen_utc": "2026-09-30T12:46:49.549587+00:00",
+      "category": "monetary_policy",
+      "currency_scores_json": "{\"USD\": 0.9}",
+      "name": "williams",
+      "payload_sha256": "02ef4f710e58ef697bfa359f11c1889d1158473c1c1ef7441b751d5afe0b8d06",
+      "stored_clocks": {
+        "classification_available_utc": "2026-09-30T12:46:50.228294+00:00",
+        "causal_known_utc": "2026-09-30T12:46:50.228294+00:00",
+        "source_version_first_known_utc": "2026-09-30T12:46:49.549587+00:00"
+      },
+      "manual_interpretation": "Later tightening remains possible, but no urgency reduces near-term tightening expectations; a flat +0.9 loses that distinction.",
+      "old_additive_interpretation": {
+        "version": "fx_headline_interpretation_v2",
+        "input_sha256": "7a182b416d8da1ac158bd2dbb34a599371b6b9b4bde3a8b56f4fc91e04111453",
+        "input_scope": "headline_only",
+        "claims": [],
+        "interpretation_status": "unresolved",
+        "surprise": "unknown",
+        "forecast_eligible": false,
+        "causal_effect_established": false,
+        "research_only": true
+      },
+      "classification_observations": [
+        {
+          "known_utc": "2026-09-30T12:11:43.956601+00:00",
+          "source_version_id": "63ac8e474d57385f44faf5df282695fd20326f557cb01a59b8e4861ed4c9eb8f",
+          "changed_classification_fields": [],
+          "headline": "Fed's Williams sees no urgency for next rate hike - Kitco",
+          "currency_scores": {
+            "USD": 0.9
+          }
+        },
+        {
+          "known_utc": "2026-09-30T12:40:16.002153+00:00",
+          "source_version_id": "814d183c54775ca434ff428b3d4c752588706fd4caf0aee7cd455713522db892",
+          "changed_classification_fields": [
+            "forward_signal_timely"
+          ],
+          "headline": "Fed's Williams sees no urgency for next rate hike - Kitco",
+          "currency_scores": {
+            "USD": 0.9
+          }
+        },
+        {
+          "known_utc": "2026-09-30T12:46:50.228294+00:00",
+          "source_version_id": "f9a4209c9f05f23f1f6a6fdfc35ebcc21840bce9b0444efc46b96701dfa2ddb7",
+          "changed_classification_fields": [
+            "headline",
+            "source_name"
+          ],
+          "headline": "Fed's Williams sees no urgency for next rate hike - kitco.com",
+          "currency_scores": {
+            "USD": 0.9
+          }
+        }
+      ],
+      "publication_to_capture_seconds": 505.3551940917969,
+      "capture_to_first_classification_seconds": 0.6014068126678467,
+      "eurusd_at_current_version_availability": {
+        "technical": {
+          "status": "unavailable",
+          "reason": "no_fresh_published_technical_snapshot",
+          "news_available_epoch": 1790772410.228294,
+          "decision_epoch": 1790772410.228294,
+          "forecast_claimed": false
+        },
+        "outcomes": {
+          "entry_bar_close_epoch": 1790772420,
+          "entry_wait_seconds": 9.771706104278564,
+          "horizons": {
+            "5": {
+              "status": "available",
+              "return_bps": -3.869220352099016,
+              "long_net_bps": -5.27620957104358,
+              "short_net_bps": 2.550167959337145
+            },
+            "15": {
+              "status": "available",
+              "return_bps": -5.100335918676243,
+              "long_net_bps": -6.419388311436161,
+              "short_net_bps": 3.693346699731678
+            },
+            "30": {
+              "status": "available",
+              "return_bps": -6.683198789990097,
+              "long_net_bps": -8.002251182750015,
+              "short_net_bps": 5.27620957104358
+            },
+            "60": {
+              "status": "available",
+              "return_bps": -13.894018537084163,
+              "long_net_bps": -15.213070929844081,
+              "short_net_bps": 12.487029318137646
+            }
+          },
+          "scope": "retrospective_bidask_close_proxy_not_fills;slippage_and_financing_unmodeled"
+        }
+      }
+    },
+    {
+      "event_id": "local_news_bcb6edceb56b40cd3416a9ae",
+      "headline": "Dollar Slides on Softer PCE, Aussie Lags as Sterling Extends BoE Rally - Action Forex",
+      "published_utc": "2026-09-30T13:21:54+00:00",
+      "first_seen_utc": "2026-09-30T14:09:22.618294+00:00",
+      "last_seen_utc": "2026-09-30T14:09:22.618294+00:00",
+      "category": "monetary_policy",
+      "currency_scores_json": "{}",
+      "name": "pce_reaction",
+      "payload_sha256": "4c066503a2e146ff336bfcbd6cd396a95bc505fdaf02eb86fbf78c7beb3f92b3",
+      "stored_clocks": {
+        "classification_available_utc": "2026-09-30T14:09:26.185481+00:00",
+        "causal_known_utc": "2026-09-30T14:09:26.185481+00:00",
+        "source_version_first_known_utc": "2026-09-30T14:09:22.618294+00:00"
+      },
+      "manual_interpretation": "Reported dollar decline and softer inflation; retrospective reaction, not a future return forecast.",
+      "old_additive_interpretation": {
+        "version": "fx_headline_interpretation_v2",
+        "input_sha256": "d74a7957ba6c56ceb536ebe26b792aabbb62dc3c4ee52750530bc13f70172ab4",
+        "input_scope": "headline_only",
+        "claims": [],
+        "interpretation_status": "unresolved",
+        "surprise": "unknown",
+        "forecast_eligible": false,
+        "causal_effect_established": false,
+        "research_only": true
+      },
+      "classification_observations": [
+        {
+          "known_utc": "2026-09-30T14:09:26.185481+00:00",
+          "source_version_id": "6ba0b1e2fa36bd157e09ecf7528e4dbecacb7a04513be68eb3a332f3cfdb4921",
+          "changed_classification_fields": [],
+          "headline": "Dollar Slides on Softer PCE, Aussie Lags as Sterling Extends BoE Rally - Action Forex",
+          "currency_scores": {}
+        }
+      ],
+      "publication_to_capture_seconds": 2848.6182940006256,
+      "capture_to_first_classification_seconds": 3.5671870708465576,
+      "eurusd_at_current_version_availability": {
+        "technical": {
+          "status": "available",
+          "pair": "EUR_USD",
+          "bar_start_epoch": 1790777220,
+          "bar_close_epoch": 1790777280,
+          "feature_published_epoch": 1790777319.0255995,
+          "source_read_completed_epoch": 1790777318.6416638,
+          "age_seconds": 86.18548107147217,
+          "feature_hash": "6f9a712e2652149fec854689dfbbfdd40854bd2a8f3233fc924ee15e55cadf0c",
+          "news_available_epoch": 1790777366.185481,
+          "decision_epoch": 1790777366.185481,
+          "forecast_claimed": false,
+          "finite_feature_count": 216
+        },
+        "outcomes": {
+          "entry_bar_close_epoch": 1790777400,
+          "entry_wait_seconds": 33.81451892852783,
+          "horizons": {
+            "5": {
+              "status": "available",
+              "return_bps": -1.1444669425122236,
+              "long_net_bps": -2.5530416409886563,
+              "short_net_bps": -0.17607183731077583
+            },
+            "15": {
+              "status": "available",
+              "return_bps": -1.5846465357852537,
+              "long_net_bps": -2.993221234263641,
+              "short_net_bps": 0.35214367461764207
+            },
+            "30": {
+              "status": "available",
+              "return_bps": -4.665903688704282,
+              "long_net_bps": -5.986442468527282,
+              "short_net_bps": 3.4334008275366714
+            },
+            "60": {
+              "status": "available",
+              "return_bps": -5.722334712561119,
+              "long_net_bps": -7.130909411039506,
+              "short_net_bps": 4.4017959327400735
+            }
+          },
+          "scope": "retrospective_bidask_close_proxy_not_fills;slippage_and_financing_unmodeled"
+        }
+      }
+    },
+    {
+      "event_id": "local_news_6f334f18bcd95ae982674b1f",
+      "headline": "Wall St climbs as cooling inflation tempers Fed rate-hike concerns - marketscreener.com",
+      "published_utc": "2026-09-30T14:14:43+00:00",
+      "first_seen_utc": "2026-09-30T14:22:41.098897+00:00",
+      "last_seen_utc": "2026-09-30T14:22:41.098897+00:00",
+      "category": "inflation_context",
+      "currency_scores_json": "{\"USD\": 0.9}",
+      "name": "cooling_inflation",
+      "payload_sha256": "c77853bd6f489f74918a25218e2938056ae052f76fe760103e57abc5745307c5",
+      "stored_clocks": {
+        "classification_available_utc": "2026-09-30T14:22:43.413373+00:00",
+        "causal_known_utc": "2026-09-30T14:22:43.413373+00:00",
+        "source_version_first_known_utc": "2026-09-30T14:22:41.098897+00:00"
+      },
+      "manual_interpretation": "Cooling inflation tempers hike concerns; +0.9 USD is not supported by that directional headline relationship.",
+      "old_additive_interpretation": {
+        "version": "fx_headline_interpretation_v2",
+        "input_sha256": "e85ac61db8382ab083fcc5ebcde53b1596b682a03fe5601f0fbdd49f65023208",
+        "input_scope": "headline_only",
+        "claims": [
+          {
+            "kind": "inflation_context",
+            "evidence": "Wall St climbs as cooling inflation tempers Fed rate-hike concerns - marketscreener.com",
+            "currency": null,
+            "direction": null,
+            "status": "surprise_unknown",
+            "mechanism": "inflation_to_policy_requires_consensus_and_repricing",
+            "instrument": null
+          }
+        ],
+        "interpretation_status": "claims_extracted",
+        "surprise": "unknown",
+        "forecast_eligible": false,
+        "causal_effect_established": false,
+        "research_only": true
+      },
+      "classification_observations": [
+        {
+          "known_utc": "2026-09-30T14:22:43.413373+00:00",
+          "source_version_id": "036ed111d9ccc55e5add056a35e05f8550a351ad38c85d39c6b6dc6cde17d247",
+          "changed_classification_fields": [],
+          "headline": "Wall St climbs as cooling inflation tempers Fed rate-hike concerns - marketscreener.com",
+          "currency_scores": {
+            "USD": 0.9
+          }
+        }
+      ],
+      "publication_to_capture_seconds": 478.09889698028564,
+      "capture_to_first_classification_seconds": 2.3144760131835938,
+      "eurusd_at_current_version_availability": {
+        "technical": {
+          "status": "unavailable",
+          "reason": "no_fresh_published_technical_snapshot",
+          "news_available_epoch": 1790778163.413373,
+          "decision_epoch": 1790778163.413373,
+          "forecast_claimed": false
+        },
+        "outcomes": {
+          "entry_bar_close_epoch": 1790778180,
+          "entry_wait_seconds": 16.58662700653076,
+          "horizons": {
+            "5": {
+              "status": "available",
+              "return_bps": -2.993168532995343,
+              "long_net_bps": -4.2256496936407135,
+              "short_net_bps": 1.6726530037338412
+            },
+            "15": {
+              "status": "available",
+              "return_bps": -6.250440171842985,
+              "long_net_bps": -7.570955701106442,
+              "short_net_bps": 4.929924642581485
+            },
+            "30": {
+              "status": "available",
+              "return_bps": -9.067539967604112,
+              "long_net_bps": -10.388055496865613,
+              "short_net_bps": 7.747024438340657
+            },
+            "60": {
+              "status": "available",
+              "return_bps": -1.2324811606453712,
+              "long_net_bps": -2.552996689908827,
+              "short_net_bps": -0.088034368618085
+            }
+          },
+          "scope": "retrospective_bidask_close_proxy_not_fills;slippage_and_financing_unmodeled"
+        }
+      }
+    },
+    {
+      "event_id": "local_news_1da8be7631c3a8eb96d5158c",
+      "headline": "Iran losing grip on Strait of Hormuz blockade as oil shipments rise - Business Post",
+      "published_utc": "2026-09-30T17:01:51+00:00",
+      "first_seen_utc": "2026-09-30T17:08:37.280591+00:00",
+      "last_seen_utc": "2026-09-30T17:39:21.596544+00:00",
+      "category": "risk_off_geopolitical_or_financial",
+      "currency_scores_json": "{\"AUD\": -0.4875, \"CAD\": 0.5, \"CHF\": 0.4125, \"JPY\": 0.2125, \"MXN\": 0.5, \"NOK\": 0.5, \"NZD\": -0.4875, \"USD\": 0.4125, \"ZAR\": -0.4875}",
+      "name": "hormuz",
+      "payload_sha256": "b568c658978bd957d1108d2c3e443d515737f7456a5de86d0b5c109de90c0031",
+      "stored_clocks": {
+        "classification_available_utc": "2026-09-30T17:39:22.258283+00:00",
+        "causal_known_utc": "2026-09-30T17:39:22.258283+00:00",
+        "source_version_first_known_utc": "2026-09-30T17:39:21.596544+00:00"
+      },
+      "manual_interpretation": "Reported easing supply constraint; blanket risk-off/oil-price-up currency mapping is not justified by the text.",
+      "old_additive_interpretation": {
+        "version": "fx_headline_interpretation_v2",
+        "input_sha256": "e09a8582767c8d5c2584eb41bf787255770fff225ace3925853595bb14486f10",
+        "input_scope": "headline_only",
+        "claims": [
+          {
+            "kind": "energy_context",
+            "evidence": "Iran losing grip on Strait of Hormuz blockade as oil shipments rise - Business Post",
+            "currency": null,
+            "direction": null,
+            "status": "direction_unresolved",
+            "mechanism": "inflation_growth_and_terms_of_trade_channels_can_conflict",
+            "instrument": null
+          }
+        ],
+        "interpretation_status": "claims_extracted",
+        "surprise": "unknown",
+        "forecast_eligible": false,
+        "causal_effect_established": false,
+        "research_only": true
+      },
+      "classification_observations": [
+        {
+          "known_utc": "2026-09-30T17:08:37.627170+00:00",
+          "source_version_id": "ff86d378c8a1dd4caee27eb15df92ed624b6e2f9d6500e6888699322237d294b",
+          "changed_classification_fields": [],
+          "headline": "Iran losing grip on Strait of Hormuz blockade as oil shipments rise - Business Post",
+          "currency_scores": {
+            "AUD": -0.4875,
+            "CAD": 0.5,
+            "CHF": 0.4125,
+            "JPY": 0.2125,
+            "MXN": 0.5,
+            "NOK": 0.5,
+            "NZD": -0.4875,
+            "USD": 0.4125,
+            "ZAR": -0.4875
+          }
+        },
+        {
+          "known_utc": "2026-09-30T17:08:42.864971+00:00",
+          "source_version_id": "8d13f89f43360713b3eecdde980125ee40af4d22762dc73ba00dad7c52e8153e",
+          "changed_classification_fields": [
+            "retrieval_via",
+            "source_cohort_id",
+            "source_contract_id",
+            "source_id",
+            "source_role"
+          ],
+          "headline": "Iran losing grip on Strait of Hormuz blockade as oil shipments rise - Business Post",
+          "currency_scores": {
+            "AUD": -0.4875,
+            "CAD": 0.5,
+            "CHF": 0.4125,
+            "JPY": 0.2125,
+            "MXN": 0.5,
+            "NOK": 0.5,
+            "NZD": -0.4875,
+            "USD": 0.4125,
+            "ZAR": -0.4875
+          }
+        },
+        {
+          "known_utc": "2026-09-30T17:39:14.066211+00:00",
+          "source_version_id": "184850cb83aa1eef1d2bfb3173c6ba05efd728feba5e99f0b54ccde737bad834",
+          "changed_classification_fields": [
+            "forward_signal_timely",
+            "retrieval_via",
+            "source_cohort_id",
+            "source_contract_id",
+            "source_id",
+            "source_role"
+          ],
+          "headline": "Iran losing grip on Strait of Hormuz blockade as oil shipments rise - Business Post",
+          "currency_scores": {
+            "AUD": -0.4875,
+            "CAD": 0.5,
+            "CHF": 0.4125,
+            "JPY": 0.2125,
+            "MXN": 0.5,
+            "NOK": 0.5,
+            "NZD": -0.4875,
+            "USD": 0.4125,
+            "ZAR": -0.4875
+          }
+        },
+        {
+          "known_utc": "2026-09-30T17:39:22.258283+00:00",
+          "source_version_id": "68a21ccf71c9fc682ccebde9bc40bcf21fbf4a344af1c89225759b05cf80839f",
+          "changed_classification_fields": [
+            "retrieval_via",
+            "source_cohort_id",
+            "source_contract_id",
+            "source_id",
+            "source_role"
+          ],
+          "headline": "Iran losing grip on Strait of Hormuz blockade as oil shipments rise - Business Post",
+          "currency_scores": {
+            "AUD": -0.4875,
+            "CAD": 0.5,
+            "CHF": 0.4125,
+            "JPY": 0.2125,
+            "MXN": 0.5,
+            "NOK": 0.5,
+            "NZD": -0.4875,
+            "USD": 0.4125,
+            "ZAR": -0.4875
+          }
+        }
+      ],
+      "publication_to_capture_seconds": 406.28059101104736,
+      "capture_to_first_classification_seconds": 0.34657907485961914
+    },
+    {
+      "event_id": "local_news_133d737c6d857af838516773",
+      "headline": "US oil and gas production rises in Q3 2026 but price uncertainty plagues producers, Dallas Fed survey says - Reuters",
+      "published_utc": "2026-09-30T15:21:45+00:00",
+      "first_seen_utc": "2026-09-30T15:29:59.733066+00:00",
+      "last_seen_utc": "2026-09-30T15:39:52.590809+00:00",
+      "category": "commodity_shock",
+      "currency_scores_json": "{\"CAD\": 0.5, \"JPY\": -0.2, \"MXN\": 0.5, \"NOK\": 0.5}",
+      "name": "production",
+      "payload_sha256": "8961c43444af7b8f2066bb2f50b52db6fafd6ca00ffb97ee5d45ba03616431bf",
+      "stored_clocks": {
+        "classification_available_utc": "2026-09-30T15:39:53.195302+00:00",
+        "causal_known_utc": "2026-09-30T15:39:53.195302+00:00",
+        "source_version_first_known_utc": "2026-09-30T15:39:52.590809+00:00"
+      },
+      "manual_interpretation": "Production quantity increased; this is not an oil-price increase and supplies no direct CAD/JPY/MXN/NOK price prediction.",
+      "old_additive_interpretation": {
+        "version": "fx_headline_interpretation_v2",
+        "input_sha256": "30a15ddc75a4d6227288dd165da1b792a26ebfe1eeb82e77d8c3c7a04005e291",
+        "input_scope": "headline_only",
+        "claims": [
+          {
+            "kind": "energy_context",
+            "evidence": "US oil and gas production rises in Q3 2026 but price uncertainty plagues producers, Dallas Fed survey says - Reuters",
+            "currency": null,
+            "direction": null,
+            "status": "direction_unresolved",
+            "mechanism": "inflation_growth_and_terms_of_trade_channels_can_conflict",
+            "instrument": null
+          }
+        ],
+        "interpretation_status": "claims_extracted",
+        "surprise": "unknown",
+        "forecast_eligible": false,
+        "causal_effect_established": false,
+        "research_only": true
+      },
+      "classification_observations": [
+        {
+          "known_utc": "2026-09-30T15:29:59.904605+00:00",
+          "source_version_id": "2f85a7b91576fbafd5788e143b86c9526daa5bd395341a6242c43abacd5525d0",
+          "changed_classification_fields": [],
+          "headline": "US oil and gas production rises in Q3 2026 but price uncertainty plagues producers, Dallas Fed survey says - reuters.com",
+          "currency_scores": {
+            "CAD": 0.5,
+            "JPY": -0.2,
+            "MXN": 0.5,
+            "NOK": 0.5
+          }
+        },
+        {
+          "known_utc": "2026-09-30T15:39:53.195302+00:00",
+          "source_version_id": "faf5286ae13d50a07229685422de29ca972f8c73c001f980d6bb9442a44bc295",
+          "changed_classification_fields": [
+            "headline",
+            "source_name"
+          ],
+          "headline": "US oil and gas production rises in Q3 2026 but price uncertainty plagues producers, Dallas Fed survey says - Reuters",
+          "currency_scores": {
+            "CAD": 0.5,
+            "JPY": -0.2,
+            "MXN": 0.5,
+            "NOK": 0.5
+          }
+        }
+      ],
+      "publication_to_capture_seconds": 494.73306608200073,
+      "capture_to_first_classification_seconds": 0.1715388298034668
+    }
+  ],
+  "current_guard": {
+    "account_eligible": false,
+    "as_of_utc": "2026-09-30T17:53:58.257625+00:00",
+    "can_authorize": false,
+    "can_place_orders": false,
+    "can_promote": false,
+    "classification_version": "local_fx_news_rules_20260907_v165_causal_member_admission",
+    "context_topic_count": 34,
+    "directional_topic_count": 0,
+    "duplicate_topics_collapsed": 0,
+    "execution_eligible": false,
+    "freshness_scope": "Current complete committed SQLite observation with active collector progress; source identity, original story age and later classification availability remain distinct.",
+    "generated_utc": "2026-09-30T17:54:01.748468+00:00",
+    "guard_version": "causal_news_member_admission_v2_20260912_source_derived_clocks",
+    "news_state": "context_only",
+    "payload_sha256": "9e17d53a8c2d9485aa2e4a5043bc6ee1944632caad751e78b6cc36156bf1a28a",
+    "proof_eligible": false,
+    "research_only": true,
+    "schema_version": "repaired_joint_news_current_v2_20260912_source_derived_clocks",
+    "status": "current",
+    "topic_count": 34
+  },
+  "current_topic_keys": [
+    "availability_lag_minutes",
+    "can_place_orders",
+    "category",
+    "causal_aggregation_guard",
+    "causal_known_utc",
+    "classification_version",
+    "context_only",
+    "context_reason",
+    "corroboration_count",
+    "currency_scores",
+    "direct_currencies",
+    "direction_available_utc",
+    "direction_expires_utc",
+    "directional_bias",
+    "directional_candidate_source_count",
+    "directional_evidence",
+    "directional_publish_eligible",
+    "directional_source_grade",
+    "directional_verified_source",
+    "distinct_source_count",
+    "execution_eligible",
+    "first_seen_utc",
+    "forward_corroboration_count",
+    "forward_signal_timely",
+    "forward_source_count",
+    "headline",
+    "inferred_currencies",
+    "post_window_minutes",
+    "published_utc",
+    "relevant",
+    "research_currency_scores",
+    "research_only",
+    "scope",
+    "source_direct",
+    "source_ids",
+    "source_name",
+    "source_names",
+    "source_url",
+    "source_verified",
+    "topic_id"
+  ],
+  "script_sha256": "583fa9893647fe9c6574fc2fbd9690f283f75b5e091f7791be8445e90c0190eb",
+  "reused_sources": {
+    "oanda_news_interpretation_v1.py": "7338b4dee04e179661f0c2c6327b44231d0ddbec4125660cc0045156a29a5fa0",
+    "oanda_news_technical_timing_v1.py": "a129b7f0b0fab880903bcce833f0d01614fb2cc2b4d16af1c75bac51314a7003"
+  }
+}
