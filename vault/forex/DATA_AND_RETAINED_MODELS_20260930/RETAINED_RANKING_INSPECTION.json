@@ -1,0 +1,2817 @@
+{
+  "scope": "Retained development metrics read and hash verified; no new experiment. Worst-period relative MAE is a current posthoc inspection, not a prespecified independent selection test.",
+  "rankings": {
+    "5": [
+      {
+        "family": "rolling_comparison",
+        "model": "ridge_compact38_5m",
+        "horizon_minutes": 5,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\ridge_compact38_5m.json",
+        "sha256": "7cfecbc7fe319e975b21cab1d24bf717f3693c749f7eee62ec370b816b0d5c84",
+        "periods": {
+          "validation": {
+            "mae_bps": 1.2458565658198688,
+            "rmse_bps": 1.911169460130944,
+            "rows": 426546,
+            "no_change_mae_bps": 1.242413176723943,
+            "relative_mae": 1.0027715329814881,
+            "direction_accuracy": 0.5112076669887887
+          },
+          "later_development_test": {
+            "mae_bps": 1.5296807501543126,
+            "rmse_bps": 2.5881329703125115,
+            "rows": 428525,
+            "no_change_mae_bps": 1.5259568968050876,
+            "relative_mae": 1.0024403398005681,
+            "direction_accuracy": 0.5066313188609226
+          }
+        },
+        "worst_period_relative_mae": 1.0027715329814881,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "ridge_compact50_5m",
+        "horizon_minutes": 5,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\ridge_compact50_5m.json",
+        "sha256": "5b23339245e08be2e085311bfd64c7dd8261b50a18b7d30561850dc01cafb62b",
+        "periods": {
+          "validation": {
+            "mae_bps": 1.2472267734670313,
+            "rmse_bps": 1.9120803042842165,
+            "rows": 426546,
+            "no_change_mae_bps": 1.242413176723943,
+            "relative_mae": 1.0038743928616252,
+            "direction_accuracy": 0.5101080925289486
+          },
+          "later_development_test": {
+            "mae_bps": 1.5313999902858995,
+            "rmse_bps": 2.5888082915993063,
+            "rows": 428525,
+            "no_change_mae_bps": 1.5259568968050876,
+            "relative_mae": 1.0035670034272974,
+            "direction_accuracy": 0.5071673044013306
+          }
+        },
+        "worst_period_relative_mae": 1.0038743928616252,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "hgb_local216_5m",
+        "horizon_minutes": 5,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\hgb_local216_5m.json",
+        "sha256": "a13ce8ebbe8838fb2c51ce90af1229086bf941697c0bc568a21646b088efb046",
+        "periods": {
+          "validation": {
+            "mae_bps": 1.2440766641262693,
+            "rmse_bps": 1.9146232591605807,
+            "rows": 426546,
+            "no_change_mae_bps": 1.242413176723943,
+            "relative_mae": 1.0013389164196669,
+            "direction_accuracy": 0.5234337724365262
+          },
+          "later_development_test": {
+            "mae_bps": 1.5344725526452008,
+            "rmse_bps": 2.61071622803174,
+            "rows": 428525,
+            "no_change_mae_bps": 1.5259568968050876,
+            "relative_mae": 1.0055805349796856,
+            "direction_accuracy": 0.5140822389293749
+          }
+        },
+        "worst_period_relative_mae": 1.0055805349796856,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "hgb_compact38_5m",
+        "horizon_minutes": 5,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\hgb_compact38_5m.json",
+        "sha256": "03ac1d14e7e945cf206882a97cc2e3c6b684d61fe6d859171e2206004c800197",
+        "periods": {
+          "validation": {
+            "mae_bps": 1.2435876260476078,
+            "rmse_bps": 1.9131035898969688,
+            "rows": 426546,
+            "no_change_mae_bps": 1.242413176723943,
+            "relative_mae": 1.0009452968993469,
+            "direction_accuracy": 0.5226999154732409
+          },
+          "later_development_test": {
+            "mae_bps": 1.5355921215993913,
+            "rmse_bps": 2.6198656076946194,
+            "rows": 428525,
+            "no_change_mae_bps": 1.5259568968050876,
+            "relative_mae": 1.0063142181895681,
+            "direction_accuracy": 0.5148705943430693
+          }
+        },
+        "worst_period_relative_mae": 1.0063142181895681,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "hgb_combined228_5m",
+        "horizon_minutes": 5,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\hgb_combined228_5m.json",
+        "sha256": "33969524e05ce5a2b56bd632b69afca8b9d2347f5cca3d0234a3426a340dfc3c",
+        "periods": {
+          "validation": {
+            "mae_bps": 1.2437404899501938,
+            "rmse_bps": 1.9139679286826359,
+            "rows": 426546,
+            "no_change_mae_bps": 1.242413176723943,
+            "relative_mae": 1.001068334794831,
+            "direction_accuracy": 0.5238987907102912
+          },
+          "later_development_test": {
+            "mae_bps": 1.536054344581615,
+            "rmse_bps": 2.614247043363115,
+            "rows": 428525,
+            "no_change_mae_bps": 1.5259568968050876,
+            "relative_mae": 1.0066171251610505,
+            "direction_accuracy": 0.5133587786259542
+          }
+        },
+        "worst_period_relative_mae": 1.0066171251610505,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "hgb_compact50_5m",
+        "horizon_minutes": 5,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\hgb_compact50_5m.json",
+        "sha256": "08cbdf69ef14ec555ed71e225df65e53c3aaa1f39254d39e1a4ac26f136247f7",
+        "periods": {
+          "validation": {
+            "mae_bps": 1.243823025139409,
+            "rmse_bps": 1.9137371307943192,
+            "rows": 426546,
+            "no_change_mae_bps": 1.242413176723943,
+            "relative_mae": 1.0011347661485557,
+            "direction_accuracy": 0.5225376434714583
+          },
+          "later_development_test": {
+            "mae_bps": 1.5364690929022584,
+            "rmse_bps": 2.6193729075526915,
+            "rows": 428525,
+            "no_change_mae_bps": 1.5259568968050876,
+            "relative_mae": 1.0068889207284821,
+            "direction_accuracy": 0.5140077297286904
+          }
+        },
+        "worst_period_relative_mae": 1.0068889207284821,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "ridge_local216_5m",
+        "horizon_minutes": 5,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\ridge_local216_5m.json",
+        "sha256": "fbbb3fa6e367bd9a9745b16ee9231a52256e161ac04a9c62613f571cd8f3c7ae",
+        "periods": {
+          "validation": {
+            "mae_bps": 1.259264149460327,
+            "rmse_bps": 1.9293248886789278,
+            "rows": 426546,
+            "no_change_mae_bps": 1.242413176723943,
+            "relative_mae": 1.0135630988563864,
+            "direction_accuracy": 0.5086452225427296
+          },
+          "later_development_test": {
+            "mae_bps": 1.5468629221318186,
+            "rmse_bps": 2.6178424678135728,
+            "rows": 428525,
+            "no_change_mae_bps": 1.5259568968050876,
+            "relative_mae": 1.0137002725113025,
+            "direction_accuracy": 0.5056506816390102
+          }
+        },
+        "worst_period_relative_mae": 1.0137002725113025,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "ridge_combined228_5m",
+        "horizon_minutes": 5,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\ridge_combined228_5m.json",
+        "sha256": "087b0eb15ad1faaf6303b42bc8c1d293c8b6f242857f5cb54bef9ff9846e32cb",
+        "periods": {
+          "validation": {
+            "mae_bps": 1.2599941128247198,
+            "rmse_bps": 1.929589458700348,
+            "rows": 426546,
+            "no_change_mae_bps": 1.242413176723943,
+            "relative_mae": 1.014150635577719,
+            "direction_accuracy": 0.5086742861848399
+          },
+          "later_development_test": {
+            "mae_bps": 1.5475938951723502,
+            "rmse_bps": 2.6177800625329417,
+            "rows": 428525,
+            "no_change_mae_bps": 1.5259568968050876,
+            "relative_mae": 1.0141792985192204,
+            "direction_accuracy": 0.5063452996711981
+          }
+        },
+        "worst_period_relative_mae": 1.0141792985192204,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      }
+    ],
+    "15": [
+      {
+        "family": "rolling_comparison",
+        "model": "ridge_compact38_15m",
+        "horizon_minutes": 15,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\ridge_compact38_15m.json",
+        "sha256": "817f3138ccf22c7b820fc1bed137053013beb952f601066979a34b818963c5cf",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.03755213652302,
+            "rmse_bps": 3.0640667310752026,
+            "rows": 422845,
+            "no_change_mae_bps": 2.033284157290303,
+            "relative_mae": 1.0020990569455892,
+            "direction_accuracy": 0.5137150376193529
+          },
+          "later_development_test": {
+            "mae_bps": 2.626511181950104,
+            "rmse_bps": 4.310826174122251,
+            "rows": 425244,
+            "no_change_mae_bps": 2.6207038301469527,
+            "relative_mae": 1.0022159512022486,
+            "direction_accuracy": 0.5109256111816298
+          }
+        },
+        "worst_period_relative_mae": 1.0022159512022486,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "ridge_compact50_15m",
+        "horizon_minutes": 15,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\ridge_compact50_15m.json",
+        "sha256": "4aaa5a9a88cc33014ad181d7e90e98269b55b952490f6a12fe8862390336df1e",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.0395041910161975,
+            "rmse_bps": 3.0657551344868894,
+            "rows": 422845,
+            "no_change_mae_bps": 2.033284157290303,
+            "relative_mae": 1.003059106964264,
+            "direction_accuracy": 0.5116304290196797
+          },
+          "later_development_test": {
+            "mae_bps": 2.6284762925447827,
+            "rmse_bps": 4.311799331784183,
+            "rows": 425244,
+            "no_change_mae_bps": 2.6207038301469527,
+            "relative_mae": 1.002965791978636,
+            "direction_accuracy": 0.5099622545890914
+          }
+        },
+        "worst_period_relative_mae": 1.003059106964264,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "hgb_compact38_15m",
+        "horizon_minutes": 15,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\hgb_compact38_15m.json",
+        "sha256": "0c9b09aaa8b2a4c84ec285b0d67b3500851de56f04346725ffe4485056c0d8c3",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.0365018832576514,
+            "rmse_bps": 3.070991829175504,
+            "rows": 422845,
+            "no_change_mae_bps": 2.033284157290303,
+            "relative_mae": 1.001582526453969,
+            "direction_accuracy": 0.5215112327869168
+          },
+          "later_development_test": {
+            "mae_bps": 2.640153371963365,
+            "rmse_bps": 4.3562742743055445,
+            "rows": 425244,
+            "no_change_mae_bps": 2.6207038301469527,
+            "relative_mae": 1.0074214955511862,
+            "direction_accuracy": 0.5137033291978323
+          }
+        },
+        "worst_period_relative_mae": 1.0074214955511862,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "hgb_local216_15m",
+        "horizon_minutes": 15,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\hgb_local216_15m.json",
+        "sha256": "3a261c7344ad29bb2e1c22c3cda51a8934733c0c64630a24ac6fc4cf904adb3f",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.0372832770553417,
+            "rmse_bps": 3.0705336407711736,
+            "rows": 422845,
+            "no_change_mae_bps": 2.033284157290303,
+            "relative_mae": 1.0019668277799243,
+            "direction_accuracy": 0.5193350460059863
+          },
+          "later_development_test": {
+            "mae_bps": 2.642531564759881,
+            "rmse_bps": 4.356829346200668,
+            "rows": 425244,
+            "no_change_mae_bps": 2.6207038301469527,
+            "relative_mae": 1.0083289589467668,
+            "direction_accuracy": 0.5123670603759242
+          }
+        },
+        "worst_period_relative_mae": 1.0083289589467668,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "hgb_compact50_15m",
+        "horizon_minutes": 15,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\hgb_compact50_15m.json",
+        "sha256": "af0a9fd94fa331d7f3f922386997ce6f1867e53836519adf20c254fc2f5448b5",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.0367217360057612,
+            "rmse_bps": 3.0718659164236968,
+            "rows": 422845,
+            "no_change_mae_bps": 2.033284157290303,
+            "relative_mae": 1.0016906533713612,
+            "direction_accuracy": 0.5194097545222752
+          },
+          "later_development_test": {
+            "mae_bps": 2.6434290223306967,
+            "rmse_bps": 4.362628453605013,
+            "rows": 425244,
+            "no_change_mae_bps": 2.6207038301469527,
+            "relative_mae": 1.0086714080096832,
+            "direction_accuracy": 0.5150372075567317
+          }
+        },
+        "worst_period_relative_mae": 1.0086714080096832,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "hgb_combined228_15m",
+        "horizon_minutes": 15,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\hgb_combined228_15m.json",
+        "sha256": "4ccaa6bba9e7a9737fc302efe39c485b7cdb3f39dba220c7fbd5f7e2701b971a",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.0377352149056094,
+            "rmse_bps": 3.0716232120450604,
+            "rows": 422845,
+            "no_change_mae_bps": 2.033284157290303,
+            "relative_mae": 1.0021890976720333,
+            "direction_accuracy": 0.5175468615193303
+          },
+          "later_development_test": {
+            "mae_bps": 2.6460183014060035,
+            "rmse_bps": 4.368592383493994,
+            "rows": 425244,
+            "no_change_mae_bps": 2.6207038301469527,
+            "relative_mae": 1.0096594170496676,
+            "direction_accuracy": 0.5119654625904492
+          }
+        },
+        "worst_period_relative_mae": 1.0096594170496676,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "ridge_local216_15m",
+        "horizon_minutes": 15,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\ridge_local216_15m.json",
+        "sha256": "6e49025bfb6ecb4cd3fb34d78e3252a699b97b66e8f9af6af606132a0aa0e84f",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.068941790265903,
+            "rmse_bps": 3.0915343036749365,
+            "rows": 422845,
+            "no_change_mae_bps": 2.033284157290303,
+            "relative_mae": 1.0175369649381028,
+            "direction_accuracy": 0.5041668072472081
+          },
+          "later_development_test": {
+            "mae_bps": 2.667923052536951,
+            "rmse_bps": 4.371282214225715,
+            "rows": 425244,
+            "no_change_mae_bps": 2.6207038301469527,
+            "relative_mae": 1.0180177637193557,
+            "direction_accuracy": 0.5017294999868525
+          }
+        },
+        "worst_period_relative_mae": 1.0180177637193557,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "ridge_combined228_15m",
+        "horizon_minutes": 15,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\ridge_combined228_15m.json",
+        "sha256": "ac694deddfff09ada1ea1580f13a801a90f2d4ee2046bf713afda77ad7c92713",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.070169297165201,
+            "rmse_bps": 3.092823885725176,
+            "rows": 422845,
+            "no_change_mae_bps": 2.033284157290303,
+            "relative_mae": 1.0181406714563956,
+            "direction_accuracy": 0.5046222882013564
+          },
+          "later_development_test": {
+            "mae_bps": 2.6694224453895297,
+            "rmse_bps": 4.3717768197144355,
+            "rows": 425244,
+            "no_change_mae_bps": 2.6207038301469527,
+            "relative_mae": 1.0185898973711367,
+            "direction_accuracy": 0.5029677598254005
+          }
+        },
+        "worst_period_relative_mae": 1.0185898973711367,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      }
+    ],
+    "30": [
+      {
+        "family": "specialists",
+        "model": "compact38_30m_mixture_raw",
+        "horizon_minutes": 30,
+        "metrics": "trad\\data\\rolling_specialists_20260915_v1\\metrics\\compact38_30m_mixture_raw.json",
+        "sha256": "499a99cb7b996587c328195db09e63fb77ece786c274a35ae4fd5402ed1791a9",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.8111709460856686,
+            "rmse_bps": 4.25824100459388,
+            "rows": 419142,
+            "no_change_mae_bps": 2.8000920326848453,
+            "relative_mae": 1.0039566247364378,
+            "direction_accuracy": 0.5129300026839276
+          },
+          "later_development_test": {
+            "mae_bps": 3.740645691167915,
+            "rmse_bps": 6.084031195823319,
+            "rows": 421651,
+            "no_change_mae_bps": 3.7352515619076825,
+            "relative_mae": 1.0014441140498387,
+            "direction_accuracy": 0.5173529806917201
+          },
+          "a_validation": {
+            "mae_bps": 4.2390261624070975,
+            "rmse_bps": 7.269372950924044,
+            "rows": 428742,
+            "no_change_mae_bps": 4.233705288464098,
+            "relative_mae": 1.0012567889308444,
+            "direction_accuracy": 0.5166908391995944,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact38_30m_mixture_raw.json",
+            "sha256": "265707925e9728ddcc5a144220fde2718f19e6474b451eba1b5e4a41bb66909a"
+          },
+          "a_later_development_test": {
+            "mae_bps": 3.5759695298106,
+            "rmse_bps": 5.330607205237599,
+            "rows": 422410,
+            "no_change_mae_bps": 3.574471281875233,
+            "relative_mae": 1.0004191523213417,
+            "direction_accuracy": 0.5142850986297893,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact38_30m_mixture_raw.json",
+            "sha256": "265707925e9728ddcc5a144220fde2718f19e6474b451eba1b5e4a41bb66909a"
+          },
+          "b_validation": {
+            "mae_bps": 3.3864762070190846,
+            "rmse_bps": 5.417949793106854,
+            "rows": 417546,
+            "no_change_mae_bps": 3.38126796671112,
+            "relative_mae": 1.0015403216660852,
+            "direction_accuracy": 0.5131182962583937,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact38_30m_mixture_raw.json",
+            "sha256": "d1f6239cb94b8172f8398dc26251ba1d8fbff0007af881ef7b15716d5b1e014a"
+          },
+          "b_later_development_test": {
+            "mae_bps": 3.5477914732651494,
+            "rmse_bps": 5.262392154579177,
+            "rows": 418586,
+            "no_change_mae_bps": 3.540064749184068,
+            "relative_mae": 1.0021826504961138,
+            "direction_accuracy": 0.5031839899078999,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact38_30m_mixture_raw.json",
+            "sha256": "d1f6239cb94b8172f8398dc26251ba1d8fbff0007af881ef7b15716d5b1e014a"
+          }
+        },
+        "worst_period_relative_mae": 1.0039566247364378,
+        "beats_no_change_in_both": false,
+        "period_count": 6
+      },
+      {
+        "family": "specialists",
+        "model": "compact50_30m_mixture_raw",
+        "horizon_minutes": 30,
+        "metrics": "trad\\data\\rolling_specialists_20260915_v1\\metrics\\compact50_30m_mixture_raw.json",
+        "sha256": "cee65363e2b75b92956e33f0a12294f2fb04ac1ac883324e02ebe1dcdd541432",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.812442795894821,
+            "rmse_bps": 4.260776204113456,
+            "rows": 419142,
+            "no_change_mae_bps": 2.8000920326848453,
+            "relative_mae": 1.0044108418815554,
+            "direction_accuracy": 0.5147096159565542
+          },
+          "later_development_test": {
+            "mae_bps": 3.7507120266581926,
+            "rmse_bps": 6.103761233687931,
+            "rows": 421651,
+            "no_change_mae_bps": 3.7352515619076825,
+            "relative_mae": 1.0041390692150902,
+            "direction_accuracy": 0.5159374880042993
+          },
+          "a_validation": {
+            "mae_bps": 4.239552429529795,
+            "rmse_bps": 7.2700169406880395,
+            "rows": 428742,
+            "no_change_mae_bps": 4.233705288464098,
+            "relative_mae": 1.001381093077411,
+            "direction_accuracy": 0.5153772683858644,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact50_30m_mixture_raw.json",
+            "sha256": "3bca6c84ab2695ee3468c2e626fca34d158aaea9ec8872ea5f3743393323d504"
+          },
+          "a_later_development_test": {
+            "mae_bps": 3.5753496667718574,
+            "rmse_bps": 5.330901295437338,
+            "rows": 422410,
+            "no_change_mae_bps": 3.574471281875233,
+            "relative_mae": 1.0002457384120216,
+            "direction_accuracy": 0.5148716819138417,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact50_30m_mixture_raw.json",
+            "sha256": "3bca6c84ab2695ee3468c2e626fca34d158aaea9ec8872ea5f3743393323d504"
+          },
+          "b_validation": {
+            "mae_bps": 3.387407103732609,
+            "rmse_bps": 5.4188819505110315,
+            "rows": 417546,
+            "no_change_mae_bps": 3.38126796671112,
+            "relative_mae": 1.0018156316156925,
+            "direction_accuracy": 0.5133365505634598,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact50_30m_mixture_raw.json",
+            "sha256": "8dba3edabf95356298f2e1e39bfb1220bd30d95de87562aa599d64be82721ee3"
+          },
+          "b_later_development_test": {
+            "mae_bps": 3.5484258827282065,
+            "rmse_bps": 5.264050446885058,
+            "rows": 418586,
+            "no_change_mae_bps": 3.540064749184068,
+            "relative_mae": 1.0023618589309886,
+            "direction_accuracy": 0.503157406310946,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact50_30m_mixture_raw.json",
+            "sha256": "8dba3edabf95356298f2e1e39bfb1220bd30d95de87562aa599d64be82721ee3"
+          }
+        },
+        "worst_period_relative_mae": 1.0044108418815554,
+        "beats_no_change_in_both": false,
+        "period_count": 6
+      },
+      {
+        "family": "specialists",
+        "model": "compact38_30m_direct_ridge",
+        "horizon_minutes": 30,
+        "metrics": "trad\\data\\rolling_specialists_20260915_v1\\metrics\\compact38_30m_direct_ridge.json",
+        "sha256": "29b4c9bfbe0b4037c4672be2425affec12cbc751787400e8ed9cbd1b1e4c07a4",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.804660568196521,
+            "rmse_bps": 4.245929874214965,
+            "rows": 419142,
+            "no_change_mae_bps": 2.8000920326848453,
+            "relative_mae": 1.0016315661979494,
+            "direction_accuracy": 0.4948195360915727
+          },
+          "later_development_test": {
+            "mae_bps": 3.7390239895664665,
+            "rmse_bps": 6.084392751069386,
+            "rows": 421651,
+            "no_change_mae_bps": 3.7352515619076825,
+            "relative_mae": 1.0010099527692473,
+            "direction_accuracy": 0.4980111128171663
+          },
+          "a_validation": {
+            "mae_bps": 4.2314406906640665,
+            "rmse_bps": 7.2408989117022715,
+            "rows": 428742,
+            "no_change_mae_bps": 4.233705288464098,
+            "relative_mae": 0.9994651026356978,
+            "direction_accuracy": 0.5120544294692655,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact38_30m_direct_ridge.json",
+            "sha256": "5f1e2cee31b13e1f72cfb9f4adbdbb8f8e98227afba10de2abab6ead1b8f623c"
+          },
+          "a_later_development_test": {
+            "mae_bps": 3.5905044347869595,
+            "rmse_bps": 5.3451995774712495,
+            "rows": 422410,
+            "no_change_mae_bps": 3.574471281875233,
+            "relative_mae": 1.0044854613864223,
+            "direction_accuracy": 0.4760446569445475,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact38_30m_direct_ridge.json",
+            "sha256": "5f1e2cee31b13e1f72cfb9f4adbdbb8f8e98227afba10de2abab6ead1b8f623c"
+          },
+          "b_validation": {
+            "mae_bps": 3.385597834492804,
+            "rmse_bps": 5.429301238015162,
+            "rows": 417546,
+            "no_change_mae_bps": 3.38126796671112,
+            "relative_mae": 1.0012805455894984,
+            "direction_accuracy": 0.5001321651069567,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact38_30m_direct_ridge.json",
+            "sha256": "139d688ba6d91f0c2f80eabae625d38fbdf088217e17dbc88693188ec113644a"
+          },
+          "b_later_development_test": {
+            "mae_bps": 3.5454834015727013,
+            "rmse_bps": 5.251105466810984,
+            "rows": 418586,
+            "no_change_mae_bps": 3.540064749184068,
+            "relative_mae": 1.0015306647681745,
+            "direction_accuracy": 0.4979977718112371,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact38_30m_direct_ridge.json",
+            "sha256": "139d688ba6d91f0c2f80eabae625d38fbdf088217e17dbc88693188ec113644a"
+          }
+        },
+        "worst_period_relative_mae": 1.0044854613864223,
+        "beats_no_change_in_both": false,
+        "period_count": 6
+      },
+      {
+        "family": "specialists",
+        "model": "compact50_30m_direct_ridge",
+        "horizon_minutes": 30,
+        "metrics": "trad\\data\\rolling_specialists_20260915_v1\\metrics\\compact50_30m_direct_ridge.json",
+        "sha256": "abe5e04dc7aa6cbd15dfdbd54a44a1d0be845f16c00ad7ddebf78ad095ac36f6",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.8049088139593956,
+            "rmse_bps": 4.24648932307482,
+            "rows": 419142,
+            "no_change_mae_bps": 2.8000920326848453,
+            "relative_mae": 1.0017202224849489,
+            "direction_accuracy": 0.49241609099240036
+          },
+          "later_development_test": {
+            "mae_bps": 3.7359466610885543,
+            "rmse_bps": 6.078411803625674,
+            "rows": 421651,
+            "no_change_mae_bps": 3.7352515619076825,
+            "relative_mae": 1.0001860916646044,
+            "direction_accuracy": 0.5072358066868834
+          },
+          "a_validation": {
+            "mae_bps": 4.231430741788975,
+            "rmse_bps": 7.240794195782845,
+            "rows": 428742,
+            "no_change_mae_bps": 4.233705288464098,
+            "relative_mae": 0.9994627527141955,
+            "direction_accuracy": 0.5118539743181577,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact50_30m_direct_ridge.json",
+            "sha256": "4b6cf9b51af115ff888c941fd14a71e5c29d9cfe35bbba4ab28461a35f046911"
+          },
+          "a_later_development_test": {
+            "mae_bps": 3.590907095400388,
+            "rmse_bps": 5.346172093275668,
+            "rows": 422410,
+            "no_change_mae_bps": 3.574471281875233,
+            "relative_mae": 1.0045981103858619,
+            "direction_accuracy": 0.4762529538658233,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact50_30m_direct_ridge.json",
+            "sha256": "4b6cf9b51af115ff888c941fd14a71e5c29d9cfe35bbba4ab28461a35f046911"
+          },
+          "b_validation": {
+            "mae_bps": 3.3852400608545636,
+            "rmse_bps": 5.429243185875693,
+            "rows": 417546,
+            "no_change_mae_bps": 3.38126796671112,
+            "relative_mae": 1.001174735094216,
+            "direction_accuracy": 0.5015338427550483,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact50_30m_direct_ridge.json",
+            "sha256": "56dedfd204579ac554d0fe69029b4aa288eb0a6508a35dc17284834d468a21d3"
+          },
+          "b_later_development_test": {
+            "mae_bps": 3.544914160528897,
+            "rmse_bps": 5.250986661402024,
+            "rows": 418586,
+            "no_change_mae_bps": 3.540064749184068,
+            "relative_mae": 1.00136986515457,
+            "direction_accuracy": 0.49843035943439773,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact50_30m_direct_ridge.json",
+            "sha256": "56dedfd204579ac554d0fe69029b4aa288eb0a6508a35dc17284834d468a21d3"
+          }
+        },
+        "worst_period_relative_mae": 1.0045981103858619,
+        "beats_no_change_in_both": false,
+        "period_count": 6
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "hgb_compact38_30m",
+        "horizon_minutes": 30,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\hgb_compact38_30m.json",
+        "sha256": "b9e406b5ea4922b682ee4bbdcc4325099dcf2240e7e5fed4259ec8a5326c1273",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.8142946891945546,
+            "rmse_bps": 4.266409682994069,
+            "rows": 419142,
+            "no_change_mae_bps": 2.8000920326848453,
+            "relative_mae": 1.0050722106073389,
+            "direction_accuracy": 0.5072042904154769
+          },
+          "later_development_test": {
+            "mae_bps": 3.746777879860262,
+            "rmse_bps": 6.1062055634713515,
+            "rows": 421651,
+            "no_change_mae_bps": 3.7352515619076825,
+            "relative_mae": 1.0030858210649385,
+            "direction_accuracy": 0.5118589497524088
+          },
+          "a_validation": {
+            "mae_bps": 4.242793824825121,
+            "rmse_bps": 7.287794484724949,
+            "rows": 428742,
+            "no_change_mae_bps": 4.233705288464098,
+            "relative_mae": 1.0021467097357453,
+            "direction_accuracy": 0.5184855023759831,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\comparator_compact38_hgb_30m.json",
+            "sha256": "13289a6468ac316276964c14287ecaf4ec6337d7c6658379bfa510f96d8d3159"
+          },
+          "a_later_development_test": {
+            "mae_bps": 3.585483815108087,
+            "rmse_bps": 5.349730586124087,
+            "rows": 422410,
+            "no_change_mae_bps": 3.574471281875233,
+            "relative_mae": 1.0030808845181367,
+            "direction_accuracy": 0.5094846925705038,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\comparator_compact38_hgb_30m.json",
+            "sha256": "13289a6468ac316276964c14287ecaf4ec6337d7c6658379bfa510f96d8d3159"
+          },
+          "b_validation": {
+            "mae_bps": 3.3849477385612623,
+            "rmse_bps": 5.4253305628838815,
+            "rows": 417546,
+            "no_change_mae_bps": 3.38126796671112,
+            "relative_mae": 1.0010882816406064,
+            "direction_accuracy": 0.5151019853866617,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\comparator_compact38_hgb_30m.json",
+            "sha256": "415f30116c3efbf3e2185068392487c5604abaf3b73bc2a2753bf94168a8e7b8"
+          },
+          "b_later_development_test": {
+            "mae_bps": 3.5457566998645267,
+            "rmse_bps": 5.268645384552077,
+            "rows": 418586,
+            "no_change_mae_bps": 3.540064749184068,
+            "relative_mae": 1.0016078662633983,
+            "direction_accuracy": 0.5097767219524927,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\comparator_compact38_hgb_30m.json",
+            "sha256": "415f30116c3efbf3e2185068392487c5604abaf3b73bc2a2753bf94168a8e7b8"
+          }
+        },
+        "worst_period_relative_mae": 1.0050722106073389,
+        "beats_no_change_in_both": false,
+        "period_count": 6
+      },
+      {
+        "family": "specialists",
+        "model": "compact38_30m_mixture_calibrated",
+        "horizon_minutes": 30,
+        "metrics": "trad\\data\\rolling_specialists_20260915_v1\\metrics\\compact38_30m_mixture_calibrated.json",
+        "sha256": "cdefe5036464a141fe2317067fd70f85162afa7c184a9e5e99a373687da22249",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.814746476098247,
+            "rmse_bps": 4.264247157038212,
+            "rows": 419142,
+            "no_change_mae_bps": 2.8000920326848453,
+            "relative_mae": 1.0052335577696532,
+            "direction_accuracy": 0.5078039427138619
+          },
+          "later_development_test": {
+            "mae_bps": 3.7413398071858293,
+            "rmse_bps": 6.084299121575779,
+            "rows": 421651,
+            "no_change_mae_bps": 3.7352515619076825,
+            "relative_mae": 1.0016299425024635,
+            "direction_accuracy": 0.5152489347817742
+          },
+          "a_validation": {
+            "mae_bps": 4.23930391460033,
+            "rmse_bps": 7.2674026892068895,
+            "rows": 428742,
+            "no_change_mae_bps": 4.233705288464098,
+            "relative_mae": 1.0013223939208729,
+            "direction_accuracy": 0.5129034159916045,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact38_30m_mixture_calibrated.json",
+            "sha256": "7650a9c1b2105d7aef56c30b51c8c962a8f412cbaa4cc20dfe4949de1720a02e"
+          },
+          "a_later_development_test": {
+            "mae_bps": 3.5770550523855458,
+            "rmse_bps": 5.330679311924747,
+            "rows": 422410,
+            "no_change_mae_bps": 3.574471281875233,
+            "relative_mae": 1.0007228399129724,
+            "direction_accuracy": 0.5093697701311791,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact38_30m_mixture_calibrated.json",
+            "sha256": "7650a9c1b2105d7aef56c30b51c8c962a8f412cbaa4cc20dfe4949de1720a02e"
+          },
+          "b_validation": {
+            "mae_bps": 3.3870659729205306,
+            "rmse_bps": 5.414806977501221,
+            "rows": 417546,
+            "no_change_mae_bps": 3.38126796671112,
+            "relative_mae": 1.0017147431870213,
+            "direction_accuracy": 0.507819566740954,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact38_30m_mixture_calibrated.json",
+            "sha256": "4b35471490450cb3835525238364a656892a502d899d63e21ce7b4f724e7056d"
+          },
+          "b_later_development_test": {
+            "mae_bps": 3.5422307535945503,
+            "rmse_bps": 5.2497494113777625,
+            "rows": 418586,
+            "no_change_mae_bps": 3.540064749184068,
+            "relative_mae": 1.0006118544614138,
+            "direction_accuracy": 0.5031598230015781,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact38_30m_mixture_calibrated.json",
+            "sha256": "4b35471490450cb3835525238364a656892a502d899d63e21ce7b4f724e7056d"
+          }
+        },
+        "worst_period_relative_mae": 1.0052335577696532,
+        "beats_no_change_in_both": false,
+        "period_count": 6
+      },
+      {
+        "family": "specialists",
+        "model": "compact50_30m_mixture_calibrated",
+        "horizon_minutes": 30,
+        "metrics": "trad\\data\\rolling_specialists_20260915_v1\\metrics\\compact50_30m_mixture_calibrated.json",
+        "sha256": "77ec4ac93f707782808b61047b9635d8c3039a86c47269ef442df3a81a3a0957",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.8159143126026107,
+            "rmse_bps": 4.266220242027751,
+            "rows": 419142,
+            "no_change_mae_bps": 2.8000920326848453,
+            "relative_mae": 1.0056506285268754,
+            "direction_accuracy": 0.5099148155222899
+          },
+          "later_development_test": {
+            "mae_bps": 3.7489658397592867,
+            "rmse_bps": 6.097602907316191,
+            "rows": 421651,
+            "no_change_mae_bps": 3.7352515619076825,
+            "relative_mae": 1.0036715807822594,
+            "direction_accuracy": 0.5136942919657594
+          },
+          "a_validation": {
+            "mae_bps": 4.239514709534946,
+            "rmse_bps": 7.267414832294973,
+            "rows": 428742,
+            "no_change_mae_bps": 4.233705288464098,
+            "relative_mae": 1.0013721836252223,
+            "direction_accuracy": 0.5114200478734067,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact50_30m_mixture_calibrated.json",
+            "sha256": "fca541c89a45d2d9f85432f1ac5991b34a3272de789ed53549a7e7ac7d8ebf7d"
+          },
+          "a_later_development_test": {
+            "mae_bps": 3.5762033012886323,
+            "rmse_bps": 5.330348022105342,
+            "rows": 422410,
+            "no_change_mae_bps": 3.574471281875233,
+            "relative_mae": 1.0004845526168253,
+            "direction_accuracy": 0.5102029578162821,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact50_30m_mixture_calibrated.json",
+            "sha256": "fca541c89a45d2d9f85432f1ac5991b34a3272de789ed53549a7e7ac7d8ebf7d"
+          },
+          "b_validation": {
+            "mae_bps": 3.3878778291549634,
+            "rmse_bps": 5.414724219417383,
+            "rows": 417546,
+            "no_change_mae_bps": 3.38126796671112,
+            "relative_mae": 1.0019548472670365,
+            "direction_accuracy": 0.5081251227680466,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact50_30m_mixture_calibrated.json",
+            "sha256": "7f4571a92597c23a7c3ae6ad9538c0f6fb72ffbf2d5d9c259de0d93e13e2ad75"
+          },
+          "b_later_development_test": {
+            "mae_bps": 3.5426392483758256,
+            "rmse_bps": 5.251097019777994,
+            "rows": 418586,
+            "no_change_mae_bps": 3.540064749184068,
+            "relative_mae": 1.0007272463568218,
+            "direction_accuracy": 0.5038461631411179,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact50_30m_mixture_calibrated.json",
+            "sha256": "7f4571a92597c23a7c3ae6ad9538c0f6fb72ffbf2d5d9c259de0d93e13e2ad75"
+          }
+        },
+        "worst_period_relative_mae": 1.0056506285268754,
+        "beats_no_change_in_both": false,
+        "period_count": 6
+      },
+      {
+        "family": "specialists",
+        "model": "compact38_30m_direct",
+        "horizon_minutes": 30,
+        "metrics": "trad\\data\\rolling_specialists_20260915_v1\\metrics\\compact38_30m_direct.json",
+        "sha256": "eb0533ecbfaeb0892a33f51bf6068e5ff9f69d08b1e609c6e0068c2dedf24b33",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.8159496227855323,
+            "rmse_bps": 4.269481279270807,
+            "rows": 419142,
+            "no_change_mae_bps": 2.8000920326848453,
+            "relative_mae": 1.0056632388920024,
+            "direction_accuracy": 0.5074098164048427
+          },
+          "later_development_test": {
+            "mae_bps": 3.746679517025544,
+            "rmse_bps": 6.106258515097901,
+            "rows": 421651,
+            "no_change_mae_bps": 3.7352515619076825,
+            "relative_mae": 1.0030594874075964,
+            "direction_accuracy": 0.5118733445932978
+          },
+          "a_validation": {
+            "mae_bps": 4.237319782659398,
+            "rmse_bps": 7.279875795279997,
+            "rows": 428742,
+            "no_change_mae_bps": 4.233705288464098,
+            "relative_mae": 1.0008537425137145,
+            "direction_accuracy": 0.5202943153277442,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact38_30m_direct.json",
+            "sha256": "831e842df7f9f203feef824f9b85d89e3a99a0e0fbf2bb02e8d63cda996690e1"
+          },
+          "a_later_development_test": {
+            "mae_bps": 3.5835843422828395,
+            "rmse_bps": 5.345396890244138,
+            "rows": 422410,
+            "no_change_mae_bps": 3.574471281875233,
+            "relative_mae": 1.002549484857751,
+            "direction_accuracy": 0.5092524534743686,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact38_30m_direct.json",
+            "sha256": "831e842df7f9f203feef824f9b85d89e3a99a0e0fbf2bb02e8d63cda996690e1"
+          },
+          "b_validation": {
+            "mae_bps": 3.384541955476861,
+            "rmse_bps": 5.42364672012018,
+            "rows": 417546,
+            "no_change_mae_bps": 3.38126796671112,
+            "relative_mae": 1.0009682724936249,
+            "direction_accuracy": 0.516207807198997,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact38_30m_direct.json",
+            "sha256": "1a60c9dee3efd806ad8d4806c17a988c984b6ce899b6d293b38fa1f5ac49241b"
+          },
+          "b_later_development_test": {
+            "mae_bps": 3.5455109830293092,
+            "rmse_bps": 5.267537015197386,
+            "rows": 418586,
+            "no_change_mae_bps": 3.540064749184068,
+            "relative_mae": 1.0015384559975906,
+            "direction_accuracy": 0.5105234793578369,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact38_30m_direct.json",
+            "sha256": "1a60c9dee3efd806ad8d4806c17a988c984b6ce899b6d293b38fa1f5ac49241b"
+          }
+        },
+        "worst_period_relative_mae": 1.0056632388920024,
+        "beats_no_change_in_both": false,
+        "period_count": 6
+      },
+      {
+        "family": "specialists",
+        "model": "compact38_30m_direct_context_hgb",
+        "horizon_minutes": 30,
+        "metrics": "trad\\data\\rolling_specialists_20260915_v1\\metrics\\compact38_30m_direct_context_hgb.json",
+        "sha256": "a901af623489acb599410a12ac47b404f305471dca87329d94598d96f98efae2",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.8170821561103967,
+            "rmse_bps": 4.271614692592095,
+            "rows": 419142,
+            "no_change_mae_bps": 2.8000920326848453,
+            "relative_mae": 1.0060677017852375,
+            "direction_accuracy": 0.502602926206498
+          },
+          "later_development_test": {
+            "mae_bps": 3.7376133366244284,
+            "rmse_bps": 6.0829732652135755,
+            "rows": 421651,
+            "no_change_mae_bps": 3.7352515619076825,
+            "relative_mae": 1.0006322933482799,
+            "direction_accuracy": 0.5104626501861733
+          },
+          "a_validation": {
+            "mae_bps": 4.2497194380534,
+            "rmse_bps": 7.277270094861652,
+            "rows": 428742,
+            "no_change_mae_bps": 4.233705288464098,
+            "relative_mae": 1.0037825376350442,
+            "direction_accuracy": 0.5188533965356633,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact38_30m_direct_context_hgb.json",
+            "sha256": "5538fc3632d60799184453863ee74cd1e5f1c7c2df3ce40dd40f5fa096559d35"
+          },
+          "a_later_development_test": {
+            "mae_bps": 3.5897625464672545,
+            "rmse_bps": 5.346700664170686,
+            "rows": 422410,
+            "no_change_mae_bps": 3.574471281875233,
+            "relative_mae": 1.0042779094826018,
+            "direction_accuracy": 0.48712509546942223,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact38_30m_direct_context_hgb.json",
+            "sha256": "5538fc3632d60799184453863ee74cd1e5f1c7c2df3ce40dd40f5fa096559d35"
+          },
+          "b_validation": {
+            "mae_bps": 3.387170624732409,
+            "rmse_bps": 5.436836508090295,
+            "rows": 417546,
+            "no_change_mae_bps": 3.38126796671112,
+            "relative_mae": 1.0017456936508438,
+            "direction_accuracy": 0.5088089862572539,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact38_30m_direct_context_hgb.json",
+            "sha256": "053117b06098efde72b8f83d49648fb176cb80c9b540d3f18bb88e3d09b1a7b3"
+          },
+          "b_later_development_test": {
+            "mae_bps": 3.555496416800528,
+            "rmse_bps": 5.262994699122015,
+            "rows": 418586,
+            "no_change_mae_bps": 3.540064749184068,
+            "relative_mae": 1.0043591484082366,
+            "direction_accuracy": 0.5008132163977292,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact38_30m_direct_context_hgb.json",
+            "sha256": "053117b06098efde72b8f83d49648fb176cb80c9b540d3f18bb88e3d09b1a7b3"
+          }
+        },
+        "worst_period_relative_mae": 1.0060677017852375,
+        "beats_no_change_in_both": false,
+        "period_count": 6
+      },
+      {
+        "family": "specialists",
+        "model": "compact50_30m_direct",
+        "horizon_minutes": 30,
+        "metrics": "trad\\data\\rolling_specialists_20260915_v1\\metrics\\compact50_30m_direct.json",
+        "sha256": "7e466d5a0ef8847c732920ee50bc1bc882036bfa073e5311b84bde5bc6ac7a7b",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.8184772084434586,
+            "rmse_bps": 4.275592606278094,
+            "rows": 419142,
+            "no_change_mae_bps": 2.8000920326848453,
+            "relative_mae": 1.0065659183855413,
+            "direction_accuracy": 0.5044139728657335
+          },
+          "later_development_test": {
+            "mae_bps": 3.749173911498189,
+            "rmse_bps": 6.112859535144477,
+            "rows": 421651,
+            "no_change_mae_bps": 3.7352515619076825,
+            "relative_mae": 1.0037272856619583,
+            "direction_accuracy": 0.5115566580937392
+          },
+          "a_validation": {
+            "mae_bps": 4.238313132014596,
+            "rmse_bps": 7.282420249920665,
+            "rows": 428742,
+            "no_change_mae_bps": 4.233705288464098,
+            "relative_mae": 1.0010883713524068,
+            "direction_accuracy": 0.5206221184572029,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact50_30m_direct.json",
+            "sha256": "f14d7b0944c6e5e953fa901b9bac89dd90163d35fe7b7e1c061fcd16148f6e81"
+          },
+          "a_later_development_test": {
+            "mae_bps": 3.5880898555161833,
+            "rmse_bps": 5.357943467674452,
+            "rows": 422410,
+            "no_change_mae_bps": 3.574471281875233,
+            "relative_mae": 1.00380995469456,
+            "direction_accuracy": 0.5069683699927934,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact50_30m_direct.json",
+            "sha256": "f14d7b0944c6e5e953fa901b9bac89dd90163d35fe7b7e1c061fcd16148f6e81"
+          },
+          "b_validation": {
+            "mae_bps": 3.3876392353190963,
+            "rmse_bps": 5.42515791619546,
+            "rows": 417546,
+            "no_change_mae_bps": 3.38126796671112,
+            "relative_mae": 1.0018842838457946,
+            "direction_accuracy": 0.5132856245589444,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact50_30m_direct.json",
+            "sha256": "50f77804da71723c68c1f47ea081a5c0addd47ed2f2de010d0fe300eded0bd15"
+          },
+          "b_later_development_test": {
+            "mae_bps": 3.548883099706437,
+            "rmse_bps": 5.26969576981922,
+            "rows": 418586,
+            "no_change_mae_bps": 3.540064749184068,
+            "relative_mae": 1.002491013907133,
+            "direction_accuracy": 0.5065601067210583,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact50_30m_direct.json",
+            "sha256": "50f77804da71723c68c1f47ea081a5c0addd47ed2f2de010d0fe300eded0bd15"
+          }
+        },
+        "worst_period_relative_mae": 1.0065659183855413,
+        "beats_no_change_in_both": false,
+        "period_count": 6
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "hgb_compact50_30m",
+        "horizon_minutes": 30,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\hgb_compact50_30m.json",
+        "sha256": "001f8b37acccd188e028f33f93b5e898c0aeb0ba3e539519780259dab8d3eb7a",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.8187804906881997,
+            "rmse_bps": 4.2757977882464875,
+            "rows": 419142,
+            "no_change_mae_bps": 2.8000920326848453,
+            "relative_mae": 1.0066742299128772,
+            "direction_accuracy": 0.5046920374395814
+          },
+          "later_development_test": {
+            "mae_bps": 3.748258808239798,
+            "rmse_bps": 6.111245701493388,
+            "rows": 421651,
+            "no_change_mae_bps": 3.7352515619076825,
+            "relative_mae": 1.003482294596906,
+            "direction_accuracy": 0.5122620052973015
+          },
+          "a_validation": {
+            "mae_bps": 4.239994084474021,
+            "rmse_bps": 7.283936311458065,
+            "rows": 428742,
+            "no_change_mae_bps": 4.233705288464098,
+            "relative_mae": 1.0014854118511882,
+            "direction_accuracy": 0.5215041211220772,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\comparator_compact50_hgb_30m.json",
+            "sha256": "da1ea3a061f7dc06e533c4ae549465a6299a067d9983b682c43031b02755aa34"
+          },
+          "a_later_development_test": {
+            "mae_bps": 3.5878320957581527,
+            "rmse_bps": 5.358349022545722,
+            "rows": 422410,
+            "no_change_mae_bps": 3.574471281875233,
+            "relative_mae": 1.003737843398174,
+            "direction_accuracy": 0.5087664273247253,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\comparator_compact50_hgb_30m.json",
+            "sha256": "da1ea3a061f7dc06e533c4ae549465a6299a067d9983b682c43031b02755aa34"
+          },
+          "b_validation": {
+            "mae_bps": 3.3871781461256254,
+            "rmse_bps": 5.423096967011947,
+            "rows": 417546,
+            "no_change_mae_bps": 3.38126796671112,
+            "relative_mae": 1.0017479180806408,
+            "direction_accuracy": 0.5127593891789516,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\comparator_compact50_hgb_30m.json",
+            "sha256": "ff834d2259a598d8d7034a5355401cb9e33e946b91f9e26722585328369d2d28"
+          },
+          "b_later_development_test": {
+            "mae_bps": 3.5482760188663907,
+            "rmse_bps": 5.268110895553621,
+            "rows": 418586,
+            "no_change_mae_bps": 3.540064749184068,
+            "relative_mae": 1.0023195252810602,
+            "direction_accuracy": 0.5068501095969201,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\comparator_compact50_hgb_30m.json",
+            "sha256": "ff834d2259a598d8d7034a5355401cb9e33e946b91f9e26722585328369d2d28"
+          }
+        },
+        "worst_period_relative_mae": 1.0066742299128772,
+        "beats_no_change_in_both": false,
+        "period_count": 6
+      },
+      {
+        "family": "specialists",
+        "model": "compact50_30m_direct_context_hgb",
+        "horizon_minutes": 30,
+        "metrics": "trad\\data\\rolling_specialists_20260915_v1\\metrics\\compact50_30m_direct_context_hgb.json",
+        "sha256": "1bb9c30b0df8e397516f24511a10fe73ba48169f3ebabb644039b7ec5d66c5f8",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.819739987120533,
+            "rmse_bps": 4.276480651180555,
+            "rows": 419142,
+            "no_change_mae_bps": 2.8000920326848453,
+            "relative_mae": 1.0070168959471124,
+            "direction_accuracy": 0.5025037901410392
+          },
+          "later_development_test": {
+            "mae_bps": 3.7419422047884674,
+            "rmse_bps": 6.091109602058713,
+            "rows": 421651,
+            "no_change_mae_bps": 3.7352515619076825,
+            "relative_mae": 1.0017912161389655,
+            "direction_accuracy": 0.5109136885340294
+          },
+          "a_validation": {
+            "mae_bps": 4.252362309485569,
+            "rmse_bps": 7.27832400116882,
+            "rows": 428742,
+            "no_change_mae_bps": 4.233705288464098,
+            "relative_mae": 1.0044067831250103,
+            "direction_accuracy": 0.51724503873501,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact50_30m_direct_context_hgb.json",
+            "sha256": "eb947e5688be5c95a3edd02e52d94cd55cf8fdbae9b062a263e58d86912de8ec"
+          },
+          "a_later_development_test": {
+            "mae_bps": 3.5917175414772298,
+            "rmse_bps": 5.352822009671579,
+            "rows": 422410,
+            "no_change_mae_bps": 3.574471281875233,
+            "relative_mae": 1.004824842121252,
+            "direction_accuracy": 0.48934214086139155,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact50_30m_direct_context_hgb.json",
+            "sha256": "eb947e5688be5c95a3edd02e52d94cd55cf8fdbae9b062a263e58d86912de8ec"
+          },
+          "b_validation": {
+            "mae_bps": 3.3896192591950585,
+            "rmse_bps": 5.441857922039411,
+            "rows": 417546,
+            "no_change_mae_bps": 3.38126796671112,
+            "relative_mae": 1.002469870050572,
+            "direction_accuracy": 0.5077419652102638,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact50_30m_direct_context_hgb.json",
+            "sha256": "57e04e5bf05f10f40121fff628716bfd5ba6c61222ffe69fe1a1c229d27615ba"
+          },
+          "b_later_development_test": {
+            "mae_bps": 3.5519589538885885,
+            "rmse_bps": 5.257954831734519,
+            "rows": 418586,
+            "no_change_mae_bps": 3.540064749184068,
+            "relative_mae": 1.0033598833770658,
+            "direction_accuracy": 0.5025363168184751,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact50_30m_direct_context_hgb.json",
+            "sha256": "57e04e5bf05f10f40121fff628716bfd5ba6c61222ffe69fe1a1c229d27615ba"
+          }
+        },
+        "worst_period_relative_mae": 1.0070168959471124,
+        "beats_no_change_in_both": false,
+        "period_count": 6
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "ridge_compact38_30m",
+        "horizon_minutes": 30,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\ridge_compact38_30m.json",
+        "sha256": "42751400211e0365daeee22e4e6e69dd629eb0b506ad8e0a422a75e300009878",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.8102687641706137,
+            "rmse_bps": 4.249900303436379,
+            "rows": 419142,
+            "no_change_mae_bps": 2.8000920326848453,
+            "relative_mae": 1.003634427499874,
+            "direction_accuracy": 0.5057414289617552
+          },
+          "later_development_test": {
+            "mae_bps": 3.742500943607582,
+            "rmse_bps": 6.087350084955219,
+            "rows": 421651,
+            "no_change_mae_bps": 3.7352515619076825,
+            "relative_mae": 1.0019408014640376,
+            "direction_accuracy": 0.5079987332540018
+          },
+          "a_validation": {
+            "mae_bps": 4.248327520964819,
+            "rmse_bps": 7.248293724939501,
+            "rows": 428742,
+            "no_change_mae_bps": 4.233705288464098,
+            "relative_mae": 1.003453767209674,
+            "direction_accuracy": 0.5129812397561522,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\comparator_compact38_ridge_30m.json",
+            "sha256": "12a0e87617aae0d91d7b72d6bff692bc8bb679f34c40c083506d06cf04f85ddd"
+          },
+          "a_later_development_test": {
+            "mae_bps": 3.6090470769530953,
+            "rmse_bps": 5.3632764838140625,
+            "rows": 422410,
+            "no_change_mae_bps": 3.574471281875233,
+            "relative_mae": 1.0096729816387624,
+            "direction_accuracy": 0.4940348071338104,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\comparator_compact38_ridge_30m.json",
+            "sha256": "12a0e87617aae0d91d7b72d6bff692bc8bb679f34c40c083506d06cf04f85ddd"
+          },
+          "b_validation": {
+            "mae_bps": 3.384776280985873,
+            "rmse_bps": 5.421917385037966,
+            "rows": 417546,
+            "no_change_mae_bps": 3.38126796671112,
+            "relative_mae": 1.0010375735698243,
+            "direction_accuracy": 0.5117893700453241,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\comparator_compact38_ridge_30m.json",
+            "sha256": "4206801624171e573327bb1d1ce32e6cc39c3f823e49cef1430dbd4c9b951071"
+          },
+          "b_later_development_test": {
+            "mae_bps": 3.5477104075664374,
+            "rmse_bps": 5.257259967812225,
+            "rows": 418586,
+            "no_change_mae_bps": 3.540064749184068,
+            "relative_mae": 1.0021597510000717,
+            "direction_accuracy": 0.5067631087341616,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\comparator_compact38_ridge_30m.json",
+            "sha256": "4206801624171e573327bb1d1ce32e6cc39c3f823e49cef1430dbd4c9b951071"
+          }
+        },
+        "worst_period_relative_mae": 1.0096729816387624,
+        "beats_no_change_in_both": false,
+        "period_count": 6
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "ridge_compact50_30m",
+        "horizon_minutes": 30,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\ridge_compact50_30m.json",
+        "sha256": "26fc14f75abfe5c836c9f9694ccd59002c08384491f8a31b5982f093433332ae",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.814615399208881,
+            "rmse_bps": 4.254552689889503,
+            "rows": 419142,
+            "no_change_mae_bps": 2.8000920326848453,
+            "relative_mae": 1.0051867461335227,
+            "direction_accuracy": 0.5045663038931458
+          },
+          "later_development_test": {
+            "mae_bps": 3.7473436188297606,
+            "rmse_bps": 6.0920327859161825,
+            "rows": 421651,
+            "no_change_mae_bps": 3.7352515619076825,
+            "relative_mae": 1.0032372804673704,
+            "direction_accuracy": 0.5069503090092511
+          },
+          "a_validation": {
+            "mae_bps": 4.251368268079363,
+            "rmse_bps": 7.251925552208991,
+            "rows": 428742,
+            "no_change_mae_bps": 4.233705288464098,
+            "relative_mae": 1.0041719908240643,
+            "direction_accuracy": 0.5126274953718443,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\comparator_compact50_ridge_30m.json",
+            "sha256": "5cd28b0d161dc04bf47b45dd7cb4e290a27987dac74c7a89817e533a92aee1bd"
+          },
+          "a_later_development_test": {
+            "mae_bps": 3.615570224358489,
+            "rmse_bps": 5.3706240292076375,
+            "rows": 422410,
+            "no_change_mae_bps": 3.574471281875233,
+            "relative_mae": 1.0114979081498439,
+            "direction_accuracy": 0.4929478323951991,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\comparator_compact50_ridge_30m.json",
+            "sha256": "5cd28b0d161dc04bf47b45dd7cb4e290a27987dac74c7a89817e533a92aee1bd"
+          },
+          "b_validation": {
+            "mae_bps": 3.3846995535042237,
+            "rmse_bps": 5.4218715936133135,
+            "rows": 417546,
+            "no_change_mae_bps": 3.38126796671112,
+            "relative_mae": 1.001014881644072,
+            "direction_accuracy": 0.5126454119307503,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\comparator_compact50_ridge_30m.json",
+            "sha256": "7649d938dee6d16b0b9266d2abd73b1b6ab6fc829a62e040ed823a2717934c36"
+          },
+          "b_later_development_test": {
+            "mae_bps": 3.5486273735751985,
+            "rmse_bps": 5.257906664069656,
+            "rows": 418586,
+            "no_change_mae_bps": 3.540064749184068,
+            "relative_mae": 1.0024187762082895,
+            "direction_accuracy": 0.5062096865793919,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\comparator_compact50_ridge_30m.json",
+            "sha256": "7649d938dee6d16b0b9266d2abd73b1b6ab6fc829a62e040ed823a2717934c36"
+          }
+        },
+        "worst_period_relative_mae": 1.0114979081498439,
+        "beats_no_change_in_both": false,
+        "period_count": 6
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "hgb_local216_30m",
+        "horizon_minutes": 30,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\hgb_local216_30m.json",
+        "sha256": "9c0d773a91669c4276ea0f67ea686effe181cee3e8326995a44c4f6f0dcbbaf5",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.8129159323181216,
+            "rmse_bps": 4.265598045602578,
+            "rows": 419142,
+            "no_change_mae_bps": 2.8000920326848453,
+            "relative_mae": 1.0045798136216901,
+            "direction_accuracy": 0.5107635169607301
+          },
+          "later_development_test": {
+            "mae_bps": 3.75359419123887,
+            "rmse_bps": 6.114222371510089,
+            "rows": 421651,
+            "no_change_mae_bps": 3.7352515619076825,
+            "relative_mae": 1.0049106811220554,
+            "direction_accuracy": 0.5102083413304671
+          }
+        },
+        "worst_period_relative_mae": 1.0049106811220554,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      },
+      {
+        "family": "specialists",
+        "model": "compact38_30m_specialist_context_hgb",
+        "horizon_minutes": 30,
+        "metrics": "trad\\data\\rolling_specialists_20260915_v1\\metrics\\compact38_30m_specialist_context_hgb.json",
+        "sha256": "94a816e4c5a4de293863b3ea82adeeed506c1faa975d4dc84462108a9c870aa0",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.8146368069435272,
+            "rmse_bps": 4.268437563169363,
+            "rows": 419142,
+            "no_change_mae_bps": 2.8000920326848453,
+            "relative_mae": 1.005194391501745,
+            "direction_accuracy": 0.5027576751867264
+          },
+          "later_development_test": {
+            "mae_bps": 3.7410396740494543,
+            "rmse_bps": 6.092088652796954,
+            "rows": 421651,
+            "no_change_mae_bps": 3.7352515619076825,
+            "relative_mae": 1.0015495909835899,
+            "direction_accuracy": 0.5093446508771257
+          }
+        },
+        "worst_period_relative_mae": 1.005194391501745,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "hgb_combined228_30m",
+        "horizon_minutes": 30,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\hgb_combined228_30m.json",
+        "sha256": "80cc10816ca0809aaad1b5cef0e4c10e93c8e7e4a13320797aa155e3c86555be",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.8127477958804366,
+            "rmse_bps": 4.264288582016235,
+            "rows": 419142,
+            "no_change_mae_bps": 2.8000920326848453,
+            "relative_mae": 1.0045197668676114,
+            "direction_accuracy": 0.507629850111105
+          },
+          "later_development_test": {
+            "mae_bps": 3.7560500619625814,
+            "rmse_bps": 6.123720764856951,
+            "rows": 421651,
+            "no_change_mae_bps": 3.7352515619076825,
+            "relative_mae": 1.0055681658143198,
+            "direction_accuracy": 0.5088120417642317
+          }
+        },
+        "worst_period_relative_mae": 1.0055681658143198,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      },
+      {
+        "family": "specialists",
+        "model": "compact50_30m_specialist_context_hgb",
+        "horizon_minutes": 30,
+        "metrics": "trad\\data\\rolling_specialists_20260915_v1\\metrics\\compact50_30m_specialist_context_hgb.json",
+        "sha256": "2b10d8c2835f7328a2c0f8d7da012a599a1953566eb7eaaba8f8f239888c8ea4",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.818187447259552,
+            "rmse_bps": 4.276728418004666,
+            "rows": 419142,
+            "no_change_mae_bps": 2.8000920326848453,
+            "relative_mae": 1.0064624356497869,
+            "direction_accuracy": 0.5019621687102398
+          },
+          "later_development_test": {
+            "mae_bps": 3.738828164286897,
+            "rmse_bps": 6.079194597155568,
+            "rows": 421651,
+            "no_change_mae_bps": 3.7352515619076825,
+            "relative_mae": 1.0009575265065649,
+            "direction_accuracy": 0.5103906759817282
+          }
+        },
+        "worst_period_relative_mae": 1.0064624356497869,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      },
+      {
+        "family": "specialists",
+        "model": "compact38_30m_specialist_ridge",
+        "horizon_minutes": 30,
+        "metrics": "trad\\data\\rolling_specialists_20260915_v1\\metrics\\compact38_30m_specialist_ridge.json",
+        "sha256": "4bf72d23630f9624e48d2c8649754c66836aba0391336354ecb87bc2dbac2665",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.8183485377768367,
+            "rmse_bps": 4.263346149152408,
+            "rows": 419142,
+            "no_change_mae_bps": 2.8000920326848453,
+            "relative_mae": 1.0065199660864312,
+            "direction_accuracy": 0.4873335541730239
+          },
+          "later_development_test": {
+            "mae_bps": 3.7481745708313277,
+            "rmse_bps": 6.0888395853057276,
+            "rows": 421651,
+            "no_change_mae_bps": 3.7352515619076825,
+            "relative_mae": 1.0034597425928242,
+            "direction_accuracy": 0.49341196115312275
+          }
+        },
+        "worst_period_relative_mae": 1.0065199660864312,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      },
+      {
+        "family": "specialists",
+        "model": "compact50_30m_specialist_ridge",
+        "horizon_minutes": 30,
+        "metrics": "trad\\data\\rolling_specialists_20260915_v1\\metrics\\compact50_30m_specialist_ridge.json",
+        "sha256": "5d3688d33c2145b91891827a18057d8b25ed018a3100b306a473ec784e063f9e",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.8207578816583845,
+            "rmse_bps": 4.2678716391896785,
+            "rows": 419142,
+            "no_change_mae_bps": 2.8000920326848453,
+            "relative_mae": 1.007380417762099,
+            "direction_accuracy": 0.4860302776051628
+          },
+          "later_development_test": {
+            "mae_bps": 3.7467289686686946,
+            "rmse_bps": 6.085703483993652,
+            "rows": 421651,
+            "no_change_mae_bps": 3.7352515619076825,
+            "relative_mae": 1.0030727265810044,
+            "direction_accuracy": 0.49505777129476797
+          }
+        },
+        "worst_period_relative_mae": 1.007380417762099,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "ridge_local216_30m",
+        "horizon_minutes": 30,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\ridge_local216_30m.json",
+        "sha256": "ce7ac9b8c5ed829b4e677a0a737cb38e276557c84fb8ce017d7098c65c04da73",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.853270601251763,
+            "rmse_bps": 4.287223689431361,
+            "rows": 419142,
+            "no_change_mae_bps": 2.8000920326848453,
+            "relative_mae": 1.0189917216813504,
+            "direction_accuracy": 0.49768722813143024
+          },
+          "later_development_test": {
+            "mae_bps": 3.80079108072039,
+            "rmse_bps": 6.157580695009108,
+            "rows": 421651,
+            "no_change_mae_bps": 3.7352515619076825,
+            "relative_mae": 1.0175462128122998,
+            "direction_accuracy": 0.4986084987140609
+          }
+        },
+        "worst_period_relative_mae": 1.0189917216813504,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "ridge_combined228_30m",
+        "horizon_minutes": 30,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\ridge_combined228_30m.json",
+        "sha256": "127f1f94f6e7976cd9698ea7b27348429c565d47df409d8cce1034b6fe973fd2",
+        "periods": {
+          "validation": {
+            "mae_bps": 2.8567651743490003,
+            "rmse_bps": 4.291007447182357,
+            "rows": 419142,
+            "no_change_mae_bps": 2.8000920326848453,
+            "relative_mae": 1.0202397424808265,
+            "direction_accuracy": 0.49729068386959496
+          },
+          "later_development_test": {
+            "mae_bps": 3.8040607145742062,
+            "rmse_bps": 6.160815364119271,
+            "rows": 421651,
+            "no_change_mae_bps": 3.7352515619076825,
+            "relative_mae": 1.0184215578324747,
+            "direction_accuracy": 0.4992154811715481
+          }
+        },
+        "worst_period_relative_mae": 1.0202397424808265,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      }
+    ],
+    "60": [
+      {
+        "family": "specialists",
+        "model": "compact38_60m_direct_ridge",
+        "horizon_minutes": 60,
+        "metrics": "trad\\data\\rolling_specialists_20260915_v1\\metrics\\compact38_60m_direct_ridge.json",
+        "sha256": "cd344caddebf568be05e6e24e1b2a4c32eaa8a595d30823816c7088824b50b97",
+        "periods": {
+          "validation": {
+            "mae_bps": 3.88858687637245,
+            "rmse_bps": 5.856407966333724,
+            "rows": 412438,
+            "no_change_mae_bps": 3.881220702552357,
+            "relative_mae": 1.001897901300807,
+            "direction_accuracy": 0.497575910349064
+          },
+          "later_development_test": {
+            "mae_bps": 5.347658352619901,
+            "rmse_bps": 8.485308012038553,
+            "rows": 415681,
+            "no_change_mae_bps": 5.340476421538603,
+            "relative_mae": 1.001344810933409,
+            "direction_accuracy": 0.49716185317288086
+          },
+          "a_validation": {
+            "mae_bps": 5.908324084982249,
+            "rmse_bps": 9.732970062602456,
+            "rows": 421936,
+            "no_change_mae_bps": 5.920561580955167,
+            "relative_mae": 0.9979330514841224,
+            "direction_accuracy": 0.519039794412255,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact38_60m_direct_ridge.json",
+            "sha256": "e91c83552329d57ae0d345ef11a4bb417d223d91f0d04404d3c28e451d7861c2"
+          },
+          "a_later_development_test": {
+            "mae_bps": 5.052476722788334,
+            "rmse_bps": 7.478919740696425,
+            "rows": 415845,
+            "no_change_mae_bps": 5.013881021555212,
+            "relative_mae": 1.007697769665294,
+            "direction_accuracy": 0.46895425232591675,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact38_60m_direct_ridge.json",
+            "sha256": "e91c83552329d57ae0d345ef11a4bb417d223d91f0d04404d3c28e451d7861c2"
+          },
+          "b_validation": {
+            "mae_bps": 4.852729898993635,
+            "rmse_bps": 7.48013055090493,
+            "rows": 410897,
+            "no_change_mae_bps": 4.83302525807566,
+            "relative_mae": 1.004077082130918,
+            "direction_accuracy": 0.4925143746593537,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact38_60m_direct_ridge.json",
+            "sha256": "e784b31559ce4bc41e7e8e401ad61fa64e989e790a769878f19000dc56fa26a7"
+          },
+          "b_later_development_test": {
+            "mae_bps": 4.997806522114918,
+            "rmse_bps": 7.460065930862269,
+            "rows": 412214,
+            "no_change_mae_bps": 4.98406264254425,
+            "relative_mae": 1.0027575655757914,
+            "direction_accuracy": 0.4981529788258764,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact38_60m_direct_ridge.json",
+            "sha256": "e784b31559ce4bc41e7e8e401ad61fa64e989e790a769878f19000dc56fa26a7"
+          }
+        },
+        "worst_period_relative_mae": 1.007697769665294,
+        "beats_no_change_in_both": false,
+        "period_count": 6
+      },
+      {
+        "family": "specialists",
+        "model": "compact50_60m_direct_ridge",
+        "horizon_minutes": 60,
+        "metrics": "trad\\data\\rolling_specialists_20260915_v1\\metrics\\compact50_60m_direct_ridge.json",
+        "sha256": "818d48bbfa0acabf34763f8c725d70c2acdb826d2bcd4655dc154a3ffe610b24",
+        "periods": {
+          "validation": {
+            "mae_bps": 3.8911610741372997,
+            "rmse_bps": 5.863491537407259,
+            "rows": 412438,
+            "no_change_mae_bps": 3.881220702552357,
+            "relative_mae": 1.002561145666982,
+            "direction_accuracy": 0.4938877699109413
+          },
+          "later_development_test": {
+            "mae_bps": 5.340022829066847,
+            "rmse_bps": 8.470285595252404,
+            "rows": 415681,
+            "no_change_mae_bps": 5.340476421538603,
+            "relative_mae": 0.9999150651672337,
+            "direction_accuracy": 0.509144870361794
+          },
+          "a_validation": {
+            "mae_bps": 5.908744951263497,
+            "rmse_bps": 9.734526024335269,
+            "rows": 421936,
+            "no_change_mae_bps": 5.920561580955167,
+            "relative_mae": 0.9980041370180692,
+            "direction_accuracy": 0.51892276607229,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact50_60m_direct_ridge.json",
+            "sha256": "0aa46b41f6865976584a5a893575eddd4199c3e15e8f96dcb101692b036c4da3"
+          },
+          "a_later_development_test": {
+            "mae_bps": 5.05459111963841,
+            "rmse_bps": 7.480959829291439,
+            "rows": 415845,
+            "no_change_mae_bps": 5.013881021555212,
+            "relative_mae": 1.0081194782860183,
+            "direction_accuracy": 0.46843078474091987,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact50_60m_direct_ridge.json",
+            "sha256": "0aa46b41f6865976584a5a893575eddd4199c3e15e8f96dcb101692b036c4da3"
+          },
+          "b_validation": {
+            "mae_bps": 4.851696680291018,
+            "rmse_bps": 7.4819615136974775,
+            "rows": 410897,
+            "no_change_mae_bps": 4.83302525807566,
+            "relative_mae": 1.0038632991177026,
+            "direction_accuracy": 0.4962780557506003,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact50_60m_direct_ridge.json",
+            "sha256": "284479b9c07a3cec80b4983134bf9be74c6983dc1bf48168727b242d85da3d9f"
+          },
+          "b_later_development_test": {
+            "mae_bps": 4.999654935762124,
+            "rmse_bps": 7.462849897002573,
+            "rows": 412214,
+            "no_change_mae_bps": 4.98406264254425,
+            "relative_mae": 1.003128430426371,
+            "direction_accuracy": 0.4955395233194063,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact50_60m_direct_ridge.json",
+            "sha256": "284479b9c07a3cec80b4983134bf9be74c6983dc1bf48168727b242d85da3d9f"
+          }
+        },
+        "worst_period_relative_mae": 1.0081194782860183,
+        "beats_no_change_in_both": false,
+        "period_count": 6
+      },
+      {
+        "family": "specialists",
+        "model": "compact38_60m_mixture_raw",
+        "horizon_minutes": 60,
+        "metrics": "trad\\data\\rolling_specialists_20260915_v1\\metrics\\compact38_60m_mixture_raw.json",
+        "sha256": "003594b601827c1a91787805195e8bf7f161e41fb24b5c0b634b97963215f4c4",
+        "periods": {
+          "validation": {
+            "mae_bps": 3.9114676388573364,
+            "rmse_bps": 5.921103703411589,
+            "rows": 412438,
+            "no_change_mae_bps": 3.881220702552357,
+            "relative_mae": 1.0077931503058015,
+            "direction_accuracy": 0.515248147975928
+          },
+          "later_development_test": {
+            "mae_bps": 5.3457609890971325,
+            "rmse_bps": 8.443159829773899,
+            "rows": 415681,
+            "no_change_mae_bps": 5.340476421538603,
+            "relative_mae": 1.000989531109475,
+            "direction_accuracy": 0.5177817597237747
+          },
+          "a_validation": {
+            "mae_bps": 5.969224810588251,
+            "rmse_bps": 9.833394905327395,
+            "rows": 421936,
+            "no_change_mae_bps": 5.920561580955167,
+            "relative_mae": 1.0082193604386485,
+            "direction_accuracy": 0.50974917721912,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact38_60m_mixture_raw.json",
+            "sha256": "2775db070b2592282561974cbe308ca46499eb8c6c8bb2039d9f2029f5e777ec"
+          },
+          "a_later_development_test": {
+            "mae_bps": 5.009408929477262,
+            "rmse_bps": 7.441165197141075,
+            "rows": 415845,
+            "no_change_mae_bps": 5.013881021555212,
+            "relative_mae": 0.9991080577981958,
+            "direction_accuracy": 0.5232834019576719,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact38_60m_mixture_raw.json",
+            "sha256": "2775db070b2592282561974cbe308ca46499eb8c6c8bb2039d9f2029f5e777ec"
+          },
+          "b_validation": {
+            "mae_bps": 4.838225562968602,
+            "rmse_bps": 7.4264956176260615,
+            "rows": 410897,
+            "no_change_mae_bps": 4.83302525807566,
+            "relative_mae": 1.0010759937337907,
+            "direction_accuracy": 0.5155752073338996,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact38_60m_mixture_raw.json",
+            "sha256": "6f07683f0445a36bdf9077f3ae8faefe60483c9749f75f2919580c2bfbe5fd02"
+          },
+          "b_later_development_test": {
+            "mae_bps": 5.001902153045274,
+            "rmse_bps": 7.468991078248431,
+            "rows": 412214,
+            "no_change_mae_bps": 4.98406264254425,
+            "relative_mae": 1.0035793110521414,
+            "direction_accuracy": 0.503981302424964,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact38_60m_mixture_raw.json",
+            "sha256": "6f07683f0445a36bdf9077f3ae8faefe60483c9749f75f2919580c2bfbe5fd02"
+          }
+        },
+        "worst_period_relative_mae": 1.0082193604386485,
+        "beats_no_change_in_both": false,
+        "period_count": 6
+      },
+      {
+        "family": "specialists",
+        "model": "compact50_60m_mixture_raw",
+        "horizon_minutes": 60,
+        "metrics": "trad\\data\\rolling_specialists_20260915_v1\\metrics\\compact50_60m_mixture_raw.json",
+        "sha256": "ba873a08a51a0b5015d9a349aea3a71c7b618c20b04913b8c47de7021f47dc89",
+        "periods": {
+          "validation": {
+            "mae_bps": 3.914654862430889,
+            "rmse_bps": 5.924054130070983,
+            "rows": 412438,
+            "no_change_mae_bps": 3.881220702552357,
+            "relative_mae": 1.0086143413221889,
+            "direction_accuracy": 0.5121693950421798
+          },
+          "later_development_test": {
+            "mae_bps": 5.344479447441131,
+            "rmse_bps": 8.446257848051546,
+            "rows": 415681,
+            "no_change_mae_bps": 5.340476421538603,
+            "relative_mae": 1.0007495634446364,
+            "direction_accuracy": 0.5170009965641571
+          },
+          "a_validation": {
+            "mae_bps": 5.9724862100723595,
+            "rmse_bps": 9.840416824062704,
+            "rows": 421936,
+            "no_change_mae_bps": 5.920561580955167,
+            "relative_mae": 1.0087702202581965,
+            "direction_accuracy": 0.5084905254811298,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact50_60m_mixture_raw.json",
+            "sha256": "91555ac7de2033b753cd7c78199b90d5513d338fe0d8e10b3d5e86e6afa84ba6"
+          },
+          "a_later_development_test": {
+            "mae_bps": 5.010705143261,
+            "rmse_bps": 7.439199261980763,
+            "rows": 415845,
+            "no_change_mae_bps": 5.013881021555212,
+            "relative_mae": 0.9993665828366173,
+            "direction_accuracy": 0.520935068208311,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact50_60m_mixture_raw.json",
+            "sha256": "91555ac7de2033b753cd7c78199b90d5513d338fe0d8e10b3d5e86e6afa84ba6"
+          },
+          "b_validation": {
+            "mae_bps": 4.836828682011378,
+            "rmse_bps": 7.417954438880799,
+            "rows": 410897,
+            "no_change_mae_bps": 4.83302525807566,
+            "relative_mae": 1.000786965457994,
+            "direction_accuracy": 0.5157396995929431,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact50_60m_mixture_raw.json",
+            "sha256": "cc9c26a174a7d4d826a251d3583dba5dd3c4cefdc6e523a6bf4f0a6b1570a69a"
+          },
+          "b_later_development_test": {
+            "mae_bps": 5.000315260371508,
+            "rmse_bps": 7.465594094467937,
+            "rows": 412214,
+            "no_change_mae_bps": 4.98406264254425,
+            "relative_mae": 1.003260917647488,
+            "direction_accuracy": 0.5028175935184348,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact50_60m_mixture_raw.json",
+            "sha256": "cc9c26a174a7d4d826a251d3583dba5dd3c4cefdc6e523a6bf4f0a6b1570a69a"
+          }
+        },
+        "worst_period_relative_mae": 1.0087702202581965,
+        "beats_no_change_in_both": false,
+        "period_count": 6
+      },
+      {
+        "family": "specialists",
+        "model": "compact38_60m_mixture_calibrated",
+        "horizon_minutes": 60,
+        "metrics": "trad\\data\\rolling_specialists_20260915_v1\\metrics\\compact38_60m_mixture_calibrated.json",
+        "sha256": "7440a08b336752cc3ffec545ad65a904162835d2ef13d96159b7f979820c1ffc",
+        "periods": {
+          "validation": {
+            "mae_bps": 3.916055124587311,
+            "rmse_bps": 5.925641547148912,
+            "rows": 412438,
+            "no_change_mae_bps": 3.881220702552357,
+            "relative_mae": 1.0089751201244614,
+            "direction_accuracy": 0.5066555394303084
+          },
+          "later_development_test": {
+            "mae_bps": 5.359289077670607,
+            "rmse_bps": 8.456193804487848,
+            "rows": 415681,
+            "no_change_mae_bps": 5.340476421538603,
+            "relative_mae": 1.0035226550305758,
+            "direction_accuracy": 0.5097680260513024
+          },
+          "a_validation": {
+            "mae_bps": 5.950865542461116,
+            "rmse_bps": 9.799224564819935,
+            "rows": 421936,
+            "no_change_mae_bps": 5.920561580955167,
+            "relative_mae": 1.005118426874138,
+            "direction_accuracy": 0.5075805704295656,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact38_60m_mixture_calibrated.json",
+            "sha256": "8927d81b74964a0cbeafa48e8adb945e78a994529d49e97fb687ac32b80f228c"
+          },
+          "a_later_development_test": {
+            "mae_bps": 5.017207306127949,
+            "rmse_bps": 7.441159957756885,
+            "rows": 415845,
+            "no_change_mae_bps": 5.013881021555212,
+            "relative_mae": 1.0006634151385796,
+            "direction_accuracy": 0.5107856133658724,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact38_60m_mixture_calibrated.json",
+            "sha256": "8927d81b74964a0cbeafa48e8adb945e78a994529d49e97fb687ac32b80f228c"
+          },
+          "b_validation": {
+            "mae_bps": 4.8399210516143505,
+            "rmse_bps": 7.429364128285346,
+            "rows": 410897,
+            "no_change_mae_bps": 4.83302525807566,
+            "relative_mae": 1.0014268068488092,
+            "direction_accuracy": 0.5100929504019013,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact38_60m_mixture_calibrated.json",
+            "sha256": "080980e6b3104e1e3afb321a790a10a8af92ca754d2eb44f53c9190cc87c8663"
+          },
+          "b_later_development_test": {
+            "mae_bps": 4.9870721870165005,
+            "rmse_bps": 7.453475550849351,
+            "rows": 412214,
+            "no_change_mae_bps": 4.98406264254425,
+            "relative_mae": 1.0006038335968255,
+            "direction_accuracy": 0.5078538127357671,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact38_60m_mixture_calibrated.json",
+            "sha256": "080980e6b3104e1e3afb321a790a10a8af92ca754d2eb44f53c9190cc87c8663"
+          }
+        },
+        "worst_period_relative_mae": 1.0089751201244614,
+        "beats_no_change_in_both": false,
+        "period_count": 6
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "ridge_compact38_60m",
+        "horizon_minutes": 60,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\ridge_compact38_60m.json",
+        "sha256": "4bbcc630092dd71ecc3eee3db041a4d3f37bcced9513b1d2b97c3937a915addc",
+        "periods": {
+          "validation": {
+            "mae_bps": 3.890419920188068,
+            "rmse_bps": 5.859270266145069,
+            "rows": 412438,
+            "no_change_mae_bps": 3.881220702552357,
+            "relative_mae": 1.0023701866862817,
+            "direction_accuracy": 0.5025709300134359
+          },
+          "later_development_test": {
+            "mae_bps": 5.3452696273687685,
+            "rmse_bps": 8.481500865916447,
+            "rows": 415681,
+            "no_change_mae_bps": 5.340476421538603,
+            "relative_mae": 1.0008975240131825,
+            "direction_accuracy": 0.5061430542387922
+          },
+          "a_validation": {
+            "mae_bps": 5.932580549117832,
+            "rmse_bps": 9.730420689096684,
+            "rows": 421936,
+            "no_change_mae_bps": 5.920561580955167,
+            "relative_mae": 1.0020300385357577,
+            "direction_accuracy": 0.5172079426417834,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\comparator_compact38_ridge_60m.json",
+            "sha256": "516b33f283386dcad50d59fccd77ed005861b5904f4bd2b211c41fcf78560ccf"
+          },
+          "a_later_development_test": {
+            "mae_bps": 5.0597801404837845,
+            "rmse_bps": 7.481260905968665,
+            "rows": 415845,
+            "no_change_mae_bps": 5.013881021555212,
+            "relative_mae": 1.0091544092752196,
+            "direction_accuracy": 0.49317432197618705,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\comparator_compact38_ridge_60m.json",
+            "sha256": "516b33f283386dcad50d59fccd77ed005861b5904f4bd2b211c41fcf78560ccf"
+          },
+          "b_validation": {
+            "mae_bps": 4.839577213706545,
+            "rmse_bps": 7.444387337130821,
+            "rows": 410897,
+            "no_change_mae_bps": 4.83302525807566,
+            "relative_mae": 1.001355663436672,
+            "direction_accuracy": 0.5089537801303171,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\comparator_compact38_ridge_60m.json",
+            "sha256": "2f504bcb65c0d739e861bd1b0498e0e14532071d6eb6ab3e7644f31229d29016"
+          },
+          "b_later_development_test": {
+            "mae_bps": 4.994412618639741,
+            "rmse_bps": 7.4574899982092715,
+            "rows": 412214,
+            "no_change_mae_bps": 4.98406264254425,
+            "relative_mae": 1.002076614368195,
+            "direction_accuracy": 0.5071472751853744,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\comparator_compact38_ridge_60m.json",
+            "sha256": "2f504bcb65c0d739e861bd1b0498e0e14532071d6eb6ab3e7644f31229d29016"
+          }
+        },
+        "worst_period_relative_mae": 1.0091544092752196,
+        "beats_no_change_in_both": false,
+        "period_count": 6
+      },
+      {
+        "family": "specialists",
+        "model": "compact50_60m_mixture_calibrated",
+        "horizon_minutes": 60,
+        "metrics": "trad\\data\\rolling_specialists_20260915_v1\\metrics\\compact50_60m_mixture_calibrated.json",
+        "sha256": "63ff55c0b29de8ae9c67b409df532bebc472e5d5ae4626f78629fbe57098f97f",
+        "periods": {
+          "validation": {
+            "mae_bps": 3.9201143265224903,
+            "rmse_bps": 5.930498943810811,
+            "rows": 412438,
+            "no_change_mae_bps": 3.881220702552357,
+            "relative_mae": 1.0100209771489048,
+            "direction_accuracy": 0.5037627842890602
+          },
+          "later_development_test": {
+            "mae_bps": 5.350628135076627,
+            "rmse_bps": 8.441061870344418,
+            "rows": 415681,
+            "no_change_mae_bps": 5.340476421538603,
+            "relative_mae": 1.0019009003573316,
+            "direction_accuracy": 0.5103354129436953
+          },
+          "a_validation": {
+            "mae_bps": 5.954616684407777,
+            "rmse_bps": 9.813593802323977,
+            "rows": 421936,
+            "no_change_mae_bps": 5.920561580955167,
+            "relative_mae": 1.005752005614156,
+            "direction_accuracy": 0.5052041786282367,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact50_60m_mixture_calibrated.json",
+            "sha256": "01e28e83c4b61f707796a5966d70bda7859122084a281f939ea42624c60d7a16"
+          },
+          "a_later_development_test": {
+            "mae_bps": 5.016512515485614,
+            "rmse_bps": 7.439065156082372,
+            "rows": 415845,
+            "no_change_mae_bps": 5.013881021555212,
+            "relative_mae": 1.0005248417182395,
+            "direction_accuracy": 0.5097677597283785,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact50_60m_mixture_calibrated.json",
+            "sha256": "01e28e83c4b61f707796a5966d70bda7859122084a281f939ea42624c60d7a16"
+          },
+          "b_validation": {
+            "mae_bps": 4.840035574621219,
+            "rmse_bps": 7.426656169804266,
+            "rows": 410897,
+            "no_change_mae_bps": 4.83302525807566,
+            "relative_mae": 1.001450502774395,
+            "direction_accuracy": 0.5098253435924127,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact50_60m_mixture_calibrated.json",
+            "sha256": "f13606a2aae0ecd06ba19f9611837abf1a7c0a070259bb66317b9f7cb0866d39"
+          },
+          "b_later_development_test": {
+            "mae_bps": 4.988090722907494,
+            "rmse_bps": 7.453663044405425,
+            "rows": 412214,
+            "no_change_mae_bps": 4.98406264254425,
+            "relative_mae": 1.000808192162125,
+            "direction_accuracy": 0.5070983798531673,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact50_60m_mixture_calibrated.json",
+            "sha256": "f13606a2aae0ecd06ba19f9611837abf1a7c0a070259bb66317b9f7cb0866d39"
+          }
+        },
+        "worst_period_relative_mae": 1.0100209771489048,
+        "beats_no_change_in_both": false,
+        "period_count": 6
+      },
+      {
+        "family": "specialists",
+        "model": "compact38_60m_direct_context_hgb",
+        "horizon_minutes": 60,
+        "metrics": "trad\\data\\rolling_specialists_20260915_v1\\metrics\\compact38_60m_direct_context_hgb.json",
+        "sha256": "fc07a19f09353d98db2e18e1f52722881b0b99f1cbd627f1b6f05a2e53b2d8de",
+        "periods": {
+          "validation": {
+            "mae_bps": 3.9155835211083603,
+            "rmse_bps": 5.921795794293168,
+            "rows": 412438,
+            "no_change_mae_bps": 3.881220702552357,
+            "relative_mae": 1.0088536110645308,
+            "direction_accuracy": 0.49931107396593793
+          },
+          "later_development_test": {
+            "mae_bps": 5.361430981516324,
+            "rmse_bps": 8.506417294765779,
+            "rows": 415681,
+            "no_change_mae_bps": 5.340476421538603,
+            "relative_mae": 1.003923724837209,
+            "direction_accuracy": 0.5141179922263146
+          },
+          "a_validation": {
+            "mae_bps": 5.941649015901766,
+            "rmse_bps": 9.791949983351724,
+            "rows": 421936,
+            "no_change_mae_bps": 5.920561580955167,
+            "relative_mae": 1.0035617288424854,
+            "direction_accuracy": 0.5357533520260233,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact38_60m_direct_context_hgb.json",
+            "sha256": "c4828165f4e98fc808c8cd1be24d04acf566d896f21a856b3d0c3716dbdf7c53"
+          },
+          "a_later_development_test": {
+            "mae_bps": 5.065952712869684,
+            "rmse_bps": 7.502130858439109,
+            "rows": 415845,
+            "no_change_mae_bps": 5.013881021555212,
+            "relative_mae": 1.0103855059764304,
+            "direction_accuracy": 0.47890983028502326,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact38_60m_direct_context_hgb.json",
+            "sha256": "c4828165f4e98fc808c8cd1be24d04acf566d896f21a856b3d0c3716dbdf7c53"
+          },
+          "b_validation": {
+            "mae_bps": 4.858266244147452,
+            "rmse_bps": 7.4840579259327304,
+            "rows": 410897,
+            "no_change_mae_bps": 4.83302525807566,
+            "relative_mae": 1.0052226058677465,
+            "direction_accuracy": 0.5038496098832842,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact38_60m_direct_context_hgb.json",
+            "sha256": "2a78a1572497e7ffa0b0ba92ee9ac2c19abca4ad6f9717cbda62f80a7d8b4d15"
+          },
+          "b_later_development_test": {
+            "mae_bps": 5.014080478348513,
+            "rmse_bps": 7.479430334356928,
+            "rows": 412214,
+            "no_change_mae_bps": 4.98406264254425,
+            "relative_mae": 1.0060227645511572,
+            "direction_accuracy": 0.5042648953517652,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact38_60m_direct_context_hgb.json",
+            "sha256": "2a78a1572497e7ffa0b0ba92ee9ac2c19abca4ad6f9717cbda62f80a7d8b4d15"
+          }
+        },
+        "worst_period_relative_mae": 1.0103855059764304,
+        "beats_no_change_in_both": false,
+        "period_count": 6
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "ridge_compact50_60m",
+        "horizon_minutes": 60,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\ridge_compact50_60m.json",
+        "sha256": "49ef3fa496f4acc81d6beac45d9e67e2bc4617779d858e61b52646e612a9b052",
+        "periods": {
+          "validation": {
+            "mae_bps": 3.8958217057534243,
+            "rmse_bps": 5.864663614424632,
+            "rows": 412438,
+            "no_change_mae_bps": 3.881220702552357,
+            "relative_mae": 1.0037619615889055,
+            "direction_accuracy": 0.49799930006093873
+          },
+          "later_development_test": {
+            "mae_bps": 5.348490440013174,
+            "rmse_bps": 8.483663504906435,
+            "rows": 415681,
+            "no_change_mae_bps": 5.340476421538603,
+            "relative_mae": 1.0015006186418594,
+            "direction_accuracy": 0.5057235758952711
+          },
+          "a_validation": {
+            "mae_bps": 5.934558278425342,
+            "rmse_bps": 9.732472586005255,
+            "rows": 421936,
+            "no_change_mae_bps": 5.920561580955167,
+            "relative_mae": 1.0023640827443125,
+            "direction_accuracy": 0.5182301493663751,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\comparator_compact50_ridge_60m.json",
+            "sha256": "3dcae9b14f1eb45e8651a1b4dfff2f4045cfb9fa479df91c15f980d75efdaf2e"
+          },
+          "a_later_development_test": {
+            "mae_bps": 5.066295630947445,
+            "rmse_bps": 7.488841073990578,
+            "rows": 415845,
+            "no_change_mae_bps": 5.013881021555212,
+            "relative_mae": 1.010453899716985,
+            "direction_accuracy": 0.49170812804598757,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\comparator_compact50_ridge_60m.json",
+            "sha256": "3dcae9b14f1eb45e8651a1b4dfff2f4045cfb9fa479df91c15f980d75efdaf2e"
+          },
+          "b_validation": {
+            "mae_bps": 4.839608721997781,
+            "rmse_bps": 7.445439860630323,
+            "rows": 410897,
+            "no_change_mae_bps": 4.83302525807566,
+            "relative_mae": 1.0013621828090222,
+            "direction_accuracy": 0.5099751052013926,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\comparator_compact50_ridge_60m.json",
+            "sha256": "a10424810f095b38e337a83489042d9fb58eb090c2d2c47d3d4f48aa711b6f83"
+          },
+          "b_later_development_test": {
+            "mae_bps": 4.997539927513939,
+            "rmse_bps": 7.460463539144114,
+            "rows": 412214,
+            "no_change_mae_bps": 4.98406264254425,
+            "relative_mae": 1.0027040761596067,
+            "direction_accuracy": 0.5055655111884744,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\comparator_compact50_ridge_60m.json",
+            "sha256": "a10424810f095b38e337a83489042d9fb58eb090c2d2c47d3d4f48aa711b6f83"
+          }
+        },
+        "worst_period_relative_mae": 1.010453899716985,
+        "beats_no_change_in_both": false,
+        "period_count": 6
+      },
+      {
+        "family": "specialists",
+        "model": "compact38_60m_direct",
+        "horizon_minutes": 60,
+        "metrics": "trad\\data\\rolling_specialists_20260915_v1\\metrics\\compact38_60m_direct.json",
+        "sha256": "ea3118a4701d4fdab4c28c33f031b5da576a8d92fe8efbc31e113ae9cad51adb",
+        "periods": {
+          "validation": {
+            "mae_bps": 3.924489780564033,
+            "rmse_bps": 5.941110053367848,
+            "rows": 412438,
+            "no_change_mae_bps": 3.881220702552357,
+            "relative_mae": 1.0111483168126,
+            "direction_accuracy": 0.4982440339984386
+          },
+          "later_development_test": {
+            "mae_bps": 5.346049595994839,
+            "rmse_bps": 8.469348605980493,
+            "rows": 415681,
+            "no_change_mae_bps": 5.340476421538603,
+            "relative_mae": 1.0010435725235598,
+            "direction_accuracy": 0.5065431347398386
+          },
+          "a_validation": {
+            "mae_bps": 5.953297862594985,
+            "rmse_bps": 9.808269374576296,
+            "rows": 421936,
+            "no_change_mae_bps": 5.920561580955167,
+            "relative_mae": 1.0055292527899924,
+            "direction_accuracy": 0.5157223992242693,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact38_60m_direct.json",
+            "sha256": "695b281f98fad66276fcb9325302467b75217e70e2e24db975d609bdf678799f"
+          },
+          "a_later_development_test": {
+            "mae_bps": 5.025186881901103,
+            "rmse_bps": 7.468135047001534,
+            "rows": 415845,
+            "no_change_mae_bps": 5.013881021555212,
+            "relative_mae": 1.0022549119728381,
+            "direction_accuracy": 0.5062925165946495,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact38_60m_direct.json",
+            "sha256": "695b281f98fad66276fcb9325302467b75217e70e2e24db975d609bdf678799f"
+          },
+          "b_validation": {
+            "mae_bps": 4.829149964033066,
+            "rmse_bps": 7.425354800582314,
+            "rows": 410897,
+            "no_change_mae_bps": 4.83302525807566,
+            "relative_mae": 0.9991981639168721,
+            "direction_accuracy": 0.520343027737814,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact38_60m_direct.json",
+            "sha256": "cc0566ab13a4e8c554aab164156ddf701315c9bedf9fd1cb5a684734323ce309"
+          },
+          "b_later_development_test": {
+            "mae_bps": 5.006238219006083,
+            "rmse_bps": 7.482557028105601,
+            "rows": 412214,
+            "no_change_mae_bps": 4.98406264254425,
+            "relative_mae": 1.0044492973006682,
+            "direction_accuracy": 0.5055777350215261,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact38_60m_direct.json",
+            "sha256": "cc0566ab13a4e8c554aab164156ddf701315c9bedf9fd1cb5a684734323ce309"
+          }
+        },
+        "worst_period_relative_mae": 1.0111483168126,
+        "beats_no_change_in_both": false,
+        "period_count": 6
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "hgb_compact38_60m",
+        "horizon_minutes": 60,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\hgb_compact38_60m.json",
+        "sha256": "820b88d27fd67d966a1d6e826e8c2e331bc588769f8382bb2affd72436b4aec3",
+        "periods": {
+          "validation": {
+            "mae_bps": 3.9246119534047996,
+            "rmse_bps": 5.941306550665089,
+            "rows": 412438,
+            "no_change_mae_bps": 3.881220702552357,
+            "relative_mae": 1.0111797947547554,
+            "direction_accuracy": 0.49899047250781314
+          },
+          "later_development_test": {
+            "mae_bps": 5.344395725827558,
+            "rmse_bps": 8.470160668276046,
+            "rows": 415681,
+            "no_change_mae_bps": 5.340476421538603,
+            "relative_mae": 1.0007338866384932,
+            "direction_accuracy": 0.5067856077707757
+          },
+          "a_validation": {
+            "mae_bps": 5.95712580459264,
+            "rmse_bps": 9.815000285033317,
+            "rows": 421936,
+            "no_change_mae_bps": 5.920561580955167,
+            "relative_mae": 1.0061758032810757,
+            "direction_accuracy": 0.5178312976771069,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\comparator_compact38_hgb_60m.json",
+            "sha256": "8d08d5687ddf2d8cd293c8a2e7b1274d2755922c77d60b00d128552cd2d7554b"
+          },
+          "a_later_development_test": {
+            "mae_bps": 5.029266499705974,
+            "rmse_bps": 7.474783044064232,
+            "rows": 415845,
+            "no_change_mae_bps": 5.013881021555212,
+            "relative_mae": 1.003068576634471,
+            "direction_accuracy": 0.5016709763882191,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\comparator_compact38_hgb_60m.json",
+            "sha256": "8d08d5687ddf2d8cd293c8a2e7b1274d2755922c77d60b00d128552cd2d7554b"
+          },
+          "b_validation": {
+            "mae_bps": 4.827109441471121,
+            "rmse_bps": 7.420822286295262,
+            "rows": 410897,
+            "no_change_mae_bps": 4.83302525807566,
+            "relative_mae": 0.998775959923931,
+            "direction_accuracy": 0.5195451175260364,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\comparator_compact38_hgb_60m.json",
+            "sha256": "e5e8ccb0bcbac2daf21071dd14ccf40f1bd3892275c6b0a33d466c9f4e4b42a7"
+          },
+          "b_later_development_test": {
+            "mae_bps": 5.00438110313129,
+            "rmse_bps": 7.4810363564863245,
+            "rows": 412214,
+            "no_change_mae_bps": 4.98406264254425,
+            "relative_mae": 1.0040766864392114,
+            "direction_accuracy": 0.5049567643024958,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\comparator_compact38_hgb_60m.json",
+            "sha256": "e5e8ccb0bcbac2daf21071dd14ccf40f1bd3892275c6b0a33d466c9f4e4b42a7"
+          }
+        },
+        "worst_period_relative_mae": 1.0111797947547554,
+        "beats_no_change_in_both": false,
+        "period_count": 6
+      },
+      {
+        "family": "specialists",
+        "model": "compact50_60m_direct_context_hgb",
+        "horizon_minutes": 60,
+        "metrics": "trad\\data\\rolling_specialists_20260915_v1\\metrics\\compact50_60m_direct_context_hgb.json",
+        "sha256": "824b58726e9f7dfcca26160bbfb9808c65555b99a3530c93bf0b8e138268e738",
+        "periods": {
+          "validation": {
+            "mae_bps": 3.9280384895588796,
+            "rmse_bps": 5.942895552419642,
+            "rows": 412438,
+            "no_change_mae_bps": 3.881220702552357,
+            "relative_mae": 1.0120626448724583,
+            "direction_accuracy": 0.4948936263940657
+          },
+          "later_development_test": {
+            "mae_bps": 5.36334439285359,
+            "rmse_bps": 8.50483680166956,
+            "rows": 415681,
+            "no_change_mae_bps": 5.340476421538603,
+            "relative_mae": 1.0042820096017575,
+            "direction_accuracy": 0.514355615796633
+          },
+          "a_validation": {
+            "mae_bps": 5.940012465363981,
+            "rmse_bps": 9.787387419851694,
+            "rows": 421936,
+            "no_change_mae_bps": 5.920561580955167,
+            "relative_mae": 1.0032853107163657,
+            "direction_accuracy": 0.5304369217247589,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact50_60m_direct_context_hgb.json",
+            "sha256": "9e5d48260ae1d774b2adec22f180e412f3775aa760604e5d362cde80a46a2bcd"
+          },
+          "a_later_development_test": {
+            "mae_bps": 5.06572142765528,
+            "rmse_bps": 7.503167586542455,
+            "rows": 415845,
+            "no_change_mae_bps": 5.013881021555212,
+            "relative_mae": 1.0103393769970208,
+            "direction_accuracy": 0.4766051188344122,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact50_60m_direct_context_hgb.json",
+            "sha256": "9e5d48260ae1d774b2adec22f180e412f3775aa760604e5d362cde80a46a2bcd"
+          },
+          "b_validation": {
+            "mae_bps": 4.86492424071141,
+            "rmse_bps": 7.497158688045738,
+            "rows": 410897,
+            "no_change_mae_bps": 4.83302525807566,
+            "relative_mae": 1.0066002102063194,
+            "direction_accuracy": 0.5025213962692173,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact50_60m_direct_context_hgb.json",
+            "sha256": "aeed27b8f792f5de7ff594a2740cabf85ef2f4744c8009ffe08cda5226d1df65"
+          },
+          "b_later_development_test": {
+            "mae_bps": 5.02033172388553,
+            "rmse_bps": 7.482816497655069,
+            "rows": 412214,
+            "no_change_mae_bps": 4.98406264254425,
+            "relative_mae": 1.0072770115350649,
+            "direction_accuracy": 0.5009228993954092,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact50_60m_direct_context_hgb.json",
+            "sha256": "aeed27b8f792f5de7ff594a2740cabf85ef2f4744c8009ffe08cda5226d1df65"
+          }
+        },
+        "worst_period_relative_mae": 1.0120626448724583,
+        "beats_no_change_in_both": false,
+        "period_count": 6
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "hgb_compact50_60m",
+        "horizon_minutes": 60,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\hgb_compact50_60m.json",
+        "sha256": "d4fc15c8bdd976f82ed325e085b8fa46bc8c6a810e7fd125f9023bf746cefd87",
+        "periods": {
+          "validation": {
+            "mae_bps": 3.931404827556523,
+            "rmse_bps": 5.9477106677899725,
+            "rows": 412438,
+            "no_change_mae_bps": 3.881220702552357,
+            "relative_mae": 1.0129299848810875,
+            "direction_accuracy": 0.4996830695509377
+          },
+          "later_development_test": {
+            "mae_bps": 5.344319593538269,
+            "rmse_bps": 8.47105040111188,
+            "rows": 415681,
+            "no_change_mae_bps": 5.340476421538603,
+            "relative_mae": 1.0007196309273394,
+            "direction_accuracy": 0.5055223232795932
+          },
+          "a_validation": {
+            "mae_bps": 5.951010633756787,
+            "rmse_bps": 9.804962335891519,
+            "rows": 421936,
+            "no_change_mae_bps": 5.920561580955167,
+            "relative_mae": 1.0051429332142354,
+            "direction_accuracy": 0.5163385892591867,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\comparator_compact50_hgb_60m.json",
+            "sha256": "60bbc3543d2ccc8b508edcea86ac0c0eabd6b5d428f1b305449b3b18e655bdb0"
+          },
+          "a_later_development_test": {
+            "mae_bps": 5.034200225308297,
+            "rmse_bps": 7.477210815446142,
+            "rows": 415845,
+            "no_change_mae_bps": 5.013881021555212,
+            "relative_mae": 1.004052589932974,
+            "direction_accuracy": 0.497980045221783,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\comparator_compact50_hgb_60m.json",
+            "sha256": "60bbc3543d2ccc8b508edcea86ac0c0eabd6b5d428f1b305449b3b18e655bdb0"
+          },
+          "b_validation": {
+            "mae_bps": 4.834864902218279,
+            "rmse_bps": 7.424456359476224,
+            "rows": 410897,
+            "no_change_mae_bps": 4.83302525807566,
+            "relative_mae": 1.0003806402914086,
+            "direction_accuracy": 0.5137657924844223,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\comparator_compact50_hgb_60m.json",
+            "sha256": "a91138f1b4c149020cd309bebc6608589cd9dcc14d9b605f921958e7c4e46ca3"
+          },
+          "b_later_development_test": {
+            "mae_bps": 5.0057847783731795,
+            "rmse_bps": 7.482494356725264,
+            "rows": 412214,
+            "no_change_mae_bps": 4.98406264254425,
+            "relative_mae": 1.004358319183934,
+            "direction_accuracy": 0.5022455181316116,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\comparator_compact50_hgb_60m.json",
+            "sha256": "a91138f1b4c149020cd309bebc6608589cd9dcc14d9b605f921958e7c4e46ca3"
+          }
+        },
+        "worst_period_relative_mae": 1.0129299848810875,
+        "beats_no_change_in_both": false,
+        "period_count": 6
+      },
+      {
+        "family": "specialists",
+        "model": "compact50_60m_direct",
+        "horizon_minutes": 60,
+        "metrics": "trad\\data\\rolling_specialists_20260915_v1\\metrics\\compact50_60m_direct.json",
+        "sha256": "2191d7c0564a368211cfbc248c38436697bfdddb758895190f20dc8b9f676782",
+        "periods": {
+          "validation": {
+            "mae_bps": 3.9319195676861485,
+            "rmse_bps": 5.948697646147497,
+            "rows": 412438,
+            "no_change_mae_bps": 3.881220702552357,
+            "relative_mae": 1.0130626081378085,
+            "direction_accuracy": 0.49884363214531324
+          },
+          "later_development_test": {
+            "mae_bps": 5.344559940972954,
+            "rmse_bps": 8.47340907776257,
+            "rows": 415681,
+            "no_change_mae_bps": 5.340476421538603,
+            "relative_mae": 1.0007646357950166,
+            "direction_accuracy": 0.5054811028643339
+          },
+          "a_validation": {
+            "mae_bps": 5.951755843114192,
+            "rmse_bps": 9.808883251794828,
+            "rows": 421936,
+            "no_change_mae_bps": 5.920561580955167,
+            "relative_mae": 1.0052688012332087,
+            "direction_accuracy": 0.5137735191138327,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact50_60m_direct.json",
+            "sha256": "b2fafcc8e04753bd7ba6d6976018eb7691a0450a7e80898a798cbd2bee067062"
+          },
+          "a_later_development_test": {
+            "mae_bps": 5.0323940764356685,
+            "rmse_bps": 7.471637536512348,
+            "rows": 415845,
+            "no_change_mae_bps": 5.013881021555212,
+            "relative_mae": 1.0036923602297037,
+            "direction_accuracy": 0.501023912290098,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_a_v2\\metrics\\compact50_60m_direct.json",
+            "sha256": "b2fafcc8e04753bd7ba6d6976018eb7691a0450a7e80898a798cbd2bee067062"
+          },
+          "b_validation": {
+            "mae_bps": 4.833707465815782,
+            "rmse_bps": 7.425157319351581,
+            "rows": 410897,
+            "no_change_mae_bps": 4.83302525807566,
+            "relative_mae": 1.0001411554261965,
+            "direction_accuracy": 0.5144360370623156,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact50_60m_direct.json",
+            "sha256": "287012e18203324437c91e0deeb60f75f2f9787357c81a3677bf1068f438d026"
+          },
+          "b_later_development_test": {
+            "mae_bps": 5.002027340177082,
+            "rmse_bps": 7.475260153274624,
+            "rows": 412214,
+            "no_change_mae_bps": 4.98406264254425,
+            "relative_mae": 1.003604428539779,
+            "direction_accuracy": 0.5027686981862276,
+            "metrics": "trad\\data\\rolling_period_replication_20260915_b_v2\\metrics\\compact50_60m_direct.json",
+            "sha256": "287012e18203324437c91e0deeb60f75f2f9787357c81a3677bf1068f438d026"
+          }
+        },
+        "worst_period_relative_mae": 1.0130626081378085,
+        "beats_no_change_in_both": false,
+        "period_count": 6
+      },
+      {
+        "family": "specialists",
+        "model": "compact38_60m_specialist_ridge",
+        "horizon_minutes": 60,
+        "metrics": "trad\\data\\rolling_specialists_20260915_v1\\metrics\\compact38_60m_specialist_ridge.json",
+        "sha256": "f9f6f3fb8b327284fb0e1efbb8c0c97d99a002049a0569641c3f62d8056a3132",
+        "periods": {
+          "validation": {
+            "mae_bps": 3.9000965333990103,
+            "rmse_bps": 5.867989186781403,
+            "rows": 412438,
+            "no_change_mae_bps": 3.881220702552357,
+            "relative_mae": 1.0048633747713034,
+            "direction_accuracy": 0.49461952438406587
+          },
+          "later_development_test": {
+            "mae_bps": 5.365223652448363,
+            "rmse_bps": 8.507011647245186,
+            "rows": 415681,
+            "no_change_mae_bps": 5.340476421538603,
+            "relative_mae": 1.0046338994794457,
+            "direction_accuracy": 0.4860274915922477
+          }
+        },
+        "worst_period_relative_mae": 1.0048633747713034,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      },
+      {
+        "family": "specialists",
+        "model": "compact50_60m_specialist_ridge",
+        "horizon_minutes": 60,
+        "metrics": "trad\\data\\rolling_specialists_20260915_v1\\metrics\\compact50_60m_specialist_ridge.json",
+        "sha256": "70793609b46fba341b1fa91e95ad264f1fe2c62cfd0cf24b491f046911e910e9",
+        "periods": {
+          "validation": {
+            "mae_bps": 3.905336211302529,
+            "rmse_bps": 5.877089159953934,
+            "rows": 412438,
+            "no_change_mae_bps": 3.881220702552357,
+            "relative_mae": 1.0062133824892547,
+            "direction_accuracy": 0.489636741416569
+          },
+          "later_development_test": {
+            "mae_bps": 5.359961963914772,
+            "rmse_bps": 8.502597381579827,
+            "rows": 415681,
+            "no_change_mae_bps": 5.340476421538603,
+            "relative_mae": 1.0036486524493549,
+            "direction_accuracy": 0.4918807905590701
+          }
+        },
+        "worst_period_relative_mae": 1.0062133824892547,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      },
+      {
+        "family": "specialists",
+        "model": "compact38_60m_specialist_context_hgb",
+        "horizon_minutes": 60,
+        "metrics": "trad\\data\\rolling_specialists_20260915_v1\\metrics\\compact38_60m_specialist_context_hgb.json",
+        "sha256": "2fa8c9668ed5719947e822bdfd75ed769a6bf527b654f8148a32432fde9b62dc",
+        "periods": {
+          "validation": {
+            "mae_bps": 3.921815653706009,
+            "rmse_bps": 5.933531934327545,
+            "rows": 412438,
+            "no_change_mae_bps": 3.881220702552357,
+            "relative_mae": 1.0104593256258156,
+            "direction_accuracy": 0.49801643143656377
+          },
+          "later_development_test": {
+            "mae_bps": 5.3280122006502575,
+            "rmse_bps": 8.455261626044507,
+            "rows": 415681,
+            "no_change_mae_bps": 5.340476421538603,
+            "relative_mae": 0.9976660844642856,
+            "direction_accuracy": 0.515655271242456
+          }
+        },
+        "worst_period_relative_mae": 1.0104593256258156,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "hgb_local216_60m",
+        "horizon_minutes": 60,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\hgb_local216_60m.json",
+        "sha256": "43fa7cb36b76a58a94c6fe2df8a7706195f5490b343d0d6cd2731a5795f4b3cf",
+        "periods": {
+          "validation": {
+            "mae_bps": 3.9225514216688793,
+            "rmse_bps": 5.934480861818882,
+            "rows": 412438,
+            "no_change_mae_bps": 3.881220702552357,
+            "relative_mae": 1.0106488969022922,
+            "direction_accuracy": 0.5015332581184365
+          },
+          "later_development_test": {
+            "mae_bps": 5.36712746820281,
+            "rmse_bps": 8.488996034752105,
+            "rows": 415681,
+            "no_change_mae_bps": 5.340476421538603,
+            "relative_mae": 1.0049903874786752,
+            "direction_accuracy": 0.5052313556424687
+          }
+        },
+        "worst_period_relative_mae": 1.0106488969022922,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "hgb_combined228_60m",
+        "horizon_minutes": 60,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\hgb_combined228_60m.json",
+        "sha256": "8658604586eda2b074466d5c7684e7d65df8f6553565f5ae22c7670bd74652f8",
+        "periods": {
+          "validation": {
+            "mae_bps": 3.9241973799100798,
+            "rmse_bps": 5.935631394084053,
+            "rows": 412438,
+            "no_change_mae_bps": 3.881220702552357,
+            "relative_mae": 1.0110729795214841,
+            "direction_accuracy": 0.5020006999390613
+          },
+          "later_development_test": {
+            "mae_bps": 5.3517301454694755,
+            "rmse_bps": 8.474352450899282,
+            "rows": 415681,
+            "no_change_mae_bps": 5.340476421538603,
+            "relative_mae": 1.0021072509346705,
+            "direction_accuracy": 0.5060606134082737
+          }
+        },
+        "worst_period_relative_mae": 1.0110729795214841,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      },
+      {
+        "family": "specialists",
+        "model": "compact50_60m_specialist_context_hgb",
+        "horizon_minutes": 60,
+        "metrics": "trad\\data\\rolling_specialists_20260915_v1\\metrics\\compact50_60m_specialist_context_hgb.json",
+        "sha256": "f046aeac5aa9e14cacb980b1971e1d1b523daddaf76bd11616d3f34ba7fbbe2d",
+        "periods": {
+          "validation": {
+            "mae_bps": 3.929436555242795,
+            "rmse_bps": 5.946569502950502,
+            "rows": 412438,
+            "no_change_mae_bps": 3.881220702552357,
+            "relative_mae": 1.0124228577516168,
+            "direction_accuracy": 0.49837863766406354
+          },
+          "later_development_test": {
+            "mae_bps": 5.341824936383927,
+            "rmse_bps": 8.473860326317459,
+            "rows": 415681,
+            "no_change_mae_bps": 5.340476421538603,
+            "relative_mae": 1.0002525083417437,
+            "direction_accuracy": 0.5107403429053603
+          }
+        },
+        "worst_period_relative_mae": 1.0124228577516168,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "ridge_local216_60m",
+        "horizon_minutes": 60,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\ridge_local216_60m.json",
+        "sha256": "e7b0ae2049d4d1b0f24920c8b4c1fc5497a282a2009e6dc71c3ae489f50a8d82",
+        "periods": {
+          "validation": {
+            "mae_bps": 3.9417062626489954,
+            "rmse_bps": 5.897468241967537,
+            "rows": 412438,
+            "no_change_mae_bps": 3.881220702552357,
+            "relative_mae": 1.0155841588850802,
+            "direction_accuracy": 0.4951457023496905
+          },
+          "later_development_test": {
+            "mae_bps": 5.41796159288958,
+            "rmse_bps": 8.560210888476366,
+            "rows": 415681,
+            "no_change_mae_bps": 5.340476421538603,
+            "relative_mae": 1.0145090372533943,
+            "direction_accuracy": 0.494257026262254
+          }
+        },
+        "worst_period_relative_mae": 1.0155841588850802,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      },
+      {
+        "family": "rolling_comparison",
+        "model": "ridge_combined228_60m",
+        "horizon_minutes": 60,
+        "metrics": "trad\\data\\rolling_model_comparison_20260915_v1\\metrics\\ridge_combined228_60m.json",
+        "sha256": "d353db2a244f57fddcdf2c408ef1918d816bf265d3b214374a1cf78eeb6be4ab",
+        "periods": {
+          "validation": {
+            "mae_bps": 3.94639602997426,
+            "rmse_bps": 5.903037218506307,
+            "rows": 412438,
+            "no_change_mae_bps": 3.881220702552357,
+            "relative_mae": 1.0167924816486325,
+            "direction_accuracy": 0.49400768954031626
+          },
+          "later_development_test": {
+            "mae_bps": 5.419938734872824,
+            "rmse_bps": 8.560997965086043,
+            "rows": 415681,
+            "no_change_mae_bps": 5.340476421538603,
+            "relative_mae": 1.0148792555311625,
+            "direction_accuracy": 0.4949335260185686
+          }
+        },
+        "worst_period_relative_mae": 1.0167924816486325,
+        "beats_no_change_in_both": false,
+        "period_count": 2
+      }
+    ]
+  },
+  "records": 60,
+  "models_fitted": 0,
+  "models_loaded": 0,
+  "live_model_changed": false
+}

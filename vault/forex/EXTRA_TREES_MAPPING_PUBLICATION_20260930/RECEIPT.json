@@ -1,0 +1,108 @@
+{
+  "schema": "forex_publication_receipt.v1",
+  "utc": "2026-09-30T20:31:08.889970+00:00",
+  "source_commit": "981d89ae24e84ab0fa7fb6ca5eb1cf9b39440616",
+  "numerical_source_commit": "56945b8ca93867e6b132abf350cc642be40cd4b9",
+  "documentation_commit": "1edaa2316f3110f582204ff068b0fee8edb07ce4",
+  "remote_head": "1edaa2316f3110f582204ff068b0fee8edb07ce4",
+  "remote_readback": "1edaa2316f3110f582204ff068b0fee8edb07ce4\trefs/heads/forex",
+  "remote": "https://github.com/shaggyga/tradez.git",
+  "branch": "forex",
+  "worktree_clean": true,
+  "packet": "EXTRA_TREES_AND_MAPPING_COMPLETION_20260930",
+  "packet_manifest_sha256": "ec3bbd09488e7ae8a6759d5689c2ab37b58b15bd966e1d30c46c070a894befd2",
+  "preflight_status": "pass",
+  "preflight_utc": "2026-09-30T20:28:45.323013+00:00",
+  "snapshot_verification": {
+    "status": "verified",
+    "files": 4040,
+    "bytes": 52356835,
+    "excluded": 43427,
+    "manifest_sha256": "8293a4d114f7e2e2ab9a4cf9a13cbc21794f22de7b8209009f0996da10e80748"
+  },
+  "live_readback": {
+    "epoch": 1790800006.7107184,
+    "http_status": 200,
+    "context": "current",
+    "context_generated_epoch": 1790799991.8970675,
+    "mapping_status": "current",
+    "mapping_counts": {
+      "features": 98,
+      "forecasts": 451,
+      "mappings": 464
+    },
+    "settled_forecasts": 247,
+    "event_mappings_with_outcomes": 302,
+    "source_bindings": {
+      "oanda_currency_news_context_v1.py": "3d6fb77e8fd6975139bb2bf7b1ccd8884490de048b700871d3e268697fcd66ea",
+      "oanda_current_news_mapping_v1.py": "107af675fb78ad509c864a0e729557421f94631175fb7085119fac18c9797ddf",
+      "oanda_news_fast_context_v1.py": "777892530f9d3fb3f9aa56f29feb59bdb6288a69951e77f43529af717895984b",
+      "oanda_news_interpretation_v1.py": "7338b4dee04e179661f0c2c6327b44231d0ddbec4125660cc0045156a29a5fa0",
+      "oanda_news_technical_timing_v1.py": "a129b7f0b0fab880903bcce833f0d01614fb2cc2b4d16af1c75bac51314a7003"
+    },
+    "processes": [
+      {
+        "script": "oanda_practice_live_dashboard.py",
+        "pid": 3148,
+        "created_epoch": 1790798264.2487798
+      },
+      {
+        "script": "oanda_practice_live_dashboard.py",
+        "pid": 8776,
+        "created_epoch": 1790798264.3971689
+      },
+      {
+        "script": "oanda_currency_news_context_v1.py",
+        "pid": 9632,
+        "created_epoch": 1790798324.4220903
+      },
+      {
+        "script": "oanda_supervisor_watchdog_v6.ps1",
+        "pid": 21476,
+        "created_epoch": 1790798275.4459379
+      },
+      {
+        "script": "oanda_operational_supervisor_v6.ps1",
+        "pid": 22556,
+        "created_epoch": 1790798290.8200026
+      },
+      {
+        "script": "oanda_currency_news_context_v1.py",
+        "pid": 23180,
+        "created_epoch": 1790798324.5658648
+      },
+      {
+        "script": "oanda_currency_news_context_v1.py",
+        "pid": 23956,
+        "created_epoch": 1790798324.611788
+      },
+      {
+        "script": "oanda_currency_news_context_v1.py",
+        "pid": 24728,
+        "created_epoch": 1790798324.3105028
+      }
+    ],
+    "scope": "Dated readback, original forecasts preserved; M1-close proxy settlement not independent skill or trading PnL"
+  },
+  "receipt_members": {
+    "BEFORE_CURRENCY_NEWS_CONTEXT_LATEST.json": "53e51fcb1f0ba4497ec34eff79ccf7047ed40aee249caf76878cc2b9c16da915",
+    "BEFORE_PROJECT_CONTEXT_LATEST.json": "53e51fcb1f0ba4497ec34eff79ccf7047ed40aee249caf76878cc2b9c16da915",
+    "BEFORE_SHARED_GIT_REMOTE_LATEST.json": "aaafae5e3862675483954389c5a2ecf413fe4a5e57761763c1bad365a9e1b4ee",
+    "FINAL_LIVE_ACCEPTANCE.json": "d07914da97e0b093dad760d0717c737be5ed44ab93ed6a7563888b0477aeba56",
+    "FINAL_PREFLIGHT.json": "65d95c3585270c9e719c494b6a31a17b623a74acce0ac51a655fc375e063a91d",
+    "SNAPSHOT_VERIFICATION.json": "20cf537d7dd186efe6d662e79e2fd858f8a6f2f14401bdbe84c5b40db2a8989b"
+  },
+  "next_item": "typed_currency_news_feature_cohort_qualification_v1",
+  "same_task_review": true,
+  "independent_review": false,
+  "chat_worker_after_checkpoint": "none",
+  "native_recovery_existing_expiry_utc": "2026-10-07T08:14:50Z",
+  "limitations": [
+    "Joint-model history remains in warmup; no thresholds relaxed.",
+    "Typed news is interpreted live context, not yet an incrementally validated trained feature.",
+    "Extra Trees result is mixed inspected-development evidence, not confirmed edge or trading readiness.",
+    "Current native readback uses M1-close outcome proxies, not fills or trading profit.",
+    "Git knowledge snapshot is dated before this live-only publication receipt to avoid a self-referential commit.",
+    "Remote branch identity verified; no new full-clone or bundle restore claim."
+  ]
+}

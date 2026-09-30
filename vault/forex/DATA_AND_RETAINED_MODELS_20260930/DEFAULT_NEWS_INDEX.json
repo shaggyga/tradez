@@ -1,0 +1,59 @@
+{
+  "schema": "forex.news_store_index_maintenance.v1",
+  "utc": "2026-09-30T20:46:07.032096+00:00",
+  "database": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\local_news_sentiment_v1.sqlite",
+  "mode": "apply_indexes",
+  "indexes_created": [
+    "idx_articles_relevant_published_event_v1",
+    "idx_topic_events_signature_published_v1"
+  ],
+  "article_count": 92704,
+  "content_updates": 0,
+  "verified_window_start": "2026-09-29T20:46:02.268116+00:00",
+  "before": {
+    "0": {
+      "rows": 2398,
+      "sha256": "97d7a356a9386eb96e992f314746a1cbae7dcefa4d7cbc51e9698a7cde4f367e"
+    },
+    "1": {
+      "rows": 170,
+      "sha256": "71d0c384db133224858c4fa5a1ec392349f3ef05595dd8cda8594cc017a76bec"
+    }
+  },
+  "after": {
+    "0": {
+      "rows": 2398,
+      "sha256": "97d7a356a9386eb96e992f314746a1cbae7dcefa4d7cbc51e9698a7cde4f367e"
+    },
+    "1": {
+      "rows": 170,
+      "sha256": "71d0c384db133224858c4fa5a1ec392349f3ef05595dd8cda8594cc017a76bec"
+    }
+  },
+  "before_plan": [
+    [
+      4,
+      0,
+      61,
+      "SEARCH articles USING INDEX idx_articles_relevant (relevant=?)"
+    ],
+    [
+      22,
+      0,
+      0,
+      "USE TEMP B-TREE FOR ORDER BY"
+    ]
+  ],
+  "after_plan": [
+    [
+      4,
+      0,
+      50,
+      "SEARCH articles USING INDEX idx_articles_relevant_published_event_v1 (relevant=? AND published_utc>?)"
+    ]
+  ],
+  "elapsed_seconds": 4.75,
+  "maximum_seconds": 30,
+  "status": "pass",
+  "models_fitted": 0
+}

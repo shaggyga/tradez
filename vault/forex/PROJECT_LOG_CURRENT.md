@@ -6544,3 +6544,6 @@ Local actual-work log `evidence/news_capture_mapping_20260930/WORK_LOG.jsonl`; e
 
 
 2026-09-30T20:23:40.093343+00:00: EXTRA_TREES_AND_MAPPING_COMPLETION_20260930/REVIEW.md. extra_trees_matched_development_comparison_v1 completed, same-task reviewed; live numeric settlement fixed. Exact next typed_currency_news_feature_cohort_qualification_v1.
+
+
+2026-09-30T21:31:15.017796+00:00: DATA_AND_RETAINED_MODELS_20260930/REVIEW.json; source 2fd2779b51c6009942773b167281956db42a37b5; no fits, 72 tests, 1,224 saved predictions replayed, 18 capsule payloads restored. Data index repair and nine research adapters deployed; broad horizon selection remains open. Next data_freshness_and_remaining_horizon_reconciliation_v1.

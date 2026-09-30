@@ -1,0 +1,511 @@
+{
+  "schema": "forex.technical_store_index_maintenance.v1",
+  "utc": "2026-09-30T21:18:46.254541+00:00",
+  "database": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\rolling_technical_dataset_20260915_v3\\technical.sqlite",
+  "mode": "apply_indexes",
+  "status": "pass",
+  "indexes_created": [
+    "idx_observations_pair_time_publication_v1",
+    "idx_outcomes_state_count_v1"
+  ],
+  "counts": {
+    "observations": 658994,
+    "outcomes": 2629925
+  },
+  "content_updates": 0,
+  "models_fitted": 0,
+  "before": {
+    "states": {
+      "elapsed_seconds": 5.827999999979511,
+      "rows": 3,
+      "result_sha256": "a05e676461f5d2d0f91ae43a4e3957f19544f8b074125f81902ce78202e3070a",
+      "plan": [
+        [
+          6,
+          0,
+          216,
+          "SCAN outcomes"
+        ],
+        [
+          8,
+          0,
+          0,
+          "USE TEMP B-TREE FOR GROUP BY"
+        ]
+      ]
+    },
+    "EUR_USD_5": {
+      "elapsed_seconds": 0.07800000003771856,
+      "rows": 0,
+      "result_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "plan": [
+        [
+          5,
+          0,
+          62,
+          "SEARCH o USING INDEX sqlite_autoindex_observations_1 (pair=?)"
+        ],
+        [
+          21,
+          0,
+          45,
+          "SEARCH y USING COVERING INDEX sqlite_autoindex_outcomes_1 (pair=? AND t=? AND horizon=?) LEFT-JOIN"
+        ]
+      ]
+    },
+    "EUR_USD_15": {
+      "elapsed_seconds": 0.061999999976251274,
+      "rows": 0,
+      "result_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "plan": [
+        [
+          5,
+          0,
+          62,
+          "SEARCH o USING INDEX sqlite_autoindex_observations_1 (pair=?)"
+        ],
+        [
+          21,
+          0,
+          45,
+          "SEARCH y USING COVERING INDEX sqlite_autoindex_outcomes_1 (pair=? AND t=? AND horizon=?) LEFT-JOIN"
+        ]
+      ]
+    },
+    "EUR_USD_30": {
+      "elapsed_seconds": 0.0779999999795109,
+      "rows": 0,
+      "result_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "plan": [
+        [
+          5,
+          0,
+          62,
+          "SEARCH o USING INDEX sqlite_autoindex_observations_1 (pair=?)"
+        ],
+        [
+          21,
+          0,
+          45,
+          "SEARCH y USING COVERING INDEX sqlite_autoindex_outcomes_1 (pair=? AND t=? AND horizon=?) LEFT-JOIN"
+        ]
+      ]
+    },
+    "EUR_USD_60": {
+      "elapsed_seconds": 0.06300000002374873,
+      "rows": 0,
+      "result_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "plan": [
+        [
+          5,
+          0,
+          62,
+          "SEARCH o USING INDEX sqlite_autoindex_observations_1 (pair=?)"
+        ],
+        [
+          21,
+          0,
+          45,
+          "SEARCH y USING COVERING INDEX sqlite_autoindex_outcomes_1 (pair=? AND t=? AND horizon=?) LEFT-JOIN"
+        ]
+      ]
+    },
+    "AUD_CAD_5": {
+      "elapsed_seconds": 0.39100000000325963,
+      "rows": 1,
+      "result_sha256": "6f3fcf75fc06bc22e7f7829742eb145c2caf11d720fd7efc91bfc46774f399b6",
+      "plan": [
+        [
+          5,
+          0,
+          62,
+          "SEARCH o USING INDEX sqlite_autoindex_observations_1 (pair=?)"
+        ],
+        [
+          21,
+          0,
+          45,
+          "SEARCH y USING COVERING INDEX sqlite_autoindex_outcomes_1 (pair=? AND t=? AND horizon=?) LEFT-JOIN"
+        ]
+      ]
+    },
+    "AUD_CAD_15": {
+      "elapsed_seconds": 0.061999999976251274,
+      "rows": 0,
+      "result_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "plan": [
+        [
+          5,
+          0,
+          62,
+          "SEARCH o USING INDEX sqlite_autoindex_observations_1 (pair=?)"
+        ],
+        [
+          21,
+          0,
+          45,
+          "SEARCH y USING COVERING INDEX sqlite_autoindex_outcomes_1 (pair=? AND t=? AND horizon=?) LEFT-JOIN"
+        ]
+      ]
+    },
+    "AUD_CAD_30": {
+      "elapsed_seconds": 0.06300000002374873,
+      "rows": 1,
+      "result_sha256": "72165e5fa7d9ab1f5ee9ef510e9a5829fd3e919391fd9eacc0322f8ea2601b20",
+      "plan": [
+        [
+          5,
+          0,
+          62,
+          "SEARCH o USING INDEX sqlite_autoindex_observations_1 (pair=?)"
+        ],
+        [
+          21,
+          0,
+          45,
+          "SEARCH y USING COVERING INDEX sqlite_autoindex_outcomes_1 (pair=? AND t=? AND horizon=?) LEFT-JOIN"
+        ]
+      ]
+    },
+    "AUD_CAD_60": {
+      "elapsed_seconds": 0.0779999999795109,
+      "rows": 1,
+      "result_sha256": "4bbd954f9b4749d7745e09dc44a8e1735b76ac39797fdc96591169e6b794b2f7",
+      "plan": [
+        [
+          5,
+          0,
+          62,
+          "SEARCH o USING INDEX sqlite_autoindex_observations_1 (pair=?)"
+        ],
+        [
+          21,
+          0,
+          45,
+          "SEARCH y USING COVERING INDEX sqlite_autoindex_outcomes_1 (pair=? AND t=? AND horizon=?) LEFT-JOIN"
+        ]
+      ]
+    },
+    "USD_JPY_5": {
+      "elapsed_seconds": 0.375,
+      "rows": 2,
+      "result_sha256": "861b6d312bae8b1fe8489d093a106c77585b2b58ca9b8dbf1a3fc5e062e01b3f",
+      "plan": [
+        [
+          5,
+          0,
+          62,
+          "SEARCH o USING INDEX sqlite_autoindex_observations_1 (pair=?)"
+        ],
+        [
+          21,
+          0,
+          45,
+          "SEARCH y USING COVERING INDEX sqlite_autoindex_outcomes_1 (pair=? AND t=? AND horizon=?) LEFT-JOIN"
+        ]
+      ]
+    },
+    "USD_JPY_15": {
+      "elapsed_seconds": 0.07800000003771856,
+      "rows": 0,
+      "result_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "plan": [
+        [
+          5,
+          0,
+          62,
+          "SEARCH o USING INDEX sqlite_autoindex_observations_1 (pair=?)"
+        ],
+        [
+          21,
+          0,
+          45,
+          "SEARCH y USING COVERING INDEX sqlite_autoindex_outcomes_1 (pair=? AND t=? AND horizon=?) LEFT-JOIN"
+        ]
+      ]
+    },
+    "USD_JPY_30": {
+      "elapsed_seconds": 0.061999999976251274,
+      "rows": 2,
+      "result_sha256": "f4fc9f8f18cc54447a8a31c9e117a30378aa26981f02489ac062517428973939",
+      "plan": [
+        [
+          5,
+          0,
+          62,
+          "SEARCH o USING INDEX sqlite_autoindex_observations_1 (pair=?)"
+        ],
+        [
+          21,
+          0,
+          45,
+          "SEARCH y USING COVERING INDEX sqlite_autoindex_outcomes_1 (pair=? AND t=? AND horizon=?) LEFT-JOIN"
+        ]
+      ]
+    },
+    "USD_JPY_60": {
+      "elapsed_seconds": 0.0779999999795109,
+      "rows": 2,
+      "result_sha256": "5890dd75c9de2ddcbe0142c099ea236664623cc246a168f25fe763ac8bf8f6b1",
+      "plan": [
+        [
+          5,
+          0,
+          62,
+          "SEARCH o USING INDEX sqlite_autoindex_observations_1 (pair=?)"
+        ],
+        [
+          21,
+          0,
+          45,
+          "SEARCH y USING COVERING INDEX sqlite_autoindex_outcomes_1 (pair=? AND t=? AND horizon=?) LEFT-JOIN"
+        ]
+      ]
+    }
+  },
+  "after": {
+    "states": {
+      "elapsed_seconds": 0.4220000000204891,
+      "rows": 3,
+      "result_sha256": "a05e676461f5d2d0f91ae43a4e3957f19544f8b074125f81902ce78202e3070a",
+      "plan": [
+        [
+          6,
+          0,
+          211,
+          "SCAN outcomes USING COVERING INDEX idx_outcomes_state_count_v1"
+        ]
+      ]
+    },
+    "EUR_USD_5": {
+      "elapsed_seconds": 0.031000000017229468,
+      "rows": 0,
+      "result_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "plan": [
+        [
+          4,
+          0,
+          54,
+          "SEARCH o USING COVERING INDEX idx_observations_pair_time_publication_v1 (pair=?)"
+        ],
+        [
+          19,
+          0,
+          45,
+          "SEARCH y USING COVERING INDEX sqlite_autoindex_outcomes_1 (pair=? AND t=? AND horizon=?) LEFT-JOIN"
+        ]
+      ]
+    },
+    "EUR_USD_15": {
+      "elapsed_seconds": 0.014999999955762178,
+      "rows": 0,
+      "result_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "plan": [
+        [
+          4,
+          0,
+          54,
+          "SEARCH o USING COVERING INDEX idx_observations_pair_time_publication_v1 (pair=?)"
+        ],
+        [
+          19,
+          0,
+          45,
+          "SEARCH y USING COVERING INDEX sqlite_autoindex_outcomes_1 (pair=? AND t=? AND horizon=?) LEFT-JOIN"
+        ]
+      ]
+    },
+    "EUR_USD_30": {
+      "elapsed_seconds": 0.01600000000325963,
+      "rows": 0,
+      "result_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "plan": [
+        [
+          4,
+          0,
+          54,
+          "SEARCH o USING COVERING INDEX idx_observations_pair_time_publication_v1 (pair=?)"
+        ],
+        [
+          19,
+          0,
+          45,
+          "SEARCH y USING COVERING INDEX sqlite_autoindex_outcomes_1 (pair=? AND t=? AND horizon=?) LEFT-JOIN"
+        ]
+      ]
+    },
+    "EUR_USD_60": {
+      "elapsed_seconds": 0.01600000000325963,
+      "rows": 0,
+      "result_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "plan": [
+        [
+          4,
+          0,
+          54,
+          "SEARCH o USING COVERING INDEX idx_observations_pair_time_publication_v1 (pair=?)"
+        ],
+        [
+          19,
+          0,
+          45,
+          "SEARCH y USING COVERING INDEX sqlite_autoindex_outcomes_1 (pair=? AND t=? AND horizon=?) LEFT-JOIN"
+        ]
+      ]
+    },
+    "AUD_CAD_5": {
+      "elapsed_seconds": 0.015000000013969839,
+      "rows": 1,
+      "result_sha256": "6f3fcf75fc06bc22e7f7829742eb145c2caf11d720fd7efc91bfc46774f399b6",
+      "plan": [
+        [
+          4,
+          0,
+          54,
+          "SEARCH o USING COVERING INDEX idx_observations_pair_time_publication_v1 (pair=?)"
+        ],
+        [
+          19,
+          0,
+          45,
+          "SEARCH y USING COVERING INDEX sqlite_autoindex_outcomes_1 (pair=? AND t=? AND horizon=?) LEFT-JOIN"
+        ]
+      ]
+    },
+    "AUD_CAD_15": {
+      "elapsed_seconds": 0.01600000000325963,
+      "rows": 0,
+      "result_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "plan": [
+        [
+          4,
+          0,
+          54,
+          "SEARCH o USING COVERING INDEX idx_observations_pair_time_publication_v1 (pair=?)"
+        ],
+        [
+          19,
+          0,
+          45,
+          "SEARCH y USING COVERING INDEX sqlite_autoindex_outcomes_1 (pair=? AND t=? AND horizon=?) LEFT-JOIN"
+        ]
+      ]
+    },
+    "AUD_CAD_30": {
+      "elapsed_seconds": 0.01600000000325963,
+      "rows": 1,
+      "result_sha256": "72165e5fa7d9ab1f5ee9ef510e9a5829fd3e919391fd9eacc0322f8ea2601b20",
+      "plan": [
+        [
+          4,
+          0,
+          54,
+          "SEARCH o USING COVERING INDEX idx_observations_pair_time_publication_v1 (pair=?)"
+        ],
+        [
+          19,
+          0,
+          45,
+          "SEARCH y USING COVERING INDEX sqlite_autoindex_outcomes_1 (pair=? AND t=? AND horizon=?) LEFT-JOIN"
+        ]
+      ]
+    },
+    "AUD_CAD_60": {
+      "elapsed_seconds": 0.015000000013969839,
+      "rows": 1,
+      "result_sha256": "4bbd954f9b4749d7745e09dc44a8e1735b76ac39797fdc96591169e6b794b2f7",
+      "plan": [
+        [
+          4,
+          0,
+          54,
+          "SEARCH o USING COVERING INDEX idx_observations_pair_time_publication_v1 (pair=?)"
+        ],
+        [
+          19,
+          0,
+          45,
+          "SEARCH y USING COVERING INDEX sqlite_autoindex_outcomes_1 (pair=? AND t=? AND horizon=?) LEFT-JOIN"
+        ]
+      ]
+    },
+    "USD_JPY_5": {
+      "elapsed_seconds": 0.01600000000325963,
+      "rows": 2,
+      "result_sha256": "861b6d312bae8b1fe8489d093a106c77585b2b58ca9b8dbf1a3fc5e062e01b3f",
+      "plan": [
+        [
+          4,
+          0,
+          54,
+          "SEARCH o USING COVERING INDEX idx_observations_pair_time_publication_v1 (pair=?)"
+        ],
+        [
+          19,
+          0,
+          45,
+          "SEARCH y USING COVERING INDEX sqlite_autoindex_outcomes_1 (pair=? AND t=? AND horizon=?) LEFT-JOIN"
+        ]
+      ]
+    },
+    "USD_JPY_15": {
+      "elapsed_seconds": 0.014999999955762178,
+      "rows": 0,
+      "result_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "plan": [
+        [
+          4,
+          0,
+          54,
+          "SEARCH o USING COVERING INDEX idx_observations_pair_time_publication_v1 (pair=?)"
+        ],
+        [
+          19,
+          0,
+          45,
+          "SEARCH y USING COVERING INDEX sqlite_autoindex_outcomes_1 (pair=? AND t=? AND horizon=?) LEFT-JOIN"
+        ]
+      ]
+    },
+    "USD_JPY_30": {
+      "elapsed_seconds": 0.01600000000325963,
+      "rows": 2,
+      "result_sha256": "f4fc9f8f18cc54447a8a31c9e117a30378aa26981f02489ac062517428973939",
+      "plan": [
+        [
+          4,
+          0,
+          54,
+          "SEARCH o USING COVERING INDEX idx_observations_pair_time_publication_v1 (pair=?)"
+        ],
+        [
+          19,
+          0,
+          45,
+          "SEARCH y USING COVERING INDEX sqlite_autoindex_outcomes_1 (pair=? AND t=? AND horizon=?) LEFT-JOIN"
+        ]
+      ]
+    },
+    "USD_JPY_60": {
+      "elapsed_seconds": 0.0,
+      "rows": 2,
+      "result_sha256": "5890dd75c9de2ddcbe0142c099ea236664623cc246a168f25fe763ac8bf8f6b1",
+      "plan": [
+        [
+          4,
+          0,
+          54,
+          "SEARCH o USING COVERING INDEX idx_observations_pair_time_publication_v1 (pair=?)"
+        ],
+        [
+          19,
+          0,
+          45,
+          "SEARCH y USING COVERING INDEX sqlite_autoindex_outcomes_1 (pair=? AND t=? AND horizon=?) LEFT-JOIN"
+        ]
+      ]
+    }
+  },
+  "elapsed_seconds": 23.92200000002049,
+  "maximum_seconds": 90
+}

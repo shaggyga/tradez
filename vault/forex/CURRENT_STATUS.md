@@ -1,5 +1,3 @@
-# Current status and next action
+# Current status
 
-Resolve [CHECKPOINT_REVIEW_LATEST.json](CHECKPOINT_REVIEW_LATEST.json), [DESIGN_ALIGNMENT_LATEST.json](DESIGN_ALIGNMENT_LATEST.json) and [REVIEW_QUEUE.json](REVIEW_QUEUE.json). Completed residual R4 and Extra Trees must not be relaunched from older notices.
-
-Latest: EXTRA_TREES_AND_MAPPING_COMPLETION_20260930/REVIEW.md. Next `typed_currency_news_feature_cohort_qualification_v1`. Source and saved weights are reproducible; joint warmup and typed-news predictive qualification remain open. Other-chat EURUSD capture retains ownership. No chat worker or automation is continuing after this checkpoint. Native pipeline status is a dated observation, not guaranteed future execution.
+Latest `DATA_AND_RETAINED_MODELS_20260930/REVIEW.md`. User stopped new fits/research and requested data plus existing-model connections across the full horizon. Nine elapsed targets are connected; global best-model proof, missing horizons and real data gaps remain unfinished. Exact next `data_freshness_and_remaining_horizon_reconciliation_v1`. The typed-news experiment is deferred. No active chat worker remains at this checkpoint; native runtime has the existing bounded expiry. Resolve current pointers and board before work.

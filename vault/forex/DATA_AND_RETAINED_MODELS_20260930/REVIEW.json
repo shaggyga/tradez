@@ -1,0 +1,42 @@
+{
+  "schema": "forex.review_packet.v1",
+  "packet_id": "DATA_AND_RETAINED_MODELS_20260930",
+  "step_id": "data_and_model_connection_20260930",
+  "utc": "2026-09-30T21:31:15.017796+00:00",
+  "source_commit": "2fd2779b51c6009942773b167281956db42a37b5",
+  "implementation_status": "complete_scoped_data_indexes_and_nine_retained_adapters",
+  "review_status": "accepted_within_scope",
+  "same_task_review": true,
+  "independent_review": false,
+  "tests": {
+    "focused_passed": 72,
+    "saved_prediction_replay_rows": 1224,
+    "restored_payloads": 18
+  },
+  "models_fitted": 0,
+  "readiness": {
+    "engineering_ready": true,
+    "engineering_scope": "Index-only data repair, nine elapsed-horizon saved-model adapters, guarded research display and retrieval",
+    "forecast_evidence_status": "reused_cohort_specific_development_not_universal_best",
+    "policy_evidence_status": "not_newly_evaluated",
+    "demo_authorization_status": "not_granted"
+  },
+  "checkpoint": "DATA_AND_RETAINED_MODELS_20260930/retained_connection_capsule.zip",
+  "checkpoint_sha256": "57e560f5f64b6285c7ae6e53ed7187fd1a789f08d70cc7cff931ef7cffd2acc9",
+  "unresolved_findings": [],
+  "broader_unfinished": [
+    "data_gaps_and_partial_support",
+    "all_study_model_reconciliation",
+    "remaining_elapsed_and_calendar_targets"
+  ],
+  "review_checks": [
+    "Exact saved weights and per-pair normalizers; original prediction parity",
+    "Clock order, stale/future/mature-target refusal before and after inference",
+    "Input receipt and feature order binding; no missing-key imputation",
+    "Independent connection failure and exact source drift refusal",
+    "Original SQLite consumer query identities before/after indexes",
+    "Capsule containment, exact bytes and conflict refusal",
+    "Preserved original H1/news cohorts and existing recovery expiry"
+  ],
+  "next_item": "data_freshness_and_remaining_horizon_reconciliation_v1"
+}
