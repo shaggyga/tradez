@@ -72,3 +72,26 @@ def test_fractional_live_targets_wait_for_actual_next_close(tmp_path):
         assert x['outcome_bar_close_epoch']==10140 and x['target_epoch']==10080.25
         assert 'not original producer settlement' in x['scope']
     finally:t.close();db.close()
+
+def test_native_decimal_strings_settle_through_consumer_without_rewriting_forecast(tmp_path):
+    t,db,v,c=fixtures(tmp_path)
+    try:
+        f=v['price']['rows'][0]['active_forecasts'][0]
+        f.update(reference_mid='1.10000',predicted_return_bps='3.0')
+        mapping.record(db,t,c,v,9980)
+        original=db.execute('SELECT body FROM forecasts').fetchone()[0]
+        c['generated_epoch']=10090
+        out=mapping.record(db,t,c,v,10090)
+        assert out['settled_forecasts']==1
+        assert out['forecast_mae_bps']==pytest.approx(abs((1.1002/1.1-1)*10000-3))
+        assert db.execute('SELECT body FROM forecasts').fetchone()[0]==original
+    finally:t.close();db.close()
+
+@pytest.mark.parametrize('key,value', [('reference_mid','0'),('reference_mid','NaN'),
+    ('reference_mid',True),('predicted_return_bps','Infinity'),('predicted_return_bps','bad')])
+def test_invalid_numeric_forecast_is_unavailable_not_cycle_failure(tmp_path,key,value):
+    t,db,v,c=fixtures(tmp_path)
+    try:
+        f=dict(v['price']['rows'][0]['active_forecasts'][0]);f[key]=value
+        assert mapping.forecast_outcome(t,'EUR_USD',f,10090)=={'status':'unavailable','reason':'invalid_forecast_numeric_value'}
+    finally:t.close();db.close()

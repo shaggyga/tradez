@@ -30,7 +30,15 @@ def open_store(path):
     return db
 
 def forecast_outcome(technical,pair,forecast,now):
-    target=forecast['target_epoch'];ref=forecast['reference_mid']
+    # Native Decimal fields are JSON strings. Convert for this approximate
+    # diagnostic only; preserve the original forecast body and its identity.
+    try:
+        raw=[forecast[k] for k in ('target_epoch','reference_mid','predicted_return_bps')]
+        if any(isinstance(x,bool) for x in raw):raise ValueError('boolean')
+        target,ref,predicted=map(float,raw)
+        if not all(math.isfinite(x) for x in (target,ref,predicted)) or target<=0 or ref<=0:raise ValueError('range')
+    except (KeyError,TypeError,ValueError,OverflowError):
+        return {'status':'unavailable','reason':'invalid_forecast_numeric_value'}
     if now<target:return {'status':'pending_target'}
     if timing.revised(technical,pair):return {'status':'unavailable','reason':'original_input_revision'}
     # Quote-origin forecasts have fractional-second targets. Use the first
@@ -40,12 +48,18 @@ def forecast_outcome(technical,pair,forecast,now):
     row=technical.execute('SELECT body,first_observed FROM bars WHERE pair=? AND t=?',(pair,close-60)).fetchone()
     if row is None:return {'status':'pending_target_bar'}
     if not close<=row['first_observed']<=now:return {'status':'unavailable','reason':'target_observation_clock'}
-    body=timing.decode(row['body']);realized=(body['close']/ref-1)*10000
+    body=timing.decode(row['body'])
+    try:
+        price=float(body['close'])
+        if isinstance(body['close'],bool) or not math.isfinite(price) or price<=0:raise ValueError('range')
+    except (KeyError,TypeError,ValueError,OverflowError):
+        return {'status':'unavailable','reason':'invalid_target_price'}
+    realized=(price/ref-1)*10000
     return {'status':'settled','realized_return_bps':realized,
-            'predicted_return_bps':forecast['predicted_return_bps'],
-            'absolute_error_bps':abs(realized-forecast['predicted_return_bps']),
+            'predicted_return_bps':predicted,
+            'absolute_error_bps':abs(realized-predicted),
             'no_change_absolute_error_bps':abs(realized),
-            'direction_correct':None if realized==0 or forecast['predicted_return_bps']==0 else (realized>0)==(forecast['predicted_return_bps']>0),
+            'direction_correct':None if realized==0 or predicted==0 else (realized>0)==(predicted>0),
             'target_epoch':target,'target_bar_first_observed':row['first_observed'],
             'outcome_bar_close_epoch':close,'target_close_delay_seconds':close-target,
             'settlement_observed_epoch':now,'target_bar_sha256':digest(body),
