@@ -95,3 +95,6 @@ Additional restore verification reproduced four recorded current forecasts
 and relocated model payloads. The reconstructed feature/history hashes matched
 the originally recorded inference. See RESTORED_LIVE_REPLAY.json; this is
 replication of existing observations, not new scientific evidence.
+
+
+Final native readback 2026-09-30T23:51:45.345975+00:00: HTTP 200 in 7.899seconds; 671 current forecasts across61pairs and11connections; news and per-registry tracking current. Existing supervisor recovered automatically without restart-ledger reset. This is engineering/readback evidence, not a model skill or trading result.

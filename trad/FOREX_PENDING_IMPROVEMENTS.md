@@ -5864,3 +5864,6 @@ Step `data_and_model_connection_20260930`; Vault `DATA_AND_RETAINED_MODELS_20260
 
 
 2026-09-30 legacy26_saved_connection_20260930: two original legacy26 Extra Trees adapters; nine original definitions retained; 104 tests, 2696 exact original forecast replications, 23 capsule payloads restored. Dashboard cold SciPy import moved into inference only. Vault LEGACY26_CONNECTION_20260930/REVIEW.json; final publication receipt LEGACY26_CONNECTION_PUBLICATION_20260930/RECEIPT.json. Exact next data_freshness_and_remaining_horizon_reconciliation_v1: residual/curve and exact remaining target reconciliation; no fitting or orders.
+
+
+Final native readback 2026-09-30T23:51:45.345975+00:00: HTTP 200 in 7.899seconds; 671 current forecasts across61pairs and11connections; news and per-registry tracking current. Existing supervisor recovered automatically without restart-ledger reset. This is engineering/readback evidence, not a model skill or trading result.
