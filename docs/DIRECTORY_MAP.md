@@ -13,6 +13,7 @@
 | `docs/history/` | Verbatim older entry documents; never use their old "current" labels as live status |
 | `git_publication_20260923/legacy-trad.git` | Retained original Git metadata for rollback; keep it |
 | Shared Vault | Queue, claims, review packets, immutable artifact/checkpoint references and larger documentation |
+| `vault/forex/` | Versioned Forex Vault knowledge copy; reading snapshot, not live coordination or full data storage |
 
 Paths in frozen recipes and manifests are part of their provenance. Organize by this
 index before moving source or data directories. Keep runtime databases, credentials,

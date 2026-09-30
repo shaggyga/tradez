@@ -1,0 +1,1 @@
+Next: review_historical_native_policy_checkpoint, then retained_directional_model_recovery_and_campaign_admission_v2. The retained C-drive directional artifacts are the next reuse dependency of Step E/F. Full engineering design remains authority; all37 items in FULL_DESIGN_QUEUE.md.

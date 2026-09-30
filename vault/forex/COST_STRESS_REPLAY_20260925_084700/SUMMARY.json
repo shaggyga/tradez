@@ -1,0 +1,160 @@
+{
+  "schema": "forex.cost_stress_replay_summary.v1",
+  "created_utc": "2026-09-25T08:46:49.705082Z",
+  "source_commit": "b977d245bcaf39e226c3eec2d993c03d60cfc6a6",
+  "status": "completed_synthetic_stress_not_policy_evidence",
+  "attempted": 7,
+  "completed": 7,
+  "failed": 0,
+  "path_changed": [
+    "fees_10000x",
+    "capital_100",
+    "latency_120s",
+    "entry_quote_outage",
+    "entry_spread_wide"
+  ],
+  "scenario_count": 7,
+  "baseline": {
+    "arms": {
+      "hold": {
+        "cash_reconciliation_residual_usd": "0.0000",
+        "cash_usd": "10017.0000",
+        "closed_lot_legs": 2,
+        "concentration_breach": false,
+        "currency_exposures": {},
+        "equity_usd": "10017.0000",
+        "fees_usd": "2.0",
+        "financing_usd": "-1.0000",
+        "free_margin_usd": "10017.000000",
+        "gross_close_profit_factor": null,
+        "holding_deadline_breaches": [],
+        "net_account_pnl_usd": "17.0000",
+        "open_lot_count": 0,
+        "pending_order_units": 0,
+        "profit_factor_status": "undefined_no_losing_close_legs",
+        "realized_usd": "20.0000",
+        "rejected_events": 0,
+        "reserved_margin_usd": "0.000000",
+        "return_fraction": "0.0017",
+        "risk_status": "within_contract",
+        "starting_capital_usd": "10000",
+        "unavailable": [],
+        "unrealized_usd": "0",
+        "used_margin_usd": "0"
+      },
+      "rotate": {
+        "cash_reconciliation_residual_usd": "0.0000",
+        "cash_usd": "10013.4000",
+        "closed_lot_legs": 2,
+        "concentration_breach": false,
+        "currency_exposures": {},
+        "equity_usd": "10013.4000",
+        "fees_usd": "2.0",
+        "financing_usd": "-0.6000",
+        "free_margin_usd": "10013.400000",
+        "gross_close_profit_factor": null,
+        "holding_deadline_breaches": [],
+        "net_account_pnl_usd": "13.4000",
+        "open_lot_count": 0,
+        "pending_order_units": 0,
+        "profit_factor_status": "undefined_no_losing_close_legs",
+        "realized_usd": "16.0000",
+        "rejected_events": 0,
+        "reserved_margin_usd": "0.000000",
+        "return_fraction": "0.00134",
+        "risk_status": "within_contract",
+        "starting_capital_usd": "10000",
+        "unavailable": [],
+        "unrealized_usd": "0",
+        "used_margin_usd": "0"
+      }
+    },
+    "completion_sha256": "6472d9c1abe00f1e10b5e0b01cf3186cea419a6b9f6679031224f2ec9538ceb2",
+    "fill_path_differs_from_baseline": false,
+    "filled_events": 6,
+    "identity": "3295fb06b53653000bce0416dc0e272482c8a5a55ffc650d97f9598924fa3c90",
+    "independent_audit": {
+      "absolute_decimal_tolerance_usd": "1E-40",
+      "event_arm_rows_checked": 40,
+      "independence": "raw_accepted_event_economics_recomputed_without_predecessor_pnl_functions",
+      "maximum_residual_usd": "0",
+      "not_verified": [
+        "independent_policy_admission",
+        "optimized_large_campaign_engine_parity",
+        "historical_execution"
+      ],
+      "schema_version": "forex_independent_accounting_arithmetic.v2",
+      "status": "verified"
+    },
+    "rejected_events": 0,
+    "run_id": "six-hour-cost-stress-baseline",
+    "scenario": "baseline"
+  },
+  "scenario_status": [
+    {
+      "scenario": "baseline",
+      "filled_events": 6,
+      "rejected_events": 0,
+      "fill_path_differs_from_baseline": false,
+      "audit_status": "verified",
+      "completion_sha256": "6472d9c1abe00f1e10b5e0b01cf3186cea419a6b9f6679031224f2ec9538ceb2"
+    },
+    {
+      "scenario": "fees_10000x",
+      "filled_events": 1,
+      "rejected_events": 11,
+      "fill_path_differs_from_baseline": true,
+      "audit_status": "verified",
+      "completion_sha256": "1a4e9ccdb6e68257b71440662c5aca1b5edc8ba4a38978382482c6781a3b0904"
+    },
+    {
+      "scenario": "capital_100",
+      "filled_events": 0,
+      "rejected_events": 18,
+      "fill_path_differs_from_baseline": true,
+      "audit_status": "verified",
+      "completion_sha256": "ee9039ee096ebde7d195299ff1d4a754380c4ed1228018d478d51663d4dfeea2"
+    },
+    {
+      "scenario": "financing_5x",
+      "filled_events": 6,
+      "rejected_events": 0,
+      "fill_path_differs_from_baseline": false,
+      "audit_status": "verified",
+      "completion_sha256": "3d8d8e2a580cd900d460a5fc2891b7784d2fe782f7f96ace009138b4c7058aaf"
+    },
+    {
+      "scenario": "latency_120s",
+      "filled_events": 0,
+      "rejected_events": 14,
+      "fill_path_differs_from_baseline": true,
+      "audit_status": "verified",
+      "completion_sha256": "7e4cb7da764148ef6c93166ccf54701aef98aa811b419ba4695f92815b4bc9c8"
+    },
+    {
+      "scenario": "entry_quote_outage",
+      "filled_events": 1,
+      "rejected_events": 11,
+      "fill_path_differs_from_baseline": true,
+      "audit_status": "verified",
+      "completion_sha256": "3ba3e74d91e55004b02026c01d455a39a485ba00a4db486b6ea5f74930c59f3e"
+    },
+    {
+      "scenario": "entry_spread_wide",
+      "filled_events": 1,
+      "rejected_events": 11,
+      "fill_path_differs_from_baseline": true,
+      "audit_status": "verified",
+      "completion_sha256": "8962ba6978c2a5bd06faf04ccfc4ec50aa1977753aaad7e68c3c7c67d54f5f86"
+    }
+  ],
+  "models_fitted": 0,
+  "network_calls": 0,
+  "broker_actions": 0,
+  "limitations": [
+    "not_a_model_conditioned_policy_reoptimization",
+    "not_historical_cost_estimation",
+    "explicit_fills_may_be_rejected_under_stress; remaining_positions_and_orders_are_reported",
+    "synthetic_profitability_is_not_market_evidence"
+  ]
+}

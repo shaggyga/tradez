@@ -1,0 +1,2 @@
+Next: review_macro_meter_checkpoint_v2, then macro_currency_meter_numeric_evidence_join_v2.
+Review exact checkpoint, then macro_currency_meter_numeric_evidence_join_v2. WP6 shared currency concept meter and offline evidence drilldown

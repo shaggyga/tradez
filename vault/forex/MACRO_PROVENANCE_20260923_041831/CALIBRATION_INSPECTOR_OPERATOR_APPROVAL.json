@@ -1,0 +1,19 @@
+{
+  "recipe": "source_snapshot/CALIBRATION_INSPECTOR_OPERATOR_RECIPE.json",
+  "recipe_sha256": "4706cfdfc5783716502e8a931a7c060518e6db27f983983563584c512e586f1f",
+  "scope": "exact original modeled-clock calibration inspection with separately requested mature outcomes; no fitting or policy action",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify",
+    "inspect"
+  ],
+  "bootstrap": "../CALIBRATION_INSPECTOR_20260922_121656/checkpoint/forex_calibration_inspector.zip",
+  "contract": "source_snapshot/CALIBRATION_INSPECTOR_CONTRACT_V2.md",
+  "next": "review_calibration_inspector_checkpoint",
+  "required_companions": {
+    "calibration": "4881fba4ee851bdaa9d7288b8108973f62c65eebb01a70b7aeb85e26de907639"
+  }
+}

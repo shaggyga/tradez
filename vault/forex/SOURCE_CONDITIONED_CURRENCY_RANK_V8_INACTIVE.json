@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "collection_enabled": false,
+  "contract_id": "source_conditioned_currency_rank_v8_observed_publication_entry_20260905",
+  "parent_adapter_contract_id": "source_conditioned_currency_rank_v7_v8_input_explicit_no_trade_20260901",
+  "required_source_contract_id": "causal_source_factor_response_map_v9_publication_availability_20260905",
+  "historical_rows_imported": false,
+  "entry_quote_clock": "strictly_after_committed_frozen_rank_selection_and_all_contributing_consumer_source_observations",
+  "rank_selection": "append_only_completed_selection_then_later_quote_fill_without_reranking",
+  "source_forecast_expiry_clock": "original_actual_forecast_issue_not_consumer_observation",
+  "maximum_capture_lag_sec": 120.0,
+  "maximum_quote_age_sec": 90.0,
+  "research_only": true,
+  "execution_eligible": false,
+  "can_place_orders": false,
+  "can_authorize": false,
+  "can_promote": false,
+  "comparison_arms": ["price_only", "source_only", "source_price_timing", "no_trade"]
+}

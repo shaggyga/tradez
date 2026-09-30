@@ -1,0 +1,99 @@
+{
+  "schema_version": "forex_checkpoint_review_result.v1",
+  "reviewed_utc": "2026-09-21T23:49:41.779243+00:00",
+  "step_id": "batch05-accounting-operator",
+  "verdict": "changes_requested",
+  "reviewer": "Codex /root, same-thread follow-up self-review",
+  "independent_review": false,
+  "reason_not_independent": "Reviewer previously implemented the reviewed changes; no separate reviewer was used.",
+  "review_scope": "exact sealed Stage C changes and their accounting/operator/recovery consumers",
+  "source_package": "ACCOUNTING_EVENTS_20260921_213557",
+  "source_manifest_sha256": "721383b2c68e336aac09bf1d3d242bdec01384f042e10dbc75ebe1a3d3680c75",
+  "source_files_verified": 38,
+  "sealed_files_verified": 352,
+  "checkpoint_sha256": "b457420c2b858a41668d26e91735f0829f85a4ff52183f13530411d7ef06ae3f",
+  "findings": [
+    {
+      "id": "B05-R2",
+      "priority": "P1",
+      "status": "open",
+      "title": "Pin package initialization before loading the reviewed predecessor",
+      "file": "reference_accounting_adapter_v2.py",
+      "line_start": 27,
+      "line_end": 34,
+      "related_file": "forex_operator_v2.py:15",
+      "design": [
+        "21.2",
+        "21.3",
+        "TST51",
+        "lower-model source-drift refusal"
+      ],
+      "trigger": "An unlisted src/__init__.py is added under the selected trad root while both pinned predecessor files retain their approved hashes.",
+      "observed": "The operator status command exits 0 and reports ready; Python executes the unapproved initializer first. A harmless marker file proves execution in an isolated copy.",
+      "impact": "The claimed pre-import source-change guard omits executable dependencies. A normal package-initialization change can alter behavior or trigger side effects without changing the recipe identity.",
+      "required_fix": "Bind the complete local import closure, including initializer presence/absence, or load the reviewed modules through an isolated import mechanism that cannot execute unapproved parent packages. Apply the same contract to the operator and portable package before imports.",
+      "acceptance": "Changed/added parent initializers are refused before any marker side effect; unchanged approved live and restored layouts still work; original core source hashes remain enforced."
+    },
+    {
+      "id": "B05-R1",
+      "priority": "P1",
+      "status": "open",
+      "title": "Preserve activation while cancellation is awaiting acknowledgement",
+      "file": "accounting_events_v2.py",
+      "line_start": 361,
+      "line_end": 364,
+      "related_file": "accounting_events_v2.py:382",
+      "design": [
+        "17.4",
+        "TST18",
+        "TST19-23"
+      ],
+      "trigger": "Intent at 1000, cancel request at 1030, activation at 1060 and an explicitly observed fill at 1061, before any cancel acknowledgement.",
+      "observed": "cancel_request sets status=cancel_pending. activate requires pending, so activation is rejected; the subsequent fill is rejected as order_not_active. The identical tape without the cancel request fills. Both reference and optimized paths reproduce the error.",
+      "impact": "An unconfirmed cancellation effectively suppresses execution and exposure. Reference/optimized parity cannot detect this because both share lifecycle code.",
+      "required_fix": "Track cancellation request independently from activation/trigger eligibility, or explicitly allow activation of cancel-pending orders while preserving the outstanding cancellation. Only confirmed cancellation/expiry should remove eligible pending quantities under this asynchronous contract.",
+      "acceptance": "Cover cancellation requested before activation with ack before and after activation, fills before ack, resting triggers, partial fills, exact reservations, and interrupted recovery in both paths."
+    },
+    {
+      "id": "B05-R3",
+      "priority": "P2",
+      "status": "open",
+      "title": "Validate the actual packaged operator approval during export and restore",
+      "file": "accounting_checkpoint_v2.py",
+      "line_start": 51,
+      "line_end": 65,
+      "related_file": "test_forex_operator_v2.py:16",
+      "design": [
+        "21.5",
+        "TST52",
+        "lower-model verified recipe handoff"
+      ],
+      "trigger": "A harmless comment changes a copied fixture source while its old OPERATOR_RECIPE.json is retained, then the copied source is exported and restored with run_tests=True.",
+      "observed": "Export reports COMPLETE and restore reports VERIFIED with all included tests passing, but the restored operator using the packaged recipe exits 2 with source_dependency_environment_or_recipe_drift.",
+      "impact": "The acceptance tests mint fresh test recipes and never validate the frozen one shipped to the next operator. A future engineering checkpoint can be declared verified while its advertised operator is unusable.",
+      "required_fix": "Validate the frozen packaged approval against the exact packaged source/dependencies before sealing, and execute its operator preflight/run/verify in relocated acceptance. Do not silently regenerate an approval to make the check pass.",
+      "acceptance": "A stale approval causes export/restore acceptance to fail explicitly; a newly reviewed coherent approval runs successfully after relocation. Keep a regression showing fresh test-created recipes cannot mask stale shipped approval."
+    }
+  ],
+  "checks_performed": [
+    "Verified all 352 sealed members and 38 live source-snapshot files",
+    "Inspected exact change inventory, lifecycle/core/audit/runner/operator/checkpoint consumers and affected tests",
+    "Reproduced cancellation race in reference and optimized paths with a no-cancel control",
+    "Ran a fresh isolated operator process with a harmless unapproved package initializer",
+    "Exported and restored a copied source revision with stale approval, including bundled restore tests, then invoked its actual packaged operator"
+  ],
+  "historical_tests": "245 integrated tests plus 5 packaging checks remain valid prior receipts, not a fresh full-suite run or a proof that these new cases pass",
+  "new_reproduction_result": "all three findings reproduced; original source and sealed evidence unchanged",
+  "not_performed": [
+    "full project/model audit",
+    "new historical training or policy performance evaluation",
+    "broker/service/account changes",
+    "D-drive access",
+    "independent reviewer acceptance"
+  ],
+  "original_engine_changed": false,
+  "repairs_implemented": false,
+  "next_item": "accounting_review_repairs_v2: fix B05-R2 import-closure binding, B05-R1 pre-activation cancellation race and B05-R3 packaged-approval validation; add regressions, reseal the approved recipe/checkpoint and request re-review before policy integration.",
+  "deferred_next_item": "policy_thesis_continuation_and_operator_recipe_v2",
+  "advisor_comparisons": "deferred"
+}

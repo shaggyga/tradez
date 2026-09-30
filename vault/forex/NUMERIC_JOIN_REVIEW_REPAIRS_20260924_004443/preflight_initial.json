@@ -1,0 +1,128 @@
+{
+  "branch": "forex",
+  "checks": [
+    {
+      "check": "roots",
+      "detail": {
+        "vault": "C:\\Users\\zmoor\\OneDrive\\thevault\\projects\\forex",
+        "workspace": "C:\\Users\\zmoor\\Documents\\forex"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "repository",
+      "detail": {
+        "branch": "forex",
+        "clean": true,
+        "head": "4daa6c6b0a4e6e6f0c1e5f6a4ecc508216376fd1"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "vault_packages",
+      "detail": {
+        "design_manifest_sha256": "c1965c5d8a59e1571f8cee7fd929d8762e9fb5c16f3902927f011e490a2bc8f6",
+        "design_package": "MACRO_NUMERIC_EVIDENCE_JOIN_20260924_002217",
+        "exact_next_item": "review_macro_currency_meter_numeric_evidence_join_v2",
+        "review_manifest_sha256": "c1965c5d8a59e1571f8cee7fd929d8762e9fb5c16f3902927f011e490a2bc8f6",
+        "review_package": "MACRO_NUMERIC_EVIDENCE_JOIN_20260924_002217"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "current_documents",
+      "reason": "'external_documents'",
+      "status": "blocked"
+    },
+    {
+      "check": "engineering_source",
+      "detail": {
+        "engineering_files_verified": 375,
+        "scope": "current engineering root source snapshot"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "revision",
+      "reason": "Checkout revision differs from Vault final handoff commit",
+      "status": "blocked"
+    },
+    {
+      "check": "coordination",
+      "reason": "Unresolved coordination owners require scope reconciliation: mabel-timed-numeric-join-20260923",
+      "status": "blocked"
+    },
+    {
+      "check": "operational_gate",
+      "reason": "Current engineering prerequisite is missing or ambiguous",
+      "status": "blocked"
+    },
+    {
+      "check": "environment",
+      "detail": {
+        "expected": {
+          "joblib": "1.5.3",
+          "numpy": "2.5.1",
+          "pandas": "2.3.3",
+          "pyarrow": "25.0.0",
+          "pytest": "9.1.1",
+          "python": "3.12.10",
+          "requests": "2.34.2",
+          "scikit-learn": "1.9.0",
+          "scipy": "1.18.0",
+          "threadpoolctl": "3.6.0",
+          "tzdata": "2026.3"
+        },
+        "installed": {
+          "joblib": "1.5.3",
+          "numpy": "2.5.1",
+          "pandas": "2.3.3",
+          "pyarrow": "25.0.0",
+          "pytest": "9.1.1",
+          "python": "3.12.10",
+          "requests": "2.34.2",
+          "scikit-learn": "1.9.0",
+          "scipy": "1.18.0",
+          "threadpoolctl": "3.6.0",
+          "tzdata": "2026.3"
+        },
+        "model_runtime_qualified": false,
+        "profile": "engineering"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "snapshot_stability",
+      "detail": {
+        "files_read": 899
+      },
+      "status": "pass"
+    }
+  ],
+  "code_commit": "4daa6c6b0a4e6e6f0c1e5f6a4ecc508216376fd1",
+  "filesystem_mutations": 0,
+  "limitations": [
+    "Local immutable/current-document identity checks only; no live GitHub or OneDrive freshness proof.",
+    "Passing is a setup observation, not a research, model run, broker or service authorization.",
+    "The board is advisory, not an atomic distributed lock; establish shared freshness and claim work before edits/runs.",
+    "Selected recipe input bytes and full historical artifact graphs are checked only by their original operator; this tool never launches it.",
+    "Historical missing approvals unrelated to the selected next work are not interpreted as startup blockers."
+  ],
+  "model_runtime_qualified": false,
+  "models_fitted": 0,
+  "models_loaded": 0,
+  "network_calls": 0,
+  "research_authorization": false,
+  "schema": "forex_offline_preflight.v1",
+  "status": "blocked",
+  "unresolved_claims": [
+    {
+      "handoff": "Implemented/pushed at `39fe37b`; current checkpoint `MACRO_NUMERIC_EVIDENCE_JOIN_20260923_214050`, run `7204c1e...`; exact next item `review_macro_currency_meter_numeric_evidence_join_v2`. Independent review remains required.",
+      "owner": "Mabel current Codex task",
+      "scope": "stage_c_alignment_integrity_v2` meter/numeric/component/unit/provenance consumer and tests; local timed evidence; successor Vault packet/queue/log handoff. No GPT/advisor, paid, broker, service/account or D-drive work",
+      "status": "HANDOFF",
+      "task_id": "mabel-timed-numeric-join-20260923"
+    }
+  ],
+  "utc": "2026-09-24T00:47:42.342952+00:00"
+}

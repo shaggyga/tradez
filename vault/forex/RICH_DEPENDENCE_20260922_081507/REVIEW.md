@@ -1,0 +1,22 @@
+# Paired dependence diagnostics and attempt accounting
+
+Reused the original rich-family forecasts, baseline forecasts and endpoint outcomes to produce336 paired comparisons,5616 actual-origin panels and1008 declared block sensitivities. The report fits/loads no estimator. Every paired population equals the original score-support hash and row count; paired absolute/squared error differences reconcile with original scores. A60-digit Decimal oracle checks real-origin arithmetic.
+
+Actual mature/available outcome support has six clock grids,12–20 origins and3–5 UTC dates. Joint draw identity includes the actual grid as well as random indices: shifted equal-length grids are not the same joint draw. Whole currency panels are sampled together only within identical grids. Four/eight-origin ranges are descriptive moving-block sensitivity, not confirmatory confidence intervals. Twenty-origin ranges return insufficient distinct blocks. Irregular grids return no interval rather than compressing missing time. The original row-weighted estimator is retained, including variable panel sizes. No effective independent sample size, cross-target joint interval, p-value or winner is asserted.
+
+DP-SUPPORT-1 preserves the initial21-pass/two-failure verification and original source/recipe/run. Initial tests wrongly assumed20 mature origins for every target and one shared index matrix. The repaired report explicitly records exclusions and absent origins; new shifted-grid/interior-gap regressions verify the corrected contract. No original forecast, label, score or training population changed.
+
+The ledger records84 fixed rich-model fits and28 reused baseline fits, with zero/history-mean controls separately and original fit/population/model identities. It links the retained prior rolling lineage. This is a complete inventory for this comparison, not an exhaustive global historical model registry. Restore repetitions and engineering failures are not new model candidates. Exact missing sequence runs and D-drive evidence remain unverified.
+
+25 local and25 relocated tests pass, covering actual arithmetic/support, deterministic blocks and time grids, missing/empty support, source/consumed-byte guards, one writer, false completion, estimator-import denial and two real process-death/resume boundaries. The local optional pytest cache-directory warning is preserved; no permission change was made. Existing trade-outcome bootstrap helpers require8/10 dates and remain unchanged; this short-window descriptive report does not bypass their evidence gates.
+
+Portable reconstruction reproduces all five report payloads exactly using the pinned rich-family, baseline-model, rich-input and raw-archive companions. The dependency reconstruction replays existing fixed computations but does not rerun/count their full previously qualified model suites. Relocation was tested on this host; no second physical machine or future dependency version was certified. Bulk raw archives remain in their existing package. Carry this Vault packet with computational ZIPs.
+
+Later2026 schema choices on inspected2024 data, shared currencies, overlapping multiday targets, edge weighting and repeated inspection remain explicit limitations. Engineering_ready=false; forecast evidence=paired dependent inspected development only; policy evidence=not evaluated by this report; demo authorization=not granted. Independent review is unperformed.
+
+Next after scoped review: official_macro_context_recovery_v2. Reuse the disabled existing OfficialFact V5 adapter and fixed archived inputs, preserve missing numeric/expectation/semantic fields, and keep2026 context out of the2024 campaign. Qualified calendars, aggregate model scheduling, conditional-family/null/leak controls, complete historical attempt inventory and protected confirmation remain unfinished. GPT/advisor, paid-call, broker/service/account and D-drive work remain deferred.
+
+Revised report computation:24.688 seconds, sampled456736768bytes aggregate RSS. Checkpoint reconstruction plus relocated report tests: 990.735 seconds, sampled 757891072bytes aggregate RSS.
+
+
+Checkpoint: checkpoint/forex_rich_dependence.zip, SHA256 410ab1d6f53442defb862bb1a3475fee830c19bcd640166ac8f8f5dac1d035ef. Exact next: review_rich_dependence_checkpoint; then official_macro_context_recovery_v2. Prior checkpoints remain sealed in their original packages; approvals reference them without duplicating archives.

@@ -1,0 +1,368 @@
+{
+  "schema_version": "forex_pair_dashboard_consistency_validation_v1_20260907",
+  "observed_utc": "2026-09-07T18:01:39.759510+00:00",
+  "status": "dashboard_publication_read_consistency_verified",
+  "tests": {
+    "tests": 226,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0
+  },
+  "registry_sha256": "e0aa74fa5d20b7be983050625773834ea68d74ffc15b566ab5e03df9b3380d65",
+  "registered_pairs": 68,
+  "registered_model_ledger_worker_sources_unchanged": {
+    "oanda_causal_forecast_inputs.py": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+    "oanda_causal_forecast_inputs_gap_v2.py": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd",
+    "oanda_causal_forecast_inputs_pair_v1.py": "d4a8356b9df29b7f45cbebc4c9b93e9b5c843c2f1c56c93c088f22e9db856807",
+    "oanda_causal_forecast_ledger_pair_v1.py": "acf83ef8a15c85465d493f9e614ca7153b28a9e4b4f4e5db7de9aed60c7e6cbb",
+    "oanda_causal_prediction_baselines.py": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+    "oanda_exact_price_scoring.py": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521",
+    "oanda_fixed_forecast_evaluation_pair_v1.py": "aa3479f9ff94c3c74e159e40e008a2553ec8869d196a0ef53651fc521ac450bc",
+    "oanda_pair_local_forecast_study_v1.py": "9efb8c7b3ac5456adcf436ef0940b256336f8ea774c5befa7f2f23ce01fd7346",
+    "oanda_pair_local_models_v1.py": "ecd259fd66d74930ee23c715d29a5dba788d56ab2f7198cd1f521b912637ff26"
+  },
+  "runtime_verification": "docs/validation/pair_dashboard_consistency_20260907/DASHBOARD_CONSISTENCY_RUNTIME_VERIFICATION_RETAINED_20260907.json",
+  "repeated_api_verification": "docs/validation/pair_dashboard_consistency_20260907/DASHBOARD_API_CONSISTENCY_PROBE_RETAINED2_20260907.json",
+  "live_probe_assessment": "docs/validation/pair_dashboard_consistency_20260907/DASHBOARD_API_CONSISTENCY_ASSESSMENT_20260907.json",
+  "live_probe_scope": "All248 steady reads current across3summary transitions; raw detector remains incomplete for its extra independently-reconstructed-retention coverage criterion. Zero such live retained cases;226 adversarial tests cover retained cache provenance. Cold priming observations retained separately.",
+  "first_retry_only_live_probe": "docs/validation/pair_dashboard_consistency_20260907/DASHBOARD_API_CONSISTENCY_PROBE_20260907.json",
+  "first_retry_only_result": "Failed:38 unavailable results in184 reads; observed3.2-3.5second worker publication phase gaps exceeded short reader retries. Failed observations preserved.",
+  "prior_receipts_unchanged": {
+    "FOREX_PAIR_FORECAST_COVERAGE_VALIDATION_20260907.json": "6953f2d7259be748847ec0dd6a34abd1b2f482dd8be7aa6913bc7d906ff4cfb5",
+    "FOREX_SIGNALS_LIVE_OPTIMIZATION_VALIDATION_20260907.json": "3671297affd5addd4c2e4080c66d4d74382c24678a3430d7e4694814e5993792"
+  },
+  "prior_receipt_semantics": "Preserved dated receipts bind their own earlier source versions; this receipt binds the updated dashboard and current navigation.",
+  "issue_register_validation": {
+    "valid": true,
+    "errors": [],
+    "issue_count": 104,
+    "status_counts": {
+      "blocked_external": 4,
+      "complete": 57,
+      "implemented_collecting": 30,
+      "open": 0,
+      "permanently_invalid": 11,
+      "superseded_collecting": 2
+    }
+  },
+  "can_place_orders": false,
+  "prediction_improvement_demonstrated": false,
+  "limitations": [
+    "A bounded multi-generation live check is not proof of uninterrupted future uptime.",
+    "Persistent invalid or inconsistent publications remain unavailable.",
+    "More coverage and display continuity do not establish prediction accuracy.",
+    "No registered study sources, forecasts, outcomes or clocks were rewritten."
+  ],
+  "source_bindings": [
+    {
+      "path": "FOREX_AUDIT_START_HERE.md",
+      "bytes": 15832,
+      "sha256": "468f77c7dedf7cab4a80dd42431511c0fa79000dd19213cf481a6b54596d5669"
+    },
+    {
+      "path": "FOREX_PENDING_IMPROVEMENTS.md",
+      "bytes": 296740,
+      "sha256": "59e8b12538ac7293738ca2ffa80ed6ca00c476b331102930f7830064d7d04fc7"
+    },
+    {
+      "path": "FOREX_PROJECT_LOG.md",
+      "bytes": 419237,
+      "sha256": "e009b31a9cba2df2f07796003c6a753db21cf112c624ebedd6c311ed201cdd72"
+    },
+    {
+      "path": "README.md",
+      "bytes": 11097,
+      "sha256": "664cc0528b0fbc5cd621137c440f3ec8d09af0a271bcc232102f631379e23536"
+    },
+    {
+      "path": "config/causal_forecast_study_current.json",
+      "bytes": 166,
+      "sha256": "fbbcc673e93847769785e9437254f4d690ad3f6a76ae948966621d8a76ecf6fa"
+    },
+    {
+      "path": "config/pair_local_forecast_study_v1_20260907.json",
+      "bytes": 366648,
+      "sha256": "e0aa74fa5d20b7be983050625773834ea68d74ffc15b566ab5e03df9b3380d65"
+    },
+    {
+      "path": "docs/AUDIT_STATE_CURRENT.md",
+      "bytes": 16140,
+      "sha256": "f986b62718f3df6946b19c30335987d9005fd30eab1718c8d922ee2a6eb6c202"
+    },
+    {
+      "path": "docs/FOREX_PAIR_DASHBOARD_CONSISTENCY_20260907.md",
+      "bytes": 8780,
+      "sha256": "fd8b517f629d49010bc5f9d20d5206912cd71e517c75f8c0d3a9d576aae63f55"
+    },
+    {
+      "path": "docs/VAULT_RECREATION_CURRENT.md",
+      "bytes": 9631,
+      "sha256": "3f286b99af50b46e969bdb0fd09c76493c49be439b20c040c3e0688ad93a6776"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/DASHBOARD_API_CONSISTENCY_ASSESSMENT_20260907.json",
+      "bytes": 3514,
+      "sha256": "76d7d9c857749a6247fe3092c1897ee68260dccb0659f18fbbfc95e64896ffc7"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/DASHBOARD_API_CONSISTENCY_PROBE_20260907.json",
+      "bytes": 3253923,
+      "sha256": "0bf5ad030503d66141617209cfc8ed281da0dc019d935c0e96af722b8a1e6789"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/DASHBOARD_API_CONSISTENCY_PROBE_RETAINED2_20260907.json",
+      "bytes": 19900705,
+      "sha256": "f9563ab04d0c8b9b4ce3d72133ab1bcd2cb62f74af646d43445495fdde8e0ea7"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/DASHBOARD_API_CONSISTENCY_PROBE_RETAINED_20260907.json",
+      "bytes": 2442415,
+      "sha256": "cb7cddf0a5f4d17b3d8c18517111a565c09bcfb07828870ebbe8d306d324cda1"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/DASHBOARD_CONSISTENCY_RUNTIME_VERIFICATION_20260907.json",
+      "bytes": 23004,
+      "sha256": "ff4d805a7ee13959bccbdad7c9f9f58ab05e0c3e42e8cf1d314f626c4b566b1e"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/DASHBOARD_CONSISTENCY_RUNTIME_VERIFICATION_RETAINED_20260907.json",
+      "bytes": 23005,
+      "sha256": "3476c9aee1b690a60efa3cb28c0aecbea48ed089d6d103b9b1bb675bb62be829"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/DASHBOARD_ONLY_RELOAD_20260907_134137_566.json",
+      "bytes": 1040,
+      "sha256": "12ac1d483167d8fca95dcef71a28388352667714c3c95d1d58f78f8d94b4bd9d"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/DASHBOARD_ONLY_RELOAD_20260907_135227_504.json",
+      "bytes": 1049,
+      "sha256": "9bce51d9a4c313f3ae77c11a13ec42ee12ddd8ca956a2ad2d47779cef68e03d0"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/DASHBOARD_RELOAD_BEFORE_20260907_134137_566.json",
+      "bytes": 22434,
+      "sha256": "ba05bda2ded73f6af65378d408d1ee5deeed054cd9cd59e4839487f369e35194"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/DASHBOARD_RELOAD_BEFORE_20260907_135227_504.json",
+      "bytes": 22887,
+      "sha256": "6238b3eed28e02fdcd2b71eb3f3be9c9ad7842a0df2da24e2d5ca269c609d044"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/FAILED_PROBE_GENERATION_TIMELINE_20260907.json",
+      "bytes": 2782,
+      "sha256": "4320f034d7da35d2443c0559305021ba11c18438bb3dfc1d868d9099265f988d"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/HELPER_READONLY_PREFLIGHT_20260907.json",
+      "bytes": 22434,
+      "sha256": "22e00a5498b6b8b3ef8eabe1bac622907d94a62e22837f621252a375ee45a0f1"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/before_source/FOREX_AUDIT_START_HERE.md",
+      "bytes": 15084,
+      "sha256": "e573b6d71150b37d06e1126e47b2af326b86d62b8abaded83d5c727aa40af0ce"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/before_source/FOREX_AUDIT_STATE_CURRENT.json",
+      "bytes": 17186,
+      "sha256": "a28787f4f2e6c9a5f1695b8003a537babe6fe2143dc03f21eb0400187def664e"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/before_source/FOREX_COMMONS_CURRENT.json",
+      "bytes": 2803,
+      "sha256": "275b700ddc9eaab55e84f7e01a1020ccaf547ae8af4f103402a34e552f5c8a4b"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/before_source/FOREX_PENDING_IMPROVEMENTS.md",
+      "bytes": 296135,
+      "sha256": "6ee566bef3ceafb513e39af3115d7628e49bedf36302afbf9382f4cb151aaa8b"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/before_source/FOREX_PROJECT_LOG.md",
+      "bytes": 418149,
+      "sha256": "00f2531d5294ee8165887e65619ccc1358f032388b482dea2aa711d16cffa142"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/before_source/README.md",
+      "bytes": 10304,
+      "sha256": "b46c726f632a96c31575ef1a60dd1ac4cd5e2fc9fa634de7521b3af75ba5081d"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/before_source/docs/AUDIT_STATE_CURRENT.md",
+      "bytes": 15349,
+      "sha256": "5da34dd1a42dadea3214bcc7bcc1481e44e3a550d2246720a22d5baa77e8f9cf"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/before_source/docs/VAULT_RECREATION_CURRENT.md",
+      "bytes": 8840,
+      "sha256": "b83dfb049a4bf4b7131a7bf67ee68cba00bed40406f35d8e6656f0c5516b936a"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/before_source/forex_model_vault_sync.py",
+      "bytes": 106456,
+      "sha256": "b206a86da2d66ff51304f9eac9393aea2a70f81ef645904b2655b7f6bbcf281c"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/dashboard_before_retained_generation/oanda_practice_live_dashboard.py",
+      "bytes": 447229,
+      "sha256": "3a267d5ee82c245620c2b7d9f429c68d23db05e367762f44955654290c47ca8f"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/dashboard_before_retained_generation/test_oanda_pair_forecast_dashboard.py",
+      "bytes": 18387,
+      "sha256": "a9995b5498813ea75759ca8dde1a539927d8a6c3b2e995d656abd55e7ce900c4"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/dashboard_before_source/oanda_main_signal_dashboard.html",
+      "bytes": 136192,
+      "sha256": "905fe0be57a7d8c55197581108b6811789d71bc795c2787361aaab1e014f0694"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/dashboard_before_source/oanda_practice_live_dashboard.py",
+      "bytes": 445035,
+      "sha256": "8eb201d358dc92d16a60c3c3b038ef935ae3b22e4103aaca8ef0e2eaad30abe0"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/dashboard_before_source/test_oanda_collection_dashboard_status.py",
+      "bytes": 39175,
+      "sha256": "3d87a5c4fc98cae67714095d822e7616b949917c9a6f261ba7847c2a2714036f"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/dashboard_before_source/test_oanda_pair_forecast_dashboard.py",
+      "bytes": 12703,
+      "sha256": "2e4f27506b868040772c5c4921350cd01ecbcf7bc9fc2f192262e289d4c47498"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/finalize_record.py",
+      "bytes": 10241,
+      "sha256": "7e5a4fb708714e107e500567de4d09fa7f06e89f0feecfeb2c92bd482d580495"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/observe_dashboard_consistency.py",
+      "bytes": 18718,
+      "sha256": "3eab65481b1b5e0989cbae247ec74874d109fcab459717cf9f51fc23e99f7170"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/observe_dashboard_consistency_initial.py",
+      "bytes": 10397,
+      "sha256": "553db6a7dd2878a5220cafd63387ff8457111c77fcb61178e5df12546b42d243"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/observe_dashboard_consistency_strict_priming.py",
+      "bytes": 18310,
+      "sha256": "25d28cc43bc265003a307abf5d36da8d2f6ba80ee86ef9de4b10cd8626d8d14d"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/publish_vault.py",
+      "bytes": 8483,
+      "sha256": "9d40c943b716d0326db2a4a9a4bdc9f1bc358d826169fb88596375abfe9f0633"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/reload_dashboard_only.ps1",
+      "bytes": 4551,
+      "sha256": "1efb0a88196d9dd4f9674a99dd2a6303dac156300324b237ec6222da9c267836"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/tests.xml",
+      "bytes": 43667,
+      "sha256": "87786fea24c4c50924dc1ac947fa893d913dac9fcdb47eff39f2c4c44cfde48a"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/tests213.xml",
+      "bytes": 41677,
+      "sha256": "111c1a7d295ea5f77d4ac216cdd745059766b3dd3efba3671dfffbb3d471822e"
+    },
+    {
+      "path": "docs/validation/pair_dashboard_consistency_20260907/verify_runtime.py",
+      "bytes": 9092,
+      "sha256": "daad78cbed2e825c92ec282a174be72234a42106ed2e092cfdc62242e5d959b4"
+    },
+    {
+      "path": "forex_model_vault_sync.py",
+      "bytes": 106699,
+      "sha256": "c1a0bcf3622302930ff084c66925ae6f8ec5d83bc980e53b28627fc2aa15d59f"
+    },
+    {
+      "path": "oanda_always_on_supervisor.ps1",
+      "bytes": 203642,
+      "sha256": "44222699b72d21e697c90eb4214fbdca2eb0e0da49176f7bd43960e923848887"
+    },
+    {
+      "path": "oanda_causal_forecast_inputs.py",
+      "bytes": 15041,
+      "sha256": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281"
+    },
+    {
+      "path": "oanda_causal_forecast_inputs_gap_v2.py",
+      "bytes": 9636,
+      "sha256": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd"
+    },
+    {
+      "path": "oanda_causal_forecast_inputs_pair_v1.py",
+      "bytes": 13584,
+      "sha256": "d4a8356b9df29b7f45cbebc4c9b93e9b5c843c2f1c56c93c088f22e9db856807"
+    },
+    {
+      "path": "oanda_causal_forecast_ledger_pair_v1.py",
+      "bytes": 23666,
+      "sha256": "acf83ef8a15c85465d493f9e614ca7153b28a9e4b4f4e5db7de9aed60c7e6cbb"
+    },
+    {
+      "path": "oanda_causal_prediction_baselines.py",
+      "bytes": 6198,
+      "sha256": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d"
+    },
+    {
+      "path": "oanda_exact_price_scoring.py",
+      "bytes": 9947,
+      "sha256": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521"
+    },
+    {
+      "path": "oanda_fixed_forecast_evaluation_pair_v1.py",
+      "bytes": 30236,
+      "sha256": "aa3479f9ff94c3c74e159e40e008a2553ec8869d196a0ef53651fc521ac450bc"
+    },
+    {
+      "path": "oanda_main_signal_dashboard.html",
+      "bytes": 136192,
+      "sha256": "905fe0be57a7d8c55197581108b6811789d71bc795c2787361aaab1e014f0694"
+    },
+    {
+      "path": "oanda_pair_local_forecast_study_v1.py",
+      "bytes": 23057,
+      "sha256": "9efb8c7b3ac5456adcf436ef0940b256336f8ea774c5befa7f2f23ce01fd7346"
+    },
+    {
+      "path": "oanda_pair_local_models_v1.py",
+      "bytes": 8902,
+      "sha256": "ecd259fd66d74930ee23c715d29a5dba788d56ab2f7198cd1f521b912637ff26"
+    },
+    {
+      "path": "oanda_practice_live_dashboard.py",
+      "bytes": 450449,
+      "sha256": "6eb16350ba63a832bc184c3a238898707905b6f949feba8d1fcfe5bb850fe7cc"
+    },
+    {
+      "path": "start_oanda_research_collection.ps1",
+      "bytes": 1934,
+      "sha256": "c7e2a970b6e8bb69fcdaf5b124b8d935be6326f06a6554408889e111f57f3115"
+    },
+    {
+      "path": "test_oanda_collection_dashboard_status.py",
+      "bytes": 39175,
+      "sha256": "3d87a5c4fc98cae67714095d822e7616b949917c9a6f261ba7847c2a2714036f"
+    },
+    {
+      "path": "test_oanda_pair_forecast_dashboard.py",
+      "bytes": 26795,
+      "sha256": "ba5d23985faf20a350e7fae31785dc162da28d718fea633d4db100b2d9599d8f"
+    },
+    {
+      "path": "test_oanda_pair_local_forecast_worker_v1.py",
+      "bytes": 19035,
+      "sha256": "2c34ecba8aaf607706587645c35caf9b7f2e23f750d77fd6a80baf20069815d2"
+    }
+  ]
+}

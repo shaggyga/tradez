@@ -1,0 +1,965 @@
+{
+  "archive": {
+    "bytes": 365620,
+    "member_path_base": "trad project root; no enclosing trad directory",
+    "path": "rolling_technical_source_20260915.zip",
+    "sha256": "8bcc6e213abbca7ea7097ed9f832fd55a6b25184732721a781f1b0ea5e69a05b"
+  },
+  "bundle_file_count": 100,
+  "environment": {
+    "complete_environment_snapshot": false,
+    "numpy": "2.5.1",
+    "pyarrow": "25.0.0",
+    "pytest": "9.1.1",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "python_executable": "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe"
+  },
+  "evidence_file_count": 86,
+  "external_dependencies": {
+    "complete_runtime_restore_verified": false,
+    "history_manifest": {
+      "also_requires": "Sibling .seal.json, bound code files named by code_sha256, source receipt files named per pair; none bundled",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_8h_20260912\\data\\PRICE_ONLY_POPULATION_MANIFEST_001.json",
+      "sha256": "7763933583b165664914be8bcd0cf3ca29253286ebeffeabdf2f3b3ea22ed63a"
+    },
+    "original_historical_ohlc": "Original source paths per history/pairs/*.json; reacquired M1 Parquet plus canonical CSV. No raw arrays bundled.",
+    "original_provider_arrival_times": "Unavailable for historical candles; bar-end availability is an explicit assumption, not original live receipts",
+    "pair_metadata": {
+      "field": "pairs[PAIR].pip_size",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\pair_local_operational_v2_20260913.json",
+      "pip_sizes": {
+        "AUD_CAD": 0.0001,
+        "AUD_CHF": 0.0001,
+        "AUD_HKD": 0.0001,
+        "AUD_JPY": 0.01,
+        "AUD_NZD": 0.0001,
+        "AUD_SGD": 0.0001,
+        "AUD_USD": 0.0001,
+        "CAD_CHF": 0.0001,
+        "CAD_HKD": 0.0001,
+        "CAD_JPY": 0.01,
+        "CAD_SGD": 0.0001,
+        "CHF_HKD": 0.0001,
+        "CHF_JPY": 0.01,
+        "CHF_ZAR": 0.0001,
+        "EUR_AUD": 0.0001,
+        "EUR_CAD": 0.0001,
+        "EUR_CHF": 0.0001,
+        "EUR_CZK": 0.0001,
+        "EUR_DKK": 0.0001,
+        "EUR_GBP": 0.0001,
+        "EUR_HKD": 0.0001,
+        "EUR_HUF": 0.01,
+        "EUR_JPY": 0.01,
+        "EUR_NOK": 0.0001,
+        "EUR_NZD": 0.0001,
+        "EUR_PLN": 0.0001,
+        "EUR_SEK": 0.0001,
+        "EUR_SGD": 0.0001,
+        "EUR_TRY": 0.0001,
+        "EUR_USD": 0.0001,
+        "EUR_ZAR": 0.0001,
+        "GBP_AUD": 0.0001,
+        "GBP_CAD": 0.0001,
+        "GBP_CHF": 0.0001,
+        "GBP_HKD": 0.0001,
+        "GBP_JPY": 0.01,
+        "GBP_NZD": 0.0001,
+        "GBP_PLN": 0.0001,
+        "GBP_SGD": 0.0001,
+        "GBP_USD": 0.0001,
+        "GBP_ZAR": 0.0001,
+        "HKD_JPY": 0.0001,
+        "NZD_CAD": 0.0001,
+        "NZD_CHF": 0.0001,
+        "NZD_HKD": 0.0001,
+        "NZD_JPY": 0.01,
+        "NZD_SGD": 0.0001,
+        "NZD_USD": 0.0001,
+        "SGD_CHF": 0.0001,
+        "SGD_JPY": 0.01,
+        "TRY_JPY": 0.01,
+        "USD_CAD": 0.0001,
+        "USD_CHF": 0.0001,
+        "USD_CNH": 0.0001,
+        "USD_CZK": 0.0001,
+        "USD_DKK": 0.0001,
+        "USD_HKD": 0.0001,
+        "USD_HUF": 0.01,
+        "USD_JPY": 0.01,
+        "USD_MXN": 0.0001,
+        "USD_NOK": 0.0001,
+        "USD_PLN": 0.0001,
+        "USD_SEK": 0.0001,
+        "USD_SGD": 0.0001,
+        "USD_THB": 0.01,
+        "USD_TRY": 0.0001,
+        "USD_ZAR": 0.0001,
+        "ZAR_JPY": 0.01
+      },
+      "sha256": "c9464343f012e0bdd83582480a0044bf1c6774eef2622f312bcdd4599e3869c5"
+    },
+    "running_output_not_copied": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\rolling_technical_dataset_20260915_v3",
+    "worker_candles": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\candles"
+  },
+  "files": [
+    {
+      "bytes": 3235,
+      "path": "config/rolling_technical_dataset_v1_20260915.json",
+      "role": "selected_source",
+      "sha256": "961c5eadff4ab0a611ce95080f4b8655643e8f371e7e2796d6afe84fb742aa3c",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\rolling_technical_dataset_v1_20260915.json"
+    },
+    {
+      "bytes": 9696,
+      "path": "docs/FOREX_ROLLING_TECHNICAL_DATASET_20260915.md",
+      "role": "selected_source",
+      "sha256": "6b3b1ab9ca069bedaa166006f7d266ded71f6f278e49054dc9b39a01d9484edf",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\FOREX_ROLLING_TECHNICAL_DATASET_20260915.md"
+    },
+    {
+      "bytes": 4002,
+      "path": "docs/validation/rolling_technical_20260915/ACCEPTANCE.json",
+      "role": "validation_evidence",
+      "sha256": "1bea8ad0cf36afbbb3a31c35038046c5086f15a1f6700142f3a9710709314a30",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\ACCEPTANCE.json"
+    },
+    {
+      "bytes": 4598,
+      "path": "docs/validation/rolling_technical_20260915/bootstrap_archive_receipt.json",
+      "role": "validation_evidence",
+      "sha256": "18494ebebc9b635aa99fc42217dd93cbd50b592bce8e5a7306bab40f37f483d0",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\bootstrap_archive_receipt.json"
+    },
+    {
+      "bytes": 150,
+      "path": "docs/validation/rolling_technical_20260915/duplicate_process_lock.json",
+      "role": "validation_evidence",
+      "sha256": "c1655e257ca781bf993f3eaaf029660c5329245dc965e248eecf63bb02aaec6d",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\duplicate_process_lock.json"
+    },
+    {
+      "bytes": 3235,
+      "path": "docs/validation/rolling_technical_20260915/final_config.json",
+      "role": "validation_evidence",
+      "sha256": "961c5eadff4ab0a611ce95080f4b8655643e8f371e7e2796d6afe84fb742aa3c",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\final_config.json"
+    },
+    {
+      "bytes": 118574,
+      "path": "docs/validation/rolling_technical_20260915/history/FEATURE_REGISTRY.json",
+      "role": "validation_evidence",
+      "sha256": "bbf1ae6b2a83c0453144bc98f1909adf59c36ecdffbf167cd052c53dea668138",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\FEATURE_REGISTRY.json"
+    },
+    {
+      "bytes": 996,
+      "path": "docs/validation/rolling_technical_20260915/history/README.md",
+      "role": "validation_evidence",
+      "sha256": "184c07d011029fd933e4258af86e43ef9971c30b876162b9f94701cf6f2985ce",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\README.md"
+    },
+    {
+      "bytes": 16483,
+      "path": "docs/validation/rolling_technical_20260915/history/VALIDATION.json",
+      "role": "validation_evidence",
+      "sha256": "824a2ac511882f6fb8055547f8d184758ec4e78bce848ece9f7fdb763644fe97",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\VALIDATION.json"
+    },
+    {
+      "bytes": 18992,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/AUD_CAD.json",
+      "role": "validation_evidence",
+      "sha256": "36a1bf994cef4bf6e7c98f406c13291d2c60fe2925c2b15cd21be2abb6f46a1d",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\AUD_CAD.json"
+    },
+    {
+      "bytes": 18986,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/AUD_CHF.json",
+      "role": "validation_evidence",
+      "sha256": "f9f1804e22dece4ff6dba7521dc7b1c95bfee851ad1d7a308bde6fb6ce3f38b3",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\AUD_CHF.json"
+    },
+    {
+      "bytes": 18985,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/AUD_HKD.json",
+      "role": "validation_evidence",
+      "sha256": "d4308d1a910c8b61cb10bfa2dfaa7e097c44836b08e6a172644f1c858ade841f",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\AUD_HKD.json"
+    },
+    {
+      "bytes": 18986,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/AUD_JPY.json",
+      "role": "validation_evidence",
+      "sha256": "5ad568b68fc14c84cb6eed8e51b5c14ae9aebc364ae642fb29a34ed9b4e11efa",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\AUD_JPY.json"
+    },
+    {
+      "bytes": 18984,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/AUD_NZD.json",
+      "role": "validation_evidence",
+      "sha256": "854202f64f7bee4e986ca093914ae2413186353d87fbc753fccb0737c784abce",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\AUD_NZD.json"
+    },
+    {
+      "bytes": 18977,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/AUD_SGD.json",
+      "role": "validation_evidence",
+      "sha256": "ce145c771a449226b7af8aaf0d434ffda750565f7208ef6d417fa83b91db1289",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\AUD_SGD.json"
+    },
+    {
+      "bytes": 19035,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/AUD_USD.json",
+      "role": "validation_evidence",
+      "sha256": "0f383356b4b994419dafcdeb74355c760c9f4eb68bf577818da297a81ab858b9",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\AUD_USD.json"
+    },
+    {
+      "bytes": 19016,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/CAD_CHF.json",
+      "role": "validation_evidence",
+      "sha256": "173051ca31fcd52695f75d0077c8ddc6d6227661e03856486226cbcc2eb1ad72",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\CAD_CHF.json"
+    },
+    {
+      "bytes": 18977,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/CAD_HKD.json",
+      "role": "validation_evidence",
+      "sha256": "6830343d8abb106f6fc88b9416f92d8459374863728e513ddc86dfd06f83ec55",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\CAD_HKD.json"
+    },
+    {
+      "bytes": 19039,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/CAD_JPY.json",
+      "role": "validation_evidence",
+      "sha256": "ce594360c11d6c47b2b2fc8bcbd339063acf6dd5e9c809f5da1e5caad434a5a0",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\CAD_JPY.json"
+    },
+    {
+      "bytes": 19008,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/CAD_SGD.json",
+      "role": "validation_evidence",
+      "sha256": "7b7e7e24fbcb233310c7dc9e0a5ad0afa0fccf49ae66e442331a7fb60debd0b4",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\CAD_SGD.json"
+    },
+    {
+      "bytes": 19033,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/CHF_HKD.json",
+      "role": "validation_evidence",
+      "sha256": "7275448008b4bf4c29c1f10203d85b53426d789db14991da8fae410fc03ac018",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\CHF_HKD.json"
+    },
+    {
+      "bytes": 19029,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/CHF_JPY.json",
+      "role": "validation_evidence",
+      "sha256": "b4a73ee957f6ebcfe00c0ea0d42e351e29472d4bb0fc74f256b647a6bfc05e86",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\CHF_JPY.json"
+    },
+    {
+      "bytes": 19032,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/CHF_ZAR.json",
+      "role": "validation_evidence",
+      "sha256": "566344263eb4ec25a02f1630105126bb30dbf18e89fb0147fc60d8194128d3db",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\CHF_ZAR.json"
+    },
+    {
+      "bytes": 19032,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/EUR_AUD.json",
+      "role": "validation_evidence",
+      "sha256": "5f30fd507e358bb065c2a66237cdca5012c00a8321c600c63f5b3acfd1e2361b",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\EUR_AUD.json"
+    },
+    {
+      "bytes": 19037,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/EUR_CAD.json",
+      "role": "validation_evidence",
+      "sha256": "c699da2ca768e617e3d1623c95be98a4982c8ed41fc5ed4b64162b87f399bbc6",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\EUR_CAD.json"
+    },
+    {
+      "bytes": 19036,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/EUR_CHF.json",
+      "role": "validation_evidence",
+      "sha256": "ec0f8c8d3b64771f7610757e0d3594fa19e1e258ca1d0ddfcea3f425058e8d52",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\EUR_CHF.json"
+    },
+    {
+      "bytes": 19031,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/EUR_CZK.json",
+      "role": "validation_evidence",
+      "sha256": "125975d77b28208f309731842824f72b38fbdb02f620f083c65140a60f9e0fb2",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\EUR_CZK.json"
+    },
+    {
+      "bytes": 18952,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/EUR_DKK.json",
+      "role": "validation_evidence",
+      "sha256": "59710af22fae16b998dce83be6f6fb18a2c49a9bb0c27cd2418145555bdd6b19",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\EUR_DKK.json"
+    },
+    {
+      "bytes": 19029,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/EUR_GBP.json",
+      "role": "validation_evidence",
+      "sha256": "e45e6f6c884c591a102d66746faa74b87924c95fbf30d492914b53fb3072008a",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\EUR_GBP.json"
+    },
+    {
+      "bytes": 19036,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/EUR_HKD.json",
+      "role": "validation_evidence",
+      "sha256": "07825c043916bfb6e6251b1f1ffe6b03a4f7ccb7c85055916804686978893690",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\EUR_HKD.json"
+    },
+    {
+      "bytes": 19035,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/EUR_HUF.json",
+      "role": "validation_evidence",
+      "sha256": "7e6e134417bb166a37a60328dad267eb26696da9442d0401d96d74ec2cd918d9",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\EUR_HUF.json"
+    },
+    {
+      "bytes": 19027,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/EUR_JPY.json",
+      "role": "validation_evidence",
+      "sha256": "69602d09852c7ccd6b8bbfa5af3df77dd35c7fd89ead40ba6070f4b55c507b69",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\EUR_JPY.json"
+    },
+    {
+      "bytes": 19032,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/EUR_NOK.json",
+      "role": "validation_evidence",
+      "sha256": "5da95c7b471eeaeef76cdae423aa62f03981bf52f1053b4c059117a8f25daf20",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\EUR_NOK.json"
+    },
+    {
+      "bytes": 19040,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/EUR_NZD.json",
+      "role": "validation_evidence",
+      "sha256": "0df6417060a6b10fb7a538c1325dc8d7137e0299583c393f38634b95b567ea49",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\EUR_NZD.json"
+    },
+    {
+      "bytes": 19024,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/EUR_PLN.json",
+      "role": "validation_evidence",
+      "sha256": "e5b28de99750ed2c4ac5aaddcf29682731ccb9ca1a227c4b179ba54cd5e22343",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\EUR_PLN.json"
+    },
+    {
+      "bytes": 19034,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/EUR_SEK.json",
+      "role": "validation_evidence",
+      "sha256": "35f0ed5b26ae9ea3686e806166a840031157e7b5fd6a0571fb56cd4d34cfcc77",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\EUR_SEK.json"
+    },
+    {
+      "bytes": 19037,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/EUR_SGD.json",
+      "role": "validation_evidence",
+      "sha256": "80d0ec0d843059ade4959ca4b28205a6ebce6dd1e64e83ec02fe3c837c791919",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\EUR_SGD.json"
+    },
+    {
+      "bytes": 19024,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/EUR_TRY.json",
+      "role": "validation_evidence",
+      "sha256": "2d20f8cceb47ef63e01d6199aa7125554eaa8dac63ee977de44e669a8185671a",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\EUR_TRY.json"
+    },
+    {
+      "bytes": 19038,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/EUR_USD.json",
+      "role": "validation_evidence",
+      "sha256": "d8c79295617b3420af3c0498fabf1ac8ee2590aad3122722b5055f1a0d3408fb",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\EUR_USD.json"
+    },
+    {
+      "bytes": 19037,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/EUR_ZAR.json",
+      "role": "validation_evidence",
+      "sha256": "2f1663bd5cf0c3e102c9da42dc886b2307f677c06121ca49f7eed719753c6dd1",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\EUR_ZAR.json"
+    },
+    {
+      "bytes": 19032,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/GBP_AUD.json",
+      "role": "validation_evidence",
+      "sha256": "66117d9bad8b06807f0fb910ba72627c67fa0a49e0cbc88509273ee89d76c36e",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\GBP_AUD.json"
+    },
+    {
+      "bytes": 19036,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/GBP_CAD.json",
+      "role": "validation_evidence",
+      "sha256": "0ec3eddd2907f6fc193d4b188c4aca763ea71ea9493eca3872d1279553631e57",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\GBP_CAD.json"
+    },
+    {
+      "bytes": 19034,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/GBP_CHF.json",
+      "role": "validation_evidence",
+      "sha256": "c08068c3cfd53f10ab9972513c1733dc4446b94165d79aa9efa3acd19f67dcba",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\GBP_CHF.json"
+    },
+    {
+      "bytes": 19034,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/GBP_HKD.json",
+      "role": "validation_evidence",
+      "sha256": "a41cb1e624b11ec9a88479c172e36f8aa827ea7ea35cc6973b98853d3f858c60",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\GBP_HKD.json"
+    },
+    {
+      "bytes": 19034,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/GBP_JPY.json",
+      "role": "validation_evidence",
+      "sha256": "73c6b1b9693dd7218a7a078260056356fae34666aaea605b3bcb80ec3b5e50b3",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\GBP_JPY.json"
+    },
+    {
+      "bytes": 19037,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/GBP_NZD.json",
+      "role": "validation_evidence",
+      "sha256": "9691566c9c8fb5118c795524c4584032eca5ac1526fa6881e275b15772a095af",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\GBP_NZD.json"
+    },
+    {
+      "bytes": 19033,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/GBP_PLN.json",
+      "role": "validation_evidence",
+      "sha256": "8aec0e189eba45ee3b54ee22c5ee107cbd2d1660a7794943dc620f539db98d85",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\GBP_PLN.json"
+    },
+    {
+      "bytes": 19038,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/GBP_SGD.json",
+      "role": "validation_evidence",
+      "sha256": "ec19d99c9b2e003101613a9f78c0ba3f0dd7d698f4d35bab3a075e7cf35c52f8",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\GBP_SGD.json"
+    },
+    {
+      "bytes": 19033,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/GBP_USD.json",
+      "role": "validation_evidence",
+      "sha256": "89c4b116ca1f3ed301a2a3b85bfa6201aa9c26f8090a4c18a69273d7998cdcea",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\GBP_USD.json"
+    },
+    {
+      "bytes": 19032,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/GBP_ZAR.json",
+      "role": "validation_evidence",
+      "sha256": "b39baf92c228f396a86eac2e9311c5c04869825c763cb32f27877314b817ff71",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\GBP_ZAR.json"
+    },
+    {
+      "bytes": 19033,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/HKD_JPY.json",
+      "role": "validation_evidence",
+      "sha256": "682d012de78f1b39fab843074ce7e1c9974fb645bb02e1ddeabcedfebb01b6e5",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\HKD_JPY.json"
+    },
+    {
+      "bytes": 19033,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/NZD_CAD.json",
+      "role": "validation_evidence",
+      "sha256": "fcd697412bc2130fa95c819450a174ab37ab5f277ed3d6b73e411645399d9090",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\NZD_CAD.json"
+    },
+    {
+      "bytes": 19035,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/NZD_CHF.json",
+      "role": "validation_evidence",
+      "sha256": "bf7e5a99cc028670fb7ff052d6d192bb4f79c8d7660e8f50c2e06d7203a6cdc9",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\NZD_CHF.json"
+    },
+    {
+      "bytes": 19039,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/NZD_HKD.json",
+      "role": "validation_evidence",
+      "sha256": "2c10478d61a9846a8ad19b49a7225ed67f1e108a911b4ebaf74b8ae6e2ea8ca6",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\NZD_HKD.json"
+    },
+    {
+      "bytes": 19031,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/NZD_JPY.json",
+      "role": "validation_evidence",
+      "sha256": "ed7cf7ab712c31350d7cb38deec2e735277c6a9ee8a616cd089f4d63c99a42ca",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\NZD_JPY.json"
+    },
+    {
+      "bytes": 19027,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/NZD_SGD.json",
+      "role": "validation_evidence",
+      "sha256": "edc5f67178c166672ec799c439833046d6721c4db0f4b022608b9a32e8cd9f9b",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\NZD_SGD.json"
+    },
+    {
+      "bytes": 19032,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/NZD_USD.json",
+      "role": "validation_evidence",
+      "sha256": "c792a24e4547d4780c508dbaf021b3808cf902624815333e4e1426bc3796ed56",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\NZD_USD.json"
+    },
+    {
+      "bytes": 19037,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/SGD_CHF.json",
+      "role": "validation_evidence",
+      "sha256": "e02493b53bf7e0a62444a760895a14d4ec01d86f7a42dc1a467038950f7fe4b2",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\SGD_CHF.json"
+    },
+    {
+      "bytes": 19030,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/SGD_JPY.json",
+      "role": "validation_evidence",
+      "sha256": "2e306d92687f8e96791762efc68a369f90a571f768028371872922f9f84179ec",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\SGD_JPY.json"
+    },
+    {
+      "bytes": 18922,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/TRY_JPY.json",
+      "role": "validation_evidence",
+      "sha256": "bbefd1c47f9b2146e8976b070dac75e0f8b020d562e8a84d4031d55636cb90b7",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\TRY_JPY.json"
+    },
+    {
+      "bytes": 19040,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/USD_CAD.json",
+      "role": "validation_evidence",
+      "sha256": "93d62d16747f8d6dbf36e86bd3224d7c6def46fa69d230455ad0ef1a35afbb34",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\USD_CAD.json"
+    },
+    {
+      "bytes": 19041,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/USD_CHF.json",
+      "role": "validation_evidence",
+      "sha256": "07000ec0eee53d0d861bc4e90bfec99a3d6e3e92ae57e1d6a08e0272c361ae1a",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\USD_CHF.json"
+    },
+    {
+      "bytes": 19032,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/USD_CNH.json",
+      "role": "validation_evidence",
+      "sha256": "f5aa39fbfe2e55fb54b3b8a56c4eaa75773f199e01dec80d012a0c3e22da0977",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\USD_CNH.json"
+    },
+    {
+      "bytes": 19035,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/USD_CZK.json",
+      "role": "validation_evidence",
+      "sha256": "b5fc43a360ae4ffd9256c86052cae94f0639325ba93676e61baacd9288938245",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\USD_CZK.json"
+    },
+    {
+      "bytes": 19038,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/USD_DKK.json",
+      "role": "validation_evidence",
+      "sha256": "ce671881e1f9d95b65aace791040d6394fc647c85c95478d41b9249e51b78218",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\USD_DKK.json"
+    },
+    {
+      "bytes": 18958,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/USD_HKD.json",
+      "role": "validation_evidence",
+      "sha256": "06d629174f7987eaae914144024e907c3729111a85a813296d8c22fcbfcaafc5",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\USD_HKD.json"
+    },
+    {
+      "bytes": 19029,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/USD_HUF.json",
+      "role": "validation_evidence",
+      "sha256": "935669a653da1e8cddbc9a2ad7e8c219e8b12cdabd28eaba1b2bc3bd3d234974",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\USD_HUF.json"
+    },
+    {
+      "bytes": 19030,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/USD_JPY.json",
+      "role": "validation_evidence",
+      "sha256": "05ea27d564acdbcc5661cf0cc9502e07cb9a81ceba1585474a8f3b1fc8f857f2",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\USD_JPY.json"
+    },
+    {
+      "bytes": 19031,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/USD_MXN.json",
+      "role": "validation_evidence",
+      "sha256": "da1645336aa9fd13e704ce38995f06ae052c5e87a55819053265118b5efe113e",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\USD_MXN.json"
+    },
+    {
+      "bytes": 19035,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/USD_NOK.json",
+      "role": "validation_evidence",
+      "sha256": "23684a0b4bc3c5a61484ccffb45dda196fc6c99de36efc4f29dee5f4157d4101",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\USD_NOK.json"
+    },
+    {
+      "bytes": 19037,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/USD_PLN.json",
+      "role": "validation_evidence",
+      "sha256": "cf74a6b5cb229946e038ad79b2774bdbe0d7d926e0ed8703a0e97607e6002020",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\USD_PLN.json"
+    },
+    {
+      "bytes": 19034,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/USD_SEK.json",
+      "role": "validation_evidence",
+      "sha256": "f3059b449edf259df29aac87a33302ac32c257437fbb375d892a66ab71d5b348",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\USD_SEK.json"
+    },
+    {
+      "bytes": 19031,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/USD_SGD.json",
+      "role": "validation_evidence",
+      "sha256": "dd55f64450c3cf428bfdbf4db72a1499abcc6e14bd03ab17caca21c6c7e5cbd2",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\USD_SGD.json"
+    },
+    {
+      "bytes": 18976,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/USD_THB.json",
+      "role": "validation_evidence",
+      "sha256": "e6a44e15d5104f4f3e72f9af20622194db1655a63b0aeaacecd3a1bb8a12a16a",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\USD_THB.json"
+    },
+    {
+      "bytes": 18970,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/USD_TRY.json",
+      "role": "validation_evidence",
+      "sha256": "7941b6fe26875d08004d5cf6e840dad4d2a2500b4e93d6a724cc469b533d2516",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\USD_TRY.json"
+    },
+    {
+      "bytes": 19039,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/USD_ZAR.json",
+      "role": "validation_evidence",
+      "sha256": "81e908d63b8c110bf50533c0eede8071219b8d8dda8fc4663a2e6864ae94f72e",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\USD_ZAR.json"
+    },
+    {
+      "bytes": 18955,
+      "path": "docs/validation/rolling_technical_20260915/history/pairs/ZAR_JPY.json",
+      "role": "validation_evidence",
+      "sha256": "c1e010d79725eb3c3695f363f71e9d43b83f54798230deaa158fc381cfa80fee",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\history\\pairs\\ZAR_JPY.json"
+    },
+    {
+      "bytes": 3235,
+      "path": "docs/validation/rolling_technical_20260915/initial_bootstrap_config.json",
+      "role": "validation_evidence",
+      "sha256": "9caf7f797f2bdde6d683724ceba9519dc4b4e677a3378c4c5020cb46690470d2",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\initial_bootstrap_config.json"
+    },
+    {
+      "bytes": 428,
+      "path": "docs/validation/rolling_technical_20260915/initial_bootstrap_owner.json",
+      "role": "validation_evidence",
+      "sha256": "8199e15ae6c0e1d1c445a087e5b3f017ec137f939b94d2d1bc151fd98978446d",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\initial_bootstrap_owner.json"
+    },
+    {
+      "bytes": 107626,
+      "path": "docs/validation/rolling_technical_20260915/initial_bootstrap_status.json",
+      "role": "validation_evidence",
+      "sha256": "695955d6348e2da770c796ec43db2cbd9aa539775789a28ee85854c7cc41caa2",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\initial_bootstrap_status.json"
+    },
+    {
+      "bytes": 23455,
+      "path": "docs/validation/rolling_technical_20260915/persisted_replay.json",
+      "role": "validation_evidence",
+      "sha256": "c6e3e3aa29d1f62b8ae8e0db6fe7e9780a9064cd5c785c5ece0f4d6256b2e590",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\persisted_replay.json"
+    },
+    {
+      "bytes": 428,
+      "path": "docs/validation/rolling_technical_20260915/runtime_owner.json",
+      "role": "validation_evidence",
+      "sha256": "8d2e4dab963a717739d9134517e4d2b60dff1e02e78b5356a01965302a517866",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\runtime_owner.json"
+    },
+    {
+      "bytes": 106832,
+      "path": "docs/validation/rolling_technical_20260915/runtime_status.json",
+      "role": "validation_evidence",
+      "sha256": "e768d26deccb13e53bf99ced0d06e72d4497e537d63fae54596c901fe4b75984",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\runtime_status.json"
+    },
+    {
+      "bytes": 3235,
+      "path": "docs/validation/rolling_technical_20260915/second_bootstrap_config.json",
+      "role": "validation_evidence",
+      "sha256": "e6e03a5b31180fb0cedd72ac745e18a0258ad8a81b7e15ab2a7ccc3d69efebaf",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\second_bootstrap_config.json"
+    },
+    {
+      "bytes": 428,
+      "path": "docs/validation/rolling_technical_20260915/second_bootstrap_owner.json",
+      "role": "validation_evidence",
+      "sha256": "64f342c7fdac1c4ccbf1248684b649fce9ef45d65448c55a5107658af7a29526",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\second_bootstrap_owner.json"
+    },
+    {
+      "bytes": 110196,
+      "path": "docs/validation/rolling_technical_20260915/second_bootstrap_status.json",
+      "role": "validation_evidence",
+      "sha256": "c96aea4ce1436c76284b9bf326a607c717824cfb4d8aac3a2162de95b5a2bc9e",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\second_bootstrap_status.json"
+    },
+    {
+      "bytes": 16054,
+      "path": "docs/validation/rolling_technical_20260915/store_before_settlement_clock_fix.py.txt",
+      "role": "validation_evidence",
+      "sha256": "58fc0790b0893d762ecb1ae3d9660a713d203a27da8a0d57e5b3f94f574be70b",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\store_before_settlement_clock_fix.py.txt"
+    },
+    {
+      "bytes": 16314,
+      "path": "docs/validation/rolling_technical_20260915/store_before_watermark_clock_fix.py.txt",
+      "role": "validation_evidence",
+      "sha256": "137be69460358cd90c5653ea92f9b9b57a79cf05ed2a52643516ad3aef479c95",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_technical_20260915\\store_before_watermark_clock_fix.py.txt"
+    },
+    {
+      "bytes": 22112,
+      "path": "oanda_rolling_technical_features_v1.py",
+      "role": "selected_source",
+      "sha256": "074a7b4fc138ef25a1e99b503ea693e0c31bc2e51a2e8f3753aab7556a6fb657",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_rolling_technical_features_v1.py"
+    },
+    {
+      "bytes": 19780,
+      "path": "oanda_rolling_technical_inputs_v1.py",
+      "role": "selected_source",
+      "sha256": "0609b9562e4a528a5e44269af0135be5520418ff772305a5ee302ed3ee38f8cf",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_rolling_technical_inputs_v1.py"
+    },
+    {
+      "bytes": 8291,
+      "path": "oanda_rolling_technical_panel_v1.py",
+      "role": "selected_source",
+      "sha256": "2426d0cf85dc1f1026d9ab49b0ade8925f8ba3a23730da0440a6b4c9293fb24e",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_rolling_technical_panel_v1.py"
+    },
+    {
+      "bytes": 16339,
+      "path": "oanda_rolling_technical_store_v1.py",
+      "role": "selected_source",
+      "sha256": "f2a0129174b4246887474da5c1c93c9c26e5aa88c6b6bc12aa86f37d531017f8",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_rolling_technical_store_v1.py"
+    },
+    {
+      "bytes": 14038,
+      "path": "oanda_rolling_technical_worker_v1.py",
+      "role": "selected_source",
+      "sha256": "5cf0b2741c29d8a98356ffd8d12262b3263297f88ab22799c4c25eca2a5fa05e",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_rolling_technical_worker_v1.py"
+    },
+    {
+      "bytes": 7882,
+      "path": "test_oanda_rolling_technical_features_v1.py",
+      "role": "selected_source",
+      "sha256": "82f1b6c87f1f68a39bd15f7322648ab5fe518eeadc8c8fbe7e4eff63daf5c63d",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_rolling_technical_features_v1.py"
+    },
+    {
+      "bytes": 9616,
+      "path": "test_oanda_rolling_technical_inputs_v1.py",
+      "role": "selected_source",
+      "sha256": "79ec4c64f04971b652634d0cdfba82d57bb8f1a5e853e9a86d1fd87ade46344a",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_rolling_technical_inputs_v1.py"
+    },
+    {
+      "bytes": 4355,
+      "path": "test_oanda_rolling_technical_panel_v1.py",
+      "role": "selected_source",
+      "sha256": "56b25ea699b8287838dc604be10ec646a988e912d4b6f63b95326f41278471b8",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_rolling_technical_panel_v1.py"
+    },
+    {
+      "bytes": 22305,
+      "path": "test_oanda_rolling_technical_store_v1.py",
+      "role": "selected_source",
+      "sha256": "76f178c5ffe10973d4e2601d6640d6dd60f0eb00578e54dff35de6eae6b62378",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_rolling_technical_store_v1.py"
+    },
+    {
+      "bytes": 15765,
+      "path": "test_oanda_rolling_technical_worker_v1.py",
+      "role": "selected_source",
+      "sha256": "8a39a50ddc49d0c429fc52c297f3a2c781dbba6901305b2c8ed05e9d1cd0d0f0",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_oanda_rolling_technical_worker_v1.py"
+    },
+    {
+      "bytes": 21425,
+      "path": "tools/build_rolling_technical_history.py",
+      "role": "selected_source",
+      "sha256": "86ec580bccd0fa8ddcbe3913fc59a43555077e26d31e650ee3bce1737bb54039",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\tools\\build_rolling_technical_history.py"
+    },
+    {
+      "bytes": 6289,
+      "path": "tools/test_build_rolling_technical_history.py",
+      "role": "selected_source",
+      "sha256": "5b785168f49fa7d5dfd68b4b87d7114ba930965bb816c14b583b0d2eabc895b6",
+      "source_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\tools\\test_build_rolling_technical_history.py"
+    }
+  ],
+  "publication_files": {
+    "README.md": "7a3731e3833461d02008d260ca69f8068a380fe28996a36c6ddb36f48249ac9c",
+    "before/README.md": "af43ff3ee3e4a1b3666d2eb4aa8fd8a607f6e668c423c218bd7f55921339759f"
+  },
+  "published_utc": "2026-09-15T15:23:05.865496+00:00",
+  "schema": "forex_rolling_technical_vault_supplement_20260915",
+  "scope": "Dated source/evidence supplement only; no raw databases, raw candles, fitted weights or credentials",
+  "source_bytes": 2010830,
+  "source_file_count": 14,
+  "source_root": "C:\\Users\\zmoor\\Documents\\forex\\trad",
+  "unchanged_dated_vault_files": {
+    "RECREATION.md": "f0b6efbb676b8ec19dbcfce93fe3584af8cbcdcf94c9979fc42281fde8ca8320",
+    "SHARED_PROJECT_STATE_CURRENT.json": "976139cb704d2f2bb9936fad29913c7975111b5ce89630a36e0d98140a135341",
+    "VAULT_FILE_INVENTORY.json": "ce76ccd7daf53e67eea65820a68c9fe1d62cb0f81b0ea4b0a4d64c390c9533d1",
+    "VAULT_READABILITY_REPORT.json": "470fad09a1d43708bcc42629dfa23e8b4aa888e9cb57b82f68bbb45b595891d2",
+    "maintenance/README.md": "30b0f903885f8282ba35ea6fd3306cfc67e83b31850aaf719bc21387db1f0e81",
+    "source/WORKTREE_SOURCE_LATEST.json": "000b6152b6c986b6e577c4837668b5f0b08fb185d3bf64634e283c7f7b3a3531"
+  },
+  "vault_root": "C:\\Users\\zmoor\\OneDrive\\thevault\\projects\\forex",
+  "vault_root_readme": {
+    "after_sha256": "3c08e7912e872353c909da404d308a90c6c33a7dc275373fb047dac4f5a56781",
+    "before_sha256": "af43ff3ee3e4a1b3666d2eb4aa8fd8a607f6e668c423c218bd7f55921339759f",
+    "change": "Added one dated supplement pointer; original remainder retained exactly"
+  },
+  "verification": {
+    "acceptance_reported_passed_tests": 96,
+    "cloud_sync_verified": false,
+    "config_and_acceptance_bindings_match": true,
+    "focused_tests_reexecuted_for_publication": false,
+    "historical_source_bindings_match": true,
+    "known_external_source_context_links": [
+      {
+        "document": "source/docs/FOREX_ROLLING_TECHNICAL_DATASET_20260915.md",
+        "exists": false,
+        "target": "../FOREX_PENDING_IMPROVEMENTS.md"
+      }
+    ],
+    "links": [
+      {
+        "document": "README.md",
+        "exists": true,
+        "target": "source/docs/FOREX_ROLLING_TECHNICAL_DATASET_20260915.md"
+      },
+      {
+        "document": "README.md",
+        "exists": true,
+        "target": "source/docs/validation/rolling_technical_20260915/ACCEPTANCE.json"
+      },
+      {
+        "document": "README.md",
+        "exists": true,
+        "target": "source/docs/validation/rolling_technical_20260915/history/README.md"
+      },
+      {
+        "document": "README.md",
+        "exists": true,
+        "target": "source/docs/validation/rolling_technical_20260915/persisted_replay.json"
+      },
+      {
+        "document": "README.md",
+        "exists": true,
+        "target": "source/docs/validation/rolling_technical_20260915/runtime_status.json"
+      },
+      {
+        "document": "README.md",
+        "exists": true,
+        "target": "rolling_technical_source_20260915.zip"
+      },
+      {
+        "document": "README.md",
+        "exists": true,
+        "target": "source/"
+      },
+      {
+        "document": "README.md",
+        "exists": true,
+        "target": "MANIFEST.json"
+      },
+      {
+        "document": "README.md",
+        "exists": true,
+        "target": "../PENDING_IMPROVEMENTS_CURRENT.md"
+      },
+      {
+        "document": "README.md",
+        "exists": true,
+        "target": "../source/WORKTREE_SOURCE_LATEST.json"
+      },
+      {
+        "document": "README.md",
+        "exists": true,
+        "target": "../VAULT_FILE_INVENTORY.json"
+      },
+      {
+        "document": "README.md",
+        "exists": true,
+        "target": "../SHARED_PROJECT_STATE_CURRENT.json"
+      },
+      {
+        "document": "README.md",
+        "exists": true,
+        "target": "before/README.md"
+      },
+      {
+        "document": "source/docs/FOREX_ROLLING_TECHNICAL_DATASET_20260915.md",
+        "exists": true,
+        "target": "validation/rolling_technical_20260915/"
+      },
+      {
+        "document": "source/docs/FOREX_ROLLING_TECHNICAL_DATASET_20260915.md",
+        "exists": true,
+        "target": "../config/rolling_technical_dataset_v1_20260915.json"
+      },
+      {
+        "document": "source/docs/FOREX_ROLLING_TECHNICAL_DATASET_20260915.md",
+        "exists": true,
+        "target": "../oanda_rolling_technical_worker_v1.py"
+      },
+      {
+        "document": "source/docs/FOREX_ROLLING_TECHNICAL_DATASET_20260915.md",
+        "exists": true,
+        "target": "../oanda_rolling_technical_features_v1.py"
+      },
+      {
+        "document": "source/docs/FOREX_ROLLING_TECHNICAL_DATASET_20260915.md",
+        "exists": true,
+        "target": "../oanda_rolling_technical_panel_v1.py"
+      },
+      {
+        "document": "source/docs/FOREX_ROLLING_TECHNICAL_DATASET_20260915.md",
+        "exists": true,
+        "target": "../oanda_rolling_technical_inputs_v1.py"
+      },
+      {
+        "document": "source/docs/FOREX_ROLLING_TECHNICAL_DATASET_20260915.md",
+        "exists": true,
+        "target": "../tools/build_rolling_technical_history.py"
+      },
+      {
+        "document": "source/docs/FOREX_ROLLING_TECHNICAL_DATASET_20260915.md",
+        "exists": false,
+        "target": "../FOREX_PENDING_IMPROVEMENTS.md"
+      },
+      {
+        "document": "source/docs/validation/rolling_technical_20260915/history/README.md",
+        "exists": true,
+        "target": "VALIDATION.json"
+      }
+    ],
+    "potential_secret_pattern_matches": 0,
+    "python_files_syntax_compiled_without_execution": 12,
+    "raw_data_or_database_copied": false,
+    "secret_scan_scope": "bounded pattern scan of explicitly selected source/evidence; not an exhaustive security certification",
+    "source_byte_stability_before_after": true,
+    "source_tree_matches_original": true,
+    "zip_crc_ok": true,
+    "zip_member_readback": true
+  }
+}

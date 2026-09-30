@@ -1,0 +1,21 @@
+{
+  "schema": "forex_checkpoint_review.v1",
+  "utc": "2026-09-25T03:35:21.957280Z",
+  "step_id": "macro_candidate_version_supersession_audit_v2",
+  "status": "complete_reuse_existing_packet_no_duplicate_run",
+  "verdict": "accepted_within_scope_same_task_review",
+  "independent_review": false,
+  "independent_review_status": "pending_nonblocking_by_user_clarification",
+  "scope": "current queue closure against existing macro supersession packet; no fit/replay/API/broker/live-bot/D-drive/EURUSD work",
+  "preexisting_packet": "MACRO_SUPERSESSION_20260922_173339/REVIEW.json",
+  "preexisting_review_sha256": "cbca7bce7be0c3e55dbb441b35325ada9ad622aec16e57e68b515ea3f5c8064a",
+  "verification": {
+    "local_tests_passed": 11,
+    "relocated_tests_passed": 11,
+    "identical_payloads": 5,
+    "stale_fallback_applied": false
+  },
+  "result": "representation_loss_storage_audit_pending",
+  "next_action": "macro_collector_representation_storage_audit_v2",
+  "source_commit": "faaee19d4ef64c375293a0f7411844db73867795"
+}

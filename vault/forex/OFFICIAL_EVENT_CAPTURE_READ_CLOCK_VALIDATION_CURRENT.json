@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-09-04T16:20:39.0952213+00:00",
+  "invalidated_issue_id": "FX-20260902-OFFICIAL-EVENT-EARLIEST-SOURCE-CLOCK",
+  "replacement_issue_id": "FX-20260904-OFFICIAL-EVENT-CAPTURE-READ-CLOCK-V3",
+  "v2_status": "permanently_invalid",
+  "v3_status": "implemented_collecting",
+  "defect": {
+    "canonical_event_id": "64e8a5d6a135c69328d0523eb022e78a5d5367e05169e820ba66acf72aff0d3f",
+    "source_id": "sarb_publications_rss_direct_v1",
+    "source_first_seen_utc": "2026-09-04T15:49:06.583218+00:00",
+    "row_observed_utc": "2026-09-04T15:49:06.913878+00:00",
+    "v2_captured_utc": "2026-09-04T15:49:06.913878+00:00",
+    "quote_snapshot_generated_utc": "2026-09-04T15:49:08.412522+00:00",
+    "quote_snapshot_age_seconds": -1.498644,
+    "reported_detection_latency_seconds": 0.0,
+    "finding": "V2 used the worker-cycle start as captured_utc even though the quote snapshot read by that cycle was generated 1.498644 seconds later.",
+    "prediction_or_order_affected": false,
+    "semantic_state": "context_only_directionless_old_meeting_record",
+    "aliases_retained": 2,
+    "canonical_captures_retained": 1,
+    "represented_instruments": 68,
+    "eligible_pair_quotes": 59,
+    "stale_pair_quotes": 6,
+    "broker_nontradeable_pairs": 3
+  },
+  "repair": {
+    "contract_id": "official_event_pair_quote_capture_v3_quote_read_clock_20260904",
+    "cohort_id": "official_event_pair_quote_capture_v3_20260904a",
+    "activated_utc": "2026-09-04T16:20:00+00:00",
+    "historical_import_count": 0,
+    "capture_clock_source": "quote_snapshot_read_observed_utc",
+    "cycle_start_is_capture_clock": false,
+    "capture_clock_may_precede_quote_snapshot_generated": false,
+    "invalid_clock_behavior": "fail_closed_zero_eligible_quotes",
+    "v2_database_preserved": true,
+    "v2_runtime_retired": true,
+    "post_activation_alias_count": 0,
+    "post_activation_capture_count": 0,
+    "post_activation_preactivation_rejection_count": 0,
+    "independent_verifier_status": "verified",
+    "independent_verifier_failure_count": 0,
+    "supported_execution_decision": "no_trade"
+  },
+  "validation": {
+    "focused_tests_passed": 14,
+    "focused_tests_failed": 0,
+    "python_compile_passed": true,
+    "powershell_parse_passed": true,
+    "regressions": [
+      "V2 fixture demonstrates a negative quote_snapshot_age when cycle start is reused as capture time",
+      "V3 fixture records the later post-read clock and positive snapshot age",
+      "V3 fails closed if captured_utc precedes quote snapshot generation",
+      "the independent verifier rejects a mismatched read-observed clock",
+      "the supervisor retires V2 and runs only the V3 producer and verifier"
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "oanda_official_event_pair_quote_capture_v2.py",
+      "sha256": "cf784eee8f5ede455c18a4d8886bd02867dc175cdb4b550e85eea6c6386bb3fb"
+    },
+    {
+      "path": "oanda_official_event_pair_quote_capture_v2_verifier.py",
+      "sha256": "228457cd2e89ed2006f23eca49f9b5c31d3dbc6a7bd40159d0341f7fca7141f2"
+    },
+    {
+      "path": "data/oanda_training_manager/local_news_sentiment/official_event_pair_quote_capture_v2.sqlite",
+      "sha256": "883e27734b8fee552fcf35c5425cefb141a0bd88834940d10a72b187625148de"
+    },
+    {
+      "path": "oanda_official_event_pair_quote_capture_v3.py",
+      "sha256": "bdf6794e45261a13d8165ee01e48e60ad2603a4a99ecce226a06715faa7679fc"
+    },
+    {
+      "path": "oanda_official_event_pair_quote_capture_v3_verifier.py",
+      "sha256": "c311ce82b615c00bc97bb531699bdfbc5da9d52932b96b2ffbdfefd3df795dc2"
+    },
+    {
+      "path": "config/official_event_pair_quote_capture_v3.json",
+      "sha256": "ac9290481851d2f9d44afcf1581378844015367ca40f0002ad2c29e577fc88b9"
+    },
+    {
+      "path": "test_oanda_official_event_pair_quote_capture_v3.py",
+      "sha256": "a9a82babb66f141c589c5f8888640ca3cd552f60a797a7a9f2e64d4e940c9064"
+    },
+    {
+      "path": "oanda_always_on_supervisor.ps1",
+      "sha256": "1e9c2e70c78488d1b60c63b7127b1e8ffca4af55f256330f82d73e7f33747e12"
+    },
+    {
+      "path": "forex_model_vault_sync.py",
+      "sha256": "39106b76d281bc8b1341c0c6b2cc3ac916cca48394e92b5eb99f2507b221ab36"
+    }
+  ],
+  "safety": {
+    "research_only": true,
+    "can_promote": false,
+    "can_authorize": false,
+    "can_place_orders": false,
+    "real_money_routing": false,
+    "manual_orders_placed": 0,
+    "manual_positions_closed": 0
+  }
+}

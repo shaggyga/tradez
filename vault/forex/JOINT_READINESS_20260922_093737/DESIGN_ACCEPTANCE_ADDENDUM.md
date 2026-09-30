@@ -1,0 +1,1 @@
+Bounded R03/R10/R11/R13/R14 readiness, lineage, fallback and recovery evidence. R09 controls and whole-curve live deadline qualification remain open. Independent review remains unperformed.

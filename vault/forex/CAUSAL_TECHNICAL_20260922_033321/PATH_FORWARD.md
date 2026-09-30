@@ -1,0 +1,2 @@
+Next: review_causal_technical_input_checkpoint, then matched_ridge_recovered_hgb_development_campaign_v2.
+Freeze target-specific matched ridge/HGB training views, update clocks, controls, score support and stopping rule before fitting. Preserve calendar and execution blockers.

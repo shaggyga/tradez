@@ -1,0 +1,1 @@
+R05/R14 design14.2–14.4. Subject/unit/reference guards, conflict abstention, exact decimal/date rules and portable replay. Independent review separate.

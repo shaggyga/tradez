@@ -1,0 +1,66 @@
+{
+  "schema_version": "forex_signal_snapshot_quote_coverage_validation_v1",
+  "generated_utc": "2026-09-02T10:41:16Z",
+  "issue_id": "FX-20260902-SIGNAL-SNAPSHOT-QUOTE-COVERAGE",
+  "status": "complete",
+  "problem": {
+    "description": "The strategy lab supplied no execution quote provider when its private OANDA stream was disabled. Fresh REST prices existed in the lab and the separate all-68 quote transport was healthy, but candidate repricing and the research signal snapshot reported zero valid market quotes.",
+    "before_observed_utc": "2026-09-02T10:20:12Z",
+    "authoritative_quote_count": 68,
+    "authoritative_tradeable_quote_count": 68,
+    "signal_snapshot_market_quote_count": 0,
+    "effect": "The failure was diagnostic and research-ranking input loss. It did not bypass any proof, authorization, or execution gate."
+  },
+  "implementation": {
+    "strategy_lab_sha256": "b67c8173eb823458f50d9124245a2146b390812d045d0a4bb8d6ba1f471c2966",
+    "strategy_lab_test_sha256": "4091491f85609142f2a10015f16887f911352513fd5fe9a07766c601a31adcac",
+    "changes": [
+      "Provide the executor a fresh OANDA REST snapshot when the lab has no private stream.",
+      "Merge a stream overlay when one exists while preserving broker timestamps and tradeability.",
+      "Keep the existing strict quote-age and tradeability rejection function authoritative.",
+      "Publish the ranked-instrument quote scope, provider status, expected count, valid count, coverage ratio, rejection counts, reasons, and exact rejected instruments."
+    ]
+  },
+  "tests": {
+    "command": "python -m pytest trad/test_oanda_practice_shadow_strategy_lab.py trad/test_oanda_event_technical_preflight.py trad/test_oanda_news_technical_watchlist.py trad/test_oanda_top_signal_position_ledger.py trad/test_oanda_signal_trial_ledger.py trad/test_oanda_practice_live_dashboard.py -p no:cacheprovider -q",
+    "passed": 303,
+    "subtests_passed": 220,
+    "failed": 0
+  },
+  "live_validation": {
+    "signal_snapshot_updated_utc": "2026-09-02T10:40:11.936569Z",
+    "quote_provider_status": "ok",
+    "quote_scope": "ranked_signal_instruments",
+    "expected_ranked_instruments": 65,
+    "valid_ranked_instrument_quotes": 64,
+    "coverage_ratio": 0.9846153846153847,
+    "rejected_instruments": {
+      "EUR_DKK": "stale_quote"
+    },
+    "qualified_signals": 0,
+    "final_gate_status": "not_selected",
+    "independent_verifier_status": "match",
+    "independent_verifier_completed_utc": "2026-09-02T10:41:16.118876Z",
+    "independent_authorization_safe": true,
+    "confirmed_candidates": 0,
+    "supported_decision": "no_trade"
+  },
+  "account_receipt": {
+    "account_id": "101-001-37981792-007",
+    "observed_utc": "2026-09-02T10:41:08.688106Z",
+    "nav": 41.6042,
+    "balance": 41.6042,
+    "cumulative_pl": -8.343,
+    "open_trades": 0,
+    "pending_orders": 0
+  },
+  "safety": {
+    "manual_order_submitted": false,
+    "manual_close_submitted": false,
+    "practice_gate_changed": false,
+    "authorization_gate_changed": false,
+    "promotion_gate_changed": false,
+    "real_money_routing_enabled": false,
+    "codex_automation_created": false
+  }
+}

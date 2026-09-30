@@ -13,7 +13,6 @@ from trad.oanda_practice_live_dashboard import (
     build_signal_component_matrix,
     canonical_horizon_label,
     curve_for_direction,
-    compact_news_backtest,
     heartbeat_status,
     load_equation_path,
     overlay_primary_account,
@@ -289,8 +288,8 @@ class PatternDashboardTests(unittest.TestCase):
         self.assertIn("function moverSparkline", html)
         self.assertIn("exec5", html)
         self.assertIn("aria-pressed", html)
-        self.assertIn("Observed executable move census", html)
-        self.assertIn("research only, not a forecast", html)
+        self.assertIn("Historical observed moves", html)
+        self.assertIn("these are not bot trades or predictions", html)
         self.assertNotIn("Legacy velocity", html)
         self.assertNotIn("Live velocity", html)
         self.assertIn("button.mover-mode", html)
@@ -439,7 +438,7 @@ class PatternDashboardTests(unittest.TestCase):
 
         self.assertIn('id="oanda-deep-research"', html)
         self.assertIn('id="oanda-evidence-proof"', html)
-        self.assertIn("Evidence &amp; proof", html)
+        self.assertIn("Historical observations &amp; research", html)
         self.assertIn("Research &amp; diagnostics", html)
         self.assertIn('id="signal-matrix"', html)
         self.assertIn("function renderSignalMatrix", html)
@@ -449,164 +448,14 @@ class PatternDashboardTests(unittest.TestCase):
         self.assertIn("collapsed by default", html)
         self.assertNotIn('<details id="oanda-deep-research" class="dashboard-deep" open', html)
         self.assertLess(html.index('id="account"'), html.index('id="top"'))
-        self.assertLess(html.index('id="top"'), html.index('id="live-movers"'))
-        self.assertLess(html.index('id="live-movers"'), html.index('id="oanda-evidence-proof"'))
+        self.assertLess(html.index('id="live-movers"'), html.index('id="top"'))
+        self.assertLess(html.index('id="oanda-evidence-proof"'), html.index('id="live-movers"'))
 
-    def test_news_backtest_compacts_retrospective_profit_slices(self):
-        payload = {
-            "completed_tradeable_non_overlapping": {
-                "rows": 10,
-                "unique_signals": 2,
-                "mean_net_pct": -0.5,
-            },
-            "by_side_non_overlapping": {
-                "short": {
-                    "rows": 4,
-                    "unique_signals": 2,
-                    "mean_net_pct": 1.25,
-                    "median_net_pct": 0.4,
-                }
-            },
-            "by_horizon_minutes": {
-                "1440": {
-                    "completed_tradeable_non_overlapping": {
-                        "rows": 2,
-                        "unique_signals": 2,
-                        "mean_net_pct": 4.0,
-                    }
-                }
-            },
-        }
 
-        compact = compact_news_backtest(payload)
 
-        self.assertEqual(len(compact["diagnostic_slices"]), 2)
-        self.assertEqual(compact["diagnostic_slices"][0]["name"], "short")
-        self.assertEqual(compact["diagnostic_slices"][1]["name"], "1440")
-        self.assertTrue(
-            all(
-                row["selection_status"] == "retrospective_diagnostic_only"
-                for row in compact["diagnostic_slices"]
-            )
-        )
 
-    def test_crypto_trend_panel_exposes_freshness_and_weekly_diagnostics(self):
-        html_path = Path(dashboard.__file__).with_name(
-            "oanda_main_signal_dashboard.html"
-        )
-        html = html_path.read_text(encoding="utf-8")
 
-        self.assertIn("Market data stale — ledger frozen", html)
-        self.assertIn("market.oldest_target_bar_age_hours", html)
-        self.assertIn("market.collector_age_minutes", html)
-        self.assertIn("market.lagging_signal_symbol_count", html)
-        self.assertIn("blendVariant.this_week", html)
-        self.assertIn("value.direction_mode", html)
-        self.assertIn("week.bars", html)
-        self.assertIn("Retrospective strategy slices", html)
-        self.assertIn("primary.diagnostic_slices", html)
-        self.assertIn("never auto-promoted", html)
 
-    def test_crypto_state_exposes_isolated_trend_proxy(self):
-        trend = {
-            "schema_version": "crypto_trend_proxy_v1",
-            "status": "healthy",
-            "paper_only": True,
-            "real_orders_enabled": False,
-            "summary": {"active_targets": 3},
-        }
-
-        def fake_load(path):
-            return trend if path == dashboard.CRYPTO_TREND_PROXY else {}
-
-        with patch.object(dashboard, "load_json_dict", side_effect=fake_load):
-            payload = dashboard.build_crypto_shadow_state()
-
-        self.assertEqual(payload["trend_proxy"], trend)
-        self.assertTrue(payload["trend_proxy"]["paper_only"])
-        self.assertFalse(payload["trend_proxy"]["real_orders_enabled"])
-
-    def test_crypto_state_exposes_shadow_meta_router_evidence(self):
-        train = {
-            "selected_alpha": 2000.0,
-            "validation_replay": {"closed_trades": 1, "sum_net_pct": 1.2},
-            "test_replay": {"closed_trades": 1, "sum_net_pct": 0.15},
-            "deployment_allowed": False,
-        }
-        live = {
-            "meta_shadow_selected_rows": 1,
-            "meta_ood_rows": 12,
-            "shadow_only": True,
-            "deployment_allowed": False,
-            "selected": [{"symbol": "KAITO/USD"}],
-        }
-        forward = {"completed_rows": 0, "pending_rows": 1}
-
-        def fake_load(path):
-            if path == dashboard.CRYPTO_META_ROUTER_TRAIN:
-                return train
-            if path == dashboard.CRYPTO_META_ROUTER_LIVE:
-                return live
-            if path == dashboard.CRYPTO_META_ROUTER_FORWARD:
-                return forward
-            return {}
-
-        with patch.object(dashboard, "load_json_dict", side_effect=fake_load):
-            payload = dashboard.build_crypto_shadow_state()
-
-        router = payload["predictors"]["meta_router"]
-        self.assertEqual(router["train"]["selected_alpha"], 2000.0)
-        self.assertEqual(router["live"]["selected_rows"], 1)
-        self.assertEqual(router["live"]["meta_ood_rows"], 12)
-        self.assertFalse(router["live"]["deployment_allowed"])
-        self.assertEqual(router["forward"]["pending_rows"], 1)
-
-    def test_crypto_state_exposes_fail_closed_extra_trees_challenger(self):
-        train = {
-            "model_family": "extra_trees_validation_only_challenger",
-            "test_outcomes_scored": False,
-            "validation_prediction_diagnostics": {
-                "meta": {"mae_pct": 0.46, "positive_predictions": 4}
-            },
-            "validation_replay": {"closed_trades": 1, "sum_net_pct": 0.54},
-        }
-        live = {
-            "curve_rows": 480,
-            "meta_ood_rows": 192,
-            "meta_shadow_selected_rows": 0,
-            "shadow_only": True,
-            "deployment_allowed": False,
-        }
-
-        def fake_load(path):
-            if path == dashboard.CRYPTO_EXTRA_TREES_TRAIN:
-                return train
-            if path == dashboard.CRYPTO_EXTRA_TREES_LIVE:
-                return live
-            return {}
-
-        with patch.object(dashboard, "load_json_dict", side_effect=fake_load):
-            payload = dashboard.build_crypto_shadow_state()
-
-        challenger = payload["predictors"]["extra_trees_challenger"]
-        self.assertFalse(challenger["train"]["test_outcomes_scored"])
-        self.assertEqual(challenger["live"]["curve_rows"], 480)
-        self.assertEqual(challenger["live"]["selected_rows"], 0)
-        self.assertFalse(challenger["live"]["deployment_allowed"])
-
-    def test_crypto_html_renders_predictor_research_panel(self):
-        html_path = Path(dashboard.__file__).with_name(
-            "oanda_main_signal_dashboard.html"
-        )
-        html = html_path.read_text(encoding="utf-8")
-
-        self.assertIn('id="crypto-predictor"', html)
-        self.assertIn("function renderCryptoPredictor", html)
-        self.assertIn("Untouched test", html)
-        self.assertIn("OOD abstentions", html)
-        self.assertIn("Extra Trees validation", html)
-        self.assertIn("test not reused", html)
-        self.assertIn("renderCryptoPredictor(data)", html)
 
     def test_sanitize_payload_replaces_nested_non_finite_numbers(self):
         payload = {
@@ -912,8 +761,8 @@ class PatternDashboardTests(unittest.TestCase):
         )
         html = html_path.read_text(encoding="utf-8")
 
-        self.assertIn("Broker account state unavailable", html)
-        self.assertIn("not a confirmed flat or zero-balance", html)
+        self.assertIn("Current broker state unavailable", html)
+        self.assertIn("not confirmed flat", html)
         self.assertIn("Position/order state unavailable", html)
         self.assertIn("account_values_current", html)
         self.assertNotIn("`${a.open_trades||0}`", html)

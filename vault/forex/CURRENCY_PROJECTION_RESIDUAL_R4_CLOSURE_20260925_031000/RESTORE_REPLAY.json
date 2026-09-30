@@ -1,0 +1,39 @@
+{
+  "checks": [
+    {
+      "command": "python -I -B -m pytest -q stage_c_alignment_integrity_v2/test_currency_projection_residual_layer_v2.py stage_c_alignment_integrity_v2/test_currency_projection_residual_operator_v2.py",
+      "name": "focused residual tests",
+      "result": "14 passed; pytest cache warning only",
+      "status": "passed"
+    },
+    {
+      "evidence": "RESIDUAL_RESULT_INTEGRITY.json",
+      "expected_scope_count": 384,
+      "learned_rows": 3786,
+      "name": "result integrity",
+      "paired_scores": 126,
+      "status": "passed"
+    },
+    {
+      "manifest_members_checked": 11,
+      "name": "source packet manifest readback",
+      "status": "passed"
+    }
+  ],
+  "limitations": [
+    "Full numerical preflight remains blocked for new computation by engineering source/revision/coordination freshness checks.",
+    "Independent scientific review is still pending and is not claimed by this same-task closure.",
+    "The 59 MB residual output is referenced by hash and not duplicated in this compact packet."
+  ],
+  "manifest_members_checked": 11,
+  "result_descriptor": {
+    "bytes": 59349278,
+    "path": "CURRENCY_PROJECTION_RESIDUAL_REPAIR_20260925_000700/evidence/RESIDUAL_RESULT_V2.json",
+    "sha256": "a1c518b93224cfeeb7a1f66ed5905ffb5d7138f0021f8c3bee50383b72bb295c"
+  },
+  "schema": "forex_restore_replay_evidence.v1",
+  "scope": "compact publication and restore/replay closure for residual R4; no recomputation of residual result",
+  "source_packet": "CURRENCY_PROJECTION_RESIDUAL_REPAIR_20260925_000700",
+  "source_packet_manifest_sha256": "a8294d2c4fd4709d6a9a9b0065a14638fd451e7108e65601af7e1f34e0f9d61f",
+  "utc": "2026-09-25T03:05:38.740567Z"
+}

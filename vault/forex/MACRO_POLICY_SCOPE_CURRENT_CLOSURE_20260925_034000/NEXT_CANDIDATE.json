@@ -1,0 +1,17 @@
+{
+  "schema": "forex_forecasting_candidate.v1",
+  "step_id": "macro_scoped_semantic_source_asof_integration_v2",
+  "status": "not_started",
+  "priority": 8,
+  "depends_on": [
+    "repair_recovered_policy_action_scoping_v2"
+  ],
+  "hypothesis": "Guarded semantic source-asof integration may preserve causal text evidence without admitting unsafe native policy facts as forecasts.",
+  "deliverable": "Inspect existing macro scoped-asof packet/history first; close by reuse if complete, or record exact remaining blocker before any compute.",
+  "completion_gate": [
+    "Read existing scoped-asof packet",
+    "Do not admit native facts unless packet gates support it",
+    "Update Vault/project checkpoint"
+  ],
+  "limits": "No GPT/advisor comparisons, paid APIs, broker/service/account actions, D-drive investigation, EUR/USD capture, live-bot changes, or duplicate macro policy scope run."
+}

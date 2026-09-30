@@ -1,0 +1,15 @@
+{
+  "recipe": "source_snapshot/CAUSAL_TECHNICAL_OPERATOR_RECIPE.json",
+  "recipe_sha256": "84eab9ba6098635892b40f73c407545f247f6d5e7754bab17e4bae91eb307e50",
+  "scope": "all68 causal26feature and7elapsed endpoint target preparation, no fit",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify"
+  ],
+  "bootstrap": "checkpoint/forex_causal_technical_inputs.zip",
+  "contract": "source_snapshot/CAUSAL_TECHNICAL_CONTRACT_V2.md",
+  "next": "review_causal_technical_input_checkpoint"
+}

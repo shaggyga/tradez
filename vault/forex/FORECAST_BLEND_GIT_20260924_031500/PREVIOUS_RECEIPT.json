@@ -1,0 +1,61 @@
+{
+  "schema": "forex_shared_git_operation.v2",
+  "status": "COMPLETE",
+  "utc": "2026-09-24T01:31:55.363552+00:00",
+  "repository": "https://github.com/shaggyga/tradez",
+  "branch": "forex",
+  "default_branch": "forex",
+  "source_commit": "2d7871a9958c672d4995ee6e0df0af77e0879a10",
+  "handoff_document_commit": "2d7871a9958c672d4995ee6e0df0af77e0879a10",
+  "remote_sha": "2d7871a9958c672d4995ee6e0df0af77e0879a10",
+  "remote_push_verified": true,
+  "handoff_packet": "WARM_OPERATOR_20260924_004443",
+  "handoff_manifest_sha256": "b8cf9604d149e0ba3a85da9b15bf16b3c90165b171c7852b75ed8cd378cad25f",
+  "scientific_next_item": "freeze_retained_equal_weight_forecast_blend_diagnostic_v2",
+  "next_action": "Freeze saved-tape candidate before any new computation; no completed blend result exists.",
+  "independent_source_review": "accepted_within_scope",
+  "independent_publication_review": {
+    "verdict": "accepted_within_scope",
+    "path": "WARM_PUBLICATION_20260924_004443/FINAL_REVIEW.json",
+    "sha256": "d20ad59701ffe8765372d90f29665455a01d888cb9213ab57336f7bade4f8def"
+  },
+  "local_preflight": {
+    "status": "pass",
+    "path": "WARM_PUBLICATION_20260924_004443/preflight_after_warm.json",
+    "sha256": "e5ca7fb760f257af8438eb7ef00e16402058f87ff8f1bf6de856056fa5adda4c"
+  },
+  "prior_operation_reference": {
+    "path": "WARM_GIT_20260924_004443/PREVIOUS_RECEIPT.json",
+    "sha256": "753795b2c8b441bb5ff5a4cea887cbc34da3f0861976d80b251445898f8540b2"
+  },
+  "checkpoint": {
+    "vault_relative_path": "WARM_GIT_20260924_004443/forex-2d7871a.bundle",
+    "sha256": "e143cc75c8e7d7b0f8d6562a83153d855b145d5f0eecdd07419fb1c973f7b916",
+    "bytes": 71294826,
+    "bundle_verify": "PASSED",
+    "remote_same_commit_verified": true,
+    "fresh_restore_verified": true,
+    "restore_command": "git -c core.longpaths=true clone --branch forex <bundle-path> forex",
+    "fresh_restore_receipt": "WARM_PUBLICATION_20260924_004443/WARM_GIT_RESTORE_RECEIPT.json",
+    "fresh_restore_receipt_sha256": "fd9b3143f148e224264a21fb6db4c961ec78795a5a52bbeebd0865621004b34a",
+    "fresh_restore_scope": "root_verified_same_machine_fresh4611file_bundle_clone_not_second_machine"
+  },
+  "models_fitted": 0,
+  "saved_model_prediction_replay_performed": true,
+  "research_started": true,
+  "cloud_sync_or_second_machine_execution_verified": false,
+  "limits": [
+    "Second-machine cloud synchronization remains unverified",
+    "Advisory board requires ownership reconciliation before potentially duplicate computation",
+    "Byte preservation does not qualify model loading/prediction",
+    "Runtime recovery requires separate scoped authorization"
+  ],
+  "operation_package": "WARM_GIT_20260924_004443",
+  "publication_addendum": "WARM_OPERATOR_20260924_004443/RESTORE_AND_ROLLBACK.md",
+  "operation_manifest": "WARM_GIT_20260924_004443/MANIFEST.json",
+  "operation_manifest_sha256": "8e1f6e8c7ec65abe2dddf4088239b51bd03a5c9b9af4e524b66d8caad7f860f6",
+  "session_handoff": "WARM_PUBLICATION_20260924_004443/HANDOFF.md",
+  "session_manifest": "WARM_PUBLICATION_20260924_004443/MANIFEST.json",
+  "session_manifest_sha256": "53669372705a96877667dbeae2fd01fa2a129c4be86913c5f51d3942268b1f8c",
+  "next_operator_handoff": "WARM_PUBLICATION_20260924_004443/NEXT_OPERATOR_HANDOFF.md"
+}

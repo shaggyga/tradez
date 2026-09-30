@@ -1,0 +1,15 @@
+{
+  "recipe": "source_snapshot/MATCHED_CAMPAIGN_OPERATOR_RECIPE.json",
+  "recipe_sha256": "e4492cb0e7947d7f7e51391c7dbf1b6400bf7287746e64e446c3b87fa6e1e302",
+  "scope": "matched7elapsed-target development forecast campaign; policy bridge and calendar open",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify"
+  ],
+  "bootstrap": "../MATCHED_CAMPAIGN_20260922_034749/checkpoint/forex_matched_campaign.zip",
+  "contract": "source_snapshot/MATCHED_CAMPAIGN_CONTRACT_V2.md",
+  "next": "review_matched_forecast_campaign_checkpoint"
+}

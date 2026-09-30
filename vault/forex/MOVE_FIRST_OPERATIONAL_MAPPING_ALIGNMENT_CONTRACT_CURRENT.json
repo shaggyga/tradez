@@ -1,0 +1,31 @@
+{
+  "schema_version": "move_first_operational_mapping_alignment_config_v1",
+  "contract_id": "move_first_operational_mapping_alignment_v4_receipt_backed_subsecond_causal_narrative_family_prospective_20260902T121500Z",
+  "cohort_id": "move_first_operational_mapping_alignment_v4_prospective_20260902T121500Z",
+  "cohort_start_utc": "2026-09-02T12:15:00Z",
+  "parent_cohort_ids": [
+    "move_first_operational_mapping_alignment_v2_prospective_20260901T150000Z",
+    "move_first_operational_mapping_alignment_v3_prospective_20260901T170000Z"
+  ],
+  "parent_evidence_status": "permanently_invalid_subsecond_knowledge_time_truncation",
+  "historical_row_import_count": 0,
+  "no_backfill": true,
+  "source_case_cohort_id": "move_first_live_case_capture_v4_prospective_20260901T070500Z",
+  "source_case_ledger_schema_version": "move_first_live_case_capture_ledger_v1",
+  "source_case_database_contract_id": "live_move_news_snapshot_v7r3_transitive_factor_root_union_20260827",
+  "factor_episode_contract_id": "live_factor_episode_overlap_adjacency_v3_gap60_fixed_onset5m_append_only_transitive_root_union_20260827",
+  "news_mapping_contract_id": "news_source_governance_fast_lane_v2_first_seen_prospective_20260901",
+  "official_mapping_contract_id": "official_fast_lane_source_governance_adapter_v2_communications_prospective_only_20260828T150000Z",
+  "operational_clock_rule": "max_source_effective_detail_available_and_mapping_receipt_available_utc_subsecond_precision",
+  "lookback_minutes": 120,
+  "deduplication_rule": "resolve_append_only_factor_root_merges_then_select_earliest_sealed_case_per_root",
+  "story_deduplication_rule": "conservative_time_bounded_narrative_family_v3",
+  "broad_age_decay_half_life_minutes": 30,
+  "selection_conditioned_on_realized_executable_move": true,
+  "predictive_backtest_eligible": false,
+  "promotion_eligible": false,
+  "research_only": true,
+  "execution_eligible": false,
+  "can_authorize": false,
+  "can_place_orders": false
+}

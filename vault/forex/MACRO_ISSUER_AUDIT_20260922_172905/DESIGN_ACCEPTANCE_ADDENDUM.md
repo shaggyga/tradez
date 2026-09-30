@@ -1,0 +1,1 @@
+WP6/R05/R14. Frozen metadata/current config distinction,16 local/16 restored tests and five exact outputs. No forecast/issuer promotion.

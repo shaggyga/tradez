@@ -1,0 +1,56 @@
+{
+  "step_id": "remaining-horizon-model-input-recipe",
+  "implementation_status": "bounded_gross_forecast_recipe_verified",
+  "review_status": "ready_for_review",
+  "independent_review": false,
+  "next_action": "review_remaining_horizon_recipe",
+  "deferred_engineering_next_item": "historical_native_packet_and_execution_qualification_v2",
+  "verification": {
+    "local_tests_passed": 14,
+    "relocated_tests_passed": 14,
+    "scientific_payloads_identical": 4
+  },
+  "run_report": {
+    "coverage_rows": 1088,
+    "forecasts": 516,
+    "instruments": 68,
+    "limitations": [
+      "gross_midpoint_not_executable",
+      "assumed_bar_close_availability",
+      "no_fresh_probability_calibration",
+      "no_native_policy_packet",
+      "no_performance_or_promotion_claim"
+    ],
+    "new_fits": 6,
+    "policy_frames": 0,
+    "reasons": {
+      "eligible": 516,
+      "missing_features": 560,
+      "missing_origin_observation": 12
+    },
+    "reused_fits": 2,
+    "scope": "single_two_elapsed_day_cohort_at_six_hour_updates_not_full_campaign",
+    "status": "gross_remaining_horizon_development_only"
+  },
+  "checkpoint_sha256": "4c1698c53a12ab23c15c98f87b60e1451cd589179bc904f49e8e798a91e2eb45",
+  "source_predecessor": {
+    "schema": "forex_design_alignment_pointer.v2",
+    "package": "NATIVE_POLICY_20260922_015754",
+    "path_forward": "NATIVE_POLICY_20260922_015754/PATH_FORWARD.md",
+    "run_status": "NATIVE_POLICY_20260922_015754/RUN_STATUS.json",
+    "design": "NATIVE_POLICY_20260922_015754/specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+    "design_coverage": "NATIVE_POLICY_20260922_015754/audit/DESIGN_COVERAGE.md",
+    "current_acceptance_addendum": "NATIVE_POLICY_20260922_015754/DESIGN_ACCEPTANCE_ADDENDUM.md",
+    "manifest": "NATIVE_POLICY_20260922_015754/MANIFEST.json",
+    "manifest_sha256": "930b7a45658b3c3e690c5c1aea9d1d3dc45409fb005268572385b36fae9f9843",
+    "readback": "NATIVE_POLICY_20260922_015754/PACKAGE_READBACK.json",
+    "active_integrity_batch": "ALL68_INTEGRITY_BATCH_05_20260921.md",
+    "active_integrity_batch_scope": "native common-target policy qualification and historical forecast-only slice verified; campaign remains gated",
+    "historical_package": "DESIGN_ALIGNMENT_20260921",
+    "scope": "current_verified_queue_and_bounded_recovery",
+    "cloud_sync_verified": false
+  },
+  "engineering_ready": false,
+  "policy_evidence_status": "blocked_execution_native_packet_and_probability_contract",
+  "demo_authorization_status": "not_granted"
+}

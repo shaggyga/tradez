@@ -1,0 +1,15 @@
+{
+  "recipe": "source_snapshot/MACRO_PROVENANCE_OPERATOR_RECIPE.json",
+  "recipe_sha256": "15228c9ebb0450f77cf758b4b15124cb0c7cee3945ba3a5984736cd5711b0c42",
+  "scope": "WP6 explicit reference and extraction-provenance binding",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify"
+  ],
+  "bootstrap": "checkpoint/forex_macro_provenance.zip",
+  "contract": "source_snapshot/MACRO_PROVENANCE_CONTRACT_V2.md",
+  "next": "review_macro_provenance_checkpoint_v2"
+}

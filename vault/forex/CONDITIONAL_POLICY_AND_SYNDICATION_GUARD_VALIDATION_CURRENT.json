@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-09-04T18:02:12Z",
+  "issue_id": "FX-20260904-CONDITIONAL-POLICY-SYNDICATION",
+  "status": "complete",
+  "miss": {
+    "headline": "US Fed's Waller says August inflation data will determine stance on September rate hike",
+    "prior_usd_score": 0.9,
+    "prior_false_independent_publishers": ["ANI News", "LatestLY", "Devdiscourse"],
+    "root_causes": [
+      "conditional future-data guidance was treated as a current directional stance",
+      "publisher wrappers prevented syndicated headline identity collapse",
+      "rate-pricing roundups and technical-analysis headlines could leak into directional scoring"
+    ]
+  },
+  "repair": {
+    "classification_version": "local_fx_news_rules_20260904_v159_japan_external_policy_pressure_research",
+    "conditional_guidance_score": 0.0,
+    "conditional_guidance_publish_eligible": false,
+    "syndication_identity": "normalized_semantic_headline_without_publisher_wrapper",
+    "rate_roundup_policy": "context_only",
+    "technical_analysis_policy": "context_only"
+  },
+  "validation": {
+    "news_classification_tests_passed": 486,
+    "news_classification_tests_failed": 0,
+    "conditional_guidance_fixture_directional_scores": {},
+    "explicit_direct_policy_fixture_preserved": true,
+    "syndicated_copies_count_as_one_story": true,
+    "python_compile_passed": true
+  },
+  "artifacts": [
+    {"path": "oanda_news_classification_contract.py", "sha256": "da167d939b813dd2c35bd99fb8bf15e4edc0f0a939aed4b476e4b49f4b19205c"},
+    {"path": "oanda_local_news_sentiment.py", "sha256": "296d91f7698421daa0aa2158c6ef35cd9522cbf7042f1bc961e11ba032f09f04"},
+    {"path": "test_oanda_local_news_sentiment.py", "sha256": "53a1225dc8ff66f227c945bb7d3e699bb3d43cf6b79202dee5d1f6760a2307b4"}
+  ],
+  "safety": {
+    "historical_reclassification_is_proof": false,
+    "can_promote": false,
+    "can_authorize": false,
+    "can_place_orders": false,
+    "real_money_routing": false
+  }
+}

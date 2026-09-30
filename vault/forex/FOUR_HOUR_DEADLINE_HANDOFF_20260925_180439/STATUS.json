@@ -1,0 +1,31 @@
+{
+  "schema": "forex.deadline_partial_handoff.v1",
+  "status": "partial_not_executed",
+  "session_id": "four_hour_20260925_135023",
+  "original_started_utc": "2026-09-25T13:50:23Z",
+  "original_deadline_utc": "2026-09-25T17:50:23Z",
+  "guard_finished_utc": "2026-09-25T18:07:10.539533Z",
+  "finish_reason": "deadline",
+  "completed_packets": [
+    "DESIGN_AUTHORITY_REPAIR_20260925_135023",
+    "RESIDUAL_R4_RELOCATED_REPLAY_20260925_140153",
+    "CURVE_POPULATION_GUARD_20260925_141000",
+    "RICH_SPREAD_INCREMENT_20260925_142015",
+    "POLICY_EXPOSURE_REFERENCE_20260925_143200",
+    "DISTINCT_METHOD_QUALIFICATION_20260925_144000"
+  ],
+  "partial_item": "extra_trees_matched_development_comparison_v1",
+  "source_commit": "6eb514ab1856190b39d83ab020d5f77700ca8770",
+  "source_file": "stage_c_alignment_integrity_v2/extra_trees_matched_v1.py",
+  "source_file_sha256": "4c17637e1ac14c2214dfa205891e4fb7fc2a8d709589d304de73d94116e2a69c",
+  "static_checks_passed": [
+    "python -m py_compile stage_c_alignment_integrity_v2/extra_trees_matched_v1.py",
+    "git diff --check"
+  ],
+  "fit_executed": false,
+  "forecast_issued": false,
+  "score_executed": false,
+  "scientific_result": null,
+  "exact_next_item": "extra_trees_matched_development_comparison_v1",
+  "local_finish_assessment": "C:\\Users\\zmoor\\Documents\\forex\\evidence\\four_hour_20260925_135023\\extra_trees_partial\\DEADLINE_FINISH_ASSESSMENT.json"
+}

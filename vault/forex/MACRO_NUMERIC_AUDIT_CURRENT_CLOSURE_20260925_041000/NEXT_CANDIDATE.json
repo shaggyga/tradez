@@ -1,0 +1,18 @@
+{
+  "schema": "forex_forecasting_candidate.v1",
+  "step_id": "macro_numeric_observation_asof_state_v2",
+  "status": "not_started",
+  "priority": 14,
+  "depends_on": [
+    "macro_numeric_units_vintage_evidence_audit_v2"
+  ],
+  "hypothesis": "Typed source-asof numeric observations may be carried without admitting unsupported numeric forecast features.",
+  "deliverable": "Inspect existing numeric observation state packet/history first; close by reuse if complete, or record exact blocker.",
+  "completion_gate": [
+    "Read existing numeric state packet",
+    "No paid/API retrieval",
+    "No numeric surprise/admission without support",
+    "Update Vault/project checkpoint"
+  ],
+  "limits": "No GPT/advisor comparisons, paid APIs, broker/service/account actions, D-drive investigation, EUR/USD capture, live-bot changes."
+}

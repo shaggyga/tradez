@@ -1,0 +1,61 @@
+{
+  "schema_version": "forex_executable_move_census_cohort_d_terminal_validation_v2",
+  "generated_utc": "2026-09-01T19:01:28Z",
+  "scope": "Terminal invalidation of executable-move Census D after discovery of an exact source-schema mismatch",
+  "cohort_d": {
+    "cohort_id": "all68_executable_move_census_v2_20260901d",
+    "terminal_status": "permanently_invalid",
+    "database": "data/oanda_training_manager/state/executable_move_census_v2_20260901d.sqlite",
+    "database_sha256": "fb4a0a95bc3442c415973ab1a2ac95b2d4d0546403420ac6caa4356990b02f0c",
+    "sqlite_quick_check": "ok",
+    "activation_utc": "2026-09-01T18:30:00Z",
+    "first_frame_utc": "2026-09-01T18:30:00Z",
+    "last_frame_utc": "2026-09-01T18:46:00Z",
+    "frame_count": 17,
+    "frame_quote_count": 1156,
+    "commit_receipt_count": 17,
+    "window_evaluation_count": 33,
+    "valid_quote_count": 0,
+    "invalid_quote_count": 1156,
+    "invalid_reason_counts": {
+      "source_identity_mismatch": 1156
+    },
+    "historical_row_import_count": 0,
+    "preactivation_row_count": 0,
+    "config_sha256": "91be9adc330b6743c556c78a89853b252276f791aecab0c429c9e8671103ba1a",
+    "frozen_source_schema_version": "2",
+    "observed_live_source_schema_version": "3",
+    "research_only": true,
+    "can_trade": false,
+    "can_authorize": false,
+    "can_promote": false
+  },
+  "defect": {
+    "classification": "source_contract_mismatch",
+    "root_cause": "Cohort D froze quote schema 2 after the live tradeability-aware Practice-007 quote snapshot had advanced to schema 3.",
+    "effect": "The capture contract correctly rejected every quote row. Structural frame counts and receipt hashes remained internally consistent, so the independent verifier agreed with an unusable all-invalid series.",
+    "why_initial_validation_was_insufficient": "It verified lineage, timing, hashes, frame prefixes and row counts but did not require a nonzero valid-row census after activation.",
+    "evidence_use": "No D row is admissible for edge estimation, cost-clearance rates, allocator proof, promotion or execution.",
+    "retirement_rule": "D remains immutable and cannot be reactivated or relabeled. Any repaired observation belongs to a new cohort."
+  },
+  "corrective_action": {
+    "replacement_cohort_id": "all68_executable_move_census_v2_20260901e",
+    "replacement_activation_utc": "2026-09-01T19:15:00Z",
+    "replacement_source_schema_version": "3",
+    "historical_row_import_count": 0,
+    "no_backfill": true,
+    "producer_preflight": "The producer now validates the exact live source schema and producer identity before activation or database creation and fails closed on mismatch.",
+    "postactivation_acceptance": "E must show executable valid rows, zero source_identity_mismatch rows, exact 68-row frames, verifier agreement and no preactivation or D imports before it is recorded as collecting.",
+    "supervisor_cutover": "D capture, evaluator and verifier are stopped; only E census workers are supervisor-owned."
+  },
+  "runtime_safety": {
+    "practice_account_id": "101-001-37981792-007",
+    "manual_orders_submitted": 0,
+    "manual_positions_closed": 0,
+    "execution_gates_loosened": false,
+    "real_money_enabled": false,
+    "codex_automation_active": false,
+    "heartbeat_active": false,
+    "supported_execution_decision": "no_trade"
+  }
+}

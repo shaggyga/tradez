@@ -1,0 +1,3 @@
+# Exact next item
+
+`later_remaining_forecast_surface_v2`. Read evidence/NEXT_CANDIDATE.json and freeze a later common-target surface using original technical observations, extra-horizon labels and saved remaining signed models. Reuse compatible absolute fits; only missing magnitude targets may require bounded new fits. Retain causal prequential support and explicit unavailable layers, measure native timing, and consume the prepared surface through existing validation. The old policy cohort predates sufficient layer support; do not backdate current layers or borrow coefficients across horizons. Following policy replay retains existing accounting, risk and cost controls. Independent review remains pending and nonblocking.

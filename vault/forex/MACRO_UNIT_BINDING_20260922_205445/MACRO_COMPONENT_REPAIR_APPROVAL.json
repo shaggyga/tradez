@@ -1,0 +1,15 @@
+{
+  "recipe": "source_snapshot/MACRO_COMPONENT_REPAIR_OPERATOR_RECIPE.json",
+  "recipe_sha256": "a7a25e75036474a5ef6dd655e8c69982ec95c45381daa00b149b387dd2696a45",
+  "scope": "strict offline component evidence repair; source identity, prior vintages and historical activation not certified",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify"
+  ],
+  "bootstrap": "../MACRO_COMPONENT_REPAIR_20260922_202623/checkpoint/forex_macro_component_repair.zip",
+  "contract": "source_snapshot/MACRO_COMPONENT_REPAIR_CONTRACT_V2.md",
+  "next": "review_macro_component_repair_checkpoint_v2"
+}

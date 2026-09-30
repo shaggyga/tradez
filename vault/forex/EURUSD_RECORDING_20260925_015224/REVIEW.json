@@ -1,0 +1,66 @@
+{
+  "step_id": "eurusd-recording-20260925",
+  "claim_id": "eurusd-live-visualization-20260925",
+  "created_utc": "2026-09-25T02:00:50.646308+00:00",
+  "source_commit": "b0dd42c9f6b0dc67fd6b9c5d141e25ed99b0320f",
+  "recording_id": "eurusd-a0972120db87",
+  "status": "capture_in_progress",
+  "setup_status": "verified",
+  "local_evidence": "C:\\Users\\zmoor\\Documents\\forex\\evidence\\eurusd-live-visualization-20260925",
+  "dataset_directory": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\eurusd_feed_20260925",
+  "deadline_utc": "2026-09-25T20:59:00+00:00",
+  "first_received_time": "2026-09-25T01:52:25.338085+00:00",
+  "setup_snapshot_rows": 274,
+  "raw_source": "OANDA practice sampled PRICE stream; up to four quotes/sec; exact observed times, no regular grid or backfill",
+  "source_files": [
+    {
+      "path": "trad/oanda_eurusd_stream.py",
+      "sha256": "9a2fbcc71d582aada296909e5e4b09836f9509231dcd85a64216dcfa3ec5038f",
+      "bytes": 3877
+    },
+    {
+      "path": "trad/oanda_eurusd_record.py",
+      "sha256": "67cd85cebce76c84e932c9cfd0ccbf44a9c76f2af4978933bef5a08ee9c94bff",
+      "bytes": 9708
+    },
+    {
+      "path": "trad/oanda_eurusd_dataset.py",
+      "sha256": "12d27c64de66d5d03afb60ecc673a3e17112a0d29c55f2faeb9a2b26b33edd2e",
+      "bytes": 14795
+    },
+    {
+      "path": "tests/test_eurusd_record.py",
+      "sha256": "1bfe5aa4761b50a8293db240a7a947bfeff6baf00bca5c4c845e45bac79b137b",
+      "bytes": 8481
+    },
+    {
+      "path": "docs/EURUSD_DATASET.md",
+      "sha256": "581e2474b6d2a8a8e19943bc553eb4b40daa4d3e639709ad249ba63ae94d0f54",
+      "bytes": 3641
+    }
+  ],
+  "managed_command_session": 38436,
+  "observed_pid": 12772,
+  "automation_id": "eurusd-dataset-through-friday-close",
+  "engineering_readiness": "scoped_quote_capture_and_export_verified",
+  "forecast_evidence": "not_applicable",
+  "policy_evidence": "not_applicable",
+  "demo_authorization": "explicit_user_read_only_quote_collection",
+  "trading_authorization": false,
+  "independent_review": "independent recorder review with limitations recorded; not scientific acceptance",
+  "tests": [
+    "10 offline recorder tests passed",
+    "export synthetic valid/partial-tail/malformed refusal checks reported by exporter subagent",
+    "live export validated exact decimal arithmetic",
+    "pandas loader checked:170 rows and exact nanosecond timestamp preserved"
+  ],
+  "general_preflight_status": "blocked; all unrelated science blocks preserved and scope reconciled, no false pass",
+  "unresolved": [
+    "Recording has not reached Friday cutoff; final data row/gap accounting remains pending",
+    "Local PC, Codex and internet continuity required; outages remain gaps",
+    "See INDEPENDENT_REVIEW.json R1-R4 operational limitations"
+  ],
+  "resume_command": "python -I -B trad/oanda_eurusd_record.py --output trad/data/eurusd_feed_20260925 --end-utc 2026-09-25T20:59:00+00:00",
+  "export_command": "python -I -B trad/oanda_eurusd_dataset.py export --input trad/data/eurusd_feed_20260925",
+  "rollback": "Create dataset STOP file and pause only eurusd-dataset-through-friday-close; preserve all raw CSV and evidence. Do not affect other owners or science work."
+}

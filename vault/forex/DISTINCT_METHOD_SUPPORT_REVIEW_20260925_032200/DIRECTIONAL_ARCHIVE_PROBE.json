@@ -1,0 +1,516 @@
+{
+  "schema": "directional_archive_probe.v1",
+  "utc": "2026-09-25T03:19:06.996204Z",
+  "archive": "C:\\Users\\zmoor\\OneDrive\\thevault\\projects\\forex\\DIRECTIONAL_RECOVERY_20260922_031840\\checkpoint\\local_restoration_001.zip",
+  "archive_exists": true,
+  "archive_sha256": "a9f29a3d51e40c114655d27465ec03b269cba5c26c5bb24105c97da096d86fd9",
+  "members": [
+    {
+      "suffix": "direction_decision_20260911/evaluation_001/FROZEN_RUN.json",
+      "matches": [
+        "direction_decision_20260911/evaluation_001/FROZEN_RUN.json"
+      ],
+      "bytes": 5805,
+      "sha256": "4293d5077036d700b8aa80a8c947e40a68bc20b7447de9d22bed3ab243961bcc",
+      "parsed_excerpt": {
+        "can_place_orders": false,
+        "can_promote": false,
+        "history_already_inspected": true,
+        "previous_completed_result_sha256": "1ac0d46a300cef150c18dec403a52538f0f37302b7aaac4b44ed16e264c5af87",
+        "previous_prepared_sha256": "bc241e3abf4f56e573c2516149178352e42676cdf13aacef21e1e7d807bbcba1",
+        "source_bindings": {
+          "run_signed_cost_study_v1.py": "08e077959aa3411856f4e208616fbc2cdfccc94a54481e4718c7aacc451d8b8b",
+          "signed_cost_models_v1.py": "8cebabbab7c6dcb32271a8fd3cbc656e912ae6a26e19a9ff1d35ad547342665c"
+        },
+        "spec": {
+          "added_features": [
+            "known_entry_long_cost_bps",
+            "known_entry_short_cost_bps"
+          ],
+          "anchor_stride_minutes": 15,
+          "assessment_end": "2026-09-11T20:00:00Z",
+          "assessment_start": "2026-09-10T00:00:00Z",
+          "baselines": [
+            "training_mean_R_by_pair_and_prior15m_sign_min30_otherwise_pooled_sign_mean_with_training_mean_exit_costs",
+            "always_15m_reversal",
+            "no_trade"
+          ],
+          "calibration": {
+            "intercept_bounds": [
+              -8.0,
+              8.0
+            ],
+            "logit_clip_probability": 1e-06,
+            "magnitude_calibration": false,
+            "method": "weighted_monotone_Platt",
+            "minimum_rows_each_class": 100,
+            "no_assessment_fallback": true,
+            "ridge_penalty": 0.001,
+            "slope_bounds": [
+              0.0,
+              8.0
+            ]
+          },
+          "calibration_start": "2026-09-09T00:00:00Z",
+          "can_place_orders": false,
+          "can_promote": false,
+          "cost_policy": "expected_long=mean_R-known_entry_long_cost-expected_long_exit_cost; expected_short=-mean_R-known_entry_short_cost-expected_short_exit_cost",
+          "cost_scope": "Observed M1 bid/ask candle endpoint proxy. Entry prices assumed available at minute close; original provider receipt/backfill timing unproved. Slippage/financing unobserved;1bps margin is fixed research design, not a guarantee.",
+          "decision_rule": "Choose larger expected side net only when strictly greater than1bps. Otherwise wait. No probability cutoff, parameter sweep, chosen horizon or pair ranking.",
+          "entry_margin_bps": 1.0,
+          "estimator_parameters": {
+            "early_stopping": false,
+            "l2_regularization": 10.0,
+            "learning_rate": 0.05,
+            "max_depth": 3,
+            "max_iter": 100,
+            "max_leaf_nodes": 15,
+            "min_samples_leaf": 100,
+            "random_state": 37
+          },
+          "feature_groups": [
+            "technical",
+            "combined"
+          ],
+          "feature_policy": "Existing24 technical or108combined fields; same fixed pair identity; entry costs from current bid/ask/mid only. Future exit costs are targets, NEVER features. Train-only imputation/standardization.",
+          "horizons_minutes": [
+            5,
+            15,
+            30,
+            60
+          ],
+          "mean_estimates": [
+            "direct_signed_mean",
+            "raw_probability_times_conditional_means",
+            "calibrated_probability_times_conditional_means"
+          ],
+          "metrics": [
+            "mean-return MAE and MSE vs zero",
+            "positive-event Brier/logloss before and after calibration including flats",
+            "conditional magnitude and exit-cost errors",
+            "selection coverage",
+            "selected mean net",
+            "all-opportunity mean net with abstentions0",
+            "daily and pair counts/results",
+            "fixed1bps extra roundtrip cost stress"
+          ],
+          "minimum_training_rows_each_class": 200,
+          "mixture_formula": "p_positive * mean_positive - (1-p_positive) * mean_nonpositive_magnitude",
+          "nonnegative_predictions": "Clamp negative magnitude and exit-cost predictions to0, report counts. Signed mean is not clamped.",
+          "nonpositive_class": "R <= 0 including all flat midpoint outcomes",
+          "portfolio_scope": "Independent row and horizon diagnostics with overlapping hypothetical holds; not account return, no simultaneous-position simulation, stops or sizing",
+          "positive_class": "R > 0",
+          "predecessors": [
+            "direction_joint_feature_bridge_v1_20260911",
+            "executable_opportunity_ranking_v1_v2",
+            "gap_aware_pooled_and_unified_signed_regressors",
+            "practice_trial_policy_v1_asymmetric_executable_costs"
+          ],
+          "reason": "Correct older median-magnitude opportunity EV proxy and test cost-aware abstention on the existing same-row causal news/peer panel.",
+          "regression_loss": "squared_error_for_conditional_means_not_medians",
+          "scope": "reused_history_discovery_only_all_dates_previously_inspected",
+          "selection_policy": "Report all estimates/groups/horizons, no winning replacement or live model promotion. Preserve previous study bytes and negative results. This run is a new diagnostic on reused history, not an untouched holdout."
+        },
+        "spec_sha256": "7017121a4f01e2806615c0e584e6a3b136cef7e40648680d3f8eb1dd55425f67",
+        "started_utc": "2026-09-12T03:10:14.797098+00:00"
+      }
+    },
+    {
+      "suffix": "direction_decision_20260911/STUDY_SPEC.json",
+      "matches": [
+        "direction_decision_20260911/STUDY_SPEC.json"
+      ],
+      "bytes": 4547,
+      "sha256": "7017121a4f01e2806615c0e584e6a3b136cef7e40648680d3f8eb1dd55425f67",
+      "parsed_excerpt": {
+        "study_id": "signed_mean_cost_decision_bridge_v1_20260911",
+        "scope": "reused_history_discovery_only_all_dates_previously_inspected",
+        "reason": "Correct older median-magnitude opportunity EV proxy and test cost-aware abstention on the existing same-row causal news/peer panel.",
+        "can_place_orders": false,
+        "can_promote": false,
+        "predecessors": [
+          "direction_joint_feature_bridge_v1_20260911",
+          "executable_opportunity_ranking_v1_v2",
+          "gap_aware_pooled_and_unified_signed_regressors",
+          "practice_trial_policy_v1_asymmetric_executable_costs"
+        ],
+        "source_prepared": "../direction_research_20260911/prepared_001",
+        "horizons_minutes": [
+          5,
+          15,
+          30,
+          60
+        ],
+        "anchor_stride_minutes": 15,
+        "training_start": "2026-09-07T00:00:00Z",
+        "calibration_start": "2026-09-09T00:00:00Z",
+        "assessment_start": "2026-09-10T00:00:00Z",
+        "assessment_end": "2026-09-11T20:00:00Z",
+        "split_policy": "All pairs share UTC decision times. Training labels mature strictly before calibration; calibration labels mature strictly before assessment; assessment labels strictly before final cutoff. Exact contiguous M1 labels reused unchanged.",
+        "feature_groups": [
+          "technical",
+          "combined"
+        ],
+        "added_features": [
+          "known_entry_long_cost_bps",
+          "known_entry_short_cost_bps"
+        ],
+        "feature_policy": "Existing24 technical or108combined fields; same fixed pair identity; entry costs from current bid/ask/mid only. Future exit costs are targets, NEVER features. Train-only imputation/standardization.",
+        "estimator_parameters": {
+          "max_iter": 100,
+          "max_leaf_nodes": 15,
+          "max_depth": 3,
+          "learning_rate": 0.05,
+          "min_samples_leaf": 100,
+          "l2_regularization": 10.0,
+          "early_stopping": false,
+          "random_state": 37
+        },
+        "regression_loss": "squared_error_for_conditional_means_not_medians",
+        "positive_class": "R > 0",
+        "nonpositive_class": "R <= 0 including all flat midpoint outcomes",
+        "targets": [
+          "signed midpoint return R in bps",
+          "positive R conditional on R>0",
+          "-R conditional on R<=0 including flats as0",
+          "P(R>0)",
+          "future long exit cost=(mid_h-bid_h)/mid_0*10000",
+          "future short exit cost=(ask_h-mid_h)/mid_0*10000"
+        ],
+        "mean_estimates": [
+          "direct_signed_mean",
+          "raw_probability_times_conditional_means",
+          "calibrated_probability_times_conditional_means"
+        ],
+        "mixture_formula": "p_positive * mean_positive - (1-p_positive) * mean_nonpositive_magnitude",
+        "nonnegative_predictions": "Clamp negative magnitude and exit-cost predictions to0, report counts. Signed mean is not clamped.",
+        "calibration": {
+          "method": "weighted_monotone_Platt",
+          "slope_bounds": [
+            0.0,
+            8.0
+          ],
+          "intercept_bounds": [
+            -8.0,
+            8.0
+          ],
+          "logit_clip_probability": 1e-06,
+          "ridge_penalty": 0.001,
+          "minimum_rows_each_class": 100,
+          "no_assessment_fallback": true,
+          "magnitude_calibration": false
+        },
+        "minimum_training_rows_each_class": 200,
+        "training_weights": "Compute equal-total-per-decision-epoch weights on the full training population once. Positive/nonpositive regressors subset those SAME weights, then rescale to mean1; preserve the same underlying measure as the probability model.",
+        "cost_policy": "expected_long=mean_R-known_entry_long_cost-expected_long_exit_cost; expected_short=-mean_R-known_entry_short_cost-expected_short_exit_cost",
+        "entry_margin_bps": 1.0
+      }
+    },
+    {
+      "suffix": "direction_decision_20260911/DIRECTION_DECISION_REPORT.md",
+      "matches": [
+        "direction_decision_20260911/DIRECTION_DECISION_REPORT.md"
+      ],
+      "bytes": 8987,
+      "sha256": "3b31fc0acbd05ba0ecc0fce6cff04346d29e7e6d74c7e4c490aeba43abd8dc2c",
+      "text_excerpt": "# Signed direction, executable costs and currency-news inputs\n\nCompleted September 11 Eastern / September 12 UTC. This work adds tested research code and a reproducible comparison. **Probability calibration improved; dependable profitable direction is still unestablished.** The principal numerical failure in the selected decisions is overestimating the signed price move, rather than badly estimating the endpoint exit spread.\n\n## What was implemented\n\n- Reused the preceding 68-pair technical/peer/news panel and existing gradient-boosting lineage. Compared technical24 and combined108 fields, adding known asymmetric entry costs and fixed pair identity. This does not claim that all historical 200+ feature sets are active or that boosting is new.\n- Fitted direct signed means and a probability/conditional-magnitude decomposition at **5, 15, 30 and 60 minutes**. Positive and nonpositive branches use squared-error mean targets and the same underlying sample weights, including flat returns. Separate models estimate long and short exit costs. Eight retained bundles contain 48 estimators and eight probability calibrators.\n- Corrected a limitation of the older opportunity ranker's proxy: probability of cost clearance times a median magnitude and conditional direction is not the unconditional signed expected return. All three mean estimates are retained for comparison; no winner or threshold was chosen after seeing these results.\n- Added separate-day monotone probability calibration and a fixed cost decision: choose the greater expected long/short return only above a predeclared 1 bps margin; otherwise wait. Forecast values remain available when the decision is to wait.\n- Added a four-head research curve consumer with original reference/target identity, asymmetric bid/mid/ask costs, strict quote/feature/model clocks, remaining-price arithmetic and explicit refusal reasons. It does not refit the conditional forecast when the quote changes. It is separate from the existing 13-head curve and H1 practice manager, and has no order interface.\n- Built a strict reader for the older currency meter and a source-pinned collector for new observations. Two local captures preserve exact article versions, exclusions, 21 currency states and real post-commit visibility. A fresh state projects into 66 descriptive pair fields. The collector is currently a one-shot tool, with no persistent service installed.\n\n## What the measurements say\n\nThe fixed comparison assessed **39,893 pair/time/horizon rows** over September 10 and 11, after September 7\u20138 fitting and separate September 9 calibration. All labels mature strictly before the next partition. These dates were already inspected: this is discovery on reused history, not untouched confirmation.\n\nCalibration improves Brier score and log loss in all eight input-group/horizon aggregates and all 16 corresponding daily comparisons. Scores remain close to an uninformative 50% probability. Better probability scores do not consistently improve selected returns.\n\nOf the 24 learned group/estimate/horizon combinations, **17 have negative selected net returns, four positive, and three select nothing**. The six-row positive 5-minute case spans only three decision times. The positive combined 15-minute cases have 41\u201343 rows over 12 decision times and lose on September 10. The larger positive 30-minute case averages only +0.148 bps and becomes negative with an additional 1 bps of cost. These do not establish a qualified replacement.\n\nFor example, the combined 30-minute direct model overestimates selected signed returns by 5.977 bps, while its selected exit-cost error contributes \u22120.039 bps: it slightly overestimates costs. The calibrated technical 60-minute mixture has 2.439 bps of return optimism and \u22120.094 bps of exit-cost error. This identifies where the forecast-to-decision estimate fails; it does not prove why the predictive relationship is weak.\n\nAll 24 learned means lose to zero on absolute error, although that metric"
+    },
+    {
+      "suffix": "direction_decision_20260911/review/SAVED_MODEL_AND_CURVE_RECREATION.json",
+      "matches": [
+        "direction_decision_20260911/review/SAVED_MODEL_AND_CURVE_RECREATION.json"
+      ],
+      "bytes": 103641,
+      "sha256": "606c4ff8114b535d4ed0fd8c1ee287ecb8c7f6abe692d9d099e767d719b738b8",
+      "parsed_excerpt": {
+        "actual_forecasts_published": 0,
+        "can_place_orders": false,
+        "can_promote": false,
+        "curve_contract_sha256": "e2aef1d52643b430c33f766daca70fc228b3b08fa1d89bd5207ac79e107b4e77",
+        "historical_curve_refused_at_current_time": true,
+        "historical_refusal_reason": "curve:reference_stale",
+        "maximum_absolute_difference": 0.0,
+        "model_bundles_recreated": 8,
+        "model_checks": [
+          {
+            "artifact": "h5_combined.joblib",
+            "maximum_absolute_difference": 0.0,
+            "rows": 10787,
+            "sha256": "410ed9459c2dbd60aa58d80099409ccfae50bb51fc99d5af8caa7692736d1f9d"
+          },
+          {
+            "artifact": "h5_technical.joblib",
+            "maximum_absolute_difference": 0.0,
+            "rows": 10787,
+            "sha256": "89f57cc7f55daafa994e922a827dfc2c19ef05307e15e7eaeccf9df0a35c11c8"
+          },
+          {
+            "artifact": "h15_combined.joblib",
+            "maximum_absolute_difference": 0.0,
+            "rows": 10192,
+            "sha256": "1fec2eec27e0d05e772dae4238fdd951f7ca498614ea4e5acb1e286f2f048e53"
+          },
+          {
+            "artifact": "h15_technical.joblib",
+            "maximum_absolute_difference": 0.0,
+            "rows": 10192,
+            "sha256": "1b31ceaedf6162c451271539cb430f6fea8e726dc01760c1d04804bc5f1a6a24"
+          },
+          {
+            "artifact": "h30_combined.joblib",
+            "maximum_absolute_difference": 0.0,
+            "rows": 9739,
+            "sha256": "24b34e16741efb3ca25d7f1a0a627794589ea3e71f58130a2bd51ce25cdf59d4"
+          },
+          {
+            "artifact": "h30_technical.joblib",
+            "maximum_absolute_difference": 0.0,
+            "rows": 9739,
+            "sha256": "e2f53ae53ec75129d05db8ca01912d668b09057df4e78921815e4ac7cacbcf6b"
+          },
+          {
+            "artifact": "h60_combined.joblib",
+            "maximum_absolute_difference": 0.0,
+            "rows": 9175,
+            "sha256": "e41df69372914dddf95ce2a4adad8ef2614725fedfe23ac7539fe08412d86584"
+          },
+          {
+            "artifact": "h60_technical.joblib",
+            "maximum_absolute_difference": 0.0,
+            "rows": 9175,
+            "sha256": "858d4aab14896ce8ba70b511860b3b28a0251d4c41e8e7ab0b1f15c9c03a328c"
+          }
+        ],
+        "numeric_values_recreated": 718074,
+        "replay_checks": [
+          {
+            "assessment_sha256": "4041ce1032a350420bc49a3fcdc915890abbdf42005e4904b9d74ef2f87ca41d",
+            "group": "combined",
+            "heads": 4,
+            "mean_method": "direct_signed_mean",
+            "pair": "AUD_CAD",
+            "reference_epoch": 1788998460
+          },
+          {
+            "assessment_sha256": "3a9ba06858854a978c5644e178b11a6f7523b55f5e894e6165cd604f1479fdbc",
+            "group": "combined",
+            "heads": 4,
+            "mean_method": "mixture_raw",
+            "pair": "AUD_CAD",
+            "reference_epoch": 1788998460
+          },
+          {
+            "assessment_sha256": "cd0c31356bc28add454d56c9347aa020b43b4be22631d199d9d3ba0ab8d827d6",
+            "group": "combined",
+            "heads": 4,
+            "mean_method": "mixture_calibrated",
+            "pair": "AUD_CAD",
+            "reference_epoch": 1788998460
+          },
+          {
+            "assessment_sha256": "2491f41a2c38212ba418dbaa7e19a970c5d0ac1c91f8d860e0170b988bbd8ddd",
+            "group": "technical",
+            "heads": 4,
+            "mean_method": "direct_signed_mean",
+            "pair": "AUD_CAD",
+            "reference_epoch": 1788998460
+          },
+          {
+            "assessment_sha256": "5ee601bdf074941bb0094593380fef7aaccaefbe5c47a65141d60a98601beb9d",
+            "group": "technical",
+            "heads": 4,
+            "mean_method": "mixture_raw",
+            "pair": "AUD_CAD",
+            "reference_epoch": 1788998460
+          },
+          {
+            "assessment_sha256": "663972c7c5c4a1b365fe7ce2541328f418b19a3272d30d29fd5d522b4c99198e",
+            "group": "technical",
+            "heads": 4,
+            "mean_method": "mixture_calibrated",
+            "pair": "AUD_CAD",
+            "reference_epoch": 1788998460
+          },
+          {
+            "assessment_sha256": "344922fede74907eee40ce39486434b560b52ff66c08e0b467662d987d3cf8ed",
+            "group": "combined",
+            "heads": 4,
+            "mean_method": "direct_signed_mean",
+            "pair": "AUD_CHF",
+            "reference_epoch": 1788998460
+          },
+          {
+            "assessment_sha256": "59cff1774500cf5cb05d025f1b70da789c1788c27b808130e69f95962a6c041d",
+            "group": "combined",
+            "heads": 4,
+            "mean_method": "mixture_raw",
+            "pair": "AUD_CHF",
+            "reference_epoch": 1788998460
+          },
+          {
+            "assessment_sha256": "567925431445c9822c266128f82db1e399db3160a04c043a5888fe87b117152b",
+            "group": "combined",
+            "heads": 4,
+            "mean_method": "mixture_calibrated",
+            "pair": "AUD_CHF",
+            "reference_epoch": 1788998460
+          },
+          {
+            "assessment_sha256": "9c520071902287e6e59604753241a342c819a6af2b0b86d96e6c2da629dc820d",
+            "group": "technical",
+            "heads": 4,
+            "mean_method": "direct_signed_mean",
+            "pair": "AUD_CHF",
+            "reference_epoch": 1788998460
+          },
+          {
+            "assessment_sha256": "ac1040c2765a2614d350615b46a780dfb76d70fdb89a33df1150ba1e4bd3a57d",
+            "group": "technical",
+            "heads": 4,
+            "mean_method": "mixture_raw",
+            "pair": "AUD_CHF",
+            "reference_epoch": 1788998460
+          },
+          {
+            "assessment_sha256": "7c2ca67d55191295ad32ac3c8daa0f61f1214f1bfe56a89b79cac87dad50d364",
+            "group": "technical",
+            "heads": 4,
+            "mean_method": "mixture_calibrated",
+            "pair": "AUD_CHF",
+            "reference_epoch": 1788998460
+          },
+          {
+            "assessment_sha256": "3e576379e86d03d243d3c45e83dac7aa7a33669e9fe6434be36a5378691f4727",
+            "group": "combined",
+            "heads": 4,
+            "mean_method": "direct_signed_mean",
+            "pair": "AUD_HKD",
+            "reference_epoch": 1788998460
+          },
+          {
+            "assessment_sha256": "340705eb4f43d23e2ea016b90995f3657042cf850d3cbaf967c4f2ca7dace85a",
+            "group": "combined",
+            "heads": 4,
+            "mean_method": "mixture_raw",
+            "pair": "AUD_HKD",
+            "reference_epoch": 1788998460
+          },
+          {
+            "assessment_sha256": "97e138ef38b9b4de65223729a5e5a7c4bd8a6747fce00a3f5feeb1805cf89775",
+            "group": "combined",
+            "heads": 4,
+            "mean_method": "mixture_calibrated",
+            "pair": "AUD_HKD",
+            "reference_epoch": 1788998460
+          },
+          {
+            "assessment_sha256": "d3861e11054e09f3f36b18a294ac8daa068dbe21e9efc263059f6a81a4e65a84",
+            "group": "technical",
+            "heads": 4,
+            "mean_method": "direct_signed_mean",
+            "pair": "AUD_HKD",
+            "reference_epoch": 1788998460
+          },
+          {
+            "assessment_sha256": "23f3ecf58a602d4e429e1e9d668b9da7a4022d20b078e9fd2417eace61e5043e",
+            "group": "technical",
+            "heads": 4,
+            "mean_method": "mixture_raw",
+            "pair": "AUD_HKD",
+            "reference_epoch": 1788998460
+          },
+          {
+            "assessment_sha256": "db5ab1f97ca8b3fe48d366a351f1e057d4615371e66f2bdd2ec2f2979288293c",
+            "group": "technical",
+            "heads": 4,
+            "mean_method": "mixture_calibrated",
+            "pair": "AUD_HKD",
+            "reference_epoch": 1788998460
+          },
+          {
+            "assessment_sha256": "1455abebb2f671f66c4ce39f35f71c00af4ad6549a0e95d8acbab97c692e99ef",
+            "group": "combined",
+            "heads": 4,
+            "mean_method": "direct_signed_mean",
+            "pair": "AUD_JPY",
+            "reference_epoch": 1788998460
+          },
+          {
+            "assessment_sha256": "add68129989b19d72594e64a025b2ebd9d738c833eb81cb6a1cd889daf2d4ebc",
+            "group": "combined",
+            "heads": 4,
+            "mean_method": "mixture_raw",
+            "pair": "AUD_JPY",
+            "reference_epoch": 1788998460
+          },
+          "... list[384]"
+        ],
+        "replay_curves_checked": 384,
+        "replay_heads_checked": 1536,
+        "results_sha256": "e79be4585149f90f4a2a5f0ace97c330c7acc2f6bd01352bb5a5feb01890ced2",
+        "scope": "retained_model_recreation_and_explicit_historical_consumer_replay",
+        "verified": true,
+        "warnings": {
+          "DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.\nAs an alternative, you can create a new view using np.reshape (with copy=False if needed).": 21664
+        }
+      }
+    },
+    {
+      "suffix": "direction_decision_20260911/evaluation_001/FEATURE_GROUPS.json",
+      "matches": [
+        "direction_decision_20260911/evaluation_001/FEATURE_GROUPS.json"
+      ],
+      "bytes": 7205,
+      "sha256": "a3ea5aca7f57f4e31d3ae88ef2645258ea8fe01d766ab5705cf33c151c0fc2b0",
+      "parsed_excerpt": {
+        "combined": [
+          "tech_rate_bps_per_min_1m",
+          "tech_span_fraction_1m",
+          "tech_missing_fraction_1m",
+          "tech_unavailable_1m",
+          "tech_rate_bps_per_min_5m",
+          "tech_span_fraction_5m",
+          "tech_missing_fraction_5m",
+          "tech_unavailable_5m",
+          "tech_rate_bps_per_min_15m",
+          "tech_span_fraction_15m",
+          "tech_missing_fraction_15m",
+          "tech_unavailable_15m",
+          "tech_rate_bps_per_min_30m",
+          "tech_span_fraction_30m",
+          "tech_missing_fraction_30m",
+          "tech_unavailable_30m",
+          "tech_rate_bps_per_min_60m",
+          "tech_span_fraction_60m",
+          "tech_missing_fraction_60m",
+          "tech_unavailable_60m",
+          "... list[178]"
+        ],
+        "technical": [
+          "tech_rate_bps_per_min_1m",
+          "tech_span_fraction_1m",
+          "tech_missing_fraction_1m",
+          "tech_unavailable_1m",
+          "tech_rate_bps_per_min_5m",
+          "tech_span_fraction_5m",
+          "tech_missing_fraction_5m",
+          "tech_unavailable_5m",
+          "tech_rate_bps_per_min_15m",
+          "tech_span_fraction_15m",
+          "tech_missing_fraction_15m",
+          "tech_unavailable_15m",
+          "tech_rate_bps_per_min_30m",
+          "tech_span_fraction_30m",
+          "tech_missing_fraction_30m",
+          "tech_unavailable_30m",
+          "tech_rate_bps_per_min_60m",
+          "tech_span_fraction_60m",
+          "tech_missing_fraction_60m",
+          "tech_unavailable_60m",
+          "... list[94]"
+        ]
+      }
+    }
+  ],
+  "member_count": 99
+}

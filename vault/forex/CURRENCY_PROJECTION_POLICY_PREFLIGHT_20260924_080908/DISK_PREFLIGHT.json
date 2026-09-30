@@ -1,0 +1,18 @@
+{
+  "step_id": "currency_projection_policy_comparison_v2",
+  "status": "blocked_before_contract_execution",
+  "checked_utc": "2026-09-24T13:05:00Z",
+  "free_bytes_after_reversible_compression": 13788868608,
+  "free_gib_after_reversible_compression": 12.84,
+  "analogous_verified_policy_package_logical_bytes": 35925959354,
+  "required_safety_reserve_gib": 8,
+  "decision": "Do not begin policy computation or portable restore. The available capacity leaves less than one GiB after the mandatory reserve and cannot accommodate an analogous main evidence set, much less its independent restore.",
+  "reversible_cleanup": {
+    "operation": "NTFS compression on until8am_20260923_215844/chronological_policy_step",
+    "deletion": false,
+    "byte_content_changed": false,
+    "free_bytes_before": 8657702912,
+    "free_bytes_after": 9360752640
+  },
+  "next_action": "Obtain additional C: capacity or archive verified local evidence to an independently accessible location with hashes, then rerun this preflight before freezing and executing the policy comparison."
+}

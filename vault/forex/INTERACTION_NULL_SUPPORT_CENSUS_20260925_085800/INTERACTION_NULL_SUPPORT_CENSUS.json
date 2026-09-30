@@ -1,0 +1,102 @@
+{
+  "schema": "forex.interaction_null_control_support_census.v1",
+  "created_utc": "2026-09-25T08:52:43.571178Z",
+  "source_commit": "7de8a1f05bf85c56c73f7eba34ab3d767bde80a2",
+  "step_id": "interaction_null_control_support_census_v2",
+  "status": "complete_reuse_existing_packets_no_duplicate_run",
+  "evidence_records": {
+    "interaction": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\stage_c_alignment_integrity_v2\\evidence\\timed_20260922_022952\\interaction_step\\runs\\matched-fixed-interactions\\run_report.json",
+      "bytes": 929,
+      "sha256": "a430a389fac048f23753eb41afc1d6a9f0779f568a5b01cd4c4e7f5a2b30a869"
+    },
+    "noise_control": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\stage_c_alignment_integrity_v2\\evidence\\timed_20260922_022952\\noise_control_step\\runs\\matched-noise-controls\\run_report.json",
+      "bytes": 1011,
+      "sha256": "ec5375c8b140832c8bbc76922cdda836effd679a5353d1ec5606b9d5a6aca743"
+    },
+    "blocked_controls": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\stage_c_alignment_integrity_v2\\evidence\\timed_20260922_022952\\blocked_controls_step\\runs\\blocked-time-and-positive-leak-controls\\run_report.json",
+      "bytes": 924,
+      "sha256": "48160c03e07ecc96e34fc0bd103b4ada0bea608c88d79794b37e17fa66a2d0bc"
+    },
+    "rich_dependence": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\stage_c_alignment_integrity_v2\\evidence\\timed_20260922_022952\\rich_dependence_step\\runs\\rich-family-paired-diagnostics\\run_report.json",
+      "bytes": 1166,
+      "sha256": "5844670710bd0a332ac5386907de54799007bf695ae06aa61cbba60d898b20d6"
+    }
+  },
+  "findings": [
+    {
+      "branch": "interaction_positive_control",
+      "status": "complete_existing_artifact",
+      "models_fitted": 32,
+      "new_score_groups": 28,
+      "limitations": [
+        "already_inspected_development_dates",
+        "shared_legacy_eligible_population_only",
+        "elapsed_targets_not_sessions",
+        "no_policy_or_confirmation_claim",
+        "fixed_hyperparameters_no_winner_selection",
+        "ten_predeclared_products_no_screen_or_search",
+        "synthetic_interaction_fixture_is_not_market_confirmation"
+      ]
+    },
+    {
+      "branch": "noise_null_controls",
+      "status": "complete_existing_artifact",
+      "models_fitted": 112,
+      "new_score_groups": 112,
+      "limitations": [
+        "already_inspected_development_dates",
+        "shared_legacy_eligible_population_only",
+        "elapsed_targets_not_sessions",
+        "no_policy_or_confirmation_claim",
+        "fixed_hyperparameters_no_winner_selection",
+        "two_predeclared_seeds_not_full_null_calibration",
+        "hash_fields_vary_by_pair_and_origin_no_outcome_input",
+        "noise_controls_may_appear_skillful_by_chance"
+      ]
+    },
+    {
+      "branch": "blocked_time_and_leak_positive_controls",
+      "status": "complete_existing_artifact",
+      "models_fitted": 0,
+      "paired_comparisons": 336,
+      "raw_audit_status_counts": {
+        "unavailable_support": 2,
+        "verified_causal_and_leak_detected": 134
+      },
+      "limitations": [
+        "few_inspected_development_days",
+        "cyclic_wrap_artificial",
+        "balanced_subset_differs_from_original_scores",
+        "multiday_target_overlap",
+        "not_a_live_joint_policy",
+        "positive_leak_control_is_deliberately_invalid_and_never_admitted",
+        "canonical_216_pair_features_only_peer_features_previously_audited_separately"
+      ]
+    },
+    {
+      "branch": "dependence_block_uncertainty",
+      "status": "complete_existing_artifact",
+      "models_fitted": 0,
+      "paired_comparisons": 336,
+      "whole_window_interval_status": "insufficient_distinct_time_blocks",
+      "limitations": [
+        "five_inspected_development_dates",
+        "related_currencies_not_resampled_independently",
+        "overlapping_multiday_targets_exceed_short_blocks",
+        "moving_block_edge_weighting_and_block_length_sensitivity",
+        "later_research_schema_selection",
+        "descriptive_ranges_are_not_confirmatory_confidence_intervals"
+      ]
+    }
+  ],
+  "decision": "Interaction/null/dependence support branches have existing completed development artifacts. Do not rerun unchanged. None provides independent confirmation or trading readiness.",
+  "models_fitted_this_step": 0,
+  "network_calls": 0,
+  "broker_actions": 0,
+  "exact_next_item": "remaining_design_branch_eligibility_refresh_v2",
+  "updated_utc": "2026-09-25T08:52:44.316179Z"
+}

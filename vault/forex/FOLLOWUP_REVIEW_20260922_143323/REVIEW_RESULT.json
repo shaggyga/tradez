@@ -1,0 +1,72 @@
+{
+  "step_id": "macro_text_state_change_v2",
+  "verdict": "changes_requested",
+  "independent_review": false,
+  "next_item": "repair_macro_text_clause_and_revision_ambiguity_v2",
+  "review_scope": "same-implementer checkpoint review; no independent reviewer claimed",
+  "source_engine": {
+    "schema": "forex_design_alignment_pointer.v2",
+    "package": "MACRO_TEXT_LAYER_20260922_135019",
+    "path_forward": "MACRO_TEXT_LAYER_20260922_135019/PATH_FORWARD.md",
+    "run_status": "MACRO_TEXT_LAYER_20260922_135019/RUN_STATUS.json",
+    "design": "MACRO_TEXT_LAYER_20260922_135019/specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+    "design_coverage": "MACRO_TEXT_LAYER_20260922_135019/CURRENT_DESIGN_COVERAGE.md",
+    "current_acceptance_addendum": "MACRO_TEXT_LAYER_20260922_135019/DESIGN_ACCEPTANCE_ADDENDUM.md",
+    "manifest": "MACRO_TEXT_LAYER_20260922_135019/MANIFEST.json",
+    "manifest_sha256": "fc6b3b185ac4cdf0d71522a048649c8f6641d27035b2e57e24edb014dc79c710",
+    "readback": "MACRO_TEXT_LAYER_20260922_135019/PACKAGE_READBACK.json",
+    "active_integrity_batch": "ALL68_INTEGRITY_BATCH_05_20260921.md",
+    "active_integrity_batch_scope": "retrospective retained English phrase states/change and all68 context; no forecast improvement or historical issuance",
+    "historical_package": "DESIGN_ALIGNMENT_20260921",
+    "scope": "current_verified_queue_and_bounded_recovery",
+    "cloud_sync_verified": false
+  },
+  "findings": [
+    {
+      "id": "MT-R01",
+      "priority": "P2",
+      "file": "stage_c_alignment_integrity_v2/macro_text_layer_v2.py",
+      "line": 42,
+      "requirements": [
+        "R05",
+        "design14.3",
+        "design14.4"
+      ],
+      "title": "Decimal punctuation drops conditional context",
+      "reproduction": "If inflation exceeds 2.5%, the policy rate will be raised.",
+      "actual": "guidance=1.0, conditional_only=false; equivalent cut fixture yields -1.0",
+      "expected": "conditional context retained, absolute weight <=0.35 under the frozen contract",
+      "impact": "Common numeric economic prose is incorrectly represented as asserted rather than conditional, even though exact phrase spans remain correct. No forecast or live admission was enabled.",
+      "required_fix": "Preserve decimal punctuation within clauses and conservatively retain conditional/negation/quote scope; add regression fixtures with numbers, abbreviations and true sentence boundaries."
+    },
+    {
+      "id": "MT-R02",
+      "priority": "P2",
+      "file": "stage_c_alignment_integrity_v2/macro_text_layer_v2.py",
+      "line": 105,
+      "requirements": [
+        "R05",
+        "design14.2",
+        "design8.1"
+      ],
+      "title": "Same-time conflicting event variants use content hash as semantic authority",
+      "reproduction": "Two contradictory summaries for the same currency/event/class and identical available time; mirror URL suffix26 yields -1.0 while suffix27 yields +1.0. See REPRODUCTION.json.",
+      "actual": "Later sorted document_id overwrites the earlier record without an ambiguity status; URL changes alter document_id and stance",
+      "expected": "Explicit conflicting-version abstention with all contributing identities, or a separately justified source/version ordering; arbitrary hashes cannot establish which text is authoritative",
+      "impact": "An unrelated provenance URL determines the sign of the derived currency context. Existing test uses semantically identical mirrors and does not cover conflict.",
+      "required_fix": "Distinguish identical mirrors, strictly later revisions and unresolved same-clock conflicts; preserve both evidence references and prevent unresolved records from producing stance/change values. Test permutations and nonsemantic metadata changes."
+    }
+  ],
+  "checks": {
+    "source_files_verified": 249,
+    "original_completed_operator": "completed_verified",
+    "targeted_existing_tests_passed": 4,
+    "targeted_tests_deselected": 21,
+    "new_decimal_failures_reproduced": 2,
+    "same_clock_hash_order_failure_reproduced": true,
+    "implementation_files_changed": 0
+  },
+  "follow_on_after_corrected_checkpoint_review": "macro_document_receipt_and_all_release_population_v2",
+  "utc": "2026-09-22T14:33:23.548935+00:00",
+  "reviewer": "same-implementer follow-up source/evidence review"
+}

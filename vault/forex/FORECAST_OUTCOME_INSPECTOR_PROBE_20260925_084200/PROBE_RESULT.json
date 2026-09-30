@@ -1,0 +1,164 @@
+{
+  "schema": "forecast_outcome_inspector_preserved_artifact_probe.v1",
+  "utc": "2026-09-25T08:41:33.313949Z",
+  "source_run": "C:\\Users\\zmoor\\Documents\\forex\\stage_c_alignment_integrity_v2\\evidence\\timed_20260922_154551\\macro_event_forecast\\runs\\event-forecast-20260914-20260918",
+  "source_payloads": {
+    "COMPLETION_MANIFEST.json": {
+      "bytes": 17510,
+      "sha256": "20fe75e0efc8cb059451b41550b65dec46dd41fb7e952d55c16c1043159197fc"
+    },
+    "coverage.json": {
+      "bytes": 7475614,
+      "sha256": "a0d9b0aececab5f3549dc02ed7bab30342fefbcd43bfb80e29d419fd8ffbfbe9"
+    },
+    "forecasts.json": {
+      "bytes": 16604655,
+      "sha256": "a7870c9b882876ec0cee52e7c407fc42d1caa9c4536cbb39be275a2b4ebe07db"
+    },
+    "outcomes.json": {
+      "bytes": 3539852,
+      "sha256": "504ca37ca4f2b771ef2338702b89449d307156720ee597d5987c78666225998a"
+    }
+  },
+  "adapter_scope": "read-only conversion of preserved macro event forecast artifact into forecast/outcome inspector contract records",
+  "raw_counts": {
+    "coverage_rows": 32640,
+    "forecast_wrappers": 23930,
+    "outcome_labels": 13056
+  },
+  "adapter_counts": {
+    "forecasts": 23930,
+    "outcomes": 23930,
+    "coverage": 32640,
+    "missing_outcomes": 0,
+    "eligible_missing_forecast": 0
+  },
+  "contract_result": {
+    "schema_version": "forecast_outcome_reconciliation.v1",
+    "coverage_rows": 32640,
+    "forecast_rows": 23930,
+    "outcome_rows": 23930,
+    "status_counts": {
+      "blocked": 8710,
+      "eligible": 23930
+    },
+    "reason_counts": {
+      "eligible": 23930,
+      "missing_features": 8030,
+      "model_not_ready": 680
+    },
+    "outcome_state_counts": {
+      "MATURED": 15560,
+      "RIGHT_CENSORED": 8370
+    },
+    "errors": [],
+    "accepted": true,
+    "outcomes_revealed": false
+  },
+  "support_sample": [
+    {
+      "forecast_id": "blocked:AUD_CAD:1789516800:technical_endpoint_midpoint_elapsed_60m:zero:model_not_ready",
+      "coverage_identity": "e598200cdd8f96cfa0c0add677b20638914eda50cde86e3ffcfa0ede09c64d6d",
+      "status": "blocked",
+      "reason": "model_not_ready",
+      "has_forecast": false,
+      "has_outcome_placeholder": false
+    },
+    {
+      "forecast_id": "blocked:AUD_CAD:1789516800:technical_endpoint_midpoint_elapsed_60m:history_mean:model_not_ready",
+      "coverage_identity": "23293820b284a84ed40721370524b13135fa2bd9d98303aea65bed8891ed4274",
+      "status": "blocked",
+      "reason": "model_not_ready",
+      "has_forecast": false,
+      "has_outcome_placeholder": false
+    },
+    {
+      "forecast_id": "blocked:AUD_CAD:1789516800:technical_endpoint_midpoint_elapsed_60m:technical_ridge:model_not_ready",
+      "coverage_identity": "f22de2ba3e3b77140fad92609307534aeb068202d8c23b25f40d6abfbca920ed",
+      "status": "blocked",
+      "reason": "model_not_ready",
+      "has_forecast": false,
+      "has_outcome_placeholder": false
+    },
+    {
+      "forecast_id": "blocked:AUD_CAD:1789516800:technical_endpoint_midpoint_elapsed_60m:technical_clock_ridge:model_not_ready",
+      "coverage_identity": "1e585fc481a5e8abdecdfd67e5b7f0f1f5710d6d6286ca3de81833d5dd79be8e",
+      "status": "blocked",
+      "reason": "model_not_ready",
+      "has_forecast": false,
+      "has_outcome_placeholder": false
+    },
+    {
+      "forecast_id": "blocked:AUD_CAD:1789516800:technical_endpoint_midpoint_elapsed_60m:technical_clock_event_ridge:model_not_ready",
+      "coverage_identity": "b6f802bed7384ea5132c98383aece1bb2cf218a9c640024e942d2605e733808e",
+      "status": "blocked",
+      "reason": "model_not_ready",
+      "has_forecast": false,
+      "has_outcome_placeholder": false
+    },
+    {
+      "forecast_id": "956a25d7b9c5ddad0677764542356ba6599cb2fb48a33f4af4d8fe415b6cf266",
+      "coverage_identity": "23a6ff1bc4e2f986a8cf79ed87a8a57e2e3f2752f15c275c8cf3934f8841f1f4",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "fb06229c7709e66b7188651fe6f808894aa708a5b9d61871fb27ff22017b0317",
+      "coverage_identity": "af4c63a9419714c2479d12fa1f7e7e8ed2ce70c591ec1628f7a8bc530ca62534",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "536a7b028187b4ef2f2dd07177a46e3df5dd7aa9fe64b7311d59ce5ddd670a53",
+      "coverage_identity": "33bd9074a0cd7ba17c50a4dcd4e11cdebf3f30c9ad0c737e2636f0ed205ce25d",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "7b637f69a584f90644d21b38f949e9631966a0e1f3480c57fc5343e569a97589",
+      "coverage_identity": "f55c25db1b3813151948c1cdfe2fa888843726a27fc00783f54b6945d03a6576",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "20ddc3a9337ec1db16bd15d0bd3dc8ae1e7e85c3ac30ff34937d9b677eb06255",
+      "coverage_identity": "94f56ce0d3603fd66e959e1c520276854787450a5c7623d577c0702fde31c4a3",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    }
+  ],
+  "inspection_samples": [
+    {
+      "forecast_id": "956a25d7b9c5ddad0677764542356ba6599cb2fb48a33f4af4d8fe415b6cf266",
+      "blind_outcomes_revealed": false,
+      "blind_has_outcome": false,
+      "revealed_status": "RIGHT_CENSORED"
+    },
+    {
+      "forecast_id": "fb06229c7709e66b7188651fe6f808894aa708a5b9d61871fb27ff22017b0317",
+      "blind_outcomes_revealed": false,
+      "blind_has_outcome": false,
+      "revealed_status": "RIGHT_CENSORED"
+    },
+    {
+      "forecast_id": "536a7b028187b4ef2f2dd07177a46e3df5dd7aa9fe64b7311d59ce5ddd670a53",
+      "blind_outcomes_revealed": false,
+      "blind_has_outcome": false,
+      "revealed_status": "RIGHT_CENSORED"
+    }
+  ],
+  "models_fitted": 0,
+  "network_calls": 0,
+  "broker_actions": 0,
+  "accepted": true
+}

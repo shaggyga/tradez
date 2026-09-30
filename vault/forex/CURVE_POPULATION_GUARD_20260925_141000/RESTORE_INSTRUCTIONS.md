@@ -1,0 +1,3 @@
+# Restore and invoke
+
+Verify `MANIFEST.json` members and restore the full `source_snapshot/` tree. The trusted upstream manifest is `CHRONOLOGICAL_LAYER_20260924_082000/MANIFEST.json` with SHA-256 `1f9b13e5eccc7b21bc4038a90daf8b0e1924b9cfba8aa45aec4f78a1302063f5`. Supply its local path via `--trusted-manifest` and that hash via `--trusted-manifest-sha256` to `curve_chronological_operator_v2.py`, together with the already required recipe, bulk reference, frame root, extension root, contract, asof and output. The source recipe is authenticated against the trusted manifest. Run `evidence/validate_curve_guard.py` after mapping its workspace/Vault roots on the replica.

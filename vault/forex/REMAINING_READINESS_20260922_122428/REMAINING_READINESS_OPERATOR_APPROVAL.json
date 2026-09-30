@@ -1,0 +1,18 @@
+{
+  "recipe": "source_snapshot/REMAINING_READINESS_OPERATOR_RECIPE.json",
+  "recipe_sha256": "641a0f32d40f557d3e960b6fef30af8ea2d256e13a4b0f69c15fed63a4a905d5",
+  "scope": "isolated eight-fit modeled readiness and unchanged original remaining values; native packets cannot issue",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify"
+  ],
+  "bootstrap": "checkpoint/forex_remaining_readiness.zip",
+  "contract": "source_snapshot/REMAINING_READINESS_CONTRACT_V2.md",
+  "next": "review_remaining_readiness_checkpoint",
+  "required_companions": {
+    "remaining": "2fca12f0c7d6ab5085718203c1c4b8e1598db748479a749d7deca51f2a13cbb8"
+  }
+}

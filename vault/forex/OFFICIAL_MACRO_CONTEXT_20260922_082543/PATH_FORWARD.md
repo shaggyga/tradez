@@ -1,0 +1,2 @@
+Next: review_official_macro_context_checkpoint, then joint_fit_readiness_and_fallback_projection_v2.
+Address aggregate fitting readiness with a conservative declared reservation schedule, original-artifact fallback and separately identified derived forecast/coverage tape. Preserve original comparisons and distinguish offline modeled capacity from a live deadline guarantee.

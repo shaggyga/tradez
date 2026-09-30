@@ -1,0 +1,150 @@
+{
+  "schema_version": "forex_lifecycle_genealogy_lock_retry_validation_v1",
+  "generated_utc": "2026-09-02T10:06:00Z",
+  "status": "validated",
+  "defect": {
+    "summary": "The targeted lifecycle-to-genealogy publication handoff and the broad genealogy collector could write the same append-only SQLite registry concurrently.",
+    "observed_failures_utc": [
+      "2026-09-02T09:28:02Z",
+      "2026-09-02T09:40:55Z"
+    ],
+    "error": "sqlite3.OperationalError: database is locked",
+    "failure_location": "oanda_hypothesis_lifecycle.run_lifecycle post_ingest_sync -> oanda_evidence_operations_worker.synchronize_lifecycle_genealogy -> oanda_research_genealogy.import_lifecycle -> observe",
+    "operational_effect": "The lifecycle database advanced to 52919 governed hypotheses while the last publication remained at 52883; the independent verifier and project-integrity audit correctly failed closed until exact genealogy coverage and publication were restored.",
+    "execution_impact": "fail_closed_only",
+    "manual_orders_submitted": 0,
+    "historical_evidence_rewritten": false
+  },
+  "repair": {
+    "targeted_sync_lock_retry_attempt_limit": 24,
+    "sqlite_busy_timeout_ms": 30000,
+    "retry_delay_initial_sec": 0.25,
+    "retry_delay_maximum_sec": 5.0,
+    "retry_scope": "sqlite OperationalError containing locked or busy only",
+    "fresh_connection_per_attempt": true,
+    "failed_attempt_rollback_and_close": true,
+    "non_lock_sqlite_error_propagates": true,
+    "exhausted_retry_fails_closed": true,
+    "retry_progress_published_to_liveness_heartbeat": true,
+    "broad_genealogy_interval_sec_before": 300,
+    "broad_genealogy_interval_sec_after": 3600,
+    "cadence_reason": "The targeted handoff now provides exact lifecycle coverage before publication, so the long broad static scan no longer needs to contend every five minutes.",
+    "evidence_or_gate_semantics_changed": false
+  },
+  "source_receipts": [
+    {
+      "path": "oanda_evidence_operations_worker.py",
+      "bytes": 24980,
+      "sha256": "sha256:eba204fc0041ea0749ae1f59cb0e71ea3687ab8e4e536f55321d96190272179d"
+    },
+    {
+      "path": "oanda_research_genealogy.py",
+      "bytes": 282075,
+      "sha256": "sha256:d56f3adf0434858435ea57e40420925ffe100aa39320bacdaa992e0964568be5"
+    },
+    {
+      "path": "oanda_always_on_supervisor.ps1",
+      "bytes": 180597,
+      "sha256": "sha256:19921c49eb33cf494d573ead07a9672ed569f57d38c076b72f96d57a2fee9649"
+    },
+    {
+      "path": "test_oanda_evidence_operations_worker.py",
+      "bytes": 12839,
+      "sha256": "sha256:bdc8118453344aadceb49e4fd9cfaba4676673471cba64efbf0dcbbe35d4bb63"
+    },
+    {
+      "path": "test_oanda_research_genealogy.py",
+      "bytes": 133027,
+      "sha256": "sha256:03711731e98837850812eb42fe7a3867a414424644d3a3fb5cac604dab15e0c2"
+    },
+    {
+      "path": "test_oanda_supervisor_integrity_freshness.py",
+      "bytes": 6711,
+      "sha256": "sha256:25dfe183345b48b3e7f8e4d087373955ed7241515be8bcda5619e0d60bd6464e"
+    }
+  ],
+  "runtime_receipts": {
+    "post_reload_lifecycle_genealogy_sync": {
+      "generated_utc": "2026-09-02T09:53:30.112750Z",
+      "lifecycle_hypotheses": 52919,
+      "genealogy_governed_cells": 52919,
+      "collecting": 43473,
+      "futility_rejected": 9446,
+      "confirmed_candidate": 0,
+      "status": "synchronized",
+      "lock_retry_count": 0,
+      "elapsed_sec": 9.703,
+      "note": "The clean post-reload canonical pass did not encounter a new lock; the bounded contention path is covered by focused regression fixtures rather than credited as a live retry."
+    },
+    "evidence_operations_worker": {
+      "status": "ok",
+      "completed_cycles_after_reload": 1,
+      "errors_after_reload": 0,
+      "last_error": ""
+    },
+    "broad_genealogy_worker": {
+      "interval_sec": 3600,
+      "process_count": 2,
+      "hidden_local_supervision": true
+    },
+    "independent_verifier": {
+      "generated_utc": "2026-09-02T09:55:18Z",
+      "status": "match",
+      "authorization_safe": true,
+      "failed_checks": 0,
+      "verified_confirmed_candidates": 0
+    },
+    "project_integrity": {
+      "generated_utc": "2026-09-02T10:04:48.850944Z",
+      "audit_finished_utc": "2026-09-02T10:05:02.675834Z",
+      "status": "ok",
+      "failed_checks": 0,
+      "current_quotes": 68,
+      "tradeable_quotes": 68,
+      "supported_decision": "no_trade"
+    },
+    "practice_007": {
+      "account_id": "101-001-37981792-007",
+      "environment": "practice",
+      "verified_utc": "2026-09-02T10:04:45.259978Z",
+      "balance": 41.6042,
+      "nav": 41.6042,
+      "cumulative_pl": -8.343,
+      "open_trades": 0,
+      "pending_orders": 0
+    },
+    "compact_vault": {
+      "canonical_records": 57,
+      "missing_records": 0,
+      "size_mismatches": 0,
+      "hash_mismatches": 0,
+      "credential_like_filenames": 0,
+      "full_existing_vault_bytes": 868959470,
+      "full_existing_vault_mib": 828.7,
+      "under_five_gib_budget": true,
+      "checkpoint_archive_created_or_pruned": false
+    }
+  },
+  "validation": {
+    "focused_tests_passed": 95,
+    "related_regression_tests_passed": 198,
+    "lock_then_success_fixture": "passed",
+    "non_lock_error_propagation_fixture": "passed",
+    "retry_exhaustion_fail_closed_fixture": "passed",
+    "busy_timeout_contract_fixture": "passed",
+    "hourly_broad_scan_contract_fixture": "passed",
+    "vault_sync_tests_passed": 16,
+    "python_compilation": "passed",
+    "git_diff_check": "passed"
+  },
+  "safety": {
+    "practice_account": "101-001-37981792-007",
+    "manual_orders_submitted": 0,
+    "manual_closes_submitted": 0,
+    "proof_thresholds_loosened": false,
+    "authorization_gates_bypassed": false,
+    "real_money_enabled": false,
+    "codex_automation_created": false,
+    "project_hidden_supervisor_remains_running": true
+  }
+}

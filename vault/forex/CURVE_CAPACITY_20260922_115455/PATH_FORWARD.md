@@ -1,0 +1,2 @@
+Next: review_curve_capacity_checkpoint, then prequential_endpoint_error_calibration_v2.
+Fit fixed origin-balanced continuous residual summaries only from prior matured original predictions; retain modeled-clock limitations and insufficient support.

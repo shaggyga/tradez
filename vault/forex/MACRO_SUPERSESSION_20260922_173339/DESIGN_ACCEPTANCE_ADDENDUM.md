@@ -1,0 +1,1 @@
+WP6/R05/R14. Exact candidate text loss,11 local/11 restored tests and five identical outputs; no historic fallback or forecast promotion.

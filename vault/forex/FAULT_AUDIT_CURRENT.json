@@ -1,0 +1,391 @@
+{
+  "schema_version": "forex_fault_audit_v1",
+  "generated_local": "2026-09-04T22:19:32.5445842-04:00",
+  "generated_utc": "2026-09-05T02:19:32.544Z",
+  "title": "Independent bounded Forex fault audit after market-close shutdown",
+  "canonical_root": "C:\\Users\\zmoor\\Documents\\forex\\trad",
+  "vault_root": "C:\\Users\\zmoor\\OneDrive\\thevault\\projects\\forex",
+  "runtime_state": "intentionally_stopped",
+  "purpose": "Outside-agent handoff of concrete faults, evidence gaps and reviewed boundaries; not a whole-program correctness certificate.",
+  "scope": {
+    "reviewed": [
+      "News fast-lane publication, retry state machine and commit/availability clocks",
+      "Independent fast-lane integrity checks and existing tests",
+      "Current classification/watchlist and frozen source-response/rank contracts",
+      "Lifecycle/proof-cohort saved identities and authorization limitations",
+      "Source-governance availability cards and dormant feature/adapter dispositions",
+      "Current root audit/recreation/orientation document links",
+      "Existing issue-register validation artifacts and paths"
+    ],
+    "excluded": [
+      "No broker requests, orders, account actions, runtime restart or source-algorithm edits",
+      "No network source probes or fresh source-performance claims",
+      "No complete scans/quick-checks of large live ledgers or model retraining",
+      "No exhaustive review of every historical script, dashboard route, model, SQL migration or order path",
+      "No restore performed by this audit; separate recreation work has its own scope",
+      "No full fault-injection campaign across arbitrary process crashes, concurrent writers, power loss or broker outages"
+    ],
+    "database_access": "Saved JSON snapshots and isolated temporary miniature SQLite fixture databases only; no full production database traversal by this audit."
+  },
+  "summary": {
+    "confirmed_pending_code_faults": 3,
+    "priority_counts": {
+      "P1": 1,
+      "P2": 2
+    },
+    "execution_bypass_observed": false,
+    "orders_observed_from_audit": 0,
+    "repository_runtime_source_changed": false,
+    "current_register_snapshot_issue_count": 88,
+    "current_register_snapshot_open_count": 0,
+    "register_caveat": "Initial 88-item/zero-open validation predates these findings. The owner registered three defects at 2026-09-05T02:20:00Z; the reconciled register validates with 91 items and 3 open repairs.",
+    "reconciled_register_generated_utc": "2026-09-05T02:20:00Z",
+    "reconciled_register_issue_count": 91,
+    "reconciled_register_open_count": 3
+  },
+  "findings": [
+    {
+      "finding_id": "FX-AUDIT-20260904-FASTLANE-PRECOMMIT-CLOCK",
+      "severity": "P1",
+      "classification": "confirmed_code_contract_defect_historical_impact_unestablished",
+      "status": "pending_repair",
+      "title": "A delayed commit can make the immutable availability clock earlier than database visibility",
+      "code": [
+        {
+          "path": "oanda_source_governance_news_fast_lane.py",
+          "line": 340
+        },
+        {
+          "path": "oanda_source_governance_news_fast_lane.py",
+          "line": 352
+        },
+        {
+          "path": "oanda_source_governance_news_fast_lane.py",
+          "line": 376
+        },
+        {
+          "path": "oanda_project_integrity_audit.py",
+          "line": 4473
+        },
+        {
+          "path": "oanda_project_integrity_audit.py",
+          "line": 4515
+        }
+      ],
+      "observed": "The worker samples UTC+10 seconds before inserting receipts and committing. A deterministic miniature-database reproduction used the production now=None branch and an 11-second virtual commit delay: availability=13:15:12, actual commit=13:15:13; a separate read-only connection saw zero receipts immediately before commit. Final worker status=ok and the canonical checker returned ok=true with zero optimistic/operational clock violations.",
+      "expected": "A claimed operational availability time must never precede durable visibility of the evidence. Integrity must verify this bound independently, not only compare the claim with raw first_seen or with a view that repeats the same claim.",
+      "impact": "A later replay can credit source information earlier than it actually became usable. Research causal timestamps may be optimistic during long transactions. The reproduction does not establish that any historical production receipt experienced such a delay, that a forecast used it, or that an order occurred.",
+      "next_step": "Design an append-only commit/publication attestation whose causal timestamp is taken after durable commit and whose visibility is required by consumers. Add a virtual slow-commit regression and an independent-clock verification. Inspect existing commit/publication traces before determining historical impact; do not rewrite immutable receipts or award retroactive proof credit.",
+      "verification": "Offline virtual-clock fixture, real miniature SQLite visibility, no real sleep/network/production database.",
+      "issue_register_id": "FX-20260905-FASTLANE-DURABLE-AVAILABILITY"
+    },
+    {
+      "finding_id": "FX-AUDIT-20260904-FASTLANE-BUILDING-PUBLICATION",
+      "severity": "P2",
+      "classification": "confirmed_publication_contract_defect",
+      "status": "pending_repair",
+      "title": "Normal in-progress publication replaces the only completed integrity snapshot",
+      "code": [
+        {
+          "path": "oanda_source_governance_news_fast_lane.py",
+          "line": 289
+        },
+        {
+          "path": "oanda_source_governance_news_fast_lane.py",
+          "line": 297
+        },
+        {
+          "path": "oanda_project_integrity_audit.py",
+          "line": 4308
+        },
+        {
+          "path": "oanda_project_integrity_audit.py",
+          "line": 4322
+        }
+      ],
+      "evidence": [
+        {
+          "path": "data/oanda_training_manager/state/project_integrity_audit_v1.json",
+          "pointer": "/news_source_governance_fast_lane"
+        },
+        {
+          "path": "FOREX_AUDIT_STATE_CURRENT.json",
+          "pointer": "/integrity_snapshot"
+        }
+      ],
+      "observed": "Every ordinary run overwrites the completed state JSON with status=building and no next_scan_cursor_utc, committed receipt counts or transaction_committed field. The consumer requires status=ok, valid cutoff and committed state. A miniature fixture proved that the previous committed state passed the exact checker, while the actual captured building publication failed on the same healthy database. The saved 2026-09-05T01:45:33Z audit exhibits this exact field pattern: state cutoff=null, state receipt count=0 and database count=9991.",
+      "expected": "Progress telemetry must not replace the completed state consumed as an integrity attestation. A normal, bounded transaction should not look like broken committed evidence solely because a reader sampled its progress phase.",
+      "impact": "False degraded publications, noisy or unavailable operational attestation and prolonged ambiguity if shutdown/crash freezes a building state. This is fail-closed, not an execution-authority bypass; the saved mismatch alone does not prove database corruption.",
+      "next_step": "Separate heartbeat/progress publication from the last completed state or explicitly capture/retry a completed snapshot under a bounded contract. Keep freshness and real failure checks strict. Add interleaved producer/consumer regression coverage and preserve the historical degraded audit.",
+      "verification": "Deterministic offline miniature database; accepted committed snapshot versus rejected captured building snapshot.",
+      "issue_register_id": "FX-20260905-FASTLANE-PUBLICATION-STATE"
+    },
+    {
+      "finding_id": "FX-AUDIT-20260904-FASTLANE-RETRY-CURSOR",
+      "severity": "P2",
+      "classification": "confirmed_retry_state_machine_defect",
+      "status": "pending_repair",
+      "title": "A retry loses the progressed scan cursor and replays from activation",
+      "code": [
+        {
+          "path": "oanda_source_governance_news_fast_lane.py",
+          "line": 255
+        },
+        {
+          "path": "oanda_source_governance_news_fast_lane.py",
+          "line": 263
+        },
+        {
+          "path": "oanda_source_governance_news_fast_lane.py",
+          "line": 274
+        },
+        {
+          "path": "oanda_source_governance_news_fast_lane.py",
+          "line": 399
+        },
+        {
+          "path": "test_oanda_source_governance_news_fast_lane.py",
+          "line": 110
+        }
+      ],
+      "observed": "Resume accepts prior scan_started_utc only when prior status=ok. Input-lock, database-error and building publications overwrite that file with a non-ok status. A fixture progressed to13:15:32, injected an input lock or registry lock, then retried: the next actual article query began at13:15:00 activation and reread an already processed article. An interrupted building publication produces the same reset. Receipt deduplication kept new_receipt_count=0.",
+      "expected": "A retry or process interruption must preserve the last committed cursor without advancing past unread rows or resetting to the beginning of the entire cohort.",
+      "impact": "Repeated historical scans after transient locks or interruption increase latency and shared-registry contention and can widen collection delays. No skipped row or duplicated immutable receipt was observed in the fixture.",
+      "next_step": "Persist the last committed cursor independently of progress/error status, validate its cohort and activation bounds, and resume from that checkpoint. Add a progressed-success -> error -> second-run test for both input and registry errors and interrupted building state.",
+      "verification": "Offline actual run transitions with mocked failures and miniature fixture rows. Existing lock test covers only the first failed cycle from activation, not the next cycle after a progressed cursor.",
+      "issue_register_id": "FX-20260905-FASTLANE-RETRY-CURSOR"
+    }
+  ],
+  "evidence_gaps": [
+    {
+      "finding_id": "FX-AUDIT-20260904-FROZEN-SOURCE-BRANCH",
+      "severity": "P2",
+      "classification": "contract_continuity_and_prospective_evidence_gap_not_lineage_breach",
+      "status": "requires_future_design_decision",
+      "observed": "The completed fast-mapper heartbeat is bound to V164 at2026-09-05T02:08:02Z. V8's loader accepts exact V152 mappings only; V7 rank requires V8 proof. Saved V8 has13 preactivation diagnostic events and0prospective proof events/forecasts; rankV7 has0decisions/independent source episodes.",
+      "expected": "If new source-conditioned research is desired from the current classifier, a separately governed compatible successor must exist; otherwise label V8/V7 frozen baselines, not a currently advancing full-source proof branch.",
+      "impact": "Fresh V164 mappings cannot enter this specific frozen V8 -> V7 branch, even after restart. Existing freeze/no-fallback behavior correctly prevents evidence mixing.",
+      "next_step": "Either retain this branch explicitly as frozen diagnostics, or request a new parented prospective contract/cohort for current classification. Do not edit V8 identities, import old proof or loosen the exact-version gate.",
+      "paths": [
+        {
+          "path": "oanda_causal_source_factor_response_map_v8.py",
+          "line": 48
+        },
+        {
+          "path": "oanda_causal_source_factor_response_map_v8.py",
+          "line": 89
+        },
+        {
+          "path": "oanda_source_conditioned_currency_rank_v7.py",
+          "line": 46
+        },
+        "data/oanda_training_manager/local_news_sentiment/official_release_fast_mapping_heartbeat_v3.json",
+        "data/oanda_training_manager/local_news_sentiment/causal_source_factor_response_map_latest_v8.json",
+        "data/oanda_training_manager/state/source_conditioned_currency_rank_v7.json"
+      ]
+    },
+    {
+      "finding_id": "FX-AUDIT-20260904-SOURCE-COVERAGE-LIMIT",
+      "severity": "P2",
+      "classification": "known_external_or_deliberately_dormant_data_gap",
+      "status": "not_repaired_by_cleanup",
+      "observed": "Registry contains192 configured news sources. Saved governance publication contains193 source cards including separate source populations,182 operational cards and12 degraded_or_missing cards. Counts have different denominators and are not interchangeable. Degraded cards include GDELT, RBNZ direct policy/rates/reserves, Trading Economics credentials, disabled LSEG/CME and others.",
+      "impact": "Configuration is not availability and availability is not predictive value. Pre-release consensus, intraday repricing and direct-source gaps continue to restrict causal inference.",
+      "next_step": "Use per-source saved outage/support/coverage fields, distinguish not_due from outage, and recheck only when a future session is requested. Procurement and new providers require separate authority.",
+      "paths": [
+        "config/news_sources_v1.json",
+        "config/forex_source_gap_register_v1.json",
+        "data/oanda_training_manager/state/source_governance_v1.json"
+      ],
+      "degraded_or_missing_source_ids": [
+        "bot_mpc_decisions_direct_v1",
+        "china_customs_trade_statistics",
+        "cme_fx_options_analytics",
+        "gdelt_fx_macro_discovery",
+        "hungary_ksh_headline_cpi_release_clock_exact_v2",
+        "hungary_ksh_release_calendar_exact_v1",
+        "lseg_machine_readable_news",
+        "new_zealand_rbnz_ocr_snapshot_direct_v1",
+        "rbnz_official_overseas_reserves",
+        "rbnz_policy_decisions_direct_v1",
+        "rbnz_wholesale_interest_rates",
+        "trading_economics_calendar"
+      ]
+    },
+    {
+      "finding_id": "FX-AUDIT-20260904-UNPROVED-BREADTH",
+      "severity": "P2",
+      "classification": "prospective_evidence_and_dormant_implementation_gap",
+      "status": "no_trade",
+      "observed": "August3 feature registry is a design inventory. Runtime-retirement policy identifies unavailable order/position-book/depth,30 dormant model-gap contributors with no fresh eligible outputs, stale rule artifacts excluded at load and allocator collection paused on an empty confirmed set. Saved lifecycle contains0confirmed,43872continue_collecting,9485futility_rejected. Dependency availability report is datedJuly18 and cannot establish the current host's packages.",
+      "impact": "Neither feature/adaptor counts nor historical repair tests prove live populated breadth, incremental predictive value, economic edge or demo-entry readiness.",
+      "next_step": "Keep dormant/unavailable contracts explicit. Request fresh isolated dependency checks and prospective studies only as scoped work. Require independent confirmation and exact canary authorization before practice entry.",
+      "paths": [
+        "config/model_feature_space.json",
+        "config/shadow_runtime_retirements_v1.json",
+        "data/oanda_training_manager/state/evidence_lifecycle_v1.json",
+        "data/oanda_training_manager/state/allocator_proof_v1.json",
+        "data/oanda_training_manager/model_space/modern_model_dependency_status_latest.json"
+      ]
+    }
+  ],
+  "historical_or_expected": [
+    {
+      "classification": "historical_incident_then_intentional_stop",
+      "detail": "Earlier missing supervisor/watchdog with56 surviving Python processes was observed; the owner briefly recovered the guarded runtime, then stopped it on user clarification. Final independently sampled state was0canonical Python/0supervisors/0watchdogs; owner confirmed no8765listener and disabled ForexSafeCoreAtLogon. Current stopped status and growing snapshot ages are expected, not new outages.",
+      "evidence": "FOREX_AUDIT_STATE_CURRENT.json"
+    },
+    {
+      "classification": "historical_semantic_repairs_with_new_prospective_lineage",
+      "detail": "ClassificationV164/watchlistV49 supersede prior guards; historical reclassification receives no proof credit. No new semantic-classification defect was established in this bounded audit.",
+      "evidence": "FOREX_CONFLICT_DURATION_RECAP_GUARD_VALIDATION_20260904.json"
+    },
+    {
+      "classification": "checked_lineage_consistency_not_profitability",
+      "detail": "Saved proof registry lists16cohorts/16transitions and4active families; active IDs match proof predictor state. Registry ordering verification is recorded verified; lifecycle0confirmed remains authoritative. Offline lineage/exposure tests passed; full ledger genealogies were not rescanned.",
+      "evidence": [
+        "data/oanda_training_manager/state/proof_cohort_registry_v1.json",
+        "data/oanda_training_manager/state/proof_shadow_predictors_v1.json"
+      ]
+    },
+    {
+      "classification": "corrected_documentation_drift",
+      "detail": "Current README/orientation now distinguish intentionally stopped records and legacy baselines. Ten local Markdown targets across5current entry documents were checked with0missing targets. This check does not cover every code-formatted path, remote link, archive member or historical document.",
+      "evidence": [
+        "README.md",
+        "FOREX_AUDIT_START_HERE.md",
+        "docs/AUDIT_STATE_CURRENT.md",
+        "docs/SYSTEM_ORIENTATION_CURRENT.md",
+        "docs/VAULT_RECREATION_CURRENT.md"
+      ]
+    }
+  ],
+  "verification": {
+    "offline_pytest_runs": [
+      {
+        "command": "python -B -m pytest -q -p no:cacheprovider trad/test_oanda_causal_source_factor_response_map_v8.py trad/test_oanda_source_conditioned_currency_rank_v7.py trad/test_oanda_issue_register_validator.py",
+        "passed": 14,
+        "duration_seconds": 2.23
+      },
+      {
+        "command": "python -B -m pytest -q -p no:cacheprovider trad/test_oanda_proof_lineage_repair.py trad/test_oanda_signed_currency_exposure_contract.py",
+        "passed": 32,
+        "duration_seconds": 1.5
+      },
+      {
+        "command": "python -B -m pytest -q -p no:cacheprovider trad/test_oanda_source_governance_news_fast_lane.py",
+        "passed": 8,
+        "duration_seconds": 1.83
+      }
+    ],
+    "pytest_environment": "Python3.13; PYTHONDONTWRITEBYTECODE=1; PYTHONPATH canonical root plus trad; temporary fixtures, cacheprovider disabled.",
+    "register_command": "python -B trad/oanda_issue_register_validator.py",
+    "register_result": {
+      "valid": true,
+      "errors": [],
+      "issue_count": 91,
+      "open_count": 3,
+      "register_generated_utc": "2026-09-05T02:20:00Z",
+      "earlier_validated_snapshot_issue_count": 88
+    },
+    "custom_regressions": "Three deterministic miniature-database scenarios, including input/registry/interrupted-building cursor variants. Canonical checker and helpers AST-extracted; worker/governance imported without runtime main. Temporary databases only, no network, active ledger scans or real sleep.",
+    "limitations": "Passing tests validate only their asserted behavior. The new fixtures expose gaps in existing tests; tests, hashes and recreation do not prove that all software is bug-free.",
+    "reproduction_artifact": "tools/forex_fastlane_fault_reproduction.py",
+    "reproduction_command_from_trad": "python -B tools/forex_fastlane_fault_reproduction.py",
+    "reproduction_exit_semantics": "Exit 0 means diagnostic completed, not healthy or repaired code. All three known defects reproduced."
+  },
+  "next_agent_order": [
+    "Read this report and FOREX_AUDIT_STATE_CURRENT.json before interpreting old CURRENT files.",
+    "Keep runtime stopped unless the user explicitly requests resumption.",
+    "Reproduce and prioritize the three pending code defects; repair requires separate change scope and regression tests.",
+    "Decide frozen V8/V7 branch disposition without weakening immutable lineage.",
+    "After any future authorized fixes/start, obtain a complete clean integrity attestation and fresh scoped account/quote/clock checks before declaring operational readiness.",
+    "Treat independent review/reorientation and a view-only demo as future work; neither grants broker execution authority."
+  ],
+  "evidence_bindings": [
+    {
+      "path": "oanda_source_governance_news_fast_lane.py",
+      "bytes": 18732,
+      "sha256": "f1644afb57425e46e90a3e03087fdb17980d3da769cac25c80228e6ed1db8567",
+      "modified_utc": "2026-09-04T17:44:03.1723804Z"
+    },
+    {
+      "path": "oanda_project_integrity_audit.py",
+      "bytes": 288465,
+      "sha256": "351596c71f16246b8df23c7e76eff05a1bc5f8e857f17fd017bdb25bb8b6c14d",
+      "modified_utc": "2026-09-02T14:26:58.0644563Z"
+    },
+    {
+      "path": "test_oanda_source_governance_news_fast_lane.py",
+      "bytes": 15778,
+      "sha256": "bc7924164dcdb8c31f5498210dbf77a2b0f592a3e7f9bdd4e9abce6cbaba92a0",
+      "modified_utc": "2026-09-04T17:44:45.4197308Z"
+    },
+    {
+      "path": "oanda_causal_source_factor_response_map_v8.py",
+      "bytes": 15099,
+      "sha256": "1871a25e54a64f36d120d06ad6fa5f1bf563645a1f8d6022ee496e5ad64e0344",
+      "modified_utc": "2026-09-01T11:46:08.0346365Z"
+    },
+    {
+      "path": "oanda_news_classification_contract.py",
+      "bytes": 6705,
+      "sha256": "aac0fcad5929040ac18677909736e0f56be93bd697602b09768f558b0e76bb24",
+      "modified_utc": "2026-09-04T20:17:28.6718899Z"
+    },
+    {
+      "path": "oanda_source_conditioned_currency_rank_v7.py",
+      "bytes": 10579,
+      "sha256": "5502adf18dab2d27d9b54150dddbb6f2a90f369c80f29a30f19d0cc3755c0325",
+      "modified_utc": "2026-09-02T23:39:11.8448354Z"
+    },
+    {
+      "path": "config/news_sources_v1.json",
+      "bytes": 216430,
+      "sha256": "1e718f78017d0f913f5ae856e7f1517ab51d46f6d4bdc179e280a9b9699a045d",
+      "modified_utc": "2026-09-04T17:12:34.0254610Z"
+    },
+    {
+      "path": "config/shadow_runtime_retirements_v1.json",
+      "bytes": 23141,
+      "sha256": "d922c0552383721b3587f0acf0af5efae5fb04d575f874902b18ab993feea36a",
+      "modified_utc": "2026-09-01T16:07:32.0623160Z"
+    },
+    {
+      "path": "data/oanda_training_manager/state/source_governance_v1.json",
+      "bytes": 457263,
+      "sha256": "fec1687b71338634d31a67b2407e60155266bbcefe2b7a8b6795cfb4da3a6bc1",
+      "modified_utc": "2026-09-05T01:43:45.4431143Z"
+    },
+    {
+      "path": "data/oanda_training_manager/state/proof_cohort_registry_v1.json",
+      "bytes": 67690,
+      "sha256": "041e60b48ceadb5c411a20e55821a23020777b64d46e78ce95440e443a565760",
+      "modified_utc": "2026-09-02T14:03:11.5988083Z"
+    },
+    {
+      "path": "data/oanda_training_manager/state/evidence_lifecycle_v1.json",
+      "bytes": 15889,
+      "sha256": "31c65440ef8885c053f6f1a3d4bed803b57787cca37fb40af2bd4713bea795d2",
+      "modified_utc": "2026-09-05T01:41:08.4729875Z"
+    },
+    {
+      "path": "data/oanda_training_manager/state/source_conditioned_currency_rank_v7.json",
+      "bytes": 5029,
+      "sha256": "731b0b108674c959f40c10e286630fd2e09d66d309320a01596bf4e44e967f62",
+      "modified_utc": "2026-09-05T02:08:04.0774578Z"
+    },
+    {
+      "path": "data/oanda_training_manager/local_news_sentiment/causal_source_factor_response_map_latest_v8.json",
+      "bytes": 5435,
+      "sha256": "c6897db99028f8bbfcaf28919c64cf9c892c944a762e8d6c619adebe396e0155",
+      "modified_utc": "2026-09-05T02:08:02.9004695Z"
+    },
+    {
+      "path": "data/oanda_training_manager/local_news_sentiment/official_release_fast_mapping_heartbeat_v3.json",
+      "bytes": 1670,
+      "sha256": "b56130507638de7e0bf87b56138aa51122b3d218abe42c70d656631ea28036b7",
+      "modified_utc": "2026-09-05T02:08:02.4013821Z"
+    }
+  ]
+}

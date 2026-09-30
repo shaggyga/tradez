@@ -1,0 +1,57 @@
+{
+  "schema_version": "forex_evidence_snapshot_validation_v1",
+  "generated_utc": "2026-09-01T03:50:58.5089643Z",
+  "scope": [
+    "bounded append-only edge-evidence snapshot cadence",
+    "independent verifier snapshot-integrity handshake",
+    "monotonic project-integrity audit publication ownership"
+  ],
+  "implementation": {
+    "minimum_edge_rebuild_interval_sec": 21600,
+    "maximum_verified_fail_closed_snapshot_lag_sec": 86400,
+    "material_code_config_cohort_or_schema_change_forces_rebuild": true,
+    "append_only_source_growth_may_defer_only_inside_cadence": true,
+    "lagged_snapshot_can_place_orders": false,
+    "lagged_snapshot_can_promote": false,
+    "stale_audit_generation_can_publish": false
+  },
+  "source_hashes": {
+    "oanda_edge_evidence_worker.py": "12611dbb1e1131678e93ed7e9f28f49ada30a00aa7f3b67bb21e9791fc10d0fd",
+    "oanda_independent_evidence_verifier.py": "ed72e177038cacd0bed47651a8996f62bf1e6f3a312b4fdecdc6768808c4e90e",
+    "oanda_project_integrity_audit.py": "64fd29d66bed0c128a4f8eca78364caa3f2bd625aee48c1cdd0885799d77e8c7",
+    "oanda_always_on_supervisor.ps1": "c6c0043ac56956b804015a3b6d27f7db428032daffc3dd3bcd324f4759052bea",
+    "test_oanda_edge_evidence_worker.py": "64c561ccf6e477f3d97af4bf64c7c5dee3a63c2b9a84185026fc6a8403a666c1",
+    "test_oanda_independent_evidence_verifier.py": "8b0ca75b7a80d6f9f7edba132c6eb1d27553289db7e40c264413d6844e992f78",
+    "test_oanda_project_integrity_audit.py": "012ea14bc94609fbfc8e89a6df3517a037c2b7b0ba3ffac68cbe48ea3e056170"
+  },
+  "validation": {
+    "focused_tests_passed": 76,
+    "focused_tests_failed": 0,
+    "pytest_cache_warning_only": true,
+    "python_compile": "ok",
+    "powershell_parse": "ok",
+    "independent_verifier_status": "match",
+    "independent_verifier_generated_utc": "2026-08-31T23:48:27.61508-04:00",
+    "edge_snapshot_reason": "verified_bounded_snapshot_while_catching_up",
+    "edge_worker_status": "running",
+    "edge_worker_phase": "inventorying_forecast_contract",
+    "edge_worker_progress_age_sec": 0.0,
+    "project_integrity_status": "ok",
+    "project_integrity_generated_utc": "2026-08-31T23:49:12.941817-04:00",
+    "project_integrity_publication_generation": 4,
+    "project_integrity_failure_count": 0,
+    "verified_confirmed_candidate_count": 0
+  },
+  "safety": {
+    "supported_decision": "no_trade",
+    "practice_account": "101-001-37981792-007",
+    "practice_balance": 41.6042,
+    "practice_nav": 41.6042,
+    "open_trade_count": 0,
+    "pending_order_count": 0,
+    "manual_orders_submitted": 0,
+    "manual_positions_closed": 0,
+    "execution_gate_loosened": false,
+    "real_money_enabled": false
+  }
+}

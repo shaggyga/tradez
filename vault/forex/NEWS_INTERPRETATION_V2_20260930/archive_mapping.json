@@ -1,0 +1,274 @@
+{
+  "schema": "fx_headline_interpretation_v2.archive_review",
+  "interpreted_utc": "2026-09-30T03:09:19.811059+00:00",
+  "database": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\local_news_sentiment_v1.sqlite",
+  "scope": "selected stored headlines; not historical decision-time replay or whole-feed evaluation",
+  "source_sha256": "7338b4dee04e179661f0c2c6327b44231d0ddbec4125660cc0045156a29a5fa0",
+  "historical_outputs_modified": false,
+  "rows": [
+    {
+      "event_id": "local_news_cd1df055681e6309bdc20238",
+      "headline": "Japanese Yen hits six-and-a-half-month high on hawkish BoJ bets - tmgm.com",
+      "original_first_seen_utc": "2026-09-07T14:19:04.137768+00:00",
+      "stored_payload_sha256": "0bb88e0304de08173862638b16efa754ffb01b14ff9c0d97b7e6668abcba5215",
+      "stored_classification_version": "local_fx_news_rules_20260907_v165_causal_member_admission",
+      "stored_currency_scores": {
+        "JPY": 0.65
+      },
+      "stored_context_reason": "",
+      "stored_directional_publish_eligible": false,
+      "interpretation": {
+        "version": "fx_headline_interpretation_v2",
+        "input_sha256": "ddd4fc24bec163813df66e7c9c0a699ad0214e437818ceeaf2fd0d09b3164311",
+        "input_scope": "headline_only",
+        "claims": [
+          {
+            "kind": "policy_stance",
+            "evidence": "Japanese Yen hits six-and-a-half-month high on hawkish BoJ bets - tmgm.com",
+            "currency": "JPY",
+            "direction": 1,
+            "status": "market_expectation",
+            "mechanism": "rate_expectations",
+            "instrument": null
+          }
+        ],
+        "interpretation_status": "claims_extracted",
+        "surprise": "unknown",
+        "forecast_eligible": false,
+        "causal_effect_established": false,
+        "research_only": true
+      }
+    },
+    {
+      "event_id": "local_news_1bac2cfdea80363bab9086c4",
+      "headline": "The Canadian Dollar gains as Oil rally offsets jobs gloom - mitrade.com",
+      "original_first_seen_utc": "2026-09-07T23:00:05.323074+00:00",
+      "stored_payload_sha256": "fc149c6e45bee03a998b7057b19a1a2a3aee1c8adb65e406f080f8e68a409da9",
+      "stored_classification_version": "local_fx_news_rules_20260907_v165_causal_member_admission",
+      "stored_currency_scores": {
+        "CAD": 0.7,
+        "JPY": -0.2,
+        "MXN": 0.5,
+        "NOK": 0.5
+      },
+      "stored_context_reason": "",
+      "stored_directional_publish_eligible": false,
+      "interpretation": {
+        "version": "fx_headline_interpretation_v2",
+        "input_sha256": "791eeafe58f633bee76b41b840759eee4cbf07d8e19b1779bbeb8a5c85920c9b",
+        "input_scope": "headline_only",
+        "claims": [
+          {
+            "kind": "reported_currency_response",
+            "evidence": "Canadian Dollar gains",
+            "currency": "CAD",
+            "direction": 1,
+            "status": "retrospective",
+            "mechanism": null,
+            "instrument": null
+          },
+          {
+            "kind": "competing_drivers",
+            "evidence": "The Canadian Dollar gains as Oil rally offsets jobs gloom - mitrade.com",
+            "currency": null,
+            "direction": null,
+            "status": "reported_relationship",
+            "mechanism": "offsetting",
+            "instrument": null
+          },
+          {
+            "kind": "labour_context",
+            "evidence": "The Canadian Dollar gains as Oil rally offsets jobs gloom - mitrade.com",
+            "currency": null,
+            "direction": null,
+            "status": "reported_weakness",
+            "mechanism": "growth_and_policy_expectations",
+            "instrument": null
+          },
+          {
+            "kind": "energy_context",
+            "evidence": "The Canadian Dollar gains as Oil rally offsets jobs gloom - mitrade.com",
+            "currency": null,
+            "direction": null,
+            "status": "direction_unresolved",
+            "mechanism": "inflation_growth_and_terms_of_trade_channels_can_conflict",
+            "instrument": null
+          }
+        ],
+        "interpretation_status": "claims_extracted",
+        "surprise": "unknown",
+        "forecast_eligible": false,
+        "causal_effect_established": false,
+        "research_only": true
+      }
+    },
+    {
+      "event_id": "local_news_41ab54a79825f9adc167b552",
+      "headline": "A hawkish RBA pushes Aussie dollar to four-month high - AFR",
+      "original_first_seen_utc": "2026-09-09T06:16:02.659755+00:00",
+      "stored_payload_sha256": "f983d8626413baec5efe89beb7b5115ac568091b09085860688b2f0acd7de28e",
+      "stored_classification_version": "local_fx_news_rules_20260907_v165_causal_member_admission",
+      "stored_currency_scores": {
+        "AUD": 0.65
+      },
+      "stored_context_reason": "",
+      "stored_directional_publish_eligible": false,
+      "interpretation": {
+        "version": "fx_headline_interpretation_v2",
+        "input_sha256": "1e754d081a8a6c999cddea7e425c281413f76972a1153bd050e24e8b3bf41774",
+        "input_scope": "headline_only",
+        "claims": [
+          {
+            "kind": "policy_stance",
+            "evidence": "A hawkish RBA pushes Aussie dollar to four-month high - AFR",
+            "currency": "AUD",
+            "direction": 1,
+            "status": "reported_stance",
+            "mechanism": "rate_expectations",
+            "instrument": null
+          }
+        ],
+        "interpretation_status": "claims_extracted",
+        "surprise": "unknown",
+        "forecast_eligible": false,
+        "causal_effect_established": false,
+        "research_only": true
+      }
+    },
+    {
+      "event_id": "local_news_24cd6c959017bba373675727",
+      "headline": "Sterling slips versus dollar as firm US PPI and $100 oil stoke Fed hawkish bets - VT Markets",
+      "original_first_seen_utc": "2026-09-11T01:40:45.589769+00:00",
+      "stored_payload_sha256": "d79d1d9b61e7bcbeb86d380c7d8613e06b7566625891b1540a3d5aa38bcf78c4",
+      "stored_classification_version": "local_fx_news_rules_20260907_v165_causal_member_admission",
+      "stored_currency_scores": {
+        "GBP": -0.7
+      },
+      "stored_context_reason": "",
+      "stored_directional_publish_eligible": false,
+      "interpretation": {
+        "version": "fx_headline_interpretation_v2",
+        "input_sha256": "b45ebe6f5518a109c63fa9cdea628c2e7a74c2442f04201160d606496917989c",
+        "input_scope": "headline_only",
+        "claims": [
+          {
+            "kind": "policy_stance",
+            "evidence": "$100 oil stoke Fed hawkish bets - VT Markets",
+            "currency": "USD",
+            "direction": 1,
+            "status": "market_expectation",
+            "mechanism": "rate_expectations",
+            "instrument": null
+          },
+          {
+            "kind": "reported_currency_response",
+            "evidence": "Sterling slips",
+            "currency": "GBP",
+            "direction": -1,
+            "status": "retrospective",
+            "mechanism": null,
+            "instrument": null
+          },
+          {
+            "kind": "energy_context",
+            "evidence": "Sterling slips versus dollar as firm US PPI and $100 oil stoke Fed hawkish bets - VT Markets",
+            "currency": null,
+            "direction": null,
+            "status": "direction_unresolved",
+            "mechanism": "inflation_growth_and_terms_of_trade_channels_can_conflict",
+            "instrument": null
+          }
+        ],
+        "interpretation_status": "claims_extracted",
+        "surprise": "unknown",
+        "forecast_eligible": false,
+        "causal_effect_established": false,
+        "research_only": true
+      }
+    },
+    {
+      "event_id": "local_news_ee48baeb2b97677f785a8ec4",
+      "headline": "Why is the Australian Dollar falling despite RBA hawkish stance? - FXStreet",
+      "original_first_seen_utc": "2026-09-11T02:58:53.020311+00:00",
+      "stored_payload_sha256": "3bf1b1e28b35363f37efd498c6f0823a8906a2cd6da8fc03ad44c30748017eb3",
+      "stored_classification_version": "local_fx_news_rules_20260907_v165_causal_member_admission",
+      "stored_currency_scores": {
+        "AUD": 0.65
+      },
+      "stored_context_reason": "",
+      "stored_directional_publish_eligible": false,
+      "interpretation": {
+        "version": "fx_headline_interpretation_v2",
+        "input_sha256": "262dc22824e9d668a5397c014d0befbc27f22b11f6393e95debc78cb4d19e471",
+        "input_scope": "headline_only",
+        "claims": [
+          {
+            "kind": "policy_stance",
+            "evidence": "Why is the Australian Dollar falling despite RBA hawkish stance",
+            "currency": "AUD",
+            "direction": 1,
+            "status": "reported_stance",
+            "mechanism": "rate_expectations",
+            "instrument": null
+          },
+          {
+            "kind": "reported_currency_response",
+            "evidence": "Australian Dollar falling",
+            "currency": "AUD",
+            "direction": -1,
+            "status": "retrospective",
+            "mechanism": null,
+            "instrument": null
+          },
+          {
+            "kind": "competing_drivers",
+            "evidence": "Why is the Australian Dollar falling despite RBA hawkish stance? - FXStreet",
+            "currency": null,
+            "direction": null,
+            "status": "reported_relationship",
+            "mechanism": "countervailing",
+            "instrument": null
+          }
+        ],
+        "interpretation_status": "claims_extracted",
+        "surprise": "unknown",
+        "forecast_eligible": false,
+        "causal_effect_established": false,
+        "research_only": true
+      }
+    },
+    {
+      "event_id": "local_news_90b92339e43183fbee90599d",
+      "headline": "NBP Governor turns less dovish, remains far from rate-hike pricing - ing think",
+      "original_first_seen_utc": "2026-09-10T16:37:16.958052+00:00",
+      "stored_payload_sha256": "42490ea7a752e72b959acddb1d9406cc606a6d4903659a6a39125405c38d092d",
+      "stored_classification_version": "local_fx_news_rules_20260907_v165_causal_member_admission",
+      "stored_currency_scores": {
+        "PLN": -0.65
+      },
+      "stored_context_reason": "",
+      "stored_directional_publish_eligible": false,
+      "interpretation": {
+        "version": "fx_headline_interpretation_v2",
+        "input_sha256": "3c689c336ecff7043bebfc0dff4f998af5ff9096e23f4aa3b17f5e699e8c589e",
+        "input_scope": "headline_only",
+        "claims": [
+          {
+            "kind": "policy_stance_change",
+            "evidence": "NBP Governor turns less dovish, remains far from rate-hike pricing - ing think",
+            "currency": "PLN",
+            "direction": 1,
+            "status": "reported_change",
+            "mechanism": "rate_expectations",
+            "instrument": null
+          }
+        ],
+        "interpretation_status": "claims_extracted",
+        "surprise": "unknown",
+        "forecast_eligible": false,
+        "causal_effect_established": false,
+        "research_only": true
+      }
+    }
+  ]
+}

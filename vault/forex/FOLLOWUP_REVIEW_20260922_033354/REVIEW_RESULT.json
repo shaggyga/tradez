@@ -1,0 +1,43 @@
+{
+  "step_id": "causal-technical-input-adapter",
+  "verdict": "accepted_within_scope",
+  "independent_review": false,
+  "next_item": "matched_ridge_recovered_hgb_development_campaign_v2",
+  "engineering_ready": false,
+  "forecast_evidence_status": "input_preparation_only",
+  "policy_evidence_status": "not_evaluated",
+  "demo_authorization_status": "not_granted",
+  "checks": [
+    "unchanged retained numerical predecessors pinned",
+    "all68 fixed origins independent of future values/endpoints",
+    "26 current/past features separate from outcome records",
+    "exact endpoint targets never claim contiguous paths or sessions",
+    "initial24h path-support failure preserved; v2 meaningful target distinction",
+    "15 local and15 relocated tests;70 actual rebuilt payloads identical"
+  ],
+  "limitations": [
+    "same implementer review only",
+    "assumed historical close availability",
+    "calendar targets blocked",
+    "no model fit or policy result"
+  ],
+  "utc": "2026-09-22T03:33:54.394427+00:00",
+  "reviewer": "same-implementer follow-up source/evidence review",
+  "source_engine": {
+    "schema": "forex_design_alignment_pointer.v2",
+    "package": "CAUSAL_TECHNICAL_20260922_033321",
+    "path_forward": "CAUSAL_TECHNICAL_20260922_033321/PATH_FORWARD.md",
+    "run_status": "CAUSAL_TECHNICAL_20260922_033321/RUN_STATUS.json",
+    "design": "CAUSAL_TECHNICAL_20260922_033321/specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+    "design_coverage": "CAUSAL_TECHNICAL_20260922_033321/audit/DESIGN_COVERAGE.md",
+    "current_acceptance_addendum": "CAUSAL_TECHNICAL_20260922_033321/DESIGN_ACCEPTANCE_ADDENDUM.md",
+    "manifest": "CAUSAL_TECHNICAL_20260922_033321/MANIFEST.json",
+    "manifest_sha256": "fc0e791d0523d6deac6dd68caaa917702fd7fe47b8c8f01b04c00349e8296a9c",
+    "readback": "CAUSAL_TECHNICAL_20260922_033321/PACKAGE_READBACK.json",
+    "active_integrity_batch": "ALL68_INTEGRITY_BATCH_05_20260921.md",
+    "active_integrity_batch_scope": "all68 causal26feature and7elapsed endpoint target preparation, no fit",
+    "historical_package": "DESIGN_ALIGNMENT_20260921",
+    "scope": "current_verified_queue_and_bounded_recovery",
+    "cloud_sync_verified": false
+  }
+}

@@ -1,0 +1,2 @@
+Completed: prespecified seven-major archive diagnostic, no fitting; old/new policy directions and preceding15minute momentum; actual stored availability; duplicate filtering; matched-support metrics.
+Pending: genuine saved technical-model forecast joins and immutable first-classification replay; prospective holdout; independent review. All934 original selected article rows withheld. No predictive improvement established. Numerical preflight/deployment qualification not claimed.

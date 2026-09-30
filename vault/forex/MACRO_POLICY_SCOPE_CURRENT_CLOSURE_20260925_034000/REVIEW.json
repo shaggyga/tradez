@@ -1,0 +1,22 @@
+{
+  "schema": "forex_checkpoint_review.v1",
+  "utc": "2026-09-25T03:31:50.477104Z",
+  "step_id": "repair_recovered_policy_action_scoping_v2",
+  "status": "complete_reuse_existing_packet_no_duplicate_run",
+  "verdict": "accepted_within_scope_same_task_review",
+  "independent_review": false,
+  "independent_review_status": "pending_nonblocking_by_user_clarification",
+  "scope": "current queue closure against existing macro policy scope packet; no fit/replay/API/broker/live-bot/D-drive/EURUSD work",
+  "preexisting_packet": "MACRO_POLICY_SCOPE_20260922_171746/REVIEW.json",
+  "preexisting_review_sha256": "b8d84b6b68e2f435f59d12fc0be0eef6c43fa14a93273ca008e4f1a86f13c372",
+  "verification": {
+    "local_tests_passed": 23,
+    "relocated_tests_passed": 23,
+    "identical_payloads": 5,
+    "original_oracles_passed": 12
+  },
+  "result": "guarded_candidates_not_admitted",
+  "policy_fact_admission": false,
+  "next_action": "macro_scoped_semantic_source_asof_integration_v2",
+  "source_commit": "faaee19d4ef64c375293a0f7411844db73867795"
+}

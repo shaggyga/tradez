@@ -1,0 +1,16 @@
+{
+  "recipe": "source_snapshot/OFFICIAL_CONTEXT_OPERATOR_RECIPE.json",
+  "recipe_sha256": "47400f03f43689b96dede634e2c73cc140f12dc30615f3bbe74cf65c2569485b",
+  "scope": "environment-lock correction; original macro scientific outputs unchanged",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify",
+    "inspect"
+  ],
+  "bootstrap": "../OFFICIAL_CONTEXT_LOCK_20260922_093845/checkpoint/forex_official_context_locked.zip",
+  "contract": "source_snapshot/OFFICIAL_CONTEXT_CONTRACT_V2.md",
+  "next": "review_official_context_lock_checkpoint"
+}

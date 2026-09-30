@@ -1,0 +1,371 @@
+{
+  "schema_version": "forex_market_open_runtime_verification_v1",
+  "observed_utc": "2026-09-06T20:00:47.461410+00:00",
+  "scope": "Existing registered research collection; not trading authorization or predictive acceptance.",
+  "research_supervisor_count": 1,
+  "research_supervisor_pid": 14508,
+  "managed_worker_count": 12,
+  "managed_workers": [
+    {
+      "name": "account_snapshot",
+      "pids": [
+        32232,
+        25516
+      ],
+      "freshness": {
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\account_007_dashboard_v1.json",
+        "age_sec": 1.4,
+        "fresh": true,
+        "reason": "fresh"
+      }
+    },
+    {
+      "name": "live_dashboard",
+      "pids": [
+        11100,
+        39316
+      ],
+      "freshness": {
+        "path": "",
+        "age_sec": null,
+        "fresh": true,
+        "reason": "not_checked"
+      }
+    },
+    {
+      "name": "local_news_sentiment",
+      "pids": [
+        24008,
+        1212
+      ],
+      "freshness": {
+        "observed_json_value": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\collector_heartbeat_v1.json",
+        "progress_sequence": 193,
+        "expected_json_field": "classification_version",
+        "phase": "collecting_sources",
+        "expected_json_value": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+        "age_sec": 8.8,
+        "reason": "fresh",
+        "fresh": true,
+        "progress_age_sec": 0.4
+      }
+    },
+    {
+      "name": "official_release_fast_lane",
+      "pids": [
+        4196,
+        7244
+      ],
+      "freshness": {
+        "phase": "cycle_complete",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\official_release_fast_lane_heartbeat_v4.json",
+        "age_sec": 4.4,
+        "fresh": true,
+        "reason": "fresh"
+      }
+    },
+    {
+      "name": "official_release_fast_mapper",
+      "pids": [
+        17664,
+        36080
+      ],
+      "freshness": {
+        "observed_json_value": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\official_release_fast_mapping_heartbeat_v3.json",
+        "expected_json_field": "required_classification_version",
+        "phase": "cycle_complete",
+        "expected_json_value": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+        "age_sec": 2,
+        "reason": "fresh",
+        "fresh": true
+      }
+    },
+    {
+      "name": "all68_m1_forward_archive",
+      "pids": [
+        24516,
+        8684
+      ],
+      "freshness": {
+        "phase": "sleeping",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\all68_m1_forward_update_heartbeat_v1.json",
+        "age_sec": 4.3,
+        "fresh": true,
+        "reason": "fresh"
+      }
+    },
+    {
+      "name": "practice_007_quote_stream",
+      "pids": [
+        5452,
+        44996
+      ],
+      "freshness": {
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_quote_stream_heartbeat_v1.json",
+        "phase_age_sec": 1306.3,
+        "phase": "streaming",
+        "age_sec": 3.5,
+        "reason": "fresh",
+        "fresh": true
+      }
+    },
+    {
+      "name": "clock_integrity_monitor",
+      "pids": [
+        20572,
+        32208
+      ],
+      "freshness": {
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\clock_integrity_v1.json",
+        "age_sec": 26.2,
+        "fresh": true,
+        "reason": "fresh"
+      }
+    },
+    {
+      "name": "causal_forecast_study_v1",
+      "pids": [
+        5920,
+        11352
+      ],
+      "freshness": {
+        "observed_json_value": "causal_forecast_study_heartbeat_v1",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\causal_forecast_study_v1_io_r2\\heartbeat.json",
+        "expected_json_field": "schema_version",
+        "phase": "waiting_for_tradeable_quote",
+        "expected_json_value": "causal_forecast_study_heartbeat_v1",
+        "age_sec": 1.3,
+        "reason": "fresh",
+        "fresh": true
+      }
+    },
+    {
+      "name": "source_governance_news_fast_lane",
+      "pids": [
+        5236,
+        19584
+      ],
+      "freshness": {
+        "observed_json_value": "news_source_governance_fast_lane_v3_committed_visibility_20260905",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\source_governance_news_fast_lane_v3.json",
+        "expected_json_field": "contract_id",
+        "phase": "",
+        "expected_json_value": "news_source_governance_fast_lane_v3_committed_visibility_20260905",
+        "age_sec": 1.1,
+        "reason": "fresh",
+        "fresh": true
+      }
+    },
+    {
+      "name": "project_integrity_audit",
+      "pids": [
+        41144,
+        21076
+      ],
+      "freshness": {
+        "observed_json_value": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\project_integrity_audit_v1.json",
+        "expected_json_field": "classification_version",
+        "phase": "",
+        "expected_json_value": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+        "age_sec": 163,
+        "reason": "fresh",
+        "fresh": true
+      }
+    },
+    {
+      "name": "storage_headroom_guard",
+      "pids": [
+        19056,
+        33700
+      ],
+      "freshness": {
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\storage_headroom_v1.json",
+        "age_sec": 136.8,
+        "fresh": true,
+        "reason": "fresh"
+      }
+    }
+  ],
+  "observed_process_count": 25,
+  "unexpected_project_workers": [],
+  "supervisor_error_count": 0,
+  "legacy_tasks": [
+    {
+      "name": "ForexGptOrigConstantRotationDemoWatchdog",
+      "state": "Disabled"
+    },
+    {
+      "name": "ForexSafeCoreAtLogon",
+      "state": "Disabled"
+    }
+  ],
+  "quote_stream": {
+    "connected": true,
+    "quoted_instruments": 68,
+    "observed_utc": "2026-09-06T20:00:44.136879+00:00",
+    "event_age_sec": 4.453,
+    "reconnects": 0,
+    "quote_observer_errors": 0,
+    "transport_thread_alive": true,
+    "published_tradeable_quote_count": 0,
+    "published_quote_count": 68
+  },
+  "account": {
+    "current": true,
+    "environment": "practice",
+    "role": "practice_007",
+    "observed_utc": "2026-09-06T20:00:45.088310+00:00",
+    "open_trades": 0,
+    "pending_orders": 0,
+    "last_transaction_id": "2461"
+  },
+  "dashboard": {
+    "http_status": 200,
+    "main_api_http_status": 200,
+    "active": false,
+    "collection_status": {
+      "schema_version": "registered_research_collection_status_v1_20260906",
+      "status": "running",
+      "running": true,
+      "label": "Research collection running; study trading disabled",
+      "scope": "registered_four_family_research_study",
+      "running_scope": "recent_research_observations_not_forecast_success_or_error_free_operation",
+      "registered_study_trading_enabled": false,
+      "observations": {
+        "study": {
+          "status": "current",
+          "current": true,
+          "observed_at": 1788724845.3725436,
+          "age_sec": 1.482,
+          "max_age_sec": 90,
+          "registered_contract_matches": true,
+          "observed_phase": "waiting_for_tradeable_quote",
+          "phase": "waiting_for_tradeable_quote",
+          "last_reason": "market_closed_or_quote_not_tradeable",
+          "reported_cumulative_errors": 0,
+          "reported_cumulative_heartbeat_publication_errors": 0
+        },
+        "quote_stream": {
+          "status": "current",
+          "current": true,
+          "observed_at": "2026-09-06T20:00:44.136879+00:00",
+          "age_sec": 2.717,
+          "max_age_sec": 90,
+          "current_stream_event_age_sec": 7.17,
+          "scope": "stream_transport_heartbeat_not_tradeable_price_freshness"
+        },
+        "account": {
+          "status": "current",
+          "current": true,
+          "observed_at": "2026-09-06T20:00:45.088310+00:00",
+          "age_sec": 1.766,
+          "max_age_sec": 90
+        }
+      },
+      "unavailable_observations": [],
+      "study_phase": "waiting_for_tradeable_quote",
+      "study_reason": "market_closed_or_quote_not_tradeable",
+      "warmup": {
+        "required_common_m1_bars": 335,
+        "last_reported_common_bars": null,
+        "progress_scope": "not_reported",
+        "explanation": "After a weekend gap, the registered study needs 335 completed common minute bars (about 5h35), plus archive and model cadence delay. H1 outcomes need another hour. This is a requirement, not an estimated completion time."
+      },
+      "strategy_or_execution_activation_changed": false
+    }
+  },
+  "study": {
+    "account_eligible": false,
+    "activated_epoch": 1788708624.9526446,
+    "active_bucket": null,
+    "can_place_orders": false,
+    "can_promote": false,
+    "contract_id": "causal_four_family_future_collection_v1_io_r2_20260906",
+    "contract_sha256": "bc99e68db720e0a43b3ec68a7820b3605013d0c2138515f23e648f5b34fadc2a",
+    "counts": {
+      "attempts": 0,
+      "consumption": 0,
+      "diagnostics": 0,
+      "entries": 0,
+      "exclusions": 0,
+      "forecasts": 0,
+      "inputs": 0,
+      "outcomes": 0,
+      "publication": 0,
+      "quotes": 0
+    },
+    "errors": 0,
+    "generated_epoch": 1788724845.3725436,
+    "heartbeat_publication_errors": 0,
+    "last_heartbeat_publication_error": "",
+    "last_reason": "market_closed_or_quote_not_tradeable",
+    "phase": "waiting_for_tradeable_quote",
+    "proof_eligible": false,
+    "research_only": true,
+    "schema_version": "causal_forecast_study_heartbeat_v1",
+    "supported_decision": "no_trade"
+  },
+  "registered_source_bindings_unchanged": true,
+  "integrity": {
+    "audit_finished_utc": "2026-09-06T19:57:58.501549+00:00",
+    "status": "degraded",
+    "supported_decision": "no_trade",
+    "can_place_orders": false,
+    "failures": [
+      "continuous_narrative_meter_sealed_current_and_inert",
+      "event_technical_preflight_source_transport_current_and_inert",
+      "executable_move_census_current_independently_verified",
+      "independent_verifier_matches",
+      "live_move_news_forward_proof_contract_current",
+      "live_move_persistent_context_current_and_inert",
+      "move_first_live_arm_alignment_current_causal_and_inert",
+      "move_first_live_case_capture_current_and_inert",
+      "move_first_news_mapping_audit_current",
+      "move_first_operational_mapping_alignment_v4_current_subsecond_causal_and_inert",
+      "official_release_fast_response_watch_current_and_inert",
+      "official_source_depth_complete_current_and_zero_weight",
+      "scheduled_event_quote_capture_current_append_only_and_inert",
+      "scheduled_event_quote_capture_v2_current_append_only_and_inert"
+    ]
+  },
+  "storage": {
+    "generated_utc": "2026-09-06T19:58:26.050678+00:00",
+    "status": "ok",
+    "disk": {
+      "critical_free_gib": 25.0,
+      "free_bytes": 102018101248,
+      "free_delta_since_previous_bytes": -127205376,
+      "free_gib": 95.012,
+      "free_percent": 10.206,
+      "minimum_free_gib": 50.0,
+      "root": "C:\\Users\\zmoor\\Documents\\forex\\trad",
+      "total_bytes": 999614894080,
+      "used_bytes": 897596792832
+    },
+    "automatic_evidence_deletion": false,
+    "automatic_vacuum": false
+  },
+  "clock": {
+    "generated_utc": "2026-09-06T20:00:46.555854+00:00",
+    "status": "mitigated",
+    "host_clock_synchronized": true,
+    "broker_clock_lead_sec": null,
+    "broker_clock_sample_count": 0,
+    "clock_discontinuity_active": false,
+    "reasons": [
+      "broker_clock_offset_unavailable"
+    ]
+  },
+  "observation_binding": {
+    "path": "observation_after_export.json",
+    "sha256": "566ced9fad72334dda4d84bb46c134e52a88c6ea92bab0f819b48a1514c9fac5"
+  },
+  "limitations": [
+    "Current observations cannot guarantee future availability or opening prices.",
+    "No trading workers or new offline models were enabled.",
+    "The broad integrity audit remains degraded and is not interpreted as a trading pass."
+  ]
+}

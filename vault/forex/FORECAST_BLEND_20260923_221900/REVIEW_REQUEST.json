@@ -1,0 +1,17 @@
+{
+  "step_id": "review_retained_equal_weight_forecast_blend_diagnostic_v2",
+  "implementation_packet": "FORECAST_BLEND_20260923_221900",
+  "review_is_independent_of_implementer": true,
+  "required_checks": [
+    "source commit and frozen recipe identity",
+    "exact predecessor identity and registered-payload checks",
+    "fixed one-half pairing and explicit unavailable coverage",
+    "outcomes excluded from blend payloads and clock-guarded scoring",
+    "zero fits, model loads, API calls and forecast issuance",
+    "clean-versus-recovered exact 58-payload parity",
+    "relocated checkpoint exact 58-payload parity and test receipt",
+    "no winner, confirmation, economic, policy or demo claim"
+  ],
+  "required_result": "accepted_within_scope or changes_requested; independent_review must be true only for a separate reviewer",
+  "on_changes_requested": "Create a successor run ID and preserve this sealed package."
+}

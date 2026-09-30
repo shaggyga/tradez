@@ -1,0 +1,48 @@
+{
+  "step_id": "historical-input-preflight",
+  "implementation_status": "prepared_verified_not_fitted",
+  "review_status": "ready_for_review",
+  "independent_review": false,
+  "checkpoint": {
+    "path": "prepared_historical_inputs.zip",
+    "sha256": "28404432a84fb75f4d25bb8f9e89609b9030478ca35582d08389885c6e6078a2"
+  },
+  "source_engine": {
+    "schema": "forex_design_alignment_pointer.v2",
+    "package": "FITTED_CONSUMER_20260922_005437",
+    "path_forward": "FITTED_CONSUMER_20260922_005437/PATH_FORWARD.md",
+    "run_status": "FITTED_CONSUMER_20260922_005437/RUN_STATUS.json",
+    "design": "FITTED_CONSUMER_20260922_005437/specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+    "design_coverage": "FITTED_CONSUMER_20260922_005437/audit/DESIGN_COVERAGE.md",
+    "current_acceptance_addendum": "FITTED_CONSUMER_20260922_005437/DESIGN_ACCEPTANCE_ADDENDUM.md",
+    "manifest": "FITTED_CONSUMER_20260922_005437/MANIFEST.json",
+    "manifest_sha256": "c96f3f91772aebda6aa021a706b3c49e217eb09e67bd388c7a861f13bf0d2eca",
+    "readback": "FITTED_CONSUMER_20260922_005437/PACKAGE_READBACK.json",
+    "active_integrity_batch": "ALL68_INTEGRITY_BATCH_05_20260921.md",
+    "active_integrity_batch_scope": "synthetic policy and fitted-consumer qualification verified; historical slice/tape next; campaign remains gated",
+    "historical_package": "DESIGN_ALIGNMENT_20260921",
+    "scope": "current_verified_queue_and_bounded_recovery",
+    "cloud_sync_verified": false
+  },
+  "source_review": {
+    "package": "FITTED_CONSUMER_20260922_005437",
+    "manifest": "FITTED_CONSUMER_20260922_005437/MANIFEST.json",
+    "manifest_sha256": "c96f3f91772aebda6aa021a706b3c49e217eb09e67bd388c7a861f13bf0d2eca",
+    "review": "FITTED_CONSUMER_20260922_005437/REVIEW.md",
+    "queue": "REVIEW_QUEUE.json",
+    "readback": "FITTED_CONSUMER_20260922_005437/PACKAGE_READBACK.json",
+    "verdict": "ready_for_review",
+    "next_engineering_item": "review_policy_and_fitted_checkpoints",
+    "engine_scope_changed": true
+  },
+  "checks": {
+    "local_tests": 8,
+    "relocated_tests_passed": true,
+    "all68_member_hashes_verified": true
+  },
+  "next_action": "review_policy_fitted_and_input_checkpoints",
+  "engineering_ready": false,
+  "forecast_evidence_status": "no_new_evidence",
+  "policy_evidence_status": "not_evaluated",
+  "demo_authorization_status": "not_granted"
+}

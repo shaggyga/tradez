@@ -1,0 +1,25 @@
+{
+  "schema": "forex.review_packet.v1",
+  "packet_id": "COST_STRESS_REPLAY_20260925_084700",
+  "step_id": "behavior_changing_cost_stress_support_census_v2",
+  "created_utc": "2026-09-25T08:46:50.432132Z",
+  "source_commit": "b977d245bcaf39e226c3eec2d993c03d60cfc6a6",
+  "implementation_status": "complete_prespecified_synthetic_cost_stress_replay",
+  "review_status": "accepted_within_scope",
+  "independent_review": false,
+  "same_task_review": true,
+  "scientific_result": "synthetic full-path stress changed admission/fill paths for five cost/resource scenarios; not historical policy evidence",
+  "models_fitted": 0,
+  "network_calls": 0,
+  "broker_actions": 0,
+  "scenario_count": 7,
+  "completed": 7,
+  "path_changed": [
+    "fees_10000x",
+    "capital_100",
+    "latency_120s",
+    "entry_quote_outage",
+    "entry_spread_wide"
+  ],
+  "exact_next_item": "currency_concentration_support_census_v2"
+}

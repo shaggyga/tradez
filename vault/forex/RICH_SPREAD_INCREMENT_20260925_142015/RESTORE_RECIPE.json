@@ -1,0 +1,15 @@
+{
+  "schema": "forex.rich_spread_increment_restore.v1",
+  "checkpoint": "checkpoint/RICH_SPREAD_INCREMENT_RUN.zip",
+  "checkpoint_sha256": "c2b7265d9f7244267f1bd49aae28794db77e8ab2118e9a6b025ac3e0ffbe1a09",
+  "saved_run_identity": "b3bd3630ab40de9a3a2a819ac0f03f2bd4cdb7c16114858b670734db044e9ede",
+  "source_snapshot_members": 559,
+  "rich_input_capsule": "RICH_CAMPAIGN_INPUTS_20260922_063457/checkpoint/forex_rich_campaign_inputs.zip",
+  "baseline_capsule": "OPERATIONAL_READINESS_20260923_180528/saved_artifacts/matched_campaign_saved.zip",
+  "previous_rich_capsule": "RICH_FAMILY_COMPARISON_20260922_073907/checkpoint/forex_rich_family_comparison.zip",
+  "input_run_identities": {
+    "rich": "46c904185ac16cf2e60f0b2f27a7e2bd7f1481e40a2928545d19caf03c96edbe",
+    "baseline": "b3c3ea235bb15727633b665f86ea535b48bfe14cc35d00e60b12e7d848ea750d"
+  },
+  "instruction": "Verify archive SHA, extract to a fresh run directory, verify every COMPLETION_MANIFEST payload hash and run identity, then use source_snapshot with preserved parent capsules. No new fit is needed to inspect this saved result."
+}

@@ -1,0 +1,19 @@
+{
+  "schema": "forex_forecasting_candidate.v1",
+  "step_id": "repair_recovered_policy_action_scoping_v2",
+  "status": "not_started",
+  "priority": 7,
+  "depends_on": [
+    "macro_text_long_body_coverage_audit_v2"
+  ],
+  "hypothesis": "Recovered policy/action consumers may need stricter scoping so text/native action fragments cannot become forecast directions without passing semantic admission.",
+  "deliverable": "Inspect existing recovered policy/action scoping packet or implement a bounded guard/closure that prevents unsafe native semantic consumers from being treated as forecast actions.",
+  "completion_gate": [
+    "Read existing packet/history first",
+    "Reuse preserved evidence before code",
+    "If code changes, focused tests pass",
+    "Vault/project logs updated",
+    "No live/broker/service/account actions"
+  ],
+  "limits": "No GPT/advisor comparisons, paid APIs, broker/service/account actions, D-drive investigation, EUR/USD capture, live-bot changes, or duplicate macro text audit."
+}

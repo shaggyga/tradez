@@ -1,0 +1,48 @@
+﻿{
+    "task_name":  "Forex Practice Research Recovery 20260910",
+    "current_user_only":  true,
+    "method":  "current_user_logon_task",
+    "observed_utc":  "2026-09-10T15:05:15.7932586Z",
+    "preflight":  {
+                      "schema_version":  "practice_recovery_launcher_v1_20260910",
+                      "check_only":  true,
+                      "bindings":  {
+                                       "manifest_sha256":  "5a1347797fc45427875dff1530242f3602e5db7a9e2cbe1ff5d5daf8fd4f6e46",
+                                       "trial_config_sha256":  "ae2901395ba117b2df7a6d13670d48cb3d4f10963bd3b983d6b3775be90b5af8",
+                                       "source_bindings":  {
+                                                               "start_oanda_practice_recovery_v1.ps1":  "c027f122be82631f0eae518f79c2bc470c5f0b505de1738eebd61d709fea0fd6",
+                                                               "start_oanda_research_collection.ps1":  "c7e2a970b6e8bb69fcdaf5b124b8d935be6326f06a6554408889e111f57f3115",
+                                                               "start_oanda_practice_trial_v1.ps1":  "ce3a3808682db3ad270fc628e62ce5e512ff5316c59f0174c5bc05f5fcc46daa",
+                                                               "oanda_always_on_supervisor.ps1":  "28c226f56105331cb7e828bc54a02359f814f98b55838ca12f36cf19e733473e"
+                                                           }
+                                   },
+                      "broker_action_performed":  false,
+                      "phase":  "already_running",
+                      "inventory":  {
+                                        "conflicting_supervisor_pids":  [
+
+                                                                        ],
+                                        "supervisor_pids":  [
+                                                                11676
+                                                            ],
+                                        "trial_watchdog_pids":  [
+                                                                    10648
+                                                                ],
+                                        "trial_worker_pids":  [
+                                                                  11988,
+                                                                  17800
+                                                              ]
+                                    },
+                      "pid":  3360,
+                      "observed_epoch":  1789052713.769,
+                      "practice_only":  true,
+                      "stop_epoch":  1789159500
+                  },
+    "executable":  "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "bootstrap":  "C:\\Users\\zmoor\\Documents\\forex\\trad\\start_oanda_practice_recovery_v1.ps1",
+    "logon_required":  true,
+    "run_value_name":  null,
+    "arguments":  "-NoLogo -NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File \"C:\\Users\\zmoor\\Documents\\forex\\trad\\start_oanda_practice_recovery_v1.ps1\"",
+    "before_login_boot_execution":  false,
+    "practice_only":  true
+}

@@ -1,0 +1,37 @@
+{
+  "schema": "forex_shared_git_operation.v2",
+  "status": "COMPLETE",
+  "utc": "2026-09-24T03:37:10.488936+00:00",
+  "repository": "https://github.com/shaggyga/tradez",
+  "branch": "forex",
+  "default_branch": "forex",
+  "source_commit": "7f82d999588c456a7cc1141ac71ea8f2e9d65e5c",
+  "handoff_document_commit": "7f82d999588c456a7cc1141ac71ea8f2e9d65e5c",
+  "remote_sha": "7f82d999588c456a7cc1141ac71ea8f2e9d65e5c",
+  "remote_push_verified": true,
+  "handoff_packet": "CAUSAL_CONVEX_20260924_034000",
+  "handoff_manifest_sha256": "1a0ff67f4625c7c8e7db0d4b606b96236a61bd0d807fae43c2a14731e516546d",
+  "scientific_next_item": "fixed_blend_remaining_policy_comparison_v2",
+  "next_action": "Authenticate the preserved remaining-policy input, freeze the contract, then execute the fixed-blend policy comparison.",
+  "independent_source_review": "pending_nonblocking_by_user_clarification",
+  "independent_review": false,
+  "same_task_review": "accepted_within_scope",
+  "prior_operation_reference": {
+    "path": "CAUSAL_CONVEX_GIT_20260924_034000/PREVIOUS_RECEIPT.json",
+    "sha256": "7ecf47186dcfd59568a08b1bf70b84297901c437c3f205624b95ed6b67b1cbf1"
+  },
+  "checkpoint": {
+    "vault_relative_path": "CAUSAL_CONVEX_GIT_20260924_034000/forex-causal-convex.bundle",
+    "sha256": "77dc28b6c55205b91f3a40a230669f5fba3c8e487953399d071d855581a7fd0e",
+    "bytes": 20070379,
+    "bundle_verify": "PASSED",
+    "remote_same_commit_verified": true,
+    "fresh_restore_verified": true,
+    "restore_command": "git -c core.longpaths=true clone --branch forex <bundle-path> forex",
+    "fresh_restore_receipt": "CAUSAL_CONVEX_GIT_20260924_034000/GIT_RESTORE_RECEIPT.json",
+    "fresh_restore_receipt_sha256": "5e4a5760758a552f52c6a98778f8ede9ca605244872a24f6cc07d8e293db56a1"
+  },
+  "models_fitted": 0,
+  "models_loaded": 0,
+  "cloud_sync_or_second_machine_execution_verified": false
+}

@@ -1,0 +1,26 @@
+{
+  "schema": "forex_checkpoint_review.v1",
+  "utc": "2026-09-25T03:30:05.828379Z",
+  "step_id": "macro_text_long_body_coverage_audit_v2",
+  "status": "complete_reuse_existing_packet_no_duplicate_run",
+  "verdict": "accepted_within_scope_same_task_review",
+  "independent_review": false,
+  "independent_review_status": "pending_nonblocking_by_user_clarification",
+  "scope": "current queue closure against existing macro text coverage packet; no fit/replay/API/broker/live-bot/D-drive/EURUSD work",
+  "preexisting_packet": "MACRO_TEXT_COVERAGE_20260922_170622/REVIEW.json",
+  "preexisting_review_sha256": "6d07aa0a7a2cf9101b10de4f6964351c345115277ea1681de1e380d2c459ba45",
+  "preexisting_review_status": "ready_for_review",
+  "verification": {
+    "local_tests_passed": 16,
+    "relocated_tests_passed": 16,
+    "identical_payloads": 5
+  },
+  "result": "semantic_coverage_gap_and_native_failures",
+  "findings": [
+    "127 retained texts exceed 4000 normalized characters; full-text scanning still finds zero matching phrases.",
+    "Four pure collector functions were recovered as exact source fragments, but 8 of 12 assertion challenges fail.",
+    "Native rate_currency_sign is not accepted as a forecast direction; semantic admission remains blocked."
+  ],
+  "next_action": "repair_recovered_policy_action_scoping_v2",
+  "source_commit": "cbefa13173aa87432a811ef5a0c322b5064f4705"
+}

@@ -1,0 +1,127 @@
+{
+  "acceptance_sha256": "5a8dbad1892e8f3f273db9b7103ee12ce01fd9e0900817c91de8ffaf2d483f03",
+  "before_readme_preserved": "before/README.md",
+  "category_counts": {
+    "acceptance": 1,
+    "accepted_source": 37,
+    "accepted_test": 12,
+    "calibrator": 8,
+    "comparator_metrics": 36,
+    "complete_results": 2,
+    "component_baseline_diagnostics": 22,
+    "component_diagnostics": 68,
+    "component_priors": 4,
+    "config_files": 4,
+    "evidence_files": 85,
+    "meta_model": 16,
+    "original_recipe_comparator_model": 16,
+    "pair_priors": 4,
+    "probability_diagnostics": 8,
+    "project_documents": 5,
+    "six_head_bundle": 54,
+    "source_manifest_or_population_inventory": 12,
+    "variant_metrics": 68
+  },
+  "cloud_sync_verified": false,
+  "created_utc": "2026-09-16T00:43:50.573218+00:00",
+  "external_sealing_receipts_excluded_from_manifest_and_ZIP": [
+    "PUBLICATION.json",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad\\docs\\validation\\rolling_period_replication_20260915\\FINAL_VAULT_PUBLICATION.json"
+  ],
+  "live_collection_or_trading_changed": false,
+  "manifest": {
+    "bytes": 194538,
+    "sha256": "c373894405ca1a121a2048c472bc4497ee3f626ac78efd2a4b1a1d23648b9df7",
+    "source_path": "C:\\Users\\zmoor\\OneDrive\\thevault\\projects\\forex\\ROLLING_PERIOD_REPLICATION_20260915\\MANIFEST.json"
+  },
+  "models_loaded_or_fitted": false,
+  "older_packages_modified": false,
+  "package_root": "C:\\Users\\zmoor\\OneDrive\\thevault\\projects\\forex\\ROLLING_PERIOD_REPLICATION_20260915",
+  "payload_bytes_verified": 204223807,
+  "payload_files_verified": 467,
+  "predecessors": [
+    {
+      "manifest": {
+        "bytes": 70769,
+        "sha256": "9d3c08c687778242930847a3ef59eba1eccaf0523370f37d7ecaeb5cf3df5d03",
+        "source_path": "C:\\Users\\zmoor\\OneDrive\\thevault\\projects\\forex\\ROLLING_SPECIALISTS_20260915\\MANIFEST.json"
+      },
+      "package": "ROLLING_SPECIALISTS_20260915",
+      "payload_files_verified": 156
+    },
+    {
+      "manifest": {
+        "bytes": 79838,
+        "sha256": "de436d7db0e79567d6071fd1f66d61804e76d5da1ccea9243c7cac17a1af939f",
+        "source_path": "C:\\Users\\zmoor\\OneDrive\\thevault\\projects\\forex\\ROLLING_MODEL_COMPARISON_20260915\\MANIFEST.json"
+      },
+      "package": "ROLLING_MODEL_COMPARISON_20260915",
+      "payload_files_verified": 204
+    },
+    {
+      "manifest": {
+        "bytes": 144504,
+        "sha256": "d9da5d6e8b4c90587ab69023737129a2ccc6e111b8b2b6205a5fbb343ada2ef3",
+        "source_path": "C:\\Users\\zmoor\\OneDrive\\thevault\\projects\\forex\\ROLLING_TRAINING_WINDOWS_20260915\\MANIFEST.json"
+      },
+      "package": "ROLLING_TRAINING_WINDOWS_20260915",
+      "payload_files_verified": 339
+    }
+  ],
+  "raw_price_prepared_OOF_forecast_rows_copied": false,
+  "schema": "rolling_period_vault_publication_v1",
+  "source_closure_files": 51,
+  "status": "complete_local_copy_verified",
+  "vault_readme": {
+    "after_sha256": "d1587cdd96fce34d3a2acb864cfa33ebbcc95343767f7115384d33a7d3cf86c3",
+    "before_sha256": "6135a12c127d8510b716449d5ee00a4aa33ab033d2139870d3afdcb5e67cc4d4",
+    "inserted_bytes": 404,
+    "insertion_offset": 23,
+    "insertion_sha256": "973e40a6894b61caa5869ba903b7ca6a8d1b3133bcd1651b21129d4d2c2a76dd",
+    "navigation_placement": "immediately_after_first_title_line",
+    "original_byte_reconstruction_verified": true,
+    "original_bytes_preserved": 3951
+  },
+  "windows": [
+    {
+      "assessment_rows": 917054,
+      "audit_sha256": "831871061be7993d824d2642f37468af96fc92e4b74b036063745e0fafc48170",
+      "boundaries": {
+        "end": 1779062400,
+        "start": 1774224000,
+        "train_end": 1777852800,
+        "validation_end": 1778457600
+      },
+      "comparison_root": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\rolling_period_replication_20260915_a_v2",
+      "input_manifest_sha256": "98311350cb47ace2652dd9f4995642dbd1d2e8f45493f83fd3040e9efa157a07",
+      "label": "20260323_20260518",
+      "normalizer_metadata_sha256": "04d621d47cb6b39ae64c6e45be59e875a63035093094c9c6242f5ff3691c8548",
+      "normalizer_npz_sha256": "3b5472002464ca96d894663f5b7b8f62ba7a9be4fb9b2882f732944849be707a",
+      "results_sha256": "a5b77461b3f277ec55b28ee03fe287ec3b39b39e68e29a6dfc62b5e53ab4eb46"
+    },
+    {
+      "assessment_rows": 910520,
+      "audit_sha256": "7e0b509333d514a96f52befa4acb36218ba393827fb22557edfed4f7f93d88e2",
+      "boundaries": {
+        "end": 1783900800,
+        "start": 1779062400,
+        "train_end": 1782691200,
+        "validation_end": 1783296000
+      },
+      "comparison_root": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\rolling_period_replication_20260915_b_v2",
+      "input_manifest_sha256": "396d224b4421ac34394ae1e6d6d86b30a5427fa98a4fa1d53cd6cfda126a1c31",
+      "label": "20260518_20260713",
+      "normalizer_metadata_sha256": "c39b20554acedcc221b173f98c5cbea9a0dfcc9e2db3feee38ca575c89636417",
+      "normalizer_npz_sha256": "9850353f17439b21babc4e7e14f7a909c7b790c2f78193875b1bf5249163d66f",
+      "results_sha256": "3e22e4025a9f4edd5720024aeba57e6642d9db9655fbb1ba964b2d2ed4afc3eb"
+    }
+  ],
+  "zip": {
+    "all_entry_hashes_and_sizes_verified": true,
+    "bytes": 57579875,
+    "crc_pass": true,
+    "entries": 468,
+    "sha256": "71eb9a5367d079388d048e0407dddf00ce0b189086c8746ebed71917e0779ae6",
+    "source_path": "C:\\Users\\zmoor\\OneDrive\\thevault\\projects\\forex\\ROLLING_PERIOD_REPLICATION_20260915\\rolling_period_replication_source_20260915.zip"
+  }
+}

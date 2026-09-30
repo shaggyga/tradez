@@ -1,0 +1,276 @@
+{
+  "schema_version": "independent_forex_review_v1",
+  "generated_utc": "2026-09-05T14:16:00.650178+00:00",
+  "canonical_project": "C:\\Users\\zmoor\\Documents\\forex\\trad",
+  "vault_guide": "C:\\Users\\zmoor\\OneDrive\\thevault\\projects\\forex\\README.md",
+  "supported_decision": "no_trade",
+  "runtime_restarted": false,
+  "broker_requests": 0,
+  "production_database_writes": 0,
+  "source_or_vault_edits": false,
+  "scope": "Independent risk-based source, frozen-record, recovery and isolated-fixture audit; not exhaustive module or production-ledger verification",
+  "summary": {
+    "new_code_defects": 5,
+    "known_code_defects_reconfirmed": 3,
+    "new_documentation_defects": 1,
+    "unwired_confirmation_api_advisory": true
+  },
+  "findings": [
+    {
+      "id": "A01",
+      "priority": "P1",
+      "title": "Signed revocation or tighter canary ignored at final submission",
+      "status": "new_code_defect_reproduced",
+      "source_references": [
+        {
+          "path": "oanda_practice_top_signal_executor.py",
+          "line": 710
+        }
+      ],
+      "reproduction_evidence": [
+        "execution/execution_gate_reproduction.json"
+      ],
+      "repaired": false,
+      "historical_production_impact": "not_established"
+    },
+    {
+      "id": "A02",
+      "priority": "P1",
+      "title": "Unavailable currency conversion falls back to 1.0 for exposure caps",
+      "status": "new_code_defect_reproduced",
+      "source_references": [
+        {
+          "path": "oanda_practice_shadow_strategy_lab.py",
+          "line": 3583
+        },
+        {
+          "path": "oanda_practice_top_signal_executor.py",
+          "line": 675
+        }
+      ],
+      "reproduction_evidence": [
+        "execution/execution_gate_reproduction.json"
+      ],
+      "repaired": false,
+      "historical_production_impact": "not_established"
+    },
+    {
+      "id": "A03",
+      "priority": "P1",
+      "title": "Rank entry quote can precede semantic mapping availability",
+      "status": "new_code_defect_reproduced",
+      "source_references": [
+        {
+          "path": "oanda_causal_source_factor_response_map_v1.py",
+          "line": 848
+        },
+        {
+          "path": "oanda_causal_source_factor_response_map_v1.py",
+          "line": 2239
+        },
+        {
+          "path": "oanda_source_conditioned_currency_rank_v1.py",
+          "line": 346
+        }
+      ],
+      "reproduction_evidence": [
+        "evidence/evidence_clock_reproduction.json"
+      ],
+      "repaired": false,
+      "historical_production_impact": "not_established"
+    },
+    {
+      "id": "A04",
+      "priority": "P1",
+      "title": "Receipt availability timestamp can precede durable commit",
+      "status": "known_code_defect_reconfirmed",
+      "source_references": [
+        {
+          "path": "oanda_source_governance_news_fast_lane.py",
+          "line": 340
+        },
+        {
+          "path": "oanda_source_governance_news_fast_lane.py",
+          "line": 376
+        }
+      ],
+      "reproduction_evidence": [
+        "known_fastlane_faults.json"
+      ],
+      "repaired": false,
+      "historical_production_impact": "not_established"
+    },
+    {
+      "id": "A05",
+      "priority": "P2",
+      "title": "Late collector commit omitted after scan cursor advances",
+      "status": "new_code_defect_reproduced",
+      "source_references": [
+        {
+          "path": "oanda_source_governance_news_fast_lane.py",
+          "line": 255
+        },
+        {
+          "path": "oanda_source_governance.py",
+          "line": 561
+        },
+        {
+          "path": "oanda_local_news_sentiment.py",
+          "line": 19714
+        }
+      ],
+      "reproduction_evidence": [
+        "late_commit_reproduction.json"
+      ],
+      "repaired": false,
+      "historical_production_impact": "not_established"
+    },
+    {
+      "id": "A06",
+      "priority": "P2",
+      "title": "Building progress overwrites completed integrity snapshot",
+      "status": "known_code_defect_reconfirmed",
+      "source_references": [
+        {
+          "path": "oanda_source_governance_news_fast_lane.py",
+          "line": 289
+        }
+      ],
+      "reproduction_evidence": [
+        "known_fastlane_faults.json"
+      ],
+      "repaired": false,
+      "historical_production_impact": "not_established"
+    },
+    {
+      "id": "A07",
+      "priority": "P2",
+      "title": "Error or interrupted state resets committed scan cursor",
+      "status": "known_code_defect_reconfirmed",
+      "source_references": [
+        {
+          "path": "oanda_source_governance_news_fast_lane.py",
+          "line": 255
+        }
+      ],
+      "reproduction_evidence": [
+        "known_fastlane_faults.json"
+      ],
+      "repaired": false,
+      "historical_production_impact": "not_established"
+    },
+    {
+      "id": "A08",
+      "priority": "P2",
+      "title": "Quoted alphabetic secrets excluded as code references",
+      "status": "new_code_defect_reproduced",
+      "source_references": [
+        {
+          "path": "tools/credential_audit.py",
+          "line": 80
+        },
+        {
+          "path": "tools/vault_worktree_snapshot.py",
+          "line": 134
+        },
+        {
+          "path": "tools/vault_worktree_snapshot.py",
+          "line": 155
+        }
+      ],
+      "reproduction_evidence": [
+        "recovery/credential_bypass_reproduction.json"
+      ],
+      "repaired": false,
+      "historical_production_impact": "not_established"
+    },
+    {
+      "id": "A09",
+      "priority": "P3",
+      "title": "Source-only restore instructions include historical-evidence validator",
+      "status": "new_documentation_defect_reproduced",
+      "source_references": [
+        {
+          "path": "docs/VAULT_RECREATION_CURRENT.md",
+          "line": 45
+        },
+        {
+          "path": "oanda_issue_register_validator.py",
+          "line": 79
+        }
+      ],
+      "reproduction_evidence": [
+        "recovery/source_only_register_validation.json"
+      ],
+      "repaired": false,
+      "historical_production_impact": "not_established"
+    }
+  ],
+  "test_runs": [
+    {
+      "scope": "fastlane_and_register",
+      "passed": 11,
+      "skipped": 0
+    },
+    {
+      "scope": "source_v8_rank_v7_governance",
+      "passed": 18,
+      "skipped": 0
+    },
+    {
+      "scope": "vault_maintenance",
+      "passed": 90,
+      "skipped": 1
+    }
+  ],
+  "test_count_caveat": "Some tests overlap between runs; these are not unique test counts or an exhaustive suite",
+  "source_sha256": {
+    "FOREX_AUDIT_START_HERE.md": "4a4859fd6e306773aaad31a19b679ce82a9ecbb95d137f5506e63adbc9ecf2de",
+    "FOREX_AUDIT_STATE_CURRENT.json": "24b577d799f63344f4ca9a82abe09f2a001eab9f17dff581a7a3b9ee766fa6ad",
+    "FOREX_FAULT_AUDIT_CURRENT.json": "f9915a6ea6384d6040af01eacd9f42a85f3392b06715a1bee45143ef8230a1d5",
+    "FOREX_ISSUE_REGISTER_CURRENT.json": "eb597490fb32c78ffced6db6acfb6442706c3a366a105454ef908af06e1bd7de",
+    "README.md": "9d40ba771645ff364d33212a5fc3551306697d96fef75271a0f760cac578bf8b",
+    "docs/VAULT_RECREATION_CURRENT.md": "67e976465d7faecffd67685d75ebe9d6803fd8567897216821cfee863faddeba",
+    "oanda_causal_source_factor_response_map_v1.py": "6e7f90568355d2b5383ffd96315c9aa56d886da5e6a2ae9dcb937cb4b54866a1",
+    "oanda_causal_source_factor_response_map_v8.py": "1871a25e54a64f36d120d06ad6fa5f1bf563645a1f8d6022ee496e5ad64e0344",
+    "oanda_issue_register_validator.py": "22f8a85aa32e4b4e3255610156a5cd91cbbbfebabcf60c6d205a32b6b0570b31",
+    "oanda_local_news_sentiment.py": "4d0f7d7ebff48b705cd3aa2be827aaad90fb31f333b44856d8cfe34b7d03c664",
+    "oanda_practice_shadow_strategy_lab.py": "7c00399ee000dbfb32297f0361a8f68978489c64cd8ba11ee103c5a7ab3f60b0",
+    "oanda_practice_top_signal_executor.py": "b98151ab60e2e0e3253d0cfaef1229bb1e2a4bf777a1365aa579be4f1bd294f6",
+    "oanda_project_integrity_audit.py": "351596c71f16246b8df23c7e76eff05a1bc5f8e857f17fd017bdb25bb8b6c14d",
+    "oanda_prospective_governance.py": "01b05f426bee1d37a86ba274b02ebd7fb246749a0010ef624932acf57f58a27a",
+    "oanda_source_conditioned_currency_rank_v1.py": "287e7f31b157c5651d7a1be8e82a5b97c16cdbaef707d2d5d9dab4334ce5d4cf",
+    "oanda_source_conditioned_currency_rank_v7.py": "5502adf18dab2d27d9b54150dddbb6f2a90f369c80f29a30f19d0cc3755c0325",
+    "oanda_source_governance.py": "f9e3053151a34dc6f38f9fada5831190bad924d5dbeb760705fdc0aefbbcbbe3",
+    "oanda_source_governance_news_fast_lane.py": "f1644afb57425e46e90a3e03087fdb17980d3da769cac25c80228e6ed1db8567",
+    "tools/credential_audit.py": "adf34871fdbe3b972e2c9c0cf8f47e5a0ee51ffb69246e4291147aa76840877b",
+    "tools/vault_worktree_snapshot.py": "6d2c08af662f870c6c8187f50bbb724565c6bfd33648878c939d5a2be0e6f0c2"
+  },
+  "evidence_sha256": {
+    "FOREX_INDEPENDENT_AUDIT_20260905.md": "30cce89eb8b86c0732db72b1c408a7da62c3e863d1bcd14f0e1e04cbda7074db",
+    "evidence/EVIDENCE_AUDIT.md": "5f0311f99a6ec909f40f9b2a3773508be0c6285cd5cf0303a8964e2565555f9d",
+    "evidence/evidence_clock_reproduction.json": "f153647a24c8509275c6bc6b0a244ac1224e10f72e233e9b2d19aa11191ad255",
+    "evidence/evidence_clock_reproduction.py": "a909debb11308b1f4fcfeb374a772debd4b4d07823b6991534f33b0cdfd30751",
+    "evidence/saved_metrics_and_hashes.json": "a12997d88eb5121e73f40ae9a4c0dc407a76f74a24ca2122a07c7be8386ecdb1",
+    "execution/EXECUTION_AUDIT.md": "62e64a9392df9068577f8b12a12da39a3cd553225a39b7650ec29fa8e1c5d3cb",
+    "execution/execution_gate_reproduction.json": "f368490eae9b39697f1027aeb424d3600eaea1bacff7e7b1831e70437fa1f99a",
+    "execution/reproduce_execution_gates.py": "4d25efd8eed0174b063a098085ef9c3daf2d73cc56bf8278d0e1c9b1a000564d",
+    "final_verification.json": "d19220a79e889abe648f7a4123a608655c66dcf894f6d31caef631a33a12147c",
+    "focused_tests.txt": "0380043a189a751a76f43c73b5ad86f69b4316f7dcfe9539f6292b4a4e120479",
+    "issue_register_validation.json": "f72648ee9ed49a553b12fe712f17a727d1c436eb2097507a38926201b25c6e8e",
+    "known_fastlane_faults.json": "6a502f1c6cfa42b946346c89366f8ca36a8699d5692641b97f9e6bf7e76ca26b",
+    "late_commit_reproduction.json": "eae00cae15d582d842100586e185936e115677c5fad8a8d6548374042bc8dd94",
+    "late_commit_reproduction.py": "d891d877a1c5bbc753875b9ddf93f5c00e104c1a04de5ec6b234b2cd4163eda0",
+    "recovery/RECOVERY_AUDIT.md": "5f5677b9a22d95b0baa2ef0989fba8584b994766b73c364f6d7f7ea4b172ce6b",
+    "recovery/credential_bypass_reproduction.json": "43f0f482dc93ae445dcc95e5f77aea6d44eccf9ba6cfbff1bc95466bf3e2954e",
+    "recovery/environment_verification.json": "d5762c3030037646c456aef8d70419a6f6258d250e8c477789ce87dc7a22a292",
+    "recovery/legacy_verification.json": "7c8b7f5c32c557bc06585090844f3f953c48cb867a8007bfb0fd05033c29157c",
+    "recovery/maintenance_tests.xml": "fd2418dc7b5bf348df8c871220b92a12ec62227825923dd8d242add728ffe3ca",
+    "recovery/reproduce_credential_bypass.py": "da9849da0b98f12548bc81724f6d8a63903d16316e4b705f062531bacb7aff67",
+    "recovery/source_only_register_validation.json": "0fee1f29a1a1cedceae70c87e54fb9d2201c11db5c42d420b175217ded687ec6",
+    "recovery/verification.json": "813068abd12a251a0a64903bb291a0d38710b3702ce87dc1e9b1c5b10c2d560c",
+    "run_focused_tests.py": "dab1dcb5a5098eca98c0942de1e300ae8e86a07acc0700179c74f8548040705a",
+    "runtime_observation.json": "f494352e6eeecebd58df9b97480c8867c6454945e3b4be62a7a488c24190b8a3"
+  },
+  "original_issue_register_unchanged": true
+}

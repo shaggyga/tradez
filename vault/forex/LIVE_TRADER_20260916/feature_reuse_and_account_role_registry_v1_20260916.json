@@ -1,0 +1,123 @@
+{
+  "schema_version": "forex_feature_reuse_registry_v1_20260916",
+  "generated_utc": "2026-09-16T17:19:26.0362641Z",
+  "purpose": "Prevent duplicate feature/model rebuilds while separating Practice-006 scratch research from Practice-007 official algorithmic execution.",
+  "account_roles": {
+    "practice_006": {
+      "role": "scratch_paper_challenger",
+      "allowed_use": [
+        "discretionary live research",
+        "candidate logic generation",
+        "paper-only experiments",
+        "feature diagnostics"
+      ],
+      "constraints": [
+        "may not be treated as proof for 007 by itself",
+        "all decisions must be logged",
+        "losses and rejected setups are evidence"
+      ]
+    },
+    "practice_007": {
+      "role": "official_best_bot",
+      "allowed_use": [
+        "reproducible algorithmic/model/code-driven trades only",
+        "fresh exact authorization path only",
+        "no manual discretionary trade logic"
+      ],
+      "constraints": [
+        "do not import 006 behavior unless implemented as code and checkpointed",
+        "execution remains bound by existing governance/authorization contracts",
+        "do not duplicate canonical feature implementations"
+      ]
+    }
+  },
+  "canonical_feature_families": {
+    "currency_strength_and_rank": {
+      "canonical_sources": [
+        "oanda_currency_rank_model.py",
+        "docs/FOREX_FEATURE_DICTIONARY_CURRENT.md",
+        "docs/FOREX_FEATURE_DICTIONARY_CURRENT.json",
+        "config/model_feature_space.json"
+      ],
+      "implemented_concepts": [
+        "21-currency strength",
+        "strong-versus-weak pair expressions",
+        "5m/15m/60m weighted ranks",
+        "strength gaps",
+        "breadth/dispersion"
+      ],
+      "reuse_rule": "Use these before adding any new currency strength or relative-strength feature.",
+      "duplicate_guard": "Already done: currency strength, relative strength, rank, strength gaps, and strong-vs-weak pair expressions. Before adding any new field, map it to this family and document why the existing canonical source does not cover it."
+    },
+    "rolling_technical_and_move_quality": {
+      "canonical_sources": [
+        "oanda_rolling_technical_features_v1.py",
+        "oanda_derived_technical_features_v1.py",
+        "docs/FOREX_FEATURE_DICTIONARY_CURRENT.md"
+      ],
+      "implemented_concepts": [
+        "returns by horizon",
+        "path_efficiency",
+        "absolute_path",
+        "range_position",
+        "ATR/volatility",
+        "spread pips",
+        "tick activity"
+      ],
+      "reuse_rule": "Extend only if the existing registry lacks a specific measured behavior; otherwise consume current columns."
+    },
+    "conditional_patterns": {
+      "canonical_sources": [
+        "oanda_all68_pattern_research.py",
+        "oanda_distinct_strategy_backtest.py"
+      ],
+      "implemented_concepts": [
+        "cross_strength_continuation",
+        "price_strength_agreement",
+        "price_strength_disagreement_fade",
+        "low_cost_momentum_alignment",
+        "volatility_expansion_momentum"
+      ],
+      "reuse_rule": "Research-only conditional archetypes; do not wire to 007 until validated and promoted through governance."
+    },
+    "news_currency_mapping": {
+      "canonical_sources": [
+        "oanda_news_blurb_direction_attribution.py",
+        "docs/FOREX_FEATURE_DICTIONARY_CURRENT.md"
+      ],
+      "implemented_concepts": [
+        "currency_scores",
+        "pair impulse = base minus quote",
+        "official/source-aware direction attribution"
+      ],
+      "reuse_rule": "Do not create another news-to-pair mapper without proving this path is insufficient."
+    },
+    "execution_cost_gates": {
+      "canonical_sources": [
+        "oanda_practice_all_pairs_opportunity_scalper.py",
+        "oanda_currency_rank_model.py",
+        "oanda_all68_pattern_research.py",
+        "oanda_distinct_strategy_backtest.py"
+      ],
+      "implemented_concepts": [
+        "spread hurdles",
+        "confirmation-to-cost",
+        "spread-to-volatility",
+        "bid/ask after-cost outcomes",
+        "score gate"
+      ],
+      "reuse_rule": "All 006/007 candidates must remain cost-aware; do not loosen after the all-negative fill history without evidence."
+    }
+  },
+  "current_live_policy": {
+    "account_006_runner": "v15_low_candle_pressure_score_250; scratch paper runner with post-candle quote refresh, strict freshness/cost gates, score gate 250, and loss controls after all-negative selected fills",
+    "account_007_policy": "official best bot; algorithmic/model/code-only; keep as-is unless promoted reproducible logic consumes canonical deduplicated features",
+    "promotion_path": [
+      "006 observes/logs candidate logic",
+      "implementation uses canonical source modules",
+      "backtest/validation records no duplicate family",
+      "checkpoint in project and vault",
+      "007 consumes only promoted reproducible logic"
+    ]
+  }
+}

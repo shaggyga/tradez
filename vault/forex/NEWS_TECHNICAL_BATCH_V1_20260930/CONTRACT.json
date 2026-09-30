@@ -1,0 +1,25 @@
+{
+  "start": "2026-09-15",
+  "end_exclusive": "2026-09-18",
+  "pairs": [
+    "EUR_USD",
+    "GBP_USD",
+    "AUD_USD",
+    "NZD_USD",
+    "USD_JPY",
+    "USD_CAD",
+    "USD_CHF"
+  ],
+  "horizons": [
+    5,
+    15,
+    30,
+    60
+  ],
+  "technical_rule": "sign of preceding15minute return; other technical features retained, no threshold optimization",
+  "interpretation_rule": "one noncontradictory policy stance/action/change sign per currency; relative pair base minus quote sign; retrospective price responses and opinions excluded from news direction",
+  "original_rule": "stored currency_scores sign(base-quote); original publish eligibility retained as separate stratum",
+  "dedup": "normalized identical headline after trailing publisher suffix removal; earliest first_seen; then one pair observation per15minute clock bucket; selection by clock/event id only",
+  "evaluation": "new interpreter applied now; decisions use stored known clocks, max180sec technical age; first subsequent completed candle entry; bidask endpoints; no fits/no live forecast claims",
+  "scope": "descriptive archive batch; reused inspected dates; no holdout or significance claim; shared stories/pairs correlated"
+}

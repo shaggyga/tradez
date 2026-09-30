@@ -1,0 +1,2 @@
+Next: review_macro_event_forecast_checkpoint_v2, then macro_text_long_body_coverage_audit_v2.
+Audit retained full-text/rule/structured-field coverage without outcome-driven tuning; new semantic comparisons require a frozen plan and later confirmation.

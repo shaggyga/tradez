@@ -1,0 +1,29 @@
+{
+  "recipe": "source_snapshot/RICH_FAMILY_OPERATOR_RECIPE.json",
+  "recipe_sha256": "f215142c124e7c386cdd0bc404b6852a73082cd4872b622335149d48caf57e13",
+  "scope": "three richer groups on shared mature populations; inspected development only",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify"
+  ],
+  "bootstrap": "../RICH_FAMILY_COMPARISON_20260922_073907/checkpoint/forex_rich_family_comparison.zip",
+  "contract": "source_snapshot/RICH_FAMILY_CONTRACT_V2.md",
+  "next": "review_rich_family_comparison_checkpoint",
+  "required_companions": [
+    {
+      "path": "../MATCHED_REMAINING_20260922_041223/checkpoint/forex_matched_remaining.zip",
+      "sha256": "2fca12f0c7d6ab5085718203c1c4b8e1598db748479a749d7deca51f2a13cbb8"
+    },
+    {
+      "path": "../RICH_CAMPAIGN_INPUTS_20260922_063457/checkpoint/forex_rich_campaign_inputs.zip",
+      "sha256": "251d1a39778b4cd95aa2d061d9c03a80c961a1e478fbec128be82efb6746f4e3"
+    },
+    {
+      "path": "../RECOVERY_CHECKPOINT_20260921/inputs/long_m1_68.zip",
+      "sha256": "aca163639a18e22b2c60dc4ff36d55d82c655af617836a6d351dd1339e5a6006"
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+Next: review_macro_policy_scope_checkpoint_v2, then macro_scoped_semantic_source_asof_integration_v2.
+Integrate guarded candidates into existing source-asof selector, preserving issuer and readiness gates.

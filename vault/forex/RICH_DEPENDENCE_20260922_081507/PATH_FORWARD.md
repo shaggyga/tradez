@@ -1,0 +1,2 @@
+Next: review_rich_dependence_checkpoint, then official_macro_context_recovery_v2.
+Recover existing disabled OfficialFact V5 exact source/fixed inputs, causal original snapshot and all68 pair context inspection. Preserve chronology, missing fields and dated evidence grades. Verify frozen operation and standalone recovery before broader causal text/numeric integration.

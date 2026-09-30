@@ -1,0 +1,1 @@
+R11/R13 bounded operator/inspection and R15 current-status reconciliation verified. R04/R14 richer registry/model recovery is next. No whole-design acceptance or independent review.

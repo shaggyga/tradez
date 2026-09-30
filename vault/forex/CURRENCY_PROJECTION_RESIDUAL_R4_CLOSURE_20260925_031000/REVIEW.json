@@ -1,0 +1,50 @@
+{
+  "accepted": false,
+  "actual_checks": [
+    {
+      "command": "python -I -B -m pytest -q stage_c_alignment_integrity_v2/test_currency_projection_residual_layer_v2.py stage_c_alignment_integrity_v2/test_currency_projection_residual_operator_v2.py",
+      "name": "focused residual tests",
+      "result": "14 passed; pytest cache warning only",
+      "status": "passed"
+    },
+    {
+      "evidence": "RESIDUAL_RESULT_INTEGRITY.json",
+      "expected_scope_count": 384,
+      "learned_rows": 3786,
+      "name": "result integrity",
+      "paired_scores": 126,
+      "status": "passed"
+    },
+    {
+      "manifest_members_checked": 11,
+      "name": "source packet manifest readback",
+      "status": "passed"
+    }
+  ],
+  "implementation_status": "r4_publication_restore_replay_complete_preserved_result",
+  "independent_review": false,
+  "independent_scientific_review": "pending_nonblocking_by_user_clarification",
+  "manifest": "CURRENCY_PROJECTION_RESIDUAL_R4_CLOSURE_20260925_031000/MANIFEST.json",
+  "manifest_hash_authority": "CHECKPOINT_REVIEW_LATEST.json and REVIEW_QUEUE.json point to the MANIFEST.json hash; REVIEW.json is a manifest member and does not self-pin it.",
+  "next_action": "Continue timed queue with forecast_curve_shape_layer_comparison_v2 support check; do not recompute residual result unless the preserved hash becomes unavailable or a concrete defect is found.",
+  "package": "CURRENCY_PROJECTION_RESIDUAL_R4_CLOSURE_20260925_031000",
+  "predecessor_manifest_sha256": "a8294d2c4fd4709d6a9a9b0065a14638fd451e7108e65601af7e1f34e0f9d61f",
+  "predecessor_packet": "CURRENCY_PROJECTION_RESIDUAL_REPAIR_20260925_000700/REVIEW.json",
+  "published_utc": "2026-09-25T03:05:38.740567Z",
+  "readiness": {
+    "demo_authorization_status": "not_granted",
+    "engineering_ready": false,
+    "forecast_evidence_status": "offline_development_residual_diagnostic_preserved_not_confirmation",
+    "policy_evidence_status": "not_evaluated_no_policy_replay"
+  },
+  "result_bytes": 59349278,
+  "result_sha256": "a1c518b93224cfeeb7a1f66ed5905ffb5d7138f0021f8c3bee50383b72bb295c",
+  "review_status": "ready_for_independent_scientific_review",
+  "schema": "forex_checkpoint_review.v2",
+  "source_commit": "24b6af187ed5d492e5fce2f9f430112e59c8c182",
+  "step_id": "currency_projection_residual_layer_comparison_v2",
+  "unresolved_findings": [
+    "Independent scientific review remains pending; not a blocker for eligible siblings."
+  ],
+  "verdict": "r4_publication_restore_replay_closed_same_task_review"
+}

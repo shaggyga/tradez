@@ -1,0 +1,51 @@
+{
+  "step_id": "matched-fitted-policy-bridge",
+  "verdict": "accepted_within_scope",
+  "independent_review": false,
+  "next_item": "matched_campaign_report_and_design_reconciliation_v2",
+  "engineering_ready": false,
+  "forecast_evidence_status": "bounded_matched_remaining_development",
+  "policy_evidence_status": "declared_candle_scenarios_not_observed_execution",
+  "demo_authorization_status": "not_granted",
+  "resolved_findings": [
+    "MP-MARK-1",
+    "MP-FIN-1",
+    "MP-PERSIST-1"
+  ],
+  "checks": [
+    "source/input bound model-native recomputation before ledger mutation",
+    "544 all68 coverage rows per method/scenario with536admissions and2conversion refusals",
+    "missing liquidation values preserve holdings and block discretionary actions",
+    "missing observations reset challenger persistence",
+    "USD/quote financing boundary passes hand-computed four-pair checks",
+    "397 integrated tests;18 relocated tests",
+    "eight runs terminal flat; scalar oracle and both engine payloads agree",
+    "208 payloads reconstruct exactly from sealed prepared model/input package"
+  ],
+  "limitations": [
+    "same implementer source/evidence review; not independent",
+    "one inspected development cohort and declared execution scenarios",
+    "intermediate ridge valuation gaps prevent exact continuous path metrics",
+    "legacy momentum arm abstains, no six-trading-arm claim",
+    "calendar/full campaign and feature expansion remain open"
+  ],
+  "utc": "2026-09-22T04:45:08.498362+00:00",
+  "reviewer": "same-implementer follow-up source/evidence review",
+  "source_engine": {
+    "schema": "forex_design_alignment_pointer.v2",
+    "package": "MATCHED_POLICY_20260922_044505",
+    "path_forward": "MATCHED_POLICY_20260922_044505/PATH_FORWARD.md",
+    "run_status": "MATCHED_POLICY_20260922_044505/RUN_STATUS.json",
+    "design": "MATCHED_POLICY_20260922_044505/specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+    "design_coverage": "MATCHED_POLICY_20260922_044505/audit/DESIGN_COVERAGE.md",
+    "current_acceptance_addendum": "MATCHED_POLICY_20260922_044505/DESIGN_ACCEPTANCE_ADDENDUM.md",
+    "manifest": "MATCHED_POLICY_20260922_044505/MANIFEST.json",
+    "manifest_sha256": "f573b6d1a224ff9549bb0f7b2aa94b1a3124760348f0e2cfa24e2ea8960f8b84",
+    "readback": "MATCHED_POLICY_20260922_044505/PACKAGE_READBACK.json",
+    "active_integrity_batch": "ALL68_INTEGRITY_BATCH_05_20260921.md",
+    "active_integrity_batch_scope": "two learned methods, two declared candle scenarios, isolated policies, no observed execution",
+    "historical_package": "DESIGN_ALIGNMENT_20260921",
+    "scope": "current_verified_queue_and_bounded_recovery",
+    "cloud_sync_verified": false
+  }
+}

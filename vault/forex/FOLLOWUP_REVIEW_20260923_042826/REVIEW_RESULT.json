@@ -1,0 +1,88 @@
+{
+  "step_id": "macro_currency_meter_evidence_view_v2",
+  "verdict": "accepted_within_scope",
+  "independent_review": false,
+  "next_item": "macro_currency_meter_numeric_evidence_join_v2",
+  "reviewed_checkpoint_sha256": "55ae8ad38a4458b74633d106a2d34726f07376429103c58efe5684521e5d5204",
+  "reviewed_source_changes": [
+    {
+      "path": "macro_meter_checkpoint_v2.py",
+      "before_sha256": null,
+      "after_sha256": "a0bf083b5950c3cc36f3196456a2f7ae629ae0b464432f91398d5d7d281f6e23"
+    },
+    {
+      "path": "MACRO_METER_CONTRACT_V2.md",
+      "before_sha256": null,
+      "after_sha256": "344bb54cf198991f61e9ad762183ab1a8d725bf2fbb2b0b5411e8017d84a38b9"
+    },
+    {
+      "path": "MACRO_METER_OPERATOR_RECIPE.json",
+      "before_sha256": null,
+      "after_sha256": "e449946668804027115ddd66df16725d2e0c5dd5bbe5e3d83953f13488920147"
+    },
+    {
+      "path": "macro_meter_operator_v2.py",
+      "before_sha256": null,
+      "after_sha256": "f892c5d995910d049dd5296cb2f78d04b09d144ffff96c42d4aea0110dbd1c6b"
+    },
+    {
+      "path": "macro_meter_v2.py",
+      "before_sha256": null,
+      "after_sha256": "be085ea81af9f341fc50d289059b275230c70d0754780ceed5feb8309a56d7bc"
+    },
+    {
+      "path": "test_macro_meter_v2.py",
+      "before_sha256": null,
+      "after_sha256": "cbf0b884b6df8a1dc24c9c1a0016aeca409c02fa8c7be9c4c5ebf8ea1c1bdc81"
+    }
+  ],
+  "checks": {
+    "exact_source_diff_and_consumers": "inspected",
+    "independently_recounted_currency_rows": 168,
+    "all_evidence_spans_verified": 105,
+    "recomputed_normalized_concept_rows": 30,
+    "document_rows_verified": 476,
+    "shared_pair_rows": 544,
+    "local_tests": 17,
+    "relocated_tests": 17,
+    "byte_identical_payloads": 5,
+    "browser": {
+      "status": "passed",
+      "browser": "headless Microsoft Edge",
+      "tested_currency": "GBP",
+      "tested_cutoff": 1789603200,
+      "concept_buttons": 2,
+      "highlighted_evidence_spans": 6,
+      "full_document_visible": true,
+      "empty_state_clears_previous_evidence": true,
+      "page_errors": [],
+      "network_requests": []
+    },
+    "scope": "deterministic retained linguistic candidates; no numeric/issuer/historical-readiness/forecast certification"
+  },
+  "findings": [],
+  "limitations": [
+    "same implementer, not independent review",
+    "offline evidence is not historical activation or forecast improvement",
+    "unresolved original source evidence remains blocked"
+  ],
+  "utc": "2026-09-23T04:28:26.799225+00:00",
+  "reviewer": "same-implementer follow-up source/evidence review",
+  "source_engine": {
+    "schema": "forex_design_alignment_pointer.v2",
+    "package": "MACRO_METER_20260923_042731",
+    "path_forward": "MACRO_METER_20260923_042731/PATH_FORWARD.md",
+    "run_status": "MACRO_METER_20260923_042731/RUN_STATUS.json",
+    "design": "MACRO_METER_20260923_042731/specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+    "design_coverage": "MACRO_METER_20260923_042731/CURRENT_DESIGN_COVERAGE.md",
+    "current_acceptance_addendum": "MACRO_METER_20260923_042731/DESIGN_ACCEPTANCE_ADDENDUM.md",
+    "manifest": "MACRO_METER_20260923_042731/MANIFEST.json",
+    "manifest_sha256": "f29d0e398ed6e9acc812baf9169d11e84d67bfaae141f1c027f1917a09ddeefe",
+    "readback": "MACRO_METER_20260923_042731/PACKAGE_READBACK.json",
+    "active_integrity_batch": "ALL68_INTEGRITY_BATCH_05_20260921.md",
+    "active_integrity_batch_scope": "WP6 shared currency concept meter and offline evidence drilldown",
+    "historical_package": "DESIGN_ALIGNMENT_20260921",
+    "scope": "current_verified_queue_and_bounded_recovery",
+    "cloud_sync_verified": false
+  }
+}

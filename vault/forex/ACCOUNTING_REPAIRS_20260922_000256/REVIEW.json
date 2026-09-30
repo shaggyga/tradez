@@ -1,0 +1,46 @@
+{
+  "schema_version": "forex_checkpoint_review_packet.v1",
+  "step_id": "batch05-accounting-review-repairs",
+  "utc": "2026-09-22T00:02:56.773010+00:00",
+  "implementation_status": "implemented_verified",
+  "review_status": "ready_for_review",
+  "independent_review": false,
+  "resolutions": {
+    "B05-R1": "implemented_verified_pending_review",
+    "B05-R2": "implemented_verified_pending_review",
+    "B05-R3": "implemented_verified_pending_review"
+  },
+  "prior_review": {
+    "schema_version": "forex_checkpoint_review_pointer.v1",
+    "package": "CHECKPOINT_REVIEW_RESULT_20260921_234316",
+    "queue": "REVIEW_QUEUE.json",
+    "review": "CHECKPOINT_REVIEW_RESULT_20260921_234316/REVIEW_RESULT.md",
+    "manifest": "CHECKPOINT_REVIEW_RESULT_20260921_234316/MANIFEST.json",
+    "manifest_sha256": "c7d98a8ca6c63398607f82227c1d97c218dcc152a766198a13e9d9087643ea50",
+    "readback": "CHECKPOINT_REVIEW_RESULT_20260921_234316/READBACK.json",
+    "engineering_pointer": "DESIGN_ALIGNMENT_LATEST.json",
+    "engine_scope_changed": false,
+    "verdict": "changes_requested",
+    "next_engineering_item": "accounting_review_repairs_v2"
+  },
+  "checkpoint": {
+    "path": "checkpoint/forex_accounting_repairs.zip",
+    "sha256": "d56e133803c5d0a1a5b48bf445a011345f253da2193c0b8baad281d93148ff50",
+    "scope": "synthetic_accounting_operator_and_recovery_only",
+    "relocated_replay_verified": true,
+    "relocated_tests_verified": true,
+    "packaged_frozen_operator_verified": true,
+    "bulk_historical_archive_included": false
+  },
+  "verification": {
+    "tests": 262,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "next_action": "re_review_repaired_checkpoint",
+  "engineering_ready": false,
+  "forecast_evidence_status": "no_new_model_evidence_neutral_issuance_only",
+  "policy_evidence_status": "unevaluated_for_design_campaign",
+  "demo_authorization_status": "not_granted_for_design_campaign"
+}

@@ -1,0 +1,54 @@
+{
+  "schema": "stage_c_feature_registry_v1",
+  "scope": "Current endpoint-only baseline features; not a claim of a complete feature inventory",
+  "availability_contract": "raw M1 timestamp is interval start; source close is usable at timestamp plus 60 seconds; all feature inputs must be finite",
+  "features": [
+    {
+      "id": "return_60m_bps",
+      "formula": "(close[t] / close[t-60m] - 1) * 10000",
+      "lookback_minutes": 60,
+      "units": "basis points",
+      "source_columns": ["close"],
+      "warmup": "exact close at t-60m required"
+    },
+    {
+      "id": "return_240m_bps",
+      "formula": "(close[t] / close[t-240m] - 1) * 10000",
+      "lookback_minutes": 240,
+      "units": "basis points",
+      "source_columns": ["close"],
+      "warmup": "exact close at t-240m required"
+    },
+    {
+      "id": "return_1440m_bps",
+      "formula": "(close[t] / close[t-1440m] - 1) * 10000",
+      "lookback_minutes": 1440,
+      "units": "basis points",
+      "source_columns": ["close"],
+      "warmup": "exact close at t-1440m required"
+    },
+    {
+      "id": "quoted_spread_bps",
+      "formula": "(ask_close[t] - bid_close[t]) / close[t] * 10000",
+      "lookback_minutes": 0,
+      "units": "basis points",
+      "source_columns": ["ask_close", "bid_close", "close"],
+      "warmup": "finite bid, ask, and positive close required"
+    },
+    {
+      "id": "utc_time_sine",
+      "formula": "sin(2*pi*utc_minute_of_day/1440)",
+      "lookback_minutes": 0,
+      "units": "unitless",
+      "source_columns": ["timestamp"],
+      "warmup": "none"
+    }
+  ],
+  "known_limitations": [
+    "No macro, news, position, or advisor features.",
+    "No cross-pair features or branch-specific portfolio state.",
+    "Ridge and HGB runs using this feature set are retired negative benchmarks."
+  ],
+  "matched_eligibility_artifact": "C:\\Users\\zmoor\\Documents\\forex\\stage_c_all68_20260921\\ALL68_FEATURE_TARGET_ELIGIBILITY.json",
+  "matched_eligibility_sha256": "26949bca9cdf580c88d3b132f497b5338c4b0c5eb595f1a0b3f9d3f50fef216f"
+}

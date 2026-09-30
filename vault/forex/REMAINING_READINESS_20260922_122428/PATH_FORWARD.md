@@ -1,0 +1,2 @@
+Next: review_remaining_readiness_checkpoint, then whole_curve_warm_start_capacity_followup_v2.
+Isolate legal ready-model prewarming and complete warm-path costs using original weights, selection, values and explicit readiness clocks.

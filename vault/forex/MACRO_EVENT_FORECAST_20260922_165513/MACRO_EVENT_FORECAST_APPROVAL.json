@@ -1,0 +1,15 @@
+{
+  "recipe": "source_snapshot/MACRO_EVENT_FORECAST_OPERATOR_RECIPE.json",
+  "recipe_sha256": "25acb2a4873a1e35a9fc56cf5c6380331639b854662c7244f03221418e53953e",
+  "scope": "six prespecified pooled development ridge fits with modeled timing and matched source-event layer; no live or confirmation claim",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify"
+  ],
+  "bootstrap": "checkpoint/forex_macro_event_forecast.zip",
+  "contract": "source_snapshot/MACRO_EVENT_FORECAST_CONTRACT_V2.md",
+  "next": "review_macro_event_forecast_checkpoint_v2"
+}

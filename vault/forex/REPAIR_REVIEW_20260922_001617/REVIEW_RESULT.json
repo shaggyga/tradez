@@ -1,0 +1,35 @@
+{
+  "verdict": "accepted_within_scope",
+  "independent_review": false,
+  "reviewer": "same-implementer follow-up source review",
+  "source_packet": {
+    "schema_version": "forex_checkpoint_review_pointer.v1",
+    "package": "ACCOUNTING_REPAIRS_20260922_000256",
+    "queue": "REVIEW_QUEUE.json",
+    "review": "ACCOUNTING_REPAIRS_20260922_000256/REVIEW.md",
+    "manifest": "ACCOUNTING_REPAIRS_20260922_000256/MANIFEST.json",
+    "manifest_sha256": "4950e8e943acf5be309a29a61e4b5ea4a7e31426ffd6edbd79e45ea30510beaf",
+    "readback": "ACCOUNTING_REPAIRS_20260922_000256/PACKAGE_READBACK.json",
+    "engineering_pointer": "DESIGN_ALIGNMENT_LATEST.json",
+    "engine_scope_changed": true,
+    "verdict": "ready_for_review",
+    "next_engineering_item": "re_review_repaired_checkpoint"
+  },
+  "finding_resolutions": {
+    "B05-R1": "resolved_within_bounded_contract",
+    "B05-R2": "resolved_within_bounded_contract",
+    "B05-R3": "resolved_within_bounded_contract"
+  },
+  "checks": {
+    "manifest_files": 141,
+    "targeted_regressions_passed": 17,
+    "source_diff_reviewed": true
+  },
+  "limitations": [
+    "not_independent_review",
+    "synthetic_accounting_only",
+    "no_trading_authorization"
+  ],
+  "documentation_finding": "Lower-model operations document omitted from successor package; restored authoritative root copy from preserved predecessor.",
+  "next_item": "policy_thesis_continuation_and_operator_recipe_v2"
+}

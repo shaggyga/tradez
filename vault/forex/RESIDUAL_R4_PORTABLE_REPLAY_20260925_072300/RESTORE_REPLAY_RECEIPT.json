@@ -1,0 +1,35 @@
+{
+  "schema": "forex_residual_r4_portable_restore_replay.v1",
+  "utc": "2026-09-25T07:23:54.278810Z",
+  "package": "RESIDUAL_R4_PORTABLE_REPLAY_20260925_072300",
+  "step_id": "currency_projection_residual_layer_comparison_v2",
+  "source_commit": "11ee08b8cf5d49adf27f57e7448918fab4740302",
+  "restore_root": "C:\\Users\\zmoor\\Documents\\forex\\evidence\\six_hour_queue_20260925_070224\\residual_r4_restore_replay_071955",
+  "isolated_source_root": "C:\\Users\\zmoor\\Documents\\forex\\evidence\\six_hour_queue_20260925_070224\\residual_r4_restore_replay_071955\\source",
+  "parent_recipe": "CURRENCY_PROJECTION_OPERATOR_RECIPE_V2.json",
+  "parent_recipe_sha256": "ef1b24f002891bc84408e24cf084254e27f6165c0af048c51b382bd43ca53e8d",
+  "parent_paths": "C:\\Users\\zmoor\\Documents\\forex\\evidence\\six_hour_queue_20260925_070224\\residual_r4_restore_replay_071955\\PARENT_PATHS.json",
+  "projection_run": "C:/Users/zmoor/Documents/forex/until8am_20260923_215844/currency_projection_step/runs/currency-factor-forecast-projection-v2",
+  "asof": 1722556800,
+  "command_kind": "isolated restored source replay using timeseries312 runtime",
+  "exit_code": 0,
+  "replay_output_path": "C:\\Users\\zmoor\\Documents\\forex\\evidence\\six_hour_queue_20260925_070224\\residual_r4_restore_replay_071955\\RESIDUAL_RESULT_REPLAY.json",
+  "replay_output_bytes": 59349278,
+  "replay_output_sha256": "a1c518b93224cfeeb7a1f66ed5905ffb5d7138f0021f8c3bee50383b72bb295c",
+  "expected_preserved_result_sha256": "a1c518b93224cfeeb7a1f66ed5905ffb5d7138f0021f8c3bee50383b72bb295c",
+  "matches_preserved_result": true,
+  "focused_tests": {
+    "exit_code": 0,
+    "result": "14 passed",
+    "output_path": "C:\\Users\\zmoor\\Documents\\forex\\evidence\\six_hour_queue_20260925_070224\\residual_r4_restore_replay_071955\\focused_tests.txt"
+  },
+  "base_model_fits": 0,
+  "base_model_loads": 0,
+  "policy_replays": 0,
+  "api_calls": 0,
+  "live_bot_changes": 0,
+  "notes": [
+    "This replay regenerates the residual diagnostic output as replication evidence; it does not refit base models.",
+    "The 59 MB replay output is retained locally and identified by hash; the original preserved result remains in the predecessor Vault packet."
+  ]
+}

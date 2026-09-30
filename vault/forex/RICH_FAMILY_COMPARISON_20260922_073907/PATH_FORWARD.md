@@ -1,0 +1,2 @@
+Next: review_rich_family_comparison_checkpoint, then rich_family_dependence_and_attempt_accounting_v2.
+Produce paired per-origin error panels, descriptive joint time-block sensitivity and a complete attempt ledger from existing predictions. Retain later-research schema selection and short dependent assessment-window limitations. No model refit or promotion. Then address the next unblocked full-design gate.

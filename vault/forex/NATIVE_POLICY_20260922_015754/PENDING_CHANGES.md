@@ -1,0 +1,1 @@
+Next review_native_common_target_bridge, then remaining_horizon_model_input_recipe_v2. Synthetic conditioning declarations are not model evidence. Historical policy/adaptive remaining-horizon tape and independent review remain open. Initial packaging failures retained and resolved without relaxing ZIP guards.

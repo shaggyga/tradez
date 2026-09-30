@@ -1,0 +1,16 @@
+{
+  "recipe": "source_snapshot/HISTORICAL_POLICY_OPERATOR_RECIPE.json",
+  "recipe_sha256": "acb3e80e09aa1f4b3fbb57a53af301425d2eb7d3bd18fdfd58fa5a17becc870b",
+  "scope": "two_bounded_offline_retrospective_candle_execution_scenarios",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify"
+  ],
+  "input": "restored inputs/POLICY_INPUTS.json",
+  "contract": "source_snapshot/HISTORICAL_POLICY_CONTRACT_V2.md",
+  "bootstrap": "checkpoint/forex_historical_policy.zip",
+  "next": "review_historical_native_policy_checkpoint"
+}

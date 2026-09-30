@@ -1,0 +1,65 @@
+{
+  "schema_version": "forex_checkpoint_review_queue.v1",
+  "updated_utc": "2026-09-22T00:02:56.773010+00:00",
+  "engineering_queue_pointer": "DESIGN_ALIGNMENT_LATEST.json",
+  "review_protocol": "CHECKPOINT_REVIEW.md",
+  "steps": [
+    {
+      "step_id": "batch05-accounting-operator",
+      "implementation_status": "bounded_tests_previously_passed_review_repairs_required",
+      "review_status": "changes_requested",
+      "packet": "CHECKPOINT_REVIEW_20260921_233133/REVIEW.json",
+      "packet_sha256": "bfd438d3314a6d095f382fc0e57c77642c9ba49ab492ee110d2b1b4136fb6d42",
+      "summary": "CHECKPOINT_REVIEW_RESULT_20260921_234316/REVIEW_RESULT.md",
+      "findings_status": "repairs_submitted_for_review_original_findings_preserved",
+      "next_action": "review_successor_repairs",
+      "engineering_next_item": "accounting_review_repairs_v2",
+      "reviewed_utc": "2026-09-21T23:49:41.779243+00:00",
+      "reviewer": "Codex /root, same-thread follow-up self-review",
+      "independent_review": false,
+      "review_result": "CHECKPOINT_REVIEW_RESULT_20260921_234316/REVIEW_RESULT.json",
+      "review_result_sha256": "a2f90f5c4e022c085bc875aa3b550aae75d6b5138d365d6a64238f98f5c7c0f3",
+      "finding_ids": [
+        "B05-R2",
+        "B05-R1",
+        "B05-R3"
+      ],
+      "deferred_engineering_next_item": "policy_thesis_continuation_and_operator_recipe_v2",
+      "review_history": [
+        {
+          "utc": "2026-09-21T23:49:41.779243+00:00",
+          "verdict": "changes_requested",
+          "result": "CHECKPOINT_REVIEW_RESULT_20260921_234316/REVIEW_RESULT.json",
+          "independent_review": false
+        }
+      ],
+      "successor_packet": "ACCOUNTING_REPAIRS_20260922_000256/REVIEW.json"
+    },
+    {
+      "step_id": "batch05-accounting-review-repairs",
+      "implementation_status": "implemented_verified",
+      "review_status": "ready_for_review",
+      "packet": "ACCOUNTING_REPAIRS_20260922_000256/REVIEW.json",
+      "packet_sha256": "c7f2fd43d267aae626aed54b2c98621e853b9440cc9a422eb3542aba29c4a76e",
+      "summary": "ACCOUNTING_REPAIRS_20260922_000256/REVIEW.md",
+      "findings_status": "three_repairs_pending_review",
+      "finding_ids": [
+        "B05-R1",
+        "B05-R2",
+        "B05-R3"
+      ],
+      "independent_review": false,
+      "next_action": "re_review_repaired_checkpoint",
+      "engineering_next_item": "re_review_repaired_checkpoint",
+      "deferred_engineering_next_item": "policy_thesis_continuation_and_operator_recipe_v2"
+    }
+  ],
+  "documentation_updates": [
+    {
+      "id": "PROJECT_LOG_LINKS_20260921_233900",
+      "status": "recorded_documentation_only",
+      "packet": "PROJECT_LOG_LINKS_20260921_233900/README.md",
+      "scope": "local_log_links_and_legacy_recovery_pointer; no scientific source change"
+    }
+  ]
+}

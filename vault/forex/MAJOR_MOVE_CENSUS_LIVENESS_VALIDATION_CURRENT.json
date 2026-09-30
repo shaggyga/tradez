@@ -1,0 +1,125 @@
+{
+  "schema_version": "forex_major_move_census_liveness_validation_v1",
+  "generated_utc": "2026-09-01T23:43:30Z",
+  "status": "validated_live",
+  "issue_id": "FX-20260901-MAJOR-MOVE-CENSUS-LIVENESS",
+  "scope": "canonical retrospective major-move gap census liveness, completed-evidence freshness, progress telemetry, and start-to-start cadence",
+  "defect": {
+    "summary": "The slow retrospective census exposed only its completed report. A valid rebuild could therefore look dead, supervisor freshness could be coupled to stale completed evidence, and the six-hour sleep occurred after completion rather than from cycle start.",
+    "execution_effect": "none",
+    "last_pre_repair_cycle": {
+      "process_log": "data/oanda_training_manager/logs/major_move_gap_census_supervised_20260831_210640.out.log",
+      "input_snapshot_utc": "2026-09-01T21:41:31.629087Z",
+      "publication_log_write_utc": "2026-09-01T23:16:14Z",
+      "observed_elapsed_minutes_approximately": 94.7,
+      "raw_move_rows": 11586,
+      "factor_episode_count": 4312,
+      "execution_decision": "no_trade",
+      "note": "The worker remained CPU-active and completed normally; this was a liveness-observability and cadence defect, not evidence that the census was dead."
+    }
+  },
+  "repair": {
+    "dedicated_heartbeat": "data/oanda_training_manager/state/major_move_gap_census_heartbeat_v1.json",
+    "progress_phases": [
+      "loading_move_inventories",
+      "scanning_h1_forecasts",
+      "validating_h1_database_integrity",
+      "loading_causal_source_window",
+      "remapping_recent_news",
+      "recovering_legacy_executable_paths",
+      "solving_causal_factor_surfaces",
+      "classifying_gap_surface",
+      "publishing",
+      "sleeping"
+    ],
+    "progress_contract": "Heartbeats expose bounded row, instrument, source-window, factor-surface, and publication progress while remaining research-only and unable to authorize, promote, submit, or place orders.",
+    "freshness_separation": "Supervisor liveness is checked from the exact worker heartbeat. Project integrity independently checks completed report age; a fresh heartbeat cannot refresh stale completed evidence.",
+    "report_clock_contract": [
+      "input_snapshot_utc",
+      "analysis_started_utc",
+      "analysis_finished_utc",
+      "publication_utc",
+      "analysis_duration_sec"
+    ],
+    "cadence_contract": "The configured interval is start-to-start. Runtime is subtracted from the next sleep rather than adding a full interval after completion."
+  },
+  "live_validation": {
+    "first_instrumented_cycle": {
+      "process_log": "data/oanda_training_manager/logs/major_move_gap_census_supervised_20260901_191842.out.log",
+      "input_snapshot_utc": "2026-09-01T23:18:42.855779Z",
+      "publication_utc": "2026-09-01T23:26:46.234275Z",
+      "analysis_duration_sec": 483.39,
+      "raw_move_rows": 11586,
+      "factor_episode_count": 4312,
+      "execution_decision": "no_trade"
+    },
+    "final_source_progress_cycle": {
+      "process_log": "data/oanda_training_manager/logs/major_move_gap_census_supervised_20260901_192740.out.log",
+      "input_snapshot_utc": "2026-09-01T23:27:41.094548Z",
+      "analysis_finished_utc": "2026-09-01T23:36:09.999678Z",
+      "publication_utc": "2026-09-01T23:36:09.999678Z",
+      "analysis_duration_sec": 508.906,
+      "h1_rows_scanned": 4114246,
+      "recent_move_rows": 620,
+      "rows_remapped": 620,
+      "source_currency_count": 21,
+      "instruments_completed": 68,
+      "raw_move_rows": 11586,
+      "direction_scorable_rows": 4541,
+      "factor_episode_count": 4312,
+      "execution_decision": "no_trade",
+      "execution_eligible": false,
+      "can_place_orders": false,
+      "next_cycle_utc": "2026-09-02T05:27:41.086372Z",
+      "start_to_start_interval_sec": 21600,
+      "stderr_bytes": 0
+    },
+    "supervision": {
+      "hidden_supervisor_pid_at_validation": 27220,
+      "worker_wrapper_pid_at_validation": 5188,
+      "worker_child_pid_at_validation": 22876,
+      "supervisor_adopted_exact_worker": true,
+      "heartbeat_phase_after_publication": "sleeping",
+      "heartbeat_worker_identity": "oanda_major_move_gap_census",
+      "duplicate_worker_detected": false,
+      "foreground_window_opened": false,
+      "codex_automation_created": false
+    },
+    "published_report_hashes": {
+      "data/oanda_training_manager/reports/major_move_gap_census/MAJOR_MOVE_GAP_CENSUS_CURRENT.json": "4aa61ff66fe7b60dfe6ecbe891cfe158d800652e8067685a911f23fe7093c630",
+      "data/oanda_training_manager/reports/major_move_gap_census/MAJOR_MOVE_GAP_CENSUS_CURRENT.md": "acfd0eadd8d1fb79f4f73907884cfcb9d70348a0dd947843a8bc8b493ceb87e8",
+      "data/oanda_training_manager/reports/major_move_gap_census/MAJOR_MOVE_GAP_CENSUS_DETAIL_CURRENT.csv": "6038c3b278dde0f9573077053bf03c75a8dad4b06a271103917cba8ff6229d84"
+    }
+  },
+  "tests": {
+    "command_scope": [
+      "test_oanda_worker_heartbeat.py",
+      "test_oanda_major_move_gap_census.py",
+      "test_oanda_project_integrity_audit.py",
+      "test_oanda_supervisor_integrity_freshness.py"
+    ],
+    "result": "78 passed",
+    "python_compile": "passed",
+    "git_diff_check": "passed; existing supervisor line-ending warning only"
+  },
+  "implementation_hashes": {
+    "oanda_major_move_gap_census.py": "51166124b8e2d71d63d436022a6eceed34a9424bf531547b1a42dd1e280dd59a",
+    "oanda_project_integrity_audit.py": "7a57e5d1e2286685522fd39ed6d94c833ec4d25121deae4e3a06e7411f7ef84a",
+    "oanda_always_on_supervisor.ps1": "b3ba20b8f463478390c1ee84887456049a23eb20a01240940ea48721f73f10b2",
+    "test_oanda_worker_heartbeat.py": "361e705aa4703481ad83383e859830dbfa9f3339d43572a2343b029a48d3b516",
+    "test_oanda_major_move_gap_census.py": "15dab32c4ce154d91337d635f9da4fffb9cfc6755e93784bd72f101e6e8dc421",
+    "test_oanda_project_integrity_audit.py": "ec3f7e4f2445df5831866df2a59586c326959f63bf881d47a2ed06b13eccc03a",
+    "test_oanda_supervisor_integrity_freshness.py": "2c9d526e2e22cbfd61caf927f9ab0adeccb5c01f1685d7092476d279de35461d"
+  },
+  "safety": {
+    "research_only": true,
+    "evidence_reclassified": false,
+    "proof_gate_changed": false,
+    "authorization_gate_changed": false,
+    "practice_execution_gate_changed": false,
+    "real_money_enabled": false,
+    "manual_order_or_close": false,
+    "codex_automation_created": false,
+    "canonical_workspace_only": true
+  }
+}

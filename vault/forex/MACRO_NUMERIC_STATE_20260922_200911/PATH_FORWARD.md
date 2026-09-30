@@ -1,0 +1,2 @@
+Next: review_macro_numeric_state_checkpoint_v2, then macro_component_extraction_span_audit_v2.
+Audit original component extraction against exact retained source text, particularly ONS labour bundle zero captures and DOL component-specific periods. Recover original parser patterns/helpers, reproduce their actual spans and challenge ambiguous numerals/signs/subjects/units before any repair. Preserve original outputs and do not run the collector.

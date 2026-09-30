@@ -1,0 +1,1 @@
+WP6/R05/R10/R11/R14, design14.2/14.6/14.7. Fixed outcome-blind cohort and labels, all68 coverage, missingness and observed no-move cases. Existing clean/endpoint code unchanged.24 local/24 restored tests and71 exact payloads. External all-release completeness, historical receipts, independent event resolution and forecast value remain unproven.

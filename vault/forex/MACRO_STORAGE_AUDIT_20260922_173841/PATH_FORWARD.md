@@ -1,0 +1,2 @@
+Next: review_macro_storage_audit_checkpoint_v2, then macro_detail_representation_selector_repair_v2.
+Repair offline detail representation selection using existing guard semantics and preserve receipt history.

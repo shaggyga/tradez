@@ -1,0 +1,83 @@
+{
+  "accepted": true,
+  "actual_checks": [
+    {
+      "name": "focused tests",
+      "path": "focused_tests.txt",
+      "result": "9 passed; pytest cache warning only",
+      "status": "passed"
+    },
+    {
+      "frames_checked": 192,
+      "name": "preserved-frame curve rerun",
+      "result_sha256": "f6c711151dc3404a9ace8bce90f45dfe4d61458f06910fd008f8f2b8664d9ad2",
+      "source_prediction_rows": 51744,
+      "status": "passed"
+    },
+    {
+      "expected_slots": 3264,
+      "missing_reason_counts": {
+        "base_unavailable": 26592
+      },
+      "name": "all68 coverage ledger",
+      "status": "passed",
+      "status_counts": {
+        "complete_all_declared_variants_and_horizons": 2156,
+        "incomplete_horizon_panel": 1108
+      }
+    },
+    {
+      "learned_rows": 946,
+      "name": "control outcome preservation",
+      "overall_mae_improved": {
+        "magnitude_interaction_expanding": 0,
+        "raw_matched_expanding": 0,
+        "signed_only_expanding": 0
+      },
+      "paired_scores": 54,
+      "status": "passed"
+    }
+  ],
+  "boundaries": [
+    "no GPT/advisor comparisons",
+    "no paid API calls",
+    "no broker/service/account action",
+    "no D-drive investigation",
+    "no live-bot changes",
+    "EUR/USD data capture left to other task"
+  ],
+  "forecast_evidence_status": "curve_shape_development_result_negative_overall_mae_vs_controls_with_all68_slot_coverage_accounted",
+  "implementation_status": "complete_coverage_repair_verified",
+  "independent_review": false,
+  "next_action": "rich_feature_family_incremental_comparison_v2: reopen family mapping/support inventory, map actual feature families and prior experiment identities, then select a materially untested supported comparison.",
+  "package": "CURVE_COVERAGE_REPAIR_20260925_073500",
+  "predecessor_packet": "CURVE_CHRONOLOGICAL_COMPARISON_20260925_032500/REVIEW.json",
+  "readiness": {
+    "engineering_ready": false,
+    "forecast_evidence_status": "negative_development_diagnostic_with_coverage_repair",
+    "policy_evidence_status": "not_evaluated_no_policy_replay",
+    "trading_readiness": "not_ready_not_claimed"
+  },
+  "resolved_findings": [
+    "QREV-03"
+  ],
+  "schema": "forex_checkpoint_review.v2",
+  "scientific_result": {
+    "learned_rows": 946,
+    "outcome": "negative_aggregate_development_diagnostic_preserved",
+    "overall_groups": {
+      "magnitude_interaction_expanding": 2,
+      "raw_matched_expanding": 2,
+      "signed_only_expanding": 2
+    },
+    "overall_mae_improved": {
+      "magnitude_interaction_expanding": 0,
+      "raw_matched_expanding": 0,
+      "signed_only_expanding": 0
+    },
+    "paired_scores": 54
+  },
+  "step_id": "forecast_curve_shape_layer_comparison_v2",
+  "utc": "2026-09-25T07:31:47.063927Z",
+  "verdict": "accepted_within_scope_same_task_review"
+}

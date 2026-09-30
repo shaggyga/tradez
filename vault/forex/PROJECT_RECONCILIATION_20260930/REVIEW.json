@@ -1,0 +1,36 @@
+{
+  "schema": "forex.project_reconciliation_review.v1",
+  "step_id": "project_reconciliation_20260930",
+  "utc": "2026-09-30T05:52:31.781914+00:00",
+  "source_commit": "c00167b250741fc3374e068e09b29974b51ba085",
+  "baseline_commit": "99ed4aae2959ccf40cfa863f5dd7713edfcc2013",
+  "implementation_status": "complete_within_scope",
+  "review_status": "same_task_review_completed_independent_review_pending",
+  "independent_review": false,
+  "scope": "Evidence reconciliation, navigation cleanup and publication of reviewed pending source. No new scientific experiment or live deployment.",
+  "checks": {
+    "regression": "567 passed, 33 subtests passed in 16.11s; raw TESTS.txt retained",
+    "test_command_provenance": "Exact invocation was not saved alongside TESTS.txt; do not infer a complete repository-wide suite from this count.",
+    "specialist_artifacts": "138 of 138 hashes matched; recorded in SPECIALIST_ARTIFACT_CHECK.json",
+    "capture_smoke": "Actual offline smoke with background thread mocked: two raw records, one liquidity row, no credential fields. Command transcript not retained in local evidence.",
+    "git_diff_check": "passed before commit",
+    "links": "new orientation local Markdown targets exist",
+    "staged_secret_pattern_scan": "13 staged files scanned for private key and common GitHub/OpenAI token patterns, zero matches; bounded scan only",
+    "remote": "exact GitHub branch/head readback matched; working tree clean"
+  },
+  "readiness": {
+    "engineering": "scoped cleanup and source publication verified",
+    "testing": "recorded offline checks passed within stated provenance limits",
+    "scientific": "no new forecasting result; unmatched dates and original-availability gaps remain",
+    "trading": "not qualified; no live deployment"
+  },
+  "findings": [
+    "Prior momentum-only batch does not evaluate the existing trained model stack.",
+    "Specialist retained forecasts cover August 24 to September 7; September 15-17 news batch does not overlap.",
+    "Global preflight schema/source manifest issues remain; clean Git does not resolve them.",
+    "Independent review of recent scientific/operational code remains pending."
+  ],
+  "next_action": "Reconcile saved forecast/model/input identities and actual date overlap with immutable news availability before another technical/news batch; retrieve existing artifacts before fitting.",
+  "restore": "Fetch origin and inspect/restore source at c00167b250741fc3374e068e09b29974b51ba085 in a separate checkout. Reuse exact external artifacts from research_evidence_index.json; Git does not contain all datasets/models. Do not reset a shared active checkout.",
+  "rollback": "Review revert of c00167b250741fc3374e068e09b29974b51ba085 if needed; no automatic revert or artifact deletion authorized by this receipt."
+}

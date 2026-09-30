@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-09-04T18:02:12Z",
+  "issue_id": "FX-20260904-JAPAN-EXTERNAL-POLICY-PRESSURE",
+  "status": "implemented_collecting",
+  "historical_case": {
+    "event_id": "local_news_a8b73a73542a3403ed47e9e5",
+    "source_id": "japan_mof_press_conferences_ja",
+    "first_seen_utc": "2026-09-04T12:13:25.419217Z",
+    "detail_url": "https://www.mof.go.jp/public_relations/conference/my20260904.html",
+    "detail_text_characters": 9539,
+    "subsequent_jpy_move_started_utc": "2026-09-04T12:47:00Z",
+    "lead_minutes": 33.58,
+    "causal_attribution_proven": false,
+    "retrospective_credit_allowed": false
+  },
+  "repair": {
+    "classification_version": "local_fx_news_rules_20260904_v159_japan_external_policy_pressure_research",
+    "contract_id": "japan_external_policy_pressure_research_v1_20260904",
+    "cohort_id": "japan_external_policy_pressure_research_v1_prospective_20260904T180000Z",
+    "activated_utc": "2026-09-04T18:00:00Z",
+    "issuer_binding": "exact_direct_verified_japan_mof_press_conferences_ja",
+    "required_channels": ["explicit_external_policy_pressure", "rate_or_fx_transmission"],
+    "research_jpy_score": 0.45,
+    "requires_rate_and_price_confirmation": true,
+    "publish_eligible": false,
+    "execution_eligible": false
+  },
+  "validation": {
+    "news_tests_passed": 486,
+    "watchlist_tests_passed": 46,
+    "supervisor_tests_passed": 18,
+    "source_governance_tests_passed": 40,
+    "historical_fixture_activation_eligible": false,
+    "prospective_fixture_activation_eligible": true,
+    "prospective_fixture_remains_research_only": true,
+    "live_historical_row_classification_version": "local_fx_news_rules_20260904_v159_japan_external_policy_pressure_research",
+    "live_historical_row_issuer_bound": true,
+    "live_historical_row_official_policy_release": false,
+    "live_historical_row_research_jpy_score": 0.45,
+    "live_historical_row_activation_eligible": false,
+    "live_historical_row_publish_eligible": false,
+    "live_historical_row_execution_eligible": false,
+    "current_watchlist_cohort_id": "news_technical_watchlist_v44_japan_policy_pressure_research_20260904",
+    "current_watchlist_status": "ok",
+    "python_compile_passed": true
+  },
+  "artifacts": [
+    {"path": "oanda_news_classification_contract.py", "sha256": "da167d939b813dd2c35bd99fb8bf15e4edc0f0a939aed4b476e4b49f4b19205c"},
+    {"path": "oanda_local_news_sentiment.py", "sha256": "296d91f7698421daa0aa2158c6ef35cd9522cbf7042f1bc961e11ba032f09f04"},
+    {"path": "oanda_news_technical_watchlist.py", "sha256": "3aa5ebb9b5edca716f2fc9f21581283e1f7bc9e4596287834da623a97b9f9c06"},
+    {"path": "test_oanda_local_news_sentiment.py", "sha256": "53a1225dc8ff66f227c945bb7d3e699bb3d43cf6b79202dee5d1f6760a2307b4"},
+    {"path": "test_oanda_news_technical_watchlist.py", "sha256": "25f8de5014e4b27656ccb5f39a2f2d570969f6d92b893a90ad1c45d67d9b6838"},
+    {"path": "oanda_always_on_supervisor.ps1", "sha256": "7311f0ba1752dcfe6d598f5bdee1d818f8635553041074c14ea2feff1f69b486"}
+  ],
+  "safety": {
+    "historical_case_is_diagnostic_only": true,
+    "can_promote": false,
+    "can_authorize": false,
+    "can_place_orders": false,
+    "real_money_routing": false,
+    "manual_orders_placed": 0,
+    "manual_positions_closed": 0
+  }
+}

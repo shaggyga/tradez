@@ -1,0 +1,57 @@
+{
+  "checkpoint": {
+    "path": "checkpoint/forex_fixed_remaining_blend.zip",
+    "sha256": "205f959b5900533466b752ae547fd282eead364424cc4dcab4896209529a0dbb"
+  },
+  "demo_authorization_status": "not_granted",
+  "engineering_ready": false,
+  "forecast_evidence_status": "remaining_fixed_blend_development_scenario",
+  "implementation_status": "complete",
+  "independent_review": false,
+  "independent_review_status": "pending_nonblocking_by_user_clarification",
+  "next_action": "absolute_movement_forecast_comparison_v2",
+  "policy_evidence_status": "declared_candle_scenarios_not_observed_execution",
+  "readiness": {
+    "demo_authorization_status": "not_granted",
+    "engineering_ready": false,
+    "forecast_evidence_status": "remaining_fixed_blend_development_scenario",
+    "policy_evidence_status": "declared_candle_scenarios_not_observed_execution"
+  },
+  "recipe_sha256": "d0172a20a26525d08cf7156cad22fe3774273ac9139aad538fdbabc9c18ed2bc",
+  "review_result": "evidence/REVIEW_FINDINGS.md",
+  "review_status": "accepted_within_scope",
+  "reviewer": "same Codex task; substantive same-task review",
+  "run_identities": {
+    "fixed_equal_half_blend-candle_one_bp_slippage_rollover-optimized": "b7006d6b00a4c12d8c1d591a5b5e3515e498cf30614391621a27adb8537530c3",
+    "fixed_equal_half_blend-candle_one_bp_slippage_rollover-reference": "b399096c8c6879ace3ac3d23f6b264bfaddf93eec00192bb149d9f9901e6d271",
+    "fixed_equal_half_blend-candle_zero_slippage_financing-optimized": "0133a4c2cb50371a8320243ed3807a5484bb4a2003ac1010a2b7fb96d9fa0d0f",
+    "fixed_equal_half_blend-candle_zero_slippage_financing-reference": "e8f54c198389fdc0f52c2107a45b1535628a634c458dbb9a03fb99a47c7c535d",
+    "recovered_hgb-candle_one_bp_slippage_rollover-optimized": "6e5e8824d944ec421af8313ad44532e52599a4fdc3b9bdcb7f313f0b27135756",
+    "recovered_hgb-candle_one_bp_slippage_rollover-reference": "f83dfd1b18f3687b552c496a75265004c72569cfbd659172fb6a1cf9a96eb547",
+    "recovered_hgb-candle_zero_slippage_financing-optimized": "50fc7f6fd808e6493af620f405b27df877978787c279633a71f270aef01fc9bf",
+    "recovered_hgb-candle_zero_slippage_financing-reference": "b6bd821d951ff93ea65611e1b471bcebde362d9ab1dff14ac9c411b89382a9e6",
+    "ridge-candle_one_bp_slippage_rollover-optimized": "eb575b29580d6d4cf934dc3c2298d84ef9947e060681a96676cd898264d3b8f4",
+    "ridge-candle_one_bp_slippage_rollover-reference": "3d21a119d84e789371943fa983459e37339e72f149fb31a41da83ca10968cbb6",
+    "ridge-candle_zero_slippage_financing-optimized": "a4f63dd739c58445534fd1eaf15cd5885c485198928cc65be594672844a90e67",
+    "ridge-candle_zero_slippage_financing-reference": "c267a887e97e881f6907f09b6be564a260995e48766289f166cf8177a3795bbc"
+  },
+  "schema": "forex_review_packet.v2",
+  "source_commit": "f7c2c2023ad81d3bf73b56ad3beff6b70ccf47c2",
+  "step_id": "fixed_blend_remaining_policy_comparison_v2",
+  "unresolved_findings": [],
+  "verification": {
+    "base_economic_payloads_matched": 40,
+    "checkpoint_sha256": "205f959b5900533466b752ae547fd282eead364424cc4dcab4896209529a0dbb",
+    "early_and_final_recovery_payloads": 26,
+    "engine_parity_payload_pairs": 30,
+    "independent_review": false,
+    "parent_regression_note": "46 passed in full scoped invocation; one old-recipe test assumption corrected and passed separately; two redundant parent crash cases deselected because actual blend early/final recovery is exercised",
+    "parent_regressions_passed_across_invocations": 47,
+    "recipe_sha256": "d0172a20a26525d08cf7156cad22fe3774273ac9139aad538fdbabc9c18ed2bc",
+    "relocated_payloads_identical": 312,
+    "relocated_report_identical": true,
+    "relocated_tests_passed": true,
+    "runs": 12,
+    "status": "pass"
+  }
+}

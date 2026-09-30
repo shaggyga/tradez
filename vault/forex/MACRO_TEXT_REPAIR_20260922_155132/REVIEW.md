@@ -1,0 +1,10 @@
+# Macro text review repairs
+
+MT-R01: decimal dots and declared common abbreviations no longer split away an earlier condition; true sentence/semicolon boundaries remain distinct. MT-R02: identical latest-clock material coalesces with all references; conflicting versions explicitly abstain, retain all identities, and cannot supply current or prior change values. Hash ordering selects no semantic winner. Strictly later available revisions affect only later views. Returned axes do not mutate source records.
+
+37 local and37 relocated tests pass, including40 mirror-URL variants in both input orders, conditional decimals/abbreviations, true punctuation boundaries, ambiguous priors, later revisions, original all68 consumer checks and genuine crash/resume. The corrected standalone checkpoint reproduces all four outputs exactly. Original document extraction and report hashes are unchanged; currency/pair views add version provenance. Actual sample remains11 selected texts,272 pair rows, one asserted/two unresolved quoted phrases and zero supported real text changes. No forecast improvement or full WP6 completion claimed.
+
+Original failures, source/recipe and outputs remain sealed. This step reuses original inputs and publication/recovery components, with no base model fits, paid/API/broker/service/account or D-drive actions. Engineering_ready=false for full design; forecast evidence=retrospective text only; policy evidence=not evaluated; demo authorization=not granted. Ready for scoped review; independent review unperformed. Next WP6 original-document/receipt and all-release population recovery after review. Exact operation, restore and rollback are in evidence/RESUME_INSTRUCTIONS.md.
+
+
+Checkpoint: checkpoint/forex_macro_text_repair.zip, SHA256 014d705918b3dc9c9dc3cda828151613b1ea3bad58b775d713d4264cb19e97fa. Exact next: review_macro_text_repair_checkpoint_v2; then macro_document_receipt_and_all_release_population_v2. Prior checkpoints remain sealed in their original packages; approvals reference them without duplicating archives.

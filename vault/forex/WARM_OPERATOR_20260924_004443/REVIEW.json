@@ -1,0 +1,56 @@
+{
+  "checkpoint": {
+    "path": "checkpoint/forex_warm_operator.zip",
+    "sha256": "2efe076154ef6803344328b6aac785adc72453154e3e5490636e00838b144a86"
+  },
+  "implementation_status": "complete",
+  "independent_review": true,
+  "next_action": "freeze_retained_equal_weight_forecast_blend_diagnostic_v2",
+  "readiness": {
+    "demo_authorization_status": "not_granted",
+    "engineering_ready": false,
+    "forecast_evidence_status": "retained_value_parity_not_new_forecasts",
+    "policy_evidence_status": "not_evaluated"
+  },
+  "recipe_sha256": "d60a6f02d8c757a0e845f0851d7952d7f672b2483511d6fb62183b69c1f57327",
+  "review_result": "warm_review/RESOLUTION_REVIEW.json",
+  "review_status": "accepted_within_scope",
+  "run_identity": "a0542caf18cb747d9338b4527ec06c366d945cc29d247b56bc02a3dbcdecbbf1",
+  "schema": "forex_review_packet.v2",
+  "source_commit": "2d7871a9958c672d4995ee6e0df0af77e0879a10",
+  "step_id": "whole-curve-warm-start-followup",
+  "unresolved_findings": [],
+  "verification": {
+    "lifecycle": {
+      "after_payloads_process_death_exit": 91,
+      "completed_idempotence": true,
+      "early_process_death_exit": 91,
+      "prior_timing_payloads_unchanged": 20,
+      "recipe_sha256": "d60a6f02d8c757a0e845f0851d7952d7f672b2483511d6fb62183b69c1f57327",
+      "resources": "WARM_LIFECYCLE_RESOURCES.json",
+      "same_identity_resume": true,
+      "status": "passed"
+    },
+    "portable": {
+      "checkpoint_sha256": "2efe076154ef6803344328b6aac785adc72453154e3e5490636e00838b144a86",
+      "independent_review": false,
+      "models_fitted": 0,
+      "operator": {
+        "demo_authorization_status": "not_granted",
+        "engineering_ready": false,
+        "forecast_evidence_status": "retained_value_parity_not_new_forecasts",
+        "independent_review": false,
+        "next_action": "record_receipt_and_stop",
+        "policy_evidence_status": "not_evaluated",
+        "recipe_sha256": "d60a6f02d8c757a0e845f0851d7952d7f672b2483511d6fb62183b69c1f57327",
+        "run_identity": "a0542caf18cb747d9338b4527ec06c366d945cc29d247b56bc02a3dbcdecbbf1",
+        "run_path": "C:\\Users\\zmoor\\Documents\\forex\\timed_research_20260924_004443\\warm_review\\fresh_restore\\runs\\whole-curve-warm-resumable",
+        "status": "completed_verified"
+      },
+      "relocated_tests_passed": true,
+      "scientific_payloads_identical": 44,
+      "status": "VERIFIED",
+      "timings": "separately_authenticated_bounded_not_byte_equal"
+    }
+  }
+}

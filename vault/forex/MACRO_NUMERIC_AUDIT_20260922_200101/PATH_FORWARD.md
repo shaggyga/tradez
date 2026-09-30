@@ -1,0 +1,2 @@
+Next: review_macro_numeric_audit_checkpoint_v2, then macro_numeric_observation_asof_state_v2.
+Build a typed per-observation numeric source-asof state using frozen values, original numeric/source clocks and version identities. Keep actual, reported prior, revised prior and individual components separate. Preserve unknown units/reference periods and absent consensus; prevent later revisions/envelopes from changing earlier states. No arithmetic surprise or forecast promotion.

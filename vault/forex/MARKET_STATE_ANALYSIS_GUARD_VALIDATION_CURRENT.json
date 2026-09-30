@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-09-04T19:05:00Z",
+  "issue_id": "FX-20260904-MARKET-STATE-ANALYSIS-GUARD",
+  "status": "complete",
+  "misses": [
+    {
+      "headline": "US natural gas drilling rigs fall by 2 as oil rigs rise - Investing.com South Africa",
+      "prior_category": "commodity_shock",
+      "prior_currency_scores": {"CAD": 0.5, "MXN": 0.5, "NOK": 0.5, "JPY": -0.2},
+      "prior_directional_publish_eligible": true,
+      "root_cause": "The verb rise described an oil-rig count, not an executable oil-price repricing."
+    },
+    {
+      "headline": "China Still Buying Iranian Oil, But Volumes Fall Under U.S. Blockade - Analysis - Eurasia Review",
+      "prior_risk_off_score": 0.75,
+      "prior_directional_publish_eligible": false,
+      "root_cause": "Publisher-labelled analysis was treated as a fresh geopolitical state change."
+    }
+  ],
+  "repair": {
+    "classification_version": "local_fx_news_rules_20260904_v161_market_state_analysis_guard",
+    "contract_id": "secondary_market_state_analysis_guard_v1_20260904",
+    "cohort_id": "secondary_market_state_analysis_guard_v1_prospective_20260904T190000Z",
+    "activation_utc": "2026-09-04T19:00:00Z",
+    "commodity_operational_metric_policy": "rig and rig-count changes require separate price-repricing evidence",
+    "secondary_analysis_policy": "publisher-labelled analysis remains context without a fresh directly observed event"
+  },
+  "validation": {
+    "news_classification_tests_passed": 491,
+    "news_classification_tests_failed": 0,
+    "rig_count_fixture_suppressed": true,
+    "explicit_oil_price_repricing_fixture_preserved": true,
+    "publisher_analysis_fixture_suppressed": true,
+    "watchlist_tests_passed": 46,
+    "supervisor_tests_passed": 14,
+    "python_compile_passed": true
+  },
+  "artifacts": [
+    {"path": "oanda_news_classification_contract.py", "sha256": "4e5cd36bbc6dfc00ae57c4edf72476d6a6b6fef37d1990afeb378e5f1d63b04d"},
+    {"path": "oanda_local_news_sentiment.py", "sha256": "33487d8477cf5e0de075e9a9e8f470db15a0915f12ce972e9c8690a28257703f"},
+    {"path": "oanda_news_technical_watchlist.py", "sha256": "449d65e04cb912db95a61192ec9cb963f34b7c520d232f9bd12ee5dce790a227"},
+    {"path": "oanda_always_on_supervisor.ps1", "sha256": "8f4cc07c13b82a0a6bda73c029c7b140658e0fe7aa7362074ce08f509d818f98"},
+    {"path": "test_oanda_local_news_sentiment.py", "sha256": "9ab914fb6e05da7d4c71bab8fb3b15b65affe6772a13d6c6fa059488de3c2ee4"},
+    {"path": "test_oanda_news_technical_watchlist.py", "sha256": "4a621688dcb2cdef1c2b46f965f1520f354aae2805f7abed0cc02a736bd6f504"},
+    {"path": "test_oanda_supervisor_integrity_freshness.py", "sha256": "5360a108cadce166167f952db956aad9c2c5cecc4c177ecd2f1ffccb7efc0fd0"}
+  ],
+  "safety": {
+    "historical_reclassification_is_proof": false,
+    "can_promote": false,
+    "can_authorize": false,
+    "can_place_orders": false,
+    "real_money_routing": false
+  }
+}

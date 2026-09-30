@@ -1,0 +1,94 @@
+{
+  "schema_version": "forex_current_design_alignment.v2",
+  "assessed_date": "2026-09-21",
+  "scope": "bounded offline neutral issuance/recovery repair plus reference-accounting prerequisites",
+  "design_path": "specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+  "design_sha256": "61d9713034f6f058d9f59ff11c0dd05b2a7e36583dffb2cd6d6300c64b8dc374",
+  "engineering_ready": false,
+  "forecast_evidence_status": "no_new_model_evidence_neutral_issuance_only",
+  "policy_evidence_status": "unevaluated_for_design_campaign",
+  "demo_authorization_status": "not_granted_for_design_campaign",
+  "advisor_comparisons": "deferred_by_user",
+  "paid_api_budget_usd": 0,
+  "real_money_routing_enabled": false,
+  "current_broker_health_verified": false,
+  "cloud_sync_verified": false,
+  "next_batch": "reference_accounting_and_isolated_policy_v2",
+  "exact_next_item": "Step D / WP2-WP8: extend the reviewed synthetic reference-accounting adapter through remaining event-level parity, partial fills/closes, financing, margin/reservations and currency exposure, with isolated policy state and explicit input-tier blockers.",
+  "work_packages": {
+    "B_C_neutral_issuance_recovery": "bounded_scope_verified",
+    "B_fitted_adaptive_consumer_causality": "open_before_campaign",
+    "D_retained_candle_quote_availability": "qualified_at_two_stamps_only",
+    "D_conversion_candle_availability": "bounded_report_available",
+    "D_synthetic_reference_adapter": "bounded_adapter_report_available",
+    "D_full_reference_execution_policy_state": "partial",
+    "E_first_complete_all68_daily_multiday_campaign": "pending_dependencies",
+    "F_populated_technical_peer_macro_inputs": "partial_static_lineage_only",
+    "WP5_GPT_advisor_comparisons": "deferred"
+  },
+  "verification_receipts": [
+    {
+      "file": "evidence/integrity_and_accounting_gate.junit.xml",
+      "tests": 160,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "file": "evidence/integrity_repair.junit.xml",
+      "tests": 130,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "actual_neutral_run": "C:\\Users\\zmoor\\Documents\\forex\\stage_c_alignment_integrity_v2\\runs\\all68-neutral-repair-20260921-210502",
+  "actual_neutral_identity": "4ebea9916995c3ff3da92c84e37ddfb956f00b1b542aadb52ed5940e9a933523",
+  "actual_neutral_coverage": {
+    "coverage": 68,
+    "forecasts": 68,
+    "pending_outcomes": 68
+  },
+  "retained_bid_ask": {
+    "both_candle_close_pairs_valid": 67,
+    "members_with_bid_ask_columns": 68,
+    "origin": {
+      "duplicate_extra_rows": 0,
+      "invalid_quote_rows": 0,
+      "missing_bars": 0,
+      "status_counts": {
+        "valid_candle_close_pair": 68
+      },
+      "valid_pairs": 68
+    },
+    "target": {
+      "duplicate_extra_rows": 0,
+      "invalid_quote_rows": 0,
+      "missing_bars": 1,
+      "status_counts": {
+        "missing_exact_bar": 1,
+        "valid_candle_close_pair": 67
+      },
+      "valid_pairs": 67
+    },
+    "universe": 68
+  },
+  "execution_input_readiness": false,
+  "checkpoint": {
+    "path": "checkpoint/forex_integrity_20260921_210502.zip",
+    "sha256": "6a7dcd2b8b02c98bbbe79f23b6fc59f0a36136ed09cca7ed6df679e2e9cc0167",
+    "scope": "runnable_synthetic_all68_issuance_recovery_only",
+    "relocated_replay_verified": true,
+    "restored_tool_bootstrap_replay_verified": true,
+    "bulk_historical_archive_included": false
+  },
+  "remaining_dependencies": [
+    "historical venue calendar/holiday/partial-session provenance",
+    "historical quote arrival and simultaneous executable-side provenance",
+    "complete event-accounting economics and policy isolation",
+    "fitted-consumer label maturity, chronological selection and model-readiness acceptance",
+    "actual peer/macro first-known population and full campaign evidence"
+  ],
+  "path_forward": "PATH_FORWARD.md",
+  "active_handoff": "../ALL68_INTEGRITY_BATCH_04_20260921.md"
+}

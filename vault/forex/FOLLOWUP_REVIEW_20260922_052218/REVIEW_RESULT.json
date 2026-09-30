@@ -1,0 +1,54 @@
+{
+  "step_id": "matched-campaign-report-reconciliation",
+  "verdict": "accepted_within_scope",
+  "independent_review": false,
+  "next_item": "populated_rolling_feature_registry_reconciliation_v2",
+  "engineering_ready": false,
+  "forecast_evidence_status": "bounded_development_only",
+  "policy_evidence_status": "declared_candle_scenarios_only",
+  "demo_authorization_status": "not_granted",
+  "resolved_findings": [
+    "CI-LAUNCH-1",
+    "CI-CMD-1",
+    "CI-REVEAL-1"
+  ],
+  "checks": [
+    "original-record identity and default outcome hiding",
+    "as-of reveal maturity and strict boolean request",
+    "consumed-byte tamper detection before query response",
+    "source/environment/input identity binding",
+    "writer exclusion and actual process-death recovery",
+    "Windows .cmd launcher native exit propagation without policy changes",
+    "25 local and25 relocated tests",
+    "125 model-chain and208 policy payloads reproduce;3 report payloads exact",
+    "bad checkpoint/companion hash refused before extraction",
+    "current design coverage and queue replace stale status while historical bytes remain sealed"
+  ],
+  "limitations": [
+    "same implementer review, not independent",
+    "development/candle-scenario evidence only",
+    "no continuous extrema or barrier order; zero24h contiguous support",
+    "requires two named external companion ZIPs",
+    "no particular cheaper operator model validation",
+    "full rich-feature/calendar/macro/confirmation design remains open"
+  ],
+  "utc": "2026-09-22T05:22:18.965566+00:00",
+  "reviewer": "same-implementer follow-up source/evidence review",
+  "source_engine": {
+    "schema": "forex_design_alignment_pointer.v2",
+    "package": "CAMPAIGN_INSPECTOR_20260922_052207",
+    "path_forward": "CAMPAIGN_INSPECTOR_20260922_052207/PATH_FORWARD.md",
+    "run_status": "CAMPAIGN_INSPECTOR_20260922_052207/RUN_STATUS.json",
+    "design": "CAMPAIGN_INSPECTOR_20260922_052207/specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+    "design_coverage": "CAMPAIGN_INSPECTOR_20260922_052207/CURRENT_DESIGN_COVERAGE.md",
+    "current_acceptance_addendum": "CAMPAIGN_INSPECTOR_20260922_052207/DESIGN_ACCEPTANCE_ADDENDUM.md",
+    "manifest": "CAMPAIGN_INSPECTOR_20260922_052207/MANIFEST.json",
+    "manifest_sha256": "eebd0962eb16e309d99ea1d2159bcf031a498f07620673edaa5da86836bb485c",
+    "readback": "CAMPAIGN_INSPECTOR_20260922_052207/PACKAGE_READBACK.json",
+    "active_integrity_batch": "ALL68_INTEGRITY_BATCH_05_20260921.md",
+    "active_integrity_batch_scope": "original-record inspection and bounded development aggregate report; full design remains open",
+    "historical_package": "DESIGN_ALIGNMENT_20260921",
+    "scope": "current_verified_queue_and_bounded_recovery",
+    "cloud_sync_verified": false
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "schema": "forex_current_closure.v1",
+  "packet_id": "WARM_OPERATOR_CURRENT_CLOSURE_20260925_050000",
+  "created_utc": "2026-09-25T03:51:26Z",
+  "step_id": "whole_curve_warm_start_capacity_followup_v2",
+  "source_step_id": "whole-curve-warm-start-followup",
+  "status": "closed_by_accepted_review_packet_plus_fresh_focused_rerun",
+  "source_packet": "WARM_OPERATOR_20260924_004443",
+  "source_review": "WARM_OPERATOR_20260924_004443/REVIEW.json",
+  "source_review_sha256": "2382fec7d706b2b1d96e3633ff70ca55541d85e8e0721588db6241c615afb8ff",
+  "source_review_md_sha256": "d878690a3d406489202cc0adac90a22389e1d70418d8fb636a04c807be7a9a43",
+  "source_checkpoint_sha256": "2efe076154ef6803344328b6aac785adc72453154e3e5490636e00838b144a86",
+  "implementation_status": "complete",
+  "review_status": "accepted_within_scope",
+  "independent_review": true,
+  "review_result": "warm_review/RESOLUTION_REVIEW.json",
+  "unresolved_findings": [],
+  "source_commit": "2d7871a9958c672d4995ee6e0df0af77e0879a10",
+  "run_identity": "a0542caf18cb747d9338b4527ec06c366d945cc29d247b56bc02a3dbcdecbbf1",
+  "verification": {
+    "lifecycle": {
+      "after_payloads_process_death_exit": 91,
+      "completed_idempotence": true,
+      "early_process_death_exit": 91,
+      "prior_timing_payloads_unchanged": 20,
+      "recipe_sha256": "d60a6f02d8c757a0e845f0851d7952d7f672b2483511d6fb62183b69c1f57327",
+      "resources": "WARM_LIFECYCLE_RESOURCES.json",
+      "same_identity_resume": true,
+      "status": "passed"
+    },
+    "portable": {
+      "checkpoint_sha256": "2efe076154ef6803344328b6aac785adc72453154e3e5490636e00838b144a86",
+      "independent_review": false,
+      "models_fitted": 0,
+      "operator": {
+        "demo_authorization_status": "not_granted",
+        "engineering_ready": false,
+        "forecast_evidence_status": "retained_value_parity_not_new_forecasts",
+        "independent_review": false,
+        "next_action": "record_receipt_and_stop",
+        "policy_evidence_status": "not_evaluated",
+        "recipe_sha256": "d60a6f02d8c757a0e845f0851d7952d7f672b2483511d6fb62183b69c1f57327",
+        "run_identity": "a0542caf18cb747d9338b4527ec06c366d945cc29d247b56bc02a3dbcdecbbf1",
+        "run_path": "C:\\Users\\zmoor\\Documents\\forex\\timed_research_20260924_004443\\warm_review\\fresh_restore\\runs\\whole-curve-warm-resumable",
+        "status": "completed_verified"
+      },
+      "relocated_tests_passed": true,
+      "scientific_payloads_identical": 44,
+      "status": "VERIFIED",
+      "timings": "separately_authenticated_bounded_not_byte_equal"
+    }
+  },
+  "tests_executed_this_turn": [
+    {
+      "command": "C:\\Users\\zmoor\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe -I -B -m pytest -q stage_c_alignment_integrity_v2\\test_warm_curve_operator_v2.py",
+      "result": "14 passed, 1 pytest cache warning",
+      "runtime": "bundled Python; installed pytest/psutil/joblib/scikit-learn dependencies during this timed session"
+    }
+  ],
+  "current_key_source_sha256": {
+    "stage_c_alignment_integrity_v2/warm_curve_operator_v2.py": "adf1e8f24871eff15b9b17c161461f836c998ad03a5657499cae4c61ac292576",
+    "stage_c_alignment_integrity_v2/warm_curve_runner_v2.py": "32156f6cf40ef2bab20b8fc40ef99895006c1eefc9ebca0a041f2fe93cbea1ad",
+    "stage_c_alignment_integrity_v2/test_warm_curve_operator_v2.py": "3d66c4cd3d4d32df47d9aa6f38bf9a688c3f77ad4742d160497da8152ff76519"
+  },
+  "readiness": {
+    "demo_authorization_status": "not_granted",
+    "engineering_ready": false,
+    "forecast_evidence_status": "retained_value_parity_not_new_forecasts",
+    "policy_evidence_status": "not_evaluated"
+  },
+  "boundaries": {
+    "new_fit_performed": false,
+    "forecast_admission": false,
+    "gpt_advisor_comparisons": false,
+    "paid_api_calls": false,
+    "broker_or_live_bot_changes": false,
+    "d_drive_investigation": false
+  },
+  "next_step_id": "freeze_retained_equal_weight_forecast_blend_diagnostic_v2",
+  "deadline_utc": "2026-09-25T04:59:55Z",
+  "session_id": "timed_residual_r4_20260925_025955",
+  "manifest": "MANIFEST.json",
+  "manifest_sha256": "990a5d3190199820efa2f9d970947b27941d189ca8d43cbe1ebe4efb7e17c5ba"
+}

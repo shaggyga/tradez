@@ -1,0 +1,2 @@
+Next: review_macro_component_repair_checkpoint_v2, then macro_repaired_component_asof_integration_v2.
+Integrate repaired component evidence into numeric source-asof currency and shared pair views using exact version/content/evidence hashes. Retain original numeric state alongside repaired evidence; gate source selection and numeric readiness first, block regional/ambiguous values, and explicitly separate retrospective document reconstruction from adapter availability. Do not backdate the new adapter activation or admit unqualified forecasts.

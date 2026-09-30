@@ -1,0 +1,12 @@
+# Causal technical and target adapter
+
+Ready for review; independent review unperformed. Byte-identical retained technical and endpoint-target code now runs through the existing durable publication system on26.2MB of authenticated raw slices from all68 C-drive members. No model fitted. All5168 pair/origin rows remain independent of future endpoints:4026feature-ready,1142missing exact references.26features are24 retained technical fields plus2 current costs; no silent reuse of94/178-column model weights.
+
+Seven exact-endpoint targets15m/1h/4h/12h/24h/2elapsed days/5elapsed days produce36176 separate outcome rows. Each has at least795 mature training rows at the planned cutoffs. Five contiguous-path diagnostics remain separate: zero24h uninterrupted paths were found, preserved with the first failed support test and original run. V2 adds the existing exact-endpoint contract and a longer past-training window; it does not repair missing paths with invented bars.15504 daily-close/2-session/5-session blocker rows keep venue-calendar scope visible. Elapsed targets are not session targets.
+
+15 local and15 relocated tests passed: future-price and endpoint-deletion invariance, real-member perturbation, exact clocks, duplicate/missing/invalid references, tamper/drift refusal, writer exclusion and actual process death at two boundaries. Fresh portable restore reran all68 instruments and matched all70 payloads. It includes the raw slices and original numerical source, so it reconstructs the adapter rather than merely trusting prepared feature outputs. Bulk archive, environment binaries, credentials and live state are excluded; cloud sync not verified.
+
+Use trusted causal_technical_checkpoint_v2.py restore --package <ZIP> --sha256 <external hash> --destination <new-empty-directory> --run-tests. See source_snapshot/CAUSAL_TECHNICAL_CONTRACT_V2.md. Next engineering work is a predeclared matched ridge/recovered-HGB development campaign using these exact features and target-specific mature populations. Execution, calendar support, full campaign and independent review remain open. GPT/advisor comparisons, paid calls, broker/service/account actions and D-drive work remain deferred.
+
+
+Checkpoint: checkpoint/forex_causal_technical_inputs.zip, SHA256 7ea1ffdd91ee4564ccad24973261819f6c8833637d8077e65f8776774e466a91. Exact next: review_causal_technical_input_checkpoint; then matched_ridge_recovered_hgb_development_campaign_v2. Prior checkpoints remain sealed in their original packages; approvals reference them without duplicating archives.

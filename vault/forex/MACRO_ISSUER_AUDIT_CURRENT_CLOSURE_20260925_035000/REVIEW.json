@@ -1,0 +1,21 @@
+{
+  "schema": "forex_checkpoint_review.v1",
+  "utc": "2026-09-25T03:34:12.240350Z",
+  "step_id": "macro_semantic_source_issuer_qualification_audit_v2",
+  "status": "complete_reuse_existing_packet_no_duplicate_run",
+  "verdict": "accepted_within_scope_same_task_review",
+  "independent_review": false,
+  "independent_review_status": "pending_nonblocking_by_user_clarification",
+  "scope": "current queue closure against existing macro issuer audit packet; no fit/replay/API/broker/live-bot/D-drive/EURUSD work",
+  "preexisting_packet": "MACRO_ISSUER_AUDIT_20260922_172905/REVIEW.json",
+  "preexisting_review_sha256": "63ccf44f6d3b44b8df07344e2b61f7faa73e9ea5096e3a014a6b08d32f38e903",
+  "verification": {
+    "local_tests_passed": 16,
+    "relocated_tests_passed": 16,
+    "identical_payloads": 5,
+    "independent_issuer_attestations": 0
+  },
+  "result": "candidate_supersession_requires_audit",
+  "next_action": "macro_candidate_version_supersession_audit_v2",
+  "source_commit": "faaee19d4ef64c375293a0f7411844db73867795"
+}

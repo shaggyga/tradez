@@ -1,0 +1,1 @@
+WP6/R05/R14. Exact native rule reuse; original12 oracles pass;23 local/23 restored tests and five exact outputs. Same-implementer review only; linguistic candidates not policy or forecast facts.

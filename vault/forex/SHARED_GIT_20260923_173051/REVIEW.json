@@ -1,0 +1,178 @@
+{
+  "checkpoint": {
+    "bytes": 19751273,
+    "final_vault_bundle": "Will be recorded with final documentation commit in SHARED_GIT_REMOTE_LATEST.json",
+    "local_bundle": "C:\\Users\\zmoor\\Documents\\forex\\git_publication_20260923\\forex-source.bundle",
+    "sha256": "30a23d0d1242e85e61980b279fcf1cdb53aa737b4a04a40650937457897aa626",
+    "verified_by_fresh_clone": true
+  },
+  "cloud_sync_verified": false,
+  "demo_authorization_status": "not_granted",
+  "engine_scope_changed": false,
+  "engineering_ready": false,
+  "forecast_evidence_status": "unchanged_no_new_forecast_evidence",
+  "handoff_document_commit": "pending_operational_receipt",
+  "implementation_status": "source_sharing_and_retrieval_verified_per_receipt",
+  "independent_review": false,
+  "independent_source_audit": {
+    "credentials": {
+      "completed_utc": "2026-09-23T17:24:14.593234+00:00",
+      "historical_commits": 174,
+      "historical_head": "ed3f9b988202edc112f4b26734b62cc13bcac981",
+      "history_rewrite_needed": false,
+      "index_listing_sha256": "d6c65c1ad414426cce7a386d297849f18d44ba1c4f2db48a0a49160e5f04b62e",
+      "later_index_changes_require_scan": true,
+      "legacy_utility_correctness_review": "outside_scope",
+      "parent_head": "ed3f9b988202edc112f4b26734b62cc13bcac981",
+      "publication_visibility": "private",
+      "reports": {
+        "CLOUD_FIX_REVIEW.json": "019594cf42d768d44ef1a3747ccfabe3a6f399b79a7be351b22d28e756e64e6a",
+        "PUBLICATION_REVIEW_CORRECTED.md": "6b0bc3f3d20c83026f962442c864343a137acf46c188a3543c93cbeb3afc5d90",
+        "audit_report.json": "3f5fa92a8ba9072e79383c0a250a71f0f08004fb2dc4503ba1c38f6036db93dc",
+        "commit_metadata_audit.json": "ec4225663c5a41c0f01e4d789a11fcd0673ab5c3cc8235308c99dcba9703d820",
+        "nul_text_audit.json": "8d652b79e94d60795b8ac06916268ae984e4ae3f07313be9ef26894afc2d5ec2",
+        "publication_index_corrected.json": "d1b1e2dfb74e500332c30b018495833824b8d3405f3618c824c77d7ebd75524f"
+      },
+      "reviewer": "delegated_read_only_history_auditor",
+      "schema": "forex_publication_security_review.v1",
+      "summary": {
+        "account_id_occurrences": 115,
+        "account_id_unique_fingerprints": 12,
+        "complete": true,
+        "credential_finding_count": 0,
+        "exemption_count": 4,
+        "indexed_paths": 4584,
+        "largest_blob_bytes": 4061660,
+        "new_nul_normalized_payloads": 0,
+        "newly_scanned_path_payloads": 899,
+        "passed": true,
+        "path_finding_count": 0,
+        "paths_over_100_mib": 0,
+        "paths_over_50_mib": 0,
+        "reused_scans_by_exact_original_path_and_sha256": 3685,
+        "unique_blob_bytes": 148679449,
+        "unique_blobs": 4339
+      },
+      "verdict": "passed_within_pattern_scan_scope_private_sharing_required"
+    },
+    "retrieval_helper_correction": {
+      "checks_receipt_sha256": "8343791bb82969fd55cdfadf29a241a5cbb63c9ad8e3f5e33d7d2de6fc6ec559",
+      "completed_utc": "2026-09-23T17:24:14.593234+00:00",
+      "findings": [],
+      "independent_review": true,
+      "live_local_vault_status_passed": true,
+      "model_loading_or_fitting": false,
+      "offline_tests_passed": 28,
+      "remote_sync_verified": false,
+      "review_markdown_sha256": "514d34e11010d8350e885f6c5f7c8ecde126325b657c31bcb8cccf61af02f79b",
+      "reviewer": "delegated_read_only_history_auditor_not_implementer",
+      "schema": "forex_independent_cloud_source_review.v1",
+      "scope": "Cloud Files read-only source exception; destination and redirect rejection; offline/recall guard; tests/docs",
+      "source_identities": {
+        "docs/SHARED_WORKSPACE.md": {
+          "blob_oid": "b1061d22cfc8a9a1d37103bd9fd336398a9ed256",
+          "mode": "100644",
+          "path": "docs/SHARED_WORKSPACE.md",
+          "sha256": "d12815b74c7749fd4e339742fdf0f9427559b42b0ccd448985414dd27786fdcf",
+          "size": 5702
+        },
+        "tests/test_forex_workspace.py": {
+          "blob_oid": "e3c954f6ae9ab38bf59f7430bc1c82930326170d",
+          "mode": "100644",
+          "path": "tests/test_forex_workspace.py",
+          "sha256": "83688d739ee0bbe7716297231b355ee53ed21099dcbc4a637f15344b32ece694",
+          "size": 18006
+        },
+        "tools/forex_workspace.py": {
+          "blob_oid": "dca99a2305f765ddbca81772ccc4ec51c727210a",
+          "mode": "100644",
+          "path": "tools/forex_workspace.py",
+          "sha256": "d7f31902f57df095f7830ee951d47925a0a9aadeffef61121279fc4fcaec6812",
+          "size": 19035
+        }
+      },
+      "verdict": "accepted_within_scope"
+    }
+  },
+  "models_fitted": 0,
+  "models_loaded": 0,
+  "mutable_operational_receipt": "SHARED_GIT_REMOTE_LATEST.json",
+  "next_action": "Commit and publish the sealed handoff-document bytes, then record that commit and remote verification in SHARED_GIT_REMOTE_LATEST.json.",
+  "policy_evidence_status": "unchanged_not_requalified",
+  "remote": {
+    "default_branch": "forex",
+    "previous_default_branch": "main",
+    "previous_main_preserved": "1e0a3170e308e0a36b2a0eaa1b26591a7b60fd51",
+    "private": true,
+    "published_branch": "forex",
+    "push_verified": true,
+    "remote_sha_verified": "2083eb77ebbce103e1a5382969de7810a6e7f962",
+    "source_commit": "2083eb77ebbce103e1a5382969de7810a6e7f962",
+    "status": "source_commit_pushed_and_verified_private_forex_default",
+    "url": "https://github.com/shaggyga/tradez",
+    "utc": "2026-09-23T17:28:45.981168+00:00"
+  },
+  "runtime_requalified": false,
+  "schema": "forex_shared_git_review.v1",
+  "scientific_next_item": "macro_currency_meter_numeric_evidence_join_v2",
+  "scope": "shared Git source/artifact handoff and documentation only",
+  "source_commit": "2083eb77ebbce103e1a5382969de7810a6e7f962",
+  "source_commit_role": "pre_handoff_document_appendices",
+  "status": "ready_for_review",
+  "step_id": "mabel-full-git-20260923",
+  "tests": {
+    "clean_git_status": true,
+    "clone": "C:\\Users\\zmoor\\Documents\\forex\\git_publication_20260923\\clone",
+    "commit": "2083eb77ebbce103e1a5382969de7810a6e7f962",
+    "engineering_contract_tests_passed": 44,
+    "files_verified": 4584,
+    "helper_tests_passed": 28,
+    "models_fitted": 0,
+    "models_loaded": 0,
+    "results": [
+      {
+        "exit_code": 0,
+        "name": "bootstrap_tests",
+        "output": "bootstrap_tests.txt",
+        "sha256": "3942434896db7922e6cefbab8ab6bc86be7df407619cfb0539d49dcf3d245867"
+      },
+      {
+        "exit_code": 0,
+        "name": "engineering_contract_tests",
+        "output": "engineering_contract_tests.txt",
+        "sha256": "2f0040ae7344f8b1f404dbca1f33e63fac5b59a3fc7232cf293024d05c03712f"
+      },
+      {
+        "exit_code": 0,
+        "name": "vault_status",
+        "output": "vault_status.txt",
+        "sha256": "feeddd42f420999e767f4d7f1e073bbe954c89c37acf2ba745ab38a1bda98c71"
+      },
+      {
+        "exit_code": 0,
+        "name": "environment_doctor",
+        "output": "environment_doctor.txt",
+        "sha256": "f67ef885bcca85270172c224c912c3c193d327c86c99e750dc8774d94f86dae6"
+      },
+      {
+        "exit_code": 0,
+        "name": "saved_artifact_retrieval",
+        "output": "saved_artifact_retrieval.txt",
+        "sha256": "eeb895e55ee16afecb0147feeddd951f576606cd528719fceab83aa70a70cb79"
+      },
+      {
+        "exit_code": 0,
+        "name": "saved_artifact_existing_reuse",
+        "output": "saved_artifact_existing_reuse.txt",
+        "sha256": "ac4cbbdccd7993109d06c32929746c8b15dee0a2e3fa09efe861362b5ab02330"
+      }
+    ],
+    "saved_models_verified": 8,
+    "scope": "fresh local clone, helper tests, synthetic engineering contracts, saved artifact byte retrieval; no remote-machine/runtime certification",
+    "source_inventory_parity": true,
+    "status": "PASSED",
+    "utc": "2026-09-23T17:25:02.389124+00:00"
+  },
+  "utc": "2026-09-23T17:30:51.322012+00:00",
+  "verdict": "ready_for_review"
+}

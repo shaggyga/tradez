@@ -1,0 +1,24 @@
+{
+  "schema": "forex_checkpoint_review.v1",
+  "utc": "2026-09-25T03:25:31.721155Z",
+  "step_id": "material_input_cohort_contract_v2",
+  "status": "complete_contract_frozen_no_compute",
+  "verdict": "accepted_within_scope_same_task_review",
+  "independent_review": false,
+  "independent_review_status": "pending_nonblocking_by_user_clarification",
+  "scope": "machine-checkable material input/cohort contract and validator; no fit/replay/API/broker/live-bot/D-drive/EURUSD work",
+  "selected_candidate_id": "macro_event_text_incremental_matched_contract_v1",
+  "contract_sha256": "ec2996ae9493b1697166833d5bef2646108bb1f6636d53db61d1aa9548eb9a6a",
+  "validation_receipt_sha256": "8f0a798e3791ff7fea0b922a3b3028fb39465f18343c5ebe084dc8b50c40c340",
+  "tests": {
+    "command": "python -I -B -m pytest -q stage_c_alignment_integrity_v2\\test_material_input_cohort_contract_v2.py",
+    "result": "3 passed",
+    "warning": "pytest cache warning only, when present"
+  },
+  "source_commit_before_publication": "cbefa13173aa87432a811ef5a0c322b5064f4705",
+  "next_action": "macro_event_text_incremental_support_inventory_v1",
+  "notes": [
+    "The contract intentionally keeps fit_allowed=false; a later support inventory/preflight must identify exact macro/event/text frames and matched ridge/HGB keys before compute.",
+    "This replenishes the queue from Design 12.2/12.4/27.2/27.4/27.5 after the distinct-method support block."
+  ]
+}

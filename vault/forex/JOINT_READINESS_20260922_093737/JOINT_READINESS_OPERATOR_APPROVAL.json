@@ -1,0 +1,16 @@
+{
+  "recipe": "source_snapshot/JOINT_READINESS_OPERATOR_RECIPE.json",
+  "recipe_sha256": "18e06f375182075d1f75b62e322d37a0021ad0ecf3ac5444bc49c78379f3938e",
+  "scope": "conservative offline joint fit/prediction reservations and unchanged-artifact fallback; no live capacity guarantee",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify",
+    "inspect"
+  ],
+  "bootstrap": "checkpoint/forex_joint_readiness.zip",
+  "contract": "source_snapshot/JOINT_READINESS_CONTRACT_V2.md",
+  "next": "review_joint_readiness_checkpoint"
+}

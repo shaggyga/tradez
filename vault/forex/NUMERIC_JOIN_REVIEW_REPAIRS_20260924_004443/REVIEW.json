@@ -1,0 +1,120 @@
+{
+  "checkpoint": {
+    "path": "checkpoint/forex_numeric_join.zip",
+    "sha256": "a05a7810ee6077362b74964af40012e1d9571f6d919c5f0bc129391cdcc9d95c"
+  },
+  "checks": {
+    "first_run_failure": "unit binding population absent in retained meter; corrected false test assumption, explicit unavailable coverage preserved",
+    "independent_review": {
+      "checkpoint_sha256": "a05a7810ee6077362b74964af40012e1d9571f6d919c5f0bc129391cdcc9d95c",
+      "checks": {
+        "fresh_restore": {
+          "payloads_identical": 5,
+          "receipt": "fresh_restore/RESTORE_RECEIPT.json",
+          "status": "VERIFIED",
+          "tests": "fresh_restore/tests.log",
+          "tests_passed": 16,
+          "tests_skipped": 3
+        },
+        "implementer_regressions": {
+          "evidence": "../tests_repaired.txt",
+          "passed": 36,
+          "reviewer_reran": false
+        },
+        "independent_invariants": {
+          "evidence": "INVARIANT_RETEST.json",
+          "passed": 16
+        },
+        "real_chrome_consumer_groups": {
+          "evidence": "BROWSER_RETEST.json",
+          "passed": 3
+        }
+      },
+      "coverage": {
+        "currencies": 21,
+        "currency_and_pair_payloads": "byte_identical_to_predecessor",
+        "instruments": 68,
+        "joined_numeric_documents": 21,
+        "no_selected_numeric_event_documents": 455,
+        "scoped_unit_provenance_bindings_on_real_meter_selected_versions": "none; explicitly reported; synthetic exact-content cases exercise binding resolution",
+        "snapshots": 8,
+        "unique_documents": 476
+      },
+      "created_utc": "2026-09-24T00:57:23.6502641Z",
+      "independent_review": true,
+      "initial_review": "REVIEW_RESULT.json",
+      "live_matches_restored_source": true,
+      "next_action": "publish reviewed successor and finish separate publication repair before research advances",
+      "readiness": {
+        "demo_authorization_status": "not_granted",
+        "engineering_ready": true,
+        "engineering_scope": "bounded_join_consumer_only",
+        "forecast_evidence_status": "offline_numeric_evidence_not_forecast_admission",
+        "policy_evidence_status": "not_evaluated"
+      },
+      "recipe_sha256": "62da7464c1f0e420555e23052a59b70399132e7ec62863eb02320dfe11ace798",
+      "resolution_details": "RETEST_RESULT.json",
+      "resolved_findings": [
+        "NJR-01",
+        "NJR-02",
+        "NJR-03",
+        "NJR-04"
+      ],
+      "reviewer": "/root/numeric_join_review",
+      "run_identity": "ce4a0b8ffbcbb5dd394cd92ab6981a268c55bc6caf9cd2ffaeca4fa1e6cdf254",
+      "schema": "forex_independent_review_resolution.v1",
+      "scope": "Numeric evidence consumer/source/operator/checkpoint; separate publication audit required",
+      "source_sha256": {
+        "NUMERIC_EVIDENCE_JOIN_OPERATOR_RECIPE.json": "62da7464c1f0e420555e23052a59b70399132e7ec62863eb02320dfe11ace798",
+        "contracts.py": "3a1776f0862f6bb4bc3ba73f4c0febec573350d712aa50e9dbcc0e253b11aecd",
+        "macro_component_state_v2.py": "959f9d12a1e55cda12dbd9669dad46ce77dae63d7dfd0d80f001325b3108a321",
+        "macro_meter_operator_v2.py": "f892c5d995910d049dd5296cb2f78d04b09d144ffff96c42d4aea0110dbd1c6b",
+        "macro_meter_v2.py": "be085ea81af9f341fc50d289059b275230c70d0754780ceed5feb8309a56d7bc",
+        "macro_numeric_evidence_join_checkpoint_v2.py": "6466dce3e3fe0887f7f94f99060e0fc1b27fe632d98b7fcf5c3e60abaa51c5f2",
+        "macro_numeric_evidence_join_operator_v2.py": "412b6432b68e3a115e29988ae68a0a284149e18b33666fda822177952859dbf5",
+        "macro_numeric_evidence_join_v2.py": "793741ae522f8a5bd986211db80fb0e92e1bea93d907efc107f269321636a883",
+        "publication.py": "51e3eb20cee191a24b74c708bd5c54b25b8ea4a1042248e6a4a96bfebd81d797",
+        "test_macro_numeric_evidence_join_v2.py": "09a7ffa762ae07e9e3a67143fc12f667a530147496dc2ba3fa769a63417a9f2a"
+      },
+      "step_id": "macro_currency_meter_numeric_evidence_join_v2",
+      "unresolved_findings": [],
+      "verdict": "accepted_within_scope"
+    },
+    "numeric_attached_rows": 21,
+    "real_document_rows": 476,
+    "targeted_and_predecessor_tests": "36 passed"
+  },
+  "implementation_status": "complete",
+  "independent_review": true,
+  "limitations": [
+    "Retained selected meter versions have no unit/provenance scoped binding; synthetic binding fixtures only",
+    "Local publication verification is not cloud synchronization",
+    "No new fit, forecast merit or live authorization"
+  ],
+  "next_action": "whole_curve_warm_start_capacity_followup_v2",
+  "readiness": {
+    "demo_authorization_status": "not_granted",
+    "engineering_ready": false,
+    "forecast_evidence_status": "offline_numeric_evidence_not_forecast_admission",
+    "policy_evidence_status": "not_evaluated"
+  },
+  "review_result": "independent_review/RESOLUTION_REVIEW.json",
+  "review_status": "accepted_within_scope",
+  "reviewer": "/root/numeric_join_review",
+  "run": {
+    "demo_authorization_status": "not_granted",
+    "engineering_ready": false,
+    "forecast_evidence_status": "offline_numeric_evidence_not_forecast_admission",
+    "independent_review": false,
+    "next_action": "record_receipt_and_stop",
+    "policy_evidence_status": "not_evaluated",
+    "recipe_sha256": "62da7464c1f0e420555e23052a59b70399132e7ec62863eb02320dfe11ace798",
+    "run_identity": "ce4a0b8ffbcbb5dd394cd92ab6981a268c55bc6caf9cd2ffaeca4fa1e6cdf254",
+    "run_path": "timed_research_20260924_004443\\join_runs\\numeric-evidence-join-20260914-20260921",
+    "status": "completed_verified"
+  },
+  "schema": "forex_review_packet.v2",
+  "source_commit": "c14630874f8a75c637ecac31ca120e84e65cebd7",
+  "step_id": "macro_currency_meter_numeric_evidence_join_v2",
+  "unresolved_findings": []
+}

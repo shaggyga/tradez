@@ -1,0 +1,193 @@
+{
+  "branch": "forex",
+  "checks": [
+    {
+      "check": "roots",
+      "detail": {
+        "vault": "C:\\Users\\zmoor\\OneDrive\\thevault\\projects\\forex",
+        "workspace": "C:\\Users\\zmoor\\Documents\\forex\\operational_readiness_20260923\\checkpoint_restore"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "repository",
+      "detail": {
+        "branch": "forex",
+        "clean": true,
+        "head": "5e7cb25c467bfb47887c89953b16f5b50d698528"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "vault_packages",
+      "detail": {
+        "design_manifest_sha256": "f29d0e398ed6e9acc812baf9169d11e84d67bfaae141f1c027f1917a09ddeefe",
+        "design_package": "MACRO_METER_20260923_042731",
+        "exact_next_item": "macro_currency_meter_numeric_evidence_join_v2",
+        "review_manifest_sha256": "808390179cfc40400eaa779cbb50776c4fe53562f0324e5efc70ed01c5be17a6",
+        "review_package": "OPERATIONAL_READINESS_20260923_180528"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "current_documents",
+      "detail": {
+        "project_documents": 21,
+        "vault_documents": 14
+      },
+      "status": "pass"
+    },
+    {
+      "check": "engineering_source",
+      "detail": {
+        "engineering_files_verified": 369,
+        "scope": "current engineering root source snapshot"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "revision",
+      "detail": {
+        "branch": "forex",
+        "expected_commit": "5e7cb25c467bfb47887c89953b16f5b50d698528",
+        "identity_source": "Vault final handoff receipt",
+        "live_remote_freshness": "not_checked_offline"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "coordination",
+      "detail": {
+        "active_claims": [
+          {
+            "handoff": "Audit missing operational prerequisites, preserve originals, close concrete defects before research resumes.",
+            "owner": "Mabel existing Codex chat with delegated reviewers",
+            "scope": "Project/Vault entry docs and coordination; independent Git checkpoint review; redundant verification copies only after proof; saved-artifact catalog; offline preflight/setup gaps; Git/checkpoint handoff. No numerical experiments, fitting, service/broker changes or D access",
+            "status": "IN_PROGRESS",
+            "task_id": "mabel-operational-readiness-20260923"
+          }
+        ],
+        "atomic_cross_machine_reservation": false,
+        "claim_created": false,
+        "claim_id": "mabel-operational-readiness-20260923"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "operational_gate",
+      "detail": {
+        "manifest_sha256": "808390179cfc40400eaa779cbb50776c4fe53562f0324e5efc70ed01c5be17a6",
+        "package": "OPERATIONAL_READINESS_20260923_180528",
+        "queue_packet": "OPERATIONAL_READINESS_20260923_180528/REVIEW.json",
+        "research_authorization": false,
+        "selected_work_item": "macro_currency_meter_numeric_evidence_join_v2",
+        "status": "complete",
+        "step_id": "mabel-operational-readiness-20260923"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "environment",
+      "detail": {
+        "expected": {
+          "joblib": "1.5.3",
+          "numpy": "2.5.1",
+          "pandas": "2.3.3",
+          "pyarrow": "25.0.0",
+          "pytest": "9.1.1",
+          "python": "3.12.10",
+          "requests": "2.34.2",
+          "scikit-learn": "1.9.0",
+          "scipy": "1.18.0",
+          "threadpoolctl": "3.6.0",
+          "tzdata": "2026.3"
+        },
+        "installed": {
+          "joblib": "1.5.3",
+          "numpy": "2.5.1",
+          "pandas": "2.3.3",
+          "pyarrow": "25.0.0",
+          "pytest": "9.1.1",
+          "python": "3.12.10",
+          "requests": "2.34.2",
+          "scikit-learn": "1.9.0",
+          "scipy": "1.18.0",
+          "threadpoolctl": "3.6.0",
+          "tzdata": "2026.3"
+        },
+        "model_runtime_qualified": false,
+        "profile": "engineering"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "artifact:matched_remaining_saved",
+      "detail": {
+        "archive_sha256": "70c3d4fb54fb86e79b4bcd65c9cd923768592887e5278c93bc27a7ab5244a10b",
+        "artifact": "matched_remaining_saved",
+        "models_fitted": 0,
+        "models_loaded": 0,
+        "original_run_identity_fingerprint": "fc0a1423ca93b62e94f215b49a6a55aaf280524aadc1501b231efef4031a2763",
+        "verified_members": 26
+      },
+      "status": "pass"
+    },
+    {
+      "check": "artifact:matched_campaign_saved",
+      "detail": {
+        "archive_sha256": "aca5a30b6598c56084919d7feb0481e70cc7246af72d74766d78cdf936c506b9",
+        "artifact": "matched_campaign_saved",
+        "models_fitted": 0,
+        "models_loaded": 0,
+        "original_run_identity_fingerprint": "b3c3ea235bb15727633b665f86ea535b48bfe14cc35d00e60b12e7d848ea750d",
+        "verified_members": 37
+      },
+      "status": "pass"
+    },
+    {
+      "check": "artifact:rich_family_saved",
+      "detail": {
+        "archive_sha256": "44825b28079acafa7e6685431418dded13fb0605d9aabec9e31e795eec4c0f1b",
+        "artifact": "rich_family_saved",
+        "models_fitted": 0,
+        "models_loaded": 0,
+        "original_run_identity_fingerprint": "4516f210457f2ef721ed8e6bc4a4db11a0b5b2381eb519d070e65bca26093af1",
+        "verified_members": 219
+      },
+      "status": "pass"
+    },
+    {
+      "check": "snapshot_stability",
+      "detail": {
+        "files_read": 1025
+      },
+      "status": "pass"
+    }
+  ],
+  "code_commit": "5e7cb25c467bfb47887c89953b16f5b50d698528",
+  "filesystem_mutations": 0,
+  "limitations": [
+    "Local immutable/current-document identity checks only; no live GitHub or OneDrive freshness proof.",
+    "Passing is a setup observation, not a research, model run, broker or service authorization.",
+    "The board is advisory, not an atomic distributed lock; establish shared freshness and claim work before edits/runs.",
+    "Selected recipe input bytes and full historical artifact graphs are checked only by their original operator; this tool never launches it.",
+    "Historical missing approvals unrelated to the selected next work are not interpreted as startup blockers."
+  ],
+  "model_runtime_qualified": false,
+  "models_fitted": 0,
+  "models_loaded": 0,
+  "network_calls": 0,
+  "research_authorization": false,
+  "schema": "forex_offline_preflight.v1",
+  "status": "pass",
+  "unresolved_claims": [
+    {
+      "handoff": "Audit missing operational prerequisites, preserve originals, close concrete defects before research resumes.",
+      "owner": "Mabel existing Codex chat with delegated reviewers",
+      "scope": "Project/Vault entry docs and coordination; independent Git checkpoint review; redundant verification copies only after proof; saved-artifact catalog; offline preflight/setup gaps; Git/checkpoint handoff. No numerical experiments, fitting, service/broker changes or D access",
+      "status": "IN_PROGRESS",
+      "task_id": "mabel-operational-readiness-20260923"
+    }
+  ],
+  "utc": "2026-09-23T18:40:11.557348+00:00"
+}

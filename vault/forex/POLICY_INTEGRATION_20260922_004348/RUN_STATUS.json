@@ -1,0 +1,102 @@
+{
+  "schema_version": "forex_current_design_alignment.v2",
+  "assessed_date": "2026-09-22",
+  "scope": "bounded two-day policy/controller integration and frozen operating recipes",
+  "design_path": "specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+  "design_sha256": "61d9713034f6f058d9f59ff11c0dd05b2a7e36583dffb2cd6d6300c64b8dc374",
+  "engineering_ready": false,
+  "forecast_evidence_status": "no_new_model_evidence_neutral_issuance_only",
+  "policy_evidence_status": "unevaluated_for_design_campaign",
+  "demo_authorization_status": "not_granted_for_design_campaign",
+  "advisor_comparisons": "deferred_by_user",
+  "paid_api_budget_usd": 0,
+  "real_money_routing_enabled": false,
+  "current_broker_health_verified": false,
+  "cloud_sync_verified": false,
+  "next_batch": "review_policy_integration_checkpoint",
+  "exact_next_item": "Review the policy integration checkpoint; then causal_fitted_consumer_v2 (B/C) before campaign E.",
+  "work_packages": {
+    "B_C_neutral_issuance_recovery": "bounded_scope_verified",
+    "B_fitted_adaptive_consumer_causality": "next_engineering_after_review",
+    "D_retained_candle_quote_availability": "qualified_at_two_stamps_only",
+    "D_conversion_candle_availability": "bounded_report_available",
+    "D_synthetic_reference_adapter": "bounded_adapter_report_available",
+    "D_full_reference_execution_policy_state": "partial",
+    "E_first_complete_all68_daily_multiday_campaign": "pending_dependencies",
+    "F_populated_technical_peer_macro_inputs": "partial_static_lineage_only",
+    "WP5_GPT_advisor_comparisons": "deferred",
+    "D_synthetic_event_accounting": "verified_bounded_scope",
+    "D_batched_close_kernel": "verified_bounded_parity",
+    "D_policy_thesis_hold_exit_replace": "bounded_synthetic_integration_verified_pending_review",
+    "H_lower_model_operator": "verified_synthetic_recipe_only",
+    "B05_review_repairs": "implemented_verified_pending_review"
+  },
+  "verification_receipts": [
+    {
+      "file": "evidence/integrated_policy_final.xml",
+      "tests": 293,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "actual_neutral_run": "C:\\Users\\zmoor\\Documents\\forex\\stage_c_alignment_integrity_v2\\runs\\all68-neutral-repair-20260921-210502",
+  "actual_neutral_identity": "4ebea9916995c3ff3da92c84e37ddfb956f00b1b542aadb52ed5940e9a933523",
+  "actual_neutral_coverage": {
+    "coverage": 68,
+    "forecasts": 68,
+    "pending_outcomes": 68
+  },
+  "retained_bid_ask": {
+    "both_candle_close_pairs_valid": 67,
+    "members_with_bid_ask_columns": 68,
+    "origin": {
+      "duplicate_extra_rows": 0,
+      "invalid_quote_rows": 0,
+      "missing_bars": 0,
+      "status_counts": {
+        "valid_candle_close_pair": 68
+      },
+      "valid_pairs": 68
+    },
+    "target": {
+      "duplicate_extra_rows": 0,
+      "invalid_quote_rows": 0,
+      "missing_bars": 1,
+      "status_counts": {
+        "missing_exact_bar": 1,
+        "valid_candle_close_pair": 67
+      },
+      "valid_pairs": 67
+    },
+    "universe": 68
+  },
+  "execution_input_readiness": false,
+  "checkpoint": {
+    "path": "checkpoint/forex_policy_integration.zip",
+    "sha256": "77d14fe10e7c2878873d21dbd39bb00d9307239b580c33b3a5ef53d668d5455b",
+    "scope": "synthetic_accounting_and_policy_fixture",
+    "relocated_replay_verified": true,
+    "relocated_tests_verified": true,
+    "packaged_accounting_and_policy_operator_verified": true,
+    "bulk_historical_archive_included": false
+  },
+  "remaining_dependencies": [
+    "policy thesis continuity and common-horizon HOLD/EXIT/REPLACE consumer integration",
+    "historical quote arrival, simultaneous execution, financing and venue calendar provenance",
+    "fitted-consumer label maturity, chronological selection and model readiness",
+    "actual technical/peer/macro input population and full all68 daily/multiday campaign",
+    "campaign-scale optimization and approved operator recipes for later stages"
+  ],
+  "path_forward": "PATH_FORWARD.md",
+  "active_handoff": "REVIEW.md",
+  "predecessor_status": "../ACCOUNTING_REPAIRS_20260922_000256/RUN_STATUS.json",
+  "lower_model_operation": {
+    "software_recipe_verified": true,
+    "specific_lower_model_evaluated": false,
+    "routine_scope": "frozen accounting and policy synthetic recipes; no scientific edits",
+    "contract": "POLICY_CONTRACT_V2.md"
+  },
+  "review_status": "ready_for_review",
+  "independent_review": false
+}

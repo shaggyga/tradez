@@ -1,0 +1,28 @@
+{
+  "created_utc": "2026-09-21T14:31:50Z",
+  "status": "isolated_repair_validated_unmerged",
+  "scope": [
+    "legacy_alignment_pip_unit_lookup",
+    "legacy_rotation_consumer_regression_test"
+  ],
+  "excluded": [
+    "live_project_modification",
+    "credentials_and_account_resolution",
+    "broker_or_network_requests",
+    "historical_replay_or_model_fit"
+  ],
+  "hashes": {
+    "isolated_alignment_source_sha256": "cce82e1d102583d8ed922d38ebf82c4beb4768442d467dffd45a4aec87eae02e",
+    "reviewed_pip_metadata_sha256": "c9464343f012e0bdd83582480a0044bf1c6774eef2622f312bcdd4599e3869c5",
+    "isolated_validated_test_sha256": "f3d45833d942c26ee8dd8e3df5096a1c404378f962e469a37cdaf9329c2a256f",
+    "isolated_runner_sha256": "33529ab1485515ae21dab3b585de8e455e88b6e7a7b573432e8a8b951abd716f",
+    "test_receipt_sha256": "aeae3eb5ee22e8803d1bbfd0a217b953aa6a9a1476bdbd2532ffef86e755c673"
+  },
+  "validation": {
+    "command": "python.exe -I -B run_isolated_pip_tests.py",
+    "tests_passed": 11,
+    "warnings": 6,
+    "warnings_class": "pandas_dataframe_fragmentation_performance_warning",
+    "source_inputs_unchanged_during_test": true
+  }
+}

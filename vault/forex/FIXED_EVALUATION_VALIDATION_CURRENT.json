@@ -1,0 +1,390 @@
+{
+  "schema_version": "forex_fixed_evaluation_validation_v1",
+  "generated_utc": "2026-09-06T12:03:15.105779+00:00",
+  "status": "fixed_offline_comparison_complete_fresh_prospective_evidence_unavailable",
+  "canonical_project": "C:\\Users\\zmoor\\Documents\\forex\\trad",
+  "runtime_started": false,
+  "broker_requests": 0,
+  "production_logical_writes": 0,
+  "database_access": {
+    "broker_access": false,
+    "connection": "URI mode=ro; query_only; one read transaction",
+    "database_main_or_wal_stat_changes": false,
+    "production_logical_writes": 0,
+    "shm_caveat": "SQLite may maintain ephemeral reader marks in existing SHM; no byte-identity claim is made for SHM.",
+    "workers_started": 0
+  },
+  "database_main_wal_bindings": [
+    {
+      "hash_seconds": 303.7029999999795,
+      "path": "data/oanda_training_manager/state/strategy_shadow_outcomes_v1.sqlite",
+      "second_sha256": "6fcc504f960b520555028e8a89dfb6a7dac80aa611538c8ca74fd3053e646baf",
+      "sha256": "6fcc504f960b520555028e8a89dfb6a7dac80aa611538c8ca74fd3053e646baf",
+      "stat_after": {
+        "exists": true,
+        "mtime_ns": 1788574073140399900,
+        "size": 59806691328
+      },
+      "stat_before": {
+        "exists": true,
+        "mtime_ns": 1788574073140399900,
+        "size": 59806691328
+      }
+    },
+    {
+      "hash_seconds": 3.390999999945052,
+      "path": "data/oanda_training_manager/state/strategy_shadow_outcomes_v1.sqlite-wal",
+      "second_sha256": "e78f152c7c193ec5e67de2a0f72ed62b54fee3e93b57642adb64c2ca211bbcff",
+      "sha256": "e78f152c7c193ec5e67de2a0f72ed62b54fee3e93b57642adb64c2ca211bbcff",
+      "stat_after": {
+        "exists": true,
+        "mtime_ns": 1788574072456447700,
+        "size": 711948392
+      },
+      "stat_before": {
+        "exists": true,
+        "mtime_ns": 1788574072456447700,
+        "size": 711948392
+      }
+    }
+  ],
+  "protocol": {
+    "schema_version": "fixed_forecast_evaluation_protocol_v1",
+    "contract_id": "eurusd_h1_four_family_fixed_comparison_v1_20260906",
+    "status": "offline_engineering_evaluation",
+    "collection_enabled": false,
+    "account_eligible": false,
+    "proof_eligible": false,
+    "selection_basis": "All four already active families on a single common pair and their existing one-hour horizon; no selection by observed returns. Historical data was already inspected.",
+    "instrument": "EUR_USD",
+    "input_timeframe": "M1",
+    "horizon_sec": 3600,
+    "historical_start_utc": "2026-08-29T12:36:36+00:00",
+    "historical_end_utc": "2026-09-05T02:09:17.987598+00:00",
+    "reference_schedule": "All issued shared reference epochs in the frozen extract, including missing outcomes and abstentions; no outcome-based resampling.",
+    "model_version": "sha256:1bca3b3b583dcad31d25af7dff44e005c417e81d2e6392d763ade02f04cb0752",
+    "feature_version": "sha256:3c6c9c58faab1ef46fbc73b93f6e64960047a0ef36646ce1fc9d3ef4b360f71f",
+    "version_semantics": "Recorded predictor implementation and feature contract identities; not an assertion that all rolling training weights are identical.",
+    "cohorts": {
+      "cross_pair_graph_transfer": "cross_pair_graph_transfer.20260829.d31c46ca1292ec00",
+      "modern_tabular_probabilistic_repaired": "modern_tabular_probabilistic_repaired.20260829.34753ccbd209ba5e",
+      "probabilistic_state_space": "probabilistic_state_space.20260829.8e91b86317fa23ad",
+      "ridge_return_repaired": "ridge_return_repaired.20260829.2c8672a0b00fc5ed"
+    },
+    "baselines": [
+      "fair_coin",
+      "zero_move",
+      "no_trade",
+      "rolling_class_rate"
+    ],
+    "rolling_lookback": 100,
+    "rolling_min_labels": 20,
+    "rolling_prior": "Beta(1,1); fallback probability 0.5 until minimum; unique market target events only",
+    "probability_target": "Reference-to-original-target midpoint return > 0; flat is a separate reported category and a false up label",
+    "direction_rule": "Preserve the original emitted side for model direction and economic scores; score probability independently. Rolling baseline p_up > 0.5 buys, p_up < 0.5 sells, equality abstains. No optimized threshold.",
+    "quote_max_age_sec": 60,
+    "maximum_entry_delay_sec": 60,
+    "maximum_target_quote_delay_sec": 60,
+    "extra_cost_stress_bps": [
+      0.0,
+      0.5,
+      1.0
+    ],
+    "economic_normalization": "10000 * executable price difference / common entry midpoint; no trade is zero; stress is total extra round-trip bps per non-abstaining decision",
+    "target_rule": "Original reference epoch plus 3600, never shifted by publication or entry delay",
+    "reference_price_rule": "Each emitted forecast reference_mid must match the shared original reference quote midpoint within absolute 1e-12; prediction return normalization never moves to the later execution quote.",
+    "baseline_cutoff_rule": "Strictly before the earliest original issue among the four paired forecasts",
+    "missing_clock_rule": "Exclude; recorded_utc, row order, file timestamps and data cutoffs are not substitutes for observed availability",
+    "graduation": "None. Clock-valid engineering scores cannot authorize trading or confirm an edge. A separately registered fresh study is required."
+  },
+  "protocol_file_sha256": "4e3f09bd4a796468fadcb6be84ff7cecd585fb12a8408a3d11ec3bebf2012844",
+  "validation": {
+    "passed": 158,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 3.96,
+    "guard": "Network, threads, subprocesses, production SQLite and non-fixture writes prohibited for tests",
+    "independent_scorer_tests": 76,
+    "independent_baseline_tests": 55,
+    "suite_counts_overlap_do_not_add": true
+  },
+  "actual_data_result": {
+    "preserved_forecasts": 1628,
+    "reference_epochs": 407,
+    "missing_outcomes": 85,
+    "identical_archival_endpoint_epochs": 368,
+    "strict_clock_valid_paired_decisions": 0,
+    "all_original_payload_hashes_verified": true,
+    "all_archival_metrics_independently_recomputed": true,
+    "all_four_models_worse_brier_than_constant_half": true,
+    "all_four_models_worse_mae_than_zero_move": true,
+    "all_four_stored_quote_net_means_negative": true,
+    "old_data_reclassified_as_prospective": false
+  },
+  "separate_scope": [
+    "Archival comparisons retain original emitted predictions, prices and missingness.",
+    "Strict scorer preserves original target/reference/side and rejects unavailable clocks.",
+    "Causal rolling baseline behavior verified on fixtures; historical rolling metrics remain unavailable.",
+    "No old producer/cohort/evidence was rewritten, activated or promoted."
+  ],
+  "stopped_state": {
+    "observed_utc": "2026-09-06T12:01:35.4040773Z",
+    "runtime_processes": [],
+    "excluded_read_only_review_shells": [],
+    "forex_tasks": [
+      {
+        "Name": "ForexGptOrigConstantRotationDemoWatchdog",
+        "State": "Disabled"
+      },
+      {
+        "Name": "ForexSafeCoreAtLogon",
+        "State": "Disabled"
+      }
+    ],
+    "supervisor_executed": false,
+    "broker_requests": 0,
+    "inspection": "Process entrypoint/command metadata and task state; no service or broker call"
+  },
+  "source_bindings": [
+    {
+      "path": "config/fixed_forecast_evaluation_v1_20260906.json",
+      "bytes": 3177,
+      "sha256": "4e3f09bd4a796468fadcb6be84ff7cecd585fb12a8408a3d11ec3bebf2012844"
+    },
+    {
+      "path": "docs/AUDIT_STATE_CURRENT.md",
+      "bytes": 7981,
+      "sha256": "dea7190299fee1af4080770218645d032aec8603cff3a9c9f74b38b83ea5634d"
+    },
+    {
+      "path": "docs/FOREX_FIXED_EVALUATION_20260906.md",
+      "bytes": 9652,
+      "sha256": "c3f3cf783b779d636a5adca122616e469efb64427889ee429ae4eb8ce562b60d"
+    },
+    {
+      "path": "docs/validation/fixed_evaluation_20260906/archival_independent_verification.json",
+      "bytes": 1738,
+      "sha256": "31b132f49f70de5b03e7afdef2200f82d5c87b11b70a034377b274fc7b233e0e"
+    },
+    {
+      "path": "docs/validation/fixed_evaluation_20260906/archival_scorecard.json",
+      "bytes": 1097201,
+      "sha256": "5f995ed0f76ace5adbb2f9de7a7a92f134b13860c169af502cadffc0e4ca180f"
+    },
+    {
+      "path": "docs/validation/fixed_evaluation_20260906/archive_product_bindings.json",
+      "bytes": 346,
+      "sha256": "c71c28aa9677336c58a3ee5ed82b7f530e18a1ea9e68dff1401013a55cff4ea9"
+    },
+    {
+      "path": "docs/validation/fixed_evaluation_20260906/availability_diagnostic.json",
+      "bytes": 16019,
+      "sha256": "c195d3e3f72d160308b5eb6aa42f19d3096dc7807f31e934ef2d7bfb95782133"
+    },
+    {
+      "path": "docs/validation/fixed_evaluation_20260906/AVAILABILITY_REVIEW.md",
+      "bytes": 3941,
+      "sha256": "25f71c0e24d6c0ce873ad91d8094de16ec521ab5c692a27ac634441ca89f4ca5"
+    },
+    {
+      "path": "docs/validation/fixed_evaluation_20260906/baselines/BASELINE_VALIDATION.json",
+      "bytes": 1095,
+      "sha256": "c82f7a6dc062ec804272e255ac2ecfd02a460e2f24af30e136da7372cfc1be7c"
+    },
+    {
+      "path": "docs/validation/fixed_evaluation_20260906/baselines/integration_tests.xml",
+      "bytes": 8056,
+      "sha256": "0dc1e0b0eec0131e5ac34a372732e1d6ea203f5c4f2b290b687f7bb1c4c7dd87"
+    },
+    {
+      "path": "docs/validation/fixed_evaluation_20260906/complete_availability_metadata.py",
+      "bytes": 8614,
+      "sha256": "e539d1c0e7971a08d657138b319d9bb6f47cb0d76b155719abf6885a17a621c6"
+    },
+    {
+      "path": "docs/validation/fixed_evaluation_20260906/finish_inventory.py",
+      "bytes": 7117,
+      "sha256": "1be72349cf5581ce229d75457034e18b41fddf58c4c15c925b89fb06c9864e07"
+    },
+    {
+      "path": "docs/validation/fixed_evaluation_20260906/fixed_cohort_contracts.json",
+      "bytes": 14279,
+      "sha256": "bcdbbd4a019fa656b057e910a634343254caa92837cf62b240a52bdd4753d583"
+    },
+    {
+      "path": "docs/validation/fixed_evaluation_20260906/integration_tests.xml",
+      "bytes": 23708,
+      "sha256": "e9a989e153243d10e112314978c2b7f7bb177dfdc8ff636fdfe2936709d8eeb4"
+    },
+    {
+      "path": "docs/validation/fixed_evaluation_20260906/inventory.json",
+      "bytes": 33862,
+      "sha256": "43219d5f4ec752b9e423723a375de931ef0e8e992035e47fe931e26a1a48d5bc"
+    },
+    {
+      "path": "docs/validation/fixed_evaluation_20260906/inventory.py",
+      "bytes": 4387,
+      "sha256": "6f994e2ca003a1074d2154b4a5e9fec0f52cf9c6d155c4abf21d87ce995b4e34"
+    },
+    {
+      "path": "docs/validation/fixed_evaluation_20260906/normalize_and_score_archive.py",
+      "bytes": 11182,
+      "sha256": "695cce1b8a7012992aa91e85072c158515db7aa0dc1f1eadcc39ce950a6be1ed"
+    },
+    {
+      "path": "docs/validation/fixed_evaluation_20260906/normalized_forecasts.json",
+      "bytes": 6731827,
+      "sha256": "3b030ba8a4a5483017b5021802ba83d981b7e930274ed7a43ab5775cbcda581e"
+    },
+    {
+      "path": "docs/validation/fixed_evaluation_20260906/run_tests.py",
+      "bytes": 2097,
+      "sha256": "717965ed870d2cfd57f3818d8e2adca2c951a789f67b63902884fedb44279800"
+    },
+    {
+      "path": "docs/validation/fixed_evaluation_20260906/scorer_tests/INDEPENDENT_SCORER_REVIEW.md",
+      "bytes": 4426,
+      "sha256": "075c514dd664cde42bf15fd0b6bba5e2b64788abdc2401faf3e1a12fa733279e"
+    },
+    {
+      "path": "docs/validation/fixed_evaluation_20260906/scorer_tests/integration_tests.xml",
+      "bytes": 11738,
+      "sha256": "59b4e599d57f22956b7dbe3c378f6b2f49b57fe7320cb3c8fbb851a2950d295d"
+    },
+    {
+      "path": "docs/validation/fixed_evaluation_20260906/selected_candidate_rows.json",
+      "bytes": 8236825,
+      "sha256": "dc3e20355b420d23406162678743f903feff4cc1689f28353f9da870d1358e12"
+    },
+    {
+      "path": "docs/validation/fixed_evaluation_20260906/stopped_after_validation.json",
+      "bytes": 490,
+      "sha256": "8db0abb9582c49b9a53071f5ed84e0f394c0ef922ca3fb6daad51da4e52edeef"
+    },
+    {
+      "path": "docs/validation/fixed_evaluation_20260906/stopped_before_evaluation.json",
+      "bytes": 490,
+      "sha256": "993a2364b775b1bfa81d19c5df63f010177ca1084f7f4b151ca8e60e0ef5259e"
+    },
+    {
+      "path": "docs/validation/fixed_evaluation_20260906/strict_evaluation_report.json",
+      "bytes": 705248,
+      "sha256": "ef3ace43b117d29e8ee684bbbf7193cc85c0facab16609b52b2beb6e700aa482"
+    },
+    {
+      "path": "docs/validation/fixed_evaluation_20260906/strict_input_final.json",
+      "bytes": 2350431,
+      "sha256": "8fcc30af16734d3c95190084835e61a441f35603cba9b84eaa59e4afef260da2"
+    },
+    {
+      "path": "docs/validation/fixed_evaluation_20260906/verify_archival_results.py",
+      "bytes": 3567,
+      "sha256": "69a5a11b5db7cec3e7d98e75f47e159dc5e9452926b799c1fe98f66b3a217b69"
+    },
+    {
+      "path": "FOREX_AUDIT_START_HERE.md",
+      "bytes": 7150,
+      "sha256": "166166079c79a26f7204c513ef4ff2074f4cf396c0f928878b3af0196f6167a9"
+    },
+    {
+      "path": "FOREX_FIXED_EVALUATION_FOLLOWUP_20260906.json",
+      "bytes": 1984,
+      "sha256": "2bbe337f338a876b89af1600057a262a5c0b5801b25b67bccc7b4b5b4764b712"
+    },
+    {
+      "path": "FOREX_FIXED_EVALUATION_RESULTS_20260906.json",
+      "bytes": 14099,
+      "sha256": "7acecda9075ba197f50eb4f9b671246916e8535d0f10d90a8d125bfcb4491cd3"
+    },
+    {
+      "path": "forex_model_vault_sync.py",
+      "bytes": 103985,
+      "sha256": "e206e58a32c752c1bad2da022f15b7bc5757c7065e9a0ba1a5491690140630f1"
+    },
+    {
+      "path": "FOREX_PENDING_IMPROVEMENTS.md",
+      "bytes": 289213,
+      "sha256": "03e24ce009d03a3993b59492e76fe9b4f6a2d79b9f458dbea0d703177d054d12"
+    },
+    {
+      "path": "FOREX_PROJECT_LOG.md",
+      "bytes": 409052,
+      "sha256": "598c31a4190687d8e2a8ebb64bd4a7399933eff67314fb53aaa9b087f88f5576"
+    },
+    {
+      "path": "oanda_causal_prediction_baselines.py",
+      "bytes": 6198,
+      "sha256": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d"
+    },
+    {
+      "path": "oanda_fixed_forecast_evaluation.py",
+      "bytes": 22510,
+      "sha256": "7ffbb85a29ca414239d720de33a7d413fdc2447af2c58e2bd70e151abb8e0b0c"
+    },
+    {
+      "path": "README.md",
+      "bytes": 3327,
+      "sha256": "59f6cefa5e7fbd7c0c052d75fe722e2a26888cbca32fa4f8717ba88381ba08dc"
+    },
+    {
+      "path": "test_build_fixed_forecast_input.py",
+      "bytes": 2601,
+      "sha256": "90a827aa2d3b58557148cdc6097f0c5e3d1f96cf7acac31738176940a1e08c6f"
+    },
+    {
+      "path": "test_forex_model_vault_sync.py",
+      "bytes": 51980,
+      "sha256": "a331e81ae3195c30232e923f30e60117730dae01ddcb26f73eca5dc62186c8c0"
+    },
+    {
+      "path": "test_oanda_causal_prediction_baselines.py",
+      "bytes": 7938,
+      "sha256": "fa0a8aa12c46118d91b28f3e94f6b5229a61fc2d2a739716564190a609b70608"
+    },
+    {
+      "path": "test_oanda_fixed_forecast_evaluation.py",
+      "bytes": 19982,
+      "sha256": "6453312c79c4c40d9026997446fb4b85ba698ac982e24b9dbd0741acc6f5dfc3"
+    },
+    {
+      "path": "test_oanda_issue_register_validator.py",
+      "bytes": 2353,
+      "sha256": "d6dfbfc8b107d5187b5d047c3b8c2d6f8d03859b1e8e0771b1295c12e34b9ba1"
+    },
+    {
+      "path": "tools/build_fixed_forecast_input.py",
+      "bytes": 4674,
+      "sha256": "fd6c5d55039900e83d68512e7a7b08ea8fe8013fc10481f4da3c9833d8434573"
+    }
+  ],
+  "preserved_prior_receipts": [
+    {
+      "path": "FOREX_OPTIMIZATION_VALIDATION_20260906.json",
+      "bytes": 29043,
+      "sha256": "1b7ff7f4c567e9c7ac092adc3e31f57bab02f67d06cb2ce1eae923531be33a0a"
+    },
+    {
+      "path": "FOREX_PREDICTION_QUALITY_20260906.json",
+      "bytes": 522506,
+      "sha256": "205ca0f6a5fbd40af7b45c0994ffcf93424da675e79b4637d030cd84560d489e"
+    },
+    {
+      "path": "FOREX_REPAIR_VALIDATION_20260905.json",
+      "bytes": 16531,
+      "sha256": "a38cf7e7e152aac9108d33b909f1d3ac17a5e1f9228068fc7afa510b9c5e2926"
+    }
+  ],
+  "remaining_issues": [
+    "FX-20260906-CALIBRATION-REPLAY-ISSUE-CLOCK",
+    "FX-20260906-FOUR-FAMILY-ENTRY-TARGET-AVAILABILITY"
+  ],
+  "limitations": [
+    "No strict causal historical or fresh prospective performance is established.",
+    "Input assertions passing clock checks do not independently attest historical availability.",
+    "368 overlapping archived endpoints over6UTCdays are not independent trials.",
+    "Source visibility, feature/label availability and correct entry/target production still require a separately versioned producer.",
+    "Ephemeral SQLite SHM reader metadata may change; logical tables and main/WAL bytes were not changed.",
+    "Vault export verification is recorded separately; no live runtime readiness claim."
+  ]
+}

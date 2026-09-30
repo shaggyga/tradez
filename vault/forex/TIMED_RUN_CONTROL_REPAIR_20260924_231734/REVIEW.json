@@ -1,0 +1,38 @@
+{
+  "checkpoint": "checkpoint/forex-timed-controls.bundle",
+  "checkpoint_sha256": "212288a3d3d187b72293d88e276fca517485124daaedb6077b2980c4ba3d5d64",
+  "control_review": "evidence/guard_review/REVIEW_RESULT.json",
+  "independent_review": true,
+  "independent_review_scope": "tools/forex_timed_session.py and focused control tests only",
+  "limitations": [
+    "Guard is invoked by operator, cannot intercept final response.",
+    "No scheduler was created and no backend liveness claim is made.",
+    "Receipt/evidence fields are declarations; no automatic truth/queue scan.",
+    "Scientific defects were documented, not repaired or recomputed."
+  ],
+  "readiness": {
+    "demo_authorization_status": "not_granted",
+    "engineering_ready": false,
+    "forecast_evidence_status": "residual_partial_changes_requested",
+    "policy_evidence_status": "unchanged"
+  },
+  "research_status": "stopped_by_user",
+  "residual_review": "evidence/review/RESIDUAL_REVIEW_RESULT.md",
+  "residual_verdict": "changes_requested",
+  "restore_receipt": "GIT_RESTORE_RECEIPT.json",
+  "reviewer": "/root/residual_checkpoint_audit",
+  "schema": "forex_control_repair_review.v1",
+  "scientific_next_item": "currency_projection_residual_layer_comparison_v2",
+  "scientific_source_baseline": "c20ab71b712954d0f730d73d62f94c9dcaaa765c",
+  "scientific_source_changed": false,
+  "scope": "timed_run_controls_and_honest_checkpoint_correction",
+  "source_commit": "f679ae1713b81d2e121d5b890a0d9e1a699c8823",
+  "step_id": "mabel-timed-controls-repair-20260924",
+  "tests": {
+    "guard_tests": 22,
+    "independent_probes": 2,
+    "status": "pass"
+  },
+  "utc": "2026-09-24T23:26:18.680701+00:00",
+  "verdict": "accepted_within_scope"
+}

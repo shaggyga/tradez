@@ -1,0 +1,1 @@
+The Extra Trees matched comparison is deliberately handoff-only. Before any fit, the next operator must complete a fresh preflight, inspect the retained source/qualification identities, add and run focused behavioral and causal tests, then launch the one frozen bounded run. Preserve partial payloads if a resource or data gate stops execution.

@@ -1,0 +1,115 @@
+{
+  "schema_version": "forex_executable_move_census_cohort_g_validation_v1",
+  "generated_utc": "2026-09-02T12:08:12Z",
+  "scope": "immutable retirement of cohort F and prospective validation of zero-backfill cohort G",
+  "supported_execution_decision": "no_trade",
+  "cohort_f": {
+    "cohort_id": "all68_executable_move_census_v3_20260901f",
+    "status": "permanently_invalid",
+    "database_path": "data/oanda_training_manager/state/executable_move_census_v3_20260901f.sqlite",
+    "database_sha256_after_retirement": "462edb0886705e561fa93e17afb7a83a906e45471941009c1fe63203d5a51510",
+    "quick_check": "ok",
+    "counts": {
+      "frames": 846,
+      "frame_quotes": 57528,
+      "frame_commit_receipts": 846,
+      "window_evaluations": 4919,
+      "factor_episode_summaries": 3125,
+      "factor_episode_finalizations": 52,
+      "open_frames": 841,
+      "closed_frames": 5
+    },
+    "frame_range_utc": {
+      "first": "2026-09-01T21:00:00Z",
+      "last": "2026-09-02T11:06:00Z"
+    },
+    "terminal_failure": {
+      "missing_open_frame_utc": "2026-09-02T10:46:00Z",
+      "committed_rows_at_target": 0,
+      "incident_count": 2,
+      "incident_types": [
+        "capture_attempt_failed",
+        "capture_target_terminal_failure"
+      ],
+      "observed_utc": [
+        "2026-09-02T10:46:01.000895Z",
+        "2026-09-02T10:46:01.004884Z"
+      ],
+      "exact_error": "RuntimeError: source_contract_mismatch:schema='3'!='3':producer='strategy_lab_price_stream'!='practice_007_fast_executor_price_stream'"
+    },
+    "other_invariants": {
+      "frames_with_not_68_quotes": 0,
+      "missing_receipts": 0,
+      "source_identity_mismatch_rows": 0,
+      "foreign_cohort_rows": 0,
+      "preactivation_rows": 0,
+      "zero_valid_open_frames": 0
+    },
+    "preservation_policy": "immutable; no repair, import, backfill, promotion, authorization, allocation or execution use"
+  },
+  "quote_ownership_repair": {
+    "canonical_executor_snapshot_producer": "practice_007_fast_executor_price_stream",
+    "strategy_lab_research_snapshot": "data/oanda_training_manager/state/strategy_lab_market_quotes_research_v1.json",
+    "strategy_lab_may_write_canonical_executor_snapshot": false,
+    "reason": "one writer per evidence-bearing quote snapshot prevents transient producer substitution"
+  },
+  "cohort_g": {
+    "cohort_id": "all68_executable_move_census_v3_20260902g",
+    "status": "implemented_collecting",
+    "activation_utc": "2026-09-02T11:30:00Z",
+    "historical_import_count": 0,
+    "backfill_permitted": false,
+    "config_path": "config/executable_move_census_v3_20260902g.json",
+    "config_sha256": "24680eec4cb83e43a665afba28583d3614a3e70dcf5137a62d46b5479bf034e0",
+    "producer_sha256": "648d35fcfd0d39f51c330be36cf4761f3660d18f3ee5db2b885c0169c3c9c130",
+    "source_producer_sha256": "b98151ab60e2e0e3253d0cfaef1229bb1e2a4bf777a1365aa579be4f1bd294f6",
+    "quote_transport_sha256": "27ea11bc79a3a85cc09f00a88df697f0ecf8bba29b230c309cdf83e8967d8987",
+    "verifier_binding_sha256": "f00f8d160099a5742f81089a8e32c89574f6980ba2ca5ad67d46c4b7fcb4f04d",
+    "snapshot_utc": "2026-09-02T12:08:11.731892Z",
+    "snapshot_counts": {
+      "frames": 39,
+      "frame_quotes": 2652,
+      "frame_commit_receipts": 39,
+      "window_evaluations": 129,
+      "valid_quote_rows": 2498,
+      "invalid_quote_rows": 154
+    },
+    "frame_range_utc": {
+      "first": "2026-09-02T11:30:00Z",
+      "last": "2026-09-02T12:08:00Z"
+    },
+    "invariants": {
+      "quick_check": "ok",
+      "frames_with_not_68_quotes": 0,
+      "missing_receipts": 0,
+      "source_identity_mismatch_rows": 0,
+      "foreign_cohort_rows": 0,
+      "preactivation_rows": 0,
+      "zero_valid_open_frames": 0,
+      "verifier_verified": true,
+      "verifier_failure_count": 0
+    }
+  },
+  "verifier_checkpoint_repair": {
+    "defect": "the first G checkpoint inherited the base verifier's old cohort-B identity and pins",
+    "evidence_impact": "none; the verifier failed closed to full audits and its verdict remained correct",
+    "repair": "G-specific checkpoint load/write functions now bind cohort, config, producer, source producer, quote transport and verifier hashes",
+    "current_checkpoint_cohort_id": "all68_executable_move_census_v3_20260902g",
+    "current_checkpoint_pins_match_manifest": true
+  },
+  "validation": {
+    "focused_census_tests_passed": 7,
+    "runtime_supervision": "capture, evaluator and independent verifier running under the local hidden supervisor",
+    "codex_automation_created": false
+  },
+  "safety": {
+    "practice_account": "101-001-37981792-007",
+    "practice_nav": 41.6042,
+    "open_trades": 0,
+    "pending_orders": 0,
+    "manual_order_or_close": false,
+    "proof_gate_changed": false,
+    "authorization_gate_changed": false,
+    "real_money_enabled": false
+  }
+}

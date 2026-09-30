@@ -1,0 +1,2 @@
+Next: review_matched_policy_checkpoint, then matched_campaign_report_and_design_reconciliation_v2.
+Complete original-record campaign inspection/report and current full-design reconciliation. Preserve calendar blockers and all historical pending items. Next independent research expansion must reuse preserved feature/model evidence first.

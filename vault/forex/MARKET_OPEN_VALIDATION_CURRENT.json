@@ -1,0 +1,810 @@
+{
+  "schema_version": "forex_market_open_validation_v1",
+  "generated_utc": "2026-09-06T19:57:26.936771+00:00",
+  "runtime_mode": "ResearchCollectionOnly",
+  "status": "collection_online_waiting_for_market_open",
+  "user_authorized_collection_resume": true,
+  "runtime_observation": {
+    "schema_version": "forex_market_open_runtime_verification_v1",
+    "observed_utc": "2026-09-06T19:56:59.401604+00:00",
+    "scope": "Existing registered research collection; not trading authorization or predictive acceptance.",
+    "research_supervisor_count": 1,
+    "research_supervisor_pid": 14508,
+    "managed_worker_count": 12,
+    "managed_workers": [
+      {
+        "name": "account_snapshot",
+        "pids": [
+          32232,
+          25516
+        ],
+        "freshness": {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\account_007_dashboard_v1.json",
+          "age_sec": 0.2,
+          "fresh": true,
+          "reason": "fresh"
+        }
+      },
+      {
+        "name": "live_dashboard",
+        "pids": [
+          11100,
+          39316
+        ],
+        "freshness": {
+          "path": "",
+          "age_sec": null,
+          "fresh": true,
+          "reason": "not_checked"
+        }
+      },
+      {
+        "name": "local_news_sentiment",
+        "pids": [
+          24008,
+          1212
+        ],
+        "freshness": {
+          "observed_json_value": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\collector_heartbeat_v1.json",
+          "progress_sequence": 135,
+          "expected_json_field": "classification_version",
+          "phase": "collecting_sources",
+          "expected_json_value": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+          "age_sec": 3.3,
+          "reason": "fresh",
+          "fresh": true,
+          "progress_age_sec": 0.2
+        }
+      },
+      {
+        "name": "official_release_fast_lane",
+        "pids": [
+          4196,
+          7244
+        ],
+        "freshness": {
+          "phase": "cycle_complete",
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\official_release_fast_lane_heartbeat_v4.json",
+          "age_sec": 6.6,
+          "fresh": true,
+          "reason": "fresh"
+        }
+      },
+      {
+        "name": "official_release_fast_mapper",
+        "pids": [
+          17664,
+          36080
+        ],
+        "freshness": {
+          "observed_json_value": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\official_release_fast_mapping_heartbeat_v3.json",
+          "expected_json_field": "required_classification_version",
+          "phase": "cycle_complete",
+          "expected_json_value": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+          "age_sec": 1,
+          "reason": "fresh",
+          "fresh": true
+        }
+      },
+      {
+        "name": "all68_m1_forward_archive",
+        "pids": [
+          24516,
+          8684
+        ],
+        "freshness": {
+          "phase": "sleeping",
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\all68_m1_forward_update_heartbeat_v1.json",
+          "age_sec": 3.7,
+          "fresh": true,
+          "reason": "fresh"
+        }
+      },
+      {
+        "name": "practice_007_quote_stream",
+        "pids": [
+          5452,
+          44996
+        ],
+        "freshness": {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_quote_stream_heartbeat_v1.json",
+          "phase_age_sec": 1060.8,
+          "phase": "streaming",
+          "age_sec": 2.9,
+          "reason": "fresh",
+          "fresh": true
+        }
+      },
+      {
+        "name": "clock_integrity_monitor",
+        "pids": [
+          20572,
+          32208
+        ],
+        "freshness": {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\clock_integrity_v1.json",
+          "age_sec": 21,
+          "fresh": true,
+          "reason": "fresh"
+        }
+      },
+      {
+        "name": "causal_forecast_study_v1",
+        "pids": [
+          5920,
+          11352
+        ],
+        "freshness": {
+          "observed_json_value": "causal_forecast_study_heartbeat_v1",
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\causal_forecast_study_v1_io_r2\\heartbeat.json",
+          "expected_json_field": "schema_version",
+          "phase": "waiting_for_tradeable_quote",
+          "expected_json_value": "causal_forecast_study_heartbeat_v1",
+          "age_sec": 1.9,
+          "reason": "fresh",
+          "fresh": true
+        }
+      },
+      {
+        "name": "source_governance_news_fast_lane",
+        "pids": [
+          5236,
+          19584
+        ],
+        "freshness": {
+          "observed_json_value": "news_source_governance_fast_lane_v3_committed_visibility_20260905",
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\source_governance_news_fast_lane_v3.json",
+          "expected_json_field": "contract_id",
+          "phase": "",
+          "expected_json_value": "news_source_governance_fast_lane_v3_committed_visibility_20260905",
+          "age_sec": 25.3,
+          "reason": "fresh",
+          "fresh": true
+        }
+      },
+      {
+        "name": "project_integrity_audit",
+        "pids": [
+          41144,
+          21076
+        ],
+        "freshness": {
+          "observed_json_value": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\project_integrity_audit_v1.json",
+          "expected_json_field": "classification_version",
+          "phase": "",
+          "expected_json_value": "local_fx_news_rules_20260904_v164_conflict_duration_recap_guard",
+          "age_sec": 220.5,
+          "reason": "fresh",
+          "fresh": true
+        }
+      },
+      {
+        "name": "storage_headroom_guard",
+        "pids": [
+          19056,
+          33700
+        ],
+        "freshness": {
+          "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\storage_headroom_v1.json",
+          "age_sec": 193.2,
+          "fresh": true,
+          "reason": "fresh"
+        }
+      }
+    ],
+    "observed_process_count": 25,
+    "unexpected_project_workers": [],
+    "supervisor_error_count": 0,
+    "legacy_tasks": [
+      {
+        "name": "ForexGptOrigConstantRotationDemoWatchdog",
+        "state": "Disabled"
+      },
+      {
+        "name": "ForexSafeCoreAtLogon",
+        "state": "Disabled"
+      }
+    ],
+    "quote_stream": {
+      "connected": true,
+      "quoted_instruments": 68,
+      "observed_utc": "2026-09-06T19:56:58.715457+00:00",
+      "event_age_sec": 0.922,
+      "reconnects": 0,
+      "quote_observer_errors": 0,
+      "transport_thread_alive": true,
+      "published_tradeable_quote_count": 0,
+      "published_quote_count": 68
+    },
+    "account": {
+      "current": true,
+      "environment": "practice",
+      "role": "practice_007",
+      "observed_utc": "2026-09-06T19:56:57.917610+00:00",
+      "open_trades": 0,
+      "pending_orders": 0,
+      "last_transaction_id": "2461"
+    },
+    "dashboard": {
+      "http_status": 200,
+      "main_api_http_status": 200,
+      "active": false,
+      "collection_status": {
+        "schema_version": "registered_research_collection_status_v1_20260906",
+        "status": "running",
+        "running": true,
+        "label": "Research collection running; study trading disabled",
+        "scope": "registered_four_family_research_study",
+        "running_scope": "recent_research_observations_not_forecast_success_or_error_free_operation",
+        "registered_study_trading_enabled": false,
+        "observations": {
+          "study": {
+            "status": "current",
+            "current": true,
+            "observed_at": 1788724618.804217,
+            "age_sec": 0.08,
+            "max_age_sec": 90,
+            "registered_contract_matches": true,
+            "observed_phase": "waiting_for_tradeable_quote",
+            "phase": "waiting_for_tradeable_quote",
+            "last_reason": "market_closed_or_quote_not_tradeable",
+            "reported_cumulative_errors": 0,
+            "reported_cumulative_heartbeat_publication_errors": 0
+          },
+          "quote_stream": {
+            "status": "current",
+            "current": true,
+            "observed_at": "2026-09-06T19:56:58.715457+00:00",
+            "age_sec": 0.169,
+            "max_age_sec": 90,
+            "current_stream_event_age_sec": 1.091,
+            "scope": "stream_transport_heartbeat_not_tradeable_price_freshness"
+          },
+          "account": {
+            "status": "current",
+            "current": true,
+            "observed_at": "2026-09-06T19:56:57.917610+00:00",
+            "age_sec": 0.966,
+            "max_age_sec": 90
+          }
+        },
+        "unavailable_observations": [],
+        "study_phase": "waiting_for_tradeable_quote",
+        "study_reason": "market_closed_or_quote_not_tradeable",
+        "warmup": {
+          "required_common_m1_bars": 335,
+          "last_reported_common_bars": null,
+          "progress_scope": "not_reported",
+          "explanation": "After a weekend gap, the registered study needs 335 completed common minute bars (about 5h35), plus archive and model cadence delay. H1 outcomes need another hour. This is a requirement, not an estimated completion time."
+        },
+        "strategy_or_execution_activation_changed": false
+      }
+    },
+    "study": {
+      "account_eligible": false,
+      "activated_epoch": 1788708624.9526446,
+      "active_bucket": null,
+      "can_place_orders": false,
+      "can_promote": false,
+      "contract_id": "causal_four_family_future_collection_v1_io_r2_20260906",
+      "contract_sha256": "bc99e68db720e0a43b3ec68a7820b3605013d0c2138515f23e648f5b34fadc2a",
+      "counts": {
+        "attempts": 0,
+        "consumption": 0,
+        "diagnostics": 0,
+        "entries": 0,
+        "exclusions": 0,
+        "forecasts": 0,
+        "inputs": 0,
+        "outcomes": 0,
+        "publication": 0,
+        "quotes": 0
+      },
+      "errors": 0,
+      "generated_epoch": 1788724618.804217,
+      "heartbeat_publication_errors": 0,
+      "last_heartbeat_publication_error": "",
+      "last_reason": "market_closed_or_quote_not_tradeable",
+      "phase": "waiting_for_tradeable_quote",
+      "proof_eligible": false,
+      "research_only": true,
+      "schema_version": "causal_forecast_study_heartbeat_v1",
+      "supported_decision": "no_trade"
+    },
+    "registered_source_bindings_unchanged": true,
+    "integrity": {
+      "audit_finished_utc": "2026-09-06T19:52:55.085128+00:00",
+      "status": "degraded",
+      "supported_decision": "no_trade",
+      "can_place_orders": false,
+      "failures": [
+        "continuous_narrative_meter_sealed_current_and_inert",
+        "event_technical_preflight_source_transport_current_and_inert",
+        "executable_move_census_current_independently_verified",
+        "independent_verifier_matches",
+        "live_move_news_forward_proof_contract_current",
+        "live_move_persistent_context_current_and_inert",
+        "move_first_live_arm_alignment_current_causal_and_inert",
+        "move_first_live_case_capture_current_and_inert",
+        "move_first_news_mapping_audit_current",
+        "move_first_operational_mapping_alignment_v4_current_subsecond_causal_and_inert",
+        "official_release_fast_response_watch_current_and_inert",
+        "official_source_depth_complete_current_and_zero_weight",
+        "scheduled_event_quote_capture_current_append_only_and_inert",
+        "scheduled_event_quote_capture_v2_current_append_only_and_inert"
+      ]
+    },
+    "storage": {
+      "generated_utc": "2026-09-06T19:53:23.547801+00:00",
+      "status": "ok",
+      "disk": {
+        "critical_free_gib": 25.0,
+        "free_bytes": 102145306624,
+        "free_delta_since_previous_bytes": -49360896,
+        "free_gib": 95.13,
+        "free_percent": 10.218,
+        "minimum_free_gib": 50.0,
+        "root": "C:\\Users\\zmoor\\Documents\\forex\\trad",
+        "total_bytes": 999614894080,
+        "used_bytes": 897469587456
+      },
+      "automatic_evidence_deletion": false,
+      "automatic_vacuum": false
+    },
+    "clock": {
+      "generated_utc": "2026-09-06T19:56:45.675647+00:00",
+      "status": "mitigated",
+      "host_clock_synchronized": true,
+      "broker_clock_lead_sec": null,
+      "broker_clock_sample_count": 0,
+      "clock_discontinuity_active": false,
+      "reasons": [
+        "broker_clock_offset_unavailable"
+      ]
+    },
+    "observation_binding": {
+      "path": "observation_final_confirmed.json",
+      "sha256": "d686c053f4cbee20d650bb5a96e3b2fd9ee03863349101e95b8a12af95c522f1"
+    },
+    "limitations": [
+      "Current observations cannot guarantee future availability or opening prices.",
+      "No trading workers or new offline models were enabled.",
+      "The broad integrity audit remains degraded and is not interpreted as a trading pass."
+    ]
+  },
+  "preflight": {
+    "schema_version": "forex_market_open_preflight_v1",
+    "observed_utc": "2026-09-06T19:37:58.414378+00:00",
+    "status": "passed",
+    "authorization": "User requested readiness for market open after the stopped audit; resume the existing collection-only session.",
+    "scope": "Collection and the existing registered causal study, with execution still disabled.",
+    "contract_id": "causal_four_family_future_collection_v1_io_r2_20260906",
+    "registered_contract_payload_sha256": "bc99e68db720e0a43b3ec68a7820b3605013d0c2138515f23e648f5b34fadc2a",
+    "contract_file_sha256": "64bdb74b6a8b881ee4e93b36b422812786f7218a4c10f8d799ec7dd900f24699",
+    "source_bindings_unchanged": {
+      "oanda_causal_forecast_inputs.py": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+      "oanda_causal_forecast_ledger.py": "4ddd413261fc294922bf2664bb0ae018d8469a3422942567849c1624ba32cd1f",
+      "oanda_causal_forecast_study.py": "e50a9a8ef5bbfe739d177d1bcf8632362bcad06b68694eb7c599c70a33fbd44e",
+      "oanda_causal_prediction_baselines.py": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+      "oanda_fixed_forecast_evaluation.py": "482af854fae94d53aea82c109ffb6a00f265f3ecebdbc3137e200cb07d142708",
+      "oanda_proof_shadow_predictors.py": "51c3f945eadb3f26166cfddd37d97451ef21e2b69ece6664c57ee06c145ff417"
+    },
+    "dependency_versions_verified": {
+      "numpy": "2.5.1",
+      "python": "3.12.10",
+      "scikit-learn": "1.9.0"
+    },
+    "preserved_stopped_study_files": [
+      {
+        "name": "heartbeat.json",
+        "sha256": "71b035ce460ec24b482cd8bfb119d7c910b2bd76087d4c4cbf544ee48ed698d0",
+        "bytes": 773
+      },
+      {
+        "name": "scorecard.json",
+        "sha256": "2a8fc94738e1ac8586d66037544e0ec49544d6dc8c7d79688ed216b8ff423904",
+        "bytes": 5328
+      },
+      {
+        "name": "study.sqlite",
+        "sha256": "79db8f8dbf764394188616ae7266e40ab28ff91a718bc2ae28c2bbcb1e7e08e4",
+        "bytes": 110592
+      },
+      {
+        "name": "study.sqlite-shm",
+        "sha256": "fd4c9fda9cd3f9ae7c962b0ddf37232294d55580e1aa165aa06129b8549389eb",
+        "bytes": 32768
+      },
+      {
+        "name": "study.sqlite-wal",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "worker.lock",
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      }
+    ],
+    "copied_study_quick_check": "ok",
+    "copied_study_tables": [
+      "activation",
+      "attempts",
+      "clocks",
+      "consumption",
+      "contract",
+      "diagnostics",
+      "entries",
+      "exclusions",
+      "forecasts",
+      "inputs",
+      "outcomes",
+      "publication",
+      "quotes"
+    ],
+    "saved_study_counts": {
+      "attempts": 0,
+      "consumption": 0,
+      "diagnostics": 0,
+      "entries": 0,
+      "exclusions": 0,
+      "forecasts": 0,
+      "inputs": 0,
+      "outcomes": 0,
+      "publication": 0,
+      "quotes": 0
+    },
+    "registered_activation_epoch_unchanged": 1788708624.9526446,
+    "config_changed": false,
+    "study_reregistered": false,
+    "runtime_started_by_preflight": false,
+    "market_open_utc": "2026-09-06T21:05:00+00:00",
+    "market_open_new_york": "2026-09-06T17:05:00-04:00",
+    "market_hours_sources": [
+      "https://www.oanda.com/us-en/trading/hours-of-operation/",
+      "https://www.oanda.com/us-en/trading/holiday-trading-hours/"
+    ],
+    "market_hours_scope": "OANDA US ordinary FX hours on September 6; TRY pairs have separate hours.",
+    "can_place_orders": false,
+    "new_offline_models_activated": false
+  },
+  "gate_review": {
+    "status": "passed",
+    "allowed_worker_count": 12,
+    "blocked_worker_names_tested": 107,
+    "managed_name_count": 118,
+    "unknown_future_worker_blocked": true,
+    "existing_disallowed_workers_stopped_using_stubs": true,
+    "normal_quote_path_preserved": true,
+    "research_canonical_quote_path_verified": true,
+    "only_launch_site_inside_gate": true,
+    "process_starts": 0,
+    "process_stops": 0,
+    "runtime_writes": 0,
+    "supervisor_sha256": "3717322906673ec09df08b746d2191e3bce900d8594eeda5c09950262778d58d",
+    "launcher_sha256": "c7e2a970b6e8bb69fcdaf5b124b8d935be6326f06a6554408889e111f57f3115"
+  },
+  "dashboard_validation": {
+    "schema_version": "collection_dashboard_status_fix_r2_20260906",
+    "observed_utc": "2026-09-06T19:55:22.2760099Z",
+    "sources": [
+      {
+        "name": "oanda_practice_live_dashboard.py",
+        "bytes": 410784,
+        "sha256": "50f737a158bbd5231a8f6e11214e1d297d1b944f409f675d03427abda88e7441",
+        "previous_sha256": "b9c6661d66ea40001aa84abb6af85403cf51672b5eb29c294319809842b7ddab"
+      },
+      {
+        "name": "oanda_main_signal_dashboard.html",
+        "bytes": 120549,
+        "sha256": "8ff61524a826bb854f99b1899497ae587aab05da749a405d5bac826c32367bd8",
+        "previous_sha256": "ec99702a48a58f6059daec7bc22ce26644ba564bb155cfe889fcf21b6a9528ea"
+      },
+      {
+        "name": "test_oanda_collection_dashboard_status.py",
+        "bytes": 12656,
+        "sha256": "e5cae2ff8b9a0c5ea4fc1abaeb4ac272d265ee1b87784e5210e2956e67dd5670",
+        "previous_sha256": "7fce82b01f8289f241e429be2f0e63f9f29142fc306dc0b49c05e92d8584b2b2"
+      }
+    ],
+    "fixes": [
+      "Current stream event age equals stored last_event_age_sec plus elapsed time since heartbeat; only combined ages from 0 through 90 seconds are healthy. Negative stored ages remain invalid.",
+      "API and UI label scoped to Research collection running; study trading disabled. Banner remains correct when active=true elsewhere; existing trading-active logic is unchanged."
+    ],
+    "regressions": [
+      "Heartbeat80s plus event80s fails as160s",
+      "Heartbeat45s plus event46s fails as91s",
+      "Heartbeat45s plus event45s passes at90s",
+      "Rendered main banner with active=true stays study-scoped while header remains Live"
+    ],
+    "tests": {
+      "failed": 0,
+      "passed": 57,
+      "elapsed_sec": 2.67,
+      "xml": "collection_dashboard_tests_r2.xml",
+      "xml_sha256": "24d94e065d787fb7e143166d557d26cf8a6036645d52c72054d41cd2b89477e9",
+      "errors": 0
+    },
+    "preserved_history": [
+      "COLLECTION_DASHBOARD_CHANGE_RECEIPT_20260906.json",
+      "collection_dashboard_tests.xml",
+      "collection_status_r2_before_source"
+    ],
+    "previous_receipt_sha256": "5be8a5e5cff5ea257a3dd2d977b4e7867ed8763ad304a88c3517cdb8365344ee",
+    "scope": "Only dashboard Python, main HTML and their new collection status test changed. No registered source, model, execution gate, process, task, configuration, database or credentials changed. Parent owns second dashboard-only reload and served API verification."
+  },
+  "registered_study_unchanged": true,
+  "can_place_orders": false,
+  "practice_trading_ready": false,
+  "new_offline_models_activated": false,
+  "prediction_improvement_demonstrated": false,
+  "prior_receipts_unchanged": {
+    "FOREX_ENTRY_IMPROVEMENTS_VALIDATION_20260906.json": "d2b733b0ade4c0c1a53aa8e544f34cbf578fe7dc44d76864bb3ad25d659922be"
+  },
+  "source_bindings": [
+    {
+      "path": "oanda_practice_live_dashboard.py",
+      "sha256": "50f737a158bbd5231a8f6e11214e1d297d1b944f409f675d03427abda88e7441",
+      "bytes": 410784
+    },
+    {
+      "path": "oanda_main_signal_dashboard.html",
+      "sha256": "8ff61524a826bb854f99b1899497ae587aab05da749a405d5bac826c32367bd8",
+      "bytes": 120549
+    },
+    {
+      "path": "test_oanda_collection_dashboard_status.py",
+      "sha256": "e5cae2ff8b9a0c5ea4fc1abaeb4ac272d265ee1b87784e5210e2956e67dd5670",
+      "bytes": 12656
+    },
+    {
+      "path": "oanda_always_on_supervisor.ps1",
+      "sha256": "3717322906673ec09df08b746d2191e3bce900d8594eeda5c09950262778d58d",
+      "bytes": 200193
+    },
+    {
+      "path": "start_oanda_research_collection.ps1",
+      "sha256": "c7e2a970b6e8bb69fcdaf5b124b8d935be6326f06a6554408889e111f57f3115",
+      "bytes": 1934
+    },
+    {
+      "path": "forex_model_vault_sync.py",
+      "sha256": "a7e72bdd426ba359109386c48485c0b27701caa8f984324737cc809b7cbd9cea",
+      "bytes": 105990
+    },
+    {
+      "path": "docs/FOREX_MARKET_OPEN_20260906.md",
+      "sha256": "bb05b16662d0f2985d26941e5c30798d676692c801b0037a1d189e678ca1fed2",
+      "bytes": 4859
+    },
+    {
+      "path": "docs/validation/market_open_20260906/before_current_records/AUDIT_STATE_CURRENT.md",
+      "sha256": "abc5c5f30b4da5e163a99c5c4f4e45831318c115796662436c271aafc05584c0",
+      "bytes": 10762
+    },
+    {
+      "path": "docs/validation/market_open_20260906/before_current_records/FOREX_AUDIT_START_HERE.md",
+      "sha256": "e6056b4d0f1299782557a0d0212782be314455ba2cf5b420d9e8b3c0a4b210b1",
+      "bytes": 10480
+    },
+    {
+      "path": "docs/validation/market_open_20260906/before_current_records/FOREX_AUDIT_STATE_CURRENT.json",
+      "sha256": "6e87472954ba564069670baec714645cc14838380f9cf89e9fad1601a5a1d031",
+      "bytes": 17031
+    },
+    {
+      "path": "docs/validation/market_open_20260906/before_current_records/FOREX_COMMONS_CURRENT.json",
+      "sha256": "d26acf57bafb3b642e72ac5bd56818d0d60eaf3b37504a1e74de52f9642fec9b",
+      "bytes": 2648
+    },
+    {
+      "path": "docs/validation/market_open_20260906/before_current_records/FOREX_ISSUE_REGISTER_CURRENT.json",
+      "sha256": "32d68254db6518b853bc672105df5b93e68ff6df45c3f3f1c6e66c52596480f3",
+      "bytes": 214417
+    },
+    {
+      "path": "docs/validation/market_open_20260906/before_current_records/forex_model_vault_sync.py",
+      "sha256": "1113cc600640a5be2ee520ccc923cdfb13a0cb301670fa1c7df0fa707c4b855c",
+      "bytes": 105807
+    },
+    {
+      "path": "docs/validation/market_open_20260906/before_current_records/README.md",
+      "sha256": "f8333525d0b356ca14f88e14f05fcd5c7e2d83d74381d8b9fb22ee5f858cbd41",
+      "bytes": 6138
+    },
+    {
+      "path": "docs/validation/market_open_20260906/before_current_records/VAULT_RECREATION_CURRENT.md",
+      "sha256": "6eae935ec02922e2f5a33524bbb7ef05d5dd15ffb8e3bfcac46c62dc872ff5d2",
+      "bytes": 4473
+    },
+    {
+      "path": "docs/validation/market_open_20260906/before_source/oanda_main_signal_dashboard.html",
+      "sha256": "063a51e90266978d4ba3eb2c439289265f58926aed1fbde702347f4640aefb6a",
+      "bytes": 117948
+    },
+    {
+      "path": "docs/validation/market_open_20260906/before_source/oanda_practice_live_dashboard.py",
+      "sha256": "97c788f7dd81076c607d4ae699c053863026539713eb21e4ec29b8051a7389ca",
+      "bytes": 402476
+    },
+    {
+      "path": "docs/validation/market_open_20260906/dashboard_restart.json",
+      "sha256": "0b2bdead9fa11feff460bd51efff00bff03cd8e51efea767548548470c65d5d2",
+      "bytes": 1056
+    },
+    {
+      "path": "docs/validation/market_open_20260906/dashboard_restart_final.json",
+      "sha256": "982cc4f0524639de4115790670a4e806fcd43dfd6edbf5bf0bc729d57de2c991",
+      "bytes": 1055
+    },
+    {
+      "path": "docs/validation/market_open_20260906/gate_review_result.json",
+      "sha256": "526b40a4c4cdbfc160b722e8f8c9dbef567590c67603d3fcf7086a292fce281f",
+      "bytes": 543
+    },
+    {
+      "path": "docs/validation/market_open_20260906/launch_result.txt",
+      "sha256": "8584156c4b12cc6c22889061e1696049c06fe7f67b0cd0614118b37dfa56ffac",
+      "bytes": 52
+    },
+    {
+      "path": "docs/validation/market_open_20260906/observation_all_workers.json",
+      "sha256": "c934ef40042449f9fd3769dff9dc011bfcf1bacf19548bfa8b6656dde17b9b29",
+      "bytes": 12976
+    },
+    {
+      "path": "docs/validation/market_open_20260906/observation_before_dashboard_reload.json",
+      "sha256": "4967ebb3ec11c0aeb33ad6237fe82a714340789f113ff61ea1544c29ae82bdea",
+      "bytes": 14514
+    },
+    {
+      "path": "docs/validation/market_open_20260906/observation_final.json",
+      "sha256": "e3e11cb9f52efcaebc77e28341a0ef406728df501f5b0956a6163904e8ec2b70",
+      "bytes": 14640
+    },
+    {
+      "path": "docs/validation/market_open_20260906/observation_final_confirmed.json",
+      "sha256": "d686c053f4cbee20d650bb5a96e3b2fd9ee03863349101e95b8a12af95c522f1",
+      "bytes": 14594
+    },
+    {
+      "path": "docs/validation/market_open_20260906/observation_stagger_complete.json",
+      "sha256": "c856a8ec44c5869658be49f6b230549b674c5d38ed544185db38ed69668d50cc",
+      "bytes": 13736
+    },
+    {
+      "path": "docs/validation/market_open_20260906/observation_startup.json",
+      "sha256": "67fd0dcae758f8866e1eb4e675dfa4b59d5561064ddd193618e3eab102431000",
+      "bytes": 11167
+    },
+    {
+      "path": "docs/validation/market_open_20260906/observation_verified.json",
+      "sha256": "7eca80d6f0a8cf4667ff46382d20d02a9dcabc0ddb92bd54752fbb921937b46a",
+      "bytes": 12972
+    },
+    {
+      "path": "docs/validation/market_open_20260906/observe.ps1",
+      "sha256": "127bec26f5a6f042ff74ccc39a3adf9a76714fd2fe8d836642a59210193c23c2",
+      "bytes": 4371
+    },
+    {
+      "path": "docs/validation/market_open_20260906/preflight.json",
+      "sha256": "514dbb1bfd23d977564be1dce59edd15da14b4a1a32978e5aed6625b44ac1f78",
+      "bytes": 3578
+    },
+    {
+      "path": "docs/validation/market_open_20260906/preflight.py",
+      "sha256": "f5796708c5b8ca8af6a5478facac45b6a555d53fa298e4a749bd182d7b7db3df",
+      "bytes": 3496
+    },
+    {
+      "path": "docs/validation/market_open_20260906/record_readiness.py",
+      "sha256": "ded326e6fadfdf53088e63aa6d00e4605bed6a19f889a252150ae0a19362b572",
+      "bytes": 13439
+    },
+    {
+      "path": "docs/validation/market_open_20260906/reload_dashboard.ps1",
+      "sha256": "5457ca843a6bbdac796f712bdc99db0fc20e2667106746e75e41ec2cf10b089c",
+      "bytes": 2245
+    },
+    {
+      "path": "docs/validation/market_open_20260906/review/COLLECTION_DASHBOARD_CHANGE_RECEIPT_20260906.json",
+      "sha256": "5be8a5e5cff5ea257a3dd2d977b4e7867ed8763ad304a88c3517cdb8365344ee",
+      "bytes": 2691
+    },
+    {
+      "path": "docs/validation/market_open_20260906/review/COLLECTION_DASHBOARD_CHANGE_RECEIPT_R2_20260906.json",
+      "sha256": "b3845cfc9b45fba2e67a68e6f7fe799c2535b9992f5b53b82b6d0cfb503dd4b7",
+      "bytes": 2391
+    },
+    {
+      "path": "docs/validation/market_open_20260906/review/COLLECTION_DASHBOARD_OBSERVATION_20260906.json",
+      "sha256": "5c7afea243421d99cf0fa8d5cca6212c5f5a8a31835df1103b4a18653e2f8252",
+      "bytes": 1711
+    },
+    {
+      "path": "docs/validation/market_open_20260906/review/collection_dashboard_tests.xml",
+      "sha256": "87500b0d13afb1b06b745ac5d8a9e6c3c99479835125ba38170dd1965fad68f1",
+      "bytes": 8718
+    },
+    {
+      "path": "docs/validation/market_open_20260906/review/collection_dashboard_tests_r2.xml",
+      "sha256": "24d94e065d787fb7e143166d557d26cf8a6036645d52c72054d41cd2b89477e9",
+      "bytes": 9200
+    },
+    {
+      "path": "docs/validation/market_open_20260906/review/collection_status_r2_before_source/oanda_main_signal_dashboard.html",
+      "sha256": "ec99702a48a58f6059daec7bc22ce26644ba564bb155cfe889fcf21b6a9528ea",
+      "bytes": 120522
+    },
+    {
+      "path": "docs/validation/market_open_20260906/review/collection_status_r2_before_source/oanda_practice_live_dashboard.py",
+      "sha256": "b9c6661d66ea40001aa84abb6af85403cf51672b5eb29c294319809842b7ddab",
+      "bytes": 410311
+    },
+    {
+      "path": "docs/validation/market_open_20260906/review/collection_status_r2_before_source/test_oanda_collection_dashboard_status.py",
+      "sha256": "7fce82b01f8289f241e429be2f0e63f9f29142fc306dc0b49c05e92d8584b2b2",
+      "bytes": 11639
+    },
+    {
+      "path": "docs/validation/market_open_20260906/review/INDEPENDENT_COLLECTION_READINESS_20260906.json",
+      "sha256": "4abe1cc0c2726074dd33bd0e825488de9abff7d02fb7313dcfd879b5d2fba24b",
+      "bytes": 17731
+    },
+    {
+      "path": "docs/validation/market_open_20260906/review/INDEPENDENT_COLLECTION_READINESS_20260906.md",
+      "sha256": "fb5341bcef8c4f40822659998568e3f999c2c14028e198e5192f3f609cef1278",
+      "bytes": 3507
+    },
+    {
+      "path": "docs/validation/market_open_20260906/review/INDEPENDENT_DASHBOARD_REVIEW_20260906.json",
+      "sha256": "6fea1965ddc6df6e03b676a36d750f7224ea21ea458beb6c4ab66c73b3cb8164",
+      "bytes": 955
+    },
+    {
+      "path": "docs/validation/market_open_20260906/review/INDEPENDENT_DASHBOARD_REVIEW_RESOLVED_20260906.json",
+      "sha256": "883bfb58fc4d64aa59115ccda7d69772b97549f6d2d957747013ad606f08a0ae",
+      "bytes": 765
+    },
+    {
+      "path": "docs/validation/market_open_20260906/review/READ_ONLY_PROCESS_AND_TASK_SNAPSHOT.json",
+      "sha256": "9c881cfadb78289c63c14f7f991ff35db0d584e531ea79730e31ba7f435009b4",
+      "bytes": 3834
+    },
+    {
+      "path": "docs/validation/market_open_20260906/review/readiness_review.py",
+      "sha256": "da52225203c17a19bdf6f2c229e4ff74c5162c5b97974d72ae95ca73981ac058",
+      "bytes": 11780
+    },
+    {
+      "path": "docs/validation/market_open_20260906/review_gate.ps1",
+      "sha256": "42338a4e53fe8d0b8a02264fbd37196cf4a711497435c0a044a450eff123fb57",
+      "bytes": 6321
+    },
+    {
+      "path": "docs/validation/market_open_20260906/runtime_verified.json",
+      "sha256": "fe2c46ecc3fa708b6415d2d0762b2f7e370ee3c62b5fec5ca760a1e917408ab5",
+      "bytes": 12802
+    },
+    {
+      "path": "docs/validation/market_open_20260906/sleep_policy.txt",
+      "sha256": "167775441054d765f4a7c611edb6de9db953062c30f18d3f314fcf8c5a4b68ad",
+      "bytes": 575
+    },
+    {
+      "path": "docs/validation/market_open_20260906/verify_ready.py",
+      "sha256": "461aa83d39a10381c55578336ee9ab0732840e9fe00c4fabbdd1a4784cd5a63d",
+      "bytes": 8577
+    }
+  ],
+  "limitations": [
+    "Opening-price receipt remains unobserved before 17:05 New York.",
+    "Study warm-up, original target maturity and independent acceptance remain required.",
+    "Broad degraded integrity is not converted to a pass for collection mode.",
+    "Both legacy tasks stay disabled; no autonomous reboot recovery is claimed."
+  ]
+}

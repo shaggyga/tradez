@@ -1,0 +1,2 @@
+Next: review_macro_provenance_checkpoint_v2, then macro_currency_meter_evidence_view_v2.
+Review exact checkpoint, then macro_currency_meter_evidence_view_v2. WP6 explicit reference and extraction-provenance binding

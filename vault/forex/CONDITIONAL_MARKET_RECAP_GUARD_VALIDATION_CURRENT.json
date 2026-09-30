@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-09-04T20:07:00Z",
+  "issue_id": "FX-20260904-CONDITIONAL-MARKET-RECAP-GUARD",
+  "status": "complete",
+  "misses": [
+    {
+      "headline": "A Fed Rate Hike Depends on Hot Inflation. Don’t Count on Either.Economy Column - Barron's",
+      "prior_usd_score": 0.9,
+      "repair": "future-data-dependent policy action now abstains"
+    },
+    {
+      "headline": "Diesel Fears Mount As Oil Heads Towards 6% Weekly Rise - shipandbunker.com",
+      "prior_currency_scores": {"CAD": 0.5, "MXN": 0.5, "NOK": 0.5, "JPY": -0.2},
+      "repair": "already-accumulated weekly commodity move is retained as retrospective market context"
+    }
+  ],
+  "repair": {
+    "introduced_version": "local_fx_news_rules_20260904_v162_conditional_market_recap_guard",
+    "validated_descendant_version": "local_fx_news_rules_20260904_v163_opposing_policy_claim_guard",
+    "current_watchlist_cohort": "news_technical_watchlist_v48_opposing_policy_claim_guard_20260904",
+    "conditional_policy_output": "zero present currency direction",
+    "weekly_market_recap_output": "reports_prior_market_move=true, forward_signal_timely=false"
+  },
+  "validation": {
+    "news_tests_passed": 494,
+    "watchlist_tests_passed": 46,
+    "supervisor_tests_passed": 14,
+    "python_compile_passed": true,
+    "live_v163_cycle_completed": true,
+    "live_sources_completed": 192,
+    "live_sources_configured": 192,
+    "live_reclassified_rows": 5611,
+    "live_watchlist_factor_count": 0,
+    "live_watchlist_negative_quote_ages": 0
+  },
+  "artifacts": [
+    {"path": "oanda_news_classification_contract.py", "sha256": "9f0d806cb655451f078d79b66e53d5737a23708063ce48bb27671c1568059eac"},
+    {"path": "oanda_local_news_sentiment.py", "sha256": "3d7af93ae33bf0a7c0a5ad850df15b48ed31cc1a785adf9a92854ba0ff12b9f5"},
+    {"path": "oanda_news_technical_watchlist.py", "sha256": "0837f546e48e7246ec548d53c5ce356781a1d3568af1bfac552a6c60944ae73e"},
+    {"path": "oanda_always_on_supervisor.ps1", "sha256": "6180842c6205982fa25a95ff0f952313080a686e6ad52720eeb785272f76ee74"},
+    {"path": "test_oanda_local_news_sentiment.py", "sha256": "b47e67c923c91d0dec93dc39f3c30d53cc84e4095a67020007c42763ca8a3ee1"},
+    {"path": "test_oanda_news_technical_watchlist.py", "sha256": "ff4c9cf38da785d48887edde458da8f5a4407bc06d387f6574304d31237ceb4c"},
+    {"path": "test_oanda_supervisor_integrity_freshness.py", "sha256": "9e99cfefbb77004b55872d6471e68efa7d2c8e655c63e8e6496b45549e13cc18"}
+  ],
+  "safety": {
+    "prior_v162_rows_imported_into_v163": false,
+    "historical_reclassification_is_proof": false,
+    "can_promote": false,
+    "can_authorize": false,
+    "can_place_orders": false,
+    "real_money_routing": false
+  }
+}

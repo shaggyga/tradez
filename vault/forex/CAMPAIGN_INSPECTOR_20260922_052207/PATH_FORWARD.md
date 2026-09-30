@@ -1,0 +1,2 @@
+Next: review_campaign_inspector_checkpoint, then populated_rolling_feature_registry_reconciliation_v2.
+Reconcile populated rich rolling features and preserved model/fold evidence before any further family experiment. Use CURRENT_DESIGN_COVERAGE.md and FULL_DESIGN_QUEUE.md; historical audit is preserved.

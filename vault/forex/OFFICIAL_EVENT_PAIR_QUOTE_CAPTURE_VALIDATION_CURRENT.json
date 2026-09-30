@@ -1,0 +1,117 @@
+{
+  "schema_version": "forex_official_event_pair_quote_capture_validation_v1",
+  "generated_utc": "2026-09-02T20:16:00Z",
+  "issue_id": "FX-20260902-OFFICIAL-EVENT-PER-PAIR-QUOTE-CAPTURE",
+  "scope": "raw official-event executable quote evidence retained per pair before semantic mapping",
+  "incident": {
+    "audited_prospective_capture_attempts": 34,
+    "exact_all_68_captures": 0,
+    "valid_quote_count_range": [53, 67],
+    "valid_quote_count_distribution": {
+      "53": 1,
+      "56": 1,
+      "60": 1,
+      "61": 1,
+      "62": 5,
+      "63": 4,
+      "64": 12,
+      "65": 3,
+      "66": 4,
+      "67": 2
+    },
+    "most_frequent_unavailable_instruments": {
+      "TRY_JPY": 34,
+      "EUR_DKK": 27,
+      "USD_TRY": 23,
+      "EUR_TRY": 13,
+      "ZAR_JPY": 13,
+      "USD_HKD": 11,
+      "USD_THB": 7
+    },
+    "root_cause": "The legacy raw-event capture required every one of 68 instruments to be simultaneously fresh and valid, then discarded all proof quotes whenever any instrument failed. Current OANDA pricing explicitly marks EUR_TRY, TRY_JPY and USD_TRY non-tradeable, making exact-all-68 unsuitable as the sole evidence-retention rule.",
+    "legacy_evidence_policy": "preserved_unchanged_exact_all68_metric_retained_no_reclassification_no_backfill"
+  },
+  "implementation": {
+    "contract_id": "official_event_pair_quote_capture_v1_per_pair_tradeability_20260902",
+    "cohort_id": "official_event_pair_quote_capture_v1_20260902a",
+    "activation_utc": "2026-09-02T20:15:00Z",
+    "input_boundary": "raw_official_release_observation_before_semantic_mapping",
+    "poll_interval_seconds": 1,
+    "full_audit_surface_instruments": 68,
+    "maximum_detection_latency_seconds": 15.0,
+    "maximum_snapshot_age_seconds": 5.0,
+    "maximum_quote_age_seconds": 30.0,
+    "explicit_tradeable_true_required_per_pair": true,
+    "one_terminal_capture_attempt_per_observation": true,
+    "stale_or_nontradeable_pair_does_not_invalidate_other_pairs": true,
+    "exact_all_68_metric_retained": true,
+    "historical_backfill_allowed": false,
+    "independent_verifier_imports_producer": false,
+    "append_only_database": true,
+    "research_only": true,
+    "execution_eligible": false,
+    "can_place_orders": false,
+    "can_authorize": false,
+    "can_promote": false,
+    "real_money_routing": false
+  },
+  "live_validation": {
+    "observed_utc": "2026-09-02T20:15:17Z",
+    "activation_reached": true,
+    "producer_status": "ok",
+    "producer_heartbeat_fresh": true,
+    "verifier_status": "verified",
+    "verifier_failure_count": 0,
+    "database_integrity": "ok",
+    "preexisting_rows_imported": 0,
+    "capture_count": 0,
+    "eligible_pair_quote_total": 0,
+    "exact_all_68_count": 0,
+    "stdout_log_bytes": 0,
+    "stderr_log_bytes": 0,
+    "empty_state_interpretation": "valid_zero-import_start_awaiting_first_untouched_official_event",
+    "practice_007_nav": 41.6042,
+    "practice_007_open_trades": 0,
+    "practice_007_pending_orders": 0,
+    "practice_007_authorized_entry": false
+  },
+  "validation": {
+    "python_compile_passed": true,
+    "powershell_parse_passed": true,
+    "event_capture_and_fast_lane_tests_passed": 76,
+    "vault_supervision_and_register_tests_passed": 37,
+    "nontradeable_exotic_isolation_regression_passed": true,
+    "duplicate_observation_idempotency_regression_passed": true,
+    "append_only_mutation_rejection_regression_passed": true,
+    "independent_verifier_payload_divergence_regression_passed": true,
+    "supervisor_quiet_cadence_regression_passed": true
+  },
+  "files": [
+    {
+      "path": "config/official_event_pair_quote_capture_v1.json",
+      "sha256": "2a696a599ec1ad7f9d79babd8d26e790f25fed3c06aac4ab37633f93fc81e500"
+    },
+    {
+      "path": "oanda_official_event_pair_quote_capture_v1.py",
+      "sha256": "40ceed485e6143a6388324f68a29d5786e30f28c3c2f2b79a28cbe49dabae1d0"
+    },
+    {
+      "path": "oanda_official_event_pair_quote_capture_v1_verifier.py",
+      "sha256": "cf1d1653421b1635cc4c80801774d0b26798d6f6b0256e9f20175d2aa44aa217"
+    },
+    {
+      "path": "test_oanda_official_event_pair_quote_capture_v1.py",
+      "sha256": "f8bcdab71ba445baed7b5a3e8b9c9ab80b58bde929466fe177bd20e76b06fad8"
+    },
+    {
+      "path": "oanda_always_on_supervisor.ps1",
+      "sha256": "79fe2f2117ec4e9e8758d9556cfa469259d9d3dd78a330382f2b59eb900b06dc"
+    },
+    {
+      "path": "forex_model_vault_sync.py",
+      "sha256": "8a053abe9283cf90bef8c7463dda5d4be0a87f009b2e1807a7c172f8e604ee40"
+    }
+  ],
+  "remaining_evidence_gate": "Observe an untouched prospective official event after activation, independently verify its per-pair raw-time capture, then mature outcomes under a separately frozen evaluator. The empty start and historical diagnostics are not evidence of edge.",
+  "supported_decision": "no_trade"
+}

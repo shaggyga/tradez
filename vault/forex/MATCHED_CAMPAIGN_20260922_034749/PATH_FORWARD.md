@@ -1,0 +1,2 @@
+Next: review_matched_forecast_campaign_checkpoint, then matched_campaign_remaining_horizon_inputs_v2.
+Complete exact remaining-horizon input fits/forecasts before matched_campaign_remaining_horizon_policy_bridge_v2. Reuse12/24/48hour fits; no static endpoint subtraction. Preserve all37 full-design items.

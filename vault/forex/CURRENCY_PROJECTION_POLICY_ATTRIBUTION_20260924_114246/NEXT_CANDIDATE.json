@@ -1,0 +1,11 @@
+{
+  "step_id": "currency_projection_confirmation_protocol_v2",
+  "depends_on": ["currency_projection_policy_comparison_v2", "currency_projection_policy_attribution_v2", "currency_projection_policy_checkpoint_v2"],
+  "implementation_status": "not_started",
+  "review_status": "not_started",
+  "status": "blocked_pending_untouched_confirmation_cohort",
+  "goal": "Freeze a protected confirmation route for all retained direct, full-projection and half-residual variants under unchanged policy/accounting assumptions.",
+  "reason": "The completed two cohorts are overlapping inspected development scenarios. Replaying or selecting among them cannot create confirmation evidence.",
+  "requirements": ["name untouched origins and maturity boundary before computation", "retain all six variants and declared policy arms", "reuse current contract/checkpoint identities", "no retuning or winner selection", "no GPT/advisor, paid/API, broker, account, service or live action"],
+  "next_action": "When a qualified untouched offline cohort is available, freeze the confirmation contract and resource budget before any forecast or policy computation."
+}

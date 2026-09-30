@@ -1,0 +1,1 @@
+B/C/H: actual historical forecast consumer, per-fit recovery and portable frozen operator verified within a precommitted development slice. E is partial: no corrected recovered tree, true calendar target or historical policy comparison. D synthetic policy evidence preserved; historical policy admission explicitly blocked. No full design acceptance.

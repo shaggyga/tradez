@@ -1,0 +1,41 @@
+{
+  "schema": "forex_publication_plan_review.v1",
+  "reviewer": "/root/research_next_selection",
+  "independent_review": true,
+  "scope": "Read-only review of publish_warm.py and finalize_warm_git.py before execution; no scientific lifecycle review repeated.",
+  "status": "changes_requested_before_seal",
+  "findings": [
+    {
+      "id": "WPUB-01",
+      "severity": "P2",
+      "file": "publish_warm.py canonical warm queue record",
+      "issue": "The replacement row expands oldrow and leaves old partial-work local_evidence and resume_in_current_documentation_packet=pending_work/RESUME.md as current fields. New packet has no pending_work/RESUME.md and the old local evidence still describes unfinished prototypes.",
+      "fix": "Keep exact oldrow inside history; remove partial-only archive/resume fields from current row or clearly scope them as historical. Set current local_evidence to this session's warm_repaired and resume/restore reference to WARM_OPERATOR_20260924_004443/RESTORE_AND_ROLLBACK.md."
+    },
+    {
+      "id": "WPUB-02",
+      "severity": "P2",
+      "file": "publish_warm.py appended candidate queue entry",
+      "issue": "Not-started candidate inherits forecast_evidence_status=retained_value_parity_not_new_forecasts from the completed warm operator. That is predecessor evidence, not a result of the unexecuted candidate.",
+      "fix": "Give the proposed candidate its own four fields: engineering_ready=false, forecast_evidence_status=unevaluated, policy_evidence_status=not_evaluated, demo_authorization_status=not_granted. No blend outcome exists."
+    },
+    {
+      "id": "WPUB-03",
+      "severity": "P2",
+      "file": "publish_warm.py initial independent-review assertions",
+      "issue": "Publication checks reviewed source_sha256 but takes checkpoint hash/run identity/recipe from live files without asserting equality with the final independent resolution's reviewed artifacts. Final publication review could catch drift, but the sealing step itself lacks the same exact-artifact guard.",
+      "fix": "When final review exists, assert archive SHA, recipe SHA, and run fingerprint match its reviewed values before creating the draft. Validate final portable receipt is VERIFIED at that archive/run identity and has expected scientific equality."
+    }
+  ],
+  "positive_checks": [
+    "Full root source snapshot and inherited 15/22 current-document manifests retained; queue snapshot substituted before hashing.",
+    "Current queue must equal recorded baseline before and after draft building; canonical partial step requires one current row and history preserves predecessor.",
+    "Operational pre_research_gate and unrelated queue entries are untouched.",
+    "Next candidate is named freeze_... with explicit not_started contract and no claimed computation in path-forward prose.",
+    "Separate immutable Git operation has verified remote commit, bundle hash, previous receipt and explicit pending publication/preflight status.",
+    "Restore CLI uses actual accepted flags and exact input companion; companion exists at documented Vault path and its SHA256 matches 25061ff42b9dac4027cfcfb3042a3778b5db448e449428d8415c951de2b7676f.",
+    "Restore notes distinguish compact packet from heavier local/reproducible outputs and preserve prior pointers for investigation only."
+  ],
+  "deferred_checks": ["Final source review/lifecycle acceptance handled by dedicated independent reviewer.","Exact published member inventory/hashes, current pointers and documents, Git receipt, and clean preflight to be checked after publication."],
+  "models_loaded_or_fitted": 0
+}

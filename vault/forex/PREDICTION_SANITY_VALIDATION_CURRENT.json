@@ -1,0 +1,201 @@
+{
+  "schema_version": "forex_prediction_sanity_validation_v1",
+  "generated_utc": "2026-09-06T15:53:01.014364+00:00",
+  "scope": "Independent saved prediction arithmetic, live read-only indexed broad-ledger extraction, frozen comovement diagnostics and model inventory",
+  "result": "Most historical arithmetic reproduced; eight floating-point-only direction hits corrected offline; useful predictive edge remains unproven",
+  "exact_broad_counts": {
+    "source_sha256": "3a1f0dec20cc30b140afe5dd102b7ea96051b3a3ad5cb0d0d9ca7c2cc91ee851",
+    "n": 8414,
+    "decimal_direction_hits": 4148,
+    "decimal_direction_accuracy": 0.49298787734727834,
+    "decimal_flat_count": 296,
+    "decimal_nonflat_direction_accuracy": 0.5109632914510963,
+    "after_spread_wins": 716,
+    "after_spread_win_rate": 0.08509626812455431,
+    "up": 4014,
+    "down": 4104,
+    "fair_random_direction_expected_hit_rate_flats_miss": 0.48241026859995245,
+    "stored_positive_direction_rows_not_positive_by_exact_quote_decimal": [
+      63704,
+      66783,
+      67912,
+      68562,
+      68770,
+      68787,
+      69841,
+      70053
+    ],
+    "proof_eligible": false,
+    "production_database_connections": 0
+  },
+  "four_family_verified": {
+    "forecasts": 1628,
+    "shared_references": 407,
+    "matched_endpoints": 368,
+    "all_payload_hashes_verified": true,
+    "correct_counts": {
+      "cross_pair_graph_transfer": 156,
+      "modern_tabular_probabilistic_repaired": 175,
+      "probabilistic_state_space": 176,
+      "ridge_return_repaired": 163
+    }
+  },
+  "source_bindings": [
+    {
+      "path": "docs/FOREX_PREDICTION_SANITY_20260906.md",
+      "sha256": "1a2f4363ee8b53cefe26ca76bfa2318e3b934354bcbdb6639460b35ea055008a"
+    },
+    {
+      "path": "docs/FOREX_MODEL_INVENTORY_20260906.md",
+      "sha256": "10a4156bdd82712aa1ba3b8b0c69efe51cd982ccbfd522a606a51ff2e64b9183"
+    },
+    {
+      "path": "FOREX_COMOVEMENT_RESEARCH_PLAN_20260906.json",
+      "sha256": "dbcadfc03beab2875c9514b46c49a56a5d8c116f44c0ef23cd20e604b3dd0dfb"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/collection_observation.json",
+      "sha256": "d4dd2776c35fcaaf762bf817c74e71ed020bdd40212e10ef029ae6cae3342a39"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/comovement_diagnostic.py",
+      "sha256": "8d920aaf538c60f2ca101f0a86eff548077d2a3a62dbe2e7760c754441338b0f"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/plot_comovement.py",
+      "sha256": "0283add86fdadc74f05179c69f16893ce2d68b42959cfdc5a39ad13d1b130f5d"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/README.md",
+      "sha256": "b625a89dc340a4d671a662897c0a2fcf1fb20afe0c66bb3cc0fb45d04321d1ae"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/recheck_broad_counts_offline.py",
+      "sha256": "5cc27f9d5abb3d14cd46c12486620d720373752f5960151ecab210c20202205a"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/root_offline_counts.json",
+      "sha256": "24de3b16dfe79539dd1b642631b08710fdd92cec38d37d51d970aba0868aaff5"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/broad_signal/broad_signal_final_verification.json",
+      "sha256": "f99dd7ded33fbe708c2db314b8d5414406af635ac84c947da06b4c8b5bf60c60"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/broad_signal/broad_signal_raw_verification.json",
+      "sha256": "fc07c63b14e4544b2945b36e016049b55443f2ebabf3b650685669ddfd598e30"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/broad_signal/finalize_broad_signals.py",
+      "sha256": "03e776588e327f864dcf9fa80f41ca1ee98eb79e29fb5d71b45cb14659ae81b7"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/broad_signal/recompute_broad_signals.py",
+      "sha256": "ebdf04df649d5620df696a141e68145501d903d3d1e1fb53f85cb4552f0cb88e"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/broad_signal/schema_inventory.json",
+      "sha256": "2728312a66c8bbf0b46fd3184595b4532da5a4a14c1bdf7480455763a00b4078"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/broad_signal/selected_rows.txt",
+      "sha256": "3a1f0dec20cc30b140afe5dd102b7ea96051b3a3ad5cb0d0d9ca7c2cc91ee851"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/comovement/captured_week_candles.json",
+      "sha256": "30ab415c3cf14068567f0260b817a21bceb939d596774479033e9ae0753e0102"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/comovement/comovement_sanity.svg",
+      "sha256": "4751f883d3a885db2e2d92a10ff7d50697a659cf767e0dc083f57dbe87ac2390"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/comovement/currency_comovement.json",
+      "sha256": "a4cf4b6cf6b119668a46205893a73c30be84562ccb4945ab84ba60863feb6c91"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/comovement/model_output_comovement.json",
+      "sha256": "e1db6fb10f8f9425e802cdc23b802446212960a071f4e3d3bc7791638c1258f7"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/independent_four_family/independently_excluded_references.json",
+      "sha256": "ccee967ca8c840f3e335ed7559124adb96cba470d8e5371f56ad23e6e87bde04"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/independent_four_family/independently_paired_endpoints.json",
+      "sha256": "885f05b0412d8579fea1d5dc3b429acd3db50b2fc2b7bb9fde87312ee847ed53"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/independent_four_family/INDEPENDENT_COMOVEMENT_VERIFICATION_20260906.json",
+      "sha256": "ac791010dfd3f586baba3e46c7040285f7217e3d2fdd759b6e36cf1e3fb0eca3"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/independent_four_family/independent_four_family_results.json",
+      "sha256": "8afed46f20987e9c6963f8e9bca446edc71f3ba8133d4286705b18c02a56f07a"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/independent_four_family/INDEPENDENT_FOUR_FAMILY_SANITY_20260906.md",
+      "sha256": "099a01493483a135ea64041b39f357e9231a932019fc4553cacac8cbeec4c7da"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/independent_four_family/INDEPENDENT_SANITY_RECEIPT.json",
+      "sha256": "a053ce559d336dd3eea1df9d22175f6cf49ea59243fcd22e53679d4cdee9405a"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/independent_four_family/independent_timing_diagnostic.json",
+      "sha256": "12557e94eca42b275bf5f6e97812db32b7468dbd10082290be4626d132336761"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/independent_four_family/summarize_sanity.py",
+      "sha256": "c79b023e522cea5fcd0831aa71a0c9b88791b6f7ee4bd612018c53f42fdad90f"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/independent_four_family/verify_comovement_independently.py",
+      "sha256": "6792eb46e3a4b7e393af4d544022f4dc54aa6c963b554ae9f5a9d974edc82589"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/independent_four_family/verify_saved_four_families.py",
+      "sha256": "eaeb564ffa1b8da8fef3248198b439f405ca59fb6e8c7860302fc3167280e3fb"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/model_inventory/inventory_saved_models.py",
+      "sha256": "b6ee0860d78eba9d1216263fde8fc9e1f3763abb6f89e735f2bbf8f3d88599aa"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/model_inventory/model_inventory_evidence.json",
+      "sha256": "252ac899751387981d3ce8cb5bdbf81f57030a5be245f129d754caa569128195"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/model_inventory/MODEL_INVENTORY_REVIEW.md",
+      "sha256": "10a4156bdd82712aa1ba3b8b0c69efe51cd982ccbfd522a606a51ff2e64b9183"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/model_inventory/neural_relocation_evidence.json",
+      "sha256": "7e567044cbf6504182bc44a7513fcadbd036499a80761f54a8e1d28c052c2685"
+    },
+    {
+      "path": "docs/validation/prediction_sanity_20260906/model_inventory/verify_neural_relocations.py",
+      "sha256": "22f9adda001d676aee0bc98edbdfaae689fc4e2adee4a0d6efd1a6e90d5c3c02"
+    }
+  ],
+  "prior_receipts_unchanged": {
+    "FOREX_PREDICTION_QUALITY_20260906.json": "205ca0f6a5fbd40af7b45c0994ffcf93424da675e79b4637d030cd84560d489e",
+    "FOREX_FIXED_EVALUATION_RESULTS_20260906.json": "7acecda9075ba197f50eb4f9b671246916e8535d0f10d90a8d125bfcb4491cd3",
+    "FOREX_CAUSAL_IO_REPAIR_VALIDATION_20260906.json": "79623133ed757680b46f8e5f4c724b6ca5d93a85ad05888cf899d99989fff8da"
+  },
+  "active_contract_sha256": "bc99e68db720e0a43b3ec68a7820b3605013d0c2138515f23e648f5b34fadc2a",
+  "active_contract_or_model_source_changed": false,
+  "new_models_fitted": 0,
+  "new_models_activated": 0,
+  "orders_placed": 0,
+  "proof_eligible": false,
+  "production_scoring_precision_fix": "pending separately versioned scorer; corrected historical diagnostic is available offline",
+  "registered_model_source_bindings": {
+    "oanda_causal_forecast_inputs.py": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+    "oanda_causal_forecast_ledger.py": "4ddd413261fc294922bf2664bb0ae018d8469a3422942567849c1624ba32cd1f",
+    "oanda_causal_forecast_study.py": "e50a9a8ef5bbfe739d177d1bcf8632362bcad06b68694eb7c599c70a33fbd44e",
+    "oanda_causal_prediction_baselines.py": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+    "oanda_fixed_forecast_evaluation.py": "482af854fae94d53aea82c109ffb6a00f265f3ecebdbc3137e200cb07d142708",
+    "oanda_proof_shadow_predictors.py": "51c3f945eadb3f26166cfddd37d97451ef21e2b69ece6664c57ee06c145ff417"
+  }
+}

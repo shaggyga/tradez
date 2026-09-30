@@ -1,0 +1,31 @@
+{
+  "schema": "forex_checkpoint_review.v1",
+  "utc": "2026-09-25T03:29:04.863974Z",
+  "step_id": "macro_event_text_incremental_support_inventory_v1",
+  "status": "complete_support_inventory_existing_packets_found",
+  "verdict": "event_existence_and_long_body_text_audits_already_covered_no_duplicate_compute",
+  "independent_review": false,
+  "independent_review_status": "pending_nonblocking_by_user_clarification",
+  "scope": "support inventory and current pointer reconciliation; no fit/replay/API/broker/live-bot/D-drive/EURUSD work",
+  "findings": [
+    {
+      "id": "M01",
+      "packet": "MACRO_EVENT_FORECAST_20260922_165513",
+      "result": "completed negative event-existence forecast layer",
+      "evidence": "6 prespecified pooled ridge fits; 14 local and 14 relocated tests; event layer worsened MAE versus technical+clock at 1h and 24h"
+    },
+    {
+      "id": "M02",
+      "packet": "MACRO_TEXT_COVERAGE_20260922_170622",
+      "result": "completed long-body/native semantic coverage audit with blockers",
+      "evidence": "16 local and 16 relocated tests; 127 retained texts exceed 4000 normalized characters; zero matching phrases; 8 of 12 native assertion challenges fail"
+    },
+    {
+      "id": "M03",
+      "result": "no duplicate macro/event/text compute now",
+      "evidence": "Existing packets satisfy the support inventory for event existence and long-body text coverage; next design gap is recovered policy/action scoping repair, not repeating these packets."
+    }
+  ],
+  "next_action": "macro_text_long_body_coverage_audit_v2_current_closure_then_repair_recovered_policy_action_scoping_v2",
+  "source_commit": "cbefa13173aa87432a811ef5a0c322b5064f4705"
+}

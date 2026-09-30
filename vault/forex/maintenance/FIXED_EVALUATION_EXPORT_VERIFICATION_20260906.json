@@ -1,0 +1,85 @@
+{
+  "schema_version": "forex_vault_fixed_evaluation_export_verification_v1",
+  "verified_utc": "2026-09-06T12:07:30.864724+00:00",
+  "status": "local_records_and_source_verified_runtime_stopped",
+  "source": {
+    "archive": "forex_worktree_source_966113966014e158ca28cb5d.zip",
+    "archive_sha256": "fe0da8d8421b73692c440723d18941ca8cf5ee8785edc592c85e8165c268384d",
+    "manifest": "forex_worktree_source_966113966014e158ca28cb5d.manifest.json",
+    "manifest_sha256": "b1f863305a3193a968002488158b4aa3adf41de826a3184008e0db398b74cdac",
+    "files_verified": 1471,
+    "verification": {
+      "status": "passed",
+      "archive_sha256": "fe0da8d8421b73692c440723d18941ca8cf5ee8785edc592c85e8165c268384d",
+      "files_verified": 1471,
+      "python_files_compiled": 1013,
+      "roundtrip_verified": true,
+      "code_executed": false,
+      "account_processes_started": 0,
+      "network_activity": false
+    },
+    "current_worktree_member_mismatches": 0
+  },
+  "records": {
+    "records_verified": 121,
+    "manifest_sha256": "bdd6bf568b1df07aa85fefe5b0a675ecec637c78e189d06b02c7d98b69966454",
+    "current_source_or_target_mismatches": 0,
+    "credential_preflight": {
+      "passed": true,
+      "records_scanned": 121,
+      "known_private_values_checked": true,
+      "shared_pattern_rules": [
+        "bearer_token",
+        "credential_assignment",
+        "credential_query",
+        "credential_uri",
+        "known_token_prefix",
+        "private_key_header"
+      ]
+    }
+  },
+  "evaluation_receipt_sha256": "3b6559a1e38c1f95eb4a4e1597fcc702b862c665a375bcf037a74d6cf417a803",
+  "results_sha256": "7acecda9075ba197f50eb4f9b671246916e8535d0f10d90a8d125bfcb4491cd3",
+  "candidate_credential_audit": {
+    "audited_revision": null,
+    "files_scanned": 1471,
+    "finding_count": 0,
+    "findings": [],
+    "generated_utc": "2026-09-06T12:04:36.885443+00:00",
+    "mode": "candidate",
+    "passed": true,
+    "policy_sha256": "b4c32be88f8885ba865e5a694d130d69c3786aa0c9fb23bfb62826f435a29bbe",
+    "privacy": {
+      "account_id_files": 66,
+      "account_id_occurrences": 114,
+      "classification": "private_source_metadata_not_bearer_credentials"
+    },
+    "schema_version": "git_credential_audit_v1"
+  },
+  "issue_register_validation": {
+    "valid": true,
+    "errors": [],
+    "issue_count": 102,
+    "status_counts": {
+      "blocked_external": 4,
+      "complete": 56,
+      "implemented_collecting": 27,
+      "open": 2,
+      "permanently_invalid": 11,
+      "superseded_collecting": 2
+    }
+  },
+  "previous_records_preserved": "maintenance/before_fixed_evaluation_20260906/PRESERVED_FILES.json",
+  "earlier_source_archives_retained": true,
+  "git_commit_created": false,
+  "deletions": 0,
+  "runtime_restarted": false,
+  "collection_started": false,
+  "broker_requests": 0,
+  "production_logical_writes": 0,
+  "limitations": [
+    "Local OneDrive bytes verified; remote cloud sync completion not observed.",
+    "Bounded data extract retained; full production DB and private credentials excluded.",
+    "Engineering/archival evaluation is not prospective performance or runtime readiness."
+  ]
+}

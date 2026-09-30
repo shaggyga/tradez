@@ -1,0 +1,15 @@
+{
+  "recipe": "source_snapshot/MACRO_COMPONENT_AUDIT_OPERATOR_RECIPE.json",
+  "recipe_sha256": "de6e4ee99076a84e6baf8ca09831c5b432db67496488a61205945ddfebbf4db9",
+  "scope": "reproduction of nine retained components, four real ONS defects and DOL PDF bindings; independent review remains separate",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify"
+  ],
+  "bootstrap": "../MACRO_COMPONENT_AUDIT_20260922_202047/checkpoint/forex_macro_component_audit.zip",
+  "contract": "source_snapshot/MACRO_COMPONENT_AUDIT_CONTRACT_V2.md",
+  "next": "review_macro_component_audit_checkpoint_v2"
+}

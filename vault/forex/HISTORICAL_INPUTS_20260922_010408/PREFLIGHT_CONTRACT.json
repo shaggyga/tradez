@@ -1,0 +1,30 @@
+{
+  "scope": "historical_input_preparation_only_no_fit",
+  "data_root": "C:\\Users\\zmoor\\OneDrive\\thevault\\projects\\forex\\RECOVERY_CHECKPOINT_20260921\\inputs\\long_m1_68.zip",
+  "window_utc": [
+    "2024-07-01",
+    "2024-07-29"
+  ],
+  "development_status": "previously_inspected_legacy_development_window_not_untouched",
+  "fit_cutoff_epoch": 1721606400,
+  "cadence_seconds": 21600,
+  "target_minutes": [
+    1440,
+    2880,
+    7200
+  ],
+  "assumption": "M1 interval-start stamps; close ready at start+60; no observed arrival claim",
+  "price_target": "gross_midpoint_endpoint_return_not_executable_PnL",
+  "resource_caps": {
+    "wall_seconds": 420,
+    "peak_rss_bytes": 2147483648,
+    "threads": "single_reader_no_fitting",
+    "paid_calls": 0
+  },
+  "reused_sources": {
+    "all68_endpoint_baseline.py": "19ddf6f6531a3c774fa05b5bfc8e7fd77467b6f1e764b12c290981e162ee1e3d",
+    "endpoint_targets.py": "79ea5bcb4206d9ae2cf8a9d79fe8efb21a3d5a74bcad553fe5f56126ff3ae67d",
+    "all68_neutral_runner_v2.py": "5ab2a58259aebf6dd76e12bd5834f733cd6f589a9791634a872c6eff5927557a"
+  },
+  "next_gate": "review frozen consumer and authorize its non-synthetic historical input tier before any fit; qualify execution independently"
+}

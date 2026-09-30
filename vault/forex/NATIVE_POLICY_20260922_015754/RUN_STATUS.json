@@ -1,0 +1,55 @@
+{
+  "step_id": "native-common-target-policy-bridge",
+  "implementation_status": "synthetic_integration_verified_historical_dependency_open",
+  "review_status": "ready_for_review",
+  "independent_review": false,
+  "verification": {
+    "integrated_tests": 351,
+    "relocated_packaged_tests_passed": true,
+    "four_actual_frozen_operators_verified": true
+  },
+  "checkpoint": {
+    "path": "checkpoint/forex_native_policy_integration.zip",
+    "sha256": "5d68229ad5ab2916372ad47833a5ae0a21d3032aa4a00a5e521680d229d8b65d",
+    "members": 52,
+    "uncompressed_bytes": 446052,
+    "compressed_bytes": 140712,
+    "raw_validation_runs_included": false,
+    "local_validation_runs": "C:\\Users\\zmoor\\Documents\\forex\\stage_c_alignment_integrity_v2\\evidence\\timed_20260922_001617\\native_step\\forex_native_policy_integration.zip.validation"
+  },
+  "source_predecessor": {
+    "schema": "forex_design_alignment_pointer.v2",
+    "package": "HISTORICAL_FORECAST_20260922_012954",
+    "path_forward": "HISTORICAL_FORECAST_20260922_012954/PATH_FORWARD.md",
+    "run_status": "HISTORICAL_FORECAST_20260922_012954/RUN_STATUS.json",
+    "design": "HISTORICAL_FORECAST_20260922_012954/specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+    "design_coverage": "HISTORICAL_FORECAST_20260922_012954/audit/DESIGN_COVERAGE.md",
+    "current_acceptance_addendum": "HISTORICAL_FORECAST_20260922_012954/DESIGN_ACCEPTANCE_ADDENDUM.md",
+    "manifest": "HISTORICAL_FORECAST_20260922_012954/MANIFEST.json",
+    "manifest_sha256": "29e285d7fdaa11f8c8cc74416a108c87457fa9e2a588ced4579843d51eda0020",
+    "readback": "HISTORICAL_FORECAST_20260922_012954/PACKAGE_READBACK.json",
+    "active_integrity_batch": "ALL68_INTEGRITY_BATCH_05_20260921.md",
+    "active_integrity_batch_scope": "historical forecast-only slice verified; review and native common-target adapter next; campaign remains gated",
+    "historical_package": "DESIGN_ALIGNMENT_20260921",
+    "scope": "current_verified_queue_and_bounded_recovery",
+    "cloud_sync_verified": false
+  },
+  "review_dependency": {
+    "package": "FOLLOWUP_REVIEW_20260922_013407",
+    "manifest": "FOLLOWUP_REVIEW_20260922_013407/MANIFEST.json",
+    "manifest_sha256": "3657e6773e47cacbbb66fe2e19dc4c1835a32ade24a6462c4b8d8caf20423194",
+    "review": "FOLLOWUP_REVIEW_20260922_013407/REVIEW_RESULT.md",
+    "readback": "FOLLOWUP_REVIEW_20260922_013407/READBACK.json",
+    "queue": "REVIEW_QUEUE.json",
+    "verdict": "accepted_within_scope",
+    "independent_review": false,
+    "next_engineering_item": "common_target_policy_input_adapter_v2",
+    "engine_scope_changed": false
+  },
+  "next_action": "review_native_common_target_bridge",
+  "deferred_engineering_next_item": "remaining_horizon_model_input_recipe_v2",
+  "engineering_ready": false,
+  "forecast_evidence_status": "preserved_historical_development_no_new_market_evidence",
+  "policy_evidence_status": "synthetic_native_input_integration_only",
+  "demo_authorization_status": "not_granted"
+}

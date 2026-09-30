@@ -1,0 +1,228 @@
+{
+  "schema_version": "forex_scheduled_factor_and_integrity_liveness_validation_v1",
+  "generated_utc": "2026-09-02T08:08:00Z",
+  "status": "validated",
+  "scope": "append-only live-move integrity, transitive factor-root canonicalization, executable-census publication semantics, allocator cadence, scheduled-event factor collection, and post-reload runtime health",
+  "defects_repaired": [
+    {
+      "defect": "the persistent news-context verifier required a whole-database count match even when the upstream JSON truthfully declared an earlier append-only prefix",
+      "resolution": "verify the exact rowid-ordered prefix declared by the snapshot and retain only a nonnegative, clock-valid append-only database suffix"
+    },
+    {
+      "defect": "same-pass transitive factor-root unions could leave an earlier mover row on an intermediate root and make published canonical-root counts disagree with the final union graph",
+      "resolution": "resolve every published mover through the final root graph after all planned unions while preserving the raw append-only membership ledger"
+    },
+    {
+      "defect": "project integrity compared a current projection with the verifier's full durable database count even though the verifier independently reconstructs an earlier atomic latest-report prefix",
+      "resolution": "publish latest_frame_count separately from full database frames and require both a verified latest prefix and a nonnegative durable append-only suffix"
+    },
+    {
+      "defect": "allocator proof publication was coupled to the slower evidence-operations cycle",
+      "resolution": "run the unchanged frozen allocator contract through its dedicated passive worker while the evidence worker consumes the current inert publication"
+    }
+  ],
+  "prospective_research": {
+    "scheduled_event_factor_reaction": {
+      "contract_id": "scheduled_event_factor_reaction_v1_20260902",
+      "cohort_id": "scheduled_event_factor_reaction_v1_20260902b",
+      "cohort_start_utc": "2026-09-02T06:00:00+00:00",
+      "source_sha256": "9ec0082b74ce969c9c97c4b8179c8bc0b216c1cd6fea3d641f1dead1ef1cc522",
+      "config_sha256": "45cd119612c4fe2f010bc73e99c73f7a3198983d87e190f22ca43771ba34f8fc",
+      "input_event_count": 67,
+      "decision_count": 0,
+      "forecast_count": 0,
+      "outcome_count": 0,
+      "rbnz_20260902_is_regression_only": true,
+      "research_only": true,
+      "execution_eligible": false,
+      "supported_execution_decision": "no_trade"
+    },
+    "allocator": {
+      "cohort_id": "governed_top_one_allocator_v1.discovery.20260829.2061fad925c1fe5b",
+      "source_sha256": "sha256:b1e4938b33fb9ef29437fbccbbb9dda2d1a62a533ad6c011319d94834162fa69",
+      "collection_state": "paused_no_eligible_universe",
+      "decision_count": 5,
+      "fully_matured_decision_count": 0,
+      "eligible_candidate_count": 0,
+      "research_only": true
+    }
+  },
+  "source_recovery": {
+    "source": "official_us_treasury_daily_par_yield_curve",
+    "failure_class": "transient_tls_unexpected_eof",
+    "unchanged_cohort_id": "us_treasury_yield_prospective_v1.discovery.20260808.910570d15fc494ce",
+    "collector_sha256": "3973539b4d0fd09b96904677a9a39c795c0d80a8c826818a3b127e7eb97d0e08",
+    "status": "ok",
+    "parsed_rows": 168,
+    "inserted_rows": 0,
+    "prospective_eligible_rows": 17,
+    "latest_yield_date": "2026-09-01",
+    "raw_archive_sha256": "0bcdc320c35ae7242b00933b4a1b26ca1939a4d8ed2117b6cf90db40b402dc71",
+    "direction_policy": "abstain",
+    "supported_execution_decision": "no_trade"
+  },
+  "implementation": [
+    {
+      "path": "oanda_live_move_persistent_news_context_v5.py",
+      "size": 35552,
+      "sha256": "5d7e947a4a1b237969fd9b44fc4f8f8af0502ed262d3a67eefe0ccb803ed6734"
+    },
+    {
+      "path": "oanda_live_move_news_snapshot_v7r3.py",
+      "size": 33781,
+      "sha256": "ed9bc9e15ba5c5aaad5ae90b285518871b7fee6a29471b7a17bde5923a3ad7a1"
+    },
+    {
+      "path": "oanda_executable_move_census_v1_verifier.py",
+      "size": 88249,
+      "sha256": "6c8c3262016ccf0c625b2c2aa9b18beffa554d4a45903967b94d4f1fdb7c25f5"
+    },
+    {
+      "path": "oanda_project_integrity_audit.py",
+      "size": 284531,
+      "sha256": "b3fcc49d4a7d8a074002bc590962ea5571316cbc29bfffb7573c0ccb7efc7c33"
+    },
+    {
+      "path": "oanda_allocator_proof_worker.py",
+      "size": 4751,
+      "sha256": "ff2768d5d2191851b5d3c644f0a59391fc4f99617af45dd48183fd9da2fdee9c"
+    },
+    {
+      "path": "oanda_evidence_operations_worker.py",
+      "size": 21833,
+      "sha256": "bd65e93bf17f6e8dbdbc0429b29ae3e08225acd7023e68b86971d12318a0a212"
+    },
+    {
+      "path": "oanda_scheduled_event_factor_reaction_v1.py",
+      "size": 34441,
+      "sha256": "9ec0082b74ce969c9c97c4b8179c8bc0b216c1cd6fea3d641f1dead1ef1cc522"
+    },
+    {
+      "path": "config/scheduled_event_factor_reaction_v1_20260902b.json",
+      "size": 952,
+      "sha256": "45cd119612c4fe2f010bc73e99c73f7a3198983d87e190f22ca43771ba34f8fc"
+    },
+    {
+      "path": "forex_model_vault_sync.py",
+      "size": 86868,
+      "sha256": "cfad9b65188029be4f201fe60b8a0c8a0bc611f4e6ce9e4dfd96c06ca2c7e52b"
+    }
+  ],
+  "validation": {
+    "combined_regression": "244 passed in 102.94 seconds",
+    "vault_sync_regression": "16 passed in 3.45 seconds",
+    "total_tests": 260,
+    "git_diff_check": "passed",
+    "covered_regressions": [
+      "same-timestamp append-only rows are verified in SQLite insertion order",
+      "later append-only rows do not invalidate a correctly declared immutable prefix",
+      "cascading same-pass root unions publish one final canonical root",
+      "latest-report frames and later durable database frames remain separately reconciled",
+      "vault manifest hashes bind the exact bytes atomically copied"
+    ]
+  },
+  "runtime_receipt": {
+    "captured_utc": "2026-09-02T08:06:38.310565Z",
+    "supervisor": {
+      "pid": 17448,
+      "safe_core_only": true,
+      "interval_sec": 30,
+      "codex_automation": false
+    },
+    "project_integrity": {
+      "generated_utc": "2026-09-02T04:04:59.571019-04:00",
+      "audit_finished_utc": "2026-09-02T04:05:09.807791-04:00",
+      "status": "ok",
+      "failure_count": 0,
+      "census_state_frames": 665,
+      "census_verified_latest_frames": 665,
+      "census_verified_database_frames": 665,
+      "census_append_suffix_frames": 0,
+      "supported_decision": "no_trade"
+    },
+    "independent_census_verifier": {
+      "generated_utc": "2026-09-02T08:05:55.885772Z",
+      "audit_finished_utc": "2026-09-02T08:06:11.900064Z",
+      "verified": true,
+      "latest_frame_count": 666,
+      "database_frame_count": 666,
+      "failure_count": 0
+    },
+    "independent_lifecycle_verifier": {
+      "completed_verification_utc": "2026-09-02T04:07:26.027327-04:00",
+      "status": "match",
+      "failure_count": 0,
+      "governed_hypotheses": 52883,
+      "continue_collecting": 43441,
+      "futility_rejected": 9442,
+      "confirmed_candidate": 0
+    },
+    "live_move_research": {
+      "snapshot_contract_id": "live_move_news_snapshot_v7r3_transitive_factor_root_union_20260827",
+      "persistent_contract_id": "live_move_persistent_news_context_v5r3_exact_v7r3_transitive_root_union_binding_20260827",
+      "retained_case_count": 3598,
+      "retained_outcome_count": 31471,
+      "input_integrity_ok": true,
+      "retrospective_mapping_generated_utc": "2026-09-02T04:03:42.191763-04:00",
+      "retrospective_case_count": 924,
+      "retrospective_liquid_major_case_count": 351,
+      "supported_decision": "no_trade"
+    },
+    "practice_007": {
+      "account_id": "101-001-37981792-007",
+      "environment": "practice",
+      "observed_utc": "2026-09-02T04:06:34.571156-04:00",
+      "nav": 41.6042,
+      "balance": 41.6042,
+      "cumulative_pl": -8.343,
+      "open_trades": 0,
+      "pending_orders": 0
+    },
+    "market_and_signals": {
+      "quote_observed_utc": "2026-09-02T04:06:31.176971-04:00",
+      "quote_count": 68,
+      "tradeable_count": 68,
+      "nontradeable_count": 0,
+      "retained_quote_count": 0,
+      "signal_observed_utc": "2026-09-02T04:05:54.086893-04:00",
+      "raw_candidate_count": 2347,
+      "feed_candidate_count": 657,
+      "consolidated_signal_count": 67,
+      "qualified_signal_count": 0,
+      "selected": false
+    },
+    "clock": {
+      "generated_utc": "2026-09-02T04:06:12.919479-04:00",
+      "status": "ok",
+      "host_clock_synchronized": true,
+      "timestamp_normalization_trusted": true,
+      "broker_clock_lead_sec": -0.312,
+      "reasons": []
+    },
+    "storage": {
+      "generated_utc": "2026-09-02T04:01:43.106041-04:00",
+      "status": "ok",
+      "growth_projection_status": "watch",
+      "free_gib": 126.49,
+      "free_percent": 13.587,
+      "projected_days_to_50_gib_at_short_window_rate": 15.589,
+      "automatic_evidence_deletion": false,
+      "automatic_vacuum": false
+    },
+    "runtime_cleanup": {
+      "stopped_process_ids": [2876, 27808],
+      "process_class": "orphaned_read_only_codex_inspection_shell",
+      "project_workers_stopped": 0,
+      "supervisor_workers_stopped": 0
+    }
+  },
+  "safety": {
+    "manual_orders_submitted": false,
+    "manual_positions_closed": false,
+    "real_money_routing_enabled": false,
+    "proof_or_authorization_gates_loosened": false,
+    "historical_evidence_rewritten": false,
+    "codex_automation_created": false,
+    "forex_codex_automation_present_in_local_registry": false
+  }
+}

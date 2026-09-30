@@ -1,0 +1,41 @@
+{
+  "schema": "forex_checkpoint_review.v2",
+  "package": "RESIDUAL_R4_PORTABLE_REPLAY_20260925_072300",
+  "step_id": "currency_projection_residual_layer_comparison_v2",
+  "published_utc": "2026-09-25T07:23:54.278810Z",
+  "verdict": "r4_portable_restore_replay_verified_same_task_review",
+  "accepted": false,
+  "review_status": "accepted_within_scope_same_task_review_independent_pending",
+  "independent_review": false,
+  "independent_scientific_review": "pending_nonblocking_by_user_clarification",
+  "resolved_findings": [
+    "QREV-02",
+    "R4 portable restore/replay portion"
+  ],
+  "unresolved_findings": [
+    "Independent scientific review remains pending/nonblocking."
+  ],
+  "result_sha256": "a1c518b93224cfeeb7a1f66ed5905ffb5d7138f0021f8c3bee50383b72bb295c",
+  "replay_output_sha256": "a1c518b93224cfeeb7a1f66ed5905ffb5d7138f0021f8c3bee50383b72bb295c",
+  "replay_output_bytes": 59349278,
+  "actual_checks": [
+    {
+      "name": "isolated restored replay",
+      "status": "passed",
+      "sha256": "a1c518b93224cfeeb7a1f66ed5905ffb5d7138f0021f8c3bee50383b72bb295c",
+      "bytes": 59349278
+    },
+    {
+      "name": "isolated focused residual tests",
+      "status": "passed",
+      "result": "14 passed"
+    }
+  ],
+  "readiness": {
+    "engineering_ready": false,
+    "forecast_evidence_status": "offline_development_residual_diagnostic_preserved_and_replay_verified",
+    "policy_evidence_status": "not_evaluated_no_policy_replay",
+    "demo_authorization_status": "not_granted"
+  },
+  "next_action": "Proceed to forecast_curve_shape_layer_comparison_v2 coverage repair; preserve the negative curve result and add explicit missing/unsupported/maturity reasons."
+}

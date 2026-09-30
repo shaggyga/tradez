@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-09-04T18:02:12Z",
+  "issue_id": "FX-20260904-SQLITE-READER-LOCK-HARDENING",
+  "status": "complete",
+  "incident": {
+    "trigger": "The broad collector held a long classification transaction during a safe-core reload.",
+    "affected_readers": ["news_technical_watchlist", "source_governance_news_fast_lane"],
+    "error": "sqlite3.OperationalError: database is locked",
+    "orders_affected": 0,
+    "evidence_rewritten": false
+  },
+  "repair": {
+    "read_timeout_seconds": 30,
+    "busy_timeout_milliseconds": 30000,
+    "watchlist_behavior": "publish fail-closed input diagnostics instead of crashing or reusing stale factors",
+    "fast_lane_behavior": "preserve cursor, report input_temporarily_unavailable, and retry without skipping rows"
+  },
+  "validation": {
+    "source_governance_tests_passed": 40,
+    "watchlist_tests_passed": 46,
+    "supervisor_tests_passed": 18,
+    "live_source_governance_status": "ok",
+    "live_total_receipts": 9355,
+    "live_unresolved_source_events": 0,
+    "python_compile_passed": true
+  },
+  "artifacts": [
+    {"path": "oanda_news_technical_watchlist.py", "sha256": "3aa5ebb9b5edca716f2fc9f21581283e1f7bc9e4596287834da623a97b9f9c06"},
+    {"path": "oanda_source_governance.py", "sha256": "f9e3053151a34dc6f38f9fada5831190bad924d5dbeb760705fdc0aefbbcbbe3"},
+    {"path": "oanda_source_governance_news_fast_lane.py", "sha256": "f1644afb57425e46e90a3e03087fdb17980d3da769cac25c80228e6ed1db8567"},
+    {"path": "test_oanda_news_technical_watchlist.py", "sha256": "25f8de5014e4b27656ccb5f39a2f2d570969f6d92b893a90ad1c45d67d9b6838"},
+    {"path": "test_oanda_source_governance_news_fast_lane.py", "sha256": "bc7924164dcdb8c31f5498210dbf77a2b0f592a3e7f9bdd4e9abce6cbaba92a0"}
+  ],
+  "safety": {
+    "fail_closed": true,
+    "cursor_skip_allowed": false,
+    "can_promote": false,
+    "can_authorize": false,
+    "can_place_orders": false,
+    "real_money_routing": false
+  }
+}

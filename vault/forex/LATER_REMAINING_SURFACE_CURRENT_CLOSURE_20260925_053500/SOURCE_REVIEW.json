@@ -1,0 +1,187 @@
+{
+  "checkpoint": {
+    "path": "checkpoint/forex_later_surface.zip",
+    "sha256": "607fbcd6cad94f053b9fa41edd7c3420a48a5a4d4defb983104fcab5c05b0910"
+  },
+  "implementation_status": "complete",
+  "independent_review": false,
+  "independent_review_status": "pending_nonblocking_by_user_clarification",
+  "next_action": "later_remaining_layer_policy_comparison_v2",
+  "readiness": {
+    "demo_authorization_status": "not_granted",
+    "engineering_ready": false,
+    "forecast_evidence_status": "later_common_target_inspected_development_surface",
+    "policy_evidence_status": "native_consumer_only_no_portfolio_replay"
+  },
+  "recipe_sha256": "1dd2cc4b32c52e6ae64e3b1b4912f9be4ecd362633e505ed78af0026b9bd684f",
+  "review_result": "evidence/REVIEW_FINDINGS.md",
+  "review_status": "accepted_within_scope",
+  "reviewer": "same Codex task; substantive same-task review",
+  "run_identity": "86ca1af70edaf67ef743cf842df109c13d644ccc2598765e2f3fcfe4f05351b0",
+  "schema": "forex_review_packet.v2",
+  "source_commit": "977f018a86a0beb0f041c627f46d4ee986c14a19",
+  "step_id": "later_remaining_forecast_surface_v2",
+  "unresolved_findings": [],
+  "verification": {
+    "arithmetic_audit": {
+      "base_models_fitted": 0,
+      "base_models_loaded": 0,
+      "decimal_assessment_metrics": 192,
+      "decimal_base_ridge_predictions": 20480,
+      "decimal_layer_predictions": 2168,
+      "decimal_layer_regressions": 32,
+      "exact_decimal_native_terminal_prices": 4332,
+      "independent_review": false,
+      "initial_partial_payloads_byte_identical": [
+        "prequential_360.json",
+        "prequential_720.json",
+        "prequential_1080.json",
+        "prequential_1440.json",
+        "prequential_1800.json",
+        "prequential_2160.json",
+        "prequential_2520.json",
+        "prequential_2880.json",
+        "frame_1721844060.json",
+        "frame_1721865660.json",
+        "frame_1721887260.json",
+        "frame_1721908860.json",
+        "frame_1721930460.json",
+        "absolute_360.json",
+        "absolute_360.joblib",
+        "absolute_360.timing.json",
+        "absolute_1080.json",
+        "absolute_1080.joblib",
+        "absolute_1080.timing.json",
+        "absolute_1800.json",
+        "absolute_1800.joblib",
+        "absolute_1800.timing.json",
+        "absolute_2160.json",
+        "absolute_2160.joblib",
+        "absolute_2160.timing.json",
+        "absolute_2520.json",
+        "absolute_2520.joblib",
+        "absolute_2520.timing.json"
+      ],
+      "prefix_memberships": 15,
+      "status": "PASS"
+    },
+    "bad_capsule_pin_refused": true,
+    "checkpoint_sha256": "607fbcd6cad94f053b9fa41edd7c3420a48a5a4d4defb983104fcab5c05b0910",
+    "export": {
+      "files": 320,
+      "restore_base_refits_allowed": false,
+      "scientific_payloads": 32,
+      "sha256": "607fbcd6cad94f053b9fa41edd7c3420a48a5a4d4defb983104fcab5c05b0910",
+      "status": "VERIFIED_EXPORT"
+    },
+    "independent_review": false,
+    "native_batch_boundary_drift_refused": true,
+    "operator_refusals": [
+      {
+        "case": "wrong_recipe_pin",
+        "result": {
+          "next_action": "preserve_evidence_and_review",
+          "reason": "later_recipe_pin_mismatch",
+          "status": "review_required"
+        }
+      },
+      {
+        "case": "source_drift",
+        "result": {
+          "next_action": "preserve_evidence_and_review",
+          "reason": "later_source_drift_before_numerical_import",
+          "status": "review_required"
+        }
+      },
+      {
+        "case": "changed_remaining_identity",
+        "result": {
+          "next_action": "preserve_evidence_and_review",
+          "reason": "later_original_run_identity_mismatch:remaining",
+          "status": "review_required"
+        }
+      }
+    ],
+    "recipe_sha256": "1dd2cc4b32c52e6ae64e3b1b4912f9be4ecd362633e505ed78af0026b9bd684f",
+    "recovery": [
+      {
+        "actual_estimators": 10,
+        "crash_after": 2,
+        "initial_fit_attempts": 2,
+        "total_unique_fit_pairs": 5
+      },
+      {
+        "base_refits": 0,
+        "crash_after": 6,
+        "exit_code": 91,
+        "scientific_payloads_identical": 32
+      }
+    ],
+    "rehashed_packet_refusals": [
+      "prediction",
+      "target",
+      "availability"
+    ],
+    "relocated_tests": 11,
+    "restore": {
+      "base_estimators_refitted_in_replay": 0,
+      "checkpoint_sha256": "607fbcd6cad94f053b9fa41edd7c3420a48a5a4d4defb983104fcab5c05b0910",
+      "independent_review": false,
+      "layer_regression_recomputation": 32,
+      "operator": {
+        "attempt": {
+          "actual_new_estimator_fits": 0,
+          "attempt_id": "77b6e450b7ed4ec4ab07b4248e300f95",
+          "binary_models_loaded": 16,
+          "elapsed_seconds": 106.5,
+          "layer_regression_fits": 32,
+          "reuse_only": true,
+          "signed_refits": 0
+        },
+        "demo_authorization_status": "not_granted",
+        "engineering_ready": false,
+        "forecast_evidence_status": "later_common_target_inspected_development_surface",
+        "independent_review": false,
+        "policy_evidence_status": "native_consumer_only_no_portfolio_replay",
+        "recipe_sha256": "1dd2cc4b32c52e6ae64e3b1b4912f9be4ecd362633e505ed78af0026b9bd684f",
+        "run_identity": "86ca1af70edaf67ef743cf842df109c13d644ccc2598765e2f3fcfe4f05351b0",
+        "run_path": "until8am_20260923_215844\\later_surface_step\\reviewed\\restored\\runs\\later-remaining-surface-v2",
+        "status": "completed_verified"
+      },
+      "relocated_tests_passed": true,
+      "scientific_payloads_identical": 32,
+      "status": "VERIFIED"
+    },
+    "run_identity": "86ca1af70edaf67ef743cf842df109c13d644ccc2598765e2f3fcfe4f05351b0",
+    "source_correction": {
+      "copied_saved_fits": {
+        "absolute_1080.joblib": "3a5a8a5a0ad6ce27ae728c22001e9876b7a8ada228ae80558acb42242f27c156",
+        "absolute_1080.json": "19c88c3b486c0c18ec334ecaa921e2848314c0f92faeb90f11fe21fe772803cc",
+        "absolute_1080.timing.json": "70a272ae54e205cc02c034c45774580eb5dec8416a747ba30e50ab940c2d2e82",
+        "absolute_1800.joblib": "70a4d057716de54441ff07f78ff4233decbe1a0f0c93d2255330a2cb26789f24",
+        "absolute_1800.json": "99856271fc467955932144e4ff17c17498b699443f25ee73f2c0ad3986661f1a",
+        "absolute_1800.timing.json": "c58ccab4523ccd354b285e69bf0b955314e265624dcd137ea780ba6b4108ffc5",
+        "absolute_2160.joblib": "3923ce773cffe2150bf2074af836cd158eb149349ec00904ed840feac04e6411",
+        "absolute_2160.json": "ab386c64da6d888dbd9cc28f584b6e1c57a28647a157da3a0083f129c23a2473",
+        "absolute_2160.timing.json": "7c37870ffff1ca1c38f086c4ef43c806dd2143d42b069aa61a295b952c65348f",
+        "absolute_2520.joblib": "e50e73ffa47f1b38a1f6255e3a47dde40c55e9eaf26425b40f68fb4a4fe793ff",
+        "absolute_2520.json": "cb8dbe1ca0f1af6c15849089b2e3403c23646fa8446d754862cbd7f9b0d47a8a",
+        "absolute_2520.timing.json": "a6c949fdfb7e33d4ef8186c58cacd5c8d87c9bb35b4ef7d5f909fd916282a4be",
+        "absolute_360.joblib": "da3fede6a1d26979ebc58835f1c1e08fde41f98969332ca1105f7605e3c348cf",
+        "absolute_360.json": "a89c48041f729aded347951e1c4e7176d0e66d9db9d90fd501c6bd0739316768",
+        "absolute_360.timing.json": "a007f511b801534081e3e5002c6a21e81254340f4a7ecf2750338fd1f36c16fd"
+      },
+      "findings": [
+        "LS-TIMING-1: source authentication repeated per packet; batch boundary authentication preserves exact packet bytes",
+        "LS-CLOSURE-1: explicitly bind Decimal consumer source/absent import closure; original recipe bound native curve only"
+      ],
+      "independent_review": false,
+      "new_fits_allowed": false,
+      "new_recipe": "1dd2cc4b32c52e6ae64e3b1b4912f9be4ecd362633e505ed78af0026b9bd684f",
+      "numerical_contract_unchanged": true,
+      "old_recipe": "9077b14c715646e8f0dd66a7d4882995fa0ee68b9b0b087bcf561f6587e517d6"
+    },
+    "status": "PASS",
+    "targeted_tests": 11
+  }
+}

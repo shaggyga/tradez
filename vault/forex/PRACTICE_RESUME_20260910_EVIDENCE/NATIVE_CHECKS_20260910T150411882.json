@@ -1,0 +1,128 @@
+{
+    "schema_version":  "practice_recovery_native_checks_v1_20260910",
+    "test_sha256":  "03e50acc317e354af9163f1c0cee9d1b8bc61c4dfc0aa2171a2bab42cd8b2c24",
+    "observed_utc":  "2026-09-10T15:04:11.8429014Z",
+    "passed":  29,
+    "failed":  0,
+    "no_runtime_launch_or_registration":  true,
+    "fixture_path":  "C:\\Users\\zmoor\\Documents\\forex\\practice_recovery_20260910\\native_checks\\fixture_88f5992323bb46d6b9885cfe854f8042",
+    "source_sha256":  "c027f122be82631f0eae518f79c2bc470c5f0b505de1738eebd61d709fea0fd6",
+    "cases":  [
+                  {
+                      "name":  "native_parser",
+                      "status":  "passed"
+                  },
+                  {
+                      "name":  "initial_research_first",
+                      "status":  "passed"
+                  },
+                  {
+                      "name":  "one_exact_supervisor_allows_trial",
+                      "status":  "passed"
+                  },
+                  {
+                      "name":  "existing_watchdog_no_duplicate",
+                      "status":  "passed"
+                  },
+                  {
+                      "name":  "orphan_running_worker_adopt_no_duplicate",
+                      "status":  "passed"
+                  },
+                  {
+                      "name":  "conflicting_supervisor_refused",
+                      "status":  "passed"
+                  },
+                  {
+                      "name":  "duplicate_expected_supervisors_refused",
+                      "status":  "passed"
+                  },
+                  {
+                      "name":  "duplicate_trial_watchdogs_refused",
+                      "status":  "passed"
+                  },
+                  {
+                      "name":  "deadline_no_research_but_close_only_trial",
+                      "status":  "passed"
+                  },
+                  {
+                      "name":  "exact_deadline_close_only",
+                      "status":  "passed"
+                  },
+                  {
+                      "name":  "completed_stops_before_deadline",
+                      "status":  "passed"
+                  },
+                  {
+                      "name":  "invalid_clock_refuses",
+                      "status":  "passed"
+                  },
+                  {
+                      "name":  "normalized_slashes_exact_file_and_scope",
+                      "status":  "passed"
+                  },
+                  {
+                      "name":  "safe_core_without_research_is_conflict",
+                      "status":  "passed"
+                  },
+                  {
+                      "name":  "same_basename_different_root_is_conflict",
+                      "status":  "passed"
+                  },
+                  {
+                      "name":  "command_text_does_not_impersonate_file",
+                      "status":  "passed"
+                  },
+                  {
+                      "name":  "worker_and_wrapper_detected_with_quotes",
+                      "status":  "passed"
+                  },
+                  {
+                      "name":  "complete_exact_bindings_accept",
+                      "status":  "passed"
+                  },
+                  {
+                      "name":  "disabled_manifest_refuses",
+                      "status":  "passed"
+                  },
+                  {
+                      "name":  "deadline_extension_refuses",
+                      "status":  "passed"
+                  },
+                  {
+                      "name":  "wrong_config_raw_hash_refuses",
+                      "status":  "passed"
+                  },
+                  {
+                      "name":  "changed_source_refuses",
+                      "status":  "passed"
+                  },
+                  {
+                      "name":  "extra_source_inventory_refuses",
+                      "status":  "passed"
+                  },
+                  {
+                      "name":  "bounded_read_refuses",
+                      "status":  "passed"
+                  },
+                  {
+                      "name":  "native_reader_sharing_allows_atomic_writer_replace",
+                      "status":  "passed"
+                  },
+                  {
+                      "name":  "new_status_during_read_compared_to_own_completion_clock",
+                      "status":  "passed"
+                  },
+                  {
+                      "name":  "native_read_only_-CheckOnly",
+                      "status":  "passed"
+                  },
+                  {
+                      "name":  "native_read_only_-Once",
+                      "status":  "passed"
+                  },
+                  {
+                      "name":  "inspection_did_not_write_bootstrap_status",
+                      "status":  "passed"
+                  }
+              ]
+}

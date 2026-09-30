@@ -1,0 +1,7 @@
+# Combined scoped checkpoint review
+
+Accepted within the bounded synthetic policy, synthetic fitted-consumer and historical input-preparation scopes. Same-implementer follow-up; independent review remains unperformed. Exact manifests, source deltas and affected runtime consumers were inspected; sealed inventories and latest live source identities verified. No new material finding was identified in these bounded contracts. This is not proof of absence of defects or full-system acceptance.
+
+Reviewed common-liquidation arithmetic, original/current thesis separation, partial fills and cancellation, cached model recovery, maturity-only training joins and transformations, prior-model readiness, source-bound recipes and input clock assumptions. Reused the sealed 311-test integrated receipt and 8 input regressions plus actual relocated replay/operator receipts; did not rerun unchanged suites solely to fill time. Supplemental causal and execution boundary checks are included.
+
+Next: historical_fitted_slice_and_policy_tape_v2. Explicit gross-midpoint historical research tier is required; synthetic mode must not be reused as a false historical label. Do not infer executable values from these forecasts: arrival, common-target conversion and financing provenance remain separate gates. All 37 broader design items remain preserved in the engineering checkpoint. GPT/advisor comparisons remain deferred.

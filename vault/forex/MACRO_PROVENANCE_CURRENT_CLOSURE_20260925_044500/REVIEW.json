@@ -1,0 +1,42 @@
+{
+  "schema": "forex_current_closure.v1",
+  "packet_id": "MACRO_PROVENANCE_CURRENT_CLOSURE_20260925_044500",
+  "created_utc": "2026-09-25T03:46:33Z",
+  "step_id": "macro_numeric_reference_and_extraction_provenance_binding_v2",
+  "status": "closed_by_existing_packet_reuse",
+  "source_packet": "MACRO_PROVENANCE_20260923_041831",
+  "source_review": "MACRO_PROVENANCE_20260923_041831/REVIEW.json",
+  "source_review_sha256": "e6ebf9b07594e94451d3020f10952271a11801fa7db0fac2d3d34a73e346f888",
+  "source_review_md_sha256": "8f9933a7626a3a16c9b56576a1f6d9beaf3ecc94e99b8263e25054e67765f5ca",
+  "source_checkpoint_sha256": "9d0d8286439b973cea007f6ddb0b8929e951b0de19c849d1ef2d24649e31c9d5",
+  "local_tests_passed": 19,
+  "relocated_tests_passed": 19,
+  "identical_payloads": 3,
+  "forecast_evidence_status": "offline_retained_evidence_no_forecast_admission",
+  "engineering_ready": false,
+  "review_status": "same_task_current_closure_reuses_sealed_packet_independent_review_pending_nonblocking",
+  "actual_work_this_step": [
+    "Verified source packet identity and hashes.",
+    "Published current closure pointer without duplicate computation or fit.",
+    "Advanced timed queue to documented successor."
+  ],
+  "tests_executed_this_turn": [],
+  "tests_reused_from_source_packet": {
+    "local_tests_passed": 19,
+    "relocated_tests_passed": 19,
+    "identical_payloads": 3
+  },
+  "boundaries": {
+    "new_fit_performed": false,
+    "forecast_admission": false,
+    "gpt_advisor_comparisons": false,
+    "paid_api_calls": false,
+    "broker_or_live_bot_changes": false,
+    "d_drive_investigation": false
+  },
+  "next_step_id": "macro_currency_meter_evidence_view_v2",
+  "deadline_utc": "2026-09-25T04:59:55Z",
+  "session_id": "timed_residual_r4_20260925_025955",
+  "manifest": "MANIFEST.json",
+  "manifest_sha256": "4e28efac56c25b6e52a0e6a12bb884d309dab8c9c00c66620348110081c6f7b3"
+}

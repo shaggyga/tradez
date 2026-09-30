@@ -1,0 +1,41 @@
+{
+  "schema_version": "forex_research_restart_live_integrity_observation_v1",
+  "observed_utc": "2026-09-06T12:25:44.617490+00:00",
+  "audit_started_utc": "2026-09-06T12:21:23.290675+00:00",
+  "audit_finished_utc": "2026-09-06T12:23:51.975290+00:00",
+  "status": "degraded",
+  "supported_decision": "no_trade",
+  "can_place_orders": false,
+  "can_promote": false,
+  "snapshot_bytes": 169929,
+  "snapshot_sha256": "e131f5935a8c26d680841f8d5c3364e8af62b9dcb680d94e62fa5d54d38182dd",
+  "detail_artifacts_verified": 5,
+  "detail_rows_restored": {
+    "move_first_live_arm_alignment": 2074,
+    "move_first_operational_mapping_alignment": 60,
+    "move_first_operational_mapping_alignment_v2": 420,
+    "move_first_operational_mapping_alignment_v3": 366,
+    "move_first_operational_mapping_alignment_v4": 1392
+  },
+  "failures": [
+    "continuous_narrative_meter_sealed_current_and_inert",
+    "event_technical_preflight_source_transport_current_and_inert",
+    "executable_move_census_current_independently_verified",
+    "independent_verifier_matches",
+    "live_move_news_forward_proof_contract_current",
+    "live_move_persistent_context_current_and_inert",
+    "move_first_live_arm_alignment_current_causal_and_inert",
+    "move_first_live_case_capture_current_and_inert",
+    "move_first_news_mapping_audit_current",
+    "move_first_operational_mapping_alignment_v4_current_subsecond_causal_and_inert",
+    "official_release_fast_response_watch_current_and_inert",
+    "official_source_depth_complete_current_and_zero_weight",
+    "scheduled_event_quote_capture_current_append_only_and_inert",
+    "scheduled_event_quote_capture_v2_current_append_only_and_inert"
+  ],
+  "publication_status": "published",
+  "snapshot_fresh_at_publication": true,
+  "publication_latency_sec": 147.0430130958557,
+  "interpretation": "Initial refresh completed after the startup receipt observation; degraded checks remain unrelaxed. This is not an execution authorization or an entire-cycle speed comparison.",
+  "prior_startup_receipt_sha256": "270aa33ca446856f54e6ea0eaf09c629e571cb9f0cc6429017391d8b2e4efaa2"
+}

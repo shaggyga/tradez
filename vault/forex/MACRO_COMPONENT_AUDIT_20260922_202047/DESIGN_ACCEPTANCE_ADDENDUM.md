@@ -1,0 +1,1 @@
+R05/R14, design14.2–14.4. Exact parser/source/span reproduction, adversarial rejection, portable replay; no collector import or forecast promotion.

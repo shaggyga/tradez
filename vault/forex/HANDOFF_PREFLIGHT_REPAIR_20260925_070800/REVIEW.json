@@ -1,0 +1,32 @@
+{
+  "schema": "forex_handoff_preflight_identity_repair.v1",
+  "package": "HANDOFF_PREFLIGHT_REPAIR_20260925_070800",
+  "step_id": "handoff_preflight_identity_repair_20260925",
+  "utc": "2026-09-25T07:07:48.013920Z",
+  "verdict": "accepted_within_scope_same_task_review",
+  "independent_review": false,
+  "scope": "Repair current pointer/schema/document/source identities required by QREV-06 so pending residual R4 work can start from a coherent checkpoint.",
+  "source_commit_before_git_checkpoint": "3113dfa28ad2049dc6194c4a251d5d8ec714d319",
+  "scientific_acceptance_changed": false,
+  "models_fitted": 0,
+  "models_loaded": 0,
+  "policy_replays": 0,
+  "api_calls": 0,
+  "resolved_findings": [
+    "QREV-06"
+  ],
+  "still_unresolved": [
+    "QREV-01",
+    "QREV-02",
+    "QREV-03",
+    "QREV-04",
+    "QREV-05"
+  ],
+  "next_action": "Run clean stdlib preflight after Git checkpoint and SHARED_GIT_REMOTE_LATEST update; then finish residual R4 portable restore/replay.",
+  "readiness": {
+    "engineering_ready": false,
+    "forecast_evidence_status": "unchanged_existing_forecast_evidence_preserved",
+    "policy_evidence_status": "unchanged",
+    "demo_authorization_status": "not_granted"
+  }
+}

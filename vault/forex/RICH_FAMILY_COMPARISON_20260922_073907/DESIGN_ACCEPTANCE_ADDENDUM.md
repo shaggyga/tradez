@@ -1,0 +1,1 @@
+Bounded WP7/WP10, R03/R04/R09/R10/R11/R14: matched causal training/assessment, frozen wider preprocessing, original artifact reuse and recovery verified. Relevant TST01/05/07/08/10/33/48/49/50/51/52 mechanisms covered within this scope; not all full acceptance cases or requirements certified.

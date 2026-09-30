@@ -1,0 +1,1 @@
+New frozen recipe (ready for review): [MACRO_TEXT_OPERATOR_APPROVAL.json](MACRO_TEXT_OPERATOR_APPROVAL.json). [Exact operator/restore instructions](evidence/RESUME_INSTRUCTIONS.md). Existing recipes remain in [prior operations catalog](../OPERATIONS_CATALOG_20260922_125442/operations/OPERATIONS.md). No original approved source was modified.

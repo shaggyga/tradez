@@ -1,0 +1,15 @@
+{
+  "recipe": "source_snapshot/MACRO_TEXT_COVERAGE_OPERATOR_RECIPE.json",
+  "recipe_sha256": "6111e2458332edd0bcf01893e55f985c8da2b27493a86f68280249f74a7bd44d",
+  "scope": "outcome-free original text/native-function coverage and failure audit",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify"
+  ],
+  "bootstrap": "checkpoint/forex_macro_text_coverage.zip",
+  "contract": "source_snapshot/MACRO_TEXT_COVERAGE_CONTRACT_V2.md",
+  "next": "review_macro_text_coverage_checkpoint_v2"
+}

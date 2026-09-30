@@ -1,0 +1,3 @@
+# Exact next item
+
+`later_development_input_extension_v2`. Read evidence/NEXT_CANDIDATE.json. Authenticate the preserved C-drive slice manifest/extent; reuse existing26feature, endpoint and candle-qualification functions. Freeze later origins and exact remaining horizons, preserve all68coverage, missing financing/quotes and unchanged overlapping outputs. Deliver tested causal observations/labels/market inputs and portable recovery before separately freezing a later saved-model/layer comparison. No models, API calls, new parameter tuning or protected-confirmation relabeling. Independent review remains pending and nonblocking.

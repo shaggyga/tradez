@@ -1,0 +1,327 @@
+{
+  "account": {
+    "NAV": "41.0233",
+    "balance": "41.1189",
+    "commission": "0.0000",
+    "currency": "USD",
+    "financing": "-0.0528",
+    "hedgingEnabled": false,
+    "lastTransactionID": "2494",
+    "marginAvailable": "32.8027",
+    "marginCloseoutMarginUsed": "8.2206",
+    "marginCloseoutNAV": "41.0233",
+    "marginCloseoutPercent": "0.10019",
+    "marginRate": "0.02",
+    "marginUsed": "8.2206",
+    "observed_epoch": 1789053040.1770778,
+    "openPositionCount": 1,
+    "openTradeCount": 1,
+    "pendingOrderCount": 1,
+    "pl": "-8.8283",
+    "receipt": {
+      "account_label": "practice_007",
+      "bytes": 982,
+      "environment": "practice",
+      "http_status": 200,
+      "method": "GET",
+      "observed_epoch": 1789053040.1770778,
+      "route": "account_summary",
+      "schema_version": "practice_trial_broker_v1_20260909",
+      "source_sha256": "e92f0e34bb4c9d427d4be60f94ee7dfdcd29ad8a69149d376d07cf930803f0e3",
+      "started_epoch": 1789053039.5507503
+    },
+    "unrealizedPL": "-0.0956"
+  },
+  "completed_epoch": 1789053040.2887802,
+  "config_validated_enabled": true,
+  "open_trades": {
+    "lastTransactionID": "2494",
+    "observed_epoch": 1789053040.2329295,
+    "receipt": {
+      "account_label": "practice_007",
+      "bytes": 769,
+      "environment": "practice",
+      "http_status": 200,
+      "method": "GET",
+      "observed_epoch": 1789053040.2329295,
+      "route": "open_trades",
+      "schema_version": "practice_trial_broker_v1_20260909",
+      "source_sha256": "7a2230cf2fb2f3267d64c2b726e84ba1bb12549d444266c4e7227c73d3284a94",
+      "started_epoch": 1789053040.178075
+    },
+    "rows": [
+      {
+        "clientExtensions": {
+          "comment": "practice007_joint_v3_20260909_v1|target=1789056322.5154",
+          "id": "pt1-fa053ca1692f9eeca31bb2883b4c39a93ad90ca0",
+          "tag": "practice_trial_v1"
+        },
+        "currentUnits": "-283",
+        "dividendAdjustment": "0.0000",
+        "financing": "0.0000",
+        "id": "2493",
+        "initialMarginRequired": "8.2185",
+        "initialUnits": "-283",
+        "instrument": "NZD_JPY",
+        "marginUsed": "8.2206",
+        "openTime": "2026-09-10T15:06:14.496153745Z",
+        "price": "89.395",
+        "realizedPL": "0.0000",
+        "state": "OPEN",
+        "stopLossOrder": {
+          "createTime": "2026-09-10T15:06:14.496153745Z",
+          "id": "2494",
+          "price": "89.474",
+          "state": "PENDING",
+          "timeInForce": "GTC",
+          "tradeID": "2493",
+          "triggerCondition": "DEFAULT",
+          "triggerMode": "TOP_OF_BOOK",
+          "type": "STOP_LOSS"
+        },
+        "trueUnrealizedPL": "-0.0966",
+        "unrealizedPL": "-0.0956"
+      }
+    ]
+  },
+  "pending_orders": {
+    "observed_epoch": 1789053040.2867856,
+    "receipt": {
+      "account_label": "practice_007",
+      "bytes": 310,
+      "environment": "practice",
+      "http_status": 200,
+      "method": "GET",
+      "observed_epoch": 1789053040.2867856,
+      "route": "pending_orders",
+      "schema_version": "practice_trial_broker_v1_20260909",
+      "source_sha256": "bd24506117bb29f9335394d1bd1c6d3cfb2dabfde47c96545a1c27e9d45dcaa4",
+      "started_epoch": 1789053040.233927
+    },
+    "rows": [
+      {
+        "clientTradeID": "pt1-fa053ca1692f9eeca31bb2883b4c39a93ad90ca0",
+        "createTime": "2026-09-10T15:06:14.496153745Z",
+        "id": "2494",
+        "price": "89.474",
+        "state": "PENDING",
+        "timeInForce": "GTC",
+        "tradeID": "2493",
+        "triggerCondition": "DEFAULT",
+        "triggerMode": "TOP_OF_BOOK",
+        "type": "STOP_LOSS"
+      }
+    ]
+  },
+  "runtime": {
+    "bootstrap": {
+      "bindings": {
+        "manifest_sha256": "5a1347797fc45427875dff1530242f3602e5db7a9e2cbe1ff5d5daf8fd4f6e46",
+        "source_bindings": {
+          "oanda_always_on_supervisor.ps1": "28c226f56105331cb7e828bc54a02359f814f98b55838ca12f36cf19e733473e",
+          "start_oanda_practice_recovery_v1.ps1": "c027f122be82631f0eae518f79c2bc470c5f0b505de1738eebd61d709fea0fd6",
+          "start_oanda_practice_trial_v1.ps1": "ce3a3808682db3ad270fc628e62ce5e512ff5316c59f0174c5bc05f5fcc46daa",
+          "start_oanda_research_collection.ps1": "c7e2a970b6e8bb69fcdaf5b124b8d935be6326f06a6554408889e111f57f3115"
+        },
+        "trial_config_sha256": "ae2901395ba117b2df7a6d13670d48cb3d4f10963bd3b983d6b3775be90b5af8"
+      },
+      "broker_action_performed": false,
+      "check_only": false,
+      "inventory": {
+        "conflicting_supervisor_pids": [],
+        "supervisor_pids": [
+          11676
+        ],
+        "trial_watchdog_pids": [
+          10648
+        ],
+        "trial_worker_pids": [
+          11988,
+          17800
+        ]
+      },
+      "observed_epoch": 1789053037.737,
+      "phase": "already_running",
+      "pid": 10116,
+      "practice_only": true,
+      "schema_version": "practice_recovery_launcher_v1_20260910",
+      "stop_epoch": 1789159500
+    },
+    "status": {
+      "account": {
+        "NAV": "41.0178",
+        "balance": "41.1189",
+        "commission": "0.0000",
+        "currency": "USD",
+        "financing": "-0.0528",
+        "hedgingEnabled": false,
+        "lastTransactionID": "2494",
+        "marginAvailable": "32.7978",
+        "marginCloseoutMarginUsed": "8.2200",
+        "marginCloseoutNAV": "41.0178",
+        "marginCloseoutPercent": "0.10020",
+        "marginRate": "0.02",
+        "marginUsed": "8.2200",
+        "observed_epoch": 1789053036.155306,
+        "openPositionCount": 1,
+        "openTradeCount": 1,
+        "pendingOrderCount": 1,
+        "pl": "-8.8283",
+        "receipt": {
+          "account_label": "practice_007",
+          "bytes": 982,
+          "environment": "practice",
+          "http_status": 200,
+          "method": "GET",
+          "observed_epoch": 1789053036.155306,
+          "route": "account_summary",
+          "schema_version": "practice_trial_broker_v1_20260909",
+          "source_sha256": "b95d056e676a62687684fd0c93de5ad3c5cd7ab1ee094607b96117b886c88dae",
+          "started_epoch": 1789053036.0625541
+        },
+        "unrealizedPL": "-0.1011"
+      },
+      "account_label": "practice_007",
+      "enabled": true,
+      "entry_halt_latched": false,
+      "environment": "practice",
+      "foreign_trade_count": 0,
+      "last_candidate_scan": {
+        "eligible": 4,
+        "epoch": 1789052773.0836103,
+        "last_submission": {
+          "instrument": "NZD_JPY",
+          "status": "filled_open",
+          "trade_id": "2493",
+          "units": "-283"
+        },
+        "refusals": {
+          "expected_gross_below_cost_hurdle": 12,
+          "no_verified_published_forecast": 2,
+          "original_h1_target_elapsed": 2,
+          "pair_cooldown": 2,
+          "quote_market_stale": 3,
+          "side_probability_below_minimum": 36,
+          "spread_bps_above_limit": 5
+        },
+        "source_sha256": "8c4aa526c54d9ba55719dda08d0ab67ba3fa80c0fb3df6f4bf63892b1fe746bc"
+      },
+      "loss_stop_latched": false,
+      "observed_epoch": 1789053036.271996,
+      "performance_validated": false,
+      "pid": 11988,
+      "positions": [
+        {
+          "decision": {
+            "action": "hold",
+            "add_units": "0",
+            "assessment_sha256": "cc3f67ef867492c5bd985d045252c01ef004b8587ae7830f60f1f0200db2a379",
+            "broker_action_performed": false,
+            "computation_clock_scope": "Pure calculation; caller records actual completion/publication separately.",
+            "current_quote_pnl_per_base_unit": "-0.055",
+            "information_cutoff_epoch": 1789053036.270001,
+            "inputs_sha256": "56945d197e34aecb770d6ae0be52d2a2ec196ce21147ea4f06c7f2e51dfffb2f",
+            "instrument": "NZD_JPY",
+            "loss_stop_latched": false,
+            "original_target_epoch": 1789056322.5154,
+            "performance_verified": false,
+            "policy": {
+              "account_conversion_max_age_sec": 30,
+              "account_currency": "USD",
+              "atr_latest_close_max_age_sec": 90,
+              "atr_multiplier": "2",
+              "atr_true_ranges": 14,
+              "hard_stop_epoch": 1789159500.0,
+              "latest_entry_target_epoch": 1789159200.0,
+              "margin_scope": "entry_sizing_cap_not_continuous_rebalance_or_forced_liquidation",
+              "maximum_entries_per_utc_day": 8,
+              "maximum_margin_nav_fraction": "0.20",
+              "maximum_open_positions": 1,
+              "maximum_original_signal_age_sec": 900,
+              "maximum_spread_bps": "4",
+              "minimum_gross_cost_multiple": "2",
+              "minimum_remaining_sec": 60,
+              "minimum_side_probability": "0.55",
+              "original_horizon_sec": 3600,
+              "policy_selection_scope": "explicit_conservative_trial_defaults_not_fitted_or_performance_validated",
+              "quote_max_age_sec": 15,
+              "risk_nav_fraction": "0.005",
+              "same_pair_cooldown_sec": 1800,
+              "session_loss_start_nav_fraction": "0.10",
+              "session_loss_usd_cap": "5",
+              "slippage_bps_per_leg": "0.1"
+            },
+            "reason": "fixed_original_target_and_protective_stop",
+            "requires_execution_revalidation": true,
+            "schema_version": "practice_trial_policy_v1_20260909",
+            "status": "available",
+            "stop_loss_price": "89.474",
+            "trade_id": "2493"
+          },
+          "instrument": "NZD_JPY",
+          "original_target_epoch": 1789056322.5154,
+          "trade_id": "2493",
+          "units": "-283"
+        }
+      ],
+      "research_contracts_unchanged": true,
+      "schema_version": "practice_trial_runner_v1_20260909",
+      "session": {
+        "day_utc": "2026-09-10",
+        "entries_today": 5,
+        "last_entry_epoch_by_instrument": {
+          "AUD_JPY": 1788987270.1898403,
+          "CAD_HKD": 1789052698.244609,
+          "CHF_JPY": 1788981332.6349096,
+          "EUR_JPY": 1788985051.5251276,
+          "GBP_JPY": 1788985694.2610903,
+          "HKD_JPY": 1788987378.704171,
+          "NZD_JPY": 1789052773.4625857,
+          "USD_CAD": 1789052661.57514,
+          "USD_CHF": 1789052288.946218,
+          "USD_JPY": 1788980882.173455,
+          "USD_ZAR": 1789052736.6793475
+        },
+        "loss_stop_latched": false,
+        "start_nav_usd": "41.6042",
+        "started_epoch": 1788980872.5917952,
+        "stop_epoch": 1789159500.0
+      },
+      "state": "managing_position",
+      "stop_epoch": 1789159500.0,
+      "stop_requested": false,
+      "trial_id": "practice007_joint_v3_20260909_v1",
+      "unresolved_intents": 1
+    },
+    "watchdog": {
+      "observed_utc": "2026-09-10T14:55:46.2975052Z",
+      "practice_only": true,
+      "restarts": 0,
+      "watchdog_pid": 10648,
+      "worker_pid": 17800
+    }
+  },
+  "schema_version": "practice_resume_final_v1_20260910",
+  "scope": "Independent GET-only broker observation; runtime files are separate timestamped observations.",
+  "trial_config_sha256": "ae2901395ba117b2df7a6d13670d48cb3d4f10963bd3b983d6b3775be90b5af8",
+  "windows_task": {
+    "actions": [
+      {
+        "Arguments": "-NoLogo -NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File \"C:\\Users\\zmoor\\Documents\\forex\\trad\\start_oanda_practice_recovery_v1.ps1\"",
+        "Execute": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "WorkingDirectory": "C:\\Users\\zmoor\\Documents\\forex\\trad"
+      }
+    ],
+    "enabled": true,
+    "execution_time_limit": "PT0S",
+    "last_run": "2026-09-10T11:05:05.0000000-04:00",
+    "last_task_result": 267009,
+    "logon_type": "Interactive",
+    "missed_runs": 0,
+    "multiple_instances": "IgnoreNew",
+    "name": "Forex Practice Research Recovery 20260910",
+    "observed_utc": "2026-09-10T15:10:27.2777660Z",
+    "state": "Running",
+    "trigger_delay": "PT30S"
+  }
+}

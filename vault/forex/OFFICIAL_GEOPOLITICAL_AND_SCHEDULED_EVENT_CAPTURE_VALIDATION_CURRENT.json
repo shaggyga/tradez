@@ -1,0 +1,197 @@
+{
+  "schema_version": "forex_official_geopolitical_and_scheduled_event_capture_validation_v1",
+  "generated_utc": "2026-09-02T02:41:47.1818522Z",
+  "local_date": "2026-09-01",
+  "scope": "Direct official geopolitical ingestion, scheduled all-68 event quote capture, RBNZ live-event diagnosis, evidence-publication reconciliation, and fail-closed replacement contracts",
+  "supported_execution_decision": "no_trade",
+  "research_only": true,
+  "can_place_orders": false,
+  "can_authorize": false,
+  "can_promote": false,
+  "real_money_routing": false,
+  "codex_automation_created": false,
+  "direct_official_geopolitical_source": {
+    "source_id": "us_dow_releases_direct_v1",
+    "source_contract_id": "us_dow_releases_direct_v2_rss_body_only_20260901",
+    "source_cohort_id": "us_dow_releases_direct_v2_rss_body_only_20260901",
+    "transport": "direct_official_publisher_rss",
+    "url": "https://www.war.gov/DesktopModules/ArticleCS/RSS.ashx?ContentType=9&Site=945&max=10",
+    "runtime_status": "ok",
+    "http_status": 200,
+    "items": 10,
+    "detail_policy": "RSS body only; linked full-text pages returned HTTP 403 and are not retried or treated as missing RSS evidence",
+    "directional_research_only": true
+  },
+  "scheduled_event_capture_v1": {
+    "contract_id": "scheduled_event_quote_capture_v1_all68_prospective_20260902",
+    "cohort_id": "scheduled_event_quote_capture_v1_20260902a",
+    "activated_utc": "2026-09-02T00:55:00Z",
+    "event": {
+      "headline": "Reserve Bank of New Zealand Monetary Policy Decision",
+      "scheduled_utc": "2026-09-02T02:00:00Z",
+      "direct_currency": "NZD",
+      "registered_prospectively": true
+    },
+    "terminal_attempts": [
+      {
+        "horizon_min": 0,
+        "attempted_utc": "2026-09-02T02:00:01.134916Z",
+        "delay_sec": 1.134916,
+        "observed_valid_quotes": 62,
+        "all68_proof_rows": 0,
+        "invalid_reason": "invalid_instruments:6",
+        "invalid_instruments": ["EUR_DKK", "EUR_TRY", "TRY_JPY", "USD_THB", "USD_TRY", "ZAR_JPY"],
+        "payload_sha256": "440b3db86013fdc194b672af5528693e84de8fa3a1cf822c46066d37a83b2fe9"
+      },
+      {
+        "horizon_min": 1,
+        "attempted_utc": "2026-09-02T02:01:01.944456Z",
+        "delay_sec": 1.944456,
+        "observed_valid_quotes": 62,
+        "all68_proof_rows": 0,
+        "invalid_reason": "invalid_instruments:6",
+        "invalid_instruments": ["EUR_DKK", "EUR_TRY", "TRY_JPY", "USD_HKD", "USD_TRY", "ZAR_JPY"],
+        "payload_sha256": "d84ed37c4cf5122d5b9377283ee0bfc4d8202c299aecca07f67a82d1ab66cdb7"
+      },
+      {
+        "horizon_min": 5,
+        "attempted_utc": "2026-09-02T02:05:00.067374Z",
+        "delay_sec": 0.067374,
+        "observed_valid_quotes": 63,
+        "all68_proof_rows": 0,
+        "invalid_reason": "invalid_instruments:5",
+        "invalid_instruments": ["EUR_DKK", "EUR_TRY", "TRY_JPY", "USD_TRY", "ZAR_JPY"],
+        "payload_sha256": "20d42a58e1eccd8e8f2d34962ee0c2bb5351b0436d3fe1ec35f4a400bce9c834"
+      },
+      {
+        "horizon_min": 15,
+        "attempted_utc": "2026-09-02T02:15:00.864498Z",
+        "delay_sec": 0.864498,
+        "observed_valid_quotes": 62,
+        "all68_proof_rows": 0,
+        "invalid_reason": "invalid_instruments:6",
+        "invalid_instruments": ["EUR_DKK", "EUR_TRY", "TRY_JPY", "USD_THB", "USD_TRY", "ZAR_JPY"],
+        "payload_sha256": "a0ed534e5c45241d97bd625c577f2a2559bdae08d79ae2c1aa67725af28360a9"
+      },
+      {
+        "horizon_min": 30,
+        "attempted_utc": "2026-09-02T02:30:01.720235Z",
+        "delay_sec": 1.720235,
+        "observed_valid_quotes": 60,
+        "all68_proof_rows": 0,
+        "invalid_reason": "invalid_instruments:8",
+        "payload_sha256": "403d908df51391a7a27b94663d6f0184c91d0b583cbe6a43df0eeed9c5b99daf"
+      }
+    ],
+    "event_leg_diagnostic": {
+      "nzd_pairs_observed_at_each_recorded_horizon": 9,
+      "nzd_pairs_expected": 9,
+      "nzd_usd_executable_short_net_pips": {"1": 23.9, "5": 39.1, "15": 32.8, "30": 44.4},
+      "aud_nzd_executable_long_net_pips": {"1": 42.4, "5": 70.4, "15": 57.6, "30": 80.3},
+      "calculation": "short: T0 bid minus horizon ask; long: horizon bid minus T0 ask; divided by instrument pip size",
+      "proof_use": "diagnostic only because the declared V1 all-68 contract failed"
+    },
+    "terminal_assessment": "permanently invalid for declared all-68 proof",
+    "root_cause": "V1 treated each broker last-price-change clock as a currentness gate. Unchanged thin-pair ticks and three explicitly non-tradeable TRY instruments can invalidate a current all-68 surface even when the retrieval itself is current.",
+    "preservation": "All attempts and observed NZD quotes remain append-only. No row is backfilled, retried, promoted, or reclassified as all-68 proof."
+  },
+  "scheduled_event_capture_v2": {
+    "contract_id": "scheduled_event_quote_capture_v2_oanda_rest_current_snapshot_20260902",
+    "cohort_id": "scheduled_event_quote_capture_v2_20260902a",
+    "activated_utc": "2026-09-02T02:10:00Z",
+    "activation_after_rbnz_event": true,
+    "rbnz_backfill_permitted": false,
+    "registered_future_event_clocks": 67,
+    "next_event": {
+      "headline": "Bank of Canada Monetary Policy Interest Rate Decision",
+      "scheduled_utc": "2026-09-02T13:45:00Z"
+    },
+    "currentness_clock": "single read-only OANDA Practice pricing-response observation time",
+    "broker_tick_clock_role": "preserved diagnostic, not currentness gate",
+    "universe_rule": "Require all 68 rows and explicit tradeability; count only currently tradeable rows as executable proof; retain non-tradeable rows separately",
+    "direction_policy": "abstain",
+    "runtime_status": "ok",
+    "database_integrity": "ok"
+  },
+  "rbnz_live_event_source_diagnosis": {
+    "official_result": "OCR increased by 25 basis points to 2.75%",
+    "official_primary_url": "https://www.rbnz.govt.nz/",
+    "direct_policy_transport": "externally blocked by publisher HTTP 403 from this host",
+    "fallback_source_id": "rbnz_official_search",
+    "fallback_source_contract_id": "rbnz_official_search_v2_20260815",
+    "headline": "OCR increased by 25 basis points to 2.75% - rbnz.govt.nz",
+    "published_utc": "2026-09-02T02:03:36Z",
+    "first_seen_utc": "2026-09-02T02:13:58.769722Z",
+    "scheduled_to_first_seen_sec": 838.769722,
+    "publisher_time_to_first_seen_sec": 622.769722,
+    "pre_fix_classification_version": "local_fx_news_rules_20260901_v153_authority_communication_source_binding",
+    "pre_fix_result": "context-only, zero monetary impulse, no structured policy-rate component, no directional publication",
+    "market_interpretation": "The 25bp hike was broadly expected; the initial NZD selloff proves that action sign alone was not a safe currency-direction label. Consensus surprise, statement-path interpretation and rate-market repricing remain required.",
+    "causal_limit": "The scheduled quote clock captured the move, but the fallback headline arrived after most of the first-minute move and cannot be credited as an advance signal."
+  },
+  "official_search_policy_rate_parser": {
+    "classification_version": "local_fx_news_rules_20260902_v154_official_search_policy_rate_observation",
+    "contract_id": "official_search_policy_rate_observation_v1_20260902",
+    "cohort_id": "official_search_policy_rate_observation_v1_prospective_20260902T024500Z",
+    "activated_utc": "2026-09-02T02:45:00Z",
+    "covered_official_search_sources": 10,
+    "behavior": "Future trusted official-domain search headlines with an explicit policy-rate action, basis-point change and resulting rate level are retained as structured research observations.",
+    "direction_rule": "No FX direction, publication eligibility, authorization or execution without causal pre-release consensus and rate-market repricing.",
+    "rbnz_fixture": "The 02:13:58Z RBNZ row predates activation and therefore remains diagnostic-only with no cohort membership or structured proof fields."
+  },
+  "evidence_governance": {
+    "lifecycle_hypotheses": 52883,
+    "continue_collecting": 43441,
+    "futility_rejected": 9442,
+    "confirmed_candidate": 0,
+    "genealogy_governed_cells": 52883,
+    "genealogy_sync": "synchronized",
+    "independent_verifier_status": "match",
+    "independent_verifier_failed_checks": 0,
+    "verified_confirmed_candidates": 0,
+    "authorization_safe": true
+  },
+  "practice_007": {
+    "account_id": "101-001-37981792-007",
+    "environment": "practice",
+    "balance": 41.6042,
+    "nav": 41.6042,
+    "cumulative_pl": -8.343,
+    "open_trades": 0,
+    "pending_orders": 0,
+    "manual_orders_submitted": 0,
+    "manual_positions_closed": 0
+  },
+  "live_quotes": {
+    "universe_rows": 68,
+    "currently_tradeable": 65,
+    "explicitly_nontradeable": ["EUR_TRY", "TRY_JPY", "USD_TRY"],
+    "retained_last_known": 0
+  },
+  "validation": {
+    "python_compile": "passed",
+    "scheduled_capture_and_integrity_tests": {"passed": 68, "failed": 0},
+    "news_classifier_tests": {"passed": 471, "failed": 0},
+    "combined_integrity_consumer_tests": {"passed": 121, "failed": 0},
+    "sqlite_quick_checks": {
+      "scheduled_event_quote_capture_v1": "ok",
+      "scheduled_event_quote_capture_v2": "ok"
+    }
+  },
+  "static_artifact_sha256": {
+    "config/news_sources_v1.json": "1defe14ec14425359ef6eec9c720ac2f36040abfe6937422ce1ac375091e90d7",
+    "oanda_local_news_sentiment.py": "f0cf606d782ef6c6a7c9d72a55a35e5ade2a4f25bb7dad50cdeebb52f983ca48",
+    "oanda_news_classification_contract.py": "1c540080ac3fde98e4e78761c6ee05e48878610e5f7fe595272538c3fe849749",
+    "config/scheduled_event_quote_capture_v1.json": "87d5405b894fd8add4d98a8f9806a68d15b98dbf564719ac1892b96a5e7e86c6",
+    "oanda_scheduled_event_quote_capture_v1.py": "2eb8244660a8b254fbdc4a9199f5e20e98c3016c8bfd76b7c23359afe20ff3f6",
+    "config/scheduled_event_quote_capture_v2.json": "a77cd76a04be6933e520be2264c9236388a71d72eaa7c8d46003524f1fb2ab04",
+    "oanda_scheduled_event_quote_capture_v2.py": "d7c492aa0da98fcc27385604f7a3a1302690c65d874595cc3863b271f984d60a",
+    "oanda_project_integrity_audit.py": "46b5189965c39db7d5af3f9da11a8dee8e210435560e58b425812e11eaf85a2d",
+    "oanda_always_on_supervisor.ps1": "d4ca320beab612893b0c69cbbd8a48f3de6ea1b123f6a56e8c8fe6282f28344a"
+  },
+  "remaining_external_data_gaps": [
+    "Publisher-permitted direct RBNZ policy transport",
+    "Causally archived pre-release consensus",
+    "Timestamp-safe intraday New Zealand rate/OIS or policy-futures repricing"
+  ]
+}

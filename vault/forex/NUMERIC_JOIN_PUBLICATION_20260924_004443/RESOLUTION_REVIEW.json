@@ -1,0 +1,21 @@
+{
+  "schema": "forex_independent_publication_resolution.v1",
+  "reviewer": "/root/research_next_selection",
+  "independent_review": true,
+  "verdict": "accepted_within_scope",
+  "scope": "Immutable numeric-join repair publication and associated finalized Git operation, with linked handoff addendum resolving two documentation findings.",
+  "package": "NUMERIC_JOIN_REVIEW_REPAIRS_20260924_004443",
+  "manifest_sha256": "66bc4d84073c87a0f4b36255f34678020e7bfa871077bb11b7d6dcc748c7a39a",
+  "source_commit": "c14630874f8a75c637ecac31ca120e84e65cebd7",
+  "initial_findings": {"path":"REVIEW_RESULT.json","sha256":"cdeac71bc964c9d5b282a56e93c363e5c64be8a66455c967ab65bf773bda4420","preserved_unchanged":true},
+  "resolution_addendum": {"path":"PUBLICATION_HANDOFF_ADDENDUM.md","sha256":"92bc95dbaf5da1bd8cad095713e977fa47011097481056338ac18e5a9a7e1a0c"},
+  "resolved_findings": [
+    {"id":"PUBR-01","resolution":"Addendum explicitly distinguishes preserved local evidence from current status and maps independent_join_review to independent_review; run/report mappings point to existing members."},
+    {"id":"PUBR-02","resolution":"Addendum supplies exact locked-interpreter checkpoint restore command, approved archive hash, fresh destination rule, --run-tests, expected verified result and isolated baseline comparison/rollback procedure. CLI flags checked against reviewed checkpoint source. Existing independent restore already verifies those five outputs; no redundant replay was performed."}
+  ],
+  "checks": {"immutable_files_verified":460,"live_vault_document_pins":15,"live_project_document_pins":22,"live_source_files":375,"independently_reviewed_source_hashes":10,"mismatches":0,"queue_history":"three original records semantically preserved; one canonical active record; unrelated steps unchanged","root_preflight":{"path":"preflight_after_join.json","sha256":"110d8e2066d2e4e712166fa9983f09903c65cb6b5aa1dfa5d584090ab52e2f8d","utc":"2026-09-24T01:03:19.569215+00:00","status":"pass","checks_passed":10,"reviewer_reran":false}},
+  "unresolved_findings": [],
+  "publication_instruction": "Copy addendum, initial review, this resolution and original preflight receipt into the new immutable NUMERIC_JOIN_PUBLICATION_20260924_004443 packet. Bind its manifest and this resolution through the mutable Git receipt. Do not mutate original repair packet.",
+  "next_item": "whole_curve_warm_start_capacity_followup_v2",
+  "limitations": ["Acceptance is bounded publication/source identity integrity; no new forecast merit or trading permission.","Remote commit observed through root's verified operation receipt; reviewer independently rehashed local Git bundle but did not duplicate the network operation.","Final new addendum-packet copy/manifest/readback remains root's publication operation; source repair packet and reviewed addendum bytes are exact.","No cloud or second-machine synchronization verification."]
+}

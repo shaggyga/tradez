@@ -1,0 +1,2 @@
+Next: review_macro_supersession_checkpoint_v2, then macro_collector_representation_storage_audit_v2.
+Trace existing collector storage and representation behavior before offline repair.

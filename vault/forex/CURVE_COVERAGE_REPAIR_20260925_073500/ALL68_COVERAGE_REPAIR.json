@@ -1,0 +1,182 @@
+{
+  "candidate": "forecast_curve_shape_layer_comparison_v2",
+  "complete_by_origin": {
+    "1722211260": 132,
+    "1722232860": 136,
+    "1722254460": 136,
+    "1722276060": 132,
+    "1722297660": 136,
+    "1722319260": 134,
+    "1722340860": 134,
+    "1722362460": 136,
+    "1722384060": 134,
+    "1722405660": 136,
+    "1722427260": 134,
+    "1722448860": 136,
+    "1722470460": 134,
+    "1722492060": 134,
+    "1722513660": 136,
+    "1722535260": 136
+  },
+  "expected_population": "24 origins x 68 instruments x 2 base methods = 3264 origin/instrument/base slots",
+  "expected_slots": 3264,
+  "first_incomplete_slots": [
+    {
+      "base_method": "recovered_hgb",
+      "expected_forecasts": 24,
+      "instrument": "AUD_CAD",
+      "missing_reason_counts": {
+        "base_unavailable": 24
+      },
+      "observed_forecasts": 0,
+      "origin_epoch": 1722038460,
+      "status": "incomplete_horizon_panel"
+    },
+    {
+      "base_method": "ridge",
+      "expected_forecasts": 24,
+      "instrument": "AUD_CAD",
+      "missing_reason_counts": {
+        "base_unavailable": 24
+      },
+      "observed_forecasts": 0,
+      "origin_epoch": 1722038460,
+      "status": "incomplete_horizon_panel"
+    },
+    {
+      "base_method": "recovered_hgb",
+      "expected_forecasts": 24,
+      "instrument": "AUD_CHF",
+      "missing_reason_counts": {
+        "base_unavailable": 24
+      },
+      "observed_forecasts": 0,
+      "origin_epoch": 1722038460,
+      "status": "incomplete_horizon_panel"
+    },
+    {
+      "base_method": "ridge",
+      "expected_forecasts": 24,
+      "instrument": "AUD_CHF",
+      "missing_reason_counts": {
+        "base_unavailable": 24
+      },
+      "observed_forecasts": 0,
+      "origin_epoch": 1722038460,
+      "status": "incomplete_horizon_panel"
+    },
+    {
+      "base_method": "recovered_hgb",
+      "expected_forecasts": 24,
+      "instrument": "AUD_HKD",
+      "missing_reason_counts": {
+        "base_unavailable": 24
+      },
+      "observed_forecasts": 0,
+      "origin_epoch": 1722038460,
+      "status": "incomplete_horizon_panel"
+    },
+    {
+      "base_method": "ridge",
+      "expected_forecasts": 24,
+      "instrument": "AUD_HKD",
+      "missing_reason_counts": {
+        "base_unavailable": 24
+      },
+      "observed_forecasts": 0,
+      "origin_epoch": 1722038460,
+      "status": "incomplete_horizon_panel"
+    },
+    {
+      "base_method": "recovered_hgb",
+      "expected_forecasts": 24,
+      "instrument": "AUD_JPY",
+      "missing_reason_counts": {
+        "base_unavailable": 24
+      },
+      "observed_forecasts": 0,
+      "origin_epoch": 1722038460,
+      "status": "incomplete_horizon_panel"
+    },
+    {
+      "base_method": "ridge",
+      "expected_forecasts": 24,
+      "instrument": "AUD_JPY",
+      "missing_reason_counts": {
+        "base_unavailable": 24
+      },
+      "observed_forecasts": 0,
+      "origin_epoch": 1722038460,
+      "status": "incomplete_horizon_panel"
+    },
+    {
+      "base_method": "recovered_hgb",
+      "expected_forecasts": 24,
+      "instrument": "AUD_NZD",
+      "missing_reason_counts": {
+        "base_unavailable": 24
+      },
+      "observed_forecasts": 0,
+      "origin_epoch": 1722038460,
+      "status": "incomplete_horizon_panel"
+    },
+    {
+      "base_method": "ridge",
+      "expected_forecasts": 24,
+      "instrument": "AUD_NZD",
+      "missing_reason_counts": {
+        "base_unavailable": 24
+      },
+      "observed_forecasts": 0,
+      "origin_epoch": 1722038460,
+      "status": "incomplete_horizon_panel"
+    }
+  ],
+  "full_slot_ledger_location": "CURVE_CHRONOLOGICAL_RESULT_REPAIRED.json::all68_coverage.slots",
+  "incomplete_by_origin": {
+    "1722038460": 136,
+    "1722060060": 136,
+    "1722081660": 136,
+    "1722103260": 136,
+    "1722124860": 136,
+    "1722146460": 136,
+    "1722168060": 136,
+    "1722189660": 136,
+    "1722211260": 4,
+    "1722276060": 4,
+    "1722319260": 2,
+    "1722340860": 2,
+    "1722384060": 2,
+    "1722427260": 2,
+    "1722470460": 2,
+    "1722492060": 2
+  },
+  "missing_reason_counts": {
+    "base_unavailable": 26592
+  },
+  "predecessor_packet": "CURVE_CHRONOLOGICAL_COMPARISON_20260925_032500",
+  "qrev_finding": "QREV-03",
+  "result_bytes": 19317207,
+  "result_sha256": "f6c711151dc3404a9ace8bce90f45dfe4d61458f06910fd008f8f2b8664d9ad2",
+  "schema": "forex_curve_all68_coverage_repair.v1",
+  "scientific_outcome_preserved": {
+    "interpretation": "negative aggregate development diagnostic; no confirmation, policy, profitability or trading claim",
+    "learned_rows": 946,
+    "overall_groups": {
+      "magnitude_interaction_expanding": 2,
+      "raw_matched_expanding": 2,
+      "signed_only_expanding": 2
+    },
+    "overall_mae_improved": {
+      "magnitude_interaction_expanding": 0,
+      "raw_matched_expanding": 0,
+      "signed_only_expanding": 0
+    },
+    "paired_scores": 54
+  },
+  "source": "preserved chronological frames authenticated by CHRONOLOGICAL_LAYER_COMPACT_20260924_082500/BULK_EVIDENCE_REFERENCE.json",
+  "status_counts": {
+    "complete_all_declared_variants_and_horizons": 2156,
+    "incomplete_horizon_panel": 1108
+  }
+}

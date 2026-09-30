@@ -1,0 +1,63 @@
+{
+  "schema_version": "forex_vault_readability_validation_v1",
+  "recorded_utc": "2026-09-08T02:49:17Z",
+  "scope": "Vault explanation, navigation, reference resolution and offline reconstruction only; not a fresh runtime or model-performance audit.",
+  "canonical_project": "C:/Users/zmoor/Documents/forex/trad",
+  "vault_project": "C:/Users/zmoor/OneDrive/thevault/projects/forex",
+  "changes": [
+    "Added portable system guide, source-to-feature-to-model-to-outcome explanations and glossary.",
+    "Replaced contradictory accumulated recreation updates with an inspect-only portal; preserved old text separately.",
+    "Retained the machine-only completed watch report and summary without changing observations.",
+    "Clarified CURRENT aliases, observation clocks, project-relative paths versus source ZIP members, and source-only recovery limits.",
+    "Added vault-only document/JSON/hash/reference audit and generated knowledge index; no linked external path or source code is executed."
+  ],
+  "checks": {
+    "tests_command": "python -B -m pytest test_forex_vault_readability.py test_forex_feature_dictionary.py test_forex_model_vault_sync.py -q -p no:cacheprovider",
+    "passed": 76,
+    "failed": 0,
+    "skipped": 1,
+    "skipped_reason": "Host disallows creating an actual test symlink; host-independent redirect tests passed.",
+    "independent_review": "Recreation contradictions/six broken links fixed. Auditor dangling-output, generated-navigation and supplemental-redirect issues fixed; manifest self-reference rejected.",
+    "original_recreation_text_preserved": true,
+    "original_recreation_source_snapshot": "cee1a459037c8513e032ba5ff50eeb5d277e9d8de8565b490acd3084459f2947",
+    "original_recreation_exact_sha256": "4d51ee7e138770b82ce565a2609c59511716a03bc355ffabe4d79e2045c15577",
+    "recreation_history_note": "Text preserved with normalized line endings; original exact bytes remain in the named prior source snapshot.",
+    "watch_report_text_identity": true,
+    "watch_summary_json_semantic_identity": true,
+    "feature_dictionary_source_bindings_unchanged": true
+  },
+  "file_sha256": {
+    "FOREX_AUDIT_START_HERE.md": "17e8dd4bd356a5c181b0ac694fbc0c780f71864d8969c23bf6fa3475a416d543",
+    "docs/VAULT_SYSTEM_GUIDE.md": "2cc478e14374e35235df3f173e0f9a840f0508e1e52a160b0a545103c935e5ac",
+    "docs/VAULT_RECREATION_CURRENT.md": "45bc96df18a0cd6585aa4796ef429eba168fb975ae85e287ed67ef94f9acee37",
+    "docs/VAULT_RECREATION_HISTORY_THROUGH_20260907.md": "4dfeb8035010ee0222406384a29bf608520c84196b76210a4f6bd88846c8dd39",
+    "docs/ACTIVE_PIPELINE.md": "3887ae296582caa9f8f4dd88b1a330a438b0ca1efba074aa2b07d70bd2f0f1af",
+    "docs/RESEARCH_INDEX_VAULT.md": "0d2ef08608e182abb5d19c9e9097af500e17dc3a5363fca96cd189689b1f34c1",
+    "tools/audit_forex_vault_readability.py": "1480d9a930a622c8b4136cbe7817208459c5c813bbee6306ce575d5d9c343062",
+    "test_forex_vault_readability.py": "0b89d333722ff09089ee41410d9af9f1f423c173fec6bbeeab4f61bd1460210b",
+    "docs/validation/vault_readability_20260908/LIVE_WATCH_REPORT_20260907.md": "a0e6cf03988dccd10b6a260480522e632f8d0c50b65821499747c49370e49edd",
+    "docs/validation/vault_readability_20260908/LIVE_WATCH_SUMMARY_20260907.json": "5da9ed72fe385d419fffda4b7f2070ed836811b499998f0fb15bab7ad3ea7635"
+  },
+  "publication_contract": {
+    "canonical_records": "SHARED_PROJECT_STATE_CURRENT.json",
+    "source_pointer": "source/WORKTREE_SOURCE_LATEST.json",
+    "derived_index": "KNOWLEDGE_INDEX.md",
+    "derived_audit": "VAULT_READABILITY_REPORT.json",
+    "refresh_order": [
+      "sync canonical records",
+      "publish and verify source archive",
+      "run vault readability --build",
+      "run --check"
+    ],
+    "expected_result": "pass_with_declared_external_dependencies; consult generated report for actual counts, navigation result and exact manifest/source hashes",
+    "generated_outputs_not_in_canonical_manifest": true,
+    "local_sync_not_cloud_upload_verification": true
+  },
+  "limitations": [
+    "Readable records and formulas are not a complete historical-data/model-weight backup.",
+    "Some original source versions, runtime ledgers, raw samples and original clocks remain outside the vault.",
+    "Unresolved references and same-name archive suggestions do not establish artifact identity or absence elsewhere.",
+    "No current account balance, quote freshness, worker liveness or predictive edge is inferred from export time."
+  ],
+  "runtime_model_order_automation_changes": false
+}

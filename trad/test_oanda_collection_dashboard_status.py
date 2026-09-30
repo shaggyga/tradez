@@ -192,6 +192,9 @@ def test_malformed_or_oversized_heartbeat_is_unknown(publications, content):
 
 
 def test_main_payload_reports_collection_without_setting_existing_active(publications, monkeypatch):
+    import oanda_operational_dashboard_selection_v1 as selection
+    # Legacy fixture must not read this machine's current operational selection.
+    monkeypatch.setattr(selection, "read_dashboard_sources", lambda *args, **kwargs: None)
     root = publications[0]
     logs = root / "logs"
     logs.mkdir()

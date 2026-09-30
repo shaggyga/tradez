@@ -1,0 +1,37 @@
+{
+  "schema": "forex_current_closure.v1",
+  "packet_id": "ABSOLUTE_MOVEMENT_CURRENT_CLOSURE_20260925_052500",
+  "created_utc": "2026-09-25T03:53:17Z",
+  "step_id": "absolute_movement_forecast_comparison_v2",
+  "status": "closed_by_accepted_same_task_review_packet_reuse",
+  "source_packet": "ABSOLUTE_MOVEMENT_20260924_044500",
+  "source_review": "ABSOLUTE_MOVEMENT_20260924_044500/REVIEW.json",
+  "source_review_sha256": "f0d3ba011773490dcf8e9e2f50b32b31f118f960ba28d8cbe02b780ed956b402",
+  "source_review_md_sha256": "965c4f9efdecf43d50ebe6e9718ae1ddf9689e6d04f4a9e25a28a373a087fed7",
+  "implementation_status": "complete",
+  "review_status": "accepted_within_scope",
+  "independent_review_status": "pending_nonblocking_by_user_clarification",
+  "source_commit": "b708be9c1ff8705a2f79b92de7d4ab833abc087a",
+  "unresolved_findings": [],
+  "forecast_evidence_status": "inspected_development_absolute_endpoint_comparison",
+  "policy_evidence_status": "not_evaluated",
+  "actual_work_this_step": [
+    "Verified source packet identity and accepted within-scope status.",
+    "Published current timed-session closure pointer without duplicate computation.",
+    "Advanced queue to documented successor."
+  ],
+  "tests_executed_this_turn": [],
+  "tests_reused_from_source_packet": "see copied SOURCE_REVIEW.md/REVIEW.json for package-specific counts and review findings",
+  "boundaries": {
+    "new_fit_performed": false,
+    "gpt_advisor_comparisons": false,
+    "paid_api_calls": false,
+    "broker_or_live_bot_changes": false,
+    "d_drive_investigation": false
+  },
+  "next_step_id": "magnitude_conditioned_signed_forecast_layer_v2",
+  "deadline_utc": "2026-09-25T04:59:55Z",
+  "session_id": "timed_residual_r4_20260925_025955",
+  "manifest": "MANIFEST.json",
+  "manifest_sha256": "60b0575612ba06d47b17de42676247c451ba794c7a76ddc52686bbef3bed2f60"
+}

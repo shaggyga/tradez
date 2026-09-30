@@ -1,0 +1,47 @@
+{
+  "schema_version": "forex_official_release_url_identity_dedup_validation_v1",
+  "generated_utc": "2026-09-03T00:18:00+00:00",
+  "incident": {
+    "source_id": "boj_updates",
+    "title": "Sources of Changes in Current Account Balances (Projections for Sept.)",
+    "publisher_utc": "2026-09-02T23:50:00+00:00",
+    "first_observation_id": "120ef0fe8023ce0074a5b9d1acdb2835cc2a70438775c50b47a085f26b71c1cb",
+    "second_observation_id": "8821b85e6489a2476d87f6ab4859b4ebd8063b44250bc40aece8f28c8abd916c",
+    "first_external_id_scheme": "http",
+    "second_external_id_scheme": "https",
+    "same_normalized_url": true,
+    "same_title": true,
+    "same_publisher_time": true,
+    "old_effect": "two prospective identities and two per-pair T0 captures",
+    "preservation": "both historical rows remain immutable and are excluded from the later horizon cohort"
+  },
+  "repair": {
+    "rule": "URL-valued external IDs are canonicalized before publisher item identity hashing",
+    "raw_payload_preserved": true,
+    "scheme_alias_may_remain_diagnostic_revision": true,
+    "scheme_alias_can_receive_prospective_credit": false,
+    "scheme_alias_can_trigger_second_prospective_quote_capture": false,
+    "historical_rows_rewritten": false,
+    "historical_rows_deleted": false,
+    "proof_threshold_changed": false,
+    "execution_policy_changed": false,
+    "real_money_enabled": false
+  },
+  "validation": {
+    "focused_tests": 45,
+    "python_compile": "passed",
+    "live_fast_lane_scoped_restart": "healthy_cycle_complete_zero_errors",
+    "account_orders": 0,
+    "account_positions": 0
+  },
+  "files": [
+    {
+      "path": "oanda_official_release_fast_lane.py",
+      "sha256": "468b617a9444d88c984ba409bcd90e45b81e38c1d0eacf1ade42bb2a42a1cc96"
+    },
+    {
+      "path": "test_oanda_official_release_fast_lane.py",
+      "sha256": "9ce67178a9ad395f07bf9b0fe7cd8c811fb9eb01782dddc1319c1a7ee320ee0f"
+    }
+  ]
+}

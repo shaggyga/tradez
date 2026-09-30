@@ -1,0 +1,16 @@
+{
+  "recipe": "source_snapshot/OFFICIAL_CONTEXT_OPERATOR_RECIPE.json",
+  "recipe_sha256": "0238d6f134be2ff309f576274406f4d9e0cce95d1575ecedca657a603312efe3",
+  "scope": "exact disabled V5 source/fixed context recovery and all68 inspection; no predictive macro or activation claim",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify",
+    "inspect"
+  ],
+  "bootstrap": "checkpoint/forex_official_context.zip",
+  "contract": "source_snapshot/OFFICIAL_CONTEXT_CONTRACT_V2.md",
+  "next": "review_official_macro_context_checkpoint"
+}

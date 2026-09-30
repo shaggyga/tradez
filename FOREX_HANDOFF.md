@@ -4,6 +4,11 @@ The Vault is the shared brain; Git supplies the common source. Read the reposito
 [README](README.md), then use this machine's `thevault/projects/forex` path.
 This page contains navigation, not a second copy of the current queue.
 
+New machine: [START_HERE.md](START_HERE.md). A versioned [Forex Vault knowledge
+copy](vault/README.md) is included for reading; use the live shared Vault for claims.
+The dashboard is Forex-only; [current diagnosis](docs/DASHBOARD_STATUS_20260930.md)
+separates page availability from missing live inputs and unqualified source bindings.
+
 ## Current orientation — 2026-09-30
 
 Read [project state and existing evidence](docs/PROJECT_STATE.md) and its

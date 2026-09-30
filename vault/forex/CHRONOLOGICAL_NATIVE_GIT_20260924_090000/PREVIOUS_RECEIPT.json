@@ -1,0 +1,42 @@
+{
+  "schema": "forex_shared_git_operation.v2",
+  "status": "COMPLETE",
+  "utc": "2026-09-24T08:25:31.790085+00:00",
+  "repository": "https://github.com/shaggyga/tradez",
+  "branch": "forex",
+  "default_branch": "forex",
+  "source_commit": "53878af2fdd745115e8d5356ceb4adebc92f1069",
+  "handoff_document_commit": "53878af2fdd745115e8d5356ceb4adebc92f1069",
+  "remote_sha": "53878af2fdd745115e8d5356ceb4adebc92f1069",
+  "remote_push_verified": true,
+  "handoff_packet": "CHRONOLOGICAL_LAYER_COMPACT_20260924_082500",
+  "handoff_manifest_sha256": "8f0d4928fec55d6fd580ec72b7fd959fb61a6c770bfa947f6c4ffccd71d15ed4",
+  "scientific_next_item": "later_chronological_native_policy_inputs_v2",
+  "next_action": "Qualify fresh native preparation for both later cohorts using saved base and layer evidence before separately frozen policy replay.",
+  "independent_source_review": "pending_nonblocking_by_user_clarification",
+  "independent_review": false,
+  "same_task_review": "accepted_within_scope",
+  "prior_operation_reference": {
+    "path": "CHRONOLOGICAL_COMPACT_GIT_20260924_082500/PREVIOUS_RECEIPT.json",
+    "sha256": "d2e211e400e15d8b2ae8c7cc959b2a93212e26c0a167d88b1d074c90535c8191"
+  },
+  "checkpoint": {
+    "vault_relative_path": "CHRONOLOGICAL_COMPACT_GIT_20260924_082500/forex-chronological-compact.bundle",
+    "sha256": "f1fcdbd4c6b2f7ea2c2d9d822910b0faa9969d389ebb6db7e71768afa175813a",
+    "bytes": 20571358,
+    "bundle_verify": "PASSED",
+    "remote_same_commit_verified": true,
+    "fresh_restore_verified": true,
+    "restore_command": "git -c core.longpaths=true clone --branch forex <bundle-path> forex",
+    "fresh_restore_receipt": "CHRONOLOGICAL_COMPACT_GIT_20260924_082500/GIT_RESTORE_RECEIPT.json",
+    "fresh_restore_receipt_sha256": "83959c2d64435a8008ef48a0f165bd83eb76516897eb777dbc17c9ff01752cc1"
+  },
+  "policy_replays": 0,
+  "scientific_payloads_reproduced": 221,
+  "base_model_fits": 0,
+  "base_model_loads_per_cache": 16,
+  "local_new_layer_regressions": 768,
+  "portable_new_layer_regressions": 768,
+  "model_loading": "authenticated_original_saved_weights; zero_base_refits",
+  "cloud_sync_or_second_machine_execution_verified": false
+}

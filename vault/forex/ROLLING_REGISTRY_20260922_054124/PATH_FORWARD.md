@@ -1,0 +1,2 @@
+Next: review_populated_rolling_registry_checkpoint, then rich_feature_campaign_input_expansion_v2.
+Expand canonical rich inputs to the declared matched campaign origins, retaining train-only transforms and prior family evidence. Then freeze the materially changed comparison. Full calendar/macro/confirmation gates remain open.

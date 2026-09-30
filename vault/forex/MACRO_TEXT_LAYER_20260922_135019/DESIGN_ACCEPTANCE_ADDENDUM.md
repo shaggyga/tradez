@@ -1,0 +1,1 @@
+Bounded WP6/R04/R05/R10/R13/R14. TST02/11/34/38/48/50/51/52 principles exercised in named tests; no blanket full-test-matrix or macro-campaign claim. Original context inputs and warm partial preserved. New implementation awaits independent review.

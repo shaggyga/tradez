@@ -1,0 +1,432 @@
+{
+  "schema_version": "forex_entry_improvements_validation_v1",
+  "generated_utc": "2026-09-06T19:29:28.295035+00:00",
+  "scope": "Stopped canonical C project; saved week-entry audit, additive entry diagnostics, exact scoring and joint-return offline baselines",
+  "status": "offline_validated_runtime_stopped",
+  "source_bindings": [
+    {
+      "path": "oanda_entry_diagnostics.py",
+      "sha256": "6cb6146d85b775ab0699a4b4b0dfeac78952cd0b2277c0eac3a3d7d22e70ca97",
+      "bytes": 3073
+    },
+    {
+      "path": "oanda_practice_shadow_strategy_lab.py",
+      "sha256": "c6671bae42fa05fecd16e179cf86ced322be0d84e29666de015b978b4a007fb6",
+      "bytes": 594803
+    },
+    {
+      "path": "oanda_practice_live_dashboard.py",
+      "sha256": "97c788f7dd81076c607d4ae699c053863026539713eb21e4ec29b8051a7389ca",
+      "bytes": 402476
+    },
+    {
+      "path": "test_oanda_entry_diagnostics.py",
+      "sha256": "df267dce5f19a7b73955095e7f18b805601eaf5df551a6b68012e661844ce5b1",
+      "bytes": 4918
+    },
+    {
+      "path": "test_oanda_executor_dashboard_diagnostics.py",
+      "sha256": "bf3e939e13a524c8b995c087512be2c872e203ad7216b66238e0236f4e3e8888",
+      "bytes": 10674
+    },
+    {
+      "path": "oanda_exact_price_scoring.py",
+      "sha256": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521",
+      "bytes": 9947
+    },
+    {
+      "path": "test_oanda_exact_price_scoring.py",
+      "sha256": "06b17019a7bd955ace1387f661a472b8a35bbc300459f46108b9273cfb43ae6d",
+      "bytes": 12878
+    },
+    {
+      "path": "oanda_fixed_forecast_evaluation_exact.py",
+      "sha256": "173339dce8df3807eae38ed858c5df02979f2bc6e11df61d3c032de773fdcef0",
+      "bytes": 27896
+    },
+    {
+      "path": "test_oanda_fixed_forecast_evaluation_exact.py",
+      "sha256": "04277087af314c7cf5b3f64d6fcb932f9c480e75001eca908ef8913616cad499",
+      "bytes": 13434
+    },
+    {
+      "path": "oanda_joint_return_baselines.py",
+      "sha256": "a08d54e301fe02adecb1fac1937f654650aec08f88619b197e0ae3c7fd84ee8f",
+      "bytes": 16718
+    },
+    {
+      "path": "test_oanda_joint_return_baselines.py",
+      "sha256": "fd030011649f4f0cb67110ed09a5bb04f58c2a7fe7fbf8ea34ac45d2dea985d5",
+      "bytes": 15559
+    },
+    {
+      "path": "forex_model_vault_sync.py",
+      "sha256": "1113cc600640a5be2ee520ccc923cdfb13a0cb301670fa1c7df0fa707c4b855c",
+      "bytes": 105807
+    },
+    {
+      "path": "docs/FOREX_ENTRY_IMPROVEMENTS_20260906.md",
+      "sha256": "defadbc1ceca4404c54eafe5a6e3a962c6c03eb68b6fce12a0140677978bbc2e",
+      "bytes": 6893
+    },
+    {
+      "path": "FOREX_ENTRY_RESEARCH_FOLLOWUP_20260906.json",
+      "sha256": "117a8ef1b3aa870ca28d86d13e81b8e128f9a3f566d3fa7626d353cbe1eefb50",
+      "bytes": 4222
+    },
+    {
+      "path": "docs/FOREX_WEEK_ENTRY_AUDIT_20260906.md",
+      "sha256": "7b9ba268fe3cd69fc4242c81f3a25145a804c3733384e400601a72783b668c65",
+      "bytes": 3421
+    },
+    {
+      "path": "FOREX_WEEK_ENTRY_AUDIT_20260906.json",
+      "sha256": "894cff6e8fc5af91a75ab07a4ab3e3068e6362001cb4d63ccf17528580a5347f",
+      "bytes": 14866
+    },
+    {
+      "path": "FOREX_RUNTIME_STOP_20260906.json",
+      "sha256": "a0c90afabc95b675f91c114b08c74e2d340ce3575b9cd5af1559382985b3422e",
+      "bytes": 708
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/before_current_records/AUDIT_STATE_CURRENT.md",
+      "sha256": "bbb03627b138f7831ece44534c373a76787d8569cad3bfd8f05a4a060f92c929",
+      "bytes": 10012
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/before_current_records/FOREX_AUDIT_START_HERE.md",
+      "sha256": "a6f163d1bc75c557b066467194e66ca1f4a6ccf8da2f1295fcb8e7d84b610b5a",
+      "bytes": 9578
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/before_current_records/FOREX_AUDIT_STATE_CURRENT.json",
+      "sha256": "24b577d799f63344f4ca9a82abe09f2a001eab9f17dff581a7a3b9ee766fa6ad",
+      "bytes": 15947
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/before_current_records/FOREX_COMMONS_CURRENT.json",
+      "sha256": "b65e35526653309305ad677b46ca66a6fea0758aa9f3817cc9ab75ebf1b29d63",
+      "bytes": 1873
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/before_current_records/FOREX_ISSUE_REGISTER_CURRENT.json",
+      "sha256": "e7efa7f5241d8ecc1dc88b5973b4e8e90837aeaa3ca2848909dd5a5a998dbca3",
+      "bytes": 212469
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/before_current_records/forex_model_vault_sync.py",
+      "sha256": "9c9109be708e66969953c46acb444761a52d19f9fe3cbd9baeedfee4242afbd6",
+      "bytes": 105229
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/before_current_records/README.md",
+      "sha256": "d0698eca35577ad54dd8019d2a808202b3f9a7e702d81536cd2258f9fded58fa",
+      "bytes": 5383
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/before_current_records/VAULT_RECREATION_CURRENT.md",
+      "sha256": "27d85176fa302068f88c4bd9c455d5034d12e02c509f7c57d4372883230b666e",
+      "bytes": 3996
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/before_source/oanda_practice_live_dashboard.py",
+      "sha256": "2de89ff2ac7383972945bdc1e995d9939c2b951288fb240cd4ce553534f1d9aa",
+      "bytes": 391244
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/before_source/oanda_practice_shadow_strategy_lab.py",
+      "sha256": "199fe3e2e1333b0de2e254882396a1f6cb47ed7b11814c5736809b90cf932abd",
+      "bytes": 594396
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/dashboard_diagnostics/DASHBOARD_ENTRY_DIAGNOSTIC_REVIEW_20260906.json",
+      "sha256": "32f553969209c154e73678a77f276e88aa1bc08f98dde0fd102bb783fc0822a2",
+      "bytes": 3153
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/dashboard_diagnostics/source_hashes.json",
+      "sha256": "ef2d5f14406c7dc9433836fae4e56784d29623b6924c7f291b7709f281517510",
+      "bytes": 742
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/dashboard_diagnostics/tests.xml",
+      "sha256": "3532b10c09ee64c9d1d3aac19c21a1ebc23322430f7827e3e8af9c3f79908bcd",
+      "bytes": 3127
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/entry_audit/accounting_week_review.json",
+      "sha256": "129e92be861745706c360d725d07fe2bedc0c186570fb1113a4b8adf79e12323",
+      "bytes": 25918
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/entry_audit/DASHBOARD_ENTRY_DIAGNOSTIC_REVIEW_20260906.json",
+      "sha256": "32f553969209c154e73678a77f276e88aa1bc08f98dde0fd102bb783fc0822a2",
+      "bytes": 3153
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/entry_audit/ENTRY_AUDIT_RECEIPT_20260906.json",
+      "sha256": "8a2ba817105e16e38fb143935c6ccc0c9150f5094b8efd3a72f6b71a2fefd61b",
+      "bytes": 1229
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/entry_audit/executor_gate_detail.json",
+      "sha256": "0d0cc5e688d4a8e5b38b8b73241d1666d0746e5d93e7518985f743e90f1fc11a",
+      "bytes": 18349
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/entry_audit/executor_log_scan.json",
+      "sha256": "b40f47ab29ebc7c4ce4b0635670fcf2bbe1d840caa7e6695b1f15f8a7e4699a8",
+      "bytes": 36097
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/entry_audit/executor_week_event_index.json",
+      "sha256": "2517880e30aa128024467143a6fead0f0785fd95cb5987e06610cdd0caf5b060",
+      "bytes": 4061660
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/entry_audit/finalize_entry_audit.py",
+      "sha256": "c868a0d1bf9397080455a8e60f334135fcc65dfba4572c32e81a7ef45538d42c",
+      "bytes": 14965
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/entry_audit/inspect_accounting_and_gates.py",
+      "sha256": "22f5b29a8bf732664ab94b8cca36935972f25a94828fcc8ff33577ab7c4d4932",
+      "bytes": 10054
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/entry_audit/log_shape_examples.json",
+      "sha256": "0153ed21c0652832e62df92ea73c1ed2e049977648123f98fb8e0289713f4fa7",
+      "bytes": 12449
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/entry_audit/record_dashboard_diagnostics_review.py",
+      "sha256": "f673519af8d0a5fdd912a679a2d1c2fc5aa49e51ef8f4f2d06386b70f8973923",
+      "bytes": 3619
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/entry_audit/sampled_eligible_top_lane_records.json",
+      "sha256": "6f546d6f17e540bff682edbb50afdbb22c786c16ed901b963f5a7918fd0443f9",
+      "bytes": 998475
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/entry_audit/scan_executor_logs.py",
+      "sha256": "10bdfdf59e67004c5204fd0628bfcb715bff17a20fe415fdd39da1b4cfb4747e",
+      "bytes": 4185
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/entry_audit/source_gate_semantics.json",
+      "sha256": "9baed58d9331ede23f9897b5017145813dd1b50d389c4815fdd8694e3234b320",
+      "bytes": 35111
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/entry_audit/WEEK_ENTRY_AUDIT_20260906.json",
+      "sha256": "894cff6e8fc5af91a75ab07a4ab3e3068e6362001cb4d63ccf17528580a5347f",
+      "bytes": 14866
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/entry_audit/WEEK_ENTRY_AUDIT_20260906.md",
+      "sha256": "7b9ba268fe3cd69fc4242c81f3a25145a804c3733384e400601a72783b668c65",
+      "bytes": 3421
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/exact_scoring/build_exact_evaluator.py",
+      "sha256": "79f3d2d4bb228eb8a13493b0dce9ef48919fbd695ec635c5f650619e77611b90",
+      "bytes": 13664
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/exact_scoring/run_guarded_tests.py",
+      "sha256": "24e8660d71330e993c16663a06aa5393eba1a6995e416117baa6dd2bebede15c",
+      "bytes": 4160
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/exact_scoring/tests_20260906T191826248038Z.txt",
+      "sha256": "2d2a6d60c77e45a519b0f39f725f67964311c15ce5a20c15200338f5788376fd",
+      "bytes": 5121
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/exact_scoring/tests_20260906T192019586606Z.txt",
+      "sha256": "77857668eeb8b796f221a2515b77aa05ed82b815eb9b62fa7a5aa460aa21ebbe",
+      "bytes": 5330
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/exact_scoring/validation_20260906T191826248038Z.json",
+      "sha256": "d28abc61b09d33b42b532686a2dabfcd2d309262505d2cd5da6ca318f82d942c",
+      "bytes": 1023
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/exact_scoring/validation_20260906T192019586606Z.json",
+      "sha256": "e588398273c366fe876e49505000c9a96a1682f5942660f21480e38a57ef8453",
+      "bytes": 1023
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/guard_blocked_publisher_fixtures.xml",
+      "sha256": "24a74020ad900dd718a12e1882d65c8d7ff6f837e99b032dacbc91085c49f59b",
+      "bytes": 48824
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/integration_tests.xml",
+      "sha256": "d2386eb663426fcc97865d9ea1e096b4e43ea143156bc39446d45e418bc44ff2",
+      "bytes": 43233
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/joint_baselines/build_validation_receipt.py",
+      "sha256": "018458c3acff2ccad96f50fa8595c096c930bb52cc126b92859de29039e8354e",
+      "bytes": 4806
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/joint_baselines/integration_tests.xml",
+      "sha256": "bc8a8ae528bd2c6ee33b4c7c59d2121899894302b1cad3db6b133774924ee994",
+      "bytes": 10546
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/joint_baselines/JOINT_BASELINE_REVIEW_20260906.md",
+      "sha256": "3f275fe4475ef7009562ce84be4b5b09402b3a4719d4f06d44925dbf58709058",
+      "bytes": 4005
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/joint_baselines/JOINT_BASELINE_VALIDATION_20260906.json",
+      "sha256": "197ebdbfc95965263686b2a98906e9218122daf406efd17a2d209a235d38de38",
+      "bytes": 4964
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/joint_baselines/run_tests.py",
+      "sha256": "f8a1d6fa11f0c2c0402b2593da30678deb9daa023aa639ca9827a74a0756b09d",
+      "bytes": 2124
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/record_improvements.py",
+      "sha256": "31e31a2917e3fd6e884203124184c91677bd4a5120fc0c02540af67fba855c7b",
+      "bytes": 12878
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/run_tests.py",
+      "sha256": "f3ad0c0e7de542eea7d19ebf4856a8692dfdf4a7bd6ec0098791a027fbb87e77",
+      "bytes": 2951
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/runtime_verification.json",
+      "sha256": "6d43b847ae3cf8dab3f591e774e1b77147035967596d3ae282e46336b72aaaf2",
+      "bytes": 675
+    },
+    {
+      "path": "docs/validation/entry_improvements_20260906/verify_stopped.ps1",
+      "sha256": "590eab56cc1750c3ec7e6506e2299089af65fa2308f19f7d70f4cada4de6c5c2",
+      "bytes": 1657
+    }
+  ],
+  "prior_receipts_unchanged": {
+    "FOREX_PREDICTION_SANITY_VALIDATION_20260906.json": "be23bf8a32f6ad622bfd4b517f18dc9a3d748224c2936320659665c0eb2b30ae",
+    "FOREX_CAUSAL_IO_REPAIR_VALIDATION_20260906.json": "79623133ed757680b46f8e5f4c724b6ca5d93a85ad05888cf899d99989fff8da",
+    "FOREX_CAUSAL_TIMING_REPAIR_VALIDATION_20260906.json": "c6fb0c4c7ccb3a2650f2eb8169bc462d62df88130283d33442f0fd6edc6d52dc",
+    "FOREX_PREDICTION_QUALITY_20260906.json": "205ca0f6a5fbd40af7b45c0994ffcf93424da675e79b4637d030cd84560d489e",
+    "FOREX_FIXED_EVALUATION_RESULTS_20260906.json": "7acecda9075ba197f50eb4f9b671246916e8535d0f10d90a8d125bfcb4491cd3",
+    "FOREX_FIXED_EVALUATION_VALIDATION_20260906.json": "3b6559a1e38c1f95eb4a4e1597fcc702b862c665a375bcf037a74d6cf417a803",
+    "FOREX_OPTIMIZATION_VALIDATION_20260906.json": "1b7ff7f4c567e9c7ac092adc3e31f57bab02f67d06cb2ce1eae923531be33a0a",
+    "FOREX_REPAIR_VALIDATION_20260905.json": "a38cf7e7e152aac9108d33b909f1d3ac17a5e1f9228068fc7afa510b9c5e2926"
+  },
+  "registered_study": {
+    "contract_id": "causal_four_family_future_collection_v1_io_r2_20260906",
+    "contract_sha256": "64bdb74b6a8b881ee4e93b36b422812786f7218a4c10f8d799ec7dd900f24699",
+    "source_bindings_unchanged": {
+      "oanda_causal_forecast_inputs.py": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+      "oanda_causal_forecast_ledger.py": "4ddd413261fc294922bf2664bb0ae018d8469a3422942567849c1624ba32cd1f",
+      "oanda_causal_forecast_study.py": "e50a9a8ef5bbfe739d177d1bcf8632362bcad06b68694eb7c599c70a33fbd44e",
+      "oanda_causal_prediction_baselines.py": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+      "oanda_fixed_forecast_evaluation.py": "482af854fae94d53aea82c109ffb6a00f265f3ecebdbc3137e200cb07d142708",
+      "oanda_proof_shadow_predictors.py": "51c3f945eadb3f26166cfddd37d97451ef21e2b69ece6664c57ee06c145ff417"
+    },
+    "running": false,
+    "changed": false
+  },
+  "test_result": {
+    "junit": "docs/validation/entry_improvements_20260906/integration_tests.xml",
+    "junit_sha256": "d2386eb663426fcc97865d9ea1e096b4e43ea143156bc39446d45e418bc44ff2",
+    "checks_including_subtests": 386,
+    "passed_test_functions": 274,
+    "passed_subtests": 112,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 7.34,
+    "excluded_existing_quote_publisher_thread_fixtures": 5,
+    "initial_guard_result": "254 tests and 112 subtests passed; five unrelated publisher fixtures were blocked before starting threads. The initial XML is preserved."
+  },
+  "exact_history_replay": {
+    "rows": 8414,
+    "stored_direction_hits": 4156,
+    "exact_direction_hits": 4148,
+    "exact_flats": 296,
+    "positive_after_spread": 716,
+    "historical_availability_reconstructed": false
+  },
+  "joint_baseline": {
+    "arms": 3,
+    "status": "implemented_offline_not_activated",
+    "tests": 68,
+    "synthetic_fit_median_seconds": 0.04351500002667308,
+    "historical_market_accuracy_established": false
+  },
+  "entry_audit": {
+    "exact_loop_cycles": null,
+    "exact_loop_cycles_reason": "Only sampled selection logs survive for the week; final saved heartbeat is Sep5 outside window.",
+    "sampled_selection_summaries": 6997,
+    "summaries_with_feed_candidates": 5589,
+    "feed_candidate_observations_across_summaries": 2440194,
+    "summaries_with_qualified_candidates": 960,
+    "qualified_candidate_observations_across_summaries": 1276,
+    "summaries_with_nonconflicting_qualified_candidates": 1,
+    "nonconflicting_qualified_observations_across_summaries": 1,
+    "logged_final_selection_skip_events": 6099,
+    "logged_direction_conflict_block_candidate_observations": 7972,
+    "logged_movement_to_cost_block_candidate_observations": 6,
+    "logged_distinct_direction_conflict_candidate_ids": 1386,
+    "logged_distinct_movement_to_cost_candidate_ids": 2,
+    "successful_signed_canary_consumptions_observed": 0,
+    "authorization_rejections_logged": 0,
+    "authorization_requests_exact": null,
+    "broker_order_outcome_events_logged": 0,
+    "week_accounting_submission_attributions": 0,
+    "position_entry_fills_observed": 0,
+    "counts_are_different_observation_granularities_not_a_unique_signal_conversion_rate": true
+  },
+  "independent_review": {
+    "joint_baseline": "Root reviewed aligned features, training-only scalers and mature labels.",
+    "exact_scorer": "Calibration reviewer checked exact signs, anchors, baseline clocks, JSON serialization and same-read file hashing.",
+    "entry_diagnostics": "Ledger reviewer found and repaired the initially missing fast-executor dashboard source; routing rules preserved."
+  },
+  "runtime_observation": {
+    "schema_version": "forex_stopped_verification_v1",
+    "observed_utc": "2026-09-06T19:28:32.5684023Z",
+    "canonical_project": "C:\\Users\\zmoor\\Documents\\forex\\trad",
+    "remaining_project_processes": 0,
+    "project_processes": [],
+    "scheduled_tasks": [
+      {
+        "name": "ForexGptOrigConstantRotationDemoWatchdog",
+        "state": "Disabled"
+      },
+      {
+        "name": "ForexSafeCoreAtLogon",
+        "state": "Disabled"
+      }
+    ],
+    "read_only_observation": true,
+    "runtime_started": false,
+    "orders_submitted": 0,
+    "scope": "Canonical project Python/PowerShell process commands; this audit/test harness excluded. No process or task mutation."
+  },
+  "runtime_started": false,
+  "broker_requests": 0,
+  "orders_submitted": 0,
+  "execution_gates_changed": false,
+  "prediction_improvement_demonstrated": false,
+  "proof_eligible": false,
+  "account_eligible": false,
+  "limitations": [
+    "Local saved records only; no new broker history retrieval.",
+    "Sampled candidate observations and truncated historical details do not reconstruct exact unique cycle totals.",
+    "The new scorer and numerical baselines are offline and require separate registered integration and genuine future outcomes.",
+    "Source snapshot and local vault copy do not include every runtime database, private credential or historical model weight."
+  ]
+}

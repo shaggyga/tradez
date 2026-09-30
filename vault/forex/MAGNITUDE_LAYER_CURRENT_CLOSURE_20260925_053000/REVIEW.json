@@ -1,0 +1,35 @@
+{
+  "schema": "forex_current_closure.v1",
+  "packet_id": "MAGNITUDE_LAYER_CURRENT_CLOSURE_20260925_053000",
+  "created_utc": "2026-09-25T03:54:50Z",
+  "step_id": "magnitude_conditioned_signed_forecast_layer_v2",
+  "status": "closed_by_accepted_same_task_review_packet_reuse",
+  "source_packet": "MAGNITUDE_LAYER_20260924_051000",
+  "source_review": "MAGNITUDE_LAYER_20260924_051000/REVIEW.json",
+  "source_review_sha256": "cf498e506bac1923127b2e3c965799e6165d9fe1eb43c9c84033eb590accee2f",
+  "source_review_md_sha256": "33983c64ea608dd267b2e9fe5c168e8425a8b9a086a8c07aa7fcc028f7896219",
+  "implementation_status": "complete",
+  "review_status": "accepted_within_scope",
+  "independent_review_status": "pending_nonblocking_by_user_clarification",
+  "source_commit": "d22aa18f3960d0bcdc249c41565ad0fc6d040bda",
+  "unresolved_findings": [],
+  "actual_work_this_step": [
+    "Verified accepted source packet identity.",
+    "Published current closure pointer without duplicate computation.",
+    "Advanced queue to documented successor."
+  ],
+  "tests_executed_this_turn": [],
+  "tests_reused_from_source_packet": "see copied SOURCE_REVIEW.md/REVIEW.json",
+  "boundaries": {
+    "new_fit_performed": false,
+    "gpt_advisor_comparisons": false,
+    "paid_api_calls": false,
+    "broker_or_live_bot_changes": false,
+    "d_drive_investigation": false
+  },
+  "next_step_id": "later_remaining_forecast_surface_v2",
+  "deadline_utc": "2026-09-25T04:59:55Z",
+  "session_id": "timed_residual_r4_20260925_025955",
+  "manifest": "MANIFEST.json",
+  "manifest_sha256": "cf91550b0280365e525fb30de6e70a861171d7fdf3c98dac0245a964a49823a6"
+}

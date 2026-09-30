@@ -1,0 +1,1 @@
+REV-01..04 and REV-05 selected-policy support resolved within scope. Bounded distinct-method qualification remains. This one event-sampled concentration report is not confirmation or a full all-68 exposure campaign.

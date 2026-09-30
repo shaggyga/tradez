@@ -1,0 +1,70 @@
+{
+  "schema": "forex_current_closure.v1",
+  "packet_id": "NUMERIC_JOIN_CURRENT_CLOSURE_20260925_045500",
+  "created_utc": "2026-09-25T03:48:59Z",
+  "step_id": "macro_currency_meter_numeric_evidence_join_v2",
+  "status": "closed_by_accepted_review_packet_plus_fresh_focused_rerun",
+  "source_packet": "NUMERIC_JOIN_REVIEW_REPAIRS_20260924_004443",
+  "source_review": "NUMERIC_JOIN_REVIEW_REPAIRS_20260924_004443/REVIEW.json",
+  "source_review_sha256": "1137a3be43f2787f9c27f83ed3317712740cfd5e595892301361213f118c444b",
+  "source_review_md_sha256": "01cdb634744f726c73c25c5fb01364b8e7b66e84ea80e0933f8aaa34d7468a31",
+  "source_checkpoint_sha256": "a05a7810ee6077362b74964af40012e1d9571f6d919c5f0bc129391cdcc9d95c",
+  "implementation_status": "complete",
+  "review_status": "accepted_within_scope",
+  "independent_review": true,
+  "review_result": "independent_review/RESOLUTION_REVIEW.json",
+  "unresolved_findings": [],
+  "source_commit": "c14630874f8a75c637ecac31ca120e84e65cebd7",
+  "run_identity": "ce4a0b8ffbcbb5dd394cd92ab6981a268c55bc6caf9cd2ffaeca4fa1e6cdf254",
+  "tests_reused_from_source_packet": {
+    "local_tests_passed": "36 passed",
+    "independent_fresh_restore": {
+      "payloads_identical": 5,
+      "receipt": "fresh_restore/RESTORE_RECEIPT.json",
+      "status": "VERIFIED",
+      "tests": "fresh_restore/tests.log",
+      "tests_passed": 16,
+      "tests_skipped": 3
+    },
+    "independent_invariants": {
+      "evidence": "INVARIANT_RETEST.json",
+      "passed": 16
+    }
+  },
+  "tests_executed_this_turn": [
+    {
+      "command": "C:\\Users\\zmoor\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe -I -B -m pytest -q stage_c_alignment_integrity_v2\\test_macro_numeric_evidence_join_v2.py",
+      "result": "16 passed, 3 skipped, 1 pytest cache warning",
+      "runtime": "bundled Python with numpy 2.3.5; pytest installed during this turn to unblock focused review"
+    }
+  ],
+  "current_key_source_sha256": {
+    "stage_c_alignment_integrity_v2/macro_numeric_evidence_join_v2.py": "793741ae522f8a5bd986211db80fb0e92e1bea93d907efc107f269321636a883",
+    "stage_c_alignment_integrity_v2/macro_numeric_evidence_join_operator_v2.py": "412b6432b68e3a115e29988ae68a0a284149e18b33666fda822177952859dbf5",
+    "stage_c_alignment_integrity_v2/test_macro_numeric_evidence_join_v2.py": "09a7ffa762ae07e9e3a67143fc12f667a530147496dc2ba3fa769a63417a9f2a"
+  },
+  "readiness": {
+    "demo_authorization_status": "not_granted",
+    "engineering_ready": false,
+    "forecast_evidence_status": "offline_numeric_evidence_not_forecast_admission",
+    "policy_evidence_status": "not_evaluated"
+  },
+  "limitations": [
+    "Retained selected meter versions have no unit/provenance scoped binding; synthetic binding fixtures only",
+    "Local publication verification is not cloud synchronization",
+    "No new fit, forecast merit or live authorization"
+  ],
+  "boundaries": {
+    "new_fit_performed": false,
+    "forecast_admission": false,
+    "gpt_advisor_comparisons": false,
+    "paid_api_calls": false,
+    "broker_or_live_bot_changes": false,
+    "d_drive_investigation": false
+  },
+  "next_step_id": "whole_curve_warm_start_capacity_followup_v2",
+  "deadline_utc": "2026-09-25T04:59:55Z",
+  "session_id": "timed_residual_r4_20260925_025955",
+  "manifest": "MANIFEST.json",
+  "manifest_sha256": "8369dfa2714e9145ed705e4a7ead0304a6e76bb97e514de7369a5d3d38021e65"
+}

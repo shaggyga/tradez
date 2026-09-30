@@ -1,0 +1,58 @@
+{
+  "step_id": "batch05-accounting-operator",
+  "work_package": "reference_accounting_and_isolated_policy_v2",
+  "implementation_status": "bounded_foundation_verified_full_package_partial",
+  "review_status": "ready_for_review",
+  "reviewer": null,
+  "reviewed_utc": null,
+  "review_verdict": null,
+  "created_utc": "2026-09-21T23:35:24.905573+00:00",
+  "retrospective_packet": true,
+  "source_package": "ACCOUNTING_EVENTS_20260921_213557",
+  "source_manifest_sha256": "721383b2c68e336aac09bf1d3d242bdec01384f042e10dbc75ebe1a3d3680c75",
+  "changes": "FILE_CHANGES.json",
+  "patch": "CHANGES.patch",
+  "verification": [
+    {
+      "file": "evidence/final_integrated_gate.junit.xml",
+      "tests": 245,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "file": "evidence/final_recipe_packaging.junit.xml",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "verification_path_base": "ACCOUNTING_EVENTS_20260921_213557",
+  "checkpoint": {
+    "path": "checkpoint/forex_accounting_20260921_213557.zip",
+    "sha256": "b457420c2b858a41668d26e91735f0829f85a4ff52183f13530411d7ef06ae3f",
+    "scope": "synthetic_accounting_operator_and_recovery_only",
+    "relocated_replay_verified": true,
+    "relocated_tests_verified": true,
+    "bulk_historical_archive_included": false
+  },
+  "checkpoint_path_base": "ACCOUNTING_EVENTS_20260921_213557",
+  "readiness": {
+    "engineering_ready": false,
+    "forecast_evidence_status": "no_new_model_evidence_neutral_issuance_only",
+    "policy_evidence_status": "unevaluated_for_design_campaign",
+    "demo_authorization_status": "not_granted_for_design_campaign"
+  },
+  "pending_engineering": [
+    "policy thesis continuity and common-horizon HOLD/EXIT/REPLACE consumer integration",
+    "historical quote arrival, simultaneous execution, financing and venue calendar provenance",
+    "fitted-consumer label maturity, chronological selection and model readiness",
+    "actual technical/peer/macro input population and full all68 daily/multiday campaign",
+    "campaign-scale optimization and approved operator recipes for later stages"
+  ],
+  "exact_next_item": "Step D / WP2-WP8: integrate the recovered policy manager with the verified event ledger; preserve original/current thesis and compare HOLD/EXIT/REPLACE from common executable wealth and continuation horizon, with isolated arms, event-level checks and a frozen operator recipe.",
+  "next_review_action": "Review sealed snapshots, exact patch, design acceptance and receipts; do not infer acceptance from passing tests.",
+  "review_findings": [],
+  "findings_status": "not_yet_reviewed_not_a_zero_defect_claim"
+}

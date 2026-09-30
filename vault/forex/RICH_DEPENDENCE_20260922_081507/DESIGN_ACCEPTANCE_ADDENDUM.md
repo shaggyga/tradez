@@ -1,0 +1,1 @@
+Bounded R09/R13/R14 and WP7/WP9/WP10: original-record paired errors, dependent time support, current attempt accounting, failure preservation and report recovery. TST48/49/50/51/52 mechanisms within this scope; full null/leak-positive controls, global multiplicity and confirmation are not certified.

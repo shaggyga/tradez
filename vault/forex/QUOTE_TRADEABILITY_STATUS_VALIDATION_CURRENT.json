@@ -1,0 +1,113 @@
+{
+  "schema_version": "forex_quote_tradeability_status_validation_v1",
+  "generated_utc": "2026-09-01T16:53:19Z",
+  "issue_id": "FX-20260901-QUOTE-TRADEABILITY-STATUS",
+  "trigger": {
+    "description": "Three TRY crosses remained present in the 68-instrument snapshot with old provider timestamps, while the shared snapshot did not retain the broker tradeability state needed to distinguish a venue halt from transport silence.",
+    "instruments": [
+      "EUR_TRY",
+      "TRY_JPY",
+      "USD_TRY"
+    ]
+  },
+  "broker_contract": {
+    "provider": "OANDA v20 practice pricing",
+    "stream_documentation": "https://developer.oanda.com/rest-live-v20/pricing-ep/",
+    "price_schema_documentation": "https://developer.oanda.com/rest-live-v20/pricing-df/",
+    "status_values": [
+      "tradeable",
+      "non-tradeable",
+      "invalid"
+    ],
+    "read_only_observation_utc": "2026-09-01T16:45:00Z",
+    "observed": [
+      {
+        "instrument": "EUR_TRY",
+        "status": "non-tradeable",
+        "tradeable": false,
+        "provider_time": "2026-09-01T14:59:55.013314835Z"
+      },
+      {
+        "instrument": "TRY_JPY",
+        "status": "non-tradeable",
+        "tradeable": false,
+        "provider_time": "2026-09-01T14:59:55.016993122Z"
+      },
+      {
+        "instrument": "USD_TRY",
+        "status": "non-tradeable",
+        "tradeable": false,
+        "provider_time": "2026-09-01T14:59:55.019439229Z"
+      }
+    ]
+  },
+  "implementation": {
+    "snapshot_schema_version": 3,
+    "tradeability_contract": "oanda_client_price_status_boolean_v1",
+    "changes": [
+      "Preserve the parsed OANDA tradeable boolean in current and retained quote rows.",
+      "Publish current tradeable, non-tradeable and unknown counts and exact non-tradeable instruments.",
+      "Keep non-tradeable and stale quotes execution-ineligible under the existing fail-closed quote gate.",
+      "Independently reconcile the status contract in project integrity instead of treating a non-tradeable instrument as a silent feed.",
+      "Require zero unknown current tradeability rows while permitting explicitly non-tradeable instruments to remain visible in all-68 research coverage."
+    ],
+    "source_sha256": {
+      "oanda_practice_shadow_strategy_lab.py": "ff44c5cf7ec4bf31238853fee0aca6bf0a9094c59f35bd4a51b8e0541275f25c",
+      "oanda_practice_top_signal_executor.py": "b98151ab60e2e0e3253d0cfaef1229bb1e2a4bf777a1365aa579be4f1bd294f6",
+      "oanda_project_integrity_audit.py": "369dc09ec80c4fa9733aaf4b3b380d69dec56f6263705df9260d2070c4a67e2a"
+    },
+    "test_sha256": {
+      "test_oanda_practice_top_signal_executor.py": "6563b4123dbe4b6f0dddff3c6f938dfed44e861f293be7b569f0c8c28de2feda",
+      "test_oanda_project_integrity_audit.py": "775e263455711623a695db8cf0569679578ca220da200d056bafbfa757bfe3be"
+    }
+  },
+  "validation": {
+    "focused_tests_passed": 83,
+    "focused_test_groups": [
+      {
+        "tests": [
+          "test_oanda_practice_top_signal_executor.py",
+          "test_oanda_practice_quote_stream.py"
+        ],
+        "passed": 40
+      },
+      {
+        "tests": [
+          "test_oanda_project_integrity_audit.py"
+        ],
+        "passed": 43
+      }
+    ],
+    "live_snapshot": {
+      "generated_utc": "2026-09-01T12:53:18.131278-04:00",
+      "schema_version": 3,
+      "quote_count": 68,
+      "current_quote_count": 68,
+      "current_tradeable_quote_count": 65,
+      "current_non_tradeable_quote_count": 3,
+      "current_tradeability_unknown_count": 0,
+      "current_non_tradeable_instruments": [
+        "EUR_TRY",
+        "TRY_JPY",
+        "USD_TRY"
+      ]
+    },
+    "supervisor_deployment": {
+      "dedicated_quote_worker_restarted": true,
+      "practice_007_executor_restarted_while_flat": true,
+      "executor_phase_after_restart": "streaming",
+      "balance": 41.6042,
+      "nav": 41.6042,
+      "open_trades": 0,
+      "pending_orders": 0
+    }
+  },
+  "safety": {
+    "manual_or_discretionary_order_submitted": false,
+    "manual_position_close": false,
+    "proof_gate_changed": false,
+    "authorization_gate_changed": false,
+    "real_money_enabled": false,
+    "decision": "no_trade"
+  }
+}

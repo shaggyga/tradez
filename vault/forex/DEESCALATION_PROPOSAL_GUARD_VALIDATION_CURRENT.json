@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-09-04T19:05:00Z",
+  "issue_id": "FX-20260904-DEESCALATION-PROPOSAL-GUARD",
+  "status": "complete",
+  "miss": {
+    "headline": "Russia-Ukraine War: President Volodymyr Zelenskyy Calls For Temporary Ceasefire As Trump Envoys Head To Moscow - Free Press Journal",
+    "prior_risk_on_score": 0.65,
+    "prior_currency_scores": {
+      "AUD": 0.3575,
+      "CAD": 0.3575,
+      "MXN": 0.3575,
+      "NOK": 0.3575,
+      "NZD": 0.3575,
+      "ZAR": 0.3575,
+      "CHF": -0.2275,
+      "JPY": -0.2275,
+      "USD": -0.2275
+    },
+    "root_cause": "A request for a ceasefire was treated as if an agreement had been reached and implemented."
+  },
+  "repair": {
+    "classification_version": "local_fx_news_rules_20260904_v160_deescalation_proposal_guard",
+    "contract_id": "deescalation_proposal_guard_v1_20260904",
+    "cohort_id": "deescalation_proposal_guard_v1_prospective_20260904T183000Z",
+    "activation_utc": "2026-09-04T18:30:00Z",
+    "proposal_only_policy": "context_only_with_zero_risk_and_currency_direction",
+    "realized_agreement_policy": "preserve_only_when_agreement_or_implementation_language_is_explicit"
+  },
+  "validation": {
+    "news_classification_tests_passed": 488,
+    "news_classification_tests_failed": 0,
+    "historical_fixture_suppressed": true,
+    "prospective_fixture_suppressed": true,
+    "realized_ceasefire_fixture_preserved": true,
+    "watchlist_tests_passed": 46,
+    "supervisor_tests_passed": 14,
+    "python_compile_passed": true
+  },
+  "artifacts": [
+    {"path": "oanda_news_classification_contract.py", "sha256": "4e5cd36bbc6dfc00ae57c4edf72476d6a6b6fef37d1990afeb378e5f1d63b04d"},
+    {"path": "oanda_local_news_sentiment.py", "sha256": "33487d8477cf5e0de075e9a9e8f470db15a0915f12ce972e9c8690a28257703f"},
+    {"path": "oanda_news_technical_watchlist.py", "sha256": "449d65e04cb912db95a61192ec9cb963f34b7c520d232f9bd12ee5dce790a227"},
+    {"path": "test_oanda_local_news_sentiment.py", "sha256": "9ab914fb6e05da7d4c71bab8fb3b15b65affe6772a13d6c6fa059488de3c2ee4"},
+    {"path": "test_oanda_news_technical_watchlist.py", "sha256": "4a621688dcb2cdef1c2b46f965f1520f354aae2805f7abed0cc02a736bd6f504"}
+  ],
+  "safety": {
+    "historical_reclassification_is_proof": false,
+    "can_promote": false,
+    "can_authorize": false,
+    "can_place_orders": false,
+    "real_money_routing": false
+  }
+}

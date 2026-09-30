@@ -1,0 +1,2 @@
+Next: review_macro_scoped_asof_checkpoint_v2, then macro_semantic_source_issuer_qualification_audit_v2.
+Audit source/issuer provenance and candidate exclusions using frozen evidence before further forecast work.

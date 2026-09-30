@@ -1,0 +1,293 @@
+{
+  "step_id": "mabel-full-git-20260923",
+  "utc": "2026-09-23T17:30:00.096588+00:00",
+  "source_commit": "2083eb77ebbce103e1a5382969de7810a6e7f962",
+  "local_checkout": "C:\\Users\\zmoor\\Documents\\forex\\git_publication_20260923\\shared_repository",
+  "installed_workspace": "C:\\Users\\zmoor\\Documents\\forex",
+  "original_git_preserved": true,
+  "numerical_source_changed": false,
+  "models_loaded": 0,
+  "models_fitted": 0,
+  "remote": {
+    "utc": "2026-09-23T17:28:45.981168+00:00",
+    "url": "https://github.com/shaggyga/tradez",
+    "private": true,
+    "default_branch": "forex",
+    "previous_default_branch": "main",
+    "published_branch": "forex",
+    "source_commit": "2083eb77ebbce103e1a5382969de7810a6e7f962",
+    "remote_sha_verified": "2083eb77ebbce103e1a5382969de7810a6e7f962",
+    "push_verified": true,
+    "previous_main_preserved": "1e0a3170e308e0a36b2a0eaa1b26591a7b60fd51",
+    "status": "source_commit_pushed_and_verified_private_forex_default"
+  },
+  "tests": {
+    "status": "PASSED",
+    "utc": "2026-09-23T17:25:02.389124+00:00",
+    "commit": "2083eb77ebbce103e1a5382969de7810a6e7f962",
+    "clone": "C:\\Users\\zmoor\\Documents\\forex\\git_publication_20260923\\clone",
+    "files_verified": 4584,
+    "source_inventory_parity": true,
+    "clean_git_status": true,
+    "results": [
+      {
+        "name": "bootstrap_tests",
+        "exit_code": 0,
+        "output": "bootstrap_tests.txt",
+        "sha256": "3942434896db7922e6cefbab8ab6bc86be7df407619cfb0539d49dcf3d245867"
+      },
+      {
+        "name": "engineering_contract_tests",
+        "exit_code": 0,
+        "output": "engineering_contract_tests.txt",
+        "sha256": "2f0040ae7344f8b1f404dbca1f33e63fac5b59a3fc7232cf293024d05c03712f"
+      },
+      {
+        "name": "vault_status",
+        "exit_code": 0,
+        "output": "vault_status.txt",
+        "sha256": "feeddd42f420999e767f4d7f1e073bbe954c89c37acf2ba745ab38a1bda98c71"
+      },
+      {
+        "name": "environment_doctor",
+        "exit_code": 0,
+        "output": "environment_doctor.txt",
+        "sha256": "f67ef885bcca85270172c224c912c3c193d327c86c99e750dc8774d94f86dae6"
+      },
+      {
+        "name": "saved_artifact_retrieval",
+        "exit_code": 0,
+        "output": "saved_artifact_retrieval.txt",
+        "sha256": "eeb895e55ee16afecb0147feeddd951f576606cd528719fceab83aa70a70cb79"
+      },
+      {
+        "name": "saved_artifact_existing_reuse",
+        "exit_code": 0,
+        "output": "saved_artifact_existing_reuse.txt",
+        "sha256": "ac4cbbdccd7993109d06c32929746c8b15dee0a2e3fa09efe861362b5ab02330"
+      }
+    ],
+    "models_loaded": 0,
+    "models_fitted": 0,
+    "scope": "fresh local clone, helper tests, synthetic engineering contracts, saved artifact byte retrieval; no remote-machine/runtime certification",
+    "helper_tests_passed": 28,
+    "engineering_contract_tests_passed": 44,
+    "saved_models_verified": 8
+  },
+  "checkpoint": {
+    "local_bundle": "C:\\Users\\zmoor\\Documents\\forex\\git_publication_20260923\\forex-source.bundle",
+    "sha256": "30a23d0d1242e85e61980b279fcf1cdb53aa737b4a04a40650937457897aa626",
+    "bytes": 19751273,
+    "verified_by_fresh_clone": true,
+    "final_vault_bundle": "Will be recorded with final documentation commit in SHARED_GIT_REMOTE_LATEST.json"
+  },
+  "independent_source_audit": {
+    "credentials": {
+      "schema": "forex_publication_security_review.v1",
+      "completed_utc": "2026-09-23T17:24:14.593234+00:00",
+      "verdict": "passed_within_pattern_scan_scope_private_sharing_required",
+      "reviewer": "delegated_read_only_history_auditor",
+      "historical_head": "ed3f9b988202edc112f4b26734b62cc13bcac981",
+      "historical_commits": 174,
+      "parent_head": "ed3f9b988202edc112f4b26734b62cc13bcac981",
+      "index_listing_sha256": "d6c65c1ad414426cce7a386d297849f18d44ba1c4f2db48a0a49160e5f04b62e",
+      "summary": {
+        "account_id_occurrences": 115,
+        "account_id_unique_fingerprints": 12,
+        "complete": true,
+        "credential_finding_count": 0,
+        "exemption_count": 4,
+        "indexed_paths": 4584,
+        "largest_blob_bytes": 4061660,
+        "new_nul_normalized_payloads": 0,
+        "newly_scanned_path_payloads": 899,
+        "passed": true,
+        "path_finding_count": 0,
+        "paths_over_100_mib": 0,
+        "paths_over_50_mib": 0,
+        "reused_scans_by_exact_original_path_and_sha256": 3685,
+        "unique_blob_bytes": 148679449,
+        "unique_blobs": 4339
+      },
+      "reports": {
+        "audit_report.json": "3f5fa92a8ba9072e79383c0a250a71f0f08004fb2dc4503ba1c38f6036db93dc",
+        "commit_metadata_audit.json": "ec4225663c5a41c0f01e4d789a11fcd0673ab5c3cc8235308c99dcba9703d820",
+        "nul_text_audit.json": "8d652b79e94d60795b8ac06916268ae984e4ae3f07313be9ef26894afc2d5ec2",
+        "publication_index_corrected.json": "d1b1e2dfb74e500332c30b018495833824b8d3405f3618c824c77d7ebd75524f",
+        "PUBLICATION_REVIEW_CORRECTED.md": "6b0bc3f3d20c83026f962442c864343a137acf46c188a3543c93cbeb3afc5d90",
+        "CLOUD_FIX_REVIEW.json": "019594cf42d768d44ef1a3747ccfabe3a6f399b79a7be351b22d28e756e64e6a"
+      },
+      "history_rewrite_needed": false,
+      "publication_visibility": "private",
+      "later_index_changes_require_scan": true,
+      "legacy_utility_correctness_review": "outside_scope"
+    },
+    "retrieval_helper_correction": {
+      "schema": "forex_independent_cloud_source_review.v1",
+      "completed_utc": "2026-09-23T17:24:14.593234+00:00",
+      "reviewer": "delegated_read_only_history_auditor_not_implementer",
+      "verdict": "accepted_within_scope",
+      "scope": "Cloud Files read-only source exception; destination and redirect rejection; offline/recall guard; tests/docs",
+      "findings": [],
+      "independent_review": true,
+      "source_identities": {
+        "tools/forex_workspace.py": {
+          "blob_oid": "dca99a2305f765ddbca81772ccc4ec51c727210a",
+          "mode": "100644",
+          "path": "tools/forex_workspace.py",
+          "sha256": "d7f31902f57df095f7830ee951d47925a0a9aadeffef61121279fc4fcaec6812",
+          "size": 19035
+        },
+        "tests/test_forex_workspace.py": {
+          "blob_oid": "e3c954f6ae9ab38bf59f7430bc1c82930326170d",
+          "mode": "100644",
+          "path": "tests/test_forex_workspace.py",
+          "sha256": "83688d739ee0bbe7716297231b355ee53ed21099dcbc4a637f15344b32ece694",
+          "size": 18006
+        },
+        "docs/SHARED_WORKSPACE.md": {
+          "blob_oid": "b1061d22cfc8a9a1d37103bd9fd336398a9ed256",
+          "mode": "100644",
+          "path": "docs/SHARED_WORKSPACE.md",
+          "sha256": "d12815b74c7749fd4e339742fdf0f9427559b42b0ccd448985414dd27786fdcf",
+          "size": 5702
+        }
+      },
+      "checks_receipt_sha256": "8343791bb82969fd55cdfadf29a241a5cbb63c9ad8e3f5e33d7d2de6fc6ec559",
+      "offline_tests_passed": 28,
+      "live_local_vault_status_passed": true,
+      "remote_sync_verified": false,
+      "model_loading_or_fitting": false,
+      "review_markdown_sha256": "514d34e11010d8350e885f6c5f7c8ecde126325b657c31bcb8cccf61af02f79b"
+    }
+  },
+  "evidence_files": [
+    {
+      "path": "SOURCE_COMMIT.json",
+      "bytes": 412,
+      "sha256": "752eb1f6a285ddff86396c442c781192fffce3bcc74f51ebb3a7fbf3de694e18"
+    },
+    {
+      "path": "SOURCE_REMOTE_VERIFIED.json",
+      "bytes": 453,
+      "sha256": "ee3092013f662772bb6d316028f17a3dc0e885254cab3f17c9f34a8dfa7fd6c2"
+    },
+    {
+      "path": "ROOT_INSTALL_PREPARED.json",
+      "bytes": 5150,
+      "sha256": "f16a5db402c048ba9c3e177039eb6cc9adbd157f294b773e5f4a59910e2ba58d"
+    },
+    {
+      "path": "ROOT_GIT_ROLLBACK.md",
+      "bytes": 1937,
+      "sha256": "92548f69fb4517d9e9cb3619a5587f076421932405aac60003117680ee6e6fc1"
+    },
+    {
+      "path": "ASSEMBLED_SOURCE_MANIFEST.json",
+      "bytes": 1474001,
+      "sha256": "d3c06fcd18ee06a9171fc3253b1f00cf7b9fd660cbc1d0395d96e967568d4a6f"
+    },
+    {
+      "path": "INCLUDED_HISTORICAL_SOURCES.json",
+      "bytes": 97538,
+      "sha256": "ce05e38ca1695de0ba49bcdd7a67baff7ea03d4ee044348115026b33ce6edd17"
+    },
+    {
+      "path": "inventory/INVENTORY_CLOSURE.md",
+      "bytes": 8456,
+      "sha256": "17078d9fe087fe24c05a72fdd916046d89373f9c51d7d30b26661351d1237142"
+    },
+    {
+      "path": "inventory/recovery_source_report.json",
+      "bytes": 45705,
+      "sha256": "1acf85a0fc15f55d05a8458e283b67adefeac94457f27e4764769c7781fd7de7"
+    },
+    {
+      "path": "history_audit/PUBLICATION_REVIEW_CORRECTED.json",
+      "bytes": 1868,
+      "sha256": "f9f201be87a826fe338620b4c20619adbb6683bb624e6d34d7edcc4272110b8c"
+    },
+    {
+      "path": "history_audit/publication_index_corrected.json",
+      "bytes": 1391505,
+      "sha256": "d1b1e2dfb74e500332c30b018495833824b8d3405f3618c824c77d7ebd75524f"
+    },
+    {
+      "path": "history_audit/CLOUD_FIX_REVIEW.json",
+      "bytes": 1620,
+      "sha256": "019594cf42d768d44ef1a3747ccfabe3a6f399b79a7be351b22d28e756e64e6a"
+    },
+    {
+      "path": "clone_verification/RESULTS.json",
+      "bytes": 1769,
+      "sha256": "3e9136ebddcac04897c8f087c49283977155b3deea4348c8af0b1e30aab0093e"
+    },
+    {
+      "path": "clone_verification/CLONE_SOURCE_IDENTITIES.json",
+      "bytes": 964806,
+      "sha256": "257254cd10d9efef09fa36d97aac6884400c2894bc87f64905a8421aab0a5f41"
+    },
+    {
+      "path": "clone_verification/bootstrap_tests.txt",
+      "bytes": 3494,
+      "sha256": "3942434896db7922e6cefbab8ab6bc86be7df407619cfb0539d49dcf3d245867"
+    },
+    {
+      "path": "clone_verification/engineering_contract_tests.txt",
+      "bytes": 101,
+      "sha256": "2f0040ae7344f8b1f404dbca1f33e63fac5b59a3fc7232cf293024d05c03712f"
+    },
+    {
+      "path": "clone_verification/saved_artifact_retrieval.txt",
+      "bytes": 642,
+      "sha256": "eeb895e55ee16afecb0147feeddd951f576606cd528719fceab83aa70a70cb79"
+    },
+    {
+      "path": "clone_verification/saved_artifact_existing_reuse.txt",
+      "bytes": 639,
+      "sha256": "ac4cbbdccd7993109d06c32929746c8b15dee0a2e3fa09efe861362b5ab02330"
+    },
+    {
+      "path": "clone_verification/environment_doctor.txt",
+      "bytes": 864,
+      "sha256": "f67ef885bcca85270172c224c912c3c193d327c86c99e750dc8774d94f86dae6"
+    },
+    {
+      "path": "inventory/PUBLISHER_FOLLOWUP_REVIEW.md",
+      "bytes": 2927,
+      "sha256": "ee3a6b9b7762461aaffd8c20987c1d2ce292ec8405fcb5ea0068b92ac0b8312d"
+    }
+  ],
+  "compact_evidence_files": [
+    "SOURCE_COMMIT.json",
+    "SOURCE_REMOTE_VERIFIED.json",
+    "ROOT_INSTALL_PREPARED.json",
+    "ROOT_GIT_ROLLBACK.md",
+    "ASSEMBLED_SOURCE_MANIFEST.json",
+    "INCLUDED_HISTORICAL_SOURCES.json",
+    "inventory/INVENTORY_CLOSURE.md",
+    "inventory/recovery_source_report.json",
+    "history_audit/PUBLICATION_REVIEW_CORRECTED.json",
+    "history_audit/publication_index_corrected.json",
+    "history_audit/CLOUD_FIX_REVIEW.json",
+    "clone_verification/RESULTS.json",
+    "clone_verification/CLONE_SOURCE_IDENTITIES.json",
+    "clone_verification/bootstrap_tests.txt",
+    "clone_verification/engineering_contract_tests.txt",
+    "clone_verification/saved_artifact_retrieval.txt",
+    "clone_verification/saved_artifact_existing_reuse.txt",
+    "clone_verification/environment_doctor.txt",
+    "inventory/PUBLISHER_FOLLOWUP_REVIEW.md"
+  ],
+  "source_manifest": {
+    "path": "ASSEMBLED_SOURCE_MANIFEST.json",
+    "bytes": 1474001,
+    "sha256": "d3c06fcd18ee06a9171fc3253b1f00cf7b9fd660cbc1d0395d96e967568d4a6f"
+  },
+  "limits": [
+    "72 offline tests are not the entire historical suite or trading qualification",
+    "One preserved eight-model run has automated byte retrieval; artifact inventory is not exhaustive",
+    "Vault coordination board remains advisory, not an atomic distributed lock",
+    "No second physical computer runtime or OneDrive cloud synchronization certification"
+  ]
+}

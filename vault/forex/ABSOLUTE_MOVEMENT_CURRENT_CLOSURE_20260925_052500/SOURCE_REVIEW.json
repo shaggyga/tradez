@@ -1,0 +1,147 @@
+{
+  "checkpoint": {
+    "path": "checkpoint/forex_absolute_movement.zip",
+    "sha256": "a4ef4a445ceebc543dabe0a96f554ed6ec77ae4c0b8881657f55374df8e91d2a"
+  },
+  "implementation_status": "complete",
+  "independent_review": false,
+  "independent_review_status": "pending_nonblocking_by_user_clarification",
+  "next_action": "magnitude_conditioned_signed_forecast_layer_v2",
+  "readiness": {
+    "demo_authorization_status": "not_granted",
+    "engineering_ready": false,
+    "forecast_evidence_status": "inspected_development_absolute_endpoint_comparison",
+    "policy_evidence_status": "not_evaluated"
+  },
+  "recipe_sha256": "d303ca66df8ae2fad6c63cdbcf4ae92685f4d008ee64d74affb2047e897a205b",
+  "review_result": "evidence/REVIEW_FINDINGS.md",
+  "review_status": "accepted_within_scope",
+  "reviewer": "same Codex task; substantive same-task review",
+  "run_identity": "0ce610b494456ae0af3cb0ae844f6c26dc1d00ddd50db68c4b4188b10edb6d8d",
+  "schema": "forex_review_packet.v2",
+  "source_commit": "b708be9c1ff8705a2f79b92de7d4ab833abc087a",
+  "step_id": "absolute_movement_forecast_comparison_v2",
+  "unresolved_findings": [],
+  "verification": {
+    "checkpoint_sha256": "a4ef4a445ceebc543dabe0a96f554ed6ec77ae4c0b8881657f55374df8e91d2a",
+    "decimal_metric_checks": 196,
+    "export": {
+      "files": 275,
+      "restore_refits_allowed": false,
+      "saved_fit_pairs": 14,
+      "scientific_payloads": 72,
+      "sha256": "a4ef4a445ceebc543dabe0a96f554ed6ec77ae4c0b8881657f55374df8e91d2a",
+      "status": "VERIFIED_EXPORT"
+    },
+    "independent_review": false,
+    "initial_crash_recovery": [
+      {
+        "actual_new_estimator_fits": 0,
+        "crash_after": 7,
+        "exit_code": 91,
+        "scientific_payloads_equal": 72
+      },
+      {
+        "actual_new_estimator_fits": 0,
+        "crash_after": 0,
+        "exit_code": 91,
+        "scientific_payloads_equal": 72
+      }
+    ],
+    "operator_refusals": [
+      {
+        "case": "wrong_recipe_pin",
+        "result": {
+          "next_action": "preserve_evidence_and_review",
+          "reason": "absolute_recipe_pin_mismatch",
+          "status": "review_required"
+        }
+      },
+      {
+        "case": "changed_source",
+        "result": {
+          "next_action": "preserve_evidence_and_review",
+          "reason": "absolute_source_drift_before_numerical_import",
+          "status": "review_required"
+        }
+      },
+      {
+        "case": "changed_original_metadata",
+        "result": {
+          "next_action": "preserve_evidence_and_review",
+          "reason": "absolute_original_metadata_bytes_changed",
+          "status": "review_required"
+        }
+      }
+    ],
+    "recipe_sha256": "d303ca66df8ae2fad6c63cdbcf4ae92685f4d008ee64d74affb2047e897a205b",
+    "recovery_source_unchanged": true,
+    "relocated_tests": 20,
+    "restore": {
+      "checkpoint_sha256": "a4ef4a445ceebc543dabe0a96f554ed6ec77ae4c0b8881657f55374df8e91d2a",
+      "independent_review": false,
+      "new_target_estimators_refitted_in_replay": 0,
+      "operator": {
+        "attempt": {
+          "actual_new_estimator_fits": 0,
+          "attempt_id": "2a016762d11c452b94d695e44b45e8c4",
+          "elapsed_seconds": 24.844000000040978,
+          "original_estimators_refitted": 0,
+          "reuse_only": true,
+          "saved_fit_pairs_reused": 14
+        },
+        "demo_authorization_status": "not_granted",
+        "engineering_ready": false,
+        "forecast_evidence_status": "inspected_development_absolute_endpoint_comparison",
+        "independent_review": false,
+        "next_action": "checkpoint",
+        "policy_evidence_status": "not_evaluated",
+        "recipe_sha256": "d303ca66df8ae2fad6c63cdbcf4ae92685f4d008ee64d74affb2047e897a205b",
+        "run_identity": "0ce610b494456ae0af3cb0ae844f6c26dc1d00ddd50db68c4b4188b10edb6d8d",
+        "run_path": "C:\\Users\\zmoor\\Documents\\forex\\until8am_20260923_215844\\absolute_step\\reviewed\\restored\\runs\\absolute-endpoint-movement-v2",
+        "status": "completed_verified"
+      },
+      "original_models_refitted": 0,
+      "relocated_tests_passed": true,
+      "scientific_payloads_identical": 72,
+      "status": "VERIFIED",
+      "synthetic_test_fixture_fits_separate": true
+    },
+    "restore_wall_seconds": 39.01599999982864,
+    "run_identity": "0ce610b494456ae0af3cb0ae844f6c26dc1d00ddd50db68c4b4188b10edb6d8d",
+    "status": "PASS",
+    "successor": {
+      "models_refitted": 0,
+      "operator": {
+        "attempt": {
+          "actual_new_estimator_fits": 0,
+          "attempt_id": "6e7b10875b524a64b6180a521c5ff4d7",
+          "elapsed_seconds": 24.438000000081956,
+          "original_estimators_refitted": 0,
+          "reuse_only": true,
+          "saved_fit_pairs_reused": 14
+        },
+        "demo_authorization_status": "not_granted",
+        "engineering_ready": false,
+        "forecast_evidence_status": "inspected_development_absolute_endpoint_comparison",
+        "independent_review": false,
+        "next_action": "checkpoint",
+        "policy_evidence_status": "not_evaluated",
+        "recipe_sha256": "d303ca66df8ae2fad6c63cdbcf4ae92685f4d008ee64d74affb2047e897a205b",
+        "run_identity": "0ce610b494456ae0af3cb0ae844f6c26dc1d00ddd50db68c4b4188b10edb6d8d",
+        "run_path": "C:\\Users\\zmoor\\Documents\\forex\\until8am_20260923_215844\\absolute_step\\reviewed\\runs\\absolute-endpoint-movement-v2",
+        "status": "completed_verified"
+      },
+      "original_recipe_sha256": "5b14cd04880764290348acaf94781a364764495b6548d237b88af3f2d8ed31ab",
+      "resolved_findings": [
+        "AM-CONFIG-1",
+        "AM-ENV-1"
+      ],
+      "reviewed_recipe_sha256": "d303ca66df8ae2fad6c63cdbcf4ae92685f4d008ee64d74affb2047e897a205b",
+      "scientific_payloads_unchanged": 72,
+      "status": "PASS",
+      "target_and_hyperparameters_unchanged": true
+    },
+    "targeted_tests": 20
+  }
+}

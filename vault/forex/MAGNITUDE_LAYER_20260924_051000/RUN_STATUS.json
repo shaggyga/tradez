@@ -1,0 +1,145 @@
+{
+  "checkpoint": {
+    "path": "checkpoint/forex_magnitude_layer.zip",
+    "sha256": "6cc9a8f2cc6a879cd9f200579a50bb9c34a5246c29f200765548b4859f1a569c"
+  },
+  "demo_authorization_status": "not_granted",
+  "engineering_ready": false,
+  "forecast_evidence_status": "modeled_clock_prequential_magnitude_interaction_development_diagnostic",
+  "implementation_status": "complete",
+  "independent_review": false,
+  "independent_review_status": "pending_nonblocking_by_user_clarification",
+  "next_action": "later_remaining_forecast_surface_v2",
+  "policy_evidence_status": "not_evaluated",
+  "readiness": {
+    "demo_authorization_status": "not_granted",
+    "engineering_ready": false,
+    "forecast_evidence_status": "modeled_clock_prequential_magnitude_interaction_development_diagnostic",
+    "policy_evidence_status": "not_evaluated"
+  },
+  "recipe_sha256": "4074d1ca2b6d3a36c8a64e2a7c61c824dadfab9114c767b545c45d5e4141a6aa",
+  "review_result": "evidence/REVIEW_FINDINGS.md",
+  "review_status": "accepted_within_scope",
+  "reviewer": "same Codex task; substantive same-task review",
+  "run_identity": "101bfb29a1c6fbd3e6268cc85eef05e7b92f1a14e276b6477f38e22f1e542d98",
+  "schema": "forex_review_packet.v2",
+  "source_commit": "d22aa18f3960d0bcdc249c41565ad0fc6d040bda",
+  "step_id": "magnitude_conditioned_signed_forecast_layer_v2",
+  "unresolved_findings": [],
+  "verification": {
+    "arithmetic_audit": {
+      "metric_values_checked": 432,
+      "prediction_values_checked": 47000,
+      "prefix_memberships_checked": 294,
+      "regressions_checked_separate_decimal_solver": 472,
+      "status": "PASS"
+    },
+    "bad_capsule_pin_refused": true,
+    "checkpoint_sha256": "6cc9a8f2cc6a879cd9f200579a50bb9c34a5246c29f200765548b4859f1a569c",
+    "export": {
+      "base_models_loaded": 0,
+      "capsule_files": 297,
+      "input_tier": "preserved_original_forecast_and_label_capsule",
+      "original_base_suites_rerun": false,
+      "required_companions": {},
+      "scientific_payloads": 58,
+      "sha256": "6cc9a8f2cc6a879cd9f200579a50bb9c34a5246c29f200765548b4859f1a569c",
+      "status": "VERIFIED_EXPORT"
+    },
+    "independent_review": false,
+    "operator_refusals": [
+      {
+        "case": "wrong_recipe_pin",
+        "result": {
+          "next_action": "preserve_evidence_and_review",
+          "reason": "magnitude_recipe_pin_mismatch",
+          "status": "review_required"
+        }
+      },
+      {
+        "case": "source_drift",
+        "result": {
+          "next_action": "preserve_evidence_and_review",
+          "reason": "magnitude_source_drift_before_runner_import",
+          "status": "review_required"
+        }
+      },
+      {
+        "case": "changed_absolute_identity",
+        "result": {
+          "next_action": "preserve_evidence_and_review",
+          "reason": "magnitude_exact_absolute_run_identity_required",
+          "status": "review_required"
+        }
+      }
+    ],
+    "recipe_sha256": "4074d1ca2b6d3a36c8a64e2a7c61c824dadfab9114c767b545c45d5e4141a6aa",
+    "recovery": [
+      {
+        "crash_after": 7,
+        "exit_code": 91,
+        "scientific_payloads_identical": 58
+      },
+      {
+        "crash_after": 0,
+        "exit_code": 91,
+        "scientific_payloads_identical": 58
+      }
+    ],
+    "relocated_tests": 22,
+    "restore": {
+      "base_models_fitted": 0,
+      "base_models_loaded": 0,
+      "checkpoint_sha256": "6cc9a8f2cc6a879cd9f200579a50bb9c34a5246c29f200765548b4859f1a569c",
+      "independent_review": false,
+      "input_tier": "preserved_original_forecast_and_label_capsule",
+      "layer_regressions_recomputed": true,
+      "operator": {
+        "demo_authorization_status": "not_granted",
+        "engineering_ready": false,
+        "forecast_evidence_status": "modeled_clock_prequential_magnitude_interaction_development_diagnostic",
+        "independent_review": false,
+        "next_action": "checkpoint",
+        "policy_evidence_status": "not_evaluated",
+        "recipe_sha256": "4074d1ca2b6d3a36c8a64e2a7c61c824dadfab9114c767b545c45d5e4141a6aa",
+        "run_identity": "101bfb29a1c6fbd3e6268cc85eef05e7b92f1a14e276b6477f38e22f1e542d98",
+        "run_path": "C:\\Users\\zmoor\\Documents\\forex\\until8am_20260923_215844\\magnitude_layer_step\\reviewed\\restored\\runs\\magnitude-conditioned-signed-layer-v2",
+        "status": "completed_verified"
+      },
+      "original_base_suites_rerun": false,
+      "original_capsule_files": 297,
+      "relocated_tests_passed": true,
+      "scientific_payloads_identical": 58,
+      "status": "VERIFIED"
+    },
+    "restore_seconds": 51.51600000006147,
+    "run_identity": "101bfb29a1c6fbd3e6268cc85eef05e7b92f1a14e276b6477f38e22f1e542d98",
+    "source_correction": {
+      "all_completed_layer_chunks_reused": true,
+      "all_scientific_payloads_unchanged": 58,
+      "base_models_refitted": 0,
+      "existing_degenerate_intervals": 0,
+      "existing_intervals_checked": 88,
+      "finding": "ML-INTERVAL-1",
+      "fit_functions_AST_unchanged": true,
+      "initial_guard_test": "constant resampling deltas produced a zero-width interval; targeted adversarial test failed before correction",
+      "operator": {
+        "demo_authorization_status": "not_granted",
+        "engineering_ready": false,
+        "forecast_evidence_status": "modeled_clock_prequential_magnitude_interaction_development_diagnostic",
+        "independent_review": false,
+        "next_action": "checkpoint",
+        "policy_evidence_status": "not_evaluated",
+        "recipe_sha256": "4074d1ca2b6d3a36c8a64e2a7c61c824dadfab9114c767b545c45d5e4141a6aa",
+        "run_identity": "101bfb29a1c6fbd3e6268cc85eef05e7b92f1a14e276b6477f38e22f1e542d98",
+        "run_path": "C:\\Users\\zmoor\\Documents\\forex\\until8am_20260923_215844\\magnitude_layer_step\\reviewed\\runs\\magnitude-conditioned-signed-layer-v2",
+        "status": "completed_verified"
+      },
+      "recipe_sha256": "4074d1ca2b6d3a36c8a64e2a7c61c824dadfab9114c767b545c45d5e4141a6aa",
+      "resolution": "No interval for a control with constant bootstrap draws; explicit degenerate_controls list",
+      "status": "PASS"
+    },
+    "status": "PASS",
+    "targeted_tests": 22
+  }
+}

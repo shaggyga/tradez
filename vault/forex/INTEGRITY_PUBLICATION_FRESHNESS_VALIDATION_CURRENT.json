@@ -1,0 +1,154 @@
+{
+  "schema_version": "forex_integrity_publication_freshness_validation_v1",
+  "generated_utc": "2026-09-01T20:51:00Z",
+  "issue_id": "FX-20260901-INTEGRITY-PUBLICATION-FRESHNESS",
+  "trigger": {
+    "description": "The project-integrity file could look current by filesystem modification time even though its embedded decision cutoff preceded a long audit by more than fourteen minutes.",
+    "misleading_publication": {
+      "snapshot_generated_utc": "2026-09-01T19:13:23Z",
+      "file_written_utc": "2026-09-01T19:27:09Z",
+      "problem": "The publication did not expose audit completion time or input-to-publication latency, and the embedded Census-E state still represented the preactivation zero-frame snapshot."
+    }
+  },
+  "correctness_repair": {
+    "fields_added": [
+      "audit_finished_utc",
+      "publication_latency_sec",
+      "snapshot_fresh_at_publication",
+      "maximum_publication_latency_sec",
+      "phase_durations_sec",
+      "component_durations_sec"
+    ],
+    "fail_closed_check": "audit_snapshot_fresh_at_publication",
+    "input_clock_semantics": "generated_utc remains the actual knowledge cutoff and is never rewritten to publication time",
+    "maximum_publication_latency_sec": 180.0
+  },
+  "profiling": {
+    "first_honest_slow_publication": {
+      "snapshot_generated_utc": "2026-09-01T19:32:37Z",
+      "audit_finished_utc": "2026-09-01T19:46:38Z",
+      "publication_latency_sec": 841.606,
+      "snapshot_fresh_at_publication": false,
+      "status": "degraded",
+      "phase_durations_sec": {
+        "input": 2.421,
+        "core": 76.407,
+        "extended": 764.781,
+        "total": 844.046
+      }
+    },
+    "component_profile": {
+      "snapshot_generated_utc": "2026-09-01T19:51:01Z",
+      "audit_finished_utc": "2026-09-01T20:03:25Z",
+      "publication_latency_sec": 743.732,
+      "total_sec": 747.141,
+      "slowest_components_sec": {
+        "source_governance_fast_lane_adapter_integrity": 679.593,
+        "structured_numeric_currency_integrity": 49.719,
+        "official_release_fast_mapping_integrity": 6.937,
+        "live_move_forward_proof_integrity": 3.984
+      }
+    }
+  },
+  "bounded_full_integrity_attestation": {
+    "contract_id": "source_governance_full_quick_check_attestation_v1_20260901",
+    "maximum_age_sec": 21600.0,
+    "full_database_quick_check_removed": false,
+    "last_completed_full_check_utc": "2026-09-01T20:03:25.726477Z",
+    "last_completed_result": "ok",
+    "attestation_binds": [
+      "resolved database path",
+      "page size",
+      "nonregressing page count",
+      "schema version",
+      "user version"
+    ],
+    "every_fast_cycle_still_checks": [
+      "official_fast_lane_governance_imports table quick_check",
+      "required schema",
+      "append-only triggers",
+      "current receipt lineage and clocks",
+      "material hashes",
+      "cross-table source-event linkage"
+    ],
+    "live_fast_cycle": {
+      "adapter_table_integrity": "ok",
+      "full_database_integrity": "ok",
+      "full_database_check_performed": false,
+      "legacy_completed_scan_migrated": false,
+      "migration_source": "pre_attestation_full_quick_check"
+    }
+  },
+  "local_news_index": {
+    "name": "idx_articles_native_currency_contract",
+    "definition": "classification-version expression index restricted to source_native_currency_bound=1",
+    "version_agnostic": true,
+    "migration_table_quick_check": "ok",
+    "same_result_bound_rows": 366,
+    "same_result_invalid_rows": 0,
+    "standalone_query_before_sec": 49.7,
+    "standalone_query_after_sec": 0.11
+  },
+  "live_validation": {
+    "snapshot_generated_utc": "2026-09-01T20:48:54Z",
+    "audit_finished_utc": "2026-09-01T20:49:08Z",
+    "file_written_utc": "2026-09-01T20:49:10.2694479Z",
+    "status": "ok",
+    "failures": [],
+    "publication_latency_sec": 13.5759389400482,
+    "snapshot_fresh_at_publication": true,
+    "total_sec": 20.672,
+    "component_durations_sec": {
+      "source_governance_fast_lane_adapter_integrity": 0.015,
+      "structured_numeric_currency_integrity": 0.656
+    },
+    "current_executable_move_census": "all68_executable_move_census_v3_20260901f",
+    "current_census_state": "prospective_preactivation",
+    "current_census_frames": 0,
+    "current_census_independently_verified": true
+  },
+  "test_runs": [
+    {
+      "tests": [
+        "test_oanda_project_integrity_audit.py",
+        "test_oanda_local_news_sentiment.py",
+        "test_oanda_supervisor_watchdog.py",
+        "test_oanda_supervisor_integrity_freshness.py"
+      ],
+      "passed": 518,
+      "failed": 0
+    },
+    {
+      "tests": [
+        "test_oanda_executable_move_census_v1.py",
+        "test_oanda_executable_move_census_v2.py",
+        "test_oanda_executable_move_census_v3.py",
+        "test_oanda_project_integrity_audit.py",
+        "test_oanda_practice_live_dashboard.py",
+        "test_oanda_supervisor_watchdog.py",
+        "test_oanda_supervisor_integrity_freshness.py"
+      ],
+      "passed": 143,
+      "failed": 0
+    }
+  ],
+  "source_sha256": {
+    "oanda_project_integrity_audit.py": "e1476eca37a9c74927cdbd905488cd45d9e5996a0f4dfe399ee23e7f2c6e9405",
+    "oanda_local_news_sentiment.py": "6a0d8ca51e923a6f5c48434355ace220d6f5e461be0905e7011babe15e5899f1",
+    "oanda_always_on_supervisor.ps1": "b183a58d97c1766afcfeb3df4a6ffad82eef46d346f19a247c0b2e930580e9e6"
+  },
+  "test_sha256": {
+    "test_oanda_project_integrity_audit.py": "fd8c3b6612b5c8aea6b2e783f01e6ecb0f5601d836044a23d9e1a5533bc300af",
+    "test_oanda_local_news_sentiment.py": "1e80f1888b471af29baf7866e3dce6d7d94e883e321ed0f71819ca0e84d9fbf7",
+    "test_oanda_supervisor_integrity_freshness.py": "919a2a807aa8b24b210342cda27adc1f679a64bacf4daab5b284c571b89311a6"
+  },
+  "safety": {
+    "manual_or_discretionary_order_submitted": false,
+    "manual_position_close": false,
+    "proof_gate_changed": false,
+    "authorization_gate_changed": false,
+    "real_money_enabled": false,
+    "codex_automation_created": false,
+    "decision": "no_trade"
+  }
+}

@@ -1,0 +1,2 @@
+Next: review_matched_remaining_native_checkpoint, then matched_campaign_remaining_horizon_policy_bridge_v2.
+Integrate authenticated ridge/HGB remaining forecasts with existing candle-scenario Decimal policy replay. Preserve original target; no invented probabilities. Calendar/full campaign remains open.

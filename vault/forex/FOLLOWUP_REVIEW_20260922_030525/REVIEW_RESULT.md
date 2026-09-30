@@ -1,0 +1,7 @@
+# Historical native policy scoped review
+
+Accepted within the declared offline retrospective candle-scenario scope. Same implementer reviewed source, failure repairs, run reports, source bindings and relocated receipt; independent review is unperformed. All379 integrated and14 relocated tests passed. Both scenarios and engines reproduced104 payload hashes. No observed publication, historical broker execution, profitability, promotion or full engineering readiness is claimed.
+
+HP-MARK-1 permits recent-quote valuation through existing conversion/price primitives while retaining exact execution timestamps. Every retrospective frame validates before mutation. Frozen source/input/predecessor/environment checks precede runtime execution. The HKD_JPY missing-conversion case remains refused, and recovered legacy rotation remains abstaining because required momentum inputs are absent. Financing scenario arithmetic is implemented but positions were flat at this cohort's rollover; synthetic arithmetic tests remain the relevant finance evidence. The original60sec plan is preserved as history; final readiness/fill clocks give58sec.
+
+Next: retained_directional_model_recovery_and_campaign_admission_v2. Reproduce retained C-drive model outputs before considering new fits; inspect feature, target and maturity contracts for actual campaign reuse. Full campaign/calendar support and independent review remain open. GPT/advisor comparisons, paid calls, broker/service/account actions and D-drive work remain deferred.

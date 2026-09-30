@@ -1,0 +1,41 @@
+{
+  "schema": "forex_shared_git_operation.v2",
+  "status": "COMPLETE",
+  "utc": "2026-09-24T11:19:10.998457+00:00",
+  "repository": "https://github.com/shaggyga/tradez",
+  "branch": "forex",
+  "default_branch": "forex",
+  "source_commit": "92f5cde67a4de0aa164adeab26eca40e58b672c3",
+  "handoff_document_commit": "92f5cde67a4de0aa164adeab26eca40e58b672c3",
+  "remote_sha": "92f5cde67a4de0aa164adeab26eca40e58b672c3",
+  "remote_push_verified": true,
+  "handoff_packet": "CHRONOLOGICAL_ATTRIBUTION_20260924_UNTIL8AM",
+  "handoff_manifest_sha256": "e79ea264244eb40ef7ef9e6182126b1de2baf915f8bbeb5e42ef507a49d86242",
+  "scientific_next_item": "currency_factor_forecast_projection_v2",
+  "next_action": "Read the current Vault candidate card and reuse audit; freeze the next material forecast experiment before computation.",
+  "independent_source_review": "pending_nonblocking_by_user_clarification",
+  "independent_review": false,
+  "same_task_review": "accepted_within_scope",
+  "prior_operation_reference": {
+    "path": "CHRONOLOGICAL_ATTRIBUTION_GIT_20260924_UNTIL8AM/PREVIOUS_RECEIPT.json",
+    "sha256": "7f909296eb648656311bf34402139fb358abe68af3698f6306b63064a406aa79"
+  },
+  "checkpoint": {
+    "vault_relative_path": "CHRONOLOGICAL_ATTRIBUTION_GIT_20260924_UNTIL8AM/forex-chronological-attribution.bundle",
+    "sha256": "4b19e20bb2e701894b303a031d8b851cba0fb221e9393aa29a7639f3e5d81ab6",
+    "bytes": 20730409,
+    "bundle_verify": "PASSED",
+    "remote_same_commit_verified": true,
+    "fresh_restore_verified": true,
+    "restore_command": "git -c core.longpaths=true clone --branch forex <bundle-path> forex",
+    "fresh_restore_receipt": "CHRONOLOGICAL_ATTRIBUTION_GIT_20260924_UNTIL8AM/GIT_RESTORE_RECEIPT.json",
+    "fresh_restore_receipt_sha256": "55226e8190af3b5403683c841edc55edb4459d271fa69b21fa66d2ee4d56aca6"
+  },
+  "policy_replays": 0,
+  "scientific_payloads_reproduced": 60,
+  "base_model_fits": 0,
+  "base_model_loads": 0,
+  "layer_fits": 0,
+  "model_loading": "none; authenticated_parent_subsets_read_as_JSON; original_complete_run_manifests_preserved",
+  "cloud_sync_or_second_machine_execution_verified": false
+}

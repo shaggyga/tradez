@@ -1,0 +1,43 @@
+{
+  "step_id": "joint-curve-serving-capacity",
+  "verdict": "accepted_within_scope",
+  "independent_review": false,
+  "next_item": "prequential_endpoint_error_calibration_v2",
+  "engineering_ready": false,
+  "forecast_evidence_status": "retained_value_parity_not_new_forecasts",
+  "policy_evidence_status": "not_evaluated",
+  "demo_authorization_status": "not_granted",
+  "checks": [
+    "143904 values and152320 coverage rows per engine",
+    "224 same-fit/origin duplicate requests avoided without changing selection",
+    "actual shared transform and cache isolation guards",
+    "14 local/14 relocated tests",
+    "43 exact scientific payloads and genuine crash/resume"
+  ],
+  "limitations": [
+    "whole2second serving target not consistently met",
+    "prepared-input startup separately measured",
+    "native remaining-target rebuild absent",
+    "same implementer; independent review unperformed",
+    "same-host characterization only"
+  ],
+  "utc": "2026-09-22T11:54:59.377537+00:00",
+  "reviewer": "same-implementer follow-up source/evidence review",
+  "source_engine": {
+    "schema": "forex_design_alignment_pointer.v2",
+    "package": "CURVE_CAPACITY_20260922_115455",
+    "path_forward": "CURVE_CAPACITY_20260922_115455/PATH_FORWARD.md",
+    "run_status": "CURVE_CAPACITY_20260922_115455/RUN_STATUS.json",
+    "design": "CURVE_CAPACITY_20260922_115455/specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+    "design_coverage": "CURVE_CAPACITY_20260922_115455/CURRENT_DESIGN_COVERAGE.md",
+    "current_acceptance_addendum": "CURVE_CAPACITY_20260922_115455/DESIGN_ACCEPTANCE_ADDENDUM.md",
+    "manifest": "CURVE_CAPACITY_20260922_115455/MANIFEST.json",
+    "manifest_sha256": "e1eec91181cf0d1693ef8d14f052e6192558f2f6997fac8932b8ab606bbf6a1f",
+    "readback": "CURVE_CAPACITY_20260922_115455/PACKAGE_READBACK.json",
+    "active_integrity_batch": "ALL68_INTEGRITY_BATCH_05_20260921.md",
+    "active_integrity_batch_scope": "whole-origin numerical parity and measured capacity; live2second serving remains unqualified",
+    "historical_package": "DESIGN_ALIGNMENT_20260921",
+    "scope": "current_verified_queue_and_bounded_recovery",
+    "cloud_sync_verified": false
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "schema": "forex_current_closure.v1",
+  "packet_id": "CHRONOLOGICAL_ATTRIBUTION_CURRENT_CLOSURE_20260925_061000",
+  "created_utc": "2026-09-25T03:54:50Z",
+  "step_id": "chronological_policy_attribution_v2",
+  "status": "closed_by_accepted_same_task_review_packet_reuse",
+  "source_packet": "CHRONOLOGICAL_ATTRIBUTION_20260924_UNTIL8AM",
+  "source_review": "CHRONOLOGICAL_ATTRIBUTION_20260924_UNTIL8AM/REVIEW.json",
+  "source_review_sha256": "4c9020d3c597163a6c7d6042b5ee8f95a6c390a7a833ceabdde0f8d2664dc699",
+  "source_review_md_sha256": "4ec8085b602835d7823ec3014d79306c22110605464df0ec2b040bd260b2fc28",
+  "implementation_status": "complete",
+  "review_status": "accepted_within_scope",
+  "independent_review_status": "pending_nonblocking_by_user_clarification",
+  "source_commit": "92f5cde67a4de0aa164adeab26eca40e58b672c3",
+  "unresolved_findings": [],
+  "actual_work_this_step": [
+    "Verified accepted source packet identity.",
+    "Published current closure pointer without duplicate computation.",
+    "Advanced queue to documented successor."
+  ],
+  "tests_executed_this_turn": [],
+  "tests_reused_from_source_packet": "see copied SOURCE_REVIEW.md/REVIEW.json",
+  "boundaries": {
+    "new_fit_performed": false,
+    "gpt_advisor_comparisons": false,
+    "paid_api_calls": false,
+    "broker_or_live_bot_changes": false,
+    "d_drive_investigation": false
+  },
+  "next_step_id": "currency_factor_forecast_projection_v2",
+  "deadline_utc": "2026-09-25T04:59:55Z",
+  "session_id": "timed_residual_r4_20260925_025955",
+  "manifest": "MANIFEST.json",
+  "manifest_sha256": "7f1a80dfb4af88680ecc9a33c4699bef86ecee05948e45fc090b99817c114dbf"
+}

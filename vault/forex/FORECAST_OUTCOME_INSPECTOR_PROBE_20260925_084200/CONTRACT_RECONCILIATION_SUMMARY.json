@@ -1,0 +1,824 @@
+{
+  "schema_version": "forecast_outcome_reconciliation.v1",
+  "coverage_rows": 32640,
+  "forecast_rows": 23930,
+  "outcome_rows": 23930,
+  "status_counts": {
+    "blocked": 8710,
+    "eligible": 23930
+  },
+  "reason_counts": {
+    "eligible": 23930,
+    "missing_features": 8030,
+    "model_not_ready": 680
+  },
+  "outcome_state_counts": {
+    "MATURED": 15560,
+    "RIGHT_CENSORED": 8370
+  },
+  "support": [
+    {
+      "forecast_id": "blocked:AUD_CAD:1789516800:technical_endpoint_midpoint_elapsed_60m:zero:model_not_ready",
+      "coverage_identity": "e598200cdd8f96cfa0c0add677b20638914eda50cde86e3ffcfa0ede09c64d6d",
+      "status": "blocked",
+      "reason": "model_not_ready",
+      "has_forecast": false,
+      "has_outcome_placeholder": false
+    },
+    {
+      "forecast_id": "blocked:AUD_CAD:1789516800:technical_endpoint_midpoint_elapsed_60m:history_mean:model_not_ready",
+      "coverage_identity": "23293820b284a84ed40721370524b13135fa2bd9d98303aea65bed8891ed4274",
+      "status": "blocked",
+      "reason": "model_not_ready",
+      "has_forecast": false,
+      "has_outcome_placeholder": false
+    },
+    {
+      "forecast_id": "blocked:AUD_CAD:1789516800:technical_endpoint_midpoint_elapsed_60m:technical_ridge:model_not_ready",
+      "coverage_identity": "f22de2ba3e3b77140fad92609307534aeb068202d8c23b25f40d6abfbca920ed",
+      "status": "blocked",
+      "reason": "model_not_ready",
+      "has_forecast": false,
+      "has_outcome_placeholder": false
+    },
+    {
+      "forecast_id": "blocked:AUD_CAD:1789516800:technical_endpoint_midpoint_elapsed_60m:technical_clock_ridge:model_not_ready",
+      "coverage_identity": "1e585fc481a5e8abdecdfd67e5b7f0f1f5710d6d6286ca3de81833d5dd79be8e",
+      "status": "blocked",
+      "reason": "model_not_ready",
+      "has_forecast": false,
+      "has_outcome_placeholder": false
+    },
+    {
+      "forecast_id": "blocked:AUD_CAD:1789516800:technical_endpoint_midpoint_elapsed_60m:technical_clock_event_ridge:model_not_ready",
+      "coverage_identity": "b6f802bed7384ea5132c98383aece1bb2cf218a9c640024e942d2605e733808e",
+      "status": "blocked",
+      "reason": "model_not_ready",
+      "has_forecast": false,
+      "has_outcome_placeholder": false
+    },
+    {
+      "forecast_id": "956a25d7b9c5ddad0677764542356ba6599cb2fb48a33f4af4d8fe415b6cf266",
+      "coverage_identity": "23a6ff1bc4e2f986a8cf79ed87a8a57e2e3f2752f15c275c8cf3934f8841f1f4",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "fb06229c7709e66b7188651fe6f808894aa708a5b9d61871fb27ff22017b0317",
+      "coverage_identity": "af4c63a9419714c2479d12fa1f7e7e8ed2ce70c591ec1628f7a8bc530ca62534",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "536a7b028187b4ef2f2dd07177a46e3df5dd7aa9fe64b7311d59ce5ddd670a53",
+      "coverage_identity": "33bd9074a0cd7ba17c50a4dcd4e11cdebf3f30c9ad0c737e2636f0ed205ce25d",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "7b637f69a584f90644d21b38f949e9631966a0e1f3480c57fc5343e569a97589",
+      "coverage_identity": "f55c25db1b3813151948c1cdfe2fa888843726a27fc00783f54b6945d03a6576",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "20ddc3a9337ec1db16bd15d0bd3dc8ae1e7e85c3ac30ff34937d9b677eb06255",
+      "coverage_identity": "94f56ce0d3603fd66e959e1c520276854787450a5c7623d577c0702fde31c4a3",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "blocked:AUD_CAD:1789524000:technical_endpoint_midpoint_elapsed_60m:zero:missing_features",
+      "coverage_identity": "516786a14f5cc6730b2d678f7ada09a4c8847c0de870dece80027efc87cfff55",
+      "status": "blocked",
+      "reason": "missing_features",
+      "has_forecast": false,
+      "has_outcome_placeholder": false
+    },
+    {
+      "forecast_id": "blocked:AUD_CAD:1789524000:technical_endpoint_midpoint_elapsed_60m:history_mean:missing_features",
+      "coverage_identity": "04ab5b4c3280d43d72d235a579f7d1c04e733827ddb45efab2edec9da4ee4d0d",
+      "status": "blocked",
+      "reason": "missing_features",
+      "has_forecast": false,
+      "has_outcome_placeholder": false
+    },
+    {
+      "forecast_id": "blocked:AUD_CAD:1789524000:technical_endpoint_midpoint_elapsed_60m:technical_ridge:missing_features",
+      "coverage_identity": "d9ac604f7573c978d338de1f73ce0c26150889bdb50a15258aa2365a4e45edf4",
+      "status": "blocked",
+      "reason": "missing_features",
+      "has_forecast": false,
+      "has_outcome_placeholder": false
+    },
+    {
+      "forecast_id": "blocked:AUD_CAD:1789524000:technical_endpoint_midpoint_elapsed_60m:technical_clock_ridge:missing_features",
+      "coverage_identity": "f144fa179cc87f4dc3cf513a97e3ed930797d8ec83d3aa585867f51724b4777f",
+      "status": "blocked",
+      "reason": "missing_features",
+      "has_forecast": false,
+      "has_outcome_placeholder": false
+    },
+    {
+      "forecast_id": "blocked:AUD_CAD:1789524000:technical_endpoint_midpoint_elapsed_60m:technical_clock_event_ridge:missing_features",
+      "coverage_identity": "cfb50e70a46ac269d157ec16a7f2de3b71346024c6711767579d4fa940392d72",
+      "status": "blocked",
+      "reason": "missing_features",
+      "has_forecast": false,
+      "has_outcome_placeholder": false
+    },
+    {
+      "forecast_id": "a5b23f955abc058efec51651ff51ecb3d387f45e4740f381fbc4bb75f83b778c",
+      "coverage_identity": "d293056296a79c393319fe65b6864f8814c28e5344364b869a92746c7e29c1f9",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "8f38f7d811f24cee2423aab2adc5a0df9b9e101385ebb6506587fe34711f51ec",
+      "coverage_identity": "cb2b0c99194b6010fa830036a9de539a9708b15e4ebe87fc867b07042cde8eee",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "e9c5d7955feb32778b792b5f47215091925cd72d945082c09acc225900d3ecc2",
+      "coverage_identity": "68ebee52d729c92299de0ab2b0d032a4f6e029622a2849becd77d2c8802082a5",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "dcbccb1d16285a37e5a46ffcad03baa521a3dffcdcc00a2fa90c690733a9e337",
+      "coverage_identity": "82059b17da39811153e3b37b37a67ac66ddbe0219d5f1e75d74e4637269cc52d",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "be642f4a3339ee81bfc2dbc85208a7856126fa6ecb9deefa318d1d81337a0d91",
+      "coverage_identity": "2b005e011539bbaaf7b635c33ab0b51e8ffa084f61de0216371c08821143a037",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "12fef41f2561dadc98288f0829b6a8ff9326c12753f104c9ab607dc3098f3318",
+      "coverage_identity": "ceadd8a0ff706fdce19c4fe5b92444c1dd19757d107f3e041631ac349bccb5a7",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "8d7138769e28fbdc7f1df181c81da83c8da152375e436c9ec791716182795d69",
+      "coverage_identity": "f10e5d1dc12882058614fa730fe427d14c12198f5d278e85260ed92ea71b3f96",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "d147aa55e1e0eb7152998b98fec4ab57a6adb56912af6e1b1321e37a02ded139",
+      "coverage_identity": "03788a91de1d8e43d9ff66f071db5221e90f13c9246bbf066781d5f8960b23fd",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "aa5626d34b0bfee0879719ab047e97398ecf22e591bdf2e7d655ca5c3888aecd",
+      "coverage_identity": "1ceff47a2e5335b9b4e77b13c5d30fe7043d258bec88661f454f8867ef59a42b",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "c98840db172e013cf12deee9fcdb0b30d8344aca448fe5228be8472e2f27e00d",
+      "coverage_identity": "972bbe79d608845f4fa14357fb011fe43a0e7046afef94932a54ea6699098451",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "6df5a38ccaa0023442cf50de7e5e2d71b5a4447b50f746817b47e353f51b36e5",
+      "coverage_identity": "ca8ae0bdbf075d7ee1f2a51aec81353f80522043696dd0bba2a7f0056e4bcb08",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "d52fd32a757aecc1185ef3701a65a118b7658be19536b8cd1b9ae62bc9f21c86",
+      "coverage_identity": "a6f50b3a3accfb688409ce5b1c03be64fd2edb8a56a87589d8803ed7c66e5222",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "65b7737febcca0798f9baa3b40a6410bdfcde5d3af242e0819a62f5b0d047c33",
+      "coverage_identity": "3aa23c949056ae1cb139d6cec8e60476b226f0eae85ace09906396a830d2f90c",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "517a8e10e04f0b8cb421c707c9c00b0989bb687123ca4ce92830afa8fcbb4fd2",
+      "coverage_identity": "6dbd1125a82eb72e5da17947732a47bfe8af948b7df160ef1377b8d94c649e59",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "3f54a620bdf1199057101f78ffa80edf885e753de7b04762354de182cf89ed70",
+      "coverage_identity": "16b1da716f67449bd554274f0926b6ca5385c2c5b216303e47ddcba1521d73ca",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "755d1d3bad05dc3257414a8b4706bc8dd80a5d0b771a20b5b36eca9048dd7549",
+      "coverage_identity": "b03d9520543cb2fb3ad8fd5472a700341cae4d94e452502b6649699e3752b7d5",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "fa320ff146da3dd574fd2a0f59df244b74e515ab396fe1cfaf34a04ed1a3e59a",
+      "coverage_identity": "403d60374844ed07123886d415f3aa04664b6f8bf74a3271b6d27871b5a92e8f",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "5bff853b1d923c95f20dbacd9df53d231bcfc46ea18bd2c8bbda7298d5c9d94e",
+      "coverage_identity": "d8480c48ac15d1ec35bdd317400b4ac278f6cf7cf718513db72a74e4b822bcdb",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "ba8c5cf9344bca8618326323218d458ad5934c047647673f77901c24f968799b",
+      "coverage_identity": "a6ef8f296ff5c1e1040a9fb759a30db547ff84c3f9e1cd1460fe5c74a33b555b",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "a620b2dc25c9af252156f468410ab7978e0fe8d8991cbe9ea0b62bd4d674693b",
+      "coverage_identity": "f552ca2445001e58fa7f8b85d9a2e46e48e4cf4db0b301a44926377259d5e984",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "3eea0bc5a3813e6a8ba8419500bcad085a9c051aa39716054f91fb5affd5b11c",
+      "coverage_identity": "e72dac25c9ab9ff91d8673500d7a5a18dd802c015e6cc79df48d48b16cc454c1",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "9436bfec2ed6b059ccb7cd544d8151256fa66ece90e026be7130134547e1f395",
+      "coverage_identity": "098f154821b1d566f3b07fa9ad1b4c55dd523e42890d7500cee5f08ae0d40726",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "c387fbca12eaf062a6392e97f48005d9c344091ca92391ad879561a7950f4ae7",
+      "coverage_identity": "09cd1a3bff58b030e6d709dd080c35f9cfa81aa8c822a89d9ca6d2042aef1f3a",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "f4610a8ae66b7397373f8a806863052b172922b257fb5e58a7e31c39f51eaebd",
+      "coverage_identity": "656854807bcba6ac9b7f51de2c852668b1cbf5311fd96f0fa728555d22e8c288",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "5d85b9d20cc664afce1062180aa741a3c64ccc19e8240c2f6a6fbf8a26abaa3d",
+      "coverage_identity": "5a40f44e923654ae81b86ec0a808aa4794c09a8214878743296ef8806b8cef3e",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "41b27db6f9ab63420e30f12f74a22b1506bb3093b89a79b6961f4e3dbb1ae990",
+      "coverage_identity": "fab2f34c74b27628f09edf16916f5950eecf1e065d71a08299809aa894e98f9a",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "b3b4671acd6d7b76af108e3db67bdc6ad430a3157277066b0bacc35ad519ac46",
+      "coverage_identity": "ac6f8bacfa0551c052b72a63b1ba00b6ae7262657492d10dc40ecdf30ea6b688",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "9a919a97c2a23b50960160482e20a31a00ef398ff8adf33671e3b9f686c7f521",
+      "coverage_identity": "b991080b3498ad470ad9b0bd5b8b5ce015831bc3c7acc998a1fd45df2efbbac8",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "9a82ab14b905895a17bbbe0a71032175ea46cf484ee5475cc8bb06389e6a992c",
+      "coverage_identity": "a712a9104dda6b9278b5f0844330379770577cbf45ce379d9ff71846ee858775",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "adcfd5a361fa220f4e180b6d07710a25cc5d71850abe648d8da7a8cf5756c471",
+      "coverage_identity": "cb7c0fd1aab5e7fba9ac5c0fc1b35bb672adc64d2734d663736980b63b516568",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "94fe1c50370ccf2d0792cf3335678591124fb98e57670a577b22481cfed25a14",
+      "coverage_identity": "716947aa0a6792dd2d029f389e0ac87b163268aeb74d3cc2619cad6be0c0372f",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "5e8b24c1aa24131f1efa4305777ec9d1595de79a71c5e4d4c90fa507a423ee6d",
+      "coverage_identity": "b8ba494d1b3f81d4fefa1dc4c28b55a7062938d3dc84edd03e2496819990ec1a",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "cf8ccaff76daca0ca9490a287592d183c07b475df32528d91b604c76b420888f",
+      "coverage_identity": "91057f4d83db0a29b71a0deaa1b6664e3ab309b318cac8c31f5f723cfe5be2ec",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "6693e86853f0b66bced61ccb986439d1376cdeecdc91c562141d808ef325dc5e",
+      "coverage_identity": "53c7581c49bef3ee4c6bbd15f0500af087f7a461b3972e2f0562137099ae5962",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "c06a5c1255a3fcde0e880ee27df966fcbe7c90243349b6f09569be2fb0b17c4e",
+      "coverage_identity": "ab4f97b6610730943079e3415d0a1f92d8443943d67ec7fa84c0bc8465578fce",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "9758845d976c6d2f203d9d982e61733f438f480d0cfdd923a8b9f7b35fc223b9",
+      "coverage_identity": "8915e39a221cf60c54f3a1793b6aecf20f2f1818a3a437fd4f9d07d3ed4f5b2f",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "6a07cf81918cc1f2a50305b2ca7f3c342dd1695f5b3920e5b8731d0ea9902f57",
+      "coverage_identity": "b780aab82eeff6072bb61eca90f00db1729c9998b03902791df327cbe7d237d5",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "13620808c4fa97df350d8592c92032d104f9e30f401220e7d6556da0cd63b905",
+      "coverage_identity": "f854afb108c1b35cfb62c2afc1e8b5ebf9d59bce0f791cc001838202b2ef5b9a",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "ad98971fcb42c864a675fbb657796582782a1970d783e280abbd05eff73977dd",
+      "coverage_identity": "25e000abcf8d1753c439141915d3213a02b5be131e0a987e0ab0ec8e24de9a76",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "a4292eaf59c15ae5a92fb745fcf300706121ddf744877b427cbb190055aff0df",
+      "coverage_identity": "00f765cf024a0fd5280e62becc53a7d288181d03b2e171a5f06b58a3b7daef74",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "9161e2ec174f4cbea7937297c931eb6e38ab57bf3d5ea10c90db01bb9d4817f3",
+      "coverage_identity": "47efaf55567baeff4fdc1b956cf4901349358f6480abc9c6d426152f34bc085f",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "18acf349ce5867de72751fdd2ae8d22c060f5c3905134932dd6fc02317a83eea",
+      "coverage_identity": "6fd1ad0b2e106614bfaad36a2e59f9c55f99a6b2ea26648f18e61b2bd830f282",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "d1e14bec37bcd38bfdc7094fe478f3d6bb172af66ba490dd4e74a5dff54242bd",
+      "coverage_identity": "9e78c407c11ae22a0e743898f3232634b7e1dc25ee95a54dde4e92c0c3b0265a",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "f2ff493d1a5496597a7db71ab5b7cf660a48f4f6f74b081a49052db96fa44ef8",
+      "coverage_identity": "2b64596bafd8818d55ecbc5c561454eecc61ec0510cc5598fa5d16e5719d78b5",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "71719f5c3e355e3ab630f7fc762e632e6643eefcbbe96c1728bbe966f433c8b5",
+      "coverage_identity": "49c2b520b2d751b01913a6f0d7eab5d6fd7b24969d78b5ed85e6210483bff31e",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "511ba26f1882e32e7db2d645c50ec3587a3beb883704fb5493322a3be7eb7de4",
+      "coverage_identity": "e0c7182a0f134770d09d19a278751f7de8fe102c66f912e0530a396a71b7ae56",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "c75474d2bf6b90061398d6a4172811fff7efbafdd731a98a7ec2600947416e7c",
+      "coverage_identity": "b8a5bb6271a7d558fee96e8a29a2e1bc29911a142e3196be7e4e879cc7e2f654",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "cd79c6ce77694fd0a4eb671ff63f0436a5b82467b14a5ddf2bb67de21ebbf02b",
+      "coverage_identity": "08d96c151c9c8088baba5382be48439894f94fea27b13a6b52399dadd02e7169",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "4377bd9138fff7a618a27c379a3081ebdd0856309f0e386383e277e41a95f474",
+      "coverage_identity": "332defbf7c3408c77d6d52d028036e8dcfc5eed22a27c8c06e94f1cd5b448d5e",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "3803daf9185c6b3f2244db58a43eebb1abb3a24aac325c61352afcd7fa304678",
+      "coverage_identity": "5d02eeccd863d940a9b2b19a5efcd9e77fdcca085be5517a4638124e644342af",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "07967727dc3408d8113237aa09801479088c7975c3567971b9554a44684609fd",
+      "coverage_identity": "dd8f427e87ccb7459fa1c675c3524a7c5cae06246d2194e031005dc5d94e400c",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "b33e6350e623de3a78f1a05384939aefbfec20d7f574e70e7cf8eb44fb3074d1",
+      "coverage_identity": "83f7642400fc9f705ed395639dd78d1bfc7252fd14337a904c3be3f67cf591f7",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "155bb695720bb957dbb627abb8ede540558b15b2dc0e56258e64540c91e2f3d5",
+      "coverage_identity": "8bb0558f78308f5ff36c12107bc05c2fcff75ea34175fe5840a75965b990985e",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "c4993e023762f5ebf3b7200a16ebf902d21b3324e84edd6719843663b3f7d66e",
+      "coverage_identity": "b7c5eca495a259546a5205060bce50dd88dd2700a4844c8c500d752b6c6d647a",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "37de1abae4e7395f7debf9d049f210302bd84144f442e380f00d8f9f7938b994",
+      "coverage_identity": "87480151ce23fe46b755cf47ca1312fe940b2cc4592a46425e50ed339282cb78",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "45df3fbc06f2988d549c092e9995efa56fa88eca804ca652ced4512aba118dc1",
+      "coverage_identity": "d555ed9a970a6a1c0a267cd34a9f62b1acf73cf1ebff31d28e04f1555ca3f98b",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "626226866e817e72f7c9ed5467b1b1f5b5e1bbc955960e05665681b7022b601a",
+      "coverage_identity": "6c759179b932182ae6069bf227c141fec57c1a713e3e0914c71cd92b1c5df551",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "8f575ae88181c7e3676c4caff9c7baa6a3d185ca5cfe669be186705a73293937",
+      "coverage_identity": "1a5f12c85f8dc5837f8d12eabc570448b94f954778e6867c8e24e94fdcc256fd",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "8df2c6ff21e437efde95a9967d4f1066c8564e43023ac75f92a64faddc878d04",
+      "coverage_identity": "3e746fd37db40a6b111f9ecdef570ee8ffbecd5c615e8ec2ce9f152a5e96a2b1",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "e5dcda8b5f8c8776d481a1054c0c6aeea463757bf97b3447af2c6c5741f6b14f",
+      "coverage_identity": "39996b7211fb4fcd1b3600bce3465d448a2c4ae566468d5f9804d99a7b8a8054",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "5bf9fbd6a0068f32e9459bcacc569e413c74e15e541c4a95fc52c8b0b8eedba1",
+      "coverage_identity": "61c494738e40422d9de60f383e66f304ba546ac008a795561e61a6f703036862",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "1808982cb2f575861dcf277fc535baaea12c84a1c77c6015c3d30dc903e06397",
+      "coverage_identity": "fd721a7c90af6268f4313dbc92ea820a1787be13bd84667862359b829064a83d",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "8f1683072cab1ee41e1c16bf62cd185fae9083d8e8aad54596008e57c6b02ad6",
+      "coverage_identity": "d04e3bdf5624a5ee5ee065f25ad5c5befa1e80f215017438f74a0e874aa179f8",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "69ae50ab76402896f8023cc05f6c055d19a43c397cdbe7c49d2d5e79cf398868",
+      "coverage_identity": "ecd05d2ff99f8485f135a417153b5cb7d58bca96d570e3762e887fe65ea2abb1",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "446450dd389207d836dfead8ceaee3afbfd4aea05d2da0d93101da717844f154",
+      "coverage_identity": "5bde75a587ce82bfe441df419991f35285739252307c40747b166a5fa094dcf9",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "0eaa2fbe2b34c8a8f19d3352aac08f0b09f71d1fb026ff5bac573bd222e0cac6",
+      "coverage_identity": "a0dee4503803370a20cf07e19b5287e133cd430dd4dbda73ca8b5c044baa2af8",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "0c4d2bbc81455052e4f650158ceb20af6ab29db76ef74973ec1eb9b833ddd631",
+      "coverage_identity": "e4cccdc1117ffefab1f1417e7a2bd7a28b2d82a758f1048400084d5e5986a20e",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "8056f7b3395829cc2217b91a41541a1bbf4ed6245215e88aad9b9d520ec01b0d",
+      "coverage_identity": "498ea90f731e839e7e2856e121201eff9f467b9410559d46be15c9b7e865d1ff",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "2c135f0d0beed711c50293368c5eb31792b7495b463e729494ce8eb89ab5ac67",
+      "coverage_identity": "885cbdf23f74924504a9f6a0a3eb1778b34be329f40074fde622fa71ca411824",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "bb0cbf3fae6822138d912e8e0092d9cf95e6049c6ba795bd481c6534b6c34c3c",
+      "coverage_identity": "7f2ec3cc7ac0e9f713446c3e1004ae4a18b811e21cd4811d1ac69d9e0a9d0b39",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "77606275ba40e32c9115fc93c6f2c346cb062d9bc817f4c959d460c931d9f1e2",
+      "coverage_identity": "79db50be6ada7db64689963d04725b049387107bf016f50ba26bdb4eeeb6ae97",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "a4b27f6bfe2c485c93bd29fd55cbb68e888a8fbdce3040c820812ad9bc7c643a",
+      "coverage_identity": "9febb6d5324316028e7c061c48763766e6d776f09d4c15be507294cdb155ddb2",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "ca3aca6f1d450e4d5aca3faa4e48677d3bee74712968036245c44e930bc7e039",
+      "coverage_identity": "993e1b8a4941d05bf68dce49410d6a475d1e9559542ff6904795aaebac54fc09",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "2670942b506b313825b8ae1097df3aca81f2783f21d615c74abecb82a135a183",
+      "coverage_identity": "c712de4a75c173f93b5802720e995b17f6d5e333a04075aa30968e7a0d74dedb",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "453ea7b984d184129658da1d2a8180ed9df746aefc54ad993aadf52d2f4b0102",
+      "coverage_identity": "4f8f26213c5c533493aca8b18363d0cb9b172de469b428d96766299ae831acfd",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "0b2b1dbda7c7931eb3373ea55c3dca569badb02e016425a9955ab8370e1585e9",
+      "coverage_identity": "7889a2a82aa9c4cf75418b82fc40a655f86017803a7c7360121c88a81629c967",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "dfed8908edcb3a320173e659759129b73464665d1fd7ea7da3c8b4c9cdbac4a9",
+      "coverage_identity": "f8be4993f49367b86cd211e14ee7650c0eee244ede3929832760fad0616dcd71",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "e1674da788ecc76f34fae1ffd65f8bb07a44a75de42310948c7f1accef79d2b6",
+      "coverage_identity": "858a4b122fff689e7234eda48f005863f1b228b051eb834ae34267f4e40edc31",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "65dd3967eacaf38a69d3d853f616fb7e643560e20e2e890c86c16f4571ea2b81",
+      "coverage_identity": "80f12ceec2ca4d5667237bd023a0ed0eb489a763345c7bbe54eaa7d3865b2daf",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "c57bc8c9b86b2e0ebcc454abc63d0374a5dc48c4c10813a5d4b3ba13be4b6fe7",
+      "coverage_identity": "319bbeeac4f19e4a14a37d57e8836d31c240e9f46a1590ba446ef0b533f68748",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "c38b616f6ae793e40721dbe40d392939e184fc08635e6ad826539b942cc1cf3c",
+      "coverage_identity": "1839c713322c7501af50b86443e840c2e82e5728b472b5ee520f6bc5dd787687",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "1b5e907b24c205d3ac8be3aa7ea3ea540306d4d647ccdc1936b1f461b96dea2d",
+      "coverage_identity": "d61ddc66239fac4f40eab0923b5cf170a2102001c527d07146174e41771eb6ec",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "9e6f7790e403c8df70291245f6a45285814367e092d19ba1998b687e87ab52e0",
+      "coverage_identity": "0e871838fdb6e17474f093e7fde55d6f428c897fbfd2eaa4d8993e8deac0e168",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "6d85cee11044cadb9b4526c4647d0bc7ca4452331aa4f4029102e72fe3f8b889",
+      "coverage_identity": "520294ef7b1f602bce3f293eedcc2abb37c84213b7950fa43c845c92533df001",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    },
+    {
+      "forecast_id": "7eb8f0856ce97a3507df587a99109992e5b1df29a6f2d095030e78ad9e7e6eea",
+      "coverage_identity": "4c47c32da26b6a7a03bf036ec0c84d4a9bfee0189a717932d89891a518c45014",
+      "status": "eligible",
+      "reason": "eligible",
+      "has_forecast": true,
+      "has_outcome_placeholder": true
+    }
+  ],
+  "errors": [],
+  "accepted": true,
+  "outcomes_revealed": false
+}

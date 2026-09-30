@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-09-04T18:02:12Z",
+  "issue_id": "FX-20260904-STATCAN-LFS-DIRECT-PATH",
+  "status": "implemented_collecting",
+  "finding": "The authoritative Statistics Canada major-indicators JSON path reset the first urllib request, so the direct Canadian release leg was not operationally dependable at the jobs clock.",
+  "repair": {
+    "source_id": "statcan_major_indicators_direct_v1",
+    "source_contract_id": "statcan_major_indicators_direct_v2_curl_retry_20260904",
+    "source_cohort_id": "statcan_major_indicators_direct_v2_prospective_20260904T171500Z",
+    "activated_utc": "2026-09-04T17:15:00Z",
+    "transport": "curl_ipv4_bounded_retry",
+    "first_snapshot_policy": "bootstrap_only_no_proof_credit",
+    "historical_import_count": 0
+  },
+  "live_validation": {
+    "attempted_utc": "2026-09-04T17:15:08.406069Z",
+    "http_status": 200,
+    "response_bytes": 261066,
+    "parsed_items": 1,
+    "last_error": "",
+    "consecutive_errors": 0
+  },
+  "artifacts": [
+    {"path": "config/news_sources_v1.json", "sha256": "1e718f78017d0f913f5ae856e7f1517ab51d46f6d4bdc179e280a9b9699a045d"},
+    {"path": "oanda_local_news_sentiment.py", "sha256": "296d91f7698421daa0aa2158c6ef35cd9522cbf7042f1bc961e11ba032f09f04"},
+    {"path": "test_oanda_local_news_sentiment.py", "sha256": "53a1225dc8ff66f227c945bb7d3e699bb3d43cf6b79202dee5d1f6760a2307b4"}
+  ],
+  "safety": {
+    "research_only": true,
+    "can_promote": false,
+    "can_authorize": false,
+    "can_place_orders": false,
+    "real_money_routing": false,
+    "manual_orders_placed": 0,
+    "manual_positions_closed": 0
+  }
+}

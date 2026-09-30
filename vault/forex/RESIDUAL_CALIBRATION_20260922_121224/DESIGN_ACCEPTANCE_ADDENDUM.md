@@ -1,0 +1,1 @@
+Bounded design16.2/16.3, R03/R09/R13/R14, WP7/WP9/WP10: fixed prior-matured residual diagnostics and original-record recovery. Full calibration qualification remains open.

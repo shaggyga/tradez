@@ -1,0 +1,2 @@
+Next: review_macro_detail_representation_checkpoint_v2, then macro_numeric_units_vintage_evidence_audit_v2.
+Audit retained numeric actual/prior/revised-prior/consensus fields, units, reference periods, exact text evidence and observation vintage. Reuse original parser contracts and frozen receipts; distinguish absent consensus and unproven prior vintage from numeric surprise. No model fitting or live source access.

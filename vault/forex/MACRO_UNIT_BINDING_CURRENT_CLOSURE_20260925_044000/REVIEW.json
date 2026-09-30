@@ -1,0 +1,42 @@
+{
+  "schema": "forex_current_closure.v1",
+  "packet_id": "MACRO_UNIT_BINDING_CURRENT_CLOSURE_20260925_044000",
+  "created_utc": "2026-09-25T03:45:12Z",
+  "step_id": "macro_numeric_source_native_unit_binding_v2",
+  "status": "closed_by_existing_packet_reuse",
+  "source_packet": "MACRO_UNIT_BINDING_20260922_205445",
+  "source_review": "MACRO_UNIT_BINDING_20260922_205445/REVIEW.json",
+  "source_review_sha256": "2b829621dbe107662b730c34e412b130f4e7559f18d3e339b059e9901690fb43",
+  "source_review_md_sha256": "fe111d8483bad3d6f98d14d7ed4a4a7d1d6c9bdfb8a896986b34180dd30df077",
+  "source_checkpoint_sha256": "c694e8b67c4e72251fefcad5e135ac4a5e17e314ddbfa790726464a421aa0b8d",
+  "local_tests_passed": 35,
+  "relocated_tests_passed": 35,
+  "identical_payloads": 7,
+  "forecast_evidence_status": "source_native_subject_unit_evidence_not_historical_forecast_admission",
+  "engineering_ready": false,
+  "review_status": "same_task_current_closure_reuses_sealed_packet_independent_review_pending_nonblocking",
+  "actual_work_this_step": [
+    "Verified source packet step identity and sealed review hash.",
+    "Published current closure pointer without duplicate computation or fit.",
+    "Advanced the timed queue to the documented successor."
+  ],
+  "tests_executed_this_turn": [],
+  "tests_reused_from_source_packet": {
+    "local_tests_passed": 35,
+    "relocated_tests_passed": 35,
+    "identical_payloads": 7
+  },
+  "boundaries": {
+    "new_fit_performed": false,
+    "forecast_admission": false,
+    "gpt_advisor_comparisons": false,
+    "paid_api_calls": false,
+    "broker_or_live_bot_changes": false,
+    "d_drive_investigation": false
+  },
+  "next_step_id": "macro_numeric_reference_and_extraction_provenance_binding_v2",
+  "deadline_utc": "2026-09-25T04:59:55Z",
+  "session_id": "timed_residual_r4_20260925_025955",
+  "manifest": "MANIFEST.json",
+  "manifest_sha256": "b300eebc665a978d5cffbce0e22d91826da250911a64f81862ab160f1235af1f"
+}

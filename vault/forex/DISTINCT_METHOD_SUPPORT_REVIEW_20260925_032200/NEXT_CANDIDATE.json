@@ -1,0 +1,29 @@
+{
+  "schema": "forex_forecasting_candidate.v1",
+  "step_id": "material_input_cohort_contract_v2",
+  "status": "candidate_contract_required",
+  "priority": 5,
+  "depends_on": [
+    "distinct_forecast_method_comparison_v2:support_block_recorded"
+  ],
+  "design_sections": [
+    "12.2",
+    "12.4",
+    "27.2"
+  ],
+  "hypothesis": "A materially different input/cohort or method contract can be frozen for the next offline forecasting comparison without duplicating ridge/HGB or relabeling old directional work.",
+  "deliverable": "Select and freeze one concrete material input/cohort candidate with exact target/support definition, preserved artifact identities, controls, resource budget, and acceptance gate before compute.",
+  "completion_gate": [
+    "Candidate source artifacts and hashes identified or precise missing retrieval recorded",
+    "Target/support/cohort differs materially from completed ridge/HGB/rich/residual/curve experiments",
+    "Controls, chronology/maturity, leakage checks and resource bounds written before compute",
+    "No fit is launched by the contract unless preflight and support gates pass",
+    "Vault/project logs and checkpoint pointers updated with exact next compute or blocker"
+  ],
+  "reuse": [
+    "artifacts/reuse_catalog.json",
+    "VAULT_FIRST_REUSE.md",
+    "DISTINCT_METHOD_SUPPORT_REVIEW_20260925_032200/DIRECTIONAL_ARCHIVE_PROBE.json"
+  ],
+  "limits": "No GPT/advisor comparisons, paid APIs, broker/service/account actions, D-drive investigation, EUR/USD capture, live-bot changes, or duplicate ridge/HGB/rich/residual/curve reruns."
+}

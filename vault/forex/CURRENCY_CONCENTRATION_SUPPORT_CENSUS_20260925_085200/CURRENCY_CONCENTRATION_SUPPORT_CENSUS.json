@@ -1,0 +1,87 @@
+{
+  "schema": "forex.currency_concentration_support_census.v1",
+  "created_utc": "2026-09-25T08:51:03.107167Z",
+  "source_commit": "aa1ea945f5373f4e41d4380990c4eb504e06b6da",
+  "step_id": "currency_concentration_support_census_v2",
+  "status": "supported_for_offline_development_diagnostics",
+  "tests": {
+    "command": "python -m pytest -q selected accounting/rich-dependence concentration tests",
+    "result": "13 passed",
+    "duration_seconds": 151.47,
+    "warning": "pytest cache write denied; tests passed"
+  },
+  "support_records": [
+    {
+      "path": "stage_c_alignment_integrity_v2/accounting_events_v2.py",
+      "bytes": 31134,
+      "sha256": "b6d5d5350ff4c9b74d7ae535b9783dc2f3f417476eba5e7a18626f3c7f24a57a"
+    },
+    {
+      "path": "stage_c_alignment_integrity_v2/test_accounting_events_v2.py",
+      "bytes": 15120,
+      "sha256": "d2024d61a80df8cd53ae5a9225cdf792ebbc7e2c0e8508e03a5c7c416cce9ca2"
+    },
+    {
+      "path": "stage_c_alignment_integrity_v2/test_resting_accounting_events_v2.py",
+      "bytes": 6308,
+      "sha256": "1dae71ad4ae52d59c6a408d32bd2883ad2d4030f2e49ea5ea84fbe30d37c110f"
+    },
+    {
+      "path": "stage_c_alignment_integrity_v2/rich_dependence_report_v2.py",
+      "bytes": 7474,
+      "sha256": "055bd37876ebdd7a4ba8bf35968b7cbb1e145c927c0811cfebccea029bfd2613"
+    },
+    {
+      "path": "stage_c_alignment_integrity_v2/test_rich_dependence_v2.py",
+      "bytes": 7725,
+      "sha256": "cbc4b44ed9f4a47428ac800527b20180ba5a56ed5daad006b699fcee36b14a71"
+    },
+    {
+      "path": "stage_c_alignment_integrity_v2/CHRONOLOGICAL_ATTRIBUTION_CONTRACT_V2.json",
+      "bytes": 8684,
+      "sha256": "a784d87b36fd6597e74f5a84415e357a8bf994feace30a15c9c9d852ee9572e4"
+    },
+    {
+      "path": "stage_c_alignment_integrity_v2/LAYER_POLICY_ATTRIBUTION_CONTRACT_V2.json",
+      "bytes": 7043,
+      "sha256": "b7e90eb518d7a066260c7db07deb47ab6063d10fff1baa5506466fb7787fdb0a"
+    },
+    {
+      "path": "design_alignment_20260921/DESIGN_COVERAGE.md",
+      "bytes": 44405,
+      "sha256": "a7750ef63b41ed920a1f5bb1278a8e7e8822967c202af0468735d99e5db603f2"
+    }
+  ],
+  "findings": [
+    {
+      "item": "gross currency limit and concentration veto",
+      "status": "supported",
+      "evidence": "accounting_events_v2 and test_insufficient_margin_and_concentration_veto_new_intent"
+    },
+    {
+      "item": "pending orders included in concentration admission",
+      "status": "supported",
+      "evidence": "test_pending_orders_are_included_in_currency_concentration_admission"
+    },
+    {
+      "item": "late OCO can expose gross currency risk",
+      "status": "supported",
+      "evidence": "test_late_oco_cancellation_can_leave_two_fills_and_gross_currency_risk"
+    },
+    {
+      "item": "currency incidence/dependence report",
+      "status": "supported_as_incidence_not_exposure",
+      "evidence": "rich_dependence_report_v2 and test_rich_dependence_v2"
+    },
+    {
+      "item": "simultaneous/time-weighted portfolio exposure over current all-68 policy",
+      "status": "not_established",
+      "blocker": "Existing attribution contracts explicitly limit concentration to filled-episode counts/declared decision USD sizing or incidence; no current time-weighted exposure campaign was run."
+    }
+  ],
+  "models_fitted": 0,
+  "network_calls": 0,
+  "broker_actions": 0,
+  "exact_next_item": "interaction_null_control_support_census_v2",
+  "updated_utc": "2026-09-25T08:51:03.814271Z"
+}

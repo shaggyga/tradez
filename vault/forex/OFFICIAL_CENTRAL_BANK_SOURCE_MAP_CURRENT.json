@@ -1,0 +1,268 @@
+{
+  "schema_version": "official_central_bank_source_map_v2",
+  "contract_id": "official_central_bank_source_map_v9_us_policy_communication_clocks_20260827",
+  "frozen_currency_universe": [
+    "AUD", "CAD", "CHF", "CNH", "CZK", "DKK", "EUR", "GBP", "HKD",
+    "HUF", "JPY", "MXN", "NOK", "NZD", "PLN", "SEK", "SGD", "THB",
+    "TRY", "USD", "ZAR"
+  ],
+  "expected_currency_count": 21,
+  "expected_pair_count": 68,
+  "policy": {
+    "research_only": true,
+    "execution_eligible": false,
+    "can_confirm": false,
+    "can_promote": false,
+    "can_authorize": false,
+    "matrix_weight": 0.0,
+    "direction_policy": "abstain_until_prospectively_validated"
+  },
+  "mapping_semantics": {
+    "currency_state": "Map each official authority event to the affected currency before constructing base-minus-quote pair state.",
+    "pair_state": "For BASE_QUOTE, a positive validated base-currency impulse and/or negative validated quote-currency impulse maps to LONG; the inverse maps to SHORT.",
+    "independence": "One authority event is one causal event even when it propagates to many pairs. Linked-policy clocks never count as independent confirmation.",
+    "timing": "Official policy data proposes direction, strength and horizon; executable OANDA prices, spread and technical state only time, veto and manage a prospective action.",
+    "health": "Configured mapping, operational transport and healthy fresh parsing are separate states and must never be conflated.",
+    "source_classes": "release_source_ids contains monetary-authority policy releases. statistical_release_source_ids contains intended official statistical fast-lane transports, including central-bank statistical publications, and cannot satisfy policy-release coverage."
+  },
+  "currencies": [
+    {
+      "currency": "AUD",
+      "authority": "Reserve Bank of Australia",
+      "authority_id": "rba",
+      "policy_framework": "cash_rate_target",
+      "release_source_ids": ["rba_media", "rba_monetary_policy_minutes_html"],
+      "statistical_release_source_ids": [],
+      "communication_source_ids": ["rba_speeches"],
+      "schedule_mode": "domestic_explicit",
+      "calendar_source_ids": ["rba_policy_decision_calendar_2026"]
+    },
+    {
+      "currency": "CAD",
+      "authority": "Bank of Canada",
+      "authority_id": "boc",
+      "policy_framework": "overnight_rate_target",
+      "release_source_ids": ["boc_press"],
+      "statistical_release_source_ids": [],
+      "communication_source_ids": ["boc_speeches"],
+      "schedule_mode": "domestic_explicit",
+      "calendar_source_ids": ["boc_policy_decision_calendar_2026"]
+    },
+    {
+      "currency": "CHF",
+      "authority": "Swiss National Bank",
+      "authority_id": "snb",
+      "policy_framework": "policy_rate_with_fx_intervention",
+      "release_source_ids": ["snb_monetary_policy"],
+      "statistical_release_source_ids": [],
+      "communication_source_ids": ["snb_press"],
+      "schedule_mode": "domestic_explicit",
+      "calendar_source_ids": ["snb_policy_decision_calendar_2026"]
+    },
+    {
+      "currency": "CNH",
+      "authority": "People's Bank of China",
+      "authority_id": "pboc",
+      "policy_framework": "managed_exchange_rate_and_policy_rates",
+      "release_source_ids": ["pboc_official_releases_direct_v1"],
+      "statistical_release_source_ids": [],
+      "communication_source_ids": [],
+      "schedule_mode": "domestic_explicit",
+      "calendar_source_ids": ["pboc_lpr_fixing_calendar_2026"]
+    },
+    {
+      "currency": "CZK",
+      "authority": "Czech National Bank",
+      "authority_id": "cnb",
+      "policy_framework": "two_week_repo_rate",
+      "release_source_ids": ["cnb_press"],
+      "statistical_release_source_ids": [],
+      "communication_source_ids": [],
+      "schedule_mode": "domestic_explicit",
+      "calendar_source_ids": ["cnb_policy_decision_calendar_2026"]
+    },
+    {
+      "currency": "DKK",
+      "authority": "Danmarks Nationalbank",
+      "authority_id": "nationalbanken",
+      "policy_framework": "fixed_exchange_rate_against_eur",
+      "release_source_ids": ["nationalbanken_press_direct_v1"],
+      "statistical_release_source_ids": [],
+      "communication_source_ids": [],
+      "schedule_mode": "linked_driver",
+      "calendar_source_ids": [],
+      "linked_driver_currency": "EUR",
+      "linked_driver_relationship": "fixed_exchange_rate_policy_against_euro"
+    },
+    {
+      "currency": "EUR",
+      "authority": "European Central Bank",
+      "authority_id": "ecb",
+      "policy_framework": "key_ecb_interest_rates",
+      "release_source_ids": ["ecb_press"],
+      "statistical_release_source_ids": ["ecb_statistical_press_releases"],
+      "communication_source_ids": [],
+      "schedule_mode": "domestic_explicit",
+      "calendar_source_ids": ["ecb_policy_decision_calendar_2026"]
+    },
+    {
+      "currency": "GBP",
+      "authority": "Bank of England",
+      "authority_id": "boe",
+      "policy_framework": "bank_rate",
+      "release_source_ids": ["boe_news"],
+      "statistical_release_source_ids": [],
+      "communication_source_ids": ["boe_speeches"],
+      "schedule_mode": "domestic_explicit",
+      "calendar_source_ids": ["boe_policy_decision_calendar_2026"]
+    },
+    {
+      "currency": "HKD",
+      "authority": "Hong Kong Monetary Authority",
+      "authority_id": "hkma",
+      "policy_framework": "linked_exchange_rate_and_base_rate",
+      "release_source_ids": ["hkma_press_html"],
+      "statistical_release_source_ids": [],
+      "communication_source_ids": [],
+      "schedule_mode": "linked_driver",
+      "calendar_source_ids": [],
+      "linked_driver_currency": "USD",
+      "linked_driver_relationship": "currency_board_base_rate_link_to_us_policy"
+    },
+    {
+      "currency": "HUF",
+      "authority": "Magyar Nemzeti Bank",
+      "authority_id": "mnb",
+      "policy_framework": "central_bank_base_rate",
+      "release_source_ids": [
+        "mnb_policy_decisions_hu_direct_v1",
+        "mnb_policy_decisions_direct_v1"
+      ],
+      "statistical_release_source_ids": [],
+      "communication_source_ids": [],
+      "schedule_mode": "domestic_explicit",
+      "calendar_source_ids": ["mnb_policy_decision_calendar_2026"]
+    },
+    {
+      "currency": "JPY",
+      "authority": "Bank of Japan",
+      "authority_id": "boj",
+      "policy_framework": "uncollateralized_overnight_call_rate_and_jgb_purchases",
+      "release_source_ids": ["boj_updates"],
+      "statistical_release_source_ids": [],
+      "communication_source_ids": ["japan_mof_international_policy", "japan_mof_press_conferences_ja"],
+      "schedule_mode": "domestic_explicit",
+      "calendar_source_ids": ["boj_policy_decision_calendar_2026"]
+    },
+    {
+      "currency": "MXN",
+      "authority": "Banco de Mexico",
+      "authority_id": "banxico",
+      "policy_framework": "overnight_interbank_rate_target",
+      "release_source_ids": ["banxico_policy_decisions_direct_v1"],
+      "statistical_release_source_ids": [],
+      "communication_source_ids": [],
+      "schedule_mode": "domestic_explicit",
+      "calendar_source_ids": ["banxico_policy_decision_calendar_2026"]
+    },
+    {
+      "currency": "NOK",
+      "authority": "Norges Bank",
+      "authority_id": "norges_bank",
+      "policy_framework": "policy_rate",
+      "release_source_ids": ["norges_press"],
+      "statistical_release_source_ids": [],
+      "communication_source_ids": ["norges_speeches"],
+      "schedule_mode": "domestic_explicit",
+      "calendar_source_ids": ["norges_policy_decision_calendar_2026"]
+    },
+    {
+      "currency": "NZD",
+      "authority": "Reserve Bank of New Zealand",
+      "authority_id": "rbnz",
+      "policy_framework": "official_cash_rate",
+      "release_source_ids": ["new_zealand_rbnz_ocr_snapshot_direct_v1"],
+      "statistical_release_source_ids": [],
+      "communication_source_ids": [],
+      "schedule_mode": "domestic_explicit",
+      "calendar_source_ids": ["rbnz_policy_decision_calendar_2026"]
+    },
+    {
+      "currency": "PLN",
+      "authority": "National Bank of Poland",
+      "authority_id": "nbp",
+      "policy_framework": "reference_rate",
+      "release_source_ids": ["nbp_mpc_releases_api_direct_v1"],
+      "statistical_release_source_ids": [],
+      "communication_source_ids": [],
+      "schedule_mode": "domestic_explicit",
+      "calendar_source_ids": ["nbp_policy_decision_calendar_2026"]
+    },
+    {
+      "currency": "SEK",
+      "authority": "Sveriges Riksbank",
+      "authority_id": "riksbank",
+      "policy_framework": "policy_rate",
+      "release_source_ids": ["riksbank_press", "riksbank_monetary_policy_html"],
+      "statistical_release_source_ids": [],
+      "communication_source_ids": ["riksbank_speeches"],
+      "schedule_mode": "domestic_explicit",
+      "calendar_source_ids": ["riksbank_policy_decision_calendar_2026"]
+    },
+    {
+      "currency": "SGD",
+      "authority": "Monetary Authority of Singapore",
+      "authority_id": "mas",
+      "policy_framework": "sneer_policy_band",
+      "release_source_ids": ["mas_monetary_policy_api_direct_v1"],
+      "statistical_release_source_ids": [],
+      "communication_source_ids": [],
+      "schedule_mode": "authority_publication_schedule",
+      "calendar_source_ids": []
+    },
+    {
+      "currency": "THB",
+      "authority": "Bank of Thailand",
+      "authority_id": "bot",
+      "policy_framework": "one_day_repurchase_rate",
+      "release_source_ids": ["bot_mpc_decisions_direct_v2"],
+      "statistical_release_source_ids": [],
+      "communication_source_ids": [],
+      "schedule_mode": "domestic_explicit",
+      "calendar_source_ids": ["bot_policy_decision_calendar_2026"]
+    },
+    {
+      "currency": "TRY",
+      "authority": "Central Bank of the Republic of Turkey",
+      "authority_id": "tcmb",
+      "policy_framework": "one_week_repo_auction_rate",
+      "release_source_ids": ["tcmb_press"],
+      "statistical_release_source_ids": [],
+      "communication_source_ids": [],
+      "schedule_mode": "domestic_explicit",
+      "calendar_source_ids": ["tcmb_policy_decision_calendar_2026"]
+    },
+    {
+      "currency": "USD",
+      "authority": "Federal Reserve System",
+      "authority_id": "federal_reserve",
+      "policy_framework": "federal_funds_target_range",
+      "release_source_ids": ["fed_monetary_policy"],
+      "statistical_release_source_ids": ["dol_eta_ui_claims_scheduled_direct_pdf_v1", "census_economic_indicators", "bea_releases"],
+      "communication_source_ids": ["fed_speeches", "cleveland_fed_speeches", "richmond_fed_speeches", "kansas_city_fed_news_releases"],
+      "schedule_mode": "domestic_explicit",
+      "calendar_source_ids": ["fomc_policy_decision_calendar_2026", "kansas_city_fed_jackson_hole_calendar_2026"]
+    },
+    {
+      "currency": "ZAR",
+      "authority": "South African Reserve Bank",
+      "authority_id": "sarb",
+      "policy_framework": "repo_rate",
+      "release_source_ids": ["south_africa_sarb_policy_rate_direct_v1"],
+      "statistical_release_source_ids": ["stats_sa_ppi_scheduled_direct_pdf_v1"],
+      "communication_source_ids": ["sarb_publications_rss_direct_v1"],
+      "schedule_mode": "domestic_explicit",
+      "calendar_source_ids": ["sarb_policy_decision_calendar_2026"]
+    }
+  ]
+}

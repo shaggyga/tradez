@@ -1,0 +1,96 @@
+{
+  "schema_version": "forex_news_research_deployment_validation_20260908",
+  "status": "live_research_verified",
+  "observed_utc": "2026-09-08T20:45:30.284992+00:00",
+  "registry_sha256": "ee075e69e80ca56dfdf45abe1f7a1a301612176e67f7622eab1adf2bd9af8771",
+  "source_bindings": {
+    "oanda_causal_forecast_inputs.py": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+    "oanda_causal_forecast_inputs_gap_v2.py": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd",
+    "oanda_causal_forecast_inputs_joint_news_v2.py": "ade4fc5eb2aea195d7609964d7b8979ca433a28028e059c65adc1b1b404a277c",
+    "oanda_causal_forecast_inputs_pair_v2.py": "8e58491a49fca967e6d8d2a797cc77f142053576c92a724a2e7336d855fb4899",
+    "oanda_causal_forecast_ledger_joint_news_v2.py": "17782392f8e3994ff83620109141770b1f1f8182d863444ed4aaa6067bf4ef72",
+    "oanda_causal_prediction_baselines.py": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+    "oanda_exact_price_scoring.py": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521",
+    "oanda_fixed_forecast_evaluation_joint_news_v1.py": "c1f9940d57c0d39c1815b22a9114752075042a09da3e196e84829e77b293131d",
+    "oanda_joint_price_news_forecast_study_v3.py": "5dfc29c29fbb61daef4f9f9d5c50f8c029a4d9ed57438288839176e6b55a7f80",
+    "oanda_joint_price_news_models_v1.py": "eb153acb966dc04ad950a0bbfcc730e78a9a0da1d8a24e91d641f473f5cfbc23",
+    "oanda_local_news_sentiment.py": "cba7e26b7b07e3befc38543c753eff9b3e578998681032611b65429f5840efe4",
+    "oanda_local_news_sentiment_repair_v1.py": "c2fbad7c290ce1edaa977e99988ab563a2afc6571dc456271e45bde3ca7b2b6b",
+    "oanda_news_causal_aggregation_guard_v1.py": "2a7a05204dee5191cb3f53d3d5a8082b7e725842e6af65aa6dd1ae7f6292dcf9",
+    "oanda_news_classification_contract.py": "f792528f398fab3e11be10f68edefd9b40fac33edd86d525534bc557943d0eae",
+    "oanda_news_collector_contract.py": "41c30599a953d0fd967bc68c5f178d46fc21dd2382ac9fdca78bc3c64ac9f68f",
+    "oanda_news_event_tagger.py": "3657872fa84a6f081903307df7209350fed4f713d866735b9387ce375a5e4f3f",
+    "oanda_news_topic_identity_reconciliation_v1.py": "d34b0c72693497e9be6eadc86bd17f0a2c1c1b79ecf010928faf88a5033a7884",
+    "oanda_pair_local_models_v2.py": "294c63bf0ed873395c4850a8722a2622eaa2bc563ceb7ecf9886764c63d8bf24",
+    "oanda_source_governance.py": "c4b7793dcef1b9176079a959019f8b69059fbd6644fddf1e8718f924d3a13950",
+    "oanda_source_governance_news_fast_lane.py": "bdd6a2542b3dbddbdf86f7148af4dcb38d0b8591b3f3fcdb843d9eed29898f03"
+  },
+  "operational_source_bindings": {
+    "oanda_always_on_supervisor.ps1": "3215ac15c8db8e281a2245d5af120b1b9c9806a90a8676bb995798377668f893",
+    "oanda_project_runtime_health.py": "d9498a2b42ff9cde525fb9e4cc9f14e5729e8bca5f512003b69f000fbefe3eda",
+    "oanda_storage_headroom_guard.py": "a1b8cb1567069aeffa088f6dd9273dea315735e10f5d168224e366df42b02eb4",
+    "oanda_practice_live_dashboard.py": "cc0f6698a30c59cb291dada08d73283f0484996e6873b8ce27894e0168614f6f",
+    "oanda_main_signal_dashboard.html": "0af15b1bb49a58801ebf33114fb7f653e88e7207e396f7f9b54ddf353d1b99a5",
+    "test_oanda_joint_news_v3_operational_gate.py": "3f5fa85d4f9a8be2553888132922689342313c1f0992ed3fd2a03597ac1954eb",
+    "test_oanda_project_runtime_health.py": "db28be8d4434f4b9bd99ba06f9355373d606d4d7e8e9c723882acdc5ff69ff49",
+    "test_oanda_storage_headroom_guard.py": "a27e6c8e23ef4cba27ab63aa02f16bae00dce672260091543422327d34775b4e",
+    "test_oanda_joint_price_news_dashboard_v3.py": "3f6f0ffc8433f60d347fbe3ea4e4b38d9868cd4e9026a5296b6970d5bad77b82"
+  },
+  "registered_pairs": 68,
+  "active_unelapsed_forecast_pairs": 65,
+  "runtime_workers": 17,
+  "ledger_inspection_counts": {
+    "attempts": 94,
+    "consumption": 89,
+    "diagnostics": 4,
+    "entries": 83,
+    "exclusions": 6,
+    "forecasts": 89,
+    "inputs": 88,
+    "outcomes": 0,
+    "publication": 89,
+    "quotes": 15698
+  },
+  "runtime_reason_counts": {
+    "forecast": 65,
+    "ValueError:market_closed_or_no_stream_quote": 3
+  },
+  "evidence_manifests": [
+    {
+      "path": "docs/validation/news_research_deployment_20260908/DEPLOYMENT_EVIDENCE_MANIFEST_20260908.json",
+      "sha256": "cded1cb3ee3cb63717f48861a13f0a37ae4e27b05b511ef1c5a7c26ce2f85d7a"
+    },
+    {
+      "path": "docs/validation/news_identity_integration_20260908/EVIDENCE_COPY_MANIFEST_20260908.json",
+      "sha256": "7252b16d8bedd3d0d7f7d4d5a95e94c2cb4d5f8858e0d8b8c3cc55e30e586e77"
+    }
+  ],
+  "report": {
+    "path": "docs/FOREX_NEWS_RESEARCH_DEPLOYMENT_20260908.md",
+    "sha256": "2d6149f4e51edd4d46119077bee1bbc3507022281b00de937fd3185c6dbf0c6c"
+  },
+  "research_only": true,
+  "can_place_orders": false,
+  "can_promote": false,
+  "can_authorize": false,
+  "prediction_improvement_demonstrated": false,
+  "historical_forecasts_imported": false,
+  "prior_source_registries_verified_unchanged": true,
+  "actual_selection": {
+    "activated_epoch": 1788898261.6253505,
+    "can_authorize": false,
+    "can_place_orders": false,
+    "can_promote": false,
+    "registry_sha256": "ee075e69e80ca56dfdf45abe1f7a1a301612176e67f7622eab1adf2bd9af8771",
+    "research_only": true,
+    "schema_version": "joint_forecast_primary_selection_v1_20260908",
+    "scope": "Primary dashboard selection only; new empty-ledger study activation was earlier and independently recorded.",
+    "selected": "v3",
+    "study_activation_completed_epoch": 1788898005.0098217
+  },
+  "cadence_observation": {
+    "path": "LIVE_CAPTURE_CADENCE_AFTER60_EXTENDED_20260908.json",
+    "sha256": "24622bc623149c039ab2c179c56f0dc8f0ed6acd8be60fd9a880ffa3943d55d2"
+  },
+  "copy_scope": "Exact compact local evidence; no raw news, full captures, DBs or credentials exported."
+}

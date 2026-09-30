@@ -1,0 +1,2 @@
+Next: review_macro_receipt_capture_checkpoint_v2, then macro_release_identity_and_matched_outcome_population_v2.
+Complete retained release-identity and exact supported outcome joins on the same predeclared population; then qualify semantic text states and matched additions. External all-release calendar completeness remains explicitly unproven.

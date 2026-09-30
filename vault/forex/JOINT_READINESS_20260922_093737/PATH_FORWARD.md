@@ -1,0 +1,2 @@
+Next: review_joint_readiness_checkpoint, then official_context_dependency_lock_repair_v2.
+Repair the omitted NumPy environment pin in the standalone official-context consumer and reissue its scoped checkpoint. Then complete blocked-time association controls and an all68 known-leak-positive raw-input audit.

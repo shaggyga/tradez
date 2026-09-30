@@ -1,0 +1,2 @@
+Next: review_noise_controls_checkpoint, then conditional_interaction_positive_control_v2.
+Verify an interaction-only fixture without marginal screening and test ten fixed products of original local-state fields on the unchanged matched population. Keep synthetic and market evidence separate.

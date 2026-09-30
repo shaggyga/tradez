@@ -1,0 +1,125 @@
+{
+  "branch": "forex",
+  "checks": [
+    {
+      "check": "roots",
+      "detail": {
+        "vault": "C:\\Users\\zmoor\\OneDrive\\thevault\\projects\\forex",
+        "workspace": "C:\\Users\\zmoor\\Documents\\forex"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "repository",
+      "detail": {
+        "branch": "forex",
+        "clean": true,
+        "head": "dc1a7768e353e06357c5b36e37d2845c3b44acba"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "vault_packages",
+      "detail": {
+        "design_manifest_sha256": "bc70537a6b438d3b595b6c8f74db014a47d6ae204b0b05e182d73fc4b84da929",
+        "design_package": "CONFIRMATION_PROTOCOL_HARDENING_R2_20260924_174700",
+        "exact_next_item": "currency_projection_confirmation_protocol_v2",
+        "review_manifest_sha256": "bc70537a6b438d3b595b6c8f74db014a47d6ae204b0b05e182d73fc4b84da929",
+        "review_package": "CONFIRMATION_PROTOCOL_HARDENING_R2_20260924_174700"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "current_documents",
+      "detail": {
+        "project_documents": 24,
+        "vault_documents": 15
+      },
+      "status": "pass"
+    },
+    {
+      "check": "engineering_source",
+      "detail": {
+        "engineering_files_verified": 536,
+        "scope": "current engineering root source snapshot"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "revision",
+      "detail": {
+        "branch": "forex",
+        "expected_commit": "dc1a7768e353e06357c5b36e37d2845c3b44acba",
+        "identity_source": "Vault final handoff receipt",
+        "live_remote_freshness": "not_checked_offline"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "coordination",
+      "reason": "Unresolved coordination owners require scope reconciliation: mabel-projection-policy-20260924-110416, mabel-projection-attribution-20260924-114246",
+      "status": "blocked"
+    },
+    {
+      "check": "operational_gate",
+      "reason": "Current engineering prerequisite is awaiting review or correction",
+      "status": "blocked"
+    },
+    {
+      "check": "environment",
+      "detail": {
+        "numerical_environment_checked": false,
+        "profile": "stdlib",
+        "python": "3.13.14"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "snapshot_stability",
+      "detail": {
+        "files_read": 1300
+      },
+      "status": "pass"
+    }
+  ],
+  "code_commit": "dc1a7768e353e06357c5b36e37d2845c3b44acba",
+  "filesystem_mutations": 0,
+  "limitations": [
+    "Local immutable/current-document identity checks only; no live GitHub or OneDrive freshness proof.",
+    "Passing is a setup observation, not a research, model run, broker or service authorization.",
+    "The board is advisory, not an atomic distributed lock; establish shared freshness and claim work before edits/runs.",
+    "Selected recipe input bytes and full historical artifact graphs are checked only by their original operator; this tool never launches it.",
+    "Historical missing approvals unrelated to the selected next work are not interpreted as startup blockers."
+  ],
+  "model_runtime_qualified": false,
+  "models_fitted": 0,
+  "models_loaded": 0,
+  "network_calls": 0,
+  "research_authorization": false,
+  "schema": "forex_offline_preflight.v1",
+  "status": "blocked",
+  "unresolved_claims": [
+    {
+      "handoff": "48 policy paths completed; five engine-neutral payloads match for each engine pair and all accounting audits verify. Git d1ac7b9 pushed. Vault packet CURRENCY_PROJECTION_POLICY_20260924_110416. Measured 10.49GiB main output exceeded early 9GiB estimate; freeze restore-specific budget before replication. Next currency_projection_policy_attribution_v2.",
+      "owner": "Mabel current Codex task",
+      "scope": "New policy-comparison contract/operator/tests and bounded local evidence; Vault queue/checkpoint/log publication; sole shared writer",
+      "status": "HANDOFF",
+      "task_id": "mabel-projection-policy-20260924-110416"
+    },
+    {
+      "handoff": "144 arm-level rows; checkpoint R2 SHA 37c17453... has 123 members. Fresh restore reproduced all 48 output inventories exactly and parity review passed. Git 2d8f46e pushed. Next update the verified queue/pointers, then next eligible offline design package.",
+      "owner": "Mabel current Codex task",
+      "scope": "Attribution contract/report/tests plus compact authenticated checkpoint and fresh restore; bounded local and Vault evidence; sole shared writer",
+      "status": "HANDOFF",
+      "task_id": "mabel-projection-attribution-20260924-114246"
+    },
+    {
+      "handoff": "Documentation preparation only; root sole publisher; independent read-only reviewer.",
+      "owner": "Mabel current Codex task",
+      "scope": "NEXT/TIMED/research instructions, forecast sibling queue, documentation packet, project handoff/logs, shared pointers; no research run",
+      "status": "CLAIMED",
+      "task_id": "mabel-continuation-20260924_191848"
+    }
+  ],
+  "utc": "2026-09-24T19:20:16.994021+00:00"
+}

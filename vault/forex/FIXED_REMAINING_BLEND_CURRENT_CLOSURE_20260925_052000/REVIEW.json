@@ -1,0 +1,37 @@
+{
+  "schema": "forex_current_closure.v1",
+  "packet_id": "FIXED_REMAINING_BLEND_CURRENT_CLOSURE_20260925_052000",
+  "created_utc": "2026-09-25T03:53:17Z",
+  "step_id": "fixed_blend_remaining_policy_comparison_v2",
+  "status": "closed_by_accepted_same_task_review_packet_reuse",
+  "source_packet": "FIXED_REMAINING_BLEND_20260924_040000",
+  "source_review": "FIXED_REMAINING_BLEND_20260924_040000/REVIEW.json",
+  "source_review_sha256": "77d7d8488db2db948a9616c2204e8bc8b482c57027e6e28e65745727e43ed7c7",
+  "source_review_md_sha256": "5048219067f1d525c2ffd3189c4c42588084102825c9565d5da05c1ebcd91ebb",
+  "implementation_status": "complete",
+  "review_status": "accepted_within_scope",
+  "independent_review_status": "pending_nonblocking_by_user_clarification",
+  "source_commit": "f7c2c2023ad81d3bf73b56ad3beff6b70ccf47c2",
+  "unresolved_findings": [],
+  "forecast_evidence_status": "remaining_fixed_blend_development_scenario",
+  "policy_evidence_status": "declared_candle_scenarios_not_observed_execution",
+  "actual_work_this_step": [
+    "Verified source packet identity and accepted within-scope status.",
+    "Published current timed-session closure pointer without duplicate computation.",
+    "Advanced queue to documented successor."
+  ],
+  "tests_executed_this_turn": [],
+  "tests_reused_from_source_packet": "see copied SOURCE_REVIEW.md/REVIEW.json for package-specific counts and review findings",
+  "boundaries": {
+    "new_fit_performed": false,
+    "gpt_advisor_comparisons": false,
+    "paid_api_calls": false,
+    "broker_or_live_bot_changes": false,
+    "d_drive_investigation": false
+  },
+  "next_step_id": "absolute_movement_forecast_comparison_v2",
+  "deadline_utc": "2026-09-25T04:59:55Z",
+  "session_id": "timed_residual_r4_20260925_025955",
+  "manifest": "MANIFEST.json",
+  "manifest_sha256": "fa344d4d513e186d92a176c7ba8c81ecfb78b2a39a66fceeb9cfc989b7822786"
+}

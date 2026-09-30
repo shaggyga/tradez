@@ -1,0 +1,1 @@
+Next review_historical_forecast_slice, then common_target_policy_input_adapter_v2. Native remaining-horizon, explicit arrival/execution/conversion/financing input contract missing. Review is separate from22 passing tests. Deferred GPT/advisor, broker/service/account and D-drive work remain excluded.

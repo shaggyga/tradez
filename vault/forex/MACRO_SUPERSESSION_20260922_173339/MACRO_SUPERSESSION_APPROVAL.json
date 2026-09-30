@@ -1,0 +1,15 @@
+{
+  "recipe": "source_snapshot/MACRO_SUPERSESSION_OPERATOR_RECIPE.json",
+  "recipe_sha256": "9c262f50a7c3dcd6e42e9a9a8eb91316c1e11d23033ce3a9bfcd6913a9406596",
+  "scope": "six-event exact text loss and retained boundary audit",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify"
+  ],
+  "bootstrap": "checkpoint/forex_macro_supersession.zip",
+  "contract": "source_snapshot/MACRO_SUPERSESSION_CONTRACT_V2.md",
+  "next": "review_macro_supersession_checkpoint_v2"
+}

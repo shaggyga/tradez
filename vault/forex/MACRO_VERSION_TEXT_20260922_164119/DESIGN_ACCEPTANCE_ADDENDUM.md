@@ -1,0 +1,1 @@
+WP6/R05/R10/R11/R14, design14.2–14.5. Cache once, gate observations before versions, preserve ties and missingness, exact spans and all68 mappings.21 local/21 restored tests and five identical payloads. Zero real lexical support, inherited coverage limits and unknown original extraction readiness remain explicit.

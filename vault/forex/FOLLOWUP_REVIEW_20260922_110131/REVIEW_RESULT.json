@@ -1,0 +1,43 @@
+{
+  "step_id": "all68-sampled-path-reconciliation",
+  "verdict": "accepted_within_scope",
+  "independent_review": false,
+  "next_item": "joint_curve_serving_capacity_characterization_v2",
+  "engineering_ready": false,
+  "forecast_evidence_status": "retrospective_target_reconciliation_only",
+  "policy_evidence_status": "not_evaluated",
+  "demo_authorization_status": "not_granted",
+  "checks": [
+    "canonical pure label source reused unchanged",
+    "all36176 scheduled rows and10997 exact supported endpoints",
+    "independent scalar oracle for every real row",
+    "18 local/18 relocated tests and actual crash recovery",
+    "70 exact new and70 reconstructed predecessor payloads"
+  ],
+  "limitations": [
+    "zero strict24h/2day/5day contiguous support",
+    "close samples do not identify intrabar first passage or execution",
+    "assumed close availability only",
+    "same implementer; independent review unperformed",
+    "same-host relocation only"
+  ],
+  "utc": "2026-09-22T11:01:31.510790+00:00",
+  "reviewer": "same-implementer follow-up source/evidence review",
+  "source_engine": {
+    "schema": "forex_design_alignment_pointer.v2",
+    "package": "SAMPLED_PATHS_20260922_110127",
+    "path_forward": "SAMPLED_PATHS_20260922_110127/PATH_FORWARD.md",
+    "run_status": "SAMPLED_PATHS_20260922_110127/RUN_STATUS.json",
+    "design": "SAMPLED_PATHS_20260922_110127/specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+    "design_coverage": "SAMPLED_PATHS_20260922_110127/CURRENT_DESIGN_COVERAGE.md",
+    "current_acceptance_addendum": "SAMPLED_PATHS_20260922_110127/DESIGN_ACCEPTANCE_ADDENDUM.md",
+    "manifest": "SAMPLED_PATHS_20260922_110127/MANIFEST.json",
+    "manifest_sha256": "6492957c03e07f6c64da1ee2e44b13de8f11374177d40bf64fbe6c1c7be168c8",
+    "readback": "SAMPLED_PATHS_20260922_110127/PACKAGE_READBACK.json",
+    "active_integrity_batch": "ALL68_INTEGRITY_BATCH_05_20260921.md",
+    "active_integrity_batch_scope": "all68 sampled-close target reconciliation; longer contiguous paths remain unavailable",
+    "historical_package": "DESIGN_ALIGNMENT_20260921",
+    "scope": "current_verified_queue_and_bounded_recovery",
+    "cloud_sync_verified": false
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "reviewer": "independent subagent /root/oanda_data_access",
+  "utc": "2026-09-25T01:56:56.727591+00:00",
+  "scope": [
+    "trad/oanda_eurusd_record.py",
+    "trad/oanda_eurusd_stream.py"
+  ],
+  "independent_review": true,
+  "verdict": "reviewed_with_recorded_limitations",
+  "tests": "10 focused offline checks passed; stdout/stderr retained",
+  "findings": [
+    {
+      "id": "R1",
+      "severity": "limitation",
+      "detail": "Fsync is checked after messages; read stall can stretch the nominal five-second cadence to the read timeout. Each CSV row is flushed immediately; sudden power loss can lose un-fsynced tail."
+    },
+    {
+      "id": "R2",
+      "severity": "limitation",
+      "detail": "Cutoff and STOP process closure can wait for existing read timeout up to about 12 seconds. Rows received at/after cutoff are rejected."
+    },
+    {
+      "id": "R3",
+      "severity": "limitation",
+      "detail": "Storage errors are surfaced in the shared reconnect/error path rather than a distinct disk failure state. Journal/checkpoint failures may terminate process; scheduled checks detect absent or stale writer."
+    },
+    {
+      "id": "R4",
+      "severity": "minor",
+      "detail": "writer.lock is not explicitly closed by main; function-scope CPython lifetime/OS process exit releases it; tests issue ResourceWarnings. Exclusive lock exclusion test passed."
+    }
+  ],
+  "authorization": "quote collection only; no scientific or trading acceptance"
+}

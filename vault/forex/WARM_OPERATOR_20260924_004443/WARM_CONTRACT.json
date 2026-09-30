@@ -1,0 +1,17 @@
+{
+ "experiment_id":"whole_curve_warm_start_capacity_followup_v2",
+ "kind":"resume_partial_operator_engineering_no_new_market_experiment",
+ "baseline_commit":"c14630874f8a75c637ecac31ca120e84e65cebd7",
+ "design_requirements":["R10","R11","R14","WP10","25.2:TST48","25.2:TST51","25.2:TST52"],
+ "predecessor":"stage_c_alignment_integrity_v2/evidence/timed_20260922_022952/warm_curve_step/RESUME.md",
+ "hypothesis":"Chronological legal cache reconstruction after process death reproduces retained forecasts and preserves original per-origin timing receipts.",
+ "material_difference":"Portable frozen operator, deterministic status/run/resume/verify, same-identity crash reconstruction and portable no-fit saved-input replay replace machine-local prototype commands.",
+ "universe":68,"origins":20,"expected_forecasts_per_engine":143904,"expected_coverage_rows_per_engine":152320,
+ "source_capsule_sha256":"25061ff42b9dac4027cfcfb3042a3778b5db448e449428d8415c951de2b7676f",
+ "fits_allowed":0,"new_data_downloads":0,"paid_calls":0,"worker_count":1,
+ "run_cap_seconds":900,"startup_cap_seconds":180,"origin_cap_seconds":30,"prewarm_reservation_seconds":120,
+ "engineering_expected_rss_bytes":1073741824,"disk_cap_bytes":2147483648,
+ "acceptance":"All original value, lineage and coverage parity; crash after early origin and after payload completion; full same-identity resume; no timing overwrite; exact relocated scientific bytes. Timing payload bytes are separately authenticated and bounded, not portable numerical equality.",
+ "stop_rule":"Any source/weight drift, timing overrun, cache-state mismatch or resource breach refuses and preserves partial outputs. Session checkpoint starts no later than01:37:43Z.",
+ "market_evidence":"No new forecast or market-selection evidence; prototype timings are machine-specific and not live readiness."
+}

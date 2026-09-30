@@ -1,0 +1,1 @@
+R05/R14, design14.2–14.5. Frozen partial completed with original guard reuse, full-cohort source-asof consumer, adversarial tests and exact relocated replay. Independent review separate.

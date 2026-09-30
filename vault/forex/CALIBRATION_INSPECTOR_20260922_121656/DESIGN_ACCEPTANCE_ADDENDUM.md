@@ -1,0 +1,1 @@
+Bounded design22/16, R03/R09/R13/R14, WP7/WP9/WP10: original-record inspection, explicit outcome reveal and portable consumer verification.

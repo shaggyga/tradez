@@ -1,0 +1,151 @@
+{
+  "branch": "forex",
+  "checks": [
+    {
+      "check": "roots",
+      "detail": {
+        "vault": "C:\\Users\\zmoor\\OneDrive\\thevault\\projects\\forex",
+        "workspace": "C:\\Users\\zmoor\\Documents\\forex"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "repository",
+      "detail": {
+        "branch": "forex",
+        "clean": true,
+        "head": "083e850b4a65fcd69aa91359ad2f7a19ccc37114"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "vault_packages",
+      "detail": {
+        "design_manifest_sha256": "1c6e9fa4ad99b893895d9ac4460c278241bba9a35eb14076977b5c9ee74e1bfc",
+        "design_package": "SOURCE_SNAPSHOT_REFRESH_20260925_074200",
+        "exact_next_item": "rich_feature_family_incremental_comparison_v2",
+        "review_manifest_sha256": "12150e2a33f54023b532eb513cdeb8438f9c233aa041ba5d1503346a5cf0d3e6",
+        "review_package": "CURVE_COVERAGE_REPAIR_20260925_073500"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "current_documents",
+      "detail": {
+        "project_documents": 6,
+        "vault_documents": 4
+      },
+      "status": "pass"
+    },
+    {
+      "check": "engineering_source",
+      "detail": {
+        "engineering_files_verified": 554,
+        "scope": "current engineering root source snapshot"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "revision",
+      "detail": {
+        "branch": "forex",
+        "expected_commit": "083e850b4a65fcd69aa91359ad2f7a19ccc37114",
+        "identity_source": "Vault final handoff receipt",
+        "live_remote_freshness": "not_checked_offline"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "coordination",
+      "reason": "Unresolved coordination owners require scope reconciliation: eurusd-live-visualization-20260925",
+      "status": "blocked"
+    },
+    {
+      "check": "operational_gate",
+      "detail": {
+        "manifest_sha256": "808390179cfc40400eaa779cbb50776c4fe53562f0324e5efc70ed01c5be17a6",
+        "package": "OPERATIONAL_READINESS_20260923_180528",
+        "queue_packet": "OPERATIONAL_READINESS_20260923_180528/REVIEW.json",
+        "research_authorization": false,
+        "selected_work_item": "rich_feature_family_incremental_comparison_v2",
+        "status": "complete",
+        "step_id": "mabel-operational-readiness-20260923"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "environment",
+      "detail": {
+        "expected": {
+          "joblib": "1.5.3",
+          "numpy": "2.5.1",
+          "pandas": "2.3.3",
+          "pyarrow": "25.0.0",
+          "pytest": "9.1.1",
+          "python": "3.12.10",
+          "requests": "2.34.2",
+          "scikit-learn": "1.9.0",
+          "scipy": "1.18.0",
+          "threadpoolctl": "3.6.0",
+          "tzdata": "2026.3"
+        },
+        "installed": {
+          "joblib": "1.5.3",
+          "numpy": "2.5.1",
+          "pandas": "2.3.3",
+          "pyarrow": "25.0.0",
+          "pytest": "9.1.1",
+          "python": "3.12.10",
+          "requests": "2.34.2",
+          "scikit-learn": "1.9.0",
+          "scipy": "1.18.0",
+          "threadpoolctl": "3.6.0",
+          "tzdata": "2026.3"
+        },
+        "model_runtime_qualified": false,
+        "profile": "engineering"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "snapshot_stability",
+      "detail": {
+        "files_read": 1283
+      },
+      "status": "pass"
+    }
+  ],
+  "code_commit": "083e850b4a65fcd69aa91359ad2f7a19ccc37114",
+  "filesystem_mutations": 0,
+  "limitations": [
+    "Local immutable/current-document identity checks only; no live GitHub or OneDrive freshness proof.",
+    "Passing is a setup observation, not a research, model run, broker or service authorization.",
+    "The board is advisory, not an atomic distributed lock; establish shared freshness and claim work before edits/runs.",
+    "Selected recipe input bytes and full historical artifact graphs are checked only by their original operator; this tool never launches it.",
+    "Historical missing approvals unrelated to the selected next work are not interpreted as startup blockers."
+  ],
+  "model_runtime_qualified": false,
+  "models_fitted": 0,
+  "models_loaded": 0,
+  "network_calls": 0,
+  "research_authorization": false,
+  "schema": "forex_offline_preflight.v1",
+  "status": "blocked",
+  "unresolved_claims": [
+    {
+      "handoff": "Session evidence `evidence/six_hour_queue_20260925_070224`; deadline 2026-09-25T13:02:24.2846030Z. Current action: publishing the handoff/preflight identity repair required for residual R4 restore.",
+      "owner": "Mabel current Codex task",
+      "scope": "QREV-06 handoff/preflight repair; residual R4 restore/replay; curve coverage repair; rich/material support review; Vault queue/checkpoint pointers, project logs, local session evidence. Excludes EUR/USD capture, GPT/advisor, paid APIs, broker/service/account, D-drive and live-bot changes.",
+      "status": "IN_PROGRESS",
+      "task_id": "mabel-six-hour-queue-20260925-070224"
+    },
+    {
+      "handoff": "Source b0dd42c9f6b0dc67fd6b9c5d141e25ed99b0320f; packet EURUSD_RECORDING_20260925_015224/REVIEW.md; actual managed recorder38436/PID12772; active heartbeat eurusd-dataset-through-friday-close; final capture pending 20:59Z.",
+      "owner": "EUR/USD dataset task",
+      "scope": "Own EUR/USD stream/recorder/export/tests/docs plus local dataset; no scientific source or pointer changes",
+      "status": "IN_PROGRESS",
+      "task_id": "eurusd-live-visualization-20260925"
+    }
+  ],
+  "utc": "2026-09-25T07:43:59.512914+00:00"
+}

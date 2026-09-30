@@ -1,0 +1,50 @@
+{
+  "step_id": "historical-fitted-slice",
+  "implementation_status": "forecast_slice_verified_policy_dependency_blocked",
+  "review_status": "ready_for_review",
+  "independent_review": false,
+  "checkpoint": {
+    "path": "checkpoint/forex_historical_slice.zip",
+    "sha256": "e110e3de2d228eaf8a5ba8da56d763181888bee220dd631b2191f2c9f41e9aec"
+  },
+  "base_checkpoint": {
+    "schema": "forex_design_alignment_pointer.v2",
+    "package": "FITTED_CONSUMER_20260922_005437",
+    "path_forward": "FITTED_CONSUMER_20260922_005437/PATH_FORWARD.md",
+    "run_status": "FITTED_CONSUMER_20260922_005437/RUN_STATUS.json",
+    "design": "FITTED_CONSUMER_20260922_005437/specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+    "design_coverage": "FITTED_CONSUMER_20260922_005437/audit/DESIGN_COVERAGE.md",
+    "current_acceptance_addendum": "FITTED_CONSUMER_20260922_005437/DESIGN_ACCEPTANCE_ADDENDUM.md",
+    "manifest": "FITTED_CONSUMER_20260922_005437/MANIFEST.json",
+    "manifest_sha256": "c96f3f91772aebda6aa021a706b3c49e217eb09e67bd388c7a861f13bf0d2eca",
+    "readback": "FITTED_CONSUMER_20260922_005437/PACKAGE_READBACK.json",
+    "active_integrity_batch": "ALL68_INTEGRITY_BATCH_05_20260921.md",
+    "active_integrity_batch_scope": "synthetic policy and fitted-consumer qualification verified; historical slice/tape next; campaign remains gated",
+    "historical_package": "DESIGN_ALIGNMENT_20260921",
+    "scope": "current_verified_queue_and_bounded_recovery",
+    "cloud_sync_verified": false
+  },
+  "review_dependency": {
+    "package": "COMBINED_REVIEW_20260922_011620",
+    "manifest": "COMBINED_REVIEW_20260922_011620/MANIFEST.json",
+    "manifest_sha256": "822a2e290642e2c7f648650afb1a253ed45b55f922de93e5e0c8def1fe433951",
+    "review": "COMBINED_REVIEW_20260922_011620/REVIEW_RESULT.md",
+    "readback": "COMBINED_REVIEW_20260922_011620/READBACK.json",
+    "queue": "REVIEW_QUEUE.json",
+    "verdict": "accepted_within_scope",
+    "independent_review": false,
+    "next_engineering_item": "historical_fitted_slice_and_policy_tape_v2",
+    "engine_scope_changed": false
+  },
+  "verification": {
+    "local_tests": 22,
+    "relocated_tests": 22,
+    "scientific_payloads_identical": 13
+  },
+  "next_action": "review_historical_forecast_slice",
+  "deferred_engineering_next_item": "common_target_policy_input_adapter_v2",
+  "engineering_ready": false,
+  "forecast_evidence_status": "retrospective_development_slice_not_predictive_acceptance",
+  "policy_evidence_status": "blocked_missing_executable_common_target_inputs",
+  "demo_authorization_status": "not_granted"
+}

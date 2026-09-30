@@ -1,0 +1,17 @@
+{
+  "schema": "forex_forecasting_candidate.v1",
+  "step_id": "macro_collector_representation_storage_audit_v2",
+  "status": "not_started",
+  "priority": 11,
+  "depends_on": [
+    "macro_candidate_version_supersession_audit_v2"
+  ],
+  "hypothesis": "Collector representation/storage path may explain retained text loss without rewriting sealed histories.",
+  "deliverable": "Inspect existing storage audit packet/history first; close by reuse if complete, or record exact support blocker.",
+  "completion_gate": [
+    "Read existing storage audit packet",
+    "No rewrite/backfill of sealed histories",
+    "Update Vault/project checkpoint"
+  ],
+  "limits": "No GPT/advisor comparisons, paid APIs, broker/service/account actions, D-drive investigation, EUR/USD capture, live-bot changes."
+}

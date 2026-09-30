@@ -1,0 +1,13 @@
+# Pip metadata and historical provenance repair — September12,2026
+
+The new `oanda_instrument_pips_v2.py` provides an explicit, auditable unit contract. The historical strategy builder now resolves an instrument once and retains the complete resolution in each input-quality record, under `historical_m1_complete_m5_and_pip_provenance_v3_20260912`. This follows the completed M5 timing/input repair; it does not change the eight-input ridge formula.
+
+The68 known instrument mappings agree with the retained September11 quote metadata. HUF/THB and HKD/JPY require exceptions to the old JPY-only heuristic. The new module bounds finite numeric pip/location values, rejects booleans, nonintegral locations and conflicting declared identities/fields, and refuses same-currency pairs. Unknown pairs need valid venue metadata. Callers pass metadata in authority order: the first valid row wins; rejected earlier fields/rows remain in diagnostics. Valid metadata may override the fallback map.
+
+Only the new helper and historical builder use this new contract in this integration. The older shared helper, MA model loaders, live quote/stop/position consumers, saved models, caches and reports were preserved. Future MA/cache migration must version the feature/target/cache and loaded-artifact unit identity together. A corrected fallback cannot repair a previously materialized finite but wrong spread value.
+
+There are132 passing focused tests both in the staged overlay and against the installed canonical files, with10 existing pandas/NumPy timedelta deprecation warnings. Tests cover malformed metadata, all68 retained mappings, immutable fallback data, same-currency rejection, real historical caller provenance, unit normalization and existing M1/S5/M5 completion/timing behavior. Earlier harness-only failures are retained in the integration receipt.
+
+[Exact integration receipt](C:/Users/zmoor/Documents/forex/revamp_8h_20260912/runtime/pip_canonical_integration_001/CANONICAL_INTEGRATION_001.json) records before/after hashes, source locations, validation and scope. [Canonical test receipt](C:/Users/zmoor/Documents/forex/revamp_8h_20260912/runtime/pip_canonical_integration_001/CANONICAL_TESTS_001.xml) and [independent integration-scope review](C:/Users/zmoor/Documents/forex/revamp_8h_20260912/runtime/pip_integration_scope_storage_001/PIP_INTEGRATION_SCOPE.md) provide the verification boundary.
+
+Positive unit rescaling preserves a fixed price move's direction. It can alter absolute-pip gates, stops, pooled weighting and fitted targets. This is a correctness repair, not evidence of better forecasts or profitable execution. No service, account, order or previous research result was changed.

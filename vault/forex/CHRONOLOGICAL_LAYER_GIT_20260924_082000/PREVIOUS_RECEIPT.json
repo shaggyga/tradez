@@ -1,0 +1,41 @@
+{
+  "schema": "forex_shared_git_operation.v2",
+  "status": "COMPLETE",
+  "utc": "2026-09-24T08:00:02.147927+00:00",
+  "repository": "https://github.com/shaggyga/tradez",
+  "branch": "forex",
+  "default_branch": "forex",
+  "source_commit": "9621eec691c0f20e77c2b0c4370290b61744a7ea",
+  "handoff_document_commit": "9621eec691c0f20e77c2b0c4370290b61744a7ea",
+  "remote_sha": "9621eec691c0f20e77c2b0c4370290b61744a7ea",
+  "remote_push_verified": true,
+  "handoff_packet": "LATER_INPUT_EXTENSION_20260924_080500",
+  "handoff_manifest_sha256": "97bdfaf1bf6ca2cdb5d8fd17138995facfae43aff4aaa8be2549bdea845b9d37",
+  "scientific_next_item": "later_chronological_forecast_layer_comparison_v2",
+  "next_action": "Reuse saved base models and compare unchanged causal layers on extended chronological development inputs.",
+  "independent_source_review": "pending_nonblocking_by_user_clarification",
+  "independent_review": false,
+  "same_task_review": "accepted_within_scope",
+  "prior_operation_reference": {
+    "path": "LATER_INPUT_GIT_20260924_080500/PREVIOUS_RECEIPT.json",
+    "sha256": "82508f2b0fe55d5ee3dbbbcec2ff6db4d45e4eb6f0e4db16c83dbb695e19f3d1"
+  },
+  "checkpoint": {
+    "vault_relative_path": "LATER_INPUT_GIT_20260924_080500/forex-later-input-extension.bundle",
+    "sha256": "6ba1ab7fb1c6de7073914ae5fc04a6032cef0c3ca145cc25426aa0aa000a18df",
+    "bytes": 20607008,
+    "bundle_verify": "PASSED",
+    "remote_same_commit_verified": true,
+    "fresh_restore_verified": true,
+    "restore_command": "git -c core.longpaths=true clone --branch forex <bundle-path> forex",
+    "fresh_restore_receipt": "LATER_INPUT_GIT_20260924_080500/GIT_RESTORE_RECEIPT.json",
+    "fresh_restore_receipt_sha256": "87483924f6359d4808ec61916964842b439729d105f2e4b571f226ca8cf8f317"
+  },
+  "policy_replays": 0,
+  "scientific_payloads_reproduced": 73,
+  "base_model_fits": 0,
+  "base_model_loads": 0,
+  "layer_fits": 0,
+  "model_loading": "none; authenticated_parent_subsets_read_as_JSON; original_complete_run_manifests_preserved",
+  "cloud_sync_or_second_machine_execution_verified": false
+}

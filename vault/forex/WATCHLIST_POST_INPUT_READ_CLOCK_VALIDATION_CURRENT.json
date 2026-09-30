@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-09-04T18:02:12Z",
+  "issue_id": "FX-20260904-WATCHLIST-POST-READ-CLOCK",
+  "status": "complete",
+  "defect": {
+    "invalid_cohort_id": "news_technical_watchlist_v42_secondary_crypto_primary_gate_20260901",
+    "finding": "The watchlist used its cycle-start timestamp even though its quote snapshot was read later, producing negative quote ages of approximately 1.9 seconds.",
+    "prediction_or_order_affected": false
+  },
+  "repair": {
+    "replacement_cohort_id": "news_technical_watchlist_v43_post_input_read_clock_20260904",
+    "current_child_cohort_id": "news_technical_watchlist_v44_japan_policy_pressure_research_20260904",
+    "clock_source": "wall_clock_after_all_bounded_input_reads",
+    "negative_age_behavior": "fail_closed",
+    "historical_import_count": 0,
+    "invalid_cohort_preserved": true
+  },
+  "live_validation": {
+    "first_v43_publication_utc": "2026-09-04T17:28:33Z",
+    "quote_count": 68,
+    "negative_quote_age_count": 0,
+    "current_v44_publication_utc": "2026-09-04T17:57:54.893067Z",
+    "current_status": "ok"
+  },
+  "validation": {
+    "watchlist_tests_passed": 46,
+    "watchlist_tests_failed": 0,
+    "python_compile_passed": true
+  },
+  "artifacts": [
+    {"path": "oanda_news_technical_watchlist.py", "sha256": "3aa5ebb9b5edca716f2fc9f21581283e1f7bc9e4596287834da623a97b9f9c06"},
+    {"path": "test_oanda_news_technical_watchlist.py", "sha256": "25f8de5014e4b27656ccb5f39a2f2d570969f6d92b893a90ad1c45d67d9b6838"}
+  ],
+  "safety": {
+    "research_only": true,
+    "can_promote": false,
+    "can_authorize": false,
+    "can_place_orders": false,
+    "real_money_routing": false
+  }
+}

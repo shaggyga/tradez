@@ -1,0 +1,18 @@
+{
+  "recipe": "source_snapshot/SAMPLED_PATH_OPERATOR_RECIPE.json",
+  "recipe_sha256": "7ec9aff193ded48806de22c5f61a13924b3d3ac5a1774368706b94595f255fdb",
+  "scope": "all68 sampled-close target reconciliation; longer contiguous paths remain unavailable",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify"
+  ],
+  "bootstrap": "checkpoint/forex_sampled_paths.zip",
+  "contract": "source_snapshot/SAMPLED_PATH_CONTRACT_V2.md",
+  "next": "review_sampled_paths_checkpoint",
+  "required_companions": {
+    "technical": "7ea1ffdd91ee4564ccad24973261819f6c8833637d8077e65f8776774e466a91"
+  }
+}

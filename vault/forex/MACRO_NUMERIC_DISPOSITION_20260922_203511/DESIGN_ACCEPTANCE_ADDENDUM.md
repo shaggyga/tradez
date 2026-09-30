@@ -1,0 +1,1 @@
+R05/R14 design14.2–14.5. Evidence-backed gate separation and exact eligible next manifest; portable replay, meaningful checks and independent-review status preserved.

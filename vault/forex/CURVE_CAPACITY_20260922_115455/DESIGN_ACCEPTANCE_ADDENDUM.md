@@ -1,0 +1,1 @@
+Bounded design12/20, R03/R08/R11/R13/R14, WP7/WP9/WP10; full measured serving path, cache safeguards, numerical parity and recovery. The native serving requirement remains open.

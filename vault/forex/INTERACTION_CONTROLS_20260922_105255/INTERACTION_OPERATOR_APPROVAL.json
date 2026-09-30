@@ -1,0 +1,20 @@
+{
+  "recipe": "source_snapshot/INTERACTION_OPERATOR_RECIPE.json",
+  "recipe_sha256": "c981aa86870829027329335caee4cd80758b36fae29ca2fb4db28c6624747513",
+  "scope": "ten fixed market products and a separate balanced interaction-only fixture; no selection or confirmation",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify"
+  ],
+  "bootstrap": "checkpoint/forex_interactions.zip",
+  "contract": "source_snapshot/INTERACTION_CONTRACT_V2.md",
+  "next": "review_interaction_controls_checkpoint",
+  "required_companions": {
+    "model": "2fca12f0c7d6ab5085718203c1c4b8e1598db748479a749d7deca51f2a13cbb8",
+    "rich": "251d1a39778b4cd95aa2d061d9c03a80c961a1e478fbec128be82efb6746f4e3",
+    "archive": "aca163639a18e22b2c60dc4ff36d55d82c655af617836a6d351dd1339e5a6006"
+  }
+}

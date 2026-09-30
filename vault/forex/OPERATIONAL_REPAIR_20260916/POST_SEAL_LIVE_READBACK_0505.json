@@ -1,0 +1,124 @@
+{
+  "observed_epoch": 1789535098.7971087,
+  "initial_combined_read_failed": "JSONDecodeError:Expecting value; exact file not retained by first probe",
+  "read_errors": [],
+  "rolling": {
+    "generated_utc": "2026-09-16T05:04:43.649683+00:00",
+    "current_pairs": 65,
+    "pairs_with_observations": 68,
+    "fully_populated_pairs": 0,
+    "elapsed_seconds": 41.5,
+    "dataset_bytes": 921075456,
+    "disk_free_bytes": 133469757440
+  },
+  "news": {
+    "report_epoch": 1789535097.523512,
+    "status": "backlogged",
+    "phase": "complete",
+    "successful_cycles": 10,
+    "failure_generation": 0,
+    "last_success": {
+      "caught_up": false,
+      "consumer_ack_epoch": 1789535095.7365425,
+      "consumer_ack_sha256": "3b547fbd1172fc222574e94f75bd8ad88987d782aeaeb9eadbbadb6bafd0e88a",
+      "consumer_observed_epoch": 1789535093.491342,
+      "consumer_receipt_sha256": "2873f6ca47759b1ac362bdaab33cb80df7da56ab9c5de39728fafb2cecc76259",
+      "cycle_seconds": 20.719000000040978,
+      "more_pending": true,
+      "new_source_entries": 164,
+      "publication_status": "published_and_read_back",
+      "published_sequence": 84,
+      "run_id": "7b6f7e84d28d4d269dd22c742ecdb146",
+      "scan_completed_epoch": 1789535079.943268,
+      "scan_started_epoch": 1789535078.9163005,
+      "scan_through_seq": 11887,
+      "snapshot_sha256": "fd519a617ca77f050c501eef170c2e64e88d7a5f08da9516c9c5c9e27fa87b16",
+      "source_high_watermark": 14431
+    },
+    "last_failure": null
+  },
+  "joint": {
+    "generated_epoch": 1789535096.8531766,
+    "news_bootstrap_phase": "complete_fresh_capture_still_required",
+    "news_bootstrap_report": {
+      "account_eligible": false,
+      "archive_bytes": 155453068,
+      "archive_files": 814,
+      "archive_phase_seconds": 41.5,
+      "archive_prepared_and_byte_verified": true,
+      "archive_recipe_sha256": "3c3afff31e0f8cb3999adacef3d70b2e03d9e6e2b9747ecb3161f18b416de4cd",
+      "can_authorize": false,
+      "can_place_orders": false,
+      "can_promote": false,
+      "capture_handle_returned": false,
+      "elapsed_sec": 208.09399999992456,
+      "execution_eligible": false,
+      "fresh_health_proven": false,
+      "joint_model_consumption_proven": false,
+      "manifest_bytes": 5602668,
+      "manifest_sha256": "d291f0e2937a5cd86026fa05759f879ec6196bf7cc3719c3042e094f2f085041",
+      "maximum_phase_seconds": 330,
+      "maximum_total_seconds": 660,
+      "observation_count": 98,
+      "original_availability_unchanged": true,
+      "proof_eligible": false,
+      "publication_count": 78,
+      "read_completed_epoch": 1789534810.976488,
+      "read_started_epoch": 1789534603.0158963,
+      "research_only": true,
+      "retained_prefix_before_retry": false,
+      "schema_version": "revision_news_phase_bounded_bootstrap_v2_20260916",
+      "scope": "actual_fixed_store_cache_preparation_not_current_capture_or_forecast_authority",
+      "status": "cache_prepared_fresh_capture_required",
+      "validation_phase_seconds": 166.48399999993853
+    },
+    "errors": 6,
+    "last_error": "shared_news:HealthFailure:transport_not_ready:backlogged",
+    "pairs_with_forecast": 0,
+    "shared_history_prepared": false,
+    "counts": {
+      "building": 0,
+      "forecast": 0,
+      "ready": 0,
+      "unavailable": 68,
+      "warming": 0
+    }
+  },
+  "recovery": {
+    "generated_utc": "2026-09-16T05:04:42.0165445Z",
+    "operational_health": "degraded",
+    "supervisor_process_count": 1,
+    "supervisor_reported_error": "",
+    "action": "none",
+    "restart_circuit_open": false,
+    "owned_role_failures": [
+      {
+        "name": "joint_price_news_study_v9",
+        "reported_error": "shared_news:HealthFailure:transport_not_ready:backlogged",
+        "recovery_reason": null,
+        "running": true,
+        "fresh": true,
+        "reason": "fresh",
+        "reported_failure": true
+      },
+      {
+        "name": "research_feature_forward_v2",
+        "reported_error": "",
+        "recovery_reason": null,
+        "running": true,
+        "fresh": true,
+        "reason": "fresh",
+        "reported_failure": true
+      },
+      {
+        "name": "research_feature_forward_cached_v2",
+        "reported_error": "",
+        "recovery_reason": null,
+        "running": true,
+        "fresh": true,
+        "reason": "fresh",
+        "reported_failure": true
+      }
+    ]
+  }
+}

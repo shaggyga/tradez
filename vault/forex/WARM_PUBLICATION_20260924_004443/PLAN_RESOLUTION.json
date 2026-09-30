@@ -1,0 +1,20 @@
+{
+  "schema": "forex_publication_plan_resolution.v1",
+  "reviewer": "/root/research_next_selection",
+  "independent_review": true,
+  "verdict": "accepted_plan_pending_actual_publication",
+  "scope": "Review of local publication scripts only; not evidence that the future packet exists or that the warm source/lifecycle passed.",
+  "source_sha256": {
+    "publish_warm.py": "1dee19c99bf06ca28a92773de05f11c4428dda50f9417df1cdbb20bb94dce467",
+    "finalize_warm_git.py": "2148f94c97c2a670a7e072ef16531eace37882acef1c07d87758ff1f0c0fedaa"
+  },
+  "initial_findings": {"path":"PLAN_REVIEW.json","sha256":"60cf3196634b59d0fef29d598914ff2e452b93f14370c47b75e7612d2c7d8068","preserved_unchanged":true},
+  "resolutions": [
+    {"id":"WPUB-01","status":"resolved","evidence":"Canonical row removes local_evidence/resume_in_current_documentation_packet/partial_archive_sha256 from inherited metadata, sets current warm_repaired evidence and RESTORE_AND_ROLLBACK.md reference, and preserves exact oldrow in history."},
+    {"id":"WPUB-02","status":"resolved","evidence":"New not_started candidate overrides forecast_evidence_status with unevaluated_proposed_development_diagnostic; no blend outcomes claimed."},
+    {"id":"WPUB-03","status":"resolved","evidence":"Before draft creation, script asserts accepted independent review, every reviewed source hash, recipe SHA, checkpoint SHA, run fingerprint, and verified matching portable restore with 44 scientific payloads plus passing relocated suite."}
+  ],
+  "additional_observations": ["Superseded provisional source and original lifecycle/run metadata are explicitly copied into preserved evidence.","Restore/rollback notes retain the exact saved-input companion, source recipe, run paths and no-overwrite workflow.","Both pointer-selected current-document pin sets and operational queue gate remain carried forward."],
+  "unresolved_plan_findings": [],
+  "next_action": "After independent source acceptance and publication, verify actual immutable manifest/inventory, current doc/source pins, queue history and next candidate status, review/archive/run bindings, companion/restore mapping, finalized Git receipt and clean preflight."
+}

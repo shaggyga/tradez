@@ -1,0 +1,1 @@
+Bounded R05/R10/R11/R13/R14 and WP6/WP10 reuse/context inspection; chronology, missing-value honesty, fixed source/input validation and recovery mechanisms verified. TST02/11/34/50/51/52 principles within scoped original-context cases; full numeric vintage/neutral semantic extraction/all-release/confirmation requirements remain open.

@@ -1,0 +1,109 @@
+{
+  "authorities": [
+    {
+      "bytes": 10242,
+      "path": "CHAT_COORDINATION_BOARD.md",
+      "sha256": "b1e193ff52a7a42f785103fea8585d911e1561867744d053185b44493ecc61c8"
+    },
+    {
+      "bytes": 748,
+      "path": "CHECKPOINT_REVIEW_LATEST.json",
+      "sha256": "1964d322569b57855760c84a73fb1ff9404dd34b11593ef7f855adf8d84eadf4"
+    },
+    {
+      "bytes": 1033,
+      "path": "DESIGN_ALIGNMENT_LATEST.json",
+      "sha256": "e1c5a7316f9d5453f8f228064a1f76043ca74a57a9e36b2f82f6e1c7927114a5"
+    },
+    {
+      "bytes": 532,
+      "path": "OPERATIONAL_READINESS_LATEST.json",
+      "sha256": "9b8ffa5909812a3e9482f8ca8375722151de7317c8a9cf926c42753a86f298b6"
+    },
+    {
+      "bytes": 160556,
+      "path": "REVIEW_QUEUE.json",
+      "sha256": "130572ce083d349d5884fc4e7b6c84b3e77e0bbe8f8e0dff0c4ca4876680cdcd"
+    },
+    {
+      "bytes": 9063,
+      "path": "SHARED_GIT_REMOTE_LATEST.json",
+      "sha256": "6e08dd9188527069f46b682b795cae592896e7c386d2c4b48458a6660b10017d"
+    }
+  ],
+  "baseline_commit": "5e7cb25c467bfb47887c89953b16f5b50d698528",
+  "captured_utc": "2026-09-23T20:07:55.875465+00:00",
+  "design_pointer": {
+    "active_integrity_batch": "ALL68_INTEGRITY_BATCH_05_20260921.md",
+    "active_integrity_batch_scope": "WP6 shared currency concept meter and offline evidence drilldown",
+    "cloud_sync_verified": false,
+    "current_acceptance_addendum": "MACRO_METER_20260923_042731/DESIGN_ACCEPTANCE_ADDENDUM.md",
+    "design": "MACRO_METER_20260923_042731/specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+    "design_coverage": "MACRO_METER_20260923_042731/CURRENT_DESIGN_COVERAGE.md",
+    "historical_package": "DESIGN_ALIGNMENT_20260921",
+    "manifest": "MACRO_METER_20260923_042731/MANIFEST.json",
+    "manifest_sha256": "f29d0e398ed6e9acc812baf9169d11e84d67bfaae141f1c027f1917a09ddeefe",
+    "package": "MACRO_METER_20260923_042731",
+    "path_forward": "MACRO_METER_20260923_042731/PATH_FORWARD.md",
+    "readback": "MACRO_METER_20260923_042731/PACKAGE_READBACK.json",
+    "run_status": "MACRO_METER_20260923_042731/RUN_STATUS.json",
+    "schema": "forex_design_alignment_pointer.v2",
+    "scope": "current_verified_queue_and_bounded_recovery"
+  },
+  "exact_next_item": "macro_currency_meter_numeric_evidence_join_v2",
+  "package": "RESEARCH_PATH_20260923_200755",
+  "preexisting_changes": "",
+  "readiness": {
+    "checkpoint_sha256": "55ae8ad38a4458b74633d106a2d34726f07376429103c58efe5684521e5d5204",
+    "deferred_engineering_next_item": "macro_currency_meter_numeric_evidence_join_v2",
+    "demo_authorization_status": "not_granted",
+    "engineering_ready": false,
+    "forecast_evidence_status": "offline_retained_evidence_no_forecast_admission",
+    "identical_payloads": 5,
+    "independent_review": false,
+    "local_tests_passed": 17,
+    "next_action": "review_macro_meter_checkpoint_v2",
+    "policy_evidence_status": "not_evaluated",
+    "relocated_tests_passed": 17,
+    "review_status": "ready_for_review",
+    "source_predecessor": {
+      "active_integrity_batch": "ALL68_INTEGRITY_BATCH_05_20260921.md",
+      "active_integrity_batch_scope": "WP6 explicit reference and extraction-provenance binding",
+      "cloud_sync_verified": false,
+      "current_acceptance_addendum": "MACRO_PROVENANCE_20260923_041831/DESIGN_ACCEPTANCE_ADDENDUM.md",
+      "design": "MACRO_PROVENANCE_20260923_041831/specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+      "design_coverage": "MACRO_PROVENANCE_20260923_041831/CURRENT_DESIGN_COVERAGE.md",
+      "historical_package": "DESIGN_ALIGNMENT_20260921",
+      "manifest": "MACRO_PROVENANCE_20260923_041831/MANIFEST.json",
+      "manifest_sha256": "b913c1e2f05f08d1fbfcc30a97e638110b0dd80609910613a377cd3b7efadff3",
+      "package": "MACRO_PROVENANCE_20260923_041831",
+      "path_forward": "MACRO_PROVENANCE_20260923_041831/PATH_FORWARD.md",
+      "readback": "MACRO_PROVENANCE_20260923_041831/PACKAGE_READBACK.json",
+      "run_status": "MACRO_PROVENANCE_20260923_041831/RUN_STATUS.json",
+      "schema": "forex_design_alignment_pointer.v2",
+      "scope": "current_verified_queue_and_bounded_recovery"
+    },
+    "step_id": "macro_currency_meter_evidence_view_v2"
+  },
+  "review_pointer": {
+    "baseline_commit": "6ab186f83fa4e071ea1ad77904301ae04c7b8e7f",
+    "documentation_only": false,
+    "engine_scope_changed": false,
+    "independent_review": true,
+    "manifest": "OPERATIONAL_READINESS_20260923_180528/MANIFEST.json",
+    "manifest_sha256": "808390179cfc40400eaa779cbb50776c4fe53562f0324e5efc70ed01c5be17a6",
+    "mutable_git_operation_receipt": "SHARED_GIT_REMOTE_LATEST.json",
+    "next_engineering_item": "macro_currency_meter_numeric_evidence_join_v2",
+    "operational_only": true,
+    "package": "OPERATIONAL_READINESS_20260923_180528",
+    "queue": "REVIEW_QUEUE.json",
+    "readback": "OPERATIONAL_READINESS_20260923_180528/READBACK.json",
+    "review": "OPERATIONAL_READINESS_20260923_180528/REVIEW.md",
+    "verdict": "accepted_within_scope"
+  },
+  "scientific_sources_verified": 369,
+  "scientific_steps": 55,
+  "scope": "Detailed research handoff, NEXT/TIMED and project navigation; no implementation, computation or timed session launched",
+  "started_utc": "2026-09-23T20:07:09.1143986Z",
+  "step_id": "mabel-research-path-handoff-20260923"
+}

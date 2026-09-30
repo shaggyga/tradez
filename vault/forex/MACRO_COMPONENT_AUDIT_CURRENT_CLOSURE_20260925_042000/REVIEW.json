@@ -1,0 +1,45 @@
+{
+  "schema": "forex_current_closure.v1",
+  "packet_id": "MACRO_COMPONENT_AUDIT_CURRENT_CLOSURE_20260925_042000",
+  "created_utc": "2026-09-25T03:43:59Z",
+  "step_id": "macro_component_extraction_span_audit_v2",
+  "status": "closed_by_existing_packet_reuse",
+  "source_packet": "MACRO_COMPONENT_AUDIT_20260922_202047",
+  "source_review": "MACRO_COMPONENT_AUDIT_20260922_202047/REVIEW.json",
+  "source_review_sha256": "2469233f114e290e95eb810d722a83d4dc7860ac36f088c92d8097a9602a7cf6",
+  "source_review_md_sha256": "60877c64f60141e2bc41dae7462ff2ab68797039f07453a4ef5d3c1f1ba860f9",
+  "source_checkpoint_sha256": "69d1f36ec704dbe6e698fa9e0d07c1ebfbb3b4aa2f7950497e79c9b284c6a6e3",
+  "evidence_readback": "C:\\Users\\zmoor\\Documents\\forex\\evidence\\timed_residual_r4_20260925_025955\\macro_component_extraction\\MACRO_COMPONENT_SOURCE_READBACK.json",
+  "evidence_readback_sha256": "e91dc8dd2cf914877383f54e85b2763449d00b44a4dae4fdc0c0a60433e3bdd3",
+  "local_tests_passed": 13,
+  "relocated_tests_passed": 13,
+  "identical_payloads": 5,
+  "forecast_evidence_status": "reproduced_component_defects_not_repaired_or_forecast_qualified",
+  "engineering_ready": false,
+  "review_status": "same_task_current_closure_reuses_sealed_packet_independent_review_pending_nonblocking",
+  "actual_work_this_step": [
+    "Resolved current queue pointer to macro_component_extraction_span_audit_v2.",
+    "Read sealed source packet and local readback for exact step identity.",
+    "Published current closure pointer without duplicate computation or fit.",
+    "Advanced the timed queue to macro_component_extraction_guard_repair_v2."
+  ],
+  "tests_executed_this_turn": [],
+  "tests_reused_from_source_packet": {
+    "local_tests_passed": 13,
+    "relocated_tests_passed": 13,
+    "identical_payloads": 5
+  },
+  "boundaries": {
+    "new_fit_performed": false,
+    "forecast_admission": false,
+    "gpt_advisor_comparisons": false,
+    "paid_api_calls": false,
+    "broker_or_live_bot_changes": false,
+    "d_drive_investigation": false
+  },
+  "next_step_id": "macro_component_extraction_guard_repair_v2",
+  "deadline_utc": "2026-09-25T04:59:55Z",
+  "session_id": "timed_residual_r4_20260925_025955",
+  "manifest": "MANIFEST.json",
+  "manifest_sha256": "0494aa244b5d590e88119ca6cfc3530c544a557c575c35d7c171f05897470628"
+}

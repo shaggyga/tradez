@@ -1,0 +1,48 @@
+{
+  "schema_version": "forex_comovement_research_plan_v1",
+  "status": "proposed_not_activated",
+  "basis": "Independent sanity check of fixed already-inspected historical populations; not model selection or predictive validation",
+  "collection_enabled": false,
+  "can_place_orders": false,
+  "can_promote": false,
+  "proof_eligible": false,
+  "current_registered_study_unchanged": true,
+  "priorities": [
+    {
+      "priority": 1,
+      "candidate": "Exact-price scoring",
+      "work": "Define decimal or exact tick midpoint comparisons, retain flats explicitly and verify bid/ask and pair pip semantics in a separately versioned scorer.",
+      "acceptance": "Reproduce original stored counts and corrected exact counts separately; test spread-only changes, symmetric midpoint changes, tiny legitimate moves and exotic pip sizes; no historical forecast mutation."
+    },
+    {
+      "priority": 2,
+      "candidate": "Synchronized peer and currency-factor baseline",
+      "work": "Use aligned log or economically normalized returns, consistent base/quote orientation and a leave-target-pair-out common currency factor. Compare own-price lags against added peer lags on identical future decisions.",
+      "acceptance": "Freeze pairs, lookbacks, regularization and training/label availability rules before a fresh sample; preserve all abstentions and missing data, and require incremental after-cost improvement."
+    },
+    {
+      "priority": 3,
+      "candidate": "Regularized VAR and cointegration/VECM",
+      "work": "Implement compact multivariate baselines and train-only cointegration diagnostics; separate short-run lead-lag from long-run basket equilibrium.",
+      "acceptance": "Require stable train-only relationships, time-respecting evaluation, independent episodes and improvement against the fixed own-price and no-trade baselines; no full-window fitted relation credited as historically available."
+    },
+    {
+      "priority": 4,
+      "candidate": "Fitted dynamic factors and regimes",
+      "work": "Estimate common factors and changing regimes on prior observations; test whether residual relative strength adds forecast information.",
+      "acceptance": "Distinguish state reconstruction from prediction; freeze the model and validate transitions and uncertainty on untouched outcomes."
+    },
+    {
+      "priority": 5,
+      "candidate": "Dependence-aware ensemble",
+      "work": "Measure matched prediction and error covariance and consider prior-label-only calibration or stacking after individual baselines are established.",
+      "acceptance": "Beat equal probability averaging, fixed members and no-trade after costs on identical future decisions; do not count correlated votes as independent confirmation."
+    }
+  ],
+  "known_limits": [
+    "Strong same-time currency correlation and PCA variance share do not establish leading predictive information.",
+    "The archived consensus slices and 35 lead-lag cells were already inspected and cannot become untouched confirmation.",
+    "Existing historical lead-lag and modern model reports did not establish positive eligible performance.",
+    "A new numerical model or feature contract requires a separate registration; this plan activates nothing."
+  ]
+}

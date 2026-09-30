@@ -1,0 +1,2 @@
+Next: review_sampled_paths_checkpoint, then joint_curve_serving_capacity_characterization_v2.
+Measure whole-origin reference versus shared-preprocessing prediction/publication with exact retained models and readiness selection; no fitting or relaxed native freshness.

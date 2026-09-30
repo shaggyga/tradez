@@ -1,0 +1,8 @@
+{
+  "command": "timeseries312 python -I -B -m pytest -q -p no:cacheprovider --noconftest stage_c_alignment_integrity_v2/test_policy_exposure_concentration_v2.py",
+  "passed": 2,
+  "failed": 0,
+  "real_qualification_command": "timeseries312 python -I -B evidence/four_hour_20260925_135023/qualify_policy_exposure.py",
+  "first_real_check_failure": "Expected 68 usable quotes in every frame; actual authenticated frames have 66-68. Corrected to record exact missing quotes, preserving 68 market-record population.",
+  "second_real_check_failure": "USD identity conversion lacks quote timestamps by design; corrected to verify its unit conversion separately."
+}

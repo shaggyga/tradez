@@ -1,0 +1,45 @@
+{
+  "step_id": "blocked-time-and-leak-positive-controls",
+  "verdict": "accepted_within_scope",
+  "independent_review": false,
+  "next_item": "matched_irrelevant_feature_controls_v2",
+  "engineering_ready": false,
+  "forecast_evidence_status": "development_association_controls_only",
+  "policy_evidence_status": "not_evaluated",
+  "demo_authorization_status": "not_granted",
+  "checks": [
+    "336 paired comparisons,1344 complete-day identity/shift rows",
+    "all68 scope with52\u201363 balanced pairs and explicit exclusions",
+    "134 known leaks detected; two exact raw future-bar gaps unavailable",
+    "injected future-reading producer fails causality audit",
+    "22 local and22 relocated tests",
+    "four exact reconstructed payloads, guarded consumer and real crash/resume"
+  ],
+  "limitations": [
+    "same implementer; independent review unperformed",
+    "3\u20135 inspected days and artificial cyclic wrap",
+    "canonical pair-local feature scope, not observed arrival or peer-panel qualification",
+    "two positive-control cases lack exact future bars",
+    "no broad null calibration, macro assignment or confirmation",
+    "same-host relocation only"
+  ],
+  "utc": "2026-09-22T10:05:17.931664+00:00",
+  "reviewer": "same-implementer follow-up source/evidence review",
+  "source_engine": {
+    "schema": "forex_design_alignment_pointer.v2",
+    "package": "BLOCKED_CONTROLS_20260922_100514",
+    "path_forward": "BLOCKED_CONTROLS_20260922_100514/PATH_FORWARD.md",
+    "run_status": "BLOCKED_CONTROLS_20260922_100514/RUN_STATUS.json",
+    "design": "BLOCKED_CONTROLS_20260922_100514/specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+    "design_coverage": "BLOCKED_CONTROLS_20260922_100514/CURRENT_DESIGN_COVERAGE.md",
+    "current_acceptance_addendum": "BLOCKED_CONTROLS_20260922_100514/DESIGN_ACCEPTANCE_ADDENDUM.md",
+    "manifest": "BLOCKED_CONTROLS_20260922_100514/MANIFEST.json",
+    "manifest_sha256": "6d2da35b596c70aceaed18af4996604479451c130e2268e4171d081e46be5809",
+    "readback": "BLOCKED_CONTROLS_20260922_100514/PACKAGE_READBACK.json",
+    "active_integrity_batch": "ALL68_INTEGRITY_BATCH_05_20260921.md",
+    "active_integrity_batch_scope": "336 blocked-day diagnostics and136 supported/unavailable raw leak cases; no fitting or confirmation",
+    "historical_package": "DESIGN_ALIGNMENT_20260921",
+    "scope": "current_verified_queue_and_bounded_recovery",
+    "cloud_sync_verified": false
+  }
+}

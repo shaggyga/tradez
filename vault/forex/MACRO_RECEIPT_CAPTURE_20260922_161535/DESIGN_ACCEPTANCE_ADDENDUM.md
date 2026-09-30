@@ -1,0 +1,1 @@
+R05/R10/R11/R14, WP6, design14.2–14.7. Original ledger reconstruction and clock evidence reused; gzip expansion and receipt identities fail closed. Tests include actual process death and relocated five-payload replay. Receipt capture is complete within scope; the parent all-release/no-move experiment is partial, not accepted as completed. Independent review unperformed.

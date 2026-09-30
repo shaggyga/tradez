@@ -1,0 +1,15 @@
+{
+  "recipe": "source_snapshot/MACRO_DETAIL_REPRESENTATION_OPERATOR_RECIPE.json",
+  "recipe_sha256": "c8aa58c1f346fc119febaf891c60f770e14605adf1a049ae1e2505a1770af5f5",
+  "scope": "offline retained-detail selection and causal coverage; no forecast or live projection certification",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify"
+  ],
+  "bootstrap": "checkpoint/forex_macro_detail_representation.zip",
+  "contract": "source_snapshot/MACRO_DETAIL_REPRESENTATION_CONTRACT_V2.md",
+  "next": "review_macro_detail_representation_checkpoint_v2"
+}

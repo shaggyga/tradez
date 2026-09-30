@@ -1,0 +1,26 @@
+{
+  "recipe": "source_snapshot/CAMPAIGN_INSPECTOR_OPERATOR_RECIPE.json",
+  "recipe_sha256": "bca2eea1912e8f10e408aa3b0a070529dda479d36008de5238159049cc18fa4b",
+  "scope": "original-record inspection and bounded development aggregate report; full design remains open",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify",
+    "inspect"
+  ],
+  "bootstrap": "../CAMPAIGN_INSPECTOR_20260922_052207/checkpoint/forex_campaign_inspector_final.zip",
+  "contract": "source_snapshot/CAMPAIGN_INSPECTOR_CONTRACT_V2.md",
+  "next": "review_campaign_inspector_checkpoint",
+  "required_companions": {
+    "model": {
+      "sha256": "2fca12f0c7d6ab5085718203c1c4b8e1598db748479a749d7deca51f2a13cbb8",
+      "vault_path": "MATCHED_REMAINING_20260922_041223/checkpoint/forex_matched_remaining.zip"
+    },
+    "policy": {
+      "sha256": "daed749436fb6794fbfbf3c932f64aacc8c009a915a045adb37fcc7f64363f37",
+      "vault_path": "MATCHED_POLICY_20260922_044505/checkpoint/forex_matched_policy.zip"
+    }
+  }
+}

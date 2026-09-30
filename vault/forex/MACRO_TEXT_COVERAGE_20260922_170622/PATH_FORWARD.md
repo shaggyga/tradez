@@ -1,0 +1,2 @@
+Next: review_macro_text_coverage_checkpoint_v2, then repair_recovered_policy_action_scoping_v2.
+Repair the recovered native assertion/scoping failures separately before semantic admission; no outcome-driven tuning.

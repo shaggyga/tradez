@@ -1,0 +1,476 @@
+{
+  "checkpoint": {
+    "path": "checkpoint/CHRONOLOGICAL_ATTRIBUTION_CHECKPOINT.zip",
+    "sha256": "2fa082e82eaca619d7b268d2e51579cd48b4c7bd44f9f8f5e4e8dba104daf7fc"
+  },
+  "demo_authorization_status": "not_granted",
+  "engineering_ready": false,
+  "forecast_evidence_status": "two_overlapping_chronological_development_cohorts_attribution_only",
+  "implementation_status": "complete",
+  "independent_review": false,
+  "independent_review_status": "pending_nonblocking_by_user_clarification",
+  "next_action": "currency_factor_forecast_projection_v2",
+  "policy_evidence_status": "preserved_declared_candle_paths_not_new_counterfactuals",
+  "readiness": {
+    "demo_authorization_status": "not_granted",
+    "engineering_ready": false,
+    "forecast_evidence_status": "two_overlapping_chronological_development_cohorts_attribution_only",
+    "policy_evidence_status": "preserved_declared_candle_paths_not_new_counterfactuals"
+  },
+  "recipe_sha256": "6650b12f41ffbab42fed2a211b6be649ef965af4bffc8cfd5ffdcb2bff2020c9",
+  "review_result": "evidence/REVIEW_FINDINGS.md",
+  "review_status": "accepted_within_scope",
+  "reviewer": "same Codex task; substantive same-task review",
+  "run_identity": "fdd9561da2492a0823710151a33ca6bb9a606f205809f78274a70b1109191609",
+  "schema": "forex_review_packet.v2",
+  "source_commit": "92f5cde67a4de0aa164adeab26eca40e58b672c3",
+  "step_id": "chronological_policy_attribution_v2",
+  "unresolved_findings": [],
+  "verification": {
+    "actual_crash_exit": 91,
+    "api_calls": 0,
+    "audit": {
+      "arithmetic_scope": "Same-task additional arithmetic cross-check, not independent review",
+      "exact_parent_opening_links": 437,
+      "float_fsum_metric_groups": 28,
+      "initial_scientific_payloads_preserved_after_CA_SIDE_1": 10,
+      "native_forecast_and_label_joins": 11048,
+      "parent_accounts": 336,
+      "per_cohort_worst": {
+        "later_monday": [
+          {
+            "arm": "continuation",
+            "cohort": "later_monday",
+            "delayed_open_fills": 0,
+            "fees_usd": "0.40",
+            "filled_mae_bps": "43.7301045498510455",
+            "financing_usd": "0",
+            "method": "recovered_hgb__magnitude_interaction_frozen",
+            "net_usd": "-13.0050732253825430774549649767838648700091137461706",
+            "pair_episode_counts": {
+              "HKD_JPY": 1,
+              "ZAR_JPY": 1
+            },
+            "pair_realized_usd": {
+              "HKD_JPY": "-7.0160950649027649159941791242227807911099351766106",
+              "ZAR_JPY": "-5.5889781604797781614607858525610840788991785695600"
+            },
+            "scenario": "later_monday_candle_one_bp_slippage_rollover",
+            "selected_mae_bps": "35.696084935264043666666666666666666666666666666666666666666666666666666666666667"
+          },
+          {
+            "arm": "naive",
+            "cohort": "later_monday",
+            "delayed_open_fills": 0,
+            "fees_usd": "0.40",
+            "filled_mae_bps": "43.7301045498510455",
+            "financing_usd": "0",
+            "method": "recovered_hgb__magnitude_interaction_frozen",
+            "net_usd": "-13.0050732253825430774549649767838648700091137461706",
+            "pair_episode_counts": {
+              "HKD_JPY": 1,
+              "ZAR_JPY": 1
+            },
+            "pair_realized_usd": {
+              "HKD_JPY": "-7.0160950649027649159941791242227807911099351766106",
+              "ZAR_JPY": "-5.5889781604797781614607858525610840788991785695600"
+            },
+            "scenario": "later_monday_candle_one_bp_slippage_rollover",
+            "selected_mae_bps": "35.696084935264043666666666666666666666666666666666666666666666666666666666666667"
+          },
+          {
+            "arm": "continuation",
+            "cohort": "later_monday",
+            "delayed_open_fills": 0,
+            "fees_usd": "0.40",
+            "filled_mae_bps": "43.7301045498510455",
+            "financing_usd": "0",
+            "method": "recovered_hgb__magnitude_interaction_frozen",
+            "net_usd": "-12.6057379051238611823165430222344024007945946862964",
+            "pair_episode_counts": {
+              "HKD_JPY": 1,
+              "ZAR_JPY": 1
+            },
+            "pair_realized_usd": {
+              "HKD_JPY": "-6.8167683556025929355734885566873925122370683952903",
+              "ZAR_JPY": "-5.3889695495212682467430544655470098885575262910061"
+            },
+            "scenario": "later_monday_candle_zero_slippage_financing",
+            "selected_mae_bps": "35.696084935264043666666666666666666666666666666666666666666666666666666666666667"
+          },
+          {
+            "arm": "naive",
+            "cohort": "later_monday",
+            "delayed_open_fills": 0,
+            "fees_usd": "0.40",
+            "filled_mae_bps": "43.7301045498510455",
+            "financing_usd": "0",
+            "method": "recovered_hgb__magnitude_interaction_frozen",
+            "net_usd": "-12.6057379051238611823165430222344024007945946862964",
+            "pair_episode_counts": {
+              "HKD_JPY": 1,
+              "ZAR_JPY": 1
+            },
+            "pair_realized_usd": {
+              "HKD_JPY": "-6.8167683556025929355734885566873925122370683952903",
+              "ZAR_JPY": "-5.3889695495212682467430544655470098885575262910061"
+            },
+            "scenario": "later_monday_candle_zero_slippage_financing",
+            "selected_mae_bps": "35.696084935264043666666666666666666666666666666666666666666666666666666666666667"
+          }
+        ],
+        "later_tuesday": [
+          {
+            "arm": "continuation",
+            "cohort": "later_tuesday",
+            "delayed_open_fills": 1,
+            "fees_usd": "0.60",
+            "filled_mae_bps": "114.05312700123826666666666666666666666666666666666666666666666666666666666666667",
+            "financing_usd": "0",
+            "method": "ridge__magnitude_interaction_expanding",
+            "net_usd": "-21.3121993159580387170397828766354233607024944155242",
+            "pair_episode_counts": {
+              "EUR_CZK": 1,
+              "TRY_JPY": 1,
+              "USD_MXN": 1
+            },
+            "pair_realized_usd": {
+              "EUR_CZK": "-1.5523401214719542693819221150410861021793497677742",
+              "TRY_JPY": "-3.7656789066887753737530421759246877590864111684630",
+              "USD_MXN": "-15.394180287797309073904818585669649499436733479287"
+            },
+            "scenario": "later_tuesday_candle_zero_slippage_financing",
+            "selected_mae_bps": "92.378777818241235"
+          },
+          {
+            "arm": "naive",
+            "cohort": "later_tuesday",
+            "delayed_open_fills": 0,
+            "fees_usd": "0.40",
+            "filled_mae_bps": "146.0651947474268625",
+            "financing_usd": "0",
+            "method": "ridge__magnitude_interaction_frozen",
+            "net_usd": "-17.5029504828766607797625485397851457836077164454502",
+            "pair_episode_counts": {
+              "USD_MXN": 2
+            },
+            "pair_realized_usd": {
+              "USD_MXN": "-17.1029504828766607797625485397851457836077164454502"
+            },
+            "scenario": "later_tuesday_candle_one_bp_slippage_rollover",
+            "selected_mae_bps": "101.2497633540887205"
+          },
+          {
+            "arm": "naive",
+            "cohort": "later_tuesday",
+            "delayed_open_fills": 0,
+            "fees_usd": "0.40",
+            "filled_mae_bps": "146.0651947474268625",
+            "financing_usd": "0",
+            "method": "ridge__magnitude_interaction_frozen",
+            "net_usd": "-17.1044881860570145625259698574233308916723425823660",
+            "pair_episode_counts": {
+              "USD_MXN": 2
+            },
+            "pair_realized_usd": {
+              "USD_MXN": "-16.7044881860570145625259698574233308916723425823660"
+            },
+            "scenario": "later_tuesday_candle_zero_slippage_financing",
+            "selected_mae_bps": "101.2497633540887205"
+          },
+          {
+            "arm": "naive",
+            "cohort": "later_tuesday",
+            "delayed_open_fills": 0,
+            "fees_usd": "0.40",
+            "filled_mae_bps": "90.6127328173414902",
+            "financing_usd": "0",
+            "method": "ridge__signed_only_frozen",
+            "net_usd": "-16.24774936541485052500807922041968026591778622757578",
+            "pair_episode_counts": {
+              "USD_HKD": 1,
+              "USD_MXN": 1
+            },
+            "pair_realized_usd": {
+              "USD_HKD": "-0.25504260409106792462973416122355724000752627476278",
+              "USD_MXN": "-15.592706761323782600378345059196123025910259952813"
+            },
+            "scenario": "later_tuesday_candle_one_bp_slippage_rollover",
+            "selected_mae_bps": "78.494912730691913466666666666666666666666666666666666666666666666666666666666667"
+          }
+        ]
+      },
+      "rank_denominators": 675,
+      "status": "PASS",
+      "worst_paths": [
+        {
+          "arm": "continuation",
+          "cohort": "later_tuesday",
+          "delayed_open_fills": 1,
+          "fees_usd": "0.60",
+          "filled_mae_bps": "114.05312700123826666666666666666666666666666666666666666666666666666666666666667",
+          "financing_usd": "0",
+          "method": "ridge__magnitude_interaction_expanding",
+          "net_usd": "-21.3121993159580387170397828766354233607024944155242",
+          "pair_episode_counts": {
+            "EUR_CZK": 1,
+            "TRY_JPY": 1,
+            "USD_MXN": 1
+          },
+          "pair_realized_usd": {
+            "EUR_CZK": "-1.5523401214719542693819221150410861021793497677742",
+            "TRY_JPY": "-3.7656789066887753737530421759246877590864111684630",
+            "USD_MXN": "-15.394180287797309073904818585669649499436733479287"
+          },
+          "scenario": "later_tuesday_candle_zero_slippage_financing",
+          "selected_mae_bps": "92.378777818241235"
+        },
+        {
+          "arm": "naive",
+          "cohort": "later_tuesday",
+          "delayed_open_fills": 0,
+          "fees_usd": "0.40",
+          "filled_mae_bps": "146.0651947474268625",
+          "financing_usd": "0",
+          "method": "ridge__magnitude_interaction_frozen",
+          "net_usd": "-17.5029504828766607797625485397851457836077164454502",
+          "pair_episode_counts": {
+            "USD_MXN": 2
+          },
+          "pair_realized_usd": {
+            "USD_MXN": "-17.1029504828766607797625485397851457836077164454502"
+          },
+          "scenario": "later_tuesday_candle_one_bp_slippage_rollover",
+          "selected_mae_bps": "101.2497633540887205"
+        },
+        {
+          "arm": "naive",
+          "cohort": "later_tuesday",
+          "delayed_open_fills": 0,
+          "fees_usd": "0.40",
+          "filled_mae_bps": "146.0651947474268625",
+          "financing_usd": "0",
+          "method": "ridge__magnitude_interaction_frozen",
+          "net_usd": "-17.1044881860570145625259698574233308916723425823660",
+          "pair_episode_counts": {
+            "USD_MXN": 2
+          },
+          "pair_realized_usd": {
+            "USD_MXN": "-16.7044881860570145625259698574233308916723425823660"
+          },
+          "scenario": "later_tuesday_candle_zero_slippage_financing",
+          "selected_mae_bps": "101.2497633540887205"
+        },
+        {
+          "arm": "naive",
+          "cohort": "later_tuesday",
+          "delayed_open_fills": 0,
+          "fees_usd": "0.40",
+          "filled_mae_bps": "90.6127328173414902",
+          "financing_usd": "0",
+          "method": "ridge__signed_only_frozen",
+          "net_usd": "-16.24774936541485052500807922041968026591778622757578",
+          "pair_episode_counts": {
+            "USD_HKD": 1,
+            "USD_MXN": 1
+          },
+          "pair_realized_usd": {
+            "USD_HKD": "-0.25504260409106792462973416122355724000752627476278",
+            "USD_MXN": "-15.592706761323782600378345059196123025910259952813"
+          },
+          "scenario": "later_tuesday_candle_one_bp_slippage_rollover",
+          "selected_mae_bps": "78.494912730691913466666666666666666666666666666666666666666666666666666666666667"
+        },
+        {
+          "arm": "naive",
+          "cohort": "later_tuesday",
+          "delayed_open_fills": 0,
+          "fees_usd": "0.40",
+          "filled_mae_bps": "90.6127328173414902",
+          "financing_usd": "0",
+          "method": "ridge__signed_only_frozen",
+          "net_usd": "-15.849219371946948823899378676189743245076806028479780",
+          "pair_episode_counts": {
+            "USD_HKD": 1,
+            "USD_MXN": 1
+          },
+          "pair_realized_usd": {
+            "USD_HKD": "-0.055039084149639749994560090520093745640072549192780",
+            "USD_MXN": "-15.394180287797309073904818585669649499436733479287"
+          },
+          "scenario": "later_tuesday_candle_zero_slippage_financing",
+          "selected_mae_bps": "78.494912730691913466666666666666666666666666666666666666666666666666666666666667"
+        },
+        {
+          "arm": "continuation",
+          "cohort": "later_tuesday",
+          "delayed_open_fills": 1,
+          "fees_usd": "0.40",
+          "filled_mae_bps": "71.84976207907193",
+          "financing_usd": "0",
+          "method": "ridge__magnitude_interaction_expanding",
+          "net_usd": "-15.5483560875734373946950727951980835781451073370827",
+          "pair_episode_counts": {
+            "EUR_CZK": 1,
+            "TRY_JPY": 1
+          },
+          "pair_realized_usd": {
+            "EUR_CZK": "-1.7522958735262593783494105037513397642015005359057",
+            "TRY_JPY": "-13.396060214047178016345662291446743813943606801177"
+          },
+          "scenario": "later_tuesday_candle_one_bp_slippage_rollover",
+          "selected_mae_bps": "91.72216348153991875"
+        },
+        {
+          "arm": "continuation",
+          "cohort": "later_monday",
+          "delayed_open_fills": 0,
+          "fees_usd": "0.40",
+          "filled_mae_bps": "43.7301045498510455",
+          "financing_usd": "0",
+          "method": "recovered_hgb__magnitude_interaction_frozen",
+          "net_usd": "-13.0050732253825430774549649767838648700091137461706",
+          "pair_episode_counts": {
+            "HKD_JPY": 1,
+            "ZAR_JPY": 1
+          },
+          "pair_realized_usd": {
+            "HKD_JPY": "-7.0160950649027649159941791242227807911099351766106",
+            "ZAR_JPY": "-5.5889781604797781614607858525610840788991785695600"
+          },
+          "scenario": "later_monday_candle_one_bp_slippage_rollover",
+          "selected_mae_bps": "35.696084935264043666666666666666666666666666666666666666666666666666666666666667"
+        },
+        {
+          "arm": "naive",
+          "cohort": "later_monday",
+          "delayed_open_fills": 0,
+          "fees_usd": "0.40",
+          "filled_mae_bps": "43.7301045498510455",
+          "financing_usd": "0",
+          "method": "recovered_hgb__magnitude_interaction_frozen",
+          "net_usd": "-13.0050732253825430774549649767838648700091137461706",
+          "pair_episode_counts": {
+            "HKD_JPY": 1,
+            "ZAR_JPY": 1
+          },
+          "pair_realized_usd": {
+            "HKD_JPY": "-7.0160950649027649159941791242227807911099351766106",
+            "ZAR_JPY": "-5.5889781604797781614607858525610840788991785695600"
+          },
+          "scenario": "later_monday_candle_one_bp_slippage_rollover",
+          "selected_mae_bps": "35.696084935264043666666666666666666666666666666666666666666666666666666666666667"
+        },
+        {
+          "arm": "continuation",
+          "cohort": "later_monday",
+          "delayed_open_fills": 0,
+          "fees_usd": "0.40",
+          "filled_mae_bps": "43.7301045498510455",
+          "financing_usd": "0",
+          "method": "recovered_hgb__magnitude_interaction_frozen",
+          "net_usd": "-12.6057379051238611823165430222344024007945946862964",
+          "pair_episode_counts": {
+            "HKD_JPY": 1,
+            "ZAR_JPY": 1
+          },
+          "pair_realized_usd": {
+            "HKD_JPY": "-6.8167683556025929355734885566873925122370683952903",
+            "ZAR_JPY": "-5.3889695495212682467430544655470098885575262910061"
+          },
+          "scenario": "later_monday_candle_zero_slippage_financing",
+          "selected_mae_bps": "35.696084935264043666666666666666666666666666666666666666666666666666666666666667"
+        },
+        {
+          "arm": "naive",
+          "cohort": "later_monday",
+          "delayed_open_fills": 0,
+          "fees_usd": "0.40",
+          "filled_mae_bps": "43.7301045498510455",
+          "financing_usd": "0",
+          "method": "recovered_hgb__magnitude_interaction_frozen",
+          "net_usd": "-12.6057379051238611823165430222344024007945946862964",
+          "pair_episode_counts": {
+            "HKD_JPY": 1,
+            "ZAR_JPY": 1
+          },
+          "pair_realized_usd": {
+            "HKD_JPY": "-6.8167683556025929355734885566873925122370683952903",
+            "ZAR_JPY": "-5.3889695495212682467430544655470098885575262910061"
+          },
+          "scenario": "later_monday_candle_zero_slippage_financing",
+          "selected_mae_bps": "35.696084935264043666666666666666666666666666666666666666666666666666666666666667"
+        },
+        {
+          "arm": "fixed_hold",
+          "cohort": "later_monday",
+          "delayed_open_fills": 0,
+          "fees_usd": "0.20",
+          "filled_mae_bps": "167.839662294383255",
+          "financing_usd": "-0.10037430900000000000000000000000000000000000000000",
+          "method": "recovered_hgb__magnitude_interaction_expanding",
+          "net_usd": "-11.68168180096153826461387223453876125768645903200600",
+          "pair_episode_counts": {
+            "NZD_HKD": 1
+          },
+          "pair_realized_usd": {
+            "NZD_HKD": "-11.381307491961538264613872234538761257686459032006"
+          },
+          "scenario": "later_monday_candle_one_bp_slippage_rollover",
+          "selected_mae_bps": "167.839662294383255"
+        },
+        {
+          "arm": "hysteresis",
+          "cohort": "later_monday",
+          "delayed_open_fills": 0,
+          "fees_usd": "0.20",
+          "filled_mae_bps": "167.839662294383255",
+          "financing_usd": "-0.10037430900000000000000000000000000000000000000000",
+          "method": "recovered_hgb__magnitude_interaction_expanding",
+          "net_usd": "-11.68168180096153826461387223453876125768645903200600",
+          "pair_episode_counts": {
+            "NZD_HKD": 1
+          },
+          "pair_realized_usd": {
+            "NZD_HKD": "-11.381307491961538264613872234538761257686459032006"
+          },
+          "scenario": "later_monday_candle_one_bp_slippage_rollover",
+          "selected_mae_bps": "167.839662294383255"
+        }
+      ]
+    },
+    "bad_checkpoint_pin_refused": true,
+    "base_model_fits": 0,
+    "base_model_loads": 0,
+    "checkpoint_sha256": "2fa082e82eaca619d7b268d2e51579cd48b4c7bd44f9f8f5e4e8dba104daf7fc",
+    "crash_payloads_preserved": 3,
+    "elapsed_seconds": 87.5,
+    "independent_review": false,
+    "layer_fits": 0,
+    "local_tests": 36,
+    "policy_replays": 0,
+    "recipe_sha256": "6650b12f41ffbab42fed2a211b6be649ef965af4bffc8cfd5ffdcb2bff2020c9",
+    "refusal_cases": 3,
+    "refusals": [
+      "wrong_recipe_pin_before_destination",
+      "changed_source_before_analysis_import",
+      "changed_original_parent_identity_before_analysis"
+    ],
+    "relocated_tests": 36,
+    "restore": {
+      "base_model_fits": 0,
+      "base_model_loads": 0,
+      "checkpoint_sha256": "2fa082e82eaca619d7b268d2e51579cd48b4c7bd44f9f8f5e4e8dba104daf7fc",
+      "independent_review": false,
+      "layer_fits": 0,
+      "policy_replays": 0,
+      "relocated_tests_passed": true,
+      "run_identity": "fdd9561da2492a0823710151a33ca6bb9a606f205809f78274a70b1109191609",
+      "scientific_payloads_identical": 60,
+      "status": "VERIFIED"
+    },
+    "run_identity": "fdd9561da2492a0823710151a33ca6bb9a606f205809f78274a70b1109191609",
+    "scientific_outputs_identical": 60,
+    "status": "PASS"
+  }
+}

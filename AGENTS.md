@@ -1,5 +1,10 @@
 # Forex workspace handoff
 
+New collaborators start with START_HERE.md. The `vault/forex/` directory is a
+versioned knowledge snapshot, not live coordination. Read it for orientation and
+recoverable documentation; resolve the live shared Vault before claiming work.
+Its SNAPSHOT_MANIFEST.json records exact copied bytes and excluded artifacts.
+
 Read FOREX_HANDOFF.md before resuming project work. The Forex Vault is the central
 engineering queue, checkpoint/review record and larger documentation store. Resolve
 current status through its DESIGN_ALIGNMENT_LATEST.json and CHECKPOINT_REVIEW_LATEST.json.

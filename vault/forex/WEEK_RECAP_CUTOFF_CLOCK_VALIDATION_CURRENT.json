@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-09-04T15:53:35.2357776+00:00",
+  "issue_id": "FX-20260904-WTD-RECAP-CUTOFF-CLOCK",
+  "status": "complete",
+  "defect": "The frozen recap preferred as_of_utc over the mutable snapshot publication clock, allowing a post-cutoff transient central-bank coverage replacement to appear pre-cutoff.",
+  "repair": {
+    "contract_id": "week_to_date_project_event_move_recap_v5_cutoff_safe_snapshot_clocks_20260904",
+    "publication_clock_precedence": [
+      "generated_utc",
+      "recorded_utc",
+      "time",
+      "as_of_utc"
+    ],
+    "historical_fallback_basis": "latest_append_only_collector_status_at_or_before_cutoff",
+    "frozen_cutoff_utc": "2026-09-04T14:31:30.324083+00:00"
+  },
+  "before": {
+    "configured_currencies": 0,
+    "release_operational_currencies": 0,
+    "release_healthy_currencies": 0,
+    "both_legs_operational_pairs": 0,
+    "cause": "post-cutoff replacement accepted through stale as_of_utc"
+  },
+  "after": {
+    "configured_currencies": 21,
+    "release_operational_currencies": 20,
+    "release_healthy_currencies": 20,
+    "both_legs_operational_pairs": 59,
+    "known_external_gap": "NZD RBNZ direct policy release requires permitted access",
+    "official_event_clocks": 23,
+    "factor_episodes": 1900,
+    "material_factor_episodes": 127,
+    "strict_directional_matches": 0,
+    "supported_decision": "no_trade"
+  },
+  "validation": {
+    "focused_tests_passed": 11,
+    "focused_tests_failed": 0,
+    "regression": "post-cutoff generated snapshot with stale as_of_utc is excluded",
+    "report_manifest_verified": true,
+    "no_execution_surface": true
+  },
+  "artifacts": [
+    {
+      "path": "oanda_week_to_date_project_event_move_recap.py",
+      "sha256": "4d6055df82e10dd41c33f128b2175a710b3bdf06a09703550de0f31297dbce5c"
+    },
+    {
+      "path": "test_oanda_week_to_date_project_event_move_recap.py",
+      "sha256": "0633ddc99efa682ce01fe3e1297dbf942ac39e0769617af5ef6bef586e72268d"
+    },
+    {
+      "path": "data/oanda_training_manager/reports/week_to_date_event_move_audit/WEEK_TO_DATE_PROJECT_EVENT_MOVE_RECAP_20260904T143130Z.json",
+      "sha256": "0e1d2fd750d1ac5e12b109f790247f692d672da7dafce71d622686eb4342b45d"
+    },
+    {
+      "path": "data/oanda_training_manager/reports/week_to_date_event_move_audit/WEEK_TO_DATE_PROJECT_EVENT_MOVE_RECAP_20260904T143130Z.md",
+      "sha256": "5d11b4f115af28d63ec98b5613bcee49b4066f3148d15e065e42cd23692e3241"
+    }
+  ],
+  "safety": {
+    "research_only": true,
+    "can_promote": false,
+    "can_authorize": false,
+    "can_place_orders": false,
+    "real_money_routing": false
+  }
+}

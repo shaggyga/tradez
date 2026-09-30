@@ -1,0 +1,7 @@
+# Matched forecast campaign scoped review
+
+Accepted within bounded forecast-development scope. Same implementer source/evidence review; independent review unperformed. Fixed26-field,7target,2cutoff contract was recorded before fitting. Qualified ridge defines the mature population; recovered HGB extraction must reproduce its exact fingerprint. Both use unit row weights. The old fitted weights are incompatible and were preserved rather than relabeled. Forecast records stay separate from actuals; updates use only matured labels after the declared cutoffs.
+
+17 local checks and17 relocated tests passed. Fresh raw-slice reconstruction matched70input payloads and33scientific campaign payloads, including fitted tree bytes. Fit times are real, separately manifested and bounded, not required identical. All68coverage and56score groups retained. Only8of28 learned MSE comparisons and6MAE comparisons improve over no-change; no model selected, promoted or declared profitable.
+
+Next: matched_campaign_remaining_horizon_inputs_v2, the exact input dependency before matched_campaign_remaining_horizon_policy_bridge_v2. Reuse current12/24/48hour fits and add direct6/18/30/36/42hour fits under the same matured26-field contract. Bind fresh predictions to unchanged original targets. Native engineering-replay preparation may be included, but no simulated observed publication or static endpoint subtraction. Calendar/execution/full campaign remain open; deferred scopes unchanged.

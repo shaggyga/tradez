@@ -1,0 +1,54 @@
+{
+  "step_id": "causal-fitted-consumer",
+  "implementation_status": "bounded_synthetic_verified",
+  "review_status": "ready_for_review",
+  "independent_review": false,
+  "verification": {
+    "tests": 311,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "checkpoint": {
+    "path": "checkpoint/forex_fitted_consumer.zip",
+    "sha256": "acb88a688feb81a6e0f86a9ac9dcc6bf223a5d9ff7f22d1dee1a690c6d249cfc",
+    "scope": "synthetic_accounting_policy_and_fitted_consumer_fixtures",
+    "relocated_replay_verified": true,
+    "relocated_tests_verified": true,
+    "all_three_packaged_operators_verified": true,
+    "bulk_historical_archive_included": false
+  },
+  "source_predecessor": {
+    "schema": "forex_design_alignment_pointer.v2",
+    "package": "POLICY_INTEGRATION_20260922_004348",
+    "path_forward": "POLICY_INTEGRATION_20260922_004348/PATH_FORWARD.md",
+    "run_status": "POLICY_INTEGRATION_20260922_004348/RUN_STATUS.json",
+    "design": "POLICY_INTEGRATION_20260922_004348/specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+    "design_coverage": "POLICY_INTEGRATION_20260922_004348/audit/DESIGN_COVERAGE.md",
+    "current_acceptance_addendum": "POLICY_INTEGRATION_20260922_004348/DESIGN_ACCEPTANCE_ADDENDUM.md",
+    "manifest": "POLICY_INTEGRATION_20260922_004348/MANIFEST.json",
+    "manifest_sha256": "bbada5800691fba25e0cc3cb42e59836cd9369a7dd2afbdbb2b99dfa79429e2b",
+    "readback": "POLICY_INTEGRATION_20260922_004348/PACKAGE_READBACK.json",
+    "active_integrity_batch": "ALL68_INTEGRITY_BATCH_05_20260921.md",
+    "active_integrity_batch_scope": "synthetic policy/controller and frozen operator verified; fitted-consumer next; campaign remains gated",
+    "historical_package": "DESIGN_ALIGNMENT_20260921",
+    "scope": "current_verified_queue_and_bounded_recovery",
+    "cloud_sync_verified": false
+  },
+  "review_dependency": {
+    "package": "POLICY_INTEGRATION_20260922_004348",
+    "manifest": "POLICY_INTEGRATION_20260922_004348/MANIFEST.json",
+    "manifest_sha256": "bbada5800691fba25e0cc3cb42e59836cd9369a7dd2afbdbb2b99dfa79429e2b",
+    "review": "POLICY_INTEGRATION_20260922_004348/REVIEW.md",
+    "queue": "REVIEW_QUEUE.json",
+    "readback": "POLICY_INTEGRATION_20260922_004348/PACKAGE_READBACK.json",
+    "verdict": "ready_for_review",
+    "next_engineering_item": "review_policy_integration_checkpoint",
+    "engine_scope_changed": true
+  },
+  "next_action": "review_policy_and_fitted_checkpoints",
+  "engineering_ready": false,
+  "forecast_evidence_status": "no_new_model_evidence_neutral_issuance_only",
+  "policy_evidence_status": "unevaluated_for_design_campaign",
+  "demo_authorization_status": "not_granted_for_design_campaign"
+}

@@ -1,0 +1,2 @@
+Next: review_residual_calibration_checkpoint, then calibration_original_record_inspector_v2.
+Inspect exact original calibration and source records with as-of numerical visibility and separately requested mature outcomes; do not fit during inspection.

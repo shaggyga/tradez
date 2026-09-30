@@ -1,0 +1,15 @@
+{
+  "recipe": "source_snapshot/MACRO_POLICY_SCOPE_OPERATOR_RECIPE.json",
+  "recipe_sha256": "b6183b1961a03ca0d18b2f82eca4690c19e04093124767816f65517f8c101742",
+  "scope": "offline native assertion guard and exact evidence replay",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify"
+  ],
+  "bootstrap": "checkpoint/forex_macro_policy_scope.zip",
+  "contract": "source_snapshot/MACRO_POLICY_SCOPE_CONTRACT_V2.md",
+  "next": "review_macro_policy_scope_checkpoint_v2"
+}

@@ -1,0 +1,1 @@
+WP6/R05/R14. Existing receipt-asof selector reused;17 local/17 restored tests and five exact outputs. Source/extraction/forecast gates remain closed.

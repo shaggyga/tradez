@@ -1,0 +1,1 @@
+Review all three new checkpoints; independent review remains unperformed. Next engineering: historical_fitted_slice_and_policy_tape_v2. Historical mode is not enabled in the frozen fitted recipe. No deferred GPT/advisor or broker work.

@@ -1,0 +1,1 @@
+R04/R14 bounded populated registry, actual selected schemas and retained normalizer/lineage identity verified. R03/R10/R11 consumer causality, recovery and frozen operation verified within this input scope. No independent or whole-design acceptance.

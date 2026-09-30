@@ -1,0 +1,631 @@
+{
+  "predecessors": [
+    {
+      "manifest": {
+        "bytes": 70769,
+        "sha256": "9d3c08c687778242930847a3ef59eba1eccaf0523370f37d7ecaeb5cf3df5d03",
+        "source_path": "C:\\Users\\zmoor\\OneDrive\\thevault\\projects\\forex\\ROLLING_SPECIALISTS_20260915\\MANIFEST.json"
+      },
+      "package": "ROLLING_SPECIALISTS_20260915",
+      "payload_files_verified": 156
+    },
+    {
+      "manifest": {
+        "bytes": 79838,
+        "sha256": "de436d7db0e79567d6071fd1f66d61804e76d5da1ccea9243c7cac17a1af939f",
+        "source_path": "C:\\Users\\zmoor\\OneDrive\\thevault\\projects\\forex\\ROLLING_MODEL_COMPARISON_20260915\\MANIFEST.json"
+      },
+      "package": "ROLLING_MODEL_COMPARISON_20260915",
+      "payload_files_verified": 204
+    },
+    {
+      "manifest": {
+        "bytes": 144504,
+        "sha256": "d9da5d6e8b4c90587ab69023737129a2ccc6e111b8b2b6205a5fbb343ada2ef3",
+        "source_path": "C:\\Users\\zmoor\\OneDrive\\thevault\\projects\\forex\\ROLLING_TRAINING_WINDOWS_20260915\\MANIFEST.json"
+      },
+      "package": "ROLLING_TRAINING_WINDOWS_20260915",
+      "payload_files_verified": 339
+    }
+  ],
+  "raw_payloads_copied": false,
+  "schema": "rolling_period_local_dependencies_v1",
+  "windows": [
+    {
+      "base_root": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\rolling_technical_training_20260915_period_a_v1",
+      "base_sha256": "fe481eb19ecb78b1d961e25e9009067d5852b03e03752d6f12e340db264fbd0d",
+      "comparison_root": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\rolling_period_replication_20260915_a_v2",
+      "endpoint_root": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\rolling_technical_endpoints_20260915_period_a_v1",
+      "endpoint_sha256": "c35f00e0b10d1e2be88a52f85cc35ff25ab85bed061369272b4bcaad8aea47e2",
+      "excluded_result_row_records": {
+        "forecasts/compact38_30m_direct.parquet": {
+          "bytes": 5965533,
+          "sha256": "c89652d5a5fdcadc0fe100ac07dd89eb3d07a950286f5b518fc1f32e19e4603f"
+        },
+        "forecasts/compact38_30m_direct_context_hgb.parquet": {
+          "bytes": 3388646,
+          "sha256": "e191db91656dc72b7efee549120b8da7e42e6a22f2d897f0bbf5061dcc24b720"
+        },
+        "forecasts/compact38_30m_direct_ridge.parquet": {
+          "bytes": 5842713,
+          "sha256": "275b0283c0441ea7f3e973ccd33d8f616fd1f6d3c3e2e3992041f3f55febbac8"
+        },
+        "forecasts/compact38_30m_mixture_calibrated.parquet": {
+          "bytes": 8180780,
+          "sha256": "c9386c48a895375ae8674b76380f544f7d64305b15a93d769ec50f179a7bcc77"
+        },
+        "forecasts/compact38_30m_mixture_raw.parquet": {
+          "bytes": 8201238,
+          "sha256": "58cc145098d4c33f6c497b6beeb1834f19d3f0d2da9914c55eef4088eee0b8df"
+        },
+        "forecasts/compact38_60m_direct.parquet": {
+          "bytes": 5488325,
+          "sha256": "5dba2bf500549f52933eaf990481753fc7201e8ef109eb31303a6eb8b4dda44b"
+        },
+        "forecasts/compact38_60m_direct_context_hgb.parquet": {
+          "bytes": 2966062,
+          "sha256": "e1f5eee30579a9a3939ab54a6d062ce84a3ccea4f9b6d475a1328ccfa308b06b"
+        },
+        "forecasts/compact38_60m_direct_ridge.parquet": {
+          "bytes": 5402969,
+          "sha256": "c0f118bb53f47c20e41fde6f035712458d3adbf7467016e78836cb9ece77a9eb"
+        },
+        "forecasts/compact38_60m_mixture_calibrated.parquet": {
+          "bytes": 8172120,
+          "sha256": "d96b55bb2ba49c38205e14ac9083e43d090b80ec99f7ebd979f27f7051ea09b4"
+        },
+        "forecasts/compact38_60m_mixture_raw.parquet": {
+          "bytes": 8199535,
+          "sha256": "1a979b845495ebeef38e202aa544216c02bdfecdd80b04a7350cde452b88c2d2"
+        },
+        "forecasts/compact50_30m_direct.parquet": {
+          "bytes": 5250965,
+          "sha256": "3b02352979f74c50af55b9775eaf9e4a479a8bb198ab2dbc3a734c7d8f68eddb"
+        },
+        "forecasts/compact50_30m_direct_context_hgb.parquet": {
+          "bytes": 3257867,
+          "sha256": "0edaf43ea9e5235531ca1c3504d2c6ffce7878525780832c9fd48005fa380a63"
+        },
+        "forecasts/compact50_30m_direct_ridge.parquet": {
+          "bytes": 5150335,
+          "sha256": "299745c4b531f3261c66c63221cdf63e91f0aebf2b61d35dd54e2667023351d0"
+        },
+        "forecasts/compact50_30m_mixture_calibrated.parquet": {
+          "bytes": 8202291,
+          "sha256": "4d9c5ff4b5e9567fbe7f0c9af35d1baa487e9516345e74492e7dba1194661de3"
+        },
+        "forecasts/compact50_30m_mixture_raw.parquet": {
+          "bytes": 8220218,
+          "sha256": "928453b95157f8ff9a3499c5ec79ea9904e338ac60e214a54b338fd4dab682bc"
+        },
+        "forecasts/compact50_60m_direct.parquet": {
+          "bytes": 5566716,
+          "sha256": "f94ab119b0c4fc684ef224bcadda680ba695164fb762a52cef28f26452e9befd"
+        },
+        "forecasts/compact50_60m_direct_context_hgb.parquet": {
+          "bytes": 3229502,
+          "sha256": "8f1eb463177c7f1c9e3430f7d0843f210dec67ee8d6f38d98e4338b106236aa0"
+        },
+        "forecasts/compact50_60m_direct_ridge.parquet": {
+          "bytes": 5483695,
+          "sha256": "bfe75a67c4f43286d910a97745ff5b3f8a5150e6f9cded91e21bf40185335747"
+        },
+        "forecasts/compact50_60m_mixture_calibrated.parquet": {
+          "bytes": 8214317,
+          "sha256": "ea046bff39c43a8a5bba2a26ba199e82459fdc2e495bbf095a10cfa323e23986"
+        },
+        "forecasts/compact50_60m_mixture_raw.parquet": {
+          "bytes": 8240206,
+          "sha256": "eb48d5b82078ce110a2d3a071a4c30243fc5f8b28795c64edc50b4478ca61da6"
+        },
+        "forecasts/comparator_arima110_conditional_ols_30m.parquet": {
+          "bytes": 7225311,
+          "sha256": "47ac55a6ee4c42bccc810f1358f03a2b861d085d6fd37285a244c7a41f95b7f1"
+        },
+        "forecasts/comparator_arima110_conditional_ols_60m.parquet": {
+          "bytes": 7225320,
+          "sha256": "97e7884abee59f557d6fa4f262226d4207582724798dd66ee32dfac14a91d3b8"
+        },
+        "forecasts/comparator_compact38_hgb_30m.parquet": {
+          "bytes": 5729856,
+          "sha256": "6c13ed0029a94e480069594b0eb64036f6c59ed16bd007b65e5b998c0eb751a3"
+        },
+        "forecasts/comparator_compact38_hgb_60m.parquet": {
+          "bytes": 5322684,
+          "sha256": "0dac0c77d2851d9dfa191e7bb9291706eab27c82194a684e7cb2d179b3766056"
+        },
+        "forecasts/comparator_compact38_ridge_30m.parquet": {
+          "bytes": 8276285,
+          "sha256": "5e2ab284785997895a6780ab2bb8d4e58849a66da4a4f6e25819ae6c17250386"
+        },
+        "forecasts/comparator_compact38_ridge_60m.parquet": {
+          "bytes": 8284023,
+          "sha256": "2e85a6a47e42bbf9b8857947c5e8ed7439d02db546c3ff6af7b569a2d1c18c77"
+        },
+        "forecasts/comparator_compact50_hgb_30m.parquet": {
+          "bytes": 5406382,
+          "sha256": "b21ca6d5aa1998780b4b47c1e51a37303ce600c781d5703f1deab7d6cd777e92"
+        },
+        "forecasts/comparator_compact50_hgb_60m.parquet": {
+          "bytes": 5679618,
+          "sha256": "7522293f317a06863cfbb0ef806618ad54b2654e8d6899978dc55b282ad41164"
+        },
+        "forecasts/comparator_compact50_ridge_30m.parquet": {
+          "bytes": 8282872,
+          "sha256": "faf580abc07b1d80246e463e951915a6b0a67fbcb9dbc0d2dac6a03686610263"
+        },
+        "forecasts/comparator_compact50_ridge_60m.parquet": {
+          "bytes": 8285248,
+          "sha256": "36fbb0b57ca42dca21dbbc1501cfffe130116c143f79e9dc47e029eeda73781b"
+        },
+        "forecasts/comparator_momentum_exact_past_horizon_30m.parquet": {
+          "bytes": 7711903,
+          "sha256": "bd612ca106ce3e4c9bc35e6b8fb75e374c9276e3d9a41dd58403b33b6cb167c8"
+        },
+        "forecasts/comparator_momentum_exact_past_horizon_60m.parquet": {
+          "bytes": 7755043,
+          "sha256": "c42bd7224a4067652e188bd31ea648cb8a81debcbc33ae12d6dadf4add530a26"
+        },
+        "forecasts/comparator_no_change_30m.parquet": {
+          "bytes": 1273158,
+          "sha256": "bb9375e0e36c8d9dcb9f21abfee3f49b1a1e557c3d74329da3ef22d6920a40e0"
+        },
+        "forecasts/comparator_no_change_60m.parquet": {
+          "bytes": 1273158,
+          "sha256": "bb9375e0e36c8d9dcb9f21abfee3f49b1a1e557c3d74329da3ef22d6920a40e0"
+        },
+        "forecasts/comparator_pair_train_mean_30m.parquet": {
+          "bytes": 1274700,
+          "sha256": "18c68ef31909de065e2fcb920fe540059f54d35eb4d6d1d5e88bbb8abdb33546"
+        },
+        "forecasts/comparator_pair_train_mean_60m.parquet": {
+          "bytes": 1274699,
+          "sha256": "d5814f9d40443ad253513dd71c0bc18d16e68417470fc0b8ef7dfc6322d5a387"
+        },
+        "forecasts/comparator_reversal_exact_past_horizon_30m.parquet": {
+          "bytes": 7722849,
+          "sha256": "64838be16f8e75d4cae3c762c5e736bd42d0ffca4b81dabae9bcbef82f2a7b96"
+        },
+        "forecasts/comparator_reversal_exact_past_horizon_60m.parquet": {
+          "bytes": 7765154,
+          "sha256": "ffffadaa0500b84087f0f7400760f75eeda603f23544f3b24e5da71b367fd049"
+        },
+        "forecasts/family_context_only_60m_direct.parquet": {
+          "bytes": 1933625,
+          "sha256": "3fde1e695d9191011012af298223d65c2916bd2d25010fae7cbb1b50665d6d1a"
+        },
+        "forecasts/family_context_only_60m_mixture_raw.parquet": {
+          "bytes": 2276852,
+          "sha256": "763318298bde1340020f423e45c9a22e083c30baf3579d2ea249686ca773acfe"
+        },
+        "forecasts/family_drop_activity_spread_history_60m_direct.parquet": {
+          "bytes": 5034261,
+          "sha256": "c45e9592c5bbf0eb1a926bc52668519ce767abff0240e475248984b2cfaf9ccf"
+        },
+        "forecasts/family_drop_activity_spread_history_60m_mixture_raw.parquet": {
+          "bytes": 8234552,
+          "sha256": "fbd6a6383a539171e94903349525394335566eaa88c3260145ebe7874aa90b1d"
+        },
+        "forecasts/family_drop_calendar_60m_direct.parquet": {
+          "bytes": 5407602,
+          "sha256": "f679bda83e59734db82d987499423847bebf7f22e5a3cac52545034374a5c0e3"
+        },
+        "forecasts/family_drop_calendar_60m_mixture_raw.parquet": {
+          "bytes": 8213054,
+          "sha256": "d3c91a19f9bd9bf5d35bc8f6e38dbfc84678e300beb992cebfe4e9ddd13f83ae"
+        },
+        "forecasts/family_drop_peers_60m_direct.parquet": {
+          "bytes": 5488325,
+          "sha256": "5dba2bf500549f52933eaf990481753fc7201e8ef109eb31303a6eb8b4dda44b"
+        },
+        "forecasts/family_drop_peers_60m_mixture_raw.parquet": {
+          "bytes": 8199535,
+          "sha256": "1a979b845495ebeef38e202aa544216c02bdfecdd80b04a7350cde452b88c2d2"
+        },
+        "forecasts/family_drop_range_volatility_60m_direct.parquet": {
+          "bytes": 5524557,
+          "sha256": "149cf9340bc5afea7d3d8d5b4d96c9c8596869dc73dde709ec5d9b76e084cda8"
+        },
+        "forecasts/family_drop_range_volatility_60m_mixture_raw.parquet": {
+          "bytes": 8241876,
+          "sha256": "4ef75ef58b57f3ce15d6e215728afe55a7646da3cd48e538b62cf7fb58686b37"
+        },
+        "forecasts/family_drop_returns_path_60m_direct.parquet": {
+          "bytes": 5742416,
+          "sha256": "d7a26d063f1e08031f1c8c0043ce30ef3ddedb9652bf0140be12253df43122f5"
+        },
+        "forecasts/family_drop_returns_path_60m_mixture_raw.parquet": {
+          "bytes": 8240083,
+          "sha256": "ea7dca1c15054648d28c941a7f119b3f07ecb247ac9237c76a972c663661aa22"
+        },
+        "forecasts/family_drop_trend_oscillator_60m_direct.parquet": {
+          "bytes": 5818788,
+          "sha256": "37da2dbfa340a442e766b39dbd5dad057c75ee27937b01d06bdaab11e5c3e867"
+        },
+        "forecasts/family_drop_trend_oscillator_60m_mixture_raw.parquet": {
+          "bytes": 8240029,
+          "sha256": "7e47978bd39093ad8cc302b2906942dd33d96065e7994fa5294c503581f918e8"
+        },
+        "head_forecasts/compact38_30m.parquet": {
+          "bytes": 29668671,
+          "sha256": "4b0dd89fb0fa3f46456ed02d36c5baddd52cb750177adbcfa5a821f3ab7ca792"
+        },
+        "head_forecasts/compact38_60m.parquet": {
+          "bytes": 28709684,
+          "sha256": "d99c8d20fd50e6ec06040cbba4901ad01dff2691f6935a298ef3fbf5610b4662"
+        },
+        "head_forecasts/compact50_30m.parquet": {
+          "bytes": 29281319,
+          "sha256": "d6341f2c9587d8d41953ff1e7e42aeca2d645e98295ac115d51486b3b631ac91"
+        },
+        "head_forecasts/compact50_60m.parquet": {
+          "bytes": 29187352,
+          "sha256": "6a1b316968b4fa82f785e34fc612997b995ae5cae8b631f18293ccfa0265e47a"
+        },
+        "head_forecasts/family_context_only_60m.parquet": {
+          "bytes": 5629403,
+          "sha256": "f1a5d7755473d3f1fd098de758340ee9f4d7aa96c142444f5bb8f6898fb2a3d5"
+        },
+        "head_forecasts/family_drop_activity_spread_history_60m.parquet": {
+          "bytes": 26361092,
+          "sha256": "dcdc0d46eeff7b4a5f595a6a8d9f764a32e895bbe5c8d76ac49460822c565f7f"
+        },
+        "head_forecasts/family_drop_calendar_60m.parquet": {
+          "bytes": 34059108,
+          "sha256": "5516e2ff37c55e39bbad0c189693a9ee22b44a9063ea6101829e13938b137f67"
+        },
+        "head_forecasts/family_drop_peers_60m.parquet": {
+          "bytes": 28709684,
+          "sha256": "d99c8d20fd50e6ec06040cbba4901ad01dff2691f6935a298ef3fbf5610b4662"
+        },
+        "head_forecasts/family_drop_range_volatility_60m.parquet": {
+          "bytes": 30296804,
+          "sha256": "f075b82a01e7a3d80df2532a2bfb4152f1e79ce66207115355c2c7c2c4257102"
+        },
+        "head_forecasts/family_drop_returns_path_60m.parquet": {
+          "bytes": 29782798,
+          "sha256": "51a8c593700d568a0af54428ff7a1ebf8d31120cfec63ca8b31afe7d634c614e"
+        },
+        "head_forecasts/family_drop_trend_oscillator_60m.parquet": {
+          "bytes": 29797032,
+          "sha256": "fe8716ae4e92ef0f06bb814d9f340cbc47499c5c6af6b2d76c2560c86d27f92f"
+        },
+        "oof/compact38_30m.npz": {
+          "bytes": 17030490,
+          "sha256": "583ebd7536db492b95289d4d0da8c0ffa164143bb4b51b943551775daf5c2751"
+        },
+        "oof/compact38_60m.npz": {
+          "bytes": 17092220,
+          "sha256": "4f7fd7dbbcd195d48d4e20682fba8125acc8922b208c54d054c763bb577c3a82"
+        },
+        "oof/compact50_30m.npz": {
+          "bytes": 17070387,
+          "sha256": "0f195511eb7a78b42ddcd5eb5fad16819af088cedc80338fd18d36360ee4f8fe"
+        },
+        "oof/compact50_60m.npz": {
+          "bytes": 17127123,
+          "sha256": "d36e2ede6261b56b7e363f5e169ac95a057ffb32f6f8912a1b3deb8831dd23f0"
+        }
+      },
+      "inputs_root": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\rolling_specialist_inputs_20260915_period_a_v2",
+      "inputs_sha256": "98311350cb47ace2652dd9f4995642dbd1d2e8f45493f83fd3040e9efa157a07",
+      "manifest_verification": "exact original metadata checked; raw row payloads not rehashed or duplicated by publisher",
+      "population_manifest": {
+        "bytes": 2257491,
+        "sha256": "7763933583b165664914be8bcd0cf3ca29253286ebeffeabdf2f3b3ea22ed63a",
+        "source_path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_8h_20260912\\data\\PRICE_ONLY_POPULATION_MANIFEST_001.json"
+      },
+      "prepared_root": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\rolling_model_inputs_20260915_period_a_v1",
+      "prepared_sha256": "f8826baa95c78c8759bbb39e3e9ef7e603482af515bd08c720efa00cbc970616",
+      "quote_root": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\rolling_model_quote_panel_20260915_period_a_v2",
+      "quote_sha256": "f9752e7246141840ba6c8a8caa77e24995f10e57a2ae7b45b226cbbc50b899b2",
+      "results_sha256": "a5b77461b3f277ec55b28ee03fe287ec3b39b39e68e29a6dfc62b5e53ab4eb46",
+      "versions": {
+        "joblib": "1.5.3",
+        "numpy": "2.5.1",
+        "pyarrow": "25.0.0",
+        "scikit-learn": "1.9.0",
+        "scipy": "1.18.0"
+      },
+      "window": "20260323_20260518"
+    },
+    {
+      "base_root": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\rolling_technical_training_20260915_period_b_v1",
+      "base_sha256": "35a1a03d1b2577eb8eadf9d141f0e9cfcd2c8b2f6349625e21b6375c42d450a3",
+      "comparison_root": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\rolling_period_replication_20260915_b_v2",
+      "endpoint_root": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\rolling_technical_endpoints_20260915_period_b_v1",
+      "endpoint_sha256": "8d3122c54ef0af1b5f0ef9d204ab5090a84e0c4227e2710e9bd96d85fc5e44cd",
+      "excluded_result_row_records": {
+        "forecasts/compact38_30m_direct.parquet": {
+          "bytes": 6951244,
+          "sha256": "c2388fd49df62268f34c0be1d8a754335c7c27891372e181842052b63d4ce664"
+        },
+        "forecasts/compact38_30m_direct_context_hgb.parquet": {
+          "bytes": 3660985,
+          "sha256": "db4f361f68558be83e39285a626381254e0173845a7e66106f17b430094e2f5a"
+        },
+        "forecasts/compact38_30m_direct_ridge.parquet": {
+          "bytes": 6867958,
+          "sha256": "98b92a595632582b82c8ee711ec61595e729b724a71f6874a0e74db39653ab90"
+        },
+        "forecasts/compact38_30m_mixture_calibrated.parquet": {
+          "bytes": 8107805,
+          "sha256": "75bff75802008536b6e683cd808de204abf458ba5c4f17d04070e3f6810c3705"
+        },
+        "forecasts/compact38_30m_mixture_raw.parquet": {
+          "bytes": 8129867,
+          "sha256": "e33afe9d3200ab20ac64fdcb8b3f9f2e2862ee70d9706dca3ab4efcd745d55f0"
+        },
+        "forecasts/compact38_60m_direct.parquet": {
+          "bytes": 5386761,
+          "sha256": "2773a8e690930b60616b27a4d952b742eff21a800fb6fcf1cf24bfa878e649e1"
+        },
+        "forecasts/compact38_60m_direct_context_hgb.parquet": {
+          "bytes": 3379485,
+          "sha256": "6216e6dd12c44351cc3b1461ecca1f04387f57182e4030834084bccba58a5498"
+        },
+        "forecasts/compact38_60m_direct_ridge.parquet": {
+          "bytes": 5351646,
+          "sha256": "ea1e561c79650717c450a6b661ab99a9e347264d967ceaa4432f19d598bc3b02"
+        },
+        "forecasts/compact38_60m_mixture_calibrated.parquet": {
+          "bytes": 8086298,
+          "sha256": "da211e11ff12c4e48218403bd27cab64778d55a66e9ac853b6d1d8aac3025f40"
+        },
+        "forecasts/compact38_60m_mixture_raw.parquet": {
+          "bytes": 8111339,
+          "sha256": "e696fc3106524dc6cf942515be8bc9e3cca1711ffbf8544e9fa6f36a36214afd"
+        },
+        "forecasts/compact50_30m_direct.parquet": {
+          "bytes": 7487314,
+          "sha256": "28ae5d1407b83ab18156903058628492ff3754788da2b19f716926f9c9789210"
+        },
+        "forecasts/compact50_30m_direct_context_hgb.parquet": {
+          "bytes": 3252610,
+          "sha256": "bad79cd954bea0e39c6238d6a333e27a9a2f310082bc50f92714804f5f6b63fb"
+        },
+        "forecasts/compact50_30m_direct_ridge.parquet": {
+          "bytes": 7404008,
+          "sha256": "2b0503c79ce2b3261b7396b7e8732b4c14f03766f86db5c9f57b53bec267f051"
+        },
+        "forecasts/compact50_30m_mixture_calibrated.parquet": {
+          "bytes": 8131989,
+          "sha256": "7d4c6db9e0937727319cddf9069d63d8e2c4749346a89f112b24ea070ee8d8f8"
+        },
+        "forecasts/compact50_30m_mixture_raw.parquet": {
+          "bytes": 8153881,
+          "sha256": "8f88a24a48fa9caa5ef3430443b5704ec57840994245a4b64984d4d3ce4e7810"
+        },
+        "forecasts/compact50_60m_direct.parquet": {
+          "bytes": 6313541,
+          "sha256": "a71d73b14d7329e425dee94f49826bab73936a9cd27ab8de883894c266f60a06"
+        },
+        "forecasts/compact50_60m_direct_context_hgb.parquet": {
+          "bytes": 3716356,
+          "sha256": "cb6517b35ecf9730e98df9834107ace7a14e0c7b3fa1724a3490edc601b70b22"
+        },
+        "forecasts/compact50_60m_direct_ridge.parquet": {
+          "bytes": 6267050,
+          "sha256": "929ae165e35610c104d1e408310da02f8d73c1049a014814c21153230cd898cf"
+        },
+        "forecasts/compact50_60m_mixture_calibrated.parquet": {
+          "bytes": 8137268,
+          "sha256": "f8c118f8b7d7ba887b3c4ba80e55ec7d71847b3470cedf0adee97568c5c86b96"
+        },
+        "forecasts/compact50_60m_mixture_raw.parquet": {
+          "bytes": 8163720,
+          "sha256": "b1eb9db6f65a5155c4bfcd1f9e9dc608c24081cbd417c2b831b486745dcbc8fa"
+        },
+        "forecasts/comparator_arima110_conditional_ols_30m.parquet": {
+          "bytes": 7077135,
+          "sha256": "4f5ab62b0304ebc53ce37d45314dd5054d1541e40fb0381d640cd44a0aa3a94a"
+        },
+        "forecasts/comparator_arima110_conditional_ols_60m.parquet": {
+          "bytes": 7077124,
+          "sha256": "7bc9218ba73f1b27ddc8cc2baad72b5e939f90485e4572a25bd71124765b0225"
+        },
+        "forecasts/comparator_compact38_hgb_30m.parquet": {
+          "bytes": 7148255,
+          "sha256": "875b162df4d2d35d2ae163c0758776123936422111a5aed01e847a1c02c6366f"
+        },
+        "forecasts/comparator_compact38_hgb_60m.parquet": {
+          "bytes": 5510088,
+          "sha256": "23dbf37dc796ef888e277ef3df556cd8732926edef2533459dc6dc47aaac8d3b"
+        },
+        "forecasts/comparator_compact38_ridge_30m.parquet": {
+          "bytes": 8211425,
+          "sha256": "cde7ff27f8d2d0c2268e53f1675b9778189a1f4b8ca9f82980f8e1828391222a"
+        },
+        "forecasts/comparator_compact38_ridge_60m.parquet": {
+          "bytes": 8202867,
+          "sha256": "6170a07c222326fe04e65f02488d9a9b406a25d2dba0327cc7a3dfaddbbfa57e"
+        },
+        "forecasts/comparator_compact50_hgb_30m.parquet": {
+          "bytes": 7422158,
+          "sha256": "c66452dbea32b5730c3753130230665aaf4777f8b726c965e1db5db1fcae83e0"
+        },
+        "forecasts/comparator_compact50_hgb_60m.parquet": {
+          "bytes": 6458960,
+          "sha256": "2546edaccc09a07ac3a3c852c597b9776fc05b0d79b67975a1e617cbc60368cf"
+        },
+        "forecasts/comparator_compact50_ridge_30m.parquet": {
+          "bytes": 8210964,
+          "sha256": "91e8775b4daf58fdc5aae646843909e5dc523744768abf1d61aa25d7f71b7a1f"
+        },
+        "forecasts/comparator_compact50_ridge_60m.parquet": {
+          "bytes": 8206387,
+          "sha256": "e595ad61648bf558d1c92ffd7117945d4ba181a41b36edc5522b4e67513d0eb4"
+        },
+        "forecasts/comparator_momentum_exact_past_horizon_30m.parquet": {
+          "bytes": 7598845,
+          "sha256": "c26d4dbaf77b48d7e9979a35152c85183bfb49361b047d11d550fd5211562e34"
+        },
+        "forecasts/comparator_momentum_exact_past_horizon_60m.parquet": {
+          "bytes": 7651631,
+          "sha256": "4f84931692e48c944a7b588cc475da40524378a3f7aacd5021842bba74bd1f1e"
+        },
+        "forecasts/comparator_no_change_30m.parquet": {
+          "bytes": 1265711,
+          "sha256": "b5b77b0f74f4c25b774ae97d84cc39a63f0ab55b624c2e69b37a7e0c67ac1c5b"
+        },
+        "forecasts/comparator_no_change_60m.parquet": {
+          "bytes": 1265711,
+          "sha256": "b5b77b0f74f4c25b774ae97d84cc39a63f0ab55b624c2e69b37a7e0c67ac1c5b"
+        },
+        "forecasts/comparator_pair_train_mean_30m.parquet": {
+          "bytes": 1267244,
+          "sha256": "7fc3347dd7b265e3dc37dcfddc73f1c121a49b64ddc130130e2bcf0d38cd3c6a"
+        },
+        "forecasts/comparator_pair_train_mean_60m.parquet": {
+          "bytes": 1267241,
+          "sha256": "c8adc3a32cdbb0c654634865e43f32a0559875b4b7e2d7561a13e0428e32ed68"
+        },
+        "forecasts/comparator_reversal_exact_past_horizon_30m.parquet": {
+          "bytes": 7602985,
+          "sha256": "5c9ae4414040040ed62ca23cec3dd946c35133cba2239d3d2afcf8f27bdbe431"
+        },
+        "forecasts/comparator_reversal_exact_past_horizon_60m.parquet": {
+          "bytes": 7665284,
+          "sha256": "c375f3d2c5a50bf9ab0143698ab0ed505d0c70b1ee258f13a2efb0d4e62fb58d"
+        },
+        "forecasts/family_context_only_60m_direct.parquet": {
+          "bytes": 1973703,
+          "sha256": "951eb3ca7de1bedc98e517b8bd934c137d842a11708ecdf55bad73f76c94591e"
+        },
+        "forecasts/family_context_only_60m_mixture_raw.parquet": {
+          "bytes": 2226647,
+          "sha256": "3af1e75c61c45df082dd64b06106094b33e40cc7f003320a46e5dc038530706e"
+        },
+        "forecasts/family_drop_activity_spread_history_60m_direct.parquet": {
+          "bytes": 5983971,
+          "sha256": "bd60d928541fdef7dd958710cfdf3f9aa89439f4723b03d6b050a6b49bbccf6f"
+        },
+        "forecasts/family_drop_activity_spread_history_60m_mixture_raw.parquet": {
+          "bytes": 8151042,
+          "sha256": "2c7bca4aaf13b12c374a5ad040868c7c319978610782c166473dc70dc19c2565"
+        },
+        "forecasts/family_drop_calendar_60m_direct.parquet": {
+          "bytes": 6457915,
+          "sha256": "a5905caddfda5b5d9351263bbb0ac819f5e5e9eb3ccaa3c3411cd0fb1cc0b713"
+        },
+        "forecasts/family_drop_calendar_60m_mixture_raw.parquet": {
+          "bytes": 8149670,
+          "sha256": "5006616276bbace82caf3e9d63e105c15efc839f038cc7d918ca5a81b2379d50"
+        },
+        "forecasts/family_drop_peers_60m_direct.parquet": {
+          "bytes": 5386761,
+          "sha256": "2773a8e690930b60616b27a4d952b742eff21a800fb6fcf1cf24bfa878e649e1"
+        },
+        "forecasts/family_drop_peers_60m_mixture_raw.parquet": {
+          "bytes": 8111339,
+          "sha256": "e696fc3106524dc6cf942515be8bc9e3cca1711ffbf8544e9fa6f36a36214afd"
+        },
+        "forecasts/family_drop_range_volatility_60m_direct.parquet": {
+          "bytes": 5839800,
+          "sha256": "86953df2ee9e121bdcf81c14bfc1fedea15563475172cf0d034bbfa35592ef6f"
+        },
+        "forecasts/family_drop_range_volatility_60m_mixture_raw.parquet": {
+          "bytes": 8168436,
+          "sha256": "d472e94a844af154b688b4e5c3672ea9858bacbed6dbd7889d63b28435b530d2"
+        },
+        "forecasts/family_drop_returns_path_60m_direct.parquet": {
+          "bytes": 6178651,
+          "sha256": "22c70eef56ba8a5814934fb139344b392c2963e0fb039072a8a98916a325f275"
+        },
+        "forecasts/family_drop_returns_path_60m_mixture_raw.parquet": {
+          "bytes": 8160767,
+          "sha256": "d9b7ca283adfbc698ffe739e1bc5da6665bc2245e3e23a22cc2f40db0d715d77"
+        },
+        "forecasts/family_drop_trend_oscillator_60m_direct.parquet": {
+          "bytes": 5975395,
+          "sha256": "177b7511f7ea7037e3972779d20436ffadf33d1cabc6f743d872e53d78e39d80"
+        },
+        "forecasts/family_drop_trend_oscillator_60m_mixture_raw.parquet": {
+          "bytes": 8163476,
+          "sha256": "b670484d771ba20418f184ef2b0e1f018e59772303e0237b274f6efb8c74d697"
+        },
+        "head_forecasts/compact38_30m.parquet": {
+          "bytes": 31112372,
+          "sha256": "867f297c4ebf89f47b11dbc396d68ad2dc67b8b3a486e88c1bb980555f7bbd6c"
+        },
+        "head_forecasts/compact38_60m.parquet": {
+          "bytes": 27380339,
+          "sha256": "c2eb11869e2712d762a0e79527288b4265eadf2764fe09c0259b5cbbdc9e71d1"
+        },
+        "head_forecasts/compact50_30m.parquet": {
+          "bytes": 31964961,
+          "sha256": "91c60f087ef2b84d9d72eb46e513906726aa1d8e71c226e987cf5379899c2c6c"
+        },
+        "head_forecasts/compact50_60m.parquet": {
+          "bytes": 29646904,
+          "sha256": "c35aedbf8ec8aece51c522606c9d6c7773d1d81816b5796f06c30f580ffbf82a"
+        },
+        "head_forecasts/family_context_only_60m.parquet": {
+          "bytes": 5667494,
+          "sha256": "a720ff0cfdb0192e2d1a35ab582d02f74f2ec97cb290bac67e2cbd0d64c20f97"
+        },
+        "head_forecasts/family_drop_activity_spread_history_60m.parquet": {
+          "bytes": 25786872,
+          "sha256": "460a971bf480a9d781a2131c8afaf9bf1aa21b6471c9c9701c8447ee8a87d60a"
+        },
+        "head_forecasts/family_drop_calendar_60m.parquet": {
+          "bytes": 37219729,
+          "sha256": "ee668b7ab5aaa934fceba1221c3cef7a9f0ad7e75e11487d80c09416d49dc32f"
+        },
+        "head_forecasts/family_drop_peers_60m.parquet": {
+          "bytes": 27380339,
+          "sha256": "c2eb11869e2712d762a0e79527288b4265eadf2764fe09c0259b5cbbdc9e71d1"
+        },
+        "head_forecasts/family_drop_range_volatility_60m.parquet": {
+          "bytes": 29911434,
+          "sha256": "6fbaf57829ff377023933347defefe3345c7f0c2febac814ccb20a0cd392d7bb"
+        },
+        "head_forecasts/family_drop_returns_path_60m.parquet": {
+          "bytes": 29454896,
+          "sha256": "1e2f504ac8ef17fb31e8bc7c88921d20bf6adb5ab862f016211a3e349dd690fe"
+        },
+        "head_forecasts/family_drop_trend_oscillator_60m.parquet": {
+          "bytes": 29472776,
+          "sha256": "356edb3dc1f496f573883ef6b6bfac0285716a6ff7fdc3cddb06977bef32637b"
+        },
+        "oof/compact38_30m.npz": {
+          "bytes": 16867273,
+          "sha256": "76bab615897333ff3be2d0e3911b4945e94d67921de73233f509ee1fa2ed87e3"
+        },
+        "oof/compact38_60m.npz": {
+          "bytes": 16781596,
+          "sha256": "b329e2837dc95626d927ca26802b96564ae7ce3f494bda9f28023ea0252b2cd0"
+        },
+        "oof/compact50_30m.npz": {
+          "bytes": 16975943,
+          "sha256": "40e57494af329303f9d89a14cbcc888370afaded748b7cf45b807e40d7fba876"
+        },
+        "oof/compact50_60m.npz": {
+          "bytes": 16858554,
+          "sha256": "c357f83b77e9e7d1b7c0f78294ca144777e3fd9f14e80dc729e22c8bfaa91ec2"
+        }
+      },
+      "inputs_root": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\rolling_specialist_inputs_20260915_period_b_v2",
+      "inputs_sha256": "396d224b4421ac34394ae1e6d6d86b30a5427fa98a4fa1d53cd6cfda126a1c31",
+      "manifest_verification": "exact original metadata checked; raw row payloads not rehashed or duplicated by publisher",
+      "population_manifest": {
+        "bytes": 2257491,
+        "sha256": "7763933583b165664914be8bcd0cf3ca29253286ebeffeabdf2f3b3ea22ed63a",
+        "source_path": "C:\\Users\\zmoor\\Documents\\forex\\revamp_8h_20260912\\data\\PRICE_ONLY_POPULATION_MANIFEST_001.json"
+      },
+      "prepared_root": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\rolling_model_inputs_20260915_period_b_v1",
+      "prepared_sha256": "b5567497285fae34970714db14a6b5edf195bb33d6600d7319ec9b2407245689",
+      "quote_root": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\rolling_model_quote_panel_20260915_period_b_v2",
+      "quote_sha256": "9ebbf60c4742d4509fcc2c331af70173b9d5bcd8f66946c95aa8f8bc23ba991b",
+      "results_sha256": "3e22e4025a9f4edd5720024aeba57e6642d9db9655fbb1ba964b2d2ed4afc3eb",
+      "versions": {
+        "joblib": "1.5.3",
+        "numpy": "2.5.1",
+        "pyarrow": "25.0.0",
+        "scikit-learn": "1.9.0",
+        "scipy": "1.18.0"
+      },
+      "window": "20260518_20260713"
+    }
+  ]
+}

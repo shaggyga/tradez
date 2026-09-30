@@ -1,0 +1,82 @@
+{
+  "schema_version": "forex_validation_record_v1",
+  "generated_utc": "2026-09-01T17:52:00Z",
+  "issue_id": "FX-20260901-SECONDARY-CRYPTO-SOURCE-FACTOR-GATE",
+  "status": "complete",
+  "problem": {
+    "headline": "XRP, Fed Rate Hike and Treasury Yields: ETF Outlook - Coinpaper",
+    "source_id": "google_news_market_ticker",
+    "source_grade": "secondary_requires_corroboration",
+    "observed_effect": "The context-only crypto/ETF story inherited a +0.9 USD research score from an embedded Fed-rate phrase and opened three nonexecuting AUD/USD response arms.",
+    "execution_impact": "none",
+    "causal_conclusion": "The story did not explain the contemporaneous USD-positive move and was not eligible to publish, promote, authorize, or execute."
+  },
+  "implementation": {
+    "gate_contract_id": "secondary_crypto_primary_currency_factor_gate_v1_20260901",
+    "policy": "A crypto-primary headline from a secondary source remains immutable narrative context but cannot directly seed a currency-factor response cohort. Verified issuer-bound policy communications and structured releases are not excluded.",
+    "watchlist_cohort_id": "news_technical_watchlist_v42_secondary_crypto_primary_gate_20260901",
+    "watchlist_parent_cohort_id": "news_technical_watchlist_v41_pair_score_differential_20260901",
+    "uncorroborated_child_cohorts": {
+      "5": "uncorroborated_news_response_h5_v17_secondary_crypto_primary_gate_20260901",
+      "15": "uncorroborated_news_response_h15_v17_secondary_crypto_primary_gate_20260901",
+      "30": "uncorroborated_news_response_h30_v17_secondary_crypto_primary_gate_20260901"
+    },
+    "historical_policy": "V16 and older evidence is preserved under its original cohort ID. Only the known V15 changing-pair sampling cohort remains quarantined."
+  },
+  "validation": {
+    "focused_tests": {
+      "passed": 508,
+      "failed": 0,
+      "command_scope": [
+        "test_oanda_news_technical_watchlist.py",
+        "test_oanda_local_news_sentiment.py"
+      ]
+    },
+    "live_reload": {
+      "supervisor_pid": 32984,
+      "wrapper_pid": 408,
+      "child_pid": 33744,
+      "published_utc": "2026-09-01T17:49:39.765306+00:00",
+      "status": "ok",
+      "suppressed_topic_count": 1,
+      "suppressed_topic_id": "local_news_693110f6328407f457eeefe8",
+      "currency_factor_count_before": 2,
+      "currency_factor_count_after": 1,
+      "watchlist_rows_before": 15,
+      "watchlist_rows_after": 8,
+      "new_v17_crypto_rows": 0,
+      "new_v17_remaining_factor": "JPY Nikkei Asia corporate-pension/domestic-bond context",
+      "new_v17_remaining_factor_execution_eligible": false
+    },
+    "database": {
+      "quick_check": "ok",
+      "v15_rows_remain_quarantined": true,
+      "v16_rows_preserved": true,
+      "v17_rows_at_validation": 3,
+      "v17_rows_all_from_remaining_jpy_factor": true
+    },
+    "practice_007": {
+      "observed_utc": "2026-09-01T17:51:07Z",
+      "balance": 41.6042,
+      "nav": 41.6042,
+      "open_trades": 0,
+      "pending_orders": 0,
+      "unrealized_pl": 0.0,
+      "cumulative_pl": -8.343
+    }
+  },
+  "safety": {
+    "research_only": true,
+    "execution_gate_changed": false,
+    "proof_gate_changed": false,
+    "authorization_gate_changed": false,
+    "real_money_enabled": false,
+    "historical_evidence_rewritten": false,
+    "codex_automation_created": false,
+    "heartbeat_created": false
+  },
+  "source_hashes_sha256": {
+    "oanda_news_technical_watchlist.py": "38eb6dfcb569af5e1652b20d8eb1805502b8485c5de906cc244e6c2ba19ac713",
+    "test_oanda_news_technical_watchlist.py": "a6a455b5e4dcee5746b896c4da9952d9db97cc98162aa766b6634d7a0b982466"
+  }
+}

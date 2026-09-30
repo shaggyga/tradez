@@ -1,0 +1,6 @@
+- QREV-01 OPEN: Replenish supported design candidates after an exact reuse/support census; preserve the actual early-stop history.
+- QREV-02 OPEN: Finish exact portable source/input recipe and isolated restore/replay verification; reuse preserved bases and label any necessary replay as replication. Preserve existing residual output.
+- QREV-03 OPEN: Retain full expected population with missing/unsupported/maturity reasons and matched/native denominators. Add missing-panel test and complete reproducible handoff; preserve negative result.
+- QREV-04 OPEN: Reopen family mapping/support inventory; map each comparison to original fingerprints or exact blockers and select a material untested supported hypothesis.
+- QREV-05 OPEN: Assess exact support for the material contract and design alternatives; freeze a bounded successor before any new computation.
+- QREV-06 OPEN: Repair current pointer/schema/document/source identities and reconcile owned finished claim without overwriting historical seals or touching EURUSD capture. Verify preflight at reviewed source.

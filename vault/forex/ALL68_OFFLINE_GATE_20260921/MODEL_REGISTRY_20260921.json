@@ -1,0 +1,48 @@
+{
+  "schema": "all68_offline_model_registry_v1",
+  "authorization": {
+    "advisor_gpt_comparisons": "deferred_by_user",
+    "broker_or_trading_actions": "not_authorized",
+    "execution_claims": "blocked_pending_strict_path_data_quality_resolution"
+  },
+  "entries": [
+    {
+      "id": "stage_c_pooled_ridge_calendar_v1",
+      "family": "pooled_ridge",
+      "universe": "68 pairs",
+      "targets": "UTC daily-close, 2 trading days, 5 trading days; endpoint-only midpoint return",
+      "status": "retired_negative_benchmark",
+      "decision": "July favorable diagnostic failed to repeat in negative August and September held-forward blocks. No policy, execution, or admission use.",
+      "evidence": "CALENDAR_RIDGE_STABILITY_DECISION_20260921.md",
+      "writes_only": "C:\\Users\\zmoor\\Documents\\forex\\stage_c_all68_20260921"
+    },
+    {
+      "id": "modern_tabular_gap_benchmark",
+      "family": "hist_gradient_boosting_extra_trees_catboost_ngboost",
+      "universe": "unbound shared event-meta dataset",
+      "targets": "cost-aware event-meta binary target",
+      "status": "quarantined_deferred_gpt_dependency",
+      "decision": "Imports GPT training manager and writes shared artifacts; not run.",
+      "evidence": "RECOVERED_TREE_CANDIDATE_QUARANTINE_20260921.md"
+    },
+    {
+      "id": "stage_c_hist_gradient_boosting_calendar_v1",
+      "family": "hist_gradient_boosting_regressor",
+      "universe": "68 pairs",
+      "targets": "UTC daily-close, 2 trading days, 5 trading days; endpoint-only midpoint return",
+      "status": "retired_negative_benchmark",
+      "decision": "July five-day improvement failed to repeat; August was worse than no-change at every target.",
+      "evidence": "CALENDAR_HGB_DECISION_20260921.md",
+      "writes_only": "C:\\Users\\zmoor\\Documents\\forex\\stage_c_all68_20260921"
+    },
+    {
+      "id": "gap_aware_four_family_models_v1",
+      "family": "ridge_hgb_graph_ewma",
+      "universe": "seven fixed pairs; EUR/USD output",
+      "targets": "exact 1-hour path target",
+      "status": "reuse_pattern_only",
+      "decision": "Pure gap-aware logic is useful, but no all-68/calendar/model-readiness adapter exists.",
+      "evidence": "GAP_AWARE_MODEL_REUSE_DECISION_20260921.md"
+    }
+  ]
+}

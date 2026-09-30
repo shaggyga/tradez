@@ -1,0 +1,247 @@
+{
+  "schema": "news_technical_availability_diagnostic_v1",
+  "generated_utc": "2026-09-30T03:25:56.779676+00:00",
+  "source_sha256": "a129b7f0b0fab880903bcce833f0d01614fb2cc2b4d16af1c75bac51314a7003",
+  "news_database": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\local_news_sentiment_v1.sqlite",
+  "technical_database": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\rolling_technical_dataset_20260915_v3\\technical.sqlite",
+  "forecast_or_performance_claim": false,
+  "events": [
+    {
+      "event_id": "local_news_73b2379f62b3f8f8d3482542",
+      "pair": "EUR_USD",
+      "headline": "Fed raises interest rates for first time since 2023, defying Trump as inflation mounts - NBC News",
+      "stored_payload_sha256": "76bfe33cfc3e322d9b90434d38fd35bc9f4b1730f7610a2ffb3e8ac416dbf26b",
+      "news_first_seen_epoch": 1789581848.014069,
+      "classification_delay_seconds": 4134.435679912567,
+      "news_clock_basis": "stored_classification_clock",
+      "original_directional_publish_eligible": false,
+      "technical": {
+        "status": "available",
+        "pair": "EUR_USD",
+        "bar_start_epoch": 1789585860,
+        "bar_close_epoch": 1789585920,
+        "feature_published_epoch": 1789585933.503858,
+        "source_read_completed_epoch": 1789585933.4025753,
+        "age_seconds": 62.44974899291992,
+        "feature_hash": "062514001925fdf9f73af22692f1016a247d050f39ad6b4c64f1405c27902395",
+        "news_available_epoch": 1789585982.449749,
+        "decision_epoch": 1789585982.449749,
+        "forecast_claimed": false,
+        "features": {
+          "m1__return_15_pips": -1.5999999999993797,
+          "m1__return_60_pips": -41.59999999999941,
+          "m1__rsi_14": 47.199999999999356,
+          "m1__sma_gap_20_pips": -3.8800000000005497,
+          "m1__sma_gap_50_pips": -12.511999999997858
+        }
+      },
+      "outcome": {
+        "entry_bar_close_epoch": 1789586040,
+        "entry_wait_seconds": 57.55025100708008,
+        "horizons": {
+          "5": {
+            "status": "available",
+            "return_bps": -2.441299817774912,
+            "long_net_bps": -3.8363282850740323,
+            "short_net_bps": 1.046271350473856
+          },
+          "15": {
+            "status": "available",
+            "return_bps": -5.405735310786752,
+            "long_net_bps": -6.800763778085872,
+            "short_net_bps": 4.010706843485695
+          },
+          "30": {
+            "status": "available",
+            "return_bps": 3.749139005867232,
+            "long_net_bps": 2.441299817772976,
+            "short_net_bps": -5.144167473168288
+          },
+          "60": {
+            "status": "available",
+            "return_bps": -2.0053534217428477,
+            "long_net_bps": -3.400381889043904,
+            "short_net_bps": 0.610324954443728
+          }
+        },
+        "scope": "retrospective_bidask_close_proxy_not_fills;slippage_and_financing_unmodeled"
+      }
+    },
+    {
+      "event_id": "local_news_a54b72400ca2e037281ee067",
+      "pair": "EUR_USD",
+      "headline": "EUR/USD outlook: Hawkish Fed puts euro on the ropes - FOREX.com",
+      "stored_payload_sha256": "4dcd8558869ddcef9bd2899c057fd005c2fc6c305b125eaa8d3fef54d84c4ce4",
+      "news_first_seen_epoch": 1789604970.348323,
+      "classification_delay_seconds": 1223.7824709415436,
+      "news_clock_basis": "stored_classification_clock",
+      "original_directional_publish_eligible": false,
+      "technical": {
+        "status": "available",
+        "pair": "EUR_USD",
+        "bar_start_epoch": 1789606020,
+        "bar_close_epoch": 1789606080,
+        "feature_published_epoch": 1789606161.0986273,
+        "source_read_completed_epoch": 1789606160.6796365,
+        "age_seconds": 114.13079404830933,
+        "feature_hash": "a4f6892dc5d6cce499f82cd1791793690430a096ad60ef734e1ac4555e1de78c",
+        "news_available_epoch": 1789606194.130794,
+        "decision_epoch": 1789606194.130794,
+        "forecast_claimed": false,
+        "features": {
+          "m1__return_15_pips": -3.4000000000000696,
+          "m1__return_60_pips": -4.700000000001925,
+          "m1__rsi_14": 30.68181818181761,
+          "m1__sma_gap_20_pips": -1.3700000000005375,
+          "m1__sma_gap_50_pips": -3.8960000000010098
+        }
+      },
+      "outcome": {
+        "entry_bar_close_epoch": 1789606200,
+        "entry_wait_seconds": 5.869205951690674,
+        "horizons": {
+          "5": {
+            "status": "available",
+            "return_bps": -2.6169789594888777,
+            "long_net_bps": -4.099933703199435,
+            "short_net_bps": 1.3084894797454072
+          },
+          "15": {
+            "status": "available",
+            "return_bps": -5.059492655012604,
+            "long_net_bps": -6.455214766739618,
+            "short_net_bps": 3.751003175267197
+          },
+          "30": {
+            "status": "available",
+            "return_bps": -1.2212568477618635,
+            "long_net_bps": -2.529746327505334,
+            "short_net_bps": -0.08723263198354365
+          },
+          "60": {
+            "status": "available",
+            "return_bps": -4.623329495098759,
+            "long_net_bps": -6.019051606823837,
+            "short_net_bps": 3.3148400153533526
+          }
+        },
+        "scope": "retrospective_bidask_close_proxy_not_fills;slippage_and_financing_unmodeled"
+      }
+    },
+    {
+      "event_id": "local_news_ccd6def3246507ca10ecb3d7",
+      "pair": "EUR_CAD",
+      "headline": "Euro declines against Canadian Dollar despite ECB rate hike hopes - FXStreet",
+      "stored_payload_sha256": "fb460db704001c159a0f70a35f15fcf386487495dbb3038155622990f2929357",
+      "news_first_seen_epoch": 1789459018.002047,
+      "classification_delay_seconds": 0.22450494766235352,
+      "news_clock_basis": "stored_classification_clock",
+      "original_directional_publish_eligible": false,
+      "technical": {
+        "status": "unavailable",
+        "reason": "no_fresh_published_technical_snapshot",
+        "news_available_epoch": 1789459018.226552,
+        "decision_epoch": 1789459018.226552,
+        "forecast_claimed": false
+      },
+      "outcome": {
+        "status": "not_evaluated_without_available_inputs"
+      }
+    },
+    {
+      "event_id": "local_news_874116620e6ed9a065d9761f",
+      "pair": "GBP_USD",
+      "headline": "Sterling today: Pound slips as Fed hike bets and UK inflation uptick weigh - Investing.com",
+      "stored_payload_sha256": "4e5a9fd6cad1e94c844a5a5844c56e93a03fc8dd33b9b995024dcc2b4f5a6b17",
+      "news_first_seen_epoch": 1789549537.05189,
+      "classification_delay_seconds": 1.9885900020599365,
+      "news_clock_basis": "stored_classification_clock",
+      "original_directional_publish_eligible": false,
+      "technical": {
+        "status": "available",
+        "pair": "GBP_USD",
+        "bar_start_epoch": 1789549380,
+        "bar_close_epoch": 1789549440,
+        "feature_published_epoch": 1789549486.8076549,
+        "source_read_completed_epoch": 1789549486.6833792,
+        "age_seconds": 99.04047989845276,
+        "feature_hash": "79633ca2281395ce9c13981ca05230639b473b447a9ff97c54ef79a325601cc0",
+        "news_available_epoch": 1789549539.04048,
+        "decision_epoch": 1789549539.04048,
+        "forecast_claimed": false,
+        "features": {
+          "m1__return_15_pips": -1.40000000000029,
+          "m1__return_60_pips": -1.2000000000012,
+          "m1__rsi_14": 40.0,
+          "m1__sma_gap_20_pips": -1.3600000000013601,
+          "m1__sma_gap_50_pips": -1.7639999999996547
+        }
+      },
+      "outcome": {
+        "entry_bar_close_epoch": 1789549560,
+        "entry_wait_seconds": 20.95952010154724,
+        "horizons": {
+          "5": {
+            "status": "available",
+            "return_bps": 1.4849794330363375,
+            "long_net_bps": 0.07424897165058039,
+            "short_net_bps": -3.044207837721607
+          },
+          "15": {
+            "status": "available",
+            "return_bps": 1.559228404686918,
+            "long_net_bps": 0.14849794330280944,
+            "short_net_bps": -3.044207837721607
+          },
+          "30": {
+            "status": "available",
+            "return_bps": 2.9699588660710265,
+            "long_net_bps": 1.559228404686918,
+            "short_net_bps": -4.380689327453487
+          },
+          "60": {
+            "status": "available",
+            "return_bps": -1.3364814897302308,
+            "long_net_bps": -2.5987140078115303,
+            "short_net_bps": -0.07424897165222905
+          }
+        },
+        "scope": "retrospective_bidask_close_proxy_not_fills;slippage_and_financing_unmodeled"
+      }
+    }
+  ],
+  "move_frequency": {
+    "pair": "EUR_USD",
+    "horizon_minutes": 15,
+    "threshold_pips": 10,
+    "days_utc": {
+      "2026-09-14": {
+        "observed_bars": 1136,
+        "eligible_windows": 1117,
+        "nonoverlapping_moves": 5
+      },
+      "2026-09-15": {
+        "observed_bars": 1426,
+        "eligible_windows": 1377,
+        "nonoverlapping_moves": 0
+      },
+      "2026-09-16": {
+        "observed_bars": 1436,
+        "eligible_windows": 1421,
+        "nonoverlapping_moves": 6
+      },
+      "2026-09-17": {
+        "observed_bars": 815,
+        "eligible_windows": 800,
+        "nonoverlapping_moves": 3
+      }
+    },
+    "scope": "partial_archived_coverage; endpoint_moves_not_intrawindow_excursions"
+  },
+  "limitations": [
+    "Selected development cases, not representative forecasting evidence.",
+    "Stored classification clocks are not independently re-attested by this diagnostic.",
+    "Candle close proxy starts after decision; no fill/slippage assumption is validated.",
+    "Original news publication guards still apply; no new forward eligibility is granted."
+  ]
+}

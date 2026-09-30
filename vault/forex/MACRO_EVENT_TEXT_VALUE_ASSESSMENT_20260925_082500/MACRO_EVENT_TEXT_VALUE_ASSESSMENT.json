@@ -1,0 +1,52 @@
+{
+  "api_calls": 0,
+  "boundaries": [
+    "no GPT/advisor comparisons",
+    "no paid APIs",
+    "no broker/service/account action",
+    "no D-drive investigation",
+    "no EUR/USD capture",
+    "no live-bot change"
+  ],
+  "candidate": "macro_event_text_incremental_matched_contract_v1",
+  "decision": "Do not repeat event/text inventory or launch a macro/text fit. Event existence already has matched-control negative value evidence; text/numeric/reaction incremental hypotheses require input-lineage repairs first.",
+  "event_existence_value": {
+    "checkpoint_sha256": "f1fcef5dad5d7eb55f65ffa311660cb332930b37c780298cf081be7de44e421b",
+    "event_layer_status": "negative_event_existence_development_result",
+    "local_tests_passed": 14,
+    "matched_controls": "technical+clock controls at 1h and 24h",
+    "relocated_tests_passed": 14,
+    "reported_deltas": {
+      "1h": "clock+event MAE worsened by +0.49675 bps versus technical+clock",
+      "24h": "clock+event MAE worsened by +2.53014 bps versus technical+clock"
+    },
+    "run_identity": "c2709be60f699dba7b433a7b78f3b0a70c84e489d8546ee738a37e0dfcdede37",
+    "unique_learned_fits": 6
+  },
+  "models_fitted": 0,
+  "policy_replays": 0,
+  "qrev_finding": "QREV-05",
+  "result": "partially_evaluated_and_blocked",
+  "schema": "forex_macro_event_text_incremental_value_assessment.v1",
+  "text_numeric_incremental_value": {
+    "blockers": [
+      {
+        "evidence": "Numeric surprise remains unavailable in MACRO_INCREMENTAL_SUPPORT_20260925_022000.",
+        "id": "MACRO-BLOCK-NUMERIC-SURPRISE",
+        "status": "blocked"
+      },
+      {
+        "evidence": "Retained text state package has zero comparable text-change values; MACRO_TEXT_REPAIR reports zero supported real text changes.",
+        "id": "MACRO-BLOCK-TEXT-CHANGE",
+        "status": "blocked"
+      },
+      {
+        "evidence": "Receipt capture has versions/events/boundary receipts but lacks release-identity matching, complete all-release calendar, matched price/no-move population and semantic admission.",
+        "id": "MACRO-BLOCK-RELEASE-IDENTITY",
+        "status": "blocked"
+      }
+    ],
+    "status": "blocked_before_fit"
+  },
+  "utc": "2026-09-25T08:21:20.550051Z"
+}

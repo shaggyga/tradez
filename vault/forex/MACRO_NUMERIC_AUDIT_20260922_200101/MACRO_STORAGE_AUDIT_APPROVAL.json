@@ -1,0 +1,15 @@
+{
+  "recipe": "source_snapshot/MACRO_STORAGE_AUDIT_OPERATOR_RECIPE.json",
+  "recipe_sha256": "265f1ab1bb19960d229fdf3ce01e512211a3c06cce76e459249e86f47867309b",
+  "scope": "original detail guard audit, no live projection certification",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify"
+  ],
+  "bootstrap": "../MACRO_STORAGE_AUDIT_20260922_173841/checkpoint/forex_macro_storage_audit.zip",
+  "contract": "source_snapshot/MACRO_STORAGE_AUDIT_CONTRACT_V2.md",
+  "next": "review_macro_storage_audit_checkpoint_v2"
+}

@@ -1,0 +1,71 @@
+{
+  "schema_version": "forex_boc_placeholder_handoff_validation_v1",
+  "generated_utc": "2026-09-02T19:44:00Z",
+  "issue_id": "FX-20260902-BOC-DECISION-PUBLICATION-HANDOFF",
+  "scope": "Bank of Canada same-URL placeholder-to-final-release handoff",
+  "incident": {
+    "decision_date": "2026-09-02",
+    "official_release_url": "https://www.bankofcanada.ca/2026/09/fad-press-release-2026-09-02/",
+    "official_announcement_url": "https://www.bankofcanada.ca/2026/09/interest-rate-announcement-september-2-2026/",
+    "official_opening_statement_url": "https://www.bankofcanada.ca/2026/09/opening-statement-2026-09-02/",
+    "root_cause": "The final decision reused a URL first observed as a pre-release placeholder. The former URL-level no-refetch safeguard correctly prevented duplicate observations but could not observe a material mutation at the same URL.",
+    "historical_recovery_policy": "diagnostic_only_no_retroactive_proof_credit"
+  },
+  "implementation": {
+    "source_contract_id": "boc_press_placeholder_handoff_v2_20260902",
+    "source_cohort_id": "boc_press_placeholder_handoff_v2_20260902",
+    "activation_utc": "2026-09-02T19:20:00Z",
+    "bounded_mutable_window_minutes": 240,
+    "normal_poll_interval_seconds": 180,
+    "future_decision_burst_poll_interval_seconds": 15,
+    "same_url_unchanged_placeholder_is_duplicate": true,
+    "same_url_material_transition_is_new_immutable_observation": true,
+    "raw_and_normalized_material_hashes_preserved": true,
+    "superseded_material_hash_preserved": true,
+    "late_migration_baseline_quarantined": true,
+    "non_opted_in_sources_unchanged": true,
+    "research_only": true,
+    "execution_gate_changed": false,
+    "promotion_gate_changed": false,
+    "real_money_routing": false
+  },
+  "live_validation": {
+    "collector_state_observed_utc": "2026-09-02T19:42:04.0138334Z",
+    "fast_lane_state_observed_utc": "2026-09-02T19:43:31.4776088Z",
+    "collector_status": "running",
+    "collector_contract_adopted": true,
+    "fast_lane_contract_adopted": true,
+    "stale_derived_contract_flag_cleared": true,
+    "stale_derived_lineage_version_cleared": true,
+    "stale_source_config_sha256_cleared": true,
+    "practice_007_nav": 41.6042,
+    "practice_007_open_trades": 0,
+    "practice_007_pending_orders": 0,
+    "practice_007_authorized_entry": false
+  },
+  "validation": {
+    "new_focused_tests_passed": 4,
+    "relevant_cross_module_tests_passed": 127,
+    "full_local_news_sentiment_tests_passed": 475,
+    "official_source_and_fast_lane_tests_passed": 59,
+    "python_compile_passed": true,
+    "news_source_config_json_parse_passed": true,
+    "wrong_working_directory_import_failure_classified_as_invocation_error": true
+  },
+  "files": [
+    {
+      "path": "oanda_local_news_sentiment.py",
+      "sha256": "37ec42d1643d01052bc405e19a1434ea21a9dbf9e783010ca80691a9fa738540"
+    },
+    {
+      "path": "config/news_sources_v1.json",
+      "sha256": "97f35497a70c93beb24fbb80e7166ea2613ec8abcdc0f4b4f80c907d07b1fc6d"
+    },
+    {
+      "path": "test_oanda_local_news_sentiment.py",
+      "sha256": "02bd89d0403c01c61828e4cd2833bc2b994547ac5fe72a557e8c27e9ca398ccd"
+    }
+  ],
+  "remaining_evidence_gate": "The implementation is collecting prospectively. A future Bank of Canada same-URL placeholder transition must validate the live mutation path; the recovered September 2 release cannot satisfy prospective proof.",
+  "supported_decision": "no_trade"
+}

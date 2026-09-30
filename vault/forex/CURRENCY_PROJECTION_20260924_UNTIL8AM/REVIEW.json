@@ -1,0 +1,107 @@
+{
+  "checkpoint": {
+    "path": "checkpoint/CURRENCY_PROJECTION_CHECKPOINT.zip",
+    "sha256": "9de8bfcc8a0f350391d7ccc937f0d3b08d248d9f146be43fb045b45e6db1091f"
+  },
+  "implementation_status": "complete",
+  "independent_review": false,
+  "independent_review_status": "pending_nonblocking_by_user_clarification",
+  "next_action": "currency_projection_native_policy_inputs_v2",
+  "readiness": {
+    "demo_authorization_status": "not_granted",
+    "engineering_ready": false,
+    "forecast_evidence_status": "fixed_currency_projection_inspected_development_diagnostic",
+    "policy_evidence_status": "no_projection_native_or_policy_comparison"
+  },
+  "recipe_sha256": "ef1b24f002891bc84408e24cf084254e27f6165c0af048c51b382bd43ca53e8d",
+  "review_result": "evidence/REVIEW_FINDINGS.md",
+  "review_status": "accepted_within_scope",
+  "reviewer": "same Codex task; substantive same-task review",
+  "run_identity": "5c8cb84166076bcdba4724dc277c32e2520de4f548869adca3491807ef10b0d3",
+  "schema": "forex_review_packet.v2",
+  "source_commit": "bb4d1f63106c3ccd0a3ceb8e485448ba6c158863",
+  "step_id": "currency_factor_forecast_projection_v2",
+  "unresolved_findings": [],
+  "verification": {
+    "actual_crash_exit": 91,
+    "api_calls": 0,
+    "audit": {
+      "aggregate_matched_comparisons": {
+        "currency_projection": {
+          "cells": 16,
+          "mae_lower": 16,
+          "mse_lower": 16
+        },
+        "half_residual": {
+          "cells": 16,
+          "mae_lower": 16,
+          "mse_lower": 16
+        }
+      },
+      "coverage_slots": 78336,
+      "daily_matched_comparisons": {
+        "currency_projection": {
+          "mae_lower": 51,
+          "matched_cells": 52,
+          "mse_lower": 52
+        },
+        "half_residual": {
+          "mae_lower": 51,
+          "matched_cells": 52,
+          "mse_lower": 52
+        }
+      },
+      "direct_values_exact": 17248,
+      "independent_review": false,
+      "max_factor_difference_log_bps": "5.50863641456582633053221288515406162464985994397759103641456582633E-13",
+      "maximum_frame_seconds": 0.06299999984912574,
+      "nonempty_projection_solves_checked": 256,
+      "oracle": "same-task80digit Decimal reduced-Laplacian elimination, independent arithmetic implementation; not independent agent review",
+      "outcome_status_counts": {
+        "mature": 36954,
+        "not_mature": 14598,
+        "unavailable": 192
+      },
+      "predictions": 51744,
+      "projected_pair_values_checked": 17248,
+      "solver_statuses": {
+        "insufficient_observations": 128,
+        "ok": 256
+      },
+      "status": "PASS"
+    },
+    "base_model_fits": 0,
+    "base_model_loads": 0,
+    "checkpoint_sha256": "9de8bfcc8a0f350391d7ccc937f0d3b08d248d9f146be43fb045b45e6db1091f",
+    "crash_payloads_preserved": 2,
+    "elapsed_seconds": 51.531999999890104,
+    "independent_review": false,
+    "learned_layer_fits": 0,
+    "local_tests": 19,
+    "policy_replays": 0,
+    "recipe_sha256": "ef1b24f002891bc84408e24cf084254e27f6165c0af048c51b382bd43ca53e8d",
+    "refusal_cases": 4,
+    "refusals": [
+      "wrong_recipe_pin_before_destination",
+      "changed_source_before_analysis_import",
+      "changed_original_parent_identity_before_analysis",
+      "changed_preserved_solver_before_import"
+    ],
+    "relocated_tests": 19,
+    "restore": {
+      "base_model_fits": 0,
+      "base_model_loads": 0,
+      "checkpoint_sha256": "9de8bfcc8a0f350391d7ccc937f0d3b08d248d9f146be43fb045b45e6db1091f",
+      "independent_review": false,
+      "layer_fits": 0,
+      "policy_replays": 0,
+      "relocated_tests_passed": true,
+      "run_identity": "5c8cb84166076bcdba4724dc277c32e2520de4f548869adca3491807ef10b0d3",
+      "scientific_payloads_identical": 195,
+      "status": "VERIFIED"
+    },
+    "run_identity": "5c8cb84166076bcdba4724dc277c32e2520de4f548869adca3491807ef10b0d3",
+    "scientific_outputs_identical": 195,
+    "status": "PASS"
+  }
+}

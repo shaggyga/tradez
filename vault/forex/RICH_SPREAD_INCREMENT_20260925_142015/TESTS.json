@@ -1,0 +1,14 @@
+{
+  "focused": {
+    "command": "timeseries312 python -I -B -m pytest -q -p no:cacheprovider --noconftest stage_c_alignment_integrity_v2/test_rich_spread_increment_v2.py",
+    "passed": 2
+  },
+  "future_perturbation": {
+    "command": "timeseries312 python -I -B -m pytest -q -p no:cacheprovider --noconftest stage_c_alignment_integrity_v2/test_rich_family_v2.py -k future_features_labels_do_not_change_prefix_fit",
+    "passed": 1,
+    "duration_seconds": 111.26
+  },
+  "older_full_suite_attempt": "Interrupted after two early errors during expensive historical fixture; no full-suite pass claimed. The exact errors were not captured before interruption.",
+  "postrun_validation": "evidence/VERIFICATION.json",
+  "saved_model_timing_validation": "evidence/LATENCY_VALIDATION.json"
+}

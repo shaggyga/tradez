@@ -2,6 +2,11 @@
 
 Read this before proposing a forecasting experiment or interpreting a new result. The full engineering design remains the goal. The Vault is the shared brain; Git carries source; exact model/forecast/evidence identities govern reuse. This page maps evidence, not a replacement scientific approval or queue.
 
+New collaborators: [start here](../START_HERE.md). Git includes a [versioned Vault
+knowledge copy](../vault/README.md), with explicit artifact omissions. The live shared
+Vault remains the coordination authority. [Dashboard cleanup](DASHBOARD_STATUS_20260930.md)
+removed Crypto Shadow and clarified missing live Forex inputs; scientific readiness is unchanged.
+
 ## Correction to the recent chat work
 
 The September30 news/technical batch used the sign of prior15minute momentum, NOT the existing trained technical models. Its 934 rows cannot supersede mean-reversion, specialist, calibration or residual-error studies. Suggesting reversal as a newly discovered next hypothesis was premature. The relevant records were present but not adequately consulted. This correction is preserved in both project logs and the Vault.

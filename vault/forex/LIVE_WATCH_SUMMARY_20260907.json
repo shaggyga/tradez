@@ -1,0 +1,2319 @@
+{
+  "schema_version": "completed_live_watch_report_v1_20260907",
+  "status": "completed_observation",
+  "operation_assessment": "partially_operational_research_only",
+  "generated_utc": "2026-09-07T20:37:25.800456+00:00",
+  "finalizer_sha256": "d5b231521a3682b6002239ed44364572357daf9a94c915f7acaf552419179cfd",
+  "requested_window": {
+    "start_utc": "2026-09-07T19:36:13Z",
+    "end_utc": "2026-09-07T20:36:13Z"
+  },
+  "session": {
+    "status": "completed",
+    "first_persisted_sample_utc": "2026-09-07T19:38:51Z",
+    "finished_utc": "2026-09-07T20:36:14Z",
+    "requested_window_start_utc": "2026-09-07T19:36:13Z",
+    "requested_window_end_utc": "2026-09-07T20:36:13Z",
+    "persisted_samples": 116,
+    "api_failures": 0,
+    "interval_sec": 30.0,
+    "earlier_live_checks": "Initial live API probes and parallel baseline inspections preceded this persisted sampling loop.",
+    "orders_sent": 0,
+    "processes_restarted": 0,
+    "model_or_ledger_writes": 0
+  },
+  "samples": {
+    "persisted_samples": 116,
+    "successful_api_samples": 116,
+    "api_errors": 0,
+    "api_error_details": [],
+    "first_sample_utc": "2026-09-07T19:38:51Z",
+    "last_sample_utc": "2026-09-07T20:36:14Z",
+    "first_success_utc": "2026-09-07T19:38:51Z",
+    "last_success_utc": "2026-09-07T20:36:14Z",
+    "sample_spacing_sec": {
+      "observations": 115,
+      "first": 29.95037055015564,
+      "last": 22.778958082199097,
+      "min": 22.778958082199097,
+      "max": 31.180240631103516
+    },
+    "api_response_sec": {
+      "observations": 116,
+      "first": 0.202,
+      "last": 1.08,
+      "min": 0.124,
+      "max": 1.312
+    },
+    "pair_status_sample_counts": {
+      "current": 116
+    },
+    "forecast_pairs": {
+      "observations": 116,
+      "first": 10,
+      "last": 9,
+      "min": 6,
+      "max": 10
+    },
+    "current_price_pairs": {
+      "observations": 116,
+      "first": 51,
+      "last": 50,
+      "min": 27,
+      "max": 63
+    },
+    "market_status_sample_counts": {
+      "current": 116
+    },
+    "news": {
+      "status_sample_counts": {
+        "current": 79,
+        "stale": 37
+      },
+      "evidence_age_sec": {
+        "observations": 116,
+        "first": 281.269,
+        "last": 184.392,
+        "min": 100.757,
+        "max": 411.829
+      },
+      "longest_observed_stale_run": {
+        "sample_count": 4,
+        "first_utc": "2026-09-07T20:33:21Z",
+        "last_utc": "2026-09-07T20:34:52Z",
+        "sampled_span_sec": 90.87281489372253
+      },
+      "sampling_caveat": "Nominal 30-second sampling. These are observed states and first-to-last stale sample spans, not exact continuous durations. Errors or spacing over45seconds split runs; transitions between samples are unknown."
+    },
+    "account": {
+      "nav": {
+        "observations": 116,
+        "first": 41.6042,
+        "last": 41.6042,
+        "min": 41.6042,
+        "max": 41.6042
+      },
+      "balance": {
+        "observations": 116,
+        "first": 41.6042,
+        "last": 41.6042,
+        "min": 41.6042,
+        "max": 41.6042
+      },
+      "open_trades": {
+        "observations": 116,
+        "first": 0,
+        "last": 0,
+        "min": 0,
+        "max": 0
+      },
+      "pending_orders": {
+        "observations": 116,
+        "first": 0,
+        "last": 0,
+        "min": 0,
+        "max": 0
+      },
+      "unrealized_pl": {
+        "observations": 116,
+        "first": 0.0,
+        "last": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      }
+    },
+    "account_not_current_samples": {
+      "account_values_current": 0,
+      "positions_current": 0,
+      "orders_current": 0
+    },
+    "collection_not_current_samples": {
+      "study": 0,
+      "quote_stream": 0,
+      "account": 0
+    },
+    "alert_counts": {},
+    "unexpected_authority_samples": 0,
+    "retained_verified_generation_samples": 15,
+    "retained_read_failure_reasons": {
+      "pair_summary_generation_mismatch": 15
+    },
+    "last_successful_api_readiness": {
+      "observed_utc": "2026-09-07T20:36:14Z",
+      "source_generated_epoch": 1788813357.576964,
+      "summary_status": "current",
+      "counts": {
+        "warming": 43,
+        "unavailable": 16,
+        "forecast": 9
+      },
+      "missing_groups": {
+        "own_minute_warmup_at_last_attempt": [
+          {
+            "instrument": "AUD_CAD",
+            "status": "warming",
+            "reason": "AUD_CAD:ValueError:current_common_warmup:2<61",
+            "current_common_bars": 2,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813132.4200888
+          },
+          {
+            "instrument": "AUD_NZD",
+            "status": "warming",
+            "reason": "AUD_NZD:ValueError:current_common_warmup:26<61",
+            "current_common_bars": 26,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813013.4567122
+          },
+          {
+            "instrument": "AUD_USD",
+            "status": "warming",
+            "reason": "AUD_USD:ValueError:current_common_warmup:6<61",
+            "current_common_bars": 6,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813000.0897677
+          },
+          {
+            "instrument": "CAD_CHF",
+            "status": "warming",
+            "reason": "CAD_CHF:ValueError:current_common_warmup:1<61",
+            "current_common_bars": 1,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813054.8726404
+          },
+          {
+            "instrument": "CAD_HKD",
+            "status": "warming",
+            "reason": "CAD_HKD:ValueError:current_common_warmup:1<61",
+            "current_common_bars": 1,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813000.2962434
+          },
+          {
+            "instrument": "CAD_JPY",
+            "status": "warming",
+            "reason": "CAD_JPY:ValueError:current_common_warmup:6<61",
+            "current_common_bars": 6,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813000.5024216
+          },
+          {
+            "instrument": "CAD_SGD",
+            "status": "warming",
+            "reason": "CAD_SGD:ValueError:current_common_warmup:1<61",
+            "current_common_bars": 1,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813013.6881514
+          },
+          {
+            "instrument": "CHF_HKD",
+            "status": "warming",
+            "reason": "CHF_HKD:ValueError:current_common_warmup:1<61",
+            "current_common_bars": 1,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813052.8720567
+          },
+          {
+            "instrument": "CHF_JPY",
+            "status": "warming",
+            "reason": "CHF_JPY:ValueError:current_common_warmup:30<61",
+            "current_common_bars": 30,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813013.908041
+          },
+          {
+            "instrument": "CHF_ZAR",
+            "status": "warming",
+            "reason": "CHF_ZAR:ValueError:current_common_warmup:6<61",
+            "current_common_bars": 6,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813000.7065718
+          },
+          {
+            "instrument": "EUR_CZK",
+            "status": "warming",
+            "reason": "EUR_CZK:ValueError:current_common_warmup:1<61",
+            "current_common_bars": 1,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813001.5579233
+          },
+          {
+            "instrument": "EUR_DKK",
+            "status": "warming",
+            "reason": "EUR_DKK:ValueError:current_common_warmup:9<61",
+            "current_common_bars": 9,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813001.7642229
+          },
+          {
+            "instrument": "EUR_GBP",
+            "status": "warming",
+            "reason": "EUR_GBP:ValueError:current_common_warmup:1<61",
+            "current_common_bars": 1,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813002.3171523
+          },
+          {
+            "instrument": "EUR_HKD",
+            "status": "warming",
+            "reason": "EUR_HKD:ValueError:current_common_warmup:10<61",
+            "current_common_bars": 10,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813014.114939
+          },
+          {
+            "instrument": "EUR_HUF",
+            "status": "warming",
+            "reason": "EUR_HUF:ValueError:current_common_warmup:31<61",
+            "current_common_bars": 31,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813002.528943
+          },
+          {
+            "instrument": "EUR_NOK",
+            "status": "warming",
+            "reason": "EUR_NOK:ValueError:current_common_warmup:1<61",
+            "current_common_bars": 1,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813003.0267365
+          },
+          {
+            "instrument": "EUR_NZD",
+            "status": "warming",
+            "reason": "EUR_NZD:ValueError:current_common_warmup:1<61",
+            "current_common_bars": 1,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813134.4302895
+          },
+          {
+            "instrument": "EUR_PLN",
+            "status": "warming",
+            "reason": "EUR_PLN:ValueError:current_common_warmup:4<61",
+            "current_common_bars": 4,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813003.2337873
+          },
+          {
+            "instrument": "EUR_SEK",
+            "status": "warming",
+            "reason": "EUR_SEK:ValueError:current_common_warmup:1<61",
+            "current_common_bars": 1,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813003.4468951
+          },
+          {
+            "instrument": "EUR_SGD",
+            "status": "warming",
+            "reason": "EUR_SGD:ValueError:current_common_warmup:1<61",
+            "current_common_bars": 1,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813023.7838035
+          },
+          {
+            "instrument": "EUR_ZAR",
+            "status": "warming",
+            "reason": "EUR_ZAR:ValueError:current_common_warmup:1<61",
+            "current_common_bars": 1,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813003.8540406
+          },
+          {
+            "instrument": "GBP_AUD",
+            "status": "warming",
+            "reason": "GBP_AUD:ValueError:current_common_warmup:19<61",
+            "current_common_bars": 19,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813004.6967242
+          },
+          {
+            "instrument": "GBP_CAD",
+            "status": "warming",
+            "reason": "GBP_CAD:ValueError:current_common_warmup:7<61",
+            "current_common_bars": 7,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813017.090193
+          },
+          {
+            "instrument": "GBP_CHF",
+            "status": "warming",
+            "reason": "GBP_CHF:ValueError:current_common_warmup:12<61",
+            "current_common_bars": 12,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813004.9018967
+          },
+          {
+            "instrument": "GBP_PLN",
+            "status": "warming",
+            "reason": "GBP_PLN:ValueError:current_common_warmup:5<61",
+            "current_common_bars": 5,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813005.858428
+          },
+          {
+            "instrument": "GBP_SGD",
+            "status": "warming",
+            "reason": "GBP_SGD:ValueError:current_common_warmup:2<61",
+            "current_common_bars": 2,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813023.5622013
+          },
+          {
+            "instrument": "HKD_JPY",
+            "status": "warming",
+            "reason": "HKD_JPY:ValueError:current_common_warmup:11<61",
+            "current_common_bars": 11,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813006.7245111
+          },
+          {
+            "instrument": "NZD_CHF",
+            "status": "warming",
+            "reason": "NZD_CHF:ValueError:current_common_warmup:1<61",
+            "current_common_bars": 1,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813263.2226903
+          },
+          {
+            "instrument": "NZD_JPY",
+            "status": "warming",
+            "reason": "NZD_JPY:ValueError:current_common_warmup:2<61",
+            "current_common_bars": 2,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813007.1052353
+          },
+          {
+            "instrument": "NZD_SGD",
+            "status": "warming",
+            "reason": "NZD_SGD:ValueError:current_common_warmup:1<61",
+            "current_common_bars": 1,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813033.833806
+          },
+          {
+            "instrument": "NZD_USD",
+            "status": "warming",
+            "reason": "NZD_USD:ValueError:current_common_warmup:1<61",
+            "current_common_bars": 1,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813007.309971
+          },
+          {
+            "instrument": "SGD_CHF",
+            "status": "warming",
+            "reason": "SGD_CHF:ValueError:current_common_warmup:2<61",
+            "current_common_bars": 2,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813098.6909335
+          },
+          {
+            "instrument": "SGD_JPY",
+            "status": "warming",
+            "reason": "SGD_JPY:ValueError:current_common_warmup:4<61",
+            "current_common_bars": 4,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813007.5158937
+          },
+          {
+            "instrument": "USD_CAD",
+            "status": "warming",
+            "reason": "USD_CAD:ValueError:current_common_warmup:32<61",
+            "current_common_bars": 32,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813007.7197344
+          },
+          {
+            "instrument": "USD_CHF",
+            "status": "warming",
+            "reason": "USD_CHF:ValueError:current_common_warmup:9<61",
+            "current_common_bars": 9,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813007.9233565
+          },
+          {
+            "instrument": "USD_CNH",
+            "status": "warming",
+            "reason": "USD_CNH:ValueError:current_common_warmup:3<61",
+            "current_common_bars": 3,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813008.4034054
+          },
+          {
+            "instrument": "USD_DKK",
+            "status": "warming",
+            "reason": "USD_DKK:ValueError:current_common_warmup:1<61",
+            "current_common_bars": 1,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813008.8200972
+          },
+          {
+            "instrument": "USD_JPY",
+            "status": "warming",
+            "reason": "USD_JPY:ValueError:current_common_warmup:39<61",
+            "current_common_bars": 39,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813009.6050253
+          },
+          {
+            "instrument": "USD_NOK",
+            "status": "warming",
+            "reason": "USD_NOK:ValueError:current_common_warmup:1<61",
+            "current_common_bars": 1,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813010.1428728
+          },
+          {
+            "instrument": "USD_SEK",
+            "status": "warming",
+            "reason": "USD_SEK:ValueError:current_common_warmup:27<61",
+            "current_common_bars": 27,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813011.0388794
+          },
+          {
+            "instrument": "USD_SGD",
+            "status": "warming",
+            "reason": "USD_SGD:ValueError:current_common_warmup:8<61",
+            "current_common_bars": 8,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813011.244347
+          },
+          {
+            "instrument": "USD_THB",
+            "status": "warming",
+            "reason": "USD_THB:ValueError:current_common_warmup:4<61",
+            "current_common_bars": 4,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813011.4695563
+          },
+          {
+            "instrument": "USD_ZAR",
+            "status": "warming",
+            "reason": "USD_ZAR:ValueError:current_common_warmup:8<61",
+            "current_common_bars": 8,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813011.6825788
+          }
+        ],
+        "fresh_quote_unavailable": [
+          {
+            "instrument": "AUD_CHF",
+            "status": "unavailable",
+            "reason": "ValueError:no_fresh_quote",
+            "current_common_bars": null,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813132.6244655
+          },
+          {
+            "instrument": "AUD_HKD",
+            "status": "unavailable",
+            "reason": "ValueError:no_fresh_quote",
+            "current_common_bars": 1,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813011.887965
+          },
+          {
+            "instrument": "AUD_SGD",
+            "status": "unavailable",
+            "reason": "ValueError:no_fresh_quote",
+            "current_common_bars": 1,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813099.0363376
+          },
+          {
+            "instrument": "EUR_CHF",
+            "status": "unavailable",
+            "reason": "ValueError:no_fresh_quote",
+            "current_common_bars": 11,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813142.7454112
+          },
+          {
+            "instrument": "EUR_USD",
+            "status": "unavailable",
+            "reason": "ValueError:no_fresh_quote",
+            "current_common_bars": 1,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813003.6509788
+          },
+          {
+            "instrument": "GBP_HKD",
+            "status": "unavailable",
+            "reason": "ValueError:no_fresh_quote",
+            "current_common_bars": 4,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813005.1050513
+          },
+          {
+            "instrument": "GBP_NZD",
+            "status": "unavailable",
+            "reason": "ValueError:no_fresh_quote",
+            "current_common_bars": 1,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813005.6186256
+          },
+          {
+            "instrument": "GBP_ZAR",
+            "status": "unavailable",
+            "reason": "ValueError:no_fresh_quote",
+            "current_common_bars": 5,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813006.520903
+          },
+          {
+            "instrument": "NZD_CAD",
+            "status": "unavailable",
+            "reason": "ValueError:no_fresh_quote",
+            "current_common_bars": 2,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813263.0190477
+          },
+          {
+            "instrument": "NZD_HKD",
+            "status": "unavailable",
+            "reason": "ValueError:no_fresh_quote",
+            "current_common_bars": null,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813263.42773
+          },
+          {
+            "instrument": "USD_HKD",
+            "status": "unavailable",
+            "reason": "ValueError:no_fresh_quote",
+            "current_common_bars": 2,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813159.2236972
+          },
+          {
+            "instrument": "USD_PLN",
+            "status": "unavailable",
+            "reason": "ValueError:no_fresh_quote",
+            "current_common_bars": 1,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813010.825705
+          },
+          {
+            "instrument": "ZAR_JPY",
+            "status": "unavailable",
+            "reason": "ValueError:no_fresh_quote",
+            "current_common_bars": null,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": 1788813262.8149693
+          }
+        ],
+        "market_closed_or_no_stream_quote": [
+          {
+            "instrument": "EUR_TRY",
+            "status": "unavailable",
+            "reason": "ValueError:market_closed_or_no_stream_quote",
+            "current_common_bars": null,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": null
+          },
+          {
+            "instrument": "TRY_JPY",
+            "status": "unavailable",
+            "reason": "ValueError:market_closed_or_no_stream_quote",
+            "current_common_bars": null,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": null
+          },
+          {
+            "instrument": "USD_TRY",
+            "status": "unavailable",
+            "reason": "ValueError:market_closed_or_no_stream_quote",
+            "current_common_bars": null,
+            "required_current_common_bars": 61,
+            "last_attempt_epoch": null
+          }
+        ]
+      },
+      "interpretation": "API reasons and minute counts are from their retained last attempts. Independently recomputed input diagnosis has a separate earlier clock below."
+    }
+  },
+  "collection_snapshots": [
+    {
+      "observed_utc": "2026-09-07T19:40:53.670626+00:00",
+      "started_utc": "2026-09-07T19:40:51.241119+00:00",
+      "process_check": {
+        "status": "passed",
+        "running_worker_count": 14,
+        "preserved_other_worker_count": 13,
+        "preserved_other_process_count": 26,
+        "same_process_identities_as_185143": true
+      },
+      "workers": {
+        "account_snapshot": {
+          "read_status": "read",
+          "status": null,
+          "phase": null,
+          "age_seconds": 0.9025788307189941,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "local_news_collector": {
+          "read_status": "read",
+          "status": "running_cycle",
+          "phase": "starting_cycle",
+          "age_seconds": 4.525784015655518,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": 0.0,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "official_release_lane": {
+          "read_status": "read",
+          "status": "running_cycle",
+          "phase": "polling_official_sources",
+          "age_seconds": 2.5483224391937256,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "official_release_mapper": {
+          "read_status": "read",
+          "status": "cycle_complete",
+          "phase": "cycle_complete",
+          "age_seconds": 3.729376792907715,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "news_governance": {
+          "read_status": "read",
+          "status": "ok",
+          "phase": null,
+          "age_seconds": 13.457036256790161,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        },
+        "quote_stream": {
+          "read_status": "read",
+          "status": "running",
+          "phase": "streaming",
+          "age_seconds": 2.260495185852051,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": 86528.688,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "clock_monitor": {
+          "read_status": "read",
+          "status": "ok",
+          "phase": null,
+          "age_seconds": 13.936765193939209,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "minute_updater": {
+          "read_status": "read",
+          "status": "running",
+          "phase": "updating_pairs",
+          "age_seconds": 3.2396485805511475,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": 1.609,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": 0
+        },
+        "project_integrity": {
+          "read_status": "read",
+          "status": "degraded",
+          "phase": null,
+          "age_seconds": 40.718737840652466,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        },
+        "storage_guard": {
+          "read_status": "read",
+          "status": "ok",
+          "phase": null,
+          "age_seconds": 179.77495980262756,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        },
+        "gap_companion": {
+          "read_status": "read",
+          "status": null,
+          "phase": "collecting",
+          "age_seconds": 1.0217678546905518,
+          "errors": 0,
+          "heartbeat_publication_errors": 0,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        },
+        "eurusd_companion": {
+          "read_status": "read",
+          "status": null,
+          "phase": "collecting",
+          "age_seconds": 1.063654899597168,
+          "errors": 12,
+          "heartbeat_publication_errors": 0,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        },
+        "pair_worker": {
+          "read_status": "read",
+          "status": null,
+          "phase": "research_collection",
+          "age_seconds": 1.9436933994293213,
+          "errors": 0,
+          "heartbeat_publication_errors": 0,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        }
+      },
+      "updater_cycle": {
+        "schema_version": "all68_m1_forward_updater_v1",
+        "generated_utc": "2026-09-07T19:36:58.121993+00:00",
+        "started_utc": "2026-09-07T19:35:24.564529+00:00",
+        "dry_run": false,
+        "pair_count": 68,
+        "total_rows_appended": 264,
+        "total_rows_backfilled": 0,
+        "total_rows_recovered": 0,
+        "gap_recovery_requests": 55,
+        "gap_recovery_unresolved_minutes": 2874,
+        "gap_recovery_unknown_pair_count": 0,
+        "gap_recovery_scope": "bounded_recent_small_interior_gaps_only; not_a_full_archive_completeness_check",
+        "error_count": 0
+      },
+      "archive_summary": {
+        "read_failures": 0,
+        "pairs_with_at_least61_consecutive_real_bars": 8,
+        "latest_close_age_over600_seconds_pairs": [
+          "EUR_TRY",
+          "TRY_JPY",
+          "USD_TRY"
+        ]
+      },
+      "cycle_gap_status_counts": {
+        "broker_omitted_requested_minute": 55,
+        "unresolved_no_retry_due": 10,
+        "no_small_gaps_in_scope": 3
+      },
+      "recovery_receipt_checks": {
+        "count": 55,
+        "hash_mismatches": 0,
+        "requested_minutes_absent": 55,
+        "requested_minutes_returned": 0,
+        "read_failures": 0
+      }
+    },
+    {
+      "observed_utc": "2026-09-07T19:50:44.339786+00:00",
+      "started_utc": "2026-09-07T19:50:40.009108+00:00",
+      "process_check": {
+        "status": "passed",
+        "running_worker_count": 14,
+        "preserved_other_worker_count": 13,
+        "preserved_other_process_count": 26,
+        "same_process_identities_as_185143": true
+      },
+      "workers": {
+        "account_snapshot": {
+          "read_status": "read",
+          "status": null,
+          "phase": null,
+          "age_seconds": 1.4205825328826904,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "local_news_collector": {
+          "read_status": "read",
+          "status": "running_cycle",
+          "phase": "collecting_sources",
+          "age_seconds": 23.717143774032593,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": 0.375,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "official_release_lane": {
+          "read_status": "read",
+          "status": "cycle_complete",
+          "phase": "cycle_complete",
+          "age_seconds": 13.181310653686523,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "official_release_mapper": {
+          "read_status": "read",
+          "status": "cycle_complete",
+          "phase": "cycle_complete",
+          "age_seconds": 3.162018060684204,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "news_governance": {
+          "read_status": "read",
+          "status": "ok",
+          "phase": null,
+          "age_seconds": 2.4588539600372314,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        },
+        "quote_stream": {
+          "read_status": "read",
+          "status": "running",
+          "phase": "streaming",
+          "age_seconds": 0.7084972858428955,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": 87119.969,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "clock_monitor": {
+          "read_status": "read",
+          "status": "ok",
+          "phase": null,
+          "age_seconds": 1.1899874210357666,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "minute_updater": {
+          "read_status": "read",
+          "status": "running",
+          "phase": "updating_pairs",
+          "age_seconds": 0.9919314384460449,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": 1.5,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": 0
+        },
+        "project_integrity": {
+          "read_status": "read",
+          "status": "degraded",
+          "phase": null,
+          "age_seconds": 23.490846633911133,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        },
+        "storage_guard": {
+          "read_status": "read",
+          "status": "ok",
+          "phase": null,
+          "age_seconds": 164.92886757850647,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        },
+        "gap_companion": {
+          "read_status": "read",
+          "status": null,
+          "phase": "collecting",
+          "age_seconds": 0.5346019268035889,
+          "errors": 0,
+          "heartbeat_publication_errors": 0,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        },
+        "eurusd_companion": {
+          "read_status": "read",
+          "status": null,
+          "phase": "collecting",
+          "age_seconds": 0.50234055519104,
+          "errors": 13,
+          "heartbeat_publication_errors": 0,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        },
+        "pair_worker": {
+          "read_status": "read",
+          "status": null,
+          "phase": "research_collection",
+          "age_seconds": 6.923108816146851,
+          "errors": 0,
+          "heartbeat_publication_errors": 0,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        }
+      },
+      "updater_cycle": {
+        "schema_version": "all68_m1_forward_updater_v1",
+        "generated_utc": "2026-09-07T19:46:58.727641+00:00",
+        "started_utc": "2026-09-07T19:45:24.555671+00:00",
+        "dry_run": false,
+        "pair_count": 68,
+        "total_rows_appended": 239,
+        "total_rows_backfilled": 0,
+        "total_rows_recovered": 0,
+        "gap_recovery_requests": 52,
+        "gap_recovery_unresolved_minutes": 2948,
+        "gap_recovery_unknown_pair_count": 0,
+        "gap_recovery_scope": "bounded_recent_small_interior_gaps_only; not_a_full_archive_completeness_check",
+        "error_count": 0
+      },
+      "archive_summary": {
+        "read_failures": 0,
+        "pairs_with_at_least61_consecutive_real_bars": 8,
+        "latest_close_age_over600_seconds_pairs": [
+          "CAD_HKD",
+          "EUR_TRY",
+          "TRY_JPY",
+          "USD_TRY"
+        ]
+      },
+      "cycle_gap_status_counts": {
+        "broker_omitted_requested_minute": 52,
+        "unresolved_no_retry_due": 13,
+        "no_small_gaps_in_scope": 3
+      },
+      "recovery_receipt_checks": {
+        "count": 52,
+        "hash_mismatches": 0,
+        "requested_minutes_absent": 52,
+        "requested_minutes_returned": 0,
+        "read_failures": 0
+      }
+    },
+    {
+      "observed_utc": "2026-09-07T20:02:40.598573+00:00",
+      "started_utc": "2026-09-07T20:02:36.326101+00:00",
+      "process_check": {
+        "status": "passed",
+        "running_worker_count": 14,
+        "preserved_other_worker_count": 13,
+        "preserved_other_process_count": 26,
+        "same_process_identities_as_185143": true
+      },
+      "workers": {
+        "account_snapshot": {
+          "read_status": "read",
+          "status": null,
+          "phase": null,
+          "age_seconds": 2.265082836151123,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "local_news_collector": {
+          "read_status": "read",
+          "status": "cycle_complete",
+          "phase": "cycle_complete",
+          "age_seconds": 52.31813073158264,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": 0.0,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "official_release_lane": {
+          "read_status": "read",
+          "status": "cycle_complete",
+          "phase": "cycle_complete",
+          "age_seconds": 2.56758189201355,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "official_release_mapper": {
+          "read_status": "read",
+          "status": "cycle_complete",
+          "phase": "cycle_complete",
+          "age_seconds": 3.433706760406494,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "news_governance": {
+          "read_status": "read",
+          "status": "ok",
+          "phase": null,
+          "age_seconds": 27.278891801834106,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        },
+        "quote_stream": {
+          "read_status": "read",
+          "status": "running",
+          "phase": "streaming",
+          "age_seconds": 0.034532785415649414,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": 87836.469,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "clock_monitor": {
+          "read_status": "read",
+          "status": "ok",
+          "phase": null,
+          "age_seconds": 24.326358795166016,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "minute_updater": {
+          "read_status": "read",
+          "status": "running",
+          "phase": "updating_pairs",
+          "age_seconds": 4.803629636764526,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": 0.234,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": 0
+        },
+        "project_integrity": {
+          "read_status": "read",
+          "status": "degraded",
+          "phase": null,
+          "age_seconds": 130.7284905910492,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        },
+        "storage_guard": {
+          "read_status": "read",
+          "status": "ok",
+          "phase": null,
+          "age_seconds": 276.0203456878662,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        },
+        "gap_companion": {
+          "read_status": "read",
+          "status": null,
+          "phase": "collecting",
+          "age_seconds": 0.9857304096221924,
+          "errors": 0,
+          "heartbeat_publication_errors": 0,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        },
+        "eurusd_companion": {
+          "read_status": "read",
+          "status": null,
+          "phase": "collecting",
+          "age_seconds": 0.9928560256958008,
+          "errors": 14,
+          "heartbeat_publication_errors": 0,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        },
+        "pair_worker": {
+          "read_status": "read",
+          "status": null,
+          "phase": "research_collection",
+          "age_seconds": 2.7161405086517334,
+          "errors": 0,
+          "heartbeat_publication_errors": 0,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        }
+      },
+      "updater_cycle": {
+        "schema_version": "all68_m1_forward_updater_v1",
+        "generated_utc": "2026-09-07T20:02:33.859397+00:00",
+        "started_utc": "2026-09-07T20:00:24.633110+00:00",
+        "dry_run": false,
+        "pair_count": 68,
+        "total_rows_appended": 301,
+        "total_rows_backfilled": 0,
+        "total_rows_recovered": 0,
+        "gap_recovery_requests": 54,
+        "gap_recovery_unresolved_minutes": 3119,
+        "gap_recovery_unknown_pair_count": 0,
+        "gap_recovery_scope": "bounded_recent_small_interior_gaps_only; not_a_full_archive_completeness_check",
+        "error_count": 0
+      },
+      "archive_summary": {
+        "read_failures": 0,
+        "pairs_with_at_least61_consecutive_real_bars": 8,
+        "latest_close_age_over600_seconds_pairs": [
+          "EUR_TRY",
+          "TRY_JPY",
+          "USD_TRY"
+        ]
+      },
+      "cycle_gap_status_counts": {
+        "broker_omitted_requested_minute": 54,
+        "unresolved_no_retry_due": 11,
+        "no_small_gaps_in_scope": 3
+      },
+      "recovery_receipt_checks": {
+        "count": 54,
+        "hash_mismatches": 0,
+        "requested_minutes_absent": 54,
+        "requested_minutes_returned": 0,
+        "read_failures": 0
+      }
+    },
+    {
+      "observed_utc": "2026-09-07T20:17:12.155939+00:00",
+      "started_utc": "2026-09-07T20:17:08.187003+00:00",
+      "process_check": {
+        "status": "passed",
+        "running_worker_count": 14,
+        "preserved_other_worker_count": 13,
+        "preserved_other_process_count": 26,
+        "same_process_identities_as_185143": true
+      },
+      "workers": {
+        "account_snapshot": {
+          "read_status": "read",
+          "status": null,
+          "phase": null,
+          "age_seconds": 0.9839029312133789,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "local_news_collector": {
+          "read_status": "read",
+          "status": "running_cycle",
+          "phase": "collecting_sources",
+          "age_seconds": 4.709629535675049,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": 1.813,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "official_release_lane": {
+          "read_status": "read",
+          "status": "cycle_complete",
+          "phase": "cycle_complete",
+          "age_seconds": 9.627784967422485,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "official_release_mapper": {
+          "read_status": "read",
+          "status": "cycle_complete",
+          "phase": "cycle_complete",
+          "age_seconds": 4.764480352401733,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "news_governance": {
+          "read_status": "read",
+          "status": "ok",
+          "phase": null,
+          "age_seconds": 27.648677825927734,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        },
+        "quote_stream": {
+          "read_status": "read",
+          "status": "running",
+          "phase": "streaming",
+          "age_seconds": 4.891647100448608,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": 88703.281,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "clock_monitor": {
+          "read_status": "read",
+          "status": "ok",
+          "phase": null,
+          "age_seconds": 22.333393096923828,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "minute_updater": {
+          "read_status": "read",
+          "status": "running",
+          "phase": "updating_pairs",
+          "age_seconds": 3.905290365219116,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": 0.75,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": 1
+        },
+        "project_integrity": {
+          "read_status": "read",
+          "status": "degraded",
+          "phase": null,
+          "age_seconds": 85.0411491394043,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        },
+        "storage_guard": {
+          "read_status": "read",
+          "status": "ok",
+          "phase": null,
+          "age_seconds": 240.55117201805115,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        },
+        "gap_companion": {
+          "read_status": "read",
+          "status": null,
+          "phase": "collecting",
+          "age_seconds": 0.2832357883453369,
+          "errors": 0,
+          "heartbeat_publication_errors": 0,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        },
+        "eurusd_companion": {
+          "read_status": "read",
+          "status": null,
+          "phase": "collecting",
+          "age_seconds": 1.6316840648651123,
+          "errors": 15,
+          "heartbeat_publication_errors": 0,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        },
+        "pair_worker": {
+          "read_status": "read",
+          "status": null,
+          "phase": "research_collection",
+          "age_seconds": 3.6813833713531494,
+          "errors": 0,
+          "heartbeat_publication_errors": 0,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        }
+      },
+      "updater_cycle": {
+        "schema_version": "all68_m1_forward_updater_v1",
+        "generated_utc": "2026-09-07T20:12:18.237636+00:00",
+        "started_utc": "2026-09-07T20:10:24.626673+00:00",
+        "dry_run": false,
+        "pair_count": 68,
+        "total_rows_appended": 223,
+        "total_rows_backfilled": 0,
+        "total_rows_recovered": 0,
+        "gap_recovery_requests": 54,
+        "gap_recovery_unresolved_minutes": 3201,
+        "gap_recovery_unknown_pair_count": 0,
+        "gap_recovery_scope": "bounded_recent_small_interior_gaps_only; not_a_full_archive_completeness_check",
+        "error_count": 1
+      },
+      "archive_summary": {
+        "read_failures": 0,
+        "pairs_with_at_least61_consecutive_real_bars": 8,
+        "latest_close_age_over600_seconds_pairs": [
+          "AUD_CHF",
+          "AUD_SGD",
+          "EUR_TRY",
+          "NZD_CHF",
+          "SGD_CHF",
+          "TRY_JPY",
+          "USD_TRY",
+          "ZAR_JPY"
+        ]
+      },
+      "cycle_gap_status_counts": {
+        "broker_omitted_requested_minute": 54,
+        "unresolved_no_retry_due": 11,
+        "no_small_gaps_in_scope": 3
+      },
+      "recovery_receipt_checks": {
+        "count": 54,
+        "hash_mismatches": 0,
+        "requested_minutes_absent": 54,
+        "requested_minutes_returned": 0,
+        "read_failures": 0
+      }
+    },
+    {
+      "observed_utc": "2026-09-07T20:36:54.526127+00:00",
+      "started_utc": "2026-09-07T20:36:50.016012+00:00",
+      "process_check": {
+        "status": "passed",
+        "running_worker_count": 14,
+        "preserved_other_worker_count": 13,
+        "preserved_other_process_count": 26,
+        "same_process_identities_as_185143": true
+      },
+      "workers": {
+        "account_snapshot": {
+          "read_status": "read",
+          "status": null,
+          "phase": null,
+          "age_seconds": 0.9570426940917969,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "local_news_collector": {
+          "read_status": "read",
+          "status": "running_cycle",
+          "phase": "collecting_sources",
+          "age_seconds": 12.66157865524292,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": 1.062,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "official_release_lane": {
+          "read_status": "read",
+          "status": "cycle_complete",
+          "phase": "cycle_complete",
+          "age_seconds": 1.8149194717407227,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "official_release_mapper": {
+          "read_status": "read",
+          "status": "cycle_complete",
+          "phase": "cycle_complete",
+          "age_seconds": 1.0129046440124512,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "news_governance": {
+          "read_status": "read",
+          "status": "ok",
+          "phase": null,
+          "age_seconds": 7.43241810798645,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        },
+        "quote_stream": {
+          "read_status": "read",
+          "status": "running",
+          "phase": "streaming",
+          "age_seconds": 4.3848350048065186,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": 89885.578,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "clock_monitor": {
+          "read_status": "read",
+          "status": "ok",
+          "phase": null,
+          "age_seconds": 29.491570949554443,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": null,
+          "cycle_error_count": null
+        },
+        "minute_updater": {
+          "read_status": "read",
+          "status": "running",
+          "phase": "updating_pairs",
+          "age_seconds": 2.565707206726074,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": 1.343,
+          "can_place_orders": null,
+          "can_promote": null,
+          "cycle_error_count": 0
+        },
+        "project_integrity": {
+          "read_status": "read",
+          "status": "degraded",
+          "phase": null,
+          "age_seconds": 46.2867431640625,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        },
+        "storage_guard": {
+          "read_status": "read",
+          "status": "ok",
+          "phase": null,
+          "age_seconds": 209.67212224006653,
+          "errors": null,
+          "heartbeat_publication_errors": null,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        },
+        "gap_companion": {
+          "read_status": "read",
+          "status": null,
+          "phase": "waiting_for_tradeable_quote",
+          "age_seconds": 1.7260878086090088,
+          "errors": 0,
+          "heartbeat_publication_errors": 0,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        },
+        "eurusd_companion": {
+          "read_status": "read",
+          "status": null,
+          "phase": "waiting_for_tradeable_quote",
+          "age_seconds": 1.7328076362609863,
+          "errors": 16,
+          "heartbeat_publication_errors": 0,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        },
+        "pair_worker": {
+          "read_status": "read",
+          "status": null,
+          "phase": "research_collection",
+          "age_seconds": 0.5837323665618896,
+          "errors": 0,
+          "heartbeat_publication_errors": 0,
+          "progress_age_sec": null,
+          "can_place_orders": false,
+          "can_promote": false,
+          "cycle_error_count": null
+        }
+      },
+      "updater_cycle": {
+        "schema_version": "all68_m1_forward_updater_v1",
+        "generated_utc": "2026-09-07T20:32:12.685656+00:00",
+        "started_utc": "2026-09-07T20:30:24.601907+00:00",
+        "dry_run": false,
+        "pair_count": 68,
+        "total_rows_appended": 195,
+        "total_rows_backfilled": 0,
+        "total_rows_recovered": 0,
+        "gap_recovery_requests": 55,
+        "gap_recovery_unresolved_minutes": 3438,
+        "gap_recovery_unknown_pair_count": 0,
+        "gap_recovery_scope": "bounded_recent_small_interior_gaps_only; not_a_full_archive_completeness_check",
+        "error_count": 0
+      },
+      "archive_summary": {
+        "read_failures": 0,
+        "pairs_with_at_least61_consecutive_real_bars": 6,
+        "latest_close_age_over600_seconds_pairs": [
+          "EUR_TRY",
+          "TRY_JPY",
+          "USD_TRY",
+          "ZAR_JPY"
+        ]
+      },
+      "cycle_gap_status_counts": {
+        "broker_omitted_requested_minute": 55,
+        "unresolved_no_retry_due": 10,
+        "no_small_gaps_in_scope": 3
+      },
+      "recovery_receipt_checks": {
+        "count": 55,
+        "hash_mismatches": 0,
+        "requested_minutes_absent": 55,
+        "requested_minutes_returned": 0,
+        "read_failures": 0
+      }
+    }
+  ],
+  "performance": {
+    "baseline_finished_utc": "2026-09-07T19:40:34.659853+00:00",
+    "final_finished_utc": "2026-09-07T20:36:57.491396+00:00",
+    "registered_sources_unchanged": true,
+    "pair_status_counts": {
+      "evaluated": 68
+    },
+    "ledger_and_score_counts": {
+      "quotes": {
+        "baseline": 42494,
+        "final": 56330,
+        "change": 13836
+      },
+      "attempts": {
+        "baseline": 650,
+        "final": 908,
+        "change": 258
+      },
+      "diagnostics": {
+        "baseline": 538,
+        "final": 770,
+        "change": 232
+      },
+      "inputs": {
+        "baseline": 112,
+        "final": 138,
+        "change": 26
+      },
+      "forecasts": {
+        "baseline": 112,
+        "final": 138,
+        "change": 26
+      },
+      "publication": {
+        "baseline": 112,
+        "final": 138,
+        "change": 26
+      },
+      "consumption": {
+        "baseline": 112,
+        "final": 138,
+        "change": 26
+      },
+      "entries": {
+        "baseline": 111,
+        "final": 137,
+        "change": 26
+      },
+      "outcomes": {
+        "baseline": 83,
+        "final": 106,
+        "change": 23
+      },
+      "exclusions": {
+        "baseline": 5,
+        "final": 6,
+        "change": 1
+      },
+      "stored_scored_decisions": {
+        "baseline": 83,
+        "final": 106,
+        "change": 23
+      },
+      "fresh_scored_decisions": {
+        "baseline": 83,
+        "final": 106,
+        "change": 23
+      }
+    },
+    "baseline_metrics": {
+      "probabilistic_state_space": {
+        "decisions": 83,
+        "directional_decisions": 83,
+        "abstentions": 0,
+        "mean_brier": "0.30856778349617550047579570165099568992771084337349397590361445783132530120481928",
+        "direction_hit_rate_when_directional": "0.56626506024096385542168674698795180722891566265060240963855421686746987951807229",
+        "positive_after_spread_rate_when_directional": "0.060240963855421686746987951807228915662650602409638554216867469879518072289156627",
+        "mean_net_bps_per_decision": "-2.9018184023264386632192535127600971004470769265521562151424915405605569137196487",
+        "mae_bps": "2.4808473958802970967115876734367358998161660739587839299999723427602757574480781",
+        "rmse_bps": "3.1769341625158736913678789797121848373857319065406223610340985446563032371394844",
+        "stress_mean_net_bps_per_decision": {
+          "0": "-2.9018184023264386632192535127600971004470769265521562151424915405605569137196487",
+          "0.5": "-3.4018184023264386632192535127600971004470769265521562151424915405605569137196487",
+          "1": "-3.9018184023264386632192535127600971004470769265521562151424915405605569137196489"
+        },
+        "direction_hits": 47,
+        "positive_after_spread": 5
+      },
+      "ridge_return_repaired": {
+        "decisions": 83,
+        "directional_decisions": 83,
+        "abstentions": 0,
+        "mean_brier": "0.28308205212284139219707910350932959638554216867469879518072289156626506024096386",
+        "direction_hit_rate_when_directional": "0.60240963855421686746987951807228915662650602409638554216867469879518072289156627",
+        "positive_after_spread_rate_when_directional": "0.084337349397590361445783132530120481927710843373493975903614457831325301204819277",
+        "mean_net_bps_per_decision": "-2.9229627464175015084246243472277673950800475551337729988076388280339161615619923",
+        "mae_bps": "4.3096305659695718488993317585214325617656868678435746671560739225279857720940863",
+        "rmse_bps": "5.3422219026528359883858254613367412245266207527392301946233866662519684802490337",
+        "stress_mean_net_bps_per_decision": {
+          "0": "-2.9229627464175015084246243472277673950800475551337729988076388280339161615619923",
+          "0.5": "-3.4229627464175015084246243472277673950800475551337729988076388280339161615619923",
+          "1": "-3.9229627464175015084246243472277673950800475551337729988076388280339161615619923"
+        },
+        "direction_hits": 50,
+        "positive_after_spread": 7
+      }
+    },
+    "final_metrics": {
+      "probabilistic_state_space": {
+        "decisions": 106,
+        "directional_decisions": 106,
+        "abstentions": 0,
+        "mean_brier": "0.35085425437179608838344170659562256857547169811320754716981132075471698113207547",
+        "direction_hit_rate_when_directional": "0.51886792452830188679245283018867924528301886792452830188679245283018867924528302",
+        "positive_after_spread_rate_when_directional": "0.047169811320754716981132075471698113207547169811320754716981132075471698113207547",
+        "mean_net_bps_per_decision": "-2.8624385191558638846123536087167702815336109645992243101596091361600387895565417",
+        "mae_bps": "2.5855994077727655937020405732409684387712422370712360703022524421620871106115157",
+        "rmse_bps": "3.3499032481316913770762399223021413116841679586420876817706496966717306802690020",
+        "stress_mean_net_bps_per_decision": {
+          "0": "-2.8624385191558638846123536087167702815336109645992243101596091361600387895565417",
+          "0.5": "-3.3624385191558638846123536087167702815336109645992243101596091361600387895565419",
+          "1": "-3.8624385191558638846123536087167702815336109645992243101596091361600387895565420"
+        },
+        "direction_hits": 55,
+        "positive_after_spread": 5
+      },
+      "ridge_return_repaired": {
+        "decisions": 106,
+        "directional_decisions": 106,
+        "abstentions": 0,
+        "mean_brier": "0.27793424242061440812966096614880386132075471698113207547169811320754716981132075",
+        "direction_hit_rate_when_directional": "0.58490566037735849056603773584905660377358490566037735849056603773584905660377358",
+        "positive_after_spread_rate_when_directional": "0.066037735849056603773584905660377358490566037735849056603773584905660377358490566",
+        "mean_net_bps_per_decision": "-2.8603644597814134975592494479431061492938695473249115375945482028917087369226862",
+        "mae_bps": "4.6124569858422630886347398954097822295180760540810394770669975324917307460546801",
+        "rmse_bps": "5.6876560963042557416975603803968936256225500763236105028868007970011386693975828",
+        "stress_mean_net_bps_per_decision": {
+          "0": "-2.8603644597814134975592494479431061492938695473249115375945482028917087369226862",
+          "0.5": "-3.3603644597814134975592494479431061492938695473249115375945482028917087369226864",
+          "1": "-3.8603644597814134975592494479431061492938695473249115375945482028917087369226864"
+        },
+        "direction_hits": 62,
+        "positive_after_spread": 7
+      }
+    },
+    "new_scored_ids": [
+      [
+        "AUD_JPY",
+        "3b5b9cf0201ed7c88dee490b04adffcc30fc65e73c56d3cb9dfd1f30816e0b4e"
+      ],
+      [
+        "AUD_JPY",
+        "4f88821740cb38d29d22ad6e31e08348c4bebb8e26572485818b2d87be02cb48"
+      ],
+      [
+        "AUD_JPY",
+        "98959d60a2fdf26fa3b38b61bea7ebad03e860b81be58760be0f2a2e521d0809"
+      ],
+      [
+        "AUD_JPY",
+        "a4426bf94ef4ec587a979e2ac1b3983d19d43c9b83b5e1dbe350669ed2c84195"
+      ],
+      [
+        "EUR_JPY",
+        "88ef5b4ee99880c3c4f27efb09700f5a4145c90a064622fe06ab231c414a1ea4"
+      ],
+      [
+        "EUR_JPY",
+        "9114536b6d3037a7675bd9313a640031694f92c202d446937e8f58a954509d93"
+      ],
+      [
+        "EUR_JPY",
+        "d605a431acc1a73e756925b3b3b8bf913dec72cd63c5841fb2bc7bf27cc6606f"
+      ],
+      [
+        "EUR_JPY",
+        "f4baba11389b24453309c36d87f7f7d988303ac1416e90fb72092b802dd79bf2"
+      ],
+      [
+        "EUR_ZAR",
+        "72edfa1b19707294b3d0ba9aec5cbde402b28edd4e7e2107ac0abf5059f7b806"
+      ],
+      [
+        "GBP_AUD",
+        "61be866fac954396814c0b7da6f72e145a608f64936c889b6b832bbc9a35e566"
+      ],
+      [
+        "GBP_AUD",
+        "8ae50e0715b55216e733028aabc7beb9e4206fd8678a79306305a132ee78a936"
+      ],
+      [
+        "GBP_JPY",
+        "6426516600c3bf53d54cd83c165c3e4dacc09597f953bc1ff1a90cb742e5c91e"
+      ],
+      [
+        "GBP_JPY",
+        "da6fe7c57949c302e66b8a5d838b8fe077049c503d7ec59f7c8dbac03cf429e1"
+      ],
+      [
+        "GBP_JPY",
+        "ef5f6eb1d4d006dd0ea1c2576bdbd852747e1f31275e8f885fa72ba54a16a7af"
+      ],
+      [
+        "GBP_JPY",
+        "f6c03c100a33e5527e621047ae038ba8ba40fefd79432349e260f7a2a2df47a6"
+      ],
+      [
+        "GBP_USD",
+        "cb4d62e47a49a96acb195f7a95135705ef823cafcefad505bdf53211cc3376a5"
+      ],
+      [
+        "USD_CZK",
+        "e63999e75f922c5cc9489d66073930b98cb3fe4baaa87470d786a382e444f8ea"
+      ],
+      [
+        "USD_HUF",
+        "8fd0963a2f30b7f409d81fec89e1b924effc1edd9c8fc6aeaabd509d8d204a04"
+      ],
+      [
+        "USD_HUF",
+        "9a83b87512469e8ffdaf9008192c40ee156e462c3a08d10c0e8a48f35d32f6d0"
+      ],
+      [
+        "USD_MXN",
+        "a0198cff0958afa485066be8616bdaaa3c5d92a0f6e7dfa79c7b4bde2ec63ff8"
+      ],
+      [
+        "USD_MXN",
+        "b9917926815707589b4f88361ae241c93ef12195a502e0c6bba55a372b2c6add"
+      ],
+      [
+        "USD_MXN",
+        "d5e5a681ebca68457f902c4d775d9c1979866e31a22a3d66a72bd91348edafda"
+      ],
+      [
+        "USD_SEK",
+        "9f1f4fbfa15933a77ef46760abc7c8394303c4156e123bc8b7909fef0bb96e1a"
+      ]
+    ],
+    "new_scored_count": 23,
+    "new_decision_metrics": {
+      "probabilistic_state_space": {
+        "new_scored_decisions": 23,
+        "direction_hits": 8,
+        "positive_after_spread": 0,
+        "mean_net_bps": "-2.7203285059750940313787583028212865437154511888560352617431204594103429501853297"
+      },
+      "ridge_return_repaired": {
+        "new_scored_decisions": 23,
+        "direction_hits": 12,
+        "positive_after_spread": 0,
+        "mean_net_bps": "-2.6344662949642263279146356809593286101524445626233680036516559469437428132243209"
+      }
+    },
+    "new_retained_outcome_ids": [
+      [
+        "AUD_JPY",
+        "3b5b9cf0201ed7c88dee490b04adffcc30fc65e73c56d3cb9dfd1f30816e0b4e"
+      ],
+      [
+        "AUD_JPY",
+        "4f88821740cb38d29d22ad6e31e08348c4bebb8e26572485818b2d87be02cb48"
+      ],
+      [
+        "AUD_JPY",
+        "98959d60a2fdf26fa3b38b61bea7ebad03e860b81be58760be0f2a2e521d0809"
+      ],
+      [
+        "AUD_JPY",
+        "a4426bf94ef4ec587a979e2ac1b3983d19d43c9b83b5e1dbe350669ed2c84195"
+      ],
+      [
+        "EUR_JPY",
+        "88ef5b4ee99880c3c4f27efb09700f5a4145c90a064622fe06ab231c414a1ea4"
+      ],
+      [
+        "EUR_JPY",
+        "9114536b6d3037a7675bd9313a640031694f92c202d446937e8f58a954509d93"
+      ],
+      [
+        "EUR_JPY",
+        "d605a431acc1a73e756925b3b3b8bf913dec72cd63c5841fb2bc7bf27cc6606f"
+      ],
+      [
+        "EUR_JPY",
+        "f4baba11389b24453309c36d87f7f7d988303ac1416e90fb72092b802dd79bf2"
+      ],
+      [
+        "EUR_ZAR",
+        "72edfa1b19707294b3d0ba9aec5cbde402b28edd4e7e2107ac0abf5059f7b806"
+      ],
+      [
+        "GBP_AUD",
+        "61be866fac954396814c0b7da6f72e145a608f64936c889b6b832bbc9a35e566"
+      ],
+      [
+        "GBP_AUD",
+        "8ae50e0715b55216e733028aabc7beb9e4206fd8678a79306305a132ee78a936"
+      ],
+      [
+        "GBP_JPY",
+        "6426516600c3bf53d54cd83c165c3e4dacc09597f953bc1ff1a90cb742e5c91e"
+      ],
+      [
+        "GBP_JPY",
+        "da6fe7c57949c302e66b8a5d838b8fe077049c503d7ec59f7c8dbac03cf429e1"
+      ],
+      [
+        "GBP_JPY",
+        "ef5f6eb1d4d006dd0ea1c2576bdbd852747e1f31275e8f885fa72ba54a16a7af"
+      ],
+      [
+        "GBP_JPY",
+        "f6c03c100a33e5527e621047ae038ba8ba40fefd79432349e260f7a2a2df47a6"
+      ],
+      [
+        "GBP_USD",
+        "cb4d62e47a49a96acb195f7a95135705ef823cafcefad505bdf53211cc3376a5"
+      ],
+      [
+        "USD_CZK",
+        "e63999e75f922c5cc9489d66073930b98cb3fe4baaa87470d786a382e444f8ea"
+      ],
+      [
+        "USD_HUF",
+        "8fd0963a2f30b7f409d81fec89e1b924effc1edd9c8fc6aeaabd509d8d204a04"
+      ],
+      [
+        "USD_HUF",
+        "9a83b87512469e8ffdaf9008192c40ee156e462c3a08d10c0e8a48f35d32f6d0"
+      ],
+      [
+        "USD_MXN",
+        "a0198cff0958afa485066be8616bdaaa3c5d92a0f6e7dfa79c7b4bde2ec63ff8"
+      ],
+      [
+        "USD_MXN",
+        "b9917926815707589b4f88361ae241c93ef12195a502e0c6bba55a372b2c6add"
+      ],
+      [
+        "USD_MXN",
+        "d5e5a681ebca68457f902c4d775d9c1979866e31a22a3d66a72bd91348edafda"
+      ],
+      [
+        "USD_SEK",
+        "9f1f4fbfa15933a77ef46760abc7c8394303c4156e123bc8b7909fef0bb96e1a"
+      ]
+    ],
+    "disappeared_scored_ids": [],
+    "changed_prior_scored_rows": [],
+    "reconciliation": {
+      "duplicate_reference_groups": {},
+      "retained_outcomes_not_fresh_scored": {},
+      "fresh_scored_without_retained_outcome": {},
+      "selected_quote_mismatches": {},
+      "fresh_scored_not_in_stored_scorecard": {},
+      "stored_scored_not_in_fresh_evaluation": {},
+      "saved_vs_fresh_scoring_mismatches": {}
+    },
+    "stored_scorecard_lag": {
+      "pairs": {},
+      "missing_newly_scored_decisions": 0,
+      "stored_scorecard_age_sec_at_final_read": {
+        "observations": 22,
+        "first": 411.08229184150696,
+        "last": 6508.261647939682,
+        "min": 213.1874179840088,
+        "max": 7612.758071899414
+      },
+      "interpretation": "A scorecard age alone does not establish missing scores: a pair with no new matured outcome may retain an old complete scorecard. Missing scored IDs and metric mismatches are reported separately."
+    },
+    "original_eurusd_supplemental": {
+      "status": "available",
+      "generated_utc": "2026-09-07T20:36:57.445309+00:00",
+      "freshness": "current",
+      "original_scorer": {
+        "status": "failed",
+        "error": "duplicate_market_reference_epoch"
+      },
+      "original_decision_count": 6,
+      "excluded_decision_count": 2,
+      "retained_decision_count": 4,
+      "capacity_state": "within_limits"
+    },
+    "original_eurusd_scored": 4,
+    "scope": "Newly matured/scored pair-decision IDs since the initial baseline; issuance may precede this hour. Correlated pairs and overlapping H1 targets are not independent trials. These are quote-based research returns, not executed P/L."
+  },
+  "missing_input_audit": {
+    "written_utc": "2026-09-07T20:13:43.776094+00:00",
+    "input_observation_window": [
+      "2026-09-07T20:09:17.391769+00:00",
+      "2026-09-07T20:09:24.319212+00:00"
+    ],
+    "ledger_observation_window": [
+      "2026-09-07T20:08:24.077571+00:00",
+      "2026-09-07T20:08:24.501953+00:00"
+    ],
+    "group_counts": {
+      "insufficient_consecutive_own_minutes": 57,
+      "input_minima_met": 7,
+      "stale_archive_endpoint": 3,
+      "insufficient_mature_ridge_labels": 1
+    },
+    "ready_now_but_missing_forecast": [
+      "USD_HUF"
+    ],
+    "reader_or_worker_assessment": {
+      "archive_read_failures": 0,
+      "registered9_source_hashes_unchanged": true,
+      "current_input_capture_exceptions": "No source-read or timestamp-validation failure found. Rejections reflect missing own-minute windows, stale endpoints or Ridge-label sufficiency.",
+      "scheduler_backlog_found": false,
+      "ready_after_failed_attempt_cadence_delay_found": [
+        "USD_HUF"
+      ],
+      "general_feed_outage_explains_missing_forecasts": false
+    }
+  },
+  "baseline_model_agreement": {
+    "baseline_finished_utc": "2026-09-07T19:40:34.659853+00:00",
+    "analyzed_utc": "2026-09-07T19:49:22.255042+00:00",
+    "groups": {
+      "all": {
+        "scored_decisions": 83,
+        "families": {
+          "probabilistic_state_space": {
+            "scored_decisions": 83,
+            "directional_decisions": 83,
+            "abstentions": 0,
+            "direction_hits": 47,
+            "direction_hit_rate": "0.56626506024096385542168674698795180722891566265060240963855421686746987951807229",
+            "positive_after_spread": 5,
+            "positive_after_spread_rate": "0.060240963855421686746987951807228915662650602409638554216867469879518072289156627",
+            "negative_after_spread": 76,
+            "zero_after_spread": 2,
+            "mean_net_bps_per_decision": "-2.9018184023264386632192535127600971004470769265521562151424915405605569137196487",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-2.9018184023264386632192535127600971004470769265521562151424915405605569137196487",
+              "0.5": "-3.4018184023264386632192535127600971004470769265521562151424915405605569137196487",
+              "1": "-3.9018184023264386632192535127600971004470769265521562151424915405605569137196489"
+            }
+          },
+          "ridge_return_repaired": {
+            "scored_decisions": 83,
+            "directional_decisions": 83,
+            "abstentions": 0,
+            "direction_hits": 50,
+            "direction_hit_rate": "0.60240963855421686746987951807228915662650602409638554216867469879518072289156627",
+            "positive_after_spread": 7,
+            "positive_after_spread_rate": "0.084337349397590361445783132530120481927710843373493975903614457831325301204819277",
+            "negative_after_spread": 75,
+            "zero_after_spread": 1,
+            "mean_net_bps_per_decision": "-2.9229627464175015084246243472277673950800475551337729988076388280339161615619923",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-2.9229627464175015084246243472277673950800475551337729988076388280339161615619923",
+              "0.5": "-3.4229627464175015084246243472277673950800475551337729988076388280339161615619923",
+              "1": "-3.9229627464175015084246243472277673950800475551337729988076388280339161615619923"
+            }
+          }
+        },
+        "mean_reconstructed_roundtrip_spread_drag_bps": null,
+        "mean_reconstructed_absolute_entry_to_target_midpoint_move_bps": null,
+        "spread_reconstruction_denominator": 0,
+        "spread_exceeds_absolute_entry_to_target_move": null
+      },
+      "agreement": {
+        "scored_decisions": 42,
+        "families": {
+          "probabilistic_state_space": {
+            "scored_decisions": 42,
+            "directional_decisions": 42,
+            "abstentions": 0,
+            "direction_hits": 28,
+            "direction_hit_rate": "0.66666666666666666666666666666666666666666666666666666666666666666666666666666667",
+            "positive_after_spread": 2,
+            "positive_after_spread_rate": "0.047619047619047619047619047619047619047619047619047619047619047619047619047619048",
+            "negative_after_spread": 39,
+            "zero_after_spread": 1,
+            "mean_net_bps_per_decision": "-2.2712848819405472686037928666800877318220611415921875192267166212337420423768681",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-2.2712848819405472686037928666800877318220611415921875192267166212337420423768681",
+              "0.5": "-2.7712848819405472686037928666800877318220611415921875192267166212337420423768681",
+              "1": "-3.2712848819405472686037928666800877318220611415921875192267166212337420423768679"
+            }
+          },
+          "ridge_return_repaired": {
+            "scored_decisions": 42,
+            "directional_decisions": 42,
+            "abstentions": 0,
+            "direction_hits": 28,
+            "direction_hit_rate": "0.66666666666666666666666666666666666666666666666666666666666666666666666666666667",
+            "positive_after_spread": 2,
+            "positive_after_spread_rate": "0.047619047619047619047619047619047619047619047619047619047619047619047619047619048",
+            "negative_after_spread": 39,
+            "zero_after_spread": 1,
+            "mean_net_bps_per_decision": "-2.2712848819405472686037928666800877318220611415921875192267166212337420423768681",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-2.2712848819405472686037928666800877318220611415921875192267166212337420423768681",
+              "0.5": "-2.7712848819405472686037928666800877318220611415921875192267166212337420423768681",
+              "1": "-3.2712848819405472686037928666800877318220611415921875192267166212337420423768679"
+            }
+          }
+        },
+        "mean_reconstructed_roundtrip_spread_drag_bps": null,
+        "mean_reconstructed_absolute_entry_to_target_midpoint_move_bps": null,
+        "spread_reconstruction_denominator": 0,
+        "spread_exceeds_absolute_entry_to_target_move": null
+      },
+      "disagreement": {
+        "scored_decisions": 41,
+        "families": {
+          "probabilistic_state_space": {
+            "scored_decisions": 41,
+            "directional_decisions": 41,
+            "abstentions": 0,
+            "direction_hits": 19,
+            "direction_hit_rate": "0.46341463414634146341463414634146341463414634146341463414634146341463414634146341",
+            "positive_after_spread": 3,
+            "positive_after_spread_rate": "0.073170731707317073170731707317073170731707317073170731707317073170731707317073171",
+            "negative_after_spread": 37,
+            "zero_after_spread": 1,
+            "mean_net_bps_per_decision": "-3.5477307890632054577033839306957164536727028526087095133976756042611965380220093",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-3.5477307890632054577033839306957164536727028526087095133976756042611965380220093",
+              "0.5": "-4.0477307890632054577033839306957164536727028526087095133976756042611965380220093",
+              "1": "-4.5477307890632054577033839306957164536727028526087095133976756042611965380220095"
+            }
+          },
+          "ridge_return_repaired": {
+            "scored_decisions": 41,
+            "directional_decisions": 41,
+            "abstentions": 0,
+            "direction_hits": 22,
+            "direction_hit_rate": "0.53658536585365853658536585365853658536585365853658536585365853658536585365853659",
+            "positive_after_spread": 5,
+            "positive_after_spread_rate": "0.12195121951219512195121951219512195121951219512195121951219512195121951219512195",
+            "negative_after_spread": 36,
+            "zero_after_spread": 0,
+            "mean_net_bps_per_decision": "-3.5905351929548692662898663516912441232955458324202751974027298691462896495077295",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-3.5905351929548692662898663516912441232955458324202751974027298691462896495077295",
+              "0.5": "-4.0905351929548692662898663516912441232955458324202751974027298691462896495077295",
+              "1": "-4.5905351929548692662898663516912441232955458324202751974027298691462896495077295"
+            }
+          }
+        },
+        "mean_reconstructed_roundtrip_spread_drag_bps": "3.5691329910090373619966251411934802884841243425144923554002027367037430937648693",
+        "mean_reconstructed_absolute_entry_to_target_midpoint_move_bps": "1.4446817226022059080935807362075875208078265104176436270373388075190274372286305",
+        "spread_reconstruction_denominator": 41,
+        "spread_exceeds_absolute_entry_to_target_move": 32
+      }
+    },
+    "limitations": [
+      "Descriptive post hoc split of one small observation batch; no threshold, promotion or trading rule is validated.",
+      "Two models agreeing on one pair is distinct from currencies moving together or cross-pair factor research. Those predictor relationships were not measured here.",
+      "Models share inputs and targets. Agreement does not create two independent confirmations.",
+      "Overlapping H1 horizons and related currencies make pooled pair-decisions dependent; independent sample size is unknown.",
+      "After-spread figures are hypothetical exact bid/ask outcomes, not realized account dollars or guaranteed fills; financing is omitted."
+    ]
+  },
+  "aud_cad_recovery": {
+    "status": "observed_recovery",
+    "observed_utc": "2026-09-07T20:18:50Z",
+    "prior_evidence": "COLLECTION_20260907_2017.json",
+    "prior_evidence_sha256": "d2d49f4b3d5d4c4fc2c79aac3407ab5dbcdca484ce6e3e22f39ba4d81f787a66",
+    "prior_http_status": 504,
+    "current_cycle_evidence": "AUD_CAD_RECOVERY_CYCLE_SOURCE_20260907.json",
+    "current_cycle_sha256": "c3bed77f7a91ad58ca6bbd9affbc7ae929acf6b4b73874fc611ee693b159c246",
+    "cycle_generated": "2026-09-07T20:17:14.094823+00:00",
+    "cycle_errors": 0,
+    "pair": {
+      "instrument": "AUD_CAD",
+      "before_last": "2026-09-07T20:03:00+00:00",
+      "after_last": "2026-09-07T20:14:00+00:00",
+      "rows_appended": 4,
+      "error": ""
+    },
+    "agent_process_restarts": 0,
+    "agent_broker_requests": 0,
+    "scope": "One observed collector HTTP failure and successful next ordinary updater cycle; omitted minutes are not claimed recovered."
+  },
+  "input_bindings": {
+    "live_session_result.json": {
+      "sha256": "b3efc857092c7456f18c9c46a96c387c3db8cd5d50059037b22600ec9df20ae7",
+      "bytes": 527
+    },
+    "live_samples.jsonl": {
+      "sha256": "bfc696e4853b0d4d2a8a4519dc8247d4d570df2a05d56a80171481a8afbcd145",
+      "bytes": 10282259
+    },
+    "PERFORMANCE_BASELINE_20260907.json": {
+      "sha256": "53c7c40091ee47e8faa91f6d747c8c9171e10a8f6e3b6904d073fc951a5ae6eb",
+      "bytes": 926264
+    },
+    "PERFORMANCE_FINAL_20260907.json": {
+      "sha256": "50268c0bd51b7954eae5a51248559c85686ffae0a703067d8953b1efa5bb7f27",
+      "bytes": 993794
+    },
+    "PERFORMANCE_DELTA_FINAL_20260907.json": {
+      "sha256": "43fffd2d9074886b508fed6f67ef50a64be1749bacf030fbc1df83464bbe5140",
+      "bytes": 7106
+    },
+    "COLLECTION_OPERATIONAL_BASELINE_VERIFIED_20260907.json": {
+      "sha256": "b9c3db722936f521841279e06e2fafc638d4780fd68112607871baad4afcdfcb",
+      "bytes": 153932
+    },
+    "COLLECTION_FINAL_20260907.json": {
+      "sha256": "541d0acddff8e53d3d8655060f21ce722a8e51c92b12ed510e361b99edc55bde",
+      "bytes": 158917
+    },
+    "MISSING_FORECASTS_AUDIT_20260907.json": {
+      "sha256": "256c419465d98f8ceab7119d757bf03654b7d542d88703557eda63554af3bc07",
+      "bytes": 97810
+    },
+    "MODEL_AGREEMENT_BASELINE_20260907.json": {
+      "sha256": "174f86a8efb435431fc09ff7b1ddea29c512005852fa4d7579b0d701abb383eb",
+      "bytes": 43106
+    },
+    "AUD_CAD_504_RECOVERY_20260907.json": {
+      "sha256": "bcd5c8991c111b0731433823e55ff006343546dfad6bb12cffa9592340fe149d",
+      "bytes": 899
+    },
+    "COLLECTION_20260907_2017.json": {
+      "sha256": "d2d49f4b3d5d4c4fc2c79aac3407ab5dbcdca484ce6e3e22f39ba4d81f787a66",
+      "bytes": 155362
+    },
+    "AUD_CAD_RECOVERY_CYCLE_SOURCE_20260907.json": {
+      "sha256": "c3bed77f7a91ad58ca6bbd9affbc7ae929acf6b4b73874fc611ee693b159c246",
+      "bytes": 261909
+    },
+    "COLLECTION_20260907_1950.json": {
+      "sha256": "17527a543063eb273a04a1b0b4889a2e376c253a20cbd7f64c788ed3fcc22b40",
+      "bytes": 152143
+    },
+    "COLLECTION_20260907_2002.json": {
+      "sha256": "574bb91494da9fbe9c647d2e11cf5c76fdc071eb27f76b3b79cc5a7298db6032",
+      "bytes": 155062
+    }
+  },
+  "limitations": [
+    "Sampled status is not continuous monitoring proof; events between samples may be missed.",
+    "The initial performance/collection baselines were captured after the requested window began; performance deltas cover their exact stated clocks.",
+    "Success rates on correlated overlapping research decisions do not establish an independent edge, calibrated probabilities or broker profit.",
+    "The final collection and performance snapshots are separate reads after the observation window and retain their own clocks."
+  ],
+  "finalizer_actions": {
+    "runtime_or_network_reads": 0,
+    "orders": 0,
+    "project_writes": 0,
+    "vault_writes": 0,
+    "existing_artifacts_overwritten": 0
+  },
+  "report_sha256": "a0e6cf03988dccd10b6a260480522e632f8d0c50b65821499747c49370e49edd"
+}

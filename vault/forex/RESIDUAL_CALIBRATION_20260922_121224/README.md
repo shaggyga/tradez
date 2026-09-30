@@ -1,0 +1,16 @@
+# Original-record residual calibration diagnostics
+
+The exact joint-readiness signed-return forecasts and original technical endpoint outcomes are reused. A fixed continuous residual mean and empirical10th/90th percentiles are fitted with equal weight per prior origin and equal pair weight within each origin.112 fixed group/target/base-procedure/method scopes each retain one frozen prefix and20 expanding prefixes. Only earlier forecasts available by cutoff and labels mature by cutoff enter training. Minimum8 distinct origins,3 UTC days and20 instruments is a support guard, not independent sample size. No threshold search, winner selection or base-model refit occurs.
+
+All143904 original forecast rows yield287808 diagnostic records and304640 coverage rows.224 score groups retain unsupported attempts. Same-row base/adjusted MAE, MSE and bias, lower/upper pinball, empirical interval coverage and width are descriptive. Five-day prefixes have insufficient matured support. Original outcomes remain separate from the diagnostic records. Snapshot identifiers bind exact parameters, support and original training identities.
+
+These are prequential development diagnostics under modeled forecast publication and assumed bar-end label clocks. Family selection has already inspected these data. Actual committed historical issuance, independent confirmation, production calibration latency and policy admission are unqualified. The existing stricter probability-calibration V2 module is preserved unchanged. Signed means are not converted into event probabilities; empirical residual intervals are not distribution-free or conditional coverage guarantees.
+
+22 local and22 relocated tests pass: hand-calculated origin weights/quantiles and pinball; exact maturity and scope; current/future label and forecast poisoning; snapshot identity; every prescribed real attempt; direct actual recalculation; insufficient five-day support; source/consumed-byte guards, one writer, idempotence, genuine crash/resume and bounded capsule validation.116 scientific outputs reconstruct exactly from191 authenticated original-record files. No model weights or raw archive are needed for this replay; optional original raw-to-model lineage remains pinned separately. Original base-model suites are not claimed as rerun.
+
+RC_SERIAL_1 corrected JSON origin-count key types after the original21-pass/1-fail suite; the failed run/source are preserved and all116 scientific output hashes remain unchanged. Engineering_ready=false; independent review unperformed. Next calibration_original_record_inspector_v2 adds explicit as-of inspection with separately gated outcome reveal. Full native serving, fresh-input/remaining-target rebuilding and confirmation remain open; deferred scopes unchanged.
+
+Actual snapshot attempts: {"fitted": 944, "insufficient_distinct_support": 1408}. Main 102.296seconds/118927360bytes sampled RSS; reconstruction/tests 347.203seconds/508321792bytes.
+
+
+Checkpoint: checkpoint/forex_residual_calibration.zip, SHA256 4881fba4ee851bdaa9d7288b8108973f62c65eebb01a70b7aeb85e26de907639. Exact next: review_residual_calibration_checkpoint; then calibration_original_record_inspector_v2. Prior checkpoints remain sealed in their original packages; approvals reference them without duplicating archives.

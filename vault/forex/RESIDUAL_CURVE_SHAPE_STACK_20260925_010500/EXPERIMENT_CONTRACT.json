@@ -1,0 +1,27 @@
+{
+  "experiment_id": "forecast_residual_curve_shape_stacking_v2",
+  "design_requirements": ["16.1", "16.2", "16.3", "27.4"],
+  "hypothesis": "A cross-horizon shape layer trained only on earlier matured residual-layer forecasts changes matched endpoint error relative to the residual-layer forecast alone.",
+  "material_difference": "The existing curve-shape transform consumes authenticated learned_residual forecasts rather than direct forecasts. It changes no base model, target, horizon grid, source population, base-model configuration or residual-layer parameters.",
+  "predecessors": {
+    "residual_result": "timed_20260924_234000/residual_repair/RESIDUAL_RESULT_V2.json",
+    "residual_parent_projection_run": "5c8cb84166076bcdba4724dc277c32e2520de4f548869adca3491807ef10b0d3",
+    "curve_shape_contract": "stage_c_alignment_integrity_v2/CURVE_SHAPE_LAYER_CONTRACT_V2.json"
+  },
+  "inputs": {
+    "forecast_variant": "learned_residual",
+    "anchor_horizon_minutes": 360,
+    "horizons_minutes": [360, 720, 1080, 1440, 1800, 2160, 2520, 2880],
+    "universe": "all68 pinned by the authenticated currency-projection parent",
+    "availability": "maximum constituent residual forecast available_epoch; an incomplete curve is an explicit non-issuance"
+  },
+  "chronology": {
+    "training": "only origins strictly before the current origin, with every constituent forecast available by the snapshot cutoff and its exact endpoint outcome mature by that cutoff",
+    "application": "snapshot cutoff no later than current origin; current outcome is never an input",
+    "negative_control": "future outcome, future residual prediction, in-sample source forecast, and target/anchor mismatch must refuse"
+  },
+  "comparisons": ["learned_residual_control", "residual_curve_shape"],
+  "reporting": ["all68 origin/base coverage ledger", "matched MAE/MSE/bias", "overall/origin/utc-day paired diagnostics", "explicit unavailable and no-support states"],
+  "limits": {"base_model_fits": 0, "api_calls": 0, "network": false, "one_contract_no_feature_sweep": true},
+  "acceptance": "A completed package requires authenticated residual and projection lineage, source/test failure cases, a real retained-data result, same-task review, compact Vault handoff, and separately recorded independent-review status. It makes no confirmation, policy, native issuance, trading, broker or live-bot claim."
+}

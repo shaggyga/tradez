@@ -1,0 +1,42 @@
+{
+  "schema": "forex_current_closure.v1",
+  "packet_id": "MACRO_COMPONENT_REPAIR_CURRENT_CLOSURE_20260925_042500",
+  "created_utc": "2026-09-25T03:45:08Z",
+  "step_id": "macro_component_extraction_guard_repair_v2",
+  "status": "closed_by_existing_packet_reuse",
+  "source_packet": "MACRO_COMPONENT_REPAIR_20260922_202623",
+  "source_review": "MACRO_COMPONENT_REPAIR_20260922_202623/REVIEW.json",
+  "source_review_sha256": "96934b365bfa77294475502e5ec9b59d2411bfd792086c16ee3f2404202e15f2",
+  "source_review_md_sha256": "b0ed2af33a8dfd7d6db9c70fe3b1d34d1f39f582557fb1cb98d5ee50331a8b46",
+  "source_checkpoint_sha256": "ef3cfffbb35aec7aa89c8524dfa3395c5c4038763cdb2e28895083d9b111537a",
+  "local_tests_passed": 17,
+  "relocated_tests_passed": 17,
+  "identical_payloads": 5,
+  "forecast_evidence_status": "repaired_component_text_evidence_not_historical_forecast_admission",
+  "engineering_ready": false,
+  "review_status": "same_task_current_closure_reuses_sealed_packet_independent_review_pending_nonblocking",
+  "actual_work_this_step": [
+    "Verified source packet step identity and sealed review hash.",
+    "Published current closure pointer without duplicate computation or fit.",
+    "Advanced the timed queue to the documented successor."
+  ],
+  "tests_executed_this_turn": [],
+  "tests_reused_from_source_packet": {
+    "local_tests_passed": 17,
+    "relocated_tests_passed": 17,
+    "identical_payloads": 5
+  },
+  "boundaries": {
+    "new_fit_performed": false,
+    "forecast_admission": false,
+    "gpt_advisor_comparisons": false,
+    "paid_api_calls": false,
+    "broker_or_live_bot_changes": false,
+    "d_drive_investigation": false
+  },
+  "next_step_id": "macro_repaired_component_asof_integration_v2",
+  "deadline_utc": "2026-09-25T04:59:55Z",
+  "session_id": "timed_residual_r4_20260925_025955",
+  "manifest": "MANIFEST.json",
+  "manifest_sha256": "c88967c24f33062bcfc37283257a3710ac381a931e57f5884a1df316577b1bc2"
+}

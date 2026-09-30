@@ -1,0 +1,15 @@
+{
+  "recipe": "source_snapshot/ROLLING_REGISTRY_OPERATOR_RECIPE.json",
+  "recipe_sha256": "851b1e211833bc5a54ffb91ae6ad634d70359a7ca45bb0c81d1a3fa20d498d4f",
+  "scope": "228-field bounded actual population and recovered lineage; no model fitting or full-history claim",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify"
+  ],
+  "bootstrap": "../ROLLING_REGISTRY_20260922_054124/checkpoint/forex_rolling_registry.zip",
+  "contract": "source_snapshot/ROLLING_REGISTRY_CONTRACT_V2.md",
+  "next": "review_populated_rolling_registry_checkpoint"
+}

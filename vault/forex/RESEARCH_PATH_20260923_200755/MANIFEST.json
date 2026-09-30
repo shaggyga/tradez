@@ -1,0 +1,537 @@
+{
+  "documentation_only": true,
+  "engine_scope_changed": false,
+  "external_documents": [
+    {
+      "bytes": 3407,
+      "path": "AGENTS.md",
+      "sha256": "36e8dfc820fb4f9e75c0d771f13cd3b1a3ef6c149ee49f4386729eefdcb61f9f"
+    },
+    {
+      "bytes": 4844,
+      "path": "CHECKPOINT_REVIEW.md",
+      "sha256": "fd91c68bb5f679fdffe685f31ce2c6b009b0d66cfac0f8148105021a50e19706"
+    },
+    {
+      "bytes": 1783,
+      "path": "CURRENT_STATUS.md",
+      "sha256": "047e35d541cfd29c9640c0c52fe9e9d5cd6efe2e5b455ffc205bfe676069e4d3"
+    },
+    {
+      "bytes": 4671,
+      "path": "FOREX_NEXT_PROMPT.md",
+      "sha256": "51255f725e5e62577842ed82f65ad4b4c969aabe08d35047ea47a702b5e2ec32"
+    },
+    {
+      "bytes": 2037,
+      "path": "FOREX_OPERATOR_PROMPT.md",
+      "sha256": "398ec1f54b502d8607d8df5d0814e00139dd602ebef4bdaaa5ffe94d69ef8f05"
+    },
+    {
+      "bytes": 19871,
+      "path": "FOREX_RESEARCH_PATH.md",
+      "sha256": "ed1b2c63e91a10a82d5d1f190e3274ac6c897d49ec77667713b4bb5642622422"
+    },
+    {
+      "bytes": 1451,
+      "path": "FOREX_REVIEW_PROMPT.md",
+      "sha256": "ab141ba6134b2a2aefe334db961ce8eb72eb5abf30592239fe1bd79ffdec9053"
+    },
+    {
+      "bytes": 4812,
+      "path": "FOREX_TIMED_PROMPT.md",
+      "sha256": "3741616d1de535005923ccd7bf49b215c4ed28814760acb29d6f20a5fb56953c"
+    },
+    {
+      "bytes": 1839,
+      "path": "KNOWLEDGE_INDEX.md",
+      "sha256": "db9f6c249db8c79ab81e27e8eb1ab7361f74e4c4ff8c46a5e4aa11eb076ba011"
+    },
+    {
+      "bytes": 3017,
+      "path": "LEGACY_MODEL_RECOVERY_NOTE_20260921.md",
+      "sha256": "f0fc95e748c9ddc7a8cdb7505b9828ab32f88fa90c06f1167192001ddbe98828"
+    },
+    {
+      "bytes": 6437,
+      "path": "LOWER_MODEL_OPERATIONS_DESIGN.md",
+      "sha256": "4d30ba2175959589c220d80db256b49cd7e2ecc8c6afef782a638485366e9546"
+    },
+    {
+      "bytes": 1720,
+      "path": "README.md",
+      "sha256": "73f767953372fb5f88af237c31aba34366add2ab8a5fe607503c67ffa48a4567"
+    },
+    {
+      "bytes": 163945,
+      "path": "REVIEW_QUEUE.json",
+      "sha256": "f40c75f941c9f6752419b3813d8d322ef0d5743950428754c0723ad0b2baa58c"
+    },
+    {
+      "bytes": 1708,
+      "path": "SHARED_GIT.md",
+      "sha256": "0523c99c20f0bf80a8d3ac96a620af8134cd2177e1c156146c9cbcc3aaa3326f"
+    },
+    {
+      "bytes": 5180,
+      "path": "VAULT_FIRST_REUSE.md",
+      "sha256": "118fe376eba517aa0a898f57bcc6182ad698c48a23fe5b7fb88d6e36cf2d3225"
+    }
+  ],
+  "files": [
+    {
+      "bytes": 5367,
+      "path": "BASELINE.json",
+      "sha256": "94c1898b08246b0fcd1b9379605fb4af83e016776c7fb15d97f1dcaa42aea673"
+    },
+    {
+      "bytes": 383590,
+      "path": "CHANGES.patch",
+      "sha256": "856c967b6d99ecab44ba542eca66dac697d072ca70b6837f8ab3c5c0c0330cda"
+    },
+    {
+      "bytes": 3352,
+      "path": "CHECKS.json",
+      "sha256": "c39d7b04f71f00158e5a8e23a0f51c35ae2585a79da8e71ac816adcbae7e8794"
+    },
+    {
+      "bytes": 2621,
+      "path": "FILE_CHANGES.json",
+      "sha256": "609b0b45b268ba6b56f5d97ac69b00ccaa614693fbfe14d0f400c0c3d5fc62f5"
+    },
+    {
+      "bytes": 447,
+      "path": "PENDING_CHANGES.md",
+      "sha256": "3b62827b592ef84d418c691fbf78372665fa842998253fa2d0de71fcddb3951b"
+    },
+    {
+      "bytes": 1079,
+      "path": "REVIEW.json",
+      "sha256": "84cbfb90b9d25c376b74fb58248b4f3925426f76d80ab0c5e0b628044a5f1d2b"
+    },
+    {
+      "bytes": 1493,
+      "path": "REVIEW.md",
+      "sha256": "08f65130ce9ad496432a43c0498a062603f8368f7e42be5f67807605b867c618"
+    },
+    {
+      "bytes": 1400,
+      "path": "WORK_LOG.jsonl",
+      "sha256": "a0b91ac25a6c97a9aae8d1774e7ca695759d41c4f852462424fa109c66701606"
+    },
+    {
+      "bytes": 2787,
+      "path": "before/project/FOREX_HANDOFF.md",
+      "sha256": "5e8d1db98444693e5d3a4aad31f50f04ac6ac298309468e91956c31cbe67f4ad"
+    },
+    {
+      "bytes": 390213,
+      "path": "before/project/trad/FOREX_PENDING_IMPROVEMENTS.md",
+      "sha256": "2f90b1965ac5b61e7b974c43e871a89f4454432056c9acf05f9c276460258467"
+    },
+    {
+      "bytes": 538516,
+      "path": "before/project/trad/FOREX_PROJECT_LOG.md",
+      "sha256": "8deda2bde834f63ea5786b655b07f742c6721ecd95c9ba1a1abd806776cd9874"
+    },
+    {
+      "bytes": 1411,
+      "path": "before/vault/CURRENT_STATUS.md",
+      "sha256": "b041b93dea8ad4f9398c6d8a17bad0bb913b20e3f99934a3a89697d02d133699"
+    },
+    {
+      "bytes": 6587,
+      "path": "before/vault/FOREX_NEXT_PROMPT.md",
+      "sha256": "443634e70dfbb988de46f4e2f3efc7a2e7d901ea6eefac37f4107f1f19b4a6f3"
+    },
+    {
+      "bytes": 2222,
+      "path": "before/vault/FOREX_TIMED_PROMPT.md",
+      "sha256": "25edb0012ae734b3a93dc4f48955f2da21d2cf86c06b20f3831bdb5fabc2ade6"
+    },
+    {
+      "bytes": 160556,
+      "path": "before/vault/REVIEW_QUEUE.json",
+      "sha256": "130572ce083d349d5884fc4e7b6c84b3e77e0bbe8f8e0dff0c4ca4876680cdcd"
+    },
+    {
+      "bytes": 10242,
+      "path": "before_authority/CHAT_COORDINATION_BOARD.md",
+      "sha256": "b1e193ff52a7a42f785103fea8585d911e1561867744d053185b44493ecc61c8"
+    },
+    {
+      "bytes": 748,
+      "path": "before_authority/CHECKPOINT_REVIEW_LATEST.json",
+      "sha256": "1964d322569b57855760c84a73fb1ff9404dd34b11593ef7f855adf8d84eadf4"
+    },
+    {
+      "bytes": 1033,
+      "path": "before_authority/DESIGN_ALIGNMENT_LATEST.json",
+      "sha256": "e1c5a7316f9d5453f8f228064a1f76043ca74a57a9e36b2f82f6e1c7927114a5"
+    },
+    {
+      "bytes": 532,
+      "path": "before_authority/OPERATIONAL_READINESS_LATEST.json",
+      "sha256": "9b8ffa5909812a3e9482f8ca8375722151de7317c8a9cf926c42753a86f298b6"
+    },
+    {
+      "bytes": 160556,
+      "path": "before_authority/REVIEW_QUEUE.json",
+      "sha256": "130572ce083d349d5884fc4e7b6c84b3e77e0bbe8f8e0dff0c4ca4876680cdcd"
+    },
+    {
+      "bytes": 9063,
+      "path": "before_authority/SHARED_GIT_REMOTE_LATEST.json",
+      "sha256": "6e08dd9188527069f46b682b795cae592896e7c386d2c4b48458a6660b10017d"
+    },
+    {
+      "bytes": 3407,
+      "path": "current_documents/AGENTS.md",
+      "sha256": "36e8dfc820fb4f9e75c0d771f13cd3b1a3ef6c149ee49f4386729eefdcb61f9f"
+    },
+    {
+      "bytes": 4844,
+      "path": "current_documents/CHECKPOINT_REVIEW.md",
+      "sha256": "fd91c68bb5f679fdffe685f31ce2c6b009b0d66cfac0f8148105021a50e19706"
+    },
+    {
+      "bytes": 1783,
+      "path": "current_documents/CURRENT_STATUS.md",
+      "sha256": "047e35d541cfd29c9640c0c52fe9e9d5cd6efe2e5b455ffc205bfe676069e4d3"
+    },
+    {
+      "bytes": 4671,
+      "path": "current_documents/FOREX_NEXT_PROMPT.md",
+      "sha256": "51255f725e5e62577842ed82f65ad4b4c969aabe08d35047ea47a702b5e2ec32"
+    },
+    {
+      "bytes": 2037,
+      "path": "current_documents/FOREX_OPERATOR_PROMPT.md",
+      "sha256": "398ec1f54b502d8607d8df5d0814e00139dd602ebef4bdaaa5ffe94d69ef8f05"
+    },
+    {
+      "bytes": 19871,
+      "path": "current_documents/FOREX_RESEARCH_PATH.md",
+      "sha256": "ed1b2c63e91a10a82d5d1f190e3274ac6c897d49ec77667713b4bb5642622422"
+    },
+    {
+      "bytes": 1451,
+      "path": "current_documents/FOREX_REVIEW_PROMPT.md",
+      "sha256": "ab141ba6134b2a2aefe334db961ce8eb72eb5abf30592239fe1bd79ffdec9053"
+    },
+    {
+      "bytes": 4812,
+      "path": "current_documents/FOREX_TIMED_PROMPT.md",
+      "sha256": "3741616d1de535005923ccd7bf49b215c4ed28814760acb29d6f20a5fb56953c"
+    },
+    {
+      "bytes": 1839,
+      "path": "current_documents/KNOWLEDGE_INDEX.md",
+      "sha256": "db9f6c249db8c79ab81e27e8eb1ab7361f74e4c4ff8c46a5e4aa11eb076ba011"
+    },
+    {
+      "bytes": 3017,
+      "path": "current_documents/LEGACY_MODEL_RECOVERY_NOTE_20260921.md",
+      "sha256": "f0fc95e748c9ddc7a8cdb7505b9828ab32f88fa90c06f1167192001ddbe98828"
+    },
+    {
+      "bytes": 6437,
+      "path": "current_documents/LOWER_MODEL_OPERATIONS_DESIGN.md",
+      "sha256": "4d30ba2175959589c220d80db256b49cd7e2ecc8c6afef782a638485366e9546"
+    },
+    {
+      "bytes": 1720,
+      "path": "current_documents/README.md",
+      "sha256": "73f767953372fb5f88af237c31aba34366add2ab8a5fe607503c67ffa48a4567"
+    },
+    {
+      "bytes": 163945,
+      "path": "current_documents/REVIEW_QUEUE.json",
+      "sha256": "f40c75f941c9f6752419b3813d8d322ef0d5743950428754c0723ad0b2baa58c"
+    },
+    {
+      "bytes": 1708,
+      "path": "current_documents/SHARED_GIT.md",
+      "sha256": "0523c99c20f0bf80a8d3ac96a620af8134cd2177e1c156146c9cbcc3aaa3326f"
+    },
+    {
+      "bytes": 5180,
+      "path": "current_documents/VAULT_FIRST_REUSE.md",
+      "sha256": "118fe376eba517aa0a898f57bcc6182ad698c48a23fe5b7fb88d6e36cf2d3225"
+    },
+    {
+      "bytes": 3277,
+      "path": "independent_review/RESOLUTION_REVIEW.json",
+      "sha256": "0f3a92909335cd6a5790e9194e8a35b1743a0ba834bc77f466845bafa79070fc"
+    },
+    {
+      "bytes": 880,
+      "path": "independent_review/RESOLUTION_REVIEW.md",
+      "sha256": "72233593aead31b59ab5051b3f53427baaa02264e77e3eaff90c648482f4f1df"
+    },
+    {
+      "bytes": 4969,
+      "path": "independent_review/REVIEW_RESULT.json",
+      "sha256": "e268c6b43ab41c0563c3c3bf0ff3afd003d403e825874711c1e99281531c98bb"
+    },
+    {
+      "bytes": 1278,
+      "path": "independent_review/REVIEW_RESULT.md",
+      "sha256": "1336f87cabfe47723c2757aa7aa67090a6e667db87b9873b87453154779656cc"
+    },
+    {
+      "bytes": 1853,
+      "path": "project_documents/.gitignore",
+      "sha256": "012002ab855a0cdd9762537bcaa65b46c5d4ab3f5fe737bb5a1c2c18a712b6fa"
+    },
+    {
+      "bytes": 2337,
+      "path": "project_documents/AGENTS.md",
+      "sha256": "cbcdadded5c1cf65bfde4edb4f32dddee3227785e9c971a60ee6793540831de5"
+    },
+    {
+      "bytes": 3076,
+      "path": "project_documents/FOREX_HANDOFF.md",
+      "sha256": "e90e31c2919e75b0700c2d35a4d7f7b86025266fa3353e8227c7f8d3476a9362"
+    },
+    {
+      "bytes": 3746,
+      "path": "project_documents/README.md",
+      "sha256": "8b06e10fad15ed4bcac532b66f587c91639bdf6e846f72b9df07dbfff140c374"
+    },
+    {
+      "bytes": 773,
+      "path": "project_documents/START_HERE.md",
+      "sha256": "4ff177c0cc42000b21e560abfec68fb54dadf0b4a595f0c0e34241e477e00d89"
+    },
+    {
+      "bytes": 20910,
+      "path": "project_documents/artifacts/registry.json",
+      "sha256": "f753c58d8d05dffd294ba831eff78c982ff50f903f5ede565a5d4edbd441f783"
+    },
+    {
+      "bytes": 353519,
+      "path": "project_documents/artifacts/reuse_catalog.json",
+      "sha256": "47d42b23e1204b1739e2063d411e08dca2dc87d6cbb7162cb6964f49d9fa1b4d"
+    },
+    {
+      "bytes": 5935,
+      "path": "project_documents/docs/ARTIFACT_REUSE.md",
+      "sha256": "331c52e7672c8f38d4c5c8519f01b24315ff480a7b7b55789416e504942c2033"
+    },
+    {
+      "bytes": 1728,
+      "path": "project_documents/docs/DIRECTORY_MAP.md",
+      "sha256": "8063167c44a204f8fbd6ac09f21f9ff1502ed98274c856c55464c4f721e01c89"
+    },
+    {
+      "bytes": 4926,
+      "path": "project_documents/docs/OPERATIONAL_PREFLIGHT.md",
+      "sha256": "5a9e4f506765ae02170f0b0136e0c21791274a6e30edf52cdcc972ede1e086b9"
+    },
+    {
+      "bytes": 1708,
+      "path": "project_documents/docs/RESEARCH_HANDOFF.md",
+      "sha256": "fd6aa9ad7016f13fc8b233d923f6e954090eea8c7da933802973fb7905bcb737"
+    },
+    {
+      "bytes": 6300,
+      "path": "project_documents/docs/SHARED_WORKSPACE.md",
+      "sha256": "7814eb957b3def6d84d692ae8330ade74b4770853b3bcadf850f2981597c45dc"
+    },
+    {
+      "bytes": 2830,
+      "path": "project_documents/docs/history/AGENTS_before_operations_20260923.md",
+      "sha256": "a2a5cd8f8bd80816f01e55bf6c5c440b4b991c9628087aa8a39e1d0df2b8d081"
+    },
+    {
+      "bytes": 22567,
+      "path": "project_documents/docs/history/FOREX_HANDOFF_before_operations_20260923.md",
+      "sha256": "450d69238089c3cb03d3a8249704bbeb00fc3592139de6ad8ee7a90f40b37907"
+    },
+    {
+      "bytes": 354,
+      "path": "project_documents/docs/history/README.md",
+      "sha256": "c32a3d337ed7f6145485c56c03cc9354c771b9046aa8b26aa1f0b2e19debc2c6"
+    },
+    {
+      "bytes": 2167,
+      "path": "project_documents/docs/history/START_HERE_before_operations_20260923.md",
+      "sha256": "110310de9ec4ab40c6bdee6e0bd98035d7590de9fc9123e7a1f00bc68d96ab96"
+    },
+    {
+      "bytes": 16037,
+      "path": "project_documents/tests/test_forex_preflight.py",
+      "sha256": "37a29bf4f3cbf027ddcc1161f2c9b929d7ee9055af1cbbd6826c4d303242e08d"
+    },
+    {
+      "bytes": 4038,
+      "path": "project_documents/tests/test_forex_reuse_catalog.py",
+      "sha256": "e93e27d8c856f66c259af84a307a46ac46792d931d028d4e20ab86e7c48a6dba"
+    },
+    {
+      "bytes": 22419,
+      "path": "project_documents/tools/forex_preflight.py",
+      "sha256": "c523e3f32421fd6f7a167ca51f4fcbbe228d8fb6eba54456fc3a7ccc7cdb6b94"
+    },
+    {
+      "bytes": 391185,
+      "path": "project_documents/trad/FOREX_PENDING_IMPROVEMENTS.md",
+      "sha256": "05affbe27efbbd551d101674bef25bb6d0ad393a45153d0d3f568eb6500fc89d"
+    },
+    {
+      "bytes": 539488,
+      "path": "project_documents/trad/FOREX_PROJECT_LOG.md",
+      "sha256": "e11395911c0f3a6cd91e8f2c71e6f16fbdf15c363959a3dd3af0ceada2507399"
+    },
+    {
+      "bytes": 1013,
+      "path": "project_documents/trad/docs/FOREX_CHECKPOINT_LOGGING_20260921.md",
+      "sha256": "72ba6c62a7a887fe029f1430d3cf55919c944d13be4a59af9cb6df7e22df3fff"
+    },
+    {
+      "bytes": 5031,
+      "path": "publication/build_draft.py",
+      "sha256": "31b5c1d2a2ea02c3dc730f2c22f20ce5691d87edd33a93a79c45f33c33244683"
+    },
+    {
+      "bytes": 3736,
+      "path": "publication/prepare.py",
+      "sha256": "299b9360ef4cab093067fa8ed96bfbcfed9223f6b13205560c07161b5da070d8"
+    },
+    {
+      "bytes": 14952,
+      "path": "publication/publish_handoff.py",
+      "sha256": "847e0a346d6f74b125283b47b7a8c8883ae026e508dcfe18b79daeec1837be7d"
+    }
+  ],
+  "predecessor": {
+    "baseline_commit": "6ab186f83fa4e071ea1ad77904301ae04c7b8e7f",
+    "documentation_only": false,
+    "engine_scope_changed": false,
+    "independent_review": true,
+    "manifest": "OPERATIONAL_READINESS_20260923_180528/MANIFEST.json",
+    "manifest_sha256": "808390179cfc40400eaa779cbb50776c4fe53562f0324e5efc70ed01c5be17a6",
+    "mutable_git_operation_receipt": "SHARED_GIT_REMOTE_LATEST.json",
+    "next_engineering_item": "macro_currency_meter_numeric_evidence_join_v2",
+    "operational_only": true,
+    "package": "OPERATIONAL_READINESS_20260923_180528",
+    "queue": "REVIEW_QUEUE.json",
+    "readback": "OPERATIONAL_READINESS_20260923_180528/READBACK.json",
+    "review": "OPERATIONAL_READINESS_20260923_180528/REVIEW.md",
+    "verdict": "accepted_within_scope"
+  },
+  "project_documents": [
+    {
+      "bytes": 1853,
+      "path": ".gitignore",
+      "sha256": "012002ab855a0cdd9762537bcaa65b46c5d4ab3f5fe737bb5a1c2c18a712b6fa"
+    },
+    {
+      "bytes": 2337,
+      "path": "AGENTS.md",
+      "sha256": "cbcdadded5c1cf65bfde4edb4f32dddee3227785e9c971a60ee6793540831de5"
+    },
+    {
+      "bytes": 3076,
+      "path": "FOREX_HANDOFF.md",
+      "sha256": "e90e31c2919e75b0700c2d35a4d7f7b86025266fa3353e8227c7f8d3476a9362"
+    },
+    {
+      "bytes": 3746,
+      "path": "README.md",
+      "sha256": "8b06e10fad15ed4bcac532b66f587c91639bdf6e846f72b9df07dbfff140c374"
+    },
+    {
+      "bytes": 773,
+      "path": "START_HERE.md",
+      "sha256": "4ff177c0cc42000b21e560abfec68fb54dadf0b4a595f0c0e34241e477e00d89"
+    },
+    {
+      "bytes": 20910,
+      "path": "artifacts/registry.json",
+      "sha256": "f753c58d8d05dffd294ba831eff78c982ff50f903f5ede565a5d4edbd441f783"
+    },
+    {
+      "bytes": 353519,
+      "path": "artifacts/reuse_catalog.json",
+      "sha256": "47d42b23e1204b1739e2063d411e08dca2dc87d6cbb7162cb6964f49d9fa1b4d"
+    },
+    {
+      "bytes": 5935,
+      "path": "docs/ARTIFACT_REUSE.md",
+      "sha256": "331c52e7672c8f38d4c5c8519f01b24315ff480a7b7b55789416e504942c2033"
+    },
+    {
+      "bytes": 1728,
+      "path": "docs/DIRECTORY_MAP.md",
+      "sha256": "8063167c44a204f8fbd6ac09f21f9ff1502ed98274c856c55464c4f721e01c89"
+    },
+    {
+      "bytes": 4926,
+      "path": "docs/OPERATIONAL_PREFLIGHT.md",
+      "sha256": "5a9e4f506765ae02170f0b0136e0c21791274a6e30edf52cdcc972ede1e086b9"
+    },
+    {
+      "bytes": 1708,
+      "path": "docs/RESEARCH_HANDOFF.md",
+      "sha256": "fd6aa9ad7016f13fc8b233d923f6e954090eea8c7da933802973fb7905bcb737"
+    },
+    {
+      "bytes": 6300,
+      "path": "docs/SHARED_WORKSPACE.md",
+      "sha256": "7814eb957b3def6d84d692ae8330ade74b4770853b3bcadf850f2981597c45dc"
+    },
+    {
+      "bytes": 2830,
+      "path": "docs/history/AGENTS_before_operations_20260923.md",
+      "sha256": "a2a5cd8f8bd80816f01e55bf6c5c440b4b991c9628087aa8a39e1d0df2b8d081"
+    },
+    {
+      "bytes": 22567,
+      "path": "docs/history/FOREX_HANDOFF_before_operations_20260923.md",
+      "sha256": "450d69238089c3cb03d3a8249704bbeb00fc3592139de6ad8ee7a90f40b37907"
+    },
+    {
+      "bytes": 354,
+      "path": "docs/history/README.md",
+      "sha256": "c32a3d337ed7f6145485c56c03cc9354c771b9046aa8b26aa1f0b2e19debc2c6"
+    },
+    {
+      "bytes": 2167,
+      "path": "docs/history/START_HERE_before_operations_20260923.md",
+      "sha256": "110310de9ec4ab40c6bdee6e0bd98035d7590de9fc9123e7a1f00bc68d96ab96"
+    },
+    {
+      "bytes": 16037,
+      "path": "tests/test_forex_preflight.py",
+      "sha256": "37a29bf4f3cbf027ddcc1161f2c9b929d7ee9055af1cbbd6826c4d303242e08d"
+    },
+    {
+      "bytes": 4038,
+      "path": "tests/test_forex_reuse_catalog.py",
+      "sha256": "e93e27d8c856f66c259af84a307a46ac46792d931d028d4e20ab86e7c48a6dba"
+    },
+    {
+      "bytes": 22419,
+      "path": "tools/forex_preflight.py",
+      "sha256": "c523e3f32421fd6f7a167ca51f4fcbbe228d8fb6eba54456fc3a7ccc7cdb6b94"
+    },
+    {
+      "bytes": 391185,
+      "path": "trad/FOREX_PENDING_IMPROVEMENTS.md",
+      "sha256": "05affbe27efbbd551d101674bef25bb6d0ad393a45153d0d3f568eb6500fc89d"
+    },
+    {
+      "bytes": 539488,
+      "path": "trad/FOREX_PROJECT_LOG.md",
+      "sha256": "e11395911c0f3a6cd91e8f2c71e6f16fbdf15c363959a3dd3af0ceada2507399"
+    },
+    {
+      "bytes": 1013,
+      "path": "trad/docs/FOREX_CHECKPOINT_LOGGING_20260921.md",
+      "sha256": "72ba6c62a7a887fe029f1430d3cf55919c944d13be4a59af9cb6df7e22df3fff"
+    }
+  ],
+  "schema": "forex_documentation_manifest.v1"
+}

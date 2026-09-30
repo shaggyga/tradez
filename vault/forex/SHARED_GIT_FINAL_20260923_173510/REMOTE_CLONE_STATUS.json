@@ -1,0 +1,125 @@
+{
+  "status": "read_only_snapshot",
+  "vault": "C:\\Users\\zmoor\\OneDrive\\thevault\\projects\\forex",
+  "design_pointer": {
+    "schema": "forex_design_alignment_pointer.v2",
+    "package": "MACRO_METER_20260923_042731",
+    "path_forward": "MACRO_METER_20260923_042731/PATH_FORWARD.md",
+    "run_status": "MACRO_METER_20260923_042731/RUN_STATUS.json",
+    "design": "MACRO_METER_20260923_042731/specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+    "design_coverage": "MACRO_METER_20260923_042731/CURRENT_DESIGN_COVERAGE.md",
+    "current_acceptance_addendum": "MACRO_METER_20260923_042731/DESIGN_ACCEPTANCE_ADDENDUM.md",
+    "manifest": "MACRO_METER_20260923_042731/MANIFEST.json",
+    "manifest_sha256": "f29d0e398ed6e9acc812baf9169d11e84d67bfaae141f1c027f1917a09ddeefe",
+    "readback": "MACRO_METER_20260923_042731/PACKAGE_READBACK.json",
+    "active_integrity_batch": "ALL68_INTEGRITY_BATCH_05_20260921.md",
+    "active_integrity_batch_scope": "WP6 shared currency concept meter and offline evidence drilldown",
+    "historical_package": "DESIGN_ALIGNMENT_20260921",
+    "scope": "current_verified_queue_and_bounded_recovery",
+    "cloud_sync_verified": false
+  },
+  "review_pointer": {
+    "documentation_only": true,
+    "engine_scope_changed": false,
+    "independent_review": false,
+    "manifest": "SHARED_GIT_20260923_173051/MANIFEST.json",
+    "manifest_sha256": "0fad8617fee1ad632d2d059b5ccf9b9bf7415d6cc6f838001d2e0bf913c53bc4",
+    "mutable_git_operation_receipt": "SHARED_GIT_REMOTE_LATEST.json",
+    "next_engineering_item": "macro_currency_meter_numeric_evidence_join_v2",
+    "package": "SHARED_GIT_20260923_173051",
+    "queue": "REVIEW_QUEUE.json",
+    "readback": "SHARED_GIT_20260923_173051/READBACK.json",
+    "review": "SHARED_GIT_20260923_173051/REVIEW.md",
+    "source_commit": "2083eb77ebbce103e1a5382969de7810a6e7f962",
+    "verdict": "ready_for_review"
+  },
+  "exact_next_item": "macro_currency_meter_numeric_evidence_join_v2",
+  "active_step_id": "macro_currency_meter_evidence_view_v2",
+  "active_steps": [
+    {
+      "local_tests_passed": 17,
+      "relocated_tests_passed": 17,
+      "identical_payloads": 5,
+      "engineering_ready": false,
+      "forecast_evidence_status": "offline_retained_evidence_no_forecast_admission",
+      "policy_evidence_status": "not_evaluated",
+      "demo_authorization_status": "not_granted",
+      "step_id": "macro_currency_meter_evidence_view_v2",
+      "review_status": "accepted_within_scope",
+      "independent_review": false,
+      "next_action": "macro_currency_meter_numeric_evidence_join_v2",
+      "deferred_engineering_next_item": "macro_currency_meter_numeric_evidence_join_v2",
+      "checkpoint_sha256": "55ae8ad38a4458b74633d106a2d34726f07376429103c58efe5684521e5d5204",
+      "source_predecessor": {
+        "schema": "forex_design_alignment_pointer.v2",
+        "package": "MACRO_PROVENANCE_20260923_041831",
+        "path_forward": "MACRO_PROVENANCE_20260923_041831/PATH_FORWARD.md",
+        "run_status": "MACRO_PROVENANCE_20260923_041831/RUN_STATUS.json",
+        "design": "MACRO_PROVENANCE_20260923_041831/specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+        "design_coverage": "MACRO_PROVENANCE_20260923_041831/CURRENT_DESIGN_COVERAGE.md",
+        "current_acceptance_addendum": "MACRO_PROVENANCE_20260923_041831/DESIGN_ACCEPTANCE_ADDENDUM.md",
+        "manifest": "MACRO_PROVENANCE_20260923_041831/MANIFEST.json",
+        "manifest_sha256": "b913c1e2f05f08d1fbfcc30a97e638110b0dd80609910613a377cd3b7efadff3",
+        "readback": "MACRO_PROVENANCE_20260923_041831/PACKAGE_READBACK.json",
+        "active_integrity_batch": "ALL68_INTEGRITY_BATCH_05_20260921.md",
+        "active_integrity_batch_scope": "WP6 explicit reference and extraction-provenance binding",
+        "historical_package": "DESIGN_ALIGNMENT_20260921",
+        "scope": "current_verified_queue_and_bounded_recovery",
+        "cloud_sync_verified": false
+      },
+      "packet": "MACRO_METER_20260923_042731/REVIEW.json",
+      "packet_sha256": "bfb4faa8ec469bd24462b8cfeddc31b381b42d05bbc4e11c34a9e39f1faa113c",
+      "summary": "MACRO_METER_20260923_042731/REVIEW.md",
+      "engineering_next_item": "macro_currency_meter_numeric_evidence_join_v2",
+      "review_history": [
+        {
+          "utc": "2026-09-23T04:28:26.799225+00:00",
+          "verdict": "accepted_within_scope",
+          "result": "FOLLOWUP_REVIEW_20260923_042826/REVIEW_RESULT.json",
+          "independent_review": false
+        }
+      ],
+      "review_result": "FOLLOWUP_REVIEW_20260923_042826/REVIEW_RESULT.json",
+      "review_result_sha256": "2591472a989891fe48b98039bff4adf43fed9555c16df30be5d6d0c5379f85d6"
+    }
+  ],
+  "queue_step_count": 55,
+  "queue_updated_utc": "2026-09-23T04:28:26.799225+00:00",
+  "coordination_board": "# Forex chat coordination board\r\n\r\nThis is the shared, mutable coordination surface for parallel chats. It reserves work before edits begin and summarizes the result after each task. It does not replace `DESIGN_ALIGNMENT_LATEST.json`, `REVIEW_QUEUE.json`, sealed review packets, `PROJECT_LOG_CURRENT.md`, or scientific evidence.\r\n\r\n## Required start-of-task protocol\r\n\r\n1. Read this file, `AGENTS.md`, `DESIGN_ALIGNMENT_LATEST.json`, and `REVIEW_QUEUE.json` before changing project files.\r\n2. Refresh this file immediately before claiming work. Never rely on a copy read earlier in the chat.\r\n3. Check every non-completed row for overlapping scope or files. If overlap exists, inspect that task's handoff or choose non-overlapping work; do not silently take ownership.\r\n4. Add one row with a stable task ID, chat/owner label, UTC start, short purpose, intended files or subsystem, and status `CLAIMED` before the first task edit.\r\n5. Re-read the board after adding the claim. If a competing claim appeared, stop overlapping edits and record `BLOCKED_CONFLICT` or narrow the scope explicitly.\r\n\r\n## Required end-of-task protocol\r\n\r\n1. Change the same row to `DONE`, `HANDOFF`, `BLOCKED`, or `ABANDONED`.\r\n2. Record the actual files changed, verification performed, remaining issue, and exact next action or review packet.\r\n3. Do not delete old rows. Completed rows are the compact cross-chat history; detailed evidence remains in the normal checkpoint package and project log.\r\n4. A stale `CLAIMED` or `IN_PROGRESS` row is not permission to overwrite work. Inspect its referenced artifacts and mark a takeover only with an explicit note explaining why ownership is being transferred.\r\n\r\n## Status meanings\r\n\r\n| Status | Meaning |\r\n|---|---|\r\n| `CLAIMED` | Scope reserved; edits have not materially started. |\r\n| `IN_PROGRESS` | Work is actively modifying or testing the reserved scope. |\r\n| `HANDOFF` | Partial work is safe to resume using the recorded next action. |\r\n| `BLOCKED` | Cannot continue without a dependency or decision. |\r\n| `BLOCKED_CONFLICT` | Another chat owns overlapping scope. |\r\n| `DONE` | Task is finished within the stated scope; review status is recorded separately. |\r\n| `ABANDONED` | Claim released without a usable partial change. |\r\n| `OBSERVED_EXTERNAL` | Work was detected from another chat but no reliable owner claim existed yet. Treat it as active until reconciled. |\r\n\r\n## Active work\r\n\r\n| Task ID | Chat / owner | Started UTC | Description | Reserved scope / files | Status | Last update UTC | Handoff / next action |\r\n|---|---|---|---|---|---|---|---|\r\n| `observed-macro-provenance-20260922` | Mabel's existing Codex chat; inferred entry reconciled by that owner | unknown | Prior macro work was completed, not running at observation time | Prior macro package chain | `HANDOFF` | 2026-09-23T04:03:41Z | Reconciled against this chat's FOLLOWUP_REVIEW_20260922_205758 and completed local session. Provenance implementation had not started. User now requests four next steps; ownership explicitly continues under mabel-four-next-20260923. |\r\n| `mabel-four-next-20260923` | Mabel's Codex chat 01a0c239-d0e3-7c53-a011-8911fccfa326 | 2026-09-23T04:03:41Z | Four queue steps: provenance implementation/review, next eligible implementation/review; plus read-only live bot review | stage_c_alignment_integrity_v2 current macro sources/evidence; Forex Vault pointers, queue and handoff docs; trad project logs. Live process/log inspection only, no runtime/broker mutations | `DONE` | 2026-09-23T04:29:25.622494+00:00 | Completed provenance implementation/review and meter implementation/review; actual changes macro_provenance*, macro_meter*, their recipes/contracts/tests, batch evidence, Vault checkpoints/prompts/queue and trad logs.36 local +36 restored tests;8 exact outputs; browser checks passed. Same-implementer accepted, independent review unperformed. Review [FOLLOWUP_REVIEW_20260923_042826](FOLLOWUP_REVIEW_20260923_042826/REVIEW_RESULT.md); bot review [MACRO_METER_20260923_042731/evidence/LIVE_BOT_REVIEW.md](MACRO_METER_20260923_042731/evidence/LIVE_BOT_REVIEW.md). Next macro_currency_meter_numeric_evidence_join_v2; no runtime changes. |\r\n| `coordination-board-bootstrap-20260922` | Codex chat with Geral | 2026-09-22T23:21:55Z | Add a cross-chat claim/completion board and make it mandatory project entry reading. | `CHAT_COORDINATION_BOARD.md`, `AGENTS.md`, `README.md` | `DONE` | 2026-09-22T23:23:23Z | Board created and linked from mandatory instructions and project README. Scientific queue state was not changed. Future chats must claim and close work here. |\r\n\r\n| `mabel-vault-first-reuse-20260923` | Mabel existing Codex chat | 2026-09-23T14:07:57.023424+00:00 | Record Vault-first shared knowledge and no duplicate model/run policy; index existing approvals | Vault AGENTS/README/operator/NEXT and knowledge index, new reuse docs, verified byte copies of existing fitted remaining-run artifacts, and documentation manifest; project AGENTS/handoff/pending/log. No numerical code, model fitting, remote Git publication or runtime changes | `DONE` | 2026-09-23T14:15:48.597600+00:00 | Published [VAULT_FIRST_REUSE_20260923_141547](VAULT_FIRST_REUSE_20260923_141547/REVIEW_RESULT.md): Vault-first reuse rule,48-approval discovery, mandatory prompts/project handoff/log updated; source and scientific queue unchanged. No fits or Git publication. Automatic cross-machine deduplication remains pending. |\r\n\r\n| `mabel-full-git-20260923` | Mabel existing Codex chat | 2026-09-23T17:00:46.822198+00:00 | Build complete shared Git source version, preserve history and current work, verify clean clone and artifact retrieval | Local Git metadata, isolated publication checkout, source inventories/setup/reuse tooling, project/Vault entry docs and Git handoff; private remote publication when destination resolved. No model training or live service changes | `IN_PROGRESS` | 2026-09-23T17:30:51.322012+00:00 | [SHARED_GIT_20260923_173051](SHARED_GIT_20260923_173051/REVIEW.md): shared source `2083eb77ebbce103e1a5382969de7810a6e7f962`, verified retrieval/test evidence; Source commit push verified by the producing Git receipt. Handoff-document commit/push follows in SHARED_GIT_REMOTE_LATEST.json. Scientific queue/source unchanged; independent packet review pending. |\r\n\r\n## Completed and handed-off work\r\n\r\nMove no rows manually between sections if doing so risks a concurrent rewrite. It is acceptable to leave terminal-status rows in the active table temporarily; the status is authoritative. Periodic documentation-only maintenance may move terminal rows here using a narrowly scoped patch.\r\n\r\n| Task ID | Chat / owner | Started UTC | Finished UTC | Description | Files changed | Final status | Verification / review packet | Remaining action |\r\n|---|---|---|---|---|---|---|---|---|\r\n\r\n## Conflict rules\r\n\r\n- A file path, generated pointer, queue entry, study cohort, database, model artifact, or runtime process can have only one modifying owner at a time.\r\n- Read-only inspection may proceed in parallel, but the inspecting chat must not publish a competing \u201ccurrent\u201d pointer or reinterpret unfinished results as final.\r\n- `README.md`, `AGENTS.md`, this board, `DESIGN_ALIGNMENT_LATEST.json`, and `REVIEW_QUEUE.json` are high-contention files. Re-read immediately before patching and keep edits narrow.\r\n- If two tasks need the same file, the later task records `BLOCKED_CONFLICT` and waits for `DONE`/`HANDOFF`, or both chats explicitly divide non-overlapping sections and record that division here.\r\n- Review of another task does not transfer implementation ownership. Record reviewer and implementation owner separately.\r\n",
+  "read_hashes": {
+    "DESIGN_ALIGNMENT_LATEST.json": {
+      "sha256": "e1c5a7316f9d5453f8f228064a1f76043ca74a57a9e36b2f82f6e1c7927114a5",
+      "bytes": 1033
+    },
+    "CHECKPOINT_REVIEW_LATEST.json": {
+      "sha256": "4bd73757b04790e4b905c32e4cd043c589d51c412b384ee663e809e48d4341bb",
+      "bytes": 669
+    },
+    "REVIEW_QUEUE.json": {
+      "sha256": "0f563551c31218c4d57ec4c8743f89b889d716fe9ad3dd850fe65055e713a4cb",
+      "bytes": 161145
+    },
+    "CHAT_COORDINATION_BOARD.md": {
+      "sha256": "edb8fc435bb39f4919e7ea8c1efc21b5b4dd37c6af0cd1a59863de4333c861b8",
+      "bytes": 7677
+    },
+    "VAULT_FIRST_REUSE.md": {
+      "sha256": "2fada22c0f0a0ca29c9a835be8ca2d2584612015f0c313ee95a1bc1c32c85ee6",
+      "bytes": 6518
+    },
+    "MACRO_METER_20260923_042731/MANIFEST.json": {
+      "sha256": "f29d0e398ed6e9acc812baf9169d11e84d67bfaae141f1c027f1917a09ddeefe",
+      "bytes": 93130
+    },
+    "SHARED_GIT_20260923_173051/MANIFEST.json": {
+      "sha256": "0fad8617fee1ad632d2d059b5ccf9b9bf7415d6cc6f838001d2e0bf913c53bc4",
+      "bytes": 15719
+    }
+  },
+  "limitations": [
+    "Advisory local snapshot, not an atomic cross-machine work reservation.",
+    "Pointer manifest hashes checked; full sealed-package integrity is not checked.",
+    "Read the board, current handoff and reuse policy before claiming work.",
+    "No claim, Vault edit, model loading, fitting or cloud sync verification performed."
+  ]
+}

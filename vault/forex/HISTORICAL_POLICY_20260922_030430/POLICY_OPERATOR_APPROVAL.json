@@ -1,0 +1,24 @@
+{
+  "recipe": "source_snapshot/POLICY_OPERATOR_RECIPE.json",
+  "recipe_sha256": "e0a0598208ed2b7efd4e244eb89d755f6af9bf9043619ca18244cd6b281b974f",
+  "command": [
+    "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe",
+    "-I",
+    "-B",
+    "C:\\Users\\zmoor\\Documents\\forex\\stage_c_alignment_integrity_v2\\forex_operator_v2.py",
+    "status",
+    "--recipe",
+    "C:\\Users\\zmoor\\Documents\\forex\\stage_c_alignment_integrity_v2\\POLICY_OPERATOR_RECIPE.json",
+    "--recipe-sha256",
+    "44a65728e9db4bd7cd5060c4383dd30335f30b79a73906014a0869ce76e1b2e9",
+    "--runs-dir",
+    "C:\\Users\\zmoor\\Documents\\forex\\stage_c_alignment_integrity_v2\\evidence\\timed_20260922_001617\\native_step\\operator_runs",
+    "--trad-root",
+    "C:\\Users\\zmoor\\Documents\\forex\\trad"
+  ],
+  "scope": "frozen_offline_synthetic_recipe_not_trading_approval",
+  "independent_review": false,
+  "restore_note": "Use equivalent restored source/trad paths and a fresh runs directory; keep recipe SHA unchanged.",
+  "bootstrap": "checkpoint/forex_historical_policy.zip",
+  "source_update": "HP-MARK-1;379 integrated tests"
+}

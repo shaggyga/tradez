@@ -1,0 +1,44 @@
+{
+  "step_id": "matched-irrelevant-feature-controls",
+  "verdict": "accepted_within_scope",
+  "independent_review": false,
+  "next_item": "conditional_interaction_positive_control_v2",
+  "engineering_ready": false,
+  "forecast_evidence_status": "matched_inspected_development_only",
+  "policy_evidence_status": "not_evaluated",
+  "demo_authorization_status": "not_granted",
+  "checks": [
+    "two predeclared seeds,112 new diagnostic learners,28 reused baseline artifacts",
+    "original training/score support and all68 coverage",
+    "actual fitted transforms and future poisoning",
+    "21 local and21 relocated tests",
+    "285 exact scientific payloads and actual crash/resume"
+  ],
+  "limitations": [
+    "same implementer; independent review unperformed",
+    "two seeds are not global null calibration",
+    "past-label/intercept information retained in noise-only models",
+    "inspected development dates; no winner or confirmation",
+    "per-fit research semantics, not aggregate live readiness",
+    "same-host relocation only"
+  ],
+  "utc": "2026-09-22T10:30:18.364805+00:00",
+  "reviewer": "same-implementer follow-up source/evidence review",
+  "source_engine": {
+    "schema": "forex_design_alignment_pointer.v2",
+    "package": "NOISE_CONTROLS_20260922_103014",
+    "path_forward": "NOISE_CONTROLS_20260922_103014/PATH_FORWARD.md",
+    "run_status": "NOISE_CONTROLS_20260922_103014/RUN_STATUS.json",
+    "design": "NOISE_CONTROLS_20260922_103014/specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+    "design_coverage": "NOISE_CONTROLS_20260922_103014/CURRENT_DESIGN_COVERAGE.md",
+    "current_acceptance_addendum": "NOISE_CONTROLS_20260922_103014/DESIGN_ACCEPTANCE_ADDENDUM.md",
+    "manifest": "NOISE_CONTROLS_20260922_103014/MANIFEST.json",
+    "manifest_sha256": "b2f44adcd6c8c45459aaac8d7c41e124a6b36ecb47850fd1fe4b6208c5af469d",
+    "readback": "NOISE_CONTROLS_20260922_103014/PACKAGE_READBACK.json",
+    "active_integrity_batch": "ALL68_INTEGRITY_BATCH_05_20260921.md",
+    "active_integrity_batch_scope": "two fixed nuisance seeds and112 new diagnostic learner artifacts on original support; no selection or confirmation",
+    "historical_package": "DESIGN_ALIGNMENT_20260921",
+    "scope": "current_verified_queue_and_bounded_recovery",
+    "cloud_sync_verified": false
+  }
+}

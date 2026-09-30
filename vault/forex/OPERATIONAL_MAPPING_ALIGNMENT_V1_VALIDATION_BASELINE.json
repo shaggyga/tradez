@@ -1,0 +1,136 @@
+{
+  "schema_version": "forex_operational_mapping_alignment_validation_v1",
+  "generated_utc": "2026-09-01T14:21:36Z",
+  "change_id": "FX-20260901-OPERATIONAL-MAPPING-CLOCK",
+  "status": "validated_deployed_collecting",
+  "problem": "The frozen V7R3 mover diagnostic admitted source events by their source-event effective clock without proving that the downstream semantic mapping was operationally available before move onset.",
+  "resolution": "Preserve V7R3 unchanged and prospectively seal a separate movement-conditioned research arm that admits only exact-current general-news or official fast-lane mapping receipts whose operational clock is at or before move onset.",
+  "contract": {
+    "contract_id": "move_first_operational_mapping_alignment_v1_receipt_backed_prospective_20260901T140000Z",
+    "cohort_id": "move_first_operational_mapping_alignment_v1_prospective_20260901T140000Z",
+    "activated_utc": "2026-09-01T14:00:00Z",
+    "historical_rows_imported": 0,
+    "source_case_contract_id": "live_move_news_snapshot_v7r3_transitive_factor_root_union_20260827",
+    "source_case_cohort_id": "move_first_live_case_capture_v4_prospective_20260901T070500Z",
+    "news_mapping_contract_id": "news_source_governance_fast_lane_v2_first_seen_prospective_20260901",
+    "official_mapping_contract_id": "official_fast_lane_source_governance_adapter_v2_communications_prospective_only_20260828T150000Z",
+    "operational_clock_rule": "max_source_effective_detail_available_and_mapping_receipt_available_utc",
+    "lookback_minutes": 120
+  },
+  "validation": {
+    "focused_test_command": "python -m pytest -q trad/test_oanda_move_first_operational_mapping_alignment_v1.py trad/test_oanda_project_integrity_audit.py trad/test_forex_model_vault_sync.py",
+    "focused_tests_passed": 65,
+    "focused_tests_failed": 0,
+    "causality_cases": [
+      "pre_move_first_seen_with_post_move_mapping_receipt_is_excluded",
+      "pre_move_receipt_backed_mapping_is_included",
+      "unreceipted_legacy_mapping_is_excluded",
+      "obsolete_mapping_contract_is_excluded",
+      "official_and_general_news_receipts_are_supported_separately",
+      "syndicated_identical_headlines_do_not_inflate_independent_story_count"
+    ],
+    "immutability_cases": [
+      "later_receipt_cannot_rewrite_a_sealed_case",
+      "valid_upstream_case_mutation_after_sealing_is_rejected",
+      "source_capture_database_bytes_are_unchanged_by_the_sidecar",
+      "later_factor_root_merge_does_not_rewrite_an_earlier_report_cutoff",
+      "preactivation_cases_are_never_backfilled"
+    ],
+    "safety_cases": [
+      "selection_conditioned_on_realized_executable_move_is_explicit",
+      "predictive_backtest_eligible_is_false",
+      "promotion_eligible_is_false",
+      "execution_eligible_is_false",
+      "can_authorize_is_false",
+      "can_place_orders_is_false",
+      "execution_decision_is_no_trade"
+    ],
+    "ledger_sqlite_integrity": "ok",
+    "project_integrity_status": "ok",
+    "project_integrity_failure_count": 0,
+    "project_integrity_check": "move_first_operational_mapping_alignment_current_receipt_backed_and_inert",
+    "project_integrity_check_passed": true,
+    "hot_path_full_source_database_integrity_scan_removed": true,
+    "full_database_integrity_delegated_to_independent_integrity_worker": true
+  },
+  "initial_live_snapshot": {
+    "sampled_report_generated_utc": "2026-09-01T14:15:45.032265Z",
+    "sealed_source_case_count": 5,
+    "resolved_factor_episode_count": 3,
+    "receipt_backed_event_count": 19,
+    "receipt_backed_independent_story_count": 19,
+    "mapping_kind_counts": {
+      "general_news_fast_lane": 19
+    },
+    "legacy_recent_story_mapping_status_counts": {
+      "admitted": 15
+    },
+    "legacy_broad": {
+      "signaled_episode_count": 2,
+      "aligned_episode_count": 2,
+      "opposed_episode_count": 0,
+      "abstained_episode_count": 1
+    },
+    "receipt_backed_broad": {
+      "signaled_episode_count": 2,
+      "aligned_episode_count": 0,
+      "opposed_episode_count": 2,
+      "abstained_episode_count": 1
+    },
+    "receipt_backed_strict": {
+      "signaled_episode_count": 0,
+      "abstained_episode_count": 3
+    },
+    "technical_continuation_control": {
+      "signaled_episode_count": 3,
+      "aligned_episode_count": 3
+    },
+    "interpretation": "Tiny, realized-move-conditioned diagnostic only. The first receipt-backed broad semantic votes opposed the observed moves while strict news abstained and the label-derived technical continuation control aligned. This is not predictive proof and cannot justify promotion or execution."
+  },
+  "runtime": {
+    "project_worker_pid_at_validation": 25620,
+    "project_worker_registered_in_supervisor_config": true,
+    "project_worker_supervised": true,
+    "controlled_supervisor_reload": {
+      "old_supervisor_pid": 22180,
+      "new_supervisor_pid": 24064,
+      "watchdog_pid": 20824,
+      "watchdog_state_generated_utc": "2026-09-01T14:21:35.4003988Z",
+      "lease_owned": true,
+      "supervisor_process_count": 1,
+      "supervisor_heartbeat_age_sec": 6.346,
+      "health_reason": "",
+      "action": "none",
+      "restart_count_in_window": 1,
+      "restart_circuit_open": false,
+      "python_children_preserved": true,
+      "sidecar_pid_preserved": true,
+      "observation_note": "The first 30-second state-publication wait expired, but process inspection showed the replacement supervisor had already launched; the next authoritative watchdog generation reconciled one healthy supervisor."
+    },
+    "codex_automation_created": false,
+    "practice_account_id": "101-001-37981792-007",
+    "practice_balance": 41.6042,
+    "practice_nav": 41.6042,
+    "practice_cumulative_pl": -8.343,
+    "open_trade_count": 0,
+    "pending_order_count": 0,
+    "quoted_instrument_count": 68,
+    "qualified_signal_count": 0,
+    "nonconflicting_qualified_signal_count": 0,
+    "selected_signal": null,
+    "clock_status": "ok",
+    "free_disk_gib": 150.89,
+    "real_money_enabled": false
+  },
+  "sha256": {
+    "oanda_move_first_operational_mapping_alignment_v1.py": "2bbc06815567a1c145f5a07c6b2cc00e73b02e0327fd5d9bc1bbe3cdf9d339a2",
+    "test_oanda_move_first_operational_mapping_alignment_v1.py": "ef10ccdd93e4a7a2e011020b3b4f93a4979806fa6880e15fc884dc00d7bae0da",
+    "config/move_first_operational_mapping_alignment_v1_20260901.json": "8b9ba8f62dd3bba919f8f2c781ae63e4aadf2094348c283203d6da38f58399bd",
+    "oanda_project_integrity_audit.py": "7872f635a6682298fdf4b224e14fbdaf66a599ba417fc0b18d1f326dfdd04850",
+    "test_oanda_project_integrity_audit.py": "ae14787e73a3d98a7495cdbda950ce2d0b73f01afe4fa280eb387d3bd5fb378a",
+    "oanda_always_on_supervisor.ps1": "53c322a6a75194b82f90bb9aa92f1659b514b0472ca0bd109768c44360907439",
+    "forex_model_vault_sync.py": "f9a2f2846ffc4341d812403d11051ed3150aa14d4a3c3cf52ffcf49d50bde47e",
+    "test_forex_model_vault_sync.py": "89272928e7348bbce7a336df49a4c9f8eb754fe18f5e967c0683056df98c3cb4",
+    "sampled_current_report": "08352d20b18a8b99cfdfa2d42f3afd72520c7214cd3ff4dcbae5c41e99441b9f"
+  }
+}

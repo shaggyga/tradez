@@ -1,0 +1,15 @@
+{
+  "recipe": "source_snapshot/MACRO_METER_OPERATOR_RECIPE.json",
+  "recipe_sha256": "e449946668804027115ddd66df16725d2e0c5dd5bbe5e3d83953f13488920147",
+  "scope": "WP6 shared currency concept meter and offline evidence drilldown",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify"
+  ],
+  "bootstrap": "checkpoint/forex_macro_meter.zip",
+  "contract": "source_snapshot/MACRO_METER_CONTRACT_V2.md",
+  "next": "review_macro_meter_checkpoint_v2"
+}

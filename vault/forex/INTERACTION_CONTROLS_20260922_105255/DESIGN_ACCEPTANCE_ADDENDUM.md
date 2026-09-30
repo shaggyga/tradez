@@ -1,0 +1,1 @@
+Bounded design11.2/11.3, R03/R04/R09/R13/R14, WP7/WP9/WP10; meaningful original-support, positive-control, recovery and relocation checks. Broader family selection and confirmation remain open.

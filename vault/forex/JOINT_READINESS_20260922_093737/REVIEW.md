@@ -1,0 +1,18 @@
+# Joint readiness and original-artifact fallback
+
+A deterministic one-worker schedule reserves30 seconds for each of56 original fit pairs and112 seconds at each of20 origins for56 prediction slots. Fits defer around prediction reservations. The complete fit reservation ends952 seconds after each original cutoff. Selection occurs at the original decision, so a model that becomes ready during a later prediction slot cannot enter that decision. An adaptive procedure falls back to the initial artifact while its update is pending. Frozen selection remains initial-only.
+
+The separately identified tape has143904 forecasts and152320 coverage rows:7072 have no jointly ready model and1344 have missing features.3484 emitted forecasts use prior-ready fallback.112 score groups use actual projected support.112 original model artifacts reproduce all emitted values without fitting. Original prediction, model, target and training lineage are retained. Forecast identity depends on fixed scheduling policy and the selected source record, not future model inventory. Original experiments remain unchanged.
+
+1068 measured prediction batches stay within their two-second per-batch cap;52 slots lack a ready model. Main-run maximum batch time is1.516 seconds. Sums of measured batches by origin are1.720–4.452 seconds, excluding preparation/index/output/host overhead; these sums are not whole-origin live benchmarks.112-second reservations are conservative modeled capacity, not measured live latency. Under the existing two-second conditioning-age gate,2696 forecasts are age-eligible and141208 are stale. Age eligibility alone is not native/policy admission. JR-CAPACITY-1 records these limitations without relaxing gates.
+
+21 local and21 relocated scoped tests pass, including exact original value/lineage/clock checks, genuine prior-ready fallback, all68 coverage, high-precision score reconciliation, pre-publication concealment and stale conditioning, source/consumed-model drift, exclusive writer/false completion, two actual process-death/resume boundaries and a full projection with fitting and network disabled. The checkpoint reconstructs the original dependency chain in a new directory and reproduces all116 scientific payloads. Variable prediction_resources.json remains separately authenticated and bounded. Upstream full test suites are not rerun or counted in these21 tests.
+
+Engineering_ready=false. This is inspected development scheduling evidence, not confirmation, live service capacity, current feed health or execution authorization. Same-implementer review is not independent review. The prepared-feature timing scope does not establish ingestion/cold-start/full-service latency. Same-host Windows relocation is verified; a second physical machine remains unqualified.
+
+Next: a scoped official-context dependency-lock repair. The previous standalone macro recipe omitted NumPy, which its shared contracts module imports. Preserve the previous packet, add the pin and a drift test, reissue and verify byte-identical scientific outputs. Then continue blocked_time_and_leak_positive_controls_v2. GPT/advisor, paid-call, broker/service/account and D-drive scopes remain deferred.
+
+Main projection took178.484 seconds and sampled762753024bytes aggregate RSS. Dependency reconstruction and relocated verification took 1783.515 seconds and sampled 1057624064bytes RSS.
+
+
+Checkpoint: checkpoint/forex_joint_readiness.zip, SHA256 d398b6d9be79f6c0577da3ad8c3c4529e88f51eed8352f5dba5828e0fe079827. Exact next: review_joint_readiness_checkpoint; then official_context_dependency_lock_repair_v2. Prior checkpoints remain sealed in their original packages; approvals reference them without duplicating archives.

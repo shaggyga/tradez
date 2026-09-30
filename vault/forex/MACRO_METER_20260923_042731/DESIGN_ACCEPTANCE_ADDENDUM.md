@@ -1,0 +1,1 @@
+WP6 shared currency concept meter and offline evidence drilldown; pinned offline recipe, refusal/crash recovery tests and unrelated-folder exact replay. Design14.2–14.5. No activation, forecast improvement or independent review claimed.

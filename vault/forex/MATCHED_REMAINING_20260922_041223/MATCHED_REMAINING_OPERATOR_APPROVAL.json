@@ -1,0 +1,15 @@
+{
+  "recipe": "source_snapshot/MATCHED_REMAINING_OPERATOR_RECIPE.json",
+  "recipe_sha256": "258f08e78ef3d60076a51cf6e1e5dd20e56d49d8bb92d215e20f5d46dd8cb470",
+  "scope": "direct matched remaining forecasts and original native curve preparation; no policy execution",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify"
+  ],
+  "bootstrap": "checkpoint/forex_matched_remaining.zip",
+  "contract": "source_snapshot/MATCHED_REMAINING_CONTRACT_V2.md",
+  "next": "review_matched_remaining_native_checkpoint"
+}

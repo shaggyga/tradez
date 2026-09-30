@@ -1,0 +1,37 @@
+{
+  "implementation_status": "campaign_inspection_report_verified",
+  "verification": {
+    "local_tests_passed": 25,
+    "relocated_tests_passed": 25,
+    "report_payloads_identical": 3,
+    "model_chain_payloads_identical": 125,
+    "policy_payloads_identical": 208
+  },
+  "engineering_ready": false,
+  "forecast_evidence_status": "bounded_development_only",
+  "policy_evidence_status": "declared_candle_scenarios_only",
+  "demo_authorization_status": "not_granted",
+  "step_id": "matched-campaign-report-reconciliation",
+  "review_status": "ready_for_review",
+  "independent_review": false,
+  "next_action": "review_campaign_inspector_checkpoint",
+  "deferred_engineering_next_item": "populated_rolling_feature_registry_reconciliation_v2",
+  "checkpoint_sha256": "f647d8869ea60c55ba18c971f87daa16a25014bdeef589ce6d37f36b48918598",
+  "source_predecessor": {
+    "schema": "forex_design_alignment_pointer.v2",
+    "package": "MATCHED_POLICY_20260922_044505",
+    "path_forward": "MATCHED_POLICY_20260922_044505/PATH_FORWARD.md",
+    "run_status": "MATCHED_POLICY_20260922_044505/RUN_STATUS.json",
+    "design": "MATCHED_POLICY_20260922_044505/specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+    "design_coverage": "MATCHED_POLICY_20260922_044505/audit/DESIGN_COVERAGE.md",
+    "current_acceptance_addendum": "MATCHED_POLICY_20260922_044505/DESIGN_ACCEPTANCE_ADDENDUM.md",
+    "manifest": "MATCHED_POLICY_20260922_044505/MANIFEST.json",
+    "manifest_sha256": "f573b6d1a224ff9549bb0f7b2aa94b1a3124760348f0e2cfa24e2ea8960f8b84",
+    "readback": "MATCHED_POLICY_20260922_044505/PACKAGE_READBACK.json",
+    "active_integrity_batch": "ALL68_INTEGRITY_BATCH_05_20260921.md",
+    "active_integrity_batch_scope": "two learned methods, two declared candle scenarios, isolated policies, no observed execution",
+    "historical_package": "DESIGN_ALIGNMENT_20260921",
+    "scope": "current_verified_queue_and_bounded_recovery",
+    "cloud_sync_verified": false
+  }
+}

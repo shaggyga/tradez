@@ -1,0 +1,36 @@
+{
+  "schema_version": "forex_approved_operator_recipe.v2",
+  "recipe": "synthetic_accounting_reference_optimized",
+  "sources": {
+    "forex_operator_v2.py": "d607e1df0796ad4e6b599d32c592e0b115b0ade3b017cf4adee9b291d1568bd1",
+    "accounting_events_v2.py": "8564f006fd5530760f206a6c4fe8ab13f7739a65cfd5d9a25de605aafd33dc00",
+    "accounting_fastpath_v2.py": "dd16edb548a7d6d3d76163e673919f74a55847eb85597fbdf1ba742241ba01f8",
+    "accounting_event_fixtures_v2.py": "8158aaaee53a03b64e606623035c2790d6f6fcbdfac06937ce08db28f7f9e4d9",
+    "accounting_event_audit_v2.py": "788d2185dcdb60515951765f1d1d3e9a3ed6a927dffc7c3cde1d87ebf1c2485c",
+    "accounting_event_runner_v2.py": "3ea361a54f7aecfc4b28057125e596fd586be05dae3f9475c3b2b855fd7a1b4b",
+    "reference_accounting_adapter_v2.py": "69842a08572b39faa0f394be2d8280ab20b9aa08d51c4f9b2facb479fb29302d",
+    "publication.py": "51e3eb20cee191a24b74c708bd5c54b25b8ea4a1042248e6a4a96bfebd81d797",
+    "contracts.py": "3a1776f0862f6bb4bc3ba73f4c0febec573350d712aa50e9dbcc0e253b11aecd"
+  },
+  "predecessors": {
+    "oanda_curve_management_replay_v1.py": "52fd04c6b087df4be775e490002afd0744caeb245604b8f577ab0fcff41de8f3",
+    "src/forex_system/research/sequential_portfolio_replay_v1.py": "e1201fdd3387825c9295f13045aeb00e2f87cce9ff819e789faf922ea2e514a6"
+  },
+  "environment": {
+    "python": "3.12.10",
+    "packages": {
+      "numpy": "2.5.1",
+      "pyarrow": "25.0.0",
+      "tzdata": "2026.3",
+      "pytest": "9.1.1"
+    }
+  },
+  "run_ids": {
+    "reference": "operator-accounting-reference",
+    "optimized": "operator-accounting-optimized"
+  },
+  "engineering_ready": false,
+  "forecast_evidence_status": "no_new_evidence",
+  "policy_evidence_status": "synthetic_only",
+  "demo_authorization_status": "not_granted"
+}

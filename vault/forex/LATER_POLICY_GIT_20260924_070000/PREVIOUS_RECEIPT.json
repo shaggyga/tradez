@@ -1,0 +1,42 @@
+{
+  "schema": "forex_shared_git_operation.v2",
+  "status": "COMPLETE",
+  "utc": "2026-09-24T05:53:33.550674+00:00",
+  "repository": "https://github.com/shaggyga/tradez",
+  "branch": "forex",
+  "default_branch": "forex",
+  "source_commit": "977f018a86a0beb0f041c627f46d4ee986c14a19",
+  "handoff_document_commit": "977f018a86a0beb0f041c627f46d4ee986c14a19",
+  "remote_sha": "977f018a86a0beb0f041c627f46d4ee986c14a19",
+  "remote_push_verified": true,
+  "handoff_packet": "LATER_REMAINING_SURFACE_20260924_060000",
+  "handoff_manifest_sha256": "a03ab2ecc326d771e76fb554353b1af8ef4a74c43637fdd53a1808a80e5ed9eb",
+  "scientific_next_item": "later_remaining_layer_policy_comparison_v2",
+  "next_action": "Freeze later layer policy comparison with shifted dates, common costs/risk/sizing and exact verified surface; no base refits.",
+  "independent_source_review": "pending_nonblocking_by_user_clarification",
+  "independent_review": false,
+  "same_task_review": "accepted_within_scope",
+  "prior_operation_reference": {
+    "path": "LATER_SURFACE_GIT_20260924_060000/PREVIOUS_RECEIPT.json",
+    "sha256": "26b76d5e67393c3f052c6c304974a7e46a58a3c8ea5f148a135d70dba1c02ab1"
+  },
+  "checkpoint": {
+    "vault_relative_path": "LATER_SURFACE_GIT_20260924_060000/forex-later-surface.bundle",
+    "sha256": "b3d0205fcaa27e7bfd7ca50754dcd42f5a5beeda5bbc174315f019cd324b6325",
+    "bytes": 20439526,
+    "bundle_verify": "PASSED",
+    "remote_same_commit_verified": true,
+    "fresh_restore_verified": true,
+    "restore_command": "git -c core.longpaths=true clone --branch forex <bundle-path> forex",
+    "fresh_restore_receipt": "LATER_SURFACE_GIT_20260924_060000/GIT_RESTORE_RECEIPT.json",
+    "fresh_restore_receipt_sha256": "80cd135bce7a4c6afb50b80995ab237d6011cd44a3c6e0d03825706b4ccfd9b6"
+  },
+  "layer_regression_inventory": 32,
+  "new_absolute_estimators_fitted": 10,
+  "signed_models_refitted": 0,
+  "portable_base_refits": 0,
+  "base_fit_pairs_loaded_per_replay": 16,
+  "portable_layer_recomputation": true,
+  "model_loading": "authenticated_saved_weights; current_inference_fresh_at_each_origin",
+  "cloud_sync_or_second_machine_execution_verified": false
+}

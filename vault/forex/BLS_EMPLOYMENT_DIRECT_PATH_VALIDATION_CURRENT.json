@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-09-04T18:02:12Z",
+  "issue_id": "FX-20260904-BLS-EMPLOYMENT-RELEASE-T0",
+  "status": "implemented_collecting",
+  "miss": {
+    "event_utc": "2026-09-04T12:30:00Z",
+    "event": "United States Employment Situation and Canada Labour Force Survey",
+    "largest_checked_pair": "USD_CAD",
+    "five_minute_factor_move_bps": 53.213,
+    "gross_move_pips": 73.4,
+    "executable_net_pips": 70.5,
+    "direct_bls_clock_available_at_decision": false,
+    "retrospective_credit_allowed": false
+  },
+  "repair": {
+    "calendar_source_id": "bls_employment_situation_calendar_2026_v1",
+    "release_source_id": "bls_employment_situation_current_release_v1",
+    "source_contract_id": "bls_employment_situation_current_release_v1_20260904",
+    "numeric_extraction_contract_id": "bls_employment_situation_allowlisted_components_v1_20260904",
+    "mutable_container_versioning": "material_content_sha256",
+    "first_snapshot_policy": "bootstrap_only_no_proof_credit",
+    "consensus_state": "unavailable_fail_closed",
+    "next_untouched_scheduled_release_utc": "2026-10-02T12:30:00Z"
+  },
+  "live_validation": {
+    "http_status": 200,
+    "response_bytes": 62353,
+    "parsed_items": 4,
+    "parsed_payroll_change": 162000,
+    "parsed_unemployment_rate_percent": 4.1,
+    "parsed_average_hourly_earnings_monthly_percent": 0.3,
+    "parsed_prior_payroll_revision_total": 55000
+  },
+  "artifacts": [
+    {"path": "config/news_sources_v1.json", "sha256": "1e718f78017d0f913f5ae856e7f1517ab51d46f6d4bdc179e280a9b9699a045d"},
+    {"path": "config/official_currency_source_depth_v1.json", "sha256": "2ea888494bd7a8496e88ec920211be4fdc62b5156c30b719dfa4268cb1cafa6f"},
+    {"path": "oanda_local_news_sentiment.py", "sha256": "296d91f7698421daa0aa2158c6ef35cd9522cbf7042f1bc961e11ba032f09f04"},
+    {"path": "test_oanda_local_news_sentiment.py", "sha256": "53a1225dc8ff66f227c945bb7d3e699bb3d43cf6b79202dee5d1f6760a2307b4"}
+  ],
+  "safety": {
+    "research_only": true,
+    "can_promote": false,
+    "can_authorize": false,
+    "can_place_orders": false,
+    "real_money_routing": false,
+    "manual_orders_placed": 0,
+    "manual_positions_closed": 0
+  }
+}

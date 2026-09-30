@@ -1,0 +1,1 @@
+WP6/R05/R14. Original guard reused, six local/six restored tests, five exact outputs. Offline mismatch identified; live state not certified.

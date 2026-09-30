@@ -1,0 +1,15 @@
+{
+  "recipe": "source_snapshot/MACRO_RECEIPT_OPERATOR_RECIPE.json",
+  "recipe_sha256": "c1d5a75b548c4966467a60f403a76a24402ed54410d915ca3b37d66ed0867035",
+  "scope": "offline exact parsed-receipt capture, bounded publication population, no outcome or forecasting claim",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify"
+  ],
+  "bootstrap": "../MACRO_RECEIPT_CAPTURE_20260922_161535/checkpoint/forex_macro_receipt_population.zip",
+  "contract": "source_snapshot/MACRO_RECEIPT_CONTRACT_V2.md",
+  "next": "review_macro_receipt_capture_checkpoint_v2"
+}

@@ -1,0 +1,20 @@
+{
+  "schema": "forex_checkpoint_review.v1",
+  "utc": "2026-09-25T03:40:58.625358Z",
+  "step_id": "macro_numeric_observation_asof_state_v2",
+  "status": "complete_reuse_existing_packet_no_duplicate_run",
+  "verdict": "accepted_within_scope_same_task_review",
+  "independent_review": false,
+  "independent_review_status": "pending_nonblocking_by_user_clarification",
+  "scope": "current queue closure against existing macro numeric state packet; no fit/replay/API/broker/live-bot/D-drive/EURUSD work",
+  "preexisting_packet": "MACRO_NUMERIC_STATE_20260922_200911/REVIEW.json",
+  "preexisting_review_sha256": "46482ffb9ea47702306be268114b597e2069232da60e57c5d2683fddd7f87c40",
+  "verification": {
+    "local_tests_passed": 13,
+    "relocated_tests_passed": 13,
+    "identical_payloads": 5
+  },
+  "result": "source_asof_numeric_observations_not_verified_forecast_features",
+  "next_action": "macro_component_extraction_span_audit_v2",
+  "source_commit": "6d82b36b880e3b511e3d58abdb9f5082b5544101"
+}

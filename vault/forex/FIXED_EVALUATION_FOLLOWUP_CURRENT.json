@@ -1,0 +1,35 @@
+{
+  "schema_version": "forex_fixed_evaluation_followup_v1",
+  "updated_utc": "2026-09-06T12:01:19.796035+00:00",
+  "runtime_disposition": "intentionally_stopped",
+  "completed": [
+    "Fixed all four current families/EUR_USD/one-hour scope and exact existing cohorts/versions",
+    "Preserved1628original forecasts and nullable outcomes; independently checked368paired archived endpoints",
+    "Built strict offline scorer, same-decision baselines, target/reference binding and original-side preservation",
+    "Verified causal rolling-label filtering, rejection cases and portable evidence with158tests"
+  ],
+  "pending": [
+    {
+      "id": "FX-20260906-FOUR-FAMILY-ENTRY-TARGET-AVAILABILITY",
+      "priority": "P1",
+      "status": "open",
+      "required": "Separate successor collection must publish actual postcommit forecast availability and feature/training-label availability; use a subsequent executable quote while retaining the original forecast target.",
+      "historical_handling": "Preserve existing cohorts and results as diagnostics; never infer missing clocks or backfill old proof."
+    },
+    {
+      "id": "FX-20260906-CALIBRATION-REPLAY-ISSUE-CLOCK",
+      "priority": "P1",
+      "status": "open",
+      "required": "Legacy calibration replay still lacks original-issue-time label availability. The new causal baseline helper supplies a tested separate evaluation path; it does not repair or activate the legacy producer."
+    },
+    {
+      "id": "FIXED-EVALUATION-FRESH-PROSPECTIVE-STUDY",
+      "status": "not_started",
+      "required": "A new immutable contract and untouched future sample with the required clocks, baseline comparisons and independent evidence; no restart or collection was authorized by this offline evaluation."
+    }
+  ],
+  "other_optimization_priorities": "FOREX_OPTIMIZATION_BACKLOG_20260906.json",
+  "no_parameter_tuning": true,
+  "no_model_selected": true,
+  "no_collection_activation": true
+}

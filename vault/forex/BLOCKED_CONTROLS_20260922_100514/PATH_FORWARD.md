@@ -1,0 +1,2 @@
+Next: review_blocked_controls_checkpoint, then matched_irrelevant_feature_controls_v2.
+Predeclare noise-only8 and legacy26-plus-noise8 for two fixed seeds on original mature support. Report all attempts and scores without selecting a seed, then verify an interaction-only path.

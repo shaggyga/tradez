@@ -1,0 +1,1 @@
+Bounded design9.2/9.3, R03/R05/R09/R13/R14, WP4/WP9/WP10; scalar oracle, maturity, recovery and relocation verified. Qualified calendars and long path support remain open.

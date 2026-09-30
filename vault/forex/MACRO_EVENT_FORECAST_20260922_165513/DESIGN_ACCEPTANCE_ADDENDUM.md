@@ -1,0 +1,1 @@
+WP6/7,R03/R04/R05/R09/R10/R14, design14.2 and bounded family ablation. Six unique fixed fits, matched mature support and train-only transforms, all68 coverage.14 local/14 restored tests include future-data controls and exact crash/relocation. Negative result retained. No historical issuance, independent confirmation, policy profit or live readiness.

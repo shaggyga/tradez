@@ -1,0 +1,98 @@
+{
+  "storage_version": "current_meter_content_addressed_store_v1_20260912",
+  "files": {
+    "src/meter_store_v1.py": "cbcac462325a72b59b0f144938c8d72a15ced3752e4609c0c0559fc3951f5bba",
+    "tests/test_meter_store_v1.py": "3aed8bdfb5f14f0e0fd88ff8c5b712ac4d70579482292c2f81bc023b7f65b5ab"
+  },
+  "focused_tests": {
+    "passed": 49,
+    "command": "python -m pytest tests/test_meter_store_v1.py -q"
+  },
+  "reused_design_source": "trad/oanda_news_capture_storage_v1.py",
+  "reused_principles": [
+    "Canonical JSON content-addressed evidence, immutable originals and bounded decompression.",
+    "New storage descriptor preserves all original source semantics and clocks; storage integrity does not certify source meaning or freshness."
+  ],
+  "storage_design": [
+    "Every exact original article row version is encoded with the original collector's compact sorted-key ensure_ascii=True JSON encoding, compressed with zlib and keyed by its canonical SHA256.",
+    "An ordered list of original row hashes is itself a content-addressed compressed blob. Identical selections reuse the complete manifest, with one capture-to-manifest reference.",
+    "Raw envelope metadata and full feature JSON are separate canonical blobs. Reconstruction recreates the original_rows list in exact order, retaining duplicates and original JSON string field bytes.",
+    "One source contract, cohort and source-bindings digest per store; canonical UTC context-bucket identity prevents duplicate equivalent-time publications.",
+    "SQLite DELETE journal, synchronous=FULL, foreign keys and UPDATE/DELETE rejection triggers protect normal append-only API use. These protections do not authenticate a database against a privileged administrator who can rewrite schema and hashes.",
+    "Payload commit precedes a separate read-only connection's full exact reconstruction. The actual subsequent wall clock is recorded in a separately committed publication receipt. A final read verifies the receipt.",
+    "An interrupted receipt phase can leave a complete, explicitly unpublished payload. Public read_capture rejects it; recover_pending reconstructs it and records a new current ready clock, retaining the original old context clock.",
+    "No broker, network, producer, historical backfill, activation or source-database writes."
+  ],
+  "capacity_policy": {
+    "max_database_bytes_default": 536870912,
+    "max_unique_logical_bytes_default": 2147483648,
+    "min_free_disk_bytes_default": 268435456,
+    "root_worker_min_free_disk_bytes_requested": 2147483648,
+    "note": "Unique logical bytes count canonical blobs once. Database page count separately bounds references, metadata and receipts. Preflight disk reserve includes the existing database size for a worst-case rollback journal plus planned new compressed data. No persistent WAL/SHM is produced. Capacity failures never evict old evidence; transactions roll back or leave only an explicitly unpublished payload if a crash or disk change occurs after phase one."
+  },
+  "actual_input_recreation": {
+    "source_database_opened_read_only": "direction_decision_20260911/event_bridge/fresh_captures.sqlite",
+    "destination": "Disposable temporary SQLite database, removed by test cleanup; no original database modified.",
+    "reconstruction_only": true,
+    "new_receipts_are_current_replay_observations_not_original_availability": true,
+    "captures": [
+      {
+        "capture_id": "20260912T031031692286Z_1d9d1510624f48bb99cd1954010badff",
+        "source_rows": 5357,
+        "old_compressed_raw_bytes": 3446690,
+        "publication_seconds": 10.32,
+        "publication_plus_external_recreation_seconds": 14.061,
+        "exact_raw_and_feature_bytes": true,
+        "unique_blobs": 5360,
+        "unique_logical_bytes": 64892373,
+        "stored_blob_bytes": 17582897,
+        "database_bytes": 23060480,
+        "peak_working_set_bytes": 540966912,
+        "peak_pagefile_usage_bytes": 538443776
+      },
+      {
+        "capture_id": "20260912T031355712542Z_59ce0b4c591c4eeda3b92865b0d79958",
+        "source_rows": 5357,
+        "old_compressed_raw_bytes": 3446689,
+        "publication_seconds": 16.565,
+        "publication_plus_external_recreation_seconds": 20.821,
+        "exact_raw_and_feature_bytes": true,
+        "unique_blobs": 5362,
+        "unique_logical_bytes": 64942388,
+        "stored_blob_bytes": 17586912,
+        "database_bytes": 23068672,
+        "peak_working_set_bytes": 544399360,
+        "peak_pagefile_usage_bytes": 546156544
+      }
+    ],
+    "second_capture_increment": {
+      "database_bytes": 8192,
+      "compressed_blob_bytes": 4015,
+      "unique_blobs": 2,
+      "all_original_rows_and_ordered_manifest_reused": true
+    },
+    "limitation": "Per-row compression initially uses more space than compressing one complete snapshot. The measured 8192-byte increment reflects unchanged rows in these two captures, not a guarantee for future article-version churn.",
+    "benchmark_source_sha256": "286f7bce4e35d524bb2b9ee11f228d0b07921bf21e6620238662149ee3b3adb4",
+    "benchmark_note": "The previously recorded exact-payload timings/memory/growth were measured before the additive metadata-header helper. Existing publish, deduplication, payload reconstruction and receipt semantics are unchanged by this addition."
+  },
+  "memory_optimization": {
+    "change": "Verified readers perform metadata validation directly on exclusively owned decoded blobs, avoiding a second complete copy and write-preparation pass. Every compressed/canonical/full-envelope hash and bound is still checked.",
+    "before_standalone_peak_pagefile_usage_bytes": 736428032,
+    "after_scope": "Two complete publish and external-replay operations in one standalone process; excludes root producer and child orchestration."
+  },
+  "publication_header_addendum": {
+    "recorded_utc": "2026-09-12T03:59:21.188786+00:00",
+    "api": "publication_header(database,capture_id)",
+    "scope": "Metadata only, for startup clock seeding and bounded-child recovery routing; does not read payload blobs or establish full feature authority/freshness.",
+    "checks": [
+      "SQL bounds every metadata field and receipt before fetching.",
+      "Stored receipt SHA verified; capture/contract/cohort/raw/feature/source identities and inert flags match the capture metadata.",
+      "Context clock is canonical UTC; context <= computation completion <= observed publication.",
+      "Missing capture raises capture_missing; pending returns published=false and observed_ready_utc=null."
+    ],
+    "validation": "Three added tests (nine cases) cover no-blob reads, missing/pending, identity/hash/clock drift, and oversized metadata/receipts.",
+    "publication_dedup_math_changed": false,
+    "prior_receipt_file": "STORAGE_DESIGN_RECEIPT_20260912_BEFORE_PUBLICATION_HEADER.json",
+    "prior_receipt_sha256": "7dc539b71eae18690a1179e7055a6c862f8d02596185e2b6e7bef035b268d80a"
+  }
+}

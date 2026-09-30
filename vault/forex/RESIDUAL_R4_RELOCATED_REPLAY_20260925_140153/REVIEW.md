@@ -1,0 +1,7 @@
+# REV-02 relocated residual replay
+
+The existing residual result was reproduced from relocated parent inputs, solver, five source members and 195 preserved projection payloads. The output is byte-identical to the preserved 59,349,278-byte result (SHA-256 `a1c518b93224cfeeb7a1f66ed5905ffb5d7138f0021f8c3bee50383b72bb295c`). The guarded replay denied original dependency roots, recorded zero attempted reads there, and loaded scoped modules from the restored source. Fourteen focused tests passed.
+
+This is replication of the previously reported numerical result, not a new comparison or a new fit. Same-task substantive review checked source/input identity, guarded module locations, output hash and test record. Independent review of this repair remains separate. Forecast and trading-readiness conclusions are unchanged.
+
+Exact machine-specific argv, remapping and resource limits are in `replay/COMMAND.json`, `replay/PATHS.json` and `replay/RUN_CONTRACT.json`. The three scripts under `replay/` retrieve authenticated dependencies, enforce original-root denial and launch the bounded run. Replace the saved absolute workspace prefix with the replica path after retrieval. Parent capsule SHA-256 `9de8bfcc8a0f350391d7ccc937f0d3b08d248d9f146be43fb045b45e6db1091f`; saved projection identity `5c8cb84166076bcdba4724dc277c32e2520de4f548869adca3491807ef10b0d3`. Local output: `C:\Users\zmoor\Documents\forex\evidence\four_hour_20260925_135023\residual_r4_relocated\RESIDUAL_RESULT_REPLAY.json`. Next: `curve_authenticated_population_guard_v2`.

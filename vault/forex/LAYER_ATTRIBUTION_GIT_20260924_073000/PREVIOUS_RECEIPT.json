@@ -1,0 +1,41 @@
+{
+  "schema": "forex_shared_git_operation.v2",
+  "status": "COMPLETE",
+  "utc": "2026-09-24T06:57:43.137667+00:00",
+  "repository": "https://github.com/shaggyga/tradez",
+  "branch": "forex",
+  "default_branch": "forex",
+  "source_commit": "068baf92cd99ea107207b2da99ec65981187dfc6",
+  "handoff_document_commit": "068baf92cd99ea107207b2da99ec65981187dfc6",
+  "remote_sha": "068baf92cd99ea107207b2da99ec65981187dfc6",
+  "remote_push_verified": true,
+  "handoff_packet": "LATER_LAYER_POLICY_20260924_070000",
+  "handoff_manifest_sha256": "4c001a6d8d12a9aef63c8a97870eb2c0506031e63506d549636ac1002cb57711",
+  "scientific_next_item": "layer_policy_failure_attribution_v2",
+  "next_action": "Attribute preserved later policy failures to forecast/exposure/management before further model or policy tuning; no fits.",
+  "independent_source_review": "pending_nonblocking_by_user_clarification",
+  "independent_review": false,
+  "same_task_review": "accepted_within_scope",
+  "prior_operation_reference": {
+    "path": "LATER_POLICY_GIT_20260924_070000/PREVIOUS_RECEIPT.json",
+    "sha256": "8a4eee17cd749bd96273f1efa4d34cde17399c6e852d6cc027ba2769bf909163"
+  },
+  "checkpoint": {
+    "vault_relative_path": "LATER_POLICY_GIT_20260924_070000/forex-later-policy.bundle",
+    "sha256": "39704ab8e232243d605ddad74b459c0acd34b197e2da9ba3381ca0da4917f1eb",
+    "bytes": 20458217,
+    "bundle_verify": "PASSED",
+    "remote_same_commit_verified": true,
+    "fresh_restore_verified": true,
+    "restore_command": "git -c core.longpaths=true clone --branch forex <bundle-path> forex",
+    "fresh_restore_receipt": "LATER_POLICY_GIT_20260924_070000/GIT_RESTORE_RECEIPT.json",
+    "fresh_restore_receipt_sha256": "7a27520707b9636f481c37ed779e1a397ed6305b842640ca267cd87f41ba331e"
+  },
+  "policy_runs": 56,
+  "scientific_payloads_reproduced": 1456,
+  "base_model_fits": 0,
+  "base_model_loads": 0,
+  "layer_fits": 0,
+  "model_loading": "none; authenticated_original_forecast_packets_read_as_JSON",
+  "cloud_sync_or_second_machine_execution_verified": false
+}

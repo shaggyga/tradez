@@ -1,0 +1,13 @@
+{
+  "parent_capsule": "CURRENCY_PROJECTION_20260924_UNTIL8AM/checkpoint/CURRENCY_PROJECTION_CHECKPOINT.zip",
+  "parent_capsule_sha256": "9de8bfcc8a0f350391d7ccc937f0d3b08d248d9f146be43fb045b45e6db1091f",
+  "preserved_projection_run": "CURRENCY_PROJECTION_20260924_UNTIL8AM/run",
+  "projection_run_identity": "5c8cb84166076bcdba4724dc277c32e2520de4f548869adca3491807ef10b0d3",
+  "source_snapshot": "DESIGN_AUTHORITY_REPAIR_20260925_135023/source_snapshot",
+  "exact_source_members": 5,
+  "commands": [
+    "python -I -B replay/prepare_residual_relocation.py",
+    "python -I -B replay/launch_residual_replay.py"
+  ],
+  "note": "Scripts record the original execution paths. On another replica, set the workspace/Vault locations in the scripts and verify SHA/bytes before running. No parent projection or base-model fit is needed."
+}

@@ -1,0 +1,93 @@
+{
+  "schema_version": "practice_recovery_independent_source_review_v1_20260910",
+  "status": "passed",
+  "remaining_blockers": [],
+  "review_completed_epoch": 1789052843.6277134,
+  "review_completed_utc": "2026-09-10T15:07:23.627713+00:00",
+  "source_evidence": [
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\start_oanda_practice_recovery_v1.ps1",
+      "sha256": "c027f122be82631f0eae518f79c2bc470c5f0b505de1738eebd61d709fea0fd6",
+      "bytes": 13134
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_start_oanda_practice_recovery_v1.ps1",
+      "sha256": "03e50acc317e354af9163f1c0cee9d1b8bc61c4dfc0aa2171a2bab42cd8b2c24",
+      "bytes": 11491
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\practice_recovery_20260910\\native_checks\\NATIVE_CHECKS_20260910T150411882.json",
+      "sha256": "5685a86084a8e2f38942ee4d59e988eacf2091fe23f45a1cff7a868463268827",
+      "bytes": 5041
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\start_oanda_research_collection.ps1",
+      "sha256": "c7e2a970b6e8bb69fcdaf5b124b8d935be6326f06a6554408889e111f57f3115",
+      "bytes": 1934
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\start_oanda_practice_trial_v1.ps1",
+      "sha256": "ce3a3808682db3ad270fc628e62ce5e512ff5316c59f0174c5bc05f5fcc46daa",
+      "bytes": 2086
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\practice_recovery_20260910\\RECOVERY_BOOTSTRAP_IMPLEMENTATION_20260910.md",
+      "sha256": "b3f9ffc6bef86d7f899370e90081d5189519b88b96d96c00bdbed0daa34b0f7b",
+      "bytes": 4226
+    }
+  ],
+  "bindings": [
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\start_oanda_practice_recovery_v1.ps1",
+      "sha256": "c027f122be82631f0eae518f79c2bc470c5f0b505de1738eebd61d709fea0fd6",
+      "bytes": 13134
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\test_start_oanda_practice_recovery_v1.ps1",
+      "sha256": "03e50acc317e354af9163f1c0cee9d1b8bc61c4dfc0aa2171a2bab42cd8b2c24",
+      "bytes": 11491
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\practice_recovery_20260910\\native_checks\\NATIVE_CHECKS_20260910T150411882.json",
+      "sha256": "5685a86084a8e2f38942ee4d59e988eacf2091fe23f45a1cff7a868463268827",
+      "bytes": 5041
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\start_oanda_research_collection.ps1",
+      "sha256": "c7e2a970b6e8bb69fcdaf5b124b8d935be6326f06a6554408889e111f57f3115",
+      "bytes": 1934
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\start_oanda_practice_trial_v1.ps1",
+      "sha256": "ce3a3808682db3ad270fc628e62ce5e512ff5316c59f0174c5bc05f5fcc46daa",
+      "bytes": 2086
+    },
+    {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\practice_recovery_20260910\\RECOVERY_BOOTSTRAP_IMPLEMENTATION_20260910.md",
+      "sha256": "b3f9ffc6bef86d7f899370e90081d5189519b88b96d96c00bdbed0daa34b0f7b",
+      "bytes": 4226
+    }
+  ],
+  "reviewed_scope": [
+    "Complete new bootstrap and native extracted-function tests; existing research/trial launcher composition.",
+    "Exact four-source inventory, loaded-self hash, raw trial configuration binding, fixed practice identity and Friday cutoff.",
+    "Research-first startup, exact canonical process path and required supervisor switches, refusal on conflicting/duplicate supervisors, adoption of already running trial worker or watchdog.",
+    "Named bootstrap/child mutex composition and existing worker lock remain duplicate-prevention authority; repeated inspection before spawn is observational, not an atomic process transaction.",
+    "Read-only CheckOnly/Once paths have no child/status/mutex mutation; default writes its own bootstrap status and launches only the two existing hidden launchers.",
+    "After cutoff, bootstrap does not start research; existing trial worker independently enforces deadline and close-only behavior. No deadline extension, state reset, source/model edits or broker command added.",
+    "Windows shared-delete source reads allow existing atomic writers; post-read status clock check and between-loop rollback refusal reviewed."
+  ],
+  "owner_validation": {
+    "passed": 29,
+    "failed": 0,
+    "independently_rerun": false,
+    "receipt_sha256": "5685a86084a8e2f38942ee4d59e988eacf2091fe23f45a1cff7a868463268827"
+  },
+  "limits": [
+    "Source review only; no actual registration, launch, restart, broker request, process census or native test execution performed by reviewer.",
+    "The local source manifest is a local trust binding, not protection against an adversary controlling both source and manifest.",
+    "Process presence is not proof of fresh research outputs; existing forecast and broker/policy gates remain responsible for entry eligibility.",
+    "Logon startup requires a user logon; this does not establish pre-login boot service execution.",
+    "A crash after a successful read but before launch is not eliminated by inspection; underlying supervisor/watchdog mutex and account worker lock retain final exclusivity."
+  ]
+}

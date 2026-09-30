@@ -1,0 +1,35 @@
+{
+  "utc": "2026-09-24T14:01:28.520604+00:00",
+  "removed_duplicate_files": 5233,
+  "logical_duplicate_bytes": 36767338390,
+  "free_bytes_before": 15434993664,
+  "free_bytes_after": 43141406720,
+  "observed_free_bytes_increase": 27706413056,
+  "retained_originals_present_and_sizes_valid": 5233,
+  "per_file_sha256_verification": "both copies verified before each recorded deletion; hashes retained in journals",
+  "recovery_smoke": {
+    "status": "restored_verified",
+    "path": "checkpoint_restores/blocked_controls_20260922/family/model/matched_runs/matched-development-campaign/coverage.json",
+    "sha256": "7287bcffdb568f70fc336062d51fefb1718780eb4d9b81c870af84225cd31c9f",
+    "bytes": 15514818,
+    "model_fits": 0,
+    "policy_replays": 0
+  },
+  "safety_refusals": [
+    "parent_traversal",
+    "absolute_drive_path",
+    "rooted_path"
+  ],
+  "unique_checkpoint_restore_files_preserved": 12,
+  "databases_modified": 0,
+  "model_fits": 0,
+  "policy_replays": 0,
+  "inventory_errors": [
+    "Access denied to two pytest-cache folders; neither was changed"
+  ],
+  "limitations": [
+    "Free-space delta also reflects concurrent system activity and compression state.",
+    "One retired file was copied back for an actual recovery test and remains present.",
+    "Cleanup does not grant research or live authorization; next recipe needs its own space forecast."
+  ]
+}

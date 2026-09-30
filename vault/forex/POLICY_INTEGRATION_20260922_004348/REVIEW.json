@@ -1,0 +1,56 @@
+{
+  "step_id": "policy-thesis-continuation",
+  "implementation_status": "bounded_synthetic_verified",
+  "review_status": "ready_for_review",
+  "independent_review": false,
+  "verification": {
+    "tests": 293,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "checkpoint": {
+    "path": "checkpoint/forex_policy_integration.zip",
+    "sha256": "77d14fe10e7c2878873d21dbd39bb00d9307239b580c33b3a5ef53d668d5455b",
+    "scope": "synthetic_accounting_and_policy_fixture",
+    "relocated_replay_verified": true,
+    "relocated_tests_verified": true,
+    "packaged_accounting_and_policy_operator_verified": true,
+    "bulk_historical_archive_included": false
+  },
+  "source_predecessor": {
+    "schema": "forex_design_alignment_pointer.v2",
+    "package": "ACCOUNTING_REPAIRS_20260922_000256",
+    "path_forward": "ACCOUNTING_REPAIRS_20260922_000256/PATH_FORWARD.md",
+    "run_status": "ACCOUNTING_REPAIRS_20260922_000256/RUN_STATUS.json",
+    "design": "ACCOUNTING_REPAIRS_20260922_000256/specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+    "design_coverage": "ACCOUNTING_REPAIRS_20260922_000256/audit/DESIGN_COVERAGE.md",
+    "current_acceptance_addendum": "ACCOUNTING_REPAIRS_20260922_000256/DESIGN_ACCEPTANCE_ADDENDUM.md",
+    "manifest": "ACCOUNTING_REPAIRS_20260922_000256/MANIFEST.json",
+    "manifest_sha256": "4950e8e943acf5be309a29a61e4b5ea4a7e31426ffd6edbd79e45ea30510beaf",
+    "readback": "ACCOUNTING_REPAIRS_20260922_000256/PACKAGE_READBACK.json",
+    "active_integrity_batch": "ALL68_INTEGRITY_BATCH_05_20260921.md",
+    "active_integrity_batch_scope": "accounting review repairs verified, awaiting review; policy integration remains pending",
+    "historical_package": "DESIGN_ALIGNMENT_20260921",
+    "scope": "current_verified_queue_and_bounded_recovery",
+    "cloud_sync_verified": false
+  },
+  "review_dependency": {
+    "package": "REPAIR_REVIEW_20260922_001617",
+    "manifest": "REPAIR_REVIEW_20260922_001617/MANIFEST.json",
+    "manifest_sha256": "97e05efb5a148a19ebd0c37d91366d399d4f35ac0334f350c35d189e8174e7e2",
+    "review": "REPAIR_REVIEW_20260922_001617/REVIEW_RESULT.md",
+    "queue": "REVIEW_QUEUE.json",
+    "readback": "REPAIR_REVIEW_20260922_001617/READBACK.json",
+    "verdict": "accepted_within_scope",
+    "independent_review": false,
+    "next_engineering_item": "policy_thesis_continuation_and_operator_recipe_v2",
+    "engineering_pointer": "DESIGN_ALIGNMENT_LATEST.json",
+    "engine_scope_changed": false
+  },
+  "next_action": "review_policy_integration_checkpoint",
+  "engineering_ready": false,
+  "forecast_evidence_status": "no_new_model_evidence_neutral_issuance_only",
+  "policy_evidence_status": "unevaluated_for_design_campaign",
+  "demo_authorization_status": "not_granted_for_design_campaign"
+}

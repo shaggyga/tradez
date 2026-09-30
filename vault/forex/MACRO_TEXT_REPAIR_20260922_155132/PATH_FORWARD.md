@@ -1,0 +1,2 @@
+Next: review_macro_text_repair_checkpoint_v2, then macro_document_receipt_and_all_release_population_v2.
+Review the two repaired findings, then resume WP6 original receipt and all-release population recovery. Retain earlier data/calendar/sequence-model gaps and warm partial; do not jump to stacking.

@@ -1,0 +1,1 @@
+R05/R14, design14.2–14.4. Full retained population, exact field/text identities, explicit units/reference/vintage limitations, meaningful tests and relocated replay; no inferred surprise.

@@ -1,0 +1,3 @@
+# Exact next item
+
+`later_remaining_layer_policy_comparison_v2`. Read evidence/NEXT_CANDIDATE.json. Freeze shifted rollover and identical cost/risk/sizing/fill rules before any later policy PnL. Reuse this exact verified surface and original policy arms, with separate learner/variant states and both accounting engines. Raw matched controls share causal support with each layer; raw unrestricted remains separate. Authenticate source-native projections and full original run identities; preserve missing input/conversion/terminal cases. No base refits or model tuning. Require ledger parity, actual recovery and portable saved-weight handoff. Independent review remains pending and nonblocking.

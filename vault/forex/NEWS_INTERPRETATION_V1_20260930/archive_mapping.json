@@ -1,0 +1,346 @@
+{
+  "schema": "fx_headline_interpretation_v1.archive_review",
+  "interpreted_utc": "2026-09-30T03:01:06.773729+00:00",
+  "database": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\local_news_sentiment_v1.sqlite",
+  "scope": "selected stored headlines; not historical decision-time replay or whole-feed evaluation",
+  "source_sha256": "3552e52c15ba94ec86fdf0f081d401b50018ca5934f819ba64ce4612028a0ff3",
+  "historical_outputs_modified": false,
+  "rows": [
+    {
+      "event_id": "local_news_17e35d743ef2f01be97d8ffc",
+      "headline": "EUR/USD at a crossroads as traders await the US CPI for the next major move - investingLive",
+      "original_first_seen_utc": "2026-09-07T10:44:54.087622+00:00",
+      "stored_payload_sha256": "d40262dcd8b58bd429cf8783e43b8aeecf156764139670c2952bd8caf109e2ee",
+      "stored_classification_version": "local_fx_news_rules_20260907_v165_causal_member_admission",
+      "stored_currency_scores": {},
+      "stored_context_reason": "no_deterministic_fx_impulse",
+      "stored_directional_publish_eligible": false,
+      "interpretation": {
+        "version": "fx_headline_interpretation_v1",
+        "input_sha256": "702e9a7f9970e66537474137798910b82b3aa5f02801699a2b86a0d60c7454be",
+        "input_scope": "headline_only",
+        "claims": [
+          {
+            "kind": "inflation_context",
+            "evidence": "EUR/USD at a crossroads as traders await the US CPI for the next major move - investingLive",
+            "currency": null,
+            "direction": null,
+            "status": "surprise_unknown",
+            "mechanism": "inflation_to_policy_requires_consensus_and_repricing",
+            "instrument": null
+          }
+        ],
+        "interpretation_status": "claims_extracted",
+        "surprise": "unknown",
+        "forecast_eligible": false,
+        "causal_effect_established": false,
+        "research_only": true
+      }
+    },
+    {
+      "event_id": "local_news_3846d8c18ae8af5405c2b59d",
+      "headline": "ECB Raises Rates to 2.5% as Energy Inflation Surges - DailyForex",
+      "original_first_seen_utc": "2026-09-10T14:57:51.302386+00:00",
+      "stored_payload_sha256": "4b51af9de69146331dd077c1c06630c79f1984adf943d1af1307ebbf36fd1fe5",
+      "stored_classification_version": "local_fx_news_rules_20260907_v165_causal_member_admission",
+      "stored_currency_scores": {},
+      "stored_context_reason": "no_deterministic_fx_impulse",
+      "stored_directional_publish_eligible": false,
+      "interpretation": {
+        "version": "fx_headline_interpretation_v1",
+        "input_sha256": "af3764c8dc93198743c75598e17ae9fd6d2afc9705a01a8cd812994e15e7fd0f",
+        "input_scope": "headline_only",
+        "claims": [
+          {
+            "kind": "policy_rate_action",
+            "evidence": "ECB Raises Rates to 2.5% as Energy Inflation Surges - DailyForex",
+            "currency": "EUR",
+            "direction": 1,
+            "status": "reported_action",
+            "mechanism": "rate_differential_channel_conditional_on_expectations",
+            "instrument": null
+          },
+          {
+            "kind": "inflation_context",
+            "evidence": "ECB Raises Rates to 2.5% as Energy Inflation Surges - DailyForex",
+            "currency": null,
+            "direction": null,
+            "status": "surprise_unknown",
+            "mechanism": "inflation_to_policy_requires_consensus_and_repricing",
+            "instrument": null
+          },
+          {
+            "kind": "energy_context",
+            "evidence": "ECB Raises Rates to 2.5% as Energy Inflation Surges - DailyForex",
+            "currency": null,
+            "direction": null,
+            "status": "direction_unresolved",
+            "mechanism": "inflation_growth_and_terms_of_trade_channels_can_conflict",
+            "instrument": null
+          }
+        ],
+        "interpretation_status": "claims_extracted",
+        "surprise": "unknown",
+        "forecast_eligible": false,
+        "causal_effect_established": false,
+        "research_only": true
+      }
+    },
+    {
+      "event_id": "local_news_b6a253c744623eee10eacda2",
+      "headline": "US inflation held steady at 3.4% in August as high fuel prices persist - Financial Times",
+      "original_first_seen_utc": "2026-09-11T12:36:18.805596+00:00",
+      "stored_payload_sha256": "98237080aaddbc962c4a09dcd05e61ccda4de17b11770a7d57a2b32c5e3fde2c",
+      "stored_classification_version": "local_fx_news_rules_20260907_v165_causal_member_admission",
+      "stored_currency_scores": {},
+      "stored_context_reason": "no_deterministic_fx_impulse",
+      "stored_directional_publish_eligible": false,
+      "interpretation": {
+        "version": "fx_headline_interpretation_v1",
+        "input_sha256": "1c1724d2c2a3e3eacdb9373bf1b56ab5df00ab63a7751355bdce9790673b7a95",
+        "input_scope": "headline_only",
+        "claims": [
+          {
+            "kind": "inflation_context",
+            "evidence": "US inflation held steady at 3.4% in August as high fuel prices persist - Financial Times",
+            "currency": null,
+            "direction": null,
+            "status": "surprise_unknown",
+            "mechanism": "inflation_to_policy_requires_consensus_and_repricing",
+            "instrument": null
+          },
+          {
+            "kind": "energy_context",
+            "evidence": "US inflation held steady at 3.4% in August as high fuel prices persist - Financial Times",
+            "currency": null,
+            "direction": null,
+            "status": "direction_unresolved",
+            "mechanism": "inflation_growth_and_terms_of_trade_channels_can_conflict",
+            "instrument": null
+          }
+        ],
+        "interpretation_status": "claims_extracted",
+        "surprise": "unknown",
+        "forecast_eligible": false,
+        "causal_effect_established": false,
+        "research_only": true
+      }
+    },
+    {
+      "event_id": "local_news_73b2379f62b3f8f8d3482542",
+      "headline": "Fed raises interest rates for first time since 2023, defying Trump as inflation mounts - NBC News",
+      "original_first_seen_utc": "2026-09-16T18:04:08.014069+00:00",
+      "stored_payload_sha256": "76bfe33cfc3e322d9b90434d38fd35bc9f4b1730f7610a2ffb3e8ac416dbf26b",
+      "stored_classification_version": "local_fx_news_rules_20260907_v165_causal_member_admission",
+      "stored_currency_scores": {},
+      "stored_context_reason": "no_deterministic_fx_impulse",
+      "stored_directional_publish_eligible": false,
+      "interpretation": {
+        "version": "fx_headline_interpretation_v1",
+        "input_sha256": "b5e4615d13b84b527c785529f35f5b5a77e91fdce7821ddf07439e5aabe67c5f",
+        "input_scope": "headline_only",
+        "claims": [
+          {
+            "kind": "policy_rate_action",
+            "evidence": "Fed raises interest rates for first time since 2023, defying Trump as inflation mounts - NBC News",
+            "currency": "USD",
+            "direction": 1,
+            "status": "reported_action",
+            "mechanism": "rate_differential_channel_conditional_on_expectations",
+            "instrument": null
+          },
+          {
+            "kind": "inflation_context",
+            "evidence": "Fed raises interest rates for first time since 2023, defying Trump as inflation mounts - NBC News",
+            "currency": null,
+            "direction": null,
+            "status": "surprise_unknown",
+            "mechanism": "inflation_to_policy_requires_consensus_and_repricing",
+            "instrument": null
+          }
+        ],
+        "interpretation_status": "claims_extracted",
+        "surprise": "unknown",
+        "forecast_eligible": false,
+        "causal_effect_established": false,
+        "research_only": true
+      }
+    },
+    {
+      "event_id": "local_news_a54b72400ca2e037281ee067",
+      "headline": "EUR/USD outlook: Hawkish Fed puts euro on the ropes - FOREX.com",
+      "original_first_seen_utc": "2026-09-17T00:29:30.348323+00:00",
+      "stored_payload_sha256": "4dcd8558869ddcef9bd2899c057fd005c2fc6c305b125eaa8d3fef54d84c4ce4",
+      "stored_classification_version": "local_fx_news_rules_20260907_v165_causal_member_admission",
+      "stored_currency_scores": {
+        "EUR": 0.65,
+        "USD": 0.65
+      },
+      "stored_context_reason": "",
+      "stored_directional_publish_eligible": false,
+      "interpretation": {
+        "version": "fx_headline_interpretation_v1",
+        "input_sha256": "415efd68d0e8b8c969407c59182e657b7072b5cdc301f52975ecd12cbdebcfef",
+        "input_scope": "headline_only",
+        "claims": [
+          {
+            "kind": "policy_stance",
+            "evidence": "EUR/USD outlook: Hawkish Fed puts euro on the ropes - FOREX.com",
+            "currency": "USD",
+            "direction": 1,
+            "status": "reported_stance",
+            "mechanism": "rate_expectations",
+            "instrument": null
+          },
+          {
+            "kind": "reported_currency_response",
+            "evidence": "EUR/USD outlook: Hawkish Fed puts euro on the ropes - FOREX.com",
+            "currency": "EUR",
+            "direction": -1,
+            "status": "retrospective",
+            "mechanism": null,
+            "instrument": null
+          }
+        ],
+        "interpretation_status": "claims_extracted",
+        "surprise": "unknown",
+        "forecast_eligible": false,
+        "causal_effect_established": false,
+        "research_only": true
+      }
+    },
+    {
+      "event_id": "local_news_dffaedcd069f0a03931b053b",
+      "headline": "EUR/USD Price Forecast \u2014 EUR/USD (1.1492) Rebounds From 1.1460 Low After Fed Hike \u2014 1.1535 Target in Focus - TradingNEWS",
+      "original_first_seen_utc": "2026-09-17T16:31:48.043511+00:00",
+      "stored_payload_sha256": "77af4c7ac7b2729a9b0a5aac8cfa2677737ac0814ef8e151b4279bd3b4454b4b",
+      "stored_classification_version": "local_fx_news_rules_20260907_v165_causal_member_admission",
+      "stored_currency_scores": {},
+      "stored_context_reason": "no_deterministic_fx_impulse",
+      "stored_directional_publish_eligible": false,
+      "interpretation": {
+        "version": "fx_headline_interpretation_v1",
+        "input_sha256": "453635c9eb02d08758ffb968075f87c813691475a3f4250575f753c867beea26",
+        "input_scope": "headline_only",
+        "claims": [
+          {
+            "kind": "reported_pair_move",
+            "evidence": "EUR/USD Price Forecast \u2014 EUR/USD (1.1492) Rebounds From 1.1460 Low After Fed Hike \u2014 1.1535 Target in Focus - TradingNEWS",
+            "currency": null,
+            "direction": null,
+            "status": "conditional_or_ambiguous",
+            "mechanism": null,
+            "instrument": "EUR_USD"
+          }
+        ],
+        "interpretation_status": "claims_extracted",
+        "surprise": "unknown",
+        "forecast_eligible": false,
+        "causal_effect_established": false,
+        "research_only": true
+      }
+    },
+    {
+      "event_id": "local_news_c7b011544e8948a549160220",
+      "headline": "EUR/USD forecast: Sentiment deteriorates amid turmoil in bond and oil markets - stonex.com",
+      "original_first_seen_utc": "2026-09-15T15:06:50.066440+00:00",
+      "stored_payload_sha256": "ae8dda8088acd7246b24a0088e2a78c35fc9eee5ad887347f2a7f28e0617e53c",
+      "stored_classification_version": "local_fx_news_rules_20260907_v165_causal_member_admission",
+      "stored_currency_scores": {},
+      "stored_context_reason": "no_deterministic_fx_impulse",
+      "stored_directional_publish_eligible": false,
+      "interpretation": {
+        "version": "fx_headline_interpretation_v1",
+        "input_sha256": "fb48bcdc43aad2c031a5321c30a401c25e6f57112abd54ddf0da6453b9b11218",
+        "input_scope": "headline_only",
+        "claims": [
+          {
+            "kind": "energy_context",
+            "evidence": "EUR/USD forecast: Sentiment deteriorates amid turmoil in bond and oil markets - stonex.com",
+            "currency": null,
+            "direction": null,
+            "status": "direction_unresolved",
+            "mechanism": "inflation_growth_and_terms_of_trade_channels_can_conflict",
+            "instrument": null
+          }
+        ],
+        "interpretation_status": "claims_extracted",
+        "surprise": "unknown",
+        "forecast_eligible": false,
+        "causal_effect_established": false,
+        "research_only": true
+      }
+    },
+    {
+      "event_id": "local_news_2746f74553802f7c20d82eb9",
+      "headline": "EUR/USD forecast: Weaker oil gives politically-hit euro mild relief - forex.com",
+      "original_first_seen_utc": "2026-09-21T13:03:22.643681+00:00",
+      "stored_payload_sha256": "290bd9e3ec07d7ebd80ddf2e9bb98a1064ec399f9850b06ff9016a69d26c210a",
+      "stored_classification_version": "local_fx_news_rules_20260907_v165_causal_member_admission",
+      "stored_currency_scores": {},
+      "stored_context_reason": "no_deterministic_fx_impulse",
+      "stored_directional_publish_eligible": false,
+      "interpretation": {
+        "version": "fx_headline_interpretation_v1",
+        "input_sha256": "aef8976f53f676a75fc0b325609c27028caf900ac50e9d683b9f212e23b5e7f2",
+        "input_scope": "headline_only",
+        "claims": [
+          {
+            "kind": "energy_context",
+            "evidence": "EUR/USD forecast: Weaker oil gives politically-hit euro mild relief - forex.com",
+            "currency": null,
+            "direction": null,
+            "status": "direction_unresolved",
+            "mechanism": "inflation_growth_and_terms_of_trade_channels_can_conflict",
+            "instrument": null
+          },
+          {
+            "kind": "reported_currency_response",
+            "evidence": "EUR/USD forecast: Weaker oil gives politically-hit euro mild relief - forex.com",
+            "currency": "EUR",
+            "direction": 1,
+            "status": "retrospective",
+            "mechanism": null,
+            "instrument": null
+          }
+        ],
+        "interpretation_status": "claims_extracted",
+        "surprise": "unknown",
+        "forecast_eligible": false,
+        "causal_effect_established": false,
+        "research_only": true
+      }
+    },
+    {
+      "event_id": "local_news_668ce4a019342a730530bad4",
+      "headline": "UBS sees EUR/USD long opportunity on central bank dynamics - Investing.com",
+      "original_first_seen_utc": "2026-09-18T08:27:36.169623+00:00",
+      "stored_payload_sha256": "875d6a0da001aa831659797228d4b9caeafcb189ad0dfcdbb2765f105db75c56",
+      "stored_classification_version": "local_fx_news_rules_20260907_v165_causal_member_admission",
+      "stored_currency_scores": {},
+      "stored_context_reason": "no_deterministic_fx_impulse",
+      "stored_directional_publish_eligible": false,
+      "interpretation": {
+        "version": "fx_headline_interpretation_v1",
+        "input_sha256": "dc056992b35c078448c768dd356b052e102681d71a7300eb8e1fb79b92c94ee1",
+        "input_scope": "headline_only",
+        "claims": [
+          {
+            "kind": "analyst_pair_view",
+            "evidence": "UBS sees EUR/USD long opportunity on central bank dynamics - Investing.com",
+            "currency": null,
+            "direction": 1,
+            "status": "opinion",
+            "mechanism": null,
+            "instrument": "EUR_USD"
+          }
+        ],
+        "interpretation_status": "claims_extracted",
+        "surprise": "unknown",
+        "forecast_eligible": false,
+        "causal_effect_established": false,
+        "research_only": true
+      }
+    }
+  ]
+}

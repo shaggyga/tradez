@@ -1,0 +1,99 @@
+{
+  "schema_version": "forex_lifecycle_verifier_cadence_validation_v1",
+  "generated_utc": "2026-09-02T09:24:00Z",
+  "status": "validated",
+  "defect": {
+    "summary": "The independent lifecycle verifier treated the normal 35-to-40-minute lifecycle rebuild as stale after a fixed 1800-second publication-age limit.",
+    "failure_mode": "A healthy fail-closed rebuild could temporarily publish a false verifier mismatch even though the lifecycle database remained unchanged and the evidence worker was making current bounded progress.",
+    "execution_impact": "fail_closed_only",
+    "historical_evidence_rewritten": false
+  },
+  "repair": {
+    "lifecycle_publication_integrity_contract": "evidence_lifecycle_publication_integrity_v1",
+    "bounded_lifecycle_snapshot_lag_sec": 7200,
+    "ordinary_state_age_limit_sec": 1800,
+    "requirements": [
+      "exact independently rebuilt lifecycle database fingerprint and highwaters",
+      "append-only lifecycle triggers present",
+      "zero confirmed candidates during stale-snapshot grace",
+      "fresh error-free fail-closed evidence-worker heartbeat",
+      "current expected rebuild phase and bounded progress age",
+      "unchanged lifecycle database across the verifier pass"
+    ],
+    "grace_can_authorize": false,
+    "grace_can_promote": false,
+    "real_money_routing": false
+  },
+  "source_receipts": [
+    {
+      "path": "oanda_hypothesis_lifecycle.py",
+      "bytes": 44607,
+      "sha256": "sha256:8e410eab875e1ef796bec468c036730102f99e0584b9c47f62fff1f8fce13558"
+    },
+    {
+      "path": "oanda_independent_evidence_verifier.py",
+      "bytes": 72351,
+      "sha256": "sha256:1b700913d3738db816eecbe6e99fadb2b85342ff0293fb54e62d6952e23d3c7d"
+    },
+    {
+      "path": "test_oanda_hypothesis_lifecycle.py",
+      "bytes": 10149,
+      "sha256": "sha256:015ff91ec09d9931ca7c7f02cd3db4c8f610f43e93230b1a5fcaec33eb64fc16"
+    },
+    {
+      "path": "test_oanda_independent_evidence_verifier.py",
+      "bytes": 37058,
+      "sha256": "sha256:122b0906db8560b7f5e0db24509ac1667f85947725c234de6faaf78f3e2fa307"
+    }
+  ],
+  "runtime_receipts": {
+    "lifecycle": {
+      "generated_utc": "2026-09-02T08:42:32.878558Z",
+      "hypotheses": 52883,
+      "collecting": 43441,
+      "futility_rejected": 9442,
+      "confirmed_candidate": 0,
+      "lifecycle_event_highwater": 53336,
+      "state_sha256": "sha256:2bb23cda6678ca2b92be50ebe488b5bcd01d0edcbbe82f725dae65b969b92a78"
+    },
+    "bounded_live_handshake": {
+      "ordinary_test_budget_sec": 300,
+      "lifecycle_snapshot_age_sec": 620.5,
+      "worker_age_sec": 10.4,
+      "progress_age_sec": 228.8,
+      "result": "exact_fail_closed_lifecycle_snapshot_while_rebuilding",
+      "fresh": true
+    },
+    "independent_verifier": {
+      "status": "match",
+      "authorization_safe": true,
+      "failed_checks": 0,
+      "verified_confirmed_candidates": 0
+    },
+    "project_integrity": {
+      "generated_utc": "2026-09-02T09:15:13.452741Z",
+      "status": "ok",
+      "failures": 0,
+      "current_quotes": 68,
+      "retained_stale_quotes": 0,
+      "supported_decision": "no_trade"
+    }
+  },
+  "validation": {
+    "focused_lifecycle_and_verifier_tests_passed": 94,
+    "broad_changed_surface_tests_passed": 1231,
+    "broad_subtests_passed": 220,
+    "python_compilation": "passed",
+    "database_integrity": "passed",
+    "live_bounded_rebuild_path_exercised": true
+  },
+  "safety": {
+    "practice_account": "101-001-37981792-007",
+    "manual_orders_submitted": 0,
+    "manual_closes_submitted": 0,
+    "proof_thresholds_loosened": false,
+    "authorization_gates_bypassed": false,
+    "real_money_enabled": false,
+    "codex_automation_created": false
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "schema": "forex_shared_git_operation.v2",
+  "status": "COMPLETE",
+  "utc": "2026-09-24T03:17:03.006633+00:00",
+  "repository": "https://github.com/shaggyga/tradez",
+  "branch": "forex",
+  "default_branch": "forex",
+  "source_commit": "be1ef1ec52f4ee3efc55b605b58742b13e3fc3d0",
+  "handoff_document_commit": "be1ef1ec52f4ee3efc55b605b58742b13e3fc3d0",
+  "remote_sha": "be1ef1ec52f4ee3efc55b605b58742b13e3fc3d0",
+  "remote_push_verified": true,
+  "handoff_packet": "FORECAST_BLEND_REPAIRS_20260924_031500",
+  "handoff_manifest_sha256": "3b5f7e38676b2e5e7180903dddf4e4d7f1c34e222acc634470eabeffde92124a",
+  "scientific_next_item": "causal_convex_forecast_blend_diagnostic_v2",
+  "next_action": "Freeze the candidate card then execute the causal convex saved-forecast layer diagnostic.",
+  "independent_source_review": "pending_nonblocking_by_user_clarification",
+  "independent_review": false,
+  "same_task_review": "accepted_within_scope",
+  "prior_operation_reference": {
+    "path": "FORECAST_BLEND_GIT_20260924_031500/PREVIOUS_RECEIPT.json",
+    "sha256": "74d7e77b1a14d152a6117853b7850c0b761814a3169c1cfa5535e35e097b5038"
+  },
+  "checkpoint": {
+    "vault_relative_path": "FORECAST_BLEND_GIT_20260924_031500/forex-blend-reviewed.bundle",
+    "sha256": "857abcbed8df6186d3cca2b380dfa1639bd1ea5e91c0efd33796268d81afd8cc",
+    "bytes": 20046328,
+    "bundle_verify": "PASSED",
+    "remote_same_commit_verified": true,
+    "fresh_restore_verified": true,
+    "restore_command": "git -c core.longpaths=true clone --branch forex <bundle-path> forex",
+    "fresh_restore_receipt": "FORECAST_BLEND_GIT_20260924_031500/GIT_RESTORE_RECEIPT.json",
+    "fresh_restore_receipt_sha256": "615a687a7ed9461920c972b138aa992c61874fbf7f98e0d409edeb9e89b0f8fb"
+  },
+  "models_fitted": 0,
+  "models_loaded": 0,
+  "cloud_sync_or_second_machine_execution_verified": false
+}

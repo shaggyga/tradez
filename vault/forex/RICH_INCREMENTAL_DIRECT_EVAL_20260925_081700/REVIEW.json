@@ -1,0 +1,113 @@
+{
+  "accepted": true,
+  "actual_checks": [
+    {
+      "checkpoint_sha256": "2f05332911e24daec483602618125dfaf36b6d7b74c4d1de2c748152d8bdd336",
+      "name": "rich family checkpoint restore",
+      "relocated_tests_passed": true,
+      "scientific_payloads_identical": 215,
+      "status": "passed"
+    },
+    {
+      "models_fitted": 0,
+      "name": "direct incremental forecast evaluation",
+      "score_rows": 56,
+      "status": "passed",
+      "support_failures": []
+    },
+    {
+      "groups": {
+        "compact38_cost2": 40,
+        "compact50_cost2": 52,
+        "full228_cost2": 230,
+        "legacy26": 26
+      },
+      "increments": {
+        "full178_increment_full228_minus_compact50": {
+          "added_count": 178,
+          "removed_count": 0
+        },
+        "peer12_increment_compact50_minus_compact38": {
+          "added_count": 12,
+          "removed_count": 0
+        }
+      },
+      "name": "feature family inventory",
+      "status": "passed"
+    }
+  ],
+  "forecast_evidence_status": "mixed_direct_nested_rich_increment_development_result",
+  "implementation_status": "complete_direct_incremental_eval_verified",
+  "independent_review": false,
+  "limitations": [
+    "development inspected dates only",
+    "direct nested group comparison over restored preserved forecasts",
+    "no independent confirmation",
+    "no policy replay or trading claim"
+  ],
+  "next_action": "macro_event_text_incremental_value_assessment_v2: assess the selected macro/event/text incremental hypothesis against exact available inputs and matched controls; do not close on inventory-only packets.",
+  "package": "RICH_INCREMENTAL_DIRECT_EVAL_20260925_081700",
+  "readiness": {
+    "engineering_ready": false,
+    "forecast_evidence_status": "mixed_development_only",
+    "policy_evidence_status": "not_evaluated_no_policy_replay",
+    "trading_readiness": "not_ready_not_claimed"
+  },
+  "resolved_findings": [
+    "QREV-04"
+  ],
+  "schema": "forex_checkpoint_review.v2",
+  "scientific_result": {
+    "full178_increment_full228_minus_compact50": {
+      "bias_abs_improved": 8,
+      "mae_improved": 8,
+      "methods": [
+        "recovered_hgb",
+        "ridge"
+      ],
+      "mse_improved": 7,
+      "procedures": [
+        "adaptive",
+        "frozen"
+      ],
+      "rows": 28,
+      "targets": [
+        "technical_endpoint_midpoint_elapsed_1440m",
+        "technical_endpoint_midpoint_elapsed_15m",
+        "technical_endpoint_midpoint_elapsed_240m",
+        "technical_endpoint_midpoint_elapsed_2880m",
+        "technical_endpoint_midpoint_elapsed_60m",
+        "technical_endpoint_midpoint_elapsed_7200m",
+        "technical_endpoint_midpoint_elapsed_720m"
+      ],
+      "total_paired_rows": 31020
+    },
+    "peer12_increment_compact50_minus_compact38": {
+      "bias_abs_improved": 15,
+      "mae_improved": 6,
+      "methods": [
+        "recovered_hgb",
+        "ridge"
+      ],
+      "mse_improved": 10,
+      "procedures": [
+        "adaptive",
+        "frozen"
+      ],
+      "rows": 28,
+      "targets": [
+        "technical_endpoint_midpoint_elapsed_1440m",
+        "technical_endpoint_midpoint_elapsed_15m",
+        "technical_endpoint_midpoint_elapsed_240m",
+        "technical_endpoint_midpoint_elapsed_2880m",
+        "technical_endpoint_midpoint_elapsed_60m",
+        "technical_endpoint_midpoint_elapsed_7200m",
+        "technical_endpoint_midpoint_elapsed_720m"
+      ],
+      "total_paired_rows": 31020
+    }
+  },
+  "step_id": "rich_feature_family_incremental_comparison_v2",
+  "utc": "2026-09-25T08:19:14.038547Z",
+  "verdict": "accepted_within_scope_same_task_review"
+}

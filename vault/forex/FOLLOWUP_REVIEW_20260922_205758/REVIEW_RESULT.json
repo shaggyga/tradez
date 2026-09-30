@@ -1,0 +1,48 @@
+{
+  "step_id": "macro_numeric_source_native_unit_binding_v2",
+  "verdict": "accepted_within_scope",
+  "independent_review": false,
+  "next_item": "macro_numeric_reference_and_extraction_provenance_binding_v2",
+  "scope": "exact frozen nine-record offline package and its consumer; not universal extractor or historical raw-data/forecast certification",
+  "findings": [],
+  "checks": [
+    "wrong selected content hash rejected",
+    "numeric readiness after cutoff rejected",
+    "conflicting selected component evidence abstains",
+    "all original numeric events preserved",
+    "all runtime cells empty and forecast gates closed",
+    "all8 component spans and adjacent-month references verified"
+  ],
+  "existing_local_tests_passed": 35,
+  "existing_relocated_tests_passed": 35,
+  "existing_tests_rerun": false,
+  "identical_payloads": 7,
+  "reviewed_manifest_sha256": "9b0e7c6fef3209cb9fc6b63e6f655f1abb8cec30bef04dbed7c186cbf16b02c7",
+  "reviewed_recipe_sha256": "61f8b6469fba0c11d6edd037d20d441760476e4894ff79c67825604c02a4343e",
+  "reviewed_run_identity": "0cfe36823331ade3da853eee62f216165fecbb57303cd9d7b61d64e1280acac4",
+  "remaining_evidence_gaps": [
+    "two original BLS level tables",
+    "StatCan comparison/seasonality",
+    "original raw receipts/readiness/issuer/vintage/activation"
+  ],
+  "code_changed": false,
+  "utc": "2026-09-22T20:57:58.454695+00:00",
+  "reviewer": "same-implementer follow-up source/evidence review",
+  "source_engine": {
+    "schema": "forex_design_alignment_pointer.v2",
+    "package": "MACRO_UNIT_BINDING_20260922_205445",
+    "path_forward": "MACRO_UNIT_BINDING_20260922_205445/PATH_FORWARD.md",
+    "run_status": "MACRO_UNIT_BINDING_20260922_205445/RUN_STATUS.json",
+    "design": "MACRO_UNIT_BINDING_20260922_205445/specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+    "design_coverage": "MACRO_UNIT_BINDING_20260922_205445/CURRENT_DESIGN_COVERAGE.md",
+    "current_acceptance_addendum": "MACRO_UNIT_BINDING_20260922_205445/DESIGN_ACCEPTANCE_ADDENDUM.md",
+    "manifest": "MACRO_UNIT_BINDING_20260922_205445/MANIFEST.json",
+    "manifest_sha256": "9b0e7c6fef3209cb9fc6b63e6f655f1abb8cec30bef04dbed7c186cbf16b02c7",
+    "readback": "MACRO_UNIT_BINDING_20260922_205445/PACKAGE_READBACK.json",
+    "active_integrity_batch": "ALL68_INTEGRITY_BATCH_05_20260921.md",
+    "active_integrity_batch_scope": "scoped retained-summary unit/subject evidence and guarded BLS calculations; no original raw-data, readiness or forecast certification",
+    "historical_package": "DESIGN_ALIGNMENT_20260921",
+    "scope": "current_verified_queue_and_bounded_recovery",
+    "cloud_sync_verified": false
+  }
+}

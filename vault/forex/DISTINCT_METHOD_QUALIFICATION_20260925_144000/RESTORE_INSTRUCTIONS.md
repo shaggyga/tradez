@@ -1,0 +1,1 @@
+Verify MANIFEST members and the 561-source snapshot. Retrieve the saved technical input and matched campaign artifacts through `artifacts/reuse_catalog.json`; their exact run identities are in `evidence/QUALIFICATION.json`. Run the qualification script after mapping local roots. New computation must use the frozen contract and a new run identity, never replace baseline artifacts.

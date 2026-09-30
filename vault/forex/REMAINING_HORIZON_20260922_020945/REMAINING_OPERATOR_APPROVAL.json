@@ -1,0 +1,16 @@
+{
+  "recipe": "source_snapshot/REMAINING_OPERATOR_RECIPE.json",
+  "recipe_sha256": "8ae6db9c1ff4095b8fc326e6f169904cf06feaccc420e0a039bd40af479a51f4",
+  "scope": "bounded_offline_gross_remaining_forecast_development",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify"
+  ],
+  "input_root": "restored inputs/",
+  "contract": "source_snapshot/REMAINING_CONTRACT.json",
+  "bootstrap": "checkpoint/forex_remaining_horizon_v2.zip",
+  "next": "review_remaining_horizon_recipe"
+}

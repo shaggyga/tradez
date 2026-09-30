@@ -1,67 +1,38 @@
-# Forex shared source
+# Forex research
 
-The Vault is the shared brain. This repository holds the available project source,
-model definitions, configurations, tests and artifact references. Each person uses a
-local clone; the current design, queue, ownership and reviewed results live in their
-synced `thevault/projects/forex` folder. Resolve the live pointers before work.
+Forex forecasting research, backtesting, and market-data analysis. The project compares
+technical indicators, news context, forecast layers and position-rotation policies.
+Research results and a running dashboard are not evidence of a profitable trading system.
 
-**Start here:** [current project state and research evidence](docs/PROJECT_STATE.md).
-This links the existing mean-reversion, specialist, forecast-error and news studies,
-their saved artifacts, recent corrections and separate next actions.
+**New here? Read [START_HERE.md](START_HERE.md).** It explains setup, current limitations
+and how to continue without repeating existing experiments.
 
-## Start on another machine
+| I want to… | Start here |
+|---|---|
+| Understand the current work | [Project state](docs/PROJECT_STATE.md) |
+| Read the design, queue and reviews | [Included Forex Vault knowledge](vault/README.md) |
+| Run the local dashboard | [Quick start](START_HERE.md#open-the-dashboard) |
+| Find existing models and data | [Artifact retrieval](docs/ARTIFACT_REUSE.md) and [evidence index](artifacts/research_evidence_index.json) |
+| Continue engineering | [Handoff](FOREX_HANDOFF.md), then the live shared Vault coordination board |
+| Find a folder or older result | [Directory map](docs/DIRECTORY_MAP.md) |
 
 ```powershell
 git -c core.longpaths=true clone --branch forex https://github.com/shaggyga/tradez.git forex
 cd forex
-python -I -B tools/forex_workspace.py status --vault 'C:/path/to/thevault/projects/forex'
-python -I -B tools/forex_preflight.py --workspace . --vault 'C:/path/to/thevault/projects/forex'
 ```
 
-Git credentials are machine-local. Python 3.10+ is sufficient for status and byte
-retrieval. Numerical engineering uses Python 3.12.10 and the bounded observed profile
-in `requirements-engineering.lock.txt`; individual recipes retain their own exact
-environment gates. Use a local virtual environment for dependencies. This publication
-does not install packages, launch services or authorize broker access.
+Git is the shareable project: source, setup instructions, tests, model definitions,
+artifact references and a versioned copy of Forex Vault knowledge. The live shared
+Vault remains the coordination authority. The included copy is a dated reading
+snapshot; its claims and old `CURRENT` filenames are not live worker status.
 
-Read [shared setup and artifact retrieval](docs/SHARED_WORKSPACE.md), then
-[the handoff](FOREX_HANDOFF.md). Historical absolute paths in evidence describe the
-original machine; supply your own Vault path to the helper. Current scientific source
-and its source hashes were preserved, including historical path limitations.
+Large datasets, fitted model binaries, credentials and machine-local runtime state
+are stored separately. The [snapshot manifest](vault/forex/SNAPSHOT_MANIFEST.json)
+lists copied documents and omissions; not every restore artifact is in Git.
 
-## Reuse before running
+The active dashboard is Forex-only. Crypto Shadow integration and its Forex startup
+entry have been removed; historical crypto source/results remain for reproducibility.
+Cloning or opening the dashboard does not start collectors, models or trading.
 
-1. Read the Vault's `DESIGN_ALIGNMENT_LATEST.json`, `CHECKPOINT_REVIEW_LATEST.json`,
-   `REVIEW_QUEUE.json`, `VAULT_FIRST_REUSE.md` and `CHAT_COORDINATION_BOARD.md`.
-2. Search exact existing model/run identities and claim eligible work on the board.
-3. Retrieve matching completed artifacts. Do not retrain because a local file is absent.
-4. Record code commit, input/model identities and evidence; publish a compact handoff
-   to the Vault and link it from `trad/FOREX_PROJECT_LOG.md`.
-
-The [artifact catalog](artifacts/reuse_catalog.json) records verified saved weights,
-JSON model parameters, original identities and explicit availability gaps. The
-[retrieval guide](docs/ARTIFACT_REUSE.md) distinguishes byte retrieval from replay.
-The catalogs are bounded, not exhaustive; the synced coordination board is advisory.
-Complete required operational/review work before research; see the Vault
-`OPERATIONAL_READINESS_LATEST.json` and [preflight](docs/OPERATIONAL_PREFLIGHT.md).
-
-## Layout and history
-
-- `trad/`: existing system, tools, configuration and tests; its Git history is retained.
-- `stage_c_alignment_integrity_v2/`: current engineering sources, contracts and recipes.
-- `stage_b_20260921/`, `stage_c_all68_20260921/`: retained prerequisite sources.
-- `design_alignment_20260921/`: governing design and audits.
-- `direction_*`, `currency_meter_continuous_20260912/`: retained source dependencies.
-- `tools/`, `artifacts/`, `docs/`, `tests/`: portable sharing/retrieval helper and checks.
-- Other dated folders preserve historical Forex utility source for reuse and inspection;
-  their old launch/publish scripts are historical evidence, not current instructions.
-
-Older commits predate the root migration and have `trad` files at their repository root.
-Current runtime folder paths are preserved. Raw data, active evidence, fitted weights,
-credentials and local environments are excluded from new source additions. Historical
-tracked evidence remains in history. See [source coverage](docs/SOURCE_COVERAGE.md).
-
-The origin URL can move without changing model identity:
-`git remote set-url origin <new-repository-url>`.
-Use branches, review changes and ordinary non-force pushes. Pull/fetch before starting
-work, but do not overwrite local changes or another owner's in-progress scope.
+Detailed setup: [shared workspace](docs/SHARED_WORKSPACE.md).
+Older layouts and source coverage: [source coverage](docs/SOURCE_COVERAGE.md).

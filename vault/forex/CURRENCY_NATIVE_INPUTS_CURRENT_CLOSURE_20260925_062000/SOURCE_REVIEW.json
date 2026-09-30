@@ -1,0 +1,62 @@
+{
+  "checkpoint": {
+    "sha256": "8eeb852a909f3a899251301ba806982822dcbb7cf6421dec17f86ca4ffeb1f3d",
+    "vault_relative_path": "CURRENCY_PROJECTION_NATIVE_20260924_080908/evidence/CURRENCY_PROJECTION_NATIVE_CHECKPOINT_R5.zip"
+  },
+  "implementation_status": "complete",
+  "independent_review": false,
+  "independent_review_status": "pending_nonblocking_by_user_clarification",
+  "next_action": "currency_projection_policy_comparison_v2",
+  "publication_commit": "dc8355c248e37a413fd3259fa3f46594c67b57da",
+  "readiness": {
+    "demo_authorization_status": "not_granted",
+    "engineering_ready": false,
+    "forecast_evidence_status": "inherited_native_development_qualification",
+    "policy_evidence_status": "projection_policy_comparison_not_run"
+  },
+  "review_scope": "Inherited native same-task review; this successor verifies publication/storage only.",
+  "review_status": "accepted_within_scope",
+  "schema": "forex_review_packet.v2",
+  "source_commit": "7593f7414bd3cd219ff9349817e6ee3f71144ec7",
+  "step_id": "currency_projection_native_policy_inputs_v2",
+  "unresolved_findings": [],
+  "verification": {
+    "actual_crash_exit": 91,
+    "api_calls": 0,
+    "base_model_fits": 0,
+    "base_model_loads": 16,
+    "checkpoint_sha256": "8eeb852a909f3a899251301ba806982822dcbb7cf6421dec17f86ca4ffeb1f3d",
+    "consumer_statuses": {
+      "admitted": 6468
+    },
+    "contract_sha256": "55cc01933da7cbe48f73579a563cd058e93fb23e5dd49901fc2d87a2e293f822",
+    "coverage_reasons": {
+      "base_unavailable": 60,
+      "eligible": 6468
+    },
+    "coverage_slots": 6528,
+    "crash_resume": "first complete frame and consumer payload retained under the final r3 identity before resume",
+    "final_run_id": "currency-projection-native-inputs-v2-r3",
+    "independent_review": false,
+    "learned_layer_fits": 0,
+    "local_tests": 23,
+    "main_elapsed_seconds": 124.98400000017136,
+    "maximum_complete_native_preparation_seconds": 0.6559999999590218,
+    "maximum_fresh_base_projection_seconds": 0.1720000000204891,
+    "native_packets": 6468,
+    "policy_replays": 0,
+    "recipe_sha256": "7f79dc586e7821b5a45662f48cf3b57179641bd4c0d415ac947fe57e231c6a5c",
+    "refusals": [
+      "initial_r0_input_model_computation_clock_order_before_any_frame",
+      "bad_recipe_pin",
+      "r1_r2_portable_restore_membership_refusals_preserved",
+      "r3_portable_restore_completed"
+    ],
+    "relocated_payloads_identical": 35,
+    "relocated_tests": 23,
+    "run_identity": "7e9c869d90898082e6ba31de4cdcbb4bc4269d1fee9717d85a507c63bbec2f28",
+    "same_task_review": "accepted_within_scope",
+    "scope": "offline native qualification only; no policy replay, confirmation, broker or execution authorization",
+    "status": "PASS"
+  }
+}

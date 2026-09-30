@@ -1,0 +1,123 @@
+{
+  "schema": "forex_independent_review_resolution.v1",
+  "created_utc": "2026-09-24T01:29:47.826662+00:00",
+  "reviewer": "/root/numeric_join_review",
+  "independent_review": true,
+  "verdict": "accepted_within_scope",
+  "step_id": "whole_curve_warm_start_capacity_followup_v2",
+  "scope": "Portable no-fit warm operator, chronological cache reconstruction, refusal/resource gates, crash/resume and exact saved-input replay. Publication consistency remains separately reviewed.",
+  "initial_review": "INITIAL_REVIEW.json",
+  "checkpoint_review_addendum": "CHECKPOINT_REVIEW_ADDENDUM.json",
+  "resolved_findings": [
+    "WCR-01",
+    "WCR-02",
+    "WCR-03",
+    "WCR-04"
+  ],
+  "unresolved_findings": [],
+  "recipe_sha256": "d60a6f02d8c757a0e845f0851d7952d7f672b2483511d6fb62183b69c1f57327",
+  "checkpoint_sha256": "2efe076154ef6803344328b6aac785adc72453154e3e5490636e00838b144a86",
+  "run_identity": "a0542caf18cb747d9338b4527ec06c366d945cc29d247b56bc02a3dbcdecbbf1",
+  "source_sha256": {
+    "WARM_CURVE_CONTRACT_V2.md": "45c4b4036ffe1794022cf2d33e9a26dbd9392dd2c2ba49d03ec2761f531ff669",
+    "WARM_CURVE_OPERATOR_RECIPE.json": "d60a6f02d8c757a0e845f0851d7952d7f672b2483511d6fb62183b69c1f57327",
+    "campaign_inspector_v2.py": "c2083fb4d950790b385a47bf5037a3f379ad6fad87a184983d57f39cd80042f3",
+    "contracts.py": "3a1776f0862f6bb4bc3ba73f4c0febec573350d712aa50e9dbcc0e253b11aecd",
+    "curve_capacity_operator_v2.py": "2da9052d499b1d7a775eae8941938af6c97fdba394b4cebf491606ad6d770c4a",
+    "curve_capacity_predict_v2.py": "85ec76aeb6ebbd03ef53c87e18e628722d1044becb8954db8192e9a9566322a0",
+    "curve_capacity_runner_v2.py": "cabc5748db4b32941eddacf94f9b4381df1de13f5b0e77bd750871d1bdd977fe",
+    "fitted_consumer_v2.py": "e3b72f23d216845bbc5aee9385b59ac37ff3114aae728b0d372e3fa319d182ec",
+    "joint_readiness_operator_v2.py": "802d1c74541f11d21ce52d2661e130be4c736eb4174d8fc891c9b9c0b2bcdbc0",
+    "joint_readiness_predict_v2.py": "97ab78dc31199d9eb824b9311ac182253077fd2511261605cde610fc074b2f67",
+    "joint_readiness_runner_v2.py": "379b0abdb79ca4559a101a6a92a73ae224aa801251def821661e42e8c11cc08e",
+    "joint_readiness_schedule_v2.py": "bb80d1bda84aa30bafca012eb9087b5f13a029d066f861a1cd044250dba24b68",
+    "matched_campaign_models_v2.py": "9b7521812ea348d826dc1e3d0035eb378b097733c6c6f3cb1d7595ec70fda329",
+    "paired_blocks_v2.py": "3e4ec1b4d31f0fccd3813eb20a4d4fdd2776a505b93dea7e2e17b9cb461c0970",
+    "portable_checkpoint_v2.py": "0ee888366834ccf8e930b268dc3dbd00f02c179450a0611a2441cad14ca0f1b7",
+    "publication.py": "51e3eb20cee191a24b74c708bd5c54b25b8ea4a1042248e6a4a96bfebd81d797",
+    "retained_signed_cost_models_v1.py": "8cebabbab7c6dcb32271a8fd3cbc656e912ae6a26e19a9ff1d35ad547342665c",
+    "rich_campaign_consumer_v2.py": "641e885bedabfeb476fcc87a5447ba12656684efb719c0d0f63f22f0349770bf",
+    "rich_dependence_operator_v2.py": "e8989e5f72b996572ec43560dca6aeb824fee962f4484324339cceae95a9f4b1",
+    "rich_dependence_report_v2.py": "055bd37876ebdd7a4ba8bf35968b7cbb1e145c927c0811cfebccea029bfd2613",
+    "rich_family_models_v2.py": "6bbcc503a5f06abf7f25649404e2aab4117786363396dd71144f73f4d0996707",
+    "rich_family_operator_v2.py": "5267136006e2d718b378777f6cac0c0efad66614dd42a01950dc46621af6cc5d",
+    "rich_family_runner_v2.py": "5a7737a1b5addef0edb237dbcd48b103a46949a993470d2b911c62ce151997ae",
+    "rolling_registry_adapter_v2.py": "cf071bf8b1bba72a8dfc4cb4c074ead9ff8c68171ea623dc420e4c0af551a56a",
+    "scoped_warm_predict_v2.py": "19787d83e551dc01e035c807b07346d6766b5fe666a5ff5c2d17c918a29e8d0f",
+    "test_warm_curve_operator_v2.py": "3d66c4cd3d4d32df47d9aa6f38bf9a688c3f77ad4742d160497da8152ff76519",
+    "warm_curve_checkpoint_v2.py": "5d398a74e22ee8a0c9b3249401c558d33736159b249589e804b3428acc05c1fa",
+    "warm_curve_operator_v2.py": "adf1e8f24871eff15b9b17c161461f836c998ad03a5657499cae4c61ac292576",
+    "warm_curve_predict_v2.py": "0a6f20af3e4136d2f86ff78f3371cdf836a4aee5fa8e691f07be5f56e8e66318",
+    "warm_curve_runner_v2.py": "32156f6cf40ef2bab20b8fc40ef99895006c1eefc9ebca0a041f2fe93cbea1ad",
+    "warm_original_inputs_capsule_v2.py": "482fdd5d19d5166ff616453d2aa98e411120ec34f17b7b90deb0d997f64be1f8"
+  },
+  "original_input_companion_sha256": "25061ff42b9dac4027cfcfb3042a3778b5db448e449428d8415c951de2b7676f",
+  "source_commit": null,
+  "source_commit_note": "Exact live and independently restored hashes are authoritative; source may be committed after this review without changing bytes.",
+  "checks": {
+    "independent_refusals": {
+      "passed": 8,
+      "evidence": "INDEPENDENT_REFUSALS.json"
+    },
+    "independent_resource_archive_cases": {
+      "passed": 8,
+      "evidence": "RESOURCE_ARCHIVE_RETEST.json"
+    },
+    "fresh_portable_restore": {
+      "status": "VERIFIED",
+      "scientific_payloads_identical": 44,
+      "total_authenticated_payloads": 66,
+      "tests_passed": 14,
+      "tests_skipped": 0,
+      "elapsed_seconds": 186.23400000017136,
+      "peak_sampled_aggregate_rss_bytes": 852267008,
+      "resources": "PORTABLE_RESTORE_RESOURCES.json",
+      "receipt": "fresh_restore/RESTORE_RECEIPT.json",
+      "tests": "fresh_restore/tests.log"
+    },
+    "actual_lifecycle": {
+      "early_process_death_exit": 91,
+      "after_all_scientific_payloads_process_death_exit": 91,
+      "same_identity_resume": true,
+      "completed_idempotence": true,
+      "origin_counts_by_process": [
+        1,
+        20,
+        20
+      ],
+      "preserved_timing_counts_by_process": [
+        0,
+        1,
+        20
+      ],
+      "evidence": "REAL_RECEIPTS_AUDIT.json"
+    },
+    "retained_parity": {
+      "shared": {
+        "values": 143904,
+        "coverage": 152320
+      },
+      "warm": {
+        "values": 143904,
+        "coverage": 152320
+      }
+    },
+    "full_source_and_input_restore": "all live allowlisted source hashes matched fresh restore; original capsule466files verified by restore; all44scientific payloads rehashed equal under same run identity"
+  },
+  "readiness": {
+    "engineering_ready": true,
+    "engineering_scope": "bounded warm operator and portable original-artifact replay only",
+    "forecast_evidence_status": "retained_value_parity_not_new_forecasts",
+    "policy_evidence_status": "not_evaluated",
+    "demo_authorization_status": "not_granted"
+  },
+  "limitations": [
+    "No new model fitting or market experiment was performed; original values, lineage and coverage are reused.",
+    "Timing samples characterize this host and modeled reserved prewarm. They are not historical readiness, live latency guarantees or proof of a causal performance improvement.",
+    "Runner900second budget excludes operator preflight; local lifecycle supervision caps whole subprocess900seconds, portable helper timeout1000seconds. Independent restored wrapper used900seconds.",
+    "RSS and disk checks are sampled at phase boundaries; independent restore RSS is sampled250ms over the process tree, not continuous OS enforcement.2GiB disk guard covers run outputs with1MiB reserved, not whole workspace.",
+    "Independent refusal fixture initially supplied an empty dependency map to RunPublisher identity creation and failed before ownership testing. The fixture was corrected to a nonempty synthetic dependency; no implementation change was needed.",
+    "Publication repair, current-document manifests and remote synchronization are outside this scientific source/restore acceptance."
+  ],
+  "next_action": "Publish the exact reviewed successor and finish independent publication verification; then resume the next eligible documented research contract."
+}

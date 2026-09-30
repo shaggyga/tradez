@@ -1,0 +1,45 @@
+{
+  "step_id": "matched-ridge-hgb-development",
+  "verdict": "accepted_within_scope",
+  "independent_review": false,
+  "next_item": "matched_campaign_remaining_horizon_inputs_v2",
+  "engineering_ready": false,
+  "forecast_evidence_status": "bounded_matched_development_only",
+  "policy_evidence_status": "not_evaluated_for_this_campaign",
+  "demo_authorization_status": "not_granted",
+  "checks": [
+    "28fits/14pairs with identical ridge/tree maturity population hashes and unit weights",
+    "original HGB source unchanged; early_stopping false",
+    "all68coverage and matched4method scoring support",
+    "future poisoning and update/readiness clocks tested",
+    "17local checks and17relocated tests passed",
+    "70technical payloads and33scientific campaign payloads reproduced from raw slices",
+    "fit durations independently bounded below30sec, excluded only from byte-parity"
+  ],
+  "limitations": [
+    "same implementer source/evidence review, not independent",
+    "previously inspected overlapping development rows",
+    "calendar targets blocked; policy frames0",
+    "8of28 MSE and6of28 MAE comparisons lower than zero does not establish confirmation",
+    "zero/history controls use matched feature-ready support"
+  ],
+  "utc": "2026-09-22T03:47:51.693390+00:00",
+  "reviewer": "same-implementer follow-up source/evidence review",
+  "source_engine": {
+    "schema": "forex_design_alignment_pointer.v2",
+    "package": "MATCHED_CAMPAIGN_20260922_034749",
+    "path_forward": "MATCHED_CAMPAIGN_20260922_034749/PATH_FORWARD.md",
+    "run_status": "MATCHED_CAMPAIGN_20260922_034749/RUN_STATUS.json",
+    "design": "MATCHED_CAMPAIGN_20260922_034749/specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+    "design_coverage": "MATCHED_CAMPAIGN_20260922_034749/audit/DESIGN_COVERAGE.md",
+    "current_acceptance_addendum": "MATCHED_CAMPAIGN_20260922_034749/DESIGN_ACCEPTANCE_ADDENDUM.md",
+    "manifest": "MATCHED_CAMPAIGN_20260922_034749/MANIFEST.json",
+    "manifest_sha256": "12d579e750e45331bea4c91232116e628841aa4339515164f5506afe5012e5f7",
+    "readback": "MATCHED_CAMPAIGN_20260922_034749/PACKAGE_READBACK.json",
+    "active_integrity_batch": "ALL68_INTEGRITY_BATCH_05_20260921.md",
+    "active_integrity_batch_scope": "matched7elapsed-target development forecast campaign; policy bridge and calendar open",
+    "historical_package": "DESIGN_ALIGNMENT_20260921",
+    "scope": "current_verified_queue_and_bounded_recovery",
+    "cloud_sync_verified": false
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "schema": "forex_shared_git_operation.v2",
+  "status": "COMPLETE",
+  "utc": "2026-09-24T04:45:23.659806+00:00",
+  "repository": "https://github.com/shaggyga/tradez",
+  "branch": "forex",
+  "default_branch": "forex",
+  "source_commit": "b708be9c1ff8705a2f79b92de7d4ab833abc087a",
+  "handoff_document_commit": "b708be9c1ff8705a2f79b92de7d4ab833abc087a",
+  "remote_sha": "b708be9c1ff8705a2f79b92de7d4ab833abc087a",
+  "remote_push_verified": true,
+  "handoff_packet": "ABSOLUTE_MOVEMENT_20260924_044500",
+  "handoff_manifest_sha256": "797403c025a7c79b21063bd2febef176c6d428e64d889de52f2354521b28b8e2",
+  "scientific_next_item": "magnitude_conditioned_signed_forecast_layer_v2",
+  "next_action": "Freeze the magnitude-conditioned signed layer candidate; reuse saved prequential records; no base refits.",
+  "independent_source_review": "pending_nonblocking_by_user_clarification",
+  "independent_review": false,
+  "same_task_review": "accepted_within_scope",
+  "prior_operation_reference": {
+    "path": "ABSOLUTE_MOVEMENT_GIT_20260924_044500/PREVIOUS_RECEIPT.json",
+    "sha256": "6e29c553f0e9e0bbabd8037f6cc451d5a3d89787a0521bd36b19a3c61be9b679"
+  },
+  "checkpoint": {
+    "vault_relative_path": "ABSOLUTE_MOVEMENT_GIT_20260924_044500/forex-absolute-movement.bundle",
+    "sha256": "46615443efeff918a4c90580ee34d09cdd89d396e403ffa752e219657e3a75f6",
+    "bytes": 20199181,
+    "bundle_verify": "PASSED",
+    "remote_same_commit_verified": true,
+    "fresh_restore_verified": true,
+    "restore_command": "git -c core.longpaths=true clone --branch forex <bundle-path> forex",
+    "fresh_restore_receipt": "ABSOLUTE_MOVEMENT_GIT_20260924_044500/GIT_RESTORE_RECEIPT.json",
+    "fresh_restore_receipt_sha256": "76c475dcf31a0ef9526e99f8d5fdbcf58287725265a0603c30cfd34d6b430b4e"
+  },
+  "models_fitted": 28,
+  "original_models_refitted": 0,
+  "portable_restore_refits": 0,
+  "models_loaded": null,
+  "model_loading": "14saved_new_fit_pairs_reused; original_signed_forecasts_read_as_JSON; loads_not_instrumented",
+  "cloud_sync_or_second_machine_execution_verified": false
+}

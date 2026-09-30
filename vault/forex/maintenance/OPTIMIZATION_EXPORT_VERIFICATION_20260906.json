@@ -1,0 +1,90 @@
+{
+  "schema_version": "forex_vault_optimization_export_verification_v1",
+  "verified_utc": "2026-09-06T04:21:46.522835+00:00",
+  "status": "local_source_and_records_verified_runtime_stopped",
+  "source": {
+    "pointer": "source/WORKTREE_SOURCE_LATEST.json",
+    "archive": "forex_worktree_source_ddb3de7eaa7b86236c34a8ee.zip",
+    "archive_sha256": "0f7e0ac1523644cc3c83c006fa009f2d8d20dc79bb574a30282b003a82150ca7",
+    "manifest": "forex_worktree_source_ddb3de7eaa7b86236c34a8ee.manifest.json",
+    "manifest_sha256": "068a3da728c5ed8bd2afbddebf60a80e8d23155c8145d4bdae3dbabe76b6844f",
+    "files_verified": 1436,
+    "verification": {
+      "status": "passed",
+      "archive_sha256": "0f7e0ac1523644cc3c83c006fa009f2d8d20dc79bb574a30282b003a82150ca7",
+      "files_verified": 1436,
+      "python_files_compiled": 1001,
+      "roundtrip_verified": true,
+      "code_executed": false,
+      "account_processes_started": 0,
+      "network_activity": false
+    },
+    "current_worktree_member_mismatches": 0
+  },
+  "records": {
+    "manifest": "SHARED_PROJECT_STATE_CURRENT.json",
+    "manifest_sha256": "164cad957497d7ab4924ba7a67b1aa5027b969104d3be3305d8becc94a687c96",
+    "records_verified": 116,
+    "current_source_or_target_mismatches": 0,
+    "credential_preflight": {
+      "passed": true,
+      "records_scanned": 116,
+      "known_private_values_checked": true,
+      "shared_pattern_rules": [
+        "bearer_token",
+        "credential_assignment",
+        "credential_query",
+        "credential_uri",
+        "known_token_prefix",
+        "private_key_header"
+      ]
+    }
+  },
+  "optimization_receipt_sha256": "1b7ff7f4c567e9c7ac092adc3e31f57bab02f67d06cb2ce1eae923531be33a0a",
+  "candidate_credential_audit": {
+    "audited_revision": null,
+    "files_scanned": 1436,
+    "finding_count": 0,
+    "findings": [],
+    "generated_utc": "2026-09-06T04:19:23.516710+00:00",
+    "mode": "candidate",
+    "passed": true,
+    "policy_sha256": "b4c32be88f8885ba865e5a694d130d69c3786aa0c9fb23bfb62826f435a29bbe",
+    "privacy": {
+      "account_id_files": 66,
+      "account_id_occurrences": 114,
+      "classification": "private_source_metadata_not_bearer_credentials"
+    },
+    "schema_version": "git_credential_audit_v1"
+  },
+  "scoped_diff_check": {
+    "scope": "Optimization-owned source and records",
+    "passed": true,
+    "untracked_files": "Checked by source archive validation"
+  },
+  "issue_register_validation": {
+    "valid": true,
+    "errors": [],
+    "issue_count": 100,
+    "status_counts": {
+      "blocked_external": 4,
+      "complete": 55,
+      "implemented_collecting": 27,
+      "open": 1,
+      "permanently_invalid": 11,
+      "superseded_collecting": 2
+    }
+  },
+  "prediction_review_sha256": "205ca0f6a5fbd40af7b45c0994ffcf93424da675e79b4637d030cd84560d489e",
+  "preserved_before_optimization_manifest": "maintenance/before_optimization_20260906/PRESERVED_FILES.json",
+  "previous_source_archives_retained": true,
+  "git_commit_created": false,
+  "deletions": 0,
+  "runtime_restarted": false,
+  "broker_requests": 0,
+  "production_database_writes": 0,
+  "limitations": [
+    "Verifies local OneDrive folder bytes; cloud synchronization completion not observed.",
+    "Saved runtime snapshots remain historical; optimization does not claim live readiness or predictive alpha."
+  ]
+}

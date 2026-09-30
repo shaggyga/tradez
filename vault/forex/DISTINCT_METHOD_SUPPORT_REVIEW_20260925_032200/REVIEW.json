@@ -1,0 +1,48 @@
+{
+  "schema": "forex_checkpoint_review.v1",
+  "utc": "2026-09-25T03:20:25.870910Z",
+  "step_id": "distinct_forecast_method_comparison_v2",
+  "status": "blocked_support_check_complete",
+  "verdict": "blocked_no_preserved_third_exact_provenance_method",
+  "independent_review": false,
+  "independent_review_status": "pending_nonblocking_by_user_clarification",
+  "scope": "support/provenance check for distinct forecast method candidate; no fit, no API, no broker/service/account action, no live-bot change",
+  "candidate_card": "FORECASTING_CONTINUATION_20260924_191848/cards/distinct_forecast_method_comparison_v2.json",
+  "checks_performed": [
+    "Parsed artifacts/reuse_catalog.json for saved-fitted groups and model payload identities.",
+    "Read the distinct-method candidate card and prior forecasting eligibility review.",
+    "Read VAULT_FIRST_REUSE discovery index excerpt and DIRECTIONAL_RECOVERY recipe.",
+    "Opened retained directional recovery archive and inspected FROZEN_RUN.json, STUDY_SPEC.json, report, feature groups, and saved-model recreation receipt without extraction or refit."
+  ],
+  "findings": [
+    {
+      "id": "D01",
+      "result": "current_matched_methods_only_ridge_and_recovered_hgb",
+      "evidence": "artifacts/reuse_catalog.json matched_remaining_saved/rich_family_saved and prior eligibility review",
+      "effect": "No new distinct mechanism exists on the current matched chronological target/support beyond the two baselines already used."
+    },
+    {
+      "id": "D02",
+      "result": "directional_retained_saved_is_real_but_not_exact_current_target_support",
+      "evidence": "DIRECTIONAL_ARCHIVE_PROBE.json FROZEN_RUN/STUDY_SPEC/DIRECTION_DECISION_REPORT/SAVED_MODEL_AND_CURVE_RECREATION",
+      "effect": "The retained directional bundles are h5/h15/h30/h60 technical/combined cost-aware directional models over reused September 10-11 history, not the current matched chronological multi-horizon target/support contract required for this candidate."
+    },
+    {
+      "id": "D03",
+      "result": "no_duplicate_fit_or_relabel",
+      "evidence": "candidate card support_check plus VAULT_FIRST_REUSE rule",
+      "effect": "Using the directional archive as a third method would overstate provenance; repeating ridge/HGB would duplicate completed work."
+    }
+  ],
+  "blocked_reason": "No preserved third exact-provenance method currently qualifies for the distinct_forecast_method_comparison_v2 matched chronological gate. The available saved directional study is preserved and useful for later contract design, but has different horizons, target semantics, source protocol and inspected-history scope.",
+  "authorized_workaround_attempted": "Investigated the older directional retained archive as a possible supported alternative; rejected only after archive-level provenance inspection.",
+  "next_action": "Replenish from the engineering design with a concrete material input/cohort contract before any new distinct-method compute; keep GPT/advisor comparisons, paid APIs, broker/service/account actions, D-drive work, EUR/USD capture and live-bot changes deferred.",
+  "source_commit": "cbefa13173aa87432a811ef5a0c322b5064f4705",
+  "evidence_files": [
+    "REUSE_CATALOG_DISTINCT_SCAN.json",
+    "DISTINCT_SOURCE_READBACK.json",
+    "DIRECTIONAL_ARCHIVE_PROBE.json",
+    "CANDIDATE_CARD.json",
+    "PRIOR_ELIGIBILITY_REVIEW.md"
+  ]
+}

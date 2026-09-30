@@ -1,0 +1,2 @@
+Next: review_official_context_lock_checkpoint, then blocked_time_and_leak_positive_controls_v2.
+Complete declared whole-day association controls and real-data known-leak-positive extraction without fitting. Then predeclared irrelevant-feature/noise controls and conditional interactions.

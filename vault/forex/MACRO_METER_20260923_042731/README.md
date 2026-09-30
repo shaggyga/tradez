@@ -1,0 +1,14 @@
+# Currency evidence meter — ready for review
+
+Implemented Design14.5 meter using existing repaired detail source-asof states and semantic caches, plus recovered structured-label normalization.21 currencies across8cutoffs produce168states and544shared pair views;30concept rows have document/span drilldown.476document-evidence rows recur across cutoffs and are not independent documents or samples.8states have supported hold language,76lack usable sources,75have usable sources but no supported concept. Hold language is not certified neutral policy.
+
+One concept presence per distinct retained text prevents repeated spans or identical texts from multiplying votes. Normalization includes usable no-match texts in the denominator. Exact paraphrase detection is not claimed. Source ages, current-config coverage gaps, document/event/text counts, scoped linguistic transitions and unqualified stance/change are explicit. Historical expected coverage, issuer identity, extraction readiness, numeric surprise and directional forecast admission remain unproven.
+
+The self-contained offline HTML supports currency/snapshot selection, concept filtering, document opening and exact highlighted evidence. Source content is escaped inert text; no external requests.17local and17relocated tests passed;5outputs match byte-for-byte. Headless Edge interaction checks passed (concept/document clicks, exact spans, full document, empty-state reset;0page errors/0network requests). Initial Chromium test launch lacked its bundled executable; existing Edge passed without installing anything. Independent review unperformed.
+
+Live bot read-only review is attached as evidence/LIVE_BOT_REVIEW.md and evidence/LIVE_BOT_READONLY_REVIEW.json. At2026-09-23T04:08Z the dashboard/event capture were present but quote/collector heartbeats were36hours stale, quote status stopped, and supervisor recorded a profile-change error. Latest inspected practice trade was Sept16 USD/CHF, stopped out with logged P/L -0.1103. Current broker positions not verified; no runtime/account changes made.
+
+After review: macro_currency_meter_numeric_evidence_join_v2. Bind existing numeric/component/unit/provenance sidecars to the same selected event/version/cutoff and display exact units/periods/source evidence/gaps beside text concepts. Do not aggregate incompatible values or bypass missing original clocks/consensus/activation. GPT/advisor comparisons remain deferred; full engineering and forecast readiness remain false.
+
+
+Checkpoint: checkpoint/forex_macro_meter.zip, SHA256 55ae8ad38a4458b74633d106a2d34726f07376429103c58efe5684521e5d5204. Exact next: review_macro_meter_checkpoint_v2; then macro_currency_meter_numeric_evidence_join_v2. Prior checkpoints remain sealed in their original packages; approvals reference them without duplicating archives.

@@ -1,0 +1,2 @@
+Next: review_calibration_inspector_checkpoint, then native_remaining_target_readiness_rebuild_v2.
+Rebuild isolated original remaining-target readiness with eight serial fit slots; preserve all68 coverage and native nonprospective issuance refusal.

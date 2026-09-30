@@ -1,0 +1,65 @@
+{
+  "accepted": true,
+  "actual_checks": [
+    {
+      "contract_sha256": "ec2996ae9493b1697166833d5bef2646108bb1f6636d53db61d1aa9548eb9a6a",
+      "name": "material contract readback",
+      "selected_candidate_id": "macro_event_text_incremental_matched_contract_v1",
+      "status": "passed"
+    },
+    {
+      "checkpoint_sha256": "f1fcef5dad5d7eb55f65ffa311660cb332930b37c780298cf081be7de44e421b",
+      "event_layer_status": "negative_event_existence_development_result",
+      "local_tests_passed": 14,
+      "matched_controls": "technical+clock controls at 1h and 24h",
+      "name": "event-existence matched-control value readback",
+      "relocated_tests_passed": 14,
+      "reported_deltas": {
+        "1h": "clock+event MAE worsened by +0.49675 bps versus technical+clock",
+        "24h": "clock+event MAE worsened by +2.53014 bps versus technical+clock"
+      },
+      "run_identity": "c2709be60f699dba7b433a7b78f3b0a70c84e489d8546ee738a37e0dfcdede37",
+      "status": "passed",
+      "unique_learned_fits": 6
+    },
+    {
+      "blockers": [
+        {
+          "evidence": "Numeric surprise remains unavailable in MACRO_INCREMENTAL_SUPPORT_20260925_022000.",
+          "id": "MACRO-BLOCK-NUMERIC-SURPRISE",
+          "status": "blocked"
+        },
+        {
+          "evidence": "Retained text state package has zero comparable text-change values; MACRO_TEXT_REPAIR reports zero supported real text changes.",
+          "id": "MACRO-BLOCK-TEXT-CHANGE",
+          "status": "blocked"
+        },
+        {
+          "evidence": "Receipt capture has versions/events/boundary receipts but lacks release-identity matching, complete all-release calendar, matched price/no-move population and semantic admission.",
+          "id": "MACRO-BLOCK-RELEASE-IDENTITY",
+          "status": "blocked"
+        }
+      ],
+      "name": "text/numeric/release input-lineage assessment",
+      "status": "blocked_with_exact_dependencies"
+    }
+  ],
+  "forecast_evidence_status": "event_existence_negative_text_numeric_incremental_blocked_by_input_lineage",
+  "implementation_status": "complete_support_value_assessment_blocked_before_fit",
+  "independent_review": false,
+  "next_action": "design_branch_eligibility_review_v2: replenish supported design candidates after exact reuse/support census; recovered-model third-method block is not universal.",
+  "package": "MACRO_EVENT_TEXT_VALUE_ASSESSMENT_20260925_082500",
+  "readiness": {
+    "engineering_ready": false,
+    "forecast_evidence_status": "partial_negative_event_result_plus_blocked_text_numeric_inputs",
+    "policy_evidence_status": "not_evaluated_no_policy_replay",
+    "trading_readiness": "not_ready_not_claimed"
+  },
+  "resolved_findings": [
+    "QREV-05 support/value assessment, not full macro compute"
+  ],
+  "schema": "forex_checkpoint_review.v2",
+  "step_id": "macro_event_text_incremental_value_assessment_v2",
+  "utc": "2026-09-25T08:21:20.550051Z",
+  "verdict": "accepted_within_scope_blocked_input_lineage"
+}

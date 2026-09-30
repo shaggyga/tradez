@@ -1,0 +1,74 @@
+{
+  "step_id": "historical-fitted-slice",
+  "verdict": "accepted_within_scope",
+  "independent_review": false,
+  "finding_ids": [
+    "HF-R1"
+  ],
+  "findings_status": "resolved_by_addendum",
+  "next_item": "common_target_policy_input_adapter_v2",
+  "reviewed": [
+    "exact nine-file source delta",
+    "fit maturity/transform and readiness consumers",
+    "matched controls and separate settlement",
+    "per-fit crash/recovery boundaries",
+    "frozen operator and restored scientific hashes"
+  ],
+  "resource_correction": {
+    "status": "resolved",
+    "finding_id": "HF-R1",
+    "original_peak_scope": "launcher_only_not_worker",
+    "corrected_scope": "sampled_aggregate_launcher_and_recursive_worker_RSS",
+    "peak_rss_bytes": 89575424,
+    "sample_interval_seconds": 0.02,
+    "samples": 166,
+    "observed_process_count": 2,
+    "elapsed_seconds": 4.6719999997876585,
+    "scientific_payloads_identical": 13,
+    "limitations": [
+      "sampled_peak_can_miss_sub20ms_spikes",
+      "aggregate_RSS_may_double_count_shared_pages"
+    ],
+    "original_receipt_sha256": "5e436f1e2bc3b82893d25b97044a17315778901f77847646387b660e3295beb4",
+    "command": [
+      "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe",
+      "-I",
+      "-B",
+      "C:\\Users\\zmoor\\Documents\\forex\\stage_c_alignment_integrity_v2\\historical_operator_v2.py",
+      "run",
+      "--recipe",
+      "C:\\Users\\zmoor\\Documents\\forex\\stage_c_alignment_integrity_v2\\HISTORICAL_OPERATOR_RECIPE.json",
+      "--recipe-sha256",
+      "7cd984586bf81cbf0a0efa1a7e9a3b6ff73b0af8ec8f8bad6d2e542c37ea4d78",
+      "--input-root",
+      "C:\\Users\\zmoor\\Documents\\forex\\stage_c_alignment_integrity_v2\\evidence\\timed_20260922_001617\\historical_preflight",
+      "--contract",
+      "C:\\Users\\zmoor\\Documents\\forex\\stage_c_alignment_integrity_v2\\HISTORICAL_SLICE_CONTRACT.json",
+      "--runs-dir",
+      "C:\\Users\\zmoor\\Documents\\forex\\stage_c_alignment_integrity_v2\\evidence\\timed_20260922_001617\\historical_step\\resource_replay"
+    ],
+    "recipe_unchanged": true,
+    "new_model_candidate": false
+  },
+  "scope": "historical_forecast_only_development_slice",
+  "policy_replay_status": "blocked_missing_native_common_target_and_executable_input_contract",
+  "utc": "2026-09-22T01:34:07.304885+00:00",
+  "reviewer": "same-implementer follow-up source/evidence review",
+  "source_engine": {
+    "schema": "forex_design_alignment_pointer.v2",
+    "package": "HISTORICAL_FORECAST_20260922_012954",
+    "path_forward": "HISTORICAL_FORECAST_20260922_012954/PATH_FORWARD.md",
+    "run_status": "HISTORICAL_FORECAST_20260922_012954/RUN_STATUS.json",
+    "design": "HISTORICAL_FORECAST_20260922_012954/specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+    "design_coverage": "HISTORICAL_FORECAST_20260922_012954/audit/DESIGN_COVERAGE.md",
+    "current_acceptance_addendum": "HISTORICAL_FORECAST_20260922_012954/DESIGN_ACCEPTANCE_ADDENDUM.md",
+    "manifest": "HISTORICAL_FORECAST_20260922_012954/MANIFEST.json",
+    "manifest_sha256": "29e285d7fdaa11f8c8cc74416a108c87457fa9e2a588ced4579843d51eda0020",
+    "readback": "HISTORICAL_FORECAST_20260922_012954/PACKAGE_READBACK.json",
+    "active_integrity_batch": "ALL68_INTEGRITY_BATCH_05_20260921.md",
+    "active_integrity_batch_scope": "historical forecast-only slice verified; review and native common-target adapter next; campaign remains gated",
+    "historical_package": "DESIGN_ALIGNMENT_20260921",
+    "scope": "current_verified_queue_and_bounded_recovery",
+    "cloud_sync_verified": false
+  }
+}

@@ -1,0 +1,149 @@
+{
+  "schema": "forex.independent_checkpoint_review.v1",
+  "utc": "2026-09-25T13:05:31.747656+00:00",
+  "verdict": "changes_requested",
+  "reviewed_source_commit": "f91d1f4470c16901a4ecd62114a7deeafb002c0e",
+  "predecessor_review": "CHECKPOINT_REVIEW_20260925_124551/REVIEW_RESULT.json",
+  "independent_review": true,
+  "independent_review_scope": "Independent delegated review of REV-01..05 and cited engineering/eligibility evidence; not acceptance of implementation fixes or full scientific campaign",
+  "reviewers": [
+    "/root/fastpath_verification",
+    "/root/queue_independent_review",
+    "/root/review_residual_portability"
+  ],
+  "publisher": "/root (prior finding author; synthesis and publication only)",
+  "findings": [
+    {
+      "id": "REV-01",
+      "severity": "P1",
+      "title": "Current design pointer resolves to a navigation handoff",
+      "file": "DESIGN_ALIGNMENT_LATEST.json",
+      "line": 10,
+      "impact": "Operators following the required pointer read FOREX_HANDOFF.md instead of the full governing engineering design; a valid file hash does not establish semantic authority.",
+      "fix": "Restore a verified full-design reference while preserving the 556-file source snapshot and historical packages; make design, coverage and path-forward roles explicit.",
+      "design": "Full engineering design is the goal; AGENTS pointer-based startup.",
+      "independent_verdict": "confirmed",
+      "independent_reviewer": "/root/review_residual_portability",
+      "independent_review_scope": "The design pointer opens FOREX_HANDOFF.md. Full design exists and its 61d97130... SHA matches its historical manifest. Keep source snapshot and governing specification as explicit separate references.",
+      "independent_evidence": "independent_reviews/residual/REVIEW_RESULT.md",
+      "repair_status": "open"
+    },
+    {
+      "id": "REV-02",
+      "severity": "P2",
+      "title": "Residual replay proves local numerical replication, not complete portable restoration",
+      "file": "RESIDUAL_R4_PORTABLE_REPLAY_20260925_072300/RESTORE_REPLAY_RECEIPT.json",
+      "line": 8,
+      "impact": "Local residual output is hash-identical and usable parent restore assets already exist. The 279-entry parent checkpoint has no missing recipe inputs/solver or member hash errors. What remains unproved is the residual replay from relocated parents/projection artifacts without original-root dependencies, with an exact executable receipt.",
+      "fix": "Publish exact command/environment and authenticated retrieval/remapping instructions for all parents, then verify with original workspace dependencies unavailable. Preserve the proven output hash; label necessary replay replication.",
+      "design": "QREV-02/R4 portable source/input recipe and isolated restore gate; CHECKPOINT_REVIEW reproducible handoff.",
+      "independent_verdict": "confirmed_narrowed",
+      "independent_reviewer": "/root/review_residual_portability",
+      "independent_review_scope": "Local residual output is hash-identical and usable parent restore assets already exist. The 279-entry parent checkpoint has no missing recipe inputs/solver or member hash errors. What remains unproved is the residual replay from relocated parents/projection artifacts without original-root dependencies, with an exact executable receipt.",
+      "independent_evidence": "independent_reviews/residual/REVIEW_RESULT.md",
+      "repair_status": "open"
+    },
+    {
+      "id": "REV-03",
+      "severity": "P2",
+      "title": "Authenticate the curve expected population and bulk manifest",
+      "file": "stage_c_alignment_integrity_v2/curve_chronological_operator_v2.py",
+      "line": 41,
+      "impact": "Actual repaired result is complete: 192 authenticated frames, all 78,336 selected expected keys, exact 3,264-slot ledger. Upstream rejects a missing pair and pinned-byte tampering fails. However the full loader accepts an unanchored shortened descriptor list (184 frames, 23 origins, 3,128 slots) without reporting the omitted origin. This is a reusable input-contract defect, not observed corruption of saved scientific results.",
+      "fix": "Bind origins, instruments and base methods to an authenticated expected-population contract; report absent whole instruments/bases/origins explicitly. Add a missing-entire-instrument regression.",
+      "design": "R all-68 coverage; QREV-03 explicit expected population.",
+      "reproduction": "Existing timeseries312 Python -I -B evidence/independent_review_20260925/curve/verify_curve_review.py; full-import diagnostic, no fit or score",
+      "independent_verdict": "confirmed_narrowed",
+      "independent_reviewer": "/root/fastpath_verification",
+      "independent_review_scope": "Actual repaired result is complete: 192 authenticated frames, all 78,336 selected expected keys, exact 3,264-slot ledger. Upstream rejects a missing pair and pinned-byte tampering fails. However the full loader accepts an unanchored shortened descriptor list (184 frames, 23 origins, 3,128 slots) without reporting the omitted origin. This is a reusable input-contract defect, not observed corruption of saved scientific results.",
+      "independent_evidence": "independent_reviews/curve/REVIEW.md",
+      "repair_status": "open"
+    },
+    {
+      "id": "REV-04",
+      "severity": "P1",
+      "title": "Rich-feature candidate remains incomplete despite direct rescoring",
+      "file": "RICH_INCREMENTAL_DIRECT_EVAL_20260925_081700/REVIEW.md",
+      "line": 5,
+      "impact": "The map partitions only compact38/50/full228 and compares their preserved predictions. This is valid mixed development evidence, but neither maps individual families within the 178-feature block to prior fingerprints nor selects a materially untested supported add/remove comparison. The card explicitly permits bounded new fitting for such a hypothesis. QREV-04 is not closed.",
+      "fix": "Keep direct scores as completed reuse; enumerate actual family-level add/remove candidates and prior identities, qualify a materially untested candidate or record precise per-candidate support failures before closing.",
+      "design": "rich_feature_family_incremental_comparison_v2 deliverable and limits; design 10.2,11.2,27.4.",
+      "independent_verdict": "confirmed_narrowed",
+      "independent_reviewer": "/root/queue_independent_review",
+      "independent_review_scope": "The newer rich packet adds valid direct scoring and lists the 178 added columns. It evaluates only peer12/full178 group deltas; individual family-level untested masks and exact support failures remain unassessed. Preserve completed direct rescoring and qualify one material candidate instead of repeating old group fits.",
+      "independent_evidence": "independent_reviews/queue/REVIEW.md",
+      "repair_status": "open"
+    },
+    {
+      "id": "REV-05",
+      "severity": "P1",
+      "title": "Global offline exhaustion is still unsupported",
+      "file": "REMAINING_DESIGN_ELIGIBILITY_REFRESH_20260925_090300/ELIGIBILITY_REVIEW.json",
+      "line": 63,
+      "impact": "Unselected policy/exposure campaigns are treated as external blockers despite 48 existing local policy runs. The distinct-method branch only repeats the missing recovered-third-model blocker without assessing bounded alternatives required by design 12.2/12.4. These are unfinished selection/support tasks, not proof all authorized work is exhausted.",
+      "fix": "Retract global exhaustion, qualify reusable policy artifacts for a bounded cost/exposure hypothesis and assess bounded distinct-method alternatives under their own contracts. Do not launch a duplicate fit or claim these research runs qualified before the support checks. Preserve genuine confirmation and macro-lineage blockers.",
+      "design": "User six-hour prompt priorities 4/6; design 12.2,12.4,27.3,27.5,28.",
+      "independent_verdict": "confirmed",
+      "independent_reviewer": "/root/queue_independent_review",
+      "independent_review_scope": "All 48 retained retrospective policy runs have matching journal identities and 192 verified payload hashes; timestamped exposure data exists. This establishes eligible qualification work, not automatic readiness for a new experiment. The absent recovered third model still blocks only its narrow card; bounded new-method qualification was not exhausted.",
+      "independent_evidence": "independent_reviews/queue/REVIEW.md",
+      "repair_status": "open"
+    }
+  ],
+  "next_actions": [
+    {
+      "order": 1,
+      "id": "repair_design_authority_and_review_handoff_v2",
+      "purpose": "Restore verified full engineering design navigation while keeping source snapshot authority and current queue roles explicit.",
+      "finding": "REV-01"
+    },
+    {
+      "order": 2,
+      "id": "residual_r4_full_relocated_replay_verification_v2",
+      "purpose": "Reuse verified parent capsule and residual source; bind projection artifacts; publish exact isolated command and verify without original dependency roots.",
+      "finding": "REV-02"
+    },
+    {
+      "order": 3,
+      "id": "curve_authenticated_population_guard_v2",
+      "purpose": "Bind trusted bulk reference and recipe expected population; test shortened origin/instrument/base inputs through consumer; preserve saved negative result.",
+      "finding": "REV-03"
+    },
+    {
+      "order": 4,
+      "id": "rich_feature_family_incremental_comparison_v2",
+      "purpose": "Map actual families and attempted identities, qualify one materially untested supported mask or record exact per-candidate blockers.",
+      "finding": "REV-04"
+    },
+    {
+      "order": 5,
+      "id": "retained_policy_exposure_or_cost_support_qualification_v2",
+      "purpose": "Prespecify a retained reference scenario, validate lineage/population and qualify bounded descriptive exposure/cost work; no duplicate engine counting.",
+      "finding": "REV-05"
+    },
+    {
+      "order": 6,
+      "id": "bounded_distinct_method_support_qualification_v2",
+      "purpose": "Assess one distinct mechanism under its own reuse, causal population and resource contract; preserve recovered-only card blocker.",
+      "finding": "REV-05"
+    }
+  ],
+  "exact_next_item": "repair_design_authority_and_review_handoff_v2",
+  "tests_and_checks": {
+    "curve": "665 sealed member records, 192 frame hashes/IDs, 78336 expected population keys, exact saved coverage ledger; full-import malformed manifest and pinned-byte failure diagnostics passed",
+    "residual": "Parent archive 279 entries authenticated; required inputs/solver checked; 195 preserved projection payloads checked; no numerical replay",
+    "policy": "48 run/journal identities and 192 input/event/report/audit payload hashes verified; no new policy replay",
+    "startup": "Source/revision/manifest/doc checks passed; unrelated EURUSD owner and pending correction gate block research preflight. Review scope authorized and nonoverlapping.",
+    "residual_launcher": "Two --help probes: -I -B exits 1 on sibling-module import; -B exits 0. Exact launcher must be recorded; no requirement to use -I is inferred and successful numerical parity is not invalidated."
+  },
+  "readiness": {
+    "engineering_ready": false,
+    "forecast_evidence_status": "Preserved development evidence; not independently confirmed skill",
+    "policy_evidence_status": "Preserved retrospective scenarios; support qualification remains",
+    "demo_authorization_status": "not_granted"
+  },
+  "scientific_source_changes": [],
+  "models_fitted": 0,
+  "scientific_reruns": 0,
+  "boundaries": "No GPT/advisor, paid APIs, broker/service/account actions, D-drive, EURUSD capture or live-bot work."
+}

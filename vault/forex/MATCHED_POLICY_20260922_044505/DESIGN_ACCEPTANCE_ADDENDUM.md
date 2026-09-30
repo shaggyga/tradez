@@ -1,0 +1,1 @@
+Bounded matched learned-policy bridge verified; full Step E/calendar campaign and independent review still open. Three reproduced engineering defects repaired with exact evidence.

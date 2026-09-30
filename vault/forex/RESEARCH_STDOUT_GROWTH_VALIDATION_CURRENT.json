@@ -1,0 +1,123 @@
+{
+  "schema_version": "forex_research_stdout_growth_validation_v1",
+  "generated_utc": "2026-09-02T18:50:30Z",
+  "scope": {
+    "classification": "research_worker_storage_correctness",
+    "canonical_root": "C:\\Users\\zmoor\\Documents\\forex\\trad",
+    "affected_workers": [
+      "official_release_fast_mapper",
+      "move_first_live_arm_alignment_v1",
+      "move_first_operational_mapping_alignment_v4"
+    ],
+    "forecast_contract_changed": false,
+    "evidence_contract_changed": false,
+    "worker_cadence_changed": false,
+    "proof_or_execution_gate_changed": false
+  },
+  "problem": {
+    "symptom": "three recurring research workers copied their already-published multi-megabyte JSON cycle payloads into unbounded supervisor stdout logs",
+    "root_cause": "the workers had no quiet runtime mode and the supervisor retained their full cycle stdout",
+    "pre_repair_logs": [
+      {
+        "path": "data/oanda_training_manager/logs/move_first_operational_mapping_alignment_v4_supervised_20260902_100208.out.log",
+        "final_bytes": 1361668259,
+        "last_write_utc": "2026-09-02T18:38:48.5226513Z"
+      },
+      {
+        "path": "data/oanda_training_manager/logs/move_first_live_arm_alignment_v1_supervised_20260902_113750.out.log",
+        "final_bytes": 936574782,
+        "last_write_utc": "2026-09-02T18:39:05.8532359Z"
+      },
+      {
+        "path": "data/oanda_training_manager/logs/official_release_fast_mapper_supervised_20260902_100024.out.log",
+        "final_bytes": 404271000,
+        "last_write_utc": "2026-09-02T18:39:40.4132294Z"
+      }
+    ],
+    "combined_pre_repair_bytes": 2708514041
+  },
+  "repair": {
+    "worker_change": "added --quiet to suppress only the redundant stdout cycle payload while retaining report, database and heartbeat publication",
+    "supervisor_change": "the three active worker definitions now pass --quiet",
+    "reload_scope": "old supervisor plus the exact three affected worker launcher/runtime pairs only",
+    "old_supervisor_pid": 33252,
+    "new_supervisor_pid": 11712,
+    "new_worker_pid_pairs": {
+      "official_release_fast_mapper": [23288, 16768],
+      "move_first_live_arm_alignment_v1": [29644, 3768],
+      "move_first_operational_mapping_alignment_v4": [24700, 18920]
+    },
+    "historical_logs_deleted_or_truncated": 0
+  },
+  "post_repair_observation": {
+    "replacement_logs": [
+      {
+        "path": "data/oanda_training_manager/logs/move_first_operational_mapping_alignment_v4_supervised_20260902_144158.out.log",
+        "bytes_after_multiple_cycles": 0
+      },
+      {
+        "path": "data/oanda_training_manager/logs/move_first_live_arm_alignment_v1_supervised_20260902_144156.out.log",
+        "bytes_after_multiple_cycles": 0
+      },
+      {
+        "path": "data/oanda_training_manager/logs/official_release_fast_mapper_supervised_20260902_144016.out.log",
+        "bytes_after_multiple_cycles": 0
+      }
+    ],
+    "replacement_error_log_bytes": 0,
+    "old_log_sizes_frozen": true,
+    "official_mapper_snapshot_last_write_local": "2026-09-02T14:45:43-04:00",
+    "official_mapper_heartbeat_state": "cycle_complete",
+    "live_arm_report_last_write_local": "2026-09-02T14:45:19-04:00",
+    "operational_mapping_v4_report_last_write_local": "2026-09-02T14:45:24-04:00",
+    "direct_disk_free_delta_bytes_over_25_sec": 57372672,
+    "disk_interpretation": "the monotonic rapid decline stopped; shared-volume free space fluctuated upward during the independent observation",
+    "automatic_evidence_deletion": false,
+    "automatic_vacuum": false
+  },
+  "validation": {
+    "python_compile": "passed",
+    "powershell_parse": "passed",
+    "focused_pytest_count": 52,
+    "focused_pytest_result": "passed",
+    "dedicated_regression": "all three active supervisor blocks must contain --quiet",
+    "source_hashes_sha256": {
+      "oanda_official_release_fast_mapper.py": "827d2b035e137ac0fb6bd13f9981c2134440fed037671860c0ce1d0bfa4961ec",
+      "oanda_move_first_live_arm_alignment_v1.py": "822fd9f6e4859a45e76a2008642666d54805ca8c30c3a4400808cc10fc869e25",
+      "oanda_move_first_operational_mapping_alignment_v1.py": "9746b1717c3846af5c128d1c02af68046cea5fe9190fd72011fd28d17f107848",
+      "oanda_always_on_supervisor.ps1": "808c54d362c92bc976e123c32dbc16f8bad2690400eecb6a820bd230a809f484",
+      "test_oanda_supervisor_integrity_freshness.py": "2f98be7deec6d68a3d78c5f79afdebb8be2805d3e5e26c4ec6a716483c82d8ee"
+    }
+  },
+  "live_safety_receipt": {
+    "observed_local_time": "2026-09-02T14:49:00-04:00",
+    "practice_account": "101-001-37981792-007",
+    "balance": 41.6042,
+    "nav": 41.6042,
+    "cumulative_pl": -8.343,
+    "open_trades": 0,
+    "pending_orders": 0,
+    "executor_status": "running",
+    "qualified_candidates": 0,
+    "entry_authorized": false,
+    "fills": 0,
+    "quote_count": 68,
+    "tradeable_quote_count": 65,
+    "project_integrity_status": "ok",
+    "project_integrity_failures": 0,
+    "executable_census_cohort": "all68_executable_move_census_v3_20260902h",
+    "executable_census_verified": true,
+    "executable_census_frames": 249,
+    "supported_decision": "no_trade"
+  },
+  "safety": {
+    "manual_orders": 0,
+    "manual_closes": 0,
+    "real_money_enabled": false,
+    "entry_gate_changed": false,
+    "promotion_gate_changed": false,
+    "authorization_gate_changed": false,
+    "evidence_rows_rewritten": 0,
+    "codex_automation_created": false
+  }
+}

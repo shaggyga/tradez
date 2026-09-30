@@ -1,0 +1,2 @@
+Next: review_macro_matched_population_checkpoint_v2, then macro_causal_version_text_state_v2.
+Continue causal versionwise text states, then qualify matched semantic/model additions on demonstrated support. No full-cohort event flags or future outcomes in earlier features.

@@ -1,0 +1,15 @@
+{
+  "recipe": "source_snapshot/RESIDUAL_CALIBRATION_OPERATOR_RECIPE.json",
+  "recipe_sha256": "a894436db0ab12f820f2ab4e242a41da2d3f9cae2b3dad7763955e34e622046d",
+  "scope": "continuous-return residual diagnostics under modeled availability; no actual-issuance or confirmation claim",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify"
+  ],
+  "bootstrap": "../RESIDUAL_CALIBRATION_20260922_121224/checkpoint/forex_residual_calibration.zip",
+  "contract": "source_snapshot/RESIDUAL_CALIBRATION_CONTRACT_V2.md",
+  "next": "review_residual_calibration_checkpoint"
+}

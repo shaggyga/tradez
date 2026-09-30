@@ -1,0 +1,37 @@
+{
+  "step_id": "macro_text_state_change_v2",
+  "verdict": "ready_for_review",
+  "independent_review": false,
+  "next_item": "review_macro_text_state_change_checkpoint_v2",
+  "scope": "documentation count correction only; no independent source review",
+  "findings": [
+    {
+      "finding": "MT-DOC-1",
+      "type": "documentation_count_correction",
+      "correct_4000_character_summary_count": 7,
+      "incorrect_review_prose_count": 8,
+      "source": "C:\\Users\\zmoor\\Documents\\forex\\stage_c_alignment_integrity_v2\\evidence\\macro_text_layer_20260922\\inputs\\baseline.json",
+      "source_sha256": "08bbf63aec7b0655f14140fd5995c26d80ee32595d9c9c7ce2ac9a1688b91dcd",
+      "scientific_payloads_changed": false
+    }
+  ],
+  "utc": "2026-09-22T13:51:06.324293+00:00",
+  "reviewer": "same-implementer follow-up source/evidence review",
+  "source_engine": {
+    "schema": "forex_design_alignment_pointer.v2",
+    "package": "MACRO_TEXT_LAYER_20260922_135019",
+    "path_forward": "MACRO_TEXT_LAYER_20260922_135019/PATH_FORWARD.md",
+    "run_status": "MACRO_TEXT_LAYER_20260922_135019/RUN_STATUS.json",
+    "design": "MACRO_TEXT_LAYER_20260922_135019/specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+    "design_coverage": "MACRO_TEXT_LAYER_20260922_135019/CURRENT_DESIGN_COVERAGE.md",
+    "current_acceptance_addendum": "MACRO_TEXT_LAYER_20260922_135019/DESIGN_ACCEPTANCE_ADDENDUM.md",
+    "manifest": "MACRO_TEXT_LAYER_20260922_135019/MANIFEST.json",
+    "manifest_sha256": "fc6b3b185ac4cdf0d71522a048649c8f6641d27035b2e57e24edb014dc79c710",
+    "readback": "MACRO_TEXT_LAYER_20260922_135019/PACKAGE_READBACK.json",
+    "active_integrity_batch": "ALL68_INTEGRITY_BATCH_05_20260921.md",
+    "active_integrity_batch_scope": "retrospective retained English phrase states/change and all68 context; no forecast improvement or historical issuance",
+    "historical_package": "DESIGN_ALIGNMENT_20260921",
+    "scope": "current_verified_queue_and_bounded_recovery",
+    "cloud_sync_verified": false
+  }
+}

@@ -1,0 +1,1 @@
+Scoped R03/R09/R13/R14, WP7/WP9/WP10 and TST37/48/50/51/52. Broader null calibration, macro assignment and protected confirmation remain open.

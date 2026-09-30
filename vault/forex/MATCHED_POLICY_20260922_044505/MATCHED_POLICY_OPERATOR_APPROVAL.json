@@ -1,0 +1,15 @@
+{
+  "recipe": "source_snapshot/MATCHED_POLICY_OPERATOR_RECIPE.json",
+  "recipe_sha256": "46080ca7c5fa35dc0d837fb5168d4cf4a2b6a34cd2967161c143ee1ab9f225b3",
+  "scope": "two learned methods, two declared candle scenarios, isolated policies, no observed execution",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify"
+  ],
+  "bootstrap": "checkpoint/forex_matched_policy.zip",
+  "contract": "source_snapshot/MATCHED_POLICY_CONTRACT_V2.md",
+  "next": "review_matched_policy_checkpoint"
+}

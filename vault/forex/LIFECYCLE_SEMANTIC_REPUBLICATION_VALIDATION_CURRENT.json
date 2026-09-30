@@ -1,0 +1,80 @@
+{
+  "schema_version": "forex_lifecycle_semantic_republication_validation_v1",
+  "generated_utc": "2026-09-02T12:48:12Z",
+  "incident": {
+    "detected_audit_generated_utc": "2026-09-02T12:35:57.715804Z",
+    "failure": "independent_verifier_matches",
+    "scope": "read_only_project_integrity_publication",
+    "effect": "transient_fail_closed_integrity_degradation_only",
+    "orders_or_authorizations_affected": 0,
+    "root_cause": "the_lifecycle_worker_republished_semantically_identical_state_after_the_independent_verifier_completed_but_the_integrity_audit_required_whole_file_byte_identity_including_generated_utc",
+    "original_verifier_lifecycle_file_sha256": "69eb0efaf9276a260e017ba9c6fcedefdf6e248723cadb7207e48de7bfb4312f",
+    "republished_lifecycle_file_sha256": "0c4dc204f9181d097e0ad91d65512a44bd2a6d3c795d6b56d3077e23aa112c70",
+    "shared_current_state_sha256": "bc4244453c98c3b3d56f5f8be232254cc8aa04b2e4f9d6ea1ec220d80770b12c",
+    "shared_hypothesis_count": 52919,
+    "shared_states": {
+      "confirmed_candidate": 0,
+      "continue_collecting": 43473,
+      "futility_rejected": 9446
+    },
+    "shared_lifecycle_event_highwater_rowid": 53376,
+    "shared_futility_retirement_highwater_rowid": 9446,
+    "shared_hypothesis_highwater_rowid": 52919
+  },
+  "repair": {
+    "component": "oanda_project_integrity_audit.py",
+    "rule": "accept_a_recent_completed_independent_match_when_either_raw_lifecycle_bytes_match_or_the_current_self_consistent_lifecycle_integrity_contract_exactly_equals_the_verifiers_passed_published_integrity_attestation",
+    "semantic_match_requires": [
+      "exact_evidence_lifecycle_publication_integrity_v1_contract",
+      "nonempty_current_state_sha256",
+      "current_state_count_and_hypothesis_count_equal_current_lifecycle_counts",
+      "every_terminal_state_count_matches_current_lifecycle_counts",
+      "the_verifier_lifecycle_publication_integrity_check_passed",
+      "the_complete_current_integrity_object_equals_the_verifiers_published_integrity_object",
+      "the_verifier_match_is_recent_and_all_existing_routing_safety_checks_pass"
+    ],
+    "still_rejected": [
+      "changed_state_sha256",
+      "changed_counts",
+      "changed_highwater",
+      "changed_futility_or_reconsideration_state",
+      "missing_or_failed_verifier_integrity_check",
+      "stale_verifier",
+      "open_routing_or_promotion_surface"
+    ]
+  },
+  "validation": {
+    "focused_tests": 71,
+    "focused_test_result": "passed",
+    "regression_cases": [
+      "exact_semantic_republication_with_different_outer_file_bytes_passes",
+      "one_highwater_change_fails",
+      "failed_verifier_integrity_check_fails",
+      "raw_fingerprint_mismatch_without_semantic_attestation_fails",
+      "rebuilt_lifecycle_count_mismatch_fails"
+    ],
+    "live_reload": {
+      "audit_generated_utc": "2026-09-02T12:47:03.852343Z",
+      "audit_finished_utc": "2026-09-02T12:47:08.400663Z",
+      "status": "ok",
+      "failure_count": 0,
+      "independent_verifier_matches": true,
+      "supported_decision": "no_trade",
+      "can_place_orders": false,
+      "can_promote": false
+    },
+    "code_sha256": "f5db54f1623f81aedc341784e9e30b0226354347c9c42a43cbd06bc1a773270d",
+    "test_sha256": "7e7ef70239468114d50f254d9b9b731f6a3cb860f63d8905456f86b8eee5a7aa"
+  },
+  "safety": {
+    "research_only": true,
+    "real_money_enabled": false,
+    "entry_gate_changed": false,
+    "promotion_gate_changed": false,
+    "authorization_gate_changed": false,
+    "evidence_rows_rewritten": 0,
+    "manual_orders": 0,
+    "manual_closes": 0,
+    "codex_automation_created": false
+  }
+}

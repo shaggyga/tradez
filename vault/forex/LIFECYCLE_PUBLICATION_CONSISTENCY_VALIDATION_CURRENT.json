@@ -1,0 +1,115 @@
+{
+  "schema_version": "forex_lifecycle_publication_consistency_validation_v1",
+  "generated_utc": "2026-09-01T23:58:00Z",
+  "status": "validated_live",
+  "issue_id": "FX-20260901-LIFECYCLE-PUBLICATION-CONSISTENCY",
+  "scope": "ordering of the long read-only proof-velocity calculation, append-only lifecycle mutation, published lifecycle state, genealogy coverage, and independent verification",
+  "defect": {
+    "summary": "The lifecycle cycle committed new hypotheses and transitions before running a long read-only proof-cohort velocity scan. During that scan, the append-only database was newer than the published lifecycle and genealogy states, so the independent verifier correctly blocked on an ordinary processing window.",
+    "first_observed_verifier_utc": "2026-09-01T23:34:58.471868Z",
+    "database_hypotheses": 52861,
+    "published_hypotheses": 52828,
+    "genealogy_governed_cells": 52828,
+    "missing_genealogy_cells": 33,
+    "database_states": {
+      "confirmed_candidate": 0,
+      "continue_collecting": 43422,
+      "futility_rejected": 9439
+    },
+    "published_states": {
+      "confirmed_candidate": 0,
+      "continue_collecting": 43392,
+      "futility_rejected": 9436
+    },
+    "failed_checks": [
+      "lifecycle_current_state_rebuild",
+      "genealogy_covers_lifecycle"
+    ],
+    "execution_effect": "none; the verifier, authorization layer, executor and project-integrity audit all failed closed, with zero confirmed candidates and no authorized entry"
+  },
+  "repair": {
+    "ordering": [
+      "measure proof-cohort velocity from immutable read-only inputs",
+      "check/bootstrap the fixed lifecycle snapshot",
+      "ingest and commit current cells",
+      "summarize the committed lifecycle",
+      "atomically publish the matching state"
+    ],
+    "invariant": "The expensive proof-velocity scan cannot create a period where the lifecycle database high-water exceeds the published lifecycle state merely because read-only analysis is still running.",
+    "append_only_history_changed": false,
+    "existing_lifecycle_rows_rewritten": false,
+    "threshold_or_state_logic_changed": false
+  },
+  "live_validation": {
+    "prior_cycle_completed_utc": "2026-09-01T23:52:16.967591Z",
+    "prior_cycle_published_hypotheses": 52861,
+    "prior_cycle_published_states": {
+      "confirmed_candidate": 0,
+      "continue_collecting": 43422,
+      "futility_rejected": 9439
+    },
+    "reload_boundary": "idle_between_cycles",
+    "replacement_wrapper_pid": 25768,
+    "replacement_child_pid": 25552,
+    "replacement_started_utc": "2026-09-01T23:54:57.233026Z",
+    "observed_phase": "running_lifecycle",
+    "observed_lifecycle_step": "measuring_proof_cohort_velocity",
+    "during_velocity_scan": {
+      "database_hypotheses": 52861,
+      "published_hypotheses": 52861,
+      "genealogy_governed_cells": 52861,
+      "database_states": {
+        "confirmed_candidate": 0,
+        "continue_collecting": 43422,
+        "futility_rejected": 9439
+      },
+      "published_states": {
+        "confirmed_candidate": 0,
+        "continue_collecting": 43422,
+        "futility_rejected": 9439
+      },
+      "all_match": true
+    },
+    "independent_verifier": {
+      "generated_utc": "2026-09-01T23:56:03.691942Z",
+      "status": "match",
+      "failed_checks": []
+    },
+    "project_integrity": {
+      "generated_utc": "2026-09-01T23:57:26.628651Z",
+      "status": "ok",
+      "failures": []
+    },
+    "supervisor_adopted_replacement": true,
+    "duplicate_worker_detected": false,
+    "worker_errors": 0,
+    "new_confirmed_candidates": 0
+  },
+  "tests": {
+    "command_scope": [
+      "test_oanda_hypothesis_lifecycle.py",
+      "test_oanda_evidence_operations_worker.py",
+      "test_oanda_independent_evidence_verifier.py",
+      "test_oanda_project_integrity_audit.py"
+    ],
+    "result": "76 passed",
+    "ordering_regression": "proof_cohort_velocity completes before bootstrap_fixed_snapshot and ingest_current_cells"
+  },
+  "implementation_hashes": {
+    "oanda_hypothesis_lifecycle.py": "1c5e2e4f1cfcf27aacf97ae96b940012156b1e6274597d8e482237c3a9cdefd2",
+    "test_oanda_hypothesis_lifecycle.py": "1f9df5ad341c5bd578cd26ae4ce05ba00eda0e0857184541664bef76471a00ba",
+    "oanda_evidence_operations_worker.py": "9bfa2ce7851002ccc413fbef8609f40b54ef9cb4cf106637e243f36c48a6f0f7",
+    "oanda_independent_evidence_verifier.py": "ed72e177038cacd0bed47651a8996f62bf1e6f3a312b4fdecdc6768808c4e90e",
+    "oanda_project_integrity_audit.py": "7a57e5d1e2286685522fd39ed6d94c833ec4d25121deae4e3a06e7411f7ef84a"
+  },
+  "safety": {
+    "research_only": true,
+    "proof_gate_changed": false,
+    "authorization_gate_changed": false,
+    "practice_execution_gate_changed": false,
+    "real_money_enabled": false,
+    "manual_order_or_close": false,
+    "codex_automation_created": false,
+    "canonical_workspace_only": true
+  }
+}

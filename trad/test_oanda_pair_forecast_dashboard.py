@@ -227,7 +227,7 @@ renderMarketOverview(data);const current=elements['market-overview'].innerHTML;
 marketOverviewPair='USD_JPY';renderMarketOverview(data);const selected=elements['market-overview'].innerHTML;
 marketOverviewPair='';marketOverviewAll=true;Date.now=()=>"""+str((NOW+91)*1000)+""";
 renderMarketOverview(data);process.stdout.write(JSON.stringify({current,selected,stale:elements['market-overview'].innerHTML}));"""
-    result = json.loads(subprocess.run([node,"-e",harness],capture_output=True,text=True,encoding="utf-8",check=True,timeout=15).stdout)
+    result = json.loads(subprocess.run([node],input=harness,capture_output=True,text=True,encoding="utf-8",check=True,timeout=15).stdout)
     assert "1 pairs forecast · 1 warming · 1 unavailable" in result["current"]
     assert "Show all 3" in result["current"]
     assert "Needs 61 own minute bars · last attempt 12/61" in result["current"]

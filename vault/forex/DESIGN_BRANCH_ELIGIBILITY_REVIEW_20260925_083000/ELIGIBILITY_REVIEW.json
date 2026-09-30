@@ -1,0 +1,211 @@
+{
+  "schema": "forex.design_branch_eligibility_review.v1",
+  "packet_id": "DESIGN_BRANCH_ELIGIBILITY_REVIEW_20260925_083000",
+  "created_utc": "2026-09-25T08:26:28.998834Z",
+  "session_id": "six_hour_queue_20260925_070224",
+  "claim_id": "mabel-six-hour-queue-20260925-070224",
+  "source_commit": "b5f5e56e361aadf39f01f69fadf1ea5fa56cead3",
+  "review_source": "QUEUE_INDEPENDENT_REVIEW_20260925_061000 plus current REVIEW_QUEUE.json and design coverage/path-forward records",
+  "qrev01_disposition": "Queue-exhaustion conclusion rejected and not repeated. This packet records a branch-by-branch census, scopes blockers, preserves repaired negative/mixed results, and selects a supported offline next package instead of claiming universal exhaustion.",
+  "universal_exhaustion_claim": false,
+  "pending_independent_review_is_stop_condition": false,
+  "branches": [
+    {
+      "branch_id": "qrev06_handoff_preflight_identity_repair",
+      "design_mapping": [
+        "WP10 portable/restartable publication and review pointers",
+        "startup/preflight identity gates"
+      ],
+      "status": "complete_this_session",
+      "evidence_packets": [
+        "HANDOFF_PREFLIGHT_REPAIR_20260925_070800",
+        "SOURCE_SNAPSHOT_REFRESH_20260925_074200"
+      ],
+      "finding_disposition": "Current document/source/board/queue identities repaired; preflight substantive gates pass with unrelated EUR/USD claim recorded as non-overlap.",
+      "next_or_remedy": "None for queue execution; keep scoped non-overlap record while EUR/USD capture remains another task.",
+      "eligible_for_new_compute": false
+    },
+    {
+      "branch_id": "currency_projection_residual_layer_comparison_v2",
+      "design_mapping": [
+        "forecast layer development diagnostic",
+        "WP10 portable restore proof"
+      ],
+      "status": "complete_development_diagnostic_independent_review_pending_nonblocking",
+      "evidence_packets": [
+        "RESIDUAL_R4_PORTABLE_REPLAY_20260925_072300"
+      ],
+      "finding_disposition": "QREV-02 R4 portable restore/replay was repaired by isolated restored execution; replay hash matched preserved output.",
+      "next_or_remedy": "Independent scientific review remains useful but is not a timed-session blocker.",
+      "eligible_for_new_compute": false
+    },
+    {
+      "branch_id": "forecast_curve_shape_layer_comparison_v2",
+      "design_mapping": [
+        "all-68 matched/native coverage accounting",
+        "forecast layer development diagnostic"
+      ],
+      "status": "complete_negative_development_result_independent_review_pending_nonblocking",
+      "evidence_packets": [
+        "CURVE_COVERAGE_REPAIR_20260925_073500"
+      ],
+      "finding_disposition": "QREV-03 repaired: 3264 slots enumerated, 2156 complete and 1108 incomplete due base_unavailable missing constituents; negative MAE result preserved.",
+      "next_or_remedy": "No unchanged repeat. Any successor must materially change hypothesis/support and cite this negative control result.",
+      "eligible_for_new_compute": false
+    },
+    {
+      "branch_id": "rich_feature_family_incremental_comparison_v2",
+      "design_mapping": [
+        "R06/R15 feature-family incremental value; corrected-input comparison predecessor"
+      ],
+      "status": "complete_mixed_development_result_independent_review_pending_nonblocking",
+      "evidence_packets": [
+        "RICH_INCREMENTAL_DIRECT_EVAL_20260925_081700"
+      ],
+      "finding_disposition": "QREV-04 repaired: restored rich-family forecasts; directly compared compact50-compact38 and full228-compact50 on 28 matched rows each; no refit.",
+      "next_or_remedy": "Use as feature-family evidence. Do not treat compact38/50/full228 predecessors as blanket closure for different future hypotheses.",
+      "eligible_for_new_compute": false
+    },
+    {
+      "branch_id": "macro_event_text_incremental_value_assessment_v2",
+      "design_mapping": [
+        "WP6 macro pipeline",
+        "R05 causal macro states",
+        "design sections 12.2/12.4/27.2/27.4"
+      ],
+      "status": "event_existence_value_assessed_text_numeric_blocked_before_fit",
+      "evidence_packets": [
+        "MACRO_EVENT_TEXT_VALUE_ASSESSMENT_20260925_082500"
+      ],
+      "finding_disposition": "QREV-05 addressed: event-existence layer has negative matched-control evidence; broader text/numeric/reaction incremental test blocked by missing exact input lineage and zero comparable text-change values.",
+      "next_or_remedy": "Repair or retrieve exact input lineage before any broader text/numeric fit: numeric surprise population, comparable text-change values, release identity/all-release/no-move population, semantic admission.",
+      "eligible_for_new_compute": false
+    },
+    {
+      "branch_id": "distinct_forecast_method_comparison_v2",
+      "design_mapping": [
+        "independent forecast method comparison and recovered-model reuse"
+      ],
+      "status": "blocked_no_preserved_third_exact_provenance_method",
+      "evidence_packets": [
+        "DISTINCT_METHOD_SUPPORT_REVIEW_20260925_032200"
+      ],
+      "finding_disposition": "Recovered-model/third-method blocker is scoped only to this candidate. It does not block other design alternatives.",
+      "next_or_remedy": "Retrieve/prove a third exact-provenance method before the matched chronological distinct-method gate; do not refit automatically.",
+      "eligible_for_new_compute": false
+    },
+    {
+      "branch_id": "currency_projection_confirmation_protocol_v2",
+      "design_mapping": [
+        "WP9 confirmation/stress",
+        "independent confirmation after development"
+      ],
+      "status": "blocked_pending_untouched_confirmation_cohort",
+      "evidence_packets": [
+        "CURRENCY_PROJECTION_POLICY_ATTRIBUTION_20260924_114246"
+      ],
+      "finding_disposition": "No untouched qualified all-68 mature cohort exists after epoch 1722535260. User also placed data capture in another task.",
+      "next_or_remedy": "When qualified untouched offline inputs exist, freeze confirmation contract/resource budget before compute. This blocker is not universal.",
+      "eligible_for_new_compute": false
+    },
+    {
+      "branch_id": "forecast_blend_and_later_layer_policy_chain",
+      "design_mapping": [
+        "bounded all-68 daily/multiday successor diagnostics",
+        "forecast skill versus policy outcomes"
+      ],
+      "status": "historically_complete_accepted_within_scope",
+      "evidence_packets": [
+        "FORECAST_BLEND_REPAIRS_20260924_031500",
+        "CAUSAL_CONVEX_20260924_034000",
+        "FIXED_REMAINING_BLEND_20260924_040000",
+        "ABSOLUTE_MOVEMENT_20260924_044500",
+        "MAGNITUDE_LAYER_20260924_051000",
+        "LATER_REMAINING_SURFACE_20260924_060000",
+        "LATER_LAYER_POLICY_20260924_070000",
+        "LAYER_POLICY_ATTRIBUTION_20260924_073000"
+      ],
+      "finding_disposition": "Existing chain is complete within scope and should be reused, not repeated unchanged.",
+      "next_or_remedy": "A successor must select a materially untested, supported alternative with exact predecessor comparison and controls.",
+      "eligible_for_new_compute": false
+    },
+    {
+      "branch_id": "current_forecast_trade_reconciliation_and_inspector",
+      "design_mapping": [
+        "R13 forecast-only/outcome separation",
+        "design pending item 16 current forecast/trade reconciliation",
+        "WP10 inspection/recovery"
+      ],
+      "status": "eligible_offline_support_package_next",
+      "evidence_packets": [
+        "DESIGN_COVERAGE.md lines around R13/WP10 and pending item 16",
+        "existing forecast publication contracts E10"
+      ],
+      "finding_disposition": "This is not a live-bot or broker action: it can be advanced offline by inventorying current forecast-only/outcome store identities and defining an inspector/reconciliation contract over preserved files. It does not require EUR/USD capture, paid APIs, GPT/advisor comparison or broker/service/account action.",
+      "next_or_remedy": "Next exact eligible package: forecast_outcome_inspector_reconciliation_contract_v2. Bind existing forecast publication schemas, outcome reveal controls, current preserved outputs, missing/WAIT accounting and read-only report requirements before implementation.",
+      "eligible_for_new_compute": true
+    },
+    {
+      "branch_id": "corrected_input_comparison_successor",
+      "design_mapping": [
+        "historical pending item 14 specific corrected-input comparison",
+        "feature correctness and historical research"
+      ],
+      "status": "candidate_requires_support_check_after_inspector_contract",
+      "evidence_packets": [
+        "rich/direct incremental packet",
+        "rolling technical registry predecessors",
+        "design coverage R06/R15"
+      ],
+      "finding_disposition": "Rich direct eval narrowed one material feature-family question. A different corrected-input successor may be eligible only after exact changed input identity, nearest benchmark, causal splits and mature-label ledger are bound.",
+      "next_or_remedy": "Prepare only after the inspector/reconciliation contract or exact support census proves the inputs and controls; no automatic model run.",
+      "eligible_for_new_compute": false
+    }
+  ],
+  "eligible_next_items": [
+    {
+      "branch_id": "current_forecast_trade_reconciliation_and_inspector",
+      "design_mapping": [
+        "R13 forecast-only/outcome separation",
+        "design pending item 16 current forecast/trade reconciliation",
+        "WP10 inspection/recovery"
+      ],
+      "status": "eligible_offline_support_package_next",
+      "evidence_packets": [
+        "DESIGN_COVERAGE.md lines around R13/WP10 and pending item 16",
+        "existing forecast publication contracts E10"
+      ],
+      "finding_disposition": "This is not a live-bot or broker action: it can be advanced offline by inventorying current forecast-only/outcome store identities and defining an inspector/reconciliation contract over preserved files. It does not require EUR/USD capture, paid APIs, GPT/advisor comparison or broker/service/account action.",
+      "next_or_remedy": "Next exact eligible package: forecast_outcome_inspector_reconciliation_contract_v2. Bind existing forecast publication schemas, outcome reveal controls, current preserved outputs, missing/WAIT accounting and read-only report requirements before implementation.",
+      "eligible_for_new_compute": true
+    }
+  ],
+  "blocked_items_scoped": [
+    {
+      "branch_id": "macro_event_text_incremental_value_assessment_v2",
+      "status": "event_existence_value_assessed_text_numeric_blocked_before_fit",
+      "remedy": "Repair or retrieve exact input lineage before any broader text/numeric fit: numeric surprise population, comparable text-change values, release identity/all-release/no-move population, semantic admission."
+    },
+    {
+      "branch_id": "distinct_forecast_method_comparison_v2",
+      "status": "blocked_no_preserved_third_exact_provenance_method",
+      "remedy": "Retrieve/prove a third exact-provenance method before the matched chronological distinct-method gate; do not refit automatically."
+    },
+    {
+      "branch_id": "currency_projection_confirmation_protocol_v2",
+      "status": "blocked_pending_untouched_confirmation_cohort",
+      "remedy": "When qualified untouched offline inputs exist, freeze confirmation contract/resource budget before compute. This blocker is not universal."
+    }
+  ],
+  "exact_next_item": "forecast_outcome_inspector_reconciliation_contract_v2",
+  "next_action": "Start forecast_outcome_inspector_reconciliation_contract_v2: read existing forecast publication/outcome/reveal contracts, bind exact preserved sources and write/tests for a read-only inspector contract without broker/live-bot actions.",
+  "boundaries_preserved": [
+    "EUR/USD data capture remains another task",
+    "GPT/advisor comparisons deferred",
+    "paid APIs deferred",
+    "broker/service/account actions deferred",
+    "D-drive investigation deferred",
+    "live-bot changes deferred"
+  ],
+  "updated_utc": "2026-09-25T08:28:30.139335Z"
+}

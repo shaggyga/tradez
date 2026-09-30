@@ -1,0 +1,23 @@
+{
+  "schema": "forex_timed_session.v1",
+  "started_utc": "2026-09-24T00:44:43Z",
+  "deadline_utc": "2026-09-24T01:44:43Z",
+  "requested_duration_seconds": 3600,
+  "status": "timed_session_checkpointed",
+  "claim_id": "mabel-resume-20260924-004443",
+  "baseline_commit": "4daa6c6b0a4e6e6f0c1e5f6a4ecc508216376fd1",
+  "current_step_id": "freeze_retained_equal_weight_forecast_blend_diagnostic_v2",
+  "checkpoint_window_minutes": 7,
+  "model_selection": "not specified by this timed request",
+  "completed_packages": [
+    "NUMERIC_JOIN_REVIEW_REPAIRS_20260924_004443",
+    "WARM_OPERATOR_20260924_004443"
+  ],
+  "pending_findings": [],
+  "exact_resume": "Read current Vault pointers and run clean preflight; freeze the retained equal-weight Ridge/HGB saved-tape diagnostic contract under freeze_retained_equal_weight_forecast_blend_diagnostic_v2 before any computation. No blend outcome exists; GPT/advisor comparisons remain deferred.",
+  "last_observed_utc": "2026-09-24T01:39:48.422230+00:00",
+  "active_processes": [],
+  "finished_utc": "2026-09-24T01:39:48.422230+00:00",
+  "actual_elapsed_seconds": 3305.42223,
+  "stop_reason": "Safe checkpoint window reached; completed packages accepted. Next candidate execution/verification has300s main plus600s checkpoint allowances and cannot complete safely in remaining session time."
+}

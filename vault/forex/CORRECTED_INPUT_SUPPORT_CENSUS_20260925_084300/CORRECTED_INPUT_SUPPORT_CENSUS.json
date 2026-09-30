@@ -1,0 +1,174 @@
+{
+  "schema": "forex.corrected_input_successor_support_census.v1",
+  "created_utc": "2026-09-25T08:44:08.541778Z",
+  "source_commit": "02d5190ba1e87a8486987501b46416181e6e0bc8",
+  "step_id": "corrected_input_successor_support_census_v2",
+  "objective": "Determine whether a materially changed corrected-input comparison is eligible before any new fitting.",
+  "evidence_records": {
+    "rolling_registry_report": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\stage_c_alignment_integrity_v2\\evidence\\timed_20260922_022952\\rolling_registry_step\\runs\\populated-rolling-registry\\run_report.json",
+      "bytes": 1008,
+      "sha256": "e4cb9c605acfc2758f8290074cfa680f27b2c8b2147a2aa904040d7ad9c37bb1"
+    },
+    "rich_campaign_inputs_report": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\stage_c_alignment_integrity_v2\\evidence\\timed_20260922_022952\\rich_campaign_inputs_step\\runs\\rich-campaign-inputs\\run_report.json",
+      "bytes": 927,
+      "sha256": "6c98df304c677f72d35828164a531b99dc9e1b9df442669017077cb29a3eaf8a"
+    },
+    "rich_family_report": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\stage_c_alignment_integrity_v2\\evidence\\timed_20260922_022952\\rich_family_comparison_step\\runs\\matched-rich-family-comparison\\run_report.json",
+      "bytes": 810,
+      "sha256": "e88f55b25b8e15311601f5cff33650dd5b7ffc4fb5b0b7819052145b198b18a6"
+    },
+    "joint_readiness_report": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\stage_c_alignment_integrity_v2\\evidence\\timed_20260922_022952\\joint_readiness_step\\runs\\joint-readiness-projection\\run_report.json",
+      "bytes": 1425,
+      "sha256": "8892b58e79151d1950b2d574b92972289466f1152a096bb02a659b15fdf2755a"
+    },
+    "rich_incremental_review": {
+      "path": "C:\\Users\\zmoor\\OneDrive\\thevault\\projects\\forex\\RICH_INCREMENTAL_DIRECT_EVAL_20260925_081700\\REVIEW.json",
+      "bytes": 3721,
+      "sha256": "20364d8bc2bcc28bea3622334c008bb5a488502f178b81a0d918c734c5321302"
+    },
+    "pending_item_14_source": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\FOREX_PENDING_IMPROVEMENTS.md",
+      "bytes": 433942,
+      "sha256": "2dc4a84ecb62377c66a4f83c8d041388ea216b8886b76329f30e0c638e2038ff"
+    },
+    "design_coverage": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\design_alignment_20260921\\DESIGN_COVERAGE.md",
+      "bytes": 44405,
+      "sha256": "a7750ef63b41ed920a1f5bb1278a8e7e8822967c202af0468735d99e5db603f2"
+    },
+    "path_forward": {
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\design_alignment_20260921\\PATH_FORWARD.md",
+      "bytes": 20459,
+      "sha256": "46a71a4d357a930a234597983fa44fa9c8be94752f51682827ff87e7f59c2f15"
+    }
+  },
+  "candidate_findings": [
+    {
+      "candidate": "nested_rich_peer12_compact50_vs_compact38",
+      "status": "already_evaluated_do_not_repeat",
+      "nearest_benchmark": "compact38_cost2",
+      "evidence": "RICH_INCREMENTAL_DIRECT_EVAL_20260925_081700",
+      "result": {
+        "bias_abs_improved": 15,
+        "mae_improved": 6,
+        "methods": [
+          "recovered_hgb",
+          "ridge"
+        ],
+        "mse_improved": 10,
+        "procedures": [
+          "adaptive",
+          "frozen"
+        ],
+        "rows": 28,
+        "targets": [
+          "technical_endpoint_midpoint_elapsed_1440m",
+          "technical_endpoint_midpoint_elapsed_15m",
+          "technical_endpoint_midpoint_elapsed_240m",
+          "technical_endpoint_midpoint_elapsed_2880m",
+          "technical_endpoint_midpoint_elapsed_60m",
+          "technical_endpoint_midpoint_elapsed_7200m",
+          "technical_endpoint_midpoint_elapsed_720m"
+        ],
+        "total_paired_rows": 31020
+      }
+    },
+    {
+      "candidate": "nested_rich_full178_full228_vs_compact50",
+      "status": "already_evaluated_do_not_repeat",
+      "nearest_benchmark": "compact50_cost2",
+      "evidence": "RICH_INCREMENTAL_DIRECT_EVAL_20260925_081700",
+      "result": {
+        "bias_abs_improved": 8,
+        "mae_improved": 8,
+        "methods": [
+          "recovered_hgb",
+          "ridge"
+        ],
+        "mse_improved": 7,
+        "procedures": [
+          "adaptive",
+          "frozen"
+        ],
+        "rows": 28,
+        "targets": [
+          "technical_endpoint_midpoint_elapsed_1440m",
+          "technical_endpoint_midpoint_elapsed_15m",
+          "technical_endpoint_midpoint_elapsed_240m",
+          "technical_endpoint_midpoint_elapsed_2880m",
+          "technical_endpoint_midpoint_elapsed_60m",
+          "technical_endpoint_midpoint_elapsed_7200m",
+          "technical_endpoint_midpoint_elapsed_720m"
+        ],
+        "total_paired_rows": 31020
+      }
+    },
+    {
+      "candidate": "current_228_rolling_registry_repaired_family",
+      "status": "support_available_as_inputs_not_new_changed_hypothesis",
+      "nearest_benchmark": "compact50_cost2/full228_cost2 already tested",
+      "evidence": {
+        "feature_count": 228,
+        "families": {
+          "activity": 8,
+          "calendar": 4,
+          "currency_peer": 12,
+          "ohlc": 5,
+          "oscillator": 9,
+          "path": 45,
+          "returns": 29,
+          "spread": 8,
+          "trend": 68,
+          "volatility": 40
+        },
+        "rich_feature_groups": {
+          "compact38_cost2": 40,
+          "compact50_cost2": 52,
+          "full228_cost2": 230,
+          "legacy26": 26
+        },
+        "origin_rows": 5168,
+        "limitations": [
+          "already_inspected_development_dates",
+          "historical_bar_end_availability_assumed",
+          "partial_rich_features_require_train_only_transforms",
+          "elapsed_endpoints_not_qualified_sessions_or_paths",
+          "future2026weights_and_normalizers_not_admitted"
+        ]
+      }
+    },
+    {
+      "candidate": "historical_corrected_220_vs_227_or_795_input_family",
+      "status": "blocked_exact_lineage_retrieval_required",
+      "nearest_benchmark": "original 227/corrected 220 or 795-input eight-horizon model from historical audit",
+      "blocker": "Exact source/artifact/model identities for the older corrected schema are not locally bound in the current Stage C packets; D-drive investigation and broad AppData recovery are outside this run. Vault-first reuse requires retrieval/qualification, not automatic refit."
+    },
+    {
+      "candidate": "native_pip_ranking_repair_successor",
+      "status": "blocked_exact_ordered_inputs_required",
+      "nearest_benchmark": "same historical family with original native-pip ranking",
+      "blocker": "Feature dictionary documents native-pip units, but no current ordered forecast artifact/source/split identity was bound for a material changed-input comparison."
+    },
+    {
+      "candidate": "joint_readiness_projection_as_corrected_input_successor",
+      "status": "not_a_new_corrected_input_hypothesis",
+      "nearest_benchmark": "retained rich family forecasts",
+      "evidence": {
+        "coverage_rows": 152320,
+        "forecast_rows": 143904,
+        "models_fitted": 0,
+        "model_artifacts_reused": 112
+      }
+    }
+  ],
+  "decision": "No new corrected-input model run is eligible from current evidence. Completed nested rich increments must be reused; historical corrected 220/227/795/native-pip candidates require exact lineage retrieval/qualification first.",
+  "models_fitted": 0,
+  "network_calls": 0,
+  "broker_actions": 0,
+  "exact_next_item": "behavior_changing_cost_stress_support_census_v2",
+  "next_action": "Check whether existing development artifacts support a bounded behavior-changing cost stress census without untouched confirmation data, broker actions, or live bot changes."
+}

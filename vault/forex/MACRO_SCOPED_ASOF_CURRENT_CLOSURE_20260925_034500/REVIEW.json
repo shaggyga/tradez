@@ -1,0 +1,22 @@
+{
+  "schema": "forex_checkpoint_review.v1",
+  "utc": "2026-09-25T03:33:02.107590Z",
+  "step_id": "macro_scoped_semantic_source_asof_integration_v2",
+  "status": "complete_reuse_existing_packet_no_duplicate_run",
+  "verdict": "accepted_within_scope_same_task_review",
+  "independent_review": false,
+  "independent_review_status": "pending_nonblocking_by_user_clarification",
+  "scope": "current queue closure against existing macro scoped-asof packet; no fit/replay/API/broker/live-bot/D-drive/EURUSD work",
+  "preexisting_packet": "MACRO_SCOPED_ASOF_20260922_172331/REVIEW.json",
+  "preexisting_review_sha256": "71989dd379c25a2651d058186bacd2ba18c6fa320a9dbcdf5975331e4691fb97",
+  "verification": {
+    "local_tests_passed": 17,
+    "relocated_tests_passed": 17,
+    "identical_payloads": 5,
+    "currency_action_candidate_rows": 0,
+    "currency_claim_candidate_rows": 5
+  },
+  "result": "source_asof_candidates_not_admitted",
+  "next_action": "macro_semantic_source_issuer_qualification_audit_v2",
+  "source_commit": "faaee19d4ef64c375293a0f7411844db73867795"
+}

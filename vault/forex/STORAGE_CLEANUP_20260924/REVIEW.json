@@ -1,0 +1,53 @@
+{
+  "implementation_status": "complete",
+  "independent_review": false,
+  "native_evidence": "REVIEW_NATIVE.json",
+  "next_action": "currency_projection_policy_comparison_v2",
+  "readiness": {
+    "demo_authorization_status": "not_granted",
+    "engineering_ready": false,
+    "forecast_evidence_status": "inherited_native_development_qualification",
+    "policy_evidence_status": "projection_policy_comparison_not_run"
+  },
+  "review_status": "accepted_within_scope",
+  "schema": "forex_review_packet.v2",
+  "scope": "storage retirement and corrective publication; no new scientific computation",
+  "source_commit": "dc8355c248e37a413fd3259fa3f46594c67b57da",
+  "step_id": "mabel-storage-cleanup-20260924",
+  "unresolved_findings": [],
+  "verification": {
+    "databases_modified": 0,
+    "free_bytes_after": 43141406720,
+    "free_bytes_before": 15434993664,
+    "inventory_errors": [
+      "Access denied to two pytest-cache folders; neither was changed"
+    ],
+    "limitations": [
+      "Free-space delta also reflects concurrent system activity and compression state.",
+      "One retired file was copied back for an actual recovery test and remains present.",
+      "Cleanup does not grant research or live authorization; next recipe needs its own space forecast."
+    ],
+    "logical_duplicate_bytes": 36767338390,
+    "model_fits": 0,
+    "observed_free_bytes_increase": 27706413056,
+    "per_file_sha256_verification": "both copies verified before each recorded deletion; hashes retained in journals",
+    "policy_replays": 0,
+    "recovery_smoke": {
+      "bytes": 15514818,
+      "model_fits": 0,
+      "path": "checkpoint_restores/blocked_controls_20260922/family/model/matched_runs/matched-development-campaign/coverage.json",
+      "policy_replays": 0,
+      "sha256": "7287bcffdb568f70fc336062d51fefb1718780eb4d9b81c870af84225cd31c9f",
+      "status": "restored_verified"
+    },
+    "removed_duplicate_files": 5233,
+    "retained_originals_present_and_sizes_valid": 5233,
+    "safety_refusals": [
+      "parent_traversal",
+      "absolute_drive_path",
+      "rooted_path"
+    ],
+    "unique_checkpoint_restore_files_preserved": 12,
+    "utc": "2026-09-24T14:01:28.520604+00:00"
+  }
+}

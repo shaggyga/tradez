@@ -1,0 +1,9 @@
+# Matched policy bridge scoped review
+
+Accepted within the bounded engineering/scenario scope. Same implementer, independent review unperformed. Reviewed the exact source changes, raw failures, corrected dependency recipes, original input bindings and all eight outputs. The native adapter recomputes current model predictions and original-target curves before mutation, checks quote/reference lineage, then reuses the existing Decimal candidate and ledger economics. No new pricing engine, static endpoint subtraction, invented confidence or observed execution receipt.
+
+MP-MARK-1 is handled as explicit missing valuation, preserving exposure and uncertainty. No discretionary trade is justified without common liquidation wealth. Predeclared risk/deadline reduce intents still require later eligible execution evidence. MP-PERSIST-1 prevents an unavailable observation from bridging a challenger streak. MP-FIN-1 converts the scenario USD/base-unit cost to quote/base-unit before the existing ledger conversion; hand-computed USD and cross-currency cases confirm units and sign. These are engineering repairs, not new market alpha.
+
+397 final integrated tests pass with no skips, plus18 relocated tests. Eight reference/optimized runs reconcile independently, end flat and reproduce208payloads exactly. Every model/scenario has544coverage rows,536admissions and2HKD/JPY conversion refusals; six native inputs unavailable. Missing intermediate USD/THB marks are reported, so no exact continuous drawdown/risk claim. Full table is retained; no winner promotion. The unsupported legacy momentum selector and cash abstain.
+
+Next matched_campaign_report_and_design_reconciliation_v2: inspect original records with explicit later-outcome reveal, report movement/path availability honestly, reconcile current full-design status and consolidate stale mutable notices while preserving sealed history and all pending requirements. Deferred scopes unchanged.

@@ -1,0 +1,791 @@
+{
+  "schema_version": "forex_operational_status_repair_validation_v1_20260907",
+  "observed_utc": "2026-09-07T18:41:09.139355+00:00",
+  "status": "operational_status_news_context_and_supplemental_diagnostics_verified",
+  "tests": {
+    "tests": 318,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0
+  },
+  "primary_test_xml": "docs/validation/operational_status_repair_20260907/combined_tests.xml",
+  "final_runtime_ui_checks": [
+    {
+      "role": "runtime",
+      "path": "docs/validation/operational_status_repair_20260907/runtime_reload/DASHBOARD_OPERATIONAL_RUNTIME_VERIFICATION_20260907.json",
+      "sha256": "2c3cd55de69acb0b0f9f7aadf5dc9af4f475ebeefba75e6e55b9a8fefb517a6f",
+      "expected_status": "passed"
+    },
+    {
+      "role": "ui",
+      "path": "docs/validation/operational_status_repair_20260907/LIVE_OPERATIONAL_DASHBOARD_VALIDATION.json",
+      "sha256": "7236ac5e569dc466691aacf922cffc5fafd4397a1546068b4459477614766bc0",
+      "expected_status": "passed"
+    },
+    {
+      "role": "independent_review",
+      "path": "docs/validation/operational_status_repair_20260907/DASHBOARD_INDEPENDENT_REVIEW_20260907.json",
+      "sha256": "3565b7068139a2899735049bd92b4b33f821b2f9bc6b76ee1941b199e8f4d1e9",
+      "expected_status": "passed"
+    },
+    {
+      "role": "tests",
+      "path": "docs/validation/operational_status_repair_20260907/FINAL_SOURCE_TEST_BINDING.json",
+      "sha256": "06085f5316f5c6d2b17f23072e4dbb1579552415a51d23defdf2e33c8cb94a53",
+      "expected_status": "passed"
+    }
+  ],
+  "registered_studies_unchanged": {
+    "config/pair_local_forecast_study_v1_20260907.json": {
+      "sha256": "e0aa74fa5d20b7be983050625773834ea68d74ffc15b566ab5e03df9b3380d65",
+      "source_bindings": {
+        "oanda_causal_forecast_inputs.py": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+        "oanda_causal_forecast_inputs_gap_v2.py": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd",
+        "oanda_causal_forecast_inputs_pair_v1.py": "d4a8356b9df29b7f45cbebc4c9b93e9b5c843c2f1c56c93c088f22e9db856807",
+        "oanda_causal_forecast_ledger_pair_v1.py": "acf83ef8a15c85465d493f9e614ca7153b28a9e4b4f4e5db7de9aed60c7e6cbb",
+        "oanda_causal_prediction_baselines.py": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+        "oanda_exact_price_scoring.py": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521",
+        "oanda_fixed_forecast_evaluation_pair_v1.py": "aa3479f9ff94c3c74e159e40e008a2553ec8869d196a0ef53651fc521ac450bc",
+        "oanda_pair_local_forecast_study_v1.py": "9efb8c7b3ac5456adcf436ef0940b256336f8ea774c5befa7f2f23ce01fd7346",
+        "oanda_pair_local_models_v1.py": "ecd259fd66d74930ee23c715d29a5dba788d56ab2f7198cd1f521b912637ff26"
+      }
+    },
+    "config/causal_forecast_study_eurusd_v1_20260907.json": {
+      "sha256": "8c6fc84e36b7b46a872f9652210f8c5cc022013f7b8c39f07b1078e791bb318b",
+      "source_bindings": {
+        "oanda_causal_forecast_inputs.py": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281",
+        "oanda_causal_forecast_inputs_eurusd_v1.py": "559cce99d33946708475bb39ee68b77f0d1fe1ae6d1edb435b3110b6f9cdd1e6",
+        "oanda_causal_forecast_inputs_gap_v2.py": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd",
+        "oanda_causal_forecast_ledger_eurusd_v1.py": "c3a085373f5f8f511db5148895b2ac21a57ca0d0464923cb40b5a43b3f61e108",
+        "oanda_causal_forecast_study_eurusd_v1.py": "0619e52d800dbe2ec8a270548e39db5d98d4ad53ef19d385f6a638b9328e375c",
+        "oanda_causal_prediction_baselines.py": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d",
+        "oanda_eurusd_local_models_v1.py": "8cd57cb20d26a220dcc1328b949d5e380d31e9d63ece12af743a010ac4b263d7",
+        "oanda_exact_price_scoring.py": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521",
+        "oanda_fixed_forecast_evaluation_eurusd_v1.py": "15e08b984700b1d5bd22f0b77c0c2f6cefb06f48424eed6ad26ea0bbe58affb9"
+      }
+    }
+  },
+  "prior_receipts_unchanged": {
+    "FOREX_PAIR_DASHBOARD_CONSISTENCY_VALIDATION_20260907.json": "b84890295124ae0dc6a0dae522f7c2aa51e0db5b55302287f9a54859ec966d59",
+    "FOREX_PAIR_FORECAST_COVERAGE_VALIDATION_20260907.json": "6953f2d7259be748847ec0dd6a34abd1b2f482dd8be7aa6913bc7d906ff4cfb5",
+    "FOREX_SIGNALS_LIVE_OPTIMIZATION_VALIDATION_20260907.json": "3671297affd5addd4c2e4080c66d4d74382c24678a3430d7e4694814e5993792"
+  },
+  "prior_source_archive_preserved_by_publisher": {
+    "archive": "forex_worktree_source_885144f85e85de600e4470d8.zip",
+    "sha256": "dbdcd79d73a761c7b8f0e1d591d483878c05eb973b2668e0913e7e5e06e3881e"
+  },
+  "minute_gap_audit": "docs/validation/operational_status_repair_20260907/MINUTE_GAP_AUDIT.json",
+  "feed_audit": "docs/validation/operational_status_repair_20260907/FEED_AUDIT.json",
+  "observed_metrics": {
+    "baseline_observed_utc": "2026-09-07T18:33:11.145084+00:00",
+    "pair_totals": {
+      "attempts": 387,
+      "diagnostics": 299,
+      "forecasts": 88,
+      "publication": 88,
+      "consumption": 88,
+      "entries": 87,
+      "outcomes": 36,
+      "exclusions": 3
+    },
+    "pair_coverage": {
+      "status": "current",
+      "reason": null,
+      "generated_epoch": 1788805977.536647,
+      "counts": {
+        "unavailable": 17,
+        "warming": 35,
+        "forecast": 16
+      },
+      "registry_sha256": "e0aa74fa5d20b7be983050625773834ea68d74ffc15b566ab5e03df9b3380d65"
+    },
+    "scorecard_pairs": 19,
+    "pair_scorecard_scope": "19 separately timestamped scorecards, each one paired scored decision; not all 36 outcome rows independently rescored",
+    "baseline_news": {
+      "status": "stale",
+      "generated_utc": "2026-09-07T18:29:42.780071+00:00",
+      "as_of_utc": "2026-09-07T18:28:05.344745+00:00",
+      "pair_bias_status": "stale",
+      "pair_bias_reason": "news_evidence_stale",
+      "active_topic_count": 19,
+      "screened_article_count": null,
+      "evidence_age_sec": 302.938
+    },
+    "baseline_eurusd_news": {
+      "instrument": "EUR_USD",
+      "status": "stale",
+      "reason": "news_evidence_stale",
+      "display_label": "News evidence is stale",
+      "direction": "SHORT",
+      "events": [
+        {
+          "headline": "Blockade Pushes Iran Output Onto Domestic Market - Energy Intelligence",
+          "source_name": "Energy Intelligence",
+          "reaction_phase": "initial_reaction",
+          "category": "risk_off_geopolitical_or_financial"
+        },
+        {
+          "headline": "Iran to Announce New Gulf Restricted Zone, Impact on Oil & Sanctions - Global Banking & Finance Review",
+          "source_name": "Global Banking & Finance Review",
+          "reaction_phase": "continuation_context",
+          "category": "risk_off_geopolitical_or_financial"
+        }
+      ],
+      "evidence_quality": "GLOBAL_TOPIC_PROXY",
+      "relevant_event_count": 18,
+      "context_directional_event_count": 13,
+      "current_directional_event_count": 1,
+      "as_of_utc": "2026-09-07T18:28:05.344745+00:00",
+      "evidence_age_sec": 302.938
+    },
+    "supplemental_eurusd": {
+      "eurusd_supplemental_diagnostic": {
+        "schema_version": "eurusd_supplemental_diagnostic_report_v1_20260907",
+        "status": "available",
+        "generated_utc": "2026-09-07T18:32:56.369447+00:00",
+        "report_age_sec": 11.708,
+        "freshness": "current",
+        "supplemental": true,
+        "registered_scorecard": false,
+        "research_only": true,
+        "execution_eligible": false,
+        "account_eligible": false,
+        "proof_eligible": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "scope_label": "Supplemental EUR/USD engineering diagnostic; duplicate reference groups excluded; not the registered scorecard.",
+        "original_scorer": {
+          "status": "failed",
+          "error": "duplicate_market_reference_epoch"
+        },
+        "original_scorecard": {
+          "exists": true,
+          "generated_utc": "2026-09-07T16:29:39.297569+00:00",
+          "age_sec": 7397.072,
+          "stale": true,
+          "sha256": "fcfab321f5644f14efd8ff4b742e9a2daf0b3a72f57872bf2929f01b2c321529",
+          "status": "no_clock_valid_paired_decisions",
+          "collection_counts": {
+            "attempts": 1,
+            "consumption": 0,
+            "diagnostics": 0,
+            "entries": 0,
+            "exclusions": 0,
+            "forecasts": 0,
+            "inputs": 0,
+            "outcomes": 0,
+            "publication": 0,
+            "quotes": 1
+          }
+        },
+        "collection_counts": {
+          "quotes": 806,
+          "attempts": 10,
+          "diagnostics": 4,
+          "inputs": 6,
+          "forecasts": 6,
+          "publication": 6,
+          "consumption": 6,
+          "entries": 6,
+          "outcomes": 6,
+          "exclusions": 0
+        },
+        "original_input_sha256": "8c4cb3275f67ddb9f09082e20973a10fc2af34dac7f1f112f4760289abc79fe1",
+        "filtered_input_sha256": "a439b3a5846f3cb07ac7c2bd28f24c4fe434a676fa6e65073ae944d9b6a25749",
+        "original_decision_count": 6,
+        "retained_decision_count": 4,
+        "excluded_decision_count": 2,
+        "error": null,
+        "capacity_state": "within_limits",
+        "paired_scored_decisions": 4,
+        "paired_summaries": {
+          "probabilistic_state_space": {
+            "decisions": 4,
+            "directional_decisions": 4,
+            "abstentions": 0,
+            "mean_brier": "0.2769661765689593263215676165996818918125",
+            "direction_hit_rate_when_directional": "0.75",
+            "positive_after_spread_rate_when_directional": "0.75",
+            "mean_net_bps_per_decision": "-0.81679435479947531524378227719066275170620635653682103939926308414769044373615658",
+            "mae_bps": "4.3665634092393513968527601583559806002086318631533059999918421296515766923822442",
+            "rmse_bps": "4.8356325112201984804939045100362445468370981772304078490967216871319224670158433",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-0.81679435479947531524378227719066275170620635653682103939926308414769044373615658",
+              "0.5": "-1.3167943547994753152437822771906627517062063565368210393992630841476904437361566",
+              "1": "-1.8167943547994753152437822771906627517062063565368210393992630841476904437361566"
+            }
+          },
+          "ridge_return_repaired": {
+            "decisions": 4,
+            "directional_decisions": 4,
+            "abstentions": 0,
+            "mean_brier": "0.5246781800036370831370632467875525",
+            "direction_hit_rate_when_directional": "0",
+            "positive_after_spread_rate_when_directional": "0",
+            "mean_net_bps_per_decision": "-3.7194655133794327606488527741232942100436107114755985891228196648952086044912805",
+            "mae_bps": "4.5527243604905576628958312254617751195490905182970923401224298376824987182577625",
+            "rmse_bps": "4.5638168833809631982749091983540969062087247757629091428370905980177836962908090",
+            "stress_mean_net_bps_per_decision": {
+              "0": "-3.7194655133794327606488527741232942100436107114755985891228196648952086044912805",
+              "0.5": "-4.2194655133794327606488527741232942100436107114755985891228196648952086044912805",
+              "1": "-4.7194655133794327606488527741232942100436107114755985891228196648952086044912805"
+            }
+          },
+          "fair_coin": {
+            "decisions": 4,
+            "directional_decisions": 0,
+            "abstentions": 4,
+            "mean_brier": "0.25",
+            "direction_hit_rate_when_directional": null,
+            "positive_after_spread_rate_when_directional": null,
+            "mean_net_bps_per_decision": "0",
+            "mae_bps": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "zero_move": {
+            "decisions": 4,
+            "directional_decisions": 0,
+            "abstentions": 4,
+            "mean_brier": null,
+            "direction_hit_rate_when_directional": null,
+            "positive_after_spread_rate_when_directional": null,
+            "mean_net_bps_per_decision": "0",
+            "mae_bps": "2.3971972148014962128958312254617751195490905182970923401224298376824987182577625",
+            "rmse_bps": "2.5576114150184683640358747910599512660729061024466874288212116410055134457298718",
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "no_trade": {
+            "decisions": 4,
+            "directional_decisions": 0,
+            "abstentions": 4,
+            "mean_brier": null,
+            "direction_hit_rate_when_directional": null,
+            "positive_after_spread_rate_when_directional": null,
+            "mean_net_bps_per_decision": "0",
+            "mae_bps": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          },
+          "rolling_class_rate": {
+            "decisions": 4,
+            "directional_decisions": 0,
+            "abstentions": 4,
+            "mean_brier": "0.25",
+            "direction_hit_rate_when_directional": null,
+            "positive_after_spread_rate_when_directional": null,
+            "mean_net_bps_per_decision": "0",
+            "mae_bps": null,
+            "rmse_bps": null,
+            "stress_mean_net_bps_per_decision": {
+              "0": "0",
+              "0.5": "0",
+              "1": "0"
+            }
+          }
+        }
+      }
+    },
+    "live_ui_observed_utc": "2026-09-07T18:35:13.191Z",
+    "live_ui_widths": [
+      1440,
+      360
+    ],
+    "live_ui_pair_counts": {
+      "forecast": 16,
+      "warming": 43,
+      "missing_fresh_quote": 9
+    },
+    "live_ui_news": {
+      "evidence_age_sec_displayed": 172,
+      "eurusd_direction": "SHORT",
+      "related": 18,
+      "current_directional": 1,
+      "context_directional": 13
+    },
+    "live_ui_page_errors": [],
+    "independent_clock_snapshots_not_atomic": true
+  },
+  "monitoring": {
+    "id": "check-forex-bot-health",
+    "interval_minutes": 15,
+    "status": "ACTIVE",
+    "notify": "meaningful change, failure or action needed; quiet while unchanged",
+    "future_runs_not_claimed": true
+  },
+  "canonical_record_count": 149,
+  "issue_register_validation": {
+    "valid": true,
+    "errors": [],
+    "issue_count": 104,
+    "status_counts": {
+      "blocked_external": 4,
+      "complete": 57,
+      "implemented_collecting": 30,
+      "open": 0,
+      "permanently_invalid": 11,
+      "superseded_collecting": 2
+    }
+  },
+  "research_only": true,
+  "can_place_orders": false,
+  "can_promote": false,
+  "prediction_improvement_demonstrated": false,
+  "limitations": [
+    "News context is not an eligible forward signal; feed transport errors are separate pending work.",
+    "Missing broker minute prices remain absent; no synthetic candle or forecast backfill was performed.",
+    "Supplemental outcome-blind reference-group exclusion does not repair the registered scorecard or establish prospective performance.",
+    "Earlier failed and incomplete dashboard-consistency probes remain unchanged in their own dated record.",
+    "Live/UI checks are bounded observations, not a promise of uninterrupted uptime.",
+    "Latest-review metadata includes this receipt hash after creation and is separately covered by canonical export hash verification."
+  ],
+  "source_bindings": [
+    {
+      "path": "FOREX_AUDIT_START_HERE.md",
+      "bytes": 16706,
+      "sha256": "4e6dfc9ff7f097902da23a13160ee335130503aef82979d54310d9ad1f3e81cb"
+    },
+    {
+      "path": "FOREX_ISSUE_REGISTER_CURRENT.json",
+      "bytes": 214759,
+      "sha256": "ad3896d22f012614f27a366497dbb3040039a3af19d750398bb23032235ac554"
+    },
+    {
+      "path": "FOREX_PENDING_IMPROVEMENTS.md",
+      "bytes": 297786,
+      "sha256": "47aa74deaa43b6d8ba7ae8b078848e51345504a4aba8a2c99e82cee3cd710231"
+    },
+    {
+      "path": "FOREX_PROJECT_LOG.md",
+      "bytes": 420337,
+      "sha256": "4fa59ad3673e556fd5746eeba271aff289065099a37a446b6b57f5a988eecaa3"
+    },
+    {
+      "path": "README.md",
+      "bytes": 12013,
+      "sha256": "132008b7c49a430f5bc2e8e986cc832c9aba9c106df6712efc69aabd7004db12"
+    },
+    {
+      "path": "config/causal_forecast_study_current.json",
+      "bytes": 166,
+      "sha256": "fbbcc673e93847769785e9437254f4d690ad3f6a76ae948966621d8a76ecf6fa"
+    },
+    {
+      "path": "config/causal_forecast_study_eurusd_v1_20260907.json",
+      "bytes": 5356,
+      "sha256": "8c6fc84e36b7b46a872f9652210f8c5cc022013f7b8c39f07b1078e791bb318b"
+    },
+    {
+      "path": "config/pair_local_forecast_study_v1_20260907.json",
+      "bytes": 366648,
+      "sha256": "e0aa74fa5d20b7be983050625773834ea68d74ffc15b566ab5e03df9b3380d65"
+    },
+    {
+      "path": "docs/AUDIT_STATE_CURRENT.md",
+      "bytes": 17054,
+      "sha256": "dad36d9d517389605385bcf0d0ed906f7f0b6c1a007ec88efd4d8b45ee6c6915"
+    },
+    {
+      "path": "docs/FOREX_OPERATIONAL_STATUS_REPAIR_20260907.md",
+      "bytes": 13478,
+      "sha256": "aba30e7ed9eaf8890363dcea2466c2c74e1c98c9c0f57349f44c5c48791d4975"
+    },
+    {
+      "path": "docs/SYSTEM_ORIENTATION_CURRENT.md",
+      "bytes": 5011,
+      "sha256": "c426eb565770521d7519fd6bb3ca32d2bc9e40e03aa1dc2cc4a48fb50221b332"
+    },
+    {
+      "path": "docs/VAULT_RECREATION_CURRENT.md",
+      "bytes": 10545,
+      "sha256": "4d51ee7e138770b82ce565a2609c59511716a03bc355ffabe4d79e2045c15577"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/BOT_MONITOR_BASELINE_20260907.json",
+      "bytes": 138766,
+      "sha256": "66ffd69750903bab515beed3981966a16a616ae187db7694d4c3e6e4b150216f"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/DASHBOARD_INDEPENDENT_REVIEW_20260907.json",
+      "bytes": 3706,
+      "sha256": "3565b7068139a2899735049bd92b4b33f821b2f9bc6b76ee1941b199e8f4d1e9"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/DASHBOARD_NEWS_FOCUSED_TEST_RECEIPT_20260907.json",
+      "bytes": 1492,
+      "sha256": "7192ac84c60247b8be828c0d101c76974e6e90d881b096c530d4ebd65514b7ab"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/FEED_AUDIT.json",
+      "bytes": 331871,
+      "sha256": "6d639c2f7a4a28402320cd09c0d55e4874bf201ffa75244b44b6eeaa02cf14a5"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/FINALIZATION_INPUTS.json",
+      "bytes": 18416,
+      "sha256": "507e6bf3d613263d758ac21a2b3d2747fb28b9f9adbc856269dea470a0e6e143"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/FINAL_SOURCE_TEST_BINDING.json",
+      "bytes": 1507,
+      "sha256": "06085f5316f5c6d2b17f23072e4dbb1579552415a51d23defdf2e33c8cb94a53"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/FINDINGS.md",
+      "bytes": 4488,
+      "sha256": "ba9f7f84e511bf0b034acbe4a14bd4eb9fa3fe65fefd3edb07ec7881b8e1b9ba"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/LIVE_OPERATIONAL_DASHBOARD_VALIDATION.json",
+      "bytes": 3135,
+      "sha256": "7236ac5e569dc466691aacf922cffc5fafd4397a1546068b4459477614766bc0"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/LIVE_UI_FIRST_FAILURE.json",
+      "bytes": 535,
+      "sha256": "ebee0cc7fd497513c1d434b505253f8f16538938205bc4e83028885f7f383c2a"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/MINUTE_GAP_AUDIT.json",
+      "bytes": 695576,
+      "sha256": "5d3820cbd04f367fd7ed78eb514b4cd768d19f0ec71a318e7524e1b71ca83937"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/MINUTE_GAP_EURUSD_FRESH_BROKER_GET.json",
+      "bytes": 91742,
+      "sha256": "e7da7c0f2d0f75f128b3fab60e1e3122f0b4b2476ab8be19805c7a7422b74f67"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/MINUTE_GAP_EURUSD_SOURCE_CAPTURE.json",
+      "bytes": 253452,
+      "sha256": "1d901f8308b566c3f556fd7aee8310a8e5d14c7cc8090128d493af15c2ee9102"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/MINUTE_GAP_FINDINGS.md",
+      "bytes": 4144,
+      "sha256": "532ec041618a0592f164711207a0c1a65e51882075ecbe296b7adb154af73981"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/MINUTE_GAP_UPDATER_CYCLE_SNAPSHOT.json",
+      "bytes": 210811,
+      "sha256": "43f9b5125cf4f203f51a353de97b86d6f4a6fee77cd614e976d4783291c31a65"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/MONITOR_CONFIGURATION_SNAPSHOT.json",
+      "bytes": 522,
+      "sha256": "e0cbc53f465f080909c3575ea2110dee1d4935d2e8d2e751c0d6ea7a0f153f56"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/OPERATIONAL_STATUS_REPORT_FINAL.md",
+      "bytes": 13478,
+      "sha256": "aba30e7ed9eaf8890363dcea2466c2c74e1c98c9c0f57349f44c5c48791d4975"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/audit_feed.py",
+      "bytes": 15243,
+      "sha256": "17bff6b779b097dd7a9ffeb76a320601366af9b2e17d07ab4248ca3e28ebcd00"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/audit_minute_gaps.py",
+      "bytes": 11590,
+      "sha256": "62395b270ff20f5ab25a3cab4693c1d5d0e14ca4b7b97d0ab9766fdca1bc9768"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/before_current_records/FOREX_AUDIT_START_HERE.md",
+      "bytes": 15832,
+      "sha256": "468f77c7dedf7cab4a80dd42431511c0fa79000dd19213cf481a6b54596d5669"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/before_current_records/FOREX_AUDIT_STATE_CURRENT.json",
+      "bytes": 17292,
+      "sha256": "21d8817e3397aadab04b4f150ff0c27154c8b5b83c3f1bed4a0cfc9c2876e2ce"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/before_current_records/FOREX_COMMONS_CURRENT.json",
+      "bytes": 2909,
+      "sha256": "341a882af1831cc2743ac3d973690d0024a629a5b5cbe9733a699bd0538d5e9d"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/before_current_records/FOREX_PENDING_IMPROVEMENTS.md",
+      "bytes": 296740,
+      "sha256": "59e8b12538ac7293738ca2ffa80ed6ca00c476b331102930f7830064d7d04fc7"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/before_current_records/FOREX_PROJECT_LOG.md",
+      "bytes": 419237,
+      "sha256": "e009b31a9cba2df2f07796003c6a753db21cf112c624ebedd6c311ed201cdd72"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/before_current_records/README.md",
+      "bytes": 11097,
+      "sha256": "664cc0528b0fbc5cd621137c440f3ec8d09af0a271bcc232102f631379e23536"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/before_current_records/docs/AUDIT_STATE_CURRENT.md",
+      "bytes": 16140,
+      "sha256": "f986b62718f3df6946b19c30335987d9005fd30eab1718c8d922ee2a6eb6c202"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/before_current_records/docs/SYSTEM_ORIENTATION_CURRENT.md",
+      "bytes": 4003,
+      "sha256": "9847a338dc6beadd2b6e900e1f83349ef674dbce378f8c3afe1e139126aa5097"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/before_current_records/docs/VAULT_RECREATION_CURRENT.md",
+      "bytes": 9631,
+      "sha256": "3f286b99af50b46e969bdb0fd09c76493c49be439b20c040c3e0688ad93a6776"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/before_current_records/forex_model_vault_sync.py",
+      "bytes": 106699,
+      "sha256": "c1a0bcf3622302930ff084c66925ae6f8ec5d83bc980e53b28627fc2aa15d59f"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/before_source/oanda_main_signal_dashboard.html",
+      "bytes": 136192,
+      "sha256": "905fe0be57a7d8c55197581108b6811789d71bc795c2787361aaab1e014f0694"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/before_source/oanda_practice_live_dashboard.py",
+      "bytes": 450449,
+      "sha256": "6eb16350ba63a832bc184c3a238898707905b6f949feba8d1fcfe5bb850fe7cc"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/before_source/test_oanda_collection_dashboard_status.py",
+      "bytes": 39175,
+      "sha256": "3d87a5c4fc98cae67714095d822e7616b949917c9a6f261ba7847c2a2714036f"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/before_source/test_oanda_pair_forecast_dashboard.py",
+      "bytes": 26795,
+      "sha256": "ba5d23985faf20a350e7fae31785dc162da28d718fea633d4db100b2d9599d8f"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/capture_monitor_baseline.py",
+      "bytes": 4744,
+      "sha256": "7d6d1d40700fff002bada20cfddb723f1d7620daf972575decd34705fb08f088"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/combined_tests.xml",
+      "bytes": 57305,
+      "sha256": "a97209d89e2c5ca583c75b5593c8751d22d3ec80f2f55ed822a200b61e5cd716"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/combined_tests_prefinal.xml",
+      "bytes": 56204,
+      "sha256": "38fbe739a147b305d15715238ddd0ce10f3453348f7469bc14ddc565cc0696c1"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/dashboard_news_tests.xml",
+      "bytes": 37495,
+      "sha256": "4632e294e14a72b05bc9d4c6a1a953518b625618ce47a4636504d5be10ab0909"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/finalize_operational_record.py",
+      "bytes": 16825,
+      "sha256": "62048f69faa0273805bc7769fa50e213fa61219063af9d8a55889aee83a43bf4"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/operational-companion-details.png",
+      "bytes": 36584,
+      "sha256": "2a9a761c190786827139dba572376a0117c9d527b2e4b18ccb96d03073e852b3"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/operational-dashboard-1440.png",
+      "bytes": 99703,
+      "sha256": "7d2c636f47d3dd9b5f73ad32bed3a1779baf1e069ac19a1204789c80592b8ca4"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/operational-dashboard-360.png",
+      "bytes": 62138,
+      "sha256": "31cc086d9f1edbf26aec4ef9d521b4ff80940920c0b63e49ce5d853baea71ed8"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/prepare_final_inputs.py",
+      "bytes": 8523,
+      "sha256": "6c7191951987736bfaee538c10bd02d73f07bf17e6317b01d34f7b792292d648"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/publish_vault.py",
+      "bytes": 5655,
+      "sha256": "43020e19dc2409046eacec7439413fcad896945791c822cf9b6a03ad2c328d87"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/runtime_reload/DASHBOARD_ONLY_RELOAD_20260907_143253_368.json",
+      "bytes": 834,
+      "sha256": "6948b2dde00069f5cc82dc0b79554febe3326833b584dc6690da05c62648c91f"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/runtime_reload/DASHBOARD_OPERATIONAL_RUNTIME_VERIFICATION_20260907.json",
+      "bytes": 23005,
+      "sha256": "2c3cd55de69acb0b0f9f7aadf5dc9af4f475ebeefba75e6e55b9a8fefb517a6f"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/runtime_reload/DASHBOARD_RELOAD_BEFORE_20260907_143253_368.json",
+      "bytes": 22434,
+      "sha256": "d5b81d2732cceb8b2848f770eb3abe9651328742d7cb9bf6b8e39f83a2363e60"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/runtime_reload/reload_dashboard_only.ps1",
+      "bytes": 4551,
+      "sha256": "1efb0a88196d9dd4f9674a99dd2a6303dac156300324b237ec6222da9c267836"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/runtime_reload/verify_runtime.py",
+      "bytes": 9092,
+      "sha256": "daad78cbed2e825c92ec282a174be72234a42106ed2e092cfdc62242e5d959b4"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/supplemental_diagnostic/DIAGNOSTIC_ADAPTER_VALIDATION_20260907.json",
+      "bytes": 1610,
+      "sha256": "abff35cc1402aad3e9897981482c4733897ad3281d2fae54582b025ce9f78b20"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/supplemental_diagnostic/EURUSD_SUPPLEMENTAL_DIAGNOSTIC_20260907.json",
+      "bytes": 972020,
+      "sha256": "c0b049ef0de9b778aaf61ba79196c4f5940d15772b543478b0d16d48172dbded"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/supplemental_diagnostic/REFERENCE_EPOCH_AUDIT.json",
+      "bytes": 97103,
+      "sha256": "0ca4ee11a33523a4264507ecd868432505d4e26edcffa585637f1b4d6b0566db"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/supplemental_diagnostic/diagnostic_report_tests.xml",
+      "bytes": 6258,
+      "sha256": "2298a3ab80f2be8482a87397d46de9ffc0fdfda8ea33200dc9aa4c3a338ca0c4"
+    },
+    {
+      "path": "docs/validation/operational_status_repair_20260907/verify_live_operational_dashboard.cjs",
+      "bytes": 3219,
+      "sha256": "135870a0fb4d5f76523d455eb000023aaaa7414cddf680944724122c29ab016d"
+    },
+    {
+      "path": "forex_model_vault_sync.py",
+      "bytes": 109664,
+      "sha256": "ccbc0c44d69839a9fc2b63e9fec58480ff712083dc9d030303afadcde33e85e7"
+    },
+    {
+      "path": "oanda_causal_forecast_inputs.py",
+      "bytes": 15041,
+      "sha256": "f12dbce89a36356c63d6d633c652ad3c31cd2d09828d367c7512108b1e4a7281"
+    },
+    {
+      "path": "oanda_causal_forecast_inputs_eurusd_v1.py",
+      "bytes": 8924,
+      "sha256": "559cce99d33946708475bb39ee68b77f0d1fe1ae6d1edb435b3110b6f9cdd1e6"
+    },
+    {
+      "path": "oanda_causal_forecast_inputs_gap_v2.py",
+      "bytes": 9636,
+      "sha256": "539b3eed7fe4df48b4034b41bc82101c6276d88e3bb7e06e9931d3ce02234edd"
+    },
+    {
+      "path": "oanda_causal_forecast_inputs_pair_v1.py",
+      "bytes": 13584,
+      "sha256": "d4a8356b9df29b7f45cbebc4c9b93e9b5c843c2f1c56c93c088f22e9db856807"
+    },
+    {
+      "path": "oanda_causal_forecast_ledger_eurusd_v1.py",
+      "bytes": 22946,
+      "sha256": "c3a085373f5f8f511db5148895b2ac21a57ca0d0464923cb40b5a43b3f61e108"
+    },
+    {
+      "path": "oanda_causal_forecast_ledger_pair_v1.py",
+      "bytes": 23666,
+      "sha256": "acf83ef8a15c85465d493f9e614ca7153b28a9e4b4f4e5db7de9aed60c7e6cbb"
+    },
+    {
+      "path": "oanda_causal_forecast_study_eurusd_v1.py",
+      "bytes": 13057,
+      "sha256": "0619e52d800dbe2ec8a270548e39db5d98d4ad53ef19d385f6a638b9328e375c"
+    },
+    {
+      "path": "oanda_causal_prediction_baselines.py",
+      "bytes": 6198,
+      "sha256": "7260b9b5a0f6dec033deeacf37e76ea58b67ad21071b52ee915b8b0113dcf99d"
+    },
+    {
+      "path": "oanda_eurusd_local_models_v1.py",
+      "bytes": 8189,
+      "sha256": "8cd57cb20d26a220dcc1328b949d5e380d31e9d63ece12af743a010ac4b263d7"
+    },
+    {
+      "path": "oanda_exact_price_scoring.py",
+      "bytes": 9947,
+      "sha256": "f60ee51da1419e70b31327ba30755c7879b2c4ebfbb54a7778fe689e0e119521"
+    },
+    {
+      "path": "oanda_fixed_forecast_evaluation_eurusd_v1.py",
+      "bytes": 27955,
+      "sha256": "15e08b984700b1d5bd22f0b77c0c2f6cefb06f48424eed6ad26ea0bbe58affb9"
+    },
+    {
+      "path": "oanda_fixed_forecast_evaluation_pair_v1.py",
+      "bytes": 30236,
+      "sha256": "aa3479f9ff94c3c74e159e40e008a2553ec8869d196a0ef53651fc521ac450bc"
+    },
+    {
+      "path": "oanda_main_signal_dashboard.html",
+      "bytes": 144159,
+      "sha256": "8544b5c242deb7ee68c18e4d4e73488e498250de885e18aabce32f0897156c65"
+    },
+    {
+      "path": "oanda_pair_local_forecast_study_v1.py",
+      "bytes": 23057,
+      "sha256": "9efb8c7b3ac5456adcf436ef0940b256336f8ea774c5befa7f2f23ce01fd7346"
+    },
+    {
+      "path": "oanda_pair_local_models_v1.py",
+      "bytes": 8902,
+      "sha256": "ecd259fd66d74930ee23c715d29a5dba788d56ab2f7198cd1f521b912637ff26"
+    },
+    {
+      "path": "oanda_practice_live_dashboard.py",
+      "bytes": 459703,
+      "sha256": "e032972735ec8f204ade000a389b824a515db34722fda1a237adbe7c8b3cd3ad"
+    },
+    {
+      "path": "oanda_study_diagnostic_report_v1.py",
+      "bytes": 16288,
+      "sha256": "52f148bebeacd24565775ba593ef349556651dfa75b60691ef8ac9ed6ef6164e"
+    },
+    {
+      "path": "test_oanda_collection_dashboard_status.py",
+      "bytes": 39328,
+      "sha256": "71f56bb8479af02e53255e4a25dcb3c486f10e5e0135ec274bd559bc4a6e0034"
+    },
+    {
+      "path": "test_oanda_news_pair_dashboard.py",
+      "bytes": 19551,
+      "sha256": "f0ea51174418288e05eada7ee7b3c2560a42617cc058ea233843bf9d4c4fe60b"
+    },
+    {
+      "path": "test_oanda_pair_forecast_dashboard.py",
+      "bytes": 26795,
+      "sha256": "ba5d23985faf20a350e7fae31785dc162da28d718fea633d4db100b2d9599d8f"
+    },
+    {
+      "path": "test_oanda_pair_local_forecast_worker_v1.py",
+      "bytes": 19035,
+      "sha256": "2c34ecba8aaf607706587645c35caf9b7f2e23f750d77fd6a80baf20069815d2"
+    },
+    {
+      "path": "test_oanda_study_diagnostic_report_v1.py",
+      "bytes": 14744,
+      "sha256": "dc22c66af0e5c7462d5928fba0cbb8ae7c18db8b1fe66d02326ffe875ba9cc6e"
+    }
+  ]
+}

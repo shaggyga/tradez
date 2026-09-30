@@ -1,0 +1,1 @@
+WP6/R05/R14. Exact-source reuse, complete retained-text scan, conservative raw span mapping and recorded failed assertion oracles.16 local/16 restored tests verify audit; native behavior remains unaccepted. Original forecast results unchanged.

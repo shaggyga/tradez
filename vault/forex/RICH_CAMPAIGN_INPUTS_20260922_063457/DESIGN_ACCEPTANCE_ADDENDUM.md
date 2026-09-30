@@ -1,0 +1,1 @@
+Bounded R04/R03/R14 input expansion, original identities, feature-only availability and R10/R11 recovery/operation verified. No full-design, independent-review or trading acceptance.

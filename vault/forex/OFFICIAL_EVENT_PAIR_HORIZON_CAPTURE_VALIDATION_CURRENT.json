@@ -1,0 +1,76 @@
+{
+  "schema_version": "forex_official_event_pair_horizon_capture_validation_v1",
+  "generated_utc": "2026-09-03T00:14:00+00:00",
+  "finding": "The prospective per-pair raw official-event T0 ledger had no compatible per-pair outcome maturer; the legacy horizon worker retained an all-or-nothing 68-pair contract.",
+  "first_real_entry_capture": {
+    "source_id": "boj_updates",
+    "observation_id": "120ef0fe8023ce0074a5b9d1acdb2835cc2a70438775c50b47a085f26b71c1cb",
+    "title": "Sources of Changes in Current Account Balances (Projections for Sept.)",
+    "publisher_utc": "2026-09-02T23:50:00+00:00",
+    "first_seen_utc": "2026-09-02T23:52:45.314196+00:00",
+    "entry_quotes_captured_utc": "2026-09-02T23:52:46.573954+00:00",
+    "entry_detection_latency_seconds": 1.259758,
+    "explicitly_tradeable_pairs": 65,
+    "eligible_fresh_pairs": 59,
+    "semantic_state": "context_only_no_deterministic_fx_impulse",
+    "execution_state": "research_only_no_trade",
+    "proof_use": "validates_the_upstream_T0_clock_only; excluded_from_the_new_horizon_cohort_because_it_predates_activation"
+  },
+  "implementation": {
+    "contract_id": "official_event_pair_horizon_capture_v1_per_pair_terminal_20260902",
+    "cohort_id": "official_event_pair_horizon_capture_v1_20260902a",
+    "activated_utc": "2026-09-03T00:20:00+00:00",
+    "horizons_min": [1, 5, 15, 30, 60],
+    "entry_reacquisition": false,
+    "historical_backfill": false,
+    "one_terminal_attempt_per_event_horizon": true,
+    "pair_level_validity": true,
+    "both_directions_recorded": true,
+    "semantic_direction_claim": false,
+    "cost_stress_round_trip_slippage_pips": [0.0, 0.25, 0.5],
+    "independent_verifier": true,
+    "research_only": true,
+    "execution_eligible": false,
+    "can_authorize": false,
+    "can_promote": false,
+    "can_place_orders": false,
+    "supported_execution_decision": "no_trade"
+  },
+  "zero_import_boundary": {
+    "upstream_captures_seen": 1,
+    "preactivation_captures_excluded": 1,
+    "attempts_at_validation": 0,
+    "outcomes_at_validation": 0,
+    "sqlite_integrity": "ok",
+    "verifier_status": "verified",
+    "verifier_failures": 0
+  },
+  "validation": {
+    "python_compile": "passed_py313",
+    "powershell_parse": "passed",
+    "focused_tests_py313": 59,
+    "event_capture_tests_py312": 20,
+    "pytest_cache_warning": "non_material_existing_access_denied_warning_only",
+    "live_workers_started_hidden": true,
+    "producer_heartbeat": "ok",
+    "verifier_heartbeat": "verified"
+  },
+  "files": [
+    {
+      "path": "config/official_event_pair_horizon_capture_v1.json",
+      "sha256": "7f2bc593a0f1074752c634c6660f6a4b9f82c9ac63540703d96aec9835ed530c"
+    },
+    {
+      "path": "oanda_official_event_pair_horizon_capture_v1.py",
+      "sha256": "d800ab181cb90e3f6d01c1ff6cc191b903601b080f77cd25d879333d49fcbcac"
+    },
+    {
+      "path": "oanda_official_event_pair_horizon_capture_v1_verifier.py",
+      "sha256": "d431e55a26147f10e20397bc1e56deec43218f6904931038aa8fae1b12083755"
+    },
+    {
+      "path": "test_oanda_official_event_pair_horizon_capture_v1.py",
+      "sha256": "b650fb8bbac1ac003a5855c37247fae16db61bcfacda92129b9e060a4e352fc2"
+    }
+  ]
+}

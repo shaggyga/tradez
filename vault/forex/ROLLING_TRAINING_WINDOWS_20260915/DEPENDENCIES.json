@@ -1,0 +1,56 @@
+{
+  "base_entrypoint": "source/forex/trad/tools/build_rolling_technical_dataset_v1.py",
+  "core_runtime_dependencies": [
+    "numpy",
+    "pandas",
+    "pyarrow"
+  ],
+  "diagnostic_entrypoint": "source/forex/trad/tools/analyze_rolling_technical_training_v1.py",
+  "endpoint_entrypoint": "source/forex/trad/tools/build_rolling_technical_endpoints_v1.py",
+  "excluded": [
+    "raw candles",
+    "Parquet dataset shards",
+    "SQLite/WAL files",
+    "credentials",
+    "fitted models"
+  ],
+  "external_requirements": [
+    "Original reacquired M1 Parquet and canonical M1 CSV files at paths retained in primary receipts; not copied.",
+    "Original historical availability is a bar-end assumption; actual old receipt clocks cannot be reconstructed.",
+    "Use new output directories and a compatible environment. Recreating on another path or machine requires an explicit separately versioned source migration, not silent edits to sealed receipts.",
+    "Broader project README/log/reference-report links can point outside this scoped supplement; older vault snapshots and the canonical Forex project retain that wider history."
+  ],
+  "focused_test_dependencies": [
+    "pytest",
+    "tzdata"
+  ],
+  "manifest_bound_sibling_code_files": 4,
+  "manifest_relative_source_receipts": 136,
+  "older_snapshots_modified": false,
+  "oracle_dependencies": [
+    "oanda_research_feature_calculator_v1.py",
+    "oanda_feature_candle_inputs_v2.py",
+    "oanda_ma_causal_features_v2.py",
+    "oanda_ma_feature_grid.py",
+    "oanda_practice_shadow_strategy_lab.py",
+    "oanda_practice_eurusd_micro_scalper.py",
+    "oanda_rolling_technical_store_v1.py"
+  ],
+  "pip_metadata": "source/forex/trad/config/pair_local_operational_v2_20260913.json",
+  "pip_metadata_usage": "Only the 68 pip_size values are consumed by this base builder; other retained configuration metadata is not activated.",
+  "primary_manifest": "source/forex/revamp_8h_20260912/data/PRICE_ONLY_POPULATION_MANIFEST_001.json",
+  "primary_seal": "source/forex/revamp_8h_20260912/data/PRICE_ONLY_POPULATION_MANIFEST_001.seal.json",
+  "prior_supplement": "../ROLLING_TECHNICAL_20260915/README.md",
+  "readable_evidence_layout": {
+    "accepted_compact_records": "source/forex/trad/docs/validation/rolling_training_windows_20260915",
+    "base": "evidence/base",
+    "endpoint": "evidence/endpoints"
+  },
+  "recreation_working_directory": "source/forex/trad",
+  "retained_receipts": {
+    "base_input_ranges": 68,
+    "endpoint_rereads": 68,
+    "primary_original_source_receipts": 136
+  },
+  "schema": "rolling_training_windows_dependency_map_v1"
+}

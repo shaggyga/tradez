@@ -1,0 +1,1 @@
+Design14.2–14.4,R05/R14. Exact nine-version target, original formula/regex reproduction, strict subject/unit/month guards, source-asof consumer, meaningful tests and portable replay. No broker/API/model actions. Independent review separate.

@@ -1,0 +1,1 @@
+Bounded design8/18/21, R03/R08/R11/R13/R14, WP7/WP8/WP9/WP10; aggregate isolated readiness and native preparation without historical issuance claims.

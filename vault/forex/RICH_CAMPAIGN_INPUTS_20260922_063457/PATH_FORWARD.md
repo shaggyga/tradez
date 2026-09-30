@@ -1,0 +1,2 @@
+Next: review_rich_campaign_input_checkpoint, then matched_rich_feature_family_comparison_v2.
+Reuse the reissued baseline and rich feature views in the frozen comparison, with identical mature populations and train-only preprocessing. Then dependence-aware diagnostics and attempt accounting. Full session/macro/confirmation gates remain open.

@@ -1,0 +1,1 @@
+Bounded design20.5, R03/R09/R13/R14, WP7/WP9/WP10; meaningful mature-population, transform, recovery and relocation checks. Broader null calibration and confirmation remain open.

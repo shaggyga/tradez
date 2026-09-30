@@ -1,0 +1,18 @@
+{
+  "schema": "forex_forecasting_candidate.v1",
+  "step_id": "macro_numeric_units_vintage_evidence_audit_v2",
+  "status": "not_started",
+  "priority": 13,
+  "depends_on": [
+    "macro_detail_representation_selector_repair_v2"
+  ],
+  "hypothesis": "Numeric units/vintage evidence may determine whether macro numeric fields can be admitted without paid/current external retrieval.",
+  "deliverable": "Inspect existing numeric unit/vintage packet/history first; close by reuse if complete, or record exact blocker.",
+  "completion_gate": [
+    "Read existing numeric audit packet",
+    "No paid/API retrieval",
+    "No forecast admission without units/vintage support",
+    "Update Vault/project checkpoint"
+  ],
+  "limits": "No GPT/advisor comparisons, paid APIs, broker/service/account actions, D-drive investigation, EUR/USD capture, live-bot changes."
+}

@@ -1,0 +1,2 @@
+Next: review_macro_version_text_checkpoint_v2, then macro_event_existence_matched_forecast_v2.
+Fixed matched development comparison of event existence/count/age features against unchanged technical features; separate future-qualified broader text extraction and independent confirmation.

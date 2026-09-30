@@ -1,0 +1,17 @@
+{
+  "recipe": "source_snapshot/DIRECTIONAL_RECOVERY_OPERATOR_RECIPE.json",
+  "recipe_sha256": "ae2cdf7854693ed967e056d0a7d1c6338f44c87759e30a3c015dc77d57d9fa6f",
+  "scope": "exact_saved_model_recreation_and_admission",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify"
+  ],
+  "bootstrap": "checkpoint/forex_directional_recovery_companion.zip",
+  "required_retained_archive": "checkpoint/local_restoration_001.zip",
+  "retained_archive_sha256": "a9f29a3d51e40c114655d27465ec03b269cba5c26c5bb24105c97da096d86fd9",
+  "contract": "source_snapshot/DIRECTIONAL_RECOVERY_CONTRACT_V2.md",
+  "next": "review_retained_directional_recovery_checkpoint"
+}

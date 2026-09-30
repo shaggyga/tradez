@@ -1,0 +1,73 @@
+{
+  "checkpoint": {
+    "path": "checkpoint/LAYER_POLICY_ATTRIBUTION_CHECKPOINT.zip",
+    "sha256": "2c2cc37aab62719a23eb607605118e2f266f5eb6fb4dcde4fc7bb51f6105d756"
+  },
+  "demo_authorization_status": "not_granted",
+  "engineering_ready": false,
+  "forecast_evidence_status": "inspected_development_attribution_only",
+  "implementation_status": "complete",
+  "independent_review": false,
+  "independent_review_status": "pending_nonblocking_by_user_clarification",
+  "next_action": "later_development_input_extension_v2",
+  "policy_evidence_status": "preserved_declared_candle_paths_not_new_counterfactuals",
+  "readiness": {
+    "demo_authorization_status": "not_granted",
+    "engineering_ready": false,
+    "forecast_evidence_status": "inspected_development_attribution_only",
+    "policy_evidence_status": "preserved_declared_candle_paths_not_new_counterfactuals"
+  },
+  "recipe_sha256": "61175898d918b351902f6f9e8c7677add55475eb166ce38c845a16e6a17e132a",
+  "review_result": "evidence/REVIEW_FINDINGS.md",
+  "review_status": "accepted_within_scope",
+  "reviewer": "same Codex task; substantive same-task review",
+  "run_identity": "35a9c832a2e5b681eb98041035a459e1c8c7f59ab3a94d412677ae12474f56a7",
+  "schema": "forex_review_packet.v2",
+  "source_commit": "b424f6e4e481c56a069ef4d016cf91ad37595138",
+  "step_id": "layer_policy_failure_attribution_v2",
+  "unresolved_findings": [],
+  "verification": {
+    "actual_crash_exit": 91,
+    "actual_final_crash_after_path": 1,
+    "api_calls": 0,
+    "audit": {
+      "accounts": 168,
+      "aggregation_scope": "inventory_counts_across_dependent_paths; not_independent_samples_or_combined_portfolio",
+      "coverage_slots": 7616,
+      "eligible_forecasts": 4332,
+      "filled_episode_count": 209,
+      "financing_rejected_accounts": 8,
+      "prior_economic_path_payloads_preserved_modulo_explicit_new_diagnostic_fields": 28,
+      "prior_forecast_payloads_unchanged": 2,
+      "selected_without_open_episode": 86,
+      "selection_count": 295,
+      "status": "PASS"
+    },
+    "bad_checkpoint_pin_refused": true,
+    "base_model_fits": 0,
+    "base_model_loads": 0,
+    "checkpoint_sha256": "2c2cc37aab62719a23eb607605118e2f266f5eb6fb4dcde4fc7bb51f6105d756",
+    "independent_review": false,
+    "layer_fits": 0,
+    "local_tests": 20,
+    "policy_replays": 0,
+    "recipe_sha256": "61175898d918b351902f6f9e8c7677add55475eb166ce38c845a16e6a17e132a",
+    "refusal_cases": 3,
+    "relocated_tests": 20,
+    "restore": {
+      "base_model_fits": 0,
+      "base_model_loads": 0,
+      "checkpoint_sha256": "2c2cc37aab62719a23eb607605118e2f266f5eb6fb4dcde4fc7bb51f6105d756",
+      "independent_review": false,
+      "layer_fits": 0,
+      "policy_replays": 0,
+      "relocated_tests_passed": true,
+      "run_identity": "35a9c832a2e5b681eb98041035a459e1c8c7f59ab3a94d412677ae12474f56a7",
+      "scientific_payloads_identical": 31,
+      "status": "VERIFIED"
+    },
+    "run_identity": "35a9c832a2e5b681eb98041035a459e1c8c7f59ab3a94d412677ae12474f56a7",
+    "scientific_outputs_identical": 31,
+    "status": "PASS"
+  }
+}

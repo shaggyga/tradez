@@ -1,0 +1,2 @@
+Next: review_macro_unit_binding_checkpoint_v2, then macro_numeric_reference_and_extraction_provenance_binding_v2.
+Review this exact checkpoint before proceeding. After acceptance, complete the preserved ABS reference and two BLS extraction-provenance binding cases. Keep missing original levels/seasonality/issuer/readiness/activation unresolved.

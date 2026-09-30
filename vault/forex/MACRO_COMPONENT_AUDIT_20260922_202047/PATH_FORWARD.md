@@ -1,0 +1,2 @@
+Next: review_macro_component_audit_checkpoint_v2, then macro_component_extraction_guard_repair_v2.
+Implement a separate offline component adapter that rejects regional/national confusion, percentage-as-count, wrong-subject and ambiguous interval captures. Bind explicit ONS subjects/units/periods or abstain. Qualify DOL component dates from the validated embedded release with bounded date rules and exact decimal arithmetic; do not invent vintage or original readiness.

@@ -1,0 +1,97 @@
+{
+  "schema": "oanda_eurusd_dataset_snapshot.v1",
+  "source": "OANDA practice v20 sampled pricing stream",
+  "instrument": "EUR_USD",
+  "recording_id": "eurusd-a0972120db87",
+  "columns": [
+    "recording_id",
+    "segment_id",
+    "connection_id",
+    "sequence",
+    "instrument",
+    "broker_time",
+    "received_time",
+    "bid",
+    "ask",
+    "mid",
+    "spread",
+    "spread_pips",
+    "tradeable",
+    "initial_snapshot",
+    "timestamp_to_receipt_ms"
+  ],
+  "row_count": 274,
+  "first_broker_time": "2026-09-25T01:52:23.006962647Z",
+  "first_received_time": "2026-09-25T01:52:25.338085+00:00",
+  "last_broker_time": "2026-09-25T02:00:49.806516301Z",
+  "last_received_time": "2026-09-25T02:00:49.883444+00:00",
+  "snapshot_started_utc": "2026-09-25T02:00:50.792087+00:00",
+  "snapshot_finished_utc": "2026-09-25T02:00:50.811048+00:00",
+  "asof_semantics": "Each segment is a bounded prefix captured at its own recorded time; not a simultaneous market snapshot.",
+  "input_directory": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\eurusd_feed_20260925",
+  "recording_contract_sha256": "b8b6846b55da4fd2d544397907b40b333987045e3ec8ac9cd358c6087508a3f2",
+  "scheduled_end_utc": "2026-09-25T20:59:00+00:00",
+  "snapshot_state": "active_snapshot",
+  "dataset_is_final": false,
+  "cutoff_time_has_passed": false,
+  "recorder_reported_state": "recording",
+  "recorder_status_updated_utc": "2026-09-25T02:00:49.031140+00:00",
+  "recorder_status_sha256_before": "3c435e06e5e9f972f5a8d2796acf40bd7c18cc3e6be044be5a02d92456f03166",
+  "recorder_status_sha256_after": "3c435e06e5e9f972f5a8d2796acf40bd7c18cc3e6be044be5a02d92456f03166",
+  "recorder_status_changed_during_snapshot": false,
+  "live_process_or_network_verified": false,
+  "ordering": {
+    "method": "events.jsonl segment_started order",
+    "journal": {
+      "file": "events.jsonl",
+      "capture_started_utc": "2026-09-25T02:00:50.798396+00:00",
+      "capture_finished_utc": "2026-09-25T02:00:50.798535+00:00",
+      "captured_bytes": 505,
+      "captured_bytes_sha256": "947238f69c257cc4430d35bd36f192e3e79c6412c4949ab9c7f1c4eff4ef6cac",
+      "complete_bytes": 505,
+      "complete_bytes_sha256": "947238f69c257cc4430d35bd36f192e3e79c6412c4949ab9c7f1c4eff4ef6cac",
+      "ignored_unterminated_tail_bytes": 0,
+      "ignored_unterminated_tail_fragments": 0,
+      "size_observed_after_read": 505
+    }
+  },
+  "segments": [
+    {
+      "file": "quotes-20260925T015224Z-9ca3b7dd.csv",
+      "capture_started_utc": "2026-09-25T02:00:50.798590+00:00",
+      "capture_finished_utc": "2026-09-25T02:00:50.804280+00:00",
+      "captured_bytes": 49457,
+      "captured_bytes_sha256": "69c1663176d17ec8a4076e04657250b6bf601ec7bf4308694401075cd97ba389",
+      "complete_bytes": 49457,
+      "complete_bytes_sha256": "69c1663176d17ec8a4076e04657250b6bf601ec7bf4308694401075cd97ba389",
+      "ignored_unterminated_tail_bytes": 0,
+      "ignored_unterminated_tail_fragments": 0,
+      "size_observed_after_read": 49457,
+      "segment_order": 0,
+      "row_count": 274,
+      "first_sequence": "1",
+      "last_sequence": "274"
+    }
+  ],
+  "ignored_unterminated_tail_bytes": 0,
+  "ignored_unterminated_tail_fragments": 0,
+  "partial_tail_policy": "Only newline-terminated CSV records are included. Tail fragments are counted as bytes/fragments, not claimed to be complete rows. Malformed complete records refuse export.",
+  "transformations": {
+    "deduplication": false,
+    "imputation": false,
+    "resampling": false,
+    "prices": "Original decimal strings",
+    "timestamps": "Original timezone-aware strings; broker nanoseconds preserved"
+  },
+  "sampling": {
+    "maximum_quotes_per_second": 4,
+    "sampling_window_ms": 250,
+    "regular_grid": false,
+    "historical_backfill": false
+  },
+  "export": {
+    "file": "eurusd_bid_ask.csv",
+    "bytes": 49457,
+    "sha256": "69c1663176d17ec8a4076e04657250b6bf601ec7bf4308694401075cd97ba389"
+  }
+}

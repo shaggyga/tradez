@@ -1,0 +1,23 @@
+.....F..................................................... [ 11%]
+........................................................................ [ 24%]
+........................................................................ [ 38%]
+........................................................................ [ 52%]
+........................................................................ [ 65%]
+........................................................................ [ 79%]
+........................................................................ [ 93%]
+...................................                                      [100%]
+================================== FAILURES ===================================
+_ InterpretationTests.test_hypothetical_currency_move_and_negated_shift_abstain _
+
+self = <test_oanda_news_interpretation_v1.InterpretationTests testMethod=test_hypothetical_currency_move_and_negated_shift_abstain>
+
+    def test_hypothetical_currency_move_and_negated_shift_abstain(self):
+        self.assertIsNone(self.claims('Canadian dollar may fall despite oil strength', 'reported_currency_response')[0]['direction'])
+>       self.assertIsNone(self.claims('Fed is not less dovish', 'policy_stance_change')[0]['direction'])
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       IndexError: list index out of range
+
+trad\test_oanda_news_interpretation_v1.py:107: IndexError
+=========================== short test summary info ===========================
+FAILED trad/test_oanda_news_interpretation_v1.py::InterpretationTests::test_hypothetical_currency_move_and_negated_shift_abstain
+1 failed, 525 passed, 13 subtests passed in 10.95s

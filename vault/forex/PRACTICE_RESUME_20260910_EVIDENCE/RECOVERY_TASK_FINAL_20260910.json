@@ -1,0 +1,20 @@
+{
+  "observed_utc": "2026-09-10T15:10:27.2777660Z",
+  "name": "Forex Practice Research Recovery 20260910",
+  "state": "Running",
+  "enabled": true,
+  "last_run": "2026-09-10T11:05:05.0000000-04:00",
+  "last_task_result": 267009,
+  "missed_runs": 0,
+  "logon_type": "Interactive",
+  "multiple_instances": "IgnoreNew",
+  "execution_time_limit": "PT0S",
+  "trigger_delay": "PT30S",
+  "actions": [
+    {
+      "Execute": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "Arguments": "-NoLogo -NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File \"C:\\Users\\zmoor\\Documents\\forex\\trad\\start_oanda_practice_recovery_v1.ps1\"",
+      "WorkingDirectory": "C:\\Users\\zmoor\\Documents\\forex\\trad"
+    }
+  ]
+}

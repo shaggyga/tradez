@@ -1,0 +1,28 @@
+{
+  "schema": "forex_independent_publication_review.v1",
+  "reviewer": "/root/research_next_selection",
+  "independent_review": true,
+  "scope": "Read-only audit of immutable numeric-join repair publication, current document/source pins, queue consolidation and finalized Git operation; no numerical review repeated.",
+  "package": "NUMERIC_JOIN_REVIEW_REPAIRS_20260924_004443",
+  "manifest_sha256": "66bc4d84073c87a0f4b36255f34678020e7bfa871077bb11b7d6dcc748c7a39a",
+  "source_commit": "c14630874f8a75c637ecac31ca120e84e65cebd7",
+  "verdict": "changes_requested",
+  "checks": {
+    "immutable_manifest": {"declared_files":460,"actual_files":460,"missing_extra_hash_size_errors":[]},
+    "live_vault_document_pins": {"checked":15,"errors":[]},
+    "live_project_document_pins": {"checked":22,"errors":[]},
+    "live_source_snapshot": {"checked":375,"errors":[]},
+    "independent_scientific_review_source_pins": {"checked":10,"errors":[]},
+    "both_current_pointer_manifest_hashes": "match",
+    "queue": {"current_join_records":1,"old_records_preserved_in_history":3,"old_records_semantically_exact":true,"other_scientific_steps_unchanged":true,"operational_gate_unchanged":true,"queue_after_matches_live_bytes":true,"next_item":"whole_curve_warm_start_capacity_followup_v2"},
+    "git": {"head_matches_receipt":true,"working_tree":"clean","bundle_sha256":"ab1ef3f2064b15c1abc0bdf95874f8e9cb9e69d9e2dc181b366067494740993c","bundle_hash_matches":true,"operation_manifest_sha256":"c5d3c7fef89ed5cde33a2dca3f4f1484b360e71a7c511a48908609559a0f4df8","operation_manifest_hash_matches":true,"fresh_restore_claim":false,"remote_verification":"root operation receipt checked; independent reviewer did not repeat network call"},
+    "coordination": "One active current claim, predecessor explicitly transferred and marked DONE; no competing active owner observed.",
+    "operational_preflight": "Root is running the existing fresh preflight; not duplicated or counted by this reviewer."
+  },
+  "findings": [
+    {"id":"PUBR-01","priority":2,"file":"PENDING_CHANGES.md and WORK_LOG.jsonl","issue":"Preserved local evidence references use independent_join_review/... but exported packet path is independent_review/..., with no explicit path map. The primary REVIEW.json result link is correct, but the pending/work-log links cannot be followed relative to the packet.","fix":"Preserve sealed packet; add an immutable publication addendum mapping local evidence root and renamed exported review paths, with exact resolution-review link/hash."},
+    {"id":"PUBR-02","priority":2,"file":"REVIEW.md/PATH_FORWARD.md checkpoint handoff","issue":"Checkpoint hash and payload proof are present, but no concrete numeric checkpoint restore invocation or safe rollback procedure is included. CHECKPOINT_REVIEW.md explicitly requires rollback/restore and exact resume instructions. Generic contract text describes behavior without an executable command.","fix":"Add same immutable publication addendum with exact locked interpreter/source/package/hash/empty-destination restore command and --run-tests, plus preserve-current-work rollback to isolated prior source/packet; retain warm partial exact RESUME.md reference. Link addendum from the mutable Git receipt rather than rewriting sealed bytes."}
+  ],
+  "non_findings": ["Global engineering_ready=false and reviewed bounded_join_consumer_only engineering_ready=true have explicitly different scopes.","Pending publication status remains truthful while this audit is unfinished.","Local verification does not establish OneDrive or second-machine freshness.","Historical READY_FOR_REVIEW records are preserved as history, not active duplicate blockers."],
+  "resumption_condition": "Resolve the two bounded handoff findings by an immutable linked addendum; recheck its bytes/commands and root preflight receipt, then accept publication and resume existing partial warm-curve work."
+}

@@ -1,0 +1,116 @@
+{
+  "branch": "forex",
+  "checks": [
+    {
+      "check": "roots",
+      "detail": {
+        "vault": "C:\\Users\\zmoor\\OneDrive\\thevault\\projects\\forex",
+        "workspace": "C:\\Users\\zmoor\\Documents\\forex"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "repository",
+      "detail": {
+        "branch": "forex",
+        "clean": true,
+        "head": "dc8355c248e37a413fd3259fa3f46594c67b57da"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "vault_packages",
+      "detail": {
+        "design_manifest_sha256": "67b294a40303cc9495a0a7cd7398b97cab2b0479adab6c15f2da244e08858b37",
+        "design_package": "STORAGE_CLEANUP_20260924",
+        "exact_next_item": "currency_projection_policy_comparison_v2",
+        "review_manifest_sha256": "67b294a40303cc9495a0a7cd7398b97cab2b0479adab6c15f2da244e08858b37",
+        "review_package": "STORAGE_CLEANUP_20260924"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "current_documents",
+      "detail": {
+        "project_documents": 24,
+        "vault_documents": 15
+      },
+      "status": "pass"
+    },
+    {
+      "check": "engineering_source",
+      "detail": {
+        "engineering_files_verified": 520,
+        "scope": "current engineering root source snapshot"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "revision",
+      "detail": {
+        "branch": "forex",
+        "expected_commit": "dc8355c248e37a413fd3259fa3f46594c67b57da",
+        "identity_source": "Vault final handoff receipt",
+        "live_remote_freshness": "not_checked_offline"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "coordination",
+      "detail": {
+        "active_claims": [],
+        "atomic_cross_machine_reservation": false,
+        "claim_created": false,
+        "claim_id": null
+      },
+      "status": "pass"
+    },
+    {
+      "check": "operational_gate",
+      "detail": {
+        "manifest_sha256": "808390179cfc40400eaa779cbb50776c4fe53562f0324e5efc70ed01c5be17a6",
+        "package": "OPERATIONAL_READINESS_20260923_180528",
+        "queue_packet": "OPERATIONAL_READINESS_20260923_180528/REVIEW.json",
+        "research_authorization": false,
+        "selected_work_item": "currency_projection_policy_comparison_v2",
+        "status": "complete",
+        "step_id": "mabel-operational-readiness-20260923"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "environment",
+      "detail": {
+        "numerical_environment_checked": false,
+        "profile": "stdlib",
+        "python": "3.13.14"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "snapshot_stability",
+      "detail": {
+        "files_read": 1289
+      },
+      "status": "pass"
+    }
+  ],
+  "code_commit": "dc8355c248e37a413fd3259fa3f46594c67b57da",
+  "filesystem_mutations": 0,
+  "limitations": [
+    "Local immutable/current-document identity checks only; no live GitHub or OneDrive freshness proof.",
+    "Passing is a setup observation, not a research, model run, broker or service authorization.",
+    "The board is advisory, not an atomic distributed lock; establish shared freshness and claim work before edits/runs.",
+    "Selected recipe input bytes and full historical artifact graphs are checked only by their original operator; this tool never launches it.",
+    "Historical missing approvals unrelated to the selected next work are not interpreted as startup blockers."
+  ],
+  "model_runtime_qualified": false,
+  "models_fitted": 0,
+  "models_loaded": 0,
+  "network_calls": 0,
+  "research_authorization": false,
+  "schema": "forex_offline_preflight.v1",
+  "status": "pass",
+  "unresolved_claims": [],
+  "utc": "2026-09-24T14:06:50.590544+00:00"
+}

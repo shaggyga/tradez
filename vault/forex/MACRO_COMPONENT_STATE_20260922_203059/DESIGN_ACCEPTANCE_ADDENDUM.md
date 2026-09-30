@@ -1,0 +1,1 @@
+R05/R14 design14.2–14.4. Exact parent/version/content/evidence joins, unchanged original state, readiness/no-fallback guards and portable replay; independent review separate.

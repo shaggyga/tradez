@@ -6,7 +6,6 @@ param(
     [int]$ChildDurationSec = 604800,
     [string]$PythonPath = "",
     [string]$CredsPath = "",
-    [switch]$EnableCrypto,
     [switch]$EnableModelGapLive,
     [switch]$EnableSubMinuteResearch,
     [switch]$EnableLegacyFlatPracticeBots,
@@ -77,7 +76,6 @@ $ModelGapLiveState = Join-Path $State "model_gap_live_worker_v1.json"
 New-Item -ItemType Directory -Force -Path $Logs | Out-Null
 
 $SafeCoreSkippedNames = @(
-    "crypto_shadow",
     "hgb_adaptive_fit",
     "arima_multiframe_sweep",
     "forex_model_vault_sync",
@@ -169,9 +167,6 @@ $DisabledNames = @(
     "move_first_operational_mapping_alignment_v2",
     "move_first_operational_mapping_alignment_v3"
 )
-if (-not $EnableCrypto) {
-    $DisabledNames += "crypto_shadow"
-}
 if (-not $EnableModelGapLive) {
     # Offline model-gap completion is bounded and is run manually.  Do not
     # keep the large live forecast ledger and promotion reader on the
@@ -2450,18 +2445,7 @@ while ($true) {
                 MaxAgeSec = 360
                 StartupGraceSec = 300
             }
-        $managed += Start-ManagedProcess `
-            -Name "crypto_shadow" `
-            -Needle "crypto_shadow_live_tracker.py" `
-            -Arguments @(
-                (Join-Path $Trad "crypto_shadow_live_tracker.py"),
-                "--data-dir", (Join-Path $DataRoot "crypto_shadow")
-            ) `
-            -Freshness @{
-                LiteralPath = (Join-Path $DataRoot "crypto_shadow\coinbase_shadow_state.json")
-                MaxAgeSec = 30
-                StartupGraceSec = 300
-            }
+        # Crypto Shadow retired from the Forex supervisor on 2026-09-30.
         # Retired from always-on runtime on 2026-08-18.  This legacy local-only
         # Practice-002 loop had no unique evidence consumer and duplicated the
         # canonical 68-pair quote/news/move collectors.  Its code and historical

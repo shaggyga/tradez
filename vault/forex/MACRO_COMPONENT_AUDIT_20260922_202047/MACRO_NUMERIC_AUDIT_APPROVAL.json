@@ -1,0 +1,15 @@
+{
+  "recipe": "source_snapshot/MACRO_NUMERIC_AUDIT_OPERATOR_RECIPE.json",
+  "recipe_sha256": "b0fdf0a4c0b40296cdfb2f676e213f5af8513380681e87e7007e7951552ccc92",
+  "scope": "retained numeric evidence gaps and exact diagnostic occurrences; no source-field truth or prior vintage certification",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify"
+  ],
+  "bootstrap": "../MACRO_NUMERIC_AUDIT_20260922_200101/checkpoint/forex_macro_numeric_audit.zip",
+  "contract": "source_snapshot/MACRO_NUMERIC_AUDIT_CONTRACT_V2.md",
+  "next": "review_macro_numeric_audit_checkpoint_v2"
+}

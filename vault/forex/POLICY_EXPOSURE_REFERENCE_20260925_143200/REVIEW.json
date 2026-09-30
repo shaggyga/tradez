@@ -1,0 +1,35 @@
+{
+  "schema": "forex.review_packet.v1",
+  "packet_id": "POLICY_EXPOSURE_REFERENCE_20260925_143200",
+  "step_id": "retained_policy_exposure_or_cost_support_qualification_v2",
+  "utc": "2026-09-25T14:35:25.906845+00:00",
+  "source_commit": "3d3c9198de978775da753dd25b3c983eb3ff2586",
+  "review_status": "accepted_within_scope",
+  "same_task_review": true,
+  "independent_review": false,
+  "implementation_status": "complete_selected_reference_support_and_descriptive_report",
+  "finding_resolved": "REV-05_policy_support_branch",
+  "verification": {
+    "policy_run_identity": "9d1fb14472281fd499f0f6979df75cb994b45bf181e947b1c82411575e8d10a9",
+    "native_run_identity": "7e9c869d90898082e6ba31de4cdcbb4bc4269d1fee9717d85a507c63bbec2f28",
+    "selected_native_frame_hashes": 8,
+    "input_frames": 19,
+    "event_rows": 91,
+    "market_records_per_frame": 68,
+    "qualified_quote_range": [
+      66,
+      68
+    ],
+    "source_packets_exact": true,
+    "candidate_reconstruction_exact": true,
+    "tests_passed": 2
+  },
+  "scope": "one dependent inspected-development candle scenario; sampled event-state report only",
+  "readiness": {
+    "forecast_evidence_status": "unchanged",
+    "policy_evidence_status": "retrospective_descriptive_only",
+    "trading_ready": false
+  },
+  "remaining_rev05_branch": "distinct_method_qualification",
+  "next_item": "bounded_distinct_method_support_qualification_v2"
+}

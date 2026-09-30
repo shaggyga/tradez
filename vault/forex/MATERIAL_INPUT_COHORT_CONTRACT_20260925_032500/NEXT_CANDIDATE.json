@@ -1,0 +1,24 @@
+{
+  "schema": "forex_forecasting_candidate.v1",
+  "step_id": "macro_event_text_incremental_support_inventory_v1",
+  "status": "not_started",
+  "priority": 6,
+  "depends_on": [
+    "material_input_cohort_contract_v2"
+  ],
+  "design_sections": [
+    "12.2",
+    "27.4",
+    "27.5"
+  ],
+  "hypothesis": "Usable macro/event/text-state source artifacts may support a matched chronological incremental-information comparison against ridge/HGB controls.",
+  "deliverable": "Locate and hash exact local/Vault input frames, matched prediction controls and target keys for the contract. If unavailable, record exact missing artifacts and select another independent design gap.",
+  "completion_gate": [
+    "Read contract and validate it again",
+    "Inventory exact macro/event/text-state candidate frames and source clocks",
+    "Inventory exact ridge/HGB control predictions and shared target keys",
+    "Run no fit unless all support/preflight gates pass",
+    "Publish support inventory or blocker packet and update queue/checkpoint"
+  ],
+  "limits": "No GPT/advisor comparisons, paid APIs, broker/service/account actions, D-drive investigation, EUR/USD capture, live-bot changes, or duplicate completed experiments."
+}

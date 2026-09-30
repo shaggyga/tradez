@@ -1,0 +1,41 @@
+{
+  "schema": "forex_shared_git_operation.v2",
+  "status": "COMPLETE",
+  "utc": "2026-09-24T05:11:47.677839+00:00",
+  "repository": "https://github.com/shaggyga/tradez",
+  "branch": "forex",
+  "default_branch": "forex",
+  "source_commit": "d22aa18f3960d0bcdc249c41565ad0fc6d040bda",
+  "handoff_document_commit": "d22aa18f3960d0bcdc249c41565ad0fc6d040bda",
+  "remote_sha": "d22aa18f3960d0bcdc249c41565ad0fc6d040bda",
+  "remote_push_verified": true,
+  "handoff_packet": "MAGNITUDE_LAYER_20260924_051000",
+  "handoff_manifest_sha256": "9fc3a11665146642da57a67da81f1d11024c1072760afaa23eeecdf79b28c4f1",
+  "scientific_next_item": "later_remaining_forecast_surface_v2",
+  "next_action": "Freeze later remaining surface candidate after authenticating saved signed fits and extra labels; preserve causal layer timing and exact horizons.",
+  "independent_source_review": "pending_nonblocking_by_user_clarification",
+  "independent_review": false,
+  "same_task_review": "accepted_within_scope",
+  "prior_operation_reference": {
+    "path": "MAGNITUDE_LAYER_GIT_20260924_051000/PREVIOUS_RECEIPT.json",
+    "sha256": "92abf6d3ac53d1f2fcd1fcf59154b6e83548b11b806b0a84430e25f50aa97ecb"
+  },
+  "checkpoint": {
+    "vault_relative_path": "MAGNITUDE_LAYER_GIT_20260924_051000/forex-magnitude-layer.bundle",
+    "sha256": "7bced76ebb115657db07339b91623bffe969bc274b9945fbfd8d13866758797d",
+    "bytes": 20317290,
+    "bundle_verify": "PASSED",
+    "remote_same_commit_verified": true,
+    "fresh_restore_verified": true,
+    "restore_command": "git -c core.longpaths=true clone --branch forex <bundle-path> forex",
+    "fresh_restore_receipt": "MAGNITUDE_LAYER_GIT_20260924_051000/GIT_RESTORE_RECEIPT.json",
+    "fresh_restore_receipt_sha256": "971b27138dab57b7682d340c146e6f63d08978861cddd35455cf3b095a3cb717"
+  },
+  "layer_regression_inventory": 472,
+  "base_models_fitted": 0,
+  "base_models_loaded": 0,
+  "original_models_refitted": 0,
+  "portable_layer_recomputation": true,
+  "model_loading": "base_weights_hashed_only; saved_forecasts_read_as_JSON",
+  "cloud_sync_or_second_machine_execution_verified": false
+}

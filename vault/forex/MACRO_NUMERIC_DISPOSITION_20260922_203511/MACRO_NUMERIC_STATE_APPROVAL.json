@@ -1,0 +1,15 @@
+{
+  "recipe": "source_snapshot/MACRO_NUMERIC_STATE_OPERATOR_RECIPE.json",
+  "recipe_sha256": "33568d5051e0feeb6fbdf88a0c1013c7d7a2619898072c0470ec2cb77230d31a",
+  "scope": "typed source-known numeric observations and per-version readiness; no independent field/vintage or forecast certification",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify"
+  ],
+  "bootstrap": "../MACRO_NUMERIC_STATE_20260922_200911/checkpoint/forex_macro_numeric_state.zip",
+  "contract": "source_snapshot/MACRO_NUMERIC_STATE_CONTRACT_V2.md",
+  "next": "review_macro_numeric_state_checkpoint_v2"
+}

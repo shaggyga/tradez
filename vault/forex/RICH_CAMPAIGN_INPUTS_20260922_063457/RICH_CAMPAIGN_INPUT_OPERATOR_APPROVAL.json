@@ -1,0 +1,21 @@
+{
+  "recipe": "source_snapshot/RICH_CAMPAIGN_INPUT_OPERATOR_RECIPE.json",
+  "recipe_sha256": "e37f852e7539ad20f081fa45372e2c5cd8f8fbf3ac9c40f6484b8297960adae3",
+  "scope": "all68 rich inputs at76 matched origins; no new model fit",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify"
+  ],
+  "bootstrap": "checkpoint/forex_rich_campaign_inputs.zip",
+  "contract": "source_snapshot/RICH_CAMPAIGN_INPUT_CONTRACT_V2.md",
+  "next": "review_rich_campaign_input_checkpoint",
+  "required_companions": [
+    {
+      "path": "../RECOVERY_CHECKPOINT_20260921/inputs/long_m1_68.zip",
+      "sha256": "aca163639a18e22b2c60dc4ff36d55d82c655af617836a6d351dd1339e5a6006"
+    }
+  ]
+}

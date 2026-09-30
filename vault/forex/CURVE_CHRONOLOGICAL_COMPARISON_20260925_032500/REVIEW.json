@@ -1,0 +1,50 @@
+{
+  "accepted": false,
+  "actual_checks": [
+    {
+      "complete_matched_three_variant_panels": 2156,
+      "frames_checked": 192,
+      "name": "curve support check",
+      "status": "passed"
+    },
+    {
+      "name": "focused tests",
+      "result": "7 passed; pytest cache warning only",
+      "status": "passed"
+    },
+    {
+      "learned_rows": 946,
+      "name": "curve chronological run",
+      "overall_mae_improved": {
+        "magnitude_interaction_expanding": 0,
+        "raw_matched_expanding": 0,
+        "signed_only_expanding": 0
+      },
+      "paired_scores": 54,
+      "status": "passed"
+    }
+  ],
+  "implementation_status": "complete",
+  "independent_review": false,
+  "independent_scientific_review": "pending_nonblocking_by_user_clarification",
+  "next_action": "Continue timed queue with rich_feature_family_incremental_comparison_v2 reuse/support check; do not repeat completed rich-family experiments unchanged.",
+  "package": "CURVE_CHRONOLOGICAL_COMPARISON_20260925_032500",
+  "published_utc": "2026-09-25T03:13:14.945977Z",
+  "readiness": {
+    "demo_authorization_status": "not_granted",
+    "engineering_ready": false,
+    "forecast_evidence_status": "curve_shape_development_result_negative_overall_mae_vs_controls",
+    "policy_evidence_status": "not_evaluated_no_policy_replay"
+  },
+  "result_bytes": 18309805,
+  "result_sha256": "d89ca467267699dfb10c0e870453e29169bd9551ead04649768f00bf5ca6606c",
+  "review_status": "ready_for_independent_scientific_review",
+  "schema": "forex_checkpoint_review.v2",
+  "source_commit_before_package": "24b6af187ed5d492e5fce2f9f430112e59c8c182",
+  "step_id": "forecast_curve_shape_layer_comparison_v2",
+  "support_status": "supported_for_chronological_frame_implementation",
+  "unresolved_findings": [
+    "Independent scientific review pending/nonblocking."
+  ],
+  "verdict": "complete_negative_development_result_same_task_review"
+}

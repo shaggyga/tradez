@@ -1,0 +1,15 @@
+{
+  "recipe": "source_snapshot/MACRO_ISSUER_AUDIT_OPERATOR_RECIPE.json",
+  "recipe_sha256": "100d37aa5a86d6565e08617746eab966fa810c6b0a652667a4ea95b931c2fc85",
+  "scope": "retained source/current configuration diagnostics; no independent issuer claim",
+  "independent_review": false,
+  "actions": [
+    "status",
+    "run",
+    "resume",
+    "verify"
+  ],
+  "bootstrap": "../MACRO_ISSUER_AUDIT_20260922_172905/checkpoint/forex_macro_issuer_audit.zip",
+  "contract": "source_snapshot/MACRO_ISSUER_AUDIT_CONTRACT_V2.md",
+  "next": "review_macro_issuer_audit_checkpoint_v2"
+}

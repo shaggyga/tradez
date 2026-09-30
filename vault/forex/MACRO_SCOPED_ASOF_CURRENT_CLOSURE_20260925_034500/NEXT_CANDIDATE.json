@@ -1,0 +1,17 @@
+{
+  "schema": "forex_forecasting_candidate.v1",
+  "step_id": "macro_semantic_source_issuer_qualification_audit_v2",
+  "status": "not_started",
+  "priority": 9,
+  "depends_on": [
+    "macro_scoped_semantic_source_asof_integration_v2"
+  ],
+  "hypothesis": "Issuer/source qualification may explain why guarded semantic candidates cannot be admitted.",
+  "deliverable": "Inspect existing issuer qualification packet/history first; close by reuse if complete, or record exact support blocker.",
+  "completion_gate": [
+    "Read existing issuer packet",
+    "Preserve gates; no forecast admission without support",
+    "Update Vault/project checkpoint"
+  ],
+  "limits": "No GPT/advisor comparisons, paid APIs, broker/service/account actions, D-drive investigation, EUR/USD capture, live-bot changes."
+}

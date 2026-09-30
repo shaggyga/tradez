@@ -1,0 +1,1 @@
+R05/R14, design14.2–14.4. Source/numeric readiness, numeric-content identity, separate priors/components, meaningful regression and exact portable replay; independent review separate.

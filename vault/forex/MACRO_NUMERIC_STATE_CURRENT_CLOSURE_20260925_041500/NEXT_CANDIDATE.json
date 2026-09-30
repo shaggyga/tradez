@@ -1,0 +1,18 @@
+{
+  "schema": "forex_forecasting_candidate.v1",
+  "step_id": "macro_component_extraction_span_audit_v2",
+  "status": "not_started",
+  "priority": 15,
+  "depends_on": [
+    "macro_numeric_observation_asof_state_v2"
+  ],
+  "hypothesis": "Component extraction spans may determine whether numeric components can be admitted or must remain diagnostic only.",
+  "deliverable": "Inspect existing component extraction packet/history first; close by reuse if complete, or record exact blocker.",
+  "completion_gate": [
+    "Read existing component extraction packet",
+    "No paid/API retrieval",
+    "No forecast admission without support",
+    "Update Vault/project checkpoint"
+  ],
+  "limits": "No GPT/advisor comparisons, paid APIs, broker/service/account actions, D-drive investigation, EUR/USD capture, live-bot changes."
+}

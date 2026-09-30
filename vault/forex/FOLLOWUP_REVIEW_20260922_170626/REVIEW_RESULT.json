@@ -1,0 +1,45 @@
+{
+  "step_id": "macro_text_long_body_coverage_audit_v2",
+  "verdict": "accepted_within_scope",
+  "independent_review": false,
+  "next_item": "repair_recovered_policy_action_scoping_v2",
+  "local_tests_passed": 16,
+  "relocated_tests_passed": 16,
+  "identical_payloads": 5,
+  "findings": [
+    {
+      "id": "NATIVE-ASSERTION-1",
+      "status": "requires_separate_repair",
+      "cases": [
+        "conditional",
+        "negation",
+        "quotation",
+        "historical_recap",
+        "conflicting_actions",
+        "decimal_condition",
+        "foreign_and_current",
+        "negated_semantic_claim"
+      ]
+    }
+  ],
+  "scope": "audit correct; native semantic admission blocked",
+  "utc": "2026-09-22T17:06:26.030841+00:00",
+  "reviewer": "same-implementer follow-up source/evidence review",
+  "source_engine": {
+    "schema": "forex_design_alignment_pointer.v2",
+    "package": "MACRO_TEXT_COVERAGE_20260922_170622",
+    "path_forward": "MACRO_TEXT_COVERAGE_20260922_170622/PATH_FORWARD.md",
+    "run_status": "MACRO_TEXT_COVERAGE_20260922_170622/RUN_STATUS.json",
+    "design": "MACRO_TEXT_COVERAGE_20260922_170622/specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+    "design_coverage": "MACRO_TEXT_COVERAGE_20260922_170622/CURRENT_DESIGN_COVERAGE.md",
+    "current_acceptance_addendum": "MACRO_TEXT_COVERAGE_20260922_170622/DESIGN_ACCEPTANCE_ADDENDUM.md",
+    "manifest": "MACRO_TEXT_COVERAGE_20260922_170622/MANIFEST.json",
+    "manifest_sha256": "7fa2b74fe0dfdfbba921bc9bc286393857e921b46e508c73ba516a1ef926eac3",
+    "readback": "MACRO_TEXT_COVERAGE_20260922_170622/PACKAGE_READBACK.json",
+    "active_integrity_batch": "ALL68_INTEGRITY_BATCH_05_20260921.md",
+    "active_integrity_batch_scope": "outcome-free original text/native-function coverage and failure audit",
+    "historical_package": "DESIGN_ALIGNMENT_20260921",
+    "scope": "current_verified_queue_and_bounded_recovery",
+    "cloud_sync_verified": false
+  }
+}
