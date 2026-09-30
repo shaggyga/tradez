@@ -1,3 +1,25 @@
+# Current capacity correction — 2026-09-30T13:56:05.677183+00:00
+
+The storage blocker has been corrected and deployed. Original news receipts and
+availability clocks are retained. The new transport has passed the old20,000-object
+boundary with actual published and acknowledged batches; it is draining a backlog
+of roughly20,000 source records. This is not yet full joint-forecast readiness.
+
+The HTTP dashboard selects the verified V10 capacity cohort and, in the13:53 UTC
+readback, admitted65 current price-forecast pairs and zero joint forecasts. The
+joint reader is replaying retained history. It must then obtain a fresh caught-up
+capture and satisfy unchanged model support before issuing forecasts. Do not
+reinterpret the historical last-error field as a current failure without checking
+later success and progress; transient read/status-write failures are recorded.
+
+Read [capacity recovery](NEWS_CAPACITY_RECOVERY_20260930.md) and live Vault
+`PROJECT_CONTEXT_LATEST.json`. Local evidence is `evidence/joint_news_capacity_20260930`;
+final scoped packet is `JOINT_NEWS_CAPACITY_RECOVERY_20260930`.164 final-scope tests
+passed, an isolated Git source restore passed, and every original row was compared
+byte-for-byte against the pre-cutover backups. Same-task review only. No orders.
+
+The following08:51 UTC diagnosis is retained as history, not the current status.
+
 # Measured dashboard status — September 30, 2026
 
 The September30 live recovery supersedes the offline-only status below. The user
