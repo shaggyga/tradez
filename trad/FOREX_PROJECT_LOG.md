@@ -7899,3 +7899,6 @@ Step `data_and_model_connection_20260930`; Vault `DATA_AND_RETAINED_MODELS_20260
 
 
 2026-09-30T22:43:31Z retained_tracking_and_data_continuation_20260930: final 90 tests; actual dashboard HTTP 200/current news/486 forecasts; 294 settled, 99 current registry. Source/model identities and 18 byte-restored payloads verified. Same-task review. Vault RETAINED_TRACKING_20260930/REVIEW.json; final Git receipt in RETAINED_TRACKING_PUBLICATION_20260930. Next legacy26 live-input qualification under data_freshness_and_remaining_horizon_reconciliation_v1; no new fits.
+
+
+2026-09-30 legacy26_saved_connection_20260930: two original legacy26 Extra Trees adapters; nine original definitions retained; 104 tests, 2696 exact original forecast replications, 23 capsule payloads restored. Dashboard cold SciPy import moved into inference only. Vault LEGACY26_CONNECTION_20260930/REVIEW.json; final publication receipt LEGACY26_CONNECTION_PUBLICATION_20260930/RECEIPT.json. Exact next data_freshness_and_remaining_horizon_reconciliation_v1: residual/curve and exact remaining target reconciliation; no fitting or orders.

@@ -60,3 +60,6 @@ Current user scope supersedes the research-next notices above: [data and retaine
 
 
 Latest continuation: [retained outcome tracking](RETAINED_TRACKING_20260930.md). Existing nine connections now have per-registry/horizon tracking; original model cohorts and weights unchanged. Matched saved scores identify two Extra Trees adapter candidates, with original legacy26 input qualification still required.
+
+
+Current legacy26 checkpoint: [saved Extra Trees connections](LEGACY26_CONNECTION_20260930.md). Two existing frozen 4h/120h candidates join the nine preserved references using original receipt-qualified legacy26 inputs. 104 tests and 2696 exact saved forecast replications; no new fit. Next remains data_freshness_and_remaining_horizon_reconciliation_v1 for residual/curve and exact remaining targets.

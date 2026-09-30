@@ -22,7 +22,6 @@ from threadpoolctl import threadpool_limits
 
 import oanda_all68_technical_availability_v2 as availability
 import oanda_rolling_model_design_v1 as design
-import oanda_rolling_specialists_v1 as specialists
 import oanda_rolling_technical_panel_v1 as panel
 
 ROOT=Path(__file__).resolve().parent
@@ -115,7 +114,7 @@ class SavedConnection:
         entries=self.registry['connections']
         if not 1<=len(entries)<=24 or len({e['id'] for e in entries})!=len(entries):raise ValueError('bounded_unique_connections_required')
         for e in entries:
-            if (e['kind'] not in ('rolling','specialist','rich_pipeline') or type(e['horizon_minutes']) is not int
+            if (e['kind'] not in ('rolling','specialist','rich_pipeline','legacy26_extra_trees') or type(e['horizon_minutes']) is not int
                 or e['horizon_minutes']<=0 or not e['feature_names'] or len(set(e['feature_names']))!=len(e['feature_names'])
                 or not e.get('selection_scope') or not e.get('evidence')):raise ValueError('exact_model_target_contract_required')
         for name,expected in self.registry['source_bindings'].items():
@@ -129,6 +128,16 @@ class SavedConnection:
         self.models={}
         for entry in self.registry['connections']:
             if entry['id'] in self.models:raise ValueError('duplicate_connection')
+            if entry['kind']=='legacy26_extra_trees':
+                import oanda_retained_legacy26_v1 as legacy
+                meta=entry['fit_metadata']
+                if (entry['feature_names']!=legacy.FEATURES or len(entry['models'])!=1
+                    or meta['feature_schema_sha256']!=sha(encoded(legacy.FEATURES))
+                    or meta['fit_id']!=sha(encoded({k:v for k,v in meta.items() if k!='fit_id'}))
+                    or meta['model_sha256']!=entry['models'][0]['sha256']
+                    or meta['target']!={'target_id':f"technical_endpoint_midpoint_elapsed_{entry['horizon_minutes']}m",'horizon_seconds':entry['horizon_minutes']*60}
+                    or meta['maximum_outcome_available_epoch']>meta['fit_cutoff']
+                    or meta['ready_epoch']<meta['fit_cutoff']):raise ValueError('saved_legacy26_identity')
             self.models[entry['id']]=[joblib.load(io.BytesIO(checked(self.root,r))) for r in entry['models']]
 
     def verify_sources(self):
@@ -142,6 +151,10 @@ class SavedConnection:
         x=np.array([[rows[p]['values'].get(n,np.nan) for n in names] for p in pairs],dtype=np.float64)
         models=self.models[entry['id']]
         left=np.array([rows[p]['entry_long'] for p in pairs]);right=np.array([rows[p]['entry_short'] for p in pairs])
+        if entry['kind']=='legacy26_extra_trees':
+            if x.shape[1]!=26 or not np.isfinite(x).all() or models[0].n_features_in_!=26:
+                raise ValueError('saved_legacy26_features')
+            return models[0].predict(x)
         if entry['kind']=='rich_pipeline':
             frame=pd.DataFrame(x,columns=names)
             if list(models[0].feature_names_in_)!=names:raise ValueError('saved_rich_feature_order')
@@ -158,6 +171,9 @@ class SavedConnection:
                 raise ValueError('saved_rolling_model_identity')
             return model['estimator'].predict(design.learner_inputs(z,ids,model['learner'],len(self.registry['pairs'])))
         if entry['kind']=='specialist':
+            # Dashboard reads JSON only. Importing sklearn/SciPy on an HTTP
+            # request thread caused prolonged cold-start stalls on this host.
+            import oanda_rolling_specialists_v1 as specialists
             head=models[0]
             if head['horizon_minutes']!=entry['horizon_minutes'] or head['fold_index']!=4:raise ValueError('saved_specialist_identity')
             heads,_=specialists.predict_heads(head['bundle'],np.column_stack((z[:,:entry['width']],left,right,ids)))
@@ -171,13 +187,20 @@ class SavedConnection:
         now=clock()
         output=[];coverage=[]
         for entry in self.registry['connections']:
+            legacy=entry.get('kind')=='legacy26_extra_trees'
+            input_rows=rows if not legacy else {p:{**r,'values':r['legacy26']['values'],
+                'feature_hash':r['legacy26']['feature_hash'],'input_hash':r['legacy26']['input_hash'],
+                'panel_sha256':None,'legacy26_provenance':r['legacy26']['provenance']}
+                for p,r in rows.items() if r.get('legacy26',{}).get('status')=='available'}
             pairs=[]
             for pair in self.registry['pairs']:
-                row=rows.get(pair);reason='eligible'
+                row=input_rows.get(pair);reason='eligible'
                 if row is None:reason=(report.get('pairs',{}).get(pair) or {}).get('status','input_unavailable')
-                elif not row['bar_start_epoch']+60<=row['published_epoch']<=row['captured_epoch']<=now:reason='input_clock_order'
-                elif not 0<=now-row['bar_start_epoch']-60<=180:reason='input_stale'
-                elif now>=row['bar_start_epoch']+60+entry['horizon_minutes']*60:reason='target_already_mature'
+                if row is None and legacy and pair in rows:reason=rows[pair].get('legacy26',{}).get('reason','legacy26_unavailable')
+                elif row is not None and not row['bar_start_epoch']+60<=row['published_epoch']<=row['captured_epoch']<=now:reason='input_clock_order'
+                elif row is not None and not 0<=now-row['bar_start_epoch']-60<=180:reason='input_stale'
+                elif row is not None and now>=row['bar_start_epoch']+60+entry['horizon_minutes']*60:reason='target_already_mature'
+                elif legacy and entry['fit_metadata']['ready_epoch']>now:reason='model_not_ready'
                 state=report.get('pairs',{}).get(pair,{})
                 names=entry.get('feature_names',[])
                 available_values=(row or {}).get('values',{})
@@ -190,7 +213,7 @@ class SavedConnection:
                 if reason=='eligible':pairs.append(pair)
             if not pairs:continue
             try:
-                with threadpool_limits(limits=1):values=self.predict_entry(entry,pairs,rows)
+                with threadpool_limits(limits=1):values=self.predict_entry(entry,pairs,input_rows)
                 if len(values)!=len(pairs) or not np.isfinite(values).all():raise ValueError('nonfinite_or_wrong_prediction_population')
             except Exception as exc:
                 for c in coverage:
@@ -199,7 +222,7 @@ class SavedConnection:
                 continue
             issued=clock()
             for pair,value in zip(pairs,values):
-                row=rows[pair]
+                row=input_rows[pair]
                 reason=None
                 if issued<now:reason='publication_clock_reversed'
                 elif issued>=row['bar_start_epoch']+60+entry['horizon_minutes']*60:reason='target_matured_during_inference'
@@ -213,6 +236,8 @@ class SavedConnection:
                     'expected_return_bps':float(value),'no_change_control_bps':0.,'reference_mid':row['reference_mid'],
                     'feature_hash':row['feature_hash'],'receipt_id':row['receipt_id'],'input_hash':row['input_hash'],
                     'panel_sha256':row.get('panel_sha256'),
+                    'legacy26_provenance':row.get('legacy26_provenance'),
+                    'target_semantics':entry.get('target_semantics','completed_M1_midpoint_elapsed_return'),
                     'input_support':next(c['input_support'] for c in coverage if c['connection']==entry['id'] and c['instrument']==pair),
                     'selection_scope':entry['selection_scope'],'registry_sha256':self.registry_sha256,**FLAGS})
         return {'schema':SCHEMA,'generated_epoch':clock(),'registry_sha256':self.registry_sha256,
@@ -221,7 +246,7 @@ class SavedConnection:
                 'limits':self.registry['limits'],'data_counts':report.get('counts',{}),
                 'input_diagnostics':{k:report.get(k) for k in ('generated_epoch','rolling_generated_epoch',
                     'rolling_publication_generation','source_errors','original_receipt_errors',
-                    'feature_status_counts','quote_status_counts','missing_feature_reason_counts')},**FLAGS}
+                    'feature_status_counts','quote_status_counts','missing_feature_reason_counts','legacy26')},**FLAGS}
 
 
 def atomic(path,value):
@@ -245,7 +270,12 @@ def publish_once(connection,output=OUTPUT):
     if shutil.disk_usage(output).free<32*1024**3:raise ValueError('free_space_guard')
     database=output/'issued.sqlite'
     if database.exists() and database.stat().st_size>2*1024**3:raise ValueError('retained_issuance_store_limit')
-    rows,report=capture_rows();value=connection.predict(rows,report)
+    rows,report=capture_rows()
+    if any(e['kind']=='legacy26_extra_trees' for e in connection.registry['connections']):
+        import oanda_retained_legacy26_v1 as legacy
+        cfg,_=availability.read_config(availability.DEFAULT_CONFIG)
+        report['legacy26']=legacy.attach(rows,Path(cfg['output_root'])/'technical.sqlite')
+    value=connection.predict(rows,report)
     connection.verify_sources()
     # Persist full issued outputs compressed; the original feature store retains
     # input bytes under the hashes/receipts in each prediction. No issue backdating.

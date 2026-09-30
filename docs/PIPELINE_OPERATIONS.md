@@ -101,3 +101,11 @@ prospective warmup; the existing OS recovery task owns the durable launcher.
 The optional currency_news_context_v1 role reads existing captured news and publishes
 cached typed context; [semantics and logs](CURRENCY_NEWS_CONTEXT_20260930.md).
 No new external feed or model-cohort migration is implied by this role.
+
+
+The September30 legacy26 checkpoint adds two saved Extra Trees connections beside
+the nine preserved references; see [input qualification](LEGACY26_CONNECTION_20260930.md).
+The existing `BIGTRIAD Unified Trading Dashboard` task uses scheduler priority4
+(Normal), previously7 (Below Normal), to avoid display starvation under research
+load. No High/Realtime priority is used. Restore that single setting to7 only if
+rolling back this task-setting change; source/config rollback is separate.

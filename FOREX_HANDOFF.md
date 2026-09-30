@@ -13,7 +13,7 @@ status/validation/start commands and recovery expiry.
 
 ## Current user scope — data and retained-model connection
 
-Read [data repair and horizon coverage](docs/DATA_AND_MODEL_CONNECTION_20260930.md). New fits and experiments are stopped by the user. Nine retained elapsed-horizon adapters are connected; missing design targets and unverified global model rankings remain explicit. Exact next is `data_freshness_and_remaining_horizon_reconciliation_v1`. The earlier typed-news candidate is deferred. Live Vault `DATA_AND_RETAINED_MODELS_20260930` records this correction; older research notices below are historical.
+Read [data repair and horizon coverage](docs/DATA_AND_MODEL_CONNECTION_20260930.md). New fits and experiments are stopped by the user. Eleven retained connections across nine elapsed horizons are connected; missing design targets and unverified global model rankings remain explicit. Exact next is `data_freshness_and_remaining_horizon_reconciliation_v1`. The earlier typed-news candidate is deferred. Live Vault `LEGACY26_CONNECTION_20260930` records the current connection checkpoint; older research notices below are historical.
 
 ## Earlier orientation — 2026-09-30
 
@@ -110,3 +110,6 @@ Historical September30 research handoff repair, superseded by the completion abo
 
 
 Current continuation: [retained outcome tracking and data diagnostics](docs/RETAINED_TRACKING_20260930.md). Per-horizon prospective monitoring is implemented; no universal best-model claim. Exact next remains data_freshness_and_remaining_horizon_reconciliation_v1, including the original legacy26 transform for two supported saved Extra Trees comparisons.
+
+
+Current legacy26 checkpoint: [saved Extra Trees connections](docs/LEGACY26_CONNECTION_20260930.md). Two existing frozen 4h/120h candidates join the nine preserved references using original receipt-qualified legacy26 inputs. 104 tests and 2696 exact saved forecast replications; no new fit. Next remains data_freshness_and_remaining_horizon_reconciliation_v1 for residual/curve and exact remaining targets.

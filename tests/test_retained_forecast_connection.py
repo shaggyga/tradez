@@ -2,12 +2,18 @@ import copy
 import json
 from pathlib import Path
 import sys
+import subprocess
 
 import numpy as np
 import pytest
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'trad'))
 import oanda_retained_forecast_connection_v1 as m
+
+
+def test_display_reader_does_not_import_scipy_or_sklearn():
+    script="import sys; sys.path.insert(0, 'trad'); import oanda_retained_forecast_connection_v1; assert not any(n=='scipy' or n.startswith('scipy.') or n=='sklearn' or n.startswith('sklearn.') for n in sys.modules)"
+    subprocess.run([sys.executable,'-c',script],cwd=Path(__file__).resolve().parents[1],check=True,timeout=20)
 
 
 def connection():
@@ -67,6 +73,37 @@ def test_nonfinite_output_is_not_published():
 def test_missing_pair_remains_explicit():
     v=connection().predict({}, {'pairs':{'EUR_USD':{'status':'not_tradeable'}}},clock=lambda:1023)
     assert v['coverage'][0]['status']=='not_tradeable' and not v['forecasts']
+
+
+def test_legacy26_refusal_preserves_existing_connection():
+    c=connection();c.registry['connections'].append({'id':'legacy','kind':'legacy26_extra_trees',
+        'horizon_minutes':240,'selection_scope':'development','fit_metadata':{'ready_epoch':1}})
+    r=row();r['legacy26']={'status':'unavailable','reason':'legacy26_session_boundary_unproven'}
+    v=c.predict({'EUR_USD':r},{},clock=lambda:1023)
+    assert [f['connection'] for f in v['forecasts']]==['saved']
+    assert v['coverage'][1]['status']=='legacy26_session_boundary_unproven'
+
+
+def test_legacy26_uses_own_features_and_history_identity():
+    c=connection();c.registry['connections']=[{'id':'legacy','kind':'legacy26_extra_trees',
+        'horizon_minutes':240,'selection_scope':'development','fit_metadata':{'ready_epoch':1},'feature_names':['x']}]
+    r=row();r['legacy26']={'status':'available','values':{'x':3},'feature_hash':'legacy_features',
+        'input_hash':'history','provenance':{'rows':80}}
+    def predict(e,p,rs):
+        assert rs['EUR_USD']['values']=={'x':3}
+        return np.array([2.5])
+    c.predict_entry=predict
+    f=c.predict({'EUR_USD':r},{},clock=lambda:1023)['forecasts'][0]
+    assert f['input_hash']=='history' and f['feature_hash']=='legacy_features'
+    assert f['target_epoch']==1020+240*60 and f['legacy26_provenance']=={'rows':80}
+
+
+def test_legacy26_model_readiness_is_enforced():
+    c=connection();c.registry['connections']=[{'id':'legacy','kind':'legacy26_extra_trees','horizon_minutes':240,
+        'selection_scope':'development','fit_metadata':{'ready_epoch':2000}}]
+    r=row();r['legacy26']={'status':'available','values':{},'feature_hash':'l','input_hash':'h','provenance':{}}
+    v=c.predict({'EUR_USD':r},{},clock=lambda:1023)
+    assert not v['forecasts'] and v['coverage'][0]['status']=='model_not_ready'
 
 
 def test_input_refusal_reason_and_generation_are_retained():

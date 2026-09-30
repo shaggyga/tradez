@@ -1142,15 +1142,183 @@
         "support_sha256": "24dcdb7e730d29eadcbbf812253d1ad77c6a7510794ddffe60331e0fded967fe",
         "target_id": "technical_endpoint_midpoint_elapsed_7200m"
       }
+    },
+    {
+      "id": "legacy26_extra_trees_frozen_240m",
+      "kind": "legacy26_extra_trees",
+      "horizon_minutes": 240,
+      "feature_names": [
+        "tech_rate_bps_per_min_1m",
+        "tech_span_fraction_1m",
+        "tech_missing_fraction_1m",
+        "tech_unavailable_1m",
+        "tech_rate_bps_per_min_5m",
+        "tech_span_fraction_5m",
+        "tech_missing_fraction_5m",
+        "tech_unavailable_5m",
+        "tech_rate_bps_per_min_15m",
+        "tech_span_fraction_15m",
+        "tech_missing_fraction_15m",
+        "tech_unavailable_15m",
+        "tech_rate_bps_per_min_30m",
+        "tech_span_fraction_30m",
+        "tech_missing_fraction_30m",
+        "tech_unavailable_30m",
+        "tech_rate_bps_per_min_60m",
+        "tech_span_fraction_60m",
+        "tech_missing_fraction_60m",
+        "tech_unavailable_60m",
+        "tech_rms_bps",
+        "tech_max_gap_minutes",
+        "tech_observed_fraction_60m",
+        "tech_session_age_hours",
+        "known_entry_long_cost_bps",
+        "known_entry_short_cost_bps"
+      ],
+      "models": [
+        {
+          "path": "trad/data/retained_connection_20260930/models/legacy26_fit_240_1721606400.joblib",
+          "sha256": "11500b46e1def80f91eaff4f455e4e140eccbd473278bb24c4ee5f55826ee3c6"
+        }
+      ],
+      "fit_metadata": {
+        "baseline_fit_id": "0345273a66d1463999abf1e0bc4ae284e9a79540a6a3aa8019bb8fe81eac5f8f",
+        "equal_row_weights": true,
+        "feature_schema_sha256": "75ecb978425964f535669cfbfd16fb70bf611943c9d88cdeb5c0723efaa36ac3",
+        "fit_cutoff": 1721606400,
+        "fit_id": "b22354da9fecd8cb9c0e099560014c75e0ecba753daac3bfc6c879947f474921",
+        "maximum_outcome_available_epoch": 1721404860,
+        "model_sha256": "11500b46e1def80f91eaff4f455e4e140eccbd473278bb24c4ee5f55826ee3c6",
+        "parameters": {
+          "bootstrap": false,
+          "max_features": 0.65,
+          "min_samples_leaf": 12,
+          "n_estimators": 100,
+          "n_jobs": 1,
+          "random_state": 37
+        },
+        "probability_scope": "not_provided",
+        "ready_epoch": 1721606430,
+        "schema": "forex.extra_trees_matched_fit.v1",
+        "target": {
+          "horizon_seconds": 14400,
+          "target_id": "technical_endpoint_midpoint_elapsed_240m"
+        },
+        "training_population_sha256": "9b103d26aa6ace9a8c214c309abc1d25886072a42e791602e96fae40b9628462",
+        "training_rows": 2510,
+        "training_view": {
+          "fit_cutoff_epoch": 1721606400,
+          "origin_end_epoch": 1721606400,
+          "origin_start_epoch": 1720396860,
+          "protected_eval_end_epoch": 1722556800,
+          "protected_eval_start_epoch": 1721606400,
+          "schema": "all68_integrity_contract.v2"
+        }
+      },
+      "selection_scope": "Preserved frozen development comparison; lower matched historical MAE than connected HGB at this horizon. No global winner or live skill claim.",
+      "evidence": {
+        "vault_packet": "EXTRA_TREES_AND_MAPPING_COMPLETION_20260930",
+        "capsule_sha256": "297353184a803ac9544f1d5cbf19e42a0eaf49e12b66b3f62441594aa337e031",
+        "original_forecasts_sha256": "baf6163e89b117ef37e2078d42b5e84358140d6204647cb21a4b644396cb8f9e",
+        "comparison": "RETAINED_TRACKING_20260930/SAVED_LONG_MODEL_RECONCILIATION.json",
+        "replicated_forecasts": 1348
+      },
+      "target_semantics": "exact_completed_M1_midpoint_elapsed_return",
+      "selection_role": "additional_supported_candidate_preserving_existing_reference"
+    },
+    {
+      "id": "legacy26_extra_trees_frozen_7200m",
+      "kind": "legacy26_extra_trees",
+      "horizon_minutes": 7200,
+      "feature_names": [
+        "tech_rate_bps_per_min_1m",
+        "tech_span_fraction_1m",
+        "tech_missing_fraction_1m",
+        "tech_unavailable_1m",
+        "tech_rate_bps_per_min_5m",
+        "tech_span_fraction_5m",
+        "tech_missing_fraction_5m",
+        "tech_unavailable_5m",
+        "tech_rate_bps_per_min_15m",
+        "tech_span_fraction_15m",
+        "tech_missing_fraction_15m",
+        "tech_unavailable_15m",
+        "tech_rate_bps_per_min_30m",
+        "tech_span_fraction_30m",
+        "tech_missing_fraction_30m",
+        "tech_unavailable_30m",
+        "tech_rate_bps_per_min_60m",
+        "tech_span_fraction_60m",
+        "tech_missing_fraction_60m",
+        "tech_unavailable_60m",
+        "tech_rms_bps",
+        "tech_max_gap_minutes",
+        "tech_observed_fraction_60m",
+        "tech_session_age_hours",
+        "known_entry_long_cost_bps",
+        "known_entry_short_cost_bps"
+      ],
+      "models": [
+        {
+          "path": "trad/data/retained_connection_20260930/models/legacy26_fit_7200_1721606400.joblib",
+          "sha256": "82058e2192265c89201dd9ec3734724cd958728b8b1f2508abc33df93fe12444"
+        }
+      ],
+      "fit_metadata": {
+        "baseline_fit_id": "8396ba51457dceffc8bfb879e1d19ff0746c01f49188cae59fac4188aee3e135",
+        "equal_row_weights": true,
+        "feature_schema_sha256": "75ecb978425964f535669cfbfd16fb70bf611943c9d88cdeb5c0723efaa36ac3",
+        "fit_cutoff": 1721606400,
+        "fit_id": "cbaaecd75fd16b88883ce6d95684298d87fcbe5a532eb06189cf70f73f41bebe",
+        "maximum_outcome_available_epoch": 1721239260,
+        "model_sha256": "82058e2192265c89201dd9ec3734724cd958728b8b1f2508abc33df93fe12444",
+        "parameters": {
+          "bootstrap": false,
+          "max_features": 0.65,
+          "min_samples_leaf": 12,
+          "n_estimators": 100,
+          "n_jobs": 1,
+          "random_state": 37
+        },
+        "probability_scope": "not_provided",
+        "ready_epoch": 1721606430,
+        "schema": "forex.extra_trees_matched_fit.v1",
+        "target": {
+          "horizon_seconds": 432000,
+          "target_id": "technical_endpoint_midpoint_elapsed_7200m"
+        },
+        "training_population_sha256": "8e38f218b1f956af961f9e0b3beb969b0688715b8963eb56aeb40bf619fff5c8",
+        "training_rows": 795,
+        "training_view": {
+          "fit_cutoff_epoch": 1721606400,
+          "origin_end_epoch": 1721606400,
+          "origin_start_epoch": 1720396860,
+          "protected_eval_end_epoch": 1722556800,
+          "protected_eval_start_epoch": 1721606400,
+          "schema": "all68_integrity_contract.v2"
+        }
+      },
+      "selection_scope": "Preserved frozen development comparison; lower matched historical MAE than connected HGB at this horizon. No global winner or live skill claim.",
+      "evidence": {
+        "vault_packet": "EXTRA_TREES_AND_MAPPING_COMPLETION_20260930",
+        "capsule_sha256": "297353184a803ac9544f1d5cbf19e42a0eaf49e12b66b3f62441594aa337e031",
+        "original_forecasts_sha256": "baf6163e89b117ef37e2078d42b5e84358140d6204647cb21a4b644396cb8f9e",
+        "comparison": "RETAINED_TRACKING_20260930/SAVED_LONG_MODEL_RECONCILIATION.json",
+        "replicated_forecasts": 1348
+      },
+      "target_semantics": "exact_completed_M1_midpoint_elapsed_return",
+      "selection_role": "additional_supported_candidate_preserving_existing_reference"
     }
   ],
   "source_bindings": {
-    "trad/oanda_retained_forecast_connection_v1.py": "a3805e91d1d3728ac3c38549239034d9be7c67964f5f06d090688c2b52b9dbad",
+    "trad/oanda_retained_forecast_connection_v1.py": "50a73d7e9fd267cc44d688ac674c309d93e7916883f43052922b89bb14a9b610",
     "trad/oanda_all68_technical_availability_v2.py": "be4295d6a9051bb7f482bd6137949efb68a6cb3a91c4997430ab95fd43117d92",
     "trad/oanda_rolling_model_design_v1.py": "5d611f957b65168c11634f68aa1a63d639997b6034dd176a3f1dd9bae3a4544d",
     "trad/oanda_rolling_specialists_v1.py": "3144f9e1d9d6bc365c0c1ec9dd99588a212831539b8889d1622febc5ea16ebb2",
     "trad/oanda_rolling_technical_panel_v1.py": "2426d0cf85dc1f1026d9ab49b0ade8925f8ba3a23730da0440a6b4c9293fb24e",
-    "trad/oanda_rolling_technical_features_v1.py": "074a7b4fc138ef25a1e99b503ea693e0c31bc2e51a2e8f3753aab7556a6fb657"
+    "trad/oanda_rolling_technical_features_v1.py": "074a7b4fc138ef25a1e99b503ea693e0c31bc2e51a2e8f3753aab7556a6fb657",
+    "trad/oanda_retained_legacy26_v1.py": "fa8d00f9440bde0b0a87775e95043529e44377ce45d218b19bbb56136edadb32",
+    "stage_c_alignment_integrity_v2/retained_direction_features_v1.py": "c0bbdcd265089856532345eb490571d90228b7d967fa0409ec546fe0f239f046"
   },
   "unconnected_targets": [
     {
@@ -1249,7 +1417,8 @@
     "No new fits. Original live H1 price/news cohorts remain separate.",
     "No-change baseline retained. No consistent signed-return superiority across 2026 weeks.",
     "Elapsed horizons do not equal trading-day or daily-close targets.",
-    "Legacy26, residual corrections and historical classifier targets still require distinct live input/target qualification; not silently declared inferior."
+    "Legacy26, residual corrections and historical classifier targets still require distinct live input/target qualification; not silently declared inferior.",
+    "Two additional frozen legacy26 Extra Trees candidates preserve original HGB references; exact minute endpoint targets, no calendar interpolation, original development evidence only."
   ],
   "source_results": {
     "trad\\data\\rolling_model_comparison_20260915_v1\\RESULTS.json": "59fc41749f1ea8ded3c99f21454e72af18b377e41f5f049d9519ddb9a3b9500b",
