@@ -272,7 +272,7 @@
     function jointForecastActivity(data){
       const source=data.joint_price_news_forecasts||{},now=Date.now()/1000,age=now-Number(source.generated_epoch),rows=Array.isArray(source.rows)?source.rows:[],states=new Map(rows.map(row=>[row.instrument,row])),forecasts=new Map();
       if(data.operational_dashboard?.selected){
-        const current=['joint_v7','joint_v9'].includes(source.study_version)&&source.status==='current'&&source.research_only===true&&source.can_place_orders===false&&source.can_promote===false&&age>=0&&age<=90&&rows.length>0&&rows.length<=68;
+        const current=['joint_v7','joint_v9','joint_v10'].includes(source.study_version)&&source.status==='current'&&source.research_only===true&&source.can_place_orders===false&&source.can_promote===false&&age>=0&&age<=90&&rows.length>0&&rows.length<=68;
         if(current)for(const row of rows){const active=(row.active_forecasts||[]).filter(arm=>arm.family==='ridge_price_news_v1'&&Number(arm.publication_epoch)<=now&&now<Number(arm.target_epoch)&&Number(arm.target_epoch)-Number(arm.reference_epoch)===3600&&now-Number(row.observed_epoch)>=0&&now-Number(row.observed_epoch)<=90);if(active.length===1)forecasts.set(row.instrument,active[0]);}
         return{source,current,states,forecasts,total:rows.length,forecast:forecasts.size,basis:'native_producer_summary'};
       }

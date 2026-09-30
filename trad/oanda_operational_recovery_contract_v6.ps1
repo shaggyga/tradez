@@ -2,7 +2,7 @@
 $OperationalRecoverySchema = "forex_operational_runtime_v6_20260916"
 
 function Get-OperationalRecoveryServices {
-    param([switch]$EnableJointForecasts)
+    param([switch]$EnableJointForecasts,[switch]$EnableNewsCapacity)
     $roles = @{
         all68_m1_cadence_v3 = "oanda_all68_m1_cadence_v3.py"
         all68_technical_availability_v1 = "oanda_all68_technical_availability_v1.py"
@@ -26,6 +26,14 @@ function Get-OperationalRecoveryServices {
     if ($EnableJointForecasts) {
         $roles.Remove('joint_price_news_isolation_status_v1')
         $roles['joint_price_news_study_v9']='oanda_joint_price_news_forecast_study_v9.py'
+    }
+    if ($EnableNewsCapacity) {
+        $roles.Remove('revision_news_transport_v6')
+        $roles['revision_news_transport_v7']='revision_transport_v7.py'
+        if ($EnableJointForecasts) {
+            $roles.Remove('joint_price_news_study_v9')
+            $roles['joint_price_news_study_v10']='oanda_joint_price_news_forecast_study_v10.py'
+        }
     }
     return $roles
 }
@@ -131,7 +139,10 @@ function Read-OperationalRecoveryProfile {
     if ($null -ne $profile.PSObject.Properties['enable_joint_forecasts'] -and $profile.enable_joint_forecasts -isnot [bool]) {
         throw 'Explicit boolean joint recovery selection required.'
     }
-    $allowed = Get-OperationalRecoveryServices -EnableJointForecasts:($profile.enable_joint_forecasts -ceq $true)
+    if ($null -ne $profile.PSObject.Properties['enable_news_capacity'] -and $profile.enable_news_capacity -isnot [bool]) {
+        throw 'Explicit boolean news capacity selection required.'
+    }
+    $allowed = Get-OperationalRecoveryServices -EnableJointForecasts:($profile.enable_joint_forecasts -ceq $true) -EnableNewsCapacity:($profile.enable_news_capacity -ceq $true)
     $services = @($profile.services)
     $names = @($services | ForEach-Object { [string]$_.name })
     if ($services.Count -ne $allowed.Count -or @($names | Sort-Object -Unique).Count -ne $allowed.Count) {
@@ -167,7 +178,7 @@ function Read-OperationalRecoveryProfile {
             throw "Explicit supported heartbeat identity field required."
         }
         $null = Get-OperationalRolePriority -Service $service
-        $expectedInterpreter = if ($service.name -eq 'revision_news_transport_v6') { 'cold_no_bytecode_unique_prefix' } else { 'no_bytecode' }
+        $expectedInterpreter = if ($service.name -in @('revision_news_transport_v6','revision_news_transport_v7')) { 'cold_no_bytecode_unique_prefix' } else { 'no_bytecode' }
         if ([string]$service.interpreter_mode -cne $expectedInterpreter) { throw 'Exact operational interpreter mode required.' }
         $heartbeat = Resolve-OperationalRecoveryPath ([string]$service.heartbeat)
         if (-not $heartbeat.StartsWith(($allData + '\'), [StringComparison]::OrdinalIgnoreCase) -or
@@ -288,7 +299,7 @@ function Test-OperationalRelayCommand {
 function Get-OperationalInterpreterArguments {
     param([object]$Service,[string]$DataRoot)
     if ($Service.interpreter_mode -ceq 'no_bytecode') { return @('-B') }
-    if ($Service.name -cne 'revision_news_transport_v6' -or $Service.interpreter_mode -cne 'cold_no_bytecode_unique_prefix') { throw 'Unregistered cold interpreter requirement.' }
+    if ($Service.name -cnotin @('revision_news_transport_v6','revision_news_transport_v7') -or $Service.interpreter_mode -cne 'cold_no_bytecode_unique_prefix') { throw 'Unregistered cold interpreter requirement.' }
     $root = Resolve-OperationalRecoveryPath $DataRoot
     $prefix = Join-Path $root ('unused_bytecode_v2_'+[Guid]::NewGuid().ToString('N'))
     if (Test-Path -LiteralPath $prefix) { throw 'Cold bytecode prefix must not exist.' }
@@ -308,8 +319,8 @@ function Get-OperationalRestartBudgetKey {
     param([string]$Name)
     # A successor role keeps its predecessor's durable launch history. Schema
     # and controller generation changes never grant a fresh retry allowance.
-    if ($Name -ceq 'revision_news_transport_v6') { return 'revision_news_transport_v5' }
-    if ($Name -ceq 'joint_price_news_study_v9') { return 'joint_price_news_study_v8' }
+    if ($Name -cin @('revision_news_transport_v6','revision_news_transport_v7')) { return 'revision_news_transport_v5' }
+    if ($Name -cin @('joint_price_news_study_v9','joint_price_news_study_v10')) { return 'joint_price_news_study_v8' }
     if ($Name -ceq 'all68_m1_cadence_v3') { return 'all68_m1_cadence_v2' }
     return $Name
 }

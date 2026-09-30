@@ -48,10 +48,10 @@ worker; never kill every Python process.
 - Default and revision news collectors retain their original archive roots and
   pinned collector source. Optional keyed providers are disabled in child process
   environments; stored credentials are unchanged. Public feed failures remain visible.
-- Joint V9 reads the retained revision transport and its original registered input
+- Joint V10 reads the retained revision evidence through the explicit capacity successor input
   configuration. Cold validation resumes checked history; it still requires a fresh
   capture and original availability clocks before issuing a forecast.
-- The display explicitly selects the registered price V3 and joint V9 studies.
+- The display explicitly selects the registered price V3 and joint V10 studies.
   Original source, activation, summary, publication and target-time checks still apply.
 - The rolling technical dataset retains its original numerical/store contract.
   Its separate September30 runtime configuration provides a bounded 16 GiB cap and
@@ -90,3 +90,8 @@ paths, activated study roots and recovery expiry must not be blindly reused.
 The read-only inspector supports an explicit `--profile` for a prepared replica.
 Starting a replica requires its own verified, source-pinned runtime configuration
 and original activation/restore evidence; a clone alone is not an activated system.
+
+The September30 news capacity correction and exact active cohort are documented in
+[news capacity recovery](NEWS_CAPACITY_RECOVERY_20260930.md). Original receipts and
+timestamps remain intact; a caught-up transport and model readiness are separate
+from producer heartbeats. The existing OS recovery task owns the durable launcher.
