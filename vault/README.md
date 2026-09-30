@@ -13,6 +13,7 @@ Start with [the Vault entry page](forex/START_HERE.md), then:
 - [Current context](forex/PROJECT_CONTEXT_CURRENT.md).
 - [Dashboard display qualification](forex/DASHBOARD_DISPLAY_SOURCE_REVIEW_20260930/REVIEW.md).
 - [Producer source compatibility follow-up](forex/DASHBOARD_PRODUCER_QUALIFICATION_20260930/REVIEW.md).
+- [Current live recovery](forex/DASHBOARD_LIVE_RECOVERY_20260930/REVIEW.md).
 - [Copied-file hashes and omissions](forex/SNAPSHOT_MANIFEST.json).
 
 Included: top-level and packet-level UTF-8 Markdown, small JSON records, text receipts,

@@ -193,6 +193,22 @@
       "scope": "navigation, ownership, proven redundant checkouts, existing fitted artifacts and offline startup checks before research",
       "step_id": "mabel-operational-readiness-20260923",
       "unresolved_findings": []
+    },
+    {
+      "step_id": "dashboard_live_recovery_20260930",
+      "implementation_status": "partial_operational_recovery",
+      "review_status": "same_task_verified_partial",
+      "independent_review": false,
+      "packet": "DASHBOARD_LIVE_RECOVERY_20260930/REVIEW.json",
+      "packet_sha256": "6e0236073c2ef0b0bfe5145b8bc985ea7e558372e11c8fb93dde1c15e297a0e2",
+      "scientific_queue_unchanged": true,
+      "next_action": "joint_news_transport_capacity_successor_v1",
+      "unresolved_findings": [
+        "next publication exceeds sealed news CAS capacity",
+        "zero current joint forecasts",
+        "global research preflight findings"
+      ],
+      "source_baseline_commit": "d0f3ecbd04a6708a6bcf43b06b70b6be806f2bba"
     }
   ],
   "pre_research_gate": {
@@ -4702,7 +4718,7 @@
     "source_commit": "6eb514ab1856190b39d83ab020d5f77700ca8770",
     "updated_utc": "2026-09-25T18:12:00.5976014Z"
   },
-  "updated_utc": "2026-09-25T18:12:00.5976014Z",
+  "updated_utc": "2026-09-30T08:55:12.162114+00:00",
   "independent_checkpoint_review": {
     "packet": "INDEPENDENT_CHECKPOINT_REVIEW_20260925_130011/REVIEW_RESULT.json",
     "sha256": "9390dd44855921f0e67f6dea5071d26803344ed2af0c30850307a015a00846bd",
@@ -4754,7 +4770,7 @@
       }
     ]
   },
-  "current_user_requested_context": "DASHBOARD_PRODUCER_QUALIFICATION_20260930/RESUME.md",
+  "current_user_requested_context": "DASHBOARD_LIVE_RECOVERY_20260930/RESUME.md",
   "reuse_correction_20260930": {
     "status": "required_context_before_new_forecasting_claims",
     "existing_work": [
@@ -4773,10 +4789,10 @@
     "new_work_requires_resume": true
   },
   "latest_user_resume": {
-    "utc": "2026-09-30T07:57:09.834987+00:00",
-    "scope": "dashboard_producer_qualification_20260930",
-    "authorization": "Resume",
-    "supersedes_stop_for_this_scope_only": true
+    "scope": "Full nontrading pipeline recovery and Git/Vault publication",
+    "recorded_utc": "2026-09-30T08:55:12.162114+00:00",
+    "step_id": "dashboard_live_recovery_20260930",
+    "scientific_queue_unchanged": true
   },
   "dashboard_source_qualification": {
     "step_id": "dashboard_producer_qualification_20260930",
@@ -4789,6 +4805,8 @@
       "legacy_repair_v1",
       "global_preflight"
     ],
-    "next_action": "qualify intended producer inputs and launch prerequisites"
+    "next_action": "qualify intended producer inputs and launch prerequisites",
+    "source_commit": "d0f3ecbd04a6708a6bcf43b06b70b6be806f2bba",
+    "publication_receipt": "DASHBOARD_PRODUCER_PUBLICATION_20260930/RECEIPT.json"
   }
 }

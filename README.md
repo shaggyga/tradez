@@ -12,6 +12,7 @@ and how to continue without repeating existing experiments.
 | Understand the current work | [Project state](docs/PROJECT_STATE.md) |
 | Read the design, queue and reviews | [Included Forex Vault knowledge](vault/README.md) |
 | Run the local dashboard | [Quick start](START_HERE.md#open-the-dashboard) |
+| Inspect or recover the local research pipeline | [Pipeline operations](docs/PIPELINE_OPERATIONS.md) |
 | Find existing models and data | [Artifact retrieval](docs/ARTIFACT_REUSE.md) and [evidence index](artifacts/research_evidence_index.json) |
 | Continue engineering | [Handoff](FOREX_HANDOFF.md), then the live shared Vault coordination board |
 | Find a folder or older result | [Directory map](docs/DIRECTORY_MAP.md) |

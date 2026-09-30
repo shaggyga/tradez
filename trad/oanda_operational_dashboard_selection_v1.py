@@ -29,6 +29,18 @@ KINDS = {
 }
 
 
+JOINT_V9 = ('joint_price_news_registry_v9_20260916','joint_price_news_forecast_summary_v9_20260916',
+    'joint_price_news_forecast_heartbeat_v9_20260916','joint_price_news_v9_activation_receipt_20260916',
+    'joint_price_news_study_v9','oanda_joint_price_news_forecast_study_v9.py','joint_v9',
+    frozenset({'ridge_price_news_v1'}))
+
+
+def study_spec(kind, source):
+    if kind=='joint' and Path(source.get('study_path','')).name==JOINT_V9[4]:
+        return JOINT_V9
+    return KINDS[kind]
+
+
 class SelectionError(ValueError): pass
 
 
@@ -100,6 +112,7 @@ def read_selection(root, now):
     for kind,spec in KINDS.items():
         source=value.get(kind)
         need(type(source) is dict and set(source)=={'registry_path','registry_sha256','study_path','activation_sha256'},'study_selection_shape')
+        spec=study_spec(kind,source)
         need(ishash(source['registry_sha256']) and ishash(source['activation_sha256']),'selection_hash')
         need(relative(root,source['study_path'],data=True).name==spec[4],'selected_study_version')
         relative(root,source['registry_path'])
@@ -145,7 +158,7 @@ def project_forecast(publication, *, pair, family, contract, pip, now, generated
 
 
 def read_study(root, selection, kind, now, *, observed_clock=None):
-    spec=KINDS[kind];source=selection[kind];study=relative(root,source['study_path'],data=True)
+    source=selection[kind];spec=study_spec(kind,source);study=relative(root,source['study_path'],data=True)
     registry_raw,registry=read_json(relative(root,source['registry_path']))
     need(hashlib.sha256(registry_raw).hexdigest()==source['registry_sha256'],'selected_registry_changed')
     need(registry.get('schema_version')==spec[0],'registry_schema');inert(registry)
@@ -185,6 +198,9 @@ def read_study(root, selection, kind, now, *, observed_clock=None):
     need(summary.get('payload_sha256')==digest({k:v for k,v in summary.items() if k!='payload_sha256'}),'summary_payload_seal')
     generated,reported=stamp(summary['generated_epoch']),stamp(heartbeat['generated_epoch'])
     need(generated<=reported<=now and now-generated<=90 and now-reported<=90,'stale_or_future_summary')
+    if spec is JOINT_V9:
+        need(heartbeat.get('summary_boundary_version')=='immutable_family_summary_publication_v1_20260909',
+             'immutable_summary_boundary_version')
     if kind=='joint':
         need(heartbeat.get('summary_generated_epoch')==generated
              and generated<=stamp(heartbeat.get('summary_read_completed_epoch'))<=reported,'native_summary_readback_clock')
@@ -228,7 +244,7 @@ def read_study(root, selection, kind, now, *, observed_clock=None):
         'worker_observation':{'age_sec':now-reported,**{k:heartbeat.get(k) for k in
             ('generated_epoch','errors','last_error','heartbeat_publication_errors','phase')}},
         'evidence_scope':'Verified selection/source/activation/producer-summary binding; no independent ledger rescore or accuracy claim.',
-        'primary_selection':{'selected':'v7' if kind=='joint' else 'v3','activated_epoch':selection['activated_epoch'],
+        'primary_selection':{'selected':('v9' if spec is JOINT_V9 else 'v7') if kind=='joint' else 'v3','activated_epoch':selection['activated_epoch'],
             'registry_sha256':digest(registry)},'source_path':source['study_path']}
 
 
@@ -243,7 +259,7 @@ def project_collection_status(legacy, joint, *, now_epoch=None):
     worker=joint.get('worker_observation') or {}
     generated=worker.get('generated_epoch')
     recent=type(generated) in (int,float) and math.isfinite(generated) and 0<=now-generated<=90
-    current=joint.get('study_version')=='joint_v7' and joint.get('status')=='current' and recent
+    current=joint.get('study_version') in {'joint_v7','joint_v9'} and joint.get('status')=='current' and recent
     reasons=dict(joint.get('reason_counts') or {}) if current else {}
     study={'status':'current' if current else 'unavailable','current':bool(current),
         'observed_at':generated,'generated_epoch':generated,
@@ -253,13 +269,13 @@ def project_collection_status(legacy, joint, *, now_epoch=None):
         'last_error':worker.get('last_error'),
         'reported_cumulative_errors':worker.get('errors'),
         'reported_cumulative_heartbeat_publication_errors':worker.get('heartbeat_publication_errors'),
-        'scope':'selected_native_joint_v7_producer_observation_not_forecast_success'}
+        'scope':'selected_'+str(joint.get('study_version','joint_unavailable'))+'_producer_observation_not_forecast_success'}
     observations={'study':study,**{key:dict((legacy.get('observations') or {}).get(key)
         or {'status':'unavailable','current':False}) for key in ('quote_stream','account')}}
     count=joint.get('forecast_pair_count',0) if current else None
     running=all(row.get('current') is True for row in observations.values())
     return {'schema_version':'operational_research_collection_display_v1_20260913',
-        'selected_study':'native_joint_v7','status':'running' if running else 'unavailable','running':running,
+        'selected_study':'native_'+str(joint.get('study_version','joint_unavailable')),'status':'running' if running else 'unavailable','running':running,
         'label':'Native joint producer summary current' if current else 'Native joint summary unavailable',
         'registered_study_trading_enabled':False,'research_only':True,'can_place_orders':False,'can_promote':False,
         'running_scope':'recent_selected_study_quote_and_account_observations_not_forecast_success',

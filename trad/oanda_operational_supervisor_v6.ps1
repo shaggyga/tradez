@@ -37,12 +37,8 @@ $env:TRAD_CREDS_PATH=$env:OANDA_CREDS_PATH
 $env:TRAD_PROJECT_ROOT=$Trad
 $env:FOREX_ALLOW_LIVE='0'
 $env:FOREX_LIVE_EXECUTE='0'
-foreach ($credentialName in @('FRED_API_KEY','ALPHA_VANTAGE_API_KEY','FINNHUB_API_KEY','TRADING_ECONOMICS_API_KEY','TE_API_KEY')) {
-    if ([string]::IsNullOrWhiteSpace([Environment]::GetEnvironmentVariable($credentialName,'Process'))) {
-        $userValue=[Environment]::GetEnvironmentVariable($credentialName,'User')
-        if (-not [string]::IsNullOrWhiteSpace($userValue)) { [Environment]::SetEnvironmentVariable($credentialName,$userValue,'Process') }
-    }
-}
+# This Forex-only run uses public news; optional keyed providers stay disabled.
+Clear-OperationalOptionalNewsCredentials
 $SupervisorMutex=[Threading.Mutex]::new($false,'Global\ForexOandaAlwaysOnSupervisorV1')
 $ownsMutex=$false
 try { $ownsMutex=$SupervisorMutex.WaitOne(0) } catch [Threading.AbandonedMutexException] { $ownsMutex=$true }
@@ -56,6 +52,9 @@ $script:EventDrops=0
 if (Test-Path -LiteralPath $RestartLedgerPath) {
     $saved=Get-Content -LiteralPath $RestartLedgerPath -Raw|ConvertFrom-Json
     $budgetNames=@($opNames | ForEach-Object { Get-OperationalRestartBudgetKey -Name $_ })
+    # Preserve both mutually exclusive joint-role histories across selection changes.
+    # Neither history is erased or merged into a fresh retry allowance.
+    $budgetNames+=@('joint_price_news_study_v8','joint_price_news_isolation_status_v1')
     foreach($property in $saved.PSObject.Properties) {
         if ($property.Name -notin $budgetNames -or @($property.Value).Count -gt 3) { throw 'Invalid bounded restart ledger.' }
         $script:RestartLedger[$property.Name]=@($property.Value)

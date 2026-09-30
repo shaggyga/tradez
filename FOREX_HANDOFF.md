@@ -7,7 +7,9 @@ This page contains navigation, not a second copy of the current queue.
 New machine: [START_HERE.md](START_HERE.md). A versioned [Forex Vault knowledge
 copy](vault/README.md) is included for reading; use the live shared Vault for claims.
 The dashboard is Forex-only; [current diagnosis](docs/DASHBOARD_STATUS_20260930.md)
-separates page availability from missing live inputs and unqualified source bindings.
+separates page availability from measured input and forecast health.
+[Pipeline operations](docs/PIPELINE_OPERATIONS.md) supplies the canonical local
+status/validation/start commands and recovery expiry.
 
 ## Current orientation — 2026-09-30
 
@@ -17,11 +19,12 @@ research. The existing mean-reversion, specialist and residual-error studies mus
 be reconciled with any new news/technical result. The September30 momentum batch
 did not evaluate the complete technical model stack and does not supersede it.
 
-The user requested source publication and non-destructive navigation cleanup.
-Current reconciliation packet: Vault `PROJECT_RECONCILIATION_20260930`, pointer
-`PROJECT_CONTEXT_LATEST.json`. Deployment and scientific readiness remain separate
-from Git synchronization. September30 source changes are tested offline; the
-technical successor and new interpretation have not been deployed.
+The user authorized restoration of the flowing research pipeline and Git/Vault
+publication. Current operational packet: Vault `DASHBOARD_LIVE_RECOVERY_20260930`,
+pointer `PROJECT_CONTEXT_LATEST.json`. It supersedes the prior offline-only producer
+qualification. Read its measured health and pending corrections before assuming all
+forecasts are available. Scientific readiness remains separate from Git synchronization.
+The September30 technical successor and new interpretation remain offline.
 
 ## Retained design-queue checkpoint — 2026-09-25
 

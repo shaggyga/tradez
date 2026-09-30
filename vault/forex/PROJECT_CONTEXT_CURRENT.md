@@ -48,3 +48,10 @@ Latest cleanup/publication: `89446cfd490c8202ec838e2e1b999b673c758152`, `PROJECT
 
 
 Resumed offline source qualification: `DASHBOARD_PRODUCER_QUALIFICATION_20260930/RESUME.md`. Exact collector binding restored; interpretation preserved in opt-in adapter.68 registry pairs validate; both live summaries stale.587 tests +13 subtests pass;27 legacy v1 failures reproduced before change. No services changed. Prior stop superseded for this completed step; scientific queue unchanged.
+
+Published resumed compatibility checkpoint `d0f3ecbd04a6708a6bcf43b06b70b6be806f2bba`; receipt `DASHBOARD_PRODUCER_PUBLICATION_20260930/RECEIPT.json`. Exact next action remains input/producer qualification in `DASHBOARD_PRODUCER_QUALIFICATION_20260930/RESUME.md`.
+
+
+## Current operational recovery — September30
+
+`DASHBOARD_LIVE_RECOVERY_20260930/REVIEW.md` supersedes the stale offline-only producer status above. Fresh quotes/news/price pipeline restored; actual HTTP receipt admitted35 current price forecast pairs. Rolling technical recovery reached64 current pairs. Joint history bootstrap validated680 original receipts but joint forecasts remain withheld: next transport publication exceeds sealed CAS capacity near20,000 objects/192MiB compressed bytes. This is partial recovery, not full pipeline readiness. Exact next operational item: `joint_news_transport_capacity_successor_v1`, with acceptance steps in `DASHBOARD_LIVE_RECOVERY_20260930/RESUME.md`.142 final tests plus2 subtests passed; same-task review only. Recovery profile expires2026-10-07T08:14:50Z; no orders/crypto/paid optional news calls or other-chat recorder changes. Scientific queue unchanged. Git publication receipt is linked from PROJECT_CONTEXT_LATEST.json after remote verification.

@@ -215,7 +215,8 @@ def test_feature_api_uses_selected_v2_archive_and_refuses_invalid_selection():
     assert result['status']=='unavailable' and calls==[]
 
 
-def test_frontend_native_mode_bypasses_retired_ledger_and_expires_targets(tmp_path):
+@pytest.mark.parametrize('version', ['joint_v7','joint_v9'])
+def test_frontend_native_mode_bypasses_retired_ledger_and_expires_targets(tmp_path,version):
     node=shutil.which('node')
     if not node:pytest.skip('node unavailable')
     html=(ROOT/'oanda_main_signal_dashboard.html').read_text(encoding='utf-8')
@@ -234,5 +235,6 @@ if(tableForecastActivity(data).forecast!==1)throw Error('native hidden');
 arm.target_epoch=now-1;if(tableForecastActivity(data).forecast!==0)throw Error('expired visible');
 console.log('native selection and expiry passed');
 """
+    script=script.replace("study_version:'joint_v7'","study_version:'"+version+"'")
     run=subprocess.run([node,'-e',script],capture_output=True,text=True,timeout=15)
     assert run.returncode==0,run.stderr

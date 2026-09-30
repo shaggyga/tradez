@@ -2,7 +2,8 @@
 $OperationalRecoverySchema = "forex_operational_runtime_v6_20260916"
 
 function Get-OperationalRecoveryServices {
-    return @{
+    param([switch]$EnableJointForecasts)
+    $roles = @{
         all68_m1_cadence_v3 = "oanda_all68_m1_cadence_v3.py"
         all68_technical_availability_v1 = "oanda_all68_technical_availability_v1.py"
         all68_derived_technical_publisher_v1 = "oanda_derived_technical_publisher_v1.py"
@@ -22,6 +23,11 @@ function Get-OperationalRecoveryServices {
         research_feature_forward_v2 = "oanda_feature_forward_worker_v1.py"
         official_pair_horizon_v2 = "oanda_official_event_pair_horizon_capture_v2.py"
     }
+    if ($EnableJointForecasts) {
+        $roles.Remove('joint_price_news_isolation_status_v1')
+        $roles['joint_price_news_study_v9']='oanda_joint_price_news_forecast_study_v9.py'
+    }
+    return $roles
 }
 
 function Get-OperationalRecoverySourceHash([string]$LiteralPath) {
@@ -122,7 +128,10 @@ function Read-OperationalRecoveryProfile {
         throw "Operational recovery requires an explicit research-only no-orders profile."
     }
     if ([string]$profile.recovery_until_utc -cne $RecoveryUntilUtc) { throw "Profile and launcher recovery expiry differ." }
-    $allowed = Get-OperationalRecoveryServices
+    if ($null -ne $profile.PSObject.Properties['enable_joint_forecasts'] -and $profile.enable_joint_forecasts -isnot [bool]) {
+        throw 'Explicit boolean joint recovery selection required.'
+    }
+    $allowed = Get-OperationalRecoveryServices -EnableJointForecasts:($profile.enable_joint_forecasts -ceq $true)
     $services = @($profile.services)
     $names = @($services | ForEach-Object { [string]$_.name })
     if ($services.Count -ne $allowed.Count -or @($names | Sort-Object -Unique).Count -ne $allowed.Count) {
@@ -392,4 +401,11 @@ function Test-OperationalSupervisorIdentity {
             [string]$Heartbeat.operational_profile_sha256 -ceq $ProfileHash -and
             $at -le $NowEpoch+1 -and $NowEpoch-$at -le $MaxAgeSec)
     } catch { return $false }
+}
+
+function Clear-OperationalOptionalNewsCredentials {
+    # Child-process scope only. Never change saved user credentials or print values.
+    foreach ($name in @('FRED_API_KEY','ALPHA_VANTAGE_API_KEY','FINNHUB_API_KEY','TRADING_ECONOMICS_API_KEY','TE_API_KEY')) {
+        [Environment]::SetEnvironmentVariable($name, $null, 'Process')
+    }
 }

@@ -1,0 +1,52 @@
+{
+  "observed_utc": "2026-09-30T08:50:52.392284+00:00",
+  "http_status": 200,
+  "raw_api_local_path": "C:\\Users\\zmoor\\Documents\\forex\\evidence\\dashboard_live_recovery_20260930\\API_FINAL.json",
+  "raw_api_sha256": "20c0c445986224e8b06fa641fba6640bb4c1bd251ef665bc4e33771bd96ea292",
+  "source": "actual_local_http_api",
+  "operational": {
+    "price": {
+      "status": "current",
+      "reason": null,
+      "study_version": 3,
+      "forecast_pair_count": 35,
+      "generated_epoch": 1790758198.0346355,
+      "reason_counts": {
+        "forecast": 35,
+        "stale_or_future_pair_input": 22,
+        "ValueError:no_fresh_quote": 2,
+        "awaiting_family_attempt": 14,
+        "building_family_model": 1,
+        "awaiting_pair_input_read": 62
+      },
+      "worker_observation": {
+        "age_sec": 32.084126234054565,
+        "generated_epoch": 1790758199.1843176,
+        "errors": 0,
+        "last_error": "",
+        "heartbeat_publication_errors": 0,
+        "phase": "research_collection"
+      }
+    },
+    "joint": {
+      "status": "current",
+      "reason": null,
+      "study_version": "joint_v9",
+      "forecast_pair_count": 0,
+      "generated_epoch": 1790758234.3204808,
+      "reason_counts": {
+        "observed_news_failure_generation:15": 65,
+        "ValueError:no_fresh_quote": 3
+      },
+      "worker_observation": {
+        "age_sec": 2.8600361347198486,
+        "generated_epoch": 1790758234.4775639,
+        "errors": 13,
+        "last_error": "shared_news:HealthFailure:io_transport_failure_generation_advanced",
+        "heartbeat_publication_errors": 1,
+        "phase": "research_collection"
+      }
+    }
+  },
+  "crypto_route_status": 410
+}

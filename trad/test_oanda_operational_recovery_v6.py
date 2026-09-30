@@ -89,7 +89,7 @@ def test_unmodified_pure_helpers_have_exact_v2_behavioral_source_parity():
                'Test-OperationalSupervisorIdentity'}
     for name in oldf.keys() - changed:
         assert newf[name] == oldf[name], name
-    assert newf.keys() - oldf.keys() == {'Get-OperationalRolePriority', 'Get-OperationalRestartBudgetKey', 'Test-OperationalRelayCommand'}
+    assert newf.keys() - oldf.keys() == {'Get-OperationalRolePriority', 'Get-OperationalRestartBudgetKey', 'Test-OperationalRelayCommand', 'Clear-OperationalOptionalNewsCredentials'}
 
 
 @pytest.mark.parametrize('version', [1, 2])
@@ -138,6 +138,31 @@ $after=Get-OperationalRestartDecision -Attempts @($script:RestartLedger[$key]) -
     assert got['before'] == original
     assert got['after'] == {**original, 'revision_news_transport_v5': [990.25, 991.5, 1000.0]}
     assert got['allowed'] is False and got['reason'] == 'restart_circuit_open'
+
+
+@pytest.mark.parametrize('role', ['joint_price_news_study_v9', 'joint_price_news_isolation_status_v1'])
+def test_joint_selection_preserves_both_restart_histories(tmp_path, role):
+    source = (ROOT / 'oanda_operational_supervisor_v6.ps1').read_text()
+    loader = source[source.index('if (Test-Path -LiteralPath $RestartLedgerPath) {'):source.index('\nfunction Write-SupervisorEvent')]
+    ledger = tmp_path / 'restart.json'
+    original = {'joint_price_news_study_v8': [990., 991., 992.],
+                'joint_price_news_isolation_status_v1': [993., 994., 995.]}
+    ledger.write_text(json.dumps(original))
+    code = f""". '{HELPER}'
+$RestartLedgerPath='{ledger}';$opNames=@('{role}');$script:RestartLedger=@{{}}
+{loader}
+$key=Get-OperationalRestartBudgetKey '{role}'
+$budget=Get-OperationalRestartDecision -Attempts @($script:RestartLedger[$key]) -NowEpoch 1000
+@{{retained=$script:RestartLedger;allowed=$budget.allowed}}|ConvertTo-Json -Depth 8 -Compress
+"""
+    result = invoke(tmp_path, code)
+    assert result.returncode == 0, result.stderr
+    got = json.loads(result.stdout)
+    assert got['retained'] == original
+    assert got['allowed'] is False
+    ledger.write_text(json.dumps({**original, 'unregistered_worker': [996.]}))
+    result = invoke(tmp_path, code)
+    assert result.returncode != 0 and 'Invalid bounded restart ledger' in result.stderr
 
 
 @pytest.mark.parametrize('initial_count', [1, 2])
