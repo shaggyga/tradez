@@ -107,3 +107,6 @@ Earlier notices and their exact bytes are retained in
 
 
 Historical September30 research handoff repair, superseded by the completion above: `RESEARCH_HANDOFF_REPAIR_20260930_195000/REVIEW.json`; see `docs/RESEARCH_HANDOFF_REPAIR_20260930.md`. Extra Trees still partial; no new fit/result yet.
+
+
+Current continuation: [retained outcome tracking and data diagnostics](docs/RETAINED_TRACKING_20260930.md). Per-horizon prospective monitoring is implemented; no universal best-model claim. Exact next remains data_freshness_and_remaining_horizon_reconciliation_v1, including the original legacy26 transform for two supported saved Extra Trees comparisons.

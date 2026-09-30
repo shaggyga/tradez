@@ -69,6 +69,43 @@ def test_missing_pair_remains_explicit():
     assert v['coverage'][0]['status']=='not_tradeable' and not v['forecasts']
 
 
+def test_input_refusal_reason_and_generation_are_retained():
+    report={'pairs':{'EUR_USD':{'status':'unavailable','features':{'reason':'rolling_publication_generation_mismatch'}}},
+            'source_errors':{'rolling_binding':'rolling_publication_generation_mismatch'},'rolling_publication_generation':'generation'}
+    v=connection().predict({},report,clock=lambda:1023)
+    assert v['coverage'][0]['input_reason']=='rolling_publication_generation_mismatch'
+    assert v['input_diagnostics']['source_errors']==report['source_errors']
+    assert v['input_diagnostics']['rolling_publication_generation']=='generation'
+
+
+def test_publication_transition_retry_requires_matching_generation(monkeypatch):
+    sequence=iter(['old','new','old','new','new','new'])
+    monkeypatch.setattr(m.availability,'read_json',lambda *args:({'publication_generation':next(sequence)},{}))
+    monkeypatch.setattr(m.time,'sleep',lambda delay:None)
+    envelope,ref,status=m.read_feature_publication(Path('.'))
+    assert status['publication_generation']==envelope['publication_generation']=='new'
+
+
+def test_mixed_publication_never_accepted_after_retry_bound(monkeypatch):
+    reads=[]
+    def read(path,*args):
+        reads.append(path)
+        return {'publication_generation':'new' if path.name=='latest_features.json' else 'old'},{}
+    monkeypatch.setattr(m.availability,'read_json',read)
+    monkeypatch.setattr(m.time,'sleep',lambda delay:None)
+    assert m.read_feature_publication(Path('.'))[2] is None
+    assert len(reads)==9
+
+
+def test_selected_input_support_is_visible_without_changing_prediction():
+    c=connection();c.registry['connections'][0]['feature_names']=['one','two','three']
+    r=row();r['values']={'one':1.,'two':None,'three':float('nan')}
+    value=c.predict({'EUR_USD':r},{},clock=lambda:1023)
+    f=value['forecasts'][0]
+    assert f['input_support']['finite']==1 and f['input_support']['expected']==3
+    assert f['expected_return_bps']==1.25
+
+
 def test_required_feature_name_is_not_silently_imputed():
     c=connection();e={'feature_names':['expected'],'id':'saved','kind':'rich_pipeline'}
     with pytest.raises(ValueError,match='required_feature_keys_missing'):

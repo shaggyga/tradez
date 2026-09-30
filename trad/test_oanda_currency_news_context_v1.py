@@ -116,6 +116,19 @@ def test_changed_loaded_source_cannot_be_relabeled(monkeypatch):
     with pytest.raises(ValueError,match='loaded_context_source_changed'):context.bindings()
 
 
+def test_optional_retained_import_and_error_write_cannot_stop_news(monkeypatch):
+    import builtins
+    original=builtins.__import__
+    def broken(name,*args,**kwargs):
+        if name=='oanda_retained_forecast_connection_v1':raise ImportError('optional dependency missing')
+        return original(name,*args,**kwargs)
+    monkeypatch.setattr(builtins,'__import__',broken)
+    monkeypatch.setattr(context,'atomic',lambda *args:(_ for _ in ()).throw(OSError('diagnostic unavailable')))
+    connection,result=context.run_retained_inference(Path('unused'),None)
+    assert connection is None and result['status']=='error'
+    assert 'ImportError' in result['reason']
+
+
 def test_future_interpretation_refused_even_with_recomputed_seal(tmp_path):
     source,db,put,health,now=fixture(tmp_path);out=tmp_path/'out';db.close()
     a=context.collect(source,out,health)

@@ -57,3 +57,6 @@ September30 completion supersedes the earlier source-only/preflight notices: [Ex
 
 
 Current user scope supersedes the research-next notices above: [data and retained model connection](DATA_AND_MODEL_CONNECTION_20260930.md). No new fits/experiments. Nine elapsed-horizon adapters are connected and replayed; best-across-all-studies and remaining exact horizons are still unverified. Data-only index repairs preserve original contents.
+
+
+Latest continuation: [retained outcome tracking](RETAINED_TRACKING_20260930.md). Existing nine connections now have per-registry/horizon tracking; original model cohorts and weights unchanged. Matched saved scores identify two Extra Trees adapter candidates, with original legacy26 input qualification still required.

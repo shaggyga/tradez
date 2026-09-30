@@ -9000,6 +9000,11 @@ class DashboardHandler(BaseHTTPRequestHandler):
                 payload['retained_forecasts'] = retained_models.read_current()
             except Exception:
                 payload['retained_forecasts'] = {'status':'unavailable','forecasts':[]}
+            try:
+                import oanda_retained_forecast_tracking_v1 as retained_tracking
+                payload['retained_tracking'] = retained_tracking.read_current()
+            except Exception:
+                payload['retained_tracking'] = {'status':'unavailable','groups':[]}
             if not (payload.get('operational_dashboard') or {}).get('selected'):
                 payload['joint_v3_ledger_observation'] = current_joint_ledger_observation(compact=True)
             self.send_json(payload)

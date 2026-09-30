@@ -263,6 +263,25 @@ def read_current(path, *, now=None):
         return {'schema_version':SCHEMA,'status':'unavailable','topics':[],**FLAGS}
 
 
+def run_retained_inference(registry, connection):
+    """Optional imports, inference and error reporting cannot stop news capture."""
+    try:
+        import oanda_retained_forecast_connection_v1 as retained_models
+        if connection is None:connection=retained_models.SavedConnection(registry)
+        return connection,retained_models.publish_once(connection)
+    except Exception as exc:
+        error={'status':'error','generated_epoch':time.time(),'reason':type(exc).__name__+':'+str(exc)[:200]}
+        try:
+            output=Path(__file__).resolve().parent/'data/retained_connection_20260930'
+            output.mkdir(parents=True,exist_ok=True)
+            atomic(output/'current.json',{**error,'forecasts':[],**FLAGS})
+        except Exception:
+            # The prior publication ages out; a failed diagnostic write must not
+            # turn an optional model/storage problem into failed headline capture.
+            pass
+        return connection,error
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--database',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
@@ -280,26 +299,25 @@ def main():
     lock.execute('BEGIN EXCLUSIVE')
     lane=fast_news.FastLane(args.fast_config,args.output) if args.fast_config else None
     last_mapping=0;mapping=None
-    last_retained=0;retained_connection=None
+    last_retained=0;retained_connection=None;last_tracking=0;tracking=None
     deadline=time.monotonic()+args.duration_sec
     try:
         while time.monotonic()<deadline:
             # Independent read-only saved-weight inference. A data/model failure
             # must not interrupt headline capture, parsing or the original cohorts.
             if args.retained_model_registry and time.monotonic()-last_retained>=60:
-                import oanda_retained_forecast_connection_v1 as retained_models
-                try:
-                    if retained_connection is None:
-                        retained_connection=retained_models.SavedConnection(args.retained_model_registry)
-                    retained_models.publish_once(retained_connection)
-                except Exception as exc:
-                    retained_models.OUTPUT.mkdir(parents=True,exist_ok=True)
-                    retained_models.atomic(retained_models.OUTPUT/'current.json',{
-                        'schema':retained_models.SCHEMA,'generated_epoch':time.time(),'status':'error',
-                        'reason':type(exc).__name__+':'+str(exc)[:200],'forecasts':[],**retained_models.FLAGS})
+                retained_connection,_=run_retained_inference(args.retained_model_registry,retained_connection)
                 last_retained=time.monotonic()
             try:
                 result=collect(args.database,args.output,args.collector_heartbeat,fast_lane=lane)
+                if args.retained_model_registry and time.monotonic()-last_tracking>=60:
+                    try:
+                        import oanda_retained_forecast_tracking_v1 as retained_tracking
+                        tracking=retained_tracking.collect(result,registry_path=args.retained_model_registry)
+                    except Exception as exc:
+                        tracking={'status':'unavailable','generated_epoch':time.time(),'reason':type(exc).__name__+':'+str(exc)[:200]}
+                    last_tracking=time.monotonic()
+                if args.retained_model_registry:result['retained_tracking']=tracking
                 if args.enable_live_mapping and time.monotonic()-last_mapping>=60:
                     try:mapping=current_mapping.collect(Path(__file__).resolve().parent,args.output,result)
                     except Exception as exc:mapping={'status':'unavailable','generated_epoch':time.time(),'reason':type(exc).__name__+':'+str(exc)[:200]}

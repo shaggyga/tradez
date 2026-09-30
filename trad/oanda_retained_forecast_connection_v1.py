@@ -51,15 +51,26 @@ def checked(root,record):
     return raw
 
 
+def read_feature_publication(root):
+    """Bounded retry only for the producer's two-file publication transition."""
+    for attempt in range(3):
+        before,_=availability.read_json(root/'status.json',availability.MAX_SMALL_BYTES)
+        envelope,reference=availability.read_json(root/'latest_features.json',availability.MAX_ENVELOPE_BYTES)
+        after,_=availability.read_json(root/'status.json',availability.MAX_SMALL_BYTES)
+        generation=envelope.get('publication_generation')
+        status=next((s for s in (before,after) if generation and s.get('publication_generation')==generation),None)
+        if status is not None:return envelope,reference,status
+        if attempt<2:time.sleep(.05)
+    # The normal qualified reader records a refusal; never accept mixed versions.
+    return envelope,reference,None
+
+
 def capture_rows():
     """Use the original reader's source, receipt, clock and support checks."""
     cfg,reference=availability.read_config(availability.DEFAULT_CONFIG)
     operations,_=availability.verify_dependencies(cfg,reference,availability.DEFAULT_OPERATIONS_CONFIG)
     root=Path(cfg['output_root'])
-    before,_=availability.read_json(root/'status.json',availability.MAX_SMALL_BYTES)
-    envelope,envelope_ref=availability.read_json(root/'latest_features.json',availability.MAX_ENVELOPE_BYTES)
-    after,_=availability.read_json(root/'status.json',availability.MAX_SMALL_BYTES)
-    status=next((s for s in (before,after) if s.get('publication_generation')==envelope.get('publication_generation')),None)
+    envelope,envelope_ref,status=read_feature_publication(root)
     quotes,_=availability.read_json(availability.DEFAULT_QUOTES,availability.MAX_SMALL_BYTES)
     heartbeat,_=availability.read_json(availability.DEFAULT_HEARTBEAT,availability.MAX_SMALL_BYTES)
     retained,errors=availability.read_store_evidence(root/'technical.sqlite',cfg['pairs'],envelope,config=cfg,operations=operations)
@@ -167,7 +178,15 @@ class SavedConnection:
                 elif not row['bar_start_epoch']+60<=row['published_epoch']<=row['captured_epoch']<=now:reason='input_clock_order'
                 elif not 0<=now-row['bar_start_epoch']-60<=180:reason='input_stale'
                 elif now>=row['bar_start_epoch']+60+entry['horizon_minutes']*60:reason='target_already_mature'
-                coverage.append({'instrument':pair,'connection':entry['id'],'horizon_minutes':entry['horizon_minutes'],'status':reason})
+                state=report.get('pairs',{}).get(pair,{})
+                names=entry.get('feature_names',[])
+                available_values=(row or {}).get('values',{})
+                finite=sum(isinstance(available_values.get(n),(int,float,np.number))
+                    and not isinstance(available_values.get(n),bool)
+                    and math.isfinite(available_values[n]) for n in names)
+                coverage.append({'instrument':pair,'connection':entry['id'],'horizon_minutes':entry['horizon_minutes'],
+                    'status':reason,'input_reason':state.get('features',{}).get('reason') or state.get('quote',{}).get('reason'),
+                    'input_support':{'finite':finite,'expected':len(names),'scope':'selected input values before original saved preprocessing'}})
                 if reason=='eligible':pairs.append(pair)
             if not pairs:continue
             try:
@@ -194,11 +213,15 @@ class SavedConnection:
                     'expected_return_bps':float(value),'no_change_control_bps':0.,'reference_mid':row['reference_mid'],
                     'feature_hash':row['feature_hash'],'receipt_id':row['receipt_id'],'input_hash':row['input_hash'],
                     'panel_sha256':row.get('panel_sha256'),
+                    'input_support':next(c['input_support'] for c in coverage if c['connection']==entry['id'] and c['instrument']==pair),
                     'selection_scope':entry['selection_scope'],'registry_sha256':self.registry_sha256,**FLAGS})
         return {'schema':SCHEMA,'generated_epoch':clock(),'registry_sha256':self.registry_sha256,
                 'status':'current' if output else 'inputs_unavailable','forecasts':output,'coverage':coverage,
                 'connections':self.registry['connections'],'unconnected_targets':self.registry['unconnected_targets'],
-                'limits':self.registry['limits'],'data_counts':report.get('counts',{}),**FLAGS}
+                'limits':self.registry['limits'],'data_counts':report.get('counts',{}),
+                'input_diagnostics':{k:report.get(k) for k in ('generated_epoch','rolling_generated_epoch',
+                    'rolling_publication_generation','source_errors','original_receipt_errors',
+                    'feature_status_counts','quote_status_counts','missing_feature_reason_counts')},**FLAGS}
 
 
 def atomic(path,value):
