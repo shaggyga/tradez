@@ -27,7 +27,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/forex_pipeline.ps1 -Ac
 ```
 
 The launcher reuses the V6 supervisor/watchdog, its single-owner checks and the
-18-role profile `trad/config/operational_runtime_current_20260930.json`. It adopts
+17-role profile `trad/config/operational_runtime_current_20260930.json`. It adopts
 compatible running workers instead of creating competing writers. A conflict or
 changed source must be investigated, not overridden by starting a second process.
 The existing Windows task `Forex Operational Research Recovery 20260913` now calls
@@ -48,14 +48,16 @@ worker; never kill every Python process.
 - Default and revision news collectors retain their original archive roots and
   pinned collector source. Optional keyed providers are disabled in child process
   environments; stored credentials are unchanged. Public feed failures remain visible.
-- Joint V10 reads the retained revision evidence through the explicit capacity successor input
-  configuration. Cold validation resumes checked history; it still requires a fresh
-  capture and original availability clocks before issuing a forecast.
-- The display explicitly selects the registered price V3 and joint V10 studies.
+- Joint V11 reads validated current news into a bounded rolling parsed index.
+  Historical evidence stays in a separate archive; old transport replay is no
+  longer required for live reads. Actual observation times and forecast gates remain.
+- The display explicitly selects the registered price V3 and joint V11 studies.
   Original source, activation, summary, publication and target-time checks still apply.
 - The rolling technical dataset retains its original numerical/store contract.
   Its separate September30 runtime configuration provides a bounded 16 GiB cap and
   retains the 32 GiB free-space guard. No automatic evidence deletion is enabled.
+  Availability reader V2 binds those exact runtime configurations and verifies
+  original feature receipts; it does not recompute or fill missing features.
 - Crypto has no active dashboard route, polling or Forex startup role. GPT/advisor
   comparisons and order/account operations are outside this recovery.
 
@@ -70,8 +72,8 @@ of the changed bytes. Do not relabel stale results or simply rehash a model regi
 
 Cold-start history can take several minutes. The rolling worker has a bounded
 30-minute startup grace; normal output freshness remains three minutes. News
-validation progress is stored under the selected IO configuration's reader cache.
-Transport success, current health, a validated capture and joint forecasts must be
+capture uses the current snapshot and a bounded 48-hour parsed index. Current
+health, a validated capture, causal history support and joint forecasts must be
 checked separately. Historical last-error fields may remain after a later success.
 
 Read `docs/DASHBOARD_STATUS_20260930.md` and live Vault `PROJECT_CONTEXT_LATEST.json`
@@ -91,7 +93,7 @@ The read-only inspector supports an explicit `--profile` for a prepared replica.
 Starting a replica requires its own verified, source-pinned runtime configuration
 and original activation/restore evidence; a clone alone is not an activated system.
 
-The September30 news capacity correction and exact active cohort are documented in
-[news capacity recovery](NEWS_CAPACITY_RECOVERY_20260930.md). Original receipts and
-timestamps remain intact; a caught-up transport and model readiness are separate
-from producer heartbeats. The existing OS recovery task owns the durable launcher.
+The current successor is documented in [rolling news pipeline](ROLLING_NEWS_PIPELINE_20260930.md).
+The earlier [capacity recovery](NEWS_CAPACITY_RECOVERY_20260930.md) remains history.
+Original receipts and timestamps are retained. New joint forecasts require
+prospective warmup; the existing OS recovery task owns the durable launcher.

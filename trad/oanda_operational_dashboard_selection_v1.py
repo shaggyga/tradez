@@ -40,10 +40,15 @@ JOINT_V10 = ('joint_price_news_registry_v10_20260930','joint_price_news_forecast
     'joint_price_news_study_v10','oanda_joint_price_news_forecast_study_v10.py','joint_v10',
     frozenset({'ridge_price_news_v1'}))
 
+JOINT_V11 = ('joint_price_news_registry_v11_20260930','joint_price_news_forecast_summary_v11_20260930',
+    'joint_price_news_forecast_heartbeat_v11_20260930','joint_price_news_v11_activation_receipt_20260930',
+    'joint_price_news_study_v11','oanda_joint_price_news_forecast_study_v11.py','joint_v11',
+    frozenset({'ridge_price_news_v1'}))
+
 
 def study_spec(kind, source):
     if kind=='joint':
-        for spec in (JOINT_V9, JOINT_V10):
+        for spec in (JOINT_V9, JOINT_V10, JOINT_V11):
             if Path(source.get('study_path','')).name==spec[4]:
                 return spec
     return KINDS[kind]
@@ -206,7 +211,7 @@ def read_study(root, selection, kind, now, *, observed_clock=None):
     need(summary.get('payload_sha256')==digest({k:v for k,v in summary.items() if k!='payload_sha256'}),'summary_payload_seal')
     generated,reported=stamp(summary['generated_epoch']),stamp(heartbeat['generated_epoch'])
     need(generated<=reported<=now and now-generated<=90 and now-reported<=90,'stale_or_future_summary')
-    if spec is JOINT_V9 or spec is JOINT_V10:
+    if spec in (JOINT_V9, JOINT_V10, JOINT_V11):
         need(heartbeat.get('summary_boundary_version')=='immutable_family_summary_publication_v1_20260909',
              'immutable_summary_boundary_version')
     if kind=='joint':
@@ -267,7 +272,7 @@ def project_collection_status(legacy, joint, *, now_epoch=None):
     worker=joint.get('worker_observation') or {}
     generated=worker.get('generated_epoch')
     recent=type(generated) in (int,float) and math.isfinite(generated) and 0<=now-generated<=90
-    current=joint.get('study_version') in {'joint_v7','joint_v9','joint_v10'} and joint.get('status')=='current' and recent
+    current=joint.get('study_version') in {'joint_v7','joint_v9','joint_v10','joint_v11'} and joint.get('status')=='current' and recent
     reasons=dict(joint.get('reason_counts') or {}) if current else {}
     study={'status':'current' if current else 'unavailable','current':bool(current),
         'observed_at':generated,'generated_epoch':generated,

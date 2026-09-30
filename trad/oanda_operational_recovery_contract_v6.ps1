@@ -2,7 +2,7 @@
 $OperationalRecoverySchema = "forex_operational_runtime_v6_20260916"
 
 function Get-OperationalRecoveryServices {
-    param([switch]$EnableJointForecasts,[switch]$EnableNewsCapacity)
+    param([switch]$EnableJointForecasts,[switch]$EnableNewsCapacity,[switch]$EnableRollingNews,[switch]$EnableTechnicalCapacity)
     $roles = @{
         all68_m1_cadence_v3 = "oanda_all68_m1_cadence_v3.py"
         all68_technical_availability_v1 = "oanda_all68_technical_availability_v1.py"
@@ -34,6 +34,18 @@ function Get-OperationalRecoveryServices {
             $roles.Remove('joint_price_news_study_v9')
             $roles['joint_price_news_study_v10']='oanda_joint_price_news_forecast_study_v10.py'
         }
+    }
+    if ($EnableRollingNews) {
+        if (-not $EnableJointForecasts) { throw 'Rolling news requires its joint consumer.' }
+        $roles.Remove('revision_news_transport_v6')
+        $roles.Remove('revision_news_transport_v7')
+        $roles.Remove('joint_price_news_study_v9')
+        $roles.Remove('joint_price_news_study_v10')
+        $roles['joint_price_news_study_v11']='oanda_joint_price_news_forecast_study_v11.py'
+    }
+    if ($EnableTechnicalCapacity) {
+        $roles.Remove('all68_technical_availability_v1')
+        $roles['all68_technical_availability_v2']='oanda_all68_technical_availability_v2.py'
     }
     return $roles
 }
@@ -142,11 +154,13 @@ function Read-OperationalRecoveryProfile {
     if ($null -ne $profile.PSObject.Properties['enable_news_capacity'] -and $profile.enable_news_capacity -isnot [bool]) {
         throw 'Explicit boolean news capacity selection required.'
     }
-    $allowed = Get-OperationalRecoveryServices -EnableJointForecasts:($profile.enable_joint_forecasts -ceq $true) -EnableNewsCapacity:($profile.enable_news_capacity -ceq $true)
+    if ($null -ne $profile.PSObject.Properties['enable_rolling_news'] -and $profile.enable_rolling_news -isnot [bool]) { throw 'Boolean rolling-news selection required.' }
+    if ($null -ne $profile.PSObject.Properties['enable_technical_capacity'] -and $profile.enable_technical_capacity -isnot [bool]) { throw 'Boolean technical-capacity selection required.' }
+    $allowed = Get-OperationalRecoveryServices -EnableJointForecasts:($profile.enable_joint_forecasts -ceq $true) -EnableNewsCapacity:($profile.enable_news_capacity -ceq $true) -EnableRollingNews:($profile.enable_rolling_news -ceq $true) -EnableTechnicalCapacity:($profile.enable_technical_capacity -ceq $true)
     $services = @($profile.services)
     $names = @($services | ForEach-Object { [string]$_.name })
     if ($services.Count -ne $allowed.Count -or @($names | Sort-Object -Unique).Count -ne $allowed.Count) {
-        throw "Operational recovery requires exactly eighteen distinct managed services."
+        throw "Operational recovery requires the exact distinct services for the selected profile."
     }
     $data = Join-Path $project 'data\oanda_training_manager'
     $allData = Join-Path $project 'data'
@@ -320,8 +334,9 @@ function Get-OperationalRestartBudgetKey {
     # A successor role keeps its predecessor's durable launch history. Schema
     # and controller generation changes never grant a fresh retry allowance.
     if ($Name -cin @('revision_news_transport_v6','revision_news_transport_v7')) { return 'revision_news_transport_v5' }
-    if ($Name -cin @('joint_price_news_study_v9','joint_price_news_study_v10')) { return 'joint_price_news_study_v8' }
+    if ($Name -cin @('joint_price_news_study_v9','joint_price_news_study_v10','joint_price_news_study_v11')) { return 'joint_price_news_study_v8' }
     if ($Name -ceq 'all68_m1_cadence_v3') { return 'all68_m1_cadence_v2' }
+    if ($Name -ceq 'all68_technical_availability_v2') { return 'all68_technical_availability_v1' }
     return $Name
 }
 

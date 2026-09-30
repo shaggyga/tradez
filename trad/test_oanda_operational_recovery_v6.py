@@ -271,7 +271,7 @@ $watch='powershell -File {ROOT / 'oanda_supervisor_watchdog_v4.ps1'}'
 @pytest.mark.parametrize('change,expected', [
     ('orders', 'explicit research-only'), ('expiry', 'expiry differ'),
     ('source', 'worker source changed'), ('support', 'support source changed'),
-    ('missing', 'eighteen distinct'), ('duplicate', 'eighteen distinct'),
+    ('missing', 'exact distinct'), ('duplicate', 'exact distinct'),
     ('field', 'heartbeat identity field'), ('heartbeat', 'declared project data path'),
     ('age_boolean', 'Invalid bounded'), ('argument_newline', 'Invalid bounded'),
     ('interpreter', 'Exact operational interpreter'),
