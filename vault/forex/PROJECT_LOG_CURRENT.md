@@ -6547,3 +6547,6 @@ Local actual-work log `evidence/news_capture_mapping_20260930/WORK_LOG.jsonl`; e
 
 
 2026-09-30T21:31:15.017796+00:00: DATA_AND_RETAINED_MODELS_20260930/REVIEW.json; source 2fd2779b51c6009942773b167281956db42a37b5; no fits, 72 tests, 1,224 saved predictions replayed, 18 capsule payloads restored. Data index repair and nine research adapters deployed; broad horizon selection remains open. Next data_freshness_and_remaining_horizon_reconciliation_v1.
+
+
+2026-09-30T22:44:26.442364+00:00: RETAINED_TRACKING_20260930/REVIEW.json; source d53900b3339dfb65d1adc3bb31f80ebf0891bc4c; 90 tests, 18 payload restore and native outcome settlement verified. Same-task review only. No new fits. Next data_freshness_and_remaining_horizon_reconciliation_v1.

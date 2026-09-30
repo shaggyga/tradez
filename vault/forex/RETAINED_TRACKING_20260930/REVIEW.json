@@ -1,0 +1,43 @@
+{
+  "schema": "forex.review_packet.v1",
+  "packet_id": "RETAINED_TRACKING_20260930",
+  "step_id": "retained_tracking_and_data_continuation_20260930",
+  "utc": "2026-09-30T22:44:26.442364+00:00",
+  "source_commit": "d53900b3339dfb65d1adc3bb31f80ebf0891bc4c",
+  "implementation_status": "complete_retained_prospective_tracking_and_input_diagnostics",
+  "review_status": "accepted_within_scope",
+  "same_task_review": true,
+  "independent_review": false,
+  "tests": {
+    "focused_passed": 90,
+    "restored_payloads": 18,
+    "native_settled_at_readback": 294
+  },
+  "models_fitted": 0,
+  "unresolved_findings": [],
+  "readiness": {
+    "engineering_ready": true,
+    "engineering_scope": "Retained forecast outcome/news observation; source diagnostics and bounded publication retry",
+    "forecast_evidence_status": "prospective_observation_not_skill_confirmation",
+    "policy_evidence_status": "not_evaluated",
+    "demo_authorization_status": "not_granted"
+  },
+  "broader_unfinished": [
+    "legacy26_live_input_qualification_for_saved_Extra_Trees",
+    "remaining_exact_targets",
+    "global_model_comparison",
+    "full_live_feature_support",
+    "position_management_not_activated"
+  ],
+  "review_checks": [
+    "First observed before target; no historical issuance import",
+    "Exact original endpoint and matched no-change control",
+    "Immutable first observations and duplicate suppression",
+    "Per-registry and horizon scores; no pooled model ranking",
+    "Source revisions and missing outcomes refused or retried with bounded fairness",
+    "Optional inference/import/reporting cannot interrupt news capture",
+    "Original source/model/normalizer/target identities preserved apart from reviewed reader metadata and source bindings",
+    "No reset of native restart circuit/history"
+  ],
+  "next_item": "data_freshness_and_remaining_horizon_reconciliation_v1"
+}

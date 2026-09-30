@@ -1,11 +1,11 @@
 {
-  "active_step_id": "retained_tracking_and_data_continuation_20260930",
-  "active_step_semantics": "Completed retained tracking/input diagnostics package; broader saved-model coverage unfinished",
-  "current_review_packet": "RETAINED_TRACKING_20260930/REVIEW.json",
+  "active_step_id": "data_and_model_connection_20260930",
+  "active_step_semantics": "Completed scoped data/retained-adapter checkpoint; full-horizon best-model reconciliation unfinished.",
+  "current_review_packet": "DATA_AND_RETAINED_MODELS_20260930/REVIEW.json",
   "current_user_requested_context": {
     "request": "Fix data; connect strongest supported existing models across entire design horizon; stop new fits/experiments",
-    "status": "tracking_complete_broader_model_reconciliation_unfinished",
-    "packet": "RETAINED_TRACKING_20260930/REVIEW.json",
+    "status": "scoped_checkpoint_broader_work_unfinished",
+    "packet": "DATA_AND_RETAINED_MODELS_20260930/REVIEW.json",
     "next_item": "data_freshness_and_remaining_horizon_reconciliation_v1",
     "new_research_authorized": false
   },
@@ -5001,9 +5001,9 @@
     {
       "step_id": "data_freshness_and_remaining_horizon_reconciliation_v1",
       "depends_on": [
-        "retained_tracking_and_data_continuation_20260930"
+        "data_and_model_connection_20260930"
       ],
-      "implementation_status": "partial_tracking_and_target_audit_complete",
+      "implementation_status": "not_started",
       "review_status": "not_started",
       "scope": "Current data freshness and remaining existing-model/horizon reconciliation; no new fits or research experiments",
       "acceptance_criteria": [
@@ -5013,21 +5013,7 @@
         "Preserve negative controls, current nine adapters, original H1/news cohorts and other-chat capture ownership",
         "Publish source/evidence with tests and current data readback; do not call scoped choices universal best"
       ],
-      "next_action": "Qualify original legacy26 live transform for retained 4h/120h Extra Trees; preserve current models and compare exact retained evidence without fitting."
-    },
-    {
-      "step_id": "retained_tracking_and_data_continuation_20260930",
-      "depends_on": [
-        "data_and_model_connection_20260930"
-      ],
-      "implementation_status": "complete_retained_prospective_tracking_and_input_diagnostics",
-      "review_status": "accepted_within_scope",
-      "packet": "RETAINED_TRACKING_20260930/REVIEW.json",
-      "packet_sha256": "98bfa1a6b2aae4ec086a80e0748f8110cd5198a8e03ba8f540a526c51cc044ed",
-      "same_task_review": true,
-      "independent_review": false,
-      "unresolved_findings": [],
-      "next_action": "data_freshness_and_remaining_horizon_reconciliation_v1"
+      "next_action": "Read current live coverage and original target-specific saved evidence; repair authorized existing input/connection defects without fitting."
     }
   ],
   "timed_session": {
@@ -5040,5 +5026,5 @@
     "source_commit": "6eb514ab1856190b39d83ab020d5f77700ca8770",
     "updated_utc": "2026-09-25T18:12:00.5976014Z"
   },
-  "updated_utc": "2026-09-30T22:44:26.442364+00:00"
+  "updated_utc": "2026-09-30T21:31:15.017796+00:00"
 }
