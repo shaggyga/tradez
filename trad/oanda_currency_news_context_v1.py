@@ -16,10 +16,13 @@ import time
 import uuid
 
 import oanda_news_interpretation_v1 as previous
+import oanda_news_fast_context_v1 as fast_news
+import oanda_current_news_mapping_v1 as current_mapping
 
 PREDECESSOR_SHA256 = '7338b4dee04e179661f0c2c6327b44231d0ddbec4125660cc0045156a29a5fa0'
-_LOADED_BINDINGS = {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
-                    for p in (Path(__file__), Path(previous.__file__))}
+_BINDING_PATHS = (Path(__file__), Path(previous.__file__), Path(fast_news.__file__),
+                  Path(current_mapping.__file__), Path(current_mapping.timing.__file__))
+_LOADED_BINDINGS = {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in _BINDING_PATHS}
 if _LOADED_BINDINGS[Path(previous.__file__).name] != PREDECESSOR_SHA256:
     raise ValueError('qualified_interpretation_predecessor_changed')
 
@@ -41,7 +44,7 @@ def digest(value):
 
 def bindings():
     actual = {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
-              for p in (Path(__file__), Path(previous.__file__))}
+              for p in _BINDING_PATHS}
     if actual != _LOADED_BINDINGS:
         raise ValueError('loaded_context_source_changed')
     return dict(_LOADED_BINDINGS)
@@ -145,9 +148,17 @@ def source_rows(path, now):
     finally:db.close()
 
 
-def collect(db_path, output, collector_heartbeat, *, clock=time.time):
+def collect(db_path, output, collector_heartbeat, *, clock=time.time, fast_lane=None):
     output=Path(output);output.mkdir(parents=True,exist_ok=True)
     observed=clock();rows,truncated=source_rows(db_path,observed)
+    for row in rows:row['source_archive']='original_collector'
+    fast_status=None
+    if fast_lane is not None:
+        fast_status=fast_lane.tick()
+        extra,extra_truncated=source_rows(fast_lane.db_path,observed)
+        for row in extra:row['source_archive']=fast_news.SCHEMA
+        rows=sorted(rows+extra,key=lambda row:row['first_seen_utc'],reverse=True)
+        truncated=truncated or extra_truncated or len(rows)>LIMIT;rows=rows[:LIMIT]
     graph=bindings(); parser_id=digest(graph)
     store=output/'context.sqlite'
     if sum(p.stat().st_size for p in output.glob('context.sqlite*'))>MAX_DB:raise ValueError('context_store_capacity')
@@ -179,6 +190,7 @@ def collect(db_path, output, collector_heartbeat, *, clock=time.time):
                 continue
             item={'event_id':row['event_id'],'headline':text,'publisher':row['source_name'],
                   'published_utc':row['published_utc'],'first_seen_utc':row['first_seen_utc'],
+                  'source_archive':row['source_archive'],
                   'interpretation_id':key,'interpretation_computed_epoch':computed,
                   'available_epoch':max(computed,first),'source_record_count':1,
                   'age_seconds':round(observed-published,3),
@@ -194,10 +206,15 @@ def collect(db_path, output, collector_heartbeat, *, clock=time.time):
         health=json.loads(raw);tick=epoch(health['generated_utc'])
         fresh=health.get('schema_version')=='local_fx_news_sentiment_v3' and 0<=generated-tick<=180 and health.get('status') not in ('error','failed','stopped')
     except (OSError,ValueError,KeyError,TypeError):fresh=False
+    broad_fresh=fresh
+    fast_fresh=bool(fast_status and any(0<=generated-s.get('last_success',0)<=900 for s in fast_status['sources'].values()))
+    fresh=fresh or fast_fresh
     result={'schema_version':SCHEMA,'generated_epoch':generated,'generated_utc':iso(generated),
             'source_observed_epoch':observed,'source_database':str(Path(db_path).resolve()),
             'status':'current' if fresh else 'source_unavailable','collector_current':fresh,
             'source_bindings':graph,'parser_sha256':parser_id,'source_rows':len(rows),
+            'source_health':{'broad_collector_current':broad_fresh,'fast_lane_current':fast_fresh},
+            'fast_lane':fast_status,
             'selection':'latest500 relevant article records published within24h; first_seen<=read_time',
             'selection_truncated':truncated,'new_interpretations':parsed,'store_counts':counts,
             'topic_count':len(items),'topics':items[:100],'display_limit':100,
@@ -250,6 +267,8 @@ def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--database',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
     p.add_argument('--collector-heartbeat',type=Path,required=True)
+    p.add_argument('--fast-config',type=Path)
+    p.add_argument('--enable-live-mapping',action='store_true')
     p.add_argument('--duration-sec',type=int,default=604800);p.add_argument('--once',action='store_true')
     args=p.parse_args()
     if not 1<=args.duration_sec<=604800:p.error('duration outside bounded range')
@@ -258,16 +277,29 @@ def main():
     lock=sqlite3.connect(args.output/'owner.sqlite',timeout=0)
     lock.execute('CREATE TABLE IF NOT EXISTS owner (id INTEGER)');lock.commit()
     lock.execute('BEGIN EXCLUSIVE')
+    lane=fast_news.FastLane(args.fast_config,args.output) if args.fast_config else None
+    last_mapping=0;mapping=None
     deadline=time.monotonic()+args.duration_sec
     try:
         while time.monotonic()<deadline:
-            try:collect(args.database,args.output,args.collector_heartbeat)
+            try:
+                result=collect(args.database,args.output,args.collector_heartbeat,fast_lane=lane)
+                if args.enable_live_mapping and time.monotonic()-last_mapping>=60:
+                    try:mapping=current_mapping.collect(Path(__file__).resolve().parent,args.output,result)
+                    except Exception as exc:mapping={'status':'unavailable','generated_epoch':time.time(),'reason':type(exc).__name__+':'+str(exc)[:200]}
+                    last_mapping=time.monotonic()
+                if args.enable_live_mapping:
+                    result['current_mapping']=mapping
+                    result['payload_sha256']=digest({k:v for k,v in result.items() if k!='payload_sha256'})
+                    atomic(args.output/'current.json',result)
             except Exception as exc:
                 atomic(args.output/'current.json',{'schema_version':SCHEMA,'generated_epoch':time.time(),'status':'error','error':type(exc).__name__+':'+str(exc)[:200],**FLAGS})
                 if args.once:raise
             if args.once:break
             time.sleep(min(15,max(0,deadline-time.monotonic())))
-    finally:lock.rollback();lock.close()
+    finally:
+        if lane is not None:lane.close()
+        lock.rollback();lock.close()
     return 0
 
 

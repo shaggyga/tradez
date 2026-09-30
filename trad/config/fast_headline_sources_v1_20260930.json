@@ -1,0 +1,280 @@
+{
+  "schema_version": "fast_headline_sources_v1_20260930",
+  "research_only": true,
+  "can_place_orders": false,
+  "source_config_sha256": "1e718f78017d0f913f5ae856e7f1517ab51d46f6d4bdc179e280a9b9699a045d",
+  "scope": "Headline-only supplemental observations; no detail enrichment or original cohort assertion; source cadence unchanged",
+  "sources": [
+    {
+      "source_id": "fed_monetary_policy",
+      "name": "Federal Reserve monetary policy",
+      "kind": "rss",
+      "url": "https://www.federalreserve.gov/feeds/press_monetary.xml",
+      "currencies": [
+        "USD"
+      ],
+      "verified": true,
+      "quality": 1.0,
+      "detail_enrichment": "official_document_text",
+      "detail_max_age_minutes": 1440,
+      "detail_context_archive_only": true,
+      "detail_context_url_patterns": [
+        "monetary2026"
+      ],
+      "detail_context_max_items_per_cycle": 2,
+      "detail_context_target_count": 4,
+      "source_contract_id": "fed_monetary_policy_context_archive_v1_20260816",
+      "source_cohort_id": "fed_monetary_policy_context_archive_v1_20260816",
+      "trusted_domains": [
+        "federalreserve.gov"
+      ],
+      "poll_interval_sec": 180
+    },
+    {
+      "source_id": "fed_speeches",
+      "name": "Federal Reserve speeches",
+      "kind": "rss",
+      "url": "https://www.federalreserve.gov/feeds/speeches.xml",
+      "currencies": [
+        "USD"
+      ],
+      "verified": true,
+      "quality": 0.95,
+      "detail_enrichment": "official_document_text",
+      "detail_max_age_minutes": 360,
+      "trusted_domains": [
+        "federalreserve.gov"
+      ],
+      "poll_interval_sec": 180
+    },
+    {
+      "source_id": "ecb_press",
+      "name": "European Central Bank press",
+      "kind": "rss",
+      "poll_interval_sec": 60,
+      "burst_poll_interval_sec": 15,
+      "poll_timezone": "UTC",
+      "burst_poll_windows": [
+        {
+          "local_date": "2026-08-27",
+          "start": "11:27",
+          "end": "11:40"
+        }
+      ],
+      "url": "https://www.ecb.europa.eu/rss/press.html",
+      "currencies": [
+        "EUR"
+      ],
+      "verified": true,
+      "quality": 1.0,
+      "detail_enrichment": "official_document_text",
+      "detail_max_age_minutes": 1440,
+      "detail_context_archive_only": true,
+      "detail_context_url_patterns": [
+        "monetary-policy-statement/2026",
+        "ecb\\.mp26",
+        "press/accounts/2026",
+        "ecb\\.mg26"
+      ],
+      "detail_context_max_items_per_cycle": 2,
+      "detail_context_target_count": 3,
+      "source_contract_id": "ecb_press_policy_and_accounts_context_archive_v2_20260827",
+      "source_cohort_id": "ecb_press_policy_and_accounts_context_archive_v2_20260827",
+      "trusted_domains": [
+        "ecb.europa.eu"
+      ]
+    },
+    {
+      "source_id": "boe_news",
+      "name": "Bank of England news",
+      "kind": "rss",
+      "url": "https://www.bankofengland.co.uk/rss/news",
+      "currencies": [
+        "GBP"
+      ],
+      "verified": true,
+      "quality": 1.0,
+      "detail_enrichment": "official_document_text",
+      "detail_max_age_minutes": 1440,
+      "detail_context_archive_only": true,
+      "detail_context_url_patterns": [
+        "monetary-policy-summary-and-minutes/2026"
+      ],
+      "detail_context_max_items_per_cycle": 1,
+      "detail_context_target_count": 1,
+      "source_contract_id": "boe_news_policy_context_archive_v1_20260816",
+      "source_cohort_id": "boe_news_policy_context_archive_v1_20260816",
+      "trusted_domains": [
+        "bankofengland.co.uk"
+      ],
+      "poll_interval_sec": 180
+    },
+    {
+      "source_id": "boe_speeches",
+      "name": "Bank of England speeches",
+      "kind": "rss",
+      "url": "https://www.bankofengland.co.uk/rss/speeches",
+      "currencies": [
+        "GBP"
+      ],
+      "verified": true,
+      "quality": 0.95,
+      "detail_enrichment": "official_document_text",
+      "detail_max_age_minutes": 360,
+      "trusted_domains": [
+        "bankofengland.co.uk"
+      ],
+      "poll_interval_sec": 180
+    },
+    {
+      "source_id": "boc_press",
+      "name": "Bank of Canada press releases",
+      "kind": "rss",
+      "url": "https://www.bankofcanada.ca/content_type/press-releases/feed/",
+      "currencies": [
+        "CAD"
+      ],
+      "verified": true,
+      "direct": true,
+      "source_role": "primary_policy_release",
+      "quality": 1.0,
+      "poll_interval_sec": 180,
+      "burst_poll_interval_sec": 15,
+      "poll_timezone": "America/Toronto",
+      "burst_poll_windows": [
+        {
+          "local_date": "2026-10-28",
+          "start": "09:40",
+          "end": "10:10"
+        },
+        {
+          "local_date": "2026-12-09",
+          "start": "09:40",
+          "end": "10:10"
+        }
+      ],
+      "detail_enrichment": "official_document_text",
+      "detail_max_age_minutes": 1440,
+      "detail_mutable_placeholder_versioning": true,
+      "detail_mutable_placeholder_contract_id": "boc_placeholder_to_release_content_v1_20260902",
+      "detail_mutable_placeholder_activated_utc": "2026-09-02T19:20:00Z",
+      "detail_mutable_refetch_max_age_minutes": 240,
+      "detail_placeholder_text_patterns": [
+        "rate announcement to come at",
+        "press release will provide a brief explanation",
+        "interest rate announcement will be published at"
+      ],
+      "source_contract_id": "boc_press_placeholder_handoff_v2_20260902",
+      "source_cohort_id": "boc_press_placeholder_handoff_v2_20260902",
+      "trusted_domains": [
+        "bankofcanada.ca"
+      ]
+    },
+    {
+      "source_id": "rba_media",
+      "name": "Reserve Bank of Australia media releases",
+      "kind": "rss",
+      "url": "https://www.rba.gov.au/rss/rss-cb-media-releases.xml",
+      "currencies": [
+        "AUD"
+      ],
+      "verified": true,
+      "quality": 1.0,
+      "detail_enrichment": "official_document_text",
+      "detail_max_age_minutes": 1440,
+      "trusted_domains": [
+        "rba.gov.au"
+      ],
+      "poll_interval_sec": 180
+    },
+    {
+      "source_id": "rba_speeches",
+      "name": "Reserve Bank of Australia speeches",
+      "kind": "rss",
+      "url": "https://www.rba.gov.au/rss/rss-cb-speeches.xml",
+      "currencies": [
+        "AUD"
+      ],
+      "verified": true,
+      "quality": 0.95,
+      "detail_enrichment": "official_document_text",
+      "detail_max_age_minutes": 360,
+      "trusted_domains": [
+        "rba.gov.au"
+      ],
+      "poll_interval_sec": 180
+    },
+    {
+      "source_id": "boj_updates",
+      "name": "Bank of Japan updates",
+      "kind": "rss",
+      "url": "https://www.boj.or.jp/en/rss/whatsnew.xml",
+      "currencies": [
+        "JPY"
+      ],
+      "verified": true,
+      "quality": 1.0,
+      "detail_enrichment": "official_document_text",
+      "detail_max_age_minutes": 2880,
+      "detail_follow_same_authority_pdf_attachments": true,
+      "detail_attachment_link_text_patterns": [
+        "full\\s+text",
+        "\\bpdf\\b"
+      ],
+      "detail_attachment_max_items_per_page": 1,
+      "detail_attachment_maximum_bytes": 2000000,
+      "detail_attachment_maximum_characters": 100000,
+      "detail_attachment_maximum_pages": 80,
+      "detail_maximum_characters": 120000,
+      "archive_official_pdfs": true,
+      "trusted_domains": [
+        "boj.or.jp"
+      ],
+      "poll_interval_sec": 180
+    },
+    {
+      "source_id": "snb_press",
+      "name": "Swiss National Bank press releases",
+      "kind": "rss",
+      "url": "https://www.snb.ch/public/rss/en/pressrel",
+      "currencies": [
+        "CHF"
+      ],
+      "verified": true,
+      "direct": true,
+      "quality": 1.0,
+      "detail_enrichment": "official_document_text",
+      "detail_max_age_minutes": 1440,
+      "trusted_domains": [
+        "snb.ch"
+      ],
+      "poll_interval_sec": 180
+    },
+    {
+      "source_id": "google_news_fx_macro",
+      "name": "Google News FX and macro headlines",
+      "kind": "rss",
+      "url": "https://news.google.com/rss/search?q=%28forex%20OR%20currency%20OR%20%22central%20bank%22%20OR%20inflation%29%20when%3A1h&hl=en-US&gl=US&ceid=US%3Aen",
+      "currencies": [],
+      "verified": false,
+      "direct": false,
+      "quality": 0.55,
+      "trusted_domains": [],
+      "poll_interval_sec": 180
+    },
+    {
+      "source_id": "google_news_fx_policy_ticker",
+      "name": "Google News FX policy-speaker ticker",
+      "kind": "rss",
+      "poll_interval_sec": 60,
+      "url": "https://news.google.com/rss/search?q=%28Bessent%20OR%20%22Treasury%20Secretary%22%20OR%20%22finance%20minister%22%20OR%20%22central%20bank%20governor%22%29%20%28yen%20OR%20dollar%20OR%20currency%20OR%20intervention%20OR%20rates%29%20when%3A1h&hl=en-US&gl=US&ceid=US%3Aen",
+      "currencies": [],
+      "verified": false,
+      "direct": false,
+      "retrieval_via": "google_news_policy_speaker_discovery",
+      "source_role": "aggregator_discovery",
+      "quality": 0.55,
+      "trusted_domains": []
+    }
+  ]
+}
