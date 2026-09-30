@@ -31,6 +31,14 @@ except ModuleNotFoundError:  # Package imports used by the test suite.
     from trad.oanda_practice_eurusd_micro_scalper import DEFAULT_LOG_DIR, safe_float
 
 
+def current_currency_news_context():
+    try:
+        import oanda_currency_news_context_v1 as context
+    except ModuleNotFoundError:
+        from trad import oanda_currency_news_context_v1 as context
+    return context.read_current(Path(__file__).resolve().parent / 'data/oanda_training_manager/currency_news_context_v1/current.json')
+
+
 RUN_GLOBS = (
     "practice_all_pairs_opportunity_*.jsonl",
     "practice_*_micro_scalper_*.jsonl",
@@ -8986,6 +8994,7 @@ class DashboardHandler(BaseHTTPRequestHandler):
             return
         if parsed.path in {"/api/main", "/api/state"}:
             payload = dict(self.current_main_state())
+            payload['currency_news_context'] = current_currency_news_context()
             if not (payload.get('operational_dashboard') or {}).get('selected'):
                 payload['joint_v3_ledger_observation'] = current_joint_ledger_observation(compact=True)
             self.send_json(payload)

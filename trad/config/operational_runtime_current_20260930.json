@@ -24,10 +24,10 @@
   "enable_news_capacity": false,
   "enable_rolling_news": true,
   "enable_technical_capacity": true,
-  "notes": "Eighteen exact research roles. V18 adds the all-68 derived technical publisher as a supervised research-only feed after manual all-68 validation. The publisher retains bounded validated raw tails so its causal kernel can fill short internal M5 gaps with explicit imputation masks. Forward workers keep partial quote refusals visible but nonfatal when other quotes remain usable. V17 services, no-orders policy, clocks, retry ledgers and bounded recovery controls are preserved. No orders or promotion.\nV19 replaces joint_price_news_study_v9 with joint_price_news_isolation_status_v1. The joint price/news forecast cohort remains formally isolated after bounded capture/validation failures; news collection and transport continue, orders/promotions stay disabled.\nAll68 derived feature feed patched to publish finite continuity values with explicit value_fallbacks for sparse long-window activity/spread/TRY features; max_consecutive_fill raised to 6.\nSeptember30 renewed under explicit full flowing nontrading pipeline authorization. Exact retained service/config definitions reused. Optional keyed news providers disabled. Joint isolation remains explicit until its own failure is resolved.\nCold rolling feature-store catch-up receives bounded30minute startup grace; previous5minute supervision interrupted its first complete cycle. Freshness limits after startup remain unchanged.\nUser-authorized full pipeline recovery selects the exact previously registered v9 worker, with verified registry and activation, instead of the isolation-status publisher. Original numerical contracts and validators remain unchanged; cold bootstrap and refusal reasons remain visible. This is operational recovery, not scientific promotion.\nSeptember30 capacity successor: exact retained CAS and receipt identities reused under explicit resource-only policy; new transport state and joint V10 cohort. Numeric model, original clocks, causal availability and orders-off unchanged.\nBounded capture v2: five-second raw read locks, ten-minute nonauthorizing cold validation, unchanged thirty-second current-capture and five-minute news freshness. First empty capacity cohort retained, never relabeled.\nJoint retained-history IO receives the same Normal process priority as transport; BelowNormal cold replay exceeded its bounded wall-time under contention. No High/Realtime priority, freshness change, or worker history reset.\nRolling materialized news: replaces replay-dependent transport/joint V10 with prospective joint V11; actual parsed observations, bounded 48h reads/72h hot index, immutable archive. Original numeric models, gates, retry history and no-orders status preserved. Old studies retained. Seventeen selected roles.\nSupervisor accepts retained retired-transport budget history when rolling mode omits that worker. Existing retry arrays and automatic recovery limits are unchanged.\nSeptember30 input latency repair: technical cycles measured about309 seconds exceed the old180-second supervisor restart threshold. Allow600seconds for technical-worker liveness only; original feature freshness, quote ages, model inputs and retry budgets remain unchanged. Technical and price-model processes use Normal priority to avoid avoidable background starvation. No numerical source, cohort or input contract changed.",
+  "notes": "Eighteen exact research roles. V18 adds the all-68 derived technical publisher as a supervised research-only feed after manual all-68 validation. The publisher retains bounded validated raw tails so its causal kernel can fill short internal M5 gaps with explicit imputation masks. Forward workers keep partial quote refusals visible but nonfatal when other quotes remain usable. V17 services, no-orders policy, clocks, retry ledgers and bounded recovery controls are preserved. No orders or promotion.\nV19 replaces joint_price_news_study_v9 with joint_price_news_isolation_status_v1. The joint price/news forecast cohort remains formally isolated after bounded capture/validation failures; news collection and transport continue, orders/promotions stay disabled.\nAll68 derived feature feed patched to publish finite continuity values with explicit value_fallbacks for sparse long-window activity/spread/TRY features; max_consecutive_fill raised to 6.\nSeptember30 renewed under explicit full flowing nontrading pipeline authorization. Exact retained service/config definitions reused. Optional keyed news providers disabled. Joint isolation remains explicit until its own failure is resolved.\nCold rolling feature-store catch-up receives bounded30minute startup grace; previous5minute supervision interrupted its first complete cycle. Freshness limits after startup remain unchanged.\nUser-authorized full pipeline recovery selects the exact previously registered v9 worker, with verified registry and activation, instead of the isolation-status publisher. Original numerical contracts and validators remain unchanged; cold bootstrap and refusal reasons remain visible. This is operational recovery, not scientific promotion.\nSeptember30 capacity successor: exact retained CAS and receipt identities reused under explicit resource-only policy; new transport state and joint V10 cohort. Numeric model, original clocks, causal availability and orders-off unchanged.\nBounded capture v2: five-second raw read locks, ten-minute nonauthorizing cold validation, unchanged thirty-second current-capture and five-minute news freshness. First empty capacity cohort retained, never relabeled.\nJoint retained-history IO receives the same Normal process priority as transport; BelowNormal cold replay exceeded its bounded wall-time under contention. No High/Realtime priority, freshness change, or worker history reset.\nRolling materialized news: replaces replay-dependent transport/joint V10 with prospective joint V11; actual parsed observations, bounded 48h reads/72h hot index, immutable archive. Original numeric models, gates, retry history and no-orders status preserved. Old studies retained. Seventeen selected roles.\nSupervisor accepts retained retired-transport budget history when rolling mode omits that worker. Existing retry arrays and automatic recovery limits are unchanged.\nSeptember30 input latency repair: technical cycles measured about309 seconds exceed the old180-second supervisor restart threshold. Allow600seconds for technical-worker liveness only; original feature freshness, quote ages, model inputs and retry budgets remain unchanged. Technical and price-model processes use Normal priority to avoid avoidable background starvation. No numerical source, cohort or input contract changed.\nTyped currency news context: one optional supervised reader of the existing archive, parse-once content cache and prospective interpretation clocks. Existing sources, model inputs, cohorts, retry histories and recovery expiry remain unchanged. No score-to-trade conversion.",
   "optional_news_credentials": "disabled_in_child_environment",
-  "predecessor_profile_sha256": "57f4226e133f9a29ad0896c587a53d52919f6c66ecee5e9ce5fae1cb7ae62faa",
-  "prepared_utc": "2026-09-30T16:35:29.309945+00:00",
+  "predecessor_profile_sha256": "971d2df144e552feae24b3ec013cfdba3621c912cde93ab3b93ab151bc8fc07a",
+  "prepared_utc": "2026-09-30T18:17:18.734049+00:00",
   "recovery_until_utc": "2026-10-07T08:14:50Z",
   "research_only": true,
   "schema_version": "forex_operational_runtime_v6_20260916",
@@ -448,14 +448,38 @@
       "script": "oanda_derived_technical_publisher_v1.py",
       "source_sha256": "f93ca38a60cedfb206c0f2cc8e7706810a7da9c3faa8f99c001c192ebde8fa33",
       "startup_grace_sec": 300
+    },
+    {
+      "name": "currency_news_context_v1",
+      "script": "oanda_currency_news_context_v1.py",
+      "needle": "oanda_currency_news_context_v1.py",
+      "source_sha256": "e60bbbd0b62ea3261f0fde676d03cdb0b5d6b1a796855f7d841427390b630053",
+      "arguments": [
+        "--database",
+        "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\local_news_sentiment_v1.sqlite",
+        "--collector-heartbeat",
+        "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\collector_heartbeat_v1.json",
+        "--output",
+        "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\currency_news_context_v1",
+        "--duration-sec",
+        "604800"
+      ],
+      "heartbeat": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\currency_news_context_v1\\current.json",
+      "heartbeat_field": "schema_version",
+      "heartbeat_schema": "currency_news_context_v1_20260930",
+      "max_age_sec": 90,
+      "startup_grace_sec": 120,
+      "interpreter_mode": "no_bytecode",
+      "priority_class": "Normal"
     }
   ],
   "support_sources": {
     "oanda_operational_log_relay_v2.py": "e85e9e425941cd8eca77440712c05c975513fe26e13402aaab8e05068c16714a",
-    "oanda_operational_recovery_contract_v6.ps1": "040906728ca60b8d2b63d335ce108746e16d52a19badddbbee829ab8cd861d09",
+    "oanda_operational_recovery_contract_v6.ps1": "fbc6da900caa6955b78c14f92e4cded9f92126ee45a6a941e2084bcb9f9e13b4",
     "oanda_operational_supervisor_v6.ps1": "56440a1d168eca429cf62de62e03fa0d3c423b0e058588d4f20ca54b2c350c25",
     "oanda_supervisor_watchdog_v6.ps1": "f06dd8516fc6148dec1e65eae0ae2da018d33be600d84f25ba82dbad8415d6ea",
     "start_oanda_operational_research_v6.ps1": "e6133420234bb8d203c889191ec6bef9bf22c39cb6230e39321a8fffc835b6ce",
     "start_oanda_supervisor_watchdog_v6.ps1": "1510cb5a3f37e7de56f319ecc7636d0ade414464dad43e302619e359bc5e8742"
-  }
+  },
+  "enable_currency_news_context": true
 }
