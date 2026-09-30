@@ -20,10 +20,10 @@ be reconciled with any new news/technical result. The September30 momentum batch
 did not evaluate the complete technical model stack and does not supersede it.
 
 The user authorized restoration of the flowing research pipeline and Git/Vault
-publication. Current operational packet: Vault `DASHBOARD_LIVE_RECOVERY_20260930`,
-pointer `PROJECT_CONTEXT_LATEST.json`. It supersedes the prior offline-only producer
-qualification. Read its measured health and pending corrections before assuming all
-forecasts are available. Scientific readiness remains separate from Git synchronization.
+publication. Current capacity correction: Vault `JOINT_NEWS_CAPACITY_RECOVERY_20260930`,
+pointer `PROJECT_CONTEXT_LATEST.json`. The transport passes its old storage cap
+and drains retained backlog. Joint V10 fresh capture/model readiness remain pending;
+read the measured health and exact resume before assuming forecasts are available. Scientific readiness remains separate from Git synchronization.
 The September30 technical successor and new interpretation remain offline.
 
 ## Retained design-queue checkpoint — 2026-09-25
