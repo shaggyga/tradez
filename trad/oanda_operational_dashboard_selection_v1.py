@@ -15,7 +15,8 @@ SCHEMA = 'operational_dashboard_selection_v1_20260913'
 POINTER = 'config/operational_dashboard_current.json'
 SOURCE_FILES = frozenset({'oanda_operational_dashboard_selection_v1.py',
     'oanda_practice_live_dashboard.py','oanda_main_signal_dashboard.html',
-    'oanda_feature_move_mapping_v1.py','oanda_feature_observations_v1.py'})
+    'oanda_feature_move_mapping_v1.py','oanda_feature_observations_v1.py',
+    'oanda_all68_technical_availability_v2.py'})
 FLAGS = ('can_place_orders','can_promote','can_authorize','account_eligible','proof_eligible')
 KINDS = {
     'price':('pair_local_forecast_registry_v3_20260913','pair_local_forecast_summary_v3_20260913',
@@ -286,18 +287,83 @@ def project_collection_status(legacy, joint, *, now_epoch=None):
     observations={'study':study,**{key:dict((legacy.get('observations') or {}).get(key)
         or {'status':'unavailable','current':False}) for key in ('quote_stream','account')}}
     count=joint.get('forecast_pair_count',0) if current else None
-    running=all(row.get('current') is True for row in observations.values())
+    # Account monitoring is independent of the nontrading research producers.
+    required=('study','quote_stream')
+    running=all(observations[key].get('current') is True for key in required)
     return {'schema_version':'operational_research_collection_display_v1_20260913',
         'selected_study':'native_'+str(joint.get('study_version','joint_unavailable')),'status':'running' if running else 'unavailable','running':running,
         'label':'Native joint producer summary current' if current else 'Native joint summary unavailable',
         'registered_study_trading_enabled':False,'research_only':True,'can_place_orders':False,'can_promote':False,
-        'running_scope':'recent_selected_study_quote_and_account_observations_not_forecast_success',
+        'running_scope':'recent_selected_study_and_quote_observations_not_forecast_success',
+        'account_status':observations['account'].get('status','unavailable'),
+        'account_required_for_research':False,
+        'research_blockers':[key+':'+observations[key].get('status','unavailable')
+                             for key in required if not observations[key].get('current')],
         'forecasting':{'blocked':not count,'label':f'{count} pairs publishing native H1 forecasts' if current
             else 'Forecast readiness unavailable','observation_current':bool(current),'reason_counts':reasons},
         'model_attempts':{'status':'available' if current else 'unavailable','counts':joint.get('ledger_counts',{}) if current else {},
-            'scope':'selected native V7 producer summary counts; not independent ledger rescore'},
+            'scope':'selected '+str(joint.get('study_version','joint_unavailable'))+' producer summary counts; not independent ledger rescore'},
         'observations':observations,'unavailable_observations':[key+':'+row['status']
             for key,row in observations.items() if not row.get('current')]}
+
+
+def read_technical_coverage(root, expected_pairs, now):
+    """Bounded projection of the existing reader; never recompute or fill features.
+
+    This verifies report freshness, source/config bindings and full population.
+    Original row verification belongs to the availability producer, not this UI.
+    """
+    try:
+        path=relative(root,'data/oanda_training_manager/state/all68_technical_availability_v2.json',data=True)
+        raw,report=read_json(path,2*1024*1024)
+        need(report.get('schema_version')=='all68_technical_availability_v2_20260930','technical_report_schema')
+        generated=stamp(report['generated_epoch'])
+        need(0<=now-generated<=180,'technical_report_stale_or_future')
+        need(report.get('status')=='readable' and not report.get('source_errors')
+             and not report.get('original_receipt_errors'),'technical_report_verification_failed')
+        inert(report,FLAGS[:3])
+        refs=report['source_references'];binding=refs['identity_binding']
+        source=relative(root,'oanda_all68_technical_availability_v2.py')
+        need(hashlib.sha256(read_raw(source)).hexdigest()==binding['report_source_sha256'],
+             'technical_reader_source_changed')
+        for name,sha in binding['imported_sources'].items():
+            need(hashlib.sha256(read_raw(relative(root,name))).hexdigest()==sha,'technical_dependency_changed')
+        for ref in (refs['observation_config'],binding['operations_config']):
+            selected=Path(ref['path']).absolute().relative_to(Path(root).absolute()).as_posix()
+            need(hashlib.sha256(read_raw(relative(root,selected))).hexdigest()==ref['sha256'],
+                 'technical_configuration_changed')
+        pairs=report['pairs']
+        need(bool(expected_pairs) and set(pairs)==set(expected_pairs)
+             and report.get('configured_pair_count')==report.get('reported_pair_count')==len(expected_pairs),
+             'technical_population_mismatch')
+        rows=[]
+        for pair in sorted(pairs):
+            row=pairs[pair];quote=dict(row.get('quote') or {});feature=dict(row.get('features') or {})
+            need(row.get('instrument')==pair,'technical_pair_identity')
+            qstatus=quote.get('status','unavailable');fstatus=feature.get('status','unavailable')
+            qepoch=quote.get('quote_epoch');bar=feature.get('bar_end_epoch')
+            qage=now-number(qepoch) if qepoch is not None else None
+            bage=now-number(bar) if bar is not None else None
+            if qstatus=='current' and (qage is None or not 0<=qage<=report['quote_age_reporting_bound_seconds']):
+                qstatus='stale'
+            if fstatus in ('complete','partial') and (bage is None or not 0<=bage<=report['bar_age_bound_seconds']):
+                fstatus='stale'
+            rows.append({'instrument':pair,'quote_status':qstatus,'quote_age_seconds':qage,
+                'feature_status':fstatus,'bar_age_seconds':bage,
+                'finite_features':feature.get('finite_count'),'expected_features':feature.get('expected_count'),
+                'missing_reasons':feature.get('missing_counts_by_reason',{}),
+                'gap_minutes_by_evidence':feature.get('support_gap_minutes_by_evidence',{}),
+                'consecutive_minutes':feature.get('consecutive_suffix_minutes'),
+                'maximum_required_minutes':feature.get('maximum_required_support_minutes'),
+                'peer_status':(feature.get('peer') or {}).get('status','unavailable')})
+        return {'status':'current','generated_epoch':generated,'observed_epoch':now,
+                'report_sha256':hashlib.sha256(raw).hexdigest(),'pair_count':len(rows),'rows':rows,
+                'feature_counts':dict(Counter(r['feature_status'] for r in rows)),
+                'quote_counts':dict(Counter(r['quote_status'] for r in rows)),
+                'scope':'Source-bound availability report; no feature recomputation or forecast accuracy claim.'}
+    except (OSError,ValueError,TypeError,KeyError,AttributeError,OverflowError) as exc:
+        return {'status':'unavailable','reason':str(exc) if isinstance(exc,SelectionError)
+                else 'technical_report_unavailable','rows':[],'pair_count':None}
 
 
 def read_dashboard_sources(root, *, now_epoch=None):
@@ -315,4 +381,6 @@ def read_dashboard_sources(root, *, now_epoch=None):
         except (OSError,ValueError,TypeError,KeyError,OverflowError) as exc:
             result[kind]=unavailable(kind,str(exc) if isinstance(exc,SelectionError) else 'selected_source_unavailable')
             result['status']='partial_unavailable'
+    pairs={row['instrument'] for kind in ('price','joint') for row in result[kind].get('rows',[])}
+    result['pair_coverage']=read_technical_coverage(root,pairs,time.time() if now_epoch is None else now)
     return result
