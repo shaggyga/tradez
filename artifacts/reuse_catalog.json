@@ -1561,6 +1561,34 @@
       "independent_review": false,
       "execution_authorization": false,
       "scope": "Saved original completed models and results; full predecessor graph is externally referenced and not silently replayed."
+    },
+    "extra_trees_matched_development_saved": {
+      "classification": "saved_fitted",
+      "model_count": 14,
+      "original_identity": {
+        "kind": "run_identity_fingerprint",
+        "fingerprint": "29e7d930d8ec322a649250b9483636b6d89a1c2fd2d3662dc43a239ebc43c267",
+        "run_id": "extra-trees-matched-development"
+      },
+      "artifact_refs": [
+        {
+          "vault_relative_path": "EXTRA_TREES_AND_MAPPING_COMPLETION_20260930/artifacts/extra_trees_saved.zip",
+          "sha256": "297353184a803ac9544f1d5cbf19e42a0eaf49e12b66b3f62441594aa337e031",
+          "bytes": 18945755,
+          "kind": "archive"
+        },
+        {
+          "vault_relative_path": "EXTRA_TREES_AND_MAPPING_COMPLETION_20260930/artifacts/prepared_technical_inputs_saved.zip",
+          "sha256": "fde1cc441e46bcc4c25b4d96f08a3c13ff5d3e7db3ab40527e42387fb9eaa000",
+          "bytes": 1702043,
+          "kind": "archive"
+        }
+      ],
+      "baseline_artifact": "matched_campaign_saved",
+      "retrieval_policy": "Follow EXTRA_TREES_AND_MAPPING_COMPLETION_20260930/RESUME.md; byte retrieval plus saved-model replay, never automatic refit",
+      "runtime_requalified": "same-host isolated replay only",
+      "independent_review": false,
+      "scope": "mixed_inspected_development_not_confirmed"
     }
   },
   "inherited_records": [

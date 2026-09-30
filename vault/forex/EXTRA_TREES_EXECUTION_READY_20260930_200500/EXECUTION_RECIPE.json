@@ -1,0 +1,36 @@
+{
+  "schema": "forex.extra_trees_execution_recipe.v1",
+  "sources": {
+    "contracts.py": "3a1776f0862f6bb4bc3ba73f4c0febec573350d712aa50e9dbcc0e253b11aecd",
+    "extra_trees_matched_v1.py": "dbb490dcb41d1bacd632309c05d389ec7f0e3e27111b0c964e68d0432c73d26e",
+    "extra_trees_operator_v1.py": "b9ec87ec6775d71ddbf9dcf16336cca49b173a6f7e63fcef5c2f182315cc0ed0",
+    "fitted_consumer_v2.py": "e3b72f23d216845bbc5aee9385b59ac37ff3114aae728b0d372e3fa319d182ec",
+    "matched_campaign_models_v2.py": "9b7521812ea348d826dc1e3d0035eb378b097733c6c6f3cb1d7595ec70fda329",
+    "matched_campaign_operator_v2.py": "93a330b3953dd6eba42ea414f8854860dc3398e57ea5a16517f3f462e5f5e756",
+    "matched_campaign_runner_v2.py": "0cb00c9027fb1238f1464d27be143f1e0e2c5e6095142f07e4f062e84bd50262",
+    "publication.py": "51e3eb20cee191a24b74c708bd5c54b25b8ea4a1042248e6a4a96bfebd81d797",
+    "retained_signed_cost_models_v1.py": "8cebabbab7c6dcb32271a8fd3cbc656e912ae6a26e19a9ff1d35ad547342665c"
+  },
+  "qualification_sha256": "208c12b14a23fae23cc633705a6893ab418d622afd11f9af357fd509d26c4339",
+  "input_run_identity": "3c51adb6cb8467ed15b1bf604c03c917bc0cab7d91180a3674336ccf6765f9d6",
+  "baseline_run_identity": "b3c3ea235bb15727633b665f86ea535b48bfe14cc35d00e60b12e7d848ea750d",
+  "resources": {
+    "max_seconds": 600,
+    "max_fit_seconds_each": 30,
+    "max_rss_bytes": 2147483648,
+    "max_output_bytes": 536870912,
+    "min_free_disk_bytes": 8589934592,
+    "threads": 1
+  },
+  "environment": {
+    "python": "3.12.10",
+    "numpy": "2.5.1",
+    "pandas": "2.3.3",
+    "scipy": "1.18.0",
+    "scikit-learn": "1.9.0",
+    "joblib": "1.5.3",
+    "threadpoolctl": "3.6.0",
+    "psutil": "7.2.2"
+  },
+  "scope": "one qualified inspected-development candidate; original controls reused; no promotion or trading"
+}

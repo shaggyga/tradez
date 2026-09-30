@@ -51,3 +51,6 @@ Latest capture/mapping update: [current prospective tracking](NEWS_CAPTURE_MAPPI
 Consulted current Vault pointers/queue, reuse navigation, full3,124-record registry metadata, lineage index, relevant project summaries/source references, specialist manifests and every one of its138 artifacts, recent source diffs and tests. This is a broad reconciliation of relevant evidence, NOT a full audit of every historical executable, raw archive or model result. Old test counts remain historical; newly executed checks are separately logged. No deletion or relocation of historical source, datasets or models is needed for this navigation cleanup.
 
 For every proposed new hypothesis, identify its closest predecessor first and state the material difference. Mean reversion, follow/fade, error correction, calibration, peer features and news-plus-technicals already have predecessors. Do not infer absence from a failed filename search.
+
+
+September30 completion supersedes the earlier source-only/preflight notices: [Extra Trees and mapping checkpoint](EXTRA_TREES_AND_MAPPING_20260930.md). Actual candidate results and saved-model replay are complete; preflight repaired. Original hypothesis/date/feature boundaries and typed-news/joint support limitations remain.

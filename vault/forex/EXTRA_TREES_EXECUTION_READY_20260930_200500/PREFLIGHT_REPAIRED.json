@@ -1,0 +1,186 @@
+{
+  "branch": "forex",
+  "checks": [
+    {
+      "check": "roots",
+      "detail": {
+        "vault": "C:\\Users\\zmoor\\OneDrive\\thevault\\projects\\forex",
+        "workspace": "C:\\Users\\zmoor\\Documents\\forex"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "repository",
+      "detail": {
+        "branch": "forex",
+        "clean": true,
+        "head": "3da0c8714ee40a81e0c87932adef1dab127e055c"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "vault_packages",
+      "detail": {
+        "design_manifest_sha256": "47e7ba16c982c2468551fa71d1f51ce185105ecb97cf79af31a09212b8568705",
+        "design_package": "RESEARCH_HANDOFF_REPAIR_20260930_195000",
+        "exact_next_item": "extra_trees_matched_development_comparison_v1",
+        "review_manifest_sha256": "47e7ba16c982c2468551fa71d1f51ce185105ecb97cf79af31a09212b8568705",
+        "review_package": "RESEARCH_HANDOFF_REPAIR_20260930_195000"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "current_documents",
+      "detail": {
+        "project_documents": 5,
+        "vault_documents": 3
+      },
+      "status": "pass"
+    },
+    {
+      "check": "engineering_source",
+      "detail": {
+        "engineering_files_verified": 562,
+        "scope": "current engineering root source snapshot"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "revision",
+      "detail": {
+        "branch": "forex",
+        "expected_commit": "3da0c8714ee40a81e0c87932adef1dab127e055c",
+        "identity_source": "explicit",
+        "live_remote_freshness": "not_checked_offline"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "coordination",
+      "detail": {
+        "active_claims": [
+          {
+            "handoff": "Source b0dd42c9f6b0dc67fd6b9c5d141e25ed99b0320f; packet EURUSD_RECORDING_20260925_015224/REVIEW.md; actual managed recorder38436/PID12772; active heartbeat eurusd-dataset-through-friday-close; final capture pending 20:59Z.",
+            "owner": "EUR/USD dataset task",
+            "scope": "Own EUR/USD stream/recorder/export/tests/docs plus local dataset; no scientific source or pointer changes",
+            "status": "IN_PROGRESS",
+            "task_id": "eurusd-live-visualization-20260925"
+          },
+          {
+            "handoff": "evidence/finish_research_20260930; current user Finish authorization",
+            "owner": "Mabel current chat",
+            "scope": "stage_c offline source/evidence, tools/preflight, research docs and shared handoff; no EURUSD recorder/data/runtime changes",
+            "status": "IN_PROGRESS",
+            "task_id": "finish_research_and_maturity_20260930"
+          }
+        ],
+        "atomic_cross_machine_reservation": false,
+        "claim_created": false,
+        "claim_id": "finish_research_and_maturity_20260930",
+        "sealed_scope_reconciliations": [
+          {
+            "claim_id": "finish_research_and_maturity_20260930",
+            "decision": "nonoverlapping",
+            "other_claim": {
+              "handoff": "Source b0dd42c9f6b0dc67fd6b9c5d141e25ed99b0320f; packet EURUSD_RECORDING_20260925_015224/REVIEW.md; actual managed recorder38436/PID12772; active heartbeat eurusd-dataset-through-friday-close; final capture pending 20:59Z.",
+              "owner": "EUR/USD dataset task",
+              "scope": "Own EUR/USD stream/recorder/export/tests/docs plus local dataset; no scientific source or pointer changes",
+              "status": "IN_PROGRESS",
+              "task_id": "eurusd-live-visualization-20260925"
+            },
+            "reason": "Other owner expressly reserves EURUSD stream/recorder/export/tests/docs/local capture and excludes scientific source/pointers. This task only edits offline research, preflight and research handoff; reads current dashboard outputs. No capture inputs, recorder, export, tests, docs or runtime are modified. Week capture remains with other chat; no ownership transfer or completion claim.",
+            "work_item": "extra_trees_matched_development_comparison_v1"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "check": "operational_gate",
+      "detail": {
+        "manifest_sha256": "808390179cfc40400eaa779cbb50776c4fe53562f0324e5efc70ed01c5be17a6",
+        "package": "OPERATIONAL_READINESS_20260923_180528",
+        "queue_packet": "OPERATIONAL_READINESS_20260923_180528/REVIEW.json",
+        "research_authorization": false,
+        "selected_work_item": "extra_trees_matched_development_comparison_v1",
+        "status": "complete",
+        "step_id": "mabel-operational-readiness-20260923"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "environment",
+      "detail": {
+        "expected": {
+          "joblib": "1.5.3",
+          "numpy": "2.5.1",
+          "pandas": "2.3.3",
+          "pyarrow": "25.0.0",
+          "pytest": "9.1.1",
+          "python": "3.12.10",
+          "requests": "2.34.2",
+          "scikit-learn": "1.9.0",
+          "scipy": "1.18.0",
+          "threadpoolctl": "3.6.0",
+          "tzdata": "2026.3"
+        },
+        "installed": {
+          "joblib": "1.5.3",
+          "numpy": "2.5.1",
+          "pandas": "2.3.3",
+          "pyarrow": "25.0.0",
+          "pytest": "9.1.1",
+          "python": "3.12.10",
+          "requests": "2.34.2",
+          "scikit-learn": "1.9.0",
+          "scipy": "1.18.0",
+          "threadpoolctl": "3.6.0",
+          "tzdata": "2026.3"
+        },
+        "model_runtime_qualified": false,
+        "profile": "engineering"
+      },
+      "status": "pass"
+    },
+    {
+      "check": "snapshot_stability",
+      "detail": {
+        "files_read": 1274
+      },
+      "status": "pass"
+    }
+  ],
+  "code_commit": "3da0c8714ee40a81e0c87932adef1dab127e055c",
+  "filesystem_mutations": 0,
+  "limitations": [
+    "Local immutable/current-document identity checks only; no live GitHub or OneDrive freshness proof.",
+    "Passing is a setup observation, not a research, model run, broker or service authorization.",
+    "The board is advisory, not an atomic distributed lock; establish shared freshness and claim work before edits/runs.",
+    "Selected recipe input bytes and full historical artifact graphs are checked only by their original operator; this tool never launches it.",
+    "Historical missing approvals unrelated to the selected next work are not interpreted as startup blockers."
+  ],
+  "model_runtime_qualified": false,
+  "models_fitted": 0,
+  "models_loaded": 0,
+  "network_calls": 0,
+  "research_authorization": false,
+  "schema": "forex_offline_preflight.v1",
+  "status": "pass",
+  "unresolved_claims": [
+    {
+      "handoff": "Source b0dd42c9f6b0dc67fd6b9c5d141e25ed99b0320f; packet EURUSD_RECORDING_20260925_015224/REVIEW.md; actual managed recorder38436/PID12772; active heartbeat eurusd-dataset-through-friday-close; final capture pending 20:59Z.",
+      "owner": "EUR/USD dataset task",
+      "scope": "Own EUR/USD stream/recorder/export/tests/docs plus local dataset; no scientific source or pointer changes",
+      "status": "IN_PROGRESS",
+      "task_id": "eurusd-live-visualization-20260925"
+    },
+    {
+      "handoff": "evidence/finish_research_20260930; current user Finish authorization",
+      "owner": "Mabel current chat",
+      "scope": "stage_c offline source/evidence, tools/preflight, research docs and shared handoff; no EURUSD recorder/data/runtime changes",
+      "status": "IN_PROGRESS",
+      "task_id": "finish_research_and_maturity_20260930"
+    }
+  ],
+  "utc": "2026-09-30T19:54:23.409629+00:00"
+}

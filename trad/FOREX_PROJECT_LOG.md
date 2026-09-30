@@ -7883,3 +7883,8 @@ Local actual-work log `evidence/news_capture_mapping_20260930/WORK_LOG.jsonl`; e
 
 
 September30 research handoff repair: `RESEARCH_HANDOFF_REPAIR_20260930_195000/REVIEW.json`; see `docs/RESEARCH_HANDOFF_REPAIR_20260930.md`. Extra Trees still partial; no new fit/result yet.
+
+
+## 2026-09-30T20:23:40.093343+00:00 — Extra Trees and mapping completion
+
+Step `extra_trees_matched_development_comparison_v1`; source `981d89ae24e84ab0fa7fb6ca5eb1cf9b39440616`; Vault `EXTRA_TREES_AND_MAPPING_COMPLETION_20260930/REVIEW.json`.14 fits,18,872 forecasts, all68 coverage, exact saved-model relocation replay; no baseline refits. Mixed development result:4/14 MAE wins versus no-change,12/14 versus Ridge/HGB.56 source +14 overlapping restored +30 preflight tests. Live Decimal-string settlement corrected and native/HTTP readback verified. Same-task review; independent review unperformed. Next `typed_currency_news_feature_cohort_qualification_v1`; real joint warmup and new-news feature qualification remain.

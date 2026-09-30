@@ -1,0 +1,46 @@
+{
+  "source_commit": "981d89ae24e84ab0fa7fb6ca5eb1cf9b39440616",
+  "scientific_recipe": {
+    "schema": "forex.extra_trees_execution_recipe.v1",
+    "sources": {
+      "contracts.py": "3a1776f0862f6bb4bc3ba73f4c0febec573350d712aa50e9dbcc0e253b11aecd",
+      "extra_trees_matched_v1.py": "21fe11c11c49473e8dc540eaca5f5ceac34129e39585958dccfc11103cf92f8b",
+      "extra_trees_operator_v1.py": "c138ecb3f4672a5454a5f5b6f6b6eca4a24c398b1375ab038388f4cbdf959523",
+      "fitted_consumer_v2.py": "e3b72f23d216845bbc5aee9385b59ac37ff3114aae728b0d372e3fa319d182ec",
+      "matched_campaign_models_v2.py": "9b7521812ea348d826dc1e3d0035eb378b097733c6c6f3cb1d7595ec70fda329",
+      "matched_campaign_operator_v2.py": "93a330b3953dd6eba42ea414f8854860dc3398e57ea5a16517f3f462e5f5e756",
+      "matched_campaign_runner_v2.py": "0cb00c9027fb1238f1464d27be143f1e0e2c5e6095142f07e4f062e84bd50262",
+      "publication.py": "51e3eb20cee191a24b74c708bd5c54b25b8ea4a1042248e6a4a96bfebd81d797",
+      "retained_signed_cost_models_v1.py": "8cebabbab7c6dcb32271a8fd3cbc656e912ae6a26e19a9ff1d35ad547342665c"
+    },
+    "qualification_sha256": "208c12b14a23fae23cc633705a6893ab418d622afd11f9af357fd509d26c4339",
+    "input_run_identity": "3c51adb6cb8467ed15b1bf604c03c917bc0cab7d91180a3674336ccf6765f9d6",
+    "baseline_run_identity": "b3c3ea235bb15727633b665f86ea535b48bfe14cc35d00e60b12e7d848ea750d",
+    "resources": {
+      "max_seconds": 600,
+      "max_fit_seconds_each": 30,
+      "max_rss_bytes": 2147483648,
+      "max_output_bytes": 536870912,
+      "min_free_disk_bytes": 8589934592,
+      "threads": 1
+    },
+    "environment": {
+      "python": "3.12.10",
+      "numpy": "2.5.1",
+      "pandas": "2.3.3",
+      "scipy": "1.18.0",
+      "scikit-learn": "1.9.0",
+      "joblib": "1.5.3",
+      "threadpoolctl": "3.6.0",
+      "psutil": "7.2.2"
+    },
+    "scope": "one qualified inspected-development candidate; original controls reused; no promotion or trading"
+  },
+  "runtime_bindings": {
+    "oanda_currency_news_context_v1.py": "3d6fb77e8fd6975139bb2bf7b1ccd8884490de048b700871d3e268697fcd66ea",
+    "oanda_current_news_mapping_v1.py": "107af675fb78ad509c864a0e729557421f94631175fb7085119fac18c9797ddf",
+    "oanda_news_fast_context_v1.py": "777892530f9d3fb3f9aa56f29feb59bdb6288a69951e77f43529af717895984b",
+    "oanda_news_interpretation_v1.py": "7338b4dee04e179661f0c2c6327b44231d0ddbec4125660cc0045156a29a5fa0",
+    "oanda_news_technical_timing_v1.py": "a129b7f0b0fab880903bcce833f0d01614fb2cc2b4d16af1c75bac51314a7003"
+  }
+}

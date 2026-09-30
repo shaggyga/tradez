@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "C:\Users\zmoor\Documents\forex\stage_c_alignment_integrity_v2\extra_trees_operator_v1.py", line 102, in <module>
+    if __name__=='__main__':raise SystemExit(main())
+                                             ^^^^^^
+  File "C:\Users\zmoor\Documents\forex\stage_c_alignment_integrity_v2\extra_trees_operator_v1.py", line 68, in main
+    result=candidate.run(args.input,args.baseline,args.qualification,args.runs,resume=args.resume,phase=phase)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\zmoor\Documents\forex\stage_c_alignment_integrity_v2\extra_trees_matched_v1.py", line 264, in run
+    if source_hashes[n]!=digest:raise ValueError('extra_trees_baseline_source_changed:'+n)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: extra_trees_baseline_source_changed:matched_campaign_models_v2.py

@@ -34,7 +34,11 @@ cohorts remain unchanged pending prospective feature qualification.
 
 Current capture/mapping completion: [fast headline feeds and prospective tracking](docs/NEWS_CAPTURE_MAPPING_20260930.md). The native context worker records current technical snapshots and saved forecasts with actual observation clocks. Typed context still needs separate forecasting qualification; pending targets and joint-model warmup remain explicit.
 
-## Retained design-queue checkpoint — 2026-09-25
+## Completed successor — 2026-09-30
+
+Extra Trees is now completed: [results and restore](docs/EXTRA_TREES_AND_MAPPING_20260930.md). The historical source-only notice below is superseded. Current queue next is `typed_currency_news_feature_cohort_qualification_v1`; joint warmup remains a separate real-data requirement.
+
+## Historical design-queue checkpoint — 2026-09-25 (superseded)
 
 The four-hour correction session ended at its fixed deadline; no worker remains
 active under that claim. The shared state is the Vault packet
