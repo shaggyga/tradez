@@ -1,0 +1,36 @@
+{
+  "schema": "forex.scoped_display_review.v1",
+  "step_id": "dashboard_pair_coverage_repair_v1",
+  "reviewed_utc": "2026-09-30T17:27:09.130477+00:00",
+  "review_type": "same_task_substantive_review",
+  "independent_review": false,
+  "status": "accepted_display_scope",
+  "checks": [
+    "49 focused staged tests passed",
+    "Complete JavaScript syntax passed",
+    "Actual technical report projects all68 with separate incomplete/stale cases",
+    "No collector/model/config or source data mutation; only display selection bindings change",
+    "Expired forecasts and stale reports rejected by consumer tests",
+    "Account freshness remains explicit and all no-orders flags retained"
+  ],
+  "limitations": [
+    "Browser unavailable; isolated JS execution and actual HTTP verification used",
+    "Scientific preflight historical manifest/schema findings remain outside this display repair",
+    "Provider-omitted or unknown candle gaps and joint prospective warmup remain actual input limitations"
+  ],
+  "source_files": [
+    {
+      "path": "trad/oanda_operational_dashboard_selection_v1.py",
+      "sha256": "84e8dec23275f7b6dec6312ef25046e1ce1232e02f16bc1074e759ccaeaf041d"
+    },
+    {
+      "path": "trad/oanda_main_signal_dashboard.html",
+      "sha256": "d8d9d14b8ae63caf3bdad0c0a04a3dece771485797422448308b5109afb25e20"
+    },
+    {
+      "path": "trad/test_oanda_dashboard_pair_coverage_v1.py",
+      "sha256": "ad09232b8521ddd314a518c7d2f5436c2176fd82b0e24934df6978a84a247663"
+    }
+  ],
+  "line_ending_preservation": "Unchanged HTML lines restored byte-for-byte; JavaScript logical lines identical to tested version."
+}

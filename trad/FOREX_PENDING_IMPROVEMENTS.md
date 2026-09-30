@@ -5820,3 +5820,8 @@ Next operational action: `joint_v11_mature_forecast_verification_v1`, inspect ac
 
 
 Tracking follow-up requested during publication: `docs/PIPELINE_TRACKING_REVIEW_20260930.md`, identical live Vault `PIPELINE_TRACKING_REVIEW_20260930.md`. Existing logs already record readiness, clocks, forecasts/outcomes/exclusions and scorecards. Recommended consolidated model status (including inactive rankers), warmup progress, end-to-end latency and date/cohort outcome coverage. This is a scoped assessment, not implemented tracking or a replacement scientific queue.
+
+
+## Dashboard coverage repair — 2026-09-30T17:31:54.641865+00:00
+
+Step `dashboard_pair_coverage_repair_v1`; source `de616d2aee183485ffd2d5f84ca848723aa9af60`; Vault `DASHBOARD_PAIR_COVERAGE_REPAIR_20260930/REVIEW.json`; local `evidence/dashboard_coverage_repair_20260930`. Research health separated from account freshness; dynamic V11 label and all 68 quote/technical/per-family coverage deployed. 49 focused tests and HTTP/served-JS checks passed; same-task review. Underlying gaps/warmup remain explicit; no numerical or collector changes. Next `joint_v11_mature_forecast_verification_v1`; scientific queue unchanged.

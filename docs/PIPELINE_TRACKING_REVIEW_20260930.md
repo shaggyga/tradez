@@ -44,3 +44,8 @@ No claim is made that all historical monitoring modules were audited. Checked
 current supervisor/inspector, selected V11 worker/summary/scorecards, dashboard
 selection, original EUR/USD price scorecards and currency-rank ledger/configuration.
 The existing scientific queue remains unchanged. Independent review is separate.
+
+
+## Implemented subset — September 30, 17:27 UTC
+
+[DASHBOARD_PAIR_COVERAGE_REPAIR_20260930](DASHBOARD_PAIR_COVERAGE_REPAIR_20260930.md) exposes all 68 input/per-family statuses, current warmup counts and separate account health. Historical model inventory, warmup progress trends, latency distributions and outcome-coverage trends remain follow-ups.

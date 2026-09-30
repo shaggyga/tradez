@@ -1,3 +1,11 @@
+# Coverage correction — 2026-09-30T17:27:58Z
+
+Research collection reports running independently of stale account monitoring.
+All 68 pairs have quote, technical and per-model statuses under Bot activity > Pair
+coverage. Joint producer is labelled V11. See [repair and remaining data limits](DASHBOARD_PAIR_COVERAGE_REPAIR_20260930.md).
+49 focused tests and live HTTP/served-renderer checks passed. Input gaps and joint
+warmup remain; collector and numerical sources are unchanged.
+
 # Current rolling repair — 2026-09-30T16:54:37.937984+00:00
 
 The replay blocker is resolved. Native supervisor/watchdog ownership and all17
