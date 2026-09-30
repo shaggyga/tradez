@@ -73,6 +73,39 @@ class InterpretationTests(unittest.TestCase):
     def test_unknown_stays_unknown(self):
         self.assertEqual(interpret_headline('A quiet morning')['interpretation_status'], 'unresolved')
 
+    def test_relative_stance_is_a_change_not_an_absolute_position(self):
+        for headline, sign in [('NBP Governor turns less dovish, remains far from rate-hike pricing', 1),
+                               ('Less hawkish Fed supports euro', -1),
+                               ('ECB turns more dovish', -1), ('RBA remains more hawkish', 1)]:
+            with self.subTest(headline=headline):
+                c = self.claims(headline, 'policy_stance_change')[0]
+                self.assertEqual(c['direction'], sign)
+                self.assertFalse(self.claims(headline, 'policy_stance'))
+
+    def test_falling_despite_hawkish_policy_preserves_both(self):
+        text = 'Why is the Australian Dollar falling despite RBA hawkish stance?'
+        self.assertEqual(self.claims(text, 'policy_stance')[0]['direction'], 1)
+        self.assertEqual(self.claims(text, 'reported_currency_response')[0]['direction'], -1)
+        self.assertEqual(self.claims(text, 'competing_drivers')[0]['mechanism'], 'countervailing')
+
+    def test_oil_and_jobs_compete_without_synthetic_currency_legs(self):
+        text = 'The Canadian Dollar gains as Oil rally offsets jobs gloom'
+        claims = interpret_headline(text)['claims']
+        self.assertEqual({c['currency'] for c in claims if c['currency']}, {'CAD'})
+        self.assertEqual(self.claims(text, 'reported_currency_response')[0]['direction'], 1)
+        self.assertTrue(self.claims(text, 'labour_context'))
+        self.assertTrue(self.claims(text, 'competing_drivers'))
+
+    def test_bets_are_expectations_not_bank_action(self):
+        text = 'Sterling slips versus dollar as firm US PPI and $100 oil stoke Fed hawkish bets'
+        self.assertEqual(self.claims(text, 'reported_currency_response')[0]['currency'], 'GBP')
+        c = self.claims(text, 'policy_stance')[0]
+        self.assertEqual((c['currency'], c['status']), ('USD', 'market_expectation'))
+
+    def test_hypothetical_currency_move_and_negated_shift_abstain(self):
+        self.assertIsNone(self.claims('Canadian dollar may fall despite oil strength', 'reported_currency_response')[0]['direction'])
+        self.assertIsNone(self.claims('Fed is not less dovish', 'policy_stance_change')[0]['direction'])
+
     def test_actual_classifier_integration_retains_guards(self):
         now = dt.datetime(2026, 9, 30, tzinfo=dt.timezone.utc)
         raw = {'title': 'ECB Raises Rates to 2.5% as Energy Inflation Surges',
