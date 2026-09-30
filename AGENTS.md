@@ -5,6 +5,13 @@ engineering queue, checkpoint/review record and larger documentation store. Reso
 current status through its DESIGN_ALIGNMENT_LATEST.json and CHECKPOINT_REVIEW_LATEST.json.
 Do not treat historical claims at the top of old project logs as current status.
 
+Before proposing forecasting work or interpreting results, read docs/PROJECT_STATE.md
+and artifacts/research_evidence_index.json, then the relevant original Vault and
+project studies. Reconcile existing mean-reversion, specialist, follow/fade and
+forecast-error evidence first. A simple momentum diagnostic is not an audit of the
+trained technical stack; distinguish actual saved forecasts from reconstructed
+features. Check date overlap and exact model/input identities before comparison.
+
 Use the existing trad/FOREX_PROJECT_LOG.md and trad/FOREX_PENDING_IMPROVEMENTS.md;
 preserve older entries and user edits. Keep raw run outputs and active WORK_LOG.jsonl /
 PENDING_CHANGES.md in the working step's local evidence directory. At each checkpoint,

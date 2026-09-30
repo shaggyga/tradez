@@ -7801,3 +7801,23 @@ REV-05 distinct-method Vault handoff: C:\Users\zmoor\OneDrive\thevault\projects\
 
 The fixed four-hour deadline `2026-09-25T17:50:23Z` passed, and the session guard was closed with reason `deadline`; no continuation backend existed. The six earlier scoped packets remain complete and published. The next Extra Trees item is not complete: a source-only draft is checkpointed and pushed at Git `6eb514ab1856190b39d83ab020d5f77700ca8770`, `stage_c_alignment_integrity_v2/extra_trees_matched_v1.py` SHA-256 `4c17637e1ac14c2214dfa205891e4fb7fc2a8d709589d304de73d94116e2a69c`. Only syntax compilation and `git diff --check` passed; no fit, forecast, score, review, Vault result packet or scientific conclusion is claimed. Shared handoff: `C:\Users\zmoor\OneDrive\thevault\projects\forex\FOUR_HOUR_DEADLINE_HANDOFF_20260925_180439\HANDOFF.md`. Exact next: fresh-authorized preflight, review/test the draft, then `extra_trees_matched_development_comparison_v1`.
 
+
+2026-09-27 EUR/USD manual week capture: automation deleted by user request; managed collector session 44406/PID 772 connected through 2026-10-02T20:59Z. Liquidity/raw messages and S5 price-count volume added. Receipt: C:/Users/zmoor/OneDrive/thevault/projects/forex/EURUSD_WEEK_20260927/RECEIPT.md. Local evidence: evidence/eurusd-week-20260927. Prior Friday export finalized at 57,868 rows. No scientific pointer changes.
+
+
+## News interpretation checkpoint 2026-09-30T03:03:37.417704+00:00
+User-requested bounded interpretation added; source 0fbab95e69831263f196f167d48db820b1bc7f67; Vault [NEWS_INTERPRETATION_V1_20260930](C:/Users/zmoor/OneDrive/thevault/projects/forex/NEWS_INTERPRETATION_V1_20260930/REVIEW.md). 520 regression tests plus final 12 focused tests passed; nine archive examples mapped, legacy fields unchanged. Same-task review only; not deployed. Next: held-out labelled evaluation then historical mapping consumer integration; legacy score migration and project preflight remain pending.
+
+
+News interpretation v2 2026-09-30T03:10:13.449853+00:00: source 1698e58dc226418fcd6b151d770f5ed641626234; [Vault review](C:/Users/zmoor/OneDrive/thevault/projects/forex/NEWS_INTERPRETATION_V2_20260930/REVIEW.md). 526 tests/13 subtests pass; six archived development examples mapped. Relative stance and competing reactions separated. Same-task reviewed, not deployed. Next held-out evaluation and historical consumer integration.
+
+
+Timing repair 2026-09-30T03:28:19.088326+00:00: source e1be1aa090273597f3502836de01c02956d1e5b9; [Vault review](C:/Users/zmoor/OneDrive/thevault/projects/forex/NEWS_TECHNICAL_TIMING_V1_20260930/REVIEW.md). 35 regression tests plus final 10 timing tests pass; corrected archive diagnostic excludes backfill and anchors outcomes after availability. Source-pinned successor runnable, not deployed. Next reconcile deployment preflight and ownership, then verify latency. Same-task review only.
+
+
+Large news/technical diagnostic 2026-09-30T04:42:07.803319+00:00: 99ed4aae2959ccf40cfa863f5dd7713edfcc2013; [Vault](C:/Users/zmoor/OneDrive/thevault/projects/forex/NEWS_TECHNICAL_BATCH_V1_20260930/REVIEW.md). 9048 records inspected;934 observations/229 events. Agreement ~48% at15/60m, negative mean after spread;0 original eligible article rows. No improved prediction claim. Next genuine forecast/immutable-news join; same-task reviewed.
+
+
+## 2026-09-30T05:47:44.351275+00:00 — Vault/project reconciliation and durable chat correction
+User explicitly required consultation of both Vault and project, GitHub synchronization and a clean project position. The September30 momentum/news batch was not a complete model audit. Existing reversal controls, reversal-capable specialist recalibration and residual-error diagnostics must be reused; proposing reversal as a new hypothesis was premature. Read [current orientation](../docs/PROJECT_STATE.md) and `artifacts/research_evidence_index.json`. Specialist assessment August24–September7 does not overlap September15–17 news batch. All138 specialist artifacts freshly hash-verified;567 tests and33 subtests passed; existing capture extras passed offline raw/liquidity smoke with network thread mocked. Historical checks are not recounted as new tests.
+Non-destructive navigation cleanup; prior records/models unchanged. All reviewed pending source, capture notes and recent logs are included in this publication; no collector restarted or changed. Vault packet `PROJECT_RECONCILIATION_20260930`; scoped pointer `PROJECT_CONTEXT_LATEST.json`. Global deployment/scientific preflight remains unqualified. Next analysis: reconcile exact saved forecast/model/input/news identities and matching dates before a new experiment.

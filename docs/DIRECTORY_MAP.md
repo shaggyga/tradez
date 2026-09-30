@@ -21,3 +21,9 @@ explicit review if an old generated-evidence directory is ignored by Git.
 
 Verified temporary checkout removal has its own receipt. A dated folder name or an
 ignore rule alone never proves that an entire directory is disposable.
+# Current orientation
+
+Start with [PROJECT_STATE.md](PROJECT_STATE.md) for current findings, prior model
+evidence, source/forecast locations and exact scope limitations. The
+[research evidence index](../artifacts/research_evidence_index.json) provides hashes
+and Vault-relative references. Historical folders remain intact.

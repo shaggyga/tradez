@@ -4,7 +4,21 @@ The Vault is the shared brain; Git supplies the common source. Read the reposito
 [README](README.md), then use this machine's `thevault/projects/forex` path.
 This page contains navigation, not a second copy of the current queue.
 
-## Current checkpoint — 2026-09-25
+## Current orientation — 2026-09-30
+
+Read [project state and existing evidence](docs/PROJECT_STATE.md) and its
+[machine-readable index](artifacts/research_evidence_index.json) before proposing
+research. The existing mean-reversion, specialist and residual-error studies must
+be reconciled with any new news/technical result. The September30 momentum batch
+did not evaluate the complete technical model stack and does not supersede it.
+
+The user requested source publication and non-destructive navigation cleanup.
+Current reconciliation packet: Vault `PROJECT_RECONCILIATION_20260930`, pointer
+`PROJECT_CONTEXT_LATEST.json`. Deployment and scientific readiness remain separate
+from Git synchronization. September30 source changes are tested offline; the
+technical successor and new interpretation have not been deployed.
+
+## Retained design-queue checkpoint — 2026-09-25
 
 The four-hour correction session ended at its fixed deadline; no worker remains
 active under that claim. The shared state is the Vault packet

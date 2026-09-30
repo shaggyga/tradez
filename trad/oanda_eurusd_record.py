@@ -43,6 +43,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', required=True, type=Path)
     parser.add_argument('--end-utc', required=True)
+    parser.add_argument('--capture-extras', action='store_true', help='Save raw messages, liquidity and S5 price-count volume')
     args = parser.parse_args()
     end = datetime.fromisoformat(args.end_utc.replace('Z','+00:00'))
     if end.tzinfo is None:
@@ -97,6 +98,11 @@ def main():
                csv_file=csv_path.name, segment_rows=0, connections=0, invalid_records=0,
                last_quote_time=None, last_receive_time=None, last_heartbeat_time=None,
                source_sha256=source_hashes, keep_awake=False)
+    extras = None
+    if args.capture_extras:
+        from oanda_capture_extras import Extras
+        extras = Extras(out, segment, token, account, deadline)
+        state['capture_extras'] = True
     if os.name == 'nt':
         # Temporary process-scoped system-awake request; does not keep display on.
         state['keep_awake']=bool(ctypes.windll.kernel32.SetThreadExecutionState(0x80000001))
@@ -130,6 +136,8 @@ def main():
                             if not raw: raise EOFError()
                             if len(raw)>262144: raise ValueError('oversized_record')
                             payload=json.loads(raw)
+                            if extras:
+                                extras.message(payload, received, connection)
                             if not isinstance(payload,dict):
                                 state['invalid_records']+=1; continue
                             if payload.get('type')=='HEARTBEAT':
@@ -170,6 +178,8 @@ def main():
         except KeyboardInterrupt:
             state['state']='interrupted'; event('process_interrupted')
         finally:
+            if extras:
+                extras.close()
             state['pid']=None; checkpoint(); event('segment_closed',rows=state['segment_rows'],state=state['state'])
             if os.name=='nt': ctypes.windll.kernel32.SetThreadExecutionState(0x80000000)
     print(json.dumps(state),flush=True)

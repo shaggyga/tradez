@@ -1,5 +1,11 @@
 # Large archive diagnostic — September 30
 
+**Scope correction:** this batch is not an audit of the existing technical models.
+Mean reversion, reversal-capable specialists and residual-error correction already
+have retained studies. Consult [current evidence](PROJECT_STATE.md) before treating
+reversal or news-versus-momentum disagreement as a new hypothesis. The batch dates
+do not overlap the retained August24–September7 specialist assessment forecasts.
+
 Read 9,048 news records first seen September 15–17 and the existing rolling technical archive. Seven USD majors; no fits, provider calls or live changes. Contract fixed before execution. New policy directions omit reported price moves and analyst opinions. The technical baseline is preceding15minute momentum, NOT the trained technical model. Timing uses stored classification availability and fresh already-published features; future/backfilled inputs excluded. Outcomes start at next completed candle close with bid/ask spread proxies.
 
 Coverage:7,288 normalized distinct headlines;934 selected pair/time observations;229 distinct selected events. Zero selected original article records were directional-publication eligible. Duplicate headline filtering and one observation per pair/15minute clock bucket reduce redundancy, but paraphrases, cross-pair exposure and overlapping horizons remain dependent. No independent sample-size or statistical significance claim.

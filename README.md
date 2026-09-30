@@ -5,6 +5,10 @@ model definitions, configurations, tests and artifact references. Each person us
 local clone; the current design, queue, ownership and reviewed results live in their
 synced `thevault/projects/forex` folder. Resolve the live pointers before work.
 
+**Start here:** [current project state and research evidence](docs/PROJECT_STATE.md).
+This links the existing mean-reversion, specialist, forecast-error and news studies,
+their saved artifacts, recent corrections and separate next actions.
+
 ## Start on another machine
 
 ```powershell
