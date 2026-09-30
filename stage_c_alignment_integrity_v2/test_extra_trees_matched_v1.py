@@ -91,3 +91,17 @@ def test_resource_refusals(key,value,reason):
     limits={'max_seconds':600,'max_rss_bytes':2**31,'max_output_bytes':2**29,'min_free_disk_bytes':2**33}
     assert operator.violation(sample,limits) is None
     sample[key]=value;assert operator.violation(sample,limits)==reason
+
+def test_stop_worker_targets_only_owned_descendants():
+    root=mock.Mock();child=mock.Mock();grandchild=mock.Mock()
+    root.children.return_value=[child,grandchild]
+    operator.stop_worker(root)
+    root.children.assert_called_once_with(recursive=True)
+    for p in [root,child,grandchild]:p.kill.assert_called_once_with()
+
+def test_restore_read_guard_refuses_original_dependency(tmp_path):
+    import subprocess,sys
+    source=tmp_path/'original';source.mkdir();(source/'value').write_text('original')
+    code='import sys;sys.path.insert(0,sys.argv[1]);import extra_trees_operator_v1 as op;op.deny_reads([sys.argv[2]]);open(sys.argv[2]+"/value").read()'
+    result=subprocess.run([sys.executable,'-I','-B','-c',code,str(operator.ROOT),str(source)],capture_output=True,text=True,timeout=10)
+    assert result.returncode!=0 and 'original_dependency_access_refused' in result.stderr

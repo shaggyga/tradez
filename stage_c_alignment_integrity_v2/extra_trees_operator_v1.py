@@ -44,16 +44,45 @@ def deny_reads(roots):
                 raise PermissionError('original_dependency_access_refused')
     sys.addaudithook(audit)
 
+def stop_worker(proc):
+    import psutil
+    try:owned=proc.children(recursive=True)+[proc]
+    except psutil.NoSuchProcess:return
+    for child in reversed(owned[:-1]):
+        try:child.kill()
+        except psutil.NoSuchProcess:pass
+    try:proc.kill()
+    except psutil.NoSuchProcess:pass
+
+def status(args,r):
+    sys.path.insert(0,str(ROOT))
+    from publication import verify_completed_run
+    for root,expected in [(args.input,r['input_run_identity']),(args.baseline,r['baseline_run_identity'])]:
+        identity=read(root/'RUN_IDENTITY.json')
+        if identity['fingerprint']!=expected:raise ValueError('status_parent_identity')
+        verify_completed_run(root,identity)
+    root=args.runs/'extra-trees-matched-development'
+    if not root.exists():return {'status':'ready','next_action':'run with the identical pinned recipe','models_fitted':0}
+    if not (root/'COMPLETION_MANIFEST.json').exists():return {'status':'resumable','next_action':'resume identical recipe; lock and journal verified by resume','models_fitted':0}
+    identity=read(root/'RUN_IDENTITY.json');e=identity['contract']['experiment']
+    if e['source_hashes']!=r['sources'] or e['input_identity']!=r['input_run_identity'] or e['baseline_identity']!=r['baseline_run_identity'] or e['qualification_sha256']!=r['qualification_sha256']:
+        raise ValueError('status_completed_identity_mismatch')
+    m=verify_completed_run(root,identity)
+    return {'status':'completed_verified','run_identity':identity['fingerprint'],'payloads':len(m['payloads']),'models_fitted':0,'next_action':'review saved results; use --verify-replay for numerical replication'}
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     for name in ['input','baseline','qualification','runs','recipe','receipt']:
         p.add_argument('--'+name,type=Path,required=True)
     p.add_argument('--recipe-sha256',required=True);p.add_argument('--resume',action='store_true');p.add_argument('--worker',action='store_true')
     p.add_argument('--verify-replay',action='store_true')
+    p.add_argument('--status',action='store_true')
     p.add_argument('--deny-read-root',action='append',default=[])
     args=p.parse_args()
     if args.deny_read_root:deny_reads(args.deny_read_root)
     r=check_recipe(args)
+    if args.status:
+        result=status(args,r);print(json.dumps(result));return 0
     args.runs.mkdir(parents=True,exist_ok=True);args.receipt.parent.mkdir(parents=True,exist_ok=True)
     phase_path=args.receipt.with_suffix('.phase.json')
     if args.worker:
@@ -80,20 +109,25 @@ def main():
     try:
         while True:
             exited=child.poll() is not None
-            try:rss=proc.memory_info().rss if not exited else 0
-            except psutil.NoSuchProcess:rss=0
+            rss=0
+            if not exited:
+                try:owned=[proc,*proc.children(recursive=True)]
+                except psutil.NoSuchProcess:owned=[]
+                for member in owned:
+                    try:rss+=member.memory_info().rss
+                    except psutil.NoSuchProcess:pass
             peak=max(peak,rss)
             sample={'elapsed_seconds':time.monotonic()-start,'rss_bytes':rss,'output_bytes':sum(f.stat().st_size for f in args.runs.rglob('*') if f.is_file()),'free_bytes':shutil.disk_usage(args.runs).free}
             if phase_path.exists() and not exited:
                 phase=read(phase_path);sample.update(phase_limit=phase['limit'],phase_elapsed=time.monotonic()-phase['monotonic'],phase=phase['phase'])
             reason=violation(sample,limits)
             if reason:
-                if not exited:child.kill();child.wait(timeout=10)
+                if not exited:stop_worker(proc);child.wait(timeout=10)
                 break
             if exited:break
             time.sleep(.1)
     finally:
-        if child.poll() is None:child.kill();child.wait(timeout=10)
+        if child.poll() is None:stop_worker(proc);child.wait(timeout=10)
         log.close()
         args.receipt.write_bytes(encoded({'status':'pass' if child.returncode==0 and reason is None else 'failed','exit_code':child.returncode,'violation':reason,'peak_rss_bytes':peak,'sample':sample,'recipe_sha256':args.recipe_sha256,'resource_enforcement':'100ms sampled supervisor; no OS quota','models_in_parent':0}))
     if child.returncode or reason:return 2
