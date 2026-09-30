@@ -269,6 +269,7 @@ def main():
     p.add_argument('--collector-heartbeat',type=Path,required=True)
     p.add_argument('--fast-config',type=Path)
     p.add_argument('--enable-live-mapping',action='store_true')
+    p.add_argument('--retained-model-registry',type=Path)
     p.add_argument('--duration-sec',type=int,default=604800);p.add_argument('--once',action='store_true')
     args=p.parse_args()
     if not 1<=args.duration_sec<=604800:p.error('duration outside bounded range')
@@ -279,9 +280,24 @@ def main():
     lock.execute('BEGIN EXCLUSIVE')
     lane=fast_news.FastLane(args.fast_config,args.output) if args.fast_config else None
     last_mapping=0;mapping=None
+    last_retained=0;retained_connection=None
     deadline=time.monotonic()+args.duration_sec
     try:
         while time.monotonic()<deadline:
+            # Independent read-only saved-weight inference. A data/model failure
+            # must not interrupt headline capture, parsing or the original cohorts.
+            if args.retained_model_registry and time.monotonic()-last_retained>=60:
+                import oanda_retained_forecast_connection_v1 as retained_models
+                try:
+                    if retained_connection is None:
+                        retained_connection=retained_models.SavedConnection(args.retained_model_registry)
+                    retained_models.publish_once(retained_connection)
+                except Exception as exc:
+                    retained_models.OUTPUT.mkdir(parents=True,exist_ok=True)
+                    retained_models.atomic(retained_models.OUTPUT/'current.json',{
+                        'schema':retained_models.SCHEMA,'generated_epoch':time.time(),'status':'error',
+                        'reason':type(exc).__name__+':'+str(exc)[:200],'forecasts':[],**retained_models.FLAGS})
+                last_retained=time.monotonic()
             try:
                 result=collect(args.database,args.output,args.collector_heartbeat,fast_lane=lane)
                 if args.enable_live_mapping and time.monotonic()-last_mapping>=60:

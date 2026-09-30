@@ -11,7 +11,11 @@ separates page availability from measured input and forecast health.
 [Pipeline operations](docs/PIPELINE_OPERATIONS.md) supplies the canonical local
 status/validation/start commands and recovery expiry.
 
-## Current orientation — 2026-09-30
+## Current user scope — data and retained-model connection
+
+Read [data repair and horizon coverage](docs/DATA_AND_MODEL_CONNECTION_20260930.md). New fits and experiments are stopped by the user. Nine retained elapsed-horizon adapters are connected; missing design targets and unverified global model rankings remain explicit. Exact next is `data_freshness_and_remaining_horizon_reconciliation_v1`. The earlier typed-news candidate is deferred. Live Vault `DATA_AND_RETAINED_MODELS_20260930` records this correction; older research notices below are historical.
+
+## Earlier orientation — 2026-09-30
 
 Read [project state and existing evidence](docs/PROJECT_STATE.md) and its
 [machine-readable index](artifacts/research_evidence_index.json) before proposing
@@ -36,7 +40,7 @@ Current capture/mapping completion: [fast headline feeds and prospective trackin
 
 ## Completed successor — 2026-09-30
 
-Extra Trees is now completed: [results and restore](docs/EXTRA_TREES_AND_MAPPING_20260930.md). The historical source-only notice below is superseded. Current queue next is `typed_currency_news_feature_cohort_qualification_v1`; joint warmup remains a separate real-data requirement.
+Extra Trees is now completed: [results and restore](docs/EXTRA_TREES_AND_MAPPING_20260930.md). The historical source-only notice below is superseded. At that historical checkpoint, queue next was `typed_currency_news_feature_cohort_qualification_v1`; it is now deferred by the user; joint warmup remains a separate real-data requirement.
 
 ## Historical design-queue checkpoint — 2026-09-25 (superseded)
 
@@ -102,4 +106,4 @@ Earlier notices and their exact bytes are retained in
 [handoff history](docs/history/FOREX_HANDOFF_before_operations_20260923.md).
 
 
-September30 research handoff repair: `RESEARCH_HANDOFF_REPAIR_20260930_195000/REVIEW.json`; see `docs/RESEARCH_HANDOFF_REPAIR_20260930.md`. Extra Trees still partial; no new fit/result yet.
+Historical September30 research handoff repair, superseded by the completion above: `RESEARCH_HANDOFF_REPAIR_20260930_195000/REVIEW.json`; see `docs/RESEARCH_HANDOFF_REPAIR_20260930.md`. Extra Trees still partial; no new fit/result yet.

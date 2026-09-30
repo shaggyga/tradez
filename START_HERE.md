@@ -47,7 +47,7 @@ The dashboard reads local records. A fresh clone has no live prices, account sna
 or model outputs. Missing/stale sources display unavailable; loading the page does not
 restart collectors or trading. On the original machine the September30 recovery restored
 fresh quotes, news and price forecasts. Joint history validation passed; current
-joint forecasts remain blocked by the retained news transport capacity. Use
+joint forecasts still need mature, varied prospective history. Nine retained model adapters now cover 5/15/30/60 minutes and 4/12/24/48/120 elapsed hours; see [current coverage](docs/DATA_AND_MODEL_CONNECTION_20260930.md). Use
 [the measured status](docs/DASHBOARD_STATUS_20260930.md) and the
 [research-pipeline commands](docs/PIPELINE_OPERATIONS.md), not older stale snapshots.
 Crypto has been removed from the active dashboard.
@@ -62,9 +62,9 @@ python -I -B tools/forex_workspace.py status --vault 'C:/your/shared/thevault/pr
 python -I -B tools/forex_preflight.py --vault 'C:/your/shared/thevault/projects/forex'
 ```
 
-Preflight currently reports Vault schema/manifest mismatches. A fresh clone alone does
-not resolve them. Fix affected prerequisites without weakening identity checks or
-rehashing unreviewed producers. [Retrieve existing artifacts](docs/ARTIFACT_REUSE.md)
+Run preflight against the current live Vault and exact shared revision. Historical
+September30 pointer mismatches were repaired; a fresh clone alone does not establish
+current readiness. Fix any reported prerequisite without weakening identity checks. [Retrieve existing artifacts](docs/ARTIFACT_REUSE.md)
 before considering a fit.
 
 Keep raw outputs locally, publish compact handoffs to the live Vault and link the same
@@ -73,8 +73,10 @@ identities in project logs. Refresh the Git documentation copy using the
 
 ## Current next work
 
-The user-requested analysis needs an exact date/model/input join between saved forecasts
-and news. The recent momentum-only batch was not a complete technical-stack evaluation;
-the retained specialist assessment covers different dates. The separate design queue
-retains a partial `extra_trees_matched_development_comparison_v1` draft. Resolve current
-live pointers before selecting either scope. No profitable deployment is qualified.
+The user stopped new research/fitting and requested reliable data plus the strongest
+supported retained models across the entire design horizon. Read
+[data and model connection](docs/DATA_AND_MODEL_CONNECTION_20260930.md).
+Nine elapsed-horizon adapters are connected with scoped development evidence;
+remaining horizons and universal best-model qualification are unfinished.
+Exact next: `data_freshness_and_remaining_horizon_reconciliation_v1`.
+The typed-news experiment is deferred. No profitable deployment is qualified.

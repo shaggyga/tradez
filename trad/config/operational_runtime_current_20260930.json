@@ -19,7 +19,8 @@
     "config/rolling_technical_dataset_v1_20260915.json": "961c5eadff4ab0a611ce95080f4b8655643e8f371e7e2796d6afe84fb742aa3c",
     "config/rolling_technical_operations_runtime_20260930.json": "b662db9e1d75178f7c6cba422d94bb6d2d81adfb7561986652b61e2575eeb43d",
     "config/rolling_technical_operations_v2_20260916.json": "828e5c5bdc1f2d09c17615fd6b692d67e04f80b061cd85a0df91b274b331cc47",
-    "config/fast_headline_sources_v1_20260930.json": "1a4ae5e79213eb1be1642162b2c649683d6511d9a9979920913bd8d7c2b7a016"
+    "config/fast_headline_sources_v1_20260930.json": "1a4ae5e79213eb1be1642162b2c649683d6511d9a9979920913bd8d7c2b7a016",
+    "config/retained_forecast_connection_20260930.json": "5318d387bf30284eafd644489cf215f0fb6c24205acc6a6b2cfc2507243e093c"
   },
   "enable_joint_forecasts": true,
   "enable_news_capacity": false,
@@ -454,7 +455,7 @@
       "name": "currency_news_context_v1",
       "script": "oanda_currency_news_context_v1.py",
       "needle": "oanda_currency_news_context_v1.py",
-      "source_sha256": "3d6fb77e8fd6975139bb2bf7b1ccd8884490de048b700871d3e268697fcd66ea",
+      "source_sha256": "23e60face79d372002bf9d2f1e6443200db3ca21a37992e21771f15dd4e974c7",
       "arguments": [
         "--database",
         "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\local_news_sentiment_v1.sqlite",
@@ -466,7 +467,9 @@
         "604800",
         "--fast-config",
         "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\fast_headline_sources_v1_20260930.json",
-        "--enable-live-mapping"
+        "--enable-live-mapping",
+        "--retained-model-registry",
+        "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\retained_forecast_connection_20260930.json"
       ],
       "heartbeat": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\currency_news_context_v1\\current.json",
       "heartbeat_field": "schema_version",

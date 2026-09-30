@@ -8995,6 +8995,11 @@ class DashboardHandler(BaseHTTPRequestHandler):
         if parsed.path in {"/api/main", "/api/state"}:
             payload = dict(self.current_main_state())
             payload['currency_news_context'] = current_currency_news_context()
+            try:
+                import oanda_retained_forecast_connection_v1 as retained_models
+                payload['retained_forecasts'] = retained_models.read_current()
+            except Exception:
+                payload['retained_forecasts'] = {'status':'unavailable','forecasts':[]}
             if not (payload.get('operational_dashboard') or {}).get('selected'):
                 payload['joint_v3_ledger_observation'] = current_joint_ledger_observation(compact=True)
             self.send_json(payload)

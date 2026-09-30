@@ -18,7 +18,8 @@ SOURCE_FILES = frozenset({'oanda_operational_dashboard_selection_v1.py',
     'oanda_feature_move_mapping_v1.py','oanda_feature_observations_v1.py',
     'oanda_all68_technical_availability_v2.py','oanda_currency_news_context_v1.py',
     'oanda_news_interpretation_v1.py','oanda_news_fast_context_v1.py',
-    'oanda_current_news_mapping_v1.py','oanda_news_technical_timing_v1.py'})
+    'oanda_current_news_mapping_v1.py','oanda_news_technical_timing_v1.py',
+    'oanda_retained_forecast_connection_v1.py'})
 FLAGS = ('can_place_orders','can_promote','can_authorize','account_eligible','proof_eligible')
 KINDS = {
     'price':('pair_local_forecast_registry_v3_20260913','pair_local_forecast_summary_v3_20260913',
