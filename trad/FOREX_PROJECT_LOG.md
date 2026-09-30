@@ -7905,3 +7905,6 @@ Step `data_and_model_connection_20260930`; Vault `DATA_AND_RETAINED_MODELS_20260
 
 
 Final native readback 2026-09-30T23:51:45.345975+00:00: HTTP 200 in 7.899seconds; 671 current forecasts across61pairs and11connections; news and per-registry tracking current. Existing supervisor recovered automatically without restart-ledger reset. This is engineering/readback evidence, not a model skill or trading result.
+
+
+Legacy26 final restore completion: LEGACY26_RESTORE_COMPLETION_20260930 supersedes the initial handoff for canonical CLI retrieval. Existing restore tool fixed/tested; canonical20-artifact restore and four numerical recorded-forecast replays passed. 104 implementation tests plus4 capsule tests; no deployed inference change or new fit. Final Git receipt LEGACY26_RESTORE_PUBLICATION_20260930/RECEIPT.json. Next remains data_freshness_and_remaining_horizon_reconciliation_v1.

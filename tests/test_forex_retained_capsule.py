@@ -26,3 +26,22 @@ def test_bad_identity_and_paths_refused(tmp_path):
     with pytest.raises(ValueError,match='capsule_identity'):m.restore(tmp_path/'replica',archive,'0'*64)
     for path in ('../escape','C:/escape','trad/data/retained_connection_20260930/capsule/../../escape'):
         with pytest.raises(ValueError):m.contained(tmp_path,path)
+
+
+def test_inline_metadata_and_additional_saved_model_restore(tmp_path):
+    root=tmp_path/'source';model=root/(m.MODEL_PREFIX+'saved.joblib');model.parent.mkdir(parents=True);model.write_bytes(b'saved-not-fitted')
+    ref={'path':m.MODEL_PREFIX+'saved.joblib','sha256':m.sha(model.read_bytes())}
+    meta={'model_sha256':ref['sha256'],'fit_cutoff':123};meta['fit_id']=m.sha(json.dumps(meta,sort_keys=True,separators=(',',':')).encode())
+    reg={'normalizers':{},'connections':[{'kind':'legacy26_extra_trees','models':[ref],'fit_metadata':meta}]}
+    p=root/m.REGISTRY;p.parent.mkdir(parents=True);p.write_text(json.dumps(reg))
+    cap=tmp_path/'saved.zip';receipt=m.pack(root,cap);target=tmp_path/'restored'
+    assert m.restore(target,cap,receipt['sha256'])['payloads']==2
+    assert json.loads((target/m.REGISTRY).read_text())==reg
+    assert (target/ref['path']).read_bytes()==model.read_bytes()
+    reg['connections'][0]['fit_metadata']['fit_cutoff']=999
+    with pytest.raises(ValueError,match='inline_fit_metadata_identity'):m.records(reg)
+
+
+def test_conflicting_duplicate_references_refused():
+    refs=[{'path':m.PREFIX+'x','sha256':h} for h in ['a'*64,'b'*64]]
+    with pytest.raises(ValueError,match='conflicting_artifact_identity'):m.records({'normalizers':{},'connections':[{'models':refs}]})

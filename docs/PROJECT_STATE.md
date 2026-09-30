@@ -63,3 +63,6 @@ Latest continuation: [retained outcome tracking](RETAINED_TRACKING_20260930.md).
 
 
 Current legacy26 checkpoint: [saved Extra Trees connections](LEGACY26_CONNECTION_20260930.md). Two existing frozen 4h/120h candidates join the nine preserved references using original receipt-qualified legacy26 inputs. 104 tests and 2696 exact saved forecast replications; no new fit. Next remains data_freshness_and_remaining_horizon_reconciliation_v1 for residual/curve and exact remaining targets.
+
+
+Legacy26 final restore completion: LEGACY26_RESTORE_COMPLETION_20260930 supersedes the initial handoff for canonical CLI retrieval. Existing restore tool fixed/tested; canonical20-artifact restore and four numerical recorded-forecast replays passed. 104 implementation tests plus4 capsule tests; no deployed inference change or new fit. Final Git receipt LEGACY26_RESTORE_PUBLICATION_20260930/RECEIPT.json. Next remains data_freshness_and_remaining_horizon_reconciliation_v1.

@@ -7,17 +7,29 @@ import zipfile
 
 REGISTRY='trad/config/retained_forecast_connection_20260930.json'
 PREFIX='trad/data/retained_connection_20260930/capsule/'
+MODEL_PREFIX='trad/data/retained_connection_20260930/models/'
 def sha(raw):return hashlib.sha256(raw).hexdigest()
 def records(registry):
     result=list(registry['normalizers'].values())
     for entry in registry['connections']:
         result.extend(entry['models'])
-        if entry.get('fit_metadata'):result.append(entry['fit_metadata'])
-    return {r['path']:r['sha256'] for r in result}
+        meta=entry.get('fit_metadata')
+        if meta:
+            if 'path' in meta:result.append(meta)
+            elif (entry.get('kind')=='legacy26_extra_trees' and len(entry['models'])==1
+                  and meta.get('model_sha256')==entry['models'][0]['sha256']
+                  and meta.get('fit_id')==sha(json.dumps({k:v for k,v in meta.items() if k!='fit_id'},sort_keys=True,separators=(',',':')).encode())):
+                pass  # Inline metadata is already retained inside the registry.
+            else:raise ValueError('inline_fit_metadata_identity')
+    records={}
+    for r in result:
+        if r['path'] in records and records[r['path']]!=r['sha256']:raise ValueError('conflicting_artifact_identity')
+        records[r['path']]=r['sha256']
+    return records
 def contained(root,name):
     p=PurePosixPath(name)
     if (p.is_absolute() or '..' in p.parts or '\\' in name or ':' in name
-        or not (name==REGISTRY or name.startswith(PREFIX))):raise ValueError('capsule_path_not_allowed')
+        or not (name==REGISTRY or name.startswith(PREFIX) or name.startswith(MODEL_PREFIX))):raise ValueError('capsule_path_not_allowed')
     path=root.joinpath(*p.parts)
     if not path.resolve().is_relative_to(root.resolve()):raise ValueError('capsule_path_escape')
     return path

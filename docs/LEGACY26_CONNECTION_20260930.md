@@ -69,8 +69,9 @@ available in this session.
 ## Handoff
 
 Local evidence: `evidence/legacy26_connection_20260930`.
-Shared packet: `LEGACY26_CONNECTION_20260930`.
-Final source/Git/Vault receipt: `LEGACY26_CONNECTION_PUBLICATION_20260930/RECEIPT.json`.
+Shared final packet: `LEGACY26_RESTORE_COMPLETION_20260930`.
+The initial `LEGACY26_CONNECTION_20260930` remains immutable history.
+Final source/Git/Vault receipt: `LEGACY26_RESTORE_PUBLICATION_20260930/RECEIPT.json`.
 Review is substantive same-task review, not independent review. Orders, paid calls,
 new fits and the other chat's EUR/USD capture are outside this change. Existing
 native recovery expiry remains `2026-10-07T08:14:50Z`.
@@ -98,3 +99,31 @@ replication of existing observations, not new scientific evidence.
 
 
 Final native readback 2026-09-30T23:51:45.345975+00:00: HTTP 200 in 7.899seconds; 671 current forecasts across61pairs and11connections; news and per-registry tracking current. Existing supervisor recovered automatically without restart-ledger reset. This is engineering/readback evidence, not a model skill or trading result.
+
+## Replica restore completion
+
+The final replica inspection caught an incompatible assumption in the existing
+capsule CLI: fit metadata was always treated as a file reference, and only the
+older capsule subdirectory was permitted. The tool now accepts authenticated inline
+legacy26 metadata and the exact saved-model subdirectory, while retaining path,
+hash and existing-file conflict refusals. Four capsule tests passed (two new
+regressions), in addition to the 104 implementation tests above.
+
+Use the canonical 20-artifact capsule; the earlier 23-file source/weight capsule
+is retained as historical verification, not the input for this CLI. The canonical
+restore included original rich-model metadata files as well as all weights,
+normalizers and the registry. Four recorded forecasts reproduced exactly from the
+restored artifacts and copied receipt fixture without the original model/input
+roots. No new forecast experiment or fit was performed.
+
+First obtain the Git revision in the final receipt. Retrieve
+`LEGACY26_RESTORE_COMPLETION_20260930/legacy26_canonical_capsule.zip` from the live
+Vault, then run from the matching checkout with an empty or byte-identical target:
+
+```powershell
+python -I -B tools/forex_retained_capsule.py restore --root . --capsule C:/path/to/legacy26_canonical_capsule.zip --sha256 c827f19918d389b7b26a5dc35edb47c8fd010980d1471ccd225a65664caeee4f
+```
+
+The command retrieves bytes only; it neither fits models nor starts feeds. A
+conflicting local file is preserved and refused. See CANONICAL_RESTORE.json and
+CANONICAL_REPLAY.json in the final packet for the executed restore evidence.

@@ -13,7 +13,7 @@ status/validation/start commands and recovery expiry.
 
 ## Current user scope — data and retained-model connection
 
-Read [data repair and horizon coverage](docs/DATA_AND_MODEL_CONNECTION_20260930.md). New fits and experiments are stopped by the user. Eleven retained connections across nine elapsed horizons are connected; missing design targets and unverified global model rankings remain explicit. Exact next is `data_freshness_and_remaining_horizon_reconciliation_v1`. The earlier typed-news candidate is deferred. Live Vault `LEGACY26_CONNECTION_20260930` records the current connection checkpoint; older research notices below are historical.
+Read [data repair and horizon coverage](docs/DATA_AND_MODEL_CONNECTION_20260930.md). New fits and experiments are stopped by the user. Eleven retained connections across nine elapsed horizons are connected; missing design targets and unverified global model rankings remain explicit. Exact next is `data_freshness_and_remaining_horizon_reconciliation_v1`. The earlier typed-news candidate is deferred. Live Vault `LEGACY26_RESTORE_COMPLETION_20260930` records the current connection checkpoint; older research notices below are historical.
 
 ## Earlier orientation — 2026-09-30
 
@@ -113,3 +113,6 @@ Current continuation: [retained outcome tracking and data diagnostics](docs/RETA
 
 
 Current legacy26 checkpoint: [saved Extra Trees connections](docs/LEGACY26_CONNECTION_20260930.md). Two existing frozen 4h/120h candidates join the nine preserved references using original receipt-qualified legacy26 inputs. 104 tests and 2696 exact saved forecast replications; no new fit. Next remains data_freshness_and_remaining_horizon_reconciliation_v1 for residual/curve and exact remaining targets.
+
+
+Legacy26 final restore completion: LEGACY26_RESTORE_COMPLETION_20260930 supersedes the initial handoff for canonical CLI retrieval. Existing restore tool fixed/tested; canonical20-artifact restore and four numerical recorded-forecast replays passed. 104 implementation tests plus4 capsule tests; no deployed inference change or new fit. Final Git receipt LEGACY26_RESTORE_PUBLICATION_20260930/RECEIPT.json. Next remains data_freshness_and_remaining_horizon_reconciliation_v1.
