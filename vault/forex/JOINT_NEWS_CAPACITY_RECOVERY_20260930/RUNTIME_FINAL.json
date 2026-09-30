@@ -1,0 +1,960 @@
+{
+  "captured_utc": "2026-09-30T13:57:57.390569+00:00",
+  "profile_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\operational_runtime_current_20260930.json",
+  "services": [
+    {
+      "name": "all68_m1_cadence_v3",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\all68_m1_cadence_heartbeat_v3.json",
+      "fresh": true,
+      "age_sec": 3.76,
+      "schema_matches": true,
+      "schema_version": 1,
+      "status": "running",
+      "phase": "background_gap_or_waiting",
+      "updated_at": "2026-09-30T13:57:53.633871+00:00"
+    },
+    {
+      "name": "practice_quote_stream_v1",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_quote_stream_heartbeat_v1.json",
+      "fresh": true,
+      "age_sec": 2.5,
+      "schema_matches": true,
+      "schema_version": 1,
+      "status": "running",
+      "phase": "streaming",
+      "updated_at": "2026-09-30T13:57:54.885811+00:00"
+    },
+    {
+      "name": "clock_integrity_monitor_v1",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\clock_integrity_v1.json",
+      "fresh": true,
+      "age_sec": 19.27,
+      "schema_matches": true,
+      "schema_version": 1,
+      "status": "ok",
+      "generated_utc": "2026-09-30T13:57:38.121724+00:00"
+    },
+    {
+      "name": "default_news_collector_v1",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\collector_heartbeat_v1.json",
+      "fresh": true,
+      "age_sec": 2.82,
+      "schema_matches": true,
+      "schema_version": "local_fx_news_sentiment_v3",
+      "status": "running_cycle",
+      "phase": "postprocessing_evidence",
+      "generated_utc": "2026-09-30T13:57:54.565912+00:00"
+    },
+    {
+      "name": "revision_news_collector_v2",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\market_open_20260913_v1\\local_news_sentiment\\collector_heartbeat_v1.json",
+      "fresh": true,
+      "age_sec": 25.41,
+      "schema_matches": true,
+      "schema_version": "local_fx_news_sentiment_v3",
+      "status": "running_cycle",
+      "phase": "postprocessing_evidence",
+      "generated_utc": "2026-09-30T13:57:31.982797+00:00"
+    },
+    {
+      "name": "local_news_sentiment_repair_v2",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment_repair_v2\\heartbeat_v2.json",
+      "fresh": true,
+      "age_sec": 4.26,
+      "schema_matches": true,
+      "schema_version": "repaired_joint_news_heartbeat_v2_20260912_source_derived_clocks",
+      "status": "unavailable",
+      "phase": "research_collection",
+      "errors": 10,
+      "last_error": "ValueError:upstream_collector_stale_or_future",
+      "generated_utc": "2026-09-30T13:57:53.130725+00:00"
+    },
+    {
+      "name": "revision_news_transport_v7",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_news_capacity_20260930\\bounded_capture_v2\\transport_state\\status.json",
+      "fresh": true,
+      "age_sec": 2.26,
+      "schema_matches": true,
+      "schema_version": "revision_transport_resumable_status_capacity_v4_20260930",
+      "status": "running",
+      "phase": "consumer_observation",
+      "successful_cycles": 19,
+      "attempt_count": 21,
+      "last_failure": {
+        "failure_sha256": "a75061d5d9f0617809aae8d83e21a0b942efcb213070aee4e9c6c3a0d07d7a32",
+        "observed_epoch": 1790776062.7141657,
+        "phase": "publication_head",
+        "reason": "CaptureReadTimeout:packed_capture_retries_exhausted"
+      }
+    },
+    {
+      "name": "joint_price_news_study_v10",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_news_capacity_20260930\\bounded_capture_v2\\joint_price_news_study_v10\\heartbeat.json",
+      "fresh": true,
+      "age_sec": 2.82,
+      "schema_matches": true,
+      "schema_version": "joint_price_news_forecast_heartbeat_v10_20260930",
+      "phase": "research_collection",
+      "errors": 3,
+      "last_error": "news_bootstrap:ValueError:io_bootstrap_validation_duration_bound",
+      "scheduling_version": "shared_revision_history_completion_cadence_and_fit_handoff_v4_20260914",
+      "counts": {
+        "building": 0,
+        "forecast": 0,
+        "ready": 0,
+        "unavailable": 68,
+        "warming": 0
+      }
+    },
+    {
+      "name": "pair_local_forecast_study_v3",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260913_v1\\pair_local_forecast_study_v3\\heartbeat.json",
+      "fresh": true,
+      "age_sec": 6.08,
+      "schema_matches": true,
+      "schema_version": "pair_local_forecast_heartbeat_v3_20260913",
+      "phase": "research_collection",
+      "errors": 0,
+      "last_error": "",
+      "scheduling_version": "pair_capture_fit_fair_v3_20260913",
+      "counts": {
+        "building": 1,
+        "forecast": 83,
+        "ready": 8,
+        "unavailable": 44,
+        "warming": 0
+      }
+    },
+    {
+      "name": "retained_price_settlement_v1",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\retained_price_settlement_v1.json",
+      "fresh": true,
+      "age_sec": 1.11,
+      "schema_matches": true,
+      "schema_version": "retained_price_settlement_v1_20260913",
+      "status": "settled",
+      "generated_utc": "2026-09-30T13:57:56.278397+00:00",
+      "new_forecasts_enabled": false,
+      "studies": [
+        {
+          "errors": 0,
+          "exclusions": 486,
+          "forecasts": 16004,
+          "last_error": "",
+          "outcomes": 15518,
+          "unresolved": 0,
+          "version": 1
+        },
+        {
+          "errors": 0,
+          "exclusions": 2879,
+          "forecasts": 36555,
+          "last_error": "",
+          "outcomes": 33676,
+          "unresolved": 0,
+          "version": 2
+        }
+      ]
+    },
+    {
+      "name": "native_feature_candles_v1",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\native_feature_candles_heartbeat_v1.json",
+      "fresh": true,
+      "age_sec": 0.08,
+      "schema_matches": true,
+      "schema_version": "native_feature_candle_cache_v1_20260913",
+      "status": "cycle_complete",
+      "errors": [],
+      "generated_utc": "2026-09-30T13:57:57.314566+00:00"
+    },
+    {
+      "name": "research_feature_observations_v2",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260914_features_v6\\feature_observations_heartbeat_primary_m1_v1.json",
+      "fresh": true,
+      "age_sec": 0.03,
+      "schema_matches": true,
+      "schema_version": "research_existing_feature_observations_v2_20260914_publication_headroom",
+      "phase": "cycle_complete",
+      "updated_at": "2026-09-30T13:57:57.361564+00:00",
+      "last_failure": null,
+      "result": {
+        "archive": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260914_features_v2\\feature_observations_v2\\date=20260930\\hour=13\\obs_361ec2c702801378390620ca3862ddc3.json.gz",
+        "clock_verification": {
+          "authorizes_activation": false,
+          "can_place_orders": false,
+          "evidence": {
+            "aligned_source": "both",
+            "applied_offset_sec": 0,
+            "broker_reference_usable": true,
+            "clock_state": {
+              "broker_clock_lead_sec": -0.23,
+              "broker_clock_sample_count": 128,
+              "can_place_orders": false,
+              "changes_system_time": false,
+              "clock_discontinuity_active": false,
+              "clock_discontinuity_detected": false,
+              "clock_discontinuity_detected_at_utc": null,
+              "clock_discontinuity_offset_jump_sec": null,
+              "clock_discontinuity_quarantine_until_utc": null,
+              "clock_source_disagreement_sec": 0.17,
+              "clock_sources_consistent": true,
+              "external_https_clock": {
+                "credentials_sent": false,
+                "http_status": 401,
+                "offset_sec": -0.06,
+                "precision_sec": 1.0,
+                "round_trip_ms": 101.978,
+                "server_date": "Wed, 30 Sep 2026 13:57:38 GMT",
+                "status": "ok",
+                "url": "https://api-fxpractice.oanda.com/v3/accounts"
+              },
+              "generated_utc": "2026-09-30T13:57:38.121724+00:00",
+              "host_clock_synchronized": true,
+              "independent_https_host_clock_trusted": true,
+              "previous_broker_clock_lead_sec": -0.224,
+              "reasons": [],
+              "reported_clock_sync_status": "aligned",
+              "required_external_action": "",
+              "research_only": true,
+              "schema_version": 1,
+              "source": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_quote_stream_heartbeat_v1.json",
+              "source_age_sec": 3.289,
+              "source_fresh": true,
+              "status": "ok",
+              "stream_timestamp_lag_reclassified": true,
+              "timestamp_normalization_trusted": true,
+              "windows_time_service": {
+                "display_name": "Windows Time",
+                "error": "",
+                "query_method": "windows_service_api",
+                "query_ok": true,
+                "start_type": "automatic",
+                "state": "running"
+              }
+            },
+            "clock_state_sha256": "b4b959d74c375f88edf0e5e9c3930b3509359ef7919b53e49416eeea894aa8da",
+            "contract_id": "repaired_news_synchronized_host_attestation_v2_20260912",
+            "external_probe_epoch": 1790776658.06,
+            "external_reference_usable": true,
+            "integrity_age_sec": 11.774515151977539,
+            "integrity_generated_epoch": 1790776658.121724,
+            "observed_epoch": 1790776669.896239,
+            "source": {
+              "file_identity": [
+                8269922341625680609,
+                8162774326751868,
+                1604,
+                1790776658123719000
+              ],
+              "file_sha256": "6c66ee39a938071270621d94bdf8958e17c547743c3a4df075794a42ddc003f2",
+              "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\clock_integrity_v1.json",
+              "size_bytes": 1604
+            }
+          },
+          "reason": "clock_aligned",
+          "research_only": true,
+          "schema_version": "feature_research_clock_gate_v1_20260913",
+          "valid": true
+        },
+        "coverage": {
+          "accepted_instrument_count": 63,
+          "all_configured_feature_families_materialized": false,
+          "cycle_budget": {
+            "all_pairs_retained": true,
+            "calculation_order": [
+              "USD_HUF",
+              "USD_JPY",
+              "USD_MXN",
+              "USD_NOK",
+              "USD_PLN",
+              "USD_SEK",
+              "USD_SGD",
+              "USD_THB",
+              "USD_TRY",
+              "USD_ZAR",
+              "ZAR_JPY",
+              "AUD_CAD",
+              "AUD_CHF",
+              "AUD_HKD",
+              "AUD_JPY",
+              "AUD_NZD",
+              "AUD_SGD",
+              "AUD_USD",
+              "CAD_CHF",
+              "CAD_HKD",
+              "CAD_JPY",
+              "CAD_SGD",
+              "CHF_HKD",
+              "CHF_JPY",
+              "CHF_ZAR",
+              "EUR_AUD",
+              "EUR_CAD",
+              "EUR_CHF",
+              "EUR_CZK",
+              "EUR_DKK",
+              "EUR_GBP",
+              "EUR_HKD",
+              "EUR_HUF",
+              "EUR_JPY",
+              "EUR_NOK",
+              "EUR_NZD",
+              "EUR_PLN",
+              "EUR_SEK",
+              "EUR_SGD",
+              "EUR_TRY",
+              "EUR_USD",
+              "EUR_ZAR",
+              "GBP_AUD",
+              "GBP_CAD",
+              "GBP_CHF",
+              "GBP_HKD",
+              "GBP_JPY",
+              "GBP_NZD",
+              "GBP_PLN",
+              "GBP_SGD",
+              "GBP_USD",
+              "GBP_ZAR",
+              "HKD_JPY",
+              "NZD_CAD",
+              "NZD_CHF",
+              "NZD_HKD",
+              "NZD_JPY",
+              "NZD_SGD",
+              "NZD_USD",
+              "SGD_CHF",
+              "SGD_JPY",
+              "TRY_JPY",
+              "USD_CAD",
+              "USD_CHF",
+              "USD_CNH",
+              "USD_CZK",
+              "USD_DKK",
+              "USD_HKD"
+            ],
+            "calculator_allowance_seconds": 0.0,
+            "publication_reserve_seconds": 15.0,
+            "scheduling_contract": "minute_rotated_exact_universe_v1",
+            "total_limit_seconds": 45.0,
+            "unavailable_invalid_pip_or_budget_pairs": [
+              "AUD_CAD",
+              "AUD_CHF",
+              "AUD_HKD",
+              "AUD_JPY",
+              "AUD_NZD",
+              "AUD_SGD",
+              "AUD_USD",
+              "CAD_CHF",
+              "CAD_HKD",
+              "CAD_JPY",
+              "CAD_SGD",
+              "CHF_HKD",
+              "CHF_JPY",
+              "CHF_ZAR",
+              "EUR_AUD",
+              "EUR_CAD",
+              "EUR_CHF",
+              "EUR_CZK",
+              "EUR_DKK",
+              "EUR_GBP",
+              "EUR_HKD",
+              "EUR_HUF",
+              "EUR_JPY",
+              "EUR_NOK",
+              "EUR_NZD",
+              "EUR_PLN",
+              "EUR_SEK",
+              "EUR_SGD",
+              "EUR_TRY",
+              "EUR_USD",
+              "EUR_ZAR",
+              "GBP_AUD",
+              "GBP_CAD",
+              "GBP_CHF",
+              "GBP_HKD",
+              "GBP_JPY",
+              "GBP_NZD",
+              "GBP_PLN",
+              "GBP_SGD",
+              "GBP_USD",
+              "GBP_ZAR",
+              "HKD_JPY",
+              "NZD_CAD",
+              "NZD_CHF",
+              "NZD_HKD",
+              "NZD_JPY",
+              "NZD_SGD",
+              "NZD_USD",
+              "SGD_CHF",
+              "SGD_JPY",
+              "TRY_JPY",
+              "USD_CAD",
+              "USD_CHF",
+              "USD_CNH",
+              "USD_CZK",
+              "USD_DKK",
+              "USD_HKD",
+              "USD_HUF",
+              "USD_JPY",
+              "USD_MXN",
+              "USD_NOK",
+              "USD_PLN",
+              "USD_SEK",
+              "USD_SGD",
+              "USD_THB",
+              "USD_TRY",
+              "USD_ZAR",
+              "ZAR_JPY"
+            ]
+          },
+          "excluded_instrument_count": 5,
+          "expected_feature_instrument_count": 68,
+          "expected_feature_instruments": [
+            "AUD_CAD",
+            "AUD_CHF",
+            "AUD_HKD",
+            "AUD_JPY",
+            "AUD_NZD",
+            "AUD_SGD",
+            "AUD_USD",
+            "CAD_CHF",
+            "CAD_HKD",
+            "CAD_JPY",
+            "CAD_SGD",
+            "CHF_HKD",
+            "CHF_JPY",
+            "CHF_ZAR",
+            "EUR_AUD",
+            "EUR_CAD",
+            "EUR_CHF",
+            "EUR_CZK",
+            "EUR_DKK",
+            "EUR_GBP",
+            "EUR_HKD",
+            "EUR_HUF",
+            "EUR_JPY",
+            "EUR_NOK",
+            "EUR_NZD",
+            "EUR_PLN",
+            "EUR_SEK",
+            "EUR_SGD",
+            "EUR_TRY",
+            "EUR_USD",
+            "EUR_ZAR",
+            "GBP_AUD",
+            "GBP_CAD",
+            "GBP_CHF",
+            "GBP_HKD",
+            "GBP_JPY",
+            "GBP_NZD",
+            "GBP_PLN",
+            "GBP_SGD",
+            "GBP_USD",
+            "GBP_ZAR",
+            "HKD_JPY",
+            "NZD_CAD",
+            "NZD_CHF",
+            "NZD_HKD",
+            "NZD_JPY",
+            "NZD_SGD",
+            "NZD_USD",
+            "SGD_CHF",
+            "SGD_JPY",
+            "TRY_JPY",
+            "USD_CAD",
+            "USD_CHF",
+            "USD_CNH",
+            "USD_CZK",
+            "USD_DKK",
+            "USD_HKD",
+            "USD_HUF",
+            "USD_JPY",
+            "USD_MXN",
+            "USD_NOK",
+            "USD_PLN",
+            "USD_SEK",
+            "USD_SGD",
+            "USD_THB",
+            "USD_TRY",
+            "USD_ZAR",
+            "ZAR_JPY"
+          ],
+          "family_readiness": {
+            "H4_required_completed_H1_rows_at_least": 240,
+            "M5_required_native_rows": 40,
+            "basis": "actual source bar ends; M1 elapsed freshness; higher TF explicit NY weekend-only active-session freshness; final mapper checks authoritative",
+            "continuous_native_M1_freshness_verified": false,
+            "fresh_quote_pairs_at_source_read": 63,
+            "model_output_pairs": 0,
+            "native_M1_age_sec_by_pair": {
+              "AUD_CAD": null,
+              "AUD_CHF": null,
+              "AUD_HKD": null,
+              "AUD_JPY": null,
+              "AUD_NZD": null,
+              "AUD_SGD": null,
+              "AUD_USD": null,
+              "CAD_CHF": null,
+              "CAD_HKD": null,
+              "CAD_JPY": null,
+              "CAD_SGD": null,
+              "CHF_HKD": null,
+              "CHF_JPY": null,
+              "CHF_ZAR": null,
+              "EUR_AUD": null,
+              "EUR_CAD": null,
+              "EUR_CHF": null,
+              "EUR_CZK": null,
+              "EUR_DKK": null,
+              "EUR_GBP": null,
+              "EUR_HKD": null,
+              "EUR_HUF": null,
+              "EUR_JPY": null,
+              "EUR_NOK": null,
+              "EUR_NZD": null,
+              "EUR_PLN": null,
+              "EUR_SEK": null,
+              "EUR_SGD": null,
+              "EUR_TRY": null,
+              "EUR_USD": null,
+              "EUR_ZAR": null,
+              "GBP_AUD": null,
+              "GBP_CAD": null,
+              "GBP_CHF": null,
+              "GBP_HKD": null,
+              "GBP_JPY": null,
+              "GBP_NZD": null,
+              "GBP_PLN": null,
+              "GBP_SGD": null,
+              "GBP_USD": null,
+              "GBP_ZAR": null,
+              "HKD_JPY": null,
+              "NZD_CAD": null,
+              "NZD_CHF": null,
+              "NZD_HKD": null,
+              "NZD_JPY": null,
+              "NZD_SGD": null,
+              "NZD_USD": null,
+              "SGD_CHF": null,
+              "SGD_JPY": null,
+              "TRY_JPY": null,
+              "USD_CAD": null,
+              "USD_CHF": null,
+              "USD_CNH": null,
+              "USD_CZK": null,
+              "USD_DKK": null,
+              "USD_HKD": null,
+              "USD_HUF": null,
+              "USD_JPY": null,
+              "USD_MXN": null,
+              "USD_NOK": null,
+              "USD_PLN": null,
+              "USD_SEK": null,
+              "USD_SGD": null,
+              "USD_THB": null,
+              "USD_TRY": null,
+              "USD_ZAR": null,
+              "ZAR_JPY": null
+            },
+            "native_M1_required_contiguous_rows": 204,
+            "native_input_rows_by_pair": {
+              "AUD_CAD": {
+                "M1": 859
+              },
+              "AUD_CHF": {
+                "M1": 858
+              },
+              "AUD_HKD": {
+                "M1": 859
+              },
+              "AUD_JPY": {
+                "M1": 1013
+              },
+              "AUD_NZD": {
+                "M1": 890
+              },
+              "AUD_SGD": {
+                "M1": 179
+              },
+              "AUD_USD": {
+                "M1": 576
+              },
+              "CAD_CHF": {
+                "M1": 299
+              },
+              "CAD_HKD": {
+                "M1": 635
+              },
+              "CAD_JPY": {
+                "M1": 859
+              },
+              "CAD_SGD": {
+                "M1": 90
+              },
+              "CHF_HKD": {
+                "M1": 860
+              },
+              "CHF_JPY": {
+                "M1": 860
+              },
+              "CHF_ZAR": {
+                "M1": 789
+              },
+              "EUR_AUD": {
+                "M1": 1005
+              },
+              "EUR_CAD": {
+                "M1": 958
+              },
+              "EUR_CHF": {
+                "M1": 858
+              },
+              "EUR_CZK": {
+                "M1": 402
+              },
+              "EUR_DKK": {
+                "M1": 1
+              },
+              "EUR_GBP": {
+                "M1": 499
+              },
+              "EUR_HKD": {
+                "M1": 860
+              },
+              "EUR_HUF": {
+                "M1": 538
+              },
+              "EUR_JPY": {
+                "M1": 975
+              },
+              "EUR_NOK": {
+                "M1": 579
+              },
+              "EUR_NZD": {
+                "M1": 1010
+              },
+              "EUR_PLN": {
+                "M1": 453
+              },
+              "EUR_SEK": {
+                "M1": 859
+              },
+              "EUR_SGD": {
+                "M1": 862
+              },
+              "EUR_TRY": {
+                "M1": 478
+              },
+              "EUR_USD": {
+                "M1": 932
+              },
+              "EUR_ZAR": {
+                "M1": 885
+              },
+              "GBP_AUD": {
+                "M1": 960
+              },
+              "GBP_CAD": {
+                "M1": 519
+              },
+              "GBP_CHF": {
+                "M1": 856
+              },
+              "GBP_HKD": {
+                "M1": 538
+              },
+              "GBP_JPY": {
+                "M1": 935
+              },
+              "GBP_NZD": {
+                "M1": 923
+              },
+              "GBP_PLN": {
+                "M1": 564
+              },
+              "GBP_SGD": {
+                "M1": 553
+              },
+              "GBP_USD": {
+                "M1": 890
+              },
+              "GBP_ZAR": {
+                "M1": 1013
+              },
+              "HKD_JPY": {
+                "M1": 859
+              },
+              "NZD_CAD": {
+                "M1": 837
+              },
+              "NZD_CHF": {
+                "M1": 860
+              },
+              "NZD_HKD": {
+                "M1": 890
+              },
+              "NZD_JPY": {
+                "M1": 859
+              },
+              "NZD_SGD": {
+                "M1": 871
+              },
+              "NZD_USD": {
+                "M1": 859
+              },
+              "SGD_CHF": {
+                "M1": 603
+              },
+              "SGD_JPY": {
+                "M1": 874
+              },
+              "TRY_JPY": {
+                "M1": 3
+              },
+              "USD_CAD": {
+                "M1": 871
+              },
+              "USD_CHF": {
+                "M1": 860
+              },
+              "USD_CNH": {
+                "M1": 987
+              },
+              "USD_CZK": {
+                "M1": 1013
+              },
+              "USD_DKK": {
+                "M1": 898
+              },
+              "USD_HKD": {
+                "M1": 2
+              },
+              "USD_HUF": {
+                "M1": 1013
+              },
+              "USD_JPY": {
+                "M1": 988
+              },
+              "USD_MXN": {
+                "M1": 967
+              },
+              "USD_NOK": {
+                "M1": 597
+              },
+              "USD_PLN": {
+                "M1": 549
+              },
+              "USD_SEK": {
+                "M1": 859
+              },
+              "USD_SGD": {
+                "M1": 845
+              },
+              "USD_THB": {
+                "M1": 134
+              },
+              "USD_TRY": {
+                "M1": 2
+              },
+              "USD_ZAR": {
+                "M1": 990
+              },
+              "ZAR_JPY": {
+                "M1": 27
+              }
+            },
+            "news_ready_pairs": 68,
+            "rich_M1_fresh_pairs": 0,
+            "rich_M1_materialized_pairs": 0,
+            "rich_M1_stale_or_missing_pairs": 68,
+            "scheduled_calendar": "fx_weekend_ny_friday_1700_sunday_1700_v1",
+            "structural_fresh_pairs_by_timeframe": {
+              "H1": 0,
+              "H2": 0,
+              "H3": 0,
+              "H4": 0,
+              "M1": 0,
+              "M10": 0,
+              "M15": 0,
+              "M30": 0,
+              "M5": 0
+            }
+          },
+          "observed_universe_count": 68,
+          "quote_exclusions": [
+            {
+              "instrument": "EUR_DKK",
+              "quote_time": "2026-09-30T13:55:21.852897686Z",
+              "reason": "stale_quote"
+            },
+            {
+              "instrument": "TRY_JPY",
+              "quote_time": "2026-09-30T13:54:30.360009045Z",
+              "reason": "stale_quote"
+            },
+            {
+              "instrument": "USD_HKD",
+              "quote_time": "2026-09-30T13:56:33.180858997Z",
+              "reason": "stale_quote"
+            },
+            {
+              "instrument": "USD_TRY",
+              "quote_time": "2026-09-30T13:56:35.411484119Z",
+              "reason": "stale_quote"
+            },
+            {
+              "instrument": "ZAR_JPY",
+              "quote_time": "2026-09-30T13:57:04.107336399Z",
+              "reason": "stale_quote"
+            }
+          ]
+        },
+        "daily_archive_bytes_before": 751017351,
+        "daily_archive_files_before": 337,
+        "elapsed_sec": 46.953,
+        "event_status": {
+          "models": [
+            {
+              "reason": "cycle_input_bound",
+              "status": "unavailable",
+              "study_root": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260913_v1\\pair_local_forecast_study_v3"
+            },
+            {
+              "reason": "cycle_input_bound",
+              "status": "unavailable",
+              "study_root": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260913_v4\\joint_price_news_study_v7"
+            }
+          ],
+          "news": {
+            "context_members": 6,
+            "directional_claims": 0,
+            "observed_utc": "2026-09-30T13:57:43.636041+00:00",
+            "projection_source_sha256": "d40cf670520e09ad18527324608e60c4ace40afa6a27ca37b2fc9d80f846a4fd",
+            "snapshot_payload_sha256": "5d038d5bfd3aec6aa9c85fdebee99833f88699f2c429b9c5ab638205af478365",
+            "source_bytes": 1715526,
+            "source_name": "current_news_v2.json",
+            "source_read_completed_utc": "2026-09-30T13:57:40.133532+00:00",
+            "source_sha256": "5d038d5bfd3aec6aa9c85fdebee99833f88699f2c429b9c5ab638205af478365",
+            "status": "verified_publication_observed"
+          }
+        },
+        "forward_frame": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260914_features_v6\\forward_frames_primary_m1_v1\\date=20260930\\hour=13\\forward_2ec42056439d94c00e6e98e335cd8620.json.gz",
+        "last_publication_completed_utc": "2026-09-30T13:57:50.081722+00:00",
+        "publication_receipt": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260914_features_v2\\feature_observations_v2\\date=20260930\\hour=13\\obs_361ec2c702801378390620ca3862ddc3.json.publication.json",
+        "source_bytes": 37380556,
+        "stage_elapsed_sec": {
+          "build": 0.204,
+          "frame_and_archive": 6.203,
+          "publication_receipt": 7.187,
+          "sources": 33.359
+        },
+        "status": "published"
+      }
+    },
+    {
+      "name": "research_feature_forward_v2",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260914_features_v6\\feature_forward_primary_m1_v7\\feature_forward_status_v1.json",
+      "fresh": true,
+      "age_sec": 2.21,
+      "schema_matches": true,
+      "schema_version": "feature_forward_worker_status_v1",
+      "status": "observing",
+      "errors": [],
+      "generated_utc": "2026-09-30T13:57:55.183758+00:00"
+    },
+    {
+      "name": "official_pair_horizon_v2",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260913_v1\\official_event_pair_horizon_v2\\heartbeat.json",
+      "fresh": true,
+      "age_sec": 2.51,
+      "schema_matches": true,
+      "schema_version": "official_event_pair_horizon_capture_v2_heartbeat",
+      "status": "ok",
+      "errors": [],
+      "counts": {
+        "attempts": 490,
+        "input_events": 98,
+        "invalid_pair_outcomes": 1301,
+        "outcomes": 16010,
+        "valid_outcomes": 14709,
+        "valid_pair_outcomes": 14709
+      }
+    },
+    {
+      "name": "research_feature_forward_cached_v2",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260916_forward_v2\\feature_forward_cached_m5_v2_20260916\\feature_forward_status_v1.json",
+      "fresh": true,
+      "age_sec": 60.55,
+      "schema_matches": true,
+      "schema_version": "feature_forward_worker_status_v1",
+      "status": "partial_unavailable",
+      "errors": [
+        "one_or_more_event_windows_refused"
+      ],
+      "generated_utc": "2026-09-30T13:56:56.841010+00:00"
+    },
+    {
+      "name": "rolling_technical_operations_v2",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\rolling_technical_dataset_20260915_v3\\status.json",
+      "fresh": false,
+      "age_sec": 359.64,
+      "schema_matches": true,
+      "status": "partial",
+      "generated_utc": "2026-09-30T13:51:57.748227+00:00",
+      "counts": {
+        "bars": 672740,
+        "observations": 630809,
+        "outcomes": 2515919,
+        "panels": 4489,
+        "receipts": 158403,
+        "revisions": 0
+      }
+    },
+    {
+      "name": "all68_technical_availability_v1",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\all68_technical_availability_v1.json",
+      "fresh": true,
+      "age_sec": 55.75,
+      "schema_matches": true,
+      "schema_version": "all68_technical_availability_v1_20260916",
+      "status": "partial_source_failure",
+      "generated_utc": "2026-09-30T13:57:01.642116+00:00",
+      "counts": {
+        "unavailable": 68
+      }
+    },
+    {
+      "name": "all68_derived_technical_publisher_v1",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\all68_derived_technical_features_v1.json",
+      "fresh": true,
+      "age_sec": 71.6,
+      "schema_matches": true,
+      "schema_version": "derived_technical_publisher_v1_20260916",
+      "generated_utc": "2026-09-30T13:56:45.787325+00:00"
+    }
+  ],
+  "controllers": [
+    {
+      "name": "supervisor",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\operational_supervisor_v2.json",
+      "fresh": true,
+      "profile_matches": true,
+      "age_sec": 13.98,
+      "error": "",
+      "recovery_allowed": true
+    },
+    {
+      "name": "watchdog",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\oanda_supervisor_watchdog_v2.json",
+      "fresh": true,
+      "profile_matches": true,
+      "age_sec": 25.42,
+      "operational_health": "degraded",
+      "action": "none",
+      "restart_circuit_open": false
+    }
+  ],
+  "recovery_until_utc": "2026-10-07T08:14:50Z",
+  "research_only": true,
+  "can_place_orders": false,
+  "scope": "Heartbeat freshness and reported errors; not forecast success or trading readiness."
+}

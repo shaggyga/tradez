@@ -2,6 +2,22 @@
   "active_step_id": "extra_trees_matched_development_comparison_v1",
   "active_step_semantics": "Qualified Extra Trees source draft checkpointed at deadline; no fit or result exists, and fresh authorization is required before execution.",
   "current_review_packet": "DISTINCT_METHOD_QUALIFICATION_20260925_144000/REVIEW.md",
+  "current_user_requested_context": "DASHBOARD_LIVE_RECOVERY_20260930/RESUME.md",
+  "dashboard_source_qualification": {
+    "implementation": "complete",
+    "manifest_sha256": "b66f9d77df0b1e7b5815d1a1d60716d3416d9122f9cc854663d5934b1d92eb58",
+    "next_action": "qualify intended producer inputs and launch prerequisites",
+    "packet": "DASHBOARD_PRODUCER_QUALIFICATION_20260930",
+    "publication_receipt": "DASHBOARD_PRODUCER_PUBLICATION_20260930/RECEIPT.json",
+    "review": "same_task_only",
+    "source_commit": "d0f3ecbd04a6708a6bcf43b06b70b6be806f2bba",
+    "step_id": "dashboard_producer_qualification_20260930",
+    "unresolved": [
+      "live_freshness",
+      "legacy_repair_v1",
+      "global_preflight"
+    ]
+  },
   "documentation_updates": [
     {
       "id": "PROJECT_LOG_LINKS_20260921_233900",
@@ -66,78 +82,87 @@
     },
     {
       "id": "news_interpretation_v1_20260930",
+      "independent_review": false,
+      "next_action": "held-out labelled interpretation evaluation, then qualify historical mapping consumer; no forward promotion",
       "packet": "NEWS_INTERPRETATION_V1_20260930",
       "scope": "user-requested additive news interpretation source repair; forecast queue unchanged",
-      "status": "implemented_offline_not_deployed",
-      "independent_review": false,
       "source_commit": "0fbab95e69831263f196f167d48db820b1bc7f67",
-      "next_action": "held-out labelled interpretation evaluation, then qualify historical mapping consumer; no forward promotion"
+      "status": "implemented_offline_not_deployed"
     },
     {
-      "step_id": "news_interpretation_v2_20260930",
-      "source_commit": "1698e58dc226418fcd6b151d770f5ed641626234",
-      "packet": "NEWS_INTERPRETATION_V2_20260930",
-      "utc": "2026-09-30T03:10:13.449853+00:00",
+      "deployed": false,
       "implementation": "implemented_offline",
+      "independent_review": false,
+      "next_action": "held-out evaluation and historical mapping consumer integration; deployment/preflight pending",
+      "packet": "NEWS_INTERPRETATION_V2_20260930",
+      "review": "same_task",
+      "scientific_readiness": false,
+      "source_commit": "1698e58dc226418fcd6b151d770f5ed641626234",
+      "step_id": "news_interpretation_v2_20260930",
       "tests": "526 passed, 13 subtests",
-      "independent_review": false,
-      "review": "same_task",
-      "deployed": false,
-      "scientific_readiness": false,
       "trading_readiness": false,
-      "next_action": "held-out evaluation and historical mapping consumer integration; deployment/preflight pending"
+      "utc": "2026-09-30T03:10:13.449853+00:00"
     },
     {
-      "step_id": "news_technical_timing_v1_20260930",
-      "source_commit": "e1be1aa090273597f3502836de01c02956d1e5b9",
-      "packet": "NEWS_TECHNICAL_TIMING_V1_20260930",
-      "utc": "2026-09-30T03:28:19.088326+00:00",
+      "deployed": false,
       "implementation": "offline_successor_worker_and_corrected_diagnostic",
-      "tests": "35 passed and 2 subtests; final 10 timing tests passed including real entrypoint fixture",
       "independent_review": false,
+      "next_action": "reconcile deployment preflight/ownership; run successor under original lock and verify fresh latency; no duplicate writers",
+      "packet": "NEWS_TECHNICAL_TIMING_V1_20260930",
       "review": "same_task",
-      "deployed": false,
       "scientific_readiness": false,
+      "source_commit": "e1be1aa090273597f3502836de01c02956d1e5b9",
+      "step_id": "news_technical_timing_v1_20260930",
+      "tests": "35 passed and 2 subtests; final 10 timing tests passed including real entrypoint fixture",
       "trading_readiness": false,
-      "next_action": "reconcile deployment preflight/ownership; run successor under original lock and verify fresh latency; no duplicate writers"
+      "utc": "2026-09-30T03:28:19.088326+00:00"
     },
     {
-      "step_id": "news_technical_batch_v1_20260930",
-      "source_commit": "99ed4aae2959ccf40cfa863f5dd7713edfcc2013",
-      "packet": "NEWS_TECHNICAL_BATCH_V1_20260930",
-      "utc": "2026-09-30T04:42:07.803319+00:00",
-      "status": "completed_descriptive_diagnostic",
-      "tests": "4 tests plus6 smoke assertions passed",
-      "independent_review": false,
-      "review": "same_task",
       "forecast_improvement_established": false,
+      "independent_review": false,
+      "next_action": "retrieve genuine saved technical-model forecasts and immutable news versions before later-period matched study",
+      "packet": "NEWS_TECHNICAL_BATCH_V1_20260930",
+      "review": "same_task",
+      "source_commit": "99ed4aae2959ccf40cfa863f5dd7713edfcc2013",
+      "status": "completed_descriptive_diagnostic",
+      "step_id": "news_technical_batch_v1_20260930",
+      "tests": "4 tests plus6 smoke assertions passed",
       "trading_ready": false,
-      "next_action": "retrieve genuine saved technical-model forecasts and immutable news versions before later-period matched study"
+      "utc": "2026-09-30T04:42:07.803319+00:00"
     },
     {
       "id": "PROJECT_RECONCILIATION_20260930",
-      "packet": "PROJECT_RECONCILIATION_20260930/REVIEW.json",
-      "status": "ready_for_review",
       "implementation_status": "complete_within_scope",
-      "review_status": "same_task_review_completed_independent_review_pending",
       "independent_review": false,
-      "source_commit": "c00167b250741fc3374e068e09b29974b51ba085",
       "manifest_sha256": "f0d1a4b8acd3c926e062b0e32583337c7ce85481b4da72704d2cf8f60046deb8",
-      "next_action": "Reconcile saved forecast/model/input identities and actual date overlap with immutable news availability before another technical/news batch; retrieve existing artifacts before fitting."
+      "next_action": "Reconcile saved forecast/model/input identities and actual date overlap with immutable news availability before another technical/news batch; retrieve existing artifacts before fitting.",
+      "packet": "PROJECT_RECONCILIATION_20260930/REVIEW.json",
+      "review_status": "same_task_review_completed_independent_review_pending",
+      "source_commit": "c00167b250741fc3374e068e09b29974b51ba085",
+      "status": "ready_for_review"
     },
     {
       "id": "DASHBOARD_PROJECT_CLEANUP_20260930",
-      "packet": "DASHBOARD_PROJECT_CLEANUP_20260930/REVIEW.json",
-      "status": "ready_for_review",
       "independent_review": false,
-      "next_action": "Match retained forecast/input/model/news dates before a new batch; no duplicate fits."
+      "next_action": "Match retained forecast/input/model/news dates before a new batch; no duplicate fits.",
+      "packet": "DASHBOARD_PROJECT_CLEANUP_20260930/REVIEW.json",
+      "status": "ready_for_review"
     },
     {
       "id": "DASHBOARD_DISPLAY_SOURCE_REVIEW_20260930",
-      "packet": "DASHBOARD_DISPLAY_SOURCE_REVIEW_20260930/REVIEW.json",
-      "status": "ready_for_review",
       "independent_review": false,
-      "scope": "Display qualification only; producer source and freshness refusals preserved"
+      "packet": "DASHBOARD_DISPLAY_SOURCE_REVIEW_20260930/REVIEW.json",
+      "scope": "Display qualification only; producer source and freshness refusals preserved",
+      "status": "ready_for_review"
+    },
+    {
+      "id": "JOINT_NEWS_CAPACITY_RECOVERY_20260930",
+      "independent_review": false,
+      "next_action": "joint_news_catchup_and_readiness_verification_v1",
+      "packet": "JOINT_NEWS_CAPACITY_RECOVERY_20260930/REVIEW.json",
+      "scope": "live_capacity_correction_and_remaining_catchup",
+      "status": "capacity_fix_verified_full_pipeline_pending",
+      "step_id": "joint_news_transport_capacity_successor_v1"
     }
   ],
   "engineering_queue_pointer": "DESIGN_ALIGNMENT_LATEST.json",
@@ -156,6 +181,69 @@
     "policy": "FOREX_FORECASTING_CONTINUATION.md",
     "replenish_from_design": true,
     "research_started_by_this_update": false
+  },
+  "independent_checkpoint_review": {
+    "candidate_followups": [
+      {
+        "finding": "REV-01",
+        "id": "repair_design_authority_and_review_handoff_v2",
+        "order": 1,
+        "purpose": "Restore verified full engineering design navigation while keeping source snapshot authority and current queue roles explicit."
+      },
+      {
+        "finding": "REV-02",
+        "id": "residual_r4_full_relocated_replay_verification_v2",
+        "order": 2,
+        "purpose": "Reuse verified parent capsule and residual source; bind projection artifacts; publish exact isolated command and verify without original dependency roots."
+      },
+      {
+        "finding": "REV-03",
+        "id": "curve_authenticated_population_guard_v2",
+        "order": 3,
+        "purpose": "Bind trusted bulk reference and recipe expected population; test shortened origin/instrument/base inputs through consumer; preserve saved negative result."
+      },
+      {
+        "finding": "REV-04",
+        "id": "rich_feature_family_incremental_comparison_v2",
+        "order": 4,
+        "purpose": "Map actual families and attempted identities, qualify one materially untested supported mask or record exact per-candidate blockers."
+      },
+      {
+        "finding": "REV-05",
+        "id": "retained_policy_exposure_or_cost_support_qualification_v2",
+        "order": 5,
+        "purpose": "Prespecify a retained reference scenario, validate lineage/population and qualify bounded descriptive exposure/cost work; no duplicate engine counting."
+      },
+      {
+        "finding": "REV-05",
+        "id": "bounded_distinct_method_support_qualification_v2",
+        "order": 6,
+        "purpose": "Assess one distinct mechanism under its own reuse, causal population and resource contract; preserve recovered-only card blocker."
+      }
+    ],
+    "findings": [
+      "REV-01",
+      "REV-02",
+      "REV-03",
+      "REV-04",
+      "REV-05"
+    ],
+    "packet": "INDEPENDENT_CHECKPOINT_REVIEW_20260925_130011/REVIEW_RESULT.json",
+    "scope": "Scoped findings; not full scientific qualification",
+    "sha256": "9390dd44855921f0e67f6dea5071d26803344ed2af0c30850307a015a00846bd",
+    "verdict": "changes_requested"
+  },
+  "latest_user_resume": {
+    "recorded_utc": "2026-09-30T08:55:12.162114+00:00",
+    "scientific_queue_unchanged": true,
+    "scope": "Full nontrading pipeline recovery and Git/Vault publication",
+    "step_id": "dashboard_live_recovery_20260930"
+  },
+  "latest_user_stop": {
+    "new_work_requires_resume": true,
+    "scope": "dashboard_cleanup_20260930",
+    "source_commit": "89446cfd490c8202ec838e2e1b999b673c758152",
+    "utc": "2026-09-30T07:36:32.911786+00:00"
   },
   "operational_steps": [
     {
@@ -195,23 +283,23 @@
       "unresolved_findings": []
     },
     {
-      "step_id": "dashboard_live_recovery_20260930",
       "implementation_status": "partial_operational_recovery",
-      "review_status": "same_task_verified_partial",
       "independent_review": false,
+      "next_action": "joint_news_transport_capacity_successor_v1",
       "packet": "DASHBOARD_LIVE_RECOVERY_20260930/REVIEW.json",
       "packet_sha256": "6e0236073c2ef0b0bfe5145b8bc985ea7e558372e11c8fb93dde1c15e297a0e2",
+      "publication_receipt": "DASHBOARD_LIVE_PUBLICATION_20260930/RECEIPT.json",
+      "published_commit": "9361cd07126e77b6be697e68ed60c82de6c20338",
+      "review_status": "same_task_verified_partial",
       "scientific_queue_unchanged": true,
-      "next_action": "joint_news_transport_capacity_successor_v1",
+      "source_baseline_commit": "d0f3ecbd04a6708a6bcf43b06b70b6be806f2bba",
+      "source_commit": "9361cd07126e77b6be697e68ed60c82de6c20338",
+      "step_id": "dashboard_live_recovery_20260930",
       "unresolved_findings": [
         "next publication exceeds sealed news CAS capacity",
         "zero current joint forecasts",
         "global research preflight findings"
-      ],
-      "source_baseline_commit": "d0f3ecbd04a6708a6bcf43b06b70b6be806f2bba",
-      "source_commit": "9361cd07126e77b6be697e68ed60c82de6c20338",
-      "published_commit": "9361cd07126e77b6be697e68ed60c82de6c20338",
-      "publication_receipt": "DASHBOARD_LIVE_PUBLICATION_20260930/RECEIPT.json"
+      ]
     }
   ],
   "pre_research_gate": {
@@ -235,6 +323,17 @@
     "verdict": "changes_requested"
   },
   "research_authorization": false,
+  "reuse_correction_20260930": {
+    "existing_work": [
+      "exact-horizon momentum/reversion controls",
+      "rolling specialists and direct-Ridge reversal",
+      "original-record residual calibration",
+      "follow/fade news attribution"
+    ],
+    "next_action": "reconcile exact retained forecasts, dates and news availability before new research; no duplicate fits",
+    "recent_batch_scope": "simple momentum diagnostic, not full technical stack audit",
+    "status": "required_context_before_new_forecasting_claims"
+  },
   "review_protocol": "CHECKPOINT_REVIEW.md",
   "schema_version": "forex_checkpoint_review_queue.v1",
   "steps": [
@@ -4020,6 +4119,7 @@
       "finding_resolution_note": "Successor self-review reports R1/R2/R3/R5/R6/R7 addressed; R4 remains partial. No new scientific acceptance granted by this correction.",
       "implementation_status": "complete_r4_portable_restore_replay_verified",
       "independent_review": true,
+      "independent_review_scope": "Scoped REV findings independently confirmed/narrowed; no full scientific acceptance",
       "independent_review_status": "pending_nonblocking_by_user_clarification",
       "manifest": "RESIDUAL_R4_PORTABLE_REPLAY_20260925_072300/MANIFEST.json",
       "manifest_sha256": "3fc6b1bf7b8906098ddf53427b43bbae0adf5e2b3cee8f60d3a1224d577439bf",
@@ -4104,21 +4204,21 @@
           "verdict": "r4_portable_restore_replay_verified"
         },
         {
-          "utc": "2026-09-25T12:49:39.428366+00:00",
+          "independent_review": false,
           "previous_review_status": "accepted_within_scope",
           "result": "CHECKPOINT_REVIEW_20260925_124551/REVIEW_RESULT.json",
-          "verdict": "changes_requested",
-          "independent_review": false
+          "utc": "2026-09-25T12:49:39.428366+00:00",
+          "verdict": "changes_requested"
         },
         {
-          "utc": "2026-09-25T13:05:31.918406+00:00",
-          "verdict": "changes_requested",
-          "result": "INDEPENDENT_CHECKPOINT_REVIEW_20260925_130011/REVIEW_RESULT.json",
-          "independent_review": true,
-          "scope": "Independent verification of listed scoped findings; not full scientific acceptance",
           "finding_ids": [
             "REV-02"
-          ]
+          ],
+          "independent_review": true,
+          "result": "INDEPENDENT_CHECKPOINT_REVIEW_20260925_130011/REVIEW_RESULT.json",
+          "scope": "Independent verification of listed scoped findings; not full scientific acceptance",
+          "utc": "2026-09-25T13:05:31.918406+00:00",
+          "verdict": "changes_requested"
         }
       ],
       "review_result": "INDEPENDENT_CHECKPOINT_REVIEW_20260925_130011/REVIEW_RESULT.json",
@@ -4131,8 +4231,7 @@
       "unresolved_findings": [
         "Independent scientific review pending/nonblocking.",
         "REV-02"
-      ],
-      "independent_review_scope": "Scoped REV findings independently confirmed/narrowed; no full scientific acceptance"
+      ]
     },
     {
       "candidate_card": "FORECASTING_CONTINUATION_20260924_191848/cards/forecast_curve_shape_layer_comparison_v2.json",
@@ -4142,6 +4241,7 @@
       "forecast_evidence_status": "curve_shape_negative_result_with_all68_coverage_accounted",
       "implementation_status": "complete_coverage_repair_verified",
       "independent_review": true,
+      "independent_review_scope": "Scoped REV findings independently confirmed/narrowed; no full scientific acceptance",
       "independent_review_status": "pending_nonblocking_by_user_clarification",
       "manifest": "CURVE_COVERAGE_REPAIR_20260925_073500/MANIFEST.json",
       "manifest_sha256": "4549349a7a8e55abc9e9e5a5b518ab5fbe03f502c8d7de3372a0ad202b50818f",
@@ -4186,23 +4286,25 @@
           "verdict": "accepted_within_scope_same_task_review"
         },
         {
-          "utc": "2026-09-25T12:49:39.428366+00:00",
+          "independent_review": false,
           "previous_review_status": "accepted_within_scope",
           "result": "CHECKPOINT_REVIEW_20260925_124551/REVIEW_RESULT.json",
-          "verdict": "changes_requested",
-          "independent_review": false
+          "utc": "2026-09-25T12:49:39.428366+00:00",
+          "verdict": "changes_requested"
         },
         {
-          "utc": "2026-09-25T13:05:31.918406+00:00",
-          "verdict": "changes_requested",
-          "result": "INDEPENDENT_CHECKPOINT_REVIEW_20260925_130011/REVIEW_RESULT.json",
-          "independent_review": true,
-          "scope": "Independent verification of listed scoped findings; not full scientific acceptance",
           "finding_ids": [
             "REV-03"
-          ]
+          ],
+          "independent_review": true,
+          "result": "INDEPENDENT_CHECKPOINT_REVIEW_20260925_130011/REVIEW_RESULT.json",
+          "scope": "Independent verification of listed scoped findings; not full scientific acceptance",
+          "utc": "2026-09-25T13:05:31.918406+00:00",
+          "verdict": "changes_requested"
         }
       ],
+      "review_result": "INDEPENDENT_CHECKPOINT_REVIEW_20260925_130011/REVIEW_RESULT.json",
+      "review_result_sha256": "9390dd44855921f0e67f6dea5071d26803344ed2af0c30850307a015a00846bd",
       "review_status": "changes_requested",
       "source_commit": "083e850b4a65fcd69aa91359ad2f7a19ccc37114",
       "status": "complete_negative_development_result_independent_review_pending",
@@ -4211,10 +4313,7 @@
         "Independent scientific review pending/nonblocking.",
         "QREV-03",
         "REV-03"
-      ],
-      "review_result": "INDEPENDENT_CHECKPOINT_REVIEW_20260925_130011/REVIEW_RESULT.json",
-      "independent_review_scope": "Scoped REV findings independently confirmed/narrowed; no full scientific acceptance",
-      "review_result_sha256": "9390dd44855921f0e67f6dea5071d26803344ed2af0c30850307a015a00846bd"
+      ]
     },
     {
       "candidate_card": "FORECASTING_CONTINUATION_20260924_191848/cards/rich_feature_family_incremental_comparison_v2.json",
@@ -4225,6 +4324,7 @@
       "forecast_evidence_status": "mixed_direct_nested_rich_increment_development_result",
       "implementation_status": "complete_matched_development_comparison",
       "independent_review": false,
+      "independent_review_scope": "Scoped REV findings independently confirmed/narrowed; no full scientific acceptance",
       "independent_review_status": "pending_nonblocking_by_user_clarification",
       "manifest": "RICH_INCREMENTAL_DIRECT_EVAL_20260925_081700/MANIFEST.json",
       "manifest_sha256": "50d8341a12c9d459d8028a7beb8ab16b697af20c102414ddccc3136e92be758b",
@@ -4232,6 +4332,9 @@
       "packet": "RICH_SPREAD_INCREMENT_20260925_142015/REVIEW.json",
       "packet_sha256": "cf55bfddef6f7bef6dd74a810b5797808e64ccfc016287930578057f0e318c6b",
       "publication_commit": "3a3403d495676aff29584c9638feb143b8173528",
+      "resolved_findings": [
+        "REV-04"
+      ],
       "review_history": [
         {
           "independent_review": false,
@@ -4261,35 +4364,31 @@
           "verdict": "accepted_within_scope_same_task_review"
         },
         {
-          "utc": "2026-09-25T12:49:39.428366+00:00",
+          "independent_review": false,
           "previous_review_status": "accepted_within_scope",
           "result": "CHECKPOINT_REVIEW_20260925_124551/REVIEW_RESULT.json",
-          "verdict": "changes_requested",
-          "independent_review": false
+          "utc": "2026-09-25T12:49:39.428366+00:00",
+          "verdict": "changes_requested"
         },
         {
-          "utc": "2026-09-25T13:05:31.918406+00:00",
-          "verdict": "changes_requested",
-          "result": "INDEPENDENT_CHECKPOINT_REVIEW_20260925_130011/REVIEW_RESULT.json",
-          "independent_review": true,
-          "scope": "Independent verification of listed scoped findings; not full scientific acceptance",
           "finding_ids": [
             "REV-04"
-          ]
+          ],
+          "independent_review": true,
+          "result": "INDEPENDENT_CHECKPOINT_REVIEW_20260925_130011/REVIEW_RESULT.json",
+          "scope": "Independent verification of listed scoped findings; not full scientific acceptance",
+          "utc": "2026-09-25T13:05:31.918406+00:00",
+          "verdict": "changes_requested"
         }
       ],
+      "review_result": "INDEPENDENT_CHECKPOINT_REVIEW_20260925_130011/REVIEW_RESULT.json",
+      "review_result_sha256": "9390dd44855921f0e67f6dea5071d26803344ed2af0c30850307a015a00846bd",
       "review_status": "accepted_within_scope",
+      "same_task_review": true,
       "source_commit": "6c2ea4d73e31997d60e24bd24aaf486f35532596",
       "status": "complete_mixed_development_result_independent_review_pending",
       "step_id": "rich_feature_family_incremental_comparison_v2",
-      "unresolved_findings": [],
-      "review_result": "INDEPENDENT_CHECKPOINT_REVIEW_20260925_130011/REVIEW_RESULT.json",
-      "independent_review_scope": "Scoped REV findings independently confirmed/narrowed; no full scientific acceptance",
-      "review_result_sha256": "9390dd44855921f0e67f6dea5071d26803344ed2af0c30850307a015a00846bd",
-      "same_task_review": true,
-      "resolved_findings": [
-        "REV-04"
-      ]
+      "unresolved_findings": []
     },
     {
       "blocked_reason": "No preserved third exact-provenance method currently qualifies for the distinct_forecast_method_comparison_v2 matched chronological gate. The available saved directional study is preserved and useful for later contract design, but has different horizons, target semantics, source protocol and inspected-history scope.",
@@ -4439,276 +4538,276 @@
       "step_id": "macro_event_text_incremental_value_assessment_v2"
     },
     {
-      "step_id": "design_branch_eligibility_review_v2",
       "implementation_status": "complete_branch_census_no_exhaustion_claim",
-      "status": "complete_eligible_next_selected",
-      "review_status": "accepted_within_scope",
       "independent_review": false,
-      "packet": "DESIGN_BRANCH_ELIGIBILITY_REVIEW_20260925_083000/REVIEW.json",
       "manifest_sha256": "bb39e0035aaf492e8e2e7ae79dc276c1f123e3a034433bfe68ada7d8fc8cd3c1",
-      "review_sha256": "012d952cb561cb6f22a2ad257c21b4757aa09f6b2f48c3fec4f20cd102495b43",
       "next_action": "forecast_outcome_inspector_reconciliation_contract_v2",
-      "unresolved_findings": [
-        "Independent scientific review pending/nonblocking for repaired scientific packets."
-      ],
+      "packet": "DESIGN_BRANCH_ELIGIBILITY_REVIEW_20260925_083000/REVIEW.json",
       "qrev_resolved": [
         "QREV-01"
       ],
+      "review_sha256": "012d952cb561cb6f22a2ad257c21b4757aa09f6b2f48c3fec4f20cd102495b43",
+      "review_status": "accepted_within_scope",
+      "reviewer_scope": "same_task_substantive_review_not_independent",
       "source_commit": "b5f5e56e361aadf39f01f69fadf1ea5fa56cead3",
-      "reviewer_scope": "same_task_substantive_review_not_independent"
+      "status": "complete_eligible_next_selected",
+      "step_id": "design_branch_eligibility_review_v2",
+      "unresolved_findings": [
+        "Independent scientific review pending/nonblocking for repaired scientific packets."
+      ]
     },
     {
-      "step_id": "forecast_outcome_inspector_reconciliation_contract_v2",
       "implementation_status": "complete_contract_and_focused_tests",
-      "status": "complete_contract_verified",
-      "review_status": "accepted_within_scope",
       "independent_review": false,
-      "reviewer_scope": "same_task_substantive_review_not_independent",
-      "packet": "FORECAST_OUTCOME_INSPECTOR_CONTRACT_20260925_084500/REVIEW.json",
-      "source_commit": "684f677d8e6a701b7f538c384d65afd8934fdb63",
-      "tests": "50 passed",
       "next_action": "forecast_outcome_inspector_preserved_artifact_probe_v2",
+      "packet": "FORECAST_OUTCOME_INSPECTOR_CONTRACT_20260925_084500/REVIEW.json",
+      "review_status": "accepted_within_scope",
+      "reviewer_scope": "same_task_substantive_review_not_independent",
+      "source_commit": "684f677d8e6a701b7f538c384d65afd8934fdb63",
+      "status": "complete_contract_verified",
+      "step_id": "forecast_outcome_inspector_reconciliation_contract_v2",
+      "tests": "50 passed",
       "unresolved_findings": [
         "Independent review pending/nonblocking."
       ]
     },
     {
-      "step_id": "forecast_outcome_inspector_preserved_artifact_probe_v2",
       "implementation_status": "complete_preserved_artifact_probe",
-      "status": "complete_contract_probe_accepted",
-      "review_status": "accepted_within_scope",
       "independent_review": false,
-      "reviewer_scope": "same_task_substantive_review_not_independent",
-      "packet": "FORECAST_OUTCOME_INSPECTOR_PROBE_20260925_084200/REVIEW.json",
-      "source_commit": "02d5190ba1e87a8486987501b46416181e6e0bc8",
       "next_action": "corrected_input_successor_support_census_v2",
+      "packet": "FORECAST_OUTCOME_INSPECTOR_PROBE_20260925_084200/REVIEW.json",
+      "review_status": "accepted_within_scope",
+      "reviewer_scope": "same_task_substantive_review_not_independent",
+      "source_commit": "02d5190ba1e87a8486987501b46416181e6e0bc8",
+      "status": "complete_contract_probe_accepted",
+      "step_id": "forecast_outcome_inspector_preserved_artifact_probe_v2",
       "unresolved_findings": [
         "Independent review pending/nonblocking."
       ]
     },
     {
-      "step_id": "corrected_input_successor_support_census_v2",
       "implementation_status": "complete_support_census_no_fit",
-      "status": "blocked_historical_lineage_scoped_next_design_branch_selected",
-      "review_status": "accepted_within_scope",
       "independent_review": false,
-      "reviewer_scope": "same_task_substantive_review_not_independent",
-      "packet": "CORRECTED_INPUT_SUPPORT_CENSUS_20260925_084300/REVIEW.json",
-      "source_commit": "f5274d6e451af7850e1435467eb1d932b0132b48",
       "next_action": "behavior_changing_cost_stress_support_census_v2",
+      "packet": "CORRECTED_INPUT_SUPPORT_CENSUS_20260925_084300/REVIEW.json",
+      "review_status": "accepted_within_scope",
+      "reviewer_scope": "same_task_substantive_review_not_independent",
+      "source_commit": "f5274d6e451af7850e1435467eb1d932b0132b48",
+      "status": "blocked_historical_lineage_scoped_next_design_branch_selected",
+      "step_id": "corrected_input_successor_support_census_v2",
       "unresolved_findings": [
         "Historical corrected 220/227/795/native-pip candidates require exact lineage retrieval/qualification; D-drive investigation deferred."
       ]
     },
     {
-      "step_id": "behavior_changing_cost_stress_support_census_v2",
       "implementation_status": "complete_prespecified_synthetic_cost_stress_replay",
-      "status": "complete_synthetic_stress_not_policy_evidence",
-      "review_status": "accepted_within_scope",
       "independent_review": false,
-      "reviewer_scope": "same_task_substantive_review_not_independent",
-      "packet": "COST_STRESS_REPLAY_20260925_084700/REVIEW.json",
-      "source_commit": "b977d245bcaf39e226c3eec2d993c03d60cfc6a6",
       "next_action": "currency_concentration_support_census_v2",
+      "packet": "COST_STRESS_REPLAY_20260925_084700/REVIEW.json",
+      "review_status": "accepted_within_scope",
+      "reviewer_scope": "same_task_substantive_review_not_independent",
+      "source_commit": "b977d245bcaf39e226c3eec2d993c03d60cfc6a6",
+      "status": "complete_synthetic_stress_not_policy_evidence",
+      "step_id": "behavior_changing_cost_stress_support_census_v2",
       "unresolved_findings": [
         "Synthetic stress is not historical execution or policy profitability evidence."
       ]
     },
     {
-      "step_id": "currency_concentration_support_census_v2",
       "implementation_status": "complete_support_census_tests_passed",
-      "status": "complete_offline_support_time_weighted_exposure_unestablished",
-      "review_status": "accepted_within_scope",
       "independent_review": false,
-      "reviewer_scope": "same_task_substantive_review_not_independent",
-      "packet": "CURRENCY_CONCENTRATION_SUPPORT_CENSUS_20260925_085200/REVIEW.json",
-      "source_commit": "aa1ea945f5373f4e41d4380990c4eb504e06b6da",
       "next_action": "interaction_null_control_support_census_v2",
+      "packet": "CURRENCY_CONCENTRATION_SUPPORT_CENSUS_20260925_085200/REVIEW.json",
+      "review_status": "accepted_within_scope",
+      "reviewer_scope": "same_task_substantive_review_not_independent",
+      "source_commit": "aa1ea945f5373f4e41d4380990c4eb504e06b6da",
+      "status": "complete_offline_support_time_weighted_exposure_unestablished",
+      "step_id": "currency_concentration_support_census_v2",
       "unresolved_findings": [
         "Simultaneous/time-weighted all-68 portfolio exposure campaign not established."
       ]
     },
     {
-      "step_id": "interaction_null_control_support_census_v2",
       "implementation_status": "complete_reuse_existing_packets_no_duplicate_run",
-      "status": "complete_existing_artifacts_found",
-      "review_status": "accepted_within_scope",
       "independent_review": false,
-      "reviewer_scope": "same_task_substantive_review_not_independent",
-      "packet": "INTERACTION_NULL_SUPPORT_CENSUS_20260925_085800/REVIEW.json",
-      "source_commit": "7de8a1f05bf85c56c73f7eba34ab3d767bde80a2",
       "next_action": "remaining_design_branch_eligibility_refresh_v2",
+      "packet": "INTERACTION_NULL_SUPPORT_CENSUS_20260925_085800/REVIEW.json",
+      "review_status": "accepted_within_scope",
+      "reviewer_scope": "same_task_substantive_review_not_independent",
+      "source_commit": "7de8a1f05bf85c56c73f7eba34ab3d767bde80a2",
+      "status": "complete_existing_artifacts_found",
+      "step_id": "interaction_null_control_support_census_v2",
       "unresolved_findings": [
         "Independent confirmation and trading readiness remain unclaimed."
       ]
     },
     {
-      "step_id": "remaining_design_branch_eligibility_refresh_v2",
       "implementation_status": "complete_remaining_eligibility_refresh",
-      "status": "terminal_no_further_useful_authorized_offline_package_under_current_boundaries",
-      "review_status": "changes_requested",
       "independent_review": true,
-      "reviewer_scope": "same_task_substantive_review_not_independent",
-      "packet": "REMAINING_DESIGN_ELIGIBILITY_REFRESH_20260925_090300/REVIEW.json",
-      "source_commit": "8bbf9a90b12c11e159801f3f04f6bcb00bf5c3d3",
+      "independent_review_scope": "Scoped REV findings independently confirmed/narrowed; no full scientific acceptance",
       "next_action": "await_external_inputs_or_independent_review",
-      "unresolved_findings": [
-        "Design not complete; scoped blockers require external inputs, retrieval/qualification, independent review or explicit authorization for deferred boundaries.",
-        "REV-05"
-      ],
+      "packet": "REMAINING_DESIGN_ELIGIBILITY_REFRESH_20260925_090300/REVIEW.json",
       "review_history": [
         {
-          "utc": "2026-09-25T12:49:39.428366+00:00",
+          "independent_review": false,
           "previous_review_status": "accepted_within_scope",
           "result": "CHECKPOINT_REVIEW_20260925_124551/REVIEW_RESULT.json",
-          "verdict": "changes_requested",
-          "independent_review": false
+          "utc": "2026-09-25T12:49:39.428366+00:00",
+          "verdict": "changes_requested"
         },
         {
-          "utc": "2026-09-25T13:05:31.918406+00:00",
-          "verdict": "changes_requested",
-          "result": "INDEPENDENT_CHECKPOINT_REVIEW_20260925_130011/REVIEW_RESULT.json",
-          "independent_review": true,
-          "scope": "Independent verification of listed scoped findings; not full scientific acceptance",
           "finding_ids": [
             "REV-05"
-          ]
+          ],
+          "independent_review": true,
+          "result": "INDEPENDENT_CHECKPOINT_REVIEW_20260925_130011/REVIEW_RESULT.json",
+          "scope": "Independent verification of listed scoped findings; not full scientific acceptance",
+          "utc": "2026-09-25T13:05:31.918406+00:00",
+          "verdict": "changes_requested"
         }
       ],
       "review_result": "INDEPENDENT_CHECKPOINT_REVIEW_20260925_130011/REVIEW_RESULT.json",
-      "independent_review_scope": "Scoped REV findings independently confirmed/narrowed; no full scientific acceptance",
-      "review_result_sha256": "9390dd44855921f0e67f6dea5071d26803344ed2af0c30850307a015a00846bd"
+      "review_result_sha256": "9390dd44855921f0e67f6dea5071d26803344ed2af0c30850307a015a00846bd",
+      "review_status": "changes_requested",
+      "reviewer_scope": "same_task_substantive_review_not_independent",
+      "source_commit": "8bbf9a90b12c11e159801f3f04f6bcb00bf5c3d3",
+      "status": "terminal_no_further_useful_authorized_offline_package_under_current_boundaries",
+      "step_id": "remaining_design_branch_eligibility_refresh_v2",
+      "unresolved_findings": [
+        "Design not complete; scoped blockers require external inputs, retrieval/qualification, independent review or explicit authorization for deferred boundaries.",
+        "REV-05"
+      ]
     },
     {
-      "step_id": "repair_design_authority_and_review_handoff_v2",
-      "implementation_status": "complete_design_authority_repair",
-      "review_status": "accepted_within_scope",
       "finding_ids": [
         "REV-01"
       ],
+      "implementation_status": "complete_design_authority_repair",
+      "independent_review": false,
+      "independent_review_scope": "Scoped REV findings independently confirmed/narrowed; no full scientific acceptance",
+      "next_action": "residual_r4_full_relocated_replay_verification_v2",
       "packet": "DESIGN_AUTHORITY_REPAIR_20260925_135023/REVIEW.json",
       "packet_sha256": "8e4d9537e6a472a025881ca75cae3d40ddae807bf20ab16f7893adedcf1c9674",
-      "next_action": "residual_r4_full_relocated_replay_verification_v2",
-      "review_history": [
-        {
-          "utc": "2026-09-25T13:05:31.918406+00:00",
-          "verdict": "changes_requested",
-          "result": "INDEPENDENT_CHECKPOINT_REVIEW_20260925_130011/REVIEW_RESULT.json",
-          "independent_review": true,
-          "scope": "Independent verification of listed scoped findings; not full scientific acceptance",
-          "finding_ids": [
-            "REV-01"
-          ]
-        }
-      ],
-      "independent_review": false,
-      "independent_review_scope": "Scoped REV findings independently confirmed/narrowed; no full scientific acceptance",
-      "review_result": "DESIGN_AUTHORITY_REPAIR_20260925_135023/REVIEW.md",
-      "review_result_sha256": "9390dd44855921f0e67f6dea5071d26803344ed2af0c30850307a015a00846bd",
-      "unresolved_findings": [],
-      "same_task_review": true,
       "resolved_findings": [
         "REV-01"
       ],
-      "source_commit": "2909b8393893624f4c646e9b3e4542ae86d5218d"
-    },
-    {
-      "step_id": "residual_r4_full_relocated_replay_verification_v2",
-      "implementation_status": "complete_portable_replication",
+      "review_history": [
+        {
+          "finding_ids": [
+            "REV-01"
+          ],
+          "independent_review": true,
+          "result": "INDEPENDENT_CHECKPOINT_REVIEW_20260925_130011/REVIEW_RESULT.json",
+          "scope": "Independent verification of listed scoped findings; not full scientific acceptance",
+          "utc": "2026-09-25T13:05:31.918406+00:00",
+          "verdict": "changes_requested"
+        }
+      ],
+      "review_result": "DESIGN_AUTHORITY_REPAIR_20260925_135023/REVIEW.md",
+      "review_result_sha256": "9390dd44855921f0e67f6dea5071d26803344ed2af0c30850307a015a00846bd",
       "review_status": "accepted_within_scope",
-      "finding_ids": [
-        "REV-02"
-      ],
-      "depends_on": [
-        "repair_design_authority_and_review_handoff_v2"
-      ],
-      "next_action": "curve_authenticated_population_guard_v2",
-      "independent_review": false,
       "same_task_review": true,
-      "packet": "RESIDUAL_R4_RELOCATED_REPLAY_20260925_140153/REVIEW.json",
-      "packet_sha256": "7f36f13d7dcc1ae3d90854c32a675b950cce9a2a348b1f367c07eb3ed552b1ef",
-      "review_result": "RESIDUAL_R4_RELOCATED_REPLAY_20260925_140153/REVIEW.md",
-      "resolved_findings": [
-        "REV-02"
-      ],
+      "source_commit": "2909b8393893624f4c646e9b3e4542ae86d5218d",
+      "step_id": "repair_design_authority_and_review_handoff_v2",
       "unresolved_findings": []
     },
     {
-      "step_id": "curve_authenticated_population_guard_v2",
-      "implementation_status": "complete_input_contract_repair",
-      "review_status": "accepted_within_scope",
-      "finding_ids": [
-        "REV-03"
+      "depends_on": [
+        "repair_design_authority_and_review_handoff_v2"
       ],
+      "finding_ids": [
+        "REV-02"
+      ],
+      "implementation_status": "complete_portable_replication",
+      "independent_review": false,
+      "next_action": "curve_authenticated_population_guard_v2",
+      "packet": "RESIDUAL_R4_RELOCATED_REPLAY_20260925_140153/REVIEW.json",
+      "packet_sha256": "7f36f13d7dcc1ae3d90854c32a675b950cce9a2a348b1f367c07eb3ed552b1ef",
+      "resolved_findings": [
+        "REV-02"
+      ],
+      "review_result": "RESIDUAL_R4_RELOCATED_REPLAY_20260925_140153/REVIEW.md",
+      "review_status": "accepted_within_scope",
+      "same_task_review": true,
+      "step_id": "residual_r4_full_relocated_replay_verification_v2",
+      "unresolved_findings": []
+    },
+    {
       "depends_on": [
         "residual_r4_full_relocated_replay_verification_v2"
       ],
-      "next_action": "rich_feature_family_incremental_comparison_v2",
-      "same_task_review": true,
+      "finding_ids": [
+        "REV-03"
+      ],
+      "implementation_status": "complete_input_contract_repair",
       "independent_review": false,
+      "next_action": "rich_feature_family_incremental_comparison_v2",
       "packet": "CURVE_POPULATION_GUARD_20260925_141000/REVIEW.json",
       "packet_sha256": "5d297f66c8e019560788a042bd27d54f14ce66e4e40984a4a142ae020acb010a",
       "resolved_findings": [
         "REV-03"
       ],
-      "unresolved_findings": [],
-      "source_commit": "d15ce47c38b7b4a2175835011c047156efc141f5"
+      "review_status": "accepted_within_scope",
+      "same_task_review": true,
+      "source_commit": "d15ce47c38b7b4a2175835011c047156efc141f5",
+      "step_id": "curve_authenticated_population_guard_v2",
+      "unresolved_findings": []
     },
     {
-      "step_id": "retained_policy_exposure_or_cost_support_qualification_v2",
-      "implementation_status": "complete_selected_reference_support_and_descriptive_report",
-      "review_status": "accepted_within_scope",
-      "finding_ids": [
-        "REV-05"
-      ],
       "depends_on": [
         "rich_feature_family_incremental_comparison_v2"
       ],
-      "next_action": "bounded_distinct_method_support_qualification_v2",
-      "same_task_review": true,
+      "finding_ids": [
+        "REV-05"
+      ],
+      "implementation_status": "complete_selected_reference_support_and_descriptive_report",
       "independent_review": false,
+      "next_action": "bounded_distinct_method_support_qualification_v2",
       "packet": "POLICY_EXPOSURE_REFERENCE_20260925_143200/REVIEW.json",
       "packet_sha256": "5147be4f19e907bba980948e751c0f31f9c9675308b93285d608137dd5c717dc",
       "resolved_findings": [
         "REV-05_policy_support"
       ],
+      "review_status": "accepted_within_scope",
+      "same_task_review": true,
+      "source_commit": "3d3c9198de978775da753dd25b3c983eb3ff2586",
+      "step_id": "retained_policy_exposure_or_cost_support_qualification_v2",
       "unresolved_findings": [
         "REV-05_distinct_method_qualification"
-      ],
-      "source_commit": "3d3c9198de978775da753dd25b3c983eb3ff2586"
+      ]
     },
     {
-      "step_id": "bounded_distinct_method_support_qualification_v2",
-      "implementation_status": "support_qualified_no_fit",
-      "review_status": "accepted_within_qualification_scope",
-      "finding_ids": [
-        "REV-05"
-      ],
       "depends_on": [
         "retained_policy_exposure_or_cost_support_qualification_v2"
       ],
-      "next_action": "extra_trees_matched_development_comparison_v1",
-      "same_task_review": true,
+      "finding_ids": [
+        "REV-05"
+      ],
+      "implementation_status": "support_qualified_no_fit",
       "independent_review": false,
+      "next_action": "extra_trees_matched_development_comparison_v1",
       "packet": "DISTINCT_METHOD_QUALIFICATION_20260925_144000/REVIEW.json",
       "packet_sha256": "3a46181eb2c2ce8fb6df7e2f95993abc74232bce43df0c5c45960b3475994ac5",
       "resolved_findings": [
         "REV-05_distinct_method_qualification"
       ],
-      "unresolved_findings": [],
-      "source_commit": "a5eaa97fa669f1b68b6eb3d382382af53d5e2620"
+      "review_status": "accepted_within_qualification_scope",
+      "same_task_review": true,
+      "source_commit": "a5eaa97fa669f1b68b6eb3d382382af53d5e2620",
+      "step_id": "bounded_distinct_method_support_qualification_v2",
+      "unresolved_findings": []
     },
     {
-      "step_id": "extra_trees_matched_development_comparison_v1",
-      "implementation_status": "partial_checkpoint_deadline",
-      "review_status": "not_started",
+      "candidate_contract": "DISTINCT_METHOD_QUALIFICATION_20260925_144000/evidence/QUALIFICATION.json",
       "depends_on": [
         "bounded_distinct_method_support_qualification_v2"
       ],
-      "candidate_contract": "DISTINCT_METHOD_QUALIFICATION_20260925_144000/evidence/QUALIFICATION.json",
+      "implementation_status": "partial_checkpoint_deadline",
+      "next_action": "On fresh authorization, review/test the preserved source draft, then implement and evaluate one prespecified Extra Trees regressor against matched preserved controls.",
       "partial_handoff": "FOUR_HOUR_DEADLINE_HANDOFF_20260925_180439/HANDOFF.md",
+      "review_status": "not_started",
       "source_commit": "6eb514ab1856190b39d83ab020d5f77700ca8770",
-      "next_action": "On fresh authorization, review/test the preserved source draft, then implement and evaluate one prespecified Extra Trees regressor against matched preserved controls."
+      "step_id": "extra_trees_matched_development_comparison_v1"
     }
   ],
   "timed_session": {
@@ -4721,95 +4820,5 @@
     "source_commit": "6eb514ab1856190b39d83ab020d5f77700ca8770",
     "updated_utc": "2026-09-25T18:12:00.5976014Z"
   },
-  "updated_utc": "2026-09-30T09:00:24.670746+00:00",
-  "independent_checkpoint_review": {
-    "packet": "INDEPENDENT_CHECKPOINT_REVIEW_20260925_130011/REVIEW_RESULT.json",
-    "sha256": "9390dd44855921f0e67f6dea5071d26803344ed2af0c30850307a015a00846bd",
-    "verdict": "changes_requested",
-    "findings": [
-      "REV-01",
-      "REV-02",
-      "REV-03",
-      "REV-04",
-      "REV-05"
-    ],
-    "scope": "Scoped findings; not full scientific qualification",
-    "candidate_followups": [
-      {
-        "order": 1,
-        "id": "repair_design_authority_and_review_handoff_v2",
-        "purpose": "Restore verified full engineering design navigation while keeping source snapshot authority and current queue roles explicit.",
-        "finding": "REV-01"
-      },
-      {
-        "order": 2,
-        "id": "residual_r4_full_relocated_replay_verification_v2",
-        "purpose": "Reuse verified parent capsule and residual source; bind projection artifacts; publish exact isolated command and verify without original dependency roots.",
-        "finding": "REV-02"
-      },
-      {
-        "order": 3,
-        "id": "curve_authenticated_population_guard_v2",
-        "purpose": "Bind trusted bulk reference and recipe expected population; test shortened origin/instrument/base inputs through consumer; preserve saved negative result.",
-        "finding": "REV-03"
-      },
-      {
-        "order": 4,
-        "id": "rich_feature_family_incremental_comparison_v2",
-        "purpose": "Map actual families and attempted identities, qualify one materially untested supported mask or record exact per-candidate blockers.",
-        "finding": "REV-04"
-      },
-      {
-        "order": 5,
-        "id": "retained_policy_exposure_or_cost_support_qualification_v2",
-        "purpose": "Prespecify a retained reference scenario, validate lineage/population and qualify bounded descriptive exposure/cost work; no duplicate engine counting.",
-        "finding": "REV-05"
-      },
-      {
-        "order": 6,
-        "id": "bounded_distinct_method_support_qualification_v2",
-        "purpose": "Assess one distinct mechanism under its own reuse, causal population and resource contract; preserve recovered-only card blocker.",
-        "finding": "REV-05"
-      }
-    ]
-  },
-  "current_user_requested_context": "DASHBOARD_LIVE_RECOVERY_20260930/RESUME.md",
-  "reuse_correction_20260930": {
-    "status": "required_context_before_new_forecasting_claims",
-    "existing_work": [
-      "exact-horizon momentum/reversion controls",
-      "rolling specialists and direct-Ridge reversal",
-      "original-record residual calibration",
-      "follow/fade news attribution"
-    ],
-    "recent_batch_scope": "simple momentum diagnostic, not full technical stack audit",
-    "next_action": "reconcile exact retained forecasts, dates and news availability before new research; no duplicate fits"
-  },
-  "latest_user_stop": {
-    "utc": "2026-09-30T07:36:32.911786+00:00",
-    "scope": "dashboard_cleanup_20260930",
-    "source_commit": "89446cfd490c8202ec838e2e1b999b673c758152",
-    "new_work_requires_resume": true
-  },
-  "latest_user_resume": {
-    "scope": "Full nontrading pipeline recovery and Git/Vault publication",
-    "recorded_utc": "2026-09-30T08:55:12.162114+00:00",
-    "step_id": "dashboard_live_recovery_20260930",
-    "scientific_queue_unchanged": true
-  },
-  "dashboard_source_qualification": {
-    "step_id": "dashboard_producer_qualification_20260930",
-    "implementation": "complete",
-    "review": "same_task_only",
-    "packet": "DASHBOARD_PRODUCER_QUALIFICATION_20260930",
-    "manifest_sha256": "b66f9d77df0b1e7b5815d1a1d60716d3416d9122f9cc854663d5934b1d92eb58",
-    "unresolved": [
-      "live_freshness",
-      "legacy_repair_v1",
-      "global_preflight"
-    ],
-    "next_action": "qualify intended producer inputs and launch prerequisites",
-    "source_commit": "d0f3ecbd04a6708a6bcf43b06b70b6be806f2bba",
-    "publication_receipt": "DASHBOARD_PRODUCER_PUBLICATION_20260930/RECEIPT.json"
-  }
+  "updated_utc": "2026-09-30T09:00:24.670746+00:00"
 }

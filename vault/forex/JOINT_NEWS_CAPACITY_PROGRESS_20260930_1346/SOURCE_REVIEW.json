@@ -1,0 +1,57 @@
+{
+  "schema": "news_capacity_same_task_source_review_v1",
+  "at": "2026-09-30T13:37:33.066343+00:00",
+  "independent_review": false,
+  "baseline_commit": "2d9173b4d756f408b9b4ea9745242aa7fcef1db4",
+  "checks": [
+    {
+      "original": "revision_transport_v6.py",
+      "original_git_bytes_unchanged": true,
+      "successor": "revision_transport_v7.py",
+      "sha256": "11cb3969f7eb05fa85ca475eb3a79a6f21fdf3ace60807706f34f06f5d1fbfd4"
+    },
+    {
+      "original": "revision_news_io_v12.py",
+      "original_git_bytes_unchanged": true,
+      "successor": "revision_news_io_v13.py",
+      "sha256": "c40ca8c2367a63e67eb89459e2dc122ba03877f7fc7957db22c9fd3e3c0aaadb"
+    },
+    {
+      "original": "revision_joint_point_v4.py",
+      "original_git_bytes_unchanged": true,
+      "successor": "revision_joint_point_v5.py",
+      "sha256": "46589f0ff0ece3c54e00ccfc211aaf63e0e9495f7b6c42c6c181acc7e40f2a91"
+    },
+    {
+      "original": "shared_revision_history_v5.py",
+      "original_git_bytes_unchanged": true,
+      "successor": "shared_revision_history_v6.py",
+      "sha256": "922f3074eed0e657d81bec28f9f882623478e038908d7d63fc71fd40e5e97449"
+    },
+    {
+      "original": "revision_joint_inputs_v5.py",
+      "original_git_bytes_unchanged": true,
+      "successor": "revision_joint_inputs_v6.py",
+      "sha256": "9999b3ac6ec39e802d5b782d419fb8afea64728b5256f3a454efac7c4bfdd82c"
+    },
+    {
+      "original": "oanda_causal_forecast_ledger_joint_news_v7.py",
+      "original_git_bytes_unchanged": true,
+      "successor": "oanda_causal_forecast_ledger_joint_news_v8.py",
+      "sha256": "fa2723f2016e91306688fff3031d20975ca6fff4bfc8832514278a138f62acd7"
+    },
+    {
+      "original": "oanda_joint_price_news_forecast_study_v9.py",
+      "original_git_bytes_unchanged": true,
+      "successor": "oanda_joint_price_news_forecast_study_v10.py",
+      "sha256": "7f70a3f587bd5de604e848d827e0f2d4de5955cd3bea2f960ac4b45ad749f896"
+    }
+  ],
+  "readiness": {
+    "implementation": "qualified_source_and_owned_tests",
+    "runtime": "live_history_replay_in_progress",
+    "forecast_evidence": "no_new_joint_forecasts_yet",
+    "trading": "not_authorized"
+  },
+  "scope": "Bounded capacity/read-work budgets and identity/routing only; unchanged numerical and causal bodies verified by tests. Original immutable byte/clock rows require final live readback."
+}

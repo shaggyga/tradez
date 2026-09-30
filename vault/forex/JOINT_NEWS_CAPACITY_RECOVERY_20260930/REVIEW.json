@@ -1,0 +1,56 @@
+{
+  "schema": "forex.operational_capacity_review.v1",
+  "step_id": "joint_news_transport_capacity_successor_v1",
+  "reviewed_utc": "2026-09-30T14:01:28.151400+00:00",
+  "status": "capacity_fix_verified_full_pipeline_pending",
+  "full_pipeline_ready": false,
+  "same_task_review": true,
+  "independent_review": false,
+  "source_baseline_commit": "2d9173b4d756f408b9b4ea9745242aa7fcef1db4",
+  "source_commit": "ce6bb7e2ab52a107d08f43b95d69c506864ea0d7",
+  "source_manifest": "FILE_CHANGES.json",
+  "source_manifest_sha256": "ce3a39ada8dd11ff4b5b98ac3529493ef3622bc6c0478b263b8dd4a4b25858ce",
+  "new_tests_passed": 164,
+  "original_source_unchanged": true,
+  "original_rows_exactly_preserved": true,
+  "readiness": {
+    "implementation": "capacity, bootstrap budgets, launcher and dashboard routing implemented and tested",
+    "verification": "164 final-scope tests; isolated source restore; exact original-row readback; actual publication beyond old cap",
+    "pipeline": "partial: retained backlog draining; fresh joint capture and model readiness not yet demonstrated; latest rolling status lagged during CPU saturation",
+    "trading": "not_authorized_orders_disabled"
+  },
+  "measured_transport": {
+    "caught_up": false,
+    "consumer_ack_epoch": 1790776647.5616074,
+    "consumer_ack_sha256": "17e12b00c295b4262776d873e9606474aa0ac21beab8e8b3dc3419e4c9843e4a",
+    "consumer_observed_epoch": 1790776644.2597737,
+    "consumer_receipt_sha256": "1505f52424f08fd66061c56166a14c8567c9d0d2bd090dced683700436b4725e",
+    "cycle_seconds": 37.280999999988126,
+    "more_pending": true,
+    "new_source_entries": 163,
+    "publication_status": "published_and_read_back",
+    "published_sequence": 382,
+    "run_id": "717fd0fe88004bdcbbee07011a97ded3",
+    "scan_completed_epoch": 1790776619.475759,
+    "scan_started_epoch": 1790776616.9163153,
+    "scan_through_seq": 23004,
+    "snapshot_sha256": "43706c298e48f08254b394165f461e45fc7d60851da958cc2f1fe6d614fb8e1b",
+    "source_high_watermark": 41805
+  },
+  "next_operational_item": "joint_news_catchup_and_readiness_verification_v1",
+  "scientific_queue_unchanged": "extra_trees_matched_development_comparison_v1",
+  "can_place_orders": false,
+  "pending": [
+    "Complete retained backlog catch-up and verify fresh joint capture before declaring joint forecast flow.",
+    "Unchanged model needs48 mature15-minute origins,12 nonzero context rows and8 distinct context patterns; no backdated availability.",
+    "Review rolling technical completion/freshness after heavy bootstrap; latest status age359.64sec was stale, not relabeled fresh.",
+    "Global scientific preflight pointer/schema findings and independent review remain distinct.",
+    "Automatic approval review blocked deletion of disposable restored source; it remains under local evidence."
+  ],
+  "known_diagnostics": [
+    "One new transport packed-capture timeout recovered with later valid batches.",
+    "Joint cold-validation/phase timeouts preserve checked prefix for retry; last snapshot679/703 original observations validated.",
+    "One joint heartbeat atomic-write PermissionError recovered; historical last_error does not alone prove current failure.",
+    "Inherited trailing space in the frozen transport function produced one diff-check warning; retained to preserve deployed source identity."
+  ]
+}
