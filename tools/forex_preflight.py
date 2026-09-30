@@ -218,12 +218,27 @@ def preflight(root, vault, *, expected_revision=None, claim_id=None, work_item=N
         claims = active_claims(state["board"])
         state["claims"] = claims
         others = [c for c in claims if c["task_id"] != claim_id]
+        # A sealed, work-specific manual scope review can establish non-overlap.
+        # Keep the other owner's claim intact; never infer release from age/status.
+        reconciled = []
+        for review in state["review_manifest"].get("coordination_reconciliations", []):
+            workspace.require(review.get("work_item") == (work_item or state["queue"].get("exact_next_item"))
+                              and review.get("claim_id") == claim_id and claim_id is not None,
+                              "Coordination reconciliation belongs to a different work item/owner")
+            workspace.require(review.get("decision") == "nonoverlapping" and
+                              isinstance(review.get("reason"), str) and review["reason"].strip(),
+                              "Coordination reconciliation lacks a substantive scope decision")
+            other = review.get("other_claim")
+            workspace.require(other in others, "Reconciled claim changed or is no longer uniquely active")
+            others.remove(other)
+            reconciled.append(review)
         workspace.require(not others, "Unresolved coordination owners require scope reconciliation: " + ", ".join(c["task_id"] for c in others))
         if claim_id:
             own = [c for c in claims if c["task_id"] == claim_id]
             workspace.require(len(own) == 1 and own[0]["status"] in {"CLAIMED", "IN_PROGRESS"},
                               "Supplied claim is absent, terminal or not active")
         return {"active_claims": claims, "claim_id": claim_id, "claim_created": False,
+                "sealed_scope_reconciliations": reconciled,
                 "atomic_cross_machine_reservation": False}
 
     def gate():

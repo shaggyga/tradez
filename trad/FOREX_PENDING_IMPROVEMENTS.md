@@ -5842,3 +5842,6 @@ Next `news_capture_latency_and_current_move_mapping_v1`: upstream source latency
 Step `news_capture_latency_and_current_move_mapping_v1`; source `09bc3171a481bd42ceb670bb1be51e8238f81fa3`; Vault `NEWS_CAPTURE_MAPPING_20260930/REVIEW.json`; manifest SHA256 `834e57c68018953ec9813e8262ec58d3f32ce5fdd1304801208583dcd0bb5b76`.12 selected existing feeds, separate headline provenance/cache, current technical and actual saved forecast observations deployed.124 staged tests;33 overlapping final focused tests and33 restored-source tests passed. Native/HTTP verified12 feeds and current mapping:168 forecasts/385 event-pair mappings/62 feature snapshots in dated receipt. Outcome targets not yet mature. Same-task review; independent_review=false. No model replacement, paid calls, account or other-chat recorder changes.
 
 Local actual-work log `evidence/news_capture_mapping_20260930/WORK_LOG.jsonl`; exact pending issues in its PENDING_CHANGES.md. Next `joint_v11_mature_forecast_verification_v1`; typed-feature qualification and scientific preflight/Extra Trees partial remain open. No predictive improvement or complete research queue claimed.
+
+
+September30 research handoff repair: `RESEARCH_HANDOFF_REPAIR_20260930_195000/REVIEW.json`; see `docs/RESEARCH_HANDOFF_REPAIR_20260930.md`. Extra Trees still partial; no new fit/result yet.

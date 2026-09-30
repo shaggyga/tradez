@@ -96,3 +96,6 @@ remain deferred. Operational readiness itself does not launch or authorize resea
 
 Earlier notices and their exact bytes are retained in
 [handoff history](docs/history/FOREX_HANDOFF_before_operations_20260923.md).
+
+
+September30 research handoff repair: `RESEARCH_HANDOFF_REPAIR_20260930_195000/REVIEW.json`; see `docs/RESEARCH_HANDOFF_REPAIR_20260930.md`. Extra Trees still partial; no new fit/result yet.

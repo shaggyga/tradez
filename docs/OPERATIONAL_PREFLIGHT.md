@@ -37,6 +37,10 @@ The command checks:
   not create or take over one. Other unresolved owners require scope reconciliation.
   The Markdown board cannot reliably establish non-overlap automatically, so the
   tool conservatively reports unresolved claims until the board is reconciled.
+  A current sealed review manifest may contain `coordination_reconciliations`:
+  each binds the exact parsed other claim, selected work item, own claim and a
+  substantive manual non-overlap decision. Changed/additional claims fail closed.
+  This preserves unrelated capture ownership; it does not release or take over it.
 - Exact Python/package metadata in `requirements-engineering.lock.txt`. Use
   `--profile stdlib` only for document and byte-retrieval work; it explicitly leaves
   the numerical environment unchecked. No packages are imported to inspect versions.

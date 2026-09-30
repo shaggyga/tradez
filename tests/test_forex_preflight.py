@@ -283,6 +283,34 @@ class PreflightTests(unittest.TestCase):
         with mock.patch.object(preflight.Snapshot, "unchanged", changed):
             self.assert_block(self.inspect(), "snapshot_stability")
 
+    def scope_review(self):
+        self.board([("capture", "IN_PROGRESS"), ("me", "IN_PROGRESS")])
+        other = preflight.active_claims((self.vault / "CHAT_COORDINATION_BOARD.md").read_text())[0]
+        manifest = json.loads((self.vault / "docs/MANIFEST.json").read_text())
+        manifest["coordination_reconciliations"] = [{"work_item": "next_science", "claim_id": "me",
+            "decision": "nonoverlapping", "other_claim": other,
+            "reason": "Fixture scope review: capture owns recorder; selected research owns isolated saved inputs."}]
+        self.seal("docs", {"REVIEW.md": b"Accepted scope.\n"}, "CHECKPOINT_REVIEW_LATEST.json",
+                  manifest, {"review": "docs/REVIEW.md"})
+
+    def test_sealed_exact_scope_review_preserves_other_owner(self):
+        self.scope_review()
+        report = self.inspect(claim_id="me")
+        self.assertEqual(report["status"], "pass", report)
+        self.assertEqual(len(report["unresolved_claims"]), 2)
+
+    def test_scope_review_cannot_cover_changed_or_additional_owner(self):
+        self.scope_review()
+        self.board([("capture", "HANDOFF"), ("me", "IN_PROGRESS")])
+        self.assert_block(self.inspect(claim_id="me"), "coordination")
+        self.board([("capture", "IN_PROGRESS"), ("me", "IN_PROGRESS"), ("unknown", "IN_PROGRESS")])
+        self.assert_block(self.inspect(claim_id="me"), "coordination")
+
+    def test_scope_review_cannot_be_reused_for_other_work_or_claim(self):
+        self.scope_review()
+        self.assert_block(self.inspect(), "coordination")
+        self.assert_block(self.inspect(claim_id="me", work_item="unreviewed"), "coordination")
+
     def test_preflight_does_not_modify_project_or_vault(self):
         def inventory():
             return {str(p.relative_to(self.base)): hashlib.sha256(p.read_bytes()).hexdigest()
