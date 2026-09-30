@@ -1,0 +1,1161 @@
+FFFFFFFFFFFFFFFFFFFF.FF.FFFFF                                            [100%]
+================================== FAILURES ===================================
+________ test_real_readonly_database_capture_replays_complete_context _________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5467/test_real_readonly_database_ca0')
+
+    def test_real_readonly_database_capture_replays_complete_context(tmp_path):
+>       f = make_repaired_fixture(tmp_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+trad\test_oanda_local_news_sentiment_repair_v1.py:68: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+trad\test_oanda_local_news_sentiment_repair_v1.py:58: in make_repaired_fixture
+    snapshot = repair.capture_repaired_snapshot(data, clock=lambda: now)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:346: in capture_repaired_snapshot
+    replayed = replay_source_evidence(evidence, as_of_epoch=asof)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:223: in replay_source_evidence
+    reconciled = reconciliation.reconcile_topic_identities_with_provenance(topics, as_of=asof)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_news_topic_identity_reconciliation_v1.py:249: in reconcile_topic_identities_with_provenance
+    guard.validate_guarded_topic(topic, as_of=as_of)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+topic = {'event_id': 'fixture_original_event', 'source_id': 'fixture_feed', 'source_name': 'Fixture Publisher', 'source_url': 'https://fixture.example/original', ...}
+as_of = datetime.datetime(2026, 9, 8, 19, 20, tzinfo=datetime.timezone.utc)
+
+    def validate_guarded_topic(topic, *, as_of):
+        """Return current admission evidence or raise for missing/tampered input.
+    
+        The caller must additionally bind the containing snapshot's first-observed
+        clock, producer source hashes and freshness. This seal is an integrity
+        checksum, not external authentication or proof of news truth.
+        """
+        as_of = _asof(as_of)
+        guard = topic.get("causal_aggregation_guard") if isinstance(topic, dict) else None
+        if not isinstance(guard, dict) or guard.get("version") != GUARD_VERSION:
+>           raise ValueError("guarded_member_evidence_missing")
+E           ValueError: guarded_member_evidence_missing
+
+trad\oanda_news_causal_aggregation_guard_v1.py:297: ValueError
+_______ test_completeness_and_exact_rows_reject_tamper[complete-False] ________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5467/test_completeness_and_exact_ro0')
+field = 'complete', value = False
+
+    @pytest.mark.parametrize("field,value", [("complete", False), ("row_count", 0), ("rows_sha256", "0" * 64), ("payload_bytes", 0)])
+    def test_completeness_and_exact_rows_reject_tamper(tmp_path, field, value):
+>       s = make_repaired_fixture(tmp_path)["snapshot"]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+trad\test_oanda_local_news_sentiment_repair_v1.py:79: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+trad\test_oanda_local_news_sentiment_repair_v1.py:58: in make_repaired_fixture
+    snapshot = repair.capture_repaired_snapshot(data, clock=lambda: now)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:346: in capture_repaired_snapshot
+    replayed = replay_source_evidence(evidence, as_of_epoch=asof)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:223: in replay_source_evidence
+    reconciled = reconciliation.reconcile_topic_identities_with_provenance(topics, as_of=asof)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_news_topic_identity_reconciliation_v1.py:249: in reconcile_topic_identities_with_provenance
+    guard.validate_guarded_topic(topic, as_of=as_of)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+topic = {'event_id': 'fixture_original_event', 'source_id': 'fixture_feed', 'source_name': 'Fixture Publisher', 'source_url': 'https://fixture.example/original', ...}
+as_of = datetime.datetime(2026, 9, 8, 19, 20, tzinfo=datetime.timezone.utc)
+
+    def validate_guarded_topic(topic, *, as_of):
+        """Return current admission evidence or raise for missing/tampered input.
+    
+        The caller must additionally bind the containing snapshot's first-observed
+        clock, producer source hashes and freshness. This seal is an integrity
+        checksum, not external authentication or proof of news truth.
+        """
+        as_of = _asof(as_of)
+        guard = topic.get("causal_aggregation_guard") if isinstance(topic, dict) else None
+        if not isinstance(guard, dict) or guard.get("version") != GUARD_VERSION:
+>           raise ValueError("guarded_member_evidence_missing")
+E           ValueError: guarded_member_evidence_missing
+
+trad\oanda_news_causal_aggregation_guard_v1.py:297: ValueError
+_________ test_completeness_and_exact_rows_reject_tamper[row_count-0] _________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5467/test_completeness_and_exact_ro1')
+field = 'row_count', value = 0
+
+    @pytest.mark.parametrize("field,value", [("complete", False), ("row_count", 0), ("rows_sha256", "0" * 64), ("payload_bytes", 0)])
+    def test_completeness_and_exact_rows_reject_tamper(tmp_path, field, value):
+>       s = make_repaired_fixture(tmp_path)["snapshot"]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+trad\test_oanda_local_news_sentiment_repair_v1.py:79: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+trad\test_oanda_local_news_sentiment_repair_v1.py:58: in make_repaired_fixture
+    snapshot = repair.capture_repaired_snapshot(data, clock=lambda: now)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:346: in capture_repaired_snapshot
+    replayed = replay_source_evidence(evidence, as_of_epoch=asof)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:223: in replay_source_evidence
+    reconciled = reconciliation.reconcile_topic_identities_with_provenance(topics, as_of=asof)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_news_topic_identity_reconciliation_v1.py:249: in reconcile_topic_identities_with_provenance
+    guard.validate_guarded_topic(topic, as_of=as_of)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+topic = {'event_id': 'fixture_original_event', 'source_id': 'fixture_feed', 'source_name': 'Fixture Publisher', 'source_url': 'https://fixture.example/original', ...}
+as_of = datetime.datetime(2026, 9, 8, 19, 20, tzinfo=datetime.timezone.utc)
+
+    def validate_guarded_topic(topic, *, as_of):
+        """Return current admission evidence or raise for missing/tampered input.
+    
+        The caller must additionally bind the containing snapshot's first-observed
+        clock, producer source hashes and freshness. This seal is an integrity
+        checksum, not external authentication or proof of news truth.
+        """
+        as_of = _asof(as_of)
+        guard = topic.get("causal_aggregation_guard") if isinstance(topic, dict) else None
+        if not isinstance(guard, dict) or guard.get("version") != GUARD_VERSION:
+>           raise ValueError("guarded_member_evidence_missing")
+E           ValueError: guarded_member_evidence_missing
+
+trad\oanda_news_causal_aggregation_guard_v1.py:297: ValueError
+_ test_completeness_and_exact_rows_reject_tamper[rows_sha256-0000000000000000000000000000000000000000000000000000000000000000] _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5467/test_completeness_and_exact_ro2')
+field = 'rows_sha256'
+value = '0000000000000000000000000000000000000000000000000000000000000000'
+
+    @pytest.mark.parametrize("field,value", [("complete", False), ("row_count", 0), ("rows_sha256", "0" * 64), ("payload_bytes", 0)])
+    def test_completeness_and_exact_rows_reject_tamper(tmp_path, field, value):
+>       s = make_repaired_fixture(tmp_path)["snapshot"]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+trad\test_oanda_local_news_sentiment_repair_v1.py:79: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+trad\test_oanda_local_news_sentiment_repair_v1.py:58: in make_repaired_fixture
+    snapshot = repair.capture_repaired_snapshot(data, clock=lambda: now)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:346: in capture_repaired_snapshot
+    replayed = replay_source_evidence(evidence, as_of_epoch=asof)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:223: in replay_source_evidence
+    reconciled = reconciliation.reconcile_topic_identities_with_provenance(topics, as_of=asof)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_news_topic_identity_reconciliation_v1.py:249: in reconcile_topic_identities_with_provenance
+    guard.validate_guarded_topic(topic, as_of=as_of)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+topic = {'event_id': 'fixture_original_event', 'source_id': 'fixture_feed', 'source_name': 'Fixture Publisher', 'source_url': 'https://fixture.example/original', ...}
+as_of = datetime.datetime(2026, 9, 8, 19, 20, tzinfo=datetime.timezone.utc)
+
+    def validate_guarded_topic(topic, *, as_of):
+        """Return current admission evidence or raise for missing/tampered input.
+    
+        The caller must additionally bind the containing snapshot's first-observed
+        clock, producer source hashes and freshness. This seal is an integrity
+        checksum, not external authentication or proof of news truth.
+        """
+        as_of = _asof(as_of)
+        guard = topic.get("causal_aggregation_guard") if isinstance(topic, dict) else None
+        if not isinstance(guard, dict) or guard.get("version") != GUARD_VERSION:
+>           raise ValueError("guarded_member_evidence_missing")
+E           ValueError: guarded_member_evidence_missing
+
+trad\oanda_news_causal_aggregation_guard_v1.py:297: ValueError
+_______ test_completeness_and_exact_rows_reject_tamper[payload_bytes-0] _______
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5467/test_completeness_and_exact_ro3')
+field = 'payload_bytes', value = 0
+
+    @pytest.mark.parametrize("field,value", [("complete", False), ("row_count", 0), ("rows_sha256", "0" * 64), ("payload_bytes", 0)])
+    def test_completeness_and_exact_rows_reject_tamper(tmp_path, field, value):
+>       s = make_repaired_fixture(tmp_path)["snapshot"]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+trad\test_oanda_local_news_sentiment_repair_v1.py:79: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+trad\test_oanda_local_news_sentiment_repair_v1.py:58: in make_repaired_fixture
+    snapshot = repair.capture_repaired_snapshot(data, clock=lambda: now)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:346: in capture_repaired_snapshot
+    replayed = replay_source_evidence(evidence, as_of_epoch=asof)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:223: in replay_source_evidence
+    reconciled = reconciliation.reconcile_topic_identities_with_provenance(topics, as_of=asof)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_news_topic_identity_reconciliation_v1.py:249: in reconcile_topic_identities_with_provenance
+    guard.validate_guarded_topic(topic, as_of=as_of)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+topic = {'event_id': 'fixture_original_event', 'source_id': 'fixture_feed', 'source_name': 'Fixture Publisher', 'source_url': 'https://fixture.example/original', ...}
+as_of = datetime.datetime(2026, 9, 8, 19, 20, tzinfo=datetime.timezone.utc)
+
+    def validate_guarded_topic(topic, *, as_of):
+        """Return current admission evidence or raise for missing/tampered input.
+    
+        The caller must additionally bind the containing snapshot's first-observed
+        clock, producer source hashes and freshness. This seal is an integrity
+        checksum, not external authentication or proof of news truth.
+        """
+        as_of = _asof(as_of)
+        guard = topic.get("causal_aggregation_guard") if isinstance(topic, dict) else None
+        if not isinstance(guard, dict) or guard.get("version") != GUARD_VERSION:
+>           raise ValueError("guarded_member_evidence_missing")
+E           ValueError: guarded_member_evidence_missing
+
+trad\oanda_news_causal_aggregation_guard_v1.py:297: ValueError
+_______ test_inert_flags_not_replaced_with_safe_defaults[research_only] _______
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5467/test_inert_flags_not_replaced_0')
+field = 'research_only'
+
+    @pytest.mark.parametrize("field", list(repair.INERT))
+    def test_inert_flags_not_replaced_with_safe_defaults(tmp_path, field):
+>       s = make_repaired_fixture(tmp_path)["snapshot"]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+trad\test_oanda_local_news_sentiment_repair_v1.py:86: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+trad\test_oanda_local_news_sentiment_repair_v1.py:58: in make_repaired_fixture
+    snapshot = repair.capture_repaired_snapshot(data, clock=lambda: now)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:346: in capture_repaired_snapshot
+    replayed = replay_source_evidence(evidence, as_of_epoch=asof)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:223: in replay_source_evidence
+    reconciled = reconciliation.reconcile_topic_identities_with_provenance(topics, as_of=asof)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_news_topic_identity_reconciliation_v1.py:249: in reconcile_topic_identities_with_provenance
+    guard.validate_guarded_topic(topic, as_of=as_of)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+topic = {'event_id': 'fixture_original_event', 'source_id': 'fixture_feed', 'source_name': 'Fixture Publisher', 'source_url': 'https://fixture.example/original', ...}
+as_of = datetime.datetime(2026, 9, 8, 19, 20, tzinfo=datetime.timezone.utc)
+
+    def validate_guarded_topic(topic, *, as_of):
+        """Return current admission evidence or raise for missing/tampered input.
+    
+        The caller must additionally bind the containing snapshot's first-observed
+        clock, producer source hashes and freshness. This seal is an integrity
+        checksum, not external authentication or proof of news truth.
+        """
+        as_of = _asof(as_of)
+        guard = topic.get("causal_aggregation_guard") if isinstance(topic, dict) else None
+        if not isinstance(guard, dict) or guard.get("version") != GUARD_VERSION:
+>           raise ValueError("guarded_member_evidence_missing")
+E           ValueError: guarded_member_evidence_missing
+
+trad\oanda_news_causal_aggregation_guard_v1.py:297: ValueError
+____ test_inert_flags_not_replaced_with_safe_defaults[execution_eligible] _____
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5467/test_inert_flags_not_replaced_1')
+field = 'execution_eligible'
+
+    @pytest.mark.parametrize("field", list(repair.INERT))
+    def test_inert_flags_not_replaced_with_safe_defaults(tmp_path, field):
+>       s = make_repaired_fixture(tmp_path)["snapshot"]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+trad\test_oanda_local_news_sentiment_repair_v1.py:86: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+trad\test_oanda_local_news_sentiment_repair_v1.py:58: in make_repaired_fixture
+    snapshot = repair.capture_repaired_snapshot(data, clock=lambda: now)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:346: in capture_repaired_snapshot
+    replayed = replay_source_evidence(evidence, as_of_epoch=asof)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:223: in replay_source_evidence
+    reconciled = reconciliation.reconcile_topic_identities_with_provenance(topics, as_of=asof)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_news_topic_identity_reconciliation_v1.py:249: in reconcile_topic_identities_with_provenance
+    guard.validate_guarded_topic(topic, as_of=as_of)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+topic = {'event_id': 'fixture_original_event', 'source_id': 'fixture_feed', 'source_name': 'Fixture Publisher', 'source_url': 'https://fixture.example/original', ...}
+as_of = datetime.datetime(2026, 9, 8, 19, 20, tzinfo=datetime.timezone.utc)
+
+    def validate_guarded_topic(topic, *, as_of):
+        """Return current admission evidence or raise for missing/tampered input.
+    
+        The caller must additionally bind the containing snapshot's first-observed
+        clock, producer source hashes and freshness. This seal is an integrity
+        checksum, not external authentication or proof of news truth.
+        """
+        as_of = _asof(as_of)
+        guard = topic.get("causal_aggregation_guard") if isinstance(topic, dict) else None
+        if not isinstance(guard, dict) or guard.get("version") != GUARD_VERSION:
+>           raise ValueError("guarded_member_evidence_missing")
+E           ValueError: guarded_member_evidence_missing
+
+trad\oanda_news_causal_aggregation_guard_v1.py:297: ValueError
+_____ test_inert_flags_not_replaced_with_safe_defaults[can_place_orders] ______
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5467/test_inert_flags_not_replaced_2')
+field = 'can_place_orders'
+
+    @pytest.mark.parametrize("field", list(repair.INERT))
+    def test_inert_flags_not_replaced_with_safe_defaults(tmp_path, field):
+>       s = make_repaired_fixture(tmp_path)["snapshot"]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+trad\test_oanda_local_news_sentiment_repair_v1.py:86: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+trad\test_oanda_local_news_sentiment_repair_v1.py:58: in make_repaired_fixture
+    snapshot = repair.capture_repaired_snapshot(data, clock=lambda: now)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:346: in capture_repaired_snapshot
+    replayed = replay_source_evidence(evidence, as_of_epoch=asof)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:223: in replay_source_evidence
+    reconciled = reconciliation.reconcile_topic_identities_with_provenance(topics, as_of=asof)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_news_topic_identity_reconciliation_v1.py:249: in reconcile_topic_identities_with_provenance
+    guard.validate_guarded_topic(topic, as_of=as_of)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+topic = {'event_id': 'fixture_original_event', 'source_id': 'fixture_feed', 'source_name': 'Fixture Publisher', 'source_url': 'https://fixture.example/original', ...}
+as_of = datetime.datetime(2026, 9, 8, 19, 20, tzinfo=datetime.timezone.utc)
+
+    def validate_guarded_topic(topic, *, as_of):
+        """Return current admission evidence or raise for missing/tampered input.
+    
+        The caller must additionally bind the containing snapshot's first-observed
+        clock, producer source hashes and freshness. This seal is an integrity
+        checksum, not external authentication or proof of news truth.
+        """
+        as_of = _asof(as_of)
+        guard = topic.get("causal_aggregation_guard") if isinstance(topic, dict) else None
+        if not isinstance(guard, dict) or guard.get("version") != GUARD_VERSION:
+>           raise ValueError("guarded_member_evidence_missing")
+E           ValueError: guarded_member_evidence_missing
+
+trad\oanda_news_causal_aggregation_guard_v1.py:297: ValueError
+________ test_inert_flags_not_replaced_with_safe_defaults[can_promote] ________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5467/test_inert_flags_not_replaced_3')
+field = 'can_promote'
+
+    @pytest.mark.parametrize("field", list(repair.INERT))
+    def test_inert_flags_not_replaced_with_safe_defaults(tmp_path, field):
+>       s = make_repaired_fixture(tmp_path)["snapshot"]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+trad\test_oanda_local_news_sentiment_repair_v1.py:86: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+trad\test_oanda_local_news_sentiment_repair_v1.py:58: in make_repaired_fixture
+    snapshot = repair.capture_repaired_snapshot(data, clock=lambda: now)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:346: in capture_repaired_snapshot
+    replayed = replay_source_evidence(evidence, as_of_epoch=asof)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:223: in replay_source_evidence
+    reconciled = reconciliation.reconcile_topic_identities_with_provenance(topics, as_of=asof)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_news_topic_identity_reconciliation_v1.py:249: in reconcile_topic_identities_with_provenance
+    guard.validate_guarded_topic(topic, as_of=as_of)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+topic = {'event_id': 'fixture_original_event', 'source_id': 'fixture_feed', 'source_name': 'Fixture Publisher', 'source_url': 'https://fixture.example/original', ...}
+as_of = datetime.datetime(2026, 9, 8, 19, 20, tzinfo=datetime.timezone.utc)
+
+    def validate_guarded_topic(topic, *, as_of):
+        """Return current admission evidence or raise for missing/tampered input.
+    
+        The caller must additionally bind the containing snapshot's first-observed
+        clock, producer source hashes and freshness. This seal is an integrity
+        checksum, not external authentication or proof of news truth.
+        """
+        as_of = _asof(as_of)
+        guard = topic.get("causal_aggregation_guard") if isinstance(topic, dict) else None
+        if not isinstance(guard, dict) or guard.get("version") != GUARD_VERSION:
+>           raise ValueError("guarded_member_evidence_missing")
+E           ValueError: guarded_member_evidence_missing
+
+trad\oanda_news_causal_aggregation_guard_v1.py:297: ValueError
+_______ test_inert_flags_not_replaced_with_safe_defaults[can_authorize] _______
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5467/test_inert_flags_not_replaced_4')
+field = 'can_authorize'
+
+    @pytest.mark.parametrize("field", list(repair.INERT))
+    def test_inert_flags_not_replaced_with_safe_defaults(tmp_path, field):
+>       s = make_repaired_fixture(tmp_path)["snapshot"]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+trad\test_oanda_local_news_sentiment_repair_v1.py:86: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+trad\test_oanda_local_news_sentiment_repair_v1.py:58: in make_repaired_fixture
+    snapshot = repair.capture_repaired_snapshot(data, clock=lambda: now)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:346: in capture_repaired_snapshot
+    replayed = replay_source_evidence(evidence, as_of_epoch=asof)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:223: in replay_source_evidence
+    reconciled = reconciliation.reconcile_topic_identities_with_provenance(topics, as_of=asof)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_news_topic_identity_reconciliation_v1.py:249: in reconcile_topic_identities_with_provenance
+    guard.validate_guarded_topic(topic, as_of=as_of)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+topic = {'event_id': 'fixture_original_event', 'source_id': 'fixture_feed', 'source_name': 'Fixture Publisher', 'source_url': 'https://fixture.example/original', ...}
+as_of = datetime.datetime(2026, 9, 8, 19, 20, tzinfo=datetime.timezone.utc)
+
+    def validate_guarded_topic(topic, *, as_of):
+        """Return current admission evidence or raise for missing/tampered input.
+    
+        The caller must additionally bind the containing snapshot's first-observed
+        clock, producer source hashes and freshness. This seal is an integrity
+        checksum, not external authentication or proof of news truth.
+        """
+        as_of = _asof(as_of)
+        guard = topic.get("causal_aggregation_guard") if isinstance(topic, dict) else None
+        if not isinstance(guard, dict) or guard.get("version") != GUARD_VERSION:
+>           raise ValueError("guarded_member_evidence_missing")
+E           ValueError: guarded_member_evidence_missing
+
+trad\oanda_news_causal_aggregation_guard_v1.py:297: ValueError
+_____ test_inert_flags_not_replaced_with_safe_defaults[account_eligible] ______
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5467/test_inert_flags_not_replaced_5')
+field = 'account_eligible'
+
+    @pytest.mark.parametrize("field", list(repair.INERT))
+    def test_inert_flags_not_replaced_with_safe_defaults(tmp_path, field):
+>       s = make_repaired_fixture(tmp_path)["snapshot"]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+trad\test_oanda_local_news_sentiment_repair_v1.py:86: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+trad\test_oanda_local_news_sentiment_repair_v1.py:58: in make_repaired_fixture
+    snapshot = repair.capture_repaired_snapshot(data, clock=lambda: now)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:346: in capture_repaired_snapshot
+    replayed = replay_source_evidence(evidence, as_of_epoch=asof)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:223: in replay_source_evidence
+    reconciled = reconciliation.reconcile_topic_identities_with_provenance(topics, as_of=asof)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_news_topic_identity_reconciliation_v1.py:249: in reconcile_topic_identities_with_provenance
+    guard.validate_guarded_topic(topic, as_of=as_of)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+topic = {'event_id': 'fixture_original_event', 'source_id': 'fixture_feed', 'source_name': 'Fixture Publisher', 'source_url': 'https://fixture.example/original', ...}
+as_of = datetime.datetime(2026, 9, 8, 19, 20, tzinfo=datetime.timezone.utc)
+
+    def validate_guarded_topic(topic, *, as_of):
+        """Return current admission evidence or raise for missing/tampered input.
+    
+        The caller must additionally bind the containing snapshot's first-observed
+        clock, producer source hashes and freshness. This seal is an integrity
+        checksum, not external authentication or proof of news truth.
+        """
+        as_of = _asof(as_of)
+        guard = topic.get("causal_aggregation_guard") if isinstance(topic, dict) else None
+        if not isinstance(guard, dict) or guard.get("version") != GUARD_VERSION:
+>           raise ValueError("guarded_member_evidence_missing")
+E           ValueError: guarded_member_evidence_missing
+
+trad\oanda_news_causal_aggregation_guard_v1.py:297: ValueError
+______ test_inert_flags_not_replaced_with_safe_defaults[proof_eligible] _______
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5467/test_inert_flags_not_replaced_6')
+field = 'proof_eligible'
+
+    @pytest.mark.parametrize("field", list(repair.INERT))
+    def test_inert_flags_not_replaced_with_safe_defaults(tmp_path, field):
+>       s = make_repaired_fixture(tmp_path)["snapshot"]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+trad\test_oanda_local_news_sentiment_repair_v1.py:86: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+trad\test_oanda_local_news_sentiment_repair_v1.py:58: in make_repaired_fixture
+    snapshot = repair.capture_repaired_snapshot(data, clock=lambda: now)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:346: in capture_repaired_snapshot
+    replayed = replay_source_evidence(evidence, as_of_epoch=asof)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:223: in replay_source_evidence
+    reconciled = reconciliation.reconcile_topic_identities_with_provenance(topics, as_of=asof)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_news_topic_identity_reconciliation_v1.py:249: in reconcile_topic_identities_with_provenance
+    guard.validate_guarded_topic(topic, as_of=as_of)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+topic = {'event_id': 'fixture_original_event', 'source_id': 'fixture_feed', 'source_name': 'Fixture Publisher', 'source_url': 'https://fixture.example/original', ...}
+as_of = datetime.datetime(2026, 9, 8, 19, 20, tzinfo=datetime.timezone.utc)
+
+    def validate_guarded_topic(topic, *, as_of):
+        """Return current admission evidence or raise for missing/tampered input.
+    
+        The caller must additionally bind the containing snapshot's first-observed
+        clock, producer source hashes and freshness. This seal is an integrity
+        checksum, not external authentication or proof of news truth.
+        """
+        as_of = _asof(as_of)
+        guard = topic.get("causal_aggregation_guard") if isinstance(topic, dict) else None
+        if not isinstance(guard, dict) or guard.get("version") != GUARD_VERSION:
+>           raise ValueError("guarded_member_evidence_missing")
+E           ValueError: guarded_member_evidence_missing
+
+trad\oanda_news_causal_aggregation_guard_v1.py:297: ValueError
+_____ test_current_clock_cannot_renew_stalled_collector[generated_utc-91] _____
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5467/test_current_clock_cannot_rene0')
+field = 'generated_utc', age = 91
+
+    @pytest.mark.parametrize("field,age", [("generated_utc", 91), ("last_progress_utc", 181)])
+    def test_current_clock_cannot_renew_stalled_collector(tmp_path, field, age):
+>       f = make_repaired_fixture(tmp_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+trad\test_oanda_local_news_sentiment_repair_v1.py:93: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+trad\test_oanda_local_news_sentiment_repair_v1.py:58: in make_repaired_fixture
+    snapshot = repair.capture_repaired_snapshot(data, clock=lambda: now)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:346: in capture_repaired_snapshot
+    replayed = replay_source_evidence(evidence, as_of_epoch=asof)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:223: in replay_source_evidence
+    reconciled = reconciliation.reconcile_topic_identities_with_provenance(topics, as_of=asof)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_news_topic_identity_reconciliation_v1.py:249: in reconcile_topic_identities_with_provenance
+    guard.validate_guarded_topic(topic, as_of=as_of)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+topic = {'event_id': 'fixture_original_event', 'source_id': 'fixture_feed', 'source_name': 'Fixture Publisher', 'source_url': 'https://fixture.example/original', ...}
+as_of = datetime.datetime(2026, 9, 8, 19, 20, tzinfo=datetime.timezone.utc)
+
+    def validate_guarded_topic(topic, *, as_of):
+        """Return current admission evidence or raise for missing/tampered input.
+    
+        The caller must additionally bind the containing snapshot's first-observed
+        clock, producer source hashes and freshness. This seal is an integrity
+        checksum, not external authentication or proof of news truth.
+        """
+        as_of = _asof(as_of)
+        guard = topic.get("causal_aggregation_guard") if isinstance(topic, dict) else None
+        if not isinstance(guard, dict) or guard.get("version") != GUARD_VERSION:
+>           raise ValueError("guarded_member_evidence_missing")
+E           ValueError: guarded_member_evidence_missing
+
+trad\oanda_news_causal_aggregation_guard_v1.py:297: ValueError
+__ test_current_clock_cannot_renew_stalled_collector[last_progress_utc-181] ___
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5467/test_current_clock_cannot_rene1')
+field = 'last_progress_utc', age = 181
+
+    @pytest.mark.parametrize("field,age", [("generated_utc", 91), ("last_progress_utc", 181)])
+    def test_current_clock_cannot_renew_stalled_collector(tmp_path, field, age):
+>       f = make_repaired_fixture(tmp_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+trad\test_oanda_local_news_sentiment_repair_v1.py:93: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+trad\test_oanda_local_news_sentiment_repair_v1.py:58: in make_repaired_fixture
+    snapshot = repair.capture_repaired_snapshot(data, clock=lambda: now)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:346: in capture_repaired_snapshot
+    replayed = replay_source_evidence(evidence, as_of_epoch=asof)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:223: in replay_source_evidence
+    reconciled = reconciliation.reconcile_topic_identities_with_provenance(topics, as_of=asof)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_news_topic_identity_reconciliation_v1.py:249: in reconcile_topic_identities_with_provenance
+    guard.validate_guarded_topic(topic, as_of=as_of)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+topic = {'event_id': 'fixture_original_event', 'source_id': 'fixture_feed', 'source_name': 'Fixture Publisher', 'source_url': 'https://fixture.example/original', ...}
+as_of = datetime.datetime(2026, 9, 8, 19, 20, tzinfo=datetime.timezone.utc)
+
+    def validate_guarded_topic(topic, *, as_of):
+        """Return current admission evidence or raise for missing/tampered input.
+    
+        The caller must additionally bind the containing snapshot's first-observed
+        clock, producer source hashes and freshness. This seal is an integrity
+        checksum, not external authentication or proof of news truth.
+        """
+        as_of = _asof(as_of)
+        guard = topic.get("causal_aggregation_guard") if isinstance(topic, dict) else None
+        if not isinstance(guard, dict) or guard.get("version") != GUARD_VERSION:
+>           raise ValueError("guarded_member_evidence_missing")
+E           ValueError: guarded_member_evidence_missing
+
+trad\oanda_news_causal_aggregation_guard_v1.py:297: ValueError
+_ test_attested_clock_rejects_future_disagreement_and_discontinuity[<lambda>0] _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5467/test_attested_clock_rejects_fu0')
+mutate = <function <lambda> at 0x0000027590470C20>
+
+    @pytest.mark.parametrize("mutate", [lambda s:s.update(host_clock_synchronized=False),
+        lambda s:s.update(generated_utc=repair.iso(NOW + 1)),
+        lambda s:s.update(broker_clock_lead_sec=5),
+        lambda s:s.update(clock_discontinuity_active=True)])
+    def test_attested_clock_rejects_future_disagreement_and_discontinuity(tmp_path, mutate):
+>       s = make_repaired_fixture(tmp_path)["snapshot"]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+trad\test_oanda_local_news_sentiment_repair_v1.py:106: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+trad\test_oanda_local_news_sentiment_repair_v1.py:58: in make_repaired_fixture
+    snapshot = repair.capture_repaired_snapshot(data, clock=lambda: now)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:346: in capture_repaired_snapshot
+    replayed = replay_source_evidence(evidence, as_of_epoch=asof)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:223: in replay_source_evidence
+    reconciled = reconciliation.reconcile_topic_identities_with_provenance(topics, as_of=asof)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_news_topic_identity_reconciliation_v1.py:249: in reconcile_topic_identities_with_provenance
+    guard.validate_guarded_topic(topic, as_of=as_of)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+topic = {'event_id': 'fixture_original_event', 'source_id': 'fixture_feed', 'source_name': 'Fixture Publisher', 'source_url': 'https://fixture.example/original', ...}
+as_of = datetime.datetime(2026, 9, 8, 19, 20, tzinfo=datetime.timezone.utc)
+
+    def validate_guarded_topic(topic, *, as_of):
+        """Return current admission evidence or raise for missing/tampered input.
+    
+        The caller must additionally bind the containing snapshot's first-observed
+        clock, producer source hashes and freshness. This seal is an integrity
+        checksum, not external authentication or proof of news truth.
+        """
+        as_of = _asof(as_of)
+        guard = topic.get("causal_aggregation_guard") if isinstance(topic, dict) else None
+        if not isinstance(guard, dict) or guard.get("version") != GUARD_VERSION:
+>           raise ValueError("guarded_member_evidence_missing")
+E           ValueError: guarded_member_evidence_missing
+
+trad\oanda_news_causal_aggregation_guard_v1.py:297: ValueError
+_ test_attested_clock_rejects_future_disagreement_and_discontinuity[<lambda>1] _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5467/test_attested_clock_rejects_fu1')
+mutate = <function <lambda> at 0x0000027590470CC0>
+
+    @pytest.mark.parametrize("mutate", [lambda s:s.update(host_clock_synchronized=False),
+        lambda s:s.update(generated_utc=repair.iso(NOW + 1)),
+        lambda s:s.update(broker_clock_lead_sec=5),
+        lambda s:s.update(clock_discontinuity_active=True)])
+    def test_attested_clock_rejects_future_disagreement_and_discontinuity(tmp_path, mutate):
+>       s = make_repaired_fixture(tmp_path)["snapshot"]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+trad\test_oanda_local_news_sentiment_repair_v1.py:106: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+trad\test_oanda_local_news_sentiment_repair_v1.py:58: in make_repaired_fixture
+    snapshot = repair.capture_repaired_snapshot(data, clock=lambda: now)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:346: in capture_repaired_snapshot
+    replayed = replay_source_evidence(evidence, as_of_epoch=asof)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:223: in replay_source_evidence
+    reconciled = reconciliation.reconcile_topic_identities_with_provenance(topics, as_of=asof)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_news_topic_identity_reconciliation_v1.py:249: in reconcile_topic_identities_with_provenance
+    guard.validate_guarded_topic(topic, as_of=as_of)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+topic = {'event_id': 'fixture_original_event', 'source_id': 'fixture_feed', 'source_name': 'Fixture Publisher', 'source_url': 'https://fixture.example/original', ...}
+as_of = datetime.datetime(2026, 9, 8, 19, 20, tzinfo=datetime.timezone.utc)
+
+    def validate_guarded_topic(topic, *, as_of):
+        """Return current admission evidence or raise for missing/tampered input.
+    
+        The caller must additionally bind the containing snapshot's first-observed
+        clock, producer source hashes and freshness. This seal is an integrity
+        checksum, not external authentication or proof of news truth.
+        """
+        as_of = _asof(as_of)
+        guard = topic.get("causal_aggregation_guard") if isinstance(topic, dict) else None
+        if not isinstance(guard, dict) or guard.get("version") != GUARD_VERSION:
+>           raise ValueError("guarded_member_evidence_missing")
+E           ValueError: guarded_member_evidence_missing
+
+trad\oanda_news_causal_aggregation_guard_v1.py:297: ValueError
+_ test_attested_clock_rejects_future_disagreement_and_discontinuity[<lambda>2] _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5467/test_attested_clock_rejects_fu2')
+mutate = <function <lambda> at 0x0000027590470D60>
+
+    @pytest.mark.parametrize("mutate", [lambda s:s.update(host_clock_synchronized=False),
+        lambda s:s.update(generated_utc=repair.iso(NOW + 1)),
+        lambda s:s.update(broker_clock_lead_sec=5),
+        lambda s:s.update(clock_discontinuity_active=True)])
+    def test_attested_clock_rejects_future_disagreement_and_discontinuity(tmp_path, mutate):
+>       s = make_repaired_fixture(tmp_path)["snapshot"]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+trad\test_oanda_local_news_sentiment_repair_v1.py:106: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+trad\test_oanda_local_news_sentiment_repair_v1.py:58: in make_repaired_fixture
+    snapshot = repair.capture_repaired_snapshot(data, clock=lambda: now)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:346: in capture_repaired_snapshot
+    replayed = replay_source_evidence(evidence, as_of_epoch=asof)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:223: in replay_source_evidence
+    reconciled = reconciliation.reconcile_topic_identities_with_provenance(topics, as_of=asof)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_news_topic_identity_reconciliation_v1.py:249: in reconcile_topic_identities_with_provenance
+    guard.validate_guarded_topic(topic, as_of=as_of)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+topic = {'event_id': 'fixture_original_event', 'source_id': 'fixture_feed', 'source_name': 'Fixture Publisher', 'source_url': 'https://fixture.example/original', ...}
+as_of = datetime.datetime(2026, 9, 8, 19, 20, tzinfo=datetime.timezone.utc)
+
+    def validate_guarded_topic(topic, *, as_of):
+        """Return current admission evidence or raise for missing/tampered input.
+    
+        The caller must additionally bind the containing snapshot's first-observed
+        clock, producer source hashes and freshness. This seal is an integrity
+        checksum, not external authentication or proof of news truth.
+        """
+        as_of = _asof(as_of)
+        guard = topic.get("causal_aggregation_guard") if isinstance(topic, dict) else None
+        if not isinstance(guard, dict) or guard.get("version") != GUARD_VERSION:
+>           raise ValueError("guarded_member_evidence_missing")
+E           ValueError: guarded_member_evidence_missing
+
+trad\oanda_news_causal_aggregation_guard_v1.py:297: ValueError
+_ test_attested_clock_rejects_future_disagreement_and_discontinuity[<lambda>3] _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5467/test_attested_clock_rejects_fu3')
+mutate = <function <lambda> at 0x0000027590470E00>
+
+    @pytest.mark.parametrize("mutate", [lambda s:s.update(host_clock_synchronized=False),
+        lambda s:s.update(generated_utc=repair.iso(NOW + 1)),
+        lambda s:s.update(broker_clock_lead_sec=5),
+        lambda s:s.update(clock_discontinuity_active=True)])
+    def test_attested_clock_rejects_future_disagreement_and_discontinuity(tmp_path, mutate):
+>       s = make_repaired_fixture(tmp_path)["snapshot"]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+trad\test_oanda_local_news_sentiment_repair_v1.py:106: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+trad\test_oanda_local_news_sentiment_repair_v1.py:58: in make_repaired_fixture
+    snapshot = repair.capture_repaired_snapshot(data, clock=lambda: now)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:346: in capture_repaired_snapshot
+    replayed = replay_source_evidence(evidence, as_of_epoch=asof)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:223: in replay_source_evidence
+    reconciled = reconciliation.reconcile_topic_identities_with_provenance(topics, as_of=asof)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_news_topic_identity_reconciliation_v1.py:249: in reconcile_topic_identities_with_provenance
+    guard.validate_guarded_topic(topic, as_of=as_of)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+topic = {'event_id': 'fixture_original_event', 'source_id': 'fixture_feed', 'source_name': 'Fixture Publisher', 'source_url': 'https://fixture.example/original', ...}
+as_of = datetime.datetime(2026, 9, 8, 19, 20, tzinfo=datetime.timezone.utc)
+
+    def validate_guarded_topic(topic, *, as_of):
+        """Return current admission evidence or raise for missing/tampered input.
+    
+        The caller must additionally bind the containing snapshot's first-observed
+        clock, producer source hashes and freshness. This seal is an integrity
+        checksum, not external authentication or proof of news truth.
+        """
+        as_of = _asof(as_of)
+        guard = topic.get("causal_aggregation_guard") if isinstance(topic, dict) else None
+        if not isinstance(guard, dict) or guard.get("version") != GUARD_VERSION:
+>           raise ValueError("guarded_member_evidence_missing")
+E           ValueError: guarded_member_evidence_missing
+
+trad\oanda_news_causal_aggregation_guard_v1.py:297: ValueError
+________________ test_cache_is_immutable_and_rechecks_bindings ________________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5467/test_cache_is_immutable_and_re0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000275907DAFF0>
+
+    def test_cache_is_immutable_and_rechecks_bindings(tmp_path, monkeypatch):
+>       s = make_repaired_fixture(tmp_path)["snapshot"]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+trad\test_oanda_local_news_sentiment_repair_v1.py:112: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+trad\test_oanda_local_news_sentiment_repair_v1.py:58: in make_repaired_fixture
+    snapshot = repair.capture_repaired_snapshot(data, clock=lambda: now)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:346: in capture_repaired_snapshot
+    replayed = replay_source_evidence(evidence, as_of_epoch=asof)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:223: in replay_source_evidence
+    reconciled = reconciliation.reconcile_topic_identities_with_provenance(topics, as_of=asof)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_news_topic_identity_reconciliation_v1.py:249: in reconcile_topic_identities_with_provenance
+    guard.validate_guarded_topic(topic, as_of=as_of)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+topic = {'event_id': 'fixture_original_event', 'source_id': 'fixture_feed', 'source_name': 'Fixture Publisher', 'source_url': 'https://fixture.example/original', ...}
+as_of = datetime.datetime(2026, 9, 8, 19, 20, tzinfo=datetime.timezone.utc)
+
+    def validate_guarded_topic(topic, *, as_of):
+        """Return current admission evidence or raise for missing/tampered input.
+    
+        The caller must additionally bind the containing snapshot's first-observed
+        clock, producer source hashes and freshness. This seal is an integrity
+        checksum, not external authentication or proof of news truth.
+        """
+        as_of = _asof(as_of)
+        guard = topic.get("causal_aggregation_guard") if isinstance(topic, dict) else None
+        if not isinstance(guard, dict) or guard.get("version") != GUARD_VERSION:
+>           raise ValueError("guarded_member_evidence_missing")
+E           ValueError: guarded_member_evidence_missing
+
+trad\oanda_news_causal_aggregation_guard_v1.py:297: ValueError
+__________ test_snapshot_failure_does_not_publish_current_heartbeat ___________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5467/test_snapshot_failure_does_not0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000275908000E0>
+
+    def test_snapshot_failure_does_not_publish_current_heartbeat(tmp_path, monkeypatch):
+>       f = make_repaired_fixture(tmp_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+trad\test_oanda_local_news_sentiment_repair_v1.py:121: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+trad\test_oanda_local_news_sentiment_repair_v1.py:58: in make_repaired_fixture
+    snapshot = repair.capture_repaired_snapshot(data, clock=lambda: now)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:346: in capture_repaired_snapshot
+    replayed = replay_source_evidence(evidence, as_of_epoch=asof)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:223: in replay_source_evidence
+    reconciled = reconciliation.reconcile_topic_identities_with_provenance(topics, as_of=asof)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_news_topic_identity_reconciliation_v1.py:249: in reconcile_topic_identities_with_provenance
+    guard.validate_guarded_topic(topic, as_of=as_of)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+topic = {'event_id': 'fixture_original_event', 'source_id': 'fixture_feed', 'source_name': 'Fixture Publisher', 'source_url': 'https://fixture.example/original', ...}
+as_of = datetime.datetime(2026, 9, 8, 19, 20, tzinfo=datetime.timezone.utc)
+
+    def validate_guarded_topic(topic, *, as_of):
+        """Return current admission evidence or raise for missing/tampered input.
+    
+        The caller must additionally bind the containing snapshot's first-observed
+        clock, producer source hashes and freshness. This seal is an integrity
+        checksum, not external authentication or proof of news truth.
+        """
+        as_of = _asof(as_of)
+        guard = topic.get("causal_aggregation_guard") if isinstance(topic, dict) else None
+        if not isinstance(guard, dict) or guard.get("version") != GUARD_VERSION:
+>           raise ValueError("guarded_member_evidence_missing")
+E           ValueError: guarded_member_evidence_missing
+
+trad\oanda_news_causal_aggregation_guard_v1.py:297: ValueError
+_________ test_successful_cycle_commits_heartbeat_hash_after_snapshot _________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5467/test_successful_cycle_commits_0')
+
+    def test_successful_cycle_commits_heartbeat_hash_after_snapshot(tmp_path):
+>       f = make_repaired_fixture(tmp_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+trad\test_oanda_local_news_sentiment_repair_v1.py:141: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+trad\test_oanda_local_news_sentiment_repair_v1.py:58: in make_repaired_fixture
+    snapshot = repair.capture_repaired_snapshot(data, clock=lambda: now)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:346: in capture_repaired_snapshot
+    replayed = replay_source_evidence(evidence, as_of_epoch=asof)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:223: in replay_source_evidence
+    reconciled = reconciliation.reconcile_topic_identities_with_provenance(topics, as_of=asof)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_news_topic_identity_reconciliation_v1.py:249: in reconcile_topic_identities_with_provenance
+    guard.validate_guarded_topic(topic, as_of=as_of)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+topic = {'event_id': 'fixture_original_event', 'source_id': 'fixture_feed', 'source_name': 'Fixture Publisher', 'source_url': 'https://fixture.example/original', ...}
+as_of = datetime.datetime(2026, 9, 8, 19, 20, tzinfo=datetime.timezone.utc)
+
+    def validate_guarded_topic(topic, *, as_of):
+        """Return current admission evidence or raise for missing/tampered input.
+    
+        The caller must additionally bind the containing snapshot's first-observed
+        clock, producer source hashes and freshness. This seal is an integrity
+        checksum, not external authentication or proof of news truth.
+        """
+        as_of = _asof(as_of)
+        guard = topic.get("causal_aggregation_guard") if isinstance(topic, dict) else None
+        if not isinstance(guard, dict) or guard.get("version") != GUARD_VERSION:
+>           raise ValueError("guarded_member_evidence_missing")
+E           ValueError: guarded_member_evidence_missing
+
+trad\oanda_news_causal_aggregation_guard_v1.py:297: ValueError
+____ test_complete_database_selection_is_not_the_published_500_topic_tail _____
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5467/test_complete_database_selecti0')
+
+    def test_complete_database_selection_is_not_the_published_500_topic_tail(tmp_path):
+>       f = make_repaired_fixture(tmp_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+trad\test_oanda_local_news_sentiment_repair_v1.py:151: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+trad\test_oanda_local_news_sentiment_repair_v1.py:58: in make_repaired_fixture
+    snapshot = repair.capture_repaired_snapshot(data, clock=lambda: now)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:346: in capture_repaired_snapshot
+    replayed = replay_source_evidence(evidence, as_of_epoch=asof)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:223: in replay_source_evidence
+    reconciled = reconciliation.reconcile_topic_identities_with_provenance(topics, as_of=asof)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_news_topic_identity_reconciliation_v1.py:249: in reconcile_topic_identities_with_provenance
+    guard.validate_guarded_topic(topic, as_of=as_of)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+topic = {'event_id': 'fixture_original_event', 'source_id': 'fixture_feed', 'source_name': 'Fixture Publisher', 'source_url': 'https://fixture.example/original', ...}
+as_of = datetime.datetime(2026, 9, 8, 19, 20, tzinfo=datetime.timezone.utc)
+
+    def validate_guarded_topic(topic, *, as_of):
+        """Return current admission evidence or raise for missing/tampered input.
+    
+        The caller must additionally bind the containing snapshot's first-observed
+        clock, producer source hashes and freshness. This seal is an integrity
+        checksum, not external authentication or proof of news truth.
+        """
+        as_of = _asof(as_of)
+        guard = topic.get("causal_aggregation_guard") if isinstance(topic, dict) else None
+        if not isinstance(guard, dict) or guard.get("version") != GUARD_VERSION:
+>           raise ValueError("guarded_member_evidence_missing")
+E           ValueError: guarded_member_evidence_missing
+
+trad\oanda_news_causal_aggregation_guard_v1.py:297: ValueError
+____ test_same_transaction_count_and_rows_exclude_concurrent_later_commit _____
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5467/test_same_transaction_count_an0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000275907DA330>
+
+    def test_same_transaction_count_and_rows_exclude_concurrent_later_commit(tmp_path, monkeypatch):
+>       f = make_repaired_fixture(tmp_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+trad\test_oanda_local_news_sentiment_repair_v1.py:184: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+trad\test_oanda_local_news_sentiment_repair_v1.py:58: in make_repaired_fixture
+    snapshot = repair.capture_repaired_snapshot(data, clock=lambda: now)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:346: in capture_repaired_snapshot
+    replayed = replay_source_evidence(evidence, as_of_epoch=asof)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:223: in replay_source_evidence
+    reconciled = reconciliation.reconcile_topic_identities_with_provenance(topics, as_of=asof)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_news_topic_identity_reconciliation_v1.py:249: in reconcile_topic_identities_with_provenance
+    guard.validate_guarded_topic(topic, as_of=as_of)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+topic = {'event_id': 'fixture_original_event', 'source_id': 'fixture_feed', 'source_name': 'Fixture Publisher', 'source_url': 'https://fixture.example/original', ...}
+as_of = datetime.datetime(2026, 9, 8, 19, 20, tzinfo=datetime.timezone.utc)
+
+    def validate_guarded_topic(topic, *, as_of):
+        """Return current admission evidence or raise for missing/tampered input.
+    
+        The caller must additionally bind the containing snapshot's first-observed
+        clock, producer source hashes and freshness. This seal is an integrity
+        checksum, not external authentication or proof of news truth.
+        """
+        as_of = _asof(as_of)
+        guard = topic.get("causal_aggregation_guard") if isinstance(topic, dict) else None
+        if not isinstance(guard, dict) or guard.get("version") != GUARD_VERSION:
+>           raise ValueError("guarded_member_evidence_missing")
+E           ValueError: guarded_member_evidence_missing
+
+trad\oanda_news_causal_aggregation_guard_v1.py:297: ValueError
+_________ test_unavailable_source_publishes_explicit_inert_rejection __________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5467/test_unavailable_source_publis0')
+
+    def test_unavailable_source_publishes_explicit_inert_rejection(tmp_path):
+>       f = make_repaired_fixture(tmp_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+trad\test_oanda_local_news_sentiment_repair_v1.py:215: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+trad\test_oanda_local_news_sentiment_repair_v1.py:58: in make_repaired_fixture
+    snapshot = repair.capture_repaired_snapshot(data, clock=lambda: now)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:346: in capture_repaired_snapshot
+    replayed = replay_source_evidence(evidence, as_of_epoch=asof)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:223: in replay_source_evidence
+    reconciled = reconciliation.reconcile_topic_identities_with_provenance(topics, as_of=asof)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_news_topic_identity_reconciliation_v1.py:249: in reconcile_topic_identities_with_provenance
+    guard.validate_guarded_topic(topic, as_of=as_of)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+topic = {'event_id': 'fixture_original_event', 'source_id': 'fixture_feed', 'source_name': 'Fixture Publisher', 'source_url': 'https://fixture.example/original', ...}
+as_of = datetime.datetime(2026, 9, 8, 19, 20, tzinfo=datetime.timezone.utc)
+
+    def validate_guarded_topic(topic, *, as_of):
+        """Return current admission evidence or raise for missing/tampered input.
+    
+        The caller must additionally bind the containing snapshot's first-observed
+        clock, producer source hashes and freshness. This seal is an integrity
+        checksum, not external authentication or proof of news truth.
+        """
+        as_of = _asof(as_of)
+        guard = topic.get("causal_aggregation_guard") if isinstance(topic, dict) else None
+        if not isinstance(guard, dict) or guard.get("version") != GUARD_VERSION:
+>           raise ValueError("guarded_member_evidence_missing")
+E           ValueError: guarded_member_evidence_missing
+
+trad\oanda_news_causal_aggregation_guard_v1.py:297: ValueError
+________ test_fresh_wrapper_cannot_attest_cached_external_clock_probe _________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5467/test_fresh_wrapper_cannot_atte0')
+
+    def test_fresh_wrapper_cannot_attest_cached_external_clock_probe(tmp_path):
+>       f = make_repaired_fixture(tmp_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+trad\test_oanda_local_news_sentiment_repair_v1.py:224: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+trad\test_oanda_local_news_sentiment_repair_v1.py:58: in make_repaired_fixture
+    snapshot = repair.capture_repaired_snapshot(data, clock=lambda: now)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:346: in capture_repaired_snapshot
+    replayed = replay_source_evidence(evidence, as_of_epoch=asof)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:223: in replay_source_evidence
+    reconciled = reconciliation.reconcile_topic_identities_with_provenance(topics, as_of=asof)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_news_topic_identity_reconciliation_v1.py:249: in reconcile_topic_identities_with_provenance
+    guard.validate_guarded_topic(topic, as_of=as_of)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+topic = {'event_id': 'fixture_original_event', 'source_id': 'fixture_feed', 'source_name': 'Fixture Publisher', 'source_url': 'https://fixture.example/original', ...}
+as_of = datetime.datetime(2026, 9, 8, 19, 20, tzinfo=datetime.timezone.utc)
+
+    def validate_guarded_topic(topic, *, as_of):
+        """Return current admission evidence or raise for missing/tampered input.
+    
+        The caller must additionally bind the containing snapshot's first-observed
+        clock, producer source hashes and freshness. This seal is an integrity
+        checksum, not external authentication or proof of news truth.
+        """
+        as_of = _asof(as_of)
+        guard = topic.get("causal_aggregation_guard") if isinstance(topic, dict) else None
+        if not isinstance(guard, dict) or guard.get("version") != GUARD_VERSION:
+>           raise ValueError("guarded_member_evidence_missing")
+E           ValueError: guarded_member_evidence_missing
+
+trad\oanda_news_causal_aggregation_guard_v1.py:297: ValueError
+___________ test_broker_probe_age_includes_age_of_integrity_wrapper ___________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5467/test_broker_probe_age_includes0')
+
+    def test_broker_probe_age_includes_age_of_integrity_wrapper(tmp_path):
+>       f = make_repaired_fixture(tmp_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+trad\test_oanda_local_news_sentiment_repair_v1.py:233: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+trad\test_oanda_local_news_sentiment_repair_v1.py:58: in make_repaired_fixture
+    snapshot = repair.capture_repaired_snapshot(data, clock=lambda: now)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:346: in capture_repaired_snapshot
+    replayed = replay_source_evidence(evidence, as_of_epoch=asof)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:223: in replay_source_evidence
+    reconciled = reconciliation.reconcile_topic_identities_with_provenance(topics, as_of=asof)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_news_topic_identity_reconciliation_v1.py:249: in reconcile_topic_identities_with_provenance
+    guard.validate_guarded_topic(topic, as_of=as_of)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+topic = {'event_id': 'fixture_original_event', 'source_id': 'fixture_feed', 'source_name': 'Fixture Publisher', 'source_url': 'https://fixture.example/original', ...}
+as_of = datetime.datetime(2026, 9, 8, 19, 20, tzinfo=datetime.timezone.utc)
+
+    def validate_guarded_topic(topic, *, as_of):
+        """Return current admission evidence or raise for missing/tampered input.
+    
+        The caller must additionally bind the containing snapshot's first-observed
+        clock, producer source hashes and freshness. This seal is an integrity
+        checksum, not external authentication or proof of news truth.
+        """
+        as_of = _asof(as_of)
+        guard = topic.get("causal_aggregation_guard") if isinstance(topic, dict) else None
+        if not isinstance(guard, dict) or guard.get("version") != GUARD_VERSION:
+>           raise ValueError("guarded_member_evidence_missing")
+E           ValueError: guarded_member_evidence_missing
+
+trad\oanda_news_causal_aggregation_guard_v1.py:297: ValueError
+________ test_original_future_broker_probe_cannot_age_into_acceptance _________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5467/test_original_future_broker_pr0')
+
+    def test_original_future_broker_probe_cannot_age_into_acceptance(tmp_path):
+>       f = make_repaired_fixture(tmp_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+trad\test_oanda_local_news_sentiment_repair_v1.py:243: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+trad\test_oanda_local_news_sentiment_repair_v1.py:58: in make_repaired_fixture
+    snapshot = repair.capture_repaired_snapshot(data, clock=lambda: now)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:346: in capture_repaired_snapshot
+    replayed = replay_source_evidence(evidence, as_of_epoch=asof)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_local_news_sentiment_repair_v1.py:223: in replay_source_evidence
+    reconciled = reconciliation.reconcile_topic_identities_with_provenance(topics, as_of=asof)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_news_topic_identity_reconciliation_v1.py:249: in reconcile_topic_identities_with_provenance
+    guard.validate_guarded_topic(topic, as_of=as_of)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+topic = {'event_id': 'fixture_original_event', 'source_id': 'fixture_feed', 'source_name': 'Fixture Publisher', 'source_url': 'https://fixture.example/original', ...}
+as_of = datetime.datetime(2026, 9, 8, 19, 20, tzinfo=datetime.timezone.utc)
+
+    def validate_guarded_topic(topic, *, as_of):
+        """Return current admission evidence or raise for missing/tampered input.
+    
+        The caller must additionally bind the containing snapshot's first-observed
+        clock, producer source hashes and freshness. This seal is an integrity
+        checksum, not external authentication or proof of news truth.
+        """
+        as_of = _asof(as_of)
+        guard = topic.get("causal_aggregation_guard") if isinstance(topic, dict) else None
+        if not isinstance(guard, dict) or guard.get("version") != GUARD_VERSION:
+>           raise ValueError("guarded_member_evidence_missing")
+E           ValueError: guarded_member_evidence_missing
+
+trad\oanda_news_causal_aggregation_guard_v1.py:297: ValueError
+=========================== short test summary info ===========================
+FAILED trad/test_oanda_local_news_sentiment_repair_v1.py::test_real_readonly_database_capture_replays_complete_context
+FAILED trad/test_oanda_local_news_sentiment_repair_v1.py::test_completeness_and_exact_rows_reject_tamper[complete-False]
+FAILED trad/test_oanda_local_news_sentiment_repair_v1.py::test_completeness_and_exact_rows_reject_tamper[row_count-0]
+FAILED trad/test_oanda_local_news_sentiment_repair_v1.py::test_completeness_and_exact_rows_reject_tamper[rows_sha256-0000000000000000000000000000000000000000000000000000000000000000]
+FAILED trad/test_oanda_local_news_sentiment_repair_v1.py::test_completeness_and_exact_rows_reject_tamper[payload_bytes-0]
+FAILED trad/test_oanda_local_news_sentiment_repair_v1.py::test_inert_flags_not_replaced_with_safe_defaults[research_only]
+FAILED trad/test_oanda_local_news_sentiment_repair_v1.py::test_inert_flags_not_replaced_with_safe_defaults[execution_eligible]
+FAILED trad/test_oanda_local_news_sentiment_repair_v1.py::test_inert_flags_not_replaced_with_safe_defaults[can_place_orders]
+FAILED trad/test_oanda_local_news_sentiment_repair_v1.py::test_inert_flags_not_replaced_with_safe_defaults[can_promote]
+FAILED trad/test_oanda_local_news_sentiment_repair_v1.py::test_inert_flags_not_replaced_with_safe_defaults[can_authorize]
+FAILED trad/test_oanda_local_news_sentiment_repair_v1.py::test_inert_flags_not_replaced_with_safe_defaults[account_eligible]
+FAILED trad/test_oanda_local_news_sentiment_repair_v1.py::test_inert_flags_not_replaced_with_safe_defaults[proof_eligible]
+FAILED trad/test_oanda_local_news_sentiment_repair_v1.py::test_current_clock_cannot_renew_stalled_collector[generated_utc-91]
+FAILED trad/test_oanda_local_news_sentiment_repair_v1.py::test_current_clock_cannot_renew_stalled_collector[last_progress_utc-181]
+FAILED trad/test_oanda_local_news_sentiment_repair_v1.py::test_attested_clock_rejects_future_disagreement_and_discontinuity[<lambda>0]
+FAILED trad/test_oanda_local_news_sentiment_repair_v1.py::test_attested_clock_rejects_future_disagreement_and_discontinuity[<lambda>1]
+FAILED trad/test_oanda_local_news_sentiment_repair_v1.py::test_attested_clock_rejects_future_disagreement_and_discontinuity[<lambda>2]
+FAILED trad/test_oanda_local_news_sentiment_repair_v1.py::test_attested_clock_rejects_future_disagreement_and_discontinuity[<lambda>3]
+FAILED trad/test_oanda_local_news_sentiment_repair_v1.py::test_cache_is_immutable_and_rechecks_bindings
+FAILED trad/test_oanda_local_news_sentiment_repair_v1.py::test_snapshot_failure_does_not_publish_current_heartbeat
+FAILED trad/test_oanda_local_news_sentiment_repair_v1.py::test_successful_cycle_commits_heartbeat_hash_after_snapshot
+FAILED trad/test_oanda_local_news_sentiment_repair_v1.py::test_complete_database_selection_is_not_the_published_500_topic_tail
+FAILED trad/test_oanda_local_news_sentiment_repair_v1.py::test_same_transaction_count_and_rows_exclude_concurrent_later_commit
+FAILED trad/test_oanda_local_news_sentiment_repair_v1.py::test_unavailable_source_publishes_explicit_inert_rejection
+FAILED trad/test_oanda_local_news_sentiment_repair_v1.py::test_fresh_wrapper_cannot_attest_cached_external_clock_probe
+FAILED trad/test_oanda_local_news_sentiment_repair_v1.py::test_broker_probe_age_includes_age_of_integrity_wrapper
+FAILED trad/test_oanda_local_news_sentiment_repair_v1.py::test_original_future_broker_probe_cannot_age_into_acceptance
+27 failed, 2 passed in 2.88s

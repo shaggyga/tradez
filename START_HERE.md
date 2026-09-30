@@ -45,8 +45,8 @@ the server. If the port is occupied, inspect the existing dashboard first. On a 
 
 The dashboard reads local records. A fresh clone has no live prices, account snapshots
 or model outputs. Missing/stale sources display unavailable; loading the page does not
-restart collectors or trading. The current local deployment also has an unresolved
-source-binding mismatch and no verified fresh price feed. See [dashboard diagnosis](docs/DASHBOARD_STATUS_20260930.md).
+restart collectors or trading. The local source-binding mismatch is resolved, but both saved producer summaries
+are stale and there is no verified fresh price feed. See [dashboard diagnosis](docs/DASHBOARD_STATUS_20260930.md).
 Crypto has been removed from the active dashboard.
 
 ## Continue engineering

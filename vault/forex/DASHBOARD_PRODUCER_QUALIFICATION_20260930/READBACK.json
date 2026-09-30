@@ -1,0 +1,82 @@
+{
+  "utc": "2026-09-30T07:52:34.943420+00:00",
+  "joint_registry_validated": true,
+  "joint_pairs": 68,
+  "unchanged_config_sha256": {
+    "trad/config/joint_price_news_operational_v4_20260913.json": "28937ce3a6d213794397902c71c1b18eb1ca9d37648923e6a49b0a7c2246e078",
+    "trad/config/pair_local_operational_v2_20260913.json": "c9464343f012e0bdd83582480a0044bf1c6774eef2622f312bcdd4599e3869c5",
+    "trad/config/operational_dashboard_current.json": "4e86fe7408099bf8f7fce4cf5c309e0902a357a96fb01a650d8c618f96a533a8"
+  },
+  "dashboard_sources": {
+    "selected": true,
+    "status": "partial_unavailable",
+    "selection_sha256": "4e86fe7408099bf8f7fce4cf5c309e0902a357a96fb01a650d8c618f96a533a8",
+    "features": {
+      "archive_path": "data/oanda_training_manager/operational_repair_20260914_features_v2/feature_observations_v2"
+    },
+    "price": {
+      "study_version": 3,
+      "status": "unavailable",
+      "reason": "stale_or_future_summary",
+      "reason_label": "stale_or_future_summary",
+      "rows": [],
+      "ledger_counts": {},
+      "research_only": true,
+      "can_place_orders": false,
+      "can_promote": false,
+      "can_authorize": false,
+      "account_eligible": false,
+      "proof_eligible": false
+    },
+    "joint": {
+      "study_version": "joint_v7",
+      "status": "unavailable",
+      "reason": "stale_or_future_summary",
+      "reason_label": "stale_or_future_summary",
+      "rows": [],
+      "ledger_counts": {},
+      "research_only": true,
+      "can_place_orders": false,
+      "can_promote": false,
+      "can_authorize": false,
+      "account_eligible": false,
+      "proof_eligible": false
+    }
+  },
+  "models_fitted": false,
+  "services_changed": false,
+  "http_status": 200,
+  "http_body_sha256": "6e87799232c50c9a0b73cfc235bba9b3d5569e8a71fab4b574fc20199ff0a5ec",
+  "http_body_keys": [
+    "time",
+    "account",
+    "entry_diagnostics",
+    "collection_status",
+    "operational_dashboard",
+    "legacy_collection_status",
+    "price_only_collection_status",
+    "joint_collection_status",
+    "joint_price_news_scheduler_comparison_v1",
+    "market_overview",
+    "pair_local_forecasts",
+    "pair_local_forecasts_v2",
+    "joint_price_news_forecasts",
+    "legacy_pair_local_forecasts",
+    "eurusd_supplemental_diagnostic",
+    "top_signal",
+    "top_signals",
+    "horizon_signal_matrix",
+    "top_signal_position_ledger",
+    "canonical_signal_trials",
+    "live_movers",
+    "live_move_news",
+    "continuous_narrative",
+    "adaptive_level_bands",
+    "signal_families",
+    "promotion_thresholds",
+    "post_gap_execution",
+    "news_sentiment",
+    "execution",
+    "active"
+  ]
+}

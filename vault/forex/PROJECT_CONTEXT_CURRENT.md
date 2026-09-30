@@ -42,3 +42,9 @@ For every proposed new hypothesis, identify its closest predecessor first and st
 
 
 Project-relative links above resolve from the Git checkout docs directory. This Vault copy is orientation; original scientific packets remain authoritative.
+
+
+Latest cleanup/publication: `89446cfd490c8202ec838e2e1b999b673c758152`, `PROJECT_CLEANUP_PUBLICATION_20260930/RESUME.md`. User requested stop. Git includes the verified knowledge snapshot; current work must use live shared coordination. Forex producer issues remain as recorded.
+
+
+Resumed offline source qualification: `DASHBOARD_PRODUCER_QUALIFICATION_20260930/RESUME.md`. Exact collector binding restored; interpretation preserved in opt-in adapter.68 registry pairs validate; both live summaries stale.587 tests +13 subtests pass;27 legacy v1 failures reproduced before change. No services changed. Prior stop superseded for this completed step; scientific queue unchanged.

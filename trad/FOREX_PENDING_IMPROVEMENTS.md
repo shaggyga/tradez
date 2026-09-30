@@ -5789,3 +5789,10 @@ Non-destructive navigation cleanup; prior records/models unchanged. All reviewed
 
 ## 2026-09-30T07:15:41.904311+00:00 — Cleanup handoff
 Completed within scope: Forex-only dashboard and no crypto polling/readers/startup; plain GitHub description; project/Vault starter navigation; versioned documentation copy with hashes and omissions. Preserve historical models/source/data. Remaining: independent review; operational source requalification and fresh Forex inputs; exact compatible saved-forecast/news timestamp join. Existing scientific queue remains unchanged. See `DASHBOARD_PROJECT_CLEANUP_20260930/REVIEW.md` and `PROJECT_CLEANUP_PUBLICATION_LATEST.json` in live Vault.
+
+## 2026-09-30 — resumed dashboard qualification
+
+- Resolved: joint collector source mismatch without changing model or registry identity. Interpreter retained as explicit opt-in adapter. Vault `DASHBOARD_PRODUCER_QUALIFICATION_20260930/REVIEW.md`.
+- Pending: fresh verified price and joint producer summaries; current news IO route and producer startup qualification before any authorized restart. No service action taken.
+- Existing issue:27 repair-v1 tests fail with `guarded_member_evidence_missing` in topic reconciliation; reproduced on pre-step collector. Current selected producer binds v2, whose tests pass. Keep v1 historical source intact until a separately scoped repair determines its contract.
+- Global offline preflight pointer-schema/manifest-coverage findings and independent review remain pending. Scientific queue and saved forecast/news timestamp-reconciliation requirements unchanged.

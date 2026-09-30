@@ -4754,7 +4754,7 @@
       }
     ]
   },
-  "current_user_requested_context": "PROJECT_CONTEXT_CURRENT.md",
+  "current_user_requested_context": "DASHBOARD_PRODUCER_QUALIFICATION_20260930/RESUME.md",
   "reuse_correction_20260930": {
     "status": "required_context_before_new_forecasting_claims",
     "existing_work": [
@@ -4765,5 +4765,30 @@
     ],
     "recent_batch_scope": "simple momentum diagnostic, not full technical stack audit",
     "next_action": "reconcile exact retained forecasts, dates and news availability before new research; no duplicate fits"
+  },
+  "latest_user_stop": {
+    "utc": "2026-09-30T07:36:32.911786+00:00",
+    "scope": "dashboard_cleanup_20260930",
+    "source_commit": "89446cfd490c8202ec838e2e1b999b673c758152",
+    "new_work_requires_resume": true
+  },
+  "latest_user_resume": {
+    "utc": "2026-09-30T07:57:09.834987+00:00",
+    "scope": "dashboard_producer_qualification_20260930",
+    "authorization": "Resume",
+    "supersedes_stop_for_this_scope_only": true
+  },
+  "dashboard_source_qualification": {
+    "step_id": "dashboard_producer_qualification_20260930",
+    "implementation": "complete",
+    "review": "same_task_only",
+    "packet": "DASHBOARD_PRODUCER_QUALIFICATION_20260930",
+    "manifest_sha256": "b66f9d77df0b1e7b5815d1a1d60716d3416d9122f9cc854663d5934b1d92eb58",
+    "unresolved": [
+      "live_freshness",
+      "legacy_repair_v1",
+      "global_preflight"
+    ],
+    "next_action": "qualify intended producer inputs and launch prerequisites"
   }
 }

@@ -2,7 +2,7 @@ import datetime as dt
 import unittest
 
 from oanda_news_interpretation_v1 import interpret_headline
-import oanda_local_news_sentiment as collector
+from oanda_news_interpretation_adapter_v1 import classify_article_with_interpretation
 
 
 class InterpretationTests(unittest.TestCase):
@@ -111,7 +111,7 @@ class InterpretationTests(unittest.TestCase):
         raw = {'title': 'ECB Raises Rates to 2.5% as Energy Inflation Surges',
                'summary': '', 'source_id': 'test', 'source_name': 'test',
                'url': 'https://example.com/a', 'published_utc': now.isoformat()}
-        row = collector.classify_article(raw, first_seen=now)
+        row = classify_article_with_interpretation(raw, first_seen=now)
         self.assertIn('headline_interpretation', row)
         self.assertFalse(row['headline_interpretation']['forecast_eligible'])
         self.assertFalse(row['execution_eligible'])

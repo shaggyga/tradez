@@ -1,0 +1,33 @@
+{
+  "schema": "forex.project_cleanup_publication.v1",
+  "utc": "2026-09-30T07:36:32.911786+00:00",
+  "status": "stopped_at_user_checkpoint",
+  "source_commit": "89446cfd490c8202ec838e2e1b999b673c758152",
+  "remote_commit": "89446cfd490c8202ec838e2e1b999b673c758152",
+  "branch": "forex",
+  "remote": "https://github.com/shaggyga/tradez.git",
+  "working_tree_clean": true,
+  "independent_review": false,
+  "snapshot": {
+    "path": "vault/forex",
+    "manifest_sha256": "c151036597aa62481b40fbf85d484f67664578f5e773ec11e076bb5648d80ddb",
+    "files": 3805,
+    "bytes": 50057088,
+    "live_coordination": false
+  },
+  "reviews": [
+    "DASHBOARD_PROJECT_CLEANUP_20260930/REVIEW.md",
+    "DASHBOARD_DISPLAY_SOURCE_REVIEW_20260930/REVIEW.md"
+  ],
+  "remaining": [
+    "Price-only producer output stale",
+    "Joint producer source mismatch in news module; registry unchanged",
+    "Fresh verified quotes unavailable",
+    "Independent review and existing global preflight findings remain"
+  ],
+  "next_action": "On explicit resume, read START_HERE, this receipt and live coordination. Finish operational source/producer qualification for fresh Forex dashboard inputs without changing model identity or bypassing guards; preserve other chat capture ownership. The separate scientific next action is exact compatible saved-forecast/model/input/news timestamp reconciliation.",
+  "user_stop": true,
+  "background_research": false,
+  "automations_created": false,
+  "cleanup": "Generated intermediate export copies moved to Recycle Bin; original Vault, historical models and datasets retained."
+}
