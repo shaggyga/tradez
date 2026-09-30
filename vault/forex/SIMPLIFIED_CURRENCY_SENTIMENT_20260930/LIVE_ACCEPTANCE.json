@@ -1,0 +1,60 @@
+{
+  "utc": "2026-09-30T18:21:15.432166+00:00",
+  "supervisor_pid": 5924,
+  "supervisor_profile": "45f189df24851e77f6af1b4797b16198416e6264a7bfd542b61a96bd380f8d92",
+  "context_role": {
+    "pids": [
+      25132
+    ],
+    "running": true,
+    "name": "currency_news_context_v1",
+    "freshness": {
+      "reported_error": "",
+      "expected_json_field": "schema_version",
+      "phase": "",
+      "expected_json_value": "currency_news_context_v1_20260930",
+      "fresh": true,
+      "reported_status": "current",
+      "reason": "fresh",
+      "observed_json_value": "currency_news_context_v1_20260930",
+      "reported_phase": "",
+      "reported_failure": false,
+      "age_sec": 5.1,
+      "unrecovered_cycle_failure": false,
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\currency_news_context_v1\\current.json"
+    },
+    "started": false
+  },
+  "common_cached_interpretations_checked": 100,
+  "computation_clocks_unchanged": true,
+  "new_interpretations_on_second_poll": 0,
+  "processing_seconds": 0.104,
+  "native_store_examples": [
+    {
+      "pattern": "%Williams sees no urgency%",
+      "matches": 1,
+      "kind": "policy_timing",
+      "value": "tightening_not_urgent"
+    },
+    {
+      "pattern": "%Michael Barr Warns%",
+      "matches": 1,
+      "kind": "policy_guidance",
+      "value": "further_tightening"
+    },
+    {
+      "pattern": "%cooling inflation tempers Fed%",
+      "matches": 3,
+      "kind": "policy_expectations",
+      "value": "tightening_expectations_easing"
+    },
+    {
+      "pattern": "%Oil and Gas Production Rises in Q3%",
+      "matches": 1,
+      "kind": "energy_supply_quantity",
+      "value": "increasing"
+    }
+  ],
+  "can_place_orders": false,
+  "forecast_eligible": false
+}

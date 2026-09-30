@@ -27,7 +27,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/forex_pipeline.ps1 -Ac
 ```
 
 The launcher reuses the V6 supervisor/watchdog, its single-owner checks and the
-17-role profile `trad/config/operational_runtime_current_20260930.json`. It adopts
+18-role profile `trad/config/operational_runtime_current_20260930.json`. It adopts
 compatible running workers instead of creating competing writers. A conflict or
 changed source must be investigated, not overridden by starting a second process.
 The existing Windows task `Forex Operational Research Recovery 20260913` now calls
@@ -97,3 +97,8 @@ The current successor is documented in [rolling news pipeline](ROLLING_NEWS_PIPE
 The earlier [capacity recovery](NEWS_CAPACITY_RECOVERY_20260930.md) remains history.
 Original receipts and timestamps are retained. New joint forecasts require
 prospective warmup; the existing OS recovery task owns the durable launcher.
+
+
+The optional currency_news_context_v1 role reads existing captured news and publishes
+cached typed context; [semantics and logs](CURRENCY_NEWS_CONTEXT_20260930.md).
+No new external feed or model-cohort migration is implied by this role.

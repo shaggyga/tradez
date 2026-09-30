@@ -2,7 +2,7 @@
   "active_step_id": "extra_trees_matched_development_comparison_v1",
   "active_step_semantics": "Qualified Extra Trees source draft checkpointed at deadline; no fit or result exists, and fresh authorization is required before execution.",
   "current_review_packet": "DISTINCT_METHOD_QUALIFICATION_20260925_144000/REVIEW.md",
-  "current_user_requested_context": "LIVE_MODEL_INPUT_AND_NEWS_AUDIT_20260930_175500/RESUME.md",
+  "current_user_requested_context": "SIMPLIFIED_CURRENCY_SENTIMENT_20260930/RESUME.md",
   "dashboard_source_qualification": {
     "implementation": "complete",
     "manifest_sha256": "b66f9d77df0b1e7b5815d1a1d60716d3416d9122f9cc854663d5934b1d92eb58",
@@ -350,6 +350,44 @@
       ],
       "packet": "LIVE_MODEL_INPUT_AND_NEWS_AUDIT_20260930_175500/REVIEW.json",
       "packet_sha256": "ab3c504236bab94f731902389af9bfc0ef66e4b5c57d06d2acff4649498b9879"
+    },
+    {
+      "schema": "forex.scoped_operational_review.v1",
+      "step_id": "simplified_currency_sentiment_semantics_and_current_consumer_v1",
+      "generated_utc": "2026-09-30T18:29:31.897033+00:00",
+      "source_commit": "e9cddabfd07f8bc181be543bc8f243381d271bb1",
+      "baseline_commit": "e2882ea390766c96dd85c87511a5791d4ffd6472",
+      "implementation_status": "deployed_verified_current_context_scope",
+      "review_status": "same_task_scoped_review_complete_ready_for_independent_review",
+      "independent_review": false,
+      "engineering_readiness": "typed cached context and native dashboard integration deployed; original model cohorts retained",
+      "verification_readiness": "126 broad tests plus13subtests;27 final focused tests overlap; actual native cache/store/HTTP and JavaScript render checks passed",
+      "scientific_readiness": "text regression only; no new predictive validation; forecast feature integration pending",
+      "trading_readiness": "not_authorized_no_orders",
+      "next_action": "news_capture_latency_and_current_move_mapping_v1",
+      "pending": [
+        "TIME-02",
+        "MAP-01",
+        "MODEL-01",
+        "OPS-01",
+        "independent_review"
+      ],
+      "failure_history": [
+        "Initial JavaScript extraction included HTML; corrected harness passed",
+        "Initial native readback sampled before first publication; subsequent live acceptance passed",
+        "Render test found missing-context Infinity age; corrected and retested",
+        "Standard git diff check flags mixed CRLF; explicit cr-at-eol check passed"
+      ],
+      "scope_limits": [
+        "Headline English parser is bounded, not general semantic understanding",
+        "100 displayed topics out of bounded500 source-record selection",
+        "No source-arrival latency reduction or forecast accuracy claim",
+        "No browser visual QA",
+        "No model registry, cohort, numerical fitting or trading changes"
+      ],
+      "restore": "Git source commit restores runnable source. Before-images are local deployment_before, hashes in BASELINE_LOCAL_ARTIFACTS.json. Follow REVIEW.md rollback; exact worker/controller stops, profile validation and preservation of caches required. No relocated full runtime replay claimed.",
+      "packet": "SIMPLIFIED_CURRENCY_SENTIMENT_20260930/REVIEW.json",
+      "packet_sha256": "07268b52f235a6ac17db72d018016288e700a7890e49afa37c66f7d2e51904c6"
     }
   ],
   "pre_research_gate": {
@@ -4870,5 +4908,5 @@
     "source_commit": "6eb514ab1856190b39d83ab020d5f77700ca8770",
     "updated_utc": "2026-09-25T18:12:00.5976014Z"
   },
-  "updated_utc": "2026-09-30T17:58:55.231757+00:00"
+  "updated_utc": "2026-09-30T18:29:31.897033+00:00"
 }

@@ -34,6 +34,8 @@ Those assessment predictions span August24–September7. The recent news batch s
 
 [Machine-readable evidence map](../artifacts/research_evidence_index.json) records consulted files and hashes. The larger model/run registry and exact data/model bytes remain in their original locations; this map does not replace `artifacts/reuse_catalog.json`.
 
+Latest operational update: [typed currency news context](CURRENCY_NEWS_CONTEXT_20260930.md) is deployed with a parse-once store, explicit causal computation clocks and a live dashboard consumer. It reuses the existing interpreter and corrects guidance/timing and supply/price distinctions. This is current text context, not a replacement trained forecast or scientific promotion.
+
 ## Current paths forward
 
 1. Current user-requested analysis: reconcile existing saved forecasts, mean-reversion controls and forecast-error records with news on matching timestamps. Inspect original identities, date coverage, target/horizon, technical features, model cutoff, news version/availability and costs before another batch. Report unsupported joins explicitly.

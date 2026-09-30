@@ -1,0 +1,279 @@
+{
+  "scope": "retrospective text regression; not predictions",
+  "source_bindings": {
+    "oanda_currency_news_context_v1.py": "e60bbbd0b62ea3261f0fde676d03cdb0b5d6b1a796855f7d841427390b630053",
+    "oanda_news_interpretation_v1.py": "7338b4dee04e179661f0c2c6327b44231d0ddbec4125660cc0045156a29a5fa0"
+  },
+  "cases": [
+    {
+      "event_id": "local_news_3f708fc012bb7fb2af36c5bb",
+      "headline": "Fed's Michael Barr Warns of More Rate Hikes on Inflation - Hoodline",
+      "original_scores": {
+        "USD": 0.9
+      },
+      "corrected": {
+        "version": "currency_news_context_v1_20260930",
+        "input_sha256": "387082d245072ea937ba7aecffb8aaf38671619bd9476c4ecec21f4abaa9366c",
+        "input_scope": "headline_only",
+        "claims": [
+          {
+            "kind": "inflation_context",
+            "evidence": "Fed's Michael Barr Warns of More Rate Hikes on Inflation - Hoodline",
+            "currency": null,
+            "direction": null,
+            "status": "surprise_unknown",
+            "mechanism": "inflation_to_policy_requires_consensus_and_repricing",
+            "instrument": null
+          },
+          {
+            "kind": "policy_guidance",
+            "value": "further_tightening",
+            "evidence": "Fed's Michael Barr Warns of More Rate Hikes on Inflation - Hoodline",
+            "currency": "USD",
+            "direction": null,
+            "status": "text_context"
+          }
+        ],
+        "interpretation_status": "claims_extracted",
+        "surprise": "unknown",
+        "forecast_eligible": false,
+        "causal_effect_established": false,
+        "research_only": true,
+        "scope": "headline_only; policy direction is not currency return direction",
+        "can_place_orders": false,
+        "can_promote": false,
+        "execution_eligible": false
+      }
+    },
+    {
+      "event_id": "local_news_d591df43ae0cecf830a7aa53",
+      "headline": "Fed's Williams sees no urgency for next rate hike - kitco.com",
+      "original_scores": {
+        "USD": 0.9
+      },
+      "corrected": {
+        "version": "currency_news_context_v1_20260930",
+        "input_sha256": "7a182b416d8da1ac158bd2dbb34a599371b6b9b4bde3a8b56f4fc91e04111453",
+        "input_scope": "headline_only",
+        "claims": [
+          {
+            "kind": "policy_timing",
+            "value": "tightening_not_urgent",
+            "evidence": "Fed's Williams sees no urgency for next rate hike - kitco.com",
+            "currency": "USD",
+            "direction": null,
+            "status": "text_context"
+          }
+        ],
+        "interpretation_status": "claims_extracted",
+        "surprise": "unknown",
+        "forecast_eligible": false,
+        "causal_effect_established": false,
+        "research_only": true,
+        "scope": "headline_only; policy direction is not currency return direction",
+        "can_place_orders": false,
+        "can_promote": false,
+        "execution_eligible": false
+      }
+    },
+    {
+      "event_id": "local_news_bcb6edceb56b40cd3416a9ae",
+      "headline": "Dollar Slides on Softer PCE, Aussie Lags as Sterling Extends BoE Rally - Action Forex",
+      "original_scores": {},
+      "corrected": {
+        "version": "currency_news_context_v1_20260930",
+        "input_sha256": "d74a7957ba6c56ceb536ebe26b792aabbb62dc3c4ee52750530bc13f70172ab4",
+        "input_scope": "headline_only",
+        "claims": [
+          {
+            "kind": "reported_currency_response",
+            "evidence": "Sterling Extends BoE Rally",
+            "currency": "GBP",
+            "direction": 1,
+            "status": "retrospective"
+          },
+          {
+            "kind": "reported_unresolved_currency_response",
+            "value": "reported_dollar_decline_currency_unspecified",
+            "evidence": "Dollar Slides",
+            "currency": null,
+            "direction": null,
+            "status": "text_context"
+          },
+          {
+            "kind": "inflation_measure_context",
+            "value": "reported_cooling",
+            "evidence": "Softer PCE",
+            "currency": null,
+            "direction": null,
+            "status": "text_context"
+          },
+          {
+            "kind": "relative_currency_response",
+            "value": "reported_relative_underperformance",
+            "evidence": "Dollar Slides on Softer PCE, Aussie Lags as Sterling Extends BoE Rally - Action Forex",
+            "currency": "AUD",
+            "direction": null,
+            "status": "text_context"
+          }
+        ],
+        "interpretation_status": "claims_extracted",
+        "surprise": "unknown",
+        "forecast_eligible": false,
+        "causal_effect_established": false,
+        "research_only": true,
+        "scope": "headline_only; policy direction is not currency return direction",
+        "can_place_orders": false,
+        "can_promote": false,
+        "execution_eligible": false
+      }
+    },
+    {
+      "event_id": "local_news_6f334f18bcd95ae982674b1f",
+      "headline": "Wall St climbs as cooling inflation tempers Fed rate-hike concerns - marketscreener.com",
+      "original_scores": {
+        "USD": 0.9
+      },
+      "corrected": {
+        "version": "currency_news_context_v1_20260930",
+        "input_sha256": "e85ac61db8382ab083fcc5ebcde53b1596b682a03fe5601f0fbdd49f65023208",
+        "input_scope": "headline_only",
+        "claims": [
+          {
+            "kind": "inflation_context",
+            "evidence": "Wall St climbs as cooling inflation tempers Fed rate-hike concerns - marketscreener.com",
+            "currency": null,
+            "direction": null,
+            "status": "surprise_unknown",
+            "mechanism": "inflation_to_policy_requires_consensus_and_repricing",
+            "instrument": null
+          },
+          {
+            "kind": "policy_expectations",
+            "value": "tightening_expectations_easing",
+            "evidence": "Wall St climbs as cooling inflation tempers Fed rate-hike concerns - marketscreener.com",
+            "currency": "USD",
+            "direction": null,
+            "status": "text_context"
+          },
+          {
+            "kind": "inflation_measure_context",
+            "value": "reported_cooling",
+            "evidence": "cooling inflation",
+            "currency": null,
+            "direction": null,
+            "status": "text_context"
+          }
+        ],
+        "interpretation_status": "claims_extracted",
+        "surprise": "unknown",
+        "forecast_eligible": false,
+        "causal_effect_established": false,
+        "research_only": true,
+        "scope": "headline_only; policy direction is not currency return direction",
+        "can_place_orders": false,
+        "can_promote": false,
+        "execution_eligible": false
+      }
+    },
+    {
+      "event_id": "local_news_1da8be7631c3a8eb96d5158c",
+      "headline": "Iran losing grip on Strait of Hormuz blockade as oil shipments rise - Business Post",
+      "original_scores": {
+        "AUD": -0.4875,
+        "CAD": 0.5,
+        "CHF": 0.4125,
+        "JPY": 0.2125,
+        "MXN": 0.5,
+        "NOK": 0.5,
+        "NZD": -0.4875,
+        "USD": 0.4125,
+        "ZAR": -0.4875
+      },
+      "corrected": {
+        "version": "currency_news_context_v1_20260930",
+        "input_sha256": "e09a8582767c8d5c2584eb41bf787255770fff225ace3925853595bb14486f10",
+        "input_scope": "headline_only",
+        "claims": [
+          {
+            "kind": "energy_context",
+            "evidence": "Iran losing grip on Strait of Hormuz blockade as oil shipments rise - Business Post",
+            "currency": null,
+            "direction": null,
+            "status": "direction_unresolved",
+            "mechanism": "inflation_growth_and_terms_of_trade_channels_can_conflict",
+            "instrument": null
+          },
+          {
+            "kind": "energy_supply_quantity",
+            "value": "increasing",
+            "evidence": "Iran losing grip on Strait of Hormuz blockade as oil shipments rise - Business Post",
+            "currency": null,
+            "direction": null,
+            "status": "text_context"
+          },
+          {
+            "kind": "supply_constraint",
+            "value": "reported_easing",
+            "evidence": "Iran losing grip on Strait of Hormuz blockade as oil shipments rise - Business Post",
+            "currency": null,
+            "direction": null,
+            "status": "text_context"
+          }
+        ],
+        "interpretation_status": "claims_extracted",
+        "surprise": "unknown",
+        "forecast_eligible": false,
+        "causal_effect_established": false,
+        "research_only": true,
+        "scope": "headline_only; policy direction is not currency return direction",
+        "can_place_orders": false,
+        "can_promote": false,
+        "execution_eligible": false
+      }
+    },
+    {
+      "event_id": "local_news_133d737c6d857af838516773",
+      "headline": "US oil and gas production rises in Q3 2026 but price uncertainty plagues producers, Dallas Fed survey says - Reuters",
+      "original_scores": {
+        "CAD": 0.5,
+        "JPY": -0.2,
+        "MXN": 0.5,
+        "NOK": 0.5
+      },
+      "corrected": {
+        "version": "currency_news_context_v1_20260930",
+        "input_sha256": "30a15ddc75a4d6227288dd165da1b792a26ebfe1eeb82e77d8c3c7a04005e291",
+        "input_scope": "headline_only",
+        "claims": [
+          {
+            "kind": "energy_context",
+            "evidence": "US oil and gas production rises in Q3 2026 but price uncertainty plagues producers, Dallas Fed survey says - Reuters",
+            "currency": null,
+            "direction": null,
+            "status": "direction_unresolved",
+            "mechanism": "inflation_growth_and_terms_of_trade_channels_can_conflict",
+            "instrument": null
+          },
+          {
+            "kind": "energy_supply_quantity",
+            "value": "increasing",
+            "evidence": "US oil and gas production rises in Q3 2026",
+            "currency": null,
+            "direction": null,
+            "status": "text_context"
+          }
+        ],
+        "interpretation_status": "claims_extracted",
+        "surprise": "unknown",
+        "forecast_eligible": false,
+        "causal_effect_established": false,
+        "research_only": true,
+        "scope": "headline_only; policy direction is not currency return direction",
+        "can_place_orders": false,
+        "can_promote": false,
+        "execution_eligible": false
+      }
+    }
+  ]
+}

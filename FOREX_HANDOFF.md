@@ -27,7 +27,10 @@ fresh capture and the corrected technical reader passed live verification. Joint
 forecasts still require prospective mature history and varied news context.
 Read the measured health and exact resume before assuming forecasts are available.
 Scientific readiness remains separate from Git synchronization.
-The September30 technical successor and new interpretation remain offline.
+The September30 technical successor remains offline. The corrected typed news context
+is now live in its supervised publisher and dashboard consumer; see
+[news context](docs/CURRENCY_NEWS_CONTEXT_20260930.md). Original model inputs and
+cohorts remain unchanged pending prospective feature qualification.
 
 ## Retained design-queue checkpoint — 2026-09-25
 
