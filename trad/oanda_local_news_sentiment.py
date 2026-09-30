@@ -23,6 +23,7 @@ import os
 import re
 import ssl
 import sqlite3
+from oanda_news_interpretation_v1 import interpret_headline
 from oanda_news_source_observation_ledger_v1 import (
     CONTRACT as SOURCE_OBSERVATION_LEDGER_CONTRACT,
     initialize as initialize_source_observation_ledger,
@@ -16308,6 +16309,9 @@ def classify_article(
             "risk_on": round(risk_on, 6),
         },
         "sentiment_schema_version": "fx_news_sentiment_dimensions_v1",
+        # Separate textual evidence from forward-factor admission. This field
+        # must never override scores, timeliness, corroboration or known clocks.
+        "headline_interpretation": interpret_headline(clean_headline),
         "severity": round(100.0 * severity, 3),
         "movement_potential": "HIGH" if severity >= 0.7 else "MEDIUM"
         if severity >= 0.45
