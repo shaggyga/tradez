@@ -1,5 +1,9 @@
 # Forex handoff
 
+## Current continuation — paper-state lifecycle
+
+[Current checkpoint](docs/MANAGEMENT_STATE_BINDING_20261001.md): Offline lifecycle consumer:78 tests and84 exact resumed/restored payloads. Current paper-state producer remains unqualified; parent retained_management_current_state_binding_v1 stays partial. No runtime or trading changes; score35/45 unchanged. Older notices below are historical.
+
 ## Current continuation — input repair deployed
 
 [Current checkpoint](docs/CURRENT_NEWS_READ_DEPLOY_20261001.md):106 deployment tests; fresh source/forecast receipts and68 histories verified. Input-reliability gate accepted within scope. Score35/45 (77.78% overall;83.33% active). Next `retained_management_current_state_binding_v1`; live management remains unqualified. Earlier notices are historical.
