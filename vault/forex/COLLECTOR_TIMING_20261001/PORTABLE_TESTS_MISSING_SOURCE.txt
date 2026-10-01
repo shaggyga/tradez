@@ -1,0 +1,35 @@
+............F.......                                                     [100%]
+================================== FAILURES ===================================
+______ test_actual_health_read_can_refuse_publication_after_start_clock _______
+
+    def test_actual_health_read_can_refuse_publication_after_start_clock():
+        source = ROOT / 'trad/rolling_news_io_v1.py'
+>       tree = ast.parse(source.read_text())
+                         ^^^^^^^^^^^^^^^^^^
+
+tests\test_news_health_retry.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\zmoor\AppData\Local\Programs\Python\Python312\Lib\pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/zmoor/Documents/forex/evidence/collector_timing_20261001/replica/trad/rolling_news_io_v1.py')
+mode = 'r', buffering = -1, encoding = 'locale', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\zmoor\\Documents\\forex\\evidence\\collector_timing_20261001\\replica\\trad\\rolling_news_io_v1.py'
+
+C:\Users\zmoor\AppData\Local\Programs\Python\Python312\Lib\pathlib.py:1013: FileNotFoundError
+=========================== short test summary info ===========================
+FAILED tests/test_news_health_retry.py::test_actual_health_read_can_refuse_publication_after_start_clock
+1 failed, 19 passed in 1.42s

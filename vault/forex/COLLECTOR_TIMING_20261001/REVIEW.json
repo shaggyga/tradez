@@ -1,0 +1,31 @@
+{
+  "schema": "forex.review_packet.v1",
+  "step_id": "collector_timing_20261001",
+  "source_commit": "c2935f22f1d50b64c46717ceeb787dd66b6ebc30",
+  "status": "accepted_within_scope",
+  "review_status": "accepted_within_scope",
+  "implementation_status": "collector_progress_and_bounded_retry_deployed_verified",
+  "independent_review": false,
+  "same_task_review": true,
+  "readiness": {
+    "engineering_ready": true,
+    "forecast_evidence_status": "unchanged",
+    "policy_evidence_status": "not_qualified",
+    "demo_authorization_status": "not_granted"
+  },
+  "checks": [
+    "92 final deployment checks passed",
+    "25 relocated source tests passed",
+    "6 lagged heartbeat refusals proven",
+    "246 post-repair samples through cycle completion:0 invalid,0 new joint errors,max133.74sec progress age",
+    "192 sources checked;31 records inserted",
+    "68 original histories and scientific source bytes preserved"
+  ],
+  "unresolved_findings": [
+    "Remaining per-pair readiness/refusal reconciliation",
+    "Position management qualification"
+  ],
+  "next_item": "live_news_input_reliability_v1",
+  "replacement_models_fitted": 0,
+  "runtime_changed": true
+}
