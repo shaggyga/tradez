@@ -1,0 +1,93 @@
+{
+  "packet": "RETAINED_FRESHNESS_CONTINUITY_20261001",
+  "manifest_sha256": "85a58fd35e9ef585b157eb3fd35765c1f446874b70a9cadffe0b8979069fe0d6",
+  "source_commit": "9c59946947f5026ddcaf164b8885776650079bf5",
+  "next": "retained_learned_residual_state_connection_v1",
+  "utc": "2026-10-01T01:57:35.570340+00:00",
+  "documentation_commit": "fb1c56508a9d5f28045a2cdd47cec432c9187bbb",
+  "remote_head": "fb1c56508a9d5f28045a2cdd47cec432c9187bbb",
+  "remote": "https://github.com/shaggyga/tradez.git",
+  "branch": "forex",
+  "worktree_clean": true,
+  "native_acceptance": {
+    "label": "AFTER",
+    "seconds": 360.0,
+    "samples": 63,
+    "technical_generations": 7,
+    "retained_publications": 7,
+    "zero_live_samples": 0,
+    "errors": [],
+    "minimum_live_pairs": 61,
+    "max_source_to_issue": 67.68533992767334,
+    "http_samples": [
+      {
+        "seconds": 9.546999999962281,
+        "status": "current",
+        "forecasts": 1472,
+        "tracking": "current",
+        "groups": 23,
+        "news": "current"
+      },
+      {
+        "seconds": 7.187000000034459,
+        "status": "current",
+        "forecasts": 1472,
+        "tracking": "current",
+        "groups": 23,
+        "news": "current"
+      },
+      {
+        "seconds": 8.813000000023749,
+        "status": "current",
+        "forecasts": 1433,
+        "tracking": "current",
+        "groups": 23,
+        "news": "current"
+      },
+      {
+        "seconds": 7.9060000000172295,
+        "status": "current",
+        "forecasts": 1449,
+        "tracking": "current",
+        "groups": 23,
+        "news": "current"
+      },
+      {
+        "seconds": 9.40600000001723,
+        "status": "current",
+        "forecasts": 1418,
+        "tracking": "current",
+        "groups": 23,
+        "news": "current"
+      },
+      {
+        "seconds": 4.329000000027008,
+        "status": "current",
+        "forecasts": 1426,
+        "tracking": "current",
+        "groups": 23,
+        "news": "current"
+      }
+    ]
+  },
+  "exact_issue_audit": {
+    "scope": "Every immutable issuance from first through last monitored publication, including startup; SHA verified. Exact intervals supplement sparse HTTP/local samples. Not a guarantee of future availability.",
+    "completed_intervals": 6,
+    "gap_count": 0,
+    "max_gap_seconds": 0,
+    "steady_source_to_issue_range": [
+      9.06470537185669,
+      27.523573637008667
+    ],
+    "startup_source_to_issue_seconds": 67.68533992767334,
+    "registries": [
+      "0c56a0ecded544cbd2f282433e7ba31bf0c82ad8bb6a0334b5247c54929f06f1"
+    ]
+  },
+  "snapshot_manifest_sha256": "3387621d4cf976d0b118d9fecc5bbb8623426c6042a18faded5cd099d691845c",
+  "snapshot_files_verified": 4350,
+  "snapshot_scope": "Dated knowledge preceding final documentation commit receipt; live Vault remains coordination authority",
+  "python_tests_passed": 82,
+  "independent_review": false,
+  "scope": "Measured freshness scheduling repair only; broader project unfinished"
+}

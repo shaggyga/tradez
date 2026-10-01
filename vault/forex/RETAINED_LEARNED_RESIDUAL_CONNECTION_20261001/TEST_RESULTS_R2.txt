@@ -1,0 +1,52 @@
+
+=================================== ERRORS ====================================
+_ ERROR collecting evidence/retained_learned_20261001/candidate/tests/test_retained_forecast_tracking.py _
+ImportError while importing test module 'C:\Users\zmoor\Documents\forex\evidence\retained_learned_20261001\candidate\tests\test_retained_forecast_tracking.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+..\..\AppData\Local\Programs\Python\Python312\Lib\importlib\__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+evidence\retained_learned_20261001\candidate\tests\test_retained_forecast_tracking.py:10: in <module>
+    import oanda_retained_forecast_tracking_v1 as m
+evidence\retained_learned_20261001\candidate\trad\oanda_retained_forecast_tracking_v1.py:14: in <module>
+    import oanda_current_news_mapping_v1 as mapping
+evidence\retained_learned_20261001\candidate\trad\oanda_current_news_mapping_v1.py:13: in <module>
+    import oanda_news_technical_timing_v1 as timing
+E   ModuleNotFoundError: No module named 'oanda_news_technical_timing_v1'
+_ ERROR collecting evidence/retained_learned_20261001/candidate/tests/test_retained_learned_residual.py _
+ImportError while importing test module 'C:\Users\zmoor\Documents\forex\evidence\retained_learned_20261001\candidate\tests\test_retained_learned_residual.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+..\..\AppData\Local\Programs\Python\Python312\Lib\importlib\__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+evidence\retained_learned_20261001\candidate\tests\test_retained_learned_residual.py:10: in <module>
+    from test_retained_projection import setup as projection_setup
+evidence\retained_learned_20261001\candidate\tests\test_retained_projection.py:13: in <module>
+    import oanda_retained_forecast_tracking_v1 as tracking
+evidence\retained_learned_20261001\candidate\trad\oanda_retained_forecast_tracking_v1.py:14: in <module>
+    import oanda_current_news_mapping_v1 as mapping
+evidence\retained_learned_20261001\candidate\trad\oanda_current_news_mapping_v1.py:13: in <module>
+    import oanda_news_technical_timing_v1 as timing
+E   ModuleNotFoundError: No module named 'oanda_news_technical_timing_v1'
+_ ERROR collecting evidence/retained_learned_20261001/candidate/tests/test_retained_projection.py _
+ImportError while importing test module 'C:\Users\zmoor\Documents\forex\evidence\retained_learned_20261001\candidate\tests\test_retained_projection.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+..\..\AppData\Local\Programs\Python\Python312\Lib\importlib\__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+evidence\retained_learned_20261001\candidate\tests\test_retained_projection.py:13: in <module>
+    import oanda_retained_forecast_tracking_v1 as tracking
+evidence\retained_learned_20261001\candidate\trad\oanda_retained_forecast_tracking_v1.py:14: in <module>
+    import oanda_current_news_mapping_v1 as mapping
+evidence\retained_learned_20261001\candidate\trad\oanda_current_news_mapping_v1.py:13: in <module>
+    import oanda_news_technical_timing_v1 as timing
+E   ModuleNotFoundError: No module named 'oanda_news_technical_timing_v1'
+=========================== short test summary info ===========================
+ERROR evidence/retained_learned_20261001/candidate/tests/test_retained_forecast_tracking.py
+ERROR evidence/retained_learned_20261001/candidate/tests/test_retained_learned_residual.py
+ERROR evidence/retained_learned_20261001/candidate/tests/test_retained_projection.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 3 errors during collection !!!!!!!!!!!!!!!!!!!
+3 errors in 1.80s

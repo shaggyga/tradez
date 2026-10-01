@@ -1,0 +1,71 @@
+{
+  "status": "passed",
+  "source_result_sha256": "a1c518b93224cfeeb7a1f66ed5905ffb5d7138f0021f8c3bee50383b72bb295c",
+  "parent_evidence": {
+    "extension_original_run_identity": "77f2606d71fe60b974bb5a7cce15fb6d257b418b2c66f2405c973bbb2da01c90",
+    "parent_projection_identity_sha256": "14051d9fa3b9fe7da5bc376e171a6193feb1d34bb201c192d26eb7dad94faad5",
+    "parent_projection_manifest_sha256": "5cbbcd584783ac377b7c10a42f1adc4be8ebd58e88670d0ff5c2515351c904a6",
+    "parent_projection_payload_count": 195,
+    "parent_projection_recipe_sha256": "ef1b24f002891bc84408e24cf084254e27f6165c0af048c51b382bd43ca53e8d",
+    "parent_projection_run_identity": "5c8cb84166076bcdba4724dc277c32e2520de4f548869adca3491807ef10b0d3"
+  },
+  "source_projection_frames_verified": 192,
+  "selection": "latest preserved cutoff; no outcome-based choice",
+  "states": [
+    {
+      "parent": "legacy26_ridge_remaining_frozen_360m",
+      "layer_id": "a88ee7c477c6ab17800799f80820d4b4becee9aa01c3a14230785c31f2439065",
+      "cutoff_epoch": 1722535260,
+      "weight": 0.0,
+      "membership_rows_verified": 1003,
+      "maximum_label_available": 1722535260,
+      "exact_replayed_rows": 68,
+      "artifact": {
+        "path": "trad/data/retained_connection_20260930/models/learned_residual_ridge_360.json",
+        "sha256": "ee69756e48cb9fd10d33a6cfa771d0c00b7891130a526017b86d4a4cbed48d3f"
+      }
+    },
+    {
+      "parent": "legacy26_recovered_hgb_remaining_frozen_360m",
+      "layer_id": "c11636083be35c1471ef5b97c5972561bce1ab96fa29cc491792b8c35f5f478e",
+      "cutoff_epoch": 1722535260,
+      "weight": 0.0,
+      "membership_rows_verified": 1003,
+      "maximum_label_available": 1722535260,
+      "exact_replayed_rows": 68,
+      "artifact": {
+        "path": "trad/data/retained_connection_20260930/models/learned_residual_recovered_hgb_360.json",
+        "sha256": "8202431a371fdeb5c1a43740477a9518601267c84f1146797921c5860aeb6dbc"
+      }
+    },
+    {
+      "parent": "legacy26_ridge_remaining_frozen_1080m",
+      "layer_id": "f7d359a6ab1c1331418df2c0d716ec1a805b5a06e91994a44b35494f93c2ee89",
+      "cutoff_epoch": 1722535260,
+      "weight": 0.018557585777523086,
+      "membership_rows_verified": 870,
+      "maximum_label_available": 1722535260,
+      "exact_replayed_rows": 68,
+      "artifact": {
+        "path": "trad/data/retained_connection_20260930/models/learned_residual_ridge_1080.json",
+        "sha256": "03f687a1d65375c8c025694a90f70ab8856cbbc239486a051415d3d78621d4ae"
+      }
+    },
+    {
+      "parent": "legacy26_recovered_hgb_remaining_frozen_1080m",
+      "layer_id": "7520d5d1b45789b88bf947e5555babc89d73b0c3c03c2e1d3e74684b82ff0feb",
+      "cutoff_epoch": 1722535260,
+      "weight": 0.027757066449673982,
+      "membership_rows_verified": 870,
+      "maximum_label_available": 1722535260,
+      "exact_replayed_rows": 68,
+      "artifact": {
+        "path": "trad/data/retained_connection_20260930/models/learned_residual_recovered_hgb_1080.json",
+        "sha256": "9641be342595b6c96254007126def87c7aa81437dfa61cffe4a64fd0e897f07a"
+      }
+    }
+  ],
+  "models_fitted": 0,
+  "historical_scope": "offline retrospective development diagnostic; no confirmation, policy, native issuance, or trading claim",
+  "no_new_scientific_score": true
+}

@@ -1,0 +1,26 @@
+{
+  "step_id": "retained_learned_residual_state_connection_v1",
+  "depends_on": [
+    "retained_input_freshness_continuity_v1"
+  ],
+  "implementation_status": "not_started",
+  "review_status": "not_started",
+  "scope": "Authenticate existing latest-cutoff learned states; integrate only exact compatible 6h/18h parents; reuse original apply, no fit; preserve current 23 connections",
+  "evidence": [
+    "CURRENCY_PROJECTION_RESIDUAL_REPAIR_20260925_000700/evidence/RESIDUAL_RESULT_V2.json",
+    "RESIDUAL_R4_RELOCATED_REPLAY_20260925_140153/REVIEW.json",
+    "RETAINED_PROJECTION_CONNECTION_20261001/REVIEW.json"
+  ],
+  "acceptance_criteria": [
+    "Read current pointers and original accepted residual/replay packets; retrieve existing bytes before implementation",
+    "Authenticate exact saved state layer ID, contract, training membership and maturity; bind original parent model/input/target identities",
+    "Preserve existing 23 connections; reuse original apply path only for compatible state and exact supported horizons",
+    "No fit_snapshot or new fit; unavailable/incompatible state requires precise evidence and bounded independent next-path assessment",
+    "If qualified, verify original numerical replay and refusal cases, source/restore closure, native coverage/tracking without duplicated cohorts",
+    "Publish scoped review, runnable source, exact artifacts, remaining gaps and Git/Vault checkpoint"
+  ],
+  "next_action": "Read accepted residual R4 replay and preserved learned state; establish compatibility with connected 6h/18h parents before any integration.",
+  "start_utc": "2026-10-01T02:04:06.367525+00:00",
+  "baseline_commit": "fb1c56508a9d5f28045a2cdd47cec432c9187bbb",
+  "models_fitted": 0
+}

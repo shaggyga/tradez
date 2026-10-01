@@ -1,0 +1,112 @@
+{
+  "status": "accepted_within_scope",
+  "review_status": "accepted_within_scope",
+  "same_task_review": true,
+  "independent_review": false,
+  "reviewer": "Implementing Codex task; substantive same-task review",
+  "unresolved_scoped_findings": [],
+  "checks": [
+    "Authenticated original result, recipe, 192 payloads, 3746 membership/label identities and all four exact parent fits; no inferred compatibility from filenames",
+    "Latest-cutoff state selection independent of scores; 6h zero weights alias existing projections, two distinct18h layers only",
+    "Original apply reused;272 original and136 adapter rows exact; no_fit guard in adapter replay; original12regressions pass",
+    "79 focused tests exercise mismatched controls, parent/states, clock/expiry, missing support, no orders and tracking deduplication",
+    "Existing1456 outputs unchanged;1580 relocated outputs exact with workspace/Vault read refusal before imports",
+    "Native25connections and groups, currentnews; 32samples/fourpublications/three exact intervals without all-forecast expiry gap",
+    "Partial native coverage retained; one HTTPsample had915current rows while latest had1565; no guarantee all pairs/layers continuously current",
+    "History and negative results preserved; no new forecast score or trading/position-management promotion"
+  ],
+  "verification": {
+    "python_tests_passed": 91,
+    "javascript_scenarios_passed": 3,
+    "original_replayed_rows": 272,
+    "adapter_replayed_rows": 136,
+    "restored_forecasts": 1580,
+    "restored_payloads": 28,
+    "native": {
+      "http_status": 200,
+      "seconds": 3.7810000000172295,
+      "observed_epoch": 1790821134.8152256,
+      "retained_status": "current",
+      "forecast_count": 1565,
+      "per_connection": {
+        "ridge_compact38_5m": 63,
+        "ridge_compact38_15m": 63,
+        "compact38_30m_mixture_raw": 63,
+        "compact38_60m_direct_ridge": 63,
+        "rich_full228_cost2_recovered_hgb_240m": 63,
+        "rich_compact38_cost2_recovered_hgb_720m": 63,
+        "rich_compact38_cost2_recovered_hgb_1440m": 63,
+        "rich_compact38_cost2_recovered_hgb_2880m": 63,
+        "rich_compact38_cost2_recovered_hgb_7200m": 63,
+        "legacy26_extra_trees_frozen_240m": 63,
+        "legacy26_extra_trees_frozen_7200m": 63,
+        "legacy26_ridge_remaining_frozen_360m": 63,
+        "legacy26_recovered_hgb_remaining_frozen_360m": 63,
+        "legacy26_ridge_remaining_frozen_1080m": 63,
+        "legacy26_recovered_hgb_remaining_frozen_1080m": 63,
+        "legacy26_ridge_remaining_frozen_360m__currency_projection": 62,
+        "legacy26_ridge_remaining_frozen_360m__half_residual": 62,
+        "legacy26_recovered_hgb_remaining_frozen_360m__currency_projection": 62,
+        "legacy26_recovered_hgb_remaining_frozen_360m__half_residual": 62,
+        "legacy26_ridge_remaining_frozen_1080m__currency_projection": 62,
+        "legacy26_ridge_remaining_frozen_1080m__half_residual": 62,
+        "legacy26_recovered_hgb_remaining_frozen_1080m__currency_projection": 62,
+        "legacy26_recovered_hgb_remaining_frozen_1080m__half_residual": 62,
+        "legacy26_ridge_remaining_frozen_1080m__learned_residual": 62,
+        "legacy26_recovered_hgb_remaining_frozen_1080m__learned_residual": 62
+      },
+      "coverage_slots": 1700,
+      "coverage_reasons": {
+        "eligible": 1565,
+        "quote_stale": 15,
+        "not_tradeable": 45,
+        "stale": 15,
+        "parent_origin_mismatch": 8,
+        "base_unavailable": 40,
+        "exact_controls_unavailable": 12
+      },
+      "tracking_status": "current",
+      "current_registry_groups": 25,
+      "news_status": "current",
+      "registry_sha256": "775b7e14cbc179787b6469041316dc0445df6cdde8a29388fd496bbb08fcb415",
+      "response_sha256": "83e6f2862bd474776594bcf3b10f6a1ffc3cb66dfc7c48c58ba251ce67a4fab0"
+    },
+    "monitor": {
+      "label": "NATIVE",
+      "seconds": 180.0,
+      "samples": 32,
+      "technical_generations": 4,
+      "retained_publications": 4,
+      "zero_live_samples": 0,
+      "errors": [],
+      "minimum_live_pairs": 61,
+      "max_source_to_issue": 53.71362018585205,
+      "http_samples": [
+        {
+          "seconds": 4.530999999959022,
+          "status": "current",
+          "forecasts": 1555,
+          "tracking": "current",
+          "groups": 25,
+          "news": "current"
+        },
+        {
+          "seconds": 12.172000000020489,
+          "status": "current",
+          "forecasts": 1525,
+          "tracking": "current",
+          "groups": 25,
+          "news": "current"
+        },
+        {
+          "seconds": 3.422000000020489,
+          "status": "current",
+          "forecasts": 915,
+          "tracking": "current",
+          "groups": 25,
+          "news": "current"
+        }
+      ]
+    }
+  }
+}
