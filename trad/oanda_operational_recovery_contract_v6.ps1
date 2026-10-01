@@ -2,7 +2,7 @@
 $OperationalRecoverySchema = "forex_operational_runtime_v6_20260916"
 
 function Get-OperationalRecoveryServices {
-    param([switch]$EnableJointForecasts,[switch]$EnableNewsCapacity,[switch]$EnableRollingNews,[switch]$EnableTechnicalCapacity,[switch]$EnableCurrencyNewsContext,[switch]$DisableFeatureForwardResearch,[switch]$EnableJointScheduler,[switch]$EnableCollectorProgress)
+    param([switch]$EnableJointForecasts,[switch]$EnableNewsCapacity,[switch]$EnableRollingNews,[switch]$EnableTechnicalCapacity,[switch]$EnableCurrencyNewsContext,[switch]$DisableFeatureForwardResearch,[switch]$EnableJointScheduler,[switch]$EnableCollectorProgress,[switch]$EnableNewsProducerJournal)
     $roles = @{
         all68_m1_cadence_v3 = "oanda_all68_m1_cadence_v3.py"
         all68_technical_availability_v1 = "oanda_all68_technical_availability_v1.py"
@@ -49,6 +49,9 @@ function Get-OperationalRecoveryServices {
     }
     if ($EnableCollectorProgress) {
         $roles['default_news_collector_v1']='oanda_news_collector_progress_v1.py'
+    }
+    if ($EnableNewsProducerJournal) {
+        $roles['local_news_sentiment_repair_v2']='oanda_news_producer_journal_v1.py'
     }
     if ($EnableTechnicalCapacity) {
         $roles.Remove('all68_technical_availability_v1')
@@ -174,7 +177,8 @@ function Read-OperationalRecoveryProfile {
     if ($null -ne $profile.PSObject.Properties['enable_feature_forward_research'] -and $profile.enable_feature_forward_research -isnot [bool]) { throw 'Boolean feature-forward research selection required.' }
     if ($null -ne $profile.PSObject.Properties['enable_joint_scheduler'] -and $profile.enable_joint_scheduler -isnot [bool]) { throw 'Boolean scheduler selection required.' }
     if ($null -ne $profile.PSObject.Properties['enable_collector_progress'] -and $profile.enable_collector_progress -isnot [bool]) { throw 'Boolean collector-progress selection required.' }
-    $allowed = Get-OperationalRecoveryServices -EnableJointForecasts:($profile.enable_joint_forecasts -ceq $true) -EnableNewsCapacity:($profile.enable_news_capacity -ceq $true) -EnableRollingNews:($profile.enable_rolling_news -ceq $true) -EnableTechnicalCapacity:($profile.enable_technical_capacity -ceq $true) -EnableCurrencyNewsContext:($profile.enable_currency_news_context -ceq $true) -DisableFeatureForwardResearch:($profile.enable_feature_forward_research -ceq $false) -EnableJointScheduler:($profile.enable_joint_scheduler -ceq $true) -EnableCollectorProgress:($profile.enable_collector_progress -ceq $true)
+    if ($null -ne $profile.PSObject.Properties['enable_news_producer_journal'] -and $profile.enable_news_producer_journal -isnot [bool]) { throw 'Boolean producer-journal selection required.' }
+    $allowed = Get-OperationalRecoveryServices -EnableJointForecasts:($profile.enable_joint_forecasts -ceq $true) -EnableNewsCapacity:($profile.enable_news_capacity -ceq $true) -EnableRollingNews:($profile.enable_rolling_news -ceq $true) -EnableTechnicalCapacity:($profile.enable_technical_capacity -ceq $true) -EnableCurrencyNewsContext:($profile.enable_currency_news_context -ceq $true) -DisableFeatureForwardResearch:($profile.enable_feature_forward_research -ceq $false) -EnableJointScheduler:($profile.enable_joint_scheduler -ceq $true) -EnableCollectorProgress:($profile.enable_collector_progress -ceq $true) -EnableNewsProducerJournal:($profile.enable_news_producer_journal -ceq $true)
     $services = @($profile.services)
     $names = @($services | ForEach-Object { [string]$_.name })
     if ($services.Count -ne $allowed.Count -or @($names | Sort-Object -Unique).Count -ne $allowed.Count) {

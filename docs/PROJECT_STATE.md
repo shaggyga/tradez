@@ -1,5 +1,9 @@
 # Current project orientation — September 30, 2026
 
+## Current continuation — durable producer diagnostics
+
+[Current checkpoint](NEWS_FAILURE_JOURNAL_20261001.md): original producer failures/recoveries now persist across successful heartbeats;101 deployment tests and6 relocated tests passed. Prior14 failures remain unexplained; inspect the journal, then finish pair recovery and management qualification. Older entries below are historical.
+
 ## Current continuation — duplicate-reference recovery
 
 [Current checkpoint](PAIR_RECOVERY_20261001.md): skip guaranteed duplicate-reference fits; 90 deployment tests and 23 relocated tests passed. Original 68 histories preserved. News-producer intermittency and per-pair recovery remain partial; management follows. Older entries below are historical.

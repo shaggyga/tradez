@@ -22,7 +22,8 @@
     "config/fast_headline_sources_v1_20260930.json": "1a4ae5e79213eb1be1642162b2c649683d6511d9a9979920913bd8d7c2b7a016",
     "config/retained_forecast_connection_20260930.json": "29c33ee654188ce803476904b5e092f93c13afe59fff70e51452035a13bfd180",
     "config/joint_news_scheduler_v1_20261001.json": "fc7c3fe4d145b6fc95198f39c350ea76878ecabcd80406d9582f7b30b7c9ff0a",
-    "config/collector_progress_v1_20261001.json": "712b81c618d565456ea406c9806134da024d4da2b6b943617996126c91a74283"
+    "config/collector_progress_v1_20261001.json": "712b81c618d565456ea406c9806134da024d4da2b6b943617996126c91a74283",
+    "config/news_producer_journal_v1_20261001.json": "9e343d2ff114fa5a7e9d4f284c1d91595de86581d9fbab899152f86c00ff5b24"
   },
   "enable_joint_forecasts": true,
   "enable_news_capacity": false,
@@ -167,7 +168,9 @@
         "--interval-sec",
         "15",
         "--duration-sec",
-        "604800"
+        "604800",
+        "--journal-config",
+        "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\news_producer_journal_v1_20261001.json"
       ],
       "heartbeat": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment_repair_v2\\heartbeat_v2.json",
       "heartbeat_field": "schema_version",
@@ -175,10 +178,10 @@
       "interpreter_mode": "no_bytecode",
       "max_age_sec": 120,
       "name": "local_news_sentiment_repair_v2",
-      "needle": "oanda_local_news_sentiment_repair_v2.py",
+      "needle": "oanda_news_producer_journal_v1.py",
       "priority_class": "BelowNormal",
-      "script": "oanda_local_news_sentiment_repair_v2.py",
-      "source_sha256": "542e287e44330d2e83ef2ec1a9b363bc716cf5581cf8b05bce87de84c7fa4124",
+      "script": "oanda_news_producer_journal_v1.py",
+      "source_sha256": "5a52b04045ec46061a5e702806098b672e8eb7f1026dd308a68189993053b380",
       "startup_grace_sec": 180
     },
     {
@@ -440,7 +443,7 @@
   ],
   "support_sources": {
     "oanda_operational_log_relay_v2.py": "e85e9e425941cd8eca77440712c05c975513fe26e13402aaab8e05068c16714a",
-    "oanda_operational_recovery_contract_v6.ps1": "c8d2fff05701de0e1bdd7a40db0662dd66a5b96d87d4f27a16f0ae16491b71b2",
+    "oanda_operational_recovery_contract_v6.ps1": "d428f4327a310c695db70b83640b139cce838c3c444823db48a2097e4d71853c",
     "oanda_operational_supervisor_v6.ps1": "30df5f69ec7a2b412252ff12ad7f233c2207336616e5f7cfc533d3b70cdce1f4",
     "oanda_supervisor_watchdog_v6.ps1": "f06dd8516fc6148dec1e65eae0ae2da018d33be600d84f25ba82dbad8415d6ea",
     "start_oanda_operational_research_v6.ps1": "e6133420234bb8d203c889191ec6bef9bf22c39cb6230e39321a8fffc835b6ce",
@@ -449,5 +452,6 @@
   "enable_currency_news_context": true,
   "enable_feature_forward_research": false,
   "enable_joint_scheduler": true,
-  "enable_collector_progress": true
+  "enable_collector_progress": true,
+  "enable_news_producer_journal": true
 }
