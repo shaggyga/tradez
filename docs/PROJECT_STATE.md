@@ -1,5 +1,10 @@
 # Current project orientation — September 30, 2026
 
+## Current full-horizon connection checkpoint — October 1, 2026
+
+[Preserved parents and curve](RETAINED_CURVE_CONNECTION_20261001.md): 39 connections across 14 elapsed horizons; exact eight-horizon Ridge/HGB panels and two negative-result curve research references. No fits. 105 Python tests, four dashboard scenarios and 2,476-output relocated replay passed. Next `retained_position_management_readiness_v1`. Position management and exact-target gaps remain open; earlier notices below are historical.
+
+
 ## Current learned-state checkpoint — October 1, 2026
 
 [Preserved learned residuals](RETAINED_LEARNED_RESIDUAL_CONNECTION_20261001.md): two distinct saved 18h layers connected; zero-weight 6h states alias existing projections. 25 connections, no fits. 91 Python tests, three dashboard scenarios and 1,580-output relocated replay passed. Exact next `retained_curve_parent_panel_connection_v1`. Broader work remains unfinished; earlier notices below are historical.

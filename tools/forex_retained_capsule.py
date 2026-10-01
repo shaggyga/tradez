@@ -12,6 +12,7 @@ def sha(raw):return hashlib.sha256(raw).hexdigest()
 def records(registry):
     result=list(registry['normalizers'].values())
     result.extend(registry.get('learned_residual',{}).get('states',{}).values())
+    if 'curve' in registry:result.append(registry['curve']['state'])
     for entry in registry['connections']:
         result.extend(entry['models'])
         meta=entry.get('fit_metadata')

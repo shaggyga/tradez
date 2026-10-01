@@ -113,9 +113,9 @@ class SavedConnection:
         pairs=self.registry['pairs']
         if len(pairs)!=68 or len(set(pairs))!=68:raise ValueError('exact_pair_universe_required')
         entries=self.registry['connections']
-        if not 1<=len(entries)<=32 or len({e['id'] for e in entries})!=len(entries):raise ValueError('bounded_unique_connections_required')
+        if not 1<=len(entries)<=48 or len({e['id'] for e in entries})!=len(entries):raise ValueError('bounded_unique_connections_required')
         for e in entries:
-            if (e['kind'] not in ('rolling','specialist','rich_pipeline','retained_currency_projection','retained_learned_residual',*LEGACY_KINDS) or type(e['horizon_minutes']) is not int
+            if (e['kind'] not in ('rolling','specialist','rich_pipeline','retained_currency_projection','retained_learned_residual','retained_curve_shape',*LEGACY_KINDS) or type(e['horizon_minutes']) is not int
                 or e['horizon_minutes']<=0 or not e['feature_names'] or len(set(e['feature_names']))!=len(e['feature_names'])
                 or not e.get('selection_scope') or not e.get('evidence')):raise ValueError('exact_model_target_contract_required')
         for name,expected in self.registry['source_bindings'].items():
@@ -164,6 +164,10 @@ class SavedConnection:
         if any(e['kind']=='retained_learned_residual' for e in entries):
             import oanda_retained_learned_residual_v1 as residual
             self.learned_residual=residual.LearnedResidual(self.root,self.registry)
+        self.curve=None
+        if any(e['kind']=='retained_curve_shape' for e in entries):
+            import oanda_retained_curve_v1 as curve
+            self.curve=curve.Curve(self.root,self.registry)
 
     def verify_sources(self):
         if sha(self.path.read_bytes())!=self.registry_sha256:raise ValueError('registry_changed_reload_required')
@@ -219,7 +223,7 @@ class SavedConnection:
         now=clock()
         output=[];coverage=[]
         for entry in self.registry['connections']:
-            if entry.get('kind') in ('retained_currency_projection','retained_learned_residual'):continue
+            if entry.get('kind') in ('retained_currency_projection','retained_learned_residual','retained_curve_shape'):continue
             legacy=entry.get('kind') in LEGACY_KINDS
             input_rows=rows if not legacy else {p:{**r,'values':r['legacy26']['values'],
                 'feature_hash':r['legacy26']['feature_hash'],'input_hash':r['legacy26']['input_hash'],
@@ -278,8 +282,10 @@ class SavedConnection:
         projection_diagnostics=projector.append(output,coverage,self.registry_sha256,clock=clock) if projector else []
         residual=getattr(self,'learned_residual',None)
         residual_diagnostics=residual.append(output,coverage,self.registry_sha256,clock=clock) if residual else []
+        curve=getattr(self,'curve',None)
+        curve_diagnostics=curve.append(output,coverage,self.registry_sha256,clock=clock) if curve else []
         return {'schema':SCHEMA,'generated_epoch':clock(),'registry_sha256':self.registry_sha256,
-                'projection_diagnostics':projection_diagnostics,'residual_diagnostics':residual_diagnostics,
+                'projection_diagnostics':projection_diagnostics,'residual_diagnostics':residual_diagnostics,'curve_diagnostics':curve_diagnostics,
                 'status':'current' if output else 'inputs_unavailable','forecasts':output,'coverage':coverage,
                 'connections':self.registry['connections'],'unconnected_targets':self.registry['unconnected_targets'],
                 'limits':self.registry['limits'],'data_counts':report.get('counts',{}),
@@ -290,7 +296,7 @@ class SavedConnection:
 
 def atomic(path,value):
     raw=encoded(value)
-    if len(raw)>4*1024**2:raise ValueError('publication_size_bound')
+    if len(raw)>8*1024**2:raise ValueError('publication_size_bound')
     tmp=path.with_name(path.name+'.'+uuid.uuid4().hex+'.tmp')
     try:
         tmp.write_bytes(raw)
@@ -319,6 +325,7 @@ def publish_once(connection,output=OUTPUT):
     # Persist full issued outputs compressed; the original feature store retains
     # input bytes under the hashes/receipts in each prediction. No issue backdating.
     raw=encoded(value)
+    if len(encoded({**value,'payload_sha256':sha(raw)}))>8*1024**2:raise ValueError('publication_size_bound')
     with sqlite3.connect(database,timeout=2) as db:
         db.execute('CREATE TABLE IF NOT EXISTS issues (id TEXT PRIMARY KEY, issued REAL NOT NULL, payload_zlib BLOB NOT NULL)')
         db.execute('INSERT INTO issues VALUES (?,?,?)',(sha(raw),value['generated_epoch'],zlib.compress(raw,6)))
@@ -333,7 +340,7 @@ def read_current(path=OUTPUT/'current.json',registry_path=REGISTRY,*,now=None):
     now=time.time() if now is None else now
     try:
         path=Path(path)
-        if path.stat().st_size>4*1024**2:raise ValueError('publication_size')
+        if path.stat().st_size>8*1024**2:raise ValueError('publication_size')
         v=json.loads(path.read_bytes());regraw=Path(registry_path).read_bytes();reg=json.loads(regraw)
         if (v.get('schema')!=SCHEMA or v.get('registry_sha256')!=sha(regraw)
             or any(v.get(k)!=x for k,x in FLAGS.items())

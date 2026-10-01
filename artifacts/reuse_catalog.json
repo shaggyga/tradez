@@ -1627,6 +1627,25 @@
       "runtime_qualification": "91 tests, 272 original/136 adapter exact outputs, 1580 relocated forecasts exactly reproduced; same-task review",
       "models_fitted": 0,
       "scope": "Existing saved latest-cutoff states only; retrospective development evidence, no new performance or trading claim"
+    },
+    "retained_curve_current_connections": {
+      "classification": "saved_fitted_with_preserved_derived_states",
+      "model_count_definition": "39 connections reuse previous parents;12 added direct connections and2 frozen curve states;not39 independent models",
+      "original_identity": {
+        "kind": "registry_sha256",
+        "fingerprint": "5d0c7216466db1425b4eb0482c8fdd721688cf80909b7da9ba1e7a903a4c3f7d"
+      },
+      "artifact_refs": [
+        {
+          "vault_relative_path": "RETAINED_CURVE_CONNECTION_20261001/curve_connections_capsule.zip",
+          "sha256": "5c2435c0f3efaa824887c391c29bfb3cbfcf3f7e2c24ec7c7f0ebecbe3bd193e",
+          "bytes": 5985021,
+          "kind": "archive"
+        }
+      ],
+      "runtime_qualification": "105 Python tests,4renderer cases,136original/adapter outputs and2476relocated outputs exact; same-task review",
+      "models_fitted": 0,
+      "scope": "Frozen original states and exact parents; original negative result preserved, no promotion or trading claim"
     }
   },
   "inherited_records": [

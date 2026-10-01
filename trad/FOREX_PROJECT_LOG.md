@@ -7931,3 +7931,8 @@ Scheduling repair complete within scope; 82 focused tests passed. Six-minute nat
 ### 2026-10-01T02:19:26.875148+00:00 — retained_learned_residual_state_connection_v1
 
 Four original learned states authenticated; two distinct 18h layers connected and zero-weight 6h states explicitly equivalent to existing projections. 25 connections; zero new fits. 91 Python tests, three renderer cases, 272 original/136 adapter exact outputs, and 1,580 exact relocated forecasts passed. Same-task review only. Source/evidence identities: live Vault `RETAINED_LEARNED_RESIDUAL_CONNECTION_20261001/REVIEW.json` and MANIFEST.json; local `evidence/retained_learned_20261001`. Next `retained_curve_parent_panel_connection_v1`. Position management and exact-target gaps remain open.
+
+
+### 2026-10-01T02:49:12.693804+00:00 — retained_curve_parent_panel_connection_v1
+
+39 retained connections across 14 elapsed horizons; exact eight-horizon saved parents and two frozen curve references connected. Original negative curve result preserved; no fit or promotion. 105 Python tests, four renderer scenarios, 136 exact adapter outputs and 2,476 exact relocated outputs. Same-task review only. Source/evidence identities: live Vault `RETAINED_CURVE_CONNECTION_20261001/REVIEW.json` and MANIFEST.json; local `evidence/retained_curve_20261001`. Next `retained_position_management_readiness_v1`. Sixteen exact targets and position management remain open.

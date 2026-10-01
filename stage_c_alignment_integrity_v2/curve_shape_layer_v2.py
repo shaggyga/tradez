@@ -2,8 +2,10 @@
 from collections import Counter
 import math
 
-from contracts import fingerprint
-from magnitude_layer_v2 import weighted_ridge
+try:
+    from .contracts import fingerprint
+except ImportError:
+    from contracts import fingerprint
 
 
 def _origin(row):
@@ -59,6 +61,11 @@ def features(row):
 
 
 def fit_snapshot(rows, outcomes, cutoff, contract):
+    # Inference-only replicas do not import the fitting dependency chain.
+    try:
+        from .magnitude_layer_v2 import weighted_ridge
+    except ImportError:
+        from magnitude_layer_v2 import weighted_ridge
     eligible = []
     for row in rows:
         outcome = outcomes.get((row["record_id"], row["target_id"]))
