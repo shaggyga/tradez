@@ -3,7 +3,10 @@ from collections import Counter,defaultdict
 from dataclasses import dataclass
 import hashlib,importlib,importlib.machinery,importlib.util,math,sys
 from pathlib import Path
-from contracts import fingerprint
+try:
+    from .contracts import fingerprint
+except ImportError:  # Original standalone research operators.
+    from contracts import fingerprint
 
 BASES=('ridge','recovered_hgb')
 VARIANTS=('direct','currency_projection','half_residual')

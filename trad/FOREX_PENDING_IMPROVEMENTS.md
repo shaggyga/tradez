@@ -5878,3 +5878,8 @@ Step `remaining_saved_connections_20261001`; Vault `REMAINING_CONNECTIONS_202610
 
 
 Final same-step review corrected dashboard request budget: observed13.656seconds exceeded10second frontend abort. Main request now30seconds with unchanged input freshness;3actual-page-function cases passed. Final packet `REMAINING_CONNECTIONS_FINAL_20261001` supersedes initial publication, which is preserved. Exact next remains `retained_currency_projection_connection_v1`.
+
+
+## 2026-10-01T01:21:10.363839+00:00: retained currency projection connection
+
+Step retained_currency_projection_connection_v1; Vault `RETAINED_PROJECTION_CONNECTION_20261001/REVIEW.json`; source identity is recorded there after commit.23connections/11horizons,15originals unchanged, no fits.104Python tests,5JS scenarios,528exact preserved derived outputs,1456exact relocated forecasts; native1472outputs/64pairs/23trackinggroups at readback. Same-task review only. Expired-input window retained, exact next `retained_input_freshness_continuity_v1`; then saved learned-state qualification and separate position-management integration. See docs/RETAINED_PROJECTION_CONNECTION_20261001.md.

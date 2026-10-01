@@ -1,0 +1,20 @@
+// Execute actual renderer: derived inputs must be labelled as forecast edges.
+const fs=require('fs'),vm=require('vm'),assert=require('assert/strict');
+const html=fs.readFileSync('trad/oanda_main_signal_dashboard.html','utf8');
+const start=html.indexOf('    function renderRetainedForecasts(data){');
+const end=html.indexOf('\n    function render(data)',start);
+assert(start>=0&&end>start);
+const elements={'retained-forecasts':{innerHTML:''},'retained-model-pair':{value:'EUR_USD'}};
+const context={$:id=>elements[id],esc:String,restoreDetailState:()=>{},lastMainData:null};
+vm.createContext(context);vm.runInContext(html.slice(start,end),context);
+const now=Date.now()/1000;
+const entry={id:'saved__currency_projection',kind:'retained_currency_projection',horizon_minutes:360,selection_scope:'Fixed layer'};
+const f={instrument:'EUR_USD',connection:entry.id,reference_epoch:now-10,target_epoch:now+21600,issued_epoch:now-1,expected_return_bps:1.23,input_support:{finite:62,expected:68}};
+context.renderRetainedForecasts({retained_forecasts:{connections:[entry],forecasts:[f],coverage:[{instrument:'EUR_USD',connection:entry.id,status:'eligible'}]}});
+assert(elements['retained-forecasts'].innerHTML.includes('Forecast edges 62/68; same-origin graph support required.'));
+assert(elements['retained-forecasts'].innerHTML.includes('1.230'));
+f.reference_epoch=now-181;
+context.renderRetainedForecasts({retained_forecasts:{connections:[entry],forecasts:[f],coverage:[]}});
+assert(!elements['retained-forecasts'].innerHTML.includes('1.230'));
+assert(elements['retained-forecasts'].innerHTML.includes('Unavailable'));
+console.log('2 actual dashboard renderer scenarios passed: layer provenance and expired output refusal.');

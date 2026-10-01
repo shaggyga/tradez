@@ -1,5 +1,10 @@
 # Start here
 
+## Current projection checkpoint - October1,2026
+
+[Currency projection connection](docs/RETAINED_PROJECTION_CONNECTION_20261001.md):23connections across11elapsed horizons; eight fixed currency layers added to fifteen unchanged saved connections. Zero fits. Historical528output replication,1456output relocated replay and native23group tracking verified. Next `retained_input_freshness_continuity_v1` repairs the observed input-expiry gap. Learned residuals and position management remain unfinished. Older notices below are historical.
+
+
 ## Current checkpoint - October1,2026
 
 [Saved6h/18h connections](docs/REMAINING_CONNECTIONS_20261001.md): fifteen connections across11 elapsed horizons; original11 preserved. No new fits. Bounded target and parent reconciliation is complete with16 unqualified exact targets explicit. Next `retained_currency_projection_connection_v1`. Layer integration and position management remain unfinished. Earlier next-item notices below are historical.

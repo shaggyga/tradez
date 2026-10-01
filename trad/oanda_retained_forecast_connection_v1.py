@@ -115,7 +115,7 @@ class SavedConnection:
         entries=self.registry['connections']
         if not 1<=len(entries)<=24 or len({e['id'] for e in entries})!=len(entries):raise ValueError('bounded_unique_connections_required')
         for e in entries:
-            if (e['kind'] not in ('rolling','specialist','rich_pipeline',*LEGACY_KINDS) or type(e['horizon_minutes']) is not int
+            if (e['kind'] not in ('rolling','specialist','rich_pipeline','retained_currency_projection',*LEGACY_KINDS) or type(e['horizon_minutes']) is not int
                 or e['horizon_minutes']<=0 or not e['feature_names'] or len(set(e['feature_names']))!=len(e['feature_names'])
                 or not e.get('selection_scope') or not e.get('evidence')):raise ValueError('exact_model_target_contract_required')
         for name,expected in self.registry['source_bindings'].items():
@@ -156,6 +156,10 @@ class SavedConnection:
                             raise ValueError('saved_matched_ridge_parameters')
                 self.fit_metadata[entry['id']]=meta
             self.models[entry['id']]=[joblib.load(io.BytesIO(checked(self.root,r))) for r in entry['models']]
+        self.projection=None
+        if any(e['kind']=='retained_currency_projection' for e in entries):
+            import oanda_retained_projection_v1 as projection
+            self.projection=projection.Projection(self.root,self.registry)
 
     def verify_sources(self):
         if sha(self.path.read_bytes())!=self.registry_sha256:raise ValueError('registry_changed_reload_required')
@@ -211,6 +215,7 @@ class SavedConnection:
         now=clock()
         output=[];coverage=[]
         for entry in self.registry['connections']:
+            if entry.get('kind')=='retained_currency_projection':continue
             legacy=entry.get('kind') in LEGACY_KINDS
             input_rows=rows if not legacy else {p:{**r,'values':r['legacy26']['values'],
                 'feature_hash':r['legacy26']['feature_hash'],'input_hash':r['legacy26']['input_hash'],
@@ -265,7 +270,10 @@ class SavedConnection:
                     'original_model_id':entry.get('original_model_id'),
                     'input_support':next(c['input_support'] for c in coverage if c['connection']==entry['id'] and c['instrument']==pair),
                     'selection_scope':entry['selection_scope'],'registry_sha256':self.registry_sha256,**FLAGS})
+        projector=getattr(self,'projection',None)
+        projection_diagnostics=projector.append(output,coverage,self.registry_sha256,clock=clock) if projector else []
         return {'schema':SCHEMA,'generated_epoch':clock(),'registry_sha256':self.registry_sha256,
+                'projection_diagnostics':projection_diagnostics,
                 'status':'current' if output else 'inputs_unavailable','forecasts':output,'coverage':coverage,
                 'connections':self.registry['connections'],'unconnected_targets':self.registry['unconnected_targets'],
                 'limits':self.registry['limits'],'data_counts':report.get('counts',{}),
