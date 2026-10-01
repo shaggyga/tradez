@@ -1,0 +1,98 @@
+{
+  "utc": "2026-10-01T20:26:30.217668+00:00",
+  "files": [
+    {
+      "path": "trad/oanda_top_signal_position_ledger.py",
+      "sha256": "a7011253a1fa713b2a684ee525c667e8ac4429aa345b514f5d74eacc8f8b7053",
+      "bytes": 58109
+    },
+    {
+      "path": "trad/oanda_observed_curve_management_v1.py",
+      "sha256": "a6c8013af59b45ac958065010f26289e7ddfc6196ac88e32976b545c1496579b",
+      "bytes": 28540
+    },
+    {
+      "path": "trad/oanda_observed_curve_management_worker_v1.py",
+      "sha256": "2128386f825cdeffae715c3f89832200823652521809ea29ac57485c7c4f6762",
+      "bytes": 19023
+    },
+    {
+      "path": "trad/oanda_order_position_book_collector.py",
+      "sha256": "3690db63629f3fec2bf218c167245cb0493fbb7268b191621b46d083d2fcf0a8",
+      "bytes": 12799
+    },
+    {
+      "path": "trad/config/observed_curve_management_v1_20260909.json",
+      "sha256": "60689101fb63a8bcce2465d19f627b9b2ce357d1ee271c65298f255663d991e1",
+      "bytes": 5214
+    },
+    {
+      "path": "trad/config/operational_runtime_current_20260930.json",
+      "sha256": "e543803d23c07cc8bd4b4c0e44485e2cabadd99352e9810dfc44895b1d9dc291",
+      "bytes": 29404
+    },
+    {
+      "path": "trad/data/oanda_training_manager/state/top_signal_position_ledger_v1.json",
+      "sha256": "97fc6ca26595bd467b4356dae10062fded5596b844e0f83291f120912d028356",
+      "bytes": 645842
+    },
+    {
+      "path": "trad/data/oanda_training_manager/observed_curve_management_v1_20260909/worker_completed.json",
+      "sha256": "d82ed51a28663e3232710969edb20a66909183ed23ce9662bab72aab44665357",
+      "bytes": 480
+    },
+    {
+      "path": "trad/data/oanda_training_manager/state/practice_007_market_quotes_v1.json",
+      "sha256": "d8b61a10c58adcc17deebbc68423dc47bb77b2e7c3ca4b8195225cc34d23320f",
+      "bytes": 9404
+    },
+    {
+      "path": "trad/data/oanda_training_manager/currency_news_context_v1/current.json",
+      "sha256": "e894475a2a4db530242ec4299bb418b049f94e3eb4c70b07379d56f6b05284db",
+      "bytes": 130887
+    }
+  ],
+  "ledger_generated_utc": "2026-09-05T02:08:02.135785+00:00",
+  "selected_service_names": [
+    "all68_m1_cadence_v3",
+    "practice_quote_stream_v1",
+    "clock_integrity_monitor_v1",
+    "default_news_collector_v1",
+    "revision_news_collector_v2",
+    "local_news_sentiment_repair_v2",
+    "joint_price_news_study_v11",
+    "pair_local_forecast_study_v3",
+    "retained_price_settlement_v1",
+    "native_feature_candles_v1",
+    "research_feature_observations_v2",
+    "official_pair_horizon_v2",
+    "rolling_technical_operations_v2",
+    "all68_technical_availability_v2",
+    "all68_derived_technical_publisher_v1",
+    "currency_news_context_v1"
+  ],
+  "current_paper_state_bound": false,
+  "findings": [
+    {
+      "source": "trad/data/oanda_training_manager/state/top_signal_position_ledger_v1.json",
+      "disposition": "Historical September5 what-if cohorts, not a managed current portfolio"
+    },
+    {
+      "source": "trad/data/oanda_training_manager/observed_curve_management_v1_20260909/worker_completed.json",
+      "disposition": "Completed September9 fixed episodes, not present flat state"
+    },
+    {
+      "source": "trad/oanda_order_position_book_collector.py",
+      "disposition": "Aggregate client distribution collector, not project position state"
+    }
+  ],
+  "missing": [
+    "current observed paper book/episode and settled event lineage",
+    "matched fresh conditional values and economic assumptions"
+  ],
+  "scope": "Bounded inspection of existing configured producers and named state paths; not an exhaustive filesystem absence claim",
+  "next_action": "Qualify an explicit prospective paper episode producer reusing observed accounting; do not relabel historical episodes or infer positions from forecasts",
+  "account_access": false,
+  "orders": false,
+  "models_fitted": 0
+}

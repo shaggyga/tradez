@@ -192,4 +192,4 @@ Scope clarification 2026-09-30T19:57:32.931372+00:00: `finish_research_and_matur
 
 | `current_news_read_deploy_20261001` | Mabel current Codex chat | 2026-10-01T20:06:11.310678+00:00 | Current-news retry deployed | Other-task recorder excluded; nontrading scheduler restart authorized | `DONE` | 2026-10-01T20:06:11.310678+00:00 | CURRENT_NEWS_READ_DEPLOY_20261001/REVIEW.json;106 tests; fresh receipts;68 histories preserved. Input gate accepted; claim released. |
 
-| `current_state_binding_20261001` | Mabel current Codex chat | 2026-10-01T20:28:53.965023+00:00 | Offline lifecycle binding | Runtime and other-task capture untouched | `DONE` | 2026-10-01T20:28:53.965023+00:00 | MANAGEMENT_STATE_BINDING_20261001/REVIEW.json;78tests;84exact replay outputs. Parent partial; no active worker. |
+| `current_state_binding_20261001` | Mabel current Codex chat | 2026-10-01T20:21:34.6676598Z | Offline paper-state lifecycle binding | Consumer/tests/evidence only; no runtime or other-task capture changes | `CLAIMED` | 2026-10-01T20:21:34.6676598Z | Clean baseline cd20dda; engineering preflight passed at 20:21:07Z. |

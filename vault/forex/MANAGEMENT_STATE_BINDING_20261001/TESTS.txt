@@ -1,0 +1,414 @@
+......FFFFFFFFFF......................                                   [100%]
+================================== FAILURES ===================================
+____________________________ test_refusals[stale] _____________________________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5585/test_refusals_stale_0')
+fault = 'stale'
+
+    @pytest.mark.parametrize('fault', ['stale','future','wrong_slot','fake_flat','pending_flat','unknown',
+        'partial_fill','missing_event','wrong_tier','wrong_position'])
+    def test_refusals(tmp_path, fault):
+        c, _, q, key, r = fixture(tmp_path, 'ENTRY_PENDING' if fault == 'partial_fill' else 'FLAT')
+        if fault == 'stale': r['asof_epoch'] -= 1
+        elif fault == 'future': r['asof_epoch'] += 1
+        elif fault == 'wrong_slot': r['slot'] = 'other'
+        elif fault == 'fake_flat': r['position_state_sha256'] = 'position'
+        elif fault == 'pending_flat': r['pending_orders'] = [{}]
+        elif fault == 'unknown': r['lifecycle'] = 'UNKNOWN'
+        elif fault == 'partial_fill': r['pending_orders'][0]['status'] = 'partially_filled'
+        elif fault == 'missing_event': r['event_head_sha256'] = 'missing'
+        elif fault == 'wrong_tier': r['evidence_tier'] = 'preserved_observation'
+        elif fault == 'wrong_position': r.update(lifecycle='OPEN', position_state_sha256='missing')
+        replace(q, key, r)
+>       rows, _ = m.inspect(c,q)
+                  ^^^^^^^^^^^^^^
+
+tests\test_management_state_binding.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tools\forex_management_state_binding.py:84: in inspect
+    contract.authenticate(pin, records)
+tools\forex_retained_management_contract.py:37: in authenticate
+    prior.need(prior.sha(prior.encoded(body)) == record, 'evidence_record_hash')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ok = False, reason = 'evidence_record_hash'
+
+    def need(ok,reason):
+>       if not ok:raise ValueError(reason)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: evidence_record_hash
+
+tools\forex_retained_management_readiness.py:42: ValueError
+____________________________ test_refusals[future] ____________________________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5585/test_refusals_future_0')
+fault = 'future'
+
+    @pytest.mark.parametrize('fault', ['stale','future','wrong_slot','fake_flat','pending_flat','unknown',
+        'partial_fill','missing_event','wrong_tier','wrong_position'])
+    def test_refusals(tmp_path, fault):
+        c, _, q, key, r = fixture(tmp_path, 'ENTRY_PENDING' if fault == 'partial_fill' else 'FLAT')
+        if fault == 'stale': r['asof_epoch'] -= 1
+        elif fault == 'future': r['asof_epoch'] += 1
+        elif fault == 'wrong_slot': r['slot'] = 'other'
+        elif fault == 'fake_flat': r['position_state_sha256'] = 'position'
+        elif fault == 'pending_flat': r['pending_orders'] = [{}]
+        elif fault == 'unknown': r['lifecycle'] = 'UNKNOWN'
+        elif fault == 'partial_fill': r['pending_orders'][0]['status'] = 'partially_filled'
+        elif fault == 'missing_event': r['event_head_sha256'] = 'missing'
+        elif fault == 'wrong_tier': r['evidence_tier'] = 'preserved_observation'
+        elif fault == 'wrong_position': r.update(lifecycle='OPEN', position_state_sha256='missing')
+        replace(q, key, r)
+>       rows, _ = m.inspect(c,q)
+                  ^^^^^^^^^^^^^^
+
+tests\test_management_state_binding.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tools\forex_management_state_binding.py:84: in inspect
+    contract.authenticate(pin, records)
+tools\forex_retained_management_contract.py:37: in authenticate
+    prior.need(prior.sha(prior.encoded(body)) == record, 'evidence_record_hash')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ok = False, reason = 'evidence_record_hash'
+
+    def need(ok,reason):
+>       if not ok:raise ValueError(reason)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: evidence_record_hash
+
+tools\forex_retained_management_readiness.py:42: ValueError
+__________________________ test_refusals[wrong_slot] __________________________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5585/test_refusals_wrong_slot_0')
+fault = 'wrong_slot'
+
+    @pytest.mark.parametrize('fault', ['stale','future','wrong_slot','fake_flat','pending_flat','unknown',
+        'partial_fill','missing_event','wrong_tier','wrong_position'])
+    def test_refusals(tmp_path, fault):
+        c, _, q, key, r = fixture(tmp_path, 'ENTRY_PENDING' if fault == 'partial_fill' else 'FLAT')
+        if fault == 'stale': r['asof_epoch'] -= 1
+        elif fault == 'future': r['asof_epoch'] += 1
+        elif fault == 'wrong_slot': r['slot'] = 'other'
+        elif fault == 'fake_flat': r['position_state_sha256'] = 'position'
+        elif fault == 'pending_flat': r['pending_orders'] = [{}]
+        elif fault == 'unknown': r['lifecycle'] = 'UNKNOWN'
+        elif fault == 'partial_fill': r['pending_orders'][0]['status'] = 'partially_filled'
+        elif fault == 'missing_event': r['event_head_sha256'] = 'missing'
+        elif fault == 'wrong_tier': r['evidence_tier'] = 'preserved_observation'
+        elif fault == 'wrong_position': r.update(lifecycle='OPEN', position_state_sha256='missing')
+        replace(q, key, r)
+>       rows, _ = m.inspect(c,q)
+                  ^^^^^^^^^^^^^^
+
+tests\test_management_state_binding.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tools\forex_management_state_binding.py:84: in inspect
+    contract.authenticate(pin, records)
+tools\forex_retained_management_contract.py:37: in authenticate
+    prior.need(prior.sha(prior.encoded(body)) == record, 'evidence_record_hash')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ok = False, reason = 'evidence_record_hash'
+
+    def need(ok,reason):
+>       if not ok:raise ValueError(reason)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: evidence_record_hash
+
+tools\forex_retained_management_readiness.py:42: ValueError
+__________________________ test_refusals[fake_flat] ___________________________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5585/test_refusals_fake_flat_0')
+fault = 'fake_flat'
+
+    @pytest.mark.parametrize('fault', ['stale','future','wrong_slot','fake_flat','pending_flat','unknown',
+        'partial_fill','missing_event','wrong_tier','wrong_position'])
+    def test_refusals(tmp_path, fault):
+        c, _, q, key, r = fixture(tmp_path, 'ENTRY_PENDING' if fault == 'partial_fill' else 'FLAT')
+        if fault == 'stale': r['asof_epoch'] -= 1
+        elif fault == 'future': r['asof_epoch'] += 1
+        elif fault == 'wrong_slot': r['slot'] = 'other'
+        elif fault == 'fake_flat': r['position_state_sha256'] = 'position'
+        elif fault == 'pending_flat': r['pending_orders'] = [{}]
+        elif fault == 'unknown': r['lifecycle'] = 'UNKNOWN'
+        elif fault == 'partial_fill': r['pending_orders'][0]['status'] = 'partially_filled'
+        elif fault == 'missing_event': r['event_head_sha256'] = 'missing'
+        elif fault == 'wrong_tier': r['evidence_tier'] = 'preserved_observation'
+        elif fault == 'wrong_position': r.update(lifecycle='OPEN', position_state_sha256='missing')
+        replace(q, key, r)
+>       rows, _ = m.inspect(c,q)
+                  ^^^^^^^^^^^^^^
+
+tests\test_management_state_binding.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tools\forex_management_state_binding.py:84: in inspect
+    contract.authenticate(pin, records)
+tools\forex_retained_management_contract.py:37: in authenticate
+    prior.need(prior.sha(prior.encoded(body)) == record, 'evidence_record_hash')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ok = False, reason = 'evidence_record_hash'
+
+    def need(ok,reason):
+>       if not ok:raise ValueError(reason)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: evidence_record_hash
+
+tools\forex_retained_management_readiness.py:42: ValueError
+_________________________ test_refusals[pending_flat] _________________________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5585/test_refusals_pending_flat_0')
+fault = 'pending_flat'
+
+    @pytest.mark.parametrize('fault', ['stale','future','wrong_slot','fake_flat','pending_flat','unknown',
+        'partial_fill','missing_event','wrong_tier','wrong_position'])
+    def test_refusals(tmp_path, fault):
+        c, _, q, key, r = fixture(tmp_path, 'ENTRY_PENDING' if fault == 'partial_fill' else 'FLAT')
+        if fault == 'stale': r['asof_epoch'] -= 1
+        elif fault == 'future': r['asof_epoch'] += 1
+        elif fault == 'wrong_slot': r['slot'] = 'other'
+        elif fault == 'fake_flat': r['position_state_sha256'] = 'position'
+        elif fault == 'pending_flat': r['pending_orders'] = [{}]
+        elif fault == 'unknown': r['lifecycle'] = 'UNKNOWN'
+        elif fault == 'partial_fill': r['pending_orders'][0]['status'] = 'partially_filled'
+        elif fault == 'missing_event': r['event_head_sha256'] = 'missing'
+        elif fault == 'wrong_tier': r['evidence_tier'] = 'preserved_observation'
+        elif fault == 'wrong_position': r.update(lifecycle='OPEN', position_state_sha256='missing')
+        replace(q, key, r)
+>       rows, _ = m.inspect(c,q)
+                  ^^^^^^^^^^^^^^
+
+tests\test_management_state_binding.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tools\forex_management_state_binding.py:84: in inspect
+    contract.authenticate(pin, records)
+tools\forex_retained_management_contract.py:37: in authenticate
+    prior.need(prior.sha(prior.encoded(body)) == record, 'evidence_record_hash')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ok = False, reason = 'evidence_record_hash'
+
+    def need(ok,reason):
+>       if not ok:raise ValueError(reason)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: evidence_record_hash
+
+tools\forex_retained_management_readiness.py:42: ValueError
+___________________________ test_refusals[unknown] ____________________________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5585/test_refusals_unknown_0')
+fault = 'unknown'
+
+    @pytest.mark.parametrize('fault', ['stale','future','wrong_slot','fake_flat','pending_flat','unknown',
+        'partial_fill','missing_event','wrong_tier','wrong_position'])
+    def test_refusals(tmp_path, fault):
+        c, _, q, key, r = fixture(tmp_path, 'ENTRY_PENDING' if fault == 'partial_fill' else 'FLAT')
+        if fault == 'stale': r['asof_epoch'] -= 1
+        elif fault == 'future': r['asof_epoch'] += 1
+        elif fault == 'wrong_slot': r['slot'] = 'other'
+        elif fault == 'fake_flat': r['position_state_sha256'] = 'position'
+        elif fault == 'pending_flat': r['pending_orders'] = [{}]
+        elif fault == 'unknown': r['lifecycle'] = 'UNKNOWN'
+        elif fault == 'partial_fill': r['pending_orders'][0]['status'] = 'partially_filled'
+        elif fault == 'missing_event': r['event_head_sha256'] = 'missing'
+        elif fault == 'wrong_tier': r['evidence_tier'] = 'preserved_observation'
+        elif fault == 'wrong_position': r.update(lifecycle='OPEN', position_state_sha256='missing')
+        replace(q, key, r)
+>       rows, _ = m.inspect(c,q)
+                  ^^^^^^^^^^^^^^
+
+tests\test_management_state_binding.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tools\forex_management_state_binding.py:84: in inspect
+    contract.authenticate(pin, records)
+tools\forex_retained_management_contract.py:37: in authenticate
+    prior.need(prior.sha(prior.encoded(body)) == record, 'evidence_record_hash')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ok = False, reason = 'evidence_record_hash'
+
+    def need(ok,reason):
+>       if not ok:raise ValueError(reason)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: evidence_record_hash
+
+tools\forex_retained_management_readiness.py:42: ValueError
+_________________________ test_refusals[partial_fill] _________________________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5585/test_refusals_partial_fill_0')
+fault = 'partial_fill'
+
+    @pytest.mark.parametrize('fault', ['stale','future','wrong_slot','fake_flat','pending_flat','unknown',
+        'partial_fill','missing_event','wrong_tier','wrong_position'])
+    def test_refusals(tmp_path, fault):
+        c, _, q, key, r = fixture(tmp_path, 'ENTRY_PENDING' if fault == 'partial_fill' else 'FLAT')
+        if fault == 'stale': r['asof_epoch'] -= 1
+        elif fault == 'future': r['asof_epoch'] += 1
+        elif fault == 'wrong_slot': r['slot'] = 'other'
+        elif fault == 'fake_flat': r['position_state_sha256'] = 'position'
+        elif fault == 'pending_flat': r['pending_orders'] = [{}]
+        elif fault == 'unknown': r['lifecycle'] = 'UNKNOWN'
+        elif fault == 'partial_fill': r['pending_orders'][0]['status'] = 'partially_filled'
+        elif fault == 'missing_event': r['event_head_sha256'] = 'missing'
+        elif fault == 'wrong_tier': r['evidence_tier'] = 'preserved_observation'
+        elif fault == 'wrong_position': r.update(lifecycle='OPEN', position_state_sha256='missing')
+        replace(q, key, r)
+>       rows, _ = m.inspect(c,q)
+                  ^^^^^^^^^^^^^^
+
+tests\test_management_state_binding.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tools\forex_management_state_binding.py:84: in inspect
+    contract.authenticate(pin, records)
+tools\forex_retained_management_contract.py:37: in authenticate
+    prior.need(prior.sha(prior.encoded(body)) == record, 'evidence_record_hash')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ok = False, reason = 'evidence_record_hash'
+
+    def need(ok,reason):
+>       if not ok:raise ValueError(reason)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: evidence_record_hash
+
+tools\forex_retained_management_readiness.py:42: ValueError
+________________________ test_refusals[missing_event] _________________________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5585/test_refusals_missing_event_0')
+fault = 'missing_event'
+
+    @pytest.mark.parametrize('fault', ['stale','future','wrong_slot','fake_flat','pending_flat','unknown',
+        'partial_fill','missing_event','wrong_tier','wrong_position'])
+    def test_refusals(tmp_path, fault):
+        c, _, q, key, r = fixture(tmp_path, 'ENTRY_PENDING' if fault == 'partial_fill' else 'FLAT')
+        if fault == 'stale': r['asof_epoch'] -= 1
+        elif fault == 'future': r['asof_epoch'] += 1
+        elif fault == 'wrong_slot': r['slot'] = 'other'
+        elif fault == 'fake_flat': r['position_state_sha256'] = 'position'
+        elif fault == 'pending_flat': r['pending_orders'] = [{}]
+        elif fault == 'unknown': r['lifecycle'] = 'UNKNOWN'
+        elif fault == 'partial_fill': r['pending_orders'][0]['status'] = 'partially_filled'
+        elif fault == 'missing_event': r['event_head_sha256'] = 'missing'
+        elif fault == 'wrong_tier': r['evidence_tier'] = 'preserved_observation'
+        elif fault == 'wrong_position': r.update(lifecycle='OPEN', position_state_sha256='missing')
+        replace(q, key, r)
+>       rows, _ = m.inspect(c,q)
+                  ^^^^^^^^^^^^^^
+
+tests\test_management_state_binding.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tools\forex_management_state_binding.py:84: in inspect
+    contract.authenticate(pin, records)
+tools\forex_retained_management_contract.py:37: in authenticate
+    prior.need(prior.sha(prior.encoded(body)) == record, 'evidence_record_hash')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ok = False, reason = 'evidence_record_hash'
+
+    def need(ok,reason):
+>       if not ok:raise ValueError(reason)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: evidence_record_hash
+
+tools\forex_retained_management_readiness.py:42: ValueError
+__________________________ test_refusals[wrong_tier] __________________________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5585/test_refusals_wrong_tier_0')
+fault = 'wrong_tier'
+
+    @pytest.mark.parametrize('fault', ['stale','future','wrong_slot','fake_flat','pending_flat','unknown',
+        'partial_fill','missing_event','wrong_tier','wrong_position'])
+    def test_refusals(tmp_path, fault):
+        c, _, q, key, r = fixture(tmp_path, 'ENTRY_PENDING' if fault == 'partial_fill' else 'FLAT')
+        if fault == 'stale': r['asof_epoch'] -= 1
+        elif fault == 'future': r['asof_epoch'] += 1
+        elif fault == 'wrong_slot': r['slot'] = 'other'
+        elif fault == 'fake_flat': r['position_state_sha256'] = 'position'
+        elif fault == 'pending_flat': r['pending_orders'] = [{}]
+        elif fault == 'unknown': r['lifecycle'] = 'UNKNOWN'
+        elif fault == 'partial_fill': r['pending_orders'][0]['status'] = 'partially_filled'
+        elif fault == 'missing_event': r['event_head_sha256'] = 'missing'
+        elif fault == 'wrong_tier': r['evidence_tier'] = 'preserved_observation'
+        elif fault == 'wrong_position': r.update(lifecycle='OPEN', position_state_sha256='missing')
+        replace(q, key, r)
+>       rows, _ = m.inspect(c,q)
+                  ^^^^^^^^^^^^^^
+
+tests\test_management_state_binding.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tools\forex_management_state_binding.py:84: in inspect
+    contract.authenticate(pin, records)
+tools\forex_retained_management_contract.py:37: in authenticate
+    prior.need(prior.sha(prior.encoded(body)) == record, 'evidence_record_hash')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ok = False, reason = 'evidence_record_hash'
+
+    def need(ok,reason):
+>       if not ok:raise ValueError(reason)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: evidence_record_hash
+
+tools\forex_retained_management_readiness.py:42: ValueError
+________________________ test_refusals[wrong_position] ________________________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5585/test_refusals_wrong_position_0')
+fault = 'wrong_position'
+
+    @pytest.mark.parametrize('fault', ['stale','future','wrong_slot','fake_flat','pending_flat','unknown',
+        'partial_fill','missing_event','wrong_tier','wrong_position'])
+    def test_refusals(tmp_path, fault):
+        c, _, q, key, r = fixture(tmp_path, 'ENTRY_PENDING' if fault == 'partial_fill' else 'FLAT')
+        if fault == 'stale': r['asof_epoch'] -= 1
+        elif fault == 'future': r['asof_epoch'] += 1
+        elif fault == 'wrong_slot': r['slot'] = 'other'
+        elif fault == 'fake_flat': r['position_state_sha256'] = 'position'
+        elif fault == 'pending_flat': r['pending_orders'] = [{}]
+        elif fault == 'unknown': r['lifecycle'] = 'UNKNOWN'
+        elif fault == 'partial_fill': r['pending_orders'][0]['status'] = 'partially_filled'
+        elif fault == 'missing_event': r['event_head_sha256'] = 'missing'
+        elif fault == 'wrong_tier': r['evidence_tier'] = 'preserved_observation'
+        elif fault == 'wrong_position': r.update(lifecycle='OPEN', position_state_sha256='missing')
+        replace(q, key, r)
+>       rows, _ = m.inspect(c,q)
+                  ^^^^^^^^^^^^^^
+
+tests\test_management_state_binding.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tools\forex_management_state_binding.py:84: in inspect
+    contract.authenticate(pin, records)
+tools\forex_retained_management_contract.py:37: in authenticate
+    prior.need(prior.sha(prior.encoded(body)) == record, 'evidence_record_hash')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ok = False, reason = 'evidence_record_hash'
+
+    def need(ok,reason):
+>       if not ok:raise ValueError(reason)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: evidence_record_hash
+
+tools\forex_retained_management_readiness.py:42: ValueError
+============================== warnings summary ===============================
+..\..\AppData\Local\CodexRuntimes\timeseries312\Lib\site-packages\_pytest\cacheprovider.py:469
+  C:\Users\zmoor\AppData\Local\CodexRuntimes\timeseries312\Lib\site-packages\_pytest\cacheprovider.py:469: PytestCacheWarning: could not create cache path C:\Users\zmoor\Documents\forex\.pytest_cache\v\cache\nodeids: [WinError 5] Access is denied: 'C:\\Users\\zmoor\\Documents\\forex\\.pytest_cache\\v\\cache'
+    config.cache.set("cache/nodeids", sorted(self.cached_nodeids))
+
+..\..\AppData\Local\CodexRuntimes\timeseries312\Lib\site-packages\_pytest\cacheprovider.py:423
+  C:\Users\zmoor\AppData\Local\CodexRuntimes\timeseries312\Lib\site-packages\_pytest\cacheprovider.py:423: PytestCacheWarning: could not create cache path C:\Users\zmoor\Documents\forex\.pytest_cache\v\cache\lastfailed: [WinError 5] Access is denied: 'C:\\Users\\zmoor\\Documents\\forex\\.pytest_cache\\v\\cache'
+    config.cache.set("cache/lastfailed", self.lastfailed)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_management_state_binding.py::test_refusals[stale] - ValueEr...
+FAILED tests/test_management_state_binding.py::test_refusals[future] - ValueE...
+FAILED tests/test_management_state_binding.py::test_refusals[wrong_slot] - Va...
+FAILED tests/test_management_state_binding.py::test_refusals[fake_flat] - Val...
+FAILED tests/test_management_state_binding.py::test_refusals[pending_flat] - ...
+FAILED tests/test_management_state_binding.py::test_refusals[unknown] - Value...
+FAILED tests/test_management_state_binding.py::test_refusals[partial_fill] - ...
+FAILED tests/test_management_state_binding.py::test_refusals[missing_event]
+FAILED tests/test_management_state_binding.py::test_refusals[wrong_tier] - Va...
+FAILED tests/test_management_state_binding.py::test_refusals[wrong_position]
+10 failed, 28 passed, 2 warnings in 45.45s

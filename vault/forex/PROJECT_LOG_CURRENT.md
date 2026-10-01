@@ -6620,3 +6620,5 @@ Local actual-work log `evidence/news_capture_mapping_20260930/WORK_LOG.jsonl`; e
 2026-10-01T19:40:24.927515+00:00: RETAINED_MANAGEMENT_CONTRACT_20261001/REVIEW.json; source 103696a646a413888d698c497443c9b92d2bd34f; offline management contract verified; current-news repair staged, runtime unchanged.
 
 2026-10-01T20:06:11.310678+00:00: CURRENT_NEWS_READ_DEPLOY_20261001/REVIEW.json; source 4328e8a5503ee6d5cd12ee291d9f971475816c3d; current-news read repair deployed and verified;input gate accepted;management state binding next.
+
+2026-10-01T20:28:53.965023+00:00: MANAGEMENT_STATE_BINDING_20261001/REVIEW.json;source e60fe5c30e2c2ec27bc02fb4e82fb62f2815e8be;78 tests and84 exact replay payloads;parent partial.
