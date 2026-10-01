@@ -1,5 +1,9 @@
 # Current project orientation — September 30, 2026
 
+## Current continuation - news scheduling diagnosis
+
+[News timing checkpoint](NEWS_TIMING_20261001.md): refresh starvation reproduced and minimal correction tested; deployment remains pending source-lineage qualification. Resume `live_news_input_reliability_v1`. Existing live services unchanged. Older checkpoints below are historical.
+
 ## Live operational checkpoint â€” October 1, 13:32 UTC
 
 [Rolling input publication repair](ROLLING_INPUT_RELIABILITY_20261001.md): Windows atomic-publication repair deployed;75 local and75 relocated tests,20 operational tests plus2 subtests passed. Dashboard/current inputs verified;39 retained connections unchanged. Resolve the live Vault pointers for the current queue. Next remains `live_news_input_reliability_v1`; position management is not activated. Checkpoints below are historical.

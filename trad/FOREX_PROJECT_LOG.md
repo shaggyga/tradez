@@ -7969,3 +7969,6 @@ Restored original source-bound event quote reader; isolated optional exact-recei
 
 ## 2026-10-01 — ROLLING_INPUT_RELIABILITY_20261001
 Reproduced Windows atomic-replace reader lock; added bounded same-byte producer retry and retained-reader diagnostics.75 local/75 relocated tests and20 operational tests plus2 subtests passed. Live13:32UTC:2543 eligible forecasts/39connections, current news, healthy singleton supervision; joint63 forecast/4 unavailable/1 warming. Original16 database identities retained; new runtime appended, no fits. Local evidence evidence/rolling_input_reliability_20261001; Vault ROLLING_INPUT_RELIABILITY_20261001; docs/ROLLING_INPUT_RELIABILITY_20261001.md. Same-task review. Continue live_news_input_reliability_v1 for fresh collector/read refusals, then retained_management_contract_qualification_v1.
+
+
+2026-10-01 NEWS_TIMING_20261001: current worker tick starvation reproduced; five scheduler tests passed. Proposed correction NOT deployed: frozen source hash is embedded in68 ledger contracts. Exact next is compatible operational source-lineage qualification, preserving history and no replacement fits. Evidence: evidence/news_timing_20261001; Vault NEWS_TIMING_20261001/REVIEW.json; docs/NEWS_TIMING_20261001.md. Parent reliability queue remains partial.
