@@ -1,5 +1,9 @@
 # Current project orientation — September 30, 2026
 
+## Current continuation — scheduler completion handoff
+
+[Current checkpoint](SCHEDULER_THROUGHPUT_20261001.md): completed work serviced between settlements;102 deployment/35 relocated tests passed; live latency reduced and68 histories preserved. Remaining pair recovery and management are partial. Older entries below are historical.
+
 ## Current continuation — bounded health-file read recovery
 
 [Current checkpoint](HEALTH_READ_RECOVERY_20261001.md): Windows health-file read retries deployed;97 deployment/30 relocated tests passed;68 histories preserved. Remaining pair recovery and management are partial. Older entries below are historical.

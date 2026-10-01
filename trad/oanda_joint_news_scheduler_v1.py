@@ -35,7 +35,7 @@ def validate_overlay(path, registry_path):
             or value.get('registry_sha256') != sha(registry_path)
             or value.get('health_retry_source_sha256') != sha(health_retry.__file__)):
         raise ValueError('scheduler_exact_source_and_registry_binding')
-    if value.get('changes') != ['overdue_news_before_post_poll_pair_dispatch', 'one_full_capture_retry_after_strict_healthy_recheck', 'skip_already_published_market_reference', 'bounded_exact_health_file_permission_retry']:
+    if value.get('changes') != ['overdue_news_before_post_poll_pair_dispatch', 'one_full_capture_retry_after_strict_healthy_recheck', 'skip_already_published_market_reference', 'bounded_exact_health_file_permission_retry', 'service_completed_work_between_settlements', 'bounded_round_robin_settlement_quanta']:
         raise ValueError('scheduler_scope_changed')
     if value.get('can_place_orders') is not False or value.get('research_only') is not True:
         raise ValueError('nontrading_scheduler_required')
@@ -136,7 +136,21 @@ class ScheduledRunner(base.PairRunner):
                 contract_sha256=ledger.contract_hash,
                 forecasts=[dict(id=r[0], sha256=r[1], reference=r[2], target=r[3]) for r in rows])
 
+    def service_completed(self):
+        # Yield only between complete ledger operations, on the owning thread.
+        # Do not preempt settlement, create executors or renew input authority.
+        pending = (self.future, self.news_future,
+                   getattr(self, 'news_bootstrap_future', None))
+        if not any(f is not None and getattr(f, 'done', lambda: False)() for f in pending):
+            return False
+        self.finish_news(); self.finish_work()
+        self.schedule_news(); self.schedule_work()
+        return True
+
     def tick(self):
+        begun = time.perf_counter()
+        poll_seconds = settle_seconds = 0.
+        serviced = 0
         # Same v11 ordering, with overdue news checked at the second handoff too.
         self.finish_news(); self.finish_work()
         if (self.future is None and self.news_future is None
@@ -146,18 +160,40 @@ class ScheduledRunner(base.PairRunner):
         self.schedule_news(); self.schedule_work()
         now = base.number(self.clock())
         if now - self.last_poll >= 2:
+            phase = time.perf_counter()
             self.poll_quotes(); self.last_poll = now
-            for pair, state in self.states.items():
-                for slot in state['families'].values():
-                    try:
-                        slot['ledger'].settle()
-                    except Exception as exc:
-                        self.error(pair, exc)
+            poll_seconds = time.perf_counter() - phase
+            phase = time.perf_counter()
+            # Soft two-second quantum: never interrupt a ledger operation.
+            # Persist the next slot so early pairs cannot starve later pairs.
+            slots = [(pair, slot) for pair, state in self.states.items()
+                     for slot in state['families'].values()]
+            for _ in range(len(slots)):
+                index = getattr(self, '_settlement_cursor', 0) % len(slots)
+                pair, slot = slots[index]
+                self._settlement_cursor = (index + 1) % len(slots)
+                try:
+                    slot['ledger'].settle()
+                except Exception as exc:
+                    self.error(pair, exc)
+                serviced += ScheduledRunner.service_completed(self)
+                if time.perf_counter() - phase >= 2:
+                    break
+            settle_seconds = time.perf_counter() - phase
         self.finish_work(); self.schedule_news(); self.schedule_work(); self.score()
+        phase = time.perf_counter()
         try:
             self.publish_status()
         except (OSError, base.summary_boundary.SummaryBoundaryError) as exc:
             base._status_failure_record(self, exc)
+        publication_seconds = time.perf_counter() - phase
+        serviced += ScheduledRunner.service_completed(self)
+        if getattr(self, 'receipts', None) is not None and begun - getattr(self, '_last_phase_receipt', float('-inf')) >= 60:
+            self.receipts.write('main_loop_timing', quote_poll_seconds=poll_seconds,
+                settlement_and_handoff_seconds=settle_seconds,
+                publication_seconds=publication_seconds,
+                serviced_completions=serviced, total_seconds=time.perf_counter()-begun)
+            self._last_phase_receipt = begun
 
 
 def run(config, scheduler_config, *, study=base.STUDY, candle_root=None,

@@ -68,7 +68,9 @@ def test_binding_refuses_changed_registry_and_scope(tmp_path):
         changes=['overdue_news_before_post_poll_pair_dispatch',
                  'one_full_capture_retry_after_strict_healthy_recheck',
                  'skip_already_published_market_reference',
-                 'bounded_exact_health_file_permission_retry'], can_place_orders=False, research_only=True)
+                 'bounded_exact_health_file_permission_retry',
+                 'service_completed_work_between_settlements',
+                 'bounded_round_robin_settlement_quanta'], can_place_orders=False, research_only=True)
     config.write_text(json.dumps(value))
     assert scheduler.validate_overlay(config, registry) == value
     registry.write_text('{"different":true}')

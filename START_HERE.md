@@ -1,5 +1,9 @@
 # Start here
 
+## Current continuation — scheduler completion handoff
+
+[Current checkpoint](docs/SCHEDULER_THROUGHPUT_20261001.md): completed work serviced between settlements;102 deployment/35 relocated tests passed; live latency reduced and68 histories preserved. Remaining pair recovery and management are partial. Older entries below are historical.
+
 ## Current continuation — bounded health-file read recovery
 
 [Current checkpoint](docs/HEALTH_READ_RECOVERY_20261001.md): Windows health-file read retries deployed;97 deployment/30 relocated tests passed;68 histories preserved. Remaining pair recovery and management are partial. Older entries below are historical.
