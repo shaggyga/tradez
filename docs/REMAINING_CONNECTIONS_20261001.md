@@ -66,7 +66,8 @@ is not enabled by these forecast connections.
 ## Checkpoint and replica
 
 Local evidence: `evidence/remaining_connections_20261001`.
-Shared packet: `REMAINING_CONNECTIONS_20261001`.
+Shared final packet: `REMAINING_CONNECTIONS_FINAL_20261001`.
+Initial `REMAINING_CONNECTIONS_20261001` remains immutable history.
 Review: substantive same-task review; independent review not performed.
 Final Git receipt: `REMAINING_CONNECTIONS_PUBLICATION_20261001/RECEIPT.json`.
 
@@ -90,3 +91,14 @@ original weighting/controls, and explicitly account for all68pairs and graph
 support. Verify original replay, current timing and relocated execution before
 deployment. Qualify any saved learned-residual application separately; no refit,
 automatic winner promotion or order action is authorized by this checkpoint.
+
+## Final dashboard acceptance correction
+
+The actual13.656second HTTP response exceeded the page's10second request limit.
+The main-page request now allows30seconds; data/forecast freshness gates remain
+unchanged. Three deterministic tests execute the actual page function: the
+observed slow response succeeds, a31second request aborts, and an HTTP503 stays
+a failure; each clears its timer. This fixes request cancellation, not backend
+latency. The initial Vault snapshot refused a changed coordination board while
+this correction was in progress; that unsealed export is preserved locally and
+the final snapshot is exported after publication stabilizes.

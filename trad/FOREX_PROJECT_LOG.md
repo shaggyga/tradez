@@ -7913,3 +7913,6 @@ Legacy26 final restore completion: LEGACY26_RESTORE_COMPLETION_20260930 supersed
 ## October1 saved6h/18h checkpoint
 
 Step `remaining_saved_connections_20261001`; Vault `REMAINING_CONNECTIONS_20261001/REVIEW.json`; local `evidence/remaining_connections_20261001`. Four original matched Ridge/HGB references connected without refit,15 connections/11 horizons total.68 focused tests;270 exact saved forecast replays;24 canonical restored payloads;8 observed-input replays within1e-12bps. Native HTTP200:960forecasts/64pairs; news and15 tracking groups current. Same-task review, not independent. Parent/target reconciliation preserves curve negative result and16 unsupported exact targets. Next `retained_currency_projection_connection_v1`; broader layer, target and position-management work remains. See [details](../docs/REMAINING_CONNECTIONS_20261001.md).
+
+
+Final same-step review corrected dashboard request budget: observed13.656seconds exceeded10second frontend abort. Main request now30seconds with unchanged input freshness;3actual-page-function cases passed. Final packet `REMAINING_CONNECTIONS_FINAL_20261001` supersedes initial publication, which is preserved. Exact next remains `retained_currency_projection_connection_v1`.

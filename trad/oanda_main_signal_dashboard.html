@@ -239,7 +239,7 @@
     }
     function recheckLedgerTableClock(){if(lastMainData)renderLedgerTable(lastMainData);else clearLedgerTable();}
     async function fetchMainState(){
-      const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),10000);
+      const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),30000);
       try{const response=await fetch('/api/main',{cache:'no-store',signal:controller.signal});if(!response.ok)throw new Error(`HTTP ${response.status}`);return await response.json();}finally{clearTimeout(timer);}
     }
     function tableForecastActivity(data){if(data.operational_dashboard?.selected)return jointForecastActivity(data);return Object.prototype.hasOwnProperty.call(data,'joint_v3_ledger_observation')?ledgerForecastActivity(ledgerTableRaw?JSON.parse(ledgerTableRaw):null):jointForecastActivity(data);}
