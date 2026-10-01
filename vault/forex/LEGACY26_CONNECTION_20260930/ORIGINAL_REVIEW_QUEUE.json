@@ -1,11 +1,11 @@
 {
-  "active_step_id": "legacy26_restore_completion_20260930",
-  "active_step_semantics": "Completed legacy26 connections; residual/curve and exact remaining horizon coverage unfinished",
-  "current_review_packet": "LEGACY26_RESTORE_COMPLETION_20260930/REVIEW.json",
+  "active_step_id": "retained_tracking_and_data_continuation_20260930",
+  "active_step_semantics": "Completed retained tracking/input diagnostics package; broader saved-model coverage unfinished",
+  "current_review_packet": "RETAINED_TRACKING_20260930/REVIEW.json",
   "current_user_requested_context": {
     "request": "Fix data; connect strongest supported existing models across entire design horizon; stop new fits/experiments",
-    "status": "legacy26_complete_broader_model_reconciliation_unfinished",
-    "packet": "LEGACY26_RESTORE_COMPLETION_20260930/REVIEW.json",
+    "status": "tracking_complete_broader_model_reconciliation_unfinished",
+    "packet": "RETAINED_TRACKING_20260930/REVIEW.json",
     "next_item": "data_freshness_and_remaining_horizon_reconciliation_v1",
     "new_research_authorized": false
   },
@@ -5001,9 +5001,9 @@
     {
       "step_id": "data_freshness_and_remaining_horizon_reconciliation_v1",
       "depends_on": [
-        "legacy26_restore_completion_20260930"
+        "retained_tracking_and_data_continuation_20260930"
       ],
-      "implementation_status": "partial_legacy26_connections_complete",
+      "implementation_status": "partial_tracking_and_target_audit_complete",
       "review_status": "not_started",
       "scope": "Current data freshness and remaining existing-model/horizon reconciliation; no new fits or research experiments",
       "acceptance_criteria": [
@@ -5013,7 +5013,7 @@
         "Preserve negative controls, current nine adapters, original H1/news cohorts and other-chat capture ownership",
         "Publish source/evidence with tests and current data readback; do not call scoped choices universal best"
       ],
-      "next_action": "Reconcile original residual/curve consumers and remaining exact elapsed/calendar targets using saved artifacts; legacy26 complete, no new fitting."
+      "next_action": "Qualify original legacy26 live transform for retained 4h/120h Extra Trees; preserve current models and compare exact retained evidence without fitting."
     },
     {
       "step_id": "retained_tracking_and_data_continuation_20260930",
@@ -5024,34 +5024,6 @@
       "review_status": "accepted_within_scope",
       "packet": "RETAINED_TRACKING_20260930/REVIEW.json",
       "packet_sha256": "98bfa1a6b2aae4ec086a80e0748f8110cd5198a8e03ba8f540a526c51cc044ed",
-      "same_task_review": true,
-      "independent_review": false,
-      "unresolved_findings": [],
-      "next_action": "data_freshness_and_remaining_horizon_reconciliation_v1"
-    },
-    {
-      "step_id": "legacy26_saved_connection_20260930",
-      "depends_on": [
-        "retained_tracking_and_data_continuation_20260930"
-      ],
-      "implementation_status": "complete_saved_legacy26_connections_and_dashboard_reader_repair",
-      "review_status": "accepted_within_scope",
-      "packet": "LEGACY26_CONNECTION_20260930/REVIEW.json",
-      "packet_sha256": "a2ef86bc3327ae26d77c63228ed295edc2e8b7c0d43fef1ddfe1cd0d83c2cd82",
-      "same_task_review": true,
-      "independent_review": false,
-      "unresolved_findings": [],
-      "next_action": "data_freshness_and_remaining_horizon_reconciliation_v1"
-    },
-    {
-      "step_id": "legacy26_restore_completion_20260930",
-      "depends_on": [
-        "legacy26_saved_connection_20260930"
-      ],
-      "implementation_status": "complete_legacy26_connections_dashboard_and_canonical_restore",
-      "review_status": "accepted_within_scope",
-      "packet": "LEGACY26_RESTORE_COMPLETION_20260930/REVIEW.json",
-      "packet_sha256": "ae270c1a6793a2ed56531017e734e2e01061c580e9a3f626135a7dc0af27de0c",
       "same_task_review": true,
       "independent_review": false,
       "unresolved_findings": [],
@@ -5068,5 +5040,5 @@
     "source_commit": "6eb514ab1856190b39d83ab020d5f77700ca8770",
     "updated_utc": "2026-09-25T18:12:00.5976014Z"
   },
-  "updated_utc": "2026-09-30T23:57:59.732708+00:00"
+  "updated_utc": "2026-09-30T22:44:26.442364+00:00"
 }

@@ -1,0 +1,48 @@
+{
+  "schema": "forex.review_packet.v1",
+  "packet_id": "LEGACY26_RESTORE_COMPLETION_20260930",
+  "step_id": "legacy26_restore_completion_20260930",
+  "utc": "2026-09-30T23:57:59.732708+00:00",
+  "source_commit": "3d5030c89900eeed2f792492204da8e682f8cf07",
+  "implementation_status": "complete_legacy26_connections_dashboard_and_canonical_restore",
+  "review_status": "accepted_within_scope",
+  "same_task_review": true,
+  "independent_review": false,
+  "tests": {
+    "focused_passed": 108,
+    "restored_payloads": 20,
+    "source_capsule_payloads": 23,
+    "original_forecasts_replicated_exact": 2696,
+    "restored_current_forecasts_exact": 4,
+    "native_forecasts_at_readback": 671
+  },
+  "models_fitted": 0,
+  "unresolved_findings": [],
+  "readiness": {
+    "engineering_ready": true,
+    "engineering_scope": "Two preserved legacy26 adapters, original input qualification and dashboard read path",
+    "forecast_evidence_status": "reused_development_and_prospective_observation_not_confirmed",
+    "policy_evidence_status": "not_evaluated",
+    "demo_authorization_status": "not_granted"
+  },
+  "broader_unfinished": [
+    "residual_curve_current_consumer_reconciliation",
+    "remaining_exact_targets",
+    "global_model_comparison",
+    "news_incremental_value",
+    "position_management_not_activated"
+  ],
+  "review_checks": [
+    "Original 26-field transform reused",
+    "Gap predecessor required for complete session age",
+    "Hash-authenticated observed inputs; revisions/future clocks refused",
+    "Original nine definitions, normalizers and pair universe preserved",
+    "Two authenticated saved fits replayed exactly through consumer",
+    "Four recorded current forecasts reproduced from restored receipts and relocated weights",
+    "Exact minute endpoint targets and separate controls",
+    "Canonical CLI20-payload restoration and four recorded forecast replays verified; inline fit metadata authenticated",
+    "No reset of native restart circuit/history",
+    "Dashboard specialist import restricted to inference; existing task uses Normal priority"
+  ],
+  "next_item": "data_freshness_and_remaining_horizon_reconciliation_v1"
+}

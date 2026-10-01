@@ -1,11 +1,11 @@
 {
-  "active_step_id": "legacy26_restore_completion_20260930",
+  "active_step_id": "legacy26_saved_connection_20260930",
   "active_step_semantics": "Completed legacy26 connections; residual/curve and exact remaining horizon coverage unfinished",
-  "current_review_packet": "LEGACY26_RESTORE_COMPLETION_20260930/REVIEW.json",
+  "current_review_packet": "LEGACY26_CONNECTION_20260930/REVIEW.json",
   "current_user_requested_context": {
     "request": "Fix data; connect strongest supported existing models across entire design horizon; stop new fits/experiments",
     "status": "legacy26_complete_broader_model_reconciliation_unfinished",
-    "packet": "LEGACY26_RESTORE_COMPLETION_20260930/REVIEW.json",
+    "packet": "LEGACY26_CONNECTION_20260930/REVIEW.json",
     "next_item": "data_freshness_and_remaining_horizon_reconciliation_v1",
     "new_research_authorized": false
   },
@@ -5001,7 +5001,7 @@
     {
       "step_id": "data_freshness_and_remaining_horizon_reconciliation_v1",
       "depends_on": [
-        "legacy26_restore_completion_20260930"
+        "legacy26_saved_connection_20260930"
       ],
       "implementation_status": "partial_legacy26_connections_complete",
       "review_status": "not_started",
@@ -5042,20 +5042,6 @@
       "independent_review": false,
       "unresolved_findings": [],
       "next_action": "data_freshness_and_remaining_horizon_reconciliation_v1"
-    },
-    {
-      "step_id": "legacy26_restore_completion_20260930",
-      "depends_on": [
-        "legacy26_saved_connection_20260930"
-      ],
-      "implementation_status": "complete_legacy26_connections_dashboard_and_canonical_restore",
-      "review_status": "accepted_within_scope",
-      "packet": "LEGACY26_RESTORE_COMPLETION_20260930/REVIEW.json",
-      "packet_sha256": "ae270c1a6793a2ed56531017e734e2e01061c580e9a3f626135a7dc0af27de0c",
-      "same_task_review": true,
-      "independent_review": false,
-      "unresolved_findings": [],
-      "next_action": "data_freshness_and_remaining_horizon_reconciliation_v1"
     }
   ],
   "timed_session": {
@@ -5068,5 +5054,5 @@
     "source_commit": "6eb514ab1856190b39d83ab020d5f77700ca8770",
     "updated_utc": "2026-09-25T18:12:00.5976014Z"
   },
-  "updated_utc": "2026-09-30T23:57:59.732708+00:00"
+  "updated_utc": "2026-09-30T23:52:18.564571+00:00"
 }

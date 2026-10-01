@@ -6550,3 +6550,9 @@ Local actual-work log `evidence/news_capture_mapping_20260930/WORK_LOG.jsonl`; e
 
 
 2026-09-30T22:44:26.442364+00:00: RETAINED_TRACKING_20260930/REVIEW.json; source d53900b3339dfb65d1adc3bb31f80ebf0891bc4c; 90 tests, 18 payload restore and native outcome settlement verified. Same-task review only. No new fits. Next data_freshness_and_remaining_horizon_reconciliation_v1.
+
+
+2026-09-30T23:52:18.564571+00:00: LEGACY26_CONNECTION_20260930/REVIEW.json; source dd375ea3dfe4c638951c0e22e2b4f34921714249; 104 tests, 23 payload restore, 2696 exact original forecast replications, four restored current forecasts and native eleven-connection readback verified. Same-task review only. No new fits. Next data_freshness_and_remaining_horizon_reconciliation_v1.
+
+
+2026-09-30T23:57:59.732708+00:00: LEGACY26_RESTORE_COMPLETION_20260930/REVIEW.json; source 3d5030c89900eeed2f792492204da8e682f8cf07; 108 tests, 20 canonical artifact payload restore (23 earlier source capsule files), 2696 exact original forecast replications, four restored current forecasts and native eleven-connection readback verified. Same-task review only. No new fits. Next data_freshness_and_remaining_horizon_reconciliation_v1.
