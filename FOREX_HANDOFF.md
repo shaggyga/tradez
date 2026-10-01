@@ -1,5 +1,10 @@
 # Forex handoff
 
+## Current freshness checkpoint — October 1, 2026
+
+[Freshness continuity](docs/RETAINED_FRESHNESS_CONTINUITY_20261001.md): existing saved inference now follows technical publication changes. 82 tests passed; seven native publications and six exact intervals showed no total forecast-expiry gap during the six-minute observation. Current news and 23 tracking groups verified. Next `retained_learned_residual_state_connection_v1` qualifies preserved state reuse without fitting. Broader project work remains unfinished; older notices below are historical.
+
+
 ## Current projection checkpoint - October1,2026
 
 [Currency projection connection](docs/RETAINED_PROJECTION_CONNECTION_20261001.md):23connections across11elapsed horizons; eight fixed currency layers added to fifteen unchanged saved connections. Zero fits. Historical528output replication,1456output relocated replay and native23group tracking verified. Next `retained_input_freshness_continuity_v1` repairs the observed input-expiry gap. Learned residuals and position management remain unfinished. Older notices below are historical.

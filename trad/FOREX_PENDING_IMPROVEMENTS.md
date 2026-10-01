@@ -5883,3 +5883,8 @@ Final same-step review corrected dashboard request budget: observed13.656seconds
 ## 2026-10-01T01:21:10.363839+00:00: retained currency projection connection
 
 Step retained_currency_projection_connection_v1; Vault `RETAINED_PROJECTION_CONNECTION_20261001/REVIEW.json`; source identity is recorded there after commit.23connections/11horizons,15originals unchanged, no fits.104Python tests,5JS scenarios,528exact preserved derived outputs,1456exact relocated forecasts; native1472outputs/64pairs/23trackinggroups at readback. Same-task review only. Expired-input window retained, exact next `retained_input_freshness_continuity_v1`; then saved learned-state qualification and separate position-management integration. See docs/RETAINED_PROJECTION_CONNECTION_20261001.md.
+
+
+### 2026-10-01T01:51:24.110096+00:00 — retained_input_freshness_continuity_v1
+
+Scheduling repair complete within scope; 82 focused tests passed. Six-minute native observation: seven publications, six exact intervals, zero total-expiry gaps; six HTTP reads current with 23 tracking groups. Same-task review only. Models unchanged; zero fits. Source commit and exact evidence identities: live Vault `RETAINED_FRESHNESS_CONTINUITY_20261001/REVIEW.json` and `MANIFEST.json`; local `evidence/retained_freshness_20261001`. Exact next `retained_learned_residual_state_connection_v1`; qualify saved residual state and accepted replay evidence before integration, never automatically fit.

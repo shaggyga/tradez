@@ -282,6 +282,56 @@ def run_retained_inference(registry, connection):
         return connection,error
 
 
+def retained_publication_hint(*, path=None, now=None):
+    """Wake-up hint only; inference still authenticates the original inputs.
+
+    A changed generation must not wait another full post-inference minute.
+    Missing, torn or stale hints retain the periodic recovery path.
+    """
+    try:
+        if path is None:
+            import oanda_all68_technical_availability_v2 as availability
+            config,_=availability.read_config(availability.DEFAULT_CONFIG)
+            path=Path(config['output_root'])/'status.json'
+        path=Path(path)
+        if path.stat().st_size>4*1024**2:raise ValueError('hint_size')
+        value=json.loads(path.read_bytes())
+        generated=value['generated_epoch'];generation=value['publication_generation']
+        observed=time.time() if now is None else now
+        if (not isinstance(generation,str) or not re.fullmatch('[0-9a-f]{64}',generation)
+                or type(generated) not in (int,float) or not math.isfinite(generated)
+                or not 0<=observed-generated<=180 or value.get('status') not in ('collecting','partial')):
+            raise ValueError('hint_clock_or_generation')
+        return {'generation':generation,'generated_epoch':generated}
+    except Exception:
+        # Optional scheduling diagnostics never stop original headline capture.
+        return None
+
+
+class RetainedRefresh:
+    """Bounded generation-triggered refresh with the original periodic fallback."""
+    def __init__(self):
+        self.completed=None;self.generation=None;self.observation=None
+
+    def reason(self,now,hint):
+        if self.completed is None:return 'startup'
+        elapsed=now-self.completed
+        if elapsed<5:return None
+        if hint and hint['generation']!=self.generation:return 'technical_publication_changed'
+        if elapsed>=60:return 'periodic_recovery'
+        return None
+
+    def record(self,started,completed,hint,reason,result):
+        self.completed=completed
+        # Remember the hint at dispatch, not a newer generation that may have
+        # arrived after input capture. A later generation remains eligible.
+        self.generation=hint['generation'] if hint else None
+        self.observation={'trigger':reason,'hint':hint,'inference_seconds':completed-started,
+            'completed_epoch':time.time(),'result_status':result.get('status'),
+            'forecast_count':result.get('forecasts'),'hint_is_not_input_authority':True,
+            'minimum_retry_seconds':5,'periodic_recovery_seconds':60}
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--database',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
@@ -299,31 +349,39 @@ def main():
     lock.execute('BEGIN EXCLUSIVE')
     lane=fast_news.FastLane(args.fast_config,args.output) if args.fast_config else None
     last_mapping=0;mapping=None
-    last_retained=0;retained_connection=None;last_tracking=0;tracking=None
+    retained_schedule=RetainedRefresh();retained_connection=None;last_tracking=0;tracking=None
     deadline=time.monotonic()+args.duration_sec
     try:
         while time.monotonic()<deadline:
             # Independent read-only saved-weight inference. A data/model failure
             # must not interrupt headline capture, parsing or the original cohorts.
-            if args.retained_model_registry and time.monotonic()-last_retained>=60:
-                retained_connection,_=run_retained_inference(args.retained_model_registry,retained_connection)
-                last_retained=time.monotonic()
+            refreshed=False
+            if args.retained_model_registry:
+                hint=retained_publication_hint();started=time.monotonic()
+                reason=retained_schedule.reason(started,hint)
+                if reason:
+                    retained_connection,inference=run_retained_inference(args.retained_model_registry,retained_connection)
+                    retained_schedule.record(started,time.monotonic(),hint,reason,inference)
+                    refreshed=True
             try:
                 result=collect(args.database,args.output,args.collector_heartbeat,fast_lane=lane)
-                if args.retained_model_registry and time.monotonic()-last_tracking>=60:
+                if args.retained_model_registry and (refreshed or time.monotonic()-last_tracking>=60):
                     try:
                         import oanda_retained_forecast_tracking_v1 as retained_tracking
                         tracking=retained_tracking.collect(result,registry_path=args.retained_model_registry)
                     except Exception as exc:
                         tracking={'status':'unavailable','generated_epoch':time.time(),'reason':type(exc).__name__+':'+str(exc)[:200]}
                     last_tracking=time.monotonic()
-                if args.retained_model_registry:result['retained_tracking']=tracking
+                if args.retained_model_registry:
+                    result['retained_tracking']=tracking
+                    result['retained_schedule']=retained_schedule.observation
                 if args.enable_live_mapping and time.monotonic()-last_mapping>=60:
                     try:mapping=current_mapping.collect(Path(__file__).resolve().parent,args.output,result)
                     except Exception as exc:mapping={'status':'unavailable','generated_epoch':time.time(),'reason':type(exc).__name__+':'+str(exc)[:200]}
                     last_mapping=time.monotonic()
                 if args.enable_live_mapping:
                     result['current_mapping']=mapping
+                if args.enable_live_mapping or args.retained_model_registry:
                     result['payload_sha256']=digest({k:v for k,v in result.items() if k!='payload_sha256'})
                     atomic(args.output/'current.json',result)
             except Exception as exc:
