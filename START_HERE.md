@@ -1,5 +1,10 @@
 # Start here
 
+## Live operational checkpoint â€” October 1, 13:32 UTC
+
+[Rolling input publication repair](docs/ROLLING_INPUT_RELIABILITY_20261001.md): Windows atomic-publication repair deployed;75 local and75 relocated tests,20 operational tests plus2 subtests passed. Dashboard/current inputs verified;39 retained connections unchanged. Resolve the live Vault pointers for the current queue. Next remains `live_news_input_reliability_v1`; position management is not activated. Checkpoints below are historical.
+
+
 ## Current combined-observation checkpoint — October 1, 2026
 
 [Combined quote and forecast observations](docs/RETAINED_COMBINED_OBSERVATION_20261001.md): offline integration complete; 62 tests and 84 exact resumed/restored payloads passed. All 2,652 slots covered. Preserved inputs produce zero fresh priced observations at the replay clock; live rollout and position management remain unfinished. Next `retained_management_contract_qualification_v1`. Older notices below are historical.

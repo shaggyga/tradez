@@ -33,6 +33,23 @@ NEW_SOURCES = (Path(__file__).name, 'oanda_rolling_technical_alignment_v2.py',
 SOURCES = tuple(sorted(set(original.SOURCES + NEW_SOURCES)))
 
 
+def atomic_json(path, value):
+    """Preserve publication bytes/clocks; tolerate brief Windows reader locks."""
+    path=Path(path)
+    temporary=path.with_name(path.name+'.tmp.'+str(os.getpid()))
+    temporary.write_text(json.dumps(value,sort_keys=True,indent=2,allow_nan=False)+'\n',encoding='utf-8')
+    try:
+        for attempt,delay in enumerate((.05,.1,.2,.4,.8,None)):
+            try:
+                os.replace(temporary,path)
+                return
+            except PermissionError:
+                if delay is None:raise
+                time.sleep(delay)
+    finally:
+        if temporary.exists():temporary.unlink()
+
+
 def read_config(path):
     value = json.loads(Path(path).read_bytes())
     if value.get('schema') != SCHEMA or any(value.get(k) != v for k, v in FLAGS.items()):
@@ -292,8 +309,8 @@ def run_cycle(operations, base, store, cache, *, runtime_id):
         'features': {pair: row['availability'].get('feature_hash') for pair, row in pairs.items()},
         'panels': {str(t): p['id'] for t, p in publications.items()}})).hexdigest()
     report['publication_generation'] = envelope['publication_generation'] = generation
-    original.atomic_json(output / 'latest_features.json', envelope)
-    original.atomic_json(output / 'status.json', report)
+    atomic_json(output / 'latest_features.json', envelope)
+    atomic_json(output / 'status.json', report)
     return report
 
 
@@ -314,11 +331,11 @@ def main(argv=None):
         store = TechnicalStore(output / 'technical.sqlite', original.contract(base), max_bytes=base['maximum_dataset_bytes'])
         try:
             runtime_id, runtime = record_runtime(store, operations, args.config)
-            original.atomic_json(output / 'owner.json', {**runtime, 'duration_seconds': args.duration_sec, 'operations_runtime_id': runtime_id})
+            atomic_json(output / 'owner.json', {**runtime, 'duration_seconds': args.duration_sec, 'operations_runtime_id': runtime_id})
             while time.monotonic() - started < args.duration_sec:
                 cycle = time.monotonic()
                 if (output / 'operations_stop_requested.json').exists():
-                    original.atomic_json(output / 'operations_stopped.json', {**runtime, 'stopped_utc': original.utc(), 'reason': 'explicit_stop_request'})
+                    atomic_json(output / 'operations_stopped.json', {**runtime, 'stopped_utc': original.utc(), 'reason': 'explicit_stop_request'})
                     break
                 try:
                     if original.sha(args.config) != config_sha:
@@ -327,7 +344,7 @@ def main(argv=None):
                     report = run_cycle(operations, base, store, cache, runtime_id=runtime_id)
                     print(json.dumps({key: report[key] for key in ('generated_utc', 'status', 'current_pairs', 'fully_populated_pairs', 'inserted_this_cycle', 'elapsed_seconds', 'peer_alignment')}), flush=True)
                 except Exception as exc:
-                    original.atomic_json(output / 'status.json', {'schema': original.SCHEMA,
+                    atomic_json(output / 'status.json', {'schema': original.SCHEMA,
                         'operations_schema': SCHEMA, 'generated_utc': original.utc(), 'status': 'error',
                         'operations_runtime_id': runtime_id,
                         'reason': type(exc).__name__ + ':' + str(exc)[:400], **FLAGS})

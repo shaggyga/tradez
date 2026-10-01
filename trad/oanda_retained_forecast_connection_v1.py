@@ -52,15 +52,32 @@ def checked(root,record):
 
 
 def read_feature_publication(root):
-    """Bounded retry only for the producer's two-file publication transition."""
-    for attempt in range(3):
-        before,_=availability.read_json(root/'status.json',availability.MAX_SMALL_BYTES)
-        envelope,reference=availability.read_json(root/'latest_features.json',availability.MAX_ENVELOPE_BYTES)
-        after,_=availability.read_json(root/'status.json',availability.MAX_SMALL_BYTES)
+    """Read a matching publication, with bounded Windows sharing/transition retries.
+
+    Every attempt rereads all three files. No prior envelope or status is reused.
+    Five attempts add at most 750ms of sleep; OS read latency is separate.
+    Invalid JSON/schema/size errors are not treated as sharing violations.
+    """
+    delays=(.05,.1,.2,.4)
+    prior_errors=[]
+    for attempt in range(5):
+        try:
+            before,_=availability.read_json(root/'status.json',availability.MAX_SMALL_BYTES)
+            envelope,reference=availability.read_json(root/'latest_features.json',availability.MAX_ENVELOPE_BYTES)
+            after,_=availability.read_json(root/'status.json',availability.MAX_SMALL_BYTES)
+        except (PermissionError,FileNotFoundError) as exc:
+            prior_errors.append(type(exc).__name__+':'+str(exc)[:240])
+            if attempt==4:raise
+            time.sleep(delays[attempt])
+            continue
         generation=envelope.get('publication_generation')
         status=next((s for s in (before,after) if generation and s.get('publication_generation')==generation),None)
+        reference={**reference,'publication_read':{
+            'attempts':attempt+1,'matched':status is not None,'transient_read_errors':prior_errors,
+            'envelope_generation':generation,
+            'statuses':[{k:s.get(k) for k in ('publication_generation','generated_utc','status','reason')} for s in (before,after)]}}
         if status is not None:return envelope,reference,status
-        if attempt<2:time.sleep(.05)
+        if attempt<4:time.sleep(delays[attempt])
     # The normal qualified reader records a refusal; never accept mixed versions.
     return envelope,reference,None
 
@@ -77,6 +94,7 @@ def capture_rows():
     now=time.time()
     report=availability.build_report(cfg,envelope,status,quotes,heartbeat,retained,errors,now=now,
         source_references={'envelope':envelope_ref},maximum_quote_age=60)
+    report['publication_read']=envelope_ref.get('publication_read')
     names=[v['name'] for v in availability.kernel.feature_registry()]
     rows={}
     for pair,state in report['pairs'].items():
@@ -289,7 +307,7 @@ class SavedConnection:
                 'status':'current' if output else 'inputs_unavailable','forecasts':output,'coverage':coverage,
                 'connections':self.registry['connections'],'unconnected_targets':self.registry['unconnected_targets'],
                 'limits':self.registry['limits'],'data_counts':report.get('counts',{}),
-                'input_diagnostics':{k:report.get(k) for k in ('generated_epoch','rolling_generated_epoch',
+                'input_diagnostics':{k:report.get(k) for k in ('publication_read','generated_epoch','rolling_generated_epoch',
                     'rolling_publication_generation','source_errors','original_receipt_errors',
                     'feature_status_counts','quote_status_counts','missing_feature_reason_counts','legacy26')},**FLAGS}
 

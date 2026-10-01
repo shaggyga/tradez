@@ -131,7 +131,87 @@ def test_mixed_publication_never_accepted_after_retry_bound(monkeypatch):
     monkeypatch.setattr(m.availability,'read_json',read)
     monkeypatch.setattr(m.time,'sleep',lambda delay:None)
     assert m.read_feature_publication(Path('.'))[2] is None
-    assert len(reads)==9
+    assert len(reads)==15
+
+
+def test_publication_transition_after_original_retry_window(monkeypatch):
+    sleeps=[];calls=[]
+    def read(path,*args):
+        calls.append(path)
+        attempt=(len(calls)-1)//3
+        generation='new' if path.name=='latest_features.json' or attempt>=3 else 'old'
+        return {'publication_generation':generation},{}
+    monkeypatch.setattr(m.availability,'read_json',read)
+    monkeypatch.setattr(m.time,'sleep',sleeps.append)
+    envelope,ref,status=m.read_feature_publication(Path('.'))
+    assert status['publication_generation']==envelope['publication_generation']=='new'
+    assert ref['publication_read']['attempts']==4 and sleeps==[.05,.1,.2]
+
+
+def test_transient_sharing_failure_restarts_whole_read(monkeypatch):
+    calls=[]
+    def read(path,*args):
+        calls.append(path.name)
+        if len(calls)==2:raise PermissionError('sharing violation')
+        return {'publication_generation':'old' if len(calls)==1 else 'new'},{}
+    monkeypatch.setattr(m.availability,'read_json',read)
+    monkeypatch.setattr(m.time,'sleep',lambda delay:None)
+    envelope,ref,status=m.read_feature_publication(Path('.'))
+    assert calls==['status.json','latest_features.json','status.json','latest_features.json','status.json']
+    assert status['publication_generation']==envelope['publication_generation']=='new'
+    assert ref['publication_read']['transient_read_errors']==['PermissionError:sharing violation']
+
+
+def test_persistent_read_failure_is_bounded(monkeypatch):
+    sleeps=[];calls=[]
+    def read(*args):
+        calls.append(1);raise PermissionError('locked')
+    monkeypatch.setattr(m.availability,'read_json',read)
+    monkeypatch.setattr(m.time,'sleep',sleeps.append)
+    with pytest.raises(PermissionError,match='locked'):m.read_feature_publication(Path('.'))
+    assert len(calls)==5 and sum(sleeps)==.75
+
+
+def test_invalid_publication_is_not_retried(monkeypatch):
+    calls=[]
+    def read(*args):
+        calls.append(1);raise ValueError('source_byte_bound')
+    monkeypatch.setattr(m.availability,'read_json',read)
+    with pytest.raises(ValueError,match='source_byte_bound'):m.read_feature_publication(Path('.'))
+    assert len(calls)==1
+
+
+def test_producer_error_survives_prediction_diagnostics(monkeypatch):
+    def read(path,*args):
+        return ({'publication_generation':'old'} if path.name=='latest_features.json' else
+                {'status':'error','reason':'PermissionError:replace','generated_utc':'2026-10-01T00:00:00Z'}),{}
+    monkeypatch.setattr(m.availability,'read_json',read)
+    monkeypatch.setattr(m.time,'sleep',lambda delay:None)
+    envelope,ref,status=m.read_feature_publication(Path('.'))
+    assert status is None
+    report={'publication_read':ref['publication_read']}
+    value=connection().predict({},report,clock=lambda:1023)
+    assert value['input_diagnostics']['publication_read']['statuses'][0]['reason']=='PermissionError:replace'
+    assert not value['forecasts']
+
+
+def test_real_two_file_publication_transition(tmp_path):
+    import threading
+    import time
+    (tmp_path/'status.json').write_text(json.dumps({'publication_generation':'old'}))
+    (tmp_path/'latest_features.json').write_text(json.dumps({'publication_generation':'new'}))
+    def publish_status():
+        time.sleep(.18)
+        from oanda_rolling_technical_worker_v2 import atomic_json
+        atomic_json(tmp_path/'status.json',{'publication_generation':'new'})
+    thread=threading.Thread(target=publish_status)
+    thread.start()
+    try:
+        envelope,ref,status=m.read_feature_publication(tmp_path)
+        assert envelope['publication_generation']==status['publication_generation']=='new'
+        assert ref['publication_read']['matched']
+    finally:thread.join(timeout=5)
+
 
 
 def test_selected_input_support_is_visible_without_changing_prediction():

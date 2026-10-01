@@ -17,10 +17,10 @@
     "config/rolling_news_io_v1_20260930.json": "6620bde01cbaa04c2c8a9998dd4bf0b85a9636feaaa9118561593082144a8713",
     "config/rolling_technical_dataset_runtime_20260930.json": "9a60230d41ad5b3ea140cdfa58ee2fb9bc00e727b7ad01d56d641a58c97b5de9",
     "config/rolling_technical_dataset_v1_20260915.json": "961c5eadff4ab0a611ce95080f4b8655643e8f371e7e2796d6afe84fb742aa3c",
-    "config/rolling_technical_operations_runtime_20260930.json": "b662db9e1d75178f7c6cba422d94bb6d2d81adfb7561986652b61e2575eeb43d",
+    "config/rolling_technical_operations_runtime_20260930.json": "aac2ed345c95a9aa65451d249c5924e6927e43417cd99fbaaec753af3c57e038",
     "config/rolling_technical_operations_v2_20260916.json": "828e5c5bdc1f2d09c17615fd6b692d67e04f80b061cd85a0df91b274b331cc47",
     "config/fast_headline_sources_v1_20260930.json": "1a4ae5e79213eb1be1642162b2c649683d6511d9a9979920913bd8d7c2b7a016",
-    "config/retained_forecast_connection_20260930.json": "5d0c7216466db1425b4eb0482c8fdd721688cf80909b7da9ba1e7a903a4c3f7d"
+    "config/retained_forecast_connection_20260930.json": "29c33ee654188ce803476904b5e092f93c13afe59fff70e51452035a13bfd180"
   },
   "enable_joint_forecasts": true,
   "enable_news_capacity": false,
@@ -28,7 +28,7 @@
   "enable_technical_capacity": true,
   "notes": "Eighteen exact research roles. V18 adds the all-68 derived technical publisher as a supervised research-only feed after manual all-68 validation. The publisher retains bounded validated raw tails so its causal kernel can fill short internal M5 gaps with explicit imputation masks. Forward workers keep partial quote refusals visible but nonfatal when other quotes remain usable. V17 services, no-orders policy, clocks, retry ledgers and bounded recovery controls are preserved. No orders or promotion.\nV19 replaces joint_price_news_study_v9 with joint_price_news_isolation_status_v1. The joint price/news forecast cohort remains formally isolated after bounded capture/validation failures; news collection and transport continue, orders/promotions stay disabled.\nAll68 derived feature feed patched to publish finite continuity values with explicit value_fallbacks for sparse long-window activity/spread/TRY features; max_consecutive_fill raised to 6.\nSeptember30 renewed under explicit full flowing nontrading pipeline authorization. Exact retained service/config definitions reused. Optional keyed news providers disabled. Joint isolation remains explicit until its own failure is resolved.\nCold rolling feature-store catch-up receives bounded30minute startup grace; previous5minute supervision interrupted its first complete cycle. Freshness limits after startup remain unchanged.\nUser-authorized full pipeline recovery selects the exact previously registered v9 worker, with verified registry and activation, instead of the isolation-status publisher. Original numerical contracts and validators remain unchanged; cold bootstrap and refusal reasons remain visible. This is operational recovery, not scientific promotion.\nSeptember30 capacity successor: exact retained CAS and receipt identities reused under explicit resource-only policy; new transport state and joint V10 cohort. Numeric model, original clocks, causal availability and orders-off unchanged.\nBounded capture v2: five-second raw read locks, ten-minute nonauthorizing cold validation, unchanged thirty-second current-capture and five-minute news freshness. First empty capacity cohort retained, never relabeled.\nJoint retained-history IO receives the same Normal process priority as transport; BelowNormal cold replay exceeded its bounded wall-time under contention. No High/Realtime priority, freshness change, or worker history reset.\nRolling materialized news: replaces replay-dependent transport/joint V10 with prospective joint V11; actual parsed observations, bounded 48h reads/72h hot index, immutable archive. Original numeric models, gates, retry history and no-orders status preserved. Old studies retained. Seventeen selected roles.\nSupervisor accepts retained retired-transport budget history when rolling mode omits that worker. Existing retry arrays and automatic recovery limits are unchanged.\nSeptember30 input latency repair: technical cycles measured about309 seconds exceed the old180-second supervisor restart threshold. Allow600seconds for technical-worker liveness only; original feature freshness, quote ages, model inputs and retry budgets remain unchanged. Technical and price-model processes use Normal priority to avoid avoidable background starvation. No numerical source, cohort or input contract changed.\nTyped currency news context: one optional supervised reader of the existing archive, parse-once content cache and prospective interpretation clocks. Existing sources, model inputs, cohorts, retry histories and recovery expiry remain unchanged. No score-to-trade conversion. Typed context gains bounded12-feed headline lane and prospective current-root mapping; original collector/model cohorts unchanged.\nRetained outcomes: bounded prospective per-registry/model/horizon observation and news links; original H1 ledgers unchanged. Input refusal diagnostics retained. Optional inference/import/reporting failure cannot stop headline capture. No new model fitting or execution.\nTwo saved legacy26 Extra Trees connections add exact original observed-history inputs alongside existing HGB references; no fitting, policy or order change.\nFour original frozen matched6h/18h Ridge/HGB references use saved legacy26 inputs; no fits or change to original11 connections.",
   "optional_news_credentials": "disabled_in_child_environment",
-  "predecessor_profile_sha256": "5aceba54a4b4300642176f4799afbdd17f6af13cf46df29ce1084a6f5525ff81",
+  "predecessor_profile_sha256": "01d73d999da021eb695c01aee0502fbf9c4d9726718194953212649895babaa8",
   "prepared_utc": "2026-09-30T14:49:10.285245-04:00",
   "recovery_until_utc": "2026-10-07T08:14:50Z",
   "research_only": true,
@@ -349,7 +349,7 @@
       "needle": "oanda_rolling_technical_worker_v2.py",
       "priority_class": "Normal",
       "script": "oanda_rolling_technical_worker_v2.py",
-      "source_sha256": "30a3c3c33ac80ace8205b338310d0793ec0aa7c0360ccac3a877bedf4124f548",
+      "source_sha256": "92321981e5c2bdd489fa6e3747e94cc9d36ea3d39d599bb711ea4221435a9069",
       "startup_grace_sec": 1800
     },
     {
@@ -379,7 +379,7 @@
       "notes": "Availability report uses 600-second bar-age and 180-second quote-age reporting bounds to match observed all-68 publication/quote cadence for sparse instruments; trading still uses independent freshness checks and source data config remains unchanged. September30 reader successor binds exact reviewed resource-only capacity configs; original numerical validation unchanged.",
       "priority_class": "BelowNormal",
       "script": "oanda_all68_technical_availability_v2.py",
-      "source_sha256": "be4295d6a9051bb7f482bd6137949efb68a6cb3a91c4997430ab95fd43117d92",
+      "source_sha256": "948a1badcebe10c9ccf9eeb864a70bdb81ae0a60745f1795d4b927481d392bd9",
       "startup_grace_sec": 180
     },
     {

@@ -26,7 +26,7 @@ SCHEMA = "all68_technical_availability_v2_20260930"
 DEFAULT_CONFIG = ROOT / "config/rolling_technical_dataset_runtime_20260930.json"
 DEFAULT_OPERATIONS_CONFIG = ROOT / "config/rolling_technical_operations_runtime_20260930.json"
 ORIGINAL_CONFIG_SHA256 = "9a60230d41ad5b3ea140cdfa58ee2fb9bc00e727b7ad01d56d641a58c97b5de9"
-OPERATIONS_CONFIG_SHA256 = "b662db9e1d75178f7c6cba422d94bb6d2d81adfb7561986652b61e2575eeb43d"
+OPERATIONS_CONFIG_SHA256 = "aac2ed345c95a9aa65451d249c5924e6927e43417cd99fbaaec753af3c57e038"
 IMPORTED_SOURCE_BINDINGS = {
     "oanda_rolling_technical_features_v1.py": "074a7b4fc138ef25a1e99b503ea693e0c31bc2e51a2e8f3753aab7556a6fb657",
     "oanda_rolling_technical_inputs_v1.py": "0609b9562e4a528a5e44269af0135be5520418ff772305a5ee302ed3ee38f8cf",
