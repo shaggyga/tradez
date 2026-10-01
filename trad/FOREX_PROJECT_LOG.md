@@ -7978,3 +7978,8 @@ Reproduced Windows atomic-replace reader lock; added bounded same-byte producer 
 
 
 2026-10-01 COLLECTOR_TIMING_20261001: six false-stale consumer reads proved delayed publication of actual progress. Collector progress wrapper and bounded healthy-recheck capture retry deployed;92 checks/25 relocated tests passed.246 samples through cycle completion:0 invalid,0 new joint errors,max133.74sec progress age;192 sources/31 records.Original68 histories and scientific sources preserved. Vault COLLECTOR_TIMING_20261001/REVIEW.json; local evidence/collector_timing_20261001. Next remaining per-pair readiness, then management qualification.
+
+
+## 2026-10-01 — pair_recovery_20261001
+
+Duplicate-reference computation skip deployed; 90 deployment / 23 relocated tests passed, 68 original histories preserved. Vault PAIR_RECOVERY_20261001/REVIEW.json and docs/PAIR_RECOVERY_20261001.md. Same-task review; parent live_news_input_reliability_v1 remains partial. Next: exact underlying producer refusal and pair recovery; then management qualification. No global completion or new-model promotion.

@@ -35,7 +35,7 @@ def validate_overlay(path, registry_path):
             or value.get('registry_sha256') != sha(registry_path)
             or value.get('health_retry_source_sha256') != sha(health_retry.__file__)):
         raise ValueError('scheduler_exact_source_and_registry_binding')
-    if value.get('changes') != ['overdue_news_before_post_poll_pair_dispatch', 'one_full_capture_retry_after_strict_healthy_recheck']:
+    if value.get('changes') != ['overdue_news_before_post_poll_pair_dispatch', 'one_full_capture_retry_after_strict_healthy_recheck', 'skip_already_published_market_reference']:
         raise ValueError('scheduler_scope_changed')
     if value.get('can_place_orders') is not False or value.get('research_only') is not True:
         raise ValueError('nontrading_scheduler_required')
@@ -80,6 +80,38 @@ class ScheduledRunner(base.PairRunner):
                      'SELECT COALESCE(MAX(rowid),0) FROM forecasts').fetchone()[0])
             for pair, state in self.states.items()
             for family, slot in state['families'].items()])
+
+    def schedule_fit(self, now, bucket):
+        # The original issue gate prohibits a second forecast for this reference,
+        # even in a later cadence bucket. Avoid computing a guaranteed refusal.
+        # Use the original failed-basis mechanism: a new capture/bucket/failure
+        # generation is reconsidered normally, never labelled a successful fit.
+        for pair, state in self.states.items():
+            capture = state.get('capture')
+            if (capture is None or state.get('news_capture') is None
+                    or capture.get('reference_start_epoch') is None
+                    or capture.get('source_capture_sha256') is None):
+                continue
+            reference = base.number(capture['reference_start_epoch']) + 60
+            try:
+                hint = self.news_hint(state['news_capture'])
+            except ValueError:
+                continue  # Original scheduler performs failure invalidation.
+            if hint is None:
+                continue
+            basis = base.schedule.failed_fit_basis(capture['source_capture_sha256'], bucket, hint[1])
+            for family, slot in state['families'].items():
+                if slot['failed_basis'] == basis:
+                    continue
+                row = slot['ledger'].db.execute(
+                    'SELECT id,sha FROM forecasts WHERE reference=?', (reference,)).fetchone()
+                if row is not None:
+                    self.receipts.write('duplicate_reference_skipped', instrument=pair,
+                        family=family, reference=reference, existing_forecast_id=row[0],
+                        existing_forecast_sha256=row[1],
+                        source_capture_sha256=capture['source_capture_sha256'], bucket=bucket)
+                    slot['failed_basis'] = basis
+        return super().schedule_fit(now, bucket)
 
     def finish_work(self):
         # Only attribute rows emitted by this exact completed call. A crash gap

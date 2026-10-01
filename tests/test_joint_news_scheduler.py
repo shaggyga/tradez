@@ -66,7 +66,8 @@ def test_binding_refuses_changed_registry_and_scope(tmp_path):
         health_retry_source_sha256=scheduler.sha(scheduler.health_retry.__file__),
         registry_sha256=scheduler.sha(registry),
         changes=['overdue_news_before_post_poll_pair_dispatch',
-                 'one_full_capture_retry_after_strict_healthy_recheck'], can_place_orders=False, research_only=True)
+                 'one_full_capture_retry_after_strict_healthy_recheck',
+                 'skip_already_published_market_reference'], can_place_orders=False, research_only=True)
     config.write_text(json.dumps(value))
     assert scheduler.validate_overlay(config, registry) == value
     registry.write_text('{"different":true}')
@@ -81,3 +82,38 @@ def test_binding_refuses_changed_registry_and_scope(tmp_path):
 
 def test_original_worker_source_is_preserved():
     assert scheduler.sha(scheduler.base.__file__) == scheduler.BASE_SHA256
+
+@pytest.mark.parametrize('existing,new_reference,expected', [(True,False,0),(True,True,1),(False,False,1)])
+def test_duplicate_filter_through_original_dispatch(existing,new_reference,expected,tmp_path,monkeypatch):
+    db=sqlite3.connect(':memory:')
+    db.execute('CREATE TABLE forecasts(id TEXT,sha TEXT,reference REAL UNIQUE)')
+    if existing: db.execute("INSERT INTO forecasts VALUES('preserved','hash',960)")
+    baseline=db.execute('SELECT * FROM forecasts').fetchall()
+    calls=[]
+    ledger=SimpleNamespace(db=db,begin_attempt=lambda *a: calls.append('attempt') or 'attempt')
+    r=object.__new__(scheduler.ScheduledRunner)
+    r.receipts=scheduler.Receipts(tmp_path,{})
+    capture=dict(reference_start_epoch=901 if new_reference else 900,source_capture_sha256='a'*64,first_observed_epoch=990)
+    slot=dict(ledger=ledger,failed_basis=None,last_success_bucket=0,last_try=0)
+    r.states={'EUR_USD':dict(capture=capture,news_capture='handle',history_share='history',families={'ridge':slot})}
+    r.queue=['EUR_USD'];r.current={'EUR_USD':{'ridge':{'market_epoch':995}}}
+    r.news_hint=lambda h: ('b'*64,0)
+    r.clock=lambda:1000.;r.news_session='session'
+    r.pool=SimpleNamespace(submit=lambda *a,**k: calls.append('fit') or object())
+    r.record_scheduler_event=lambda *a,**k:None
+    r.error=lambda *a:pytest.fail(str(a))
+    monkeypatch.setattr(scheduler.base,'input_readiness',lambda *a:{'status':'ready'})
+    r.schedule_fit(1000,1)
+    assert calls.count('fit')==expected
+    assert calls.count('attempt')==expected
+    assert db.execute('SELECT * FROM forecasts').fetchall()==baseline
+    assert slot['last_success_bucket']==0
+    if not expected:
+        r.schedule_fit(1000,1)
+        assert not calls
+        assert len(r.receipts.path.read_text().splitlines())==2
+        # A genuinely new reference re-enters the original dispatcher.
+        capture.update(reference_start_epoch=901,source_capture_sha256='c'*64)
+        r.schedule_fit(1000,1)
+        assert calls==['attempt','fit']
+    r.receipts.close()

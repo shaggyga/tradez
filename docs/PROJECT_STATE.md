@@ -1,5 +1,9 @@
 # Current project orientation — September 30, 2026
 
+## Current continuation — duplicate-reference recovery
+
+[Current checkpoint](PAIR_RECOVERY_20261001.md): skip guaranteed duplicate-reference fits; 90 deployment tests and 23 relocated tests passed. Original 68 histories preserved. News-producer intermittency and per-pair recovery remain partial; management follows. Older entries below are historical.
+
 ## Current continuation - collector freshness repaired
 
 [Verified collector repair](COLLECTOR_TIMING_20261001.md): actual progress publication fixed;92 deployment checks and25 relocated tests passed.246 live samples through cycle completion had no freshness refusal or new joint errors.192 sources checked,31 records inserted. Next: remaining per-pair readiness under `live_news_input_reliability_v1`, then management. Older checkpoints below are historical.
