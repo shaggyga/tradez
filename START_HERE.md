@@ -1,5 +1,9 @@
 # Start here
 
+## Current continuation — retained postprocessing progress repaired
+
+[Current checkpoint](docs/POSTPROCESS_PROGRESS_20261001.md): genuine completed-work progress deployed;109 deployment tests/13 relocated tests passed; full live cycle verified under unchanged180second gate. Original sources and68 histories preserved. Next: remaining pair-input recovery, then management qualification. Older entries below are historical.
+
 ## Current continuation — durable producer diagnostics
 
 [Current checkpoint](docs/NEWS_FAILURE_JOURNAL_20261001.md): original producer failures/recoveries now persist across successful heartbeats;101 deployment tests and6 relocated tests passed. Prior14 failures remain unexplained; inspect the journal, then finish pair recovery and management qualification. Older entries below are historical.

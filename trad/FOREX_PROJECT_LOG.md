@@ -7988,3 +7988,8 @@ Duplicate-reference computation skip deployed; 90 deployment / 23 relocated test
 ## 2026-10-01 — news_failure_journal_20261001
 
 Durable original-producer failure/recovery journal deployed;101 deployment tests/6 relocated passed. Original producer source and68 histories preserved. Vault NEWS_FAILURE_JOURNAL_20261001/REVIEW.json; docs/NEWS_FAILURE_JOURNAL_20261001.md. Parent live_news_input_reliability_v1 remains partial: inspect persistent producer exceptions, then pair recovery and management qualification. Same-task review only.
+
+
+## 2026-10-01 — postprocess_progress_20261001
+
+Genuine postprocessing work progress deployed;109 deployment/13 relocated tests passed and full live cycle verified under original freshness gate. Vault POSTPROCESS_PROGRESS_20261001/REVIEW.json; docs/POSTPROCESS_PROGRESS_20261001.md. Original sources and68 histories preserved. Parent live_news_input_reliability_v1 remains partial for pair recovery; management follows. Same-task review only.
