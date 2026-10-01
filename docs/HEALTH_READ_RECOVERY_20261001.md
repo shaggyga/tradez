@@ -1,0 +1,15 @@
+# Exact health-file read recovery — October 1, 2026
+
+Current pipeline evidence captured a PermissionError reading collector_heartbeat_v1.json during EUR/NZD's final issue check. The original rolling news consumer invalidates its shared session on that error, forcing all pair captures to recover. This is a newly observed cause, not a retroactive attribution of older failures.
+
+The operational scheduler now installs a bounded read adapter for only its configured clock and collector heartbeat files. It executes the entire original path-checked, bounded read again after PermissionError, at most four attempts with 20/50/100ms delays. It returns the original bytes/proof unchanged and records successful recovery or exhaustion. All original source, JSON, clock, freshness, expiry and issue gates remain intact. Persistent permission failure still propagates and invalidates the session. Unrelated files and other error types receive no retry. No stale fallback or renewed capture authority exists.
+
+Verification: 97 deployment regression tests and 30 relocated source-fixture tests passed. The first staged suite found one outdated scope expectation; it was updated for the explicit added behavior, then all 30 passed. The unchanged original health consumer still rejects future data after a recovered read. Tests cover exact return identity, bounded permanent failure, unrelated-file refusal and non-permission failures. All 68 retained ledger contracts, activation records and prior forecast rows were verified unchanged. Same-task review only.
+
+Live verification: 26 fresh heartbeat samples, at least two new fit receipts under the exact deployed scheduler source. Error counter 0 to 0; last counts {'building': 0, 'forecast': 61, 'ready': 0, 'unavailable': 7, 'warming': 0}. Actual recorded health-read recovery events: 0. This observation proves current-source execution, not that every live lock scenario occurred. Controlled tests establish retry behavior. Forecast availability is not predictive accuracy or trading readiness.
+
+Local evidence: evidence/health_read_recovery_20261001. Vault: HEALTH_READ_RECOVERY_20261001; publication: HEALTH_READ_RECOVERY_PUBLICATION_20261001. Raw samples stay local with hash in LIVE_VERIFICATION.json. Source fixtures are not restored trained models. The nontrading role was restarted; no claim of uninterrupted startup availability. No replacement models or other-task recorder changes.
+
+Parent live_news_input_reliability_v1 remains partial. Next: inspect remaining per-pair readiness after recovery, verify recurring refusal journals, and address measured scheduling delay if still responsible. Three TRY quote absences must remain unavailable without actual quotes. Then retained_management_contract_qualification_v1, which remains inactive/unqualified.
+
+Rollback: owner-verified scheduler/controller stop; restore scheduler.before, retry.before, scheduler_config.before and profile.before from the local evidence directory as one group. Validate and restart the existing role; preserve databases, receipts, restart budgets and original scientific sources.

@@ -1,5 +1,9 @@
 # Current project orientation — September 30, 2026
 
+## Current continuation — bounded health-file read recovery
+
+[Current checkpoint](HEALTH_READ_RECOVERY_20261001.md): Windows health-file read retries deployed;97 deployment/30 relocated tests passed;68 histories preserved. Remaining pair recovery and management are partial. Older entries below are historical.
+
 ## Current continuation — retained postprocessing progress repaired
 
 [Current checkpoint](POSTPROCESS_PROGRESS_20261001.md): genuine completed-work progress deployed;109 deployment tests/13 relocated tests passed; full live cycle verified under unchanged180second gate. Original sources and68 histories preserved. Next: remaining pair-input recovery, then management qualification. Older entries below are historical.

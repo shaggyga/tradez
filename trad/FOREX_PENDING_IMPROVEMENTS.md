@@ -5955,3 +5955,8 @@ Durable original-producer failure/recovery journal deployed;101 deployment tests
 ## 2026-10-01 — postprocess_progress_20261001
 
 Genuine postprocessing work progress deployed;109 deployment/13 relocated tests passed and full live cycle verified under original freshness gate. Vault POSTPROCESS_PROGRESS_20261001/REVIEW.json; docs/POSTPROCESS_PROGRESS_20261001.md. Original sources and68 histories preserved. Parent live_news_input_reliability_v1 remains partial for pair recovery; management follows. Same-task review only.
+
+
+## 2026-10-01 — health_read_recovery_20261001
+
+Exact health-file PermissionError retries deployed with original validators;97 deployment/30 relocated tests passed;68 histories preserved. Vault HEALTH_READ_RECOVERY_20261001/REVIEW.json; docs/HEALTH_READ_RECOVERY_20261001.md. Parent live_news_input_reliability_v1 partial; management follows. Same-task review only.

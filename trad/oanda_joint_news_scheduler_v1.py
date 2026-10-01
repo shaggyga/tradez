@@ -35,7 +35,7 @@ def validate_overlay(path, registry_path):
             or value.get('registry_sha256') != sha(registry_path)
             or value.get('health_retry_source_sha256') != sha(health_retry.__file__)):
         raise ValueError('scheduler_exact_source_and_registry_binding')
-    if value.get('changes') != ['overdue_news_before_post_poll_pair_dispatch', 'one_full_capture_retry_after_strict_healthy_recheck', 'skip_already_published_market_reference']:
+    if value.get('changes') != ['overdue_news_before_post_poll_pair_dispatch', 'one_full_capture_retry_after_strict_healthy_recheck', 'skip_already_published_market_reference', 'bounded_exact_health_file_permission_retry']:
         raise ValueError('scheduler_scope_changed')
     if value.get('can_place_orders') is not False or value.get('research_only') is not True:
         raise ValueError('nontrading_scheduler_required')
@@ -70,6 +70,10 @@ class ScheduledRunner(base.PairRunner):
     def __init__(self, *args, receipts, **kwargs):
         self.receipts = receipts
         super().__init__(*args, **kwargs)
+        health_config = json.loads(self.news_io._session(self.news_session)['config'])
+        health_retry.install_health_read_retry(self.news_io,
+            [health_config['clock_path'], health_config['heartbeat_path']],
+            record=self.receipts.write)
         self.news_pool = health_retry.NewsExecutor(self.news_pool, base.capture_shared_owned,
             recheck=lambda: self.news_io._health(
                 json.loads(self.news_io._session(self.news_session)['config']), self.clock),

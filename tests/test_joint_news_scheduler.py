@@ -67,7 +67,8 @@ def test_binding_refuses_changed_registry_and_scope(tmp_path):
         registry_sha256=scheduler.sha(registry),
         changes=['overdue_news_before_post_poll_pair_dispatch',
                  'one_full_capture_retry_after_strict_healthy_recheck',
-                 'skip_already_published_market_reference'], can_place_orders=False, research_only=True)
+                 'skip_already_published_market_reference',
+                 'bounded_exact_health_file_permission_retry'], can_place_orders=False, research_only=True)
     config.write_text(json.dumps(value))
     assert scheduler.validate_overlay(config, registry) == value
     registry.write_text('{"different":true}')

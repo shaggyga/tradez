@@ -1,4 +1,35 @@
 """One new local capture after a strictly healthy recheck, never stale fallback."""
+import os
+import time
+
+
+def install_health_read_retry(io, paths, *, record, sleep=time.sleep):
+    """Retry only permission failures reading the configured health files.
+
+    Every attempt executes the complete original bounded/path-checked read.
+    Callers still validate bytes, source identity and their original clock.
+    No capture is reused or made usable by this transport adapter.
+    """
+    normalize = lambda p: os.path.normcase(os.path.abspath(os.fspath(p)))
+    allowed = frozenset(normalize(p) for p in paths)
+    original = io.read_exact
+    def read(value, limit):
+        if normalize(value) not in allowed:
+            return original(value, limit)
+        for attempt in range(4):
+            try:
+                result = original(value, limit)
+            except PermissionError:
+                if attempt == 3:
+                    record('health_read_retry_exhausted', path=normalize(value), attempts=4)
+                    raise
+                sleep((.02, .05, .1)[attempt])
+            else:
+                if attempt:
+                    record('health_read_recovered', path=normalize(value),
+                           attempts=attempt + 1, sha256=result[1]['sha256'])
+                return result
+    io.read_exact = read
 
 
 def capture_with_health_retry(capture, args, kwargs, *, recheck, record):
