@@ -6592,3 +6592,6 @@ Local actual-work log `evidence/news_capture_mapping_20260930/WORK_LOG.jsonl`; e
 
 
 2026-10-01T05:11:21.335310+00:00: LIVE_PIPELINE_RECOVERY_20261001/REVIEW.json; source 254978737dbef5bee4169cfa497c647f6919f134; bounded core recovery verified, residual operational failures remain.
+
+
+2026-10-01T05:45:56.946367+00:00: NEWS_INPUT_RELIABILITY_20261001/REVIEW.json; source 7b87d5ec449e474e60c3ce96c817b4a7fc0894e7; scoped fixes verified, broader work partial.

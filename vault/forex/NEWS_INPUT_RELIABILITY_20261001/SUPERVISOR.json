@@ -1,0 +1,385 @@
+{
+  "event_records_dropped": 0,
+  "research_only": true,
+  "schema_version": "operational_supervisor_v6_20260916",
+  "adopted_log_scope": "Existing child log handles are unchanged; bounded relay applies only to future starts.",
+  "supervisor_pid": 17792,
+  "operational_profile_sha256": "01d73d999da021eb695c01aee0502fbf9c4d9726718194953212649895babaa8",
+  "can_place_orders": false,
+  "recovery_allowed": true,
+  "recovery_until_utc": "2026-10-07T08:14:50Z",
+  "error": "",
+  "operational_profile_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\operational_runtime_current_20260930.json",
+  "generated_utc": "2026-10-01T05:43:05.0448076Z",
+  "managed": [
+    {
+      "pids": [
+        5624
+      ],
+      "running": true,
+      "name": "all68_m1_cadence_v3",
+      "freshness": {
+        "reported_error": "",
+        "expected_json_field": "worker",
+        "phase": "background_gap_or_waiting",
+        "expected_json_value": "all68_m1_forward_archive",
+        "fresh": true,
+        "reported_status": "running",
+        "reason": "fresh",
+        "observed_json_value": "all68_m1_forward_archive",
+        "reported_phase": "background_gap_or_waiting",
+        "reported_failure": false,
+        "age_sec": 0.2,
+        "unrecovered_cycle_failure": false,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\all68_m1_cadence_heartbeat_v3.json"
+      },
+      "started": false
+    },
+    {
+      "pids": [
+        17216
+      ],
+      "running": true,
+      "name": "practice_quote_stream_v1",
+      "freshness": {
+        "reported_error": "",
+        "expected_json_field": "worker",
+        "phase": "streaming",
+        "expected_json_value": "oanda_practice_quote_stream",
+        "fresh": true,
+        "reported_status": "running",
+        "reason": "fresh",
+        "observed_json_value": "oanda_practice_quote_stream",
+        "reported_phase": "streaming",
+        "reported_failure": false,
+        "age_sec": 1.5,
+        "unrecovered_cycle_failure": false,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_quote_stream_heartbeat_v1.json"
+      },
+      "started": false
+    },
+    {
+      "pids": [
+        12032
+      ],
+      "running": true,
+      "name": "clock_integrity_monitor_v1",
+      "freshness": {
+        "reported_error": "",
+        "expected_json_field": "schema_version",
+        "phase": "",
+        "expected_json_value": "1",
+        "fresh": true,
+        "reported_status": "ok",
+        "reason": "fresh",
+        "observed_json_value": "1",
+        "reported_phase": "",
+        "reported_failure": false,
+        "age_sec": 16.4,
+        "unrecovered_cycle_failure": false,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\clock_integrity_v1.json"
+      },
+      "started": false
+    },
+    {
+      "pids": [
+        1220
+      ],
+      "running": true,
+      "name": "default_news_collector_v1",
+      "freshness": {
+        "reported_error": "",
+        "expected_json_field": "schema_version",
+        "phase": "collecting_sources",
+        "expected_json_value": "local_fx_news_sentiment_v3",
+        "fresh": true,
+        "reported_status": "running_cycle",
+        "reason": "fresh",
+        "observed_json_value": "local_fx_news_sentiment_v3",
+        "reported_phase": "collecting_sources",
+        "reported_failure": false,
+        "age_sec": 0.8,
+        "unrecovered_cycle_failure": false,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\collector_heartbeat_v1.json"
+      },
+      "started": false
+    },
+    {
+      "pids": [
+        21528
+      ],
+      "running": true,
+      "name": "revision_news_collector_v2",
+      "freshness": {
+        "reported_error": "",
+        "expected_json_field": "schema_version",
+        "phase": "collecting_sources",
+        "expected_json_value": "local_fx_news_sentiment_v3",
+        "fresh": true,
+        "reported_status": "running_cycle",
+        "reason": "fresh",
+        "observed_json_value": "local_fx_news_sentiment_v3",
+        "reported_phase": "collecting_sources",
+        "reported_failure": false,
+        "age_sec": 3,
+        "unrecovered_cycle_failure": false,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\market_open_20260913_v1\\local_news_sentiment\\collector_heartbeat_v1.json"
+      },
+      "started": false
+    },
+    {
+      "pids": [
+        25264
+      ],
+      "running": true,
+      "name": "local_news_sentiment_repair_v2",
+      "freshness": {
+        "reported_error": "",
+        "expected_json_field": "schema_version",
+        "phase": "research_collection",
+        "expected_json_value": "repaired_joint_news_heartbeat_v2_20260912_source_derived_clocks",
+        "fresh": true,
+        "reported_status": "current",
+        "reason": "fresh",
+        "observed_json_value": "repaired_joint_news_heartbeat_v2_20260912_source_derived_clocks",
+        "reported_phase": "research_collection",
+        "reported_failure": false,
+        "age_sec": 1.1,
+        "unrecovered_cycle_failure": false,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment_repair_v2\\heartbeat_v2.json"
+      },
+      "started": false
+    },
+    {
+      "pids": [
+        3412
+      ],
+      "running": true,
+      "name": "joint_price_news_study_v11",
+      "freshness": {
+        "reported_error": "shared_news:ValueError:upstream_collector_stale_or_future",
+        "expected_json_field": "schema_version",
+        "phase": "research_collection",
+        "expected_json_value": "joint_price_news_forecast_heartbeat_v11_20260930",
+        "fresh": true,
+        "reported_status": "",
+        "reason": "fresh",
+        "observed_json_value": "joint_price_news_forecast_heartbeat_v11_20260930",
+        "reported_phase": "research_collection",
+        "reported_failure": false,
+        "age_sec": 2.2,
+        "unrecovered_cycle_failure": false,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_rolling_news_20260930\\joint_price_news_study_v11\\heartbeat.json"
+      },
+      "started": false
+    },
+    {
+      "pids": [
+        19512
+      ],
+      "running": true,
+      "name": "pair_local_forecast_study_v3",
+      "freshness": {
+        "reported_error": "GBP_ZAR:ValueError:cached_input_expired_before_issue",
+        "expected_json_field": "schema_version",
+        "phase": "research_collection",
+        "expected_json_value": "pair_local_forecast_heartbeat_v3_20260913",
+        "fresh": true,
+        "reported_status": "",
+        "reason": "fresh",
+        "observed_json_value": "pair_local_forecast_heartbeat_v3_20260913",
+        "reported_phase": "research_collection",
+        "reported_failure": false,
+        "age_sec": 7.9,
+        "unrecovered_cycle_failure": false,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260913_v1\\pair_local_forecast_study_v3\\heartbeat.json"
+      },
+      "started": false
+    },
+    {
+      "pids": [
+        8188
+      ],
+      "running": true,
+      "name": "retained_price_settlement_v1",
+      "freshness": {
+        "reported_error": "",
+        "expected_json_field": "schema_version",
+        "phase": "",
+        "expected_json_value": "retained_price_settlement_v1_20260913",
+        "fresh": true,
+        "reported_status": "settled",
+        "reason": "fresh",
+        "observed_json_value": "retained_price_settlement_v1_20260913",
+        "reported_phase": "",
+        "reported_failure": false,
+        "age_sec": 0.6,
+        "unrecovered_cycle_failure": false,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\retained_price_settlement_v1.json"
+      },
+      "started": false
+    },
+    {
+      "pids": [
+        16916
+      ],
+      "running": true,
+      "name": "native_feature_candles_v1",
+      "freshness": {
+        "reported_error": "",
+        "expected_json_field": "schema_version",
+        "phase": "",
+        "expected_json_value": "native_feature_candle_cache_v1_20260913",
+        "fresh": true,
+        "reported_status": "updating",
+        "reason": "fresh",
+        "observed_json_value": "native_feature_candle_cache_v1_20260913",
+        "reported_phase": "",
+        "reported_failure": false,
+        "age_sec": 0.8,
+        "unrecovered_cycle_failure": false,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\native_feature_candles_heartbeat_v1.json"
+      },
+      "started": false
+    },
+    {
+      "pids": [
+        23268
+      ],
+      "running": true,
+      "name": "research_feature_observations_v2",
+      "freshness": {
+        "reported_error": "cycle_time_bound_before_publication",
+        "expected_json_field": "schema_version",
+        "phase": "reading_sources",
+        "expected_json_value": "research_existing_feature_observations_v2_20260914_publication_headroom",
+        "fresh": true,
+        "reported_status": "",
+        "reason": "fresh",
+        "observed_json_value": "research_existing_feature_observations_v2_20260914_publication_headroom",
+        "reported_phase": "reading_sources",
+        "reported_failure": false,
+        "age_sec": 28.3,
+        "unrecovered_cycle_failure": false,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260914_features_v6\\feature_observations_heartbeat_primary_m1_v1.json"
+      },
+      "started": false
+    },
+    {
+      "pids": [
+        2932
+      ],
+      "running": true,
+      "name": "official_pair_horizon_v2",
+      "freshness": {
+        "reported_error": "",
+        "expected_json_field": "schema_version",
+        "phase": "",
+        "expected_json_value": "official_event_pair_horizon_capture_v2_heartbeat",
+        "fresh": true,
+        "reported_status": "ok",
+        "reason": "fresh",
+        "observed_json_value": "official_event_pair_horizon_capture_v2_heartbeat",
+        "reported_phase": "",
+        "reported_failure": false,
+        "age_sec": 0.6,
+        "unrecovered_cycle_failure": false,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260913_v1\\official_event_pair_horizon_v2\\heartbeat.json"
+      },
+      "started": false
+    },
+    {
+      "pids": [
+        25108
+      ],
+      "running": true,
+      "name": "rolling_technical_operations_v2",
+      "freshness": {
+        "reported_error": "",
+        "expected_json_field": "operations_schema",
+        "phase": "",
+        "expected_json_value": "rolling_technical_operations_v2_20260916",
+        "fresh": true,
+        "reported_status": "partial",
+        "reason": "fresh",
+        "observed_json_value": "rolling_technical_operations_v2_20260916",
+        "reported_phase": "",
+        "reported_failure": false,
+        "age_sec": 22.2,
+        "unrecovered_cycle_failure": false,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\rolling_technical_dataset_20260915_v3\\status.json"
+      },
+      "started": false
+    },
+    {
+      "pids": [
+        20028
+      ],
+      "running": true,
+      "name": "all68_technical_availability_v2",
+      "freshness": {
+        "reported_error": "",
+        "expected_json_field": "schema_version",
+        "phase": "",
+        "expected_json_value": "all68_technical_availability_v2_20260930",
+        "fresh": true,
+        "reported_status": "readable",
+        "reason": "fresh",
+        "observed_json_value": "all68_technical_availability_v2_20260930",
+        "reported_phase": "",
+        "reported_failure": false,
+        "age_sec": 15.9,
+        "unrecovered_cycle_failure": false,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\all68_technical_availability_v2.json"
+      },
+      "started": false
+    },
+    {
+      "pids": [
+        21596
+      ],
+      "running": true,
+      "name": "all68_derived_technical_publisher_v1",
+      "freshness": {
+        "reported_error": "",
+        "expected_json_field": "schema_version",
+        "phase": "",
+        "expected_json_value": "derived_technical_publisher_v1_20260916",
+        "fresh": true,
+        "reported_status": "",
+        "reason": "fresh",
+        "observed_json_value": "derived_technical_publisher_v1_20260916",
+        "reported_phase": "",
+        "reported_failure": false,
+        "age_sec": 2.7,
+        "unrecovered_cycle_failure": false,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\all68_derived_technical_features_v1.json"
+      },
+      "started": false
+    },
+    {
+      "pids": [
+        10020
+      ],
+      "running": true,
+      "name": "currency_news_context_v1",
+      "freshness": {
+        "reported_error": "",
+        "expected_json_field": "schema_version",
+        "phase": "",
+        "expected_json_value": "currency_news_context_v1_20260930",
+        "fresh": true,
+        "reported_status": "current",
+        "reason": "fresh",
+        "observed_json_value": "currency_news_context_v1_20260930",
+        "reported_phase": "",
+        "reported_failure": false,
+        "age_sec": 8.6,
+        "unrecovered_cycle_failure": false,
+        "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\currency_news_context_v1\\current.json"
+      },
+      "started": false
+    }
+  ],
+  "recovery_expiry_scope": "No new start/stop/restart after expiry; healthy adopted children and their original bounded lifetimes are preserved."
+}

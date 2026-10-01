@@ -1,3 +1,3 @@
 # Current status
 
-LIVE_PIPELINE_RECOVERY_PORTABLE_20261001/REVIEW.md: existing supervisor/watchdog and dashboard restored; bounded five-minute task retries installed. HTTP200,2535eligible forecasts across39connections, fresh news context and one supervisor verified. Pipeline still degraded by joint news input failures, an event-cohort source mismatch and a stalled feature-forward worker. Position management not active. Next live_news_input_reliability_v1 before the preserved offline management contract item.
+NEWS_INPUT_RELIABILITY_20261001/REVIEW.md. Dashboard/core live services running; official-event source regression repaired; two optional legacy research loops paused with restart histories preserved. 66 receipt/forecast and58 native recovery tests passed. Joint warmup/input reliability and management qualification remain. Resume live_news_input_reliability_v1. No active chat worker claimed.
