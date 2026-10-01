@@ -1,5 +1,9 @@
 # Current project orientation — September 30, 2026
 
+## Current continuation — measured completion
+
+[Current checkpoint](COMPLETION_MEASUREMENT_20261001.md); [design scorecard](COMPLETION_SCORECARD.md):34/45 milestones,75.56% overall;80.95% excluding deferred GPT. Same-task assessment; historical evidence is identified separately. Run `python tools/forex_completion.py` and review affected credits at each checkpoint. Input availability and management remain partial. Older entries below are historical.
+
 ## Current continuation — scheduler completion handoff
 
 [Current checkpoint](SCHEDULER_THROUGHPUT_20261001.md): completed work serviced between settlements;102 deployment/35 relocated tests passed; live latency reduced and68 histories preserved. Remaining pair recovery and management are partial. Older entries below are historical.

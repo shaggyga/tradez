@@ -1,0 +1,675 @@
+{
+  "schema": "forex.design_completion.v1",
+  "rubric_version": 1,
+  "reviewed_utc": "2026-10-01T17:47:17.348631+00:00",
+  "reviewer": "same Codex task; not independent",
+  "baseline_commit": "26b2832cf7b1bb49357ecdefa746276b4e188170",
+  "design_path": "vault/forex/SCHEDULER_THROUGHPUT_20261001/specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+  "method": "15 original requirements x 3 binary equal-weight milestones; no task-count, pair-count or effort-weight substitutions",
+  "requirements": [
+    {
+      "id": "R01",
+      "title": "All 68 instruments",
+      "deferred": false,
+      "remaining": "Coverage identity requirement satisfied; real-time quote availability is separate.",
+      "stages": {
+        "implementation": {
+          "passed": true,
+          "reason": "68 registered pair identities and explicit unavailable rows remain represented.",
+          "evidence": [
+            "universe",
+            "runtime"
+          ]
+        },
+        "verified_evidence": {
+          "passed": true,
+          "reason": "68 ledger contracts, activations and history checks passed in the runtime packet.",
+          "evidence": [
+            "universe",
+            "runtime"
+          ]
+        },
+        "acceptance": {
+          "passed": true,
+          "reason": "Same-task requirement-level acceptance: Coverage identity requirement satisfied; real-time quote availability is separate.",
+          "evidence": [
+            "universe",
+            "runtime"
+          ]
+        }
+      }
+    },
+    {
+      "id": "R02",
+      "title": "Daily and multiday targets",
+      "deferred": false,
+      "remaining": "16 exact targets remain unqualified; daily-close/trading-day scope must not be substituted by elapsed targets.",
+      "stages": {
+        "implementation": {
+          "passed": true,
+          "reason": "39 preserved connections across14 elapsed horizons; daily/multiday source paths exist.",
+          "evidence": [
+            "forecast_code",
+            "forecast_tests",
+            "curve"
+          ]
+        },
+        "verified_evidence": {
+          "passed": true,
+          "reason": "105 Python tests and2476 exact relocated outputs recorded.",
+          "evidence": [
+            "forecast_code",
+            "forecast_tests",
+            "curve"
+          ]
+        },
+        "acceptance": {
+          "passed": false,
+          "reason": "16 exact targets remain unqualified; daily-close/trading-day scope must not be substituted by elapsed targets.",
+          "evidence": []
+        }
+      }
+    },
+    {
+      "id": "R03",
+      "title": "Causal adaptive learning",
+      "deferred": false,
+      "remaining": "Bounded historical adaptive evidence does not complete the full target portfolio or confirm live adaptive selection.",
+      "stages": {
+        "implementation": {
+          "passed": true,
+          "reason": "Prequential expanding-prefix layer implementation exists.",
+          "evidence": [
+            "adaptive_code",
+            "adaptive_tests",
+            "adaptive"
+          ]
+        },
+        "verified_evidence": {
+          "passed": true,
+          "reason": "192 new snapshots, crash/resume,10 local/10 relocated tests and221 identical payloads recorded.",
+          "evidence": [
+            "adaptive_code",
+            "adaptive_tests",
+            "adaptive"
+          ]
+        },
+        "acceptance": {
+          "passed": false,
+          "reason": "Bounded historical adaptive evidence does not complete the full target portfolio or confirm live adaptive selection.",
+          "evidence": []
+        }
+      }
+    },
+    {
+      "id": "R04",
+      "title": "Feature and interaction audit",
+      "deferred": false,
+      "remaining": "Complete remaining conditional interaction coverage and integrate target-specific acceptance; mixed development result is retained.",
+      "stages": {
+        "implementation": {
+          "passed": true,
+          "reason": "Populated-feature registry and family/mask comparisons exist.",
+          "evidence": [
+            "feature_code",
+            "feature_tests",
+            "features"
+          ]
+        },
+        "verified_evidence": {
+          "passed": true,
+          "reason": "37744 forecast rows and38080 explicit coverage slots in reviewed spread-increment comparison.",
+          "evidence": [
+            "feature_code",
+            "feature_tests",
+            "features"
+          ]
+        },
+        "acceptance": {
+          "passed": false,
+          "reason": "Complete remaining conditional interaction coverage and integrate target-specific acceptance; mixed development result is retained.",
+          "evidence": []
+        }
+      }
+    },
+    {
+      "id": "R05",
+      "title": "Macro distinctions",
+      "deferred": false,
+      "remaining": "Full numeric expectations/stance/change/reaction support and forecasting admission remain incomplete.",
+      "stages": {
+        "implementation": {
+          "passed": true,
+          "reason": "Numeric vintage/component/text evidence remains typed and as-of.",
+          "evidence": [
+            "macro_code",
+            "macro_tests",
+            "macro"
+          ]
+        },
+        "verified_evidence": {
+          "passed": true,
+          "reason": "Independent numeric join review:16 invariant checks,5 restored payloads,476 documents; absent real unit bindings explicit.",
+          "evidence": [
+            "macro_code",
+            "macro_tests",
+            "macro"
+          ]
+        },
+        "acceptance": {
+          "passed": false,
+          "reason": "Full numeric expectations/stance/change/reaction support and forecasting admission remain incomplete.",
+          "evidence": []
+        }
+      }
+    },
+    {
+      "id": "R06",
+      "title": "Rotation and continuation",
+      "deferred": false,
+      "remaining": "Qualify retained live position-state/common-terminal-value/economic contract and integrated management; no activation.",
+      "stages": {
+        "implementation": {
+          "passed": true,
+          "reason": "Common-horizon continuation and matched policy attribution predecessors exist.",
+          "evidence": [
+            "rotation_code",
+            "rotation_tests",
+            "rotation"
+          ]
+        },
+        "verified_evidence": {
+          "passed": true,
+          "reason": "144 attribution rows over24 reference paths; historical policy comparisons retained.",
+          "evidence": [
+            "rotation_code",
+            "rotation_tests",
+            "rotation"
+          ]
+        },
+        "acceptance": {
+          "passed": false,
+          "reason": "Qualify retained live position-state/common-terminal-value/economic contract and integrated management; no activation.",
+          "evidence": []
+        }
+      }
+    },
+    {
+      "id": "R07",
+      "title": "Matched GPT advisor arms",
+      "deferred": true,
+      "remaining": "GPT/advisor comparisons remain deferred, included in overall denominator.",
+      "stages": {
+        "implementation": {
+          "passed": false,
+          "reason": "Deferred by user.",
+          "evidence": []
+        },
+        "verified_evidence": {
+          "passed": false,
+          "reason": "Deferred; no earned credit.",
+          "evidence": []
+        },
+        "acceptance": {
+          "passed": false,
+          "reason": "GPT/advisor comparisons remain deferred, included in overall denominator.",
+          "evidence": []
+        }
+      }
+    },
+    {
+      "id": "R08",
+      "title": "Accounting and costs",
+      "deferred": false,
+      "remaining": "Engineering accounting conventions/fixtures accepted within the reference contract; live management economics are R06, not trading readiness.",
+      "stages": {
+        "implementation": {
+          "passed": true,
+          "reason": "Reference accounting handles explicit economic events and currency/side conventions.",
+          "evidence": [
+            "accounting_code",
+            "accounting_tests",
+            "accounting",
+            "accounting_acceptance"
+          ]
+        },
+        "verified_evidence": {
+          "passed": true,
+          "reason": "262 historical tests, relocated replay,17 repair regressions and accepted repair review.",
+          "evidence": [
+            "accounting_code",
+            "accounting_tests",
+            "accounting",
+            "accounting_acceptance"
+          ]
+        },
+        "acceptance": {
+          "passed": true,
+          "reason": "Same-task requirement-level acceptance: Engineering accounting conventions/fixtures accepted within the reference contract; live management economics are R06, not trading readiness.",
+          "evidence": [
+            "accounting_code",
+            "accounting_tests",
+            "accounting",
+            "accounting_acceptance"
+          ]
+        }
+      }
+    },
+    {
+      "id": "R09",
+      "title": "Dependence and denominators",
+      "deferred": false,
+      "remaining": "Whole-campaign confirmation and dependency-aware evidence across the final combined policy remain open.",
+      "stages": {
+        "implementation": {
+          "passed": true,
+          "reason": "Paired origin/block dependence and attempt accounting exist.",
+          "evidence": [
+            "dependence",
+            "dependence_tests"
+          ]
+        },
+        "verified_evidence": {
+          "passed": true,
+          "reason": "25 local/25 relocated tests;112 attempts,336 comparisons,5616 origin panels reported.",
+          "evidence": [
+            "dependence",
+            "dependence_tests"
+          ]
+        },
+        "acceptance": {
+          "passed": false,
+          "reason": "Whole-campaign confirmation and dependency-aware evidence across the final combined policy remain open.",
+          "evidence": []
+        }
+      }
+    },
+    {
+      "id": "R10",
+      "title": "Resume and restore",
+      "deferred": false,
+      "remaining": "Required recovery mechanisms accepted with exact dependencies; not a claim that missing artifacts may be refitted.",
+      "stages": {
+        "implementation": {
+          "passed": true,
+          "reason": "Crash checkpoints and preserved-artifact restoration are executable.",
+          "evidence": [
+            "adaptive",
+            "curve",
+            "ops_code"
+          ]
+        },
+        "verified_evidence": {
+          "passed": true,
+          "reason": "Actual crash exit91, corrupt-pin refusal,221 exact payloads; curve replay blocks original roots and reproduces2476 outputs.",
+          "evidence": [
+            "adaptive",
+            "curve",
+            "ops_code"
+          ]
+        },
+        "acceptance": {
+          "passed": true,
+          "reason": "Same-task requirement-level acceptance: Required recovery mechanisms accepted with exact dependencies; not a claim that missing artifacts may be refitted.",
+          "evidence": [
+            "adaptive",
+            "curve",
+            "ops_code"
+          ]
+        }
+      }
+    },
+    {
+      "id": "R11",
+      "title": "Local operation",
+      "deferred": false,
+      "remaining": "Close current input reliability gate, including quote freshness/expiry disposition and end-to-end management qualification.",
+      "stages": {
+        "implementation": {
+          "passed": true,
+          "reason": "Existing launcher, preflight, status and recovery controls operate.",
+          "evidence": [
+            "launcher",
+            "ops_code",
+            "ops_tests",
+            "ops",
+            "runtime"
+          ]
+        },
+        "verified_evidence": {
+          "passed": true,
+          "reason": "58 operational contract tests historically;102 current runtime regression tests and live timings recorded.",
+          "evidence": [
+            "launcher",
+            "ops_code",
+            "ops_tests",
+            "ops",
+            "runtime"
+          ]
+        },
+        "acceptance": {
+          "passed": false,
+          "reason": "Close current input reliability gate, including quote freshness/expiry disposition and end-to-end management qualification.",
+          "evidence": []
+        }
+      }
+    },
+    {
+      "id": "R12",
+      "title": "Authorization boundaries",
+      "deferred": false,
+      "remaining": "Authorized research-entrypoint boundaries accepted; no demo/live order authorization is implied. Legacy unrelated entrypoints are not being certified.",
+      "stages": {
+        "implementation": {
+          "passed": true,
+          "reason": "Current research runtime retains inert order/promotion flags and explicit operational scope.",
+          "evidence": [
+            "launcher",
+            "ops_tests",
+            "ops",
+            "runtime"
+          ]
+        },
+        "verified_evidence": {
+          "passed": true,
+          "reason": "Operational denial/recovery contract tests and scoped nontrading runtime evidence.",
+          "evidence": [
+            "launcher",
+            "ops_tests",
+            "ops",
+            "runtime"
+          ]
+        },
+        "acceptance": {
+          "passed": true,
+          "reason": "Same-task requirement-level acceptance: Authorized research-entrypoint boundaries accepted; no demo/live order authorization is implied. Legacy unrelated entrypoints are not being certified.",
+          "evidence": [
+            "launcher",
+            "ops_tests",
+            "ops",
+            "runtime"
+          ]
+        }
+      }
+    },
+    {
+      "id": "R13",
+      "title": "Inspectable evidence",
+      "deferred": false,
+      "remaining": "Complete unified current dashboard/management inspection across all connected target families.",
+      "stages": {
+        "implementation": {
+          "passed": true,
+          "reason": "Forecast/outcome inspector preserves distinct original records and linked outcomes.",
+          "evidence": [
+            "inspector_code",
+            "inspector_tests",
+            "inspector"
+          ]
+        },
+        "verified_evidence": {
+          "passed": true,
+          "reason": "Preserved artifact probe:32640 coverage rows,23930 forecasts/outcomes,8710 blocked rows,zero probe errors.",
+          "evidence": [
+            "inspector_code",
+            "inspector_tests",
+            "inspector"
+          ]
+        },
+        "acceptance": {
+          "passed": false,
+          "reason": "Complete unified current dashboard/management inspection across all connected target families.",
+          "evidence": []
+        }
+      }
+    },
+    {
+      "id": "R14",
+      "title": "Reuse and recovery",
+      "deferred": false,
+      "remaining": "Reuse and preservation gate accepted; second-machine runtime qualification remains explicitly separate.",
+      "stages": {
+        "implementation": {
+          "passed": true,
+          "reason": "Artifact catalog, Vault knowledge snapshot and exact saved-model reuse are operational.",
+          "evidence": [
+            "reuse",
+            "reuse_code",
+            "reuse_tests",
+            "ops",
+            "curve"
+          ]
+        },
+        "verified_evidence": {
+          "passed": true,
+          "reason": "120 saved payload/parameter records,58 operational checks; current curve capsule restores without fitting.",
+          "evidence": [
+            "reuse",
+            "reuse_code",
+            "reuse_tests",
+            "ops",
+            "curve"
+          ]
+        },
+        "acceptance": {
+          "passed": true,
+          "reason": "Same-task requirement-level acceptance: Reuse and preservation gate accepted; second-machine runtime qualification remains explicitly separate.",
+          "evidence": [
+            "reuse",
+            "reuse_code",
+            "reuse_tests",
+            "ops",
+            "curve"
+          ]
+        }
+      }
+    },
+    {
+      "id": "R15",
+      "title": "Negative/inconclusive results",
+      "deferred": false,
+      "remaining": "Negative/inconclusive evidence is retained without promotion or profitability claims.",
+      "stages": {
+        "implementation": {
+          "passed": true,
+          "reason": "Implementation status and scientific evidence status are distinct in retained records.",
+          "evidence": [
+            "features",
+            "curve",
+            "reuse"
+          ]
+        },
+        "verified_evidence": {
+          "passed": true,
+          "reason": "Mixed feature result and negative curve result remain explicit alongside successful integration/replay.",
+          "evidence": [
+            "features",
+            "curve",
+            "reuse"
+          ]
+        },
+        "acceptance": {
+          "passed": true,
+          "reason": "Same-task requirement-level acceptance: Negative/inconclusive evidence is retained without promotion or profitability claims.",
+          "evidence": [
+            "features",
+            "curve",
+            "reuse"
+          ]
+        }
+      }
+    }
+  ],
+  "evidence": {
+    "design": {
+      "path": "vault/forex/SCHEDULER_THROUGHPUT_20261001/specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
+      "sha256": "61d9713034f6f058d9f59ff11c0dd05b2a7e36583dffb2cd6d6300c64b8dc374",
+      "scope": "Full authoritative design; R01-R15 and WP0-WP11"
+    },
+    "runtime": {
+      "path": "vault/forex/SCHEDULER_THROUGHPUT_20261001/REVIEW.json",
+      "sha256": "796ad494711a941b3ed1a5bbaef9a68eabcd06130c9367836528c82fc71f1336",
+      "scope": "Historical scoped report read in this review; tests/results are not rerun here"
+    },
+    "curve": {
+      "path": "vault/forex/RETAINED_CURVE_CONNECTION_20261001/REVIEW.json",
+      "sha256": "514bdd46479fba7bf5a883b3eae765f10c0e23ecf7351a04e1aa63dcefda8b4c",
+      "scope": "Historical scoped report read in this review; tests/results are not rerun here"
+    },
+    "adaptive": {
+      "path": "vault/forex/CHRONOLOGICAL_LAYER_COMPACT_20260924_082500/REVIEW.json",
+      "sha256": "b0a3f7bcecb90271423e192f0d7b9257d60b128bfafcc97435309e1fbe918c98",
+      "scope": "Historical scoped report read in this review; tests/results are not rerun here"
+    },
+    "features": {
+      "path": "vault/forex/RICH_SPREAD_INCREMENT_20260925_142015/REVIEW.json",
+      "sha256": "cf55bfddef6f7bef6dd74a810b5797808e64ccfc016287930578057f0e318c6b",
+      "scope": "Historical scoped report read in this review; tests/results are not rerun here"
+    },
+    "dependence": {
+      "path": "vault/forex/RICH_DEPENDENCE_20260922_081507/REVIEW.json",
+      "sha256": "f0597ec131463bf070ec208935e730584fbbcba174b4bc1b88dbc916aac7b304",
+      "scope": "Historical scoped report read in this review; tests/results are not rerun here"
+    },
+    "macro": {
+      "path": "vault/forex/NUMERIC_JOIN_REVIEW_REPAIRS_20260924_004443/REVIEW.json",
+      "sha256": "1137a3be43f2787f9c27f83ed3317712740cfd5e595892301361213f118c444b",
+      "scope": "Historical scoped report read in this review; tests/results are not rerun here"
+    },
+    "rotation": {
+      "path": "vault/forex/CURRENCY_PROJECTION_POLICY_ATTRIBUTION_20260924_114246/REVIEW.json",
+      "sha256": "22b51780a64e7fc6daf56345fcb9b42a90c520822dff3f02235e5f76abff1c05",
+      "scope": "Historical scoped report read in this review; tests/results are not rerun here"
+    },
+    "accounting": {
+      "path": "vault/forex/ACCOUNTING_REPAIRS_20260922_000256/REVIEW.json",
+      "sha256": "c7f2fd43d267aae626aed54b2c98621e853b9440cc9a422eb3542aba29c4a76e",
+      "scope": "Historical scoped report read in this review; tests/results are not rerun here"
+    },
+    "accounting_acceptance": {
+      "path": "vault/forex/REPAIR_REVIEW_20260922_001617/REVIEW_RESULT.json",
+      "sha256": "5717a03bbf9e4d1197d603d8a49c88d1058e4eb296004f5a053ebd5bed29161d",
+      "scope": "Historical scoped report read in this review; tests/results are not rerun here"
+    },
+    "ops": {
+      "path": "vault/forex/OPERATIONAL_READINESS_20260923_180528/REVIEW.json",
+      "sha256": "c9e2769d55d6b67bc45c3acff93dee8c2eaaef57d56cb8c2b5cb5bc6ec9dd460",
+      "scope": "Historical scoped report read in this review; tests/results are not rerun here"
+    },
+    "inspector": {
+      "path": "vault/forex/FORECAST_OUTCOME_INSPECTOR_PROBE_20260925_084200/REVIEW.json",
+      "sha256": "985e281533a01d74e1c68e826a9a3f84aad3b00eeaaacc9a7c463f9828e391e9",
+      "scope": "Historical scoped report read in this review; tests/results are not rerun here"
+    },
+    "universe": {
+      "path": "trad/config/joint_price_news_rolling_v1_20260930.json",
+      "sha256": "a9f9d3dfa8cd7328bd3405b60ff0cae2b3c15d0dffa635b5932777ce798ce0b2",
+      "scope": "Current source/config/test locator pinned; historical reports establish their stated bounded evidence only"
+    },
+    "forecast_code": {
+      "path": "trad/oanda_retained_forecast_connection_v1.py",
+      "sha256": "b60f1ef7b57827461d698f29b79993f8fa34e368090e74421914c13cb4666ea9",
+      "scope": "Current source/config/test locator pinned; historical reports establish their stated bounded evidence only"
+    },
+    "forecast_tests": {
+      "path": "tests/test_retained_curve.py",
+      "sha256": "b425e19318a894f6f52b5a7085d333f37e414f57b49e7ec497c701cdcc264507",
+      "scope": "Current source/config/test locator pinned; historical reports establish their stated bounded evidence only"
+    },
+    "adaptive_code": {
+      "path": "stage_c_alignment_integrity_v2/chronological_layer_v2.py",
+      "sha256": "affc0a779220d819b6abd85c5b26da3408832c26cb736d4bb38641caf29a809f",
+      "scope": "Current source/config/test locator pinned; historical reports establish their stated bounded evidence only"
+    },
+    "adaptive_tests": {
+      "path": "stage_c_alignment_integrity_v2/test_chronological_layer_v2.py",
+      "sha256": "74fa8f0c5129aaf7c17e2a5e9aff382baef452f896b0fb8ec891c0a57da516d7",
+      "scope": "Current source/config/test locator pinned; historical reports establish their stated bounded evidence only"
+    },
+    "feature_code": {
+      "path": "stage_c_alignment_integrity_v2/feature_registry_audit_v2.py",
+      "sha256": "4dbef62903f9a071383b06c535a11335e2b9251a09d41e9dea48766c97f3b665",
+      "scope": "Current source/config/test locator pinned; historical reports establish their stated bounded evidence only"
+    },
+    "feature_tests": {
+      "path": "stage_c_alignment_integrity_v2/test_rich_spread_increment_v2.py",
+      "sha256": "d223e948b1ceb1bb579e8cb7af683d75a7e74cad3b4bd38fb7b41487fc096993",
+      "scope": "Current source/config/test locator pinned; historical reports establish their stated bounded evidence only"
+    },
+    "macro_code": {
+      "path": "stage_c_alignment_integrity_v2/macro_numeric_evidence_join_v2.py",
+      "sha256": "793741ae522f8a5bd986211db80fb0e92e1bea93d907efc107f269321636a883",
+      "scope": "Current source/config/test locator pinned; historical reports establish their stated bounded evidence only"
+    },
+    "macro_tests": {
+      "path": "stage_c_alignment_integrity_v2/test_macro_numeric_evidence_join_v2.py",
+      "sha256": "09a7ffa762ae07e9e3a67143fc12f667a530147496dc2ba3fa769a63417a9f2a",
+      "scope": "Current source/config/test locator pinned; historical reports establish their stated bounded evidence only"
+    },
+    "rotation_code": {
+      "path": "stage_c_alignment_integrity_v2/policy_continuation_v2.py",
+      "sha256": "589d2aec725bcb17c7b8711a165fecb617c1263e2e0b96682203e79c5164111e",
+      "scope": "Current source/config/test locator pinned; historical reports establish their stated bounded evidence only"
+    },
+    "rotation_tests": {
+      "path": "stage_c_alignment_integrity_v2/test_policy_continuation_v2.py",
+      "sha256": "af371111fffb995138152f564aed56d36c54856afc8bf4ae66eff78b721c9443",
+      "scope": "Current source/config/test locator pinned; historical reports establish their stated bounded evidence only"
+    },
+    "accounting_code": {
+      "path": "stage_c_alignment_integrity_v2/accounting_events_v2.py",
+      "sha256": "b6d5d5350ff4c9b74d7ae535b9783dc2f3f417476eba5e7a18626f3c7f24a57a",
+      "scope": "Current source/config/test locator pinned; historical reports establish their stated bounded evidence only"
+    },
+    "accounting_tests": {
+      "path": "stage_c_alignment_integrity_v2/test_accounting_review_repairs_v2.py",
+      "sha256": "9673d8422c46f519e190de8fc6839182dfbd944d8f5453b1ad4796fca7bbe934",
+      "scope": "Current source/config/test locator pinned; historical reports establish their stated bounded evidence only"
+    },
+    "dependence_tests": {
+      "path": "stage_c_alignment_integrity_v2/test_rich_dependence_v2.py",
+      "sha256": "cbc4b44ed9f4a47428ac800527b20180ba5a56ed5daad006b699fcee36b14a71",
+      "scope": "Current source/config/test locator pinned; historical reports establish their stated bounded evidence only"
+    },
+    "launcher": {
+      "path": "tools/forex_pipeline.ps1",
+      "sha256": "34b9b862d9bf7dfc406b690dc4ad23718fd711ade0f971d5ce3b01b079c67b2b",
+      "scope": "Current source/config/test locator pinned; historical reports establish their stated bounded evidence only"
+    },
+    "ops_code": {
+      "path": "tools/forex_preflight.py",
+      "sha256": "671a9a327116a8a6df5c35ce9bb5ca0e8122e06805fd3a484c29d5d9259fd3a6",
+      "scope": "Current source/config/test locator pinned; historical reports establish their stated bounded evidence only"
+    },
+    "ops_tests": {
+      "path": "trad/test_oanda_operational_recovery_v6.py",
+      "sha256": "087b818567d17c54c9b1197a4ef383913f66755aff37a800aabcb4d87e850f6b",
+      "scope": "Current source/config/test locator pinned; historical reports establish their stated bounded evidence only"
+    },
+    "inspector_code": {
+      "path": "stage_c_alignment_integrity_v2/forecast_outcome_inspector_contract_v2.py",
+      "sha256": "cef5abaf112b0543b643b801fcdf71f477f97922bebb22b2533d94756983e932",
+      "scope": "Current source/config/test locator pinned; historical reports establish their stated bounded evidence only"
+    },
+    "inspector_tests": {
+      "path": "stage_c_alignment_integrity_v2/test_forecast_outcome_inspector_contract_v2.py",
+      "sha256": "f5480b537424f92e4aea5197de679acc7991956e3ffdd48b44325a8a6c27347a",
+      "scope": "Current source/config/test locator pinned; historical reports establish their stated bounded evidence only"
+    },
+    "reuse": {
+      "path": "artifacts/reuse_catalog.json",
+      "sha256": "58e15f60dbcb051d15f5d2a6ee0c64ba492baa18b38ad2729eef3797f5fb89b3",
+      "scope": "Current source/config/test locator pinned; historical reports establish their stated bounded evidence only"
+    },
+    "reuse_code": {
+      "path": "tools/forex_vault_snapshot.py",
+      "sha256": "561a5bf08ccd6c2470d5e69da03c78b1c3360533cb1906a52d512014cb85e93d",
+      "scope": "Current source/config/test locator pinned; historical reports establish their stated bounded evidence only"
+    },
+    "reuse_tests": {
+      "path": "tests/test_forex_vault_snapshot.py",
+      "sha256": "547deeeca655d56f1012c8b9301674628fadfa4d7250d3a8e21b9cfa20802c03",
+      "scope": "Current source/config/test locator pinned; historical reports establish their stated bounded evidence only"
+    }
+  }
+}

@@ -5965,3 +5965,8 @@ Exact health-file PermissionError retries deployed with original validators;97 d
 ## 2026-10-01 — scheduler_throughput_20261001
 
 Completion handoffs deployed between ledger operations;102 deployment/35 relocated tests passed; live latency reduced and68 histories preserved. Vault SCHEDULER_THROUGHPUT_20261001/REVIEW.json; docs/SCHEDULER_THROUGHPUT_20261001.md. Parent live_news_input_reliability_v1 partial; management follows. Same-task review only.
+
+
+## 2026-10-01 — completion_scorecard_20261001
+
+Vault COMPLETION_SCORECARD_20261001/REVIEW.json; docs/COMPLETION_MEASUREMENT_20261001.md.34/45 reviewed design milestones;10 new tests passed;34 evidence hashes checked. Original quote consumer accepted63/68 at captured clock. Expired EUR/HKD attempt issued zero forecasts; three later receipt chains verified. Input gate whole acceptance and management contract qualification remain pending; no runtime/model changes.
