@@ -7956,3 +7956,9 @@ Completed retained-tier forecast observation consumer;69tests,4953receipts/2652s
 ## 2026-10-01T04:46:09.171663+00:00 — retained_management_combined_observation_v1
 
 Completed offline combined observation consumer: 62 tests, 2,652 slots and 84 exact resumed/restored payloads. Original preserved inputs only: 2,418 expired forecasts, 234 missing, one stale quote and 67 missing quote pairs. Replay clock is not actual current availability. Same-task review, no runtime change. Vault `RETAINED_COMBINED_OBSERVATION_20261001/REVIEW.json`; local `evidence/combined_observation_20261001`; [details](../docs/RETAINED_COMBINED_OBSERVATION_20261001.md). Next `retained_management_contract_qualification_v1`. Live rollout and conditional economic/state policy remain unfinished.
+
+
+## 2026-10-01T05:09:30.1093375Z - Live pipeline recovery
+
+Restored existing nontrading supervisor/watchdog and dashboard; bounded retries now use existing tasks through October 7. Actual HTTP/native verification: 2535 eligible retained forecasts, 39 connections, fresh currency context and one supervisor. Core recovery verified; joint news freshness/read failures, historical event cohort mismatch and stalled feature-forward remain unresolved. No trading activation. See docs/LIVE_PIPELINE_RECOVERY_20261001.md; Vault LIVE_PIPELINE_RECOVERY_20261001; local evidence/live_recovery_20261001. Operational repairs precede retained_management_contract_qualification_v1.
+
