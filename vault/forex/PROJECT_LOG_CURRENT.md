@@ -6586,3 +6586,9 @@ Local actual-work log `evidence/news_capture_mapping_20260930/WORK_LOG.jsonl`; e
 
 
 2026-10-01T04:47:58.283032+00:00: RETAINED_COMBINED_OBSERVATION_20261001/REVIEW.json; source 53f29c0f88e5a15e3f11692962dfa156295245c8; 62 tests, 2652 joined slots and 84 exact resumed/restored payloads. Original frozen inputs, no inference or runtime actions. Next retained_management_contract_qualification_v1.
+
+
+2026-10-01T04:49:31.281957+00:00: Read-only live check after combined-observation checkpoint found stale supervisor/revision-news/currency-context and zero joint forecasts. Profile validation passed; recovery controllers absent on process inspection. See RETAINED_COMBINED_PUBLICATION_20261001/LIVE_READBACK.json. This is distinct from passing offline engineering tests; no service action occurred. Investigate existing bounded recovery before treating pipeline as fully healthy.
+
+
+2026-10-01T05:11:21.335310+00:00: LIVE_PIPELINE_RECOVERY_20261001/REVIEW.json; source 254978737dbef5bee4169cfa497c647f6919f134; bounded core recovery verified, residual operational failures remain.

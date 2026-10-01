@@ -1,19 +1,19 @@
 {
   "branch": "forex",
-  "current_context_review": "RETAINED_COMBINED_OBSERVATION_20261001/REVIEW.json",
-  "current_review_packet": "RETAINED_COMBINED_OBSERVATION_20261001/REVIEW.json",
-  "exact_next_item": "retained_management_contract_qualification_v1",
-  "head": "53f29c0f88e5a15e3f11692962dfa156295245c8",
-  "latest_packet": "RETAINED_COMBINED_OBSERVATION_20261001",
-  "latest_partial_handoff": "RETAINED_COMBINED_OBSERVATION_20261001/RESUME.md",
-  "latest_review": "RETAINED_COMBINED_OBSERVATION_20261001/REVIEW.json",
-  "note": "Combined observation consumer complete; 62 tests, 2652 slots and 84 exact restored payloads. Management prerequisite contract next; no live rollout or activation.",
+  "current_context_review": "LIVE_PIPELINE_RECOVERY_20261001/REVIEW.json",
+  "current_review_packet": "LIVE_PIPELINE_RECOVERY_20261001/REVIEW.json",
+  "exact_next_item": "live_news_input_reliability_v1",
+  "head": "254978737dbef5bee4169cfa497c647f6919f134",
+  "latest_packet": "LIVE_PIPELINE_RECOVERY_20261001",
+  "latest_partial_handoff": "LIVE_PIPELINE_RECOVERY_20261001/RESUME.md",
+  "latest_review": "LIVE_PIPELINE_RECOVERY_20261001/REVIEW.json",
+  "note": "Core recovery restored; live residual news/event/forward failures remain explicit.",
   "predecessor_receipt": "RETAINED_PROJECTION_PUBLICATION_20261001/BEFORE_SHARED_GIT_REMOTE_LATEST.json",
-  "publication_status": "source_pushed_knowledge_snapshot_finalization_pending",
+  "publication_status": "source_pushed_snapshot_pending",
   "remote": "https://github.com/shaggyga/tradez.git",
   "schema": "forex_shared_git_remote_latest.v1",
-  "source_commit": "53f29c0f88e5a15e3f11692962dfa156295245c8",
-  "updated_utc": "2026-10-01T04:47:58.283032+00:00",
+  "source_commit": "254978737dbef5bee4169cfa497c647f6919f134",
+  "updated_utc": "2026-10-01T04:51:41.882676+00:00",
   "latest_input_news_audit": {
     "source_commit": "358c1bb9db792a5409816013eca0e8bc2408f7b0",
     "documentation_commit": "e2882ea390766c96dd85c87511a5791d4ffd6472",
@@ -64,8 +64,8 @@
     "documentation_commit": "69a4597e571eab7167d9cada470fdcab6d80ddff",
     "packet": "RETAINED_TRACKING_20260930"
   },
-  "handoff_document_commit": "53f29c0f88e5a15e3f11692962dfa156295245c8",
-  "documentation_commit": "53f29c0f88e5a15e3f11692962dfa156295245c8",
+  "handoff_document_commit": "254978737dbef5bee4169cfa497c647f6919f134",
+  "documentation_commit": "254978737dbef5bee4169cfa497c647f6919f134",
   "latest_legacy26_connection": {
     "receipt": "LEGACY26_RESTORE_PUBLICATION_20260930/RECEIPT.json",
     "source_commit": "3d5030c89900eeed2f792492204da8e682f8cf07",
@@ -119,5 +119,11 @@
     "source_commit": "454bfde3a6a63482783d09c2d044757b5b3dee84",
     "documentation_commit": "4bd43d43bb1588639d6d3f08909efe4d371f59ac",
     "packet": "RETAINED_FORECAST_RECEIPTS_20261001"
+  },
+  "latest_retained_combined_observation": {
+    "receipt": "RETAINED_COMBINED_PUBLICATION_20261001/RECEIPT.json",
+    "source_commit": "53f29c0f88e5a15e3f11692962dfa156295245c8",
+    "documentation_commit": "f7bde8d6a7969090c49f64bbf3615af94834121a",
+    "packet": "RETAINED_COMBINED_OBSERVATION_20261001"
   }
 }

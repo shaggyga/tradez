@@ -1,0 +1,287 @@
+{
+  "captured_utc": "2026-10-01T04:49:31.281957+00:00",
+  "profile_path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\operational_runtime_current_20260930.json",
+  "services": [
+    {
+      "name": "all68_m1_cadence_v3",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\all68_m1_cadence_heartbeat_v3.json",
+      "fresh": true,
+      "age_sec": 3.49,
+      "schema_matches": true,
+      "schema_version": 1,
+      "status": "running",
+      "phase": "refreshing_forward",
+      "updated_at": "2026-10-01T04:49:27.794281+00:00"
+    },
+    {
+      "name": "practice_quote_stream_v1",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_quote_stream_heartbeat_v1.json",
+      "fresh": true,
+      "age_sec": 4.13,
+      "schema_matches": true,
+      "schema_version": 1,
+      "status": "running",
+      "phase": "streaming",
+      "updated_at": "2026-10-01T04:49:27.150011+00:00"
+    },
+    {
+      "name": "clock_integrity_monitor_v1",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\clock_integrity_v1.json",
+      "fresh": true,
+      "age_sec": 7.52,
+      "schema_matches": true,
+      "schema_version": 1,
+      "status": "ok",
+      "generated_utc": "2026-10-01T04:49:23.761579+00:00"
+    },
+    {
+      "name": "default_news_collector_v1",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\collector_heartbeat_v1.json",
+      "fresh": true,
+      "age_sec": 24.76,
+      "schema_matches": true,
+      "schema_version": "local_fx_news_sentiment_v3",
+      "status": "running_cycle",
+      "phase": "publishing_derived_views",
+      "generated_utc": "2026-10-01T04:49:06.524759+00:00"
+    },
+    {
+      "name": "revision_news_collector_v2",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\market_open_20260913_v1\\local_news_sentiment\\collector_heartbeat_v1.json",
+      "fresh": false,
+      "age_sec": 4198.92,
+      "schema_matches": true,
+      "schema_version": "local_fx_news_sentiment_v3",
+      "status": "cycle_complete",
+      "phase": "cycle_complete",
+      "generated_utc": "2026-10-01T03:39:32.361779+00:00"
+    },
+    {
+      "name": "local_news_sentiment_repair_v2",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment_repair_v2\\heartbeat_v2.json",
+      "fresh": true,
+      "age_sec": 12.59,
+      "schema_matches": true,
+      "schema_version": "repaired_joint_news_heartbeat_v2_20260912_source_derived_clocks",
+      "status": "current",
+      "phase": "research_collection",
+      "errors": 266,
+      "last_error": "",
+      "generated_utc": "2026-10-01T04:49:18.694653+00:00"
+    },
+    {
+      "name": "joint_price_news_study_v11",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_rolling_news_20260930\\joint_price_news_study_v11\\heartbeat.json",
+      "fresh": true,
+      "age_sec": 5.01,
+      "schema_matches": true,
+      "schema_version": "joint_price_news_forecast_heartbeat_v11_20260930",
+      "phase": "research_collection",
+      "errors": 104,
+      "last_error": "shared_news:ValueError:upstream_collector_stale_or_future",
+      "scheduling_version": "shared_revision_history_completion_cadence_and_fit_handoff_v4_20260914",
+      "counts": {
+        "building": 0,
+        "forecast": 0,
+        "ready": 0,
+        "unavailable": 63,
+        "warming": 5
+      }
+    },
+    {
+      "name": "pair_local_forecast_study_v3",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260913_v1\\pair_local_forecast_study_v3\\heartbeat.json",
+      "fresh": true,
+      "age_sec": 12.91,
+      "schema_matches": true,
+      "schema_version": "pair_local_forecast_heartbeat_v3_20260913",
+      "phase": "research_collection",
+      "errors": 20,
+      "last_error": "GBP_ZAR:ValueError:cached_input_expired_before_issue",
+      "scheduling_version": "pair_capture_fit_fair_v3_20260913",
+      "counts": {
+        "building": 0,
+        "forecast": 126,
+        "ready": 2,
+        "unavailable": 8,
+        "warming": 0
+      }
+    },
+    {
+      "name": "retained_price_settlement_v1",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\retained_price_settlement_v1.json",
+      "fresh": false,
+      "age_sec": 4165.0,
+      "schema_matches": true,
+      "schema_version": "retained_price_settlement_v1_20260913",
+      "status": "settled",
+      "generated_utc": "2026-10-01T03:40:06.280603+00:00",
+      "new_forecasts_enabled": false,
+      "studies": [
+        {
+          "errors": 0,
+          "exclusions": 486,
+          "forecasts": 16004,
+          "last_error": "",
+          "outcomes": 15518,
+          "unresolved": 0,
+          "version": 1
+        },
+        {
+          "errors": 0,
+          "exclusions": 2879,
+          "forecasts": 36555,
+          "last_error": "",
+          "outcomes": 33676,
+          "unresolved": 0,
+          "version": 2
+        }
+      ]
+    },
+    {
+      "name": "native_feature_candles_v1",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\native_feature_candles_heartbeat_v1.json",
+      "fresh": true,
+      "age_sec": 5.12,
+      "schema_matches": true,
+      "schema_version": "native_feature_candle_cache_v1_20260913",
+      "status": "partial_unavailable",
+      "errors": [
+        {
+          "instrument": "EUR_NZD",
+          "reason": "ValueError:broker_candle_get_failed_http_None",
+          "timeframe": "M5"
+        },
+        {
+          "instrument": "GBP_SGD",
+          "reason": "ValueError:broker_candle_get_failed_http_None",
+          "timeframe": "M5"
+        }
+      ],
+      "generated_utc": "2026-10-01T04:49:26.166141+00:00"
+    },
+    {
+      "name": "research_feature_observations_v2",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260914_features_v6\\feature_observations_heartbeat_primary_m1_v1.json",
+      "fresh": true,
+      "age_sec": 51.75,
+      "schema_matches": true,
+      "schema_version": "research_existing_feature_observations_v2_20260914_publication_headroom",
+      "phase": "reading_sources",
+      "updated_at": "2026-10-01T04:48:39.532248+00:00",
+      "last_failure": {
+        "cycle_started_utc": "2026-10-01T04:47:38.959690+00:00",
+        "error_type": "ValueError",
+        "failed_utc": "2026-10-01T04:48:29.973622+00:00",
+        "reason": "cycle_time_bound_before_publication"
+      }
+    },
+    {
+      "name": "research_feature_forward_v2",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260914_features_v6\\feature_forward_primary_m1_v7\\feature_forward_status_v1.json",
+      "fresh": false,
+      "age_sec": 4454.37,
+      "schema_matches": true,
+      "schema_version": "feature_forward_worker_status_v1",
+      "status": "observing",
+      "errors": [],
+      "generated_utc": "2026-10-01T03:35:16.916745+00:00"
+    },
+    {
+      "name": "official_pair_horizon_v2",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260913_v1\\official_event_pair_horizon_v2\\heartbeat.json",
+      "fresh": true,
+      "age_sec": 2.5,
+      "schema_matches": true,
+      "schema_version": "official_event_pair_horizon_capture_v2_heartbeat",
+      "status": "error"
+    },
+    {
+      "name": "research_feature_forward_cached_v2",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260916_forward_v2\\feature_forward_cached_m5_v2_20260916\\feature_forward_status_v1.json",
+      "fresh": false,
+      "age_sec": 4485.16,
+      "schema_matches": true,
+      "schema_version": "feature_forward_worker_status_v1",
+      "status": "waiting_for_fresh_history",
+      "errors": [],
+      "generated_utc": "2026-10-01T03:34:46.125580+00:00"
+    },
+    {
+      "name": "rolling_technical_operations_v2",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\rolling_technical_dataset_20260915_v3\\status.json",
+      "fresh": true,
+      "age_sec": 21.54,
+      "schema_matches": true,
+      "status": "partial",
+      "generated_utc": "2026-10-01T04:49:09.743159+00:00",
+      "counts": {
+        "bars": 728923,
+        "observations": 686992,
+        "outcomes": 2740720,
+        "panels": 5427,
+        "receipts": 194597,
+        "revisions": 0
+      }
+    },
+    {
+      "name": "all68_technical_availability_v2",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\all68_technical_availability_v2.json",
+      "fresh": true,
+      "age_sec": 76.02,
+      "schema_matches": true,
+      "schema_version": "all68_technical_availability_v2_20260930",
+      "status": "readable",
+      "generated_utc": "2026-10-01T04:48:15.258915+00:00",
+      "counts": {
+        "not_tradeable": 3,
+        "partial": 64,
+        "quote_stale": 1
+      }
+    },
+    {
+      "name": "all68_derived_technical_publisher_v1",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\all68_derived_technical_features_v1.json",
+      "fresh": true,
+      "age_sec": 135.43,
+      "schema_matches": true,
+      "schema_version": "derived_technical_publisher_v1_20260916",
+      "generated_utc": "2026-10-01T04:47:15.847700+00:00"
+    },
+    {
+      "name": "currency_news_context_v1",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\currency_news_context_v1\\current.json",
+      "fresh": false,
+      "age_sec": 4172.56,
+      "schema_matches": true,
+      "schema_version": "currency_news_context_v1_20260930",
+      "status": "current",
+      "generated_utc": "2026-10-01T03:39:58.724237+00:00"
+    }
+  ],
+  "controllers": [
+    {
+      "name": "supervisor",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\operational_supervisor_v2.json",
+      "fresh": false,
+      "profile_matches": true,
+      "age_sec": 4182.24,
+      "error": "",
+      "recovery_allowed": true
+    },
+    {
+      "name": "watchdog",
+      "path": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\oanda_supervisor_watchdog_v2.json",
+      "fresh": false,
+      "profile_matches": true,
+      "age_sec": 4187.7,
+      "operational_health": "degraded",
+      "action": "none",
+      "restart_circuit_open": false
+    }
+  ],
+  "recovery_until_utc": "2026-10-07T08:14:50Z",
+  "research_only": true,
+  "can_place_orders": false,
+  "scope": "Heartbeat freshness and reported errors; not forecast success or trading readiness."
+}

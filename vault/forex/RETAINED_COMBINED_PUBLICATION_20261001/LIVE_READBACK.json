@@ -1,0 +1,43 @@
+{
+  "schema": "forex.live_pipeline_readback.v1",
+  "captured_utc": "2026-10-01T04:49:31.281957+00:00",
+  "status": "degraded",
+  "scope": "Read-only status/profile validation and process inspection; no service actions or data capture",
+  "commands": [
+    "powershell -NoProfile -ExecutionPolicy Bypass -File tools/forex_pipeline.ps1 -Action Status",
+    "powershell -NoProfile -ExecutionPolicy Bypass -File tools/forex_pipeline.ps1 -Action Validate",
+    "Get-ScheduledTask/Get-ScheduledTaskInfo plus filtered Get-CimInstance Win32_Process excluding inspector PID"
+  ],
+  "profile_validation": "passed",
+  "profile_sha256": "5aceba54a4b4300642176f4799afbdd17f6af13cf46df29ce1084a6f5525ff81",
+  "findings": [
+    "Supervisor/watchdog heartbeats approximately 70 minutes old and no matching controller processes found",
+    "Currency-news context and revision-news heartbeat approximately 70 minutes old",
+    "Joint price/news reports zero forecasts, 63 unavailable and 5 warming; reported upstream collector stale/future error",
+    "Quote/candle/main-news heartbeat recent; this does not prove all requested forecasts or complete pair coverage",
+    "Technical observations reported cycle_time_bound_before_publication; two native candle instruments reported fetch errors",
+    "Scheduled recovery task enabled, Ready (state 3), last result 0; no next run reported; precise controller exit cause not established"
+  ],
+  "immediate_operational_next": "Inspect existing supervisor/watchdog exit logs and bounded recovery ownership; restore the already configured nontrading pipeline only within service-action authorization, then verify successful cycles, current context and forecasts. Do not create duplicate writers or loosen freshness gates.",
+  "current_offline_boundary": "Current queue contract excludes service/collector actions; this readback does not widen that scope.",
+  "queued_offline_next": "retained_management_contract_qualification_v1",
+  "relation": "Supplementary later live inspection; historical replay refusal results are not measurements of current feed health",
+  "files": [
+    {
+      "path": "RETAINED_COMBINED_PUBLICATION_20261001/LIVE_STATUS.txt",
+      "sha256": "7a5a5ad644c3c097f049f0182ed093202ca5a93fbb65ec3763733e4df04f38b2"
+    },
+    {
+      "path": "RETAINED_COMBINED_PUBLICATION_20261001/LIVE_VALIDATE.txt",
+      "sha256": "25e305cd288056d03125063510ae2815d85a4d06f5f70d5d2baeb155b129d8d1"
+    },
+    {
+      "path": "RETAINED_COMBINED_PUBLICATION_20261001/RECOVERY_INSPECTION.json",
+      "sha256": "10a13a5474c34b0936a28638964e522aac747ea367133e8023adf4c1e78bb5c3"
+    },
+    {
+      "path": "RETAINED_COMBINED_PUBLICATION_20261001/RECOVERY_PROCESSES_VERIFIED.json",
+      "sha256": "0d7a2dac45dead65d6e2342ce4cfca19bd7db07265aceaec249a00d9f0372ee3"
+    }
+  ]
+}
