@@ -1,12 +1,12 @@
 {
-  "active_step_id": "current_news_read_deploy_20261001",
-  "active_step_semantics": "Current-news retry deployed; bounded input gate complete",
-  "current_review_packet": "CURRENT_NEWS_READ_DEPLOY_20261001/REVIEW.json",
+  "active_step_id": "management_contract_20261001",
+  "active_step_semantics": "Offline management contract complete; staged news read repair awaiting service scope",
+  "current_review_packet": "RETAINED_MANAGEMENT_CONTRACT_20261001/REVIEW.json",
   "current_user_requested_context": {
     "request": "Fix data; connect strongest supported existing models across entire design horizon; stop new fits/experiments",
-    "status": "input_reliability_accepted_management_state_pending",
-    "packet": "CURRENT_NEWS_READ_DEPLOY_20261001/REVIEW.json",
-    "next_item": "retained_management_current_state_binding_v1",
+    "status": "management_contract_complete_runtime_repair_staged",
+    "packet": "RETAINED_MANAGEMENT_CONTRACT_20261001/REVIEW.json",
+    "next_item": "live_news_input_reliability_v1",
     "new_research_authorized": false
   },
   "dashboard_source_qualification": {
@@ -190,7 +190,7 @@
     }
   ],
   "engineering_queue_pointer": "DESIGN_ALIGNMENT_LATEST.json",
-  "exact_next_item": "retained_management_current_state_binding_v1",
+  "exact_next_item": "live_news_input_reliability_v1",
   "execution_status": "checkpointed_no_active_chat_worker",
   "forecasting_continuation": {
     "blocked_confirmation_item": "currency_projection_confirmation_protocol_v2",
@@ -5334,8 +5334,8 @@
     },
     {
       "step_id": "live_news_input_reliability_v1",
-      "implementation_status": "complete",
-      "review_status": "accepted_within_scope",
+      "implementation_status": "partial",
+      "review_status": "partial_scope_reviewed",
       "depends_on": [
         "rolling_input_reliability_20261001"
       ],
@@ -5347,12 +5347,9 @@
         "Reconcile historical official event cohort with original hashes or a separately qualified successor; never overwrite sealed bindings",
         "Observe successful current pipeline cycles and dashboard inputs; distinguish joint warmup from errors; update Git/Vault with exact remaining evidence"
       ],
-      "next_action": "retained_management_current_state_binding_v1",
+      "next_action": "Current-news PermissionError source repair staged and10 tests passed; apply prepared source/profile rollout after service actions authorized. Do not redo completed source fix. Management prerequisite contract complete but actual matched state/conditional/economic support absent.",
       "completed_substep": "ROLLING_INPUT_RELIABILITY_20261001/REVIEW.json",
-      "latest_diagnosis": "CURRENT_NEWS_READ_DEPLOY_20261001/REVIEW.json",
-      "packet": "CURRENT_NEWS_READ_DEPLOY_20261001/REVIEW.json",
-      "packet_sha256": "74b200af0cf430f676a43b7ad4c0d073459db724dc8fca1505b9f685e3273415",
-      "scope_limit": "Bounded nontrading input recovery; no promise of all quotes always available or zero future faults"
+      "latest_diagnosis": "RETAINED_MANAGEMENT_CONTRACT_20261001/REVIEW.json"
     },
     {
       "step_id": "news_input_compatibility_repair_20261001",
@@ -5449,31 +5446,6 @@
       "independent_review": false,
       "packet": "RETAINED_MANAGEMENT_CONTRACT_20261001/REVIEW.json",
       "packet_sha256": "8569fea1f1b4a9b985273174cbb1f993e53a40b79dd0801a3ad5cfd795ca71c5"
-    },
-    {
-      "step_id": "current_news_read_deploy_20261001",
-      "implementation_status": "complete_deployed_input_repair",
-      "review_status": "accepted_within_scope",
-      "independent_review": false,
-      "packet": "CURRENT_NEWS_READ_DEPLOY_20261001/REVIEW.json",
-      "packet_sha256": "74b200af0cf430f676a43b7ad4c0d073459db724dc8fca1505b9f685e3273415"
-    },
-    {
-      "step_id": "retained_management_current_state_binding_v1",
-      "implementation_status": "not_started",
-      "review_status": "not_started",
-      "depends_on": [
-        "retained_management_contract_qualification_v1",
-        "current_news_read_deploy_20261001"
-      ],
-      "scope": "Bind current paper-state and observation evidence to existing management contract; no account actions, orders, model fitting or other-task capture changes",
-      "acceptance_criteria": [
-        "Reuse original observed management/accounting identities; check exact temporal and model/target overlap before reuse",
-        "Implement explicit FLAT/WAIT and pending-state treatment without inferring positions from forecasts",
-        "Connect genuine available current quote/forecast/state evidence; missing conditional and economic terms remain explicit refusals",
-        "Meaningful consumer tests, deterministic resumed/relocated replay, substantive review and Git/Vault handoff"
-      ],
-      "next_action": "Inspect retained current virtual-state/forecast interfaces and connect the smallest complete state path. Historical paper episodes and synthetic fixtures cannot stand in for current observed positions."
     }
   ],
   "timed_session": {
@@ -5486,5 +5458,5 @@
     "source_commit": "6eb514ab1856190b39d83ab020d5f77700ca8770",
     "updated_utc": "2026-09-25T18:12:00.5976014Z"
   },
-  "updated_utc": "2026-10-01T20:06:11.310678+00:00"
+  "updated_utc": "2026-10-01T19:40:24.927515+00:00"
 }

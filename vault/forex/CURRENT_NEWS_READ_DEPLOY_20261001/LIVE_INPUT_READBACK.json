@@ -1,0 +1,93 @@
+{
+  "utc": "2026-10-01T20:01:41.222185+00:00",
+  "files": {
+    "joint_heartbeat": {
+      "path": "trad\\data\\oanda_training_manager\\operational_rolling_news_20260930\\joint_price_news_study_v11\\heartbeat.json",
+      "sha256": "2853572a6297645d9e229361bb869cccdc07915bc8884f80e3dc23471074aa24"
+    },
+    "joint_summary": {
+      "path": "trad\\data\\oanda_training_manager\\operational_rolling_news_20260930\\joint_price_news_study_v11\\summary.json",
+      "sha256": "fadada953850fbad2391b626f7ad933af1cef85c7af30577a513fe2806e79e8d"
+    },
+    "news_heartbeat": {
+      "path": "trad\\data\\oanda_training_manager\\local_news_sentiment_repair_v2\\heartbeat_v2.json",
+      "sha256": "bb030be5a8c4df9d2b6a10f76703bc7de38ed0c391cd265b76d33abf7fb5e52b"
+    },
+    "quotes": {
+      "path": "trad\\data\\oanda_training_manager\\state\\practice_007_market_quotes_v1.json",
+      "sha256": "66f5dfd2052b8713c54f0da3ea6d756550b9ec926bd4b50497553015dc8cac50"
+    }
+  },
+  "counts": {
+    "building": 0,
+    "forecast": 64,
+    "ready": 0,
+    "unavailable": 4,
+    "warming": 0
+  },
+  "errors": 1,
+  "last_error": "shared_news:ValueError:news_clock_state_stale_or_future",
+  "heartbeat_age": 1.3448512554168701,
+  "unavailable": [
+    {
+      "instrument": "EUR_TRY",
+      "reason": "ValueError:market_closed_or_no_stream_quote",
+      "status": "unavailable"
+    },
+    {
+      "instrument": "TRY_JPY",
+      "reason": "ValueError:market_closed_or_no_stream_quote",
+      "status": "unavailable"
+    },
+    {
+      "instrument": "USD_HKD",
+      "reason": "observed_news_failure_generation:1",
+      "status": "unavailable"
+    },
+    {
+      "instrument": "USD_TRY",
+      "reason": "ValueError:market_closed_or_no_stream_quote",
+      "status": "unavailable"
+    }
+  ],
+  "news_status": "current",
+  "news_last_error": "",
+  "news_age": 11.626912593841553,
+  "dashboard_http": 200,
+  "dashboard_sha256": "7e070fa92e7d9c03edd3f5c45800c593572f06dbe4e8683241d9e6040f78ba42",
+  "dashboard_keys": [
+    "time",
+    "account",
+    "entry_diagnostics",
+    "collection_status",
+    "operational_dashboard",
+    "legacy_collection_status",
+    "price_only_collection_status",
+    "joint_collection_status",
+    "joint_price_news_scheduler_comparison_v1",
+    "market_overview",
+    "pair_local_forecasts",
+    "pair_local_forecasts_v2",
+    "joint_price_news_forecasts",
+    "legacy_pair_local_forecasts",
+    "eurusd_supplemental_diagnostic",
+    "top_signal",
+    "top_signals",
+    "horizon_signal_matrix",
+    "top_signal_position_ledger",
+    "canonical_signal_trials",
+    "live_movers",
+    "live_move_news",
+    "continuous_narrative",
+    "adaptive_level_bands",
+    "signal_families",
+    "promotion_thresholds",
+    "post_gap_execution",
+    "news_sentiment",
+    "execution",
+    "active",
+    "currency_news_context",
+    "retained_forecasts",
+    "retained_tracking"
+  ]
+}

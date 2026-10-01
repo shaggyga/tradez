@@ -1,0 +1,53 @@
+{
+  "schema": "forex.review_packet.v1",
+  "step_id": "current_news_read_deploy_20261001",
+  "source_commit": "4328e8a5503ee6d5cd12ee291d9f971475816c3d",
+  "status": "accepted_within_scope",
+  "review_status": "accepted_within_scope",
+  "implementation_status": "bounded_current_news_retry_deployed",
+  "independent_review": false,
+  "same_task_review": true,
+  "readiness": {
+    "engineering_ready": true,
+    "engineering_scope": "Local nontrading input-reliability repair",
+    "forecast_evidence_status": "unchanged",
+    "policy_evidence_status": "not_qualified",
+    "demo_authorization_status": "not_granted"
+  },
+  "checks": [
+    "106 deployment tests passed including actual deployed startup configuration",
+    "Fresh current-source heartbeat and5 new forecast receipts; later9",
+    "68 original histories/contracts/activations unchanged",
+    "Dashboard HTTP200 and current news; original strict guards retained",
+    "Other-role restart histories unchanged after scoped diagnosed startup release"
+  ],
+  "unresolved_findings": [
+    "Current management state/conditional/economic support",
+    "Nontradeable TRY and intermittent USD_HKD quote availability",
+    "Future input faults remain refused and observable"
+  ],
+  "next_item": "retained_management_current_state_binding_v1",
+  "replacement_models_fitted": 0,
+  "runtime_changed": true,
+  "completed_queue_item": "live_news_input_reliability_v1",
+  "initial_startup_refusal": "Exact change-label mismatch repaired;3 attempts preserved;actual-config regression added",
+  "live_verification": {
+    "utc": "2026-10-01T20:01:10.088155+00:00",
+    "source_sha256": "76ebf0e3a7a9afe5b9b48aa30034e8fce1855a9dfc1b7565e467651b042ba0cd",
+    "samples": 24,
+    "new_fit_receipts": 5,
+    "first_errors": 1,
+    "last_errors": 1,
+    "latest_counts": {
+      "building": 0,
+      "forecast": 64,
+      "ready": 0,
+      "unavailable": 4,
+      "warming": 0
+    },
+    "last_error": "shared_news:ValueError:news_clock_state_stale_or_future",
+    "permission_recoveries": [],
+    "observations_sha256": "34da330b8ee7777cc3ddc094e6e6285e27dd7bb408fe1584a1e8288d0e7666b4",
+    "scope": "Bounded live deployment verification, not proof of zero future faults or predictive value"
+  }
+}
