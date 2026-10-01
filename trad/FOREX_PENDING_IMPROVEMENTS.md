@@ -5970,3 +5970,8 @@ Completion handoffs deployed between ledger operations;102 deployment/35 relocat
 ## 2026-10-01 — completion_scorecard_20261001
 
 Vault COMPLETION_SCORECARD_20261001/REVIEW.json; docs/COMPLETION_MEASUREMENT_20261001.md.34/45 reviewed design milestones;10 new tests passed;34 evidence hashes checked. Original quote consumer accepted63/68 at captured clock. Expired EUR/HKD attempt issued zero forecasts; three later receipt chains verified. Input gate whole acceptance and management contract qualification remain pending; no runtime/model changes.
+
+
+## 2026-10-01 — management_contract_20261001
+
+RETAINED_MANAGEMENT_CONTRACT_20261001/REVIEW.json; docs/RETAINED_MANAGEMENT_CONTRACT_20261001.md.196 tests;84 resumed/restored payloads;68 histories unchanged. Offline contract complete; actual state/conditional/economic support missing. Current-news PermissionError diagnosed beyond health-only retry allowlist. Parent input reliability remains partial; no service or trading activation. Score34/45 unchanged.

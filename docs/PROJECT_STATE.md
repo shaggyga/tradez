@@ -1,5 +1,9 @@
 # Current project orientation — September 30, 2026
 
+## Current continuation — management contract verified
+
+[Current checkpoint](RETAINED_MANAGEMENT_CONTRACT_20261001.md):196 tests;84 exact resumed/restored outputs; offline contract complete. Live current-news file contention and real management inputs remain open. No activation. Score34/45 unchanged. Older notices below are historical.
+
 ## Current continuation — measured completion
 
 [Current checkpoint](COMPLETION_MEASUREMENT_20261001.md); [design scorecard](COMPLETION_SCORECARD.md):34/45 milestones,75.56% overall;80.95% excluding deferred GPT. Same-task assessment; historical evidence is identified separately. Run `python tools/forex_completion.py` and review affected credits at each checkpoint. Input availability and management remain partial. Older entries below are historical.
