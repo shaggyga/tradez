@@ -1,0 +1,31 @@
+{
+  "schema": "forex.review_packet.v1",
+  "step_id": "news_scheduler_deploy_20261001",
+  "source_commit": "12bce4a4f7f69cfa1b42389a08109d43ef388a28",
+  "status": "accepted_within_scope",
+  "review_status": "accepted_within_scope",
+  "implementation_status": "scoped_scheduler_repair_deployed_verified",
+  "independent_review": false,
+  "same_task_review": true,
+  "readiness": {
+    "engineering_ready": true,
+    "forecast_evidence_status": "unchanged",
+    "policy_evidence_status": "not_qualified",
+    "demo_authorization_status": "not_granted"
+  },
+  "checks": [
+    "78 deployment tests passed",
+    "12 relocated source tests passed",
+    "All68 old contracts/activations/forecast rows preserved",
+    "3 accepted live refreshes;6 exact new forecast receipts;208sec minimum dispatch headroom",
+    "Role liveness current"
+  ],
+  "unresolved_findings": [
+    "Remaining seven unavailable pair reasons",
+    "Any future expiry or duplicate-reference refusals",
+    "Management qualification"
+  ],
+  "next_item": "live_news_input_reliability_v1",
+  "replacement_models_fitted": 0,
+  "runtime_changed": true
+}

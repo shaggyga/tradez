@@ -6600,3 +6600,5 @@ Local actual-work log `evidence/news_capture_mapping_20260930/WORK_LOG.jsonl`; e
 2026-10-01T13:36:27.462087+00:00: ROLLING_INPUT_RELIABILITY_20261001/REVIEW.json; source 91806e87982a6c48789d9d071ceebdc58caa5a7d; Windows publication repair verified, broader work partial.
 
 2026-10-01T14:09:02.757134+00:00: NEWS_TIMING_20261001/REVIEW.json; source 2584e565643b9a26420bd8014cd508faba7de79c; diagnosis verified, repair not deployed.
+
+2026-10-01T14:40:55.522428+00:00: NEWS_SCHEDULER_DEPLOY_20261001/REVIEW.json; source 12bce4a4f7f69cfa1b42389a08109d43ef388a28; scheduler repair deployed and verified.

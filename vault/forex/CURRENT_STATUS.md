@@ -1,3 +1,3 @@
 # Current status
 
-NEWS_TIMING_20261001/REVIEW.md. News refresh starvation reproduced and correction tested (5 tests); NOT deployed. Source-bound ledger history requires qualified operational successor. Live services unchanged. Parent live_news_input_reliability_v1 remains partial.
+NEWS_SCHEDULER_DEPLOY_20261001/REVIEW.md. News refresh scheduler repair deployed;78 tests plus12 relocated and68 preserved ledger identities verified. Three accepted refreshes and6 exact receipts; remaining unavailable pairs require reconciliation. Parent live_news_input_reliability_v1 remains partial.

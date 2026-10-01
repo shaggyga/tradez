@@ -178,4 +178,4 @@ Scope clarification 2026-09-30T19:57:32.931372+00:00: `finish_research_and_matur
 
 | `news_timing_20261001` | Mabel current Codex chat | 2026-10-01T14:09:02.757134+00:00 | News scheduler diagnosis and staged correction | Runtime unchanged; other-task recorder untouched | `DONE` | 2026-10-01T14:09:02.757134+00:00 | NEWS_TIMING_20261001/REVIEW.json; five tests passed; correction NOT deployed. Parent remains partial; claim released. |
 
-| `news_scheduler_deploy_20261001` | Mabel current Codex chat | 2026-10-01T14:40:55.522428+00:00 | News scheduler deployed | Original ledger histories preserved; other-task recorder untouched | `DONE` | 2026-10-01T14:40:55.522428+00:00 | NEWS_SCHEDULER_DEPLOY_20261001/REVIEW.json; 78 tests passed; correction deployed and live verified. Parent remains partial; claim released. |
+| `news_scheduler_deploy_20261001` | Mabel current Codex chat | 2026-10-01T14:28:21.2456285Z | Qualified scheduler overlay deployment | Preserve original worker/contracts/history; existing joint role only, no other-task recorder | `IN_PROGRESS` | 2026-10-01T14:28:21.2456285Z | Local evidence/news_scheduler_deploy_20261001 |
