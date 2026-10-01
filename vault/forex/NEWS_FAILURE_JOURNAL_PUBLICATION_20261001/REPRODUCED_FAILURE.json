@@ -1,0 +1,543 @@
+{
+  "utc": "2026-10-01T16:06:01.667337+00:00",
+  "finding_id": "NEWS-PROGRESS-02",
+  "status": "newly_reproduced_cause_repair_pending",
+  "journal_path": "trad\\data\\oanda_training_manager\\local_news_sentiment_repair_v2\\operational_producer_receipts\\981cb1761d564496901f1f1478ba6c68.jsonl",
+  "journal_sha256": "09d5c20ef3c0f3f7449bfcc455cad2e0d3a6ad2175688e3f9ddf3a63bbd271bb",
+  "records": [
+    {
+      "event": "start",
+      "evidence": {
+        "clock": {
+          "fields": {
+            "clock_discontinuity_active": false,
+            "errors": null,
+            "generated_utc": "2026-10-01T15:56:49.066778+00:00",
+            "host_clock_synchronized": true,
+            "last_error": null,
+            "last_progress_utc": null,
+            "phase": null,
+            "status": "ok",
+            "timestamp_normalization_trusted": true
+          },
+          "sha256": "82227e2c9992901ef58a685bcfce251951f5238134b6a4292311acd6566411ce"
+        },
+        "collector": {
+          "fields": {
+            "clock_discontinuity_active": null,
+            "errors": null,
+            "generated_utc": "2026-10-01T15:56:55.902905+00:00",
+            "host_clock_synchronized": null,
+            "last_error": null,
+            "last_progress_utc": "2026-10-01T15:56:55.901908+00:00",
+            "phase": "collecting_sources",
+            "status": "running_cycle",
+            "timestamp_normalization_trusted": null
+          },
+          "sha256": "916f735faf91cd84b421530f9901810aa0e53dc6aa7abb5d9139a5bec6adb9e4"
+        },
+        "producer": {
+          "fields": {
+            "clock_discontinuity_active": null,
+            "errors": 14,
+            "generated_utc": "2026-10-01T15:55:00.266274+00:00",
+            "host_clock_synchronized": null,
+            "last_error": "",
+            "last_progress_utc": null,
+            "phase": "research_collection",
+            "status": "current",
+            "timestamp_normalization_trusted": null
+          },
+          "sha256": "9fb8d233354d821eb3e3f04753b9309a2bb4cf57449e5efc2cfa1c8677680e33"
+        }
+      },
+      "metadata": {
+        "config": {
+          "can_place_orders": false,
+          "producer_source_sha256": "542e287e44330d2e83ef2ec1a9b363bc716cf5581cf8b05bce87de84c7fa4124",
+          "schema_version": "news_producer_journal_v1_20261001",
+          "wrapper_source_sha256": "5a52b04045ec46061a5e702806098b672e8eb7f1026dd308a68189993053b380"
+        },
+        "config_sha256": "9e343d2ff114fa5a7e9d4f284c1d91595de86581d9fbab899152f86c00ff5b24",
+        "pid": 14052
+      },
+      "observed_epoch": 1790870217.2911894,
+      "schema_version": "news_producer_journal_v1_20261001"
+    },
+    {
+      "event": "first_current",
+      "evidence": {
+        "clock": {
+          "fields": {
+            "clock_discontinuity_active": false,
+            "errors": null,
+            "generated_utc": "2026-10-01T15:56:49.066778+00:00",
+            "host_clock_synchronized": true,
+            "last_error": null,
+            "last_progress_utc": null,
+            "phase": null,
+            "status": "ok",
+            "timestamp_normalization_trusted": true
+          },
+          "sha256": "82227e2c9992901ef58a685bcfce251951f5238134b6a4292311acd6566411ce"
+        },
+        "collector": {
+          "fields": {
+            "clock_discontinuity_active": null,
+            "errors": null,
+            "generated_utc": "2026-10-01T15:56:55.902905+00:00",
+            "host_clock_synchronized": null,
+            "last_error": null,
+            "last_progress_utc": "2026-10-01T15:56:55.901908+00:00",
+            "phase": "collecting_sources",
+            "status": "running_cycle",
+            "timestamp_normalization_trusted": null
+          },
+          "sha256": "916f735faf91cd84b421530f9901810aa0e53dc6aa7abb5d9139a5bec6adb9e4"
+        },
+        "producer": {
+          "fields": {
+            "clock_discontinuity_active": null,
+            "errors": 0,
+            "generated_utc": "2026-10-01T15:56:59.173145+00:00",
+            "host_clock_synchronized": null,
+            "last_error": "",
+            "last_progress_utc": null,
+            "phase": "research_collection",
+            "status": "current",
+            "timestamp_normalization_trusted": null
+          },
+          "sha256": "6bf98c5d629f0187ad6cf0182274c601b073d5ac2eadda0fa083811a56ce18be"
+        }
+      },
+      "heartbeat": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "errors": 0,
+        "execution_eligible": false,
+        "generated_epoch": 1790870219.1731446,
+        "generated_utc": "2026-10-01T15:56:59.173145+00:00",
+        "last_error": "",
+        "phase": "research_collection",
+        "proof_eligible": false,
+        "publication_epoch": 1790870219.1731446,
+        "research_only": true,
+        "schema_version": "repaired_joint_news_heartbeat_v2_20260912_source_derived_clocks",
+        "snapshot_generated_utc": "2026-10-01T15:56:58.958540+00:00",
+        "snapshot_sha256": "9180327e12b2170fb59fb673d431a54df8a0516617e707156db60bade280f5ec",
+        "source_status": "current",
+        "status": "current"
+      },
+      "observed_epoch": 1790870219.2439468,
+      "schema_version": "news_producer_journal_v1_20261001"
+    },
+    {
+      "event": "cycle_failure",
+      "evidence": {
+        "clock": {
+          "fields": {
+            "clock_discontinuity_active": false,
+            "errors": null,
+            "generated_utc": "2026-10-01T16:03:21.618166+00:00",
+            "host_clock_synchronized": true,
+            "last_error": null,
+            "last_progress_utc": null,
+            "phase": null,
+            "status": "ok",
+            "timestamp_normalization_trusted": true
+          },
+          "sha256": "a2d81b6e68f2fc08780ea94e92a5690510904fa0d781c1b6f445c395c0004361"
+        },
+        "collector": {
+          "fields": {
+            "clock_discontinuity_active": null,
+            "errors": null,
+            "generated_utc": "2026-10-01T16:03:03.301599+00:00",
+            "host_clock_synchronized": null,
+            "last_error": null,
+            "last_progress_utc": "2026-10-01T16:00:01.782126+00:00",
+            "phase": "postprocessing_evidence",
+            "status": "running_cycle",
+            "timestamp_normalization_trusted": null
+          },
+          "sha256": "16e23ea1758d5bd2c670bc94d6dcec6159d72b2fb4cb1d89d25e3ef4b50e7656"
+        },
+        "producer": {
+          "fields": {
+            "clock_discontinuity_active": null,
+            "errors": 1,
+            "generated_utc": "2026-10-01T16:03:21.961201+00:00",
+            "host_clock_synchronized": null,
+            "last_error": "ValueError:upstream_collector_stale_or_future",
+            "last_progress_utc": null,
+            "phase": "research_collection",
+            "status": "unavailable",
+            "timestamp_normalization_trusted": null
+          },
+          "sha256": "9d6dc04efeaf122b09142697441b576eab540264b8a06419ac96b901a4d898f7"
+        }
+      },
+      "heartbeat": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "errors": 1,
+        "execution_eligible": false,
+        "generated_epoch": 1790870601.961201,
+        "generated_utc": "2026-10-01T16:03:21.961201+00:00",
+        "last_error": "ValueError:upstream_collector_stale_or_future",
+        "phase": "research_collection",
+        "proof_eligible": false,
+        "publication_epoch": 1790870601.9586573,
+        "research_only": true,
+        "schema_version": "repaired_joint_news_heartbeat_v2_20260912_source_derived_clocks",
+        "snapshot_generated_utc": "2026-10-01T16:03:19.877504+00:00",
+        "snapshot_sha256": "13d0d234191b85b20903bcea40cc9b23b0e76c294d4adcf6ce96a78e1c640777",
+        "source_status": "unavailable",
+        "status": "unavailable"
+      },
+      "observed_epoch": 1790870603.358378,
+      "schema_version": "news_producer_journal_v1_20261001"
+    },
+    {
+      "event": "cycle_failure",
+      "evidence": {
+        "clock": {
+          "fields": {
+            "clock_discontinuity_active": false,
+            "errors": null,
+            "generated_utc": "2026-10-01T16:03:21.618166+00:00",
+            "host_clock_synchronized": true,
+            "last_error": null,
+            "last_progress_utc": null,
+            "phase": null,
+            "status": "ok",
+            "timestamp_normalization_trusted": true
+          },
+          "sha256": "a2d81b6e68f2fc08780ea94e92a5690510904fa0d781c1b6f445c395c0004361"
+        },
+        "collector": {
+          "fields": {
+            "clock_discontinuity_active": null,
+            "errors": null,
+            "generated_utc": "2026-10-01T16:03:03.301599+00:00",
+            "host_clock_synchronized": null,
+            "last_error": null,
+            "last_progress_utc": "2026-10-01T16:00:01.782126+00:00",
+            "phase": "postprocessing_evidence",
+            "status": "running_cycle",
+            "timestamp_normalization_trusted": null
+          },
+          "sha256": "16e23ea1758d5bd2c670bc94d6dcec6159d72b2fb4cb1d89d25e3ef4b50e7656"
+        },
+        "producer": {
+          "fields": {
+            "clock_discontinuity_active": null,
+            "errors": 2,
+            "generated_utc": "2026-10-01T16:03:24.943352+00:00",
+            "host_clock_synchronized": null,
+            "last_error": "ValueError:upstream_collector_stale_or_future",
+            "last_progress_utc": null,
+            "phase": "research_collection",
+            "status": "unavailable",
+            "timestamp_normalization_trusted": null
+          },
+          "sha256": "18dba5c8db6847802f6dd17dc1b400ace3124a689b1f4ed202cc41453478985b"
+        }
+      },
+      "heartbeat": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "errors": 2,
+        "execution_eligible": false,
+        "generated_epoch": 1790870604.9433515,
+        "generated_utc": "2026-10-01T16:03:24.943352+00:00",
+        "last_error": "ValueError:upstream_collector_stale_or_future",
+        "phase": "research_collection",
+        "proof_eligible": false,
+        "publication_epoch": 1790870604.9433515,
+        "research_only": true,
+        "schema_version": "repaired_joint_news_heartbeat_v2_20260912_source_derived_clocks",
+        "snapshot_generated_utc": "2026-10-01T16:03:24.398399+00:00",
+        "snapshot_sha256": "b11c9a73cebba6e3d145bdd107e546ebef4c2b047f47f367f3573ad203a37c4c",
+        "source_status": "unavailable",
+        "status": "unavailable"
+      },
+      "observed_epoch": 1790870604.9817812,
+      "schema_version": "news_producer_journal_v1_20261001"
+    },
+    {
+      "event": "cycle_failure",
+      "evidence": {
+        "clock": {
+          "fields": {
+            "clock_discontinuity_active": false,
+            "errors": null,
+            "generated_utc": "2026-10-01T16:03:21.618166+00:00",
+            "host_clock_synchronized": true,
+            "last_error": null,
+            "last_progress_utc": null,
+            "phase": null,
+            "status": "ok",
+            "timestamp_normalization_trusted": true
+          },
+          "sha256": "a2d81b6e68f2fc08780ea94e92a5690510904fa0d781c1b6f445c395c0004361"
+        },
+        "collector": {
+          "fields": {
+            "clock_discontinuity_active": null,
+            "errors": null,
+            "generated_utc": "2026-10-01T16:03:33.927952+00:00",
+            "host_clock_synchronized": null,
+            "last_error": null,
+            "last_progress_utc": "2026-10-01T16:00:01.782126+00:00",
+            "phase": "postprocessing_evidence",
+            "status": "running_cycle",
+            "timestamp_normalization_trusted": null
+          },
+          "sha256": "129c7245d069024752b416d6e2259ff877e5c2882b4f91df9ac6b7bb7cbe923a"
+        },
+        "producer": {
+          "fields": {
+            "clock_discontinuity_active": null,
+            "errors": 3,
+            "generated_utc": "2026-10-01T16:03:39.800729+00:00",
+            "host_clock_synchronized": null,
+            "last_error": "ValueError:upstream_collector_stale_or_future",
+            "last_progress_utc": null,
+            "phase": "research_collection",
+            "status": "unavailable",
+            "timestamp_normalization_trusted": null
+          },
+          "sha256": "03a40a6a9dca5d6617bf974d02516df924ef4bce8c28e9280c69b0b0b9498b72"
+        }
+      },
+      "heartbeat": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "errors": 3,
+        "execution_eligible": false,
+        "generated_epoch": 1790870619.800729,
+        "generated_utc": "2026-10-01T16:03:39.800729+00:00",
+        "last_error": "ValueError:upstream_collector_stale_or_future",
+        "phase": "research_collection",
+        "proof_eligible": false,
+        "publication_epoch": 1790870619.800729,
+        "research_only": true,
+        "schema_version": "repaired_joint_news_heartbeat_v2_20260912_source_derived_clocks",
+        "snapshot_generated_utc": "2026-10-01T16:03:39.783775+00:00",
+        "snapshot_sha256": "6b26a66a58be3686741ff341d47db2d31955a41cf7c9033e80eab61d7d72969c",
+        "source_status": "unavailable",
+        "status": "unavailable"
+      },
+      "observed_epoch": 1790870619.8151815,
+      "schema_version": "news_producer_journal_v1_20261001"
+    },
+    {
+      "event": "cycle_failure",
+      "evidence": {
+        "clock": {
+          "fields": {
+            "clock_discontinuity_active": false,
+            "errors": null,
+            "generated_utc": "2026-10-01T16:03:51.735646+00:00",
+            "host_clock_synchronized": true,
+            "last_error": null,
+            "last_progress_utc": null,
+            "phase": null,
+            "status": "ok",
+            "timestamp_normalization_trusted": true
+          },
+          "sha256": "47d8299658288352f154971ec6035c120eb728cfd6021355c3a65315c1ee73d8"
+        },
+        "collector": {
+          "fields": {
+            "clock_discontinuity_active": null,
+            "errors": null,
+            "generated_utc": "2026-10-01T16:03:33.927952+00:00",
+            "host_clock_synchronized": null,
+            "last_error": null,
+            "last_progress_utc": "2026-10-01T16:00:01.782126+00:00",
+            "phase": "postprocessing_evidence",
+            "status": "running_cycle",
+            "timestamp_normalization_trusted": null
+          },
+          "sha256": "129c7245d069024752b416d6e2259ff877e5c2882b4f91df9ac6b7bb7cbe923a"
+        },
+        "producer": {
+          "fields": {
+            "clock_discontinuity_active": null,
+            "errors": 4,
+            "generated_utc": "2026-10-01T16:03:54.936238+00:00",
+            "host_clock_synchronized": null,
+            "last_error": "ValueError:upstream_collector_stale_or_future",
+            "last_progress_utc": null,
+            "phase": "research_collection",
+            "status": "unavailable",
+            "timestamp_normalization_trusted": null
+          },
+          "sha256": "8c62978da522ac154b99a4e2d1b7fee3a7cde25901ff27e7822fbd5b9253dca0"
+        }
+      },
+      "heartbeat": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "errors": 4,
+        "execution_eligible": false,
+        "generated_epoch": 1790870634.936238,
+        "generated_utc": "2026-10-01T16:03:54.936238+00:00",
+        "last_error": "ValueError:upstream_collector_stale_or_future",
+        "phase": "research_collection",
+        "proof_eligible": false,
+        "publication_epoch": 1790870634.936238,
+        "research_only": true,
+        "schema_version": "repaired_joint_news_heartbeat_v2_20260912_source_derived_clocks",
+        "snapshot_generated_utc": "2026-10-01T16:03:54.930253+00:00",
+        "snapshot_sha256": "af4b9b6dd29d3f4ff70fd70a19124932b0a4010905711cf8a9858d7c333dad10",
+        "source_status": "unavailable",
+        "status": "unavailable"
+      },
+      "observed_epoch": 1790870634.9497058,
+      "schema_version": "news_producer_journal_v1_20261001"
+    },
+    {
+      "event": "recovered",
+      "evidence": {
+        "clock": {
+          "fields": {
+            "clock_discontinuity_active": false,
+            "errors": null,
+            "generated_utc": "2026-10-01T16:04:21.843366+00:00",
+            "host_clock_synchronized": true,
+            "last_error": null,
+            "last_progress_utc": null,
+            "phase": null,
+            "status": "ok",
+            "timestamp_normalization_trusted": true
+          },
+          "sha256": "0e57943002a599f3f76bbb267f770e80b3a97839a7270fe5e7ff28513c20052e"
+        },
+        "collector": {
+          "fields": {
+            "clock_discontinuity_active": null,
+            "errors": null,
+            "generated_utc": "2026-10-01T16:04:04.018067+00:00",
+            "host_clock_synchronized": null,
+            "last_error": null,
+            "last_progress_utc": "2026-10-01T16:03:56.235794+00:00",
+            "phase": "publishing_derived_views",
+            "status": "running_cycle",
+            "timestamp_normalization_trusted": null
+          },
+          "sha256": "16cf06d1d78bbca1e0824f53ab7ba1ca13b31b3ac162ba8b62c4e98010f612d2"
+        },
+        "producer": {
+          "fields": {
+            "clock_discontinuity_active": null,
+            "errors": 4,
+            "generated_utc": "2026-10-01T16:04:25.006465+00:00",
+            "host_clock_synchronized": null,
+            "last_error": "",
+            "last_progress_utc": null,
+            "phase": "research_collection",
+            "status": "current",
+            "timestamp_normalization_trusted": null
+          },
+          "sha256": "2d67733c90a8e2f56eeb1653de7b2051905da909d8d6885b9fc8870ffde39ef1"
+        }
+      },
+      "heartbeat": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "errors": 4,
+        "execution_eligible": false,
+        "generated_epoch": 1790870665.0064654,
+        "generated_utc": "2026-10-01T16:04:25.006465+00:00",
+        "last_error": "",
+        "phase": "research_collection",
+        "proof_eligible": false,
+        "publication_epoch": 1790870665.0064654,
+        "research_only": true,
+        "schema_version": "repaired_joint_news_heartbeat_v2_20260912_source_derived_clocks",
+        "snapshot_generated_utc": "2026-10-01T16:04:24.643236+00:00",
+        "snapshot_sha256": "ece53f9d41b3c532db15e50d4a67e6d9afcf254f8d83bcbba85c78440a79b31e",
+        "source_status": "current",
+        "status": "current"
+      },
+      "observed_epoch": 1790870666.414406,
+      "schema_version": "news_producer_journal_v1_20261001"
+    },
+    {
+      "error": "PermissionError:[WinError 5] Access is denied: 'C:\\\\Users\\\\zmoor\\\\Documents\\\\forex\\\\trad\\\\data\\\\oanda_training_manager\\\\local_news_sentiment_repair_v2\\\\heartbeat_v2.json.edrrbqx2.tmp' -> 'C:\\\\Users\\\\zmoor\\\\Documents\\\\forex\\\\trad\\\\data\\\\oanda_training_manager\\\\local_news_sentiment_repair_v2\\\\heartbeat_v2.json'",
+      "event": "unhandled_cycle_failure",
+      "evidence": {
+        "clock": {
+          "fields": {
+            "clock_discontinuity_active": false,
+            "errors": null,
+            "generated_utc": "2026-10-01T16:04:52.000342+00:00",
+            "host_clock_synchronized": true,
+            "last_error": null,
+            "last_progress_utc": null,
+            "phase": null,
+            "status": "ok",
+            "timestamp_normalization_trusted": true
+          },
+          "sha256": "cc1dce5a57e378a4686cac252d09d31f0e7ce1fc7d551ed43fb9247dfd06fcf3"
+        },
+        "collector": {
+          "fields": {
+            "clock_discontinuity_active": null,
+            "errors": null,
+            "generated_utc": "2026-10-01T16:04:34.057941+00:00",
+            "host_clock_synchronized": null,
+            "last_error": null,
+            "last_progress_utc": "2026-10-01T16:03:56.235794+00:00",
+            "phase": "publishing_derived_views",
+            "status": "running_cycle",
+            "timestamp_normalization_trusted": null
+          },
+          "sha256": "f37fcfb3e89af1dd55b9a7755987402f9107ea1102c82d31fc7519584dbcbac8"
+        },
+        "producer": {
+          "fields": {
+            "clock_discontinuity_active": null,
+            "errors": 4,
+            "generated_utc": "2026-10-01T16:04:45.623729+00:00",
+            "host_clock_synchronized": null,
+            "last_error": "",
+            "last_progress_utc": null,
+            "phase": "research_collection",
+            "status": "current",
+            "timestamp_normalization_trusted": null
+          },
+          "sha256": "d866040a1353ed43182403f7d4a58de6431758c9e1484ee15f79d4717fa475a2"
+        }
+      },
+      "observed_epoch": 1790870710.547556,
+      "schema_version": "news_producer_journal_v1_20261001"
+    }
+  ],
+  "failed_cycles": 4,
+  "record_observation_progress_ages_seconds": [
+    201.57625198364258,
+    203.19965529441833,
+    218.03305554389954,
+    233.16757988929749
+  ],
+  "interpretation": "Four original producer refusals during retained-evidence postprocessing; progress age exceeds unchanged180sec. Recovery follows actual collector phase advancement. Recorded health context is observed after the failed cycle, not an atomic failure-time capture. Earlier14 failures cannot all be attributed retrospectively.",
+  "next_action": "Instrument actual completed work boundaries inside existing collector progress wrapper during postprocessing: cluster_articles, cluster_context_articles, persistent policy and topic/ledger maintenance. Preserve original implementations, classification/input times and180sec gate. If a single component exceeds the gate, add genuine completed-item progress rather than a timer or fake heartbeat.",
+  "source_location": "trad/oanda_local_news_sentiment.py:20176",
+  "parent_queue": "live_news_input_reliability_v1"
+}
