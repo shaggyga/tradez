@@ -7972,3 +7972,6 @@ Reproduced Windows atomic-replace reader lock; added bounded same-byte producer 
 
 
 2026-10-01 NEWS_TIMING_20261001: current worker tick starvation reproduced; five scheduler tests passed. Proposed correction NOT deployed: frozen source hash is embedded in68 ledger contracts. Exact next is compatible operational source-lineage qualification, preserving history and no replacement fits. Evidence: evidence/news_timing_20261001; Vault NEWS_TIMING_20261001/REVIEW.json; docs/NEWS_TIMING_20261001.md. Parent reliability queue remains partial.
+
+
+2026-10-01 NEWS_SCHEDULER_DEPLOY_20261001: NEWS-TIMING-01 deployed via identified scheduler wrapper; original v11, registry and68 ledger histories preserved.78 deployment tests /12 relocated tests passed;3 accepted refreshes,6 exact forecast receipts,208s minimum dispatch headroom observed at14:38UTC. Vault NEWS_SCHEDULER_DEPLOY_20261001/REVIEW.json; local evidence/news_scheduler_deploy_20261001. Next live_news_input_reliability_v1: remaining unavailable pairs/actual refusals, then management contract. No new research experiment.

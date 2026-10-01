@@ -1,5 +1,9 @@
 # Start here
 
+## Current continuation - news scheduler deployed
+
+[Deployment checkpoint](docs/NEWS_SCHEDULER_DEPLOY_20261001.md): overdue-news scheduling repaired;78 tests,12 relocated tests,68 preserved ledger identities and three accepted live refresh cycles verified. Remaining unavailable-pair/refusal reconciliation is `live_news_input_reliability_v1`; management remains pending. Older checkpoints below are historical.
+
 ## Current continuation - news scheduling diagnosis
 
 [News timing checkpoint](docs/NEWS_TIMING_20261001.md): refresh starvation reproduced and minimal correction tested; deployment remains pending source-lineage qualification. Resume `live_news_input_reliability_v1`. Existing live services unchanged. Older checkpoints below are historical.

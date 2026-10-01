@@ -26,6 +26,24 @@ def test_explicit_rolling_selection_replaces_transport_and_preserves_restart_his
     assert result.returncode == 0 and result.stdout.strip() == 'joint_price_news_study_v8'
 
 
+def test_scheduler_overlay_requires_explicit_selection_and_keeps_role(tmp_path):
+    project, path, value = prepared(tmp_path)
+    row = next(r for r in value['services'] if r['name'] == 'joint_price_news_study_v11')
+    row.update(script='oanda_joint_news_scheduler_v1.py', needle='oanda_joint_news_scheduler_v1.py')
+    body = b'# inert operational scheduler fixture\n'
+    (project / row['script']).write_bytes(body)
+    row['source_sha256'] = hashlib.sha256(body).hexdigest()
+    path.write_text(json.dumps(value))
+    assert validate(tmp_path, project, path).returncode != 0
+    value['enable_joint_scheduler'] = True
+    path.write_text(json.dumps(value))
+    result = validate(tmp_path, project, path)
+    assert result.returncode == 0, result.stderr
+    value['enable_joint_scheduler'] = 'true'
+    path.write_text(json.dumps(value))
+    assert validate(tmp_path, project, path).returncode != 0
+
+
 @pytest.mark.parametrize('defect', ['string', 'unselected', 'missing_consumer', 'source'])
 def test_bad_rolling_runtime_is_refused(tmp_path, defect):
     project, path, value = prepared(tmp_path)
