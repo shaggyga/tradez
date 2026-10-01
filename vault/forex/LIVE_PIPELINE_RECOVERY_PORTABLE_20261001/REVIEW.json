@@ -1,0 +1,39 @@
+{
+  "schema": "forex.review_packet.v1",
+  "packet_id": "LIVE_PIPELINE_RECOVERY_PORTABLE_20261001",
+  "step_id": "live_pipeline_recovery_20261001",
+  "utc": "2026-10-01T05:11:21.335310+00:00",
+  "source_commit": "254978737dbef5bee4169cfa497c647f6919f134",
+  "status": "accepted_within_scope",
+  "review_status": "accepted_within_scope",
+  "implementation_status": "core_recovery_complete_residual_repairs_pending",
+  "independent_review": false,
+  "same_task_review": true,
+  "review_kind": "same-task operational command/source and actual readback review",
+  "readiness": {
+    "engineering_ready": true,
+    "engineering_scope": "Existing nontrading service recovery and bounded scheduler only; whole pipeline still degraded",
+    "forecast_evidence_status": "unchanged",
+    "policy_evidence_status": "not_qualified",
+    "demo_authorization_status": "not_granted"
+  },
+  "checks": [
+    "Qualified existing profile validation passed",
+    "Dashboard returned HTTP200 and advancing forecast publication across two reads",
+    "Final retained forecast count2535 across39connections; current news context observed",
+    "Exactly one fresh supervisor and watchdog observed",
+    "Existing tasks gained five-minute retries with unchanged expiry; original XML preserved",
+    "Actual scheduled pipeline retry returned0; dashboard remains singleton",
+    "Dashboard source pins are fixed reviewed hashes, not automatically updated"
+  ],
+  "unresolved_findings": [
+    "joint_news_progress_freshness_and_transient_heartbeat_read_failure",
+    "historical_event_cohort_source_binding_changed",
+    "feature_forward_stale_restart_circuit"
+  ],
+  "next_item": "live_news_input_reliability_v1",
+  "can_place_orders": false,
+  "models_fitted": 0,
+  "supersedes": "LIVE_PIPELINE_RECOVERY_20261001",
+  "packaging_correction": "Task XML backup member names normalized for portable-path validation; original package retained unchanged. No new live verification claimed."
+}

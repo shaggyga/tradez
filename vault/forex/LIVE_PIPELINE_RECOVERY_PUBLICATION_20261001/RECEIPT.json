@@ -1,0 +1,129 @@
+{
+  "packet": "LIVE_PIPELINE_RECOVERY_20261001",
+  "manifest_sha256": "55afb3c5d505efa36e91b79d59803df2414982bab54641c6ba1a9c67758d1e23",
+  "source_commit": "254978737dbef5bee4169cfa497c647f6919f134",
+  "next": "live_news_input_reliability_v1",
+  "utc": "2026-10-01T05:15:52.799025+00:00",
+  "documentation_commit": "65031405ba7661ffeae118c041f833e6ee61cf14",
+  "remote_head": "65031405ba7661ffeae118c041f833e6ee61cf14",
+  "worktree_clean": true,
+  "snapshot_manifest_sha256": "e4719cdfe1ffb09f286373f4bc487cef7ec57e841897278d2b0a17e407a93dd5",
+  "snapshot_files_verified": 4608,
+  "source_script_sha256": "c758fd740f947cedefd68565bafe6179f3e8bb1645206a8dfa259b160fc4526b",
+  "verification": {
+    "utc": "2026-10-01T05:07:21.077947+00:00",
+    "status": "core_recovery_verified_remaining_news_failures",
+    "http_status": 200,
+    "request_started_epoch": 1790831235.7966259,
+    "response_observed_epoch": 1790831240.687527,
+    "response_sha256": "4fae2304f4359950ebea0067f1202f857b883d7f63507181a32ad06fcb0e4cdf",
+    "retained_forecast_publication_advanced": true,
+    "retained_forecasts": 2535,
+    "connections": 39,
+    "coverage": {
+      "eligible": 2535,
+      "not_tradeable": 81,
+      "base_unavailable": 24,
+      "exact_controls_unavailable": 6,
+      "incomplete_exact_origin_curve": 6
+    },
+    "currency_context_current": true,
+    "context_age_sec": 30.202512741088867,
+    "supervisor_pid": 25500,
+    "watchdog_pid": 12404,
+    "supervisor_count": 1,
+    "supervisor_age_sec": 24.299427032470703,
+    "watchdog_age_sec": 24.373283863067627,
+    "operational_health": "degraded",
+    "role_failures": [
+      {
+        "name": "joint_price_news_study_v11",
+        "reported_error": "shared_news:ValueError:upstream_collector_stale_or_future",
+        "recovery_reason": null,
+        "running": true,
+        "fresh": true,
+        "reason": "fresh",
+        "reported_failure": true
+      },
+      {
+        "name": "research_feature_forward_v2",
+        "reported_error": null,
+        "recovery_reason": "restart_circuit_open",
+        "running": true,
+        "fresh": false,
+        "reason": "stale_output",
+        "reported_failure": null
+      },
+      {
+        "name": "official_pair_horizon_v2",
+        "reported_error": "",
+        "recovery_reason": null,
+        "running": true,
+        "fresh": true,
+        "reason": "fresh",
+        "reported_failure": true
+      }
+    ],
+    "joint_counts": {
+      "building": 0,
+      "forecast": 0,
+      "ready": 0,
+      "unavailable": 66,
+      "warming": 2
+    },
+    "joint_error_count": 108,
+    "joint_last_error": "shared_news:ValueError:upstream_collector_stale_or_future",
+    "repaired_news_status": "current",
+    "repaired_news_errors": [],
+    "task_schedule": {
+      "applied": false,
+      "expiry_utc": "2026-10-07T08:14:50.0000000+00:00",
+      "tasks": [
+        {
+          "name": "Forex Operational Research Recovery 20260913",
+          "state": "Ready",
+          "next_run": "/Date(1790831410000)/",
+          "triggers": [
+            {
+              "interval": null,
+              "end": null,
+              "kind": "MSFT_TaskLogonTrigger"
+            },
+            {
+              "interval": "PT5M",
+              "end": "2026-10-07T04:14:50-04:00",
+              "kind": "MSFT_TaskTimeTrigger"
+            }
+          ]
+        },
+        {
+          "name": "BIGTRIAD Unified Trading Dashboard",
+          "state": "Running",
+          "next_run": "/Date(1790831410000)/",
+          "triggers": [
+            {
+              "interval": null,
+              "end": null,
+              "kind": "MSFT_TaskLogonTrigger"
+            },
+            {
+              "interval": "PT5M",
+              "end": "2026-10-07T04:14:50-04:00",
+              "kind": "MSFT_TaskTimeTrigger"
+            }
+          ]
+        }
+      ],
+      "can_place_orders": false
+    },
+    "can_place_orders": false,
+    "limitations": [
+      "Fresh dashboard/producer observations are not global best-model proof or full pair coverage",
+      "Joint forecasting remains subject to actual supported news/history; warmup/failures are not bypassed",
+      "Existing official event cohort rejects changed source fingerprint; preserved history was not re-sealed",
+      "Position management is not activated; no broker/account/order operation occurred"
+    ]
+  },
+  "joint_readiness_followup": "LIVE_PIPELINE_RECOVERY_PUBLICATION_20261001/JOINT_READINESS_FOLLOWUP.json",
+  "scope": "Core nontrading recovery verified; remaining operational failures and management qualification explicit; no independent review"
+}

@@ -1,0 +1,41 @@
+{
+    "applied":  true,
+    "expiry_utc":  "2026-10-07T08:14:50.0000000+00:00",
+    "tasks":  [
+                  {
+                      "name":  "Forex Operational Research Recovery 20260913",
+                      "state":  "Ready",
+                      "next_run":  "\/Date(1790831105000)\/",
+                      "triggers":  [
+                                       {
+                                           "interval":  null,
+                                           "end":  null,
+                                           "kind":  "MSFT_TaskLogonTrigger"
+                                       },
+                                       {
+                                           "interval":  "PT5M",
+                                           "end":  "2026-10-07T04:14:50-04:00",
+                                           "kind":  "MSFT_TaskTimeTrigger"
+                                       }
+                                   ]
+                  },
+                  {
+                      "name":  "BIGTRIAD Unified Trading Dashboard",
+                      "state":  "Running",
+                      "next_run":  "\/Date(1790831105000)\/",
+                      "triggers":  [
+                                       {
+                                           "interval":  null,
+                                           "end":  null,
+                                           "kind":  "MSFT_TaskLogonTrigger"
+                                       },
+                                       {
+                                           "interval":  "PT5M",
+                                           "end":  "2026-10-07T04:14:50-04:00",
+                                           "kind":  "MSFT_TaskTimeTrigger"
+                                       }
+                                   ]
+                  }
+              ],
+    "can_place_orders":  false
+}

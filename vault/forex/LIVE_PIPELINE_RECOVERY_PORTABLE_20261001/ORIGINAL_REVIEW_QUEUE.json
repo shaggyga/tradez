@@ -1,12 +1,12 @@
 {
-  "active_step_id": "live_pipeline_recovery_20261001",
-  "active_step_semantics": "Core runtime recovery complete; actual residual operational repairs precede management qualification",
-  "current_review_packet": "LIVE_PIPELINE_RECOVERY_PORTABLE_20261001/REVIEW.json",
+  "active_step_id": "retained_management_combined_observation_v1",
+  "active_step_semantics": "Completed combined observations; management prerequisite contract qualification next",
+  "current_review_packet": "RETAINED_COMBINED_OBSERVATION_20261001/REVIEW.json",
   "current_user_requested_context": {
     "request": "Fix data; connect strongest supported existing models across entire design horizon; stop new fits/experiments",
-    "status": "live_core_recovered_residual_operational_repairs_pending",
-    "packet": "LIVE_PIPELINE_RECOVERY_PORTABLE_20261001/REVIEW.json",
-    "next_item": "live_news_input_reliability_v1",
+    "status": "combined_observation_complete_management_contract_next",
+    "packet": "RETAINED_COMBINED_OBSERVATION_20261001/REVIEW.json",
+    "next_item": "retained_management_contract_qualification_v1",
     "new_research_authorized": false
   },
   "dashboard_source_qualification": {
@@ -190,7 +190,7 @@
     }
   ],
   "engineering_queue_pointer": "DESIGN_ALIGNMENT_LATEST.json",
-  "exact_next_item": "live_news_input_reliability_v1",
+  "exact_next_item": "retained_management_contract_qualification_v1",
   "execution_status": "checkpointed_no_active_chat_worker",
   "forecasting_continuation": {
     "blocked_confirmation_item": "currency_projection_confirmation_protocol_v2",
@@ -5320,31 +5320,6 @@
         "Verify deterministic replay, isolated restore, substantive review and matching Git/Vault handoff; no rerun of completed policy experiments"
       ],
       "next_action": "Read the original management and policy-reference packets, then implement the smallest explicit prerequisite contract through the existing combined observation/accounting consumers. Keep live exact-quote rollout separate; do not infer management readiness from fixture passes."
-    },
-    {
-      "step_id": "live_pipeline_recovery_20261001",
-      "implementation_status": "core_recovery_complete_residual_repairs_pending",
-      "review_status": "accepted_within_scope",
-      "independent_review": false,
-      "packet": "LIVE_PIPELINE_RECOVERY_PORTABLE_20261001/REVIEW.json",
-      "packet_sha256": "429c4a9ee242060249bd74a69e47d5fb65ccf2dfae1b4d378b4e2b5cabd06abf"
-    },
-    {
-      "step_id": "live_news_input_reliability_v1",
-      "implementation_status": "not_started",
-      "review_status": "not_started",
-      "depends_on": [
-        "live_pipeline_recovery_20261001"
-      ],
-      "scope": "Repair current joint news input reliability and diagnose remaining runtime failures; preserve retained models and historical cohorts. No fitting, orders or other-task recorder changes.",
-      "acceptance_criteria": [
-        "Reproduce stale progress and transient heartbeat read failures using actual timings; preserve source and availability identities",
-        "Implement and test bounded input/publication repair without fake freshness; reviewed source/cohort migration required for changed frozen components",
-        "Diagnose stale feature-forward worker before resetting restart circuit; preserve all retained outputs",
-        "Reconcile historical official event cohort with original hashes or a separately qualified successor; never overwrite sealed bindings",
-        "Observe successful current pipeline cycles and dashboard inputs; distinguish joint warmup from errors; update Git/Vault with exact remaining evidence"
-      ],
-      "next_action": "Start with rolling_news_io_v1._health and oanda_local_news_sentiment_repair_v2 heartbeat reads, plus actual collector clustering progress. Current joint errors are not solved by restarting a healthy worker."
     }
   ],
   "timed_session": {
@@ -5357,5 +5332,5 @@
     "source_commit": "6eb514ab1856190b39d83ab020d5f77700ca8770",
     "updated_utc": "2026-09-25T18:12:00.5976014Z"
   },
-  "updated_utc": "2026-10-01T05:11:21.335310+00:00"
+  "updated_utc": "2026-10-01T04:47:58.283032+00:00"
 }
