@@ -1,0 +1,28 @@
+{
+  "step_id": "retained_management_quote_receipts_v1",
+  "depends_on": [
+    "retained_position_management_readiness_v1"
+  ],
+  "implementation_status": "not_started",
+  "review_status": "not_started",
+  "scope": "Offline compatible quote receipt parser/publisher and manager adapter; preserve original decimals and true observation clocks. No collector restart, broker/account calls, other-owner recorder edits or policy activation.",
+  "evidence": [
+    "RETAINED_MANAGEMENT_READINESS_20261001/REVIEW.json",
+    "trad/oanda_quote_transport.py",
+    "trad/oanda_practice_shadow_strategy_lab.py",
+    "trad/oanda_practice_quote_stream.py",
+    "trad/oanda_curve_management_adapter_v1.py"
+  ],
+  "acceptance_criteria": [
+    "Inspect existing raw receipt support and reuse original decimal data; do not recreate historical precision from floats",
+    "Bind exact instrument, market clock, actual observation/publication clocks, source and receipt identity",
+    "Preserve current float cache compatibility while adding bounded market-data-only receipts",
+    "Test actual consumer refusal for stale, future, crossed and nontradeable quotes and exact identity; use existing long/short USD conversion routines",
+    "Verify resumable or deterministic publication and portable restore; no financing defaults or invented account state",
+    "Publish source, evidence, same-task review and matching Git/Vault checkpoint; quote readiness alone does not qualify management"
+  ],
+  "next_action": "Inspect raw stream price handling and QuoteSnapshotPublisher, retrieve any existing exact receipts, then implement and verify the compatible receipt boundary offline before a separately scoped rollout.",
+  "start_utc": "2026-10-01T03:45:55.522174+00:00",
+  "baseline_commit": "7113f3dad0133422d360758474b2161f8c8b285c",
+  "deliverable": "Opt-in raw price hook, bounded exact receipt sidecar using original publisher, authenticated observed manager mapping; offline tests and real retained replay. No worker restart or policy activation."
+}
