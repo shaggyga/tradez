@@ -1,12 +1,12 @@
 {
-  "active_step_id": "retained_management_forecast_receipts_v1",
-  "active_step_semantics": "Completed retained forecast observation adapter; combined quote/forecast observation next",
-  "current_review_packet": "RETAINED_FORECAST_RECEIPTS_20261001/REVIEW.json",
+  "active_step_id": "retained_management_quote_receipts_v1",
+  "active_step_semantics": "Completed offline exact quote receipt boundary; retained forecast receipts next",
+  "current_review_packet": "EXACT_QUOTE_RECEIPTS_20261001/REVIEW.json",
   "current_user_requested_context": {
     "request": "Fix data; connect strongest supported existing models across entire design horizon; stop new fits/experiments",
-    "status": "retained_forecast_receipts_complete_combined_observation_next",
-    "packet": "RETAINED_FORECAST_RECEIPTS_20261001/REVIEW.json",
-    "next_item": "retained_management_combined_observation_v1",
+    "status": "offline_quote_receipts_complete_forecast_receipts_next",
+    "packet": "EXACT_QUOTE_RECEIPTS_20261001/REVIEW.json",
+    "next_item": "retained_management_forecast_receipts_v1",
     "new_research_authorized": false
   },
   "dashboard_source_qualification": {
@@ -190,7 +190,7 @@
     }
   ],
   "engineering_queue_pointer": "DESIGN_ALIGNMENT_LATEST.json",
-  "exact_next_item": "retained_management_combined_observation_v1",
+  "exact_next_item": "retained_management_forecast_receipts_v1",
   "execution_status": "checkpointed_no_active_chat_worker",
   "forecasting_continuation": {
     "blocked_confirmation_item": "currency_projection_confirmation_protocol_v2",
@@ -5241,8 +5241,8 @@
       "depends_on": [
         "retained_management_quote_receipts_v1"
       ],
-      "implementation_status": "complete_scoped_retained_observation_adapter",
-      "review_status": "accepted_within_scope",
+      "implementation_status": "not_started",
+      "review_status": "not_started",
       "scope": "Observation-only retained forecast receipt adapter under the real retained tier using preserved original publications; no refitting, broker/service actions, quote rollout or management activation.",
       "evidence": [
         "EXACT_QUOTE_RECEIPTS_20261001/REVIEW.json",
@@ -5259,38 +5259,7 @@
         "Test missing/mismatched/future/stale input and durable identity, restart or deterministic replay and isolated restore",
         "Publish complete source/evidence and review; quote rollout and economic/state/common-terminal management qualification remain explicit"
       ],
-      "next_action": "retained_management_combined_observation_v1",
-      "packet": "RETAINED_FORECAST_RECEIPTS_20261001/REVIEW.json",
-      "packet_sha256": "43257dd9b98e69ad00eb586bb13e00cc203c582647db06f08ae1aca33dcf3eac",
-      "same_task_review": true,
-      "independent_review": false,
-      "unresolved_findings": []
-    },
-    {
-      "step_id": "retained_management_combined_observation_v1",
-      "depends_on": [
-        "retained_management_forecast_receipts_v1",
-        "retained_management_quote_receipts_v1"
-      ],
-      "implementation_status": "not_started",
-      "review_status": "not_started",
-      "scope": "Bounded observation-only entry point combining exact quote receipts and authenticated saved forecasts; offline fixtures and retained evidence, no model inference, service/collector rollout, broker actions or policy activation.",
-      "evidence": [
-        "RETAINED_FORECAST_RECEIPTS_20261001/REVIEW.json",
-        "EXACT_QUOTE_RECEIPTS_20261001/REVIEW.json",
-        "tools/forex_retained_forecast_receipts.py",
-        "trad/oanda_exact_quote_receipts_v1.py",
-        "trad/oanda_curve_management_replay_v1.py"
-      ],
-      "acceptance_criteria": [
-        "Reuse both completed receipt consumers and original issue/input identities; preserve recorded clocks and source/model/target bindings",
-        "Bind declared quote session/generation and immutable quote/forecast inputs; distinguish fresh current observations from retrospective replay",
-        "Implement one bounded end-to-end observation consumer with complete pair/connection coverage and explicit missing/stale/refused states",
-        "Test matched-clock exact quote plus saved-forecast admission, source/timing/session drift, target mismatches and refusal after expiry through the actual combined consumer",
-        "Preserve old terminal estimates without claiming conditional remaining value; no costs, position state or action authority invented",
-        "Verify deterministic restart or replay and isolated restore; publish source/evidence, substantive review and matching Git/Vault handoff"
-      ],
-      "next_action": "Read both receipt packets, inspect existing current-observation hooks, then implement the smallest combined offline consumer. Use matched-clock fixtures and preserved evidence; missing live exact quotes remain explicit and do not authorize collector activation."
+      "next_action": "Read the saved management readiness capsule and original curve publication/consumption contracts, then qualify the minimum retained-tier adapter using authenticated saved forecasts without recomputation or live rollout."
     }
   ],
   "timed_session": {
@@ -5303,5 +5272,5 @@
     "source_commit": "6eb514ab1856190b39d83ab020d5f77700ca8770",
     "updated_utc": "2026-09-25T18:12:00.5976014Z"
   },
-  "updated_utc": "2026-10-01T04:25:32.106008+00:00"
+  "updated_utc": "2026-10-01T03:59:04.225081+00:00"
 }

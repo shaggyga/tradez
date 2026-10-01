@@ -1,0 +1,28 @@
+.................F...................                                    [100%]
+================================== FAILURES ===================================
+_________________ test_exact_target_elapsed_and_quote_refusal _________________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5539/test_exact_target_elapsed_and_0')
+
+    def test_exact_target_elapsed_and_quote_refusal(tmp_path):
+        c,_,_=context(tmp_path);r=receipt(c);con=c.consume(r,observed_epoch=10002)
+        assert c.candidate(r,con,decision_epoch=10002,target_epoch=10301)['reason']=='exact_original_target_required'
+        assert c.candidate(r,con,decision_epoch=10300,target_epoch=10300)['reason']=='target_elapsed'
+        pair=r['forecast']['instrument']
+        raw=json.dumps(dict(type='PRICE',instrument=pair,time='1970-01-01T02:46:41Z',
+            bids=[dict(price='1.1000')],asks=[dict(price='1.1002')],tradeable=True,status='tradeable')).encode()
+        q=parse_price(raw,received_epoch=10001.5,generation=1,session_id='fixture')
+        q['available_epoch']=10002
+        result=c.candidate(r,con,decision_epoch=10002,target_epoch=10300,quote=q)
+>       assert result['pricing_status']=='quote_validated' and result['bid']=='1.1'
+E       AssertionError: assert ('quote_validated' == 'quote_validated'
+E         
+E           quote_validated and '1.1000' == '1.1'
+E         
+E         - 1.1
+E         + 1.1000)
+
+tests\test_retained_forecast_receipts.py:92: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_retained_forecast_receipts.py::test_exact_target_elapsed_and_quote_refusal
+1 failed, 36 passed in 10.31s

@@ -1,0 +1,61 @@
+{
+  "packet": "EXACT_QUOTE_RECEIPTS_20261001",
+  "manifest_sha256": "02e902caa278e8407aac339d083b40ef6fff7320c71a51ce28fef372c958e78c",
+  "source_commit": "61362f361ab6e44f4de6258466bd58cfac0b0893",
+  "next": "retained_management_forecast_receipts_v1",
+  "utc": "2026-10-01T04:04:04.921663+00:00",
+  "documentation_commit": "7aef992a5a7297418573e1f22e96e668156ac5d8",
+  "remote_head": "7aef992a5a7297418573e1f22e96e668156ac5d8",
+  "remote": "https://github.com/shaggyga/tradez.git",
+  "branch": "forex",
+  "worktree_clean": true,
+  "quote_replay": {
+    "records": 64,
+    "parsed": 64,
+    "eligible_rows": 0,
+    "complete_population_per_record": 68,
+    "output_sha256": "9d8090c024984886e7008567e58aba37aa39c732f23db1dd033d47e0b632111f",
+    "repeat": "completed_verified",
+    "portable": {
+      "status": "passed",
+      "records": 64,
+      "parsed": 64,
+      "sha256": "9d8090c024984886e7008567e58aba37aa39c732f23db1dd033d47e0b632111f",
+      "original_read_guard": true
+    }
+  },
+  "resume_verification": {
+    "records": 64,
+    "parsed": 64,
+    "eligible_rows": 0,
+    "complete_population_per_record": 68,
+    "output_sha256": "9d8090c024984886e7008567e58aba37aa39c732f23db1dd033d47e0b632111f",
+    "repeat": "completed_verified",
+    "portable": {
+      "status": "passed",
+      "records": 64,
+      "parsed": 64,
+      "sha256": "9d8090c024984886e7008567e58aba37aa39c732f23db1dd033d47e0b632111f",
+      "original_read_guard": true
+    }
+  },
+  "snapshot_manifest_sha256": "d8ecbbce408d27d77995a1556485068656c10bbb1b00e9f8d515f8b85234e805",
+  "snapshot_files_verified": 4514,
+  "snapshot_scope": "Dated knowledge preceding final documentation commit receipt; live Vault remains coordination authority",
+  "python_tests_passed": 137,
+  "capsule": {
+    "path": "quote_receipts_capsule.zip",
+    "sha256": "2a20fe1bc1d602c941c66b9ce474f0e2f4c721a63162d1cf54a4827cd66c73f0",
+    "bytes": 37912,
+    "members": 11
+  },
+  "restored_replay": {
+    "status": "passed",
+    "records": 64,
+    "parsed": 64,
+    "sha256": "9d8090c024984886e7008567e58aba37aa39c732f23db1dd033d47e0b632111f",
+    "original_read_guard": true
+  },
+  "independent_review": false,
+  "scope": "Offline exact quote receipt boundary only; live rollout and management unqualified"
+}

@@ -1,0 +1,28 @@
+{
+  "step_id": "retained_management_forecast_receipts_v1",
+  "depends_on": [
+    "retained_management_quote_receipts_v1"
+  ],
+  "implementation_status": "not_started",
+  "review_status": "not_started",
+  "scope": "Observation-only retained forecast receipt adapter under the real retained tier using preserved original publications; no refitting, broker/service actions, quote rollout or management activation.",
+  "evidence": [
+    "EXACT_QUOTE_RECEIPTS_20261001/REVIEW.json",
+    "RETAINED_MANAGEMENT_READINESS_20261001/REVIEW.json",
+    "trad/oanda_forecast_curve_contract_v1.py",
+    "trad/oanda_curve_management_adapter_v1.py",
+    "tools/forex_retained_management_readiness.py"
+  ],
+  "acceptance_criteria": [
+    "Reuse original saved retained publications, immutable issue bodies and actual first-observation records with verified hashes",
+    "Preserve original model/input/origin/terminal identities; do not relabel retained observations as synthetic or invent publication clocks",
+    "Implement a separately named supported receipt tier and actual observation-only consumer, preserving existing original native gates",
+    "Separate new-entry forecasts and same-terminal continuation; no old-estimate-minus-realized-move inference",
+    "Test missing/mismatched/future/stale input and durable identity, restart or deterministic replay and isolated restore",
+    "Publish complete source/evidence and review; quote rollout and economic/state/common-terminal management qualification remain explicit"
+  ],
+  "next_action": "Read the saved management readiness capsule and original curve publication/consumption contracts, then qualify the minimum retained-tier adapter using authenticated saved forecasts without recomputation or live rollout.",
+  "start_utc": "2026-10-01T04:12:47.089757+00:00",
+  "baseline_commit": "7aef992a5a7297418573e1f22e96e668156ac5d8",
+  "deliverable": "Retained-tier forecast receipts and actual observation consumer over preserved issue bodies and first-observer evidence; exact target and causal guards, no native relabeling, fitting, inference or activation."
+}
