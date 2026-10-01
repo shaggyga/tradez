@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import hashlib
 import json
+import sqlite3
+from contextlib import closing
 from decimal import Decimal
 from pathlib import Path
 import time
@@ -15,15 +17,45 @@ import uuid
 
 try:
     import oanda_research_quote_receipt_v1 as base
-    from oanda_quote_transport import QuoteSnapshotPublisher, load_quote_snapshot
+    from oanda_quote_transport import QuoteSnapshotPublisher, load_quote_snapshot as _legacy_load, quote_database_path
     from oanda_curve_management_replay_v1 import quote_at
 except ModuleNotFoundError:
     from trad import oanda_research_quote_receipt_v1 as base
-    from trad.oanda_quote_transport import QuoteSnapshotPublisher, load_quote_snapshot
+    from trad.oanda_quote_transport import QuoteSnapshotPublisher, load_quote_snapshot as _legacy_load, quote_database_path
     from trad.oanda_curve_management_replay_v1 import quote_at
 
 SCHEMA = 'exact_stream_quote_receipts_v1'
 MAX_RAW = 16384
+
+
+def load_quote_snapshot(path):
+    """Optional exact-receipt metadata without changing the frozen transport.
+
+    The legacy reader remains authoritative. Only attach a write-start timestamp
+    when its exact selected SQLite sequence and payload still match. A pruned
+    row or unavailable database simply leaves that optional timestamp unknown;
+    actual read completion remains the consumer's availability clock.
+    """
+    snapshot = _legacy_load(path)
+    transport = snapshot.get('transport', {})
+    if not isinstance(transport, dict):
+        return snapshot
+    if snapshot.get('schema') != SCHEMA or transport.get('source') != 'sqlite_wal':
+        return snapshot
+    transport.pop('publication_started_epoch', None)
+    try:
+        database = quote_database_path(Path(path)).resolve()
+        with closing(sqlite3.connect(database.as_uri() + '?mode=ro', uri=True, timeout=.1)) as db:
+            row = db.execute('SELECT published_epoch,payload_json FROM quote_snapshots_v2 WHERE sequence=?',
+                             (transport['sequence'],)).fetchone()
+        if row is not None:
+            raw = json.loads(row[1])
+            if ({k:v for k,v in raw.items() if k != 'transport'} ==
+                    {k:v for k,v in snapshot.items() if k != 'transport'}):
+                transport['publication_started_epoch'] = base._epoch(row[0])
+    except (OSError, sqlite3.Error, KeyError, TypeError, ValueError):
+        pass
+    return snapshot
 
 
 def digest(value):

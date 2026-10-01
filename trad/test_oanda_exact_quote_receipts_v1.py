@@ -129,7 +129,7 @@ def test_real_publisher_reconnect_invalid_update_restart_and_sqlite_fallback(tmp
     try:
         pub(raw(),received_epoch=NOW,connection_generation=1)
         g=pub.flush();wait_written(pub,g)
-        s=transport.load_quote_snapshot(path)
+        s=q.load_quote_snapshot(path)
         assert s['quotes']['EUR_USD']['bid']=='1.10000000000000000001'
         assert 'publication_started_epoch' in s['transport']
         first_id=s['quotes']['EUR_USD']['quote_id']
@@ -195,3 +195,34 @@ def test_bounded_publication_and_observed_reader(tmp_path):
         wait_written(pub,pub.flush())
         assert not q.read_receipts(path,instruments=['EUR_USD'])['quotes']
     finally:pub.close()
+
+
+def test_optional_timestamp_is_not_attached_to_changed_or_pruned_sequence(tmp_path,monkeypatch):
+    import sqlite3
+    path=tmp_path/'exact.json';pub=q.ExactQuoteReceiptPublisher(path,['EUR_USD'])
+    try:
+        pub(raw(),received_epoch=NOW,connection_generation=1)
+        wait_written(pub,pub.flush())
+        saved=transport.load_quote_snapshot(path)
+        sequence=saved['transport']['sequence']
+        with sqlite3.connect(transport.quote_database_path(path)) as db:
+            db.execute('UPDATE quote_snapshots_v2 SET payload_json=? WHERE sequence=?', ('{}',sequence))
+        monkeypatch.setattr(q,'_legacy_load',lambda p:json.loads(json.dumps(saved)))
+        assert 'publication_started_epoch' not in q.load_quote_snapshot(path)['transport']
+        with sqlite3.connect(transport.quote_database_path(path)) as db:
+            db.execute('DELETE FROM quote_snapshots_v2 WHERE sequence=?',(sequence,))
+        assert 'publication_started_epoch' not in q.load_quote_snapshot(path)['transport']
+    finally:pub.close()
+
+
+def test_preserved_official_cohort_accepts_original_transport_bytes():
+    import hashlib,sqlite3
+    from pathlib import Path
+    from trad import oanda_official_event_pair_horizon_capture_v2 as horizon
+    original='27ea11bc79a3a85cc09f00a88df697f0ecf8bba29b230c309cdf83e8967d8987'
+    assert hashlib.sha256(Path(transport.__file__).read_bytes()).hexdigest()==original
+    binding={**horizon.entry_v4._binding(),'quote_transport_sha256':original,'activated_utc':'2026-09-13T00:00:00Z'}
+    with sqlite3.connect(':memory:') as db:
+        db.execute('CREATE TABLE official_pair_capture_v4_binding(singleton INTEGER,payload_json TEXT)')
+        db.execute('INSERT INTO official_pair_capture_v4_binding VALUES(1,?)',(json.dumps(binding),))
+        assert horizon.read_entry_binding(db)==binding

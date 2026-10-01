@@ -52,9 +52,9 @@ $script:EventDrops=0
 if (Test-Path -LiteralPath $RestartLedgerPath) {
     $saved=Get-Content -LiteralPath $RestartLedgerPath -Raw|ConvertFrom-Json
     $budgetNames=@($opNames | ForEach-Object { Get-OperationalRestartBudgetKey -Name $_ })
-    # Preserve retired transport and mutually exclusive joint-role histories.
+    # Preserve retired transport, paused research and mutually exclusive joint-role histories.
     # Selection changes neither erase history nor grant fresh retry allowances.
-    $budgetNames+=@('joint_price_news_study_v8','joint_price_news_isolation_status_v1','revision_news_transport_v5')
+    $budgetNames+=@('joint_price_news_study_v8','joint_price_news_isolation_status_v1','revision_news_transport_v5','research_feature_forward_v2','research_feature_forward_cached_v2')
     foreach($property in $saved.PSObject.Properties) {
         if ($property.Name -notin $budgetNames -or @($property.Value).Count -gt 3) { throw 'Invalid bounded restart ledger.' }
         $script:RestartLedger[$property.Name]=@($property.Value)

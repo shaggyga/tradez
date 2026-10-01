@@ -34,6 +34,27 @@ ROLES = dict(all68_m1_cadence_v3='oanda_all68_m1_cadence_v3.py',
              all68_derived_technical_publisher_v1='oanda_derived_technical_publisher_v1.py')
 
 
+def test_explicitly_pause_only_feature_forward_research(tmp_path):
+    project, path, value = fixture(tmp_path)
+    value['enable_feature_forward_research'] = False
+    paused = {'research_feature_forward_v2', 'research_feature_forward_cached_v2'}
+    value['services'] = [s for s in value['services'] if s['name'] not in paused]
+    path.write_text(json.dumps(value), encoding='utf-8')
+    result = validate(tmp_path, project, path)
+    assert result.returncode == 0, result.stderr
+    value['services'] = [s for s in value['services'] if s['name'] != 'practice_quote_stream_v1']
+    path.write_text(json.dumps(value), encoding='utf-8')
+    assert validate(tmp_path, project, path).returncode != 0
+
+
+def test_forward_research_selection_must_be_boolean(tmp_path):
+    project, path, value = fixture(tmp_path)
+    value['enable_feature_forward_research'] = 'false'
+    path.write_text(json.dumps(value), encoding='utf-8')
+    result = validate(tmp_path, project, path)
+    assert result.returncode != 0 and 'Boolean feature-forward' in result.stderr
+
+
 @pytest.mark.parametrize('priority,expected', [(None, 'BelowNormal'), ('BelowNormal', 'BelowNormal'), ('Normal', 'Normal')])
 def test_role_priority_is_explicit_bounded_and_defaults_below_normal(tmp_path, priority, expected):
     project, path, value = fixture(tmp_path)
@@ -114,7 +135,9 @@ def test_native_ps5_retained_role_keys_load_and_circuit_survives_actual_json_rou
     source = (ROOT / 'oanda_operational_supervisor_v6.ps1').read_text()
     loader = source[source.index('if (Test-Path -LiteralPath $RestartLedgerPath) {'):source.index('\nfunction Write-SupervisorEvent')]
     ledger = tmp_path / 'restart.json'
-    original = {'revision_news_transport_v5': [990.25, 991.5], 'joint_price_news_study_v8': [992.0, 993.0]}
+    original = {'revision_news_transport_v5': [990.25, 991.5], 'joint_price_news_study_v8': [992.0, 993.0],
+                'research_feature_forward_v2': [991., 992., 993.],
+                'research_feature_forward_cached_v2': [994., 995., 996.]}
     ledger.write_text(json.dumps(original))
     code = f""". '{HELPER}'
 $RestartLedgerPath='{ledger}'

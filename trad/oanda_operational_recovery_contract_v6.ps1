@@ -2,7 +2,7 @@
 $OperationalRecoverySchema = "forex_operational_runtime_v6_20260916"
 
 function Get-OperationalRecoveryServices {
-    param([switch]$EnableJointForecasts,[switch]$EnableNewsCapacity,[switch]$EnableRollingNews,[switch]$EnableTechnicalCapacity,[switch]$EnableCurrencyNewsContext)
+    param([switch]$EnableJointForecasts,[switch]$EnableNewsCapacity,[switch]$EnableRollingNews,[switch]$EnableTechnicalCapacity,[switch]$EnableCurrencyNewsContext,[switch]$DisableFeatureForwardResearch)
     $roles = @{
         all68_m1_cadence_v3 = "oanda_all68_m1_cadence_v3.py"
         all68_technical_availability_v1 = "oanda_all68_technical_availability_v1.py"
@@ -49,6 +49,10 @@ function Get-OperationalRecoveryServices {
     }
     if ($EnableCurrencyNewsContext) {
         $roles['currency_news_context_v1']='oanda_currency_news_context_v1.py'
+    }
+    if ($DisableFeatureForwardResearch) {
+        $roles.Remove('research_feature_forward_v2')
+        $roles.Remove('research_feature_forward_cached_v2')
     }
     return $roles
 }
@@ -160,7 +164,8 @@ function Read-OperationalRecoveryProfile {
     if ($null -ne $profile.PSObject.Properties['enable_rolling_news'] -and $profile.enable_rolling_news -isnot [bool]) { throw 'Boolean rolling-news selection required.' }
     if ($null -ne $profile.PSObject.Properties['enable_technical_capacity'] -and $profile.enable_technical_capacity -isnot [bool]) { throw 'Boolean technical-capacity selection required.' }
     if ($null -ne $profile.PSObject.Properties['enable_currency_news_context'] -and $profile.enable_currency_news_context -isnot [bool]) { throw 'Boolean currency-news-context selection required.' }
-    $allowed = Get-OperationalRecoveryServices -EnableJointForecasts:($profile.enable_joint_forecasts -ceq $true) -EnableNewsCapacity:($profile.enable_news_capacity -ceq $true) -EnableRollingNews:($profile.enable_rolling_news -ceq $true) -EnableTechnicalCapacity:($profile.enable_technical_capacity -ceq $true) -EnableCurrencyNewsContext:($profile.enable_currency_news_context -ceq $true)
+    if ($null -ne $profile.PSObject.Properties['enable_feature_forward_research'] -and $profile.enable_feature_forward_research -isnot [bool]) { throw 'Boolean feature-forward research selection required.' }
+    $allowed = Get-OperationalRecoveryServices -EnableJointForecasts:($profile.enable_joint_forecasts -ceq $true) -EnableNewsCapacity:($profile.enable_news_capacity -ceq $true) -EnableRollingNews:($profile.enable_rolling_news -ceq $true) -EnableTechnicalCapacity:($profile.enable_technical_capacity -ceq $true) -EnableCurrencyNewsContext:($profile.enable_currency_news_context -ceq $true) -DisableFeatureForwardResearch:($profile.enable_feature_forward_research -ceq $false)
     $services = @($profile.services)
     $names = @($services | ForEach-Object { [string]$_.name })
     if ($services.Count -ne $allowed.Count -or @($names | Sort-Object -Unique).Count -ne $allowed.Count) {

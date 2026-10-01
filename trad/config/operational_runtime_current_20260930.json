@@ -28,8 +28,8 @@
   "enable_technical_capacity": true,
   "notes": "Eighteen exact research roles. V18 adds the all-68 derived technical publisher as a supervised research-only feed after manual all-68 validation. The publisher retains bounded validated raw tails so its causal kernel can fill short internal M5 gaps with explicit imputation masks. Forward workers keep partial quote refusals visible but nonfatal when other quotes remain usable. V17 services, no-orders policy, clocks, retry ledgers and bounded recovery controls are preserved. No orders or promotion.\nV19 replaces joint_price_news_study_v9 with joint_price_news_isolation_status_v1. The joint price/news forecast cohort remains formally isolated after bounded capture/validation failures; news collection and transport continue, orders/promotions stay disabled.\nAll68 derived feature feed patched to publish finite continuity values with explicit value_fallbacks for sparse long-window activity/spread/TRY features; max_consecutive_fill raised to 6.\nSeptember30 renewed under explicit full flowing nontrading pipeline authorization. Exact retained service/config definitions reused. Optional keyed news providers disabled. Joint isolation remains explicit until its own failure is resolved.\nCold rolling feature-store catch-up receives bounded30minute startup grace; previous5minute supervision interrupted its first complete cycle. Freshness limits after startup remain unchanged.\nUser-authorized full pipeline recovery selects the exact previously registered v9 worker, with verified registry and activation, instead of the isolation-status publisher. Original numerical contracts and validators remain unchanged; cold bootstrap and refusal reasons remain visible. This is operational recovery, not scientific promotion.\nSeptember30 capacity successor: exact retained CAS and receipt identities reused under explicit resource-only policy; new transport state and joint V10 cohort. Numeric model, original clocks, causal availability and orders-off unchanged.\nBounded capture v2: five-second raw read locks, ten-minute nonauthorizing cold validation, unchanged thirty-second current-capture and five-minute news freshness. First empty capacity cohort retained, never relabeled.\nJoint retained-history IO receives the same Normal process priority as transport; BelowNormal cold replay exceeded its bounded wall-time under contention. No High/Realtime priority, freshness change, or worker history reset.\nRolling materialized news: replaces replay-dependent transport/joint V10 with prospective joint V11; actual parsed observations, bounded 48h reads/72h hot index, immutable archive. Original numeric models, gates, retry history and no-orders status preserved. Old studies retained. Seventeen selected roles.\nSupervisor accepts retained retired-transport budget history when rolling mode omits that worker. Existing retry arrays and automatic recovery limits are unchanged.\nSeptember30 input latency repair: technical cycles measured about309 seconds exceed the old180-second supervisor restart threshold. Allow600seconds for technical-worker liveness only; original feature freshness, quote ages, model inputs and retry budgets remain unchanged. Technical and price-model processes use Normal priority to avoid avoidable background starvation. No numerical source, cohort or input contract changed.\nTyped currency news context: one optional supervised reader of the existing archive, parse-once content cache and prospective interpretation clocks. Existing sources, model inputs, cohorts, retry histories and recovery expiry remain unchanged. No score-to-trade conversion. Typed context gains bounded12-feed headline lane and prospective current-root mapping; original collector/model cohorts unchanged.\nRetained outcomes: bounded prospective per-registry/model/horizon observation and news links; original H1 ledgers unchanged. Input refusal diagnostics retained. Optional inference/import/reporting failure cannot stop headline capture. No new model fitting or execution.\nTwo saved legacy26 Extra Trees connections add exact original observed-history inputs alongside existing HGB references; no fitting, policy or order change.\nFour original frozen matched6h/18h Ridge/HGB references use saved legacy26 inputs; no fits or change to original11 connections.",
   "optional_news_credentials": "disabled_in_child_environment",
-  "predecessor_profile_sha256": "45f189df24851e77f6af1b4797b16198416e6264a7bfd542b61a96bd380f8d92",
-  "prepared_utc": "2026-09-30T18:49:10.285245+00:00",
+  "predecessor_profile_sha256": "5aceba54a4b4300642176f4799afbdd17f6af13cf46df29ce1084a6f5525ff81",
+  "prepared_utc": "2026-09-30T14:49:10.285245-04:00",
   "recovery_until_utc": "2026-10-07T08:14:50Z",
   "research_only": true,
   "schema_version": "forex_operational_runtime_v6_20260916",
@@ -307,37 +307,6 @@
     },
     {
       "arguments": [
-        "--archive-root",
-        "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260914_features_v2\\feature_observations_v2",
-        "--quote-path",
-        "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\practice_007_market_quotes_v1.json",
-        "--directory",
-        "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260914_features_v6\\feature_forward_primary_m1_v7",
-        "--max-ledger-mib",
-        "4096",
-        "--minimum-free-mib",
-        "4096",
-        "--clock-state",
-        "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\state\\clock_integrity_v1.json",
-        "--duration-sec",
-        "172800",
-        "--forward-frame-root",
-        "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260914_features_v6\\forward_frames_primary_m1_v1"
-      ],
-      "heartbeat": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260914_features_v6\\feature_forward_primary_m1_v7\\feature_forward_status_v1.json",
-      "heartbeat_field": "schema_version",
-      "heartbeat_schema": "feature_forward_worker_status_v1",
-      "interpreter_mode": "no_bytecode",
-      "max_age_sec": 150,
-      "name": "research_feature_forward_v2",
-      "needle": "oanda_feature_forward_worker_v1.py*C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260914_features_v6\\feature_forward_primary_m1_v7",
-      "priority_class": "BelowNormal",
-      "script": "oanda_feature_forward_worker_v1.py",
-      "source_sha256": "74c20cfa830104f74aae0b89a50160541a65bdb3abea9cbdc3f98c0b3431ca38",
-      "startup_grace_sec": 180
-    },
-    {
-      "arguments": [
         "--input-database",
         "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\official_release_fast_lane_v4.sqlite",
         "--output-directory",
@@ -363,23 +332,6 @@
       "script": "oanda_official_event_pair_horizon_capture_v2.py",
       "source_sha256": "3e8eff96215c2fa01e17c7fc2e1abc6223f6ca32b27cd9152a2fb4699dcd67e1",
       "startup_grace_sec": 180
-    },
-    {
-      "arguments": [
-        "--config",
-        "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\feature_forward_operational_v2_20260916.json"
-      ],
-      "heartbeat": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\operational_repair_20260916_forward_v2\\feature_forward_cached_m5_v2_20260916\\feature_forward_status_v1.json",
-      "heartbeat_field": "schema_version",
-      "heartbeat_schema": "feature_forward_worker_status_v1",
-      "interpreter_mode": "no_bytecode",
-      "max_age_sec": 120,
-      "name": "research_feature_forward_cached_v2",
-      "needle": "oanda_feature_forward_worker_v2.py",
-      "priority_class": "BelowNormal",
-      "script": "oanda_feature_forward_worker_v2.py",
-      "source_sha256": "955055624f06ab6186684af16432c66a2779b812a51199322c6e44dff7b8de50",
-      "startup_grace_sec": 300
     },
     {
       "arguments": [
@@ -482,11 +434,12 @@
   ],
   "support_sources": {
     "oanda_operational_log_relay_v2.py": "e85e9e425941cd8eca77440712c05c975513fe26e13402aaab8e05068c16714a",
-    "oanda_operational_recovery_contract_v6.ps1": "fbc6da900caa6955b78c14f92e4cded9f92126ee45a6a941e2084bcb9f9e13b4",
-    "oanda_operational_supervisor_v6.ps1": "56440a1d168eca429cf62de62e03fa0d3c423b0e058588d4f20ca54b2c350c25",
+    "oanda_operational_recovery_contract_v6.ps1": "bb2f4fabd626c8b3e04139bba98821696c88784877371fa2ee4856c69398e39a",
+    "oanda_operational_supervisor_v6.ps1": "30df5f69ec7a2b412252ff12ad7f233c2207336616e5f7cfc533d3b70cdce1f4",
     "oanda_supervisor_watchdog_v6.ps1": "f06dd8516fc6148dec1e65eae0ae2da018d33be600d84f25ba82dbad8415d6ea",
     "start_oanda_operational_research_v6.ps1": "e6133420234bb8d203c889191ec6bef9bf22c39cb6230e39321a8fffc835b6ce",
     "start_oanda_supervisor_watchdog_v6.ps1": "1510cb5a3f37e7de56f319ecc7636d0ade414464dad43e302619e359bc5e8742"
   },
-  "enable_currency_news_context": true
+  "enable_currency_news_context": true,
+  "enable_feature_forward_research": false
 }

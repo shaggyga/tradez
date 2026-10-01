@@ -237,7 +237,7 @@ def load_quote_snapshot(snapshot_path: Path) -> dict[str, Any]:
                 if has_v2:
                     row = connection.execute(
                         """
-                        SELECT sequence, payload_json, published_epoch
+                        SELECT sequence, payload_json
                         FROM quote_snapshots_v2
                         ORDER BY sequence DESC
                         LIMIT 1
@@ -267,10 +267,6 @@ def load_quote_snapshot(snapshot_path: Path) -> dict[str, Any]:
                         payload["transport"].update(
                             {"source": "sqlite_wal", "sequence": int(row[0])}
                         )
-                        if len(row) > 2:
-                            # Write-start time; actual consumer availability is
-                            # its later read-completion clock, never this value.
-                            payload["transport"]["publication_started_epoch"] = float(row[2])
                     return payload
         except (OSError, sqlite3.Error, json.JSONDecodeError, TypeError, ValueError):
             pass
