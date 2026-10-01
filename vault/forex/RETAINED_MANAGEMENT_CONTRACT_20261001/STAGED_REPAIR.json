@@ -1,0 +1,15 @@
+{
+  "status": "tested_not_deployed",
+  "candidate_sha256": "43d192d9df1b8ba526df961f0a19a743cc1f036cf76171357298d92f5568791c",
+  "active_source_sha256": "7121078daade9bed5fd01b449477913925bac4a5230ded046a5598730af2ad60",
+  "change": "Exact current_path added to existing bounded PermissionError read allowlist; original current snapshot parsing/expiry/source gates retained",
+  "tests_passed": 10,
+  "deployment_script": "deploy_after_authorization.ps1",
+  "authorization_boundary": "AGENTS.md: broker/service/account actions remain outside current offline work",
+  "rollback": [
+    "scheduler.before",
+    "retry.before",
+    "scheduler_config.before",
+    "profile.before"
+  ]
+}

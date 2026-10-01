@@ -1,0 +1,700 @@
+FFFFFFFFFFFFFFFFFF                                                       [100%]
+================================== FAILURES ===================================
+_____________________ test_actual_join_and_cost_controls ______________________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_join_and_cost_cont0')
+
+    def test_actual_join_and_cost_controls(tmp_path):
+>    c,_,q,key=fixture(tmp_path);rows,report=m.inspect(c,q);r=next(x for x in rows if x['slot']==key)
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_retained_management_contract.py:26: in fixture
+    _,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_combined_observation.py:14: in fixture
+    context, path, pin = old.context(tmp_path)
+                         ^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_forecast_receipts.py:30: in context
+    meta,data=fixture(tmp_path);path=tmp_path/'inputs';pin=old.save(path,meta,data)
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_management_readiness.py:30: in save
+    path.mkdir();meta=copy.deepcopy(meta);meta['files']={}
+    ^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_join_and_cost_cont0/ordinary/inputs')
+mode = 511, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-5578\\test_actual_join_and_cost_cont0\\ordinary\\inputs'
+
+..\..\AppData\Local\Programs\Python\Python312\Lib\pathlib.py:1311: FileNotFoundError
+_ test_actual_consumer_refuses_missing_and_mismatched_contracts[missing_state] _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m0')
+change = 'missing_state'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_retained_management_contract.py:26: in fixture
+    _,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_combined_observation.py:14: in fixture
+    context, path, pin = old.context(tmp_path)
+                         ^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_forecast_receipts.py:30: in context
+    meta,data=fixture(tmp_path);path=tmp_path/'inputs';pin=old.save(path,meta,data)
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_management_readiness.py:30: in save
+    path.mkdir();meta=copy.deepcopy(meta);meta['files']={}
+    ^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m0/ordinary/inputs')
+mode = 511, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-5578\\test_actual_consumer_refuses_m0\\ordinary\\inputs'
+
+..\..\AppData\Local\Programs\Python\Python312\Lib\pathlib.py:1311: FileNotFoundError
+___ test_actual_consumer_refuses_missing_and_mismatched_contracts[pending] ____
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m1')
+change = 'pending'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_retained_management_contract.py:26: in fixture
+    _,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_combined_observation.py:14: in fixture
+    context, path, pin = old.context(tmp_path)
+                         ^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_forecast_receipts.py:30: in context
+    meta,data=fixture(tmp_path);path=tmp_path/'inputs';pin=old.save(path,meta,data)
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_management_readiness.py:30: in save
+    path.mkdir();meta=copy.deepcopy(meta);meta['files']={}
+    ^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m1/ordinary/inputs')
+mode = 511, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-5578\\test_actual_consumer_refuses_m1\\ordinary\\inputs'
+
+..\..\AppData\Local\Programs\Python\Python312\Lib\pathlib.py:1311: FileNotFoundError
+_ test_actual_consumer_refuses_missing_and_mismatched_contracts[stale_state] __
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m2')
+change = 'stale_state'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_retained_management_contract.py:26: in fixture
+    _,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_combined_observation.py:14: in fixture
+    context, path, pin = old.context(tmp_path)
+                         ^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_forecast_receipts.py:30: in context
+    meta,data=fixture(tmp_path);path=tmp_path/'inputs';pin=old.save(path,meta,data)
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_management_readiness.py:30: in save
+    path.mkdir();meta=copy.deepcopy(meta);meta['files']={}
+    ^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m2/ordinary/inputs')
+mode = 511, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-5578\\test_actual_consumer_refuses_m2\\ordinary\\inputs'
+
+..\..\AppData\Local\Programs\Python\Python312\Lib\pathlib.py:1311: FileNotFoundError
+____ test_actual_consumer_refuses_missing_and_mismatched_contracts[target] ____
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m3')
+change = 'target'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_retained_management_contract.py:26: in fixture
+    _,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_combined_observation.py:14: in fixture
+    context, path, pin = old.context(tmp_path)
+                         ^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_forecast_receipts.py:30: in context
+    meta,data=fixture(tmp_path);path=tmp_path/'inputs';pin=old.save(path,meta,data)
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_management_readiness.py:30: in save
+    path.mkdir();meta=copy.deepcopy(meta);meta['files']={}
+    ^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m3/ordinary/inputs')
+mode = 511, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-5578\\test_actual_consumer_refuses_m3\\ordinary\\inputs'
+
+..\..\AppData\Local\Programs\Python\Python312\Lib\pathlib.py:1311: FileNotFoundError
+____ test_actual_consumer_refuses_missing_and_mismatched_contracts[anchor] ____
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m4')
+change = 'anchor'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_retained_management_contract.py:26: in fixture
+    _,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_combined_observation.py:14: in fixture
+    context, path, pin = old.context(tmp_path)
+                         ^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_forecast_receipts.py:30: in context
+    meta,data=fixture(tmp_path);path=tmp_path/'inputs';pin=old.save(path,meta,data)
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_management_readiness.py:30: in save
+    path.mkdir();meta=copy.deepcopy(meta);meta['files']={}
+    ^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m4/ordinary/inputs')
+mode = 511, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-5578\\test_actual_consumer_refuses_m4\\ordinary\\inputs'
+
+..\..\AppData\Local\Programs\Python\Python312\Lib\pathlib.py:1311: FileNotFoundError
+_____ test_actual_consumer_refuses_missing_and_mismatched_contracts[risk] _____
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m5')
+change = 'risk'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_retained_management_contract.py:26: in fixture
+    _,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_combined_observation.py:14: in fixture
+    context, path, pin = old.context(tmp_path)
+                         ^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_forecast_receipts.py:30: in context
+    meta,data=fixture(tmp_path);path=tmp_path/'inputs';pin=old.save(path,meta,data)
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_management_readiness.py:30: in save
+    path.mkdir();meta=copy.deepcopy(meta);meta['files']={}
+    ^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m5/ordinary/inputs')
+mode = 511, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-5578\\test_actual_consumer_refuses_m5\\ordinary\\inputs'
+
+..\..\AppData\Local\Programs\Python\Python312\Lib\pathlib.py:1311: FileNotFoundError
+_ test_actual_consumer_refuses_missing_and_mismatched_contracts[missing_cost] _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m6')
+change = 'missing_cost'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_retained_management_contract.py:26: in fixture
+    _,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_combined_observation.py:14: in fixture
+    context, path, pin = old.context(tmp_path)
+                         ^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_forecast_receipts.py:30: in context
+    meta,data=fixture(tmp_path);path=tmp_path/'inputs';pin=old.save(path,meta,data)
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_management_readiness.py:30: in save
+    path.mkdir();meta=copy.deepcopy(meta);meta['files']={}
+    ^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m6/ordinary/inputs')
+mode = 511, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-5578\\test_actual_consumer_refuses_m6\\ordinary\\inputs'
+
+..\..\AppData\Local\Programs\Python\Python312\Lib\pathlib.py:1311: FileNotFoundError
+___ test_actual_consumer_refuses_missing_and_mismatched_contracts[rebased] ____
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m7')
+change = 'rebased'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_retained_management_contract.py:26: in fixture
+    _,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_combined_observation.py:14: in fixture
+    context, path, pin = old.context(tmp_path)
+                         ^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_forecast_receipts.py:30: in context
+    meta,data=fixture(tmp_path);path=tmp_path/'inputs';pin=old.save(path,meta,data)
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_management_readiness.py:30: in save
+    path.mkdir();meta=copy.deepcopy(meta);meta['files']={}
+    ^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m7/ordinary/inputs')
+mode = 511, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-5578\\test_actual_consumer_refuses_m7\\ordinary\\inputs'
+
+..\..\AppData\Local\Programs\Python\Python312\Lib\pathlib.py:1311: FileNotFoundError
+____ test_actual_consumer_refuses_missing_and_mismatched_contracts[future] ____
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m8')
+change = 'future'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_retained_management_contract.py:26: in fixture
+    _,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_combined_observation.py:14: in fixture
+    context, path, pin = old.context(tmp_path)
+                         ^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_forecast_receipts.py:30: in context
+    meta,data=fixture(tmp_path);path=tmp_path/'inputs';pin=old.save(path,meta,data)
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_management_readiness.py:30: in save
+    path.mkdir();meta=copy.deepcopy(meta);meta['files']={}
+    ^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m8/ordinary/inputs')
+mode = 511, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-5578\\test_actual_consumer_refuses_m8\\ordinary\\inputs'
+
+..\..\AppData\Local\Programs\Python\Python312\Lib\pathlib.py:1311: FileNotFoundError
+_____ test_actual_consumer_refuses_missing_and_mismatched_contracts[sunk] _____
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m9')
+change = 'sunk'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_retained_management_contract.py:26: in fixture
+    _,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_combined_observation.py:14: in fixture
+    context, path, pin = old.context(tmp_path)
+                         ^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_forecast_receipts.py:30: in context
+    meta,data=fixture(tmp_path);path=tmp_path/'inputs';pin=old.save(path,meta,data)
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_management_readiness.py:30: in save
+    path.mkdir();meta=copy.deepcopy(meta);meta['files']={}
+    ^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m9/ordinary/inputs')
+mode = 511, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-5578\\test_actual_consumer_refuses_m9\\ordinary\\inputs'
+
+..\..\AppData\Local\Programs\Python\Python312\Lib\pathlib.py:1311: FileNotFoundError
+___ test_actual_consumer_refuses_missing_and_mismatched_contracts[identity] ___
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m10')
+change = 'identity'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_retained_management_contract.py:26: in fixture
+    _,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_combined_observation.py:14: in fixture
+    context, path, pin = old.context(tmp_path)
+                         ^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_forecast_receipts.py:30: in context
+    meta,data=fixture(tmp_path);path=tmp_path/'inputs';pin=old.save(path,meta,data)
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_management_readiness.py:30: in save
+    path.mkdir();meta=copy.deepcopy(meta);meta['files']={}
+    ^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m10/ordinary/inputs')
+mode = 511, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-5578\\test_actual_consumer_refuses_m10\\ordinary\\inputs'
+
+..\..\AppData\Local\Programs\Python\Python312\Lib\pathlib.py:1311: FileNotFoundError
+____ test_actual_consumer_refuses_missing_and_mismatched_contracts[margin] ____
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m11')
+change = 'margin'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_retained_management_contract.py:26: in fixture
+    _,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_combined_observation.py:14: in fixture
+    context, path, pin = old.context(tmp_path)
+                         ^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_forecast_receipts.py:30: in context
+    meta,data=fixture(tmp_path);path=tmp_path/'inputs';pin=old.save(path,meta,data)
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_management_readiness.py:30: in save
+    path.mkdir();meta=copy.deepcopy(meta);meta['files']={}
+    ^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m11/ordinary/inputs')
+mode = 511, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-5578\\test_actual_consumer_refuses_m11\\ordinary\\inputs'
+
+..\..\AppData\Local\Programs\Python\Python312\Lib\pathlib.py:1311: FileNotFoundError
+__ test_actual_consumer_refuses_missing_and_mismatched_contracts[float_cost] __
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m12')
+change = 'float_cost'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_retained_management_contract.py:26: in fixture
+    _,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_combined_observation.py:14: in fixture
+    context, path, pin = old.context(tmp_path)
+                         ^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_forecast_receipts.py:30: in context
+    meta,data=fixture(tmp_path);path=tmp_path/'inputs';pin=old.save(path,meta,data)
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_management_readiness.py:30: in save
+    path.mkdir();meta=copy.deepcopy(meta);meta['files']={}
+    ^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m12/ordinary/inputs')
+mode = 511, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-5578\\test_actual_consumer_refuses_m12\\ordinary\\inputs'
+
+..\..\AppData\Local\Programs\Python\Python312\Lib\pathlib.py:1311: FileNotFoundError
+_ test_actual_consumer_refuses_missing_and_mismatched_contracts[missing_cash] _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m13')
+change = 'missing_cash'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_retained_management_contract.py:26: in fixture
+    _,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_combined_observation.py:14: in fixture
+    context, path, pin = old.context(tmp_path)
+                         ^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_forecast_receipts.py:30: in context
+    meta,data=fixture(tmp_path);path=tmp_path/'inputs';pin=old.save(path,meta,data)
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_management_readiness.py:30: in save
+    path.mkdir();meta=copy.deepcopy(meta);meta['files']={}
+    ^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m13/ordinary/inputs')
+mode = 511, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-5578\\test_actual_consumer_refuses_m13\\ordinary\\inputs'
+
+..\..\AppData\Local\Programs\Python\Python312\Lib\pathlib.py:1311: FileNotFoundError
+____ test_actual_consumer_refuses_missing_and_mismatched_contracts[tamper] ____
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m14')
+change = 'tamper'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_retained_management_contract.py:26: in fixture
+    _,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_combined_observation.py:14: in fixture
+    context, path, pin = old.context(tmp_path)
+                         ^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_forecast_receipts.py:30: in context
+    meta,data=fixture(tmp_path);path=tmp_path/'inputs';pin=old.save(path,meta,data)
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_management_readiness.py:30: in save
+    path.mkdir();meta=copy.deepcopy(meta);meta['files']={}
+    ^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_actual_consumer_refuses_m14/ordinary/inputs')
+mode = 511, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-5578\\test_actual_consumer_refuses_m14\\ordinary\\inputs'
+
+..\..\AppData\Local\Programs\Python\Python312\Lib\pathlib.py:1311: FileNotFoundError
+_______________ test_risk_veto_no_action_and_strict_population ________________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_risk_veto_no_action_and_s0')
+
+    def test_risk_veto_no_action_and_strict_population(tmp_path):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];replace_record(q,s,'risk_sha256',{'hard_exit_required':True})
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:79: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_retained_management_contract.py:26: in fixture
+    _,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_combined_observation.py:14: in fixture
+    context, path, pin = old.context(tmp_path)
+                         ^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_forecast_receipts.py:30: in context
+    meta,data=fixture(tmp_path);path=tmp_path/'inputs';pin=old.save(path,meta,data)
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_management_readiness.py:30: in save
+    path.mkdir();meta=copy.deepcopy(meta);meta['files']={}
+    ^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_risk_veto_no_action_and_s0/ordinary/inputs')
+mode = 511, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-5578\\test_risk_veto_no_action_and_s0\\ordinary\\inputs'
+
+..\..\AppData\Local\Programs\Python\Python312\Lib\pathlib.py:1311: FileNotFoundError
+___________ test_entrypoint_resume_identity_and_payload_corruption ____________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_entrypoint_resume_identit0')
+
+    def test_entrypoint_resume_identity_and_payload_corruption(tmp_path):
+>    _,path,q,_=fixture(tmp_path);req=tmp_path/'REQUEST.json';raw=m.prior.encoded(q);req.write_bytes(raw);pin=m.prior.sha(raw);out=tmp_path/'out'
+                ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_retained_management_contract.py:26: in fixture
+    _,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_combined_observation.py:14: in fixture
+    context, path, pin = old.context(tmp_path)
+                         ^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_forecast_receipts.py:30: in context
+    meta,data=fixture(tmp_path);path=tmp_path/'inputs';pin=old.save(path,meta,data)
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_retained_management_readiness.py:30: in save
+    path.mkdir();meta=copy.deepcopy(meta);meta['files']={}
+    ^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5578/test_entrypoint_resume_identit0/ordinary/inputs')
+mode = 511, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-5578\\test_entrypoint_resume_identit0\\ordinary\\inputs'
+
+..\..\AppData\Local\Programs\Python\Python312\Lib\pathlib.py:1311: FileNotFoundError
+=========================== short test summary info ===========================
+FAILED tests/test_retained_management_contract.py::test_actual_join_and_cost_controls
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[missing_state]
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[pending]
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[stale_state]
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[target]
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[anchor]
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[risk]
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[missing_cost]
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[rebased]
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[future]
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[sunk]
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[identity]
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[margin]
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[float_cost]
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[missing_cash]
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[tamper]
+FAILED tests/test_retained_management_contract.py::test_risk_veto_no_action_and_strict_population
+FAILED tests/test_retained_management_contract.py::test_entrypoint_resume_identity_and_payload_corruption
+18 failed in 6.47s

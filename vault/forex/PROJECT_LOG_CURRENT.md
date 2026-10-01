@@ -6616,3 +6616,5 @@ Local actual-work log `evidence/news_capture_mapping_20260930/WORK_LOG.jsonl`; e
 2026-10-01T17:16:13.141694+00:00: SCHEDULER_THROUGHPUT_20261001/REVIEW.json; source 189364afa243acc9e8b5f382900d7becef314c2f; completion handoff latency repair verified; pair recovery partial.
 
 2026-10-01T17:54:49.811358+00:00: COMPLETION_SCORECARD_20261001/REVIEW.json; source e2e3fe5e356469df1e36ec6402ba1eb77cc90d5f; measured34/45; input disposition verified; parent partial.
+
+2026-10-01T19:40:24.927515+00:00: RETAINED_MANAGEMENT_CONTRACT_20261001/REVIEW.json; source 103696a646a413888d698c497443c9b92d2bd34f; offline management contract verified; current-news repair staged, runtime unchanged.

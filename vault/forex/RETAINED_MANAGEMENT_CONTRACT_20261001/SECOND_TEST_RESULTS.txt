@@ -1,0 +1,682 @@
+FFFFFFFFFFFFFFFFFF                                                       [100%]
+================================== FAILURES ===================================
+_____________________ test_actual_join_and_cost_controls ______________________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_join_and_cost_cont0')
+
+    def test_actual_join_and_cost_controls(tmp_path):
+>    c,_,q,key=fixture(tmp_path);rows,report=m.inspect(c,q);r=next(x for x in rows if x['slot']==key)
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_join_and_cost_cont0')
+
+    def fixture(tmp_path):
+     meta,d=old.old.fixture(tmp_path);reg=d['registry.json'];reg['connections'][0].update(kind='legacy26_matched',arm='ridge',feature_names=['x'])
+     reg['connections'].append({**reg['connections'][0],'id':'old_saved','horizon_minutes':7})
+     rid=m.prior.sha(m.prior.encoded(reg));meta['registry_sha256']=rid
+     current=d['current.json'];current.pop('payload_sha256');current.update(registry_sha256=rid,connections=reg['connections'])
+     for f in current['forecasts']:f['registry_sha256']=rid
+     original=[]
+     for a in d['anchors.json']:
+      f=json.loads(a['body'])['forecast'];f.update(connection='old_saved',horizon_minutes=7,target_epoch=10300,registry_sha256=rid);original.append(f)
+     pub={**deepcopy(current),'generated_epoch':9882.,'forecasts':original};before=m.prior.sha(m.prior.encoded(pub))
+     for a,f in zip(d['anchors.json'],original):
+      a.update(id=m.prior.tracking.prediction_key(f),registry=rid,connection='old_saved',horizon=7,target=10300,body=json.dumps(dict(forecast=f,publication_epoch=9882.,publication_sha256=before,first_observed_epoch=9883.)))
+     current['coverage'] += [dict(connection='old_saved',instrument=p,status='unavailable') for p in reg['pairs']]
+     after=m.prior.sha(m.prior.encoded(current));d={k:v for k,v in d.items() if not k.startswith('issue_')}
+     d.update({'issue_'+before+'.json':pub,'issue_'+after+'.json':deepcopy(current)});current['payload_sha256']=after
+     path=tmp_path/'qualified_input';pin=old.old.old.save(path,meta,d);c=m.combined.forecasts.VerifiedCapture.load(path,pin)
+     (tmp_path/'ordinary').mkdir();_,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+>    rows,_=m.combined.observe(c,r);row=next(x for x in rows if x['instrument']=='EUR_USD' and x['connection']=='saved');key='saved/EUR_USD'
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    StopIteration
+
+tests\test_retained_management_contract.py:27: StopIteration
+_ test_actual_consumer_refuses_missing_and_mismatched_contracts[missing_state] _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m0')
+change = 'missing_state'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m0')
+
+    def fixture(tmp_path):
+     meta,d=old.old.fixture(tmp_path);reg=d['registry.json'];reg['connections'][0].update(kind='legacy26_matched',arm='ridge',feature_names=['x'])
+     reg['connections'].append({**reg['connections'][0],'id':'old_saved','horizon_minutes':7})
+     rid=m.prior.sha(m.prior.encoded(reg));meta['registry_sha256']=rid
+     current=d['current.json'];current.pop('payload_sha256');current.update(registry_sha256=rid,connections=reg['connections'])
+     for f in current['forecasts']:f['registry_sha256']=rid
+     original=[]
+     for a in d['anchors.json']:
+      f=json.loads(a['body'])['forecast'];f.update(connection='old_saved',horizon_minutes=7,target_epoch=10300,registry_sha256=rid);original.append(f)
+     pub={**deepcopy(current),'generated_epoch':9882.,'forecasts':original};before=m.prior.sha(m.prior.encoded(pub))
+     for a,f in zip(d['anchors.json'],original):
+      a.update(id=m.prior.tracking.prediction_key(f),registry=rid,connection='old_saved',horizon=7,target=10300,body=json.dumps(dict(forecast=f,publication_epoch=9882.,publication_sha256=before,first_observed_epoch=9883.)))
+     current['coverage'] += [dict(connection='old_saved',instrument=p,status='unavailable') for p in reg['pairs']]
+     after=m.prior.sha(m.prior.encoded(current));d={k:v for k,v in d.items() if not k.startswith('issue_')}
+     d.update({'issue_'+before+'.json':pub,'issue_'+after+'.json':deepcopy(current)});current['payload_sha256']=after
+     path=tmp_path/'qualified_input';pin=old.old.old.save(path,meta,d);c=m.combined.forecasts.VerifiedCapture.load(path,pin)
+     (tmp_path/'ordinary').mkdir();_,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+>    rows,_=m.combined.observe(c,r);row=next(x for x in rows if x['instrument']=='EUR_USD' and x['connection']=='saved');key='saved/EUR_USD'
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    StopIteration
+
+tests\test_retained_management_contract.py:27: StopIteration
+___ test_actual_consumer_refuses_missing_and_mismatched_contracts[pending] ____
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m1')
+change = 'pending'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m1')
+
+    def fixture(tmp_path):
+     meta,d=old.old.fixture(tmp_path);reg=d['registry.json'];reg['connections'][0].update(kind='legacy26_matched',arm='ridge',feature_names=['x'])
+     reg['connections'].append({**reg['connections'][0],'id':'old_saved','horizon_minutes':7})
+     rid=m.prior.sha(m.prior.encoded(reg));meta['registry_sha256']=rid
+     current=d['current.json'];current.pop('payload_sha256');current.update(registry_sha256=rid,connections=reg['connections'])
+     for f in current['forecasts']:f['registry_sha256']=rid
+     original=[]
+     for a in d['anchors.json']:
+      f=json.loads(a['body'])['forecast'];f.update(connection='old_saved',horizon_minutes=7,target_epoch=10300,registry_sha256=rid);original.append(f)
+     pub={**deepcopy(current),'generated_epoch':9882.,'forecasts':original};before=m.prior.sha(m.prior.encoded(pub))
+     for a,f in zip(d['anchors.json'],original):
+      a.update(id=m.prior.tracking.prediction_key(f),registry=rid,connection='old_saved',horizon=7,target=10300,body=json.dumps(dict(forecast=f,publication_epoch=9882.,publication_sha256=before,first_observed_epoch=9883.)))
+     current['coverage'] += [dict(connection='old_saved',instrument=p,status='unavailable') for p in reg['pairs']]
+     after=m.prior.sha(m.prior.encoded(current));d={k:v for k,v in d.items() if not k.startswith('issue_')}
+     d.update({'issue_'+before+'.json':pub,'issue_'+after+'.json':deepcopy(current)});current['payload_sha256']=after
+     path=tmp_path/'qualified_input';pin=old.old.old.save(path,meta,d);c=m.combined.forecasts.VerifiedCapture.load(path,pin)
+     (tmp_path/'ordinary').mkdir();_,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+>    rows,_=m.combined.observe(c,r);row=next(x for x in rows if x['instrument']=='EUR_USD' and x['connection']=='saved');key='saved/EUR_USD'
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    StopIteration
+
+tests\test_retained_management_contract.py:27: StopIteration
+_ test_actual_consumer_refuses_missing_and_mismatched_contracts[stale_state] __
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m2')
+change = 'stale_state'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m2')
+
+    def fixture(tmp_path):
+     meta,d=old.old.fixture(tmp_path);reg=d['registry.json'];reg['connections'][0].update(kind='legacy26_matched',arm='ridge',feature_names=['x'])
+     reg['connections'].append({**reg['connections'][0],'id':'old_saved','horizon_minutes':7})
+     rid=m.prior.sha(m.prior.encoded(reg));meta['registry_sha256']=rid
+     current=d['current.json'];current.pop('payload_sha256');current.update(registry_sha256=rid,connections=reg['connections'])
+     for f in current['forecasts']:f['registry_sha256']=rid
+     original=[]
+     for a in d['anchors.json']:
+      f=json.loads(a['body'])['forecast'];f.update(connection='old_saved',horizon_minutes=7,target_epoch=10300,registry_sha256=rid);original.append(f)
+     pub={**deepcopy(current),'generated_epoch':9882.,'forecasts':original};before=m.prior.sha(m.prior.encoded(pub))
+     for a,f in zip(d['anchors.json'],original):
+      a.update(id=m.prior.tracking.prediction_key(f),registry=rid,connection='old_saved',horizon=7,target=10300,body=json.dumps(dict(forecast=f,publication_epoch=9882.,publication_sha256=before,first_observed_epoch=9883.)))
+     current['coverage'] += [dict(connection='old_saved',instrument=p,status='unavailable') for p in reg['pairs']]
+     after=m.prior.sha(m.prior.encoded(current));d={k:v for k,v in d.items() if not k.startswith('issue_')}
+     d.update({'issue_'+before+'.json':pub,'issue_'+after+'.json':deepcopy(current)});current['payload_sha256']=after
+     path=tmp_path/'qualified_input';pin=old.old.old.save(path,meta,d);c=m.combined.forecasts.VerifiedCapture.load(path,pin)
+     (tmp_path/'ordinary').mkdir();_,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+>    rows,_=m.combined.observe(c,r);row=next(x for x in rows if x['instrument']=='EUR_USD' and x['connection']=='saved');key='saved/EUR_USD'
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    StopIteration
+
+tests\test_retained_management_contract.py:27: StopIteration
+____ test_actual_consumer_refuses_missing_and_mismatched_contracts[target] ____
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m3')
+change = 'target'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m3')
+
+    def fixture(tmp_path):
+     meta,d=old.old.fixture(tmp_path);reg=d['registry.json'];reg['connections'][0].update(kind='legacy26_matched',arm='ridge',feature_names=['x'])
+     reg['connections'].append({**reg['connections'][0],'id':'old_saved','horizon_minutes':7})
+     rid=m.prior.sha(m.prior.encoded(reg));meta['registry_sha256']=rid
+     current=d['current.json'];current.pop('payload_sha256');current.update(registry_sha256=rid,connections=reg['connections'])
+     for f in current['forecasts']:f['registry_sha256']=rid
+     original=[]
+     for a in d['anchors.json']:
+      f=json.loads(a['body'])['forecast'];f.update(connection='old_saved',horizon_minutes=7,target_epoch=10300,registry_sha256=rid);original.append(f)
+     pub={**deepcopy(current),'generated_epoch':9882.,'forecasts':original};before=m.prior.sha(m.prior.encoded(pub))
+     for a,f in zip(d['anchors.json'],original):
+      a.update(id=m.prior.tracking.prediction_key(f),registry=rid,connection='old_saved',horizon=7,target=10300,body=json.dumps(dict(forecast=f,publication_epoch=9882.,publication_sha256=before,first_observed_epoch=9883.)))
+     current['coverage'] += [dict(connection='old_saved',instrument=p,status='unavailable') for p in reg['pairs']]
+     after=m.prior.sha(m.prior.encoded(current));d={k:v for k,v in d.items() if not k.startswith('issue_')}
+     d.update({'issue_'+before+'.json':pub,'issue_'+after+'.json':deepcopy(current)});current['payload_sha256']=after
+     path=tmp_path/'qualified_input';pin=old.old.old.save(path,meta,d);c=m.combined.forecasts.VerifiedCapture.load(path,pin)
+     (tmp_path/'ordinary').mkdir();_,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+>    rows,_=m.combined.observe(c,r);row=next(x for x in rows if x['instrument']=='EUR_USD' and x['connection']=='saved');key='saved/EUR_USD'
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    StopIteration
+
+tests\test_retained_management_contract.py:27: StopIteration
+____ test_actual_consumer_refuses_missing_and_mismatched_contracts[anchor] ____
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m4')
+change = 'anchor'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m4')
+
+    def fixture(tmp_path):
+     meta,d=old.old.fixture(tmp_path);reg=d['registry.json'];reg['connections'][0].update(kind='legacy26_matched',arm='ridge',feature_names=['x'])
+     reg['connections'].append({**reg['connections'][0],'id':'old_saved','horizon_minutes':7})
+     rid=m.prior.sha(m.prior.encoded(reg));meta['registry_sha256']=rid
+     current=d['current.json'];current.pop('payload_sha256');current.update(registry_sha256=rid,connections=reg['connections'])
+     for f in current['forecasts']:f['registry_sha256']=rid
+     original=[]
+     for a in d['anchors.json']:
+      f=json.loads(a['body'])['forecast'];f.update(connection='old_saved',horizon_minutes=7,target_epoch=10300,registry_sha256=rid);original.append(f)
+     pub={**deepcopy(current),'generated_epoch':9882.,'forecasts':original};before=m.prior.sha(m.prior.encoded(pub))
+     for a,f in zip(d['anchors.json'],original):
+      a.update(id=m.prior.tracking.prediction_key(f),registry=rid,connection='old_saved',horizon=7,target=10300,body=json.dumps(dict(forecast=f,publication_epoch=9882.,publication_sha256=before,first_observed_epoch=9883.)))
+     current['coverage'] += [dict(connection='old_saved',instrument=p,status='unavailable') for p in reg['pairs']]
+     after=m.prior.sha(m.prior.encoded(current));d={k:v for k,v in d.items() if not k.startswith('issue_')}
+     d.update({'issue_'+before+'.json':pub,'issue_'+after+'.json':deepcopy(current)});current['payload_sha256']=after
+     path=tmp_path/'qualified_input';pin=old.old.old.save(path,meta,d);c=m.combined.forecasts.VerifiedCapture.load(path,pin)
+     (tmp_path/'ordinary').mkdir();_,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+>    rows,_=m.combined.observe(c,r);row=next(x for x in rows if x['instrument']=='EUR_USD' and x['connection']=='saved');key='saved/EUR_USD'
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    StopIteration
+
+tests\test_retained_management_contract.py:27: StopIteration
+_____ test_actual_consumer_refuses_missing_and_mismatched_contracts[risk] _____
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m5')
+change = 'risk'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m5')
+
+    def fixture(tmp_path):
+     meta,d=old.old.fixture(tmp_path);reg=d['registry.json'];reg['connections'][0].update(kind='legacy26_matched',arm='ridge',feature_names=['x'])
+     reg['connections'].append({**reg['connections'][0],'id':'old_saved','horizon_minutes':7})
+     rid=m.prior.sha(m.prior.encoded(reg));meta['registry_sha256']=rid
+     current=d['current.json'];current.pop('payload_sha256');current.update(registry_sha256=rid,connections=reg['connections'])
+     for f in current['forecasts']:f['registry_sha256']=rid
+     original=[]
+     for a in d['anchors.json']:
+      f=json.loads(a['body'])['forecast'];f.update(connection='old_saved',horizon_minutes=7,target_epoch=10300,registry_sha256=rid);original.append(f)
+     pub={**deepcopy(current),'generated_epoch':9882.,'forecasts':original};before=m.prior.sha(m.prior.encoded(pub))
+     for a,f in zip(d['anchors.json'],original):
+      a.update(id=m.prior.tracking.prediction_key(f),registry=rid,connection='old_saved',horizon=7,target=10300,body=json.dumps(dict(forecast=f,publication_epoch=9882.,publication_sha256=before,first_observed_epoch=9883.)))
+     current['coverage'] += [dict(connection='old_saved',instrument=p,status='unavailable') for p in reg['pairs']]
+     after=m.prior.sha(m.prior.encoded(current));d={k:v for k,v in d.items() if not k.startswith('issue_')}
+     d.update({'issue_'+before+'.json':pub,'issue_'+after+'.json':deepcopy(current)});current['payload_sha256']=after
+     path=tmp_path/'qualified_input';pin=old.old.old.save(path,meta,d);c=m.combined.forecasts.VerifiedCapture.load(path,pin)
+     (tmp_path/'ordinary').mkdir();_,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+>    rows,_=m.combined.observe(c,r);row=next(x for x in rows if x['instrument']=='EUR_USD' and x['connection']=='saved');key='saved/EUR_USD'
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    StopIteration
+
+tests\test_retained_management_contract.py:27: StopIteration
+_ test_actual_consumer_refuses_missing_and_mismatched_contracts[missing_cost] _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m6')
+change = 'missing_cost'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m6')
+
+    def fixture(tmp_path):
+     meta,d=old.old.fixture(tmp_path);reg=d['registry.json'];reg['connections'][0].update(kind='legacy26_matched',arm='ridge',feature_names=['x'])
+     reg['connections'].append({**reg['connections'][0],'id':'old_saved','horizon_minutes':7})
+     rid=m.prior.sha(m.prior.encoded(reg));meta['registry_sha256']=rid
+     current=d['current.json'];current.pop('payload_sha256');current.update(registry_sha256=rid,connections=reg['connections'])
+     for f in current['forecasts']:f['registry_sha256']=rid
+     original=[]
+     for a in d['anchors.json']:
+      f=json.loads(a['body'])['forecast'];f.update(connection='old_saved',horizon_minutes=7,target_epoch=10300,registry_sha256=rid);original.append(f)
+     pub={**deepcopy(current),'generated_epoch':9882.,'forecasts':original};before=m.prior.sha(m.prior.encoded(pub))
+     for a,f in zip(d['anchors.json'],original):
+      a.update(id=m.prior.tracking.prediction_key(f),registry=rid,connection='old_saved',horizon=7,target=10300,body=json.dumps(dict(forecast=f,publication_epoch=9882.,publication_sha256=before,first_observed_epoch=9883.)))
+     current['coverage'] += [dict(connection='old_saved',instrument=p,status='unavailable') for p in reg['pairs']]
+     after=m.prior.sha(m.prior.encoded(current));d={k:v for k,v in d.items() if not k.startswith('issue_')}
+     d.update({'issue_'+before+'.json':pub,'issue_'+after+'.json':deepcopy(current)});current['payload_sha256']=after
+     path=tmp_path/'qualified_input';pin=old.old.old.save(path,meta,d);c=m.combined.forecasts.VerifiedCapture.load(path,pin)
+     (tmp_path/'ordinary').mkdir();_,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+>    rows,_=m.combined.observe(c,r);row=next(x for x in rows if x['instrument']=='EUR_USD' and x['connection']=='saved');key='saved/EUR_USD'
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    StopIteration
+
+tests\test_retained_management_contract.py:27: StopIteration
+___ test_actual_consumer_refuses_missing_and_mismatched_contracts[rebased] ____
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m7')
+change = 'rebased'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m7')
+
+    def fixture(tmp_path):
+     meta,d=old.old.fixture(tmp_path);reg=d['registry.json'];reg['connections'][0].update(kind='legacy26_matched',arm='ridge',feature_names=['x'])
+     reg['connections'].append({**reg['connections'][0],'id':'old_saved','horizon_minutes':7})
+     rid=m.prior.sha(m.prior.encoded(reg));meta['registry_sha256']=rid
+     current=d['current.json'];current.pop('payload_sha256');current.update(registry_sha256=rid,connections=reg['connections'])
+     for f in current['forecasts']:f['registry_sha256']=rid
+     original=[]
+     for a in d['anchors.json']:
+      f=json.loads(a['body'])['forecast'];f.update(connection='old_saved',horizon_minutes=7,target_epoch=10300,registry_sha256=rid);original.append(f)
+     pub={**deepcopy(current),'generated_epoch':9882.,'forecasts':original};before=m.prior.sha(m.prior.encoded(pub))
+     for a,f in zip(d['anchors.json'],original):
+      a.update(id=m.prior.tracking.prediction_key(f),registry=rid,connection='old_saved',horizon=7,target=10300,body=json.dumps(dict(forecast=f,publication_epoch=9882.,publication_sha256=before,first_observed_epoch=9883.)))
+     current['coverage'] += [dict(connection='old_saved',instrument=p,status='unavailable') for p in reg['pairs']]
+     after=m.prior.sha(m.prior.encoded(current));d={k:v for k,v in d.items() if not k.startswith('issue_')}
+     d.update({'issue_'+before+'.json':pub,'issue_'+after+'.json':deepcopy(current)});current['payload_sha256']=after
+     path=tmp_path/'qualified_input';pin=old.old.old.save(path,meta,d);c=m.combined.forecasts.VerifiedCapture.load(path,pin)
+     (tmp_path/'ordinary').mkdir();_,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+>    rows,_=m.combined.observe(c,r);row=next(x for x in rows if x['instrument']=='EUR_USD' and x['connection']=='saved');key='saved/EUR_USD'
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    StopIteration
+
+tests\test_retained_management_contract.py:27: StopIteration
+____ test_actual_consumer_refuses_missing_and_mismatched_contracts[future] ____
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m8')
+change = 'future'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m8')
+
+    def fixture(tmp_path):
+     meta,d=old.old.fixture(tmp_path);reg=d['registry.json'];reg['connections'][0].update(kind='legacy26_matched',arm='ridge',feature_names=['x'])
+     reg['connections'].append({**reg['connections'][0],'id':'old_saved','horizon_minutes':7})
+     rid=m.prior.sha(m.prior.encoded(reg));meta['registry_sha256']=rid
+     current=d['current.json'];current.pop('payload_sha256');current.update(registry_sha256=rid,connections=reg['connections'])
+     for f in current['forecasts']:f['registry_sha256']=rid
+     original=[]
+     for a in d['anchors.json']:
+      f=json.loads(a['body'])['forecast'];f.update(connection='old_saved',horizon_minutes=7,target_epoch=10300,registry_sha256=rid);original.append(f)
+     pub={**deepcopy(current),'generated_epoch':9882.,'forecasts':original};before=m.prior.sha(m.prior.encoded(pub))
+     for a,f in zip(d['anchors.json'],original):
+      a.update(id=m.prior.tracking.prediction_key(f),registry=rid,connection='old_saved',horizon=7,target=10300,body=json.dumps(dict(forecast=f,publication_epoch=9882.,publication_sha256=before,first_observed_epoch=9883.)))
+     current['coverage'] += [dict(connection='old_saved',instrument=p,status='unavailable') for p in reg['pairs']]
+     after=m.prior.sha(m.prior.encoded(current));d={k:v for k,v in d.items() if not k.startswith('issue_')}
+     d.update({'issue_'+before+'.json':pub,'issue_'+after+'.json':deepcopy(current)});current['payload_sha256']=after
+     path=tmp_path/'qualified_input';pin=old.old.old.save(path,meta,d);c=m.combined.forecasts.VerifiedCapture.load(path,pin)
+     (tmp_path/'ordinary').mkdir();_,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+>    rows,_=m.combined.observe(c,r);row=next(x for x in rows if x['instrument']=='EUR_USD' and x['connection']=='saved');key='saved/EUR_USD'
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    StopIteration
+
+tests\test_retained_management_contract.py:27: StopIteration
+_____ test_actual_consumer_refuses_missing_and_mismatched_contracts[sunk] _____
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m9')
+change = 'sunk'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m9')
+
+    def fixture(tmp_path):
+     meta,d=old.old.fixture(tmp_path);reg=d['registry.json'];reg['connections'][0].update(kind='legacy26_matched',arm='ridge',feature_names=['x'])
+     reg['connections'].append({**reg['connections'][0],'id':'old_saved','horizon_minutes':7})
+     rid=m.prior.sha(m.prior.encoded(reg));meta['registry_sha256']=rid
+     current=d['current.json'];current.pop('payload_sha256');current.update(registry_sha256=rid,connections=reg['connections'])
+     for f in current['forecasts']:f['registry_sha256']=rid
+     original=[]
+     for a in d['anchors.json']:
+      f=json.loads(a['body'])['forecast'];f.update(connection='old_saved',horizon_minutes=7,target_epoch=10300,registry_sha256=rid);original.append(f)
+     pub={**deepcopy(current),'generated_epoch':9882.,'forecasts':original};before=m.prior.sha(m.prior.encoded(pub))
+     for a,f in zip(d['anchors.json'],original):
+      a.update(id=m.prior.tracking.prediction_key(f),registry=rid,connection='old_saved',horizon=7,target=10300,body=json.dumps(dict(forecast=f,publication_epoch=9882.,publication_sha256=before,first_observed_epoch=9883.)))
+     current['coverage'] += [dict(connection='old_saved',instrument=p,status='unavailable') for p in reg['pairs']]
+     after=m.prior.sha(m.prior.encoded(current));d={k:v for k,v in d.items() if not k.startswith('issue_')}
+     d.update({'issue_'+before+'.json':pub,'issue_'+after+'.json':deepcopy(current)});current['payload_sha256']=after
+     path=tmp_path/'qualified_input';pin=old.old.old.save(path,meta,d);c=m.combined.forecasts.VerifiedCapture.load(path,pin)
+     (tmp_path/'ordinary').mkdir();_,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+>    rows,_=m.combined.observe(c,r);row=next(x for x in rows if x['instrument']=='EUR_USD' and x['connection']=='saved');key='saved/EUR_USD'
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    StopIteration
+
+tests\test_retained_management_contract.py:27: StopIteration
+___ test_actual_consumer_refuses_missing_and_mismatched_contracts[identity] ___
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m10')
+change = 'identity'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m10')
+
+    def fixture(tmp_path):
+     meta,d=old.old.fixture(tmp_path);reg=d['registry.json'];reg['connections'][0].update(kind='legacy26_matched',arm='ridge',feature_names=['x'])
+     reg['connections'].append({**reg['connections'][0],'id':'old_saved','horizon_minutes':7})
+     rid=m.prior.sha(m.prior.encoded(reg));meta['registry_sha256']=rid
+     current=d['current.json'];current.pop('payload_sha256');current.update(registry_sha256=rid,connections=reg['connections'])
+     for f in current['forecasts']:f['registry_sha256']=rid
+     original=[]
+     for a in d['anchors.json']:
+      f=json.loads(a['body'])['forecast'];f.update(connection='old_saved',horizon_minutes=7,target_epoch=10300,registry_sha256=rid);original.append(f)
+     pub={**deepcopy(current),'generated_epoch':9882.,'forecasts':original};before=m.prior.sha(m.prior.encoded(pub))
+     for a,f in zip(d['anchors.json'],original):
+      a.update(id=m.prior.tracking.prediction_key(f),registry=rid,connection='old_saved',horizon=7,target=10300,body=json.dumps(dict(forecast=f,publication_epoch=9882.,publication_sha256=before,first_observed_epoch=9883.)))
+     current['coverage'] += [dict(connection='old_saved',instrument=p,status='unavailable') for p in reg['pairs']]
+     after=m.prior.sha(m.prior.encoded(current));d={k:v for k,v in d.items() if not k.startswith('issue_')}
+     d.update({'issue_'+before+'.json':pub,'issue_'+after+'.json':deepcopy(current)});current['payload_sha256']=after
+     path=tmp_path/'qualified_input';pin=old.old.old.save(path,meta,d);c=m.combined.forecasts.VerifiedCapture.load(path,pin)
+     (tmp_path/'ordinary').mkdir();_,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+>    rows,_=m.combined.observe(c,r);row=next(x for x in rows if x['instrument']=='EUR_USD' and x['connection']=='saved');key='saved/EUR_USD'
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    StopIteration
+
+tests\test_retained_management_contract.py:27: StopIteration
+____ test_actual_consumer_refuses_missing_and_mismatched_contracts[margin] ____
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m11')
+change = 'margin'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m11')
+
+    def fixture(tmp_path):
+     meta,d=old.old.fixture(tmp_path);reg=d['registry.json'];reg['connections'][0].update(kind='legacy26_matched',arm='ridge',feature_names=['x'])
+     reg['connections'].append({**reg['connections'][0],'id':'old_saved','horizon_minutes':7})
+     rid=m.prior.sha(m.prior.encoded(reg));meta['registry_sha256']=rid
+     current=d['current.json'];current.pop('payload_sha256');current.update(registry_sha256=rid,connections=reg['connections'])
+     for f in current['forecasts']:f['registry_sha256']=rid
+     original=[]
+     for a in d['anchors.json']:
+      f=json.loads(a['body'])['forecast'];f.update(connection='old_saved',horizon_minutes=7,target_epoch=10300,registry_sha256=rid);original.append(f)
+     pub={**deepcopy(current),'generated_epoch':9882.,'forecasts':original};before=m.prior.sha(m.prior.encoded(pub))
+     for a,f in zip(d['anchors.json'],original):
+      a.update(id=m.prior.tracking.prediction_key(f),registry=rid,connection='old_saved',horizon=7,target=10300,body=json.dumps(dict(forecast=f,publication_epoch=9882.,publication_sha256=before,first_observed_epoch=9883.)))
+     current['coverage'] += [dict(connection='old_saved',instrument=p,status='unavailable') for p in reg['pairs']]
+     after=m.prior.sha(m.prior.encoded(current));d={k:v for k,v in d.items() if not k.startswith('issue_')}
+     d.update({'issue_'+before+'.json':pub,'issue_'+after+'.json':deepcopy(current)});current['payload_sha256']=after
+     path=tmp_path/'qualified_input';pin=old.old.old.save(path,meta,d);c=m.combined.forecasts.VerifiedCapture.load(path,pin)
+     (tmp_path/'ordinary').mkdir();_,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+>    rows,_=m.combined.observe(c,r);row=next(x for x in rows if x['instrument']=='EUR_USD' and x['connection']=='saved');key='saved/EUR_USD'
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    StopIteration
+
+tests\test_retained_management_contract.py:27: StopIteration
+__ test_actual_consumer_refuses_missing_and_mismatched_contracts[float_cost] __
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m12')
+change = 'float_cost'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m12')
+
+    def fixture(tmp_path):
+     meta,d=old.old.fixture(tmp_path);reg=d['registry.json'];reg['connections'][0].update(kind='legacy26_matched',arm='ridge',feature_names=['x'])
+     reg['connections'].append({**reg['connections'][0],'id':'old_saved','horizon_minutes':7})
+     rid=m.prior.sha(m.prior.encoded(reg));meta['registry_sha256']=rid
+     current=d['current.json'];current.pop('payload_sha256');current.update(registry_sha256=rid,connections=reg['connections'])
+     for f in current['forecasts']:f['registry_sha256']=rid
+     original=[]
+     for a in d['anchors.json']:
+      f=json.loads(a['body'])['forecast'];f.update(connection='old_saved',horizon_minutes=7,target_epoch=10300,registry_sha256=rid);original.append(f)
+     pub={**deepcopy(current),'generated_epoch':9882.,'forecasts':original};before=m.prior.sha(m.prior.encoded(pub))
+     for a,f in zip(d['anchors.json'],original):
+      a.update(id=m.prior.tracking.prediction_key(f),registry=rid,connection='old_saved',horizon=7,target=10300,body=json.dumps(dict(forecast=f,publication_epoch=9882.,publication_sha256=before,first_observed_epoch=9883.)))
+     current['coverage'] += [dict(connection='old_saved',instrument=p,status='unavailable') for p in reg['pairs']]
+     after=m.prior.sha(m.prior.encoded(current));d={k:v for k,v in d.items() if not k.startswith('issue_')}
+     d.update({'issue_'+before+'.json':pub,'issue_'+after+'.json':deepcopy(current)});current['payload_sha256']=after
+     path=tmp_path/'qualified_input';pin=old.old.old.save(path,meta,d);c=m.combined.forecasts.VerifiedCapture.load(path,pin)
+     (tmp_path/'ordinary').mkdir();_,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+>    rows,_=m.combined.observe(c,r);row=next(x for x in rows if x['instrument']=='EUR_USD' and x['connection']=='saved');key='saved/EUR_USD'
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    StopIteration
+
+tests\test_retained_management_contract.py:27: StopIteration
+_ test_actual_consumer_refuses_missing_and_mismatched_contracts[missing_cash] _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m13')
+change = 'missing_cash'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m13')
+
+    def fixture(tmp_path):
+     meta,d=old.old.fixture(tmp_path);reg=d['registry.json'];reg['connections'][0].update(kind='legacy26_matched',arm='ridge',feature_names=['x'])
+     reg['connections'].append({**reg['connections'][0],'id':'old_saved','horizon_minutes':7})
+     rid=m.prior.sha(m.prior.encoded(reg));meta['registry_sha256']=rid
+     current=d['current.json'];current.pop('payload_sha256');current.update(registry_sha256=rid,connections=reg['connections'])
+     for f in current['forecasts']:f['registry_sha256']=rid
+     original=[]
+     for a in d['anchors.json']:
+      f=json.loads(a['body'])['forecast'];f.update(connection='old_saved',horizon_minutes=7,target_epoch=10300,registry_sha256=rid);original.append(f)
+     pub={**deepcopy(current),'generated_epoch':9882.,'forecasts':original};before=m.prior.sha(m.prior.encoded(pub))
+     for a,f in zip(d['anchors.json'],original):
+      a.update(id=m.prior.tracking.prediction_key(f),registry=rid,connection='old_saved',horizon=7,target=10300,body=json.dumps(dict(forecast=f,publication_epoch=9882.,publication_sha256=before,first_observed_epoch=9883.)))
+     current['coverage'] += [dict(connection='old_saved',instrument=p,status='unavailable') for p in reg['pairs']]
+     after=m.prior.sha(m.prior.encoded(current));d={k:v for k,v in d.items() if not k.startswith('issue_')}
+     d.update({'issue_'+before+'.json':pub,'issue_'+after+'.json':deepcopy(current)});current['payload_sha256']=after
+     path=tmp_path/'qualified_input';pin=old.old.old.save(path,meta,d);c=m.combined.forecasts.VerifiedCapture.load(path,pin)
+     (tmp_path/'ordinary').mkdir();_,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+>    rows,_=m.combined.observe(c,r);row=next(x for x in rows if x['instrument']=='EUR_USD' and x['connection']=='saved');key='saved/EUR_USD'
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    StopIteration
+
+tests\test_retained_management_contract.py:27: StopIteration
+____ test_actual_consumer_refuses_missing_and_mismatched_contracts[tamper] ____
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m14')
+change = 'tamper'
+
+    @pytest.mark.parametrize('change', ['missing_state','pending','stale_state','target','anchor','risk','missing_cost','rebased','future','sunk','identity','margin','float_cost','missing_cash','tamper'])
+    def test_actual_consumer_refuses_missing_and_mismatched_contracts(tmp_path,change):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];branches=s['branches']
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_actual_consumer_refuses_m14')
+
+    def fixture(tmp_path):
+     meta,d=old.old.fixture(tmp_path);reg=d['registry.json'];reg['connections'][0].update(kind='legacy26_matched',arm='ridge',feature_names=['x'])
+     reg['connections'].append({**reg['connections'][0],'id':'old_saved','horizon_minutes':7})
+     rid=m.prior.sha(m.prior.encoded(reg));meta['registry_sha256']=rid
+     current=d['current.json'];current.pop('payload_sha256');current.update(registry_sha256=rid,connections=reg['connections'])
+     for f in current['forecasts']:f['registry_sha256']=rid
+     original=[]
+     for a in d['anchors.json']:
+      f=json.loads(a['body'])['forecast'];f.update(connection='old_saved',horizon_minutes=7,target_epoch=10300,registry_sha256=rid);original.append(f)
+     pub={**deepcopy(current),'generated_epoch':9882.,'forecasts':original};before=m.prior.sha(m.prior.encoded(pub))
+     for a,f in zip(d['anchors.json'],original):
+      a.update(id=m.prior.tracking.prediction_key(f),registry=rid,connection='old_saved',horizon=7,target=10300,body=json.dumps(dict(forecast=f,publication_epoch=9882.,publication_sha256=before,first_observed_epoch=9883.)))
+     current['coverage'] += [dict(connection='old_saved',instrument=p,status='unavailable') for p in reg['pairs']]
+     after=m.prior.sha(m.prior.encoded(current));d={k:v for k,v in d.items() if not k.startswith('issue_')}
+     d.update({'issue_'+before+'.json':pub,'issue_'+after+'.json':deepcopy(current)});current['payload_sha256']=after
+     path=tmp_path/'qualified_input';pin=old.old.old.save(path,meta,d);c=m.combined.forecasts.VerifiedCapture.load(path,pin)
+     (tmp_path/'ordinary').mkdir();_,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+>    rows,_=m.combined.observe(c,r);row=next(x for x in rows if x['instrument']=='EUR_USD' and x['connection']=='saved');key='saved/EUR_USD'
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    StopIteration
+
+tests\test_retained_management_contract.py:27: StopIteration
+_______________ test_risk_veto_no_action_and_strict_population ________________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_risk_veto_no_action_and_s0')
+
+    def test_risk_veto_no_action_and_strict_population(tmp_path):
+>    c,_,q,key=fixture(tmp_path);s=q['contracts'][key];replace_record(q,s,'risk_sha256',{'hard_exit_required':True})
+               ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:79: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_risk_veto_no_action_and_s0')
+
+    def fixture(tmp_path):
+     meta,d=old.old.fixture(tmp_path);reg=d['registry.json'];reg['connections'][0].update(kind='legacy26_matched',arm='ridge',feature_names=['x'])
+     reg['connections'].append({**reg['connections'][0],'id':'old_saved','horizon_minutes':7})
+     rid=m.prior.sha(m.prior.encoded(reg));meta['registry_sha256']=rid
+     current=d['current.json'];current.pop('payload_sha256');current.update(registry_sha256=rid,connections=reg['connections'])
+     for f in current['forecasts']:f['registry_sha256']=rid
+     original=[]
+     for a in d['anchors.json']:
+      f=json.loads(a['body'])['forecast'];f.update(connection='old_saved',horizon_minutes=7,target_epoch=10300,registry_sha256=rid);original.append(f)
+     pub={**deepcopy(current),'generated_epoch':9882.,'forecasts':original};before=m.prior.sha(m.prior.encoded(pub))
+     for a,f in zip(d['anchors.json'],original):
+      a.update(id=m.prior.tracking.prediction_key(f),registry=rid,connection='old_saved',horizon=7,target=10300,body=json.dumps(dict(forecast=f,publication_epoch=9882.,publication_sha256=before,first_observed_epoch=9883.)))
+     current['coverage'] += [dict(connection='old_saved',instrument=p,status='unavailable') for p in reg['pairs']]
+     after=m.prior.sha(m.prior.encoded(current));d={k:v for k,v in d.items() if not k.startswith('issue_')}
+     d.update({'issue_'+before+'.json':pub,'issue_'+after+'.json':deepcopy(current)});current['payload_sha256']=after
+     path=tmp_path/'qualified_input';pin=old.old.old.save(path,meta,d);c=m.combined.forecasts.VerifiedCapture.load(path,pin)
+     (tmp_path/'ordinary').mkdir();_,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+>    rows,_=m.combined.observe(c,r);row=next(x for x in rows if x['instrument']=='EUR_USD' and x['connection']=='saved');key='saved/EUR_USD'
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    StopIteration
+
+tests\test_retained_management_contract.py:27: StopIteration
+___________ test_entrypoint_resume_identity_and_payload_corruption ____________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_entrypoint_resume_identit0')
+
+    def test_entrypoint_resume_identity_and_payload_corruption(tmp_path):
+>    _,path,q,_=fixture(tmp_path);req=tmp_path/'REQUEST.json';raw=m.prior.encoded(q);req.write_bytes(raw);pin=m.prior.sha(raw);out=tmp_path/'out'
+                ^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_contract.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5579/test_entrypoint_resume_identit0')
+
+    def fixture(tmp_path):
+     meta,d=old.old.fixture(tmp_path);reg=d['registry.json'];reg['connections'][0].update(kind='legacy26_matched',arm='ridge',feature_names=['x'])
+     reg['connections'].append({**reg['connections'][0],'id':'old_saved','horizon_minutes':7})
+     rid=m.prior.sha(m.prior.encoded(reg));meta['registry_sha256']=rid
+     current=d['current.json'];current.pop('payload_sha256');current.update(registry_sha256=rid,connections=reg['connections'])
+     for f in current['forecasts']:f['registry_sha256']=rid
+     original=[]
+     for a in d['anchors.json']:
+      f=json.loads(a['body'])['forecast'];f.update(connection='old_saved',horizon_minutes=7,target_epoch=10300,registry_sha256=rid);original.append(f)
+     pub={**deepcopy(current),'generated_epoch':9882.,'forecasts':original};before=m.prior.sha(m.prior.encoded(pub))
+     for a,f in zip(d['anchors.json'],original):
+      a.update(id=m.prior.tracking.prediction_key(f),registry=rid,connection='old_saved',horizon=7,target=10300,body=json.dumps(dict(forecast=f,publication_epoch=9882.,publication_sha256=before,first_observed_epoch=9883.)))
+     current['coverage'] += [dict(connection='old_saved',instrument=p,status='unavailable') for p in reg['pairs']]
+     after=m.prior.sha(m.prior.encoded(current));d={k:v for k,v in d.items() if not k.startswith('issue_')}
+     d.update({'issue_'+before+'.json':pub,'issue_'+after+'.json':deepcopy(current)});current['payload_sha256']=after
+     path=tmp_path/'qualified_input';pin=old.old.old.save(path,meta,d);c=m.combined.forecasts.VerifiedCapture.load(path,pin)
+     (tmp_path/'ordinary').mkdir();_,_,r=old.fixture(tmp_path/'ordinary');r.update(capture_manifest_sha256=pin,requested_targets={b['connection']+'/'+b['instrument']:10300 for b in c.population})
+>    rows,_=m.combined.observe(c,r);row=next(x for x in rows if x['instrument']=='EUR_USD' and x['connection']=='saved');key='saved/EUR_USD'
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    StopIteration
+
+tests\test_retained_management_contract.py:27: StopIteration
+=========================== short test summary info ===========================
+FAILED tests/test_retained_management_contract.py::test_actual_join_and_cost_controls
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[missing_state]
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[pending]
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[stale_state]
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[target]
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[anchor]
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[risk]
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[missing_cost]
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[rebased]
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[future]
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[sunk]
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[identity]
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[margin]
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[float_cost]
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[missing_cash]
+FAILED tests/test_retained_management_contract.py::test_actual_consumer_refuses_missing_and_mismatched_contracts[tamper]
+FAILED tests/test_retained_management_contract.py::test_risk_veto_no_action_and_strict_population
+FAILED tests/test_retained_management_contract.py::test_entrypoint_resume_identity_and_payload_corruption
+18 failed in 13.36s

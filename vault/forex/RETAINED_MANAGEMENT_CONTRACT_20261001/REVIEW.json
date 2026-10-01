@@ -1,0 +1,33 @@
+{
+  "schema": "forex.review_packet.v1",
+  "step_id": "management_contract_20261001",
+  "source_commit": "103696a646a413888d698c497443c9b92d2bd34f",
+  "status": "accepted_within_scope",
+  "review_status": "accepted_within_scope",
+  "implementation_status": "offline_management_prerequisite_contract_complete",
+  "independent_review": false,
+  "same_task_review": true,
+  "readiness": {
+    "engineering_ready": true,
+    "engineering_scope": "offline prerequisite contract only",
+    "forecast_evidence_status": "unchanged",
+    "policy_evidence_status": "not_qualified",
+    "demo_authorization_status": "not_granted"
+  },
+  "checks": [
+    "196 regression tests passed",
+    "84 preserved-data payloads exact after resume and isolated restore",
+    "68 original histories/contracts/activations unchanged",
+    "Dashboard HTTP200, current news and64 live forecasts",
+    "10 additional staged current-news reader tests passed; active runtime unchanged"
+  ],
+  "unresolved_findings": [
+    "Current-news bounded retry source fix tested and staged; active deployment requires service-action authorization",
+    "No current position ledger, qualified fresh same-terminal conditional values or full economic contract in preserved capture",
+    "No service actions allowed under current offline AGENTS scope"
+  ],
+  "next_item": "live_news_input_reliability_v1",
+  "replacement_models_fitted": 0,
+  "runtime_changed": false,
+  "completed_queue_item": "retained_management_contract_qualification_v1"
+}

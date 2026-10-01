@@ -1,0 +1,23 @@
+[
+  {
+    "command": [
+      "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe",
+      "-I",
+      "-B",
+      "C:\\Users\\zmoor\\Documents\\forex\\tools\\forex_retained_management_contract.py",
+      "--input",
+      "C:\\Users\\zmoor\\Documents\\forex\\evidence\\retained_management_20261001\\inputs",
+      "--request",
+      "C:\\Users\\zmoor\\Documents\\forex\\evidence\\management_contract_20261001\\REQUEST.json",
+      "--sha256",
+      "be63fbb7542d8c19ce7abf1fb6138c884fa631041cc06391161a542c3fc0c3c4",
+      "--output",
+      "C:\\Users\\zmoor\\Documents\\forex\\evidence\\management_contract_20261001\\runs",
+      "--run-id",
+      "one"
+    ],
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "Traceback (most recent call last):\n  File \"C:\\Users\\zmoor\\Documents\\forex\\tools\\forex_retained_management_contract.py\", line 208, in <module>\n    print(json.dumps(run(a.input, a.request, a.sha256, a.output, a.run_id, resume=a.resume, max_new=a.max_new)))\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\zmoor\\Documents\\forex\\tools\\forex_retained_management_contract.py\", line 178, in run\n    rows, report = inspect(context, request)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\zmoor\\Documents\\forex\\tools\\forex_retained_management_contract.py\", line 151, in inspect\n    rows, report = combined.observe(context, request['combined_request'])\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\zmoor\\Documents\\forex\\tools\\forex_retained_combined_observation.py\", line 41, in observe\n    prior.need(request['source_bindings'] == sources(), 'combined_source_bindings')\n  File \"C:\\Users\\zmoor\\Documents\\forex\\tools\\forex_retained_management_readiness.py\", line 42, in need\n    if not ok:raise ValueError(reason)\n              ^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: combined_source_bindings\n"
+  }
+]
