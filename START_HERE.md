@@ -1,5 +1,10 @@
 # Start here
 
+## Current combined-observation checkpoint — October 1, 2026
+
+[Combined quote and forecast observations](docs/RETAINED_COMBINED_OBSERVATION_20261001.md): offline integration complete; 62 tests and 84 exact resumed/restored payloads passed. All 2,652 slots covered. Preserved inputs produce zero fresh priced observations at the replay clock; live rollout and position management remain unfinished. Next `retained_management_contract_qualification_v1`. Older notices below are historical.
+
+
 ## Current retained-receipt checkpoint — October 1, 2026
 
 [Retained forecast receipts](docs/RETAINED_FORECAST_RECEIPTS_20261001.md): separately named observation adapter over saved publications;69tests and84payload exact resumed/restored replay passed. Preserves4953observation receipts across2652slots;2418forecasts eligible only at the frozen capture clock. No new inference or activation. Next `retained_management_combined_observation_v1`; combine exact quote and forecast observations offline. Older notices below are historical.

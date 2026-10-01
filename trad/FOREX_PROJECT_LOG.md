@@ -7951,3 +7951,8 @@ Completed offline exact raw quote boundary;137tests and64record exact restored r
 ## 2026-10-01T04:23:43.389025+00:00 — retained_management_forecast_receipts_v1
 
 Completed retained-tier forecast observation consumer;69tests,4953receipts/2652slots and84exact resumed/restored payloads. Reused original capture at03:23UTC; no new forecasts, scores or live freshness claim. Same-task review; no runtime change. Vault `RETAINED_FORECAST_RECEIPTS_20261001/REVIEW.json`; local `evidence/forecast_receipts_20261001`; [details](../docs/RETAINED_FORECAST_RECEIPTS_20261001.md). Next `retained_management_combined_observation_v1`. Quote rollout and conditional economic/state policy remain unqualified.
+
+
+## 2026-10-01T04:46:09.171663+00:00 — retained_management_combined_observation_v1
+
+Completed offline combined observation consumer: 62 tests, 2,652 slots and 84 exact resumed/restored payloads. Original preserved inputs only: 2,418 expired forecasts, 234 missing, one stale quote and 67 missing quote pairs. Replay clock is not actual current availability. Same-task review, no runtime change. Vault `RETAINED_COMBINED_OBSERVATION_20261001/REVIEW.json`; local `evidence/combined_observation_20261001`; [details](../docs/RETAINED_COMBINED_OBSERVATION_20261001.md). Next `retained_management_contract_qualification_v1`. Live rollout and conditional economic/state policy remain unfinished.

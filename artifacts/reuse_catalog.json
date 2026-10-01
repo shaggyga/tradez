@@ -1705,6 +1705,29 @@
       "runtime_qualification": "69offline tests;4953receipts across2652slots;84exact resumed/restored payloads; no activation",
       "models_fitted": 0,
       "scope": "Authenticates existing observed forecasts, preserves original native gate and outcome separation; conditional economics and live quote integration unfinished"
+    },
+    "retained_combined_observation": {
+      "classification": "offline_observation_consumer_and_source_overlay_not_a_model",
+      "original_identity": {
+        "kind": "combined_request_sha256",
+        "fingerprint": "0341049a4176899ffffe29764fabc5ed43f56e54032c36260110e3fbd7ac6798"
+      },
+      "artifact_refs": [
+        {
+          "vault_relative_path": "RETAINED_COMBINED_OBSERVATION_20261001/combined_observation_overlay.zip",
+          "sha256": "7b72ff9d73ea64aa0b158f5dfd046cb762f23e93611bb5c78ef82dde02a6a7ae",
+          "bytes": 107526,
+          "kind": "archive"
+        },
+        {
+          "vault_relative_path": "RETAINED_MANAGEMENT_READINESS_20261001/retained_management_evidence.zip",
+          "sha256": "cd90f812b99cf5b0fb7d594f93b4eb322ea9de549d4f3f831a0e6c620fb696dc",
+          "kind": "preserved_input_dependency"
+        }
+      ],
+      "runtime_qualification": "62 offline tests; 2,652 slots; 84 exact resumed/restored payloads; no activation",
+      "models_fitted": 0,
+      "scope": "Joined frozen quote and forecast observations; zero fresh priced observations in preserved input replay; no new forecasts or policy authority"
     }
   },
   "inherited_records": [
