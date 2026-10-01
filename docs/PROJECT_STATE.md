@@ -1,5 +1,9 @@
 # Current project orientation — September 30, 2026
 
+## Current continuation — input repair deployed
+
+[Current checkpoint](CURRENT_NEWS_READ_DEPLOY_20261001.md):106 deployment tests; fresh source/forecast receipts and68 histories verified. Input-reliability gate accepted within scope. Score35/45 (77.78% overall;83.33% active). Next `retained_management_current_state_binding_v1`; live management remains unqualified. Earlier notices are historical.
+
 ## Current continuation — management contract verified
 
 [Current checkpoint](RETAINED_MANAGEMENT_CONTRACT_20261001.md):196 tests;84 exact resumed/restored outputs; offline contract complete. Live current-news file contention and real management inputs remain open. No activation. Score34/45 unchanged. Older notices below are historical.

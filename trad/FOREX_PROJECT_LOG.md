@@ -8013,3 +8013,8 @@ Vault COMPLETION_SCORECARD_20261001/REVIEW.json; docs/COMPLETION_MEASUREMENT_202
 ## 2026-10-01 — management_contract_20261001
 
 RETAINED_MANAGEMENT_CONTRACT_20261001/REVIEW.json; docs/RETAINED_MANAGEMENT_CONTRACT_20261001.md.196 tests;84 resumed/restored payloads;68 histories unchanged. Offline contract complete; actual state/conditional/economic support missing. Current-news PermissionError diagnosed beyond health-only retry allowlist. Parent input reliability remains partial; no service or trading activation. Score34/45 unchanged.
+
+
+## 2026-10-01 — current_news_read_deploy_20261001
+
+CURRENT_NEWS_READ_DEPLOY_20261001/REVIEW.json;106 deployment tests; fresh receipts and68 histories verified. Initial scope-list startup failure repaired and preserved; narrow restart budget released with other histories unchanged. Input gate accepted within scope;35/45 delivery milestones. Next retained_management_current_state_binding_v1. Live management not qualified; no orders.

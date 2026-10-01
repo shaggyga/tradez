@@ -35,7 +35,7 @@ def validate_overlay(path, registry_path):
             or value.get('registry_sha256') != sha(registry_path)
             or value.get('health_retry_source_sha256') != sha(health_retry.__file__)):
         raise ValueError('scheduler_exact_source_and_registry_binding')
-    if value.get('changes') != ['overdue_news_before_post_poll_pair_dispatch', 'one_full_capture_retry_after_strict_healthy_recheck', 'skip_already_published_market_reference', 'bounded_exact_health_file_permission_retry', 'service_completed_work_between_settlements', 'bounded_round_robin_settlement_quanta']:
+    if value.get('changes') != ['overdue_news_before_post_poll_pair_dispatch', 'one_full_capture_retry_after_strict_healthy_recheck', 'skip_already_published_market_reference', 'bounded_exact_health_file_permission_retry', 'service_completed_work_between_settlements', 'bounded_round_robin_settlement_quanta', 'bounded_exact_current_news_file_permission_retry']:
         raise ValueError('scheduler_scope_changed')
     if value.get('can_place_orders') is not False or value.get('research_only') is not True:
         raise ValueError('nontrading_scheduler_required')

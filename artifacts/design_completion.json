@@ -1,7 +1,7 @@
 {
   "schema": "forex.design_completion.v1",
   "rubric_version": 1,
-  "reviewed_utc": "2026-10-01T17:47:17.348631+00:00",
+  "reviewed_utc": "2026-10-01T20:03:20.577288+00:00",
   "reviewer": "same Codex task; not independent",
   "baseline_commit": "26b2832cf7b1bb49357ecdefa746276b4e188170",
   "design_path": "vault/forex/SCHEDULER_THROUGHPUT_20261001/specification/FOREX_CODEX_ENGINEERING_DESIGN.md",
@@ -323,7 +323,7 @@
       "id": "R11",
       "title": "Local operation",
       "deferred": false,
-      "remaining": "Close current input reliability gate, including quote freshness/expiry disposition and end-to-end management qualification.",
+      "remaining": "Local nontrading launcher/preflight/status/recovery accepted within scope. Management economics remain R06; future input refusals remain explicit.",
       "stages": {
         "implementation": {
           "passed": true,
@@ -348,9 +348,14 @@
           ]
         },
         "acceptance": {
-          "passed": false,
-          "reason": "Close current input reliability gate, including quote freshness/expiry disposition and end-to-end management qualification.",
-          "evidence": []
+          "passed": true,
+          "reason": "Local nontrading launcher/preflight/status/recovery accepted within scope. Management economics remain R06; future input refusals remain explicit.",
+          "evidence": [
+            "local_operation_acceptance",
+            "launcher",
+            "ops_code",
+            "ops_tests"
+          ]
         }
       }
     },
@@ -670,6 +675,11 @@
       "path": "tests/test_forex_vault_snapshot.py",
       "sha256": "547deeeca655d56f1012c8b9301674628fadfa4d7250d3a8e21b9cfa20802c03",
       "scope": "Current source/config/test locator pinned; historical reports establish their stated bounded evidence only"
+    },
+    "local_operation_acceptance": {
+      "path": "artifacts/local_operation_acceptance_20261001.json",
+      "sha256": "013be5d92a7a082e47d373f73ef822893789743d84318d61b424acb3f7c264c6",
+      "scope": "R11 local nontrading launcher/preflight/status/recovery operation; live management economics and research targets are separate requirements"
     }
   }
 }

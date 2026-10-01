@@ -1,8 +1,8 @@
 # Forex design completion scorecard
 
-**75.6% overall delivery index (34/45 milestones).**
-Active scope: 81.0% (34/42); deferred GPT work stays in the overall denominator.
-Fully accepted requirements: 6/15.
+**77.8% overall delivery index (35/45 milestones).**
+Active scope: 83.3% (35/42); deferred GPT work stays in the overall denominator.
+Fully accepted requirements: 7/15.
 
 This fixed, equal-weight rubric credits a working implementation, verified bounded test/replay evidence, and full requirement acceptance separately. Partial work is not full acceptance. Historical tests are reused evidence, not newly run tests. This is not an estimate of hours remaining, forecast skill or trading readiness.
 
@@ -20,7 +20,7 @@ The assessment is a same-task review. Evidence hashes are checked by `python too
 | R08 Accounting and costs | 3/3 | Engineering accounting conventions/fixtures accepted within the reference contract; live management economics are R06, not trading readiness. |
 | R09 Dependence and denominators | 2/3 | Whole-campaign confirmation and dependency-aware evidence across the final combined policy remain open. |
 | R10 Resume and restore | 3/3 | Required recovery mechanisms accepted with exact dependencies; not a claim that missing artifacts may be refitted. |
-| R11 Local operation | 2/3 | Close current input reliability gate, including quote freshness/expiry disposition and end-to-end management qualification. |
+| R11 Local operation | 3/3 | Local nontrading launcher/preflight/status/recovery accepted within scope. Management economics remain R06; future input refusals remain explicit. |
 | R12 Authorization boundaries | 3/3 | Authorized research-entrypoint boundaries accepted; no demo/live order authorization is implied. Legacy unrelated entrypoints are not being certified. |
 | R13 Inspectable evidence | 2/3 | Complete unified current dashboard/management inspection across all connected target families. |
 | R14 Reuse and recovery | 3/3 | Reuse and preservation gate accepted; second-machine runtime qualification remains explicitly separate. |
@@ -68,3 +68,4 @@ Full-design authority: vault/forex/SCHEDULER_THROUGHPUT_20261001/specification/F
 - reuse: `artifacts/reuse_catalog.json` — Current source/config/test locator pinned; historical reports establish their stated bounded evidence only
 - reuse_code: `tools/forex_vault_snapshot.py` — Current source/config/test locator pinned; historical reports establish their stated bounded evidence only
 - reuse_tests: `tests/test_forex_vault_snapshot.py` — Current source/config/test locator pinned; historical reports establish their stated bounded evidence only
+- local_operation_acceptance: `artifacts/local_operation_acceptance_20261001.json` — R11 local nontrading launcher/preflight/status/recovery operation; live management economics and research targets are separate requirements

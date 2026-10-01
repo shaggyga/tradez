@@ -70,7 +70,8 @@ def test_binding_refuses_changed_registry_and_scope(tmp_path):
                  'skip_already_published_market_reference',
                  'bounded_exact_health_file_permission_retry',
                  'service_completed_work_between_settlements',
-                 'bounded_round_robin_settlement_quanta'], can_place_orders=False, research_only=True)
+                 'bounded_round_robin_settlement_quanta',
+                 'bounded_exact_current_news_file_permission_retry'], can_place_orders=False, research_only=True)
     config.write_text(json.dumps(value))
     assert scheduler.validate_overlay(config, registry) == value
     registry.write_text('{"different":true}')
@@ -120,3 +121,10 @@ def test_duplicate_filter_through_original_dispatch(existing,new_reference,expec
         r.schedule_fit(1000,1)
         assert calls==['attempt','fit']
     r.receipts.close()
+
+
+def test_actual_deployed_configuration_passes_startup_binding():
+    registry = ROOT / 'trad/config/joint_price_news_rolling_v1_20260930.json'
+    config = ROOT / 'trad/config/joint_news_scheduler_v1_20261001.json'
+    value = scheduler.validate_overlay(config, registry)
+    assert value['changes'][-1] == 'bounded_exact_current_news_file_permission_retry'
