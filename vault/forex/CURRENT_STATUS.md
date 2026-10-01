@@ -1,3 +1,3 @@
 # Current status
 
-PAIR_RECOVERY_20261001/REVIEW.md. Duplicate-reference computation skip deployed;90 deployment and23 relocated tests passed. Original68 histories preserved. Producer intermittency, pair recovery and management remain pending. Parent live_news_input_reliability_v1 remains partial.
+NEWS_FAILURE_JOURNAL_20261001/REVIEW.md. Durable news-producer journal deployed;101 deployment and6 relocated tests passed. Original producer and68 histories preserved. Earlier14 producer errors remain unexplained; per-pair recovery and management pending. Parent live_news_input_reliability_v1 remains partial.

@@ -1,0 +1,30 @@
+{
+  "schema": "forex.review_packet.v1",
+  "step_id": "news_failure_journal_20261001",
+  "source_commit": "98527c04eb67264d2dbc735c0c85c5c4814dae66",
+  "status": "accepted_within_scope",
+  "review_status": "accepted_within_scope",
+  "implementation_status": "durable_producer_failure_journal_deployed",
+  "independent_review": false,
+  "same_task_review": true,
+  "readiness": {
+    "engineering_ready": true,
+    "forecast_evidence_status": "unchanged",
+    "policy_evidence_status": "not_qualified",
+    "demo_authorization_status": "not_granted"
+  },
+  "checks": [
+    "101 deployment tests passed",
+    "6 relocated source tests passed",
+    "68 original contract/activation/forecast histories unchanged",
+    "Original producer source unchanged; live start/first_current receipts verified"
+  ],
+  "unresolved_findings": [
+    "Prior14 producer failure causes remain unknown",
+    "Per-pair recovery and quote absences",
+    "Position management qualification"
+  ],
+  "next_item": "live_news_input_reliability_v1",
+  "replacement_models_fitted": 0,
+  "runtime_changed": true
+}

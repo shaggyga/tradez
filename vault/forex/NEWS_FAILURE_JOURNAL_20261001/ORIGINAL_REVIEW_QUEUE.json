@@ -1,11 +1,11 @@
 {
-  "active_step_id": "news_failure_journal_20261001",
-  "active_step_semantics": "Producer journal deployed; underlying failure and pair readiness remain",
-  "current_review_packet": "NEWS_FAILURE_JOURNAL_20261001/REVIEW.json",
+  "active_step_id": "pair_recovery_20261001",
+  "active_step_semantics": "Duplicate skip deployed; remaining producer/pair readiness",
+  "current_review_packet": "PAIR_RECOVERY_20261001/REVIEW.json",
   "current_user_requested_context": {
     "request": "Fix data; connect strongest supported existing models across entire design horizon; stop new fits/experiments",
-    "status": "producer_journal_deployed_remaining_support_partial",
-    "packet": "NEWS_FAILURE_JOURNAL_20261001/REVIEW.json",
+    "status": "duplicate_skip_deployed_remaining_support_partial",
+    "packet": "PAIR_RECOVERY_20261001/REVIEW.json",
     "next_item": "live_news_input_reliability_v1",
     "new_research_authorized": false
   },
@@ -5344,9 +5344,9 @@
         "Reconcile historical official event cohort with original hashes or a separately qualified successor; never overwrite sealed bindings",
         "Observe successful current pipeline cycles and dashboard inputs; distinguish joint warmup from errors; update Git/Vault with exact remaining evidence"
       ],
-      "next_action": "Read durable producer journal for exact new failure/recovery evidence. Diagnose the underlying cause without altering gates speculatively; reconcile per-pair recovery, then position-management qualification.",
+      "next_action": "Duplicate-reference skip deployed. Capture exact underlying producer refusal; measure per-pair recovery and real quote absence under current runtime. Do not weaken gates. Then position-management qualification.",
       "completed_substep": "ROLLING_INPUT_RELIABILITY_20261001/REVIEW.json",
-      "latest_diagnosis": "NEWS_FAILURE_JOURNAL_20261001/REVIEW.json"
+      "latest_diagnosis": "PAIR_RECOVERY_20261001/REVIEW.json"
     },
     {
       "step_id": "news_input_compatibility_repair_20261001",
@@ -5395,14 +5395,6 @@
       "independent_review": false,
       "packet": "PAIR_RECOVERY_20261001/REVIEW.json",
       "packet_sha256": "529bfea8a902804dde580f092324c6622e5628d8354177e0e875405ba940430c"
-    },
-    {
-      "step_id": "news_failure_journal_20261001",
-      "implementation_status": "complete_scoped_producer_journal",
-      "review_status": "accepted_within_scope",
-      "independent_review": false,
-      "packet": "NEWS_FAILURE_JOURNAL_20261001/REVIEW.json",
-      "packet_sha256": "568fa8f0926a865cd4aec80939be7eedcd14c18c8d53c5b000525dd37ee842f4"
     }
   ],
   "timed_session": {
@@ -5415,5 +5407,5 @@
     "source_commit": "6eb514ab1856190b39d83ab020d5f77700ca8770",
     "updated_utc": "2026-09-25T18:12:00.5976014Z"
   },
-  "updated_utc": "2026-10-01T15:59:19.657547+00:00"
+  "updated_utc": "2026-10-01T15:40:29.682374+00:00"
 }
