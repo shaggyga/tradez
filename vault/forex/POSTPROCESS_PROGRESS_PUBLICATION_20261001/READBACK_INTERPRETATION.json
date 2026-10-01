@@ -1,0 +1,9 @@
+{
+  "utc": "2026-10-01T16:36:33.479659+00:00",
+  "corrects": "POST_CUTOVER_READBACK.json interpretation sentence",
+  "first_new_collector_cycle_epoch": 1790871332.142614,
+  "startup_gap_failures": 2,
+  "failures_after_new_cycle_began": 0,
+  "explanation": "Two failures occurred after the deployment script receipt but before the new collector cycle began, while the old stopped collector heartbeat was still visible. They are startup-gap failures, not failures inside the verified cycle. The earlier statement that all retained failure records predated cutover was too broad. The completed-cycle gate remains unchanged:301 samples, producer4 to4 and joint6 to6. Do not infer uninterrupted availability through the restart.",
+  "remaining_failures": []
+}

@@ -1,0 +1,178 @@
+{
+  "utc": "2026-10-01T16:35:21.283057+00:00",
+  "cutover_epoch": 1790871297.705528,
+  "producer_failures_after_cutover": [
+    {
+      "event": "cycle_failure",
+      "evidence": {
+        "clock": {
+          "fields": {
+            "clock_discontinuity_active": false,
+            "errors": null,
+            "generated_utc": "2026-10-01T16:14:59.939245+00:00",
+            "host_clock_synchronized": true,
+            "last_error": null,
+            "last_progress_utc": null,
+            "phase": null,
+            "status": "ok",
+            "timestamp_normalization_trusted": true
+          },
+          "sha256": "033715d52210235beee0eb9c5beabe04ab06fc97a00012d310d0ffd5f53d0f46"
+        },
+        "collector": {
+          "fields": {
+            "clock_discontinuity_active": null,
+            "errors": null,
+            "generated_utc": "2026-10-01T16:13:09.286978+00:00",
+            "host_clock_synchronized": null,
+            "last_error": null,
+            "last_progress_utc": "2026-10-01T16:12:45.762043+00:00",
+            "phase": "postprocessing_evidence",
+            "status": "running_cycle",
+            "timestamp_normalization_trusted": null
+          },
+          "sha256": "eee8a8433d409df74941c1ee599734fd9acdf8c2aab937d2fdd57cefb368b5ac"
+        },
+        "producer": {
+          "fields": {
+            "clock_discontinuity_active": null,
+            "errors": 3,
+            "generated_utc": "2026-10-01T16:15:15.782153+00:00",
+            "host_clock_synchronized": null,
+            "last_error": "ValueError:upstream_collector_stale_or_future",
+            "last_progress_utc": null,
+            "phase": "research_collection",
+            "status": "unavailable",
+            "timestamp_normalization_trusted": null
+          },
+          "sha256": "72f06a46d06796ed79f8c85a124c9014960ddf42e9ade2aaab875d4ffbfc2861"
+        }
+      },
+      "heartbeat": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "errors": 3,
+        "execution_eligible": false,
+        "generated_epoch": 1790871315.782153,
+        "generated_utc": "2026-10-01T16:15:15.782153+00:00",
+        "last_error": "ValueError:upstream_collector_stale_or_future",
+        "phase": "research_collection",
+        "proof_eligible": false,
+        "publication_epoch": 1790871315.782153,
+        "research_only": true,
+        "schema_version": "repaired_joint_news_heartbeat_v2_20260912_source_derived_clocks",
+        "snapshot_generated_utc": "2026-10-01T16:15:10.499424+00:00",
+        "snapshot_sha256": "f684c1a611a40d55ac0040898110c1611a0df5b820acd75e301e6ad670defa8e",
+        "source_status": "unavailable",
+        "status": "unavailable"
+      },
+      "observed_epoch": 1790871315.8949854,
+      "schema_version": "news_producer_journal_v1_20261001"
+    },
+    {
+      "event": "cycle_failure",
+      "evidence": {
+        "clock": {
+          "fields": {
+            "clock_discontinuity_active": false,
+            "errors": null,
+            "generated_utc": "2026-10-01T16:14:59.939245+00:00",
+            "host_clock_synchronized": true,
+            "last_error": null,
+            "last_progress_utc": null,
+            "phase": null,
+            "status": "ok",
+            "timestamp_normalization_trusted": true
+          },
+          "sha256": "033715d52210235beee0eb9c5beabe04ab06fc97a00012d310d0ffd5f53d0f46"
+        },
+        "collector": {
+          "fields": {
+            "clock_discontinuity_active": null,
+            "errors": null,
+            "generated_utc": "2026-10-01T16:13:09.286978+00:00",
+            "host_clock_synchronized": null,
+            "last_error": null,
+            "last_progress_utc": "2026-10-01T16:12:45.762043+00:00",
+            "phase": "postprocessing_evidence",
+            "status": "running_cycle",
+            "timestamp_normalization_trusted": null
+          },
+          "sha256": "eee8a8433d409df74941c1ee599734fd9acdf8c2aab937d2fdd57cefb368b5ac"
+        },
+        "producer": {
+          "fields": {
+            "clock_discontinuity_active": null,
+            "errors": 4,
+            "generated_utc": "2026-10-01T16:15:21.920129+00:00",
+            "host_clock_synchronized": null,
+            "last_error": "ValueError:upstream_collector_stale_or_future",
+            "last_progress_utc": null,
+            "phase": "research_collection",
+            "status": "unavailable",
+            "timestamp_normalization_trusted": null
+          },
+          "sha256": "3483f324d5da0868c610fbd083c87067c134c944cb84b408ea6da83e7aa46848"
+        }
+      },
+      "heartbeat": {
+        "account_eligible": false,
+        "can_authorize": false,
+        "can_place_orders": false,
+        "can_promote": false,
+        "errors": 4,
+        "execution_eligible": false,
+        "generated_epoch": 1790871321.9201293,
+        "generated_utc": "2026-10-01T16:15:21.920129+00:00",
+        "last_error": "ValueError:upstream_collector_stale_or_future",
+        "phase": "research_collection",
+        "proof_eligible": false,
+        "publication_epoch": 1790871321.9201293,
+        "research_only": true,
+        "schema_version": "repaired_joint_news_heartbeat_v2_20260912_source_derived_clocks",
+        "snapshot_generated_utc": "2026-10-01T16:15:21.873721+00:00",
+        "snapshot_sha256": "f6ec5c94f4da72e880a737af3fae44f02cdb26bb7543c20c74bfdffe6f60d12a",
+        "source_status": "unavailable",
+        "status": "unavailable"
+      },
+      "observed_epoch": 1790871321.9320977,
+      "schema_version": "news_producer_journal_v1_20261001"
+    }
+  ],
+  "producer_heartbeat": {
+    "account_eligible": false,
+    "can_authorize": false,
+    "can_place_orders": false,
+    "can_promote": false,
+    "errors": 4,
+    "execution_eligible": false,
+    "generated_epoch": 1790872497.3991497,
+    "generated_utc": "2026-10-01T16:34:57.399150+00:00",
+    "last_error": "",
+    "phase": "research_collection",
+    "proof_eligible": false,
+    "publication_epoch": 1790872497.3991497,
+    "research_only": true,
+    "schema_version": "repaired_joint_news_heartbeat_v2_20260912_source_derived_clocks",
+    "snapshot_generated_utc": "2026-10-01T16:34:57.205269+00:00",
+    "snapshot_sha256": "d6d8ba9211861bac9e303cc2890e414c0d2019a251e09fd6c8f2437accbb685d",
+    "source_status": "current",
+    "status": "current"
+  },
+  "joint": {
+    "generated_epoch": 1790872508.8905175,
+    "errors": 6,
+    "last_error": "shared_news:ValueError:upstream_collector_stale_or_future",
+    "counts": {
+      "building": 0,
+      "forecast": 61,
+      "ready": 0,
+      "unavailable": 7,
+      "warming": 0
+    },
+    "observed_news_failure_serial": 7
+  },
+  "interpretation": "The older failure records retained in VERIFICATION.json predate this cutover. LIVE_CYCLE_VERIFICATION.json establishes the completed-cycle gate; this is a later separate readback."
+}

@@ -1,0 +1,50 @@
+{
+  "schema": "forex.review_packet.v1",
+  "step_id": "health_read_recovery_20261001",
+  "source_commit": "af3dfd365ab76f70ade44122f69254888550dea9",
+  "status": "accepted_within_scope",
+  "review_status": "accepted_within_scope",
+  "implementation_status": "bounded_health_read_recovery_deployed",
+  "independent_review": false,
+  "same_task_review": true,
+  "readiness": {
+    "engineering_ready": true,
+    "forecast_evidence_status": "unchanged",
+    "policy_evidence_status": "not_qualified",
+    "demo_authorization_status": "not_granted"
+  },
+  "checks": [
+    "97 deployment tests passed",
+    "30 relocated source tests passed",
+    "68 original contract/activation/forecast histories unchanged",
+    "Exact source live operation with two new fit receipts",
+    "Original validation gates unchanged; permanent failure remains refused"
+  ],
+  "live_verification": {
+    "utc": "2026-10-01T16:51:23.944231+00:00",
+    "samples": 26,
+    "checks": {
+      "current_source": true,
+      "two_new_fit_receipts": true
+    },
+    "first_errors": 0,
+    "last_errors": 0,
+    "latest_counts": {
+      "building": 0,
+      "forecast": 61,
+      "ready": 0,
+      "unavailable": 7,
+      "warming": 0
+    },
+    "actual_read_retry_events": [],
+    "raw_sha256": "866dcb41679c2aeeb4d5d1fb09151904f14f0921f3fd764565c17de2af2ffc84",
+    "scope": "Live current-source operation; absence of a naturally recurring PermissionError is not proof of live lock recovery. Controlled tests establish retry behavior."
+  },
+  "unresolved_findings": [
+    "Per-pair recovery and quote absences",
+    "Position management qualification"
+  ],
+  "next_item": "live_news_input_reliability_v1",
+  "replacement_models_fitted": 0,
+  "runtime_changed": true
+}

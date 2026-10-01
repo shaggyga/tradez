@@ -6610,3 +6610,5 @@ Local actual-work log `evidence/news_capture_mapping_20260930/WORK_LOG.jsonl`; e
 2026-10-01T15:59:19.657547+00:00: NEWS_FAILURE_JOURNAL_20261001/REVIEW.json; source 98527c04eb67264d2dbc735c0c85c5c4814dae66; durable producer journal deployed; root cause/pair recovery partial.
 
 2026-10-01T16:28:25.342937+00:00: POSTPROCESS_PROGRESS_20261001/REVIEW.json; source aeca018c4e3ec53d2d80c8b857113c6776c7abce; postprocessing progress repair verified through live cycle; pair recovery partial.
+
+2026-10-01T16:52:00.695774+00:00: HEALTH_READ_RECOVERY_20261001/REVIEW.json; source af3dfd365ab76f70ade44122f69254888550dea9; health-file read retry repair verified; pair recovery partial.
