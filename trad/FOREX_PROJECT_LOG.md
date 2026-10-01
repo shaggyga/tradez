@@ -7908,3 +7908,8 @@ Final native readback 2026-09-30T23:51:45.345975+00:00: HTTP 200 in 7.899seconds
 
 
 Legacy26 final restore completion: LEGACY26_RESTORE_COMPLETION_20260930 supersedes the initial handoff for canonical CLI retrieval. Existing restore tool fixed/tested; canonical20-artifact restore and four numerical recorded-forecast replays passed. 104 implementation tests plus4 capsule tests; no deployed inference change or new fit. Final Git receipt LEGACY26_RESTORE_PUBLICATION_20260930/RECEIPT.json. Next remains data_freshness_and_remaining_horizon_reconciliation_v1.
+
+
+## October1 saved6h/18h checkpoint
+
+Step `remaining_saved_connections_20261001`; Vault `REMAINING_CONNECTIONS_20261001/REVIEW.json`; local `evidence/remaining_connections_20261001`. Four original matched Ridge/HGB references connected without refit,15 connections/11 horizons total.68 focused tests;270 exact saved forecast replays;24 canonical restored payloads;8 observed-input replays within1e-12bps. Native HTTP200:960forecasts/64pairs; news and15 tracking groups current. Same-task review, not independent. Parent/target reconciliation preserves curve negative result and16 unsupported exact targets. Next `retained_currency_projection_connection_v1`; broader layer, target and position-management work remains. See [details](../docs/REMAINING_CONNECTIONS_20261001.md).

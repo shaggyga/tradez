@@ -29,6 +29,7 @@ SCHEMA='retained_forecast_connection_v1_20260930'
 REGISTRY=ROOT/'config/retained_forecast_connection_20260930.json'
 OUTPUT=ROOT/'data/retained_connection_20260930'
 FLAGS={'can_place_orders':False,'can_promote':False,'models_fitted':0,'research_only':True}
+LEGACY_KINDS=('legacy26_extra_trees','legacy26_matched')
 CONTEXT=('m1__return_15_bps','m1__return_60_bps','m1__path_efficiency_15',
          'm1__return_vol_15_pips','m1__return_vol_60_pips','m1__spread_ratio_prior_120',
          'm1__utc_hour_sin','m1__utc_hour_cos')
@@ -114,7 +115,7 @@ class SavedConnection:
         entries=self.registry['connections']
         if not 1<=len(entries)<=24 or len({e['id'] for e in entries})!=len(entries):raise ValueError('bounded_unique_connections_required')
         for e in entries:
-            if (e['kind'] not in ('rolling','specialist','rich_pipeline','legacy26_extra_trees') or type(e['horizon_minutes']) is not int
+            if (e['kind'] not in ('rolling','specialist','rich_pipeline',*LEGACY_KINDS) or type(e['horizon_minutes']) is not int
                 or e['horizon_minutes']<=0 or not e['feature_names'] or len(set(e['feature_names']))!=len(e['feature_names'])
                 or not e.get('selection_scope') or not e.get('evidence')):raise ValueError('exact_model_target_contract_required')
         for name,expected in self.registry['source_bindings'].items():
@@ -125,19 +126,35 @@ class SavedConnection:
         for name,record in self.registry['normalizers'].items():
             with np.load(io.BytesIO(checked(self.root,record)),allow_pickle=False) as data:
                 self.normalizers[name]={k:data[k].copy() for k in data.files}
-        self.models={}
+        self.models={};self.fit_metadata={}
         for entry in self.registry['connections']:
             if entry['id'] in self.models:raise ValueError('duplicate_connection')
-            if entry['kind']=='legacy26_extra_trees':
+            if entry['kind'] in LEGACY_KINDS:
                 import oanda_retained_legacy26_v1 as legacy
-                meta=entry['fit_metadata']
+                matched=entry['kind']=='legacy26_matched'
+                meta=json.loads(checked(self.root,entry['fit_metadata'])) if matched else entry['fit_metadata']
                 if (entry['feature_names']!=legacy.FEATURES or len(entry['models'])!=1
                     or meta['feature_schema_sha256']!=sha(encoded(legacy.FEATURES))
                     or meta['fit_id']!=sha(encoded({k:v for k,v in meta.items() if k!='fit_id'}))
-                    or meta['model_sha256']!=entry['models'][0]['sha256']
+                    or meta['tree_sha256' if matched else 'model_sha256']!=entry['models'][0]['sha256']
                     or meta['target']!={'target_id':f"technical_endpoint_midpoint_elapsed_{entry['horizon_minutes']}m",'horizon_seconds':entry['horizon_minutes']*60}
                     or meta['maximum_outcome_available_epoch']>meta['fit_cutoff']
                     or meta['ready_epoch']<meta['fit_cutoff']):raise ValueError('saved_legacy26_identity')
+                if matched:
+                    ridge=meta['ridge']
+                    if (meta['schema_version']!='forex_matched_fit_pair.v1' or entry.get('arm') not in ('ridge','recovered_hgb')
+                        or entry.get('original_model_id')!=sha(encoded({'fit_id':meta['fit_id'],'method':entry['arm']}))
+                        or ridge['model_id']!=sha(encoded({k:v for k,v in ridge.items() if k!='model_id'}))
+                        or ridge['target']!=meta['target'] or ridge['ready_epoch']!=meta['ready_epoch']
+                        or ridge['feature_count']!=26 or ridge['training_population_sha256']!=meta['training_population_sha256']
+                        or ridge['maximum_outcome_available_epoch']!=meta['maximum_outcome_available_epoch']
+                        or ridge['training_view']!=meta['training_view']
+                        or meta['training_view']['fit_cutoff_epoch']!=meta['fit_cutoff']):raise ValueError('saved_matched_identity')
+                    for key,width in (('mean',26),('scale',26),('coefficient',27)):
+                        a=np.asarray(ridge[key],dtype=np.float64)
+                        if a.shape!=(width,) or not np.isfinite(a).all() or (key=='scale' and np.any(a<=0)):
+                            raise ValueError('saved_matched_ridge_parameters')
+                self.fit_metadata[entry['id']]=meta
             self.models[entry['id']]=[joblib.load(io.BytesIO(checked(self.root,r))) for r in entry['models']]
 
     def verify_sources(self):
@@ -155,6 +172,13 @@ class SavedConnection:
             if x.shape[1]!=26 or not np.isfinite(x).all() or models[0].n_features_in_!=26:
                 raise ValueError('saved_legacy26_features')
             return models[0].predict(x)
+        if entry['kind']=='legacy26_matched':
+            if x.shape[1]!=26 or not np.isfinite(x).all():raise ValueError('saved_legacy26_features')
+            if entry['arm']=='ridge':
+                ridge=self.fit_metadata[entry['id']]['ridge']
+                return np.column_stack((np.ones(len(x)),(x-np.asarray(ridge['mean']))/np.asarray(ridge['scale'])))@np.asarray(ridge['coefficient'])
+            if list(models[0].feature_names_in_)!=names:raise ValueError('saved_matched_feature_order')
+            return models[0].predict(pd.DataFrame(x,columns=names))
         if entry['kind']=='rich_pipeline':
             frame=pd.DataFrame(x,columns=names)
             if list(models[0].feature_names_in_)!=names:raise ValueError('saved_rich_feature_order')
@@ -187,7 +211,7 @@ class SavedConnection:
         now=clock()
         output=[];coverage=[]
         for entry in self.registry['connections']:
-            legacy=entry.get('kind')=='legacy26_extra_trees'
+            legacy=entry.get('kind') in LEGACY_KINDS
             input_rows=rows if not legacy else {p:{**r,'values':r['legacy26']['values'],
                 'feature_hash':r['legacy26']['feature_hash'],'input_hash':r['legacy26']['input_hash'],
                 'panel_sha256':None,'legacy26_provenance':r['legacy26']['provenance']}
@@ -200,7 +224,7 @@ class SavedConnection:
                 elif row is not None and not row['bar_start_epoch']+60<=row['published_epoch']<=row['captured_epoch']<=now:reason='input_clock_order'
                 elif row is not None and not 0<=now-row['bar_start_epoch']-60<=180:reason='input_stale'
                 elif row is not None and now>=row['bar_start_epoch']+60+entry['horizon_minutes']*60:reason='target_already_mature'
-                elif legacy and entry['fit_metadata']['ready_epoch']>now:reason='model_not_ready'
+                elif legacy and (self.fit_metadata[entry['id']] if entry['kind']=='legacy26_matched' else entry['fit_metadata'])['ready_epoch']>now:reason='model_not_ready'
                 state=report.get('pairs',{}).get(pair,{})
                 names=entry.get('feature_names',[])
                 available_values=(row or {}).get('values',{})
@@ -238,6 +262,7 @@ class SavedConnection:
                     'panel_sha256':row.get('panel_sha256'),
                     'legacy26_provenance':row.get('legacy26_provenance'),
                     'target_semantics':entry.get('target_semantics','completed_M1_midpoint_elapsed_return'),
+                    'original_model_id':entry.get('original_model_id'),
                     'input_support':next(c['input_support'] for c in coverage if c['connection']==entry['id'] and c['instrument']==pair),
                     'selection_scope':entry['selection_scope'],'registry_sha256':self.registry_sha256,**FLAGS})
         return {'schema':SCHEMA,'generated_epoch':clock(),'registry_sha256':self.registry_sha256,
@@ -271,7 +296,7 @@ def publish_once(connection,output=OUTPUT):
     database=output/'issued.sqlite'
     if database.exists() and database.stat().st_size>2*1024**3:raise ValueError('retained_issuance_store_limit')
     rows,report=capture_rows()
-    if any(e['kind']=='legacy26_extra_trees' for e in connection.registry['connections']):
+    if any(e['kind'] in LEGACY_KINDS for e in connection.registry['connections']):
         import oanda_retained_legacy26_v1 as legacy
         cfg,_=availability.read_config(availability.DEFAULT_CONFIG)
         report['legacy26']=legacy.attach(rows,Path(cfg['output_root'])/'technical.sqlite')

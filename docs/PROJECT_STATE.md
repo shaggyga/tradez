@@ -1,5 +1,10 @@
 # Current project orientation — September 30, 2026
 
+## Current checkpoint - October1,2026
+
+[Saved6h/18h connections](REMAINING_CONNECTIONS_20261001.md): fifteen connections across11 elapsed horizons; original11 preserved. No new fits. Bounded target and parent reconciliation is complete with16 unqualified exact targets explicit. Next `retained_currency_projection_connection_v1`. Layer integration and position management remain unfinished. Earlier next-item notices below are historical.
+
+
 Read this before proposing a forecasting experiment or interpreting a new result. The full engineering design remains the goal. The Vault is the shared brain; Git carries source; exact model/forecast/evidence identities govern reuse. This page maps evidence, not a replacement scientific approval or queue.
 
 New collaborators: [start here](../START_HERE.md). Git includes a [versioned Vault

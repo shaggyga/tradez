@@ -1,5 +1,10 @@
 # Start here
 
+## Current checkpoint - October1,2026
+
+[Saved6h/18h connections](docs/REMAINING_CONNECTIONS_20261001.md): fifteen connections across11 elapsed horizons; original11 preserved. No new fits. Bounded target and parent reconciliation is complete with16 unqualified exact targets explicit. Next `retained_currency_projection_connection_v1`. Layer integration and position management remain unfinished. Earlier next-item notices below are historical.
+
+
 ## Understand the project
 
 The goal is better Forex forecasts through technical features, news/context layers
