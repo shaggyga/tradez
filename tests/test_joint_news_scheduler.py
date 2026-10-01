@@ -63,8 +63,10 @@ def test_binding_refuses_changed_registry_and_scope(tmp_path):
     config = tmp_path / 'scheduler.json'
     value = dict(schema_version=scheduler.SCHEMA, base_source_sha256=scheduler.BASE_SHA256,
         scheduler_source_sha256=scheduler.sha(scheduler.__file__),
+        health_retry_source_sha256=scheduler.sha(scheduler.health_retry.__file__),
         registry_sha256=scheduler.sha(registry),
-        changes=['overdue_news_before_post_poll_pair_dispatch'], can_place_orders=False, research_only=True)
+        changes=['overdue_news_before_post_poll_pair_dispatch',
+                 'one_full_capture_retry_after_strict_healthy_recheck'], can_place_orders=False, research_only=True)
     config.write_text(json.dumps(value))
     assert scheduler.validate_overlay(config, registry) == value
     registry.write_text('{"different":true}')

@@ -21,7 +21,8 @@
     "config/rolling_technical_operations_v2_20260916.json": "828e5c5bdc1f2d09c17615fd6b692d67e04f80b061cd85a0df91b274b331cc47",
     "config/fast_headline_sources_v1_20260930.json": "1a4ae5e79213eb1be1642162b2c649683d6511d9a9979920913bd8d7c2b7a016",
     "config/retained_forecast_connection_20260930.json": "29c33ee654188ce803476904b5e092f93c13afe59fff70e51452035a13bfd180",
-    "config/joint_news_scheduler_v1_20261001.json": "20a040f7bec23994a37697db3b15f62d17f87926765bea5854a6b9edf8c772d8"
+    "config/joint_news_scheduler_v1_20261001.json": "6bee9041f20012001dea3a5dc703b6ef246e4b064c6e2385bc69b030990e2c8a",
+    "config/collector_progress_v1_20261001.json": "712b81c618d565456ea406c9806134da024d4da2b6b943617996126c91a74283"
   },
   "enable_joint_forecasts": true,
   "enable_news_capacity": false,
@@ -109,7 +110,9 @@
         "--interval-sec",
         "60",
         "--duration-sec",
-        "604800"
+        "604800",
+        "--progress-config",
+        "C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\collector_progress_v1_20261001.json"
       ],
       "heartbeat": "C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\collector_heartbeat_v1.json",
       "heartbeat_field": "schema_version",
@@ -117,10 +120,10 @@
       "interpreter_mode": "no_bytecode",
       "max_age_sec": 120,
       "name": "default_news_collector_v1",
-      "needle": "oanda_local_news_sentiment.py",
+      "needle": "oanda_news_collector_progress_v1.py",
       "priority_class": "BelowNormal",
-      "script": "oanda_local_news_sentiment.py",
-      "source_sha256": "44e66d85f82b52d6dc82e2e277bad31d2ee8c16304bec9c6a083a8b17eeb6c50",
+      "script": "oanda_news_collector_progress_v1.py",
+      "source_sha256": "2233947aaa93fdf7124c7d91bda88eccd93bcd866fdb164926caf09653ce33e2",
       "startup_grace_sec": 180
     },
     {
@@ -204,7 +207,7 @@
       "needle": "oanda_joint_news_scheduler_v1.py",
       "priority_class": "Normal",
       "script": "oanda_joint_news_scheduler_v1.py",
-      "source_sha256": "46f5e5ab0b3c58ac12e7e002bf58b455641ed8a6da9a58e81ccb2d668da11eba",
+      "source_sha256": "bfce6a201190dfa5298ce408cafa9a09ffe880d41fb595c884d4f9b936c2cb2e",
       "startup_grace_sec": 300
     },
     {
@@ -437,7 +440,7 @@
   ],
   "support_sources": {
     "oanda_operational_log_relay_v2.py": "e85e9e425941cd8eca77440712c05c975513fe26e13402aaab8e05068c16714a",
-    "oanda_operational_recovery_contract_v6.ps1": "82c550f9384777708ce62c681d02087eb68f4b4fcfb35fb8733b567bbe056030",
+    "oanda_operational_recovery_contract_v6.ps1": "c8d2fff05701de0e1bdd7a40db0662dd66a5b96d87d4f27a16f0ae16491b71b2",
     "oanda_operational_supervisor_v6.ps1": "30df5f69ec7a2b412252ff12ad7f233c2207336616e5f7cfc533d3b70cdce1f4",
     "oanda_supervisor_watchdog_v6.ps1": "f06dd8516fc6148dec1e65eae0ae2da018d33be600d84f25ba82dbad8415d6ea",
     "start_oanda_operational_research_v6.ps1": "e6133420234bb8d203c889191ec6bef9bf22c39cb6230e39321a8fffc835b6ce",
@@ -445,5 +448,6 @@
   },
   "enable_currency_news_context": true,
   "enable_feature_forward_research": false,
-  "enable_joint_scheduler": true
+  "enable_joint_scheduler": true,
+  "enable_collector_progress": true
 }

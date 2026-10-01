@@ -11,6 +11,8 @@ import json
 import os
 from pathlib import Path
 import time
+import threading
+import oanda_news_health_retry_v1 as health_retry
 import uuid
 
 import oanda_joint_price_news_forecast_study_v11 as base
@@ -30,9 +32,10 @@ def validate_overlay(path, registry_path):
     if (value.get('base_source_sha256') != BASE_SHA256
             or sha(base.__file__) != BASE_SHA256
             or value.get('scheduler_source_sha256') != sha(__file__)
-            or value.get('registry_sha256') != sha(registry_path)):
+            or value.get('registry_sha256') != sha(registry_path)
+            or value.get('health_retry_source_sha256') != sha(health_retry.__file__)):
         raise ValueError('scheduler_exact_source_and_registry_binding')
-    if value.get('changes') != ['overdue_news_before_post_poll_pair_dispatch']:
+    if value.get('changes') != ['overdue_news_before_post_poll_pair_dispatch', 'one_full_capture_retry_after_strict_healthy_recheck']:
         raise ValueError('scheduler_scope_changed')
     if value.get('can_place_orders') is not False or value.get('research_only') is not True:
         raise ValueError('nontrading_scheduler_required')
@@ -43,6 +46,7 @@ class Receipts:
     """One exclusive durable journal per process, never retroactive attribution."""
     def __init__(self, directory, metadata, clock=time.time):
         self.clock = clock
+        self.write_lock = threading.Lock()
         self.run_id = uuid.uuid4().hex
         directory = Path(directory)
         directory.mkdir(parents=True, exist_ok=True)
@@ -53,9 +57,10 @@ class Receipts:
     def write(self, event, **details):
         row = dict(schema_version=SCHEMA, run_id=self.run_id,
                    observed_epoch=self.clock(), event=event, **details)
-        self.handle.write(base.encoded(row) + b'\n')
-        self.handle.flush()
-        os.fsync(self.handle.fileno())
+        with self.write_lock:
+            self.handle.write(base.encoded(row) + b'\n')
+            self.handle.flush()
+            os.fsync(self.handle.fileno())
 
     def close(self):
         self.handle.close()
@@ -65,6 +70,10 @@ class ScheduledRunner(base.PairRunner):
     def __init__(self, *args, receipts, **kwargs):
         self.receipts = receipts
         super().__init__(*args, **kwargs)
+        self.news_pool = health_retry.NewsExecutor(self.news_pool, base.capture_shared_owned,
+            recheck=lambda: self.news_io._health(
+                json.loads(self.news_io._session(self.news_session)['config']), self.clock),
+            record=self.receipts.write)
         self.receipts.write('baseline', ledgers=[
             dict(instrument=pair, family=family, contract_sha256=slot['ledger'].contract_hash,
                  max_forecast_rowid=slot['ledger'].db.execute(

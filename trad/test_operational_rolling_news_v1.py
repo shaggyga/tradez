@@ -44,6 +44,21 @@ def test_scheduler_overlay_requires_explicit_selection_and_keeps_role(tmp_path):
     assert validate(tmp_path, project, path).returncode != 0
 
 
+def test_progress_wrapper_requires_explicit_selection(tmp_path):
+    project, path, value = prepared(tmp_path)
+    row = next(r for r in value['services'] if r['name'] == 'default_news_collector_v1')
+    row.update(script='oanda_news_collector_progress_v1.py', needle='oanda_news_collector_progress_v1.py')
+    body = b'# inert collector progress fixture\n'
+    (project / row['script']).write_bytes(body)
+    row['source_sha256'] = hashlib.sha256(body).hexdigest()
+    path.write_text(json.dumps(value))
+    assert validate(tmp_path, project, path).returncode != 0
+    value['enable_collector_progress'] = True
+    path.write_text(json.dumps(value))
+    result = validate(tmp_path, project, path)
+    assert result.returncode == 0, result.stderr
+
+
 @pytest.mark.parametrize('defect', ['string', 'unselected', 'missing_consumer', 'source'])
 def test_bad_rolling_runtime_is_refused(tmp_path, defect):
     project, path, value = prepared(tmp_path)

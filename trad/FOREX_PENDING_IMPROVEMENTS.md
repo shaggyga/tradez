@@ -5937,3 +5937,6 @@ Reproduced Windows atomic-replace reader lock; added bounded same-byte producer 
 
 
 2026-10-01 NEWS_SCHEDULER_DEPLOY_20261001: NEWS-TIMING-01 deployed via identified scheduler wrapper; original v11, registry and68 ledger histories preserved.78 deployment tests /12 relocated tests passed;3 accepted refreshes,6 exact forecast receipts,208s minimum dispatch headroom observed at14:38UTC. Vault NEWS_SCHEDULER_DEPLOY_20261001/REVIEW.json; local evidence/news_scheduler_deploy_20261001. Next live_news_input_reliability_v1: remaining unavailable pairs/actual refusals, then management contract. No new research experiment.
+
+
+2026-10-01 COLLECTOR_TIMING_20261001: six false-stale consumer reads proved delayed publication of actual progress. Collector progress wrapper and bounded healthy-recheck capture retry deployed;92 checks/25 relocated tests passed.246 samples through cycle completion:0 invalid,0 new joint errors,max133.74sec progress age;192 sources/31 records.Original68 histories and scientific sources preserved. Vault COLLECTOR_TIMING_20261001/REVIEW.json; local evidence/collector_timing_20261001. Next remaining per-pair readiness, then management qualification.
