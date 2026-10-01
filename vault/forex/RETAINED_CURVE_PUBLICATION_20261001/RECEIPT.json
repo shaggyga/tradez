@@ -1,0 +1,86 @@
+{
+  "packet": "RETAINED_CURVE_CONNECTION_20261001",
+  "manifest_sha256": "5b25a17eff4e6910cd7132259415708e13eb17d5f0a0d7ed6d4c8210f01f9a3b",
+  "source_commit": "2dd809da96f1ee4915a07e479b4bbfad9e44b67e",
+  "next": "retained_position_management_readiness_v1",
+  "utc": "2026-10-01T03:02:38.046930+00:00",
+  "documentation_commit": "8ea0cc313187ef5d768d3c60df8434facf792b48",
+  "remote_head": "8ea0cc313187ef5d768d3c60df8434facf792b48",
+  "remote": "https://github.com/shaggyga/tradez.git",
+  "branch": "forex",
+  "worktree_clean": true,
+  "native_acceptance": {
+    "label": "NATIVE",
+    "seconds": 200.0,
+    "samples": 29,
+    "technical_generations": 4,
+    "retained_publications": 5,
+    "zero_live_samples": 0,
+    "errors": [],
+    "minimum_live_pairs": 61,
+    "max_source_to_issue": 68.95339488983154,
+    "http_samples": [
+      {
+        "seconds": 18.57799999997951,
+        "status": "current",
+        "forecasts": 2379,
+        "tracking": "current",
+        "groups": 39,
+        "news": "current"
+      },
+      {
+        "seconds": 17.59399999998277,
+        "status": "current",
+        "forecasts": 2418,
+        "tracking": "current",
+        "groups": 39,
+        "news": "current"
+      },
+      {
+        "seconds": 18.26500000001397,
+        "status": "current",
+        "forecasts": 2437,
+        "tracking": "current",
+        "groups": 39,
+        "news": "current"
+      }
+    ]
+  },
+  "exact_issue_audit": {
+    "scope": "Every immutable issuance after corrected deployment start through last monitored publication, including first new publication; SHA verified. Deliberate reload transient is recorded separately in HTTP_STARTUP_UNAVAILABLE and HTTP_STARTUP_TRACKING_LAG. Exact intervals supplement sparse HTTP/local samples. Not a guarantee of future availability.",
+    "completed_intervals": 5,
+    "gap_count": 0,
+    "max_gap_seconds": 0,
+    "steady_source_to_issue_range": [
+      18.208149433135986,
+      68.95339488983154
+    ],
+    "startup_source_to_issue_seconds": 31.227853536605835,
+    "registries": [
+      "5d0c7216466db1425b4eb0482c8fdd721688cf80909b7da9ba1e7a903a4c3f7d"
+    ]
+  },
+  "snapshot_manifest_sha256": "e8963d2a1e66002ff64cef4d01b296981a5927f48dc144351d74528b8f2cacb5",
+  "snapshot_files_verified": 4447,
+  "snapshot_scope": "Dated knowledge preceding final documentation commit receipt; live Vault remains coordination authority",
+  "python_tests_passed": 105,
+  "javascript_scenarios_passed": 4,
+  "capsule": {
+    "capsule": "C:\\Users\\zmoor\\Documents\\forex\\evidence\\retained_curve_20261001\\curve_connections_capsule.zip",
+    "sha256": "5c2435c0f3efaa824887c391c29bfb3cbfcf3f7e2c24ec7c7f0ebecbe3bd193e",
+    "bytes": 5985021,
+    "payloads": 41,
+    "models_fitted": 0
+  },
+  "restored_replay": {
+    "status": "passed",
+    "restored_forecasts": 2476,
+    "max_absolute_difference_bps": 0.0,
+    "original_dependency_read_guard_active": true,
+    "models_fitted": 0,
+    "connections": 39,
+    "scope": "Recorded authenticated input values replayed with relocated exact source and models; original receipt database reconstruction reused from prior accepted base connection packet."
+  },
+  "independent_review": false,
+  "scope": "Preserved exact parent/curve integration only; broader project unfinished"
+}

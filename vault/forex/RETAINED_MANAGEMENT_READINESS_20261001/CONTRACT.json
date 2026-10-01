@@ -1,0 +1,26 @@
+{
+  "step_id": "retained_position_management_readiness_v1",
+  "depends_on": [
+    "retained_curve_parent_panel_connection_v1"
+  ],
+  "implementation_status": "not_started",
+  "review_status": "not_started",
+  "scope": "Reuse existing management/accounting engine with exact currently retained forecast/target identities; offline observation-only compatibility and refusal gate, no orders or new fitting",
+  "evidence": [
+    "RETAINED_CURVE_CONNECTION_20261001/REVIEW.json",
+    "trad/docs/FOREX_OVERNIGHT_CURVE_BUILDOUT_20260909.md",
+    "stage_c_alignment_integrity_v2/native_policy_input_v2.py"
+  ],
+  "acceptance_criteria": [
+    "Reconcile prior actual curve-manager evidence, exact source contracts and preserved policy artifacts before changes",
+    "Separate new entry from incumbent continuation and original-terminal conditioning; no old-estimate rebasing or synthetic-tier relabeling",
+    "Bind current forecasts, exact targets, causal clocks, authenticated quotes, conversions and cost assumptions; explicitly refuse missing inputs",
+    "Reuse existing manager/accounting/bridge code; implement only supported offline observation path with no broker or order authority",
+    "Verify meaningful refusal, durable identity, restart and settlement equivalence using authenticated inputs; no fitting or performance-search repeat",
+    "Publish tested source/evidence, precise remaining gaps, same-task review and reproducible Git/Vault checkpoint"
+  ],
+  "next_action": "Read current connection packet and September9 original manager study, curve adapter/contracts and native_policy_input_v2 synthetic-only admission; qualify exact current forecast/quote/target compatibility before an offline bridge.",
+  "start_utc": "2026-10-01T03:11:23.852821+00:00",
+  "baseline_commit": "8ea0cc313187ef5d768d3c60df8434facf792b48",
+  "deliverable": "Bounded read-only retained management evidence bridge: authenticate saved publications/first observations/settlements, complete all-pair readiness and exact-target continuation accounting, deterministic resumable/portable report. Reuse existing native policy gate; no invented forecast receipts, PnL, fills or account state."
+}

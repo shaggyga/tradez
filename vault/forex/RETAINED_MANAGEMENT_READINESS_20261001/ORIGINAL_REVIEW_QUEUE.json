@@ -1,12 +1,12 @@
 {
-  "active_step_id": "retained_position_management_readiness_v1",
-  "active_step_semantics": "Completed offline management readiness; exact quote receipts next",
-  "current_review_packet": "RETAINED_MANAGEMENT_READINESS_20261001/REVIEW.json",
+  "active_step_id": "retained_curve_parent_panel_connection_v1",
+  "active_step_semantics": "Completed exact saved parents/curve connection; existing position management compatibility next",
+  "current_review_packet": "RETAINED_CURVE_CONNECTION_20261001/REVIEW.json",
   "current_user_requested_context": {
     "request": "Fix data; connect strongest supported existing models across entire design horizon; stop new fits/experiments",
-    "status": "management_readiness_complete_quote_receipts_next",
-    "packet": "RETAINED_MANAGEMENT_READINESS_20261001/REVIEW.json",
-    "next_item": "retained_management_quote_receipts_v1",
+    "status": "curve_connected_position_management_readiness_next",
+    "packet": "RETAINED_CURVE_CONNECTION_20261001/REVIEW.json",
+    "next_item": "retained_position_management_readiness_v1",
     "new_research_authorized": false
   },
   "dashboard_source_qualification": {
@@ -190,7 +190,7 @@
     }
   ],
   "engineering_queue_pointer": "DESIGN_ALIGNMENT_LATEST.json",
-  "exact_next_item": "retained_management_quote_receipts_v1",
+  "exact_next_item": "retained_position_management_readiness_v1",
   "execution_status": "checkpointed_no_active_chat_worker",
   "forecasting_continuation": {
     "blocked_confirmation_item": "currency_projection_confirmation_protocol_v2",
@@ -5183,8 +5183,8 @@
       "depends_on": [
         "retained_curve_parent_panel_connection_v1"
       ],
-      "implementation_status": "complete_scoped_management_readiness",
-      "review_status": "accepted_within_scope",
+      "implementation_status": "not_started",
+      "review_status": "not_started",
       "scope": "Reuse existing management/accounting engine with exact currently retained forecast/target identities; offline observation-only compatibility and refusal gate, no orders or new fitting",
       "evidence": [
         "RETAINED_CURVE_CONNECTION_20261001/REVIEW.json",
@@ -5199,37 +5199,7 @@
         "Verify meaningful refusal, durable identity, restart and settlement equivalence using authenticated inputs; no fitting or performance-search repeat",
         "Publish tested source/evidence, precise remaining gaps, same-task review and reproducible Git/Vault checkpoint"
       ],
-      "next_action": "retained_management_quote_receipts_v1",
-      "packet": "RETAINED_MANAGEMENT_READINESS_20261001/REVIEW.json",
-      "packet_sha256": "05ab825189cea8de6c23b0196b34d2bc1261e86bac0f37391209d873ff5daaea",
-      "same_task_review": true,
-      "independent_review": false,
-      "unresolved_findings": []
-    },
-    {
-      "step_id": "retained_management_quote_receipts_v1",
-      "depends_on": [
-        "retained_position_management_readiness_v1"
-      ],
-      "implementation_status": "not_started",
-      "review_status": "not_started",
-      "scope": "Offline compatible quote receipt parser/publisher and manager adapter; preserve original decimals and true observation clocks. No collector restart, broker/account calls, other-owner recorder edits or policy activation.",
-      "evidence": [
-        "RETAINED_MANAGEMENT_READINESS_20261001/REVIEW.json",
-        "trad/oanda_quote_transport.py",
-        "trad/oanda_practice_shadow_strategy_lab.py",
-        "trad/oanda_practice_quote_stream.py",
-        "trad/oanda_curve_management_adapter_v1.py"
-      ],
-      "acceptance_criteria": [
-        "Inspect existing raw receipt support and reuse original decimal data; do not recreate historical precision from floats",
-        "Bind exact instrument, market clock, actual observation/publication clocks, source and receipt identity",
-        "Preserve current float cache compatibility while adding bounded market-data-only receipts",
-        "Test actual consumer refusal for stale, future, crossed and nontradeable quotes and exact identity; use existing long/short USD conversion routines",
-        "Verify resumable or deterministic publication and portable restore; no financing defaults or invented account state",
-        "Publish source, evidence, same-task review and matching Git/Vault checkpoint; quote readiness alone does not qualify management"
-      ],
-      "next_action": "Inspect raw stream price handling and QuoteSnapshotPublisher, retrieve any existing exact receipts, then implement and verify the compatible receipt boundary offline before a separately scoped rollout."
+      "next_action": "Read current connection packet and September9 original manager study, curve adapter/contracts and native_policy_input_v2 synthetic-only admission; qualify exact current forecast/quote/target compatibility before an offline bridge."
     }
   ],
   "timed_session": {
@@ -5242,5 +5212,5 @@
     "source_commit": "6eb514ab1856190b39d83ab020d5f77700ca8770",
     "updated_utc": "2026-09-25T18:12:00.5976014Z"
   },
-  "updated_utc": "2026-10-01T03:32:29.419299+00:00"
+  "updated_utc": "2026-10-01T02:58:22.097074+00:00"
 }

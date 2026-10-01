@@ -1,0 +1,31 @@
+.............F.................................                          [100%]
+================================== FAILURES ===================================
+_________ test_replay_chunk_restart_exact_and_tampered_resume_refused _________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5533/test_replay_chunk_restart_exac0')
+
+    def test_replay_chunk_restart_exact_and_tampered_resume_refused(tmp_path):
+        meta,d=fixture(tmp_path);inp=tmp_path/'input';pin=save(inp,meta,d)
+>       assert m.run(inp,pin,tmp_path/'runs','one')['status']=='completed'
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_retained_management_readiness.py:69: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tools\forex_retained_management_readiness.py:213: in run
+    finally:pub.release()
+            ^^^^^^^^^^^^^
+stage_c_alignment_integrity_v2\publication.py:259: in release
+    self._require_owner()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <publication.RunPublisher object at 0x000001F1F52D3830>
+
+    def _require_owner(self) -> None:
+        if self._guard_handle is None or self._owner_token is None or not _regular(self.lock):
+>           raise RunAlreadyOwned("this publisher does not own the run lock")
+E           publication.RunAlreadyOwned: this publisher does not own the run lock
+
+stage_c_alignment_integrity_v2\publication.py:172: RunAlreadyOwned
+=========================== short test summary info ===========================
+FAILED tests/test_retained_management_readiness.py::test_replay_chunk_restart_exact_and_tampered_resume_refused
+1 failed, 46 passed in 63.62s (0:01:03)

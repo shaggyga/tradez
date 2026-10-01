@@ -1,0 +1,65 @@
+[
+  {
+    "command": [
+      "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe",
+      "-I",
+      "-B",
+      "C:\\Users\\zmoor\\Documents\\forex\\tools\\forex_retained_management_readiness.py",
+      "replay",
+      "--input",
+      "C:\\Users\\zmoor\\Documents\\forex\\evidence\\retained_management_20261001\\inputs",
+      "--sha256",
+      "fc1138215b6133a69af3091baa58fdc699b04d4f94b70d0516b1a59b9107e3fd",
+      "--output",
+      "C:\\Users\\zmoor\\Documents\\forex\\evidence\\retained_management_20261001\\runs",
+      "--run-id",
+      "one"
+    ],
+    "exit_code": 0,
+    "stdout": "{\"status\": \"completed\", \"identity\": \"fedbb7a900c17d5d64737806415b9234eb7de2d4ed566962181bd7878703031b\", \"schema\": \"retained_management_readiness.v1\", \"registry_sha256\": \"5d0c7216466db1425b4eb0482c8fdd721688cf80909b7da9ba1e7a903a4c3f7d\", \"population\": 2652, \"connections\": 39, \"pairs\": 68, \"saved_forecasts\": 2418, \"fresh_forecasts\": 2418, \"first_observed_anchors\": 2535, \"anchor_states\": {\"pending\": 2411, \"not_observed\": 117, \"settled\": 124}, \"same_target_changed_input\": 0, \"potential_cross_horizon_same_terminal_anchors\": 0, \"changed_target_from_anchor\": 2418, \"quote_status_by_pair\": {\"quote_identity_mismatch\": 68}, \"management_eligible\": 0, \"existing_native_policy_gate\": \"native_synthetic_qualification_tier_required\", \"forecast_evidence_status\": \"unchanged\", \"policy_evidence_status\": \"not_qualified\", \"demo_authorization_status\": \"not_granted\", \"scope\": \"Complete retained management input qualification; no new performance evaluation or management activation\", \"research_only\": true, \"can_place_orders\": false, \"can_promote\": false, \"account_access\": false, \"broker_access\": false, \"models_fitted\": 0, \"manager_activation\": false}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe",
+      "-I",
+      "-B",
+      "C:\\Users\\zmoor\\Documents\\forex\\tools\\forex_retained_management_readiness.py",
+      "replay",
+      "--input",
+      "C:\\Users\\zmoor\\Documents\\forex\\evidence\\retained_management_20261001\\inputs",
+      "--sha256",
+      "fc1138215b6133a69af3091baa58fdc699b04d4f94b70d0516b1a59b9107e3fd",
+      "--output",
+      "C:\\Users\\zmoor\\Documents\\forex\\evidence\\retained_management_20261001\\runs",
+      "--run-id",
+      "resume",
+      "--max-new",
+      "10"
+    ],
+    "exit_code": 0,
+    "stdout": "{\"status\": \"checkpointed\", \"identity\": \"fedbb7a900c17d5d64737806415b9234eb7de2d4ed566962181bd7878703031b\", \"next_row\": 640}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe",
+      "-I",
+      "-B",
+      "C:\\Users\\zmoor\\Documents\\forex\\tools\\forex_retained_management_readiness.py",
+      "replay",
+      "--input",
+      "C:\\Users\\zmoor\\Documents\\forex\\evidence\\retained_management_20261001\\inputs",
+      "--sha256",
+      "fc1138215b6133a69af3091baa58fdc699b04d4f94b70d0516b1a59b9107e3fd",
+      "--output",
+      "C:\\Users\\zmoor\\Documents\\forex\\evidence\\retained_management_20261001\\runs",
+      "--run-id",
+      "resume",
+      "--resume"
+    ],
+    "exit_code": 0,
+    "stdout": "{\"status\": \"completed\", \"identity\": \"fedbb7a900c17d5d64737806415b9234eb7de2d4ed566962181bd7878703031b\", \"schema\": \"retained_management_readiness.v1\", \"registry_sha256\": \"5d0c7216466db1425b4eb0482c8fdd721688cf80909b7da9ba1e7a903a4c3f7d\", \"population\": 2652, \"connections\": 39, \"pairs\": 68, \"saved_forecasts\": 2418, \"fresh_forecasts\": 2418, \"first_observed_anchors\": 2535, \"anchor_states\": {\"pending\": 2411, \"not_observed\": 117, \"settled\": 124}, \"same_target_changed_input\": 0, \"potential_cross_horizon_same_terminal_anchors\": 0, \"changed_target_from_anchor\": 2418, \"quote_status_by_pair\": {\"quote_identity_mismatch\": 68}, \"management_eligible\": 0, \"existing_native_policy_gate\": \"native_synthetic_qualification_tier_required\", \"forecast_evidence_status\": \"unchanged\", \"policy_evidence_status\": \"not_qualified\", \"demo_authorization_status\": \"not_granted\", \"scope\": \"Complete retained management input qualification; no new performance evaluation or management activation\", \"research_only\": true, \"can_place_orders\": false, \"can_promote\": false, \"account_access\": false, \"broker_access\": false, \"models_fitted\": 0, \"manager_activation\": false}\n",
+    "stderr": ""
+  }
+]
