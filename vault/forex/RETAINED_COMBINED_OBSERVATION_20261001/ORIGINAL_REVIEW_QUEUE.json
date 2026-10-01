@@ -1,12 +1,12 @@
 {
-  "active_step_id": "retained_management_combined_observation_v1",
-  "active_step_semantics": "Completed combined observations; management prerequisite contract qualification next",
-  "current_review_packet": "RETAINED_COMBINED_OBSERVATION_20261001/REVIEW.json",
+  "active_step_id": "retained_management_forecast_receipts_v1",
+  "active_step_semantics": "Completed retained forecast observation adapter; combined quote/forecast observation next",
+  "current_review_packet": "RETAINED_FORECAST_RECEIPTS_20261001/REVIEW.json",
   "current_user_requested_context": {
     "request": "Fix data; connect strongest supported existing models across entire design horizon; stop new fits/experiments",
-    "status": "combined_observation_complete_management_contract_next",
-    "packet": "RETAINED_COMBINED_OBSERVATION_20261001/REVIEW.json",
-    "next_item": "retained_management_contract_qualification_v1",
+    "status": "retained_forecast_receipts_complete_combined_observation_next",
+    "packet": "RETAINED_FORECAST_RECEIPTS_20261001/REVIEW.json",
+    "next_item": "retained_management_combined_observation_v1",
     "new_research_authorized": false
   },
   "dashboard_source_qualification": {
@@ -190,7 +190,7 @@
     }
   ],
   "engineering_queue_pointer": "DESIGN_ALIGNMENT_LATEST.json",
-  "exact_next_item": "retained_management_contract_qualification_v1",
+  "exact_next_item": "retained_management_combined_observation_v1",
   "execution_status": "checkpointed_no_active_chat_worker",
   "forecasting_continuation": {
     "blocked_confirmation_item": "currency_projection_confirmation_protocol_v2",
@@ -5272,8 +5272,8 @@
         "retained_management_forecast_receipts_v1",
         "retained_management_quote_receipts_v1"
       ],
-      "implementation_status": "complete_scoped_combined_observation",
-      "review_status": "accepted_within_scope",
+      "implementation_status": "not_started",
+      "review_status": "not_started",
       "scope": "Bounded observation-only entry point combining exact quote receipts and authenticated saved forecasts; offline fixtures and retained evidence, no model inference, service/collector rollout, broker actions or policy activation.",
       "evidence": [
         "RETAINED_FORECAST_RECEIPTS_20261001/REVIEW.json",
@@ -5290,36 +5290,7 @@
         "Preserve old terminal estimates without claiming conditional remaining value; no costs, position state or action authority invented",
         "Verify deterministic restart or replay and isolated restore; publish source/evidence, substantive review and matching Git/Vault handoff"
       ],
-      "next_action": "retained_management_contract_qualification_v1",
-      "packet": "RETAINED_COMBINED_OBSERVATION_20261001/REVIEW.json",
-      "packet_sha256": "8f6c1269205fe31ec523d9020f5fbcdcb44c7b9b3c93fba04605adfbd748a8e0",
-      "same_task_review": true,
-      "independent_review": false,
-      "unresolved_findings": []
-    },
-    {
-      "step_id": "retained_management_contract_qualification_v1",
-      "depends_on": [
-        "retained_management_combined_observation_v1"
-      ],
-      "implementation_status": "not_started",
-      "review_status": "not_started",
-      "scope": "Bounded offline management prerequisite contract tied to the completed observation consumer and preserved policy/accounting work. No new forecast/policy experiments, model fitting, broker/service actions or management activation.",
-      "evidence": [
-        "RETAINED_COMBINED_OBSERVATION_20261001/REVIEW.json",
-        "RETAINED_MANAGEMENT_READINESS_20261001/REVIEW.json",
-        "trad/oanda_curve_management_replay_v1.py",
-        "stage_c_alignment_integrity_v2/reference_accounting_adapter_v2.py",
-        "stage_c_alignment_integrity_v2/test_policy_continuation_v2.py"
-      ],
-      "acceptance_criteria": [
-        "Reuse design sections 17-18 and original September9 observed management and September25 policy-reference identities; preserve negative results and distinguish synthetic fixtures from positions",
-        "Bind a common valuation terminal and require genuinely fresh conditional input for hold/switch comparisons; an original terminal estimate minus realized move is not qualified",
-        "Implement an explicit observation-only contract validator for position-state lineage, sizing/risk, conversion, future costs and financing; missing terms refuse eligibility without guessed defaults",
-        "Connect the validator to the actual combined observation output; tests must exercise missing and mismatched state/target/cost identities and preserve cash/hold controls without action authority",
-        "Verify deterministic replay, isolated restore, substantive review and matching Git/Vault handoff; no rerun of completed policy experiments"
-      ],
-      "next_action": "Read the original management and policy-reference packets, then implement the smallest explicit prerequisite contract through the existing combined observation/accounting consumers. Keep live exact-quote rollout separate; do not infer management readiness from fixture passes."
+      "next_action": "Read both receipt packets, inspect existing current-observation hooks, then implement the smallest combined offline consumer. Use matched-clock fixtures and preserved evidence; missing live exact quotes remain explicit and do not authorize collector activation."
     }
   ],
   "timed_session": {
@@ -5332,5 +5303,5 @@
     "source_commit": "6eb514ab1856190b39d83ab020d5f77700ca8770",
     "updated_utc": "2026-09-25T18:12:00.5976014Z"
   },
-  "updated_utc": "2026-10-01T04:47:58.283032+00:00"
+  "updated_utc": "2026-10-01T04:25:32.106008+00:00"
 }

@@ -1,0 +1,29 @@
+{
+  "step_id": "retained_management_combined_observation_v1",
+  "depends_on": [
+    "retained_management_forecast_receipts_v1",
+    "retained_management_quote_receipts_v1"
+  ],
+  "implementation_status": "not_started",
+  "review_status": "not_started",
+  "scope": "Bounded observation-only entry point combining exact quote receipts and authenticated saved forecasts; offline fixtures and retained evidence, no model inference, service/collector rollout, broker actions or policy activation.",
+  "evidence": [
+    "RETAINED_FORECAST_RECEIPTS_20261001/REVIEW.json",
+    "EXACT_QUOTE_RECEIPTS_20261001/REVIEW.json",
+    "tools/forex_retained_forecast_receipts.py",
+    "trad/oanda_exact_quote_receipts_v1.py",
+    "trad/oanda_curve_management_replay_v1.py"
+  ],
+  "acceptance_criteria": [
+    "Reuse both completed receipt consumers and original issue/input identities; preserve recorded clocks and source/model/target bindings",
+    "Bind declared quote session/generation and immutable quote/forecast inputs; distinguish fresh current observations from retrospective replay",
+    "Implement one bounded end-to-end observation consumer with complete pair/connection coverage and explicit missing/stale/refused states",
+    "Test matched-clock exact quote plus saved-forecast admission, source/timing/session drift, target mismatches and refusal after expiry through the actual combined consumer",
+    "Preserve old terminal estimates without claiming conditional remaining value; no costs, position state or action authority invented",
+    "Verify deterministic restart or replay and isolated restore; publish source/evidence, substantive review and matching Git/Vault handoff"
+  ],
+  "next_action": "Read both receipt packets, inspect existing current-observation hooks, then implement the smallest combined offline consumer. Use matched-clock fixtures and preserved evidence; missing live exact quotes remain explicit and do not authorize collector activation.",
+  "start_utc": "2026-10-01T04:40:19.752741+00:00",
+  "baseline_commit": "4bd43d43bb1588639d6d3f08909efe4d371f59ac",
+  "deliverable": "Retained-tier forecast receipts and actual observation consumer over preserved issue bodies and first-observer evidence; exact target and causal guards, no native relabeling, fitting, inference or activation."
+}

@@ -6583,3 +6583,6 @@ Local actual-work log `evidence/news_capture_mapping_20260930/WORK_LOG.jsonl`; e
 
 
 2026-10-01T04:25:32.106008+00:00: RETAINED_FORECAST_RECEIPTS_20261001/REVIEW.json; source 454bfde3a6a63482783d09c2d044757b5b3dee84;69tests,4953receipts and84exact resumed/restored payloads. Reused original frozen capture; no inference or runtime actions. Next retained_management_combined_observation_v1.
+
+
+2026-10-01T04:47:58.283032+00:00: RETAINED_COMBINED_OBSERVATION_20261001/REVIEW.json; source 53f29c0f88e5a15e3f11692962dfa156295245c8; 62 tests, 2652 joined slots and 84 exact resumed/restored payloads. Original frozen inputs, no inference or runtime actions. Next retained_management_contract_qualification_v1.

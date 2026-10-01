@@ -1,0 +1,61 @@
+{
+  "status": "accepted_within_scope",
+  "independent_review": false,
+  "review_kind": "same-task source, lineage, clock and actual-consumer review",
+  "utc": "2026-10-01T04:47:58.283032+00:00",
+  "reviewed": [
+    {
+      "area": "authentication",
+      "conclusion": "Externally pinned request binds all source hashes, exact capture SHA, entire snapshot including transport metadata, declared session/generation and complete requested population. Original VerifiedCapture.load and raw quote validators reused."
+    },
+    {
+      "area": "clock_truth",
+      "conclusion": "Only frozen replay is supported. Archive snapshot/session are explicitly reconstructed. Combined consumption uses a declared replay clock, not a claim of a historical combined consumer run. Original market/receive/reference/target clocks remain unchanged; rereading cannot refresh them."
+    },
+    {
+      "area": "full_join",
+      "conclusion": "All 39 connections by 68 pairs have explicit forecast and quote states. Matched-clock fixture tests demonstrate successful priced observations; actual preserved inputs demonstrate refusals, not live readiness."
+    },
+    {
+      "area": "authority",
+      "conclusion": "No conditional value, cost, sizing, position, fill or action invented. Original native gate unchanged. Registry runtime pins and configs unchanged; no services, model inference or broker actions."
+    },
+    {
+      "area": "durability",
+      "conclusion": "84 payloads identical uninterrupted/resumed/restored. Extracted fresh process executed actual CLI with original roots denied before application imports. Original bulk inputs retrieved by SHA, no fitting."
+    }
+  ],
+  "unresolved_findings": [],
+  "resolved_findings": [],
+  "remaining_dependencies": [
+    "live_exact_quote_rollout_and_health",
+    "conditional_common_terminal_value",
+    "explicit_economic_position_state"
+  ],
+  "python_tests_passed": 62,
+  "models_fitted": 0,
+  "runtime_source_pins_unchanged": 21,
+  "next_item": "retained_management_contract_qualification_v1",
+  "schema": "forex.review_packet.v1",
+  "packet_id": "RETAINED_COMBINED_OBSERVATION_20261001",
+  "step_id": "retained_management_combined_observation_v1",
+  "source_commit": "53f29c0f88e5a15e3f11692962dfa156295245c8",
+  "implementation_status": "complete_scoped_combined_observation",
+  "review_status": "accepted_within_scope",
+  "same_task_review": true,
+  "supersedes": "RETAINED_FORECAST_RECEIPTS_20261001",
+  "readiness": {
+    "engineering_ready": true,
+    "engineering_scope": "Joined frozen quote and forecast observation consumer; no live rollout, inference or management activation",
+    "forecast_evidence_status": "unchanged_historical_development_and_prospective_unconfirmed",
+    "policy_evidence_status": "not_qualified",
+    "demo_authorization_status": "not_granted"
+  },
+  "broader_unfinished": [
+    "quote_sidecar_live_rollout_health_session",
+    "common_terminal_conditional_contract",
+    "economic_and_state_policy_contract",
+    "16exact_targets_unqualified",
+    "global_best_model_and_news_incremental_value"
+  ]
+}
