@@ -1,5 +1,10 @@
 # Start here
 
+## Current management-readiness checkpoint — October 1, 2026
+
+[Retained management readiness](docs/RETAINED_MANAGEMENT_READINESS_20261001.md): full 2,652-slot inspection, 48 tests and 43-payload portable/resumed replay passed. Forecasts remain connected; management is not activated. Missing native receipts, exact quote identity/decimal clocks and economic/state contracts are explicit. Next `retained_management_quote_receipts_v1`; repair the existing quote receipt boundary offline. Older notices below are historical.
+
+
 ## Current full-horizon connection checkpoint — October 1, 2026
 
 [Preserved parents and curve](docs/RETAINED_CURVE_CONNECTION_20261001.md): 39 connections across 14 elapsed horizons; exact eight-horizon Ridge/HGB panels and two negative-result curve research references. No fits. 105 Python tests, four dashboard scenarios and 2,476-output relocated replay passed. Next `retained_position_management_readiness_v1`. Position management and exact-target gaps remain open; earlier notices below are historical.
