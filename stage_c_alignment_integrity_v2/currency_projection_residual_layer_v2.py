@@ -2,7 +2,10 @@
 from collections import Counter, defaultdict
 import math
 
-from contracts import fingerprint
+try:
+    from .contracts import fingerprint
+except ImportError:
+    from contracts import fingerprint
 
 CONTROLS = ("direct", "currency_projection", "half_residual")
 

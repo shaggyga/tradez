@@ -5888,3 +5888,8 @@ Step retained_currency_projection_connection_v1; Vault `RETAINED_PROJECTION_CONN
 ### 2026-10-01T01:51:24.110096+00:00 — retained_input_freshness_continuity_v1
 
 Scheduling repair complete within scope; 82 focused tests passed. Six-minute native observation: seven publications, six exact intervals, zero total-expiry gaps; six HTTP reads current with 23 tracking groups. Same-task review only. Models unchanged; zero fits. Source commit and exact evidence identities: live Vault `RETAINED_FRESHNESS_CONTINUITY_20261001/REVIEW.json` and `MANIFEST.json`; local `evidence/retained_freshness_20261001`. Exact next `retained_learned_residual_state_connection_v1`; qualify saved residual state and accepted replay evidence before integration, never automatically fit.
+
+
+### 2026-10-01T02:19:26.875148+00:00 — retained_learned_residual_state_connection_v1
+
+Four original learned states authenticated; two distinct 18h layers connected and zero-weight 6h states explicitly equivalent to existing projections. 25 connections; zero new fits. 91 Python tests, three renderer cases, 272 original/136 adapter exact outputs, and 1,580 exact relocated forecasts passed. Same-task review only. Source/evidence identities: live Vault `RETAINED_LEARNED_RESIDUAL_CONNECTION_20261001/REVIEW.json` and MANIFEST.json; local `evidence/retained_learned_20261001`. Next `retained_curve_parent_panel_connection_v1`. Position management and exact-target gaps remain open.

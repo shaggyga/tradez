@@ -1676,10 +1676,104 @@
         "original_recipe_sha256": "ef1b24f002891bc84408e24cf084254e27f6165c0af048c51b382bd43ca53e8d",
         "original_run_identity": "5c8cb84166076bcdba4724dc277c32e2520de4f548869adca3491807ef10b0d3"
       }
+    },
+    {
+      "id": "legacy26_ridge_remaining_frozen_1080m__learned_residual",
+      "kind": "retained_learned_residual",
+      "arm": "ridge",
+      "horizon_minutes": 1080,
+      "feature_names": [
+        "tech_rate_bps_per_min_1m",
+        "tech_span_fraction_1m",
+        "tech_missing_fraction_1m",
+        "tech_unavailable_1m",
+        "tech_rate_bps_per_min_5m",
+        "tech_span_fraction_5m",
+        "tech_missing_fraction_5m",
+        "tech_unavailable_5m",
+        "tech_rate_bps_per_min_15m",
+        "tech_span_fraction_15m",
+        "tech_missing_fraction_15m",
+        "tech_unavailable_15m",
+        "tech_rate_bps_per_min_30m",
+        "tech_span_fraction_30m",
+        "tech_missing_fraction_30m",
+        "tech_unavailable_30m",
+        "tech_rate_bps_per_min_60m",
+        "tech_span_fraction_60m",
+        "tech_missing_fraction_60m",
+        "tech_unavailable_60m",
+        "tech_rms_bps",
+        "tech_max_gap_minutes",
+        "tech_observed_fraction_60m",
+        "tech_session_age_hours",
+        "known_entry_long_cost_bps",
+        "known_entry_short_cost_bps"
+      ],
+      "models": [],
+      "original_model_id": "71de2af792c46ed3fd860d32d648ab49ce47b6933d900b4fb1a93c753d8dd6ea",
+      "selection_scope": "Preserved latest-cutoff learned residual; development-only, not globally best or independently confirmed",
+      "evidence": {
+        "source_result_sha256": "a1c518b93224cfeeb7a1f66ed5905ffb5d7138f0021f8c3bee50383b72bb295c",
+        "layer_id": "f7d359a6ab1c1331418df2c0d716ec1a805b5a06e91994a44b35494f93c2ee89",
+        "residual_weight": 0.018557585777523086,
+        "models_fitted_now": 0
+      },
+      "target_semantics": "exact_completed_M1_midpoint_elapsed_return",
+      "selection_role": "additional_exact_target_reference",
+      "parent": "legacy26_ridge_remaining_frozen_1080m",
+      "layer_id": "f7d359a6ab1c1331418df2c0d716ec1a805b5a06e91994a44b35494f93c2ee89"
+    },
+    {
+      "id": "legacy26_recovered_hgb_remaining_frozen_1080m__learned_residual",
+      "kind": "retained_learned_residual",
+      "arm": "recovered_hgb",
+      "horizon_minutes": 1080,
+      "feature_names": [
+        "tech_rate_bps_per_min_1m",
+        "tech_span_fraction_1m",
+        "tech_missing_fraction_1m",
+        "tech_unavailable_1m",
+        "tech_rate_bps_per_min_5m",
+        "tech_span_fraction_5m",
+        "tech_missing_fraction_5m",
+        "tech_unavailable_5m",
+        "tech_rate_bps_per_min_15m",
+        "tech_span_fraction_15m",
+        "tech_missing_fraction_15m",
+        "tech_unavailable_15m",
+        "tech_rate_bps_per_min_30m",
+        "tech_span_fraction_30m",
+        "tech_missing_fraction_30m",
+        "tech_unavailable_30m",
+        "tech_rate_bps_per_min_60m",
+        "tech_span_fraction_60m",
+        "tech_missing_fraction_60m",
+        "tech_unavailable_60m",
+        "tech_rms_bps",
+        "tech_max_gap_minutes",
+        "tech_observed_fraction_60m",
+        "tech_session_age_hours",
+        "known_entry_long_cost_bps",
+        "known_entry_short_cost_bps"
+      ],
+      "models": [],
+      "original_model_id": "52f9122c828792d185992eda2d395de858536d55224b47b43974e35e525487e1",
+      "selection_scope": "Preserved latest-cutoff learned residual; development-only, not globally best or independently confirmed",
+      "evidence": {
+        "source_result_sha256": "a1c518b93224cfeeb7a1f66ed5905ffb5d7138f0021f8c3bee50383b72bb295c",
+        "layer_id": "7520d5d1b45789b88bf947e5555babc89d73b0c3c03c2e1d3e74684b82ff0feb",
+        "residual_weight": 0.027757066449673982,
+        "models_fitted_now": 0
+      },
+      "target_semantics": "exact_completed_M1_midpoint_elapsed_return",
+      "selection_role": "additional_exact_target_reference",
+      "parent": "legacy26_recovered_hgb_remaining_frozen_1080m",
+      "layer_id": "7520d5d1b45789b88bf947e5555babc89d73b0c3c03c2e1d3e74684b82ff0feb"
     }
   ],
   "source_bindings": {
-    "trad/oanda_retained_forecast_connection_v1.py": "61adc28b1db5540c20347019125ac19c4c420b11ce6385982d257a9a9be90dcf",
+    "trad/oanda_retained_forecast_connection_v1.py": "ba83cd1879e910a5862254ab8085d4e3d60925bce6df1c8bb84ffb38dfc24157",
     "trad/oanda_all68_technical_availability_v2.py": "be4295d6a9051bb7f482bd6137949efb68a6cb3a91c4997430ab95fd43117d92",
     "trad/oanda_rolling_model_design_v1.py": "5d611f957b65168c11634f68aa1a63d639997b6034dd176a3f1dd9bae3a4544d",
     "trad/oanda_rolling_specialists_v1.py": "3144f9e1d9d6bc365c0c1ec9dd99588a212831539b8889d1622febc5ea16ebb2",
@@ -1694,7 +1788,9 @@
     "trad/src/forex_system/contracts/currency_state.py": "6d7c625af12c2af45a45ecd832ad92c600c986f57193278da6a0f83231ea3139",
     "trad/src/forex_system/features/currency_state_engine.py": "af52e1c18d66ff38082e0f383deb9183628b6f06c8fc73c446a49a038fe6e049",
     "trad/oanda_rolling_technical_continuity_v2.py": "e0a1fcff4bfec76021c360444702fdbb953a6e1ddfd062db343c0c8fb9730f64",
-    "trad/oanda_rolling_technical_inputs_v1.py": "0609b9562e4a528a5e44269af0135be5520418ff772305a5ee302ed3ee38f8cf"
+    "trad/oanda_rolling_technical_inputs_v1.py": "0609b9562e4a528a5e44269af0135be5520418ff772305a5ee302ed3ee38f8cf",
+    "trad/oanda_retained_learned_residual_v1.py": "6d4434b6c5ebdd280763ff86b8d9a1a5f38dee07f2b96b18302a57c576b53a67",
+    "stage_c_alignment_integrity_v2/currency_projection_residual_layer_v2.py": "44ca10a67d86a9b415bf514ee6272d7438d412e6580d480cec0b4df86bf13439"
   },
   "unconnected_targets": [
     {
@@ -1836,6 +1932,32 @@
         "arm": "recovered_hgb",
         "fit_id": "a5a9e8f01e98df5dfb4ce23215402fd44a55332a415ad281e636d750668dc1ea"
       }
+    }
+  },
+  "learned_residual": {
+    "states": {
+      "legacy26_ridge_remaining_frozen_360m": {
+        "path": "trad/data/retained_connection_20260930/models/learned_residual_ridge_360.json",
+        "sha256": "ee69756e48cb9fd10d33a6cfa771d0c00b7891130a526017b86d4a4cbed48d3f"
+      },
+      "legacy26_recovered_hgb_remaining_frozen_360m": {
+        "path": "trad/data/retained_connection_20260930/models/learned_residual_recovered_hgb_360.json",
+        "sha256": "8202431a371fdeb5c1a43740477a9518601267c84f1146797921c5860aeb6dbc"
+      },
+      "legacy26_ridge_remaining_frozen_1080m": {
+        "path": "trad/data/retained_connection_20260930/models/learned_residual_ridge_1080.json",
+        "sha256": "03f687a1d65375c8c025694a90f70ab8856cbbc239486a051415d3d78621d4ae"
+      },
+      "legacy26_recovered_hgb_remaining_frozen_1080m": {
+        "path": "trad/data/retained_connection_20260930/models/learned_residual_recovered_hgb_1080.json",
+        "sha256": "9641be342595b6c96254007126def87c7aa81437dfa61cffe4a64fd0e897f07a"
+      }
+    },
+    "source_result_sha256": "a1c518b93224cfeeb7a1f66ed5905ffb5d7138f0021f8c3bee50383b72bb295c",
+    "cutoff_epoch": 1722535260,
+    "equivalent_connections": {
+      "legacy26_ridge_remaining_frozen_360m": "legacy26_ridge_remaining_frozen_360m__currency_projection",
+      "legacy26_recovered_hgb_remaining_frozen_360m": "legacy26_recovered_hgb_remaining_frozen_360m__currency_projection"
     }
   }
 }

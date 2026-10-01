@@ -13,8 +13,11 @@ const f={instrument:'EUR_USD',connection:entry.id,reference_epoch:now-10,target_
 context.renderRetainedForecasts({retained_forecasts:{connections:[entry],forecasts:[f],coverage:[{instrument:'EUR_USD',connection:entry.id,status:'eligible'}]}});
 assert(elements['retained-forecasts'].innerHTML.includes('Forecast edges 62/68; same-origin graph support required.'));
 assert(elements['retained-forecasts'].innerHTML.includes('1.230'));
+entry.kind='retained_learned_residual';
+context.renderRetainedForecasts({retained_forecasts:{connections:[entry],forecasts:[f],coverage:[]}});
+assert(elements['retained-forecasts'].innerHTML.includes('Forecast edges 62/68; same-origin graph support required.'));
 f.reference_epoch=now-181;
 context.renderRetainedForecasts({retained_forecasts:{connections:[entry],forecasts:[f],coverage:[]}});
 assert(!elements['retained-forecasts'].innerHTML.includes('1.230'));
 assert(elements['retained-forecasts'].innerHTML.includes('Unavailable'));
-console.log('2 actual dashboard renderer scenarios passed: layer provenance and expired output refusal.');
+console.log('3 actual dashboard renderer scenarios passed: layer provenance and expired output refusal.');

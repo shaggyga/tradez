@@ -1,5 +1,10 @@
 # Current project orientation — September 30, 2026
 
+## Current learned-state checkpoint — October 1, 2026
+
+[Preserved learned residuals](RETAINED_LEARNED_RESIDUAL_CONNECTION_20261001.md): two distinct saved 18h layers connected; zero-weight 6h states alias existing projections. 25 connections, no fits. 91 Python tests, three dashboard scenarios and 1,580-output relocated replay passed. Exact next `retained_curve_parent_panel_connection_v1`. Broader work remains unfinished; earlier notices below are historical.
+
+
 ## Current freshness checkpoint — October 1, 2026
 
 [Freshness continuity](RETAINED_FRESHNESS_CONTINUITY_20261001.md): existing saved inference now follows technical publication changes. 82 tests passed; seven native publications and six exact intervals showed no total forecast-expiry gap during the six-minute observation. Current news and 23 tracking groups verified. Next `retained_learned_residual_state_connection_v1` qualifies preserved state reuse without fitting. Broader project work remains unfinished; older notices below are historical.

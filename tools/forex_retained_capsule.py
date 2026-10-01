@@ -11,6 +11,7 @@ MODEL_PREFIX='trad/data/retained_connection_20260930/models/'
 def sha(raw):return hashlib.sha256(raw).hexdigest()
 def records(registry):
     result=list(registry['normalizers'].values())
+    result.extend(registry.get('learned_residual',{}).get('states',{}).values())
     for entry in registry['connections']:
         result.extend(entry['models'])
         meta=entry.get('fit_metadata')
