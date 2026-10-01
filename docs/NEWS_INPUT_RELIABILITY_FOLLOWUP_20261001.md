@@ -12,9 +12,16 @@ must match the envelope generation; if neither matches, it passes `None` into
 the report builder and produces that error. This is evidence of a generation
 binding failure, not proof that a file is absent or unreadable.
 
+The retained consumer already retries the three-file read three times, 50 ms
+apart, in `read_feature_publication`. Do not add a duplicate retry helper.
+The producer writes the envelope before status, and an exception also replaces
+status with an error record without a generation. Either path needs actual
+failure-time capture before attributing the incident to a race. The producer
+subsequently published another generation successfully at 05:49:40 UTC.
+
 Next: capture the actual envelope and both status generations during the failure,
-trace publisher ordering, then implement a bounded consistent-read/publication
-repair with meaningful race tests. Preserve original source and observation
+trace publisher ordering or an error-status replacement, then repair the proven
+cause with meaningful tests. Preserve original source and observation
 identities, freshness limits and frozen cohorts. No stale-data fallback or
 automatic re-sealing. Continue collector progress/read reliability afterward.
 
