@@ -1,0 +1,57 @@
+{
+  "packet": "LEGACY26_RESTORE_COMPLETION_20260930",
+  "manifest_sha256": "52376dbe9dad393ec568d1460428455a13b95c8323432e11a2295182ce9e1935",
+  "source_commit": "3d5030c89900eeed2f792492204da8e682f8cf07",
+  "next": "data_freshness_and_remaining_horizon_reconciliation_v1",
+  "utc": "2026-10-01T00:00:38.718165+00:00",
+  "documentation_commit": "2f1c710adac24ab0558735f0bac70e9390511296",
+  "remote_head": "2f1c710adac24ab0558735f0bac70e9390511296",
+  "remote": "https://github.com/shaggyga/tradez.git",
+  "branch": "forex",
+  "worktree_clean": true,
+  "capsule": {
+    "capsule": "evidence\\legacy26_connection_20260930\\legacy26_canonical_capsule.zip",
+    "sha256": "c827f19918d389b7b26a5dc35edb47c8fd010980d1471ccd225a65664caeee4f",
+    "bytes": 3018204,
+    "payloads": 20,
+    "models_fitted": 0
+  },
+  "native_acceptance": {
+    "http_status": 200,
+    "observed_epoch": 1790812305.3459747,
+    "seconds": 7.899,
+    "retained_status": "current",
+    "per_connection": {
+      "ridge_compact38_5m": 61,
+      "ridge_compact38_15m": 61,
+      "compact38_30m_mixture_raw": 61,
+      "compact38_60m_direct_ridge": 61,
+      "rich_full228_cost2_recovered_hgb_240m": 61,
+      "rich_compact38_cost2_recovered_hgb_720m": 61,
+      "rich_compact38_cost2_recovered_hgb_1440m": 61,
+      "rich_compact38_cost2_recovered_hgb_2880m": 61,
+      "rich_compact38_cost2_recovered_hgb_7200m": 61,
+      "legacy26_extra_trees_frozen_240m": 61,
+      "legacy26_extra_trees_frozen_7200m": 61
+    },
+    "forecast_count": 671,
+    "news_status": "current",
+    "tracking_status": "current",
+    "current_registry_groups": 11,
+    "registry_sha256": "f7ca1f6f330a2f0c4ab035372fb30458b40511915b765a87c2374519e170abf2",
+    "legacy26_diagnostics": {
+      "available": 61,
+      "elapsed_seconds": 2.7339999999967404,
+      "read_only": true
+    },
+    "source": "actual existing dashboard HTTP readback after supervisor recovery",
+    "no_visual_qa": true
+  },
+  "snapshot_manifest_sha256": "66190f9d816ac327c90959dc4b3a6832196dfbd363bfaaa75b30643c18cec8c0",
+  "snapshot_files_verified": 4191,
+  "snapshot_scope": "Dated knowledge snapshot before this final Git receipt; live Vault is current coordination",
+  "tests_passed": 108,
+  "restored_payloads": 20,
+  "independent_review": false,
+  "scope": "Two legacy26 connections and dashboard reader accepted; residual/curve/remaining targets and policy work unfinished"
+}

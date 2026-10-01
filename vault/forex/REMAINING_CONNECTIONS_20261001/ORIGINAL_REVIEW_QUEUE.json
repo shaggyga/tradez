@@ -1,12 +1,12 @@
 {
-  "active_step_id": "remaining_saved_connections_20261001",
-  "active_step_semantics": "Completed bounded saved-target reconciliation; exact unsupported targets remain explicit; next original projection integration",
-  "current_review_packet": "REMAINING_CONNECTIONS_FINAL_20261001/REVIEW.json",
+  "active_step_id": "legacy26_restore_completion_20260930",
+  "active_step_semantics": "Completed legacy26 connections; residual/curve and exact remaining horizon coverage unfinished",
+  "current_review_packet": "LEGACY26_RESTORE_COMPLETION_20260930/REVIEW.json",
   "current_user_requested_context": {
     "request": "Fix data; connect strongest supported existing models across entire design horizon; stop new fits/experiments",
-    "status": "saved6h18h_complete_layer_integration_unfinished",
-    "packet": "REMAINING_CONNECTIONS_FINAL_20261001/REVIEW.json",
-    "next_item": "retained_currency_projection_connection_v1",
+    "status": "legacy26_complete_broader_model_reconciliation_unfinished",
+    "packet": "LEGACY26_RESTORE_COMPLETION_20260930/REVIEW.json",
+    "next_item": "data_freshness_and_remaining_horizon_reconciliation_v1",
     "new_research_authorized": false
   },
   "dashboard_source_qualification": {
@@ -190,7 +190,7 @@
     }
   ],
   "engineering_queue_pointer": "DESIGN_ALIGNMENT_LATEST.json",
-  "exact_next_item": "retained_currency_projection_connection_v1",
+  "exact_next_item": "data_freshness_and_remaining_horizon_reconciliation_v1",
   "execution_status": "checkpointed_no_active_chat_worker",
   "forecasting_continuation": {
     "blocked_confirmation_item": "currency_projection_confirmation_protocol_v2",
@@ -5003,8 +5003,8 @@
       "depends_on": [
         "legacy26_restore_completion_20260930"
       ],
-      "implementation_status": "complete_bounded_reconciliation_with_explicit_target_gaps",
-      "review_status": "accepted_within_scope",
+      "implementation_status": "partial_legacy26_connections_complete",
+      "review_status": "not_started",
       "scope": "Current data freshness and remaining existing-model/horizon reconciliation; no new fits or research experiments",
       "acceptance_criteria": [
         "Read fresh input/pair coverage and preserve authentic missing cases",
@@ -5013,11 +5013,7 @@
         "Preserve negative controls, current nine adapters, original H1/news cohorts and other-chat capture ownership",
         "Publish source/evidence with tests and current data readback; do not call scoped choices universal best"
       ],
-      "next_action": "retained_currency_projection_connection_v1",
-      "packet": "REMAINING_CONNECTIONS_FINAL_20261001/REVIEW.json",
-      "packet_sha256": "634f79d193a425cc0fd3840947b55eb60714758c592e1a13caee267d1563f868",
-      "same_task_review": true,
-      "independent_review": false
+      "next_action": "Reconcile original residual/curve consumers and remaining exact elapsed/calendar targets using saved artifacts; legacy26 complete, no new fitting."
     },
     {
       "step_id": "retained_tracking_and_data_continuation_20260930",
@@ -5060,37 +5056,6 @@
       "independent_review": false,
       "unresolved_findings": [],
       "next_action": "data_freshness_and_remaining_horizon_reconciliation_v1"
-    },
-    {
-      "step_id": "remaining_saved_connections_20261001",
-      "depends_on": [
-        "data_freshness_and_remaining_horizon_reconciliation_v1"
-      ],
-      "implementation_status": "complete_scoped_saved_6h_18h_connections_and_reconciliation",
-      "review_status": "accepted_within_scope",
-      "packet": "REMAINING_CONNECTIONS_FINAL_20261001/REVIEW.json",
-      "packet_sha256": "634f79d193a425cc0fd3840947b55eb60714758c592e1a13caee267d1563f868",
-      "same_task_review": true,
-      "independent_review": false,
-      "unresolved_findings": [],
-      "next_action": "retained_currency_projection_connection_v1"
-    },
-    {
-      "step_id": "retained_currency_projection_connection_v1",
-      "depends_on": [
-        "remaining_saved_connections_20261001"
-      ],
-      "implementation_status": "not_started",
-      "review_status": "not_started",
-      "scope": "Reuse original currency projection consumer with qualified current matched6h/18h parent IDs, no new fit or order action",
-      "acceptance_criteria": [
-        "Read RECONCILIATION.json and original projection contract/solver/recipe; verify exact parent and output identities",
-        "Preserve original weighting/constraints and direct/half-residual controls; no learned residual transplanted to other families",
-        "Represent all68pairs with explicit input-clock, graph-support and missing reasons",
-        "Original prediction replay, meaningful refusal tests and relocated numerical verification",
-        "Current native readback, compact immutable Vault packet, source Git and documented limits"
-      ],
-      "next_action": "Inspect preserved original projection solver and graph support; implement current adapter for exact newly connected parent IDs; no fitting."
     }
   ],
   "timed_session": {
@@ -5103,5 +5068,5 @@
     "source_commit": "6eb514ab1856190b39d83ab020d5f77700ca8770",
     "updated_utc": "2026-09-25T18:12:00.5976014Z"
   },
-  "updated_utc": "2026-10-01T00:40:05.785976+00:00"
+  "updated_utc": "2026-09-30T23:57:59.732708+00:00"
 }

@@ -1,0 +1,53 @@
+{
+  "schema": "forex.review_packet.v1",
+  "packet_id": "REMAINING_CONNECTIONS_FINAL_20261001",
+  "step_id": "remaining_saved_connections_20261001",
+  "utc": "2026-10-01T00:40:05.785976+00:00",
+  "source_commit": "3eff48d1dcb5c7a38a7a08afa8bfae9eeef06fae",
+  "implementation_status": "complete_scoped_saved_6h_18h_connections_and_reconciliation",
+  "review_status": "accepted_within_scope",
+  "same_task_review": true,
+  "independent_review": false,
+  "unresolved_findings": [],
+  "models_fitted": 0,
+  "verification": {
+    "tests_passed": 68,
+    "dashboard_js_cases_passed": 3,
+    "original_forecasts_exact": 270,
+    "restored_payloads": 24,
+    "restored_observed_forecasts": 8,
+    "restore_absolute_tolerance_bps": 1e-12,
+    "native_http_status": 200,
+    "native_forecasts": 960,
+    "native_tracking_groups": 15
+  },
+  "review_checks": [
+    "Original11 definitions and normalizers byte-content-equivalent;68pair universe unchanged",
+    "Original fit/model/target/feature identities enforced; no interpolation",
+    "Original270 forecasts exactly replayed through consumer",
+    "24canonical payloads restored and8recorded predictions replayed from copied bar/receipt input fixture and relocated model bytes",
+    "15new contract cases plus53regressions passed",
+    "Current native HTTP15connection readback; actual missing pairs preserved",
+    "Historical residual parent matches verified; curve negative result and incomplete slots preserved",
+    "Historical3124record metadata is not a numerical audit or regression qualification",
+    "Navigation UTF8 transcoding defect caught in diff review and corrected from original Git bytes before commit",
+    "Native expiry/restart history and other-chat recorder preserved"
+  ],
+  "readiness": {
+    "engineering_ready": true,
+    "engineering_scope": "Saved6h/18h consumers, restore and target reconciliation only",
+    "forecast_evidence_status": "reused_development_and_unconfirmed_prospective_inference",
+    "policy_evidence_status": "not_qualified",
+    "demo_authorization_status": "not_granted"
+  },
+  "broader_unfinished": [
+    "16exact_target_connections_unqualified",
+    "current_projection_and_learned_residual_integration",
+    "full_same_base_curve_panel",
+    "position_management",
+    "global_best_model_and_news_incremental_value_unestablished"
+  ],
+  "next_item": "retained_currency_projection_connection_v1",
+  "supersedes": "REMAINING_CONNECTIONS_20261001",
+  "dashboard_correction": "Main fetch30second bound covers observed13.656second API latency;3actual-function scenarios and served-page readback passed. Freshness checks unchanged."
+}

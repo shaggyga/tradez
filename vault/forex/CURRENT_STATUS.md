@@ -1,3 +1,3 @@
 # Current status
 
-LEGACY26_RESTORE_COMPLETION_20260930/REVIEW.md: Two legacy26 Extra Trees candidates connected beside nine preserved references; native readback verified. No new fits. Residual/curve and exact remaining targets are unfinished. Exact next data_freshness_and_remaining_horizon_reconciliation_v1. Other-chat EURUSD capture and broker actions excluded. See current board and source receipt.
+REMAINING_CONNECTIONS_FINAL_20261001/REVIEW.md: fifteen connections across11 elapsed horizons;6h/18h added with original models, no fits. Native HTTP960forecasts/64pairs, news and tracking current at recorded observation.16exact target gaps explicit. Next retained_currency_projection_connection_v1. Layers and position management unfinished. Independent review not performed. Other-chat EURUSD capture separate.

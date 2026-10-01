@@ -1,0 +1,236 @@
+{
+  "source_archive": {
+    "vault_relative_path": "VAULT_FIRST_REUSE_20260923_141547/saved_artifacts/matched_remaining_existing_saved_artifacts.zip",
+    "sha256": "70c3d4fb54fb86e79b4bcd65c9cd923768592887e5278c93bc27a7ab5244a10b",
+    "bytes": 1528960,
+    "kind": "archive"
+  },
+  "original_identity": "fc0a1423ca93b62e94f215b49a6a55aaf280524aadc1501b231efef4031a2763",
+  "entries": [
+    {
+      "id": "legacy26_ridge_remaining_frozen_360m",
+      "kind": "legacy26_matched",
+      "arm": "ridge",
+      "horizon_minutes": 360,
+      "feature_names": [
+        "tech_rate_bps_per_min_1m",
+        "tech_span_fraction_1m",
+        "tech_missing_fraction_1m",
+        "tech_unavailable_1m",
+        "tech_rate_bps_per_min_5m",
+        "tech_span_fraction_5m",
+        "tech_missing_fraction_5m",
+        "tech_unavailable_5m",
+        "tech_rate_bps_per_min_15m",
+        "tech_span_fraction_15m",
+        "tech_missing_fraction_15m",
+        "tech_unavailable_15m",
+        "tech_rate_bps_per_min_30m",
+        "tech_span_fraction_30m",
+        "tech_missing_fraction_30m",
+        "tech_unavailable_30m",
+        "tech_rate_bps_per_min_60m",
+        "tech_span_fraction_60m",
+        "tech_missing_fraction_60m",
+        "tech_unavailable_60m",
+        "tech_rms_bps",
+        "tech_max_gap_minutes",
+        "tech_observed_fraction_60m",
+        "tech_session_age_hours",
+        "known_entry_long_cost_bps",
+        "known_entry_short_cost_bps"
+      ],
+      "models": [
+        {
+          "path": "trad/data/retained_connection_20260930/models/matched_remaining_fit_360.joblib",
+          "sha256": "b72feb9e0455f20d0bbba8bd2626bb820355fba86015f1000d64e5cccd029cba"
+        }
+      ],
+      "fit_metadata": {
+        "path": "trad/data/retained_connection_20260930/models/matched_remaining_fit_360.json",
+        "sha256": "2ff3b7e6157b8af56336587236d907347e1f00cb672c8b92dece64848e02d691"
+      },
+      "original_model_id": "57625a81a7abd89576dfa9be0a0d6406b06807fbdcac579d217fbdf86f53fabb",
+      "selection_scope": "Preserved exact-target matched development reference; both methods retained, no best-model or live-skill claim.",
+      "evidence": {
+        "vault_artifact": "VAULT_FIRST_REUSE_20260923_141547/saved_artifacts/matched_remaining_existing_saved_artifacts.zip",
+        "capsule_sha256": "70c3d4fb54fb86e79b4bcd65c9cd923768592887e5278c93bc27a7ab5244a10b",
+        "original_run_identity": "fc0a1423ca93b62e94f215b49a6a55aaf280524aadc1501b231efef4031a2763",
+        "forecast_payload_sha256": "e0a6c75e7cf6fcc8671c1041f4c68d06fe96f06e8fffc547751759e2d7e34d3c",
+        "fit_id": "33390a2e79dc5eba8454fbc1cb2d001af97786a6c8d207afa21fdf683f4c5cc5",
+        "evaluation_scope": "Original fixed-endpoint remaining-horizon development; later-input inference is prospective"
+      },
+      "target_semantics": "exact_completed_M1_midpoint_elapsed_return",
+      "selection_role": "additional_exact_target_reference"
+    },
+    {
+      "id": "legacy26_recovered_hgb_remaining_frozen_360m",
+      "kind": "legacy26_matched",
+      "arm": "recovered_hgb",
+      "horizon_minutes": 360,
+      "feature_names": [
+        "tech_rate_bps_per_min_1m",
+        "tech_span_fraction_1m",
+        "tech_missing_fraction_1m",
+        "tech_unavailable_1m",
+        "tech_rate_bps_per_min_5m",
+        "tech_span_fraction_5m",
+        "tech_missing_fraction_5m",
+        "tech_unavailable_5m",
+        "tech_rate_bps_per_min_15m",
+        "tech_span_fraction_15m",
+        "tech_missing_fraction_15m",
+        "tech_unavailable_15m",
+        "tech_rate_bps_per_min_30m",
+        "tech_span_fraction_30m",
+        "tech_missing_fraction_30m",
+        "tech_unavailable_30m",
+        "tech_rate_bps_per_min_60m",
+        "tech_span_fraction_60m",
+        "tech_missing_fraction_60m",
+        "tech_unavailable_60m",
+        "tech_rms_bps",
+        "tech_max_gap_minutes",
+        "tech_observed_fraction_60m",
+        "tech_session_age_hours",
+        "known_entry_long_cost_bps",
+        "known_entry_short_cost_bps"
+      ],
+      "models": [
+        {
+          "path": "trad/data/retained_connection_20260930/models/matched_remaining_fit_360.joblib",
+          "sha256": "b72feb9e0455f20d0bbba8bd2626bb820355fba86015f1000d64e5cccd029cba"
+        }
+      ],
+      "fit_metadata": {
+        "path": "trad/data/retained_connection_20260930/models/matched_remaining_fit_360.json",
+        "sha256": "2ff3b7e6157b8af56336587236d907347e1f00cb672c8b92dece64848e02d691"
+      },
+      "original_model_id": "70205805c9ee857de0a028a95081ea807f02f3b98ea6d67b4537fb4f35079a18",
+      "selection_scope": "Preserved exact-target matched development reference; both methods retained, no best-model or live-skill claim.",
+      "evidence": {
+        "vault_artifact": "VAULT_FIRST_REUSE_20260923_141547/saved_artifacts/matched_remaining_existing_saved_artifacts.zip",
+        "capsule_sha256": "70c3d4fb54fb86e79b4bcd65c9cd923768592887e5278c93bc27a7ab5244a10b",
+        "original_run_identity": "fc0a1423ca93b62e94f215b49a6a55aaf280524aadc1501b231efef4031a2763",
+        "forecast_payload_sha256": "e0a6c75e7cf6fcc8671c1041f4c68d06fe96f06e8fffc547751759e2d7e34d3c",
+        "fit_id": "33390a2e79dc5eba8454fbc1cb2d001af97786a6c8d207afa21fdf683f4c5cc5",
+        "evaluation_scope": "Original fixed-endpoint remaining-horizon development; later-input inference is prospective"
+      },
+      "target_semantics": "exact_completed_M1_midpoint_elapsed_return",
+      "selection_role": "additional_exact_target_reference"
+    },
+    {
+      "id": "legacy26_ridge_remaining_frozen_1080m",
+      "kind": "legacy26_matched",
+      "arm": "ridge",
+      "horizon_minutes": 1080,
+      "feature_names": [
+        "tech_rate_bps_per_min_1m",
+        "tech_span_fraction_1m",
+        "tech_missing_fraction_1m",
+        "tech_unavailable_1m",
+        "tech_rate_bps_per_min_5m",
+        "tech_span_fraction_5m",
+        "tech_missing_fraction_5m",
+        "tech_unavailable_5m",
+        "tech_rate_bps_per_min_15m",
+        "tech_span_fraction_15m",
+        "tech_missing_fraction_15m",
+        "tech_unavailable_15m",
+        "tech_rate_bps_per_min_30m",
+        "tech_span_fraction_30m",
+        "tech_missing_fraction_30m",
+        "tech_unavailable_30m",
+        "tech_rate_bps_per_min_60m",
+        "tech_span_fraction_60m",
+        "tech_missing_fraction_60m",
+        "tech_unavailable_60m",
+        "tech_rms_bps",
+        "tech_max_gap_minutes",
+        "tech_observed_fraction_60m",
+        "tech_session_age_hours",
+        "known_entry_long_cost_bps",
+        "known_entry_short_cost_bps"
+      ],
+      "models": [
+        {
+          "path": "trad/data/retained_connection_20260930/models/matched_remaining_fit_1080.joblib",
+          "sha256": "0e86882856eaeab2634c955e6c680d83f66c01f2347e8b244c8f240f63646aeb"
+        }
+      ],
+      "fit_metadata": {
+        "path": "trad/data/retained_connection_20260930/models/matched_remaining_fit_1080.json",
+        "sha256": "54233ff9b86784a85db8db3b0b69c62f0e718d63b66146ee576e210f48bd035e"
+      },
+      "original_model_id": "71de2af792c46ed3fd860d32d648ab49ce47b6933d900b4fb1a93c753d8dd6ea",
+      "selection_scope": "Preserved exact-target matched development reference; both methods retained, no best-model or live-skill claim.",
+      "evidence": {
+        "vault_artifact": "VAULT_FIRST_REUSE_20260923_141547/saved_artifacts/matched_remaining_existing_saved_artifacts.zip",
+        "capsule_sha256": "70c3d4fb54fb86e79b4bcd65c9cd923768592887e5278c93bc27a7ab5244a10b",
+        "original_run_identity": "fc0a1423ca93b62e94f215b49a6a55aaf280524aadc1501b231efef4031a2763",
+        "forecast_payload_sha256": "e0a6c75e7cf6fcc8671c1041f4c68d06fe96f06e8fffc547751759e2d7e34d3c",
+        "fit_id": "a5a9e8f01e98df5dfb4ce23215402fd44a55332a415ad281e636d750668dc1ea",
+        "evaluation_scope": "Original fixed-endpoint remaining-horizon development; later-input inference is prospective"
+      },
+      "target_semantics": "exact_completed_M1_midpoint_elapsed_return",
+      "selection_role": "additional_exact_target_reference"
+    },
+    {
+      "id": "legacy26_recovered_hgb_remaining_frozen_1080m",
+      "kind": "legacy26_matched",
+      "arm": "recovered_hgb",
+      "horizon_minutes": 1080,
+      "feature_names": [
+        "tech_rate_bps_per_min_1m",
+        "tech_span_fraction_1m",
+        "tech_missing_fraction_1m",
+        "tech_unavailable_1m",
+        "tech_rate_bps_per_min_5m",
+        "tech_span_fraction_5m",
+        "tech_missing_fraction_5m",
+        "tech_unavailable_5m",
+        "tech_rate_bps_per_min_15m",
+        "tech_span_fraction_15m",
+        "tech_missing_fraction_15m",
+        "tech_unavailable_15m",
+        "tech_rate_bps_per_min_30m",
+        "tech_span_fraction_30m",
+        "tech_missing_fraction_30m",
+        "tech_unavailable_30m",
+        "tech_rate_bps_per_min_60m",
+        "tech_span_fraction_60m",
+        "tech_missing_fraction_60m",
+        "tech_unavailable_60m",
+        "tech_rms_bps",
+        "tech_max_gap_minutes",
+        "tech_observed_fraction_60m",
+        "tech_session_age_hours",
+        "known_entry_long_cost_bps",
+        "known_entry_short_cost_bps"
+      ],
+      "models": [
+        {
+          "path": "trad/data/retained_connection_20260930/models/matched_remaining_fit_1080.joblib",
+          "sha256": "0e86882856eaeab2634c955e6c680d83f66c01f2347e8b244c8f240f63646aeb"
+        }
+      ],
+      "fit_metadata": {
+        "path": "trad/data/retained_connection_20260930/models/matched_remaining_fit_1080.json",
+        "sha256": "54233ff9b86784a85db8db3b0b69c62f0e718d63b66146ee576e210f48bd035e"
+      },
+      "original_model_id": "52f9122c828792d185992eda2d395de858536d55224b47b43974e35e525487e1",
+      "selection_scope": "Preserved exact-target matched development reference; both methods retained, no best-model or live-skill claim.",
+      "evidence": {
+        "vault_artifact": "VAULT_FIRST_REUSE_20260923_141547/saved_artifacts/matched_remaining_existing_saved_artifacts.zip",
+        "capsule_sha256": "70c3d4fb54fb86e79b4bcd65c9cd923768592887e5278c93bc27a7ab5244a10b",
+        "original_run_identity": "fc0a1423ca93b62e94f215b49a6a55aaf280524aadc1501b231efef4031a2763",
+        "forecast_payload_sha256": "e0a6c75e7cf6fcc8671c1041f4c68d06fe96f06e8fffc547751759e2d7e34d3c",
+        "fit_id": "a5a9e8f01e98df5dfb4ce23215402fd44a55332a415ad281e636d750668dc1ea",
+        "evaluation_scope": "Original fixed-endpoint remaining-horizon development; later-input inference is prospective"
+      },
+      "target_semantics": "exact_completed_M1_midpoint_elapsed_return",
+      "selection_role": "additional_exact_target_reference"
+    }
+  ],
+  "models_fitted": 0
+}

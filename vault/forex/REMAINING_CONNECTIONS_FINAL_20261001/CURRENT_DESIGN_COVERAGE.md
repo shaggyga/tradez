@@ -1,0 +1,3 @@
+# Current scoped design coverage
+
+R01:68pair universe preserved with explicit missing current inputs. R02:15connections/11elapsed horizons;16exact short/calendar targets unqualified, not silently substituted. R13/R14: original fitted artifacts and input identities reused, dashboard/tracking native readback passed. R15: original negative curve result retained. No overall design completion, universal model ranking, new fit or policy readiness claim. Exact next retained_currency_projection_connection_v1; learned residual, full same-base curve panel and position management remain separate. Earlier REV01..05 correction notices in old sealed packets are historical; accepted correction successors are referenced in RECONCILIATION.json and prior NEXT_REUSE_POINTERS.json.

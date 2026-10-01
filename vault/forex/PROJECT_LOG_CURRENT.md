@@ -6556,3 +6556,9 @@ Local actual-work log `evidence/news_capture_mapping_20260930/WORK_LOG.jsonl`; e
 
 
 2026-09-30T23:57:59.732708+00:00: LEGACY26_RESTORE_COMPLETION_20260930/REVIEW.json; source 3d5030c89900eeed2f792492204da8e682f8cf07; 108 tests, 20 canonical artifact payload restore (23 earlier source capsule files), 2696 exact original forecast replications, four restored current forecasts and native eleven-connection readback verified. Same-task review only. No new fits. Next data_freshness_and_remaining_horizon_reconciliation_v1.
+
+
+2026-10-01T00:35:50.419079+00:00: REMAINING_CONNECTIONS_20261001/REVIEW.json; source 4ea322c570bc3bfd50410e72efe2d424737daf85;68tests,270exact replays,24restored payloads,8observed replicas within1e-12bps. Native15connections/news/tracking current. No fits. Next retained_currency_projection_connection_v1.
+
+
+2026-10-01T00:40:05.785976+00:00: REMAINING_CONNECTIONS_FINAL_20261001/REVIEW.json; source 3eff48d1dcb5c7a38a7a08afa8bfae9eeef06fae;68tests,270exact replays,24restored payloads,8observed replicas within1e-12bps. Native15connections/news/tracking current. No fits. Next retained_currency_projection_connection_v1.
