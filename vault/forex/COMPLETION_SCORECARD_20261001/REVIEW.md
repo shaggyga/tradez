@@ -1,0 +1,11 @@
+# Completion measurement and input reconciliation — October 1, 2026
+
+The fixed design scorecard is 34/45 milestones (75.56% overall), or 34/42 (80.95%) excluding deferred GPT work. Six of fifteen requirements have full scoped acceptance. This is a reviewed delivery index, not a time estimate, profitability, predictive superiority or trading readiness. See [the scorecard](COMPLETION_SCORECARD.md) for every requirement and exact evidence. The assessment is same-task review, not independent certification.
+
+New validation: ten scorecard tests passed. The checker verified 34 evidence-file hashes. Historical model/replay test counts are reused evidence, not tests rerun at this checkpoint. Deferred work remains in the overall denominator. Each subsequent checkpoint must review affected requirement milestones and run `python tools/forex_completion.py`; changed evidence refuses scoring until substantively reviewed. Do not rebind hashes just to make the check pass.
+
+Read-only input reconciliation at 17:51:57 UTC executed the original quote consumer over captured bytes and a fixed observation clock: 63/68 accepted, three TRY quotes explicitly non-tradeable, EUR/DKK and USD/HKD older than the unchanged 60-second limit. These are captured availability limits, not missing models. EUR/HKD's expired-news attempt issued zero forecasts. Three later forecasts have verified matching payload/publication/consumption hash chains, proving subsequent receipt recovery. No runtime, model, trade or input-age policy changed.
+
+Evidence: evidence/completion_scorecard_20261001; Vault COMPLETION_SCORECARD_20261001/REVIEW.json. Exact frozen readbacks and executable reconciliation scripts are preserved. No new fit or scientific experiment was run.
+
+Next: live_news_input_reliability_v1 remains partial pending a whole-gate end-to-end disposition, now with quote absence and EUR/HKD recovery resolved as specific observations. Do not repeat the expired-news diagnosis or manufacture fresh quotes. Then retained_management_contract_qualification_v1: qualify the existing retained position-state/common-terminal-value/economic contract offline. Management remains inactive/unqualified. Broader forecast target, macro, feature, dependence and inspection requirements remain explicitly open in the scorecard.

@@ -1,0 +1,37 @@
+{
+  "schema": "forex.review_packet.v1",
+  "step_id": "completion_scorecard_20261001",
+  "source_commit": "e2e3fe5e356469df1e36ec6402ba1eb77cc90d5f",
+  "status": "accepted_within_scope",
+  "review_status": "accepted_within_scope",
+  "implementation_status": "scorecard_and_input_disposition_complete",
+  "independent_review": false,
+  "same_task_review": true,
+  "readiness": {
+    "engineering_ready": true,
+    "forecast_evidence_status": "unchanged",
+    "policy_evidence_status": "not_qualified",
+    "demo_authorization_status": "not_granted"
+  },
+  "checks": [
+    "10 new scorecard tests passed",
+    "34 exact evidence hashes verified",
+    "Original quote validator63/68 accepted at fixed captured clock",
+    "Expired attempt zero forecasts;three subsequent payload/publication/consumption chains verified"
+  ],
+  "score": {
+    "earned": 34,
+    "possible": 45,
+    "percent": 75.56,
+    "active_percent": 80.95,
+    "fully_accepted_requirements": 6
+  },
+  "unresolved_findings": [
+    "Whole input-reliability acceptance disposition",
+    "Position management qualification",
+    "Remaining design milestones in scorecard"
+  ],
+  "next_item": "live_news_input_reliability_v1",
+  "replacement_models_fitted": 0,
+  "runtime_changed": false
+}
