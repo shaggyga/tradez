@@ -1,0 +1,94 @@
+{
+  "status": "accepted_within_scope",
+  "independent_review": false,
+  "review_kind": "substantive same-task source/evidence/runtime review",
+  "utc": "2026-10-01T02:58:22.097074+00:00",
+  "reviewed": [
+    {
+      "area": "lineage",
+      "evidence": [
+        "QUALIFICATION.json",
+        "SAVED_REPLAY.json"
+      ],
+      "conclusion": "Exact16original model/fit identities,8saved eligibility gates,2saved curve states;2006memberships bind original192frames and maturedlabels. Original136outputs and all16direct saved prediction panels replay exactly."
+    },
+    {
+      "area": "causal_admission",
+      "evidence": [
+        "tests/test_retained_curve.py",
+        "TEST_RESULTS.txt"
+      ],
+      "conclusion": "Complete exact8horizon same-base origin panels,original targets,observed issue times,eligibility cutoff and expiry enforced. Missing/invalid parents yield explicit unavailable slots. No fit invocation. Originalapply reused."
+    },
+    {
+      "area": "existing_behavior",
+      "evidence": [
+        "FULL_CONSUMER_REPLAY.json"
+      ],
+      "conclusion": "25original entry definitions and1580outputs unchanged. 896supported additions;2652coverage slots;14elapsed horizons. No preexisting projection/residual replacement."
+    },
+    {
+      "area": "publication_resource_bounds",
+      "evidence": [
+        "TEST_RESULTS.txt",
+        "WORK_LOG.jsonl"
+      ],
+      "conclusion": "Review found broad staging substitution also changed64MiB model artifact bound to68MiB. Repaired to64;new regression test passes. Only publicationbound4to8MiB and connectioncount32to48 changed intentionally. Oversize issue refused beforeSQLite persistence."
+    },
+    {
+      "area": "portable_reuse",
+      "evidence": [
+        "CAPSULE.json",
+        "RESTORED_REPLAY.json",
+        "RESTORE_EXECUTION.txt"
+      ],
+      "conclusion": "41payload capsule;fresh-process2476output exact replay under originalworkspace/Vault read guard installed before imports. No fitting. Git provides source closure."
+    },
+    {
+      "area": "native_runtime",
+      "evidence": [
+        "HTTP_STARTUP_UNAVAILABLE.json",
+        "HTTP_STARTUP_TRACKING_LAG.json",
+        "NATIVE_SUMMARY.json",
+        "AFTER_ISSUANCE_AUDIT.json",
+        "HTTP_READBACK.json"
+      ],
+      "conclusion": "Deliberate reload transients retained. Corrected200second observation:29samples,4technical generations,5sampledpublications;6authenticated issuances fromdeployment,5exactintervals,no all-forecast expiry gap. All3HTTPsamples current39groups/news;latest read current. At least61pairs live;missingpairs explicit. No permanentavailability/all68claim."
+    },
+    {
+      "area": "scientific_scope",
+      "conclusion": "Original negative curve result preserved;frozen saved expanding-prefix state reuse only. No globalwinner/trading/policy readiness claim. No new fitting or fresh experiment."
+    }
+  ],
+  "tests": {
+    "python_passed": 105,
+    "javascript_scenarios_passed": 4
+  },
+  "models_fitted": 0,
+  "resolved_findings": [
+    "model_artifact_bound_accidental_change"
+  ],
+  "unresolved_findings": [],
+  "next": "retained_position_management_readiness_v1",
+  "schema": "forex.review_packet.v1",
+  "packet_id": "RETAINED_CURVE_CONNECTION_20261001",
+  "step_id": "retained_curve_parent_panel_connection_v1",
+  "source_commit": "2dd809da96f1ee4915a07e479b4bbfad9e44b67e",
+  "implementation_status": "complete_scoped_curve_parent_connection",
+  "review_status": "accepted_within_scope",
+  "same_task_review": true,
+  "next_item": "retained_position_management_readiness_v1",
+  "supersedes": "RETAINED_LEARNED_RESIDUAL_CONNECTION_20261001",
+  "readiness": {
+    "engineering_ready": true,
+    "engineering_scope": "Exact preserved eight-horizon parents and frozen curve states with bounded native verification",
+    "forecast_evidence_status": "unchanged_historical_development_and_prospective_unconfirmed",
+    "policy_evidence_status": "not_qualified",
+    "demo_authorization_status": "not_granted"
+  },
+  "broader_unfinished": [
+    "16exact_targets_unqualified",
+    "position_management",
+    "global_best_model_and_news_incremental_value"
+  ]
+}

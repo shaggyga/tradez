@@ -1,0 +1,30 @@
+.......F................................................................ [ 69%]
+................................                                         [100%]
+================================== FAILURES ===================================
+___________________ test_exact_panel_refusals[mixed_origin] ___________________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5530/test_exact_panel_refusals_mixe0')
+fault = 'mixed_origin'
+
+    @pytest.mark.parametrize('fault',['missing_horizon','whole_base_missing','mixed_origin','bad_model','bad_target','future_issue','duplicate','orders','nan','reference_price'])
+    def test_exact_panel_refusals(tmp_path,fault):
+        reg,fs=setup(tmp_path);a=layer.Curve(tmp_path,reg)
+        if fault=='missing_horizon':fs=[f for f in fs if f['connection']!='ridge720']
+        elif fault=='whole_base_missing':fs=[f for f in fs if not f['connection'].startswith('ridge')]
+        elif fault=='mixed_origin':fs[0]['reference_epoch']-=60;fs[0]['target_epoch']-=60
+        elif fault=='bad_model':fs[0]['original_model_id']='bad'
+        elif fault=='bad_target':fs[0]['target_epoch']+=1
+        elif fault=='future_issue':fs[0]['issued_epoch']=1100
+        elif fault=='duplicate':fs.append(copy.deepcopy(fs[0]))
+        elif fault=='orders':fs[0]['can_place_orders']=True
+        elif fault=='nan':fs[0]['expected_return_bps']=float('nan')
+        else:fs[0]['reference_mid']=2.
+        count=len(fs);slots=[];a.append(fs,slots,'fixture',clock=lambda:1022.)
+>       assert len(fs)-count==(3 if fault=='mixed_origin' else 2)
+E       AssertionError: assert (34 - 32) == 3
+E        +  where 34 = len([{'instrument': 'EUR_USD', 'connection': 'ridge360', 'horizon_minutes': 360, 'reference_epoch': 960, ...}, {'instrumen......}, {'instrument': 'GBP_USD', 'connection': 'ridge1080', 'horizon_minutes': 1080, 'reference_epoch': 1020, ...}, ...])
+
+evidence\retained_curve_20261001\candidate\tests\test_retained_curve.py:62: AssertionError
+=========================== short test summary info ===========================
+FAILED evidence/retained_curve_20261001/candidate/tests/test_retained_curve.py::test_exact_panel_refusals[mixed_origin]
+1 failed, 103 passed in 15.86s

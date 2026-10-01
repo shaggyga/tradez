@@ -6571,3 +6571,6 @@ Local actual-work log `evidence/news_capture_mapping_20260930/WORK_LOG.jsonl`; e
 
 
 2026-10-01T02:22:23.680313+00:00: RETAINED_LEARNED_RESIDUAL_CONNECTION_20261001/REVIEW.json; source 4c50845799d87d17793b7dcedb9e3499034ed425;91Python/3renderer tests;28restored payloads and1580exact outputs;native25groups. Zero fits. Next retained_curve_parent_panel_connection_v1.
+
+
+2026-10-01T02:58:22.097074+00:00: RETAINED_CURVE_CONNECTION_20261001/REVIEW.json; source 2dd809da96f1ee4915a07e479b4bbfad9e44b67e;105Python/4renderer tests;41restored payloads and2476exact outputs;native39groups. Zero fits. Next retained_position_management_readiness_v1.

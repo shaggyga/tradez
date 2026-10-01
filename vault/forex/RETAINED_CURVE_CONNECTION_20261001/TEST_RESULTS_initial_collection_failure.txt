@@ -1,0 +1,16 @@
+
+=================================== ERRORS ====================================
+_ ERROR collecting evidence/retained_curve_20261001/candidate/stage_c_alignment_integrity_v2/test_curve_shape_layer_v2.py _
+ImportError while importing test module 'C:\Users\zmoor\Documents\forex\evidence\retained_curve_20261001\candidate\stage_c_alignment_integrity_v2\test_curve_shape_layer_v2.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+..\..\AppData\Local\Programs\Python\Python312\Lib\importlib\__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+evidence\retained_curve_20261001\candidate\stage_c_alignment_integrity_v2\test_curve_shape_layer_v2.py:3: in <module>
+    from curve_shape_operator_v2 import _paired_scores
+E   ModuleNotFoundError: No module named 'curve_shape_operator_v2'
+=========================== short test summary info ===========================
+ERROR evidence/retained_curve_20261001/candidate/stage_c_alignment_integrity_v2/test_curve_shape_layer_v2.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 2.46s

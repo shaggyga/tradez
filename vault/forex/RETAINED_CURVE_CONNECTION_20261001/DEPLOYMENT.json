@@ -1,0 +1,50 @@
+{
+  "controllers": [
+    {
+      "ProcessId": 15624,
+      "CreationDate": "2026-09-30T22:46:42.379084-04:00",
+      "CommandLine": "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_supervisor_watchdog_v6.ps1 -Root C:\\Users\\zmoor\\Documents\\forex -OperationalProfilePath C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\operational_runtime_current_20260930.json -RecoveryUntilUtc 2026-10-07T08:14:50Z "
+    },
+    {
+      "ProcessId": 24352,
+      "CreationDate": "2026-09-30T22:46:47.857276-04:00",
+      "CommandLine": "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_operational_supervisor_v6.ps1 -Root C:\\Users\\zmoor\\Documents\\forex -SafeCoreOnly -ResearchCollectionOnly -OperationalProfilePath C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\operational_runtime_current_20260930.json -RecoveryUntilUtc 2026-10-07T08:14:50Z -IntervalSec 30 -ChildDurationSec 604800 "
+    }
+  ],
+  "context": [
+    {
+      "ProcessId": 24968,
+      "CreationDate": "2026-09-30T22:46:57.694296-04:00",
+      "CommandLine": "\"C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe\" -B C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_operational_log_relay_v2.py --log-directory C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\logs\\operational_children_v2\\currency_news_context_v1 --priority-class Normal -- C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe -B C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_currency_news_context_v1.py --database C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\local_news_sentiment_v1.sqlite --collector-heartbeat C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\collector_heartbeat_v1.json --output C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\currency_news_context_v1 --duration-sec 604800 --fast-config C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\fast_headline_sources_v1_20260930.json --enable-live-mapping --retained-model-registry C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\retained_forecast_connection_20260930.json "
+    },
+    {
+      "ProcessId": 23272,
+      "CreationDate": "2026-09-30T22:46:57.872548-04:00",
+      "CommandLine": "\"C:\\Users\\zmoor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" -B C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_operational_log_relay_v2.py --log-directory C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\logs\\operational_children_v2\\currency_news_context_v1 --priority-class Normal -- C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe -B C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_currency_news_context_v1.py --database C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\local_news_sentiment_v1.sqlite --collector-heartbeat C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\collector_heartbeat_v1.json --output C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\currency_news_context_v1 --duration-sec 604800 --fast-config C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\fast_headline_sources_v1_20260930.json --enable-live-mapping --retained-model-registry C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\retained_forecast_connection_20260930.json "
+    },
+    {
+      "ProcessId": 23240,
+      "CreationDate": "2026-09-30T22:46:58.022881-04:00",
+      "CommandLine": "C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\python.exe -B C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_currency_news_context_v1.py --database C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\local_news_sentiment_v1.sqlite --collector-heartbeat C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\collector_heartbeat_v1.json --output C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\currency_news_context_v1 --duration-sec 604800 --fast-config C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\fast_headline_sources_v1_20260930.json --enable-live-mapping --retained-model-registry C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\retained_forecast_connection_20260930.json"
+    },
+    {
+      "ProcessId": 25568,
+      "CreationDate": "2026-09-30T22:46:58.071777-04:00",
+      "CommandLine": "\"C:\\Users\\zmoor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" -B C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_currency_news_context_v1.py --database C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\local_news_sentiment_v1.sqlite --collector-heartbeat C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\local_news_sentiment\\collector_heartbeat_v1.json --output C:\\Users\\zmoor\\Documents\\forex\\trad\\data\\oanda_training_manager\\currency_news_context_v1 --duration-sec 604800 --fast-config C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\fast_headline_sources_v1_20260930.json --enable-live-mapping --retained-model-registry C:\\Users\\zmoor\\Documents\\forex\\trad\\config\\retained_forecast_connection_20260930.json"
+    }
+  ],
+  "scope": "Exact owned context/dashboard/controllers only; no producer/recorder/retry history change",
+  "dashboard": [
+    {
+      "ProcessId": 6696,
+      "CreationDate": "2026-09-30T22:46:39.134117-04:00",
+      "CommandLine": "\"C:\\Users\\zmoor\\AppData\\Local\\CodexRuntimes\\timeseries312\\Scripts\\pythonw.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_practice_live_dashboard.py --host 127.0.0.1 --port 8765 --max-runs 20 --max-lines 20000"
+    },
+    {
+      "ProcessId": 22248,
+      "CreationDate": "2026-09-30T22:46:39.174755-04:00",
+      "CommandLine": "\"C:\\Users\\zmoor\\AppData\\Local\\Programs\\Python\\Python312\\pythonw.exe\" C:\\Users\\zmoor\\Documents\\forex\\trad\\oanda_practice_live_dashboard.py --host 127.0.0.1 --port 8765 --max-runs 20 --max-lines 20000"
+    }
+  ],
+  "utc": "2026-10-01T02:51:50.8123710Z"
+}
