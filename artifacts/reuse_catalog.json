@@ -1682,6 +1682,29 @@
       "runtime_qualification": "137offline tests;64retained records and exact isolated replay; no live rollout",
       "models_fitted": 0,
       "scope": "Opt-in raw PRICE receipt sidecar and original manager quote admission; actual collector activation and policy remain unqualified"
+    },
+    "retained_forecast_receipts": {
+      "classification": "observation_adapter_and_source_overlay_not_a_model",
+      "original_identity": {
+        "kind": "captured_manifest_sha256",
+        "fingerprint": "fc1138215b6133a69af3091baa58fdc699b04d4f94b70d0516b1a59b9107e3fd"
+      },
+      "artifact_refs": [
+        {
+          "vault_relative_path": "RETAINED_FORECAST_RECEIPTS_20261001/forecast_receipts_overlay.zip",
+          "sha256": "9ae01c82941ed9b5db086fcf5299101f424d12b39cf8ba0fbe42c6bc434bf725",
+          "bytes": 79473,
+          "kind": "archive"
+        },
+        {
+          "vault_relative_path": "RETAINED_MANAGEMENT_READINESS_20261001/retained_management_evidence.zip",
+          "sha256": "cd90f812b99cf5b0fb7d594f93b4eb322ea9de549d4f3f831a0e6c620fb696dc",
+          "kind": "preserved_input_dependency"
+        }
+      ],
+      "runtime_qualification": "69offline tests;4953receipts across2652slots;84exact resumed/restored payloads; no activation",
+      "models_fitted": 0,
+      "scope": "Authenticates existing observed forecasts, preserves original native gate and outcome separation; conditional economics and live quote integration unfinished"
     }
   },
   "inherited_records": [

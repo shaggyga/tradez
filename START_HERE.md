@@ -1,5 +1,10 @@
 # Start here
 
+## Current retained-receipt checkpoint — October 1, 2026
+
+[Retained forecast receipts](docs/RETAINED_FORECAST_RECEIPTS_20261001.md): separately named observation adapter over saved publications;69tests and84payload exact resumed/restored replay passed. Preserves4953observation receipts across2652slots;2418forecasts eligible only at the frozen capture clock. No new inference or activation. Next `retained_management_combined_observation_v1`; combine exact quote and forecast observations offline. Older notices below are historical.
+
+
 ## Current quote-receipt checkpoint — October 1, 2026
 
 [Exact quote receipts](docs/EXACT_QUOTE_RECEIPTS_20261001.md): opt-in decimal-preserving stream hook, bounded sidecar and existing-manager adapter implemented offline. 137 tests passed;64 retained raw records parsed and replayed exactly after isolated restore. No live rollout or management activation. Next `retained_management_forecast_receipts_v1`; adapt saved forecast receipts under their real input tier. Older next-item notices below are historical.
