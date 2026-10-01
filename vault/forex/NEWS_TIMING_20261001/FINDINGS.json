@@ -1,0 +1,91 @@
+{
+  "utc": "2026-10-01T14:07:03.648985+00:00",
+  "worker_sha256": "37f244b7a7b645cd2e8a443970300a88a348450956bafcfedf677f978cff3563",
+  "tests_passed": 5,
+  "proof_scope": "actual tick AST with controlled work completion; not live deployment or model execution",
+  "before_generated": 1790863451.7362134,
+  "after_generated": 1790863614.7980802,
+  "before_errors": 183,
+  "after_errors": 183,
+  "before_counts": {
+    "building": 0,
+    "forecast": 62,
+    "ready": 0,
+    "unavailable": 6,
+    "warming": 0
+  },
+  "after_counts": {
+    "building": 0,
+    "forecast": 62,
+    "ready": 0,
+    "unavailable": 6,
+    "warming": 0
+  },
+  "dispatches": [
+    {
+      "instrument": "SGD_CHF",
+      "dispatch_epoch": 1790863264.4069743,
+      "news_expires_epoch": 1790863387.251557,
+      "remaining_seconds": 122.8445827960968
+    },
+    {
+      "instrument": "USD_CNH",
+      "dispatch_epoch": 1790863287.7035146,
+      "news_expires_epoch": 1790863387.251557,
+      "remaining_seconds": 99.54804253578186
+    },
+    {
+      "instrument": "SGD_JPY",
+      "dispatch_epoch": 1790863309.75057,
+      "news_expires_epoch": 1790863387.251557,
+      "remaining_seconds": 77.50098705291748
+    },
+    {
+      "instrument": "USD_DKK",
+      "dispatch_epoch": 1790863331.9132886,
+      "news_expires_epoch": 1790863387.251557,
+      "remaining_seconds": 55.338268518447876
+    },
+    {
+      "instrument": "USD_CHF",
+      "dispatch_epoch": 1790863358.8582673,
+      "news_expires_epoch": 1790863387.251557,
+      "remaining_seconds": 28.393289804458618
+    },
+    {
+      "instrument": "USD_HUF",
+      "dispatch_epoch": 1790863385.8667574,
+      "news_expires_epoch": 1790863387.251557,
+      "remaining_seconds": 1.3847997188568115
+    },
+    {
+      "instrument": "USD_JPY",
+      "dispatch_epoch": 1790863428.0584779,
+      "news_expires_epoch": 1790863676.267428,
+      "remaining_seconds": 248.2089500427246
+    }
+  ],
+  "findings": [
+    {
+      "id": "NEWS-TIMING-01",
+      "status": "reproduced_correction_tested_not_deployed",
+      "defect": "Post-poll finish_work immediately queues next pair ahead of overdue schedule_news. Repeated ancillary-I/O completions can starve refresh.",
+      "correction": "Call schedule_news after final finish_work and before schedule_work. Existing due/in-flight checks and issue gates remain."
+    },
+    {
+      "id": "NEWS-TIMING-02",
+      "status": "observed_remaining_investigation",
+      "defect": "Near-expiry inputs may pass dispatch readiness but expire before actual issue. Original actual-issue refusal is correct.",
+      "next": "Measure again after starvation fix before imposing a speculative headroom threshold."
+    },
+    {
+      "id": "NEWS-TIMING-03",
+      "status": "observed_remaining_investigation",
+      "defect": "Repeated market_reference_already_issued exceptions despite successful previous issue.",
+      "next": "Inspect exact ledger reference identity before scheduling; do not relax deduplication or infer from aggregate count."
+    }
+  ],
+  "deployment_constraint": "Worker source is embedded in all68 immutable ledger contracts. Rehashing registry in place cannot pass activated_contract_mismatch. Qualify an operational successor preserving original ledger provenance; do not silently relabel or refit.",
+  "models_fitted": 0,
+  "runtime_changed": false
+}

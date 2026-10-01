@@ -1,0 +1,29 @@
+{
+  "schema": "forex.review_packet.v1",
+  "step_id": "news_timing_20261001",
+  "source_commit": "2584e565643b9a26420bd8014cd508faba7de79c",
+  "status": "accepted_within_scope",
+  "review_status": "accepted_within_scope",
+  "implementation_status": "diagnosis_complete_runtime_correction_not_deployed",
+  "independent_review": false,
+  "same_task_review": true,
+  "readiness": {
+    "engineering_ready": false,
+    "forecast_evidence_status": "unchanged",
+    "policy_evidence_status": "not_qualified",
+    "demo_authorization_status": "not_granted"
+  },
+  "checks": [
+    "5 actual-tick controlled scheduler tests passed",
+    "startup preflight passed",
+    "live diagnostic snapshots retained"
+  ],
+  "unresolved_findings": [
+    "NEWS-TIMING-01 deployment lineage",
+    "NEWS-TIMING-02 expiry headroom",
+    "NEWS-TIMING-03 duplicate reference scheduling"
+  ],
+  "next_item": "live_news_input_reliability_v1",
+  "models_fitted": 0,
+  "runtime_changed": false
+}

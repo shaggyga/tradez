@@ -1,0 +1,58 @@
+{
+  "packet": "ROLLING_INPUT_RELIABILITY_20261001",
+  "manifest_sha256": "8e295667e9f1aea8bd7428246ee7bb4347cb00f5d64f8974661a7b041b093820",
+  "source_commit": "91806e87982a6c48789d9d071ceebdc58caa5a7d",
+  "next": "live_news_input_reliability_v1",
+  "utc": "2026-10-01T13:40:56.800310+00:00",
+  "documentation_commit": "948ae6c86d72dfee16f99f97f4daf6bf6713ade2",
+  "remote_head": "948ae6c86d72dfee16f99f97f4daf6bf6713ade2",
+  "worktree_clean": true,
+  "snapshot_manifest_sha256": "b482cdb99badab99d6c57d16ebb5e267cd91c0b4c105ed01c8a832c4dd097237",
+  "snapshot_files_verified": 4698,
+  "source_script_sha256": "92321981e5c2bdd489fa6e3747e94cc9d36ea3d39d599bb711ea4221435a9069",
+  "verification": {
+    "utc": "2026-10-01T13:32:49.312646+00:00",
+    "http_status": 200,
+    "retained_forecasts": 2543,
+    "connections": 39,
+    "registry_sha256": "29c33ee654188ce803476904b5e092f93c13afe59fff70e51452035a13bfd180",
+    "publication_read": {
+      "attempts": 1,
+      "envelope_generation": "7604b40f7bcd4bb8645c9aaa1694ffed74d5fde60d9bad2041cc21aba796bd44",
+      "matched": true,
+      "statuses": [
+        {
+          "generated_utc": "2026-10-01T13:31:50.119862+00:00",
+          "publication_generation": "7604b40f7bcd4bb8645c9aaa1694ffed74d5fde60d9bad2041cc21aba796bd44",
+          "reason": null,
+          "status": "collecting"
+        },
+        {
+          "generated_utc": "2026-10-01T13:31:50.119862+00:00",
+          "publication_generation": "7604b40f7bcd4bb8645c9aaa1694ffed74d5fde60d9bad2041cc21aba796bd44",
+          "reason": null,
+          "status": "collecting"
+        }
+      ],
+      "transient_read_errors": []
+    },
+    "news_status": "current",
+    "supervisor_count": 1,
+    "operational_health": "role_liveness_current",
+    "joint_counts": {
+      "building": 0,
+      "forecast": 63,
+      "ready": 0,
+      "unavailable": 4,
+      "warming": 1
+    },
+    "joint_cumulative_error_count": 174,
+    "joint_last_historical_error": "NZD_USD:ValueError:market_reference_already_issued",
+    "original_store_bindings_preserved": 16,
+    "new_runtime": "d902be8ffade87ed198144c99ee410894de65372066be72af6de8d6195a99fab",
+    "models_fitted": 0,
+    "can_place_orders": false
+  },
+  "later_live_readback": "ROLLING_INPUT_RELIABILITY_PUBLICATION_20261001/FOLLOWUP_READBACK.json",
+  "scope": "Windows atomic-publication repair deployed; later readback current with advancing publication. Other collector reliability and management remain partial. Same-task review only."
+}

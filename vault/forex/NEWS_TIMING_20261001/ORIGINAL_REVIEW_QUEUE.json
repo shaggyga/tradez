@@ -1,11 +1,11 @@
 {
-  "active_step_id": "news_timing_20261001",
-  "active_step_semantics": "Diagnosis checkpoint; parent runtime correction unfinished",
-  "current_review_packet": "NEWS_TIMING_20261001/REVIEW.json",
+  "active_step_id": "rolling_input_reliability_20261001",
+  "active_step_semantics": "Completed rolling publication repair; resume remaining collector/input reliability work",
+  "current_review_packet": "ROLLING_INPUT_RELIABILITY_20261001/REVIEW.json",
   "current_user_requested_context": {
     "request": "Fix data; connect strongest supported existing models across entire design horizon; stop new fits/experiments",
-    "status": "news_scheduler_defect_reproduced_repair_pending",
-    "packet": "NEWS_TIMING_20261001/REVIEW.json",
+    "status": "core_running_rolling_publication_repaired_reliability_partial",
+    "packet": "ROLLING_INPUT_RELIABILITY_20261001/REVIEW.json",
     "next_item": "live_news_input_reliability_v1",
     "new_research_authorized": false
   },
@@ -5344,9 +5344,8 @@
         "Reconcile historical official event cohort with original hashes or a separately qualified successor; never overwrite sealed bindings",
         "Observe successful current pipeline cycles and dashboard inputs; distinguish joint warmup from errors; update Git/Vault with exact remaining evidence"
       ],
-      "next_action": "NEWS-TIMING-01: deploy tested refresh-order correction via qualified operational source lineage preserving all68 immutable contracts/history. Do not rehash sealed cohorts or refit. Then check remaining expiry and duplicate-reference scheduling.",
-      "completed_substep": "ROLLING_INPUT_RELIABILITY_20261001/REVIEW.json",
-      "latest_diagnosis": "NEWS_TIMING_20261001/REVIEW.json"
+      "next_action": "Inspect fresh collector/read refusals using actual clocks. Reuse deployed rolling publication repair and new diagnostics. Cumulative errors are historical; management follows input reliability.",
+      "completed_substep": "ROLLING_INPUT_RELIABILITY_20261001/REVIEW.json"
     },
     {
       "step_id": "news_input_compatibility_repair_20261001",
@@ -5363,14 +5362,6 @@
       "independent_review": false,
       "packet": "ROLLING_INPUT_RELIABILITY_20261001/REVIEW.json",
       "packet_sha256": "e72e48c318ae98274919de92a02962d051c80833a75d4a0ecca1203481e3c711"
-    },
-    {
-      "step_id": "news_timing_20261001",
-      "implementation_status": "complete_diagnosis_only",
-      "review_status": "accepted_within_scope",
-      "independent_review": false,
-      "packet": "NEWS_TIMING_20261001/REVIEW.json",
-      "packet_sha256": "d3017adef477b166b7e6673124439ad0290f8be4339b4f90b3c730ef100dec85"
     }
   ],
   "timed_session": {
@@ -5383,5 +5374,5 @@
     "source_commit": "6eb514ab1856190b39d83ab020d5f77700ca8770",
     "updated_utc": "2026-09-25T18:12:00.5976014Z"
   },
-  "updated_utc": "2026-10-01T14:09:02.757134+00:00"
+  "updated_utc": "2026-10-01T13:36:27.462087+00:00"
 }
