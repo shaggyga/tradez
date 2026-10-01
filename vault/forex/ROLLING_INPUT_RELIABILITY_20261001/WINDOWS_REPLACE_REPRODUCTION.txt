@@ -1,0 +1,48 @@
+......................F.........                                         [100%]
+================================== FAILURES ===================================
+__________________ test_real_two_file_publication_transition __________________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5548/test_real_two_file_publication0')
+
+    def test_real_two_file_publication_transition(tmp_path):
+        import threading
+        import time
+        (tmp_path/'status.json').write_text(json.dumps({'publication_generation':'old'}))
+        (tmp_path/'latest_features.json').write_text(json.dumps({'publication_generation':'new'}))
+        def publish_status():
+            time.sleep(.18)
+            temporary=tmp_path/'status.next'
+            temporary.write_text(json.dumps({'publication_generation':'new'}))
+            temporary.replace(tmp_path/'status.json')
+        thread=threading.Thread(target=publish_status)
+        thread.start()
+        try:
+            envelope,ref,status=m.read_feature_publication(tmp_path)
+>           assert envelope['publication_generation']==status['publication_generation']=='new'
+                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: 'NoneType' object is not subscriptable
+
+tests\test_retained_forecast_connection.py:212: TypeError
+============================== warnings summary ===============================
+tests/test_retained_forecast_connection.py::test_real_two_file_publication_transition
+  C:\Users\zmoor\AppData\Local\CodexRuntimes\timeseries312\Lib\site-packages\_pytest\threadexception.py:58: PytestUnhandledThreadExceptionWarning: Exception in thread Thread-1 (publish_status)
+  
+  Traceback (most recent call last):
+    File "C:\Users\zmoor\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+      self.run()
+    File "C:\Users\zmoor\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1012, in run
+      self._target(*self._args, **self._kwargs)
+    File "C:\Users\zmoor\Documents\forex\tests\test_retained_forecast_connection.py", line 207, in publish_status
+      temporary.replace(tmp_path/'status.json')
+    File "C:\Users\zmoor\AppData\Local\Programs\Python\Python312\Lib\pathlib.py", line 1376, in replace
+      os.replace(self, target)
+  PermissionError: [WinError 5] Access is denied: 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-5548\\test_real_two_file_publication0\\status.next' -> 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-5548\\test_real_two_file_publication0\\status.json'
+  
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+    warnings.warn(pytest.PytestUnhandledThreadExceptionWarning(msg))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_retained_forecast_connection.py::test_real_two_file_publication_transition
+1 failed, 31 passed, 1 warning in 4.49s

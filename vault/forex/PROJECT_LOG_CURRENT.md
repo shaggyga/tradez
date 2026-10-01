@@ -6595,3 +6595,6 @@ Local actual-work log `evidence/news_capture_mapping_20260930/WORK_LOG.jsonl`; e
 
 
 2026-10-01T05:45:56.946367+00:00: NEWS_INPUT_RELIABILITY_20261001/REVIEW.json; source 7b87d5ec449e474e60c3ce96c817b4a7fc0894e7; scoped fixes verified, broader work partial.
+
+
+2026-10-01T13:36:27.462087+00:00: ROLLING_INPUT_RELIABILITY_20261001/REVIEW.json; source 91806e87982a6c48789d9d071ceebdc58caa5a7d; Windows publication repair verified, broader work partial.

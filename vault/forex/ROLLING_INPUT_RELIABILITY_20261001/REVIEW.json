@@ -1,0 +1,35 @@
+{
+  "schema": "forex.review_packet.v1",
+  "packet_id": "ROLLING_INPUT_RELIABILITY_20261001",
+  "step_id": "rolling_input_reliability_20261001",
+  "utc": "2026-10-01T13:36:27.462087+00:00",
+  "source_commit": "91806e87982a6c48789d9d071ceebdc58caa5a7d",
+  "status": "accepted_within_scope",
+  "review_status": "accepted_within_scope",
+  "implementation_status": "rolling_publication_repair_complete_parent_reliability_work_partial",
+  "independent_review": false,
+  "same_task_review": true,
+  "review_kind": "Same-task exact source diff, native Windows failure reproduction, bounded regression and deployed consumer review",
+  "readiness": {
+    "engineering_ready": true,
+    "forecast_evidence_status": "unchanged_saved_models",
+    "policy_evidence_status": "not_qualified",
+    "demo_authorization_status": "not_granted"
+  },
+  "checks": [
+    "75 local integration/consumer/publication tests passed",
+    "75 tests passed in relocated source-only fixture capsule",
+    "20 operational tests plus2 subtests passed",
+    "Native Windows reader-lock failure reproduced; bounded same-byte producer retry verified",
+    "New runtime preserves all16 prior database contract/runtime identities",
+    "HTTP200,2543 retained forecasts, current news and healthy singleton supervision observed"
+  ],
+  "unresolved_findings": [
+    "other_intermittent_collector_progress_or_read_failure_not_proven_eliminated",
+    "joint_support_requirements",
+    "management_contract_unqualified"
+  ],
+  "next_item": "live_news_input_reliability_v1",
+  "models_fitted": 0,
+  "can_place_orders": false
+}

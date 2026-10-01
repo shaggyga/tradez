@@ -1,0 +1,66 @@
+{
+  "packet": "NEWS_INPUT_RELIABILITY_20261001",
+  "manifest_sha256": "a9af412cdf0af5ccfe3652755fbe42b73cec79d1ad2a24c333485f7555d797b4",
+  "source_commit": "7b87d5ec449e474e60c3ce96c817b4a7fc0894e7",
+  "next": "live_news_input_reliability_v1",
+  "utc": "2026-10-01T05:50:16.349686+00:00",
+  "documentation_commit": "42a8ecdc7fd9139fec38d8a8eb081e926f64e405",
+  "remote_head": "42a8ecdc7fd9139fec38d8a8eb081e926f64e405",
+  "worktree_clean": true,
+  "snapshot_manifest_sha256": "9e17a23e70c46f9857ff9179003d22d21ed6b2ba4ae337950c3038405ebc9dd0",
+  "snapshot_files_verified": 4661,
+  "source_script_sha256": "27ea11bc79a3a85cc09f00a88df697f0ecf8bba29b230c309cdf83e8967d8987",
+  "verification": {
+    "utc": "2026-10-01T05:43:12.512625+00:00",
+    "http_status": 200,
+    "retained_forecasts": 2149,
+    "connections": 39,
+    "coverage": {
+      "eligible": 2149,
+      "stale": 27,
+      "not_tradeable": 81,
+      "quote_stale": 81,
+      "parent_origin_mismatch": 184,
+      "base_unavailable": 56,
+      "exact_controls_unavailable": 60,
+      "incomplete_exact_origin_curve": 14
+    },
+    "currency_news_current": true,
+    "supervisor_count": 1,
+    "supervisor_pid": 17792,
+    "watchdog_pid": 20072,
+    "operational_health": "role_liveness_current",
+    "role_failures": [],
+    "event_horizon_status": "ok",
+    "event_counts_cumulative": {
+      "attempts": 490,
+      "input_events": 98,
+      "invalid_pair_outcomes": 1301,
+      "outcomes": 16010,
+      "valid_outcomes": 14709,
+      "valid_pair_outcomes": 14709
+    },
+    "repaired_news_status": "current",
+    "repaired_news_errors": [],
+    "joint_counts": {
+      "building": 0,
+      "forecast": 0,
+      "ready": 0,
+      "unavailable": 5,
+      "warming": 63
+    },
+    "joint_errors_cumulative": 113,
+    "joint_last_historical_error": "shared_news:ValueError:upstream_collector_stale_or_future",
+    "source_profile_sha256": "01d73d999da021eb695c01aee0502fbf9c4d9726718194953212649895babaa8",
+    "optional_research_roles_paused": true,
+    "restart_histories_preserved": true,
+    "can_place_orders": false,
+    "limitations": [
+      "Joint forecasts remain gated by actual warmup/support and intermittent input freshness failures.",
+      "Counts of event outcomes and cumulative joint errors are historical totals, not new experimental results.",
+      "Position management is not qualified or activated."
+    ]
+  },
+  "later_live_readback": "NEWS_INPUT_RELIABILITY_PUBLICATION_20261001/FOLLOWUP_READBACK.json",
+  "scope": "Source compatibility and optional role pause verified; later live readback withheld forecasts due rolling publication binding. Broader reliability and management unfinished. Same-task review only."
+}
