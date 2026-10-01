@@ -1,0 +1,76 @@
+{
+  "utc": "2026-10-01T17:15:30.766035+00:00",
+  "checks": {
+    "current_source": true,
+    "five_new_fit_receipts": true,
+    "median_completion_lag_reduced": true,
+    "maintenance_loop_reduced": true
+  },
+  "samples": 47,
+  "first_errors": 0,
+  "last_errors": 0,
+  "latest_counts": {
+    "building": 0,
+    "forecast": 64,
+    "ready": 0,
+    "unavailable": 4,
+    "warming": 0
+  },
+  "before_lags_seconds": [
+    17.83796453475952,
+    15.618706226348877,
+    18.58072853088379,
+    4.292473316192627,
+    4.045335054397583,
+    16.285488843917847,
+    15.11503005027771
+  ],
+  "after_lags_seconds": [
+    0.06985664367675781,
+    0.07601213455200195,
+    0.046379804611206055,
+    0.15649819374084473,
+    0.10255670547485352
+  ],
+  "before_median_seconds": 15.618706226348877,
+  "after_median_seconds": 0.07601213455200195,
+  "timing_receipts": [
+    {
+      "event": "main_loop_timing",
+      "observed_epoch": 1790874789.6128192,
+      "publication_seconds": 6.500401899975259,
+      "quote_poll_seconds": 0.12181090004742146,
+      "run_id": "5b32614e930f41b786437bc52f525e82",
+      "schema_version": "joint_news_scheduler_v1_20261001",
+      "serviced_completions": 1,
+      "settlement_and_handoff_seconds": 2.9520019999472424,
+      "total_seconds": 9.577245699998457
+    },
+    {
+      "event": "main_loop_timing",
+      "observed_epoch": 1790874843.6042395,
+      "publication_seconds": 3.400025889277458e-06,
+      "quote_poll_seconds": 0.7555843999725766,
+      "run_id": "5b32614e930f41b786437bc52f525e82",
+      "schema_version": "joint_news_scheduler_v1_20261001",
+      "serviced_completions": 3,
+      "settlement_and_handoff_seconds": 2.0291896000271663,
+      "total_seconds": 2.784922100021504
+    },
+    {
+      "event": "main_loop_timing",
+      "observed_epoch": 1790874907.7500982,
+      "publication_seconds": 3.100023604929447e-06,
+      "quote_poll_seconds": 0.7857632000232115,
+      "run_id": "5b32614e930f41b786437bc52f525e82",
+      "schema_version": "joint_news_scheduler_v1_20261001",
+      "serviced_completions": 2,
+      "settlement_and_handoff_seconds": 2.9977795999730006,
+      "total_seconds": 3.7836751000140794
+    }
+  ],
+  "raw_sha256": "df44670565682c411b71d5d76f05c0e053af13eb9ffebba3aef21f90b091918d",
+  "scope": "Observed scheduling latency, not accuracy; sequential before/after windows, not a randomized benchmark. Error counters are per process. Availability remains partial.",
+  "first_variant_max_loop_seconds": 68.01740459998837,
+  "bounded_variant_max_loop_seconds": 9.577245699998457
+}
