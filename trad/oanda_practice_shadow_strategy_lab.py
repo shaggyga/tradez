@@ -6270,6 +6270,7 @@ class MultiPriceStream:
         research_snapshot_seed_paths: list[Path] | None = None,
         pip_sizes: dict[str, float] | None = None,
         quote_observer: Callable[..., None] | None = None,
+        raw_price_observer: Callable[..., None] | None = None,
     ) -> None:
         self.credential_provider = credential_provider
         self.instruments = instruments
@@ -6291,6 +6292,9 @@ class MultiPriceStream:
         ]
         self.pip_sizes = dict(pip_sizes or {})
         self.quote_observer = quote_observer
+        # Opt-in market-data evidence hook; existing float consumers unchanged.
+        self.raw_price_observer = raw_price_observer
+        self._raw_price_observer_errors = 0
         self._lock = threading.Lock()
         self._stop = threading.Event()
         self._ready = threading.Event()
@@ -6387,7 +6391,17 @@ class MultiPriceStream:
                         incoming_time is not None and incoming_time >= existing_time
                     ):
                         self._research_retained_quotes[instrument] = row
+        self._notify_raw_price(None, time.time(), generation)
         return generation, is_reconnect
+
+    def _notify_raw_price(self, raw: bytes | None, received_epoch: float, generation: int) -> None:
+        if self.raw_price_observer is not None:
+            try:
+                self.raw_price_observer(raw, received_epoch=received_epoch,
+                                        connection_generation=generation)
+            except Exception:
+                with self._lock:
+                    self._raw_price_observer_errors += 1
 
     def publish_research_snapshot(self, payload: dict[str, Any]) -> int | None:
         """Queue diagnostic coverage without making retained quotes executable.
@@ -6549,6 +6563,7 @@ class MultiPriceStream:
                 "reconnects": self._reconnects,
                 "connection_generation": self._connection_generation,
                 "quote_observer_errors": self._quote_observer_errors,
+                "raw_price_observer_errors": self._raw_price_observer_errors,
                 "last_event_age_sec": None if not math.isfinite(silence) else round(silence, 3),
                 "broker_clock_lead_sec": (
                     None if clock_lead is None else round(clock_lead, 3)
@@ -6621,6 +6636,7 @@ class MultiPriceStream:
                             break
                         if not raw_line:
                             continue
+                        received_epoch = time.time()
                         try:
                             payload = json.loads(raw_line.decode("utf-8"))
                         except (UnicodeDecodeError, json.JSONDecodeError):
@@ -6631,6 +6647,8 @@ class MultiPriceStream:
                                 self._last_event_monotonic = now
                             continue
                         instrument = str(payload.get("instrument") or "")
+                        if payload.get("type") == "PRICE":
+                            self._notify_raw_price(raw_line, received_epoch, connection_generation)
                         if not instrument or not payload.get("bids") or not payload.get("asks"):
                             continue
                         quote = quote_from_price_payload(payload, "stream")

@@ -1,5 +1,10 @@
 # Forex handoff
 
+## Current quote-receipt checkpoint — October 1, 2026
+
+[Exact quote receipts](docs/EXACT_QUOTE_RECEIPTS_20261001.md): opt-in decimal-preserving stream hook, bounded sidecar and existing-manager adapter implemented offline. 137 tests passed;64 retained raw records parsed and replayed exactly after isolated restore. No live rollout or management activation. Next `retained_management_forecast_receipts_v1`; adapt saved forecast receipts under their real input tier. Older next-item notices below are historical.
+
+
 ## Current management-readiness checkpoint — October 1, 2026
 
 [Retained management readiness](docs/RETAINED_MANAGEMENT_READINESS_20261001.md): full 2,652-slot inspection, 48 tests and 43-payload portable/resumed replay passed. Forecasts remain connected; management is not activated. Missing native receipts, exact quote identity/decimal clocks and economic/state contracts are explicit. Next `retained_management_quote_receipts_v1`; repair the existing quote receipt boundary offline. Older notices below are historical.

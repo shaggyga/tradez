@@ -1664,6 +1664,24 @@
       "runtime_qualification": "48tests;2652explicit slots;43payloads exact across full/resumed/extracted replay; same-task review",
       "models_fitted": 0,
       "scope": "Read-only input qualification; native management receipts, quote contract and economic/state data remain unqualified"
+    },
+    "exact_quote_receipts": {
+      "classification": "preserved_raw_observation_slice_and_offline_adapter_not_a_model",
+      "original_identity": {
+        "kind": "input_sha256",
+        "fingerprint": "492866a1432fd8bcb0907806b292026da2f601a29b0d0a582cbb1e909fb20093"
+      },
+      "artifact_refs": [
+        {
+          "vault_relative_path": "EXACT_QUOTE_RECEIPTS_20261001/quote_receipts_capsule.zip",
+          "sha256": "2a20fe1bc1d602c941c66b9ce474f0e2f4c721a63162d1cf54a4827cd66c73f0",
+          "bytes": 37912,
+          "kind": "archive"
+        }
+      ],
+      "runtime_qualification": "137offline tests;64retained records and exact isolated replay; no live rollout",
+      "models_fitted": 0,
+      "scope": "Opt-in raw PRICE receipt sidecar and original manager quote admission; actual collector activation and policy remain unqualified"
     }
   },
   "inherited_records": [
