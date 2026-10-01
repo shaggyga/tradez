@@ -1,0 +1,31 @@
+{
+  "schema": "forex.review_packet.v1",
+  "step_id": "pair_recovery_20261001",
+  "source_commit": "5da349b4019bfbd6956bbe98dcc2d902365f67e3",
+  "status": "accepted_within_scope",
+  "review_status": "accepted_within_scope",
+  "implementation_status": "duplicate_reference_dispatch_skip_deployed",
+  "independent_review": false,
+  "same_task_review": true,
+  "readiness": {
+    "engineering_ready": true,
+    "forecast_evidence_status": "unchanged",
+    "policy_evidence_status": "not_qualified",
+    "demo_authorization_status": "not_granted"
+  },
+  "checks": [
+    "90 deployment tests passed",
+    "23 relocated source tests passed",
+    "68 original contract/activation/forecast histories unchanged",
+    "exact operational source loaded; natural duplicate skip not yet observed"
+  ],
+  "unresolved_findings": [
+    "Exact underlying producer refusal remains uncaptured",
+    "Per-pair recovery and quote absences",
+    "Live duplicate skip impact not yet measured",
+    "Position management qualification"
+  ],
+  "next_item": "live_news_input_reliability_v1",
+  "replacement_models_fitted": 0,
+  "runtime_changed": true
+}

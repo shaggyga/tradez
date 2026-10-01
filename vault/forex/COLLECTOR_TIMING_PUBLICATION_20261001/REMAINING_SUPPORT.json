@@ -1,0 +1,627 @@
+{
+  "observed_utc": "2026-10-01T15:20:48.133036+00:00",
+  "summary_generated_epoch": 1790868040.2376812,
+  "remaining": [
+    {
+      "instrument": "EUR_TRY",
+      "family": "ridge_price_news_v1",
+      "status": "unavailable",
+      "reason": "ValueError:market_closed_or_no_stream_quote",
+      "readiness": {
+        "diagnostic_fields_omitted": [],
+        "diagnostics": {
+          "current_real_prices": 61,
+          "current_real_returns": 60,
+          "current_span_sec": 3600,
+          "distinct_news_context_patterns": 17,
+          "mature_exact_h1_training_rows": 32,
+          "nonzero_news_context_training_rows": 16,
+          "ready": false,
+          "reason_details": [
+            {
+              "display_truncated": false,
+              "full_text_chars": 35,
+              "full_text_sha256": "a1ca943be0e9cd6e77476701a1c7fcbe0b46bc3372645c3b4b5d6829426bb83d",
+              "schema_version": "bounded_status_diagnostic_v1_20260913",
+              "text": "mature_joint_h1_training_rows:32<48"
+            }
+          ],
+          "reasons": [
+            "mature_joint_h1_training_rows:32<48"
+          ],
+          "required_joint_training_rows": 48,
+          "status": "blocked",
+          "training_scope": "retrospective_original_member_archive_not_prior_prospective_performance",
+          "vetted_news_training_rows": 0
+        },
+        "full_diagnostics_sha256": "282c73bc1fa28decaeea2edc97832ff7c6393244457c12a0d6199ed0060bf360",
+        "full_reason_count": 1,
+        "news_evidence_epoch": 1790867670.328841,
+        "news_expires_epoch": 1790867970.328841,
+        "observed_epoch": 1790867745.3984954,
+        "price_bar_close_epoch": 1790866860,
+        "projection_schema_version": "joint_readiness_status_projection_v1_20260913",
+        "reason": "stale_or_unavailable_news_input",
+        "reason_detail": {
+          "display_truncated": false,
+          "full_text_chars": 31,
+          "full_text_sha256": "68ffc56e285188705a086695fb71a0e1d8cde310e7e9f4d4a7e0495d58c22b76",
+          "schema_version": "bounded_status_diagnostic_v1_20260913",
+          "text": "stale_or_unavailable_news_input"
+        },
+        "reason_previews_omitted": 0,
+        "status": "unavailable"
+      }
+    },
+    {
+      "instrument": "SGD_JPY",
+      "family": "ridge_price_news_v1",
+      "status": "unavailable",
+      "reason": "observed_news_failure_generation:4",
+      "readiness": {
+        "diagnostic_fields_omitted": [],
+        "diagnostics": {
+          "reason_details": [],
+          "reasons": []
+        },
+        "full_diagnostics_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "full_reason_count": 0,
+        "news_evidence_epoch": null,
+        "news_expires_epoch": null,
+        "observed_epoch": null,
+        "price_bar_close_epoch": null,
+        "projection_schema_version": "joint_readiness_status_projection_v1_20260913",
+        "reason": "awaiting_pair_input_read",
+        "reason_detail": {
+          "display_truncated": false,
+          "full_text_chars": 24,
+          "full_text_sha256": "959153189959aec32a7b02165544b1dc09867100279a8cbc42f23e1f3182e13b",
+          "schema_version": "bounded_status_diagnostic_v1_20260913",
+          "text": "awaiting_pair_input_read"
+        },
+        "reason_previews_omitted": 0,
+        "status": "unavailable"
+      }
+    },
+    {
+      "instrument": "TRY_JPY",
+      "family": "ridge_price_news_v1",
+      "status": "unavailable",
+      "reason": "ValueError:market_closed_or_no_stream_quote",
+      "readiness": {
+        "diagnostic_fields_omitted": [],
+        "diagnostics": {
+          "reason_details": [],
+          "reasons": []
+        },
+        "full_diagnostics_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "full_reason_count": 0,
+        "news_evidence_epoch": null,
+        "news_expires_epoch": null,
+        "observed_epoch": null,
+        "price_bar_close_epoch": null,
+        "projection_schema_version": "joint_readiness_status_projection_v1_20260913",
+        "reason": "awaiting_pair_input_read",
+        "reason_detail": {
+          "display_truncated": false,
+          "full_text_chars": 24,
+          "full_text_sha256": "959153189959aec32a7b02165544b1dc09867100279a8cbc42f23e1f3182e13b",
+          "schema_version": "bounded_status_diagnostic_v1_20260913",
+          "text": "awaiting_pair_input_read"
+        },
+        "reason_previews_omitted": 0,
+        "status": "unavailable"
+      }
+    },
+    {
+      "instrument": "USD_CAD",
+      "family": "ridge_price_news_v1",
+      "status": "unavailable",
+      "reason": "observed_news_failure_generation:4",
+      "readiness": {
+        "diagnostic_fields_omitted": [],
+        "diagnostics": {
+          "reason_details": [],
+          "reasons": []
+        },
+        "full_diagnostics_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "full_reason_count": 0,
+        "news_evidence_epoch": null,
+        "news_expires_epoch": null,
+        "observed_epoch": null,
+        "price_bar_close_epoch": null,
+        "projection_schema_version": "joint_readiness_status_projection_v1_20260913",
+        "reason": "awaiting_pair_input_read",
+        "reason_detail": {
+          "display_truncated": false,
+          "full_text_chars": 24,
+          "full_text_sha256": "959153189959aec32a7b02165544b1dc09867100279a8cbc42f23e1f3182e13b",
+          "schema_version": "bounded_status_diagnostic_v1_20260913",
+          "text": "awaiting_pair_input_read"
+        },
+        "reason_previews_omitted": 0,
+        "status": "unavailable"
+      }
+    },
+    {
+      "instrument": "USD_CHF",
+      "family": "ridge_price_news_v1",
+      "status": "unavailable",
+      "reason": "observed_news_failure_generation:4",
+      "readiness": {
+        "diagnostic_fields_omitted": [],
+        "diagnostics": {
+          "reason_details": [],
+          "reasons": []
+        },
+        "full_diagnostics_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "full_reason_count": 0,
+        "news_evidence_epoch": null,
+        "news_expires_epoch": null,
+        "observed_epoch": null,
+        "price_bar_close_epoch": null,
+        "projection_schema_version": "joint_readiness_status_projection_v1_20260913",
+        "reason": "awaiting_pair_input_read",
+        "reason_detail": {
+          "display_truncated": false,
+          "full_text_chars": 24,
+          "full_text_sha256": "959153189959aec32a7b02165544b1dc09867100279a8cbc42f23e1f3182e13b",
+          "schema_version": "bounded_status_diagnostic_v1_20260913",
+          "text": "awaiting_pair_input_read"
+        },
+        "reason_previews_omitted": 0,
+        "status": "unavailable"
+      }
+    },
+    {
+      "instrument": "USD_CNH",
+      "family": "ridge_price_news_v1",
+      "status": "unavailable",
+      "reason": "observed_news_failure_generation:4",
+      "readiness": {
+        "diagnostic_fields_omitted": [],
+        "diagnostics": {
+          "reason_details": [],
+          "reasons": []
+        },
+        "full_diagnostics_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "full_reason_count": 0,
+        "news_evidence_epoch": null,
+        "news_expires_epoch": null,
+        "observed_epoch": null,
+        "price_bar_close_epoch": null,
+        "projection_schema_version": "joint_readiness_status_projection_v1_20260913",
+        "reason": "awaiting_pair_input_read",
+        "reason_detail": {
+          "display_truncated": false,
+          "full_text_chars": 24,
+          "full_text_sha256": "959153189959aec32a7b02165544b1dc09867100279a8cbc42f23e1f3182e13b",
+          "schema_version": "bounded_status_diagnostic_v1_20260913",
+          "text": "awaiting_pair_input_read"
+        },
+        "reason_previews_omitted": 0,
+        "status": "unavailable"
+      }
+    },
+    {
+      "instrument": "USD_CZK",
+      "family": "ridge_price_news_v1",
+      "status": "unavailable",
+      "reason": "observed_news_failure_generation:4",
+      "readiness": {
+        "diagnostic_fields_omitted": [],
+        "diagnostics": {
+          "reason_details": [],
+          "reasons": []
+        },
+        "full_diagnostics_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "full_reason_count": 0,
+        "news_evidence_epoch": null,
+        "news_expires_epoch": null,
+        "observed_epoch": null,
+        "price_bar_close_epoch": null,
+        "projection_schema_version": "joint_readiness_status_projection_v1_20260913",
+        "reason": "awaiting_pair_input_read",
+        "reason_detail": {
+          "display_truncated": false,
+          "full_text_chars": 24,
+          "full_text_sha256": "959153189959aec32a7b02165544b1dc09867100279a8cbc42f23e1f3182e13b",
+          "schema_version": "bounded_status_diagnostic_v1_20260913",
+          "text": "awaiting_pair_input_read"
+        },
+        "reason_previews_omitted": 0,
+        "status": "unavailable"
+      }
+    },
+    {
+      "instrument": "USD_DKK",
+      "family": "ridge_price_news_v1",
+      "status": "unavailable",
+      "reason": "observed_news_failure_generation:4",
+      "readiness": {
+        "diagnostic_fields_omitted": [],
+        "diagnostics": {
+          "reason_details": [],
+          "reasons": []
+        },
+        "full_diagnostics_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "full_reason_count": 0,
+        "news_evidence_epoch": null,
+        "news_expires_epoch": null,
+        "observed_epoch": null,
+        "price_bar_close_epoch": null,
+        "projection_schema_version": "joint_readiness_status_projection_v1_20260913",
+        "reason": "awaiting_pair_input_read",
+        "reason_detail": {
+          "display_truncated": false,
+          "full_text_chars": 24,
+          "full_text_sha256": "959153189959aec32a7b02165544b1dc09867100279a8cbc42f23e1f3182e13b",
+          "schema_version": "bounded_status_diagnostic_v1_20260913",
+          "text": "awaiting_pair_input_read"
+        },
+        "reason_previews_omitted": 0,
+        "status": "unavailable"
+      }
+    },
+    {
+      "instrument": "USD_HKD",
+      "family": "ridge_price_news_v1",
+      "status": "unavailable",
+      "reason": "observed_news_failure_generation:4",
+      "readiness": {
+        "diagnostic_fields_omitted": [],
+        "diagnostics": {
+          "reason_details": [],
+          "reasons": []
+        },
+        "full_diagnostics_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "full_reason_count": 0,
+        "news_evidence_epoch": null,
+        "news_expires_epoch": null,
+        "observed_epoch": null,
+        "price_bar_close_epoch": null,
+        "projection_schema_version": "joint_readiness_status_projection_v1_20260913",
+        "reason": "awaiting_pair_input_read",
+        "reason_detail": {
+          "display_truncated": false,
+          "full_text_chars": 24,
+          "full_text_sha256": "959153189959aec32a7b02165544b1dc09867100279a8cbc42f23e1f3182e13b",
+          "schema_version": "bounded_status_diagnostic_v1_20260913",
+          "text": "awaiting_pair_input_read"
+        },
+        "reason_previews_omitted": 0,
+        "status": "unavailable"
+      }
+    },
+    {
+      "instrument": "USD_HUF",
+      "family": "ridge_price_news_v1",
+      "status": "unavailable",
+      "reason": "observed_news_failure_generation:4",
+      "readiness": {
+        "diagnostic_fields_omitted": [],
+        "diagnostics": {
+          "reason_details": [],
+          "reasons": []
+        },
+        "full_diagnostics_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "full_reason_count": 0,
+        "news_evidence_epoch": null,
+        "news_expires_epoch": null,
+        "observed_epoch": null,
+        "price_bar_close_epoch": null,
+        "projection_schema_version": "joint_readiness_status_projection_v1_20260913",
+        "reason": "awaiting_pair_input_read",
+        "reason_detail": {
+          "display_truncated": false,
+          "full_text_chars": 24,
+          "full_text_sha256": "959153189959aec32a7b02165544b1dc09867100279a8cbc42f23e1f3182e13b",
+          "schema_version": "bounded_status_diagnostic_v1_20260913",
+          "text": "awaiting_pair_input_read"
+        },
+        "reason_previews_omitted": 0,
+        "status": "unavailable"
+      }
+    },
+    {
+      "instrument": "USD_JPY",
+      "family": "ridge_price_news_v1",
+      "status": "unavailable",
+      "reason": "observed_news_failure_generation:4",
+      "readiness": {
+        "diagnostic_fields_omitted": [],
+        "diagnostics": {
+          "reason_details": [],
+          "reasons": []
+        },
+        "full_diagnostics_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "full_reason_count": 0,
+        "news_evidence_epoch": null,
+        "news_expires_epoch": null,
+        "observed_epoch": null,
+        "price_bar_close_epoch": null,
+        "projection_schema_version": "joint_readiness_status_projection_v1_20260913",
+        "reason": "awaiting_pair_input_read",
+        "reason_detail": {
+          "display_truncated": false,
+          "full_text_chars": 24,
+          "full_text_sha256": "959153189959aec32a7b02165544b1dc09867100279a8cbc42f23e1f3182e13b",
+          "schema_version": "bounded_status_diagnostic_v1_20260913",
+          "text": "awaiting_pair_input_read"
+        },
+        "reason_previews_omitted": 0,
+        "status": "unavailable"
+      }
+    },
+    {
+      "instrument": "USD_MXN",
+      "family": "ridge_price_news_v1",
+      "status": "unavailable",
+      "reason": "observed_news_failure_generation:4",
+      "readiness": {
+        "diagnostic_fields_omitted": [],
+        "diagnostics": {
+          "reason_details": [],
+          "reasons": []
+        },
+        "full_diagnostics_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "full_reason_count": 0,
+        "news_evidence_epoch": null,
+        "news_expires_epoch": null,
+        "observed_epoch": null,
+        "price_bar_close_epoch": null,
+        "projection_schema_version": "joint_readiness_status_projection_v1_20260913",
+        "reason": "awaiting_pair_input_read",
+        "reason_detail": {
+          "display_truncated": false,
+          "full_text_chars": 24,
+          "full_text_sha256": "959153189959aec32a7b02165544b1dc09867100279a8cbc42f23e1f3182e13b",
+          "schema_version": "bounded_status_diagnostic_v1_20260913",
+          "text": "awaiting_pair_input_read"
+        },
+        "reason_previews_omitted": 0,
+        "status": "unavailable"
+      }
+    },
+    {
+      "instrument": "USD_NOK",
+      "family": "ridge_price_news_v1",
+      "status": "unavailable",
+      "reason": "observed_news_failure_generation:4",
+      "readiness": {
+        "diagnostic_fields_omitted": [],
+        "diagnostics": {
+          "reason_details": [],
+          "reasons": []
+        },
+        "full_diagnostics_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "full_reason_count": 0,
+        "news_evidence_epoch": null,
+        "news_expires_epoch": null,
+        "observed_epoch": null,
+        "price_bar_close_epoch": null,
+        "projection_schema_version": "joint_readiness_status_projection_v1_20260913",
+        "reason": "awaiting_pair_input_read",
+        "reason_detail": {
+          "display_truncated": false,
+          "full_text_chars": 24,
+          "full_text_sha256": "959153189959aec32a7b02165544b1dc09867100279a8cbc42f23e1f3182e13b",
+          "schema_version": "bounded_status_diagnostic_v1_20260913",
+          "text": "awaiting_pair_input_read"
+        },
+        "reason_previews_omitted": 0,
+        "status": "unavailable"
+      }
+    },
+    {
+      "instrument": "USD_PLN",
+      "family": "ridge_price_news_v1",
+      "status": "unavailable",
+      "reason": "observed_news_failure_generation:4",
+      "readiness": {
+        "diagnostic_fields_omitted": [],
+        "diagnostics": {
+          "reason_details": [],
+          "reasons": []
+        },
+        "full_diagnostics_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "full_reason_count": 0,
+        "news_evidence_epoch": null,
+        "news_expires_epoch": null,
+        "observed_epoch": null,
+        "price_bar_close_epoch": null,
+        "projection_schema_version": "joint_readiness_status_projection_v1_20260913",
+        "reason": "awaiting_pair_input_read",
+        "reason_detail": {
+          "display_truncated": false,
+          "full_text_chars": 24,
+          "full_text_sha256": "959153189959aec32a7b02165544b1dc09867100279a8cbc42f23e1f3182e13b",
+          "schema_version": "bounded_status_diagnostic_v1_20260913",
+          "text": "awaiting_pair_input_read"
+        },
+        "reason_previews_omitted": 0,
+        "status": "unavailable"
+      }
+    },
+    {
+      "instrument": "USD_SEK",
+      "family": "ridge_price_news_v1",
+      "status": "unavailable",
+      "reason": "observed_news_failure_generation:4",
+      "readiness": {
+        "diagnostic_fields_omitted": [],
+        "diagnostics": {
+          "reason_details": [],
+          "reasons": []
+        },
+        "full_diagnostics_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "full_reason_count": 0,
+        "news_evidence_epoch": null,
+        "news_expires_epoch": null,
+        "observed_epoch": null,
+        "price_bar_close_epoch": null,
+        "projection_schema_version": "joint_readiness_status_projection_v1_20260913",
+        "reason": "awaiting_pair_input_read",
+        "reason_detail": {
+          "display_truncated": false,
+          "full_text_chars": 24,
+          "full_text_sha256": "959153189959aec32a7b02165544b1dc09867100279a8cbc42f23e1f3182e13b",
+          "schema_version": "bounded_status_diagnostic_v1_20260913",
+          "text": "awaiting_pair_input_read"
+        },
+        "reason_previews_omitted": 0,
+        "status": "unavailable"
+      }
+    },
+    {
+      "instrument": "USD_SGD",
+      "family": "ridge_price_news_v1",
+      "status": "unavailable",
+      "reason": "observed_news_failure_generation:4",
+      "readiness": {
+        "diagnostic_fields_omitted": [],
+        "diagnostics": {
+          "reason_details": [],
+          "reasons": []
+        },
+        "full_diagnostics_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "full_reason_count": 0,
+        "news_evidence_epoch": null,
+        "news_expires_epoch": null,
+        "observed_epoch": null,
+        "price_bar_close_epoch": null,
+        "projection_schema_version": "joint_readiness_status_projection_v1_20260913",
+        "reason": "awaiting_pair_input_read",
+        "reason_detail": {
+          "display_truncated": false,
+          "full_text_chars": 24,
+          "full_text_sha256": "959153189959aec32a7b02165544b1dc09867100279a8cbc42f23e1f3182e13b",
+          "schema_version": "bounded_status_diagnostic_v1_20260913",
+          "text": "awaiting_pair_input_read"
+        },
+        "reason_previews_omitted": 0,
+        "status": "unavailable"
+      }
+    },
+    {
+      "instrument": "USD_THB",
+      "family": "ridge_price_news_v1",
+      "status": "unavailable",
+      "reason": "observed_news_failure_generation:4",
+      "readiness": {
+        "diagnostic_fields_omitted": [],
+        "diagnostics": {
+          "reason_details": [],
+          "reasons": []
+        },
+        "full_diagnostics_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "full_reason_count": 0,
+        "news_evidence_epoch": null,
+        "news_expires_epoch": null,
+        "observed_epoch": null,
+        "price_bar_close_epoch": null,
+        "projection_schema_version": "joint_readiness_status_projection_v1_20260913",
+        "reason": "awaiting_pair_input_read",
+        "reason_detail": {
+          "display_truncated": false,
+          "full_text_chars": 24,
+          "full_text_sha256": "959153189959aec32a7b02165544b1dc09867100279a8cbc42f23e1f3182e13b",
+          "schema_version": "bounded_status_diagnostic_v1_20260913",
+          "text": "awaiting_pair_input_read"
+        },
+        "reason_previews_omitted": 0,
+        "status": "unavailable"
+      }
+    },
+    {
+      "instrument": "USD_TRY",
+      "family": "ridge_price_news_v1",
+      "status": "unavailable",
+      "reason": "ValueError:market_closed_or_no_stream_quote",
+      "readiness": {
+        "diagnostic_fields_omitted": [],
+        "diagnostics": {
+          "reason_details": [],
+          "reasons": []
+        },
+        "full_diagnostics_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "full_reason_count": 0,
+        "news_evidence_epoch": null,
+        "news_expires_epoch": null,
+        "observed_epoch": null,
+        "price_bar_close_epoch": null,
+        "projection_schema_version": "joint_readiness_status_projection_v1_20260913",
+        "reason": "awaiting_pair_input_read",
+        "reason_detail": {
+          "display_truncated": false,
+          "full_text_chars": 24,
+          "full_text_sha256": "959153189959aec32a7b02165544b1dc09867100279a8cbc42f23e1f3182e13b",
+          "schema_version": "bounded_status_diagnostic_v1_20260913",
+          "text": "awaiting_pair_input_read"
+        },
+        "reason_previews_omitted": 0,
+        "status": "unavailable"
+      }
+    },
+    {
+      "instrument": "USD_ZAR",
+      "family": "ridge_price_news_v1",
+      "status": "unavailable",
+      "reason": "observed_news_failure_generation:4",
+      "readiness": {
+        "diagnostic_fields_omitted": [],
+        "diagnostics": {
+          "reason_details": [],
+          "reasons": []
+        },
+        "full_diagnostics_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "full_reason_count": 0,
+        "news_evidence_epoch": null,
+        "news_expires_epoch": null,
+        "observed_epoch": null,
+        "price_bar_close_epoch": null,
+        "projection_schema_version": "joint_readiness_status_projection_v1_20260913",
+        "reason": "awaiting_pair_input_read",
+        "reason_detail": {
+          "display_truncated": false,
+          "full_text_chars": 24,
+          "full_text_sha256": "959153189959aec32a7b02165544b1dc09867100279a8cbc42f23e1f3182e13b",
+          "schema_version": "bounded_status_diagnostic_v1_20260913",
+          "text": "awaiting_pair_input_read"
+        },
+        "reason_previews_omitted": 0,
+        "status": "unavailable"
+      }
+    },
+    {
+      "instrument": "ZAR_JPY",
+      "family": "ridge_price_news_v1",
+      "status": "unavailable",
+      "reason": "observed_news_failure_generation:4",
+      "readiness": {
+        "diagnostic_fields_omitted": [],
+        "diagnostics": {
+          "reason_details": [],
+          "reasons": []
+        },
+        "full_diagnostics_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "full_reason_count": 0,
+        "news_evidence_epoch": null,
+        "news_expires_epoch": null,
+        "observed_epoch": null,
+        "price_bar_close_epoch": null,
+        "projection_schema_version": "joint_readiness_status_projection_v1_20260913",
+        "reason": "awaiting_pair_input_read",
+        "reason_detail": {
+          "display_truncated": false,
+          "full_text_chars": 24,
+          "full_text_sha256": "959153189959aec32a7b02165544b1dc09867100279a8cbc42f23e1f3182e13b",
+          "schema_version": "bounded_status_diagnostic_v1_20260913",
+          "text": "awaiting_pair_input_read"
+        },
+        "reason_previews_omitted": 0,
+        "status": "unavailable"
+      }
+    }
+  ]
+}

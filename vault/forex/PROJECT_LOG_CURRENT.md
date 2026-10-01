@@ -6604,3 +6604,5 @@ Local actual-work log `evidence/news_capture_mapping_20260930/WORK_LOG.jsonl`; e
 2026-10-01T14:40:55.522428+00:00: NEWS_SCHEDULER_DEPLOY_20261001/REVIEW.json; source 12bce4a4f7f69cfa1b42389a08109d43ef388a28; scheduler repair deployed and verified.
 
 2026-10-01T15:16:59.547028+00:00: COLLECTOR_TIMING_20261001/REVIEW.json; source c2935f22f1d50b64c46717ceeb787dd66b6ebc30; collector freshness repair deployed and cycle verified.
+
+2026-10-01T15:40:29.682374+00:00: PAIR_RECOVERY_20261001/REVIEW.json; source 5da349b4019bfbd6956bbe98dcc2d902365f67e3; duplicate-reference skip deployed; producer/pair recovery partial.
