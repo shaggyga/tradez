@@ -1,12 +1,12 @@
 {
-  "active_step_id": "retained_input_freshness_continuity_v1",
-  "active_step_semantics": "Completed scoped freshness repair; preserved learned-state qualification next",
-  "current_review_packet": "RETAINED_FRESHNESS_CONTINUITY_20261001/REVIEW.json",
+  "active_step_id": "retained_currency_projection_connection_v1",
+  "active_step_semantics": "Completed fixed existing currency-layer connection; next observed freshness gap",
+  "current_review_packet": "RETAINED_PROJECTION_CONNECTION_20261001/REVIEW.json",
   "current_user_requested_context": {
     "request": "Fix data; connect strongest supported existing models across entire design horizon; stop new fits/experiments",
-    "status": "freshness_scheduling_repaired_saved_state_qualification_next",
-    "packet": "RETAINED_FRESHNESS_CONTINUITY_20261001/REVIEW.json",
-    "next_item": "retained_learned_residual_state_connection_v1",
+    "status": "fixed_currency_layers_connected_freshness_repair_next",
+    "packet": "RETAINED_PROJECTION_CONNECTION_20261001/REVIEW.json",
+    "next_item": "retained_input_freshness_continuity_v1",
     "new_research_authorized": false
   },
   "dashboard_source_qualification": {
@@ -190,7 +190,7 @@
     }
   ],
   "engineering_queue_pointer": "DESIGN_ALIGNMENT_LATEST.json",
-  "exact_next_item": "retained_learned_residual_state_connection_v1",
+  "exact_next_item": "retained_input_freshness_continuity_v1",
   "execution_status": "checkpointed_no_active_chat_worker",
   "forecasting_continuation": {
     "blocked_confirmation_item": "currency_projection_confirmation_protocol_v2",
@@ -5102,8 +5102,8 @@
       "depends_on": [
         "retained_currency_projection_connection_v1"
       ],
-      "implementation_status": "complete_scoped_freshness_scheduling",
-      "review_status": "accepted_within_scope",
+      "implementation_status": "not_started",
+      "review_status": "not_started",
       "scope": "Trace and repair demonstrated current technical input expiry between valid publication windows; no fitting or freshness relaxation",
       "evidence": [
         "RETAINED_PROJECTION_CONNECTION_20261001/HTTP_READBACK_EXPIRED_WINDOW.json",
@@ -5116,35 +5116,7 @@
         "Repair demonstrated scheduling/read-latency cause with meaningful failure tests and bounded multiple publication transitions",
         "Publish current coverage and remaining gaps, immutable evidence, source Git and Vault handoff"
       ],
-      "next_action": "retained_learned_residual_state_connection_v1",
-      "packet": "RETAINED_FRESHNESS_CONTINUITY_20261001/REVIEW.json",
-      "packet_sha256": "6a72043a8d015fe545b2d008d4a4a199dbe25e062bae53d6f9fec1e1c0c249ea",
-      "same_task_review": true,
-      "independent_review": false,
-      "unresolved_findings": []
-    },
-    {
-      "step_id": "retained_learned_residual_state_connection_v1",
-      "depends_on": [
-        "retained_input_freshness_continuity_v1"
-      ],
-      "implementation_status": "not_started",
-      "review_status": "not_started",
-      "scope": "Qualify and connect compatible preserved learned residual state without any new fitting",
-      "evidence": [
-        "CURRENCY_PROJECTION_RESIDUAL_REPAIR_20260925_000700/evidence/RESIDUAL_RESULT_V2.json",
-        "RESIDUAL_R4_RELOCATED_REPLAY_20260925_140153/REVIEW.json",
-        "RETAINED_PROJECTION_CONNECTION_20261001/REVIEW.json"
-      ],
-      "acceptance_criteria": [
-        "Read current pointers and original accepted residual/replay packets; retrieve existing bytes before implementation",
-        "Authenticate exact saved state layer ID, contract, training membership and maturity; bind original parent model/input/target identities",
-        "Preserve existing 23 connections; reuse original apply path only for compatible state and exact supported horizons",
-        "No fit_snapshot or new fit; unavailable/incompatible state requires precise evidence and bounded independent next-path assessment",
-        "If qualified, verify original numerical replay and refusal cases, source/restore closure, native coverage/tracking without duplicated cohorts",
-        "Publish scoped review, runnable source, exact artifacts, remaining gaps and Git/Vault checkpoint"
-      ],
-      "next_action": "Read accepted residual R4 replay and preserved learned state; establish compatibility with connected 6h/18h parents before any integration."
+      "next_action": "Measure technical publication and context read latency across actual transitions, preserving original180second freshness; then assess saved learned-residual state reuse only without new fitting."
     }
   ],
   "timed_session": {
@@ -5157,5 +5129,5 @@
     "source_commit": "6eb514ab1856190b39d83ab020d5f77700ca8770",
     "updated_utc": "2026-09-25T18:12:00.5976014Z"
   },
-  "updated_utc": "2026-10-01T01:53:20.107624+00:00"
+  "updated_utc": "2026-10-01T01:24:45.820638+00:00"
 }
