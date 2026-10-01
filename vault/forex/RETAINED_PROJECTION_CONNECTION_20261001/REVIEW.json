@@ -1,0 +1,52 @@
+{
+  "schema": "forex.review_packet.v1",
+  "packet_id": "RETAINED_PROJECTION_CONNECTION_20261001",
+  "step_id": "retained_currency_projection_connection_v1",
+  "utc": "2026-10-01T01:24:45.820638+00:00",
+  "source_commit": "caf191cdc949a682ab977a5beff46a43fed67bfd",
+  "implementation_status": "complete_scoped_fixed_projection_connection",
+  "review_status": "accepted_within_scope",
+  "same_task_review": true,
+  "independent_review": false,
+  "reviewer": "Implementing Codex task, substantive same-task review",
+  "unresolved_findings": [],
+  "models_fitted": 0,
+  "verification": {
+    "python_tests_passed": 104,
+    "javascript_scenarios_passed": 5,
+    "original_projected_rows_exact": 528,
+    "restored_forecasts_exact": 1456,
+    "restored_payloads": 24,
+    "original_dependency_read_guard_active": true,
+    "native_forecasts": 1472,
+    "native_tracking_groups": 23,
+    "all_pair_connection_slots": 1564
+  },
+  "review_checks": [
+    "Original15 connection definitions and normalizers preserved; no fit or new scientific score",
+    "Original solver hashes, fixed weights/graph/units preserved; original frame structures and528derived outputs exact",
+    "Parent model/target/input identities, same-origin graph, stale/future/duplicate/invalid refusals and actual completion clocks",
+    "Stable cross-pair input hashes separate changed constituent data from repeated publication clocks",
+    "Relocated fresh process imports and numerically replays1456forecasts with original-root reads refused",
+    "Source-closure omission detected and fixed; initial test/restore failures retained",
+    "Native23connections/trackinggroups/news and served layer page verified; expiry refusal observation retained",
+    "Readiness, inferred ranking limits, earlier negative results, no-order state and next freshness repair explicit"
+  ],
+  "readiness": {
+    "engineering_ready": true,
+    "engineering_scope": "Existing saved fixed currency layers, tracking, source restore and current consumer only",
+    "forecast_evidence_status": "historical_development_reused_and_prospective_unconfirmed",
+    "policy_evidence_status": "not_qualified",
+    "demo_authorization_status": "not_granted"
+  },
+  "broader_unfinished": [
+    "intermittent_current_input_expiry",
+    "saved_learned_residual_state_qualification",
+    "full_same_base_curve_panel",
+    "16exact_targets_unqualified",
+    "position_management",
+    "global_best_model_and_news_incremental_value"
+  ],
+  "next_item": "retained_input_freshness_continuity_v1",
+  "supersedes": "REMAINING_CONNECTIONS_FINAL_20261001"
+}

@@ -1,0 +1,718 @@
+..................FFFFFFFFFFFFFF..F..FFFFFF............................. [ 69%]
+................................                                         [100%]
+================================== FAILURES ===================================
+______ test_issue_uses_actual_completion_clock_and_target_is_not_shifted ______
+
+    def test_issue_uses_actual_completion_clock_and_target_is_not_shifted():
+>       ticks=iter([1023,1025,1026]);v=connection().predict({'EUR_USD':row()},{},clock=lambda:next(ticks))
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_retained_forecast_connection.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <oanda_retained_forecast_connection_v1.SavedConnection object at 0x0000023168EBE810>
+rows = {'EUR_USD': {'bar_start_epoch': 960, 'published_epoch': 1021, 'captured_epoch': 1022, 'reference_mid': 1.1, ...}}
+report = {}
+clock = <function test_issue_uses_actual_completion_clock_and_target_is_not_shifted.<locals>.<lambda> at 0x000002316B16F2E0>
+
+    def predict(self,rows,report,*,clock=time.time):
+        now=clock()
+        output=[];coverage=[]
+        for entry in self.registry['connections']:
+>           if entry['kind']=='retained_currency_projection':continue
+               ^^^^^^^^^^^^^
+E           KeyError: 'kind'
+
+trad\oanda_retained_forecast_connection_v1.py:218: KeyError
+_ test_wrong_input_clocks_are_withheld[published_epoch-1019-input_clock_order] _
+
+field = 'published_epoch', value = 1019, reason = 'input_clock_order'
+
+    @pytest.mark.parametrize('field,value,reason',[
+        ('published_epoch',1019,'input_clock_order'),('captured_epoch',1019,'input_clock_order'),
+        ('bar_start_epoch',720,'input_clock_order')])
+    def test_wrong_input_clocks_are_withheld(field,value,reason):
+        r=row();r[field]=value
+>       v=connection().predict({'EUR_USD':r},{},clock=lambda:1023)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_retained_forecast_connection.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <oanda_retained_forecast_connection_v1.SavedConnection object at 0x0000023168F17620>
+rows = {'EUR_USD': {'bar_start_epoch': 960, 'published_epoch': 1019, 'captured_epoch': 1022, 'reference_mid': 1.1, ...}}
+report = {}
+clock = <function test_wrong_input_clocks_are_withheld.<locals>.<lambda> at 0x000002316B3D54E0>
+
+    def predict(self,rows,report,*,clock=time.time):
+        now=clock()
+        output=[];coverage=[]
+        for entry in self.registry['connections']:
+>           if entry['kind']=='retained_currency_projection':continue
+               ^^^^^^^^^^^^^
+E           KeyError: 'kind'
+
+trad\oanda_retained_forecast_connection_v1.py:218: KeyError
+_ test_wrong_input_clocks_are_withheld[captured_epoch-1019-input_clock_order] _
+
+field = 'captured_epoch', value = 1019, reason = 'input_clock_order'
+
+    @pytest.mark.parametrize('field,value,reason',[
+        ('published_epoch',1019,'input_clock_order'),('captured_epoch',1019,'input_clock_order'),
+        ('bar_start_epoch',720,'input_clock_order')])
+    def test_wrong_input_clocks_are_withheld(field,value,reason):
+        r=row();r[field]=value
+>       v=connection().predict({'EUR_USD':r},{},clock=lambda:1023)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_retained_forecast_connection.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <oanda_retained_forecast_connection_v1.SavedConnection object at 0x0000023168EFCB30>
+rows = {'EUR_USD': {'bar_start_epoch': 960, 'published_epoch': 1021, 'captured_epoch': 1019, 'reference_mid': 1.1, ...}}
+report = {}
+clock = <function test_wrong_input_clocks_are_withheld.<locals>.<lambda> at 0x000002316B3D4180>
+
+    def predict(self,rows,report,*,clock=time.time):
+        now=clock()
+        output=[];coverage=[]
+        for entry in self.registry['connections']:
+>           if entry['kind']=='retained_currency_projection':continue
+               ^^^^^^^^^^^^^
+E           KeyError: 'kind'
+
+trad\oanda_retained_forecast_connection_v1.py:218: KeyError
+_ test_wrong_input_clocks_are_withheld[bar_start_epoch-720-input_clock_order] _
+
+field = 'bar_start_epoch', value = 720, reason = 'input_clock_order'
+
+    @pytest.mark.parametrize('field,value,reason',[
+        ('published_epoch',1019,'input_clock_order'),('captured_epoch',1019,'input_clock_order'),
+        ('bar_start_epoch',720,'input_clock_order')])
+    def test_wrong_input_clocks_are_withheld(field,value,reason):
+        r=row();r[field]=value
+>       v=connection().predict({'EUR_USD':r},{},clock=lambda:1023)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_retained_forecast_connection.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <oanda_retained_forecast_connection_v1.SavedConnection object at 0x0000023168EFD250>
+rows = {'EUR_USD': {'bar_start_epoch': 720, 'published_epoch': 1021, 'captured_epoch': 1022, 'reference_mid': 1.1, ...}}
+report = {}
+clock = <function test_wrong_input_clocks_are_withheld.<locals>.<lambda> at 0x000002316B3D5940>
+
+    def predict(self,rows,report,*,clock=time.time):
+        now=clock()
+        output=[];coverage=[]
+        for entry in self.registry['connections']:
+>           if entry['kind']=='retained_currency_projection':continue
+               ^^^^^^^^^^^^^
+E           KeyError: 'kind'
+
+trad\oanda_retained_forecast_connection_v1.py:218: KeyError
+_ test_inference_completion_rechecks_freshness[1201-input_expired_during_inference] _
+
+completed = 1201, reason = 'input_expired_during_inference'
+
+    @pytest.mark.parametrize('completed,reason',[(1201,'input_expired_during_inference'),(1320,'target_matured_during_inference'),(1022,'publication_clock_reversed')])
+    def test_inference_completion_rechecks_freshness(completed,reason):
+        ticks=iter([1023,completed,max(completed,1023)])
+>       v=connection().predict({'EUR_USD':row()},{},clock=lambda:next(ticks))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_retained_forecast_connection.py:53: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <oanda_retained_forecast_connection_v1.SavedConnection object at 0x0000023168FEF890>
+rows = {'EUR_USD': {'bar_start_epoch': 960, 'published_epoch': 1021, 'captured_epoch': 1022, 'reference_mid': 1.1, ...}}
+report = {}
+clock = <function test_inference_completion_rechecks_freshness.<locals>.<lambda> at 0x000002316B3D5D00>
+
+    def predict(self,rows,report,*,clock=time.time):
+        now=clock()
+        output=[];coverage=[]
+        for entry in self.registry['connections']:
+>           if entry['kind']=='retained_currency_projection':continue
+               ^^^^^^^^^^^^^
+E           KeyError: 'kind'
+
+trad\oanda_retained_forecast_connection_v1.py:218: KeyError
+_ test_inference_completion_rechecks_freshness[1320-target_matured_during_inference] _
+
+completed = 1320, reason = 'target_matured_during_inference'
+
+    @pytest.mark.parametrize('completed,reason',[(1201,'input_expired_during_inference'),(1320,'target_matured_during_inference'),(1022,'publication_clock_reversed')])
+    def test_inference_completion_rechecks_freshness(completed,reason):
+        ticks=iter([1023,completed,max(completed,1023)])
+>       v=connection().predict({'EUR_USD':row()},{},clock=lambda:next(ticks))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_retained_forecast_connection.py:53: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <oanda_retained_forecast_connection_v1.SavedConnection object at 0x0000023168FED5E0>
+rows = {'EUR_USD': {'bar_start_epoch': 960, 'published_epoch': 1021, 'captured_epoch': 1022, 'reference_mid': 1.1, ...}}
+report = {}
+clock = <function test_inference_completion_rechecks_freshness.<locals>.<lambda> at 0x000002316B3D6340>
+
+    def predict(self,rows,report,*,clock=time.time):
+        now=clock()
+        output=[];coverage=[]
+        for entry in self.registry['connections']:
+>           if entry['kind']=='retained_currency_projection':continue
+               ^^^^^^^^^^^^^
+E           KeyError: 'kind'
+
+trad\oanda_retained_forecast_connection_v1.py:218: KeyError
+_ test_inference_completion_rechecks_freshness[1022-publication_clock_reversed] _
+
+completed = 1022, reason = 'publication_clock_reversed'
+
+    @pytest.mark.parametrize('completed,reason',[(1201,'input_expired_during_inference'),(1320,'target_matured_during_inference'),(1022,'publication_clock_reversed')])
+    def test_inference_completion_rechecks_freshness(completed,reason):
+        ticks=iter([1023,completed,max(completed,1023)])
+>       v=connection().predict({'EUR_USD':row()},{},clock=lambda:next(ticks))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_retained_forecast_connection.py:53: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <oanda_retained_forecast_connection_v1.SavedConnection object at 0x0000023168FED580>
+rows = {'EUR_USD': {'bar_start_epoch': 960, 'published_epoch': 1021, 'captured_epoch': 1022, 'reference_mid': 1.1, ...}}
+report = {}
+clock = <function test_inference_completion_rechecks_freshness.<locals>.<lambda> at 0x000002316B3D4860>
+
+    def predict(self,rows,report,*,clock=time.time):
+        now=clock()
+        output=[];coverage=[]
+        for entry in self.registry['connections']:
+>           if entry['kind']=='retained_currency_projection':continue
+               ^^^^^^^^^^^^^
+E           KeyError: 'kind'
+
+trad\oanda_retained_forecast_connection_v1.py:218: KeyError
+________________ test_bad_model_does_not_hide_other_connection ________________
+
+    def test_bad_model_does_not_hide_other_connection():
+        c=connection();c.registry['connections'].append({'id':'good','horizon_minutes':15,'selection_scope':'development'})
+        def predict(e,p,r):
+            if e['id']=='saved':raise ValueError('bad artifact')
+            return np.array([.5])
+        c.predict_entry=predict
+>       v=c.predict({'EUR_USD':row()},{},clock=lambda:1023)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_retained_forecast_connection.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <oanda_retained_forecast_connection_v1.SavedConnection object at 0x0000023168F16BD0>
+rows = {'EUR_USD': {'bar_start_epoch': 960, 'published_epoch': 1021, 'captured_epoch': 1022, 'reference_mid': 1.1, ...}}
+report = {}
+clock = <function test_bad_model_does_not_hide_other_connection.<locals>.<lambda> at 0x000002316B3D6980>
+
+    def predict(self,rows,report,*,clock=time.time):
+        now=clock()
+        output=[];coverage=[]
+        for entry in self.registry['connections']:
+>           if entry['kind']=='retained_currency_projection':continue
+               ^^^^^^^^^^^^^
+E           KeyError: 'kind'
+
+trad\oanda_retained_forecast_connection_v1.py:218: KeyError
+___________________ test_nonfinite_output_is_not_published ____________________
+
+    def test_nonfinite_output_is_not_published():
+        c=connection();c.predict_entry=lambda *args:np.array([np.nan])
+>       assert c.predict({'EUR_USD':row()},{},clock=lambda:1023)['forecasts']==[]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_retained_forecast_connection.py:70: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <oanda_retained_forecast_connection_v1.SavedConnection object at 0x0000023168EFD790>
+rows = {'EUR_USD': {'bar_start_epoch': 960, 'published_epoch': 1021, 'captured_epoch': 1022, 'reference_mid': 1.1, ...}}
+report = {}
+clock = <function test_nonfinite_output_is_not_published.<locals>.<lambda> at 0x000002316B3D54E0>
+
+    def predict(self,rows,report,*,clock=time.time):
+        now=clock()
+        output=[];coverage=[]
+        for entry in self.registry['connections']:
+>           if entry['kind']=='retained_currency_projection':continue
+               ^^^^^^^^^^^^^
+E           KeyError: 'kind'
+
+trad\oanda_retained_forecast_connection_v1.py:218: KeyError
+_____________________ test_missing_pair_remains_explicit ______________________
+
+    def test_missing_pair_remains_explicit():
+>       v=connection().predict({}, {'pairs':{'EUR_USD':{'status':'not_tradeable'}}},clock=lambda:1023)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_retained_forecast_connection.py:74: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <oanda_retained_forecast_connection_v1.SavedConnection object at 0x0000023168EBE630>
+rows = {}, report = {'pairs': {'EUR_USD': {'status': 'not_tradeable'}}}
+clock = <function test_missing_pair_remains_explicit.<locals>.<lambda> at 0x000002316B3D6C00>
+
+    def predict(self,rows,report,*,clock=time.time):
+        now=clock()
+        output=[];coverage=[]
+        for entry in self.registry['connections']:
+>           if entry['kind']=='retained_currency_projection':continue
+               ^^^^^^^^^^^^^
+E           KeyError: 'kind'
+
+trad\oanda_retained_forecast_connection_v1.py:218: KeyError
+_____________ test_legacy26_refusal_preserves_existing_connection _____________
+
+    def test_legacy26_refusal_preserves_existing_connection():
+        c=connection();c.registry['connections'].append({'id':'legacy','kind':'legacy26_extra_trees',
+            'horizon_minutes':240,'selection_scope':'development','fit_metadata':{'ready_epoch':1}})
+        r=row();r['legacy26']={'status':'unavailable','reason':'legacy26_session_boundary_unproven'}
+>       v=c.predict({'EUR_USD':r},{},clock=lambda:1023)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_retained_forecast_connection.py:82: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <oanda_retained_forecast_connection_v1.SavedConnection object at 0x0000023168F18E60>
+rows = {'EUR_USD': {'bar_start_epoch': 960, 'published_epoch': 1021, 'captured_epoch': 1022, 'reference_mid': 1.1, ...}}
+report = {}
+clock = <function test_legacy26_refusal_preserves_existing_connection.<locals>.<lambda> at 0x000002316B3D7060>
+
+    def predict(self,rows,report,*,clock=time.time):
+        now=clock()
+        output=[];coverage=[]
+        for entry in self.registry['connections']:
+>           if entry['kind']=='retained_currency_projection':continue
+               ^^^^^^^^^^^^^
+E           KeyError: 'kind'
+
+trad\oanda_retained_forecast_connection_v1.py:218: KeyError
+____________ test_legacy26_uses_own_features_and_history_identity _____________
+
+    def test_legacy26_uses_own_features_and_history_identity():
+        c=connection();c.registry['connections']=[{'id':'legacy','kind':'legacy26_extra_trees',
+            'horizon_minutes':240,'selection_scope':'development','fit_metadata':{'ready_epoch':1},'feature_names':['x']}]
+        r=row();r['legacy26']={'status':'available','values':{'x':3},'feature_hash':'legacy_features',
+            'input_hash':'history','provenance':{'rows':80}}
+        def predict(e,p,rs):
+            assert rs['EUR_USD']['values']=={'x':3}
+            return np.array([2.5])
+        c.predict_entry=predict
+>       f=c.predict({'EUR_USD':r},{},clock=lambda:1023)['forecasts'][0]
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_retained_forecast_connection.py:96: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <oanda_retained_forecast_connection_v1.SavedConnection object at 0x0000023168F1A000>
+rows = {'EUR_USD': {'bar_start_epoch': 960, 'published_epoch': 1021, 'captured_epoch': 1022, 'reference_mid': 1.1, ...}}
+report = {}
+clock = <function test_legacy26_uses_own_features_and_history_identity.<locals>.<lambda> at 0x000002316B3D74C0>
+
+    def predict(self,rows,report,*,clock=time.time):
+        now=clock()
+        output=[];coverage=[]
+        for entry in self.registry['connections']:
+            if entry['kind']=='retained_currency_projection':continue
+            legacy=entry.get('kind') in LEGACY_KINDS
+            input_rows=rows if not legacy else {p:{**r,'values':r['legacy26']['values'],
+                'feature_hash':r['legacy26']['feature_hash'],'input_hash':r['legacy26']['input_hash'],
+                'panel_sha256':None,'legacy26_provenance':r['legacy26']['provenance']}
+                for p,r in rows.items() if r.get('legacy26',{}).get('status')=='available'}
+            pairs=[]
+            for pair in self.registry['pairs']:
+                row=input_rows.get(pair);reason='eligible'
+                if row is None:reason=(report.get('pairs',{}).get(pair) or {}).get('status','input_unavailable')
+                if row is None and legacy and pair in rows:reason=rows[pair].get('legacy26',{}).get('reason','legacy26_unavailable')
+                elif row is not None and not row['bar_start_epoch']+60<=row['published_epoch']<=row['captured_epoch']<=now:reason='input_clock_order'
+                elif row is not None and not 0<=now-row['bar_start_epoch']-60<=180:reason='input_stale'
+                elif row is not None and now>=row['bar_start_epoch']+60+entry['horizon_minutes']*60:reason='target_already_mature'
+                elif legacy and (self.fit_metadata[entry['id']] if entry['kind']=='legacy26_matched' else entry['fit_metadata'])['ready_epoch']>now:reason='model_not_ready'
+                state=report.get('pairs',{}).get(pair,{})
+                names=entry.get('feature_names',[])
+                available_values=(row or {}).get('values',{})
+                finite=sum(isinstance(available_values.get(n),(int,float,np.number))
+                    and not isinstance(available_values.get(n),bool)
+                    and math.isfinite(available_values[n]) for n in names)
+                coverage.append({'instrument':pair,'connection':entry['id'],'horizon_minutes':entry['horizon_minutes'],
+                    'status':reason,'input_reason':state.get('features',{}).get('reason') or state.get('quote',{}).get('reason'),
+                    'input_support':{'finite':finite,'expected':len(names),'scope':'selected input values before original saved preprocessing'}})
+                if reason=='eligible':pairs.append(pair)
+            if not pairs:continue
+            try:
+                with threadpool_limits(limits=1):values=self.predict_entry(entry,pairs,input_rows)
+                if len(values)!=len(pairs) or not np.isfinite(values).all():raise ValueError('nonfinite_or_wrong_prediction_population')
+            except Exception as exc:
+                for c in coverage:
+                    if c['connection']==entry['id'] and c['status']=='eligible':
+                        c['status']='inference_unavailable';c['reason']=type(exc).__name__+':'+str(exc)[:160]
+                continue
+            issued=clock()
+            for pair,value in zip(pairs,values):
+                row=input_rows[pair]
+                reason=None
+                if issued<now:reason='publication_clock_reversed'
+                elif issued>=row['bar_start_epoch']+60+entry['horizon_minutes']*60:reason='target_matured_during_inference'
+                elif issued-row['bar_start_epoch']-60>180:reason='input_expired_during_inference'
+                if reason:
+                    next(c for c in coverage if c['connection']==entry['id'] and c['instrument']==pair)['status']=reason
+                    continue
+                output.append({'instrument':pair,'connection':entry['id'],'horizon_minutes':entry['horizon_minutes'],
+                    'reference_epoch':row['bar_start_epoch']+60,'issued_epoch':issued,
+                    'target_epoch':row['bar_start_epoch']+60+entry['horizon_minutes']*60,
+                    'expected_return_bps':float(value),'no_change_control_bps':0.,'reference_mid':row['reference_mid'],
+                    'feature_hash':row['feature_hash'],'receipt_id':row['receipt_id'],'input_hash':row['input_hash'],
+                    'panel_sha256':row.get('panel_sha256'),
+                    'legacy26_provenance':row.get('legacy26_provenance'),
+                    'target_semantics':entry.get('target_semantics','completed_M1_midpoint_elapsed_return'),
+                    'original_model_id':entry.get('original_model_id'),
+                    'input_support':next(c['input_support'] for c in coverage if c['connection']==entry['id'] and c['instrument']==pair),
+                    'selection_scope':entry['selection_scope'],'registry_sha256':self.registry_sha256,**FLAGS})
+>       projection_diagnostics=self.projection.append(output,coverage,self.registry_sha256,clock=clock) if self.projection else []
+                                                                                                           ^^^^^^^^^^^^^^^
+E       AttributeError: 'SavedConnection' object has no attribute 'projection'
+
+trad\oanda_retained_forecast_connection_v1.py:273: AttributeError
+__________________ test_legacy26_model_readiness_is_enforced __________________
+
+    def test_legacy26_model_readiness_is_enforced():
+        c=connection();c.registry['connections']=[{'id':'legacy','kind':'legacy26_extra_trees','horizon_minutes':240,
+            'selection_scope':'development','fit_metadata':{'ready_epoch':2000}}]
+        r=row();r['legacy26']={'status':'available','values':{},'feature_hash':'l','input_hash':'h','provenance':{}}
+>       v=c.predict({'EUR_USD':r},{},clock=lambda:1023)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_retained_forecast_connection.py:105: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <oanda_retained_forecast_connection_v1.SavedConnection object at 0x0000023167EE96D0>
+rows = {'EUR_USD': {'bar_start_epoch': 960, 'published_epoch': 1021, 'captured_epoch': 1022, 'reference_mid': 1.1, ...}}
+report = {}
+clock = <function test_legacy26_model_readiness_is_enforced.<locals>.<lambda> at 0x000002316B3D4720>
+
+    def predict(self,rows,report,*,clock=time.time):
+        now=clock()
+        output=[];coverage=[]
+        for entry in self.registry['connections']:
+            if entry['kind']=='retained_currency_projection':continue
+            legacy=entry.get('kind') in LEGACY_KINDS
+            input_rows=rows if not legacy else {p:{**r,'values':r['legacy26']['values'],
+                'feature_hash':r['legacy26']['feature_hash'],'input_hash':r['legacy26']['input_hash'],
+                'panel_sha256':None,'legacy26_provenance':r['legacy26']['provenance']}
+                for p,r in rows.items() if r.get('legacy26',{}).get('status')=='available'}
+            pairs=[]
+            for pair in self.registry['pairs']:
+                row=input_rows.get(pair);reason='eligible'
+                if row is None:reason=(report.get('pairs',{}).get(pair) or {}).get('status','input_unavailable')
+                if row is None and legacy and pair in rows:reason=rows[pair].get('legacy26',{}).get('reason','legacy26_unavailable')
+                elif row is not None and not row['bar_start_epoch']+60<=row['published_epoch']<=row['captured_epoch']<=now:reason='input_clock_order'
+                elif row is not None and not 0<=now-row['bar_start_epoch']-60<=180:reason='input_stale'
+                elif row is not None and now>=row['bar_start_epoch']+60+entry['horizon_minutes']*60:reason='target_already_mature'
+                elif legacy and (self.fit_metadata[entry['id']] if entry['kind']=='legacy26_matched' else entry['fit_metadata'])['ready_epoch']>now:reason='model_not_ready'
+                state=report.get('pairs',{}).get(pair,{})
+                names=entry.get('feature_names',[])
+                available_values=(row or {}).get('values',{})
+                finite=sum(isinstance(available_values.get(n),(int,float,np.number))
+                    and not isinstance(available_values.get(n),bool)
+                    and math.isfinite(available_values[n]) for n in names)
+                coverage.append({'instrument':pair,'connection':entry['id'],'horizon_minutes':entry['horizon_minutes'],
+                    'status':reason,'input_reason':state.get('features',{}).get('reason') or state.get('quote',{}).get('reason'),
+                    'input_support':{'finite':finite,'expected':len(names),'scope':'selected input values before original saved preprocessing'}})
+                if reason=='eligible':pairs.append(pair)
+            if not pairs:continue
+            try:
+                with threadpool_limits(limits=1):values=self.predict_entry(entry,pairs,input_rows)
+                if len(values)!=len(pairs) or not np.isfinite(values).all():raise ValueError('nonfinite_or_wrong_prediction_population')
+            except Exception as exc:
+                for c in coverage:
+                    if c['connection']==entry['id'] and c['status']=='eligible':
+                        c['status']='inference_unavailable';c['reason']=type(exc).__name__+':'+str(exc)[:160]
+                continue
+            issued=clock()
+            for pair,value in zip(pairs,values):
+                row=input_rows[pair]
+                reason=None
+                if issued<now:reason='publication_clock_reversed'
+                elif issued>=row['bar_start_epoch']+60+entry['horizon_minutes']*60:reason='target_matured_during_inference'
+                elif issued-row['bar_start_epoch']-60>180:reason='input_expired_during_inference'
+                if reason:
+                    next(c for c in coverage if c['connection']==entry['id'] and c['instrument']==pair)['status']=reason
+                    continue
+                output.append({'instrument':pair,'connection':entry['id'],'horizon_minutes':entry['horizon_minutes'],
+                    'reference_epoch':row['bar_start_epoch']+60,'issued_epoch':issued,
+                    'target_epoch':row['bar_start_epoch']+60+entry['horizon_minutes']*60,
+                    'expected_return_bps':float(value),'no_change_control_bps':0.,'reference_mid':row['reference_mid'],
+                    'feature_hash':row['feature_hash'],'receipt_id':row['receipt_id'],'input_hash':row['input_hash'],
+                    'panel_sha256':row.get('panel_sha256'),
+                    'legacy26_provenance':row.get('legacy26_provenance'),
+                    'target_semantics':entry.get('target_semantics','completed_M1_midpoint_elapsed_return'),
+                    'original_model_id':entry.get('original_model_id'),
+                    'input_support':next(c['input_support'] for c in coverage if c['connection']==entry['id'] and c['instrument']==pair),
+                    'selection_scope':entry['selection_scope'],'registry_sha256':self.registry_sha256,**FLAGS})
+>       projection_diagnostics=self.projection.append(output,coverage,self.registry_sha256,clock=clock) if self.projection else []
+                                                                                                           ^^^^^^^^^^^^^^^
+E       AttributeError: 'SavedConnection' object has no attribute 'projection'
+
+trad\oanda_retained_forecast_connection_v1.py:273: AttributeError
+____________ test_input_refusal_reason_and_generation_are_retained ____________
+
+    def test_input_refusal_reason_and_generation_are_retained():
+        report={'pairs':{'EUR_USD':{'status':'unavailable','features':{'reason':'rolling_publication_generation_mismatch'}}},
+                'source_errors':{'rolling_binding':'rolling_publication_generation_mismatch'},'rolling_publication_generation':'generation'}
+>       v=connection().predict({},report,clock=lambda:1023)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_retained_forecast_connection.py:112: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <oanda_retained_forecast_connection_v1.SavedConnection object at 0x0000023168EFCB90>
+rows = {}
+report = {'pairs': {'EUR_USD': {'status': 'unavailable', 'features': {'reason': 'rolling_publication_generation_mismatch'}}}, '...rrors': {'rolling_binding': 'rolling_publication_generation_mismatch'}, 'rolling_publication_generation': 'generation'}
+clock = <function test_input_refusal_reason_and_generation_are_retained.<locals>.<lambda> at 0x000002316B38DBC0>
+
+    def predict(self,rows,report,*,clock=time.time):
+        now=clock()
+        output=[];coverage=[]
+        for entry in self.registry['connections']:
+>           if entry['kind']=='retained_currency_projection':continue
+               ^^^^^^^^^^^^^
+E           KeyError: 'kind'
+
+trad\oanda_retained_forecast_connection_v1.py:218: KeyError
+_____ test_selected_input_support_is_visible_without_changing_prediction ______
+
+    def test_selected_input_support_is_visible_without_changing_prediction():
+        c=connection();c.registry['connections'][0]['feature_names']=['one','two','three']
+        r=row();r['values']={'one':1.,'two':None,'three':float('nan')}
+>       value=c.predict({'EUR_USD':r},{},clock=lambda:1023)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_retained_forecast_connection.py:140: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <oanda_retained_forecast_connection_v1.SavedConnection object at 0x0000023168E8C230>
+rows = {'EUR_USD': {'bar_start_epoch': 960, 'published_epoch': 1021, 'captured_epoch': 1022, 'reference_mid': 1.1, ...}}
+report = {}
+clock = <function test_selected_input_support_is_visible_without_changing_prediction.<locals>.<lambda> at 0x000002316B38EA20>
+
+    def predict(self,rows,report,*,clock=time.time):
+        now=clock()
+        output=[];coverage=[]
+        for entry in self.registry['connections']:
+>           if entry['kind']=='retained_currency_projection':continue
+               ^^^^^^^^^^^^^
+E           KeyError: 'kind'
+
+trad\oanda_retained_forecast_connection_v1.py:218: KeyError
+__________ test_consumer_expires_inputs_without_relabelling_horizon ___________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5526/test_consumer_expires_inputs_w0')
+
+    def test_consumer_expires_inputs_without_relabelling_horizon(tmp_path):
+>       output,registry,value=publication(tmp_path)
+                              ^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_retained_forecast_connection.py:173: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_retained_forecast_connection.py:162: in publication
+    c=connection();value=c.predict({'EUR_USD':row()},{},clock=lambda:1023)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <oanda_retained_forecast_connection_v1.SavedConnection object at 0x0000023168F1B350>
+rows = {'EUR_USD': {'bar_start_epoch': 960, 'published_epoch': 1021, 'captured_epoch': 1022, 'reference_mid': 1.1, ...}}
+report = {}
+clock = <function publication.<locals>.<lambda> at 0x000002316B38CA40>
+
+    def predict(self,rows,report,*,clock=time.time):
+        now=clock()
+        output=[];coverage=[]
+        for entry in self.registry['connections']:
+>           if entry['kind']=='retained_currency_projection':continue
+               ^^^^^^^^^^^^^
+E           KeyError: 'kind'
+
+trad\oanda_retained_forecast_connection_v1.py:218: KeyError
+_______________ test_consumer_rejects_changed_publication[hash] _______________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5526/test_consumer_rejects_changed_0')
+mutation = 'hash'
+
+    @pytest.mark.parametrize('mutation',['hash','target','flag','duplicate','source'])
+    def test_consumer_rejects_changed_publication(tmp_path,mutation):
+>       output,registry,v=publication(tmp_path)
+                          ^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_retained_forecast_connection.py:180: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_retained_forecast_connection.py:162: in publication
+    c=connection();value=c.predict({'EUR_USD':row()},{},clock=lambda:1023)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <oanda_retained_forecast_connection_v1.SavedConnection object at 0x000002316903C050>
+rows = {'EUR_USD': {'bar_start_epoch': 960, 'published_epoch': 1021, 'captured_epoch': 1022, 'reference_mid': 1.1, ...}}
+report = {}
+clock = <function publication.<locals>.<lambda> at 0x000002316B38F420>
+
+    def predict(self,rows,report,*,clock=time.time):
+        now=clock()
+        output=[];coverage=[]
+        for entry in self.registry['connections']:
+>           if entry['kind']=='retained_currency_projection':continue
+               ^^^^^^^^^^^^^
+E           KeyError: 'kind'
+
+trad\oanda_retained_forecast_connection_v1.py:218: KeyError
+______________ test_consumer_rejects_changed_publication[target] ______________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5526/test_consumer_rejects_changed_1')
+mutation = 'target'
+
+    @pytest.mark.parametrize('mutation',['hash','target','flag','duplicate','source'])
+    def test_consumer_rejects_changed_publication(tmp_path,mutation):
+>       output,registry,v=publication(tmp_path)
+                          ^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_retained_forecast_connection.py:180: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_retained_forecast_connection.py:162: in publication
+    c=connection();value=c.predict({'EUR_USD':row()},{},clock=lambda:1023)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <oanda_retained_forecast_connection_v1.SavedConnection object at 0x0000023168E8D2E0>
+rows = {'EUR_USD': {'bar_start_epoch': 960, 'published_epoch': 1021, 'captured_epoch': 1022, 'reference_mid': 1.1, ...}}
+report = {}
+clock = <function publication.<locals>.<lambda> at 0x000002316B38F740>
+
+    def predict(self,rows,report,*,clock=time.time):
+        now=clock()
+        output=[];coverage=[]
+        for entry in self.registry['connections']:
+>           if entry['kind']=='retained_currency_projection':continue
+               ^^^^^^^^^^^^^
+E           KeyError: 'kind'
+
+trad\oanda_retained_forecast_connection_v1.py:218: KeyError
+_______________ test_consumer_rejects_changed_publication[flag] _______________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5526/test_consumer_rejects_changed_2')
+mutation = 'flag'
+
+    @pytest.mark.parametrize('mutation',['hash','target','flag','duplicate','source'])
+    def test_consumer_rejects_changed_publication(tmp_path,mutation):
+>       output,registry,v=publication(tmp_path)
+                          ^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_retained_forecast_connection.py:180: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_retained_forecast_connection.py:162: in publication
+    c=connection();value=c.predict({'EUR_USD':row()},{},clock=lambda:1023)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <oanda_retained_forecast_connection_v1.SavedConnection object at 0x00000231666A5B80>
+rows = {'EUR_USD': {'bar_start_epoch': 960, 'published_epoch': 1021, 'captured_epoch': 1022, 'reference_mid': 1.1, ...}}
+report = {}
+clock = <function publication.<locals>.<lambda> at 0x000002316B38F600>
+
+    def predict(self,rows,report,*,clock=time.time):
+        now=clock()
+        output=[];coverage=[]
+        for entry in self.registry['connections']:
+>           if entry['kind']=='retained_currency_projection':continue
+               ^^^^^^^^^^^^^
+E           KeyError: 'kind'
+
+trad\oanda_retained_forecast_connection_v1.py:218: KeyError
+____________ test_consumer_rejects_changed_publication[duplicate] _____________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5526/test_consumer_rejects_changed_3')
+mutation = 'duplicate'
+
+    @pytest.mark.parametrize('mutation',['hash','target','flag','duplicate','source'])
+    def test_consumer_rejects_changed_publication(tmp_path,mutation):
+>       output,registry,v=publication(tmp_path)
+                          ^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_retained_forecast_connection.py:180: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_retained_forecast_connection.py:162: in publication
+    c=connection();value=c.predict({'EUR_USD':row()},{},clock=lambda:1023)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <oanda_retained_forecast_connection_v1.SavedConnection object at 0x000002316903DEB0>
+rows = {'EUR_USD': {'bar_start_epoch': 960, 'published_epoch': 1021, 'captured_epoch': 1022, 'reference_mid': 1.1, ...}}
+report = {}
+clock = <function publication.<locals>.<lambda> at 0x000002316B38DD00>
+
+    def predict(self,rows,report,*,clock=time.time):
+        now=clock()
+        output=[];coverage=[]
+        for entry in self.registry['connections']:
+>           if entry['kind']=='retained_currency_projection':continue
+               ^^^^^^^^^^^^^
+E           KeyError: 'kind'
+
+trad\oanda_retained_forecast_connection_v1.py:218: KeyError
+______________ test_consumer_rejects_changed_publication[source] ______________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5526/test_consumer_rejects_changed_4')
+mutation = 'source'
+
+    @pytest.mark.parametrize('mutation',['hash','target','flag','duplicate','source'])
+    def test_consumer_rejects_changed_publication(tmp_path,mutation):
+>       output,registry,v=publication(tmp_path)
+                          ^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_retained_forecast_connection.py:180: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_retained_forecast_connection.py:162: in publication
+    c=connection();value=c.predict({'EUR_USD':row()},{},clock=lambda:1023)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <oanda_retained_forecast_connection_v1.SavedConnection object at 0x000002316903C5F0>
+rows = {'EUR_USD': {'bar_start_epoch': 960, 'published_epoch': 1021, 'captured_epoch': 1022, 'reference_mid': 1.1, ...}}
+report = {}
+clock = <function publication.<locals>.<lambda> at 0x000002316B38FBA0>
+
+    def predict(self,rows,report,*,clock=time.time):
+        now=clock()
+        output=[];coverage=[]
+        for entry in self.registry['connections']:
+>           if entry['kind']=='retained_currency_projection':continue
+               ^^^^^^^^^^^^^
+E           KeyError: 'kind'
+
+trad\oanda_retained_forecast_connection_v1.py:218: KeyError
+=========================== short test summary info ===========================
+FAILED tests/test_retained_forecast_connection.py::test_issue_uses_actual_completion_clock_and_target_is_not_shifted
+FAILED tests/test_retained_forecast_connection.py::test_wrong_input_clocks_are_withheld[published_epoch-1019-input_clock_order]
+FAILED tests/test_retained_forecast_connection.py::test_wrong_input_clocks_are_withheld[captured_epoch-1019-input_clock_order]
+FAILED tests/test_retained_forecast_connection.py::test_wrong_input_clocks_are_withheld[bar_start_epoch-720-input_clock_order]
+FAILED tests/test_retained_forecast_connection.py::test_inference_completion_rechecks_freshness[1201-input_expired_during_inference]
+FAILED tests/test_retained_forecast_connection.py::test_inference_completion_rechecks_freshness[1320-target_matured_during_inference]
+FAILED tests/test_retained_forecast_connection.py::test_inference_completion_rechecks_freshness[1022-publication_clock_reversed]
+FAILED tests/test_retained_forecast_connection.py::test_bad_model_does_not_hide_other_connection
+FAILED tests/test_retained_forecast_connection.py::test_nonfinite_output_is_not_published
+FAILED tests/test_retained_forecast_connection.py::test_missing_pair_remains_explicit
+FAILED tests/test_retained_forecast_connection.py::test_legacy26_refusal_preserves_existing_connection
+FAILED tests/test_retained_forecast_connection.py::test_legacy26_uses_own_features_and_history_identity
+FAILED tests/test_retained_forecast_connection.py::test_legacy26_model_readiness_is_enforced
+FAILED tests/test_retained_forecast_connection.py::test_input_refusal_reason_and_generation_are_retained
+FAILED tests/test_retained_forecast_connection.py::test_selected_input_support_is_visible_without_changing_prediction
+FAILED tests/test_retained_forecast_connection.py::test_consumer_expires_inputs_without_relabelling_horizon
+FAILED tests/test_retained_forecast_connection.py::test_consumer_rejects_changed_publication[hash]
+FAILED tests/test_retained_forecast_connection.py::test_consumer_rejects_changed_publication[target]
+FAILED tests/test_retained_forecast_connection.py::test_consumer_rejects_changed_publication[flag]
+FAILED tests/test_retained_forecast_connection.py::test_consumer_rejects_changed_publication[duplicate]
+FAILED tests/test_retained_forecast_connection.py::test_consumer_rejects_changed_publication[source]
+21 failed, 83 passed in 9.73s

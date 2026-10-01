@@ -6562,3 +6562,6 @@ Local actual-work log `evidence/news_capture_mapping_20260930/WORK_LOG.jsonl`; e
 
 
 2026-10-01T00:40:05.785976+00:00: REMAINING_CONNECTIONS_FINAL_20261001/REVIEW.json; source 3eff48d1dcb5c7a38a7a08afa8bfae9eeef06fae;68tests,270exact replays,24restored payloads,8observed replicas within1e-12bps. Native15connections/news/tracking current. No fits. Next retained_currency_projection_connection_v1.
+
+
+2026-10-01T01:24:45.820638+00:00: RETAINED_PROJECTION_CONNECTION_20261001/REVIEW.json; source caf191cdc949a682ab977a5beff46a43fed67bfd;104Python/5JS;528original and1456relocated exact. Native23groups/currentnews. No fits. Next retained_input_freshness_continuity_v1; intermittent expiry observation retained.
