@@ -194,4 +194,4 @@ Scope clarification 2026-09-30T19:57:32.931372+00:00: `finish_research_and_matur
 
 | `current_state_binding_20261001` | Mabel current Codex chat | 2026-10-01T20:28:53.965023+00:00 | Offline lifecycle binding | Runtime and other-task capture untouched | `DONE` | 2026-10-01T20:28:53.965023+00:00 | MANAGEMENT_STATE_BINDING_20261001/REVIEW.json;78tests;84exact replay outputs. Parent partial; no active worker. |
 
-| `paper_state_producer_20261001` | Mabel current Codex chat | 2026-10-01T23:58:24.107491+00:00 | Prospective empty paper book | Runtime and other-task capture untouched | `DONE` | 2026-10-01T23:58:24.107491+00:00 | PAPER_STATE_PRODUCER_20261001/REVIEW.json;52distinct tests plus14reruns;84exact replay outputs. Parent partial; no active worker. |
+| `paper_state_producer_20261001` | Mabel current Codex chat | 2026-10-01T23:51:29.3487927Z | Prospective empty paper book and current observation binding | Local no-order producer/tests/evidence; other-task capture and running services untouched | `CLAIMED` | 2026-10-01T23:51:29.3487927Z | Preflight passed; user approved continuation. |
