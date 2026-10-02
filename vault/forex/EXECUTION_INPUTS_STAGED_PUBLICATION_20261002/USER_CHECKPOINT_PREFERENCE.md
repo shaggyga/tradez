@@ -1,0 +1,1 @@
+User preference (2026-10-02 UTC): prioritize implementation, testing and useful checkpoints. Keep local and Vault working notes current. Batch Git commits/pushes and full Vault snapshot refreshes at substantial milestones; do not run a Git publication cycle for every small step.

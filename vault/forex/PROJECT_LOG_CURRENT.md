@@ -6626,3 +6626,5 @@ Local actual-work log `evidence/news_capture_mapping_20260930/WORK_LOG.jsonl`; e
 2026-10-01T23:58:24.107491+00:00: PAPER_STATE_PRODUCER_20261001/REVIEW.json;source a0df1b41535a7ec41d9191f2b8d1bdbb24746045;52distinct tests plus14reruns and84 exact replay payloads;parent partial.
 
 2026-10-02T00:30:09.043287+00:00: EXECUTION_INPUTS_STAGED_20261002/REVIEW.json;source 909b14cec5a952f6d867f5fccade1624e331642a;33tests/33isolated;four profile cases;parent partial.
+
+2026-10-02T01:22:33.132282+00:00: PAPER_INPUTS_CONNECTED_20261002/REVIEW.json;source a95db2b6224c3320330b9b6c1c06d55b5cbf6783;142tests;two84payload replays;23isolated tests;next retained_management_economic_input_binding_v1.

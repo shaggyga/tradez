@@ -1,0 +1,15 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+__________ test_actual_checked_in_selection_matches_reviewed_sources __________
+tests\test_dashboard_current_selection_binding.py:10: in test_actual_checked_in_selection_matches_reviewed_sources
+    value=selection.read_selection(ROOT,time.time())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_operational_dashboard_selection_v1.py:128: in read_selection
+    need(ishash(sha) and hashlib.sha256(read_raw(relative(root,name),2*1024*1024)).hexdigest()==sha,'dashboard_source_changed')
+trad\oanda_operational_dashboard_selection_v1.py:65: in need
+    if not value: raise SelectionError(code)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   oanda_operational_dashboard_selection_v1.SelectionError: dashboard_source_changed
+=========================== short test summary info ===========================
+FAILED tests/test_dashboard_current_selection_binding.py::test_actual_checked_in_selection_matches_reviewed_sources
+1 failed in 0.54s

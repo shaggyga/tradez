@@ -1,12 +1,12 @@
 {
-  "active_step_id": "paper_inputs_connected_20261002",
-  "active_step_semantics": "Paper inputs connected; costs/conditional management remain partial",
-  "current_review_packet": "PAPER_INPUTS_CONNECTED_20261002/REVIEW.json",
+  "active_step_id": "current_news_read_deploy_20261001",
+  "active_step_semantics": "Current-news retry deployed; bounded input gate complete",
+  "current_review_packet": "CURRENT_NEWS_READ_DEPLOY_20261001/REVIEW.json",
   "current_user_requested_context": {
     "request": "Fix data; connect strongest supported existing models across entire design horizon; stop new fits/experiments",
-    "status": "paper_inputs_connected_economics_pending",
-    "packet": "PAPER_INPUTS_CONNECTED_20261002/REVIEW.json",
-    "next_item": "retained_management_economic_input_binding_v1",
+    "status": "exact_quote_rollout_staged_authorization_pending",
+    "packet": "EXECUTION_INPUTS_STAGED_20261002/REVIEW.json",
+    "next_item": "retained_management_current_state_binding_v1",
     "new_research_authorized": false
   },
   "dashboard_source_qualification": {
@@ -190,7 +190,7 @@
     }
   ],
   "engineering_queue_pointer": "DESIGN_ALIGNMENT_LATEST.json",
-  "exact_next_item": "retained_management_economic_input_binding_v1",
+  "exact_next_item": "retained_management_current_state_binding_v1",
   "execution_status": "checkpointed_no_active_chat_worker",
   "forecasting_continuation": {
     "blocked_confirmation_item": "currency_projection_confirmation_protocol_v2",
@@ -5460,8 +5460,8 @@
     },
     {
       "step_id": "retained_management_current_state_binding_v1",
-      "implementation_status": "complete",
-      "review_status": "accepted_within_scope",
+      "implementation_status": "partial",
+      "review_status": "partial_same_task_review",
       "depends_on": [
         "retained_management_contract_qualification_v1",
         "current_news_read_deploy_20261001"
@@ -5473,11 +5473,8 @@
         "Connect genuine available current quote/forecast/state evidence; missing conditional and economic terms remain explicit refusals",
         "Meaningful consumer tests, deterministic resumed/relocated replay, substantive review and Git/Vault handoff"
       ],
-      "next_action": "retained_management_economic_input_binding_v1",
-      "latest_partial_packet": null,
-      "packet": "PAPER_INPUTS_CONNECTED_20261002/REVIEW.json",
-      "packet_sha256": "7b5bdef094160bb79504ba42511edf3be3220b203cadb879042a44fb0c02d33e",
-      "scope_limit": "Complete genuine observation binding and explicit refusals; not whole R06 management acceptance"
+      "next_action": "After narrow service authorization deploy the tested exact-quote wrapper and registration/profile together; verify session/generation and fresh receipts, then bind paper episode and economic inputs. See EXECUTION_INPUTS_STAGED_20261002/RESUME.md.",
+      "latest_partial_packet": "EXECUTION_INPUTS_STAGED_20261002/REVIEW.json"
     },
     {
       "step_id": "current_state_binding_20261001",
@@ -5502,41 +5499,6 @@
       "packet": "EXECUTION_INPUTS_STAGED_20261002/REVIEW.json",
       "packet_sha256": "a092754b4625872be4000eb5a47cc73622b2e458585b19e879c255a1196f0590",
       "next_action": "retained_management_current_state_binding_v1"
-    },
-    {
-      "step_id": "paper_inputs_connected_20261002",
-      "implementation_status": "complete",
-      "review_status": "accepted_within_scope",
-      "packet": "PAPER_INPUTS_CONNECTED_20261002/REVIEW.json",
-      "packet_sha256": "7b5bdef094160bb79504ba42511edf3be3220b203cadb879042a44fb0c02d33e",
-      "next_action": "retained_management_economic_input_binding_v1"
-    },
-    {
-      "step_id": "retained_management_economic_input_binding_v1",
-      "implementation_status": "partial",
-      "review_status": "partial_same_task_review",
-      "depends_on": [
-        "retained_management_current_state_binding_v1"
-      ],
-      "scope": "Bind supported causal economic inputs to completed paper entry and existing management contracts; no accounts/orders/fits",
-      "acceptance_criteria": [
-        "Retrieve actual or explicitly declared paper fee/slippage/financing provenance; no zero defaults",
-        "Bind quote/forecast/book/decision/terminal and explicit risk capacity",
-        "Preserve missing conditional values and original negative management evidence",
-        "Meaningful consumer tests, exact replay, substantive review and handoff"
-      ],
-      "next_action": "Read RESUME.md; entry consumer and 23tests already complete. Supply qualified input declarations or document precise missing source; do not repeat empty-declaration replay.",
-      "packet": "PAPER_INPUTS_CONNECTED_20261002/REVIEW.json"
-    },
-    {
-      "step_id": "rolling_m1_elapsed_support_recovery_v1",
-      "implementation_status": "pending",
-      "review_status": "not_started",
-      "depends_on": [
-        "current_news_read_deploy_20261001"
-      ],
-      "scope": "Independent read-only retrieval assessment of current C-drive M1 support gaps; no other-task recorder changes or invented bars",
-      "next_action": "Use INDICATOR_CHECK.json and live original reader receipts; inspect eligible current archives. September13 archive and M5 cache do not supply October M1 gaps."
     }
   ],
   "timed_session": {
@@ -5549,6 +5511,6 @@
     "source_commit": "6eb514ab1856190b39d83ab020d5f77700ca8770",
     "updated_utc": "2026-09-25T18:12:00.5976014Z"
   },
-  "updated_utc": "2026-10-02T01:22:33.132282+00:00",
-  "active_step": "paper_inputs_connected_20261002"
+  "updated_utc": "2026-10-01T20:06:11.310678+00:00",
+  "active_step": "execution_inputs_20261002"
 }

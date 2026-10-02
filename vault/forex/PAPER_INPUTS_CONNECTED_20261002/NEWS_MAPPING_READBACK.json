@@ -1,0 +1,714 @@
+{
+  "observed_epoch": 1790903725.9329212,
+  "generated_utc": "2026-10-02T01:15:25.852298+00:00",
+  "current_mapping": {
+    "can_place_orders": false,
+    "can_promote": false,
+    "counts": {
+      "features": 525,
+      "forecasts": 5886,
+      "mappings": 1103
+    },
+    "forecast_mae_bps": 7.737999360593125,
+    "generated_epoch": 1790903682.280676,
+    "new_mappings": 91,
+    "no_change_mae_bps": 6.817152913949066,
+    "producer_coverage": {
+      "joint": {
+        "forecast_pair_count": 65,
+        "reason_counts": {
+          "ValueError:market_closed_or_no_stream_quote": 3,
+          "forecast": 65
+        },
+        "state_counts": {
+          "forecast": 65,
+          "unavailable": 3
+        },
+        "status": "current"
+      },
+      "price": {
+        "forecast_pair_count": 64,
+        "reason_counts": {
+          "ValueError:market_closed_or_no_stream_quote": 6,
+          "awaiting_family_attempt": 5,
+          "building_family_model": 1,
+          "forecast": 121,
+          "stale_or_future_pair_input": 3
+        },
+        "state_counts": {
+          "building": 1,
+          "forecast": 121,
+          "ready": 5,
+          "unavailable": 9
+        },
+        "status": "current"
+      }
+    },
+    "recent": [
+      {
+        "claims": [
+          {
+            "currency": null,
+            "direction": null,
+            "evidence": "Fed\u2019s Logan says more rate hikes needed to curb sticky inflation By Investing.com",
+            "instrument": null,
+            "kind": "inflation_context",
+            "mechanism": "inflation_to_policy_requires_consensus_and_repricing",
+            "status": "surprise_unknown"
+          },
+          {
+            "currency": "USD",
+            "direction": null,
+            "evidence": "Fed\u2019s Logan says more rate hikes needed to curb sticky inflation By Investing.com",
+            "kind": "policy_guidance",
+            "status": "text_context",
+            "value": "further_tightening"
+          }
+        ],
+        "decision_epoch": 1790903682.280676,
+        "forecast_references": [
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "cb074dff9ecb470d9a90850e8904cde7f57b88ae0b7f7b5c59d3317098086358"
+          },
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "1569a2cc3628614afccb6c62ee711a92359cd46880f1991c4b1c06bb654cf248"
+          },
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "279d77f82bfc5ba5d4f1b799a04adfce52e56d0db1235e2fb480a8fa908253d8"
+          }
+        ],
+        "headline": "Fed\u2019s Logan says more rate hikes needed to curb sticky inflation By Investing.com",
+        "instrument": "USD_CAD",
+        "interpretation_id": "d8fb41df1e4d4f534a92d12b7dff2262372d45baac8a4b8a9501e900f614e754",
+        "news_available_epoch": 1790902708.9265063,
+        "news_first_seen_utc": "2026-10-02T00:58:12.618182+00:00",
+        "news_payload_sha256": "b95ece5c01880f7e454cdb29f037e76cfbfa4489d948d0c74d2a0fa620465026",
+        "news_publication_utc": "2026-10-02T00:03:17+00:00",
+        "outcome": {
+          "status": "pending_or_missing_path"
+        },
+        "schema_version": "current_news_forecast_mapping_v1_20260930",
+        "scope": "observed conjunction, not evidence news caused the move or model consumed typed context",
+        "selection_sha256": "2cbd79ad67e80426356667133c3784e1ef3e905b17e13406bb38c4f051825bc4",
+        "technical": {
+          "age_seconds": 102.28067588806152,
+          "bar_close_epoch": 1790903580,
+          "bar_start_epoch": 1790903520,
+          "feature_hash": "25feca253dca7985ec58bc680ce65cd61a5773d57780b792989846aae09ce0cb",
+          "feature_published_epoch": 1790903621.830069,
+          "pair": "USD_CAD",
+          "snapshot_sha256": "9b6a723ac3e7f6e03b9a9e01f844b78adc44209a4217b50aa4ac9ec02ce5da40",
+          "source_read_completed_epoch": 1790903621.6677868,
+          "status": "available"
+        }
+      },
+      {
+        "claims": [
+          {
+            "currency": "USD",
+            "direction": null,
+            "evidence": "NY Stocks Rebound After Three Days as Fed Vice Chair's Remarks Ease Rate-Hike Concerns",
+            "kind": "policy_expectations",
+            "status": "text_context",
+            "value": "tightening_expectations_easing"
+          }
+        ],
+        "decision_epoch": 1790903682.280676,
+        "forecast_references": [
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "4f599ff3d494c0c0ac5e814a5286cb4cd809fa6853cc9904c9d6206e20f62fb9"
+          },
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "1edd909b36c0629df14bb7578e079df2656187b5de9409857699d2193f160758"
+          },
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "3d5793a882c29625ada22df9a45dbd3be551e72f5ca66dfc9f88636c7706d8b5"
+          }
+        ],
+        "headline": "NY Stocks Rebound After Three Days as Fed Vice Chair's Remarks Ease Rate-Hike Concerns",
+        "instrument": "USD_DKK",
+        "interpretation_id": "53d12a9ae921f8f3ae9d9af15e36d937c978f0af90850a64059b32eac2d16cdc",
+        "news_available_epoch": 1790895713.9730234,
+        "news_first_seen_utc": "2026-10-01T23:01:33.664427+00:00",
+        "news_payload_sha256": "b95ece5c01880f7e454cdb29f037e76cfbfa4489d948d0c74d2a0fa620465026",
+        "news_publication_utc": "2026-10-01T22:36:00+00:00",
+        "outcome": {
+          "status": "pending_or_missing_path"
+        },
+        "schema_version": "current_news_forecast_mapping_v1_20260930",
+        "scope": "observed conjunction, not evidence news caused the move or model consumed typed context",
+        "selection_sha256": "2cbd79ad67e80426356667133c3784e1ef3e905b17e13406bb38c4f051825bc4",
+        "technical": {
+          "age_seconds": 102.28067588806152,
+          "bar_close_epoch": 1790903580,
+          "bar_start_epoch": 1790903520,
+          "feature_hash": "6647361b5ce4d32b1d06c453fb1fce7d1f2445416c12162098c9a4452f3684de",
+          "feature_published_epoch": 1790903624.012379,
+          "pair": "USD_DKK",
+          "snapshot_sha256": "a21a8783e2008708155fa8be619552c74310db4e05f54e061631e94a1c961052",
+          "source_read_completed_epoch": 1790903623.7932863,
+          "status": "available"
+        }
+      },
+      {
+        "claims": [
+          {
+            "currency": "USD",
+            "direction": null,
+            "evidence": "NY Stocks Rebound After Three Days as Fed Vice Chair's Remarks Ease Rate-Hike Concerns",
+            "kind": "policy_expectations",
+            "status": "text_context",
+            "value": "tightening_expectations_easing"
+          }
+        ],
+        "decision_epoch": 1790903682.280676,
+        "forecast_references": [
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "4ac9092ff78c311067e44bab7b65a2068c5ad78eb3b5b9c10b32b51a0ed4f894"
+          },
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "f4f66341cdcd9c4f3f9afbafa2c5f200b833876bdff9c34d0f645ef3fd4482d8"
+          },
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "741ead4a0c63132a59ba881967cefb0e786d91a53fd0c240ed4b9bc1a299d1b2"
+          }
+        ],
+        "headline": "NY Stocks Rebound After Three Days as Fed Vice Chair's Remarks Ease Rate-Hike Concerns",
+        "instrument": "USD_HUF",
+        "interpretation_id": "53d12a9ae921f8f3ae9d9af15e36d937c978f0af90850a64059b32eac2d16cdc",
+        "news_available_epoch": 1790895713.9730234,
+        "news_first_seen_utc": "2026-10-01T23:01:33.664427+00:00",
+        "news_payload_sha256": "b95ece5c01880f7e454cdb29f037e76cfbfa4489d948d0c74d2a0fa620465026",
+        "news_publication_utc": "2026-10-01T22:36:00+00:00",
+        "outcome": {
+          "status": "pending_or_missing_path"
+        },
+        "schema_version": "current_news_forecast_mapping_v1_20260930",
+        "scope": "observed conjunction, not evidence news caused the move or model consumed typed context",
+        "selection_sha256": "2cbd79ad67e80426356667133c3784e1ef3e905b17e13406bb38c4f051825bc4",
+        "technical": {
+          "age_seconds": 102.28067588806152,
+          "bar_close_epoch": 1790903580,
+          "bar_start_epoch": 1790903520,
+          "feature_hash": "f312962fb782425e9ed9893d26b06167ccb8282bd445a464a4ac397d280f03e1",
+          "feature_published_epoch": 1790903625.1082637,
+          "pair": "USD_HUF",
+          "snapshot_sha256": "49c54c33b3f167ab5512e0e2c44f6f6a157f40838aae6020afaeddcf458d28e3",
+          "source_read_completed_epoch": 1790903624.9686697,
+          "status": "available"
+        }
+      },
+      {
+        "claims": [
+          {
+            "currency": null,
+            "direction": null,
+            "evidence": "Dallas Fed signals need for further rate hikes to curb inflation",
+            "instrument": null,
+            "kind": "inflation_context",
+            "mechanism": "inflation_to_policy_requires_consensus_and_repricing",
+            "status": "surprise_unknown"
+          },
+          {
+            "currency": "USD",
+            "direction": null,
+            "evidence": "Dallas Fed signals need for further rate hikes to curb inflation",
+            "kind": "policy_guidance",
+            "status": "text_context",
+            "value": "further_tightening"
+          }
+        ],
+        "decision_epoch": 1790903682.280676,
+        "forecast_references": [
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "da1622e0d4e0ca9d782ae39de61127909f63b5b0193cff075cf2ec16dfd05c7b"
+          },
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "f9ec46bd71471facb0c64ae90e6e751af71d9ed2e844f35441be157b37909687"
+          },
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "33a548b43823a9eb9f2ade4293efb7e17462b9d5e72e21ffcd19a002a9e0d903"
+          }
+        ],
+        "headline": "Dallas Fed signals need for further rate hikes to curb inflation",
+        "instrument": "NZD_USD",
+        "interpretation_id": "e51ae95a88e4bea22466213f1341c8b23d8c175feeff8e809c219ef972dbfaf0",
+        "news_available_epoch": 1790899003.197925,
+        "news_first_seen_utc": "2026-10-01T23:56:43.197925+00:00",
+        "news_payload_sha256": "b95ece5c01880f7e454cdb29f037e76cfbfa4489d948d0c74d2a0fa620465026",
+        "news_publication_utc": "2026-10-01T23:39:34+00:00",
+        "outcome": {
+          "status": "pending_or_missing_path"
+        },
+        "schema_version": "current_news_forecast_mapping_v1_20260930",
+        "scope": "observed conjunction, not evidence news caused the move or model consumed typed context",
+        "selection_sha256": "2cbd79ad67e80426356667133c3784e1ef3e905b17e13406bb38c4f051825bc4",
+        "technical": {
+          "age_seconds": 42.28067588806152,
+          "bar_close_epoch": 1790903640,
+          "bar_start_epoch": 1790903580,
+          "feature_hash": "48db67c7f85fde66d966ab3fbb96a0efafd6e5c34e43ec8f75ed3d3f51eb4aa3",
+          "feature_published_epoch": 1790903680.7518654,
+          "pair": "NZD_USD",
+          "snapshot_sha256": "c6b2c720766b0e31ed914953f5d7bbe869b95c391e5e3fc7e1d7102f9662a13c",
+          "source_read_completed_epoch": 1790903680.6113079,
+          "status": "available"
+        }
+      },
+      {
+        "claims": [
+          {
+            "currency": null,
+            "direction": null,
+            "evidence": "Dallas Fed signals need for further rate hikes to curb inflation",
+            "instrument": null,
+            "kind": "inflation_context",
+            "mechanism": "inflation_to_policy_requires_consensus_and_repricing",
+            "status": "surprise_unknown"
+          },
+          {
+            "currency": "USD",
+            "direction": null,
+            "evidence": "Dallas Fed signals need for further rate hikes to curb inflation",
+            "kind": "policy_guidance",
+            "status": "text_context",
+            "value": "further_tightening"
+          }
+        ],
+        "decision_epoch": 1790903682.280676,
+        "forecast_references": [
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "610b7485e1d726093dcfbe8f3754a6ed10a49993e70c31196d386bb0f3810644"
+          },
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "ab97ab4ef166cac0665d788732ac556f728ebe48a1ab29e385c729ec97ba55f1"
+          },
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "4f275b9f68dc7ce4547cd53b39b2db5b8d0713fc541d36df9d550efe8ed46eec"
+          }
+        ],
+        "headline": "Dallas Fed signals need for further rate hikes to curb inflation",
+        "instrument": "USD_CNH",
+        "interpretation_id": "e51ae95a88e4bea22466213f1341c8b23d8c175feeff8e809c219ef972dbfaf0",
+        "news_available_epoch": 1790899003.197925,
+        "news_first_seen_utc": "2026-10-01T23:56:43.197925+00:00",
+        "news_payload_sha256": "b95ece5c01880f7e454cdb29f037e76cfbfa4489d948d0c74d2a0fa620465026",
+        "news_publication_utc": "2026-10-01T23:39:34+00:00",
+        "outcome": {
+          "status": "pending_or_missing_path"
+        },
+        "schema_version": "current_news_forecast_mapping_v1_20260930",
+        "scope": "observed conjunction, not evidence news caused the move or model consumed typed context",
+        "selection_sha256": "2cbd79ad67e80426356667133c3784e1ef3e905b17e13406bb38c4f051825bc4",
+        "technical": {
+          "age_seconds": 102.28067588806152,
+          "bar_close_epoch": 1790903580,
+          "bar_start_epoch": 1790903520,
+          "feature_hash": "9b6e78e021640355f2a47c5ca4e33e8e39fc08bff8776f0ea9082f032c8600db",
+          "feature_published_epoch": 1790903622.8071365,
+          "pair": "USD_CNH",
+          "snapshot_sha256": "5a749889d99738fc366dfd74d37b08ef0a8c9630ab3d944170bc7de4507a7544",
+          "source_read_completed_epoch": 1790903622.6555693,
+          "status": "available"
+        }
+      },
+      {
+        "claims": [
+          {
+            "currency": null,
+            "direction": null,
+            "evidence": "Fed\u2019s Logan says more rate hikes needed to curb sticky inflation By Investing.com",
+            "instrument": null,
+            "kind": "inflation_context",
+            "mechanism": "inflation_to_policy_requires_consensus_and_repricing",
+            "status": "surprise_unknown"
+          },
+          {
+            "currency": "USD",
+            "direction": null,
+            "evidence": "Fed\u2019s Logan says more rate hikes needed to curb sticky inflation By Investing.com",
+            "kind": "policy_guidance",
+            "status": "text_context",
+            "value": "further_tightening"
+          }
+        ],
+        "decision_epoch": 1790903682.280676,
+        "forecast_references": [
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "4aa09329ef819e81d670add182e140647c438d6ba9952e4597497f0cebc88c7b"
+          }
+        ],
+        "headline": "Fed\u2019s Logan says more rate hikes needed to curb sticky inflation By Investing.com",
+        "instrument": "USD_HKD",
+        "interpretation_id": "d8fb41df1e4d4f534a92d12b7dff2262372d45baac8a4b8a9501e900f614e754",
+        "news_available_epoch": 1790902708.9265063,
+        "news_first_seen_utc": "2026-10-02T00:58:12.618182+00:00",
+        "news_payload_sha256": "b95ece5c01880f7e454cdb29f037e76cfbfa4489d948d0c74d2a0fa620465026",
+        "news_publication_utc": "2026-10-02T00:03:17+00:00",
+        "outcome": {
+          "status": "pending_or_missing_path"
+        },
+        "schema_version": "current_news_forecast_mapping_v1_20260930",
+        "scope": "observed conjunction, not evidence news caused the move or model consumed typed context",
+        "selection_sha256": "2cbd79ad67e80426356667133c3784e1ef3e905b17e13406bb38c4f051825bc4",
+        "technical": {
+          "age_seconds": 102.28067588806152,
+          "bar_close_epoch": 1790903580,
+          "bar_start_epoch": 1790903520,
+          "feature_hash": "70db5c021c9cefb686684ce783c3b0dcec99d74c1485b3500278afdc8fdb7c09",
+          "feature_published_epoch": 1790903624.518075,
+          "pair": "USD_HKD",
+          "snapshot_sha256": "ac7a2eff42eb475c877d2efa934009bf6b0d874462aaee175b9c5a8920db8b39",
+          "source_read_completed_epoch": 1790903624.3775268,
+          "status": "available"
+        }
+      },
+      {
+        "claims": [
+          {
+            "currency": null,
+            "direction": null,
+            "evidence": "Fed\u2019s Logan says more rate hikes needed to curb sticky inflation By Investing.com",
+            "instrument": null,
+            "kind": "inflation_context",
+            "mechanism": "inflation_to_policy_requires_consensus_and_repricing",
+            "status": "surprise_unknown"
+          },
+          {
+            "currency": "USD",
+            "direction": null,
+            "evidence": "Fed\u2019s Logan says more rate hikes needed to curb sticky inflation By Investing.com",
+            "kind": "policy_guidance",
+            "status": "text_context",
+            "value": "further_tightening"
+          }
+        ],
+        "decision_epoch": 1790903682.280676,
+        "forecast_references": [
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "4fb428dd17c4edcf4421b9198518d2975371aa26c635ed678a252db6d7680f85"
+          },
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "b42f1e2f7f7405ee1ceae2c2a3a40649da7e639b8370ecbb060a4da07fb2dceb"
+          },
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "d44054d6e531afa78b41c5296c0023d03259f42f4777baffc726cb1fa9ee5fbf"
+          }
+        ],
+        "headline": "Fed\u2019s Logan says more rate hikes needed to curb sticky inflation By Investing.com",
+        "instrument": "USD_NOK",
+        "interpretation_id": "d8fb41df1e4d4f534a92d12b7dff2262372d45baac8a4b8a9501e900f614e754",
+        "news_available_epoch": 1790902708.9265063,
+        "news_first_seen_utc": "2026-10-02T00:58:12.618182+00:00",
+        "news_payload_sha256": "b95ece5c01880f7e454cdb29f037e76cfbfa4489d948d0c74d2a0fa620465026",
+        "news_publication_utc": "2026-10-02T00:03:17+00:00",
+        "outcome": {
+          "status": "pending_or_missing_path"
+        },
+        "schema_version": "current_news_forecast_mapping_v1_20260930",
+        "scope": "observed conjunction, not evidence news caused the move or model consumed typed context",
+        "selection_sha256": "2cbd79ad67e80426356667133c3784e1ef3e905b17e13406bb38c4f051825bc4",
+        "technical": {
+          "age_seconds": 102.28067588806152,
+          "bar_close_epoch": 1790903580,
+          "bar_start_epoch": 1790903520,
+          "feature_hash": "eea557caf5a997931bfb04e0c8097063ca53618ddc63556b215a3a93d45888d2",
+          "feature_published_epoch": 1790903626.4947004,
+          "pair": "USD_NOK",
+          "snapshot_sha256": "39c9162beb3da58c39130a1773fb53f6a1a58e2a04c969b083bb8aefc3d8b5be",
+          "source_read_completed_epoch": 1790903626.348165,
+          "status": "available"
+        }
+      },
+      {
+        "claims": [
+          {
+            "currency": null,
+            "direction": null,
+            "evidence": "Fed\u2019s Logan says more rate hikes needed to curb sticky inflation By Investing.com",
+            "instrument": null,
+            "kind": "inflation_context",
+            "mechanism": "inflation_to_policy_requires_consensus_and_repricing",
+            "status": "surprise_unknown"
+          },
+          {
+            "currency": "USD",
+            "direction": null,
+            "evidence": "Fed\u2019s Logan says more rate hikes needed to curb sticky inflation By Investing.com",
+            "kind": "policy_guidance",
+            "status": "text_context",
+            "value": "further_tightening"
+          }
+        ],
+        "decision_epoch": 1790903682.280676,
+        "forecast_references": [
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "0f3d2550f06381b143c49397ebf6555c4004c644048162e2fe364f4be3ba38a0"
+          },
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "05457f6f383c6fd8098f4793b434e489a8bc12b6237d36fd7c93880fa69a2d0a"
+          },
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "25ca29d16b9ae07ed74e4b22a084254ce263dafba06ad341374ba949484438cc"
+          }
+        ],
+        "headline": "Fed\u2019s Logan says more rate hikes needed to curb sticky inflation By Investing.com",
+        "instrument": "USD_CHF",
+        "interpretation_id": "d8fb41df1e4d4f534a92d12b7dff2262372d45baac8a4b8a9501e900f614e754",
+        "news_available_epoch": 1790902708.9265063,
+        "news_first_seen_utc": "2026-10-02T00:58:12.618182+00:00",
+        "news_payload_sha256": "b95ece5c01880f7e454cdb29f037e76cfbfa4489d948d0c74d2a0fa620465026",
+        "news_publication_utc": "2026-10-02T00:03:17+00:00",
+        "outcome": {
+          "status": "pending_or_missing_path"
+        },
+        "schema_version": "current_news_forecast_mapping_v1_20260930",
+        "scope": "observed conjunction, not evidence news caused the move or model consumed typed context",
+        "selection_sha256": "2cbd79ad67e80426356667133c3784e1ef3e905b17e13406bb38c4f051825bc4",
+        "technical": {
+          "age_seconds": 102.28067588806152,
+          "bar_close_epoch": 1790903580,
+          "bar_start_epoch": 1790903520,
+          "feature_hash": "79315a3f00354a3db87b4a57bfe4004d27a6c38cb37ba81e90781154751f7b9c",
+          "feature_published_epoch": 1790903622.3417711,
+          "pair": "USD_CHF",
+          "snapshot_sha256": "b74b1abb7e9df85661ebf5f3fc795fc85402e9c6c5cd73a07066953a4776ef17",
+          "source_read_completed_epoch": 1790903622.1863139,
+          "status": "available"
+        }
+      },
+      {
+        "claims": [
+          {
+            "currency": "USD",
+            "direction": null,
+            "evidence": "NY Stocks Rebound After Three Days as Fed Vice Chair's Remarks Ease Rate-Hike Concerns",
+            "kind": "policy_expectations",
+            "status": "text_context",
+            "value": "tightening_expectations_easing"
+          }
+        ],
+        "decision_epoch": 1790903682.280676,
+        "forecast_references": [
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "76b7728955f2c651e46ceb6c36444400eedd8d3bcd1b8e40f7d88335fa75e0f6"
+          },
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "fe2bed9d3755aafd7e09aa1db13711517d7dd9a644b5e66580881b2ae6ce0078"
+          },
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "c4c31506f7019542a58595ca71b893d753e6e6fa25bd10f922f9a8b6d7a51bd7"
+          }
+        ],
+        "headline": "NY Stocks Rebound After Three Days as Fed Vice Chair's Remarks Ease Rate-Hike Concerns",
+        "instrument": "EUR_USD",
+        "interpretation_id": "53d12a9ae921f8f3ae9d9af15e36d937c978f0af90850a64059b32eac2d16cdc",
+        "news_available_epoch": 1790895713.9730234,
+        "news_first_seen_utc": "2026-10-01T23:01:33.664427+00:00",
+        "news_payload_sha256": "b95ece5c01880f7e454cdb29f037e76cfbfa4489d948d0c74d2a0fa620465026",
+        "news_publication_utc": "2026-10-01T22:36:00+00:00",
+        "outcome": {
+          "status": "pending_or_missing_path"
+        },
+        "schema_version": "current_news_forecast_mapping_v1_20260930",
+        "scope": "observed conjunction, not evidence news caused the move or model consumed typed context",
+        "selection_sha256": "2cbd79ad67e80426356667133c3784e1ef3e905b17e13406bb38c4f051825bc4",
+        "technical": {
+          "age_seconds": 42.28067588806152,
+          "bar_close_epoch": 1790903640,
+          "bar_start_epoch": 1790903580,
+          "feature_hash": "99e8f3f8cece30d2be2735c22ae066b54357f939c017d1e0c6eb630621ba1a2b",
+          "feature_published_epoch": 1790903671.0581672,
+          "pair": "EUR_USD",
+          "snapshot_sha256": "33aba43f76abdbd37ec8d3902904ab43bc5547f998e6e20148706f545c632d2c",
+          "source_read_completed_epoch": 1790903670.8916717,
+          "status": "available"
+        }
+      },
+      {
+        "claims": [
+          {
+            "currency": null,
+            "direction": null,
+            "evidence": "Fed\u2019s Logan says more rate hikes needed to curb sticky inflation By Investing.com",
+            "instrument": null,
+            "kind": "inflation_context",
+            "mechanism": "inflation_to_policy_requires_consensus_and_repricing",
+            "status": "surprise_unknown"
+          },
+          {
+            "currency": "USD",
+            "direction": null,
+            "evidence": "Fed\u2019s Logan says more rate hikes needed to curb sticky inflation By Investing.com",
+            "kind": "policy_guidance",
+            "status": "text_context",
+            "value": "further_tightening"
+          }
+        ],
+        "decision_epoch": 1790903682.280676,
+        "forecast_references": [
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "610b7485e1d726093dcfbe8f3754a6ed10a49993e70c31196d386bb0f3810644"
+          },
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "ab97ab4ef166cac0665d788732ac556f728ebe48a1ab29e385c729ec97ba55f1"
+          },
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "4f275b9f68dc7ce4547cd53b39b2db5b8d0713fc541d36df9d550efe8ed46eec"
+          }
+        ],
+        "headline": "Fed\u2019s Logan says more rate hikes needed to curb sticky inflation By Investing.com",
+        "instrument": "USD_CNH",
+        "interpretation_id": "d8fb41df1e4d4f534a92d12b7dff2262372d45baac8a4b8a9501e900f614e754",
+        "news_available_epoch": 1790902708.9265063,
+        "news_first_seen_utc": "2026-10-02T00:58:12.618182+00:00",
+        "news_payload_sha256": "b95ece5c01880f7e454cdb29f037e76cfbfa4489d948d0c74d2a0fa620465026",
+        "news_publication_utc": "2026-10-02T00:03:17+00:00",
+        "outcome": {
+          "status": "pending_or_missing_path"
+        },
+        "schema_version": "current_news_forecast_mapping_v1_20260930",
+        "scope": "observed conjunction, not evidence news caused the move or model consumed typed context",
+        "selection_sha256": "2cbd79ad67e80426356667133c3784e1ef3e905b17e13406bb38c4f051825bc4",
+        "technical": {
+          "age_seconds": 102.28067588806152,
+          "bar_close_epoch": 1790903580,
+          "bar_start_epoch": 1790903520,
+          "feature_hash": "9b6e78e021640355f2a47c5ca4e33e8e39fc08bff8776f0ea9082f032c8600db",
+          "feature_published_epoch": 1790903622.8071365,
+          "pair": "USD_CNH",
+          "snapshot_sha256": "5a749889d99738fc366dfd74d37b08ef0a8c9630ab3d944170bc7de4507a7544",
+          "source_read_completed_epoch": 1790903622.6555693,
+          "status": "available"
+        }
+      },
+      {
+        "claims": [
+          {
+            "currency": null,
+            "direction": null,
+            "evidence": "Fed\u2019s Logan says more rate hikes needed to curb sticky inflation By Investing.com",
+            "instrument": null,
+            "kind": "inflation_context",
+            "mechanism": "inflation_to_policy_requires_consensus_and_repricing",
+            "status": "surprise_unknown"
+          },
+          {
+            "currency": "USD",
+            "direction": null,
+            "evidence": "Fed\u2019s Logan says more rate hikes needed to curb sticky inflation By Investing.com",
+            "kind": "policy_guidance",
+            "status": "text_context",
+            "value": "further_tightening"
+          }
+        ],
+        "decision_epoch": 1790903682.280676,
+        "forecast_references": [
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "f09cb4e7646b19073e169f0a075164edad84e5a826777e99148daa274bbd67ff"
+          },
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "823d1b159020368874b9744a15d2e7c06183ae20cd0298d554cb3eb23c2df213"
+          },
+          {
+            "first_monitor_observed_epoch": 1790903682.280676,
+            "forecast_sha256": "c64d2464976403bd62fd0de69e028bc15a3f62105f19b4361976c27bd075c2dc"
+          }
+        ],
+        "headline": "Fed\u2019s Logan says more rate hikes needed to curb sticky inflation By Investing.com",
+        "instrument": "USD_PLN",
+        "interpretation_id": "d8fb41df1e4d4f534a92d12b7dff2262372d45baac8a4b8a9501e900f614e754",
+        "news_available_epoch": 1790902708.9265063,
+        "news_first_seen_utc": "2026-10-02T00:58:12.618182+00:00",
+        "news_payload_sha256": "b95ece5c01880f7e454cdb29f037e76cfbfa4489d948d0c74d2a0fa620465026",
+        "news_publication_utc": "2026-10-02T00:03:17+00:00",
+        "outcome": {
+          "status": "pending_or_missing_path"
+        },
+        "schema_version": "current_news_forecast_mapping_v1_20260930",
+        "scope": "observed conjunction, not evidence news caused the move or model consumed typed context",
+        "selection_sha256": "2cbd79ad67e80426356667133c3784e1ef3e905b17e13406bb38c4f051825bc4",
+        "technical": {
+          "age_seconds": 102.28067588806152,
+          "bar_close_epoch": 1790903580,
+          "bar_start_epoch": 1790903520,
+          "feature_hash": "162efdb890fcc62eab56d1e5ed03adfccb124297b3cba103fa68ca5b764a7ee3",
+          "feature_published_epoch": 1790903626.9540224,
+          "pair": "USD_PLN",
+          "snapshot_sha256": "cca9905dc4ff3d5339b8718f84bbce992a6023d8d29d148f275cd1b5b00c282c",
+          "source_read_completed_epoch": 1790903626.7997174,
+          "status": "available"
+        }
+      },
+      {
+        "claims": [
+          {
+            "currency": "USD",
+            "direction": null,
+            "evidence": "NY Stocks Rebound After Three Days as Fed Vice Chair's Remarks Ease Rate-Hike Concerns",
+            "kind": "policy_expectations",
+            "status": "text_context",
+            "value": "tightening_expectations_easing"
+          }
+        ],
+        "decision_epoch": 1790903682.280676,
+        "forecast_references": [],
+        "headline": "NY Stocks Rebound After Three Days as Fed Vice Chair's Remarks Ease Rate-Hike Concerns",
+        "instrument": "USD_TRY",
+        "interpretation_id": "53d12a9ae921f8f3ae9d9af15e36d937c978f0af90850a64059b32eac2d16cdc",
+        "news_available_epoch": 1790895713.9730234,
+        "news_first_seen_utc": "2026-10-01T23:01:33.664427+00:00",
+        "news_payload_sha256": "b95ece5c01880f7e454cdb29f037e76cfbfa4489d948d0c74d2a0fa620465026",
+        "news_publication_utc": "2026-10-01T22:36:00+00:00",
+        "outcome": {
+          "status": "pending_or_missing_path"
+        },
+        "schema_version": "current_news_forecast_mapping_v1_20260930",
+        "scope": "observed conjunction, not evidence news caused the move or model consumed typed context",
+        "selection_sha256": "2cbd79ad67e80426356667133c3784e1ef3e905b17e13406bb38c4f051825bc4",
+        "technical": {
+          "reason": "technical_source_not_current",
+          "status": "unavailable"
+        }
+      }
+    ],
+    "research_only": true,
+    "schema_version": "current_news_forecast_mapping_v1_20260930",
+    "scope": "new prospective monitor observations; descriptive overlap, not independent model qualification or news incremental value",
+    "score_window": "latest10000 settled-or-terminal forecast records; unique forecast hashes, overlapping targets remain dependent",
+    "selection_sha256": "2cbd79ad67e80426356667133c3784e1ef3e905b17e13406bb38c4f051825bc4",
+    "settled_event_mappings": 941,
+    "settled_forecasts": 5308,
+    "status": "current"
+  }
+}

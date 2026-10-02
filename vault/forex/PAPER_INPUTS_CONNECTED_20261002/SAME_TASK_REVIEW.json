@@ -1,0 +1,25 @@
+{
+  "schema": "forex.same_task_review.v1",
+  "utc": "2026-10-02T01:18:50.315449+00:00",
+  "status": "accepted_within_scope",
+  "independent_review": false,
+  "acceptance_gate": "retained_management_current_state_binding_v1",
+  "whole_gate_evidence": {
+    "reuse": "Original accounting/source identities, saved models and existing prospective book preserved; no fits",
+    "lifecycle": "Original FLAT/WAIT and pending-state consumer reused; no inferred positions",
+    "current_inputs": "Real worker/session/generation-bound observation at its actual recorded clock",
+    "refusals": "Missing/stale quote/forecast/economic cases explicit; no authority",
+    "tests": "TESTS.txt83;ENTRY_TESTS.txt23;SELECTION_TESTS.txt36",
+    "reproduction": "VERIFICATION.json and ENTRY_VERIFICATION.json; each84exactpayloads",
+    "publication": "Pending final immutable packet/source checkpoint"
+  },
+  "findings": [
+    "R06 remains partial; entry arithmetic is declared paper scenario only",
+    "Current cost/risk declarations and same-terminal conditional values absent",
+    "Indicator missingness and model imputation distinguished; current support gaps retained",
+    "Previously omitted selection migration reproduced and repaired against original source commit"
+  ],
+  "model_fits": 0,
+  "orders_enabled": false,
+  "score": "35/45"
+}

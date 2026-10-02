@@ -198,4 +198,4 @@ Scope clarification 2026-09-30T19:57:32.931372+00:00: `finish_research_and_matur
 
 | `execution_inputs_20261002` | Mabel current Codex chat | 2026-10-02T00:30:09.043287+00:00 | Staged exact quote integration | Runtime and other-task capture untouched | `DONE` | 2026-10-02T00:30:09.043287+00:00 | EXECUTION_INPUTS_STAGED_20261002/REVIEW.json;33tests;33isolated tests;four profile cases. Parent partial; no active worker. |
 
-| `one_hour_20261002_003802` | Mabel current Codex chat | 2026-10-02T01:22:33.132282+00:00 | Paper inputs and selection repair | Other-task recorder/orders excluded | `DONE` | 2026-10-02T01:22:33.132282+00:00 | PAPER_INPUTS_CONNECTED_20261002/REVIEW.json;functional checkpoint complete. Same chat performing final publication verification until fixed01:38:02Z deadline;no new research claimed. |
+| `one_hour_20261002_003802` | Mabel current Codex chat | 2026-10-02T00:39:08.7751585Z | Authorized quote/controller restart then management inputs | Orders and other-task recorder excluded | `IN_PROGRESS` | 2026-10-02T00:39:08.7751585Z | Fixed deadline01:38:02Z; evidence/one_hour_20261002_003802/SESSION_STATE.json; no automation. |

@@ -1,0 +1,17 @@
+F...................F.                                                   [100%]
+================================== FAILURES ===================================
+___________ test_actual_consumer_preserves_missing_and_no_authority ___________
+tests\test_paper_entry_economics.py:39: in test_actual_consumer_preserves_missing_and_no_authority
+    assert Decimal(got['gross_usd_proxy'])==Decimal('-1.8')
+E   AssertionError: assert Decimal('-0.80000') == Decimal('-1.8')
+E    +  where Decimal('-0.80000') = Decimal('-0.80000')
+E    +  and   Decimal('-1.8') = Decimal('-1.8')
+________________ test_cross_currency_uses_loss_conversion_side ________________
+tests\test_paper_entry_economics.py:84: in test_cross_currency_uses_loss_conversion_side
+    q['USD_JPY']={**q['USD_JPY'],'bid':'150.00','ask':'150.02'}
+                    ^^^^^^^^^^^^
+E   KeyError: 'USD_JPY'
+=========================== short test summary info ===========================
+FAILED tests/test_paper_entry_economics.py::test_actual_consumer_preserves_missing_and_no_authority
+FAILED tests/test_paper_entry_economics.py::test_cross_currency_uses_loss_conversion_side
+2 failed, 20 passed in 70.44s (0:01:10)

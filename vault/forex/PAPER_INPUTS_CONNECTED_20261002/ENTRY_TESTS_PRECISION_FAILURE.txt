@@ -1,0 +1,12 @@
+....................F..                                                  [100%]
+================================== FAILURES ===================================
+________________ test_cross_currency_uses_loss_conversion_side ________________
+tests\test_paper_entry_economics.py:90: in test_cross_currency_uses_loss_conversion_side
+    assert Decimal(out['gross_usd_proxy'])==Decimal('-110')/Decimal('150.00')
+E   AssertionError: assert Decimal('-0.73333333333333333333333333333333333333333333333333333333333333333333333333333334') == (Decimal('-110') / Decimal('150.00'))
+E    +  where Decimal('-0.73333333333333333333333333333333333333333333333333333333333333333333333333333334') = Decimal('-0.73333333333333333333333333333333333333333333333333333333333333333333333333333334')
+E    +  and   Decimal('-110') = Decimal('-110')
+E    +  and   Decimal('150.00') = Decimal('150.00')
+=========================== short test summary info ===========================
+FAILED tests/test_paper_entry_economics.py::test_cross_currency_uses_loss_conversion_side
+1 failed, 22 passed in 71.71s (0:01:11)
