@@ -1,0 +1,62 @@
+{
+  "utc": "2026-10-02T01:36:06.854541+00:00",
+  "scope": "Original one-hour rollout, paper input integration and safe checkpoint. Full project and newly requested ranker repair unfinished.",
+  "source_commit": "a95db2b6224c3320330b9b6c1c06d55b5cbf6783",
+  "documentation_commit": "c08cde1993a63c2df2c2f2482d1f4068b7cc94ab",
+  "checks": [
+    {
+      "evidence": "VERIFICATION.json",
+      "sha256": "b15f748cdb9aee02499681579295d16b2a69ad037f60b6be564c94da27e7136f",
+      "payloads_exact": 84
+    },
+    {
+      "evidence": "ENTRY_VERIFICATION.json",
+      "sha256": "d63b2ed18180438679367b980a829a4dc5b94157c825e966394de837a95bc729",
+      "payloads_exact": 84
+    },
+    {
+      "evidence": "PORTABLE_RESULT.json",
+      "sha256": "23a8508e49d64eef1ca3f548024ab9b1a7086774791210e55c5892bd8beb5313",
+      "payloads_exact": 84
+    },
+    {
+      "evidence": "ENTRY_PORTABLE_RESULT.json",
+      "sha256": "ed53d9752935f24f235c6dcf59f59c6e0f766fc8f383c8ff5af16c3c821802f3",
+      "payloads_exact": 84
+    },
+    {
+      "evidence": "paper_quote_observation_capsule.zip",
+      "sha256": "91457b4259dd59145626eef5e3fe1476939d2b90be3ff377a022c9227b3401c4",
+      "verified": true
+    },
+    {
+      "evidence": "paper_entry_economics_capsule.zip",
+      "sha256": "24325fdae0773a44e5ca7f47cb0b6c9a9a6d2856e411ee4973b1e69448721df7",
+      "verified": true
+    },
+    {
+      "evidence": "trad\\oanda_exact_quote_stream_v1.py",
+      "sha256": "784a1d31345913eb814f2422b9f9a4bdf412d076c842aeb99c8b0389961bbcbb"
+    },
+    {
+      "evidence": "trad\\config\\operational_runtime_current_20260930.json",
+      "sha256": "6cb0ca2a8ee8f42cb0468f60b40ca1c62732db6abc970f0efa18e0e77c938376"
+    },
+    {
+      "evidence": "trad\\oanda_operational_recovery_contract_v6.ps1",
+      "sha256": "818d4cb278eb2c0802b8eb53bbcef84c5becd7484723614d21b8d97036092d56"
+    }
+  ],
+  "final_preflight": "pass",
+  "distinct_tests_passed": 142,
+  "restored_entry_tests_passed": 23,
+  "remaining": [
+    "ranker_stale_feed_repair_requested_by_user",
+    "outcome_tracking_capacity_repair",
+    "economic_inputs_and_conditional_management",
+    "M1_elapsed_support_recovery"
+  ],
+  "no_automation": true,
+  "no_fits": true,
+  "no_orders": true
+}

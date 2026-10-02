@@ -1,12 +1,12 @@
 {
-  "active_step_id": "ranker_repair_20261002",
-  "active_step_semantics": "Live ranker restored; next operational dependency is tracking capacity",
-  "current_review_packet": "LIVE_CURRENCY_RANKER_20261002/REVIEW.json",
+  "active_step_id": "paper_inputs_connected_20261002",
+  "active_step_semantics": "Paper inputs connected; costs/conditional management remain partial",
+  "current_review_packet": "PAPER_INPUTS_CONNECTED_20261002/REVIEW.json",
   "current_user_requested_context": {
     "request": "Fix data; connect strongest supported existing models across entire design horizon; stop new fits/experiments",
-    "status": "ranker_repaired_tracking_pending",
-    "packet": "LIVE_CURRENCY_RANKER_20261002/REVIEW.json",
-    "next_item": "retained_tracking_capacity_repair_v1",
+    "status": "paper_inputs_connected_economics_pending",
+    "packet": "PAPER_INPUTS_CONNECTED_20261002/REVIEW.json",
+    "next_item": "retained_management_economic_input_binding_v1",
     "new_research_authorized": false
   },
   "dashboard_source_qualification": {
@@ -190,7 +190,7 @@
     }
   ],
   "engineering_queue_pointer": "DESIGN_ALIGNMENT_LATEST.json",
-  "exact_next_item": "retained_tracking_capacity_repair_v1",
+  "exact_next_item": "retained_management_economic_input_binding_v1",
   "execution_status": "checkpointed_no_active_chat_worker",
   "forecasting_continuation": {
     "blocked_confirmation_item": "currency_projection_confirmation_protocol_v2",
@@ -5537,28 +5537,6 @@
       ],
       "scope": "Independent read-only retrieval assessment of current C-drive M1 support gaps; no other-task recorder changes or invented bars",
       "next_action": "Use INDICATOR_CHECK.json and live original reader receipts; inspect eligible current archives. September13 archive and M5 cache do not supply October M1 gaps."
-    },
-    {
-      "step_id": "ranker_repair_20261002",
-      "implementation_status": "complete",
-      "review_status": "accepted_within_scope",
-      "packet": "LIVE_CURRENCY_RANKER_20261002/REVIEW.json",
-      "packet_sha256": "63e32e721bd746d95756ef2c8b573496d1f4e5eb4f943f0a84f6af67148a80dc",
-      "next_action": "retained_tracking_capacity_repair_v1"
-    },
-    {
-      "step_id": "retained_tracking_capacity_repair_v1",
-      "implementation_status": "pending",
-      "review_status": "not_started",
-      "depends_on": [],
-      "scope": "Bounded evidence-preserving retained tracking storage lifecycle; no broker/accounts/orders or model fits",
-      "acceptance_criteria": [
-        "Preserve first-observed records and pending settlement",
-        "Bound capacity and cross-segment lookups",
-        "Test restart, duplicate avoidance, settlement and refusal",
-        "Deploy coherent source bindings and verify newly captured outcomes"
-      ],
-      "next_action": "Read docs/TRACKING_CAPACITY_FINDING_20261002.md and PAPER_INPUTS_CONNECTED_PUBLICATION_20261002/TRACKING_CAPACITY_FINDING.json; retain all historical bytes"
     }
   ],
   "timed_session": {
@@ -5571,6 +5549,6 @@
     "source_commit": "6eb514ab1856190b39d83ab020d5f77700ca8770",
     "updated_utc": "2026-09-25T18:12:00.5976014Z"
   },
-  "updated_utc": "2026-10-02T02:10:20.357204+00:00",
-  "active_step": "ranker_repair_20261002"
+  "updated_utc": "2026-10-02T01:22:33.132282+00:00",
+  "active_step": "paper_inputs_connected_20261002"
 }

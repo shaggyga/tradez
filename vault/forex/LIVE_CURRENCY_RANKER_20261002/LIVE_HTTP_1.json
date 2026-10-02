@@ -1,0 +1,229 @@
+{
+  "can_place_orders": false,
+  "cohorts": {
+    "full21": {
+      "currencies": [
+        "AUD",
+        "CAD",
+        "CHF",
+        "CNH",
+        "CZK",
+        "DKK",
+        "EUR",
+        "GBP",
+        "HKD",
+        "HUF",
+        "JPY",
+        "MXN",
+        "NOK",
+        "NZD",
+        "PLN",
+        "SEK",
+        "SGD",
+        "THB",
+        "TRY",
+        "USD",
+        "ZAR"
+      ],
+      "currency_ranks": [],
+      "expected_pairs": 68,
+      "missing_pairs": [
+        "EUR_DKK",
+        "EUR_TRY",
+        "TRY_JPY",
+        "USD_TRY"
+      ],
+      "selected_pairs": [],
+      "status": "unavailable",
+      "supported_pairs": 64
+    },
+    "major8": {
+      "currencies": [
+        "AUD",
+        "CAD",
+        "CHF",
+        "EUR",
+        "GBP",
+        "JPY",
+        "NZD",
+        "USD"
+      ],
+      "currency_count": 8,
+      "currency_ranks": [
+        {
+          "currency": "NZD",
+          "rank": 1,
+          "score": 1.731284,
+          "strength_15m_bps": 7.78325,
+          "strength_5m_bps": -0.426452,
+          "strength_60m_bps": 5.83359,
+          "trend": "mixed"
+        },
+        {
+          "currency": "AUD",
+          "rank": 2,
+          "score": 1.153007,
+          "strength_15m_bps": 0.299152,
+          "strength_5m_bps": 0.944527,
+          "strength_60m_bps": 0.86286,
+          "trend": "strong"
+        },
+        {
+          "currency": "JPY",
+          "rank": 3,
+          "score": 0.138113,
+          "strength_15m_bps": -0.363082,
+          "strength_5m_bps": 0.239701,
+          "strength_60m_bps": -1.086137,
+          "trend": "mixed"
+        },
+        {
+          "currency": "GBP",
+          "rank": 4,
+          "score": 0.126782,
+          "strength_15m_bps": -0.997815,
+          "strength_5m_bps": 0.324461,
+          "strength_60m_bps": 0.430914,
+          "trend": "mixed"
+        },
+        {
+          "currency": "CAD",
+          "rank": 5,
+          "score": 0.099716,
+          "strength_15m_bps": -0.492257,
+          "strength_5m_bps": 0.145503,
+          "strength_60m_bps": 0.000732,
+          "trend": "mixed"
+        },
+        {
+          "currency": "EUR",
+          "rank": 6,
+          "score": -0.14458,
+          "strength_15m_bps": -1.203104,
+          "strength_5m_bps": -0.00666,
+          "strength_60m_bps": 1.582206,
+          "trend": "mixed"
+        },
+        {
+          "currency": "USD",
+          "rank": 7,
+          "score": -0.648419,
+          "strength_15m_bps": -1.698803,
+          "strength_5m_bps": -0.43698,
+          "strength_60m_bps": 2.171227,
+          "trend": "weak"
+        },
+        {
+          "currency": "CHF",
+          "rank": 8,
+          "score": -2.380226,
+          "strength_15m_bps": -3.327343,
+          "strength_5m_bps": -0.784099,
+          "strength_60m_bps": -9.795392,
+          "trend": "weak"
+        }
+      ],
+      "excluded_currencies": [
+        "CNH",
+        "CZK",
+        "DKK",
+        "HKD",
+        "HUF",
+        "MXN",
+        "NOK",
+        "PLN",
+        "SEK",
+        "SGD",
+        "THB",
+        "TRY",
+        "ZAR"
+      ],
+      "expected_pairs": 28,
+      "generated_utc": "2026-10-02T01:56:28.088281+00:00",
+      "instrument_count": 28,
+      "missing_pairs": [],
+      "model_id": "currency_rank_5m15m60m_v1_20260821",
+      "pair_candidates": [],
+      "rank_theses": [
+        {
+          "direction": "buy",
+          "factor_gap_15m_bps": 3.626495,
+          "factor_gap_5m_bps": 1.728626,
+          "instrument": "AUD_CHF",
+          "strong_currency": "AUD",
+          "strong_score": 1.153007,
+          "thesis_id": "currency_rank_5m15m60m_v1_20260821:AUD>CHF:AUD_CHF:buy",
+          "weak_currency": "CHF",
+          "weak_score": -2.380226
+        },
+        {
+          "direction": "buy",
+          "factor_gap_15m_bps": 1.997955,
+          "factor_gap_5m_bps": 1.381507,
+          "instrument": "AUD_USD",
+          "strong_currency": "AUD",
+          "strong_score": 1.153007,
+          "thesis_id": "currency_rank_5m15m60m_v1_20260821:AUD>USD:AUD_USD:buy",
+          "weak_currency": "USD",
+          "weak_score": -0.648419
+        }
+      ],
+      "rejection_counts": {
+        "reaction_below_stressed_cost": 2
+      },
+      "selected_pairs": [],
+      "settings": {
+        "excluded_currencies": [
+          "CNH",
+          "CZK",
+          "DKK",
+          "HKD",
+          "HUF",
+          "MXN",
+          "NOK",
+          "PLN",
+          "SEK",
+          "SGD",
+          "THB",
+          "TRY",
+          "ZAR"
+        ],
+        "max_selected": 8,
+        "max_snapshot_age_sec": 90.0,
+        "max_spread_bps": 12.0,
+        "min_confirmation_to_cost": 1.05,
+        "min_factor_gap_bps": 0.5,
+        "min_leg_strength_bps": 0.1,
+        "min_pair_confirmation_bps": 0.2,
+        "spread_stress_multiple": 1.2
+      },
+      "snapshot_age_sec": 0.0,
+      "status": "ready",
+      "supported_pairs": 28
+    }
+  },
+  "execution_eligible": false,
+  "expected_pairs": 68,
+  "generated_epoch": 1790906188.0882812,
+  "generated_utc": "2026-10-02T01:56:28.088281+00:00",
+  "historical_endpoint_max_lag_sec": 90,
+  "input_sha256": "b58bb9c6d058b7cd1ac4c43c5c578378cba2c0367fde8f7037f617ca51faaa31",
+  "model_id": "currency_rank_5m15m60m_v1_20260821",
+  "pair_refusals": {
+    "EUR_DKK": "quote:market_stale",
+    "EUR_TRY": "quote:market_stale",
+    "TRY_JPY": "quote:market_stale",
+    "USD_TRY": "quote:market_stale"
+  },
+  "pid": 9580,
+  "quote_max_age_sec": 60,
+  "quote_snapshot_sha256": "9606e2adb896e72e9804758ca19f2f891aedd51ab50fe825be0d4b71f945f4b0",
+  "research_only": true,
+  "schema_version": "live_currency_rank_v1",
+  "score_meaning": "Relative observed strength; weighted 5m/15m/60m, not calibrated future return.",
+  "selected_cohort": "major8",
+  "source_sha256": "c9929c5f3f286600251449dd57b1f92292ae39cdebe0a8adcdb928d673f2574d",
+  "status": "ready",
+  "supported_pairs": 64,
+  "publication_age_sec": 6.0960071086883545
+}

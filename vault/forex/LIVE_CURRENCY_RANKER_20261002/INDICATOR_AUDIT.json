@@ -1,0 +1,903 @@
+{
+  "utc": "2026-10-02T02:01:24.221486+00:00",
+  "rank_generated_utc": "2026-10-02T02:01:24.089452+00:00",
+  "cohort": "major8",
+  "technical_sha256": "e2b7de0ff1d60849c7737c650d142d5c274a84ed53857085d5254324b4f35967",
+  "review": "same-task separate indicator calculation; not a separate reviewer; all indicators share price data so not independent predictive validation",
+  "items": [
+    {
+      "rank": {
+        "currency": "NZD",
+        "rank": 1,
+        "score": 3.941654,
+        "strength_15m_bps": 9.52771,
+        "strength_5m_bps": 5.053877,
+        "strength_60m_bps": 10.223839,
+        "trend": "strong"
+      },
+      "cross_count": 7,
+      "indicators": {
+        "rsi": {
+          "support": 7,
+          "positive": 7,
+          "negative": 0,
+          "median_directional": 24.675324675324347
+        },
+        "macd": {
+          "support": 7,
+          "positive": 7,
+          "negative": 0,
+          "median_directional": 1.9359553130859908
+        },
+        "macd_acceleration": {
+          "support": 7,
+          "positive": 7,
+          "negative": 0,
+          "median_directional": 0.5079331970725157
+        },
+        "ema20": {
+          "support": 7,
+          "positive": 7,
+          "negative": 0,
+          "median_directional": 4.919950078408064
+        },
+        "bollinger": {
+          "support": 7,
+          "positive": 7,
+          "negative": 0,
+          "median_directional": 1.7511279541730949
+        },
+        "extended_crosses": [
+          "NZD_USD"
+        ]
+      },
+      "crosses": [
+        {
+          "pair": "AUD_NZD",
+          "currency_side": "quote",
+          "bar_end_epoch": 1790906400,
+          "age_sec": 84.22148633003235,
+          "rsi": 29.500000000004494,
+          "macd": -2.2340785573282673,
+          "macd_acceleration": -0.37198163310693855,
+          "ema20": -4.919950078408064,
+          "bollinger": -1.581767048025683,
+          "atr": 2.0928571428568965,
+          "rsi_directional": 20.499999999995506,
+          "macd_directional": 2.2340785573282673,
+          "macd_acceleration_directional": 0.37198163310693855,
+          "ema20_directional": 4.919950078408064,
+          "bollinger_directional": 1.581767048025683
+        },
+        {
+          "pair": "EUR_NZD",
+          "currency_side": "quote",
+          "bar_end_epoch": 1790906400,
+          "age_sec": 84.22148633003235,
+          "rsi": 22.784810126584695,
+          "macd": -5.188439645715803,
+          "macd_acceleration": -1.3264713353575412,
+          "ema20": -12.329670284652039,
+          "bollinger": -1.7895546534676718,
+          "atr": 3.892857142858221,
+          "rsi_directional": 27.215189873415305,
+          "macd_directional": 5.188439645715803,
+          "macd_acceleration_directional": 1.3264713353575412,
+          "ema20_directional": 12.329670284652039,
+          "bollinger_directional": 1.7895546534676718
+        },
+        {
+          "pair": "GBP_NZD",
+          "currency_side": "quote",
+          "bar_end_epoch": 1790906400,
+          "age_sec": 84.22148633003235,
+          "rsi": 24.76190476190053,
+          "macd": -5.329105369931142,
+          "macd_acceleration": -1.3696082746142857,
+          "ema20": -12.746299439352349,
+          "bollinger": -1.7511279541730949,
+          "atr": 4.264285714285736,
+          "rsi_directional": 25.23809523809947,
+          "macd_directional": 5.329105369931142,
+          "macd_acceleration_directional": 1.3696082746142857,
+          "ema20_directional": 12.746299439352349,
+          "bollinger_directional": 1.7511279541730949
+        },
+        {
+          "pair": "NZD_CAD",
+          "currency_side": "base",
+          "bar_end_epoch": 1790906400,
+          "age_sec": 84.22148633003235,
+          "rsi": 74.67532467532435,
+          "macd": 1.9359553130859908,
+          "macd_acceleration": 0.5079331970725157,
+          "ema20": 4.9394195934482354,
+          "bollinger": 1.8953875706283472,
+          "atr": 1.4999999999999933,
+          "rsi_directional": 24.675324675324347,
+          "macd_directional": 1.9359553130859908,
+          "macd_acceleration_directional": 0.5079331970725157,
+          "ema20_directional": 4.9394195934482354,
+          "bollinger_directional": 1.8953875706283472
+        },
+        {
+          "pair": "NZD_CHF",
+          "currency_side": "base",
+          "bar_end_epoch": 1790906400,
+          "age_sec": 84.22148633003235,
+          "rsi": 78.26086956521581,
+          "macd": 1.5086910529893416,
+          "macd_acceleration": 0.17642312883408937,
+          "ema20": 2.3793219004314414,
+          "bollinger": 1.291610733919389,
+          "atr": 0.9071428571429314,
+          "rsi_directional": 28.260869565215813,
+          "macd_directional": 1.5086910529893416,
+          "macd_acceleration_directional": 0.17642312883408937,
+          "ema20_directional": 2.3793219004314414,
+          "bollinger_directional": 1.291610733919389
+        },
+        {
+          "pair": "NZD_JPY",
+          "currency_side": "base",
+          "bar_end_epoch": 1790906400,
+          "age_sec": 84.22148633003235,
+          "rsi": 71.79487179487141,
+          "macd": 1.84622909448251,
+          "macd_acceleration": 0.5501144218183402,
+          "ema20": 4.491042700441028,
+          "bollinger": 1.715922070429937,
+          "atr": 1.9571428571428637,
+          "rsi_directional": 21.794871794871412,
+          "macd_directional": 1.84622909448251,
+          "macd_acceleration_directional": 0.5501144218183402,
+          "ema20_directional": 4.491042700441028,
+          "bollinger_directional": 1.715922070429937
+        },
+        {
+          "pair": "NZD_USD",
+          "currency_side": "base",
+          "bar_end_epoch": 1790906400,
+          "age_sec": 84.22148633003235,
+          "rsi": 73.48484848485116,
+          "macd": 1.5699235094313035,
+          "macd_acceleration": 0.48995487233011137,
+          "ema20": 4.246914847727545,
+          "bollinger": 2.030056878316559,
+          "atr": 1.2714285714285742,
+          "rsi_directional": 23.484848484851156,
+          "macd_directional": 1.5699235094313035,
+          "macd_acceleration_directional": 0.48995487233011137,
+          "ema20_directional": 4.246914847727545,
+          "bollinger_directional": 2.030056878316559
+        }
+      ]
+    },
+    {
+      "rank": {
+        "currency": "AUD",
+        "rank": 2,
+        "score": 1.209476,
+        "strength_15m_bps": 2.043858,
+        "strength_5m_bps": 1.36567,
+        "strength_60m_bps": 0.414017,
+        "trend": "strong"
+      },
+      "cross_count": 7,
+      "indicators": {
+        "rsi": {
+          "support": 7,
+          "positive": 6,
+          "negative": 1,
+          "median_directional": 19.51219512194676
+        },
+        "macd": {
+          "support": 7,
+          "positive": 6,
+          "negative": 1,
+          "median_directional": 0.6018729104506626
+        },
+        "macd_acceleration": {
+          "support": 7,
+          "positive": 6,
+          "negative": 1,
+          "median_directional": 0.3466669894462251
+        },
+        "ema20": {
+          "support": 7,
+          "positive": 6,
+          "negative": 1,
+          "median_directional": 2.0878548541680697
+        },
+        "bollinger": {
+          "support": 7,
+          "positive": 6,
+          "negative": 1,
+          "median_directional": 1.7596112868859912
+        },
+        "extended_crosses": [
+          "AUD_CAD",
+          "AUD_USD"
+        ]
+      },
+      "crosses": [
+        {
+          "pair": "AUD_CAD",
+          "currency_side": "base",
+          "bar_end_epoch": 1790906400,
+          "age_sec": 84.22148633003235,
+          "rsi": 69.51219512194676,
+          "macd": 0.6018729104506626,
+          "macd_acceleration": 0.329009378651921,
+          "ema20": 2.0878548541680697,
+          "bollinger": 2.0587471889979283,
+          "atr": 0.9714285714284328,
+          "rsi_directional": 19.51219512194676,
+          "macd_directional": 0.6018729104506626,
+          "macd_acceleration_directional": 0.329009378651921,
+          "ema20_directional": 2.0878548541680697,
+          "bollinger_directional": 2.0587471889979283
+        },
+        {
+          "pair": "AUD_CHF",
+          "currency_side": "base",
+          "bar_end_epoch": 1790906340,
+          "age_sec": 144.22148633003235,
+          "rsi": 74.19354838709157,
+          "macd": 0.8966948352251425,
+          "macd_acceleration": 0.13095220975431673,
+          "ema20": 1.0011845044799461,
+          "bollinger": 0.9931819416789616,
+          "atr": 0.7571428571428214,
+          "rsi_directional": 24.193548387091568,
+          "macd_directional": 0.8966948352251425,
+          "macd_acceleration_directional": 0.13095220975431673,
+          "ema20_directional": 1.0011845044799461,
+          "bollinger_directional": 0.9931819416789616
+        },
+        {
+          "pair": "AUD_JPY",
+          "currency_side": "base",
+          "bar_end_epoch": 1790906340,
+          "age_sec": 144.22148633003235,
+          "rsi": 59.34959349593195,
+          "macd": 0.2663454771322904,
+          "macd_acceleration": 0.3760417446517401,
+          "ema20": 1.2698313249842386,
+          "bollinger": 1.3477221349531336,
+          "atr": 1.83571428571422,
+          "rsi_directional": 9.349593495931948,
+          "macd_directional": 0.2663454771322904,
+          "macd_acceleration_directional": 0.3760417446517401,
+          "ema20_directional": 1.2698313249842386,
+          "bollinger_directional": 1.3477221349531336
+        },
+        {
+          "pair": "AUD_NZD",
+          "currency_side": "base",
+          "bar_end_epoch": 1790906400,
+          "age_sec": 84.22148633003235,
+          "rsi": 29.500000000004494,
+          "macd": -2.2340785573282673,
+          "macd_acceleration": -0.37198163310693855,
+          "ema20": -4.919950078408064,
+          "bollinger": -1.581767048025683,
+          "atr": 2.0928571428568965,
+          "rsi_directional": -20.499999999995506,
+          "macd_directional": -2.2340785573282673,
+          "macd_acceleration_directional": -0.37198163310693855,
+          "ema20_directional": -4.919950078408064,
+          "bollinger_directional": -1.581767048025683
+        },
+        {
+          "pair": "AUD_USD",
+          "currency_side": "base",
+          "bar_end_epoch": 1790906340,
+          "age_sec": 144.22148633003235,
+          "rsi": 74.02597402596784,
+          "macd": 0.5318021048761334,
+          "macd_acceleration": 0.3466669894462251,
+          "ema20": 2.3729661341798103,
+          "bollinger": 2.5603349388370833,
+          "atr": 0.9571428571430214,
+          "rsi_directional": 24.02597402596784,
+          "macd_directional": 0.5318021048761334,
+          "macd_acceleration_directional": 0.3466669894462251,
+          "ema20_directional": 2.3729661341798103,
+          "bollinger_directional": 2.5603349388370833
+        },
+        {
+          "pair": "EUR_AUD",
+          "currency_side": "quote",
+          "bar_end_epoch": 1790906400,
+          "age_sec": 84.22148633003235,
+          "rsi": 27.8571428571381,
+          "macd": -1.1897964311224918,
+          "macd_acceleration": -0.6207348761864359,
+          "ema20": -3.212500327232082,
+          "bollinger": -1.7596112868859912,
+          "atr": 2.007142857143001,
+          "rsi_directional": 22.1428571428619,
+          "macd_directional": 1.1897964311224918,
+          "macd_acceleration_directional": 0.6207348761864359,
+          "ema20_directional": 3.212500327232082,
+          "bollinger_directional": 1.7596112868859912
+        },
+        {
+          "pair": "GBP_AUD",
+          "currency_side": "quote",
+          "bar_end_epoch": 1790906400,
+          "age_sec": 84.22148633003235,
+          "rsi": 33.13253012048064,
+          "macd": -0.876909581091212,
+          "macd_acceleration": -0.5519375482483168,
+          "ema20": -2.6926733708565465,
+          "bollinger": -1.76776399063925,
+          "atr": 2.242857142857086,
+          "rsi_directional": 16.867469879519362,
+          "macd_directional": 0.876909581091212,
+          "macd_acceleration_directional": 0.5519375482483168,
+          "ema20_directional": 2.6926733708565465,
+          "bollinger_directional": 1.76776399063925
+        }
+      ]
+    },
+    {
+      "rank": {
+        "currency": "GBP",
+        "rank": 3,
+        "score": 0.283319,
+        "strength_15m_bps": -0.463997,
+        "strength_5m_bps": -0.291804,
+        "strength_60m_bps": 1.902412,
+        "trend": "weak"
+      },
+      "cross_count": 7,
+      "indicators": {
+        "rsi": {
+          "support": 7,
+          "positive": 5,
+          "negative": 2,
+          "median_directional": 4.838709677414734
+        },
+        "macd": {
+          "support": 7,
+          "positive": 4,
+          "negative": 3,
+          "median_directional": 0.24563259800935988
+        },
+        "macd_acceleration": {
+          "support": 7,
+          "positive": 4,
+          "negative": 3,
+          "median_directional": 0.01964492102789349
+        },
+        "ema20": {
+          "support": 7,
+          "positive": 3,
+          "negative": 4,
+          "median_directional": -0.13746874594211533
+        },
+        "bollinger": {
+          "support": 7,
+          "positive": 3,
+          "negative": 4,
+          "median_directional": -0.05725456525587751
+        },
+        "extended_crosses": [
+          "EUR_GBP",
+          "GBP_USD"
+        ]
+      },
+      "crosses": [
+        {
+          "pair": "EUR_GBP",
+          "currency_side": "quote",
+          "bar_end_epoch": 1790906340,
+          "age_sec": 144.22148633003235,
+          "rsi": 24.999999999988432,
+          "macd": -0.24563259800935988,
+          "macd_acceleration": -0.08257442053718525,
+          "ema20": -0.7706971649290573,
+          "bollinger": -2.162619494249485,
+          "atr": 0.3571428571428971,
+          "rsi_directional": 25.000000000011568,
+          "macd_directional": 0.24563259800935988,
+          "macd_acceleration_directional": 0.08257442053718525,
+          "ema20_directional": 0.7706971649290573,
+          "bollinger_directional": 2.162619494249485
+        },
+        {
+          "pair": "GBP_AUD",
+          "currency_side": "base",
+          "bar_end_epoch": 1790906400,
+          "age_sec": 84.22148633003235,
+          "rsi": 33.13253012048064,
+          "macd": -0.876909581091212,
+          "macd_acceleration": -0.5519375482483168,
+          "ema20": -2.6926733708565465,
+          "bollinger": -1.76776399063925,
+          "atr": 2.242857142857086,
+          "rsi_directional": -16.867469879519362,
+          "macd_directional": -0.876909581091212,
+          "macd_acceleration_directional": -0.5519375482483168,
+          "ema20_directional": -2.6926733708565465,
+          "bollinger_directional": -1.76776399063925
+        },
+        {
+          "pair": "GBP_CAD",
+          "currency_side": "base",
+          "bar_end_epoch": 1790906400,
+          "age_sec": 84.22148633003235,
+          "rsi": 54.838709677414734,
+          "macd": 0.34455288422385877,
+          "macd_acceleration": 0.09199299640026842,
+          "ema20": 1.4672559878547986,
+          "bollinger": 1.731942627705932,
+          "atr": 1.39285714285691,
+          "rsi_directional": 4.838709677414734,
+          "macd_directional": 0.34455288422385877,
+          "macd_acceleration_directional": 0.09199299640026842,
+          "ema20_directional": 1.4672559878547986,
+          "bollinger_directional": 1.731942627705932
+        },
+        {
+          "pair": "GBP_CHF",
+          "currency_side": "base",
+          "bar_end_epoch": 1790906400,
+          "age_sec": 84.22148633003235,
+          "rsi": 62.5000000000104,
+          "macd": 1.1357924272692443,
+          "macd_acceleration": -0.21439486058617152,
+          "ema20": -0.13746874594211533,
+          "bollinger": -0.05725456525587751,
+          "atr": 1.099999999999752,
+          "rsi_directional": 12.500000000010402,
+          "macd_directional": 1.1357924272692443,
+          "macd_acceleration_directional": -0.21439486058617152,
+          "ema20_directional": -0.13746874594211533,
+          "bollinger_directional": -0.05725456525587751
+        },
+        {
+          "pair": "GBP_JPY",
+          "currency_side": "base",
+          "bar_end_epoch": 1790906400,
+          "age_sec": 84.22148633003235,
+          "rsi": 51.748251748250496,
+          "macd": -0.3320196540840925,
+          "macd_acceleration": 0.01964492102789349,
+          "ema20": -1.187357319119542,
+          "bollinger": -0.83002562075301,
+          "atr": 2.42857142857125,
+          "rsi_directional": 1.748251748250496,
+          "macd_directional": -0.3320196540840925,
+          "macd_acceleration_directional": 0.01964492102789349,
+          "ema20_directional": -1.187357319119542,
+          "bollinger_directional": -0.83002562075301
+        },
+        {
+          "pair": "GBP_NZD",
+          "currency_side": "base",
+          "bar_end_epoch": 1790906400,
+          "age_sec": 84.22148633003235,
+          "rsi": 24.76190476190053,
+          "macd": -5.329105369931142,
+          "macd_acceleration": -1.3696082746142857,
+          "ema20": -12.746299439352349,
+          "bollinger": -1.7511279541730949,
+          "atr": 4.264285714285736,
+          "rsi_directional": -25.23809523809947,
+          "macd_directional": -5.329105369931142,
+          "macd_acceleration_directional": -1.3696082746142857,
+          "ema20_directional": -12.746299439352349,
+          "bollinger_directional": -1.7511279541730949
+        },
+        {
+          "pair": "GBP_USD",
+          "currency_side": "base",
+          "bar_end_epoch": 1790906400,
+          "age_sec": 84.22148633003235,
+          "rsi": 61.68224299065363,
+          "macd": 0.7317883968149808,
+          "macd_acceleration": 0.3671729417812854,
+          "ema20": 2.819505117777066,
+          "bollinger": 2.4562255490240497,
+          "atr": 1.3357142857138373,
+          "rsi_directional": 11.682242990653627,
+          "macd_directional": 0.7317883968149808,
+          "macd_acceleration_directional": 0.3671729417812854,
+          "ema20_directional": 2.819505117777066,
+          "bollinger_directional": 2.4562255490240497
+        }
+      ]
+    },
+    {
+      "rank": {
+        "currency": "JPY",
+        "rank": 4,
+        "score": -0.106652,
+        "strength_15m_bps": -1.513235,
+        "strength_5m_bps": -0.508755,
+        "strength_60m_bps": 0.37318,
+        "trend": "weak"
+      },
+      "cross_count": 7,
+      "indicators": {
+        "rsi": {
+          "support": 7,
+          "positive": 4,
+          "negative": 3,
+          "median_directional": 5.782312925169023
+        },
+        "macd": {
+          "support": 7,
+          "positive": 5,
+          "negative": 2,
+          "median_directional": 0.3320196540840925
+        },
+        "macd_acceleration": {
+          "support": 7,
+          "positive": 2,
+          "negative": 5,
+          "median_directional": -0.0541881441722885
+        },
+        "ema20": {
+          "support": 7,
+          "positive": 5,
+          "negative": 2,
+          "median_directional": 0.9009285357322483
+        },
+        "bollinger": {
+          "support": 7,
+          "positive": 5,
+          "negative": 2,
+          "median_directional": 0.83002562075301
+        },
+        "extended_crosses": [
+          "USD_JPY"
+        ]
+      },
+      "crosses": [
+        {
+          "pair": "AUD_JPY",
+          "currency_side": "quote",
+          "bar_end_epoch": 1790906340,
+          "age_sec": 144.22148633003235,
+          "rsi": 59.34959349593195,
+          "macd": 0.2663454771322904,
+          "macd_acceleration": 0.3760417446517401,
+          "ema20": 1.2698313249842386,
+          "bollinger": 1.3477221349531336,
+          "atr": 1.83571428571422,
+          "rsi_directional": -9.349593495931948,
+          "macd_directional": -0.2663454771322904,
+          "macd_acceleration_directional": -0.3760417446517401,
+          "ema20_directional": -1.2698313249842386,
+          "bollinger_directional": -1.3477221349531336
+        },
+        {
+          "pair": "CAD_JPY",
+          "currency_side": "quote",
+          "bar_end_epoch": 1790906340,
+          "age_sec": 144.22148633003235,
+          "rsi": 42.74193548387374,
+          "macd": -0.2985808563067849,
+          "macd_acceleration": 0.0541881441722885,
+          "ema20": -0.9009285357322483,
+          "bollinger": -1.1202277017358697,
+          "atr": 1.342857142857363,
+          "rsi_directional": 7.258064516126261,
+          "macd_directional": 0.2985808563067849,
+          "macd_acceleration_directional": -0.0541881441722885,
+          "ema20_directional": 0.9009285357322483,
+          "bollinger_directional": 1.1202277017358697
+        },
+        {
+          "pair": "CHF_JPY",
+          "currency_side": "quote",
+          "bar_end_epoch": 1790906400,
+          "age_sec": 84.22148633003235,
+          "rsi": 42.37288135593683,
+          "macd": -2.2714152973577484,
+          "macd_acceleration": 0.4068213114545478,
+          "ema20": -0.32289142903607626,
+          "bollinger": -0.16001443804472001,
+          "atr": 2.7714285714284057,
+          "rsi_directional": 7.627118644063167,
+          "macd_directional": 2.2714152973577484,
+          "macd_acceleration_directional": -0.4068213114545478,
+          "ema20_directional": 0.32289142903607626,
+          "bollinger_directional": 0.16001443804472001
+        },
+        {
+          "pair": "EUR_JPY",
+          "currency_side": "quote",
+          "bar_end_epoch": 1790906400,
+          "age_sec": 84.22148633003235,
+          "rsi": 44.21768707483098,
+          "macd": -0.8541694709919057,
+          "macd_acceleration": -0.12019280038058806,
+          "ema20": -1.856996031827407,
+          "bollinger": -1.268230281302598,
+          "atr": 2.28571428571444,
+          "rsi_directional": 5.782312925169023,
+          "macd_directional": 0.8541694709919057,
+          "macd_acceleration_directional": 0.12019280038058806,
+          "ema20_directional": 1.856996031827407,
+          "bollinger_directional": 1.268230281302598
+        },
+        {
+          "pair": "GBP_JPY",
+          "currency_side": "quote",
+          "bar_end_epoch": 1790906400,
+          "age_sec": 84.22148633003235,
+          "rsi": 51.748251748250496,
+          "macd": -0.3320196540840925,
+          "macd_acceleration": 0.01964492102789349,
+          "ema20": -1.187357319119542,
+          "bollinger": -0.83002562075301,
+          "atr": 2.42857142857125,
+          "rsi_directional": -1.748251748250496,
+          "macd_directional": 0.3320196540840925,
+          "macd_acceleration_directional": -0.01964492102789349,
+          "ema20_directional": 1.187357319119542,
+          "bollinger_directional": 0.83002562075301
+        },
+        {
+          "pair": "NZD_JPY",
+          "currency_side": "quote",
+          "bar_end_epoch": 1790906400,
+          "age_sec": 84.22148633003235,
+          "rsi": 71.79487179487141,
+          "macd": 1.84622909448251,
+          "macd_acceleration": 0.5501144218183402,
+          "ema20": 4.491042700441028,
+          "bollinger": 1.715922070429937,
+          "atr": 1.9571428571428637,
+          "rsi_directional": -21.794871794871412,
+          "macd_directional": -1.84622909448251,
+          "macd_acceleration_directional": -0.5501144218183402,
+          "ema20_directional": -4.491042700441028,
+          "bollinger_directional": -1.715922070429937
+        },
+        {
+          "pair": "USD_JPY",
+          "currency_side": "quote",
+          "bar_end_epoch": 1790906400,
+          "age_sec": 84.22148633003235,
+          "rsi": 41.14285714285315,
+          "macd": -1.1881097845588329,
+          "macd_acceleration": -0.45731041231811126,
+          "ema20": -4.542333099934126,
+          "bollinger": -2.4211596115494864,
+          "atr": 2.1642857142854917,
+          "rsi_directional": 8.857142857146847,
+          "macd_directional": 1.1881097845588329,
+          "macd_acceleration_directional": 0.45731041231811126,
+          "ema20_directional": 4.542333099934126,
+          "bollinger_directional": 2.4211596115494864
+        }
+      ]
+    },
+    {
+      "rank": {
+        "currency": "CAD",
+        "rank": 5,
+        "score": -0.230049,
+        "strength_15m_bps": -0.791245,
+        "strength_5m_bps": -1.131286,
+        "strength_60m_bps": -1.245163,
+        "trend": "weak"
+      },
+      "cross_count": 7,
+      "indicators": {
+        "rsi": {
+          "support": 7,
+          "positive": 3,
+          "negative": 4,
+          "median_directional": -4.838709677414734
+        },
+        "macd": {
+          "support": 6,
+          "positive": 2,
+          "negative": 4,
+          "median_directional": -0.3215668702653218
+        },
+        "macd_acceleration": {
+          "support": 6,
+          "positive": 3,
+          "negative": 3,
+          "median_directional": -0.018902426113989963
+        },
+        "ema20": {
+          "support": 7,
+          "positive": 1,
+          "negative": 6,
+          "median_directional": -0.9009285357322483
+        },
+        "bollinger": {
+          "support": 7,
+          "positive": 2,
+          "negative": 5,
+          "median_directional": -1.1202277017358697
+        },
+        "extended_crosses": [
+          "USD_CAD"
+        ]
+      },
+      "crosses": [
+        {
+          "pair": "AUD_CAD",
+          "currency_side": "quote",
+          "bar_end_epoch": 1790906400,
+          "age_sec": 84.22148633003235,
+          "rsi": 69.51219512194676,
+          "macd": 0.6018729104506626,
+          "macd_acceleration": 0.329009378651921,
+          "ema20": 2.0878548541680697,
+          "bollinger": 2.0587471889979283,
+          "atr": 0.9714285714284328,
+          "rsi_directional": -19.51219512194676,
+          "macd_directional": -0.6018729104506626,
+          "macd_acceleration_directional": -0.329009378651921,
+          "ema20_directional": -2.0878548541680697,
+          "bollinger_directional": -2.0587471889979283
+        },
+        {
+          "pair": "CAD_CHF",
+          "currency_side": "base",
+          "bar_end_epoch": 1790906400,
+          "age_sec": 84.22148633003235,
+          "rsi": 55.172413793100816,
+          "macd": null,
+          "macd_acceleration": null,
+          "ema20": -0.5903510395965927,
+          "bollinger": -0.6243035517853893,
+          "atr": 0.6785714285712745,
+          "rsi_directional": 5.172413793100816,
+          "macd_directional": null,
+          "macd_acceleration_directional": null,
+          "ema20_directional": -0.5903510395965927,
+          "bollinger_directional": -0.6243035517853893
+        },
+        {
+          "pair": "CAD_JPY",
+          "currency_side": "base",
+          "bar_end_epoch": 1790906340,
+          "age_sec": 144.22148633003235,
+          "rsi": 42.74193548387374,
+          "macd": -0.2985808563067849,
+          "macd_acceleration": 0.0541881441722885,
+          "ema20": -0.9009285357322483,
+          "bollinger": -1.1202277017358697,
+          "atr": 1.342857142857363,
+          "rsi_directional": -7.258064516126261,
+          "macd_directional": -0.2985808563067849,
+          "macd_acceleration_directional": 0.0541881441722885,
+          "ema20_directional": -0.9009285357322483,
+          "bollinger_directional": -1.1202277017358697
+        },
+        {
+          "pair": "EUR_CAD",
+          "currency_side": "quote",
+          "bar_end_epoch": 1790906400,
+          "age_sec": 84.22148633003235,
+          "rsi": 42.718446601937764,
+          "macd": -0.17997921755608104,
+          "macd_acceleration": -0.07966173229841954,
+          "ema20": 0.04975400472728708,
+          "bollinger": -0.05733408438158909,
+          "atr": 1.4142857142857805,
+          "rsi_directional": 7.281553398062236,
+          "macd_directional": 0.17997921755608104,
+          "macd_acceleration_directional": 0.07966173229841954,
+          "ema20_directional": -0.04975400472728708,
+          "bollinger_directional": 0.05733408438158909
+        },
+        {
+          "pair": "GBP_CAD",
+          "currency_side": "quote",
+          "bar_end_epoch": 1790906400,
+          "age_sec": 84.22148633003235,
+          "rsi": 54.838709677414734,
+          "macd": 0.34455288422385877,
+          "macd_acceleration": 0.09199299640026842,
+          "ema20": 1.4672559878547986,
+          "bollinger": 1.731942627705932,
+          "atr": 1.39285714285691,
+          "rsi_directional": -4.838709677414734,
+          "macd_directional": -0.34455288422385877,
+          "macd_acceleration_directional": -0.09199299640026842,
+          "ema20_directional": -1.4672559878547986,
+          "bollinger_directional": -1.731942627705932
+        },
+        {
+          "pair": "NZD_CAD",
+          "currency_side": "quote",
+          "bar_end_epoch": 1790906400,
+          "age_sec": 84.22148633003235,
+          "rsi": 74.67532467532435,
+          "macd": 1.9359553130859908,
+          "macd_acceleration": 0.5079331970725157,
+          "ema20": 4.9394195934482354,
+          "bollinger": 1.8953875706283472,
+          "atr": 1.4999999999999933,
+          "rsi_directional": -24.675324675324347,
+          "macd_directional": -1.9359553130859908,
+          "macd_acceleration_directional": -0.5079331970725157,
+          "ema20_directional": -4.9394195934482354,
+          "bollinger_directional": -1.8953875706283472
+        },
+        {
+          "pair": "USD_CAD",
+          "currency_side": "quote",
+          "bar_end_epoch": 1790906400,
+          "age_sec": 84.22148633003235,
+          "rsi": 36.14457831325398,
+          "macd": -0.5788488500391153,
+          "macd_acceleration": -0.366910977351536,
+          "ema20": -2.3541737091092862,
+          "bollinger": -2.484942738770089,
+          "atr": 0.9857142857145578,
+          "rsi_directional": 13.85542168674602,
+          "macd_directional": 0.5788488500391153,
+          "macd_acceleration_directional": 0.366910977351536,
+          "ema20_directional": 2.3541737091092862,
+          "bollinger_directional": 2.484942738770089
+        }
+      ]
+    }
+  ],
+  "selected_pairs": [
+    {
+      "after_cost_proxy_bps": 6.168506,
+      "confirmation_to_cost": 2.199196,
+      "direction": "buy",
+      "factor_gap_15m_bps": 13.878791,
+      "factor_gap_5m_bps": 9.848782,
+      "gross_movement_proxy_bps": 11.312374,
+      "instrument": "NZD_USD",
+      "pair_directional_15m_bps": 13.672741,
+      "pair_directional_15m_pips": 7.65,
+      "pair_directional_5m_bps": 9.738796,
+      "pair_directional_5m_pips": 5.45,
+      "rank_score": 7.037433,
+      "spread_bps": 4.286556,
+      "stressed_cost_bps": 5.143868,
+      "strong_currency": "NZD",
+      "strong_rank": 1,
+      "strong_score": 3.941654,
+      "thesis_id": "currency_rank_5m15m60m_v1_20260821:NZD>USD:NZD_USD:buy",
+      "weak_currency": "USD",
+      "weak_rank": 8,
+      "weak_score": -2.169
+    },
+    {
+      "after_cost_proxy_bps": 0.159651,
+      "confirmation_to_cost": 1.058397,
+      "direction": "sell",
+      "factor_gap_15m_bps": 3.876181,
+      "factor_gap_5m_bps": 2.292885,
+      "gross_movement_proxy_bps": 2.893549,
+      "instrument": "EUR_AUD",
+      "pair_directional_15m_bps": 3.72455,
+      "pair_directional_15m_pips": 6.05,
+      "pair_directional_5m_bps": 2.339549,
+      "pair_directional_5m_pips": 3.8,
+      "rank_score": 1.840663,
+      "spread_bps": 2.278248,
+      "stressed_cost_bps": 2.733898,
+      "strong_currency": "AUD",
+      "strong_rank": 2,
+      "strong_score": 1.209476,
+      "thesis_id": "currency_rank_5m15m60m_v1_20260821:AUD>EUR:EUR_AUD:sell",
+      "weak_currency": "EUR",
+      "weak_rank": 6,
+      "weak_score": -0.30253
+    }
+  ],
+  "rejections": {
+    "currency_factor_already_reserved": 5,
+    "reaction_below_stressed_cost": 3
+  }
+}

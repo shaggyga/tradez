@@ -1,0 +1,12 @@
+{
+  "utc": "2026-10-02T01:34:49.550517+00:00",
+  "user_request": "Ranker should be fixed!",
+  "status": "confirmed_stale_input_not_repaired",
+  "model_source": "trad/oanda_currency_rank_model.py",
+  "producer_source": "trad/oanda_market_sentiment_ticker.py",
+  "source_snapshot": "trad/data/oanda_training_manager/market_sentiment_ticker/LATEST.json",
+  "source_generated_utc": "2026-09-05T02:07:31.654823+00:00",
+  "actual_result": "blocked:source_not_ready,source_stale",
+  "next_action": "Reuse the original market surface and rank_snapshot scoring; reconnect qualified current quote-window inputs, preserve per-pair causal timing and complete required 21-currency/68-pair support. Test stale individual legs, missing horizons and restart continuity. Do not substitute descriptive averages or revive account 006 trading worker.",
+  "diagnostic_only": "DESCRIPTIVE_RANK_NOW.json is current 60-minute observed strength, not the trained model or a prospective top-trade prediction."
+}

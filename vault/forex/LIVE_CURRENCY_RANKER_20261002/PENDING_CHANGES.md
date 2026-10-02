@@ -1,0 +1,1 @@
+Ranker repair, deployment, dashboard, indicator cross-check and navigation cleanup completed. Pending compact Vault publication and Git checkpoint. Whole project remains partial: tracking capacity and economics/conditional inputs remain. No fits, orders, paid calls or other-task capture changes.

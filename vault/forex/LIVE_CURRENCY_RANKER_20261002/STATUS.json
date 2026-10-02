@@ -1,0 +1,29 @@
+{
+  "schema": "forex.review.v1",
+  "step_id": "ranker_repair_20261002",
+  "status": "accepted_within_scope",
+  "implementation_status": "complete",
+  "review_status": "accepted_within_scope",
+  "source_commit": "710e99a84f3010dec0aa320bc56d9b1de590061e",
+  "distinct_tests_passed": 41,
+  "profile_validation_cases": 4,
+  "raw_receipt_portable_replay": "exact",
+  "same_task_review": true,
+  "independent_review": false,
+  "runtime_changed": true,
+  "models_fitted": 0,
+  "orders_enabled": false,
+  "scientific_result": "Observed strength ranking restored; separate same-task indicator cross-check is not independent predictive validation. No forecast experiment or profitable deployment claim.",
+  "findings": [
+    "Full21 unavailable while TRY inputs absent; fixed major8 is separately labelled",
+    "Tracking capacity remains unresolved",
+    "Economic/conditional management remains partial"
+  ],
+  "next_action": "retained_tracking_capacity_repair_v1",
+  "readiness": {
+    "implementation": "complete within ranker scope",
+    "testing": "41tests,4profilecases,exactrelocatedreplay,liveHTTP",
+    "review": "same_task_accepted_within_scope",
+    "trading": "not_ready"
+  }
+}

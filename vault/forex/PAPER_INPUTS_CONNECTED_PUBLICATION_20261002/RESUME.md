@@ -1,0 +1,11 @@
+# Exact resume after the one-hour checkpoint
+
+Original authorized window: 2026-10-02T00:38:02Z through 01:38:02Z. Do not restart that clock. Source commit a95db2b6224c3320330b9b6c1c06d55b5cbf6783; published documentation c08cde1993a63c2df2c2f2482d1f4068b7cc94ab. Final preflight passed. Whole project remains partial.
+
+Latest user instruction: "Ranker should be fixed!" Repair the actual ranker feed before offering a live model top five. Existing `trad/oanda_currency_rank_model.py` consumes `market_sentiment_ticker/LATEST.json`; that file is September 5 and correctly refuses source_not_ready/source_stale. Practice006 heartbeat is August24 and is not a live source. Do not restart the old account challenger.
+
+Reuse `trad/oanda_market_sentiment_ticker.py` and its original spread-weighted currency solver and `rank_snapshot` scoring. Inspect original quote-bar or intensity archives and current worker bindings, then qualify fresh 5/15/60 minute observations, complete required universe, causal endpoint timestamps and per-leg staleness. Existing ticker only checks global freshness and can carry stale individual pair windows; reconnecting its process alone is not a sufficient fix. Do not label reconstructed M1 averages as original rank outputs. Add actual-consumer regression tests, then bind the read-only publication to the current dashboard/runtime under the applicable source identity gate. No fits or broker/order actions.
+
+Separately repair the retained tracking store's 2GiB capacity refusal, preserving original first-observed evidence and pending settlement. Read TRACKING_CAPACITY_FINDING.json and the project doc before conditional management work. The formal queue remains retained_management_economic_input_binding_v1; these are newly confirmed operational dependencies recorded in this publication addendum, not a rewritten historical queue seal. Cost/risk declarations and conditional qualification remain missing. M1 elapsed-support recovery remains independent.
+
+142 distinct tests passed in the completed package, plus23 restored tests and84 exact payloads for each of two resumed/relocated consumers. These do not test or complete the newly requested ranker repair. Review was same-task, not independent.
