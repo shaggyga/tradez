@@ -196,4 +196,4 @@ Scope clarification 2026-09-30T19:57:32.931372+00:00: `finish_research_and_matur
 
 | `paper_state_producer_20261001` | Mabel current Codex chat | 2026-10-01T23:58:24.107491+00:00 | Prospective empty paper book | Runtime and other-task capture untouched | `DONE` | 2026-10-01T23:58:24.107491+00:00 | PAPER_STATE_PRODUCER_20261001/REVIEW.json;52distinct tests plus14reruns;84exact replay outputs. Parent partial; no active worker. |
 
-| `execution_inputs_20261002` | Mabel current Codex chat | 2026-10-02T00:30:09.043287+00:00 | Staged exact quote integration | Runtime and other-task capture untouched | `DONE` | 2026-10-02T00:30:09.043287+00:00 | EXECUTION_INPUTS_STAGED_20261002/REVIEW.json;33tests;33isolated tests;four profile cases. Parent partial; no active worker. |
+| `execution_inputs_20261002` | Mabel current Codex chat | 2026-10-02T00:18:55.1441089Z | Staged exact-quote worker integration | Offline wrapper/config/tests only; no collector restart or other-task edits | `CLAIMED` | 2026-10-02T00:18:55.1441089Z | Preflight passed; prepare reviewable deployment, preserve active worker. |

@@ -1,0 +1,668 @@
+.F.............................                                          [100%]
+================================== FAILURES ===================================
+____________________ test_actual_worker_to_exact_consumer _____________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000021A1C725A90>
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5589/test_actual_worker_to_exact_co0')
+
+    def test_actual_worker_to_exact_consumer(monkeypatch,tmp_path):
+        events=[];stats=[]
+        class Heartbeat:
+            def start(self):return self
+            def update(self,**kw):events.append(kw)
+            def close(self):pass
+        class Client:
+            def __init__(self,*a):pass
+            def close(self):pass
+        class Base:
+            def __init__(self,*args,**kwargs):self.observer=kwargs['raw_price_observer'];events.append({'legacy_path':kwargs['research_snapshot_path']})
+            def start(self):
+                now=time.time();self.observer(None,received_epoch=now,connection_generation=1)
+                raw=json.dumps(dict(type='PRICE',instrument='EUR_USD',time=datetime.datetime.fromtimestamp(now-1,datetime.timezone.utc).isoformat(),bids=[dict(price='1.10000000000000000001')],asks=[dict(price='1.10020000000000000001')],tradeable=True)).encode()
+                self.observer(raw,received_epoch=now,connection_generation=1)
+            def wait_ready(self,*a):stats.append(self.stats())
+            def stats(self):return {'connected':True}
+            def stop(self):events.append({'stopped':True})
+        lab=original.lab
+        monkeypatch.setattr(lab,'WorkerHeartbeat',lambda *a,**k:Heartbeat())
+        monkeypatch.setattr(lab,'read_credentials',lambda *a,**k:('fixture','fixture_007'))
+        monkeypatch.setattr(lab,'MarketDataClient',Client)
+        monkeypatch.setattr(lab,'selected_instruments',lambda *a:['EUR_USD'])
+        monkeypatch.setattr(lab,'account_pip_sizes',lambda *a:{'EUR_USD':.0001})
+        monkeypatch.setattr(lab,'close_log_handles',lambda:None)
+        monkeypatch.setattr(lab,'MultiPriceStream',Base)
+        path=tmp_path/'exact.json'
+>       assert w.main(['--exact-quote-output',str(path),'--duration-sec','0','--heartbeat-state',str(tmp_path/'heartbeat.json'),'--research-market-quote-snapshot',str(tmp_path/'legacy.json')])==0
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_exact_quote_stream_wrapper.py:44: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+trad\oanda_exact_quote_stream_v1.py:71: in main
+    return original.main(remaining)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+trad\oanda_practice_quote_stream.py:31: in main
+    args = lab.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+argv = ['--duration-sec', '0', '--heartbeat-state', 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-5589\\te..., 'C:\\Users\\zmoor\\AppData\\Local\\Temp\\pytest-of-zmoor\\pytest-5589\\test_actual_worker_to_exact_co0\\legacy.json']
+
+    def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+        parser = argparse.ArgumentParser(description=__doc__)
+        parser.add_argument("--creds", type=Path, default=DEFAULT_CREDS)
+        parser.add_argument("--account-key", default="OANDA_ACCOUNT_ID_DUM4")
+        parser.add_argument("--account-id", default="")
+        parser.add_argument("--duration-sec", type=int, default=28800)
+        parser.add_argument("--scan-pause-sec", type=float, default=0.25)
+        parser.add_argument("--candle-close-delay-sec", type=float, default=2.0)
+        parser.add_argument("--candle-workers", type=int, default=16)
+        parser.add_argument("--slow-candle-refresh-sec", type=float, default=300.0)
+        parser.add_argument("--daily-candle-refresh-sec", type=float, default=3600.0)
+        parser.add_argument("--stream-start-timeout-sec", type=float, default=10.0)
+        parser.add_argument("--stream-stale-sec", type=float, default=12.0)
+        parser.add_argument("--rest-fallback-sec", type=float, default=1.0)
+        parser.add_argument(
+            "--use-price-stream",
+            action=argparse.BooleanOptionalAction,
+            default=False,
+        )
+        parser.add_argument(
+            "--outcome-horizons",
+            type=parse_horizons,
+            default=[float(value) for value in FULL_HORIZONS_SEC],
+        )
+        parser.add_argument(
+            "--shadow-outcome-horizon-mode",
+            choices=("all", "declared"),
+            default="all",
+            help="Mature every configured horizon or only the signal's declared horizon.",
+        )
+        parser.add_argument(
+            "--timeframe-matrix-outcome-mode",
+            choices=("full", "native"),
+            default="full",
+            help="Mature every matrix horizon or only the horizon nearest each input timeframe.",
+        )
+        parser.add_argument("--instruments", default="")
+        parser.add_argument("--exclude-regex", default="")
+        parser.add_argument(
+            "--families",
+            default=",".join((*DEFAULT_FAMILIES, *sorted(RESEARCH_SHADOW_FAMILIES))),
+        )
+        parser.add_argument("--profiles", default=",".join((*PROFILES, "shadow")))
+        parser.add_argument("--lane-config", type=Path, default=None)
+        parser.add_argument("--run-label", default="expanded-156-lane-multihorizon-v7")
+        parser.add_argument("--log-dir", type=Path, default=DEFAULT_LOG_DIR)
+        parser.add_argument(
+            "--heartbeat-state",
+            type=Path,
+            default=DEFAULT_LOG_DIR.parent / "state" / "strategy_lab_heartbeat_v1.json",
+        )
+        parser.add_argument(
+            "--live-model-feature-snapshot",
+            type=Path,
+            default=DEFAULT_LOG_DIR.parent / "state" / "live_model_feature_snapshot_v1.json",
+        )
+        parser.add_argument(
+            "--order-book-feature-state",
+            type=Path,
+            default=DEFAULT_LOG_DIR.parent / "state" / "oanda_order_position_book_latest_v1.json",
+        )
+        parser.add_argument("--order-book-feature-max-age-sec", type=float, default=1800.0)
+        parser.add_argument("--pattern-history-cache", type=Path, default=DEFAULT_PATTERN_HISTORY_CACHE)
+        parser.add_argument("--pattern-live-state", type=Path, default=DEFAULT_PATTERN_LIVE_STATE)
+        parser.add_argument("--pattern-bootstrap-candles", type=int, default=5000)
+        parser.add_argument("--pattern-historical-effective-cap", type=float, default=1000.0)
+        parser.add_argument("--pattern-live-weight", type=float, default=4.0)
+        parser.add_argument("--pattern-prior-count", type=float, default=20.0)
+        parser.add_argument(
+            "--combination-database",
+            type=Path,
+            default=DEFAULT_LOG_DIR.parent / "state" / "signal_combination_audit_v1.sqlite",
+        )
+        parser.add_argument(
+            "--combination-state",
+            type=Path,
+            default=DEFAULT_LOG_DIR.parent / "state" / "signal_combination_audit_v1.json",
+        )
+        parser.add_argument(
+            "--combination-deep-state",
+            type=Path,
+            default=DEFAULT_LOG_DIR.parent / "state" / "signal_combination_deep_v1.json",
+        )
+        parser.add_argument(
+            "--combination-historical-state",
+            type=Path,
+            default=DEFAULT_LOG_DIR.parent / "state" / "signal_combination_historical_v1.json",
+        )
+        parser.add_argument(
+            "--enable-sma-filter",
+            action=argparse.BooleanOptionalAction,
+            default=False,
+        )
+        parser.add_argument(
+            "--sma-filter-database",
+            type=Path,
+            default=DEFAULT_LOG_DIR.parent / "state" / "sma_signal_filter_v1.sqlite",
+        )
+        parser.add_argument("--sma-filter-batch-size", type=int, default=16384)
+        parser.add_argument(
+            "--sma-filter-artifact",
+            type=Path,
+            default=DEFAULT_LOG_DIR.parent / "state" / "sma_signal_filter_v1.joblib",
+        )
+        parser.add_argument(
+            "--enable-ma-feature-grid",
+            action=argparse.BooleanOptionalAction,
+            default=True,
+        )
+        parser.add_argument(
+            "--ma-feature-grid-artifact",
+            type=Path,
+            default=(
+                DEFAULT_LOG_DIR.parent
+                / "models"
+                / "ma_feature_grid"
+                / "ma_feature_grid_latest.joblib"
+            ),
+        )
+        parser.add_argument(
+            "--exit-fit-database",
+            type=Path,
+            default=DEFAULT_LOG_DIR.parent / "state" / "strategy_exit_fit_v1.sqlite",
+        )
+        parser.add_argument(
+            "--exit-fit-state",
+            type=Path,
+            default=DEFAULT_LOG_DIR.parent / "state" / "strategy_exit_fit_v1.json",
+        )
+        parser.add_argument(
+            "--shadow-outcome-database",
+            type=Path,
+            default=DEFAULT_LOG_DIR.parent / "state" / "strategy_shadow_outcomes_v1.sqlite",
+        )
+        parser.add_argument("--shadow-outcome-batch-size", type=int, default=4096)
+        parser.add_argument("--shadow-outcome-flush-sec", type=float, default=1.0)
+        parser.add_argument("--shadow-outcome-log-sample-rate", type=float, default=0.01)
+        parser.add_argument("--hard-reject-log-sample-rate", type=float, default=0.05)
+        parser.add_argument("--hard-reject-outcome-sample-rate", type=float, default=0.05)
+        parser.add_argument("--near-threshold-outcome-sample-rate", type=float, default=0.50)
+        parser.add_argument("--outcome-max-per-cycle", type=int, default=256)
+        parser.add_argument("--outcome-max-scan-per-cycle", type=int, default=16384)
+        parser.add_argument(
+            "--timeframe-matrix-calibration-state",
+            type=Path,
+            default=DEFAULT_LOG_DIR.parent / "state" / "timeframe_matrix_calibration_v1.json",
+        )
+        parser.add_argument(
+            "--exit-fit-auto-fit",
+            action=argparse.BooleanOptionalAction,
+            default=False,
+        )
+        parser.add_argument(
+            "--exit-fit-record-outcomes",
+            action=argparse.BooleanOptionalAction,
+            default=True,
+        )
+        parser.add_argument(
+            "--promotion-database",
+            type=Path,
+            default=DEFAULT_LOG_DIR.parent / "state" / "lane_promotion_v1.sqlite",
+        )
+        parser.add_argument(
+            "--promotion-state",
+            type=Path,
+            default=DEFAULT_LOG_DIR.parent / "state" / "lane_promotion_v1.json",
+        )
+        parser.add_argument(
+            "--enable-second-forecasts",
+            action=argparse.BooleanOptionalAction,
+            default=True,
+        )
+        parser.add_argument(
+            "--second-forecast-model",
+            type=Path,
+            default=DEFAULT_LOG_DIR.parent / "state" / "second_ridge_models_v1.json",
+        )
+        parser.add_argument(
+            "--second-forecast-database",
+            type=Path,
+            default=DEFAULT_LOG_DIR.parent / "state" / "second_forecast_live_v1.sqlite",
+        )
+        parser.add_argument(
+            "--second-forecast-state",
+            type=Path,
+            default=DEFAULT_LOG_DIR.parent / "state" / "second_forecast_live_v1.json",
+        )
+        parser.add_argument("--second-forecast-cadence-sec", type=int, default=1)
+        parser.add_argument("--second-forecast-sample-sec", type=int, default=5)
+        parser.add_argument("--second-forecast-signal-interval-sec", type=int, default=5)
+        parser.add_argument(
+            "--enable-signal-engine",
+            action=argparse.BooleanOptionalAction,
+            default=True,
+        )
+        parser.add_argument("--execute-top-signals", action="store_true")
+        parser.add_argument("--execution-ranking-log", type=Path, default=None)
+        parser.add_argument("--execution-ranking-horizon-sec", type=int, default=300)
+        parser.add_argument(
+            "--execution-horizons",
+            type=parse_horizons,
+            default=[float(value) for value in FULL_HORIZONS_SEC],
+        )
+        parser.add_argument("--execution-min-samples", type=int, default=30)
+        parser.add_argument("--execution-min-average-pips", type=float, default=0.10)
+        parser.add_argument("--execution-min-median-pips", type=float, default=0.0)
+        parser.add_argument("--execution-min-win-rate", type=float, default=52.0)
+        parser.add_argument("--execution-min-lower-confidence-pips", type=float, default=0.0)
+        parser.add_argument("--execution-min-independent-blocks", type=int, default=12)
+        parser.add_argument("--execution-min-holdout-blocks", type=int, default=4)
+        parser.add_argument("--execution-min-pairs", type=int, default=3)
+        parser.add_argument("--execution-min-sessions", type=int, default=2)
+        parser.add_argument("--execution-min-segment-samples", type=int, default=10)
+        parser.add_argument("--promotion-refresh-sec", type=float, default=300.0)
+        parser.add_argument("--execution-top-lanes", type=int, default=8)
+        parser.add_argument("--execution-snapshot-top-signals", type=int, default=32)
+        parser.add_argument("--execution-units", type=int, default=100)
+        parser.add_argument("--execution-max-units", type=int, default=5000)
+        parser.add_argument("--execution-cooldown-sec", type=float, default=30.0)
+        parser.add_argument(
+            "--execution-reentry-cooldown-sec",
+            type=float,
+            default=3600.0,
+            help="Cooldown after an exit before re-entering the same pair and direction.",
+        )
+        parser.add_argument(
+            "--execution-instrument-reentry-cooldown-sec",
+            type=float,
+            default=1800.0,
+            help="Cooldown after an exit before trading either direction of that pair.",
+        )
+        parser.add_argument(
+            "--execution-jpy-factor-cooldown-sec",
+            type=float,
+            default=3600.0,
+            help="Cooldown shared by all pairs expressing the same JPY direction.",
+        )
+        parser.add_argument(
+            "--execution-max-open-jpy-factor-positions",
+            type=int,
+            default=1,
+            help="Maximum simultaneous positions expressing one JPY direction factor.",
+        )
+        parser.add_argument(
+            "--execution-reentry-history-sec",
+            type=float,
+            default=172800.0,
+        )
+        parser.add_argument(
+            "--execution-intrahour-cost-gate",
+            action=argparse.BooleanOptionalAction,
+            default=True,
+        )
+        parser.add_argument(
+            "--execution-intrahour-cost-gate-max-horizon-sec",
+            type=int,
+            default=3600,
+        )
+        parser.add_argument(
+            "--execution-intrahour-max-spread-pips",
+            type=float,
+            default=2.0,
+        )
+        parser.add_argument(
+            "--execution-intrahour-min-liquidity-quality",
+            type=float,
+            default=0.70,
+        )
+        parser.add_argument(
+            "--execution-intrahour-min-confidence",
+            type=float,
+            default=0.56,
+        )
+        parser.add_argument(
+            "--execution-intrahour-min-gross-to-spread",
+            type=float,
+            default=2.5,
+        )
+        parser.add_argument(
+            "--execution-intrahour-min-after-cost-pips",
+            type=float,
+            default=1.0,
+        )
+        parser.add_argument(
+            "--execution-multihour-cost-gate",
+            action=argparse.BooleanOptionalAction,
+            default=True,
+        )
+        parser.add_argument(
+            "--execution-multihour-max-spread-pips",
+            type=float,
+            default=3.0,
+        )
+        parser.add_argument(
+            "--execution-multihour-min-liquidity-quality",
+            type=float,
+            default=0.65,
+        )
+        parser.add_argument(
+            "--execution-multihour-min-confidence",
+            type=float,
+            default=0.55,
+        )
+        parser.add_argument(
+            "--execution-multihour-min-gross-to-spread",
+            type=float,
+            default=2.0,
+        )
+        parser.add_argument(
+            "--execution-multihour-min-after-cost-pips",
+            type=float,
+            default=1.0,
+        )
+        parser.add_argument(
+            "--execution-horizon-scaled-protection",
+            action=argparse.BooleanOptionalAction,
+            default=True,
+        )
+        parser.add_argument("--execution-max-hold-sec", type=float, default=300.0)
+        parser.add_argument("--execution-max-quote-age-sec", type=float, default=8.0)
+        parser.add_argument("--execution-max-slippage-pips", type=float, default=0.5)
+        parser.add_argument("--execution-max-loss-account", type=float, default=2.0)
+        parser.add_argument("--execution-recent-veto-min-samples", type=int, default=5)
+        parser.add_argument("--execution-recent-veto-max-win-rate", type=float, default=40.0)
+        parser.add_argument("--execution-min-historical-reliability", type=float, default=0.15)
+        parser.add_argument(
+            "--execution-allow-unvalidated-signals",
+            action=argparse.BooleanOptionalAction,
+            default=False,
+        )
+        parser.add_argument(
+            "--execution-paper-consensus",
+            action=argparse.BooleanOptionalAction,
+            default=False,
+        )
+        parser.add_argument("--execution-paper-consensus-min-families", type=int, default=3)
+        parser.add_argument(
+            "--execution-paper-consensus-min-aligned-weight-pct",
+            type=float,
+            default=65.0,
+        )
+        parser.add_argument(
+            "--execution-paper-consensus-min-confidence",
+            type=float,
+            default=0.545,
+        )
+        parser.add_argument(
+            "--execution-paper-consensus-min-net-pips",
+            type=float,
+            default=0.15,
+        )
+        parser.add_argument(
+            "--execution-paper-consensus-min-gross-to-spread",
+            type=float,
+            default=1.15,
+        )
+        parser.add_argument(
+            "--execution-paper-consensus-max-horizon-sec",
+            type=int,
+            default=3600,
+        )
+        parser.add_argument("--execution-manage-interval-sec", type=float, default=5.0)
+        parser.add_argument(
+            "--execution-signal-feed-database",
+            type=Path,
+            default=DEFAULT_LOG_DIR.parent / "state" / "practice_007_signal_feed_v1.sqlite",
+        )
+        parser.add_argument(
+            "--execution-policy-state",
+            type=Path,
+            default=DEFAULT_LOG_DIR.parent / "state" / "practice_007_execution_policy_v1.json",
+        )
+        parser.add_argument("--execution-feed-source", default="strategy_lab")
+        parser.add_argument(
+            "--execution-feed-consumer-only",
+            action="store_true",
+            help=(
+                "Read the initialized consolidated feed without registering "
+                "inventory or publishing local candidates."
+            ),
+        )
+        parser.add_argument("--execution-signal-feed-ttl-sec", type=float, default=8.0)
+        parser.add_argument("--execution-signal-feed-limit", type=int, default=50_000)
+        parser.add_argument(
+            "--execution-signal-feed-cache-refresh-sec",
+            type=float,
+            default=5.0,
+            help="Background refresh interval for a consumer-only feed cache.",
+        )
+        parser.add_argument(
+            "--execution-signal-feed-cache-ttl-sec",
+            type=float,
+            default=None,
+            help=(
+                "Fail-closed cache TTL for consumer-only execution; defaults "
+                "to --execution-signal-feed-ttl-sec."
+            ),
+        )
+        parser.add_argument(
+            "--execution-signal-snapshot",
+            type=Path,
+            default=DEFAULT_LOG_DIR.parent / "state" / "practice_007_signal_snapshot_v1.json",
+        )
+        parser.add_argument(
+            "--execution-signal-snapshot-sec",
+            type=float,
+            default=None,
+            help="Minimum interval between derived signal snapshot rewrites.",
+        )
+        parser.add_argument(
+            "--research-market-quote-snapshot",
+            type=Path,
+            default=None,
+            help=(
+                "Optional strategy-lab-owned research quote snapshot. The canonical "
+                "Practice-007 quote snapshot is owned exclusively by the fast executor "
+                "and must never be used here."
+            ),
+        )
+        parser.add_argument(
+            "--research-market-quote-snapshot-sec",
+            type=float,
+            default=5.0,
+        )
+        parser.add_argument("--execution-min-signal-confidence", type=float, default=0.56)
+        parser.add_argument("--execution-min-signal-expected-net-pips", type=float, default=1.0)
+        parser.add_argument(
+            "--execution-prediction-quality",
+            action=argparse.BooleanOptionalAction,
+            default=True,
+        )
+        parser.add_argument("--execution-prediction-quality-min-samples", type=int, default=30)
+        parser.add_argument("--execution-prediction-quality-max-weight", type=float, default=0.75)
+        parser.add_argument(
+            "--execution-prediction-quality-negative-veto",
+            action=argparse.BooleanOptionalAction,
+            default=True,
+        )
+        parser.add_argument("--execution-max-open-positions", type=int, default=4)
+        parser.add_argument("--execution-max-currency-direction-positions", type=int, default=3)
+        parser.add_argument(
+            "--execution-max-currency-direction-margin-pct",
+            type=float,
+            default=45.0,
+        )
+        parser.add_argument("--execution-target-margin-used-pct", type=float, default=55.0)
+        parser.add_argument("--execution-high-confidence-margin-used-pct", type=float, default=68.0)
+        parser.add_argument("--execution-hard-margin-used-pct", type=float, default=75.0)
+        parser.add_argument("--execution-min-trade-margin-pct", type=float, default=12.0)
+        parser.add_argument("--execution-max-trade-margin-pct", type=float, default=24.0)
+        parser.add_argument("--execution-min-risk-pct", type=float, default=0.8)
+        parser.add_argument("--execution-max-risk-pct", type=float, default=2.5)
+        parser.add_argument("--execution-min-trailing-pips", type=float, default=2.5)
+        parser.add_argument("--execution-trailing-spread-multiple", type=float, default=2.5)
+        parser.add_argument("--execution-trailing-stop-r", type=float, default=0.55)
+        parser.add_argument("--execution-trailing-activation-r", type=float, default=0.9)
+        parser.add_argument(
+            "--execution-trailing-activation-spread-multiple",
+            type=float,
+            default=0.5,
+        )
+        parser.add_argument("--execution-profit-lock-trigger-pips", type=float, default=2.0)
+        parser.add_argument("--execution-profit-lock-floor-pips", type=float, default=0.2)
+        parser.add_argument("--execution-profit-lock-spread-multiple", type=float, default=1.5)
+        parser.add_argument("--execution-profit-lock-step-pips", type=float, default=0.25)
+        parser.add_argument("--execution-profit-hold-multiplier", type=float, default=2.0)
+        parser.add_argument(
+            "--execution-second-forecast-state",
+            type=Path,
+            default=DEFAULT_LOG_DIR.parent / "state" / "second_forecast_hot_v1.json",
+        )
+        parser.add_argument("--execution-second-curve-max-age-sec", type=float, default=30.0)
+        parser.add_argument("--execution-second-curve-max-horizon-sec", type=int, default=300)
+        parser.add_argument("--execution-second-curve-min-points", type=int, default=3)
+        parser.add_argument("--execution-second-curve-oppose-probability", type=float, default=0.47)
+        parser.add_argument("--execution-second-curve-min-net-pips", type=float, default=0.05)
+        parser.add_argument("--execution-second-curve-min-aligned-fraction", type=float, default=0.5)
+        parser.add_argument("--execution-second-curve-min-trade-age-sec", type=float, default=10.0)
+        parser.add_argument("--execution-second-curve-profit-exit-pips", type=float, default=0.3)
+        parser.add_argument(
+            "--execution-second-curve-entry-veto",
+            action=argparse.BooleanOptionalAction,
+            default=True,
+        )
+        parser.add_argument(
+            "--execution-second-curve-profit-exit",
+            action=argparse.BooleanOptionalAction,
+            default=True,
+        )
+        parser.add_argument(
+            "--execution-dynamic-sizing",
+            action=argparse.BooleanOptionalAction,
+            default=True,
+        )
+        parser.add_argument(
+            "--execution-open-ended-profit",
+            action=argparse.BooleanOptionalAction,
+            default=True,
+        )
+        parser.add_argument(
+            "--execution-manage-trades",
+            action=argparse.BooleanOptionalAction,
+            default=True,
+        )
+        parser.add_argument(
+            "--execution-lock-path",
+            type=Path,
+            default=DEFAULT_LOG_DIR.parent / "state" / "practice_007_order.lock",
+        )
+        parser.add_argument(
+            "--execution-use-fitted-exits",
+            action=argparse.BooleanOptionalAction,
+            default=False,
+        )
+        args = parser.parse_args(argv)
+        if args.execute_top_signals and not args.enable_signal_engine:
+            raise SystemExit("practice execution requires the signal engine")
+        if (
+            args.duration_sec <= 0
+            or args.scan_pause_sec <= 0.0
+            or args.candle_workers <= 0
+            or args.stream_start_timeout_sec <= 0.0
+            or args.stream_stale_sec <= 0.0
+            or args.rest_fallback_sec <= 0.0
+            or args.order_book_feature_max_age_sec <= 0.0
+            or args.pattern_bootstrap_candles < 120
+            or args.pattern_bootstrap_candles > 5000
+            or args.pattern_historical_effective_cap <= 0.0
+            or args.pattern_live_weight < 0.0
+            or args.pattern_prior_count < 0.0
+            or args.execution_ranking_horizon_sec <= 0
+            or args.execution_min_samples <= 0
+            or args.execution_min_independent_blocks <= 0
+            or args.execution_min_holdout_blocks <= 0
+            or args.execution_min_pairs <= 0
+            or args.execution_min_sessions <= 0
+            or args.execution_min_segment_samples <= 0
+            or args.promotion_refresh_sec <= 0.0
+            or args.second_forecast_cadence_sec <= 0
+            or args.second_forecast_sample_sec <= 0
+            or args.second_forecast_signal_interval_sec <= 0
+            or args.execution_min_win_rate < 0.0
+            or args.execution_min_win_rate > 100.0
+            or args.execution_top_lanes <= 0
+            or args.execution_snapshot_top_signals <= 0
+            or args.execution_units <= 0
+            or args.execution_max_units <= 0
+            or args.execution_cooldown_sec < 0.0
+            or args.execution_reentry_cooldown_sec < 0.0
+            or args.execution_instrument_reentry_cooldown_sec < 0.0
+            or args.execution_jpy_factor_cooldown_sec < 0.0
+            or args.execution_max_open_jpy_factor_positions <= 0
+            or args.execution_reentry_history_sec <= 0.0
+            or args.execution_intrahour_cost_gate_max_horizon_sec <= 0
+            or args.execution_intrahour_max_spread_pips <= 0.0
+            or not 0.0 <= args.execution_intrahour_min_liquidity_quality <= 1.0
+            or not 0.5 <= args.execution_intrahour_min_confidence < 1.0
+            or args.execution_intrahour_min_gross_to_spread < 1.0
+            or args.execution_intrahour_min_after_cost_pips < 0.0
+            or args.execution_multihour_max_spread_pips <= 0.0
+            or not 0.0 <= args.execution_multihour_min_liquidity_quality <= 1.0
+            or not 0.5 <= args.execution_multihour_min_confidence < 1.0
+            or args.execution_multihour_min_gross_to_spread < 1.0
+            or args.execution_multihour_min_after_cost_pips < 0.0
+            or args.execution_max_hold_sec <= 0.0
+            or args.execution_max_quote_age_sec <= 0.0
+            or args.execution_max_slippage_pips <= 0.0
+            or args.execution_max_loss_account <= 0.0
+            or args.execution_recent_veto_min_samples <= 0
+            or not 0.0 <= args.execution_recent_veto_max_win_rate <= 100.0
+            or not 0.0 <= args.execution_min_historical_reliability <= 1.0
+            or args.execution_paper_consensus_min_families < 2
+            or not 50.0 <= args.execution_paper_consensus_min_aligned_weight_pct <= 100.0
+            or not 0.5 <= args.execution_paper_consensus_min_confidence < 1.0
+            or args.execution_paper_consensus_min_net_pips < 0.0
+            or args.execution_paper_consensus_min_gross_to_spread < 1.0
+            or args.execution_paper_consensus_max_horizon_sec <= 0
+            or args.execution_manage_interval_sec <= 0.0
+            or args.execution_signal_feed_ttl_sec <= 0.0
+            or args.execution_signal_feed_limit <= 0
+            or not 0.5 <= args.execution_min_signal_confidence < 1.0
+            or args.execution_prediction_quality_min_samples <= 0
+            or not 0.0 <= args.execution_prediction_quality_max_weight <= 1.0
+            or args.execution_second_curve_min_net_pips < 0.0
+            or not 0.0 <= args.execution_second_curve_min_aligned_fraction <= 1.0
+            or args.execution_max_open_positions <= 0
+            or args.execution_max_currency_direction_positions <= 0
+            or not 0.0 < args.execution_max_currency_direction_margin_pct <= 100.0
+            or not 0.0 < args.execution_target_margin_used_pct < args.execution_hard_margin_used_pct < 100.0
+            or not args.execution_target_margin_used_pct <= args.execution_high_confidence_margin_used_pct <= args.execution_hard_margin_used_pct
+            or not 0.0 < args.execution_min_trade_margin_pct <= args.execution_max_trade_margin_pct
+            or not 0.0 < args.execution_min_risk_pct <= args.execution_max_risk_pct
+            or args.execution_min_trailing_pips <= 0.0
+            or args.execution_trailing_spread_multiple <= 0.0
+            or args.execution_trailing_stop_r <= 0.0
+            or args.execution_trailing_activation_r <= 0.0
+            or args.execution_trailing_activation_spread_multiple < 0.0
+            or args.execution_profit_lock_trigger_pips <= 0.0
+            or args.execution_profit_lock_floor_pips < 0.0
+            or args.execution_profit_lock_spread_multiple <= 0.0
+            or args.execution_profit_lock_step_pips <= 0.0
+            or args.execution_profit_hold_multiplier < 1.0
+            or args.shadow_outcome_batch_size <= 0
+            or args.sma_filter_batch_size <= 0
+            or args.shadow_outcome_flush_sec <= 0.0
+            or args.outcome_max_per_cycle <= 0
+            or args.outcome_max_scan_per_cycle <= 0
+            or not 0.0 <= args.shadow_outcome_log_sample_rate <= 1.0
+            or not 0.0 <= args.hard_reject_log_sample_rate <= 1.0
+            or not 0.0 <= args.hard_reject_outcome_sample_rate <= 1.0
+            or not 0.0 <= args.near_threshold_outcome_sample_rate <= 1.0
+        ):
+>           raise SystemExit("duration, data timing, and candle worker arguments must be positive")
+E           SystemExit: duration, data timing, and candle worker arguments must be positive
+
+trad\oanda_practice_shadow_strategy_lab.py:12897: SystemExit
+=========================== short test summary info ===========================
+FAILED tests/test_exact_quote_stream_wrapper.py::test_actual_worker_to_exact_consumer
+1 failed, 30 passed in 9.11s

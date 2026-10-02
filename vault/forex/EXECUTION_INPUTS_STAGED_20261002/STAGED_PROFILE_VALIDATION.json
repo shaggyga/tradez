@@ -1,0 +1,17 @@
+{
+  "command": [
+    "powershell.exe",
+    "-NoProfile",
+    "-NonInteractive",
+    "-ExecutionPolicy",
+    "Bypass",
+    "-File",
+    "C:\\Users\\zmoor\\Documents\\forex\\evidence\\execution_inputs_20261002\\profile_fixture\\validate.ps1"
+  ],
+  "exit_code": 0,
+  "stdout": "[\n    {\n        \"status\":  \"passed\",\n        \"case\":  \"profile\",\n        \"services\":  16\n    },\n    {\n        \"status\":  \"passed\",\n        \"case\":  \"legacy\",\n        \"services\":  16\n    },\n    {\n        \"case\":  \"not_boolean\",\n        \"status\":  \"refused_as_expected\"\n    },\n    {\n        \"case\":  \"disabled_wrapper\",\n        \"status\":  \"refused_as_expected\"\n    }\n]\n",
+  "stderr": "",
+  "live_contract_sha256": "d428f4327a310c695db70b83640b139cce838c3c444823db48a2097e4d71853c",
+  "candidate_sha256": "818d4cb278eb2c0802b8eb53bbcef84c5becd7484723614d21b8d97036092d56",
+  "staged_profile_sha256": "6cb0ca2a8ee8f42cb0468f60b40ca1c62732db6abc970f0efa18e0e77c938376"
+}
