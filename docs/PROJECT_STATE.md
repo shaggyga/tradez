@@ -1,5 +1,9 @@
 # Current project orientation — September 30, 2026
 
+## Current continuation — paper inputs connected
+
+[Current checkpoint](PAPER_INPUTS_CONNECTED_20261002.md): Quote worker deployed; genuine paper/quote/forecast observations bound.142 distinct tests;two84-payload exact resumed/restored replays;23 restored economic tests. Dashboard/news selection drift repaired and current mappings verified. Current-state observation gate complete within scope; R06 management/economics remains partial. Score35/45 unchanged. Earlier notices are historical.
+
 ## Current continuation — exact quote rollout staged
 
 [Current checkpoint](EXECUTION_INPUTS_STAGED_20261002.md): Exact-quote worker integration staged, not activated:33tests and33isolated restored tests;four profile-validation cases passed. Active worker/profile/contract unchanged. Next narrow service rollout authorization, then matched quote/economics binding. Parent partial;score35/45 unchanged. Earlier notices are historical.
