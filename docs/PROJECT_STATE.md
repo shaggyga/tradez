@@ -1,6 +1,6 @@
 # Current project orientation — September 30, 2026
 
-Current operational handoff: [LIVE_CURRENCY_RANKER_20261002.md](LIVE_CURRENCY_RANKER_20261002.md). The original currency ranker now has a supervised read-only publisher and dashboard panel. Coverage is explicit: full21 when supported, otherwise the fixed major8 cohort. It ranks observed strength, not proven future profitability. Outcome tracking capacity and management inputs remain unfinished.
+Current operational handoff: [feed and tracking repair](FEEDS_TRACKING_REPAIR_20261002.md). Outcome tracking now rolls into bounded segments and is live; original observations and news links are preserved. Currency ranking remains live. Missing M1 support and economic management inputs remain explicit.
 
 Earlier checkpoint notices are preserved in [PROJECT_STATE.md history](history/ranker_cleanup_20261002/PROJECT_STATE.md); resolve the live Vault pointers for the current queue.
 

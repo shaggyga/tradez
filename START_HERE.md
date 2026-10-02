@@ -1,6 +1,6 @@
 # Start here
 
-Current operational handoff: [docs/LIVE_CURRENCY_RANKER_20261002.md](docs/LIVE_CURRENCY_RANKER_20261002.md). The original currency ranker now has a supervised read-only publisher and dashboard panel. Coverage is explicit: full21 when supported, otherwise the fixed major8 cohort. It ranks observed strength, not proven future profitability. Outcome tracking capacity and management inputs remain unfinished.
+Current operational handoff: [feed and tracking repair](docs/FEEDS_TRACKING_REPAIR_20261002.md). Outcome tracking now rolls into bounded segments and is live; original observations and news links are preserved. Currency ranking remains live. Missing M1 support and economic management inputs remain explicit.
 
 Earlier checkpoint notices are preserved in [START_HERE.md history](docs/history/ranker_cleanup_20261002/START_HERE.md); resolve the live Vault pointers for the current queue.
 
@@ -77,8 +77,8 @@ identities in project logs. Refresh the Git documentation copy using the
 
 ## Current next work
 
-Repair the retained outcome-tracking store's configured capacity limit while preserving
-historical first observations and pending settlement. Then resume
+Tracking capacity repair is complete. Assess genuine missing M1 history under
+`rolling_m1_elapsed_support_recovery_v1`; separately resume
 `retained_management_economic_input_binding_v1`. Current currency ranking is an
 observed-strength model, separate from retained horizon forecasts and trading readiness.
 Use live Vault `PROJECT_CONTEXT_LATEST.json` and `REVIEW_QUEUE.json` for exact evidence.

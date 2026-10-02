@@ -1,6 +1,6 @@
 # Forex handoff
 
-Current operational handoff: [docs/LIVE_CURRENCY_RANKER_20261002.md](docs/LIVE_CURRENCY_RANKER_20261002.md). The original currency ranker now has a supervised read-only publisher and dashboard panel. Coverage is explicit: full21 when supported, otherwise the fixed major8 cohort. It ranks observed strength, not proven future profitability. Outcome tracking capacity and management inputs remain unfinished.
+Current operational handoff: [feed and tracking repair](docs/FEEDS_TRACKING_REPAIR_20261002.md). Outcome tracking now rolls into bounded segments and is live; original observations and news links are preserved. Currency ranking remains live. Missing M1 support and economic management inputs remain explicit.
 
 Earlier checkpoint notices are preserved in [FOREX_HANDOFF.md history](docs/history/ranker_cleanup_20261002/FOREX_HANDOFF.md); resolve the live Vault pointers for the current queue.
 
@@ -19,8 +19,8 @@ status/validation/start commands and recovery expiry.
 
 Restore and verify existing nontrading components; preserve original model evidence.
 The ranker repair and technical cross-check are complete within their stated scope.
-Next operational dependency: `retained_tracking_capacity_repair_v1`, followed by the
-unfinished economic input and conditional management work. No new fits or orders.
+Tracking capacity repair is complete. Next feed item is `rolling_m1_elapsed_support_recovery_v1`;
+economic input and conditional management work remain unfinished. No new fits or orders.
 
 ## Earlier orientation — 2026-09-30
 

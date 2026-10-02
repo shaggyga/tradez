@@ -8045,3 +8045,8 @@ Vault packet `PAPER_INPUTS_CONNECTED_20261002/REVIEW.json`;local evidence `evide
 ## 2026-10-02T02:06:01.291483+00:00 — Live currency ranker repair
 
 Reconnected original scoring through supervised exact-quote/minute-mid inputs and dashboard. Full21 and fixed major8 scope explicit; missing edges/graphs refused.41 tests,4 profile cases, exact relocated raw-receipt replay, live HTTP readbacks. Same-task indicator cross-check: NZD/AUD strongest agreement at02:01UTC; no profitability or position authorization. Cleaned obsolete current notices into byte-preserved history. Vault LIVE_CURRENCY_RANKER_20261002/REVIEW.json; project docs/LIVE_CURRENCY_RANKER_20261002.md. Next retained_tracking_capacity_repair_v1, then economic input binding. No fits or orders.
+
+
+## 2026-10-02T03:00:09.504407+00:00 — feeds_tracking_repair_20261002
+
+Live tracker restored with bounded segments and incremental totals; all683224 original identities/bodies/first observations and original news links preserved.111 tests;21 relocated tests; live new observations/outcomes verified. Same-task review, not independent. Vault FEEDS_TRACKING_REPAIR_20261002/REVIEW.json; local evidence/feeds_tracking_repair_20261002. Next rolling_m1_elapsed_support_recovery_v1; unavailable TRY inputs and sparse USDHKD/long windows remain explicit. No fits/orders/other-task capture changes.

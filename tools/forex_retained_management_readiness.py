@@ -56,6 +56,15 @@ def unpack(blob):
     return raw
 def sources():return {n:sha(read(ROOT/n)) for n in SOURCES}
 
+def first_observed_anchors(t, registry):
+    rows=t.execute('''SELECT * FROM (SELECT *,ROW_NUMBER() OVER
+        (PARTITION BY connection,pair ORDER BY observed,id) AS rank
+        FROM all_forecasts WHERE registry=?) WHERE rank=1 ORDER BY connection,pair''',(registry,)).fetchall()
+    need(len(rows)<=48*68,'tracking_population_bound')
+    anchors=[{k:r[k] for k in r.keys() if k not in ('rank','segment')} for r in rows]
+    for r in anchors:need(len(r['body'])<=65536 and (r['outcome'] is None or len(r['outcome'])<=65536),'tracking_record_bound')
+    return anchors
+
 def terminal_options(original,entry,entries,current,now):
     """Potential same-family, different-horizon matches; never policy admission."""
     if original is None or entry.get('kind')!='legacy26_matched':return []
@@ -79,16 +88,13 @@ def capture(output):
     body={k:v for k,v in current.items() if k!='payload_sha256'}
     need(current['registry_sha256']==sha(regraw) and sha(encoded(body))==current['payload_sha256'],'current_publication_identity')
     need(0<=time.time()-current['generated_epoch']<=120,'fresh_capture_publication_required')
-    t=db_read(ROOT/'trad/data/retained_connection_20260930/tracking.sqlite')
+    t=tracking.open_store(ROOT/'trad/data/retained_connection_20260930/tracking.sqlite', readonly=True)
+    deadline=time.monotonic()+20
+    t.set_progress_handler(lambda:int(time.monotonic()>deadline),10000)
     try:
         t.execute('BEGIN')
         # One first-observed anchor per registry/connection/pair; not an account position.
-        rows=t.execute('''SELECT * FROM (SELECT *,ROW_NUMBER() OVER
-            (PARTITION BY connection,pair ORDER BY observed,id) AS rank
-            FROM forecasts WHERE registry=?) WHERE rank=1 ORDER BY connection,pair''',(sha(regraw),)).fetchall()
-        need(len(rows)<=48*68,'tracking_population_bound')
-        anchors=[{k:r[k] for k in r.keys() if k!='rank'} for r in rows]
-        for r in anchors:need(len(r['body'])<=65536 and (r['outcome'] is None or len(r['outcome'])<=65536),'tracking_record_bound')
+        anchors=first_observed_anchors(t,sha(regraw))
     finally:t.close()
     identities={current['payload_sha256']}|{json.loads(r['body'])['publication_sha256'] for r in anchors}
     need(len(identities)<=32,'original_publication_count_bound')
