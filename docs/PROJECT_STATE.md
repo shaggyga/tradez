@@ -1,5 +1,9 @@
 # Current project orientation — September 30, 2026
 
+## Current continuation — exact quote rollout staged
+
+[Current checkpoint](EXECUTION_INPUTS_STAGED_20261002.md): Exact-quote worker integration staged, not activated:33tests and33isolated restored tests;four profile-validation cases passed. Active worker/profile/contract unchanged. Next narrow service rollout authorization, then matched quote/economics binding. Parent partial;score35/45 unchanged. Earlier notices are historical.
+
 ## Current continuation — prospective paper book
 
 [Current checkpoint](PAPER_STATE_PRODUCER_20261001.md): Prospective empty paper book recorded;52 distinct regression tests plus14 final-source reruns;84 exact replay payloads.2261 available forecast slots at the recorded clock. Execution receipts/economics remain unbound;parent partial;no orders or runtime changes;score35/45 unchanged. Earlier notices are historical.
