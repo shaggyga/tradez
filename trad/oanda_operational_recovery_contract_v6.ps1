@@ -2,7 +2,7 @@
 $OperationalRecoverySchema = "forex_operational_runtime_v6_20260916"
 
 function Get-OperationalRecoveryServices {
-    param([switch]$EnableJointForecasts,[switch]$EnableNewsCapacity,[switch]$EnableRollingNews,[switch]$EnableTechnicalCapacity,[switch]$EnableCurrencyNewsContext,[switch]$DisableFeatureForwardResearch,[switch]$EnableJointScheduler,[switch]$EnableCollectorProgress,[switch]$EnableNewsProducerJournal,[switch]$EnableExactQuoteReceipts)
+    param([switch]$EnableJointForecasts,[switch]$EnableNewsCapacity,[switch]$EnableRollingNews,[switch]$EnableTechnicalCapacity,[switch]$EnableCurrencyNewsContext,[switch]$DisableFeatureForwardResearch,[switch]$EnableJointScheduler,[switch]$EnableCollectorProgress,[switch]$EnableNewsProducerJournal,[switch]$EnableExactQuoteReceipts,[switch]$EnableLiveCurrencyRank)
     $roles = @{
         all68_m1_cadence_v3 = "oanda_all68_m1_cadence_v3.py"
         all68_technical_availability_v1 = "oanda_all68_technical_availability_v1.py"
@@ -65,6 +65,7 @@ function Get-OperationalRecoveryServices {
         $roles.Remove('research_feature_forward_cached_v2')
     }
     if ($EnableExactQuoteReceipts) { $roles['practice_quote_stream_v1']='oanda_exact_quote_stream_v1.py' }
+    if ($EnableLiveCurrencyRank) { $roles['live_currency_rank_v1']='oanda_live_currency_rank_v1.py' }
     return $roles
 }
 
@@ -180,7 +181,8 @@ function Read-OperationalRecoveryProfile {
     if ($null -ne $profile.PSObject.Properties['enable_collector_progress'] -and $profile.enable_collector_progress -isnot [bool]) { throw 'Boolean collector-progress selection required.' }
     if ($null -ne $profile.PSObject.Properties['enable_news_producer_journal'] -and $profile.enable_news_producer_journal -isnot [bool]) { throw 'Boolean producer-journal selection required.' }
     if ($null -ne $profile.PSObject.Properties['enable_exact_quote_receipts'] -and $profile.enable_exact_quote_receipts -isnot [bool]) { throw 'Boolean exact-quote-receipt selection required.' }
-    $allowed = Get-OperationalRecoveryServices -EnableJointForecasts:($profile.enable_joint_forecasts -ceq $true) -EnableNewsCapacity:($profile.enable_news_capacity -ceq $true) -EnableRollingNews:($profile.enable_rolling_news -ceq $true) -EnableTechnicalCapacity:($profile.enable_technical_capacity -ceq $true) -EnableCurrencyNewsContext:($profile.enable_currency_news_context -ceq $true) -DisableFeatureForwardResearch:($profile.enable_feature_forward_research -ceq $false) -EnableJointScheduler:($profile.enable_joint_scheduler -ceq $true) -EnableCollectorProgress:($profile.enable_collector_progress -ceq $true) -EnableNewsProducerJournal:($profile.enable_news_producer_journal -ceq $true) -EnableExactQuoteReceipts:($profile.enable_exact_quote_receipts -ceq $true)
+    if ($null -ne $profile.PSObject.Properties['enable_live_currency_rank'] -and $profile.enable_live_currency_rank -isnot [bool]) { throw 'Boolean live-currency-rank selection required.' }
+    $allowed = Get-OperationalRecoveryServices -EnableJointForecasts:($profile.enable_joint_forecasts -ceq $true) -EnableNewsCapacity:($profile.enable_news_capacity -ceq $true) -EnableRollingNews:($profile.enable_rolling_news -ceq $true) -EnableTechnicalCapacity:($profile.enable_technical_capacity -ceq $true) -EnableCurrencyNewsContext:($profile.enable_currency_news_context -ceq $true) -DisableFeatureForwardResearch:($profile.enable_feature_forward_research -ceq $false) -EnableJointScheduler:($profile.enable_joint_scheduler -ceq $true) -EnableCollectorProgress:($profile.enable_collector_progress -ceq $true) -EnableNewsProducerJournal:($profile.enable_news_producer_journal -ceq $true) -EnableExactQuoteReceipts:($profile.enable_exact_quote_receipts -ceq $true) -EnableLiveCurrencyRank:($profile.enable_live_currency_rank -ceq $true)
     $services = @($profile.services)
     $names = @($services | ForEach-Object { [string]$_.name })
     if ($services.Count -ne $allowed.Count -or @($names | Sort-Object -Unique).Count -ne $allowed.Count) {

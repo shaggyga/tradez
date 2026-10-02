@@ -8979,6 +8979,10 @@ class DashboardHandler(BaseHTTPRequestHandler):
 
     def do_GET(self) -> None:
         parsed = urlparse(self.path)
+        if parsed.path == "/api/currency-rank":
+            import oanda_live_currency_rank_v1 as live_rank
+            self.send_json(live_rank.read_current())
+            return
         if parsed.path == "/api/feature-moves":
             try:
                 query = parse_qs(parsed.query, keep_blank_values=True)
