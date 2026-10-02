@@ -1,0 +1,29 @@
+{
+  "schema": "forex.review.v1",
+  "step_id": "feeds_tracking_repair_20261002",
+  "status": "accepted_within_scope",
+  "implementation_status": "complete",
+  "review_status": "accepted_within_scope",
+  "source_commit": "4406aad0885c2889b2d95d3bde3dff234e42972f",
+  "distinct_tests_passed": 111,
+  "relocated_tests_passed": 21,
+  "same_task_review": true,
+  "independent_review": false,
+  "runtime_changed": true,
+  "models_fitted": 0,
+  "orders_enabled": false,
+  "scope": "Retained tracking capacity lifecycle and truthful feed diagnosis; not all68 complete inputs",
+  "preserved_original_forecasts": 683224,
+  "findings": [
+    "Outage backlog remains pending and is catching up",
+    "Three TRY pairs not tradeable; genuine M1 support required for missing indicators",
+    "Eight bounded segments are not unlimited history retention"
+  ],
+  "readiness": {
+    "engineering_ready": true,
+    "forecast_evidence_status": "unchanged; original outcomes and clocks preserved",
+    "policy_evidence_status": "not newly qualified",
+    "demo_authorization_status": "orders disabled"
+  },
+  "next_action": "rolling_m1_elapsed_support_recovery_v1"
+}

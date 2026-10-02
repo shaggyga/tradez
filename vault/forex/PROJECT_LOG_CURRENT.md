@@ -6630,3 +6630,5 @@ Local actual-work log `evidence/news_capture_mapping_20260930/WORK_LOG.jsonl`; e
 2026-10-02T01:22:33.132282+00:00: PAPER_INPUTS_CONNECTED_20261002/REVIEW.json;source a95db2b6224c3320330b9b6c1c06d55b5cbf6783;142tests;two84payload replays;23isolated tests;next retained_management_economic_input_binding_v1.
 
 2026-10-02T02:10:20.357204+00:00: LIVE_CURRENCY_RANKER_20261002/REVIEW.json;source 710e99a84f3010dec0aa320bc56d9b1de590061e;41tests;4profilecases;exact relocated replay;next retained_tracking_capacity_repair_v1.
+
+2026-10-02T03:02:18.103591+00:00 FEEDS_TRACKING_REPAIR_20261002/REVIEW.json;source 4406aad0885c2889b2d95d3bde3dff234e42972f;111tests;21relocated;live new outcomes;next rolling_m1_elapsed_support_recovery_v1.

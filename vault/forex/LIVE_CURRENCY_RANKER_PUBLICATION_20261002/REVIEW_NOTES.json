@@ -1,0 +1,22 @@
+{
+  "scope": "Ranker input repair and dashboard; not original learned forecasting-stack audit",
+  "reviewer": "same Codex task",
+  "independent_reviewer": false,
+  "reviewed_findings_resolved": [
+    "Stale legacy input replaced by verified current receipts and timestamped mids",
+    "Missing historical endpoints explicitly excluded without zero filling",
+    "Connected minimum-support fixed cohorts prevent unnecessary full-output freezes",
+    "Display refuses expired publications and quotes",
+    "Separate heartbeat prevents restart storms on market-data refusal",
+    "Dashboard and logon source pins migrated together",
+    "Original scoring hashes unchanged; restored replay exact"
+  ],
+  "known_limits": [
+    "Full21 lacks TRY inputs",
+    "No calibrated profit estimate",
+    "Historical mids do not reconstruct executable spreads",
+    "Original observed-strength indicator family shares price inputs with technical cross-check",
+    "Tracking capacity and management inputs remain unfinished"
+  ],
+  "verification": "41 distinct tests, four native profile cases, full result exact after relocation, fresh supervised HTTP output"
+}

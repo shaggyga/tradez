@@ -1,12 +1,12 @@
 {
-  "active_step_id": "feeds_tracking_repair_20261002",
-  "active_step_semantics": "Tracking live; exact missing input support remains",
-  "current_review_packet": "FEEDS_TRACKING_REPAIR_20261002/REVIEW.json",
+  "active_step_id": "ranker_repair_20261002",
+  "active_step_semantics": "Live ranker restored; next operational dependency is tracking capacity",
+  "current_review_packet": "LIVE_CURRENCY_RANKER_20261002/REVIEW.json",
   "current_user_requested_context": {
     "request": "Fix data; connect strongest supported existing models across entire design horizon; stop new fits/experiments",
-    "status": "tracking_live_feed_support_partial",
-    "packet": "FEEDS_TRACKING_REPAIR_20261002/REVIEW.json",
-    "next_item": "rolling_m1_elapsed_support_recovery_v1",
+    "status": "ranker_repaired_tracking_pending",
+    "packet": "LIVE_CURRENCY_RANKER_20261002/REVIEW.json",
+    "next_item": "retained_tracking_capacity_repair_v1",
     "new_research_authorized": false
   },
   "dashboard_source_qualification": {
@@ -190,7 +190,7 @@
     }
   ],
   "engineering_queue_pointer": "DESIGN_ALIGNMENT_LATEST.json",
-  "exact_next_item": "rolling_m1_elapsed_support_recovery_v1",
+  "exact_next_item": "retained_tracking_capacity_repair_v1",
   "execution_status": "checkpointed_no_active_chat_worker",
   "forecasting_continuation": {
     "blocked_confirmation_item": "currency_projection_confirmation_protocol_v2",
@@ -5548,8 +5548,8 @@
     },
     {
       "step_id": "retained_tracking_capacity_repair_v1",
-      "implementation_status": "complete",
-      "review_status": "accepted_within_scope",
+      "implementation_status": "pending",
+      "review_status": "not_started",
       "depends_on": [],
       "scope": "Bounded evidence-preserving retained tracking storage lifecycle; no broker/accounts/orders or model fits",
       "acceptance_criteria": [
@@ -5558,17 +5558,7 @@
         "Test restart, duplicate avoidance, settlement and refusal",
         "Deploy coherent source bindings and verify newly captured outcomes"
       ],
-      "next_action": "rolling_m1_elapsed_support_recovery_v1",
-      "packet": "FEEDS_TRACKING_REPAIR_20261002/REVIEW.json",
-      "packet_sha256": "296d0295731f54e84a0a5d98ce16b7608c6e3c1cf1d3eea493f71a592b653f5f"
-    },
-    {
-      "step_id": "feeds_tracking_repair_20261002",
-      "implementation_status": "complete",
-      "review_status": "accepted_within_scope",
-      "packet": "FEEDS_TRACKING_REPAIR_20261002/REVIEW.json",
-      "packet_sha256": "296d0295731f54e84a0a5d98ce16b7608c6e3c1cf1d3eea493f71a592b653f5f",
-      "next_action": "rolling_m1_elapsed_support_recovery_v1"
+      "next_action": "Read docs/TRACKING_CAPACITY_FINDING_20261002.md and PAPER_INPUTS_CONNECTED_PUBLICATION_20261002/TRACKING_CAPACITY_FINDING.json; retain all historical bytes"
     }
   ],
   "timed_session": {
@@ -5581,6 +5571,6 @@
     "source_commit": "6eb514ab1856190b39d83ab020d5f77700ca8770",
     "updated_utc": "2026-09-25T18:12:00.5976014Z"
   },
-  "updated_utc": "2026-10-02T03:02:18.103591+00:00",
-  "active_step": "feeds_tracking_repair_20261002"
+  "updated_utc": "2026-10-02T02:10:20.357204+00:00",
+  "active_step": "ranker_repair_20261002"
 }

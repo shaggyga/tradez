@@ -1,0 +1,33 @@
+F.....F............                                                      [100%]
+================================== FAILURES ===================================
+_________________ test_rollover_dedup_settlement_and_restore __________________
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5609/test_rollover_dedup_settlement0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001E4BFF9D550>
+
+    def test_rollover_dedup_settlement_and_restore(tmp_path,monkeypatch):
+        t,v,c,original=rollover(tmp_path,monkeypatch)
+        db=m.open_store(tmp_path/'tracking.sqlite')
+        assert db.segment_count==2
+        assert m.record(db,t,v,c,1032)['new_predictions']==0
+        assert dict(db.execute('SELECT * FROM main.forecasts').fetchone())==original
+        v['forecasts'][0]['expected_return_bps']=4
+        r=m.record(db,t,v,c,1033)
+>       assert r['new_predictions']==1 and r['groups'][0]['observed']==2 and r['news_links']==1
+E       assert (2 == 1)
+
+tests\test_retained_tracking_segments.py:31: AssertionError
+______ test_prospective_observation_settlement_and_repeated_publication _______
+
+tmp_path = WindowsPath('C:/Users/zmoor/AppData/Local/Temp/pytest-of-zmoor/pytest-5609/test_prospective_observation_s0')
+
+    def test_prospective_observation_settlement_and_repeated_publication(tmp_path):
+        db, t, v, c = fixtures(tmp_path)
+>       assert m.record(db,t,v,c,1031)['new_predictions'] == 1
+E       assert 2 == 1
+
+tests\test_retained_forecast_tracking.py:33: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_retained_tracking_segments.py::test_rollover_dedup_settlement_and_restore
+FAILED tests/test_retained_forecast_tracking.py::test_prospective_observation_settlement_and_repeated_publication
+2 failed, 17 passed in 1.41s

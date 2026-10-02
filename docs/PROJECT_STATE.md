@@ -47,7 +47,7 @@ Latest capture/mapping update: [current prospective tracking](NEWS_CAPTURE_MAPPI
 The current currency ranker uses original strength scoring with verified quote and
 historical-mid inputs. Its separate indicator cross-check is descriptive and does
 not supersede the trained technical, mean-reversion or forecast-error studies above.
-Next: repair outcome-tracking capacity, then qualify economic and conditional
+Next: recover genuine missing M1 support; separately qualify economic and conditional
 management inputs. Resolve the live Vault queue for exact current dependencies.
 
 ## What was and was not audited
